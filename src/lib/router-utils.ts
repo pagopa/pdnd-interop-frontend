@@ -1,0 +1,22 @@
+import { ProviderOrSubscriber } from '../../types'
+import { ROUTES } from './constants'
+
+export function isParentRoute(location: any, path: string) {
+  return location.pathname.indexOf(path) > -1
+}
+
+export function isRoute(location: any, path: string) {
+  return location.pathname === path
+}
+
+export function isProviderOrSubscriber(location: any): ProviderOrSubscriber | null {
+  if (isParentRoute(location, ROUTES.PROVIDE.PATH) || isRoute(location, ROUTES.PROVIDE.PATH)) {
+    return 'provider'
+  }
+
+  if (isParentRoute(location, ROUTES.SUBSCRIBE.PATH) || isRoute(location, ROUTES.SUBSCRIBE.PATH)) {
+    return 'subscriber'
+  }
+
+  return null
+}
