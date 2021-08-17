@@ -1,33 +1,11 @@
 import React, { useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { ROUTES } from '../lib/constants'
-import { PartyContext, UserContext } from '../lib/context'
+import { PartyContext } from '../lib/context'
 import { isParentRoute, isRoute } from '../lib/router-utils'
 import { includesAny } from '../lib/string-utils'
-
-function MainHeader() {
-  const { user } = useContext(UserContext)
-
-  return (
-    <div>
-      <Link to={ROUTES.ROOT.PATH}>{ROUTES.ROOT.LABEL}</Link>
-      <nav>
-        <ul>
-          <li>
-            <Link to={ROUTES.HELP.PATH}>{ROUTES.HELP.LABEL}</Link>
-          </li>
-          <li>
-            {user ? (
-              <Link to={ROUTES.LOGOUT.PATH}>{ROUTES.LOGOUT.LABEL}</Link>
-            ) : (
-              <Link to={ROUTES.LOGIN.PATH}>{ROUTES.LOGIN.LABEL}</Link>
-            )}
-          </li>
-        </ul>
-      </nav>
-    </div>
-  )
-}
+import { MainHeader } from './MainHeader'
+import { PageTitle } from './PageTitle'
 
 function PlatformHeader() {
   const { party } = useContext(PartyContext)
@@ -75,7 +53,7 @@ export function Header() {
   return (
     <header>
       <MainHeader />
-      <h1>Portale interoperabilità</h1>
+      <PageTitle />
       {isInPlatform && <PlatformHeader />}
     </header>
   )

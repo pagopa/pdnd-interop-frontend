@@ -1,14 +1,14 @@
 import React from 'react'
 import { Container, Row } from 'react-bootstrap'
 
-export function Footer() {
+export function PageTitle() {
   return (
-    <footer className="bg-white py-4">
+    <div className="bg-white">
       <Container>
         <Row>
-          <div>Pié di pagina</div>
+          <h1 className="bg-white py-4">Portale interoperabilità</h1>
         </Row>
       </Container>
-    </footer>
+    </div>
   )
 }

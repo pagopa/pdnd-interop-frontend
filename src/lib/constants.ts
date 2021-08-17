@@ -23,7 +23,7 @@ export const ROUTES = {
   ROOT: { PATH: '/', LABEL: 'Home' },
   LOGIN: { PATH: '/login', LABEL: 'Login', COMPONENT: Login },
   LOGOUT: { PATH: '/logout', LABEL: 'Logout', COMPONENT: Logout },
-  HELP: { PATH: '/aiuto', LABEL: 'Aiuto', COMPONENT: Help },
+  HELP: { PATH: '/aiuto', LABEL: 'Serve aiuto?', COMPONENT: Help },
   CHOOSE_PARTY: { PATH: '/scelta', LABEL: 'Scegli ente', COMPONENT: ChooseParty },
   ONBOARDING: { PATH: '/onboarding', LABEL: 'Onboarding', COMPONENT: Onboarding },
   PROFILE: { PATH: '/profilo', LABEL: 'Profilo', COMPONENT: Profile },
