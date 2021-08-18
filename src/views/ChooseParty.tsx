@@ -21,7 +21,7 @@ function ChoosePartyComponent() {
         {availableParties.map((p, i) => {
           return (
             <div key={i}>
-              <button onClick={buildSetParty(p)}>{p.name}</button>
+              <button onClick={buildSetParty(p)}>{p.description}</button>
             </div>
           )
         })}

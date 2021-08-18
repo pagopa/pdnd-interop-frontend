@@ -1,3 +1,5 @@
+import { API } from './src/lib/constants'
+
 export type User = {
   name: string
   surname: string
@@ -6,10 +8,14 @@ export type User = {
 }
 
 export type Party = {
-  name: string
-  mail: string
+  status: 'Pending'
+  description: string
+  institutionId: string
+  digitalAddress: string
 }
 
 export type Provider = 'provider'
 export type Subscriber = 'subscriber'
 export type ProviderOrSubscriber = Provider | Subscriber
+
+export type ApiEndpointKey = keyof typeof API

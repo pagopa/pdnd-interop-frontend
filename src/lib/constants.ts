@@ -19,6 +19,8 @@ import { Subscribe } from '../views/Subscribe'
 import { UserEdit } from '../views/UserEdit'
 import { UserList } from '../views/UserList'
 
+export const USE_LOCAL_DATA = true
+
 export const ROUTES = {
   ROOT: { PATH: '/', LABEL: 'Home' },
   LOGIN: { PATH: '/login', LABEL: 'Login', COMPONENT: Login },
@@ -134,20 +136,20 @@ export const ROUTES = {
   },
 }
 
+export const API = {
+  BASE: {
+    URL: 'https://gateway.interop.pdnd.dev/',
+    LOCAL: 'http://localhost:3000/mock-data/',
+  },
+  ONBOARDING_GET_AVAILABLE_PARTIES: {
+    URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/info/',
+    LOCAL: 'get-available-parties.json',
+  },
+}
+
 export const testUser = {
   name: 'Mario',
   surname: 'Rossi',
-  cf: 'RSSMRI43R12M100E',
+  cf: 'ab78d997-a219-4797-a884-66c6025c6bd3',
   mail: 'mario.rossi@comune.sassari.it',
 }
-
-export const testParties = [
-  {
-    name: 'Comune di Sassari',
-    mail: 'info@comune.sassari.it',
-  },
-  {
-    name: 'Comune di Olbia',
-    mail: 'info@comune.olbia.it',
-  },
-]

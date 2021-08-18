@@ -29,7 +29,7 @@ function PlatformHeader() {
         </ul>
       </nav>
       <div>
-        {party && <div>{party.name}</div>}
+        {party && <div>{party.description}</div>}
         <Link style={getStyle(ROUTES.NOTIFICATION.PATH)} to={ROUTES.NOTIFICATION.PATH}>
           {ROUTES.NOTIFICATION.LABEL}
         </Link>
