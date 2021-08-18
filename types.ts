@@ -19,3 +19,7 @@ export type Subscriber = 'subscriber'
 export type ProviderOrSubscriber = Provider | Subscriber
 
 export type ApiEndpointKey = keyof typeof API
+
+export type StepperStep = {
+  label: string
+}
