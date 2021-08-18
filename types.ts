@@ -1,3 +1,4 @@
+import React from 'react'
 import { API } from './src/lib/constants'
 
 export type User = {
@@ -20,6 +21,12 @@ export type ProviderOrSubscriber = Provider | Subscriber
 
 export type ApiEndpointKey = keyof typeof API
 
+export type StepperStepComponentProps = {
+  stepForward?: any
+  stepBack?: any
+}
+
 export type StepperStep = {
   label: string
+  Component: React.FunctionComponent<StepperStepComponentProps>
 }
