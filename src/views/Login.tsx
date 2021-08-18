@@ -6,6 +6,7 @@ import { Container, Row, Button, Form, FormControl } from 'react-bootstrap'
 import spidIcon from '../assets/icon-spid.svg'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { fetchWithLogs } from '../lib/api-utils'
+import { WhiteBackground } from '../components/WhiteBackground'
 
 const informativa =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed ipsum risus. Donec justo nunc, volutpat nec elementum sed, consectetur in mauris. Donec vulputate, purus a volutpat interdum, tellus libero condimentum velit, eget placerat risus ipsum laoreet sapien. Maecenas justo libero, congue eget venenatis sed, vehicula eu enim. Mauris nec dictum nunc. Vivamus blandit maximus ipsum, venenatis pulvinar lorem sagittis in. Duis luctus orci eget euismod mattis. Maecenas orci justo, '
@@ -42,7 +43,7 @@ export function Login() {
 
   return (
     <LoadingOverlay isLoading={loading} loadingText="Stiamo associando la tua utenza ai tuoi enti">
-      <div className="my-4 px-4 py-4 bg-white">
+      <WhiteBackground>
         <Container style={{ maxWidth: 480 }}>
           <Row>
             <h2 className="text-center">Effettua il login</h2>
@@ -78,7 +79,7 @@ export function Login() {
             </Button>
           </Row>
         </Container>
-      </div>
+      </WhiteBackground>
     </LoadingOverlay>
   )
 }

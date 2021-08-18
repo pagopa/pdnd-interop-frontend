@@ -20,6 +20,7 @@ import { UserEdit } from '../views/UserEdit'
 import { UserList } from '../views/UserList'
 
 export const USE_LOCAL_DATA = true
+export const DISPLAY_LOGS = true
 
 export const ROUTES = {
   ROOT: { PATH: '/', LABEL: 'Home' },

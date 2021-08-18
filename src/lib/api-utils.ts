@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import { ApiEndpointKey } from '../../types'
+import { logAction } from './action-log'
 import { API, USE_LOCAL_DATA } from './constants'
 
 export async function fetchWithLogs(
@@ -9,7 +10,7 @@ export async function fetchWithLogs(
   let url = API[endpoint].URL
   let baseURL = API.BASE.URL
 
-  console.log('Fetching data for', { isUsingLocalData: USE_LOCAL_DATA, endpoint, method, params })
+  logAction('Fetch data', { isUsingLocalData: USE_LOCAL_DATA, endpoint, method, params })
 
   if (USE_LOCAL_DATA) {
     url = API[endpoint].LOCAL
