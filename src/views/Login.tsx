@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { ROUTES, testUser } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
-import { Container, Row, Button, Form, FormControl } from 'react-bootstrap'
+import { Row, Button, Form, FormControl } from 'react-bootstrap'
 import spidIcon from '../assets/icon-spid.svg'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { fetchWithLogs } from '../lib/api-utils'
@@ -43,42 +43,40 @@ export function Login() {
 
   return (
     <LoadingOverlay isLoading={loading} loadingText="Stiamo associando la tua utenza ai tuoi enti">
-      <WhiteBackground>
-        <Container style={{ maxWidth: 480 }}>
-          <Row>
-            <h2 className="text-center">Effettua il login</h2>
-          </Row>
-          <Row className="mb-4">
-            <FormControl
-              style={{ height: 120 }}
-              value={informativa}
-              as="textarea"
-              aria-label="With textarea"
-              readOnly
-              plaintext
-            />
+      <WhiteBackground containerStyles={{ maxWidth: 480 }}>
+        <Row>
+          <h2 className="text-center">Effettua il login</h2>
+        </Row>
+        <Row className="mb-4">
+          <FormControl
+            style={{ height: 120 }}
+            value={informativa}
+            as="textarea"
+            aria-label="With textarea"
+            readOnly
+            plaintext
+          />
 
-            <Form.Check
-              className="mt-2"
-              onChange={updatePrivacy}
-              checked={privacy}
-              type="checkbox"
-              id="my-checkbox"
-              label="Accetto l'informativa"
-            />
-          </Row>
-          <Row className="mx-4">
-            <Button className="mb-2" variant="primary" onClick={login} disabled={!privacy}>
-              <i>
-                <img src={spidIcon} alt="Icona di SPID" />
-              </i>{' '}
-              <span className="ms-2">Entra con SPID</span>
-            </Button>
-            <Button variant="primary" disabled>
-              Entra con CIE
-            </Button>
-          </Row>
-        </Container>
+          <Form.Check
+            className="mt-2"
+            onChange={updatePrivacy}
+            checked={privacy}
+            type="checkbox"
+            id="my-checkbox"
+            label="Accetto l'informativa"
+          />
+        </Row>
+        <Row className="mx-4">
+          <Button className="mb-2" variant="primary" onClick={login} disabled={!privacy}>
+            <i>
+              <img src={spidIcon} alt="Icona di SPID" />
+            </i>{' '}
+            <span className="ms-2">Entra con SPID</span>
+          </Button>
+          <Button variant="primary" disabled>
+            Entra con CIE
+          </Button>
+        </Row>
       </WhiteBackground>
     </LoadingOverlay>
   )
