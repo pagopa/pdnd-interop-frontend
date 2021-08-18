@@ -20,7 +20,10 @@ import { UserEdit } from '../views/UserEdit'
 import { UserList } from '../views/UserList'
 
 export const USE_LOCAL_DATA = true
-export const DISPLAY_LOGS = true
+export const LOGS = {
+  SHOULD_DISPLAY: false,
+  DISPLAY_TYPE: 'all', // ['Router', 'API']
+}
 
 export const ROUTES = {
   ROOT: { PATH: '/', LABEL: 'Home' },
@@ -145,6 +148,10 @@ export const API = {
   ONBOARDING_GET_AVAILABLE_PARTIES: {
     URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/info/',
     LOCAL: 'get-available-parties.json',
+  },
+  ONBOARDING_GET_SEARCH_PARTIES: {
+    URL: 'pdnd-interop-uservice-party-registry-proxy/0.0.1/institutions',
+    LOCAL: 'get-all-parties.json',
   },
 }
 

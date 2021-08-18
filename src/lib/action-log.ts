@@ -1,7 +1,7 @@
-import { DISPLAY_LOGS } from './constants'
+import { LOGS } from './constants'
 
-export function logAction(action: string, data: any) {
-  if (DISPLAY_LOGS) {
-    console.log(action, data)
+export function logAction(actionLabel: string, type: string, data: any) {
+  if (LOGS.SHOULD_DISPLAY && (LOGS.DISPLAY_TYPE === 'all' || LOGS.DISPLAY_TYPE.includes(type))) {
+    console.log(actionLabel, data)
   }
 }

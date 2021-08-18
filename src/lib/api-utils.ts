@@ -10,7 +10,7 @@ export async function fetchWithLogs(
   let url = API[endpoint].URL
   let baseURL = API.BASE.URL
 
-  logAction('Fetch data', { isUsingLocalData: USE_LOCAL_DATA, endpoint, method, params })
+  logAction('Fetch data', 'API', { isUsingLocalData: USE_LOCAL_DATA, endpoint, method, params })
 
   if (USE_LOCAL_DATA) {
     url = API[endpoint].LOCAL

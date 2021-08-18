@@ -9,7 +9,7 @@ export function BodyLogger() {
   const location = useLocation()
 
   useEffect(() => {
-    logAction('Route change', location)
+    logAction('Route change', 'Router', location)
   }, [location])
 
   return (
