@@ -13,35 +13,54 @@ type PersonFormProps = {
   setPeople: React.Dispatch<React.SetStateAction<UsersObject>>
 }
 
-// Could be an ES6 set but it's too bothersome for now
+// Could be an ES6 Set but it's too bothersome for now
 type UsersObject = { [key: string]: any }
 
 function PersonForm({ prefix, role, people, setPeople }: PersonFormProps) {
   const buildSetPerson = (key: string) => (e: any) => {
-    setPeople({ ...people, [prefix]: { [key]: e.target.value, role } })
+    setPeople({ ...people, [prefix]: { ...people[prefix], [key]: e.target.value, role } })
   }
+
+  const fields = [
+    {
+      id: 'name',
+      label: 'Nome',
+      placeholder: 'Mario',
+    },
+    {
+      id: 'surname',
+      label: 'Cognome',
+      placeholder: 'Rossi',
+    },
+    {
+      id: 'taxCode',
+      label: 'Codice Fiscale',
+      placeholder: 'RSSMR',
+    },
+    {
+      id: 'email',
+      label: 'Email',
+      placeholder: 'mario.rossi@example.com',
+      type: 'email',
+    },
+  ]
 
   return (
     <React.Fragment>
-      <FloatingLabel controlId={`${prefix}-name`} label="Nome" className="mb-3">
-        <Form.Control type="text" placeholder="Mario" onChange={buildSetPerson('name')} />
-      </FloatingLabel>
-
-      <FloatingLabel controlId={`${prefix}-surname`} label="Cognome" className="mb-3">
-        <Form.Control type="text" placeholder="Rossi" onChange={buildSetPerson('surname')} />
-      </FloatingLabel>
-
-      <FloatingLabel controlId={`${prefix}-tax-code`} label="Codice Fiscale" className="mb-3">
-        <Form.Control type="text" placeholder="RSSMR" onChange={buildSetPerson('taxCode')} />
-      </FloatingLabel>
-
-      <FloatingLabel controlId={`${prefix}-email`} label="Email" className="mb-3">
-        <Form.Control
-          type="email"
-          placeholder="mario.rossi@example.com"
-          onChange={buildSetPerson('email')}
-        />
-      </FloatingLabel>
+      {fields.map(({ id, label, placeholder, type = 'text' }, i) => (
+        <React.Fragment key={i}>
+          <FloatingLabel controlId={`${prefix}-${id}`} label={label} className="mb-3">
+            <Form.Control
+              type={type}
+              placeholder={placeholder}
+              // Below, ugly hack to prevent React from complaining.
+              // Controlled components values cannot start as 'undefined'
+              value={people[prefix] && people[prefix][id] ? people[prefix][id] : ''}
+              onChange={buildSetPerson(id)}
+            />
+          </FloatingLabel>
+        </React.Fragment>
+      ))}
     </React.Fragment>
   )
 }

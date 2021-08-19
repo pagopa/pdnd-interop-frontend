@@ -34,6 +34,7 @@ export async function fetchWithLogs(
 
     // Don't let POST and PATCH requests go through, they are useless while mocking
     if (!method || method !== 'GET') {
+      // Return the status code so to test handling error case scenarios
       return { status: USE_LOCAL_DATA_RESPONSE_STATUS } as AxiosResponse
     }
   }
@@ -46,8 +47,9 @@ export async function fetchWithLogs(
       data,
       baseURL,
     })
-  } catch (err) {
-    console.error(err)
+  } catch (error) {
+    console.error(error)
+    return error.response.status
   }
 }
 
