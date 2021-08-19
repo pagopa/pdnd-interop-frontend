@@ -14,7 +14,10 @@ export const WhiteBackground: FunctionComponent<WhiteBackgroundProps> = ({
   noVerticalMargin = false,
 }) => {
   return (
-    <div className={`${noVerticalMargin ? '' : 'my-4 '}px-4 py-4 bg-white`}>
+    <div
+      className={`${noVerticalMargin ? '' : 'my-4 '}px-4 py-4 bg-white w-100 mx-auto`}
+      style={{ maxWidth: 1300 }}
+    >
       <Container className={containerClassNames} style={containerStyles}>
         {children}
       </Container>

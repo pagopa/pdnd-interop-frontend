@@ -1,11 +1,14 @@
 import React from 'react'
 import { API } from './src/lib/constants'
 
+export type UserRole = 'manager' | 'delegate'
+
 export type User = {
   name: string
   surname: string
-  cf: string
-  mail: string
+  taxCode: string
+  email: string
+  role?: UserRole
 }
 
 export type Party = {
@@ -22,10 +25,10 @@ export type ProviderOrSubscriber = Provider | Subscriber
 export type ApiEndpointKey = keyof typeof API
 
 export type StepperStepComponentProps = {
-  stepForward?: () => void
-  stepBack?: () => void
-  setFormData?: React.Dispatch<React.SetStateAction<any>>
-  setLegalEmail?: React.Dispatch<React.SetStateAction<any>>
+  forward?: any
+  back?: () => void
+  updateFormData?: React.Dispatch<React.SetStateAction<any>>
+  maxWidth?: number
 }
 
 export type StepperStep = {
@@ -42,3 +45,6 @@ export type IPAParty = {
   o: string
   ou: string
 }
+
+export type SingleLogType = 'Router' | 'API'
+export type DisplayLogsType = null | 'all' | SingleLogType[]

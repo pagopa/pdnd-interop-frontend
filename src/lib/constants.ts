@@ -1,3 +1,4 @@
+import { DisplayLogsType } from '../../types'
 import { ChooseParty } from '../views/ChooseParty'
 import { ClientEdit } from '../views/ClientEdit'
 import { ClientList } from '../views/ClientList'
@@ -20,10 +21,7 @@ import { UserEdit } from '../views/UserEdit'
 import { UserList } from '../views/UserList'
 
 export const USE_LOCAL_DATA = true
-export const LOGS = {
-  SHOULD_DISPLAY: false,
-  DISPLAY_TYPE: 'all', // ['Router', 'API']
-}
+export const DISPLAY_LOGS: DisplayLogsType = 'all'
 
 export const ROUTES = {
   ROOT: { PATH: '/', LABEL: 'Home' },
@@ -153,11 +151,15 @@ export const API = {
     URL: 'pdnd-interop-uservice-party-registry-proxy/0.0.1/institutions',
     LOCAL: 'get-all-parties.json',
   },
+  ONBOARDING_POST_LEGALS: {
+    URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/legals',
+    LOCAL: '',
+  },
 }
 
 export const testUser = {
   name: 'Mario',
   surname: 'Rossi',
-  cf: 'ab78d997-a219-4797-a884-66c6025c6bd3',
-  mail: 'mario.rossi@comune.sassari.it',
+  taxCode: 'ab78d997-a219-4797-a884-66c6025c6bd3',
+  email: 'mario.rossi@comune.sassari.it',
 }

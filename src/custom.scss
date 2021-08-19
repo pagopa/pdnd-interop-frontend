@@ -11,3 +11,11 @@ $light: #c2c2c2;
 .row {
   --bs-gutter-x: 0;
 }
+
+.container-align-left {
+  @include make-container();
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
