@@ -44,7 +44,7 @@ export function Login() {
 
   return (
     <LoadingOverlay isLoading={loading} loadingText="Stiamo associando la tua utenza ai tuoi enti">
-      <WhiteBackground containerStyles={{ maxWidth: 480 }}>
+      <WhiteBackground containerStyles={{ maxWidth: 480 }} verticallyCentered={true}>
         <Row>
           <h2 className="text-center">Effettua il login</h2>
         </Row>

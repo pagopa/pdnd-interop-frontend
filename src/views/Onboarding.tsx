@@ -70,7 +70,7 @@ function OnboardingComponent() {
 
   return !outcome ? (
     <LoadingOverlay isLoading={loading} loadingText="Stiamo verificando i tuoi dati">
-      <WhiteBackground noVerticalMargin={true}>
+      <WhiteBackground stickToTop={true}>
         <Stepper steps={steps} activeIndex={activeStep} />
       </WhiteBackground>
       <Step />

@@ -24,7 +24,7 @@ function ChoosePartyComponent() {
   }
 
   return (
-    <WhiteBackground>
+    <WhiteBackground verticallyCentered={true}>
       <Row className="text-center mb-5">
         <h2>Seleziona l’ente con il quale procedere</h2>
         <p className="mx-auto" style={{ maxWidth: 462 }}>
