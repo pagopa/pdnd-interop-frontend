@@ -74,7 +74,7 @@ export function OnboardingStep1({ forward, maxWidth }: StepperStepComponentProps
             <br />
             Se non trovi il tuo ente nell’elenco,{' '}
             <a
-              className="link-dark fw-bold"
+              className="link-default"
               href="https://example.com"
               title="Go to example.com"
               rel="noopener noreferrer"

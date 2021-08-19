@@ -8,6 +8,7 @@ import { OnboardingStep2 } from '../components/OnboardingStep2'
 import { OnboardingStep3 } from '../components/OnboardingStep3'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { fetchWithLogs } from '../lib/api-utils'
+import { OnboardingEmailSend } from '../components/OnboardingEmailSend'
 
 const FORM_MAX_WIDTH = 600
 
@@ -15,7 +16,8 @@ function OnboardingComponent() {
   const [loading, setLoading] = useState(false)
   const [activeStep, setActiveStep] = useState(0)
   const [formData, setFormData] = useState({})
-  const [legalEmail, setLegalEmail] = useState<string>()
+  const [legalEmail, setLegalEmail] = useState('')
+  const [outcome, setOutcome] = useState<number>()
 
   const back = () => {
     setActiveStep(activeStep - 1)
@@ -38,14 +40,13 @@ function OnboardingComponent() {
   const submit = async () => {
     setLoading(true)
 
-    console.log({ formData, legalEmail })
-
-    await fetchWithLogs('ONBOARDING_POST_LEGALS', {
+    const response = await fetchWithLogs('ONBOARDING_POST_LEGALS', {
       method: 'POST',
       data: formData,
     })
 
     setLoading(false)
+    setOutcome(response?.status)
   }
 
   const steps: StepperStep[] = [
@@ -67,13 +68,15 @@ function OnboardingComponent() {
 
   const Step = steps[activeStep].Component
 
-  return (
+  return !outcome ? (
     <LoadingOverlay isLoading={loading} loadingText="Stiamo verificando i tuoi dati">
       <WhiteBackground noVerticalMargin={true}>
         <Stepper steps={steps} activeIndex={activeStep} />
       </WhiteBackground>
       <Step />
     </LoadingOverlay>
+  ) : (
+    <OnboardingEmailSend outcome={outcome} email={legalEmail} />
   )
 }
 

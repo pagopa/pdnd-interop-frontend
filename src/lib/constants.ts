@@ -21,6 +21,7 @@ import { UserEdit } from '../views/UserEdit'
 import { UserList } from '../views/UserList'
 
 export const USE_LOCAL_DATA = true
+export const USE_LOCAL_DATA_RESPONSE_STATUS = 200 // The response status code to simulate if USE_LOCAL_DATA is true
 export const DISPLAY_LOGS: DisplayLogsType = 'all'
 
 export const ROUTES = {
@@ -29,7 +30,19 @@ export const ROUTES = {
   LOGOUT: { PATH: '/logout', LABEL: 'Logout', COMPONENT: Logout },
   HELP: { PATH: '/aiuto', LABEL: 'Serve aiuto?', COMPONENT: Help },
   CHOOSE_PARTY: { PATH: '/scelta', LABEL: 'Scegli ente', COMPONENT: ChooseParty },
-  ONBOARDING: { PATH: '/onboarding', LABEL: 'Onboarding', COMPONENT: Onboarding },
+  ONBOARDING: {
+    PATH: '/onboarding',
+    LABEL: 'Onboarding',
+    COMPONENT: Onboarding,
+    SUBROUTES: {
+      // ONBOARDING_EMAIL_SEND_SUCCESS: {
+      //   PATH: '/onboarding/mail-inviata-successo',
+      //   EXACT: true,
+      //   LABEL: 'Successo invio mail registrazione',
+      //   COMPONENT: () => OnboardingEmailSend({outcome: 'failure'})
+      // },
+    },
+  },
   PROFILE: { PATH: '/profilo', LABEL: 'Profilo', COMPONENT: Profile },
   NOTIFICATION: { PATH: '/notifiche', LABEL: 'Notifiche', COMPONENT: Notifications },
   PROVIDE: {

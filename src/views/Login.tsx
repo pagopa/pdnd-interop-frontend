@@ -22,18 +22,18 @@ export function Login() {
   const login = async () => {
     if (!user) {
       setLoading(true)
-      // get the user
+      // Get the user
       // This part is missing in the backend
-      // set the user
+      // Set the user
       setUser(testUser)
-      // get all available parties related to the user
+      // Get all available parties related to the user
       const availableParties = await fetchWithLogs('ONBOARDING_GET_AVAILABLE_PARTIES', {
         method: 'GET',
         params: { taxCode: testUser.taxCode },
       })
-      // then set them
+      // Then set them
       setAvailableParties(availableParties!.data.institutions)
-      // go to choice view
+      // Go to choice view
       history.push(ROUTES.CHOOSE_PARTY.PATH)
     }
   }

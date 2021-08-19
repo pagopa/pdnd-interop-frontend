@@ -1,7 +1,7 @@
-import axios, { AxiosRequestConfig } from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { ApiEndpointKey } from '../../types'
 import { logAction } from './action-log'
-import { API, USE_LOCAL_DATA } from './constants'
+import { API, USE_LOCAL_DATA, USE_LOCAL_DATA_RESPONSE_STATUS } from './constants'
 
 export async function fetchWithLogs(
   endpoint: ApiEndpointKey,
@@ -34,7 +34,7 @@ export async function fetchWithLogs(
 
     // Don't let POST and PATCH requests go through, they are useless while mocking
     if (!method || method !== 'GET') {
-      return
+      return { status: USE_LOCAL_DATA_RESPONSE_STATUS } as AxiosResponse
     }
   }
 
