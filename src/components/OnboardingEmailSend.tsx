@@ -21,7 +21,7 @@ export function OnboardingEmailSend({ outcome, email }: OnboardingEmailSendProps
   }[outcome]
 
   return (
-    <WhiteBackground>
+    <WhiteBackground verticallyCentered={true}>
       <div className="text-center mx-auto" style={{ maxWidth: 400 }}>
         <i>
           <img src={emailIllustration} alt="Icona dell'email" />
