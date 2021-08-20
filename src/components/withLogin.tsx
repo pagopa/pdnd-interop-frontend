@@ -9,7 +9,7 @@ export function withLogin(Component: React.FunctionComponent, props = {}) {
     const history = useHistory()
 
     if (!user) {
-      history.push(ROUTES.ROOT.PATH)
+      history.push('/')
     }
 
     return <Component {...props} />

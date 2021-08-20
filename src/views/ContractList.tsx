@@ -12,14 +12,14 @@ export function ContractList() {
     <div>
       <div>Lista degli accordi per {mode}</div>
       <div>
-        <Link to={ROUTES.PROVIDE.SUBROUTES.CONTRACT_LIST.PATH}>
-          {ROUTES.PROVIDE.SUBROUTES.CONTRACT_LIST.LABEL}
+        <Link to={ROUTES.PROVIDE.SUBROUTES!.CONTRACT_LIST.PATH}>
+          {ROUTES.PROVIDE.SUBROUTES!.CONTRACT_LIST.LABEL}
         </Link>
       </div>
       <ul>
         {list.map((item, i) => (
           <li key={i}>
-            <Link to={ROUTES.PROVIDE.SUBROUTES.CONTRACT_LIST.PATH + '/' + item}>{item}</Link>
+            <Link to={ROUTES.PROVIDE.SUBROUTES!.CONTRACT_LIST.PATH + '/' + item}>{item}</Link>
           </li>
         ))}
       </ul>

@@ -11,7 +11,7 @@ export function EServiceCatalog() {
       <ul>
         {list.map((item, i) => (
           <li key={i}>
-            <Link to={ROUTES.SUBSCRIBE.SUBROUTES.CATALOG_LIST.PATH + '/' + item}>{item}</Link>
+            <Link to={ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH + '/' + item}>{item}</Link>
           </li>
         ))}
       </ul>

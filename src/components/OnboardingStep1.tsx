@@ -52,7 +52,7 @@ function Autocomplete({ selected, setSelected }: AutocompleteProps) {
   )
 }
 
-export function OnboardingStep1({ forward, maxWidth }: StepperStepComponentProps) {
+export function OnboardingStep1({ forward }: StepperStepComponentProps) {
   const { user } = useContext(UserContext)
   const [selected, setSelected] = useState<IPAParty[]>([])
 
@@ -63,7 +63,7 @@ export function OnboardingStep1({ forward, maxWidth }: StepperStepComponentProps
 
   return (
     <WhiteBackground>
-      <Container className="container-align-left" style={{ maxWidth }}>
+      <Container className="container-align-left form-max-width">
         <Row>
           <h3>
             Ciao, {user?.name} {user?.surname}

@@ -6,7 +6,7 @@ export function Footer() {
     <footer className="bg-white py-4">
       <Container>
         <Row>
-          <div>Pié di pagina</div>
+          <div>Portale Interoperabilità — PagoPA S.p.A. 2021 ©</div>
         </Row>
       </Container>
     </footer>

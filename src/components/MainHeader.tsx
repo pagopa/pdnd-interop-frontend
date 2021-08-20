@@ -15,7 +15,7 @@ export function MainHeader() {
       <Container className="py-4">
         <Row>
           <Col className="d-flex align-items-center">
-            <Link to={ROUTES.ROOT.PATH}>
+            <Link to="/">
               <img src={logo} alt="Logo PagoPA" />
             </Link>
           </Col>

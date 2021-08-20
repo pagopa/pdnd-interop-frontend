@@ -12,14 +12,14 @@ export function EServiceList() {
     <div>
       <div>Lista degli e-service per {mode}</div>
       <div>
-        <Link to={ROUTES.PROVIDE.SUBROUTES.ESERVICE_CREATE.PATH}>
-          {ROUTES.PROVIDE.SUBROUTES.ESERVICE_CREATE.LABEL}
+        <Link to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.PATH}>
+          {ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.LABEL}
         </Link>
       </div>
       <ul>
         {list.map((item, i) => (
           <li key={i}>
-            <Link to={ROUTES.PROVIDE.SUBROUTES.ESERVICE_LIST.PATH + '/' + item}>{item}</Link>
+            <Link to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH + '/' + item}>{item}</Link>
           </li>
         ))}
       </ul>

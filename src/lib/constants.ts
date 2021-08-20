@@ -1,4 +1,4 @@
-import { DisplayLogsType } from '../../types'
+import { DisplayLogsType, RoutesObject } from '../../types'
 import { ChooseParty } from '../views/ChooseParty'
 import { ClientEdit } from '../views/ClientEdit'
 import { ClientList } from '../views/ClientList'
@@ -14,6 +14,8 @@ import { Login } from '../views/Login'
 import { Logout } from '../views/Logout'
 import { Notifications } from '../views/Notifications'
 import { Onboarding } from '../views/Onboarding'
+import { CompleteRegistration } from '../views/CompleteRegistration'
+import { RejectRegistration } from '../views/RejectRegistration'
 import { Profile } from '../views/Profile'
 import { Provide } from '../views/Provide'
 import { Subscribe } from '../views/Subscribe'
@@ -24,8 +26,7 @@ export const USE_LOCAL_DATA = true
 export const USE_LOCAL_DATA_RESPONSE_STATUS = 200 // The response status code to simulate if USE_LOCAL_DATA is true
 export const DISPLAY_LOGS: DisplayLogsType = 'all'
 
-export const ROUTES = {
-  ROOT: { PATH: '/', LABEL: 'Home' },
+export const ROUTES: RoutesObject = {
   LOGIN: { PATH: '/login', LABEL: 'Login', COMPONENT: Login },
   LOGOUT: { PATH: '/logout', LABEL: 'Logout', COMPONENT: Logout },
   HELP: { PATH: '/aiuto', LABEL: 'Serve aiuto?', COMPONENT: Help },
@@ -33,15 +34,18 @@ export const ROUTES = {
   ONBOARDING: {
     PATH: '/onboarding',
     LABEL: 'Onboarding',
+    EXACT: true,
     COMPONENT: Onboarding,
-    SUBROUTES: {
-      // ONBOARDING_EMAIL_SEND_SUCCESS: {
-      //   PATH: '/onboarding/mail-inviata-successo',
-      //   EXACT: true,
-      //   LABEL: 'Successo invio mail registrazione',
-      //   COMPONENT: () => OnboardingEmailSend({outcome: 'failure'})
-      // },
-    },
+  },
+  REGISTRATION_FINALIZE_COMPLETE: {
+    PATH: '/conferma-registrazione',
+    LABEL: 'Completa la procedura di onboarding',
+    COMPONENT: CompleteRegistration,
+  },
+  REGISTRATION_FINALIZE_REJECT: {
+    PATH: '/rifiuta-registrazione',
+    LABEL: 'Cancella la procedura di onboarding',
+    COMPONENT: RejectRegistration,
   },
   PROFILE: { PATH: '/profilo', LABEL: 'Profilo', COMPONENT: Profile },
   NOTIFICATION: { PATH: '/notifiche', LABEL: 'Notifiche', COMPONENT: Notifications },

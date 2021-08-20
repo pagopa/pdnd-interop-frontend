@@ -40,16 +40,20 @@ export async function fetchWithLogs(
   }
 
   try {
-    return await axios.request({
+    const response = await axios.request({
       url,
       method,
       params,
       data,
       baseURL,
+      headers: { Authorization: `Bearer 123` },
     })
+
+    logAction('Log data', 'API', response)
+
+    return response
   } catch (error) {
     console.error(error)
-    return error.response.status
   }
 }
 

@@ -65,7 +65,7 @@ function PersonForm({ prefix, role, people, setPeople }: PersonFormProps) {
   )
 }
 
-export function OnboardingStep2({ forward, back, maxWidth }: StepperStepComponentProps) {
+export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
   const [delegateFormIds, setDelegateFormIds] = useState<string[]>([])
   const [people, setPeople] = useState<UsersObject>({})
 
@@ -84,7 +84,7 @@ export function OnboardingStep2({ forward, back, maxWidth }: StepperStepComponen
   return (
     <React.Fragment>
       <WhiteBackground>
-        <Container className="container-align-left" style={{ maxWidth }}>
+        <Container className="container-align-left form-max-width">
           <Row>
             <h3 className="mb-4">Dati del rappresentante legale*</h3>
             <PersonForm prefix="admin" role="manager" people={people} setPeople={setPeople} />
@@ -92,7 +92,7 @@ export function OnboardingStep2({ forward, back, maxWidth }: StepperStepComponen
         </Container>
       </WhiteBackground>
       <WhiteBackground>
-        <Container className="container-align-left" style={{ maxWidth }}>
+        <Container className="container-align-left form-max-width">
           <Row className="mb-3">
             <h3>Dati dei delegati</h3>
             <p>L'aggiunta di delegati è opzionale</p>

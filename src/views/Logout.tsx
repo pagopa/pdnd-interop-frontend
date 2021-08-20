@@ -11,7 +11,7 @@ export function Logout() {
     // clean up user
     setUser(null)
     // go back to homepage (which will redirect to login)
-    history.push(ROUTES.ROOT.PATH)
+    history.push('/')
   }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
   return null

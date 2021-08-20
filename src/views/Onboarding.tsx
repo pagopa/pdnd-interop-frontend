@@ -10,8 +10,6 @@ import { LoadingOverlay } from '../components/LoadingOverlay'
 import { fetchWithLogs } from '../lib/api-utils'
 import { OnboardingEmailSend } from '../components/OnboardingEmailSend'
 
-const FORM_MAX_WIDTH = 600
-
 function OnboardingComponent() {
   const [loading, setLoading] = useState(false)
   const [activeStep, setActiveStep] = useState(0)
@@ -52,17 +50,15 @@ function OnboardingComponent() {
   const steps: StepperStep[] = [
     {
       label: "Seleziona l'ente",
-      Component: () =>
-        OnboardingStep1({ forward: forwardWithDataAndEmail, maxWidth: FORM_MAX_WIDTH }),
+      Component: () => OnboardingStep1({ forward: forwardWithDataAndEmail }),
     },
     {
       label: 'Inserisci i dati',
-      Component: () =>
-        OnboardingStep2({ forward: forwardWithData, back, maxWidth: FORM_MAX_WIDTH }),
+      Component: () => OnboardingStep2({ forward: forwardWithData, back }),
     },
     {
       label: "Verifica l'accordo",
-      Component: () => OnboardingStep3({ forward: submit, back, maxWidth: FORM_MAX_WIDTH }),
+      Component: () => OnboardingStep3({ forward: submit, back }),
     },
   ]
 

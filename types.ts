@@ -23,12 +23,19 @@ export type Subscriber = 'subscriber'
 export type ProviderOrSubscriber = Provider | Subscriber
 
 export type ApiEndpointKey = keyof typeof API
+export type RoutesObject = { [key: string]: RouteConfig }
+export type RouteConfig = {
+  PATH: string
+  LABEL: string
+  EXACT?: boolean
+  SUBROUTES?: RoutesObject
+  COMPONENT?: React.FunctionComponent<any>
+}
 
 export type StepperStepComponentProps = {
   forward?: any
   back?: () => void
   updateFormData?: React.Dispatch<React.SetStateAction<any>>
-  maxWidth?: number
 }
 
 export type StepperStep = {
