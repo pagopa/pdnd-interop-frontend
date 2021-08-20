@@ -1,6 +1,5 @@
 import { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import { ROUTES } from '../lib/constants'
 import { UserContext } from '../lib/context'
 
 export function Logout() {
