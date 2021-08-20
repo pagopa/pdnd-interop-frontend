@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StepperStep } from '../../types'
+import { Outcomes, StepperStep } from '../../types'
 import { Stepper } from '../components/Stepper'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { withLogin } from '../components/withLogin'
@@ -8,7 +8,8 @@ import { OnboardingStep2 } from '../components/OnboardingStep2'
 import { OnboardingStep3 } from '../components/OnboardingStep3'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { fetchWithLogs } from '../lib/api-utils'
-import { OnboardingEmailSend } from '../components/OnboardingEmailSend'
+import { MessageNoAction } from '../components/MessageNoAction'
+import emailIllustration from '../assets/email-illustration.svg'
 
 function OnboardingComponent() {
   const [loading, setLoading] = useState(false)
@@ -38,10 +39,13 @@ function OnboardingComponent() {
   const submit = async () => {
     setLoading(true)
 
-    const response = await fetchWithLogs('ONBOARDING_POST_LEGALS', {
-      method: 'POST',
-      data: formData,
-    })
+    const response = await fetchWithLogs(
+      { endpoint: 'ONBOARDING_POST_LEGALS' },
+      {
+        method: 'POST',
+        data: formData,
+      }
+    )
 
     setLoading(false)
     setOutcome(response?.status)
@@ -64,6 +68,40 @@ function OnboardingComponent() {
 
   const Step = steps[activeStep].Component
 
+  const outcomeContent: Outcomes = {
+    200: {
+      img: { src: emailIllustration, alt: "Icona dell'email" },
+      title: 'Ci siamo quasi...',
+      description: [
+        <p>
+          Per completare la registrazione, segui le istruzioni che trovi nella mail che ti abbiamo
+          inviato a <strong>${legalEmail}</strong>
+        </p>,
+        <p>
+          Non hai ricevuto nessuna mail? Attendi qualche minuto e controlla anche nello spam. Se non
+          arriva,{' '}
+          <a className="link-default" href="#0" title="Contatta l\'assistenza">
+            contattaci!
+          </a>
+        </p>,
+      ],
+    },
+    404: {
+      img: { src: emailIllustration, alt: "Icona dell'email" },
+      title: "C'è stato un problema...",
+      description: [
+        <p>
+          Il salvataggio dei dati inseriti non è andato a buon fine. Prova nuovamente a registrarti,
+          e se il problema dovesse persistere,{' '}
+          <a className="link-default" href="#0" title="Contatta l\'assistenza">
+            contattaci
+          </a>
+          !
+        </p>,
+      ],
+    },
+  }
+
   return !outcome ? (
     <LoadingOverlay isLoading={loading} loadingText="Stiamo verificando i tuoi dati">
       <WhiteBackground stickToTop={true}>
@@ -72,7 +110,11 @@ function OnboardingComponent() {
       <Step />
     </LoadingOverlay>
   ) : (
-    <OnboardingEmailSend outcome={outcome} email={legalEmail} />
+    <MessageNoAction
+      title={outcomeContent[outcome].title}
+      img={outcomeContent[outcome].img}
+      description={outcomeContent[outcome]!.description}
+    />
   )
 }
 

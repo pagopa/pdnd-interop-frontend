@@ -55,3 +55,7 @@ export type IPAParty = {
 
 export type SingleLogType = 'Router' | 'API'
 export type DisplayLogsType = null | 'all' | SingleLogType[]
+
+export type Image = { src: string; alt: string }
+export type Outcome = { title: string; description: JSX.Element[]; img: Image }
+export type Outcomes = { [key: number]: Outcome }

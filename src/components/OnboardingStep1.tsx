@@ -20,10 +20,13 @@ function Autocomplete({ selected, setSelected }: AutocompleteProps) {
   const handleSearch = async (query: string) => {
     setIsLoading(true)
 
-    const parties = await fetchWithLogs('ONBOARDING_GET_SEARCH_PARTIES', {
-      method: 'GET',
-      params: { limit: 100, page: 1, search: query },
-    })
+    const parties = await fetchWithLogs(
+      { endpoint: 'ONBOARDING_GET_SEARCH_PARTIES' },
+      {
+        method: 'GET',
+        params: { limit: 100, page: 1, search: query },
+      }
+    )
 
     setOptions(parties?.data.items)
     setIsLoading(false)

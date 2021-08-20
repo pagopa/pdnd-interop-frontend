@@ -3,8 +3,13 @@ import { ApiEndpointKey } from '../../types'
 import { logAction } from './action-log'
 import { API, USE_LOCAL_DATA, USE_LOCAL_DATA_RESPONSE_STATUS } from './constants'
 
+type Endpoint = {
+  endpoint: ApiEndpointKey
+  additionalPath?: string
+}
+
 export async function fetchWithLogs(
-  endpoint: ApiEndpointKey,
+  { endpoint, additionalPath }: Endpoint,
   { method, params, data }: AxiosRequestConfig
 ) {
   if (!API[endpoint]) {
@@ -13,6 +18,10 @@ export async function fetchWithLogs(
 
   let url = API[endpoint].URL
   let baseURL = API.BASE.URL
+
+  if (additionalPath) {
+    url += `/${additionalPath}`
+  }
 
   logAction('Fetch data', 'API', {
     isUsingLocalData: USE_LOCAL_DATA,
@@ -54,6 +63,7 @@ export async function fetchWithLogs(
     return response
   } catch (error) {
     console.error(error)
+    // return { status: 404 } as AxiosResponse
   }
 }
 

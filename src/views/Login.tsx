@@ -27,10 +27,13 @@ export function Login() {
       // Set the user
       setUser(testUser)
       // Get all available parties related to the user
-      const availableParties = await fetchWithLogs('ONBOARDING_GET_AVAILABLE_PARTIES', {
-        method: 'GET',
-        params: { taxCode: testUser.taxCode },
-      })
+      const availableParties = await fetchWithLogs(
+        { endpoint: 'ONBOARDING_GET_AVAILABLE_PARTIES' },
+        {
+          method: 'GET',
+          params: { taxCode: testUser.taxCode },
+        }
+      )
       // Then set them
       setAvailableParties(availableParties!.data.institutions)
       // Go to choice view

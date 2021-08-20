@@ -12,6 +12,9 @@ $light: #c2c2c2;
   --bs-gutter-x: 0;
 }
 
+/*
+ * Bootstrap extend
+ */
 .container-align-left {
   @include make-container();
   padding-left: 0;

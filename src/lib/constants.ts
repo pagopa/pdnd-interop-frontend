@@ -43,7 +43,7 @@ export const ROUTES: RoutesObject = {
     COMPONENT: CompleteRegistration,
   },
   REGISTRATION_FINALIZE_REJECT: {
-    PATH: '/rifiuta-registrazione',
+    PATH: '/cancella-registrazione',
     LABEL: 'Cancella la procedura di onboarding',
     COMPONENT: RejectRegistration,
   },
@@ -170,6 +170,10 @@ export const API = {
   },
   ONBOARDING_POST_LEGALS: {
     URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/legals',
+    LOCAL: '',
+  },
+  ONBOARDING_COMPLETE_REGISTRATION: {
+    URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/complete/',
     LOCAL: '',
   },
 }
