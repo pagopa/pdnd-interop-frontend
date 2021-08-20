@@ -37,30 +37,24 @@ export function SectionHeader({ view }: SectionHeaderProps) {
 
   const { title, description, sections } = VIEWS[view]
 
+  const isActive = (path: string) => isParentRoute(location, path) || isRoute(location, path)
+
   return (
     <WhiteBackground>
-      <div>Menu di sezione per {view.toUpperCase()}</div>
-
-      <div>
-        <div>{title}</div>
-        <div>{description}</div>
-        <div>
-          {sections.map(({ PATH, LABEL }, i) => (
-            <div
-              key={i}
-              style={{
-                backgroundColor:
-                  isParentRoute(location, PATH) || isRoute(location, PATH)
-                    ? 'yellow'
-                    : 'transparent',
-                display: 'inline-block',
-                margin: '0 20px',
-              }}
-            >
-              <Link to={PATH}>{LABEL}</Link>
-            </div>
-          ))}
-        </div>
+      <h2>{title}</h2>
+      <p style={{ maxWidth: 480 }}>{description}</p>
+      <div className="d-flex">
+        {sections.map(({ PATH, LABEL }, i) => (
+          <Link
+            key={i}
+            to={PATH}
+            className={`px-3 py-2 border-bottom border-3 ${
+              isActive(PATH) ? 'text-primary border-primary' : 'text-secondary border-white'
+            } text-decoration-none`}
+          >
+            {LABEL}
+          </Link>
+        ))}
       </div>
     </WhiteBackground>
   )

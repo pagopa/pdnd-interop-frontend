@@ -65,7 +65,7 @@ function PlatformHeader() {
           <NavLink eventKey="2" route={ROUTES.SUBSCRIBE} />
         </Nav>
 
-        <div className="d-flex">
+        <div className="d-flex align-items-center">
           <Nav onSelect={updateActiveParty} className="me-3">
             <NavDropdown title={party?.description} id="nav-dropdown">
               {availableParties.map((availableParty, i) => (
