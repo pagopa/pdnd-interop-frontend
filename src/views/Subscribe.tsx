@@ -8,7 +8,6 @@ function SubscribeComponent() {
   return (
     <React.Fragment>
       <SectionHeader view="subscriber" />
-      <div>fruizione</div>
 
       <ProtectedSubroutes
         subroutes={ROUTES.SUBSCRIBE.SUBROUTES!}

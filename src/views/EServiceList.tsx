@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { WhiteBackground } from '../components/WhiteBackground'
 import { useMode } from '../hooks/useMode'
 import { ROUTES } from '../lib/constants'
 
@@ -9,7 +10,7 @@ export function EServiceList() {
   const list = ['erder', 'mdseof', 'dskflds']
 
   return (
-    <div>
+    <WhiteBackground>
       <div>Lista degli e-service per {mode}</div>
       <div>
         <Link to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.PATH}>
@@ -23,6 +24,6 @@ export function EServiceList() {
           </li>
         ))}
       </ul>
-    </div>
+    </WhiteBackground>
   )
 }

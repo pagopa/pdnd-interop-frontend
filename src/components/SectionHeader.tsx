@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { ProviderOrSubscriber } from '../../types'
 import { ROUTES } from '../lib/constants'
 import { isParentRoute, isRoute } from '../lib/router-utils'
+import { WhiteBackground } from './WhiteBackground'
 
 type SectionHeaderProps = {
   view: ProviderOrSubscriber
@@ -37,8 +38,8 @@ export function SectionHeader({ view }: SectionHeaderProps) {
   const { title, description, sections } = VIEWS[view]
 
   return (
-    <div>
-      <div>menu di sezione per {view.toUpperCase()}</div>
+    <WhiteBackground>
+      <div>Menu di sezione per {view.toUpperCase()}</div>
 
       <div>
         <div>{title}</div>
@@ -61,6 +62,6 @@ export function SectionHeader({ view }: SectionHeaderProps) {
           ))}
         </div>
       </div>
-    </div>
+    </WhiteBackground>
   )
 }

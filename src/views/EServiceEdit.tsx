@@ -1,5 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
+import { WhiteBackground } from '../components/WhiteBackground'
 
 type Params = {
   id: string | number
@@ -8,5 +9,5 @@ type Params = {
 export function EServiceEdit() {
   const { id } = useParams() as Params
 
-  return <div>modifica e-service: {id}</div>
+  return <WhiteBackground>modifica e-service: {id}</WhiteBackground>
 }

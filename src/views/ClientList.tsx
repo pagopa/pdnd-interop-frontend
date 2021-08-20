@@ -1,12 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { WhiteBackground } from '../components/WhiteBackground'
 import { ROUTES } from '../lib/constants'
 
 export function ClientList() {
   const list = ['erder', 'mdseof', 'dskflds']
 
   return (
-    <div>
+    <WhiteBackground>
       <div>Lista dei client</div>
       <ul>
         {list.map((item, i) => (
@@ -15,6 +16,6 @@ export function ClientList() {
           </li>
         ))}
       </ul>
-    </div>
+    </WhiteBackground>
   )
 }

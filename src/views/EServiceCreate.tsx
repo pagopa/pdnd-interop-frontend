@@ -1,5 +1,6 @@
 import React from 'react'
+import { WhiteBackground } from '../components/WhiteBackground'
 
 export function EServiceCreate() {
-  return <div>crea nuovo e-service</div>
+  return <WhiteBackground>crea nuovo e-service</WhiteBackground>
 }

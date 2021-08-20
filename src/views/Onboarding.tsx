@@ -75,7 +75,7 @@ function OnboardingComponent() {
       description: [
         <p>
           Per completare la registrazione, segui le istruzioni che trovi nella mail che ti abbiamo
-          inviato a <strong>${legalEmail}</strong>
+          inviato a <strong>{legalEmail}</strong>
         </p>,
         <p>
           Non hai ricevuto nessuna mail? Attendi qualche minuto e controlla anche nello spam. Se non

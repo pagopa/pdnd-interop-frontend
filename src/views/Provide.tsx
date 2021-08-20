@@ -8,7 +8,6 @@ function ProvideComponent() {
   return (
     <React.Fragment>
       <SectionHeader view="provider" />
-      <div>erogazione</div>
 
       <ProtectedSubroutes
         subroutes={ROUTES.PROVIDE.SUBROUTES!}

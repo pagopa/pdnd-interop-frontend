@@ -13,12 +13,13 @@ export async function fetchWithLogs(
   { method, params, data }: AxiosRequestConfig
 ) {
   if (!API[endpoint]) {
-    throw new Error(`The endpoint ${endpoint} does not exist in constants.ts`)
+    throw new Error(`WARNING! The endpoint ${endpoint} does not exist in constants.ts`)
   }
 
   let url = API[endpoint].URL
   let baseURL = API.BASE.URL
 
+  // Add URL parts that are not the endpoint constant
   if (additionalPath) {
     url += `/${additionalPath}`
   }
@@ -33,6 +34,7 @@ export async function fetchWithLogs(
     data,
   })
 
+  // Reset all relevant variables to mock behavior
   if (USE_LOCAL_DATA) {
     url = API[endpoint].LOCAL
     baseURL = API.BASE.LOCAL
@@ -48,6 +50,7 @@ export async function fetchWithLogs(
     }
   }
 
+  // Perform the actual request
   try {
     const response = await axios.request({
       url,
@@ -63,7 +66,7 @@ export async function fetchWithLogs(
     return response
   } catch (error) {
     console.error(error)
-    // return { status: 404 } as AxiosResponse
+    // return { status: 404 } as AxiosResponse // This is for testing
   }
 }
 
