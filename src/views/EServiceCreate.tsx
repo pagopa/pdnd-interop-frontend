@@ -3,6 +3,7 @@ import { WhiteBackground } from '../components/WhiteBackground'
 import { StyledInputText } from '../components/StyledInputText'
 import { StyledInputCheckbox } from '../components/StyledInputCheckbox'
 import { StyledInputRadioGroup } from '../components/StyledInputRadioGroup'
+import { StyledInputFile } from '../components/StyledInputFile'
 
 type FormDataType = {
   name?: string
@@ -26,6 +27,15 @@ export function EServiceCreate() {
       }[fieldType]
       setData({ ...data, [fieldName]: value })
     }
+
+  const todoLoadAccordo = () => {
+    console.log('TODO: genera accordo di interoperabilità')
+  }
+
+  const loadInterface = () => {
+    console.log('carica interfaccia open api')
+  }
+
   return (
     <React.Fragment>
       <WhiteBackground>
@@ -57,8 +67,11 @@ export function EServiceCreate() {
         <StyledInputRadioGroup
           id="technology"
           groupLabel="Tecnologia"
-          options={[{ label: 'REST' }, { label: 'SOAP' }]}
-          value={data.technology}
+          options={[
+            { label: 'REST', value: 'REST' },
+            { label: 'SOAP', value: 'SOAP' },
+          ]}
+          currentValue={data.technology}
           onChange={buildSetInfo('technology', 'radio')}
         />
 
@@ -69,6 +82,18 @@ export function EServiceCreate() {
           checked={data.pop}
           onChange={buildSetInfo('pop', 'checkbox')}
         />
+      </WhiteBackground>
+      <WhiteBackground>
+        <h2>Accordo di interoperabilità*</h2>
+
+        <StyledInputFile onChange={todoLoadAccordo} id="accordo" />
+      </WhiteBackground>
+
+      <WhiteBackground>
+        <h2>Interfaccia*</h2>
+        <p>Carica il file OpenAPI/WSDL che descrive l'API</p>
+
+        <StyledInputFile onChange={loadInterface} id="accordo" />
       </WhiteBackground>
     </React.Fragment>
   )

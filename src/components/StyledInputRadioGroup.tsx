@@ -6,13 +6,14 @@ type Option = {
   label: string
   disabled?: boolean
   onChange?: any
+  value: string
 }
 
 type StyledInputRadioGroupProps = {
   groupLabel: string
   options: Option[]
   id: string
-  value?: string
+  currentValue?: string
   onChange?: any
 }
 
@@ -20,7 +21,7 @@ export function StyledInputRadioGroup({
   groupLabel,
   options,
   id,
-  value,
+  currentValue,
   onChange,
 }: StyledInputRadioGroupProps) {
   return (
@@ -35,7 +36,7 @@ export function StyledInputRadioGroup({
             disabled={option.disabled}
             name={option.label}
             label={option.label}
-            checked={value === option.label}
+            checked={currentValue === option.value}
             onChange={onChange || option.onChange}
           />
         )

@@ -13,6 +13,7 @@ function ChoosePartyComponent() {
   const history = useHistory()
 
   const buildUpdateActiveParty = (newParty: Party) => (_: React.SyntheticEvent) => {
+    console.log(newParty)
     setParty(newParty)
   }
 
@@ -50,9 +51,10 @@ function ChoosePartyComponent() {
                   }`,
                   disabled: p.status === 'Pending',
                   onChange: buildUpdateActiveParty(p),
+                  value: p.institutionId,
                 }
               })}
-              value={party?.institutionId}
+              currentValue={party?.institutionId}
             />
 
             <Button className="mt-3" variant="primary" onClick={confirmChoice} disabled={!party}>
