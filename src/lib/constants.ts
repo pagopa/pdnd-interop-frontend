@@ -63,7 +63,7 @@ export const ROUTES: RoutesObject = {
       ESERVICE_CREATE: {
         PATH: '/erogazione/crea-e-service',
         EXACT: true,
-        LABEL: 'Crea e-service',
+        LABEL: 'Crea nuovo e-service',
         COMPONENT: EServiceCreate,
       },
       ESERVICE_EDIT: {
@@ -176,6 +176,18 @@ export const API = {
     URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/complete/',
     LOCAL: '',
   },
+  ESERVICE_GET_LIST: {
+    URL: 'TODO',
+    LOCAL: 'get-eservice-list.json',
+  },
+}
+
+export const ESERVICE_STATUS = {
+  Active: 'attivo',
+  Archived: 'archiviato',
+  Deprecated: 'deprecato',
+  Draft: 'in bozza',
+  Suspended: 'sospeso',
 }
 
 export const testUser = {

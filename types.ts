@@ -1,5 +1,5 @@
 import React from 'react'
-import { API } from './src/lib/constants'
+import { API, ESERVICE_STATUS } from './src/lib/constants'
 
 export type UserRole = 'manager' | 'delegate'
 
@@ -59,3 +59,13 @@ export type DisplayLogsType = null | 'all' | SingleLogType[]
 export type Image = { src: string; alt: string }
 export type Outcome = { title: string; description: JSX.Element[]; img: Image }
 export type Outcomes = { [key: number]: Outcome }
+
+export type EServiceStatus = keyof typeof ESERVICE_STATUS
+export type EServiceStatusLabel = Record<EServiceStatus, string>
+
+export type EServiceSummary = {
+  id: string
+  name: string
+  version: number
+  status: EServiceStatus
+}

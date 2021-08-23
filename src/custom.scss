@@ -32,3 +32,10 @@ $primary: #0073e6;
 .form-max-width {
   max-width: 37.5rem;
 }
+
+/*
+ * Bootstrap override/customize
+ */
+.btn {
+  text-transform: lowercase;
+}
