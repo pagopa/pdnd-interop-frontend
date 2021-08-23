@@ -11,6 +11,7 @@ function SubscribeComponent() {
 
       <ProtectedSubroutes
         subroutes={ROUTES.SUBSCRIBE.SUBROUTES!}
+        redirectSrcRoute={ROUTES.SUBSCRIBE}
         redirectDestRoute={ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST}
       />
     </React.Fragment>

@@ -11,6 +11,7 @@ function ProvideComponent() {
 
       <ProtectedSubroutes
         subroutes={ROUTES.PROVIDE.SUBROUTES!}
+        redirectSrcRoute={ROUTES.PROVIDE}
         redirectDestRoute={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST}
       />
     </React.Fragment>

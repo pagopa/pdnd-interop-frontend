@@ -6,9 +6,14 @@ import { RouteConfig, RoutesObject } from '../../types'
 type SubroutingProps = {
   subroutes: RoutesObject
   redirectDestRoute?: RouteConfig
+  redirectSrcRoute?: RouteConfig
 }
 
-export function ProtectedSubroutes({ subroutes, redirectDestRoute }: SubroutingProps) {
+export function ProtectedSubroutes({
+  subroutes,
+  redirectSrcRoute,
+  redirectDestRoute,
+}: SubroutingProps) {
   return (
     <React.Fragment>
       <Switch>
@@ -18,8 +23,8 @@ export function ProtectedSubroutes({ subroutes, redirectDestRoute }: SubroutingP
           </Route>
         ))}
 
-        {redirectDestRoute && (
-          <Route path="/" exact={true}>
+        {redirectSrcRoute && redirectDestRoute && (
+          <Route path={redirectSrcRoute.PATH} exact={redirectSrcRoute.EXACT}>
             <Redirect to={redirectDestRoute.PATH} />
           </Route>
         )}
