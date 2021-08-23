@@ -41,3 +41,13 @@ $secondary: #ccd4dc;
 .btn {
   text-transform: lowercase;
 }
+
+.bs-tooltip-top > .tooltip-inner {
+  background-color: $primary;
+  color: $white;
+  border: 1px solid $primary;
+}
+
+.bs-tooltip-top > .tooltip-arrow::before {
+  border-top-color: $primary;
+}

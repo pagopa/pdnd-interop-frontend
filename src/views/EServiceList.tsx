@@ -2,11 +2,18 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { ESERVICE_STATUS, ROUTES } from '../lib/constants'
-import { Button } from 'react-bootstrap'
+import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { PartyContext } from '../lib/context'
 import { fetchWithLogs } from '../lib/api-utils'
 import { EServiceSummary } from '../../types'
 import { TableWithLoader } from '../components/TableWithLoader'
+
+type Action = {
+  to?: string
+  onClick?: any
+  icon: string
+  label: string
+}
 
 export function EServiceList() {
   const { party } = useContext(PartyContext)
@@ -33,8 +40,76 @@ export function EServiceList() {
     asyncFetchWithLogs()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const computeAvailableActions = (service: any) => {
-    return <Link to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH + '/' + service}>link</Link>
+  const getAvailableActions = (service: any) => {
+    const availableActions = {
+      Active: [
+        {
+          onClick: () => {
+            console.log('sospendi')
+          },
+          icon: 'bi-pause-circle',
+          label: 'Sospendi',
+        },
+      ],
+      Archived: [],
+      Deprecated: [
+        {
+          onClick: () => {
+            console.log('sospendi')
+          },
+          icon: 'bi-pause-circle',
+          label: 'Sospendi',
+        },
+        {
+          onClick: () => {
+            // Can only archive if all agreements on that version are archived
+            // Check with backend if this can be automated
+            console.log('archivia')
+          },
+          icon: 'bi-archive',
+          label: 'Archivia',
+        },
+      ],
+      Draft: [
+        {
+          onClick: () => {
+            console.log('pubblica')
+          },
+          icon: 'bi-box-arrow-up',
+          label: 'Pubblica',
+        },
+        {
+          onClick: () => {
+            console.log('cancella')
+          },
+          icon: 'bi-trash',
+          label: 'Elimina',
+        },
+      ],
+      Suspended: [
+        {
+          onClick: () => {
+            console.log('riattiva')
+          },
+          icon: 'bi-play-circle',
+          label: 'Riattiva',
+        },
+      ],
+    }
+
+    const inspectAction = {
+      to: `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${service.id}`,
+      icon: service.status === 'Draft' ? 'bi-pencil' : 'bi-info-circle',
+      label: service.status === 'Draft' ? 'Modifica' : 'Ispeziona',
+    }
+
+    // Get all the actions available for this particular status
+    const actions: Action[] = (availableActions as any)[service.status] || []
+
+    // Add the last action, which is always EDIT/INSPECT
+    actions.push(inspectAction)
+
+    return actions
   }
 
   return (
@@ -58,10 +133,34 @@ export function EServiceList() {
         >
           {eservice.map((item, i) => (
             <tr key={i}>
-              <td>{item.name}</td>
-              <td>{item.version}</td>
-              <td>{ESERVICE_STATUS[item.status]}</td>
-              <td>{computeAvailableActions(item)}</td>
+              <td style={{ verticalAlign: 'middle' }}>{item.name}</td>
+              <td style={{ verticalAlign: 'middle' }}>{item.version}</td>
+              <td style={{ verticalAlign: 'middle' }}>{ESERVICE_STATUS[item.status]}</td>
+
+              <td className="d-flex justify-content-end">
+                {getAvailableActions(item).map(({ to, onClick, icon, label }, j) => {
+                  const Icon = () => <i className={`text-primary fs-5 bi ${icon}`} />
+                  const btnProps: any = { onClick }
+
+                  if (to) {
+                    btnProps.as = Link
+                    btnProps.to = to
+                    delete btnProps.onClick // Redundant, here just for clarity
+                  }
+
+                  return (
+                    <OverlayTrigger
+                      key={j}
+                      placement="top"
+                      overlay={<Tooltip id={`tooltip-${j}`}>{label}</Tooltip>}
+                    >
+                      <Button variant="link" key={j} {...btnProps}>
+                        <Icon />
+                      </Button>
+                    </OverlayTrigger>
+                  )
+                })}
+              </td>
             </tr>
           ))}
         </TableWithLoader>
