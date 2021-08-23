@@ -48,8 +48,8 @@ export function SectionHeader({ view }: SectionHeaderProps) {
           <Link
             key={i}
             to={PATH}
-            className={`px-3 py-2 border-bottom border-3 ${
-              isActive(PATH) ? 'text-primary border-primary' : 'text-secondary border-white'
+            className={`px-5 py-2 border-bottom border-3 ${
+              isActive(PATH) ? 'text-primary border-primary' : 'text-dark border-white'
             } text-decoration-none`}
           >
             {LABEL}
