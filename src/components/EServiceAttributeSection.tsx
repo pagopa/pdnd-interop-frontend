@@ -1,5 +1,5 @@
 import React from 'react'
-import { EServiceAttributes } from '../../types'
+import { EServiceAttributeKey, EServiceAttributes } from '../../types'
 import { WhiteBackground } from './WhiteBackground'
 
 type EServiceAttributeSectionProps = {
@@ -12,9 +12,7 @@ type Label = {
   subtitle: string
 }
 type Labels = {
-  certified: Label
-  verified: Label
-  declared: Label
+  [key in EServiceAttributeKey]: Label
 }
 
 export function EServiceAttributeSection({

@@ -92,7 +92,8 @@ export type EServiceDataType = {
 
 export type EServiceDataTypeKeys =
   | 'name'
-  | 'version' /* | 'serviceId' */
+  | 'version'
+  /* | 'serviceId' */
   | 'technology'
   | 'pop'
   | 'voucherLifespan'
@@ -105,8 +106,7 @@ export type EServiceAttribute =
       group: string[]
     }
 
+export type EServiceAttributeKey = 'certified' | 'verified' | 'declared'
 export type EServiceAttributes = {
-  certified: EServiceAttribute[]
-  declared: EServiceAttribute[]
-  verified: EServiceAttribute[]
+  [key in EServiceAttributeKey]: EServiceAttribute[]
 }
