@@ -96,3 +96,17 @@ export type EServiceDataTypeKeys =
   | 'technology'
   | 'pop'
   | 'voucherLifespan'
+
+export type EServiceAttribute =
+  | {
+      simple: string
+    }
+  | {
+      group: string[]
+    }
+
+export type EServiceAttributes = {
+  certified: EServiceAttribute[]
+  declared: EServiceAttribute[]
+  verified: EServiceAttribute[]
+}

@@ -1,9 +1,16 @@
 import React, { useState } from 'react'
+import { Button } from 'react-bootstrap'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { EServiceDocumentSection } from '../components/EServiceDocumentSection'
-import { EServiceDataType, EServiceDataTypeKeys, EServiceDocumentType } from '../../types'
+import {
+  EServiceAttributes,
+  EServiceDataType,
+  EServiceDataTypeKeys,
+  EServiceDocumentType,
+} from '../../types'
 import { EServiceAgreementSection } from '../components/EServiceAgreementSection'
 import { EServiceGeneralInfoSection } from '../components/EServiceGeneralInfoSection'
+import { EServiceAttributeSection } from '../components/EServiceAttributeSection'
 
 /*
 {
@@ -44,6 +51,12 @@ export function EServiceCreate() {
   // Documents section (covers documentation & interface)
   const [interfaceDocument, setInterfaceDocument] = useState<EServiceDocumentType | undefined>()
   const [documents, setDocuments] = useState<EServiceDocumentType[]>([])
+  // Attributes
+  const [attributes, setAttributes] = useState<EServiceAttributes>({
+    certified: [],
+    verified: [],
+    declared: [],
+  })
 
   const buildSetEServiceData =
     (fieldName: EServiceDataTypeKeys, fieldType = 'text') =>
@@ -100,6 +113,21 @@ export function EServiceCreate() {
         setDocuments={updateDocuments}
         deleteDocuments={buildDeleteDocuments}
       />
+      <EServiceAttributeSection attributes={attributes} setAttributes={setAttributes} />
+
+      <WhiteBackground>
+        <div className="d-flex">
+          <Button className="me-3" variant="primary" onClick={() => {}}>
+            salva in bozza
+          </Button>
+          <Button className="me-3" variant="primary" onClick={() => {}}>
+            pubblica adesso
+          </Button>
+          <Button variant="outline-primary" onClick={() => {}}>
+            cancella
+          </Button>
+        </div>
+      </WhiteBackground>
     </React.Fragment>
   )
 }
