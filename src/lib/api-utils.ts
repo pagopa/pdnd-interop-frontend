@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { ApiEndpointKey } from '../../types'
 import { logAction } from './action-log'
-import { API, USE_LOCAL_DATA, USE_LOCAL_DATA_RESPONSE_STATUS } from './constants'
+import { API, testBearerToken, USE_LOCAL_DATA, USE_LOCAL_DATA_RESPONSE_STATUS } from './constants'
 
 type Endpoint = {
   endpoint: ApiEndpointKey
@@ -58,7 +58,7 @@ export async function fetchWithLogs(
       params,
       data,
       baseURL,
-      headers: { Authorization: `Bearer 123` },
+      headers: { Authorization: `Bearer ${testBearerToken}` },
     })
 
     logAction('Log data', 'API', response)

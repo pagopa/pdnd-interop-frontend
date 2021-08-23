@@ -7,6 +7,7 @@ type TableWithLoaderProps = {
   isLoading: boolean
   loadingLabel?: string
   headData: string[]
+  pagination?: boolean
 }
 
 export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
@@ -14,12 +15,13 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
   loadingLabel,
   headData,
   children,
+  pagination = false,
 }) => {
   return isLoading ? (
     <LoadingWithMessage label={loadingLabel} />
   ) : (
     <div>
-      <TablePagination />
+      {pagination && <TablePagination />}
       <Table striped>
         <thead className="bg-light text-dark">
           <tr>

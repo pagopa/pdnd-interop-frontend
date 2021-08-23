@@ -71,3 +71,28 @@ export type EServiceSummary = {
 }
 
 export type StyledInputTextType = 'text' | 'email'
+
+export type EServiceDocumentKind = 'interface' | 'document'
+export type EServiceDocumentType = {
+  kind: EServiceDocumentKind
+  description?: string
+  file: any // File
+}
+
+export type EServiceDataType = {
+  name?: string
+  version?: number
+  audience: string[]
+  description?: string
+  // serviceId?: string
+  technology: 'REST' | 'SOAP'
+  pop: boolean
+  voucherLifespan: number
+}
+
+export type EServiceDataTypeKeys =
+  | 'name'
+  | 'version' /* | 'serviceId' */
+  | 'technology'
+  | 'pop'
+  | 'voucherLifespan'

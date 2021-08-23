@@ -2,11 +2,12 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { ESERVICE_STATUS, ROUTES } from '../lib/constants'
-import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import { PartyContext } from '../lib/context'
 import { fetchWithLogs } from '../lib/api-utils'
 import { EServiceSummary } from '../../types'
 import { TableWithLoader } from '../components/TableWithLoader'
+import { TableAction } from '../components/TableAction'
 
 type Action = {
   to?: string
@@ -130,6 +131,7 @@ export function EServiceList() {
           isLoading={isLoading}
           loadingLabel="Stiamo caricando i tuoi e-service"
           headData={['nome servizio', 'versione attuale', 'stato del servizio', '']}
+          pagination={true}
         >
           {eservice.map((item, i) => (
             <tr key={i}>
@@ -139,7 +141,6 @@ export function EServiceList() {
 
               <td className="d-flex justify-content-end">
                 {getAvailableActions(item).map(({ to, onClick, icon, label }, j) => {
-                  const Icon = () => <i className={`text-primary fs-5 bi ${icon}`} />
                   const btnProps: any = { onClick }
 
                   if (to) {
@@ -148,17 +149,7 @@ export function EServiceList() {
                     delete btnProps.onClick // Redundant, here just for clarity
                   }
 
-                  return (
-                    <OverlayTrigger
-                      key={j}
-                      placement="top"
-                      overlay={<Tooltip id={`tooltip-${j}`}>{label}</Tooltip>}
-                    >
-                      <Button variant="link" key={j} {...btnProps}>
-                        <Icon />
-                      </Button>
-                    </OverlayTrigger>
-                  )
+                  return <TableAction key={j} btnProps={btnProps} label={label} iconClass={icon} />
                 })}
               </td>
             </tr>
