@@ -69,3 +69,5 @@ export type EServiceSummary = {
   version: number
   status: EServiceStatus
 }
+
+export type StyledInputTextType = 'text' | 'email'

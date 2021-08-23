@@ -8,6 +8,7 @@ import { MessageNoAction } from '../components/MessageNoAction'
 import { Outcomes } from '../../types'
 import checkIllustration from '../assets/check-illustration.svg'
 import redXIllustration from '../assets/red-x-illustration.svg'
+import { StyledInputFile } from '../components/StyledInputFile'
 
 export function CompleteRegistration() {
   const [loading, setLoading] = useState(false)
@@ -104,9 +105,7 @@ export function CompleteRegistration() {
         </div>
 
         <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="formFile" className="mb-3">
-            <Form.Control type="file" onChange={loadFile} />
-          </Form.Group>
+          <StyledInputFile id="contratto" onChange={loadFile} />
 
           <Button variant="primary" type="submit" disabled={!contract}>
             prosegui

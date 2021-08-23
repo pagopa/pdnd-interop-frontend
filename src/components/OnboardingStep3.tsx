@@ -2,7 +2,7 @@ import React from 'react'
 import { Row, Container } from 'react-bootstrap'
 import { StepperStepComponentProps } from '../../types'
 import { OnboardingStepActions } from './OnboardingStepActions'
-import { ReadOnlyTextArea } from './ReadOnlyTextArea'
+import { StyledInputTextArea } from './StyledInputTextArea'
 import { WhiteBackground } from './WhiteBackground'
 
 const bozzaAccordo =
@@ -24,7 +24,7 @@ export function OnboardingStep3({ forward, back }: StepperStepComponentProps) {
           </p>
         </Row>
         <Row className="mt-4 mb-3">
-          <ReadOnlyTextArea text={bozzaAccordo} height={200} />
+          <StyledInputTextArea readOnly={true} text={bozzaAccordo} height={200} />
         </Row>
         <OnboardingStepActions
           back={{ action: back, label: 'indietro', disabled: false }}

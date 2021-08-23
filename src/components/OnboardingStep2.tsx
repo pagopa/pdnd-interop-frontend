@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { FloatingLabel, Form, Row, Button, Container } from 'react-bootstrap'
+import { Row, Button, Container } from 'react-bootstrap'
 import { OnboardingStepActions } from './OnboardingStepActions'
 import { WhiteBackground } from './WhiteBackground'
 import cryptoRandomString from 'crypto-random-string'
-import { StepperStepComponentProps, UserRole } from '../../types'
+import { StepperStepComponentProps, StyledInputTextType, UserRole } from '../../types'
 import { objectIsEmpty } from '../lib/object-utils'
+import { StyledInputText } from './StyledInputText'
 
 type PersonFormProps = {
   prefix: string
@@ -49,16 +50,16 @@ function PersonForm({ prefix, role, people, setPeople }: PersonFormProps) {
     <React.Fragment>
       {fields.map(({ id, label, placeholder, type = 'text' }, i) => (
         <React.Fragment key={i}>
-          <FloatingLabel controlId={`${prefix}-${id}`} label={label} className="mb-3">
-            <Form.Control
-              type={type}
-              placeholder={placeholder}
-              // Below, ugly hack to prevent React from complaining.
-              // Controlled components values cannot start as 'undefined'
-              value={people[prefix] && people[prefix][id] ? people[prefix][id] : ''}
-              onChange={buildSetPerson(id)}
-            />
-          </FloatingLabel>
+          <StyledInputText
+            id={`${prefix}-${id}`}
+            label={label}
+            type={type as StyledInputTextType}
+            placeholder={placeholder}
+            // Below, ugly hack to prevent React from complaining.
+            // Controlled components values cannot start as 'undefined'
+            value={people[prefix] && people[prefix][id] ? people[prefix][id] : ''}
+            onChange={buildSetPerson(id)}
+          />
         </React.Fragment>
       ))}
     </React.Fragment>

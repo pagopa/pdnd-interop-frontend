@@ -7,7 +7,8 @@ import spidIcon from '../assets/icons/spid.svg'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { fetchWithLogs } from '../lib/api-utils'
 import { WhiteBackground } from '../components/WhiteBackground'
-import { ReadOnlyTextArea } from '../components/ReadOnlyTextArea'
+import { StyledInputCheckbox } from '../components/StyledInputCheckbox'
+import { StyledInputTextArea } from '../components/StyledInputTextArea'
 
 const informativa =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed ipsum risus. Donec justo nunc, volutpat nec elementum sed, consectetur in mauris. Donec vulputate, purus a volutpat interdum, tellus libero condimentum velit, eget placerat risus ipsum laoreet sapien. Maecenas justo libero, congue eget venenatis sed, vehicula eu enim. Mauris nec dictum nunc. Vivamus blandit maximus ipsum, venenatis pulvinar lorem sagittis in. Duis luctus orci eget euismod mattis. Maecenas orci justo, '
@@ -52,15 +53,14 @@ export function Login() {
           <h2 className="text-center">Effettua il login</h2>
         </Row>
         <Row className="my-5">
-          <ReadOnlyTextArea text={informativa} />
+          <StyledInputTextArea readOnly={true} text={informativa} />
 
-          <Form.Check
-            className="mt-2"
+          <StyledInputCheckbox
             onChange={updatePrivacy}
             checked={privacy}
-            type="checkbox"
             id="my-checkbox"
             label="Accetto l'informativa"
+            inline={true}
           />
         </Row>
         <Row className="mx-4">

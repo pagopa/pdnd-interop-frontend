@@ -5,7 +5,8 @@ import { WhiteBackground } from '../components/WhiteBackground'
 import { withLogin } from '../components/withLogin'
 import { ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import { Row, Col, Button, Form } from 'react-bootstrap'
+import { Row, Col, Button } from 'react-bootstrap'
+import { StyledInputRadioGroup } from '../components/StyledInputRadioGroup'
 
 function ChoosePartyComponent() {
   const { setParty, party, availableParties } = useContext(PartyContext)
@@ -39,31 +40,24 @@ function ChoosePartyComponent() {
             Nota: potrai modificarlo successivamente anche senza effettuare logout
           </p>
           <div>
-            {availableParties.map((p, i) => {
-              return (
-                <div key={i}>
-                  <Form.Check
-                    disabled={p.status === 'Pending'}
-                    className="mt-2"
-                    onChange={buildUpdateActiveParty(p)}
-                    checked={party?.institutionId === p.institutionId}
-                    type="radio"
-                    id={`radio-${p.institutionId}`}
-                    label={`${p.description}${
-                      p.status === 'Pending' ? ': registrazione pending' : ''
-                    }`}
-                  />
-                  <Button
-                    className="mt-3"
-                    variant="primary"
-                    onClick={confirmChoice}
-                    disabled={!party}
-                  >
-                    prosegui
-                  </Button>
-                </div>
-              )
-            })}
+            <StyledInputRadioGroup
+              id="istituzioni"
+              groupLabel="Selezione ente"
+              options={availableParties.map((p) => {
+                return {
+                  label: `${p.description}${
+                    p.status === 'Pending' ? ': registrazione pending' : ''
+                  }`,
+                  disabled: p.status === 'Pending',
+                  onChange: buildUpdateActiveParty(p),
+                }
+              })}
+              value={party?.institutionId}
+            />
+
+            <Button className="mt-3" variant="primary" onClick={confirmChoice} disabled={!party}>
+              prosegui
+            </Button>
           </div>
         </Col>
         <Col className="text-center">
