@@ -40,7 +40,7 @@ export function SectionHeader({ view }: SectionHeaderProps) {
   const isActive = (path: string) => isParentRoute(location, path) || isRoute(location, path)
 
   return (
-    <WhiteBackground>
+    <WhiteBackground noBottomSpacing={true}>
       <h2>{title}</h2>
       <p style={{ maxWidth: 480 }}>{description}</p>
       <div className="d-flex">
