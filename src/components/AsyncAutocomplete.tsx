@@ -11,6 +11,7 @@ type AutocompleteProps = {
   endpoint: Endpoint
   transformFn: any
   labelKey: string
+  multiple?: boolean
 }
 
 export function AsyncAutocomplete({
@@ -20,6 +21,7 @@ export function AsyncAutocomplete({
   endpoint,
   transformFn,
   labelKey,
+  multiple = false,
 }: AutocompleteProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [options, setOptions] = useState<any[]>([])
@@ -40,6 +42,7 @@ export function AsyncAutocomplete({
 
   return (
     <AsyncTypeahead
+      multiple={multiple}
       filterBy={filterBy}
       id="async"
       isLoading={isLoading}

@@ -24,7 +24,7 @@ export function AttributeModal({ template, add, close, attributeKey }: Attribute
   }
 
   const confirm = () => {
-    add(selected[0], validation)
+    add(selected, validation)
     close()
   }
 
@@ -38,11 +38,13 @@ export function AttributeModal({ template, add, close, attributeKey }: Attribute
   return (
     <Modal.Dialog contentClassName="px-1 py-1">
       <Modal.Header onHide={close} closeButton>
-        <Modal.Title>Aggiungi attributo</Modal.Title>
+        <Modal.Title className="me-5">Aggiungi attributo o gruppo di attributi</Modal.Title>
       </Modal.Header>
 
-      <Modal.Body>
+      <Modal.Body className="py-4">
+        <p>Se selezioni più di un attributo verrà trattato come "gruppo"</p>
         <AsyncAutocomplete
+          multiple={true}
           selected={selected}
           setSelected={updateSelected}
           placeholder="Aggiungi nuovo attributo"

@@ -1,0 +1,11 @@
+/*
+ * Override third party CSS
+ */
+
+/*
+ * react-bootstrap-typeahead
+ */
+.rbt-token .rbt-token-remove-button {
+  background: transparent !important;
+  border: none !important;
+}

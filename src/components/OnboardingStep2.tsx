@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Row, Button, Container } from 'react-bootstrap'
+import { Button, Container } from 'react-bootstrap'
 import { OnboardingStepActions } from './OnboardingStepActions'
 import { WhiteBackground } from './WhiteBackground'
 import cryptoRandomString from 'crypto-random-string'

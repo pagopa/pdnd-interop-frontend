@@ -140,11 +140,10 @@ export function EServiceList() {
         >
           {eservice.map((item, i) => (
             <tr key={i}>
-              <td style={{ verticalAlign: 'middle' }}>{item.name}</td>
-              <td style={{ verticalAlign: 'middle' }}>{item.version}</td>
-              <td style={{ verticalAlign: 'middle' }}>{ESERVICE_STATUS[item.status]}</td>
-
-              <td className="d-flex justify-content-end">
+              <td>{item.name}</td>
+              <td>{item.version}</td>
+              <td>{ESERVICE_STATUS[item.status]}</td>
+              <td>
                 {getAvailableActions(item).map(({ to, onClick, icon, label }, j) => {
                   const btnProps: any = { onClick }
 

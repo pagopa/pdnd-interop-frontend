@@ -59,13 +59,9 @@ export function EServiceAttributeGroup({
           attributeClass.map((attribute, j) => {
             return (
               <tr key={j}>
-                <td style={{ verticalAlign: 'middle' }}>{attribute.description}</td>
-                {hasValidation && (
-                  <td style={{ verticalAlign: 'middle' }}>
-                    {attribute.verificationRequired ? 'Sì' : 'No'}
-                  </td>
-                )}
-                <td className="d-flex justify-content-end">
+                <td>{attribute.description}</td>
+                {hasValidation && <td>{attribute.verificationRequired ? 'Sì' : 'No'}</td>}
+                <td>
                   <TableAction
                     label="Elimina"
                     iconClass="bi-trash"
@@ -84,7 +80,7 @@ export function EServiceAttributeGroup({
 
       <div className="d-flex align-items-center">
         <Button className="me-3" variant="primary" onClick={buildShowModal('add')}>
-          aggiungi attributo
+          aggiungi attributo o gruppo
         </Button>
 
         {canCreate && (

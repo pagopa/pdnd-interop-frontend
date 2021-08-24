@@ -49,8 +49,8 @@ export function EServiceDocumentSection({
           <TableWithLoader isLoading={false} headData={['nome file', '']}>
             {[interfaceDocument].map((document, i) => (
               <tr key={i}>
-                <td style={{ verticalAlign: 'middle' }}>{document.file.name}</td>
-                <td className="d-flex justify-content-end">
+                <td>{document.file.name}</td>
+                <td>
                   <TableAction
                     btnProps={{ onClick: deleteInterface }}
                     label="Elimina"
@@ -78,8 +78,8 @@ export function EServiceDocumentSection({
           <TableWithLoader isLoading={false} headData={['nome file', '']}>
             {documents.map((document, i) => (
               <tr key={i}>
-                <td style={{ verticalAlign: 'middle' }}>{document.file.name}</td>
-                <td className="d-flex justify-content-end">
+                <td>{document.file.name}</td>
+                <td>
                   <TableAction
                     btnProps={{ onClick: deleteDocuments(document.file.name) }}
                     label="Elimina"
