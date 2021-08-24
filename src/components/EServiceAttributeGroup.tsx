@@ -7,6 +7,7 @@ import {
 } from '../../types'
 import { AttributeModal } from './AttributeModal'
 import { Overlay } from './Overlay'
+import { StyledIntro } from './StyledIntro'
 import { TableAction } from './TableAction'
 import { TableWithLoader } from './TableWithLoader'
 
@@ -47,8 +48,7 @@ export function EServiceAttributeGroup({
 
   return (
     <div className="my-5">
-      <h3>{title}</h3>
-      <p>{subtitle}</p>
+      <StyledIntro priority={2}>{{ title, description: subtitle }}</StyledIntro>
 
       <TableWithLoader isLoading={false} headData={headData}>
         {attributeClass.length === 0 ? (
