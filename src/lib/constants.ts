@@ -188,6 +188,10 @@ export const API = {
     URL: 'pdnd-interop-uservice-attribute-registry-management/0.0.1/attributes',
     LOCAL: 'get-attributes-list.json',
   },
+  ATTRIBUTES_CREATE: {
+    URL: 'pdnd-interop-uservice-attribute-registry-management/0.0.1/attributes',
+    LOCAL: '',
+  },
 }
 
 export const ESERVICE_STATUS = {

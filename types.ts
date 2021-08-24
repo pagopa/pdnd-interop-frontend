@@ -133,3 +133,8 @@ export type Endpoint = {
   endpoint: ApiEndpointKey
   additionalPath?: string
 }
+
+export type ToastContent = {
+  title: string
+  description: string
+}

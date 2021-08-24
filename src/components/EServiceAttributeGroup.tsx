@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Button } from 'react-bootstrap'
-import { AttributeModalTemplate, AttributeKey, AttributeGroup } from '../../types'
+import { Button, Toast } from 'react-bootstrap'
+import { AttributeModalTemplate, AttributeKey, AttributeGroup, ToastContent } from '../../types'
 import { AttributeModal } from './AttributeModal'
 import { Overlay } from './Overlay'
 import { TableAction } from './TableAction'
@@ -23,6 +23,7 @@ export function EServiceAttributeGroup({
   remove,
   attributeKey,
 }: EServiceAttributeGroupProps) {
+  const [toast, setToast] = useState<ToastContent>()
   const [modalTemplate, setModalTemplate] = useState<AttributeModalTemplate>()
 
   const headData = canRequireVerification
@@ -33,8 +34,9 @@ export function EServiceAttributeGroup({
     setModalTemplate(template)
   }
 
-  const closeModal = () => {
+  const closeModal = (toastContent?: ToastContent) => {
     setModalTemplate(undefined)
+    setToast(toastContent)
   }
 
   return (
@@ -99,6 +101,21 @@ export function EServiceAttributeGroup({
             attributeKey={attributeKey}
           />
         </Overlay>
+      )}
+
+      {toast && (
+        <Toast
+          animation={true}
+          className="position-fixed bottom-0 mb-4"
+          bg="success"
+          style={{ zIndex: 3, left: '50%', transform: `translate(-50%, 0)` }}
+          onClose={() => closeModal()}
+        >
+          <Toast.Header>
+            <strong className="me-auto">🎉 {(toast as any)!.title}</strong>
+          </Toast.Header>
+          <Toast.Body>{(toast as any)!.description}</Toast.Body>
+        </Toast>
       )}
     </React.Fragment>
   )

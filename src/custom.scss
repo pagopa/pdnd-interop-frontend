@@ -4,6 +4,7 @@ $light: #c2c2c2;
 $dark: #475a6d;
 $primary: #0073e6;
 $secondary: #ccd4dc;
+$success: #96dbbe;
 // Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';
 // Override CSS custom properties
@@ -56,5 +57,4 @@ $secondary: #ccd4dc;
 .form-floating > .form-control:not(:placeholder-shown) ~ label,
 .form-floating > .form-select ~ label {
   transform: scale(0.85) translateY(-0.75rem);
-  // padding: 0.75rem 0.5rem;
 }
