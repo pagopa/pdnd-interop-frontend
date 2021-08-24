@@ -38,7 +38,7 @@ $secondary: #ccd4dc;
 /*
  * Bootstrap override/customize
  */
-.btn {
+.btn:not(.btn-link) {
   text-transform: lowercase;
 }
 

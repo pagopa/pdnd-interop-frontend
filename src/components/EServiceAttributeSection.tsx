@@ -1,5 +1,12 @@
-import React from 'react'
-import { EServiceAttributeKey, EServiceAttributes } from '../../types'
+import React, { useEffect, useState } from 'react'
+import {
+  EServiceAttribute,
+  EServiceAttributeFromCatalog,
+  EServiceAttributeKey,
+  EServiceAttributes,
+} from '../../types'
+import { fetchWithLogs } from '../lib/api-utils'
+import { EServiceAttributeGroup } from './EServiceAttributeGroup'
 import { WhiteBackground } from './WhiteBackground'
 
 type EServiceAttributeSectionProps = {
@@ -19,6 +26,8 @@ export function EServiceAttributeSection({
   attributes,
   setAttributes,
 }: EServiceAttributeSectionProps) {
+  const [attributesCatalog, setAttributesCatalog] = useState<EServiceAttributeFromCatalog[]>([])
+
   const LABELS: Labels = {
     certified: {
       title: 'Attributi Certificati',
@@ -37,18 +46,46 @@ export function EServiceAttributeSection({
     },
   }
 
+  const buildRemove = (key: EServiceAttributeKey) => (attribute: EServiceAttribute) => {
+    const _attributes = { ...attributes }
+    _attributes[key] = _attributes[key].filter((_attribute) => _attribute !== attribute)
+    console.log('REMOVE', attribute)
+    setAttributes(_attributes)
+  }
+
+  const buildAdd = (key: EServiceAttributeKey) => (attribute: EServiceAttribute) => {
+    console.log('ADD', attribute)
+    setAttributes({ ...attributes, [key]: [...attributes[key], attribute] })
+  }
+
+  useEffect(() => {
+    async function asyncGetAttributesCatalog() {
+      const resp = await fetchWithLogs({ endpoint: 'ATTRIBUTES_GET_LIST' }, { method: 'GET' })
+      setAttributesCatalog(resp!.data)
+    }
+
+    asyncGetAttributesCatalog()
+  }, [])
+
   return (
     <WhiteBackground>
       <h2>Attributi*</h2>
 
       {Object.keys(attributes).map((key, i) => {
-        return (
-          <div key={i} className="my-5">
-            <h3>{LABELS[key as keyof Labels].title}</h3>
-            <p>{LABELS[key as keyof Labels].subtitle}</p>
+        const attributeKey = key as EServiceAttributeKey
 
-            <div>Tabella attributi</div>
-          </div>
+        return (
+          <EServiceAttributeGroup
+            key={i}
+            title={LABELS[key as keyof Labels].title}
+            subtitle={LABELS[key as keyof Labels].subtitle}
+            hasValidation={key === 'verified'}
+            canCreate={key !== 'certified'}
+            attributeClass={attributes[attributeKey]}
+            catalog={attributesCatalog}
+            add={buildAdd(attributeKey)}
+            remove={buildRemove(attributeKey)}
+          />
         )
       })}
     </WhiteBackground>

@@ -111,3 +111,15 @@ export type EServiceAttributeKey = 'certified' | 'verified' | 'declared'
 export type EServiceAttributes = {
   [key in EServiceAttributeKey]: EServiceAttribute[]
 }
+
+export type EServiceAttributeFromCatalog = {
+  certified: boolean
+  code: string
+  creationTime: string
+  description: string
+  id: string
+  name: string
+  origin: 'IPA'
+}
+
+export type AttributeModalTemplate = 'add' | 'create'

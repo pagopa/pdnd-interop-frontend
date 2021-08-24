@@ -184,6 +184,10 @@ export const API = {
     URL: 'pdnd-interop-uservice-catalog-management/0.0.1/eservices',
     LOCAL: '',
   },
+  ATTRIBUTES_GET_LIST: {
+    URL: 'pdnd-interop-uservice-attribute-registry-management/0.0.1/attributes',
+    LOCAL: 'get-attributes-list.json',
+  },
 }
 
 export const ESERVICE_STATUS = {

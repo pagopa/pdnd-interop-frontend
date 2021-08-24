@@ -7,7 +7,7 @@ type LoadingWithMessageProps = {
 
 export function LoadingWithMessage({ label }: LoadingWithMessageProps) {
   return (
-    <div className="mx-auto my-auto text-center bg-white px-4 py-4 rounded">
+    <div className="text-center bg-white px-4 py-4 rounded">
       <Spinner variant="primary" animation="grow" />
       {label && <p className="text-primary fw-bold mt-2 mb-0">{label}</p>}
     </div>

@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { LoadingWithMessage } from './LoadingWithMessage'
+import { Overlay } from './Overlay'
 
 type LoadingOverlayProps = {
   isLoading: boolean
@@ -15,12 +16,9 @@ export const LoadingOverlay: FunctionComponent<LoadingOverlayProps> = ({
     <React.Fragment>
       {children}
       {isLoading ? (
-        <div
-          className="position-absolute top-0 bottom-0 start-0 end-0 bg-black bg-opacity-50 d-flex"
-          style={{ zIndex: 1 }}
-        >
+        <Overlay>
           <LoadingWithMessage label={loadingText} />
-        </div>
+        </Overlay>
       ) : null}
     </React.Fragment>
   )
