@@ -3,6 +3,7 @@ import { AttributeFromCatalog, AttributeKey, Attributes } from '../../types'
 import { EServiceAttributeGroup } from './EServiceAttributeGroup'
 import { StyledIntro } from './StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
+import isEqual from 'lodash/isEqual'
 
 type EServiceAttributeSectionProps = {
   attributes: Attributes
@@ -35,27 +36,50 @@ const TYPE_LABELS: TypeLabels = {
   },
 }
 
+/*
+ * The structure of the Attributes object is complex as of now, hopefully
+ * it can be simplfied in the future. Right now:
+ *
+ * {
+ *   verified: [
+ *     {
+ *       group: [
+ *         { id: 'abc-def-ghi', ...},
+ *         { id: 'pqr-stu-vwy', ...}
+ *       ],
+ *       verificationRequired: true
+ *     },
+ *     ...
+ *   ],
+ *   certified: [...],
+ *   declared: [...]
+ * }
+ */
+
 export function EServiceAttributeSection({
   attributes,
   setAttributes,
 }: EServiceAttributeSectionProps) {
-  const buildRemove = (key: AttributeKey) => (attributeGroup: AttributeFromCatalog[]) => {
-    // const _attributes = { ...attributes }
-    // _attributes[key] = _attributes[key].filter((_attribute) => _attribute.id !== attribute.id)
-    console.log('REMOVE', attributeGroup)
-    // setAttributes(_attributes)
+  const getIds = (arr: any[]) => arr.map((item) => item.id)
+
+  const buildRemove = (key: AttributeKey) => (groupToRemove: AttributeFromCatalog[]) => {
+    // Just for safety, generate new object
+    const _attributes = { ...attributes }
+    // Filter out those that have the exact same id list as the group to remove
+    _attributes[key] = _attributes[key].filter(
+      ({ group: currentGroup }) => !isEqual(getIds(currentGroup), getIds(groupToRemove))
+    )
+    // Set again
+    setAttributes(_attributes)
   }
 
   const buildAdd =
-    (key: AttributeKey) =>
-    (attributeGroup: AttributeFromCatalog[], verificationRequired: boolean) => {
+    (key: AttributeKey) => (group: AttributeFromCatalog[], verificationRequired: boolean) => {
       setAttributes({
         ...attributes,
-        [key]: [...attributes[key], { attributeGroup, verificationRequired }],
+        [key]: [...attributes[key], { group, verificationRequired }],
       })
     }
-
-  console.log({ attributes })
 
   return (
     <WhiteBackground>
@@ -71,11 +95,10 @@ export function EServiceAttributeSection({
         const description = TYPE_LABELS[key as keyof TypeLabels].description
 
         return (
-          <div className="my-5">
+          <div className="my-5" key={i}>
             <StyledIntro priority={2}>{{ title, description }}</StyledIntro>
             <EServiceAttributeGroup
-              key={i}
-              canRequiredValidation={key === 'verified'}
+              canRequireVerification={key === 'verified'}
               canCreateNewAttributes={key !== 'certified'}
               attributes={attributes[attributeKey]}
               add={buildAdd(attributeKey)}

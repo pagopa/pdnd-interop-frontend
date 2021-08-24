@@ -119,7 +119,7 @@ export type AttributeFromCatalog = {
   verificationRequired?: boolean // This is a TEMP until we understand where to put it in the data model
 }
 export type AttributeGroup = {
-  attributeGroup: AttributeFromCatalog[]
+  group: AttributeFromCatalog[]
   verificationRequired: boolean
 }
 export type AttributeKey = 'certified' | 'verified' | 'declared'

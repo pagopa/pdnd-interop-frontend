@@ -8,7 +8,7 @@ import { TableWithLoader } from './TableWithLoader'
 
 type EServiceAttributeGroupProps = {
   attributes: AttributeGroup[]
-  canRequiredValidation?: boolean
+  canRequireVerification?: boolean
   canCreateNewAttributes?: boolean
   add: any
   remove: any
@@ -17,7 +17,7 @@ type EServiceAttributeGroupProps = {
 
 export function EServiceAttributeGroup({
   attributes,
-  canRequiredValidation = false,
+  canRequireVerification = false,
   canCreateNewAttributes = false,
   add,
   remove,
@@ -25,7 +25,7 @@ export function EServiceAttributeGroup({
 }: EServiceAttributeGroupProps) {
   const [modalTemplate, setModalTemplate] = useState<AttributeModalTemplate>()
 
-  const headData = canRequiredValidation
+  const headData = canRequireVerification
     ? ['nome attributo', 'convalida richiesta', '']
     : ['nome attributo', '']
 
@@ -45,19 +45,22 @@ export function EServiceAttributeGroup({
             <td colSpan={headData.length}>Nessun attributo presente</td>
           </tr>
         ) : (
-          attributes.map(({ attributeGroup, verificationRequired }, j) => {
-            console.log(attributeGroup)
+          attributes.map(({ group, verificationRequired }, j) => {
             return (
               <tr key={j}>
-                <td>{attributeGroup.map((item) => item.description).join(' <em>oppure</em> ')}</td>
-                {canRequiredValidation && <td>{verificationRequired ? 'Sì' : 'No'}</td>}
+                <td
+                  dangerouslySetInnerHTML={{
+                    __html: group.map((item) => item.description).join(' <em>oppure</em> '),
+                  }}
+                />
+                {canRequireVerification && <td>{verificationRequired ? 'Sì' : 'No'}</td>}
                 <td>
                   <TableAction
                     label="Elimina"
                     iconClass="bi-trash"
                     btnProps={{
                       onClick: () => {
-                        remove(attributeGroup)
+                        remove(group)
                       },
                     }}
                   />
