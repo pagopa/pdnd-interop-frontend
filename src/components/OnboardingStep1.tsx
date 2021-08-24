@@ -3,57 +3,8 @@ import { IPAParty, StepperStepComponentProps } from '../../types'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { UserContext } from '../lib/context'
 import { Row, Container } from 'react-bootstrap'
-import { AsyncTypeahead } from 'react-bootstrap-typeahead'
-import 'react-bootstrap-typeahead/css/Typeahead.css'
-import { fetchWithLogs } from '../lib/api-utils'
 import { OnboardingStepActions } from './OnboardingStepActions'
-
-type AutocompleteProps = {
-  selected: IPAParty[]
-  setSelected: React.Dispatch<React.SetStateAction<IPAParty[]>>
-}
-
-function Autocomplete({ selected, setSelected }: AutocompleteProps) {
-  const [isLoading, setIsLoading] = useState(false)
-  const [options, setOptions] = useState<IPAParty[]>([])
-
-  const handleSearch = async (query: string) => {
-    setIsLoading(true)
-
-    const parties = await fetchWithLogs(
-      { endpoint: 'ONBOARDING_GET_SEARCH_PARTIES' },
-      {
-        method: 'GET',
-        params: { limit: 100, page: 1, search: query },
-      }
-    )
-
-    setOptions(parties?.data.items)
-    setIsLoading(false)
-  }
-
-  const filterBy = () => true
-
-  return (
-    <AsyncTypeahead
-      filterBy={filterBy}
-      id="async-example"
-      isLoading={isLoading}
-      labelKey="description"
-      minLength={3}
-      onSearch={handleSearch}
-      onChange={setSelected}
-      selected={selected}
-      options={options}
-      placeholder="Cerca ente nel catalogo IPA"
-      renderMenuItemChildren={(option, props) => (
-        <React.Fragment>
-          <span>{option.description}</span>
-        </React.Fragment>
-      )}
-    />
-  )
-}
+import { AsyncAutocomplete } from './AsyncAutocomplete'
 
 export function OnboardingStep1({ forward }: StepperStepComponentProps) {
   const { user } = useContext(UserContext)
@@ -89,7 +40,14 @@ export function OnboardingStep1({ forward }: StepperStepComponentProps) {
           </p>
         </Row>
         <Row className="my-4">
-          <Autocomplete selected={selected} setSelected={setSelected} />
+          <AsyncAutocomplete
+            selected={selected}
+            setSelected={setSelected}
+            placeholder="Cerca ente nel catalogo IPA"
+            endpoint={{ endpoint: 'ONBOARDING_GET_SEARCH_PARTIES' }}
+            transformFn={(data: any) => data.items}
+            labelKey="description"
+          />
         </Row>
 
         <OnboardingStepActions

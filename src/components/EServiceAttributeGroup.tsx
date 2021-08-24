@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Modal } from 'react-bootstrap'
 import { Button } from 'react-bootstrap'
 import {
   AttributeModalTemplate,
-  EServiceAttribute,
   EServiceAttributeFromCatalog,
+  EServiceAttributeKey,
 } from '../../types'
+import { AttributeModal } from './AttributeModal'
 import { Overlay } from './Overlay'
 import { TableAction } from './TableAction'
 import { TableWithLoader } from './TableWithLoader'
@@ -13,12 +13,12 @@ import { TableWithLoader } from './TableWithLoader'
 type EServiceAttributeGroupProps = {
   title: string
   subtitle: string
-  attributeClass: EServiceAttribute[]
-  catalog: EServiceAttributeFromCatalog[]
+  attributeClass: EServiceAttributeFromCatalog[]
   hasValidation?: boolean
   canCreate?: boolean
   add: any
   remove: any
+  attributeKey: EServiceAttributeKey
 }
 
 export function EServiceAttributeGroup({
@@ -29,15 +29,20 @@ export function EServiceAttributeGroup({
   canCreate = false,
   add,
   remove,
+  attributeKey,
 }: EServiceAttributeGroupProps) {
-  const [modal, setModal] = useState<AttributeModalTemplate>()
+  const [modalTemplate, setModalTemplate] = useState<AttributeModalTemplate>()
 
   const headData = hasValidation
     ? ['nome attributo', 'convalida richiesta', '']
     : ['nome attributo', '']
 
   const buildShowModal = (template: AttributeModalTemplate) => (_: any) => {
-    setModal(template)
+    setModalTemplate(template)
+  }
+
+  const closeModal = () => {
+    setModalTemplate(undefined)
   }
 
   return (
@@ -54,13 +59,21 @@ export function EServiceAttributeGroup({
           attributeClass.map((attribute, j) => {
             return (
               <tr key={j}>
-                <td>ciao</td>
-                <td>ciao</td>
-                <td>
+                <td style={{ verticalAlign: 'middle' }}>{attribute.description}</td>
+                {hasValidation && (
+                  <td style={{ verticalAlign: 'middle' }}>
+                    {attribute.verificationRequired ? 'Sì' : 'No'}
+                  </td>
+                )}
+                <td className="d-flex justify-content-end">
                   <TableAction
                     label="Elimina"
                     iconClass="bi-trash"
-                    btnProps={{ onClick: remove(attribute) }}
+                    btnProps={{
+                      onClick: () => {
+                        remove(attribute)
+                      },
+                    }}
                   />
                 </td>
               </tr>
@@ -88,34 +101,16 @@ export function EServiceAttributeGroup({
         )}
       </div>
 
-      {modal && (
+      {modalTemplate && (
         <Overlay>
-          <AttributeModal template={modal} />
+          <AttributeModal
+            template={modalTemplate}
+            add={add}
+            close={closeModal}
+            attributeKey={attributeKey}
+          />
         </Overlay>
       )}
     </div>
-  )
-}
-
-type AttributeModalProps = {
-  template: AttributeModalTemplate
-}
-
-function AttributeModal({ template }: AttributeModalProps) {
-  return (
-    <Modal.Dialog>
-      <Modal.Header closeButton>
-        <Modal.Title>Aggiungi attributo</Modal.Title>
-      </Modal.Header>
-
-      <Modal.Body>
-        <p>Modal body text goes here.</p>
-      </Modal.Body>
-
-      <Modal.Footer>
-        <Button variant="secondary">Close</Button>
-        <Button variant="primary">Save changes</Button>
-      </Modal.Footer>
-    </Modal.Dialog>
   )
 }

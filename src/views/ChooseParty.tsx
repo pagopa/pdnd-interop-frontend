@@ -13,7 +13,6 @@ function ChoosePartyComponent() {
   const history = useHistory()
 
   const buildUpdateActiveParty = (newParty: Party) => (_: React.SyntheticEvent) => {
-    console.log(newParty)
     setParty(newParty)
   }
 

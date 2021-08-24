@@ -108,18 +108,25 @@ export type EServiceAttribute =
     }
 
 export type EServiceAttributeKey = 'certified' | 'verified' | 'declared'
-export type EServiceAttributes = {
-  [key in EServiceAttributeKey]: EServiceAttribute[]
-}
-
 export type EServiceAttributeFromCatalog = {
   certified: boolean
-  code: string
   creationTime: string
   description: string
   id: string
   name: string
-  origin: 'IPA'
+  code?: string
+  origin?: 'IPA'
+
+  verificationRequired?: boolean // This is a TEMP until we understand where to put it in the data model
+}
+
+export type EServiceAttributes = {
+  [key in EServiceAttributeKey]: EServiceAttributeFromCatalog[]
 }
 
 export type AttributeModalTemplate = 'add' | 'create'
+
+export type Endpoint = {
+  endpoint: ApiEndpointKey
+  additionalPath?: string
+}

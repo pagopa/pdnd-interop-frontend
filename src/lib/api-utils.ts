@@ -1,12 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { ApiEndpointKey } from '../../types'
+import { Endpoint } from '../../types'
 import { logAction } from './action-log'
 import { API, testBearerToken, USE_LOCAL_DATA, USE_LOCAL_DATA_RESPONSE_STATUS } from './constants'
-
-type Endpoint = {
-  endpoint: ApiEndpointKey
-  additionalPath?: string
-}
 
 export async function fetchWithLogs(
   { endpoint, additionalPath }: Endpoint,
