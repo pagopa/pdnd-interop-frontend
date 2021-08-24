@@ -1,40 +1,31 @@
 import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
-import {
-  AttributeModalTemplate,
-  EServiceAttributeFromCatalog,
-  EServiceAttributeKey,
-} from '../../types'
+import { AttributeModalTemplate, AttributeKey, AttributeGroup } from '../../types'
 import { AttributeModal } from './AttributeModal'
 import { Overlay } from './Overlay'
-import { StyledIntro } from './StyledIntro'
 import { TableAction } from './TableAction'
 import { TableWithLoader } from './TableWithLoader'
 
 type EServiceAttributeGroupProps = {
-  title: string
-  subtitle: string
-  attributeClass: EServiceAttributeFromCatalog[]
-  hasValidation?: boolean
-  canCreate?: boolean
+  attributes: AttributeGroup[]
+  canRequiredValidation?: boolean
+  canCreateNewAttributes?: boolean
   add: any
   remove: any
-  attributeKey: EServiceAttributeKey
+  attributeKey: AttributeKey
 }
 
 export function EServiceAttributeGroup({
-  title,
-  subtitle,
-  attributeClass,
-  hasValidation = false,
-  canCreate = false,
+  attributes,
+  canRequiredValidation = false,
+  canCreateNewAttributes = false,
   add,
   remove,
   attributeKey,
 }: EServiceAttributeGroupProps) {
   const [modalTemplate, setModalTemplate] = useState<AttributeModalTemplate>()
 
-  const headData = hasValidation
+  const headData = canRequiredValidation
     ? ['nome attributo', 'convalida richiesta', '']
     : ['nome attributo', '']
 
@@ -47,27 +38,26 @@ export function EServiceAttributeGroup({
   }
 
   return (
-    <div className="my-5">
-      <StyledIntro priority={2}>{{ title, description: subtitle }}</StyledIntro>
-
+    <React.Fragment>
       <TableWithLoader isLoading={false} headData={headData}>
-        {attributeClass.length === 0 ? (
+        {attributes.length === 0 ? (
           <tr>
             <td colSpan={headData.length}>Nessun attributo presente</td>
           </tr>
         ) : (
-          attributeClass.map((attribute, j) => {
+          attributes.map(({ attributeGroup, verificationRequired }, j) => {
+            console.log(attributeGroup)
             return (
               <tr key={j}>
-                <td>{attribute.description}</td>
-                {hasValidation && <td>{attribute.verificationRequired ? 'Sì' : 'No'}</td>}
+                <td>{attributeGroup.map((item) => item.description).join(' <em>oppure</em> ')}</td>
+                {canRequiredValidation && <td>{verificationRequired ? 'Sì' : 'No'}</td>}
                 <td>
                   <TableAction
                     label="Elimina"
                     iconClass="bi-trash"
                     btnProps={{
                       onClick: () => {
-                        remove(attribute)
+                        remove(attributeGroup)
                       },
                     }}
                   />
@@ -83,7 +73,7 @@ export function EServiceAttributeGroup({
           aggiungi attributo o gruppo
         </Button>
 
-        {canCreate && (
+        {canCreateNewAttributes && (
           <p className="mb-0 d-flex align-items-center">
             <span className="me-2">L'attributo non è presente nella lista?</span>
             <Button
@@ -107,6 +97,6 @@ export function EServiceAttributeGroup({
           />
         </Overlay>
       )}
-    </div>
+    </React.Fragment>
   )
 }

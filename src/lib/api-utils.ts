@@ -1,7 +1,8 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { Endpoint } from '../../types'
 import { logAction } from './action-log'
-import { API, testBearerToken, USE_LOCAL_DATA, USE_LOCAL_DATA_RESPONSE_STATUS } from './constants'
+import { API, USE_LOCAL_DATA, USE_LOCAL_DATA_RESPONSE_STATUS } from './constants'
+import { testBearerToken } from './mock-static-data'
 
 export async function fetchWithLogs(
   { endpoint, additionalPath }: Endpoint,

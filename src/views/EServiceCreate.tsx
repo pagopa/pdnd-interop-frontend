@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { EServiceDocumentSection } from '../components/EServiceDocumentSection'
 import {
-  EServiceAttributes,
+  Attributes,
   EServiceDataType,
   EServiceDataTypeKeys,
   EServiceDocumentType,
@@ -12,6 +12,7 @@ import { EServiceAgreementSection } from '../components/EServiceAgreementSection
 import { EServiceGeneralInfoSection } from '../components/EServiceGeneralInfoSection'
 import { EServiceAttributeSection } from '../components/EServiceAttributeSection'
 import { StyledIntro } from '../components/StyledIntro'
+import { testCreateNewServiceStaticFields } from '../lib/mock-static-data'
 
 /*
 {
@@ -34,26 +35,17 @@ import { StyledIntro } from '../components/StyledIntro'
 ]
 */
 
-// These fields are static for now, and they will not be handled in the PoC
-const staticFields = {
-  pop: false,
-  audience: [],
-  voucherLifespan: 41713585,
-  description: '',
-  version: 1,
-}
-
 export function EServiceCreate() {
   // General information section
   const [eserviceData, setEserviceData] = useState<EServiceDataType>({
     technology: 'REST',
-    ...staticFields,
+    ...testCreateNewServiceStaticFields,
   })
   // Documents section (covers documentation & interface)
   const [interfaceDocument, setInterfaceDocument] = useState<EServiceDocumentType | undefined>()
   const [documents, setDocuments] = useState<EServiceDocumentType[]>([])
   // Attributes
-  const [attributes, setAttributes] = useState<EServiceAttributes>({
+  const [attributes, setAttributes] = useState<Attributes>({
     certified: [],
     verified: [],
     declared: [],

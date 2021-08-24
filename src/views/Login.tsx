@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { ROUTES, testUser } from '../lib/constants'
+import { ROUTES } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
 import { Row, Button } from 'react-bootstrap'
 import spidIcon from '../assets/icons/spid.svg'
@@ -9,6 +9,7 @@ import { fetchWithLogs } from '../lib/api-utils'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { StyledInputCheckbox } from '../components/StyledInputCheckbox'
 import { StyledInputTextArea } from '../components/StyledInputTextArea'
+import { testUser } from '../lib/mock-static-data'
 
 const informativa =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed ipsum risus. Donec justo nunc, volutpat nec elementum sed, consectetur in mauris. Donec vulputate, purus a volutpat interdum, tellus libero condimentum velit, eget placerat risus ipsum laoreet sapien. Maecenas justo libero, congue eget venenatis sed, vehicula eu enim. Mauris nec dictum nunc. Vivamus blandit maximus ipsum, venenatis pulvinar lorem sagittis in. Duis luctus orci eget euismod mattis. Maecenas orci justo, '

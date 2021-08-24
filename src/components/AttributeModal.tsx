@@ -1,10 +1,6 @@
 import React, { useState } from 'react'
 import { Modal, Button } from 'react-bootstrap'
-import {
-  AttributeModalTemplate,
-  EServiceAttributeFromCatalog,
-  EServiceAttributeKey,
-} from '../../types'
+import { AttributeModalTemplate, AttributeFromCatalog, AttributeKey } from '../../types'
 import { AsyncAutocomplete } from './AsyncAutocomplete'
 import { StyledInputCheckbox } from './StyledInputCheckbox'
 
@@ -12,14 +8,14 @@ type AttributeModalProps = {
   template: AttributeModalTemplate
   add: any
   close: any
-  attributeKey: EServiceAttributeKey
+  attributeKey: AttributeKey
 }
 
 export function AttributeModal({ template, add, close, attributeKey }: AttributeModalProps) {
-  const [selected, setSelected] = useState<EServiceAttributeFromCatalog[]>([])
+  const [selected, setSelected] = useState<AttributeFromCatalog[]>([])
   const [validation, setValidation] = useState(false)
 
-  const updateSelected = (newSelected: EServiceAttributeFromCatalog[]) => {
+  const updateSelected = (newSelected: AttributeFromCatalog[]) => {
     setSelected(newSelected)
   }
 
@@ -50,9 +46,7 @@ export function AttributeModal({ template, add, close, attributeKey }: Attribute
           placeholder="Aggiungi nuovo attributo"
           endpoint={{ endpoint: 'ATTRIBUTES_GET_LIST' }}
           transformFn={(data: any) =>
-            data.attributes.filter(
-              (a: EServiceAttributeFromCatalog) => a.certified === certifiedCondition
-            )
+            data.attributes.filter((a: AttributeFromCatalog) => a.certified === certifiedCondition)
           }
           labelKey="description"
         />

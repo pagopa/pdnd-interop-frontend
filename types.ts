@@ -99,16 +99,15 @@ export type EServiceDataTypeKeys =
   | 'voucherLifespan'
   | 'description'
 
-export type EServiceAttribute =
-  | {
-      simple: string
-    }
-  | {
-      group: string[]
-    }
+// export type EServiceAttribute =
+//   | {
+//       simple: string
+//     }
+//   | {
+//       group: string[]
+//     }
 
-export type EServiceAttributeKey = 'certified' | 'verified' | 'declared'
-export type EServiceAttributeFromCatalog = {
+export type AttributeFromCatalog = {
   certified: boolean
   creationTime: string
   description: string
@@ -119,9 +118,13 @@ export type EServiceAttributeFromCatalog = {
 
   verificationRequired?: boolean // This is a TEMP until we understand where to put it in the data model
 }
-
-export type EServiceAttributes = {
-  [key in EServiceAttributeKey]: EServiceAttributeFromCatalog[]
+export type AttributeGroup = {
+  attributeGroup: AttributeFromCatalog[]
+  verificationRequired: boolean
+}
+export type AttributeKey = 'certified' | 'verified' | 'declared'
+export type Attributes = {
+  [key in AttributeKey]: AttributeGroup[]
 }
 
 export type AttributeModalTemplate = 'add' | 'create'
