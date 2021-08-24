@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { ROUTES, testUser } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
-import { Row, Button, Form } from 'react-bootstrap'
+import { Row, Button } from 'react-bootstrap'
 import spidIcon from '../assets/icons/spid.svg'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { fetchWithLogs } from '../lib/api-utils'
@@ -53,7 +53,7 @@ export function Login() {
           <h2 className="text-center">Effettua il login</h2>
         </Row>
         <Row className="my-5">
-          <StyledInputTextArea readOnly={true} text={informativa} />
+          <StyledInputTextArea readOnly={true} value={informativa} />
 
           <StyledInputCheckbox
             onChange={updatePrivacy}

@@ -65,6 +65,7 @@ export function EServiceCreate() {
         text: e.target.value,
         checkbox: e.target.checked,
         radio: e.target.name,
+        textArray: [e.target.value],
       }[fieldType]
       setEserviceData({ ...eserviceData, [fieldName]: value })
     }
@@ -88,6 +89,18 @@ export function EServiceCreate() {
   const deleteInterface = (_: any) => {
     setInterfaceDocument(undefined)
   }
+
+  const saveDraft = () => {
+    console.log({
+      eserviceData,
+      interfaceDocument,
+      documents,
+      attributes,
+    })
+  }
+
+  const publish = () => {}
+  const cancel = () => {}
 
   return (
     <React.Fragment>
@@ -117,13 +130,13 @@ export function EServiceCreate() {
 
       <WhiteBackground>
         <div className="d-flex">
-          <Button className="me-3" variant="primary" onClick={() => {}}>
+          <Button className="me-3" variant="primary" onClick={saveDraft}>
             salva in bozza
           </Button>
-          <Button className="me-3" variant="primary" onClick={() => {}}>
+          <Button className="me-3" variant="primary" onClick={publish}>
             pubblica adesso
           </Button>
-          <Button variant="outline-primary" onClick={() => {}}>
+          <Button variant="outline-primary" onClick={cancel}>
             cancella
           </Button>
         </div>

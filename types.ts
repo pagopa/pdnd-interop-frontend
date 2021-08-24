@@ -93,10 +93,11 @@ export type EServiceDataType = {
 export type EServiceDataTypeKeys =
   | 'name'
   | 'version'
-  /* | 'serviceId' */
+  | 'audience'
   | 'technology'
   | 'pop'
   | 'voucherLifespan'
+  | 'description'
 
 export type EServiceAttribute =
   | {
