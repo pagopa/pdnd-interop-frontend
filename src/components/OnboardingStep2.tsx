@@ -6,6 +6,7 @@ import cryptoRandomString from 'crypto-random-string'
 import { StepperStepComponentProps, StyledInputTextType, UserRole } from '../../types'
 import { objectIsEmpty } from '../lib/object-utils'
 import { StyledInputText } from './StyledInputText'
+import { StyledIntro } from './StyledIntro'
 
 type PersonFormProps = {
   prefix: string
@@ -86,18 +87,15 @@ export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
     <React.Fragment>
       <WhiteBackground>
         <Container className="container-align-left form-max-width">
-          <Row>
-            <h3 className="mb-4">Dati del rappresentante legale*</h3>
-            <PersonForm prefix="admin" role="manager" people={people} setPeople={setPeople} />
-          </Row>
+          <StyledIntro>{{ title: 'Dati del rappresentante legale*' }}</StyledIntro>
+          <PersonForm prefix="admin" role="manager" people={people} setPeople={setPeople} />
         </Container>
       </WhiteBackground>
       <WhiteBackground>
         <Container className="container-align-left form-max-width">
-          <Row className="mb-3">
-            <h3>Dati dei delegati</h3>
-            <p>L'aggiunta di delegati è opzionale</p>
-          </Row>
+          <StyledIntro>
+            {{ title: 'Dati dei delegati', description: "L'aggiunta di delegati è opzionale" }}
+          </StyledIntro>
 
           {delegateFormIds.map((id) => {
             return (

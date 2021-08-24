@@ -8,6 +8,7 @@ import { fetchWithLogs } from '../lib/api-utils'
 import { EServiceSummary } from '../../types'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { TableAction } from '../components/TableAction'
+import { StyledIntro } from '../components/StyledIntro'
 
 type Action = {
   to?: string
@@ -115,8 +116,12 @@ export function EServiceList() {
 
   return (
     <WhiteBackground>
-      <h2>I tuoi e-service</h2>
-      <p>In quest'area puoi gestire tutti gli e-service che stai erogando</p>
+      <StyledIntro>
+        {{
+          title: 'I tuoi e-service',
+          description: "In quest'area puoi gestire tutti gli e-service che stai erogando",
+        }}
+      </StyledIntro>
 
       <div className="mt-4">
         <Button variant="primary" as={Link} to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.PATH}>

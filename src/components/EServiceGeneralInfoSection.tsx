@@ -4,6 +4,7 @@ import { StyledInputCheckbox } from './StyledInputCheckbox'
 import { StyledInputRadioGroup } from './StyledInputRadioGroup'
 import { StyledInputText } from './StyledInputText'
 import { StyledInputTextArea } from './StyledInputTextArea'
+import { StyledIntro } from './StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
 
 type EServiceGeneralInfoSectionProps = {
@@ -17,7 +18,7 @@ export function EServiceGeneralInfoSection({
 }: EServiceGeneralInfoSectionProps) {
   return (
     <WhiteBackground>
-      <h2 className="mb-5">Informazioni generali*</h2>
+      <StyledIntro>{{ title: 'Informazioni generali*' }}</StyledIntro>
 
       {[
         { id: 'name', label: 'Nome del servizio', placeholder: 'Il mio e-service', type: 'text' },

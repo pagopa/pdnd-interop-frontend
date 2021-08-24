@@ -6,6 +6,7 @@ import {
   EServiceAttributes,
 } from '../../types'
 import { EServiceAttributeGroup } from './EServiceAttributeGroup'
+import { StyledIntro } from './StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
 
 type EServiceAttributeSectionProps = {
@@ -62,7 +63,11 @@ export function EServiceAttributeSection({
 
   return (
     <WhiteBackground>
-      <h2>Attributi*</h2>
+      <StyledIntro>
+        {{
+          title: 'Attributi*',
+        }}
+      </StyledIntro>
 
       {Object.keys(attributes).map((key, i) => {
         const attributeKey = key as EServiceAttributeKey

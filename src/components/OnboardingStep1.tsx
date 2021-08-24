@@ -5,6 +5,7 @@ import { UserContext } from '../lib/context'
 import { Row, Container } from 'react-bootstrap'
 import { OnboardingStepActions } from './OnboardingStepActions'
 import { AsyncAutocomplete } from './AsyncAutocomplete'
+import { StyledIntro } from './StyledIntro'
 
 export function OnboardingStep1({ forward }: StepperStepComponentProps) {
   const { user } = useContext(UserContext)
@@ -18,27 +19,29 @@ export function OnboardingStep1({ forward }: StepperStepComponentProps) {
   return (
     <WhiteBackground>
       <Container className="container-align-left form-max-width">
-        <Row>
-          <h3>
-            Ciao, {user?.name} {user?.surname}
-          </h3>
-          <p>
-            Per registrarti alla piattaforma di interoperabilità, seleziona il tuo l’ente di
-            riferimento dall’elenco IPA.
-            <br />
-            Se non trovi il tuo ente nell’elenco,{' '}
-            <a
-              className="link-default"
-              href="https://example.com"
-              title="Go to example.com"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              scopri qui
-            </a>{' '}
-            come aggiungerti.
-          </p>
-        </Row>
+        <StyledIntro>
+          {{
+            title: `Ciao, ${user?.name} ${user?.surname}`,
+            description: (
+              <>
+                Per registrarti alla piattaforma di interoperabilità, seleziona il tuo l’ente di
+                riferimento dall’elenco IPA.
+                <br />
+                Se non trovi il tuo ente nell’elenco,{' '}
+                <a
+                  className="link-default"
+                  href="https://example.com"
+                  title="Go to example.com"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  scopri qui
+                </a>{' '}
+                come aggiungerti.
+              </>
+            ),
+          }}
+        </StyledIntro>
         <Row className="my-4">
           <AsyncAutocomplete
             selected={selected}

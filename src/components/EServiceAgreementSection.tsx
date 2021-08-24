@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyledInputFile } from './StyledInputFile'
+import { StyledIntro } from './StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
 
 type EServiceAgreementSectionProps = {
@@ -9,7 +10,11 @@ type EServiceAgreementSectionProps = {
 export function EServiceAgreementSection({ todoLoadAccordo }: EServiceAgreementSectionProps) {
   return (
     <WhiteBackground>
-      <h2>Accordo di interoperabilità*</h2>
+      <StyledIntro>
+        {{
+          title: 'Accordo di interoperabilità*',
+        }}
+      </StyledIntro>
 
       <StyledInputFile onChange={todoLoadAccordo} id="accordo" />
     </WhiteBackground>

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { EServiceDocumentType } from '../../types'
 import { StyledInputFile } from './StyledInputFile'
+import { StyledIntro } from './StyledIntro'
 import { TableAction } from './TableAction'
 import { TableWithLoader } from './TableWithLoader'
 import { WhiteBackground } from './WhiteBackground'
@@ -37,8 +38,12 @@ export function EServiceDocumentSection({
   return (
     <React.Fragment>
       <WhiteBackground>
-        <h2>Interfaccia*</h2>
-        <p>Carica il file OpenAPI/WSDL che descrive l'API</p>
+        <StyledIntro>
+          {{
+            title: 'Interfaccia*',
+            description: "Carica il file OpenAPI/WSDL che descrive l'API",
+          }}
+        </StyledIntro>
 
         {interfaceDocument ? (
           <TableWithLoader isLoading={false} headData={['nome file', '']}>
@@ -61,8 +66,13 @@ export function EServiceDocumentSection({
       </WhiteBackground>
 
       <WhiteBackground>
-        <h2>Documentazione</h2>
-        <p>Inserisci tutta la documentazione tecnica utile all’utilizzo di questa API</p>
+        <StyledIntro>
+          {{
+            title: 'Documentazione',
+            description:
+              'Inserisci tutta la documentazione tecnica utile all’utilizzo di questa API',
+          }}
+        </StyledIntro>
 
         {documents.length > 0 && (
           <TableWithLoader isLoading={false} headData={['nome file', '']}>

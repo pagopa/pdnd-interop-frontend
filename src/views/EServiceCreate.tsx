@@ -11,6 +11,7 @@ import {
 import { EServiceAgreementSection } from '../components/EServiceAgreementSection'
 import { EServiceGeneralInfoSection } from '../components/EServiceGeneralInfoSection'
 import { EServiceAttributeSection } from '../components/EServiceAttributeSection'
+import { StyledIntro } from '../components/StyledIntro'
 
 /*
 {
@@ -105,11 +106,13 @@ export function EServiceCreate() {
   return (
     <React.Fragment>
       <WhiteBackground>
-        <h2>Crea nuovo e-service</h2>
-        <p>
-          Compila tutti i campi richiesti e salva in bozza o pubblica il tuo e-service. I campi
-          contrassegnati da asterisco sono obbligatori.
-        </p>
+        <StyledIntro>
+          {{
+            title: 'Crea nuovo e-service',
+            description:
+              'Compila tutti i campi richiesti e salva in bozza o pubblica il tuo e-service. I campi contrassegnati da asterisco sono obbligatori.',
+          }}
+        </StyledIntro>
       </WhiteBackground>
 
       <EServiceGeneralInfoSection

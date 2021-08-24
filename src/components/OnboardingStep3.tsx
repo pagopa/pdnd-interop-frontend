@@ -2,6 +2,7 @@ import React from 'react'
 import { Row, Container } from 'react-bootstrap'
 import { StepperStepComponentProps } from '../../types'
 import { OnboardingStepActions } from './OnboardingStepActions'
+import { StyledIntro } from './StyledIntro'
 import { StyledInputTextArea } from './StyledInputTextArea'
 import { WhiteBackground } from './WhiteBackground'
 
@@ -16,13 +17,13 @@ export function OnboardingStep3({ forward, back }: StepperStepComponentProps) {
   return (
     <WhiteBackground>
       <Container className="container-align-left form-max-width">
-        <Row>
-          <h3>Verifica i dati e i termini dell’accordo di adesione*</h3>
-          <p>
-            Questo è l’accordo che ti verrà inviato via mail da firmare e restituire per
-            l’attivazione dell’account sulla piattaforma interoperabilità.
-          </p>
-        </Row>
+        <StyledIntro>
+          {{
+            title: 'Verifica i dati e i termini dell’accordo di adesione*',
+            description:
+              'Questo è l’accordo che ti verrà inviato via mail da firmare e restituire per l’attivazione dell’account sulla piattaforma interoperabilità.',
+          }}
+        </StyledIntro>
         <Row className="mt-4 mb-3">
           <StyledInputTextArea readOnly={true} value={bozzaAccordo} height={200} />
         </Row>
