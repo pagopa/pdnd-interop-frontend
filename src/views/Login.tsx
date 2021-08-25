@@ -32,7 +32,10 @@ export function Login() {
       setUser(testUser)
       // Get all available parties related to the user
       const availableParties = await fetchWithLogs(
-        { endpoint: 'ONBOARDING_GET_AVAILABLE_PARTIES', additionalPath: testUser.taxCode },
+        {
+          endpoint: 'ONBOARDING_GET_AVAILABLE_PARTIES',
+          endpointParams: { taxCode: testUser.taxCode },
+        },
         { method: 'GET' }
       )
       // Store them in a variable
@@ -40,7 +43,10 @@ export function Login() {
       // Fetch all the partyIds (this can be optimized)
       const partyIdsResp = await fetchAllWithLogs(
         parties.map((p) => ({
-          path: { endpoint: 'PARTY_GET_PARTY_ID', additionalPath: p.institutionId },
+          path: {
+            endpoint: 'PARTY_GET_PARTY_ID',
+            endpointParams: { institutionId: p.institutionId },
+          },
           config: { method: 'GET' },
         }))
       )

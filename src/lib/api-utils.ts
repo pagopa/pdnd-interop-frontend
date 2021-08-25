@@ -3,12 +3,13 @@ import { Endpoint } from '../../types'
 import { logAction } from './action-log'
 import { API, USE_LOCAL_DATA, USE_LOCAL_DATA_RESPONSE_STATUS } from './constants'
 import { testBearerToken } from './mock-static-data'
+import isEmpty from 'lodash/isEmpty'
 
 // Utility to wait some time
 export const sleep = async (ms: number) => await new Promise((resolve) => setTimeout(resolve, ms))
 
 async function prepareRequest(
-  { endpoint, additionalPath }: Endpoint,
+  { endpoint, endpointParams }: Endpoint,
   { method, params, data }: AxiosRequestConfig
 ) {
   if (!API[endpoint]) {
@@ -18,12 +19,15 @@ async function prepareRequest(
   let url = API[endpoint].URL
   let baseURL = API.BASE.URL
 
-  // Add URL parts that are not the endpoint constant
-  if (additionalPath) {
-    url += `/${additionalPath}`
+  // Replace dynamic parts of the URL by substitution
+  if (!isEmpty(endpointParams)) {
+    url = Object.keys(endpointParams).reduce(
+      (acc, key) => acc.replace(`{{${key}}}`, endpointParams[key]),
+      url
+    )
   }
 
-  // Reset all relevant variables to mock behavior
+  // In case it needs to mock data, reset all relevant variables to mock behavior
   if (USE_LOCAL_DATA) {
     url = API[endpoint].LOCAL
     baseURL = API.BASE.LOCAL
@@ -41,6 +45,7 @@ async function prepareRequest(
     data,
   })
 
+  // Return the instance of the request, ready to be sent
   return axios.request({
     url,
     method,
@@ -88,11 +93,11 @@ export async function fetchAllWithLogs(reqsConfig: RequestConfig[]) {
 }
 
 export async function fetchWithLogs(
-  { endpoint, additionalPath }: Endpoint,
+  { endpoint, endpointParams }: Endpoint,
   { method, params, data }: AxiosRequestConfig
 ) {
   // Prepare the request
-  const request = await prepareRequest({ endpoint, additionalPath }, { method, params, data })
+  const request = await prepareRequest({ endpoint, endpointParams }, { method, params, data })
   const responses = await performRequests([request as any], method)
   return responses[0]
 }

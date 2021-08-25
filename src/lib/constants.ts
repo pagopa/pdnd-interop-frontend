@@ -161,7 +161,7 @@ export const API = {
     LOCAL: 'http://localhost:3000/mock-data/',
   },
   ONBOARDING_GET_AVAILABLE_PARTIES: {
-    URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/info',
+    URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/info/{{taxCode}}',
     LOCAL: 'get-available-parties.json',
   },
   ONBOARDING_GET_SEARCH_PARTIES: {
@@ -173,7 +173,7 @@ export const API = {
     LOCAL: '',
   },
   ONBOARDING_COMPLETE_REGISTRATION: {
-    URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/complete',
+    URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/complete/{{token}}',
     LOCAL: '',
   },
   ESERVICE_GET_LIST: {
@@ -182,6 +182,12 @@ export const API = {
   },
   ESERVICE_CREATE: {
     URL: 'pdnd-interop-uservice-catalog-management/0.0.1/eservices',
+    LOCAL: '',
+  },
+  ESERVICE_POST_DESCRIPTOR_DOCUMENTS: {
+    // ad49fe3d-febf-4522-a8b5-fca3708ad78f
+    // 79d492cc-1093-45c2-bd7a-6340a3193d57
+    URL: 'pdnd-interop-uservice-catalog-management/0.0.1/eservices/{{serviceId}}/descriptors/{{descriptorId}}/documents',
     LOCAL: '',
   },
   ATTRIBUTES_GET_LIST: {
@@ -193,7 +199,7 @@ export const API = {
     LOCAL: '',
   },
   PARTY_GET_PARTY_ID: {
-    URL: 'pdnd-interop-uservice-party-management/0.0.1/organizations',
+    URL: 'pdnd-interop-uservice-party-management/0.0.1/organizations/{{institutionId}}',
     LOCAL: 'get-party-id.json',
   },
 }

@@ -141,7 +141,7 @@ export type AttributeModalTemplate = 'add' | 'create'
 
 export type Endpoint = {
   endpoint: ApiEndpointKey
-  additionalPath?: string
+  endpointParams?: any
 }
 
 export type ToastContent = {
