@@ -77,7 +77,7 @@ export type EServiceDocumentKind = 'interface' | 'document'
 export type EServiceDocumentType = {
   kind: EServiceDocumentKind
   description?: string
-  file: any // File
+  doc: any // File
 }
 export type EServiceDescriptor = {
   id: string

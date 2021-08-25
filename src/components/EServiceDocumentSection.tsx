@@ -49,7 +49,7 @@ export function EServiceDocumentSection({
           <TableWithLoader isLoading={false} headData={['nome file', '']}>
             {[interfaceDocument].map((document, i) => (
               <tr key={i}>
-                <td>{document.file.name}</td>
+                <td>{document.doc.name}</td>
                 <td>
                   <TableAction
                     btnProps={{ onClick: deleteInterface }}
@@ -78,10 +78,10 @@ export function EServiceDocumentSection({
           <TableWithLoader isLoading={false} headData={['nome file', '']}>
             {documents.map((document, i) => (
               <tr key={i}>
-                <td>{document.file.name}</td>
+                <td>{document.doc.name}</td>
                 <td>
                   <TableAction
-                    btnProps={{ onClick: deleteDocuments(document.file.name) }}
+                    btnProps={{ onClick: deleteDocuments(document.doc.name) }}
                     label="Elimina"
                     iconClass="bi-trash"
                   />

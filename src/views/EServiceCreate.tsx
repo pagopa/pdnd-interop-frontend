@@ -6,40 +6,22 @@ import {
   Attributes,
   EServiceDataType,
   EServiceDataTypeKeys,
-  EServiceDescriptor,
   EServiceDocumentType,
+  ToastContent,
 } from '../../types'
 import { EServiceAgreementSection } from '../components/EServiceAgreementSection'
 import { EServiceGeneralInfoSection } from '../components/EServiceGeneralInfoSection'
 import { EServiceAttributeSection } from '../components/EServiceAttributeSection'
 import { StyledIntro } from '../components/StyledIntro'
 import { testCreateNewServiceStaticFields } from '../lib/mock-static-data'
-import { fetchWithLogs } from '../lib/api-utils'
+import { fetchAllWithLogs, fetchWithLogs } from '../lib/api-utils'
 import { PartyContext } from '../lib/context'
 import { formatAttributes } from '../lib/attributes'
-
-/*
-{
-  "name": "pariatur exercita",
-  "producerId": "ee503ded-c7eb-453d-8741-0f92ecaf08c9",
-  "description": "aliqua ex est dolore",
-  "audience": [ "pippo" ],
-  "technology": "REST",
-  "voucherLifespan": 41713585,
-  "attributes": {
-    "certified": [
-      {"group": ["881db7e1-7851-481f-84ff-287ee7ff00f0", "b030e657-75d4-4125-8ad2-4faf24c7f831"]}
-    ],
-    "declared": [],
-    "verified": [
-      {"simple": "068a29db-33fa-4713-89ef-b38218907b09"},
-      {"simple": "f436a203-fa03-43c6-a532-2617d098340c"}
-      ]
-  }
-]
-*/
+import { StyledToast } from '../components/StyledToast'
+import isEmpty from 'lodash/isEmpty'
 
 export function EServiceCreate() {
+  const [toast, setToast] = useState<ToastContent>()
   const { party } = useContext(PartyContext)
   // General information section
   const [eserviceData, setEserviceData] = useState<EServiceDataType>({
@@ -73,21 +55,28 @@ export function EServiceCreate() {
   }
 
   const updateDocuments = (e: any) => {
-    setDocuments([...documents, { kind: 'document', description: '', file: e.target.files[0] }])
+    setDocuments([...documents, { kind: 'document', description: '', doc: e.target.files[0] }])
   }
 
   const buildDeleteDocuments = (name: string) => (_: any) => {
-    setDocuments([...documents.filter((d) => d.file.name !== name)])
+    setDocuments([...documents.filter((d) => d.doc.name !== name)])
   }
 
   const updateInterface = (e: any) => {
-    setInterfaceDocument({ kind: 'interface', description: '', file: e.target.files[0] })
+    setInterfaceDocument({ kind: 'interface', description: '', doc: e.target.files[0] })
   }
 
   const deleteInterface = (_: any) => {
     setInterfaceDocument(undefined)
   }
 
+  const closeToast = () => {
+    setToast(undefined)
+  }
+
+  // This method contains a waterfall of two calls
+  // First, the eservice is created
+  // Then, it is attached its interface and documents
   const saveDraft = async () => {
     // eService also has pop and version that are currently unused
     const eserviceCreateData = {
@@ -110,17 +99,40 @@ export function EServiceCreate() {
       }
     )
 
-    // const descriptors = createResp.data.descriptors as EServiceDescriptor[]
+    const { descriptors, id: serviceId } = createResp.data
+    // For now there is only one. This will be refactored after the PoC
+    const descriptorId = descriptors[0].id
 
-    // toast per dire bozza salvata o torna alla pagina dei servizi
+    await fetchAllWithLogs(
+      [...documents, interfaceDocument]
+        // For now filter, but they should all be required
+        .filter((d) => !isEmpty(d))
+        .map((data) => {
+          const { kind, description, doc } = data as EServiceDocumentType
+          // Append the file as form data
+          const formData = new FormData()
+          formData.append('kind', kind)
+          formData.append('description', description!)
+          formData.append('doc', doc)
 
-    console.log({ createResp })
-    // console.log({
-    //   eserviceData,
-    //   interfaceDocument,
-    //   documents,
-    //   attributes,
-    // })
+          return {
+            path: {
+              endpoint: 'ESERVICE_POST_DESCRIPTOR_DOCUMENTS',
+              endpointParams: { serviceId, descriptorId },
+            },
+            config: {
+              method: 'POST',
+              headers: { 'Content-Type': 'multipart/form-data' },
+              data: formData,
+            },
+          }
+        })
+    )
+
+    setToast({
+      title: 'Bozza salvata',
+      description: 'La tua bozza è stata salvata correttamente',
+    })
   }
 
   const publish = () => {}
@@ -167,6 +179,10 @@ export function EServiceCreate() {
           </Button>
         </div>
       </WhiteBackground>
+
+      {toast && (
+        <StyledToast title={toast.title} description={toast.description} onClose={closeToast} />
+      )}
     </React.Fragment>
   )
 }

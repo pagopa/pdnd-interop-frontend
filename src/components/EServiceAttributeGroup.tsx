@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { Button, Toast } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import { AttributeModalTemplate, AttributeKey, AttributeGroup, ToastContent } from '../../types'
 import { AttributeModal } from './AttributeModal'
 import { Overlay } from './Overlay'
+import { StyledToast } from './StyledToast'
 import { TableAction } from './TableAction'
 import { TableWithLoader } from './TableWithLoader'
 
@@ -104,18 +105,11 @@ export function EServiceAttributeGroup({
       )}
 
       {toast && (
-        <Toast
-          animation={true}
-          className="position-fixed bottom-0 mb-4"
-          bg="success"
-          style={{ zIndex: 3, left: '50%', transform: `translate(-50%, 0)` }}
+        <StyledToast
+          title={toast.title}
+          description={toast.description}
           onClose={() => closeModal()}
-        >
-          <Toast.Header>
-            <strong className="me-auto">🎉 {(toast as any)!.title}</strong>
-          </Toast.Header>
-          <Toast.Body>{(toast as any)!.description}</Toast.Body>
-        </Toast>
+        />
       )}
     </React.Fragment>
   )

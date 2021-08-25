@@ -159,48 +159,57 @@ export const API = {
   BASE: {
     URL: 'https://gateway.interop.pdnd.dev/',
     LOCAL: 'http://localhost:3000/mock-data/',
+    SHOULD_CALL: true,
   },
   ONBOARDING_GET_AVAILABLE_PARTIES: {
     URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/info/{{taxCode}}',
     LOCAL: 'get-available-parties.json',
+    SHOULD_CALL: true,
   },
   ONBOARDING_GET_SEARCH_PARTIES: {
     URL: 'pdnd-interop-uservice-party-registry-proxy/0.0.1/institutions',
     LOCAL: 'get-all-parties.json',
+    SHOULD_CALL: true,
   },
   ONBOARDING_POST_LEGALS: {
     URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/legals',
     LOCAL: '',
+    SHOULD_CALL: true,
   },
   ONBOARDING_COMPLETE_REGISTRATION: {
     URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/complete/{{token}}',
     LOCAL: '',
+    SHOULD_CALL: true,
   },
   ESERVICE_GET_LIST: {
     URL: 'TODO',
     LOCAL: 'get-eservice-list.json',
+    SHOULD_CALL: false,
   },
   ESERVICE_CREATE: {
     URL: 'pdnd-interop-uservice-catalog-management/0.0.1/eservices',
     LOCAL: '',
+    SHOULD_CALL: true,
   },
   ESERVICE_POST_DESCRIPTOR_DOCUMENTS: {
-    // ad49fe3d-febf-4522-a8b5-fca3708ad78f
-    // 79d492cc-1093-45c2-bd7a-6340a3193d57
     URL: 'pdnd-interop-uservice-catalog-management/0.0.1/eservices/{{serviceId}}/descriptors/{{descriptorId}}/documents',
     LOCAL: '',
+    SHOULD_CALL: true,
   },
   ATTRIBUTES_GET_LIST: {
     URL: 'pdnd-interop-uservice-attribute-registry-management/0.0.1/attributes',
     LOCAL: 'get-attributes-list.json',
+    SHOULD_CALL: true,
   },
   ATTRIBUTES_CREATE: {
     URL: 'pdnd-interop-uservice-attribute-registry-management/0.0.1/attributes',
     LOCAL: '',
+    SHOULD_CALL: true,
   },
   PARTY_GET_PARTY_ID: {
     URL: 'pdnd-interop-uservice-party-management/0.0.1/organizations/{{institutionId}}',
     LOCAL: 'get-party-id.json',
+    SHOULD_CALL: true,
   },
 }
 
