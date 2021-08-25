@@ -43,6 +43,10 @@ $success: #96dbbe;
   text-transform: lowercase;
 }
 
+.btn-link {
+  padding: 0 0.25rem;
+}
+
 .bs-tooltip-top > .tooltip-inner {
   background-color: $primary;
   color: $white;

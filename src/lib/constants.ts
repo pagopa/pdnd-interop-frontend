@@ -61,7 +61,7 @@ export const ROUTES: RoutesObject = {
         COMPONENT: EServiceList,
       },
       ESERVICE_CREATE: {
-        PATH: '/erogazione/crea-e-service',
+        PATH: '/erogazione/e-service/crea',
         EXACT: true,
         LABEL: 'Crea nuovo e-service',
         COMPONENT: EServiceCreate,

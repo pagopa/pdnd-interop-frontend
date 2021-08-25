@@ -47,7 +47,7 @@ export function EServiceList() {
       Active: [
         {
           onClick: () => {
-            console.log('sospendi')
+            alert('Sospendi servizio: questa funzionalità sarà disponibile a breve')
           },
           icon: 'bi-pause-circle',
           label: 'Sospendi',
@@ -57,7 +57,7 @@ export function EServiceList() {
       Deprecated: [
         {
           onClick: () => {
-            console.log('sospendi')
+            alert('Sospendi servizio: questa funzionalità sarà disponibile a breve')
           },
           icon: 'bi-pause-circle',
           label: 'Sospendi',
@@ -66,7 +66,7 @@ export function EServiceList() {
           onClick: () => {
             // Can only archive if all agreements on that version are archived
             // Check with backend if this can be automated
-            console.log('archivia')
+            alert('Archivia servizio: questa funzionalità sarà disponibile a breve')
           },
           icon: 'bi-archive',
           label: 'Archivia',
@@ -91,7 +91,7 @@ export function EServiceList() {
       Suspended: [
         {
           onClick: () => {
-            console.log('riattiva')
+            alert('Riattiva servizio: questa funzionalità sarà disponibile a breve')
           },
           icon: 'bi-play-circle',
           label: 'Riattiva',
