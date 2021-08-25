@@ -16,6 +16,7 @@ export type Party = {
   description: string
   institutionId: string
   digitalAddress: string
+  partyId?: string
 }
 
 export type Provider = 'provider'

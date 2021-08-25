@@ -192,6 +192,10 @@ export const API = {
     URL: 'pdnd-interop-uservice-attribute-registry-management/0.0.1/attributes',
     LOCAL: '',
   },
+  PARTY_GET_PARTY_ID: {
+    URL: 'pdnd-interop-uservice-party-management/0.0.1/organizations/',
+    LOCAL: 'get-party-id.json',
+  },
 }
 
 export const ESERVICE_STATUS = {

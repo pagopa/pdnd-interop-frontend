@@ -5,11 +5,13 @@ import { PartyContext, UserContext } from '../lib/context'
 import { Row, Button } from 'react-bootstrap'
 import spidIcon from '../assets/icons/spid.svg'
 import { LoadingOverlay } from '../components/LoadingOverlay'
-import { fetchWithLogs } from '../lib/api-utils'
+import { fetchAllWithLogs, fetchWithLogs } from '../lib/api-utils'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { StyledInputCheckbox } from '../components/StyledInputCheckbox'
 import { StyledInputTextArea } from '../components/StyledInputTextArea'
 import { testUser } from '../lib/mock-static-data'
+import { Party } from '../../types'
+import { AxiosResponse } from 'axios'
 
 const informativa =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed ipsum risus. Donec justo nunc, volutpat nec elementum sed, consectetur in mauris. Donec vulputate, purus a volutpat interdum, tellus libero condimentum velit, eget placerat risus ipsum laoreet sapien. Maecenas justo libero, congue eget venenatis sed, vehicula eu enim. Mauris nec dictum nunc. Vivamus blandit maximus ipsum, venenatis pulvinar lorem sagittis in. Duis luctus orci eget euismod mattis. Maecenas orci justo, '
@@ -36,8 +38,29 @@ export function Login() {
           params: { taxCode: testUser.taxCode },
         }
       )
+      // Store them in a variable
+      let parties: Party[] = availableParties!.data.institutions
+      // Fetch all the partyIds (this can be optimized)
+      const partyIdsResp = await fetchAllWithLogs(
+        parties.map((p) => ({
+          path: { endpoint: 'PARTY_GET_PARTY_ID', additionalPath: p.institutionId },
+          config: { method: 'GET' },
+        }))
+      )
+      // Associate the partyId to the correspondent party
+      parties = parties.map((party) => {
+        const currentParty = partyIdsResp.find(
+          (r: AxiosResponse) => r.data.institutionId === party.institutionId
+        )
+        return {
+          ...party,
+          partyId: currentParty?.data.partyId,
+        }
+      })
       // Then set them
-      setAvailableParties(availableParties!.data.institutions)
+      setAvailableParties(parties)
+      // Stop loading (irrelevant, because there is a route change, here for consistency)
+      setLoading(false)
       // Go to choice view
       history.push(ROUTES.CHOOSE_PARTY.PATH)
     }
