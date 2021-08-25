@@ -32,11 +32,8 @@ export function Login() {
       setUser(testUser)
       // Get all available parties related to the user
       const availableParties = await fetchWithLogs(
-        { endpoint: 'ONBOARDING_GET_AVAILABLE_PARTIES' },
-        {
-          method: 'GET',
-          params: { taxCode: testUser.taxCode },
-        }
+        { endpoint: 'ONBOARDING_GET_AVAILABLE_PARTIES', additionalPath: testUser.taxCode },
+        { method: 'GET' }
       )
       // Store them in a variable
       let parties: Party[] = availableParties!.data.institutions

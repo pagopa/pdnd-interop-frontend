@@ -22,7 +22,7 @@ import { Subscribe } from '../views/Subscribe'
 import { UserEdit } from '../views/UserEdit'
 import { UserList } from '../views/UserList'
 
-export const USE_LOCAL_DATA = true
+export const USE_LOCAL_DATA = false
 export const USE_LOCAL_DATA_RESPONSE_STATUS = 200 // The response status code to simulate if USE_LOCAL_DATA is true
 export const DISPLAY_LOGS: DisplayLogsType = 'all'
 
@@ -161,7 +161,7 @@ export const API = {
     LOCAL: 'http://localhost:3000/mock-data/',
   },
   ONBOARDING_GET_AVAILABLE_PARTIES: {
-    URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/info/',
+    URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/info',
     LOCAL: 'get-available-parties.json',
   },
   ONBOARDING_GET_SEARCH_PARTIES: {
@@ -173,7 +173,7 @@ export const API = {
     LOCAL: '',
   },
   ONBOARDING_COMPLETE_REGISTRATION: {
-    URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/complete/',
+    URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/complete',
     LOCAL: '',
   },
   ESERVICE_GET_LIST: {
@@ -193,7 +193,7 @@ export const API = {
     LOCAL: '',
   },
   PARTY_GET_PARTY_ID: {
-    URL: 'pdnd-interop-uservice-party-management/0.0.1/organizations/',
+    URL: 'pdnd-interop-uservice-party-management/0.0.1/organizations',
     LOCAL: 'get-party-id.json',
   },
 }
