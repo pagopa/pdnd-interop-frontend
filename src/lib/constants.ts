@@ -191,8 +191,13 @@ export const API = {
     LOCAL: '',
     SHOULD_CALL: true,
   },
+  ESERVICE_VERSION_PUBLISH: {
+    URL: '/pdnd-interop-uservice-catalog-management/0.0.1/eservices/{{eserviceId}}/descriptors/{{descriptorId}}',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
   ESERVICE_POST_DESCRIPTOR_DOCUMENTS: {
-    URL: 'pdnd-interop-uservice-catalog-management/0.0.1/eservices/{{serviceId}}/descriptors/{{descriptorId}}/documents',
+    URL: 'pdnd-interop-uservice-catalog-management/0.0.1/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/documents',
     LOCAL: '',
     SHOULD_CALL: true,
   },

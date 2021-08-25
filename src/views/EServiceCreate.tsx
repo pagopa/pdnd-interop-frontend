@@ -77,65 +77,87 @@ export function EServiceCreate() {
   // This method contains a waterfall of two calls
   // First, the eservice is created
   // Then, it is attached its interface and documents
-  const saveDraft = async () => {
-    // eService also has pop and version that are currently unused
-    const eserviceCreateData = {
-      name: eserviceData.name,
-      description: eserviceData.description,
-      audience: eserviceData.audience,
-      technology: eserviceData.technology,
-      voucherLifespan: eserviceData.voucherLifespan,
-      producerId: party!.partyId,
-      attributes: formatAttributes(attributes),
+  const buildSaveDraft =
+    ({ withToast }: { withToast: boolean }) =>
+    async (_?: any) => {
+      // eService also has pop and version that are currently unused
+      const eserviceCreateData = {
+        name: eserviceData.name,
+        description: eserviceData.description,
+        audience: eserviceData.audience,
+        technology: eserviceData.technology,
+        voucherLifespan: eserviceData.voucherLifespan,
+        producerId: party!.partyId,
+        attributes: formatAttributes(attributes),
+      }
+
+      const createResp = await fetchWithLogs(
+        {
+          endpoint: 'ESERVICE_CREATE',
+        },
+        {
+          method: 'POST',
+          data: eserviceCreateData,
+        }
+      )
+
+      const { descriptors, id: eserviceId } = createResp.data
+      // For now there is only one. This will be refactored after the PoC
+      const descriptorId = descriptors[0].id
+
+      await fetchAllWithLogs(
+        [...documents, interfaceDocument]
+          // For now filter, but they should all be required
+          .filter((d) => !isEmpty(d))
+          .map((data) => {
+            const { kind, description, doc } = data as EServiceDocumentType
+            // Append the file as form data
+            const formData = new FormData()
+            formData.append('kind', kind)
+            formData.append('description', description!)
+            formData.append('doc', doc)
+
+            return {
+              path: {
+                endpoint: 'ESERVICE_POST_DESCRIPTOR_DOCUMENTS',
+                endpointParams: { eserviceId, descriptorId },
+              },
+              config: {
+                method: 'POST',
+                headers: { 'Content-Type': 'multipart/form-data' },
+                data: formData,
+              },
+            }
+          })
+      )
+
+      if (withToast) {
+        setToast({
+          title: 'Bozza salvata',
+          description: 'La tua bozza è stata salvata correttamente',
+        })
+      }
+
+      return { eserviceId, descriptorId }
     }
 
-    const createResp = await fetchWithLogs(
+  const publish = async () => {
+    const { eserviceId, descriptorId } = await buildSaveDraft({ withToast: false })()
+    const resp = await fetchWithLogs(
       {
-        endpoint: 'ESERVICE_CREATE',
+        endpoint: 'ESERVICE_VERSION_PUBLISH',
+        endpointParams: { eserviceId, descriptorId },
       },
-      {
-        method: 'POST',
-        data: eserviceCreateData,
-      }
-    )
-
-    const { descriptors, id: serviceId } = createResp.data
-    // For now there is only one. This will be refactored after the PoC
-    const descriptorId = descriptors[0].id
-
-    await fetchAllWithLogs(
-      [...documents, interfaceDocument]
-        // For now filter, but they should all be required
-        .filter((d) => !isEmpty(d))
-        .map((data) => {
-          const { kind, description, doc } = data as EServiceDocumentType
-          // Append the file as form data
-          const formData = new FormData()
-          formData.append('kind', kind)
-          formData.append('description', description!)
-          formData.append('doc', doc)
-
-          return {
-            path: {
-              endpoint: 'ESERVICE_POST_DESCRIPTOR_DOCUMENTS',
-              endpointParams: { serviceId, descriptorId },
-            },
-            config: {
-              method: 'POST',
-              headers: { 'Content-Type': 'multipart/form-data' },
-              data: formData,
-            },
-          }
-        })
+      { method: 'POST' }
     )
 
     setToast({
-      title: 'Bozza salvata',
-      description: 'La tua bozza è stata salvata correttamente',
+      title: 'Versione pubblicata',
+      description:
+        'La nuova versione del tuo servizio è ora disponibile nel Catalogo degli e-service',
     })
   }
 
-  const publish = () => {}
   const cancel = () => {}
 
   return (
@@ -168,7 +190,7 @@ export function EServiceCreate() {
 
       <WhiteBackground>
         <div className="d-flex">
-          <Button className="me-3" variant="primary" onClick={saveDraft}>
+          <Button className="me-3" variant="primary" onClick={buildSaveDraft({ withToast: true })}>
             salva in bozza
           </Button>
           <Button className="me-3" variant="primary" onClick={publish}>
