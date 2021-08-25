@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { EServiceDocumentSection } from '../components/EServiceDocumentSection'
@@ -6,6 +6,7 @@ import {
   Attributes,
   EServiceDataType,
   EServiceDataTypeKeys,
+  EServiceDescriptor,
   EServiceDocumentType,
 } from '../../types'
 import { EServiceAgreementSection } from '../components/EServiceAgreementSection'
@@ -13,6 +14,9 @@ import { EServiceGeneralInfoSection } from '../components/EServiceGeneralInfoSec
 import { EServiceAttributeSection } from '../components/EServiceAttributeSection'
 import { StyledIntro } from '../components/StyledIntro'
 import { testCreateNewServiceStaticFields } from '../lib/mock-static-data'
+import { fetchWithLogs } from '../lib/api-utils'
+import { PartyContext } from '../lib/context'
+import { formatAttributes } from '../lib/attributes'
 
 /*
 {
@@ -36,6 +40,7 @@ import { testCreateNewServiceStaticFields } from '../lib/mock-static-data'
 */
 
 export function EServiceCreate() {
+  const { party } = useContext(PartyContext)
   // General information section
   const [eserviceData, setEserviceData] = useState<EServiceDataType>({
     technology: 'REST',
@@ -83,13 +88,39 @@ export function EServiceCreate() {
     setInterfaceDocument(undefined)
   }
 
-  const saveDraft = () => {
-    console.log({
-      eserviceData,
-      interfaceDocument,
-      documents,
-      attributes,
-    })
+  const saveDraft = async () => {
+    // eService also has pop and version that are currently unused
+    const eserviceCreateData = {
+      name: eserviceData.name,
+      description: eserviceData.description,
+      audience: eserviceData.audience,
+      technology: eserviceData.technology,
+      voucherLifespan: eserviceData.voucherLifespan,
+      producerId: party!.partyId,
+      attributes: formatAttributes(attributes),
+    }
+
+    const createResp = await fetchWithLogs(
+      {
+        endpoint: 'ESERVICE_CREATE',
+      },
+      {
+        method: 'POST',
+        data: eserviceCreateData,
+      }
+    )
+
+    // const descriptors = createResp.data.descriptors as EServiceDescriptor[]
+
+    // toast per dire bozza salvata o torna alla pagina dei servizi
+
+    console.log({ createResp })
+    // console.log({
+    //   eserviceData,
+    //   interfaceDocument,
+    //   documents,
+    //   attributes,
+    // })
   }
 
   const publish = () => {}

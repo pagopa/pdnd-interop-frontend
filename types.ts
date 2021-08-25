@@ -79,6 +79,11 @@ export type EServiceDocumentType = {
   description?: string
   file: any // File
 }
+export type EServiceDescriptor = {
+  id: string
+  status: 'draft'
+  docs: EServiceDocumentType[]
+}
 
 export type EServiceDataType = {
   name?: string
@@ -100,13 +105,17 @@ export type EServiceDataTypeKeys =
   | 'voucherLifespan'
   | 'description'
 
-// export type EServiceAttribute =
-//   | {
-//       simple: string
-//     }
-//   | {
-//       group: string[]
-//     }
+export type BackendAttribute =
+  | {
+      simple: string
+    }
+  | {
+      group: string[]
+    }
+
+export type BackendFormattedAttributes = {
+  [key in AttributeKey]: BackendAttribute[]
+}
 
 export type AttributeFromCatalog = {
   certified: boolean
