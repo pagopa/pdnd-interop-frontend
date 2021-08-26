@@ -221,9 +221,9 @@ export const API = {
     SHOULD_CALL: true,
   },
   AGREEMENT_GET_LIST: {
-    URL: 'TODO',
+    URL: 'pdnd-interop-uservice-agreement-management/0.0.1/agreements',
     LOCAL: 'get-agreement-list.json',
-    SHOULD_CALL: false,
+    SHOULD_CALL: true,
   },
 }
 
@@ -231,6 +231,7 @@ export const ESERVICE_STATUS = {
   active: 'attivo',
   draft: 'in bozza',
   suspended: 'sospeso',
+
   // Not implemented yet
   archived: 'archiviato',
   deprecated: 'deprecato',

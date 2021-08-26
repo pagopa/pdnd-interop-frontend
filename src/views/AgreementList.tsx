@@ -8,6 +8,7 @@ import { TableWithLoader } from '../components/TableWithLoader'
 import { TableAction } from '../components/TableAction'
 import { StyledIntro } from '../components/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
+import { useMode } from '../hooks/useMode'
 
 type Action = {
   to?: string
@@ -17,17 +18,18 @@ type Action = {
 }
 
 export function AgreementList() {
+  const mode = useMode()
   const { party } = useContext(PartyContext)
+
+  const params =
+    mode === 'provider' ? { producerId: party?.partyId } : { consumerId: party?.partyId }
   const { data: agreement, isLoading } = useAsyncFetch<AgreementSummary>({
     path: { endpoint: 'AGREEMENT_GET_LIST' },
-    config: {
-      method: 'GET',
-      params: { producerId: party?.partyId },
-    },
+    config: { method: 'GET', params },
   })
 
   const getAvailableActions = (agreement: any) => {
-    const availableActions: { [key in AgreementStatus]: any } = { active: [] }
+    const availableActions: { [key in AgreementStatus]: any } = { active: [], suspended: [] }
 
     const status = agreement.status
 
@@ -47,7 +49,13 @@ export function AgreementList() {
     return actions
   }
 
-  const headData = ['nome servizio', 'versione servizio', 'stato accordo', 'ente fruitore', '']
+  const headData = [
+    'nome servizio',
+    'versione servizio',
+    'stato accordo',
+    mode === 'provider' ? 'ente fruitore' : 'ente erogatore',
+    '',
+  ]
 
   return (
     <WhiteBackground>
@@ -77,9 +85,14 @@ export function AgreementList() {
           ) : (
             agreement.map((item, i) => (
               <tr key={i}>
-                <td>{item.serviceName}</td>
-                <td>{item.serviceVersion}</td>
+                <td>{item.eserviceName || item.eserviceId}</td>
+                <td>{item.eserviceVersion || 1}</td>
                 <td>{AGREEMENT_STATUS[item.status]}</td>
+                <td>
+                  {mode === 'provider'
+                    ? item.consumerName || item.consumerId
+                    : item.producerName || item.producerId}
+                </td>
                 <td>
                   {getAvailableActions(item).map(({ to, onClick, icon, label }, j) => {
                     const btnProps: any = { onClick }

@@ -156,12 +156,28 @@ export type RequestConfig = {
   config: AxiosRequestConfig
 }
 
-export type AgreementStatus = 'active'
+export type AgreementStatus = 'active' | 'suspended'
+
+export type AgreementVerifiableAttribute = {
+  id: string
+  verificationDate: string
+  verified: boolean
+
+  // Backend doesn't send it for now
+  name?: string
+}
 
 export type AgreementSummary = {
   id: string
-  serviceName: string
-  serviceVersion: string
   status: AgreementStatus
-  consumerName: string
+  eserviceId: string
+  consumerId: string
+  producerId: string
+  verifiedAttributes: BackendAttribute[]
+
+  // Backend doesn't send them for now
+  producerName?: string
+  consumerName?: string
+  eserviceName?: string
+  eserviceVersion?: string
 }
