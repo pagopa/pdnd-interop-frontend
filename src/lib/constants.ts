@@ -68,7 +68,7 @@ export const ROUTES: RoutesObject = {
       ESERVICE_EDIT: {
         PATH: '/erogazione/e-service/:id',
         EXACT: false,
-        LABEL: 'Modifica e-service',
+        LABEL: 'Ispeziona e-service',
         COMPONENT: EServiceRead,
       },
       CONTRACT_LIST: {
@@ -182,6 +182,11 @@ export const API = {
   },
   ESERVICE_GET_LIST: {
     URL: 'pdnd-interop-uservice-catalog-management/0.0.1/eservices',
+    LOCAL: 'get-eservice-list.json',
+    SHOULD_CALL: true,
+  },
+  ESERVICE_GET_SINGLE: {
+    URL: 'pdnd-interop-uservice-catalog-management/0.0.1/eservices/{{eserviceId}}',
     LOCAL: 'get-eservice-list.json',
     SHOULD_CALL: true,
   },

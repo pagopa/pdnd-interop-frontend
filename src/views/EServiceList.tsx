@@ -5,7 +5,7 @@ import { ESERVICE_STATUS, ROUTES } from '../lib/constants'
 import { Button } from 'react-bootstrap'
 import { PartyContext } from '../lib/context'
 import { fetchWithLogs } from '../lib/api-utils'
-import { EServiceSummary } from '../../types'
+import { EServiceStatus, EServiceSummary } from '../../types'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { TableAction } from '../components/TableAction'
 import { StyledIntro } from '../components/StyledIntro'
@@ -25,13 +25,12 @@ export function EServiceList() {
   useEffect(() => {
     async function asyncFetchWithLogs() {
       setIsLoading(true)
-      const id = party?.institutionId
 
       const list = await fetchWithLogs(
         { endpoint: 'ESERVICE_GET_LIST' },
         {
           method: 'GET',
-          params: { producerId: id },
+          params: { producerId: party?.partyId },
         }
       )
 
@@ -43,8 +42,8 @@ export function EServiceList() {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const getAvailableActions = (service: any) => {
-    const availableActions = {
-      Active: [
+    const availableActions: { [key in EServiceStatus]: any } = {
+      active: [
         {
           onClick: () => {
             alert('Sospendi servizio: questa funzionalità sarà disponibile a breve')
@@ -53,8 +52,8 @@ export function EServiceList() {
           label: 'Sospendi',
         },
       ],
-      Archived: [],
-      Deprecated: [
+      archived: [],
+      deprecated: [
         {
           onClick: () => {
             alert('Sospendi servizio: questa funzionalità sarà disponibile a breve')
@@ -72,7 +71,7 @@ export function EServiceList() {
           label: 'Archivia',
         },
       ],
-      Draft: [
+      draft: [
         {
           onClick: () => {
             console.log('pubblica')
@@ -88,7 +87,7 @@ export function EServiceList() {
           label: 'Elimina',
         },
       ],
-      Suspended: [
+      suspended: [
         {
           onClick: () => {
             alert('Riattiva servizio: questa funzionalità sarà disponibile a breve')
@@ -99,14 +98,17 @@ export function EServiceList() {
       ],
     }
 
+    const status = service.descriptors[0].status
+
+    // If status === 'draft', show precompiled write template. Else, readonly template
     const inspectAction = {
       to: `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${service.id}`,
-      icon: service.status === 'Draft' ? 'bi-pencil' : 'bi-info-circle',
-      label: service.status === 'Draft' ? 'Modifica' : 'Ispeziona',
+      icon: status === 'draft' ? 'bi-pencil' : 'bi-info-circle',
+      label: status === 'draft' ? 'Modifica' : 'Ispeziona',
     }
 
     // Get all the actions available for this particular status
-    const actions: Action[] = (availableActions as any)[service.status] || []
+    const actions: Action[] = (availableActions as any)[status] || []
 
     // Add the last action, which is always EDIT/INSPECT
     actions.push(inspectAction)
