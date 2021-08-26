@@ -72,7 +72,7 @@ export function AgreementEdit() {
 
   useEffect(() => {
     setActions(getAvailableActions())
-  }, [mode, data])
+  }, [mode, data]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <LoadingOverlay isLoading={loading} loadingText="Stiamo caricando l'accordo richiesto">
