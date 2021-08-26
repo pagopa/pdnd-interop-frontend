@@ -5,9 +5,8 @@ import { ClientList } from '../views/ClientList'
 import { ContractEdit } from '../views/ContractEdit'
 import { ContractList } from '../views/ContractList'
 import { EServiceCatalog } from '../views/EServiceCatalog'
-import { EServiceCatalogEntry } from '../views/EServiceCatalogEntry'
-import { EServiceCreate } from '../views/EServiceCreate'
-import { EServiceEdit } from '../views/EServiceEdit'
+import { EServiceWrite } from '../views/EServiceWrite'
+import { EServiceRead } from '../views/EServiceRead'
 import { EServiceList } from '../views/EServiceList'
 import { Help } from '../views/Help'
 import { Login } from '../views/Login'
@@ -64,13 +63,13 @@ export const ROUTES: RoutesObject = {
         PATH: '/erogazione/e-service/crea',
         EXACT: true,
         LABEL: 'Crea nuovo e-service',
-        COMPONENT: EServiceCreate,
+        COMPONENT: EServiceWrite,
       },
       ESERVICE_EDIT: {
         PATH: '/erogazione/e-service/:id',
         EXACT: false,
         LABEL: 'Modifica e-service',
-        COMPONENT: EServiceEdit,
+        COMPONENT: EServiceRead,
       },
       CONTRACT_LIST: {
         PATH: '/erogazione/accordi',
@@ -137,7 +136,7 @@ export const ROUTES: RoutesObject = {
         PATH: '/fruizione/catalogo-e-service/:id',
         EXACT: false,
         LABEL: 'Visualizza e-service',
-        COMPONENT: EServiceCatalogEntry,
+        COMPONENT: EServiceRead,
       },
       USERS_LIST: {
         PATH: '/fruizione/operatori',

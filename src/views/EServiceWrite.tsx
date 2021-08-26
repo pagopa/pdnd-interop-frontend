@@ -20,7 +20,7 @@ import { formatAttributes } from '../lib/attributes'
 import { StyledToast } from '../components/StyledToast'
 import isEmpty from 'lodash/isEmpty'
 
-export function EServiceCreate() {
+export function EServiceWrite() {
   const [toast, setToast] = useState<ToastContent>()
   const { party } = useContext(PartyContext)
   // General information section
@@ -143,7 +143,7 @@ export function EServiceCreate() {
 
   const publish = async () => {
     const { eserviceId, descriptorId } = await buildSaveDraft({ withToast: false })()
-    const resp = await fetchWithLogs(
+    await fetchWithLogs(
       {
         endpoint: 'ESERVICE_VERSION_PUBLISH',
         endpointParams: { eserviceId, descriptorId },

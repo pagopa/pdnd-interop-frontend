@@ -6,12 +6,8 @@ type Params = {
   id: string | number
 }
 
-export function EServiceCatalogEntry() {
+export function EServiceRead() {
   const { id } = useParams() as Params
 
-  return (
-    <WhiteBackground>
-      <div>Descrizione e-service: {id}</div>
-    </WhiteBackground>
-  )
+  return <WhiteBackground>modifica e-service: {id}</WhiteBackground>
 }
