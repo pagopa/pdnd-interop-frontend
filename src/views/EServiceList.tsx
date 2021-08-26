@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { ESERVICE_STATUS, ROUTES } from '../lib/constants'
 import { Button } from 'react-bootstrap'
 import { PartyContext } from '../lib/context'
-import { fetchWithLogs } from '../lib/api-utils'
 import { EServiceStatus, EServiceSummary } from '../../types'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { TableAction } from '../components/TableAction'
 import { StyledIntro } from '../components/StyledIntro'
+import { useAsyncFetch } from '../hooks/useAsyncFetch'
 
 type Action = {
   to?: string
@@ -19,27 +19,13 @@ type Action = {
 
 export function EServiceList() {
   const { party } = useContext(PartyContext)
-  const [isLoading, setIsLoading] = useState(false)
-  const [eservice, setEservice] = useState<EServiceSummary[]>([])
-
-  useEffect(() => {
-    async function asyncFetchWithLogs() {
-      setIsLoading(true)
-
-      const list = await fetchWithLogs(
-        { endpoint: 'ESERVICE_GET_LIST' },
-        {
-          method: 'GET',
-          params: { producerId: party?.partyId },
-        }
-      )
-
-      setIsLoading(false)
-      setEservice(list!.data)
-    }
-
-    asyncFetchWithLogs()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  const { data: eservice, isLoading } = useAsyncFetch<EServiceSummary>({
+    path: { endpoint: 'ESERVICE_GET_LIST' },
+    config: {
+      method: 'GET',
+      params: { producerId: party?.partyId },
+    },
+  })
 
   const getAvailableActions = (service: any) => {
     const availableActions: { [key in EServiceStatus]: any } = {

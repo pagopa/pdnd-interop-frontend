@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, Method } from 'axios'
-import { ApiEndpointKey, Endpoint } from '../../types'
+import { ApiEndpointKey, Endpoint, RequestConfig } from '../../types'
 import { logAction } from './action-log'
 import { API, USE_LOCAL_DATA, USE_LOCAL_DATA_RESPONSE_STATUS } from './constants'
 import { testBearerToken } from './mock-static-data'
@@ -91,11 +91,6 @@ async function performRequests(
     console.error(error)
     // return { status: 404 } as AxiosResponse // This is for testing
   }
-}
-
-type RequestConfig = {
-  path: Endpoint
-  config: AxiosRequestConfig
 }
 
 export async function fetchAllWithLogs(reqsConfig: RequestConfig[]) {

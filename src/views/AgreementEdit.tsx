@@ -6,7 +6,7 @@ type Params = {
   id: string | number
 }
 
-export function ContractEdit() {
+export function AgreementEdit() {
   const { id } = useParams() as Params
 
   return <WhiteBackground>modifica accordo: {id}</WhiteBackground>

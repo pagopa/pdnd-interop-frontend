@@ -2,8 +2,8 @@ import { DisplayLogsType, RoutesObject } from '../../types'
 import { ChooseParty } from '../views/ChooseParty'
 import { ClientEdit } from '../views/ClientEdit'
 import { ClientList } from '../views/ClientList'
-import { ContractEdit } from '../views/ContractEdit'
-import { ContractList } from '../views/ContractList'
+import { AgreementEdit } from '../views/AgreementEdit'
+import { AgreementList } from '../views/AgreementList'
 import { EServiceCatalog } from '../views/EServiceCatalog'
 import { EServiceWrite } from '../views/EServiceWrite'
 import { EServiceRead } from '../views/EServiceRead'
@@ -71,17 +71,17 @@ export const ROUTES: RoutesObject = {
         LABEL: 'Ispeziona e-service',
         COMPONENT: EServiceRead,
       },
-      CONTRACT_LIST: {
+      AGREEMENT_LIST: {
         PATH: '/erogazione/accordi',
         EXACT: true,
         LABEL: 'Gestisci accordi',
-        COMPONENT: ContractList,
+        COMPONENT: AgreementList,
       },
-      CONTRACT_EDIT: {
+      AGREEMENT_EDIT: {
         PATH: '/erogazione/accordi/:id',
         EXACT: false,
         LABEL: 'Modifica accordo',
-        COMPONENT: ContractEdit,
+        COMPONENT: AgreementEdit,
       },
       USERS_LIST: {
         PATH: '/erogazione/operatori',
@@ -114,17 +114,17 @@ export const ROUTES: RoutesObject = {
         LABEL: 'Modifica client',
         COMPONENT: ClientEdit,
       },
-      CONTRACT_LIST: {
+      AGREEMENT_LIST: {
         PATH: '/fruizione/accordi',
         EXACT: true,
         LABEL: 'Gestisci accordi',
-        COMPONENT: ContractList,
+        COMPONENT: AgreementList,
       },
-      CONTRACT_EDIT: {
+      AGREEMENT_EDIT: {
         PATH: '/fruizione/accordi/:id',
         EXACT: false,
         LABEL: 'Modifica accordo',
-        COMPONENT: ContractEdit,
+        COMPONENT: AgreementEdit,
       },
       CATALOG_LIST: {
         PATH: '/fruizione/catalogo-e-service',
@@ -220,6 +220,11 @@ export const API = {
     LOCAL: 'get-party-id.json',
     SHOULD_CALL: true,
   },
+  AGREEMENT_GET_LIST: {
+    URL: 'TODO',
+    LOCAL: 'get-agreement-list.json',
+    SHOULD_CALL: false,
+  },
 }
 
 export const ESERVICE_STATUS = {
@@ -229,4 +234,9 @@ export const ESERVICE_STATUS = {
   // Not implemented yet
   archived: 'archiviato',
   deprecated: 'deprecato',
+}
+
+export const AGREEMENT_STATUS = {
+  active: 'attivo',
+  suspended: 'sospeso',
 }

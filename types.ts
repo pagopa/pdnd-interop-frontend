@@ -1,3 +1,4 @@
+import { AxiosRequestConfig } from 'axios'
 import React from 'react'
 import { API, ESERVICE_STATUS } from './src/lib/constants'
 
@@ -148,4 +149,19 @@ export type Endpoint = {
 export type ToastContent = {
   title: string
   description: string
+}
+
+export type RequestConfig = {
+  path: Endpoint
+  config: AxiosRequestConfig
+}
+
+export type AgreementStatus = 'active'
+
+export type AgreementSummary = {
+  id: string
+  serviceName: string
+  serviceVersion: string
+  status: AgreementStatus
+  consumerName: string
 }
