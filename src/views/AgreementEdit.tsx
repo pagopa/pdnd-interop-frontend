@@ -72,7 +72,7 @@ export function AgreementEdit() {
 
   useEffect(() => {
     setActions(getAvailableActions())
-  }, [mode])
+  }, [mode, data])
 
   return (
     <LoadingOverlay isLoading={loading} loadingText="Stiamo caricando l'accordo richiesto">
@@ -97,8 +97,12 @@ export function AgreementEdit() {
           <Subtitle label="Attributi" />
           {data?.verifiedAttributes?.map((attribute, i) => {
             return (
-              <div className="w-100 d-flex justify-content-between" style={{ maxWidth: 500 }}>
-                <span key={i}>{attribute.name || attribute.id}</span>
+              <div
+                key={i}
+                className="w-100 d-flex justify-content-between"
+                style={{ maxWidth: 500 }}
+              >
+                <span>{attribute.name || attribute.id}</span>
                 {attribute.verified ? (
                   <div className="text-primary d-flex align-items-center">
                     <i className="text-primary fs-5 bi bi-check me-2" />
