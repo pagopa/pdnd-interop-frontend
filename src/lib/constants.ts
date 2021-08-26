@@ -181,9 +181,9 @@ export const API = {
     SHOULD_CALL: true,
   },
   ESERVICE_GET_LIST: {
-    URL: 'TODO',
+    URL: 'pdnd-interop-uservice-catalog-management/0.0.1/eservices',
     LOCAL: 'get-eservice-list.json',
-    SHOULD_CALL: false,
+    SHOULD_CALL: true,
   },
   ESERVICE_CREATE: {
     URL: 'pdnd-interop-uservice-catalog-management/0.0.1/eservices',
@@ -218,9 +218,10 @@ export const API = {
 }
 
 export const ESERVICE_STATUS = {
-  Active: 'attivo',
-  Archived: 'archiviato',
-  Deprecated: 'deprecato',
-  Draft: 'in bozza',
-  Suspended: 'sospeso',
+  active: 'attivo',
+  draft: 'in bozza',
+  suspended: 'sospeso',
+  // Not implemented yet
+  archived: 'archiviato',
+  deprecated: 'deprecato',
 }

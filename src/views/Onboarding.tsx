@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Outcomes, StepperStep } from '../../types'
+import { Outcomes, StepperStep, User } from '../../types'
 import { Stepper } from '../components/Stepper'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { withLogin } from '../components/withLogin'
@@ -11,10 +11,15 @@ import { fetchWithLogs } from '../lib/api-utils'
 import { MessageNoAction } from '../components/MessageNoAction'
 import emailIllustration from '../assets/email-illustration.svg'
 
+type FormData = {
+  institutionId: string
+  users: User[]
+}
+
 function OnboardingComponent() {
   const [loading, setLoading] = useState(false)
   const [activeStep, setActiveStep] = useState(0)
-  const [formData, setFormData] = useState({})
+  const [formData, setFormData] = useState<FormData>({ institutionId: '', users: [] })
   const [legalEmail, setLegalEmail] = useState('')
   const [outcome, setOutcome] = useState<number>()
 
@@ -41,10 +46,7 @@ function OnboardingComponent() {
 
     const response = await fetchWithLogs(
       { endpoint: 'ONBOARDING_POST_LEGALS' },
-      {
-        method: 'POST',
-        data: formData,
-      }
+      { method: 'POST', data: formData }
     )
 
     setLoading(false)
@@ -69,7 +71,7 @@ function OnboardingComponent() {
   const Step = steps[activeStep].Component
 
   const outcomeContent: Outcomes = {
-    200: {
+    201: {
       img: { src: emailIllustration, alt: "Icona dell'email" },
       title: 'Ci siamo quasi...',
       description: [
@@ -86,7 +88,7 @@ function OnboardingComponent() {
         </p>,
       ],
     },
-    404: {
+    400: {
       img: { src: emailIllustration, alt: "Icona dell'email" },
       title: "C'è stato un problema...",
       description: [

@@ -88,7 +88,7 @@ export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
       <WhiteBackground>
         <Container className="container-align-left form-max-width">
           <StyledIntro>{{ title: 'Dati del rappresentante legale*' }}</StyledIntro>
-          <PersonForm prefix="admin" role="manager" people={people} setPeople={setPeople} />
+          <PersonForm prefix="admin" role="Manager" people={people} setPeople={setPeople} />
         </Container>
       </WhiteBackground>
       <WhiteBackground>
@@ -102,7 +102,7 @@ export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
               <div className="my-5" key={id}>
                 <PersonForm
                   prefix={`delegate-${id}`}
-                  role="delegate"
+                  role="Delegate"
                   people={people}
                   setPeople={setPeople}
                 />

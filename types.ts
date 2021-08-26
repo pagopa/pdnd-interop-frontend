@@ -1,13 +1,13 @@
 import React from 'react'
 import { API, ESERVICE_STATUS } from './src/lib/constants'
 
-export type UserRole = 'manager' | 'delegate'
+export type UserRole = 'Manager' | 'Delegate'
 
 export type User = {
   name: string
   surname: string
   taxCode: string
-  email: string
+  email?: string
   role?: UserRole
 }
 
@@ -79,9 +79,10 @@ export type EServiceDocumentType = {
   description?: string
   doc: any // File
 }
+
 export type EServiceDescriptor = {
   id: string
-  status: 'draft'
+  status: EServiceStatus
   docs: EServiceDocumentType[]
 }
 

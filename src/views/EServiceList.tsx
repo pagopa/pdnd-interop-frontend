@@ -31,7 +31,7 @@ export function EServiceList() {
         { endpoint: 'ESERVICE_GET_LIST' },
         {
           method: 'GET',
-          params: { id },
+          params: { producerId: id },
         }
       )
 
@@ -114,6 +114,8 @@ export function EServiceList() {
     return actions
   }
 
+  const headData = ['nome servizio', 'versione attuale', 'stato del servizio', '']
+
   return (
     <WhiteBackground>
       <StyledIntro>
@@ -135,29 +137,37 @@ export function EServiceList() {
         <TableWithLoader
           isLoading={isLoading}
           loadingLabel="Stiamo caricando i tuoi e-service"
-          headData={['nome servizio', 'versione attuale', 'stato del servizio', '']}
+          headData={headData}
           pagination={true}
         >
-          {eservice.map((item, i) => (
-            <tr key={i}>
-              <td>{item.name}</td>
-              <td>{item.version}</td>
-              <td>{ESERVICE_STATUS[item.status]}</td>
-              <td>
-                {getAvailableActions(item).map(({ to, onClick, icon, label }, j) => {
-                  const btnProps: any = { onClick }
-
-                  if (to) {
-                    btnProps.as = Link
-                    btnProps.to = to
-                    delete btnProps.onClick // Redundant, here just for clarity
-                  }
-
-                  return <TableAction key={j} btnProps={btnProps} label={label} iconClass={icon} />
-                })}
-              </td>
+          {eservice.length === 0 ? (
+            <tr>
+              <td colSpan={headData.length}>Non ci sono servizi disponibili</td>
             </tr>
-          ))}
+          ) : (
+            eservice.map((item, i) => (
+              <tr key={i}>
+                <td>{item.name}</td>
+                <td>{item.version}</td>
+                <td>{ESERVICE_STATUS[item.status]}</td>
+                <td>
+                  {getAvailableActions(item).map(({ to, onClick, icon, label }, j) => {
+                    const btnProps: any = { onClick }
+
+                    if (to) {
+                      btnProps.as = Link
+                      btnProps.to = to
+                      delete btnProps.onClick // Redundant, here just for clarity
+                    }
+
+                    return (
+                      <TableAction key={j} btnProps={btnProps} label={label} iconClass={icon} />
+                    )
+                  })}
+                </td>
+              </tr>
+            ))
+          )}
         </TableWithLoader>
       </div>
     </WhiteBackground>
