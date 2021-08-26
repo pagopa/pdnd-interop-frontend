@@ -23,10 +23,13 @@ export function AgreementList() {
 
   const params =
     mode === 'provider' ? { producerId: party?.partyId } : { consumerId: party?.partyId }
-  const { data: agreement, isLoading } = useAsyncFetch<AgreementSummary>({
-    path: { endpoint: 'AGREEMENT_GET_LIST' },
-    config: { method: 'GET', params },
-  })
+  const { data: agreement, loading } = useAsyncFetch<AgreementSummary[]>(
+    {
+      path: { endpoint: 'AGREEMENT_GET_LIST' },
+      config: { method: 'GET', params },
+    },
+    []
+  )
 
   const getAvailableActions = (agreement: any) => {
     const availableActions: { [key in AgreementStatus]: any } = { active: [], suspended: [] }
@@ -73,17 +76,17 @@ export function AgreementList() {
         </h1>
 
         <TableWithLoader
-          isLoading={isLoading}
+          isLoading={loading}
           loadingLabel="Stiamo caricando gli accordi"
           headData={headData}
           pagination={true}
         >
-          {agreement.length === 0 ? (
+          {agreement?.length === 0 ? (
             <tr>
               <td colSpan={headData.length}>Non ci sono accordi disponibili</td>
             </tr>
           ) : (
-            agreement.map((item, i) => (
+            agreement?.map((item, i) => (
               <tr key={i}>
                 <td>{item.eserviceName || item.eserviceId}</td>
                 <td>{item.eserviceVersion || 1}</td>

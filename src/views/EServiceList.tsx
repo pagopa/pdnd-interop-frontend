@@ -19,13 +19,16 @@ type Action = {
 
 export function EServiceList() {
   const { party } = useContext(PartyContext)
-  const { data: eservice, isLoading } = useAsyncFetch<EServiceSummary>({
-    path: { endpoint: 'ESERVICE_GET_LIST' },
-    config: {
-      method: 'GET',
-      params: { producerId: party?.partyId },
+  const { data: eservice, loading } = useAsyncFetch<EServiceSummary[]>(
+    {
+      path: { endpoint: 'ESERVICE_GET_LIST' },
+      config: {
+        method: 'GET',
+        params: { producerId: party?.partyId },
+      },
     },
-  })
+    []
+  )
 
   const getAvailableActions = (service: any) => {
     const availableActions: { [key in EServiceStatus]: any } = {
@@ -123,7 +126,7 @@ export function EServiceList() {
         </h1>
 
         <TableWithLoader
-          isLoading={isLoading}
+          isLoading={loading}
           loadingLabel="Stiamo caricando i tuoi e-service"
           headData={headData}
           pagination={true}

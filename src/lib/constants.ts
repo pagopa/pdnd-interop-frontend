@@ -225,6 +225,11 @@ export const API = {
     LOCAL: 'get-agreement-list.json',
     SHOULD_CALL: true,
   },
+  AGREEMENT_GET_SINGLE: {
+    URL: 'pdnd-interop-uservice-agreement-management/0.0.1/agreement/{{agreementId}}',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
 }
 
 export const ESERVICE_STATUS = {
