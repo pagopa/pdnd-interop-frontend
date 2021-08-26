@@ -32,13 +32,19 @@ export function AgreementList() {
   )
 
   const getAvailableActions = (agreement: any) => {
-    const availableActions: { [key in AgreementStatus]: any } = { active: [], suspended: [] }
+    const availableActions: { [key in AgreementStatus]: any } = {
+      active: [],
+      suspended: [],
+      pending: [],
+    }
 
     const status = agreement.status
 
     // If status === 'draft', show precompiled write template. Else, readonly template
     const inspectAction = {
-      to: `${ROUTES.PROVIDE.SUBROUTES!.AGREEMENT_LIST.PATH}/${agreement.id}`,
+      to: `${
+        ROUTES[mode === 'provider' ? 'PROVIDE' : 'SUBSCRIBE'].SUBROUTES!.AGREEMENT_LIST.PATH
+      }/${agreement.id}`,
       icon: status === 'draft' ? 'bi-pencil' : 'bi-info-circle',
       label: status === 'draft' ? 'Modifica' : 'Ispeziona',
     }

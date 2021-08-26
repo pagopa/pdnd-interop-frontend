@@ -245,4 +245,5 @@ export const ESERVICE_STATUS = {
 export const AGREEMENT_STATUS = {
   active: 'attivo',
   suspended: 'sospeso',
+  pending: 'in attesa di approvazione',
 }

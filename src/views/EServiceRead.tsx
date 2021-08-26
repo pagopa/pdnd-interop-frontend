@@ -3,11 +3,10 @@ import { useLocation } from 'react-router-dom'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
+import { getLastBit } from '../lib/url-utils'
 
 export function EServiceRead() {
-  const location = useLocation()
-  const urlBits = location.pathname.split('/').filter((b) => b)
-  const eserviceId = urlBits[urlBits.length - 1]
+  const eserviceId = getLastBit(useLocation())
   const { data, loading } = useAsyncFetch<any>(
     {
       path: {

@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios'
 import React from 'react'
-import { API, ESERVICE_STATUS } from './src/lib/constants'
+import { AGREEMENT_STATUS, API, ESERVICE_STATUS } from './src/lib/constants'
 
 export type UserRole = 'Manager' | 'Delegate'
 
@@ -156,7 +156,7 @@ export type RequestConfig = {
   config: AxiosRequestConfig
 }
 
-export type AgreementStatus = 'active' | 'suspended'
+export type AgreementStatus = keyof typeof AGREEMENT_STATUS
 
 export type AgreementVerifiableAttribute = {
   id: string
@@ -173,7 +173,7 @@ export type AgreementSummary = {
   eserviceId: string
   consumerId: string
   producerId: string
-  verifiedAttributes: BackendAttribute[]
+  verifiedAttributes: AgreementVerifiableAttribute[]
 
   // Backend doesn't send them for now
   producerName?: string
