@@ -1,11 +1,12 @@
 import React from 'react'
+import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { withLogin } from '../components/withLogin'
 
 function ProfileComponent() {
   return (
     <WhiteBackground>
-      <h2>Profilo</h2>
+      <StyledIntro>{{ title: 'Profilo' }}</StyledIntro>
     </WhiteBackground>
   )
 }

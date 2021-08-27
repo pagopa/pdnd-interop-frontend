@@ -230,6 +230,16 @@ export const API = {
     LOCAL: '',
     SHOULD_CALL: true,
   },
+  AGREEMENT_VERIFY_ATTRIBUTE: {
+    URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreement/{{agreementId}}/attribute/{{attributeId}}/verify',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
+  AGREEMENT_ACTIVATE: {
+    URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreement/{{agreementId}}/activate',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
 }
 
 export const ESERVICE_STATUS = {

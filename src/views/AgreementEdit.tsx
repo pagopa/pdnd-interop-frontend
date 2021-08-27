@@ -11,12 +11,15 @@ import { getLastBit } from '../lib/url-utils'
 import capitalize from 'lodash/capitalize'
 import isEmpty from 'lodash/isEmpty'
 import { useMode } from '../hooks/useMode'
+import { fetchWithLogs } from '../lib/api-utils'
 
 export function AgreementEdit() {
   const mode = useMode()
+  const [actionLoading, setActionLoading] = useState(false)
+  const [loadingText, setLoadingText] = useState("Stiamo caricando l'accordo richiesto")
   const [actions, setActions] = useState<any[]>()
   const agreementId = getLastBit(useLocation())
-  const { data, loading } = useAsyncFetch<AgreementSummary>(
+  const { data, loading: dataLoading } = useAsyncFetch<AgreementSummary>(
     {
       path: {
         endpoint: 'AGREEMENT_GET_SINGLE',
@@ -34,12 +37,38 @@ export function AgreementEdit() {
     </React.Fragment>
   )
 
-  const activate = () => {}
-  const refuse = () => {}
-  const suspend = () => {}
+  const activate = async () => {
+    setActionLoading(true)
+    setLoadingText("Stiamo attivando l'accordo")
+    await fetchWithLogs({ endpoint: 'AGREEMENT_ACTIVATE' }, { method: 'PATCH' })
+    setActionLoading(false)
+  }
 
-  const buildVerify = (id: string) => (_: any) => {
-    console.log('verifying', id)
+  const refuse = () => {
+    alert('Rifiuta accordo: questa funzionalità sarà disponibile a breve')
+  }
+
+  const suspend = () => {
+    alert('Sospendi accordo: questa funzionalità sarà disponibile a breve')
+  }
+
+  const archive = () => {
+    alert('Archivia accordo: questa funzionalità sarà disponibile a breve')
+  }
+
+  const buildVerify = (attributeId: string) => async (_: any) => {
+    setActionLoading(true)
+    setLoadingText("Stiamo verificando l'attributo")
+    await fetchWithLogs(
+      {
+        endpoint: 'AGREEMENT_VERIFY_ATTRIBUTE',
+        endpointParams: { agreementId: data!.id, attributeId },
+      },
+      {
+        method: 'PATCH',
+      }
+    )
+    setActionLoading(false)
   }
 
   const getAvailableActions = () => {
@@ -53,7 +82,10 @@ export function AgreementEdit() {
         { onClick: refuse, label: 'rifiuta' },
       ],
       active: [{ onClick: suspend, label: 'sospendi' }],
-      suspended: [{ onClick: activate, label: 'riattiva' }],
+      suspended: [
+        { onClick: activate, label: 'riattiva' },
+        { onClick: archive, label: 'archivia' },
+      ],
     }
 
     const subscriberActions: { [key in AgreementStatus]: any[] } = {
@@ -75,7 +107,7 @@ export function AgreementEdit() {
   }, [mode, data]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <LoadingOverlay isLoading={loading} loadingText="Stiamo caricando l'accordo richiesto">
+    <LoadingOverlay isLoading={dataLoading || actionLoading} loadingText={loadingText}>
       <WhiteBackground>
         <StyledIntro>{{ title: `Accordo: ${data?.id}` }}</StyledIntro>
         <p>
@@ -120,10 +152,12 @@ export function AgreementEdit() {
           })}
         </div>
 
-        <p>
-          <Subtitle label="Ente fruitore" />
-          <span>{data?.consumerName || data?.consumerId}</span>
-        </p>
+        {mode === 'provider' && (
+          <p>
+            <Subtitle label="Ente fruitore" />
+            <span>{data?.consumerName || data?.consumerId}</span>
+          </p>
+        )}
 
         {actions && (
           <div className="mt-5 d-flex">
@@ -140,6 +174,14 @@ export function AgreementEdit() {
           </div>
         )}
       </WhiteBackground>
+
+      {mode === 'subscriber' && (
+        <WhiteBackground>
+          <StyledIntro>{{ title: 'Client associati' }}</StyledIntro>
+          <Button variant="primary">associa nuovo client</Button>
+          <p>lista dei client</p>
+        </WhiteBackground>
+      )}
     </LoadingOverlay>
   )
 }
