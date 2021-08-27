@@ -13,21 +13,21 @@ type Notification = {
 const mockNotifications: Notification[] = [
   {
     type: 'info',
-    date: '02/09/2021 - h. 14:46',
+    date: '02/09/2021, h. 14:46',
     title: 'Nuova chiave caricata',
     message:
       "Un'operatore di sicurezza del client IBM per il servizio Anagrafe di Torino (sola lettura) ha caricato una nuova chiave di sicurezza",
   },
   {
     type: 'info',
-    date: '20/08/2021 - h. 12:28',
+    date: '20/08/2021, h. 12:28',
     title: 'Accordo attivato',
     message:
       'Il tuo accordo per il servizio Anagrafe di Torino (sola lettura) è stato attivato. Puoi ora creare dei client',
   },
   {
     type: 'info',
-    date: '10/08/2021 - h. 09:22',
+    date: '10/08/2021, h. 09:22',
     title: 'Accordo sospeso',
     message:
       "L'accordo per il servizio Anagrafe di Milano (sola lettura), versione 2 è stato sospeso dall'Erogatore",
@@ -48,12 +48,11 @@ function NotificationsComponent() {
         {mockNotifications.map(({ date, type, title, message }, i) => {
           return (
             <div className="my-3 p-3 border border-secondary" key={i}>
-              <span>{date}</span>
-              <div className="d-flex align-items-center">
-                <i className={`text-primary me-2 fs-5 bi ${ICON_TYPES[type]}`} />
-                <strong>{title}</strong>
-              </div>
-              <p>{message}</p>
+              <p className="d-flex align-items-center text-primary my-0">
+                <i className={`me-2 fs-5 bi ${ICON_TYPES[type]}`} />
+                <strong className="me-2">{title}</strong> — <span className="ms-2">{date}</span>
+              </p>
+              <p className="my-2">{message}</p>
             </div>
           )
         })}
