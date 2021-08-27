@@ -20,6 +20,7 @@ import { formatAttributes } from '../lib/attributes'
 import { StyledToast } from '../components/StyledToast'
 import isEmpty from 'lodash/isEmpty'
 import { ConfirmationDialogOverlay } from '../components/ConfirmationDialogOverlay'
+import { showTempAlert } from '../lib/wip-utils'
 
 export function EServiceWrite() {
   const [toast, setToast] = useState<ToastContent>()
@@ -170,7 +171,7 @@ export function EServiceWrite() {
   }
 
   const cancel = () => {
-    alert('Cancella bozza: questa funzionalità sarà disponibile a breve')
+    showTempAlert('Cancella bozza')
     closeModal()
     showToast()
   }

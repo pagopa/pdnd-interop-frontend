@@ -14,6 +14,7 @@ import { useMode } from '../hooks/useMode'
 import { fetchWithLogs } from '../lib/api-utils'
 import { ConfirmationDialogOverlay } from '../components/ConfirmationDialogOverlay'
 import { StyledToast } from '../components/StyledToast'
+import { showTempAlert } from '../lib/wip-utils'
 
 export function AgreementEdit() {
   const mode = useMode()
@@ -54,13 +55,13 @@ export function AgreementEdit() {
   }
 
   const reactivate = () => {
-    alert('Riattiva accordo: questa funzionalità sarà disponibile a breve')
+    showTempAlert('Riattiva accordo')
     closeModal()
     showToast()
   }
 
   const refuse = () => {
-    alert('Rifiuta accordo: questa funzionalità sarà disponibile a breve')
+    showTempAlert('Rifiuta accordo')
     closeModal()
     showToast()
   }
@@ -71,7 +72,7 @@ export function AgreementEdit() {
   }
 
   const archive = () => {
-    alert('Archivia accordo: questa funzionalità sarà disponibile a breve')
+    showTempAlert('Archivia accordo')
     closeModal()
     showToast()
   }

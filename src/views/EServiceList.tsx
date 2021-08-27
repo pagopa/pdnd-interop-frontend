@@ -9,6 +9,7 @@ import { TableWithLoader } from '../components/TableWithLoader'
 import { TableAction } from '../components/TableAction'
 import { StyledIntro } from '../components/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
+import { showTempAlert } from '../lib/wip-utils'
 
 type Action = {
   to?: string
@@ -35,7 +36,7 @@ export function EServiceList() {
       active: [
         {
           onClick: () => {
-            alert('Sospendi servizio: questa funzionalità sarà disponibile a breve')
+            showTempAlert('Sospendi servizio')
           },
           icon: 'bi-pause-circle',
           label: 'Sospendi',
@@ -45,7 +46,7 @@ export function EServiceList() {
       deprecated: [
         {
           onClick: () => {
-            alert('Sospendi servizio: questa funzionalità sarà disponibile a breve')
+            showTempAlert('Sospendi servizio')
           },
           icon: 'bi-pause-circle',
           label: 'Sospendi',
@@ -54,7 +55,7 @@ export function EServiceList() {
           onClick: () => {
             // Can only archive if all agreements on that version are archived
             // Check with backend if this can be automated
-            alert('Archivia servizio: questa funzionalità sarà disponibile a breve')
+            showTempAlert('Archivia servizio')
           },
           icon: 'bi-archive',
           label: 'Archivia',
@@ -63,14 +64,14 @@ export function EServiceList() {
       draft: [
         {
           onClick: () => {
-            console.log('pubblica')
+            showTempAlert('Pubblica servizio')
           },
           icon: 'bi-box-arrow-up',
           label: 'Pubblica',
         },
         {
           onClick: () => {
-            console.log('cancella')
+            showTempAlert('Cancella servizio')
           },
           icon: 'bi-trash',
           label: 'Elimina',
@@ -79,7 +80,7 @@ export function EServiceList() {
       suspended: [
         {
           onClick: () => {
-            alert('Riattiva servizio: questa funzionalità sarà disponibile a breve')
+            showTempAlert('Riattiva servizio')
           },
           icon: 'bi-play-circle',
           label: 'Riattiva',
