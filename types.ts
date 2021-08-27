@@ -149,6 +149,7 @@ export type Endpoint = {
 export type ToastContent = {
   title: string
   description: string
+  onClose?: VoidCallback
 }
 
 export type RequestConfig = {

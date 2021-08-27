@@ -81,7 +81,11 @@ export function AgreementEdit() {
   }
 
   const showToast = () => {
-    setToast({ title: 'Operazione conclusa', description: 'Operazione conclusa con successo' })
+    setToast({
+      title: 'Operazione conclusa',
+      description: 'Operazione conclusa con successo',
+      onClose: closeToast,
+    })
   }
 
   const closeToast = () => {
@@ -221,9 +225,7 @@ export function AgreementEdit() {
         )}
       </LoadingOverlay>
       {modal && <ConfirmationDialogOverlay {...modal} />}
-      {toast && (
-        <StyledToast title={toast.title} description={toast.description} onClose={closeToast} />
-      )}
+      {toast && <StyledToast {...toast} />}
     </React.Fragment>
   )
 }
