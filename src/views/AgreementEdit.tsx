@@ -40,7 +40,7 @@ export function AgreementEdit() {
   const runPatchAction = async (endpoint: ApiEndpointKey, feedbackText: string) => {
     setActionLoading(true)
     setLoadingText(feedbackText)
-    await fetchWithLogs({ endpoint }, { method: 'PATCH' })
+    await fetchWithLogs({ endpoint, endpointParams: { agreementId } }, { method: 'PATCH' })
     setActionLoading(false)
   }
 
@@ -57,7 +57,7 @@ export function AgreementEdit() {
   }
 
   const suspend = async () => {
-    await runPatchAction('AGREEMENT_SUSPEND', "Stiamo attivando l'accordo")
+    await runPatchAction('AGREEMENT_SUSPEND', "Stiamo sospendendo l'accordo")
   }
 
   const archive = () => {
