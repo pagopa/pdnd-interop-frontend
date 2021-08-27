@@ -181,3 +181,5 @@ export type AgreementSummary = {
   eserviceName?: string
   eserviceVersion?: string
 }
+
+export type VoidCallback = () => void
