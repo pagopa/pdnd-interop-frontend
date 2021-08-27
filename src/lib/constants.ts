@@ -240,6 +240,11 @@ export const API = {
     LOCAL: '',
     SHOULD_CALL: true,
   },
+  AGREEMENT_SUSPEND: {
+    URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreement/{{agreementId}}/suspend',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
 }
 
 export const ESERVICE_STATUS = {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
-import { AgreementStatus, AgreementSummary } from '../../types'
+import { AgreementStatus, AgreementSummary, ApiEndpointKey } from '../../types'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
@@ -37,19 +37,27 @@ export function AgreementEdit() {
     </React.Fragment>
   )
 
-  const activate = async () => {
+  const runPatchAction = async (endpoint: ApiEndpointKey, feedbackText: string) => {
     setActionLoading(true)
-    setLoadingText("Stiamo attivando l'accordo")
-    await fetchWithLogs({ endpoint: 'AGREEMENT_ACTIVATE' }, { method: 'PATCH' })
+    setLoadingText(feedbackText)
+    await fetchWithLogs({ endpoint }, { method: 'PATCH' })
     setActionLoading(false)
+  }
+
+  const activate = async () => {
+    await runPatchAction('AGREEMENT_ACTIVATE', "Stiamo attivando l'accordo")
+  }
+
+  const reactivate = () => {
+    alert('Riattiva accordo: questa funzionalità sarà disponibile a breve')
   }
 
   const refuse = () => {
     alert('Rifiuta accordo: questa funzionalità sarà disponibile a breve')
   }
 
-  const suspend = () => {
-    alert('Sospendi accordo: questa funzionalità sarà disponibile a breve')
+  const suspend = async () => {
+    await runPatchAction('AGREEMENT_SUSPEND', "Stiamo attivando l'accordo")
   }
 
   const archive = () => {
@@ -83,14 +91,14 @@ export function AgreementEdit() {
       ],
       active: [{ onClick: suspend, label: 'sospendi' }],
       suspended: [
-        { onClick: activate, label: 'riattiva' },
+        { onClick: reactivate, label: 'riattiva' },
         { onClick: archive, label: 'archivia' },
       ],
     }
 
     const subscriberActions: { [key in AgreementStatus]: any[] } = {
       active: [{ onClick: suspend, label: 'sospendi' }],
-      suspended: [{ onClick: activate, label: 'riattiva' }],
+      suspended: [{ onClick: reactivate, label: 'riattiva' }],
       pending: [],
     }
 
