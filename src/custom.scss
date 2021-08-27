@@ -62,3 +62,8 @@ $success: #96dbbe;
 .form-floating > .form-select ~ label {
   transform: scale(0.85) translateY(-0.75rem);
 }
+
+.nav-link.active {
+  font-weight: 700;
+  border-bottom-color: $primary;
+}

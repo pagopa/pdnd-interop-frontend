@@ -11,6 +11,7 @@ import { PageTitle } from './PageTitle'
 type NavLinkProps = {
   route: RouteConfig
   eventKey: string
+  customStyle?: boolean
 }
 
 // All of this component is really ugly. When there's time, refactor
@@ -32,16 +33,25 @@ function PlatformHeader() {
 
   const isActive = (route: RouteConfig) => activeKey === route.PATH
 
-  const NavLink: FunctionComponent<NavLinkProps> = ({ route, eventKey, children }) => (
-    <Nav.Link
-      eventKey={eventKey}
-      as={Link}
-      to={route.PATH}
-      className={`fw-bold ${isActive(route) ? 'text-primary' : ''}`}
-    >
-      {children || route.LABEL}
-    </Nav.Link>
-  )
+  const NavLink: FunctionComponent<NavLinkProps> = ({
+    route,
+    eventKey,
+    children,
+    customStyle = false,
+  }) => {
+    let classNames = `text-primary ${isActive(route) ? 'fw-bold' : 'fw-normal'}`
+    if (customStyle) {
+      classNames = `text-primary border-bottom border-3 ps-0 pe-5 py-2 me-3 text-left lh-sm ${
+        isActive(route) ? 'border-primary' : 'border-white'
+      }`
+    }
+
+    return (
+      <Nav.Link eventKey={eventKey} as={Link} to={route.PATH} className={classNames}>
+        {children || route.LABEL}
+      </Nav.Link>
+    )
+  }
 
   const updateActiveParty = (eventKey: string | null, event: any) => {
     if (!eventKey) {
@@ -52,20 +62,19 @@ function PlatformHeader() {
     const index = +bits[1] - 1
 
     if (!Number.isNaN(index)) {
-      console.log('Setting party:' + availableParties[index])
       setParty(availableParties[index])
     }
   }
 
   return (
-    <Navbar className="justify-content-between">
-      <Container>
+    <Navbar className="justify-content-between py-0">
+      <Container className="d-flex align-items-stretch">
         <Nav>
-          <NavLink eventKey="1" route={ROUTES.PROVIDE} />
-          <NavLink eventKey="2" route={ROUTES.SUBSCRIBE} />
+          <NavLink customStyle={true} eventKey="1" route={ROUTES.PROVIDE} />
+          <NavLink customStyle={true} eventKey="2" route={ROUTES.SUBSCRIBE} />
         </Nav>
 
-        <div className="d-flex align-items-center">
+        <div className="d-flex align-items-center justify-content-between">
           <Nav onSelect={updateActiveParty} className="me-3">
             <NavDropdown title={party?.description} id="nav-dropdown">
               {availableParties.map((availableParty, i) => (
