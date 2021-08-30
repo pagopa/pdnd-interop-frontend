@@ -15,6 +15,7 @@ import { fetchWithLogs } from '../lib/api-utils'
 import { ConfirmationDialogOverlay } from '../components/ConfirmationDialogOverlay'
 import { StyledToast } from '../components/StyledToast'
 import { showTempAlert } from '../lib/wip-utils'
+import { formatDate, getRandomDate } from '../lib/date-utils'
 
 export function AgreementEdit() {
   const mode = useMode()
@@ -34,6 +35,8 @@ export function AgreementEdit() {
     },
     {}
   )
+
+  console.log(data)
 
   const Subtitle = ({ label }: { label: string }) => (
     <React.Fragment>
@@ -170,13 +173,15 @@ export function AgreementEdit() {
           <div className="mb-3">
             <Subtitle label="Attributi" />
             {data?.verifiedAttributes?.map((attribute, i) => {
+              const randomDate = getRandomDate(new Date(2022, 0, 1), new Date(2023, 0, 1))
               return (
                 <div
                   key={i}
                   className="w-100 d-flex justify-content-between"
-                  style={{ maxWidth: 500 }}
+                  style={{ maxWidth: 768 }}
                 >
                   <span>{attribute.name || attribute.id}</span>
+                  <span>Scadenza: {formatDate(randomDate)}</span>
                   {attribute.verified ? (
                     <div className="text-primary d-flex align-items-center">
                       <i className="text-primary fs-5 bi bi-check me-2" />

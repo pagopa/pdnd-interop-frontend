@@ -227,7 +227,7 @@ export const API = {
   },
   AGREEMENT_GET_SINGLE: {
     URL: 'pdnd-interop-uservice-agreement-management/0.0.1/agreement/{{agreementId}}',
-    LOCAL: '',
+    LOCAL: 'get-agreement-single.json',
     SHOULD_CALL: true,
   },
   AGREEMENT_VERIFY_ATTRIBUTE: {
