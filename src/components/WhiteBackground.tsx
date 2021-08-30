@@ -44,9 +44,9 @@ export const WhiteBackground: FunctionComponent<WhiteBackgroundProps> = ({
   }
 
   return (
-    <div className={`w-100${verticallyCentered ? ' my-auto' : ''}`}>
+    <div className={`w-100${verticallyCentered ? ' my-auto' : ' mt-4'}`}>
       <div
-        className={`px-4 pt-4 bg-white mx-auto mt-4${noBottomSpacing ? '' : ' pb-4 mb-4'}`}
+        className={`px-4 pt-4 bg-white mx-auto${noBottomSpacing ? '' : ' pb-4'}`}
         style={{ maxWidth: MAX_WIDTH }}
       >
         <Container className={containerClassNames} style={containerStyles}>

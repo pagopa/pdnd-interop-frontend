@@ -8,7 +8,7 @@ export function Main() {
   const { user } = useContext(UserContext)
 
   return (
-    <main>
+    <main className="pb-4">
       <Switch>
         {Object.values(ROUTES).map(({ PATH, EXACT, COMPONENT: Component }, i) => (
           <Route path={PATH} exact={EXACT} key={i}>
