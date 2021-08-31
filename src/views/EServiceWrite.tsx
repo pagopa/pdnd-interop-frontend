@@ -99,6 +99,7 @@ export function EServiceWrite() {
       voucherLifespan: eserviceData.voucherLifespan,
       producerId: party!.partyId,
       attributes: formatAttributes(attributes),
+      explicitAttributesVerification: true,
     }
 
     const createResp = await fetchWithLogs(
