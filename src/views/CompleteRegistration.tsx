@@ -5,14 +5,15 @@ import { Link, useLocation } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
 import { fetchWithLogs } from '../lib/api-utils'
 import { MessageNoAction } from '../components/MessageNoAction'
-import { Outcomes } from '../../types'
+import { RequestOutcome, RequestOutcomeOptions } from '../../types'
 import checkIllustration from '../assets/check-illustration.svg'
 import redXIllustration from '../assets/red-x-illustration.svg'
 import { StyledInputFile } from '../components/StyledInputFile'
+import { isFetchError } from '../lib/error-utils'
 
 export function CompleteRegistration() {
   const [loading, setLoading] = useState(false)
-  const [outcome, setOutcome] = useState<number>()
+  const [outcome, setOutcome] = useState<RequestOutcome>()
   const [contract, setContract] = useState<Blob>()
   const location = useLocation()
 
@@ -49,22 +50,26 @@ export function CompleteRegistration() {
     const formData = new FormData()
     formData.append('contract', contract!)
     // Send multipart/form-data POST request
-    const response = await fetchWithLogs(
+    const contractPostResponse = await fetchWithLogs(
       { endpoint: 'ONBOARDING_COMPLETE_REGISTRATION', endpointParams: { token } },
       { method: 'POST', data: formData, headers: { 'Content-Type': 'multipart/form-data' } }
     )
     // Stop the loader
     setLoading(false)
-    // Show the outcome to the end user
-    setOutcome(response?.status)
+
+    // Check the outcome
+    const outcome = isFetchError(contractPostResponse) ? 'error' : 'success'
+
+    // Show it to the end user
+    setOutcome(outcome)
   }
 
   const loadFile = (e: any) => {
     setContract(e.target.files[0])
   }
 
-  const outcomeContent: Outcomes = {
-    200: {
+  const outcomeContent: RequestOutcomeOptions = {
+    success: {
       img: { src: checkIllustration, alt: "Icona dell'email" },
       title: 'Congratulazioni',
       description: [
@@ -77,15 +82,16 @@ export function CompleteRegistration() {
         </p>,
       ],
     },
-    404: {
+    error: {
       img: { src: redXIllustration, alt: "Icona dell'email" },
       title: 'Qualcosa è andato storto!',
       description: [
         <p>
-          C'è stato un errore nel completamento della procedura.
-          <br />
+          C'è stato un errore nel completamento della procedura. Assicurati che il file che hai
+          caricato sia effettivamente il contratto firmato e ritenta ricaricando questa pagina. Se
+          l'errore dovesse persistere,{' '}
           <a className="link-default" href="#0" title="Contatta l'assistenza">
-            Contatta l'assistenza
+            contatta l'assistenza
           </a>
           .
         </p>,

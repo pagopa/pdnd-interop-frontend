@@ -1,8 +1,8 @@
 export const testUser = {
-  name: 'Mario',
-  surname: 'Rossi',
-  taxCode: 'ab78d997-a219-4797-a884-66c6025c6bd3',
-  email: 'mario.rossi@comune.sassari.it',
+  name: 'Lorenzo',
+  surname: 'Carmilli',
+  taxCode: 'CRMLRN56T12R566Y',
+  email: 'lorenzo.carmilli@test.it',
 }
 
 export const testBearerToken =

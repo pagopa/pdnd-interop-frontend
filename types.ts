@@ -58,10 +58,6 @@ export type IPAParty = {
 export type SingleLogType = 'Router' | 'API'
 export type DisplayLogsType = null | 'all' | SingleLogType[]
 
-export type Image = { src: string; alt: string }
-export type Outcome = { title: string; description: JSX.Element[]; img: Image }
-export type Outcomes = { [key: number]: Outcome }
-
 export type EServiceStatus = keyof typeof ESERVICE_STATUS
 export type EServiceStatusLabel = Record<EServiceStatus, string>
 
@@ -184,3 +180,8 @@ export type AgreementSummary = {
 }
 
 export type VoidCallback = () => void
+
+export type Image = { src: string; alt: string }
+export type RequestOutcome = 'success' | 'error'
+export type RequestOutcomeMessage = { title: string; description: JSX.Element[]; img: Image }
+export type RequestOutcomeOptions = { [key in RequestOutcome]: RequestOutcomeMessage }

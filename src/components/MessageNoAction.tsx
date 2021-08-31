@@ -1,8 +1,8 @@
 import React from 'react'
-import { Outcome } from '../../types'
+import { RequestOutcomeMessage } from '../../types'
 import { WhiteBackground } from './WhiteBackground'
 
-export function MessageNoAction({ img, title, description }: Outcome) {
+export function MessageNoAction({ img, title, description }: RequestOutcomeMessage) {
   return (
     <WhiteBackground verticallyCentered={true}>
       <div className="text-center mx-auto" style={{ maxWidth: 400 }}>

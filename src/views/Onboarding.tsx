@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Outcomes, StepperStep, User } from '../../types'
+import { RequestOutcome, RequestOutcomeOptions, StepperStep, User } from '../../types'
 import { Stepper } from '../components/Stepper'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { withLogin } from '../components/withLogin'
@@ -10,6 +10,7 @@ import { LoadingOverlay } from '../components/LoadingOverlay'
 import { fetchWithLogs } from '../lib/api-utils'
 import { MessageNoAction } from '../components/MessageNoAction'
 import emailIllustration from '../assets/email-illustration.svg'
+import { isFetchError } from '../lib/error-utils'
 
 type FormData = {
   institutionId: string
@@ -21,7 +22,7 @@ function OnboardingComponent() {
   const [activeStep, setActiveStep] = useState(0)
   const [formData, setFormData] = useState<FormData>({ institutionId: '', users: [] })
   const [legalEmail, setLegalEmail] = useState('')
-  const [outcome, setOutcome] = useState<number>()
+  const [outcome, setOutcome] = useState<RequestOutcome>()
 
   const back = () => {
     setActiveStep(activeStep - 1)
@@ -44,13 +45,17 @@ function OnboardingComponent() {
   const submit = async () => {
     setLoading(true)
 
-    const response = await fetchWithLogs(
+    const postLegalsResponse = await fetchWithLogs(
       { endpoint: 'ONBOARDING_POST_LEGALS' },
       { method: 'POST', data: formData }
     )
 
     setLoading(false)
-    setOutcome(response?.status)
+
+    // Check the outcome
+    const outcome = isFetchError(postLegalsResponse) ? 'error' : 'success'
+
+    setOutcome(outcome)
   }
 
   const steps: StepperStep[] = [
@@ -70,8 +75,8 @@ function OnboardingComponent() {
 
   const Step = steps[activeStep].Component
 
-  const outcomeContent: Outcomes = {
-    201: {
+  const outcomeContent: RequestOutcomeOptions = {
+    success: {
       img: { src: emailIllustration, alt: "Icona dell'email" },
       title: 'Ci siamo quasi...',
       description: [
@@ -88,7 +93,7 @@ function OnboardingComponent() {
         </p>,
       ],
     },
-    400: {
+    error: {
       img: { src: emailIllustration, alt: "Icona dell'email" },
       title: "C'è stato un problema...",
       description: [
