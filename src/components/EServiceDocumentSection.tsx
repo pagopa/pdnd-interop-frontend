@@ -46,7 +46,7 @@ export function EServiceDocumentSection({
         </StyledIntro>
 
         {interfaceDocument ? (
-          <TableWithLoader isLoading={false} headData={['nome file', '']}>
+          <TableWithLoader loading={false} headData={['nome file', '']} data={[interfaceDocument]}>
             {[interfaceDocument].map((document, i) => (
               <tr key={i}>
                 <td>{document.doc.name}</td>
@@ -75,7 +75,7 @@ export function EServiceDocumentSection({
         </StyledIntro>
 
         {documents.length > 0 && (
-          <TableWithLoader isLoading={false} headData={['nome file', '']}>
+          <TableWithLoader loading={false} headData={['nome file', '']} data={documents}>
             {documents.map((document, i) => (
               <tr key={i}>
                 <td>{document.doc.name}</td>

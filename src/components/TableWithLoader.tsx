@@ -1,23 +1,34 @@
+import { AxiosError } from 'axios'
 import React, { FunctionComponent } from 'react'
 import { Table } from 'react-bootstrap'
 import { LoadingWithMessage } from './LoadingWithMessage'
 import { TablePagination } from './TablePagination'
 
 type TableWithLoaderProps = {
-  isLoading: boolean
+  loading: boolean
   loadingLabel?: string
   headData: string[]
   pagination?: boolean
+  data?: any[]
+  noDataLabel?: string
+  error?: AxiosError<any>
 }
 
 export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
-  isLoading,
+  loading,
   loadingLabel,
   headData,
   children,
   pagination = false,
+  data,
+  noDataLabel = 'Questa ricerca non ha prodotto risultati',
+  error,
 }) => {
-  return isLoading ? (
+  if (error) {
+    return <div>Errore</div>
+  }
+
+  return loading ? (
     <LoadingWithMessage label={loadingLabel} />
   ) : (
     <div>
@@ -30,7 +41,15 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
             ))}
           </tr>
         </thead>
-        <tbody>{children}</tbody>
+        <tbody>
+          {data && data.length > 0 ? (
+            children
+          ) : (
+            <tr>
+              <td colSpan={headData.length}>{noDataLabel}</td>
+            </tr>
+          )}
+        </tbody>
       </Table>
     </div>
   )

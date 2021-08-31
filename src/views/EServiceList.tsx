@@ -21,7 +21,7 @@ type Action = {
 
 export function EServiceList() {
   const { party } = useContext(PartyContext)
-  const { data: eservice, loading } = useAsyncFetch<EServiceSummary[]>(
+  const { data, loading, error } = useAsyncFetch<EServiceSummary[]>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST' },
       config: {
@@ -134,45 +134,42 @@ export function EServiceList() {
         </h1>
 
         <TableWithLoader
-          isLoading={loading}
+          loading={loading}
           loadingLabel="Stiamo caricando i tuoi e-service"
           headData={headData}
           pagination={true}
+          data={data}
+          noDataLabel="Non ci sono servizi disponibili"
+          error={error}
         >
-          {eservice.length === 0 ? (
-            <tr>
-              <td colSpan={headData.length}>Non ci sono servizi disponibili</td>
+          {data.map((item, i) => (
+            <tr key={i}>
+              <td>{item.name}</td>
+              <td>{item.version}</td>
+              <td>{ESERVICE_STATUS[item.status]}</td>
+              <td>
+                {getAvailableActions(item).map(({ to, onClick, icon, label, isMock }, j) => {
+                  const btnProps: any = { onClick }
+
+                  if (to) {
+                    btnProps.as = Link
+                    btnProps.to = to
+                    delete btnProps.onClick // Redundant, here just for clarity
+                  }
+
+                  return (
+                    <TableAction
+                      key={j}
+                      btnProps={btnProps}
+                      label={label}
+                      iconClass={icon}
+                      isMock={isMock}
+                    />
+                  )
+                })}
+              </td>
             </tr>
-          ) : (
-            eservice.map((item, i) => (
-              <tr key={i}>
-                <td>{item.name}</td>
-                <td>{item.version}</td>
-                <td>{ESERVICE_STATUS[item.status]}</td>
-                <td>
-                  {getAvailableActions(item).map(({ to, onClick, icon, label, isMock }, j) => {
-                    const btnProps: any = { onClick }
-
-                    if (to) {
-                      btnProps.as = Link
-                      btnProps.to = to
-                      delete btnProps.onClick // Redundant, here just for clarity
-                    }
-
-                    return (
-                      <TableAction
-                        key={j}
-                        btnProps={btnProps}
-                        label={label}
-                        iconClass={icon}
-                        isMock={isMock}
-                      />
-                    )
-                  })}
-                </td>
-              </tr>
-            ))
-          )}
+          ))}
         </TableWithLoader>
       </div>
     </WhiteBackground>

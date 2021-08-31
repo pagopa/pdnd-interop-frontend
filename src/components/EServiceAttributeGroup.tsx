@@ -42,36 +42,35 @@ export function EServiceAttributeGroup({
 
   return (
     <React.Fragment>
-      <TableWithLoader isLoading={false} headData={headData}>
-        {attributes.length === 0 ? (
-          <tr>
-            <td colSpan={headData.length}>Nessun attributo presente</td>
-          </tr>
-        ) : (
-          attributes.map(({ group, verificationRequired }, j) => {
-            return (
-              <tr key={j}>
-                <td
-                  dangerouslySetInnerHTML={{
-                    __html: group.map((item) => item.description).join(' <em>oppure</em> '),
+      <TableWithLoader
+        loading={false}
+        headData={headData}
+        data={attributes}
+        noDataLabel="Nessun attributo presente"
+      >
+        {attributes.map(({ group, verificationRequired }, j) => {
+          return (
+            <tr key={j}>
+              <td
+                dangerouslySetInnerHTML={{
+                  __html: group.map((item) => item.description).join(' <em>oppure</em> '),
+                }}
+              />
+              {canRequireVerification && <td>{verificationRequired ? 'Sì' : 'No'}</td>}
+              <td>
+                <TableAction
+                  label="Elimina"
+                  iconClass="bi-trash"
+                  btnProps={{
+                    onClick: () => {
+                      remove(group)
+                    },
                   }}
                 />
-                {canRequireVerification && <td>{verificationRequired ? 'Sì' : 'No'}</td>}
-                <td>
-                  <TableAction
-                    label="Elimina"
-                    iconClass="bi-trash"
-                    btnProps={{
-                      onClick: () => {
-                        remove(group)
-                      },
-                    }}
-                  />
-                </td>
-              </tr>
-            )
-          })
-        )}
+              </td>
+            </tr>
+          )
+        })}
       </TableWithLoader>
 
       <div className="d-flex align-items-center">

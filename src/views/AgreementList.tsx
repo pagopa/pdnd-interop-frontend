@@ -23,7 +23,11 @@ export function AgreementList() {
 
   const params =
     mode === 'provider' ? { producerId: party?.partyId } : { consumerId: party?.partyId }
-  const { data: agreement, loading } = useAsyncFetch<AgreementSummary[]>(
+  const {
+    data: agreement,
+    loading,
+    error,
+  } = useAsyncFetch<AgreementSummary[]>(
     {
       path: { endpoint: 'AGREEMENT_GET_LIST' },
       config: { method: 'GET', params },
@@ -82,44 +86,39 @@ export function AgreementList() {
         </h1>
 
         <TableWithLoader
-          isLoading={loading}
+          loading={loading}
           loadingLabel="Stiamo caricando gli accordi"
           headData={headData}
           pagination={true}
+          data={agreement}
+          noDataLabel="Non ci sono accordi disponibili"
+          error={error}
         >
-          {agreement?.length === 0 ? (
-            <tr>
-              <td colSpan={headData.length}>Non ci sono accordi disponibili</td>
+          {agreement?.map((item, i) => (
+            <tr key={i}>
+              <td>{item.eserviceName || item.eserviceId}</td>
+              <td>{item.eserviceVersion || 1}</td>
+              <td>{AGREEMENT_STATUS[item.status]}</td>
+              <td>
+                {mode === 'provider'
+                  ? item.consumerName || item.consumerId
+                  : item.producerName || item.producerId}
+              </td>
+              <td>
+                {getAvailableActions(item).map(({ to, onClick, icon, label }, j) => {
+                  const btnProps: any = { onClick }
+
+                  if (to) {
+                    btnProps.as = Link
+                    btnProps.to = to
+                    delete btnProps.onClick // Redundant, here just for clarity
+                  }
+
+                  return <TableAction key={j} btnProps={btnProps} label={label} iconClass={icon} />
+                })}
+              </td>
             </tr>
-          ) : (
-            agreement?.map((item, i) => (
-              <tr key={i}>
-                <td>{item.eserviceName || item.eserviceId}</td>
-                <td>{item.eserviceVersion || 1}</td>
-                <td>{AGREEMENT_STATUS[item.status]}</td>
-                <td>
-                  {mode === 'provider'
-                    ? item.consumerName || item.consumerId
-                    : item.producerName || item.producerId}
-                </td>
-                <td>
-                  {getAvailableActions(item).map(({ to, onClick, icon, label }, j) => {
-                    const btnProps: any = { onClick }
-
-                    if (to) {
-                      btnProps.as = Link
-                      btnProps.to = to
-                      delete btnProps.onClick // Redundant, here just for clarity
-                    }
-
-                    return (
-                      <TableAction key={j} btnProps={btnProps} label={label} iconClass={icon} />
-                    )
-                  })}
-                </td>
-              </tr>
-            ))
-          )}
+          ))}
         </TableWithLoader>
       </div>
     </WhiteBackground>
