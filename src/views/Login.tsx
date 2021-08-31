@@ -12,6 +12,7 @@ import { StyledInputTextArea } from '../components/StyledInputTextArea'
 import { testUser } from '../lib/mock-static-data'
 import { Party } from '../../types'
 import { AxiosResponse } from 'axios'
+import { isFetchError } from '../lib/error-utils'
 
 const informativa =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed ipsum risus. Donec justo nunc, volutpat nec elementum sed, consectetur in mauris. Donec vulputate, purus a volutpat interdum, tellus libero condimentum velit, eget placerat risus ipsum laoreet sapien. Maecenas justo libero, congue eget venenatis sed, vehicula eu enim. Mauris nec dictum nunc. Vivamus blandit maximus ipsum, venenatis pulvinar lorem sagittis in. Duis luctus orci eget euismod mattis. Maecenas orci justo, '
@@ -23,47 +24,55 @@ export function Login() {
   const history = useHistory()
   const [loading, setLoading] = useState(false)
 
+  const setParties = async (data: any) => {
+    // Store them in a variable
+    let parties: Party[] = data.institutions
+    // Fetch all the partyIds (this can be optimized)
+    const partyIdsResponse = await fetchAllWithLogs(
+      parties.map(({ institutionId }) => ({
+        path: { endpoint: 'PARTY_GET_PARTY_ID', endpointParams: { institutionId } },
+        config: { method: 'GET' },
+      }))
+    )
+    // Associate each partyId to the correspondent party
+    parties = parties.map((party) => {
+      const currentParty = partyIdsResponse.find(
+        (r: AxiosResponse) => r.data.institutionId === party.institutionId
+      )
+
+      return { ...party, partyId: currentParty?.data.partyId }
+    })
+    // Then set them
+    setAvailableParties(parties)
+  }
+
   const login = async () => {
     if (!user) {
+      // Display the loader
       setLoading(true)
-      // Get the user
-      // This part is missing in the backend
-      // Set the user
+      // Get the user from SPID or CIE
+      // This part is missing in the backend for now,
+      // So set a mock user
       setUser(testUser)
+
       // Get all available parties related to the user
-      const availableParties = await fetchWithLogs(
+      const availablePartiesResponse = await fetchWithLogs(
         {
           endpoint: 'ONBOARDING_GET_AVAILABLE_PARTIES',
           endpointParams: { taxCode: testUser.taxCode },
         },
         { method: 'GET' }
       )
-      // Store them in a variable
-      let parties: Party[] = availableParties!.data.institutions
-      // Fetch all the partyIds (this can be optimized)
-      const partyIdsResp = await fetchAllWithLogs(
-        parties.map((p) => ({
-          path: {
-            endpoint: 'PARTY_GET_PARTY_ID',
-            endpointParams: { institutionId: p.institutionId },
-          },
-          config: { method: 'GET' },
-        }))
-      )
-      // Associate the partyId to the correspondent party
-      parties = parties.map((party) => {
-        const currentParty = partyIdsResp.find(
-          (r: AxiosResponse) => r.data.institutionId === party.institutionId
-        )
-        return {
-          ...party,
-          partyId: currentParty?.data.partyId,
-        }
-      })
-      // Then set them
-      setAvailableParties(parties)
+
+      // If user already has institutions subscribed
+      if (!isFetchError(availablePartiesResponse)) {
+        // Set parties
+        await setParties(availablePartiesResponse.data!)
+      }
+
       // Stop loading (irrelevant, because there is a route change, here for consistency)
       setLoading(false)
+
       // Go to choice view
       history.push(ROUTES.CHOOSE_PARTY.PATH)
     }

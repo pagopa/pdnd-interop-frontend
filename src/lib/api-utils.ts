@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, Method } from 'axios'
 import { ApiEndpointKey, Endpoint, RequestConfig } from '../../types'
-import { logAction } from './action-log'
+import { logAction, logError } from './action-log'
 import { API, USE_LOCAL_DATA, USE_LOCAL_DATA_RESPONSE_STATUS } from './constants'
 import { testBearerToken } from './mock-static-data'
 import isEmpty from 'lodash/isEmpty'
@@ -54,18 +54,19 @@ function prepareRequest(
   }
 
   // Return the instance of the request, ready to be sent
-  return axios.request({
-    url,
-    method,
-    params,
-    data,
-    baseURL,
-    headers: { ...headers, Authorization: `Bearer ${testBearerToken}` },
-  })
+  return () =>
+    axios.request({
+      url,
+      method,
+      params,
+      data,
+      baseURL,
+      headers: { ...headers, Authorization: `Bearer ${testBearerToken}` },
+    })
 }
 
 async function performRequests(
-  requests: Promise<AxiosInstance>[],
+  requests: (() => Promise<AxiosInstance>)[],
   endpoint: ApiEndpointKey,
   method?: Method
 ): Promise<any> {
@@ -84,12 +85,13 @@ async function performRequests(
   }
 
   try {
-    const responses = await axios.all(requests)
+    const responses = await axios.all(requests.map((r) => r()))
     logAction('Log response', 'API', responses)
     return responses as unknown as AxiosResponse[] // WHYYYYY?
   } catch (error) {
-    console.error(error)
-    // return { status: 404 } as AxiosResponse // This is for testing
+    logError(error)
+    const { status } = error.response
+    return [{ status }] as AxiosResponse[] // This is for testing
   }
 }
 

@@ -26,48 +26,70 @@ function ChoosePartyComponent() {
 
   return (
     <WhiteBackground verticallyCentered={true}>
-      <Row className="text-center mb-5">
-        <h2>Seleziona l’ente con il quale procedere</h2>
-        <p className="mx-auto" style={{ maxWidth: 462 }}>
-          Se l’ente con il quale vuoi fare accesso non è ancora registrato alla piattaforma, non
-          comparirà nell’elenco. Puoi aggiungerlo cliccando su <em>registra nuovo ente</em>
-        </p>
-      </Row>
-      <Row className="d-flex align-items-center">
-        <Col>
-          <h3>Selezione ente</h3>
-          <p style={{ maxWidth: 320 }}>
-            Nota: potrai modificarlo successivamente anche senza effettuare logout
-          </p>
-          <div>
-            <StyledInputRadioGroup
-              id="istituzioni"
-              groupLabel="Selezione ente"
-              options={availableParties.map((p) => {
-                return {
-                  label: `${p.description}${
-                    p.status === 'Pending' ? ': registrazione pending' : ''
-                  }`,
-                  disabled: p.status === 'Pending',
-                  onChange: buildUpdateActiveParty(p),
-                  value: p.institutionId,
-                }
-              })}
-              currentValue={party?.institutionId}
-            />
+      {availableParties.length > 0 ? (
+        <React.Fragment>
+          <Row className="text-center mb-5">
+            <h2>Seleziona l’ente con il quale procedere</h2>
+            <p className="mx-auto" style={{ maxWidth: 462 }}>
+              Se l’ente con il quale vuoi fare accesso non è ancora registrato alla piattaforma, non
+              comparirà nell’elenco. Puoi aggiungerlo cliccando su <em>registra nuovo ente</em>
+            </p>
+          </Row>
+          <Row className="d-flex align-items-center">
+            <Col>
+              <h3>Selezione ente</h3>
+              <p style={{ maxWidth: 320 }}>
+                Nota: potrai modificarlo successivamente anche senza effettuare logout
+              </p>
+              <div>
+                <StyledInputRadioGroup
+                  id="istituzioni"
+                  groupLabel="Selezione ente"
+                  options={availableParties.map((p) => {
+                    return {
+                      label: `${p.description}${
+                        p.status === 'Pending' ? ': registrazione pending' : ''
+                      }`,
+                      disabled: p.status === 'Pending',
+                      onChange: buildUpdateActiveParty(p),
+                      value: p.institutionId,
+                    }
+                  })}
+                  currentValue={party?.institutionId}
+                />
 
-            <Button className="mt-3" variant="primary" onClick={confirmChoice} disabled={!party}>
-              prosegui
+                <Button
+                  className="mt-3"
+                  variant="primary"
+                  onClick={confirmChoice}
+                  disabled={!party}
+                >
+                  prosegui
+                </Button>
+              </div>
+            </Col>
+            <Col className="text-center">
+              <p>oppure</p>
+              <Button variant="primary" onClick={goToOnboarding}>
+                registra nuovo ente
+              </Button>
+            </Col>
+          </Row>
+        </React.Fragment>
+      ) : (
+        <Row className="d-flex align-items-center">
+          <Col className="text-center">
+            <p>
+              Sei il rappresentante legale di un ente?
+              <br />
+              Registra il tuo primo ente per accedere alla piattaforma
+            </p>
+            <Button variant="primary" onClick={goToOnboarding}>
+              registra nuovo ente
             </Button>
-          </div>
-        </Col>
-        <Col className="text-center">
-          <p>oppure</p>
-          <Button variant="primary" onClick={goToOnboarding}>
-            registra nuovo ente
-          </Button>
-        </Col>
-      </Row>
+          </Col>
+        </Row>
+      )}
     </WhiteBackground>
   )
 }

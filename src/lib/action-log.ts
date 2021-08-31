@@ -13,3 +13,10 @@ export function logAction(actionLabel: string, type: SingleLogType, data: any) {
     console.log(actionLabel, data)
   }
 }
+
+export function logError(error: any) {
+  // console.log(error.name)
+  // console.log(error.message)
+  // console.log(error.stack)
+  console.error(error)
+}
