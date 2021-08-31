@@ -1,5 +1,6 @@
-import { AxiosResponse } from 'axios'
+import { AxiosError, AxiosResponse } from 'axios'
 
-export function isFetchError(resp: AxiosResponse) {
-  return resp.status < 200 || resp.status >= 300
+export function isFetchError(resp: AxiosResponse | AxiosError) {
+  // This typing sucks, improve it
+  return (resp as AxiosError).isAxiosError
 }

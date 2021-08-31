@@ -212,7 +212,11 @@ export function EServiceWrite() {
           <Button className="me-3" variant="primary" onClick={buildWrapAction(publish)}>
             pubblica adesso
           </Button>
-          <Button variant="outline-primary" onClick={buildWrapAction(cancel)}>
+          <Button
+            className="mockFeature"
+            variant="outline-primary"
+            onClick={buildWrapAction(cancel)}
+          >
             cancella
           </Button>
         </div>

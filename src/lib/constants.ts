@@ -21,6 +21,7 @@ import { Subscribe } from '../views/Subscribe'
 import { UserEdit } from '../views/UserEdit'
 import { UserList } from '../views/UserList'
 
+export const SHOW_DEV_LABELS = true
 export const USE_LOCAL_DATA = false
 export const USE_LOCAL_DATA_RESPONSE_STATUS = 200 // The response status code to simulate if USE_LOCAL_DATA is true
 export const DISPLAY_LOGS: DisplayLogsType = 'all'

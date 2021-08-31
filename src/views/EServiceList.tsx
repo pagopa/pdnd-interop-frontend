@@ -16,6 +16,7 @@ type Action = {
   onClick?: any
   icon: string
   label: string
+  isMock?: boolean
 }
 
 export function EServiceList() {
@@ -40,6 +41,7 @@ export function EServiceList() {
           },
           icon: 'bi-pause-circle',
           label: 'Sospendi',
+          isMock: true,
         },
       ],
       archived: [],
@@ -50,6 +52,7 @@ export function EServiceList() {
           },
           icon: 'bi-pause-circle',
           label: 'Sospendi',
+          isMock: true,
         },
         {
           onClick: () => {
@@ -59,6 +62,7 @@ export function EServiceList() {
           },
           icon: 'bi-archive',
           label: 'Archivia',
+          isMock: true,
         },
       ],
       draft: [
@@ -68,6 +72,7 @@ export function EServiceList() {
           },
           icon: 'bi-box-arrow-up',
           label: 'Pubblica',
+          isMock: true,
         },
         {
           onClick: () => {
@@ -75,6 +80,7 @@ export function EServiceList() {
           },
           icon: 'bi-trash',
           label: 'Elimina',
+          isMock: true,
         },
       ],
       suspended: [
@@ -84,6 +90,7 @@ export function EServiceList() {
           },
           icon: 'bi-play-circle',
           label: 'Riattiva',
+          isMock: true,
         },
       ],
     }
@@ -143,7 +150,7 @@ export function EServiceList() {
                 <td>{item.version}</td>
                 <td>{ESERVICE_STATUS[item.status]}</td>
                 <td>
-                  {getAvailableActions(item).map(({ to, onClick, icon, label }, j) => {
+                  {getAvailableActions(item).map(({ to, onClick, icon, label, isMock }, j) => {
                     const btnProps: any = { onClick }
 
                     if (to) {
@@ -153,7 +160,13 @@ export function EServiceList() {
                     }
 
                     return (
-                      <TableAction key={j} btnProps={btnProps} label={label} iconClass={icon} />
+                      <TableAction
+                        key={j}
+                        btnProps={btnProps}
+                        label={label}
+                        iconClass={icon}
+                        isMock={isMock}
+                      />
                     )
                   })}
                 </td>

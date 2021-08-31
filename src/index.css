@@ -27,3 +27,40 @@ tr > td:not(:only-child):last-of-type {
   align-items: center;
   justify-content: flex-end;
 }
+
+/*
+ * Just used for development
+ */
+.fakeData,
+.mockFeature {
+  position: relative;
+}
+
+.mockFeature::before,
+.fakeData::before {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -80%);
+  padding: 2px 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.mockFeature::before {
+  content: 'feature mock';
+  background: purple;
+  color: white;
+}
+
+.fakeData::before {
+  content: 'fake data';
+  background: red;
+  color: white;
+}
+
+main.hideDevLabels .mockFeature::before,
+main.hideDevLabels .fakeData::before {
+  display: none;
+}

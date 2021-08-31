@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, Method } from 'axios'
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, Method } from 'axios'
 import { ApiEndpointKey, Endpoint, RequestConfig } from '../../types'
 import { logAction, logError } from './action-log'
 import { API, USE_LOCAL_DATA, USE_LOCAL_DATA_RESPONSE_STATUS } from './constants'
@@ -90,8 +90,7 @@ async function performRequests(
     return responses as unknown as AxiosResponse[] // WHYYYYY?
   } catch (error) {
     logError(error)
-    const { status } = error.response
-    return [{ status }] as AxiosResponse[] // This is for testing
+    return [error] as AxiosError[] // This is for testing
   }
 }
 

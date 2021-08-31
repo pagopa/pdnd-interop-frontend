@@ -123,18 +123,18 @@ export function AgreementEdit() {
     const providerActions: { [key in AgreementStatus]: any[] } = {
       pending: [
         { proceedCallback: activate, label: 'attiva' },
-        { proceedCallback: refuse, label: 'rifiuta' },
+        { proceedCallback: refuse, label: 'rifiuta', isMock: true },
       ],
       active: [{ onClick: suspend, label: 'sospendi' }],
       suspended: [
-        { proceedCallback: reactivate, label: 'riattiva' },
-        { proceedCallback: archive, label: 'archivia' },
+        { proceedCallback: reactivate, label: 'riattiva', isMock: true },
+        { proceedCallback: archive, label: 'archivia', isMock: true },
       ],
     }
 
     const subscriberActions: { [key in AgreementStatus]: any[] } = {
       active: [{ proceedCallback: suspend, label: 'sospendi' }],
-      suspended: [{ proceedCallback: reactivate, label: 'riattiva' }],
+      suspended: [{ proceedCallback: reactivate, label: 'riattiva', isMock: true }],
       pending: [],
     }
 
@@ -181,7 +181,7 @@ export function AgreementEdit() {
                   style={{ maxWidth: 768 }}
                 >
                   <span>{attribute.name || attribute.id}</span>
-                  <span>Scadenza: {formatDate(randomDate)}</span>
+                  <span className="fakeData">Scadenza: {formatDate(randomDate)}</span>
                   {attribute.verified ? (
                     <div className="text-primary d-flex align-items-center">
                       <i className="text-primary fs-5 bi bi-check me-2" />
@@ -208,10 +208,10 @@ export function AgreementEdit() {
 
           {actions && (
             <div className="mt-5 d-flex">
-              {actions.map(({ proceedCallback, label }, i) => (
+              {actions.map(({ proceedCallback, label, isMock }, i) => (
                 <Button
                   key={i}
-                  className="me-3"
+                  className={`me-3${isMock ? ' mockFeature' : ''}`}
                   variant={i === 0 ? 'primary' : 'outline-primary'}
                   onClick={buildWrapAction(proceedCallback)}
                 >
@@ -225,7 +225,9 @@ export function AgreementEdit() {
         {mode === 'subscriber' && (
           <WhiteBackground>
             <StyledIntro>{{ title: 'Client associati' }}</StyledIntro>
-            <Button variant="primary">associa nuovo client</Button>
+            <Button className="mockFeature" variant="primary">
+              associa nuovo client
+            </Button>
             <p>lista dei client</p>
           </WhiteBackground>
         )}
