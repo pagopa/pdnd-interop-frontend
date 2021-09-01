@@ -8,7 +8,8 @@ import { PartyContext } from '../lib/context'
 export const useAsyncFetch = <T>(
   requestConfig: RequestConfig,
   defaultValue: any,
-  dataKey?: string
+  dataKey?: string,
+  useEffectDeps: any[] = []
 ) => {
   const { party } = useContext(PartyContext)
   const [loading, setLoading] = useState(false)
@@ -33,7 +34,7 @@ export const useAsyncFetch = <T>(
     asyncFetchWithLogs()
 
     // If the user changes party, fresh data should be fetched
-  }, [party]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [party, ...useEffectDeps]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return { loading, data, error }
 }

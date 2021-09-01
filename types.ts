@@ -67,6 +67,7 @@ export type EServiceSummary = {
   name: string
   version: number
   status: EServiceStatus
+  descriptors: EServiceDescriptor[]
 }
 
 export type StyledInputTextType = 'text' | 'email'
@@ -82,6 +83,7 @@ export type EServiceDescriptor = {
   id: string
   status: EServiceStatus
   docs: EServiceDocumentType[]
+  version: string
 }
 
 export type EServiceDataType = {

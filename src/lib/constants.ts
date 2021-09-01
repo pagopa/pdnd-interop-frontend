@@ -182,12 +182,12 @@ export const API = {
     SHOULD_CALL: true,
   },
   ESERVICE_GET_LIST: {
-    URL: 'pdnd-interop-uservice-catalog-management/0.0.1/eservices',
+    URL: 'pdnd-interop-uservice-catalog-process/wrong-version/eservices',
     LOCAL: 'get-eservice-list.json',
     SHOULD_CALL: true,
   },
   ESERVICE_GET_SINGLE: {
-    URL: 'pdnd-interop-uservice-catalog-management/0.0.1/eservices/{{eserviceId}}',
+    URL: 'pdnd-interop-uservice-catalog-process/wrong-version/eservices/{{eserviceId}}',
     LOCAL: 'get-eservice-list.json',
     SHOULD_CALL: true,
   },
@@ -197,7 +197,12 @@ export const API = {
     SHOULD_CALL: true,
   },
   ESERVICE_VERSION_PUBLISH: {
-    URL: '/pdnd-interop-uservice-catalog-management/0.0.1/eservices/{{eserviceId}}/descriptors',
+    URL: 'pdnd-interop-uservice-catalog-process/wrong-version/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/publish',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
+  ESERVICE_DRAFT_DELETE: {
+    URL: 'pdnd-interop-uservice-catalog-process/wrong-version/eservices/{{eserviceId}}/descriptors/{{descriptorId}}',
     LOCAL: '',
     SHOULD_CALL: true,
   },
@@ -259,9 +264,10 @@ export const API = {
 }
 
 export const ESERVICE_STATUS = {
-  active: 'attivo',
+  // active: 'attivo',
   draft: 'in bozza',
   suspended: 'sospeso',
+  published: 'attivo',
 
   // Not implemented yet
   archived: 'archiviato',
