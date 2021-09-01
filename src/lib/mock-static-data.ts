@@ -11,8 +11,6 @@ export const testBearerToken =
 
 export const testCreateNewServiceStaticFields = {
   pop: false,
-  audience: [],
   voucherLifespan: 41713585,
-  description: '',
   version: 1,
 }

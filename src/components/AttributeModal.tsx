@@ -36,8 +36,8 @@ export function AttributeModal({ template, add, close, attributeKey }: Attribute
 
 type NewAttribute = {
   name?: string
-  authId?: string
-  authName?: string
+  code?: string // authId
+  origin?: string // authName
   description?: string
   certified?: boolean
 }
@@ -54,7 +54,7 @@ export function AttributeModalCreateNew({ close, attributeKey }: AttributeModalC
 
   const create = async () => {
     setLoading(true)
-    await fetchWithLogs({ endpoint: 'ATTRIBUTES_CREATE' }, { method: 'POST', data })
+    await fetchWithLogs({ endpoint: 'ATTRIBUTE_CREATE' }, { method: 'POST', data })
     setLoading(false)
     close({
       title: `${data!.name} creato correttamente`,
@@ -78,13 +78,13 @@ export function AttributeModalCreateNew({ close, attributeKey }: AttributeModalC
               type: 'text',
             },
             {
-              id: 'authId',
+              id: 'code',
               label: 'Id della fonte autoritativa',
               placeholder: "L'id della mia fonte autoritativa",
               type: 'text',
             },
             {
-              id: 'authName',
+              id: 'origin',
               label: 'Nome della fonte autoritativa',
               placeholder: 'Il nome della mia fonte autoritativa',
               type: 'text',

@@ -21,14 +21,17 @@ import { StyledToast } from '../components/StyledToast'
 import isEmpty from 'lodash/isEmpty'
 import { ConfirmationDialogOverlay } from '../components/ConfirmationDialogOverlay'
 import { showTempAlert } from '../lib/wip-utils'
+import { LoadingOverlay } from '../components/LoadingOverlay'
 
 export function EServiceWrite() {
+  const [loading, setLoading] = useState(false)
   const [toast, setToast] = useState<ToastContent>()
   const [modal, setModal] = useState<any>()
   const { party } = useContext(PartyContext)
   // General information section
   const [eserviceData, setEserviceData] = useState<EServiceDataType>({
     technology: 'REST',
+    audience: [],
     ...testCreateNewServiceStaticFields,
   })
   // Documents section (covers documentation & interface)
@@ -103,13 +106,8 @@ export function EServiceWrite() {
     }
 
     const createResp = await fetchWithLogs(
-      {
-        endpoint: 'ESERVICE_CREATE',
-      },
-      {
-        method: 'POST',
-        data: eserviceCreateData,
-      }
+      { endpoint: 'ESERVICE_CREATE' },
+      { method: 'POST', data: eserviceCreateData }
     )
 
     const { descriptors, id: eserviceId } = createResp.data
@@ -144,10 +142,7 @@ export function EServiceWrite() {
     )
   }
 
-  // This method contains a waterfall of two calls
-  // First, the eservice is created
-  // Then, it is attached its interface and documents
-  const saveDraft = async () => {
+  const createEserviceAndUploadDocuments = async () => {
     const { descriptors, eserviceId } = await createEservice()
     // For now there is only one. This will be refactored after the PoC
     const descriptorId = descriptors[0].id
@@ -155,16 +150,29 @@ export function EServiceWrite() {
     return { eserviceId, descriptorId }
   }
 
+  // This method contains a waterfall of two calls
+  // First, the eservice is created
+  // Then, it is attached its interface and documents
+  const saveDraft = async () => {
+    setLoading(true)
+    await createEserviceAndUploadDocuments()
+    setLoading(false)
+    closeModal()
+    showToast()
+  }
+
   const publish = async () => {
-    const { eserviceId, descriptorId } = await saveDraft()
+    setLoading(true)
+    const { eserviceId, descriptorId } = await createEserviceAndUploadDocuments()
 
     await fetchWithLogs(
-      {
-        endpoint: 'ESERVICE_VERSION_PUBLISH',
-        endpointParams: { eserviceId, descriptorId },
-      },
+      { endpoint: 'ESERVICE_VERSION_PUBLISH', endpointParams: { eserviceId, descriptorId } },
       { method: 'POST' }
     )
+
+    setLoading(false)
+    closeModal()
+    showToast()
   }
 
   const buildWrapAction = (proceedCallback: VoidFunction) => async (_: any) => {
@@ -178,7 +186,7 @@ export function EServiceWrite() {
   }
 
   return (
-    <React.Fragment>
+    <LoadingOverlay isLoading={loading} loadingText="Stiamo effettuando l'operazione richiesta">
       <WhiteBackground>
         <StyledIntro>
           {{
@@ -224,7 +232,7 @@ export function EServiceWrite() {
       </WhiteBackground>
 
       {modal && <ConfirmationDialogOverlay {...modal} />}
-      {toast && <StyledToast {...toast} />}
-    </React.Fragment>
+      {toast && !isEmpty(toast) && <StyledToast {...toast} />}
+    </LoadingOverlay>
   )
 }

@@ -47,7 +47,7 @@ const TYPE_LABELS: TypeLabels = {
  *         { id: 'abc-def-ghi', ...},
  *         { id: 'pqr-stu-vwy', ...}
  *       ],
- *       verificationRequired: true
+ *       explicitAttributesVerification: true
  *     },
  *     ...
  *   ],
@@ -74,10 +74,11 @@ export function EServiceAttributeSection({
   }
 
   const buildAdd =
-    (key: AttributeKey) => (group: AttributeFromCatalog[], verificationRequired: boolean) => {
+    (key: AttributeKey) =>
+    (group: AttributeFromCatalog[], explicitAttributesVerification: boolean) => {
       setAttributes({
         ...attributes,
-        [key]: [...attributes[key], { group, verificationRequired }],
+        [key]: [...attributes[key], { group, explicitAttributesVerification }],
       })
     }
 

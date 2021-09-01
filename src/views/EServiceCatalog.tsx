@@ -12,9 +12,7 @@ export function EServiceCatalog() {
   const { data, loading, error } = useAsyncFetch<EServiceSummary[]>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST' },
-      config: {
-        method: 'GET',
-      },
+      config: { method: 'GET' },
     },
     []
   )

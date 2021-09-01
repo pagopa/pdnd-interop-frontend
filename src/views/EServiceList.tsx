@@ -24,10 +24,7 @@ export function EServiceList() {
   const { data, loading, error } = useAsyncFetch<EServiceSummary[]>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST' },
-      config: {
-        method: 'GET',
-        params: { producerId: party?.partyId },
-      },
+      config: { method: 'GET', params: { producerId: party?.partyId } },
     },
     []
   )

@@ -48,7 +48,7 @@ function ChoosePartyComponent() {
                   options={availableParties.map((p) => {
                     return {
                       label: `${p.description}${
-                        p.status === 'Pending' ? ': registrazione pending' : ''
+                        p.status === 'Pending' ? ': (registrazione da completare)' : ''
                       }`,
                       disabled: p.status === 'Pending',
                       onChange: buildUpdateActiveParty(p),

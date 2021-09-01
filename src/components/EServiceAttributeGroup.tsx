@@ -37,7 +37,13 @@ export function EServiceAttributeGroup({
 
   const closeModal = (toastContent?: ToastContent) => {
     setModalTemplate(undefined)
-    setToast(toastContent)
+    if (toastContent?.title) {
+      setToast({ ...toastContent, onClose: closeToast })
+    }
+  }
+
+  const closeToast = () => {
+    setToast(undefined)
   }
 
   return (
@@ -104,11 +110,7 @@ export function EServiceAttributeGroup({
       )}
 
       {toast && (
-        <StyledToast
-          title={toast.title}
-          description={toast.description}
-          onClose={() => closeModal()}
-        />
+        <StyledToast title={toast.title} description={toast.description} onClose={closeToast} />
       )}
     </React.Fragment>
   )

@@ -211,8 +211,8 @@ export const API = {
     LOCAL: 'get-attributes-list.json',
     SHOULD_CALL: true,
   },
-  ATTRIBUTES_CREATE: {
-    URL: 'pdnd-interop-uservice-attribute-registry-management/0.0.1/attributes',
+  ATTRIBUTE_CREATE: {
+    URL: 'pdnd-interop-uservice-attribute-registry-management/0.0.1/attribute',
     LOCAL: '',
     SHOULD_CALL: true,
   },
