@@ -16,6 +16,7 @@ import { ConfirmationDialogOverlay } from '../components/ConfirmationDialogOverl
 import { StyledToast } from '../components/StyledToast'
 import { showTempAlert } from '../lib/wip-utils'
 import { formatDate, getRandomDate } from '../lib/date-utils'
+import { DescriptionBlock } from '../components/DescriptionBlock'
 
 export function AgreementEdit() {
   const mode = useMode()
@@ -27,22 +28,10 @@ export function AgreementEdit() {
   const [toast, setToast] = useState<ToastContent>()
   const { data, loading: dataLoading } = useAsyncFetch<AgreementSummary>(
     {
-      path: {
-        endpoint: 'AGREEMENT_GET_SINGLE',
-        endpointParams: { agreementId },
-      },
+      path: { endpoint: 'AGREEMENT_GET_SINGLE', endpointParams: { agreementId } },
       config: { method: 'GET' },
     },
     {}
-  )
-
-  console.log(data)
-
-  const Subtitle = ({ label }: { label: string }) => (
-    <React.Fragment>
-      <strong>{label}</strong>
-      <br />
-    </React.Fragment>
   )
 
   const runPatchAction = async (endpoint: ApiEndpointKey, feedbackText: string) => {
@@ -108,9 +97,7 @@ export function AgreementEdit() {
         endpoint: 'AGREEMENT_VERIFY_ATTRIBUTE',
         endpointParams: { agreementId: data!.id, attributeId },
       },
-      {
-        method: 'PATCH',
-      }
+      { method: 'PATCH' }
     )
     setActionLoading(false)
   }
@@ -155,23 +142,21 @@ export function AgreementEdit() {
       <LoadingOverlay isLoading={dataLoading || actionLoading} loadingText={loadingText}>
         <WhiteBackground>
           <StyledIntro>{{ title: `Accordo: ${data?.id}` }}</StyledIntro>
-          <p>
-            <Subtitle label="E-service" />
+
+          <DescriptionBlock label="E-service">
             <Link
               className="link-default"
               to={`${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${data?.eserviceId}`}
             >
               Nome e-service
             </Link>
-          </p>
+          </DescriptionBlock>
 
-          <p>
-            <Subtitle label="Stato dell'accordo" />
+          <DescriptionBlock label="Stato dell'accordo">
             <span>{capitalize(AGREEMENT_STATUS[data?.status])}</span>
-          </p>
+          </DescriptionBlock>
 
-          <div className="mb-3">
-            <Subtitle label="Attributi" />
+          <DescriptionBlock label="Attributi">
             {data?.verifiedAttributes?.map((attribute, i) => {
               const randomDate = getRandomDate(new Date(2022, 0, 1), new Date(2023, 0, 1))
               return (
@@ -197,13 +182,12 @@ export function AgreementEdit() {
                 </div>
               )
             })}
-          </div>
+          </DescriptionBlock>
 
           {mode === 'provider' && (
-            <p>
-              <Subtitle label="Ente fruitore" />
+            <DescriptionBlock label="Ente fruitore">
               <span>{data?.consumerName || data?.consumerId}</span>
-            </p>
+            </DescriptionBlock>
           )}
 
           {actions && (
@@ -232,6 +216,7 @@ export function AgreementEdit() {
           </WhiteBackground>
         )}
       </LoadingOverlay>
+
       {modal && <ConfirmationDialogOverlay {...modal} />}
       {toast && <StyledToast {...toast} />}
     </React.Fragment>

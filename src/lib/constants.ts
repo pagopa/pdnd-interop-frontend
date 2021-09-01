@@ -197,7 +197,7 @@ export const API = {
     SHOULD_CALL: true,
   },
   ESERVICE_VERSION_PUBLISH: {
-    URL: '/pdnd-interop-uservice-catalog-management/0.0.1/eservices/{{eserviceId}}/descriptors/{{descriptorId}}',
+    URL: '/pdnd-interop-uservice-catalog-management/0.0.1/eservices/{{eserviceId}}/descriptors',
     LOCAL: '',
     SHOULD_CALL: true,
   },
@@ -245,6 +245,16 @@ export const API = {
     URL: 'pdnd-interop-uservice-agreement-management/0.0.1/agreements/{{agreementId}}/suspend',
     LOCAL: '',
     SHOULD_CALL: true,
+  },
+  CLIENT_GET_LIST: {
+    URL: 'TODO',
+    LOCAL: 'get-client-list.json',
+    SHOULD_CALL: false,
+  },
+  CLIENT_GET_SINGLE: {
+    URL: 'TODO',
+    LOCAL: 'get-client-single.json',
+    SHOULD_CALL: false,
   },
 }
 

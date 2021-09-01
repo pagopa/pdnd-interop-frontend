@@ -4,7 +4,7 @@ import { WhiteBackground } from '../components/WhiteBackground'
 import { ESERVICE_STATUS, ROUTES } from '../lib/constants'
 import { Button } from 'react-bootstrap'
 import { PartyContext } from '../lib/context'
-import { EServiceStatus, EServiceSummary } from '../../types'
+import { EServiceStatus, EServiceSummary, TableActionBtn } from '../../types'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { TableAction } from '../components/TableAction'
 import { StyledIntro } from '../components/StyledIntro'
@@ -30,7 +30,7 @@ export function EServiceList() {
   )
 
   const getAvailableActions = (service: any) => {
-    const availableActions: { [key in EServiceStatus]: any } = {
+    const availableActions: { [key in EServiceStatus]: TableActionBtn[] } = {
       active: [
         {
           onClick: () => {

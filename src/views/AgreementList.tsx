@@ -3,19 +3,12 @@ import { Link } from 'react-router-dom'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { AGREEMENT_STATUS, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import { AgreementStatus, AgreementSummary } from '../../types'
+import { AgreementStatus, AgreementSummary, TableActionBtn } from '../../types'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { TableAction } from '../components/TableAction'
 import { StyledIntro } from '../components/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useMode } from '../hooks/useMode'
-
-type Action = {
-  to?: string
-  onClick?: any
-  icon: string
-  label: string
-}
 
 export function AgreementList() {
   const mode = useMode()
@@ -36,7 +29,7 @@ export function AgreementList() {
   )
 
   const getAvailableActions = (agreement: any) => {
-    const availableActions: { [key in AgreementStatus]: any } = {
+    const availableActions: { [key in AgreementStatus]: TableActionBtn[] } = {
       active: [],
       suspended: [],
       pending: [],
@@ -54,7 +47,7 @@ export function AgreementList() {
     }
 
     // Get all the actions available for this particular status
-    const actions: Action[] = (availableActions as any)[status] || []
+    const actions: TableActionBtn[] = (availableActions as any)[status] || []
 
     // Add the last action, which is always EDIT/INSPECT
     actions.push(inspectAction)

@@ -185,3 +185,24 @@ export type Image = { src: string; alt: string }
 export type RequestOutcome = 'success' | 'error'
 export type RequestOutcomeMessage = { title: string; description: JSX.Element[]; img: Image }
 export type RequestOutcomeOptions = { [key in RequestOutcome]: RequestOutcomeMessage }
+
+export type Client = {
+  id: string
+  name: string
+  description: string
+  providerName: string
+  serviceName: string
+  serviceId: string
+  serviceDescriptorId: string
+  serviceVersion: string
+  serviceStatus: EServiceStatus
+  agreementStatus: AgreementStatus
+}
+
+export type TableActionBtn = {
+  to?: string
+  onClick?: any
+  icon: string
+  label: string
+  isMock?: boolean
+}

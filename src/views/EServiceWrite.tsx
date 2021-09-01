@@ -163,10 +163,10 @@ export function EServiceWrite() {
 
   const publish = async () => {
     setLoading(true)
-    const { eserviceId, descriptorId } = await createEserviceAndUploadDocuments()
+    const { eserviceId } = await createEserviceAndUploadDocuments()
 
     await fetchWithLogs(
-      { endpoint: 'ESERVICE_VERSION_PUBLISH', endpointParams: { eserviceId, descriptorId } },
+      { endpoint: 'ESERVICE_VERSION_PUBLISH', endpointParams: { eserviceId } },
       { method: 'POST' }
     )
 
