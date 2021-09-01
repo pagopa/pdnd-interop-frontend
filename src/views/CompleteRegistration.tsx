@@ -9,7 +9,7 @@ import { RequestOutcome, RequestOutcomeOptions } from '../../types'
 import checkIllustration from '../assets/check-illustration.svg'
 import redXIllustration from '../assets/red-x-illustration.svg'
 import { StyledInputFile } from '../components/StyledInputFile'
-import { isFetchError } from '../lib/error-utils'
+import { getFetchOutcome } from '../lib/error-utils'
 
 export function CompleteRegistration() {
   const [loading, setLoading] = useState(false)
@@ -58,7 +58,7 @@ export function CompleteRegistration() {
     setLoading(false)
 
     // Check the outcome
-    const outcome = isFetchError(contractPostResponse) ? 'error' : 'success'
+    const outcome = getFetchOutcome(contractPostResponse)
 
     // Show it to the end user
     setOutcome(outcome)

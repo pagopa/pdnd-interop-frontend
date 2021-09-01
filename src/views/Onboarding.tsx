@@ -10,7 +10,9 @@ import { LoadingOverlay } from '../components/LoadingOverlay'
 import { fetchWithLogs } from '../lib/api-utils'
 import { MessageNoAction } from '../components/MessageNoAction'
 import emailIllustration from '../assets/email-illustration.svg'
-import { isFetchError } from '../lib/error-utils'
+import redXIllustration from '../assets/red-x-illustration.svg'
+import { getFetchOutcome } from '../lib/error-utils'
+import { useHistory } from 'react-router-dom'
 
 type FormData = {
   institutionId: string
@@ -23,6 +25,11 @@ function OnboardingComponent() {
   const [formData, setFormData] = useState<FormData>({ institutionId: '', users: [] })
   const [legalEmail, setLegalEmail] = useState('')
   const [outcome, setOutcome] = useState<RequestOutcome>()
+  const history = useHistory()
+
+  const reload = () => {
+    history.go(0)
+  }
 
   const back = () => {
     setActiveStep(activeStep - 1)
@@ -53,7 +60,7 @@ function OnboardingComponent() {
     setLoading(false)
 
     // Check the outcome
-    const outcome = isFetchError(postLegalsResponse) ? 'error' : 'success'
+    const outcome = getFetchOutcome(postLegalsResponse)
 
     setOutcome(outcome)
   }
@@ -94,12 +101,15 @@ function OnboardingComponent() {
       ],
     },
     error: {
-      img: { src: emailIllustration, alt: "Icona dell'email" },
+      img: { src: redXIllustration, alt: "Icona dell'email" },
       title: "C'è stato un problema...",
       description: [
         <p>
-          Il salvataggio dei dati inseriti non è andato a buon fine. Prova nuovamente a registrarti,
-          e se il problema dovesse persistere,{' '}
+          Il salvataggio dei dati inseriti non è andato a buon fine.{' '}
+          <button className="reset-btn btn-as-link link-default" onClick={reload}>
+            Prova nuovamente a registrarti
+          </button>
+          , e se il problema dovesse persistere,{' '}
           <a className="link-default" href="#0" title="Contatta l\'assistenza">
             contattaci
           </a>

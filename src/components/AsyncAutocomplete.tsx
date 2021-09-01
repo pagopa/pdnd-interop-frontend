@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import { AsyncTypeahead } from 'react-bootstrap-typeahead'
 import { Endpoint } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
+import debounce from 'lodash/debounce'
 import 'react-bootstrap-typeahead/css/Typeahead.css'
+import { getFetchOutcome } from '../lib/error-utils'
 
 type AutocompleteProps = {
   selected: any
@@ -29,12 +31,16 @@ export function AsyncAutocomplete({
   const handleSearch = async (query: string) => {
     setIsLoading(true)
 
-    const resp = await fetchWithLogs(endpoint, {
+    const searchResponse = await fetchWithLogs(endpoint, {
       method: 'GET',
       params: { limit: 100, page: 1, search: query },
     })
 
-    setOptions(transformFn(resp?.data))
+    const outcome = getFetchOutcome(searchResponse)
+
+    if (outcome === 'success') {
+      setOptions(transformFn(searchResponse.data))
+    }
     setIsLoading(false)
   }
 
@@ -48,7 +54,7 @@ export function AsyncAutocomplete({
       isLoading={isLoading}
       labelKey={labelKey}
       minLength={3}
-      onSearch={handleSearch}
+      onSearch={debounce(handleSearch, 100)}
       onChange={setSelected}
       selected={selected}
       options={options}

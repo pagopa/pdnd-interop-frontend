@@ -1,14 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { AxiosError } from 'axios'
 import { RequestConfig } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { isFetchError } from '../lib/error-utils'
+import { PartyContext } from '../lib/context'
 
 export const useAsyncFetch = <T>(
   requestConfig: RequestConfig,
   defaultValue: any,
   dataKey?: string
 ) => {
+  const { party } = useContext(PartyContext)
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<T>(defaultValue)
   const [error, setError] = useState<AxiosError<any>>()
@@ -29,7 +31,9 @@ export const useAsyncFetch = <T>(
     }
 
     asyncFetchWithLogs()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+    // If the user changes party, fresh data should be fetched
+  }, [party]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return { loading, data, error }
 }
