@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { EServiceDocumentSection } from '../components/EServiceDocumentSection'
@@ -23,7 +23,11 @@ import { ConfirmationDialogOverlay } from '../components/ConfirmationDialogOverl
 import { showTempAlert } from '../lib/wip-utils'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 
-export function EServiceWrite() {
+type EServiceWriteProps = {
+  data: any
+}
+
+export function EServiceWrite({ data }: EServiceWriteProps) {
   const [loading, setLoading] = useState(false)
   const [toast, setToast] = useState<ToastContent>()
   const [modal, setModal] = useState<any>()
@@ -185,6 +189,39 @@ export function EServiceWrite() {
     showToast()
   }
 
+  useEffect(() => {
+    if (!isEmpty(data)) {
+      const _eserviceData = {
+        name: data.name,
+        description: data.description,
+        audience: data.audience,
+        technology: data.technology,
+        voucherLifespan: data.voucherLifespan,
+        producerId: data.producerId,
+        attributes: data.attributes,
+        explicitAttributesVerification: data.explicitAttributesVerification,
+      }
+
+      setEserviceData({ ...eserviceData, ..._eserviceData })
+
+      const _interfaceDocument = data.descriptors[0].docs.find(
+        (d: EServiceDocumentType) => d.kind === 'interface'
+      )
+      // const _documents = data.descriptors[0].docs.filter(
+      //   (d: EServiceDocumentType) => d.kind !== 'interface'
+      // )
+
+      if (!isEmpty(_interfaceDocument)) {
+        setInterfaceDocument(_interfaceDocument)
+      }
+      // setDocuments(_documents)
+      // setAttributes(unformatAttributes(data.attributes))
+
+      // console.log(data)
+      // console.log({ _eserviceData, _interfaceDocument, _documents })
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <React.Fragment>
       <WhiteBackground>
@@ -231,9 +268,9 @@ export function EServiceWrite() {
         </div>
       </WhiteBackground>
 
-      {loading && <LoadingOverlay loadingText="Stiamo effettuando l'operazione richiesta" />}
       {modal && <ConfirmationDialogOverlay {...modal} />}
       {toast && !isEmpty(toast) && <StyledToast {...toast} />}
+      {loading && <LoadingOverlay loadingText="Stiamo effettuando l'operazione richiesta" />}
     </React.Fragment>
   )
 }

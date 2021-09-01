@@ -14,3 +14,16 @@ export function formatAttributes(attributes: Attributes): BackendFormattedAttrib
 
   return formattedAttributes
 }
+
+export function unformatAttributes(formattedAttributes: BackendFormattedAttributes): Attributes {
+  const unformattedAttributes = Object.keys(formattedAttributes).reduce(
+    (acc, key) => {
+      const attributesType = formattedAttributes[key as AttributeKey]
+      const unformatted = attributesType.map((simple, group) => (simple ? [simple] : group))
+      return { ...acc, [key]: unformatted }
+    },
+    { certified: [], verified: [], declared: [] }
+  )
+
+  return unformattedAttributes
+}

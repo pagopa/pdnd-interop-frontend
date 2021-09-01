@@ -6,7 +6,6 @@ import { AgreementEdit } from '../views/AgreementEdit'
 import { AgreementList } from '../views/AgreementList'
 import { EServiceCatalog } from '../views/EServiceCatalog'
 import { EServiceWrite } from '../views/EServiceWrite'
-import { EServiceRead } from '../views/EServiceRead'
 import { EServiceList } from '../views/EServiceList'
 import { Help } from '../views/Help'
 import { Login } from '../views/Login'
@@ -20,6 +19,7 @@ import { Provide } from '../views/Provide'
 import { Subscribe } from '../views/Subscribe'
 import { UserEdit } from '../views/UserEdit'
 import { UserList } from '../views/UserList'
+import { EServiceGate } from '../views/EServiceGate'
 
 export const SHOW_DEV_LABELS = true
 export const USE_LOCAL_DATA = false
@@ -70,7 +70,7 @@ export const ROUTES: RoutesObject = {
         PATH: '/erogazione/e-service/:id',
         EXACT: false,
         LABEL: 'Ispeziona e-service',
-        COMPONENT: EServiceRead,
+        COMPONENT: EServiceGate,
       },
       AGREEMENT_LIST: {
         PATH: '/erogazione/accordi',
@@ -137,7 +137,7 @@ export const ROUTES: RoutesObject = {
         PATH: '/fruizione/catalogo-e-service/:id',
         EXACT: false,
         LABEL: 'Visualizza e-service',
-        COMPONENT: EServiceRead,
+        COMPONENT: EServiceGate,
       },
       USERS_LIST: {
         PATH: '/fruizione/operatori',
@@ -192,7 +192,7 @@ export const API = {
     SHOULD_CALL: true,
   },
   ESERVICE_CREATE: {
-    URL: 'pdnd-interop-uservice-catalog-management/0.0.1/eservices',
+    URL: 'pdnd-interop-uservice-catalog-process/wrong-version/eservices',
     LOCAL: '',
     SHOULD_CALL: true,
   },
@@ -264,10 +264,9 @@ export const API = {
 }
 
 export const ESERVICE_STATUS = {
-  // active: 'attivo',
+  published: 'attivo',
   draft: 'in bozza',
   suspended: 'sospeso',
-  published: 'attivo',
 
   // Not implemented yet
   archived: 'archiviato',

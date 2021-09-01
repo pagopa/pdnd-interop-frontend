@@ -6,7 +6,8 @@ import { TableAction } from '../components/TableAction'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { ESERVICE_STATUS } from '../lib/constants'
+import { ESERVICE_STATUS, ROUTES } from '../lib/constants'
+import { showTempAlert } from '../lib/wip-utils'
 
 export function EServiceCatalog() {
   const { data, loading, error } = useAsyncFetch<EServiceSummary[]>(
@@ -16,6 +17,10 @@ export function EServiceCatalog() {
     },
     []
   )
+
+  const subscribe = () => {
+    showTempAlert("Iscriviti all'e-service")
+  }
 
   const headData = ['nome servizio', 'versione attuale', 'stato del servizio', '']
 
@@ -42,20 +47,31 @@ export function EServiceCatalog() {
         noDataLabel="Non ci sono servizi disponibili"
         error={error}
       >
-        {data.map((item, i) => (
-          <tr key={i}>
-            <td>{item.name}</td>
-            <td>{item.version}</td>
-            <td>{ESERVICE_STATUS[item.status]}</td>
-            <td>
-              <TableAction
-                btnProps={{ as: Link, to: '' }}
-                label="iscriviti"
-                iconClass={'bi-pencil-square'}
-              />
-            </td>
-          </tr>
-        ))}
+        {data
+          .filter((item) => item.descriptors[0].status === 'published')
+          .map((item, i) => (
+            <tr key={i}>
+              <td>{item.name}</td>
+              <td>{item.descriptors[0].version}</td>
+              <td>{ESERVICE_STATUS[item.descriptors[0].status]}</td>
+              <td>
+                <TableAction
+                  btnProps={{ onClick: subscribe }}
+                  label="Iscriviti"
+                  iconClass={'bi-pencil-square'}
+                  isMock={true}
+                />
+                <TableAction
+                  btnProps={{
+                    as: Link,
+                    to: `${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH}/${item.id}`,
+                  }}
+                  label="Ispeziona"
+                  iconClass={'bi-info-circle'}
+                />
+              </td>
+            </tr>
+          ))}
       </TableWithLoader>
     </WhiteBackground>
   )
