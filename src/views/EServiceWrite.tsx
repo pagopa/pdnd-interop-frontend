@@ -186,7 +186,7 @@ export function EServiceWrite() {
   }
 
   return (
-    <LoadingOverlay isLoading={loading} loadingText="Stiamo effettuando l'operazione richiesta">
+    <React.Fragment>
       <WhiteBackground>
         <StyledIntro>
           {{
@@ -231,8 +231,9 @@ export function EServiceWrite() {
         </div>
       </WhiteBackground>
 
+      {loading && <LoadingOverlay loadingText="Stiamo effettuando l'operazione richiesta" />}
       {modal && <ConfirmationDialogOverlay {...modal} />}
       {toast && !isEmpty(toast) && <StyledToast {...toast} />}
-    </LoadingOverlay>
+    </React.Fragment>
   )
 }

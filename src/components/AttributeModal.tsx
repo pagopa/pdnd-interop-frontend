@@ -63,7 +63,7 @@ export function AttributeModalCreateNew({ close, attributeKey }: AttributeModalC
   }
 
   return (
-    <LoadingOverlay isLoading={loading} loadingText="Stiamo creando il nuovo attributo">
+    <React.Fragment>
       <Modal.Dialog contentClassName="px-1 py-1">
         <Modal.Header onHide={close} closeButton>
           <Modal.Title className="me-5">Crea nuovo attributo {label}</Modal.Title>
@@ -120,7 +120,9 @@ export function AttributeModalCreateNew({ close, attributeKey }: AttributeModalC
           </Button>
         </Modal.Footer>
       </Modal.Dialog>
-    </LoadingOverlay>
+
+      {loading && <LoadingOverlay loadingText="Stiamo creando il nuovo attributo" />}
+    </React.Fragment>
   )
 }
 

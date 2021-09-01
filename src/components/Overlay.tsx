@@ -1,18 +1,21 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useEffect } from 'react'
+
+type EventOptions = boolean | EventListenerOptions | undefined | any
+type KeyObj = { [key in number]: number }
 
 export const Overlay: FunctionComponent = ({ children }) => {
   // From https://stackoverflow.com/a/4770179
-  /*
+
   // left: 37, up: 38, right: 39, down: 40,
   // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
-  var keys = { 37: 1, 38: 1, 39: 1, 40: 1 }
+  const keys: KeyObj = { 37: 1, 38: 1, 39: 1, 40: 1 }
 
   function preventDefault(e: any) {
     e.preventDefault()
   }
 
   function preventDefaultForScrollKeys(e: any) {
-    if (keys[e.keyCode]) {
+    if (!!keys[e.keyCode]) {
       preventDefault(e)
       return false
     }
@@ -20,19 +23,17 @@ export const Overlay: FunctionComponent = ({ children }) => {
 
   // modern Chrome requires { passive: false } when adding event
   let supportsPassive = false
+  const passiveCheck = Object.defineProperty({}, 'passive', {
+    // eslint-disable-next-line getter-return
+    get: function () {
+      supportsPassive = true
+    },
+  })
   try {
-    window.addEventListener(
-      'test',
-      null,
-      Object.defineProperty({}, 'passive', {
-        get: function () {
-          supportsPassive = true
-        },
-      })
-    )
+    window.addEventListener('test' as any, null as any, passiveCheck)
   } catch (e) {}
 
-  const wheelOpt = supportsPassive ? { passive: false } : false
+  const wheelOpt: EventOptions = supportsPassive ? { passive: false } : false
   const wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel'
 
   // call this to Disable
@@ -53,10 +54,8 @@ export const Overlay: FunctionComponent = ({ children }) => {
 
   useEffect(() => {
     disableScroll()
-
     return enableScroll
-  }, [])
-  */
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div

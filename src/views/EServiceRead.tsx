@@ -19,11 +19,12 @@ export function EServiceRead() {
   )
 
   return (
-    <LoadingOverlay isLoading={loading} loadingText="Stiamo caricando il tuo e-service">
+    <React.Fragment>
       <WhiteBackground>
         <h1>E-service {data?.name}</h1>
         <h2>Versione {data?.descriptors?.[0]?.version}</h2>
       </WhiteBackground>
-    </LoadingOverlay>
+      {loading && <LoadingOverlay loadingText="Stiamo caricando il tuo e-service" />}
+    </React.Fragment>
   )
 }

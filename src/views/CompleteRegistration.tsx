@@ -100,7 +100,7 @@ export function CompleteRegistration() {
   }
 
   return !outcome ? (
-    <LoadingOverlay isLoading={loading} loadingText="Stiamo caricando il tuo contratto">
+    <React.Fragment>
       <WhiteBackground>
         <div className="form-max-width">
           <p className="h1">Ciao</p>
@@ -118,7 +118,8 @@ export function CompleteRegistration() {
           </Button>
         </Form>
       </WhiteBackground>
-    </LoadingOverlay>
+      {loading && <LoadingOverlay loadingText="Stiamo caricando il tuo contratto" />}
+    </React.Fragment>
   ) : (
     <MessageNoAction
       title={outcomeContent[outcome].title}

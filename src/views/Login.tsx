@@ -83,7 +83,7 @@ export function Login() {
   }
 
   return (
-    <LoadingOverlay isLoading={loading} loadingText="Stiamo associando la tua utenza ai tuoi enti">
+    <React.Fragment>
       <WhiteBackground containerStyles={{ maxWidth: 480 }} verticallyCentered={true}>
         <Row>
           <h2 className="text-center">Effettua il login</h2>
@@ -111,6 +111,8 @@ export function Login() {
           </Button>
         </Row>
       </WhiteBackground>
-    </LoadingOverlay>
+
+      {loading && <LoadingOverlay loadingText="Stiamo associando la tua utenza ai tuoi enti" />}
+    </React.Fragment>
   )
 }

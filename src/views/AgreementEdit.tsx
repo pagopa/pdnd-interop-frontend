@@ -139,84 +139,83 @@ export function AgreementEdit() {
 
   return (
     <React.Fragment>
-      <LoadingOverlay isLoading={dataLoading || actionLoading} loadingText={loadingText}>
-        <WhiteBackground>
-          <StyledIntro>{{ title: `Accordo: ${data?.id}` }}</StyledIntro>
+      <WhiteBackground>
+        <StyledIntro>{{ title: `Accordo: ${data?.id}` }}</StyledIntro>
 
-          <DescriptionBlock label="E-service">
-            <Link
-              className="link-default"
-              to={`${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${data?.eserviceId}`}
-            >
-              Nome e-service
-            </Link>
+        <DescriptionBlock label="E-service">
+          <Link
+            className="link-default"
+            to={`${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${data?.eserviceId}`}
+          >
+            Nome e-service
+          </Link>
+        </DescriptionBlock>
+
+        <DescriptionBlock label="Stato dell'accordo">
+          <span>{capitalize(AGREEMENT_STATUS[data?.status])}</span>
+        </DescriptionBlock>
+
+        <DescriptionBlock label="Attributi">
+          {data?.verifiedAttributes?.map((attribute, i) => {
+            const randomDate = getRandomDate(new Date(2022, 0, 1), new Date(2023, 0, 1))
+            return (
+              <div
+                key={i}
+                className="w-100 d-flex justify-content-between"
+                style={{ maxWidth: 768 }}
+              >
+                <span>{attribute.name || attribute.id}</span>
+                <span className="fakeData">Scadenza: {formatDate(randomDate)}</span>
+                {attribute.verified ? (
+                  <div className="text-primary d-flex align-items-center">
+                    <i className="text-primary fs-5 bi bi-check me-2" />
+                    <span>verificato</span>
+                  </div>
+                ) : mode === 'provider' ? (
+                  <Button variant="primary" onClick={buildVerify(attribute.id)}>
+                    verifica
+                  </Button>
+                ) : (
+                  <span>in attesa</span>
+                )}
+              </div>
+            )
+          })}
+        </DescriptionBlock>
+
+        {mode === 'provider' && (
+          <DescriptionBlock label="Ente fruitore">
+            <span>{data?.consumerName || data?.consumerId}</span>
           </DescriptionBlock>
-
-          <DescriptionBlock label="Stato dell'accordo">
-            <span>{capitalize(AGREEMENT_STATUS[data?.status])}</span>
-          </DescriptionBlock>
-
-          <DescriptionBlock label="Attributi">
-            {data?.verifiedAttributes?.map((attribute, i) => {
-              const randomDate = getRandomDate(new Date(2022, 0, 1), new Date(2023, 0, 1))
-              return (
-                <div
-                  key={i}
-                  className="w-100 d-flex justify-content-between"
-                  style={{ maxWidth: 768 }}
-                >
-                  <span>{attribute.name || attribute.id}</span>
-                  <span className="fakeData">Scadenza: {formatDate(randomDate)}</span>
-                  {attribute.verified ? (
-                    <div className="text-primary d-flex align-items-center">
-                      <i className="text-primary fs-5 bi bi-check me-2" />
-                      <span>verificato</span>
-                    </div>
-                  ) : mode === 'provider' ? (
-                    <Button variant="primary" onClick={buildVerify(attribute.id)}>
-                      verifica
-                    </Button>
-                  ) : (
-                    <span>in attesa</span>
-                  )}
-                </div>
-              )
-            })}
-          </DescriptionBlock>
-
-          {mode === 'provider' && (
-            <DescriptionBlock label="Ente fruitore">
-              <span>{data?.consumerName || data?.consumerId}</span>
-            </DescriptionBlock>
-          )}
-
-          {actions && (
-            <div className="mt-5 d-flex">
-              {actions.map(({ proceedCallback, label, isMock }, i) => (
-                <Button
-                  key={i}
-                  className={`me-3${isMock ? ' mockFeature' : ''}`}
-                  variant={i === 0 ? 'primary' : 'outline-primary'}
-                  onClick={buildWrapAction(proceedCallback)}
-                >
-                  {label}
-                </Button>
-              ))}
-            </div>
-          )}
-        </WhiteBackground>
-
-        {mode === 'subscriber' && (
-          <WhiteBackground>
-            <StyledIntro>{{ title: 'Client associati' }}</StyledIntro>
-            <Button className="mockFeature" variant="primary">
-              associa nuovo client
-            </Button>
-            <p>lista dei client</p>
-          </WhiteBackground>
         )}
-      </LoadingOverlay>
 
+        {actions && (
+          <div className="mt-5 d-flex">
+            {actions.map(({ proceedCallback, label, isMock }, i) => (
+              <Button
+                key={i}
+                className={`me-3${isMock ? ' mockFeature' : ''}`}
+                variant={i === 0 ? 'primary' : 'outline-primary'}
+                onClick={buildWrapAction(proceedCallback)}
+              >
+                {label}
+              </Button>
+            ))}
+          </div>
+        )}
+      </WhiteBackground>
+
+      {mode === 'subscriber' && (
+        <WhiteBackground>
+          <StyledIntro>{{ title: 'Client associati' }}</StyledIntro>
+          <Button className="mockFeature" variant="primary">
+            associa nuovo client
+          </Button>
+          <p>lista dei client</p>
+        </WhiteBackground>
+      )}
+
+      {(dataLoading || actionLoading) && <LoadingOverlay loadingText={loadingText} />}
       {modal && <ConfirmationDialogOverlay {...modal} />}
       {toast && <StyledToast {...toast} />}
     </React.Fragment>

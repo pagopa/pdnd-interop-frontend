@@ -41,7 +41,7 @@ export function ClientEdit() {
   const actions = getAvailableActions()
 
   return (
-    <LoadingOverlay isLoading={loading} loadingText="Stiamo caricando il tuo client">
+    <React.Fragment>
       <WhiteBackground>
         <StyledIntro>{{ title: `Client: ${data.name}` }}</StyledIntro>
 
@@ -96,6 +96,8 @@ export function ClientEdit() {
           aggiungi nuovo operatore
         </Button>
       </WhiteBackground>
-    </LoadingOverlay>
+
+      {loading && <LoadingOverlay loadingText="Stiamo caricando il tuo client" />}
+    </React.Fragment>
   )
 }

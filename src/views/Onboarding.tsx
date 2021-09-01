@@ -110,12 +110,13 @@ function OnboardingComponent() {
   }
 
   return !outcome ? (
-    <LoadingOverlay isLoading={loading} loadingText="Stiamo verificando i tuoi dati">
+    <React.Fragment>
       <WhiteBackground stickToTop={true}>
         <Stepper steps={steps} activeIndex={activeStep} />
       </WhiteBackground>
       <Step />
-    </LoadingOverlay>
+      {loading && <LoadingOverlay loadingText="Stiamo verificando i tuoi dati" />}
+    </React.Fragment>
   ) : (
     <MessageNoAction
       title={outcomeContent[outcome].title}
