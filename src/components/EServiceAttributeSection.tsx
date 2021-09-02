@@ -32,7 +32,7 @@ const TYPE_LABELS: TypeLabels = {
   declared: {
     title: 'Attributi Dichiarati',
     description:
-      'Questi attributi sono dichiarati dall’ente che eroga il servizio, il quale è responsabile legalmente delle dichiarazioni rese',
+      "Questi attributi sono dichiarati dall’ente che eroga il servizio, il quale è responsabile legalmente delle dichiarazioni rese all'atto della sottoscrizione dell'accordo di interoperabilità",
   },
 }
 

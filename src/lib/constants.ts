@@ -226,6 +226,11 @@ export const API = {
     LOCAL: 'get-party-id.json',
     SHOULD_CALL: true,
   },
+  AGREEMENT_CREATE: {
+    URL: 'pdnd-interop-uservice-agreement-management/0.0.1/agreements',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
   AGREEMENT_GET_LIST: {
     URL: 'pdnd-interop-uservice-agreement-management/0.0.1/agreements',
     LOCAL: 'get-agreement-list.json',

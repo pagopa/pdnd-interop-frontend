@@ -22,6 +22,8 @@ import isEmpty from 'lodash/isEmpty'
 import { ConfirmationDialogOverlay } from '../components/ConfirmationDialogOverlay'
 import { showTempAlert } from '../lib/wip-utils'
 import { LoadingOverlay } from '../components/LoadingOverlay'
+import { Link } from 'react-router-dom'
+import { ROUTES } from '../lib/constants'
 
 type EServiceWriteProps = {
   data: any
@@ -88,10 +90,17 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
     setToast(undefined)
   }
 
-  const showToast = () => {
+  const showToast = (title = 'Operazione conclusa') => {
     setToast({
-      title: 'Operazione conclusa',
-      description: 'Operazione conclusa con successo',
+      title,
+      description: (
+        <>
+          Operazione conclusa con successo.{' '}
+          <Link to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH} className="link-default">
+            Torna agli e-service
+          </Link>
+        </>
+      ),
       onClose: closeToast,
     })
   }

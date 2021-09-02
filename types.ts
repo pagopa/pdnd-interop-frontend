@@ -106,13 +106,13 @@ export type EServiceDataTypeKeys =
   | 'voucherLifespan'
   | 'description'
 
-export type BackendAttribute =
-  | {
-      simple: string
-    }
-  | {
-      group: string[]
-    }
+export type SimpleBackendAttribute = {
+  simple: string
+}
+export type GroupBackendAttribute = {
+  group: string[]
+}
+export type BackendAttribute = SimpleBackendAttribute | GroupBackendAttribute
 
 export type BackendFormattedAttributes = {
   [key in AttributeKey]: BackendAttribute[]
@@ -147,7 +147,7 @@ export type Endpoint = {
 
 export type ToastContent = {
   title: string
-  description: string
+  description: string | JSX.Element
   onClose?: VoidCallback
 }
 

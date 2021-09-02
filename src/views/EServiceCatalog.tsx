@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { EServiceSummary } from '../../types'
 import { StyledIntro } from '../components/StyledIntro'
@@ -6,10 +6,13 @@ import { TableAction } from '../components/TableAction'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
+import { fetchWithLogs } from '../lib/api-utils'
 import { ESERVICE_STATUS, ROUTES } from '../lib/constants'
+import { PartyContext } from '../lib/context'
 import { showTempAlert } from '../lib/wip-utils'
 
 export function EServiceCatalog() {
+  const { party } = useContext(PartyContext)
   const { data, loading, error } = useAsyncFetch<EServiceSummary[]>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST' },
@@ -18,8 +21,30 @@ export function EServiceCatalog() {
     []
   )
 
-  const subscribe = () => {
-    showTempAlert("Iscriviti all'e-service")
+  const buildSubscribe = (service: any) => async (_: any) => {
+    const flattenedVerifiedAttributes = service.attributes.verified.reduce(
+      (acc: any, next: any) => {
+        const nextIds = next.simple ? [next.simple] : next.group
+        return [...acc, ...nextIds]
+      },
+      []
+    )
+
+    const agreementData = {
+      eserviceId: service.id,
+      producerId: service.producerId,
+      consumerId: party?.partyId,
+      verifiedAttributes: flattenedVerifiedAttributes.map((id: string) => ({
+        id,
+        verified: false,
+        validityTimespan: 100000000,
+      })),
+    }
+
+    const agreementCreationResponse = await fetchWithLogs(
+      { endpoint: 'AGREEMENT_CREATE' },
+      { method: 'POST', data: agreementData }
+    )
   }
 
   const headData = ['nome servizio', 'versione attuale', 'stato del servizio', '']
@@ -54,7 +79,7 @@ export function EServiceCatalog() {
             <td>{ESERVICE_STATUS[item.descriptors[0].status]}</td>
             <td>
               <TableAction
-                btnProps={{ onClick: subscribe }}
+                btnProps={{ onClick: buildSubscribe(item) }}
                 label="Iscriviti"
                 iconClass={'bi-pencil-square'}
                 isMock={true}
