@@ -148,7 +148,7 @@ export type Endpoint = {
 export type ToastContent = {
   title: string
   description: string | JSX.Element
-  onClose?: VoidCallback
+  onClose?: VoidFunction
 }
 
 export type RequestConfig = {
@@ -182,8 +182,6 @@ export type AgreementSummary = {
   eserviceVersion?: string
 }
 
-export type VoidCallback = () => void
-
 export type Image = { src: string; alt: string }
 export type RequestOutcome = 'success' | 'error'
 export type RequestOutcomeMessage = { title: string; description: JSX.Element[]; img: Image }
@@ -208,4 +206,17 @@ export type TableActionBtn = {
   icon: string
   label: string
   isMock?: boolean
+}
+
+export type DialogProceedCallback = (() => Promise<void>) | VoidFunction
+
+export type DialogContent = {
+  proceedCallback: DialogProceedCallback
+  close: VoidFunction
+}
+
+export type WrappableAction = {
+  proceedCallback: DialogProceedCallback
+  label: string
+  isMock: boolean
 }

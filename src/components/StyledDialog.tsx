@@ -1,16 +1,15 @@
 import React, { FunctionComponent } from 'react'
 import { Modal, Button } from 'react-bootstrap'
-import { VoidCallback } from '../../types'
 import { Overlay } from './Overlay'
 
 type ConfirmationDialogOverlayProps = {
   modalTitle?: string
-  close: VoidCallback
-  proceedCallback: VoidCallback
+  close: VoidFunction
+  proceedCallback: VoidFunction
   proceedLabel?: string
 }
 
-export const ConfirmationDialogOverlay: FunctionComponent<ConfirmationDialogOverlayProps> = ({
+export const StyledDialog: FunctionComponent<ConfirmationDialogOverlayProps> = ({
   children,
   modalTitle = 'Conferma azione',
   close,

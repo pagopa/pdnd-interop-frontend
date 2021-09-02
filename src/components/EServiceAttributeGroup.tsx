@@ -108,7 +108,6 @@ export function EServiceAttributeGroup({
           />
         </Overlay>
       )}
-
       {toast && (
         <StyledToast title={toast.title} description={toast.description} onClose={closeToast} />
       )}

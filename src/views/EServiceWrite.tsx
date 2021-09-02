@@ -4,6 +4,8 @@ import { WhiteBackground } from '../components/WhiteBackground'
 import { EServiceDocumentSection } from '../components/EServiceDocumentSection'
 import {
   Attributes,
+  DialogContent,
+  DialogProceedCallback,
   EServiceDataType,
   EServiceDataTypeKeys,
   EServiceDocumentType,
@@ -19,20 +21,21 @@ import { PartyContext } from '../lib/context'
 import { formatAttributes } from '../lib/attributes'
 import { StyledToast } from '../components/StyledToast'
 import isEmpty from 'lodash/isEmpty'
-import { ConfirmationDialogOverlay } from '../components/ConfirmationDialogOverlay'
 import { showTempAlert } from '../lib/wip-utils'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { Link } from 'react-router-dom'
 import { ROUTES } from '../lib/constants'
+import { StyledDialog } from '../components/StyledDialog'
 
 type EServiceWriteProps = {
   data: any
 }
 
 export function EServiceWrite({ data }: EServiceWriteProps) {
-  const [loading, setLoading] = useState(false)
+  const [loadingText, setLoadingText] = useState<string | undefined>(undefined)
   const [toast, setToast] = useState<ToastContent>()
-  const [modal, setModal] = useState<any>()
+  const [dialog, setDialog] = useState<DialogContent>()
+
   const { party } = useContext(PartyContext)
   // General information section
   const [eserviceData, setEserviceData] = useState<EServiceDataType>({
@@ -50,6 +53,7 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
     declared: [],
   })
 
+  // Contains the data necessary to create an e-service, ecluded the attributes
   const buildSetEServiceData =
     (fieldName: EServiceDataTypeKeys, fieldType = 'text') =>
     (e: any) => {
@@ -62,34 +66,37 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
       setEserviceData({ ...eserviceData, [fieldName]: value })
     }
 
+  // Contains the template to generate the interoperability agreement
   const todoLoadAccordo = () => {
     console.log('TODO: genera accordo di interoperabilità')
   }
 
+  // Contain the optional documents to explain how the service works
   const updateDocuments = (e: any) => {
     setDocuments([...documents, { kind: 'document', description: '', doc: e.target.files[0] }])
   }
-
   const buildDeleteDocuments = (name: string) => (_: any) => {
     setDocuments([...documents.filter((d) => d.doc.name !== name)])
   }
 
+  // Contain the required OpenAPI/WSDL file to explain how the API is structured
   const updateInterface = (e: any) => {
     setInterfaceDocument({ kind: 'interface', description: '', doc: e.target.files[0] })
   }
-
   const deleteInterface = (_: any) => {
     setInterfaceDocument(undefined)
   }
 
-  const closeModal = () => {
-    setModal(undefined)
+  // Dialog and toast related functions
+  const wrapActionInDialog = (wrappedAction: DialogProceedCallback) => async (_: any) => {
+    setDialog({ proceedCallback: wrappedAction, close: closeDialog })
   }
-
+  const closeDialog = () => {
+    setDialog(undefined)
+  }
   const closeToast = () => {
     setToast(undefined)
   }
-
   const showToast = (title = 'Operazione conclusa') => {
     setToast({
       title,
@@ -105,6 +112,9 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
     })
   }
 
+  /*
+   * API calls
+   */
   const createEservice = async () => {
     // eService also has pop and version that are currently unused
     const eserviceCreateData = {
@@ -115,7 +125,6 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
       voucherLifespan: eserviceData.voucherLifespan,
       producerId: party!.partyId,
       attributes: formatAttributes(attributes),
-      explicitAttributesVerification: true,
     }
 
     const createResp = await fetchWithLogs(
@@ -155,6 +164,9 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
     )
   }
 
+  // This method contains a waterfall of two calls
+  // First, the eservice is created
+  // Then, it is attached its interface and documents
   const createEserviceAndUploadDocuments = async () => {
     const { descriptors, eserviceId } = await createEservice()
     // For now there is only one. This will be refactored after the PoC
@@ -162,20 +174,24 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
     await uploadDocuments(eserviceId, descriptorId)
     return { eserviceId, descriptorId }
   }
+  /*
+   * End API calls
+   */
 
-  // This method contains a waterfall of two calls
-  // First, the eservice is created
-  // Then, it is attached its interface and documents
+  /*
+   * List of possible actions for the user to perform
+   */
   const saveDraft = async () => {
-    setLoading(true)
+    closeDialog()
+    setLoadingText('Stiamo salvando la bozza')
     await createEserviceAndUploadDocuments()
-    setLoading(false)
-    closeModal()
-    showToast()
+    setLoadingText(undefined)
+    showToast('Bozza salvata')
   }
 
   const publish = async () => {
-    setLoading(true)
+    closeDialog()
+    setLoadingText('Stiamo pubblicando la versione del servizio')
     const { eserviceId } = await createEserviceAndUploadDocuments()
 
     await fetchWithLogs(
@@ -183,21 +199,22 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
       { method: 'POST' }
     )
 
-    setLoading(false)
-    closeModal()
-    showToast()
-  }
-
-  const buildWrapAction = (proceedCallback: VoidFunction) => async (_: any) => {
-    setModal({ proceedCallback, close: closeModal })
+    setLoadingText(undefined)
+    showToast('Versione del servizio pubblicata')
   }
 
   const cancel = () => {
     showTempAlert('Cancella bozza')
-    closeModal()
-    showToast()
+    closeDialog()
+    showToast('Bozza eliminata')
   }
+  /*
+   * End list of actions
+   */
 
+  // When the component mounts, if some data is passed from above, pre-compile the fields.
+  // This can happen if this service version is an already existing draft that can be edited
+  // again before being published
   useEffect(() => {
     if (!isEmpty(data)) {
       const _eserviceData = {
@@ -208,7 +225,6 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
         voucherLifespan: data.voucherLifespan,
         producerId: data.producerId,
         attributes: data.attributes,
-        explicitAttributesVerification: data.explicitAttributesVerification,
       }
 
       setEserviceData({ ...eserviceData, ..._eserviceData })
@@ -261,25 +277,27 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
 
       <WhiteBackground>
         <div className="d-flex">
-          <Button className="me-3" variant="primary" onClick={buildWrapAction(saveDraft)}>
+          <Button className="me-3" variant="primary" onClick={wrapActionInDialog(saveDraft)}>
             salva in bozza
           </Button>
-          <Button className="me-3" variant="primary" onClick={buildWrapAction(publish)}>
+          <Button className="me-3" variant="primary" onClick={wrapActionInDialog(publish)}>
             pubblica adesso
           </Button>
           <Button
             className="mockFeature"
             variant="outline-primary"
-            onClick={buildWrapAction(cancel)}
+            onClick={wrapActionInDialog(cancel)}
           >
             cancella
           </Button>
         </div>
       </WhiteBackground>
 
-      {modal && <ConfirmationDialogOverlay {...modal} />}
+      {dialog && <StyledDialog {...dialog} />}
       {toast && !isEmpty(toast) && <StyledToast {...toast} />}
-      {loading && <LoadingOverlay loadingText="Stiamo effettuando l'operazione richiesta" />}
+      {loadingText && (
+        <LoadingOverlay loadingText={loadingText || "Stiamo effettuando l'operazione richiesta"} />
+      )}
     </React.Fragment>
   )
 }

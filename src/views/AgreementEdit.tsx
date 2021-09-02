@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
-import { AgreementStatus, AgreementSummary, ApiEndpointKey, ToastContent } from '../../types'
+import {
+  AgreementStatus,
+  AgreementSummary,
+  ApiEndpointKey,
+  DialogContent,
+  DialogProceedCallback,
+  ToastContent,
+  WrappableAction,
+} from '../../types'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
@@ -12,67 +20,41 @@ import capitalize from 'lodash/capitalize'
 import isEmpty from 'lodash/isEmpty'
 import { useMode } from '../hooks/useMode'
 import { fetchWithLogs } from '../lib/api-utils'
-import { ConfirmationDialogOverlay } from '../components/ConfirmationDialogOverlay'
 import { StyledToast } from '../components/StyledToast'
 import { showTempAlert } from '../lib/wip-utils'
 import { formatDate, getRandomDate } from '../lib/date-utils'
 import { DescriptionBlock } from '../components/DescriptionBlock'
+import { StyledDialog } from '../components/StyledDialog'
 
 export function AgreementEdit() {
-  const mode = useMode()
-  const [actionLoading, setActionLoading] = useState(false)
-  const [loadingText, setLoadingText] = useState("Stiamo caricando l'accordo richiesto")
-  const [actions, setActions] = useState<any[]>()
-  const agreementId = getLastBit(useLocation())
-  const [modal, setModal] = useState<any>()
+  const [actionLoadingText, setActionLoadingText] = useState<string | undefined>(undefined)
+  const [dialog, setDialog] = useState<DialogContent>()
   const [toast, setToast] = useState<ToastContent>()
+  const [actions, setActions] = useState<WrappableAction[]>()
+  const [forceUpdateCounter, setForceUpdateCounter] = useState(0)
+
+  const mode = useMode()
+  const agreementId = getLastBit(useLocation())
   const { data, loading: dataLoading } = useAsyncFetch<AgreementSummary>(
     {
       path: { endpoint: 'AGREEMENT_GET_SINGLE', endpointParams: { agreementId } },
       config: { method: 'GET' },
     },
-    {}
+    {},
+    undefined,
+    [forceUpdateCounter]
   )
 
-  const runPatchAction = async (endpoint: ApiEndpointKey, feedbackText: string) => {
-    setActionLoading(true)
-    setLoadingText(feedbackText)
-    await fetchWithLogs({ endpoint, endpointParams: { agreementId } }, { method: 'PATCH' })
-    setActionLoading(false)
+  // Dialog and toast related functions
+  const wrapActionInDialog = (wrappedAction: DialogProceedCallback) => async (_: any) => {
+    setDialog({ proceedCallback: wrappedAction, close: closeDialog })
   }
-
-  const activate = async () => {
-    await runPatchAction('AGREEMENT_ACTIVATE', "Stiamo attivando l'accordo")
-    showToast()
+  const closeDialog = () => {
+    setDialog(undefined)
   }
-
-  const reactivate = () => {
-    showTempAlert('Riattiva accordo')
-    closeModal()
-    showToast()
+  const closeToast = () => {
+    setToast(undefined)
   }
-
-  const refuse = () => {
-    showTempAlert('Rifiuta accordo')
-    closeModal()
-    showToast()
-  }
-
-  const suspend = async () => {
-    await runPatchAction('AGREEMENT_SUSPEND', "Stiamo sospendendo l'accordo")
-    showToast()
-  }
-
-  const archive = () => {
-    showTempAlert('Archivia accordo')
-    closeModal()
-    showToast()
-  }
-
-  const closeModal = () => {
-    setModal(undefined)
-  }
-
   const showToast = () => {
     setToast({
       title: 'Operazione conclusa',
@@ -81,17 +63,53 @@ export function AgreementEdit() {
     })
   }
 
-  const closeToast = () => {
-    setToast(undefined)
+  /*
+   * API calls
+   */
+  const runPatchAction = async (endpoint: ApiEndpointKey, feedbackText: string) => {
+    closeDialog()
+    setActionLoadingText(feedbackText)
+    await fetchWithLogs({ endpoint, endpointParams: { agreementId } }, { method: 'PATCH' })
+    setActionLoadingText(undefined)
+    setForceUpdateCounter(forceUpdateCounter + 1)
+    showToast()
+  }
+  /*
+   * End API calls
+   */
+
+  /*
+   * List of possible actions for the user to perform
+   */
+  const activate = async () => {
+    await runPatchAction('AGREEMENT_ACTIVATE', "Stiamo attivando l'accordo")
   }
 
-  const buildWrapAction = (proceedCallback: VoidFunction) => async (_: any) => {
-    setModal({ proceedCallback, close: closeModal })
+  const suspend = async () => {
+    await runPatchAction('AGREEMENT_SUSPEND', "Stiamo sospendendo l'accordo")
+  }
+
+  const reactivate = () => {
+    closeDialog()
+    showTempAlert('Riattiva accordo')
+    showToast()
+  }
+
+  const refuse = () => {
+    closeDialog()
+    showTempAlert('Rifiuta accordo')
+    showToast()
+  }
+
+  const archive = () => {
+    closeDialog()
+    showTempAlert('Archivia accordo')
+    showToast()
   }
 
   const buildVerify = (attributeId: string) => async (_: any) => {
-    setActionLoading(true)
-    setLoadingText("Stiamo verificando l'attributo")
+    closeDialog()
+    setActionLoadingText("Stiamo verificando l'attributo")
     await fetchWithLogs(
       {
         endpoint: 'AGREEMENT_VERIFY_ATTRIBUTE',
@@ -99,14 +117,15 @@ export function AgreementEdit() {
       },
       { method: 'PATCH' }
     )
-    setActionLoading(false)
+    setActionLoadingText(undefined)
+    showToast()
   }
+  /*
+   * End list of actions
+   */
 
+  // Build list of available actions for each agreement in its current state
   const getAvailableActions = () => {
-    if (isEmpty(data) || !data.status) {
-      return
-    }
-
     const providerActions: { [key in AgreementStatus]: any[] } = {
       pending: [
         { proceedCallback: activate, label: 'attiva' },
@@ -125,16 +144,16 @@ export function AgreementEdit() {
       pending: [],
     }
 
-    const actions = {
-      provider: providerActions,
-      subscriber: subscriberActions,
-    }[mode!]
+    const actions = { provider: providerActions, subscriber: subscriberActions }[mode!]
 
     return actions[data!.status]
   }
 
+  // Update the actions if the data changes
   useEffect(() => {
-    setActions(getAvailableActions())
+    if (!isEmpty(data) && !data.status) {
+      setActions(getAvailableActions())
+    }
   }, [mode, data]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -196,7 +215,7 @@ export function AgreementEdit() {
                 key={i}
                 className={`me-3${isMock ? ' mockFeature' : ''}`}
                 variant={i === 0 ? 'primary' : 'outline-primary'}
-                onClick={buildWrapAction(proceedCallback)}
+                onClick={wrapActionInDialog(proceedCallback)}
               >
                 {label}
               </Button>
@@ -215,9 +234,11 @@ export function AgreementEdit() {
         </WhiteBackground>
       )}
 
-      {(dataLoading || actionLoading) && <LoadingOverlay loadingText={loadingText} />}
-      {modal && <ConfirmationDialogOverlay {...modal} />}
+      {dialog && <StyledDialog {...dialog} />}
       {toast && <StyledToast {...toast} />}
+      {(dataLoading || actionLoadingText) && (
+        <LoadingOverlay loadingText={actionLoadingText || "Stiamo caricando l'accordo richiesto"} />
+      )}
     </React.Fragment>
   )
 }
