@@ -1,4 +1,4 @@
-import { DisplayLogsType, RoutesObject } from '../../types'
+import { DisplayLogsType, RoutesObject, RunActionProps } from '../../types'
 import { ChooseParty } from '../views/ChooseParty'
 import { ClientEdit } from '../views/ClientEdit'
 import { ClientList } from '../views/ClientList'
@@ -282,4 +282,190 @@ export const AGREEMENT_STATUS = {
   active: 'attivo',
   suspended: 'sospeso',
   pending: 'in attesa di approvazione',
+}
+
+export const TOAST_CONTENTS: { [key in keyof typeof API]: RunActionProps } = {
+  BASE: {
+    loadingText: 'Operazione in corso',
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  ONBOARDING_GET_AVAILABLE_PARTIES: {
+    loadingText: 'Operazione in corso',
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  ONBOARDING_GET_SEARCH_PARTIES: {
+    loadingText: 'Operazione in corso',
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  ONBOARDING_POST_LEGALS: {
+    loadingText: 'Operazione in corso',
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  ONBOARDING_COMPLETE_REGISTRATION: {
+    loadingText: 'Operazione in corso',
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  ESERVICE_GET_LIST: {
+    loadingText: 'Operazione in corso',
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  ESERVICE_GET_SINGLE: {
+    loadingText: 'Operazione in corso',
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  ESERVICE_CREATE: {
+    loadingText: 'Operazione in corso',
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  ESERVICE_VERSION_PUBLISH: {
+    loadingText: 'Stiamo pubblicando la versione in bozza',
+    success: {
+      title: 'Nuova versione disponibile',
+      description: 'La nuova versione del servizio è stata pubblicata correttamente',
+    },
+    error: {
+      title: 'Errore',
+      description:
+        'Si è verificato un errore, non è stato possibile pubblicare la nuova versione del servizio',
+    },
+  },
+  ESERVICE_DRAFT_DELETE: {
+    loadingText: 'Stiamo cancellando la bozza',
+    success: {
+      title: 'Bozza cancellata correttamente',
+      description: 'La bozza è stata cancellata correttamente',
+    },
+    error: {
+      title: 'Errore',
+      description: 'Si è verificato un errore, non è stato possibile cancellare la bozza',
+    },
+  },
+  ESERVICE_POST_DESCRIPTOR_DOCUMENTS: {
+    loadingText: 'Operazione in corso',
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  ATTRIBUTES_GET_LIST: {
+    loadingText: 'Operazione in corso',
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  ATTRIBUTE_CREATE: {
+    loadingText: 'Operazione in corso',
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  PARTY_GET_PARTY_ID: {
+    loadingText: 'Operazione in corso',
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  AGREEMENT_CREATE: {
+    loadingText: 'Operazione in corso',
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  AGREEMENT_GET_LIST: {
+    loadingText: 'Operazione in corso',
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  AGREEMENT_GET_SINGLE: {
+    loadingText: 'Operazione in corso',
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  AGREEMENT_VERIFY_ATTRIBUTE: {
+    loadingText: "Stiamo verificando l'attributo",
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  AGREEMENT_ACTIVATE: {
+    loadingText: "Stiamo attivando l'accordo",
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  AGREEMENT_SUSPEND: {
+    loadingText: "Stiamo sospendendo l'accordo",
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  CLIENT_GET_LIST: {
+    loadingText: 'Operazione in corso',
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  CLIENT_GET_SINGLE: {
+    loadingText: 'Operazione in corso',
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
 }

@@ -5,8 +5,10 @@ import {
   ActionFunction,
   AgreementStatus,
   AgreementSummary,
-  ApiEndpointKey,
   DialogContent,
+  RequestConfig,
+  RunActionProps,
+  ToastContent,
   ToastProps,
   WrappableAction,
 } from '../../types'
@@ -14,7 +16,7 @@ import { LoadingOverlay } from '../components/LoadingOverlay'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { AGREEMENT_STATUS, ROUTES } from '../lib/constants'
+import { AGREEMENT_STATUS, ROUTES, TOAST_CONTENTS } from '../lib/constants'
 import { getLastBit } from '../lib/url-utils'
 import capitalize from 'lodash/capitalize'
 import isEmpty from 'lodash/isEmpty'
@@ -25,6 +27,7 @@ import { showTempAlert } from '../lib/wip-utils'
 import { formatDate, getRandomDate } from '../lib/date-utils'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledDialog } from '../components/StyledDialog'
+import { getFetchOutcome } from '../lib/error-utils'
 
 export function AgreementEdit() {
   const [actionLoadingText, setActionLoadingText] = useState<string | undefined>(undefined)
@@ -53,23 +56,39 @@ export function AgreementEdit() {
   const closeToast = () => {
     setToast(undefined)
   }
-  const showToast = (
+  const showToast = ({
     title = 'Operazione conclusa',
-    description: string | JSX.Element = 'Operazione conclusa con successo'
-  ) => {
+    description = 'Operazione conclusa con successo',
+  }: ToastContent) => {
     setToast({ title, description, onClose: closeToast })
   }
 
   /*
    * API calls
    */
-  const runPatchAction = async (endpoint: ApiEndpointKey, feedbackText: string) => {
+  const runAction = async (request: RequestConfig) => {
+    const { loadingText, success, error }: RunActionProps = TOAST_CONTENTS[request.path.endpoint]
+
     closeDialog()
-    setActionLoadingText(feedbackText)
-    await fetchWithLogs({ endpoint, endpointParams: { agreementId } }, { method: 'PATCH' })
+    setActionLoadingText(loadingText)
+
+    const response = await fetchWithLogs(request.path, request.config)
+    const outcome = getFetchOutcome(response)
+
+    let toastContent: ToastContent = error
+    if (outcome === 'success') {
+      setForceUpdateCounter(forceUpdateCounter + 1)
+      toastContent = success
+    }
+
     setActionLoadingText(undefined)
-    setForceUpdateCounter(forceUpdateCounter + 1)
-    showToast()
+    showToast(toastContent)
+  }
+
+  const runFakeAction = (actionName: string) => {
+    closeDialog()
+    showTempAlert(actionName)
+    showToast({ title: actionName, description: "L'operazione è andata a buon fine" })
   }
   /*
    * End API calls
@@ -79,44 +98,39 @@ export function AgreementEdit() {
    * List of possible actions for the user to perform
    */
   const activate = async () => {
-    await runPatchAction('AGREEMENT_ACTIVATE', "Stiamo attivando l'accordo")
+    await runAction({
+      path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId } },
+      config: { method: 'PATCH' },
+    })
   }
 
   const suspend = async () => {
-    await runPatchAction('AGREEMENT_SUSPEND', "Stiamo sospendendo l'accordo")
+    await runAction({
+      path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId } },
+      config: { method: 'PATCH' },
+    })
   }
 
   const reactivate = () => {
-    closeDialog()
-    showTempAlert('Riattiva accordo')
-    showToast()
+    runFakeAction('Riattiva accordo')
   }
 
   const refuse = () => {
-    closeDialog()
-    showTempAlert('Rifiuta accordo')
-    showToast()
+    runFakeAction('Rifiuta accordo')
   }
 
   const archive = () => {
-    closeDialog()
-    showTempAlert('Archivia accordo')
-    showToast()
+    runFakeAction('Archivia accordo')
   }
 
   const wrapVerify = (attributeId: string) => async (_: any) => {
-    closeDialog()
-    setActionLoadingText("Stiamo verificando l'attributo")
-    await fetchWithLogs(
-      {
+    await runAction({
+      path: {
         endpoint: 'AGREEMENT_VERIFY_ATTRIBUTE',
         endpointParams: { agreementId: data!.id, attributeId },
       },
-      { method: 'PATCH' }
-    )
-    setActionLoadingText(undefined)
-    setForceUpdateCounter(forceUpdateCounter + 1)
-    showToast()
+      config: { method: 'PATCH' },
+    })
   }
   /*
    * End list of actions

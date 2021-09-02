@@ -192,6 +192,12 @@ export type FrontendAttributes = {
  */
 export type ActionFunction = ((event?: any) => Promise<void>) | VoidFunction
 
+export type RunActionProps = {
+  loadingText: string
+  success: ToastContent
+  error: ToastContent
+}
+
 export type WrappableAction = {
   proceedCallback: ActionFunction
   label: string

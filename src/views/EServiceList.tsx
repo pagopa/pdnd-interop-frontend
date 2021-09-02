@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { WhiteBackground } from '../components/WhiteBackground'
-import { ESERVICE_STATUS, ROUTES } from '../lib/constants'
+import { ESERVICE_STATUS, ROUTES, TOAST_CONTENTS } from '../lib/constants'
 import { Button } from 'react-bootstrap'
 import { PartyContext } from '../lib/context'
 import {
@@ -10,6 +10,7 @@ import {
   EServiceStatus,
   EServiceSummary,
   RequestConfig,
+  RunActionProps,
   TableActionBtn,
   TableActionLink,
   TableActionProps,
@@ -56,45 +57,39 @@ export function EServiceList() {
   const closeDialog = () => {
     setDialog(undefined)
   }
-  const showToast = (
+  const showToast = ({
     title = 'Operazione conclusa',
-    description: string | JSX.Element = 'Operazione conclusa con successo'
-  ) => {
+    description = 'Operazione conclusa con successo',
+  }: ToastContent) => {
     setToast({ title, description, onClose: closeToast })
   }
 
   /*
    * API calls
    */
-  type RunActionProps = {
-    loadingText: string
-    success: ToastContent
-    error: ToastContent
-  }
+  const runAction = async (request: RequestConfig) => {
+    const { loadingText, success, error }: RunActionProps = TOAST_CONTENTS[request.path.endpoint]
 
-  const runAction = async (
-    request: RequestConfig,
-    { loadingText, success, error }: RunActionProps
-  ) => {
     closeDialog()
     setActionLoadingText(loadingText)
 
     const response = await fetchWithLogs(request.path, request.config)
     const outcome = getFetchOutcome(response)
 
-    let title = ''
-    let description: string | JSX.Element = ''
+    let toastContent: ToastContent = error
     if (outcome === 'success') {
       setForceUpdateCounter(forceUpdateCounter + 1)
-      title = success.title
-      description = success.description
-    } else if (outcome === 'error') {
-      title = error.title
-      description = error.description
+      toastContent = success
     }
 
     setActionLoadingText(undefined)
-    showToast(title, description)
+    showToast(toastContent)
+  }
+
+  const runFakeAction = (actionName: string) => {
+    closeDialog()
+    showTempAlert(actionName)
+    showToast({ title: actionName, description: "L'operazione è andata a buon fine" })
   }
   /*
    * End API calls
@@ -104,67 +99,31 @@ export function EServiceList() {
    * List of possible actions for the user to perform
    */
   const wrapPublishDraft = (eserviceId: string, descriptorId: string) => async (_: any) => {
-    const success = {
-      title: 'Nuova versione',
-      description: 'La nuova versione del servizio è stata pubblicata correttamente',
-    }
-
-    const error = {
-      title: 'Errore',
-      description:
-        'Si è verificato un errore, non è stato possibile pubblicare la nuova versione del servizio',
-    }
-
-    await runAction(
-      {
-        path: {
-          endpoint: 'ESERVICE_VERSION_PUBLISH',
-          endpointParams: { eserviceId, descriptorId },
-        },
-        config: { method: 'POST' },
-      },
-      { loadingText: 'Stiamo pubblicando la versione in bozza', success, error }
-    )
+    await runAction({
+      path: { endpoint: 'ESERVICE_VERSION_PUBLISH', endpointParams: { eserviceId, descriptorId } },
+      config: { method: 'POST' },
+    })
   }
 
   const wrapDeleteDraft = (eserviceId: string, descriptorId: string) => async (_: any) => {
-    const success = {
-      title: 'Bozza cancellata correttamente',
-      description: 'La bozza è stata cancellata correttamente',
-    }
-
-    const error = {
-      title: 'Errore',
-      description: 'Si è verificato un errore, non è stato possibile cancellare la bozza',
-    }
-
-    await runAction(
-      {
-        path: {
-          endpoint: 'ESERVICE_DRAFT_DELETE',
-          endpointParams: { eserviceId, descriptorId },
-        },
-        config: { method: 'DELETE' },
-      },
-      { loadingText: 'Stiamo cancellando la bozza', success, error }
-    )
+    await runAction({
+      path: { endpoint: 'ESERVICE_DRAFT_DELETE', endpointParams: { eserviceId, descriptorId } },
+      config: { method: 'DELETE' },
+    })
   }
 
   const reactivate = () => {
-    closeDialog()
-    showTempAlert('Riattiva servizio')
+    runFakeAction('Riattiva servizio')
   }
 
   const suspend = () => {
-    closeDialog()
-    showTempAlert('Sospendi servizio')
+    runFakeAction('Sospendi servizio')
   }
 
   const archive = () => {
     // Can only archive if all agreements on that version are archived
     // Check with backend if this can be automated
-    closeDialog()
-    showTempAlert('Archivia servizio')
+    runFakeAction('Archivia servizio')
   }
   /*
    * End list of actions
