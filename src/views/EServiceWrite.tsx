@@ -4,12 +4,12 @@ import { WhiteBackground } from '../components/WhiteBackground'
 import { EServiceDocumentSection } from '../components/EServiceDocumentSection'
 import {
   DialogContent,
-  DialogProceedCallback,
+  ActionFunction,
   EServiceDataType,
   EServiceDataTypeKeys,
   EServiceDocumentType,
   FrontendAttributes,
-  ToastContent,
+  ToastProps,
 } from '../../types'
 import { EServiceAgreementSection } from '../components/EServiceAgreementSection'
 import { EServiceGeneralInfoSection } from '../components/EServiceGeneralInfoSection'
@@ -33,7 +33,7 @@ type EServiceWriteProps = {
 
 export function EServiceWrite({ data }: EServiceWriteProps) {
   const [loadingText, setLoadingText] = useState<string | undefined>(undefined)
-  const [toast, setToast] = useState<ToastContent>()
+  const [toast, setToast] = useState<ToastProps>()
   const [dialog, setDialog] = useState<DialogContent>()
 
   const { party } = useContext(PartyContext)
@@ -88,7 +88,7 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
   }
 
   // Dialog and toast related functions
-  const wrapActionInDialog = (wrappedAction: DialogProceedCallback) => async (_: any) => {
+  const wrapActionInDialog = (wrappedAction: ActionFunction) => async (_: any) => {
     setDialog({ proceedCallback: wrappedAction, close: closeDialog })
   }
   const closeDialog = () => {
@@ -97,19 +97,11 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
   const closeToast = () => {
     setToast(undefined)
   }
-  const showToast = (title = 'Operazione conclusa') => {
-    setToast({
-      title,
-      description: (
-        <>
-          Operazione conclusa con successo.{' '}
-          <Link to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH} className="link-default">
-            Torna agli e-service
-          </Link>
-        </>
-      ),
-      onClose: closeToast,
-    })
+  const showToast = (
+    title = 'Operazione conclusa',
+    description: string | JSX.Element = 'Operazione conclusa con successo'
+  ) => {
+    setToast({ title, description, onClose: closeToast })
   }
 
   /*
@@ -186,7 +178,15 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
     setLoadingText('Stiamo salvando la bozza')
     await createEserviceAndUploadDocuments()
     setLoadingText(undefined)
-    showToast('Bozza salvata')
+    showToast(
+      'Bozza salvata',
+      <>
+        Operazione conclusa con successo.{' '}
+        <Link to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH} className="link-default">
+          Torna agli e-service
+        </Link>
+      </>
+    )
   }
 
   const publish = async () => {

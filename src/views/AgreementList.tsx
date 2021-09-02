@@ -3,7 +3,13 @@ import { Link } from 'react-router-dom'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { AGREEMENT_STATUS, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import { AgreementStatus, AgreementSummary, TableActionBtn } from '../../types'
+import {
+  AgreementStatus,
+  AgreementSummary,
+  TableActionBtn,
+  TableActionLink,
+  TableActionProps,
+} from '../../types'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { TableAction } from '../components/TableAction'
 import { StyledIntro } from '../components/StyledIntro'
@@ -29,7 +35,7 @@ export function AgreementList() {
   )
 
   const getAvailableActions = (agreement: any) => {
-    const availableActions: { [key in AgreementStatus]: TableActionBtn[] } = {
+    const availableActions: { [key in AgreementStatus]: TableActionProps[] } = {
       active: [],
       suspended: [],
       pending: [],
@@ -47,7 +53,7 @@ export function AgreementList() {
     }
 
     // Get all the actions available for this particular status
-    const actions: TableActionBtn[] = (availableActions as any)[status] || []
+    const actions: TableActionProps[] = (availableActions as any)[status] || []
 
     // Add the last action, which is always EDIT/INSPECT
     actions.push(inspectAction)
@@ -98,16 +104,24 @@ export function AgreementList() {
                   : item.producerName || item.producerId}
               </td>
               <td>
-                {getAvailableActions(item).map(({ to, onClick, icon, label }, j) => {
-                  const btnProps: any = { onClick }
+                {getAvailableActions(item).map((tableAction, j) => {
+                  const btnProps: any = {}
 
-                  if (to) {
+                  if ((tableAction as TableActionLink).to) {
                     btnProps.as = Link
-                    btnProps.to = to
-                    delete btnProps.onClick // Redundant, here just for clarity
+                    btnProps.to = (tableAction as TableActionLink).to
+                  } else {
+                    btnProps.onClick = (tableAction as TableActionBtn).onClick
                   }
 
-                  return <TableAction key={j} btnProps={btnProps} label={label} iconClass={icon} />
+                  return (
+                    <TableAction
+                      key={j}
+                      btnProps={btnProps}
+                      label={tableAction.label}
+                      iconClass={tableAction.icon}
+                    />
+                  )
                 })}
               </td>
             </tr>

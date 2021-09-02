@@ -4,7 +4,18 @@ import { WhiteBackground } from '../components/WhiteBackground'
 import { ESERVICE_STATUS, ROUTES } from '../lib/constants'
 import { Button } from 'react-bootstrap'
 import { PartyContext } from '../lib/context'
-import { EServiceStatus, EServiceSummary, TableActionBtn, ToastContent } from '../../types'
+import {
+  ActionFunction,
+  DialogContent,
+  EServiceStatus,
+  EServiceSummary,
+  RequestConfig,
+  TableActionBtn,
+  TableActionLink,
+  TableActionProps,
+  ToastContent,
+  ToastProps,
+} from '../../types'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { TableAction } from '../components/TableAction'
 import { StyledIntro } from '../components/StyledIntro'
@@ -13,12 +24,21 @@ import { showTempAlert } from '../lib/wip-utils'
 import { fetchWithLogs } from '../lib/api-utils'
 import { getFetchOutcome } from '../lib/error-utils'
 import { StyledToast } from '../components/StyledToast'
+import { StyledDialog } from '../components/StyledDialog'
+import { LoadingOverlay } from '../components/LoadingOverlay'
 
 export function EServiceList() {
-  const [toast, setToast] = useState<ToastContent>()
+  const [actionLoadingText, setActionLoadingText] = useState<string | undefined>(undefined)
+  const [dialog, setDialog] = useState<DialogContent>()
+  const [toast, setToast] = useState<ToastProps>()
   const [forceUpdateCounter, setForceUpdateCounter] = useState(0)
+
   const { party } = useContext(PartyContext)
-  const { data, loading, error } = useAsyncFetch<EServiceSummary[]>(
+  const {
+    data,
+    loading: dataLoading,
+    error,
+  } = useAsyncFetch<EServiceSummary[]>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST' },
       config: { method: 'GET', params: { producerId: party?.partyId } },
@@ -26,74 +46,136 @@ export function EServiceList() {
     { defaultValue: [], useEffectDeps: [forceUpdateCounter] }
   )
 
+  // Dialog and toast related functions
+  const wrapActionInDialog = (wrappedAction: ActionFunction) => async (_: any) => {
+    setDialog({ proceedCallback: wrappedAction, close: closeDialog })
+  }
   const closeToast = () => {
     setToast(undefined)
   }
-
-  const buildPublishDraft = (eserviceId: string, descriptorId: string) => async (_: any) => {
-    const publishResponse = await fetchWithLogs(
-      { endpoint: 'ESERVICE_VERSION_PUBLISH', endpointParams: { eserviceId, descriptorId } },
-      { method: 'POST' }
-    )
-
-    const outcome = getFetchOutcome(publishResponse)
-
-    let title = ''
-    let description = ''
-    if (outcome === 'success') {
-      setForceUpdateCounter(forceUpdateCounter + 1)
-      title = 'Nuova versione'
-      description = 'La nuova versione del servizio è stata pubblicata correttamente'
-    } else if (outcome === 'error') {
-      title = 'Errore'
-      description =
-        'Si è verificato un errore, non è stato possibile pubblicare la nuova versione del servizio'
-    }
-
+  const closeDialog = () => {
+    setDialog(undefined)
+  }
+  const showToast = (
+    title = 'Operazione conclusa',
+    description: string | JSX.Element = 'Operazione conclusa con successo'
+  ) => {
     setToast({ title, description, onClose: closeToast })
   }
 
-  const buildDeleteDraft = (eserviceId: string, descriptorId: string) => async (_: any) => {
-    const deleteResponse = await fetchWithLogs(
-      { endpoint: 'ESERVICE_DRAFT_DELETE', endpointParams: { eserviceId, descriptorId } },
-      { method: 'DELETE' }
-    )
+  /*
+   * API calls
+   */
+  type RunActionProps = {
+    loadingText: string
+    success: ToastContent
+    error: ToastContent
+  }
 
-    const outcome = getFetchOutcome(deleteResponse)
+  const runAction = async (
+    request: RequestConfig,
+    { loadingText, success, error }: RunActionProps
+  ) => {
+    closeDialog()
+    setActionLoadingText(loadingText)
+
+    const response = await fetchWithLogs(request.path, request.config)
+    const outcome = getFetchOutcome(response)
 
     let title = ''
-    let description = ''
+    let description: string | JSX.Element = ''
     if (outcome === 'success') {
       setForceUpdateCounter(forceUpdateCounter + 1)
-      title = 'Bozza cancellata correttamente'
-      description = 'La bozza è stata cancellata correttamente'
+      title = success.title
+      description = success.description
     } else if (outcome === 'error') {
-      title = 'Errore'
-      description = 'Si è verificato un errore, non è stato possibile cancellare la bozza'
+      title = error.title
+      description = error.description
     }
 
-    setToast({ title, description, onClose: closeToast })
+    setActionLoadingText(undefined)
+    showToast(title, description)
+  }
+  /*
+   * End API calls
+   */
+
+  /*
+   * List of possible actions for the user to perform
+   */
+  const wrapPublishDraft = (eserviceId: string, descriptorId: string) => async (_: any) => {
+    const success = {
+      title: 'Nuova versione',
+      description: 'La nuova versione del servizio è stata pubblicata correttamente',
+    }
+
+    const error = {
+      title: 'Errore',
+      description:
+        'Si è verificato un errore, non è stato possibile pubblicare la nuova versione del servizio',
+    }
+
+    await runAction(
+      {
+        path: {
+          endpoint: 'ESERVICE_VERSION_PUBLISH',
+          endpointParams: { eserviceId, descriptorId },
+        },
+        config: { method: 'POST' },
+      },
+      { loadingText: 'Stiamo pubblicando la versione in bozza', success, error }
+    )
+  }
+
+  const wrapDeleteDraft = (eserviceId: string, descriptorId: string) => async (_: any) => {
+    const success = {
+      title: 'Bozza cancellata correttamente',
+      description: 'La bozza è stata cancellata correttamente',
+    }
+
+    const error = {
+      title: 'Errore',
+      description: 'Si è verificato un errore, non è stato possibile cancellare la bozza',
+    }
+
+    await runAction(
+      {
+        path: {
+          endpoint: 'ESERVICE_DRAFT_DELETE',
+          endpointParams: { eserviceId, descriptorId },
+        },
+        config: { method: 'DELETE' },
+      },
+      { loadingText: 'Stiamo cancellando la bozza', success, error }
+    )
   }
 
   const reactivate = () => {
+    closeDialog()
     showTempAlert('Riattiva servizio')
   }
 
   const suspend = () => {
+    closeDialog()
     showTempAlert('Sospendi servizio')
   }
 
   const archive = () => {
     // Can only archive if all agreements on that version are archived
     // Check with backend if this can be automated
+    closeDialog()
     showTempAlert('Archivia servizio')
   }
+  /*
+   * End list of actions
+   */
 
+  // Build list of available actions for each service in its current state
   const getAvailableActions = (service: EServiceSummary) => {
-    const availableActions: { [key in EServiceStatus]: TableActionBtn[] } = {
+    const availableActions: { [key in EServiceStatus]: TableActionProps[] } = {
       published: [
         {
-          onClick: suspend,
+          onClick: wrapActionInDialog(suspend),
           icon: 'bi-pause-circle',
           label: 'Sospendi',
           isMock: true,
@@ -102,13 +184,13 @@ export function EServiceList() {
       archived: [],
       deprecated: [
         {
-          onClick: suspend,
+          onClick: wrapActionInDialog(suspend),
           icon: 'bi-pause-circle',
           label: 'Sospendi',
           isMock: true,
         },
         {
-          onClick: archive,
+          onClick: wrapActionInDialog(archive),
           icon: 'bi-archive',
           label: 'Archivia',
           isMock: true,
@@ -116,19 +198,19 @@ export function EServiceList() {
       ],
       draft: [
         {
-          onClick: buildPublishDraft(service.id, service.descriptors[0].id),
+          onClick: wrapActionInDialog(wrapPublishDraft(service.id, service.descriptors[0].id)),
           icon: 'bi-box-arrow-up',
           label: 'Pubblica',
         },
         {
-          onClick: buildDeleteDraft(service.id, service.descriptors[0].id),
+          onClick: wrapActionInDialog(wrapDeleteDraft(service.id, service.descriptors[0].id)),
           icon: 'bi-trash',
           label: 'Elimina',
         },
       ],
       suspended: [
         {
-          onClick: reactivate,
+          onClick: wrapActionInDialog(reactivate),
           icon: 'bi-play-circle',
           label: 'Riattiva',
           isMock: true,
@@ -146,7 +228,7 @@ export function EServiceList() {
     }
 
     // Get all the actions available for this particular status
-    const actions: TableActionBtn[] = availableActions[status]
+    const actions: TableActionProps[] = availableActions[status]
 
     // Add the last action, which is always EDIT/INSPECT
     actions.push(inspectAction)
@@ -154,6 +236,7 @@ export function EServiceList() {
     return actions
   }
 
+  // Data for the table head
   const headData = ['nome servizio', 'versione attuale', 'stato del servizio', '']
 
   return (
@@ -176,7 +259,7 @@ export function EServiceList() {
           </h1>
 
           <TableWithLoader
-            loading={loading}
+            loading={dataLoading}
             loadingLabel="Stiamo caricando i tuoi e-service"
             headData={headData}
             pagination={true}
@@ -190,22 +273,23 @@ export function EServiceList() {
                 <td>{item.descriptors[0].version}</td>
                 <td>{ESERVICE_STATUS[item.descriptors[0].status]}</td>
                 <td>
-                  {getAvailableActions(item).map(({ to, onClick, icon, label, isMock }, j) => {
-                    const btnProps: any = { onClick }
+                  {getAvailableActions(item).map((tableAction, j) => {
+                    const btnProps: any = {}
 
-                    if (to) {
+                    if ((tableAction as TableActionLink).to) {
                       btnProps.as = Link
-                      btnProps.to = to
-                      delete btnProps.onClick // Redundant, here just for clarity
+                      btnProps.to = (tableAction as TableActionLink).to
+                    } else {
+                      btnProps.onClick = (tableAction as TableActionBtn).onClick
                     }
 
                     return (
                       <TableAction
                         key={j}
                         btnProps={btnProps}
-                        label={label}
-                        iconClass={icon}
-                        isMock={isMock}
+                        label={tableAction.label}
+                        iconClass={tableAction.icon}
+                        isMock={tableAction.isMock}
                       />
                     )
                   })}
@@ -216,7 +300,13 @@ export function EServiceList() {
         </div>
       </WhiteBackground>
 
+      {dialog && <StyledDialog {...dialog} />}
       {toast && <StyledToast {...toast} />}
+      {(dataLoading || actionLoadingText) && (
+        <LoadingOverlay
+          loadingText={actionLoadingText || "Stiamo effettuando l'operazione richiesta"}
+        />
+      )}
     </React.Fragment>
   )
 }

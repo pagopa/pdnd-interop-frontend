@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import {
+  ActionFunction,
   AgreementStatus,
   AgreementSummary,
   ApiEndpointKey,
   DialogContent,
-  DialogProceedCallback,
-  ToastContent,
+  ToastProps,
   WrappableAction,
 } from '../../types'
 import { LoadingOverlay } from '../components/LoadingOverlay'
@@ -29,7 +29,7 @@ import { StyledDialog } from '../components/StyledDialog'
 export function AgreementEdit() {
   const [actionLoadingText, setActionLoadingText] = useState<string | undefined>(undefined)
   const [dialog, setDialog] = useState<DialogContent>()
-  const [toast, setToast] = useState<ToastContent>()
+  const [toast, setToast] = useState<ToastProps>()
   const [actions, setActions] = useState<WrappableAction[]>()
   const [forceUpdateCounter, setForceUpdateCounter] = useState(0)
 
@@ -44,7 +44,7 @@ export function AgreementEdit() {
   )
 
   // Dialog and toast related functions
-  const wrapActionInDialog = (wrappedAction: DialogProceedCallback) => async (_: any) => {
+  const wrapActionInDialog = (wrappedAction: ActionFunction) => async (_: any) => {
     setDialog({ proceedCallback: wrappedAction, close: closeDialog })
   }
   const closeDialog = () => {
@@ -53,12 +53,11 @@ export function AgreementEdit() {
   const closeToast = () => {
     setToast(undefined)
   }
-  const showToast = () => {
-    setToast({
-      title: 'Operazione conclusa',
-      description: 'Operazione conclusa con successo',
-      onClose: closeToast,
-    })
+  const showToast = (
+    title = 'Operazione conclusa',
+    description: string | JSX.Element = 'Operazione conclusa con successo'
+  ) => {
+    setToast({ title, description, onClose: closeToast })
   }
 
   /*
@@ -105,7 +104,7 @@ export function AgreementEdit() {
     showToast()
   }
 
-  const buildVerify = (attributeId: string) => async (_: any) => {
+  const wrapVerify = (attributeId: string) => async (_: any) => {
     closeDialog()
     setActionLoadingText("Stiamo verificando l'attributo")
     await fetchWithLogs(
@@ -116,6 +115,7 @@ export function AgreementEdit() {
       { method: 'PATCH' }
     )
     setActionLoadingText(undefined)
+    setForceUpdateCounter(forceUpdateCounter + 1)
     showToast()
   }
   /*
@@ -152,7 +152,7 @@ export function AgreementEdit() {
     if (!isEmpty(data) && !data.status) {
       setActions(getAvailableActions())
     }
-  }, [mode, data]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [mode]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <React.Fragment>
@@ -189,7 +189,7 @@ export function AgreementEdit() {
                     <span>verificato</span>
                   </div>
                 ) : mode === 'provider' ? (
-                  <Button variant="primary" onClick={buildVerify(attribute.id)}>
+                  <Button variant="primary" onClick={wrapVerify(attribute.id)}>
                     verifica
                   </Button>
                 ) : (

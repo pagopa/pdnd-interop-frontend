@@ -25,16 +25,6 @@ export type Provider = 'provider'
 export type Subscriber = 'subscriber'
 export type ProviderOrSubscriber = Provider | Subscriber
 
-export type ApiEndpointKey = keyof typeof API
-export type RoutesObject = { [key: string]: RouteConfig }
-export type RouteConfig = {
-  PATH: string
-  LABEL: string
-  EXACT?: boolean
-  SUBROUTES?: RoutesObject
-  COMPONENT?: React.FunctionComponent<any>
-}
-
 export type StepperStepComponentProps = {
   forward?: any
   back?: () => void
@@ -106,16 +96,6 @@ export type EServiceDataTypeKeys =
   | 'voucherLifespan'
   | 'description'
 
-export type Endpoint = {
-  endpoint: ApiEndpointKey
-  endpointParams?: any
-}
-
-export type RequestConfig = {
-  path: Endpoint
-  config: AxiosRequestConfig
-}
-
 export type AgreementStatus = keyof typeof AGREEMENT_STATUS
 
 export type AgreementVerifiableAttribute = {
@@ -158,14 +138,6 @@ export type Client = {
   serviceVersion: string
   serviceStatus: EServiceStatus
   agreementStatus: AgreementStatus
-}
-
-export type TableActionBtn = {
-  to?: string
-  onClick?: any
-  icon: string
-  label: string
-  isMock?: boolean
 }
 
 /*
@@ -218,21 +190,66 @@ export type FrontendAttributes = {
  * Dialog and toast components typings
  * Here because they reflect onto React state updates
  */
-export type DialogProceedCallback = (() => Promise<void>) | VoidFunction
+export type ActionFunction = ((event?: any) => Promise<void>) | VoidFunction
 
 export type WrappableAction = {
-  proceedCallback: DialogProceedCallback
+  proceedCallback: ActionFunction
   label: string
   isMock: boolean // Temp to mark which actions are still to be developed
 }
 
 export type DialogContent = {
-  proceedCallback: DialogProceedCallback
+  proceedCallback: ActionFunction
   close: VoidFunction
 }
 
 export type ToastContent = {
   title: string
   description: string | JSX.Element
-  onClose?: VoidFunction
+}
+
+export type ToastProps = ToastContent & {
+  onClose: VoidFunction
+}
+
+/*
+ * Action buttons in tables
+ */
+export type TableActionBtn = {
+  onClick: ActionFunction
+  icon: string
+  label: string
+  isMock?: boolean
+}
+export type TableActionLink = {
+  to: string
+  icon: string
+  label: string
+  isMock?: boolean
+}
+export type TableActionProps = TableActionBtn | TableActionLink
+
+/*
+ * Fetch data and router related types
+ */
+export type ApiEndpointKey = keyof typeof API
+
+export type Endpoint = {
+  endpoint: ApiEndpointKey
+  endpointParams?: any
+}
+
+export type RequestConfig = {
+  path: Endpoint
+  config: AxiosRequestConfig
+}
+
+export type RoutesObject = { [key: string]: RouteConfig }
+
+export type RouteConfig = {
+  PATH: string
+  LABEL: string
+  EXACT?: boolean
+  SUBROUTES?: RoutesObject
+  COMPONENT?: React.FunctionComponent<any>
 }

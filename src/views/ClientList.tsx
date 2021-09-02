@@ -1,6 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { AgreementStatus, Client, TableActionBtn } from '../../types'
+import {
+  AgreementStatus,
+  Client,
+  TableActionBtn,
+  TableActionLink,
+  TableActionProps,
+} from '../../types'
 import { StyledIntro } from '../components/StyledIntro'
 import { TableAction } from '../components/TableAction'
 import { TableWithLoader } from '../components/TableWithLoader'
@@ -34,7 +40,7 @@ export function ClientList() {
     }
 
     // Get all the actions available for this particular status
-    const actions: TableActionBtn[] = (availableActions as any)[status] || []
+    const actions: TableActionProps[] = (availableActions as any)[status] || []
 
     // Add the last action, which is always EDIT/INSPECT
     actions.push(inspectAction)
@@ -82,16 +88,24 @@ export function ClientList() {
               <td>{item.serviceVersion}</td>
               <td>{ESERVICE_STATUS[item.serviceStatus]}</td>
               <td>
-                {getAvailableActions(item).map(({ to, onClick, icon, label }, j) => {
-                  const btnProps: any = { onClick }
+                {getAvailableActions(item).map((tableAction, j) => {
+                  const btnProps: any = {}
 
-                  if (to) {
+                  if ((tableAction as TableActionLink).to) {
                     btnProps.as = Link
-                    btnProps.to = to
-                    delete btnProps.onClick // Redundant, here just for clarity
+                    btnProps.to = (tableAction as TableActionLink).to
+                  } else {
+                    btnProps.onClick = (tableAction as TableActionBtn).onClick
                   }
 
-                  return <TableAction key={j} btnProps={btnProps} label={label} iconClass={icon} />
+                  return (
+                    <TableAction
+                      key={j}
+                      btnProps={btnProps}
+                      label={tableAction.label}
+                      iconClass={tableAction.icon}
+                    />
+                  )
                 })}
               </td>
             </tr>

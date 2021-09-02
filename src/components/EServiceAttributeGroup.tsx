@@ -1,6 +1,12 @@
 import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
-import { AttributeModalTemplate, AttributeType, FrontendAttribute, ToastContent } from '../../types'
+import {
+  AttributeModalTemplate,
+  AttributeType,
+  FrontendAttribute,
+  ToastContent,
+  ToastProps,
+} from '../../types'
 import { AttributeModal } from './AttributeModal'
 import { Overlay } from './Overlay'
 import { StyledToast } from './StyledToast'
@@ -24,7 +30,7 @@ export function EServiceAttributeGroup({
   remove,
   attributeKey,
 }: EServiceAttributeGroupProps) {
-  const [toast, setToast] = useState<ToastContent>()
+  const [toast, setToast] = useState<ToastProps>()
   const [modalTemplate, setModalTemplate] = useState<AttributeModalTemplate>()
 
   const headData = canRequireVerification
