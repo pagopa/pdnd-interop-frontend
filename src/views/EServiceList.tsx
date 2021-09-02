@@ -23,9 +23,7 @@ export function EServiceList() {
       path: { endpoint: 'ESERVICE_GET_LIST' },
       config: { method: 'GET', params: { producerId: party?.partyId } },
     },
-    [],
-    undefined,
-    [forceUpdateCounter]
+    { defaultValue: [], useEffectDeps: [forceUpdateCounter] }
   )
 
   const closeToast = () => {

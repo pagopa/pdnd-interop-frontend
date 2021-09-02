@@ -13,7 +13,7 @@ export function EServiceGate() {
       path: { endpoint: 'ESERVICE_GET_SINGLE', endpointParams: { eserviceId } },
       config: { method: 'GET' },
     },
-    {}
+    { defaultValue: {} }
   )
 
   return (

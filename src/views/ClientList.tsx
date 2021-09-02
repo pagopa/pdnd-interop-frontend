@@ -14,7 +14,7 @@ export function ClientList() {
       path: { endpoint: 'CLIENT_GET_LIST' },
       config: { method: 'GET' },
     },
-    []
+    { defaultValue: [] }
   )
 
   const getAvailableActions = (client: Client) => {

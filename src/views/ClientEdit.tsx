@@ -17,7 +17,7 @@ export function ClientEdit() {
       path: { endpoint: 'CLIENT_GET_SINGLE', endpointParams: { clientId } },
       config: { method: 'GET' },
     },
-    {}
+    { defaultValue: {} }
   )
 
   const buildWrapAction = (proceedCallback: VoidFunction) => async (_: any) => {

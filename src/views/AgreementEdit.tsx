@@ -40,9 +40,7 @@ export function AgreementEdit() {
       path: { endpoint: 'AGREEMENT_GET_SINGLE', endpointParams: { agreementId } },
       config: { method: 'GET' },
     },
-    {},
-    undefined,
-    [forceUpdateCounter]
+    { defaultValue: {}, useEffectDeps: [forceUpdateCounter] }
   )
 
   // Dialog and toast related functions

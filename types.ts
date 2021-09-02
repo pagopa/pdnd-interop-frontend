@@ -111,12 +111,6 @@ export type Endpoint = {
   endpointParams?: any
 }
 
-export type ToastContent = {
-  title: string
-  description: string | JSX.Element
-  onClose?: VoidFunction
-}
-
 export type RequestConfig = {
   path: Endpoint
   config: AxiosRequestConfig
@@ -174,19 +168,6 @@ export type TableActionBtn = {
   isMock?: boolean
 }
 
-export type DialogProceedCallback = (() => Promise<void>) | VoidFunction
-
-export type DialogContent = {
-  proceedCallback: DialogProceedCallback
-  close: VoidFunction
-}
-
-export type WrappableAction = {
-  proceedCallback: DialogProceedCallback
-  label: string
-  isMock: boolean
-}
-
 /*
  * Attributes
  */
@@ -231,4 +212,27 @@ export type FrontendAttribute = {
 }
 export type FrontendAttributes = {
   [key in AttributeType]: FrontendAttribute[]
+}
+
+/*
+ * Dialog and toast components typings
+ * Here because they reflect onto React state updates
+ */
+export type DialogProceedCallback = (() => Promise<void>) | VoidFunction
+
+export type WrappableAction = {
+  proceedCallback: DialogProceedCallback
+  label: string
+  isMock: boolean // Temp to mark which actions are still to be developed
+}
+
+export type DialogContent = {
+  proceedCallback: DialogProceedCallback
+  close: VoidFunction
+}
+
+export type ToastContent = {
+  title: string
+  description: string | JSX.Element
+  onClose?: VoidFunction
 }

@@ -25,7 +25,7 @@ export function AgreementList() {
       path: { endpoint: 'AGREEMENT_GET_LIST' },
       config: { method: 'GET', params },
     },
-    []
+    { defaultValue: [] }
   )
 
   const getAvailableActions = (agreement: any) => {

@@ -17,7 +17,7 @@ export function EServiceCatalog() {
       path: { endpoint: 'ESERVICE_GET_LIST' },
       config: { method: 'GET', params: { status: 'published' } },
     },
-    []
+    { defaultValue: [] }
   )
 
   const buildSubscribe = (service: any) => async (_: any) => {
