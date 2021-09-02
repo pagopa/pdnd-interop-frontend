@@ -9,7 +9,6 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { fetchWithLogs } from '../lib/api-utils'
 import { ESERVICE_STATUS, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import { showTempAlert } from '../lib/wip-utils'
 
 export function EServiceCatalog() {
   const { party } = useContext(PartyContext)
@@ -41,10 +40,7 @@ export function EServiceCatalog() {
       })),
     }
 
-    const agreementCreationResponse = await fetchWithLogs(
-      { endpoint: 'AGREEMENT_CREATE' },
-      { method: 'POST', data: agreementData }
-    )
+    await fetchWithLogs({ endpoint: 'AGREEMENT_CREATE' }, { method: 'POST', data: agreementData })
   }
 
   const headData = ['nome servizio', 'versione attuale', 'stato del servizio', '']
@@ -82,7 +78,6 @@ export function EServiceCatalog() {
                 btnProps={{ onClick: buildSubscribe(item) }}
                 label="Iscriviti"
                 iconClass={'bi-pencil-square'}
-                isMock={true}
               />
               <TableAction
                 btnProps={{
