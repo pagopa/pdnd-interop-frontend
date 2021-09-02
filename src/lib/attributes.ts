@@ -1,13 +1,18 @@
-import { AttributeKey, Attributes, BackendFormattedAttributes } from '../../types'
+import { BackendAttributes, FrontendAttributes } from '../../types'
+import { getKeys } from './array-utils'
 
-export function formatAttributes(attributes: Attributes): BackendFormattedAttributes {
-  const formattedAttributes = Object.keys(attributes).reduce(
-    (acc, key) => {
-      const attributesType = attributes[key as AttributeKey]
-      const formatted = attributesType.map(({ group }) =>
-        group.length === 1 ? { simple: group[0].id } : { group: group.map((g) => g.id) }
+export function formatFrontendAttributesToBackend(
+  frontendAttributes: FrontendAttributes
+): BackendAttributes {
+  const formattedAttributes: BackendAttributes = getKeys(frontendAttributes).reduce(
+    (acc, attributeType) => {
+      const formatted = frontendAttributes[attributeType].map(
+        ({ attributes, explicitAttributeVerification }) =>
+          attributes.length === 1
+            ? { single: { id: attributes[0].id, explicitAttributeVerification } }
+            : { group: attributes.map(({ id }) => ({ id, explicitAttributeVerification })) }
       )
-      return { ...acc, [key]: formatted }
+      return { ...acc, [attributeType]: formatted }
     },
     { certified: [], verified: [], declared: [] }
   )
@@ -15,15 +20,20 @@ export function formatAttributes(attributes: Attributes): BackendFormattedAttrib
   return formattedAttributes
 }
 
-export function unformatAttributes(formattedAttributes: BackendFormattedAttributes): Attributes {
-  const unformattedAttributes = Object.keys(formattedAttributes).reduce(
-    (acc, key) => {
-      const attributesType = formattedAttributes[key as AttributeKey]
-      const unformatted = attributesType.map((simple, group) => (simple ? [simple] : group))
-      return { ...acc, [key]: unformatted }
-    },
-    { certified: [], verified: [], declared: [] }
-  )
+// export function formatBackendAttributesToFrontend(backendAttributes: BackendAttributes): FrontendAttributes {
+//   return null
+// }
 
-  return unformattedAttributes
+export function unformatAttributes(formattedAttributes: any): any {
+  // const unformattedAttributes = Object.keys(formattedAttributes).reduce(
+  //   (acc, key) => {
+  //     const attributesType = formattedAttributes[key as AttributeKey]
+  //     const unformatted = attributesType.map((simple, group) => (simple ? [simple] : group))
+  //     return { ...acc, [key]: unformatted }
+  //   },
+  //   { certified: [], verified: [], declared: [] }
+  // )
+
+  // return unformattedAttributes
+  return formattedAttributes
 }

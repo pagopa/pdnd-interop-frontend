@@ -3,12 +3,12 @@ import { Button } from 'react-bootstrap'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { EServiceDocumentSection } from '../components/EServiceDocumentSection'
 import {
-  Attributes,
   DialogContent,
   DialogProceedCallback,
   EServiceDataType,
   EServiceDataTypeKeys,
   EServiceDocumentType,
+  FrontendAttributes,
   ToastContent,
 } from '../../types'
 import { EServiceAgreementSection } from '../components/EServiceAgreementSection'
@@ -18,7 +18,7 @@ import { StyledIntro } from '../components/StyledIntro'
 import { testCreateNewServiceStaticFields } from '../lib/mock-static-data'
 import { fetchAllWithLogs, fetchWithLogs } from '../lib/api-utils'
 import { PartyContext } from '../lib/context'
-import { formatAttributes } from '../lib/attributes'
+import { formatFrontendAttributesToBackend } from '../lib/attributes'
 import { StyledToast } from '../components/StyledToast'
 import isEmpty from 'lodash/isEmpty'
 import { showTempAlert } from '../lib/wip-utils'
@@ -47,7 +47,7 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
   const [interfaceDocument, setInterfaceDocument] = useState<EServiceDocumentType | undefined>()
   const [documents, setDocuments] = useState<EServiceDocumentType[]>([])
   // Attributes
-  const [attributes, setAttributes] = useState<Attributes>({
+  const [attributes, setAttributes] = useState<FrontendAttributes>({
     certified: [],
     verified: [],
     declared: [],
@@ -124,7 +124,7 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
       technology: eserviceData.technology,
       voucherLifespan: eserviceData.voucherLifespan,
       producerId: party!.partyId,
-      attributes: formatAttributes(attributes),
+      attributes: formatFrontendAttributesToBackend(attributes),
     }
 
     const createResp = await fetchWithLogs(
@@ -240,7 +240,7 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
         setInterfaceDocument(_interfaceDocument)
       }
       // setDocuments(_documents)
-      // setAttributes(unformatAttributes(data.attributes))
+      // setAttributes(formatBackendAttributesToFrontend(data.attributes))
 
       // console.log(data)
       // console.log({ _eserviceData, _interfaceDocument, _documents })

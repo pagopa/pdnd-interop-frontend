@@ -1,13 +1,13 @@
 import React from 'react'
-import { AttributeFromCatalog, AttributeKey, Attributes } from '../../types'
 import { EServiceAttributeGroup } from './EServiceAttributeGroup'
 import { StyledIntro } from './StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
 import isEqual from 'lodash/isEqual'
+import { AttributeType, CatalogAttribute, FrontendAttributes } from '../../types'
 
 type EServiceAttributeSectionProps = {
-  attributes: Attributes
-  setAttributes: React.Dispatch<React.SetStateAction<Attributes>>
+  attributes: FrontendAttributes
+  setAttributes: React.Dispatch<React.SetStateAction<FrontendAttributes>>
 }
 
 type TypeLabel = {
@@ -15,7 +15,7 @@ type TypeLabel = {
   description: string
 }
 type TypeLabels = {
-  [key in AttributeKey]: TypeLabel
+  [key in AttributeType]: TypeLabel
 }
 
 const TYPE_LABELS: TypeLabels = {
@@ -36,49 +36,30 @@ const TYPE_LABELS: TypeLabels = {
   },
 }
 
-/*
- * The structure of the Attributes object is complex as of now, hopefully
- * it can be simplfied in the future. Right now:
- *
- * {
- *   verified: [
- *     {
- *       group: [
- *         { id: 'abc-def-ghi', ...},
- *         { id: 'pqr-stu-vwy', ...}
- *       ],
- *       explicitAttributesVerification: true
- *     },
- *     ...
- *   ],
- *   certified: [...],
- *   declared: [...]
- * }
- */
-
 export function EServiceAttributeSection({
   attributes,
   setAttributes,
 }: EServiceAttributeSectionProps) {
   const getIds = (arr: any[]) => arr.map((item) => item.id)
 
-  const buildRemove = (key: AttributeKey) => (groupToRemove: AttributeFromCatalog[]) => {
+  const wrapRemove = (key: AttributeType) => (attributeGroupToRemove: CatalogAttribute[]) => {
     // Just for safety, generate new object
-    const _attributes = { ...attributes }
+    const filteredAttributes = { ...attributes }
     // Filter out those that have the exact same id list as the group to remove
-    _attributes[key] = _attributes[key].filter(
-      ({ group: currentGroup }) => !isEqual(getIds(currentGroup), getIds(groupToRemove))
+    filteredAttributes[key] = filteredAttributes[key].filter(
+      ({ attributes: currentGroup }) =>
+        !isEqual(getIds(currentGroup), getIds(attributeGroupToRemove))
     )
     // Set again
-    setAttributes(_attributes)
+    setAttributes(filteredAttributes)
   }
 
-  const buildAdd =
-    (key: AttributeKey) =>
-    (group: AttributeFromCatalog[], explicitAttributesVerification: boolean) => {
+  const wrapAdd =
+    (key: AttributeType) =>
+    (attributeGroup: CatalogAttribute[], explicitAttributeVerification: boolean) => {
       setAttributes({
         ...attributes,
-        [key]: [...attributes[key], { group, explicitAttributesVerification }],
+        [key]: [...attributes[key], { attributes: attributeGroup, explicitAttributeVerification }],
       })
     }
 
@@ -91,7 +72,7 @@ export function EServiceAttributeSection({
       </StyledIntro>
 
       {Object.keys(attributes).map((key, i) => {
-        const attributeKey = key as AttributeKey
+        const attributeKey = key as AttributeType
         const title = TYPE_LABELS[key as keyof TypeLabels].title
         const description = TYPE_LABELS[key as keyof TypeLabels].description
 
@@ -101,9 +82,9 @@ export function EServiceAttributeSection({
             <EServiceAttributeGroup
               canRequireVerification={key === 'verified'}
               canCreateNewAttributes={key !== 'certified'}
-              attributes={attributes[attributeKey]}
-              add={buildAdd(attributeKey)}
-              remove={buildRemove(attributeKey)}
+              attributesGroup={attributes[attributeKey]}
+              add={wrapAdd(attributeKey)}
+              remove={wrapRemove(attributeKey)}
               attributeKey={attributeKey}
             />
           </div>

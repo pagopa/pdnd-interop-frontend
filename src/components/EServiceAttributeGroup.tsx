@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
-import { AttributeModalTemplate, AttributeKey, AttributeGroup, ToastContent } from '../../types'
+import { AttributeModalTemplate, AttributeType, FrontendAttribute, ToastContent } from '../../types'
 import { AttributeModal } from './AttributeModal'
 import { Overlay } from './Overlay'
 import { StyledToast } from './StyledToast'
@@ -8,16 +8,16 @@ import { TableAction } from './TableAction'
 import { TableWithLoader } from './TableWithLoader'
 
 type EServiceAttributeGroupProps = {
-  attributes: AttributeGroup[]
+  attributesGroup: FrontendAttribute[]
   canRequireVerification?: boolean
   canCreateNewAttributes?: boolean
   add: any
   remove: any
-  attributeKey: AttributeKey
+  attributeKey: AttributeType
 }
 
 export function EServiceAttributeGroup({
-  attributes,
+  attributesGroup,
   canRequireVerification = false,
   canCreateNewAttributes = false,
   add,
@@ -51,25 +51,27 @@ export function EServiceAttributeGroup({
       <TableWithLoader
         loading={false}
         headData={headData}
-        data={attributes}
+        data={attributesGroup}
         noDataLabel="Nessun attributo presente"
       >
-        {attributes.map(({ group, verificationRequired }, j) => {
+        {attributesGroup.map(({ attributes, explicitAttributeVerification }, j) => {
           return (
             <tr key={j}>
               <td
                 dangerouslySetInnerHTML={{
-                  __html: group.map((item) => item.description).join(' <em>oppure</em> '),
+                  __html: attributes
+                    .map(({ description }) => description)
+                    .join(' <em>oppure</em> '),
                 }}
               />
-              {canRequireVerification && <td>{verificationRequired ? 'Sì' : 'No'}</td>}
+              {canRequireVerification && <td>{explicitAttributeVerification ? 'Sì' : 'No'}</td>}
               <td>
                 <TableAction
                   label="Elimina"
                   iconClass="bi-trash"
                   btnProps={{
                     onClick: () => {
-                      remove(group)
+                      remove(attributes)
                     },
                   }}
                 />

@@ -1,11 +1,6 @@
 import React, { useState } from 'react'
 import { Modal, Button } from 'react-bootstrap'
-import {
-  AttributeModalTemplate,
-  AttributeFromCatalog,
-  AttributeKey,
-  ToastContent,
-} from '../../types'
+import { AttributeModalTemplate, AttributeType, CatalogAttribute, ToastContent } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { AsyncAutocomplete } from './AsyncAutocomplete'
 import { LoadingOverlay } from './LoadingOverlay'
@@ -15,7 +10,7 @@ import { StyledInputTextArea } from './StyledInputTextArea'
 
 type AttributeModalCreateNewProps = {
   close: any
-  attributeKey: AttributeKey
+  attributeKey: AttributeType
 }
 
 type AttributeModalAddExistingProps = AttributeModalCreateNewProps & {
@@ -131,10 +126,10 @@ export function AttributeModalAddExisting({
   close,
   attributeKey,
 }: AttributeModalAddExistingProps) {
-  const [selected, setSelected] = useState<AttributeFromCatalog[]>([])
+  const [selected, setSelected] = useState<CatalogAttribute[]>([])
   const [validation, setValidation] = useState(false)
 
-  const updateSelected = (newSelected: AttributeFromCatalog[]) => {
+  const updateSelected = (newSelected: CatalogAttribute[]) => {
     setSelected(newSelected)
   }
 
@@ -165,7 +160,7 @@ export function AttributeModalAddExisting({
           placeholder="Aggiungi nuovo attributo"
           endpoint={{ endpoint: 'ATTRIBUTES_GET_LIST' }}
           transformFn={(data: any) =>
-            data.attributes.filter((a: AttributeFromCatalog) => a.certified === certifiedCondition)
+            data.attributes.filter((a: CatalogAttribute) => a.certified === certifiedCondition)
           }
           labelKey="description"
         />

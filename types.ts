@@ -106,40 +106,6 @@ export type EServiceDataTypeKeys =
   | 'voucherLifespan'
   | 'description'
 
-export type SimpleBackendAttribute = {
-  simple: string
-}
-export type GroupBackendAttribute = {
-  group: string[]
-}
-export type BackendAttribute = SimpleBackendAttribute | GroupBackendAttribute
-
-export type BackendFormattedAttributes = {
-  [key in AttributeKey]: BackendAttribute[]
-}
-
-export type AttributeFromCatalog = {
-  certified: boolean
-  creationTime: string
-  description: string
-  id: string
-  name: string
-  code?: string
-  origin?: 'IPA'
-
-  verificationRequired?: boolean // This is a TEMP until we understand where to put it in the data model
-}
-export type AttributeGroup = {
-  group: AttributeFromCatalog[]
-  verificationRequired: boolean
-}
-export type AttributeKey = 'certified' | 'verified' | 'declared'
-export type Attributes = {
-  [key in AttributeKey]: AttributeGroup[]
-}
-
-export type AttributeModalTemplate = 'add' | 'create'
-
 export type Endpoint = {
   endpoint: ApiEndpointKey
   endpointParams?: any
@@ -219,4 +185,50 @@ export type WrappableAction = {
   proceedCallback: DialogProceedCallback
   label: string
   isMock: boolean
+}
+
+/*
+ * Attributes
+ */
+export type AttributeModalTemplate = 'add' | 'create'
+
+export type AttributeType = 'certified' | 'verified' | 'declared'
+
+// Backend attribute is the attribute as it is expected when POSTed to the backend
+export type BackendAttributeContent = {
+  id: string
+  explicitAttributeVerification: boolean
+}
+export type SingleBackendAttribute = {
+  single: BackendAttributeContent
+}
+export type GroupBackendAttribute = {
+  group: BackendAttributeContent[]
+}
+export type BackendAttribute = SingleBackendAttribute | GroupBackendAttribute
+export type BackendAttributes = {
+  [key in AttributeType]: BackendAttribute[]
+}
+
+// Catalog attribute as it comes from the attributes catalog
+export type CatalogAttribute = {
+  certified: boolean
+  creationTime: string
+  description: string
+  id: string
+  name: string
+  code?: string
+  origin?: 'IPA'
+}
+
+// Frontend attribute as it is needed to display it in the UI
+// (basically the id used by the backend is not enough, it also needs the description, etc).
+// Also, it needs to be in array form to display it into a table, and the explicitAttributeVerification
+// must only come once per group
+export type FrontendAttribute = {
+  attributes: CatalogAttribute[]
+  explicitAttributeVerification: boolean
+}
+export type FrontendAttributes = {
+  [key in AttributeType]: FrontendAttribute[]
 }
