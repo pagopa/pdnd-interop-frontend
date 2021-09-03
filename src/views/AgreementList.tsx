@@ -36,22 +36,52 @@ function AgreementListComponent({
     { defaultValue: [], useEffectDeps: [forceUpdateCounter] }
   )
 
-  const getAvailableActions = (agreement: any) => {
+  /*
+   * List of possible actions for the user to perform
+   */
+  const wrapSuspend = (agreementId: string) => async () => {
+    await runAction({
+      path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId } },
+      config: { method: 'PATCH' },
+    })
+  }
+
+  const wrapReactivate = (agreementId: string) => async () => {
+    runFakeAction('Riattiva accordo: ' + agreementId)
+  }
+  /*
+   * End list of actions
+   */
+
+  // Build list of available actions for each service in its current state
+  const getAvailableActions = (agreement: AgreementSummary) => {
     const availableActions: { [key in AgreementStatus]: TableActionProps[] } = {
-      active: [],
-      suspended: [],
+      active: [
+        {
+          onClick: wrapActionInDialog(wrapSuspend(agreement.id)),
+          label: 'sospendi',
+          icon: 'bi-pause-circle',
+        },
+      ],
+      suspended: [
+        {
+          onClick: wrapActionInDialog(wrapReactivate(agreement.id)),
+          label: 'riattiva',
+          icon: 'bi-play-circle',
+          isMock: true,
+        },
+      ],
       pending: [],
     }
 
     const status = agreement.status
 
-    // If status === 'draft', show precompiled write template. Else, readonly template
     const inspectAction = {
       to: `${
         ROUTES[mode === 'provider' ? 'PROVIDE' : 'SUBSCRIBE'].SUBROUTES!.AGREEMENT_LIST.PATH
       }/${agreement.id}`,
-      icon: status === 'draft' ? 'bi-pencil' : 'bi-info-circle',
-      label: status === 'draft' ? 'Modifica' : 'Ispeziona',
+      icon: 'bi-info-circle',
+      label: 'Ispeziona',
     }
 
     // Get all the actions available for this particular status
@@ -122,6 +152,7 @@ function AgreementListComponent({
                       btnProps={btnProps}
                       label={tableAction.label}
                       iconClass={tableAction.icon}
+                      isMock={tableAction.isMock}
                     />
                   )
                 })}

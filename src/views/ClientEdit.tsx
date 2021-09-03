@@ -6,39 +6,51 @@ import { DescriptionBlock } from '../components/DescriptionBlock'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
+import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { AGREEMENT_STATUS, ESERVICE_STATUS } from '../lib/constants'
 import { getLastBit } from '../lib/url-utils'
 
-export function ClientEdit() {
+function ClientEditComponent({
+  runFakeAction,
+  wrapActionInDialog,
+  forceUpdateCounter,
+}: UserFeedbackHOCProps) {
   const clientId = getLastBit(useLocation())
   const { data, loading } = useAsyncFetch<Client>(
     {
       path: { endpoint: 'CLIENT_GET_SINGLE', endpointParams: { clientId } },
       config: { method: 'GET' },
     },
-    { defaultValue: {} }
+    { defaultValue: {}, useEffectDeps: [forceUpdateCounter] }
   )
 
-  const buildWrapAction = (proceedCallback: VoidFunction) => async (_: any) => {
-    // setModal({ proceedCallback, close: closeModal })
+  /*
+   * List of possible actions for the user to perform
+   */
+  const suspend = () => {
+    runFakeAction('Sospendi client')
   }
 
-  const suspend = () => {}
+  const reactivate = () => {
+    runFakeAction('Riattiva client')
+  }
+  /*
+   * End list of actions
+   */
 
-  const reactivate = () => {}
-
+  // Build list of available actions for each service in its current state
   const getAvailableActions = () => {
     const actions: { [key in AgreementStatus]: any[] } = {
       pending: [],
-      active: [{ onClick: suspend, label: 'sospendi' }],
-      suspended: [{ proceedCallback: reactivate, label: 'riattiva', isMock: true }],
+      active: [{ onClick: wrapActionInDialog(suspend), label: 'sospendi', isMock: true }],
+      suspended: [
+        { proceedCallback: wrapActionInDialog(reactivate), label: 'riattiva', isMock: true },
+      ],
     }
 
     return actions[data.agreementStatus]
   }
-
-  const actions = getAvailableActions()
 
   return (
     <React.Fragment>
@@ -67,20 +79,18 @@ export function ClientEdit() {
           <span>{AGREEMENT_STATUS[data.agreementStatus]}</span>
         </DescriptionBlock>
 
-        {actions && (
-          <div className="mt-5 d-flex">
-            {actions.map(({ proceedCallback, label, isMock }, i) => (
-              <Button
-                key={i}
-                className={`me-3${isMock ? ' mockFeature' : ''}`}
-                variant={i === 0 ? 'primary' : 'outline-primary'}
-                onClick={buildWrapAction(proceedCallback)}
-              >
-                {label}
-              </Button>
-            ))}
-          </div>
-        )}
+        <div className="mt-5 d-flex">
+          {getAvailableActions().map(({ proceedCallback, label, isMock }, i) => (
+            <Button
+              key={i}
+              className={`me-3${isMock ? ' mockFeature' : ''}`}
+              variant={i === 0 ? 'primary' : 'outline-primary'}
+              onClick={proceedCallback}
+            >
+              {label}
+            </Button>
+          ))}
+        </div>
       </WhiteBackground>
 
       <WhiteBackground>
@@ -101,3 +111,5 @@ export function ClientEdit() {
     </React.Fragment>
   )
 }
+
+export const ClientEdit = withUserFeedback(ClientEditComponent)

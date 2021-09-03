@@ -11,28 +11,49 @@ import { StyledIntro } from '../components/StyledIntro'
 import { TableAction } from '../components/TableAction'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { WhiteBackground } from '../components/WhiteBackground'
+import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { ESERVICE_STATUS, ROUTES } from '../lib/constants'
 
-export function ClientList() {
+function ClientListComponent({
+  runFakeAction,
+  wrapActionInDialog,
+  forceUpdateCounter,
+}: UserFeedbackHOCProps) {
   const { data, loading, error } = useAsyncFetch<Client[]>(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
       config: { method: 'GET' },
     },
-    { defaultValue: [] }
+    { defaultValue: [], useEffectDeps: [forceUpdateCounter] }
   )
 
+  /*
+   * List of possible actions for the user to perform
+   */
+  const suspend = () => {
+    runFakeAction('Sospendi client')
+  }
+
+  const reactivate = () => {
+    runFakeAction('Riattiva client')
+  }
+  /*
+   * End list of actions
+   */
+
+  // Build list of available actions for each service in its current state
   const getAvailableActions = (client: Client) => {
-    const availableActions: { [key in AgreementStatus]: TableActionBtn[] } = {
-      active: [],
-      suspended: [],
+    const availableActions: { [key in AgreementStatus]: any[] } = {
       pending: [],
+      active: [{ onClick: wrapActionInDialog(suspend), label: 'sospendi', isMock: true }],
+      suspended: [
+        { proceedCallback: wrapActionInDialog(reactivate), label: 'riattiva', isMock: true },
+      ],
     }
 
     const status = client.agreementStatus
 
-    // If status === 'draft', show precompiled write template. Else, readonly template
     const inspectAction = {
       to: `${ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST.PATH}/${client.id}`,
       icon: 'bi-info-circle',
@@ -80,7 +101,7 @@ export function ClientList() {
           noDataLabel="Non ci sono client disponibili"
           error={error}
         >
-          {data?.map((item, i) => (
+          {data.map((item, i) => (
             <tr key={i}>
               <td>{item.name}</td>
               <td>{item.serviceName}</td>
@@ -115,3 +136,5 @@ export function ClientList() {
     </WhiteBackground>
   )
 }
+
+export const ClientList = withUserFeedback(ClientListComponent)

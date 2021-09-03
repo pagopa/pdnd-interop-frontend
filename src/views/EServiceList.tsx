@@ -15,7 +15,6 @@ import { TableWithLoader } from '../components/TableWithLoader'
 import { TableAction } from '../components/TableAction'
 import { StyledIntro } from '../components/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { LoadingOverlay } from '../components/LoadingOverlay'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 
 function EServiceListComponent({
@@ -196,8 +195,6 @@ function EServiceListComponent({
           </TableWithLoader>
         </div>
       </WhiteBackground>
-
-      {loading && <LoadingOverlay loadingText="Stiamo effettuando l'operazione richiesta" />}
     </React.Fragment>
   )
 }
