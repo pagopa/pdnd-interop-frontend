@@ -136,7 +136,7 @@ function ClientListComponent({
                       key={j}
                       btnProps={btnProps}
                       label={tableAction.label}
-                      iconClass={tableAction.icon}
+                      iconClass={tableAction.icon!}
                     />
                   )
                 })}

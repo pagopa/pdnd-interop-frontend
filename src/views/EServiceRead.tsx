@@ -8,8 +8,6 @@ type EServiceReadProps = {
 }
 
 export function EServiceRead({ data }: EServiceReadProps) {
-  console.log(data)
-
   return (
     <React.Fragment>
       <WhiteBackground>

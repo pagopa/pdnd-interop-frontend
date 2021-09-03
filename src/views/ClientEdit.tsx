@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
-import { AgreementStatus, Client } from '../../types'
+import { Client, ClientStatus, TableActionBtn } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { StyledIntro } from '../components/StyledIntro'
@@ -10,6 +10,7 @@ import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFe
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { AGREEMENT_STATUS, ESERVICE_STATUS } from '../lib/constants'
 import { getLastBit } from '../lib/url-utils'
+import isEmpty from 'lodash/isEmpty'
 
 function ClientEditComponent({
   runFakeAction,
@@ -41,15 +42,16 @@ function ClientEditComponent({
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = () => {
-    const actions: { [key in AgreementStatus]: any[] } = {
-      pending: [],
-      active: [{ onClick: wrapActionInDialog(suspend), label: 'sospendi', isMock: true }],
-      suspended: [
-        { proceedCallback: wrapActionInDialog(reactivate), label: 'riattiva', isMock: true },
-      ],
+    if (isEmpty(data)) {
+      return []
     }
 
-    return actions[data.agreementStatus]
+    const actions: { [key in ClientStatus]: TableActionBtn[] } = {
+      active: [{ onClick: wrapActionInDialog(suspend), label: 'sospendi', isMock: true }],
+      suspended: [{ onClick: wrapActionInDialog(reactivate), label: 'riattiva', isMock: true }],
+    }
+
+    return actions[data.status]
   }
 
   return (
@@ -80,12 +82,12 @@ function ClientEditComponent({
         </DescriptionBlock>
 
         <div className="mt-5 d-flex">
-          {getAvailableActions().map(({ proceedCallback, label, isMock }, i) => (
+          {getAvailableActions().map(({ onClick, label, isMock }, i) => (
             <Button
               key={i}
               className={`me-3${isMock ? ' mockFeature' : ''}`}
               variant={i === 0 ? 'primary' : 'outline-primary'}
-              onClick={proceedCallback}
+              onClick={onClick}
             >
               {label}
             </Button>

@@ -294,9 +294,19 @@ export const AGREEMENT_STATUS = {
   pending: 'in attesa di approvazione',
 }
 
+export const CLIENT_STATUS = {
+  active: 'attivo',
+  suspended: 'sospeso',
+}
+
 export const USER_STATUS = {
   active: 'attivo',
   suspended: 'sospeso',
+}
+
+export const USER_ROLE = {
+  Manager: 'Manager',
+  Delegate: 'Delegato',
 }
 
 export const USER_PLATFORM_ROLE = {

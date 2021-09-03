@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
-import { AgreementStatus, AgreementSummary } from '../../types'
+import { AgreementStatus, AgreementSummary, TableActionBtn } from '../../types'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
@@ -13,6 +13,7 @@ import { useMode } from '../hooks/useMode'
 import { formatDate, getRandomDate } from '../lib/date-utils'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
+import isEmpty from 'lodash/isEmpty'
 
 function AgreementEditComponent({
   runAction,
@@ -74,27 +75,31 @@ function AgreementEditComponent({
 
   // Build list of available actions for each agreement in its current state
   const getAvailableActions = () => {
-    const providerActions: { [key in AgreementStatus]: any[] } = {
+    if (isEmpty(data)) {
+      return []
+    }
+
+    const providerActions: { [key in AgreementStatus]: TableActionBtn[] } = {
       pending: [
-        { proceedCallback: activate, label: 'attiva' },
-        { proceedCallback: refuse, label: 'rifiuta', isMock: true },
+        { onClick: wrapActionInDialog(activate), label: 'attiva' },
+        { onClick: wrapActionInDialog(refuse), label: 'rifiuta', isMock: true },
       ],
-      active: [{ onClick: suspend, label: 'sospendi' }],
+      active: [{ onClick: wrapActionInDialog(suspend), label: 'sospendi' }],
       suspended: [
-        { proceedCallback: reactivate, label: 'riattiva', isMock: true },
-        { proceedCallback: archive, label: 'archivia', isMock: true },
+        { onClick: wrapActionInDialog(reactivate), label: 'riattiva', isMock: true },
+        { onClick: wrapActionInDialog(archive), label: 'archivia', isMock: true },
       ],
     }
 
     const subscriberActions: { [key in AgreementStatus]: any[] } = {
-      active: [{ proceedCallback: suspend, label: 'sospendi' }],
-      suspended: [{ proceedCallback: reactivate, label: 'riattiva', isMock: true }],
+      active: [{ onClick: wrapActionInDialog(suspend), label: 'sospendi' }],
+      suspended: [{ onClick: wrapActionInDialog(reactivate), label: 'riattiva', isMock: true }],
       pending: [],
     }
 
     const actions = { provider: providerActions, subscriber: subscriberActions }[mode!]
 
-    return actions[data!.status]
+    return actions[data.status]
   }
 
   return (
@@ -150,12 +155,12 @@ function AgreementEditComponent({
         )}
 
         <div className="mt-5 d-flex">
-          {getAvailableActions().map(({ proceedCallback, label, isMock }, i) => (
+          {getAvailableActions().map(({ onClick, label, isMock }, i) => (
             <Button
               key={i}
               className={`me-3${isMock ? ' mockFeature' : ''}`}
               variant={i === 0 ? 'primary' : 'outline-primary'}
-              onClick={wrapActionInDialog(proceedCallback)}
+              onClick={onClick}
             >
               {label}
             </Button>

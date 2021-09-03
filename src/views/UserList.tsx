@@ -13,7 +13,7 @@ import { TableWithLoader } from '../components/TableWithLoader'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { ROUTES, USER_PLATFORM_ROLE, USER_STATUS } from '../lib/constants'
+import { ROUTES, USER_PLATFORM_ROLE, USER_ROLE, USER_STATUS } from '../lib/constants'
 
 function UserListComponent({
   runFakeAction,
@@ -122,7 +122,7 @@ function UserListComponent({
               </td>
               <td>{item.taxCode}</td>
               <td>{item.email}</td>
-              <td>{item.role || 'Operatore'}</td>
+              <td>{USER_ROLE[item.role!] || 'Operatore'}</td>
               <td>{USER_PLATFORM_ROLE[item.platformRole]}</td>
               <td>{USER_STATUS[item.status]}</td>
               <td>
@@ -141,7 +141,7 @@ function UserListComponent({
                       key={j}
                       btnProps={btnProps}
                       label={tableAction.label}
-                      iconClass={tableAction.icon}
+                      iconClass={tableAction.icon!}
                       isMock={tableAction.isMock}
                     />
                   )
