@@ -39,14 +39,14 @@ function AgreementListComponent({
   /*
    * List of possible actions for the user to perform
    */
-  const wrapSuspend = (agreementId: string) => async () => {
+  const wrapSuspend = (agreementId: string) => async (_: any) => {
     await runAction({
       path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId } },
       config: { method: 'PATCH' },
     })
   }
 
-  const wrapReactivate = (agreementId: string) => async () => {
+  const wrapReactivate = (agreementId: string) => async (_: any) => {
     runFakeAction('Riattiva accordo: ' + agreementId)
   }
   /*

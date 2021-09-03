@@ -1,3 +1,4 @@
+import { async } from 'crypto-random-string'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import {
@@ -31,12 +32,12 @@ function ClientListComponent({
   /*
    * List of possible actions for the user to perform
    */
-  const suspend = () => {
-    runFakeAction('Sospendi client')
+  const wrapSuspend = (clientId: string) => async (_: any) => {
+    runFakeAction('Sospendi client ' + clientId)
   }
 
-  const reactivate = () => {
-    runFakeAction('Riattiva client')
+  const wrapReactivate = (clientId: string) => async (_: any) => {
+    runFakeAction('Riattiva client ' + clientId)
   }
   /*
    * End list of actions
@@ -44,11 +45,23 @@ function ClientListComponent({
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = (client: Client) => {
-    const availableActions: { [key in AgreementStatus]: any[] } = {
+    const availableActions: { [key in AgreementStatus]: TableActionProps[] } = {
       pending: [],
-      active: [{ onClick: wrapActionInDialog(suspend), label: 'sospendi', isMock: true }],
+      active: [
+        {
+          onClick: wrapActionInDialog(wrapSuspend(client.id)),
+          label: 'sospendi',
+          icon: 'bi-pause-circle',
+          isMock: true,
+        },
+      ],
       suspended: [
-        { proceedCallback: wrapActionInDialog(reactivate), label: 'riattiva', isMock: true },
+        {
+          onClick: wrapActionInDialog(wrapReactivate(client.id)),
+          label: 'riattiva',
+          icon: 'bi-play-circle',
+          isMock: true,
+        },
       ],
     }
 
