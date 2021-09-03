@@ -1,39 +1,34 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { WhiteBackground } from '../components/WhiteBackground'
-import { ESERVICE_STATUS, ROUTES, TOAST_CONTENTS } from '../lib/constants'
+import { ESERVICE_STATUS, ROUTES } from '../lib/constants'
 import { Button } from 'react-bootstrap'
 import { PartyContext } from '../lib/context'
 import {
-  ActionFunction,
-  DialogContent,
   EServiceStatus,
   EServiceSummary,
-  RequestConfig,
-  RunActionProps,
   TableActionBtn,
   TableActionLink,
   TableActionProps,
-  ToastContent,
-  ToastProps,
 } from '../../types'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { TableAction } from '../components/TableAction'
 import { StyledIntro } from '../components/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { showTempAlert } from '../lib/wip-utils'
-import { fetchWithLogs } from '../lib/api-utils'
-import { getFetchOutcome } from '../lib/error-utils'
 import { StyledToast } from '../components/StyledToast'
 import { StyledDialog } from '../components/StyledDialog'
 import { LoadingOverlay } from '../components/LoadingOverlay'
+import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 
-export function EServiceList() {
-  const [actionLoadingText, setActionLoadingText] = useState<string | undefined>(undefined)
-  const [dialog, setDialog] = useState<DialogContent>()
-  const [toast, setToast] = useState<ToastProps>()
-  const [forceUpdateCounter, setForceUpdateCounter] = useState(0)
-
+function EServiceListComponent({
+  runAction,
+  runFakeAction,
+  forceUpdateCounter,
+  wrapActionInDialog,
+  dialog,
+  toast,
+  actionLoadingText,
+}: UserFeedbackHOCProps) {
   const { party } = useContext(PartyContext)
   const {
     data,
@@ -46,54 +41,6 @@ export function EServiceList() {
     },
     { defaultValue: [], useEffectDeps: [forceUpdateCounter] }
   )
-
-  // Dialog and toast related functions
-  const wrapActionInDialog = (wrappedAction: ActionFunction) => async (_: any) => {
-    setDialog({ proceedCallback: wrappedAction, close: closeDialog })
-  }
-  const closeToast = () => {
-    setToast(undefined)
-  }
-  const closeDialog = () => {
-    setDialog(undefined)
-  }
-  const showToast = ({
-    title = 'Operazione conclusa',
-    description = 'Operazione conclusa con successo',
-  }: ToastContent) => {
-    setToast({ title, description, onClose: closeToast })
-  }
-
-  /*
-   * API calls
-   */
-  const runAction = async (request: RequestConfig) => {
-    const { loadingText, success, error }: RunActionProps = TOAST_CONTENTS[request.path.endpoint]
-
-    closeDialog()
-    setActionLoadingText(loadingText)
-
-    const response = await fetchWithLogs(request.path, request.config)
-    const outcome = getFetchOutcome(response)
-
-    let toastContent: ToastContent = error
-    if (outcome === 'success') {
-      setForceUpdateCounter(forceUpdateCounter + 1)
-      toastContent = success
-    }
-
-    setActionLoadingText(undefined)
-    showToast(toastContent)
-  }
-
-  const runFakeAction = (actionName: string) => {
-    closeDialog()
-    showTempAlert(actionName)
-    showToast({ title: actionName, description: "L'operazione è andata a buon fine" })
-  }
-  /*
-   * End API calls
-   */
 
   /*
    * List of possible actions for the user to perform
@@ -269,3 +216,5 @@ export function EServiceList() {
     </React.Fragment>
   )
 }
+
+export const EServiceList = withUserFeedback(EServiceListComponent)

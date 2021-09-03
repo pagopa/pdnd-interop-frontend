@@ -1,41 +1,30 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
-import {
-  ActionFunction,
-  AgreementStatus,
-  AgreementSummary,
-  DialogContent,
-  RequestConfig,
-  RunActionProps,
-  ToastContent,
-  ToastProps,
-  WrappableAction,
-} from '../../types'
+import { AgreementStatus, AgreementSummary } from '../../types'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { AGREEMENT_STATUS, ROUTES, TOAST_CONTENTS } from '../lib/constants'
+import { AGREEMENT_STATUS, ROUTES } from '../lib/constants'
 import { getLastBit } from '../lib/url-utils'
 import capitalize from 'lodash/capitalize'
-import isEmpty from 'lodash/isEmpty'
 import { useMode } from '../hooks/useMode'
-import { fetchWithLogs } from '../lib/api-utils'
 import { StyledToast } from '../components/StyledToast'
-import { showTempAlert } from '../lib/wip-utils'
 import { formatDate, getRandomDate } from '../lib/date-utils'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledDialog } from '../components/StyledDialog'
-import { getFetchOutcome } from '../lib/error-utils'
+import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 
-export function AgreementEdit() {
-  const [actionLoadingText, setActionLoadingText] = useState<string | undefined>(undefined)
-  const [dialog, setDialog] = useState<DialogContent>()
-  const [toast, setToast] = useState<ToastProps>()
-  const [actions, setActions] = useState<WrappableAction[]>()
-  const [forceUpdateCounter, setForceUpdateCounter] = useState(0)
-
+function AgreementEditComponent({
+  runAction,
+  runFakeAction,
+  forceUpdateCounter,
+  wrapActionInDialog,
+  dialog,
+  toast,
+  actionLoadingText,
+}: UserFeedbackHOCProps) {
   const mode = useMode()
   const agreementId = getLastBit(useLocation())
   const { data, loading: dataLoading } = useAsyncFetch<AgreementSummary>(
@@ -43,56 +32,8 @@ export function AgreementEdit() {
       path: { endpoint: 'AGREEMENT_GET_SINGLE', endpointParams: { agreementId } },
       config: { method: 'GET' },
     },
-    { defaultValue: {}, useEffectDeps: [forceUpdateCounter] }
+    { defaultValue: {}, useEffectDeps: [forceUpdateCounter, mode] }
   )
-
-  // Dialog and toast related functions
-  const wrapActionInDialog = (wrappedAction: ActionFunction) => async (_: any) => {
-    setDialog({ proceedCallback: wrappedAction, close: closeDialog })
-  }
-  const closeDialog = () => {
-    setDialog(undefined)
-  }
-  const closeToast = () => {
-    setToast(undefined)
-  }
-  const showToast = ({
-    title = 'Operazione conclusa',
-    description = 'Operazione conclusa con successo',
-  }: ToastContent) => {
-    setToast({ title, description, onClose: closeToast })
-  }
-
-  /*
-   * API calls
-   */
-  const runAction = async (request: RequestConfig) => {
-    const { loadingText, success, error }: RunActionProps = TOAST_CONTENTS[request.path.endpoint]
-
-    closeDialog()
-    setActionLoadingText(loadingText)
-
-    const response = await fetchWithLogs(request.path, request.config)
-    const outcome = getFetchOutcome(response)
-
-    let toastContent: ToastContent = error
-    if (outcome === 'success') {
-      setForceUpdateCounter(forceUpdateCounter + 1)
-      toastContent = success
-    }
-
-    setActionLoadingText(undefined)
-    showToast(toastContent)
-  }
-
-  const runFakeAction = (actionName: string) => {
-    closeDialog()
-    showTempAlert(actionName)
-    showToast({ title: actionName, description: "L'operazione è andata a buon fine" })
-  }
-  /*
-   * End API calls
-   */
 
   /*
    * List of possible actions for the user to perform
@@ -161,13 +102,6 @@ export function AgreementEdit() {
     return actions[data!.status]
   }
 
-  // Update the actions if the data changes
-  useEffect(() => {
-    if (!isEmpty(data) && !data.status) {
-      setActions(getAvailableActions())
-    }
-  }, [mode]) // eslint-disable-line react-hooks/exhaustive-deps
-
   return (
     <React.Fragment>
       <WhiteBackground>
@@ -220,20 +154,18 @@ export function AgreementEdit() {
           </DescriptionBlock>
         )}
 
-        {actions && (
-          <div className="mt-5 d-flex">
-            {actions.map(({ proceedCallback, label, isMock }, i) => (
-              <Button
-                key={i}
-                className={`me-3${isMock ? ' mockFeature' : ''}`}
-                variant={i === 0 ? 'primary' : 'outline-primary'}
-                onClick={wrapActionInDialog(proceedCallback)}
-              >
-                {label}
-              </Button>
-            ))}
-          </div>
-        )}
+        <div className="mt-5 d-flex">
+          {getAvailableActions().map(({ proceedCallback, label, isMock }, i) => (
+            <Button
+              key={i}
+              className={`me-3${isMock ? ' mockFeature' : ''}`}
+              variant={i === 0 ? 'primary' : 'outline-primary'}
+              onClick={wrapActionInDialog(proceedCallback)}
+            >
+              {label}
+            </Button>
+          ))}
+        </div>
       </WhiteBackground>
 
       {mode === 'subscriber' && (
@@ -254,3 +186,5 @@ export function AgreementEdit() {
     </React.Fragment>
   )
 }
+
+export const AgreementEdit = withUserFeedback(AgreementEditComponent)
