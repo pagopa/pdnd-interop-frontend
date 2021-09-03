@@ -69,7 +69,7 @@ async function performRequests(
   requests: (() => Promise<AxiosInstance>)[],
   endpoint: ApiEndpointKey,
   method?: Method
-): Promise<any> {
+): Promise<AxiosResponse[] | AxiosError[]> {
   if (USE_LOCAL_DATA || !API[endpoint].SHOULD_CALL) {
     // Mock taking time for req/res round trip
     await sleep(750)

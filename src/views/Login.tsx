@@ -36,7 +36,7 @@ export function Login() {
     )
     // Associate each partyId to the correspondent party
     parties = parties.map((party) => {
-      const currentParty = partyIdsResponse.find(
+      const currentParty = (partyIdsResponse as AxiosResponse[]).find(
         (r: AxiosResponse) => r.data.institutionId === party.institutionId
       )
 
@@ -74,7 +74,7 @@ export function Login() {
       // If user already has institutions subscribed
       if (!isFetchError(availablePartiesResponse)) {
         // Set parties
-        await setParties(availablePartiesResponse.data!)
+        await setParties((availablePartiesResponse as AxiosResponse).data!)
       }
 
       // Stop loading (irrelevant, because there is a route change, here for consistency)

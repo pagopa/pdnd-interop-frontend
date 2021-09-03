@@ -3,13 +3,11 @@ import { Button } from 'react-bootstrap'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { EServiceDocumentSection } from '../components/EServiceDocumentSection'
 import {
-  DialogContent,
-  ActionFunction,
   EServiceDataType,
   EServiceDataTypeKeys,
   EServiceDocumentType,
+  EServiceSummary,
   FrontendAttributes,
-  ToastProps,
 } from '../../types'
 import { EServiceAgreementSection } from '../components/EServiceAgreementSection'
 import { EServiceGeneralInfoSection } from '../components/EServiceGeneralInfoSection'
@@ -19,23 +17,26 @@ import { testCreateNewServiceStaticFields } from '../lib/mock-static-data'
 import { fetchAllWithLogs, fetchWithLogs } from '../lib/api-utils'
 import { PartyContext } from '../lib/context'
 import { formatFrontendAttributesToBackend } from '../lib/attributes'
-import { StyledToast } from '../components/StyledToast'
 import isEmpty from 'lodash/isEmpty'
-import { showTempAlert } from '../lib/wip-utils'
-import { LoadingOverlay } from '../components/LoadingOverlay'
 import { Link } from 'react-router-dom'
 import { ROUTES } from '../lib/constants'
-import { StyledDialog } from '../components/StyledDialog'
+import { withUserFeedback } from '../components/withUserFeedback'
+import { getFetchOutcome } from '../lib/error-utils'
+import { AxiosError, AxiosResponse } from 'axios'
 
 type EServiceWriteProps = {
-  data: any
+  data: EServiceDataType & EServiceSummary
 }
 
-export function EServiceWrite({ data }: EServiceWriteProps) {
-  const [loadingText, setLoadingText] = useState<string | undefined>(undefined)
-  const [toast, setToast] = useState<ToastProps>()
-  const [dialog, setDialog] = useState<DialogContent>()
-
+function EServiceWriteComponent(
+  {
+    data, // Solve the typing for this unexpected data
+    runAction,
+    runCustomAction,
+    runFakeAction,
+    wrapActionInDialog,
+  }: any & EServiceWriteProps /*UserFeedbackHOCProps */
+) {
   const { party } = useContext(PartyContext)
   // General information section
   const [eserviceData, setEserviceData] = useState<EServiceDataType>({
@@ -87,23 +88,6 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
     setInterfaceDocument(undefined)
   }
 
-  // Dialog and toast related functions
-  const wrapActionInDialog = (wrappedAction: ActionFunction) => async (_: any) => {
-    setDialog({ proceedCallback: wrappedAction, close: closeDialog })
-  }
-  const closeDialog = () => {
-    setDialog(undefined)
-  }
-  const closeToast = () => {
-    setToast(undefined)
-  }
-  const showToast = (
-    title = 'Operazione conclusa',
-    description: string | JSX.Element = 'Operazione conclusa con successo'
-  ) => {
-    setToast({ title, description, onClose: closeToast })
-  }
-
   /*
    * API calls
    */
@@ -119,13 +103,10 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
       attributes: formatFrontendAttributesToBackend(attributes),
     }
 
-    const createResp = await fetchWithLogs(
+    return await fetchWithLogs(
       { endpoint: 'ESERVICE_CREATE' },
       { method: 'POST', data: eserviceCreateData }
     )
-
-    const { descriptors, id: eserviceId } = createResp.data
-    return { descriptors, eserviceId }
   }
 
   const uploadDocuments = async (eserviceId: string, descriptorId: string) => {
@@ -160,11 +141,37 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
   // First, the eservice is created
   // Then, it is attached its interface and documents
   const createEserviceAndUploadDocuments = async () => {
-    const { descriptors, eserviceId } = await createEservice()
-    // For now there is only one. This will be refactored after the PoC
-    const descriptorId = descriptors[0].id
-    await uploadDocuments(eserviceId, descriptorId)
-    return { eserviceId, descriptorId }
+    // Try to create service
+    const createEserviceResponse = await createEservice()
+
+    // If success
+    if (getFetchOutcome(createEserviceResponse) === 'success') {
+      // Get useful variables
+      const { descriptors, id: eserviceId } = (createEserviceResponse as AxiosResponse).data
+
+      // For now there is only one. This will be refactored after the PoC
+      const descriptorId = descriptors[0].id
+
+      // Try to upload the documents
+      const uploadDocumentsResponses = await uploadDocuments(eserviceId, descriptorId)
+
+      // api-utils needs to be typed better
+      const errorResponses = (uploadDocumentsResponses as any).filter(
+        (r: AxiosResponse | AxiosError) => getFetchOutcome(r) === 'error'
+      )
+
+      // If there is any error
+      if (errorResponses.length > 0) {
+        // Return the error
+        return errorResponses[0]
+      }
+
+      // Otherwise return the variables useful for publishing
+      return { eserviceId, descriptorId }
+    } else {
+      // If failure in create service, return the error
+      return createEserviceResponse as AxiosError
+    }
   }
   /*
    * End API calls
@@ -174,39 +181,33 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
    * List of possible actions for the user to perform
    */
   const saveDraft = async () => {
-    closeDialog()
-    setLoadingText('Stiamo salvando la bozza')
-    await createEserviceAndUploadDocuments()
-    setLoadingText(undefined)
-    showToast(
-      'Bozza salvata',
-      <>
-        Operazione conclusa con successo.{' '}
-        <Link to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH} className="link-default">
-          Torna agli e-service
-        </Link>
-      </>
-    )
+    await runCustomAction(createEserviceAndUploadDocuments, {
+      loadingText: 'Stiamo salvando la bozza',
+      success: {
+        title: 'Bozza salvata',
+        description: (
+          <>
+            Operazione conclusa con successo.{' '}
+            <Link to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH} className="link-default">
+              Torna agli e-service
+            </Link>
+          </>
+        ),
+      },
+      error: { title: 'Errore', description: 'Non è stato possibile salvare la bozza' },
+    })
   }
 
   const publish = async () => {
-    closeDialog()
-    setLoadingText('Stiamo pubblicando la versione del servizio')
     const { eserviceId } = await createEserviceAndUploadDocuments()
-
-    await fetchWithLogs(
-      { endpoint: 'ESERVICE_VERSION_PUBLISH', endpointParams: { eserviceId } },
-      { method: 'POST' }
-    )
-
-    setLoadingText(undefined)
-    showToast('Versione del servizio pubblicata')
+    await runAction({
+      path: { endpoint: 'ESERVICE_VERSION_PUBLISH', endpointParams: { eserviceId } },
+      config: { method: 'POST' },
+    })
   }
 
   const cancel = () => {
-    showTempAlert('Cancella bozza')
-    closeDialog()
-    showToast('Bozza eliminata')
+    runFakeAction('Cancella bozza')
   }
   /*
    * End list of actions
@@ -292,12 +293,8 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
           </Button>
         </div>
       </WhiteBackground>
-
-      {dialog && <StyledDialog {...dialog} />}
-      {toast && !isEmpty(toast) && <StyledToast {...toast} />}
-      {loadingText && (
-        <LoadingOverlay loadingText={loadingText || "Stiamo effettuando l'operazione richiesta"} />
-      )}
     </React.Fragment>
   )
 }
+
+export const EServiceWrite = withUserFeedback(EServiceWriteComponent)

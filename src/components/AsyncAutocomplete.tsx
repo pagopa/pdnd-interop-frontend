@@ -5,6 +5,7 @@ import { fetchWithLogs } from '../lib/api-utils'
 import debounce from 'lodash/debounce'
 import 'react-bootstrap-typeahead/css/Typeahead.css'
 import { getFetchOutcome } from '../lib/error-utils'
+import { AxiosResponse } from 'axios'
 
 type AutocompleteProps = {
   selected: any
@@ -39,7 +40,7 @@ export function AsyncAutocomplete({
     const outcome = getFetchOutcome(searchResponse)
 
     if (outcome === 'success') {
-      setOptions(transformFn(searchResponse.data))
+      setOptions(transformFn((searchResponse as AxiosResponse).data))
     }
     setIsLoading(false)
   }

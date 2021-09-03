@@ -18,6 +18,7 @@ import { StyledToast } from './StyledToast'
 export type UserFeedbackHOCProps = {
   runAction: (request: RequestConfig) => Promise<void>
   runFakeAction: (actionName: string) => void
+  runCustomAction: (action: any, actionProps: RunActionProps) => Promise<void>
   forceUpdateCounter: number
   wrapActionInDialog: any
 }
@@ -71,6 +72,26 @@ export function withUserFeedback(
       showToast(toastContent)
     }
 
+    const runCustomAction = async (
+      actionToRun: () => Promise<any>,
+      { loadingText, success, error }: RunActionProps
+    ) => {
+      closeDialog()
+      setActionLoadingText(loadingText)
+
+      const response = await actionToRun()
+      const outcome = getFetchOutcome(response)
+
+      let toastContent: ToastContent = error
+      if (outcome === 'success') {
+        setForceUpdateCounter(forceUpdateCounter + 1)
+        toastContent = success
+      }
+
+      setActionLoadingText(undefined)
+      showToast(toastContent)
+    }
+
     const runFakeAction = (actionName: string) => {
       closeDialog()
       showTempAlert(actionName)
@@ -86,6 +107,7 @@ export function withUserFeedback(
           {...props}
           runAction={runAction}
           runFakeAction={runFakeAction}
+          runCustomAction={runCustomAction}
           forceUpdateCounter={forceUpdateCounter}
           wrapActionInDialog={wrapActionInDialog}
         />

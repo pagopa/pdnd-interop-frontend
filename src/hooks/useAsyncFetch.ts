@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { AxiosError } from 'axios'
+import { AxiosError, AxiosResponse } from 'axios'
 import { RequestConfig } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { isFetchError } from '../lib/error-utils'
@@ -23,9 +23,9 @@ export const useAsyncFetch = <T>(requestConfig: RequestConfig, settings: Setting
       const response = await fetchWithLogs(requestConfig.path, requestConfig.config)
 
       if (isFetchError(response)) {
-        setError(response)
+        setError(response as AxiosError)
       } else {
-        setData(response!.data)
+        setData((response as AxiosResponse).data)
       }
 
       setLoading(false)

@@ -1,10 +1,11 @@
 import React from 'react'
+import { EServiceDataType, EServiceSummary } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 
 type EServiceReadProps = {
-  data: any
+  data: EServiceDataType & EServiceSummary
 }
 
 export function EServiceRead({ data }: EServiceReadProps) {
