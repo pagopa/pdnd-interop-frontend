@@ -50,17 +50,24 @@ export function Login() {
     if (!user) {
       // Display the loader
       setLoading(true)
+
       // Get the user from SPID or CIE
       // This part is missing in the backend for now,
-      // So set a mock user
+      // So get a mock user
+      const { taxCode } = testUser
+
+      // Associate the user taxCode to a platform user
+      // Also this is missing for now
+      // const whoAmIResponse = await fetchWithLogs(
+      //   { endpoint: 'USER_GET_SINGLE', endpointParams: { taxCode } },
+      //   { method: 'GET' }
+      // )
+      // setUser(whoAmIResponse.data)
       setUser(testUser)
 
       // Get all available parties related to the user
       const availablePartiesResponse = await fetchWithLogs(
-        {
-          endpoint: 'ONBOARDING_GET_AVAILABLE_PARTIES',
-          endpointParams: { taxCode: testUser.taxCode },
-        },
+        { endpoint: 'ONBOARDING_GET_AVAILABLE_PARTIES', endpointParams: { taxCode } },
         { method: 'GET' }
       )
 

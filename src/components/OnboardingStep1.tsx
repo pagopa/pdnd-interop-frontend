@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { IPAParty, StepperStepComponentProps } from '../../types'
+import { IPACatalogParty, StepperStepComponentProps } from '../../types'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { UserContext } from '../lib/context'
 import { Row, Container } from 'react-bootstrap'
@@ -9,7 +9,7 @@ import { StyledIntro } from './StyledIntro'
 
 export function OnboardingStep1({ forward }: StepperStepComponentProps) {
   const { user } = useContext(UserContext)
-  const [selected, setSelected] = useState<IPAParty[]>([])
+  const [selected, setSelected] = useState<IPACatalogParty[]>([])
 
   const onForwardAction = () => {
     const { digitalAddress, id } = selected[0]

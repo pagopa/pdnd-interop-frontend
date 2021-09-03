@@ -266,6 +266,16 @@ export const API = {
     LOCAL: 'get-client-single.json',
     SHOULD_CALL: false,
   },
+  USER_GET_LIST: {
+    URL: 'TODO',
+    LOCAL: 'get-user-list.json',
+    SHOULD_CALL: false,
+  },
+  USER_GET_SINGLE: {
+    URL: 'TODO',
+    LOCAL: 'get-user-single.json',
+    SHOULD_CALL: false,
+  },
 }
 
 export const ESERVICE_STATUS = {
@@ -282,6 +292,17 @@ export const AGREEMENT_STATUS = {
   active: 'attivo',
   suspended: 'sospeso',
   pending: 'in attesa di approvazione',
+}
+
+export const USER_STATUS = {
+  active: 'attivo',
+  suspended: 'sospeso',
+}
+
+export const USER_PLATFORM_ROLE = {
+  admin: 'Amministratore',
+  security: 'Operatore di sicurezza',
+  api: 'Operatore API',
 }
 
 export const TOAST_CONTENTS: { [key in keyof typeof API]: RunActionProps } = {
@@ -461,6 +482,22 @@ export const TOAST_CONTENTS: { [key in keyof typeof API]: RunActionProps } = {
     },
   },
   CLIENT_GET_SINGLE: {
+    loadingText: 'Operazione in corso',
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  USER_GET_LIST: {
+    loadingText: 'Operazione in corso',
+    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  USER_GET_SINGLE: {
     loadingText: 'Operazione in corso',
     success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
     error: {

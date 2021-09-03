@@ -1,8 +1,13 @@
-export const testUser = {
+import { User } from '../../types'
+
+export const testUser: User = {
   name: 'Lorenzo',
   surname: 'Carmilli',
   taxCode: 'CRMLRN56T12R566Y',
   email: 'lorenzo.carmilli@test.it',
+  role: 'Manager',
+  platformRole: 'admin',
+  status: 'active',
 }
 
 export const testBearerToken =

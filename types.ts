@@ -2,53 +2,9 @@ import { AxiosRequestConfig } from 'axios'
 import React from 'react'
 import { AGREEMENT_STATUS, API, ESERVICE_STATUS } from './src/lib/constants'
 
-export type UserRole = 'Manager' | 'Delegate'
-
-export type User = {
-  name: string
-  surname: string
-  taxCode: string
-  email?: string
-  role?: UserRole
-}
-
-export type Party = {
-  status: 'Pending'
-  description: string
-  institutionId: string
-  digitalAddress: string
-  partyId?: string
-  role?: UserRole
-}
-
-export type Provider = 'provider'
-export type Subscriber = 'subscriber'
-export type ProviderOrSubscriber = Provider | Subscriber
-
-export type StepperStepComponentProps = {
-  forward?: any
-  back?: () => void
-  updateFormData?: React.Dispatch<React.SetStateAction<any>>
-}
-
-export type StepperStep = {
-  label: string
-  Component: React.FunctionComponent<StepperStepComponentProps>
-}
-
-export type IPAParty = {
-  description: string
-  digitalAddress: string
-  id: string
-  managerName: string
-  managerSurname: string
-  o: string
-  ou: string
-}
-
-export type SingleLogType = 'Router' | 'API'
-export type DisplayLogsType = null | 'all' | SingleLogType[]
-
+/*
+ * EService
+ */
 export type EServiceStatus = keyof typeof ESERVICE_STATUS
 export type EServiceStatusLabel = Record<EServiceStatus, string>
 
@@ -59,8 +15,6 @@ export type EServiceSummary = {
   status: EServiceStatus
   descriptors: EServiceDescriptor[]
 }
-
-export type StyledInputTextType = 'text' | 'email'
 
 export type EServiceDocumentKind = 'interface' | 'document'
 export type EServiceDocumentType = {
@@ -96,6 +50,9 @@ export type EServiceDataTypeKeys =
   | 'voucherLifespan'
   | 'description'
 
+/*
+ * Agreement
+ */
 export type AgreementStatus = keyof typeof AGREEMENT_STATUS
 
 export type AgreementVerifiableAttribute = {
@@ -122,11 +79,9 @@ export type AgreementSummary = {
   eserviceVersion?: string
 }
 
-export type Image = { src: string; alt: string }
-export type RequestOutcome = 'success' | 'error'
-export type RequestOutcomeMessage = { title: string; description: JSX.Element[]; img: Image }
-export type RequestOutcomeOptions = { [key in RequestOutcome]: RequestOutcomeMessage }
-
+/*
+ * Client
+ */
 export type Client = {
   id: string
   name: string
@@ -258,4 +213,72 @@ export type RouteConfig = {
   EXACT?: boolean
   SUBROUTES?: RoutesObject
   COMPONENT?: React.FunctionComponent<any>
+}
+
+export type Image = { src: string; alt: string }
+export type RequestOutcome = 'success' | 'error'
+export type RequestOutcomeMessage = { title: string; description: JSX.Element[]; img: Image }
+export type RequestOutcomeOptions = { [key in RequestOutcome]: RequestOutcomeMessage }
+
+/*
+ * Logs
+ */
+export type SingleLogType = 'Router' | 'API'
+export type DisplayLogsType = null | 'all' | SingleLogType[]
+
+/*
+ * Mode
+ */
+export type Provider = 'provider'
+export type Subscriber = 'subscriber'
+export type ProviderOrSubscriber = Provider | Subscriber
+
+/*
+ * Onboarding component
+ */
+export type StepperStepComponentProps = {
+  forward?: any
+  back?: VoidFunction
+  updateFormData?: React.Dispatch<React.SetStateAction<any>>
+}
+
+export type StepperStep = {
+  label: string
+  Component: React.FunctionComponent<StepperStepComponentProps>
+}
+
+export type IPACatalogParty = {
+  description: string
+  digitalAddress: string
+  id: string
+  managerName: string
+  managerSurname: string
+  o: string
+  ou: string
+}
+
+/*
+ * Platform user and party
+ */
+export type UserStatus = 'active' | 'suspended'
+export type UserRole = 'Manager' | 'Delegate'
+export type UserPlatformRole = 'admin' | 'security' | 'api'
+
+export type User = {
+  name: string
+  surname: string
+  taxCode: string
+  email: string
+  role?: UserRole
+  platformRole: UserPlatformRole
+  status: UserStatus
+}
+
+export type Party = {
+  status: 'Pending'
+  description: string
+  institutionId: string
+  digitalAddress: string
+  partyId?: string
+  role?: UserPlatformRole
 }

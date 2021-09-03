@@ -11,7 +11,7 @@ const bozzaAccordo =
 
 export function OnboardingStep3({ forward, back }: StepperStepComponentProps) {
   const onForwardAction = () => {
-    forward()
+    forward!()
   }
 
   return (

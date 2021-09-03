@@ -1,6 +1,7 @@
 import React from 'react'
 import { Form, FloatingLabel } from 'react-bootstrap'
-import { StyledInputTextType } from '../../types'
+
+export type StyledInputTextType = 'text' | 'email'
 
 type StyledInputTextProps = {
   type?: StyledInputTextType

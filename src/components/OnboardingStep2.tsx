@@ -3,9 +3,9 @@ import { Button, Container } from 'react-bootstrap'
 import { OnboardingStepActions } from './OnboardingStepActions'
 import { WhiteBackground } from './WhiteBackground'
 import cryptoRandomString from 'crypto-random-string'
-import { StepperStepComponentProps, StyledInputTextType, UserRole } from '../../types'
+import { StepperStepComponentProps, UserRole } from '../../types'
 import { objectIsEmpty } from '../lib/object-utils'
-import { StyledInputText } from './StyledInputText'
+import { StyledInputText, StyledInputTextType } from './StyledInputText'
 import { StyledIntro } from './StyledIntro'
 
 type PersonFormProps = {
