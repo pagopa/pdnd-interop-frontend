@@ -15,8 +15,6 @@ import { TableWithLoader } from '../components/TableWithLoader'
 import { TableAction } from '../components/TableAction'
 import { StyledIntro } from '../components/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { StyledToast } from '../components/StyledToast'
-import { StyledDialog } from '../components/StyledDialog'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 
@@ -25,16 +23,9 @@ function EServiceListComponent({
   runFakeAction,
   forceUpdateCounter,
   wrapActionInDialog,
-  dialog,
-  toast,
-  actionLoadingText,
 }: UserFeedbackHOCProps) {
   const { party } = useContext(PartyContext)
-  const {
-    data,
-    loading: dataLoading,
-    error,
-  } = useAsyncFetch<EServiceSummary[]>(
+  const { data, loading, error } = useAsyncFetch<EServiceSummary[]>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST' },
       config: { method: 'GET', params: { producerId: party?.partyId } },
@@ -165,7 +156,7 @@ function EServiceListComponent({
           </h1>
 
           <TableWithLoader
-            loading={dataLoading}
+            loading={loading}
             loadingLabel="Stiamo caricando i tuoi e-service"
             headData={headData}
             pagination={true}
@@ -206,13 +197,7 @@ function EServiceListComponent({
         </div>
       </WhiteBackground>
 
-      {dialog && <StyledDialog {...dialog} />}
-      {toast && <StyledToast {...toast} />}
-      {(dataLoading || actionLoadingText) && (
-        <LoadingOverlay
-          loadingText={actionLoadingText || "Stiamo effettuando l'operazione richiesta"}
-        />
-      )}
+      {loading && <LoadingOverlay loadingText="Stiamo effettuando l'operazione richiesta" />}
     </React.Fragment>
   )
 }

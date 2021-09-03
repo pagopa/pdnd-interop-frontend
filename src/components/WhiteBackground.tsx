@@ -26,7 +26,10 @@ export const WhiteBackground: FunctionComponent<WhiteBackgroundProps> = ({
         {children}
       </Container>
 
-    This would cause a rerender of the whole tree that breaks some forms.
+    It would cause a rerender of Container at each render that breaks some forms.
+    This is due to React reconciliation, see why here:
+    https://reactjs.org/docs/higher-order-components.html#dont-use-hocs-inside-the-render-method
+    
     See the difference in the onboarding form (add info for "Rappresentante Legale")
     between commit '9577ef2' and the following one.
   */

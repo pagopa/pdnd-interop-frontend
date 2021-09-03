@@ -11,15 +11,15 @@ import { fetchWithLogs } from '../lib/api-utils'
 import { TOAST_CONTENTS } from '../lib/constants'
 import { getFetchOutcome } from '../lib/error-utils'
 import { showTempAlert } from '../lib/wip-utils'
+import { LoadingOverlay } from './LoadingOverlay'
+import { StyledDialog } from './StyledDialog'
+import { StyledToast } from './StyledToast'
 
 export type UserFeedbackHOCProps = {
   runAction: (request: RequestConfig) => Promise<void>
   runFakeAction: (actionName: string) => void
   forceUpdateCounter: number
   wrapActionInDialog: any
-  dialog: DialogContent | undefined
-  toast: ToastProps | undefined
-  actionLoadingText: string | undefined
 }
 
 export function withUserFeedback(
@@ -81,16 +81,19 @@ export function withUserFeedback(
      */
 
     return (
-      <Component
-        {...props}
-        runAction={runAction}
-        runFakeAction={runFakeAction}
-        forceUpdateCounter={forceUpdateCounter}
-        wrapActionInDialog={wrapActionInDialog}
-        dialog={dialog}
-        toast={toast}
-        actionLoadingText={actionLoadingText}
-      />
+      <React.Fragment>
+        <Component
+          {...props}
+          runAction={runAction}
+          runFakeAction={runFakeAction}
+          forceUpdateCounter={forceUpdateCounter}
+          wrapActionInDialog={wrapActionInDialog}
+        />
+
+        {dialog && <StyledDialog {...dialog} />}
+        {toast && <StyledToast {...toast} />}
+        {actionLoadingText && <LoadingOverlay loadingText={actionLoadingText} />}
+      </React.Fragment>
     )
   }
 }

@@ -15,23 +15,25 @@ import { TableAction } from '../components/TableAction'
 import { StyledIntro } from '../components/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useMode } from '../hooks/useMode'
+import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 
-export function AgreementList() {
+function AgreementListComponent({
+  runAction,
+  runFakeAction,
+  forceUpdateCounter,
+  wrapActionInDialog,
+}: UserFeedbackHOCProps) {
   const mode = useMode()
   const { party } = useContext(PartyContext)
 
   const params =
     mode === 'provider' ? { producerId: party?.partyId } : { consumerId: party?.partyId }
-  const {
-    data: agreement,
-    loading,
-    error,
-  } = useAsyncFetch<AgreementSummary[]>(
+  const { data, loading, error } = useAsyncFetch<AgreementSummary[]>(
     {
       path: { endpoint: 'AGREEMENT_GET_LIST' },
       config: { method: 'GET', params },
     },
-    { defaultValue: [] }
+    { defaultValue: [], useEffectDeps: [forceUpdateCounter] }
   )
 
   const getAvailableActions = (agreement: any) => {
@@ -89,11 +91,11 @@ export function AgreementList() {
           loadingLabel="Stiamo caricando gli accordi"
           headData={headData}
           pagination={true}
-          data={agreement}
+          data={data}
           noDataLabel="Non ci sono accordi disponibili"
           error={error}
         >
-          {agreement?.map((item, i) => (
+          {data.map((item, i) => (
             <tr key={i}>
               <td>{item.eserviceName || item.eserviceId}</td>
               <td>{item.eserviceVersion || 1}</td>
@@ -131,3 +133,5 @@ export function AgreementList() {
     </WhiteBackground>
   )
 }
+
+export const AgreementList = withUserFeedback(AgreementListComponent)

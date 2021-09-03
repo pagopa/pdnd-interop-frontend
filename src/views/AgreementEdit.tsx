@@ -10,10 +10,8 @@ import { AGREEMENT_STATUS, ROUTES } from '../lib/constants'
 import { getLastBit } from '../lib/url-utils'
 import capitalize from 'lodash/capitalize'
 import { useMode } from '../hooks/useMode'
-import { StyledToast } from '../components/StyledToast'
 import { formatDate, getRandomDate } from '../lib/date-utils'
 import { DescriptionBlock } from '../components/DescriptionBlock'
-import { StyledDialog } from '../components/StyledDialog'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 
 function AgreementEditComponent({
@@ -21,13 +19,10 @@ function AgreementEditComponent({
   runFakeAction,
   forceUpdateCounter,
   wrapActionInDialog,
-  dialog,
-  toast,
-  actionLoadingText,
 }: UserFeedbackHOCProps) {
   const mode = useMode()
   const agreementId = getLastBit(useLocation())
-  const { data, loading: dataLoading } = useAsyncFetch<AgreementSummary>(
+  const { data, loading } = useAsyncFetch<AgreementSummary>(
     {
       path: { endpoint: 'AGREEMENT_GET_SINGLE', endpointParams: { agreementId } },
       config: { method: 'GET' },
@@ -178,11 +173,7 @@ function AgreementEditComponent({
         </WhiteBackground>
       )}
 
-      {dialog && <StyledDialog {...dialog} />}
-      {toast && <StyledToast {...toast} />}
-      {(dataLoading || actionLoadingText) && (
-        <LoadingOverlay loadingText={actionLoadingText || "Stiamo caricando l'accordo richiesto"} />
-      )}
+      {loading && <LoadingOverlay loadingText="Stiamo caricando l'accordo richiesto" />}
     </React.Fragment>
   )
 }
