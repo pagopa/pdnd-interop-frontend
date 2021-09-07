@@ -7,6 +7,7 @@ import { ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { Row, Col, Button } from 'react-bootstrap'
 import { StyledInputRadioGroup } from '../components/StyledInputRadioGroup'
+import { storageWrite } from '../lib/storage-utils'
 
 function ChoosePartyComponent() {
   const { setParty, party, availableParties } = useContext(PartyContext)
@@ -14,6 +15,7 @@ function ChoosePartyComponent() {
 
   const buildUpdateActiveParty = (newParty: Party) => (_: React.SyntheticEvent) => {
     setParty(newParty)
+    storageWrite('currentParty', newParty, 'object')
   }
 
   const confirmChoice = () => {

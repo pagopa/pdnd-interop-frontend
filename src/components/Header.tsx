@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { RouteConfig } from '../../types'
 import { ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
+import { storageWrite } from '../lib/storage-utils'
 import { includesAny } from '../lib/string-utils'
 import { MainHeader } from './MainHeader'
 import { PageTitle } from './PageTitle'
@@ -63,6 +64,7 @@ function PlatformHeader() {
 
     if (!Number.isNaN(index)) {
       setParty(availableParties[index])
+      storageWrite('currentParty', availableParties[index], 'object')
     }
   }
 

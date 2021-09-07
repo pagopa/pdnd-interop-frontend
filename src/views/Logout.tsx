@@ -1,17 +1,7 @@
-import { useContext, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
-import { UserContext } from '../lib/context'
+import { useLogout } from '../hooks/useLogout'
 
 export function Logout() {
-  const { setUser } = useContext(UserContext)
-  const history = useHistory()
-
-  useEffect(() => {
-    // clean up user
-    setUser(null)
-    // go back to homepage (which will redirect to login)
-    history.push('/')
-  }, []) //eslint-disable-line react-hooks/exhaustive-deps
+  useLogout()
 
   return null
 }

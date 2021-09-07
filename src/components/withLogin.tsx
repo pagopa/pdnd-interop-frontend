@@ -1,5 +1,5 @@
-import { useContext } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useContext, useEffect } from 'react'
+import { useLogin } from '../hooks/useLogin'
 import { UserContext } from '../lib/context'
 
 type LoginProps = {}
@@ -9,11 +9,17 @@ export function withLogin<T extends LoginProps>(WrappedComponent: React.Componen
 
   const ComponentWithLogin = (props: Omit<T, keyof LoginProps>) => {
     const { user } = useContext(UserContext)
-    const history = useHistory()
+    const { attemptSilentLogin } = useLogin()
 
-    if (!user) {
-      history.push('/')
-    }
+    useEffect(() => {
+      async function asyncAttemptSilentLogin() {
+        if (!user) {
+          await attemptSilentLogin()
+        }
+      }
+
+      asyncAttemptSilentLogin()
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     return <WrappedComponent {...(props as T)} />
   }

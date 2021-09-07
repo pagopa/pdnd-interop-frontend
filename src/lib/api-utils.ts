@@ -2,8 +2,8 @@ import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, Me
 import { ApiEndpointKey, Endpoint, RequestConfig } from '../../types'
 import { logAction, logError } from './action-log'
 import { API, USE_LOCAL_DATA, USE_LOCAL_DATA_RESPONSE_STATUS } from './constants'
-import { testBearerToken } from './mock-static-data'
 import isEmpty from 'lodash/isEmpty'
+import { storageRead } from './storage-utils'
 
 // Utility to wait some time
 export const sleep = async (ms: number) => await new Promise((resolve) => setTimeout(resolve, ms))
@@ -61,7 +61,7 @@ function prepareRequest(
       params,
       data,
       baseURL,
-      headers: { ...headers, Authorization: `Bearer ${testBearerToken}` },
+      headers: { ...headers, Authorization: `Bearer ${storageRead('bearer', 'string')}` },
     })
 }
 
