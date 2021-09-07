@@ -3,7 +3,7 @@ import { Button, Container } from 'react-bootstrap'
 import { OnboardingStepActions } from './OnboardingStepActions'
 import { WhiteBackground } from './WhiteBackground'
 import cryptoRandomString from 'crypto-random-string'
-import { StepperStepComponentProps, UserRole } from '../../types'
+import { StepperStepComponentProps, UserPlatformRole, UserRole } from '../../types'
 import { objectIsEmpty } from '../lib/object-utils'
 import { StyledInputText, StyledInputTextType } from './StyledInputText'
 import { StyledIntro } from './StyledIntro'
@@ -11,6 +11,7 @@ import { StyledIntro } from './StyledIntro'
 type PersonFormProps = {
   prefix: string
   role: UserRole
+  platformRole: UserPlatformRole
   people: UsersObject
   setPeople: React.Dispatch<React.SetStateAction<UsersObject>>
 }
@@ -18,9 +19,12 @@ type PersonFormProps = {
 // Could be an ES6 Set but it's too bothersome for now
 type UsersObject = { [key: string]: any }
 
-function PersonForm({ prefix, role, people, setPeople }: PersonFormProps) {
+function PersonForm({ prefix, role, platformRole, people, setPeople }: PersonFormProps) {
   const buildSetPerson = (key: string) => (e: any) => {
-    setPeople({ ...people, [prefix]: { ...people[prefix], [key]: e.target.value, role } })
+    setPeople({
+      ...people,
+      [prefix]: { ...people[prefix], [key]: e.target.value, role, platformRole },
+    })
   }
 
   const fields = [
@@ -88,7 +92,13 @@ export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
       <WhiteBackground>
         <Container className="container-align-left form-max-width">
           <StyledIntro>{{ title: 'Dati del rappresentante legale*' }}</StyledIntro>
-          <PersonForm prefix="admin" role="Manager" people={people} setPeople={setPeople} />
+          <PersonForm
+            prefix="admin"
+            role="Manager"
+            platformRole="admin"
+            people={people}
+            setPeople={setPeople}
+          />
         </Container>
       </WhiteBackground>
       <WhiteBackground>
@@ -103,6 +113,7 @@ export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
                 <PersonForm
                   prefix={`delegate-${id}`}
                   role="Delegate"
+                  platformRole="admin"
                   people={people}
                   setPeople={setPeople}
                 />
