@@ -1,5 +1,5 @@
 import React from 'react'
-import { UserCreate, UserPlatformRole, UserRole } from '../../types'
+import { UserOnCreate, UserPlatformRole, UserRole } from '../../types'
 import { UsersObject } from './OnboardingStep2'
 import { StyledInputText, StyledInputTextType } from './StyledInputText'
 
@@ -12,7 +12,7 @@ type PlatformUserFormProps = {
 }
 
 type Field = {
-  id: keyof UserCreate
+  id: keyof UserOnCreate
   label: string
   placeholder: string
   type?: 'text' | 'email'

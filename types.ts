@@ -76,7 +76,7 @@ export type UserStatus = 'active' | 'suspended'
 export type UserRole = 'Manager' | 'Delegate' | 'Operator'
 export type UserPlatformRole = 'admin' | 'security' | 'api'
 
-export type UserCreate = {
+export type UserOnCreate = {
   name: string
   surname: string
   taxCode: string
@@ -85,7 +85,7 @@ export type UserCreate = {
   platformRole: UserPlatformRole
 }
 
-export type User = UserCreate & {
+export type User = UserOnCreate & {
   status: UserStatus
 }
 

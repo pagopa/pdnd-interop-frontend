@@ -3,13 +3,13 @@ import { Button, Container } from 'react-bootstrap'
 import { OnboardingStepActions } from './OnboardingStepActions'
 import { WhiteBackground } from './WhiteBackground'
 import cryptoRandomString from 'crypto-random-string'
-import { StepperStepComponentProps, UserCreate } from '../../types'
+import { StepperStepComponentProps, UserOnCreate } from '../../types'
 import { objectIsEmpty } from '../lib/object-utils'
 import { StyledIntro } from './StyledIntro'
 import { PlatformUserForm } from './PlatformUserForm'
 
 // Could be an ES6 Set but it's too bothersome for now
-export type UsersObject = { [key: string]: UserCreate }
+export type UsersObject = { [key: string]: UserOnCreate }
 
 export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
   const [delegateFormIds, setDelegateFormIds] = useState<string[]>([])
