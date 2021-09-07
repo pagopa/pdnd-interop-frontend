@@ -17,21 +17,27 @@ export const useAsyncFetch = <T>(requestConfig: RequestConfig, settings: Setting
   const [error, setError] = useState<AxiosError<any>>()
 
   useEffect(() => {
+    let isMounted = true
+
     async function asyncFetchWithLogs() {
       setLoading(true)
 
       const response = await fetchWithLogs(requestConfig.path, requestConfig.config)
 
-      if (isFetchError(response)) {
-        setError(response as AxiosError)
-      } else {
-        setData((response as AxiosResponse).data)
-      }
+      if (isMounted) {
+        isFetchError(response)
+          ? setError(response as AxiosError)
+          : setData((response as AxiosResponse).data)
 
-      setLoading(false)
+        setLoading(false)
+      }
     }
 
     asyncFetchWithLogs()
+
+    return () => {
+      isMounted = false
+    }
 
     // If the user changes party, fresh data should be fetched
   }, [party, ...(settings.useEffectDeps || [])]) // eslint-disable-line react-hooks/exhaustive-deps
