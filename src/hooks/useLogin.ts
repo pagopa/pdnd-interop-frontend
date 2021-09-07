@@ -8,7 +8,7 @@ import { ROUTES } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
 import { getFetchOutcome, isFetchError } from '../lib/error-utils'
 import { testBearerToken, testUser } from '../lib/mock-static-data'
-import { storageRead, storageWrite } from '../lib/storage-utils'
+import { storageDelete, storageRead, storageWrite } from '../lib/storage-utils'
 
 export const useLogin = () => {
   const history = useHistory()
@@ -118,6 +118,10 @@ export const useLogin = () => {
 
     // If there are no credentials, it is impossible to get the user, so
     if (isEmpty(sessionStorageUser) || isEmpty(sessionStorageParty) || !sessionStorageBearerToken) {
+      // Remove any partial data that might have remained, just for safety
+      storageDelete('user')
+      storageDelete('currentParty')
+      storageDelete('bearer')
       // Go to the login view
       history.push('/')
       // This return is necessary
