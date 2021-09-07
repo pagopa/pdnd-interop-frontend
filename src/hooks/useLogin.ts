@@ -1,13 +1,13 @@
 import { useContext, useState } from 'react'
 import isEmpty from 'lodash/isEmpty'
-import { AxiosError, AxiosResponse } from 'axios'
+import { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
-import { Party, RequestOutcome } from '../../types'
+import { Party, User } from '../../types'
 import { fetchAllWithLogs, fetchWithLogs, sleep } from '../lib/api-utils'
-import { ROUTES } from '../lib/constants'
+import { ROUTES, USE_SPID_USER_LORENZO_CARMILLI } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
-import { getFetchOutcome, isFetchError } from '../lib/error-utils'
-import { testBearerToken, testUser } from '../lib/mock-static-data'
+import { isFetchError } from '../lib/error-utils'
+import { mockSPIDUserLorenzoCarmilli, testBearerToken } from '../lib/mock-static-data'
 import { storageDelete, storageRead, storageWrite } from '../lib/storage-utils'
 
 export const useLogin = () => {
@@ -16,7 +16,7 @@ export const useLogin = () => {
   const { user, setUser } = useContext(UserContext)
   const { setAvailableParties, setParty } = useContext(PartyContext)
 
-  const setPartiesInContext = async (data: any): Promise<RequestOutcome> => {
+  const setPartiesInContext = async (data: any) => {
     // Store them in a variable
     let parties: Party[] = data.institutions
     // Fetch all the partyIds (this can be optimized)
@@ -26,15 +26,6 @@ export const useLogin = () => {
         config: { method: 'GET' },
       }))
     )
-
-    const errorResponses = (partyIdsResponses as any).filter(
-      (r: AxiosResponse | AxiosError) => getFetchOutcome(r) === 'error'
-    )
-
-    // If there is any error, return the outcome
-    if (errorResponses.length > 0) {
-      return 'error'
-    }
 
     // Associate each partyId to the correspondent party
     parties = parties.map((party) => {
@@ -46,11 +37,9 @@ export const useLogin = () => {
     })
     // Then set them
     setAvailableParties(parties)
-
-    return 'success'
   }
 
-  const fetchAndSetAvailableParties = async (taxCode: string): Promise<RequestOutcome> => {
+  const fetchAndSetAvailableParties = async (taxCode: string) => {
     setLoadingText('Stiamo associando la tua utenza ai tuoi enti')
 
     // Get all available parties related to the user
@@ -62,10 +51,8 @@ export const useLogin = () => {
     // If user already has institutions subscribed
     if (!isFetchError(availablePartiesResponse)) {
       // Set parties
-      return await setPartiesInContext((availablePartiesResponse as AxiosResponse).data!)
+      await setPartiesInContext((availablePartiesResponse as AxiosResponse).data!)
     }
-
-    return 'error'
   }
 
   // This happens as a result of a direct user action
@@ -76,6 +63,14 @@ export const useLogin = () => {
       return
     }
 
+    if (USE_SPID_USER_LORENZO_CARMILLI) {
+      await setTestSPIDUser(mockSPIDUserLorenzoCarmilli)
+    } else {
+      history.push(ROUTES.TEMP_SPID_USER.PATH)
+    }
+  }
+
+  const setTestSPIDUser = async (testUserData: User) => {
     // Display the loader
     setLoadingText('Stiamo provando ad autenticarti')
 
@@ -93,17 +88,15 @@ export const useLogin = () => {
     // setUser(whoAmIResponse.data)
 
     // Set the user and fill the storage
-    setUser(testUser)
-    storageWrite('user', testUser, 'object')
+    setUser(testUserData)
+    storageWrite('user', testUserData, 'object')
     storageWrite('bearer', testBearerToken, 'string')
 
     // Fetch and set the parties available for this user
-    const outcome = await fetchAndSetAvailableParties(testUser.taxCode)
+    await fetchAndSetAvailableParties(testUserData.taxCode)
 
-    if (outcome === 'success') {
-      // Go to choice view
-      history.push(ROUTES.CHOOSE_PARTY.PATH)
-    }
+    // Go to choice view
+    history.push(ROUTES.CHOOSE_PARTY.PATH)
   }
 
   // This happens when the user does a hard refresh when logged in
@@ -132,13 +125,11 @@ export const useLogin = () => {
     setUser(sessionStorageUser)
 
     // Then fetch and set the parties available for this user
-    const outcome = await fetchAndSetAvailableParties(sessionStorageUser.taxCode)
+    await fetchAndSetAvailableParties(sessionStorageUser.taxCode)
 
-    if (outcome === 'success') {
-      // In the end, set the user to the last known party
-      setParty(sessionStorageParty)
-    }
+    // In the end, set the user to the last known party
+    setParty(sessionStorageParty)
   }
 
-  return { login, attemptSilentLogin, loadingText }
+  return { login, attemptSilentLogin, loadingText, setTestSPIDUser }
 }

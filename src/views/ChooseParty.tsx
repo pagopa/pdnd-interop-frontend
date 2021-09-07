@@ -81,10 +81,9 @@ function ChoosePartyComponent() {
       ) : (
         <Row className="d-flex align-items-center">
           <Col className="text-center">
-            <p>
-              Sei il rappresentante legale di un ente?
-              <br />
-              Registra il tuo primo ente per accedere alla piattaforma
+            <p className="mx-auto mb-4" style={{ maxWidth: 480 }}>
+              Non ci sono enti associati a questa utenza. Se sei il rappresentante legale di un
+              ente, registralo per accedere alla piattaforma
             </p>
             <Button variant="primary" onClick={goToOnboarding}>
               registra nuovo ente

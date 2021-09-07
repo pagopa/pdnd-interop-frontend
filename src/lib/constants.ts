@@ -21,8 +21,10 @@ import { UserEdit } from '../views/UserEdit'
 import { UserList } from '../views/UserList'
 import { EServiceGate } from '../views/EServiceGate'
 import { UserCreate } from '../views/UserCreate'
+import { TempSPIDUser } from '../components/TempSPIDUser'
 
 export const SHOW_DEV_LABELS = true
+export const USE_SPID_USER_LORENZO_CARMILLI = true
 export const USE_LOCAL_DATA = false
 export const USE_LOCAL_DATA_RESPONSE_STATUS = 200 // The response status code to simulate if USE_LOCAL_DATA is true
 export const DISPLAY_LOGS: DisplayLogsType = 'all'
@@ -31,6 +33,11 @@ export const ROUTES: RoutesObject = {
   LOGIN: { PATH: '/login', LABEL: 'Login', COMPONENT: Login },
   LOGOUT: { PATH: '/logout', LABEL: 'Logout', COMPONENT: Logout },
   HELP: { PATH: '/aiuto', LABEL: 'Serve aiuto?', COMPONENT: Help },
+  TEMP_SPID_USER: {
+    PATH: '/temp-spid',
+    LABEL: 'Genera utente SPID di test',
+    COMPONENT: TempSPIDUser,
+  },
   CHOOSE_PARTY: { PATH: '/scelta', LABEL: 'Scegli ente', COMPONENT: ChooseParty },
   ONBOARDING: {
     PATH: '/onboarding',
