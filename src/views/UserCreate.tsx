@@ -47,9 +47,15 @@ function UserCreateComponent({ showToast, setLoadingText }: UserFeedbackHOCProps
 
   return (
     <WhiteBackground>
-      <StyledIntro>{{ title: `Crea nuovo operatore` }}</StyledIntro>
+      <StyledIntro>
+        {{
+          title: `Crea nuovo operatore API`,
+          description:
+            "La figura dell'operatore API potrà gestire i tuoi servizi, crearne di nuovi, sospenderli e riattivarli, gestire le versioni. L'attivazione degli accordi di interoperabilità invece rimarrà esclusivamente sotto il controllo dell'Amministratore e dei suoi Delegati",
+        }}
+      </StyledIntro>
 
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} style={{ maxWidth: 768 }}>
         <PlatformUserForm
           prefix="operator"
           role="Operator"
@@ -58,8 +64,8 @@ function UserCreateComponent({ showToast, setLoadingText }: UserFeedbackHOCProps
           setPeople={setPeople}
         />
 
-        <Button variant="primary" type="submit" disabled={false}>
-          prosegui
+        <Button className="mt-3" variant="primary" type="submit" disabled={false}>
+          crea operatore
         </Button>
       </Form>
     </WhiteBackground>
