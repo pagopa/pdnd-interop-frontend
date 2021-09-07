@@ -22,6 +22,8 @@ export type UserFeedbackHOCProps = {
   runCustomAction: (action: any, actionProps: RunActionProps) => Promise<void>
   forceUpdateCounter: number
   wrapActionInDialog: any
+  showToast: (toastContent: ToastContent) => void
+  setLoadingText: (text: string | undefined) => void
 }
 
 export function withUserFeedback<T extends UserFeedbackHOCProps>(
@@ -30,7 +32,7 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
   const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component'
 
   const ComponentWithUserFeedback = (props: Omit<T, keyof UserFeedbackHOCProps>) => {
-    const [actionLoadingText, setActionLoadingText] = useState<string | undefined>(undefined)
+    const [loadingText, setLoadingText] = useState<string | undefined>(undefined)
     const [dialog, setDialog] = useState<DialogContent>()
     const [toast, setToast] = useState<ToastProps>()
     const [forceUpdateCounter, setForceUpdateCounter] = useState(0)
@@ -38,9 +40,6 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
     // Dialog and toast related functions
     const wrapActionInDialog = (wrappedAction: ActionFunction) => async (_: any) => {
       setDialog({ proceedCallback: wrappedAction, close: closeDialog })
-    }
-    const closeToast = () => {
-      setToast(undefined)
     }
     const closeDialog = () => {
       setDialog(undefined)
@@ -51,6 +50,9 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
     }: ToastContent) => {
       setToast({ title, description, onClose: closeToast })
     }
+    const closeToast = () => {
+      setToast(undefined)
+    }
 
     /*
      * API calls
@@ -59,7 +61,7 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
       const { loadingText, success, error }: RunActionProps = TOAST_CONTENTS[request.path.endpoint]
 
       closeDialog()
-      setActionLoadingText(loadingText)
+      setLoadingText(loadingText)
 
       const response = await fetchWithLogs(request.path, request.config)
       const outcome = getFetchOutcome(response)
@@ -70,7 +72,7 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
         toastContent = success
       }
 
-      setActionLoadingText(undefined)
+      setLoadingText(undefined)
       showToast(toastContent)
     }
 
@@ -79,7 +81,7 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
       { loadingText, success, error }: RunActionProps
     ) => {
       closeDialog()
-      setActionLoadingText(loadingText)
+      setLoadingText(loadingText)
 
       const response = await actionToRun()
       const outcome = getFetchOutcome(response)
@@ -90,7 +92,7 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
         toastContent = success
       }
 
-      setActionLoadingText(undefined)
+      setLoadingText(undefined)
       showToast(toastContent)
     }
 
@@ -111,12 +113,14 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
           runFakeAction={runFakeAction}
           runCustomAction={runCustomAction}
           forceUpdateCounter={forceUpdateCounter}
+          showToast={showToast}
+          setLoadingText={setLoadingText}
           wrapActionInDialog={wrapActionInDialog}
         />
 
         {dialog && <StyledDialog {...dialog} />}
         {toast && <StyledToast {...toast} />}
-        {actionLoadingText && <LoadingOverlay loadingText={actionLoadingText} />}
+        {loadingText && <LoadingOverlay loadingText={loadingText} />}
       </React.Fragment>
     )
   }

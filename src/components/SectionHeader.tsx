@@ -20,7 +20,7 @@ export function SectionHeader({ view }: SectionHeaderProps) {
       sections: [
         ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST,
         ROUTES.PROVIDE.SUBROUTES!.AGREEMENT_LIST,
-        ROUTES.PROVIDE.SUBROUTES!.USERS_LIST,
+        ROUTES.PROVIDE.SUBROUTES!.USER_LIST,
       ],
     },
     subscriber: {

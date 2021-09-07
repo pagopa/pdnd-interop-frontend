@@ -73,16 +73,19 @@ export type IPACatalogParty = {
  * Platform user and party
  */
 export type UserStatus = 'active' | 'suspended'
-export type UserRole = 'Manager' | 'Delegate'
+export type UserRole = 'Manager' | 'Delegate' | 'Operator'
 export type UserPlatformRole = 'admin' | 'security' | 'api'
 
-export type User = {
+export type UserCreate = {
   name: string
   surname: string
   taxCode: string
   email: string
-  role?: UserRole
+  role: UserRole
   platformRole: UserPlatformRole
+}
+
+export type User = UserCreate & {
   status: UserStatus
 }
 

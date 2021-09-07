@@ -20,6 +20,7 @@ import { Subscribe } from '../views/Subscribe'
 import { UserEdit } from '../views/UserEdit'
 import { UserList } from '../views/UserList'
 import { EServiceGate } from '../views/EServiceGate'
+import { UserCreate } from '../views/UserCreate'
 
 export const SHOW_DEV_LABELS = true
 export const USE_LOCAL_DATA = false
@@ -84,16 +85,22 @@ export const ROUTES: RoutesObject = {
         LABEL: 'Modifica accordo',
         COMPONENT: AgreementEdit,
       },
-      USERS_LIST: {
+      USER_LIST: {
         PATH: '/erogazione/operatori',
         EXACT: true,
-        LABEL: 'Gestisci operatori',
+        LABEL: 'Gestisci operatori API',
         COMPONENT: UserList,
       },
-      USERS_EDIT: {
+      USER_CREATE: {
+        PATH: '/erogazione/operatori/crea',
+        EXACT: false,
+        LABEL: 'Crea nuovo operatore API',
+        COMPONENT: UserCreate,
+      },
+      USER_EDIT: {
         PATH: '/erogazione/operatori/:id',
         EXACT: false,
-        LABEL: 'Modifica operatore',
+        LABEL: 'Modifica operatore API',
         COMPONENT: UserEdit,
       },
     },
@@ -139,13 +146,13 @@ export const ROUTES: RoutesObject = {
         LABEL: 'Visualizza e-service',
         COMPONENT: EServiceGate,
       },
-      USERS_LIST: {
+      USER_LIST: {
         PATH: '/fruizione/operatori',
         EXACT: true,
         LABEL: 'Gestisci operatori',
         COMPONENT: UserList,
       },
-      USERS_EDIT: {
+      USER_EDIT: {
         PATH: '/fruizione/operatori/:id',
         EXACT: false,
         LABEL: 'Modifica operatore',
@@ -276,6 +283,11 @@ export const API = {
     LOCAL: 'get-user-single.json',
     SHOULD_CALL: false,
   },
+  USER_CREATE: {
+    URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/operators',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
 }
 
 export const ESERVICE_STATUS = {
@@ -307,6 +319,7 @@ export const USER_STATUS = {
 export const USER_ROLE = {
   Manager: 'Manager',
   Delegate: 'Delegato',
+  Operator: 'Operatore',
 }
 
 export const USER_PLATFORM_ROLE = {
@@ -513,6 +526,14 @@ export const TOAST_CONTENTS: { [key in keyof typeof API]: RunActionProps } = {
     error: {
       title: 'Errore',
       description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    },
+  },
+  USER_CREATE: {
+    loadingText: 'Stiamo creando il nuovo operatore',
+    success: { title: 'Successo', description: 'Nuovo operatore creato correttamente' },
+    error: {
+      title: 'Errore',
+      description: 'Non è stato possibile creare il nuovo operatore. Ritentare',
     },
   },
 }

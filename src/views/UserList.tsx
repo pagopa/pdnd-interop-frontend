@@ -1,5 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Button } from 'react-bootstrap'
+import { Link, useLocation } from 'react-router-dom'
+import isEmpty from 'lodash/isEmpty'
 import {
   AgreementStatus,
   TableActionBtn,
@@ -19,6 +21,7 @@ function UserListComponent({
   runFakeAction,
   wrapActionInDialog,
   forceUpdateCounter,
+  showToast,
 }: UserFeedbackHOCProps) {
   const { data, loading, error } = useAsyncFetch<User[]>(
     {
@@ -27,6 +30,13 @@ function UserListComponent({
     },
     { defaultValue: [], useEffectDeps: [forceUpdateCounter] }
   )
+  const location = useLocation()
+
+  useEffect(() => {
+    if (!isEmpty(location.state) && !isEmpty((location.state as any).toast)) {
+      showToast((location.state as any).toast)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   /*
    * List of possible actions for the user to perform
@@ -67,7 +77,7 @@ function UserListComponent({
     const status = user.status
 
     const inspectAction = {
-      to: `${ROUTES.PROVIDE.SUBROUTES!.USERS_LIST.PATH}/${user.taxCode}`,
+      to: `${ROUTES.PROVIDE.SUBROUTES!.USER_LIST.PATH}/${user.taxCode}`,
       icon: 'bi-info-circle',
       label: 'Ispeziona',
     }
@@ -102,6 +112,10 @@ function UserListComponent({
       </StyledIntro>
 
       <div className="mt-4">
+        <Button variant="primary" as={Link} to={ROUTES.PROVIDE.SUBROUTES!.USER_CREATE.PATH}>
+          {ROUTES.PROVIDE.SUBROUTES!.USER_CREATE.LABEL}
+        </Button>
+
         <h1 className="py-3" style={{ color: 'red' }}>
           Aggiungere filtri
         </h1>
@@ -122,7 +136,7 @@ function UserListComponent({
               </td>
               <td>{item.taxCode}</td>
               <td>{item.email}</td>
-              <td>{USER_ROLE[item.role!] || 'Operatore'}</td>
+              <td>{USER_ROLE[item.role]}</td>
               <td>{USER_PLATFORM_ROLE[item.platformRole]}</td>
               <td>{USER_STATUS[item.status]}</td>
               <td>

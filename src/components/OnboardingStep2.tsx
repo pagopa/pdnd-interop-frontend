@@ -3,73 +3,13 @@ import { Button, Container } from 'react-bootstrap'
 import { OnboardingStepActions } from './OnboardingStepActions'
 import { WhiteBackground } from './WhiteBackground'
 import cryptoRandomString from 'crypto-random-string'
-import { StepperStepComponentProps, UserPlatformRole, UserRole } from '../../types'
+import { StepperStepComponentProps, UserCreate } from '../../types'
 import { objectIsEmpty } from '../lib/object-utils'
-import { StyledInputText, StyledInputTextType } from './StyledInputText'
 import { StyledIntro } from './StyledIntro'
-
-type PersonFormProps = {
-  prefix: string
-  role: UserRole
-  platformRole: UserPlatformRole
-  people: UsersObject
-  setPeople: React.Dispatch<React.SetStateAction<UsersObject>>
-}
+import { PlatformUserForm } from './PlatformUserForm'
 
 // Could be an ES6 Set but it's too bothersome for now
-type UsersObject = { [key: string]: any }
-
-function PersonForm({ prefix, role, platformRole, people, setPeople }: PersonFormProps) {
-  const buildSetPerson = (key: string) => (e: any) => {
-    setPeople({
-      ...people,
-      [prefix]: { ...people[prefix], [key]: e.target.value, role, platformRole },
-    })
-  }
-
-  const fields = [
-    {
-      id: 'name',
-      label: 'Nome',
-      placeholder: 'Mario',
-    },
-    {
-      id: 'surname',
-      label: 'Cognome',
-      placeholder: 'Rossi',
-    },
-    {
-      id: 'taxCode',
-      label: 'Codice Fiscale',
-      placeholder: 'RSSMR',
-    },
-    {
-      id: 'email',
-      label: 'Email',
-      placeholder: 'mario.rossi@example.com',
-      type: 'email',
-    },
-  ]
-
-  return (
-    <React.Fragment>
-      {fields.map(({ id, label, placeholder, type = 'text' }, i) => (
-        <React.Fragment key={i}>
-          <StyledInputText
-            id={`${prefix}-${id}`}
-            label={label}
-            type={type as StyledInputTextType}
-            placeholder={placeholder}
-            // Below, ugly hack to prevent React from complaining.
-            // Controlled components values cannot start as 'undefined'
-            value={people[prefix] && people[prefix][id] ? people[prefix][id] : ''}
-            onChange={buildSetPerson(id)}
-          />
-        </React.Fragment>
-      ))}
-    </React.Fragment>
-  )
-}
+export type UsersObject = { [key: string]: UserCreate }
 
 export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
   const [delegateFormIds, setDelegateFormIds] = useState<string[]>([])
@@ -92,7 +32,7 @@ export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
       <WhiteBackground>
         <Container className="container-align-left form-max-width">
           <StyledIntro>{{ title: 'Dati del rappresentante legale*' }}</StyledIntro>
-          <PersonForm
+          <PlatformUserForm
             prefix="admin"
             role="Manager"
             platformRole="admin"
@@ -110,7 +50,7 @@ export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
           {delegateFormIds.map((id) => {
             return (
               <div className="my-5" key={id}>
-                <PersonForm
+                <PlatformUserForm
                   prefix={`delegate-${id}`}
                   role="Delegate"
                   platformRole="admin"

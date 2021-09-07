@@ -68,7 +68,7 @@ function UserEditComponent({
         </DescriptionBlock>
 
         <DescriptionBlock label="Ruolo">
-          <span>{USER_ROLE[data.role!] || 'Operatore'}</span>
+          <span>{USER_ROLE[data.role]}</span>
         </DescriptionBlock>
 
         <DescriptionBlock label="Permessi">
