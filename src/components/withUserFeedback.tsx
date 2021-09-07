@@ -1,3 +1,4 @@
+// Typing from https://react-typescript-cheatsheet.netlify.app/docs/hoc/full_example/
 import React, { useState } from 'react'
 import {
   ActionFunction,
@@ -23,11 +24,12 @@ export type UserFeedbackHOCProps = {
   wrapActionInDialog: any
 }
 
-export function withUserFeedback(
-  Component: React.FunctionComponent<UserFeedbackHOCProps>,
-  props = {}
+export function withUserFeedback<T extends UserFeedbackHOCProps>(
+  WrappedComponent: React.ComponentType<T>
 ) {
-  return () => {
+  const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component'
+
+  const ComponentWithUserFeedback = (props: Omit<T, keyof UserFeedbackHOCProps>) => {
     const [actionLoadingText, setActionLoadingText] = useState<string | undefined>(undefined)
     const [dialog, setDialog] = useState<DialogContent>()
     const [toast, setToast] = useState<ToastProps>()
@@ -103,8 +105,8 @@ export function withUserFeedback(
 
     return (
       <React.Fragment>
-        <Component
-          {...props}
+        <WrappedComponent
+          {...(props as T)}
           runAction={runAction}
           runFakeAction={runFakeAction}
           runCustomAction={runCustomAction}
@@ -118,4 +120,8 @@ export function withUserFeedback(
       </React.Fragment>
     )
   }
+
+  ComponentWithUserFeedback.displayName = `withUserFeedback(${displayName})`
+
+  return ComponentWithUserFeedback
 }
