@@ -5,7 +5,7 @@ import {
   DialogContent,
   RequestConfig,
   RunActionProps,
-  ToastContent,
+  ToastContentWithOutcome,
   ToastProps,
 } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
@@ -22,7 +22,7 @@ export type UserFeedbackHOCProps = {
   runCustomAction: (action: any, actionProps: RunActionProps) => Promise<void>
   forceUpdateCounter: number
   wrapActionInDialog: any
-  showToast: (toastContent: ToastContent) => void
+  showToast: (toastContent: ToastContentWithOutcome) => void
   setLoadingText: (text: string | undefined) => void
 }
 
@@ -45,10 +45,11 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
       setDialog(undefined)
     }
     const showToast = ({
+      outcome = 'success',
       title = 'Operazione conclusa',
       description = 'Operazione conclusa con successo',
-    }: ToastContent) => {
-      setToast({ title, description, onClose: closeToast })
+    }: ToastContentWithOutcome) => {
+      setToast({ outcome, title, description, onClose: closeToast })
     }
     const closeToast = () => {
       setToast(undefined)
@@ -66,10 +67,10 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
       const response = await fetchWithLogs(request.path, request.config)
       const outcome = getFetchOutcome(response)
 
-      let toastContent: ToastContent = error
+      let toastContent: ToastContentWithOutcome = { ...error, outcome: 'error' }
       if (outcome === 'success') {
         setForceUpdateCounter(forceUpdateCounter + 1)
-        toastContent = success
+        toastContent = { ...success, outcome: 'success' }
       }
 
       setLoadingText(undefined)
@@ -86,10 +87,10 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
       const response = await actionToRun()
       const outcome = getFetchOutcome(response)
 
-      let toastContent: ToastContent = error
+      let toastContent: ToastContentWithOutcome = { ...error, outcome: 'error' }
       if (outcome === 'success') {
         setForceUpdateCounter(forceUpdateCounter + 1)
-        toastContent = success
+        toastContent = { ...success, outcome: 'success' }
       }
 
       setLoadingText(undefined)
@@ -99,7 +100,11 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
     const runFakeAction = (actionName: string) => {
       closeDialog()
       showTempAlert(actionName)
-      showToast({ title: actionName, description: "L'operazione è andata a buon fine" })
+      showToast({
+        outcome: 'success',
+        title: actionName,
+        description: "L'operazione è andata a buon fine",
+      })
     }
     /*
      * End API calls

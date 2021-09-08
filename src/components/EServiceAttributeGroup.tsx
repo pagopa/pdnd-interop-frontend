@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
+import isEmpty from 'lodash/isEmpty'
 import { Button } from 'react-bootstrap'
 import {
   AttributeModalTemplate,
   AttributeType,
   FrontendAttribute,
-  ToastContent,
+  ToastContentWithOutcome,
   ToastProps,
 } from '../../types'
 import { AttributeModal } from './AttributeModal'
@@ -41,10 +42,10 @@ export function EServiceAttributeGroup({
     setModalTemplate(template)
   }
 
-  const closeModal = (toastContent?: ToastContent) => {
+  const closeModal = (toastContent?: ToastContentWithOutcome) => {
     setModalTemplate(undefined)
-    if (toastContent?.title) {
-      setToast({ ...toastContent, onClose: closeToast })
+    if (!isEmpty(toastContent)) {
+      setToast({ ...toastContent!, onClose: closeToast })
     }
   }
 
@@ -116,9 +117,7 @@ export function EServiceAttributeGroup({
           />
         </Overlay>
       )}
-      {toast && (
-        <StyledToast title={toast.title} description={toast.description} onClose={closeToast} />
-      )}
+      {toast && <StyledToast {...toast} />}
     </React.Fragment>
   )
 }

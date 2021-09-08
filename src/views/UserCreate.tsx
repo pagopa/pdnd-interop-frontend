@@ -38,7 +38,7 @@ function UserCreateComponent({ showToast, setLoadingText }: UserFeedbackHOCProps
       })
     } else {
       // toast here without going to the other page
-      showToast(TOAST_CONTENTS.USER_CREATE.error)
+      showToast({ ...TOAST_CONTENTS.USER_CREATE.error, outcome: 'error' })
     }
 
     // Stop the loader

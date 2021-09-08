@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { Modal, Button } from 'react-bootstrap'
-import { AttributeModalTemplate, AttributeType, CatalogAttribute, ToastContent } from '../../types'
+import { AttributeModalTemplate, AttributeType, CatalogAttribute } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
+import { TOAST_CONTENTS } from '../lib/constants'
+import { getFetchOutcome } from '../lib/error-utils'
 import { AsyncAutocomplete } from './AsyncAutocomplete'
 import { LoadingOverlay } from './LoadingOverlay'
 import { StyledInputCheckbox } from './StyledInputCheckbox'
@@ -38,7 +40,7 @@ type NewAttribute = {
 }
 
 export function AttributeModalCreateNew({ close, attributeKey }: AttributeModalCreateNewProps) {
-  const [loading, setLoading] = useState(false)
+  const [loadingText, setLoadingText] = useState<string | undefined>()
   const [data, setData] = useState<NewAttribute>({ certified: false })
   // Certified is unused, it is here just to shup TypeScript up
   const label = { verified: 'verificato', declared: 'dichiarato', certified: null }[attributeKey]
@@ -48,13 +50,18 @@ export function AttributeModalCreateNew({ close, attributeKey }: AttributeModalC
   }
 
   const create = async () => {
-    setLoading(true)
-    await fetchWithLogs({ endpoint: 'ATTRIBUTE_CREATE' }, { method: 'POST', data })
-    setLoading(false)
-    close({
-      title: `${data!.name} creato correttamente`,
-      description: "Adesso puoi aggiungere l'attributo al tuo servizio",
-    } as ToastContent)
+    setLoadingText('Stiamo creando il nuovo attributo')
+
+    const attributeCreateResponse = await fetchWithLogs(
+      { endpoint: 'ATTRIBUTE_CREATE' },
+      { method: 'POST', data }
+    )
+
+    const outcome = getFetchOutcome(attributeCreateResponse)
+    const toastContent = { ...TOAST_CONTENTS.ATTRIBUTE_CREATE[outcome], outcome }
+
+    setLoadingText(undefined)
+    close(toastContent)
   }
 
   return (
@@ -116,7 +123,7 @@ export function AttributeModalCreateNew({ close, attributeKey }: AttributeModalC
         </Modal.Footer>
       </Modal.Dialog>
 
-      {loading && <LoadingOverlay loadingText="Stiamo creando il nuovo attributo" />}
+      {loadingText && <LoadingOverlay loadingText={loadingText} />}
     </React.Fragment>
   )
 }

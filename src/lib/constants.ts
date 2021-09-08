@@ -441,7 +441,10 @@ export const TOAST_CONTENTS: { [key in keyof typeof API]: RunActionProps } = {
   },
   ATTRIBUTE_CREATE: {
     loadingText: 'Operazione in corso',
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    success: {
+      title: 'Attributo creato correttamente',
+      description: "Adesso puoi aggiungere l'attributo al tuo servizio",
+    },
     error: {
       title: 'Errore',
       description: "C'è stato un errore, non è stato possibile completare l'operazione",

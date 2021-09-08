@@ -268,7 +268,11 @@ export type ToastContent = {
   description: string | JSX.Element
 }
 
-export type ToastProps = ToastContent & {
+export type ToastContentWithOutcome = ToastContent & {
+  outcome: RequestOutcome
+}
+
+export type ToastProps = ToastContentWithOutcome & {
   onClose: VoidFunction
 }
 
