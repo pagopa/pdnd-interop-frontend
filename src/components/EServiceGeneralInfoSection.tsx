@@ -1,5 +1,5 @@
 import React from 'react'
-import { EServiceDataTypeKeys } from '../../types'
+import { EServiceDataTypeKeysWrite } from '../../types'
 import { StyledInputCheckbox } from './StyledInputCheckbox'
 import { StyledInputRadioGroup } from './StyledInputRadioGroup'
 import { StyledInputText } from './StyledInputText'
@@ -43,8 +43,8 @@ export function EServiceGeneralInfoSection({
             label={label}
             placeholder={placeholder}
             readOnly={readOnly}
-            value={(eserviceData[id as EServiceDataTypeKeys] as any) || ''}
-            onChange={setEServiceData(id as EServiceDataTypeKeys, type)}
+            value={(eserviceData[id as EServiceDataTypeKeysWrite] as any) || ''}
+            onChange={setEServiceData(id as EServiceDataTypeKeysWrite, type)}
           />
         )
       })}

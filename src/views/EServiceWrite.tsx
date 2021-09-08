@@ -3,17 +3,16 @@ import { Button } from 'react-bootstrap'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { EServiceDocumentSection } from '../components/EServiceDocumentSection'
 import {
-  EServiceDataType,
-  EServiceDataTypeKeys,
-  EServiceDocumentType,
-  EServiceSummary,
+  EServiceDataTypeKeysWrite,
+  EServiceDataTypeWrite,
+  EServiceDocumentWrite,
+  EServiceWriteType,
   FrontendAttributes,
 } from '../../types'
 import { EServiceAgreementSection } from '../components/EServiceAgreementSection'
 import { EServiceGeneralInfoSection } from '../components/EServiceGeneralInfoSection'
 import { EServiceAttributeSection } from '../components/EServiceAttributeSection'
 import { StyledIntro } from '../components/StyledIntro'
-import { testCreateNewServiceStaticFields } from '../lib/mock-static-data'
 import { fetchAllWithLogs, fetchWithLogs } from '../lib/api-utils'
 import { PartyContext } from '../lib/context'
 import { formatFrontendAttributesToBackend } from '../lib/attributes'
@@ -25,7 +24,7 @@ import { getFetchOutcome } from '../lib/error-utils'
 import { AxiosError, AxiosResponse } from 'axios'
 
 type EServiceWriteProps = {
-  data: EServiceDataType & EServiceSummary
+  data: EServiceWriteType
 }
 
 function EServiceWriteComponent(
@@ -39,14 +38,18 @@ function EServiceWriteComponent(
 ) {
   const { party } = useContext(PartyContext)
   // General information section
-  const [eserviceData, setEserviceData] = useState<EServiceDataType>({
+  const [eserviceData, setEserviceData] = useState<EServiceDataTypeWrite>({
     technology: 'REST',
     audience: [],
-    ...testCreateNewServiceStaticFields,
+    pop: false, // TODO
+    voucherLifespan: 41713585, // TODO
+    version: 1, // TODO
+    name: '',
+    description: '',
   })
   // Documents section (covers documentation & interface)
-  const [interfaceDocument, setInterfaceDocument] = useState<EServiceDocumentType | undefined>()
-  const [documents, setDocuments] = useState<EServiceDocumentType[]>([])
+  const [interfaceDocument, setInterfaceDocument] = useState<EServiceDocumentWrite | undefined>()
+  const [documents, setDocuments] = useState<EServiceDocumentWrite[]>([])
   // Attributes
   const [attributes, setAttributes] = useState<FrontendAttributes>({
     certified: [],
@@ -56,7 +59,7 @@ function EServiceWriteComponent(
 
   // Contains the data necessary to create an e-service, ecluded the attributes
   const buildSetEServiceData =
-    (fieldName: EServiceDataTypeKeys, fieldType = 'text') =>
+    (fieldName: EServiceDataTypeKeysWrite, fieldType = 'text') =>
     (e: any) => {
       const value = {
         text: e.target.value,
@@ -115,7 +118,7 @@ function EServiceWriteComponent(
         // For now filter, but they should all be required
         .filter((d) => !isEmpty(d))
         .map((data) => {
-          const { kind, description, doc } = data as EServiceDocumentType
+          const { kind, description, doc } = data as EServiceDocumentWrite
           // Append the file as form data
           const formData = new FormData()
           formData.append('kind', kind)
@@ -231,7 +234,7 @@ function EServiceWriteComponent(
       setEserviceData({ ...eserviceData, ..._eserviceData })
 
       const _interfaceDocument = data.descriptors[0].docs.find(
-        (d: EServiceDocumentType) => d.kind === 'interface'
+        (d: EServiceDocumentWrite) => d.kind === 'interface'
       )
       // const _documents = data.descriptors[0].docs.filter(
       //   (d: EServiceDocumentType) => d.kind !== 'interface'

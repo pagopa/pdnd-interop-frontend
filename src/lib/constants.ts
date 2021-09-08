@@ -297,44 +297,6 @@ export const API = {
   },
 }
 
-export const ESERVICE_STATUS = {
-  published: 'attivo',
-  draft: 'in bozza',
-  suspended: 'sospeso',
-
-  // Not implemented yet
-  archived: 'archiviato',
-  deprecated: 'deprecato',
-}
-
-export const AGREEMENT_STATUS = {
-  active: 'attivo',
-  suspended: 'sospeso',
-  pending: 'in attesa di approvazione',
-}
-
-export const CLIENT_STATUS = {
-  active: 'attivo',
-  suspended: 'sospeso',
-}
-
-export const USER_STATUS = {
-  active: 'attivo',
-  suspended: 'sospeso',
-}
-
-export const USER_ROLE = {
-  Manager: 'Manager',
-  Delegate: 'Delegato',
-  Operator: 'Operatore',
-}
-
-export const USER_PLATFORM_ROLE = {
-  admin: 'Amministratore',
-  security: 'Operatore di sicurezza',
-  api: 'Operatore API',
-}
-
 export const TOAST_CONTENTS: { [key in keyof typeof API]: RunActionProps } = {
   BASE: {
     loadingText: 'Operazione in corso',
@@ -546,4 +508,48 @@ export const TOAST_CONTENTS: { [key in keyof typeof API]: RunActionProps } = {
       description: 'Non è stato possibile creare il nuovo operatore. Ritentare',
     },
   },
+}
+
+export const ESERVICE_STATUS = {
+  published: 'attivo',
+  draft: 'in bozza',
+  suspended: 'sospeso',
+
+  // Not implemented yet
+  archived: 'archiviato',
+  deprecated: 'deprecato',
+}
+
+export const ATTRIBUTE_TYPE_LABEL = {
+  certified: 'certificati',
+  verified: 'verificati',
+  declared: 'dichiarati',
+}
+
+export const AGREEMENT_STATUS = {
+  active: 'attivo',
+  suspended: 'sospeso',
+  pending: 'in attesa di approvazione',
+}
+
+export const CLIENT_STATUS = {
+  active: 'attivo',
+  suspended: 'sospeso',
+}
+
+export const USER_STATUS = {
+  active: 'attivo',
+  suspended: 'sospeso',
+}
+
+export const USER_ROLE = {
+  Manager: 'Manager',
+  Delegate: 'Delegato',
+  Operator: 'Operatore',
+}
+
+export const USER_PLATFORM_ROLE = {
+  admin: 'Amministratore',
+  security: 'Operatore di sicurezza',
+  api: 'Operatore API',
 }

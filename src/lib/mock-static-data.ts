@@ -12,9 +12,3 @@ export const mockSPIDUserLorenzoCarmilli: User = {
 
 export const testBearerToken =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
-
-export const testCreateNewServiceStaticFields = {
-  pop: false,
-  voucherLifespan: 41713585,
-  version: 1,
-}

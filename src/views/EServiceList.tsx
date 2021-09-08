@@ -5,8 +5,8 @@ import { ESERVICE_STATUS, ROUTES } from '../lib/constants'
 import { Button } from 'react-bootstrap'
 import { PartyContext } from '../lib/context'
 import {
+  EServiceReadType,
   EServiceStatus,
-  EServiceSummary,
   TableActionBtn,
   TableActionLink,
   TableActionProps,
@@ -24,7 +24,7 @@ function EServiceListComponent({
   wrapActionInDialog,
 }: UserFeedbackHOCProps) {
   const { party } = useContext(PartyContext)
-  const { data, loading, error } = useAsyncFetch<EServiceSummary[]>(
+  const { data, loading, error } = useAsyncFetch<EServiceReadType[]>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST' },
       config: { method: 'GET', params: { producerId: party?.partyId } },
@@ -77,7 +77,7 @@ function EServiceListComponent({
    */
 
   // Build list of available actions for each service in its current state
-  const getAvailableActions = (service: EServiceSummary) => {
+  const getAvailableActions = (service: EServiceReadType) => {
     const availableActions: { [key in EServiceStatus]: TableActionProps[] } = {
       published: [
         {

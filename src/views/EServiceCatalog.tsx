@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { EServiceSummary } from '../../types'
+import { EServiceReadType } from '../../types'
 import { StyledIntro } from '../components/StyledIntro'
 import { TableAction } from '../components/TableAction'
 import { TableWithLoader } from '../components/TableWithLoader'
@@ -12,7 +12,7 @@ import { PartyContext } from '../lib/context'
 
 export function EServiceCatalog() {
   const { party } = useContext(PartyContext)
-  const { data, loading, error } = useAsyncFetch<EServiceSummary[]>(
+  const { data, loading, error } = useAsyncFetch<EServiceReadType[]>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST' },
       config: { method: 'GET', params: { status: 'published' } },

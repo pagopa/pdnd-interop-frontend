@@ -13,6 +13,7 @@ import emailIllustration from '../assets/email-illustration.svg'
 import redXIllustration from '../assets/red-x-illustration.svg'
 import { getFetchOutcome } from '../lib/error-utils'
 import { useHistory } from 'react-router-dom'
+import { InlineSupportLink } from '../components/InlineSupportLink'
 
 type FormData = {
   institutionId: string
@@ -93,10 +94,7 @@ function OnboardingComponent() {
         </p>,
         <p>
           Non hai ricevuto nessuna mail? Attendi qualche minuto e controlla anche nello spam. Se non
-          arriva,{' '}
-          <a className="link-default" href="#0" title="Contatta l\'assistenza">
-            contattaci!
-          </a>
+          arriva, <InlineSupportLink />
         </p>,
       ],
     },
@@ -109,11 +107,7 @@ function OnboardingComponent() {
           <button className="reset-btn btn-as-link link-default" onClick={reload}>
             Prova nuovamente a registrarti
           </button>
-          , e se il problema dovesse persistere,{' '}
-          <a className="link-default" href="#0" title="Contatta l\'assistenza">
-            contattaci
-          </a>
-          !
+          , e se il problema dovesse persistere, <InlineSupportLink />!
         </p>,
       ],
     },

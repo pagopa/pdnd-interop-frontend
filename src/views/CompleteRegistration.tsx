@@ -10,6 +10,7 @@ import checkIllustration from '../assets/check-illustration.svg'
 import redXIllustration from '../assets/red-x-illustration.svg'
 import { StyledInputFile } from '../components/StyledInputFile'
 import { getFetchOutcome } from '../lib/error-utils'
+import { InlineSupportLink } from '../components/InlineSupportLink'
 
 export function CompleteRegistration() {
   const [loading, setLoading] = useState(false)
@@ -89,11 +90,7 @@ export function CompleteRegistration() {
         <p>
           C'è stato un errore nel completamento della procedura. Assicurati che il file che hai
           caricato sia effettivamente il contratto firmato e ritenta ricaricando questa pagina. Se
-          l'errore dovesse persistere,{' '}
-          <a className="link-default" href="#0" title="Contatta l'assistenza">
-            contatta l'assistenza
-          </a>
-          .
+          l'errore dovesse persistere, <InlineSupportLink />.
         </p>,
       ],
     },

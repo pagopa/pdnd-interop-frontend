@@ -1,6 +1,12 @@
 import { AxiosRequestConfig } from 'axios'
 import React from 'react'
-import { AGREEMENT_STATUS, API, CLIENT_STATUS, ESERVICE_STATUS } from './src/lib/constants'
+import {
+  AGREEMENT_STATUS,
+  API,
+  ATTRIBUTE_TYPE_LABEL,
+  CLIENT_STATUS,
+  ESERVICE_STATUS,
+} from './src/lib/constants'
 
 /*
  * Fetch data and router related types
@@ -104,47 +110,77 @@ export type Party = {
 export type EServiceStatus = keyof typeof ESERVICE_STATUS
 export type EServiceStatusLabel = Record<EServiceStatus, string>
 
-export type EServiceSummary = {
+// EServices are subdivided into their write and read type
+// The write is for when data is POSTed to the backend
+// The read, when data is returned from the backend
+
+// Some types are shared between the two
+export type EServiceDocumentKind = 'interface' | 'document'
+export type EServiceTechnologyType = 'REST' | 'SOAP'
+
+// Read only
+export type EServiceReadType = {
   id: string
   name: string
   version: number
   status: EServiceStatus
-  descriptors: EServiceDescriptor[]
+  descriptors: EServiceDescriptorRead[]
+  audience: string[]
+  description: string
+  technology: EServiceTechnologyType
+  voucherLifespan: number
+  attributes: BackendAttributes
 }
 
-export type EServiceDocumentKind = 'interface' | 'document'
-export type EServiceDocumentType = {
-  kind: EServiceDocumentKind
-  description?: string
-  doc: any // File
-}
-
-export type EServiceDescriptor = {
+export type EServiceDescriptorRead = {
   id: string
   status: EServiceStatus
-  docs: EServiceDocumentType[]
+  docs: EServiceDocumentRead[]
+  interface: EServiceDocumentRead
   version: string
 }
 
-export type EServiceDataType = {
-  name?: string
-  version?: number
+export type EServiceDocumentRead = {
+  contentType: string
+  description: string
+  id: string
+  name: string
+}
+
+// Write only
+export type EServiceWriteType = {
+  id: string
+  name: string
+  version: number
+  status: EServiceStatus
+  descriptors: EServiceDescriptorWrite[]
+}
+
+export type EServiceDocumentWrite = {
+  kind: EServiceDocumentKind
+  description: string
+  doc: any // File
+}
+
+export type EServiceDescriptorWrite = {
+  id: string
+  status: EServiceStatus
+  docs: EServiceDocumentWrite[]
+  interface: EServiceDocumentWrite
+  version: string
+}
+
+export type EServiceDataTypeWrite = {
+  name: string
+  version: number
   audience: string[]
-  description?: string
-  // serviceId?: string
-  technology: 'REST' | 'SOAP'
+  description: string
+  technology: EServiceTechnologyType
   pop: boolean
   voucherLifespan: number
 }
 
-export type EServiceDataTypeKeys =
-  | 'name'
-  | 'version'
-  | 'audience'
-  | 'technology'
-  | 'pop'
-  | 'voucherLifespan'
-  | 'description'
+export type EServiceDataTypeKeysWrite = keyof EServiceDataTypeWrite
 
 /*
  * Agreement
@@ -199,7 +235,7 @@ export type Client = {
  */
 export type AttributeModalTemplate = 'add' | 'create'
 
-export type AttributeType = 'certified' | 'verified' | 'declared'
+export type AttributeType = keyof typeof ATTRIBUTE_TYPE_LABEL
 
 // Backend attribute is the attribute as it is expected when POSTed to the backend
 export type BackendAttributeContent = {

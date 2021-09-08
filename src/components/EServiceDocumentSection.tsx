@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
-import { EServiceDocumentType } from '../../types'
+import { EServiceDocumentWrite } from '../../types'
 import { StyledInputFile } from './StyledInputFile'
 import { StyledIntro } from './StyledIntro'
 import { TableAction } from './TableAction'
@@ -8,8 +8,8 @@ import { TableWithLoader } from './TableWithLoader'
 import { WhiteBackground } from './WhiteBackground'
 
 type EServiceDocumentSectionProps = {
-  interfaceDocument?: EServiceDocumentType
-  documents: EServiceDocumentType[]
+  interfaceDocument?: EServiceDocumentWrite
+  documents: EServiceDocumentWrite[]
   setInterface: any
   deleteInterface: any
   setDocuments: any
