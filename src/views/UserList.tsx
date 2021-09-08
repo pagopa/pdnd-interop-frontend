@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 import isEmpty from 'lodash/isEmpty'
 import {
   AgreementStatus,
+  ProviderOrSubscriber,
   TableActionBtn,
   TableActionLink,
   TableActionProps,
@@ -21,6 +22,7 @@ import {
   USER_ROLE_LABEL,
   USER_STATUS_LABEL,
 } from '../lib/constants'
+import { useMode } from '../hooks/useMode'
 
 function UserListComponent({
   runFakeAction,
@@ -28,10 +30,11 @@ function UserListComponent({
   forceUpdateCounter,
   showToast,
 }: UserFeedbackHOCProps) {
+  const mode = useMode()
   const { data, loading, error } = useAsyncFetch<User[]>(
     {
       path: { endpoint: 'USER_GET_LIST' },
-      config: { method: 'GET' },
+      config: { method: 'GET' }, // TEMP PIN-219: users must be filtered by clientId or instutitionId
     },
     { defaultValue: [], useEffectDeps: [forceUpdateCounter] }
   )
@@ -82,7 +85,9 @@ function UserListComponent({
     const status = user.status
 
     const inspectAction = {
-      to: `${ROUTES.PROVIDE.SUBROUTES!.USER_LIST.PATH}/${user.taxCode}`,
+      to: `${ROUTES[mode === 'provider' ? 'PROVIDE' : 'SUBSCRIBE'].SUBROUTES!.USER_LIST.PATH}/${
+        user.taxCode
+      }`,
       icon: 'bi-info-circle',
       label: 'Ispeziona',
     }
@@ -106,19 +111,37 @@ function UserListComponent({
     '',
   ]
 
+  /*
+   * Labels and buttons dependant on the current mode
+   */
+  const TITLES: { [key in ProviderOrSubscriber]: { title: string; description: string } } = {
+    provider: {
+      title: 'I tuoi operatori API',
+      description:
+        'In quest’area puoi trovare e gestire tutti gli accordi di operatori API che sono stati abilitati a tenere aggiornate le tue API',
+    },
+    subscriber: {
+      title: 'I tuoi operatori di sicurezza',
+      description:
+        'In quest’area puoi trovare e gestire tutti gli operatori di sicurezza che sono stati abilitati a gestire le chiavi per il tuo client',
+    },
+  }
+
+  const CREATE_ACTIONS = {
+    provider: ROUTES.PROVIDE.SUBROUTES!.USER_CREATE,
+    subscriber: ROUTES.SUBSCRIBE.SUBROUTES!.USER_CREATE,
+  }
+  /*
+   * End labels and buttons
+   */
+
   return (
     <WhiteBackground>
-      <StyledIntro>
-        {{
-          title: 'I tuoi operatori',
-          description:
-            'In quest’area puoi trovare e gestire tutti gli accordi di operatori API che sono stati abilitati a tenere aggiornate le tue API',
-        }}
-      </StyledIntro>
+      <StyledIntro>{TITLES[mode!]}</StyledIntro>
 
       <div className="mt-4">
-        <Button variant="primary" as={Link} to={ROUTES.PROVIDE.SUBROUTES!.USER_CREATE.PATH}>
-          {ROUTES.PROVIDE.SUBROUTES!.USER_CREATE.LABEL}
+        <Button variant="primary" as={Link} to={CREATE_ACTIONS[mode!].PATH}>
+          {CREATE_ACTIONS[mode!].LABEL}
         </Button>
 
         <h1 className="py-3" style={{ color: 'red' }}>

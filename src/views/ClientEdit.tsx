@@ -11,6 +11,7 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { AGREEMENT_STATUS_LABEL, ESERVICE_STATUS_LABEL } from '../lib/constants'
 import { getLastBit } from '../lib/url-utils'
 import isEmpty from 'lodash/isEmpty'
+import { UserList } from './UserList'
 
 function ClientEditComponent({
   runFakeAction,
@@ -95,21 +96,9 @@ function ClientEditComponent({
         </div>
       </WhiteBackground>
 
-      <WhiteBackground>
-        <StyledIntro>
-          {{
-            title: 'I tuoi operatori di sicurezza',
-            description:
-              'In quest’area puoi trovare e gestire tutti gli operatori di sicurezza che sono stati abilitati a gestire le chiavi per il tuo client',
-          }}
-        </StyledIntro>
+      <UserList />
 
-        <Button variant="primary" className="mockFeature">
-          aggiungi nuovo operatore
-        </Button>
-      </WhiteBackground>
-
-      {loading && <LoadingOverlay loadingText="Stiamo caricando il tuo client" />}
+      {loading && <LoadingOverlay loadingText="Stiamo caricando il client richiesto" />}
     </React.Fragment>
   )
 }

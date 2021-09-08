@@ -125,7 +125,7 @@ export const ROUTES: RoutesObject = {
       },
       CLIENT_EDIT: {
         PATH: '/fruizione/client/:id',
-        EXACT: false,
+        EXACT: true,
         LABEL: 'Modifica client',
         COMPONENT: ClientEdit,
       },
@@ -154,13 +154,19 @@ export const ROUTES: RoutesObject = {
         COMPONENT: EServiceGate,
       },
       USER_LIST: {
-        PATH: '/fruizione/operatori',
+        PATH: '/fruizione/client/operatori',
         EXACT: true,
         LABEL: 'Gestisci operatori',
         COMPONENT: UserList,
       },
+      USER_CREATE: {
+        PATH: '/fruizione/client/operatori/crea',
+        EXACT: false,
+        LABEL: 'Crea nuovo operatore di sicurezza',
+        COMPONENT: UserCreate,
+      },
       USER_EDIT: {
-        PATH: '/fruizione/operatori/:id',
+        PATH: '/fruizione/client/operatori/:id',
         EXACT: false,
         LABEL: 'Modifica operatore',
         COMPONENT: UserEdit,
