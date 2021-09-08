@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { WhiteBackground } from '../components/WhiteBackground'
-import { AGREEMENT_STATUS, ROUTES } from '../lib/constants'
+import { AGREEMENT_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import {
   AgreementStatus,
@@ -129,7 +129,7 @@ function AgreementListComponent({
             <tr key={i}>
               <td>{item.eserviceName || item.eserviceId}</td>
               <td>{item.eserviceVersion || 1}</td>
-              <td>{AGREEMENT_STATUS[item.status]}</td>
+              <td>{AGREEMENT_STATUS_LABEL[item.status]}</td>
               <td>
                 {mode === 'provider'
                   ? item.consumerName || item.consumerId

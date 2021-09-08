@@ -510,7 +510,7 @@ export const TOAST_CONTENTS: { [key in keyof typeof API]: RunActionProps } = {
   },
 }
 
-export const ESERVICE_STATUS = {
+export const ESERVICE_STATUS_LABEL = {
   published: 'attivo',
   draft: 'in bozza',
   suspended: 'sospeso',
@@ -526,29 +526,29 @@ export const ATTRIBUTE_TYPE_LABEL = {
   declared: 'dichiarati',
 }
 
-export const AGREEMENT_STATUS = {
+export const AGREEMENT_STATUS_LABEL = {
   active: 'attivo',
   suspended: 'sospeso',
   pending: 'in attesa di approvazione',
 }
 
-export const CLIENT_STATUS = {
+export const CLIENT_STATUS_LABEL = {
   active: 'attivo',
   suspended: 'sospeso',
 }
 
-export const USER_STATUS = {
+export const USER_STATUS_LABEL = {
   active: 'attivo',
   suspended: 'sospeso',
 }
 
-export const USER_ROLE = {
+export const USER_ROLE_LABEL = {
   Manager: 'Manager',
   Delegate: 'Delegato',
   Operator: 'Operatore',
 }
 
-export const USER_PLATFORM_ROLE = {
+export const USER_PLATFORM_ROLE_LABEL = {
   admin: 'Amministratore',
   security: 'Operatore di sicurezza',
   api: 'Operatore API',

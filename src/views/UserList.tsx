@@ -15,7 +15,12 @@ import { TableWithLoader } from '../components/TableWithLoader'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { ROUTES, USER_PLATFORM_ROLE, USER_ROLE, USER_STATUS } from '../lib/constants'
+import {
+  ROUTES,
+  USER_PLATFORM_ROLE_LABEL,
+  USER_ROLE_LABEL,
+  USER_STATUS_LABEL,
+} from '../lib/constants'
 
 function UserListComponent({
   runFakeAction,
@@ -136,9 +141,9 @@ function UserListComponent({
               </td>
               <td>{item.taxCode}</td>
               <td>{item.email}</td>
-              <td>{USER_ROLE[item.role]}</td>
-              <td>{USER_PLATFORM_ROLE[item.platformRole]}</td>
-              <td>{USER_STATUS[item.status]}</td>
+              <td>{USER_ROLE_LABEL[item.role]}</td>
+              <td>{USER_PLATFORM_ROLE_LABEL[item.platformRole]}</td>
+              <td>{USER_STATUS_LABEL[item.status]}</td>
               <td>
                 {getAvailableActions(item).map((tableAction, j) => {
                   const btnProps: any = {}

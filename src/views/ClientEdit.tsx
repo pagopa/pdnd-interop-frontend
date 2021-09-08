@@ -8,7 +8,7 @@ import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { AGREEMENT_STATUS, ESERVICE_STATUS } from '../lib/constants'
+import { AGREEMENT_STATUS_LABEL, ESERVICE_STATUS_LABEL } from '../lib/constants'
 import { getLastBit } from '../lib/url-utils'
 import isEmpty from 'lodash/isEmpty'
 
@@ -74,11 +74,11 @@ function ClientEditComponent({
         </DescriptionBlock>
 
         <DescriptionBlock label="Stato del servizio">
-          <span>{ESERVICE_STATUS[data.serviceStatus]}</span>
+          <span>{ESERVICE_STATUS_LABEL[data.serviceStatus]}</span>
         </DescriptionBlock>
 
         <DescriptionBlock label="Stato dell'accordo">
-          <span>{AGREEMENT_STATUS[data.agreementStatus]}</span>
+          <span>{AGREEMENT_STATUS_LABEL[data.agreementStatus]}</span>
         </DescriptionBlock>
 
         <div className="mt-5 d-flex">

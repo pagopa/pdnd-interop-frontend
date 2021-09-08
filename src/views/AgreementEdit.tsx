@@ -6,7 +6,7 @@ import { LoadingOverlay } from '../components/LoadingOverlay'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { AGREEMENT_STATUS, ROUTES } from '../lib/constants'
+import { AGREEMENT_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { getLastBit } from '../lib/url-utils'
 import capitalize from 'lodash/capitalize'
 import { useMode } from '../hooks/useMode'
@@ -117,7 +117,7 @@ function AgreementEditComponent({
         </DescriptionBlock>
 
         <DescriptionBlock label="Stato dell'accordo">
-          <span>{capitalize(AGREEMENT_STATUS[data?.status])}</span>
+          <span>{capitalize(AGREEMENT_STATUS_LABEL[data?.status])}</span>
         </DescriptionBlock>
 
         <DescriptionBlock label="Attributi">

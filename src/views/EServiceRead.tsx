@@ -11,7 +11,7 @@ import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { useMode } from '../hooks/useMode'
-import { ATTRIBUTE_TYPE_LABEL, ESERVICE_STATUS } from '../lib/constants'
+import { ATTRIBUTE_TYPE_LABEL, ESERVICE_STATUS_LABEL } from '../lib/constants'
 
 type EServiceReadProps = {
   data: EServiceReadType
@@ -39,7 +39,7 @@ export function EServiceRead({ data }: EServiceReadProps) {
         </DescriptionBlock>
 
         <DescriptionBlock label="Stato della versione">
-          <span>{ESERVICE_STATUS[data.descriptors[0].status]}</span>
+          <span>{ESERVICE_STATUS_LABEL[data.descriptors[0].status]}</span>
         </DescriptionBlock>
 
         <DescriptionBlock label="Audience">

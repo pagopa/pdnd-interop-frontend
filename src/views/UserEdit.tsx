@@ -8,7 +8,7 @@ import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { USER_PLATFORM_ROLE, USER_ROLE, USER_STATUS } from '../lib/constants'
+import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATUS_LABEL } from '../lib/constants'
 import { getLastBit } from '../lib/url-utils'
 import isEmpty from 'lodash/isEmpty'
 
@@ -68,15 +68,15 @@ function UserEditComponent({
         </DescriptionBlock>
 
         <DescriptionBlock label="Ruolo">
-          <span>{USER_ROLE[data.role]}</span>
+          <span>{USER_ROLE_LABEL[data.role]}</span>
         </DescriptionBlock>
 
         <DescriptionBlock label="Permessi">
-          <span>{USER_PLATFORM_ROLE[data.platformRole]}</span>
+          <span>{USER_PLATFORM_ROLE_LABEL[data.platformRole]}</span>
         </DescriptionBlock>
 
         <DescriptionBlock label="Stato dell'utente">
-          <span>{USER_STATUS[data.status]}</span>
+          <span>{USER_STATUS_LABEL[data.status]}</span>
         </DescriptionBlock>
 
         <div className="mt-5 d-flex">

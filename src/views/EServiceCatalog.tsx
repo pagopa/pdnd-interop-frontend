@@ -7,7 +7,7 @@ import { TableWithLoader } from '../components/TableWithLoader'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { fetchWithLogs } from '../lib/api-utils'
-import { ESERVICE_STATUS, ROUTES } from '../lib/constants'
+import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 
 export function EServiceCatalog() {
@@ -72,7 +72,7 @@ export function EServiceCatalog() {
           <tr key={i}>
             <td>{item.name}</td>
             <td>{item.descriptors[0].version}</td>
-            <td>{ESERVICE_STATUS[item.descriptors[0].status]}</td>
+            <td>{ESERVICE_STATUS_LABEL[item.descriptors[0].status]}</td>
             <td>
               <TableAction
                 btnProps={{ onClick: buildSubscribe(item) }}

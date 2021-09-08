@@ -13,7 +13,7 @@ import { TableWithLoader } from '../components/TableWithLoader'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { ESERVICE_STATUS, ROUTES } from '../lib/constants'
+import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
 
 function ClientListComponent({
   runFakeAction,
@@ -119,7 +119,7 @@ function ClientListComponent({
               <td>{item.serviceName}</td>
               <td>{item.providerName}</td>
               <td>{item.serviceVersion}</td>
-              <td>{ESERVICE_STATUS[item.serviceStatus]}</td>
+              <td>{ESERVICE_STATUS_LABEL[item.serviceStatus]}</td>
               <td>
                 {getAvailableActions(item).map((tableAction, j) => {
                   const btnProps: any = {}

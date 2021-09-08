@@ -1,11 +1,11 @@
 import { AxiosRequestConfig } from 'axios'
 import React from 'react'
 import {
-  AGREEMENT_STATUS,
+  AGREEMENT_STATUS_LABEL,
   API,
   ATTRIBUTE_TYPE_LABEL,
-  CLIENT_STATUS,
-  ESERVICE_STATUS,
+  CLIENT_STATUS_LABEL,
+  ESERVICE_STATUS_LABEL,
 } from './src/lib/constants'
 
 /*
@@ -107,7 +107,7 @@ export type Party = {
 /*
  * EService
  */
-export type EServiceStatus = keyof typeof ESERVICE_STATUS
+export type EServiceStatus = keyof typeof ESERVICE_STATUS_LABEL
 export type EServiceStatusLabel = Record<EServiceStatus, string>
 
 // EServices are subdivided into their write and read type
@@ -185,7 +185,7 @@ export type EServiceDataTypeKeysWrite = keyof EServiceDataTypeWrite
 /*
  * Agreement
  */
-export type AgreementStatus = keyof typeof AGREEMENT_STATUS
+export type AgreementStatus = keyof typeof AGREEMENT_STATUS_LABEL
 
 export type AgreementVerifiableAttribute = {
   id: string
@@ -214,7 +214,7 @@ export type AgreementSummary = {
 /*
  * Client
  */
-export type ClientStatus = keyof typeof CLIENT_STATUS
+export type ClientStatus = keyof typeof CLIENT_STATUS_LABEL
 
 export type Client = {
   id: string
