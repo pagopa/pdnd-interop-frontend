@@ -303,7 +303,7 @@ export type RunActionProps = {
 export type WrappableAction = {
   proceedCallback: ActionFunction
   label: string
-  isMock: boolean // Temp to mark which actions are still to be developed
+  isMock: boolean // TEMP PoC
 }
 
 export type DialogContent = {

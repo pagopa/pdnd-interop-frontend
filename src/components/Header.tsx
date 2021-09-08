@@ -15,7 +15,7 @@ type NavLinkProps = {
   customStyle?: boolean
 }
 
-// All of this component is really ugly. When there's time, refactor
+// TEMP REFACTOR component
 
 function PlatformHeader() {
   const { availableParties, setParty } = useContext(PartyContext)

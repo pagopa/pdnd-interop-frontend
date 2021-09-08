@@ -72,7 +72,7 @@ function EServiceWriteComponent({
 
   // Contains the template to generate the interoperability agreement
   const todoLoadAccordo = () => {
-    console.log('TODO: genera accordo di interoperabilità')
+    console.log('TODO: genera accordo di interoperabilità') // TEMP PIN-239
   }
 
   // Contain the optional documents to explain how the service works
@@ -248,7 +248,7 @@ function EServiceWriteComponent({
         const writeInterface: EServiceDocumentWrite = {
           kind: 'interface',
           description: readInterface.description,
-          doc: { name: readInterface.name }, // TODO: this should be the document blob
+          doc: { name: readInterface.name }, // TEMP BACKEND: this should be the document blob
         }
 
         setInterfaceDocument(writeInterface)
@@ -262,7 +262,7 @@ function EServiceWriteComponent({
           return {
             kind: 'document',
             description: d.description,
-            doc: { name: d.name }, // TODO: this should be the document blob
+            doc: { name: d.name }, // TEMP BACKEND: this should be the document blob
           }
         })
 

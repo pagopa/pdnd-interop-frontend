@@ -19,11 +19,10 @@ Design:
 
 ## Guida per il frontend
 
-### Ordine delle funzioni in un ciclo richiesta-modale-toast
-1. closeDialog()
-2. setLoadingText('Questo è il testo da mostrare nel loader')
-3. await perform action...
-4. setLoadingText(undefined)
-5. showToast(outcome)
-
-Spiegazione: prima si chiude la modale, e si fa comparire il loader con il testo dell'azione su cui frontend e backend stanno interagendo. Una volta che l'azione è completa si nasconde il loader (impostando il testo a `undefined`) e si mostra una toast con il risultato dell'operazione. Per maggiori riferimenti, guardare `publish` in `src/views/EServiceWrite.tsx`.
+### Commenti marcati come "TEMP" nel codice
+Sono di tipo diverso e assolvono funzioni diverse:
+- TEMP HYPOTHESIS: simula una feature a beneficio di uno stakeholder, ma non è mai stata discussa dal team
+- TEMP BACKEND: qualcosa che deve essere affrontato con il team di backend per essere discusso e chiarito
+- TEMP PIN-{{PIN_NUMBER}}: c'è già un issue in Jira in proposito
+- TEMP REFACTOR: il codice funziona ma è orribile e necessita refactoring
+- TEMP PoC: un marker che indica che qualcosa è attualmente mockato, ma dovrà essere implementato dopo la PoC

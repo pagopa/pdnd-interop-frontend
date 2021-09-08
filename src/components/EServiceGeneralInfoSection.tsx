@@ -41,7 +41,7 @@ export function EServiceGeneralInfoSection({
       <StyledIntro>{{ title: 'Informazioni generali*' }}</StyledIntro>
 
       {textFields.map(({ id, label, placeholder, readOnly, type }, i) => {
-        // This is horrible, and needs refactoring
+        // TEMP REFACTOR
         let value = ''
         if (id === 'version') {
           value = version

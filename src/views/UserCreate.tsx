@@ -16,6 +16,7 @@ function UserCreateComponent({ showToast, setLoadingText }: UserFeedbackHOCProps
   const [people, setPeople] = useState<UsersObject>({})
   const history = useHistory()
 
+  // TEMP REFACTOR
   // This can be refactored, but I need to think it through
   // The risk is to make the withUserFeedback HOC too complex
   const handleSubmit = async (e: React.SyntheticEvent) => {
