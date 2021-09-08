@@ -67,7 +67,7 @@ export function EServiceAttributeSection({
     <WhiteBackground>
       <StyledIntro>
         {{
-          title: 'Attributi*',
+          title: 'Attributi',
         }}
       </StyledIntro>
 

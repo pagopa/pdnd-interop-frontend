@@ -502,10 +502,14 @@ export const TOAST_CONTENTS: { [key in keyof typeof API]: RunActionProps } = {
   },
   USER_CREATE: {
     loadingText: 'Stiamo creando il nuovo operatore',
-    success: { title: 'Successo', description: 'Nuovo operatore creato correttamente' },
+    success: {
+      title: "C'è un nuovo operatore",
+      description: 'Nuovo operatore creato correttamente',
+    },
     error: {
       title: 'Errore',
-      description: 'Non è stato possibile creare il nuovo operatore. Ritentare',
+      description:
+        "Non è stato possibile creare il nuovo operatore. Assicurarsi che non esista già l'utenza ed eventualmente ritentare",
     },
   },
 }
