@@ -3,10 +3,10 @@ import { Button } from 'react-bootstrap'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { EServiceDocumentSection } from '../components/EServiceDocumentSection'
 import {
+  EServiceCreateDataType,
   EServiceDataTypeKeysWrite,
-  EServiceDataTypeWrite,
   EServiceDocumentWrite,
-  EServiceWriteType,
+  EServiceReadType,
   FrontendAttributes,
 } from '../../types'
 import { EServiceAgreementSection } from '../components/EServiceAgreementSection'
@@ -15,37 +15,38 @@ import { EServiceAttributeSection } from '../components/EServiceAttributeSection
 import { StyledIntro } from '../components/StyledIntro'
 import { fetchAllWithLogs, fetchWithLogs } from '../lib/api-utils'
 import { PartyContext } from '../lib/context'
-import { formatFrontendAttributesToBackend } from '../lib/attributes'
+import {
+  formatBackendAttributesToFrontend,
+  formatFrontendAttributesToBackend,
+} from '../lib/attributes'
 import isEmpty from 'lodash/isEmpty'
 import { Link } from 'react-router-dom'
 import { ROUTES } from '../lib/constants'
-import { withUserFeedback } from '../components/withUserFeedback'
+import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { getFetchOutcome } from '../lib/error-utils'
 import { AxiosError, AxiosResponse } from 'axios'
 
 type EServiceWriteProps = {
-  data: EServiceWriteType
+  data: EServiceReadType
 }
 
-function EServiceWriteComponent(
-  {
-    data, // Solve the typing for this unexpected data
-    runAction,
-    runCustomAction,
-    runFakeAction,
-    wrapActionInDialog,
-  }: any & EServiceWriteProps /*UserFeedbackHOCProps */
-) {
+function EServiceWriteComponent({
+  data,
+  runAction,
+  runCustomAction,
+  runFakeAction,
+  wrapActionInDialog,
+}: UserFeedbackHOCProps & EServiceWriteProps) {
   const { party } = useContext(PartyContext)
   // General information section
-  const [eserviceData, setEserviceData] = useState<EServiceDataTypeWrite>({
-    technology: 'REST',
-    audience: [],
-    pop: false, // TODO
-    voucherLifespan: 41713585, // TODO
-    version: 1, // TODO
+  const [eserviceData, setEserviceData] = useState<EServiceCreateDataType>({
     name: '',
+    audience: [],
     description: '',
+    technology: 'REST',
+    pop: false, // TEMP
+    voucherLifespan: 41713585, // TEMP
+    producerId: party?.partyId as string,
   })
   // Documents section (covers documentation & interface)
   const [interfaceDocument, setInterfaceDocument] = useState<EServiceDocumentWrite | undefined>()
@@ -221,33 +222,49 @@ function EServiceWriteComponent(
   // again before being published
   useEffect(() => {
     if (!isEmpty(data)) {
-      const _eserviceData = {
+      // Set general information
+      const readEServiceData: EServiceCreateDataType = {
         name: data.name,
         description: data.description,
         audience: data.audience,
         technology: data.technology,
         voucherLifespan: data.voucherLifespan,
         producerId: data.producerId,
-        attributes: data.attributes,
+        pop: false,
       }
 
-      setEserviceData({ ...eserviceData, ..._eserviceData })
+      setEserviceData({ ...eserviceData, ...readEServiceData })
 
-      const _interfaceDocument = data.descriptors[0].docs.find(
-        (d: EServiceDocumentWrite) => d.kind === 'interface'
-      )
-      // const _documents = data.descriptors[0].docs.filter(
-      //   (d: EServiceDocumentType) => d.kind !== 'interface'
-      // )
+      // Set interface document
+      const readInterface = data.descriptors[0].interface
 
-      if (!isEmpty(_interfaceDocument)) {
-        setInterfaceDocument(_interfaceDocument)
+      if (!isEmpty(readInterface)) {
+        const writeInterface: EServiceDocumentWrite = {
+          kind: 'interface',
+          description: readInterface.description,
+          doc: { name: readInterface.name }, // TODO: this should be the document blob
+        }
+
+        setInterfaceDocument(writeInterface)
       }
-      // setDocuments(_documents)
-      // setAttributes(formatBackendAttributesToFrontend(data.attributes))
 
-      // console.log(data)
-      // console.log({ _eserviceData, _interfaceDocument, _documents })
+      // Set all the other documents
+      const readDocuments = data.descriptors[0].docs
+
+      if (!isEmpty(readDocuments) && readDocuments.length > 0) {
+        const writeDocuments: EServiceDocumentWrite[] = readDocuments.map((d) => {
+          return {
+            kind: 'document',
+            description: d.description,
+            doc: { name: d.name }, // TODO: this should be the document blob
+          }
+        })
+
+        setDocuments(writeDocuments)
+      }
+
+      // Set the attributes
+      setAttributes(formatBackendAttributesToFrontend(data.attributes))
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -258,7 +275,7 @@ function EServiceWriteComponent(
           {{
             title: 'Crea nuovo e-service',
             description:
-              'Compila tutti i campi richiesti e salva in bozza o pubblica il tuo e-service. I campi contrassegnati da asterisco sono obbligatori.',
+              'I campi contrassegnati da asterisco sono obbligatori. Puoi non compilarli tutti subito e salvare il servizio in bozza, ma la pubblicazione potrà avvenire solo una volta che tutti i campi richiesti saranno stati compilati.',
           }}
         </StyledIntro>
       </WhiteBackground>

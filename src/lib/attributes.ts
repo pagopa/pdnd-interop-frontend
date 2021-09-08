@@ -1,4 +1,10 @@
-import { BackendAttributes, FrontendAttributes } from '../../types'
+import has from 'lodash/has'
+import {
+  BackendAttributes,
+  FrontendAttributes,
+  GroupBackendAttribute,
+  SingleBackendAttribute,
+} from '../../types'
 import { getKeys } from './array-utils'
 
 export function formatFrontendAttributesToBackend(
@@ -20,9 +26,33 @@ export function formatFrontendAttributesToBackend(
   return formattedAttributes
 }
 
-// export function formatBackendAttributesToFrontend(backendAttributes: BackendAttributes): FrontendAttributes {
-//   return null
-// }
+export function formatBackendAttributesToFrontend(
+  backendAttributes: BackendAttributes
+): FrontendAttributes {
+  const formattedAttributes: FrontendAttributes = getKeys(backendAttributes).reduce(
+    (acc, attributeType) => {
+      const formatted = backendAttributes[attributeType].map((attribute) => {
+        const isSingle = has(attribute, 'single')
+
+        if (isSingle) {
+          const { single } = attribute as SingleBackendAttribute
+          const { id, explicitAttributeVerification } = single
+          return { attributes: [{ id }], explicitAttributeVerification }
+        }
+
+        const { group } = attribute as GroupBackendAttribute
+        return {
+          attributes: [...group.map(({ id }) => ({ id }))],
+          explicitAttributeVerification: group[0].explicitAttributeVerification,
+        }
+      })
+      return { ...acc, [attributeType]: formatted }
+    },
+    { certified: [], verified: [], declared: [] }
+  )
+
+  return formattedAttributes
+}
 
 export function unformatAttributes(formattedAttributes: any): any {
   // const unformattedAttributes = Object.keys(formattedAttributes).reduce(

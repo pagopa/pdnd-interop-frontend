@@ -118,40 +118,11 @@ export type EServiceStatusLabel = Record<EServiceStatus, string>
 export type EServiceDocumentKind = 'interface' | 'document'
 export type EServiceTechnologyType = 'REST' | 'SOAP'
 
-// Read only
-export type EServiceReadType = {
-  id: string
-  name: string
-  version: number
-  status: EServiceStatus
-  descriptors: EServiceDescriptorRead[]
-  audience: string[]
-  description: string
-  technology: EServiceTechnologyType
-  voucherLifespan: number
-  attributes: BackendAttributes
-}
-
-export type EServiceDescriptorRead = {
-  id: string
-  status: EServiceStatus
-  docs: EServiceDocumentRead[]
-  interface: EServiceDocumentRead
-  version: string
-}
-
-export type EServiceDocumentRead = {
-  contentType: string
-  description: string
-  id: string
-  name: string
-}
-
 // Write only
 export type EServiceWriteType = {
   id: string
   name: string
-  version: number
+  version: string
   status: EServiceStatus
   descriptors: EServiceDescriptorWrite[]
 }
@@ -170,17 +141,46 @@ export type EServiceDescriptorWrite = {
   version: string
 }
 
-export type EServiceDataTypeWrite = {
+export type EServiceCreateDataType = {
+  producerId: string
   name: string
-  version: number
   audience: string[]
   description: string
   technology: EServiceTechnologyType
-  pop: boolean
   voucherLifespan: number
+  pop: boolean
 }
 
-export type EServiceDataTypeKeysWrite = keyof EServiceDataTypeWrite
+export type EServiceDataTypeKeysWrite = keyof EServiceCreateDataType
+
+// Read only
+export type EServiceReadType = {
+  producerId: string
+  name: string
+  audience: string[]
+  description: string
+  technology: EServiceTechnologyType
+  voucherLifespan: number
+  attributes: BackendAttributes
+  id: string
+  status: EServiceStatus
+  descriptors: EServiceDescriptorRead[]
+}
+
+export type EServiceDescriptorRead = {
+  id: string
+  status: EServiceStatus
+  docs: EServiceDocumentRead[]
+  interface: EServiceDocumentRead
+  version: string
+}
+
+export type EServiceDocumentRead = {
+  contentType: string
+  description: string
+  id: string
+  name: string
+}
 
 /*
  * Agreement
