@@ -96,12 +96,12 @@ export type User = UserOnCreate & {
 }
 
 export type Party = {
-  status: 'Pending'
+  status: 'Pending' | 'Active'
   description: string
   institutionId: string
   digitalAddress: string
+  role: UserRole
   partyId?: string
-  role?: UserPlatformRole
 }
 
 /*

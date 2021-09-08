@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { Party } from '../../types'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { withLogin } from '../components/withLogin'
-import { ROUTES } from '../lib/constants'
+import { ROUTES, USER_ROLE_LABEL } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { Row, Col, Button } from 'react-bootstrap'
 import { StyledInputRadioGroup } from '../components/StyledInputRadioGroup'
@@ -47,16 +47,14 @@ function ChoosePartyComponent() {
                 <StyledInputRadioGroup
                   id="istituzioni"
                   groupLabel="Selezione ente"
-                  options={availableParties.map((p) => {
-                    return {
-                      label: `${p.description}${
-                        p.status === 'Pending' ? ': (registrazione da completare)' : ''
-                      }`,
-                      disabled: p.status === 'Pending',
-                      onChange: buildUpdateActiveParty(p),
-                      value: p.institutionId,
-                    }
-                  })}
+                  options={availableParties.map((p) => ({
+                    label: `${p.description} (${USER_ROLE_LABEL[p.role]})${
+                      p.status === 'Pending' ? ' - registrazione da completare' : ''
+                    }`,
+                    disabled: p.status === 'Pending',
+                    onChange: buildUpdateActiveParty(p),
+                    value: p.institutionId,
+                  }))}
                   currentValue={party?.institutionId}
                 />
 

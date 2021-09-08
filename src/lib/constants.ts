@@ -553,13 +553,13 @@ export const USER_STATUS_LABEL = {
 }
 
 export const USER_ROLE_LABEL = {
-  Manager: 'Manager',
-  Delegate: 'Delegato',
-  Operator: 'Operatore',
+  Manager: 'rappresentante legale',
+  Delegate: 'delegato',
+  Operator: 'operatore',
 }
 
 export const USER_PLATFORM_ROLE_LABEL = {
-  admin: 'Amministratore',
-  security: 'Operatore di sicurezza',
-  api: 'Operatore API',
+  admin: 'amministratore',
+  security: 'operatore di sicurezza',
+  api: 'operatore API',
 }
