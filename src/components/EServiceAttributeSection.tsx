@@ -65,23 +65,18 @@ export function EServiceAttributeSection({
 
   return (
     <WhiteBackground>
-      <StyledIntro>
-        {{
-          title: 'Attributi',
-        }}
-      </StyledIntro>
+      <StyledIntro>{{ title: 'Attributi' }}</StyledIntro>
 
       {Object.keys(attributes).map((key, i) => {
         const attributeKey = key as AttributeType
-        const title = TYPE_LABELS[key as keyof TypeLabels].title
-        const description = TYPE_LABELS[key as keyof TypeLabels].description
+        const { title, description } = TYPE_LABELS[attributeKey]
 
         return (
           <div className="my-5" key={i}>
             <StyledIntro priority={2}>{{ title, description }}</StyledIntro>
             <EServiceAttributeGroup
-              canRequireVerification={key === 'verified'}
-              canCreateNewAttributes={key !== 'certified'}
+              canRequireVerification={attributeKey === 'verified'}
+              canCreateNewAttributes={attributeKey !== 'certified'}
               attributesGroup={attributes[attributeKey]}
               add={wrapAdd(attributeKey)}
               remove={wrapRemove(attributeKey)}

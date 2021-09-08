@@ -60,6 +60,9 @@ export function AsyncAutocomplete({
       selected={selected}
       options={options}
       placeholder={placeholder}
+      emptyLabel="Nessun risultato trovato"
+      promptText="Inserisci almeno 3 caratteri..."
+      searchText="Stiamo cercando..."
       renderMenuItemChildren={(option) => (
         <React.Fragment>
           <span>{option.description}</span>

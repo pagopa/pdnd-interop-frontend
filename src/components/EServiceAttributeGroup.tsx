@@ -23,6 +23,7 @@ type EServiceAttributeGroupProps = {
   attributeKey: AttributeType
 }
 
+// TEMP REFACTOR: does it make sense and can this be aligned with the withUserFeedback HOC?
 export function EServiceAttributeGroup({
   attributesGroup,
   canRequireVerification = false,

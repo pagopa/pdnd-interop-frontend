@@ -25,6 +25,7 @@ import { ROUTES } from '../lib/constants'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { getFetchOutcome } from '../lib/error-utils'
 import { AxiosError, AxiosResponse } from 'axios'
+import { showTempAlert } from '../lib/wip-utils'
 
 type EServiceWriteProps = {
   data: EServiceReadType
@@ -72,7 +73,7 @@ function EServiceWriteComponent({
 
   // Contains the template to generate the interoperability agreement
   const todoLoadAccordo = () => {
-    console.log('TODO: genera accordo di interoperabilità') // TEMP PIN-239
+    showTempAlert('Generazione accordo di interoperabilità') // TEMP PIN-239
   }
 
   // Contain the optional documents to explain how the service works

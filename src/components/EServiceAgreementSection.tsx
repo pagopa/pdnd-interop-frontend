@@ -4,7 +4,7 @@ import { StyledIntro } from './StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
 
 type EServiceAgreementSectionProps = {
-  todoLoadAccordo: any
+  todoLoadAccordo: VoidFunction
 }
 
 export function EServiceAgreementSection({ todoLoadAccordo }: EServiceAgreementSectionProps) {

@@ -176,7 +176,7 @@ export function AttributeModalAddExisting({
           <StyledInputCheckbox
             inline={true}
             id="require-verification"
-            label="Convalida richiesta?"
+            label="Richiedi nuova convalida dell'attributo"
             checked={validation}
             onChange={updateValidation}
           />
@@ -184,7 +184,7 @@ export function AttributeModalAddExisting({
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="secondary" onClick={close}>
+        <Button variant="secondary" onClick={(_: any) => close()}>
           Annulla
         </Button>
         <Button variant="primary" onClick={confirm} disabled={!!(selected.length === 0)}>
