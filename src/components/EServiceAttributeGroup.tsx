@@ -67,7 +67,7 @@ export function EServiceAttributeGroup({
               <td
                 dangerouslySetInnerHTML={{
                   __html: attributes
-                    .map(({ description, id }) => description || id) // TEMP, see PIN-427
+                    .map(({ description, id }) => description || id) // TEMP PIN-427
                     .join(' <em>oppure</em> '),
                 }}
               />

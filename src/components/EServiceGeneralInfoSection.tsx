@@ -1,5 +1,9 @@
 import React from 'react'
-import { EServiceDataTypeKeysWrite } from '../../types'
+import {
+  EServiceCreateDataKeysType,
+  EServiceCreateDataType,
+  EServiceCreateTextFieldDataType,
+} from '../../types'
 import { StyledInputCheckbox } from './StyledInputCheckbox'
 import { StyledInputRadioGroup } from './StyledInputRadioGroup'
 import { StyledInputText } from './StyledInputText'
@@ -8,34 +12,45 @@ import { StyledIntro } from './StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
 
 type EServiceGeneralInfoSectionProps = {
-  eserviceData: any
-  setEServiceData: any
+  eserviceData: EServiceCreateDataType
+  setEServiceData: (fieldName: EServiceCreateDataKeysType, fieldType?: string) => (e: any) => void
+  version: string
+}
+
+type Field = {
+  id: keyof EServiceCreateTextFieldDataType | 'version'
+  label: string
+  placeholder: string
+  type?: 'text' | 'textArray'
+  readOnly?: boolean
 }
 
 export function EServiceGeneralInfoSection({
   eserviceData,
   setEServiceData,
+  version,
 }: EServiceGeneralInfoSectionProps) {
+  const textFields: Field[] = [
+    { id: 'name', label: 'Nome del servizio', placeholder: 'Il mio e-service', type: 'text' },
+    { id: 'version', label: 'Versione', placeholder: '1', readOnly: true, type: 'text' },
+    { id: 'audience', label: 'Audience del servizio', placeholder: 'Test', type: 'textArray' },
+  ]
+
   return (
     <WhiteBackground>
       <StyledIntro>{{ title: 'Informazioni generali*' }}</StyledIntro>
 
-      {[
-        { id: 'name', label: 'Nome del servizio', placeholder: 'Il mio e-service', type: 'text' },
-        {
-          id: 'version',
-          label: 'Versione del servizio',
-          placeholder: '1',
-          readOnly: true,
-          type: 'text',
-        },
-        {
-          id: 'audience',
-          label: 'Audience del servizio',
-          placeholder: 'Lorem ipsum audience del servizio',
-          type: 'textArray',
-        },
-      ].map(({ id, label, placeholder, readOnly, type }, i) => {
+      {textFields.map(({ id, label, placeholder, readOnly, type }, i) => {
+        // This is horrible, and needs refactoring
+        let value = ''
+        if (id === 'version') {
+          value = version
+        } else if (Array.isArray(eserviceData[id]) && eserviceData[id].length > 0) {
+          value = eserviceData[id][0] // aka audience
+        } else if (typeof eserviceData[id] !== 'undefined') {
+          value = eserviceData[id] as string
+        }
+
         return (
           <StyledInputText
             key={i}
@@ -43,8 +58,8 @@ export function EServiceGeneralInfoSection({
             label={label}
             placeholder={placeholder}
             readOnly={readOnly}
-            value={(eserviceData[id as EServiceDataTypeKeysWrite] as any) || ''}
-            onChange={setEServiceData(id as EServiceDataTypeKeysWrite, type)}
+            value={value}
+            onChange={setEServiceData(id as EServiceCreateDataKeysType, type)}
           />
         )
       })}

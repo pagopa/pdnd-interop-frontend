@@ -3,8 +3,8 @@ import { Button } from 'react-bootstrap'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { EServiceDocumentSection } from '../components/EServiceDocumentSection'
 import {
+  EServiceCreateDataKeysType,
   EServiceCreateDataType,
-  EServiceDataTypeKeysWrite,
   EServiceDocumentWrite,
   EServiceReadType,
   FrontendAttributes,
@@ -34,7 +34,6 @@ function EServiceWriteComponent({
   data,
   runAction,
   runCustomAction,
-  runFakeAction,
   wrapActionInDialog,
 }: UserFeedbackHOCProps & EServiceWriteProps) {
   const { party } = useContext(PartyContext)
@@ -44,8 +43,8 @@ function EServiceWriteComponent({
     audience: [],
     description: '',
     technology: 'REST',
-    pop: false, // TEMP
-    voucherLifespan: 41713585, // TEMP
+    pop: false, // TEMP HYPOTHESIS
+    voucherLifespan: 41713585, // TEMP BACKEND
     producerId: party?.partyId as string,
   })
   // Documents section (covers documentation & interface)
@@ -60,7 +59,7 @@ function EServiceWriteComponent({
 
   // Contains the data necessary to create an e-service, ecluded the attributes
   const buildSetEServiceData =
-    (fieldName: EServiceDataTypeKeysWrite, fieldType = 'text') =>
+    (fieldName: EServiceCreateDataKeysType, fieldType = 'text') =>
     (e: any) => {
       const value = {
         text: e.target.value,
@@ -210,8 +209,15 @@ function EServiceWriteComponent({
     })
   }
 
-  const cancel = () => {
-    runFakeAction('Cancella bozza')
+  const deleteDraft = async () => {
+    if (!isEmpty(data) && data.descriptors.length > 0) {
+      const eserviceId = data.id
+      const descriptorId = data.descriptors[0].id
+      await runAction({
+        path: { endpoint: 'ESERVICE_DRAFT_DELETE', endpointParams: { eserviceId, descriptorId } },
+        config: { method: 'DELETE' },
+      })
+    }
   }
   /*
    * End list of actions
@@ -268,6 +274,10 @@ function EServiceWriteComponent({
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  const hasPreviousVersion = () => !isEmpty(data) && data.descriptors.length > 0
+
+  const hasPreviousDraft = () => hasPreviousVersion() && data.descriptors[0].status === 'draft'
+
   return (
     <React.Fragment>
       <WhiteBackground>
@@ -283,6 +293,7 @@ function EServiceWriteComponent({
       <EServiceGeneralInfoSection
         eserviceData={eserviceData}
         setEServiceData={buildSetEServiceData}
+        version={hasPreviousVersion() ? data.descriptors[0].version : '1'}
       />
       <EServiceAgreementSection todoLoadAccordo={todoLoadAccordo} />
       {/* I know it's verbose, but keeping interface and documents separated makes it easier to manage for now */}
@@ -304,13 +315,11 @@ function EServiceWriteComponent({
           <Button className="me-3" variant="primary" onClick={wrapActionInDialog(publish)}>
             pubblica adesso
           </Button>
-          <Button
-            className="mockFeature"
-            variant="outline-primary"
-            onClick={wrapActionInDialog(cancel)}
-          >
-            cancella
-          </Button>
+          {hasPreviousDraft() && (
+            <Button variant="outline-primary" onClick={deleteDraft}>
+              cancella bozza
+            </Button>
+          )}
         </div>
       </WhiteBackground>
     </React.Fragment>

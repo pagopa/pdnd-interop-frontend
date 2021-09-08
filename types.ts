@@ -141,6 +141,20 @@ export type EServiceDescriptorWrite = {
   version: string
 }
 
+export type EServiceCreateTextFieldDataType = {
+  name: string
+  audience: string
+}
+
+export type EServiceCreateDataKeysType =
+  | 'producerId'
+  | 'name'
+  | 'audience'
+  | 'description'
+  | 'technology'
+  | 'voucherLifespan'
+  | 'pop'
+
 export type EServiceCreateDataType = {
   producerId: string
   name: string
@@ -150,8 +164,6 @@ export type EServiceCreateDataType = {
   voucherLifespan: number
   pop: boolean
 }
-
-export type EServiceDataTypeKeysWrite = keyof EServiceCreateDataType
 
 // Read only
 export type EServiceReadType = {
