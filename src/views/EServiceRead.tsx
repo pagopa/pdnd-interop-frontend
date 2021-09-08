@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import has from 'lodash/has'
+import { Button } from 'react-bootstrap'
 import {
   AttributeType,
   EServiceReadType,
@@ -11,19 +12,47 @@ import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { useMode } from '../hooks/useMode'
-import { ATTRIBUTE_TYPE_LABEL, ESERVICE_STATUS_LABEL } from '../lib/constants'
+import { ATTRIBUTE_TYPE_LABEL, ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
+import { PartyContext } from '../lib/context'
+import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
+import { Link } from 'react-router-dom'
 
 type EServiceReadProps = {
   data: EServiceReadType
 }
 
-export function EServiceRead({ data }: EServiceReadProps) {
+function EServiceReadComponent({
+  data,
+  runAction,
+  wrapActionInDialog,
+}: EServiceReadProps & UserFeedbackHOCProps) {
+  const { party } = useContext(PartyContext)
   const mode = useMode()
 
   const DESCRIPTIONS = {
     provider: 'Nota: questa versione del servizio è in sola lettura, non è più modificabile',
     subscriber: '',
   }
+
+  /*
+   * List of possible actions for the user to perform
+   */
+  const subscribe = async (_: any) => {
+    const agreementData = {
+      eserviceId: data.id,
+      producerId: data.producerId,
+      consumerId: party?.partyId,
+      verifiedAttributes: [], // TEMP PIN-362
+    }
+
+    await runAction({
+      path: { endpoint: 'AGREEMENT_CREATE' },
+      config: { method: 'POST', data: agreementData },
+    })
+  }
+  /*
+   * End list of actions
+   */
 
   if (isEmpty(data)) {
     return null
@@ -113,6 +142,25 @@ export function EServiceRead({ data }: EServiceReadProps) {
           </DescriptionBlock>
         ))}
       </WhiteBackground>
+
+      {mode === 'subscriber' && (
+        <WhiteBackground>
+          <div className="d-flex">
+            <Button className="me-3" variant="primary" onClick={wrapActionInDialog(subscribe)}>
+              iscriviti
+            </Button>
+            <Button
+              variant="outline-primary"
+              as={Link}
+              to={ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}
+            >
+              torna al catalogo
+            </Button>
+          </div>
+        </WhiteBackground>
+      )}
     </React.Fragment>
   )
 }
+
+export const EServiceRead = withUserFeedback(EServiceReadComponent)

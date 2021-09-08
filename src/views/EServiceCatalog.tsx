@@ -5,12 +5,12 @@ import { StyledIntro } from '../components/StyledIntro'
 import { TableAction } from '../components/TableAction'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { WhiteBackground } from '../components/WhiteBackground'
+import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { fetchWithLogs } from '../lib/api-utils'
 import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 
-export function EServiceCatalog() {
+export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: UserFeedbackHOCProps) {
   const { party } = useContext(PartyContext)
   const { data, loading, error } = useAsyncFetch<EServiceReadType[]>(
     {
@@ -20,28 +20,25 @@ export function EServiceCatalog() {
     { defaultValue: [] }
   )
 
-  const buildSubscribe = (service: any) => async (_: any) => {
-    const flattenedVerifiedAttributes = service.attributes.verified.reduce(
-      (acc: any, next: any) => {
-        const nextIds = next.simple ? [next.simple] : next.group
-        return [...acc, ...nextIds]
-      },
-      []
-    )
-
+  /*
+   * List of possible actions for the user to perform
+   */
+  const wrapSubscribe = (service: EServiceReadType) => async (_: any) => {
     const agreementData = {
       eserviceId: service.id,
       producerId: service.producerId,
       consumerId: party?.partyId,
-      verifiedAttributes: flattenedVerifiedAttributes.map((id: string) => ({
-        id,
-        verified: false,
-        validityTimespan: 100000000,
-      })),
+      verifiedAttributes: [], // TEMP PIN-362
     }
 
-    await fetchWithLogs({ endpoint: 'AGREEMENT_CREATE' }, { method: 'POST', data: agreementData })
+    await runAction({
+      path: { endpoint: 'AGREEMENT_CREATE' },
+      config: { method: 'POST', data: agreementData },
+    })
   }
+  /*
+   * End list of actions
+   */
 
   const headData = ['nome servizio', 'versione attuale', 'stato del servizio', '']
 
@@ -75,7 +72,7 @@ export function EServiceCatalog() {
             <td>{ESERVICE_STATUS_LABEL[item.descriptors[0].status]}</td>
             <td>
               <TableAction
-                btnProps={{ onClick: buildSubscribe(item) }}
+                btnProps={{ onClick: wrapActionInDialog(wrapSubscribe(item)) }}
                 label="Iscriviti"
                 iconClass={'bi-pencil-square'}
               />
@@ -94,3 +91,5 @@ export function EServiceCatalog() {
     </WhiteBackground>
   )
 }
+
+export const EServiceCatalog = withUserFeedback(EServiceCatalogComponent)
