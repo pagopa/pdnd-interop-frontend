@@ -42,14 +42,14 @@ tr > td:not(:only-child):last-of-type {
   top: 0;
   left: 50%;
   transform: translate(-50%, -80%);
-  padding: 2px 4px;
-  font-size: 12px;
+  padding: 1px 2px;
+  font-size: 10px;
   white-space: nowrap;
   pointer-events: none;
 }
 
 .mockFeature::before {
-  content: 'feature mock';
+  content: 'mock';
   background: purple;
   color: white;
 }

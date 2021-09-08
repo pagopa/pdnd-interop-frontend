@@ -62,6 +62,16 @@ function EServiceListComponent({
     // Check with backend if this can be automated
     runFakeAction('Archivia servizio')
   }
+
+  // Clones the properties and generates a new service
+  const clone = () => {
+    runFakeAction('Crea nuovo servizio (clonato)')
+  }
+
+  // Clones all the properties of the previous version and generates a new draft version
+  const createDraftFromVersion = () => {
+    runFakeAction('Crea nuova versione (clonata)')
+  }
   /*
    * End list of actions
    */
@@ -74,6 +84,18 @@ function EServiceListComponent({
           onClick: wrapActionInDialog(suspend),
           icon: 'bi-pause-circle',
           label: 'Sospendi',
+          isMock: true,
+        },
+        {
+          onClick: wrapActionInDialog(clone),
+          icon: 'bi-files',
+          label: 'Clona',
+          isMock: true,
+        },
+        {
+          onClick: wrapActionInDialog(createDraftFromVersion),
+          icon: 'bi-clipboard-plus',
+          label: 'Crea bozza precompilata',
           isMock: true,
         },
       ],
