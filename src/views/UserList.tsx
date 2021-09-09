@@ -130,7 +130,7 @@ function UserListComponent({
 
   return (
     <WhiteBackground>
-      <StyledIntro>{TITLES[mode!]}</StyledIntro>
+      <StyledIntro additionalClasses="fakeData fakeDataStart">{TITLES[mode!]}</StyledIntro>
 
       <div className="mt-4">
         <Button variant="primary" as={Link} to={CREATE_ACTIONS[mode!].PATH}>

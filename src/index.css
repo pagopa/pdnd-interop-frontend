@@ -50,6 +50,11 @@ tr > td:not(:only-child):last-of-type {
   pointer-events: none;
 }
 
+.fakeDataStart::before {
+  left: 0;
+  transform: translate(0, -80%);
+}
+
 .mockFeature::before {
   content: 'mock';
   background: purple;

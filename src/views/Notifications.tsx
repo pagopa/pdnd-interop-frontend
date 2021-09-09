@@ -42,7 +42,7 @@ function NotificationsComponent() {
 
   return (
     <WhiteBackground>
-      <StyledIntro>{{ title: 'Notifiche' }}</StyledIntro>
+      <StyledIntro additionalClasses="fakeData fakeDataStart">{{ title: 'Notifiche' }}</StyledIntro>
 
       <div>
         {mockNotifications.map(({ date, type, title, message }, i) => {

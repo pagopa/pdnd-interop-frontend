@@ -58,7 +58,9 @@ function ClientEditComponent({
   return (
     <React.Fragment>
       <WhiteBackground>
-        <StyledIntro>{{ title: `Client: ${data.name}` }}</StyledIntro>
+        <StyledIntro additionalClasses="fakeData fakeDataStart">
+          {{ title: `Client: ${data.name}` }}
+        </StyledIntro>
 
         <DescriptionBlock label="Descrizione">
           <span>{data.description}</span>

@@ -32,7 +32,9 @@ function EServiceReadComponent({
 
   const DESCRIPTIONS = {
     provider: 'Nota: questa versione del servizio è in sola lettura, non è più modificabile',
-    subscriber: '',
+    subscriber: `${
+      party?.partyId === data.producerId ? "Nota: sei l'erogatore di questo servizio" : ''
+    }`,
   }
 
   /*
@@ -161,13 +163,15 @@ function EServiceReadComponent({
       {mode === 'subscriber' && (
         <WhiteBackground>
           <div className="d-flex">
-            <Button
-              className="me-3"
-              variant="primary"
-              onClick={wrapActionInDialog(subscribe, 'AGREEMENT_CREATE')}
-            >
-              iscriviti
-            </Button>
+            {party?.partyId !== data.producerId && (
+              <Button
+                className="me-3"
+                variant="primary"
+                onClick={wrapActionInDialog(subscribe, 'AGREEMENT_CREATE')}
+              >
+                iscriviti
+              </Button>
+            )}
             <Button
               variant="outline-primary"
               as={Link}
