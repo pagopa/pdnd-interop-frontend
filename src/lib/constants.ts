@@ -369,13 +369,21 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
   AGREEMENT_CREATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   AGREEMENT_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
   AGREEMENT_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  AGREEMENT_VERIFY_ATTRIBUTE: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  AGREEMENT_VERIFY_ATTRIBUTE: {
+    loadingText: "Stiamo verificando l'attributo",
+    success: { title: 'Attributo verificato', description: "L'attributo è ora stato verificato" },
+    error: {
+      title: 'Errore',
+      description: "Non è stato possibile verificare l'attributo. Riprova!",
+    },
+  },
   AGREEMENT_ACTIVATE: {
     loadingText: "Stiamo attivando l'accordo",
     success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
     error: {
       title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+      description:
+        "Non è stato possibile attivare l'accordo. Accertarsi che tutti gli attributi siano stati verificati",
     },
   },
   AGREEMENT_SUSPEND: {
@@ -436,8 +444,11 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   },
   AGREEMENT_GET_LIST: {},
   AGREEMENT_GET_SINGLE: {},
-  AGREEMENT_VERIFY_ATTRIBUTE: {},
-  AGREEMENT_ACTIVATE: {},
+  AGREEMENT_ACTIVATE: {
+    title: "Attiva l'accordo",
+    description:
+      'Cliccando su "conferma" si attiverà l\'accordo di interoperabilità. Potrà essere sospeso in qualunque momento da questo pannello',
+  },
   AGREEMENT_SUSPEND: {},
   CLIENT_GET_LIST: {},
   CLIENT_GET_SINGLE: {},

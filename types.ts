@@ -316,7 +316,7 @@ export type DialogContent = {
   description?: string | JSX.Element
 }
 
-export type DialogActionKeys = Exclude<ApiEndpointKey, 'BASE'>
+export type DialogActionKeys = Exclude<ApiEndpointKey, 'BASE' | 'AGREEMENT_VERIFY_ATTRIBUTE'>
 
 export type ToastContent = {
   title?: string

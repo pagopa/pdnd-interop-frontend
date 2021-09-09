@@ -54,12 +54,8 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
       setDialog(undefined)
     }
 
-    const showToast = ({
-      outcome = 'success',
-      title = 'Operazione conclusa',
-      description = 'Operazione conclusa con successo',
-    }: ToastContentWithOutcome) => {
-      setToast({ outcome, title, description, onClose: closeToast })
+    const showToast = (toastContentWithOutcome: ToastContentWithOutcome) => {
+      setToast({ ...toastContentWithOutcome, onClose: closeToast })
     }
 
     const closeToast = () => {
