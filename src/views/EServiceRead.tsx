@@ -4,6 +4,7 @@ import has from 'lodash/has'
 import { Button } from 'react-bootstrap'
 import {
   AttributeType,
+  BackendAttribute,
   EServiceReadType,
   GroupBackendAttribute,
   SingleBackendAttribute,
@@ -38,11 +39,25 @@ function EServiceReadComponent({
    * List of possible actions for the user to perform
    */
   const subscribe = async (_: any) => {
+    const flattenedVerifiedAttributes = data.attributes.verified.reduce(
+      (acc: any, next: BackendAttribute) => {
+        const nextIds = has(next, 'single')
+          ? [(next as SingleBackendAttribute).single.id]
+          : (next as GroupBackendAttribute).group.map((a) => a.id)
+        return [...acc, ...nextIds]
+      },
+      []
+    )
+
     const agreementData = {
       eserviceId: data.id,
       producerId: data.producerId,
       consumerId: party?.partyId,
-      verifiedAttributes: [], // TEMP PIN-362
+      verifiedAttributes: flattenedVerifiedAttributes.map((id: string) => ({
+        id,
+        verified: false,
+        validityTimespan: 100000000,
+      })), // TEMP PIN-362
     }
 
     await runAction({

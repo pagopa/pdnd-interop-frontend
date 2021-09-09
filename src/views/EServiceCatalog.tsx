@@ -1,6 +1,12 @@
 import React, { useContext } from 'react'
+import has from 'lodash/has'
 import { Link } from 'react-router-dom'
-import { EServiceReadType } from '../../types'
+import {
+  BackendAttribute,
+  EServiceReadType,
+  GroupBackendAttribute,
+  SingleBackendAttribute,
+} from '../../types'
 import { StyledIntro } from '../components/StyledIntro'
 import { TableAction } from '../components/TableAction'
 import { TableWithLoader } from '../components/TableWithLoader'
@@ -24,11 +30,25 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
    * List of possible actions for the user to perform
    */
   const wrapSubscribe = (service: EServiceReadType) => async (_: any) => {
+    const flattenedVerifiedAttributes = service.attributes.verified.reduce(
+      (acc: any, next: BackendAttribute) => {
+        const nextIds = has(next, 'single')
+          ? [(next as SingleBackendAttribute).single.id]
+          : (next as GroupBackendAttribute).group.map((a) => a.id)
+        return [...acc, ...nextIds]
+      },
+      []
+    )
+
     const agreementData = {
       eserviceId: service.id,
       producerId: service.producerId,
       consumerId: party?.partyId,
-      verifiedAttributes: [], // TEMP PIN-362
+      verifiedAttributes: flattenedVerifiedAttributes.map((id: string) => ({
+        id,
+        verified: false,
+        validityTimespan: 100000000,
+      })), // TEMP PIN-362
     }
 
     await runAction({
