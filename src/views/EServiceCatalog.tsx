@@ -15,15 +15,22 @@ import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFe
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
+import { OverlayTrigger, Tooltip } from 'react-bootstrap'
+
+type ExtendedEServiceReadType = EServiceReadType & { isMine: boolean; amISubscribed: boolean }
 
 export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: UserFeedbackHOCProps) {
   const { party } = useContext(PartyContext)
-  const { data, loading, error } = useAsyncFetch<EServiceReadType[]>(
+  const { data, loading, error } = useAsyncFetch<EServiceReadType[], ExtendedEServiceReadType[]>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST' },
       config: { method: 'GET', params: { status: 'published' } },
     },
-    { defaultValue: [] }
+    {
+      defaultValue: [],
+      mapFn: (data) =>
+        data.map((d) => ({ ...d, isMine: d.producerId === party?.partyId, amISubscribed: false })),
+    }
   )
 
   /*
@@ -62,6 +69,12 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
 
   const headData = ['nome servizio', 'versione attuale', 'stato del servizio', '']
 
+  const InfoTooltip = ({ label = '', iconClass = '' }) => (
+    <OverlayTrigger placement="top" overlay={<Tooltip id="tooltip">{label}</Tooltip>}>
+      <i className={`text-primary ms-2 fs-5 bi ${iconClass}`} />
+    </OverlayTrigger>
+  )
+
   return (
     <WhiteBackground>
       <StyledIntro>
@@ -87,15 +100,22 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
       >
         {data.map((item, i) => (
           <tr key={i}>
-            <td>{item.name}</td>
+            <td>
+              {item.name}
+              {item.isMine && <InfoTooltip label="Sei l'erogatore" iconClass="bi-key-fill" />}
+            </td>
             <td>{item.descriptors[0].version}</td>
             <td>{ESERVICE_STATUS_LABEL[item.descriptors[0].status]}</td>
             <td>
-              <TableAction
-                btnProps={{ onClick: wrapActionInDialog(wrapSubscribe(item), 'AGREEMENT_CREATE') }}
-                label="Iscriviti"
-                iconClass={'bi-pencil-square'}
-              />
+              {!item.isMine && (
+                <TableAction
+                  btnProps={{
+                    onClick: wrapActionInDialog(wrapSubscribe(item), 'AGREEMENT_CREATE'),
+                  }}
+                  label="Iscriviti"
+                  iconClass={'bi-pencil-square'}
+                />
+              )}
               <TableAction
                 btnProps={{
                   as: Link,
