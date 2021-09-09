@@ -1,6 +1,6 @@
 import React from 'react'
 import { Toast } from 'react-bootstrap'
-import { RequestOutcome, ToastContentWithOutcome } from '../../types'
+import { RequestOutcome, ToastContent, ToastContentWithOutcome } from '../../types'
 import noop from 'lodash/noop'
 
 type StyledToastProps = ToastContentWithOutcome & {
@@ -17,6 +17,14 @@ const BG_TYPE_EMOJI: { [key in RequestOutcome]: string } = {
   error: '❌',
 }
 
+const DEFAULT_TEXT: { [key in RequestOutcome]: ToastContent } = {
+  success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+  error: {
+    title: 'Errore',
+    description: "C'è stato un errore, non è stato possibile completare l'operazione",
+  },
+}
+
 export function StyledToast({ outcome, title, description, onClose = noop }: StyledToastProps) {
   return (
     <Toast
@@ -28,10 +36,10 @@ export function StyledToast({ outcome, title, description, onClose = noop }: Sty
     >
       <Toast.Header>
         <strong className="me-auto">
-          {BG_TYPE_EMOJI[outcome]} {title}
+          {BG_TYPE_EMOJI[outcome]} {title || DEFAULT_TEXT[outcome].title}
         </strong>
       </Toast.Header>
-      <Toast.Body>{description}</Toast.Body>
+      <Toast.Body>{description || DEFAULT_TEXT[outcome].description}</Toast.Body>
     </Toast>
   )
 }

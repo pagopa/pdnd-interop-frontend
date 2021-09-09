@@ -1,29 +1,30 @@
-import React, { FunctionComponent } from 'react'
+import React from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import { Overlay } from './Overlay'
 
 type ConfirmationDialogOverlayProps = {
-  modalTitle?: string
+  title?: string
+  description?: string | React.ReactNode
   close: VoidFunction
   proceedCallback: VoidFunction
   proceedLabel?: string
 }
 
-export const StyledDialog: FunctionComponent<ConfirmationDialogOverlayProps> = ({
-  children,
-  modalTitle = 'Conferma azione',
+export function StyledDialog({
+  title = 'Conferma azione',
+  description,
   close,
   proceedCallback,
   proceedLabel = 'Conferma',
-}) => {
+}: ConfirmationDialogOverlayProps) {
   return (
     <Overlay>
       <Modal.Dialog contentClassName="px-1 py-1">
         <Modal.Header onHide={close} closeButton>
-          <Modal.Title className="me-5">{modalTitle}</Modal.Title>
+          <Modal.Title className="me-5">{title}</Modal.Title>
         </Modal.Header>
 
-        {children && <Modal.Body className="py-4">{children}</Modal.Body>}
+        {description && <Modal.Body className="py-4">{description}</Modal.Body>}
 
         <Modal.Footer>
           <Button variant="secondary" onClick={close}>

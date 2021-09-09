@@ -146,7 +146,11 @@ function EServiceReadComponent({
       {mode === 'subscriber' && (
         <WhiteBackground>
           <div className="d-flex">
-            <Button className="me-3" variant="primary" onClick={wrapActionInDialog(subscribe)}>
+            <Button
+              className="me-3"
+              variant="primary"
+              onClick={wrapActionInDialog(subscribe, 'AGREEMENT_CREATE')}
+            >
               iscriviti
             </Button>
             <Button

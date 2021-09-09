@@ -1,4 +1,11 @@
-import { DisplayLogsType, RoutesObject, RunActionProps } from '../../types'
+import {
+  DialogActionKeys,
+  DialogContent,
+  DisplayLogsType,
+  RoutesObject,
+  RunActionProps,
+  ToastActionKeys,
+} from '../../types'
 import { ChooseParty } from '../views/ChooseParty'
 import { ClientEdit } from '../views/ClientEdit'
 import { ClientList } from '../views/ClientList'
@@ -288,12 +295,12 @@ export const API = {
   },
   USER_GET_LIST: {
     URL: 'TODO',
-    LOCAL: 'get-user-list.json',
+    LOCAL: 'get-user-list.json', // TEMP PIN-438
     SHOULD_CALL: false,
   },
   USER_GET_SINGLE: {
     URL: 'TODO',
-    LOCAL: 'get-user-single.json',
+    LOCAL: 'get-user-single.json', // TEMP PIN-438
     SHOULD_CALL: false,
   },
   USER_CREATE: {
@@ -303,71 +310,14 @@ export const API = {
   },
 }
 
-export const TOAST_CONTENTS: { [key in keyof typeof API]: RunActionProps } = {
-  BASE: {
-    loadingText: 'Operazione in corso',
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
-    error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
-    },
-  },
-  ONBOARDING_GET_AVAILABLE_PARTIES: {
-    loadingText: 'Operazione in corso',
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
-    error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
-    },
-  },
-  ONBOARDING_GET_SEARCH_PARTIES: {
-    loadingText: 'Operazione in corso',
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
-    error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
-    },
-  },
-  ONBOARDING_POST_LEGALS: {
-    loadingText: 'Operazione in corso',
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
-    error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
-    },
-  },
-  ONBOARDING_COMPLETE_REGISTRATION: {
-    loadingText: 'Operazione in corso',
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
-    error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
-    },
-  },
-  ESERVICE_GET_LIST: {
-    loadingText: 'Operazione in corso',
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
-    error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
-    },
-  },
-  ESERVICE_GET_SINGLE: {
-    loadingText: 'Operazione in corso',
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
-    error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
-    },
-  },
-  ESERVICE_CREATE: {
-    loadingText: 'Operazione in corso',
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
-    error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
-    },
-  },
+export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
+  ONBOARDING_GET_AVAILABLE_PARTIES: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  ONBOARDING_GET_SEARCH_PARTIES: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  ONBOARDING_POST_LEGALS: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  ONBOARDING_COMPLETE_REGISTRATION: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  ESERVICE_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  ESERVICE_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  ESERVICE_CREATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   ESERVICE_VERSION_PUBLISH: {
     loadingText: 'Stiamo pubblicando la versione in bozza',
     success: {
@@ -393,22 +343,12 @@ export const TOAST_CONTENTS: { [key in keyof typeof API]: RunActionProps } = {
   },
   ESERVICE_POST_DESCRIPTOR_DOCUMENTS: {
     loadingText: 'Operazione in corso',
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
-    error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
-    },
+    success: {},
+    error: {},
   },
-  ATTRIBUTES_GET_LIST: {
-    loadingText: 'Operazione in corso',
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
-    error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
-    },
-  },
+  ATTRIBUTES_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
   ATTRIBUTE_CREATE: {
-    loadingText: 'Operazione in corso',
+    loadingText: 'Stiamo salvando il nuovo attributo',
     success: {
       title: 'Attributo creato correttamente',
       description: "Adesso puoi aggiungere l'attributo al tuo servizio",
@@ -418,46 +358,11 @@ export const TOAST_CONTENTS: { [key in keyof typeof API]: RunActionProps } = {
       description: "C'è stato un errore, non è stato possibile completare l'operazione",
     },
   },
-  PARTY_GET_PARTY_ID: {
-    loadingText: 'Operazione in corso',
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
-    error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
-    },
-  },
-  AGREEMENT_CREATE: {
-    loadingText: 'Operazione in corso',
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
-    error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
-    },
-  },
-  AGREEMENT_GET_LIST: {
-    loadingText: 'Operazione in corso',
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
-    error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
-    },
-  },
-  AGREEMENT_GET_SINGLE: {
-    loadingText: 'Operazione in corso',
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
-    error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
-    },
-  },
-  AGREEMENT_VERIFY_ATTRIBUTE: {
-    loadingText: "Stiamo verificando l'attributo",
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
-    error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
-    },
-  },
+  PARTY_GET_PARTY_ID: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  AGREEMENT_CREATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  AGREEMENT_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  AGREEMENT_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  AGREEMENT_VERIFY_ATTRIBUTE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   AGREEMENT_ACTIVATE: {
     loadingText: "Stiamo attivando l'accordo",
     success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
@@ -474,38 +379,10 @@ export const TOAST_CONTENTS: { [key in keyof typeof API]: RunActionProps } = {
       description: "C'è stato un errore, non è stato possibile completare l'operazione",
     },
   },
-  CLIENT_GET_LIST: {
-    loadingText: 'Operazione in corso',
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
-    error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
-    },
-  },
-  CLIENT_GET_SINGLE: {
-    loadingText: 'Operazione in corso',
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
-    error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
-    },
-  },
-  USER_GET_LIST: {
-    loadingText: 'Operazione in corso',
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
-    error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
-    },
-  },
-  USER_GET_SINGLE: {
-    loadingText: 'Operazione in corso',
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
-    error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
-    },
-  },
+  CLIENT_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  CLIENT_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  USER_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  USER_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   USER_CREATE: {
     loadingText: 'Stiamo creando il nuovo operatore',
     success: {
@@ -518,6 +395,36 @@ export const TOAST_CONTENTS: { [key in keyof typeof API]: RunActionProps } = {
         "Non è stato possibile creare il nuovo operatore. Assicurarsi che non esista già l'utenza ed eventualmente ritentare",
     },
   },
+}
+
+export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
+  ONBOARDING_GET_AVAILABLE_PARTIES: {},
+  ONBOARDING_GET_SEARCH_PARTIES: {},
+  ONBOARDING_POST_LEGALS: {},
+  ONBOARDING_COMPLETE_REGISTRATION: {},
+  ESERVICE_GET_LIST: {},
+  ESERVICE_GET_SINGLE: {},
+  ESERVICE_CREATE: {},
+  ESERVICE_VERSION_PUBLISH: {},
+  ESERVICE_DRAFT_DELETE: {},
+  ESERVICE_POST_DESCRIPTOR_DOCUMENTS: {},
+  ATTRIBUTES_GET_LIST: {},
+  ATTRIBUTE_CREATE: {},
+  PARTY_GET_PARTY_ID: {},
+  AGREEMENT_CREATE: {
+    title: 'Iscriviti al servizio',
+    description: 'Cliccando su "conferma" ti iscriverai al servizio richiesto',
+  },
+  AGREEMENT_GET_LIST: {},
+  AGREEMENT_GET_SINGLE: {},
+  AGREEMENT_VERIFY_ATTRIBUTE: {},
+  AGREEMENT_ACTIVATE: {},
+  AGREEMENT_SUSPEND: {},
+  CLIENT_GET_LIST: {},
+  CLIENT_GET_SINGLE: {},
+  USER_GET_LIST: {},
+  USER_GET_SINGLE: {},
+  USER_CREATE: {},
 }
 
 export const ESERVICE_STATUS_LABEL = {

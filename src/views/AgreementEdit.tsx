@@ -81,10 +81,10 @@ function AgreementEditComponent({
 
     const providerActions: { [key in AgreementStatus]: TableActionBtn[] } = {
       pending: [
-        { onClick: wrapActionInDialog(activate), label: 'attiva' },
+        { onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'), label: 'attiva' },
         { onClick: wrapActionInDialog(refuse), label: 'rifiuta', isMock: true },
       ],
-      active: [{ onClick: wrapActionInDialog(suspend), label: 'sospendi' }],
+      active: [{ onClick: wrapActionInDialog(suspend, 'AGREEMENT_SUSPEND'), label: 'sospendi' }],
       suspended: [
         { onClick: wrapActionInDialog(reactivate), label: 'riattiva', isMock: true },
         { onClick: wrapActionInDialog(archive), label: 'archivia', isMock: true },
@@ -92,7 +92,7 @@ function AgreementEditComponent({
     }
 
     const subscriberActions: { [key in AgreementStatus]: any[] } = {
-      active: [{ onClick: wrapActionInDialog(suspend), label: 'sospendi' }],
+      active: [{ onClick: wrapActionInDialog(suspend, 'AGREEMENT_SUSPEND'), label: 'sospendi' }],
       suspended: [{ onClick: wrapActionInDialog(reactivate), label: 'riattiva', isMock: true }],
       pending: [],
     }

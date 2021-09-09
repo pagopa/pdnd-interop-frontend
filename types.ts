@@ -306,14 +306,21 @@ export type WrappableAction = {
   isMock: boolean // TEMP PoC
 }
 
-export type DialogContent = {
+export type DialogProps = DialogContent & {
   proceedCallback: ActionFunction
   close: VoidFunction
 }
 
+export type DialogContent = {
+  title?: string
+  description?: string | JSX.Element
+}
+
+export type DialogActionKeys = Exclude<ApiEndpointKey, 'BASE'>
+
 export type ToastContent = {
-  title: string
-  description: string | JSX.Element
+  title?: string
+  description?: string | JSX.Element
 }
 
 export type ToastContentWithOutcome = ToastContent & {
@@ -323,6 +330,8 @@ export type ToastContentWithOutcome = ToastContent & {
 export type ToastProps = ToastContentWithOutcome & {
   onClose: VoidFunction
 }
+
+export type ToastActionKeys = Exclude<ApiEndpointKey, 'BASE'>
 
 /*
  * Action buttons in tables

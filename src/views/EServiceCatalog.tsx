@@ -72,7 +72,7 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
             <td>{ESERVICE_STATUS_LABEL[item.descriptors[0].status]}</td>
             <td>
               <TableAction
-                btnProps={{ onClick: wrapActionInDialog(wrapSubscribe(item)) }}
+                btnProps={{ onClick: wrapActionInDialog(wrapSubscribe(item), 'AGREEMENT_CREATE') }}
                 label="Iscriviti"
                 iconClass={'bi-pencil-square'}
               />

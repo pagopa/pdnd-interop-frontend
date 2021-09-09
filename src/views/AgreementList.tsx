@@ -58,7 +58,7 @@ function AgreementListComponent({
     const availableActions: { [key in AgreementStatus]: TableActionProps[] } = {
       active: [
         {
-          onClick: wrapActionInDialog(wrapSuspend(agreement.id)),
+          onClick: wrapActionInDialog(wrapSuspend(agreement.id), 'AGREEMENT_SUSPEND'),
           label: 'sospendi',
           icon: 'bi-pause-circle',
         },

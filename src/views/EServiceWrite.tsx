@@ -310,14 +310,25 @@ function EServiceWriteComponent({
 
       <WhiteBackground>
         <div className="d-flex">
-          <Button className="me-3" variant="primary" onClick={wrapActionInDialog(saveDraft)}>
+          <Button
+            className="me-3"
+            variant="primary"
+            onClick={wrapActionInDialog(saveDraft, 'ESERVICE_CREATE')}
+          >
             salva in bozza
           </Button>
-          <Button className="me-3" variant="primary" onClick={wrapActionInDialog(publish)}>
+          <Button
+            className="me-3"
+            variant="primary"
+            onClick={wrapActionInDialog(publish, 'ESERVICE_VERSION_PUBLISH')}
+          >
             pubblica adesso
           </Button>
           {hasPreviousDraft() && (
-            <Button variant="outline-primary" onClick={deleteDraft}>
+            <Button
+              variant="outline-primary"
+              onClick={wrapActionInDialog(deleteDraft, 'ESERVICE_DRAFT_DELETE')}
+            >
               cancella bozza
             </Button>
           )}

@@ -116,12 +116,18 @@ function EServiceListComponent({
       ],
       draft: [
         {
-          onClick: wrapActionInDialog(wrapPublishDraft(service.id, service.descriptors[0].id)),
+          onClick: wrapActionInDialog(
+            wrapPublishDraft(service.id, service.descriptors[0].id),
+            'ESERVICE_VERSION_PUBLISH'
+          ),
           icon: 'bi-box-arrow-up',
           label: 'Pubblica',
         },
         {
-          onClick: wrapActionInDialog(wrapDeleteDraft(service.id, service.descriptors[0].id)),
+          onClick: wrapActionInDialog(
+            wrapDeleteDraft(service.id, service.descriptors[0].id),
+            'ESERVICE_DRAFT_DELETE'
+          ),
           icon: 'bi-trash',
           label: 'Elimina',
         },

@@ -2,14 +2,16 @@
 import React, { useState } from 'react'
 import {
   ActionFunction,
-  DialogContent,
+  DialogActionKeys,
+  DialogProps,
   RequestConfig,
   RunActionProps,
+  ToastActionKeys,
   ToastContentWithOutcome,
   ToastProps,
 } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
-import { TOAST_CONTENTS } from '../lib/constants'
+import { DIALOG_CONTENTS, TOAST_CONTENTS } from '../lib/constants'
 import { getFetchOutcome } from '../lib/error-utils'
 import { showTempAlert } from '../lib/wip-utils'
 import { LoadingOverlay } from './LoadingOverlay'
@@ -33,14 +35,16 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
 
   const ComponentWithUserFeedback = (props: Omit<T, keyof UserFeedbackHOCProps>) => {
     const [loadingText, setLoadingText] = useState<string | undefined>(undefined)
-    const [dialog, setDialog] = useState<DialogContent>()
+    const [dialog, setDialog] = useState<DialogProps>()
     const [toast, setToast] = useState<ToastProps>()
     const [forceUpdateCounter, setForceUpdateCounter] = useState(0)
 
     // Dialog and toast related functions
-    const wrapActionInDialog = (wrappedAction: ActionFunction) => async (_: any) => {
-      setDialog({ proceedCallback: wrappedAction, close: closeDialog })
-    }
+    const wrapActionInDialog =
+      (wrappedAction: ActionFunction, endpointKey?: DialogActionKeys) => async (_: any) => {
+        const contents = endpointKey ? DIALOG_CONTENTS[endpointKey] : {}
+        setDialog({ proceedCallback: wrappedAction, close: closeDialog, ...contents })
+      }
     const closeDialog = () => {
       setDialog(undefined)
     }
@@ -59,7 +63,8 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
      * API calls
      */
     const runAction = async (request: RequestConfig) => {
-      const { loadingText, success, error }: RunActionProps = TOAST_CONTENTS[request.path.endpoint]
+      const { loadingText, success, error }: RunActionProps =
+        TOAST_CONTENTS[request.path.endpoint as ToastActionKeys]
 
       closeDialog()
       setLoadingText(loadingText)
