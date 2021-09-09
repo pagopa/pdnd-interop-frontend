@@ -48,7 +48,7 @@ function PlatformHeader() {
     }
 
     return (
-      <Nav.Link eventKey={eventKey} as={Link} to={route.PATH} className={classNames}>
+      <Nav.Link active={false} eventKey={eventKey} as={Link} to={route.PATH} className={classNames}>
         {children || route.LABEL}
       </Nav.Link>
     )
