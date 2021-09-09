@@ -15,7 +15,7 @@ import isEmpty from 'lodash/isEmpty'
 function UserEditComponent({
   runFakeAction,
   wrapActionInDialog,
-  forceUpdateCounter,
+  forceRerenderCounter,
 }: UserFeedbackHOCProps) {
   const taxCode = getLastBit(useLocation())
   const { data, loading } = useAsyncFetch<User>(
@@ -23,7 +23,7 @@ function UserEditComponent({
       path: { endpoint: 'USER_GET_SINGLE', endpointParams: { taxCode } },
       config: { method: 'GET' },
     },
-    { defaultValue: {}, useEffectDeps: [forceUpdateCounter] }
+    { defaultValue: {}, useEffectDeps: [forceRerenderCounter] }
   )
 
   /*

@@ -18,14 +18,14 @@ import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
 function ClientListComponent({
   runFakeAction,
   wrapActionInDialog,
-  forceUpdateCounter,
+  forceRerenderCounter,
 }: UserFeedbackHOCProps) {
   const { data, loading, error } = useAsyncFetch<Client[]>(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
       config: { method: 'GET' },
     },
-    { defaultValue: [], useEffectDeps: [forceUpdateCounter] }
+    { defaultValue: [], useEffectDeps: [forceRerenderCounter] }
   )
 
   /*

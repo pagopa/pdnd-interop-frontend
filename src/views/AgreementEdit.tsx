@@ -18,7 +18,7 @@ import isEmpty from 'lodash/isEmpty'
 function AgreementEditComponent({
   runAction,
   runFakeAction,
-  forceUpdateCounter,
+  forceRerenderCounter,
   wrapActionInDialog,
 }: UserFeedbackHOCProps) {
   const mode = useMode()
@@ -28,7 +28,7 @@ function AgreementEditComponent({
       path: { endpoint: 'AGREEMENT_GET_SINGLE', endpointParams: { agreementId } },
       config: { method: 'GET' },
     },
-    { defaultValue: {}, useEffectDeps: [forceUpdateCounter, mode] }
+    { defaultValue: {}, useEffectDeps: [forceRerenderCounter, mode] }
   )
 
   /*

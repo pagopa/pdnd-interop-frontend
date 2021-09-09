@@ -317,7 +317,14 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
   ONBOARDING_COMPLETE_REGISTRATION: { loadingText: 'Operazione in corso', success: {}, error: {} },
   ESERVICE_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
   ESERVICE_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  ESERVICE_CREATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  ESERVICE_CREATE: {
+    loadingText: 'Stiamo creando la bozza',
+    success: { title: 'Bozza creata', description: 'La bozza è stata creata correttamente' },
+    error: {
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile creare la bozza. Riprova!',
+    },
+  },
   ESERVICE_VERSION_PUBLISH: {
     loadingText: 'Stiamo pubblicando la versione in bozza',
     success: {
@@ -404,9 +411,21 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   ONBOARDING_COMPLETE_REGISTRATION: {},
   ESERVICE_GET_LIST: {},
   ESERVICE_GET_SINGLE: {},
-  ESERVICE_CREATE: {},
-  ESERVICE_VERSION_PUBLISH: {},
-  ESERVICE_DRAFT_DELETE: {},
+  ESERVICE_CREATE: {
+    title: 'Conferma creazione bozza',
+    description:
+      'Cliccando "conferma", una nuova bozza verrà creata. Potrà essere pubblicata successivamente, oppure cancellata',
+  },
+  ESERVICE_VERSION_PUBLISH: {
+    title: 'Conferma pubblicazione bozza',
+    description:
+      'Una volta pubblicata, una versione del servizio non è più cancellabile e diventa disponibile nel catalogo degli e-service. Sarà comunque possibile sospenderla, o renderla obsoleta una volta che una nuova versione diventa disponibile.',
+  },
+  ESERVICE_DRAFT_DELETE: {
+    title: 'Conferma cancellazione bozza',
+    description:
+      'Cliccando "conferma" questa bozza verrà cancellata e non sarà più recuperabile. Sarà sempre possibile creare nuove bozze',
+  },
   ESERVICE_POST_DESCRIPTOR_DOCUMENTS: {},
   ATTRIBUTES_GET_LIST: {},
   ATTRIBUTE_CREATE: {},

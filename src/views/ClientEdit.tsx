@@ -16,7 +16,7 @@ import { UserList } from './UserList'
 function ClientEditComponent({
   runFakeAction,
   wrapActionInDialog,
-  forceUpdateCounter,
+  forceRerenderCounter,
 }: UserFeedbackHOCProps) {
   const clientId = getLastBit(useLocation())
   const { data, loading } = useAsyncFetch<Client>(
@@ -24,7 +24,7 @@ function ClientEditComponent({
       path: { endpoint: 'CLIENT_GET_SINGLE', endpointParams: { clientId } },
       config: { method: 'GET' },
     },
-    { defaultValue: {}, useEffectDeps: [forceUpdateCounter] }
+    { defaultValue: {}, useEffectDeps: [forceRerenderCounter] }
   )
 
   /*

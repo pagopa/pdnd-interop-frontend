@@ -1,10 +1,12 @@
 // Typing from https://react-typescript-cheatsheet.netlify.app/docs/hoc/full_example/
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import {
   ActionFunction,
   DialogActionKeys,
   DialogProps,
   RequestConfig,
+  RouteConfig,
   RunActionProps,
   ToastActionKeys,
   ToastContentWithOutcome,
@@ -19,10 +21,11 @@ import { StyledDialog } from './StyledDialog'
 import { StyledToast } from './StyledToast'
 
 export type UserFeedbackHOCProps = {
-  runAction: (request: RequestConfig) => Promise<void>
+  runAction: (request: RequestConfig, destination?: RouteConfig) => Promise<void>
   runFakeAction: (actionName: string) => void
   runCustomAction: (action: any, actionProps: RunActionProps) => Promise<void>
-  forceUpdateCounter: number
+  forceRerenderCounter: number
+  requestRerender: VoidFunction
   wrapActionInDialog: any
   showToast: (toastContent: ToastContentWithOutcome) => void
   setLoadingText: (text: string | undefined) => void
@@ -34,20 +37,23 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
   const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component'
 
   const ComponentWithUserFeedback = (props: Omit<T, keyof UserFeedbackHOCProps>) => {
+    const history = useHistory()
     const [loadingText, setLoadingText] = useState<string | undefined>(undefined)
     const [dialog, setDialog] = useState<DialogProps>()
     const [toast, setToast] = useState<ToastProps>()
-    const [forceUpdateCounter, setForceUpdateCounter] = useState(0)
+    const [forceRerenderCounter, setForceRerenderCounter] = useState(0)
 
-    // Dialog and toast related functions
+    // Dialog, toast and counter related functions
     const wrapActionInDialog =
       (wrappedAction: ActionFunction, endpointKey?: DialogActionKeys) => async (_: any) => {
         const contents = endpointKey ? DIALOG_CONTENTS[endpointKey] : {}
         setDialog({ proceedCallback: wrappedAction, close: closeDialog, ...contents })
       }
+
     const closeDialog = () => {
       setDialog(undefined)
     }
+
     const showToast = ({
       outcome = 'success',
       title = 'Operazione conclusa',
@@ -55,31 +61,54 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
     }: ToastContentWithOutcome) => {
       setToast({ outcome, title, description, onClose: closeToast })
     }
+
     const closeToast = () => {
       setToast(undefined)
+    }
+
+    const requestRerender = () => {
+      setForceRerenderCounter(forceRerenderCounter + 1)
     }
 
     /*
      * API calls
      */
-    const runAction = async (request: RequestConfig) => {
+    const runAction = async (request: RequestConfig, destination?: RouteConfig) => {
       const { loadingText, success, error }: RunActionProps =
         TOAST_CONTENTS[request.path.endpoint as ToastActionKeys]
 
+      // Close modal
       closeDialog()
+      // Show loader
       setLoadingText(loadingText)
-
+      // Make request
       const response = await fetchWithLogs(request.path, request.config)
+      // Get the request outcome
       const outcome = getFetchOutcome(response)
 
+      // Set the toast content to error as a default
       let toastContent: ToastContentWithOutcome = { ...error, outcome: 'error' }
+      // If success
       if (outcome === 'success') {
-        setForceUpdateCounter(forceUpdateCounter + 1)
+        // Set the toast content to success
         toastContent = { ...success, outcome: 'success' }
+
+        // If there is a destination, go to new page and display toast there
+        if (destination) {
+          history.push(destination.PATH, { toast: toastContent })
+        } else {
+          // Otherwise, force refresh the current view if needed
+          setForceRerenderCounter(forceRerenderCounter + 1)
+        }
       }
 
-      setLoadingText(undefined)
-      showToast(toastContent)
+      // Prevent setState in case a new view is being rendered to avoid memory leaks
+      if (!destination) {
+        // Hide loader
+        setLoadingText(undefined)
+        // Show toast in this view
+        showToast(toastContent)
+      }
     }
 
     const runCustomAction = async (
@@ -94,7 +123,7 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
 
       let toastContent: ToastContentWithOutcome = { ...error, outcome: 'error' }
       if (outcome === 'success') {
-        setForceUpdateCounter(forceUpdateCounter + 1)
+        setForceRerenderCounter(forceRerenderCounter + 1)
         toastContent = { ...success, outcome: 'success' }
       }
 
@@ -122,7 +151,8 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
           runAction={runAction}
           runFakeAction={runFakeAction}
           runCustomAction={runCustomAction}
-          forceUpdateCounter={forceUpdateCounter}
+          forceRerenderCounter={forceRerenderCounter}
+          requestRerender={requestRerender}
           showToast={showToast}
           setLoadingText={setLoadingText}
           wrapActionInDialog={wrapActionInDialog}

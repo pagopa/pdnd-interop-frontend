@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import compose from 'lodash/fp/compose'
 import { Button } from 'react-bootstrap'
-import { Link, useLocation } from 'react-router-dom'
-import isEmpty from 'lodash/isEmpty'
+import { Link } from 'react-router-dom'
 import {
   AgreementStatus,
   ProviderOrSubscriber,
@@ -23,12 +23,12 @@ import {
   USER_STATUS_LABEL,
 } from '../lib/constants'
 import { useMode } from '../hooks/useMode'
+import { withToastOnMount } from '../components/withToastOnMount'
 
 function UserListComponent({
   runFakeAction,
   wrapActionInDialog,
-  forceUpdateCounter,
-  showToast,
+  forceRerenderCounter,
 }: UserFeedbackHOCProps) {
   const mode = useMode()
   const { data, loading, error } = useAsyncFetch<User[]>(
@@ -36,15 +36,8 @@ function UserListComponent({
       path: { endpoint: 'USER_GET_LIST' },
       config: { method: 'GET' }, // TEMP PIN-219: users must be filtered by clientId or instutitionId
     },
-    { defaultValue: [], useEffectDeps: [forceUpdateCounter] }
+    { defaultValue: [], useEffectDeps: [forceRerenderCounter] }
   )
-  const location = useLocation()
-
-  useEffect(() => {
-    if (!isEmpty(location.state) && !isEmpty((location.state as any).toast)) {
-      showToast((location.state as any).toast)
-    }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   /*
    * List of possible actions for the user to perform
@@ -197,4 +190,4 @@ function UserListComponent({
   )
 }
 
-export const UserList = withUserFeedback(UserListComponent)
+export const UserList = compose(withUserFeedback, withToastOnMount)(UserListComponent)

@@ -20,7 +20,7 @@ import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFe
 function AgreementListComponent({
   runAction,
   runFakeAction,
-  forceUpdateCounter,
+  forceRerenderCounter,
   wrapActionInDialog,
 }: UserFeedbackHOCProps) {
   const mode = useMode()
@@ -33,7 +33,7 @@ function AgreementListComponent({
       path: { endpoint: 'AGREEMENT_GET_LIST' },
       config: { method: 'GET', params },
     },
-    { defaultValue: [], useEffectDeps: [forceUpdateCounter] }
+    { defaultValue: [], useEffectDeps: [forceRerenderCounter] }
   )
 
   /*

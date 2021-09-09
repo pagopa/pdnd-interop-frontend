@@ -35,6 +35,7 @@ function EServiceWriteComponent({
   data,
   runAction,
   runCustomAction,
+  requestRerender,
   wrapActionInDialog,
 }: UserFeedbackHOCProps & EServiceWriteProps) {
   const { party } = useContext(PartyContext)
@@ -170,6 +171,10 @@ function EServiceWriteComponent({
         return errorResponses[0]
       }
 
+      // Request a rerender so that the view is updated
+      // TEMP REFACTOR: this doesn't work now as "data" is fetched by the useAsyncFetch in EServiceGate, note EServiceWrite
+      requestRerender()
+
       // Otherwise return the variables useful for publishing
       return { eserviceId, descriptorId }
     } else {
@@ -203,21 +208,30 @@ function EServiceWriteComponent({
   }
 
   const publish = async () => {
-    const { eserviceId } = await createEserviceAndUploadDocuments()
-    await runAction({
-      path: { endpoint: 'ESERVICE_VERSION_PUBLISH', endpointParams: { eserviceId } },
-      config: { method: 'POST' },
-    })
+    const { eserviceId, descriptorId } = await createEserviceAndUploadDocuments()
+    await runAction(
+      {
+        path: {
+          endpoint: 'ESERVICE_VERSION_PUBLISH',
+          endpointParams: { eserviceId, descriptorId },
+        },
+        config: { method: 'POST' },
+      },
+      ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST
+    )
   }
 
   const deleteDraft = async () => {
     if (!isEmpty(data) && data.descriptors.length > 0) {
       const eserviceId = data.id
       const descriptorId = data.descriptors[0].id
-      await runAction({
-        path: { endpoint: 'ESERVICE_DRAFT_DELETE', endpointParams: { eserviceId, descriptorId } },
-        config: { method: 'DELETE' },
-      })
+      await runAction(
+        {
+          path: { endpoint: 'ESERVICE_DRAFT_DELETE', endpointParams: { eserviceId, descriptorId } },
+          config: { method: 'DELETE' },
+        },
+        ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST
+      )
     }
   }
   /*

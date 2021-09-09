@@ -4,6 +4,7 @@ import { WhiteBackground } from '../components/WhiteBackground'
 import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { Button } from 'react-bootstrap'
 import { PartyContext } from '../lib/context'
+import compose from 'lodash/fp/compose'
 import {
   EServiceReadType,
   EServiceStatus,
@@ -16,11 +17,12 @@ import { TableAction } from '../components/TableAction'
 import { StyledIntro } from '../components/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
+import { withToastOnMount } from '../components/withToastOnMount'
 
 function EServiceListComponent({
   runAction,
   runFakeAction,
-  forceUpdateCounter,
+  forceRerenderCounter,
   wrapActionInDialog,
 }: UserFeedbackHOCProps) {
   const { party } = useContext(PartyContext)
@@ -29,7 +31,7 @@ function EServiceListComponent({
       path: { endpoint: 'ESERVICE_GET_LIST' },
       config: { method: 'GET', params: { producerId: party?.partyId } },
     },
-    { defaultValue: [], useEffectDeps: [forceUpdateCounter] }
+    { defaultValue: [], useEffectDeps: [forceRerenderCounter] }
   )
 
   /*
@@ -227,4 +229,4 @@ function EServiceListComponent({
   )
 }
 
-export const EServiceList = withUserFeedback(EServiceListComponent)
+export const EServiceList = compose(withUserFeedback, withToastOnMount)(EServiceListComponent)
