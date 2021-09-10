@@ -126,7 +126,7 @@ function AgreementEditComponent({
             return (
               <div
                 key={i}
-                className="w-100 d-flex justify-content-between"
+                className="w-100 d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary"
                 style={{ maxWidth: 768 }}
               >
                 <span>{attribute.name || attribute.id}</span>
