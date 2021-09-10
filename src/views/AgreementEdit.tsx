@@ -121,31 +121,35 @@ function AgreementEditComponent({
         </DescriptionBlock>
 
         <DescriptionBlock label="Attributi">
-          {data?.verifiedAttributes?.map((attribute, i) => {
-            const randomDate = getRandomDate(new Date(2022, 0, 1), new Date(2023, 0, 1))
-            return (
-              <div
-                key={i}
-                className="w-100 d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary"
-                style={{ maxWidth: 768 }}
-              >
-                <span>{attribute.name || attribute.id}</span>
-                <span className="fakeData">Scadenza: {formatDate(randomDate)}</span>
-                {attribute.verified ? (
-                  <div className="text-primary d-flex align-items-center">
-                    <i className="text-primary fs-5 bi bi-check me-2" />
-                    <span>verificato</span>
-                  </div>
-                ) : mode === 'provider' ? (
-                  <Button variant="primary" onClick={wrapVerify(attribute.id)}>
-                    verifica
-                  </Button>
-                ) : (
-                  <span>in attesa</span>
-                )}
-              </div>
-            )
-          })}
+          {data?.verifiedAttributes?.length > 0 ? (
+            data?.verifiedAttributes?.map((attribute, i) => {
+              const randomDate = getRandomDate(new Date(2022, 0, 1), new Date(2023, 0, 1))
+              return (
+                <div
+                  key={i}
+                  className="w-100 d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary"
+                  style={{ maxWidth: 768 }}
+                >
+                  <span>{attribute.name || attribute.id}</span>
+                  <span className="fakeData">Scadenza: {formatDate(randomDate)}</span>
+                  {attribute.verified ? (
+                    <div className="text-primary d-flex align-items-center">
+                      <i className="text-primary fs-5 bi bi-check me-2" />
+                      <span>verificato</span>
+                    </div>
+                  ) : mode === 'provider' ? (
+                    <Button variant="primary" onClick={wrapVerify(attribute.id)}>
+                      verifica
+                    </Button>
+                  ) : (
+                    <span>in attesa</span>
+                  )}
+                </div>
+              )
+            })
+          ) : (
+            <span>Per questo servizio non sono stati richiesti attributi</span>
+          )}
         </DescriptionBlock>
 
         {mode === 'provider' && (

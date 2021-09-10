@@ -366,7 +366,7 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
     },
   },
   PARTY_GET_PARTY_ID: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  AGREEMENT_CREATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  AGREEMENT_CREATE: { loadingText: "Stiamo creando l'accordo richiesto", success: {}, error: {} },
   AGREEMENT_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
   AGREEMENT_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   AGREEMENT_VERIFY_ATTRIBUTE: {
