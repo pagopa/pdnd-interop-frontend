@@ -209,27 +209,27 @@ export const API = {
     SHOULD_CALL: true,
   },
   ESERVICE_GET_LIST: {
-    URL: 'pdnd-interop-uservice-catalog-process/wrong-version/eservices',
+    URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices',
     LOCAL: 'get-eservice-list.json',
     SHOULD_CALL: true,
   },
   ESERVICE_GET_SINGLE: {
-    URL: 'pdnd-interop-uservice-catalog-process/wrong-version/eservices/{{eserviceId}}',
+    URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}',
     LOCAL: 'get-eservice-list.json',
     SHOULD_CALL: true,
   },
   ESERVICE_CREATE: {
-    URL: 'pdnd-interop-uservice-catalog-process/wrong-version/eservices',
+    URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices',
     LOCAL: '',
     SHOULD_CALL: true,
   },
   ESERVICE_VERSION_PUBLISH: {
-    URL: 'pdnd-interop-uservice-catalog-process/wrong-version/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/publish',
+    URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/publish',
     LOCAL: '',
     SHOULD_CALL: true,
   },
   ESERVICE_DRAFT_DELETE: {
-    URL: 'pdnd-interop-uservice-catalog-process/wrong-version/eservices/{{eserviceId}}/descriptors/{{descriptorId}}',
+    URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}',
     LOCAL: '',
     SHOULD_CALL: true,
   },
