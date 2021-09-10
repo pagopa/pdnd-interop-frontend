@@ -16,6 +16,7 @@ import { StyledIntro } from '../components/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useMode } from '../hooks/useMode'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
+import { TempFilters } from '../components/TempFilters'
 
 function AgreementListComponent({
   runAction,
@@ -112,9 +113,7 @@ function AgreementListComponent({
       </StyledIntro>
 
       <div className="mt-4">
-        <h1 className="py-3" style={{ color: 'red' }}>
-          Aggiungere filtri
-        </h1>
+        <TempFilters />
 
         <TableWithLoader
           loading={loading}

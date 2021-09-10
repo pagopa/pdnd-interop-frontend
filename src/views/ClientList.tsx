@@ -10,6 +10,7 @@ import {
 import { StyledIntro } from '../components/StyledIntro'
 import { TableAction } from '../components/TableAction'
 import { TableWithLoader } from '../components/TableWithLoader'
+import { TempFilters } from '../components/TempFilters'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -100,9 +101,7 @@ function ClientListComponent({
       </StyledIntro>
 
       <div className="mt-4">
-        <h1 className="py-3" style={{ color: 'red' }}>
-          Aggiungere filtri
-        </h1>
+        <TempFilters />
 
         <TableWithLoader
           loading={loading}

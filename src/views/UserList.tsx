@@ -24,6 +24,7 @@ import {
 } from '../lib/constants'
 import { useMode } from '../hooks/useMode'
 import { withToastOnMount } from '../components/withToastOnMount'
+import { TempFilters } from '../components/TempFilters'
 
 function UserListComponent({
   runFakeAction,
@@ -137,9 +138,7 @@ function UserListComponent({
           {CREATE_ACTIONS[mode!].LABEL}
         </Button>
 
-        <h1 className="py-3" style={{ color: 'red' }}>
-          Aggiungere filtri
-        </h1>
+        <TempFilters />
 
         <TableWithLoader
           loading={loading}

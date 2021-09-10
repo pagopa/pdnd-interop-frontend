@@ -16,6 +16,7 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { TempFilters } from '../components/TempFilters'
 
 type ExtendedEServiceReadType = EServiceReadType & { isMine: boolean; amISubscribed: boolean }
 
@@ -85,9 +86,7 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
         }}
       </StyledIntro>
 
-      <h1 className="py-3" style={{ color: 'red' }}>
-        Aggiungere filtri
-      </h1>
+      <TempFilters />
 
       <TableWithLoader
         loading={loading}

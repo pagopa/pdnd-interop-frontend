@@ -18,6 +18,7 @@ import { StyledIntro } from '../components/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { withToastOnMount } from '../components/withToastOnMount'
+import { TempFilters } from '../components/TempFilters'
 
 function EServiceListComponent({
   runAction,
@@ -180,9 +181,7 @@ function EServiceListComponent({
             {ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.LABEL}
           </Button>
 
-          <h1 className="py-3" style={{ color: 'red' }}>
-            Aggiungere filtri
-          </h1>
+          <TempFilters />
 
           <TableWithLoader
             loading={loading}
