@@ -461,7 +461,6 @@ export const ESERVICE_STATUS_LABEL = {
   published: 'attivo',
   draft: 'in bozza',
   suspended: 'sospeso',
-
   // Not implemented yet
   archived: 'archiviato',
   deprecated: 'deprecato',
@@ -482,6 +481,11 @@ export const AGREEMENT_STATUS_LABEL = {
 export const CLIENT_STATUS_LABEL = {
   active: 'attivo',
   suspended: 'sospeso',
+}
+
+export const CLIENT_COMPUTED_STATUS_LABEL = {
+  active: 'attivo',
+  blocked: 'bloccato',
 }
 
 export const USER_STATUS_LABEL = {

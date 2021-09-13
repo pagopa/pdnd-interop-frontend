@@ -14,7 +14,8 @@ import { TempFilters } from '../components/TempFilters'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
+import { getClientComputedStatus } from '../lib/ client-utils'
+import { CLIENT_COMPUTED_STATUS_LABEL, ROUTES } from '../lib/constants'
 
 function ClientListComponent({
   runFakeAction,
@@ -49,7 +50,7 @@ function ClientListComponent({
       pending: [],
       active: [
         {
-          onClick: wrapActionInDialog(wrapSuspend(client.id)),
+          onClick: wrapActionInDialog(wrapSuspend(client.clientId)),
           label: 'sospendi',
           icon: 'bi-pause-circle',
           isMock: true,
@@ -57,7 +58,7 @@ function ClientListComponent({
       ],
       suspended: [
         {
-          onClick: wrapActionInDialog(wrapReactivate(client.id)),
+          onClick: wrapActionInDialog(wrapReactivate(client.clientId)),
           label: 'riattiva',
           icon: 'bi-play-circle',
           isMock: true,
@@ -68,7 +69,7 @@ function ClientListComponent({
     const status = client.agreementStatus
 
     const inspectAction = {
-      to: `${ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST.PATH}/${client.id}`,
+      to: `${ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST.PATH}/${client.clientId}`,
       icon: 'bi-info-circle',
       label: 'Ispeziona',
     }
@@ -82,14 +83,7 @@ function ClientListComponent({
     return actions
   }
 
-  const headData = [
-    'nome client',
-    'nome servizio',
-    'ente erogatore',
-    'versione servizio',
-    'stato servizio',
-    '',
-  ]
+  const headData = ['nome client', 'nome servizio', 'ente erogatore', 'stato', '']
 
   return (
     <WhiteBackground>
@@ -114,11 +108,10 @@ function ClientListComponent({
         >
           {data.map((item, i) => (
             <tr key={i}>
-              <td>{item.name}</td>
+              <td>{item.clientName}</td>
               <td>{item.serviceName}</td>
-              <td>{item.providerName}</td>
-              <td>{item.serviceVersion}</td>
-              <td>{ESERVICE_STATUS_LABEL[item.serviceStatus]}</td>
+              <td>{item.serviceProviderName}</td>
+              <td>{CLIENT_COMPUTED_STATUS_LABEL[getClientComputedStatus(item)]}</td>
               <td>
                 {getAvailableActions(item).map((tableAction, j) => {
                   const btnProps: any = {}

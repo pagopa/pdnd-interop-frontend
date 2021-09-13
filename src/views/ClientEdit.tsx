@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Client, ClientStatus, TableActionBtn } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { LoadingOverlay } from '../components/LoadingOverlay'
@@ -8,10 +8,16 @@ import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { AGREEMENT_STATUS_LABEL, ESERVICE_STATUS_LABEL } from '../lib/constants'
+import {
+  AGREEMENT_STATUS_LABEL,
+  CLIENT_STATUS_LABEL,
+  ESERVICE_STATUS_LABEL,
+  ROUTES,
+} from '../lib/constants'
 import { getLastBit } from '../lib/url-utils'
 import isEmpty from 'lodash/isEmpty'
 import { UserList } from './UserList'
+import { getClientComputedStatus } from '../lib/ client-utils'
 
 function ClientEditComponent({
   runFakeAction,
@@ -52,37 +58,106 @@ function ClientEditComponent({
       suspended: [{ onClick: wrapActionInDialog(reactivate), label: 'riattiva', isMock: true }],
     }
 
-    return actions[data.status]
+    return actions[data.clientStatus]
   }
+
+  const getReasonClientIsBlocked = () => {
+    const reasons: string[] = []
+
+    if (
+      data.serviceAgreementStatus !== 'published' &&
+      data.serviceAgreementStatus !== 'deprecated'
+    ) {
+      reasons.push("l'erogatore del servizio ha sospeso questa versione")
+    }
+
+    if (data.agreementStatus !== 'active') {
+      reasons.push("l'accordo di interoperabilità relativo al servizio non è attivo")
+    }
+
+    if (data.clientStatus !== 'active') {
+      reasons.push('il client non è attualmente attivo')
+    }
+
+    return reasons
+  }
+
+  const hasNewVersion = data.serviceAgreementStatus !== data.serviceCurrentStatus
+  const isActive = getClientComputedStatus(data) === 'active'
 
   return (
     <React.Fragment>
       <WhiteBackground>
         <StyledIntro additionalClasses="fakeData fakeDataStart">
-          {{ title: `Client: ${data.name}` }}
+          {{ title: `Client: ${data.clientName}` }}
         </StyledIntro>
 
-        <DescriptionBlock label="Descrizione">
-          <span>{data.description}</span>
-        </DescriptionBlock>
+        <div style={{ maxWidth: 586 }}>
+          <DescriptionBlock label="Descrizione">
+            <span>{data.clientDescription}</span>
+          </DescriptionBlock>
 
-        <DescriptionBlock label="E-service">
-          <span>
-            {data.serviceName}, versione {data.serviceVersion}
-          </span>
-        </DescriptionBlock>
+          <DescriptionBlock label="Questo client può accedere al servizio?">
+            <span>{isActive ? 'Sì' : `No, perché ${getReasonClientIsBlocked().join(', ')}`}</span>
+          </DescriptionBlock>
 
-        <DescriptionBlock label="Ente erogatore">
-          <span>{data.providerName}</span>
-        </DescriptionBlock>
+          <DescriptionBlock label="Stato del client">
+            <span>{CLIENT_STATUS_LABEL[data.clientStatus]}</span>
+          </DescriptionBlock>
 
-        <DescriptionBlock label="Stato del servizio">
-          <span>{ESERVICE_STATUS_LABEL[data.serviceStatus]}</span>
-        </DescriptionBlock>
+          <DescriptionBlock label="La versione del servizio che stai usando">
+            <span>
+              <Link
+                className="link-default"
+                to={`${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}/${data.serviceId}/${
+                  data.serviceAgreementDescriptorId
+                }`}
+              >
+                {data.serviceName}, versione {data.serviceAgreementVersion}
+              </Link>{' '}
+              {!!hasNewVersion && (
+                <React.Fragment>
+                  (è disponibile una{' '}
+                  <Link
+                    to={`${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}/${data.serviceId}/${
+                      data.serviceCurrentDescriptorId
+                    }`}
+                    className="link-default"
+                  >
+                    versione più recente
+                  </Link>
+                  )
+                </React.Fragment>
+              )}
+            </span>
+          </DescriptionBlock>
 
-        <DescriptionBlock label="Stato dell'accordo">
-          <span>{AGREEMENT_STATUS_LABEL[data.agreementStatus]}</span>
-        </DescriptionBlock>
+          <DescriptionBlock label="Ente erogatore">
+            <span>{data.serviceProviderName}</span>
+          </DescriptionBlock>
+
+          <DescriptionBlock
+            label={`Stato del servizio per la versione ${data.serviceAgreementVersion}`}
+          >
+            <span>{ESERVICE_STATUS_LABEL[data.serviceAgreementStatus]}</span>
+          </DescriptionBlock>
+
+          <DescriptionBlock label="Accordo">
+            <span>
+              <Link
+                className="link-default"
+                to={`${ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST.PATH}/${data.agreementId}`}
+              >
+                Vedi accordo
+              </Link>{' '}
+              {hasNewVersion ? '(questo accordo è aggiornabile)' : ''}
+            </span>
+          </DescriptionBlock>
+
+          <DescriptionBlock label="Stato dell'accordo">
+            <span>{AGREEMENT_STATUS_LABEL[data.agreementStatus]}</span>
+          </DescriptionBlock>
+        </div>
 
         <div className="mt-5 d-flex">
           {getAvailableActions().map(({ onClick, label, isMock }, i) => (

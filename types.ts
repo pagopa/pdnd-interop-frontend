@@ -229,17 +229,23 @@ export type AgreementSummary = {
 export type ClientStatus = keyof typeof CLIENT_STATUS_LABEL
 
 export type Client = {
-  id: string
-  name: string
-  description: string
-  providerName: string
+  clientId: string
+  clientName: string
+  clientDescription: string
+  clientStatus: ClientStatus
+  agreementStatus: AgreementStatus
+  agreementId: string
+  serviceProviderName: string
   serviceName: string
   serviceId: string
-  serviceDescriptorId: string
-  serviceVersion: string
-  serviceStatus: EServiceStatus
-  agreementStatus: AgreementStatus
-  status: ClientStatus
+  // The data for the latest version of the service
+  serviceCurrentDescriptorId: string
+  serviceCurrentVersion: string
+  serviceCurrentStatus: EServiceStatus
+  // The data for the version of the service currently used by this client
+  serviceAgreementDescriptorId: string
+  serviceAgreementVersion: string
+  serviceAgreementStatus: EServiceStatus
 }
 
 /*
