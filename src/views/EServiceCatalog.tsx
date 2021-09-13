@@ -14,14 +14,16 @@ import { WhiteBackground } from '../components/WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
-import { PartyContext } from '../lib/context'
+import { PartyContext, UserContext } from '../lib/context'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { TempFilters } from '../components/TempFilters'
+import { isAdmin } from '../lib/auth-utils'
 
 type ExtendedEServiceReadType = EServiceReadType & { isMine: boolean; amISubscribed: boolean }
 
 export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: UserFeedbackHOCProps) {
   const { party } = useContext(PartyContext)
+  const { user } = useContext(UserContext)
   const { data, loading, error } = useAsyncFetch<EServiceReadType[], ExtendedEServiceReadType[]>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST' },
@@ -106,7 +108,7 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
             <td>{item.descriptors[0].version}</td>
             <td>{ESERVICE_STATUS_LABEL[item.descriptors[0].status]}</td>
             <td>
-              {!item.isMine && (
+              {!item.isMine && isAdmin(user) && (
                 <TableAction
                   btnProps={{
                     onClick: wrapActionInDialog(wrapSubscribe(item), 'AGREEMENT_CREATE'),

@@ -14,6 +14,8 @@ import { formatDate, getRandomDate } from '../lib/date-utils'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import isEmpty from 'lodash/isEmpty'
+import { withAdminAuth } from '../components/withAdminAuth'
+import compose from 'lodash/fp/compose'
 
 function AgreementEditComponent({
   runAction,
@@ -187,4 +189,4 @@ function AgreementEditComponent({
   )
 }
 
-export const AgreementEdit = withUserFeedback(AgreementEditComponent)
+export const AgreementEdit = compose(withUserFeedback, withAdminAuth)(AgreementEditComponent)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import {
   AgreementStatus,
@@ -15,13 +15,16 @@ import { WhiteBackground } from '../components/WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { getClientComputedStatus } from '../lib/ client-utils'
+import { isAdmin } from '../lib/auth-utils'
 import { CLIENT_COMPUTED_STATUS_LABEL, ROUTES } from '../lib/constants'
+import { UserContext } from '../lib/context'
 
 function ClientListComponent({
   runFakeAction,
   wrapActionInDialog,
   forceRerenderCounter,
 }: UserFeedbackHOCProps) {
+  const { user } = useContext(UserContext)
   const { data, loading, error } = useAsyncFetch<Client[]>(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
@@ -46,6 +49,17 @@ function ClientListComponent({
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = (client: Client) => {
+    const inspectAction = {
+      to: `${ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST.PATH}/${client.clientId}`,
+      icon: 'bi-info-circle',
+      label: 'Ispeziona',
+    }
+
+    // Exit early if user cannot perform actions
+    if (!isAdmin(user)) {
+      return [inspectAction]
+    }
+
     const availableActions: { [key in AgreementStatus]: TableActionProps[] } = {
       pending: [],
       active: [
@@ -67,12 +81,6 @@ function ClientListComponent({
     }
 
     const status = client.agreementStatus
-
-    const inspectAction = {
-      to: `${ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST.PATH}/${client.clientId}`,
-      icon: 'bi-info-circle',
-      label: 'Ispeziona',
-    }
 
     // Get all the actions available for this particular status
     const actions: TableActionProps[] = (availableActions as any)[status] || []

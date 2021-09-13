@@ -7,6 +7,8 @@ import { WhiteBackground } from '../components/WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
+import compose from 'lodash/fp/compose'
+import { withAdminAuth } from '../components/withAdminAuth'
 
 function UserCreateComponent({ runAction }: UserFeedbackHOCProps) {
   const { party } = useContext(PartyContext)
@@ -55,4 +57,4 @@ function UserCreateComponent({ runAction }: UserFeedbackHOCProps) {
   )
 }
 
-export const UserCreate = withUserFeedback(UserCreateComponent)
+export const UserCreate = compose(withUserFeedback, withAdminAuth)(UserCreateComponent)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import compose from 'lodash/fp/compose'
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
@@ -25,6 +25,8 @@ import {
 import { useMode } from '../hooks/useMode'
 import { withToastOnMount } from '../components/withToastOnMount'
 import { TempFilters } from '../components/TempFilters'
+import { isAdmin } from '../lib/auth-utils'
+import { UserContext } from '../lib/context'
 
 function UserListComponent({
   runFakeAction,
@@ -32,6 +34,7 @@ function UserListComponent({
   forceRerenderCounter,
 }: UserFeedbackHOCProps) {
   const mode = useMode()
+  const { user } = useContext(UserContext)
   const { data, loading, error } = useAsyncFetch<User[]>(
     {
       path: { endpoint: 'USER_GET_LIST' },
@@ -134,9 +137,11 @@ function UserListComponent({
       <StyledIntro additionalClasses="fakeData fakeDataStart">{TITLES[mode!]}</StyledIntro>
 
       <div className="mt-4">
-        <Button variant="primary" as={Link} to={CREATE_ACTIONS[mode!].PATH}>
-          {CREATE_ACTIONS[mode!].LABEL}
-        </Button>
+        {isAdmin(user) && (
+          <Button variant="primary" as={Link} to={CREATE_ACTIONS[mode!].PATH}>
+            {CREATE_ACTIONS[mode!].LABEL}
+          </Button>
+        )}
 
         <TempFilters />
 

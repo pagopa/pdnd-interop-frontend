@@ -17,6 +17,8 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useMode } from '../hooks/useMode'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { TempFilters } from '../components/TempFilters'
+import { withAdminAuth } from '../components/withAdminAuth'
+import compose from 'lodash/fp/compose'
 
 function AgreementListComponent({
   runAction,
@@ -164,4 +166,4 @@ function AgreementListComponent({
   )
 }
 
-export const AgreementList = withUserFeedback(AgreementListComponent)
+export const AgreementList = compose(withUserFeedback, withAdminAuth)(AgreementListComponent)

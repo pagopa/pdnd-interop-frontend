@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Button } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
 import { TableActionBtn, User, UserStatus } from '../../types'
@@ -11,12 +11,15 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATUS_LABEL } from '../lib/constants'
 import { getLastBit } from '../lib/url-utils'
 import isEmpty from 'lodash/isEmpty'
+import { isAdmin } from '../lib/auth-utils'
+import { UserContext } from '../lib/context'
 
 function UserEditComponent({
   runFakeAction,
   wrapActionInDialog,
   forceRerenderCounter,
 }: UserFeedbackHOCProps) {
+  const { user } = useContext(UserContext)
   const taxCode = getLastBit(useLocation())
   const { data, loading } = useAsyncFetch<User>(
     {
@@ -42,7 +45,7 @@ function UserEditComponent({
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = () => {
-    if (isEmpty(data)) {
+    if (isEmpty(data) || !isAdmin(user)) {
       return []
     }
 
