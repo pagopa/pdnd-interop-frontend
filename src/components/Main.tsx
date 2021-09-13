@@ -18,7 +18,7 @@ export function Main() {
 
         {/* If on the ROOT, redirect to platform or login page based on whether the user is logged in */}
         <Route path="/" exact={true}>
-          <Redirect to={user !== null ? ROUTES.PROVIDE.PATH : ROUTES.LOGIN.PATH} />
+          <Redirect to={user !== null ? ROUTES.SUBSCRIBE.PATH : ROUTES.LOGIN.PATH} />
         </Route>
 
         <Route path="*">

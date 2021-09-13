@@ -28,9 +28,9 @@ export function SectionHeader({ view }: SectionHeaderProps) {
       description:
         'In questa sezione puoi gestire i client e gli accordi che hai sottoscritto per fruire degli e-service messi a disposizione. Puoi inoltre consultare il catalogo, e sottoscrivere nuovi accordi per ulteriori e-service',
       sections: [
+        ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST,
         ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST,
         ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST,
-        ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST,
       ],
     },
   }

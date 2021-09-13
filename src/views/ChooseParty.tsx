@@ -19,7 +19,7 @@ function ChoosePartyComponent() {
   }
 
   const confirmChoice = () => {
-    history.push(ROUTES.PROVIDE.PATH)
+    history.push(ROUTES.SUBSCRIBE.PATH)
   }
 
   const goToOnboarding = () => {

@@ -72,8 +72,8 @@ function PlatformHeader() {
     <Navbar className="justify-content-between py-0">
       <Container className="d-flex align-items-stretch">
         <Nav>
-          <NavLink customStyle={true} eventKey="1" route={ROUTES.PROVIDE} />
-          <NavLink customStyle={true} eventKey="2" route={ROUTES.SUBSCRIBE} />
+          <NavLink customStyle={true} eventKey="1" route={ROUTES.SUBSCRIBE} />
+          <NavLink customStyle={true} eventKey="2" route={ROUTES.PROVIDE} />
         </Nav>
 
         <div className="d-flex align-items-center justify-content-between">
