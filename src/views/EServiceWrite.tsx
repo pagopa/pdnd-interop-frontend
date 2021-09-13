@@ -16,8 +16,8 @@ import { StyledIntro } from '../components/StyledIntro'
 import { fetchAllWithLogs, fetchWithLogs } from '../lib/api-utils'
 import { PartyContext } from '../lib/context'
 import {
-  formatBackendAttributesToFrontend,
-  formatFrontendAttributesToBackend,
+  remapBackendAttributesToFrontend,
+  remapFrontendAttributesToBackend,
 } from '../lib/attributes'
 import isEmpty from 'lodash/isEmpty'
 import { Link } from 'react-router-dom'
@@ -25,7 +25,6 @@ import { ROUTES } from '../lib/constants'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { getFetchOutcome } from '../lib/error-utils'
 import { AxiosError, AxiosResponse } from 'axios'
-import { showTempAlert } from '../lib/wip-utils'
 
 type EServiceWriteProps = {
   data: EServiceReadType
@@ -73,8 +72,8 @@ function EServiceWriteComponent({
     }
 
   // Contains the template to generate the interoperability agreement
-  const todoLoadAccordo = () => {
-    showTempAlert('Generazione accordo di interoperabilità') // TEMP PIN-239
+  const todoLoadAccordo = (e: any) => {
+    console.log(e.target.value) // TEMP PIN-239
   }
 
   // Contain the optional documents to explain how the service works
@@ -105,7 +104,7 @@ function EServiceWriteComponent({
       technology: eserviceData.technology,
       voucherLifespan: eserviceData.voucherLifespan,
       producerId: party!.partyId,
-      attributes: formatFrontendAttributesToBackend(attributes),
+      attributes: remapFrontendAttributesToBackend(attributes),
     }
 
     return await fetchWithLogs(
@@ -285,7 +284,7 @@ function EServiceWriteComponent({
       }
 
       // Set the attributes
-      setAttributes(formatBackendAttributesToFrontend(data.attributes))
+      setAttributes(remapBackendAttributesToFrontend(data.attributes))
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 

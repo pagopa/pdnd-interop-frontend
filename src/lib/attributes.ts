@@ -7,31 +7,31 @@ import {
 } from '../../types'
 import { getKeys } from './array-utils'
 
-export function formatFrontendAttributesToBackend(
+export function remapFrontendAttributesToBackend(
   frontendAttributes: FrontendAttributes
 ): BackendAttributes {
-  const formattedAttributes: BackendAttributes = getKeys(frontendAttributes).reduce(
+  const mappedAttributes: BackendAttributes = getKeys(frontendAttributes).reduce(
     (acc, attributeType) => {
-      const formatted = frontendAttributes[attributeType].map(
+      const mapped = frontendAttributes[attributeType].map(
         ({ attributes, explicitAttributeVerification }) =>
           attributes.length === 1
             ? { single: { id: attributes[0].id, explicitAttributeVerification } }
             : { group: attributes.map(({ id }) => ({ id, explicitAttributeVerification })) }
       )
-      return { ...acc, [attributeType]: formatted }
+      return { ...acc, [attributeType]: mapped }
     },
     { certified: [], verified: [], declared: [] }
   )
 
-  return formattedAttributes
+  return mappedAttributes
 }
 
-export function formatBackendAttributesToFrontend(
+export function remapBackendAttributesToFrontend(
   backendAttributes: BackendAttributes
 ): FrontendAttributes {
-  const formattedAttributes: FrontendAttributes = getKeys(backendAttributes).reduce(
+  const mappedAttributes: FrontendAttributes = getKeys(backendAttributes).reduce(
     (acc, attributeType) => {
-      const formatted = backendAttributes[attributeType].map((attribute) => {
+      const mapped = backendAttributes[attributeType].map((attribute) => {
         const isSingle = has(attribute, 'single')
 
         if (isSingle) {
@@ -46,12 +46,12 @@ export function formatBackendAttributesToFrontend(
           explicitAttributeVerification: group[0].explicitAttributeVerification,
         }
       })
-      return { ...acc, [attributeType]: formatted }
+      return { ...acc, [attributeType]: mapped }
     },
     { certified: [], verified: [], declared: [] }
   )
 
-  return formattedAttributes
+  return mappedAttributes
 }
 
 export function unformatAttributes(formattedAttributes: any): any {

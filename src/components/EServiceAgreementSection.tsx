@@ -1,22 +1,37 @@
 import React from 'react'
-import { StyledInputFile } from './StyledInputFile'
+import { StyledInputSelect } from './StyledInputSelect'
 import { StyledIntro } from './StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
 
 type EServiceAgreementSectionProps = {
-  todoLoadAccordo: VoidFunction
+  todoLoadAccordo: (e: any) => void
 }
 
 export function EServiceAgreementSection({ todoLoadAccordo }: EServiceAgreementSectionProps) {
+  const options = [
+    { value: '1', label: 'Template 1' },
+    { value: '2', label: 'Template 2' },
+    { value: '3', label: 'Template 3' },
+    { value: '4', label: 'Template 4' },
+    { value: '5', label: 'Template 5' },
+  ]
+
   return (
     <WhiteBackground>
       <StyledIntro>
         {{
           title: 'Accordo di interoperabilità*',
+          description:
+            'Seleziona il template di accordo che intendi proporre per sottoscrivere il servizio',
         }}
       </StyledIntro>
 
-      <StyledInputFile onChange={todoLoadAccordo} id="accordo" />
+      <StyledInputSelect
+        id="accordo"
+        onChange={todoLoadAccordo}
+        options={options}
+        ariaLabel="Seleziona template accordo di interoperabilità"
+      />
     </WhiteBackground>
   )
 }
