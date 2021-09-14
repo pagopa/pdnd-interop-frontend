@@ -29,6 +29,7 @@ import { UserList } from '../views/UserList'
 import { EServiceGate } from '../views/EServiceGate'
 import { UserCreate } from '../views/UserCreate'
 import { TempSPIDUser } from '../components/TempSPIDUser'
+import { ClientCreate } from '../views/ClientCreate'
 
 export const SHOW_DEV_LABELS = true
 export const USE_SPID_USER_LORENZO_CARMILLI = true
@@ -129,6 +130,12 @@ export const ROUTES: RoutesObject = {
         EXACT: true,
         LABEL: 'Gestisci client',
         COMPONENT: ClientList,
+      },
+      CLIENT_CREATE: {
+        PATH: '/fruizione/client/crea',
+        EXACT: false,
+        LABEL: 'Crea nuovo client',
+        COMPONENT: ClientCreate,
       },
       CLIENT_EDIT: {
         PATH: '/fruizione/client/:id',
@@ -293,6 +300,11 @@ export const API = {
     LOCAL: 'get-client-single.json',
     SHOULD_CALL: false,
   },
+  CLIENT_CREATE: {
+    URL: 'TODO',
+    LOCAL: '',
+    SHOULD_CALL: false,
+  },
   USER_GET_LIST: {
     URL: 'TODO',
     LOCAL: 'get-user-list.json', // TEMP PIN-438
@@ -396,6 +408,7 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
   },
   CLIENT_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
   CLIENT_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  CLIENT_CREATE: { loadingText: 'Stiamo creando il client richiesto', success: {}, error: {} },
   USER_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
   USER_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   USER_CREATE: {
@@ -452,6 +465,7 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   AGREEMENT_SUSPEND: {},
   CLIENT_GET_LIST: {},
   CLIENT_GET_SINGLE: {},
+  CLIENT_CREATE: {},
   USER_GET_LIST: {},
   USER_GET_SINGLE: {},
   USER_CREATE: {},

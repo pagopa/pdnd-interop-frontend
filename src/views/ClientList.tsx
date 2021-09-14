@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
 import {
   AgreementStatus,
   Client,
@@ -103,6 +104,12 @@ function ClientListComponent({
       </StyledIntro>
 
       <div className="mt-4">
+        {isAdmin(user) && (
+          <Button variant="primary" as={Link} to={ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_CREATE.PATH}>
+            {ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_CREATE.LABEL}
+          </Button>
+        )}
+
         <TempFilters />
 
         <TableWithLoader

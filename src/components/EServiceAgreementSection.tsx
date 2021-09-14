@@ -28,9 +28,10 @@ export function EServiceAgreementSection({ todoLoadAccordo }: EServiceAgreementS
 
       <StyledInputSelect
         id="accordo"
-        onChange={todoLoadAccordo}
+        label="Seleziona template accordo di interoperabilità"
+        disabled={false}
         options={options}
-        ariaLabel="Seleziona template accordo di interoperabilità"
+        onChange={todoLoadAccordo}
       />
     </WhiteBackground>
   )
