@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form } from 'react-bootstrap'
-import { SmallLabel } from './SmallLabel'
+import { StyledInputLabel } from './StyledInputLabel'
 
 type Option = {
   label: string
@@ -26,15 +26,18 @@ export function StyledInputRadioGroup({
 }: StyledInputRadioGroupProps) {
   return (
     <div className="mb-3">
-      <SmallLabel text={groupLabel} />
+      <StyledInputLabel label={groupLabel} isHTMLLabelElement={false} />
       {options.map((option, i) => {
         return (
           <Form.Check
             key={i}
             type="radio"
-            id={id}
             disabled={option.disabled}
-            name={option.label}
+            // This looks weird but it is actually meant.
+            // Usually id and name coincide for easy debugging,
+            // but here id is needed to associate label to specific option
+            name={id}
+            id={option.value}
             label={option.label}
             checked={currentValue === option.value}
             onChange={onChange || option.onChange}

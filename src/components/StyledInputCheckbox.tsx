@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form } from 'react-bootstrap'
-import { SmallLabel } from './SmallLabel'
+import { StyledInputLabel } from './StyledInputLabel'
 
 type StyledInputCheckboxProps = {
   id: string
@@ -34,7 +34,7 @@ export function StyledInputCheckbox({
 
   return (
     <div className="mb-3">
-      <SmallLabel text={groupLabel!} />
+      <StyledInputLabel label={groupLabel!} isHTMLLabelElement={false} />
       <Form.Check type="checkbox" id={id} label={label} checked={checked} onChange={onChange} />
     </div>
   )
