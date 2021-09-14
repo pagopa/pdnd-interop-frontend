@@ -50,7 +50,7 @@ function ClientListComponent({
   // Build list of available actions for each service in its current state
   const getAvailableActions = (client: Client) => {
     const inspectAction = {
-      to: `${ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST.PATH}/${client.clientId}`,
+      to: `${ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST.PATH}/${client.id}`,
       icon: 'bi-info-circle',
       label: 'Ispeziona',
     }
@@ -64,7 +64,7 @@ function ClientListComponent({
       pending: [],
       active: [
         {
-          onClick: wrapActionInDialog(wrapSuspend(client.clientId)),
+          onClick: wrapActionInDialog(wrapSuspend(client.id)),
           label: 'sospendi',
           icon: 'bi-pause-circle',
           isMock: true,
@@ -72,7 +72,7 @@ function ClientListComponent({
       ],
       suspended: [
         {
-          onClick: wrapActionInDialog(wrapReactivate(client.clientId)),
+          onClick: wrapActionInDialog(wrapReactivate(client.id)),
           label: 'riattiva',
           icon: 'bi-play-circle',
           isMock: true,
@@ -80,7 +80,7 @@ function ClientListComponent({
       ],
     }
 
-    const status = client.agreementStatus
+    const status = client.agreement.status
 
     // Get all the actions available for this particular status
     const actions: TableActionProps[] = (availableActions as any)[status] || []
@@ -116,9 +116,9 @@ function ClientListComponent({
         >
           {data.map((item, i) => (
             <tr key={i}>
-              <td>{item.clientName}</td>
-              <td>{item.serviceName}</td>
-              <td>{item.serviceProviderName}</td>
+              <td>{item.name}</td>
+              <td>{item.eService.name}</td>
+              <td>{item.provider.description}</td>
               <td>{CLIENT_COMPUTED_STATUS_LABEL[getClientComputedStatus(item)]}</td>
               <td>
                 {getAvailableActions(item).map((tableAction, j) => {
