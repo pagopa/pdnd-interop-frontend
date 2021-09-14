@@ -20,7 +20,6 @@ type EServiceGeneralInfoSectionProps = {
 type Field = {
   id: keyof EServiceCreateTextFieldDataType | 'version'
   label: string
-  placeholder: string
   type?: 'text' | 'textArray'
   readOnly?: boolean
 }
@@ -31,16 +30,16 @@ export function EServiceGeneralInfoSection({
   version,
 }: EServiceGeneralInfoSectionProps) {
   const textFields: Field[] = [
-    { id: 'name', label: 'Nome del servizio', placeholder: 'Il mio e-service', type: 'text' },
-    { id: 'version', label: 'Versione', placeholder: '1', readOnly: true, type: 'text' },
-    { id: 'audience', label: 'Audience del servizio', placeholder: 'Test', type: 'textArray' },
+    { id: 'name', label: 'Nome del servizio', type: 'text' },
+    { id: 'version', label: 'Versione', readOnly: true, type: 'text' },
+    { id: 'audience', label: 'Audience del servizio', type: 'textArray' },
   ]
 
   return (
     <WhiteBackground>
       <StyledIntro>{{ title: 'Informazioni generali*' }}</StyledIntro>
 
-      {textFields.map(({ id, label, placeholder, readOnly, type }, i) => {
+      {textFields.map(({ id, label, readOnly, type }, i) => {
         // TEMP REFACTOR
         let value = ''
         if (id === 'version') {
@@ -56,7 +55,6 @@ export function EServiceGeneralInfoSection({
             key={i}
             id={id}
             label={label}
-            placeholder={placeholder}
             readOnly={readOnly}
             value={value}
             onChange={setEServiceData(id as EServiceCreateDataKeysType, type)}
@@ -67,7 +65,6 @@ export function EServiceGeneralInfoSection({
       <StyledInputTextArea
         id="description"
         label="Descrizione del servizio"
-        placeholder="Descrizione"
         value={eserviceData['description'] || ''}
         onChange={setEServiceData('description')}
       />

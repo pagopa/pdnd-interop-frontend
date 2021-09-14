@@ -14,7 +14,6 @@ type PlatformUserFormProps = {
 type Field = {
   id: keyof UserOnCreate
   label: string
-  placeholder: string
   type?: 'text' | 'email'
 }
 
@@ -33,38 +32,20 @@ export function PlatformUserForm({
   }
 
   const fields: Field[] = [
-    {
-      id: 'name',
-      label: 'Nome',
-      placeholder: 'Mario',
-    },
-    {
-      id: 'surname',
-      label: 'Cognome',
-      placeholder: 'Rossi',
-    },
-    {
-      id: 'taxCode',
-      label: 'Codice Fiscale',
-      placeholder: 'RSSMR',
-    },
-    {
-      id: 'email',
-      label: 'Email',
-      placeholder: 'mario.rossi@example.com',
-      type: 'email',
-    },
+    { id: 'name', label: 'Nome' },
+    { id: 'surname', label: 'Cognome' },
+    { id: 'taxCode', label: 'Codice Fiscale' },
+    { id: 'email', label: 'Email', type: 'email' },
   ]
 
   return (
     <React.Fragment>
-      {fields.map(({ id, label, placeholder, type = 'text' }, i) => (
+      {fields.map(({ id, label, type = 'text' }, i) => (
         <React.Fragment key={i}>
           <StyledInputText
             id={`${prefix}-${id}`}
             label={label}
             type={type as StyledInputTextType}
-            placeholder={placeholder}
             // Below, ugly hack to prevent React from complaining.
             // Controlled components values cannot start as 'undefined'
             value={people[prefix] && people[prefix][id] ? people[prefix][id] : ''}

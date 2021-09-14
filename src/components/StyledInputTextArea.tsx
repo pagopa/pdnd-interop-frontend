@@ -16,7 +16,7 @@ export function StyledInputTextArea({
   height = 120,
   id = 'textarea',
   label = '',
-  placeholder = '',
+  placeholder = 'Lorem ipsum',
   onChange,
 }: StyledInputTextAreaProps) {
   return (

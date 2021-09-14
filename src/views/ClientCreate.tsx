@@ -64,7 +64,6 @@ function ClientCreateComponent({ runAction }: UserFeedbackHOCProps) {
           <StyledInputText
             id="name"
             label="Nome del client"
-            placeholder="Lorem ipsum"
             value={data['name'] || ''}
             onChange={wrapSetData('name')}
           />
@@ -72,7 +71,6 @@ function ClientCreateComponent({ runAction }: UserFeedbackHOCProps) {
           <StyledInputText
             id="description"
             label="Descrizione del client"
-            placeholder="Lorem ipsum"
             value={data['description'] || ''}
             onChange={wrapSetData('description')}
           />

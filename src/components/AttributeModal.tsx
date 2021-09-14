@@ -73,31 +73,15 @@ export function AttributeModalCreateNew({ close, attributeKey }: AttributeModalC
 
         <Modal.Body className="py-4">
           {[
-            {
-              id: 'name',
-              label: "Nome dell'attributo",
-              placeholder: 'Il mio attributo',
-              type: 'text',
-            },
-            {
-              id: 'code',
-              label: 'Id della fonte autoritativa',
-              placeholder: "L'id della mia fonte autoritativa",
-              type: 'text',
-            },
-            {
-              id: 'origin',
-              label: 'Nome della fonte autoritativa',
-              placeholder: 'Il nome della mia fonte autoritativa',
-              type: 'text',
-            },
-          ].map(({ id, label, placeholder }, i) => {
+            { id: 'name', label: "Nome dell'attributo", type: 'text' },
+            { id: 'code', label: 'Id della fonte autoritativa', type: 'text' },
+            { id: 'origin', label: 'Nome della fonte autoritativa', type: 'text' },
+          ].map(({ id, label }, i) => {
             return (
               <StyledInputText
                 key={i}
                 id={id}
                 label={label}
-                placeholder={placeholder}
                 value={(data?.[id as keyof NewAttribute] as string) || ''}
                 onChange={buildSetData(id)}
               />
@@ -107,7 +91,6 @@ export function AttributeModalCreateNew({ close, attributeKey }: AttributeModalC
           <StyledInputTextArea
             id="description"
             label="Descrizione dell'attributo"
-            placeholder="Descrizione dell'attributo"
             value={data?.['description'] || ''}
             onChange={buildSetData('description')}
           />
