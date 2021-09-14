@@ -61,7 +61,11 @@ export function EServiceDocumentSection({
             ))}
           </TableWithLoader>
         ) : (
-          <StyledInputFile onChange={setInterface} id="interfaccia" />
+          <StyledInputFile
+            onChange={setInterface}
+            id="interfaccia"
+            label="seleziona file OpenAPI/WSDL"
+          />
         )}
       </WhiteBackground>
 
@@ -93,7 +97,11 @@ export function EServiceDocumentSection({
 
         {inputFileUpload && (
           <div className="my-4">
-            <StyledInputFile onChange={updateDocuments} id="documenti" />
+            <StyledInputFile
+              onChange={updateDocuments}
+              id="documenti"
+              label="seleziona documento da caricare"
+            />
           </div>
         )}
 

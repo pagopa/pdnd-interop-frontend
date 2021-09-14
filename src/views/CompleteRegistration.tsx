@@ -11,6 +11,7 @@ import redXIllustration from '../assets/red-x-illustration.svg'
 import { StyledInputFile } from '../components/StyledInputFile'
 import { getFetchOutcome } from '../lib/error-utils'
 import { InlineSupportLink } from '../components/InlineSupportLink'
+import isEmpty from 'lodash/isEmpty'
 
 export function CompleteRegistration() {
   const [loading, setLoading] = useState(false)
@@ -66,7 +67,9 @@ export function CompleteRegistration() {
   }
 
   const loadFile = (e: any) => {
-    setContract(e.target.files[0])
+    if (!isEmpty(e.target.files) && e.target.files.length > 0) {
+      setContract(e.target.files[0])
+    }
   }
 
   const outcomeContent: RequestOutcomeOptions = {
@@ -108,7 +111,12 @@ export function CompleteRegistration() {
         </div>
 
         <Form onSubmit={handleSubmit}>
-          <StyledInputFile id="contratto" onChange={loadFile} />
+          <StyledInputFile
+            id="contratto"
+            onChange={loadFile}
+            value={contract}
+            label="carica accordo"
+          />
 
           <Button variant="primary" type="submit" disabled={!contract}>
             prosegui

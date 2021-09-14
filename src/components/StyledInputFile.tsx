@@ -1,12 +1,27 @@
 import React from 'react'
-import { Form } from 'react-bootstrap'
 
-type StyledInputFileProps = { id: string; onChange: any }
+type StyledInputFileProps = { id: string; onChange: any; value?: any; label: string }
 
-export function StyledInputFile({ id, onChange }: StyledInputFileProps) {
+export function StyledInputFile({ id, onChange, value, label }: StyledInputFileProps) {
   return (
-    <Form.Group controlId={id} className="mb-3">
-      <Form.Control type="file" onChange={onChange} />
-    </Form.Group>
+    <div className="my-3 d-flex align-items-center px-3 py-3 bg-light">
+      <div className="me-3 flex-shrink-0 position-relative">
+        <input className="position-absolute w-100 h-100" type="file" id={id} onChange={onChange} />
+        <label
+          htmlFor={id}
+          className="text-white bg-primary rounded d-inline-flex align-items-center px-3 py-1 position-relative"
+          style={{ cursor: 'pointer', zIndex: 1 }}
+        >
+          <i
+            className="fs-5 bi bi-upload me-2 position-relative"
+            style={{ transform: 'translateY(0.1rem)' }}
+          />
+          {label}
+        </label>
+      </div>
+      <div>
+        File selezionato: <strong>{value ? value.name : 'nessun file selezionato'}</strong>
+      </div>
+    </div>
   )
 }
