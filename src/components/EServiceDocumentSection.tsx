@@ -1,39 +1,30 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Button } from 'react-bootstrap'
-import { EServiceDocumentWrite } from '../../types'
+import { EServiceDocumentKind, EServiceDocumentWrite } from '../../types'
 import { StyledInputFile } from './StyledInputFile'
+import { StyledInputText } from './StyledInputText'
 import { StyledIntro } from './StyledIntro'
-import { TableAction } from './TableAction'
-import { TableWithLoader } from './TableWithLoader'
 import { WhiteBackground } from './WhiteBackground'
 
 type EServiceDocumentSectionProps = {
-  interfaceDocument?: EServiceDocumentWrite
-  documents: EServiceDocumentWrite[]
-  setInterface: any
-  deleteInterface: any
-  setDocuments: any
-  deleteDocuments: any
+  documents: { [key: string]: EServiceDocumentWrite }
+  wrapUpdateDocuments: (
+    kind: EServiceDocumentKind,
+    id: string,
+    key?: 'doc' | 'description'
+  ) => (e: any) => void
+  wrapDeleteDocuments: (id: string) => (_: any) => void
 }
 
 export function EServiceDocumentSection({
-  interfaceDocument,
   documents,
-  setInterface,
-  deleteInterface,
-  setDocuments,
-  deleteDocuments,
+  wrapUpdateDocuments,
+  wrapDeleteDocuments,
 }: EServiceDocumentSectionProps) {
-  const [inputFileUpload, showInputFileUpload] = useState(false)
-
-  const updateInputFileUpload = () => {
-    showInputFileUpload(true)
-  }
-
-  const updateDocuments = (e: any) => {
-    setDocuments(e)
-    showInputFileUpload(false)
-  }
+  const interfaceDocument = documents['interface']
+  const documentationDocuments = Object.values(documents).filter(
+    (document) => document.kind !== 'interface'
+  )
 
   return (
     <React.Fragment>
@@ -45,28 +36,20 @@ export function EServiceDocumentSection({
           }}
         </StyledIntro>
 
-        {interfaceDocument ? (
-          <TableWithLoader loading={false} headData={['nome file', '']} data={[interfaceDocument]}>
-            {[interfaceDocument].map((document, i) => (
-              <tr key={i}>
-                <td>{document.doc.name}</td>
-                <td>
-                  <TableAction
-                    btnProps={{ onClick: deleteInterface }}
-                    label="Elimina"
-                    iconClass="bi-trash"
-                  />
-                </td>
-              </tr>
-            ))}
-          </TableWithLoader>
-        ) : (
+        <div className="mb-3 px-3 py-3 rounded" style={{ backgroundColor: '#dedede' }}>
           <StyledInputFile
-            onChange={setInterface}
-            id="interfaccia"
+            id="interface-doc"
             label="seleziona file OpenAPI/WSDL"
+            value={interfaceDocument?.doc}
+            onChange={wrapUpdateDocuments('interface', 'interface', 'doc')}
           />
-        )}
+          <StyledInputText
+            id="interface-description"
+            label="Descrizione"
+            value={interfaceDocument?.description || ''}
+            onChange={wrapUpdateDocuments('interface', 'interface', 'description')}
+          />
+        </div>
       </WhiteBackground>
 
       <WhiteBackground>
@@ -78,34 +61,40 @@ export function EServiceDocumentSection({
           }}
         </StyledIntro>
 
-        {documents.length > 0 && (
-          <TableWithLoader loading={false} headData={['nome file', '']} data={documents}>
-            {documents.map((document, i) => (
-              <tr key={i}>
-                <td>{document.doc.name}</td>
-                <td>
-                  <TableAction
-                    btnProps={{ onClick: deleteDocuments(document.doc.name) }}
-                    label="Elimina"
-                    iconClass="bi-trash"
-                  />
-                </td>
-              </tr>
-            ))}
-          </TableWithLoader>
-        )}
+        {documentationDocuments.length > 0 &&
+          documentationDocuments.map((documentationDocument, i) => {
+            const id = `document-${i}`
+            return (
+              <div
+                className="mb-3 px-3 py-3 rounded"
+                key={i}
+                style={{ backgroundColor: '#dedede' }}
+              >
+                <StyledInputFile
+                  id={`${id}-doc`}
+                  label="seleziona documento da caricare"
+                  value={documentationDocument.doc}
+                  onChange={wrapUpdateDocuments('document', id, 'doc')}
+                />
+                <StyledInputText
+                  id={`${id}-description`}
+                  label="Descrizione"
+                  value={documentationDocument.description || ''}
+                  onChange={wrapUpdateDocuments('document', id, 'description')}
+                />
+                <div className="d-flex justify-content-end">
+                  <Button variant="outline-primary" onClick={wrapDeleteDocuments(id)}>
+                    elimina documento
+                  </Button>
+                </div>
+              </div>
+            )
+          })}
 
-        {inputFileUpload && (
-          <div className="my-4">
-            <StyledInputFile
-              onChange={updateDocuments}
-              id="documenti"
-              label="seleziona documento da caricare"
-            />
-          </div>
-        )}
-
-        <Button variant="primary" onClick={updateInputFileUpload}>
+        <Button
+          variant="primary"
+          onClick={wrapUpdateDocuments('document', `document-${documentationDocuments.length}`)}
+        >
           aggiungi documento
         </Button>
       </WhiteBackground>

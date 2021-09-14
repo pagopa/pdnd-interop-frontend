@@ -7,7 +7,7 @@ type StyledInputTextProps = {
   type?: StyledInputTextType
   id: string
   label: string
-  placeholder: string
+  placeholder?: string
   readOnly?: boolean
   value?: string
   onChange?: any
@@ -17,7 +17,7 @@ export function StyledInputText({
   type = 'text',
   id,
   label,
-  placeholder,
+  placeholder = 'Lorem ipsum',
   readOnly = false,
   value,
   onChange,

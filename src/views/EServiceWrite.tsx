@@ -5,6 +5,7 @@ import { EServiceDocumentSection } from '../components/EServiceDocumentSection'
 import {
   EServiceCreateDataKeysType,
   EServiceCreateDataType,
+  EServiceDocumentKind,
   EServiceDocumentWrite,
   EServiceReadType,
   FrontendAttributes,
@@ -25,6 +26,11 @@ import { ROUTES } from '../lib/constants'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { getFetchOutcome } from '../lib/error-utils'
 import { AxiosError, AxiosResponse } from 'axios'
+import {
+  remapBackendDocumentsToFrontend,
+  remapBackendEServiceDataToFrontend,
+  remapFrontendDocumentsToRequestConfig,
+} from '../lib/eservice-utils'
 
 type EServiceWriteProps = {
   data: EServiceReadType
@@ -49,8 +55,7 @@ function EServiceWriteComponent({
     producerId: party?.partyId as string,
   })
   // Documents section (covers documentation & interface)
-  const [interfaceDocument, setInterfaceDocument] = useState<EServiceDocumentWrite | undefined>()
-  const [documents, setDocuments] = useState<EServiceDocumentWrite[]>([])
+  const [documents, setDocuments] = useState<{ [key: string]: EServiceDocumentWrite }>({})
   // Attributes
   const [attributes, setAttributes] = useState<FrontendAttributes>({
     certified: [],
@@ -77,19 +82,22 @@ function EServiceWriteComponent({
   }
 
   // Contain the optional documents to explain how the service works
-  const updateDocuments = (e: any) => {
-    setDocuments([...documents, { kind: 'document', description: '', doc: e.target.files[0] }])
-  }
-  const buildDeleteDocuments = (name: string) => (_: any) => {
-    setDocuments([...documents.filter((d) => d.doc.name !== name)])
-  }
+  const wrapUpdateDocuments =
+    (kind: EServiceDocumentKind, id: string, key?: 'doc' | 'description') => (e: any) => {
+      const updatedDocuments = { ...documents, [id]: { ...documents[id], kind } }
 
-  // Contain the required OpenAPI/WSDL file to explain how the API is structured
-  const updateInterface = (e: any) => {
-    setInterfaceDocument({ kind: 'interface', description: '', doc: e.target.files[0] })
-  }
-  const deleteInterface = (_: any) => {
-    setInterfaceDocument(undefined)
+      if (key) {
+        const value = key === 'doc' ? e.target.files[0] : e.target.value
+        updatedDocuments[id][key] = value
+      }
+
+      setDocuments(updatedDocuments)
+    }
+
+  const wrapDeleteDocuments = (id: string) => (_: any) => {
+    const _documents = { ...documents }
+    delete _documents[id]
+    setDocuments(_documents)
   }
 
   /*
@@ -114,31 +122,8 @@ function EServiceWriteComponent({
   }
 
   const uploadDocuments = async (eserviceId: string, descriptorId: string) => {
-    return await fetchAllWithLogs(
-      [...documents, interfaceDocument]
-        // For now filter, but they should all be required
-        .filter((d) => !isEmpty(d))
-        .map((data) => {
-          const { kind, description, doc } = data as EServiceDocumentWrite
-          // Append the file as form data
-          const formData = new FormData()
-          formData.append('kind', kind)
-          formData.append('description', description!)
-          formData.append('doc', doc)
-
-          return {
-            path: {
-              endpoint: 'ESERVICE_POST_DESCRIPTOR_DOCUMENTS',
-              endpointParams: { eserviceId, descriptorId },
-            },
-            config: {
-              method: 'POST',
-              headers: { 'Content-Type': 'multipart/form-data' },
-              data: formData,
-            },
-          }
-        })
-    )
+    const requests = remapFrontendDocumentsToRequestConfig(documents, eserviceId, descriptorId)
+    return await fetchAllWithLogs(requests)
   }
 
   // This method contains a waterfall of two calls
@@ -243,48 +228,17 @@ function EServiceWriteComponent({
   useEffect(() => {
     if (!isEmpty(data)) {
       // Set general information
-      const readEServiceData: EServiceCreateDataType = {
-        name: data.name,
-        description: data.description,
-        audience: data.audience,
-        technology: data.technology,
-        voucherLifespan: data.voucherLifespan,
-        producerId: data.producerId,
-        pop: false,
-      }
+      const _eserviceData = remapBackendEServiceDataToFrontend(data)
+      setEserviceData({ ...eserviceData, ..._eserviceData })
 
-      setEserviceData({ ...eserviceData, ...readEServiceData })
-
-      // Set interface document
-      const readInterface = data.descriptors[0].interface
-
-      if (!isEmpty(readInterface)) {
-        const writeInterface: EServiceDocumentWrite = {
-          kind: 'interface',
-          description: readInterface.description,
-          doc: { name: readInterface.name }, // TEMP BACKEND: this should be the document blob
-        }
-
-        setInterfaceDocument(writeInterface)
-      }
-
-      // Set all the other documents
-      const readDocuments = data.descriptors[0].docs
-
-      if (!isEmpty(readDocuments) && readDocuments.length > 0) {
-        const writeDocuments: EServiceDocumentWrite[] = readDocuments.map((d) => {
-          return {
-            kind: 'document',
-            description: d.description,
-            doc: { name: d.name }, // TEMP BACKEND: this should be the document blob
-          }
-        })
-
-        setDocuments(writeDocuments)
-      }
+      // Set the documents (interface and documentation)
+      const { interface: interfaceDoc, docs } = data.descriptors[0]
+      const _documents = remapBackendDocumentsToFrontend(interfaceDoc, docs)
+      setDocuments(_documents)
 
       // Set the attributes
-      setAttributes(remapBackendAttributesToFrontend(data.attributes))
+      const _attributes = remapBackendAttributesToFrontend(data.attributes)
+      setAttributes(_attributes)
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -312,12 +266,9 @@ function EServiceWriteComponent({
       <EServiceAgreementSection todoLoadAccordo={todoLoadAccordo} />
       {/* I know it's verbose, but keeping interface and documents separated makes it easier to manage for now */}
       <EServiceDocumentSection
-        interfaceDocument={interfaceDocument}
-        setInterface={updateInterface}
-        deleteInterface={deleteInterface}
         documents={documents}
-        setDocuments={updateDocuments}
-        deleteDocuments={buildDeleteDocuments}
+        wrapUpdateDocuments={wrapUpdateDocuments}
+        wrapDeleteDocuments={wrapDeleteDocuments}
       />
       <EServiceAttributeSection attributes={attributes} setAttributes={setAttributes} />
 

@@ -60,7 +60,7 @@ export const Overlay: FunctionComponent = ({ children }) => {
   return (
     <div
       className="position-fixed top-0 bottom-0 start-0 end-0 bg-black bg-opacity-50 d-flex"
-      style={{ zIndex: 1 }}
+      style={{ zIndex: 2 }}
     >
       <div className="mx-auto my-auto">{children}</div>
     </div>

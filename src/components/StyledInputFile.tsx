@@ -4,7 +4,7 @@ type StyledInputFileProps = { id: string; onChange: any; value?: any; label: str
 
 export function StyledInputFile({ id, onChange, value, label }: StyledInputFileProps) {
   return (
-    <div className="my-3 d-flex align-items-center px-3 py-3 bg-light">
+    <div className="mb-3 d-flex align-items-center">
       <div className="me-3 flex-shrink-0 position-relative">
         <input className="position-absolute w-100 h-100" type="file" id={id} onChange={onChange} />
         <label
