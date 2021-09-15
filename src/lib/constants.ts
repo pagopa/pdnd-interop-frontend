@@ -245,6 +245,11 @@ export const API = {
     LOCAL: '',
     SHOULD_CALL: true,
   },
+  ESERVICE_GET_DOCUMENTS: {
+    URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/documents/{{documentId}}',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
   ATTRIBUTES_GET_LIST: {
     URL: 'pdnd-interop-uservice-attribute-registry-management/0.0.1/attributes',
     LOCAL: 'get-attributes-list.json',
@@ -365,6 +370,18 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
     success: {},
     error: {},
   },
+  ESERVICE_GET_DOCUMENTS: {
+    loadingText: 'Stiamo scaricando il documento',
+    success: {
+      title: 'Successo',
+      description:
+        'Il documento è stato scaricato correttamente. Lo trovi nella cartella dei download del tuo device',
+    },
+    error: {
+      title: 'Errore',
+      description: 'Non è stato possibile scaricare il documento. Riprova!',
+    },
+  },
   ATTRIBUTES_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
   ATTRIBUTE_CREATE: {
     loadingText: 'Stiamo salvando il nuovo attributo',
@@ -448,6 +465,7 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
       'Cliccando "conferma" questa bozza verrà cancellata e non sarà più recuperabile. Sarà sempre possibile creare nuove bozze',
   },
   ESERVICE_POST_DESCRIPTOR_DOCUMENTS: {},
+  ESERVICE_GET_DOCUMENTS: {},
   ATTRIBUTES_GET_LIST: {},
   ATTRIBUTE_CREATE: {},
   PARTY_GET_PARTY_ID: {},

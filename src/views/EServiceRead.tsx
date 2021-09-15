@@ -71,6 +71,17 @@ function EServiceReadComponent({
    * End list of actions
    */
 
+  // Get all documents actual URL
+  const wrapDownloadDocument = (documentId: string) => async (e: any) => {
+    await runAction({
+      path: {
+        endpoint: 'ESERVICE_GET_DOCUMENTS',
+        endpointParams: { eserviceId: data.id, descriptorId: data.descriptors[0].id, documentId },
+      },
+      config: { method: 'GET' },
+    })
+  }
+
   if (isEmpty(data)) {
     return null
   }
@@ -112,15 +123,18 @@ function EServiceReadComponent({
 
         <DescriptionBlock label="Accordo di interoperabilità">
           <a className="fakeData link-default" href="#0" target="_blank">
-            Leggi qui
+            Scarica
           </a>
         </DescriptionBlock>
 
         {data.descriptors[0].interface && (
           <DescriptionBlock label="Interfaccia">
-            <a className="fakeData link-default" href="#0" target="_blank">
-              Leggi qui
-            </a>
+            <button
+              className="btn-as-link-default"
+              onClick={wrapDownloadDocument(data.descriptors[0].interface.id)}
+            >
+              Scarica il documento di interfaccia
+            </button>
           </DescriptionBlock>
         )}
 
@@ -128,9 +142,10 @@ function EServiceReadComponent({
           <DescriptionBlock label="Documentazione">
             {data.descriptors[0].docs.map((d, i) => (
               <div key={i}>
-                <a className="fakeData link-default" href="#0" target="_blank">
-                  {d.name}
-                </a>
+                <p>{d.description}</p>
+                <Button className="link-default" onClick={wrapDownloadDocument(d.id)}>
+                  Scarica il documento {d.name}
+                </Button>
               </div>
             ))}
           </DescriptionBlock>

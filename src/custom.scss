@@ -5,6 +5,8 @@ $dark: #475a6d;
 $primary: #0073e6;
 $secondary: #ccd4dc;
 $success: #96dbbe;
+$danger: #ff8181;
+
 // Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';
 // Override CSS custom properties
@@ -30,6 +32,24 @@ $success: #96dbbe;
 .link-default {
   color: inherit;
   font-weight: 700;
+}
+
+.btn-as-link-default {
+  /* Reset btn */
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+  text-align: initial;
+  /* Add other things */
+  text-decoration: underline;
+  /* Add link default properties */
+  @extend .link-default;
+}
+
+.link-default:hover,
+.btn-as-link-default:hover {
+  color: $primary;
 }
 
 .form-max-width {
