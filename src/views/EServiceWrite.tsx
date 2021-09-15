@@ -70,7 +70,7 @@ function EServiceWriteComponent({
       const value = {
         text: e.target.value,
         checkbox: e.target.checked,
-        radio: e.target.name,
+        radio: e.target.id,
         textArray: [e.target.value],
       }[fieldType]
       setEserviceData({ ...eserviceData, [fieldName]: value })
