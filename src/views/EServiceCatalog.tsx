@@ -53,6 +53,7 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
     const agreementData = {
       eserviceId: service.id,
       producerId: service.producerId,
+      descriptorId: service.descriptors[0].id,
       consumerId: party?.partyId,
       verifiedAttributes: flattenedVerifiedAttributes.map((id: string) => ({
         id,

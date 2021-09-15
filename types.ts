@@ -166,6 +166,19 @@ export type EServiceCreateDataType = {
 }
 
 // Read only
+export type EServiceFlatReadType = {
+  name: string
+  id: string
+  descriptorId: string
+  status: EServiceStatus
+  version: string
+}
+
+export type EServiceFlatDecoratedReadType = EServiceFlatReadType & {
+  amISubscribed: boolean
+  isMine: boolean
+}
+
 export type EServiceReadType = {
   producerId: string
   name: string

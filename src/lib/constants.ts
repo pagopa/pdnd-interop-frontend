@@ -220,6 +220,11 @@ export const API = {
     LOCAL: 'get-eservice-list.json',
     SHOULD_CALL: true,
   },
+  ESERVICE_GET_LIST_FLAT: {
+    URL: 'pdnd-interop-uservice-catalog-process/0.0/flatten/eservices',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
   ESERVICE_GET_SINGLE: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}',
     LOCAL: 'get-eservice-list.json',
@@ -332,7 +337,8 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
   ONBOARDING_GET_SEARCH_PARTIES: { loadingText: 'Operazione in corso', success: {}, error: {} },
   ONBOARDING_POST_LEGALS: { loadingText: 'Operazione in corso', success: {}, error: {} },
   ONBOARDING_COMPLETE_REGISTRATION: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  ESERVICE_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  ESERVICE_GET_LIST: { loadingText: 'Stiamo caricando gli e-service', success: {}, error: {} },
+  ESERVICE_GET_LIST_FLAT: { loadingText: 'Stiamo caricando gli e-service', success: {}, error: {} },
   ESERVICE_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   ESERVICE_CREATE: {
     loadingText: 'Stiamo creando la bozza',
@@ -448,6 +454,7 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   ONBOARDING_POST_LEGALS: {},
   ONBOARDING_COMPLETE_REGISTRATION: {},
   ESERVICE_GET_LIST: {},
+  ESERVICE_GET_LIST_FLAT: {},
   ESERVICE_GET_SINGLE: {},
   ESERVICE_CREATE: {
     title: 'Conferma creazione bozza',
