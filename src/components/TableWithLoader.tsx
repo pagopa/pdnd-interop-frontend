@@ -25,7 +25,12 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
   error,
 }) => {
   if (error) {
-    return <div>Errore</div>
+    return (
+      <div className="bg-danger my-4 px-3 py-3">
+        C'è stato un errore, e non è stato possibile reperire le informazioni richieste. Per favore,
+        riprova più tardi
+      </div>
+    )
   }
 
   return loading ? (

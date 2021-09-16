@@ -316,19 +316,19 @@ export const API = {
     SHOULD_CALL: true,
   },
   CLIENT_GET_LIST: {
-    URL: 'TODO',
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients',
     LOCAL: 'get-client-list.json',
-    SHOULD_CALL: false,
+    SHOULD_CALL: true,
   },
   CLIENT_GET_SINGLE: {
-    URL: 'TODO',
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}',
     LOCAL: 'get-client-single.json',
-    SHOULD_CALL: false,
+    SHOULD_CALL: true,
   },
   CLIENT_CREATE: {
-    URL: 'TODO',
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients',
     LOCAL: '',
-    SHOULD_CALL: false,
+    SHOULD_CALL: true,
   },
   OPERATOR_SECURITY_GET_LIST: {
     URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators',
@@ -336,12 +336,12 @@ export const API = {
     SHOULD_CALL: false,
   },
   OPERATOR_SECURITY_GET_SINGLE: {
-    URL: 'TODO',
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators',
     LOCAL: 'get-user-single.json', // TEMP PIN-438
     SHOULD_CALL: false,
   },
   OPERATOR_SECURITY_CREATE: {
-    URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/operators',
+    URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/operators/{{operatorId}}',
     LOCAL: '',
     SHOULD_CALL: true,
   },

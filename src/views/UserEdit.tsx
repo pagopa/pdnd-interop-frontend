@@ -14,6 +14,7 @@ import isEmpty from 'lodash/isEmpty'
 import { isAdmin } from '../lib/auth-utils'
 import { UserContext } from '../lib/context'
 import { useMode } from '../hooks/useMode'
+import noop from 'lodash/noop'
 
 function UserEditComponent({
   runFakeAction,
@@ -86,6 +87,28 @@ function UserEditComponent({
         <DescriptionBlock label="Stato dell'utente">
           <span>{USER_STATUS_LABEL[data.status]}</span>
         </DescriptionBlock>
+
+        {/* Security key handling area */}
+        {mode === 'subscriber' && (
+          <div className="d-flex">
+            <DescriptionBlock label="Chiave pubblica">
+              {/* If has key */}
+              <Button className="btn-as-link-default me-3" onClick={noop}>
+                Scarica la chiave
+              </Button>
+              <Button className="me-3" variant="primary" onClick={noop}>
+                Sospendi/riattiva la chiave
+              </Button>
+              <Button className="me-3" variant="primary" onClick={noop}>
+                Elimina la chiave
+              </Button>
+              {/* Else */}
+              <Button variant="primary" onClick={noop}>
+                Carica una chiave pubblica
+              </Button>
+            </DescriptionBlock>
+          </div>
+        )}
 
         <div className="mt-5 d-flex">
           {getAvailableActions().map(({ onClick, label, isMock }, i) => (
