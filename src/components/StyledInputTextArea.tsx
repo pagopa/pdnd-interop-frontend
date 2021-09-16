@@ -1,4 +1,5 @@
-import { Form, FloatingLabel } from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
+import { StyledInputLabel } from './StyledInputLabel'
 
 type StyledInputTextAreaProps = {
   value: string
@@ -15,13 +16,15 @@ export function StyledInputTextArea({
   readOnly = false,
   height = 120,
   id = 'textarea',
-  label = '',
+  label,
   placeholder = 'Lorem ipsum',
   onChange,
 }: StyledInputTextAreaProps) {
   return (
-    <FloatingLabel controlId={id} label={label} className="mb-3">
+    <div className="mb-3">
+      {label && <StyledInputLabel label={label} />}
       <Form.Control
+        id={id}
         className={`border border-light ${readOnly ? 'py-1' : 'pt-4 pb-1'}`}
         style={{ height, resize: 'none', paddingLeft: '0.75rem', paddingRight: '0.75rem' }}
         value={value}
@@ -31,6 +34,6 @@ export function StyledInputTextArea({
         plaintext={readOnly}
         onChange={onChange}
       />
-    </FloatingLabel>
+    </div>
   )
 }

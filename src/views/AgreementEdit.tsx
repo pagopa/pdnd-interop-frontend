@@ -38,17 +38,23 @@ function AgreementEditComponent({
    * List of possible actions for the user to perform
    */
   const activate = async () => {
-    await runAction({
-      path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId } },
-      config: { method: 'PATCH' },
-    })
+    await runAction(
+      {
+        path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId } },
+        config: { method: 'PATCH' },
+      },
+      { suppressToast: false }
+    )
   }
 
   const suspend = async () => {
-    await runAction({
-      path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId } },
-      config: { method: 'PATCH' },
-    })
+    await runAction(
+      {
+        path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId } },
+        config: { method: 'PATCH' },
+      },
+      { suppressToast: false }
+    )
   }
 
   const reactivate = () => {
@@ -64,13 +70,16 @@ function AgreementEditComponent({
   }
 
   const wrapVerify = (attributeId: string) => async (_: any) => {
-    await runAction({
-      path: {
-        endpoint: 'AGREEMENT_VERIFY_ATTRIBUTE',
-        endpointParams: { agreementId: data!.id, attributeId },
+    await runAction(
+      {
+        path: {
+          endpoint: 'AGREEMENT_VERIFY_ATTRIBUTE',
+          endpointParams: { agreementId: data!.id, attributeId },
+        },
+        config: { method: 'PATCH' },
       },
-      config: { method: 'PATCH' },
-    })
+      { suppressToast: false }
+    )
   }
   /*
    * End list of actions

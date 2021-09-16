@@ -56,6 +56,11 @@ $danger: #ff8181;
   max-width: 37.5rem;
 }
 
+.form-control-plaintext[readonly] {
+  background-color: $secondary;
+  border-radius: 4px;
+}
+
 .text-none {
   text-transform: none !important;
 }

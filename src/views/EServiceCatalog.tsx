@@ -62,10 +62,13 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
       })), // TEMP PIN-362
     }
 
-    await runAction({
-      path: { endpoint: 'AGREEMENT_CREATE' },
-      config: { method: 'POST', data: agreementData },
-    })
+    await runAction(
+      {
+        path: { endpoint: 'AGREEMENT_CREATE' },
+        config: { method: 'POST', data: agreementData },
+      },
+      { suppressToast: false }
+    )
   }
   /*
    * End list of actions

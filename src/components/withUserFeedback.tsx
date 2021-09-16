@@ -20,8 +20,24 @@ import { LoadingOverlay } from './LoadingOverlay'
 import { StyledDialog } from './StyledDialog'
 import { StyledToast } from './StyledToast'
 
+type ActionOptions = { suppressToast: boolean }
+
+type CallbackActionOptions = ActionOptions & {
+  callback: VoidFunction
+}
+
+type DestinationActionOptions = ActionOptions & {
+  destination: RouteConfig
+}
+
+// TEMP REFACTOR: this typing needs to be refactored
 export type UserFeedbackHOCProps = {
-  runAction: (request: RequestConfig, destination?: RouteConfig) => Promise<void>
+  runAction: (request: RequestConfig, options: ActionOptions) => Promise<void>
+  runActionWithDestination: (
+    request: RequestConfig,
+    options: DestinationActionOptions
+  ) => Promise<void>
+  runActionWithCallback: (request: RequestConfig, options: CallbackActionOptions) => Promise<void>
   runFakeAction: (actionName: string) => void
   runCustomAction: (action: any, actionProps: RunActionProps) => Promise<void>
   forceRerenderCounter: number
@@ -69,7 +85,7 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
     /*
      * API calls
      */
-    const runAction = async (request: RequestConfig, destination?: RouteConfig) => {
+    const makeRequestAndGetOutcome = async (request: RequestConfig) => {
       const { loadingText, success, error }: RunActionProps =
         TOAST_CONTENTS[request.path.endpoint as ToastActionKeys]
 
@@ -88,22 +104,59 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
       if (outcome === 'success') {
         // Set the toast content to success
         toastContent = { ...success, outcome: 'success' }
-
-        // If there is a destination, go to new page and display toast there
-        if (destination) {
-          history.push(destination.PATH, { toast: toastContent })
-        } else {
-          // Otherwise, force refresh the current view if needed
-          setForceRerenderCounter(forceRerenderCounter + 1)
-        }
       }
 
-      // Prevent setState in case a new view is being rendered to avoid memory leaks
-      if (!destination) {
-        // Hide loader
-        setLoadingText(undefined)
-        // Show toast in this view
+      return { outcome, toastContent }
+    }
+
+    // The most basic action. Makes request, and displays the outcome
+    const runAction = async (request: RequestConfig, { suppressToast }: ActionOptions) => {
+      const { outcome, toastContent } = await makeRequestAndGetOutcome(request)
+
+      if (outcome === 'success') {
+        // Force refresh the current view if needed
+        setForceRerenderCounter(forceRerenderCounter + 1)
+      }
+
+      // Hide loader
+      setLoadingText(undefined)
+
+      if (!suppressToast) {
         showToast(toastContent)
+      }
+    }
+
+    // This action invokes a callback after a successful request/response cycle
+    const runActionWithCallback = async (
+      request: RequestConfig,
+      { callback, suppressToast }: CallbackActionOptions
+    ) => {
+      const { outcome, toastContent } = await makeRequestAndGetOutcome(request)
+
+      // Here, we are making a big assumption: callback kills the current view,
+      // so no state can be set after it, just like in runActionWithDestination
+      if (outcome === 'success') {
+        callback()
+      }
+
+      // Hide loader
+      setLoadingText(undefined)
+
+      if (!suppressToast) {
+        showToast(toastContent)
+      }
+    }
+
+    // This action goes to another view after a successful request/response cycle, triggering a pushState
+    const runActionWithDestination = async (
+      request: RequestConfig,
+      { destination, suppressToast }: DestinationActionOptions
+    ) => {
+      const { outcome, toastContent } = await makeRequestAndGetOutcome(request)
+
+      if (outcome === 'success') {
+        // Go to destination path, and optionally display the toast
+        history.push(destination.PATH, { toast: !suppressToast && toastContent })
       }
     }
 
@@ -145,6 +198,8 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
         <WrappedComponent
           {...(props as T)}
           runAction={runAction}
+          runActionWithCallback={runActionWithCallback}
+          runActionWithDestination={runActionWithDestination}
           runFakeAction={runFakeAction}
           runCustomAction={runCustomAction}
           forceRerenderCounter={forceRerenderCounter}

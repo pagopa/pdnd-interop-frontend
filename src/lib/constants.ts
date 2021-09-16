@@ -363,7 +363,8 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
     success: { title: 'Bozza creata', description: 'La bozza è stata creata correttamente' },
     error: {
       title: "C'è stato un problema",
-      description: 'Non è stato possibile creare la bozza. Riprova!',
+      description:
+        'Non è stato possibile creare la bozza. Verifica di aver compilato tutti i campi richiesti e riprova!',
     },
   },
   ESERVICE_VERSION_PUBLISH: {

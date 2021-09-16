@@ -62,10 +62,13 @@ function EServiceReadComponent({
       })), // TEMP PIN-362
     }
 
-    await runAction({
-      path: { endpoint: 'AGREEMENT_CREATE' },
-      config: { method: 'POST', data: agreementData },
-    })
+    await runAction(
+      {
+        path: { endpoint: 'AGREEMENT_CREATE' },
+        config: { method: 'POST', data: agreementData },
+      },
+      { suppressToast: false }
+    )
   }
   /*
    * End list of actions
@@ -73,13 +76,16 @@ function EServiceReadComponent({
 
   // Get all documents actual URL
   const wrapDownloadDocument = (documentId: string) => async (e: any) => {
-    await runAction({
-      path: {
-        endpoint: 'ESERVICE_GET_DOCUMENTS',
-        endpointParams: { eserviceId: data.id, descriptorId: data.descriptors[0].id, documentId },
+    await runAction(
+      {
+        path: {
+          endpoint: 'ESERVICE_GET_DOCUMENTS',
+          endpointParams: { eserviceId: data.id, descriptorId: data.descriptors[0].id, documentId },
+        },
+        config: { method: 'GET' },
       },
-      config: { method: 'GET' },
-    })
+      { suppressToast: false }
+    )
   }
 
   if (isEmpty(data)) {

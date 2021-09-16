@@ -1,7 +1,6 @@
 import React from 'react'
 import { EServiceAttributeGroup } from './EServiceAttributeGroup'
 import { StyledIntro } from './StyledIntro'
-import { WhiteBackground } from './WhiteBackground'
 import isEqual from 'lodash/isEqual'
 import { AttributeType, CatalogAttribute, FrontendAttributes } from '../../types'
 
@@ -64,9 +63,7 @@ export function EServiceAttributeSection({
     }
 
   return (
-    <WhiteBackground>
-      <StyledIntro>{{ title: 'Attributi' }}</StyledIntro>
-
+    <React.Fragment>
       {Object.keys(attributes).map((key, i) => {
         const attributeKey = key as AttributeType
         const { title, description } = TYPE_LABELS[attributeKey]
@@ -85,6 +82,6 @@ export function EServiceAttributeSection({
           </div>
         )
       })}
-    </WhiteBackground>
+    </React.Fragment>
   )
 }

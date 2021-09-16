@@ -20,7 +20,7 @@ type ClientSubmit = {
   eServiceId: string
 }
 
-function ClientCreateComponent({ runAction }: UserFeedbackHOCProps) {
+function ClientCreateComponent({ runActionWithDestination }: UserFeedbackHOCProps) {
   const { party } = useContext(PartyContext)
   const [data, setData] = useState<Partial<ClientSubmit>>({})
   const { data: eserviceData, loading: eserviceLoading } = useAsyncFetch<EServiceReadType[]>(
@@ -36,9 +36,9 @@ function ClientCreateComponent({ runAction }: UserFeedbackHOCProps) {
     // Avoid page reload
     e.preventDefault()
 
-    await runAction(
+    await runActionWithDestination(
       { path: { endpoint: 'CLIENT_CREATE' }, config: { method: 'POST', data } },
-      ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST
+      { destination: ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST, suppressToast: false }
     )
   }
 

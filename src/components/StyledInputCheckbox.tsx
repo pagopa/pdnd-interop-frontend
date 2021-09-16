@@ -9,6 +9,7 @@ type StyledInputCheckboxProps = {
   checked: boolean
   onChange: any
   inline?: boolean
+  readOnly?: boolean
 }
 
 export function StyledInputCheckbox({
@@ -18,6 +19,7 @@ export function StyledInputCheckbox({
   checked,
   onChange,
   inline = false,
+  readOnly = false,
 }: StyledInputCheckboxProps) {
   if (inline) {
     return (
@@ -28,6 +30,7 @@ export function StyledInputCheckbox({
         type="checkbox"
         id={id}
         label={label}
+        disabled={readOnly}
       />
     )
   }
@@ -35,7 +38,14 @@ export function StyledInputCheckbox({
   return (
     <div className="mb-3">
       <StyledInputLabel label={groupLabel!} isHTMLLabelElement={false} />
-      <Form.Check type="checkbox" id={id} label={label} checked={checked} onChange={onChange} />
+      <Form.Check
+        type="checkbox"
+        id={id}
+        label={label}
+        checked={checked}
+        onChange={onChange}
+        disabled={readOnly}
+      />
     </div>
   )
 }

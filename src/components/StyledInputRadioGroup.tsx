@@ -15,6 +15,7 @@ type StyledInputRadioGroupProps = {
   id: string
   currentValue?: string
   onChange?: any
+  readOnly?: boolean
 }
 
 export function StyledInputRadioGroup({
@@ -23,6 +24,7 @@ export function StyledInputRadioGroup({
   id,
   currentValue,
   onChange,
+  readOnly = false,
 }: StyledInputRadioGroupProps) {
   return (
     <div className="mb-3">
@@ -32,7 +34,7 @@ export function StyledInputRadioGroup({
           <Form.Check
             key={i}
             type="radio"
-            disabled={option.disabled}
+            disabled={option.disabled || readOnly}
             // This looks weird but it is actually meant.
             // Usually id and name coincide for easy debugging,
             // but here id is needed to associate label to specific option

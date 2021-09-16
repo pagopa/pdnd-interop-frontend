@@ -14,7 +14,7 @@ import { useLocation } from 'react-router-dom'
 import { parseSearch } from '../lib/url-utils'
 import { ProviderOrSubscriber } from '../../types'
 
-function UserCreateComponent({ runAction }: UserFeedbackHOCProps) {
+function UserCreateComponent({ runActionWithDestination }: UserFeedbackHOCProps) {
   const location = useLocation()
   const mode = useMode()
   const { party } = useContext(PartyContext)
@@ -28,12 +28,12 @@ function UserCreateComponent({ runAction }: UserFeedbackHOCProps) {
 
     const endpoint = mode === 'provider' ? 'OPERATOR_API_CREATE' : 'OPERATOR_SECURITY_CREATE'
     const endpointParams = mode === 'provider' ? {} : { clientId }
-    const destRoute =
+    const destination =
       mode === 'provider'
         ? ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_LIST
         : ROUTES.PROVIDE.SUBROUTES!.OPERATOR_SECURITY_LIST
 
-    await runAction(
+    await runActionWithDestination(
       {
         path: { endpoint, endpointParams },
         config: {
@@ -41,7 +41,7 @@ function UserCreateComponent({ runAction }: UserFeedbackHOCProps) {
           data: { users: [people['operator']], institutionId: party!.institutionId },
         },
       },
-      destRoute
+      { destination, suppressToast: false }
     )
   }
 

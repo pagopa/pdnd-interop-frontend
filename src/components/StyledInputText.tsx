@@ -1,5 +1,6 @@
 import React from 'react'
-import { Form, FloatingLabel } from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
+import { StyledInputLabel } from './StyledInputLabel'
 
 export type StyledInputTextType = 'text' | 'email'
 
@@ -23,14 +24,17 @@ export function StyledInputText({
   onChange,
 }: StyledInputTextProps) {
   return (
-    <FloatingLabel controlId={id} label={label} className="mb-3">
+    <div className="mb-3">
+      <StyledInputLabel label={label} id={id} />
       <Form.Control
+        id={id}
+        className="py-3"
         type={type}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
         readOnly={readOnly}
       />
-    </FloatingLabel>
+    </div>
   )
 }

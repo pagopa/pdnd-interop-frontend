@@ -39,17 +39,26 @@ function EServiceListComponent({
    * List of possible actions for the user to perform
    */
   const wrapPublishDraft = (eserviceId: string, descriptorId: string) => async (_: any) => {
-    await runAction({
-      path: { endpoint: 'ESERVICE_VERSION_PUBLISH', endpointParams: { eserviceId, descriptorId } },
-      config: { method: 'POST' },
-    })
+    await runAction(
+      {
+        path: {
+          endpoint: 'ESERVICE_VERSION_PUBLISH',
+          endpointParams: { eserviceId, descriptorId },
+        },
+        config: { method: 'POST' },
+      },
+      { suppressToast: false }
+    )
   }
 
   const wrapDeleteDraft = (eserviceId: string, descriptorId: string) => async (_: any) => {
-    await runAction({
-      path: { endpoint: 'ESERVICE_DRAFT_DELETE', endpointParams: { eserviceId, descriptorId } },
-      config: { method: 'DELETE' },
-    })
+    await runAction(
+      {
+        path: { endpoint: 'ESERVICE_DRAFT_DELETE', endpointParams: { eserviceId, descriptorId } },
+        config: { method: 'DELETE' },
+      },
+      { suppressToast: false }
+    )
   }
 
   const reactivate = () => {
