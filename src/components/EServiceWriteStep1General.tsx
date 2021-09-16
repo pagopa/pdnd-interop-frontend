@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios'
 import { isEmpty } from 'lodash'
 import React, { useContext, useEffect, useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
@@ -12,7 +13,7 @@ import {
   remapFrontendAttributesToBackend,
 } from '../lib/attributes'
 import { PartyContext } from '../lib/context'
-import { EServiceWriteProps } from '../views/EServiceWrite'
+import { EServiceWriteStepperProps } from '../views/EServiceWrite'
 import { EServiceAttributeSection } from './EServiceAttributeSection'
 import { StyledInputCheckbox } from './StyledInputCheckbox'
 import { StyledInputRadioGroup } from './StyledInputRadioGroup'
@@ -28,7 +29,10 @@ function EServiceWriteStep1GeneralComponent({
   runActionWithCallback,
   forward,
   data,
-}: StepperStepComponentProps & UserFeedbackHOCProps & EServiceWriteProps) {
+  readOnlyVersion,
+  updateWriteData,
+  writeData,
+}: StepperStepComponentProps & UserFeedbackHOCProps & EServiceWriteStepperProps) {
   const { party } = useContext(PartyContext)
 
   // All the data except for the attributes
@@ -69,6 +73,13 @@ function EServiceWriteStep1GeneralComponent({
       setEserviceData({ ...eserviceData, [fieldName]: fieldValue })
     }
 
+  const onSubmitSuccess = (eserviceCreateResponse: AxiosResponse) => {
+    const { id: eserviceId, descriptors } = eserviceCreateResponse.data
+    const { id: descriptorId } = descriptors[0]
+    updateWriteData({ eserviceId, descriptorId })
+    forward()
+  }
+
   const submit = async (e: any) => {
     e.preventDefault()
 
@@ -78,19 +89,17 @@ function EServiceWriteStep1GeneralComponent({
       attributes: remapFrontendAttributesToBackend(attributes),
     }
 
+    // TEMP PIN-385 (missing the PUT request)
     await runActionWithCallback(
       {
         path: { endpoint: 'ESERVICE_CREATE' },
         config: { method: 'POST', data: dataToPost },
       },
-      { callback: forward, suppressToast: false }
+      { callback: onSubmitSuccess, suppressToast: false }
     )
   }
 
-  const isFirstSave = () => isEmpty(data)
-  const isFirstDraft = () => data!.descriptors[0].status === 'draft'
-  const isReadOnly = () => !isFirstSave() && !isFirstDraft()
-
+  // Pre-fill the state (and thus the input fields) if there are data to do so
   useEffect(() => {
     if (!isEmpty(data)) {
       const { technology, name, description, attributes: backendAttributes } = data!
@@ -98,12 +107,6 @@ function EServiceWriteStep1GeneralComponent({
       setAttributes(remapBackendAttributesToFrontend(backendAttributes))
     }
   }, [data])
-
-  useEffect(() => {
-    console.log(eserviceData)
-  }, [eserviceData])
-
-  const readOnly = isReadOnly() // no need for setState, since it depends on data
 
   return (
     <React.Fragment>
@@ -122,40 +125,40 @@ function EServiceWriteStep1GeneralComponent({
 
           <StyledInputText
             id="name"
-            label="Nome del servizio"
+            label="Nome del servizio*"
             value={eserviceData.name || ''}
             onChange={wrapSetEServiceData('name')}
-            readOnly={readOnly}
+            readOnly={readOnlyVersion}
           />
 
           <StyledInputTextArea
             id="description"
-            label="Descrizione del servizio"
+            label="Descrizione del servizio*"
             value={eserviceData.description || ''}
             onChange={wrapSetEServiceData('description')}
-            readOnly={readOnly}
+            readOnly={readOnlyVersion}
             placeholder={undefined}
           />
 
           <StyledInputRadioGroup
             id="technology"
-            groupLabel="Tecnologia"
+            groupLabel="Tecnologia*"
             options={[
               { label: 'REST', value: 'REST' },
               { label: 'SOAP', value: 'SOAP' },
             ]}
             currentValue={eserviceData.technology}
             onChange={wrapSetEServiceData('technology', 'radio')}
-            readOnly={readOnly}
+            readOnly={readOnlyVersion}
           />
 
           <StyledInputCheckbox
             groupLabel="POP"
             id="pop"
-            label="Proof of Possession"
+            label="Proof of Possession*"
             checked={!!eserviceData.pop}
             onChange={wrapSetEServiceData('pop', 'checkbox')}
-            readOnly={readOnly}
+            readOnly={readOnlyVersion}
           />
         </WhiteBackground>
         <WhiteBackground>

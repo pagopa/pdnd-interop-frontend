@@ -1,4 +1,5 @@
 // Typing from https://react-typescript-cheatsheet.netlify.app/docs/hoc/full_example/
+import { AxiosResponse } from 'axios'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import {
@@ -23,7 +24,7 @@ import { StyledToast } from './StyledToast'
 type ActionOptions = { suppressToast: boolean }
 
 type CallbackActionOptions = ActionOptions & {
-  callback: VoidFunction
+  callback: (response: AxiosResponse) => void
 }
 
 type DestinationActionOptions = ActionOptions & {
@@ -106,7 +107,7 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
         toastContent = { ...success, outcome: 'success' }
       }
 
-      return { outcome, toastContent }
+      return { outcome, toastContent, response }
     }
 
     // The most basic action. Makes request, and displays the outcome
@@ -131,12 +132,12 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
       request: RequestConfig,
       { callback, suppressToast }: CallbackActionOptions
     ) => {
-      const { outcome, toastContent } = await makeRequestAndGetOutcome(request)
+      const { outcome, toastContent, response } = await makeRequestAndGetOutcome(request)
 
       // Here, we are making a big assumption: callback kills the current view,
       // so no state can be set after it, just like in runActionWithDestination
       if (outcome === 'success') {
-        callback()
+        callback(response as AxiosResponse)
       }
 
       // Hide loader
