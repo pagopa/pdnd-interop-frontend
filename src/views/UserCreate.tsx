@@ -9,8 +9,10 @@ import { ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import compose from 'lodash/fp/compose'
 import { withAdminAuth } from '../components/withAdminAuth'
+import { useMode } from '../hooks/useMode'
 
 function UserCreateComponent({ runAction }: UserFeedbackHOCProps) {
+  const mode = useMode()
   const { party } = useContext(PartyContext)
   const [people, setPeople] = useState<UsersObject>({})
 
@@ -18,15 +20,21 @@ function UserCreateComponent({ runAction }: UserFeedbackHOCProps) {
     // Avoid page reload
     e.preventDefault()
 
+    const endpoint = mode === 'provider' ? 'OPERATOR_API_CREATE' : 'OPERATOR_SECURITY_CREATE'
+    const destRoute =
+      mode === 'provider'
+        ? ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_LIST
+        : ROUTES.PROVIDE.SUBROUTES!.OPERATOR_SECURITY_LIST
+
     await runAction(
       {
-        path: { endpoint: 'USER_CREATE' },
+        path: { endpoint },
         config: {
           method: 'POST',
           data: { users: [people['operator']], institutionId: party!.institutionId },
         },
       },
-      ROUTES.PROVIDE.SUBROUTES!.USER_LIST
+      destRoute
     )
   }
 

@@ -35,9 +35,11 @@ function UserListComponent({
 }: UserFeedbackHOCProps) {
   const mode = useMode()
   const { user } = useContext(UserContext)
+  const endpoint = mode === 'provider' ? 'OPERATOR_API_GET_LIST' : 'OPERATOR_SECURITY_GET_LIST'
+
   const { data, loading, error } = useAsyncFetch<User[]>(
     {
-      path: { endpoint: 'USER_GET_LIST' },
+      path: { endpoint },
       config: { method: 'GET' }, // TEMP PIN-219: users must be filtered by clientId or instutitionId
     },
     { defaultValue: [], useEffectDeps: [forceRerenderCounter] }
@@ -81,10 +83,13 @@ function UserListComponent({
 
     const status = user.status
 
+    const route =
+      mode === 'provider'
+        ? ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_LIST.PATH
+        : ROUTES.SUBSCRIBE.SUBROUTES!.OPERATOR_SECURITY_LIST.PATH
+
     const inspectAction = {
-      to: `${ROUTES[mode === 'provider' ? 'PROVIDE' : 'SUBSCRIBE'].SUBROUTES!.USER_LIST.PATH}/${
-        user.taxCode
-      }`,
+      to: `${route}/${user.taxCode}`,
       icon: 'bi-info-circle',
       label: 'Ispeziona',
     }
@@ -125,8 +130,8 @@ function UserListComponent({
   }
 
   const CREATE_ACTIONS = {
-    provider: ROUTES.PROVIDE.SUBROUTES!.USER_CREATE,
-    subscriber: ROUTES.SUBSCRIBE.SUBROUTES!.USER_CREATE,
+    provider: ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_CREATE,
+    subscriber: ROUTES.SUBSCRIBE.SUBROUTES!.OPERATOR_SECURITY_CREATE,
   }
   /*
    * End labels and buttons

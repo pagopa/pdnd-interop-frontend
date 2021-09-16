@@ -13,17 +13,20 @@ import { getLastBit } from '../lib/url-utils'
 import isEmpty from 'lodash/isEmpty'
 import { isAdmin } from '../lib/auth-utils'
 import { UserContext } from '../lib/context'
+import { useMode } from '../hooks/useMode'
 
 function UserEditComponent({
   runFakeAction,
   wrapActionInDialog,
   forceRerenderCounter,
 }: UserFeedbackHOCProps) {
+  const mode = useMode()
   const { user } = useContext(UserContext)
   const taxCode = getLastBit(useLocation())
+  const endpoint = mode === 'provider' ? 'OPERATOR_API_GET_SINGLE' : 'OPERATOR_SECURITY_GET_SINGLE'
   const { data, loading } = useAsyncFetch<User>(
     {
-      path: { endpoint: 'USER_GET_SINGLE', endpointParams: { taxCode } },
+      path: { endpoint, endpointParams: { taxCode } },
       config: { method: 'GET' },
     },
     { defaultValue: {}, useEffectDeps: [forceRerenderCounter] }

@@ -100,19 +100,19 @@ export const ROUTES: RoutesObject = {
         LABEL: 'Modifica accordo',
         COMPONENT: AgreementEdit,
       },
-      USER_LIST: {
+      OPERATOR_API_LIST: {
         PATH: '/erogazione/operatori',
         EXACT: true,
         LABEL: 'Gestisci operatori API',
         COMPONENT: UserList,
       },
-      USER_CREATE: {
+      OPERATOR_API_CREATE: {
         PATH: '/erogazione/operatori/crea',
         EXACT: false,
         LABEL: 'Crea nuovo operatore API',
         COMPONENT: UserCreate,
       },
-      USER_EDIT: {
+      OPERATOR_API_EDIT: {
         PATH: '/erogazione/operatori/:id',
         EXACT: false,
         LABEL: 'Modifica operatore API',
@@ -167,19 +167,19 @@ export const ROUTES: RoutesObject = {
         LABEL: 'Visualizza e-service',
         COMPONENT: EServiceGate,
       },
-      USER_LIST: {
+      OPERATOR_SECURITY_LIST: {
         PATH: '/fruizione/client/operatori',
         EXACT: true,
         LABEL: 'Gestisci operatori',
         COMPONENT: UserList,
       },
-      USER_CREATE: {
+      OPERATOR_SECURITY_CREATE: {
         PATH: '/fruizione/client/operatori/crea',
         EXACT: false,
         LABEL: 'Crea nuovo operatore di sicurezza',
         COMPONENT: UserCreate,
       },
-      USER_EDIT: {
+      OPERATOR_SECURITY_EDIT: {
         PATH: '/fruizione/client/operatori/:id',
         EXACT: false,
         LABEL: 'Modifica operatore',
@@ -255,6 +255,21 @@ export const API = {
     LOCAL: '',
     SHOULD_CALL: true,
   },
+  OPERATOR_API_CREATE: {
+    URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/operators',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
+  OPERATOR_API_GET_LIST: {
+    URL: 'TODO',
+    LOCAL: 'get-user-list.json', // TEMP PIN-438
+    SHOULD_CALL: false,
+  },
+  OPERATOR_API_GET_SINGLE: {
+    URL: 'TODO',
+    LOCAL: 'get-user-single.json', // TEMP PIN-438
+    SHOULD_CALL: false,
+  },
   ATTRIBUTES_GET_LIST: {
     URL: 'pdnd-interop-uservice-attribute-registry-management/0.0.1/attributes',
     LOCAL: 'get-attributes-list.json',
@@ -315,17 +330,17 @@ export const API = {
     LOCAL: '',
     SHOULD_CALL: false,
   },
-  USER_GET_LIST: {
-    URL: 'TODO',
-    LOCAL: 'get-user-list.json', // TEMP PIN-438
+  OPERATOR_SECURITY_GET_LIST: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators',
+    LOCAL: 'get-user-list.json',
     SHOULD_CALL: false,
   },
-  USER_GET_SINGLE: {
+  OPERATOR_SECURITY_GET_SINGLE: {
     URL: 'TODO',
     LOCAL: 'get-user-single.json', // TEMP PIN-438
     SHOULD_CALL: false,
   },
-  USER_CREATE: {
+  OPERATOR_SECURITY_CREATE: {
     URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/operators',
     LOCAL: '',
     SHOULD_CALL: true,
@@ -388,6 +403,20 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
       description: 'Non è stato possibile scaricare il documento. Riprova!',
     },
   },
+  OPERATOR_API_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  OPERATOR_API_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  OPERATOR_API_CREATE: {
+    loadingText: 'Stiamo creando il nuovo operatore',
+    success: {
+      title: "C'è un nuovo operatore",
+      description: 'Nuovo operatore creato correttamente',
+    },
+    error: {
+      title: 'Errore',
+      description:
+        "Non è stato possibile creare il nuovo operatore. Assicurarsi che non esista già l'utenza ed eventualmente ritentare",
+    },
+  },
   ATTRIBUTES_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
   ATTRIBUTE_CREATE: {
     loadingText: 'Stiamo salvando il nuovo attributo',
@@ -432,20 +461,9 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
   CLIENT_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
   CLIENT_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   CLIENT_CREATE: { loadingText: 'Stiamo creando il client richiesto', success: {}, error: {} },
-  USER_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  USER_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  USER_CREATE: {
-    loadingText: 'Stiamo creando il nuovo operatore',
-    success: {
-      title: "C'è un nuovo operatore",
-      description: 'Nuovo operatore creato correttamente',
-    },
-    error: {
-      title: 'Errore',
-      description:
-        "Non è stato possibile creare il nuovo operatore. Assicurarsi che non esista già l'utenza ed eventualmente ritentare",
-    },
-  },
+  OPERATOR_SECURITY_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  OPERATOR_SECURITY_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  OPERATOR_SECURITY_CREATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
 }
 
 export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
@@ -473,6 +491,9 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   },
   ESERVICE_POST_DESCRIPTOR_DOCUMENTS: {},
   ESERVICE_GET_DOCUMENTS: {},
+  OPERATOR_API_GET_LIST: {},
+  OPERATOR_API_GET_SINGLE: {},
+  OPERATOR_API_CREATE: {},
   ATTRIBUTES_GET_LIST: {},
   ATTRIBUTE_CREATE: {},
   PARTY_GET_PARTY_ID: {},
@@ -491,9 +512,9 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   CLIENT_GET_LIST: {},
   CLIENT_GET_SINGLE: {},
   CLIENT_CREATE: {},
-  USER_GET_LIST: {},
-  USER_GET_SINGLE: {},
-  USER_CREATE: {},
+  OPERATOR_SECURITY_GET_LIST: {},
+  OPERATOR_SECURITY_GET_SINGLE: {},
+  OPERATOR_SECURITY_CREATE: {},
 }
 
 export const ESERVICE_STATUS_LABEL = {
