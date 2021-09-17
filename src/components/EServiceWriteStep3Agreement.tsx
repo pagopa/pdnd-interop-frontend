@@ -20,10 +20,16 @@ function EServiceWriteStep3AgreementComponent({
     { value: '5', label: 'Template 5' },
   ]
 
+  const submit = (e: any) => {
+    e.preventDefault()
+
+    forward()
+  }
+
   return (
     <React.Fragment>
       <WhiteBackground>
-        <Form onSubmit={forward}>
+        <Form onSubmit={submit}>
           <StyledIntro priority={2}>
             {{
               title: 'Accordo di interoperabilità*',
@@ -41,7 +47,7 @@ function EServiceWriteStep3AgreementComponent({
           />
 
           <div className="mt-5 d-flex">
-            <Button className="me-3" variant="primary" type="sumbmit">
+            <Button className="me-3" variant="primary" type="submit">
               salva bozza e prosegui
             </Button>
             <Button variant="outline-primary" onClick={back}>
