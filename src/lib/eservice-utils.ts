@@ -62,7 +62,7 @@ export function remapFrontendDocumentsToRequestConfig(
       // Return the request config object
       return {
         path: {
-          endpoint: 'ESERVICE_POST_DESCRIPTOR_DOCUMENTS',
+          endpoint: 'ESERVICE_VERSION_POST_DOCUMENT',
           endpointParams: { eserviceId, descriptorId },
         },
         config: {

@@ -79,7 +79,7 @@ function EServiceReadComponent({
     await runAction(
       {
         path: {
-          endpoint: 'ESERVICE_GET_DOCUMENTS',
+          endpoint: 'ESERVICE_VERSION_GET_DOCUMENTS',
           endpointParams: { eserviceId: data.id, descriptorId: data.descriptors[0].id, documentId },
         },
         config: { method: 'GET' },

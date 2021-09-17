@@ -86,8 +86,8 @@ export const ROUTES: RoutesObject = {
         COMPONENT: EServiceWrite,
       },
       ESERVICE_EDIT: {
-        PATH: '/erogazione/e-service/:id',
-        EXACT: false,
+        PATH: '/erogazione/e-service/:eserviceId/:descriptorId',
+        EXACT: true,
         LABEL: 'Ispeziona e-service',
         COMPONENT: EServiceGate,
       },
@@ -238,22 +238,38 @@ export const API = {
     LOCAL: '',
     SHOULD_CALL: true,
   },
+  ESERVICE_UPDATE: {
+    URL: 'TODO',
+    LOCAL: '',
+    SHOULD_CALL: false,
+  },
+  ESERVICE_VERSION_CREATE: {
+    URL: 'TODO',
+    LOCAL: '',
+    SHOULD_CALL: false,
+  },
+  ESERVICE_VERSION_UPDATE: {
+    URL: 'TODO',
+    LOCAL: '',
+    SHOULD_CALL: false,
+  },
   ESERVICE_VERSION_PUBLISH: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/publish',
     LOCAL: '',
     SHOULD_CALL: true,
   },
-  ESERVICE_DRAFT_DELETE: {
+  ESERVICE_VERSION_DELETE: {
+    // Only drafts can be deleted
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}',
     LOCAL: '',
     SHOULD_CALL: true,
   },
-  ESERVICE_POST_DESCRIPTOR_DOCUMENTS: {
+  ESERVICE_VERSION_POST_DOCUMENT: {
     URL: 'pdnd-interop-uservice-catalog-management/0.0.1/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/documents',
     LOCAL: '',
     SHOULD_CALL: true,
   },
-  ESERVICE_GET_DOCUMENTS: {
+  ESERVICE_VERSION_GET_DOCUMENTS: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/documents/{{documentId}}',
     LOCAL: '',
     SHOULD_CALL: true,
@@ -367,6 +383,9 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
         'Non è stato possibile creare la bozza. Verifica di aver compilato tutti i campi richiesti e riprova!',
     },
   },
+  ESERVICE_UPDATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  ESERVICE_VERSION_CREATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  ESERVICE_VERSION_UPDATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   ESERVICE_VERSION_PUBLISH: {
     loadingText: 'Stiamo pubblicando la versione in bozza',
     success: {
@@ -379,7 +398,8 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
         'Si è verificato un errore, non è stato possibile pubblicare la nuova versione del servizio',
     },
   },
-  ESERVICE_DRAFT_DELETE: {
+
+  ESERVICE_VERSION_DELETE: {
     loadingText: 'Stiamo cancellando la bozza',
     success: {
       title: 'Bozza cancellata correttamente',
@@ -390,12 +410,12 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
       description: 'Si è verificato un errore, non è stato possibile cancellare la bozza',
     },
   },
-  ESERVICE_POST_DESCRIPTOR_DOCUMENTS: {
+  ESERVICE_VERSION_POST_DOCUMENT: {
     loadingText: 'Operazione in corso',
     success: {},
     error: {},
   },
-  ESERVICE_GET_DOCUMENTS: {
+  ESERVICE_VERSION_GET_DOCUMENTS: {
     loadingText: 'Stiamo scaricando il documento',
     success: {
       title: 'Successo',
@@ -483,18 +503,21 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
     description:
       'Cliccando "conferma", una nuova bozza verrà creata. Potrà essere pubblicata successivamente, oppure cancellata',
   },
+  ESERVICE_UPDATE: {},
+  ESERVICE_VERSION_CREATE: {},
+  ESERVICE_VERSION_UPDATE: {},
   ESERVICE_VERSION_PUBLISH: {
     title: 'Conferma pubblicazione bozza',
     description:
       'Una volta pubblicata, una versione del servizio non è più cancellabile e diventa disponibile nel catalogo degli e-service. Sarà comunque possibile sospenderla, o renderla obsoleta una volta che una nuova versione diventa disponibile.',
   },
-  ESERVICE_DRAFT_DELETE: {
+  ESERVICE_VERSION_DELETE: {
     title: 'Conferma cancellazione bozza',
     description:
       'Cliccando "conferma" questa bozza verrà cancellata e non sarà più recuperabile. Sarà sempre possibile creare nuove bozze',
   },
-  ESERVICE_POST_DESCRIPTOR_DOCUMENTS: {},
-  ESERVICE_GET_DOCUMENTS: {},
+  ESERVICE_VERSION_POST_DOCUMENT: {},
+  ESERVICE_VERSION_GET_DOCUMENTS: {},
   OPERATOR_API_GET_LIST: {},
   OPERATOR_API_GET_SINGLE: {},
   OPERATOR_API_CREATE: {},

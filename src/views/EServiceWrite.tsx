@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import isEmpty from 'lodash/isEmpty'
+import has from 'lodash/has'
 import { EServiceReadType, StepperStep } from '../../types'
 import { EServiceWriteStep1General } from '../components/EServiceWriteStep1General'
 import { EServiceWriteStep2Version } from '../components/EServiceWriteStep2Version'
@@ -6,44 +8,30 @@ import { EServiceWriteStep3Agreement } from '../components/EServiceWriteStep3Agr
 import { EServiceWriteStep4Documents } from '../components/EServiceWriteStep4Documents'
 import { Stepper } from '../components/Stepper'
 import { WhiteBackground } from '../components/WhiteBackground'
-import isEmpty from 'lodash/isEmpty'
-
-type WriteData = {
-  eserviceId: string
-  descriptorId: string
-}
+import { useHistory } from 'react-router-dom'
 
 export type EServiceWriteProps = {
-  data?: EServiceReadType
+  fetchedData: EServiceReadType | undefined
 }
 
-export type EServiceWriteStepperProps = EServiceWriteProps & {
-  readOnlyVersion: boolean
-  updateWriteData: (ids: WriteData) => void
-  writeData: WriteData | undefined
-}
+// Represents when a new service is created, and there was no draft before
+// In this case, we have no "data" coming as a prop, but still we have an
+// eserviceId  to POST data to
+export type EServiceWriteStepperProps = EServiceWriteProps & {}
 
-export function EServiceWrite({ data }: EServiceWriteProps) {
+export function EServiceWrite({ fetchedData }: EServiceWriteProps) {
   const [activeStep, setActiveStep] = useState(0)
-  const [writeData, setWriteData] = useState<WriteData | undefined>()
+  const history = useHistory()
 
+  // Handles which step to go to after a "creation" action has been performed
+  // and a history.replace action has taken place
   useEffect(() => {
-    if (!isEmpty(data)) {
-      setWriteData({ eserviceId: data!.id, descriptorId: data!.descriptors[0].id })
+    const { state } = history.location
+
+    if (!isEmpty(state) && has(state, 'stepIndexDestination')) {
+      goToStep((state as any).stepIndexDestination)
     }
-  }, [data])
-
-  const updateWriteData = (ids: WriteData) => {
-    setWriteData(ids)
-  }
-
-  /*
-   * Utils
-   */
-  const isFirstSave = () => isEmpty(data)
-  const isFirstDraft = () => data!.descriptors[0].status === 'draft'
-  const isVersionReadOnly = () => !isFirstSave() && !isFirstDraft()
-  const readOnlyVersion = isVersionReadOnly()
+  }, [history.location])
 
   /*
    * Stepper actions
@@ -56,31 +44,28 @@ export function EServiceWrite({ data }: EServiceWriteProps) {
     setActiveStep(activeStep + 1)
   }
 
+  const goToStep = (step: number) => {
+    setActiveStep(step)
+  }
+
+  const props = { forward, back, fetchedData }
+
   const steps: StepperStep[] = [
     {
       label: 'Generale',
-      Component: () =>
-        EServiceWriteStep1General({ forward, data, writeData, updateWriteData, readOnlyVersion }),
+      Component: () => EServiceWriteStep1General(props),
     },
     {
       label: 'Versione',
-      Component: () =>
-        EServiceWriteStep2Version({
-          forward,
-          back,
-          data,
-          writeData,
-          updateWriteData,
-          readOnlyVersion,
-        }),
+      Component: () => EServiceWriteStep2Version(props),
     },
     {
       label: 'Accordo',
-      Component: () => EServiceWriteStep3Agreement({ forward, back, data }),
+      Component: () => EServiceWriteStep3Agreement(props),
     },
     {
       label: 'Documentazione',
-      Component: () => EServiceWriteStep4Documents({ forward, back, data }),
+      Component: () => EServiceWriteStep4Documents(props),
     },
   ]
 

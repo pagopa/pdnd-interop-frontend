@@ -6,7 +6,7 @@ import { Button } from 'react-bootstrap'
 import { PartyContext } from '../lib/context'
 import compose from 'lodash/fp/compose'
 import {
-  EServiceReadType,
+  EServiceFlatReadType,
   EServiceStatus,
   TableActionBtn,
   TableActionLink,
@@ -27,9 +27,9 @@ function EServiceListComponent({
   wrapActionInDialog,
 }: UserFeedbackHOCProps) {
   const { party } = useContext(PartyContext)
-  const { data, loading, error } = useAsyncFetch<EServiceReadType[]>(
+  const { data, loading, error } = useAsyncFetch<EServiceFlatReadType[]>(
     {
-      path: { endpoint: 'ESERVICE_GET_LIST' },
+      path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
       config: { method: 'GET', params: { producerId: party?.partyId } },
     },
     { defaultValue: [], useEffectDeps: [forceRerenderCounter] }
@@ -54,7 +54,7 @@ function EServiceListComponent({
   const wrapDeleteDraft = (eserviceId: string, descriptorId: string) => async (_: any) => {
     await runAction(
       {
-        path: { endpoint: 'ESERVICE_DRAFT_DELETE', endpointParams: { eserviceId, descriptorId } },
+        path: { endpoint: 'ESERVICE_VERSION_DELETE', endpointParams: { eserviceId, descriptorId } },
         config: { method: 'DELETE' },
       },
       { suppressToast: false }
@@ -89,7 +89,8 @@ function EServiceListComponent({
    */
 
   // Build list of available actions for each service in its current state
-  const getAvailableActions = (service: EServiceReadType) => {
+  const getAvailableActions = (service: EServiceFlatReadType) => {
+    const { id: eserviceId, descriptorId, status } = service
     const availableActions: { [key in EServiceStatus]: TableActionProps[] } = {
       published: [
         {
@@ -129,7 +130,7 @@ function EServiceListComponent({
       draft: [
         {
           onClick: wrapActionInDialog(
-            wrapPublishDraft(service.id, service.descriptors[0].id),
+            wrapPublishDraft(eserviceId, descriptorId),
             'ESERVICE_VERSION_PUBLISH'
           ),
           icon: 'bi-box-arrow-up',
@@ -137,7 +138,7 @@ function EServiceListComponent({
         },
         {
           onClick: wrapActionInDialog(
-            wrapDeleteDraft(service.id, service.descriptors[0].id),
+            wrapDeleteDraft(eserviceId, descriptorId),
             'ESERVICE_DRAFT_DELETE'
           ),
           icon: 'bi-trash',
@@ -154,11 +155,13 @@ function EServiceListComponent({
       ],
     }
 
-    const status = service.descriptors[0].status
-
     // If status === 'draft', show precompiled write template. Else, readonly template
     const inspectAction = {
-      to: `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${service.id}`,
+      to: `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${eserviceId}/${
+        descriptorId || 'prima-bozza'
+      }`,
+      // TEMP Just for testing
+      // to: `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${eserviceId}/prima-bozza`,
       icon: status === 'draft' ? 'bi-pencil' : 'bi-info-circle',
       label: status === 'draft' ? 'Modifica' : 'Ispeziona',
     }
@@ -204,8 +207,8 @@ function EServiceListComponent({
             {data.map((item, i) => (
               <tr key={i}>
                 <td>{item.name}</td>
-                <td>{item.descriptors[0].version}</td>
-                <td>{ESERVICE_STATUS_LABEL[item.descriptors[0].status]}</td>
+                <td>{item.version}</td>
+                <td>{ESERVICE_STATUS_LABEL[item.status]}</td>
                 <td>
                   {getAvailableActions(item).map((tableAction, j) => {
                     const btnProps: any = {}

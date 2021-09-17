@@ -3,7 +3,6 @@ import { Button } from 'react-bootstrap'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { EServiceDocumentSection } from '../components/EServiceDocumentSection'
 import {
-  EServiceCreateDataKeysType,
   EServiceCreateDataType,
   EServiceDocumentKind,
   EServiceDocumentWrite,
@@ -66,7 +65,7 @@ function EServiceWriteComponent({
 
   // Contains the data necessary to create an e-service, ecluded the attributes
   const buildSetEServiceData =
-    (fieldName: EServiceCreateDataKeysType, fieldType = 'text') =>
+    (fieldName: keyof EServiceCreateDataType, fieldType = 'text') =>
     (e: any) => {
       const value = {
         text: e.target.value,
@@ -212,7 +211,10 @@ function EServiceWriteComponent({
       const descriptorId = data.descriptors[0].id
       await runActionWithDestination(
         {
-          path: { endpoint: 'ESERVICE_DRAFT_DELETE', endpointParams: { eserviceId, descriptorId } },
+          path: {
+            endpoint: 'ESERVICE_VERSION_DELETE',
+            endpointParams: { eserviceId, descriptorId },
+          },
           config: { method: 'DELETE' },
         },
         { destination: ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST, suppressToast: false }

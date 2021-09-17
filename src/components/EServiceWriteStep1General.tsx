@@ -1,10 +1,12 @@
-import { AxiosResponse } from 'axios'
+import { AxiosResponse, Method } from 'axios'
 import { isEmpty } from 'lodash'
 import React, { useContext, useEffect, useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
+import { useHistory } from 'react-router-dom'
 import {
-  EServiceCreateDataKeysType,
+  ApiEndpointKey,
   EServiceCreateDataType,
+  EServiceNoDescriptorId,
   FrontendAttributes,
   StepperStepComponentProps,
 } from '../../types'
@@ -12,6 +14,7 @@ import {
   remapBackendAttributesToFrontend,
   remapFrontendAttributesToBackend,
 } from '../lib/attributes'
+import { ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { EServiceWriteStepperProps } from '../views/EServiceWrite'
 import { EServiceAttributeSection } from './EServiceAttributeSection'
@@ -28,12 +31,10 @@ type FieldType = 'text' | 'radio' | 'checkbox'
 function EServiceWriteStep1GeneralComponent({
   runActionWithCallback,
   forward,
-  data,
-  readOnlyVersion,
-  updateWriteData,
-  writeData,
+  fetchedData,
 }: StepperStepComponentProps & UserFeedbackHOCProps & EServiceWriteStepperProps) {
   const { party } = useContext(PartyContext)
+  const history = useHistory()
 
   // All the data except for the attributes
   const [eserviceData, setEserviceData] = useState<Partial<EServiceCreateDataType>>({
@@ -42,71 +43,100 @@ function EServiceWriteStep1GeneralComponent({
     voucherLifespan: 300, // TEMP PIN-385 (obsolete)
     audience: [], // TEMP PIN-385 (obsolete, remove this field from the data when PIN-385 is complete)
   })
-  // Attributes are separated from the rest of the data
-  // just because it is easier to handle them this way
+  // Attributes are separated from the rest of the data.
+  // There is no logical reason, it is just easier to handle the operations this way
   const [attributes, setAttributes] = useState<FrontendAttributes>({
     certified: [],
     verified: [],
     declared: [],
   })
 
-  const isFalsy = (fieldType: FieldType, valueToTest: any) => {
-    if (fieldType === 'text' && valueToTest === '') {
-      return true
+  // Pre-fill if there is already a draft of the service available
+  useEffect(() => {
+    if (!isEmpty(fetchedData)) {
+      const { technology, name, description, attributes: backendAttributes } = fetchedData!
+      setEserviceData({ technology, name, description })
+      setAttributes(remapBackendAttributesToFrontend(backendAttributes))
     }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-    return false
-  }
+  // Check for empty strings in input text field
+  const isEmptyTextField = (fieldType: FieldType, valueToTest: any) =>
+    fieldType === 'text' && valueToTest === ''
 
   const wrapSetEServiceData =
-    (fieldName: EServiceCreateDataKeysType, fieldType: FieldType = 'text') =>
+    (fieldName: keyof EServiceCreateDataType, fieldType: FieldType = 'text') =>
     (e: any) => {
       const { value, checked, id } = e.target
-      const fieldValueMaybe = { text: value, checkbox: checked, radio: id, textArray: [value] }[
-        fieldType
-      ]
+      const fieldValueMaybe = { text: value, checkbox: checked, radio: id }[fieldType]
 
-      // If the field contains a falsy value, set it explicitly to undefined
-      // to avoid passing misleading data to the backend (e.g. a service name set to an empty string)
-      const fieldValue = !isFalsy(fieldType, fieldValueMaybe) ? fieldValueMaybe : undefined
+      // If the field contains a falsy value, like empty string, set it explicitly to undefined
+      // This is to avoid passing misleading data to the backend
+      // (e.g. a service name set to an empty string passes the "service name exixts" check)
+      const fieldValue = !isEmptyTextField(fieldType, fieldValueMaybe) ? fieldValueMaybe : undefined
 
       setEserviceData({ ...eserviceData, [fieldName]: fieldValue })
     }
 
-  const onSubmitSuccess = (eserviceCreateResponse: AxiosResponse) => {
-    const { id: eserviceId, descriptors } = eserviceCreateResponse.data
-    const { id: descriptorId } = descriptors[0]
-    updateWriteData({ eserviceId, descriptorId })
-    forward()
-  }
-
   const submit = async (e: any) => {
     e.preventDefault()
 
+    // Format the data like the backend wants it
     const dataToPost = {
       ...eserviceData,
       producerId: party!.partyId,
       attributes: remapFrontendAttributesToBackend(attributes),
     }
 
-    // TEMP PIN-385 (missing the PUT request)
+    // Define which endpoint to call
+    let endpoint: ApiEndpointKey = 'ESERVICE_CREATE'
+    let method: Method = 'POST'
+    const isNewService = isEmpty(fetchedData)
+    if (isNewService) {
+      // TEMP PIN-385 (missing the PUT request)
+      // endpoint = 'ESERVICE_UPDATE'
+      // method = 'PUT'
+    }
+
+    // Run the action, and
     await runActionWithCallback(
-      {
-        path: { endpoint: 'ESERVICE_CREATE' },
-        config: { method: 'POST', data: dataToPost },
-      },
-      { callback: onSubmitSuccess, suppressToast: false }
+      { path: { endpoint }, config: { method, data: dataToPost } },
+      { callback: wrapOnSubmitSuccess(isNewService), suppressToast: false }
     )
   }
 
-  // Pre-fill the state (and thus the input fields) if there are data to do so
-  useEffect(() => {
-    if (!isEmpty(data)) {
-      const { technology, name, description, attributes: backendAttributes } = data!
-      setEserviceData({ technology, name, description })
-      setAttributes(remapBackendAttributesToFrontend(backendAttributes))
+  const wrapOnSubmitSuccess =
+    (isNewService: boolean) => (eserviceCreateResponse: AxiosResponse) => {
+      const eserviceId = eserviceCreateResponse.data.id
+
+      if (isNewService) {
+        const tempDescriptorId: EServiceNoDescriptorId = 'prima-bozza'
+
+        // Replace the create route with the acutal id, now that we have it.
+        // WARNING: this will cause a re-render that will fetch fresh data
+        // at the EServiceGate component level
+        history.replace(
+          `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${eserviceId}/${tempDescriptorId}`,
+          { stepIndexDestination: 1 }
+        )
+      } else {
+        // Go to next step
+        forward()
+      }
     }
-  }, [data])
+
+  const isNewService = isEmpty(fetchedData)
+  const hasVersion = !isEmpty(fetchedData?.activeDescriptor)
+  const isEditable =
+    // case 1: new service
+    isNewService ||
+    // case 2: already existing service but no versions created
+    (!isNewService && !hasVersion) ||
+    // case 3: already existing service and version, but version is 1 and still a draft
+    (!isNewService &&
+      hasVersion &&
+      fetchedData!.activeDescriptor!.version === '1' &&
+      fetchedData!.activeDescriptor!.status === 'draft')
 
   return (
     <React.Fragment>
@@ -128,7 +158,7 @@ function EServiceWriteStep1GeneralComponent({
             label="Nome del servizio*"
             value={eserviceData.name || ''}
             onChange={wrapSetEServiceData('name')}
-            readOnly={readOnlyVersion}
+            readOnly={!isEditable}
           />
 
           <StyledInputTextArea
@@ -136,7 +166,7 @@ function EServiceWriteStep1GeneralComponent({
             label="Descrizione del servizio*"
             value={eserviceData.description || ''}
             onChange={wrapSetEServiceData('description')}
-            readOnly={readOnlyVersion}
+            readOnly={!isEditable}
             placeholder={undefined}
           />
 
@@ -149,7 +179,7 @@ function EServiceWriteStep1GeneralComponent({
             ]}
             currentValue={eserviceData.technology}
             onChange={wrapSetEServiceData('technology', 'radio')}
-            readOnly={readOnlyVersion}
+            readOnly={!isEditable}
           />
 
           <StyledInputCheckbox
@@ -158,7 +188,7 @@ function EServiceWriteStep1GeneralComponent({
             label="Proof of Possession*"
             checked={!!eserviceData.pop}
             onChange={wrapSetEServiceData('pop', 'checkbox')}
-            readOnly={readOnlyVersion}
+            readOnly={!isEditable}
           />
         </WhiteBackground>
         <WhiteBackground>

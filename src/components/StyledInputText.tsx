@@ -2,7 +2,7 @@ import React from 'react'
 import { Form } from 'react-bootstrap'
 import { StyledInputLabel } from './StyledInputLabel'
 
-export type StyledInputTextType = 'text' | 'email'
+export type StyledInputTextType = 'text' | 'email' | 'number'
 
 type StyledInputTextProps = {
   type?: StyledInputTextType
@@ -10,7 +10,7 @@ type StyledInputTextProps = {
   label: string
   placeholder?: string
   readOnly?: boolean
-  value?: string
+  value?: string | number
   onChange?: any
 }
 

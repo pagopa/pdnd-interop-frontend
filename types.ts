@@ -118,6 +118,12 @@ export type EServiceStatusLabel = Record<EServiceStatus, string>
 export type EServiceDocumentKind = 'interface' | 'document'
 export type EServiceTechnologyType = 'REST' | 'SOAP'
 
+// Making this as explicit as possible. It might be that there is an eserviceId,
+// but not a descriptorId. This happens when I've just created a new service,
+// but not yet created a descriptor for it. This leads to 'prima-bozza' being used
+// in the page URL to identify this peculiar case
+export type EServiceNoDescriptorId = 'prima-bozza'
+
 // Write only
 export type EServiceWriteType = {
   id: string
@@ -145,15 +151,6 @@ export type EServiceCreateTextFieldDataType = {
   name: string
   audience: string
 }
-
-export type EServiceCreateDataKeysType =
-  | 'producerId'
-  | 'name'
-  | 'audience'
-  | 'description'
-  | 'technology'
-  | 'voucherLifespan'
-  | 'pop'
 
 export type EServiceCreateDataType = {
   producerId: string
@@ -190,6 +187,7 @@ export type EServiceReadType = {
   id: string
   status: EServiceStatus
   descriptors: EServiceDescriptorRead[]
+  activeDescriptor?: EServiceDescriptorRead // TEMP Refactor : this is added by the client
 }
 
 export type EServiceDescriptorRead = {

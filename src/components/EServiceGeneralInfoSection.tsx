@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  EServiceCreateDataKeysType,
-  EServiceCreateDataType,
-  EServiceCreateTextFieldDataType,
-} from '../../types'
+import { EServiceCreateDataType, EServiceCreateTextFieldDataType } from '../../types'
 import { StyledInputCheckbox } from './StyledInputCheckbox'
 import { StyledInputRadioGroup } from './StyledInputRadioGroup'
 import { StyledInputText } from './StyledInputText'
@@ -13,7 +9,7 @@ import { WhiteBackground } from './WhiteBackground'
 
 type EServiceGeneralInfoSectionProps = {
   eserviceData: EServiceCreateDataType
-  setEServiceData: (fieldName: EServiceCreateDataKeysType, fieldType?: string) => (e: any) => void
+  setEServiceData: (fieldName: keyof EServiceCreateDataType, fieldType?: string) => (e: any) => void
   version: string
 }
 
@@ -57,7 +53,7 @@ export function EServiceGeneralInfoSection({
             label={label}
             readOnly={readOnly}
             value={value}
-            onChange={setEServiceData(id as EServiceCreateDataKeysType, type)}
+            onChange={setEServiceData(id as keyof EServiceCreateDataType, type)}
           />
         )
       })}

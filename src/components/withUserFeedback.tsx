@@ -135,16 +135,17 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
       const { outcome, toastContent, response } = await makeRequestAndGetOutcome(request)
 
       // Here, we are making a big assumption: callback kills the current view,
-      // so no state can be set after it, just like in runActionWithDestination
+      // so no state can be set after it, just like in runActionWithDestination.
+      // All state changes are in the "else" clause
       if (outcome === 'success') {
         callback(response as AxiosResponse)
-      }
+      } else {
+        // Hide loader
+        setLoadingText(undefined)
 
-      // Hide loader
-      setLoadingText(undefined)
-
-      if (!suppressToast) {
-        showToast(toastContent)
+        if (!suppressToast) {
+          showToast(toastContent)
+        }
       }
     }
 
