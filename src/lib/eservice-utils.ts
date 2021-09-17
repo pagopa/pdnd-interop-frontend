@@ -3,9 +3,7 @@ import {
   EServiceDocumentRead,
   EServiceDocumentWrite,
   EServiceReadType,
-  RequestConfig,
 } from '../../types'
-import isEmpty from 'lodash/isEmpty'
 
 export function remapBackendDocumentsToFrontend(
   interfaceDoc: EServiceDocumentRead | undefined,
@@ -35,45 +33,6 @@ export function remapBackendDocumentsToFrontend(
   }
 
   return documents
-}
-
-export function remapFrontendDocumentsToRequestConfig(
-  documents: { [key: string]: EServiceDocumentWrite },
-  eserviceId: string,
-  descriptorId: string
-): RequestConfig[] {
-  const requests = Object.values(documents)
-    // Remove broken entries, just in case...
-    // WARNING: do not check for isEmpty(document.doc) because it's always true
-    // See: https://stackoverflow.com/a/60689575
-    // Check for typeof document.doc !== 'undefined' instead
-    .filter(
-      (document) =>
-        !isEmpty(document) && typeof document.doc !== 'undefined' && document.doc.size > 0
-    )
-    // Map them to requests
-    .map<RequestConfig>((document) => {
-      // Append the file as form data since it's a multipart request
-      const formData = new FormData()
-      formData.append('kind', document.kind)
-      formData.append('description', document.description)
-      formData.append('doc', document.doc)
-
-      // Return the request config object
-      return {
-        path: {
-          endpoint: 'ESERVICE_VERSION_POST_DOCUMENT',
-          endpointParams: { eserviceId, descriptorId },
-        },
-        config: {
-          method: 'POST',
-          headers: { 'Content-Type': 'multipart/form-data' },
-          data: formData,
-        },
-      }
-    })
-
-  return requests
 }
 
 export function remapBackendEServiceDataToFrontend(data: EServiceReadType): EServiceCreateDataType {
