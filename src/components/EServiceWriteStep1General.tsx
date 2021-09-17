@@ -16,7 +16,7 @@ import {
 } from '../lib/attributes'
 import { ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import { EServiceWriteStepperProps } from '../views/EServiceWrite'
+import { EServiceWriteProps } from '../views/EServiceWrite'
 import { EServiceAttributeSection } from './EServiceAttributeSection'
 import { StyledInputCheckbox } from './StyledInputCheckbox'
 import { StyledInputRadioGroup } from './StyledInputRadioGroup'
@@ -32,7 +32,7 @@ function EServiceWriteStep1GeneralComponent({
   runActionWithCallback,
   forward,
   fetchedData,
-}: StepperStepComponentProps & UserFeedbackHOCProps & EServiceWriteStepperProps) {
+}: StepperStepComponentProps & UserFeedbackHOCProps & EServiceWriteProps) {
   const { party } = useContext(PartyContext)
   const history = useHistory()
 

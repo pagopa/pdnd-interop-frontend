@@ -14,11 +14,6 @@ export type EServiceWriteProps = {
   fetchedData: EServiceReadType | undefined
 }
 
-// Represents when a new service is created, and there was no draft before
-// In this case, we have no "data" coming as a prop, but still we have an
-// eserviceId  to POST data to
-export type EServiceWriteStepperProps = EServiceWriteProps & {}
-
 export function EServiceWrite({ fetchedData }: EServiceWriteProps) {
   const [activeStep, setActiveStep] = useState(0)
   const history = useHistory()

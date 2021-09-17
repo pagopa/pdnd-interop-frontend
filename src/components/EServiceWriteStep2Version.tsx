@@ -5,7 +5,7 @@ import { Button, Form } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 import { ApiEndpointKey, StepperStepComponentProps } from '../../types'
 import { ROUTES } from '../lib/constants'
-import { EServiceWriteStepperProps } from '../views/EServiceWrite'
+import { EServiceWriteProps } from '../views/EServiceWrite'
 import { StyledInputText } from './StyledInputText'
 import { StyledInputTextArea } from './StyledInputTextArea'
 import { StyledIntro } from './StyledIntro'
@@ -26,7 +26,7 @@ function EServiceWriteStep2VersionComponent({
   forward,
   back,
   fetchedData,
-}: StepperStepComponentProps & UserFeedbackHOCProps & EServiceWriteStepperProps) {
+}: StepperStepComponentProps & UserFeedbackHOCProps & EServiceWriteProps) {
   const [versionData, setVersionData] = useState<Partial<VersionData>>({})
   const history = useHistory()
 
