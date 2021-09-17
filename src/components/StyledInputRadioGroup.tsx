@@ -16,6 +16,7 @@ type StyledInputRadioGroupProps = {
   currentValue?: string
   onChange?: any
   readOnly?: boolean
+  className?: string
 }
 
 export function StyledInputRadioGroup({
@@ -25,9 +26,10 @@ export function StyledInputRadioGroup({
   currentValue,
   onChange,
   readOnly = false,
+  className = 'mt-4 mb-3',
 }: StyledInputRadioGroupProps) {
   return (
-    <div className="mb-3">
+    <div className={className}>
       <StyledInputLabel label={groupLabel} isHTMLLabelElement={false} />
       {options.map((option, i) => {
         return (

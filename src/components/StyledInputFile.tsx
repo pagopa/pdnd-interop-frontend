@@ -1,10 +1,22 @@
 import React from 'react'
 
-type StyledInputFileProps = { id: string; onChange: any; value?: any; label: string }
+type StyledInputFileProps = {
+  id: string
+  onChange: any
+  value?: any
+  label: string
+  className?: string
+}
 
-export function StyledInputFile({ id, onChange, value, label }: StyledInputFileProps) {
+export function StyledInputFile({
+  id,
+  onChange,
+  value,
+  label,
+  className = 'mt-4 mb-3',
+}: StyledInputFileProps) {
   return (
-    <div className="mb-3 d-flex align-items-center">
+    <div className={`${className} d-flex align-items-center`}>
       <div className="me-3 flex-shrink-0 position-relative">
         <input className="position-absolute w-100 h-100" type="file" id={id} onChange={onChange} />
         <label

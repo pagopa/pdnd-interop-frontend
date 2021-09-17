@@ -9,6 +9,7 @@ type StyledInputTextAreaProps = {
   label?: string
   placeholder?: string
   onChange?: any
+  className?: string
 }
 
 export function StyledInputTextArea({
@@ -19,9 +20,10 @@ export function StyledInputTextArea({
   label,
   placeholder = 'Lorem ipsum',
   onChange,
+  className = 'mt-4 mb-3',
 }: StyledInputTextAreaProps) {
   return (
-    <div className="mb-3">
+    <div className={className}>
       {label && <StyledInputLabel label={label} />}
       <Form.Control
         id={id}

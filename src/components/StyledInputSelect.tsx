@@ -13,6 +13,7 @@ type StyledInputSelectProps = {
   label: string
   options: Option[]
   disabled?: boolean
+  className?: string
 }
 
 export function StyledInputSelect({
@@ -21,9 +22,10 @@ export function StyledInputSelect({
   options,
   label,
   disabled = false,
+  className = 'mt-4 mb-3',
 }: StyledInputSelectProps) {
   return (
-    <Form.Group className="mb-3" controlId={id}>
+    <Form.Group className={className} controlId={id}>
       <StyledInputLabel label={label} />
       <Form.Select onChange={onChange} disabled={disabled}>
         {options.map((option, i) => (

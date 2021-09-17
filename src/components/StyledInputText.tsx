@@ -12,6 +12,7 @@ type StyledInputTextProps = {
   readOnly?: boolean
   value?: string | number
   onChange?: any
+  className?: string
 }
 
 export function StyledInputText({
@@ -22,9 +23,10 @@ export function StyledInputText({
   readOnly = false,
   value,
   onChange,
+  className = 'mt-4 mb-3',
 }: StyledInputTextProps) {
   return (
-    <div className="mb-3">
+    <div className={className}>
       <StyledInputLabel label={label} id={id} />
       <Form.Control
         id={id}

@@ -8,7 +8,7 @@ type StyledInputLabelProps = {
 }
 
 export function StyledInputLabel({ label, id, isHTMLLabelElement = true }: StyledInputLabelProps) {
-  const styleClasses = 'd-block text-dark fw-bold fs-6 mt-4 mb-2'
+  const styleClasses = 'd-block text-dark fw-bold fs-6 mb-2'
 
   if (!isHTMLLabelElement) {
     return <span className={styleClasses}>{label}</span>

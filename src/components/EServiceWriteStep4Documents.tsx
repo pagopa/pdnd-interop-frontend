@@ -39,16 +39,29 @@ function EServiceWriteStep4DocumentsComponent({
         <div className="mb-3 px-3 py-3 rounded" style={{ backgroundColor: '#dedede' }}>
           <StyledInputFileUploader
             id="interface-doc"
-            label="seleziona file OpenAPI/WSDL"
+            label="seleziona"
             value={interfaceDoc?.doc}
             onChange={noop}
           />
           <StyledInputText
+            className="mt-3 mb-3"
             id="interface-description"
             label="Descrizione"
             value={interfaceDoc?.description || ''}
             onChange={noop}
           />
+          <div className="d-flex justify-content-end">
+            <Button className="me-3" variant="primary" onClick={noop}>
+              <i
+                className="fs-5 bi bi-upload me-2 position-relative"
+                style={{ transform: 'translateY(0.1rem)' }}
+              />{' '}
+              carica
+            </Button>
+            <Button variant="outline-primary" onClick={noop}>
+              elimina
+            </Button>
+          </div>
         </div>
       </WhiteBackground>
 
@@ -72,7 +85,7 @@ function EServiceWriteStep4DocumentsComponent({
               >
                 <StyledInputFileUploader
                   id={`${id}-doc`}
-                  label="seleziona documento da caricare"
+                  label="seleziona documento"
                   value={singleDocument.doc}
                   onChange={noop}
                 />
@@ -97,7 +110,7 @@ function EServiceWriteStep4DocumentsComponent({
       </WhiteBackground>
 
       <WhiteBackground>
-        <div className="mt-5 d-flex">
+        <div className="d-flex">
           <Button
             className="me-3"
             variant="primary"
@@ -106,9 +119,14 @@ function EServiceWriteStep4DocumentsComponent({
           >
             salva bozza e torna ai servizi
           </Button>
-          <Button variant="outline-primary" onClick={back}>
+          <Button className="me-3" variant="outline-primary" onClick={back}>
             indietro
           </Button>
+        </div>
+      </WhiteBackground>
+
+      <WhiteBackground>
+        <div className="d-flex">
           <Button className="me-3" variant="primary" onClick={publishVersion}>
             pubblica bozza
           </Button>
