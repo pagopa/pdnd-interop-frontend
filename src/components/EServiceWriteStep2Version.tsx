@@ -136,11 +136,11 @@ function EServiceWriteStep2VersionComponent({
             onChange={wrapSetVersionData('description')}
           />
 
-          <div className="d-flex">
+          <div className="mt-5 d-flex">
             <Button className="me-3" variant="primary" type="submit">
               salva bozza e prosegui
             </Button>
-            <Button variant="primary-outline" onClick={back}>
+            <Button variant="outline-primary" onClick={back}>
               indietro
             </Button>
           </div>

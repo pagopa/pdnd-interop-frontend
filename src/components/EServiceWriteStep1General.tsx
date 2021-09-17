@@ -2,7 +2,7 @@ import { AxiosResponse, Method } from 'axios'
 import { isEmpty } from 'lodash'
 import React, { useContext, useEffect, useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import {
   ApiEndpointKey,
   EServiceCreateDataType,
@@ -190,11 +190,19 @@ function EServiceWriteStep1GeneralComponent({
         <WhiteBackground>
           <StyledIntro priority={2}>{{ title: 'Attributi' }}</StyledIntro>
           <EServiceAttributeSection attributes={attributes} setAttributes={setAttributes} />
-        </WhiteBackground>
-        <WhiteBackground>
-          <Button type="submit" variant="primary" disabled={!eserviceData.name}>
-            salva bozza e prosegui
-          </Button>
+
+          <div className="mt-5 d-flex">
+            <Button className="me-3" type="submit" variant="primary" disabled={!eserviceData.name}>
+              salva bozza e prosegui
+            </Button>
+            <Button
+              variant="outline-primary"
+              as={Link}
+              to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}
+            >
+              torna agli e-service
+            </Button>
+          </div>
         </WhiteBackground>
       </Form>
     </React.Fragment>
