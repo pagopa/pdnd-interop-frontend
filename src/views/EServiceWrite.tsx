@@ -11,10 +11,14 @@ import { WhiteBackground } from '../components/WhiteBackground'
 import { useHistory } from 'react-router-dom'
 
 export type EServiceWriteProps = {
-  fetchedData: EServiceReadType | undefined
+  fetchedDataMaybe: EServiceReadType | undefined
 }
 
-export function EServiceWrite({ fetchedData }: EServiceWriteProps) {
+export type EServiceWriteStepProps = {
+  fetchedData: EServiceReadType
+}
+
+export function EServiceWrite({ fetchedDataMaybe }: EServiceWriteProps) {
   const [activeStep, setActiveStep] = useState(0)
   const history = useHistory()
 
@@ -43,24 +47,25 @@ export function EServiceWrite({ fetchedData }: EServiceWriteProps) {
     setActiveStep(step)
   }
 
-  const props = { forward, back, fetchedData }
+  const props = { forward, back }
+  const fetchedData = fetchedDataMaybe as EServiceReadType
 
   const steps: StepperStep[] = [
     {
       label: 'Generale',
-      Component: () => EServiceWriteStep1General(props),
+      Component: () => EServiceWriteStep1General({ ...props, fetchedDataMaybe }),
     },
     {
       label: 'Versione',
-      Component: () => EServiceWriteStep2Version(props),
+      Component: () => EServiceWriteStep2Version({ ...props, fetchedData }),
     },
     {
       label: 'Accordo',
-      Component: () => EServiceWriteStep3Agreement(props),
+      Component: () => EServiceWriteStep3Agreement({ ...props, fetchedData }),
     },
     {
       label: 'Documentazione',
-      Component: () => EServiceWriteStep4Documents(props),
+      Component: () => EServiceWriteStep4Documents({ ...props, fetchedData }),
     },
   ]
 

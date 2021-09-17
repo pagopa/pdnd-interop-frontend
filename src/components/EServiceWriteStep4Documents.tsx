@@ -1,14 +1,14 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 import { StepperStepComponentProps } from '../../types'
-import { EServiceWriteProps } from '../views/EServiceWrite'
+import { EServiceWriteStepProps } from '../views/EServiceWrite'
 import { WhiteBackground } from './WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from './withUserFeedback'
 
 function EServiceWriteStep4DocumentsComponent({
   forward,
   back,
-}: StepperStepComponentProps & UserFeedbackHOCProps & EServiceWriteProps) {
+}: StepperStepComponentProps & UserFeedbackHOCProps & EServiceWriteStepProps) {
   return (
     <React.Fragment>
       <WhiteBackground>content</WhiteBackground>

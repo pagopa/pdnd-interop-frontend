@@ -157,11 +157,11 @@ function EServiceListComponent({
 
     // If status === 'draft', show precompiled write template. Else, readonly template
     const inspectAction = {
-      to: `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${eserviceId}/${
-        descriptorId || 'prima-bozza'
-      }`,
+      // to: `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${eserviceId}/${
+      //   descriptorId || 'prima-bozza'
+      // }`,
       // TEMP Just for testing
-      // to: `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${eserviceId}/prima-bozza`,
+      to: `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${eserviceId}/prima-bozza`,
       icon: status === 'draft' ? 'bi-pencil' : 'bi-info-circle',
       label: status === 'draft' ? 'Modifica' : 'Ispeziona',
     }

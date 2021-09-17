@@ -1,11 +1,11 @@
 import { AxiosResponse, Method } from 'axios'
 import { isEmpty } from 'lodash'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 import { ApiEndpointKey, StepperStepComponentProps } from '../../types'
 import { ROUTES } from '../lib/constants'
-import { EServiceWriteProps } from '../views/EServiceWrite'
+import { EServiceWriteStepProps } from '../views/EServiceWrite'
 import { StyledInputText } from './StyledInputText'
 import { StyledInputTextArea } from './StyledInputTextArea'
 import { StyledIntro } from './StyledIntro'
@@ -26,16 +26,16 @@ function EServiceWriteStep2VersionComponent({
   forward,
   back,
   fetchedData,
-}: StepperStepComponentProps & UserFeedbackHOCProps & EServiceWriteProps) {
+}: StepperStepComponentProps & UserFeedbackHOCProps & EServiceWriteStepProps) {
   const [versionData, setVersionData] = useState<Partial<VersionData>>({})
   const history = useHistory()
 
+  // Determine the current version of the service
   const getVersion = () => {
-    return !isEmpty(fetchedData) && !isEmpty(fetchedData!.activeDescriptor)
-      ? fetchedData!.activeDescriptor!.version
-      : '1'
+    return !isEmpty(fetchedData.activeDescriptor) ? fetchedData.activeDescriptor!.version : '1'
   }
 
+  // Check for empty strings in input text field
   const isEmptyTextField = (fieldType: FieldType, valueToTest: any) => {
     const failConditions = { text: valueToTest === '', textArray: valueToTest[0] === '' }
     return failConditions[fieldType]
@@ -47,51 +47,57 @@ function EServiceWriteStep2VersionComponent({
       const { value } = e.target
       const fieldValueMaybe = { text: value, textArray: [value] }[fieldType]
 
+      // Check for false positives (e.g. empty strings in input types), and set them explicitly to undefined
       const fieldValue = !isEmptyTextField(fieldType, fieldValueMaybe) ? fieldValueMaybe : undefined
 
       setVersionData({ ...versionData, [fieldName]: fieldValue })
     }
 
-  useEffect(() => {
-    console.log(versionData)
-  }, [versionData])
-
   const submit = async (e: any) => {
     e.preventDefault()
 
+    // Format the data like the backend wants it
     const dataToPost = { ...versionData, version: getVersion() }
 
-    // Call POST
+    // Define which endpoint to call
     let endpoint: ApiEndpointKey = 'ESERVICE_VERSION_CREATE'
     let method: Method = 'POST'
-    const isNewDescriptor = !isEmpty(fetchedData) && !isEmpty(fetchedData!.activeDescriptor)
-    if (isNewDescriptor) {
+    const endpointParams: any = { eserviceId: fetchedData.id }
+    const isNewDescriptor = isEmpty(fetchedData.activeDescriptor)
+    if (!isNewDescriptor) {
       // TEMP PIN-385 (missing the PUT request)
       // endpoint = 'ESERVICE_VERSION_UPDATE'
       // method = 'PUT'
+      endpointParams.descriptorId = fetchedData.activeDescriptor!.id
     }
 
-    // Run the action, and
     await runActionWithCallback(
-      { path: { endpoint }, config: { method, data: dataToPost } },
+      {
+        path: { endpoint, endpointParams },
+        config: { method, data: dataToPost },
+      },
       { callback: wrapOnSubmitSuccess(isNewDescriptor), suppressToast: false }
     )
   }
 
-  const wrapOnSubmitSuccess =
-    (isNewDescriptor: boolean) => (eserviceVersionCreateResponse: AxiosResponse) => {
-      if (isNewDescriptor) {
-        const descriptorId = eserviceVersionCreateResponse.data.id
+  const wrapOnSubmitSuccess = (isNewDescriptor: boolean) => (response: AxiosResponse) => {
+    if (isNewDescriptor) {
+      // const descriptorId = response.data.id
+      // TEMP, just for testing
+      const descriptorId = fetchedData.descriptors[0].id
 
-        history.replace(
-          `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${fetchedData!.id}/${descriptorId}`,
-          { stepIndexDestination: 2 }
-        )
-      } else {
-        // Go to the next step
-        forward()
-      }
+      // Replace the create route with the acutal descriptorId, now that we have it.
+      // WARNING: this will cause a re-render that will fetch fresh data
+      // at the EServiceGate component level
+      history.replace(
+        `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${fetchedData.id}/${descriptorId}`,
+        { stepIndexDestination: 2 }
+      )
+    } else {
+      // Go to next step
+      forward()
     }
+  }
 
   return (
     <React.Fragment>

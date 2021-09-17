@@ -31,7 +31,7 @@ type FieldType = 'text' | 'radio' | 'checkbox'
 function EServiceWriteStep1GeneralComponent({
   runActionWithCallback,
   forward,
-  fetchedData,
+  fetchedDataMaybe,
 }: StepperStepComponentProps & UserFeedbackHOCProps & EServiceWriteProps) {
   const { party } = useContext(PartyContext)
   const history = useHistory()
@@ -53,8 +53,8 @@ function EServiceWriteStep1GeneralComponent({
 
   // Pre-fill if there is already a draft of the service available
   useEffect(() => {
-    if (!isEmpty(fetchedData)) {
-      const { technology, name, description, attributes: backendAttributes } = fetchedData!
+    if (!isEmpty(fetchedDataMaybe)) {
+      const { technology, name, description, attributes: backendAttributes } = fetchedDataMaybe!
       setEserviceData({ technology, name, description })
       setAttributes(remapBackendAttributesToFrontend(backendAttributes))
     }
@@ -70,9 +70,7 @@ function EServiceWriteStep1GeneralComponent({
       const { value, checked, id } = e.target
       const fieldValueMaybe = { text: value, checkbox: checked, radio: id }[fieldType]
 
-      // If the field contains a falsy value, like empty string, set it explicitly to undefined
-      // This is to avoid passing misleading data to the backend
-      // (e.g. a service name set to an empty string passes the "service name exixts" check)
+      // Check for false positives (e.g. empty strings in input types), and set them explicitly to undefined
       const fieldValue = !isEmptyTextField(fieldType, fieldValueMaybe) ? fieldValueMaybe : undefined
 
       setEserviceData({ ...eserviceData, [fieldName]: fieldValue })
@@ -91,42 +89,40 @@ function EServiceWriteStep1GeneralComponent({
     // Define which endpoint to call
     let endpoint: ApiEndpointKey = 'ESERVICE_CREATE'
     let method: Method = 'POST'
-    const isNewService = isEmpty(fetchedData)
+    const isNewService = isEmpty(fetchedDataMaybe)
     if (isNewService) {
       // TEMP PIN-385 (missing the PUT request)
       // endpoint = 'ESERVICE_UPDATE'
       // method = 'PUT'
     }
 
-    // Run the action, and
     await runActionWithCallback(
       { path: { endpoint }, config: { method, data: dataToPost } },
       { callback: wrapOnSubmitSuccess(isNewService), suppressToast: false }
     )
   }
 
-  const wrapOnSubmitSuccess =
-    (isNewService: boolean) => (eserviceCreateResponse: AxiosResponse) => {
-      const eserviceId = eserviceCreateResponse.data.id
+  const wrapOnSubmitSuccess = (isNewService: boolean) => (response: AxiosResponse) => {
+    const eserviceId = response.data.id
 
-      if (isNewService) {
-        const tempDescriptorId: EServiceNoDescriptorId = 'prima-bozza'
+    if (isNewService) {
+      const tempDescriptorId: EServiceNoDescriptorId = 'prima-bozza'
 
-        // Replace the create route with the acutal id, now that we have it.
-        // WARNING: this will cause a re-render that will fetch fresh data
-        // at the EServiceGate component level
-        history.replace(
-          `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${eserviceId}/${tempDescriptorId}`,
-          { stepIndexDestination: 1 }
-        )
-      } else {
-        // Go to next step
-        forward()
-      }
+      // Replace the create route with the acutal eserviceId, now that we have it.
+      // WARNING: this will cause a re-render that will fetch fresh data
+      // at the EServiceGate component level
+      history.replace(
+        `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${eserviceId}/${tempDescriptorId}`,
+        { stepIndexDestination: 1 }
+      )
+    } else {
+      // Go to next step
+      forward()
     }
+  }
 
-  const isNewService = isEmpty(fetchedData)
-  const hasVersion = !isEmpty(fetchedData?.activeDescriptor)
+  const isNewService = isEmpty(fetchedDataMaybe)
+  const hasVersion = !isEmpty(fetchedDataMaybe?.activeDescriptor)
   const isEditable =
     // case 1: new service
     isNewService ||
@@ -135,8 +131,8 @@ function EServiceWriteStep1GeneralComponent({
     // case 3: already existing service and version, but version is 1 and still a draft
     (!isNewService &&
       hasVersion &&
-      fetchedData!.activeDescriptor!.version === '1' &&
-      fetchedData!.activeDescriptor!.status === 'draft')
+      fetchedDataMaybe!.activeDescriptor!.version === '1' &&
+      fetchedDataMaybe!.activeDescriptor!.status === 'draft')
 
   return (
     <React.Fragment>

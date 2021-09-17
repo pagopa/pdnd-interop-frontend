@@ -38,7 +38,7 @@ export function EServiceGate() {
 
   return (
     <React.Fragment>
-      {isEditable ? <EServiceWrite fetchedData={data} /> : <EServiceRead data={data} />}
+      {isEditable ? <EServiceWrite fetchedDataMaybe={data} /> : <EServiceRead data={data} />}
       {loading && <LoadingOverlay loadingText="Stiamo caricando il tuo e-service" />}
     </React.Fragment>
   )
