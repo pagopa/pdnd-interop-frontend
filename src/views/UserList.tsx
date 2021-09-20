@@ -51,8 +51,6 @@ function UserListComponent({
     { defaultValue: [], useEffectDeps: [forceRerenderCounter] }
   )
 
-  console.log('clientId', clientId)
-
   /*
    * List of possible actions for the user to perform
    */

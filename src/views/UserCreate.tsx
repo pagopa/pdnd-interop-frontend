@@ -12,6 +12,7 @@ import { withAdminAuth } from '../components/withAdminAuth'
 import { useMode } from '../hooks/useMode'
 import { useLocation } from 'react-router-dom'
 import { parseSearch } from '../lib/url-utils'
+import { ProviderOrSubscriber } from '../../types'
 
 function UserCreateComponent({ runAction }: UserFeedbackHOCProps) {
   const location = useLocation()
@@ -44,15 +45,22 @@ function UserCreateComponent({ runAction }: UserFeedbackHOCProps) {
     )
   }
 
+  const INTRO: { [key in ProviderOrSubscriber]: { title: string; description?: string } } = {
+    provider: {
+      title: 'Crea nuovo operatore API',
+      description:
+        "La figura dell'operatore API potrà gestire i tuoi servizi, crearne di nuovi, sospenderli e riattivarli, gestire le versioni. L'attivazione degli accordi di interoperabilità invece rimarrà esclusivamente sotto il controllo dell'Amministratore e dei suoi Delegati. Al nuovo utente verrà inviata una notifica all'indirizzo email indicato in questa form",
+    },
+    subscriber: {
+      title: 'Crea nuovo operatore di sicurezza',
+      description:
+        "La figura dell'operatore di sicurezza potrà caricare una chiave pubblica per il client al quale è stato assegnato, ed eventualmente sospenderla o aggiornarla. Al nuovo utente verrà inviata una notifica all'indirizzo email indicato in questa form",
+    },
+  }
+
   return (
     <WhiteBackground>
-      <StyledIntro>
-        {{
-          title: `Crea nuovo operatore API`,
-          description:
-            "La figura dell'operatore API potrà gestire i tuoi servizi, crearne di nuovi, sospenderli e riattivarli, gestire le versioni. L'attivazione degli accordi di interoperabilità invece rimarrà esclusivamente sotto il controllo dell'Amministratore e dei suoi Delegati",
-        }}
-      </StyledIntro>
+      <StyledIntro>{INTRO[mode!]}</StyledIntro>
 
       <Form onSubmit={handleSubmit} style={{ maxWidth: 768 }}>
         <PlatformUserForm
