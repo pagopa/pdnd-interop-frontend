@@ -10,8 +10,11 @@ import { PartyContext } from '../lib/context'
 import compose from 'lodash/fp/compose'
 import { withAdminAuth } from '../components/withAdminAuth'
 import { useMode } from '../hooks/useMode'
+import { useLocation } from 'react-router-dom'
+import { parseSearch } from '../lib/url-utils'
 
 function UserCreateComponent({ runAction }: UserFeedbackHOCProps) {
+  const location = useLocation()
   const mode = useMode()
   const { party } = useContext(PartyContext)
   const [people, setPeople] = useState<UsersObject>({})
@@ -20,7 +23,10 @@ function UserCreateComponent({ runAction }: UserFeedbackHOCProps) {
     // Avoid page reload
     e.preventDefault()
 
+    const { clientId } = parseSearch(location.search)
+
     const endpoint = mode === 'provider' ? 'OPERATOR_API_CREATE' : 'OPERATOR_SECURITY_CREATE'
+    const endpointParams = mode === 'provider' ? {} : { clientId }
     const destRoute =
       mode === 'provider'
         ? ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_LIST
@@ -28,7 +34,7 @@ function UserCreateComponent({ runAction }: UserFeedbackHOCProps) {
 
     await runAction(
       {
-        path: { endpoint },
+        path: { endpoint, endpointParams },
         config: {
           method: 'POST',
           data: { users: [people['operator']], institutionId: party!.institutionId },

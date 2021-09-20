@@ -333,15 +333,15 @@ export const API = {
   OPERATOR_SECURITY_GET_LIST: {
     URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators',
     LOCAL: 'get-user-list.json',
-    SHOULD_CALL: false,
+    SHOULD_CALL: true,
   },
   OPERATOR_SECURITY_GET_SINGLE: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators',
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators/{{operatorId}}',
     LOCAL: 'get-user-single.json', // TEMP PIN-438
-    SHOULD_CALL: false,
+    SHOULD_CALL: true,
   },
   OPERATOR_SECURITY_CREATE: {
-    URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/operators/{{operatorId}}',
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators',
     LOCAL: '',
     SHOULD_CALL: true,
   },

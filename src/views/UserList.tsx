@@ -28,22 +28,30 @@ import { TempFilters } from '../components/TempFilters'
 import { isAdmin } from '../lib/auth-utils'
 import { UserContext } from '../lib/context'
 
+type UserListSecurityOperatorsProps = {
+  clientId?: string
+}
+
 function UserListComponent({
   runFakeAction,
   wrapActionInDialog,
   forceRerenderCounter,
-}: UserFeedbackHOCProps) {
+  clientId,
+}: UserFeedbackHOCProps & UserListSecurityOperatorsProps) {
   const mode = useMode()
   const { user } = useContext(UserContext)
   const endpoint = mode === 'provider' ? 'OPERATOR_API_GET_LIST' : 'OPERATOR_SECURITY_GET_LIST'
+  const endpointParams = mode === 'provider' ? {} : { clientId }
 
   const { data, loading, error } = useAsyncFetch<User[]>(
     {
-      path: { endpoint },
+      path: { endpoint, endpointParams },
       config: { method: 'GET' }, // TEMP PIN-219: users must be filtered by clientId or instutitionId
     },
     { defaultValue: [], useEffectDeps: [forceRerenderCounter] }
   )
+
+  console.log('clientId', clientId)
 
   /*
    * List of possible actions for the user to perform
@@ -143,7 +151,13 @@ function UserListComponent({
 
       <div className="mt-4">
         {isAdmin(user) && (
-          <Button variant="primary" as={Link} to={CREATE_ACTIONS[mode!].PATH}>
+          <Button
+            variant="primary"
+            as={Link}
+            to={`${CREATE_ACTIONS[mode!].PATH}${
+              mode === 'subscriber' ? `?clientId=${clientId}` : ''
+            }`}
+          >
             {CREATE_ACTIONS[mode!].LABEL}
           </Button>
         )}

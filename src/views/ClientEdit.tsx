@@ -192,7 +192,7 @@ function ClientEditComponent({
         </WhiteBackground>
       )}
 
-      <UserList />
+      {data.id && <UserList clientId={data.id} />}
 
       {loading && <LoadingOverlay loadingText="Stiamo caricando il client richiesto" />}
     </React.Fragment>
