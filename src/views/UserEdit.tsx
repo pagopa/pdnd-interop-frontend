@@ -43,9 +43,26 @@ function UserEditComponent({
   const reactivate = () => {
     runFakeAction('Riattiva utente')
   }
+
+  const uploadKey = () => {
+    runFakeAction('Carica chiave pubblica')
+  }
+
+  const downloadKey = () => {
+    runFakeAction('Scarica chiave pubblica')
+  }
+
+  const suspendKey = () => {
+    runFakeAction('Sospendi chiave pubblica')
+  }
+
+  const reactivateKey = () => {
+    runFakeAction('Riattiva chiave pubblica')
+  }
   /*
    * End list of actions
    */
+  type UserActions = { [key in UserStatus]: TableActionBtn[] }
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = () => {
@@ -53,12 +70,26 @@ function UserEditComponent({
       return []
     }
 
-    const actions: { [key in UserStatus]: TableActionBtn[] } = {
-      active: [{ onClick: wrapActionInDialog(suspend), label: 'sospendi', isMock: true }],
-      suspended: [{ onClick: wrapActionInDialog(reactivate), label: 'riattiva', isMock: true }],
+    const sharedActions: UserActions = {
+      active: [{ onClick: wrapActionInDialog(suspend), label: 'Sospendi', isMock: true }],
+      suspended: [{ onClick: wrapActionInDialog(reactivate), label: 'Riattiva', isMock: true }],
     }
 
-    return actions[data.status]
+    const providerOnlyActions: UserActions = { active: [], suspended: [] }
+
+    const subscriberOnlyActions: UserActions = {
+      active: [
+        { onClick: wrapActionInDialog(uploadKey), label: 'Carica chiave', isMock: true },
+        { onClick: wrapActionInDialog(downloadKey), label: 'Scarica chiave', isMock: true },
+        { onClick: wrapActionInDialog(suspendKey), label: 'Sospendi chiave', isMock: true },
+        { onClick: wrapActionInDialog(reactivateKey), label: 'Riattiva chiave', isMock: true },
+      ],
+      suspended: [],
+    }
+
+    const actions = { provider: providerOnlyActions, subscriber: subscriberOnlyActions }[mode!]
+
+    return { ...sharedActions, ...actions[data.status] }
   }
 
   return (

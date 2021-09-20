@@ -74,6 +74,7 @@ function AgreementEditComponent({
   /*
    * End list of actions
    */
+  type AgreementActions = { [key in AgreementStatus]: TableActionBtn[] }
 
   // Build list of available actions for each agreement in its current state
   const getAvailableActions = () => {
@@ -81,27 +82,26 @@ function AgreementEditComponent({
       return []
     }
 
-    const providerActions: { [key in AgreementStatus]: TableActionBtn[] } = {
-      pending: [
-        { onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'), label: 'attiva' },
-        { onClick: wrapActionInDialog(refuse), label: 'rifiuta', isMock: true },
-      ],
-      active: [{ onClick: wrapActionInDialog(suspend, 'AGREEMENT_SUSPEND'), label: 'sospendi' }],
-      suspended: [
-        { onClick: wrapActionInDialog(reactivate), label: 'riattiva', isMock: true },
-        { onClick: wrapActionInDialog(archive), label: 'archivia', isMock: true },
-      ],
-    }
-
-    const subscriberActions: { [key in AgreementStatus]: any[] } = {
+    const sharedActions: AgreementActions = {
       active: [{ onClick: wrapActionInDialog(suspend, 'AGREEMENT_SUSPEND'), label: 'sospendi' }],
       suspended: [{ onClick: wrapActionInDialog(reactivate), label: 'riattiva', isMock: true }],
       pending: [],
     }
 
-    const actions = { provider: providerActions, subscriber: subscriberActions }[mode!]
+    const providerOnlyActions: AgreementActions = {
+      active: [],
+      pending: [
+        { onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'), label: 'attiva' },
+        { onClick: wrapActionInDialog(refuse), label: 'rifiuta', isMock: true },
+      ],
+      suspended: [{ onClick: wrapActionInDialog(archive), label: 'archivia', isMock: true }],
+    }
 
-    return actions[data.status]
+    const subscriberOnlyActions: AgreementActions = { active: [], suspended: [], pending: [] }
+
+    const actions = { provider: providerOnlyActions, subscriber: subscriberOnlyActions }[mode!]
+
+    return { ...sharedActions, ...actions[data.status] }
   }
 
   return (
