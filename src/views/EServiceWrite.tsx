@@ -9,6 +9,7 @@ import { EServiceWriteStep4Documents } from '../components/EServiceWriteStep4Doc
 import { Stepper } from '../components/Stepper'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { useHistory } from 'react-router-dom'
+import { scrollToTop } from '../lib/page-utils'
 
 export type EServiceWriteProps = {
   fetchedDataMaybe: EServiceReadType | undefined
@@ -23,7 +24,8 @@ export function EServiceWrite({ fetchedDataMaybe }: EServiceWriteProps) {
   const history = useHistory()
 
   // Handles which step to go to after a "creation" action has been performed
-  // and a history.replace action has taken place
+  // and a history.replace action has taken place and the whole EServiceGate
+  // component has rerendered and fetched fresh data
   useEffect(() => {
     const { state } = history.location
 
@@ -41,10 +43,12 @@ export function EServiceWrite({ fetchedDataMaybe }: EServiceWriteProps) {
 
   const forward = () => {
     setActiveStep(activeStep + 1)
+    scrollToTop()
   }
 
   const goToStep = (step: number) => {
     setActiveStep(step)
+    scrollToTop()
   }
 
   const props = { forward, back }

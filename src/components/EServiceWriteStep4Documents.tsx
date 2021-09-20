@@ -1,27 +1,28 @@
 import React, { useEffect, useState } from 'react'
-import noop from 'lodash/noop'
+import cryptoRandomString from 'crypto-random-string'
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { EServiceDocumentWrite, StepperStepComponentProps } from '../../types'
+import { EServiceDocumentKind, EServiceDocumentWrite, StepperStepComponentProps } from '../../types'
 import { ROUTES } from '../lib/constants'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
-import { StyledInputFileUploader } from './StyledInputFileUploader'
-import { StyledInputText } from './StyledInputText'
 import { StyledIntro } from './StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from './withUserFeedback'
-import { isEmpty } from 'lodash'
+import { StyledInputFileUploaderWithControls } from './StyledInputFileUploaderWithControls'
+
+type DecoratedEServiceDocumentWrite = EServiceDocumentWrite & { id: string }
 
 function EServiceWriteStep4DocumentsComponent({
   back,
   fetchedData,
   runAction,
 }: StepperStepComponentProps & UserFeedbackHOCProps & EServiceWriteStepProps) {
-  const [interfaceDoc, setInterfaceDoc] = useState<Partial<EServiceDocumentWrite>>()
-  const [documents, setDocuments] = useState<EServiceDocumentWrite[]>([])
+  const [documents, setDocuments] = useState<{
+    [id: string]: Partial<DecoratedEServiceDocumentWrite>
+  }>({})
 
   /*
-   * API Actions
+   * EService API operations
    */
   const publishVersion = (e: any) => {
     e.preventDefault()
@@ -32,33 +33,46 @@ function EServiceWriteStep4DocumentsComponent({
   }
 
   /*
-   * Documents operations
+   * Descriptor documents operations
    */
-  const wrapUpdateEntry =
-    (entryType: 'interfaceDoc' | 'documents', fieldKey: 'doc' | 'description') => (e: any) => {
-      const fieldValue = fieldKey === 'doc' ? e.target.files[0] : e.target.value
-      if (entryType === 'interfaceDoc') {
-        setInterfaceDoc({ ...interfaceDoc, [fieldKey]: fieldValue })
-      }
-    }
-
-  const wrapDeleteEntry = (entryType: 'interfaceDoc' | 'documents') => (e: any) => {
-    if (entryType === 'interfaceDoc') {
-      setInterfaceDoc(undefined)
-    }
+  const addDocument = () => {
+    const newId = `document-${cryptoRandomString({ length: 8 })}`
+    setDocuments({ ...documents, [newId]: {} })
   }
 
-  const wrapUploadFile = (entryType: 'interfaceDoc' | 'documents') => async (e: any) => {
+  const wrapUpdateEntry =
+    (kind: EServiceDocumentKind, documentId: string, fieldKey: 'doc' | 'description') =>
+    (e: any) => {
+      const fieldValue = fieldKey === 'doc' ? e.target.files[0] : e.target.value
+      setDocuments({
+        ...documents,
+        [documentId]: { ...documents[documentId], kind, [fieldKey]: fieldValue },
+      })
+    }
+
+  const wrapDeleteEntry = (documentId: string) => (e: any) => {
+    // Make API call to delete entry
+
+    // The delete from local state
+    const _documents = { ...documents }
+    delete _documents[documentId]
+    setDocuments(_documents)
+  }
+
+  const wrapUploadFile = (documentId: string) => async (e: any) => {
     e.preventDefault()
 
-    if (isEmpty(interfaceDoc)) {
+    const { kind, description, doc } = documents[documentId]
+
+    if (!kind || !description) {
+      // Throw error?
       return
     }
 
     const formData = new FormData()
-    formData.append('kind', 'interface')
-    formData.append('description', interfaceDoc!.description!)
-    formData.append('doc', interfaceDoc!.doc)
+    formData.append('kind', kind)
+    formData.append('description', description)
+    formData.append('doc', doc)
 
     await runAction(
       {
@@ -79,9 +93,16 @@ function EServiceWriteStep4DocumentsComponent({
     )
   }
 
+  const remapDocumentsAsArray = (): Partial<DecoratedEServiceDocumentWrite>[] =>
+    Object.keys(documents)
+      .filter((id) => documents[id].kind !== 'interface')
+      .map((id) => ({ ...documents[id], id }))
+
   useEffect(() => {
-    console.log({ interfaceDoc, documents })
-  }, [interfaceDoc, documents])
+    console.log('documents', documents)
+  }, [documents])
+
+  const documentationDocuments = remapDocumentsAsArray()
 
   return (
     <React.Fragment>
@@ -93,33 +114,15 @@ function EServiceWriteStep4DocumentsComponent({
           }}
         </StyledIntro>
 
-        <div className="mb-3 px-3 py-3 rounded" style={{ backgroundColor: '#dedede' }}>
-          <StyledInputFileUploader
-            id="interface-doc"
-            label="seleziona"
-            value={interfaceDoc?.doc}
-            onChange={wrapUpdateEntry('interfaceDoc', 'doc')}
-          />
-          <StyledInputText
-            className="mt-3 mb-3"
-            id="interface-description"
-            label="Descrizione"
-            value={interfaceDoc?.description || ''}
-            onChange={wrapUpdateEntry('interfaceDoc', 'description')}
-          />
-          <div className="d-flex justify-content-end">
-            <Button className="me-3" variant="primary" onClick={wrapUploadFile('interfaceDoc')}>
-              <i
-                className="fs-5 bi bi-upload me-2 position-relative"
-                style={{ transform: 'translateY(0.1rem)' }}
-              />{' '}
-              carica
-            </Button>
-            <Button variant="outline-primary" onClick={wrapDeleteEntry('interfaceDoc')}>
-              elimina
-            </Button>
-          </div>
-        </div>
+        <StyledInputFileUploaderWithControls
+          file={documents['interface']?.doc}
+          onChangeFile={wrapUpdateEntry('interface', 'interface', 'doc')}
+          description={documents['interface']?.description}
+          onChangeDescription={wrapUpdateEntry('interface', 'interface', 'description')}
+          requestUpload={wrapUploadFile('interface')}
+          requestDelete={wrapDeleteEntry('interface')}
+          id="interface"
+        />
       </WhiteBackground>
 
       <WhiteBackground>
@@ -131,37 +134,23 @@ function EServiceWriteStep4DocumentsComponent({
           }}
         </StyledIntro>
 
-        {documents.length > 0 &&
-          documents.map((singleDocument, i) => {
-            const id = `document-${i}`
+        {documentationDocuments.length > 0 &&
+          documentationDocuments.map(({ doc, description, id }, i) => {
             return (
-              <div
-                className="mb-3 px-3 py-3 rounded"
+              <StyledInputFileUploaderWithControls
                 key={i}
-                style={{ backgroundColor: '#dedede' }}
-              >
-                <StyledInputFileUploader
-                  id={`${id}-doc`}
-                  label="seleziona documento"
-                  value={singleDocument.doc}
-                  onChange={wrapUpdateEntry('documents', 'doc')}
-                />
-                <StyledInputText
-                  id={`${id}-description`}
-                  label="Descrizione"
-                  value={singleDocument.description || ''}
-                  onChange={wrapUpdateEntry('documents', 'description')}
-                />
-                <div className="d-flex justify-content-end">
-                  <Button variant="outline-primary" onClick={wrapDeleteEntry('documents')}>
-                    elimina documento
-                  </Button>
-                </div>
-              </div>
+                file={doc}
+                onChangeFile={wrapUpdateEntry('document', id!, 'doc')}
+                description={description}
+                onChangeDescription={wrapUpdateEntry('document', id!, 'description')}
+                requestUpload={wrapUploadFile(id!)}
+                requestDelete={wrapDeleteEntry(id!)}
+                id={id!}
+              />
             )
           })}
 
-        <Button variant="primary" onClick={noop}>
+        <Button variant="primary" onClick={addDocument}>
           aggiungi documento
         </Button>
       </WhiteBackground>

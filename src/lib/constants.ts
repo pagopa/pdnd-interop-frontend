@@ -87,7 +87,7 @@ export const ROUTES: RoutesObject = {
       },
       ESERVICE_EDIT: {
         PATH: '/erogazione/e-service/:eserviceId/:descriptorId',
-        EXACT: true,
+        EXACT: false,
         LABEL: 'Ispeziona e-service',
         COMPONENT: EServiceGate,
       },

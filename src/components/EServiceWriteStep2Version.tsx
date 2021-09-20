@@ -87,8 +87,11 @@ function EServiceWriteStep2VersionComponent({
       const descriptorId = fetchedData.descriptors[0].id
 
       // Replace the create route with the acutal descriptorId, now that we have it.
-      // WARNING: this will cause a re-render that will fetch fresh data
-      // at the EServiceGate component level
+      // WARNING: this will NOT cause a re-render that will fetch fresh data
+      // at the EServiceGate component level. This is because, to the router, this is not
+      // a change of route, we are still in the 'ESERVICE_EDIT' route.
+      // The EServiceGate component rerenders because we added "history.location"
+      // as a useEffect dependency in EServiceGate useAsyncFetch hook
       history.replace(
         `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${fetchedData.id}/${descriptorId}`,
         { stepIndexDestination: 2 }

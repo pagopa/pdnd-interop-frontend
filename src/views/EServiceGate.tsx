@@ -9,7 +9,8 @@ import { EServiceRead } from './EServiceRead'
 import { EServiceWrite } from './EServiceWrite'
 
 export function EServiceGate() {
-  const bits = getBits(useLocation())
+  const location = useLocation()
+  const bits = getBits(location)
   // EServiceNoDescriptorId disappears in the typing
   // (cannot do better than this because of #6579 – https://github.com/Microsoft/TypeScript/issues/6579)
   // but it is important to realize descriptorId might have a value that identifies a not-yet-created descriptor
@@ -29,6 +30,7 @@ export function EServiceGate() {
         const activeDescriptor = eserviceData.descriptors.find(({ id }) => id === descriptorId)
         return { ...eserviceData, activeDescriptor }
       },
+      useEffectDeps: [location],
     }
   )
 
