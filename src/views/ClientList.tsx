@@ -18,21 +18,35 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { getClientComputedStatus } from '../lib/ client-utils'
 import { isAdmin } from '../lib/auth-utils'
 import { CLIENT_COMPUTED_STATUS_LABEL, ROUTES } from '../lib/constants'
-import { UserContext } from '../lib/context'
+import { PartyContext, UserContext } from '../lib/context'
 
 function ClientListComponent({
   runFakeAction,
   wrapActionInDialog,
   forceRerenderCounter,
 }: UserFeedbackHOCProps) {
+  const { party } = useContext(PartyContext)
   const { user } = useContext(UserContext)
   const { data, loading, error } = useAsyncFetch<Client[]>(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
-      config: { method: 'GET' },
+      config: {
+        method: 'GET',
+        params: {
+          eServiceId: '8c80626c-2dec-4103-981d-ce102c633a3b', // TEMP PIN-540: hardcoded eServiceId should be deleted
+          institutionId: party?.institutionId,
+        },
+      },
     },
     { defaultValue: [], useEffectDeps: [forceRerenderCounter] }
   )
+
+  // TEMP BACKEND should send client status
+  if (data.length > 0 && !data[0].status) {
+    data.forEach((_, i) => {
+      data[i].status = 'active'
+    })
+  }
 
   /*
    * List of possible actions for the user to perform
@@ -124,8 +138,8 @@ function ClientListComponent({
           {data.map((item, i) => (
             <tr key={i}>
               <td>{item.name}</td>
-              <td>{item.eService.name}</td>
-              <td>{item.provider.description}</td>
+              <td>{item.eservice.name}</td>
+              <td>{item.eservice.provider.description}</td>
               <td>{CLIENT_COMPUTED_STATUS_LABEL[getClientComputedStatus(item)]}</td>
               <td>
                 {getAvailableActions(item).map((tableAction, j) => {

@@ -250,7 +250,8 @@ type ClientEServiceDescriptor = {
 type ClientEService = {
   id: string
   name: string
-  descriptor: ClientEServiceDescriptor
+  provider: ClientProvider
+  activeDescriptor: ClientEServiceDescriptor
 }
 
 type ClientAgreement = {
@@ -270,8 +271,7 @@ export type Client = {
   description: string
   status: ClientStatus
   agreement: ClientAgreement
-  eService: ClientEService
-  provider: ClientProvider
+  eservice: ClientEService
 }
 
 /*

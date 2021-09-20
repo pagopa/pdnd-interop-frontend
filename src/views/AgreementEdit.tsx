@@ -174,16 +174,6 @@ function AgreementEditComponent({
         </div>
       </WhiteBackground>
 
-      {mode === 'subscriber' && (
-        <WhiteBackground>
-          <StyledIntro>{{ title: 'Client associati' }}</StyledIntro>
-          <Button className="mockFeature" variant="primary">
-            associa nuovo client
-          </Button>
-          <p>lista dei client</p>
-        </WhiteBackground>
-      )}
-
       {loading && <LoadingOverlay loadingText="Stiamo caricando l'accordo richiesto" />}
     </React.Fragment>
   )

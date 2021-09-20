@@ -36,6 +36,11 @@ function ClientEditComponent({
     { defaultValue: {}, useEffectDeps: [forceRerenderCounter] }
   )
 
+  // TEMP BACKEND should send client status
+  if (!isEmpty(data) && !data.status) {
+    data.status = 'active'
+  }
+
   /*
    * List of possible actions for the user to perform
    */
@@ -116,18 +121,20 @@ function ClientEditComponent({
               <span>
                 <Link
                   className="link-default"
-                  to={`${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}/${data.eService.id}/${
+                  to={`${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}/${data.eservice.id}/${
                     data.agreement.descriptor.id
                   }`}
                 >
-                  {data.eService.name}, versione {data.agreement.descriptor.version}
+                  {data.eservice.name}, versione {data.agreement.descriptor.version}
                 </Link>{' '}
-                {!!(data.agreement.descriptor.version !== data.eService.descriptor.version) && (
+                {!!(
+                  data.agreement.descriptor.version !== data.eservice.activeDescriptor.version
+                ) && (
                   <React.Fragment>
                     (è disponibile una{' '}
                     <Link
-                      to={`${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}/${data.eService.id}/${
-                        data.eService.descriptor.id
+                      to={`${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}/${data.eservice.id}/${
+                        data.eservice.activeDescriptor.id
                       }`}
                       className="link-default"
                     >
@@ -140,7 +147,7 @@ function ClientEditComponent({
             </DescriptionBlock>
 
             <DescriptionBlock label="Ente erogatore">
-              <span>{data.provider.description}</span>
+              <span>{data.eservice.provider.description}</span>
             </DescriptionBlock>
 
             <DescriptionBlock
@@ -157,7 +164,7 @@ function ClientEditComponent({
                 >
                   Vedi accordo
                 </Link>{' '}
-                {!!(data.agreement.descriptor.version !== data.eService.descriptor.version)
+                {!!(data.agreement.descriptor.version !== data.eservice.activeDescriptor.version)
                   ? '(questo accordo è aggiornabile)'
                   : ''}
               </span>

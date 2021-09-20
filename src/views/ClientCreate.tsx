@@ -16,8 +16,8 @@ import { LoadingOverlay } from '../components/LoadingOverlay'
 type ClientSubmit = {
   name: string
   description: string
-  partyId: string
-  eserviceId: string
+  consumerId: string
+  eServiceId: string
 }
 
 function ClientCreateComponent({ runAction }: UserFeedbackHOCProps) {
@@ -29,7 +29,7 @@ function ClientCreateComponent({ runAction }: UserFeedbackHOCProps) {
   )
 
   const wrapSetData = (id: keyof ClientSubmit) => (e: any) => {
-    setData({ ...data, partyId: party?.partyId, [id]: e.target.value })
+    setData({ ...data, [id]: e.target.value })
   }
 
   const handleSubmit = async (e: any) => {
@@ -45,7 +45,7 @@ function ClientCreateComponent({ runAction }: UserFeedbackHOCProps) {
   useEffect(() => {
     // When e-service data is loaded, set the e-service select to the first available value
     if (eserviceData.length > 0) {
-      setData({ ...data, eserviceId: eserviceData[0].id })
+      setData({ ...data, eServiceId: eserviceData[0].id, consumerId: party?.partyId })
     }
   }, [eserviceData]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -80,7 +80,7 @@ function ClientCreateComponent({ runAction }: UserFeedbackHOCProps) {
             label="E-service da associare"
             disabled={eserviceData.length === 0}
             options={eserviceData.map((s) => ({ value: s.id, label: s.name }))}
-            onChange={wrapSetData('eserviceId')}
+            onChange={wrapSetData('eServiceId')}
           />
 
           <Button className="mt-3" variant="primary" type="submit" disabled={false}>
