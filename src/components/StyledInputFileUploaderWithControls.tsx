@@ -1,3 +1,4 @@
+import { noop } from 'lodash'
 import React from 'react'
 import { Button } from 'react-bootstrap'
 import { StyledInputFileUploader } from './StyledInputFileUploader'
@@ -23,34 +24,50 @@ export function StyledInputFileUploaderWithControls({
   id,
 }: StyledInputFileUploaderWithControlsProps) {
   return (
-    <div className="mb-3 px-3 py-3 rounded" style={{ backgroundColor: '#dedede' }}>
-      <StyledInputFileUploader
-        id={`${id}-doc`}
-        label="seleziona"
-        value={file}
-        onChange={onChangeFile}
-      />
-      <StyledInputText
-        className="mt-3 mb-3"
-        id={`${id}-description`}
-        label="Descrizione"
-        value={description || ''}
-        onChange={onChangeDescription}
-      />
-      <div className="d-flex justify-content-end">
-        <div>
-          questo file <strong>non è ancora stato caricato</strong>
+    <div>
+      {file && (
+        <div className="d-flex justify-content-between align-items-center">
+          <div>
+            <p>
+              <i className="text-primary fs-5 bi bi-paperclip me-2" /> <strong>{file?.name}</strong>
+            </p>
+            <p>{description}</p>
+          </div>
+
+          <div>
+            <Button className="me-3" variant="primary" onClick={noop}>
+              <i className="fs-5 bi bi-pencil me-2" /> modifica
+            </Button>
+            <Button variant="outline-primary" onClick={requestDelete}>
+              elimina
+            </Button>
+          </div>
         </div>
-        <Button className="me-3" variant="primary" onClick={requestUpload}>
-          <i
-            className="fs-5 bi bi-upload me-2 position-relative"
-            style={{ transform: 'translateY(0.1rem)' }}
-          />{' '}
-          carica
-        </Button>
-        <Button variant="outline-primary" onClick={requestDelete}>
-          elimina
-        </Button>
+      )}
+
+      <div className="mb-3 px-3 py-3 rounded" style={{ backgroundColor: '#dedede' }}>
+        <StyledInputFileUploader
+          id={`${id}-doc`}
+          label="seleziona"
+          value={file}
+          onChange={onChangeFile}
+        />
+        <StyledInputText
+          className="mt-3 mb-3"
+          id={`${id}-description`}
+          label="Descrizione"
+          value={description || ''}
+          onChange={onChangeDescription}
+        />
+        <div className="d-flex justify-content-end">
+          <Button className="me-3" variant="primary" onClick={requestUpload}>
+            <i
+              className="fs-5 bi bi-upload me-2 position-relative"
+              style={{ transform: 'translateY(0.1rem)' }}
+            />{' '}
+            carica
+          </Button>
+        </div>
       </div>
     </div>
   )

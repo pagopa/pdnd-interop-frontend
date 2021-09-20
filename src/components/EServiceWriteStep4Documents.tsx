@@ -93,16 +93,24 @@ function EServiceWriteStep4DocumentsComponent({
     )
   }
 
-  const remapDocumentsAsArray = (): Partial<DecoratedEServiceDocumentWrite>[] =>
+  /*
+   * Utilities
+   */
+  const remapLocalDocumentsAsArray = (): Partial<DecoratedEServiceDocumentWrite>[] =>
     Object.keys(documents)
       .filter((id) => documents[id].kind !== 'interface')
       .map((id) => ({ ...documents[id], id }))
 
+  const getLocalInterface = () => Object.values(documents).find(({ kind }) => kind === 'interface')
+
+  const getLocalDocuments = () => ({
+    documentationDocuments: remapLocalDocumentsAsArray(),
+    interfaceDocument: getLocalInterface(),
+  })
+
   useEffect(() => {
     console.log('documents', documents)
   }, [documents])
-
-  const documentationDocuments = remapDocumentsAsArray()
 
   return (
     <React.Fragment>
@@ -125,7 +133,7 @@ function EServiceWriteStep4DocumentsComponent({
         />
       </WhiteBackground>
 
-      <WhiteBackground>
+      {/* <WhiteBackground>
         <StyledIntro>
           {{
             title: 'Documentazione',
@@ -153,7 +161,7 @@ function EServiceWriteStep4DocumentsComponent({
         <Button variant="primary" onClick={addDocument}>
           aggiungi documento
         </Button>
-      </WhiteBackground>
+      </WhiteBackground> */}
 
       <WhiteBackground>
         <div className="d-flex">
