@@ -91,6 +91,10 @@ function EServiceReadComponent({
       <WhiteBackground>
         <StyledIntro>{{ title: data.name, description: DESCRIPTIONS[mode!] }}</StyledIntro>
 
+        <DescriptionBlock label="Descrizione del servizio">
+          <span>{data.description}</span>
+        </DescriptionBlock>
+
         <DescriptionBlock label="Versione">
           <span>{data.descriptors[0].version}</span>
         </DescriptionBlock>
@@ -101,10 +105,6 @@ function EServiceReadComponent({
 
         <DescriptionBlock label="Audience">
           <span>{data.audience?.join(', ')}</span>
-        </DescriptionBlock>
-
-        <DescriptionBlock label="Descrizione">
-          <span>{data.description}</span>
         </DescriptionBlock>
 
         <DescriptionBlock label="Tecnologia">
@@ -141,11 +141,20 @@ function EServiceReadComponent({
         {data.descriptors[0].docs.length > 0 && (
           <DescriptionBlock label="Documentazione">
             {data.descriptors[0].docs.map((d, i) => (
-              <div key={i}>
-                <p>{d.description}</p>
-                <Button className="link-default" onClick={wrapDownloadDocument(d.id)}>
-                  Scarica il documento {d.name}
-                </Button>
+              <div
+                className={`d-flex justify-content-between border-bottom border-bottom-1 ${
+                  i === 0 ? 'mt-3' : ''
+                }`}
+                key={i}
+              >
+                <div className="py-1 my-1">
+                  <i className="text-primary fs-5 bi bi-paperclip me-2" /> <strong>{d.name}</strong>
+                  <br />
+                  {d.description}
+                </div>
+                <button className="btn-as-link-default" onClick={wrapDownloadDocument(d.id)}>
+                  <i className="text-primary fs-5 bi bi-download me-2" />
+                </button>
               </div>
             ))}
           </DescriptionBlock>
