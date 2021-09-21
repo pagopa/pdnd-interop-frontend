@@ -37,6 +37,9 @@ export const USE_LOCAL_DATA = false
 export const USE_LOCAL_DATA_RESPONSE_STATUS = 200 // The response status code to simulate if USE_LOCAL_DATA is true
 export const DISPLAY_LOGS: DisplayLogsType = 'all'
 
+// TEMP PoC: we won't need this with the new UI
+export const HARDCODED_MAIN_TAG_HEIGHT = 'calc(100vh - 86px - 101px - 3rem - 72px - 3rem)'
+
 export const ROUTES: RoutesObject = {
   LOGIN: { PATH: '/login', LABEL: 'Login', COMPONENT: Login },
   LOGOUT: { PATH: '/logout', LABEL: 'Logout', COMPONENT: Logout },

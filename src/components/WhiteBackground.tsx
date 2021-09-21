@@ -5,7 +5,6 @@ type WhiteBackgroundProps = {
   containerClassNames?: string
   containerStyles?: CSSProperties
   stickToTop?: boolean
-  verticallyCentered?: boolean
   noBottomSpacing?: boolean
 }
 
@@ -16,7 +15,6 @@ export const WhiteBackground: FunctionComponent<WhiteBackgroundProps> = ({
   containerClassNames = '',
   containerStyles = {},
   stickToTop = false,
-  verticallyCentered = false,
   noBottomSpacing = false,
 }) => {
   /* 
@@ -47,15 +45,12 @@ export const WhiteBackground: FunctionComponent<WhiteBackgroundProps> = ({
   }
 
   return (
-    <div className={`w-100${verticallyCentered ? ' my-auto' : ' mt-4'}`}>
+    <div className="w-100 mt-4">
       <div
         className={`px-4 pt-4 bg-white mx-auto${noBottomSpacing ? '' : ' pb-4'}`}
         style={{ maxWidth: MAX_WIDTH }}
       >
-        <Container
-          className={`${containerClassNames}${verticallyCentered ? ' py-5' : ''}`}
-          style={containerStyles}
-        >
+        <Container className={`py-5 ${containerClassNames}`} style={containerStyles}>
           {children}
         </Container>
       </div>

@@ -12,6 +12,8 @@ import { StyledInputFile } from '../components/StyledInputFile'
 import { getFetchOutcome } from '../lib/error-utils'
 import { InlineSupportLink } from '../components/InlineSupportLink'
 import isEmpty from 'lodash/isEmpty'
+import { HARDCODED_MAIN_TAG_HEIGHT } from '../lib/constants'
+import { StyledIntro } from '../components/StyledIntro'
 
 export function CompleteRegistration() {
   const [loading, setLoading] = useState(false)
@@ -88,12 +90,12 @@ export function CompleteRegistration() {
     },
     error: {
       img: { src: redXIllustration, alt: "Icona dell'email" },
-      title: 'Qualcosa è andato storto!',
+      title: 'Attenzione!',
       description: [
         <p>
-          C'è stato un errore nel completamento della procedura. Assicurati che il file che hai
-          caricato sia effettivamente il contratto firmato e ritenta ricaricando questa pagina. Se
-          l'errore dovesse persistere, <InlineSupportLink />.
+          C'è stato un errore nel completamento della procedura. Assicurati che il file caricato sia
+          l'accordo firmato. Per ritentare, ricarica la pagina. Se credi sia un errore,{' '}
+          <InlineSupportLink />.
         </p>,
       ],
     },
@@ -101,27 +103,32 @@ export function CompleteRegistration() {
 
   return !outcome ? (
     <React.Fragment>
-      <WhiteBackground>
-        <div className="form-max-width">
-          <p className="h1">Ciao</p>
-          <p>
-            Per completare la procedura di registrazione, carica qui sotto il file che hai ricevuto
-            via email, completo della firma in originale del rappresentante legale.
-          </p>
+      <WhiteBackground
+        containerClassNames="d-flex flex-direction-column"
+        containerStyles={{ minHeight: HARDCODED_MAIN_TAG_HEIGHT }}
+      >
+        <div className="mx-auto my-auto text-center">
+          <StyledIntro additionalClasses="mx-auto">
+            {{
+              title: 'Ciao!',
+              description:
+                "Per completare la procedura di registrazione, carica l'accordo ricevuto via email, completo della firma in originale del rappresentante legale",
+            }}
+          </StyledIntro>
+
+          <Form className="mt-4 form-max-width" onSubmit={handleSubmit}>
+            <StyledInputFile
+              id="contratto"
+              onChange={loadFile}
+              value={contract}
+              label="carica accordo"
+            />
+
+            <Button variant="primary" type="submit" disabled={!contract}>
+              prosegui
+            </Button>
+          </Form>
         </div>
-
-        <Form onSubmit={handleSubmit}>
-          <StyledInputFile
-            id="contratto"
-            onChange={loadFile}
-            value={contract}
-            label="carica accordo"
-          />
-
-          <Button variant="primary" type="submit" disabled={!contract}>
-            prosegui
-          </Button>
-        </Form>
       </WhiteBackground>
       {loading && <LoadingOverlay loadingText="Stiamo caricando il tuo contratto" />}
     </React.Fragment>

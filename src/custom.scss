@@ -56,6 +56,10 @@ $danger: #ff8181;
   max-width: 37.5rem;
 }
 
+.text-none {
+  text-transform: none !important;
+}
+
 /*
  * Bootstrap override/customize
  */
@@ -76,6 +80,7 @@ h6,
 
 .btn:not(.btn-link) {
   text-transform: lowercase;
+  font-weight: 700;
 }
 
 .btn-link {
