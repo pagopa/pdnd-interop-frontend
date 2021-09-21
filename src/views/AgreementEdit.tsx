@@ -14,6 +14,7 @@ import { formatDate, getRandomDate } from '../lib/date-utils'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import isEmpty from 'lodash/isEmpty'
+import merge from 'lodash/merge'
 import { withAdminAuth } from '../components/withAdminAuth'
 import compose from 'lodash/fp/compose'
 
@@ -99,9 +100,11 @@ function AgreementEditComponent({
 
     const subscriberOnlyActions: AgreementActions = { active: [], suspended: [], pending: [] }
 
-    const actions = { provider: providerOnlyActions, subscriber: subscriberOnlyActions }[mode!]
+    const currentActions = { provider: providerOnlyActions, subscriber: subscriberOnlyActions }[
+      mode!
+    ]
 
-    return { ...sharedActions, ...actions[data.status] }
+    return merge(sharedActions, currentActions)[data.status]
   }
 
   return (

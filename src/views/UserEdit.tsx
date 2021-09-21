@@ -1,4 +1,7 @@
 import React, { useContext } from 'react'
+import isEmpty from 'lodash/isEmpty'
+import noop from 'lodash/noop'
+import merge from 'lodash/merge'
 import { Button } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
 import { TableActionBtn, User, UserStatus } from '../../types'
@@ -10,11 +13,9 @@ import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFe
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATUS_LABEL } from '../lib/constants'
 import { getLastBit } from '../lib/url-utils'
-import isEmpty from 'lodash/isEmpty'
 import { isAdmin } from '../lib/auth-utils'
 import { UserContext } from '../lib/context'
 import { useMode } from '../hooks/useMode'
-import noop from 'lodash/noop'
 
 function UserEditComponent({
   runFakeAction,
@@ -87,9 +88,11 @@ function UserEditComponent({
       suspended: [],
     }
 
-    const actions = { provider: providerOnlyActions, subscriber: subscriberOnlyActions }[mode!]
+    const currentActions = { provider: providerOnlyActions, subscriber: subscriberOnlyActions }[
+      mode!
+    ]
 
-    return { ...sharedActions, ...actions[data.status] }
+    return merge(sharedActions, currentActions)[data.status]
   }
 
   return (
