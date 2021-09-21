@@ -1,5 +1,5 @@
-import React from 'react'
-import { Toast } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react'
+// import { Toast } from 'react-bootstrap'
 import { RequestOutcome, ToastContent, ToastContentWithOutcome } from '../../types'
 import noop from 'lodash/noop'
 
@@ -14,7 +14,7 @@ const BG_TYPE: { [key in RequestOutcome]: string } = {
 
 const BG_TYPE_EMOJI: { [key in RequestOutcome]: string } = {
   success: '🎉',
-  error: '❌',
+  error: '🤬',
 }
 
 const DEFAULT_TEXT: { [key in RequestOutcome]: ToastContent } = {
@@ -26,20 +26,59 @@ const DEFAULT_TEXT: { [key in RequestOutcome]: ToastContent } = {
 }
 
 export function StyledToast({ outcome, title, description, onClose = noop }: StyledToastProps) {
+  const [appear, setAppear] = useState(false)
+
+  useEffect(() => {
+    setAppear(true)
+  }, [])
+
+  const transitionClasses = appear ? 'opacity-100' : 'opacity-0'
+  const transitionTransform = appear ? 'translate(-50%, 0)' : 'translate(-50%, 0.5rem)'
+
   return (
-    <Toast
-      animation={true}
-      className="position-fixed bottom-0 mb-4"
-      bg={BG_TYPE[outcome]}
-      style={{ zIndex: 3, left: '50%', transform: `translate(-50%, 0)` }}
-      onClose={onClose}
+    <div
+      className={`position-fixed bottom-0 mb-3 shadow-lg border-start border-5 bg-white border-${BG_TYPE[outcome]} ${transitionClasses}`}
+      style={{
+        transform: transitionTransform,
+        left: '50%',
+        width: '20rem',
+        transition: '0.3s all ease-in-out',
+      }}
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
     >
-      <Toast.Header>
-        <strong className="me-auto">
-          {BG_TYPE_EMOJI[outcome]} {title || DEFAULT_TEXT[outcome].title}
-        </strong>
-      </Toast.Header>
-      <Toast.Body>{description || DEFAULT_TEXT[outcome].description}</Toast.Body>
-    </Toast>
+      <div className="border">
+        <div className="d-flex justify-content-between align-items-center pt-2 px-2">
+          <strong>
+            {BG_TYPE_EMOJI[outcome]} {title || DEFAULT_TEXT[outcome].title}
+          </strong>
+          <button
+            type="button"
+            className="btn-close"
+            aria-label="Close"
+            data-dismiss="toast"
+            onClick={onClose}
+          ></button>
+        </div>
+        <div className="px-2 pt-1 pb-2">{description || DEFAULT_TEXT[outcome].description}</div>
+      </div>
+    </div>
   )
 }
+
+/* React-bootstrap toast */
+// <Toast
+//   animation={true}
+//   className="position-fixed bottom-0 mb-4"
+//   bg={BG_TYPE[outcome]}
+//   style={{ zIndex: 3, left: '50%', transform: `translate(-50%, 0)` }}
+//   onClose={onClose}
+// >
+//   <Toast.Header>
+//     <strong className="me-auto">
+//       {BG_TYPE_EMOJI[outcome]} {title || DEFAULT_TEXT[outcome].title}
+//     </strong>
+//   </Toast.Header>
+//   <Toast.Body>{description || DEFAULT_TEXT[outcome].description}</Toast.Body>
+// </Toast>
