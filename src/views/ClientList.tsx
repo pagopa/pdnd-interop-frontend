@@ -110,7 +110,7 @@ function ClientListComponent({
 
   return (
     <WhiteBackground>
-      <StyledIntro additionalClasses="fakeData fakeDataStart">
+      <StyledIntro priority={2} additionalClasses="fakeData fakeDataStart">
         {{
           title: 'I tuoi client',
           description: "In quest'area puoi i trovare e gestire tutti i client che hai creato",

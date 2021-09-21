@@ -106,7 +106,7 @@ function AgreementListComponent({
 
   return (
     <WhiteBackground>
-      <StyledIntro>
+      <StyledIntro priority={2}>
         {{
           title: 'Gli accordi',
           description:

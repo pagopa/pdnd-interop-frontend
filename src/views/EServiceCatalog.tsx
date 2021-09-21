@@ -81,7 +81,7 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
 
   return (
     <WhiteBackground>
-      <StyledIntro>
+      <StyledIntro priority={2}>
         {{
           title: 'Gli e-service disponibili',
           description:

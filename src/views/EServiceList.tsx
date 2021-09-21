@@ -169,7 +169,7 @@ function EServiceListComponent({
   return (
     <React.Fragment>
       <WhiteBackground>
-        <StyledIntro>
+        <StyledIntro priority={2}>
           {{
             title: 'I tuoi e-service',
             description: "In quest'area puoi gestire tutti gli e-service che stai erogando",

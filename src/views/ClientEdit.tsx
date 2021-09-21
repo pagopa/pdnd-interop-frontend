@@ -96,7 +96,7 @@ function ClientEditComponent({
     <React.Fragment>
       {!isEmpty(data) && (
         <WhiteBackground>
-          <StyledIntro additionalClasses="fakeData fakeDataStart">
+          <StyledIntro priority={2} additionalClasses="fakeData fakeDataStart">
             {{ title: `Client: ${data.name}` }}
           </StyledIntro>
 

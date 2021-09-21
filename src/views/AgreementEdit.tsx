@@ -110,7 +110,7 @@ function AgreementEditComponent({
   return (
     <React.Fragment>
       <WhiteBackground>
-        <StyledIntro>{{ title: `Accordo: ${data?.id}` }}</StyledIntro>
+        <StyledIntro priority={2}>{{ title: `Accordo: ${data?.id}` }}</StyledIntro>
 
         <DescriptionBlock label="E-service">
           <Link

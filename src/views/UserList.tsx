@@ -145,7 +145,9 @@ function UserListComponent({
 
   return (
     <WhiteBackground>
-      <StyledIntro additionalClasses="fakeData fakeDataStart">{TITLES[mode!]}</StyledIntro>
+      <StyledIntro priority={2} additionalClasses="fakeData fakeDataStart">
+        {TITLES[mode!]}
+      </StyledIntro>
 
       <div className="mt-4">
         {isAdmin(user) && (

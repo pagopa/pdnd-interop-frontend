@@ -11,7 +11,7 @@ function ProfileComponent() {
 
   return (
     <WhiteBackground>
-      <StyledIntro>{{ title: 'Il mio profilo' }}</StyledIntro>
+      <StyledIntro priority={2}>{{ title: 'Il mio profilo' }}</StyledIntro>
 
       <DescriptionBlock label="Nome e cognome">
         <span>

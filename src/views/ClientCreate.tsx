@@ -52,7 +52,7 @@ function ClientCreateComponent({ runAction }: UserFeedbackHOCProps) {
   return (
     <React.Fragment>
       <WhiteBackground>
-        <StyledIntro>
+        <StyledIntro priority={2}>
           {{
             title: `Crea nuovo client`,
             description:

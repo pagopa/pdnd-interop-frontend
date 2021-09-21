@@ -89,7 +89,9 @@ function EServiceReadComponent({
   return (
     <React.Fragment>
       <WhiteBackground>
-        <StyledIntro>{{ title: data.name, description: DESCRIPTIONS[mode!] }}</StyledIntro>
+        <StyledIntro priority={2}>
+          {{ title: data.name, description: DESCRIPTIONS[mode!] }}
+        </StyledIntro>
 
         <DescriptionBlock label="Descrizione del servizio">
           <span>{data.description}</span>

@@ -60,7 +60,7 @@ function UserCreateComponent({ runAction }: UserFeedbackHOCProps) {
 
   return (
     <WhiteBackground>
-      <StyledIntro>{INTRO[mode!]}</StyledIntro>
+      <StyledIntro priority={2}>{INTRO[mode!]}</StyledIntro>
 
       <Form onSubmit={handleSubmit} style={{ maxWidth: 768 }}>
         <PlatformUserForm

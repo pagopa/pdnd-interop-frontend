@@ -98,7 +98,7 @@ function UserEditComponent({
   return (
     <React.Fragment>
       <WhiteBackground>
-        <StyledIntro additionalClasses="fakeData fakeDataStart">
+        <StyledIntro priority={2} additionalClasses="fakeData fakeDataStart">
           {{ title: `Utente: ${data.name} ${data.surname}` }}
         </StyledIntro>
 
