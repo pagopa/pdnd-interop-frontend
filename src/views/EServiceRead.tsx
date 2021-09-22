@@ -4,7 +4,6 @@ import has from 'lodash/has'
 import { Button } from 'react-bootstrap'
 import {
   AttributeType,
-  BackendAttribute,
   EServiceReadType,
   GroupBackendAttribute,
   SingleBackendAttribute,
@@ -41,26 +40,7 @@ function EServiceReadComponent({
    * List of possible actions for the user to perform
    */
   const subscribe = async (_: any) => {
-    const flattenedVerifiedAttributes = data.attributes.verified.reduce(
-      (acc: any, next: BackendAttribute) => {
-        const nextIds = has(next, 'single')
-          ? [(next as SingleBackendAttribute).single.id]
-          : (next as GroupBackendAttribute).group.map((a) => a.id)
-        return [...acc, ...nextIds]
-      },
-      []
-    )
-
-    const agreementData = {
-      eserviceId: data.id,
-      producerId: data.producerId,
-      consumerId: party?.partyId,
-      verifiedAttributes: flattenedVerifiedAttributes.map((id: string) => ({
-        id,
-        verified: false,
-        validityTimespan: 100000000,
-      })), // TEMP PIN-362
-    }
+    const agreementData = { eserviceId: data.id, consumerId: party?.partyId }
 
     await runAction(
       {
@@ -80,7 +60,11 @@ function EServiceReadComponent({
       {
         path: {
           endpoint: 'ESERVICE_VERSION_GET_DOCUMENTS',
-          endpointParams: { eserviceId: data.id, descriptorId: data.descriptors[0].id, documentId },
+          endpointParams: {
+            eserviceId: data.id,
+            descriptorId: data.activeDescriptor!.id,
+            documentId,
+          },
         },
         config: { method: 'GET' },
       },
@@ -104,15 +88,15 @@ function EServiceReadComponent({
         </DescriptionBlock>
 
         <DescriptionBlock label="Versione">
-          <span>{data.activeDescriptor?.version || '1'}</span>
+          <span>{data.activeDescriptor!.version}</span>
         </DescriptionBlock>
 
         <DescriptionBlock label="Stato della versione">
-          <span>{ESERVICE_STATUS_LABEL[data.activeDescriptor?.status || 'draft']}</span>
+          <span>{ESERVICE_STATUS_LABEL[data.activeDescriptor!.status]}</span>
         </DescriptionBlock>
 
         <DescriptionBlock label="Audience">
-          <span>{data.activeDescriptor?.audience.join(', ')}</span>
+          <span>{data.activeDescriptor!.audience.join(', ')}</span>
         </DescriptionBlock>
 
         <DescriptionBlock label="Tecnologia">
@@ -125,9 +109,7 @@ function EServiceReadComponent({
 
         <DescriptionBlock label="Durata del voucher dall'attivazione">
           <span className="fakeData">
-            {new Date((data.activeDescriptor?.voucherLifespan || 0) * 1000)
-              .toISOString()
-              .substr(11, 8)}{' '}
+            {new Date(data.activeDescriptor!.voucherLifespan * 1000).toISOString().substr(11, 8)}{' '}
             (HH:MM:SS)
           </span>
         </DescriptionBlock>
@@ -138,20 +120,18 @@ function EServiceReadComponent({
           </a>
         </DescriptionBlock>
 
-        {data.activeDescriptor?.interface && (
-          <DescriptionBlock label="Interfaccia">
-            <button
-              className="btn-as-link-default"
-              onClick={wrapDownloadDocument(data.activeDescriptor?.interface.id)}
-            >
-              Scarica il documento di interfaccia
-            </button>
-          </DescriptionBlock>
-        )}
+        <DescriptionBlock label="Interfaccia">
+          <button
+            className="btn-as-link-default"
+            onClick={wrapDownloadDocument(data.activeDescriptor!.interface!.id)}
+          >
+            Scarica il documento di interfaccia
+          </button>
+        </DescriptionBlock>
 
-        {data.activeDescriptor && data.activeDescriptor.docs.length > 0 && (
+        {data.activeDescriptor!.docs.length > 0 && (
           <DescriptionBlock label="Documentazione">
-            {data.activeDescriptor.docs.map((d, i) => (
+            {data.activeDescriptor!.docs.map((d, i) => (
               <div
                 className={`d-flex justify-content-between border-bottom border-bottom-1 ${
                   i === 0 ? 'mt-3' : ''
