@@ -40,8 +40,6 @@ function EServiceWriteStep1GeneralComponent({
   const [eserviceData, setEserviceData] = useState<Partial<EServiceCreateDataType>>({
     technology: 'REST',
     pop: false,
-    voucherLifespan: 300, // TEMP PIN-385 (obsolete)
-    audience: [], // TEMP PIN-385 (obsolete, remove this field from the data when PIN-385 is complete)
   })
   // Attributes are separated from the rest of the data.
   // There is no logical reason, it is just easier to handle the operations this way
@@ -89,15 +87,16 @@ function EServiceWriteStep1GeneralComponent({
     // Define which endpoint to call
     let endpoint: ApiEndpointKey = 'ESERVICE_CREATE'
     let method: Method = 'POST'
+    let endpointParams = {}
     const isNewService = isEmpty(fetchedDataMaybe)
-    if (isNewService) {
-      // TEMP PIN-385 (missing the PUT request)
-      // endpoint = 'ESERVICE_UPDATE'
-      // method = 'PUT'
+    if (!isNewService) {
+      endpoint = 'ESERVICE_UPDATE'
+      method = 'PUT'
+      endpointParams = { eserviceId: fetchedDataMaybe!.id }
     }
 
     await runActionWithCallback(
-      { path: { endpoint }, config: { method, data: dataToPost } },
+      { path: { endpoint, endpointParams }, config: { method, data: dataToPost } },
       { callback: wrapOnSubmitSuccess(isNewService), suppressToast: false }
     )
   }

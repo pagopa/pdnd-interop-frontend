@@ -38,7 +38,11 @@ export const useAsyncFetch = <T, U = T>(
       }
     }
 
-    asyncFetchWithLogs()
+    // There may be a lag in retrieving the party, but most requests make use of it
+    // So make sure you have it before fetching data
+    if (party !== null) {
+      asyncFetchWithLogs()
+    }
 
     return () => {
       isMounted = false

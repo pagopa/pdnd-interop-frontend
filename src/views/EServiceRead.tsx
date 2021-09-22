@@ -104,15 +104,15 @@ function EServiceReadComponent({
         </DescriptionBlock>
 
         <DescriptionBlock label="Versione">
-          <span>{data.descriptors[0].version}</span>
+          <span>{data.activeDescriptor?.version || '1'}</span>
         </DescriptionBlock>
 
         <DescriptionBlock label="Stato della versione">
-          <span>{ESERVICE_STATUS_LABEL[data.descriptors[0].status]}</span>
+          <span>{ESERVICE_STATUS_LABEL[data.activeDescriptor?.status || 'draft']}</span>
         </DescriptionBlock>
 
         <DescriptionBlock label="Audience">
-          <span>{data.audience?.join(', ')}</span>
+          <span>{data.activeDescriptor?.audience.join(', ')}</span>
         </DescriptionBlock>
 
         <DescriptionBlock label="Tecnologia">
@@ -125,7 +125,10 @@ function EServiceReadComponent({
 
         <DescriptionBlock label="Durata del voucher dall'attivazione">
           <span className="fakeData">
-            {new Date(data.voucherLifespan * 1000).toISOString().substr(11, 8)} (HH:MM:SS)
+            {new Date((data.activeDescriptor?.voucherLifespan || 0) * 1000)
+              .toISOString()
+              .substr(11, 8)}{' '}
+            (HH:MM:SS)
           </span>
         </DescriptionBlock>
 
@@ -135,20 +138,20 @@ function EServiceReadComponent({
           </a>
         </DescriptionBlock>
 
-        {data.descriptors[0].interface && (
+        {data.activeDescriptor?.interface && (
           <DescriptionBlock label="Interfaccia">
             <button
               className="btn-as-link-default"
-              onClick={wrapDownloadDocument(data.descriptors[0].interface.id)}
+              onClick={wrapDownloadDocument(data.activeDescriptor?.interface.id)}
             >
               Scarica il documento di interfaccia
             </button>
           </DescriptionBlock>
         )}
 
-        {data.descriptors[0].docs.length > 0 && (
+        {data.activeDescriptor && data.activeDescriptor.docs.length > 0 && (
           <DescriptionBlock label="Documentazione">
-            {data.descriptors[0].docs.map((d, i) => (
+            {data.activeDescriptor.docs.map((d, i) => (
               <div
                 className={`d-flex justify-content-between border-bottom border-bottom-1 ${
                   i === 0 ? 'mt-3' : ''

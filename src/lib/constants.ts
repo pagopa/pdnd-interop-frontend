@@ -239,19 +239,24 @@ export const API = {
     SHOULD_CALL: true,
   },
   ESERVICE_UPDATE: {
-    URL: 'TODO',
+    URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}',
     LOCAL: '',
-    SHOULD_CALL: false,
+    SHOULD_CALL: true,
+  },
+  ESERVICE_DELETE: {
+    URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}',
+    LOCAL: '',
+    SHOULD_CALL: true,
   },
   ESERVICE_VERSION_CREATE: {
-    URL: 'TODO',
+    URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors',
     LOCAL: '',
-    SHOULD_CALL: false,
+    SHOULD_CALL: true,
   },
   ESERVICE_VERSION_UPDATE: {
-    URL: 'TODO',
+    URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}',
     LOCAL: '',
-    SHOULD_CALL: false,
+    SHOULD_CALL: true,
   },
   ESERVICE_VERSION_PUBLISH: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/publish',
@@ -384,6 +389,7 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
     },
   },
   ESERVICE_UPDATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  ESERVICE_DELETE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   ESERVICE_VERSION_CREATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   ESERVICE_VERSION_UPDATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   ESERVICE_VERSION_PUBLISH: {
@@ -504,6 +510,7 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
       'Cliccando "conferma", una nuova bozza verrà creata. Potrà essere pubblicata successivamente, oppure cancellata',
   },
   ESERVICE_UPDATE: {},
+  ESERVICE_DELETE: {},
   ESERVICE_VERSION_CREATE: {},
   ESERVICE_VERSION_UPDATE: {},
   ESERVICE_VERSION_PUBLISH: {

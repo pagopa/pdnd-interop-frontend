@@ -1,6 +1,6 @@
 import { AxiosResponse, Method } from 'axios'
 import { isEmpty } from 'lodash'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 import { ApiEndpointKey, StepperStepComponentProps } from '../../types'
@@ -12,7 +12,7 @@ import { StyledIntro } from './StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from './withUserFeedback'
 
-type FieldType = 'text' | 'textArray'
+type FieldType = 'text' | 'textArray' | 'number'
 
 type VersionData = {
   audience: string[]
@@ -30,6 +30,14 @@ function EServiceWriteStep2VersionComponent({
   const [versionData, setVersionData] = useState<Partial<VersionData>>({})
   const history = useHistory()
 
+  // Pre-fill if there is already a draft of the service available
+  useEffect(() => {
+    if (!isEmpty(fetchedData.activeDescriptor)) {
+      const { audience, version, voucherLifespan, description } = fetchedData.activeDescriptor!
+      setVersionData({ audience, version, voucherLifespan, description })
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   // Determine the current version of the service
   const getVersion = () => {
     return !isEmpty(fetchedData.activeDescriptor) ? fetchedData.activeDescriptor!.version : '1'
@@ -37,7 +45,11 @@ function EServiceWriteStep2VersionComponent({
 
   // Check for empty strings in input text field
   const isEmptyTextField = (fieldType: FieldType, valueToTest: any) => {
-    const failConditions = { text: valueToTest === '', textArray: valueToTest[0] === '' }
+    const failConditions = {
+      text: valueToTest === '',
+      textArray: valueToTest[0] === '',
+      number: false,
+    }
     return failConditions[fieldType]
   }
 
@@ -45,7 +57,9 @@ function EServiceWriteStep2VersionComponent({
     (fieldName: keyof VersionData, fieldType: FieldType = 'text') =>
     (e: any) => {
       const { value } = e.target
-      const fieldValueMaybe = { text: value, textArray: [value] }[fieldType]
+      const fieldValueMaybe = { text: value, textArray: [value], number: parseInt(value, 10) }[
+        fieldType
+      ]
 
       // Check for false positives (e.g. empty strings in input types), and set them explicitly to undefined
       const fieldValue = !isEmptyTextField(fieldType, fieldValueMaybe) ? fieldValueMaybe : undefined
@@ -57,7 +71,7 @@ function EServiceWriteStep2VersionComponent({
     e.preventDefault()
 
     // Format the data like the backend wants it
-    const dataToPost = { ...versionData, version: getVersion() }
+    const dataToPost = { ...versionData }
 
     // Define which endpoint to call
     let endpoint: ApiEndpointKey = 'ESERVICE_VERSION_CREATE'
@@ -65,9 +79,8 @@ function EServiceWriteStep2VersionComponent({
     const endpointParams: any = { eserviceId: fetchedData.id }
     const isNewDescriptor = isEmpty(fetchedData.activeDescriptor)
     if (!isNewDescriptor) {
-      // TEMP PIN-385 (missing the PUT request)
-      // endpoint = 'ESERVICE_VERSION_UPDATE'
-      // method = 'PUT'
+      endpoint = 'ESERVICE_VERSION_UPDATE'
+      method = 'PUT'
       endpointParams.descriptorId = fetchedData.activeDescriptor!.id
     }
 
@@ -82,9 +95,7 @@ function EServiceWriteStep2VersionComponent({
 
   const wrapOnSubmitSuccess = (isNewDescriptor: boolean) => (response: AxiosResponse) => {
     if (isNewDescriptor) {
-      // const descriptorId = response.data.id
-      // TEMP, just for testing
-      const descriptorId = fetchedData.descriptors[0].id
+      const descriptorId = response.data.id
 
       // Replace the create route with the acutal descriptorId, now that we have it.
       // WARNING: this will NOT cause a re-render that will fetch fresh data
@@ -129,7 +140,7 @@ function EServiceWriteStep2VersionComponent({
             id="voucherLifespan"
             label="Durata del voucher (in minuti)*"
             value={versionData.voucherLifespan || 0}
-            onChange={wrapSetVersionData('voucherLifespan')}
+            onChange={wrapSetVersionData('voucherLifespan', 'number')}
           />
 
           <StyledInputTextArea

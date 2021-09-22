@@ -6,6 +6,7 @@ import { Button } from 'react-bootstrap'
 import { PartyContext } from '../lib/context'
 import compose from 'lodash/fp/compose'
 import {
+  ApiEndpointKey,
   EServiceFlatReadType,
   EServiceStatus,
   TableActionBtn,
@@ -51,12 +52,17 @@ function EServiceListComponent({
     )
   }
 
-  const wrapDeleteDraft = (eserviceId: string, descriptorId: string) => async (_: any) => {
+  const wrapDeleteDraft = (eserviceId: string, descriptorId?: string) => async (_: any) => {
+    let endpoint: ApiEndpointKey = 'ESERVICE_DELETE'
+    let endpointParams: any = { eserviceId }
+
+    if (descriptorId) {
+      endpoint = 'ESERVICE_VERSION_DELETE'
+      endpointParams.descriptorId = descriptorId
+    }
+
     await runAction(
-      {
-        path: { endpoint: 'ESERVICE_VERSION_DELETE', endpointParams: { eserviceId, descriptorId } },
-        config: { method: 'DELETE' },
-      },
+      { path: { endpoint, endpointParams }, config: { method: 'DELETE' } },
       { suppressToast: false }
     )
   }
@@ -88,10 +94,11 @@ function EServiceListComponent({
    * End list of actions
    */
 
+  type EServiceAction = { [key in EServiceStatus]: Array<TableActionProps | null> }
   // Build list of available actions for each service in its current state
   const getAvailableActions = (service: EServiceFlatReadType) => {
     const { id: eserviceId, descriptorId, status } = service
-    const availableActions: { [key in EServiceStatus]: TableActionProps[] } = {
+    const availableActions: EServiceAction = {
       published: [
         {
           onClick: wrapActionInDialog(suspend),
@@ -128,14 +135,16 @@ function EServiceListComponent({
         },
       ],
       draft: [
-        {
-          onClick: wrapActionInDialog(
-            wrapPublishDraft(eserviceId, descriptorId),
-            'ESERVICE_VERSION_PUBLISH'
-          ),
-          icon: 'bi-box-arrow-up',
-          label: 'Pubblica',
-        },
+        descriptorId
+          ? {
+              onClick: wrapActionInDialog(
+                wrapPublishDraft(eserviceId, descriptorId),
+                'ESERVICE_VERSION_PUBLISH'
+              ),
+              icon: 'bi-box-arrow-up',
+              label: 'Pubblica',
+            }
+          : null,
         {
           onClick: wrapActionInDialog(
             wrapDeleteDraft(eserviceId, descriptorId),
@@ -157,17 +166,17 @@ function EServiceListComponent({
 
     // If status === 'draft', show precompiled write template. Else, readonly template
     const inspectAction = {
-      // to: `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${eserviceId}/${
-      //   descriptorId || 'prima-bozza'
-      // }`,
-      // TEMP Just for testing
-      to: `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${eserviceId}/prima-bozza`,
-      icon: status === 'draft' ? 'bi-pencil' : 'bi-info-circle',
-      label: status === 'draft' ? 'Modifica' : 'Ispeziona',
+      to: `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${eserviceId}/${
+        descriptorId || 'prima-bozza'
+      }`,
+      icon: !status || status === 'draft' ? 'bi-pencil' : 'bi-info-circle',
+      label: !status || status === 'draft' ? 'Modifica' : 'Ispeziona',
     }
 
     // Get all the actions available for this particular status
-    const actions: TableActionProps[] = availableActions[status]
+    const actions = availableActions[status || 'draft'].filter(
+      (a) => a !== null
+    ) as TableActionProps[]
 
     // Add the last action, which is always EDIT/INSPECT
     actions.push(inspectAction)
@@ -207,8 +216,8 @@ function EServiceListComponent({
             {data.map((item, i) => (
               <tr key={i}>
                 <td>{item.name}</td>
-                <td>{item.version}</td>
-                <td>{ESERVICE_STATUS_LABEL[item.status]}</td>
+                <td>{item.version || '1'}</td>
+                <td>{ESERVICE_STATUS_LABEL[item.status || 'draft']}</td>
                 <td>
                   {getAvailableActions(item).map((tableAction, j) => {
                     const btnProps: any = {}

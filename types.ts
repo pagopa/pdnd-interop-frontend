@@ -147,18 +147,11 @@ export type EServiceDescriptorWrite = {
   version: string
 }
 
-export type EServiceCreateTextFieldDataType = {
-  name: string
-  audience: string
-}
-
 export type EServiceCreateDataType = {
   producerId: string
   name: string
-  audience: string[]
   description: string
   technology: EServiceTechnologyType
-  voucherLifespan: number
   pop: boolean
 }
 
@@ -166,9 +159,9 @@ export type EServiceCreateDataType = {
 export type EServiceFlatReadType = {
   name: string
   id: string
-  descriptorId: string
-  status: EServiceStatus
-  version: string
+  descriptorId?: string
+  status?: EServiceStatus
+  version?: string
 }
 
 export type EServiceFlatDecoratedReadType = EServiceFlatReadType & {
@@ -179,10 +172,8 @@ export type EServiceFlatDecoratedReadType = EServiceFlatReadType & {
 export type EServiceReadType = {
   producerId: string
   name: string
-  audience: string[]
   description: string
   technology: EServiceTechnologyType
-  voucherLifespan: number
   attributes: BackendAttributes
   id: string
   status: EServiceStatus
@@ -196,6 +187,9 @@ export type EServiceDescriptorRead = {
   docs: EServiceDocumentRead[]
   interface: EServiceDocumentRead
   version: string
+  voucherLifespan: number
+  description: string
+  audience: string[]
 }
 
 export type EServiceDocumentRead = {

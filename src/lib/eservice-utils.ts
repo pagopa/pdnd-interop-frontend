@@ -35,14 +35,11 @@ export function remapBackendDocumentsToFrontend(
   return documents
 }
 
-export function remapBackendEServiceDataToFrontend(data: EServiceReadType): EServiceCreateDataType {
-  return {
-    name: data.name,
-    description: data.description,
-    audience: data.audience,
-    technology: data.technology,
-    voucherLifespan: data.voucherLifespan,
-    producerId: data.producerId,
-    pop: false,
-  }
+export function remapBackendEServiceDataToFrontend({
+  name,
+  description,
+  technology,
+  producerId,
+}: EServiceReadType): EServiceCreateDataType {
+  return { name, description, technology, producerId, pop: false }
 }
