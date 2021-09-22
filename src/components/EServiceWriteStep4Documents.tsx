@@ -1,80 +1,44 @@
-import React, { useEffect, useState } from 'react'
-import cryptoRandomString from 'crypto-random-string'
-import { Button } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
-import { EServiceDocumentKind, EServiceDocumentWrite, StepperStepComponentProps } from '../../types'
-import { ROUTES } from '../lib/constants'
+import React from 'react'
+import { StepperStepComponentProps } from '../../types'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
 import { StyledIntro } from './StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
+import { EServiceWriteStep4DocumentsInterface } from './EServiceWriteStep4DocumentsInterface'
 import { UserFeedbackHOCProps, withUserFeedback } from './withUserFeedback'
-import { StyledInputFileUploaderWithControls } from './StyledInputFileUploaderWithControls'
-
-type DecoratedEServiceDocumentWrite = EServiceDocumentWrite & { id: string }
 
 function EServiceWriteStep4DocumentsComponent({
-  back,
+  // back,
   fetchedData,
   runAction,
-}: StepperStepComponentProps & UserFeedbackHOCProps & EServiceWriteStepProps) {
-  const [documents, setDocuments] = useState<{
-    [id: string]: Partial<DecoratedEServiceDocumentWrite>
-  }>({})
+}: StepperStepComponentProps & EServiceWriteStepProps & UserFeedbackHOCProps) {
+  // const _docs: EServiceDocumentRead[] = [
+  //   {
+  //     name: 'il_mio_altro_file_1.pdf',
+  //     description: 'dsfjoisddfoidsn fdios n',
+  //     id: 'dshfoisdnions',
+  //     contentType: '',
+  //   },
+  //   {
+  //     name: 'il_mio_altro_file_2.pdf',
+  //     description: 'ewprkwepokrewop ewomfowemf',
+  //     id: 'somgerpowmrpo',
+  //     contentType: '',
+  //   },
+  // ]
 
-  /*
-   * EService API operations
-   */
-  const publishVersion = (e: any) => {
-    e.preventDefault()
-  }
+  // const [docs, setDocs] = useState<Partial<EServiceDocumentWrite>[]>(
+  //   _docs.map((d) =>
+  //     remapBackendDocumentToFrontend(d, 'document')
+  //   ) as Partial<EServiceDocumentWrite>[]
+  // )
 
-  const deleteVersion = (e: any) => {
-    e.preventDefault()
-  }
-
-  /*
-   * Descriptor documents operations
-   */
-  const addDocument = () => {
-    const newId = `document-${cryptoRandomString({ length: 8 })}`
-    setDocuments({ ...documents, [newId]: {} })
-  }
-
-  const wrapUpdateEntry =
-    (kind: EServiceDocumentKind, documentId: string, fieldKey: 'doc' | 'description') =>
-    (e: any) => {
-      const fieldValue = fieldKey === 'doc' ? e.target.files[0] : e.target.value
-      setDocuments({
-        ...documents,
-        [documentId]: { ...documents[documentId], kind, [fieldKey]: fieldValue },
-      })
-    }
-
-  const wrapDeleteEntry = (documentId: string) => (e: any) => {
-    // Make API call to delete entry
-
-    // The delete from local state
-    const _documents = { ...documents }
-    delete _documents[documentId]
-    setDocuments(_documents)
-  }
-
-  const wrapUploadFile = (documentId: string) => async (e: any) => {
-    e.preventDefault()
-
-    const { kind, description, doc } = documents[documentId]
-
-    if (!kind || !description) {
-      // Throw error?
-      return
-    }
-
+  const uploadDescriptorDocument = async ({ description, doc }: any) => {
     const formData = new FormData()
-    formData.append('kind', kind)
+    formData.append('kind', 'interface')
     formData.append('description', description)
-    formData.append('doc', doc)
+    formData.append('doc', doc!)
 
-    await runAction(
+    const { outcome, response } = await runAction(
       {
         path: {
           endpoint: 'ESERVICE_VERSION_POST_DOCUMENT',
@@ -89,81 +53,37 @@ function EServiceWriteStep4DocumentsComponent({
           data: formData,
         },
       },
-      { suppressToast: false }
+      {
+        suppressToast: false,
+      }
     )
+
+    return { outcome, response }
   }
-
-  /*
-   * Utilities
-   */
-  const remapLocalDocumentsAsArray = (): Partial<DecoratedEServiceDocumentWrite>[] =>
-    Object.keys(documents)
-      .filter((id) => documents[id].kind !== 'interface')
-      .map((id) => ({ ...documents[id], id }))
-
-  const getLocalInterface = () => Object.values(documents).find(({ kind }) => kind === 'interface')
-
-  const getLocalDocuments = () => ({
-    documentationDocuments: remapLocalDocumentsAsArray(),
-    interfaceDocument: getLocalInterface(),
-  })
-
-  useEffect(() => {
-    console.log('documents', documents)
-  }, [documents])
 
   return (
     <React.Fragment>
+      <EServiceWriteStep4DocumentsInterface
+        fetchedData={fetchedData}
+        uploadDescriptorDocument={uploadDescriptorDocument}
+        runAction={runAction}
+      />
+
       <WhiteBackground>
-        <StyledIntro>
-          {{
-            title: 'Interfaccia*',
-            description: "Carica il file OpenAPI/WSDL che descrive l'API",
-          }}
-        </StyledIntro>
-
-        <StyledInputFileUploaderWithControls
-          file={documents['interface']?.doc}
-          onChangeFile={wrapUpdateEntry('interface', 'interface', 'doc')}
-          description={documents['interface']?.description}
-          onChangeDescription={wrapUpdateEntry('interface', 'interface', 'description')}
-          requestUpload={wrapUploadFile('interface')}
-          requestDelete={wrapDeleteEntry('interface')}
-          id="interface"
-        />
-      </WhiteBackground>
-
-      {/* <WhiteBackground>
         <StyledIntro>
           {{
             title: 'Documentazione',
             description:
-              'Inserisci tutta la documentazione tecnica utile all’utilizzo di questa API',
+              'Inserisci tutta la documentazione tecnica utile all’utilizzo di questo e-service',
           }}
         </StyledIntro>
 
-        {documentationDocuments.length > 0 &&
-          documentationDocuments.map(({ doc, description, id }, i) => {
-            return (
-              <StyledInputFileUploaderWithControls
-                key={i}
-                file={doc}
-                onChangeFile={wrapUpdateEntry('document', id!, 'doc')}
-                description={description}
-                onChangeDescription={wrapUpdateEntry('document', id!, 'description')}
-                requestUpload={wrapUploadFile(id!)}
-                requestDelete={wrapDeleteEntry(id!)}
-                id={id!}
-              />
-            )
-          })}
-
-        <Button variant="primary" onClick={addDocument}>
+        {/* <Button variant="primary" onClick={addDocument}>
           aggiungi documento
-        </Button>
-      </WhiteBackground> */}
+        </Button> */}
+      </WhiteBackground>
 
-      <WhiteBackground>
+      {/* <WhiteBackground>
         <div className="d-flex">
           <Button
             className="me-3"
@@ -177,9 +97,9 @@ function EServiceWriteStep4DocumentsComponent({
             indietro
           </Button>
         </div>
-      </WhiteBackground>
+      </WhiteBackground> */}
 
-      <WhiteBackground>
+      {/* <WhiteBackground>
         <div className="d-flex">
           <Button className="me-3" variant="primary" onClick={publishVersion}>
             pubblica bozza
@@ -188,7 +108,7 @@ function EServiceWriteStep4DocumentsComponent({
             cancella bozza
           </Button>
         </div>
-      </WhiteBackground>
+      </WhiteBackground> */}
     </React.Fragment>
   )
 }

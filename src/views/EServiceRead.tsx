@@ -43,10 +43,7 @@ function EServiceReadComponent({
     const agreementData = { eserviceId: data.id, consumerId: party?.partyId }
 
     await runAction(
-      {
-        path: { endpoint: 'AGREEMENT_CREATE' },
-        config: { method: 'POST', data: agreementData },
-      },
+      { path: { endpoint: 'AGREEMENT_CREATE' }, config: { method: 'POST', data: agreementData } },
       { suppressToast: false }
     )
   }

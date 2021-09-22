@@ -270,12 +270,22 @@ export const API = {
     SHOULD_CALL: true,
   },
   ESERVICE_VERSION_POST_DOCUMENT: {
-    URL: 'pdnd-interop-uservice-catalog-management/0.0.1/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/documents',
+    URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/documents',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
+  ESERVICE_VERSION_DELETE_DOCUMENT: {
+    URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/documents/{{documentId}}',
     LOCAL: '',
     SHOULD_CALL: true,
   },
   ESERVICE_VERSION_GET_DOCUMENTS: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/documents/{{documentId}}',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
+  ESERVICE_VERSION_UPDATE_DOCUMENT_DESCRIPTION: {
+    URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/documents/{{documentId}}/update',
     LOCAL: '',
     SHOULD_CALL: true,
   },
@@ -421,6 +431,11 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
     success: {},
     error: {},
   },
+  ESERVICE_VERSION_DELETE_DOCUMENT: {
+    loadingText: 'Operazione in corso',
+    success: {},
+    error: {},
+  },
   ESERVICE_VERSION_GET_DOCUMENTS: {
     loadingText: 'Stiamo scaricando il documento',
     success: {
@@ -432,6 +447,11 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
       title: 'Errore',
       description: 'Non è stato possibile scaricare il documento. Riprova!',
     },
+  },
+  ESERVICE_VERSION_UPDATE_DOCUMENT_DESCRIPTION: {
+    loadingText: 'Operazione in corso',
+    success: {},
+    error: {},
   },
   OPERATOR_API_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
   OPERATOR_API_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
@@ -524,7 +544,9 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
       'Cliccando "conferma" questa bozza verrà cancellata e non sarà più recuperabile. Sarà sempre possibile creare nuove bozze',
   },
   ESERVICE_VERSION_POST_DOCUMENT: {},
+  ESERVICE_VERSION_DELETE_DOCUMENT: {},
   ESERVICE_VERSION_GET_DOCUMENTS: {},
+  ESERVICE_VERSION_UPDATE_DOCUMENT_DESCRIPTION: {},
   OPERATOR_API_GET_LIST: {},
   OPERATOR_API_GET_SINGLE: {},
   OPERATOR_API_CREATE: {},

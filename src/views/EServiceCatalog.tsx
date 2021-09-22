@@ -88,7 +88,7 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
         {{
           title: 'Gli e-service disponibili',
           description:
-            "In quest'area puoi vedere tutti gli e-service nel catalogo, e iscriverti a quelli a cui sei interessato",
+            "In quest'area puoi vedere tutti gli e-service nel catalogo, e aderire a quelli a cui sei interessato",
         }}
       </StyledIntro>
 

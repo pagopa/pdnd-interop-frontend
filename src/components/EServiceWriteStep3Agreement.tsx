@@ -13,11 +13,9 @@ function EServiceWriteStep3AgreementComponent({
   back,
 }: StepperStepComponentProps & UserFeedbackHOCProps & EServiceWriteStepProps) {
   const options = [
-    { value: '1', label: 'Template 1' },
-    { value: '2', label: 'Template 2' },
-    { value: '3', label: 'Template 3' },
-    { value: '4', label: 'Template 4' },
-    { value: '5', label: 'Template 5' },
+    { value: '1', label: 'Template pubbliche amministrazioni' },
+    { value: '2', label: 'Template privati' },
+    { value: '3', label: 'Template ...' },
   ]
 
   const submit = (e: any) => {
@@ -33,8 +31,7 @@ function EServiceWriteStep3AgreementComponent({
           <StyledIntro priority={2}>
             {{
               title: 'Accordo di interoperabilità*',
-              description:
-                'Seleziona il template di accordo che intendi proporre per sottoscrivere il servizio',
+              description: 'Seleziona il template di accordo che intendi proporre al fruitore',
             }}
           </StyledIntro>
 

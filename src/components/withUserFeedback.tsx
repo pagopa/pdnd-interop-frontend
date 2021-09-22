@@ -1,5 +1,5 @@
 // Typing from https://react-typescript-cheatsheet.netlify.app/docs/hoc/full_example/
-import { AxiosResponse } from 'axios'
+import { AxiosError, AxiosResponse } from 'axios'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import {
@@ -7,6 +7,7 @@ import {
   DialogActionKeys,
   DialogProps,
   RequestConfig,
+  RequestOutcome,
   RouteConfig,
   RunActionProps,
   ToastActionKeys,
@@ -33,7 +34,10 @@ type DestinationActionOptions = ActionOptions & {
 
 // TEMP REFACTOR: this typing needs to be refactored
 export type UserFeedbackHOCProps = {
-  runAction: (request: RequestConfig, options: ActionOptions) => Promise<void>
+  runAction: (
+    request: RequestConfig,
+    options: ActionOptions
+  ) => Promise<{ outcome: RequestOutcome; response: AxiosResponse | AxiosError }>
   runActionWithDestination: (
     request: RequestConfig,
     options: DestinationActionOptions
@@ -86,7 +90,13 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
     /*
      * API calls
      */
-    const makeRequestAndGetOutcome = async (request: RequestConfig) => {
+    const makeRequestAndGetOutcome = async (
+      request: RequestConfig
+    ): Promise<{
+      outcome: RequestOutcome
+      toastContent: ToastContentWithOutcome
+      response: AxiosResponse | AxiosError
+    }> => {
       const { loadingText, success, error }: RunActionProps =
         TOAST_CONTENTS[request.path.endpoint as ToastActionKeys]
 
@@ -112,7 +122,7 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
 
     // The most basic action. Makes request, and displays the outcome
     const runAction = async (request: RequestConfig, { suppressToast }: ActionOptions) => {
-      const { outcome, toastContent } = await makeRequestAndGetOutcome(request)
+      const { outcome, toastContent, response } = await makeRequestAndGetOutcome(request)
 
       if (outcome === 'success') {
         // Force refresh the current view if needed
@@ -125,6 +135,8 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
       if (!suppressToast) {
         showToast(toastContent)
       }
+
+      return { outcome, response }
     }
 
     // This action invokes a callback after a successful request/response cycle
