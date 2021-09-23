@@ -65,3 +65,7 @@ export function decorateEServiceWithActiveDescriptor(descriptorId: string | unde
     return { ...eserviceData, activeDescriptor }
   }
 }
+
+export function getActiveDescriptor(data: EServiceReadType, descriptorId: string) {
+  return data.descriptors.find((d) => d.id === descriptorId)
+}

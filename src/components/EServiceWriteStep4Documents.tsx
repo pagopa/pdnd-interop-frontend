@@ -1,36 +1,21 @@
 import React from 'react'
+import { Button } from 'react-bootstrap'
 import { StepperStepComponentProps } from '../../types'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
 import { StyledIntro } from './StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
 import { EServiceWriteStep4DocumentsInterface } from './EServiceWriteStep4DocumentsInterface'
 import { UserFeedbackHOCProps, withUserFeedback } from './withUserFeedback'
+import { ROUTES } from '../lib/constants'
+import { Link } from 'react-router-dom'
 
 function EServiceWriteStep4DocumentsComponent({
-  // back,
+  back,
   fetchedData,
   runAction,
 }: StepperStepComponentProps & EServiceWriteStepProps & UserFeedbackHOCProps) {
-  // const _docs: EServiceDocumentRead[] = [
-  //   {
-  //     name: 'il_mio_altro_file_1.pdf',
-  //     description: 'dsfjoisddfoidsn fdios n',
-  //     id: 'dshfoisdnions',
-  //     contentType: '',
-  //   },
-  //   {
-  //     name: 'il_mio_altro_file_2.pdf',
-  //     description: 'ewprkwepokrewop ewomfowemf',
-  //     id: 'somgerpowmrpo',
-  //     contentType: '',
-  //   },
-  // ]
-
-  // const [docs, setDocs] = useState<Partial<EServiceDocumentWrite>[]>(
-  //   _docs.map((d) =>
-  //     remapBackendDocumentToFrontend(d, 'document')
-  //   ) as Partial<EServiceDocumentWrite>[]
-  // )
+  const publishVersion = () => {}
+  const deleteVersion = () => {}
 
   const uploadDescriptorDocument = async ({ description, doc }: any) => {
     const formData = new FormData()
@@ -54,7 +39,7 @@ function EServiceWriteStep4DocumentsComponent({
         },
       },
       {
-        suppressToast: false,
+        suppressToast: true,
       }
     )
 
@@ -83,7 +68,7 @@ function EServiceWriteStep4DocumentsComponent({
         </Button> */}
       </WhiteBackground>
 
-      {/* <WhiteBackground>
+      <WhiteBackground>
         <div className="d-flex">
           <Button
             className="me-3"
@@ -97,9 +82,9 @@ function EServiceWriteStep4DocumentsComponent({
             indietro
           </Button>
         </div>
-      </WhiteBackground> */}
+      </WhiteBackground>
 
-      {/* <WhiteBackground>
+      <WhiteBackground>
         <div className="d-flex">
           <Button className="me-3" variant="primary" onClick={publishVersion}>
             pubblica bozza
@@ -108,7 +93,7 @@ function EServiceWriteStep4DocumentsComponent({
             cancella bozza
           </Button>
         </div>
-      </WhiteBackground> */}
+      </WhiteBackground>
     </React.Fragment>
   )
 }

@@ -9,6 +9,7 @@ type StyledInputTextAreaProps = {
   label?: string
   placeholder?: string
   onChange?: any
+  onBlur?: any
   className?: string
 }
 
@@ -20,6 +21,7 @@ export function StyledInputTextArea({
   label,
   placeholder = 'Lorem ipsum',
   onChange,
+  onBlur,
   className = 'mt-4 mb-3',
 }: StyledInputTextAreaProps) {
   return (
@@ -35,6 +37,7 @@ export function StyledInputTextArea({
         readOnly={readOnly}
         plaintext={readOnly}
         onChange={onChange}
+        onBlur={onBlur}
       />
     </div>
   )
