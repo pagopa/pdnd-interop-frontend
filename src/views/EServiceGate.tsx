@@ -7,6 +7,7 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { getBits } from '../lib/url-utils'
 import { EServiceRead } from './EServiceRead'
 import { EServiceWrite } from './EServiceWrite'
+import { decorateEServiceWithActiveDescriptor } from '../lib/eservice-utils'
 
 export function EServiceGate() {
   const location = useLocation()
@@ -24,12 +25,7 @@ export function EServiceGate() {
     },
     {
       defaultValue: {},
-      // Isolate activeDescriptor for easier access
-      mapFn: (eserviceData) => {
-        // Fails in case descriptorId is EServiceNoDescriptorId
-        const activeDescriptor = eserviceData.descriptors.find(({ id }) => id === descriptorId)
-        return { ...eserviceData, activeDescriptor }
-      },
+      mapFn: decorateEServiceWithActiveDescriptor(descriptorId),
       useEffectDeps: [location],
     }
   )

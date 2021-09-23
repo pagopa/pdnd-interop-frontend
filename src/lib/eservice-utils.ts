@@ -56,3 +56,12 @@ export function remapBackendDocumentToFrontend(
   const { id, description, name } = backendDocument
   return { kind, description, doc: { name, id } }
 }
+
+// Isolate activeDescriptor for easier access
+export function decorateEServiceWithActiveDescriptor(descriptorId: string | undefined) {
+  return (eserviceData: EServiceReadType) => {
+    // Fails in case descriptorId is EServiceNoDescriptorId
+    const activeDescriptor = eserviceData.descriptors.find(({ id }) => id === descriptorId)
+    return { ...eserviceData, activeDescriptor }
+  }
+}
