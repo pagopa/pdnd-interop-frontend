@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
@@ -7,6 +8,7 @@ import { PartyContext } from '../lib/context'
 import compose from 'lodash/fp/compose'
 import {
   ApiEndpointKey,
+  EServiceDescriptorRead,
   EServiceFlatReadType,
   EServiceStatus,
   TableActionBtn,
@@ -20,6 +22,7 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { withToastOnMount } from '../components/withToastOnMount'
 import { TempFilters } from '../components/TempFilters'
+import { AxiosResponse } from 'axios'
 
 function EServiceListComponent({
   runAction,
@@ -27,6 +30,7 @@ function EServiceListComponent({
   forceRerenderCounter,
   wrapActionInDialog,
 }: UserFeedbackHOCProps) {
+  const history = useHistory()
   const { party } = useContext(PartyContext)
   const { data, loading, error } = useAsyncFetch<EServiceFlatReadType[]>(
     {
@@ -87,8 +91,23 @@ function EServiceListComponent({
   }
 
   // Clones all the properties of the previous version and generates a new draft version
-  const createDraftFromVersion = () => {
-    runFakeAction('Crea nuova versione (clonata)')
+  const wrapCreateNewVersionDraft = (eserviceId: string) => async () => {
+    const { outcome, response } = await runAction(
+      {
+        path: { endpoint: 'ESERVICE_VERSION_CREATE', endpointParams: { eserviceId } },
+        config: { method: 'POST', data: { voucherLifespan: 0, audience: [], description: '' } },
+      },
+      { suppressToast: true }
+    )
+
+    if (outcome === 'success') {
+      const successResponse = response as AxiosResponse<EServiceDescriptorRead>
+      const descriptorId = successResponse.data.id
+      history.push(
+        `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${eserviceId}/${descriptorId}`,
+        { stepIndexDestination: 1 }
+      )
+    }
   }
   /*
    * End list of actions
@@ -113,10 +132,9 @@ function EServiceListComponent({
           isMock: true,
         },
         {
-          onClick: wrapActionInDialog(createDraftFromVersion),
+          onClick: wrapActionInDialog(wrapCreateNewVersionDraft(eserviceId)),
           icon: 'bi-clipboard-plus',
-          label: 'Crea bozza precompilata',
-          isMock: true,
+          label: 'Crea bozza nuova versione',
         },
       ],
       archived: [],
@@ -185,7 +203,7 @@ function EServiceListComponent({
   }
 
   // Data for the table head
-  const headData = ['nome servizio', 'versione attuale', 'stato del servizio', '']
+  const headData = ['nome servizio', 'versione', 'stato del servizio', '']
 
   return (
     <React.Fragment>

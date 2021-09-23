@@ -61,7 +61,9 @@ export function StyledToast({ outcome, title, description, onClose = noop }: Sty
             onClick={onClose}
           ></button>
         </div>
-        <div className="px-2 pt-1 pb-2">{description || DEFAULT_TEXT[outcome].description}</div>
+        <p className="px-2 pt-1 pb-2 mb-0 lh-sm">
+          {description || DEFAULT_TEXT[outcome].description}
+        </p>
       </div>
     </div>
   )
