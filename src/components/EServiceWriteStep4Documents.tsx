@@ -8,14 +8,39 @@ import { EServiceWriteStep4DocumentsInterface } from './EServiceWriteStep4Docume
 import { UserFeedbackHOCProps, withUserFeedback } from './withUserFeedback'
 import { ROUTES } from '../lib/constants'
 import { Link } from 'react-router-dom'
+import { useLocation } from 'react-router'
+import { getBits } from '../lib/url-utils'
 
 function EServiceWriteStep4DocumentsComponent({
   back,
   fetchedData,
   runAction,
 }: StepperStepComponentProps & EServiceWriteStepProps & UserFeedbackHOCProps) {
+  const location = useLocation()
+  const bits = getBits(location)
+  const activeDescriptorId: string = bits.pop() as string
+
   const publishVersion = () => {}
   const deleteVersion = () => {}
+
+  const deleteDescriptorDocument = async (documentId: string, onSuccessCallback: VoidFunction) => {
+    const { outcome, response } = await runAction(
+      {
+        path: {
+          endpoint: 'ESERVICE_VERSION_DELETE_DOCUMENT',
+          endpointParams: {
+            eserviceId: fetchedData.id,
+            descriptorId: fetchedData.activeDescriptor!.id,
+            documentId,
+          },
+        },
+        config: { method: 'DELETE' },
+      },
+      { suppressToast: true }
+    )
+
+    return { outcome, response }
+  }
 
   const uploadDescriptorDocument = async ({ description, doc }: any) => {
     const formData = new FormData()
@@ -51,7 +76,9 @@ function EServiceWriteStep4DocumentsComponent({
       <EServiceWriteStep4DocumentsInterface
         fetchedData={fetchedData}
         uploadDescriptorDocument={uploadDescriptorDocument}
+        deleteDescriptorDocument={deleteDescriptorDocument}
         runAction={runAction}
+        activeDescriptorId={activeDescriptorId}
       />
 
       <WhiteBackground>

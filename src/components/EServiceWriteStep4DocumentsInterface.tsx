@@ -1,10 +1,13 @@
 import isEmpty from 'lodash/isEmpty'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
-import { useLocation } from 'react-router'
-import { EServiceDescriptorRead, EServiceDocumentRead, EServiceDocumentWrite } from '../../types'
-import { getActiveDescriptor } from '../lib/eservice-utils'
-import { getBits } from '../lib/url-utils'
+import {
+  EServiceDescriptorRead,
+  EServiceDocumentRead,
+  EServiceDocumentWrite,
+  EServiceReadType,
+} from '../../types'
+import { getActiveInterface } from '../lib/eservice-utils'
 import { StyledDeleteableDocument } from './StyledDeleteableDocument'
 import { StyledInputFile } from './StyledInputFile'
 import { StyledInputTextArea } from './StyledInputTextArea'
@@ -12,44 +15,27 @@ import { StyledIntro } from './StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
 
 type EServiceWriteStep4DocumentsInterfaceProps = {
-  fetchedData: any
+  fetchedData: EServiceReadType
   uploadDescriptorDocument: any
+  deleteDescriptorDocument: any
+  activeDescriptorId: string
   runAction: any
 }
 
 export function EServiceWriteStep4DocumentsInterface({
   fetchedData,
   uploadDescriptorDocument,
+  deleteDescriptorDocument,
+  activeDescriptorId,
   runAction,
 }: EServiceWriteStep4DocumentsInterfaceProps) {
-  const location = useLocation()
-  const bits = getBits(location)
-  const activeDescriptorId: string = bits.pop() as string
-  const initialActiveDescriptor = fetchedData
-    ? getActiveDescriptor(fetchedData, activeDescriptorId)
-    : undefined
-  const initialInterface: EServiceDocumentRead | undefined = !isEmpty(initialActiveDescriptor)
-    ? initialActiveDescriptor!.interface
-    : undefined
+  const initialInterface = getActiveInterface(fetchedData, activeDescriptorId)
 
   const [readDoc, setReadDoc] = useState<EServiceDocumentRead | undefined>(initialInterface)
   const [writeDoc, setWriteDoc] = useState<Partial<EServiceDocumentWrite>>()
 
   const deletePreviousInterfaceDoc = async () => {
-    const { outcome } = await runAction(
-      {
-        path: {
-          endpoint: 'ESERVICE_VERSION_DELETE_DOCUMENT',
-          endpointParams: {
-            eserviceId: fetchedData.id,
-            descriptorId: fetchedData.activeDescriptor!.id,
-            documentId: readDoc!.id,
-          },
-        },
-        config: { method: 'DELETE' },
-      },
-      { suppressToast: true }
-    )
+    const { outcome } = deleteDescriptorDocument(readDoc!.id)
 
     if (outcome === 'success') {
       setReadDoc(undefined)
@@ -57,7 +43,7 @@ export function EServiceWriteStep4DocumentsInterface({
     }
   }
 
-  const postDoc = async (e: any) => {
+  const uploadNewInterfaceDoc = async (e: any) => {
     e.preventDefault()
 
     if (!isEmpty(readDoc)) {
@@ -80,10 +66,6 @@ export function EServiceWriteStep4DocumentsInterface({
     setWriteDoc({ ...writeDoc, [type]: value })
   }
 
-  useEffect(() => {
-    console.log({ writeDoc, readDoc })
-  }, [writeDoc, readDoc])
-
   return (
     <WhiteBackground>
       <StyledIntro>
@@ -96,13 +78,13 @@ export function EServiceWriteStep4DocumentsInterface({
       {readDoc ? (
         <StyledDeleteableDocument
           eserviceId={fetchedData.id}
-          descriptorId={fetchedData.activeDescriptor.id}
+          descriptorId={fetchedData.activeDescriptor!.id}
           readable={readDoc}
           deleteDocument={deletePreviousInterfaceDoc}
           runAction={runAction}
         />
       ) : (
-        <Form onSubmit={postDoc}>
+        <Form onSubmit={uploadNewInterfaceDoc}>
           <StyledInputFile
             id="interface-doc"
             label="Seleziona documento"

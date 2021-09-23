@@ -66,6 +66,16 @@ export function decorateEServiceWithActiveDescriptor(descriptorId: string | unde
   }
 }
 
-export function getActiveDescriptor(data: EServiceReadType, descriptorId: string) {
-  return data.descriptors.find((d) => d.id === descriptorId)
+export function getActiveDescriptor(data: EServiceReadType | undefined, descriptorId: string) {
+  return data ? data.descriptors.find((d) => d.id === descriptorId) : undefined
+}
+
+export function getActiveInterface(data: EServiceReadType | undefined, descriptorId: string) {
+  const activeDescriptor = getActiveDescriptor(data, descriptorId)
+  return activeDescriptor ? activeDescriptor.interface : undefined
+}
+
+export function getActiveDocs(data: EServiceReadType | undefined, descriptorId: string) {
+  const activeDescriptor = getActiveDescriptor(data, descriptorId)
+  return activeDescriptor ? activeDescriptor.docs : []
 }
