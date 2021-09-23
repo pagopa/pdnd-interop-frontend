@@ -26,7 +26,7 @@ import { useMode } from '../hooks/useMode'
 import { withToastOnMount } from '../components/withToastOnMount'
 import { TempFilters } from '../components/TempFilters'
 import { isAdmin } from '../lib/auth-utils'
-import { UserContext } from '../lib/context'
+import { PartyContext } from '../lib/context'
 
 type UserListSecurityOperatorsProps = {
   clientId?: string
@@ -39,7 +39,7 @@ function UserListComponent({
   clientId,
 }: UserFeedbackHOCProps & UserListSecurityOperatorsProps) {
   const mode = useMode()
-  const { user } = useContext(UserContext)
+  const { party } = useContext(PartyContext)
   const endpoint = mode === 'provider' ? 'OPERATOR_API_GET_LIST' : 'OPERATOR_SECURITY_GET_LIST'
   const endpointParams = mode === 'provider' ? {} : { clientId }
 
@@ -150,7 +150,7 @@ function UserListComponent({
       </StyledIntro>
 
       <div className="mt-4">
-        {isAdmin(user) && (
+        {isAdmin(party) && (
           <Button
             variant="primary"
             as={Link}

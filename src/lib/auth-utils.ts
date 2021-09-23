@@ -1,6 +1,7 @@
-import { User } from '../../types'
+import { Party } from '../../types'
 import isEmpty from 'lodash/isEmpty'
 
-export function isAdmin(user: User | null) {
-  return !isEmpty(user) && user!.platformRole === 'admin'
+export function isAdmin(party: Party | null) {
+  return !isEmpty(party) && (party!.role === 'Manager' || party!.role === 'Delegate')
+  // return !isEmpty(user) && user!.platformRole === 'admin'
 }

@@ -18,7 +18,7 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { getClientComputedStatus } from '../lib/ client-utils'
 import { isAdmin } from '../lib/auth-utils'
 import { CLIENT_COMPUTED_STATUS_LABEL, ROUTES } from '../lib/constants'
-import { PartyContext, UserContext } from '../lib/context'
+import { PartyContext } from '../lib/context'
 
 function ClientListComponent({
   runFakeAction,
@@ -26,7 +26,6 @@ function ClientListComponent({
   forceRerenderCounter,
 }: UserFeedbackHOCProps) {
   const { party } = useContext(PartyContext)
-  const { user } = useContext(UserContext)
   const { data, loading, error } = useAsyncFetch<Client[]>(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
@@ -71,7 +70,7 @@ function ClientListComponent({
     }
 
     // Exit early if user cannot perform actions
-    if (!isAdmin(user)) {
+    if (!isAdmin(party)) {
       return [inspectAction]
     }
 
@@ -118,7 +117,7 @@ function ClientListComponent({
       </StyledIntro>
 
       <div className="mt-4">
-        {isAdmin(user) && (
+        {isAdmin(party) && (
           <Button variant="primary" as={Link} to={ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_CREATE.PATH}>
             {ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_CREATE.LABEL}
           </Button>

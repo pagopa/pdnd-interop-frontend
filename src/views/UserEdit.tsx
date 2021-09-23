@@ -14,7 +14,7 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATUS_LABEL } from '../lib/constants'
 import { getLastBit } from '../lib/url-utils'
 import { isAdmin } from '../lib/auth-utils'
-import { UserContext } from '../lib/context'
+import { PartyContext } from '../lib/context'
 import { useMode } from '../hooks/useMode'
 
 function UserEditComponent({
@@ -23,7 +23,7 @@ function UserEditComponent({
   forceRerenderCounter,
 }: UserFeedbackHOCProps) {
   const mode = useMode()
-  const { user } = useContext(UserContext)
+  const { party } = useContext(PartyContext)
   const taxCode = getLastBit(useLocation())
   const endpoint = mode === 'provider' ? 'OPERATOR_API_GET_SINGLE' : 'OPERATOR_SECURITY_GET_SINGLE'
   const { data, loading } = useAsyncFetch<User>(
@@ -67,7 +67,7 @@ function UserEditComponent({
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = () => {
-    if (isEmpty(data) || !isAdmin(user)) {
+    if (isEmpty(data) || !isAdmin(party)) {
       return []
     }
 

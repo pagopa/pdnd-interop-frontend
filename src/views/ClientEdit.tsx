@@ -19,14 +19,14 @@ import isEmpty from 'lodash/isEmpty'
 import { UserList } from './UserList'
 import { getClientComputedStatus } from '../lib/ client-utils'
 import { isAdmin } from '../lib/auth-utils'
-import { UserContext } from '../lib/context'
+import { PartyContext } from '../lib/context'
 
 function ClientEditComponent({
   runFakeAction,
   wrapActionInDialog,
   forceRerenderCounter,
 }: UserFeedbackHOCProps) {
-  const { user } = useContext(UserContext)
+  const { party } = useContext(PartyContext)
   const clientId = getLastBit(useLocation())
   const { data, loading } = useAsyncFetch<Client>(
     {
@@ -57,7 +57,7 @@ function ClientEditComponent({
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = () => {
-    if (isEmpty(data) || !isAdmin(user)) {
+    if (isEmpty(data) || !isAdmin(party)) {
       return []
     }
 

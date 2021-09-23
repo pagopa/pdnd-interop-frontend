@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { isAdmin } from '../lib/auth-utils'
-import { UserContext } from '../lib/context'
+import { PartyContext } from '../lib/context'
 import { StyledIntro } from './StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
 
@@ -10,16 +10,15 @@ export function withAdminAuth<T extends AdminAuthProps>(WrappedComponent: React.
   const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component'
 
   const ComponentWithAdminAuth = (props: Omit<T, keyof AdminAuthProps>) => {
-    const { user } = useContext(UserContext)
+    const { party } = useContext(PartyContext)
 
-    if (!isAdmin(user)) {
+    if (!isAdmin(party)) {
       return (
         <WhiteBackground>
-          <StyledIntro>
+          <StyledIntro priority={2}>
             {{
               title: 'Autorizzazione insufficiente',
-              description:
-                'Spiacenti, non hai permessi sufficienti per accedere a questo contenuto',
+              description: 'Non hai sufficienti permessi per accedere a questo contenuto',
             }}
           </StyledIntro>
         </WhiteBackground>

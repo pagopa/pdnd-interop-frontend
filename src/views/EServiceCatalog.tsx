@@ -8,7 +8,7 @@ import { WhiteBackground } from '../components/WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
-import { PartyContext, UserContext } from '../lib/context'
+import { PartyContext } from '../lib/context'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { TempFilters } from '../components/TempFilters'
 import { isAdmin } from '../lib/auth-utils'
@@ -20,7 +20,6 @@ type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
 
 export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: UserFeedbackHOCProps) {
   const { party } = useContext(PartyContext)
-  const { user } = useContext(UserContext)
   const { data, loading, error } = useAsyncFetch<
     EServiceFlatReadType[],
     ExtendedEServiceFlatReadType[]
@@ -100,7 +99,7 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
             <td>{item.version}</td>
             <td>{ESERVICE_STATUS_LABEL[item.status!]}</td>
             <td>
-              {!item.isMine && isAdmin(user) && (
+              {!item.isMine && isAdmin(party) && (
                 <ActionWithTooltip
                   btnProps={{
                     onClick: wrapActionInDialog(wrapSubscribe(item), 'AGREEMENT_CREATE'),
