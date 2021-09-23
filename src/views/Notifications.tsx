@@ -16,21 +16,21 @@ const mockNotifications: Notification[] = [
     date: '02/09/2021, h. 14:46',
     title: 'Nuova chiave caricata',
     message:
-      "Un'operatore di sicurezza del client IBM per il servizio Anagrafe di Torino (sola lettura) ha caricato una nuova chiave di sicurezza",
+      "Un'operatore di sicurezza del client IBM per l'e-service Anagrafe di Torino (sola lettura) ha caricato una nuova chiave di sicurezza",
   },
   {
     type: 'info',
     date: '20/08/2021, h. 12:28',
     title: 'Accordo attivato',
     message:
-      'Il tuo accordo per il servizio Anagrafe di Torino (sola lettura) è stato attivato. Puoi ora creare dei client',
+      "Il tuo accordo per l'e-service Anagrafe di Torino (sola lettura) è stato attivato. Puoi ora creare dei client",
   },
   {
     type: 'info',
     date: '10/08/2021, h. 09:22',
     title: 'Accordo sospeso',
     message:
-      "L'accordo per il servizio Anagrafe di Milano (sola lettura), versione 2 è stato sospeso dall'Erogatore",
+      "L'accordo per l'e-service Anagrafe di Milano (sola lettura), versione 2 è stato sospeso dall'Erogatore",
   },
 ]
 

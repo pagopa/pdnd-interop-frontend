@@ -3,6 +3,7 @@ import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { withLogin } from '../components/withLogin'
+import { USER_ROLE_LABEL } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
 
 function ProfileComponent() {
@@ -29,12 +30,14 @@ function ProfileComponent() {
 
       <DescriptionBlock label="Attualmente stai operando per l'ente">
         <span>
-          {party?.description} ({party?.role})
+          {party?.description} ({party ? USER_ROLE_LABEL[party!.role] : ''})
         </span>
       </DescriptionBlock>
 
       <DescriptionBlock label="Sei registrato su questa piattaforma per gli enti">
-        <span>{availableParties.map((p) => `${p.description} (${p.role})`).join(', ')}</span>
+        <span>
+          {availableParties.map((p) => `${p.description} (${USER_ROLE_LABEL[p.role]})`).join(', ')}
+        </span>
       </DescriptionBlock>
     </WhiteBackground>
   )

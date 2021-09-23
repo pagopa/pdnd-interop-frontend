@@ -116,7 +116,9 @@ function EServiceWriteStep2VersionComponent({
   return (
     <React.Fragment>
       <WhiteBackground>
-        <StyledIntro priority={2}>{{ title: 'Informazioni di versione' }}</StyledIntro>
+        <StyledIntro priority={2}>
+          {{ title: 'Crea e-service: informazioni di versione' }}
+        </StyledIntro>
 
         <Form onSubmit={submit}>
           <StyledInputText
@@ -128,7 +130,8 @@ function EServiceWriteStep2VersionComponent({
 
           <StyledInputText
             id="audience"
-            label="Identificativo del servizio*"
+            label="Identificativo dell'e-service*"
+            tooltipLabel="L'id con il quale il fruitore dichiara il servizio richiesto. Questo identificativo deve essere unico tra i tuoi e-service"
             value={
               versionData.audience && versionData.audience.length > 0 ? versionData.audience[0] : ''
             }
@@ -138,7 +141,7 @@ function EServiceWriteStep2VersionComponent({
           <StyledInputText
             type="number"
             id="voucherLifespan"
-            label="Durata del voucher (in minuti)*"
+            label="Durata di validità del voucher (in minuti)*"
             value={versionData.voucherLifespan || 0}
             onChange={wrapSetVersionData('voucherLifespan', 'number')}
           />

@@ -106,7 +106,7 @@ function ClientListComponent({
     return actions
   }
 
-  const headData = ['nome client', 'nome servizio', 'ente erogatore', 'stato', '']
+  const headData = ['nome client', 'nome e-service', 'ente erogatore', 'stato', '']
 
   return (
     <WhiteBackground>

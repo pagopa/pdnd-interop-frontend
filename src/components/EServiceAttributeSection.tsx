@@ -21,17 +21,17 @@ const TYPE_LABELS: TypeLabels = {
   certified: {
     title: 'Attributi Certificati',
     description:
-      'Questi attributi sono verificati da un’autorità trusted, e non necessitano di ulteriori verifiche',
+      'Questi attributi sono verificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori verifiche',
   },
   verified: {
     title: 'Attributi Verificati',
     description:
-      'Questi attributi sono verificati da altri enti. Necessitano comunque approvazione manuale da parte di un authority',
+      'Questi attributi potrebbero essere stati già verificati da altre organizzazioni. Decidi se verificarli comunque',
   },
   declared: {
     title: 'Attributi Dichiarati',
     description:
-      "Questi attributi sono dichiarati dall’ente che eroga il servizio, il quale è responsabile legalmente delle dichiarazioni rese all'atto della sottoscrizione dell'accordo di interoperabilità",
+      'Il fruitore dichiara di possedere questi attributi. Non è necessaria la verifica e il fruitore si assume la responsabilità di quanto dichiarato',
   },
 }
 

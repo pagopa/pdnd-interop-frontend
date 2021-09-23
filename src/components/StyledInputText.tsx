@@ -1,5 +1,6 @@
 import React from 'react'
 import { Form } from 'react-bootstrap'
+import { InfoTooltip } from './InfoTooltip'
 import { StyledInputLabel } from './StyledInputLabel'
 
 export type StyledInputTextType = 'text' | 'email' | 'number'
@@ -13,6 +14,7 @@ type StyledInputTextProps = {
   value?: string | number
   onChange?: any
   className?: string
+  tooltipLabel?: string
 }
 
 export function StyledInputText({
@@ -24,10 +26,15 @@ export function StyledInputText({
   value,
   onChange,
   className = 'mt-4 mb-3',
+  tooltipLabel,
 }: StyledInputTextProps) {
   return (
     <div className={className}>
-      <StyledInputLabel label={label} id={id} />
+      <div className="d-flex align-contents-center">
+        <StyledInputLabel label={label} id={id} />{' '}
+        {tooltipLabel && <InfoTooltip className="ms-2" label={tooltipLabel} />}
+      </div>
+
       <Form.Control
         id={id}
         className="py-3"

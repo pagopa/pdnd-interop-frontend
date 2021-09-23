@@ -406,12 +406,12 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
     loadingText: 'Stiamo pubblicando la versione in bozza',
     success: {
       title: 'Nuova versione disponibile',
-      description: 'La nuova versione del servizio è stata pubblicata correttamente',
+      description: "La nuova versione dell'e-service è stata pubblicata correttamente",
     },
     error: {
       title: 'Errore',
       description:
-        'Si è verificato un errore, non è stato possibile pubblicare la nuova versione del servizio',
+        "Si è verificato un errore, non è stato possibile pubblicare la nuova versione dell'e-service",
     },
   },
 
@@ -472,7 +472,7 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
     loadingText: 'Stiamo salvando il nuovo attributo',
     success: {
       title: 'Attributo creato correttamente',
-      description: "Adesso puoi aggiungere l'attributo al tuo servizio",
+      description: "Adesso puoi aggiungere l'attributo al tuo e-service",
     },
     error: {
       title: 'Errore',
@@ -536,7 +536,7 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   ESERVICE_VERSION_PUBLISH: {
     title: 'Conferma pubblicazione bozza',
     description:
-      'Una volta pubblicata, una versione del servizio non è più cancellabile e diventa disponibile nel catalogo degli e-service. Sarà comunque possibile sospenderla, o renderla obsoleta una volta che una nuova versione diventa disponibile.',
+      "Una volta pubblicata, una versione dell'e-service non è più cancellabile e diventa disponibile nel catalogo degli e-service. Sarà comunque possibile sospenderla, o renderla obsoleta una volta che una nuova versione diventa disponibile.",
   },
   ESERVICE_VERSION_DELETE: {
     title: 'Conferma cancellazione bozza',
@@ -554,8 +554,8 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   ATTRIBUTE_CREATE: {},
   PARTY_GET_PARTY_ID: {},
   AGREEMENT_CREATE: {
-    title: 'Iscriviti al servizio',
-    description: 'Cliccando su "conferma" ti iscriverai al servizio richiesto',
+    title: "Iscriviti all'e-service",
+    description: 'Cliccando su "conferma" ti iscriverai all\'e-service richiesto',
   },
   AGREEMENT_GET_LIST: {},
   AGREEMENT_GET_SINGLE: {},
@@ -610,7 +610,7 @@ export const USER_STATUS_LABEL = {
 }
 
 export const USER_ROLE_LABEL = {
-  Manager: 'rappresentante legale',
+  Manager: 'admin', // 'rappresentante legale',
   Delegate: 'delegato',
   Operator: 'operatore',
 }

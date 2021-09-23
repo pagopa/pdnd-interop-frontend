@@ -76,11 +76,11 @@ function ClientEditComponent({
       data.agreement.descriptor.status !== 'published' &&
       data.agreement.descriptor.status !== 'deprecated'
     ) {
-      reasons.push("l'erogatore del servizio ha sospeso questa versione")
+      reasons.push("l'erogatore dell'e-service ha sospeso questa versione")
     }
 
     if (data.agreement.status !== 'active') {
-      reasons.push("l'accordo di interoperabilità relativo al servizio non è attivo")
+      reasons.push("l'accordo di interoperabilità relativo all'e-service non è attivo")
     }
 
     if (data.status !== 'active') {
@@ -105,7 +105,7 @@ function ClientEditComponent({
               <span>{data.description}</span>
             </DescriptionBlock>
 
-            <DescriptionBlock label="Questo client può accedere al servizio?">
+            <DescriptionBlock label="Questo client può accedere all'e-service?">
               <span>
                 {getClientComputedStatus(data) === 'active'
                   ? 'Sì'
@@ -117,7 +117,7 @@ function ClientEditComponent({
               <span>{CLIENT_STATUS_LABEL[data.status]}</span>
             </DescriptionBlock>
 
-            <DescriptionBlock label="La versione del servizio che stai usando">
+            <DescriptionBlock label="La versione dell'e-service che stai usando">
               <span>
                 <Link
                   className="link-default"
@@ -151,7 +151,7 @@ function ClientEditComponent({
             </DescriptionBlock>
 
             <DescriptionBlock
-              label={`Stato del servizio per la versione ${data.agreement.descriptor.version}`}
+              label={`Stato dell'e-service per la versione ${data.agreement.descriptor.version}`}
             >
               <span>{ESERVICE_STATUS_LABEL[data.agreement.descriptor.status]}</span>
             </DescriptionBlock>

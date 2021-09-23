@@ -30,7 +30,7 @@ function EServiceWriteStep3AgreementComponent({
         <Form onSubmit={submit}>
           <StyledIntro priority={2}>
             {{
-              title: 'Accordo di interoperabilità*',
+              title: 'Crea e-service: accordo di interoperabilità*',
               description: 'Seleziona il template di accordo che intendi proporre al fruitore',
             }}
           </StyledIntro>

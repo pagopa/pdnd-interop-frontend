@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom'
 import { useLocation } from 'react-router'
 import { getBits } from '../lib/url-utils'
 import { EServiceWriteStep4DocumentsDoc } from './EServiceWriteStep4DocumentsDoc'
+import { StyledIntro } from './StyledIntro'
 
 function EServiceWriteStep4DocumentsComponent({
   back,
@@ -92,6 +93,10 @@ function EServiceWriteStep4DocumentsComponent({
 
   return (
     <React.Fragment>
+      <WhiteBackground>
+        <StyledIntro priority={2}>{{ title: 'Crea e-service: documentazione' }}</StyledIntro>
+      </WhiteBackground>
+
       <EServiceWriteStep4DocumentsInterface
         fetchedData={fetchedData}
         uploadDescriptorDocument={uploadDescriptorDocument}

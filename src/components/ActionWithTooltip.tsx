@@ -21,7 +21,14 @@ export function ActionWithTooltip({
   isMock = false,
 }: ActionWithTooltipProps) {
   return (
-    <OverlayTrigger placement="top" overlay={<Tooltip id="tooltip">{label}</Tooltip>}>
+    <OverlayTrigger
+      placement="top"
+      overlay={
+        <Tooltip className="opacity-100" id="tooltip">
+          {label}
+        </Tooltip>
+      }
+    >
       <Button className={isMock ? 'mockFeature' : ''} variant="link" {...btnProps}>
         <i className={`text-primary fs-5 bi ${iconClass}`} />
       </Button>

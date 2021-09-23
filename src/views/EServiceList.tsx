@@ -72,22 +72,22 @@ function EServiceListComponent({
   }
 
   const reactivate = () => {
-    runFakeAction('Riattiva servizio')
+    runFakeAction('Riattiva e-service')
   }
 
   const suspend = () => {
-    runFakeAction('Sospendi servizio')
+    runFakeAction('Sospendi e-service')
   }
 
   const archive = () => {
     // Can only archive if all agreements on that version are archived
     // Check with backend if this can be automated
-    runFakeAction('Archivia servizio')
+    runFakeAction('Archivia e-service')
   }
 
   // Clones the properties and generates a new service
   const clone = () => {
-    runFakeAction('Crea nuovo servizio (clonato)')
+    runFakeAction('Crea nuovo e-service (clonato)')
   }
 
   // Clones all the properties of the previous version and generates a new draft version
@@ -203,7 +203,7 @@ function EServiceListComponent({
   }
 
   // Data for the table head
-  const headData = ['nome servizio', 'versione', 'stato del servizio', '']
+  const headData = ['nome e-service', 'versione', 'stato e-service', '']
 
   return (
     <React.Fragment>

@@ -2,7 +2,7 @@ import React, { FunctionComponent, useContext, useEffect, useState } from 'react
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
 import { Link, useLocation } from 'react-router-dom'
 import { RouteConfig } from '../../types'
-import { ROUTES } from '../lib/constants'
+import { ROUTES, USER_ROLE_LABEL } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { storageWrite } from '../lib/storage-utils'
 import { includesAny } from '../lib/string-utils'
@@ -78,10 +78,13 @@ function PlatformHeader() {
 
         <div className="d-flex align-items-center justify-content-between">
           <Nav onSelect={updateActiveParty} className="me-3">
-            <NavDropdown title={party?.description} id="nav-dropdown">
+            <NavDropdown
+              title={`${party ? `${party!.description} (${USER_ROLE_LABEL[party!.role]})` : ''}`}
+              id="nav-dropdown"
+            >
               {availableParties.map((availableParty, i) => (
                 <NavDropdown.Item key={i} eventKey={`3.${i + 1}`}>
-                  {availableParty.description}
+                  {availableParty.description} ({USER_ROLE_LABEL[availableParty.role]})
                 </NavDropdown.Item>
               ))}
             </NavDropdown>

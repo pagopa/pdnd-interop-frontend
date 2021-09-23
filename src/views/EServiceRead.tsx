@@ -30,9 +30,9 @@ function EServiceReadComponent({
   const mode = useMode()
 
   const DESCRIPTIONS = {
-    provider: 'Nota: questa versione del servizio è in sola lettura, non è più modificabile',
+    provider: "Nota: questa versione dell'e-service è in sola lettura, non è più modificabile",
     subscriber: `${
-      party?.partyId === data.producerId ? "Nota: sei l'erogatore di questo servizio" : ''
+      party?.partyId === data.producerId ? "Nota: sei l'erogatore di questo e-service" : ''
     }`,
   }
 
@@ -80,7 +80,7 @@ function EServiceReadComponent({
           {{ title: data.name, description: DESCRIPTIONS[mode!] }}
         </StyledIntro>
 
-        <DescriptionBlock label="Descrizione del servizio">
+        <DescriptionBlock label="Descrizione dell'e-service">
           <span>{data.description}</span>
         </DescriptionBlock>
 

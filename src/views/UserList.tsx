@@ -126,7 +126,7 @@ function UserListComponent({
     provider: {
       title: 'I tuoi operatori API',
       description:
-        'In quest’area puoi trovare e gestire tutti gli accordi di operatori API che sono stati abilitati a tenere aggiornate le tue API',
+        "In quest’area puoi trovare e gestire tutti gli operatori API che sono stati abilitati alla gestione degli e-service dell'ente",
     },
     subscriber: {
       title: 'I tuoi operatori di sicurezza',

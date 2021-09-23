@@ -55,10 +55,17 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
    * End list of actions
    */
 
-  const headData = ['nome servizio', 'versione attuale', 'stato del servizio', '']
+  const headData = ['nome e-service', 'versione attuale', 'stato e-service', '']
 
-  const InfoTooltip = ({ label = '', iconClass = '' }) => (
-    <OverlayTrigger placement="top" overlay={<Tooltip id="tooltip">{label}</Tooltip>}>
+  const OwnerTooltip = ({ label = '', iconClass = '' }) => (
+    <OverlayTrigger
+      placement="top"
+      overlay={
+        <Tooltip className="opacity-100" id="tooltip">
+          {label}
+        </Tooltip>
+      }
+    >
       <i className={`text-primary ms-2 fs-5 bi ${iconClass}`} />
     </OverlayTrigger>
   )
@@ -88,7 +95,7 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
           <tr key={i}>
             <td>
               {item.name}
-              {item.isMine && <InfoTooltip label="Sei l'erogatore" iconClass="bi-key-fill" />}
+              {item.isMine && <OwnerTooltip label="Sei l'erogatore" iconClass="bi-key-fill" />}
             </td>
             <td>{item.version}</td>
             <td>{ESERVICE_STATUS_LABEL[item.status!]}</td>

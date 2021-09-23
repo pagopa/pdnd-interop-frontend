@@ -162,7 +162,7 @@ function AgreementEditComponent({
               )
             })
           ) : (
-            <span>Per questo servizio non sono stati richiesti attributi</span>
+            <span>Per questo e-service non sono stati richiesti attributi</span>
           )}
         </DescriptionBlock>
 

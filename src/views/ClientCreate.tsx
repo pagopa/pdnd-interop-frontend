@@ -56,7 +56,7 @@ function ClientCreateComponent({ runActionWithDestination }: UserFeedbackHOCProp
           {{
             title: `Crea nuovo client`,
             description:
-              "Il client sarà associato ad uno specifico e-service. Una volta creato, sarà possibile aggiungere operatori di sicurezza che gestiranno le chiavi per permettere l'accesso machine-to-machine al servizio",
+              "Il client sarà associato ad uno specifico e-service. Una volta creato, sarà possibile aggiungere operatori di sicurezza che gestiranno le chiavi per permettere l'accesso machine-to-machine all'e-service",
           }}
         </StyledIntro>
 

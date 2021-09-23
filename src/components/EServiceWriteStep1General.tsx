@@ -138,9 +138,9 @@ function EServiceWriteStep1GeneralComponent({
       <WhiteBackground>
         <StyledIntro>
           {{
-            title: 'Informazioni generali',
+            title: 'Crea e-service: informazioni generali',
             description:
-              'Attenzione: una volta pubblicata la prima versione del servizio, le informazioni contenute in questa sezione non saranno più modificabili',
+              "Attenzione: una volta pubblicata la prima versione dell'e-service, le informazioni contenute in questa sezione non saranno più modificabili",
           }}
         </StyledIntro>
       </WhiteBackground>
@@ -150,7 +150,7 @@ function EServiceWriteStep1GeneralComponent({
 
           <StyledInputText
             id="name"
-            label="Nome del servizio*"
+            label="Nome dell'e-service*"
             value={eserviceData.name || ''}
             onChange={wrapSetEServiceData('name')}
             readOnly={!isEditable}
@@ -158,7 +158,7 @@ function EServiceWriteStep1GeneralComponent({
 
           <StyledInputTextArea
             id="description"
-            label="Descrizione del servizio*"
+            label="Descrizione dell'e-service*"
             value={eserviceData.description || ''}
             onChange={wrapSetEServiceData('description')}
             readOnly={!isEditable}

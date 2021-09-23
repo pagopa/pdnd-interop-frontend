@@ -9,6 +9,7 @@ import {
   ActionWithTooltipBtn,
   ActionWithTooltipLink,
   ActionWithTooltipProps,
+  ProviderOrSubscriber,
 } from '../../types'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { ActionWithTooltip } from '../components/ActionWithTooltip'
@@ -100,22 +101,27 @@ function AgreementListComponent({
   }
 
   const headData = [
-    'nome servizio',
-    'versione servizio',
+    'nome e-service',
+    'versione e-service',
     'stato accordo',
     mode === 'provider' ? 'ente fruitore' : 'ente erogatore',
     '',
   ]
 
+  const INTRO: { [key in ProviderOrSubscriber]: { title: string; description?: string } } = {
+    provider: {
+      title: 'Gli accordi',
+      description: "In quest'area puoi gestire tutti gli accordi di cui sei erogatore",
+    },
+    subscriber: {
+      title: 'Gli accordi',
+      description: "In quest'area puoi gestire tutti gli accordi di cui sei fruitore",
+    },
+  }
+
   return (
     <WhiteBackground>
-      <StyledIntro priority={2}>
-        {{
-          title: 'Gli accordi',
-          description:
-            "In quest'area puoi gestire tutti gli accordi stretti dai fruitori per i tuoi e-service",
-        }}
-      </StyledIntro>
+      <StyledIntro priority={2}>{INTRO[mode!]}</StyledIntro>
 
       <div className="mt-4">
         <TempFilters />
