@@ -41,8 +41,6 @@ export function EServiceWriteStep4DocumentsInterface({
   const deletePreviousInterfaceDoc = async () => {
     const { outcome } = await deleteDescriptorDocument(readDoc!.id)
 
-    console.log('outcome', outcome)
-
     if (outcome === 'success') {
       setReadDoc(undefined)
     }
@@ -71,8 +69,6 @@ export function EServiceWriteStep4DocumentsInterface({
     const value = type === 'doc' ? e.target.files[0] : e.target.value
     setWriteDoc({ ...writeDoc, [type]: value })
   }
-
-  console.log('readDoc', readDoc)
 
   return (
     <WhiteBackground>
