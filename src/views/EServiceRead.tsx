@@ -175,7 +175,7 @@ function EServiceReadComponent({
       {mode === 'subscriber' && (
         <WhiteBackground>
           <div className="d-flex">
-            {party?.partyId !== data.producerId && (
+            {party?.partyId !== data.producerId && data.activeDescriptor?.status === 'published' && (
               <Button
                 className="me-3"
                 variant="primary"

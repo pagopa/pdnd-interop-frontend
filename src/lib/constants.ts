@@ -165,7 +165,7 @@ export const ROUTES: RoutesObject = {
         COMPONENT: EServiceCatalog,
       },
       CATALOG_VIEW: {
-        PATH: '/fruizione/catalogo-e-service/:id',
+        PATH: '/fruizione/catalogo-e-service/:eserviceId/:descriptorId',
         EXACT: false,
         LABEL: 'Visualizza e-service',
         COMPONENT: EServiceGate,
@@ -320,17 +320,17 @@ export const API = {
     SHOULD_CALL: true,
   },
   AGREEMENT_CREATE: {
-    URL: 'pdnd-interop-uservice-agreement-management/0.0.1/agreements',
+    URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreements',
     LOCAL: '',
     SHOULD_CALL: true,
   },
   AGREEMENT_GET_LIST: {
-    URL: 'pdnd-interop-uservice-agreement-management/0.0.1/agreements',
+    URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreements',
     LOCAL: 'get-agreement-list.json',
     SHOULD_CALL: true,
   },
   AGREEMENT_GET_SINGLE: {
-    URL: 'pdnd-interop-uservice-agreement-management/0.0.1/agreement/{{agreementId}}',
+    URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreement/{{agreementId}}',
     LOCAL: 'get-agreement-single.json',
     SHOULD_CALL: true,
   },
@@ -345,7 +345,7 @@ export const API = {
     SHOULD_CALL: true,
   },
   AGREEMENT_SUSPEND: {
-    URL: 'pdnd-interop-uservice-agreement-management/0.0.1/agreements/{{agreementId}}/suspend',
+    URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreements/{{agreementId}}/suspend',
     LOCAL: '',
     SHOULD_CALL: true,
   },

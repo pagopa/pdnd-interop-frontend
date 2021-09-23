@@ -1,12 +1,6 @@
 import React, { useContext } from 'react'
-import has from 'lodash/has'
 import { Link } from 'react-router-dom'
-import {
-  BackendAttribute,
-  EServiceReadType,
-  GroupBackendAttribute,
-  SingleBackendAttribute,
-} from '../../types'
+import { EServiceFlatReadType } from '../../types'
 import { StyledIntro } from '../components/StyledIntro'
 import { TableAction } from '../components/TableAction'
 import { TableWithLoader } from '../components/TableWithLoader'
@@ -19,14 +13,20 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { TempFilters } from '../components/TempFilters'
 import { isAdmin } from '../lib/auth-utils'
 
-type ExtendedEServiceReadType = EServiceReadType & { isMine: boolean; amISubscribed: boolean }
+type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
+  isMine: boolean
+  amISubscribed: boolean
+}
 
 export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: UserFeedbackHOCProps) {
   const { party } = useContext(PartyContext)
   const { user } = useContext(UserContext)
-  const { data, loading, error } = useAsyncFetch<EServiceReadType[], ExtendedEServiceReadType[]>(
+  const { data, loading, error } = useAsyncFetch<
+    EServiceFlatReadType[],
+    ExtendedEServiceFlatReadType[]
+  >(
     {
-      path: { endpoint: 'ESERVICE_GET_LIST' },
+      path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
       config: { method: 'GET', params: { status: 'published' } },
     },
     {
@@ -39,34 +39,15 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
   /*
    * List of possible actions for the user to perform
    */
-  const wrapSubscribe = (service: EServiceReadType) => async (_: any) => {
-    const flattenedVerifiedAttributes = service.attributes.verified.reduce(
-      (acc: any, next: BackendAttribute) => {
-        const nextIds = has(next, 'single')
-          ? [(next as SingleBackendAttribute).single.id]
-          : (next as GroupBackendAttribute).group.map((a) => a.id)
-        return [...acc, ...nextIds]
-      },
-      []
-    )
-
+  const wrapSubscribe = (service: EServiceFlatReadType) => async (_: any) => {
     const agreementData = {
       eserviceId: service.id,
-      producerId: service.producerId,
-      descriptorId: service.descriptors[0].id,
+      descriptorId: service.descriptorId,
       consumerId: party?.partyId,
-      verifiedAttributes: flattenedVerifiedAttributes.map((id: string) => ({
-        id,
-        verified: false,
-        validityTimespan: 100000000,
-      })), // TEMP PIN-362
     }
 
     await runAction(
-      {
-        path: { endpoint: 'AGREEMENT_CREATE' },
-        config: { method: 'POST', data: agreementData },
-      },
+      { path: { endpoint: 'AGREEMENT_CREATE' }, config: { method: 'POST', data: agreementData } },
       { suppressToast: false }
     )
   }
@@ -109,8 +90,8 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
               {item.name}
               {item.isMine && <InfoTooltip label="Sei l'erogatore" iconClass="bi-key-fill" />}
             </td>
-            <td>{item.descriptors[0].version}</td>
-            <td>{ESERVICE_STATUS_LABEL[item.descriptors[0].status]}</td>
+            <td>{item.version}</td>
+            <td>{ESERVICE_STATUS_LABEL[item.status!]}</td>
             <td>
               {!item.isMine && isAdmin(user) && (
                 <TableAction
@@ -124,7 +105,9 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
               <TableAction
                 btnProps={{
                   as: Link,
-                  to: `${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH}/${item.id}`,
+                  to: `${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH}/${item.id}/${
+                    item.descriptorId
+                  }`,
                 }}
                 label="Ispeziona"
                 iconClass={'bi-info-circle'}
