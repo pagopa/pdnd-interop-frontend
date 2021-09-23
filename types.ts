@@ -361,16 +361,16 @@ export type ToastActionKeys = Exclude<ApiEndpointKey, 'BASE'>
 /*
  * Action buttons in tables
  */
-export type TableActionBtn = {
+export type ActionWithTooltipBtn = {
   onClick: ActionFunction
   icon?: string
   label: string
   isMock?: boolean
 }
-export type TableActionLink = {
+export type ActionWithTooltipLink = {
   to: string
   icon?: string
   label: string
   isMock?: boolean
 }
-export type TableActionProps = TableActionBtn | TableActionLink
+export type ActionWithTooltipProps = ActionWithTooltipBtn | ActionWithTooltipLink

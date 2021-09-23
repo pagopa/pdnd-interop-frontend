@@ -11,12 +11,12 @@ import {
   EServiceDescriptorRead,
   EServiceFlatReadType,
   EServiceStatus,
-  TableActionBtn,
-  TableActionLink,
-  TableActionProps,
+  ActionWithTooltipBtn,
+  ActionWithTooltipLink,
+  ActionWithTooltipProps,
 } from '../../types'
 import { TableWithLoader } from '../components/TableWithLoader'
-import { TableAction } from '../components/TableAction'
+import { ActionWithTooltip } from '../components/ActionWithTooltip'
 import { StyledIntro } from '../components/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
@@ -113,7 +113,7 @@ function EServiceListComponent({
    * End list of actions
    */
 
-  type EServiceAction = { [key in EServiceStatus]: Array<TableActionProps | null> }
+  type EServiceAction = { [key in EServiceStatus]: Array<ActionWithTooltipProps | null> }
   // Build list of available actions for each service in its current state
   const getAvailableActions = (service: EServiceFlatReadType) => {
     const { id: eserviceId, descriptorId, status } = service
@@ -194,7 +194,7 @@ function EServiceListComponent({
     // Get all the actions available for this particular status
     const actions = availableActions[status || 'draft'].filter(
       (a) => a !== null
-    ) as TableActionProps[]
+    ) as ActionWithTooltipProps[]
 
     // Add the last action, which is always EDIT/INSPECT
     actions.push(inspectAction)
@@ -240,15 +240,15 @@ function EServiceListComponent({
                   {getAvailableActions(item).map((tableAction, j) => {
                     const btnProps: any = {}
 
-                    if ((tableAction as TableActionLink).to) {
+                    if ((tableAction as ActionWithTooltipLink).to) {
                       btnProps.as = Link
-                      btnProps.to = (tableAction as TableActionLink).to
+                      btnProps.to = (tableAction as ActionWithTooltipLink).to
                     } else {
-                      btnProps.onClick = (tableAction as TableActionBtn).onClick
+                      btnProps.onClick = (tableAction as ActionWithTooltipBtn).onClick
                     }
 
                     return (
-                      <TableAction
+                      <ActionWithTooltip
                         key={j}
                         btnProps={btnProps}
                         label={tableAction.label}

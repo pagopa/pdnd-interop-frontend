@@ -4,7 +4,7 @@ import noop from 'lodash/noop'
 import merge from 'lodash/merge'
 import { Button } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
-import { TableActionBtn, User, UserStatus } from '../../types'
+import { ActionWithTooltipBtn, User, UserStatus } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { StyledIntro } from '../components/StyledIntro'
@@ -63,7 +63,7 @@ function UserEditComponent({
   /*
    * End list of actions
    */
-  type UserActions = { [key in UserStatus]: TableActionBtn[] }
+  type UserActions = { [key in UserStatus]: ActionWithTooltipBtn[] }
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = () => {

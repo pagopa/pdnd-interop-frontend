@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
-import { AgreementStatus, AgreementSummary, TableActionBtn } from '../../types'
+import { AgreementStatus, AgreementSummary, ActionWithTooltipBtn } from '../../types'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
@@ -84,7 +84,7 @@ function AgreementEditComponent({
   /*
    * End list of actions
    */
-  type AgreementActions = { [key in AgreementStatus]: TableActionBtn[] }
+  type AgreementActions = { [key in AgreementStatus]: ActionWithTooltipBtn[] }
 
   // Build list of available actions for each agreement in its current state
   const getAvailableActions = () => {

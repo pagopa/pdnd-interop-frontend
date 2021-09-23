@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Button } from 'react-bootstrap'
 import { Link, useLocation } from 'react-router-dom'
-import { Client, ClientStatus, TableActionBtn } from '../../types'
+import { Client, ClientStatus, ActionWithTooltipBtn } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { StyledIntro } from '../components/StyledIntro'
@@ -61,7 +61,7 @@ function ClientEditComponent({
       return []
     }
 
-    const actions: { [key in ClientStatus]: TableActionBtn[] } = {
+    const actions: { [key in ClientStatus]: ActionWithTooltipBtn[] } = {
       active: [{ onClick: wrapActionInDialog(suspend), label: 'sospendi', isMock: true }],
       suspended: [{ onClick: wrapActionInDialog(reactivate), label: 'riattiva', isMock: true }],
     }

@@ -1,3 +1,4 @@
+import { createRef, useEffect } from 'react'
 import { Form } from 'react-bootstrap'
 import { StyledInputLabel } from './StyledInputLabel'
 
@@ -11,6 +12,7 @@ type StyledInputTextAreaProps = {
   onChange?: any
   onBlur?: any
   className?: string
+  autofocusOnFalseReadOnly?: boolean
 }
 
 export function StyledInputTextArea({
@@ -23,11 +25,21 @@ export function StyledInputTextArea({
   onChange,
   onBlur,
   className = 'mt-4 mb-3',
+  autofocusOnFalseReadOnly = false,
 }: StyledInputTextAreaProps) {
+  const inputRef = createRef<HTMLTextAreaElement>()
+
+  useEffect(() => {
+    if (!readOnly && inputRef.current && autofocusOnFalseReadOnly) {
+      inputRef.current.focus()
+    }
+  }, [readOnly]) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <div className={className}>
       {label && <StyledInputLabel label={label} />}
       <Form.Control
+        ref={inputRef}
         id={id}
         className={`border border-light ${readOnly ? 'py-1' : 'pt-4 pb-1'}`}
         style={{ height, resize: 'none', paddingLeft: '0.75rem', paddingRight: '0.75rem' }}

@@ -11,7 +11,7 @@ import {
 import { AttributeModal } from './AttributeModal'
 import { Overlay } from './Overlay'
 import { StyledToast } from './StyledToast'
-import { TableAction } from './TableAction'
+import { ActionWithTooltip } from './ActionWithTooltip'
 import { TableWithLoader } from './TableWithLoader'
 
 type EServiceAttributeGroupProps = {
@@ -74,7 +74,7 @@ export function EServiceAttributeGroup({
               />
               {canRequireVerification && <td>{explicitAttributeVerification ? 'Sì' : 'No'}</td>}
               <td>
-                <TableAction
+                <ActionWithTooltip
                   label="Elimina"
                   iconClass="bi-trash"
                   btnProps={{

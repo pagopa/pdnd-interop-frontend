@@ -7,14 +7,19 @@ type BtnProps = {
   as?: any
 }
 
-type TableActionProps = {
+type ActionWithTooltipProps = {
   btnProps?: BtnProps
   label: string
   iconClass: string
   isMock?: boolean
 }
 
-export function TableAction({ btnProps, label, iconClass, isMock = false }: TableActionProps) {
+export function ActionWithTooltip({
+  btnProps,
+  label,
+  iconClass,
+  isMock = false,
+}: ActionWithTooltipProps) {
   return (
     <OverlayTrigger placement="top" overlay={<Tooltip id="tooltip">{label}</Tooltip>}>
       <Button className={isMock ? 'mockFeature' : ''} variant="link" {...btnProps}>

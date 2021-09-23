@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { EServiceFlatReadType } from '../../types'
 import { StyledIntro } from '../components/StyledIntro'
-import { TableAction } from '../components/TableAction'
+import { ActionWithTooltip } from '../components/ActionWithTooltip'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
@@ -94,7 +94,7 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
             <td>{ESERVICE_STATUS_LABEL[item.status!]}</td>
             <td>
               {!item.isMine && isAdmin(user) && (
-                <TableAction
+                <ActionWithTooltip
                   btnProps={{
                     onClick: wrapActionInDialog(wrapSubscribe(item), 'AGREEMENT_CREATE'),
                   }}
@@ -102,7 +102,7 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
                   iconClass={'bi-pencil-square'}
                 />
               )}
-              <TableAction
+              <ActionWithTooltip
                 btnProps={{
                   as: Link,
                   to: `${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH}/${item.id}/${

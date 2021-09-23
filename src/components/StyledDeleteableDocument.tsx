@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Button } from 'react-bootstrap'
 import { EServiceDocumentRead } from '../../types'
+import { ActionWithTooltip } from './ActionWithTooltip'
 import { StyledInputTextArea } from './StyledInputTextArea'
 
 type StyledDeleteableDocumentComponentProps = {
@@ -54,26 +54,29 @@ export function StyledDeleteableDocument({
 
   return (
     <div className="d-flex align-items-center justify-content-between">
-      <div>
-        <div>
-          <strong>{readable.name}</strong>
-        </div>
-
+      <div style={{ maxWidth: 500 }}>
+        <strong>{readable.name}</strong>
+        <br />
         <StyledInputTextArea
           readOnly={!canEdit}
-          className="bg-danger text-white"
+          className="w-100"
           onChange={updateTempDescr}
           onBlur={onBlur}
           value={tempDescr || ''}
+          autofocusOnFalseReadOnly={true}
         />
       </div>
       <div>
-        <Button onClick={updateCanEdit} className="me-2">
-          <i className="text-white fs-5 bi bi-pencil" />
-        </Button>
-        <Button onClick={deleteDocument}>
-          <i className="text-white fs-5 bi bi-trash" />
-        </Button>
+        <ActionWithTooltip
+          btnProps={{ onClick: updateCanEdit }}
+          label="Modifica descrizione"
+          iconClass="bi-pencil"
+        />
+        <ActionWithTooltip
+          btnProps={{ onClick: deleteDocument }}
+          label="Cancella documento"
+          iconClass="bi-trash"
+        />
       </div>
     </div>
   )

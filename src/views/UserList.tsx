@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom'
 import {
   AgreementStatus,
   ProviderOrSubscriber,
-  TableActionBtn,
-  TableActionLink,
-  TableActionProps,
+  ActionWithTooltipBtn,
+  ActionWithTooltipLink,
+  ActionWithTooltipProps,
   User,
 } from '../../types'
 import { StyledIntro } from '../components/StyledIntro'
-import { TableAction } from '../components/TableAction'
+import { ActionWithTooltip } from '../components/ActionWithTooltip'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
@@ -67,7 +67,7 @@ function UserListComponent({
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = (user: User) => {
-    const availableActions: { [key in AgreementStatus]: TableActionProps[] } = {
+    const availableActions: { [key in AgreementStatus]: ActionWithTooltipProps[] } = {
       pending: [],
       active: [
         {
@@ -101,7 +101,7 @@ function UserListComponent({
     }
 
     // Get all the actions available for this particular status
-    const actions: TableActionProps[] = (availableActions as any)[status] || []
+    const actions: ActionWithTooltipProps[] = (availableActions as any)[status] || []
 
     // Add the last action, which is always EDIT/INSPECT
     actions.push(inspectAction)
@@ -187,15 +187,15 @@ function UserListComponent({
                 {getAvailableActions(item).map((tableAction, j) => {
                   const btnProps: any = {}
 
-                  if ((tableAction as TableActionLink).to) {
+                  if ((tableAction as ActionWithTooltipLink).to) {
                     btnProps.as = Link
-                    btnProps.to = (tableAction as TableActionLink).to
+                    btnProps.to = (tableAction as ActionWithTooltipLink).to
                   } else {
-                    btnProps.onClick = (tableAction as TableActionBtn).onClick
+                    btnProps.onClick = (tableAction as ActionWithTooltipBtn).onClick
                   }
 
                   return (
-                    <TableAction
+                    <ActionWithTooltip
                       key={j}
                       btnProps={btnProps}
                       label={tableAction.label}
