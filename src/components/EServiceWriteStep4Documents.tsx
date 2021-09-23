@@ -15,12 +15,28 @@ function EServiceWriteStep4DocumentsComponent({
   back,
   fetchedData,
   runAction,
+  runActionWithDestination,
 }: StepperStepComponentProps & EServiceWriteStepProps & UserFeedbackHOCProps) {
   const location = useLocation()
   const bits = getBits(location)
   const activeDescriptorId: string = bits.pop() as string
 
-  const publishVersion = () => {}
+  const publishVersion = async (_: any) => {
+    await runActionWithDestination(
+      {
+        path: {
+          endpoint: 'ESERVICE_VERSION_PUBLISH',
+          endpointParams: {
+            eserviceId: fetchedData.id,
+            descriptorId: fetchedData.activeDescriptor!.id,
+          },
+        },
+        config: { method: 'POST' },
+      },
+      { destination: ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST, suppressToast: false }
+    )
+  }
+
   const deleteVersion = () => {}
 
   const deleteDescriptorDocument = async (documentId: string, onSuccessCallback: VoidFunction) => {
