@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { EServiceDocumentRead } from '../../types'
 import { StyledInputTextArea } from './StyledInputTextArea'
@@ -18,8 +18,12 @@ export function StyledDeleteableDocument({
   deleteDocument,
   runAction,
 }: StyledDeleteableDocumentComponentProps) {
-  const [tempDescr, setTempDescr] = useState(readable.description)
+  const [tempDescr, setTempDescr] = useState<string>()
   const [canEdit, setCanEdit] = useState(false)
+
+  useEffect(() => {
+    setTempDescr(readable.description)
+  }, [readable])
 
   const updateTempDescr = (e: any) => {
     setTempDescr(e.target.value)

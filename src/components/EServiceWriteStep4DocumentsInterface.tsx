@@ -1,5 +1,5 @@
 import isEmpty from 'lodash/isEmpty'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import {
   EServiceDescriptorRead,
@@ -31,15 +31,20 @@ export function EServiceWriteStep4DocumentsInterface({
 }: EServiceWriteStep4DocumentsInterfaceProps) {
   const initialInterface = getActiveInterface(fetchedData, activeDescriptorId)
 
-  const [readDoc, setReadDoc] = useState<EServiceDocumentRead | undefined>(initialInterface)
+  const [readDoc, setReadDoc] = useState<EServiceDocumentRead | undefined>()
   const [writeDoc, setWriteDoc] = useState<Partial<EServiceDocumentWrite>>()
 
+  useEffect(() => {
+    setReadDoc(initialInterface)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   const deletePreviousInterfaceDoc = async () => {
-    const { outcome } = deleteDescriptorDocument(readDoc!.id)
+    const { outcome } = await deleteDescriptorDocument(readDoc!.id)
+
+    console.log('outcome', outcome)
 
     if (outcome === 'success') {
       setReadDoc(undefined)
-      setWriteDoc(undefined)
     }
   }
 
@@ -50,7 +55,7 @@ export function EServiceWriteStep4DocumentsInterface({
       await deletePreviousInterfaceDoc()
     }
 
-    const { outcome, response } = await uploadDescriptorDocument(writeDoc)
+    const { outcome, response } = await uploadDescriptorDocument(writeDoc, 'interface')
 
     if (outcome === 'success') {
       const activeDescriptor = response.data.descriptors.find(
@@ -58,6 +63,7 @@ export function EServiceWriteStep4DocumentsInterface({
       )
       const file = activeDescriptor.interface
       setReadDoc(file)
+      setWriteDoc(undefined)
     }
   }
 
@@ -65,6 +71,8 @@ export function EServiceWriteStep4DocumentsInterface({
     const value = type === 'doc' ? e.target.files[0] : e.target.value
     setWriteDoc({ ...writeDoc, [type]: value })
   }
+
+  console.log('readDoc', readDoc)
 
   return (
     <WhiteBackground>
@@ -93,6 +101,7 @@ export function EServiceWriteStep4DocumentsInterface({
           />
 
           <StyledInputTextArea
+            id="interface-descr"
             label="Descrizione"
             value={writeDoc?.description || ''}
             onChange={wrapUpdateDoc('description')}

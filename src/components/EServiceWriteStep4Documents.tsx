@@ -1,8 +1,7 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
-import { StepperStepComponentProps } from '../../types'
+import { EServiceDocumentKind, StepperStepComponentProps } from '../../types'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
-import { StyledIntro } from './StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
 import { EServiceWriteStep4DocumentsInterface } from './EServiceWriteStep4DocumentsInterface'
 import { UserFeedbackHOCProps, withUserFeedback } from './withUserFeedback'
@@ -10,6 +9,7 @@ import { ROUTES } from '../lib/constants'
 import { Link } from 'react-router-dom'
 import { useLocation } from 'react-router'
 import { getBits } from '../lib/url-utils'
+import { EServiceWriteStep4DocumentsDoc } from './EServiceWriteStep4DocumentsDoc'
 
 function EServiceWriteStep4DocumentsComponent({
   back,
@@ -39,7 +39,7 @@ function EServiceWriteStep4DocumentsComponent({
 
   const deleteVersion = () => {}
 
-  const deleteDescriptorDocument = async (documentId: string, onSuccessCallback: VoidFunction) => {
+  const deleteDescriptorDocument = async (documentId: string) => {
     const { outcome, response } = await runAction(
       {
         path: {
@@ -58,9 +58,12 @@ function EServiceWriteStep4DocumentsComponent({
     return { outcome, response }
   }
 
-  const uploadDescriptorDocument = async ({ description, doc }: any) => {
+  const uploadDescriptorDocument = async (
+    { description, doc }: any,
+    kind: EServiceDocumentKind
+  ) => {
     const formData = new FormData()
-    formData.append('kind', 'interface')
+    formData.append('kind', kind)
     formData.append('description', description)
     formData.append('doc', doc!)
 
@@ -97,19 +100,13 @@ function EServiceWriteStep4DocumentsComponent({
         activeDescriptorId={activeDescriptorId}
       />
 
-      <WhiteBackground>
-        <StyledIntro>
-          {{
-            title: 'Documentazione',
-            description:
-              'Inserisci tutta la documentazione tecnica utile all’utilizzo di questo e-service',
-          }}
-        </StyledIntro>
-
-        {/* <Button variant="primary" onClick={addDocument}>
-          aggiungi documento
-        </Button> */}
-      </WhiteBackground>
+      <EServiceWriteStep4DocumentsDoc
+        fetchedData={fetchedData}
+        uploadDescriptorDocument={uploadDescriptorDocument}
+        deleteDescriptorDocument={deleteDescriptorDocument}
+        runAction={runAction}
+        activeDescriptorId={activeDescriptorId}
+      />
 
       <WhiteBackground>
         <div className="d-flex">

@@ -1,112 +1,134 @@
-export function EServiceWriteStep4DocumentsDoc() {}
+import React, { useEffect, useState } from 'react'
+import keyBy from 'lodash/keyBy'
+import { Button, Form } from 'react-bootstrap'
+import {
+  EServiceDescriptorRead,
+  EServiceDocumentRead,
+  EServiceDocumentWrite,
+  EServiceReadType,
+} from '../../types'
+import { getActiveDocs } from '../lib/eservice-utils'
+import { StyledDeleteableDocument } from './StyledDeleteableDocument'
+import { StyledInputFile } from './StyledInputFile'
+import { StyledInputTextArea } from './StyledInputTextArea'
+import { StyledIntro } from './StyledIntro'
+import { WhiteBackground } from './WhiteBackground'
 
-// import isEmpty from 'lodash/isEmpty'
-// import React, { useState } from 'react'
-// import { Button, Form } from 'react-bootstrap'
-// import {
-//   EServiceDescriptorRead,
-//   EServiceDocumentRead,
-//   EServiceDocumentWrite,
-//   EServiceReadType,
-// } from '../../types'
-// import { getActiveDocs } from '../lib/eservice-utils'
-// import { StyledDeleteableDocument } from './StyledDeleteableDocument'
-// import { StyledInputFile } from './StyledInputFile'
-// import { StyledInputTextArea } from './StyledInputTextArea'
-// import { StyledIntro } from './StyledIntro'
-// import { WhiteBackground } from './WhiteBackground'
+type EServiceWriteStep4DocumentsDocProps = {
+  fetchedData: EServiceReadType
+  uploadDescriptorDocument: any
+  deleteDescriptorDocument: any
+  activeDescriptorId: string
+  runAction: any
+}
 
-// type EServiceWriteStep4DocumentsDocProps = {
-//   fetchedData: EServiceReadType
-//   uploadDescriptorDocument: any
-//   deleteDescriptorDocument: any
-//   activeDescriptorId: string
-//   runAction: any
-// }
+type EServiceDocumentsReadObject = { [key: string]: EServiceDocumentRead }
 
-// export function EServiceWriteStep4DocumentsDoc({
-//   fetchedData,
-//   uploadDescriptorDocument,
-//   deleteDescriptorDocument,
-//   activeDescriptorId,
-//   runAction,
-// }: EServiceWriteStep4DocumentsDocProps) {
-//   const initialDocs = getActiveDocs(fetchedData, activeDescriptorId)
+export function EServiceWriteStep4DocumentsDoc({
+  fetchedData,
+  uploadDescriptorDocument,
+  deleteDescriptorDocument,
+  activeDescriptorId,
+  runAction,
+}: EServiceWriteStep4DocumentsDocProps) {
+  const initialDocs = getActiveDocs(fetchedData, activeDescriptorId)
 
-//   const [readDocs, setReadDocs] = useState<EServiceDocumentRead[]>(initialDocs)
-//   const [writeDocs, setWriteDocs] = useState<Partial<EServiceDocumentWrite>>()
+  const toArray = (obj: EServiceDocumentsReadObject) => Object.values(obj)
+  const toObject = (arr: EServiceDocumentRead[]) => keyBy(arr, 'id')
 
-//   const deletePreviousInterfaceDoc = async () => {
-//     const { outcome } = deleteDescriptorDocument(readDoc!.id)
+  const [readDocs, setReadDocs] = useState<EServiceDocumentsReadObject>({})
+  const [writeDoc, setWriteDoc] = useState<Partial<EServiceDocumentWrite>>()
+  const [showWriteDocInput, setShowWriteDocInput] = useState(false)
 
-//     if (outcome === 'success') {
-//       setReadDoc(undefined)
-//       setWriteDoc(undefined)
-//     }
-//   }
+  useEffect(() => {
+    setReadDocs(toObject(initialDocs))
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-//   const uploadNewInterfaceDoc = async (e: any) => {
-//     e.preventDefault()
+  const wrapDeletePreviousDoc = (id: string) => async () => {
+    const { outcome } = await deleteDescriptorDocument(id)
 
-//     if (!isEmpty(readDoc)) {
-//       await deletePreviousInterfaceDoc()
-//     }
+    if (outcome === 'success') {
+      const newDocsObject = { ...readDocs }
+      delete newDocsObject[id]
+      setReadDocs(newDocsObject)
+    }
+  }
 
-//     const { outcome, response } = await uploadDescriptorDocument(writeDoc)
+  const uploadNewDoc = async (e: any) => {
+    e.preventDefault()
 
-//     if (outcome === 'success') {
-//       const activeDescriptor = response.data.descriptors.find(
-//         (d: EServiceDescriptorRead) => d.id === activeDescriptorId
-//       )
-//       const file = activeDescriptor.interface
-//       setReadDoc(file)
-//     }
-//   }
+    const { outcome, response } = await uploadDescriptorDocument(writeDoc, 'document')
 
-//   const wrapUpdateDoc = (type: 'doc' | 'description') => (e: any) => {
-//     const value = type === 'doc' ? e.target.files[0] : e.target.value
-//     setWriteDoc({ ...writeDoc, [type]: value })
-//   }
+    if (outcome === 'success') {
+      const activeDescriptor = response.data.descriptors.find(
+        (d: EServiceDescriptorRead) => d.id === activeDescriptorId
+      )
+      const files = activeDescriptor.docs
+      setReadDocs(toObject(files))
+      setWriteDoc(undefined)
+      setShowWriteDocInput(false)
+    }
+  }
 
-//   return (
-//     <WhiteBackground>
-//       <StyledIntro>
-//         {{
-//           title: 'Interfaccia*',
-//           description: "Carica il file OpenAPI/WSDL che descrive l'API",
-//         }}
-//       </StyledIntro>
+  const wrapUpdateDoc = (type: 'doc' | 'description') => (e: any) => {
+    const value = type === 'doc' ? e.target.files[0] : e.target.value
+    setWriteDoc({ ...writeDoc, [type]: value })
+  }
 
-//       {readDoc ? (
-//         <StyledDeleteableDocument
-//           eserviceId={fetchedData.id}
-//           descriptorId={fetchedData.activeDescriptor!.id}
-//           readable={readDoc}
-//           deleteDocument={deletePreviousInterfaceDoc}
-//           runAction={runAction}
-//         />
-//       ) : (
-//         <Form onSubmit={uploadNewInterfaceDoc}>
-//           <StyledInputFile
-//             id="interface-doc"
-//             label="Seleziona documento"
-//             value={writeDoc?.doc}
-//             onChange={wrapUpdateDoc('doc')}
-//           />
+  const showFileInputForm = (_: any) => {
+    setShowWriteDocInput(true)
+  }
 
-//           <StyledInputTextArea
-//             label="Descrizione"
-//             value={writeDoc?.description || ''}
-//             onChange={wrapUpdateDoc('description')}
-//           />
+  return (
+    <WhiteBackground>
+      <StyledIntro>
+        {{
+          title: 'Documentazione',
+          description:
+            'Inserisci tutta la documentazione tecnica utile all’utilizzo di questo e-service',
+        }}
+      </StyledIntro>
 
-//           <div className="d-flex justify-content-end">
-//             <Button type="submit" variant="primary">
-//               carica
-//             </Button>
-//           </div>
-//         </Form>
-//       )}
-//     </WhiteBackground>
-//   )
-// }
+      {toArray(readDocs).map((readDoc, i) => {
+        return (
+          <StyledDeleteableDocument
+            key={i}
+            eserviceId={fetchedData.id}
+            descriptorId={fetchedData.activeDescriptor!.id}
+            readable={readDoc}
+            deleteDocument={wrapDeletePreviousDoc(readDoc.id)}
+            runAction={runAction}
+          />
+        )
+      })}
+
+      {showWriteDocInput ? (
+        <Form onSubmit={uploadNewDoc}>
+          <StyledInputFile
+            id="doc-doc"
+            label="Seleziona documento"
+            value={writeDoc?.doc}
+            onChange={wrapUpdateDoc('doc')}
+          />
+
+          <StyledInputTextArea
+            id="doc-descr"
+            label="Descrizione"
+            value={writeDoc?.description || ''}
+            onChange={wrapUpdateDoc('description')}
+          />
+
+          <div className="d-flex justify-content-end">
+            <Button type="submit" variant="primary">
+              carica
+            </Button>
+          </div>
+        </Form>
+      ) : (
+        <Button variant="primary" onClick={showFileInputForm}>
+          Aggiungi documento
+        </Button>
+      )}
+    </WhiteBackground>
+  )
+}
