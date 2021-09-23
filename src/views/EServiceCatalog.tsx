@@ -26,7 +26,7 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
   const { user } = useContext(UserContext)
   const { data, loading, error } = useAsyncFetch<EServiceReadType[], ExtendedEServiceReadType[]>(
     {
-      path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
+      path: { endpoint: 'ESERVICE_GET_LIST' },
       config: { method: 'GET', params: { status: 'published' } },
     },
     {

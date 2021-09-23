@@ -159,6 +159,7 @@ export type EServiceCreateDataType = {
 export type EServiceFlatReadType = {
   name: string
   id: string
+  producerId: string
   descriptorId?: string
   status?: EServiceStatus
   version?: string
