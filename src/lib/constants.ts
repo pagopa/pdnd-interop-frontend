@@ -30,6 +30,7 @@ import { EServiceGate } from '../views/EServiceGate'
 import { UserCreate } from '../views/UserCreate'
 import { TempSPIDUser } from '../components/TempSPIDUser'
 import { ClientCreate } from '../views/ClientCreate'
+import { IPAGuide } from '../views/IPAGuide'
 
 export const SHOW_DEV_LABELS = true
 export const USE_SPID_USER_LORENZO_CARMILLI = true
@@ -44,6 +45,7 @@ export const ROUTES: RoutesObject = {
   LOGIN: { PATH: '/login', LABEL: 'Login', COMPONENT: Login },
   LOGOUT: { PATH: '/logout', LABEL: 'Logout', COMPONENT: Logout },
   HELP: { PATH: '/aiuto', LABEL: 'Serve aiuto?', COMPONENT: Help },
+  IPA_GUIDE: { PATH: '/guida-ipa', LABEL: 'Accreditarsi su IPA', COMPONENT: IPAGuide },
   TEMP_SPID_USER: {
     PATH: '/temp-spid',
     LABEL: 'Genera utente SPID di test',

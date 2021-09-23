@@ -6,6 +6,8 @@ import { Row, Container } from 'react-bootstrap'
 import { OnboardingStepActions } from './OnboardingStepActions'
 import { AsyncAutocomplete } from './AsyncAutocomplete'
 import { StyledIntro } from './StyledIntro'
+import { ROUTES } from '../lib/constants'
+import { Link } from 'react-router-dom'
 
 export function OnboardingStep1({ forward }: StepperStepComponentProps) {
   const { user } = useContext(UserContext)
@@ -28,15 +30,9 @@ export function OnboardingStep1({ forward }: StepperStepComponentProps) {
                 riferimento dall’elenco IPA.
                 <br />
                 Se non trovi il tuo ente nell’elenco,{' '}
-                <a
-                  className="link-default"
-                  href="https://example.com"
-                  title="Go to example.com"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
+                <Link className="link-default" to={ROUTES.IPA_GUIDE.PATH}>
                   scopri qui
-                </a>{' '}
+                </Link>{' '}
                 come aggiungerti.
               </>
             ),
