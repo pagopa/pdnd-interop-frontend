@@ -164,8 +164,8 @@ function EServiceReadComponent({
                   .join(' oppure ')
 
                 return (
-                  <React.Fragment>
-                    <span key={j}>{attributeLabels}</span>
+                  <React.Fragment key={j}>
+                    <span>{attributeLabels}</span>
                     <br />
                   </React.Fragment>
                 )

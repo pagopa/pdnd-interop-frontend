@@ -250,6 +250,11 @@ export const API = {
     LOCAL: '',
     SHOULD_CALL: true,
   },
+  ESERVICE_CLONE_FROM_VERSION: {
+    URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/clone',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
   ESERVICE_VERSION_CREATE: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors',
     LOCAL: '',
@@ -401,8 +406,40 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
     },
   },
   ESERVICE_UPDATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  ESERVICE_DELETE: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  ESERVICE_VERSION_CREATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  ESERVICE_DELETE: {
+    loadingText: 'Stiamo cancellando la bozza',
+    success: {
+      title: 'Bozza cancellata correttamente',
+      description: 'La bozza è stata cancellata correttamente',
+    },
+    error: {
+      title: 'Errore',
+      description: 'Si è verificato un errore, non è stato possibile cancellare la bozza',
+    },
+  },
+  ESERVICE_CLONE_FROM_VERSION: {
+    loadingText: "Stiamo clonando l'e-service richiesto",
+    success: {
+      title: 'Nuova bozza disponibile',
+      description: 'Il servizio è stato clonato correttamente ed è disponibile in bozza',
+    },
+    error: {
+      title: 'Errore',
+      description: "Non è stato possibile completare l'operazione. Per favore, riprovare",
+    },
+  },
+  ESERVICE_VERSION_CREATE: {
+    loadingText: 'Stiamo creando la nuova versione (in bozza)',
+    success: {
+      title: 'Nuova versione disponibile',
+      description: "La nuova versione della nuova versione dell'e-service è disponibile in bozza",
+    },
+    error: {
+      title: 'Errore',
+      description:
+        "Non è stato possibile creare una bozza per la nuova versione dell'e-service. Per favore, riprovare",
+    },
+  },
   ESERVICE_VERSION_UPDATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   ESERVICE_VERSION_PUBLISH: {
     loadingText: 'Stiamo pubblicando la versione in bozza',
@@ -532,8 +569,20 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
       'Cliccando "conferma", una nuova bozza verrà creata. Potrà essere pubblicata successivamente, oppure cancellata',
   },
   ESERVICE_UPDATE: {},
-  ESERVICE_DELETE: {},
-  ESERVICE_VERSION_CREATE: {},
+  ESERVICE_DELETE: {
+    title: 'Conferma cancellazione bozza',
+    description:
+      'Cliccando "conferma" questa bozza verrà cancellata e non sarà più recuperabile. Sarà sempre possibile creare nuove bozze',
+  },
+  ESERVICE_CLONE_FROM_VERSION: {
+    title: 'Conferma clonazione e-service',
+    description:
+      "Verrà creato un nuovo e-service in bozza con le stesse caratteristiche dell'e-service selezionato",
+  },
+  ESERVICE_VERSION_CREATE: {
+    title: 'Conferma creazione bozza versione',
+    description: "Verrà creata una nuova versione (in bozza) dell'e-service selezionato",
+  },
   ESERVICE_VERSION_UPDATE: {},
   ESERVICE_VERSION_PUBLISH: {
     title: 'Conferma pubblicazione bozza',

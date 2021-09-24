@@ -86,8 +86,17 @@ function EServiceListComponent({
   }
 
   // Clones the properties and generates a new service
-  const clone = () => {
-    runFakeAction('Crea nuovo e-service (clonato)')
+  const wrapClone = (eserviceId: string, descriptorId?: string) => async (_: any) => {
+    await runAction(
+      {
+        path: {
+          endpoint: 'ESERVICE_CLONE_FROM_VERSION',
+          endpointParams: { eserviceId, descriptorId },
+        },
+        config: { method: 'POST' },
+      },
+      { suppressToast: false }
+    )
   }
 
   // Clones all the properties of the previous version and generates a new draft version
@@ -126,13 +135,18 @@ function EServiceListComponent({
           isMock: true,
         },
         {
-          onClick: wrapActionInDialog(clone),
+          onClick: wrapActionInDialog(
+            wrapClone(eserviceId, descriptorId),
+            'ESERVICE_CLONE_FROM_VERSION'
+          ),
           icon: 'bi-files',
           label: 'Clona',
-          isMock: true,
         },
         {
-          onClick: wrapActionInDialog(wrapCreateNewVersionDraft(eserviceId)),
+          onClick: wrapActionInDialog(
+            wrapCreateNewVersionDraft(eserviceId),
+            'ESERVICE_VERSION_CREATE'
+          ),
           icon: 'bi-clipboard-plus',
           label: 'Crea bozza nuova versione',
         },
@@ -166,7 +180,7 @@ function EServiceListComponent({
         {
           onClick: wrapActionInDialog(
             wrapDeleteDraft(eserviceId, descriptorId),
-            'ESERVICE_DRAFT_DELETE'
+            'ESERVICE_VERSION_DELETE'
           ),
           icon: 'bi-trash',
           label: 'Elimina',
