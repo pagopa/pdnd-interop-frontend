@@ -3,7 +3,8 @@ $body-bg: white;
 $light: #c2c2c2;
 $dark: #475a6d;
 $primary: #0073e6;
-$secondary: #ccd4dc;
+// $secondary: #ccd4dc;
+$secondary: #dedede;
 $success: #96dbbe;
 $danger: #ff8181;
 
@@ -115,7 +116,7 @@ h6,
 
 div[contenteditable='true']:focus {
   outline: 0;
-  background: #dedede;
+  background: $secondary;
 }
 
 /*

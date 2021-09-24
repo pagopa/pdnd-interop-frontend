@@ -27,7 +27,7 @@ export function StyledDialog({
         {description && <Modal.Body className="py-4">{description}</Modal.Body>}
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={close}>
+          <Button variant="outline-primary" onClick={close}>
             Annulla
           </Button>
           <Button variant="primary" onClick={proceedCallback}>

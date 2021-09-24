@@ -71,14 +71,14 @@ export function StyledDeleteableDocument({
           onChange={updateTempDescr}
           onBlur={onBlur}
           dangerouslySetInnerHTML={{
-            __html: (tempDescr || '').replace(/%20/g, ' ').replace(/%2C/g, ','),
+            __html: tempDescr || '',
           }}
         />
       </div>
       <div className="ms-5 flex-shrink-0">
         <ActionWithTooltip
-          className="rounded-circle px-2 py-2 d-inline-block"
-          style={{ backgroundColor: canEdit ? '#dedede' : 'transparent', width: 48 }}
+          className={`rounded-circle px-2 py-2 d-inline-block${canEdit ? ' bg-secondary' : ''}`}
+          style={{ width: 48 }}
           btnProps={{ onClick: updateCanEdit }}
           label="Modifica descrizione"
           iconClass="bi-pencil"

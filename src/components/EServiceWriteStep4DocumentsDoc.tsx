@@ -81,7 +81,7 @@ export function EServiceWriteStep4DocumentsDoc({
 
   return (
     <WhiteBackground>
-      <StyledIntro>
+      <StyledIntro priority={2}>
         {{
           title: 'Documentazione',
           description: 'Inserisci la documentazione tecnica utile all’utilizzo di questo e-service',
@@ -102,11 +102,7 @@ export function EServiceWriteStep4DocumentsDoc({
       })}
 
       {showWriteDocInput ? (
-        <Form
-          className="px-3 py-3 rounded"
-          style={{ background: '#dedede' }}
-          onSubmit={uploadNewDoc}
-        >
+        <Form className="px-3 py-3 rounded bg-secondary" onSubmit={uploadNewDoc}>
           <StyledInputFile
             className="mt-2 mb-0"
             id="doc-doc"

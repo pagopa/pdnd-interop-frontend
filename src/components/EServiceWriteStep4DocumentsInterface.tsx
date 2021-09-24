@@ -72,7 +72,7 @@ export function EServiceWriteStep4DocumentsInterface({
 
   return (
     <WhiteBackground>
-      <StyledIntro>
+      <StyledIntro priority={2}>
         {{
           title: 'Interfaccia*',
           description: "Carica il file OpenAPI/WSDL che descrive l'API",
@@ -88,11 +88,7 @@ export function EServiceWriteStep4DocumentsInterface({
           runAction={runAction}
         />
       ) : (
-        <Form
-          className="px-3 py-3 rounded"
-          style={{ background: '#dedede' }}
-          onSubmit={uploadNewInterfaceDoc}
-        >
+        <Form className="px-3 py-3 rounded bg-secondary" onSubmit={uploadNewInterfaceDoc}>
           <StyledInputFile
             className="mt-2 mb-0"
             id="interface-doc"

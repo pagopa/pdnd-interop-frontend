@@ -97,7 +97,7 @@ export function AttributeModalCreateNew({ close, attributeKey }: AttributeModalC
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={close}>
+          <Button variant="outline-primary" onClick={close}>
             Annulla
           </Button>
           <Button variant="primary" onClick={create} disabled={!data}>
@@ -167,7 +167,7 @@ export function AttributeModalAddExisting({
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="secondary" onClick={(_: any) => close()}>
+        <Button variant="outline-primary" onClick={(_: any) => close()}>
           Annulla
         </Button>
         <Button variant="primary" onClick={confirm} disabled={!!(selected.length === 0)}>

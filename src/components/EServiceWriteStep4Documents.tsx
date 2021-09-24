@@ -38,7 +38,21 @@ function EServiceWriteStep4DocumentsComponent({
     )
   }
 
-  const deleteVersion = () => {}
+  const deleteVersion = async (_: any) => {
+    await runActionWithDestination(
+      {
+        path: {
+          endpoint: 'ESERVICE_VERSION_DELETE',
+          endpointParams: {
+            eserviceId: fetchedData.id,
+            descriptorId: fetchedData.activeDescriptor!.id,
+          },
+        },
+        config: { method: 'DELETE' },
+      },
+      { destination: ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST, suppressToast: false }
+    )
+  }
 
   const deleteDescriptorDocument = async (documentId: string) => {
     const { outcome, response } = await runAction(
@@ -130,6 +144,7 @@ function EServiceWriteStep4DocumentsComponent({
       </WhiteBackground>
 
       <WhiteBackground>
+        <StyledIntro priority={2}>{{ title: 'Azioni irreversibili' }}</StyledIntro>
         <div className="d-flex">
           <Button className="me-3" variant="primary" onClick={publishVersion}>
             pubblica bozza

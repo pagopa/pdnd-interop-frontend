@@ -39,7 +39,7 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
     <div>
       {pagination && <TablePagination />}
       <Table striped>
-        <thead className="bg-light text-dark">
+        <thead className="bg-secondary">
           <tr>
             {headData.map((item, i) => (
               <th key={i}>{item.toUpperCase()}</th>

@@ -18,7 +18,7 @@ export function OnboardingStepActions({ forward, back }: ActionStepsProps) {
       {back && (
         <Button
           className="me-2"
-          variant="outline-secondary"
+          variant="outline-primary"
           onClick={back.action}
           disabled={back.disabled}
         >
