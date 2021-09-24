@@ -113,6 +113,11 @@ h6,
   border-bottom-color: $primary;
 }
 
+div[contenteditable='true']:focus {
+  outline: 0;
+  background: #dedede;
+}
+
 /*
  * Resets
  */

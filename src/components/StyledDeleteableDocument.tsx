@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { EServiceDocumentRead } from '../../types'
 import { ActionWithTooltip } from './ActionWithTooltip'
-import { StyledInputTextArea } from './StyledInputTextArea'
 
 type StyledDeleteableDocumentComponentProps = {
   eserviceId: string
@@ -18,6 +17,7 @@ export function StyledDeleteableDocument({
   deleteDocument,
   runAction,
 }: StyledDeleteableDocumentComponentProps) {
+  const contentEditableRef = useRef<HTMLDivElement>(null)
   const [tempDescr, setTempDescr] = useState<string>()
   const [canEdit, setCanEdit] = useState(false)
 
@@ -31,7 +31,13 @@ export function StyledDeleteableDocument({
 
   const updateCanEdit = (e: any) => {
     e.preventDefault()
-    setCanEdit(!canEdit)
+    const newState = !canEdit
+    setCanEdit(newState)
+    if (newState) {
+      setTimeout(() => {
+        contentEditableRef.current?.focus()
+      }, 0)
+    }
   }
 
   const postDescription = async () => {
@@ -53,26 +59,33 @@ export function StyledDeleteableDocument({
   }
 
   return (
-    <div className="d-flex align-items-center justify-content-between">
-      <div style={{ maxWidth: 500 }}>
+    <div className="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom">
+      <div className="me-5 flex-shrink-1">
         <strong>{readable.name}</strong>
         <br />
-        <StyledInputTextArea
-          readOnly={!canEdit}
-          className="w-100"
+
+        <div
+          ref={contentEditableRef}
+          contentEditable={canEdit}
+          className="mt-2"
           onChange={updateTempDescr}
           onBlur={onBlur}
-          value={tempDescr || ''}
-          autofocusOnFalseReadOnly={true}
+          dangerouslySetInnerHTML={{
+            __html: (tempDescr || '').replace(/%20/g, ' ').replace(/%2C/g, ','),
+          }}
         />
       </div>
-      <div>
+      <div className="ms-5 flex-shrink-0">
         <ActionWithTooltip
+          className="rounded-circle px-2 py-2 d-inline-block"
+          style={{ backgroundColor: canEdit ? '#dedede' : 'transparent', width: 48 }}
           btnProps={{ onClick: updateCanEdit }}
           label="Modifica descrizione"
           iconClass="bi-pencil"
         />
         <ActionWithTooltip
+          className="px-2 py-2"
+          style={{ width: 48 }}
           btnProps={{ onClick: deleteDocument }}
           label="Cancella documento"
           iconClass="bi-trash"

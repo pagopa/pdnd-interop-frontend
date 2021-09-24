@@ -16,6 +16,7 @@ import { ATTRIBUTE_TYPE_LABEL, ESERVICE_STATUS_LABEL, ROUTES } from '../lib/cons
 import { PartyContext } from '../lib/context'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { Link } from 'react-router-dom'
+import { minutesToHHMMSS } from '../lib/date-utils'
 
 type EServiceReadProps = {
   data: EServiceReadType
@@ -30,7 +31,7 @@ function EServiceReadComponent({
   const mode = useMode()
 
   const DESCRIPTIONS = {
-    provider: "Nota: questa versione dell'e-service è in sola lettura, non è più modificabile",
+    provider: "Nota: questa versione dell'e-service non è più modificabile",
     subscriber: `${
       party?.partyId === data.producerId ? "Nota: sei l'erogatore di questo e-service" : ''
     }`,
@@ -105,10 +106,7 @@ function EServiceReadComponent({
         </DescriptionBlock>
 
         <DescriptionBlock label="Durata del voucher dall'attivazione">
-          <span className="fakeData">
-            {new Date(data.activeDescriptor!.voucherLifespan * 1000).toISOString().substr(11, 8)}{' '}
-            (HH:MM:SS)
-          </span>
+          <span>{minutesToHHMMSS(data.activeDescriptor!.voucherLifespan)} (hh:mm:ss)</span>
         </DescriptionBlock>
 
         <DescriptionBlock label="Accordo di interoperabilità">

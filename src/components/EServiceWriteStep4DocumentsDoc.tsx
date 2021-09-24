@@ -84,8 +84,7 @@ export function EServiceWriteStep4DocumentsDoc({
       <StyledIntro>
         {{
           title: 'Documentazione',
-          description:
-            'Inserisci tutta la documentazione tecnica utile all’utilizzo di questo e-service',
+          description: 'Inserisci la documentazione tecnica utile all’utilizzo di questo e-service',
         }}
       </StyledIntro>
 
@@ -103,15 +102,21 @@ export function EServiceWriteStep4DocumentsDoc({
       })}
 
       {showWriteDocInput ? (
-        <Form onSubmit={uploadNewDoc}>
+        <Form
+          className="px-3 py-3 rounded"
+          style={{ background: '#dedede' }}
+          onSubmit={uploadNewDoc}
+        >
           <StyledInputFile
+            className="mt-2 mb-0"
             id="doc-doc"
-            label="Seleziona documento"
+            label="seleziona documento"
             value={writeDoc?.doc}
             onChange={wrapUpdateDoc('doc')}
           />
 
           <StyledInputTextArea
+            className="mt-3 mb-3"
             id="doc-descr"
             label="Descrizione"
             value={writeDoc?.description || ''}
@@ -120,6 +125,10 @@ export function EServiceWriteStep4DocumentsDoc({
 
           <div className="d-flex justify-content-end">
             <Button type="submit" variant="primary">
+              <i
+                className="fs-5 bi bi-upload me-2 position-relative"
+                style={{ transform: 'translateY(0.1rem)' }}
+              />{' '}
               carica
             </Button>
           </div>

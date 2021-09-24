@@ -88,15 +88,21 @@ export function EServiceWriteStep4DocumentsInterface({
           runAction={runAction}
         />
       ) : (
-        <Form onSubmit={uploadNewInterfaceDoc}>
+        <Form
+          className="px-3 py-3 rounded"
+          style={{ background: '#dedede' }}
+          onSubmit={uploadNewInterfaceDoc}
+        >
           <StyledInputFile
+            className="mt-2 mb-0"
             id="interface-doc"
-            label="Seleziona documento"
+            label="seleziona documento"
             value={writeDoc?.doc}
             onChange={wrapUpdateDoc('doc')}
           />
 
           <StyledInputTextArea
+            className="mt-3 mb-3"
             id="interface-descr"
             label="Descrizione"
             value={writeDoc?.description || ''}
@@ -105,6 +111,10 @@ export function EServiceWriteStep4DocumentsInterface({
 
           <div className="d-flex justify-content-end">
             <Button type="submit" variant="primary">
+              <i
+                className="fs-5 bi bi-upload me-2 position-relative"
+                style={{ transform: 'translateY(0.1rem)' }}
+              />{' '}
               carica
             </Button>
           </div>
