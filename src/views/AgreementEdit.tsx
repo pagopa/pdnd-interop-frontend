@@ -113,7 +113,7 @@ function AgreementEditComponent({
       mode!
     ]
 
-    return merge(sharedActions, currentActions)[data.status]
+    return merge(sharedActions, currentActions)[data.status || 'pending']
   }
 
   return (
@@ -124,7 +124,7 @@ function AgreementEditComponent({
         <DescriptionBlock label="E-service">
           <Link
             className="link-default"
-            to={`${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${data?.eserviceId}`}
+            to={`${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${data?.eservice?.id}`}
           >
             Nome e-service
           </Link>
@@ -135,40 +135,42 @@ function AgreementEditComponent({
         </DescriptionBlock>
 
         <DescriptionBlock label="Attributi">
-          {data?.verifiedAttributes?.length > 0 ? (
-            data?.verifiedAttributes?.map((attribute, i) => {
-              const randomDate = getRandomDate(new Date(2022, 0, 1), new Date(2023, 0, 1))
-              return (
-                <div
-                  key={i}
-                  className="w-100 d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary"
-                  style={{ maxWidth: 768 }}
-                >
-                  <span>{attribute.name || attribute.id}</span>
-                  <span className="fakeData">Scadenza: {formatDate(randomDate)}</span>
-                  {attribute.verified ? (
-                    <div className="text-primary d-flex align-items-center">
-                      <i className="text-primary fs-5 bi bi-check me-2" />
-                      <span>verificato</span>
-                    </div>
-                  ) : mode === 'provider' ? (
-                    <Button variant="primary" onClick={wrapVerify(attribute.id)}>
-                      verifica
-                    </Button>
-                  ) : (
-                    <span>in attesa</span>
-                  )}
-                </div>
-              )
-            })
-          ) : (
-            <span>Per questo e-service non sono stati richiesti attributi</span>
-          )}
+          <div className="mt-1">
+            {data?.attributes?.length > 0 ? (
+              data?.attributes?.map((attribute, i) => {
+                const randomDate = getRandomDate(new Date(2022, 0, 1), new Date(2023, 0, 1))
+                return (
+                  <div
+                    key={i}
+                    className="w-100 d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary"
+                    style={{ maxWidth: 768 }}
+                  >
+                    <span>{attribute.name || attribute.id}</span>
+                    <span className="fakeData">Scadenza: {formatDate(randomDate)}</span>
+                    {attribute.verified ? (
+                      <div className="text-primary d-flex align-items-center">
+                        <i className="text-primary fs-5 bi bi-check me-2" />
+                        <span>verificato</span>
+                      </div>
+                    ) : mode === 'provider' ? (
+                      <Button variant="primary" onClick={wrapVerify(attribute.id)}>
+                        verifica
+                      </Button>
+                    ) : (
+                      <span>in attesa</span>
+                    )}
+                  </div>
+                )
+              })
+            ) : (
+              <span>Per questo e-service non sono stati richiesti attributi</span>
+            )}
+          </div>
         </DescriptionBlock>
 
         {mode === 'provider' && (
           <DescriptionBlock label="Ente fruitore">
-            <span>{data?.consumerName || data?.consumerId}</span>
+            <span>{data?.consumer?.name}</span>
           </DescriptionBlock>
         )}
 

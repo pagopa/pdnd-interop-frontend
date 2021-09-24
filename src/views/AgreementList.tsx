@@ -137,14 +137,10 @@ function AgreementListComponent({
         >
           {data.map((item, i) => (
             <tr key={i}>
-              <td>{item.eserviceName || item.eserviceId}</td>
-              <td>{item.eserviceVersion || 1}</td>
+              <td>{item.eservice.name}</td>
+              <td>{item.eservice.version}</td>
               <td>{AGREEMENT_STATUS_LABEL[item.status]}</td>
-              <td>
-                {mode === 'provider'
-                  ? item.consumerName || item.consumerId
-                  : item.producerName || item.producerId}
-              </td>
+              <td>{mode === 'provider' ? item.consumer.name : item.producer.name}</td>
               <td>
                 {getAvailableActions(item).map((tableAction, j) => {
                   const btnProps: any = {}

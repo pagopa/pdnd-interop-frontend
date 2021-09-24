@@ -71,7 +71,7 @@ export function StyledDeleteableDocument({
           onChange={updateTempDescr}
           onBlur={onBlur}
           dangerouslySetInnerHTML={{
-            __html: tempDescr || '',
+            __html: decodeURIComponent(tempDescr || ''),
           }}
         />
       </div>

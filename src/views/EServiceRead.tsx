@@ -41,7 +41,11 @@ function EServiceReadComponent({
    * List of possible actions for the user to perform
    */
   const subscribe = async (_: any) => {
-    const agreementData = { eserviceId: data.id, consumerId: party?.partyId }
+    const agreementData = {
+      eserviceId: data.id,
+      descriptorId: data.activeDescriptor!.id,
+      consumerId: party?.partyId,
+    }
 
     await runAction(
       { path: { endpoint: 'AGREEMENT_CREATE' }, config: { method: 'POST', data: agreementData } },
@@ -129,14 +133,16 @@ function EServiceReadComponent({
             {data.activeDescriptor!.docs.map((d, i) => (
               <div
                 className={`d-flex justify-content-between border-bottom border-bottom-1 ${
-                  i === 0 ? 'mt-3' : ''
+                  i === 0 ? 'mt-2' : ''
                 }`}
                 key={i}
               >
                 <div className="py-1 my-1">
-                  <i className="text-primary fs-5 bi bi-paperclip me-2" /> <strong>{d.name}</strong>
+                  <strong>{d.name}</strong>
                   <br />
-                  {d.description}
+                  <span className="d-inline-block mt-1 mb-2">
+                    {decodeURIComponent(d.description)}
+                  </span>
                 </div>
                 <button className="btn-as-link-default" onClick={wrapDownloadDocument(d.id)}>
                   <i className="text-primary fs-5 bi bi-download me-2" />

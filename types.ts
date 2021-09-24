@@ -214,19 +214,24 @@ export type AgreementVerifiableAttribute = {
   name?: string
 }
 
+type AgreementProducerAndConsumer = {
+  name: string
+  id: string
+}
+
+type AgreementEService = {
+  name: string
+  id: string
+  version: string
+}
+
 export type AgreementSummary = {
   id: string
   status: AgreementStatus
-  eserviceId: string
-  consumerId: string
-  producerId: string
-  verifiedAttributes: AgreementVerifiableAttribute[]
-
-  // Backend doesn't send them for now
-  producerName?: string
-  consumerName?: string
-  eserviceName?: string
-  eserviceVersion?: string
+  eservice: AgreementEService
+  consumer: AgreementProducerAndConsumer
+  producer: AgreementProducerAndConsumer
+  attributes: BackendAttributeContent[]
 }
 
 /*
@@ -278,6 +283,9 @@ export type AttributeType = keyof typeof ATTRIBUTE_TYPE_LABEL
 export type BackendAttributeContent = {
   id: string
   explicitAttributeVerification: boolean
+  verified: boolean
+  origin: string
+  code: string
   name?: string // TEMP PIN-304
   description?: string // TEMP PIN-304
 }

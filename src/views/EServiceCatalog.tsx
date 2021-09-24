@@ -31,7 +31,9 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
     {
       defaultValue: [],
       mapFn: (data) =>
-        data.map((d) => ({ ...d, isMine: d.producerId === party?.partyId, amISubscribed: false })),
+        data
+          .map((d) => ({ ...d, isMine: d.producerId === party?.partyId, amISubscribed: false }))
+          .filter((d) => d.status === 'published'),
     }
   )
 
@@ -111,7 +113,7 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
               <ActionWithTooltip
                 btnProps={{
                   as: Link,
-                  to: `${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH}/${item.id}/${
+                  to: `${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}/${item.id}/${
                     item.descriptorId
                   }`,
                 }}
