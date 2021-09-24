@@ -12,6 +12,11 @@ export function withAdminAuth<T extends AdminAuthProps>(WrappedComponent: React.
   const ComponentWithAdminAuth = (props: Omit<T, keyof AdminAuthProps>) => {
     const { party } = useContext(PartyContext)
 
+    // Avoid showing "Autorizzazione insufficiente" if the party is still being fetched
+    if (!party) {
+      return null
+    }
+
     if (!isAdmin(party)) {
       return (
         <WhiteBackground>

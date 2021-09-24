@@ -332,17 +332,17 @@ export const API = {
     SHOULD_CALL: true,
   },
   AGREEMENT_GET_SINGLE: {
-    URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreement/{{agreementId}}',
+    URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreements/{{agreementId}}',
     LOCAL: 'get-agreement-single.json',
     SHOULD_CALL: true,
   },
   AGREEMENT_VERIFY_ATTRIBUTE: {
-    URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreement/{{agreementId}}/attribute/{{attributeId}}/verify',
+    URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreements/{{agreementId}}/attributes/{{attributeId}}/verify',
     LOCAL: '',
     SHOULD_CALL: true,
   },
   AGREEMENT_ACTIVATE: {
-    URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreement/{{agreementId}}/activate',
+    URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreements/{{agreementId}}/activate',
     LOCAL: '',
     SHOULD_CALL: true,
   },
