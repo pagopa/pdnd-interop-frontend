@@ -161,9 +161,14 @@ function EServiceReadComponent({
                   .map((a) =>
                     isVerified ? `${a.name || a.id} (richiesta verifica)` : a.name || a.id
                   )
-                  .join(', ')
+                  .join(' oppure ')
 
-                return <span key={j}>{attributeLabels}</span>
+                return (
+                  <React.Fragment>
+                    <span key={j}>{attributeLabels}</span>
+                    <br />
+                  </React.Fragment>
+                )
               })
             ) : (
               <span>Nessun attributo presente</span>
