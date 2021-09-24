@@ -80,14 +80,7 @@ export function EServiceWriteStep4DocumentsDoc({
   }
 
   return (
-    <WhiteBackground>
-      <StyledIntro priority={2}>
-        {{
-          title: 'Documentazione',
-          description: 'Inserisci la documentazione tecnica utile all’utilizzo di questo e-service',
-        }}
-      </StyledIntro>
-
+    <React.Fragment>
       {toArray(readDocs).map((readDoc, i) => {
         return (
           <StyledDeleteableDocument
@@ -134,6 +127,6 @@ export function EServiceWriteStep4DocumentsDoc({
           Aggiungi documento
         </Button>
       )}
-    </WhiteBackground>
+    </React.Fragment>
   )
 }

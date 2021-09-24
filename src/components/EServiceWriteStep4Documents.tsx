@@ -111,24 +111,41 @@ function EServiceWriteStep4DocumentsComponent({
         <StyledIntro priority={2}>{{ title: 'Crea e-service: documentazione' }}</StyledIntro>
       </WhiteBackground>
 
-      <EServiceWriteStep4DocumentsInterface
-        fetchedData={fetchedData}
-        uploadDescriptorDocument={uploadDescriptorDocument}
-        deleteDescriptorDocument={deleteDescriptorDocument}
-        runAction={runAction}
-        activeDescriptorId={activeDescriptorId}
-      />
+      <WhiteBackground>
+        <StyledIntro priority={2}>
+          {{
+            title: 'Interfaccia*',
+            description: "Carica il file OpenAPI/WSDL che descrive l'API",
+          }}
+        </StyledIntro>
 
-      <EServiceWriteStep4DocumentsDoc
-        fetchedData={fetchedData}
-        uploadDescriptorDocument={uploadDescriptorDocument}
-        deleteDescriptorDocument={deleteDescriptorDocument}
-        runAction={runAction}
-        activeDescriptorId={activeDescriptorId}
-      />
+        <EServiceWriteStep4DocumentsInterface
+          fetchedData={fetchedData}
+          uploadDescriptorDocument={uploadDescriptorDocument}
+          deleteDescriptorDocument={deleteDescriptorDocument}
+          runAction={runAction}
+          activeDescriptorId={activeDescriptorId}
+        />
+      </WhiteBackground>
 
       <WhiteBackground>
-        <div className="d-flex">
+        <StyledIntro priority={2}>
+          {{
+            title: 'Documentazione',
+            description:
+              'Inserisci la documentazione tecnica utile all’utilizzo di questo e-service',
+          }}
+        </StyledIntro>
+
+        <EServiceWriteStep4DocumentsDoc
+          fetchedData={fetchedData}
+          uploadDescriptorDocument={uploadDescriptorDocument}
+          deleteDescriptorDocument={deleteDescriptorDocument}
+          runAction={runAction}
+          activeDescriptorId={activeDescriptorId}
+        />
+
+        <div className="mt-5 d-flex">
           <Button
             className="me-3"
             variant="primary"
