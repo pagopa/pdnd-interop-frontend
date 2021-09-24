@@ -158,7 +158,9 @@ function EServiceReadComponent({
                   : (attribute as GroupBackendAttribute).group!
 
                 const attributeLabels = labels
-                  .map((a) => (isVerified ? `${a.id} (richiesta verifica)` : a.id))
+                  .map((a) =>
+                    isVerified ? `${a.name || a.id} (richiesta verifica)` : a.name || a.id
+                  )
                   .join(', ')
 
                 return <span key={j}>{attributeLabels}</span>

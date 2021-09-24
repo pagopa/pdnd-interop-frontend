@@ -278,6 +278,8 @@ export type AttributeType = keyof typeof ATTRIBUTE_TYPE_LABEL
 export type BackendAttributeContent = {
   id: string
   explicitAttributeVerification: boolean
+  name: string // TEMP PIN-304
+  description: string // TEMP PIN-304
 }
 export type SingleBackendAttribute = {
   single: BackendAttributeContent
