@@ -138,7 +138,7 @@ export function AttributeModalAddExisting({
   return (
     <Modal.Dialog contentClassName="px-1 py-1">
       <Modal.Header onHide={close} closeButton>
-        <Modal.Title className="me-5">Aggiungi attributo o gruppo di attributi</Modal.Title>
+        <Modal.Title className="me-5">Aggiungi attributo o gruppo</Modal.Title>
       </Modal.Header>
 
       <Modal.Body className="py-4">

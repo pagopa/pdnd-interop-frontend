@@ -15,6 +15,7 @@ type StyledInputTextProps = {
   onChange?: any
   className?: string
   tooltipLabel?: string
+  min?: number | string | undefined
 }
 
 export function StyledInputText({
@@ -27,6 +28,7 @@ export function StyledInputText({
   onChange,
   className = 'mt-4 mb-3',
   tooltipLabel,
+  min,
 }: StyledInputTextProps) {
   return (
     <div className={className}>
@@ -43,6 +45,7 @@ export function StyledInputText({
         value={value}
         onChange={onChange}
         readOnly={readOnly}
+        min={min}
       />
     </div>
   )

@@ -185,7 +185,7 @@ export const ROUTES: RoutesObject = {
         COMPONENT: UserCreate,
       },
       OPERATOR_SECURITY_EDIT: {
-        PATH: '/fruizione/client/operatori/:id',
+        PATH: '/fruizione/client/operatori/:clientId/:operatorId',
         EXACT: false,
         LABEL: 'Modifica operatore',
         COMPONENT: UserEdit,
@@ -377,14 +377,34 @@ export const API = {
     SHOULD_CALL: true,
   },
   OPERATOR_SECURITY_GET_SINGLE: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators/{{operatorId}}',
-    LOCAL: 'get-user-single.json', // TEMP PIN-438
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators/{{operatorTaxCode}}',
+    LOCAL: 'get-user-single.json',
     SHOULD_CALL: true,
   },
   OPERATOR_SECURITY_CREATE: {
     URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators',
     LOCAL: '',
     SHOULD_CALL: true,
+  },
+  OPERATOR_SECURITY_KEY_UPLOAD: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators/{{operatorId}}', //TODO
+    LOCAL: '',
+    SHOULD_CALL: false,
+  },
+  OPERATOR_SECURITY_KEY_DOWNLOAD: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators/{{operatorId}}', //TODO
+    LOCAL: '',
+    SHOULD_CALL: false,
+  },
+  OPERATOR_SECURITY_KEY_ENABLE: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators/{{operatorId}}', //TODO
+    LOCAL: '',
+    SHOULD_CALL: false,
+  },
+  OPERATOR_SECURITY_KEY_DISABLE: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators/{{operatorId}}', //TODO
+    LOCAL: '',
+    SHOULD_CALL: false,
   },
 }
 
@@ -553,6 +573,10 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
   OPERATOR_SECURITY_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
   OPERATOR_SECURITY_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   OPERATOR_SECURITY_CREATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  OPERATOR_SECURITY_KEY_UPLOAD: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  OPERATOR_SECURITY_KEY_DOWNLOAD: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  OPERATOR_SECURITY_KEY_ENABLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  OPERATOR_SECURITY_KEY_DISABLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
 }
 
 export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
@@ -622,6 +646,10 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   OPERATOR_SECURITY_GET_LIST: {},
   OPERATOR_SECURITY_GET_SINGLE: {},
   OPERATOR_SECURITY_CREATE: {},
+  OPERATOR_SECURITY_KEY_UPLOAD: {},
+  OPERATOR_SECURITY_KEY_DOWNLOAD: {},
+  OPERATOR_SECURITY_KEY_ENABLE: {},
+  OPERATOR_SECURITY_KEY_DISABLE: {},
 }
 
 export const ESERVICE_STATUS_LABEL = {

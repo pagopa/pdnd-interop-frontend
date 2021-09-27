@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { UsersObject } from '../components/OnboardingStep2'
 import { PlatformUserForm } from '../components/PlatformUserForm'
@@ -31,7 +31,11 @@ function UserCreateComponent({ runActionWithDestination }: UserFeedbackHOCProps)
     const destination =
       mode === 'provider'
         ? ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_LIST
-        : ROUTES.PROVIDE.SUBROUTES!.OPERATOR_SECURITY_LIST
+        : {
+            // TEMP REFACTOR: this case should also be taken into account
+            PATH: `${ROUTES.PROVIDE.SUBROUTES!.CLIENT_LIST.PATH}/${clientId}`,
+            LABEL: '',
+          }
 
     const dataToPost =
       mode === 'provider'
@@ -47,11 +51,7 @@ function UserCreateComponent({ runActionWithDestination }: UserFeedbackHOCProps)
         },
       },
       {
-        destination: {
-          // TEMP REFACTOR: this case should also be taken into account
-          PATH: `${ROUTES.PROVIDE.SUBROUTES!.CLIENT_LIST.PATH}/${clientId}`,
-          LABEL: '',
-        },
+        destination,
         suppressToast: false,
       }
     )

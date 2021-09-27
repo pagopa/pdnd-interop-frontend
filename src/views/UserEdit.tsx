@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import isEmpty from 'lodash/isEmpty'
-import noop from 'lodash/noop'
 import merge from 'lodash/merge'
 import { Button } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
@@ -12,27 +11,31 @@ import { WhiteBackground } from '../components/WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATUS_LABEL } from '../lib/constants'
-import { getLastBit } from '../lib/url-utils'
+import { getBits } from '../lib/url-utils'
 import { isAdmin } from '../lib/auth-utils'
 import { PartyContext } from '../lib/context'
 import { useMode } from '../hooks/useMode'
 
 function UserEditComponent({
   runFakeAction,
+  runAction,
   wrapActionInDialog,
   forceRerenderCounter,
 }: UserFeedbackHOCProps) {
   const mode = useMode()
   const { party } = useContext(PartyContext)
-  const taxCode = getLastBit(useLocation())
+  const bits = getBits(useLocation())
+  const taxCode = bits[bits.length - 1]
+  const clientId = bits[bits.length - 2]
   const endpoint = mode === 'provider' ? 'OPERATOR_API_GET_SINGLE' : 'OPERATOR_SECURITY_GET_SINGLE'
+  const endpointParams = mode === 'provider' ? { taxCode } : { operatorTaxCode: taxCode, clientId }
+
   const { data, loading } = useAsyncFetch<User>(
-    {
-      path: { endpoint, endpointParams: { taxCode } },
-      config: { method: 'GET' },
-    },
+    { path: { endpoint, endpointParams }, config: { method: 'GET' } },
     { defaultValue: {}, useEffectDeps: [forceRerenderCounter] }
   )
+
+  console.log(data)
 
   /*
    * List of possible actions for the user to perform
@@ -46,19 +49,47 @@ function UserEditComponent({
   }
 
   const uploadKey = () => {
-    runFakeAction('Carica chiave pubblica')
+    const endpointParams = {}
+    runAction(
+      {
+        path: { endpoint: 'OPERATOR_SECURITY_KEY_UPLOAD', endpointParams },
+        config: { method: 'POST' },
+      },
+      { suppressToast: false }
+    )
   }
 
   const downloadKey = () => {
-    runFakeAction('Scarica chiave pubblica')
+    const endpointParams = {}
+    runAction(
+      {
+        path: { endpoint: 'OPERATOR_SECURITY_KEY_DOWNLOAD', endpointParams },
+        config: { method: 'GET' },
+      },
+      { suppressToast: false }
+    )
   }
 
   const suspendKey = () => {
-    runFakeAction('Sospendi chiave pubblica')
+    const endpointParams = {}
+    runAction(
+      {
+        path: { endpoint: 'OPERATOR_SECURITY_KEY_DISABLE', endpointParams },
+        config: { method: 'PATCH' },
+      },
+      { suppressToast: false }
+    )
   }
 
   const reactivateKey = () => {
-    runFakeAction('Riattiva chiave pubblica')
+    const endpointParams = {}
+    runAction(
+      {
+        path: { endpoint: 'OPERATOR_SECURITY_KEY_ENABLE', endpointParams },
+        config: { method: 'PATCH' },
+      },
+      { suppressToast: false }
+    )
   }
   /*
    * End list of actions
@@ -92,7 +123,7 @@ function UserEditComponent({
       mode!
     ]
 
-    return merge(sharedActions, currentActions)[data.status]
+    return merge(sharedActions, currentActions)[data.status || 'active']
   }
 
   return (
@@ -107,7 +138,7 @@ function UserEditComponent({
         </DescriptionBlock>
 
         <DescriptionBlock label="Email">
-          <span>{data.email}</span>
+          <span>{data.email || 'n/d'}</span>
         </DescriptionBlock>
 
         <DescriptionBlock label="Ruolo">
@@ -119,30 +150,8 @@ function UserEditComponent({
         </DescriptionBlock>
 
         <DescriptionBlock label="Stato dell'utente">
-          <span>{USER_STATUS_LABEL[data.status]}</span>
+          <span>{USER_STATUS_LABEL[data.status || 'active']}</span>
         </DescriptionBlock>
-
-        {/* Security key handling area */}
-        {mode === 'subscriber' && (
-          <div className="d-flex">
-            <DescriptionBlock label="Chiave pubblica">
-              {/* If has key */}
-              <Button className="btn-as-link-default me-3" onClick={noop}>
-                Scarica la chiave
-              </Button>
-              <Button className="me-3" variant="primary" onClick={noop}>
-                Sospendi/riattiva la chiave
-              </Button>
-              <Button className="me-3" variant="primary" onClick={noop}>
-                Elimina la chiave
-              </Button>
-              {/* Else */}
-              <Button variant="primary" onClick={noop}>
-                Carica una chiave pubblica
-              </Button>
-            </DescriptionBlock>
-          </div>
-        )}
 
         <div className="mt-5 d-flex">
           {getAvailableActions().map(({ onClick, label, isMock }, i) => (

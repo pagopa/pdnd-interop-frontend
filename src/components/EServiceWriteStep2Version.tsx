@@ -144,6 +144,7 @@ function EServiceWriteStep2VersionComponent({
             label="Durata di validità del voucher (in minuti)*"
             value={versionData.voucherLifespan || 0}
             onChange={wrapSetVersionData('voucherLifespan', 'number')}
+            min="0"
           />
 
           <StyledInputTextArea

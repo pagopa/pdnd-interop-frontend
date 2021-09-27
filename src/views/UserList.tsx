@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useLocation } from 'react-router'
 import compose from 'lodash/fp/compose'
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
@@ -27,17 +28,15 @@ import { withToastOnMount } from '../components/withToastOnMount'
 import { TempFilters } from '../components/TempFilters'
 import { isAdmin } from '../lib/auth-utils'
 import { PartyContext } from '../lib/context'
-
-type UserListSecurityOperatorsProps = {
-  clientId?: string
-}
+import { getLastBit } from '../lib/url-utils'
 
 function UserListComponent({
   runFakeAction,
   wrapActionInDialog,
   forceRerenderCounter,
-  clientId,
-}: UserFeedbackHOCProps & UserListSecurityOperatorsProps) {
+}: UserFeedbackHOCProps) {
+  const clientId = getLastBit(useLocation()) // Only for subscriber
+
   const mode = useMode()
   const { party } = useContext(PartyContext)
   const endpoint = mode === 'provider' ? 'OPERATOR_API_GET_LIST' : 'OPERATOR_SECURITY_GET_LIST'
@@ -91,11 +90,13 @@ function UserListComponent({
 
     const route =
       mode === 'provider'
-        ? ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_LIST.PATH
-        : ROUTES.SUBSCRIBE.SUBROUTES!.OPERATOR_SECURITY_LIST.PATH
+        ? `${ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_LIST.PATH}/${user.taxCode}`
+        : // TEMP REFACTOR: this is horrible but I'm in a hurry. Should find a way
+          // to build a path like /client/:clientId/operator/:operatorId
+          `${ROUTES.SUBSCRIBE.SUBROUTES!.OPERATOR_SECURITY_LIST.PATH}/${clientId}/${user.taxCode}`
 
     const inspectAction = {
-      to: `${route}/${user.taxCode}`,
+      to: route,
       icon: 'bi-info-circle',
       label: 'Ispeziona',
     }

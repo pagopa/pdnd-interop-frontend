@@ -70,23 +70,26 @@ function ClientCreateComponent({ runActionWithDestination }: UserFeedbackHOCProp
         <Form onSubmit={handleSubmit} style={{ maxWidth: 768 }}>
           <StyledInputText
             id="name"
-            label="Nome del client"
+            label="Nome del client*"
             value={data['name'] || ''}
             onChange={wrapSetData('name')}
           />
 
           <StyledInputText
             id="description"
-            label="Descrizione del client"
+            label="Descrizione del client*"
             value={data['description'] || ''}
             onChange={wrapSetData('description')}
           />
 
           <StyledInputSelect
             id="eserviceId"
-            label="E-service da associare"
+            label="E-service da associare*"
             disabled={eserviceData.length === 0}
-            options={eserviceData.map((s) => ({ value: s.id, label: s.name }))}
+            options={[{ id: '-1', name: 'Seleziona servizio...' }, ...eserviceData].map((s) => ({
+              value: s.id,
+              label: s.name,
+            }))}
             onChange={wrapSetData('eServiceId')}
           />
 
