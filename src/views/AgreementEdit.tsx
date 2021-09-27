@@ -119,14 +119,14 @@ function AgreementEditComponent({
   return (
     <React.Fragment>
       <WhiteBackground>
-        <StyledIntro priority={2}>{{ title: `Accordo: ${data?.id}` }}</StyledIntro>
+        <StyledIntro priority={2}>{{ title: 'Accordo di interoperabilità' }}</StyledIntro>
 
         <DescriptionBlock label="E-service">
           <Link
             className="link-default"
             to={`${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${data?.eservice?.id}`}
           >
-            Nome e-service
+            {data?.eservice?.name}
           </Link>
         </DescriptionBlock>
 
@@ -145,8 +145,10 @@ function AgreementEditComponent({
                     className="w-100 d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary"
                     style={{ maxWidth: 768 }}
                   >
-                    <span>{attribute.name || attribute.id}</span>
-                    <span className="fakeData">Scadenza: {formatDate(randomDate)}</span>
+                    <span>
+                      {attribute.name || attribute.id}, con{' '}
+                      <span className="fakeData">scadenza {formatDate(randomDate)}</span>
+                    </span>
                     {attribute.verified ? (
                       <div className="text-primary d-flex align-items-center">
                         <i className="text-primary fs-5 bi bi-check me-2" />

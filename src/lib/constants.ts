@@ -539,7 +539,19 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
     },
   },
   PARTY_GET_PARTY_ID: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  AGREEMENT_CREATE: { loadingText: "Stiamo creando l'accordo richiesto", success: {}, error: {} },
+  AGREEMENT_CREATE: {
+    loadingText: "Stiamo creando l'accordo richiesto",
+    success: {
+      title: 'Accordo creato',
+      description:
+        "L'accordo è stato creato correttamente ed è in attesa di approvazione. Riceverai notifiche di aggiornamento sul suo stato",
+    },
+    error: {
+      title: 'Errore',
+      description:
+        "Non è stato possibile creare l'accordo. Se sei sicuro/a di averne diritto, contatta l'assistenza per maggiori informazioni",
+    },
+  },
   AGREEMENT_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
   AGREEMENT_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   AGREEMENT_VERIFY_ATTRIBUTE: {

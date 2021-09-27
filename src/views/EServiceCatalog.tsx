@@ -18,7 +18,10 @@ type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
   amISubscribed: boolean
 }
 
-export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: UserFeedbackHOCProps) {
+export function EServiceCatalogComponent({
+  runActionWithDestination,
+  wrapActionInDialog,
+}: UserFeedbackHOCProps) {
   const { party } = useContext(PartyContext)
   const { data, loading, error } = useAsyncFetch<
     EServiceFlatReadType[],
@@ -47,9 +50,9 @@ export function EServiceCatalogComponent({ runAction, wrapActionInDialog }: User
       consumerId: party?.partyId,
     }
 
-    await runAction(
+    await runActionWithDestination(
       { path: { endpoint: 'AGREEMENT_CREATE' }, config: { method: 'POST', data: agreementData } },
-      { suppressToast: false }
+      { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST, suppressToast: false }
     )
   }
   /*

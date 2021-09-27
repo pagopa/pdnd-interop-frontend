@@ -25,6 +25,7 @@ type EServiceReadProps = {
 function EServiceReadComponent({
   data,
   runAction,
+  runActionWithDestination,
   wrapActionInDialog,
 }: EServiceReadProps & UserFeedbackHOCProps) {
   const { party } = useContext(PartyContext)
@@ -47,9 +48,9 @@ function EServiceReadComponent({
       consumerId: party?.partyId,
     }
 
-    await runAction(
+    await runActionWithDestination(
       { path: { endpoint: 'AGREEMENT_CREATE' }, config: { method: 'POST', data: agreementData } },
-      { suppressToast: false }
+      { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST, suppressToast: false }
     )
   }
   /*
