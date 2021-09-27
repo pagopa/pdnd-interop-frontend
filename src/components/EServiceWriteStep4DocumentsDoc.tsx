@@ -11,8 +11,6 @@ import { getActiveDocs } from '../lib/eservice-utils'
 import { StyledDeleteableDocument } from './StyledDeleteableDocument'
 import { StyledInputFile } from './StyledInputFile'
 import { StyledInputTextArea } from './StyledInputTextArea'
-import { StyledIntro } from './StyledIntro'
-import { WhiteBackground } from './WhiteBackground'
 
 type EServiceWriteStep4DocumentsDocProps = {
   fetchedData: EServiceReadType

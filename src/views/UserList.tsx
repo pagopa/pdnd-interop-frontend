@@ -109,15 +109,7 @@ function UserListComponent({
     return actions
   }
 
-  const headData = [
-    'nome e cognome',
-    'codice fiscale',
-    'contatto email',
-    'ruolo',
-    'permessi',
-    'stato',
-    '',
-  ]
+  const headData = ['nome e cognome', 'ruolo', 'permessi', 'stato', '']
 
   /*
    * Labels and buttons dependant on the current mode
@@ -178,11 +170,12 @@ function UserListComponent({
               <td>
                 {item.name} {item.surname}
               </td>
-              <td>{item.taxCode}</td>
-              <td>{item.email}</td>
               <td>{USER_ROLE_LABEL[item.role]}</td>
               <td>{USER_PLATFORM_ROLE_LABEL[item.platformRole]}</td>
-              <td>{USER_STATUS_LABEL[item.status]}</td>
+              <td>
+                {/* TEMP BACKEND */}
+                {USER_STATUS_LABEL[item.status] || 'attivo'}
+              </td>
               <td>
                 {getAvailableActions(item).map((tableAction, j) => {
                   const btnProps: any = {}

@@ -16,7 +16,7 @@ import { LoadingOverlay } from '../components/LoadingOverlay'
 type ClientSubmit = {
   name: string
   description: string
-  consumerId: string
+  consumerInstitutionId: string
   eServiceId: string
 }
 
@@ -24,7 +24,10 @@ function ClientCreateComponent({ runActionWithDestination }: UserFeedbackHOCProp
   const { party } = useContext(PartyContext)
   const [data, setData] = useState<Partial<ClientSubmit>>({})
   const { data: eserviceData, loading: eserviceLoading } = useAsyncFetch<EServiceReadType[]>(
-    { path: { endpoint: 'ESERVICE_GET_LIST' }, config: { method: 'GET' } },
+    {
+      path: { endpoint: 'ESERVICE_GET_LIST' },
+      config: { method: 'GET', params: { consumerId: party?.partyId } },
+    },
     { defaultValue: [] }
   )
 
@@ -45,7 +48,11 @@ function ClientCreateComponent({ runActionWithDestination }: UserFeedbackHOCProp
   useEffect(() => {
     // When e-service data is loaded, set the e-service select to the first available value
     if (eserviceData.length > 0) {
-      setData({ ...data, eServiceId: eserviceData[0].id, consumerId: party?.partyId })
+      setData({
+        ...data,
+        eServiceId: eserviceData[0].id,
+        consumerInstitutionId: party?.institutionId,
+      })
     }
   }, [eserviceData]) // eslint-disable-line react-hooks/exhaustive-deps
 

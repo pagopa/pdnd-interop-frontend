@@ -2,8 +2,8 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import {
-  AgreementStatus,
   Client,
+  ClientStatus,
   ActionWithTooltipBtn,
   ActionWithTooltipLink,
   ActionWithTooltipProps,
@@ -31,10 +31,7 @@ function ClientListComponent({
       path: { endpoint: 'CLIENT_GET_LIST' },
       config: {
         method: 'GET',
-        params: {
-          eServiceId: '8c80626c-2dec-4103-981d-ce102c633a3b', // TEMP PIN-540: hardcoded eServiceId should be deleted
-          institutionId: party?.institutionId,
-        },
+        params: { institutionId: party?.institutionId },
       },
     },
     { defaultValue: [], useEffectDeps: [forceRerenderCounter] }
@@ -62,7 +59,7 @@ function ClientListComponent({
    */
 
   // Build list of available actions for each service in its current state
-  const getAvailableActions = (client: Client) => {
+  const getAvailableActions = (client: Client): ActionWithTooltipProps[] => {
     const inspectAction = {
       to: `${ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST.PATH}/${client.id}`,
       icon: 'bi-info-circle',
@@ -74,8 +71,7 @@ function ClientListComponent({
       return [inspectAction]
     }
 
-    const availableActions: { [key in AgreementStatus]: ActionWithTooltipProps[] } = {
-      pending: [],
+    const availableActions: { [key in ClientStatus]: ActionWithTooltipProps[] } = {
       active: [
         {
           onClick: wrapActionInDialog(wrapSuspend(client.id)),
@@ -157,6 +153,7 @@ function ClientListComponent({
                       btnProps={btnProps}
                       label={tableAction.label}
                       iconClass={tableAction.icon!}
+                      isMock={tableAction.isMock}
                     />
                   )
                 })}

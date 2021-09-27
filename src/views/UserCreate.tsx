@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { UsersObject } from '../components/OnboardingStep2'
 import { PlatformUserForm } from '../components/PlatformUserForm'
@@ -33,15 +33,27 @@ function UserCreateComponent({ runActionWithDestination }: UserFeedbackHOCProps)
         ? ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_LIST
         : ROUTES.PROVIDE.SUBROUTES!.OPERATOR_SECURITY_LIST
 
+    const dataToPost =
+      mode === 'provider'
+        ? { users: [people['operator']], institutionId: party!.institutionId }
+        : { ...people['operator'] }
+
     await runActionWithDestination(
       {
         path: { endpoint, endpointParams },
         config: {
           method: 'POST',
-          data: { users: [people['operator']], institutionId: party!.institutionId },
+          data: dataToPost,
         },
       },
-      { destination, suppressToast: false }
+      {
+        destination: {
+          // TEMP REFACTOR: this case should also be taken into account
+          PATH: `${ROUTES.PROVIDE.SUBROUTES!.CLIENT_LIST.PATH}/${clientId}`,
+          LABEL: '',
+        },
+        suppressToast: false,
+      }
     )
   }
 
@@ -66,7 +78,7 @@ function UserCreateComponent({ runActionWithDestination }: UserFeedbackHOCProps)
         <PlatformUserForm
           prefix="operator"
           role="Operator"
-          platformRole="api"
+          platformRole={mode === 'provider' ? 'api' : 'security'}
           people={people}
           setPeople={setPeople}
         />
