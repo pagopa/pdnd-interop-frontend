@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
-import { ROUTES, SHOW_DEV_LABELS } from '../lib/constants'
+import { BASE_ROUTE, ROUTES, SHOW_DEV_LABELS } from '../lib/constants'
 import { UserContext } from '../lib/context'
 import { NotFound } from '../views/NotFound'
 
@@ -16,8 +16,11 @@ export function Main() {
           </Route>
         ))}
 
-        {/* If on the ROOT, redirect to platform or login page based on whether the user is logged in */}
         <Route path="/" exact={true}>
+          <Redirect to={BASE_ROUTE} />
+        </Route>
+        {/* If on the ROOT, redirect to platform or login page based on whether the user is logged in */}
+        <Route path={BASE_ROUTE} exact={true}>
           <Redirect to={user !== null ? ROUTES.SUBSCRIBE.PATH : ROUTES.LOGIN.PATH} />
         </Route>
 
