@@ -36,13 +36,13 @@ export function remapBackendAttributesToFrontend(
 
         if (isSingle) {
           const { single } = attribute as SingleBackendAttribute
-          const { id, explicitAttributeVerification } = single
-          return { attributes: [{ id }], explicitAttributeVerification }
+          const { id, explicitAttributeVerification, description, name } = single
+          return { attributes: [{ id, description, name }], explicitAttributeVerification }
         }
 
         const { group } = attribute as GroupBackendAttribute
         return {
-          attributes: [...group.map(({ id }) => ({ id }))],
+          attributes: [...group.map(({ id, description, name }) => ({ id, description, name }))],
           explicitAttributeVerification: group[0].explicitAttributeVerification,
         }
       })
