@@ -16,6 +16,7 @@ type StyledInputTextProps = {
   className?: string
   tooltipLabel?: string
   min?: number | string | undefined
+  white?: boolean
 }
 
 export function StyledInputText({
@@ -29,11 +30,12 @@ export function StyledInputText({
   className = 'mt-4 mb-3',
   tooltipLabel,
   min,
+  white,
 }: StyledInputTextProps) {
   return (
     <div className={className}>
       <div className="d-flex align-contents-center">
-        <StyledInputLabel label={label} id={id} />{' '}
+        <StyledInputLabel label={label} id={id} white={white} />{' '}
         {tooltipLabel && <InfoTooltip className="ms-2" label={tooltipLabel} />}
       </div>
 

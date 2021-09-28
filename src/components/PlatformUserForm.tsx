@@ -9,6 +9,7 @@ type PlatformUserFormProps = {
   platformRole: UserPlatformRole
   people: UsersObject
   setPeople: React.Dispatch<React.SetStateAction<UsersObject>>
+  white?: boolean
 }
 
 type Field = {
@@ -23,6 +24,7 @@ export function PlatformUserForm({
   platformRole,
   people,
   setPeople,
+  white,
 }: PlatformUserFormProps) {
   const buildSetPerson = (key: string) => (e: any) => {
     setPeople({
@@ -50,6 +52,7 @@ export function PlatformUserForm({
             // Controlled components values cannot start as 'undefined'
             value={people[prefix] && people[prefix][id] ? people[prefix][id] : ''}
             onChange={buildSetPerson(id)}
+            white={white}
           />
         </React.Fragment>
       ))}
