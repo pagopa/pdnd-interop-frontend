@@ -26,10 +26,9 @@ import {
 import { useMode } from '../hooks/useMode'
 import { withToastOnMount } from '../components/withToastOnMount'
 import { TempFilters } from '../components/TempFilters'
-import { isAdmin } from '../lib/auth-utils'
-import { PartyContext } from '../lib/context'
+import { isAdmin, isOperatorSecurity } from '../lib/auth-utils'
+import { PartyContext, UserContext } from '../lib/context'
 import { getLastBit } from '../lib/url-utils'
-import identity from 'lodash/identity'
 
 function UserListComponent({
   runFakeAction,
@@ -40,6 +39,7 @@ function UserListComponent({
 
   const mode = useMode()
   const { party } = useContext(PartyContext)
+  const { user } = useContext(UserContext)
   const endpoint = mode === 'provider' ? 'OPERATOR_API_GET_LIST' : 'OPERATOR_SECURITY_GET_LIST'
   const endpointParams =
     mode === 'provider' ? { institutionId: party?.institutionId } : { clientId }
@@ -48,8 +48,14 @@ function UserListComponent({
     { path: { endpoint, endpointParams }, config: { method: 'GET' } },
     {
       defaultValue: [],
-      useEffectDeps: [forceRerenderCounter],
-      mapFn: mode === 'provider' ? (data) => (data as any).relationships : identity,
+      useEffectDeps: [forceRerenderCounter, user],
+      mapFn: (data) => {
+        if (mode === 'subscriber' && isOperatorSecurity(party)) {
+          return data.filter((d) => d.taxCode === user?.taxCode)
+        }
+
+        return data
+      },
     }
   )
 
@@ -120,12 +126,12 @@ function UserListComponent({
    */
   const TITLES: { [key in ProviderOrSubscriber]: { title: string; description: string } } = {
     provider: {
-      title: 'I tuoi operatori API',
+      title: "Operatori API dell'ente",
       description:
         "In quest’area puoi trovare e gestire tutti gli operatori API che sono stati abilitati alla gestione degli e-service dell'ente",
     },
     subscriber: {
-      title: 'I tuoi operatori di sicurezza',
+      title: 'Operatori di sicurezza del client',
       description:
         'In quest’area puoi trovare e gestire tutti gli operatori di sicurezza che sono stati abilitati a gestire le chiavi per il tuo client',
     },

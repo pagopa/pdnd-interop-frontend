@@ -15,6 +15,7 @@ import { isAdmin } from '../lib/auth-utils'
 import { PartyContext } from '../lib/context'
 import { useMode } from '../hooks/useMode'
 import { mergeActions } from '../lib/eservice-utils'
+import { SecurityOperatorKeys } from '../components/SecurityOperatorKeys'
 
 function UserEditComponent({
   runFakeAction,
@@ -45,50 +46,6 @@ function UserEditComponent({
   const reactivate = () => {
     runFakeAction('Riattiva utente')
   }
-
-  const uploadKey = () => {
-    const endpointParams = {}
-    runAction(
-      {
-        path: { endpoint: 'OPERATOR_SECURITY_KEY_UPLOAD', endpointParams },
-        config: { method: 'POST' },
-      },
-      { suppressToast: false }
-    )
-  }
-
-  const downloadKey = () => {
-    const endpointParams = {}
-    runAction(
-      {
-        path: { endpoint: 'OPERATOR_SECURITY_KEY_DOWNLOAD', endpointParams },
-        config: { method: 'GET' },
-      },
-      { suppressToast: false }
-    )
-  }
-
-  const suspendKey = () => {
-    const endpointParams = {}
-    runAction(
-      {
-        path: { endpoint: 'OPERATOR_SECURITY_KEY_DISABLE', endpointParams },
-        config: { method: 'PATCH' },
-      },
-      { suppressToast: false }
-    )
-  }
-
-  const reactivateKey = () => {
-    const endpointParams = {}
-    runAction(
-      {
-        path: { endpoint: 'OPERATOR_SECURITY_KEY_ENABLE', endpointParams },
-        config: { method: 'PATCH' },
-      },
-      { suppressToast: false }
-    )
-  }
   /*
    * End list of actions
    */
@@ -108,12 +65,7 @@ function UserEditComponent({
     const providerOnlyActions: UserActions = { active: [], suspended: [] }
 
     const subscriberOnlyActions: UserActions = {
-      active: [
-        { onClick: wrapActionInDialog(uploadKey), label: 'Carica chiave', isMock: true },
-        { onClick: wrapActionInDialog(downloadKey), label: 'Scarica chiave', isMock: true },
-        { onClick: wrapActionInDialog(suspendKey), label: 'Sospendi chiave', isMock: true },
-        { onClick: wrapActionInDialog(reactivateKey), label: 'Riattiva chiave', isMock: true },
-      ],
+      active: [],
       suspended: [],
     }
 
@@ -164,6 +116,15 @@ function UserEditComponent({
           ))}
         </div>
       </WhiteBackground>
+
+      {clientId && !isEmpty(data) && (
+        <SecurityOperatorKeys
+          clientId={clientId}
+          userData={data}
+          runAction={runAction}
+          forceRerenderCounter={forceRerenderCounter}
+        />
+      )}
 
       {loading && <LoadingOverlay loadingText="Stiamo caricando l'operatore richiesto" />}
     </React.Fragment>

@@ -100,7 +100,7 @@ export function EServiceCatalogComponent({
             <td>
               {item.name}
               {item.isMine && <OwnerTooltip label="Sei l'erogatore" iconClass="bi-key-fill" />}
-              {item.callerSubscribed && (
+              {item.callerSubscribed && isAdmin(party) && (
                 <OwnerTooltip label="Sei già iscritto" iconClass="bi-check-circle-fill" />
               )}
             </td>

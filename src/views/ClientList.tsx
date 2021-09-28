@@ -16,25 +16,29 @@ import { WhiteBackground } from '../components/WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { getClientComputedStatus } from '../lib/client-utils'
-import { isAdmin } from '../lib/auth-utils'
+import { isAdmin, isOperatorSecurity } from '../lib/auth-utils'
 import { CLIENT_COMPUTED_STATUS_LABEL, ROUTES } from '../lib/constants'
-import { PartyContext } from '../lib/context'
+import { PartyContext, UserContext } from '../lib/context'
 
 function ClientListComponent({
   runFakeAction,
   wrapActionInDialog,
   forceRerenderCounter,
 }: UserFeedbackHOCProps) {
+  const { user } = useContext(UserContext)
   const { party } = useContext(PartyContext)
   const { data, loading, error } = useAsyncFetch<Client[]>(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
       config: {
         method: 'GET',
-        params: { institutionId: party?.institutionId },
+        params: {
+          institutionId: party?.institutionId,
+          operatorTaxCode: isOperatorSecurity(party) ? user?.taxCode : undefined,
+        },
       },
     },
-    { defaultValue: [], useEffectDeps: [forceRerenderCounter] }
+    { defaultValue: [], useEffectDeps: [forceRerenderCounter, user] }
   )
 
   // TEMP BACKEND should send client status

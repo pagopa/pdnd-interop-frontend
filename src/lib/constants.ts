@@ -388,25 +388,30 @@ export const API = {
     LOCAL: '',
     SHOULD_CALL: true,
   },
-  OPERATOR_SECURITY_KEY_UPLOAD: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators/{{operatorId}}', //TODO
+  OPERATOR_SECURITY_KEYS_GET: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators/{{taxCode}}/keys',
     LOCAL: '',
-    SHOULD_CALL: false,
+    SHOULD_CALL: true,
+  },
+  OPERATOR_SECURITY_KEYS_POST: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/operators/{{taxCode}}/keys',
+    LOCAL: '',
+    SHOULD_CALL: true,
   },
   OPERATOR_SECURITY_KEY_DOWNLOAD: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators/{{operatorId}}', //TODO
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators/{{operatorId}}',
     LOCAL: '',
-    SHOULD_CALL: false,
+    SHOULD_CALL: true,
   },
   OPERATOR_SECURITY_KEY_ENABLE: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators/{{operatorId}}', //TODO
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators/{{operatorId}}',
     LOCAL: '',
-    SHOULD_CALL: false,
+    SHOULD_CALL: true,
   },
   OPERATOR_SECURITY_KEY_DISABLE: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators/{{operatorId}}', //TODO
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators/{{operatorId}}',
     LOCAL: '',
-    SHOULD_CALL: false,
+    SHOULD_CALL: true,
   },
 }
 
@@ -587,7 +592,8 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
   OPERATOR_SECURITY_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
   OPERATOR_SECURITY_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   OPERATOR_SECURITY_CREATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  OPERATOR_SECURITY_KEY_UPLOAD: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  OPERATOR_SECURITY_KEYS_GET: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  OPERATOR_SECURITY_KEYS_POST: { loadingText: 'Operazione in corso', success: {}, error: {} },
   OPERATOR_SECURITY_KEY_DOWNLOAD: { loadingText: 'Operazione in corso', success: {}, error: {} },
   OPERATOR_SECURITY_KEY_ENABLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   OPERATOR_SECURITY_KEY_DISABLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
@@ -661,7 +667,8 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   OPERATOR_SECURITY_GET_LIST: {},
   OPERATOR_SECURITY_GET_SINGLE: {},
   OPERATOR_SECURITY_CREATE: {},
-  OPERATOR_SECURITY_KEY_UPLOAD: {},
+  OPERATOR_SECURITY_KEYS_GET: {},
+  OPERATOR_SECURITY_KEYS_POST: {},
   OPERATOR_SECURITY_KEY_DOWNLOAD: {},
   OPERATOR_SECURITY_KEY_ENABLE: {},
   OPERATOR_SECURITY_KEY_DISABLE: {},
