@@ -52,7 +52,7 @@ export function TempSPIDUser() {
 
               <Button
                 className="mt-3"
-                variant="light"
+                variant="secondary"
                 type="submit"
                 disabled={isEmpty(data) || isEmpty(data['spid'])}
               >
