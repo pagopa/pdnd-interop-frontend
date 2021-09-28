@@ -32,8 +32,8 @@ import { TempSPIDUser } from '../components/TempSPIDUser'
 import { ClientCreate } from '../views/ClientCreate'
 import { IPAGuide } from '../views/IPAGuide'
 
-export const SHOW_DEV_LABELS = true
-export const USE_SPID_USER_LORENZO_CARMILLI = true
+export const SHOW_DEV_LABELS = process.env.NODE_ENV === 'production' ? false : true
+export const USE_SPID_USER_LORENZO_CARMILLI = process.env.NODE_ENV === 'production' ? false : true
 export const USE_LOCAL_DATA = false
 export const USE_LOCAL_DATA_RESPONSE_STATUS = 200 // The response status code to simulate if USE_LOCAL_DATA is true
 export const DISPLAY_LOGS: DisplayLogsType = 'all'
