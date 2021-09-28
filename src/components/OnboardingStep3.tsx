@@ -25,7 +25,12 @@ export function OnboardingStep3({ forward, back }: StepperStepComponentProps) {
           }}
         </StyledIntro>
         <Row className="mt-4 mb-3">
-          <StyledInputTextArea readOnly={true} value={bozzaAccordo} height={200} />
+          <StyledInputTextArea
+            readOnly={true}
+            value={bozzaAccordo}
+            height={200}
+            readOnlyBgWhite={true}
+          />
         </Row>
         <OnboardingStepActions
           back={{ action: back, label: 'indietro', disabled: false }}
