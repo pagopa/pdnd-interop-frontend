@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import isEmpty from 'lodash/isEmpty'
-import merge from 'lodash/merge'
 import { Button } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
 import { ActionWithTooltipBtn, User, UserStatus } from '../../types'
@@ -15,6 +14,7 @@ import { getBits } from '../lib/url-utils'
 import { isAdmin } from '../lib/auth-utils'
 import { PartyContext } from '../lib/context'
 import { useMode } from '../hooks/useMode'
+import { mergeActions } from '../lib/eservice-utils'
 
 function UserEditComponent({
   runFakeAction,
@@ -123,7 +123,7 @@ function UserEditComponent({
       mode!
     ]
 
-    return merge(sharedActions, currentActions)[data.status || 'active']
+    return mergeActions([sharedActions, currentActions], data.status || 'active')
   }
 
   return (

@@ -1,7 +1,13 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
-import { AgreementStatus, AgreementSummary, ActionWithTooltipBtn } from '../../types'
+import {
+  AgreementStatus,
+  AgreementSummary,
+  ActionWithTooltipBtn,
+  EServiceReadType,
+  EServiceDescriptorRead,
+} from '../../types'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
@@ -14,18 +20,26 @@ import { formatDate, getRandomDate } from '../lib/date-utils'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import isEmpty from 'lodash/isEmpty'
-import merge from 'lodash/merge'
 import { withAdminAuth } from '../components/withAdminAuth'
 import compose from 'lodash/fp/compose'
+import { fetchWithLogs } from '../lib/api-utils'
+import { getFetchOutcome } from '../lib/error-utils'
+import { AxiosResponse } from 'axios'
+import { PartyContext } from '../lib/context'
+import { mergeActions } from '../lib/eservice-utils'
 
 function AgreementEditComponent({
   runAction,
   runFakeAction,
+  runActionWithDestination,
   forceRerenderCounter,
   wrapActionInDialog,
 }: UserFeedbackHOCProps) {
+  const { party } = useContext(PartyContext)
   const mode = useMode()
   const agreementId = getLastBit(useLocation())
+  const [mostRecent, setMostRecent] = useState<EServiceDescriptorRead | undefined>()
+  const [current, setCurrent] = useState<EServiceDescriptorRead | undefined>()
   const { data, loading } = useAsyncFetch<AgreementSummary>(
     {
       path: { endpoint: 'AGREEMENT_GET_SINGLE', endpointParams: { agreementId } },
@@ -59,6 +73,19 @@ function AgreementEditComponent({
 
   const reactivate = () => {
     runFakeAction('Riattiva accordo')
+  }
+
+  const upgrade = async () => {
+    const agreementData = {
+      eserviceId: data.id,
+      descriptorId: mostRecent!.id,
+      consumerId: party?.partyId,
+    }
+
+    await runActionWithDestination(
+      { path: { endpoint: 'AGREEMENT_CREATE' }, config: { method: 'POST', data: agreementData } },
+      { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST, suppressToast: false }
+    )
   }
 
   const refuse = () => {
@@ -107,13 +134,72 @@ function AgreementEditComponent({
       suspended: [{ onClick: wrapActionInDialog(archive), label: 'archivia', isMock: true }],
     }
 
-    const subscriberOnlyActions: AgreementActions = { active: [], suspended: [], pending: [] }
+    console.log({
+      mostRecent,
+      current,
+      v: mostRecent && current && mostRecent.version > current.version,
+    })
+
+    const subscriberOnlyActionsActive: ActionWithTooltipBtn[] = []
+    if (mostRecent && current && mostRecent.version > current.version) {
+      subscriberOnlyActionsActive.push({
+        onClick: wrapActionInDialog(upgrade, 'AGREEMENT_CREATE'),
+        label: 'aggiorna',
+      })
+    }
+
+    const subscriberOnlyActions: AgreementActions = {
+      active: subscriberOnlyActionsActive,
+      suspended: [],
+      pending: [],
+    }
 
     const currentActions = { provider: providerOnlyActions, subscriber: subscriberOnlyActions }[
       mode!
     ]
 
-    return merge(sharedActions, currentActions)[data.status || 'pending']
+    return mergeActions<AgreementActions>([currentActions, sharedActions], data.status || 'pending')
+  }
+
+  /*
+   * Check if there is a more recent version of this service
+   */
+  useEffect(() => {
+    async function asyncFetchEService() {
+      const resp = await fetchWithLogs(
+        { endpoint: 'ESERVICE_GET_SINGLE', endpointParams: { eserviceId: data?.eservice?.id } },
+        { method: 'GET' }
+      )
+
+      const outcome = getFetchOutcome(resp)
+
+      if (outcome === 'success') {
+        const eserviceData = (resp as AxiosResponse).data
+        setMostRecentVersion(eserviceData)
+      }
+    }
+
+    if (!isEmpty(data) && mode === 'subscriber') {
+      asyncFetchEService()
+    }
+  }, [data]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const setMostRecentVersion = (eserviceData: EServiceReadType) => {
+    const descriptorsSortedByVersion = eserviceData.descriptors.sort(
+      (a: EServiceDescriptorRead, b: EServiceDescriptorRead) => (+a.version > +b.version ? -1 : 1)
+    )
+    const mostRecentDescriptor = descriptorsSortedByVersion[0]
+    const currentDescriptor = eserviceData.descriptors.find(
+      (d) => d.version === data?.eservice?.version
+    )
+
+    const currentVersion = +data?.eservice?.version
+    const mostRecentVersion = +mostRecentDescriptor.version
+
+    setCurrent(currentDescriptor)
+    if (mostRecentVersion > currentVersion && mostRecentDescriptor.status !== 'draft') {
+      setMostRecent(mostRecentDescriptor)
+    }
   }
 
   return (
@@ -121,13 +207,32 @@ function AgreementEditComponent({
       <WhiteBackground>
         <StyledIntro priority={2}>{{ title: 'Accordo di interoperabilità' }}</StyledIntro>
 
-        <DescriptionBlock label="E-service">
-          <Link
-            className="link-default"
-            to={`${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${data?.eservice?.id}`}
-          >
-            {data?.eservice?.name}
-          </Link>
+        <DescriptionBlock label="Accordo relativo a">
+          <div style={{ maxWidth: 500 }}>
+            <Link
+              className="link-default"
+              to={`${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}/${data?.eservice?.id}/${
+                current?.id
+              }`}
+            >
+              {data?.eservice?.name}, versione {data?.eservice?.version}
+            </Link>
+            {mode === 'subscriber' && mostRecent ? (
+              <React.Fragment>
+                {' '}
+                (è disponibile una{' '}
+                <Link
+                  className="link-default"
+                  to={`${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}/${data?.eservice?.id}/${
+                    mostRecent.id
+                  }`}
+                >
+                  versione più recente
+                </Link>
+                ; per attivarla, aggiorna l'accordo di interoperabilità)
+              </React.Fragment>
+            ) : null}
+          </div>
         </DescriptionBlock>
 
         <DescriptionBlock label="Stato dell'accordo">

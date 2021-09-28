@@ -79,3 +79,8 @@ export function getActiveDocs(data: EServiceReadType | undefined, descriptorId: 
   const activeDescriptor = getActiveDescriptor(data, descriptorId)
   return activeDescriptor ? activeDescriptor.docs : []
 }
+
+export function mergeActions<T>(actionObjs: T[], status: keyof T) {
+  const actionsArray = actionObjs.map((k) => k[status])
+  return Array.prototype.concat.apply([], actionsArray)
+}

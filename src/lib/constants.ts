@@ -642,7 +642,8 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   PARTY_GET_PARTY_ID: {},
   AGREEMENT_CREATE: {
     title: "Iscriviti all'e-service",
-    description: 'Cliccando su "conferma" ti iscriverai all\'e-service richiesto',
+    description:
+      'Cliccando su "conferma" ti iscriverai all\'e-service richiesto, o a un aggiornamento di versione',
   },
   AGREEMENT_GET_LIST: {},
   AGREEMENT_GET_SINGLE: {},

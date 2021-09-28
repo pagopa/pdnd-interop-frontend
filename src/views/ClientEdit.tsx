@@ -17,7 +17,7 @@ import {
 import { getLastBit } from '../lib/url-utils'
 import isEmpty from 'lodash/isEmpty'
 import { UserList } from './UserList'
-import { getClientComputedStatus } from '../lib/ client-utils'
+import { getClientComputedStatus } from '../lib/client-utils'
 import { isAdmin } from '../lib/auth-utils'
 import { PartyContext } from '../lib/context'
 
