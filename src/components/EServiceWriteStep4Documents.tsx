@@ -161,7 +161,7 @@ function EServiceWriteStep4DocumentsComponent({
       </WhiteBackground>
 
       <WhiteBackground>
-        <StyledIntro priority={2}>{{ title: 'Azioni irreversibili' }}</StyledIntro>
+        <StyledIntro priority={2}>{{ title: 'Pubblicazione della versione' }}</StyledIntro>
         <div className="d-flex">
           <Button className="me-3" variant="primary" onClick={publishVersion}>
             pubblica bozza
