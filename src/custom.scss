@@ -62,6 +62,10 @@ $danger: #ff8181;
   border-radius: 4px;
 }
 
+.form-control-plaintext.readonly-white[readonly] {
+  background-color: white;
+}
+
 .text-none {
   text-transform: none !important;
 }

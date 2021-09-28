@@ -13,6 +13,7 @@ type StyledInputTextAreaProps = {
   onBlur?: any
   className?: string
   autofocusOnFalseReadOnly?: boolean
+  readOnlyBgWhite?: boolean
 }
 
 export function StyledInputTextArea({
@@ -26,6 +27,7 @@ export function StyledInputTextArea({
   onBlur,
   className = 'mt-4 mb-3',
   autofocusOnFalseReadOnly = false,
+  readOnlyBgWhite = false,
 }: StyledInputTextAreaProps) {
   const inputRef = createRef<HTMLTextAreaElement>()
 
@@ -41,7 +43,9 @@ export function StyledInputTextArea({
       <Form.Control
         ref={inputRef}
         id={id}
-        className={`border border-light ${readOnly ? 'py-1' : 'pt-4 pb-1'}`}
+        className={`border border-light ${readOnly ? 'py-1' : 'pt-4 pb-1'} ${
+          readOnlyBgWhite ? 'readonly-white' : ''
+        }`}
         style={{ height, resize: 'none', paddingLeft: '0.75rem', paddingRight: '0.75rem' }}
         value={value}
         as="textarea"

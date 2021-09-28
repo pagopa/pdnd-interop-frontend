@@ -31,7 +31,7 @@ export function Login() {
           }}
         </StyledIntro>
         <Row className="mb-5">
-          <StyledInputTextArea readOnly={true} value={informativa} />
+          <StyledInputTextArea readOnly={true} value={informativa} readOnlyBgWhite={true} />
 
           <StyledInputCheckbox
             onChange={updatePrivacy}
