@@ -29,7 +29,7 @@ function PlatformHeader() {
       .filter((b) => b)
       .map((b) => `/${b}`)
 
-    setActiveKey(bits[0])
+    setActiveKey(`${bits[0]}${bits[1]}`)
   }, [location.pathname])
 
   const isActive = (route: RouteConfig) => activeKey === route.PATH
