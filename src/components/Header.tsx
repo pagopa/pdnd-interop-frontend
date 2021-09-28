@@ -18,9 +18,8 @@ type NavLinkProps = {
 // TEMP REFACTOR component
 
 function PlatformHeader() {
-  const { availableParties, setParty } = useContext(PartyContext)
+  const { party, availableParties, setParty } = useContext(PartyContext)
   const [activeKey, setActiveKey] = useState('')
-  const { party } = useContext(PartyContext)
   const location = useLocation()
 
   useEffect(() => {

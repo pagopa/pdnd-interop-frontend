@@ -13,12 +13,12 @@ export function withLogin<T extends LoginProps>(WrappedComponent: React.Componen
 
     useEffect(() => {
       async function asyncAttemptSilentLogin() {
-        if (!user) {
-          await attemptSilentLogin()
-        }
+        await attemptSilentLogin()
       }
 
-      asyncAttemptSilentLogin()
+      if (!user) {
+        asyncAttemptSilentLogin()
+      }
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     return <WrappedComponent {...(props as T)} />

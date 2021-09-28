@@ -134,12 +134,6 @@ function AgreementEditComponent({
       suspended: [{ onClick: wrapActionInDialog(archive), label: 'archivia', isMock: true }],
     }
 
-    console.log({
-      mostRecent,
-      current,
-      v: mostRecent && current && mostRecent.version > current.version,
-    })
-
     const subscriberOnlyActionsActive: ActionWithTooltipBtn[] = []
     if (mostRecent && current && mostRecent.version > current.version) {
       subscriberOnlyActionsActive.push({

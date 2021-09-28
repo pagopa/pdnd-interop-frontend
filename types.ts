@@ -101,6 +101,7 @@ export type Party = {
   institutionId: string
   digitalAddress: string
   role: UserRole
+  platformRole: UserPlatformRole
   partyId?: string
 }
 

@@ -35,8 +35,6 @@ function UserEditComponent({
     { defaultValue: {}, useEffectDeps: [forceRerenderCounter] }
   )
 
-  console.log(data)
-
   /*
    * List of possible actions for the user to perform
    */
