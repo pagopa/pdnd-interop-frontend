@@ -33,7 +33,7 @@ function UserCreateComponent({ runActionWithDestination }: UserFeedbackHOCProps)
         ? ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_LIST
         : {
             // TEMP REFACTOR: this case should also be taken into account
-            PATH: `${ROUTES.PROVIDE.SUBROUTES!.CLIENT_LIST.PATH}/${clientId}`,
+            PATH: `${ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST.PATH}/${clientId}`,
             LABEL: '',
           }
 

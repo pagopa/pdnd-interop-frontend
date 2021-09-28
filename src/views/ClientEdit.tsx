@@ -96,9 +96,7 @@ function ClientEditComponent({
     <React.Fragment>
       {!isEmpty(data) && (
         <WhiteBackground>
-          <StyledIntro priority={2} additionalClasses="fakeData fakeDataStart">
-            {{ title: `Client: ${data.name}` }}
-          </StyledIntro>
+          <StyledIntro priority={2}>{{ title: `Client: ${data.name}` }}</StyledIntro>
 
           <div style={{ maxWidth: 586 }}>
             <DescriptionBlock label="Descrizione">
@@ -172,6 +170,10 @@ function ClientEditComponent({
 
             <DescriptionBlock label="Stato dell'accordo">
               <span>{AGREEMENT_STATUS_LABEL[data.agreement.status]}</span>
+            </DescriptionBlock>
+
+            <DescriptionBlock label="Finalità">
+              <span>{data.purposes}</span>
             </DescriptionBlock>
           </div>
 

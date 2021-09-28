@@ -272,6 +272,7 @@ export type Client = {
   status: ClientStatus
   agreement: ClientAgreement
   eservice: ClientEService
+  purposes: string
 }
 
 /*

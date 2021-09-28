@@ -18,6 +18,7 @@ type ClientSubmit = {
   description: string
   consumerInstitutionId: string
   eServiceId: string
+  purposes: string
 }
 
 function ClientCreateComponent({ runActionWithDestination }: UserFeedbackHOCProps) {
@@ -91,6 +92,13 @@ function ClientCreateComponent({ runActionWithDestination }: UserFeedbackHOCProp
               label: s.name,
             }))}
             onChange={wrapSetData('eServiceId')}
+          />
+
+          <StyledInputText
+            id="purposes"
+            label="Finalità*"
+            value={data['purposes'] || ''}
+            onChange={wrapSetData('purposes')}
           />
 
           <Button className="mt-3" variant="primary" type="submit" disabled={false}>
