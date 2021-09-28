@@ -163,6 +163,7 @@ export type EServiceFlatReadType = {
   descriptorId?: string
   status?: EServiceStatus
   version?: string
+  callerSubscribed: boolean
 }
 
 export type EServiceFlatDecoratedReadType = EServiceFlatReadType & {

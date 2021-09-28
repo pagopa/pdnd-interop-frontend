@@ -29,7 +29,7 @@ export function EServiceCatalogComponent({
   >(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
-      config: { method: 'GET', params: { status: 'published' } },
+      config: { method: 'GET', params: { status: 'published', callerId: party?.partyId } },
     },
     {
       defaultValue: [],
@@ -100,11 +100,14 @@ export function EServiceCatalogComponent({
             <td>
               {item.name}
               {item.isMine && <OwnerTooltip label="Sei l'erogatore" iconClass="bi-key-fill" />}
+              {item.callerSubscribed && (
+                <OwnerTooltip label="Sei già iscritto" iconClass="bi-check-circle-fill" />
+              )}
             </td>
             <td>{item.version}</td>
             <td>{ESERVICE_STATUS_LABEL[item.status!]}</td>
             <td>
-              {!item.isMine && isAdmin(party) && (
+              {!item.isMine && isAdmin(party) && !item.callerSubscribed && (
                 <ActionWithTooltip
                   btnProps={{
                     onClick: wrapActionInDialog(wrapSubscribe(item), 'AGREEMENT_CREATE'),

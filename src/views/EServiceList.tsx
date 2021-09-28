@@ -35,7 +35,10 @@ function EServiceListComponent({
   const { data, loading, error } = useAsyncFetch<EServiceFlatReadType[]>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
-      config: { method: 'GET', params: { producerId: party?.partyId } },
+      config: {
+        method: 'GET',
+        params: { producerId: party?.partyId, callerId: party?.partyId },
+      },
     },
     { defaultValue: [], useEffectDeps: [forceRerenderCounter] }
   )
