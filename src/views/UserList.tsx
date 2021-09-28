@@ -40,14 +40,16 @@ function UserListComponent({
   const mode = useMode()
   const { party } = useContext(PartyContext)
   const endpoint = mode === 'provider' ? 'OPERATOR_API_GET_LIST' : 'OPERATOR_SECURITY_GET_LIST'
-  const endpointParams = mode === 'provider' ? {} : { clientId }
+  const endpointParams =
+    mode === 'provider' ? { institutionId: party?.institutionId } : { clientId }
 
   const { data, loading, error } = useAsyncFetch<User[]>(
+    { path: { endpoint, endpointParams }, config: { method: 'GET' } },
     {
-      path: { endpoint, endpointParams },
-      config: { method: 'GET' }, // TEMP PIN-219: users must be filtered by clientId or instutitionId
-    },
-    { defaultValue: [], useEffectDeps: [forceRerenderCounter] }
+      defaultValue: [],
+      useEffectDeps: [forceRerenderCounter],
+      mapFn: (data) => (data as any).relationships,
+    }
   )
 
   /*

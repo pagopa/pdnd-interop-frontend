@@ -304,9 +304,9 @@ export const API = {
     SHOULD_CALL: true,
   },
   OPERATOR_API_GET_LIST: {
-    URL: 'TODO',
-    LOCAL: 'get-user-list.json', // TEMP PIN-438
-    SHOULD_CALL: false,
+    URL: 'pdnd-interop-uservice-party-process/0.0.1/institutions/{{institutionId}}/relationships',
+    LOCAL: 'get-user-list.json',
+    SHOULD_CALL: true,
   },
   OPERATOR_API_GET_SINGLE: {
     URL: 'TODO',
