@@ -79,9 +79,7 @@ function UserEditComponent({
   return (
     <React.Fragment>
       <WhiteBackground>
-        <StyledIntro priority={2} additionalClasses="fakeData fakeDataStart">
-          {{ title: `Utente: ${data.name} ${data.surname}` }}
-        </StyledIntro>
+        <StyledIntro priority={2}>{{ title: `Utente: ${data.name} ${data.surname}` }}</StyledIntro>
 
         <DescriptionBlock label="Codice fiscale">
           <span>{data.taxCode}</span>
