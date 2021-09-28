@@ -29,6 +29,7 @@ import { TempFilters } from '../components/TempFilters'
 import { isAdmin } from '../lib/auth-utils'
 import { PartyContext } from '../lib/context'
 import { getLastBit } from '../lib/url-utils'
+import identity from 'lodash/identity'
 
 function UserListComponent({
   runFakeAction,
@@ -48,7 +49,7 @@ function UserListComponent({
     {
       defaultValue: [],
       useEffectDeps: [forceRerenderCounter],
-      mapFn: (data) => (data as any).relationships,
+      mapFn: mode === 'provider' ? (data) => (data as any).relationships : identity,
     }
   )
 
@@ -140,9 +141,7 @@ function UserListComponent({
 
   return (
     <WhiteBackground>
-      <StyledIntro priority={2} additionalClasses="fakeData fakeDataStart">
-        {TITLES[mode!]}
-      </StyledIntro>
+      <StyledIntro priority={2}>{TITLES[mode!]}</StyledIntro>
 
       <div className="mt-4">
         {isAdmin(party) && (
@@ -168,7 +167,7 @@ function UserListComponent({
           noDataLabel="Non ci sono operatori disponibili"
           error={error}
         >
-          {data.map((item, i) => (
+          {data?.map((item, i) => (
             <tr key={i}>
               <td>
                 {item.name} {item.surname}
