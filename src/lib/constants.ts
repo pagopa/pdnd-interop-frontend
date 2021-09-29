@@ -400,17 +400,22 @@ export const API = {
     SHOULD_CALL: true,
   },
   OPERATOR_SECURITY_KEY_DOWNLOAD: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators/{{operatorId}}',
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/operators/{{taxCode}}/key/{{keyId}}',
     LOCAL: '',
     SHOULD_CALL: true,
   },
   OPERATOR_SECURITY_KEY_ENABLE: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators/{{operatorId}}',
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/operators/{{taxCode}}/keys/{{keyId}}/enable',
     LOCAL: '',
     SHOULD_CALL: true,
   },
   OPERATOR_SECURITY_KEY_DISABLE: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators/{{operatorId}}',
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/operators/{{taxCode}}/keys/{{keyId}}/disable',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
+  OPERATOR_SECURITY_KEY_DELETE: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/operators/{{taxCode}}/keys/{{keyId}}',
     LOCAL: '',
     SHOULD_CALL: true,
   },
@@ -598,6 +603,7 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
   OPERATOR_SECURITY_KEY_DOWNLOAD: { loadingText: 'Operazione in corso', success: {}, error: {} },
   OPERATOR_SECURITY_KEY_ENABLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   OPERATOR_SECURITY_KEY_DISABLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  OPERATOR_SECURITY_KEY_DELETE: { loadingText: 'Operazione in corso', success: {}, error: {} },
 }
 
 export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
@@ -673,6 +679,7 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   OPERATOR_SECURITY_KEY_DOWNLOAD: {},
   OPERATOR_SECURITY_KEY_ENABLE: {},
   OPERATOR_SECURITY_KEY_DISABLE: {},
+  OPERATOR_SECURITY_KEY_DELETE: {},
 }
 
 export const ESERVICE_STATUS_LABEL = {

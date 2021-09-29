@@ -18,12 +18,14 @@ type SecurityOperatorKeysProps = {
   userData: User
   runAction: any
   forceRerenderCounter: any
+  wrapActionInDialog: any
 }
 
 export function SecurityOperatorKeys({
   clientId,
   userData,
   runAction,
+  wrapActionInDialog,
   forceRerenderCounter,
 }: SecurityOperatorKeysProps) {
   const { user } = useContext(UserContext)
@@ -31,6 +33,7 @@ export function SecurityOperatorKeys({
   const endpointParams = { taxCode: userData.taxCode, clientId }
   const [toast, setToast] = useState<ToastProps | undefined>()
   const [dialog, setDialog] = useState(false)
+  const [keyCreationCounter, setKeyCreationCounter] = useState(0)
 
   const closeToast = () => {
     setToast(undefined)
@@ -47,6 +50,10 @@ export function SecurityOperatorKeys({
     }
   }
 
+  const updateKeyCreationCounter = () => {
+    setKeyCreationCounter(keyCreationCounter + 1)
+  }
+
   /*
    * List of keys related actions to perform
    */
@@ -58,23 +65,24 @@ export function SecurityOperatorKeys({
       )
       const outcome = getFetchOutcome(resp)
 
+      setKey(undefined)
       if (outcome === 'success') {
         const axiosResp = resp as AxiosResponse
-        if (axiosResp.data.length > 0) {
-          setKey(axiosResp.data[0].key)
+        if (axiosResp.data.keys.length > 0) {
+          setKey(axiosResp.data.keys[0])
         }
       }
     }
 
     asyncFetchKeys()
-  }, [forceRerenderCounter]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [forceRerenderCounter, keyCreationCounter]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const wrapDownloadKey = (keyId: string) => (e: any) => {
     runAction(
       {
         path: {
           endpoint: 'OPERATOR_SECURITY_KEY_DOWNLOAD',
-          endpointParams: { ...endpointParams, keyId },
+          endpointParams: { operatorId: endpointParams.taxCode, keyId },
         },
         config: { method: 'GET' },
       },
@@ -115,7 +123,7 @@ export function SecurityOperatorKeys({
           endpoint: 'OPERATOR_SECURITY_KEY_DELETE',
           endpointParams: { ...endpointParams, keyId },
         },
-        config: { method: 'PATCH' },
+        config: { method: 'DELETE' },
       },
       { suppressToast: false }
     )
@@ -123,11 +131,33 @@ export function SecurityOperatorKeys({
 
   const getAvailableActions = (key: any) => {
     const actions: any = [
-      { onClick: wrapDownloadKey(key.kid), label: 'Scarica chiave', icon: 'bi-download' },
-      key.status === 'active'
-        ? { onClick: wrapSuspendKey(key.kid), label: 'Sospendi chiave', icon: 'bi-pause-circle' }
-        : { onClick: wrapReactivateKey(key.kid), label: 'Riattiva chiave', icon: 'bi-play-circle' },
-      { onClick: wrapDeleteKey(key.kid), label: 'Cancella chiave', icon: 'bi-trash' },
+      {
+        onClick: wrapDownloadKey(key.key.kid),
+        label: 'Scarica chiave',
+        icon: 'bi-download',
+      },
+      key.status === 'Active'
+        ? {
+            onClick: wrapActionInDialog(
+              wrapSuspendKey(key.key.kid),
+              'OPERATOR_SECURITY_KEY_DISABLE'
+            ),
+            label: 'Sospendi chiave',
+            icon: 'bi-pause-circle',
+          }
+        : {
+            onClick: wrapActionInDialog(
+              wrapReactivateKey(key.key.kid),
+              'OPERATOR_SECURITY_KEY_ENABLE'
+            ),
+            label: 'Riattiva chiave',
+            icon: 'bi-play-circle',
+          },
+      {
+        onClick: wrapActionInDialog(wrapDeleteKey(key.key.kid), 'OPERATOR_SECURITY_KEY_DELETE'),
+        label: 'Cancella chiave',
+        icon: 'bi-trash',
+      },
     ]
 
     return actions
@@ -145,8 +175,8 @@ export function SecurityOperatorKeys({
         )}
 
         {key ? (
-          <div className="d-flex justify-content-between align-items-center">
-            <span>{key.kid}</span>
+          <div className="d-flex justify-content-between align-items-center border-top pt-3">
+            <span>Chiave pubblica</span>
             <div>
               {getAvailableActions(key).map((tableAction: any, j: number) => {
                 return (
@@ -168,7 +198,12 @@ export function SecurityOperatorKeys({
 
       {dialog && (
         <Overlay>
-          <CreateKeyModal close={closeModal} clientId={clientId} taxCode={userData.taxCode} />
+          <CreateKeyModal
+            close={closeModal}
+            clientId={clientId}
+            taxCode={userData.taxCode}
+            afterSuccess={updateKeyCreationCounter}
+          />
         </Overlay>
       )}
       {toast && <StyledToast {...toast} />}

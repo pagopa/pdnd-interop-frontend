@@ -121,6 +121,7 @@ function UserEditComponent({
           userData={data}
           runAction={runAction}
           forceRerenderCounter={forceRerenderCounter}
+          wrapActionInDialog={wrapActionInDialog}
         />
       )}
 

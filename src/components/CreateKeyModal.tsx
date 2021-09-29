@@ -12,6 +12,7 @@ type NewPublicKeyProps = {
   close: (toastContent?: ToastContentWithOutcome) => void
   clientId: string
   taxCode: string
+  afterSuccess: VoidFunction
 }
 
 type NewPublicKey = {
@@ -21,7 +22,7 @@ type NewPublicKey = {
   key: string
 }
 
-export function CreateKeyModal({ close, clientId, taxCode }: NewPublicKeyProps) {
+export function CreateKeyModal({ close, clientId, taxCode, afterSuccess }: NewPublicKeyProps) {
   const [loadingText, setLoadingText] = useState<string | undefined>()
   const [data, setData] = useState<Partial<NewPublicKey>>({ use: 'sig', clientId })
 
@@ -49,6 +50,10 @@ export function CreateKeyModal({ close, clientId, taxCode }: NewPublicKeyProps) 
 
     setLoadingText(undefined)
     close(toastContent)
+
+    if (afterSuccess) {
+      afterSuccess()
+    }
   }
 
   const simpleClose = () => {
@@ -57,7 +62,7 @@ export function CreateKeyModal({ close, clientId, taxCode }: NewPublicKeyProps) 
 
   return (
     <React.Fragment>
-      <Modal.Dialog contentClassName="px-1 py-1" style={{ minWidth: 500 }}>
+      <Modal.Dialog contentClassName="px-1 py-1" style={{ minWidth: 640 }}>
         <Modal.Header onHide={simpleClose} closeButton>
           <Modal.Title className="me-5">Carica nuova chiave pubblica</Modal.Title>
         </Modal.Header>
@@ -75,7 +80,7 @@ export function CreateKeyModal({ close, clientId, taxCode }: NewPublicKeyProps) 
             label="Chiave pubblica*"
             value={data?.key || ''}
             onChange={buildSetData('key')}
-            height={350}
+            height={280}
           />
         </Modal.Body>
 
