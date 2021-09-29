@@ -162,7 +162,7 @@ export function SecurityOperatorKeys({
             </div>
           </div>
         ) : (
-          <span>Nessuna chiave presente</span>
+          <div>Nessuna chiave presente</div>
         )}
       </WhiteBackground>
 
