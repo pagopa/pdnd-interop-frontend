@@ -1,5 +1,6 @@
 import has from 'lodash/has'
 import {
+  BackendAttribute,
   BackendAttributes,
   FrontendAttributes,
   GroupBackendAttribute,
@@ -66,4 +67,30 @@ export function unformatAttributes(formattedAttributes: any): any {
 
   // return unformattedAttributes
   return formattedAttributes
+}
+
+export function canSubscribe(
+  partyAttributes: string[] | undefined,
+  eserviceAttributes: BackendAttribute[]
+) {
+  if (!partyAttributes) {
+    return false
+  }
+
+  const hasAllAttributes = eserviceAttributes.every((eserviceAttribute) => {
+    if (has(eserviceAttribute, 'single')) {
+      const match = partyAttributes.find(
+        (a) => a === (eserviceAttribute as SingleBackendAttribute).single.id
+      )
+      return Boolean(match)
+    }
+
+    const match = partyAttributes.find((a) => {
+      const groupIds = (eserviceAttribute as GroupBackendAttribute).group.map((a) => a.id)
+      return groupIds.includes(a)
+    })
+    return Boolean(match)
+  })
+
+  return hasAllAttributes
 }

@@ -12,6 +12,7 @@ import { PartyContext } from '../lib/context'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { TempFilters } from '../components/TempFilters'
 import { isAdmin } from '../lib/auth-utils'
+import { canSubscribe } from '../lib/attributes'
 
 type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
   isMine: boolean
@@ -95,40 +96,50 @@ export function EServiceCatalogComponent({
         noDataLabel="Non ci sono servizi disponibili"
         error={error}
       >
-        {data.map((item, i) => (
-          <tr key={i}>
-            <td>
-              {item.name}
-              {item.isMine && <OwnerTooltip label="Sei l'erogatore" iconClass="bi-key-fill" />}
-              {item.callerSubscribed && isAdmin(party) && (
-                <OwnerTooltip label="Sei già iscritto" iconClass="bi-check-circle-fill" />
-              )}
-            </td>
-            <td>{item.version}</td>
-            <td>{ESERVICE_STATUS_LABEL[item.status!]}</td>
-            <td>
-              {!item.isMine && isAdmin(party) && !item.callerSubscribed && (
+        {data.map((item, i) => {
+          const canSubscribeEservice = canSubscribe(party?.attributes, item.certifiedAttributes)
+
+          return (
+            <tr key={i}>
+              <td>
+                {item.name}
+                {item.isMine && <OwnerTooltip label="Sei l'erogatore" iconClass="bi-key-fill" />}
+                {item.callerSubscribed && isAdmin(party) && (
+                  <OwnerTooltip label="Sei già iscritto" iconClass="bi-check-circle-fill" />
+                )}
+                {!item.isMine && !canSubscribeEservice && (
+                  <OwnerTooltip
+                    label="Il tuo ente non ha gli attributi certificati necessari per iscriversi"
+                    iconClass="bi-x-circle-fill"
+                  />
+                )}
+              </td>
+              <td>{item.version}</td>
+              <td>{ESERVICE_STATUS_LABEL[item.status!]}</td>
+              <td>
+                {!item.isMine && isAdmin(party) && !item.callerSubscribed && canSubscribeEservice && (
+                  <ActionWithTooltip
+                    btnProps={{
+                      onClick: wrapActionInDialog(wrapSubscribe(item), 'AGREEMENT_CREATE'),
+                    }}
+                    label="Iscriviti"
+                    iconClass={'bi-pencil-square'}
+                  />
+                )}
                 <ActionWithTooltip
                   btnProps={{
-                    onClick: wrapActionInDialog(wrapSubscribe(item), 'AGREEMENT_CREATE'),
+                    as: Link,
+                    to: `${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}/${item.id}/${
+                      item.descriptorId
+                    }`,
                   }}
-                  label="Iscriviti"
-                  iconClass={'bi-pencil-square'}
+                  label="Ispeziona"
+                  iconClass={'bi-info-circle'}
                 />
-              )}
-              <ActionWithTooltip
-                btnProps={{
-                  as: Link,
-                  to: `${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}/${item.id}/${
-                    item.descriptorId
-                  }`,
-                }}
-                label="Ispeziona"
-                iconClass={'bi-info-circle'}
-              />
-            </td>
-          </tr>
-        ))}
+              </td>
+            </tr>
+          )
+        })}
       </TableWithLoader>
     </WhiteBackground>
   )

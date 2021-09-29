@@ -27,14 +27,19 @@ export const useLogin = () => {
       }))
     )
 
-    // Associate each partyId to the correspondent party
+    // Associate each partyId to the correspondent party, along with its attributes
     parties = parties.map((party) => {
       const currentParty = (partyIdsResponses as AxiosResponse[]).find(
         (r: AxiosResponse) => r.data.institutionId === party.institutionId
       )
 
-      return { ...party, partyId: currentParty?.data.partyId }
+      return {
+        ...party,
+        partyId: currentParty?.data.partyId,
+        attributes: currentParty?.data.attributes,
+      }
     })
+
     // Then set them
     setAvailableParties(parties)
   }

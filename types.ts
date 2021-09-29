@@ -103,6 +103,7 @@ export type Party = {
   role: UserRole
   platformRole: UserPlatformRole
   partyId?: string
+  attributes: string[]
 }
 
 /*
@@ -165,6 +166,7 @@ export type EServiceFlatReadType = {
   status?: EServiceStatus
   version?: string
   callerSubscribed: boolean
+  certifiedAttributes: BackendAttribute[]
 }
 
 export type EServiceFlatDecoratedReadType = EServiceFlatReadType & {
