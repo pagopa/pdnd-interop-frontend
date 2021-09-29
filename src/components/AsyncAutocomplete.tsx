@@ -65,7 +65,7 @@ export function AsyncAutocomplete({
       searchText="Stiamo cercando..."
       renderMenuItemChildren={(option) => (
         <React.Fragment>
-          <span>{option.description}</span>
+          <span>{option[labelKey]}</span>
         </React.Fragment>
       )}
     />

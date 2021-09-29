@@ -17,7 +17,7 @@ export const useAsyncFetch = <T, U = T>(
   { defaultValue, useEffectDeps = [], mapFn = identity }: Settings<T, U>
 ) => {
   const { party } = useContext(PartyContext)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [data, setData] = useState<U>(defaultValue)
   const [error, setError] = useState<AxiosError<any>>()
 

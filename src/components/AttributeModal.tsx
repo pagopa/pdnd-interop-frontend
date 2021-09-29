@@ -152,7 +152,7 @@ export function AttributeModalAddExisting({
           transformFn={(data: any) =>
             data.attributes.filter((a: CatalogAttribute) => a.certified === certifiedCondition)
           }
-          labelKey="description"
+          labelKey="name"
         />
 
         {verifiedCondition && (

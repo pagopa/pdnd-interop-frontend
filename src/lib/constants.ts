@@ -320,7 +320,7 @@ export const API = {
     SHOULD_CALL: true,
   },
   ATTRIBUTE_CREATE: {
-    URL: 'pdnd-interop-uservice-attribute-registry-management/0.0.1/attribute',
+    URL: 'pdnd-interop-uservice-attribute-registry-management/0.0.1/attributes',
     LOCAL: '',
     SHOULD_CALL: true,
   },
@@ -465,7 +465,7 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
     error: {
       title: 'Errore',
       description:
-        "Non è stato possibile creare una bozza per la nuova versione dell'e-service. Per favore, riprovare",
+        "Non è stato possibile creare una bozza per la nuova versione dell'e-service. Assicurarsi di aver compilato tuttii i campi e riprovare",
     },
   },
   ESERVICE_VERSION_UPDATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
