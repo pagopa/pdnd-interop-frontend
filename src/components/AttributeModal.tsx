@@ -66,7 +66,7 @@ export function AttributeModalCreateNew({ close, attributeKey }: AttributeModalC
 
   return (
     <React.Fragment>
-      <Modal.Dialog contentClassName="px-1 py-1">
+      <Modal.Dialog contentClassName="px-1 py-1" style={{ minWidth: 550 }}>
         <Modal.Header onHide={close} closeButton>
           <Modal.Title className="me-5">Crea nuovo attributo {label}</Modal.Title>
         </Modal.Header>
@@ -136,7 +136,7 @@ export function AttributeModalAddExisting({
   const verifiedCondition = attributeKey === 'verified'
 
   return (
-    <Modal.Dialog contentClassName="px-1 py-1">
+    <Modal.Dialog contentClassName="px-1 py-1" style={{ minWidth: 550 }}>
       <Modal.Header onHide={close} closeButton>
         <Modal.Title className="me-5">Aggiungi attributo o gruppo</Modal.Title>
       </Modal.Header>
