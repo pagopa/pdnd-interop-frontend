@@ -14,6 +14,7 @@ import { InlineSupportLink } from '../components/InlineSupportLink'
 import isEmpty from 'lodash/isEmpty'
 import { HARDCODED_MAIN_TAG_HEIGHT } from '../lib/constants'
 import { StyledIntro } from '../components/StyledIntro'
+import { parseSearch } from '../lib/url-utils'
 
 export function CompleteRegistration() {
   const [loading, setLoading] = useState(false)
@@ -38,8 +39,8 @@ export function CompleteRegistration() {
   // }
 
   const getJwt = () => {
-    const bits = location.pathname.split('/').filter((b) => b !== '')
-    return bits[bits.length - 1]
+    const s = parseSearch(location.search)
+    return s.jwt
   }
 
   const token = getJwt()
