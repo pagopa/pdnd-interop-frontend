@@ -174,8 +174,13 @@ export type EServiceFlatDecoratedReadType = EServiceFlatReadType & {
   isMine: boolean
 }
 
+type EServiceReadProducerType = {
+  id: string
+  name: string
+}
+
 export type EServiceReadType = {
-  producerId: string
+  producer: EServiceReadProducerType
   name: string
   description: string
   technology: EServiceTechnologyType

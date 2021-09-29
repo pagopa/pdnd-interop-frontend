@@ -17,6 +17,8 @@ import { PartyContext } from '../lib/context'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { Link } from 'react-router-dom'
 import { minutesToHHMMSS } from '../lib/date-utils'
+import { canSubscribe } from '../lib/attributes'
+import { isAdmin } from '../lib/auth-utils'
 
 type EServiceReadProps = {
   data: EServiceReadType
@@ -25,6 +27,7 @@ type EServiceReadProps = {
 function EServiceReadComponent({
   data,
   runAction,
+  runFakeAction,
   runActionWithDestination,
   wrapActionInDialog,
 }: EServiceReadProps & UserFeedbackHOCProps) {
@@ -34,7 +37,7 @@ function EServiceReadComponent({
   const DESCRIPTIONS = {
     provider: "Nota: questa versione dell'e-service non è più modificabile",
     subscriber: `${
-      party?.partyId === data.producerId ? "Nota: sei l'erogatore di questo e-service" : ''
+      party?.partyId === data.producer.id ? "Nota: sei l'erogatore di questo e-service" : ''
     }`,
   }
 
@@ -52,6 +55,10 @@ function EServiceReadComponent({
       { path: { endpoint: 'AGREEMENT_CREATE' }, config: { method: 'POST', data: agreementData } },
       { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST, suppressToast: false }
     )
+  }
+
+  const askExtension = (_: any) => {
+    runFakeAction('Richiedi estensione')
   }
   /*
    * End list of actions
@@ -78,6 +85,10 @@ function EServiceReadComponent({
   if (isEmpty(data)) {
     return null
   }
+
+  const canSubscribeEservice = canSubscribe(party?.attributes, data.attributes.certified)
+  const isMine = data.producer.id === party?.partyId
+  const isVersionPublished = data.activeDescriptor?.status === 'published'
 
   return (
     <React.Fragment>
@@ -187,13 +198,22 @@ function EServiceReadComponent({
       {mode === 'subscriber' && (
         <WhiteBackground>
           <div className="d-flex">
-            {party?.partyId !== data.producerId && data.activeDescriptor?.status === 'published' && (
+            {isVersionPublished && !isMine && isAdmin(party) && canSubscribeEservice && (
               <Button
                 className="me-3"
                 variant="primary"
                 onClick={wrapActionInDialog(subscribe, 'AGREEMENT_CREATE')}
               >
                 iscriviti
+              </Button>
+            )}
+            {!isMine && isAdmin(party) && !canSubscribeEservice && (
+              <Button
+                className="me-3 mockFeature"
+                variant="primary"
+                onClick={wrapActionInDialog(askExtension)}
+              >
+                richiedi estensione
               </Button>
             )}
             <Button

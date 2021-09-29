@@ -21,6 +21,7 @@ type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
 
 export function EServiceCatalogComponent({
   runActionWithDestination,
+  runFakeAction,
   wrapActionInDialog,
 }: UserFeedbackHOCProps) {
   const { party } = useContext(PartyContext)
@@ -55,6 +56,10 @@ export function EServiceCatalogComponent({
       { path: { endpoint: 'AGREEMENT_CREATE' }, config: { method: 'POST', data: agreementData } },
       { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST, suppressToast: false }
     )
+  }
+
+  const askExtension = (_: any) => {
+    runFakeAction('Richiedi estensione')
   }
   /*
    * End list of actions
@@ -124,6 +129,16 @@ export function EServiceCatalogComponent({
                     }}
                     label="Iscriviti"
                     iconClass={'bi-pencil-square'}
+                  />
+                )}
+                {!item.isMine && isAdmin(party) && !canSubscribeEservice && (
+                  <ActionWithTooltip
+                    btnProps={{
+                      onClick: wrapActionInDialog(askExtension),
+                    }}
+                    label="Richiedi estensione"
+                    iconClass={'bi-chat-square-text'}
+                    isMock={true}
                   />
                 )}
                 <ActionWithTooltip
