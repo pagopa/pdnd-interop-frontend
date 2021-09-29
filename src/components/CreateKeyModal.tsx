@@ -23,7 +23,7 @@ type NewPublicKey = {
 
 export function CreateKeyModal({ close, clientId, taxCode }: NewPublicKeyProps) {
   const [loadingText, setLoadingText] = useState<string | undefined>()
-  const [data, setData] = useState<Partial<NewPublicKey>>({ use: 'sig' })
+  const [data, setData] = useState<Partial<NewPublicKey>>({ use: 'sig', clientId })
 
   const buildSetData = (key: string) => (e: any) => {
     setData({ ...(data || {}), [key]: e.target.value })
@@ -32,9 +32,13 @@ export function CreateKeyModal({ close, clientId, taxCode }: NewPublicKeyProps) 
   const upload = async () => {
     setLoadingText('Stiamo creando la nuova chiave')
 
+    // Encode public key
+    const dataToPost = { ...data }
+    dataToPost.key = btoa(dataToPost.key!)
+
     const keyCreateResponse = await fetchWithLogs(
       { endpoint: 'OPERATOR_SECURITY_KEYS_POST', endpointParams: { clientId, taxCode } },
-      { method: 'POST', data: [data] }
+      { method: 'POST', data: [dataToPost] }
     )
 
     const outcome = getFetchOutcome(keyCreateResponse)
@@ -53,7 +57,7 @@ export function CreateKeyModal({ close, clientId, taxCode }: NewPublicKeyProps) 
 
   return (
     <React.Fragment>
-      <Modal.Dialog contentClassName="px-1 py-1">
+      <Modal.Dialog contentClassName="px-1 py-1" style={{ minWidth: 500 }}>
         <Modal.Header onHide={simpleClose} closeButton>
           <Modal.Title className="me-5">Carica nuova chiave pubblica</Modal.Title>
         </Modal.Header>
@@ -71,6 +75,7 @@ export function CreateKeyModal({ close, clientId, taxCode }: NewPublicKeyProps) 
             label="Chiave pubblica*"
             value={data?.key || ''}
             onChange={buildSetData('key')}
+            height={350}
           />
         </Modal.Body>
 
