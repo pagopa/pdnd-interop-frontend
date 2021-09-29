@@ -2,6 +2,7 @@ import React, { FunctionComponent, useContext, useEffect, useState } from 'react
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
 import { Link, useLocation } from 'react-router-dom'
 import { RouteConfig } from '../../types'
+import { isOperatorAPI, isOperatorSecurity } from '../lib/auth-utils'
 import { ROUTES, USER_ROLE_LABEL } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { storageWrite } from '../lib/storage-utils'
@@ -71,8 +72,12 @@ function PlatformHeader() {
     <Navbar className="justify-content-between py-0">
       <Container className="d-flex align-items-stretch">
         <Nav>
-          <NavLink customStyle={true} eventKey="1" route={ROUTES.SUBSCRIBE} />
-          <NavLink customStyle={true} eventKey="2" route={ROUTES.PROVIDE} />
+          {!isOperatorAPI(party) && (
+            <NavLink customStyle={true} eventKey="1" route={ROUTES.SUBSCRIBE} />
+          )}
+          {!isOperatorSecurity(party) && (
+            <NavLink customStyle={true} eventKey="2" route={ROUTES.PROVIDE} />
+          )}
         </Nav>
 
         <div className="d-flex align-items-center justify-content-between">
