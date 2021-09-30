@@ -307,7 +307,7 @@ export const API = {
   OPERATOR_API_GET_LIST: {
     URL: 'pdnd-interop-uservice-party-process/0.0.1/institutions/{{institutionId}}/relationships',
     LOCAL: 'get-user-list.json',
-    SHOULD_CALL: false,
+    SHOULD_CALL: true,
   },
   OPERATOR_API_GET_SINGLE: {
     URL: 'TODO',
