@@ -34,6 +34,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "postbuild": "node ./scripts/absolute-urls.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
