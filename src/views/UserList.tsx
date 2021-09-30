@@ -44,17 +44,17 @@ function UserListComponent({
   const endpointParams =
     mode === 'provider' ? { institutionId: party?.institutionId } : { clientId }
 
-  const { data, loading, error } = useAsyncFetch<{ relationships: User[] }, User[]>(
+  const { data, loading, error } = useAsyncFetch<User[]>(
     { path: { endpoint, endpointParams }, config: { method: 'GET' } },
     {
       defaultValue: [],
       useEffectDeps: [forceRerenderCounter, user],
       mapFn: (data) => {
         if (mode === 'subscriber' && isOperatorSecurity(party)) {
-          return data.relationships.filter((d) => d.taxCode === user?.taxCode)
+          return data.filter((d) => d.taxCode === user?.taxCode)
         }
 
-        return data.relationships
+        return data
       },
     }
   )
