@@ -67,9 +67,7 @@ export function EServiceAttributeGroup({
             <tr key={j}>
               <td
                 dangerouslySetInnerHTML={{
-                  __html: attributes
-                    .map(({ description, id }) => description || id) // TEMP PIN-427
-                    .join(' <em>oppure</em> '),
+                  __html: attributes.map(({ name }) => name).join(' <em>oppure</em> '),
                 }}
               />
               {canRequireVerification && <td>{explicitAttributeVerification ? 'Sì' : 'No'}</td>}
