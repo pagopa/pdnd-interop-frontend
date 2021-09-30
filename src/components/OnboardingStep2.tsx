@@ -18,7 +18,7 @@ export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
   const addDelegateForm = () => {
     setDelegateFormIds([...delegateFormIds, cryptoRandomString({ length: 8 })])
   }
-  const buildRemoveDelegateForm = (idToRemove: string) => (e: React.SyntheticEvent) => {
+  const buildRemoveDelegateForm = (idToRemove: string) => (_: React.SyntheticEvent) => {
     const filteredDelegateFormIds = delegateFormIds.filter((id) => id !== idToRemove)
     setDelegateFormIds(filteredDelegateFormIds)
   }

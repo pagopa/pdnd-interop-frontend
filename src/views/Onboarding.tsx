@@ -23,7 +23,7 @@ type FormData = {
 function OnboardingComponent() {
   const [loading, setLoading] = useState(false)
   const [activeStep, setActiveStep] = useState(0)
-  const [formData, setFormData] = useState<FormData>({ institutionId: '', users: [] })
+  const [formData, setFormData] = useState<Partial<FormData>>()
   const [legalEmail, setLegalEmail] = useState('')
   const [outcome, setOutcome] = useState<RequestOutcome>()
   const history = useHistory()
