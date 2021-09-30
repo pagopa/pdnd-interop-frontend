@@ -12,6 +12,7 @@ import { StyledIntro } from './StyledIntro'
 import { StyledToast } from './StyledToast'
 import { WhiteBackground } from './WhiteBackground'
 import { UserContext } from '../lib/context'
+import { DescriptionBlock } from './DescriptionBlock'
 
 type SecurityOperatorKeysProps = {
   clientId: string
@@ -175,22 +176,32 @@ export function SecurityOperatorKeys({
         )}
 
         {key ? (
-          <div className="d-flex justify-content-between align-items-center border-top pt-3">
-            <span>Chiave pubblica</span>
-            <div>
-              {getAvailableActions(key).map((tableAction: any, j: number) => {
-                return (
-                  <ActionWithTooltip
-                    key={j}
-                    btnProps={{ onClick: tableAction.onClick }}
-                    label={tableAction.label}
-                    iconClass={tableAction.icon}
-                    isMock={tableAction.isMock}
-                  />
-                )
-              })}
+          <React.Fragment>
+            <div className="d-flex justify-content-between align-items-center border-top border-bottom py-3">
+              <span>Chiave pubblica</span>
+              <div>
+                {getAvailableActions(key).map((tableAction: any, j: number) => {
+                  return (
+                    <ActionWithTooltip
+                      key={j}
+                      btnProps={{ onClick: tableAction.onClick }}
+                      label={tableAction.label}
+                      iconClass={tableAction.icon}
+                      isMock={tableAction.isMock}
+                    />
+                  )
+                })}
+              </div>
             </div>
-          </div>
+            <div className="mt-4">
+              <DescriptionBlock label="Id del client">
+                <span>{clientId}</span>
+              </DescriptionBlock>
+              <DescriptionBlock label="Id della chiave">
+                <span>{key.key.kid}</span>
+              </DescriptionBlock>
+            </div>
+          </React.Fragment>
         ) : (
           <div>Nessuna chiave presente</div>
         )}
