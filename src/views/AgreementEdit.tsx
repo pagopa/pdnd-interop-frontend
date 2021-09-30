@@ -1,12 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
+import has from 'lodash/has'
 import {
   AgreementStatus,
   AgreementSummary,
   ActionWithTooltipBtn,
   EServiceReadType,
   EServiceDescriptorRead,
+  SingleBackendAttribute,
+  GroupBackendAttribute,
 } from '../../types'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { StyledIntro } from '../components/StyledIntro'
@@ -196,6 +199,41 @@ function AgreementEditComponent({
     }
   }
 
+  const SingleAttribute = ({
+    name,
+    verified,
+    id,
+  }: {
+    name?: string | undefined
+    verified: boolean
+    id: string
+  }) => {
+    const randomDate = getRandomDate(new Date(2022, 0, 1), new Date(2023, 0, 1))
+
+    return (
+      <div className="d-flex justify-content-between align-items-center">
+        <span>
+          {name}, con <span className="">scadenza {formatDate(randomDate)}</span>
+        </span>
+
+        {verified ? (
+          <div className="text-primary d-flex align-items-center my-1">
+            <i className="text-primary fs-5 bi bi-check me-2" />
+            <span>verificato</span>
+          </div>
+        ) : mode === 'provider' ? (
+          <Button variant="primary" onClick={wrapVerify(id)}>
+            verifica
+          </Button>
+        ) : (
+          <span>in attesa</span>
+        )}
+      </div>
+    )
+  }
+
+  console.log({ data })
+
   return (
     <React.Fragment>
       <WhiteBackground>
@@ -236,30 +274,35 @@ function AgreementEditComponent({
         <DescriptionBlock label="Attributi">
           <div className="mt-1">
             {data?.attributes?.length > 0 ? (
-              data?.attributes?.map((attribute, i) => {
-                const randomDate = getRandomDate(new Date(2022, 0, 1), new Date(2023, 0, 1))
+              data?.attributes?.map((backendAttribute, i) => {
+                let attributesToDisplay: any
+
+                if (has(backendAttribute, 'single')) {
+                  const { single } = backendAttribute as SingleBackendAttribute
+                  attributesToDisplay = <SingleAttribute {...single} />
+                } else {
+                  const { group } = backendAttribute as GroupBackendAttribute
+                  attributesToDisplay = group.map((a, j) => {
+                    if (j === group.length - 1) {
+                      return <SingleAttribute {...a} />
+                    }
+
+                    return (
+                      <React.Fragment>
+                        <SingleAttribute {...a} />
+                        <em>oppure</em>
+                      </React.Fragment>
+                    )
+                  })
+                }
+
                 return (
                   <div
                     key={i}
-                    className="w-100 d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom border-secondary"
+                    className="w-100 border-bottom border-secondary mb-2 pb-2"
                     style={{ maxWidth: 768 }}
                   >
-                    <span>
-                      {attribute.name || attribute.id}, con{' '}
-                      <span className="fakeData">scadenza {formatDate(randomDate)}</span>
-                    </span>
-                    {attribute.verified ? (
-                      <div className="text-primary d-flex align-items-center">
-                        <i className="text-primary fs-5 bi bi-check me-2" />
-                        <span>verificato</span>
-                      </div>
-                    ) : mode === 'provider' ? (
-                      <Button variant="primary" onClick={wrapVerify(attribute.id)}>
-                        verifica
-                      </Button>
-                    ) : (
-                      <span>in attesa</span>
-                    )}
+                    {attributesToDisplay}
                   </div>
                 )
               })

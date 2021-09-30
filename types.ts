@@ -240,7 +240,7 @@ export type AgreementSummary = {
   eservice: AgreementEService
   consumer: AgreementProducerAndConsumer
   producer: AgreementProducerAndConsumer
-  attributes: BackendAttributeContent[]
+  attributes: BackendAttribute[]
 }
 
 /*
