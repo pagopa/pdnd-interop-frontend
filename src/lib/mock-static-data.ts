@@ -1,10 +1,10 @@
 import { User } from '../../types'
 
-export const mockSPIDUserLorenzoCarmilli: User = {
-  name: 'Lorenzo',
-  surname: 'Carmilli',
-  taxCode: 'CRMLRN56T12R566Y',
-  email: 'lorenzo.carmilli@test.it',
+export const mockSPIDUser: User = {
+  name: 'Tommaso',
+  surname: 'Terrili',
+  taxCode: 'TRRTMM56T12M333W',
+  email: 'tommaso.terrili@test.it',
   role: 'Manager',
   platformRole: 'admin',
   status: 'active',

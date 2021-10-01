@@ -4,10 +4,10 @@ import { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import { Party, User } from '../../types'
 import { fetchAllWithLogs, fetchWithLogs, sleep } from '../lib/api-utils'
-import { ROUTES, USE_SPID_USER_LORENZO_CARMILLI } from '../lib/constants'
+import { ROUTES, USE_MOCK_SPID_USER } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
 import { isFetchError } from '../lib/error-utils'
-import { mockSPIDUserLorenzoCarmilli, testBearerToken } from '../lib/mock-static-data'
+import { mockSPIDUser, testBearerToken } from '../lib/mock-static-data'
 import { storageDelete, storageRead, storageWrite } from '../lib/storage-utils'
 
 export const useLogin = () => {
@@ -68,8 +68,8 @@ export const useLogin = () => {
       return
     }
 
-    if (USE_SPID_USER_LORENZO_CARMILLI) {
-      await setTestSPIDUser(mockSPIDUserLorenzoCarmilli)
+    if (USE_MOCK_SPID_USER) {
+      await setTestSPIDUser(mockSPIDUser)
     } else {
       history.push(ROUTES.TEMP_SPID_USER.PATH)
     }
