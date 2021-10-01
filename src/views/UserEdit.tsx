@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import { Button } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
-import { ActionWithTooltipBtn, User, UserStatus } from '../../types'
+import { ActionWithTooltipBtn, ApiEndpointKey, User, UserStatus } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { StyledIntro } from '../components/StyledIntro'
@@ -17,6 +17,10 @@ import { useMode } from '../hooks/useMode'
 import { mergeActions } from '../lib/eservice-utils'
 import { SecurityOperatorKeys } from '../components/SecurityOperatorKeys'
 
+type UserEndpoinParams =
+  | { operatorTaxCode: string; clientId: string }
+  | { taxCode: string; institutionId: string | undefined }
+
 function UserEditComponent({
   runFakeAction,
   runAction,
@@ -27,14 +31,40 @@ function UserEditComponent({
   const { party } = useContext(PartyContext)
   const bits = getBits(useLocation())
   const taxCode = bits[bits.length - 1]
-  const clientId = bits[bits.length - 2]
-  const endpoint = mode === 'provider' ? 'OPERATOR_API_GET_SINGLE' : 'OPERATOR_SECURITY_GET_SINGLE'
-  const endpointParams = mode === 'provider' ? { taxCode } : { operatorTaxCode: taxCode, clientId }
 
-  const { data, loading } = useAsyncFetch<User>(
+  let clientId: string | undefined = bits[bits.length - 2]
+  let endpoint: ApiEndpointKey = 'OPERATOR_SECURITY_GET_SINGLE'
+  let endpointParams: UserEndpoinParams = { operatorTaxCode: taxCode, clientId }
+  const defaultValue: User[] = []
+  if (mode === 'provider') {
+    clientId = undefined
+    endpoint = 'OPERATOR_API_GET_SINGLE'
+    endpointParams = { taxCode, institutionId: party?.institutionId }
+  }
+
+  const { data, loading } = useAsyncFetch<User, User[]>(
     { path: { endpoint, endpointParams }, config: { method: 'GET' } },
-    { defaultValue: {}, useEffectDeps: [forceRerenderCounter] }
+    {
+      defaultValue,
+      useEffectDeps: [forceRerenderCounter],
+      mapFn: (data) => {
+        if (mode === 'provider') {
+          // TEMP BACKEND: This is horrible, but it is right while waiting for backend-for-frontend
+          // Why is it necessary? Because the OPERATOR_API_GET_SINGLE is part of the API that will
+          // be shared with self care, that returns an array even for requests on single users.
+          // The OPERATOR_SECURITY_GET_SINGLE is internal to PDND interop and has the same structure
+          // as admin users. Basically, we should create a stable User type shared across all users
+          // of PDND interop and also shared with the self-care portal. While waiting, the frontend
+          // fixes it with a temporary hack
+          return data as unknown as User[]
+        }
+
+        return [data]
+      },
+    }
   )
+
+  const userData = data.length > 0 ? data[0] : undefined
 
   /*
    * List of possible actions for the user to perform
@@ -53,7 +83,7 @@ function UserEditComponent({
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = () => {
-    if (isEmpty(data) || !isAdmin(party)) {
+    if (isEmpty(userData) || !isAdmin(party)) {
       return []
     }
 
@@ -73,32 +103,38 @@ function UserEditComponent({
       mode!
     ]
 
-    return mergeActions([sharedActions, currentActions], data.status || 'active')
+    return mergeActions([sharedActions, currentActions], userData?.status || 'active')
   }
 
   return (
     <React.Fragment>
       <WhiteBackground>
-        <StyledIntro priority={2}>{{ title: `Utente: ${data.name} ${data.surname}` }}</StyledIntro>
+        <StyledIntro priority={2}>
+          {{ title: `Utente: ${userData?.name} ${userData?.surname}` }}
+        </StyledIntro>
 
         <DescriptionBlock label="Codice fiscale">
-          <span>{data.taxCode}</span>
+          <span>{userData?.taxCode}</span>
         </DescriptionBlock>
 
         <DescriptionBlock label="Email">
-          <span>{data.email || 'n/d'}</span>
+          <span>{userData?.email || 'n/d'}</span>
         </DescriptionBlock>
 
-        <DescriptionBlock label="Ruolo">
-          <span>{USER_ROLE_LABEL[data.role]}</span>
-        </DescriptionBlock>
+        {userData?.role && (
+          <DescriptionBlock label="Ruolo">
+            <span>{USER_ROLE_LABEL[userData?.role]}</span>
+          </DescriptionBlock>
+        )}
 
-        <DescriptionBlock label="Permessi">
-          <span>{USER_PLATFORM_ROLE_LABEL[data.platformRole]}</span>
-        </DescriptionBlock>
+        {userData?.platformRole && (
+          <DescriptionBlock label="Permessi">
+            <span>{USER_PLATFORM_ROLE_LABEL[userData?.platformRole]}</span>
+          </DescriptionBlock>
+        )}
 
         <DescriptionBlock label="Stato dell'utente">
-          <span>{USER_STATUS_LABEL[data.status || 'active']}</span>
+          <span>{USER_STATUS_LABEL[userData?.status || 'active']}</span>
         </DescriptionBlock>
 
         <div className="mt-5 d-flex">
@@ -115,10 +151,10 @@ function UserEditComponent({
         </div>
       </WhiteBackground>
 
-      {clientId && !isEmpty(data) && (
+      {clientId && !isEmpty(userData) && (
         <SecurityOperatorKeys
           clientId={clientId}
-          userData={data}
+          userData={userData!}
           runAction={runAction}
           forceRerenderCounter={forceRerenderCounter}
           wrapActionInDialog={wrapActionInDialog}
