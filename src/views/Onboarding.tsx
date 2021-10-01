@@ -40,12 +40,12 @@ function OnboardingComponent() {
     setActiveStep(activeStep + 1)
   }
 
-  const forwardWithData = (newFormData: any) => {
+  const forwardWithData = (newFormData: Partial<FormData>) => {
     setFormData({ ...formData, ...newFormData })
     forward()
   }
 
-  const forwardWithDataAndEmail = (newFormData: any, newLegalEmail: string) => {
+  const forwardWithDataAndEmail = (newFormData: Partial<FormData>, newLegalEmail: string) => {
     setLegalEmail(newLegalEmail)
     forwardWithData(newFormData)
   }
