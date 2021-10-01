@@ -36,9 +36,7 @@ export function EServiceCatalogComponent({
     {
       defaultValue: [],
       mapFn: (data) =>
-        data
-          .map((d) => ({ ...d, isMine: d.producerId === party?.partyId, amISubscribed: false }))
-          .filter((d) => d.status === 'published'),
+        data.map((d) => ({ ...d, isMine: d.producerId === party?.partyId, amISubscribed: false })),
     }
   )
 
