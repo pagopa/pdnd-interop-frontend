@@ -307,12 +307,12 @@ export const API = {
   OPERATOR_API_GET_LIST: {
     URL: 'pdnd-interop-uservice-party-process/0.0.1/institutions/{{institutionId}}/relationships',
     LOCAL: 'get-user-list.json',
-    SHOULD_CALL: false,
+    SHOULD_CALL: true,
   },
   OPERATOR_API_GET_SINGLE: {
-    URL: 'TODO',
-    LOCAL: 'get-user-single.json', // TEMP PIN-438
-    SHOULD_CALL: false,
+    URL: 'pdnd-interop-uservice-party-process/0.0.1/institutions/{{institutionId}}/relationships/{{taxCode}}',
+    LOCAL: 'get-user-single.json',
+    SHOULD_CALL: true,
   },
   ATTRIBUTES_GET_LIST: {
     URL: 'pdnd-interop-uservice-attribute-registry-management/0.0.1/attributes',
@@ -677,9 +677,21 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   OPERATOR_SECURITY_KEYS_GET: {},
   OPERATOR_SECURITY_KEYS_POST: {},
   OPERATOR_SECURITY_KEY_DOWNLOAD: {},
-  OPERATOR_SECURITY_KEY_ENABLE: {},
-  OPERATOR_SECURITY_KEY_DISABLE: {},
-  OPERATOR_SECURITY_KEY_DELETE: {},
+  OPERATOR_SECURITY_KEY_ENABLE: {
+    title: 'Sospendi la chiave pubblica',
+    description:
+      'Cliccando su "conferma" si sospenderà la chiave pubblica relativa a questo operatore. NB: tutti i servizi che utilizzano questa chiave non potranno più accedere al servizio dell\'ente erogatore',
+  },
+  OPERATOR_SECURITY_KEY_DISABLE: {
+    title: 'Riattiva la chiave pubblica',
+    description:
+      'Cliccando su "conferma" si riattiverà la chiave pubblica relativa a questo operatore. NB: tutti i servizi che utilizzano questa chiave ricominceranno ad accedere al servizio dell\'ente erogatore',
+  },
+  OPERATOR_SECURITY_KEY_DELETE: {
+    title: 'Cancella la chiave pubblica',
+    description:
+      'Cliccando su "conferma" si cancellerà la chiave pubblica relativa a questo operatore. NB: tutti i servizi che utilizzano questa chiave non potranno più accedere al servizio dell\'ente erogatore',
+  },
 }
 
 export const ESERVICE_STATUS_LABEL = {
