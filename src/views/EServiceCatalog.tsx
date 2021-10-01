@@ -16,7 +16,6 @@ import { canSubscribe } from '../lib/attributes'
 
 type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
   isMine: boolean
-  amISubscribed: boolean
 }
 
 export function EServiceCatalogComponent({
@@ -35,8 +34,7 @@ export function EServiceCatalogComponent({
     },
     {
       defaultValue: [],
-      mapFn: (data) =>
-        data.map((d) => ({ ...d, isMine: d.producerId === party?.partyId, amISubscribed: false })),
+      mapFn: (data) => data.map((d) => ({ ...d, isMine: d.producerId === party?.partyId })),
     }
   )
 
