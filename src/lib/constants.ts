@@ -667,7 +667,11 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
     description:
       'Cliccando su "conferma" si attiverà l\'accordo di interoperabilità. Potrà essere sospeso in qualunque momento da questo pannello',
   },
-  AGREEMENT_SUSPEND: {},
+  AGREEMENT_SUSPEND: {
+    title: "Sospendi l'accordo",
+    description:
+      "Cliccando su \"conferma\", l'accordo di interoperabilità sarà sospeso. I client collegati a questo accordo non avranno più accesso all'e-service in erogazione. L'accordo è riattivabile in qualsiasi momento da questa stessa pagina",
+  },
   CLIENT_GET_LIST: {},
   CLIENT_GET_SINGLE: {},
   CLIENT_CREATE: {},

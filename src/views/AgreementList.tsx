@@ -73,10 +73,9 @@ function AgreementListComponent({
       ],
       suspended: [
         {
-          onClick: wrapActionInDialog(wrapReactivate(agreement.id)),
+          onClick: wrapActionInDialog(wrapReactivate(agreement.id), 'AGREEMENT_ACTIVATE'),
           label: 'riattiva',
           icon: 'bi-play-circle',
-          isMock: true,
         },
       ],
       pending: [],

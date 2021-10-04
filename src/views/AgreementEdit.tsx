@@ -74,8 +74,14 @@ function AgreementEditComponent({
     )
   }
 
-  const reactivate = () => {
-    runFakeAction('Riattiva accordo')
+  const reactivate = async () => {
+    await runAction(
+      {
+        path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId } },
+        config: { method: 'PATCH' },
+      },
+      { suppressToast: false }
+    )
   }
 
   const upgrade = async () => {
@@ -124,7 +130,12 @@ function AgreementEditComponent({
 
     const sharedActions: AgreementActions = {
       active: [{ onClick: wrapActionInDialog(suspend, 'AGREEMENT_SUSPEND'), label: 'sospendi' }],
-      suspended: [{ onClick: wrapActionInDialog(reactivate), label: 'riattiva', isMock: true }],
+      suspended: [
+        {
+          onClick: wrapActionInDialog(reactivate, 'AGREEMENT_ACTIVATE'),
+          label: 'riattiva',
+        },
+      ],
       pending: [],
     }
 
