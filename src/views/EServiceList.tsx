@@ -5,7 +5,6 @@ import { WhiteBackground } from '../components/WhiteBackground'
 import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { Button } from 'react-bootstrap'
 import { PartyContext } from '../lib/context'
-import compose from 'lodash/fp/compose'
 import {
   ApiEndpointKey,
   EServiceDescriptorRead,
@@ -20,7 +19,6 @@ import { ActionWithTooltip } from '../components/ActionWithTooltip'
 import { StyledIntro } from '../components/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
-import { withToastOnMount } from '../components/withToastOnMount'
 import { TempFilters } from '../components/TempFilters'
 import { AxiosResponse } from 'axios'
 
@@ -284,4 +282,4 @@ function EServiceListComponent({
   )
 }
 
-export const EServiceList = compose(withUserFeedback, withToastOnMount)(EServiceListComponent)
+export const EServiceList = withUserFeedback(EServiceListComponent)
