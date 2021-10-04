@@ -61,7 +61,7 @@ export function EServiceCatalogComponent({
    * End list of actions
    */
 
-  const headData = ['nome e-service', 'versione attuale', 'stato e-service', '']
+  const headData = ['nome e-service', 'ente erogatore', 'versione attuale', 'stato e-service', '']
 
   const OwnerTooltip = ({ label = '', iconClass = '' }) => (
     <OverlayTrigger
@@ -115,6 +115,7 @@ export function EServiceCatalogComponent({
                   />
                 )}
               </td>
+              <td>{item.producerName}</td>
               <td>{item.version}</td>
               <td>{ESERVICE_STATUS_LABEL[item.status!]}</td>
               <td>

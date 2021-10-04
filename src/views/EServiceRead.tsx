@@ -101,6 +101,10 @@ function EServiceReadComponent({
           <span>{data.description}</span>
         </DescriptionBlock>
 
+        <DescriptionBlock label="Ente erogatore">
+          <span>{data.producer.name}</span>
+        </DescriptionBlock>
+
         <DescriptionBlock label="Versione">
           <span>{data.activeDescriptor!.version}</span>
         </DescriptionBlock>

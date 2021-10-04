@@ -162,10 +162,11 @@ export type EServiceFlatReadType = {
   name: string
   id: string
   producerId: string
+  producerName: string
   descriptorId?: string
   status?: EServiceStatus
   version?: string
-  callerSubscribed: boolean
+  callerSubscribed?: string
   certifiedAttributes: BackendAttribute[]
 }
 
