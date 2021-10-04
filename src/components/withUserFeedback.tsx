@@ -1,26 +1,23 @@
 // Typing from https://react-typescript-cheatsheet.netlify.app/docs/hoc/full_example/
 import { AxiosError, AxiosResponse } from 'axios'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import {
   ActionFunction,
   DialogActionKeys,
-  DialogProps,
   RequestConfig,
   RequestOutcome,
   RouteConfig,
   RunActionProps,
   ToastActionKeys,
   ToastContentWithOutcome,
-  ToastProps,
 } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { DIALOG_CONTENTS, TOAST_CONTENTS } from '../lib/constants'
+import { DialogContext, ToastContext } from '../lib/context'
 import { getFetchOutcome } from '../lib/error-utils'
 import { showTempAlert } from '../lib/wip-utils'
 import { LoadingOverlay } from './LoadingOverlay'
-import { StyledDialog } from './StyledDialog'
-import { StyledToast } from './StyledToast'
 
 type ActionOptions = { suppressToast: boolean }
 
@@ -60,8 +57,8 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
   const ComponentWithUserFeedback = (props: Omit<T, keyof UserFeedbackHOCProps>) => {
     const history = useHistory()
     const [loadingText, setLoadingText] = useState<string | undefined>(undefined)
-    const [dialog, setDialog] = useState<DialogProps>()
-    const [toast, setToast] = useState<ToastProps>()
+    const { setDialog } = useContext(DialogContext)
+    const { setToast } = useContext(ToastContext)
     const [forceRerenderCounter, setForceRerenderCounter] = useState(0)
 
     // Dialog, toast and counter related functions
@@ -72,7 +69,7 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
       }
 
     const closeDialog = () => {
-      setDialog(undefined)
+      setDialog(null)
     }
 
     const showToast = (toastContentWithOutcome: ToastContentWithOutcome) => {
@@ -80,7 +77,7 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
     }
 
     const closeToast = () => {
-      setToast(undefined)
+      setToast(null)
     }
 
     const requestRerender = () => {
@@ -223,8 +220,6 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
           wrapActionInDialog={wrapActionInDialog}
         />
 
-        {dialog && <StyledDialog {...dialog} />}
-        {toast && <StyledToast {...toast} />}
         {loadingText && <LoadingOverlay loadingText={loadingText} />}
       </React.Fragment>
     )

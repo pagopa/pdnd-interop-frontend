@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import { Button } from 'react-bootstrap'
 import {
@@ -6,13 +6,12 @@ import {
   AttributeType,
   FrontendAttribute,
   ToastContentWithOutcome,
-  ToastProps,
 } from '../../types'
 import { AttributeModal } from './AttributeModal'
 import { Overlay } from './Overlay'
-import { StyledToast } from './StyledToast'
 import { ActionWithTooltip } from './ActionWithTooltip'
 import { TableWithLoader } from './TableWithLoader'
+import { ToastContext } from '../lib/context'
 
 type EServiceAttributeGroupProps = {
   attributesGroup: FrontendAttribute[]
@@ -32,7 +31,7 @@ export function EServiceAttributeGroup({
   remove,
   attributeKey,
 }: EServiceAttributeGroupProps) {
-  const [toast, setToast] = useState<ToastProps>()
+  const { setToast } = useContext(ToastContext)
   const [modalTemplate, setModalTemplate] = useState<AttributeModalTemplate>()
 
   const headData = canRequireVerification
@@ -51,7 +50,7 @@ export function EServiceAttributeGroup({
   }
 
   const closeToast = () => {
-    setToast(undefined)
+    setToast(null)
   }
 
   return (
@@ -116,7 +115,6 @@ export function EServiceAttributeGroup({
           />
         </Overlay>
       )}
-      {toast && <StyledToast {...toast} />}
     </React.Fragment>
   )
 }
