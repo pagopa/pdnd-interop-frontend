@@ -5,7 +5,6 @@ import { useHistory } from 'react-router-dom'
 import {
   ActionFunction,
   DialogActionKeys,
-  DialogProps,
   RequestConfig,
   RequestOutcome,
   RouteConfig,
@@ -15,11 +14,10 @@ import {
 } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { DIALOG_CONTENTS, TOAST_CONTENTS } from '../lib/constants'
-import { ToastContext } from '../lib/context'
+import { DialogContext, ToastContext } from '../lib/context'
 import { getFetchOutcome } from '../lib/error-utils'
 import { showTempAlert } from '../lib/wip-utils'
 import { LoadingOverlay } from './LoadingOverlay'
-import { StyledDialog } from './StyledDialog'
 
 type ActionOptions = { suppressToast: boolean }
 
@@ -59,7 +57,7 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
   const ComponentWithUserFeedback = (props: Omit<T, keyof UserFeedbackHOCProps>) => {
     const history = useHistory()
     const [loadingText, setLoadingText] = useState<string | undefined>(undefined)
-    const [dialog, setDialog] = useState<DialogProps>()
+    const { setDialog } = useContext(DialogContext)
     const { setToast } = useContext(ToastContext)
     const [forceRerenderCounter, setForceRerenderCounter] = useState(0)
 
@@ -71,7 +69,7 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
       }
 
     const closeDialog = () => {
-      setDialog(undefined)
+      setDialog(null)
     }
 
     const showToast = (toastContentWithOutcome: ToastContentWithOutcome) => {
@@ -222,7 +220,6 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
           wrapActionInDialog={wrapActionInDialog}
         />
 
-        {dialog && <StyledDialog {...dialog} />}
         {loadingText && <LoadingOverlay loadingText={loadingText} />}
       </React.Fragment>
     )

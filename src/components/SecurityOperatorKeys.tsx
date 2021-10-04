@@ -32,7 +32,7 @@ export function SecurityOperatorKeys({
   const [key, setKey] = useState<any>()
   const endpointParams = { taxCode: userData.taxCode, clientId }
   const { setToast } = useContext(ToastContext)
-  const [dialog, setDialog] = useState(false)
+  const [modal, setModal] = useState(false)
   const [keyCreationCounter, setKeyCreationCounter] = useState(0)
 
   const closeToast = () => {
@@ -40,11 +40,11 @@ export function SecurityOperatorKeys({
   }
 
   const openModal = () => {
-    setDialog(true)
+    setModal(true)
   }
 
   const closeModal = (toastContent?: ToastContentWithOutcome) => {
-    setDialog(false)
+    setModal(false)
     if (!isEmpty(toastContent)) {
       setToast({ ...toastContent!, onClose: closeToast })
     }
@@ -206,7 +206,7 @@ export function SecurityOperatorKeys({
         )}
       </WhiteBackground>
 
-      {dialog && (
+      {modal && (
         <Overlay>
           <CreateKeyModal
             close={closeModal}

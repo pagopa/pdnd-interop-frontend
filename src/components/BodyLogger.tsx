@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { ToastContentWithOutcome, ToastProps } from '../../types'
+import { DialogProps, ToastContentWithOutcome, ToastProps } from '../../types'
 import { useLocation } from 'react-router-dom'
 import isEmpty from 'lodash/isEmpty'
-import { ToastContext } from '../lib/context'
+import { DialogContext, ToastContext } from '../lib/context'
 import { logAction } from '../lib/action-log'
 import { Header } from './Header'
 import { Main } from './Main'
 import { Footer } from './Footer'
 import { StyledToast } from './StyledToast'
+import { StyledDialog } from './StyledDialog'
 
 export function BodyLogger() {
   const [toast, setToast] = useState<ToastProps | null>(null)
+  const [dialog, setDialog] = useState<DialogProps | null>(null)
   const location = useLocation()
 
   /*
@@ -37,10 +39,13 @@ export function BodyLogger() {
 
   return (
     <ToastContext.Provider value={{ toast, setToast }}>
-      <Header />
-      <Main />
-      <Footer />
-      {toast && <StyledToast {...toast} />}
+      <DialogContext.Provider value={{ dialog, setDialog }}>
+        <Header />
+        <Main />
+        <Footer />
+        {toast && <StyledToast {...toast} />}
+        {dialog && <StyledDialog {...dialog} />}
+      </DialogContext.Provider>
     </ToastContext.Provider>
   )
 }
