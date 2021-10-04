@@ -39,7 +39,7 @@ export function StyledInputCheckbox({
 
   return (
     <div className={className}>
-      <StyledInputLabel label={groupLabel!} isHTMLLabelElement={false} />
+      {groupLabel && <StyledInputLabel label={groupLabel!} isHTMLLabelElement={false} />}
       <Form.Check
         type="checkbox"
         id={id}

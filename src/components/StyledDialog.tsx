@@ -8,6 +8,7 @@ type ConfirmationDialogOverlayProps = {
   close: VoidFunction
   proceedCallback: VoidFunction
   proceedLabel?: string
+  disabled?: boolean
 }
 
 export function StyledDialog({
@@ -16,6 +17,7 @@ export function StyledDialog({
   close,
   proceedCallback,
   proceedLabel = 'Conferma',
+  disabled = false,
 }: ConfirmationDialogOverlayProps) {
   return (
     <Overlay>
@@ -30,7 +32,7 @@ export function StyledDialog({
           <Button variant="outline-primary" onClick={close}>
             Annulla
           </Button>
-          <Button variant="primary" onClick={proceedCallback}>
+          <Button variant="primary" onClick={proceedCallback} disabled={disabled}>
             {proceedLabel}
           </Button>
         </Modal.Footer>

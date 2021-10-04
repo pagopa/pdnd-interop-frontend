@@ -356,6 +356,7 @@ export type WrappableAction = {
 export type DialogProps = DialogContent & {
   proceedCallback: ActionFunction
   close: VoidFunction
+  disabled?: boolean
 }
 
 export type DialogContent = {
@@ -363,7 +364,10 @@ export type DialogContent = {
   description?: string | JSX.Element
 }
 
-export type DialogActionKeys = Exclude<ApiEndpointKey, 'BASE' | 'AGREEMENT_VERIFY_ATTRIBUTE'>
+export type DialogActionKeys = Exclude<
+  ApiEndpointKey,
+  'BASE' | 'AGREEMENT_VERIFY_ATTRIBUTE' | 'AGREEMENT_CREATE'
+>
 
 export type ToastContent = {
   title?: string
