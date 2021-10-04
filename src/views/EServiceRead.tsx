@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom'
 import { minutesToHHMMSS } from '../lib/date-utils'
 import { canSubscribe } from '../lib/attributes'
 import { isAdmin } from '../lib/auth-utils'
+import { useSubscribeDialog } from '../hooks/useSubscribeDialog'
 
 type EServiceReadProps = {
   data: EServiceReadType
@@ -33,6 +34,9 @@ function EServiceReadComponent({
 }: EServiceReadProps & UserFeedbackHOCProps) {
   const { party } = useContext(PartyContext)
   const mode = useMode()
+  // TEMP REFACTOR: refactor this horror
+  let subscribe = () => {}
+  const { openSubscribeDialog } = useSubscribeDialog({ onProceedCallback: subscribe })
 
   const DESCRIPTIONS = {
     provider: "Nota: questa versione dell'e-service non è più modificabile",
@@ -44,7 +48,7 @@ function EServiceReadComponent({
   /*
    * List of possible actions for the user to perform
    */
-  const subscribe = async (_: any) => {
+  subscribe = async () => {
     const agreementData = {
       eserviceId: data.id,
       descriptorId: data.activeDescriptor!.id,
@@ -203,11 +207,7 @@ function EServiceReadComponent({
         <WhiteBackground>
           <div className="d-flex">
             {isVersionPublished && !isMine && isAdmin(party) && canSubscribeEservice && (
-              <Button
-                className="me-3"
-                variant="primary"
-                onClick={wrapActionInDialog(subscribe, 'AGREEMENT_CREATE')}
-              >
+              <Button className="me-3" variant="primary" onClick={openSubscribeDialog}>
                 iscriviti
               </Button>
             )}

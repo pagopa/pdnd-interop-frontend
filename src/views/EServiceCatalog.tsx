@@ -13,6 +13,40 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { TempFilters } from '../components/TempFilters'
 import { isAdmin } from '../lib/auth-utils'
 import { canSubscribe } from '../lib/attributes'
+import { useSubscribeDialog } from '../hooks/useSubscribeDialog'
+
+function CatalogSubscribeAction({
+  data,
+  runActionWithDestination,
+}: {
+  data: EServiceFlatReadType
+  runActionWithDestination: any
+}) {
+  const { party } = useContext(PartyContext)
+
+  const subscribe = async (_: any) => {
+    const agreementData = {
+      eserviceId: data.id,
+      descriptorId: data.descriptorId,
+      consumerId: party?.partyId,
+    }
+
+    await runActionWithDestination(
+      { path: { endpoint: 'AGREEMENT_CREATE' }, config: { method: 'POST', data: agreementData } },
+      { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST, suppressToast: false }
+    )
+  }
+
+  const { openSubscribeDialog } = useSubscribeDialog({ onProceedCallback: subscribe })
+
+  return (
+    <ActionWithTooltip
+      btnProps={{ onClick: openSubscribeDialog }}
+      label="Iscriviti"
+      iconClass={'bi-pencil-square'}
+    />
+  )
+}
 
 type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
   isMine: boolean
@@ -41,19 +75,6 @@ export function EServiceCatalogComponent({
   /*
    * List of possible actions for the user to perform
    */
-  const wrapSubscribe = (service: EServiceFlatReadType) => async (_: any) => {
-    const agreementData = {
-      eserviceId: service.id,
-      descriptorId: service.descriptorId,
-      consumerId: party?.partyId,
-    }
-
-    await runActionWithDestination(
-      { path: { endpoint: 'AGREEMENT_CREATE' }, config: { method: 'POST', data: agreementData } },
-      { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST, suppressToast: false }
-    )
-  }
-
   const askExtension = (_: any) => {
     runFakeAction('Richiedi estensione')
   }
@@ -131,15 +152,15 @@ export function EServiceCatalogComponent({
                     iconClass={'bi-link'}
                   />
                 )}
-                {!item.isMine && isAdmin(party) && !item.callerSubscribed && canSubscribeEservice && (
-                  <ActionWithTooltip
-                    btnProps={{
-                      onClick: wrapActionInDialog(wrapSubscribe(item), 'AGREEMENT_CREATE'),
-                    }}
-                    label="Iscriviti"
-                    iconClass={'bi-pencil-square'}
-                  />
-                )}
+                {!item.isMine &&
+                  isAdmin(party) &&
+                  !item.callerSubscribed &&
+                  canSubscribeEservice && (
+                    <CatalogSubscribeAction
+                      data={item}
+                      runActionWithDestination={runActionWithDestination}
+                    />
+                  )}
                 {!item.isMine && isAdmin(party) && !canSubscribeEservice && (
                   <ActionWithTooltip
                     btnProps={{
