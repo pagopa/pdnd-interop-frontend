@@ -85,7 +85,8 @@ export type UserPlatformRole = 'admin' | 'security' | 'api'
 export type UserOnCreate = {
   name: string
   surname: string
-  taxCode: string
+  taxCode: string // This should not be optional, it is temporarily because of the "from" below
+  from?: string // This is temporary, part of the API shared with self-care
   email: string
   role: UserRole
   platformRole: UserPlatformRole

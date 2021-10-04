@@ -79,7 +79,7 @@ function UserListComponent({
       pending: [],
       active: [
         {
-          onClick: wrapActionInDialog(wrapSuspend(user.taxCode)),
+          onClick: wrapActionInDialog(wrapSuspend((user.taxCode || user.from) as string)),
           label: 'sospendi',
           icon: 'bi-pause-circle',
           isMock: true,
@@ -87,7 +87,7 @@ function UserListComponent({
       ],
       suspended: [
         {
-          onClick: wrapActionInDialog(wrapReactivate(user.taxCode)),
+          onClick: wrapActionInDialog(wrapReactivate((user.taxCode || user.from) as string)),
           label: 'riattiva',
           icon: 'bi-play-circle',
           isMock: true,
@@ -97,9 +97,11 @@ function UserListComponent({
 
     const status = user.status
 
+    // TEMP BACKEND: this should not happen, it depends on the difference between our API
+    // and the one shared with self care
     const route =
       mode === 'provider'
-        ? `${ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_LIST.PATH}/${user.taxCode}`
+        ? `${ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_LIST.PATH}/${user.taxCode || user.from}`
         : // TEMP REFACTOR: this is horrible but I'm in a hurry. Should find a way
           // to build a path like /client/:clientId/operator/:operatorId
           `${ROUTES.SUBSCRIBE.SUBROUTES!.OPERATOR_SECURITY_LIST.PATH}/${clientId}/${user.taxCode}`
@@ -119,7 +121,15 @@ function UserListComponent({
     return actions
   }
 
-  const headData = ['nome e cognome', 'ruolo', 'permessi', 'stato', '']
+  // TEMP BACKEND: this should not happen, it depends on the difference between our API
+  // and the one shared with self care, that doesn't expose name and surname
+  const headData = [
+    mode === 'provider' ? 'codice fiscale' : 'nome e cognome',
+    'ruolo',
+    'permessi',
+    'stato',
+    '',
+  ]
 
   /*
    * Labels and buttons dependant on the current mode
@@ -175,9 +185,11 @@ function UserListComponent({
         >
           {data?.map((item, i) => (
             <tr key={i}>
-              <td>
-                {item.name} {item.surname}
-              </td>
+              {/*
+               * TEMP BACKEND: this should not happen, it depends on the difference between our API
+               * and the one shared with self care, that doesn't expose name and surname
+               */}
+              <td>{mode === 'provider' ? item.from : `${item.name + ' ' + item.surname}`}</td>
               <td>{USER_ROLE_LABEL[item.role]}</td>
               <td>{USER_PLATFORM_ROLE_LABEL[item.platformRole]}</td>
               <td>

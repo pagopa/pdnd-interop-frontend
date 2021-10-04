@@ -110,28 +110,30 @@ function UserEditComponent({
     <React.Fragment>
       <WhiteBackground>
         <StyledIntro priority={2}>
-          {{ title: `Utente: ${userData?.name} ${userData?.surname}` }}
+          {{
+            title: `Utente: ${
+              userData?.name && userData?.surname ? userData.name + ' ' + userData.surname : 'n/d'
+            }`,
+          }}
         </StyledIntro>
 
         <DescriptionBlock label="Codice fiscale">
-          <span>{userData?.taxCode}</span>
+          <span>{userData?.taxCode || userData?.from}</span>
         </DescriptionBlock>
 
         <DescriptionBlock label="Email">
           <span>{userData?.email || 'n/d'}</span>
         </DescriptionBlock>
 
-        {userData?.role && (
-          <DescriptionBlock label="Ruolo">
-            <span>{USER_ROLE_LABEL[userData?.role]}</span>
-          </DescriptionBlock>
-        )}
+        <DescriptionBlock label="Ruolo">
+          <span>{userData?.role ? USER_ROLE_LABEL[userData?.role] : 'n/d'}</span>
+        </DescriptionBlock>
 
-        {userData?.platformRole && (
-          <DescriptionBlock label="Permessi">
-            <span>{USER_PLATFORM_ROLE_LABEL[userData?.platformRole]}</span>
-          </DescriptionBlock>
-        )}
+        <DescriptionBlock label="Permessi">
+          <span>
+            {userData?.platformRole ? USER_PLATFORM_ROLE_LABEL[userData?.platformRole] : 'n/d'}
+          </span>
+        </DescriptionBlock>
 
         <DescriptionBlock label="Stato dell'utente">
           <span>{USER_STATUS_LABEL[userData?.status || 'active']}</span>
