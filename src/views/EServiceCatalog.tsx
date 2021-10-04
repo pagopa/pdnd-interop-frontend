@@ -118,6 +118,18 @@ export function EServiceCatalogComponent({
               <td>{item.version}</td>
               <td>{ESERVICE_STATUS_LABEL[item.status!]}</td>
               <td>
+                {!item.isMine && isAdmin(party) && item.callerSubscribed && (
+                  <ActionWithTooltip
+                    btnProps={{
+                      to: `${ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST.PATH}/${
+                        item.callerSubscribed
+                      }`,
+                      as: Link,
+                    }}
+                    label="Vai all'accordo"
+                    iconClass={'bi-link'}
+                  />
+                )}
                 {!item.isMine && isAdmin(party) && !item.callerSubscribed && canSubscribeEservice && (
                   <ActionWithTooltip
                     btnProps={{

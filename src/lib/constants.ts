@@ -694,7 +694,7 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   OPERATOR_SECURITY_KEY_DELETE: {
     title: 'Cancella la chiave pubblica',
     description:
-      'Cliccando su "conferma" si cancellerà la chiave pubblica relativa a questo operatore. NB: tutti i servizi che utilizzano questa chiave non potranno più accedere al servizio dell\'ente erogatore',
+      'Cliccando su "conferma" si cancellerà la chiave pubblica relativa a questo operatore. NB: tutti i servizi che utilizzano questa chiave non potranno più accedere al servizio dell\'ente erogatore. Se non sei sicuro, scarica e salva la tua chiave pubblica prima di cancellarla',
   },
 }
 
