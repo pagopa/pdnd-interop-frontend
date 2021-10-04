@@ -1,6 +1,6 @@
 // Typing from https://react-typescript-cheatsheet.netlify.app/docs/hoc/full_example/
 import { AxiosError, AxiosResponse } from 'axios'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import {
   ActionFunction,
@@ -12,15 +12,14 @@ import {
   RunActionProps,
   ToastActionKeys,
   ToastContentWithOutcome,
-  ToastProps,
 } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { DIALOG_CONTENTS, TOAST_CONTENTS } from '../lib/constants'
+import { ToastContext } from '../lib/context'
 import { getFetchOutcome } from '../lib/error-utils'
 import { showTempAlert } from '../lib/wip-utils'
 import { LoadingOverlay } from './LoadingOverlay'
 import { StyledDialog } from './StyledDialog'
-import { StyledToast } from './StyledToast'
 
 type ActionOptions = { suppressToast: boolean }
 
@@ -61,7 +60,7 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
     const history = useHistory()
     const [loadingText, setLoadingText] = useState<string | undefined>(undefined)
     const [dialog, setDialog] = useState<DialogProps>()
-    const [toast, setToast] = useState<ToastProps>()
+    const { setToast } = useContext(ToastContext)
     const [forceRerenderCounter, setForceRerenderCounter] = useState(0)
 
     // Dialog, toast and counter related functions
@@ -80,7 +79,7 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
     }
 
     const closeToast = () => {
-      setToast(undefined)
+      setToast(null)
     }
 
     const requestRerender = () => {
@@ -224,7 +223,6 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
         />
 
         {dialog && <StyledDialog {...dialog} />}
-        {toast && <StyledToast {...toast} />}
         {loadingText && <LoadingOverlay loadingText={loadingText} />}
       </React.Fragment>
     )

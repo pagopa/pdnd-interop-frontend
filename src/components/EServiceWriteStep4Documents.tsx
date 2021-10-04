@@ -17,6 +17,7 @@ function EServiceWriteStep4DocumentsComponent({
   fetchedData,
   runAction,
   runActionWithDestination,
+  wrapActionInDialog,
 }: StepperStepComponentProps & EServiceWriteStepProps & UserFeedbackHOCProps) {
   const location = useLocation()
   const bits = getBits(location)
@@ -163,10 +164,17 @@ function EServiceWriteStep4DocumentsComponent({
       <WhiteBackground>
         <StyledIntro priority={2}>{{ title: 'Pubblicazione della versione' }}</StyledIntro>
         <div className="d-flex">
-          <Button className="me-3" variant="primary" onClick={publishVersion}>
+          <Button
+            className="me-3"
+            variant="primary"
+            onClick={wrapActionInDialog(publishVersion, 'ESERVICE_VERSION_PUBLISH')}
+          >
             pubblica bozza
           </Button>
-          <Button variant="outline-primary" onClick={deleteVersion}>
+          <Button
+            variant="outline-primary"
+            onClick={wrapActionInDialog(deleteVersion, 'ESERVICE_VERSION_DELETE')}
+          >
             cancella bozza
           </Button>
         </div>

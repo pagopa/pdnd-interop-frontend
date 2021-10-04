@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { useLocation } from 'react-router'
-import compose from 'lodash/fp/compose'
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import {
@@ -24,7 +23,6 @@ import {
   USER_STATUS_LABEL,
 } from '../lib/constants'
 import { useMode } from '../hooks/useMode'
-import { withToastOnMount } from '../components/withToastOnMount'
 import { TempFilters } from '../components/TempFilters'
 import { isAdmin, isOperatorSecurity } from '../lib/auth-utils'
 import { PartyContext, UserContext } from '../lib/context'
@@ -226,4 +224,4 @@ function UserListComponent({
   )
 }
 
-export const UserList = compose(withUserFeedback, withToastOnMount)(UserListComponent)
+export const UserList = withUserFeedback(UserListComponent)

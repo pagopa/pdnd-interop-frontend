@@ -3,15 +3,14 @@ import { AxiosResponse } from 'axios'
 import isEmpty from 'lodash/isEmpty'
 import { Button } from 'react-bootstrap'
 import { Overlay } from './Overlay'
-import { ToastContentWithOutcome, ToastProps, User } from '../../types'
+import { ToastContentWithOutcome, User } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { getFetchOutcome } from '../lib/error-utils'
 import { ActionWithTooltip } from './ActionWithTooltip'
 import { CreateKeyModal } from './CreateKeyModal'
 import { StyledIntro } from './StyledIntro'
-import { StyledToast } from './StyledToast'
 import { WhiteBackground } from './WhiteBackground'
-import { UserContext } from '../lib/context'
+import { ToastContext, UserContext } from '../lib/context'
 import { DescriptionBlock } from './DescriptionBlock'
 
 type SecurityOperatorKeysProps = {
@@ -32,12 +31,12 @@ export function SecurityOperatorKeys({
   const { user } = useContext(UserContext)
   const [key, setKey] = useState<any>()
   const endpointParams = { taxCode: userData.taxCode, clientId }
-  const [toast, setToast] = useState<ToastProps | undefined>()
+  const { setToast } = useContext(ToastContext)
   const [dialog, setDialog] = useState(false)
   const [keyCreationCounter, setKeyCreationCounter] = useState(0)
 
   const closeToast = () => {
-    setToast(undefined)
+    setToast(null)
   }
 
   const openModal = () => {
@@ -217,7 +216,6 @@ export function SecurityOperatorKeys({
           />
         </Overlay>
       )}
-      {toast && <StyledToast {...toast} />}
     </React.Fragment>
   )
 }

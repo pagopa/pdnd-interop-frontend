@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import { Party, User } from '../../types'
+import { Party, ToastProps, User } from '../../types'
 
 type UserContextType = {
   user: User | null
@@ -21,3 +21,10 @@ export const PartyContext = createContext({
   setParty: () => {},
   setAvailableParties: () => {},
 } as PartyContextType)
+
+type ToastContextType = {
+  toast: ToastProps | null
+  setToast: React.Dispatch<React.SetStateAction<ToastProps | null>>
+}
+
+export const ToastContext = createContext({ toast: null, setToast: () => {} } as ToastContextType)

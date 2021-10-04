@@ -20,7 +20,6 @@ import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFe
 import { TempFilters } from '../components/TempFilters'
 import { withAdminAuth } from '../components/withAdminAuth'
 import compose from 'lodash/fp/compose'
-import { withToastOnMount } from '../components/withToastOnMount'
 
 function AgreementListComponent({
   runAction,
@@ -171,8 +170,4 @@ function AgreementListComponent({
   )
 }
 
-export const AgreementList = compose(
-  withUserFeedback,
-  withAdminAuth,
-  withToastOnMount
-)(AgreementListComponent)
+export const AgreementList = compose(withUserFeedback, withAdminAuth)(AgreementListComponent)
