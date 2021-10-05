@@ -35,12 +35,13 @@ export function EServiceGate() {
   // When a user creates a new e-service, it directly goes throuth EServiceWrite in the router
   const isEditable = isEmpty(data.activeDescriptor) || data.activeDescriptor!.status === 'draft'
 
-  return error ? (
-    <NotFound errorType="server-error" />
-  ) : (
-    <React.Fragment>
-      {isEditable ? <EServiceWrite fetchedDataMaybe={data} /> : <EServiceRead data={data} />}
-      {loading && <LoadingOverlay loadingText="Stiamo caricando il tuo e-service" />}
-    </React.Fragment>
-  )
+  if (error) {
+    return <NotFound errorType="server-error" />
+  }
+
+  if (loading) {
+    return <LoadingOverlay loadingText="Stiamo caricando il tuo e-service" />
+  }
+
+  return isEditable ? <EServiceWrite fetchedDataMaybe={data} /> : <EServiceRead data={data} />
 }
