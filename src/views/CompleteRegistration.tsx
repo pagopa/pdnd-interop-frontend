@@ -134,10 +134,6 @@ export function CompleteRegistration() {
       {loading && <LoadingOverlay loadingText="Stiamo caricando il tuo contratto" />}
     </React.Fragment>
   ) : (
-    <MessageNoAction
-      title={outcomeContent[outcome].title}
-      img={outcomeContent[outcome].img}
-      description={outcomeContent[outcome]!.description}
-    />
+    <MessageNoAction {...outcomeContent[outcome]} />
   )
 }
