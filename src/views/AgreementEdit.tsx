@@ -1,7 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import has from 'lodash/has'
+import capitalize from 'lodash/capitalize'
+import isEmpty from 'lodash/isEmpty'
+import compose from 'lodash/fp/compose'
+import { AxiosResponse } from 'axios'
 import {
   AgreementStatus,
   AgreementSummary,
@@ -11,25 +15,20 @@ import {
   SingleBackendAttribute,
   GroupBackendAttribute,
 } from '../../types'
+import { AGREEMENT_STATUS_LABEL, ROUTES } from '../lib/constants'
+import { getLastBit } from '../lib/url-utils'
+import { formatDate, getRandomDate } from '../lib/date-utils'
+import { fetchWithLogs } from '../lib/api-utils'
+import { getFetchOutcome } from '../lib/error-utils'
+import { mergeActions } from '../lib/eservice-utils'
+import { useMode } from '../hooks/useMode'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { AGREEMENT_STATUS_LABEL, ROUTES } from '../lib/constants'
-import { getLastBit } from '../lib/url-utils'
-import capitalize from 'lodash/capitalize'
-import { useMode } from '../hooks/useMode'
-import { formatDate, getRandomDate } from '../lib/date-utils'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
-import isEmpty from 'lodash/isEmpty'
 import { withAdminAuth } from '../components/withAdminAuth'
-import compose from 'lodash/fp/compose'
-import { fetchWithLogs } from '../lib/api-utils'
-import { getFetchOutcome } from '../lib/error-utils'
-import { AxiosResponse } from 'axios'
-import { PartyContext } from '../lib/context'
-import { mergeActions } from '../lib/eservice-utils'
 
 function AgreementEditComponent({
   runAction,
@@ -38,7 +37,6 @@ function AgreementEditComponent({
   forceRerenderCounter,
   wrapActionInDialog,
 }: UserFeedbackHOCProps) {
-  const { party } = useContext(PartyContext)
   const mode = useMode()
   const agreementId = getLastBit(useLocation())
   const [mostRecent, setMostRecent] = useState<EServiceDescriptorRead | undefined>()
@@ -85,14 +83,11 @@ function AgreementEditComponent({
   }
 
   const upgrade = async () => {
-    const agreementData = {
-      eserviceId: data.id,
-      descriptorId: mostRecent!.id,
-      consumerId: party?.partyId,
-    }
-
     await runActionWithDestination(
-      { path: { endpoint: 'AGREEMENT_CREATE' }, config: { method: 'POST', data: agreementData } },
+      {
+        path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } },
+        config: { method: 'POST' },
+      },
       { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST, suppressToast: false }
     )
   }
@@ -120,8 +115,8 @@ function AgreementEditComponent({
   /*
    * End list of actions
    */
-  type AgreementActions = { [key in AgreementStatus]: ActionWithTooltipBtn[] }
 
+  type AgreementActions = { [key in AgreementStatus]: ActionWithTooltipBtn[] }
   // Build list of available actions for each agreement in its current state
   const getAvailableActions = () => {
     if (isEmpty(data)) {
@@ -151,7 +146,7 @@ function AgreementEditComponent({
     const subscriberOnlyActionsActive: ActionWithTooltipBtn[] = []
     if (mostRecent && current && mostRecent.version > current.version) {
       subscriberOnlyActionsActive.push({
-        onClick: wrapActionInDialog(upgrade, 'AGREEMENT_CREATE'),
+        onClick: wrapActionInDialog(upgrade, 'AGREEMENT_UPGRADE'),
         label: 'aggiorna',
       })
     }

@@ -359,6 +359,11 @@ export const API = {
     LOCAL: '',
     SHOULD_CALL: true,
   },
+  AGREEMENT_UPGRADE: {
+    URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreements/{{agreementId}}/upgrade',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
   CLIENT_GET_LIST: {
     URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients',
     LOCAL: 'get-client-list.json',
@@ -567,7 +572,11 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
   },
   AGREEMENT_ACTIVATE: {
     loadingText: "Stiamo attivando l'accordo",
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    success: {
+      title: 'Accordo attivato',
+      description:
+        "L'accordo è ora attivo, ed è possibile creare client da associare all'e-service",
+    },
     error: {
       title: 'Errore',
       description:
@@ -576,10 +585,25 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
   },
   AGREEMENT_SUSPEND: {
     loadingText: "Stiamo sospendendo l'accordo",
-    success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+    success: {
+      title: 'Accordo sospeso',
+      description:
+        "Non è più possibile per i client associati all'e-service accedere al servizio in erogazione",
+    },
     error: {
       title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+      description: "C'è stato un errore, non è stato possibile sospendere l'accordo",
+    },
+  },
+  AGREEMENT_UPGRADE: {
+    loadingText: "Stiamo aggiornando l'accordo",
+    success: {
+      title: 'Accordo aggiornato',
+      description: "L'accordo è stato aggiornato alla versione più recente dell'e-service",
+    },
+    error: {
+      title: 'Errore',
+      description: "C'è stato un errore, non è stato possibile aggiornare l'accordo",
     },
   },
   CLIENT_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
@@ -654,6 +678,11 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
     title: "Sospendi l'accordo",
     description:
       "Cliccando su \"conferma\", l'accordo di interoperabilità sarà sospeso. I client collegati a questo accordo non avranno più accesso all'e-service in erogazione. L'accordo è riattivabile in qualsiasi momento da questa stessa pagina",
+  },
+  AGREEMENT_UPGRADE: {
+    title: "Aggiorna l'accordo",
+    description:
+      "Cliccando su \"conferma\", l'accordo di interoperabilità sarà aggiornato alla versione più recente dell'e-service attualmente disponibile. I client collegati a questo accordo continueranno ad avere accesso all'e-service in erogazione, aggiornato all'ultima versione",
   },
   CLIENT_GET_LIST: {},
   CLIENT_GET_SINGLE: {},
