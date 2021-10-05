@@ -90,32 +90,6 @@ export function SecurityOperatorKeys({
     )
   }
 
-  const wrapSuspendKey = (keyId: string) => (e: any) => {
-    runAction(
-      {
-        path: {
-          endpoint: 'OPERATOR_SECURITY_KEY_DISABLE',
-          endpointParams: { ...endpointParams, keyId },
-        },
-        config: { method: 'PATCH' },
-      },
-      { suppressToast: false }
-    )
-  }
-
-  const wrapReactivateKey = (keyId: string) => (e: any) => {
-    runAction(
-      {
-        path: {
-          endpoint: 'OPERATOR_SECURITY_KEY_ENABLE',
-          endpointParams: { ...endpointParams, keyId },
-        },
-        config: { method: 'PATCH' },
-      },
-      { suppressToast: false }
-    )
-  }
-
   const wrapDeleteKey = (keyId: string) => (e: any) => {
     runAction(
       {
@@ -136,23 +110,6 @@ export function SecurityOperatorKeys({
         label: 'Scarica chiave',
         icon: 'bi-download',
       },
-      key.status === 'Active'
-        ? {
-            onClick: wrapActionInDialog(
-              wrapSuspendKey(key.key.kid),
-              'OPERATOR_SECURITY_KEY_DISABLE'
-            ),
-            label: 'Sospendi chiave',
-            icon: 'bi-pause-circle',
-          }
-        : {
-            onClick: wrapActionInDialog(
-              wrapReactivateKey(key.key.kid),
-              'OPERATOR_SECURITY_KEY_ENABLE'
-            ),
-            label: 'Riattiva chiave',
-            icon: 'bi-play-circle',
-          },
       {
         onClick: wrapActionInDialog(wrapDeleteKey(key.key.kid), 'OPERATOR_SECURITY_KEY_DELETE'),
         label: 'Cancella chiave',

@@ -404,16 +404,6 @@ export const API = {
     LOCAL: '',
     SHOULD_CALL: true,
   },
-  OPERATOR_SECURITY_KEY_ENABLE: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/operators/{{taxCode}}/keys/{{keyId}}/enable',
-    LOCAL: '',
-    SHOULD_CALL: true,
-  },
-  OPERATOR_SECURITY_KEY_DISABLE: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/operators/{{taxCode}}/keys/{{keyId}}/disable',
-    LOCAL: '',
-    SHOULD_CALL: true,
-  },
   OPERATOR_SECURITY_KEY_DELETE: {
     URL: 'pdnd-interop-uservice-authorization-process/0.0.1/operators/{{taxCode}}/keys/{{keyId}}',
     LOCAL: '',
@@ -601,8 +591,6 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
   OPERATOR_SECURITY_KEYS_GET: { loadingText: 'Operazione in corso', success: {}, error: {} },
   OPERATOR_SECURITY_KEYS_POST: { loadingText: 'Operazione in corso', success: {}, error: {} },
   OPERATOR_SECURITY_KEY_DOWNLOAD: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  OPERATOR_SECURITY_KEY_ENABLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  OPERATOR_SECURITY_KEY_DISABLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   OPERATOR_SECURITY_KEY_DELETE: { loadingText: 'Operazione in corso', success: {}, error: {} },
 }
 
@@ -676,16 +664,6 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   OPERATOR_SECURITY_KEYS_GET: {},
   OPERATOR_SECURITY_KEYS_POST: {},
   OPERATOR_SECURITY_KEY_DOWNLOAD: {},
-  OPERATOR_SECURITY_KEY_ENABLE: {
-    title: 'Sospendi la chiave pubblica',
-    description:
-      'Cliccando su "conferma" si sospenderà la chiave pubblica relativa a questo operatore. NB: tutti i servizi che utilizzano questa chiave non potranno più accedere al servizio dell\'ente erogatore',
-  },
-  OPERATOR_SECURITY_KEY_DISABLE: {
-    title: 'Riattiva la chiave pubblica',
-    description:
-      'Cliccando su "conferma" si riattiverà la chiave pubblica relativa a questo operatore. NB: tutti i servizi che utilizzano questa chiave ricominceranno ad accedere al servizio dell\'ente erogatore',
-  },
   OPERATOR_SECURITY_KEY_DELETE: {
     title: 'Cancella la chiave pubblica',
     description:
