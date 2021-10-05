@@ -14,6 +14,26 @@ import { TempFilters } from '../components/TempFilters'
 import { isAdmin } from '../lib/auth-utils'
 import { canSubscribe } from '../lib/attributes'
 import { useSubscribeDialog } from '../hooks/useSubscribeDialog'
+import { useExtensionDialog } from '../hooks/useExtensionDialog'
+
+function CatalogExtensionAction({ runFakeAction }: { runFakeAction: any }) {
+  const askExtension = (_: any) => {
+    runFakeAction('Richiedi estensione')
+  }
+
+  const { openDialog: openExtensionDialog } = useExtensionDialog({
+    onProceedCallback: askExtension,
+  })
+
+  return (
+    <ActionWithTooltip
+      btnProps={{ onClick: openExtensionDialog }}
+      label="Richiedi estensione"
+      iconClass={'bi-chat-square-text'}
+      isMock={true}
+    />
+  )
+}
 
 function CatalogSubscribeAction({
   data,
@@ -37,7 +57,7 @@ function CatalogSubscribeAction({
     )
   }
 
-  const { openSubscribeDialog } = useSubscribeDialog({ onProceedCallback: subscribe })
+  const { openDialog: openSubscribeDialog } = useSubscribeDialog({ onProceedCallback: subscribe })
 
   return (
     <ActionWithTooltip
@@ -71,16 +91,6 @@ export function EServiceCatalogComponent({
       mapFn: (data) => data.map((d) => ({ ...d, isMine: d.producerId === party?.partyId })),
     }
   )
-
-  /*
-   * List of possible actions for the user to perform
-   */
-  const askExtension = (_: any) => {
-    runFakeAction('Richiedi estensione')
-  }
-  /*
-   * End list of actions
-   */
 
   const headData = ['nome e-service', 'ente erogatore', 'versione attuale', 'stato e-service', '']
 
@@ -162,14 +172,7 @@ export function EServiceCatalogComponent({
                     />
                   )}
                 {!item.isMine && isAdmin(party) && !canSubscribeEservice && (
-                  <ActionWithTooltip
-                    btnProps={{
-                      onClick: wrapActionInDialog(askExtension),
-                    }}
-                    label="Richiedi estensione"
-                    iconClass={'bi-chat-square-text'}
-                    isMock={true}
-                  />
+                  <CatalogExtensionAction runFakeAction={runFakeAction} />
                 )}
                 <ActionWithTooltip
                   btnProps={{

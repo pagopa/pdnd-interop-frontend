@@ -20,6 +20,7 @@ import { minutesToHHMMSS } from '../lib/date-utils'
 import { canSubscribe } from '../lib/attributes'
 import { isAdmin } from '../lib/auth-utils'
 import { useSubscribeDialog } from '../hooks/useSubscribeDialog'
+import { useExtensionDialog } from '../hooks/useExtensionDialog'
 
 type EServiceReadProps = {
   data: EServiceReadType
@@ -30,13 +31,9 @@ function EServiceReadComponent({
   runAction,
   runFakeAction,
   runActionWithDestination,
-  wrapActionInDialog,
 }: EServiceReadProps & UserFeedbackHOCProps) {
   const { party } = useContext(PartyContext)
   const mode = useMode()
-  // TEMP REFACTOR: refactor this horror
-  let subscribe = () => {}
-  const { openSubscribeDialog } = useSubscribeDialog({ onProceedCallback: subscribe })
 
   const DESCRIPTIONS = {
     provider: "Nota: questa versione dell'e-service non è più modificabile",
@@ -48,7 +45,7 @@ function EServiceReadComponent({
   /*
    * List of possible actions for the user to perform
    */
-  subscribe = async () => {
+  const subscribe = async () => {
     const agreementData = {
       eserviceId: data.id,
       descriptorId: data.activeDescriptor!.id,
@@ -61,9 +58,14 @@ function EServiceReadComponent({
     )
   }
 
-  const askExtension = (_: any) => {
+  const askExtension = () => {
     runFakeAction('Richiedi estensione')
   }
+
+  const { openDialog: openSubscribeDialog } = useSubscribeDialog({ onProceedCallback: subscribe })
+  const { openDialog: openExtensionDialog } = useExtensionDialog({
+    onProceedCallback: askExtension,
+  })
   /*
    * End list of actions
    */
@@ -212,11 +214,7 @@ function EServiceReadComponent({
               </Button>
             )}
             {!isMine && isAdmin(party) && !canSubscribeEservice && (
-              <Button
-                className="me-3 mockFeature"
-                variant="primary"
-                onClick={wrapActionInDialog(askExtension)}
-              >
+              <Button className="me-3 mockFeature" variant="primary" onClick={openExtensionDialog}>
                 richiedi estensione
               </Button>
             )}

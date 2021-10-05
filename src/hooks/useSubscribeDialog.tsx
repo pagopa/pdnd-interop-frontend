@@ -9,15 +9,15 @@ type UseSubscribeDialogProps = {
 
 export const useSubscribeDialog = ({ onProceedCallback }: UseSubscribeDialogProps) => {
   const { setDialog } = useContext(DialogContext)
-  const [confirmAgreementRead, setConfirmAgreementRead] = useState<boolean | undefined>(undefined)
+  const [checked, setChecked] = useState<boolean | undefined>(undefined)
 
   useEffect(() => {
-    if (typeof confirmAgreementRead !== 'undefined') {
-      openSubscribeDialog()
+    if (typeof checked !== 'undefined') {
+      openDialog()
     }
-  }, [confirmAgreementRead]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [checked]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const openSubscribeDialog = (_?: any) => {
+  const openDialog = (_?: any) => {
     setDialog({
       title: "Iscriviti all'e-service",
       description: (
@@ -36,9 +36,9 @@ export const useSubscribeDialog = ({ onProceedCallback }: UseSubscribeDialogProp
           <StyledInputCheckbox
             label="Ho letto l'accordo"
             id="agreement-confirm"
-            checked={!!confirmAgreementRead}
+            checked={!!checked}
             onChange={() => {
-              setConfirmAgreementRead(!confirmAgreementRead)
+              setChecked(!checked)
             }}
             className="mt-0"
           />
@@ -47,11 +47,11 @@ export const useSubscribeDialog = ({ onProceedCallback }: UseSubscribeDialogProp
       proceedCallback: onProceedCallback,
       close: () => {
         setDialog(null)
-        setConfirmAgreementRead(undefined)
+        setChecked(undefined)
       },
-      disabled: !confirmAgreementRead,
+      disabled: !checked,
     })
   }
 
-  return { openSubscribeDialog }
+  return { openDialog }
 }
