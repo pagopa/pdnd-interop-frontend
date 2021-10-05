@@ -20,10 +20,10 @@ import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFe
 import { TempFilters } from '../components/TempFilters'
 import { withAdminAuth } from '../components/withAdminAuth'
 import compose from 'lodash/fp/compose'
+import { mergeActions } from '../lib/eservice-utils'
 
 function AgreementListComponent({
   runAction,
-  runFakeAction,
   forceRerenderCounter,
   wrapActionInDialog,
 }: UserFeedbackHOCProps) {
@@ -43,7 +43,17 @@ function AgreementListComponent({
   /*
    * List of possible actions for the user to perform
    */
-  const wrapSuspend = (agreementId: string) => async (_: any) => {
+  const wrapActivate = (agreementId: string) => async () => {
+    await runAction(
+      {
+        path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId } },
+        config: { method: 'PATCH' },
+      },
+      { suppressToast: false }
+    )
+  }
+
+  const wrapSuspend = (agreementId: string) => async () => {
     await runAction(
       {
         path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId } },
@@ -53,34 +63,86 @@ function AgreementListComponent({
     )
   }
 
-  const wrapReactivate = (agreementId: string) => async (_: any) => {
-    runFakeAction('Riattiva accordo: ' + agreementId)
+  const wrapReactivate = (agreementId: string) => async () => {
+    await runAction(
+      {
+        path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId } },
+        config: { method: 'PATCH' },
+      },
+      { suppressToast: false }
+    )
+  }
+
+  const wrapUpgrade = (agreementId: string) => async () => {
+    await runAction(
+      {
+        path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } },
+        config: { method: 'POST' },
+      },
+      { suppressToast: false }
+    )
   }
   /*
    * End list of actions
    */
 
+  type AgreementActions = { [key in AgreementStatus]: ActionWithTooltipProps[] }
   // Build list of available actions for each service in its current state
   const getAvailableActions = (agreement: AgreementSummary) => {
-    const availableActions: { [key in AgreementStatus]: ActionWithTooltipProps[] } = {
+    const sharedActions: AgreementActions = {
       active: [
         {
           onClick: wrapActionInDialog(wrapSuspend(agreement.id), 'AGREEMENT_SUSPEND'),
-          label: 'sospendi',
+          label: 'Sospendi',
           icon: 'bi-pause-circle',
         },
       ],
       suspended: [
         {
           onClick: wrapActionInDialog(wrapReactivate(agreement.id), 'AGREEMENT_ACTIVATE'),
-          label: 'riattiva',
+          label: 'Riattiva',
           icon: 'bi-play-circle',
         },
       ],
       pending: [],
     }
 
-    const status = agreement.status
+    const subscriberOnlyActionsActive: ActionWithTooltipProps[] = []
+    if ((agreement as any).canBeUpdated) {
+      subscriberOnlyActionsActive.push({
+        onClick: wrapActionInDialog(wrapUpgrade, 'AGREEMENT_UPGRADE'),
+        label: 'Aggiorna',
+        icon: 'bi-arrow-up-square',
+      })
+    }
+
+    const subscriberOnlyActions: AgreementActions = {
+      active: subscriberOnlyActionsActive,
+      suspended: [],
+      pending: [],
+    }
+
+    const providerOnlyActions: AgreementActions = {
+      active: [],
+      suspended: [],
+      pending: [
+        {
+          onClick: wrapActionInDialog(wrapActivate, 'AGREEMENT_ACTIVATE'),
+          label: 'Attiva',
+          icon: 'bi-toggle2-on',
+        },
+      ],
+    }
+
+    const currentActions: AgreementActions = {
+      provider: providerOnlyActions,
+      subscriber: subscriberOnlyActions,
+    }[mode!]
+
+    const mergedActions = mergeActions<AgreementActions>(
+      [currentActions, sharedActions],
+      agreement.status
+    )
 
     const inspectAction = {
       to: `${
@@ -90,13 +152,10 @@ function AgreementListComponent({
       label: 'Ispeziona',
     }
 
-    // Get all the actions available for this particular status
-    const actions: ActionWithTooltipProps[] = (availableActions as any)[status] || []
-
     // Add the last action, which is always EDIT/INSPECT
-    actions.push(inspectAction)
+    mergedActions.push(inspectAction)
 
-    return actions
+    return mergedActions
   }
 
   const headData = [
