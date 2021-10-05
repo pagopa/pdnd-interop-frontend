@@ -22,7 +22,7 @@ import { isAdmin } from '../lib/auth-utils'
 import { PartyContext } from '../lib/context'
 
 function ClientEditComponent({
-  runFakeAction,
+  runAction,
   wrapActionInDialog,
   forceRerenderCounter,
 }: UserFeedbackHOCProps) {
@@ -36,20 +36,27 @@ function ClientEditComponent({
     { defaultValue: {}, useEffectDeps: [forceRerenderCounter] }
   )
 
-  // TEMP BACKEND should send client status
-  if (!isEmpty(data) && !data.status) {
-    data.status = 'active'
-  }
-
   /*
    * List of possible actions for the user to perform
    */
-  const suspend = () => {
-    runFakeAction('Sospendi client')
+  const suspend = async () => {
+    await runAction(
+      {
+        path: { endpoint: 'CLIENT_SUSPEND', endpointParams: { clientId: data.id } },
+        config: { method: 'POST' },
+      },
+      { suppressToast: false }
+    )
   }
 
-  const reactivate = () => {
-    runFakeAction('Riattiva client')
+  const reactivate = async () => {
+    await runAction(
+      {
+        path: { endpoint: 'CLIENT_ACTIVATE', endpointParams: { clientId: data.id } },
+        config: { method: 'POST' },
+      },
+      { suppressToast: false }
+    )
   }
   /*
    * End list of actions
@@ -62,8 +69,10 @@ function ClientEditComponent({
     }
 
     const actions: { [key in ClientStatus]: ActionWithTooltipBtn[] } = {
-      active: [{ onClick: wrapActionInDialog(suspend), label: 'sospendi', isMock: true }],
-      suspended: [{ onClick: wrapActionInDialog(reactivate), label: 'riattiva', isMock: true }],
+      active: [{ onClick: wrapActionInDialog(suspend, 'CLIENT_SUSPEND'), label: 'sospendi' }],
+      suspended: [
+        { onClick: wrapActionInDialog(reactivate, 'CLIENT_ACTIVATE'), label: 'riattiva' },
+      ],
     }
 
     return actions[data.status]
@@ -84,7 +93,7 @@ function ClientEditComponent({
     }
 
     if (data.status !== 'active') {
-      reasons.push('il client non è attualmente attivo')
+      reasons.push('il client non è attivo')
     }
 
     return reasons
@@ -107,7 +116,7 @@ function ClientEditComponent({
               <span>
                 {getClientComputedStatus(data) === 'active'
                   ? 'Sì'
-                  : `No, perché ${getReasonClientIsBlocked().join(', ')}`}
+                  : `No: ${getReasonClientIsBlocked().join(', ')}`}
               </span>
             </DescriptionBlock>
 

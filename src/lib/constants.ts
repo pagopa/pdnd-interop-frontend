@@ -379,6 +379,16 @@ export const API = {
     LOCAL: '',
     SHOULD_CALL: true,
   },
+  CLIENT_SUSPEND: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/suspend',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
+  CLIENT_ACTIVATE: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/activate',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
   OPERATOR_SECURITY_GET_LIST: {
     URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators',
     LOCAL: 'get-user-list.json',
@@ -609,6 +619,12 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
   CLIENT_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
   CLIENT_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   CLIENT_CREATE: { loadingText: 'Stiamo creando il client richiesto', success: {}, error: {} },
+  CLIENT_SUSPEND: { loadingText: 'Stiamo sospendendo il client richiesto', success: {}, error: {} },
+  CLIENT_ACTIVATE: {
+    loadingText: 'Stiamo riattivando il client richiesto',
+    success: {},
+    error: {},
+  },
   OPERATOR_SECURITY_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
   OPERATOR_SECURITY_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   OPERATOR_SECURITY_CREATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
@@ -687,6 +703,16 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   CLIENT_GET_LIST: {},
   CLIENT_GET_SINGLE: {},
   CLIENT_CREATE: {},
+  CLIENT_SUSPEND: {
+    title: 'Sospendi il client',
+    description:
+      'Il client è attualmente attivo. Cliccando "conferma" verrà sospeso e le chiavi di sicurezza associate a quel client non saranno considerate più valide per garantire l\'accesso al servizio erogato. Il client si potrà riattivare in qualsiasi momento, ripristinando l\'accesso al servizio',
+  },
+  CLIENT_ACTIVATE: {
+    title: 'Riattiva il client',
+    description:
+      "Il client è attualmente bloccato, e si sta per riattivarlo. Se ci sono altri impedimenti (es. l'accordo di interoperabilità è sospeso) non sarà comunque possibile accedere all'e-service erogato",
+  },
   OPERATOR_SECURITY_GET_LIST: {},
   OPERATOR_SECURITY_GET_SINGLE: {},
   OPERATOR_SECURITY_CREATE: {},

@@ -21,7 +21,7 @@ import { CLIENT_COMPUTED_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
 
 function ClientListComponent({
-  runFakeAction,
+  runAction,
   wrapActionInDialog,
   forceRerenderCounter,
 }: UserFeedbackHOCProps) {
@@ -41,22 +41,27 @@ function ClientListComponent({
     { defaultValue: [], useEffectDeps: [forceRerenderCounter, user] }
   )
 
-  // TEMP BACKEND should send client status
-  if (data.length > 0 && !data[0].status) {
-    data.forEach((_, i) => {
-      data[i].status = 'active'
-    })
-  }
-
   /*
    * List of possible actions for the user to perform
    */
   const wrapSuspend = (clientId: string) => async (_: any) => {
-    runFakeAction('Sospendi client ' + clientId)
+    await runAction(
+      {
+        path: { endpoint: 'CLIENT_SUSPEND', endpointParams: { clientId } },
+        config: { method: 'POST' },
+      },
+      { suppressToast: false }
+    )
   }
 
   const wrapReactivate = (clientId: string) => async (_: any) => {
-    runFakeAction('Riattiva client ' + clientId)
+    await runAction(
+      {
+        path: { endpoint: 'CLIENT_ACTIVATE', endpointParams: { clientId } },
+        config: { method: 'POST' },
+      },
+      { suppressToast: false }
+    )
   }
   /*
    * End list of actions
@@ -78,23 +83,21 @@ function ClientListComponent({
     const availableActions: { [key in ClientStatus]: ActionWithTooltipProps[] } = {
       active: [
         {
-          onClick: wrapActionInDialog(wrapSuspend(client.id)),
-          label: 'sospendi',
+          onClick: wrapActionInDialog(wrapSuspend(client.id), 'CLIENT_SUSPEND'),
+          label: 'Sospendi client',
           icon: 'bi-pause-circle',
-          isMock: true,
         },
       ],
       suspended: [
         {
-          onClick: wrapActionInDialog(wrapReactivate(client.id)),
-          label: 'riattiva',
+          onClick: wrapActionInDialog(wrapReactivate(client.id), 'CLIENT_ACTIVATE'),
+          label: 'Riattiva client',
           icon: 'bi-play-circle',
-          isMock: true,
         },
       ],
     }
 
-    const status = client.agreement.status
+    const status = client.status
 
     // Get all the actions available for this particular status
     const actions: ActionWithTooltipProps[] = (availableActions as any)[status] || []
