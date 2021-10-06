@@ -46,7 +46,10 @@ function AgreementListComponent({
   const wrapActivate = (agreementId: string) => async () => {
     await runAction(
       {
-        path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId } },
+        path: {
+          endpoint: 'AGREEMENT_ACTIVATE',
+          endpointParams: { agreementId, partyId: party!.partyId },
+        },
         config: { method: 'PATCH' },
       },
       { suppressToast: false }
@@ -56,17 +59,10 @@ function AgreementListComponent({
   const wrapSuspend = (agreementId: string) => async () => {
     await runAction(
       {
-        path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId } },
-        config: { method: 'PATCH' },
-      },
-      { suppressToast: false }
-    )
-  }
-
-  const wrapReactivate = (agreementId: string) => async () => {
-    await runAction(
-      {
-        path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId } },
+        path: {
+          endpoint: 'AGREEMENT_SUSPEND',
+          endpointParams: { agreementId, partyId: party!.partyId },
+        },
         config: { method: 'PATCH' },
       },
       { suppressToast: false }
@@ -99,7 +95,7 @@ function AgreementListComponent({
       ],
       suspended: [
         {
-          onClick: wrapActionInDialog(wrapReactivate(agreement.id), 'AGREEMENT_ACTIVATE'),
+          onClick: wrapActionInDialog(wrapActivate(agreement.id), 'AGREEMENT_ACTIVATE'),
           label: 'Riattiva',
           icon: 'bi-play-circle',
         },
