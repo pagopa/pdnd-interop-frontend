@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import has from 'lodash/has'
@@ -29,6 +29,7 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { withAdminAuth } from '../components/withAdminAuth'
+import { PartyContext } from '../lib/context'
 
 function AgreementEditComponent({
   runAction,
@@ -39,6 +40,7 @@ function AgreementEditComponent({
 }: UserFeedbackHOCProps) {
   const mode = useMode()
   const agreementId = getLastBit(useLocation())
+  const { party } = useContext(PartyContext)
   const [mostRecent, setMostRecent] = useState<EServiceDescriptorRead | undefined>()
   const [current, setCurrent] = useState<EServiceDescriptorRead | undefined>()
   const { data, loading } = useAsyncFetch<AgreementSummary>(
@@ -55,7 +57,10 @@ function AgreementEditComponent({
   const activate = async () => {
     await runAction(
       {
-        path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId } },
+        path: {
+          endpoint: 'AGREEMENT_ACTIVATE',
+          endpointParams: { agreementId, partyId: party!.partyId },
+        },
         config: { method: 'PATCH' },
       },
       { suppressToast: false }
@@ -65,17 +70,10 @@ function AgreementEditComponent({
   const suspend = async () => {
     await runAction(
       {
-        path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId } },
-        config: { method: 'PATCH' },
-      },
-      { suppressToast: false }
-    )
-  }
-
-  const reactivate = async () => {
-    await runAction(
-      {
-        path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId } },
+        path: {
+          endpoint: 'AGREEMENT_SUSPEND',
+          endpointParams: { agreementId, partyId: party!.partyId },
+        },
         config: { method: 'PATCH' },
       },
       { suppressToast: false }
@@ -127,7 +125,7 @@ function AgreementEditComponent({
       active: [{ onClick: wrapActionInDialog(suspend, 'AGREEMENT_SUSPEND'), label: 'sospendi' }],
       suspended: [
         {
-          onClick: wrapActionInDialog(reactivate, 'AGREEMENT_ACTIVATE'),
+          onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'),
           label: 'riattiva',
         },
       ],
@@ -219,7 +217,7 @@ function AgreementEditComponent({
     return (
       <div className="d-flex justify-content-between align-items-center">
         <span>
-          {name}, con <span className="">scadenza {formatDate(randomDate)}</span>
+          {name}, con <span className="fakeData">scadenza {formatDate(randomDate)}</span>
         </span>
 
         {verified ? (

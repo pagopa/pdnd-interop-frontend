@@ -350,12 +350,12 @@ export const API = {
     SHOULD_CALL: true,
   },
   AGREEMENT_ACTIVATE: {
-    URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreements/{{agreementId}}/activate',
+    URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreements/{{agreementId}}/parties/{{partyId}}/activate',
     LOCAL: '',
     SHOULD_CALL: true,
   },
   AGREEMENT_SUSPEND: {
-    URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreements/{{agreementId}}/suspend',
+    URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreements/{{agreementId}}/parties/{{partyId}}/suspend',
     LOCAL: '',
     SHOULD_CALL: true,
   },
