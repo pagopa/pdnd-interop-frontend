@@ -138,18 +138,26 @@ function ClientEditComponent({
                   data.eservice.activeDescriptor &&
                   data.agreement.descriptor.version !== data.eservice.activeDescriptor.version
                 ) && (
-                  <React.Fragment>
-                    (è disponibile una{' '}
+                  <p className="mt-2">
+                    È disponibile una versione più recente
+                    <br />
                     <Link
                       to={`${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}/${data.eservice.id}/${
                         data.eservice.activeDescriptor.id
                       }`}
                       className="link-default"
                     >
-                      versione più recente
+                      Vedi il contenuto della nuova versione
                     </Link>
-                    )
-                  </React.Fragment>
+                    <br />
+                    <Link
+                      className="link-default"
+                      to={`${ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST.PATH}/${data.agreement.id}`}
+                    >
+                      Vai alla pagina dell'accordo
+                    </Link>{' '}
+                    (da lì potrai aggiornarlo)
+                  </p>
                 )}
               </span>
             </DescriptionBlock>
@@ -171,11 +179,7 @@ function ClientEditComponent({
                   to={`${ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST.PATH}/${data.agreement.id}`}
                 >
                   Vedi accordo
-                </Link>{' '}
-                {data.eservice.activeDescriptor &&
-                !!(data.agreement.descriptor.version !== data.eservice.activeDescriptor.version)
-                  ? '(questo accordo è aggiornabile)'
-                  : ''}
+                </Link>
               </span>
             </DescriptionBlock>
 
