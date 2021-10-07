@@ -21,7 +21,7 @@ import { TempFilters } from '../components/TempFilters'
 import { withAdminAuth } from '../components/withAdminAuth'
 import compose from 'lodash/fp/compose'
 import { mergeActions } from '../lib/eservice-utils'
-import { getAgreementComputedStatus } from '../lib/status-utils'
+import { getAgreementComputedStatus, getAgreementStatus } from '../lib/status-utils'
 
 function AgreementListComponent({
   runAction,
@@ -136,10 +136,9 @@ function AgreementListComponent({
       subscriber: subscriberOnlyActions,
     }[mode!]
 
-    const mergedActions = mergeActions<AgreementActions>(
-      [currentActions, sharedActions],
-      agreement.status
-    )
+    const status = getAgreementStatus(agreement, mode)
+
+    const mergedActions = mergeActions<AgreementActions>([currentActions, sharedActions], status)
 
     const inspectAction = {
       to: `${

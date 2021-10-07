@@ -244,6 +244,8 @@ export type AgreementSummary = {
   consumer: AgreementProducerAndConsumer
   producer: AgreementProducerAndConsumer
   attributes: BackendAttribute[]
+  suspendedByProducer?: boolean
+  suspendedBySubscriber?: boolean
 }
 
 /*
