@@ -29,6 +29,7 @@ import { DescriptionBlock } from '../components/DescriptionBlock'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { withAdminAuth } from '../components/withAdminAuth'
 import { PartyContext } from '../lib/context'
+import { getAgreementStatus } from '../lib/status-utils'
 
 function AgreementEditComponent({
   runAction,
@@ -158,9 +159,9 @@ function AgreementEditComponent({
       mode!
     ]
 
-    const status = mode === 'provider' ? 'status' : 'status'
+    const status = getAgreementStatus(data, mode)
 
-    return mergeActions<AgreementActions>([currentActions, sharedActions], data[status])
+    return mergeActions<AgreementActions>([currentActions, sharedActions], status)
   }
 
   /*
@@ -274,9 +275,13 @@ function AgreementEditComponent({
         </DescriptionBlock>
 
         <DescriptionBlock label="Stato dell'accordo" tooltipLabel={agreementSuspendExplanation}>
-          <span>Lato erogatore: {AGREEMENT_STATUS_LABEL[data?.status]}</span>
+          <span>
+            Lato erogatore: {AGREEMENT_STATUS_LABEL[getAgreementStatus(data, 'provider')]}
+          </span>
           <br />
-          <span>Lato fruitore: {AGREEMENT_STATUS_LABEL[data?.status]}</span>
+          <span>
+            Lato fruitore: {AGREEMENT_STATUS_LABEL[getAgreementStatus(data, 'subscriber')]}
+          </span>
         </DescriptionBlock>
 
         <DescriptionBlock label="Attributi">
