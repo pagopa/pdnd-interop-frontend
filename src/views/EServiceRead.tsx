@@ -21,6 +21,8 @@ import { canSubscribe } from '../lib/attributes'
 import { isAdmin } from '../lib/auth-utils'
 import { useSubscribeDialog } from '../hooks/useSubscribeDialog'
 import { useExtensionDialog } from '../hooks/useExtensionDialog'
+import { downloadFile } from '../lib/file-utils'
+import { AxiosResponse } from 'axios'
 
 type EServiceReadProps = {
   data: EServiceReadType
@@ -72,10 +74,10 @@ function EServiceReadComponent({
 
   // Get all documents actual URL
   const wrapDownloadDocument = (documentId: string) => async (e: any) => {
-    await runAction(
+    const { response, outcome } = await runAction(
       {
         path: {
-          endpoint: 'ESERVICE_VERSION_GET_DOCUMENTS',
+          endpoint: 'ESERVICE_VERSION_DOWNLOAD_DOCUMENT',
           endpointParams: {
             eserviceId: data.id,
             descriptorId: data.activeDescriptor!.id,
@@ -84,8 +86,12 @@ function EServiceReadComponent({
         },
         config: { method: 'GET' },
       },
-      { suppressToast: false }
+      { suppressToast: true }
     )
+
+    if (outcome === 'success') {
+      downloadFile((response as AxiosResponse).data)
+    }
   }
 
   if (isEmpty(data)) {

@@ -299,7 +299,7 @@ export const API = {
     LOCAL: '',
     SHOULD_CALL: true,
   },
-  ESERVICE_VERSION_GET_DOCUMENTS: {
+  ESERVICE_VERSION_DOWNLOAD_DOCUMENT: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/documents/{{documentId}}',
     LOCAL: '',
     SHOULD_CALL: true,
@@ -546,7 +546,7 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
     success: {},
     error: {},
   },
-  ESERVICE_VERSION_GET_DOCUMENTS: {
+  ESERVICE_VERSION_DOWNLOAD_DOCUMENT: {
     loadingText: 'Stiamo scaricando il documento',
     success: {
       title: 'Successo',
@@ -718,7 +718,7 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   },
   ESERVICE_VERSION_POST_DOCUMENT: {},
   ESERVICE_VERSION_DELETE_DOCUMENT: {},
-  ESERVICE_VERSION_GET_DOCUMENTS: {},
+  ESERVICE_VERSION_DOWNLOAD_DOCUMENT: {},
   ESERVICE_VERSION_UPDATE_DOCUMENT_DESCRIPTION: {},
   OPERATOR_API_GET_LIST: {},
   OPERATOR_API_GET_SINGLE: {},
