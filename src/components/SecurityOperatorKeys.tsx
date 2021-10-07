@@ -12,6 +12,7 @@ import { StyledIntro } from './StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
 import { ToastContext, UserContext } from '../lib/context'
 import { DescriptionBlock } from './DescriptionBlock'
+import { downloadFile } from '../lib/file-utils'
 
 type SecurityOperatorKeysProps = {
   clientId: string
@@ -77,8 +78,8 @@ export function SecurityOperatorKeys({
     asyncFetchKeys()
   }, [forceRerenderCounter, keyCreationCounter]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const wrapDownloadKey = (keyId: string) => (e: any) => {
-    runAction(
+  const wrapDownloadKey = (keyId: string) => async (_: any) => {
+    const { response, outcome } = await runAction(
       {
         path: {
           endpoint: 'OPERATOR_SECURITY_KEY_DOWNLOAD',
@@ -88,10 +89,14 @@ export function SecurityOperatorKeys({
       },
       { suppressToast: false }
     )
+
+    if (outcome === 'success') {
+      downloadFile((response as AxiosResponse).data)
+    }
   }
 
-  const wrapDeleteKey = (keyId: string) => (e: any) => {
-    runAction(
+  const wrapDeleteKey = (keyId: string) => async (_: any) => {
+    await runAction(
       {
         path: {
           endpoint: 'OPERATOR_SECURITY_KEY_DELETE',
