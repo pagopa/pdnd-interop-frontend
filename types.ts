@@ -260,7 +260,10 @@ type ClientEService = {
   id: string
   name: string
   provider: ClientProvider
-  activeDescriptor: ClientEServiceDescriptor
+  // activeDescriptor will only be available if the e-service has one published version
+  // For example, if the latest version of the e-service is suspended (and by default
+  // the previous version is deprecated), there will not be an activeDescriptor available
+  activeDescriptor?: ClientEServiceDescriptor
 }
 
 type ClientAgreement = {
