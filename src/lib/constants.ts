@@ -711,7 +711,7 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   CLIENT_ACTIVATE: {
     title: 'Riattiva il client',
     description:
-      "Il client è attualmente bloccato, e si sta per riattivarlo. Se ci sono altri impedimenti (es. l'accordo di interoperabilità è sospeso) non sarà comunque possibile accedere all'e-service erogato",
+      "Il client è attualmente inattivo, e si sta per riattivarlo. Se ci sono altri impedimenti (es. l'accordo di interoperabilità è sospeso) non sarà comunque possibile accedere all'e-service erogato",
   },
   OPERATOR_SECURITY_GET_LIST: {},
   OPERATOR_SECURITY_GET_SINGLE: {},
@@ -752,9 +752,9 @@ export const CLIENT_STATUS_LABEL = {
   suspended: 'sospeso',
 }
 
-export const CLIENT_COMPUTED_STATUS_LABEL = {
+export const COMPUTED_STATUS_LABEL = {
   active: 'attivo',
-  blocked: 'bloccato',
+  inactive: 'non attivo',
 }
 
 export const USER_STATUS_LABEL = {

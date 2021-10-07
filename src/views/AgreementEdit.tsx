@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import has from 'lodash/has'
-import capitalize from 'lodash/capitalize'
 import isEmpty from 'lodash/isEmpty'
 import compose from 'lodash/fp/compose'
 import { AxiosResponse } from 'axios'
@@ -159,7 +158,9 @@ function AgreementEditComponent({
       mode!
     ]
 
-    return mergeActions<AgreementActions>([currentActions, sharedActions], data.status || 'pending')
+    const status = mode === 'provider' ? 'status' : 'status'
+
+    return mergeActions<AgreementActions>([currentActions, sharedActions], data[status])
   }
 
   /*
@@ -236,7 +237,8 @@ function AgreementEditComponent({
     )
   }
 
-  console.log({ data })
+  const agreementSuspendExplanation =
+    "L'accordo può essere sospeso sia dall'erogatore che dal fruitore dell'e-service. Se almeno uno dei due attori lo sospende, inibirà l'accesso all'e-service a tutti i client associati all'e-service dal fruitore"
 
   return (
     <React.Fragment>
@@ -271,8 +273,10 @@ function AgreementEditComponent({
           </div>
         </DescriptionBlock>
 
-        <DescriptionBlock label="Stato dell'accordo">
-          <span>{capitalize(AGREEMENT_STATUS_LABEL[data?.status])}</span>
+        <DescriptionBlock label="Stato dell'accordo" tooltipLabel={agreementSuspendExplanation}>
+          <span>Lato erogatore: {AGREEMENT_STATUS_LABEL[data?.status]}</span>
+          <br />
+          <span>Lato fruitore: {AGREEMENT_STATUS_LABEL[data?.status]}</span>
         </DescriptionBlock>
 
         <DescriptionBlock label="Attributi">

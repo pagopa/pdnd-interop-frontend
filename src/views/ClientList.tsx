@@ -15,9 +15,9 @@ import { TempFilters } from '../components/TempFilters'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { getClientComputedStatus } from '../lib/client-utils'
+import { getClientComputedStatus } from '../lib/status-utils'
 import { isAdmin, isOperatorSecurity } from '../lib/auth-utils'
-import { CLIENT_COMPUTED_STATUS_LABEL, ROUTES } from '../lib/constants'
+import { COMPUTED_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
 
 function ClientListComponent({
@@ -142,7 +142,7 @@ function ClientListComponent({
               <td>{item.name}</td>
               <td>{item.eservice.name}</td>
               <td>{item.eservice.provider.description}</td>
-              <td>{CLIENT_COMPUTED_STATUS_LABEL[getClientComputedStatus(item)]}</td>
+              <td>{COMPUTED_STATUS_LABEL[getClientComputedStatus(item)]}</td>
               <td>
                 {getAvailableActions(item).map((tableAction, j) => {
                   const btnProps: any = {}
