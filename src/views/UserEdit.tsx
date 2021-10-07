@@ -22,7 +22,6 @@ type UserEndpoinParams =
   | { taxCode: string; institutionId: string | undefined }
 
 function UserEditComponent({
-  runFakeAction,
   runAction,
   wrapActionInDialog,
   forceRerenderCounter,
@@ -69,12 +68,36 @@ function UserEditComponent({
   /*
    * List of possible actions for the user to perform
    */
-  const suspend = () => {
-    runFakeAction('Sospendi utente')
+  const suspend = async (_: any) => {
+    await runAction(
+      {
+        path: {
+          endpoint: 'USER_SUSPEND',
+          endpointParams: { taxCode: userData?.taxCode, institutionId: party?.institutionId },
+        },
+        config: {
+          method: 'POST',
+          data: { platformRole: mode === 'provider' ? 'api' : 'security' },
+        },
+      },
+      { suppressToast: false }
+    )
   }
 
-  const reactivate = () => {
-    runFakeAction('Riattiva utente')
+  const reactivate = async (_: any) => {
+    await runAction(
+      {
+        path: {
+          endpoint: 'USER_REACTIVATE',
+          endpointParams: { taxCode: userData?.taxCode, institutionId: party?.institutionId },
+        },
+        config: {
+          method: 'POST',
+          data: { platformRole: mode === 'provider' ? 'api' : 'security' },
+        },
+      },
+      { suppressToast: false }
+    )
   }
   /*
    * End list of actions
@@ -88,23 +111,47 @@ function UserEditComponent({
     }
 
     const sharedActions: UserActions = {
-      active: [{ onClick: wrapActionInDialog(suspend), label: 'Sospendi', isMock: true }],
-      suspended: [{ onClick: wrapActionInDialog(reactivate), label: 'Riattiva', isMock: true }],
+      Active: [{ onClick: wrapActionInDialog(suspend, 'USER_SUSPEND'), label: 'Sospendi' }],
+      active: [{ onClick: wrapActionInDialog(suspend, 'USER_SUSPEND'), label: 'Sospendi' }],
+      Suspended: [
+        { onClick: wrapActionInDialog(reactivate, 'USER_REACTIVATE'), label: 'Riattiva' },
+      ],
+      suspended: [
+        { onClick: wrapActionInDialog(reactivate, 'USER_REACTIVATE'), label: 'Riattiva' },
+      ],
+      Pending: [],
+      pending: [],
     }
 
-    const providerOnlyActions: UserActions = { active: [], suspended: [] }
-
-    const subscriberOnlyActions: UserActions = {
+    const providerOnlyActions: UserActions = {
+      Active: [],
+      Suspended: [],
+      Pending: [],
       active: [],
       suspended: [],
+      pending: [],
+    }
+
+    const subscriberOnlyActions: UserActions = {
+      Active: [],
+      Suspended: [],
+      Pending: [],
+      active: [],
+      suspended: [],
+      pending: [],
     }
 
     const currentActions = { provider: providerOnlyActions, subscriber: subscriberOnlyActions }[
       mode!
     ]
 
-    return mergeActions([sharedActions, currentActions], userData?.status || 'active')
+    return mergeActions(
+      [sharedActions, currentActions],
+      userData!.status || mode === 'provider' ? 'active' : 'Active'
+    )
   }
+
+  console.log({ userData })
 
   return (
     <React.Fragment>
@@ -136,14 +183,16 @@ function UserEditComponent({
         </DescriptionBlock>
 
         <DescriptionBlock label="Stato dell'utente">
-          <span>{USER_STATUS_LABEL[userData?.status || 'active']}</span>
+          <span>
+            {USER_STATUS_LABEL[userData?.status || mode === 'provider' ? 'pending' : 'Pending']}
+          </span>
         </DescriptionBlock>
 
         <div className="mt-5 d-flex">
-          {getAvailableActions().map(({ onClick, label, isMock }, i) => (
+          {getAvailableActions().map(({ onClick, label }, i) => (
             <Button
               key={i}
-              className={`me-3${isMock ? ' mockFeature' : ''}`}
+              className="me-3"
               variant={i === 0 ? 'primary' : 'outline-primary'}
               onClick={onClick}
             >

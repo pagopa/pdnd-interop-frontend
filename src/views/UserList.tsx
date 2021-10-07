@@ -3,12 +3,12 @@ import { useLocation } from 'react-router'
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import {
-  AgreementStatus,
   ProviderOrSubscriber,
   ActionWithTooltipBtn,
   ActionWithTooltipLink,
   ActionWithTooltipProps,
   User,
+  UserStatus,
 } from '../../types'
 import { StyledIntro } from '../components/StyledIntro'
 import { ActionWithTooltip } from '../components/ActionWithTooltip'
@@ -29,7 +29,7 @@ import { PartyContext, UserContext } from '../lib/context'
 import { getLastBit } from '../lib/url-utils'
 
 function UserListComponent({
-  runFakeAction,
+  runAction,
   wrapActionInDialog,
   forceRerenderCounter,
 }: UserFeedbackHOCProps) {
@@ -61,11 +61,35 @@ function UserListComponent({
    * List of possible actions for the user to perform
    */
   const wrapSuspend = (taxCode: string) => async (_: any) => {
-    runFakeAction('Sospendi utente ' + taxCode)
+    await runAction(
+      {
+        path: {
+          endpoint: 'USER_SUSPEND',
+          endpointParams: { taxCode, institutionId: party?.institutionId },
+        },
+        config: {
+          method: 'POST',
+          data: { platformRole: mode === 'provider' ? 'api' : 'security' },
+        },
+      },
+      { suppressToast: false }
+    )
   }
 
   const wrapReactivate = (taxCode: string) => async (_: any) => {
-    runFakeAction('Riattiva utente ' + taxCode)
+    await runAction(
+      {
+        path: {
+          endpoint: 'USER_REACTIVATE',
+          endpointParams: { taxCode, institutionId: party?.institutionId },
+        },
+        config: {
+          method: 'POST',
+          data: { platformRole: mode === 'provider' ? 'api' : 'security' },
+        },
+      },
+      { suppressToast: false }
+    )
   }
   /*
    * End list of actions
@@ -73,27 +97,33 @@ function UserListComponent({
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = (user: User) => {
-    const availableActions: { [key in AgreementStatus]: ActionWithTooltipProps[] } = {
-      pending: [],
-      active: [
-        {
-          onClick: wrapActionInDialog(wrapSuspend((user.taxCode || user.from) as string)),
-          label: 'sospendi',
-          icon: 'bi-pause-circle',
-          isMock: true,
-        },
-      ],
-      suspended: [
-        {
-          onClick: wrapActionInDialog(wrapReactivate((user.taxCode || user.from) as string)),
-          label: 'riattiva',
-          icon: 'bi-play-circle',
-          isMock: true,
-        },
-      ],
+    const suspendAction = {
+      onClick: wrapActionInDialog(
+        wrapSuspend((user.taxCode || user.from) as string),
+        'USER_SUSPEND'
+      ),
+      label: 'Sospendi',
+      icon: 'bi-pause-circle',
+    }
+    const reactivateAction = {
+      onClick: wrapActionInDialog(
+        wrapReactivate((user.taxCode || user.from) as string),
+        'USER_REACTIVATE'
+      ),
+      label: 'Riattiva',
+      icon: 'bi-play-circle',
     }
 
-    const status = user.status
+    const availableActions: { [key in UserStatus]: ActionWithTooltipProps[] } = {
+      Pending: [],
+      Active: [suspendAction],
+      Suspended: [reactivateAction],
+      pending: [],
+      active: [suspendAction],
+      suspended: [reactivateAction],
+    }
+
+    const status = party?.status
 
     // TEMP BACKEND: this should not happen, it depends on the difference between our API
     // and the one shared with self care
@@ -111,7 +141,7 @@ function UserListComponent({
     }
 
     // Get all the actions available for this particular status
-    const actions: ActionWithTooltipProps[] = (availableActions as any)[status] || []
+    const actions: ActionWithTooltipProps[] = availableActions[status!] || []
 
     // Add the last action, which is always EDIT/INSPECT
     actions.push(inspectAction)
@@ -190,10 +220,7 @@ function UserListComponent({
               <td>{mode === 'provider' ? item.from : `${item.name + ' ' + item.surname}`}</td>
               <td>{USER_ROLE_LABEL[item.role]}</td>
               <td>{USER_PLATFORM_ROLE_LABEL[item.platformRole]}</td>
-              <td>
-                {/* TEMP BACKEND */}
-                {USER_STATUS_LABEL[item.status] || 'attivo'}
-              </td>
+              <td>{USER_STATUS_LABEL[item.status]}</td>
               <td>
                 {getAvailableActions(item).map((tableAction, j) => {
                   const btnProps: any = {}
@@ -211,7 +238,6 @@ function UserListComponent({
                       btnProps={btnProps}
                       label={tableAction.label}
                       iconClass={tableAction.icon!}
-                      isMock={tableAction.isMock}
                     />
                   )
                 })}

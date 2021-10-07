@@ -7,7 +7,7 @@ export const mockSPIDUser: User = {
   email: 'tommaso.terrili@test.it',
   role: 'Manager',
   platformRole: 'admin',
-  status: 'active',
+  status: 'Active',
 }
 
 export const testBearerToken =

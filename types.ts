@@ -78,7 +78,8 @@ export type IPACatalogParty = {
 /*
  * Platform user and party
  */
-export type UserStatus = 'active' | 'suspended'
+// TEMP BACKEND: this weird typing is due to the discrepancies between two data models in the backend
+export type UserStatus = 'Pending' | 'Active' | 'Suspended' | 'pending' | 'active' | 'suspended'
 export type UserRole = 'Manager' | 'Delegate' | 'Operator'
 export type UserPlatformRole = 'admin' | 'security' | 'api'
 
@@ -97,7 +98,7 @@ export type User = UserOnCreate & {
 }
 
 export type Party = {
-  status: 'Pending' | 'Active'
+  status: UserStatus
   description: string
   institutionId: string
   digitalAddress: string

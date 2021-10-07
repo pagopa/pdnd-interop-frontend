@@ -434,6 +434,16 @@ export const API = {
     LOCAL: '',
     SHOULD_CALL: true,
   },
+  USER_SUSPEND: {
+    URL: 'pdnd-interop-uservice-party-process/0.0.1/institutions/{{institutionId}}/relationships/{{taxCode}}/suspend',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
+  USER_REACTIVATE: {
+    URL: 'pdnd-interop-uservice-party-process/0.0.1/institutions/{{institutionId}}/relationships/{{taxCode}}/activate',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
 }
 
 export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
@@ -665,6 +675,24 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
   OPERATOR_SECURITY_KEYS_POST: { loadingText: 'Operazione in corso', success: {}, error: {} },
   OPERATOR_SECURITY_KEY_DOWNLOAD: { loadingText: 'Operazione in corso', success: {}, error: {} },
   OPERATOR_SECURITY_KEY_DELETE: { loadingText: 'Operazione in corso', success: {}, error: {} },
+  USER_SUSPEND: {
+    loadingText: "Stiamo sospendendo l'operatore",
+    success: {
+      title: 'Operatore sospeso',
+      description:
+        "L'operatore richiesto è stato sospeso e non può più accedere alla piattaforma per quest'ente",
+    },
+    error: {},
+  },
+  USER_REACTIVATE: {
+    loadingText: "Stiamo riattivando l'operatore",
+    success: {
+      title: 'Operatore riattivato',
+      description:
+        "L'operatore richiesto è stato riattivato e può nuovamente accedere alla piattaforma per quest'ente",
+    },
+    error: {},
+  },
 }
 
 export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
@@ -767,6 +795,16 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
     description:
       'Cliccando su "conferma" si cancellerà la chiave pubblica relativa a questo operatore. NB: tutti i servizi che utilizzano questa chiave non potranno più accedere al servizio dell\'ente erogatore. Se non sei sicuro, scarica e salva la tua chiave pubblica prima di cancellarla',
   },
+  USER_SUSPEND: {
+    title: 'Sospendi operatore',
+    description:
+      "Cliccando su \"conferma\", l'operatore richiesto sarà sospeso dall'accesso alla piattaforma per l'ente corrente. Se è un operatore di sicurezza, anche le sue chiavi sono sospese",
+  },
+  USER_REACTIVATE: {
+    title: 'Riattiva operatore',
+    description:
+      "Cliccando su \"conferma\", l'operatore richiesto sarà riabilitato all'accesso alla piattaforma per l'ente corrente. Se è un operatore di sicurezza, anche le sue chiavi sono riabilitate",
+  },
 }
 
 export const ESERVICE_STATUS_LABEL = {
@@ -801,7 +839,11 @@ export const COMPUTED_STATUS_LABEL = {
 }
 
 export const USER_STATUS_LABEL = {
+  Pending: 'in attesa di approvazione',
+  pending: 'in attesa di approvazione',
+  Active: 'attivo',
   active: 'attivo',
+  Suspended: 'sospeso',
   suspended: 'sospeso',
 }
 
