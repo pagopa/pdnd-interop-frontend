@@ -4,6 +4,7 @@ import has from 'lodash/has'
 import { Button } from 'react-bootstrap'
 import {
   AttributeType,
+  BackendAttribute,
   EServiceReadType,
   GroupBackendAttribute,
   SingleBackendAttribute,
@@ -23,6 +24,7 @@ import { useSubscribeDialog } from '../hooks/useSubscribeDialog'
 import { useExtensionDialog } from '../hooks/useExtensionDialog'
 import { downloadFile } from '../lib/file-utils'
 import { AxiosResponse } from 'axios'
+import { StyledAccordion } from '../components/StyledAccordion'
 
 type EServiceReadProps = {
   data: EServiceReadType
@@ -101,6 +103,43 @@ function EServiceReadComponent({
   const canSubscribeEservice = canSubscribe(party?.attributes, data.attributes.certified)
   const isMine = data.producer.id === party?.partyId
   const isVersionPublished = data.activeDescriptor?.status === 'published'
+
+  const toAccordionEntries = (attributes: BackendAttribute[]) => {
+    return attributes.map((attribute) => {
+      const isSingle = has(attribute, 'single')
+
+      const labels = isSingle
+        ? [(attribute as SingleBackendAttribute).single!]
+        : (attribute as GroupBackendAttribute).group!
+
+      let summary = ''
+      let details: string | JSX.Element = ''
+      if (labels.length === 1) {
+        const { name, description, explicitAttributeVerification } = labels[0]
+        summary = `${name} ${explicitAttributeVerification ? ' (verifica richiesta)' : ''}`
+        details = description!
+      } else {
+        summary = `${labels.map(({ name }) => name).join(' oppure ')}${
+          labels[0].explicitAttributeVerification ? ' (verifica richiesta)' : ''
+        }`
+        details = (
+          <React.Fragment>
+            {labels.map((label, i) => {
+              return (
+                <div className={i !== labels.length - 1 ? 'mb-3' : ''} key={i}>
+                  <div>
+                    <strong>{label.name}</strong>: {label.description}
+                  </div>
+                </div>
+              )
+            })}
+          </React.Fragment>
+        )
+      }
+
+      return { summary, details }
+    })
+  }
 
   return (
     <React.Fragment>
@@ -183,27 +222,7 @@ function EServiceReadComponent({
         {(Object.keys(data.attributes) as AttributeType[]).map((key, i) => (
           <DescriptionBlock key={i} label={`Attributi ${ATTRIBUTE_TYPE_LABEL[key]}`}>
             {data.attributes[key].length > 0 ? (
-              data.attributes[key].map((attribute, j) => {
-                const isVerified = key === 'verified'
-                const isSingle = has(attribute, 'single')
-
-                const labels = isSingle
-                  ? [(attribute as SingleBackendAttribute).single!]
-                  : (attribute as GroupBackendAttribute).group!
-
-                const attributeLabels = labels
-                  .map((a) =>
-                    isVerified ? `${a.name || a.id} (richiesta verifica)` : a.name || a.id
-                  )
-                  .join(' oppure ')
-
-                return (
-                  <React.Fragment key={j}>
-                    <span>{attributeLabels}</span>
-                    <br />
-                  </React.Fragment>
-                )
-              })
+              <StyledAccordion entries={toAccordionEntries(data.attributes[key])} />
             ) : (
               <span>Nessun attributo presente</span>
             )}

@@ -166,7 +166,7 @@ function AgreementEditComponent({
     id,
   }: {
     name?: string | undefined
-    verified: boolean
+    verified?: boolean
     id: string
   }) => {
     const randomDate = getRandomDate(new Date(2022, 0, 1), new Date(2023, 0, 1))
@@ -177,17 +177,21 @@ function AgreementEditComponent({
           {name}, con <span className="fakeData">scadenza {formatDate(randomDate)}</span>
         </span>
 
-        {verified ? (
-          <div className="text-primary d-flex align-items-center my-1">
-            <i className="text-primary fs-5 bi bi-check me-2" />
-            <span>verificato</span>
-          </div>
+        {typeof verified === 'boolean' ? (
+          verified ? (
+            <div className="text-primary d-flex align-items-center my-1">
+              <i className="text-primary fs-5 bi bi-check me-2" />
+              <span>verificato</span>
+            </div>
+          ) : (
+            <span>rifiutato dall'erogatore</span>
+          )
         ) : mode === 'provider' ? (
           <Button variant="primary" onClick={wrapVerify(id)}>
             verifica
           </Button>
         ) : (
-          <span>in attesa</span>
+          <span>in attesa di verifica</span>
         )}
       </div>
     )
@@ -232,13 +236,19 @@ function AgreementEditComponent({
         </DescriptionBlock>
 
         <DescriptionBlock label="Stato dell'accordo" tooltipLabel={agreementSuspendExplanation}>
-          <span>
-            Lato erogatore: {AGREEMENT_STATUS_LABEL[getAgreementStatus(data, 'provider')]}
-          </span>
-          <br />
-          <span>
-            Lato fruitore: {AGREEMENT_STATUS_LABEL[getAgreementStatus(data, 'subscriber')]}
-          </span>
+          {data.status === 'suspended' ? (
+            <React.Fragment>
+              <span>
+                Lato erogatore: {AGREEMENT_STATUS_LABEL[getAgreementStatus(data, 'provider')]}
+              </span>
+              <br />
+              <span>
+                Lato fruitore: {AGREEMENT_STATUS_LABEL[getAgreementStatus(data, 'subscriber')]}
+              </span>
+            </React.Fragment>
+          ) : (
+            <span>{AGREEMENT_STATUS_LABEL[data.status]}</span>
+          )}
         </DescriptionBlock>
 
         <DescriptionBlock label="Attributi">
