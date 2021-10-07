@@ -235,6 +235,8 @@ type AgreementEService = {
   name: string
   id: string
   version: string
+  status?: EServiceStatus
+  activeDescriptor: AgreementEService
 }
 
 export type AgreementSummary = {

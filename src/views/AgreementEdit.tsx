@@ -1,24 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import has from 'lodash/has'
 import isEmpty from 'lodash/isEmpty'
 import compose from 'lodash/fp/compose'
-import { AxiosResponse } from 'axios'
 import {
   AgreementStatus,
   AgreementSummary,
   ActionWithTooltipBtn,
-  EServiceReadType,
-  EServiceDescriptorRead,
   SingleBackendAttribute,
   GroupBackendAttribute,
 } from '../../types'
 import { AGREEMENT_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { getLastBit } from '../lib/url-utils'
 import { formatDate, getRandomDate } from '../lib/date-utils'
-import { fetchWithLogs } from '../lib/api-utils'
-import { getFetchOutcome } from '../lib/error-utils'
 import { mergeActions } from '../lib/eservice-utils'
 import { useMode } from '../hooks/useMode'
 import { LoadingOverlay } from '../components/LoadingOverlay'
@@ -41,8 +36,6 @@ function AgreementEditComponent({
   const mode = useMode()
   const agreementId = getLastBit(useLocation())
   const { party } = useContext(PartyContext)
-  const [mostRecent, setMostRecent] = useState<EServiceDescriptorRead | undefined>()
-  const [current, setCurrent] = useState<EServiceDescriptorRead | undefined>()
   const { data, loading } = useAsyncFetch<AgreementSummary>(
     {
       path: { endpoint: 'AGREEMENT_GET_SINGLE', endpointParams: { agreementId } },
@@ -142,7 +135,10 @@ function AgreementEditComponent({
     }
 
     const subscriberOnlyActionsActive: ActionWithTooltipBtn[] = []
-    if (mostRecent && current && mostRecent.version > current.version) {
+    if (
+      data.eservice.activeDescriptor &&
+      data.eservice.activeDescriptor.version > data.eservice.version
+    ) {
       subscriberOnlyActionsActive.push({
         onClick: wrapActionInDialog(upgrade, 'AGREEMENT_UPGRADE'),
         label: 'aggiorna',
@@ -162,47 +158,6 @@ function AgreementEditComponent({
     const status = getAgreementStatus(data, mode)
 
     return mergeActions<AgreementActions>([currentActions, sharedActions], status)
-  }
-
-  /*
-   * Check if there is a more recent version of this service
-   */
-  useEffect(() => {
-    async function asyncFetchEService() {
-      const resp = await fetchWithLogs(
-        { endpoint: 'ESERVICE_GET_SINGLE', endpointParams: { eserviceId: data?.eservice?.id } },
-        { method: 'GET' }
-      )
-
-      const outcome = getFetchOutcome(resp)
-
-      if (outcome === 'success') {
-        const eserviceData = (resp as AxiosResponse).data
-        setMostRecentVersion(eserviceData)
-      }
-    }
-
-    if (!isEmpty(data) && mode === 'subscriber') {
-      asyncFetchEService()
-    }
-  }, [data]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  const setMostRecentVersion = (eserviceData: EServiceReadType) => {
-    const descriptorsSortedByVersion = eserviceData.descriptors.sort(
-      (a: EServiceDescriptorRead, b: EServiceDescriptorRead) => (+a.version > +b.version ? -1 : 1)
-    )
-    const mostRecentDescriptor = descriptorsSortedByVersion[0]
-    const currentDescriptor = eserviceData.descriptors.find(
-      (d) => d.version === data?.eservice?.version
-    )
-
-    const currentVersion = +data?.eservice?.version
-    const mostRecentVersion = +mostRecentDescriptor.version
-
-    setCurrent(currentDescriptor)
-    if (mostRecentVersion > currentVersion && mostRecentDescriptor.status !== 'draft') {
-      setMostRecent(mostRecentDescriptor)
-    }
   }
 
   const SingleAttribute = ({
@@ -241,6 +196,8 @@ function AgreementEditComponent({
   const agreementSuspendExplanation =
     "L'accordo può essere sospeso sia dall'erogatore che dal fruitore dell'e-service. Se almeno uno dei due attori lo sospende, inibirà l'accesso all'e-service a tutti i client associati all'e-service dal fruitore"
 
+  console.log({ data })
+
   return (
     <React.Fragment>
       <WhiteBackground>
@@ -251,19 +208,19 @@ function AgreementEditComponent({
             <Link
               className="link-default"
               to={`${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}/${data?.eservice?.id}/${
-                current?.id
+                data?.eservice?.id
               }`}
             >
               {data?.eservice?.name}, versione {data?.eservice?.version}
             </Link>
-            {mode === 'subscriber' && mostRecent ? (
+            {mode === 'subscriber' && data?.eservice?.activeDescriptor ? (
               <React.Fragment>
                 {' '}
                 (è disponibile una{' '}
                 <Link
                   className="link-default"
-                  to={`${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}/${data?.eservice?.id}/${
-                    mostRecent.id
+                  to={`${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}/${data.eservice.id}/${
+                    data.eservice.activeDescriptor.id
                   }`}
                 >
                   versione più recente

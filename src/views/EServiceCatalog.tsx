@@ -75,7 +75,6 @@ type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
 export function EServiceCatalogComponent({
   runActionWithDestination,
   runFakeAction,
-  wrapActionInDialog,
 }: UserFeedbackHOCProps) {
   const { party } = useContext(PartyContext)
   const { data, loading, error } = useAsyncFetch<

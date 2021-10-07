@@ -105,7 +105,7 @@ function AgreementListComponent({
     }
 
     const subscriberOnlyActionsActive: ActionWithTooltipProps[] = []
-    if ((agreement as any).canBeUpdated) {
+    if (agreement.eservice.activeDescriptor) {
       subscriberOnlyActionsActive.push({
         onClick: wrapActionInDialog(wrapUpgrade, 'AGREEMENT_UPGRADE'),
         label: 'Aggiorna',
