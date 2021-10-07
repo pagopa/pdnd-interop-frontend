@@ -44,7 +44,7 @@ function EServiceListComponent({
   /*
    * List of possible actions for the user to perform
    */
-  const wrapPublishDraft = (eserviceId: string, descriptorId: string) => async (_: any) => {
+  const wrapPublishDraft = (eserviceId: string, descriptorId?: string) => async (_: any) => {
     await runAction(
       {
         path: {
@@ -72,12 +72,30 @@ function EServiceListComponent({
     )
   }
 
-  const reactivate = () => {
-    runFakeAction('Riattiva e-service')
+  const wrapSuspend = (eserviceId: string, descriptorId?: string) => async (_: any) => {
+    await runAction(
+      {
+        path: {
+          endpoint: 'ESERVICE_VERSION_SUSPEND',
+          endpointParams: { eserviceId, descriptorId },
+        },
+        config: { method: 'POST' },
+      },
+      { suppressToast: false }
+    )
   }
 
-  const suspend = () => {
-    runFakeAction('Sospendi e-service')
+  const wrapReactivate = (eserviceId: string, descriptorId?: string) => async (_: any) => {
+    await runAction(
+      {
+        path: {
+          endpoint: 'ESERVICE_VERSION_REACTIVATE',
+          endpointParams: { eserviceId, descriptorId },
+        },
+        config: { method: 'POST' },
+      },
+      { suppressToast: false }
+    )
   }
 
   const archive = () => {
@@ -127,74 +145,65 @@ function EServiceListComponent({
   // Build list of available actions for each service in its current state
   const getAvailableActions = (service: EServiceFlatReadType) => {
     const { id: eserviceId, descriptorId, status } = service
+
+    const suspendAction = {
+      onClick: wrapActionInDialog(
+        wrapSuspend(eserviceId, descriptorId),
+        'ESERVICE_VERSION_SUSPEND'
+      ),
+      icon: 'bi-pause-circle',
+      label: 'Sospendi',
+    }
+    const reactivateAction = {
+      onClick: wrapActionInDialog(
+        wrapReactivate(eserviceId, descriptorId),
+        'ESERVICE_VERSION_REACTIVATE'
+      ),
+      icon: 'bi-play-circle',
+      label: 'Riattiva',
+    }
+    const cloneAction = {
+      onClick: wrapActionInDialog(
+        wrapClone(eserviceId, descriptorId),
+        'ESERVICE_CLONE_FROM_VERSION'
+      ),
+      icon: 'bi-files',
+      label: 'Clona',
+    }
+    const createVersionDraftAction = {
+      onClick: wrapActionInDialog(wrapCreateNewVersionDraft(eserviceId), 'ESERVICE_VERSION_CREATE'),
+      icon: 'bi-clipboard-plus',
+      label: 'Crea bozza nuova versione',
+    }
+    const archiveAction = {
+      onClick: wrapActionInDialog(archive),
+      icon: 'bi-archive',
+      label: 'Archivia',
+      isMock: true,
+    }
+    const publishDraftAction = {
+      onClick: wrapActionInDialog(
+        wrapPublishDraft(eserviceId, descriptorId),
+        'ESERVICE_VERSION_PUBLISH'
+      ),
+      icon: 'bi-box-arrow-up',
+      label: 'Pubblica',
+    }
+    const deleteDraftAction = {
+      onClick: wrapActionInDialog(
+        wrapDeleteDraft(eserviceId, descriptorId),
+        'ESERVICE_VERSION_DELETE'
+      ),
+      icon: 'bi-trash',
+      label: 'Elimina',
+    }
+
     const availableActions: EServiceAction = {
-      published: [
-        {
-          onClick: wrapActionInDialog(suspend),
-          icon: 'bi-pause-circle',
-          label: 'Sospendi',
-          isMock: true,
-        },
-        {
-          onClick: wrapActionInDialog(
-            wrapClone(eserviceId, descriptorId),
-            'ESERVICE_CLONE_FROM_VERSION'
-          ),
-          icon: 'bi-files',
-          label: 'Clona',
-        },
-        {
-          onClick: wrapActionInDialog(
-            wrapCreateNewVersionDraft(eserviceId),
-            'ESERVICE_VERSION_CREATE'
-          ),
-          icon: 'bi-clipboard-plus',
-          label: 'Crea bozza nuova versione',
-        },
-      ],
+      published: [suspendAction, cloneAction, createVersionDraftAction],
       archived: [],
-      deprecated: [
-        {
-          onClick: wrapActionInDialog(suspend),
-          icon: 'bi-pause-circle',
-          label: 'Sospendi',
-          isMock: true,
-        },
-        {
-          onClick: wrapActionInDialog(archive),
-          icon: 'bi-archive',
-          label: 'Archivia',
-          isMock: true,
-        },
-      ],
-      draft: [
-        descriptorId
-          ? {
-              onClick: wrapActionInDialog(
-                wrapPublishDraft(eserviceId, descriptorId),
-                'ESERVICE_VERSION_PUBLISH'
-              ),
-              icon: 'bi-box-arrow-up',
-              label: 'Pubblica',
-            }
-          : null,
-        {
-          onClick: wrapActionInDialog(
-            wrapDeleteDraft(eserviceId, descriptorId),
-            'ESERVICE_VERSION_DELETE'
-          ),
-          icon: 'bi-trash',
-          label: 'Elimina',
-        },
-      ],
-      suspended: [
-        {
-          onClick: wrapActionInDialog(reactivate),
-          icon: 'bi-play-circle',
-          label: 'Riattiva',
-          isMock: true,
-        },
-      ],
+      deprecated: [suspendAction, archiveAction],
+      draft: [descriptorId ? publishDraftAction : null, deleteDraftAction],
+      suspended: [reactivateAction, cloneAction, createVersionDraftAction],
     }
 
     // If status === 'draft', show precompiled write template. Else, readonly template

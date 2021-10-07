@@ -273,6 +273,16 @@ export const API = {
     LOCAL: '',
     SHOULD_CALL: true,
   },
+  ESERVICE_VERSION_SUSPEND: {
+    URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/suspend',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
+  ESERVICE_VERSION_REACTIVATE: {
+    URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/activate',
+    LOCAL: '',
+    SHOULD_CALL: true,
+  },
   ESERVICE_VERSION_DELETE: {
     // Only drafts can be deleted
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}',
@@ -491,7 +501,30 @@ export const TOAST_CONTENTS: { [key in ToastActionKeys]: RunActionProps } = {
         "Si è verificato un errore, non è stato possibile pubblicare la nuova versione dell'e-service",
     },
   },
-
+  ESERVICE_VERSION_SUSPEND: {
+    loadingText: 'Stiamo sospendendo la versione',
+    success: {
+      title: 'Versione sospesa',
+      description: "La versione dell'e-service è stata sospesa",
+    },
+    error: {
+      title: 'Errore',
+      description:
+        "Si è verificato un errore, non è stato possibile sospendere questa versione dell'e-service",
+    },
+  },
+  ESERVICE_VERSION_REACTIVATE: {
+    loadingText: 'Stiamo riattivando la versione',
+    success: {
+      title: 'Versione riattivata',
+      description: "La versione dell'e-service è stata riattivata",
+    },
+    error: {
+      title: 'Errore',
+      description:
+        "Si è verificato un errore, non è stato possibile riattivare questa versione dell'e-service",
+    },
+  },
   ESERVICE_VERSION_DELETE: {
     loadingText: 'Stiamo cancellando la bozza',
     success: {
@@ -672,6 +705,16 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
     title: 'Conferma cancellazione bozza',
     description:
       'Cliccando "conferma" questa bozza verrà cancellata e non sarà più recuperabile. Sarà sempre possibile creare nuove bozze',
+  },
+  ESERVICE_VERSION_SUSPEND: {
+    title: 'Conferma sospensione versione',
+    description:
+      'Cliccando "conferma" questa versione di e-service sarà sospesa. Nessun fruitore potrà accedere a questa versione finché non sarà riattivata',
+  },
+  ESERVICE_VERSION_REACTIVATE: {
+    title: 'Conferma riattivazione versione',
+    description:
+      'Cliccando "conferma" questa versione di e-service sarà riattivata. Tutti i fruitori che hanno un accordo di interoperabilità attivo per questa versione di servizio potranno nuovamente usufruirne',
   },
   ESERVICE_VERSION_POST_DOCUMENT: {},
   ESERVICE_VERSION_DELETE_DOCUMENT: {},
