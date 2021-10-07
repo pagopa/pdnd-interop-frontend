@@ -135,6 +135,7 @@ function ClientEditComponent({
                   {data.eservice.name}, versione {data.agreement.descriptor.version}
                 </Link>{' '}
                 {!!(
+                  data.eservice.activeDescriptor &&
                   data.agreement.descriptor.version !== data.eservice.activeDescriptor.version
                 ) && (
                   <React.Fragment>
@@ -171,7 +172,8 @@ function ClientEditComponent({
                 >
                   Vedi accordo
                 </Link>{' '}
-                {!!(data.agreement.descriptor.version !== data.eservice.activeDescriptor.version)
+                {data.eservice.activeDescriptor &&
+                !!(data.agreement.descriptor.version !== data.eservice.activeDescriptor.version)
                   ? '(questo accordo è aggiornabile)'
                   : ''}
               </span>
