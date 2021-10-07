@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { WhiteBackground } from '../components/WhiteBackground'
-import { AGREEMENT_STATUS_LABEL, ROUTES } from '../lib/constants'
+import { COMPUTED_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import {
   AgreementStatus,
@@ -21,6 +21,7 @@ import { TempFilters } from '../components/TempFilters'
 import { withAdminAuth } from '../components/withAdminAuth'
 import compose from 'lodash/fp/compose'
 import { mergeActions } from '../lib/eservice-utils'
+import { getAgreementComputedStatus } from '../lib/status-utils'
 
 function AgreementListComponent({
   runAction,
@@ -193,7 +194,7 @@ function AgreementListComponent({
             <tr key={i}>
               <td>{item.eservice.name}</td>
               <td>{item.eservice.version}</td>
-              <td>{AGREEMENT_STATUS_LABEL[item.status]}</td>
+              <td>{COMPUTED_STATUS_LABEL[getAgreementComputedStatus(item)]}</td>
               <td>{mode === 'provider' ? item.consumer.name : item.producer.name}</td>
               <td>
                 {getAvailableActions(item).map((tableAction, j) => {
