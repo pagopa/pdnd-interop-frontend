@@ -6,6 +6,7 @@ import { TOAST_CONTENTS } from '../lib/constants'
 import { getFetchOutcome } from '../lib/error-utils'
 import { AsyncAutocomplete } from './AsyncAutocomplete'
 import { LoadingOverlay } from './LoadingOverlay'
+import { StyledAccordion } from './StyledAccordion'
 import { StyledInputCheckbox } from './StyledInputCheckbox'
 import { StyledInputText } from './StyledInputText'
 import { StyledInputTextArea } from './StyledInputTextArea'
@@ -66,7 +67,7 @@ export function AttributeModalCreateNew({ close, attributeKey }: AttributeModalC
 
   return (
     <React.Fragment>
-      <Modal.Dialog contentClassName="px-1 py-1" style={{ minWidth: 550 }}>
+      <Modal.Dialog contentClassName="px-1 py-1" style={{ minWidth: 550 }} scrollable={true}>
         <Modal.Header onHide={close} closeButton>
           <Modal.Title className="me-5">Crea nuovo attributo {label}</Modal.Title>
         </Modal.Header>
@@ -136,7 +137,7 @@ export function AttributeModalAddExisting({
   const verifiedCondition = attributeKey === 'verified'
 
   return (
-    <Modal.Dialog contentClassName="px-1 py-1" style={{ minWidth: 550 }}>
+    <Modal.Dialog contentClassName="px-1 py-1" style={{ minWidth: 550 }} scrollable={true}>
       <Modal.Header onHide={close} closeButton>
         <Modal.Title className="me-5">Aggiungi attributo o gruppo</Modal.Title>
       </Modal.Header>
@@ -164,6 +165,20 @@ export function AttributeModalAddExisting({
             onChange={updateValidation}
           />
         )}
+
+        <div className="border-top mt-3 pt-3">
+          <p className="h5 mt-0 mb-2">Hai selezionato</p>
+          {selected && !!(selected.length > 0) ? (
+            <StyledAccordion
+              entries={selected.map(({ name, description }) => ({
+                summary: name,
+                details: description,
+              }))}
+            />
+          ) : (
+            <span>nessun attributo selezionato</span>
+          )}
+        </div>
       </Modal.Body>
 
       <Modal.Footer>
