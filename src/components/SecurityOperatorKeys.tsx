@@ -31,7 +31,6 @@ export function SecurityOperatorKeys({
 }: SecurityOperatorKeysProps) {
   const { user } = useContext(UserContext)
   const [key, setKey] = useState<any>()
-  const endpointParams = { taxCode: userData.taxCode, clientId }
   const { setToast } = useContext(ToastContext)
   const [modal, setModal] = useState(false)
   const [keyCreationCounter, setKeyCreationCounter] = useState(0)
@@ -61,7 +60,10 @@ export function SecurityOperatorKeys({
   useEffect(() => {
     async function asyncFetchKeys() {
       const resp = await fetchWithLogs(
-        { endpoint: 'OPERATOR_SECURITY_KEYS_GET', endpointParams },
+        {
+          endpoint: 'OPERATOR_SECURITY_KEYS_GET',
+          endpointParams: { taxCode: userData.taxCode, clientId },
+        },
         { method: 'GET' }
       )
       const outcome = getFetchOutcome(resp)
@@ -83,7 +85,7 @@ export function SecurityOperatorKeys({
       {
         path: {
           endpoint: 'OPERATOR_SECURITY_KEY_DOWNLOAD',
-          endpointParams: { operatorId: endpointParams.taxCode, keyId },
+          endpointParams: { clientId, keyId },
         },
         config: { method: 'GET' },
       },
@@ -91,7 +93,8 @@ export function SecurityOperatorKeys({
     )
 
     if (outcome === 'success') {
-      downloadFile((response as AxiosResponse).data)
+      const decoded = atob(response.data.key)
+      downloadFile(decoded, 'public_key')
     }
   }
 
@@ -100,7 +103,7 @@ export function SecurityOperatorKeys({
       {
         path: {
           endpoint: 'OPERATOR_SECURITY_KEY_DELETE',
-          endpointParams: { ...endpointParams, keyId },
+          endpointParams: { clientId, keyId },
         },
         config: { method: 'DELETE' },
       },

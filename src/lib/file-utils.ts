@@ -1,9 +1,9 @@
-export function downloadFile(responseData: any) {
+export function downloadFile(responseData: any, filename = 'download') {
   const blob = new Blob([responseData], { type: 'application/octetstream' })
   const href = window.URL.createObjectURL(blob)
 
   const link = document.createElement('a')
-  link.setAttribute('download', 'true')
+  link.setAttribute('download', filename)
   link.setAttribute('href', href)
   document.body.appendChild(link)
   link.click()
