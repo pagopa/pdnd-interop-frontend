@@ -92,7 +92,7 @@ function EServiceReadComponent({
     )
 
     if (outcome === 'success') {
-      downloadFile((response as AxiosResponse).data)
+      downloadFile((response as AxiosResponse).data, 'document')
     }
   }
 

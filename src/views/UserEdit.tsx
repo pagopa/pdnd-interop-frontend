@@ -151,8 +151,6 @@ function UserEditComponent({
     )
   }
 
-  console.log({ userData })
-
   return (
     <React.Fragment>
       <WhiteBackground>
