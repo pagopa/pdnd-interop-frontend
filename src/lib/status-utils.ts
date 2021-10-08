@@ -14,16 +14,6 @@ export function getClientComputedStatus(item: Client): keyof typeof COMPUTED_STA
   return 'inactive'
 }
 
-export function getAgreementComputedStatus(
-  item: AgreementSummary
-): keyof typeof COMPUTED_STATUS_LABEL {
-  if (item.status === 'active') {
-    return 'active'
-  }
-
-  return 'inactive'
-}
-
 export function getAgreementStatus(
   item: AgreementSummary,
   mode: ProviderOrSubscriber | null
