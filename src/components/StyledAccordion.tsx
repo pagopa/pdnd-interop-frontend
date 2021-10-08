@@ -16,7 +16,9 @@ export function StyledAccordion({ entries }: StyledAccordionProps) {
     setIndex(null)
   }
 
-  const wrapToggle = (newIndex: number) => (_: any) => {
+  const wrapToggle = (newIndex: number) => (e: any) => {
+    e.preventDefault()
+
     if (newIndex === index) {
       collapse()
     } else {
