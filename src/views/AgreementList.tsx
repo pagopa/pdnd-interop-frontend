@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { WhiteBackground } from '../components/WhiteBackground'
-import { COMPUTED_STATUS_LABEL, ROUTES } from '../lib/constants'
+import { AGREEMENT_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import {
   AgreementStatus,
@@ -21,7 +21,7 @@ import { TempFilters } from '../components/TempFilters'
 import { withAdminAuth } from '../components/withAdminAuth'
 import compose from 'lodash/fp/compose'
 import { mergeActions } from '../lib/eservice-utils'
-import { getAgreementComputedStatus, getAgreementStatus } from '../lib/status-utils'
+import { getAgreementStatus } from '../lib/status-utils'
 
 function AgreementListComponent({
   runAction,
@@ -102,12 +102,13 @@ function AgreementListComponent({
         },
       ],
       pending: [],
+      inactive: [],
     }
 
     const subscriberOnlyActionsActive: ActionWithTooltipProps[] = []
     if (agreement.eservice.activeDescriptor) {
       subscriberOnlyActionsActive.push({
-        onClick: wrapActionInDialog(wrapUpgrade, 'AGREEMENT_UPGRADE'),
+        onClick: wrapActionInDialog(wrapUpgrade(agreement.id), 'AGREEMENT_UPGRADE'),
         label: 'Aggiorna',
         icon: 'bi-arrow-up-square',
       })
@@ -117,6 +118,7 @@ function AgreementListComponent({
       active: subscriberOnlyActionsActive,
       suspended: [],
       pending: [],
+      inactive: [],
     }
 
     const providerOnlyActions: AgreementActions = {
@@ -124,11 +126,12 @@ function AgreementListComponent({
       suspended: [],
       pending: [
         {
-          onClick: wrapActionInDialog(wrapActivate, 'AGREEMENT_ACTIVATE'),
+          onClick: wrapActionInDialog(wrapActivate(agreement.id), 'AGREEMENT_ACTIVATE'),
           label: 'Attiva',
           icon: 'bi-toggle2-on',
         },
       ],
+      inactive: [],
     }
 
     const currentActions: AgreementActions = {
@@ -193,7 +196,7 @@ function AgreementListComponent({
             <tr key={i}>
               <td>{item.eservice.name}</td>
               <td>{item.eservice.version}</td>
-              <td>{COMPUTED_STATUS_LABEL[getAgreementComputedStatus(item)]}</td>
+              <td>{AGREEMENT_STATUS_LABEL[item.status]}</td>
               <td>{mode === 'provider' ? item.consumer.name : item.producer.name}</td>
               <td>
                 {getAvailableActions(item).map((tableAction, j) => {

@@ -826,6 +826,7 @@ export const AGREEMENT_STATUS_LABEL = {
   active: 'attivo',
   suspended: 'sospeso',
   pending: 'in attesa di approvazione',
+  inactive: 'archiviato',
 }
 
 export const CLIENT_STATUS_LABEL = {

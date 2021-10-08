@@ -123,6 +123,7 @@ function AgreementEditComponent({
         },
       ],
       pending: [],
+      inactive: [],
     }
 
     const providerOnlyActions: AgreementActions = {
@@ -132,6 +133,7 @@ function AgreementEditComponent({
         { onClick: wrapActionInDialog(refuse), label: 'rifiuta', isMock: true },
       ],
       suspended: [{ onClick: wrapActionInDialog(archive), label: 'archivia', isMock: true }],
+      inactive: [],
     }
 
     const subscriberOnlyActionsActive: ActionWithTooltipBtn[] = []
@@ -149,6 +151,7 @@ function AgreementEditComponent({
       active: subscriberOnlyActionsActive,
       suspended: [],
       pending: [],
+      inactive: [],
     }
 
     const currentActions = { provider: providerOnlyActions, subscriber: subscriberOnlyActions }[
@@ -199,8 +202,6 @@ function AgreementEditComponent({
 
   const agreementSuspendExplanation =
     "L'accordo può essere sospeso sia dall'erogatore che dal fruitore dell'e-service. Se almeno uno dei due attori lo sospende, inibirà l'accesso all'e-service a tutti i client associati all'e-service dal fruitore"
-
-  console.log({ data })
 
   return (
     <React.Fragment>
@@ -264,11 +265,11 @@ function AgreementEditComponent({
                   const { group } = backendAttribute as GroupBackendAttribute
                   attributesToDisplay = group.map((a, j) => {
                     if (j === group.length - 1) {
-                      return <SingleAttribute {...a} />
+                      return <SingleAttribute key={j} {...a} />
                     }
 
                     return (
-                      <React.Fragment>
+                      <React.Fragment key={j}>
                         <SingleAttribute {...a} />
                         <em>oppure</em>
                       </React.Fragment>
