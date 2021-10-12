@@ -42,7 +42,7 @@ function UserListComponent({
   const endpointParams =
     mode === 'provider' ? { institutionId: party?.institutionId } : { clientId }
 
-  const { data, loading, error } = useAsyncFetch<User[]>(
+  const { data, loadingText, error } = useAsyncFetch<User[]>(
     { path: { endpoint, endpointParams }, config: { method: 'GET' } },
     {
       defaultValue: [],
@@ -54,6 +54,8 @@ function UserListComponent({
 
         return data
       },
+      loaderType: 'contextual',
+      loadingTextLabel: 'Stiamo caricando gli operatori',
     }
   )
 
@@ -203,8 +205,7 @@ function UserListComponent({
         <TempFilters />
 
         <TableWithLoader
-          loading={loading}
-          loadingLabel="Stiamo caricando gli operatori"
+          loadingText={loadingText}
           headData={headData}
           pagination={true}
           data={data}

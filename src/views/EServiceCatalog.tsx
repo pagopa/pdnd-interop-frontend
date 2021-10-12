@@ -77,7 +77,7 @@ export function EServiceCatalogComponent({
   runFakeAction,
 }: UserFeedbackHOCProps) {
   const { party } = useContext(PartyContext)
-  const { data, loading, error } = useAsyncFetch<
+  const { data, loadingText, error } = useAsyncFetch<
     EServiceFlatReadType[],
     ExtendedEServiceFlatReadType[]
   >(
@@ -88,6 +88,8 @@ export function EServiceCatalogComponent({
     {
       defaultValue: [],
       mapFn: (data) => data.map((d) => ({ ...d, isMine: d.producerId === party?.partyId })),
+      loaderType: 'contextual',
+      loadingTextLabel: 'Stiamo caricando la lista degli e-service',
     }
   )
 
@@ -119,8 +121,7 @@ export function EServiceCatalogComponent({
       <TempFilters />
 
       <TableWithLoader
-        loading={loading}
-        loadingLabel="Stiamo caricando la lista degli e-service"
+        loadingText={loadingText}
         headData={headData}
         pagination={true}
         data={data}
