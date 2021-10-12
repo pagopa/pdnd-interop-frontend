@@ -13,6 +13,7 @@ import { WhiteBackground } from './WhiteBackground'
 import { ToastContext, UserContext } from '../lib/context'
 import { DescriptionBlock } from './DescriptionBlock'
 import { downloadFile } from '../lib/file-utils'
+import { ROUTES } from '../lib/constants'
 
 type SecurityOperatorKeysProps = {
   clientId: string
@@ -131,7 +132,19 @@ export function SecurityOperatorKeys({
   return (
     <React.Fragment>
       <WhiteBackground>
-        <StyledIntro priority={3}>{{ title: 'Gestione chiave pubblica' }}</StyledIntro>
+        <StyledIntro priority={3}>
+          {{
+            title: 'Gestione chiave pubblica',
+            description: (
+              <React.Fragment>
+                Per maggiori dettagli,{' '}
+                <a href={ROUTES.SECURITY_KEY_GUIDE.PATH} className="link-default">
+                  consulta la guida
+                </a>
+              </React.Fragment>
+            ),
+          }}
+        </StyledIntro>
 
         {user?.taxCode === userData.taxCode && !key && (
           <Button className="mb-4" onClick={openModal} variant="primary">
