@@ -38,3 +38,13 @@ export const DialogContext = createContext({
   dialog: null,
   setDialog: () => {},
 } as DialogContextType)
+
+type LoaderContextType = {
+  loadingText: string | null
+  setLoadingText: React.Dispatch<React.SetStateAction<string | null>>
+}
+
+export const LoaderContext = createContext({
+  loadingText: null,
+  setLoadingText: () => {},
+} as LoaderContextType)

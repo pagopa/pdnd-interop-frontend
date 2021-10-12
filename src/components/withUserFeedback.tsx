@@ -14,10 +14,9 @@ import {
 } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { DIALOG_CONTENTS, TOAST_CONTENTS } from '../lib/constants'
-import { DialogContext, ToastContext } from '../lib/context'
+import { DialogContext, LoaderContext, ToastContext } from '../lib/context'
 import { getFetchOutcome } from '../lib/error-utils'
 import { showTempAlert } from '../lib/wip-utils'
-import { LoadingOverlay } from './LoadingOverlay'
 
 type ActionOptions = { suppressToast: boolean }
 
@@ -56,7 +55,7 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
 
   const ComponentWithUserFeedback = (props: Omit<T, keyof UserFeedbackHOCProps>) => {
     const history = useHistory()
-    const [loadingText, setLoadingText] = useState<string | undefined>(undefined)
+    const { setLoadingText } = useContext(LoaderContext)
     const { setDialog } = useContext(DialogContext)
     const { setToast } = useContext(ToastContext)
     const [forceRerenderCounter, setForceRerenderCounter] = useState(0)
@@ -127,7 +126,7 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
       }
 
       // Hide loader
-      setLoadingText(undefined)
+      setLoadingText(null)
 
       if (!suppressToast) {
         showToast(toastContent)
@@ -150,7 +149,7 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
         callback(response as AxiosResponse)
       } else {
         // Hide loader
-        setLoadingText(undefined)
+        setLoadingText(null)
 
         if (!suppressToast) {
           showToast(toastContent)
@@ -187,7 +186,7 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
         toastContent = { ...success, outcome: 'success' }
       }
 
-      setLoadingText(undefined)
+      setLoadingText(null)
       showToast(toastContent)
     }
 
@@ -205,23 +204,19 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
      */
 
     return (
-      <React.Fragment>
-        <WrappedComponent
-          {...(props as T)}
-          runAction={runAction}
-          runActionWithCallback={runActionWithCallback}
-          runActionWithDestination={runActionWithDestination}
-          runFakeAction={runFakeAction}
-          runCustomAction={runCustomAction}
-          forceRerenderCounter={forceRerenderCounter}
-          requestRerender={requestRerender}
-          showToast={showToast}
-          setLoadingText={setLoadingText}
-          wrapActionInDialog={wrapActionInDialog}
-        />
-
-        {loadingText && <LoadingOverlay loadingText={loadingText} />}
-      </React.Fragment>
+      <WrappedComponent
+        {...(props as T)}
+        runAction={runAction}
+        runActionWithCallback={runActionWithCallback}
+        runActionWithDestination={runActionWithDestination}
+        runFakeAction={runFakeAction}
+        runCustomAction={runCustomAction}
+        forceRerenderCounter={forceRerenderCounter}
+        requestRerender={requestRerender}
+        showToast={showToast}
+        setLoadingText={setLoadingText}
+        wrapActionInDialog={wrapActionInDialog}
+      />
     )
   }
 
