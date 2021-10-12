@@ -6,7 +6,7 @@ const instance = axios.create({ baseURL: process.env.REACT_APP_API_BASE_URL })
 
 instance.interceptors.request.use(
   (config) => {
-    logAction('Prepare request', 'API', config)
+    logAction('Log request', config)
 
     config.headers.Authorization = `Bearer ${storageRead('bearer', 'string')}`
     return config
@@ -19,7 +19,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
-    logAction('Log response', 'API', response)
+    logAction('Log response', response)
     return response
   },
   (error) => {

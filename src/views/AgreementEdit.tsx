@@ -19,12 +19,11 @@ import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { DescriptionBlock } from '../components/DescriptionBlock'
-import { withAdminAuth } from '../components/withAdminAuth'
 import { PartyContext } from '../lib/context'
 import { getAgreementStatus } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
 
-function AgreementEditComponent() {
+export function AgreementEdit() {
   const {
     runAction,
     runFakeAction,
@@ -311,5 +310,3 @@ function AgreementEditComponent() {
     </WhiteBackground>
   )
 }
-
-export const AgreementEdit = withAdminAuth(AgreementEditComponent)
