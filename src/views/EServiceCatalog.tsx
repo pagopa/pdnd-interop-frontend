@@ -52,7 +52,7 @@ function CatalogSubscribeAction({
     }
 
     await runActionWithDestination(
-      { path: { endpoint: 'AGREEMENT_CREATE' }, config: { method: 'POST', data: agreementData } },
+      { path: { endpoint: 'AGREEMENT_CREATE' }, config: { data: agreementData } },
       { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST, suppressToast: false }
     )
   }
@@ -83,7 +83,7 @@ export function EServiceCatalogComponent({
   >(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
-      config: { method: 'GET', params: { status: 'published', callerId: party?.partyId } },
+      config: { params: { status: 'published', callerId: party?.partyId } },
     },
     {
       defaultValue: [],

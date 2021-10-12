@@ -87,21 +87,21 @@ export function withUserFeedback<T extends UserFeedbackHOCProps>(
      * API calls
      */
     const makeRequestAndGetOutcome = async (
-      request: RequestConfig
+      requestConfig: RequestConfig
     ): Promise<{
       outcome: RequestOutcome
       toastContent: ToastContentWithOutcome
       response: AxiosResponse | AxiosError
     }> => {
       const { loadingText, success, error }: RunActionProps =
-        TOAST_CONTENTS[request.path.endpoint as ToastActionKeys]
+        TOAST_CONTENTS[requestConfig.path.endpoint as ToastActionKeys]
 
       // Close modal
       closeDialog()
       // Show loader
       setLoadingText(loadingText)
       // Make request
-      const response = await fetchWithLogs(request.path, request.config)
+      const response = await fetchWithLogs(requestConfig)
       // Get the request outcome
       const outcome = getFetchOutcome(response)
 

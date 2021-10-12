@@ -55,10 +55,10 @@ export function CompleteRegistration() {
     const formData = new FormData()
     formData.append('contract', contract!)
     // Send multipart/form-data POST request
-    const contractPostResponse = await fetchWithLogs(
-      { endpoint: 'ONBOARDING_COMPLETE_REGISTRATION', endpointParams: { token } },
-      { method: 'POST', data: formData, headers: { 'Content-Type': 'multipart/form-data' } }
-    )
+    const contractPostResponse = await fetchWithLogs({
+      path: { endpoint: 'ONBOARDING_COMPLETE_REGISTRATION', endpointParams: { token } },
+      config: { data: formData, headers: { 'Content-Type': 'multipart/form-data' } },
+    })
     // Stop the loader
     setLoadingText(null)
 

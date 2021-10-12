@@ -41,7 +41,7 @@ function UserEditComponent({
   }
 
   const { data } = useAsyncFetch<User, User[]>(
-    { path: { endpoint, endpointParams }, config: { method: 'GET' } },
+    { path: { endpoint, endpointParams } },
     {
       defaultValue,
       useEffectDeps: [forceRerenderCounter],
@@ -76,7 +76,6 @@ function UserEditComponent({
           endpointParams: { taxCode: userData?.taxCode, institutionId: party?.institutionId },
         },
         config: {
-          method: 'POST',
           data: { platformRole: mode === 'provider' ? 'api' : 'security' },
         },
       },
@@ -92,7 +91,6 @@ function UserEditComponent({
           endpointParams: { taxCode: userData?.taxCode, institutionId: party?.institutionId },
         },
         config: {
-          method: 'POST',
           data: { platformRole: mode === 'provider' ? 'api' : 'security' },
         },
       },

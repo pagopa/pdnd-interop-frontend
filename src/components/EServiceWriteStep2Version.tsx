@@ -1,4 +1,4 @@
-import { AxiosResponse, Method } from 'axios'
+import { AxiosResponse } from 'axios'
 import { isEmpty } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
@@ -75,19 +75,17 @@ function EServiceWriteStep2VersionComponent({
 
     // Define which endpoint to call
     let endpoint: ApiEndpointKey = 'ESERVICE_VERSION_CREATE'
-    let method: Method = 'POST'
     const endpointParams: any = { eserviceId: fetchedData.id }
     const isNewDescriptor = isEmpty(fetchedData.activeDescriptor)
     if (!isNewDescriptor) {
       endpoint = 'ESERVICE_VERSION_UPDATE'
-      method = 'PUT'
       endpointParams.descriptorId = fetchedData.activeDescriptor!.id
     }
 
     await runActionWithCallback(
       {
         path: { endpoint, endpointParams },
-        config: { method, data: dataToPost },
+        config: { data: dataToPost },
       },
       { callback: wrapOnSubmitSuccess(isNewDescriptor), suppressToast: false }
     )

@@ -57,7 +57,7 @@ function EServiceReadComponent({
     }
 
     await runActionWithDestination(
-      { path: { endpoint: 'AGREEMENT_CREATE' }, config: { method: 'POST', data: agreementData } },
+      { path: { endpoint: 'AGREEMENT_CREATE' }, config: { data: agreementData } },
       { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST, suppressToast: false }
     )
   }
@@ -86,7 +86,6 @@ function EServiceReadComponent({
             documentId,
           },
         },
-        config: { method: 'GET' },
       },
       { suppressToast: true }
     )

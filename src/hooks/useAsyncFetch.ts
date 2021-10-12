@@ -39,12 +39,12 @@ export const useAsyncFetch = <T, U = T>(
         loaderType === 'global' ? setGlobalLoadingText : setContextualLoadingText
       setLoadingText(loadingTextLabel)
 
-      const response = await fetchWithLogs(requestConfig.path, requestConfig.config)
+      const response = await fetchWithLogs(requestConfig)
 
       if (isMounted) {
         isFetchError(response)
-          ? setError(response as AxiosError)
-          : setData(mapFn((response as AxiosResponse).data))
+          ? setError(response as AxiosError<any>)
+          : setData(mapFn((response as AxiosResponse<any>).data))
 
         setLoadingText(null)
       }

@@ -36,7 +36,7 @@ function AgreementListComponent({
   const { data, loadingText, error } = useAsyncFetch<AgreementSummary[]>(
     {
       path: { endpoint: 'AGREEMENT_GET_LIST' },
-      config: { method: 'GET', params },
+      config: { params },
     },
     {
       defaultValue: [],
@@ -56,7 +56,6 @@ function AgreementListComponent({
           endpoint: 'AGREEMENT_ACTIVATE',
           endpointParams: { agreementId, partyId: party!.partyId },
         },
-        config: { method: 'PATCH' },
       },
       { suppressToast: false }
     )
@@ -69,7 +68,6 @@ function AgreementListComponent({
           endpoint: 'AGREEMENT_SUSPEND',
           endpointParams: { agreementId, partyId: party!.partyId },
         },
-        config: { method: 'PATCH' },
       },
       { suppressToast: false }
     )
@@ -79,7 +77,6 @@ function AgreementListComponent({
     await runAction(
       {
         path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } },
-        config: { method: 'POST' },
       },
       { suppressToast: false }
     )

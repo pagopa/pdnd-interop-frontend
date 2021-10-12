@@ -25,7 +25,7 @@ export type Endpoint = {
 
 export type RequestConfig = {
   path: Endpoint
-  config: AxiosRequestConfig
+  config?: AxiosRequestConfig
 }
 
 export type RoutesObject = { [key: string]: RouteConfig }

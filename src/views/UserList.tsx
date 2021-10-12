@@ -43,7 +43,7 @@ function UserListComponent({
     mode === 'provider' ? { institutionId: party?.institutionId } : { clientId }
 
   const { data, loadingText, error } = useAsyncFetch<User[]>(
-    { path: { endpoint, endpointParams }, config: { method: 'GET' } },
+    { path: { endpoint, endpointParams } },
     {
       defaultValue: [],
       useEffectDeps: [forceRerenderCounter, user],
@@ -70,7 +70,6 @@ function UserListComponent({
           endpointParams: { taxCode, institutionId: party?.institutionId },
         },
         config: {
-          method: 'POST',
           data: { platformRole: mode === 'provider' ? 'api' : 'security' },
         },
       },
@@ -86,7 +85,6 @@ function UserListComponent({
           endpointParams: { taxCode, institutionId: party?.institutionId },
         },
         config: {
-          method: 'POST',
           data: { platformRole: mode === 'provider' ? 'api' : 'security' },
         },
       },

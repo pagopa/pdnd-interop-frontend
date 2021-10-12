@@ -46,7 +46,6 @@ function UserCreateComponent({ runActionWithDestination }: UserFeedbackHOCProps)
       {
         path: { endpoint, endpointParams },
         config: {
-          method: 'POST',
           data: dataToPost,
         },
       },

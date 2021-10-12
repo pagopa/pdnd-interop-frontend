@@ -53,10 +53,10 @@ export function AttributeModalCreateNew({ close, attributeKey }: AttributeModalC
   const create = async () => {
     setLoadingText('Stiamo creando il nuovo attributo')
 
-    const attributeCreateResponse = await fetchWithLogs(
-      { endpoint: 'ATTRIBUTE_CREATE' },
-      { method: 'POST', data }
-    )
+    const attributeCreateResponse = await fetchWithLogs({
+      path: { endpoint: 'ATTRIBUTE_CREATE' },
+      config: { data },
+    })
 
     const outcome = getFetchOutcome(attributeCreateResponse)
     const toastContent = { ...TOAST_CONTENTS.ATTRIBUTE_CREATE[outcome], outcome }
@@ -149,7 +149,7 @@ export function AttributeModalAddExisting({
           selected={selected}
           setSelected={updateSelected}
           placeholder="Aggiungi nuovo attributo"
-          endpoint={{ endpoint: 'ATTRIBUTES_GET_LIST' }}
+          path={{ endpoint: 'ATTRIBUTES_GET_LIST' }}
           transformFn={(data: any) =>
             data.attributes.filter((a: CatalogAttribute) => a.certified === certifiedCondition)
           }

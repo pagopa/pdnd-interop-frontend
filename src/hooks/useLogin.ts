@@ -3,12 +3,13 @@ import isEmpty from 'lodash/isEmpty'
 import { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import { Party, User } from '../../types'
-import { fetchAllWithLogs, fetchWithLogs, sleep } from '../lib/api-utils'
+import { fetchAllWithLogs, fetchWithLogs } from '../lib/api-utils'
 import { ROUTES, USE_MOCK_SPID_USER } from '../lib/constants'
 import { LoaderContext, PartyContext, UserContext } from '../lib/context'
 import { isFetchError } from '../lib/error-utils'
 import { mockSPIDUser, testBearerToken } from '../lib/mock-static-data'
 import { storageDelete, storageRead, storageWrite } from '../lib/storage-utils'
+import { sleep } from '../lib/wait-utils'
 
 export const useLogin = () => {
   const history = useHistory()
@@ -23,7 +24,6 @@ export const useLogin = () => {
     const partyIdsResponses = await fetchAllWithLogs(
       parties.map(({ institutionId }) => ({
         path: { endpoint: 'PARTY_GET_PARTY_ID', endpointParams: { institutionId } },
-        config: { method: 'GET' },
       }))
     )
 
@@ -48,10 +48,12 @@ export const useLogin = () => {
     setLoadingText('Stiamo associando la tua utenza ai tuoi enti')
 
     // Get all available parties related to the user
-    const availablePartiesResponse = await fetchWithLogs(
-      { endpoint: 'ONBOARDING_GET_AVAILABLE_PARTIES', endpointParams: { taxCode } },
-      { method: 'GET' }
-    )
+    const availablePartiesResponse = await fetchWithLogs({
+      path: {
+        endpoint: 'ONBOARDING_GET_AVAILABLE_PARTIES',
+        endpointParams: { taxCode },
+      },
+    })
 
     // If user already has institutions subscribed
     if (!isFetchError(availablePartiesResponse)) {
@@ -90,8 +92,7 @@ export const useLogin = () => {
     // Also this is missing for now.
     // Ideally, this is done on the backend
     // const whoAmIResponse = await fetchWithLogs(
-    //   { endpoint: 'USER_GET_SINGLE', endpointParams: { taxCode } },
-    //   { method: 'GET' }
+    //   { endpoint: 'USER_GET_SINGLE', endpointParams: { taxCode } }
     // )
     // setUser(whoAmIResponse.data)
 

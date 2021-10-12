@@ -47,7 +47,7 @@ export function StyledDeleteableDocument({
           endpoint: 'ESERVICE_VERSION_UPDATE_DOCUMENT_DESCRIPTION',
           endpointParams: { eserviceId, descriptorId, documentId: readable.id },
         },
-        config: { method: 'POST', data: { description: tempDescr } },
+        config: { data: { description: tempDescr } },
       },
       { suppressToast: true }
     )

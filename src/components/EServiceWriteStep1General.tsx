@@ -1,4 +1,4 @@
-import { AxiosResponse, Method } from 'axios'
+import { AxiosResponse } from 'axios'
 import { isEmpty } from 'lodash'
 import React, { useContext, useEffect, useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
@@ -86,17 +86,15 @@ function EServiceWriteStep1GeneralComponent({
 
     // Define which endpoint to call
     let endpoint: ApiEndpointKey = 'ESERVICE_CREATE'
-    let method: Method = 'POST'
     let endpointParams = {}
     const isNewService = isEmpty(fetchedDataMaybe)
     if (!isNewService) {
       endpoint = 'ESERVICE_UPDATE'
-      method = 'PUT'
       endpointParams = { eserviceId: fetchedDataMaybe!.id }
     }
 
     await runActionWithCallback(
-      { path: { endpoint, endpointParams }, config: { method, data: dataToPost } },
+      { path: { endpoint, endpointParams }, config: { data: dataToPost } },
       { callback: wrapOnSubmitSuccess(isNewService), suppressToast: false }
     )
   }
