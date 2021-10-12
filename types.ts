@@ -344,7 +344,7 @@ export type FrontendAttributes = {
 }
 
 /*
- * Dialog and toast components typings
+ * Dialog, loader and toast components typings
  * Here because they reflect onto React state updates
  */
 export type ActionFunction = ((event?: any) => Promise<void>) | VoidFunction
@@ -391,6 +391,8 @@ export type ToastProps = ToastContentWithOutcome & {
 }
 
 export type ToastActionKeys = Exclude<ApiEndpointKey, 'BASE'>
+
+export type LoaderType = 'global' | 'contextual'
 
 /*
  * Action buttons in tables

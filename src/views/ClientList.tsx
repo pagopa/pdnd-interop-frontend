@@ -27,7 +27,7 @@ function ClientListComponent({
 }: UserFeedbackHOCProps) {
   const { user } = useContext(UserContext)
   const { party } = useContext(PartyContext)
-  const { data, loading, error } = useAsyncFetch<Client[]>(
+  const { data, loadingText, error } = useAsyncFetch<Client[]>(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
       config: {
@@ -38,7 +38,12 @@ function ClientListComponent({
         },
       },
     },
-    { defaultValue: [], useEffectDeps: [forceRerenderCounter, user] }
+    {
+      defaultValue: [],
+      useEffectDeps: [forceRerenderCounter, user],
+      loaderType: 'contextual',
+      loadingTextLabel: 'Stiamo caricando i client',
+    }
   )
 
   /*
@@ -129,8 +134,7 @@ function ClientListComponent({
         <TempFilters />
 
         <TableWithLoader
-          loading={loading}
-          loadingLabel="Stiamo caricando i client"
+          loadingText={loadingText}
           headData={headData}
           pagination={true}
           data={data}

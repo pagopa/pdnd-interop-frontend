@@ -33,12 +33,17 @@ function AgreementListComponent({
 
   const params =
     mode === 'provider' ? { producerId: party?.partyId } : { consumerId: party?.partyId }
-  const { data, loading, error } = useAsyncFetch<AgreementSummary[]>(
+  const { data, loadingText, error } = useAsyncFetch<AgreementSummary[]>(
     {
       path: { endpoint: 'AGREEMENT_GET_LIST' },
       config: { method: 'GET', params },
     },
-    { defaultValue: [], useEffectDeps: [forceRerenderCounter] }
+    {
+      defaultValue: [],
+      useEffectDeps: [forceRerenderCounter],
+      loaderType: 'contextual',
+      loadingTextLabel: 'Stiamo caricando gli accordi',
+    }
   )
 
   /*
@@ -184,8 +189,7 @@ function AgreementListComponent({
         <TempFilters />
 
         <TableWithLoader
-          loading={loading}
-          loadingLabel="Stiamo caricando gli accordi"
+          loadingText={loadingText}
           headData={headData}
           pagination={true}
           data={data}

@@ -34,10 +34,10 @@ export function PlatformUserForm({
   }
 
   const fields: Field[] = [
-    { id: 'name', label: 'Nome' },
-    { id: 'surname', label: 'Cognome' },
-    { id: 'taxCode', label: 'Codice Fiscale' },
-    { id: 'email', label: 'Email', type: 'email' },
+    { id: 'name', label: 'Nome*' },
+    { id: 'surname', label: 'Cognome*' },
+    { id: 'taxCode', label: 'Codice Fiscale*' },
+    { id: 'email', label: 'Email*', type: 'email' },
   ]
 
   return (

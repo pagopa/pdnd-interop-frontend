@@ -3,7 +3,6 @@ import { Button } from 'react-bootstrap'
 import { Link, useLocation } from 'react-router-dom'
 import { Client, ClientStatus, ActionWithTooltipBtn } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
-import { LoadingOverlay } from '../components/LoadingOverlay'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
@@ -28,12 +27,16 @@ function ClientEditComponent({
 }: UserFeedbackHOCProps) {
   const { party } = useContext(PartyContext)
   const clientId = getLastBit(useLocation())
-  const { data, loading } = useAsyncFetch<Client>(
+  const { data } = useAsyncFetch<Client>(
     {
       path: { endpoint: 'CLIENT_GET_SINGLE', endpointParams: { clientId } },
       config: { method: 'GET' },
     },
-    { defaultValue: {}, useEffectDeps: [forceRerenderCounter] }
+    {
+      defaultValue: {},
+      useEffectDeps: [forceRerenderCounter],
+      loadingTextLabel: 'Stiamo caricando il client richiesto',
+    }
   )
 
   /*
@@ -210,8 +213,6 @@ function ClientEditComponent({
       )}
 
       <UserList />
-
-      {loading && <LoadingOverlay loadingText="Stiamo caricando il client richiesto" />}
     </React.Fragment>
   )
 }
