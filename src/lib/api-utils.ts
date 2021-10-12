@@ -1,7 +1,7 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, Method } from 'axios'
-import { ApiEndpointKey, Endpoint, RequestConfig } from '../../types'
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import { Endpoint, RequestConfig } from '../../types'
 import { logAction, logError } from './action-log'
-import { API, USE_LOCAL_DATA, USE_LOCAL_DATA_RESPONSE_STATUS } from './constants'
+import { API } from './constants'
 import isEmpty from 'lodash/isEmpty'
 import { storageRead } from './storage-utils'
 
@@ -10,14 +10,15 @@ export const sleep = async (ms: number) => await new Promise((resolve) => setTim
 
 function prepareRequest(
   { endpoint, endpointParams }: Endpoint,
-  { method, params, data, headers }: AxiosRequestConfig
+  { params, data, headers }: AxiosRequestConfig
 ) {
   if (!API[endpoint]) {
     throw new Error(`WARNING! The endpoint ${endpoint} does not exist in constants.ts`)
   }
 
+  const baseURL = process.env.REACT_APP_API_BASE_URL
+  const method = API[endpoint].METHOD
   let url = API[endpoint].URL
-  let baseURL = API.BASE.URL
 
   // Replace dynamic parts of the URL by substitution
   if (!isEmpty(endpointParams)) {
@@ -27,16 +28,8 @@ function prepareRequest(
     )
   }
 
-  // In case it needs to mock data, reset all relevant variables to mock behavior
-  if (USE_LOCAL_DATA || !API[endpoint].SHOULD_CALL) {
-    url = API[endpoint].LOCAL
-    baseURL = API.BASE.LOCAL
-    params = {}
-  }
-
   // Log action with updated variables, in case the call is mocked
   logAction('Prepare request', 'API', {
-    isMockingRequest: USE_LOCAL_DATA || !API[endpoint].SHOULD_CALL,
     endpoint,
     baseURL,
     url,
@@ -45,13 +38,6 @@ function prepareRequest(
     params,
     data,
   })
-
-  // Avoid mock POST and PATCH requests creation
-  if (USE_LOCAL_DATA || !API[endpoint].SHOULD_CALL) {
-    if (!method || method !== 'GET') {
-      return
-    }
-  }
 
   // Return the instance of the request, ready to be sent
   return () =>
@@ -66,24 +52,8 @@ function prepareRequest(
 }
 
 async function performRequests(
-  requests: (() => Promise<AxiosInstance>)[],
-  endpoint: ApiEndpointKey,
-  method?: Method
+  requests: (() => Promise<AxiosInstance>)[]
 ): Promise<AxiosResponse[] | AxiosError[]> {
-  if (USE_LOCAL_DATA || !API[endpoint].SHOULD_CALL) {
-    // Mock taking time for req/res round trip
-    await sleep(750)
-
-    // Don't let POST and PATCH requests go through, they are useless while mocking
-    // Give back mock response code instead
-    if (!method || method !== 'GET') {
-      // Return the status code so to test handling error case scenarios
-      const mockResponse = { status: USE_LOCAL_DATA_RESPONSE_STATUS } as AxiosResponse
-      logAction('Log response', 'API', mockResponse)
-      return [mockResponse]
-    }
-  }
-
   try {
     const responses = await axios.all(requests.map((r) => r()))
     logAction('Log response', 'API', responses)
@@ -98,11 +68,7 @@ export async function fetchAllWithLogs(reqsConfig: RequestConfig[]) {
   const requests = await Promise.all(
     reqsConfig.map(async ({ path, config }) => await prepareRequest(path, config))
   )
-  return await performRequests(
-    requests as any,
-    reqsConfig[0].path.endpoint,
-    reqsConfig[0].config.method
-  )
+  return await performRequests(requests as any)
 }
 
 export async function fetchWithLogs(
@@ -114,6 +80,6 @@ export async function fetchWithLogs(
     { endpoint, endpointParams },
     { method, params, data, headers }
   )
-  const responses = await performRequests([request as any], endpoint, method)
+  const responses = await performRequests([request as any])
   return responses[0]
 }

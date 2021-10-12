@@ -58,6 +58,9 @@ export const useLogin = () => {
       // Set parties
       await setPartiesInContext((availablePartiesResponse as AxiosResponse).data!)
     }
+
+    // Stop the loader
+    setLoadingText(null)
   }
 
   // This happens as a result of a direct user action
@@ -99,9 +102,6 @@ export const useLogin = () => {
 
     // Fetch and set the parties available for this user
     await fetchAndSetAvailableParties(testUserData.taxCode)
-
-    // Stop the loader
-    setLoadingText(null)
 
     // Go to choice view
     history.push(ROUTES.CHOOSE_PARTY.PATH)

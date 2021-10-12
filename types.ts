@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from 'axios'
+import { AxiosRequestConfig, Method } from 'axios'
 import React from 'react'
 import {
   AGREEMENT_STATUS_LABEL,
@@ -12,6 +12,11 @@ import {
  * Fetch data and router related types
  */
 export type ApiEndpointKey = keyof typeof API
+
+export type ApiEndpointContent = {
+  URL: string
+  METHOD: Method
+}
 
 export type Endpoint = {
   endpoint: ApiEndpointKey
@@ -374,7 +379,7 @@ export type DialogContent = {
 
 export type DialogActionKeys = Exclude<
   ApiEndpointKey,
-  'BASE' | 'AGREEMENT_VERIFY_ATTRIBUTE' | 'AGREEMENT_CREATE'
+  'AGREEMENT_VERIFY_ATTRIBUTE' | 'AGREEMENT_CREATE'
 >
 
 export type ToastContent = {
@@ -390,7 +395,7 @@ export type ToastProps = ToastContentWithOutcome & {
   onClose: VoidFunction
 }
 
-export type ToastActionKeys = Exclude<ApiEndpointKey, 'BASE'>
+export type ToastActionKeys = ApiEndpointKey // Exclude<ApiEndpointKey, ''>
 
 export type LoaderType = 'global' | 'contextual'
 
