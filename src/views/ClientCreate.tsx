@@ -26,7 +26,7 @@ function ClientCreateComponent({ runActionWithDestination }: UserFeedbackHOCProp
   const { data: eserviceData } = useAsyncFetch<EServiceReadType[]>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST' },
-      config: { method: 'GET', params: { consumerId: party?.partyId } },
+      config: { params: { consumerId: party?.partyId } },
     },
     { defaultValue: [], loadingTextLabel: 'Stiamo caricando gli e-service associabili al client' }
   )
@@ -40,7 +40,7 @@ function ClientCreateComponent({ runActionWithDestination }: UserFeedbackHOCProp
     e.preventDefault()
 
     await runActionWithDestination(
-      { path: { endpoint: 'CLIENT_CREATE' }, config: { method: 'POST', data } },
+      { path: { endpoint: 'CLIENT_CREATE' }, config: { data } },
       { destination: ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST, suppressToast: false }
     )
   }

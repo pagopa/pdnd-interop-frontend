@@ -37,10 +37,10 @@ export function CreateKeyModal({ close, clientId, taxCode, afterSuccess }: NewPu
     const dataToPost = { ...data }
     dataToPost.key = btoa(dataToPost.key!)
 
-    const keyCreateResponse = await fetchWithLogs(
-      { endpoint: 'OPERATOR_SECURITY_KEYS_POST', endpointParams: { clientId, taxCode } },
-      { method: 'POST', data: [dataToPost] }
-    )
+    const keyCreateResponse = await fetchWithLogs({
+      path: { endpoint: 'OPERATOR_SECURITY_KEYS_POST', endpointParams: { clientId, taxCode } },
+      config: { data: [dataToPost] },
+    })
 
     const outcome = getFetchOutcome(keyCreateResponse)
     const toastContent: ToastContentWithOutcome = {

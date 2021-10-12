@@ -34,7 +34,6 @@ function EServiceListComponent({
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
       config: {
-        method: 'GET',
         params: { producerId: party?.partyId, callerId: party?.partyId },
       },
     },
@@ -56,7 +55,6 @@ function EServiceListComponent({
           endpoint: 'ESERVICE_VERSION_PUBLISH',
           endpointParams: { eserviceId, descriptorId },
         },
-        config: { method: 'POST' },
       },
       { suppressToast: false }
     )
@@ -71,10 +69,7 @@ function EServiceListComponent({
       endpointParams.descriptorId = descriptorId
     }
 
-    await runAction(
-      { path: { endpoint, endpointParams }, config: { method: 'DELETE' } },
-      { suppressToast: false }
-    )
+    await runAction({ path: { endpoint, endpointParams } }, { suppressToast: false })
   }
 
   const wrapSuspend = (eserviceId: string, descriptorId?: string) => async (_: any) => {
@@ -84,7 +79,6 @@ function EServiceListComponent({
           endpoint: 'ESERVICE_VERSION_SUSPEND',
           endpointParams: { eserviceId, descriptorId },
         },
-        config: { method: 'POST' },
       },
       { suppressToast: false }
     )
@@ -97,7 +91,6 @@ function EServiceListComponent({
           endpoint: 'ESERVICE_VERSION_REACTIVATE',
           endpointParams: { eserviceId, descriptorId },
         },
-        config: { method: 'POST' },
       },
       { suppressToast: false }
     )
@@ -117,7 +110,6 @@ function EServiceListComponent({
           endpoint: 'ESERVICE_CLONE_FROM_VERSION',
           endpointParams: { eserviceId, descriptorId },
         },
-        config: { method: 'POST' },
       },
       { suppressToast: false }
     )
@@ -128,7 +120,7 @@ function EServiceListComponent({
     const { outcome, response } = await runAction(
       {
         path: { endpoint: 'ESERVICE_VERSION_CREATE', endpointParams: { eserviceId } },
-        config: { method: 'POST', data: { voucherLifespan: 0, audience: [], description: '' } },
+        config: { data: { voucherLifespan: 0, audience: [], description: '' } },
       },
       { suppressToast: true }
     )

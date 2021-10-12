@@ -30,7 +30,6 @@ function ClientEditComponent({
   const { data } = useAsyncFetch<Client>(
     {
       path: { endpoint: 'CLIENT_GET_SINGLE', endpointParams: { clientId } },
-      config: { method: 'GET' },
     },
     {
       defaultValue: {},
@@ -46,7 +45,6 @@ function ClientEditComponent({
     await runAction(
       {
         path: { endpoint: 'CLIENT_SUSPEND', endpointParams: { clientId: data.id } },
-        config: { method: 'POST' },
       },
       { suppressToast: false }
     )
@@ -56,7 +54,6 @@ function ClientEditComponent({
     await runAction(
       {
         path: { endpoint: 'CLIENT_ACTIVATE', endpointParams: { clientId: data.id } },
-        config: { method: 'POST' },
       },
       { suppressToast: false }
     )

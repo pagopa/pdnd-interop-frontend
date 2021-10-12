@@ -11,7 +11,7 @@ type AutocompleteProps = {
   selected: any
   setSelected: React.Dispatch<React.SetStateAction<any>>
   placeholder: string
-  endpoint: Endpoint
+  path: Endpoint
   transformFn: any
   labelKey: string
   multiple?: boolean
@@ -21,7 +21,7 @@ export function AsyncAutocomplete({
   selected,
   setSelected,
   placeholder,
-  endpoint,
+  path,
   transformFn,
   labelKey,
   multiple = false,
@@ -32,9 +32,9 @@ export function AsyncAutocomplete({
   const handleSearch = async (query: string) => {
     setIsLoading(true)
 
-    const searchResponse = await fetchWithLogs(endpoint, {
-      method: 'GET',
-      params: { limit: 100, page: 1, search: query },
+    const searchResponse = await fetchWithLogs({
+      path,
+      config: { params: { limit: 100, page: 1, search: query } },
     })
 
     const outcome = getFetchOutcome(searchResponse)

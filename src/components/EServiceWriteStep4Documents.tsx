@@ -33,7 +33,6 @@ function EServiceWriteStep4DocumentsComponent({
             descriptorId: fetchedData.activeDescriptor!.id,
           },
         },
-        config: { method: 'POST' },
       },
       { destination: ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST, suppressToast: false }
     )
@@ -49,7 +48,6 @@ function EServiceWriteStep4DocumentsComponent({
             descriptorId: fetchedData.activeDescriptor!.id,
           },
         },
-        config: { method: 'DELETE' },
       },
       { destination: ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST, suppressToast: false }
     )
@@ -66,7 +64,6 @@ function EServiceWriteStep4DocumentsComponent({
             documentId,
           },
         },
-        config: { method: 'DELETE' },
       },
       { suppressToast: true }
     )
@@ -93,7 +90,6 @@ function EServiceWriteStep4DocumentsComponent({
           },
         },
         config: {
-          method: 'POST',
           headers: { 'Content-Type': 'multipart/form-data' },
           data: formData,
         },

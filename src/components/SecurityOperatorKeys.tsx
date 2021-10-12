@@ -60,13 +60,12 @@ export function SecurityOperatorKeys({
    */
   useEffect(() => {
     async function asyncFetchKeys() {
-      const resp = await fetchWithLogs(
-        {
+      const resp = await fetchWithLogs({
+        path: {
           endpoint: 'OPERATOR_SECURITY_KEYS_GET',
           endpointParams: { taxCode: userData.taxCode, clientId },
         },
-        { method: 'GET' }
-      )
+      })
       const outcome = getFetchOutcome(resp)
 
       setKey(undefined)
@@ -88,7 +87,6 @@ export function SecurityOperatorKeys({
           endpoint: 'OPERATOR_SECURITY_KEY_DOWNLOAD',
           endpointParams: { clientId, keyId },
         },
-        config: { method: 'GET' },
       },
       { suppressToast: true }
     )
@@ -106,7 +104,6 @@ export function SecurityOperatorKeys({
           endpoint: 'OPERATOR_SECURITY_KEY_DELETE',
           endpointParams: { clientId, keyId },
         },
-        config: { method: 'DELETE' },
       },
       { suppressToast: false }
     )

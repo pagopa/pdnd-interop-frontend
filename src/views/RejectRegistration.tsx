@@ -24,10 +24,9 @@ export function RejectRegistration() {
   useEffect(() => {
     async function asyncSendDeleteRequest() {
       // Send DELETE request
-      const contractPostResponse = await fetchWithLogs(
-        { endpoint: 'ONBOARDING_COMPLETE_REGISTRATION', endpointParams: { token } },
-        { method: 'DELETE' }
-      )
+      const contractPostResponse = await fetchWithLogs({
+        path: { endpoint: 'ONBOARDING_COMPLETE_REGISTRATION', endpointParams: { token } },
+      })
 
       // Check the outcome
       const outcome = getFetchOutcome(contractPostResponse)

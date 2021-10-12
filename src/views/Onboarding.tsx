@@ -53,10 +53,10 @@ function OnboardingComponent() {
   const submit = async () => {
     setLoading(true)
 
-    const postLegalsResponse = await fetchWithLogs(
-      { endpoint: 'ONBOARDING_POST_LEGALS' },
-      { method: 'POST', data: formData }
-    )
+    const postLegalsResponse = await fetchWithLogs({
+      path: { endpoint: 'ONBOARDING_POST_LEGALS' },
+      config: { data: formData },
+    })
 
     setLoading(false)
 

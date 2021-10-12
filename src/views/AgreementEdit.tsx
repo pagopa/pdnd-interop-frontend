@@ -38,7 +38,6 @@ function AgreementEditComponent({
   const { data } = useAsyncFetch<AgreementSummary>(
     {
       path: { endpoint: 'AGREEMENT_GET_SINGLE', endpointParams: { agreementId } },
-      config: { method: 'GET' },
     },
     {
       defaultValue: {},
@@ -57,7 +56,6 @@ function AgreementEditComponent({
           endpoint: 'AGREEMENT_ACTIVATE',
           endpointParams: { agreementId, partyId: party!.partyId },
         },
-        config: { method: 'PATCH' },
       },
       { suppressToast: false }
     )
@@ -70,7 +68,6 @@ function AgreementEditComponent({
           endpoint: 'AGREEMENT_SUSPEND',
           endpointParams: { agreementId, partyId: party!.partyId },
         },
-        config: { method: 'PATCH' },
       },
       { suppressToast: false }
     )
@@ -80,7 +77,6 @@ function AgreementEditComponent({
     await runActionWithDestination(
       {
         path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } },
-        config: { method: 'POST' },
       },
       { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST, suppressToast: false }
     )
@@ -101,7 +97,6 @@ function AgreementEditComponent({
           endpoint: 'AGREEMENT_VERIFY_ATTRIBUTE',
           endpointParams: { agreementId: data!.id, attributeId },
         },
-        config: { method: 'PATCH' },
       },
       { suppressToast: false }
     )

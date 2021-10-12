@@ -21,7 +21,6 @@ export function EServiceGate() {
   const { data, loadingText, error } = useAsyncFetch<EServiceReadType>(
     {
       path: { endpoint: 'ESERVICE_GET_SINGLE', endpointParams: { eserviceId } },
-      config: { method: 'GET' },
     },
     {
       defaultValue: {},

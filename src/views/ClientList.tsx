@@ -31,7 +31,6 @@ function ClientListComponent({
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
       config: {
-        method: 'GET',
         params: {
           institutionId: party?.institutionId,
           operatorTaxCode: isOperatorSecurity(party) ? user?.taxCode : undefined,
@@ -53,7 +52,6 @@ function ClientListComponent({
     await runAction(
       {
         path: { endpoint: 'CLIENT_SUSPEND', endpointParams: { clientId } },
-        config: { method: 'POST' },
       },
       { suppressToast: false }
     )
@@ -63,7 +61,6 @@ function ClientListComponent({
     await runAction(
       {
         path: { endpoint: 'CLIENT_ACTIVATE', endpointParams: { clientId } },
-        config: { method: 'POST' },
       },
       { suppressToast: false }
     )
