@@ -2,7 +2,6 @@ import React from 'react'
 import isEmpty from 'lodash/isEmpty'
 import { useLocation } from 'react-router-dom'
 import { EServiceNoDescriptorId, EServiceReadType } from '../../types'
-import { LoadingOverlay } from '../components/LoadingOverlay'
 import { NotFound } from './NotFound'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { getBits } from '../lib/url-utils'
@@ -19,7 +18,7 @@ export function EServiceGate() {
   const descriptorId: string | EServiceNoDescriptorId | undefined = bits.pop() // last item in bits array
   const eserviceId = bits.pop() // last-but-two item in bits array
 
-  const { data, loading, error } = useAsyncFetch<EServiceReadType>(
+  const { data, loadingText, error } = useAsyncFetch<EServiceReadType>(
     {
       path: { endpoint: 'ESERVICE_GET_SINGLE', endpointParams: { eserviceId } },
       config: { method: 'GET' },
@@ -28,6 +27,7 @@ export function EServiceGate() {
       defaultValue: {},
       mapFn: decorateEServiceWithActiveDescriptor(descriptorId),
       useEffectDeps: [location],
+      loadingTextLabel: 'Stiamo caricando il tuo e-service',
     }
   )
 
@@ -39,8 +39,8 @@ export function EServiceGate() {
     return <NotFound errorType="server-error" />
   }
 
-  if (loading) {
-    return <LoadingOverlay loadingText="Stiamo caricando il tuo e-service" />
+  if (loadingText) {
+    return null
   }
 
   return isEditable ? <EServiceWrite fetchedDataMaybe={data} /> : <EServiceRead data={data} />

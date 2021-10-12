@@ -56,7 +56,7 @@ export function EServiceAttributeGroup({
   return (
     <React.Fragment>
       <TableWithLoader
-        loading={false}
+        loadingText={null}
         headData={headData}
         data={attributesGroup}
         noDataLabel="Nessun attributo presente"

@@ -4,21 +4,30 @@ import { AxiosError, AxiosResponse } from 'axios'
 import { LoaderType, RequestConfig } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { isFetchError } from '../lib/error-utils'
-import { PartyContext } from '../lib/context'
+import { LoaderContext, PartyContext } from '../lib/context'
 
 type Settings<T, U> = {
   defaultValue?: any
   useEffectDeps?: any
   mapFn?: (data: T) => U
   loaderType?: LoaderType
+  loadingTextLabel: string
 }
 
 export const useAsyncFetch = <T, U = T>(
   requestConfig: RequestConfig,
-  { defaultValue, loaderType = 'global', useEffectDeps = [], mapFn = identity }: Settings<T, U>
+  {
+    defaultValue,
+    loaderType = 'global',
+    loadingTextLabel,
+    useEffectDeps = [],
+    mapFn = identity,
+  }: Settings<T, U>
 ) => {
   const { party } = useContext(PartyContext)
-  const [loading, setLoading] = useState(true)
+  const { loadingText: globalLoadingText, setLoadingText: setGlobalLoadingText } =
+    useContext(LoaderContext)
+  const [contextualLoadingText, setContextualLoadingText] = useState<string | null>(null)
   const [data, setData] = useState<U>(defaultValue)
   const [error, setError] = useState<AxiosError<any>>()
 
@@ -26,7 +35,9 @@ export const useAsyncFetch = <T, U = T>(
     let isMounted = true
 
     async function asyncFetchWithLogs() {
-      setLoading(true)
+      const setLoadingText =
+        loaderType === 'global' ? setGlobalLoadingText : setContextualLoadingText
+      setLoadingText(loadingTextLabel)
 
       const response = await fetchWithLogs(requestConfig.path, requestConfig.config)
 
@@ -35,7 +46,7 @@ export const useAsyncFetch = <T, U = T>(
           ? setError(response as AxiosError)
           : setData(mapFn((response as AxiosResponse).data))
 
-        setLoading(false)
+        setLoadingText(null)
       }
     }
 
@@ -52,5 +63,9 @@ export const useAsyncFetch = <T, U = T>(
     // If the user changes party, fresh data should be fetched
   }, [party, ...useEffectDeps]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  return { loading, data, error }
+  return {
+    loadingText: loaderType === 'global' ? globalLoadingText : contextualLoadingText,
+    data,
+    error,
+  }
 }
