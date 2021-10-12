@@ -1,18 +1,18 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import { Party, User } from '../../types'
 import { fetchAllWithLogs, fetchWithLogs, sleep } from '../lib/api-utils'
 import { ROUTES, USE_MOCK_SPID_USER } from '../lib/constants'
-import { PartyContext, UserContext } from '../lib/context'
+import { LoaderContext, PartyContext, UserContext } from '../lib/context'
 import { isFetchError } from '../lib/error-utils'
 import { mockSPIDUser, testBearerToken } from '../lib/mock-static-data'
 import { storageDelete, storageRead, storageWrite } from '../lib/storage-utils'
 
 export const useLogin = () => {
   const history = useHistory()
-  const [loadingText, setLoadingText] = useState<string | undefined>()
+  const { loadingText, setLoadingText } = useContext(LoaderContext)
   const { user, setUser } = useContext(UserContext)
   const { setAvailableParties, setParty } = useContext(PartyContext)
 
@@ -99,6 +99,9 @@ export const useLogin = () => {
 
     // Fetch and set the parties available for this user
     await fetchAndSetAvailableParties(testUserData.taxCode)
+
+    // Stop the loader
+    setLoadingText(null)
 
     // Go to choice view
     history.push(ROUTES.CHOOSE_PARTY.PATH)
