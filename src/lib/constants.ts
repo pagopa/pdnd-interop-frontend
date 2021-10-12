@@ -2,7 +2,6 @@ import {
   ApiEndpointContent,
   DialogActionKeys,
   DialogContent,
-  DisplayLogsType,
   RoutesObject,
   RunActionProps,
   ToastActionKeys,
@@ -35,9 +34,11 @@ import { IPAGuide } from '../views/IPAGuide'
 import { getDevLabels } from './wip-utils'
 import { SecurityKeyGuide } from '../views/SecurityKeyGuide'
 
-export const SHOW_DEV_LABELS = process.env.NODE_ENV === 'development' || getDevLabels()
-export const USE_MOCK_SPID_USER = process.env.NODE_ENV === 'production' ? false : true
-export const DISPLAY_LOGS: DisplayLogsType = 'all'
+const isDevelopment = !!(process.env.NODE_ENV === 'development')
+
+export const SHOW_DEV_LABELS = isDevelopment || getDevLabels()
+export const USE_MOCK_SPID_USER = isDevelopment
+export const DISPLAY_LOGS = isDevelopment
 
 // TEMP PoC: we won't need this with the new UI
 export const HARDCODED_MAIN_TAG_HEIGHT = 'calc(100vh - 86px - 101px - 3rem - 72px - 3rem)'
@@ -45,91 +46,139 @@ export const HARDCODED_MAIN_TAG_HEIGHT = 'calc(100vh - 86px - 101px - 3rem - 72p
 export const BASE_ROUTE = '/ui'
 
 export const ROUTES: RoutesObject = {
-  LOGIN: { PATH: `${BASE_ROUTE}/login`, LABEL: 'Login', COMPONENT: Login },
-  LOGOUT: { PATH: `${BASE_ROUTE}/logout`, LABEL: 'Logout', COMPONENT: Logout },
-  HELP: { PATH: `${BASE_ROUTE}/aiuto`, LABEL: 'Serve aiuto?', COMPONENT: Help },
-  IPA_GUIDE: { PATH: `${BASE_ROUTE}/guida-ipa`, LABEL: 'Accreditarsi su IPA', COMPONENT: IPAGuide },
+  LOGIN: { PATH: `${BASE_ROUTE}/login`, LABEL: 'Login', COMPONENT: Login, PUBLIC: true },
+  LOGOUT: { PATH: `${BASE_ROUTE}/logout`, LABEL: 'Logout', COMPONENT: Logout, PUBLIC: true },
+  HELP: { PATH: `${BASE_ROUTE}/aiuto`, LABEL: 'Serve aiuto?', COMPONENT: Help, PUBLIC: true },
+  IPA_GUIDE: {
+    PATH: `${BASE_ROUTE}/guida-ipa`,
+    LABEL: 'Accreditarsi su IPA',
+    COMPONENT: IPAGuide,
+    PUBLIC: true,
+  },
   SECURITY_KEY_GUIDE: {
     PATH: `${BASE_ROUTE}/generazione-chiavi`,
     LABEL: 'Come caricare le chiavi di sicurezza',
     COMPONENT: SecurityKeyGuide,
+    PUBLIC: true,
   },
   TEMP_SPID_USER: {
     PATH: `${BASE_ROUTE}/temp-spid`,
     LABEL: 'Genera utente SPID di test',
     COMPONENT: TempSPIDUser,
+    PUBLIC: false,
+    AUTH_LEVELS: 'any',
   },
-  CHOOSE_PARTY: { PATH: `${BASE_ROUTE}/scelta`, LABEL: 'Scegli ente', COMPONENT: ChooseParty },
+  CHOOSE_PARTY: {
+    PATH: `${BASE_ROUTE}/scelta`,
+    LABEL: 'Scegli ente',
+    COMPONENT: ChooseParty,
+    PUBLIC: false,
+    AUTH_LEVELS: 'any',
+  },
   ONBOARDING: {
     PATH: `${BASE_ROUTE}/onboarding`,
     LABEL: 'Onboarding',
     EXACT: true,
     COMPONENT: Onboarding,
+    PUBLIC: false,
+    AUTH_LEVELS: 'any',
   },
   REGISTRATION_FINALIZE_COMPLETE: {
     PATH: `${BASE_ROUTE}/conferma-registrazione`,
     LABEL: 'Completa la procedura di onboarding',
     COMPONENT: CompleteRegistration,
+    PUBLIC: true,
   },
   REGISTRATION_FINALIZE_REJECT: {
     PATH: `${BASE_ROUTE}/cancella-registrazione`,
     LABEL: 'Cancella la procedura di onboarding',
     COMPONENT: RejectRegistration,
+    PUBLIC: true,
   },
-  PROFILE: { PATH: `${BASE_ROUTE}/profilo`, LABEL: 'Profilo', COMPONENT: Profile },
-  NOTIFICATION: { PATH: `${BASE_ROUTE}/notifiche`, LABEL: 'Notifiche', COMPONENT: Notifications },
+  PROFILE: {
+    PATH: `${BASE_ROUTE}/profilo`,
+    LABEL: 'Profilo',
+    COMPONENT: Profile,
+    PUBLIC: false,
+    AUTH_LEVELS: 'any',
+  },
+  NOTIFICATION: {
+    PATH: `${BASE_ROUTE}/notifiche`,
+    LABEL: 'Notifiche',
+    COMPONENT: Notifications,
+    PUBLIC: true,
+    AUTH_LEVELS: 'any',
+  },
   PROVIDE: {
     PATH: `${BASE_ROUTE}/erogazione`,
     LABEL: 'Erogazione',
     COMPONENT: Provide,
+    PUBLIC: false,
+    AUTH_LEVELS: ['admin', 'api'],
     SUBROUTES: {
       ESERVICE_LIST: {
         PATH: `${BASE_ROUTE}/erogazione/e-service`,
         EXACT: true,
         LABEL: 'Gestisci e-service',
         COMPONENT: EServiceList,
+        PUBLIC: false,
+        AUTH_LEVELS: ['admin', 'api'],
       },
       ESERVICE_CREATE: {
         PATH: `${BASE_ROUTE}/erogazione/e-service/crea`,
         EXACT: true,
         LABEL: 'Crea nuovo e-service',
         COMPONENT: EServiceWrite,
+        PUBLIC: false,
+        AUTH_LEVELS: ['admin', 'api'],
       },
       ESERVICE_EDIT: {
         PATH: `${BASE_ROUTE}/erogazione/e-service/:eserviceId/:descriptorId`,
         EXACT: false,
         LABEL: 'Ispeziona e-service',
         COMPONENT: EServiceGate,
+        PUBLIC: false,
+        AUTH_LEVELS: ['admin', 'api'],
       },
       AGREEMENT_LIST: {
         PATH: `${BASE_ROUTE}/erogazione/accordi`,
         EXACT: true,
         LABEL: 'Gestisci accordi',
         COMPONENT: AgreementList,
+        PUBLIC: false,
+        AUTH_LEVELS: ['admin'],
       },
       AGREEMENT_EDIT: {
         PATH: `${BASE_ROUTE}/erogazione/accordi/:id`,
         EXACT: false,
         LABEL: 'Modifica accordo',
         COMPONENT: AgreementEdit,
+        PUBLIC: false,
+        AUTH_LEVELS: ['admin'],
       },
       OPERATOR_API_LIST: {
         PATH: `${BASE_ROUTE}/erogazione/operatori`,
         EXACT: true,
         LABEL: 'Gestisci operatori API',
         COMPONENT: UserList,
+        PUBLIC: false,
+        AUTH_LEVELS: ['admin'],
       },
       OPERATOR_API_CREATE: {
         PATH: `${BASE_ROUTE}/erogazione/operatori/crea`,
         EXACT: false,
         LABEL: 'Crea nuovo operatore API',
         COMPONENT: UserCreate,
+        PUBLIC: false,
+        AUTH_LEVELS: ['admin'],
       },
       OPERATOR_API_EDIT: {
         PATH: `${BASE_ROUTE}/erogazione/operatori/:id`,
         EXACT: false,
         LABEL: 'Modifica operatore API',
         COMPONENT: UserEdit,
+        PUBLIC: false,
+        AUTH_LEVELS: ['admin'],
       },
     },
   },
@@ -137,66 +186,88 @@ export const ROUTES: RoutesObject = {
     PATH: `${BASE_ROUTE}/fruizione`,
     LABEL: 'Fruizione',
     COMPONENT: Subscribe,
+    PUBLIC: false,
+    AUTH_LEVELS: ['admin', 'security'],
     SUBROUTES: {
       CLIENT_LIST: {
         PATH: `${BASE_ROUTE}/fruizione/client`,
         EXACT: true,
         LABEL: 'Gestisci client',
         COMPONENT: ClientList,
+        PUBLIC: false,
+        AUTH_LEVELS: ['admin', 'security'],
       },
       CLIENT_CREATE: {
         PATH: `${BASE_ROUTE}/fruizione/client/crea`,
         EXACT: false,
         LABEL: 'Crea nuovo client',
         COMPONENT: ClientCreate,
+        PUBLIC: false,
+        AUTH_LEVELS: ['admin'],
       },
       CLIENT_EDIT: {
         PATH: `${BASE_ROUTE}/fruizione/client/:id`,
         EXACT: true,
         LABEL: 'Modifica client',
         COMPONENT: ClientEdit,
+        PUBLIC: false,
+        AUTH_LEVELS: ['admin', 'security'],
       },
       AGREEMENT_LIST: {
         PATH: `${BASE_ROUTE}/fruizione/accordi`,
         EXACT: true,
         LABEL: 'Gestisci accordi',
         COMPONENT: AgreementList,
+        PUBLIC: false,
+        AUTH_LEVELS: ['admin'],
       },
       AGREEMENT_EDIT: {
         PATH: `${BASE_ROUTE}/fruizione/accordi/:id`,
         EXACT: false,
         LABEL: 'Modifica accordo',
         COMPONENT: AgreementEdit,
+        PUBLIC: false,
+        AUTH_LEVELS: ['admin'],
       },
       CATALOG_LIST: {
         PATH: `${BASE_ROUTE}/fruizione/catalogo-e-service`,
         EXACT: true,
         LABEL: 'Catalogo e-service',
         COMPONENT: EServiceCatalog,
+        PUBLIC: false,
+        AUTH_LEVELS: ['admin', 'security'],
       },
       CATALOG_VIEW: {
         PATH: `${BASE_ROUTE}/fruizione/catalogo-e-service/:eserviceId/:descriptorId`,
         EXACT: false,
         LABEL: 'Visualizza e-service',
         COMPONENT: EServiceGate,
+        PUBLIC: false,
+        AUTH_LEVELS: ['admin', 'security'],
       },
       OPERATOR_SECURITY_LIST: {
         PATH: `${BASE_ROUTE}/fruizione/client/operatori`,
         EXACT: true,
         LABEL: 'Gestisci operatori',
         COMPONENT: UserList,
+        PUBLIC: false,
+        AUTH_LEVELS: ['admin', 'security'],
       },
       OPERATOR_SECURITY_CREATE: {
         PATH: `${BASE_ROUTE}/fruizione/client/operatori/crea`,
         EXACT: false,
         LABEL: 'Crea nuovo operatore di sicurezza',
         COMPONENT: UserCreate,
+        PUBLIC: false,
+        AUTH_LEVELS: ['admin'],
       },
       OPERATOR_SECURITY_EDIT: {
         PATH: `${BASE_ROUTE}/fruizione/client/operatori/:clientId/:operatorId`,
         EXACT: false,
         LABEL: 'Modifica operatore',
         COMPONENT: UserEdit,
+        PUBLIC: false,
+        AUTH_LEVELS: ['admin', 'security'],
       },
     },
   },

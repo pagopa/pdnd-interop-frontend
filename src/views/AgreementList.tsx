@@ -17,12 +17,11 @@ import { StyledIntro } from '../components/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useMode } from '../hooks/useMode'
 import { TempFilters } from '../components/TempFilters'
-import { withAdminAuth } from '../components/withAdminAuth'
 import { mergeActions } from '../lib/eservice-utils'
 import { getAgreementStatus } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
 
-function AgreementListComponent() {
+export function AgreementList() {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
   const mode = useMode()
   const { party } = useContext(PartyContext)
@@ -224,5 +223,3 @@ function AgreementListComponent() {
     </WhiteBackground>
   )
 }
-
-export const AgreementList = withAdminAuth(AgreementListComponent)

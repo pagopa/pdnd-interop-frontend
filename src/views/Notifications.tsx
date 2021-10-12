@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
-import { withLogin } from '../components/withLogin'
 
 type Notification = {
   type: 'info' | 'action-required'
@@ -58,7 +57,7 @@ const mockNotifications: { [key in 'p' | 's']: Notification[] } = {
   ],
 }
 
-function NotificationsComponent() {
+export function Notifications() {
   const [view, setView] = useState<'p' | 's'>('p')
 
   const ICON_TYPES = {
@@ -119,5 +118,3 @@ function NotificationsComponent() {
     </WhiteBackground>
   )
 }
-
-export const Notifications = withLogin(NotificationsComponent)

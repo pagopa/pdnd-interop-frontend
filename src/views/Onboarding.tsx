@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { RequestOutcome, RequestOutcomeOptions, StepperStep, User } from '../../types'
 import { Stepper } from '../components/Stepper'
 import { WhiteBackground } from '../components/WhiteBackground'
-import { withLogin } from '../components/withLogin'
 import { OnboardingStep1 } from '../components/OnboardingStep1'
 import { OnboardingStep2 } from '../components/OnboardingStep2'
 import { OnboardingStep3 } from '../components/OnboardingStep3'
@@ -20,7 +19,7 @@ type FormData = {
   users: User[]
 }
 
-function OnboardingComponent() {
+export function Onboarding() {
   const [loading, setLoading] = useState(false)
   const [activeStep, setActiveStep] = useState(0)
   const [formData, setFormData] = useState<Partial<FormData>>()
@@ -125,5 +124,3 @@ function OnboardingComponent() {
     <MessageNoAction {...outcomeContent[outcome]} />
   )
 }
-
-export const Onboarding = withLogin(OnboardingComponent)

@@ -36,7 +36,7 @@ export function BodyLogger() {
    * Handle data logging (now console.log, in the future might be Analytics)
    */
   useEffect(() => {
-    logAction('Route change', 'Router', location)
+    logAction('Route change', location)
   }, [location])
 
   return (

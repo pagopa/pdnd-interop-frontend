@@ -1,10 +1,9 @@
 import React from 'react'
 import { SectionHeader } from '../components/SectionHeader'
 import { ProtectedSubroutes } from '../components/ProtectedSubroutes'
-import { withLogin } from '../components/withLogin'
 import { ROUTES } from '../lib/constants'
 
-function ProvideComponent() {
+export function Provide() {
   return (
     <React.Fragment>
       <SectionHeader view="provider" />
@@ -17,5 +16,3 @@ function ProvideComponent() {
     </React.Fragment>
   )
 }
-
-export const Provide = withLogin(ProvideComponent)

@@ -2,11 +2,10 @@ import React, { useContext } from 'react'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
-import { withLogin } from '../components/withLogin'
 import { USER_ROLE_LABEL } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
 
-function ProfileComponent() {
+export function Profile() {
   const { user } = useContext(UserContext)
   const { availableParties, party } = useContext(PartyContext)
 
@@ -42,5 +41,3 @@ function ProfileComponent() {
     </WhiteBackground>
   )
 }
-
-export const Profile = withLogin(ProfileComponent)

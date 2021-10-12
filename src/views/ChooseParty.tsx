@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Party } from '../../types'
 import { WhiteBackground } from '../components/WhiteBackground'
-import { withLogin } from '../components/withLogin'
 import { HARDCODED_MAIN_TAG_HEIGHT, ROUTES, USER_ROLE_LABEL } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { Row, Col, Button } from 'react-bootstrap'
@@ -10,7 +9,7 @@ import { StyledInputRadioGroup } from '../components/StyledInputRadioGroup'
 import { storageWrite } from '../lib/storage-utils'
 import { StyledIntro } from '../components/StyledIntro'
 
-function ChoosePartyComponent() {
+export function ChooseParty() {
   const { setParty, party, availableParties } = useContext(PartyContext)
   const history = useHistory()
 
@@ -95,5 +94,3 @@ function ChoosePartyComponent() {
     </WhiteBackground>
   )
 }
-
-export const ChooseParty = withLogin(ChoosePartyComponent)

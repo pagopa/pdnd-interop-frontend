@@ -30,24 +30,22 @@ export type RequestConfig = {
 
 export type RoutesObject = { [key: string]: RouteConfig }
 
+export type RouteAuthLevel = 'any' | UserPlatformRole[]
+
 export type RouteConfig = {
   PATH: string
   LABEL: string
   EXACT?: boolean
   SUBROUTES?: RoutesObject
-  COMPONENT?: React.FunctionComponent<any>
+  COMPONENT: React.FunctionComponent<any>
+  PUBLIC: boolean
+  AUTH_LEVELS?: RouteAuthLevel
 }
 
 export type Image = { src: string; alt: string }
 export type RequestOutcome = 'success' | 'error'
 export type RequestOutcomeMessage = { title: string; description: JSX.Element[]; img: Image }
 export type RequestOutcomeOptions = { [key in RequestOutcome]: RequestOutcomeMessage }
-
-/*
- * Logs
- */
-export type SingleLogType = 'Router' | 'API'
-export type DisplayLogsType = null | 'all' | SingleLogType[]
 
 /*
  * Mode

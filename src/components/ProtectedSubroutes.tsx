@@ -2,6 +2,7 @@ import React from 'react'
 import { Route, Switch } from 'react-router'
 import { Redirect } from 'react-router-dom'
 import { RouteConfig, RoutesObject } from '../../types'
+import { AuthGuard } from './AuthGuard'
 
 type SubroutingProps = {
   subroutes: RoutesObject
@@ -17,9 +18,9 @@ export function ProtectedSubroutes({
   return (
     <React.Fragment>
       <Switch>
-        {Object.values(subroutes).map(({ PATH, COMPONENT: Component, EXACT }, i) => (
+        {Object.values(subroutes).map(({ PATH, COMPONENT, EXACT, PUBLIC, AUTH_LEVELS }, i) => (
           <Route path={PATH} key={i} exact={EXACT}>
-            {Component && <Component />}
+            <AuthGuard Component={COMPONENT} isRoutePublic={PUBLIC} authLevels={AUTH_LEVELS} />
           </Route>
         ))}
 

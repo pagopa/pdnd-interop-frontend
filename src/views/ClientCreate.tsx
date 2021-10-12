@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
-import { withAdminAuth } from '../components/withAdminAuth'
 import { ROUTES } from '../lib/constants'
 import { StyledInputText } from '../components/StyledInputText'
 import { StyledInputSelect } from '../components/StyledInputSelect'
@@ -19,7 +18,7 @@ type ClientSubmit = {
   purposes: string
 }
 
-function ClientCreateComponent() {
+export function ClientCreate() {
   const { runActionWithDestination } = useFeedback()
   const { party } = useContext(PartyContext)
   const [data, setData] = useState<Partial<ClientSubmit>>({})
@@ -106,5 +105,3 @@ function ClientCreateComponent() {
     </WhiteBackground>
   )
 }
-
-export const ClientCreate = withAdminAuth(ClientCreateComponent)

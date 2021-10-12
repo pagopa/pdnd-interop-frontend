@@ -4,17 +4,17 @@ import { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import { Party, User } from '../../types'
 import { fetchAllWithLogs, fetchWithLogs } from '../lib/api-utils'
-import { ROUTES, USE_MOCK_SPID_USER } from '../lib/constants'
+import { ROUTES } from '../lib/constants'
 import { LoaderContext, PartyContext, UserContext } from '../lib/context'
 import { isFetchError } from '../lib/error-utils'
-import { mockSPIDUser, testBearerToken } from '../lib/mock-static-data'
+import { testBearerToken } from '../lib/mock-static-data'
 import { storageDelete, storageRead, storageWrite } from '../lib/storage-utils'
 import { sleep } from '../lib/wait-utils'
 
 export const useLogin = () => {
   const history = useHistory()
-  const { loadingText, setLoadingText } = useContext(LoaderContext)
-  const { user, setUser } = useContext(UserContext)
+  const { setLoadingText } = useContext(LoaderContext)
+  const { setUser } = useContext(UserContext)
   const { setAvailableParties, setParty } = useContext(PartyContext)
 
   const setPartiesInContext = async (data: any) => {
@@ -65,21 +65,6 @@ export const useLogin = () => {
     setLoadingText(null)
   }
 
-  // This happens as a result of a direct user action
-  // E.g.: the user has pressed the "login" button
-  const login = async () => {
-    // This should not happen, here just for safety
-    if (user) {
-      return
-    }
-
-    if (USE_MOCK_SPID_USER) {
-      await setTestSPIDUser(mockSPIDUser)
-    } else {
-      history.push(ROUTES.TEMP_SPID_USER.PATH)
-    }
-  }
-
   const setTestSPIDUser = async (testUserData: User) => {
     // Display the loader
     setLoadingText('Stiamo provando ad autenticarti')
@@ -92,7 +77,7 @@ export const useLogin = () => {
     // Also this is missing for now.
     // Ideally, this is done on the backend
     // const whoAmIResponse = await fetchWithLogs(
-    //   { endpoint: 'USER_GET_SINGLE', endpointParams: { taxCode } }
+    //   { path: { endpoint: 'USER_GET_SINGLE', endpointParams: { taxCode } } }
     // )
     // setUser(whoAmIResponse.data)
 
@@ -113,7 +98,8 @@ export const useLogin = () => {
   // with the credentials stored in the sessionStorage
   // WARNING: this is not secure and will ultimately be rewritten
   // See PIN-403
-  const attemptSilentLogin = async () => {
+  const attemptSilentLogin = async (): Promise<boolean> => {
+    console.log('attempting silent login')
     const sessionStorageUser = storageRead('user', 'object')
     const sessionStorageParty = storageRead('currentParty', 'object')
     const sessionStorageBearerToken = storageRead('bearer', 'string')
@@ -124,10 +110,8 @@ export const useLogin = () => {
       storageDelete('user')
       storageDelete('currentParty')
       storageDelete('bearer')
-      // Go to the login view
-      history.push('/')
-      // This return is necessary
-      return
+      // Return failure
+      return false
     }
 
     // Otherwise, set the user to the one stored in the storage
@@ -138,7 +122,10 @@ export const useLogin = () => {
 
     // In the end, set the user to the last known party
     setParty(sessionStorageParty)
+
+    // Return success
+    return true
   }
 
-  return { login, attemptSilentLogin, loadingText, setTestSPIDUser }
+  return { attemptSilentLogin, setTestSPIDUser }
 }

@@ -6,14 +6,13 @@ import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import { withAdminAuth } from '../components/withAdminAuth'
 import { useMode } from '../hooks/useMode'
 import { useLocation } from 'react-router-dom'
 import { parseSearch } from '../lib/url-utils'
 import { ProviderOrSubscriber } from '../../types'
 import { useFeedback } from '../hooks/useFeedback'
 
-function UserCreateComponent() {
+export function UserCreate() {
   const { runActionWithDestination } = useFeedback()
   const location = useLocation()
   const mode = useMode()
@@ -32,9 +31,9 @@ function UserCreateComponent() {
       mode === 'provider'
         ? ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_LIST
         : {
+            ...ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_EDIT,
             // TEMP REFACTOR: this case should also be taken into account
             PATH: `${ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST.PATH}/${clientId}`,
-            LABEL: '',
           }
 
     const dataToPost =
@@ -89,5 +88,3 @@ function UserCreateComponent() {
     </WhiteBackground>
   )
 }
-
-export const UserCreate = withAdminAuth(UserCreateComponent)

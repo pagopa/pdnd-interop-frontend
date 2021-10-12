@@ -1,10 +1,9 @@
 import React from 'react'
 import { SectionHeader } from '../components/SectionHeader'
 import { ProtectedSubroutes } from '../components/ProtectedSubroutes'
-import { withLogin } from '../components/withLogin'
 import { ROUTES } from '../lib/constants'
 
-function SubscribeComponent() {
+export function Subscribe() {
   return (
     <React.Fragment>
       <SectionHeader view="subscriber" />
@@ -17,5 +16,3 @@ function SubscribeComponent() {
     </React.Fragment>
   )
 }
-
-export const Subscribe = withLogin(SubscribeComponent)
