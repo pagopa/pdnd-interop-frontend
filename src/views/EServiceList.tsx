@@ -18,16 +18,12 @@ import { TableWithLoader } from '../components/TableWithLoader'
 import { ActionWithTooltip } from '../components/ActionWithTooltip'
 import { StyledIntro } from '../components/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
+import { useFeedback } from '../hooks/useFeedback'
 import { TempFilters } from '../components/TempFilters'
 import { AxiosResponse } from 'axios'
 
-function EServiceListComponent({
-  runAction,
-  runFakeAction,
-  forceRerenderCounter,
-  wrapActionInDialog,
-}: UserFeedbackHOCProps) {
+export function EServiceList() {
+  const { runAction, runFakeAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
   const history = useHistory()
   const { party } = useContext(PartyContext)
   const { data, loadingText, error } = useAsyncFetch<EServiceFlatReadType[]>(
@@ -286,5 +282,3 @@ function EServiceListComponent({
     </React.Fragment>
   )
 }
-
-export const EServiceList = withUserFeedback(EServiceListComponent)

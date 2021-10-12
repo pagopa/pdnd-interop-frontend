@@ -10,6 +10,7 @@ import {
   FrontendAttributes,
   StepperStepComponentProps,
 } from '../../types'
+import { useFeedback } from '../hooks/useFeedback'
 import {
   remapBackendAttributesToFrontend,
   remapFrontendAttributesToBackend,
@@ -24,17 +25,16 @@ import { StyledInputText } from './StyledInputText'
 import { StyledInputTextArea } from './StyledInputTextArea'
 import { StyledIntro } from './StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
-import { UserFeedbackHOCProps, withUserFeedback } from './withUserFeedback'
 
 type FieldType = 'text' | 'radio' | 'checkbox'
 
-function EServiceWriteStep1GeneralComponent({
-  runActionWithCallback,
+export function EServiceWriteStep1General({
   forward,
   fetchedDataMaybe,
-}: StepperStepComponentProps & UserFeedbackHOCProps & EServiceWriteProps) {
+}: StepperStepComponentProps & EServiceWriteProps) {
   const { party } = useContext(PartyContext)
   const history = useHistory()
+  const { runActionWithCallback } = useFeedback()
 
   // All the data except for the attributes
   const [eserviceData, setEserviceData] = useState<Partial<EServiceCreateDataType>>({
@@ -205,5 +205,3 @@ function EServiceWriteStep1GeneralComponent({
     </React.Fragment>
   )
 }
-
-export const EServiceWriteStep1General = withUserFeedback(EServiceWriteStep1GeneralComponent)

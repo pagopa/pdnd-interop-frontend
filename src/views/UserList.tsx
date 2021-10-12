@@ -14,7 +14,6 @@ import { StyledIntro } from '../components/StyledIntro'
 import { ActionWithTooltip } from '../components/ActionWithTooltip'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { WhiteBackground } from '../components/WhiteBackground'
-import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import {
   ROUTES,
@@ -27,12 +26,10 @@ import { TempFilters } from '../components/TempFilters'
 import { isAdmin, isOperatorSecurity } from '../lib/auth-utils'
 import { PartyContext, UserContext } from '../lib/context'
 import { getLastBit } from '../lib/url-utils'
+import { useFeedback } from '../hooks/useFeedback'
 
-function UserListComponent({
-  runAction,
-  wrapActionInDialog,
-  forceRerenderCounter,
-}: UserFeedbackHOCProps) {
+export function UserList() {
+  const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
   const clientId = getLastBit(useLocation()) // Only for subscriber
 
   const mode = useMode()
@@ -248,5 +245,3 @@ function UserListComponent({
     </WhiteBackground>
   )
 }
-
-export const UserList = withUserFeedback(UserListComponent)

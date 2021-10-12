@@ -5,7 +5,6 @@ import { StyledIntro } from '../components/StyledIntro'
 import { ActionWithTooltip } from '../components/ActionWithTooltip'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { WhiteBackground } from '../components/WhiteBackground'
-import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
@@ -15,6 +14,7 @@ import { isAdmin } from '../lib/auth-utils'
 import { canSubscribe } from '../lib/attributes'
 import { useSubscribeDialog } from '../hooks/useSubscribeDialog'
 import { useExtensionDialog } from '../hooks/useExtensionDialog'
+import { useFeedback } from '../hooks/useFeedback'
 
 function CatalogExtensionAction({ runFakeAction }: { runFakeAction: any }) {
   const askExtension = (_: any) => {
@@ -72,10 +72,8 @@ type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
   isMine: boolean
 }
 
-export function EServiceCatalogComponent({
-  runActionWithDestination,
-  runFakeAction,
-}: UserFeedbackHOCProps) {
+export function EServiceCatalog() {
+  const { runActionWithDestination, runFakeAction } = useFeedback()
   const { party } = useContext(PartyContext)
   const { data, loadingText, error } = useAsyncFetch<
     EServiceFlatReadType[],
@@ -192,5 +190,3 @@ export function EServiceCatalogComponent({
     </WhiteBackground>
   )
 }
-
-export const EServiceCatalog = withUserFeedback(EServiceCatalogComponent)

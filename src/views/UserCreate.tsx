@@ -4,17 +4,17 @@ import { UsersObject } from '../components/OnboardingStep2'
 import { PlatformUserForm } from '../components/PlatformUserForm'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
-import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import compose from 'lodash/fp/compose'
 import { withAdminAuth } from '../components/withAdminAuth'
 import { useMode } from '../hooks/useMode'
 import { useLocation } from 'react-router-dom'
 import { parseSearch } from '../lib/url-utils'
 import { ProviderOrSubscriber } from '../../types'
+import { useFeedback } from '../hooks/useFeedback'
 
-function UserCreateComponent({ runActionWithDestination }: UserFeedbackHOCProps) {
+function UserCreateComponent() {
+  const { runActionWithDestination } = useFeedback()
   const location = useLocation()
   const mode = useMode()
   const { party } = useContext(PartyContext)
@@ -90,4 +90,4 @@ function UserCreateComponent({ runActionWithDestination }: UserFeedbackHOCProps)
   )
 }
 
-export const UserCreate = compose(withUserFeedback, withAdminAuth)(UserCreateComponent)
+export const UserCreate = withAdminAuth(UserCreateComponent)

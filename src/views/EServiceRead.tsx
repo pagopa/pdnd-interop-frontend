@@ -15,7 +15,6 @@ import { WhiteBackground } from '../components/WhiteBackground'
 import { useMode } from '../hooks/useMode'
 import { ATTRIBUTE_TYPE_LABEL, ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { Link } from 'react-router-dom'
 import { minutesToHHMMSS } from '../lib/date-utils'
 import { canSubscribe } from '../lib/attributes'
@@ -25,17 +24,14 @@ import { useExtensionDialog } from '../hooks/useExtensionDialog'
 import { downloadFile } from '../lib/file-utils'
 import { AxiosResponse } from 'axios'
 import { StyledAccordion } from '../components/StyledAccordion'
+import { useFeedback } from '../hooks/useFeedback'
 
 type EServiceReadProps = {
   data: EServiceReadType
 }
 
-function EServiceReadComponent({
-  data,
-  runAction,
-  runFakeAction,
-  runActionWithDestination,
-}: EServiceReadProps & UserFeedbackHOCProps) {
+export function EServiceRead({ data }: EServiceReadProps) {
+  const { runAction, runFakeAction, runActionWithDestination } = useFeedback()
   const { party } = useContext(PartyContext)
   const mode = useMode()
 
@@ -255,5 +251,3 @@ function EServiceReadComponent({
     </React.Fragment>
   )
 }
-
-export const EServiceRead = withUserFeedback(EServiceReadComponent)

@@ -13,18 +13,15 @@ import { ActionWithTooltip } from '../components/ActionWithTooltip'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { TempFilters } from '../components/TempFilters'
 import { WhiteBackground } from '../components/WhiteBackground'
-import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { getClientComputedStatus } from '../lib/status-utils'
 import { isAdmin, isOperatorSecurity } from '../lib/auth-utils'
 import { COMPUTED_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
+import { useFeedback } from '../hooks/useFeedback'
 
-function ClientListComponent({
-  runAction,
-  wrapActionInDialog,
-  forceRerenderCounter,
-}: UserFeedbackHOCProps) {
+export function ClientList() {
+  const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
   const { user } = useContext(UserContext)
   const { party } = useContext(PartyContext)
   const { data, loadingText, error } = useAsyncFetch<Client[]>(
@@ -173,5 +170,3 @@ function ClientListComponent({
     </WhiteBackground>
   )
 }
-
-export const ClientList = withUserFeedback(ClientListComponent)
