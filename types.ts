@@ -309,8 +309,8 @@ export type BackendAttributeContent = {
   verified: boolean
   origin: string
   code: string
-  name?: string // TEMP PIN-304
-  description?: string // TEMP PIN-304
+  name: string
+  description: string
 }
 export type SingleBackendAttribute = {
   single: BackendAttributeContent
