@@ -425,7 +425,7 @@ export const API = {
     SHOULD_CALL: true,
   },
   OPERATOR_SECURITY_KEY_DOWNLOAD: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/keys/{{keyId}}',
+    URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/encoded/keys/{{keyId}}',
     LOCAL: '',
     SHOULD_CALL: true,
   },

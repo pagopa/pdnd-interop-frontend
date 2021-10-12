@@ -89,7 +89,7 @@ export function SecurityOperatorKeys({
         },
         config: { method: 'GET' },
       },
-      { suppressToast: false }
+      { suppressToast: true }
     )
 
     if (outcome === 'success') {
