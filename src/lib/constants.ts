@@ -32,6 +32,7 @@ import { TempSPIDUser } from '../components/TempSPIDUser'
 import { ClientCreate } from '../views/ClientCreate'
 import { IPAGuide } from '../views/IPAGuide'
 import { getDevLabels } from './wip-utils'
+import { SecurityKeyGuide } from '../views/SecurityKeyGuide'
 
 export const SHOW_DEV_LABELS = process.env.NODE_ENV === 'development' || getDevLabels()
 export const USE_MOCK_SPID_USER = process.env.NODE_ENV === 'production' ? false : true
@@ -49,6 +50,11 @@ export const ROUTES: RoutesObject = {
   LOGOUT: { PATH: `${BASE_ROUTE}/logout`, LABEL: 'Logout', COMPONENT: Logout },
   HELP: { PATH: `${BASE_ROUTE}/aiuto`, LABEL: 'Serve aiuto?', COMPONENT: Help },
   IPA_GUIDE: { PATH: `${BASE_ROUTE}/guida-ipa`, LABEL: 'Accreditarsi su IPA', COMPONENT: IPAGuide },
+  SECURITY_KEY_GUIDE: {
+    PATH: `${BASE_ROUTE}/generazione-chiavi`,
+    LABEL: 'Come caricare le chiavi di sicurezza',
+    COMPONENT: SecurityKeyGuide,
+  },
   TEMP_SPID_USER: {
     PATH: `${BASE_ROUTE}/temp-spid`,
     LABEL: 'Genera utente SPID di test',
