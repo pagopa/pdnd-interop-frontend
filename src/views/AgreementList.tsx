@@ -16,18 +16,14 @@ import { ActionWithTooltip } from '../components/ActionWithTooltip'
 import { StyledIntro } from '../components/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useMode } from '../hooks/useMode'
-import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { TempFilters } from '../components/TempFilters'
 import { withAdminAuth } from '../components/withAdminAuth'
-import compose from 'lodash/fp/compose'
 import { mergeActions } from '../lib/eservice-utils'
 import { getAgreementStatus } from '../lib/status-utils'
+import { useFeedback } from '../hooks/useFeedback'
 
-function AgreementListComponent({
-  runAction,
-  forceRerenderCounter,
-  wrapActionInDialog,
-}: UserFeedbackHOCProps) {
+function AgreementListComponent() {
+  const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
   const mode = useMode()
   const { party } = useContext(PartyContext)
 
@@ -229,4 +225,4 @@ function AgreementListComponent({
   )
 }
 
-export const AgreementList = compose(withUserFeedback, withAdminAuth)(AgreementListComponent)
+export const AgreementList = withAdminAuth(AgreementListComponent)

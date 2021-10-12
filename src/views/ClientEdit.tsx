@@ -5,7 +5,6 @@ import { Client, ClientStatus, ActionWithTooltipBtn } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
-import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import {
   AGREEMENT_STATUS_LABEL,
@@ -19,12 +18,10 @@ import { UserList } from './UserList'
 import { getClientComputedStatus } from '../lib/status-utils'
 import { isAdmin } from '../lib/auth-utils'
 import { PartyContext } from '../lib/context'
+import { useFeedback } from '../hooks/useFeedback'
 
-function ClientEditComponent({
-  runAction,
-  wrapActionInDialog,
-  forceRerenderCounter,
-}: UserFeedbackHOCProps) {
+export function ClientEdit() {
+  const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
   const { party } = useContext(PartyContext)
   const clientId = getLastBit(useLocation())
   const { data } = useAsyncFetch<Client>(
@@ -213,5 +210,3 @@ function ClientEditComponent({
     </React.Fragment>
   )
 }
-
-export const ClientEdit = withUserFeedback(ClientEditComponent)

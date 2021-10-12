@@ -4,13 +4,13 @@ import React, { useEffect, useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 import { ApiEndpointKey, StepperStepComponentProps } from '../../types'
+import { useFeedback } from '../hooks/useFeedback'
 import { ROUTES } from '../lib/constants'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
 import { StyledInputText } from './StyledInputText'
 import { StyledInputTextArea } from './StyledInputTextArea'
 import { StyledIntro } from './StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
-import { UserFeedbackHOCProps, withUserFeedback } from './withUserFeedback'
 
 type FieldType = 'text' | 'textArray' | 'number'
 
@@ -21,14 +21,14 @@ type VersionData = {
   description: string
 }
 
-function EServiceWriteStep2VersionComponent({
-  runActionWithCallback,
+export function EServiceWriteStep2Version({
   forward,
   back,
   fetchedData,
-}: StepperStepComponentProps & UserFeedbackHOCProps & EServiceWriteStepProps) {
+}: StepperStepComponentProps & EServiceWriteStepProps) {
   const [versionData, setVersionData] = useState<Partial<VersionData>>({})
   const history = useHistory()
+  const { runActionWithCallback } = useFeedback()
 
   // Pre-fill if there is already a draft of the service available
   useEffect(() => {
@@ -165,5 +165,3 @@ function EServiceWriteStep2VersionComponent({
     </React.Fragment>
   )
 }
-
-export const EServiceWriteStep2Version = withUserFeedback(EServiceWriteStep2VersionComponent)

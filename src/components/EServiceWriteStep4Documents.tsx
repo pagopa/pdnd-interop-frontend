@@ -4,21 +4,19 @@ import { EServiceDocumentKind, StepperStepComponentProps } from '../../types'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
 import { WhiteBackground } from './WhiteBackground'
 import { EServiceWriteStep4DocumentsInterface } from './EServiceWriteStep4DocumentsInterface'
-import { UserFeedbackHOCProps, withUserFeedback } from './withUserFeedback'
 import { ROUTES } from '../lib/constants'
 import { Link } from 'react-router-dom'
 import { useLocation } from 'react-router'
 import { getBits } from '../lib/url-utils'
 import { EServiceWriteStep4DocumentsDoc } from './EServiceWriteStep4DocumentsDoc'
 import { StyledIntro } from './StyledIntro'
+import { useFeedback } from '../hooks/useFeedback'
 
-function EServiceWriteStep4DocumentsComponent({
+export function EServiceWriteStep4Documents({
   back,
   fetchedData,
-  runAction,
-  runActionWithDestination,
-  wrapActionInDialog,
-}: StepperStepComponentProps & EServiceWriteStepProps & UserFeedbackHOCProps) {
+}: StepperStepComponentProps & EServiceWriteStepProps) {
+  const { runAction, runActionWithDestination, wrapActionInDialog } = useFeedback()
   const location = useLocation()
   const bits = getBits(location)
   const activeDescriptorId: string = bits.pop() as string
@@ -178,5 +176,3 @@ function EServiceWriteStep4DocumentsComponent({
     </React.Fragment>
   )
 }
-
-export const EServiceWriteStep4Documents = withUserFeedback(EServiceWriteStep4DocumentsComponent)

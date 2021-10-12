@@ -6,12 +6,11 @@ import { EServiceWriteStepProps } from '../views/EServiceWrite'
 import { StyledInputSelect } from './StyledInputSelect'
 import { StyledIntro } from './StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
-import { UserFeedbackHOCProps, withUserFeedback } from './withUserFeedback'
 
-function EServiceWriteStep3AgreementComponent({
+export function EServiceWriteStep3Agreement({
   forward,
   back,
-}: StepperStepComponentProps & UserFeedbackHOCProps & EServiceWriteStepProps) {
+}: StepperStepComponentProps & EServiceWriteStepProps) {
   const options = [
     { value: '1', label: 'Template pubbliche amministrazioni' },
     { value: '2', label: 'Template privati' },
@@ -56,5 +55,3 @@ function EServiceWriteStep3AgreementComponent({
     </React.Fragment>
   )
 }
-
-export const EServiceWriteStep3Agreement = withUserFeedback(EServiceWriteStep3AgreementComponent)

@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import has from 'lodash/has'
 import isEmpty from 'lodash/isEmpty'
-import compose from 'lodash/fp/compose'
 import {
   AgreementStatus,
   AgreementSummary,
@@ -20,18 +19,19 @@ import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { DescriptionBlock } from '../components/DescriptionBlock'
-import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { withAdminAuth } from '../components/withAdminAuth'
 import { PartyContext } from '../lib/context'
 import { getAgreementStatus } from '../lib/status-utils'
+import { useFeedback } from '../hooks/useFeedback'
 
-function AgreementEditComponent({
-  runAction,
-  runFakeAction,
-  runActionWithDestination,
-  forceRerenderCounter,
-  wrapActionInDialog,
-}: UserFeedbackHOCProps) {
+function AgreementEditComponent() {
+  const {
+    runAction,
+    runFakeAction,
+    runActionWithDestination,
+    forceRerenderCounter,
+    wrapActionInDialog,
+  } = useFeedback()
   const mode = useMode()
   const agreementId = getLastBit(useLocation())
   const { party } = useContext(PartyContext)
@@ -312,4 +312,4 @@ function AgreementEditComponent({
   )
 }
 
-export const AgreementEdit = compose(withUserFeedback, withAdminAuth)(AgreementEditComponent)
+export const AgreementEdit = withAdminAuth(AgreementEditComponent)

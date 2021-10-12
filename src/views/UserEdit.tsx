@@ -6,7 +6,6 @@ import { ActionWithTooltipBtn, ApiEndpointKey, User, UserStatus } from '../../ty
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
-import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATUS_LABEL } from '../lib/constants'
 import { getBits } from '../lib/url-utils'
@@ -15,16 +14,14 @@ import { PartyContext } from '../lib/context'
 import { useMode } from '../hooks/useMode'
 import { mergeActions } from '../lib/eservice-utils'
 import { SecurityOperatorKeys } from '../components/SecurityOperatorKeys'
+import { useFeedback } from '../hooks/useFeedback'
 
 type UserEndpoinParams =
   | { operatorTaxCode: string; clientId: string }
   | { taxCode: string; institutionId: string | undefined }
 
-function UserEditComponent({
-  runAction,
-  wrapActionInDialog,
-  forceRerenderCounter,
-}: UserFeedbackHOCProps) {
+export function UserEdit() {
+  const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
   const mode = useMode()
   const { party } = useContext(PartyContext)
   const bits = getBits(useLocation())
@@ -210,5 +207,3 @@ function UserEditComponent({
     </React.Fragment>
   )
 }
-
-export const UserEdit = withUserFeedback(UserEditComponent)

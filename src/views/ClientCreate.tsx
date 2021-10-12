@@ -3,14 +3,13 @@ import { Form, Button } from 'react-bootstrap'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { withAdminAuth } from '../components/withAdminAuth'
-import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
-import compose from 'lodash/fp/compose'
 import { ROUTES } from '../lib/constants'
 import { StyledInputText } from '../components/StyledInputText'
 import { StyledInputSelect } from '../components/StyledInputSelect'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { EServiceReadType } from '../../types'
 import { PartyContext } from '../lib/context'
+import { useFeedback } from '../hooks/useFeedback'
 
 type ClientSubmit = {
   name: string
@@ -20,7 +19,8 @@ type ClientSubmit = {
   purposes: string
 }
 
-function ClientCreateComponent({ runActionWithDestination }: UserFeedbackHOCProps) {
+function ClientCreateComponent() {
+  const { runActionWithDestination } = useFeedback()
   const { party } = useContext(PartyContext)
   const [data, setData] = useState<Partial<ClientSubmit>>({})
   const { data: eserviceData } = useAsyncFetch<EServiceReadType[]>(
@@ -107,4 +107,4 @@ function ClientCreateComponent({ runActionWithDestination }: UserFeedbackHOCProp
   )
 }
 
-export const ClientCreate = compose(withUserFeedback, withAdminAuth)(ClientCreateComponent)
+export const ClientCreate = withAdminAuth(ClientCreateComponent)
