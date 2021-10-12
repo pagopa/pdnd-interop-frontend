@@ -1,4 +1,5 @@
 import {
+  ApiEndpointContent,
   DialogActionKeys,
   DialogContent,
   DisplayLogsType,
@@ -36,8 +37,6 @@ import { SecurityKeyGuide } from '../views/SecurityKeyGuide'
 
 export const SHOW_DEV_LABELS = process.env.NODE_ENV === 'development' || getDevLabels()
 export const USE_MOCK_SPID_USER = process.env.NODE_ENV === 'production' ? false : true
-export const USE_LOCAL_DATA = false
-export const USE_LOCAL_DATA_RESPONSE_STATUS = 200 // The response status code to simulate if USE_LOCAL_DATA is true
 export const DISPLAY_LOGS: DisplayLogsType = 'all'
 
 // TEMP PoC: we won't need this with the new UI
@@ -203,252 +202,199 @@ export const ROUTES: RoutesObject = {
   },
 }
 
-export const API = {
-  BASE: {
-    URL: 'https://gateway.interop.pdnd.dev/',
-    LOCAL: 'http://localhost:3000/mock-data/',
-    SHOULD_CALL: true,
-  },
+export const API: { [key: string]: ApiEndpointContent } = {
   ONBOARDING_GET_AVAILABLE_PARTIES: {
     URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/info/{{taxCode}}',
-    LOCAL: 'get-available-parties.json',
-    SHOULD_CALL: true,
+    METHOD: 'GET',
   },
   ONBOARDING_GET_SEARCH_PARTIES: {
     URL: 'pdnd-interop-uservice-party-registry-proxy/0.0.1/institutions',
-    LOCAL: 'get-all-parties.json',
-    SHOULD_CALL: true,
+    METHOD: 'GET',
   },
   ONBOARDING_POST_LEGALS: {
     URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/legals',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'POST',
   },
   ONBOARDING_COMPLETE_REGISTRATION: {
     URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/complete/{{token}}',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'POST',
   },
   ESERVICE_GET_LIST: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices',
-    LOCAL: 'get-eservice-list.json',
-    SHOULD_CALL: true,
+    METHOD: 'GET',
   },
   ESERVICE_GET_LIST_FLAT: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/flatten/eservices',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'GET',
   },
   ESERVICE_GET_SINGLE: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}',
-    LOCAL: 'get-eservice-list.json',
-    SHOULD_CALL: true,
+    METHOD: 'GET',
   },
   ESERVICE_CREATE: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'POST',
   },
   ESERVICE_UPDATE: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'PUT',
   },
   ESERVICE_DELETE: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'DELETE',
   },
   ESERVICE_CLONE_FROM_VERSION: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/clone',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'POST',
   },
   ESERVICE_VERSION_CREATE: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'POST',
   },
   ESERVICE_VERSION_UPDATE: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'PUT',
   },
   ESERVICE_VERSION_PUBLISH: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/publish',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'POST',
   },
   ESERVICE_VERSION_SUSPEND: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/suspend',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'POST',
   },
   ESERVICE_VERSION_REACTIVATE: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/activate',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'POST',
   },
+  // Only drafts can be deleted
   ESERVICE_VERSION_DELETE: {
-    // Only drafts can be deleted
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'DELETE',
   },
   ESERVICE_VERSION_POST_DOCUMENT: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/documents',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'POST',
   },
   ESERVICE_VERSION_DELETE_DOCUMENT: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/documents/{{documentId}}',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'DELETE',
   },
   ESERVICE_VERSION_DOWNLOAD_DOCUMENT: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/documents/{{documentId}}',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'GET',
   },
   ESERVICE_VERSION_UPDATE_DOCUMENT_DESCRIPTION: {
     URL: 'pdnd-interop-uservice-catalog-process/0.0/eservices/{{eserviceId}}/descriptors/{{descriptorId}}/documents/{{documentId}}/update',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'POST',
   },
   OPERATOR_API_CREATE: {
     URL: 'pdnd-interop-uservice-party-process/0.0.1/onboarding/operators',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'POST',
   },
   OPERATOR_API_GET_LIST: {
     URL: 'pdnd-interop-uservice-party-process/0.0.1/institutions/{{institutionId}}/relationships',
-    LOCAL: 'get-user-list.json',
-    SHOULD_CALL: true,
+    METHOD: 'GET',
   },
   OPERATOR_API_GET_SINGLE: {
     URL: 'pdnd-interop-uservice-party-process/0.0.1/institutions/{{institutionId}}/relationships/{{taxCode}}',
-    LOCAL: 'get-user-single.json',
-    SHOULD_CALL: true,
+    METHOD: 'GET',
   },
   ATTRIBUTES_GET_LIST: {
     URL: 'pdnd-interop-uservice-attribute-registry-management/0.0.1/attributes',
-    LOCAL: 'get-attributes-list.json',
-    SHOULD_CALL: true,
+    METHOD: 'GET',
   },
   ATTRIBUTE_CREATE: {
     URL: 'pdnd-interop-uservice-attribute-registry-management/0.0.1/attributes',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'POST',
   },
   PARTY_GET_PARTY_ID: {
     URL: 'pdnd-interop-uservice-party-management/0.0.1/organizations/{{institutionId}}',
-    LOCAL: 'get-party-id.json',
-    SHOULD_CALL: true,
+    METHOD: 'GET',
   },
   AGREEMENT_CREATE: {
     URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreements',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'POST',
   },
   AGREEMENT_GET_LIST: {
     URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreements',
-    LOCAL: 'get-agreement-list.json',
-    SHOULD_CALL: true,
+    METHOD: 'GET',
   },
   AGREEMENT_GET_SINGLE: {
     URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreements/{{agreementId}}',
-    LOCAL: 'get-agreement-single.json',
-    SHOULD_CALL: true,
+    METHOD: 'GET',
   },
   AGREEMENT_VERIFY_ATTRIBUTE: {
     URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreements/{{agreementId}}/attributes/{{attributeId}}/verify',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'PATCH',
   },
   AGREEMENT_ACTIVATE: {
     URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreements/{{agreementId}}/parties/{{partyId}}/activate',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'PATCH',
   },
   AGREEMENT_SUSPEND: {
     URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreements/{{agreementId}}/parties/{{partyId}}/suspend',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'PATCH',
   },
   AGREEMENT_UPGRADE: {
     URL: 'pdnd-interop-uservice-agreement-process/0.0.1/agreements/{{agreementId}}/upgrade',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'POST',
   },
   CLIENT_GET_LIST: {
     URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients',
-    LOCAL: 'get-client-list.json',
-    SHOULD_CALL: true,
+    METHOD: 'GET',
   },
   CLIENT_GET_SINGLE: {
     URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}',
-    LOCAL: 'get-client-single.json',
-    SHOULD_CALL: true,
+    METHOD: 'GET',
   },
   CLIENT_CREATE: {
     URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'POST',
   },
   CLIENT_SUSPEND: {
     URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/suspend',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'POST',
   },
   CLIENT_ACTIVATE: {
     URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/activate',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'POST',
   },
   OPERATOR_SECURITY_GET_LIST: {
     URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators',
-    LOCAL: 'get-user-list.json',
-    SHOULD_CALL: true,
+    METHOD: 'GET',
   },
   OPERATOR_SECURITY_GET_SINGLE: {
     URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators/{{operatorTaxCode}}',
-    LOCAL: 'get-user-single.json',
-    SHOULD_CALL: true,
+    METHOD: 'GET',
   },
   OPERATOR_SECURITY_CREATE: {
     URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'POST',
   },
   OPERATOR_SECURITY_KEYS_GET: {
     URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/operators/{{taxCode}}/keys',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'GET',
   },
   OPERATOR_SECURITY_KEYS_POST: {
     URL: 'pdnd-interop-uservice-authorization-process/0.0.1/operators/{{taxCode}}/keys',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'POST',
   },
   OPERATOR_SECURITY_KEY_DOWNLOAD: {
     URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/encoded/keys/{{keyId}}',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'GET',
   },
   OPERATOR_SECURITY_KEY_DELETE: {
     URL: 'pdnd-interop-uservice-authorization-process/0.0.1/clients/{{clientId}}/keys/{{keyId}}',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'DELETE',
   },
   USER_SUSPEND: {
     URL: 'pdnd-interop-uservice-party-process/0.0.1/institutions/{{institutionId}}/relationships/{{taxCode}}/suspend',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'POST',
   },
   USER_REACTIVATE: {
     URL: 'pdnd-interop-uservice-party-process/0.0.1/institutions/{{institutionId}}/relationships/{{taxCode}}/activate',
-    LOCAL: '',
-    SHOULD_CALL: true,
+    METHOD: 'POST',
   },
 }
 
