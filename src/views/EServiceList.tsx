@@ -30,7 +30,7 @@ function EServiceListComponent({
 }: UserFeedbackHOCProps) {
   const history = useHistory()
   const { party } = useContext(PartyContext)
-  const { data, loading, error } = useAsyncFetch<EServiceFlatReadType[]>(
+  const { data, loadingText, error } = useAsyncFetch<EServiceFlatReadType[]>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
       config: {
@@ -38,7 +38,12 @@ function EServiceListComponent({
         params: { producerId: party?.partyId, callerId: party?.partyId },
       },
     },
-    { defaultValue: [], useEffectDeps: [forceRerenderCounter] }
+    {
+      defaultValue: [],
+      useEffectDeps: [forceRerenderCounter],
+      loaderType: 'contextual',
+      loadingTextLabel: 'Stiamo caricando i tuoi e-service',
+    }
   )
 
   /*
@@ -247,8 +252,7 @@ function EServiceListComponent({
           <TempFilters />
 
           <TableWithLoader
-            loading={loading}
-            loadingLabel="Stiamo caricando i tuoi e-service"
+            loadingText={loadingText}
             headData={headData}
             pagination={true}
             data={data}

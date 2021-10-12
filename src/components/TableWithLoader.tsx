@@ -5,8 +5,7 @@ import { LoadingWithMessage } from './LoadingWithMessage'
 import { TablePagination } from './TablePagination'
 
 type TableWithLoaderProps = {
-  loading: boolean
-  loadingLabel?: string
+  loadingText: string | null
   headData: string[]
   pagination?: boolean
   data?: any[]
@@ -15,8 +14,7 @@ type TableWithLoaderProps = {
 }
 
 export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
-  loading,
-  loadingLabel,
+  loadingText,
   headData,
   children,
   pagination = false,
@@ -33,8 +31,8 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
     )
   }
 
-  return loading ? (
-    <LoadingWithMessage label={loadingLabel} />
+  return loadingText ? (
+    <LoadingWithMessage label={loadingText} />
   ) : (
     <div>
       {pagination && <TablePagination />}

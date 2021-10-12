@@ -4,7 +4,6 @@ import { Button } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
 import { ActionWithTooltipBtn, ApiEndpointKey, User, UserStatus } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
-import { LoadingOverlay } from '../components/LoadingOverlay'
 import { StyledIntro } from '../components/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { UserFeedbackHOCProps, withUserFeedback } from '../components/withUserFeedback'
@@ -41,7 +40,7 @@ function UserEditComponent({
     endpointParams = { taxCode, institutionId: party?.institutionId }
   }
 
-  const { data, loading } = useAsyncFetch<User, User[]>(
+  const { data } = useAsyncFetch<User, User[]>(
     { path: { endpoint, endpointParams }, config: { method: 'GET' } },
     {
       defaultValue,
@@ -60,6 +59,7 @@ function UserEditComponent({
 
         return [data]
       },
+      loadingTextLabel: "Stiamo caricando l'operatore richiesto",
     }
   )
 
@@ -209,8 +209,6 @@ function UserEditComponent({
           wrapActionInDialog={wrapActionInDialog}
         />
       )}
-
-      {loading && <LoadingOverlay loadingText="Stiamo caricando l'operatore richiesto" />}
     </React.Fragment>
   )
 }

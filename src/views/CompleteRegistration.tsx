@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { WhiteBackground } from '../components/WhiteBackground'
-import { LoadingOverlay } from '../components/LoadingOverlay'
 import { Link, useLocation } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
 import { fetchWithLogs } from '../lib/api-utils'
@@ -15,9 +14,10 @@ import isEmpty from 'lodash/isEmpty'
 import { HARDCODED_MAIN_TAG_HEIGHT } from '../lib/constants'
 import { StyledIntro } from '../components/StyledIntro'
 import { parseSearch } from '../lib/url-utils'
+import { LoaderContext } from '../lib/context'
 
 export function CompleteRegistration() {
-  const [loading, setLoading] = useState(false)
+  const { setLoadingText } = useContext(LoaderContext)
   const [outcome, setOutcome] = useState<RequestOutcome>()
   const [contract, setContract] = useState<Blob>()
   const location = useLocation()
@@ -50,7 +50,7 @@ export function CompleteRegistration() {
     // Avoid page reload
     e.preventDefault()
     // Start the loader
-    setLoading(true)
+    setLoadingText('Stiamo caricando il tuo contratto')
     // Append the file as form data
     const formData = new FormData()
     formData.append('contract', contract!)
@@ -60,7 +60,7 @@ export function CompleteRegistration() {
       { method: 'POST', data: formData, headers: { 'Content-Type': 'multipart/form-data' } }
     )
     // Stop the loader
-    setLoading(false)
+    setLoadingText(null)
 
     // Check the outcome
     const outcome = getFetchOutcome(contractPostResponse)
@@ -131,7 +131,6 @@ export function CompleteRegistration() {
           </Form>
         </div>
       </WhiteBackground>
-      {loading && <LoadingOverlay loadingText="Stiamo caricando il tuo contratto" />}
     </React.Fragment>
   ) : (
     <MessageNoAction {...outcomeContent[outcome]} />

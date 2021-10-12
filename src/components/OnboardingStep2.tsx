@@ -31,7 +31,7 @@ export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
     <React.Fragment>
       <WhiteBackground>
         <Container className="container-align-left form-max-width">
-          <StyledIntro>{{ title: 'Dati del rappresentante legale*' }}</StyledIntro>
+          <StyledIntro>{{ title: 'Dati del rappresentante legale' }}</StyledIntro>
           <PlatformUserForm
             prefix="admin"
             role="Manager"
