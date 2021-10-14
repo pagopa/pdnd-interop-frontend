@@ -23,7 +23,7 @@ import {
 } from '../lib/constants'
 import { useMode } from '../hooks/useMode'
 import { TempFilters } from '../components/TempFilters'
-import { isAdmin, isOperatorSecurity } from '../lib/auth-utils'
+import { isAdmin, isOperatorAPI, isOperatorSecurity } from '../lib/auth-utils'
 import { PartyContext, UserContext } from '../lib/context'
 import { buildDynamicPath, getLastBit } from '../lib/url-utils'
 import { useFeedback } from '../hooks/useFeedback'
@@ -44,12 +44,17 @@ export function UserList() {
     {
       defaultValue: [],
       useEffectDeps: [forceRerenderCounter, user],
+      // TEMP BACKEND: Waiting for new onboarding API with user filtering
       mapFn: (data) => {
-        if (mode === 'subscriber' && isOperatorSecurity(party)) {
+        if (isOperatorSecurity(party) || isOperatorAPI(party)) {
           return data.filter((d) => d.taxCode === user?.taxCode)
         }
 
-        return data
+        if (mode === 'subscriber') {
+          return data.filter((d) => d.platformRole === 'security')
+        }
+
+        return data.filter((d) => ['admin', 'api'].includes(d.platformRole))
       },
       loaderType: 'contextual',
       loadingTextLabel: 'Stiamo caricando gli operatori',

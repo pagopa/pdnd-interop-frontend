@@ -18,7 +18,7 @@ export function parseSearch(search: string) {
 
 export function buildDynamicPath(path: string, params: { [key: string]: string }) {
   if (!isEmpty(params)) {
-    return Object.keys(params).reduce((acc, key) => acc.replace(`{{${key}}}`, params[key]), path)
+    return Object.keys(params).reduce((acc, key) => acc.replace(`:${key}`, params[key]), path)
   }
 
   return path

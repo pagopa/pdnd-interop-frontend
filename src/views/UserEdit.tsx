@@ -27,7 +27,7 @@ export function UserEdit() {
   const bits = getBits(useLocation())
   const taxCode = bits[bits.length - 1]
 
-  let clientId: string | undefined = bits[bits.length - 2]
+  let clientId: string | undefined = bits[bits.length - 3]
   let endpoint: ApiEndpointKey = 'OPERATOR_SECURITY_GET_SINGLE'
   let endpointParams: UserEndpoinParams = { operatorTaxCode: taxCode, clientId }
   const defaultValue: User[] = []
@@ -144,19 +144,17 @@ export function UserEdit() {
         </DescriptionBlock>
 
         <DescriptionBlock label="Ruolo">
-          <span>{userData?.role ? USER_ROLE_LABEL[userData?.role] : 'n/d'}</span>
+          <span>{userData?.role ? USER_ROLE_LABEL[userData!.role] : 'n/d'}</span>
         </DescriptionBlock>
 
         <DescriptionBlock label="Permessi">
           <span>
-            {userData?.platformRole ? USER_PLATFORM_ROLE_LABEL[userData?.platformRole] : 'n/d'}
+            {userData?.platformRole ? USER_PLATFORM_ROLE_LABEL[userData!.platformRole] : 'n/d'}
           </span>
         </DescriptionBlock>
 
         <DescriptionBlock label="Stato dell'utente">
-          <span>
-            {USER_STATUS_LABEL[userData?.status || mode === 'provider' ? 'pending' : 'Pending']}
-          </span>
+          <span>{userData?.status ? USER_STATUS_LABEL[userData!.status] : 'n/d'}</span>
         </DescriptionBlock>
 
         <div className="mt-5 d-flex">
