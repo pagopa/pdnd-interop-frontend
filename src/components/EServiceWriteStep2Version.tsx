@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom'
 import { ApiEndpointKey, StepperStepComponentProps } from '../../types'
 import { useFeedback } from '../hooks/useFeedback'
 import { ROUTES } from '../lib/constants'
+import { buildDynamicPath } from '../lib/url-utils'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
 import { StyledInputText } from './StyledInputText'
 import { StyledInputTextArea } from './StyledInputTextArea'
@@ -102,7 +103,10 @@ export function EServiceWriteStep2Version({
       // The EServiceGate component rerenders because we added "history.location"
       // as a useEffect dependency in EServiceGate useAsyncFetch hook
       history.replace(
-        `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${fetchedData.id}/${descriptorId}`,
+        buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE_EDIT.PATH, {
+          eserviceId: fetchedData.id,
+          descriptorId,
+        }),
         { stepIndexDestination: 2 }
       )
     } else {

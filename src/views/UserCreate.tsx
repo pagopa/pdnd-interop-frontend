@@ -8,7 +8,7 @@ import { ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { useMode } from '../hooks/useMode'
 import { useLocation } from 'react-router-dom'
-import { parseSearch } from '../lib/url-utils'
+import { buildDynamicRoute, parseSearch } from '../lib/url-utils'
 import { ProviderOrSubscriber } from '../../types'
 import { useFeedback } from '../hooks/useFeedback'
 
@@ -30,11 +30,7 @@ export function UserCreate() {
     const destination =
       mode === 'provider'
         ? ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_LIST
-        : {
-            ...ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_EDIT,
-            // TEMP REFACTOR: this case should also be taken into account
-            PATH: `${ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST.PATH}/${clientId}`,
-          }
+        : buildDynamicRoute(ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_EDIT, { id: clientId })
 
     const dataToPost =
       mode === 'provider'

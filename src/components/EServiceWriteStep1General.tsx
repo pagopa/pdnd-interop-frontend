@@ -17,6 +17,7 @@ import {
 } from '../lib/attributes'
 import { ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
+import { buildDynamicPath } from '../lib/url-utils'
 import { EServiceWriteProps } from '../views/EServiceWrite'
 import { EServiceAttributeSection } from './EServiceAttributeSection'
 import { StyledInputCheckbox } from './StyledInputCheckbox'
@@ -109,7 +110,10 @@ export function EServiceWriteStep1General({
       // WARNING: this will cause a re-render that will fetch fresh data
       // at the EServiceGate component level
       history.replace(
-        `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${eserviceId}/${tempDescriptorId}`,
+        buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE_EDIT.PATH, {
+          eserviceId,
+          descriptorId: tempDescriptorId,
+        }),
         { stepIndexDestination: 1 }
       )
     } else {

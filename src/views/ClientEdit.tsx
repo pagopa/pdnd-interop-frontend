@@ -12,7 +12,7 @@ import {
   ESERVICE_STATUS_LABEL,
   ROUTES,
 } from '../lib/constants'
-import { getLastBit } from '../lib/url-utils'
+import { buildDynamicPath, getLastBit } from '../lib/url-utils'
 import isEmpty from 'lodash/isEmpty'
 import { UserList } from './UserList'
 import { getClientComputedStatus } from '../lib/status-utils'
@@ -125,9 +125,10 @@ export function ClientEdit() {
               <span>
                 <Link
                   className="link-default"
-                  to={`${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}/${data.eservice.id}/${
-                    data.agreement.descriptor.id
-                  }`}
+                  to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
+                    eserviceId: data.eservice.id,
+                    descriptorId: data.agreement.descriptor.id,
+                  })}
                 >
                   {data.eservice.name}, versione {data.agreement.descriptor.version}
                 </Link>{' '}
@@ -139,9 +140,10 @@ export function ClientEdit() {
                     È disponibile una versione più recente
                     <br />
                     <Link
-                      to={`${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}/${data.eservice.id}/${
-                        data.eservice.activeDescriptor.id
-                      }`}
+                      to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
+                        eserviceId: data.eservice.id,
+                        descriptorId: data.eservice.activeDescriptor.id,
+                      })}
                       className="link-default"
                     >
                       Vedi il contenuto della nuova versione
@@ -149,7 +151,9 @@ export function ClientEdit() {
                     <br />
                     <Link
                       className="link-default"
-                      to={`${ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST.PATH}/${data.agreement.id}`}
+                      to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
+                        id: data.agreement.id,
+                      })}
                     >
                       Vai alla pagina dell'accordo
                     </Link>{' '}
@@ -173,7 +177,9 @@ export function ClientEdit() {
               <span>
                 <Link
                   className="link-default"
-                  to={`${ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST.PATH}/${data.agreement.id}`}
+                  to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
+                    id: data.agreement.id,
+                  })}
                 >
                   Vedi accordo
                 </Link>

@@ -237,6 +237,7 @@ type AgreementProducerAndConsumer = {
 type AgreementEService = {
   name: string
   id: string
+  descriptorId: string
   version: string
   status?: EServiceStatus
   activeDescriptor: AgreementEService
