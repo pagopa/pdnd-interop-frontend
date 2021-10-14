@@ -45,7 +45,7 @@ export function AuthGuard({ Component, isRoutePublic, authLevels }: AuthGuardPro
     (authLevels! === 'any' || (party && authLevels!.includes(party!.platformRole)))
 
   if (loadingText && !user) {
-    return null // TEMP REFACTOR: this null can actually be a skeleton while silently trying to login
+    return <Component /> // TEMP REFACTOR: this null can actually be a skeleton while silently trying to login
   }
 
   return isRoutePublic || userCanAccess ? <Component /> : <Unauthorized />

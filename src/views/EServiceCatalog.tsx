@@ -15,6 +15,7 @@ import { canSubscribe } from '../lib/attributes'
 import { useSubscribeDialog } from '../hooks/useSubscribeDialog'
 import { useExtensionDialog } from '../hooks/useExtensionDialog'
 import { useFeedback } from '../hooks/useFeedback'
+import { buildDynamicPath } from '../lib/url-utils'
 
 function CatalogExtensionAction({ runFakeAction }: { runFakeAction: any }) {
   const askExtension = (_: any) => {
@@ -151,9 +152,9 @@ export function EServiceCatalog() {
                 {!item.isMine && isAdmin(party) && item.callerSubscribed && (
                   <ActionWithTooltip
                     btnProps={{
-                      to: `${ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST.PATH}/${
-                        item.callerSubscribed
-                      }`,
+                      to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
+                        id: item.callerSubscribed,
+                      }),
                       as: Link,
                     }}
                     label="Vai all'accordo"
@@ -175,9 +176,10 @@ export function EServiceCatalog() {
                 <ActionWithTooltip
                   btnProps={{
                     as: Link,
-                    to: `${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}/${item.id}/${
-                      item.descriptorId
-                    }`,
+                    to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
+                      eserviceId: item.id,
+                      descriptorId: item.descriptorId!,
+                    }),
                   }}
                   label="Ispeziona"
                   iconClass={'bi-info-circle'}

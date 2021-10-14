@@ -262,7 +262,7 @@ export const ROUTES: RoutesObject = {
         AUTH_LEVELS: ['admin'],
       },
       OPERATOR_SECURITY_EDIT: {
-        PATH: `${BASE_ROUTE}/fruizione/client/operatori/:clientId/:operatorId`,
+        PATH: `${BASE_ROUTE}/fruizione/client/:clientId/operatori/:operatorId`,
         EXACT: false,
         LABEL: 'Modifica operatore',
         COMPONENT: UserEdit,

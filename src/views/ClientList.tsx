@@ -19,6 +19,7 @@ import { isAdmin, isOperatorSecurity } from '../lib/auth-utils'
 import { COMPUTED_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
+import { buildDynamicPath } from '../lib/url-utils'
 
 export function ClientList() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -69,7 +70,7 @@ export function ClientList() {
   // Build list of available actions for each service in its current state
   const getAvailableActions = (client: Client): ActionWithTooltipProps[] => {
     const inspectAction = {
-      to: `${ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST.PATH}/${client.id}`,
+      to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_EDIT.PATH, { id: client.id }),
       icon: 'bi-info-circle',
       label: 'Ispeziona',
     }

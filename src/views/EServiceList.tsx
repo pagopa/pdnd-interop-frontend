@@ -21,6 +21,7 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
 import { TempFilters } from '../components/TempFilters'
 import { AxiosResponse } from 'axios'
+import { buildDynamicPath } from '../lib/url-utils'
 
 export function EServiceList() {
   const { runAction, runFakeAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -125,7 +126,10 @@ export function EServiceList() {
       const successResponse = response as AxiosResponse<EServiceDescriptorRead>
       const descriptorId = successResponse.data.id
       history.push(
-        `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${eserviceId}/${descriptorId}`,
+        buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE_EDIT.PATH, {
+          eserviceId,
+          descriptorId,
+        }),
         { stepIndexDestination: 1 }
       )
     }
@@ -201,9 +205,10 @@ export function EServiceList() {
 
     // If status === 'draft', show precompiled write template. Else, readonly template
     const inspectAction = {
-      to: `${ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}/${eserviceId}/${
-        descriptorId || 'prima-bozza'
-      }`,
+      to: buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE_EDIT.PATH, {
+        eserviceId,
+        descriptorId: descriptorId || 'prima-bozza',
+      }),
       icon: !status || status === 'draft' ? 'bi-pencil' : 'bi-info-circle',
       label: !status || status === 'draft' ? 'Modifica' : 'Ispeziona',
     }

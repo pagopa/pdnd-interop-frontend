@@ -11,7 +11,7 @@ import {
   GroupBackendAttribute,
 } from '../../types'
 import { AGREEMENT_STATUS_LABEL, ROUTES } from '../lib/constants'
-import { getLastBit } from '../lib/url-utils'
+import { buildDynamicPath, getLastBit } from '../lib/url-utils'
 import { formatDate, getRandomDate } from '../lib/date-utils'
 import { mergeActions } from '../lib/eservice-utils'
 import { useMode } from '../hooks/useMode'
@@ -208,9 +208,10 @@ export function AgreementEdit() {
         <div style={{ maxWidth: 500 }}>
           <Link
             className="link-default"
-            to={`${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}/${data?.eservice?.id}/${
-              data?.eservice?.id
-            }`}
+            to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_EDIT.PATH, {
+              eserviceId: data?.eservice?.id,
+              descriptorId: data?.eservice?.descriptorId,
+            })}
           >
             {data?.eservice?.name}, versione {data?.eservice?.version}
           </Link>
@@ -220,9 +221,10 @@ export function AgreementEdit() {
               (è disponibile una{' '}
               <Link
                 className="link-default"
-                to={`${ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}/${data.eservice.id}/${
-                  data.eservice.activeDescriptor.id
-                }`}
+                to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
+                  eserviceId: data.eservice.id,
+                  descriptorId: data.eservice.activeDescriptor.id,
+                })}
               >
                 versione più recente
               </Link>

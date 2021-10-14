@@ -25,7 +25,7 @@ import { useMode } from '../hooks/useMode'
 import { TempFilters } from '../components/TempFilters'
 import { isAdmin, isOperatorSecurity } from '../lib/auth-utils'
 import { PartyContext, UserContext } from '../lib/context'
-import { getLastBit } from '../lib/url-utils'
+import { buildDynamicPath, getLastBit } from '../lib/url-utils'
 import { useFeedback } from '../hooks/useFeedback'
 
 export function UserList() {
@@ -126,10 +126,13 @@ export function UserList() {
     // and the one shared with self care
     const route =
       mode === 'provider'
-        ? `${ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_LIST.PATH}/${user.taxCode || user.from}`
-        : // TEMP REFACTOR: this is horrible but I'm in a hurry. Should find a way
-          // to build a path like /client/:clientId/operator/:operatorId
-          `${ROUTES.SUBSCRIBE.SUBROUTES!.OPERATOR_SECURITY_LIST.PATH}/${clientId}/${user.taxCode}`
+        ? buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_EDIT.PATH, {
+            id: (user.taxCode || user.from) as string,
+          })
+        : buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.OPERATOR_SECURITY_EDIT.PATH, {
+            clientId,
+            operatorId: user.taxCode,
+          })
 
     const inspectAction = {
       to: route,
