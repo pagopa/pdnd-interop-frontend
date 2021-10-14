@@ -12,7 +12,7 @@ export function TempSPIDUser() {
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
-    setTestSPIDUser({ ...data['spid'], status: 'Active' })
+    setTestSPIDUser({ ...data['spid'], status: 'active' })
   }
 
   return (

@@ -112,9 +112,6 @@ export function UserList() {
     }
 
     const availableActions: { [key in UserStatus]: ActionWithTooltipProps[] } = {
-      Pending: [],
-      Active: [suspendAction],
-      Suspended: [reactivateAction],
       pending: [],
       active: [suspendAction],
       suspended: [reactivateAction],

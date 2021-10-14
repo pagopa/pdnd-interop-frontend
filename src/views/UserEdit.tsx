@@ -106,44 +106,22 @@ export function UserEdit() {
     }
 
     const sharedActions: UserActions = {
-      Active: [{ onClick: wrapActionInDialog(suspend, 'USER_SUSPEND'), label: 'Sospendi' }],
       active: [{ onClick: wrapActionInDialog(suspend, 'USER_SUSPEND'), label: 'Sospendi' }],
-      Suspended: [
-        { onClick: wrapActionInDialog(reactivate, 'USER_REACTIVATE'), label: 'Riattiva' },
-      ],
       suspended: [
         { onClick: wrapActionInDialog(reactivate, 'USER_REACTIVATE'), label: 'Riattiva' },
       ],
-      Pending: [],
       pending: [],
     }
 
-    const providerOnlyActions: UserActions = {
-      Active: [],
-      Suspended: [],
-      Pending: [],
-      active: [],
-      suspended: [],
-      pending: [],
-    }
+    const providerOnlyActions: UserActions = { active: [], suspended: [], pending: [] }
 
-    const subscriberOnlyActions: UserActions = {
-      Active: [],
-      Suspended: [],
-      Pending: [],
-      active: [],
-      suspended: [],
-      pending: [],
-    }
+    const subscriberOnlyActions: UserActions = { active: [], suspended: [], pending: [] }
 
     const currentActions = { provider: providerOnlyActions, subscriber: subscriberOnlyActions }[
       mode!
     ]
 
-    return mergeActions(
-      [sharedActions, currentActions],
-      userData!.status || mode === 'provider' ? 'active' : 'Active'
-    )
+    return mergeActions([sharedActions, currentActions], 'active')
   }
 
   return (

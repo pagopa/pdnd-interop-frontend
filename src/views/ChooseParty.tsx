@@ -47,9 +47,9 @@ export function ChooseParty() {
             groupLabel="Selezione ente"
             options={availableParties.map((p) => ({
               label: `${p.description} (${USER_ROLE_LABEL[p.role]})${
-                p.status === 'Pending' ? ' - registrazione da completare' : ''
+                p.status === 'pending' ? ' - registrazione da completare' : ''
               }`,
-              disabled: p.status === 'Pending',
+              disabled: p.status === 'pending',
               onChange: buildUpdateActiveParty(p),
               value: p.institutionId,
             }))}
