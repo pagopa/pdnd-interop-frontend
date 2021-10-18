@@ -1,13 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { EServiceFlatReadType } from '../../types'
 import { StyledInputCheckbox } from '../components/StyledInputCheckbox'
 import { StyledInputTextArea } from '../components/StyledInputTextArea'
-import { DialogContext } from '../lib/context'
+import { USER_ROLE_LABEL } from '../lib/constants'
+import { DialogContext, PartyContext, UserContext } from '../lib/context'
 
 type UseSubscribeDialogProps = {
   onProceedCallback: any
+  producerName: string
 }
 
-export const useSubscribeDialog = ({ onProceedCallback }: UseSubscribeDialogProps) => {
+export const useSubscribeDialog = ({
+  onProceedCallback,
+  producerName,
+}: UseSubscribeDialogProps) => {
+  const { party } = useContext(PartyContext)
+  const { user } = useContext(UserContext)
   const { setDialog } = useContext(DialogContext)
   const [checked, setChecked] = useState<boolean | undefined>(undefined)
 
@@ -27,7 +35,13 @@ export const useSubscribeDialog = ({ onProceedCallback }: UseSubscribeDialogProp
             interoperabilità.
           </p>
           <StyledInputTextArea
-            value="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sit amet leo sed magna pellentesque aliquet sed at libero. Suspendisse potenti. Aenean accumsan pretium ullamcorper. Duis tincidunt est sit amet facilisis consequat. Duis hendrerit quis velit sit amet euismod. Vivamus sit amet diam efficitur, faucibus nisi efficitur, iaculis nisi. Maecenas eu eros sed velit tincidunt gravida id et leo. Nullam elementum augue vitae turpis condimentum, ac dapibus ex pretium. Quisque tincidunt turpis malesuada risus auctor, id porttitor neque sagittis. Nam at nunc id enim feugiat consequat. Proin fringilla, felis sit amet accumsan convallis, sapien elit ultricies tortor, quis vehicula risus tellus in purus. Nulla facilisi. Integer sit amet ante nibh. Donec eu nisl tempor nisi feugiat rutrum. Sed ante ex, tristique in purus in, bibendum finibus mi. Nullam placerat, diam eget scelerisque rhoncus, orci arcu ullamcorper sem, sed imperdiet odio nibh at ipsum. Fusce fringilla ante massa, vitae lobortis sem sagittis nec. Nunc non erat id dui tristique malesuada. Donec odio nisl, ullamcorper id viverra vitae, convallis eu urna. Nam porttitor felis tellus, non feugiat lectus euismod at. Duis mauris neque, molestie vel odio non, aliquet lacinia metus. Etiam nec urna blandit, cursus leo at, gravida orci. Morbi euismod odio orci. Curabitur eros risus, viverra quis accumsan sed, semper in urna. Fusce vitae felis mollis,"
+            value={`Accordo di Interoperabilità\n\ntra\n${producerName} (di seguito anche solo “Erogatore”)\n\ne\n${
+              party?.description
+            } (di seguito anche solo “Fruitore”), indirizzo domicilio digitale ${
+              party?.digitalAddress
+            } in persona di  ${user!.name} ${user!.surname} con ruolo di ${
+              USER_ROLE_LABEL[party!.role]
+            } (nella sua qualità di legale rappresentante pro tempore e/o soggetto munito dei necessari poteri alla sottoscrizione del presente accordo);\n\nL’Erogatore e il Fruitore, di seguito singolarmente “Parte” e congiuntamente “Parti”\nPREMESSO CHE\nai  sensi  dell’articolo  50,  comma  1,  del  decreto  legislativo  7  marzo  2005,  n.  82,  recante  “Codice  dell'amministrazione digitale”  (nel  seguito  anche  “CAD”), “I dati delle pubbliche amministrazioni sono formati, raccolti, conservati, resi disponibili e accessibili con l'uso delle tecnologie dell'informazione e della comunicazione che ne consentano la fruizione e riutilizzazione, alle condizioni fissate dall'ordinamento, da parte delle altre pubbliche amministrazioni e dai privati; restano salvi i limiti alla conoscibilità dei dati previsti dalle leggi e dai regolamenti, le norme in materia di protezione dei dati personali ed il rispetto della normativa comunitaria in materia di riutilizzo delle informazioni del settore pubblico”;\nai sensi dell’articolo 50, comma 2 del CAD “Qualunque dato trattato da una pubblica amministrazione, con le esclusioni di cui all'articolo 2, comma 6, salvi i casi previsti dall'articolo 24 della legge 7 agosto 1990, n. 241, e nel rispetto della normativa in materia di protezione dei dati personali, e' reso accessibile e fruibile alle altre amministrazioni quando l'utilizzazione del dato sia necessaria per lo svolgimento dei compiti istituzionali dell'amministrazione richiedente, senza oneri a carico di quest'ultima, salvo per la prestazione di elaborazioni aggiuntive”;\nai sensi dell’articolo 50-ter, comma 1, del CAD, “La Presidenza del Consiglio dei ministri promuove la progettazione, lo sviluppo e la realizzazione di una Piattaforma Digitale Nazionale Dati (PDND) finalizzata a favorire la conoscenza e l'utilizzo del patrimonio informativo detenuto, per finalità istituzionali, dai soggetti di cui all'articolo 2, comma  2, nonché la condivisione dei dati tra i soggetti che hanno diritto ad accedervi ai fini dell’attuazione dell’articolo 50 e della semplificazione degli adempimenti amministrativi dei cittadini e delle imprese, in conformità alla disciplina vigente”. \nai sensi dell’articolo 50-ter, comma 2, del CAD “La Piattaforma Digitale Nazionale Dati è gestita dalla Presidenza del Consiglio dei ministri ed è costituita da un'infrastruttura tecnologica che rende possibile l'interoperabilità dei sistemi informativi e delle basi di dati delle pubbliche amministrazioni e dei gestori di servizi pubblici per le finalità di cui al comma 1, mediante l'accreditamento, l'identificazione e la gestione dei livelli di autorizzazione dei soggetti abilitati ad operare sulla stessa, nonché' la raccolta e conservazione delle informazioni relative agli accessi e alle transazioni effettuate suo tramite. La condivisione di dati e informazioni avviene attraverso la messa a disposizione e l'utilizzo, da parte dei soggetti accreditati, di interfacce di programmazione delle applicazioni (API)”.\nil Fruitore intende accedere ai dati e alle informazioni detenutie dall’Erogatore tramite la Infrastruttura interoperabilità PDND secondo quanto previsto nel presente accordo di interoperabilità (di seguito “Accordo”).`}
             height={200}
             readOnly={true}
             readOnlyBgWhite={true}
