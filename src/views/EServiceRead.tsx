@@ -62,7 +62,10 @@ export function EServiceRead({ data }: EServiceReadProps) {
     runFakeAction('Richiedi estensione')
   }
 
-  const { openDialog: openSubscribeDialog } = useSubscribeDialog({ onProceedCallback: subscribe })
+  const { openDialog: openSubscribeDialog } = useSubscribeDialog({
+    onProceedCallback: subscribe,
+    producerName: data.producer.name,
+  })
   const { openDialog: openExtensionDialog } = useExtensionDialog({
     onProceedCallback: askExtension,
   })

@@ -58,7 +58,10 @@ function CatalogSubscribeAction({
     )
   }
 
-  const { openDialog: openSubscribeDialog } = useSubscribeDialog({ onProceedCallback: subscribe })
+  const { openDialog: openSubscribeDialog } = useSubscribeDialog({
+    onProceedCallback: subscribe,
+    producerName: data.producerName,
+  })
 
   return (
     <ActionWithTooltip
@@ -136,12 +139,12 @@ export function EServiceCatalog() {
                 {item.name}
                 {item.isMine && <OwnerTooltip label="Sei l'erogatore" iconClass="bi-key-fill" />}
                 {item.callerSubscribed && isAdmin(party) && (
-                  <OwnerTooltip label="Sei già iscritto" iconClass="bi-check-circle-fill" />
+                  <OwnerTooltip label="Sei già iscritto" iconClass="bi-check-circle" />
                 )}
                 {!item.isMine && !canSubscribeEservice && (
                   <OwnerTooltip
                     label="Il tuo ente non ha gli attributi certificati necessari per iscriversi"
-                    iconClass="bi-x-circle-fill"
+                    iconClass="bi-x-circle"
                   />
                 )}
               </td>
