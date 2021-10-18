@@ -11,33 +11,39 @@ import { getActiveInterface } from '../lib/eservice-utils'
 import { StyledDeleteableDocument } from './StyledDeleteableDocument'
 import { StyledInputFile } from './StyledInputFile'
 import { StyledInputTextArea } from './StyledInputTextArea'
+import { useFeedback } from '../hooks/useFeedback'
 
 type EServiceWriteStep4DocumentsInterfaceProps = {
-  fetchedData: EServiceReadType
+  data: EServiceReadType
   uploadDescriptorDocument: any
   deleteDescriptorDocument: any
   activeDescriptorId: string
-  runAction: any
 }
 
 export function EServiceWriteStep4DocumentsInterface({
-  fetchedData,
+  data,
   uploadDescriptorDocument,
   deleteDescriptorDocument,
   activeDescriptorId,
-  runAction,
 }: EServiceWriteStep4DocumentsInterfaceProps) {
-  const initialInterface = getActiveInterface(fetchedData, activeDescriptorId)
+  const { runAction } = useFeedback()
 
   const [readDoc, setReadDoc] = useState<EServiceDocumentRead | undefined>()
   const [writeDoc, setWriteDoc] = useState<Partial<EServiceDocumentWrite>>()
 
   useEffect(() => {
+    const initialInterface = getActiveInterface(data, activeDescriptorId)
     setReadDoc(initialInterface)
+
+    return () => {
+      setReadDoc(undefined)
+    }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const deletePreviousInterfaceDoc = async () => {
     const { outcome } = await deleteDescriptorDocument(readDoc!.id)
+
+    console.log({ aaaa: 'DELETE', outcome })
 
     if (outcome === 'success') {
       setReadDoc(undefined)
@@ -52,6 +58,8 @@ export function EServiceWriteStep4DocumentsInterface({
     }
 
     const { outcome, response } = await uploadDescriptorDocument(writeDoc, 'interface')
+
+    console.log({ aaaa: 'UPLOAD', outcome, response })
 
     if (outcome === 'success') {
       const activeDescriptor = response.data.descriptors.find(
@@ -70,8 +78,8 @@ export function EServiceWriteStep4DocumentsInterface({
 
   return readDoc ? (
     <StyledDeleteableDocument
-      eserviceId={fetchedData.id}
-      descriptorId={fetchedData.activeDescriptor!.id}
+      eserviceId={data.id}
+      descriptorId={data.activeDescriptor!.id}
       readable={readDoc}
       deleteDocument={deletePreviousInterfaceDoc}
       runAction={runAction}

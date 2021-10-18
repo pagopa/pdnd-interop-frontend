@@ -18,7 +18,7 @@ export function EServiceGate() {
   const descriptorId: string | EServiceNoDescriptorId | undefined = bits.pop() // last item in bits array
   const eserviceId = bits.pop() // last-but-two item in bits array
 
-  const { data, loadingText, error } = useAsyncFetch<EServiceReadType>(
+  const { data, error } = useAsyncFetch<EServiceReadType>(
     {
       path: { endpoint: 'ESERVICE_GET_SINGLE', endpointParams: { eserviceId } },
     },
@@ -36,10 +36,6 @@ export function EServiceGate() {
 
   if (error) {
     return <NotFound errorType="server-error" />
-  }
-
-  if (loadingText) {
-    return null
   }
 
   return isEditable ? <EServiceWrite fetchedDataMaybe={data} /> : <EServiceRead data={data} />

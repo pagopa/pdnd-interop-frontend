@@ -39,7 +39,6 @@ export type UserFeedbackHOCProps = {
   ) => Promise<void>
   runActionWithCallback: (request: RequestConfig, options: CallbackActionOptions) => Promise<void>
   runFakeAction: (actionName: string) => void
-  runCustomAction: (action: any, actionProps: RunActionProps) => Promise<void>
   forceRerenderCounter: number
   requestRerender: VoidFunction
   wrapActionInDialog: any
@@ -136,15 +135,15 @@ export const useFeedback = () => {
   ) => {
     const { outcome, toastContent, response } = await makeRequestAndGetOutcome(request)
 
+    // Hide loader
+    setLoadingText(null)
+
     // Here, we are making a big assumption: callback kills the current view,
     // so no state can be set after it, just like in runActionWithDestination.
     // All state changes are in the "else" clause
     if (outcome === 'success') {
       callback(response as AxiosResponse)
     } else {
-      // Hide loader
-      setLoadingText(null)
-
       if (!suppressToast) {
         showToast(toastContent)
       }
@@ -158,30 +157,13 @@ export const useFeedback = () => {
   ) => {
     const { outcome, toastContent } = await makeRequestAndGetOutcome(request)
 
+    // Hide loader
+    setLoadingText(null)
+
     if (outcome === 'success') {
       // Go to destination path, and optionally display the toast
       history.push(destination.PATH, { toast: !suppressToast && toastContent })
     }
-  }
-
-  const runCustomAction = async (
-    actionToRun: () => Promise<any>,
-    { loadingText, success, error }: RunActionProps
-  ) => {
-    closeDialog()
-    setLoadingText(loadingText)
-
-    const response = await actionToRun()
-    const outcome = getFetchOutcome(response)
-
-    let toastContent: ToastContentWithOutcome = { ...error, outcome: 'error' }
-    if (outcome === 'success') {
-      setForceRerenderCounter(forceRerenderCounter + 1)
-      toastContent = { ...success, outcome: 'success' }
-    }
-
-    setLoadingText(null)
-    showToast(toastContent)
   }
 
   const runFakeAction = (actionName: string) => {
@@ -202,7 +184,6 @@ export const useFeedback = () => {
     runActionWithCallback,
     runActionWithDestination,
     runFakeAction,
-    runCustomAction,
     forceRerenderCounter,
     requestRerender,
     showToast,
