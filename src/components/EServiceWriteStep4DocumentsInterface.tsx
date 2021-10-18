@@ -11,7 +11,6 @@ import { getActiveInterface } from '../lib/eservice-utils'
 import { StyledDeleteableDocument } from './StyledDeleteableDocument'
 import { StyledInputFile } from './StyledInputFile'
 import { StyledInputTextArea } from './StyledInputTextArea'
-import { useFeedback } from '../hooks/useFeedback'
 
 type EServiceWriteStep4DocumentsInterfaceProps = {
   data: EServiceReadType
@@ -26,8 +25,6 @@ export function EServiceWriteStep4DocumentsInterface({
   deleteDescriptorDocument,
   activeDescriptorId,
 }: EServiceWriteStep4DocumentsInterfaceProps) {
-  const { runAction } = useFeedback()
-
   const [readDoc, setReadDoc] = useState<EServiceDocumentRead | undefined>()
   const [writeDoc, setWriteDoc] = useState<Partial<EServiceDocumentWrite>>()
 
@@ -78,7 +75,6 @@ export function EServiceWriteStep4DocumentsInterface({
       descriptorId={data.activeDescriptor!.id}
       readable={readDoc}
       deleteDocument={deletePreviousInterfaceDoc}
-      runAction={runAction}
     />
   ) : (
     <Form className="px-3 py-3 rounded bg-secondary" onSubmit={uploadNewInterfaceDoc}>

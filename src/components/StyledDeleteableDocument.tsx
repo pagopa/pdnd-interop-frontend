@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { EServiceDocumentRead } from '../../types'
+import { useFeedback } from '../hooks/useFeedback'
 import { ActionWithTooltip } from './ActionWithTooltip'
 
 type StyledDeleteableDocumentComponentProps = {
@@ -7,7 +8,6 @@ type StyledDeleteableDocumentComponentProps = {
   descriptorId: string
   readable: EServiceDocumentRead
   deleteDocument: any
-  runAction: any
 }
 
 export function StyledDeleteableDocument({
@@ -15,27 +15,39 @@ export function StyledDeleteableDocument({
   descriptorId,
   readable,
   deleteDocument,
-  runAction,
 }: StyledDeleteableDocumentComponentProps) {
+  const { runAction } = useFeedback()
   const contentEditableRef = useRef<HTMLDivElement>(null)
-  const [tempDescr, setTempDescr] = useState<string>()
   const [canEdit, setCanEdit] = useState(false)
 
-  useEffect(() => {
-    setTempDescr(readable.description)
-  }, [readable])
-
-  const updateTempDescr = (e: any) => {
-    setTempDescr(e.target.value)
+  // Cross browser place caret at the end of a contenteditable
+  // See: https://stackoverflow.com/a/4238971
+  const placeCaretAtEnd = (el: HTMLDivElement) => {
+    el.focus()
+    if (typeof window.getSelection != 'undefined' && typeof document.createRange != 'undefined') {
+      const range = document.createRange()
+      range.selectNodeContents(el)
+      range.collapse(false)
+      const sel = window.getSelection()
+      sel!.removeAllRanges()
+      sel!.addRange(range)
+    } else if (typeof (document.body as any).createTextRange != 'undefined') {
+      var textRange = (document.body as any).createTextRange()
+      textRange.moveToElementText(el)
+      textRange.collapse(false)
+      textRange.select()
+    }
   }
 
   const updateCanEdit = (e: any) => {
     e.preventDefault()
     const newState = !canEdit
     setCanEdit(newState)
+
     if (newState) {
       setTimeout(() => {
-        contentEditableRef.current?.focus()
+        contentEditableRef.current!.focus()
+        placeCaretAtEnd(contentEditableRef.current!)
       }, 0)
     }
   }
@@ -47,7 +59,7 @@ export function StyledDeleteableDocument({
           endpoint: 'ESERVICE_VERSION_UPDATE_DOCUMENT_DESCRIPTION',
           endpointParams: { eserviceId, descriptorId, documentId: readable.id },
         },
-        config: { data: { description: tempDescr } },
+        config: { data: { description: contentEditableRef.current!.textContent } },
       },
       { suppressToast: true }
     )
@@ -68,11 +80,8 @@ export function StyledDeleteableDocument({
           ref={contentEditableRef}
           contentEditable={canEdit}
           className="mt-2"
-          onChange={updateTempDescr}
           onBlur={onBlur}
-          dangerouslySetInnerHTML={{
-            __html: decodeURIComponent(tempDescr || ''),
-          }}
+          dangerouslySetInnerHTML={{ __html: decodeURIComponent(readable.description) }}
         />
       </div>
       <div className="ms-5 flex-shrink-0">
