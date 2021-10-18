@@ -65,7 +65,7 @@ export type StepperStepComponentProps = {
 
 export type StepperStep = {
   label: string
-  Component: React.FunctionComponent<StepperStepComponentProps>
+  Component: JSX.Element | React.FunctionComponent<StepperStepComponentProps>
 }
 
 export type IPACatalogParty = {

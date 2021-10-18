@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import has from 'lodash/has'
-import { EServiceReadType, StepperStep } from '../../types'
+import { EServiceReadType } from '../../types'
 import { EServiceWriteStep1General } from '../components/EServiceWriteStep1General'
 import { EServiceWriteStep2Version } from '../components/EServiceWriteStep2Version'
 import { EServiceWriteStep3Agreement } from '../components/EServiceWriteStep3Agreement'
@@ -10,6 +10,13 @@ import { Stepper } from '../components/Stepper'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { useHistory } from 'react-router-dom'
 import { scrollToTop } from '../lib/page-utils'
+
+const STEPS: any[] = [
+  { label: 'Generale', component: EServiceWriteStep1General },
+  { label: 'Versione', component: EServiceWriteStep2Version },
+  { label: 'Accordo', component: EServiceWriteStep3Agreement },
+  { label: 'Documentazione', component: EServiceWriteStep4Documents },
+]
 
 export type EServiceWriteProps = {
   fetchedDataMaybe: EServiceReadType | undefined
@@ -51,36 +58,16 @@ export function EServiceWrite({ fetchedDataMaybe }: EServiceWriteProps) {
     scrollToTop()
   }
 
-  const props = { forward, back }
   const fetchedData = fetchedDataMaybe as EServiceReadType
-
-  const steps: StepperStep[] = [
-    {
-      label: 'Generale',
-      Component: () => EServiceWriteStep1General({ ...props, fetchedDataMaybe }),
-    },
-    {
-      label: 'Versione',
-      Component: () => EServiceWriteStep2Version({ ...props, fetchedData }),
-    },
-    {
-      label: 'Accordo',
-      Component: () => EServiceWriteStep3Agreement({ ...props, fetchedData }),
-    },
-    {
-      label: 'Documentazione',
-      Component: () => EServiceWriteStep4Documents({ ...props, fetchedData }),
-    },
-  ]
-
-  const Step = steps[activeStep].Component
+  const stepProps = { forward, back, fetchedData, fetchedDataMaybe }
+  const Step = STEPS[activeStep].component
 
   return (
     <React.Fragment>
       <WhiteBackground>
-        <Stepper steps={steps} activeIndex={activeStep} />
+        <Stepper steps={STEPS} activeIndex={activeStep} />
       </WhiteBackground>
-      <Step />
+      <Step {...stepProps} />
     </React.Fragment>
   )
 }

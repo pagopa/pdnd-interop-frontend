@@ -1,5 +1,11 @@
 import React, { useState } from 'react'
-import { RequestOutcome, RequestOutcomeOptions, StepperStep, User } from '../../types'
+import {
+  RequestOutcome,
+  RequestOutcomeOptions,
+  StepperStep,
+  StepperStepComponentProps,
+  User,
+} from '../../types'
 import { Stepper } from '../components/Stepper'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { OnboardingStep1 } from '../components/OnboardingStep1'
@@ -80,7 +86,7 @@ export function Onboarding() {
     },
   ]
 
-  const Step = steps[activeStep].Component
+  const Step = steps[activeStep].Component as React.FunctionComponent<StepperStepComponentProps>
 
   const outcomeContent: RequestOutcomeOptions = {
     success: {

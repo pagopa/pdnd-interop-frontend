@@ -57,7 +57,7 @@ export function EServiceWriteStep1General({
       setEserviceData({ technology, name, description })
       setAttributes(remapBackendAttributesToFrontend(backendAttributes))
     }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [fetchedDataMaybe])
 
   // Check for empty strings in input text field
   const isEmptyTextField = (fieldType: FieldType, valueToTest: any) =>
