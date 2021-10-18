@@ -11,25 +11,25 @@ import { getActiveDocs } from '../lib/eservice-utils'
 import { StyledDeleteableDocument } from './StyledDeleteableDocument'
 import { StyledInputFile } from './StyledInputFile'
 import { StyledInputTextArea } from './StyledInputTextArea'
+import { useFeedback } from '../hooks/useFeedback'
 
 type EServiceWriteStep4DocumentsDocProps = {
-  fetchedData: EServiceReadType
+  data: EServiceReadType
   uploadDescriptorDocument: any
   deleteDescriptorDocument: any
   activeDescriptorId: string
-  runAction: any
 }
 
 type EServiceDocumentsReadObject = { [key: string]: EServiceDocumentRead }
 
 export function EServiceWriteStep4DocumentsDoc({
-  fetchedData,
+  data,
   uploadDescriptorDocument,
   deleteDescriptorDocument,
   activeDescriptorId,
-  runAction,
 }: EServiceWriteStep4DocumentsDocProps) {
-  const initialDocs = getActiveDocs(fetchedData, activeDescriptorId)
+  const { runAction } = useFeedback()
+  const initialDocs = getActiveDocs(data, activeDescriptorId)
 
   const toArray = (obj: EServiceDocumentsReadObject) => Object.values(obj)
   const toObject = (arr: EServiceDocumentRead[]) => keyBy(arr, 'id')
@@ -83,8 +83,8 @@ export function EServiceWriteStep4DocumentsDoc({
         return (
           <StyledDeleteableDocument
             key={i}
-            eserviceId={fetchedData.id}
-            descriptorId={fetchedData.activeDescriptor!.id}
+            eserviceId={data.id}
+            descriptorId={data.activeDescriptor!.id}
             readable={readDoc}
             deleteDocument={wrapDeletePreviousDoc(readDoc.id)}
             runAction={runAction}

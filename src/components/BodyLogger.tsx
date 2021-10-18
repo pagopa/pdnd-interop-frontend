@@ -21,6 +21,12 @@ export function BodyLogger() {
    * Handle toast
    */
   useEffect(() => {
+    // Avoid still showing the toast from last page
+    if (toast) {
+      setToast(null)
+    }
+
+    // If there is explicitly a new toast to show on this page, display it
     if (!isEmpty(location.state) && !isEmpty((location.state as any).toast)) {
       const toastContent = (location.state as any).toast as ToastContentWithOutcome
       setToast({
@@ -30,7 +36,7 @@ export function BodyLogger() {
         },
       })
     }
-  }, [location])
+  }, [location]) // eslint-disable-line react-hooks/exhaustive-deps
 
   /*
    * Handle data logging (now console.log, in the future might be Analytics)

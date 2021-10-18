@@ -93,7 +93,7 @@ export function EServiceWriteStep4Documents({
         },
       },
       {
-        suppressToast: true,
+        suppressToast: false,
       }
     )
 
@@ -115,10 +115,9 @@ export function EServiceWriteStep4Documents({
         </StyledIntro>
 
         <EServiceWriteStep4DocumentsInterface
-          fetchedData={fetchedData}
+          data={fetchedData}
           uploadDescriptorDocument={uploadDescriptorDocument}
           deleteDescriptorDocument={deleteDescriptorDocument}
-          runAction={runAction}
           activeDescriptorId={activeDescriptorId}
         />
       </WhiteBackground>
@@ -133,10 +132,9 @@ export function EServiceWriteStep4Documents({
         </StyledIntro>
 
         <EServiceWriteStep4DocumentsDoc
-          fetchedData={fetchedData}
+          data={fetchedData}
           uploadDescriptorDocument={uploadDescriptorDocument}
           deleteDescriptorDocument={deleteDescriptorDocument}
-          runAction={runAction}
           activeDescriptorId={activeDescriptorId}
         />
 

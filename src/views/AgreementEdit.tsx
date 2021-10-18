@@ -208,14 +208,16 @@ export function AgreementEdit() {
         <div style={{ maxWidth: 500 }}>
           <Link
             className="link-default"
-            to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_EDIT.PATH, {
+            to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
               eserviceId: data?.eservice?.id,
               descriptorId: data?.eservice?.descriptorId,
             })}
           >
             {data?.eservice?.name}, versione {data?.eservice?.version}
           </Link>
-          {mode === 'subscriber' && data?.eservice?.activeDescriptor ? (
+          {mode === 'subscriber' &&
+          data?.eservice?.activeDescriptor &&
+          data?.status !== 'inactive' ? (
             <React.Fragment>
               {' '}
               (è disponibile una{' '}
