@@ -43,8 +43,6 @@ export function EServiceWriteStep4DocumentsInterface({
   const deletePreviousInterfaceDoc = async () => {
     const { outcome } = await deleteDescriptorDocument(readDoc!.id)
 
-    console.log({ aaaa: 'DELETE', outcome })
-
     if (outcome === 'success') {
       setReadDoc(undefined)
     }
@@ -58,8 +56,6 @@ export function EServiceWriteStep4DocumentsInterface({
     }
 
     const { outcome, response } = await uploadDescriptorDocument(writeDoc, 'interface')
-
-    console.log({ aaaa: 'UPLOAD', outcome, response })
 
     if (outcome === 'success') {
       const activeDescriptor = response.data.descriptors.find(

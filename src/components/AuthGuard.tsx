@@ -44,9 +44,9 @@ export function AuthGuard({ Component, isRoutePublic, authLevels }: AuthGuardPro
     !isRoutePublic &&
     (authLevels! === 'any' || (party && authLevels!.includes(party!.platformRole)))
 
-  if (loadingText && !user) {
+  if ((loadingText && !user) || isRoutePublic || userCanAccess) {
     return <Component /> // TEMP REFACTOR: this null can actually be a skeleton while silently trying to login
   }
 
-  return isRoutePublic || userCanAccess ? <Component /> : <Unauthorized />
+  return <Unauthorized />
 }
