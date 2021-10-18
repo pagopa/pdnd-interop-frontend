@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { EServiceFlatReadType } from '../../types'
 import { StyledInputCheckbox } from '../components/StyledInputCheckbox'
 import { StyledInputTextArea } from '../components/StyledInputTextArea'
 import { USER_ROLE_LABEL } from '../lib/constants'
