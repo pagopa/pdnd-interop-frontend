@@ -39,7 +39,8 @@ export function StyledAccordion({ entries }: StyledAccordionProps) {
             </button>
             <div
               style={{
-                overflow: 'hidden',
+                overflowX: 'hidden',
+                overflowY: 'auto',
                 transition: '0.45s max-height ease-in-out',
                 maxHeight: i !== index ? 0 : 500,
               }}

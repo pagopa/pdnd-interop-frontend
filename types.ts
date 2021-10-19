@@ -61,11 +61,12 @@ export type StepperStepComponentProps = {
   forward?: any
   back?: VoidFunction
   updateFormData?: React.Dispatch<React.SetStateAction<any>>
+  data?: any
 }
 
 export type StepperStep = {
   label: string
-  Component: JSX.Element | React.FunctionComponent<StepperStepComponentProps>
+  component: any
 }
 
 export type IPACatalogParty = {
@@ -74,8 +75,9 @@ export type IPACatalogParty = {
   id: string
   managerName: string
   managerSurname: string
-  o: string
-  ou: string
+  o?: string
+  ou?: string
+  aoo?: string
 }
 
 /*
@@ -100,11 +102,14 @@ export type User = UserOnCreate & {
   status: UserStatus
 }
 
-export type Party = {
-  status: UserStatus
+export type PartyOnCreate = {
   description: string
   institutionId: string
   digitalAddress: string
+}
+
+export type Party = PartyOnCreate & {
+  status: UserStatus
   role: UserRole
   platformRole: UserPlatformRole
   partyId?: string
