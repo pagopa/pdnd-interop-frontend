@@ -184,14 +184,16 @@ export function EServiceRead({ data }: EServiceReadProps) {
           </a>
         </DescriptionBlock>
 
-        <DescriptionBlock label="Interfaccia">
-          <button
-            className="btn-as-link-default"
-            onClick={wrapDownloadDocument(data.activeDescriptor!.interface!.id)}
-          >
-            Scarica il documento di interfaccia
-          </button>
-        </DescriptionBlock>
+        {data.activeDescriptor!.interface && (
+          <DescriptionBlock label="Interfaccia">
+            <button
+              className="btn-as-link-default"
+              onClick={wrapDownloadDocument(data.activeDescriptor!.interface!.id)}
+            >
+              Scarica il documento di interfaccia
+            </button>
+          </DescriptionBlock>
+        )}
 
         {data.activeDescriptor!.docs.length > 0 && (
           <DescriptionBlock label="Documentazione">
@@ -204,10 +206,14 @@ export function EServiceRead({ data }: EServiceReadProps) {
               >
                 <div className="py-1 my-1">
                   <strong>{d.name}</strong>
-                  <br />
-                  <span className="d-inline-block mt-1 mb-2">
-                    {decodeURIComponent(d.description)}
-                  </span>
+                  {d.description !== 'undefined' && (
+                    <React.Fragment>
+                      <br />
+                      <span className="d-inline-block mt-1 mb-2">
+                        {decodeURIComponent(d.description)}
+                      </span>
+                    </React.Fragment>
+                  )}
                 </div>
                 <button className="btn-as-link-default" onClick={wrapDownloadDocument(d.id)}>
                   <i className="text-primary fs-5 bi bi-download me-2" />
