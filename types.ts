@@ -252,6 +252,7 @@ export type AgreementSummary = {
   id: string
   status: AgreementStatus
   eservice: AgreementEService
+  eserviceDescriptorId: string
   consumer: AgreementProducerAndConsumer
   producer: AgreementProducerAndConsumer
   attributes: BackendAttribute[]

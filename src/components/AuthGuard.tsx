@@ -29,6 +29,7 @@ export function AuthGuard({ Component, isRoutePublic, authLevels }: AuthGuardPro
         ROUTES.TEMP_SPID_USER,
         ROUTES.REGISTRATION_FINALIZE_COMPLETE,
         ROUTES.REGISTRATION_FINALIZE_REJECT,
+        ROUTES.SECURITY_KEY_GUIDE,
       ]
       const isWhitelistedPage = whitelist.map((r) => r.PATH).includes(history.location.pathname)
 
