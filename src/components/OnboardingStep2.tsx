@@ -24,7 +24,7 @@ export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
   }
 
   const onForwardAction = () => {
-    forward!({ users: Object.values(people) })
+    forward!(people)
   }
 
   return (
