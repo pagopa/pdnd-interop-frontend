@@ -140,6 +140,7 @@ export function SecurityOperatorKeys({
                   className="link-default"
                   title="Vai alla guida per la creazione delle chiavi di sicurezza"
                   target="_blank"
+                  rel="noreferrer"
                 >
                   consulta la guida
                 </a>
