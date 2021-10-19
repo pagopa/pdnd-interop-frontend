@@ -27,7 +27,14 @@ export function ClientCreate() {
       path: { endpoint: 'ESERVICE_GET_LIST' },
       config: { params: { consumerId: party?.partyId } },
     },
-    { defaultValue: [], loadingTextLabel: 'Stiamo caricando gli e-service associabili al client' }
+    {
+      defaultValue: [],
+      mapFn: (data) => {
+        console.log(data)
+        return data
+      },
+      loadingTextLabel: 'Stiamo caricando gli e-service associabili al client',
+    }
   )
 
   const wrapSetData = (id: keyof ClientSubmit) => (e: any) => {

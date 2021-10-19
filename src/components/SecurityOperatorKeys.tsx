@@ -135,7 +135,12 @@ export function SecurityOperatorKeys({
             description: (
               <React.Fragment>
                 Per maggiori dettagli,{' '}
-                <a href={ROUTES.SECURITY_KEY_GUIDE.PATH} className="link-default">
+                <a
+                  href={ROUTES.SECURITY_KEY_GUIDE.PATH}
+                  className="link-default"
+                  title="Vai alla guida per la creazione delle chiavi di sicurezza"
+                  target="_blank"
+                >
                   consulta la guida
                 </a>
               </React.Fragment>

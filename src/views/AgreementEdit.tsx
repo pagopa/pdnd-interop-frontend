@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import has from 'lodash/has'
-import isEmpty from 'lodash/isEmpty'
 import {
   AgreementStatus,
   AgreementSummary,
@@ -39,7 +38,6 @@ export function AgreementEdit() {
       path: { endpoint: 'AGREEMENT_GET_SINGLE', endpointParams: { agreementId } },
     },
     {
-      defaultValue: {},
       useEffectDeps: [forceRerenderCounter, mode],
       loadingTextLabel: "Stiamo caricando l'accordo richiesto",
     }
@@ -107,7 +105,7 @@ export function AgreementEdit() {
   type AgreementActions = { [key in AgreementStatus]: ActionWithTooltipBtn[] }
   // Build list of available actions for each agreement in its current state
   const getAvailableActions = () => {
-    if (isEmpty(data)) {
+    if (!data) {
       return []
     }
 
@@ -155,7 +153,7 @@ export function AgreementEdit() {
       mode!
     ]
 
-    const status = getAgreementStatus(data, mode)
+    const status = data ? getAgreementStatus(data, mode) : 'suspended'
 
     return mergeActions<AgreementActions>([currentActions, sharedActions], status)
   }
@@ -209,14 +207,14 @@ export function AgreementEdit() {
           <Link
             className="link-default"
             to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
-              eserviceId: data?.eservice?.id,
-              descriptorId: data?.eservice?.descriptorId,
+              eserviceId: data?.eservice.id,
+              descriptorId: data?.eserviceDescriptorId,
             })}
           >
-            {data?.eservice?.name}, versione {data?.eservice?.version}
+            {data?.eservice.name}, versione {data?.eservice.version}
           </Link>
           {mode === 'subscriber' &&
-          data?.eservice?.activeDescriptor &&
+          data?.eservice.activeDescriptor &&
           data?.status !== 'inactive' ? (
             <React.Fragment>
               {' '}
@@ -224,8 +222,8 @@ export function AgreementEdit() {
               <Link
                 className="link-default"
                 to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
-                  eserviceId: data.eservice.id,
-                  descriptorId: data.eservice.activeDescriptor.id,
+                  eserviceId: data?.eservice.id,
+                  descriptorId: data?.eservice.activeDescriptor.id,
                 })}
               >
                 versione più recente
@@ -237,7 +235,7 @@ export function AgreementEdit() {
       </DescriptionBlock>
 
       <DescriptionBlock label="Stato dell'accordo" tooltipLabel={agreementSuspendExplanation}>
-        {data.status === 'suspended' ? (
+        {data?.status === 'suspended' ? (
           <React.Fragment>
             <span>
               Lato erogatore: {AGREEMENT_STATUS_LABEL[getAgreementStatus(data, 'provider')]}
@@ -248,14 +246,14 @@ export function AgreementEdit() {
             </span>
           </React.Fragment>
         ) : (
-          <span>{AGREEMENT_STATUS_LABEL[data.status]}</span>
+          <span>{AGREEMENT_STATUS_LABEL[data?.status]}</span>
         )}
       </DescriptionBlock>
 
       <DescriptionBlock label="Attributi">
         <div className="mt-1">
-          {data?.attributes?.length > 0 ? (
-            data?.attributes?.map((backendAttribute, i) => {
+          {data?.attributes.length > 0 ? (
+            data?.attributes.map((backendAttribute, i) => {
               let attributesToDisplay: any
 
               if (has(backendAttribute, 'single')) {
@@ -295,7 +293,7 @@ export function AgreementEdit() {
 
       {mode === 'provider' && (
         <DescriptionBlock label="Ente fruitore">
-          <span>{data?.consumer?.name}</span>
+          <span>{data?.consumer.name}</span>
         </DescriptionBlock>
       )}
 
