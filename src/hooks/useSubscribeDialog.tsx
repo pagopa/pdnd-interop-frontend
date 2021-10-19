@@ -47,7 +47,7 @@ export const useSubscribeDialog = ({
             className="mb-1"
           />
           <StyledInputCheckbox
-            label="Ho letto l'accordo"
+            label="Ho letto l'accordo, accetto i termini"
             id="agreement-confirm"
             checked={!!checked}
             onChange={() => {

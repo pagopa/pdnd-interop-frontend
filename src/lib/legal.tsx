@@ -28,14 +28,14 @@ export function getAccessionAgreement(admin: User, party: PartyOnCreate, current
         <strong>
           {currentUser.name} {currentUser.surname}
         </strong>
-        , codice fiscale/partita IVA <strong>{currentUser.taxCode}</strong>, domicilio digitale{' '}
-        <strong>{party.digitalAddress}</strong> nella persona del legale rappresentante pro tempore
-        (di seguito “Aderente”), richiede di aderire alla Piattaforma Digitale Nazionale Dati (di
-        seguito “Infrastruttura”) di cui all’art. 50-ter, comma 2, del Decreto Legislativo 7 marzo
-        2005, n. 82 recante Codice dell’Amministrazione Digitale (di seguito “CAD”), sviluppata da,
-        e nella gestione di, PagoPA S.p.A. con n. di iscrizione a Registro Imprese di Roma, CF e
-        P.IVA 15376371009 (di seguito “Società”) e costituita da una infrastruttura tecnologica che
-        rende possibile l’interoperabilità dei sistemi informativi e delle basi di dati.
+        , codice fiscale/partita IVA <strong>{currentUser.taxCode}</strong>, nella persona del
+        legale rappresentante pro tempore (di seguito “Aderente”), richiede di aderire alla
+        Piattaforma Digitale Nazionale Dati (di seguito “Infrastruttura”) di cui all’art. 50-ter,
+        comma 2, del Decreto Legislativo 7 marzo 2005, n. 82 recante Codice dell’Amministrazione
+        Digitale (di seguito “CAD”), sviluppata da, e nella gestione di, PagoPA S.p.A. con n. di
+        iscrizione a Registro Imprese di Roma, CF e P.IVA 15376371009 (di seguito “Società”) e
+        costituita da una infrastruttura tecnologica che rende possibile l’interoperabilità dei
+        sistemi informativi e delle basi di dati.
       </p>
       <p>
         A tal fine, l’Aderente, con la presente lettera di adesione (“Lettera di Adesione”) accetta
@@ -107,7 +107,8 @@ export function getAccessionAgreement(admin: User, party: PartyOnCreate, current
         <strong>
           {admin.name} {admin.surname}
         </strong>
-        , CF <strong>{admin.taxCode}</strong>, e-mail <strong>{admin.email}</strong>.
+        , CF <strong>{admin.taxCode}</strong>, domicilio digitale dell'ente{' '}
+        <strong>{party.digitalAddress}</strong>.
       </p>
       <p>
         Apponendo la firma digitale sottostante, il firmatario dichiara di accettare espressamente e
