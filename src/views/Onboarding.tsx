@@ -19,6 +19,7 @@ import redXIllustration from '../assets/red-x-illustration.svg'
 import { getFetchOutcome } from '../lib/error-utils'
 import { useHistory } from 'react-router-dom'
 import { InlineSupportLink } from '../components/InlineSupportLink'
+import { scrollToTop } from '../lib/page-utils'
 
 export function Onboarding() {
   const [loading, setLoading] = useState(false)
@@ -38,6 +39,7 @@ export function Onboarding() {
 
   const forward = () => {
     setActiveStep(activeStep + 1)
+    scrollToTop()
   }
 
   const forwardWithUser = (newPartyPeople: { [key: string]: User }) => {
