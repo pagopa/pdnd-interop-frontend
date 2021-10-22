@@ -27,7 +27,7 @@ export const useSubscribeDialog = ({
   const openDialog = (_?: any) => {
     setDialog({
       title: "Iscriviti all'e-service",
-      description: (
+      children: (
         <React.Fragment>
           <p>
             Spunta la checkbox per confermare che accetti i termini dell'accordo di

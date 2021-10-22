@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AxiosResponse } from 'axios'
 import isEmpty from 'lodash/isEmpty'
-import { Overlay } from './Overlay'
 import { ToastContentWithOutcome, User } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { getFetchOutcome } from '../lib/error-utils'
@@ -188,14 +187,12 @@ export function SecurityOperatorKeys({
       </WhiteBackground>
 
       {modal && (
-        <Overlay>
-          <CreateKeyModal
-            close={closeModal}
-            clientId={clientId}
-            taxCode={userData.taxCode}
-            afterSuccess={updateKeyCreationCounter}
-          />
-        </Overlay>
+        <CreateKeyModal
+          close={closeModal}
+          clientId={clientId}
+          taxCode={userData.taxCode}
+          afterSuccess={updateKeyCreationCounter}
+        />
       )}
     </React.Fragment>
   )
