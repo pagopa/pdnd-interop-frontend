@@ -13,7 +13,7 @@ import {
 } from '../../types'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { ActionWithTooltip } from '../components/ActionWithTooltip'
-import { StyledIntro } from '../components/StyledIntro'
+import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useMode } from '../hooks/useMode'
 import { TempFilters } from '../components/TempFilters'

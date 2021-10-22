@@ -5,8 +5,8 @@ import { fetchWithLogs } from '../lib/api-utils'
 import { TOAST_CONTENTS } from '../lib/constants'
 import { getFetchOutcome } from '../lib/error-utils'
 import { LoadingOverlay } from './LoadingOverlay'
-import { StyledInputSelect } from './StyledInputSelect'
-import { StyledInputTextArea } from './StyledInputTextArea'
+import { StyledInputSelect } from './Shared/StyledInputSelect'
+import { StyledInputTextArea } from './Shared/StyledInputTextArea'
 
 type NewPublicKeyProps = {
   close: (toastContent?: ToastContentWithOutcome) => void

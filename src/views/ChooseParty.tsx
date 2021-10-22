@@ -5,9 +5,9 @@ import { WhiteBackground } from '../components/WhiteBackground'
 import { HARDCODED_MAIN_TAG_HEIGHT, ROUTES, USER_ROLE_LABEL } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { Row, Col, Button } from 'react-bootstrap'
-import { StyledInputRadioGroup } from '../components/StyledInputRadioGroup'
+import { StyledInputRadioGroup } from '../components/Shared/StyledInputRadioGroup'
 import { storageWrite } from '../lib/storage-utils'
-import { StyledIntro } from '../components/StyledIntro'
+import { StyledIntro } from '../components/Shared/StyledIntro'
 
 export function ChooseParty() {
   const { setParty, party, availableParties } = useContext(PartyContext)

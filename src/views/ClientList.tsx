@@ -8,7 +8,7 @@ import {
   ActionWithTooltipLink,
   ActionWithTooltipProps,
 } from '../../types'
-import { StyledIntro } from '../components/StyledIntro'
+import { StyledIntro } from '../components/Shared/StyledIntro'
 import { ActionWithTooltip } from '../components/ActionWithTooltip'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { TempFilters } from '../components/TempFilters'

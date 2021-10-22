@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 // import { Toast } from 'react-bootstrap'
-import { RequestOutcome, ToastContent, ToastContentWithOutcome } from '../../types'
+import { RequestOutcome, ToastContent, ToastContentWithOutcome } from '../../../types'
 import noop from 'lodash/noop'
 
 type StyledToastProps = ToastContentWithOutcome & {

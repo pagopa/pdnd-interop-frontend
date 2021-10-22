@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyledIntro } from './StyledIntro'
+import { StyledIntro } from './Shared/StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
 
 export function Unauthorized() {

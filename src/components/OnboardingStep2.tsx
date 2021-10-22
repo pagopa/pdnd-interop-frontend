@@ -5,7 +5,7 @@ import { WhiteBackground } from './WhiteBackground'
 import cryptoRandomString from 'crypto-random-string'
 import { StepperStepComponentProps, UserOnCreate } from '../../types'
 import { objectIsEmpty } from '../lib/object-utils'
-import { StyledIntro } from './StyledIntro'
+import { StyledIntro } from './Shared/StyledIntro'
 import { PlatformUserForm } from './PlatformUserForm'
 
 // Could be an ES6 Set but it's too bothersome for now

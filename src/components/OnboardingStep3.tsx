@@ -4,8 +4,8 @@ import { StepperStepComponentProps, User } from '../../types'
 import { UserContext } from '../lib/context'
 import { getAccessionAgreement, getAccessionAgreementAttachments } from '../lib/legal'
 import { OnboardingStepActions } from './OnboardingStepActions'
-import { StyledAccordion } from './StyledAccordion'
-import { StyledIntro } from './StyledIntro'
+import { StyledAccordion } from './Shared/StyledAccordion'
+import { StyledIntro } from './Shared/StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
 
 export function OnboardingStep3({ forward, back, data }: StepperStepComponentProps) {

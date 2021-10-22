@@ -1,6 +1,6 @@
 import React from 'react'
 import snakeCase from 'lodash/snakeCase'
-import { StyledIntro } from '../components/StyledIntro'
+import { StyledIntro } from '../components/Shared/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import textData from '../assets/data/help.json'
 

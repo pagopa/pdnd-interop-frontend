@@ -1,6 +1,6 @@
 import React from 'react'
 import { EServiceAttributeGroup } from './EServiceAttributeGroup'
-import { StyledIntro } from './StyledIntro'
+import { StyledIntro } from './Shared/StyledIntro'
 import isEqual from 'lodash/isEqual'
 import { AttributeType, CatalogAttribute, FrontendAttributes } from '../../types'
 

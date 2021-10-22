@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyledIntro } from '../components/StyledIntro'
+import { StyledIntro } from '../components/Shared/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 
 type Notification = {
