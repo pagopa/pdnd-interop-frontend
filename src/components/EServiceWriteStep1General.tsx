@@ -1,7 +1,6 @@
 import { AxiosResponse } from 'axios'
 import { isEmpty } from 'lodash'
 import React, { useContext, useEffect, useState } from 'react'
-import { Form } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
 import {
   ApiEndpointKey,
@@ -21,6 +20,7 @@ import { buildDynamicPath } from '../lib/url-utils'
 import { EServiceWriteProps } from '../views/EServiceWrite'
 import { EServiceAttributeSection } from './EServiceAttributeSection'
 import { StyledButton } from './Shared/StyledButton'
+import { StyledForm } from './Shared/StyledForm'
 import { StyledInputCheckbox } from './Shared/StyledInputCheckbox'
 import { StyledInputRadioGroup } from './Shared/StyledInputRadioGroup'
 import { StyledInputText } from './Shared/StyledInputText'
@@ -147,7 +147,7 @@ export function EServiceWriteStep1General({
           }}
         </StyledIntro>
       </WhiteBackground>
-      <Form onSubmit={submit}>
+      <StyledForm onSubmit={submit}>
         <WhiteBackground>
           <StyledIntro priority={2}>{{ title: 'Caratterizzazione e-service' }}</StyledIntro>
 
@@ -211,7 +211,7 @@ export function EServiceWriteStep1General({
             </StyledButton>
           </div>
         </WhiteBackground>
-      </Form>
+      </StyledForm>
     </React.Fragment>
   )
 }

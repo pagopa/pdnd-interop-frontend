@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { Link, useLocation } from 'react-router-dom'
-import { Form } from 'react-bootstrap'
 import { fetchWithLogs } from '../lib/api-utils'
 import { MessageNoAction } from '../components/MessageNoAction'
 import { RequestOutcome, RequestOutcomeOptions } from '../../types'
@@ -16,6 +15,7 @@ import { StyledIntro } from '../components/Shared/StyledIntro'
 import { parseSearch } from '../lib/url-utils'
 import { LoaderContext } from '../lib/context'
 import { StyledButton } from '../components/Shared/StyledButton'
+import { StyledForm } from '../components/Shared/StyledForm'
 
 export function CompleteRegistration() {
   const { setLoadingText } = useContext(LoaderContext)
@@ -118,7 +118,7 @@ export function CompleteRegistration() {
             }}
           </StyledIntro>
 
-          <Form className="mt-4 form-max-width" onSubmit={handleSubmit}>
+          <StyledForm className="mt-4 form-max-width" onSubmit={handleSubmit}>
             <StyledInputFile
               id="contratto"
               onChange={loadFile}
@@ -129,7 +129,7 @@ export function CompleteRegistration() {
             <StyledButton variant="primary" type="submit" disabled={!contract}>
               prosegui
             </StyledButton>
-          </Form>
+          </StyledForm>
         </div>
       </WhiteBackground>
     </React.Fragment>

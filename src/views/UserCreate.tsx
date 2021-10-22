@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react'
-import { Form } from 'react-bootstrap'
 import { UsersObject } from '../components/OnboardingStep2'
 import { PlatformUserForm } from '../components/PlatformUserForm'
 import { StyledIntro } from '../components/Shared/StyledIntro'
@@ -12,6 +11,7 @@ import { buildDynamicRoute, parseSearch } from '../lib/url-utils'
 import { ProviderOrSubscriber } from '../../types'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
+import { StyledForm } from '../components/Shared/StyledForm'
 
 export function UserCreate() {
   const { runActionWithDestination } = useFeedback()
@@ -69,7 +69,7 @@ export function UserCreate() {
     <WhiteBackground>
       <StyledIntro priority={2}>{INTRO[mode!]}</StyledIntro>
 
-      <Form onSubmit={handleSubmit} style={{ maxWidth: 768 }}>
+      <StyledForm onSubmit={handleSubmit} style={{ maxWidth: 768 }}>
         <PlatformUserForm
           prefix="operator"
           role="Operator"
@@ -81,7 +81,7 @@ export function UserCreate() {
         <StyledButton className="mt-3" variant="primary" type="submit" disabled={false}>
           crea operatore
         </StyledButton>
-      </Form>
+      </StyledForm>
     </WhiteBackground>
   )
 }
