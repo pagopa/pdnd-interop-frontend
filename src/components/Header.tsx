@@ -4,8 +4,7 @@ import { ROUTES } from '../lib/constants'
 import { includesAny } from '../lib/string-utils'
 import { MainHeader } from './MainHeader'
 import { PlatformHeader } from './PlatformHeader'
-import { StyledContainer } from './Shared/StyledContainer'
-import { StyledRow } from './Shared/StyledRow'
+import { Layout } from './Shared/Layout'
 
 export function Header() {
   const location = useLocation()
@@ -20,11 +19,9 @@ export function Header() {
     <header>
       <MainHeader />
       <div className="bg-white">
-        <StyledContainer>
-          <StyledRow>
-            <h1 className="bg-white py-4">Portale interoperabilità</h1>
-          </StyledRow>
-        </StyledContainer>
+        <Layout>
+          <h1 className="bg-white py-4">Portale interoperabilità</h1>
+        </Layout>
       </div>
       {isInPlatform && <PlatformHeader />}
     </header>

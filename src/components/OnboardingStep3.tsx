@@ -4,7 +4,6 @@ import { UserContext } from '../lib/context'
 import { getAccessionAgreement, getAccessionAgreementAttachments } from '../lib/legal'
 import { OnboardingStepActions } from './OnboardingStepActions'
 import { StyledAccordion } from './Shared/StyledAccordion'
-import { StyledContainer } from './Shared/StyledContainer'
 import { StyledIntro } from './Shared/StyledIntro'
 
 export function OnboardingStep3({ forward, back, data }: StepperStepComponentProps) {
@@ -14,7 +13,7 @@ export function OnboardingStep3({ forward, back, data }: StepperStepComponentPro
   const attachments = getAccessionAgreementAttachments(delegates)
 
   return (
-    <StyledContainer className="container-align-left form-max-width">
+    <React.Fragment>
       <StyledIntro>
         {{
           title: 'Verifica i dati e i termini dell’accordo di adesione*',
@@ -32,6 +31,6 @@ export function OnboardingStep3({ forward, back, data }: StepperStepComponentPro
         back={{ action: back, label: 'indietro', disabled: false }}
         forward={{ action: forward, label: 'invia', disabled: false }}
       />
-    </StyledContainer>
+    </React.Fragment>
   )
 }

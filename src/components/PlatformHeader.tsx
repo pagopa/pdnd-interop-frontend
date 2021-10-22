@@ -7,7 +7,7 @@ import { isOperatorAPI, isOperatorSecurity } from '../lib/auth-utils'
 import { ROUTES, USER_ROLE_LABEL } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { storageWrite } from '../lib/storage-utils'
-import { StyledContainer } from './Shared/StyledContainer'
+import { Layout } from './Shared/Layout'
 
 type NavLinkProps = {
   route: RouteConfig
@@ -66,8 +66,8 @@ export function PlatformHeader() {
   }
 
   return (
-    <Navbar className="justify-content-between py-0">
-      <StyledContainer className="d-flex align-items-stretch">
+    <Layout>
+      <Navbar className="py-0 d-flex justify-content-between align-items-stretch">
         <Nav>
           {!isOperatorAPI(party) && (
             <NavLink customStyle={true} eventKey="1" route={ROUTES.SUBSCRIBE} />
@@ -108,7 +108,7 @@ export function PlatformHeader() {
             </NavLink>
           </Nav>
         </div>
-      </StyledContainer>
-    </Navbar>
+      </Navbar>
+    </Layout>
   )
 }

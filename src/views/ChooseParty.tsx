@@ -7,8 +7,6 @@ import { StyledInputRadioGroup } from '../components/Shared/StyledInputRadioGrou
 import { storageWrite } from '../lib/storage-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { StyledRow } from '../components/Shared/StyledRow'
-import { StyledCol } from '../components/Shared/StyledCol'
 import { Layout } from '../components/Shared/Layout'
 
 export function ChooseParty() {
@@ -42,8 +40,8 @@ export function ChooseParty() {
         }}
       </StyledIntro>
 
-      <StyledRow className="d-flex align-items-center">
-        <StyledCol>
+      <div className="d-flex align-items-center">
+        <div>
           <StyledInputRadioGroup
             id="istituzioni"
             groupLabel="Selezione ente"
@@ -66,19 +64,19 @@ export function ChooseParty() {
           >
             prosegui
           </StyledButton>
-        </StyledCol>
-        <StyledCol className="text-center">
+        </div>
+        <div className="text-center">
           <p>oppure</p>
           <StyledButton variant="primary" onClick={goToOnboarding}>
             registra nuovo ente
           </StyledButton>
-        </StyledCol>
-      </StyledRow>
+        </div>
+      </div>
     </Layout>
   ) : (
     <Layout>
-      <StyledRow className="d-flex align-items-center mx-auto my-auto">
-        <StyledCol className="text-center">
+      <div className="d-flex align-items-center mx-auto my-auto">
+        <div className="text-center">
           <StyledIntro priority={2}>
             {{
               title: 'Ciao!',
@@ -93,8 +91,8 @@ export function ChooseParty() {
           <StyledButton variant="primary" onClick={goToOnboarding}>
             registra nuovo ente
           </StyledButton>
-        </StyledCol>
-      </StyledRow>
+        </div>
+      </div>
     </Layout>
   )
 }
