@@ -4,11 +4,12 @@ import { Party } from '../../types'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { HARDCODED_MAIN_TAG_HEIGHT, ROUTES, USER_ROLE_LABEL } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import { Row, Col } from 'react-bootstrap'
 import { StyledInputRadioGroup } from '../components/Shared/StyledInputRadioGroup'
 import { storageWrite } from '../lib/storage-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
+import { StyledRow } from '../components/Shared/StyledRow'
+import { StyledCol } from '../components/Shared/StyledCol'
 
 export function ChooseParty() {
   const { setParty, party, availableParties } = useContext(PartyContext)
@@ -41,8 +42,8 @@ export function ChooseParty() {
         }}
       </StyledIntro>
 
-      <Row className="d-flex align-items-center">
-        <Col>
+      <StyledRow className="d-flex align-items-center">
+        <StyledCol>
           <StyledInputRadioGroup
             id="istituzioni"
             groupLabel="Selezione ente"
@@ -65,22 +66,22 @@ export function ChooseParty() {
           >
             prosegui
           </StyledButton>
-        </Col>
-        <Col className="text-center">
+        </StyledCol>
+        <StyledCol className="text-center">
           <p>oppure</p>
           <StyledButton variant="primary" onClick={goToOnboarding}>
             registra nuovo ente
           </StyledButton>
-        </Col>
-      </Row>
+        </StyledCol>
+      </StyledRow>
     </WhiteBackground>
   ) : (
     <WhiteBackground
       containerStyles={{ minHeight: HARDCODED_MAIN_TAG_HEIGHT }}
       containerClassNames="d-flex flex-direction-column"
     >
-      <Row className="d-flex align-items-center mx-auto my-auto">
-        <Col className="text-center">
+      <StyledRow className="d-flex align-items-center mx-auto my-auto">
+        <StyledCol className="text-center">
           <StyledIntro priority={2}>
             {{
               title: 'Ciao!',
@@ -95,8 +96,8 @@ export function ChooseParty() {
           <StyledButton variant="primary" onClick={goToOnboarding}>
             registra nuovo ente
           </StyledButton>
-        </Col>
-      </Row>
+        </StyledCol>
+      </StyledRow>
     </WhiteBackground>
   )
 }

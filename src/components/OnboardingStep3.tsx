@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
-import { Container } from 'react-bootstrap'
 import { StepperStepComponentProps, User } from '../../types'
 import { UserContext } from '../lib/context'
 import { getAccessionAgreement, getAccessionAgreementAttachments } from '../lib/legal'
 import { OnboardingStepActions } from './OnboardingStepActions'
 import { StyledAccordion } from './Shared/StyledAccordion'
+import { StyledContainer } from './Shared/StyledContainer'
 import { StyledIntro } from './Shared/StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
 
@@ -16,7 +16,7 @@ export function OnboardingStep3({ forward, back, data }: StepperStepComponentPro
 
   return (
     <WhiteBackground>
-      <Container className="container-align-left form-max-width">
+      <StyledContainer className="container-align-left form-max-width">
         <StyledIntro>
           {{
             title: 'Verifica i dati e i termini dell’accordo di adesione*',
@@ -34,7 +34,7 @@ export function OnboardingStep3({ forward, back, data }: StepperStepComponentPro
           back={{ action: back, label: 'indietro', disabled: false }}
           forward={{ action: forward, label: 'invia', disabled: false }}
         />
-      </Container>
+      </StyledContainer>
     </WhiteBackground>
   )
 }

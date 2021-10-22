@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Row } from 'react-bootstrap'
+import { StyledRow } from './StyledRow'
 
 type ChildrenProps = {
   title: React.ReactNode
@@ -22,9 +22,9 @@ export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
   const TitleTag = `h${priority + 1}` as keyof JSX.IntrinsicElements
 
   return (
-    <Row className={`mb-4 ${additionalClasses || ''}`} style={{ maxWidth: 480 }}>
+    <StyledRow className={`mb-4 ${additionalClasses || ''}`} style={{ maxWidth: 480 }}>
       <TitleTag>{children.title}</TitleTag>
       {children.description && <p className="mb-0">{children.description}</p>}
-    </Row>
+    </StyledRow>
   )
 }
