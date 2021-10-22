@@ -1,7 +1,6 @@
 import { AxiosResponse } from 'axios'
 import { isEmpty } from 'lodash'
 import React, { useEffect, useState } from 'react'
-import { Form } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 import { ApiEndpointKey, StepperStepComponentProps } from '../../types'
 import { useFeedback } from '../hooks/useFeedback'
@@ -9,6 +8,7 @@ import { ROUTES } from '../lib/constants'
 import { buildDynamicPath } from '../lib/url-utils'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
 import { StyledButton } from './Shared/StyledButton'
+import { StyledForm } from './Shared/StyledForm'
 import { StyledInputText } from './Shared/StyledInputText'
 import { StyledInputTextArea } from './Shared/StyledInputTextArea'
 import { StyledIntro } from './Shared/StyledIntro'
@@ -123,7 +123,7 @@ export function EServiceWriteStep2Version({
           {{ title: 'Crea e-service: informazioni di versione' }}
         </StyledIntro>
 
-        <Form onSubmit={submit}>
+        <StyledForm onSubmit={submit}>
           <StyledInputText
             id="version"
             label="Numero della versione*"
@@ -165,7 +165,7 @@ export function EServiceWriteStep2Version({
               indietro
             </StyledButton>
           </div>
-        </Form>
+        </StyledForm>
       </WhiteBackground>
     </React.Fragment>
   )

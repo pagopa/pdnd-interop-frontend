@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import isEmpty from 'lodash/isEmpty'
-import { Form } from 'react-bootstrap'
 import {
   EServiceDescriptorRead,
   EServiceDocumentRead,
@@ -12,6 +11,7 @@ import { StyledDeleteableDocument } from './Shared/StyledDeleteableDocument'
 import { StyledInputFile } from './Shared/StyledInputFile'
 import { StyledInputTextArea } from './Shared/StyledInputTextArea'
 import { StyledButton } from './Shared/StyledButton'
+import { StyledForm } from './Shared/StyledForm'
 
 type EServiceWriteStep4DocumentsInterfaceProps = {
   data: EServiceReadType
@@ -78,7 +78,7 @@ export function EServiceWriteStep4DocumentsInterface({
       deleteDocument={deletePreviousInterfaceDoc}
     />
   ) : (
-    <Form className="px-3 py-3 rounded bg-secondary" onSubmit={uploadNewInterfaceDoc}>
+    <StyledForm className="px-3 py-3 rounded bg-secondary" onSubmit={uploadNewInterfaceDoc}>
       <StyledInputFile
         className="mt-2 mb-0"
         id="interface-doc"
@@ -104,6 +104,6 @@ export function EServiceWriteStep4DocumentsInterface({
           carica
         </StyledButton>
       </div>
-    </Form>
+    </StyledForm>
   )
 }

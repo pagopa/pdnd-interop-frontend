@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import isEmpty from 'lodash/isEmpty'
-import { Form } from 'react-bootstrap'
 import { useLogin } from '../hooks/useLogin'
 import { UsersObject } from './OnboardingStep2'
 import { PlatformUserForm } from './PlatformUserForm'
 import { StyledIntro } from './Shared/StyledIntro'
 import { StyledButton } from './Shared/StyledButton'
+import { StyledForm } from './Shared/StyledForm'
 
 export function TempSPIDUser() {
   const [data, setData] = useState<UsersObject>({})
@@ -40,7 +40,7 @@ export function TempSPIDUser() {
               </StyledIntro>
             </div>
 
-            <Form onSubmit={handleSubmit}>
+            <StyledForm onSubmit={handleSubmit}>
               <PlatformUserForm
                 platformRole="admin"
                 role="Manager"
@@ -58,7 +58,7 @@ export function TempSPIDUser() {
               >
                 Effettua il login
               </StyledButton>
-            </Form>
+            </StyledForm>
           </div>
         </div>
       </div>

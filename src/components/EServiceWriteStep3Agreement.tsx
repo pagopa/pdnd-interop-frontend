@@ -1,12 +1,12 @@
 import React from 'react'
 import noop from 'lodash/noop'
-import { Form } from 'react-bootstrap'
 import { StepperStepComponentProps } from '../../types'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
 import { StyledInputSelect } from './Shared/StyledInputSelect'
 import { StyledIntro } from './Shared/StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
 import { StyledButton } from './Shared/StyledButton'
+import { StyledForm } from './Shared/StyledForm'
 
 export function EServiceWriteStep3Agreement({
   forward,
@@ -27,7 +27,7 @@ export function EServiceWriteStep3Agreement({
   return (
     <React.Fragment>
       <WhiteBackground>
-        <Form onSubmit={submit}>
+        <StyledForm onSubmit={submit}>
           <StyledIntro priority={2}>
             {{
               title: 'Crea e-service: accordo di interoperabilità*',
@@ -51,7 +51,7 @@ export function EServiceWriteStep3Agreement({
               indietro
             </StyledButton>
           </div>
-        </Form>
+        </StyledForm>
       </WhiteBackground>
     </React.Fragment>
   )

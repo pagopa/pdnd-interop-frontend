@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Form } from 'react-bootstrap'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { ROUTES } from '../lib/constants'
@@ -10,6 +9,7 @@ import { EServiceReadType } from '../../types'
 import { PartyContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
+import { StyledForm } from '../components/Shared/StyledForm'
 
 type ClientSubmit = {
   name: string
@@ -73,7 +73,7 @@ export function ClientCreate() {
         }}
       </StyledIntro>
 
-      <Form onSubmit={handleSubmit} style={{ maxWidth: 768 }}>
+      <StyledForm onSubmit={handleSubmit} style={{ maxWidth: 768 }}>
         <StyledInputText
           id="name"
           label="Nome del client*"
@@ -109,7 +109,7 @@ export function ClientCreate() {
         <StyledButton className="mt-3" variant="primary" type="submit" disabled={false}>
           crea client
         </StyledButton>
-      </Form>
+      </StyledForm>
     </WhiteBackground>
   )
 }

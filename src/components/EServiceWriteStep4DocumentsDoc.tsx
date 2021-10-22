@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import keyBy from 'lodash/keyBy'
-import { Form } from 'react-bootstrap'
 import {
   EServiceDescriptorRead,
   EServiceDocumentRead,
@@ -12,6 +11,7 @@ import { StyledDeleteableDocument } from './Shared/StyledDeleteableDocument'
 import { StyledInputFile } from './Shared/StyledInputFile'
 import { StyledInputTextArea } from './Shared/StyledInputTextArea'
 import { StyledButton } from './Shared/StyledButton'
+import { StyledForm } from './Shared/StyledForm'
 
 type EServiceWriteStep4DocumentsDocProps = {
   data: EServiceReadType
@@ -91,7 +91,7 @@ export function EServiceWriteStep4DocumentsDoc({
       })}
 
       {showWriteDocInput ? (
-        <Form className="px-3 py-3 rounded bg-secondary" onSubmit={uploadNewDoc}>
+        <StyledForm className="px-3 py-3 rounded bg-secondary" onSubmit={uploadNewDoc}>
           <StyledInputFile
             className="mt-2 mb-0"
             id="doc-doc"
@@ -117,7 +117,7 @@ export function EServiceWriteStep4DocumentsDoc({
               carica
             </StyledButton>
           </div>
-        </Form>
+        </StyledForm>
       ) : (
         <StyledButton variant="primary" onClick={showFileInputForm}>
           Aggiungi documento
