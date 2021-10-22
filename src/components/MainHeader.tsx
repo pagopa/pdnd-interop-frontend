@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import logo from '../assets/pagopa-logo.svg'
 import { ROUTES } from '../lib/constants'
 import { UserContext } from '../lib/context'
-import { Container, Row, Col, Button } from 'react-bootstrap'
+import { Container, Row, Col } from 'react-bootstrap'
+import { StyledButton } from './Shared/StyledButton'
 
 export function MainHeader() {
   const { user } = useContext(UserContext)
@@ -23,9 +24,9 @@ export function MainHeader() {
             <Link className="text-primary fw-bold text-decoration-none me-4" to={ROUTES.HELP.PATH}>
               {ROUTES.HELP.LABEL}
             </Link>
-            <Button variant="primary" as={Link} to={btnPath}>
+            <StyledButton variant="primary" as={Link} to={btnPath}>
               {btnLabel}
-            </Button>
+            </StyledButton>
           </Col>
         </Row>
       </Container>

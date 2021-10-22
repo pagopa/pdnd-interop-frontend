@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AxiosResponse } from 'axios'
 import isEmpty from 'lodash/isEmpty'
-import { Button } from 'react-bootstrap'
 import { Overlay } from './Overlay'
 import { ToastContentWithOutcome, User } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
@@ -14,6 +13,7 @@ import { ToastContext, UserContext } from '../lib/context'
 import { DescriptionBlock } from './DescriptionBlock'
 import { downloadFile } from '../lib/file-utils'
 import { ROUTES } from '../lib/constants'
+import { StyledButton } from './Shared/StyledButton'
 
 type SecurityOperatorKeysProps = {
   clientId: string
@@ -150,9 +150,9 @@ export function SecurityOperatorKeys({
         </StyledIntro>
 
         {user?.taxCode === userData.taxCode && !key && (
-          <Button className="mb-4" onClick={openModal} variant="primary">
+          <StyledButton className="mb-4" onClick={openModal} variant="primary">
             carica nuova chiave
-          </Button>
+          </StyledButton>
         )}
 
         {key ? (

@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios'
 import { isEmpty } from 'lodash'
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Form } from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
 import {
   ApiEndpointKey,
@@ -20,6 +20,7 @@ import { PartyContext } from '../lib/context'
 import { buildDynamicPath } from '../lib/url-utils'
 import { EServiceWriteProps } from '../views/EServiceWrite'
 import { EServiceAttributeSection } from './EServiceAttributeSection'
+import { StyledButton } from './Shared/StyledButton'
 import { StyledInputCheckbox } from './Shared/StyledInputCheckbox'
 import { StyledInputRadioGroup } from './Shared/StyledInputRadioGroup'
 import { StyledInputText } from './Shared/StyledInputText'
@@ -193,16 +194,21 @@ export function EServiceWriteStep1General({
           <EServiceAttributeSection attributes={attributes} setAttributes={setAttributes} />
 
           <div className="mt-5 d-flex">
-            <Button className="me-3" type="submit" variant="primary" disabled={!eserviceData.name}>
+            <StyledButton
+              className="me-3"
+              type="submit"
+              variant="primary"
+              disabled={!eserviceData.name}
+            >
               salva bozza e prosegui
-            </Button>
-            <Button
+            </StyledButton>
+            <StyledButton
               variant="outline-primary"
               as={Link}
               to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}
             >
               torna agli e-service
-            </Button>
+            </StyledButton>
           </div>
         </WhiteBackground>
       </Form>

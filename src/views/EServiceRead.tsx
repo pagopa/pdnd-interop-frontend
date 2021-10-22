@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import has from 'lodash/has'
-import { Button } from 'react-bootstrap'
 import {
   AttributeType,
   BackendAttribute,
@@ -25,6 +24,7 @@ import { downloadFile } from '../lib/file-utils'
 import { AxiosResponse } from 'axios'
 import { StyledAccordion } from '../components/Shared/StyledAccordion'
 import { useFeedback } from '../hooks/useFeedback'
+import { StyledButton } from '../components/Shared/StyledButton'
 
 type EServiceReadProps = {
   data: EServiceReadType
@@ -238,22 +238,26 @@ export function EServiceRead({ data }: EServiceReadProps) {
         <WhiteBackground>
           <div className="d-flex">
             {isVersionPublished && !isMine && isAdmin(party) && canSubscribeEservice && (
-              <Button className="me-3" variant="primary" onClick={openSubscribeDialog}>
+              <StyledButton className="me-3" variant="primary" onClick={openSubscribeDialog}>
                 iscriviti
-              </Button>
+              </StyledButton>
             )}
             {!isMine && isAdmin(party) && !canSubscribeEservice && (
-              <Button className="me-3 mockFeature" variant="primary" onClick={openExtensionDialog}>
+              <StyledButton
+                className="me-3 mockFeature"
+                variant="primary"
+                onClick={openExtensionDialog}
+              >
                 richiedi estensione
-              </Button>
+              </StyledButton>
             )}
-            <Button
+            <StyledButton
               variant="outline-primary"
               as={Link}
               to={ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}
             >
               torna al catalogo
-            </Button>
+            </StyledButton>
           </div>
         </WhiteBackground>
       )}

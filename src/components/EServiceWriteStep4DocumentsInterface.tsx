@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import isEmpty from 'lodash/isEmpty'
-import { Button, Form } from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 import {
   EServiceDescriptorRead,
   EServiceDocumentRead,
@@ -11,6 +11,7 @@ import { getActiveInterface } from '../lib/eservice-utils'
 import { StyledDeleteableDocument } from './Shared/StyledDeleteableDocument'
 import { StyledInputFile } from './Shared/StyledInputFile'
 import { StyledInputTextArea } from './Shared/StyledInputTextArea'
+import { StyledButton } from './Shared/StyledButton'
 
 type EServiceWriteStep4DocumentsInterfaceProps = {
   data: EServiceReadType
@@ -95,13 +96,13 @@ export function EServiceWriteStep4DocumentsInterface({
       />
 
       <div className="d-flex justify-content-end">
-        <Button type="submit" variant="primary">
+        <StyledButton type="submit" variant="primary">
           <i
             className="fs-5 bi bi-upload me-2 position-relative"
             style={{ transform: 'translateY(0.1rem)' }}
           />{' '}
           carica
-        </Button>
+        </StyledButton>
       </div>
     </Form>
   )

@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import isEmpty from 'lodash/isEmpty'
-import { Button, Form } from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 import { useLogin } from '../hooks/useLogin'
 import { UsersObject } from './OnboardingStep2'
 import { PlatformUserForm } from './PlatformUserForm'
 import { StyledIntro } from './Shared/StyledIntro'
+import { StyledButton } from './Shared/StyledButton'
 
 export function TempSPIDUser() {
   const [data, setData] = useState<UsersObject>({})
@@ -49,14 +50,14 @@ export function TempSPIDUser() {
                 white={true}
               />
 
-              <Button
+              <StyledButton
                 className="mt-3"
                 variant="secondary"
                 type="submit"
                 disabled={isEmpty(data) || isEmpty(data['spid'])}
               >
                 Effettua il login
-              </Button>
+              </StyledButton>
             </Form>
           </div>
         </div>

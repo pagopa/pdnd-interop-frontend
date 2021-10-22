@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { Modal, Button } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap'
 import { ToastContentWithOutcome } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { TOAST_CONTENTS } from '../lib/constants'
 import { getFetchOutcome } from '../lib/error-utils'
 import { LoadingOverlay } from './LoadingOverlay'
+import { StyledButton } from './Shared/StyledButton'
 import { StyledInputSelect } from './Shared/StyledInputSelect'
 import { StyledInputTextArea } from './Shared/StyledInputTextArea'
 
@@ -85,12 +86,12 @@ export function CreateKeyModal({ close, clientId, taxCode, afterSuccess }: NewPu
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="outline-primary" onClick={simpleClose}>
+          <StyledButton variant="outline-primary" onClick={simpleClose}>
             Annulla
-          </Button>
-          <Button variant="primary" onClick={upload} disabled={!data}>
+          </StyledButton>
+          <StyledButton variant="primary" onClick={upload} disabled={!data}>
             Carica chiave
-          </Button>
+          </StyledButton>
         </Modal.Footer>
       </Modal.Dialog>
 

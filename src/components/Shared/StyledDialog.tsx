@@ -1,6 +1,7 @@
 import React from 'react'
-import { Modal, Button } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap'
 import { Overlay } from '../Overlay'
+import { StyledButton } from './StyledButton'
 
 type ConfirmationDialogOverlayProps = {
   title?: string
@@ -29,12 +30,12 @@ export function StyledDialog({
         {description && <Modal.Body className="py-4">{description}</Modal.Body>}
 
         <Modal.Footer>
-          <Button variant="outline-primary" onClick={close}>
+          <StyledButton variant="outline-primary" onClick={close}>
             Annulla
-          </Button>
-          <Button variant="primary" onClick={proceedCallback} disabled={disabled}>
+          </StyledButton>
+          <StyledButton variant="primary" onClick={proceedCallback} disabled={disabled}>
             {proceedLabel}
-          </Button>
+          </StyledButton>
         </Modal.Footer>
       </Modal.Dialog>
     </Overlay>

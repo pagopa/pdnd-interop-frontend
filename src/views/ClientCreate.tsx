@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Form, Button } from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { ROUTES } from '../lib/constants'
@@ -9,6 +9,7 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { EServiceReadType } from '../../types'
 import { PartyContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
+import { StyledButton } from '../components/Shared/StyledButton'
 
 type ClientSubmit = {
   name: string
@@ -105,9 +106,9 @@ export function ClientCreate() {
           onChange={wrapSetData('purposes')}
         />
 
-        <Button className="mt-3" variant="primary" type="submit" disabled={false}>
+        <StyledButton className="mt-3" variant="primary" type="submit" disabled={false}>
           crea client
-        </Button>
+        </StyledButton>
       </Form>
     </WhiteBackground>
   )

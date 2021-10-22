@@ -1,5 +1,6 @@
 import React from 'react'
-import { OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { StyledOverlayTrigger } from './Shared/StyledOverlayTrigger'
+import { StyledTooltip } from './Shared/StyledTooltip'
 
 type InfoTooltipProps = {
   label: string
@@ -8,15 +9,15 @@ type InfoTooltipProps = {
 
 export function InfoTooltip({ label, className = '' }: InfoTooltipProps) {
   return (
-    <OverlayTrigger
+    <StyledOverlayTrigger
       placement="top"
       overlay={
-        <Tooltip className="opacity-100" id="tooltip">
+        <StyledTooltip className="opacity-100" id="tooltip">
           {label}
-        </Tooltip>
+        </StyledTooltip>
       }
     >
       <i className={`text-primary fs-6 bi bi-info-circle ${className}`} />
-    </OverlayTrigger>
+    </StyledOverlayTrigger>
   )
 }

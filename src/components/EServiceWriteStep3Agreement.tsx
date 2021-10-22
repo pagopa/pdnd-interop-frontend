@@ -1,11 +1,12 @@
 import React from 'react'
 import noop from 'lodash/noop'
-import { Button, Form } from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 import { StepperStepComponentProps } from '../../types'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
 import { StyledInputSelect } from './Shared/StyledInputSelect'
 import { StyledIntro } from './Shared/StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
+import { StyledButton } from './Shared/StyledButton'
 
 export function EServiceWriteStep3Agreement({
   forward,
@@ -43,12 +44,12 @@ export function EServiceWriteStep3Agreement({
           />
 
           <div className="mt-5 d-flex">
-            <Button className="me-3" variant="primary" type="submit">
+            <StyledButton className="me-3" variant="primary" type="submit">
               salva bozza e prosegui
-            </Button>
-            <Button variant="outline-primary" onClick={back}>
+            </StyledButton>
+            <StyledButton variant="outline-primary" onClick={back}>
               indietro
-            </Button>
+            </StyledButton>
           </div>
         </Form>
       </WhiteBackground>

@@ -1,5 +1,4 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
 import { EServiceDocumentKind, StepperStepComponentProps } from '../../types'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
 import { WhiteBackground } from './WhiteBackground'
@@ -11,6 +10,7 @@ import { getBits } from '../lib/url-utils'
 import { EServiceWriteStep4DocumentsDoc } from './EServiceWriteStep4DocumentsDoc'
 import { StyledIntro } from './Shared/StyledIntro'
 import { useFeedback } from '../hooks/useFeedback'
+import { StyledButton } from './Shared/StyledButton'
 
 export function EServiceWriteStep4Documents({
   back,
@@ -139,36 +139,36 @@ export function EServiceWriteStep4Documents({
         />
 
         <div className="mt-5 d-flex">
-          <Button
+          <StyledButton
             className="me-3"
             variant="primary"
             as={Link}
             to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}
           >
             salva bozza e torna ai servizi
-          </Button>
-          <Button className="me-3" variant="outline-primary" onClick={back}>
+          </StyledButton>
+          <StyledButton className="me-3" variant="outline-primary" onClick={back}>
             indietro
-          </Button>
+          </StyledButton>
         </div>
       </WhiteBackground>
 
       <WhiteBackground>
         <StyledIntro priority={2}>{{ title: 'Pubblicazione della versione' }}</StyledIntro>
         <div className="d-flex">
-          <Button
+          <StyledButton
             className="me-3"
             variant="primary"
             onClick={wrapActionInDialog(publishVersion, 'ESERVICE_VERSION_PUBLISH')}
           >
             pubblica bozza
-          </Button>
-          <Button
+          </StyledButton>
+          <StyledButton
             variant="outline-primary"
             onClick={wrapActionInDialog(deleteVersion, 'ESERVICE_VERSION_DELETE')}
           >
             cancella bozza
-          </Button>
+          </StyledButton>
         </div>
       </WhiteBackground>
     </React.Fragment>

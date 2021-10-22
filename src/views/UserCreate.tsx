@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Button, Form } from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 import { UsersObject } from '../components/OnboardingStep2'
 import { PlatformUserForm } from '../components/PlatformUserForm'
 import { StyledIntro } from '../components/Shared/StyledIntro'
@@ -11,6 +11,7 @@ import { useLocation } from 'react-router-dom'
 import { buildDynamicRoute, parseSearch } from '../lib/url-utils'
 import { ProviderOrSubscriber } from '../../types'
 import { useFeedback } from '../hooks/useFeedback'
+import { StyledButton } from '../components/Shared/StyledButton'
 
 export function UserCreate() {
   const { runActionWithDestination } = useFeedback()
@@ -77,9 +78,9 @@ export function UserCreate() {
           setPeople={setPeople}
         />
 
-        <Button className="mt-3" variant="primary" type="submit" disabled={false}>
+        <StyledButton className="mt-3" variant="primary" type="submit" disabled={false}>
           crea operatore
-        </Button>
+        </StyledButton>
       </Form>
     </WhiteBackground>
   )

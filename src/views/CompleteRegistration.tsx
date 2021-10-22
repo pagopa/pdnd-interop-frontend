@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { Link, useLocation } from 'react-router-dom'
-import { Form, Button } from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 import { fetchWithLogs } from '../lib/api-utils'
 import { MessageNoAction } from '../components/MessageNoAction'
 import { RequestOutcome, RequestOutcomeOptions } from '../../types'
@@ -15,6 +15,7 @@ import { HARDCODED_MAIN_TAG_HEIGHT } from '../lib/constants'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { parseSearch } from '../lib/url-utils'
 import { LoaderContext } from '../lib/context'
+import { StyledButton } from '../components/Shared/StyledButton'
 
 export function CompleteRegistration() {
   const { setLoadingText } = useContext(LoaderContext)
@@ -125,9 +126,9 @@ export function CompleteRegistration() {
               label="carica accordo"
             />
 
-            <Button variant="primary" type="submit" disabled={!contract}>
+            <StyledButton variant="primary" type="submit" disabled={!contract}>
               prosegui
-            </Button>
+            </StyledButton>
           </Form>
         </div>
       </WhiteBackground>

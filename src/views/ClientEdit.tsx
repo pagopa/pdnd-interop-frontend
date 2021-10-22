@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { Button } from 'react-bootstrap'
 import { Link, useLocation } from 'react-router-dom'
 import { Client, ClientStatus, ActionWithTooltipBtn } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
@@ -19,6 +18,7 @@ import { getClientComputedStatus } from '../lib/status-utils'
 import { isAdmin } from '../lib/auth-utils'
 import { PartyContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
+import { StyledButton } from '../components/Shared/StyledButton'
 
 export function ClientEdit() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -198,14 +198,14 @@ export function ClientEdit() {
           {actions.length > 0 && (
             <div className="mt-5 d-flex">
               {actions.map(({ onClick, label, isMock }, i) => (
-                <Button
+                <StyledButton
                   key={i}
                   className={`me-3${isMock ? ' mockFeature' : ''}`}
                   variant={i === 0 ? 'primary' : 'outline-primary'}
                   onClick={onClick}
                 >
                   {label}
-                </Button>
+                </StyledButton>
               ))}
             </div>
           )}

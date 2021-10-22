@@ -8,7 +8,7 @@ import { WhiteBackground } from '../components/WhiteBackground'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import { OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { OverlayTrigger } from 'react-bootstrap'
 import { TempFilters } from '../components/TempFilters'
 import { isAdmin } from '../lib/auth-utils'
 import { canSubscribe } from '../lib/attributes'
@@ -16,6 +16,7 @@ import { useSubscribeDialog } from '../hooks/useSubscribeDialog'
 import { useExtensionDialog } from '../hooks/useExtensionDialog'
 import { useFeedback } from '../hooks/useFeedback'
 import { buildDynamicPath } from '../lib/url-utils'
+import { StyledTooltip } from '../components/Shared/StyledTooltip'
 
 function CatalogExtensionAction({ runFakeAction }: { runFakeAction: any }) {
   const askExtension = (_: any) => {
@@ -101,9 +102,9 @@ export function EServiceCatalog() {
     <OverlayTrigger
       placement="top"
       overlay={
-        <Tooltip className="opacity-100" id="tooltip">
+        <StyledTooltip className="opacity-100" id="tooltip">
           {label}
-        </Tooltip>
+        </StyledTooltip>
       }
     >
       <i className={`text-primary ms-2 fs-5 bi ${iconClass}`} />

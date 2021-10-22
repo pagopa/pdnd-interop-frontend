@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { Button } from 'react-bootstrap'
 import {
   Client,
   ClientStatus,
@@ -20,6 +19,7 @@ import { COMPUTED_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { buildDynamicPath } from '../lib/url-utils'
+import { StyledButton } from '../components/Shared/StyledButton'
 
 export function ClientList() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -121,9 +121,13 @@ export function ClientList() {
 
       <div className="mt-4">
         {isAdmin(party) && (
-          <Button variant="primary" as={Link} to={ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_CREATE.PATH}>
+          <StyledButton
+            variant="primary"
+            as={Link}
+            to={ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_CREATE.PATH}
+          >
             {ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_CREATE.LABEL}
-          </Button>
+          </StyledButton>
         )}
 
         <TempFilters />

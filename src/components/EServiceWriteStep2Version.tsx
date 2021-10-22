@@ -1,13 +1,14 @@
 import { AxiosResponse } from 'axios'
 import { isEmpty } from 'lodash'
 import React, { useEffect, useState } from 'react'
-import { Button, Form } from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 import { ApiEndpointKey, StepperStepComponentProps } from '../../types'
 import { useFeedback } from '../hooks/useFeedback'
 import { ROUTES } from '../lib/constants'
 import { buildDynamicPath } from '../lib/url-utils'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
+import { StyledButton } from './Shared/StyledButton'
 import { StyledInputText } from './Shared/StyledInputText'
 import { StyledInputTextArea } from './Shared/StyledInputTextArea'
 import { StyledIntro } from './Shared/StyledIntro'
@@ -157,12 +158,12 @@ export function EServiceWriteStep2Version({
           />
 
           <div className="mt-5 d-flex">
-            <Button className="me-3" variant="primary" type="submit">
+            <StyledButton className="me-3" variant="primary" type="submit">
               salva bozza e prosegui
-            </Button>
-            <Button variant="outline-primary" onClick={back}>
+            </StyledButton>
+            <StyledButton variant="outline-primary" onClick={back}>
               indietro
-            </Button>
+            </StyledButton>
           </div>
         </Form>
       </WhiteBackground>
