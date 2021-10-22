@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react'
 import { UsersObject } from '../components/OnboardingStep2'
 import { PlatformUserForm } from '../components/PlatformUserForm'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { WhiteBackground } from '../components/WhiteBackground'
 import { ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { useMode } from '../hooks/useMode'
@@ -12,6 +11,7 @@ import { ProviderOrSubscriber } from '../../types'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
+import { Layout } from '../components/Shared/Layout'
 
 export function UserCreate() {
   const { runActionWithDestination } = useFeedback()
@@ -66,7 +66,7 @@ export function UserCreate() {
   }
 
   return (
-    <WhiteBackground>
+    <Layout>
       <StyledIntro priority={2}>{INTRO[mode!]}</StyledIntro>
 
       <StyledForm onSubmit={handleSubmit} style={{ maxWidth: 768 }}>
@@ -82,6 +82,6 @@ export function UserCreate() {
           crea operatore
         </StyledButton>
       </StyledForm>
-    </WhiteBackground>
+    </Layout>
   )
 }

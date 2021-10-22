@@ -1,8 +1,7 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Party } from '../../types'
-import { WhiteBackground } from '../components/WhiteBackground'
-import { HARDCODED_MAIN_TAG_HEIGHT, ROUTES, USER_ROLE_LABEL } from '../lib/constants'
+import { ROUTES, USER_ROLE_LABEL } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { StyledInputRadioGroup } from '../components/Shared/StyledInputRadioGroup'
 import { storageWrite } from '../lib/storage-utils'
@@ -10,6 +9,7 @@ import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledRow } from '../components/Shared/StyledRow'
 import { StyledCol } from '../components/Shared/StyledCol'
+import { Layout } from '../components/Shared/Layout'
 
 export function ChooseParty() {
   const { setParty, party, availableParties } = useContext(PartyContext)
@@ -29,7 +29,7 @@ export function ChooseParty() {
   }
 
   return availableParties.length > 0 ? (
-    <WhiteBackground containerStyles={{ minHeight: HARDCODED_MAIN_TAG_HEIGHT }}>
+    <Layout>
       <StyledIntro priority={2} additionalClasses="text-center mx-auto">
         {{
           title: 'Per quale ente vuoi operare?',
@@ -74,12 +74,9 @@ export function ChooseParty() {
           </StyledButton>
         </StyledCol>
       </StyledRow>
-    </WhiteBackground>
+    </Layout>
   ) : (
-    <WhiteBackground
-      containerStyles={{ minHeight: HARDCODED_MAIN_TAG_HEIGHT }}
-      containerClassNames="d-flex flex-direction-column"
-    >
+    <Layout>
       <StyledRow className="d-flex align-items-center mx-auto my-auto">
         <StyledCol className="text-center">
           <StyledIntro priority={2}>
@@ -98,6 +95,6 @@ export function ChooseParty() {
           </StyledButton>
         </StyledCol>
       </StyledRow>
-    </WhiteBackground>
+    </Layout>
   )
 }

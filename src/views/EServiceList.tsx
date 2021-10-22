@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
-import { WhiteBackground } from '../components/WhiteBackground'
 import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import {
@@ -22,6 +21,7 @@ import { TempFilters } from '../components/TempFilters'
 import { AxiosResponse } from 'axios'
 import { buildDynamicPath } from '../lib/url-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
+import { Layout } from '../components/Shared/Layout'
 
 export function EServiceList() {
   const { runAction, runFakeAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -228,66 +228,64 @@ export function EServiceList() {
   const headData = ['nome e-service', 'versione', 'stato e-service', '']
 
   return (
-    <React.Fragment>
-      <WhiteBackground>
-        <StyledIntro priority={2}>
-          {{
-            title: 'I tuoi e-service',
-            description: "In quest'area puoi gestire tutti gli e-service che stai erogando",
-          }}
-        </StyledIntro>
+    <Layout>
+      <StyledIntro priority={2}>
+        {{
+          title: 'I tuoi e-service',
+          description: "In quest'area puoi gestire tutti gli e-service che stai erogando",
+        }}
+      </StyledIntro>
 
-        <div className="mt-4">
-          <StyledButton
-            variant="primary"
-            as={Link}
-            to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.PATH}
-          >
-            {ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.LABEL}
-          </StyledButton>
+      <div className="mt-4">
+        <StyledButton
+          variant="primary"
+          as={Link}
+          to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.PATH}
+        >
+          {ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.LABEL}
+        </StyledButton>
 
-          <TempFilters />
+        <TempFilters />
 
-          <TableWithLoader
-            loadingText={loadingText}
-            headData={headData}
-            pagination={true}
-            data={data}
-            noDataLabel="Non ci sono servizi disponibili"
-            error={error}
-          >
-            {data.map((item, i) => (
-              <tr key={i}>
-                <td>{item.name}</td>
-                <td>{item.version || '1'}</td>
-                <td>{ESERVICE_STATUS_LABEL[item.status || 'draft']}</td>
-                <td>
-                  {getAvailableActions(item).map((tableAction, j) => {
-                    const btnProps: any = {}
+        <TableWithLoader
+          loadingText={loadingText}
+          headData={headData}
+          pagination={true}
+          data={data}
+          noDataLabel="Non ci sono servizi disponibili"
+          error={error}
+        >
+          {data.map((item, i) => (
+            <tr key={i}>
+              <td>{item.name}</td>
+              <td>{item.version || '1'}</td>
+              <td>{ESERVICE_STATUS_LABEL[item.status || 'draft']}</td>
+              <td>
+                {getAvailableActions(item).map((tableAction, j) => {
+                  const btnProps: any = {}
 
-                    if ((tableAction as ActionWithTooltipLink).to) {
-                      btnProps.as = Link
-                      btnProps.to = (tableAction as ActionWithTooltipLink).to
-                    } else {
-                      btnProps.onClick = (tableAction as ActionWithTooltipBtn).onClick
-                    }
+                  if ((tableAction as ActionWithTooltipLink).to) {
+                    btnProps.as = Link
+                    btnProps.to = (tableAction as ActionWithTooltipLink).to
+                  } else {
+                    btnProps.onClick = (tableAction as ActionWithTooltipBtn).onClick
+                  }
 
-                    return (
-                      <ActionWithTooltip
-                        key={j}
-                        btnProps={btnProps}
-                        label={tableAction.label}
-                        iconClass={tableAction.icon!}
-                        isMock={tableAction.isMock}
-                      />
-                    )
-                  })}
-                </td>
-              </tr>
-            ))}
-          </TableWithLoader>
-        </div>
-      </WhiteBackground>
-    </React.Fragment>
+                  return (
+                    <ActionWithTooltip
+                      key={j}
+                      btnProps={btnProps}
+                      label={tableAction.label}
+                      iconClass={tableAction.icon!}
+                      isMock={tableAction.isMock}
+                    />
+                  )
+                })}
+              </td>
+            </tr>
+          ))}
+        </TableWithLoader>
+      </div>
+    </Layout>
   )
 }

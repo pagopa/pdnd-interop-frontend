@@ -11,7 +11,6 @@ import { StyledIntro } from '../components/Shared/StyledIntro'
 import { ActionWithTooltip } from '../components/ActionWithTooltip'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { TempFilters } from '../components/TempFilters'
-import { WhiteBackground } from '../components/WhiteBackground'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { getClientComputedStatus } from '../lib/status-utils'
 import { isAdmin, isOperatorSecurity } from '../lib/auth-utils'
@@ -20,6 +19,7 @@ import { PartyContext, UserContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { buildDynamicPath } from '../lib/url-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
+import { Layout } from '../components/Shared/Layout'
 
 export function ClientList() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -111,7 +111,7 @@ export function ClientList() {
   const headData = ['nome client', 'nome e-service', 'ente erogatore', 'stato', '']
 
   return (
-    <WhiteBackground>
+    <Layout>
       <StyledIntro priority={2}>
         {{
           title: 'I tuoi client',
@@ -172,6 +172,6 @@ export function ClientList() {
           ))}
         </TableWithLoader>
       </div>
-    </WhiteBackground>
+    </Layout>
   )
 }

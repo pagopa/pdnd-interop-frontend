@@ -40,9 +40,6 @@ export const SHOW_DEV_LABELS = isDevelopment || getDevLabels()
 export const USE_MOCK_SPID_USER = isDevelopment
 export const DISPLAY_LOGS = isDevelopment
 
-// TEMP PoC: we won't need this with the new UI
-export const HARDCODED_MAIN_TAG_HEIGHT = 'calc(100vh - 86px - 101px - 3rem - 72px - 3rem)'
-
 export const BASE_ROUTE = '/ui'
 
 export const ROUTES: RoutesObject = {

@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom'
 import { Client, ClientStatus, ActionWithTooltipBtn } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { WhiteBackground } from '../components/WhiteBackground'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import {
   AGREEMENT_STATUS_LABEL,
@@ -19,6 +18,7 @@ import { isAdmin } from '../lib/auth-utils'
 import { PartyContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
+import { Layout } from '../components/Shared/Layout'
 
 export function ClientEdit() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -99,9 +99,9 @@ export function ClientEdit() {
   const actions = getAvailableActions()
 
   return (
-    <React.Fragment>
+    <Layout>
       {!isEmpty(data) && (
-        <WhiteBackground>
+        <React.Fragment>
           <StyledIntro priority={2}>{{ title: `Client: ${data.name}` }}</StyledIntro>
 
           <div style={{ maxWidth: 586 }}>
@@ -209,10 +209,10 @@ export function ClientEdit() {
               ))}
             </div>
           )}
-        </WhiteBackground>
+        </React.Fragment>
       )}
 
       <UserList />
-    </React.Fragment>
+    </Layout>
   )
 }

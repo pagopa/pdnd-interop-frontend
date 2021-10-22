@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react'
-import { WhiteBackground } from '../components/WhiteBackground'
 import { Link, useLocation } from 'react-router-dom'
 import { fetchWithLogs } from '../lib/api-utils'
 import { MessageNoAction } from '../components/MessageNoAction'
@@ -10,12 +9,12 @@ import { StyledInputFile } from '../components/Shared/StyledInputFile'
 import { getFetchOutcome } from '../lib/error-utils'
 import { InlineSupportLink } from '../components/InlineSupportLink'
 import isEmpty from 'lodash/isEmpty'
-import { HARDCODED_MAIN_TAG_HEIGHT } from '../lib/constants'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { parseSearch } from '../lib/url-utils'
 import { LoaderContext } from '../lib/context'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
+import { Layout } from '../components/Shared/Layout'
 
 export function CompleteRegistration() {
   const { setLoadingText } = useContext(LoaderContext)
@@ -103,12 +102,9 @@ export function CompleteRegistration() {
     },
   }
 
-  return !outcome ? (
-    <React.Fragment>
-      <WhiteBackground
-        containerClassNames="d-flex flex-direction-column"
-        containerStyles={{ minHeight: HARDCODED_MAIN_TAG_HEIGHT }}
-      >
+  return (
+    <Layout>
+      {!outcome ? (
         <div className="mx-auto my-auto text-center">
           <StyledIntro additionalClasses="mx-auto">
             {{
@@ -131,9 +127,9 @@ export function CompleteRegistration() {
             </StyledButton>
           </StyledForm>
         </div>
-      </WhiteBackground>
-    </React.Fragment>
-  ) : (
-    <MessageNoAction {...outcomeContent[outcome]} />
+      ) : (
+        <MessageNoAction {...outcomeContent[outcome]} />
+      )}
+    </Layout>
   )
 }

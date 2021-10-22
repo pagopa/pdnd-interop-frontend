@@ -7,7 +7,6 @@ import {
   User,
 } from '../../types'
 import { Stepper } from '../components/Stepper'
-import { WhiteBackground } from '../components/WhiteBackground'
 import { OnboardingStep1 } from '../components/OnboardingStep1'
 import { OnboardingStep2 } from '../components/OnboardingStep2'
 import { OnboardingStep3 } from '../components/OnboardingStep3'
@@ -20,6 +19,7 @@ import { getFetchOutcome } from '../lib/error-utils'
 import { useHistory } from 'react-router-dom'
 import { InlineSupportLink } from '../components/InlineSupportLink'
 import { scrollToTop } from '../lib/page-utils'
+import { Layout } from '../components/Shared/Layout'
 
 export function Onboarding() {
   const [loading, setLoading] = useState(false)
@@ -117,15 +117,17 @@ export function Onboarding() {
     },
   }
 
-  return !outcome ? (
-    <React.Fragment>
-      <WhiteBackground stickToTop={true}>
-        <Stepper steps={STEPS} activeIndex={activeStep} />
-      </WhiteBackground>
-      <Step {...stepsProps[activeStep]} />
-      {loading && <LoadingOverlay loadingText="Stiamo verificando i tuoi dati" />}
-    </React.Fragment>
-  ) : (
-    <MessageNoAction {...outcomeContent[outcome]} />
+  return (
+    <Layout>
+      {!outcome ? (
+        <React.Fragment>
+          <Stepper steps={STEPS} activeIndex={activeStep} />
+          <Step {...stepsProps[activeStep]} />
+          {loading && <LoadingOverlay loadingText="Stiamo verificando i tuoi dati" />}
+        </React.Fragment>
+      ) : (
+        <MessageNoAction {...outcomeContent[outcome]} />
+      )}
+    </Layout>
   )
 }

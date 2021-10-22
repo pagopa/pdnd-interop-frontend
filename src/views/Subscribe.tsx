@@ -2,10 +2,11 @@ import React from 'react'
 import { SectionHeader } from '../components/SectionHeader'
 import { ProtectedSubroutes } from '../components/ProtectedSubroutes'
 import { ROUTES } from '../lib/constants'
+import { Layout } from '../components/Shared/Layout'
 
 export function Subscribe() {
   return (
-    <React.Fragment>
+    <Layout>
       <SectionHeader view="subscriber" />
 
       <ProtectedSubroutes
@@ -13,6 +14,6 @@ export function Subscribe() {
         redirectSrcRoute={ROUTES.SUBSCRIBE}
         redirectDestRoute={ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST}
       />
-    </React.Fragment>
+    </Layout>
   )
 }
