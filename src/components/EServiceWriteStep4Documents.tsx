@@ -1,7 +1,6 @@
 import React from 'react'
 import { EServiceDocumentKind, StepperStepComponentProps } from '../../types'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
-import { WhiteBackground } from './WhiteBackground'
 import { EServiceWriteStep4DocumentsInterface } from './EServiceWriteStep4DocumentsInterface'
 import { ROUTES } from '../lib/constants'
 import { Link } from 'react-router-dom'
@@ -102,75 +101,66 @@ export function EServiceWriteStep4Documents({
 
   return (
     <React.Fragment>
-      <WhiteBackground>
-        <StyledIntro priority={2}>{{ title: 'Crea e-service: documentazione' }}</StyledIntro>
-      </WhiteBackground>
+      <StyledIntro priority={2}>{{ title: 'Crea e-service: documentazione' }}</StyledIntro>
 
-      <WhiteBackground>
-        <StyledIntro priority={2}>
-          {{
-            title: 'Interfaccia*',
-            description: "Carica il file OpenAPI/WSDL che descrive l'API",
-          }}
-        </StyledIntro>
+      <StyledIntro priority={2}>
+        {{
+          title: 'Interfaccia*',
+          description: "Carica il file OpenAPI/WSDL che descrive l'API",
+        }}
+      </StyledIntro>
 
-        <EServiceWriteStep4DocumentsInterface
-          data={fetchedData}
-          uploadDescriptorDocument={uploadDescriptorDocument}
-          deleteDescriptorDocument={deleteDescriptorDocument}
-          activeDescriptorId={activeDescriptorId}
-        />
-      </WhiteBackground>
+      <EServiceWriteStep4DocumentsInterface
+        data={fetchedData}
+        uploadDescriptorDocument={uploadDescriptorDocument}
+        deleteDescriptorDocument={deleteDescriptorDocument}
+        activeDescriptorId={activeDescriptorId}
+      />
 
-      <WhiteBackground>
-        <StyledIntro priority={2}>
-          {{
-            title: 'Documentazione',
-            description:
-              'Inserisci la documentazione tecnica utile all’utilizzo di questo e-service',
-          }}
-        </StyledIntro>
+      <StyledIntro priority={2}>
+        {{
+          title: 'Documentazione',
+          description: 'Inserisci la documentazione tecnica utile all’utilizzo di questo e-service',
+        }}
+      </StyledIntro>
 
-        <EServiceWriteStep4DocumentsDoc
-          data={fetchedData}
-          uploadDescriptorDocument={uploadDescriptorDocument}
-          deleteDescriptorDocument={deleteDescriptorDocument}
-          activeDescriptorId={activeDescriptorId}
-        />
+      <EServiceWriteStep4DocumentsDoc
+        data={fetchedData}
+        uploadDescriptorDocument={uploadDescriptorDocument}
+        deleteDescriptorDocument={deleteDescriptorDocument}
+        activeDescriptorId={activeDescriptorId}
+      />
 
-        <div className="mt-5 d-flex">
-          <StyledButton
-            className="me-3"
-            variant="primary"
-            as={Link}
-            to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}
-          >
-            salva bozza e torna ai servizi
-          </StyledButton>
-          <StyledButton className="me-3" variant="outline-primary" onClick={back}>
-            indietro
-          </StyledButton>
-        </div>
-      </WhiteBackground>
+      <div className="mt-5 d-flex">
+        <StyledButton
+          className="me-3"
+          variant="primary"
+          as={Link}
+          to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}
+        >
+          salva bozza e torna ai servizi
+        </StyledButton>
+        <StyledButton className="me-3" variant="outline-primary" onClick={back}>
+          indietro
+        </StyledButton>
+      </div>
 
-      <WhiteBackground>
-        <StyledIntro priority={2}>{{ title: 'Pubblicazione della versione' }}</StyledIntro>
-        <div className="d-flex">
-          <StyledButton
-            className="me-3"
-            variant="primary"
-            onClick={wrapActionInDialog(publishVersion, 'ESERVICE_VERSION_PUBLISH')}
-          >
-            pubblica bozza
-          </StyledButton>
-          <StyledButton
-            variant="outline-primary"
-            onClick={wrapActionInDialog(deleteVersion, 'ESERVICE_VERSION_DELETE')}
-          >
-            cancella bozza
-          </StyledButton>
-        </div>
-      </WhiteBackground>
+      <StyledIntro priority={2}>{{ title: 'Pubblicazione della versione' }}</StyledIntro>
+      <div className="d-flex">
+        <StyledButton
+          className="me-3"
+          variant="primary"
+          onClick={wrapActionInDialog(publishVersion, 'ESERVICE_VERSION_PUBLISH')}
+        >
+          pubblica bozza
+        </StyledButton>
+        <StyledButton
+          variant="outline-primary"
+          onClick={wrapActionInDialog(deleteVersion, 'ESERVICE_VERSION_DELETE')}
+        >
+          cancella bozza
+        </StyledButton>
+      </div>
     </React.Fragment>
   )
 }

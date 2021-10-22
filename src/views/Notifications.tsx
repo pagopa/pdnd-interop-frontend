@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
+import { Layout } from '../components/Shared/Layout'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { WhiteBackground } from '../components/WhiteBackground'
 
 type Notification = {
   type: 'info' | 'action-required'
@@ -70,7 +70,7 @@ export function Notifications() {
   }
 
   return (
-    <WhiteBackground>
+    <Layout>
       <StyledIntro priority={2} additionalClasses="fakeData fakeDataStart">
         {{ title: 'Notifiche' }}
       </StyledIntro>
@@ -115,6 +115,6 @@ export function Notifications() {
           )
         })}
       </div>
-    </WhiteBackground>
+    </Layout>
   )
 }

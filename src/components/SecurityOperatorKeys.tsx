@@ -7,7 +7,6 @@ import { getFetchOutcome } from '../lib/error-utils'
 import { ActionWithTooltip } from './ActionWithTooltip'
 import { CreateKeyModal } from './CreateKeyModal'
 import { StyledIntro } from './Shared/StyledIntro'
-import { WhiteBackground } from './WhiteBackground'
 import { ToastContext, UserContext } from '../lib/context'
 import { DescriptionBlock } from './DescriptionBlock'
 import { downloadFile } from '../lib/file-utils'
@@ -127,64 +126,62 @@ export function SecurityOperatorKeys({
 
   return (
     <React.Fragment>
-      <WhiteBackground>
-        <StyledIntro priority={3}>
-          {{
-            title: 'Gestione chiave pubblica',
-            description: (
-              <React.Fragment>
-                Per maggiori dettagli,{' '}
-                <a
-                  href={ROUTES.SECURITY_KEY_GUIDE.PATH}
-                  className="link-default"
-                  title="Vai alla guida per la creazione delle chiavi di sicurezza"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  consulta la guida
-                </a>
-              </React.Fragment>
-            ),
-          }}
-        </StyledIntro>
+      <StyledIntro priority={3}>
+        {{
+          title: 'Gestione chiave pubblica',
+          description: (
+            <React.Fragment>
+              Per maggiori dettagli,{' '}
+              <a
+                href={ROUTES.SECURITY_KEY_GUIDE.PATH}
+                className="link-default"
+                title="Vai alla guida per la creazione delle chiavi di sicurezza"
+                target="_blank"
+                rel="noreferrer"
+              >
+                consulta la guida
+              </a>
+            </React.Fragment>
+          ),
+        }}
+      </StyledIntro>
 
-        {user?.taxCode === userData.taxCode && !key && (
-          <StyledButton className="mb-4" onClick={openModal} variant="primary">
-            carica nuova chiave
-          </StyledButton>
-        )}
+      {user?.taxCode === userData.taxCode && !key && (
+        <StyledButton className="mb-4" onClick={openModal} variant="primary">
+          carica nuova chiave
+        </StyledButton>
+      )}
 
-        {key ? (
-          <React.Fragment>
-            <div className="d-flex justify-content-between align-items-center border-top border-bottom py-3">
-              <span>Chiave pubblica</span>
-              <div>
-                {getAvailableActions(key).map((tableAction: any, j: number) => {
-                  return (
-                    <ActionWithTooltip
-                      key={j}
-                      btnProps={{ onClick: tableAction.onClick }}
-                      label={tableAction.label}
-                      iconClass={tableAction.icon}
-                      isMock={tableAction.isMock}
-                    />
-                  )
-                })}
-              </div>
+      {key ? (
+        <React.Fragment>
+          <div className="d-flex justify-content-between align-items-center border-top border-bottom py-3">
+            <span>Chiave pubblica</span>
+            <div>
+              {getAvailableActions(key).map((tableAction: any, j: number) => {
+                return (
+                  <ActionWithTooltip
+                    key={j}
+                    btnProps={{ onClick: tableAction.onClick }}
+                    label={tableAction.label}
+                    iconClass={tableAction.icon}
+                    isMock={tableAction.isMock}
+                  />
+                )
+              })}
             </div>
-            <div className="mt-4">
-              <DescriptionBlock label="Id del client">
-                <span>{clientId}</span>
-              </DescriptionBlock>
-              <DescriptionBlock label="Id della chiave">
-                <span>{key.key.kid}</span>
-              </DescriptionBlock>
-            </div>
-          </React.Fragment>
-        ) : (
-          <div>Nessuna chiave presente</div>
-        )}
-      </WhiteBackground>
+          </div>
+          <div className="mt-4">
+            <DescriptionBlock label="Id del client">
+              <span>{clientId}</span>
+            </DescriptionBlock>
+            <DescriptionBlock label="Id della chiave">
+              <span>{key.key.kid}</span>
+            </DescriptionBlock>
+          </div>
+        </React.Fragment>
+      ) : (
+        <div>Nessuna chiave presente</div>
+      )}
 
       {modal && (
         <CreateKeyModal

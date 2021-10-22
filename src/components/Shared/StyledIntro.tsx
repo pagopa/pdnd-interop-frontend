@@ -22,7 +22,7 @@ export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
   const TitleTag = `h${priority + 1}` as keyof JSX.IntrinsicElements
 
   return (
-    <StyledRow className={`mb-4 ${additionalClasses || ''}`} style={{ maxWidth: 480 }}>
+    <StyledRow className={`mb-4 py-4 ${additionalClasses || ''}`} style={{ maxWidth: 480 }}>
       <TitleTag>{children.title}</TitleTag>
       {children.description && <p className="mb-0">{children.description}</p>}
     </StyledRow>

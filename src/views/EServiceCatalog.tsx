@@ -4,7 +4,6 @@ import { EServiceFlatReadType } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { ActionWithTooltip } from '../components/ActionWithTooltip'
 import { TableWithLoader } from '../components/TableWithLoader'
-import { WhiteBackground } from '../components/WhiteBackground'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
@@ -17,6 +16,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { buildDynamicPath } from '../lib/url-utils'
 import { StyledTooltip } from '../components/Shared/StyledTooltip'
 import { StyledOverlayTrigger } from '../components/Shared/StyledOverlayTrigger'
+import { Layout } from '../components/Shared/Layout'
 
 function CatalogExtensionAction({ runFakeAction }: { runFakeAction: any }) {
   const askExtension = (_: any) => {
@@ -112,7 +112,7 @@ export function EServiceCatalog() {
   )
 
   return (
-    <WhiteBackground>
+    <Layout>
       <StyledIntro priority={2}>
         {{
           title: 'Gli e-service disponibili',
@@ -193,6 +193,6 @@ export function EServiceCatalog() {
           )
         })}
       </TableWithLoader>
-    </WhiteBackground>
+    </Layout>
   )
 }

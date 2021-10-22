@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { WhiteBackground } from '../components/WhiteBackground'
 import { ROUTES } from '../lib/constants'
 import { StyledInputText } from '../components/Shared/StyledInputText'
 import { StyledInputSelect } from '../components/Shared/StyledInputSelect'
@@ -10,6 +9,7 @@ import { PartyContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
+import { Layout } from '../components/Shared/Layout'
 
 type ClientSubmit = {
   name: string
@@ -64,7 +64,7 @@ export function ClientCreate() {
   }, [eserviceData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <WhiteBackground>
+    <Layout>
       <StyledIntro priority={2}>
         {{
           title: `Crea nuovo client`,
@@ -110,6 +110,6 @@ export function ClientCreate() {
           crea client
         </StyledButton>
       </StyledForm>
-    </WhiteBackground>
+    </Layout>
   )
 }

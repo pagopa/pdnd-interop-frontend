@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { WhiteBackground } from '../components/WhiteBackground'
 import { AGREEMENT_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import {
@@ -20,6 +19,7 @@ import { TempFilters } from '../components/TempFilters'
 import { mergeActions } from '../lib/eservice-utils'
 import { getAgreementStatus } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
+import { Layout } from '../components/Shared/Layout'
 
 export function AgreementList() {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -174,7 +174,7 @@ export function AgreementList() {
   }
 
   return (
-    <WhiteBackground>
+    <Layout>
       <StyledIntro priority={2}>{INTRO[mode!]}</StyledIntro>
 
       <div className="mt-4">
@@ -220,6 +220,6 @@ export function AgreementList() {
           ))}
         </TableWithLoader>
       </div>
-    </WhiteBackground>
+    </Layout>
   )
 }

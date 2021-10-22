@@ -12,7 +12,6 @@ import {
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { ActionWithTooltip } from '../components/ActionWithTooltip'
 import { TableWithLoader } from '../components/TableWithLoader'
-import { WhiteBackground } from '../components/WhiteBackground'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import {
   ROUTES,
@@ -27,6 +26,7 @@ import { PartyContext, UserContext } from '../lib/context'
 import { buildDynamicPath, getLastBit } from '../lib/url-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
+import { Layout } from '../components/Shared/Layout'
 
 export function UserList() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -186,7 +186,7 @@ export function UserList() {
    */
 
   return (
-    <WhiteBackground>
+    <Layout>
       <StyledIntro priority={2}>{TITLES[mode!]}</StyledIntro>
 
       <div className="mt-4">
@@ -247,6 +247,6 @@ export function UserList() {
           ))}
         </TableWithLoader>
       </div>
-    </WhiteBackground>
+    </Layout>
   )
 }

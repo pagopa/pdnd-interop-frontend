@@ -12,7 +12,6 @@ import { StyledForm } from './Shared/StyledForm'
 import { StyledInputText } from './Shared/StyledInputText'
 import { StyledInputTextArea } from './Shared/StyledInputTextArea'
 import { StyledIntro } from './Shared/StyledIntro'
-import { WhiteBackground } from './WhiteBackground'
 
 type FieldType = 'text' | 'textArray' | 'number'
 
@@ -118,55 +117,53 @@ export function EServiceWriteStep2Version({
 
   return (
     <React.Fragment>
-      <WhiteBackground>
-        <StyledIntro priority={2}>
-          {{ title: 'Crea e-service: informazioni di versione' }}
-        </StyledIntro>
+      <StyledIntro priority={2}>
+        {{ title: 'Crea e-service: informazioni di versione' }}
+      </StyledIntro>
 
-        <StyledForm onSubmit={submit}>
-          <StyledInputText
-            id="version"
-            label="Numero della versione*"
-            value={getVersion()}
-            readOnly={true}
-          />
+      <StyledForm onSubmit={submit}>
+        <StyledInputText
+          id="version"
+          label="Numero della versione*"
+          value={getVersion()}
+          readOnly={true}
+        />
 
-          <StyledInputText
-            id="audience"
-            label="Identificativo dell'e-service*"
-            tooltipLabel="L'id con il quale il fruitore dichiara il servizio richiesto. Questo identificativo deve essere unico tra i tuoi e-service"
-            value={
-              versionData.audience && versionData.audience.length > 0 ? versionData.audience[0] : ''
-            }
-            onChange={wrapSetVersionData('audience', 'textArray')}
-          />
+        <StyledInputText
+          id="audience"
+          label="Identificativo dell'e-service*"
+          tooltipLabel="L'id con il quale il fruitore dichiara il servizio richiesto. Questo identificativo deve essere unico tra i tuoi e-service"
+          value={
+            versionData.audience && versionData.audience.length > 0 ? versionData.audience[0] : ''
+          }
+          onChange={wrapSetVersionData('audience', 'textArray')}
+        />
 
-          <StyledInputText
-            type="number"
-            id="voucherLifespan"
-            label="Durata di validità del voucher (in minuti)*"
-            value={versionData.voucherLifespan || 0}
-            onChange={wrapSetVersionData('voucherLifespan', 'number')}
-            min="0"
-          />
+        <StyledInputText
+          type="number"
+          id="voucherLifespan"
+          label="Durata di validità del voucher (in minuti)*"
+          value={versionData.voucherLifespan || 0}
+          onChange={wrapSetVersionData('voucherLifespan', 'number')}
+          min="0"
+        />
 
-          <StyledInputTextArea
-            id="description"
-            label="Descrizione della versione*"
-            value={versionData.description || ''}
-            onChange={wrapSetVersionData('description')}
-          />
+        <StyledInputTextArea
+          id="description"
+          label="Descrizione della versione*"
+          value={versionData.description || ''}
+          onChange={wrapSetVersionData('description')}
+        />
 
-          <div className="mt-5 d-flex">
-            <StyledButton className="me-3" variant="primary" type="submit">
-              salva bozza e prosegui
-            </StyledButton>
-            <StyledButton variant="outline-primary" onClick={back}>
-              indietro
-            </StyledButton>
-          </div>
-        </StyledForm>
-      </WhiteBackground>
+        <div className="mt-5 d-flex">
+          <StyledButton className="me-3" variant="primary" type="submit">
+            salva bozza e prosegui
+          </StyledButton>
+          <StyledButton variant="outline-primary" onClick={back}>
+            indietro
+          </StyledButton>
+        </div>
+      </StyledForm>
     </React.Fragment>
   )
 }

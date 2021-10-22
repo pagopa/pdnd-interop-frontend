@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { OnboardingStepActions } from './OnboardingStepActions'
-import { WhiteBackground } from './WhiteBackground'
 import cryptoRandomString from 'crypto-random-string'
 import { StepperStepComponentProps, UserOnCreate } from '../../types'
 import { objectIsEmpty } from '../lib/object-utils'
@@ -29,57 +28,50 @@ export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
   }
 
   return (
-    <React.Fragment>
-      <WhiteBackground>
-        <StyledContainer className="container-align-left form-max-width">
-          <StyledIntro>{{ title: 'Dati del rappresentante legale' }}</StyledIntro>
-          <PlatformUserForm
-            prefix="admin"
-            role="Manager"
-            platformRole="admin"
-            people={people}
-            setPeople={setPeople}
-          />
-        </StyledContainer>
-      </WhiteBackground>
-      <WhiteBackground>
-        <StyledContainer className="container-align-left form-max-width">
-          <StyledIntro>
-            {{ title: 'Dati dei delegati', description: "L'aggiunta di delegati è opzionale" }}
-          </StyledIntro>
+    <StyledContainer className="container-align-left form-max-width">
+      <StyledIntro>{{ title: 'Dati del rappresentante legale' }}</StyledIntro>
+      <PlatformUserForm
+        prefix="admin"
+        role="Manager"
+        platformRole="admin"
+        people={people}
+        setPeople={setPeople}
+      />
 
-          {delegateFormIds.map((id) => {
-            return (
-              <div className="my-5" key={id}>
-                <PlatformUserForm
-                  prefix={`delegate-${id}`}
-                  role="Delegate"
-                  platformRole="admin"
-                  people={people}
-                  setPeople={setPeople}
-                />
-                <StyledButton variant="primary" onClick={buildRemoveDelegateForm(id)}>
-                  rimuovi questo delegato
-                </StyledButton>
-              </div>
-            )
-          })}
+      <StyledIntro>
+        {{ title: 'Dati dei delegati', description: "L'aggiunta di delegati è opzionale" }}
+      </StyledIntro>
 
-          <div className="mb-5">
-            <StyledButton variant="primary" onClick={addDelegateForm}>
-              aggiungi nuovo delegato
+      {delegateFormIds.map((id) => {
+        return (
+          <div className="my-5" key={id}>
+            <PlatformUserForm
+              prefix={`delegate-${id}`}
+              role="Delegate"
+              platformRole="admin"
+              people={people}
+              setPeople={setPeople}
+            />
+            <StyledButton variant="primary" onClick={buildRemoveDelegateForm(id)}>
+              rimuovi questo delegato
             </StyledButton>
           </div>
-          <OnboardingStepActions
-            back={{ action: back, label: 'indietro', disabled: false }}
-            forward={{
-              action: onForwardAction,
-              label: 'prosegui',
-              disabled: objectIsEmpty(people),
-            }}
-          />
-        </StyledContainer>
-      </WhiteBackground>
-    </React.Fragment>
+        )
+      })}
+
+      <div className="mb-5">
+        <StyledButton variant="primary" onClick={addDelegateForm}>
+          aggiungi nuovo delegato
+        </StyledButton>
+      </div>
+      <OnboardingStepActions
+        back={{ action: back, label: 'indietro', disabled: false }}
+        forward={{
+          action: onForwardAction,
+          label: 'prosegui',
+          disabled: objectIsEmpty(people),
+        }}
+      />
+    </StyledContainer>
   )
 }

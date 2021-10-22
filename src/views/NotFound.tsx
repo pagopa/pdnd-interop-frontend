@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Layout } from '../components/Shared/Layout'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { WhiteBackground } from '../components/WhiteBackground'
 
 type NotFoundProps = {
   errorType?: 'not-found' | 'server-error'
@@ -14,7 +14,7 @@ export function NotFound({ errorType = 'not-found' }: NotFoundProps) {
   }
 
   return (
-    <WhiteBackground>
+    <Layout>
       <div className="bg-danger px-3 py-3">
         <StyledIntro priority={2}>
           {{
@@ -31,6 +31,6 @@ export function NotFound({ errorType = 'not-found' }: NotFoundProps) {
           }}
         </StyledIntro>
       </div>
-    </WhiteBackground>
+    </Layout>
   )
 }

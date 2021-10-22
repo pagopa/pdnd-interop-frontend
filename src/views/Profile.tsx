@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { DescriptionBlock } from '../components/DescriptionBlock'
+import { Layout } from '../components/Shared/Layout'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { WhiteBackground } from '../components/WhiteBackground'
 import { USER_ROLE_LABEL } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
 
@@ -10,7 +10,7 @@ export function Profile() {
   const { availableParties, party } = useContext(PartyContext)
 
   return (
-    <WhiteBackground>
+    <Layout>
       <StyledIntro priority={2}>{{ title: 'Il mio profilo' }}</StyledIntro>
 
       <DescriptionBlock label="Nome e cognome">
@@ -38,6 +38,6 @@ export function Profile() {
           {availableParties.map((p) => `${p.description} (${USER_ROLE_LABEL[p.role]})`).join(', ')}
         </span>
       </DescriptionBlock>
-    </WhiteBackground>
+    </Layout>
   )
 }

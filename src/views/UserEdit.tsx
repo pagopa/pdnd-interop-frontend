@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom'
 import { ActionWithTooltipBtn, ApiEndpointKey, User, UserStatus } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { WhiteBackground } from '../components/WhiteBackground'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATUS_LABEL } from '../lib/constants'
 import { getBits } from '../lib/url-utils'
@@ -15,6 +14,7 @@ import { mergeActions } from '../lib/eservice-utils'
 import { SecurityOperatorKeys } from '../components/SecurityOperatorKeys'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
+import { Layout } from '../components/Shared/Layout'
 
 type UserEndpoinParams =
   | { operatorTaxCode: string; clientId: string }
@@ -125,51 +125,49 @@ export function UserEdit() {
   }
 
   return (
-    <React.Fragment>
-      <WhiteBackground>
-        <StyledIntro priority={2}>
-          {{
-            title: `Utente: ${
-              userData?.name && userData?.surname ? userData.name + ' ' + userData.surname : 'n/d'
-            }`,
-          }}
-        </StyledIntro>
+    <Layout>
+      <StyledIntro priority={2}>
+        {{
+          title: `Utente: ${
+            userData?.name && userData?.surname ? userData.name + ' ' + userData.surname : 'n/d'
+          }`,
+        }}
+      </StyledIntro>
 
-        <DescriptionBlock label="Codice fiscale">
-          <span>{userData?.taxCode || userData?.from}</span>
-        </DescriptionBlock>
+      <DescriptionBlock label="Codice fiscale">
+        <span>{userData?.taxCode || userData?.from}</span>
+      </DescriptionBlock>
 
-        <DescriptionBlock label="Email">
-          <span>{userData?.email || 'n/d'}</span>
-        </DescriptionBlock>
+      <DescriptionBlock label="Email">
+        <span>{userData?.email || 'n/d'}</span>
+      </DescriptionBlock>
 
-        <DescriptionBlock label="Ruolo">
-          <span>{userData?.role ? USER_ROLE_LABEL[userData!.role] : 'n/d'}</span>
-        </DescriptionBlock>
+      <DescriptionBlock label="Ruolo">
+        <span>{userData?.role ? USER_ROLE_LABEL[userData!.role] : 'n/d'}</span>
+      </DescriptionBlock>
 
-        <DescriptionBlock label="Permessi">
-          <span>
-            {userData?.platformRole ? USER_PLATFORM_ROLE_LABEL[userData!.platformRole] : 'n/d'}
-          </span>
-        </DescriptionBlock>
+      <DescriptionBlock label="Permessi">
+        <span>
+          {userData?.platformRole ? USER_PLATFORM_ROLE_LABEL[userData!.platformRole] : 'n/d'}
+        </span>
+      </DescriptionBlock>
 
-        <DescriptionBlock label="Stato dell'utente">
-          <span>{userData?.status ? USER_STATUS_LABEL[userData!.status] : 'n/d'}</span>
-        </DescriptionBlock>
+      <DescriptionBlock label="Stato dell'utente">
+        <span>{userData?.status ? USER_STATUS_LABEL[userData!.status] : 'n/d'}</span>
+      </DescriptionBlock>
 
-        <div className="mt-5 d-flex">
-          {getAvailableActions().map(({ onClick, label }, i) => (
-            <StyledButton
-              key={i}
-              className="me-3"
-              variant={i === 0 ? 'primary' : 'outline-primary'}
-              onClick={onClick}
-            >
-              {label}
-            </StyledButton>
-          ))}
-        </div>
-      </WhiteBackground>
+      <div className="mt-5 d-flex">
+        {getAvailableActions().map(({ onClick, label }, i) => (
+          <StyledButton
+            key={i}
+            className="me-3"
+            variant={i === 0 ? 'primary' : 'outline-primary'}
+            onClick={onClick}
+          >
+            {label}
+          </StyledButton>
+        ))}
+      </div>
 
       {clientId && !isEmpty(userData) && (
         <SecurityOperatorKeys
@@ -180,6 +178,6 @@ export function UserEdit() {
           wrapActionInDialog={wrapActionInDialog}
         />
       )}
-    </React.Fragment>
+    </Layout>
   )
 }
