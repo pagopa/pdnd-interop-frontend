@@ -5,7 +5,7 @@ import { UserContext } from '../lib/context'
 import { Row, Container } from 'react-bootstrap'
 import { OnboardingStepActions } from './OnboardingStepActions'
 import { AsyncAutocomplete } from './AsyncAutocomplete'
-import { StyledIntro } from './StyledIntro'
+import { StyledIntro } from './Shared/StyledIntro'
 import { ROUTES } from '../lib/constants'
 import { Link } from 'react-router-dom'
 

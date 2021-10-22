@@ -1,6 +1,6 @@
 import React from 'react'
 import { Modal, Button } from 'react-bootstrap'
-import { Overlay } from './Overlay'
+import { Overlay } from '../Overlay'
 
 type ConfirmationDialogOverlayProps = {
   title?: string

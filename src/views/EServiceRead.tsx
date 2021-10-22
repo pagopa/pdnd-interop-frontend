@@ -10,7 +10,7 @@ import {
   SingleBackendAttribute,
 } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
-import { StyledIntro } from '../components/StyledIntro'
+import { StyledIntro } from '../components/Shared/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { useMode } from '../hooks/useMode'
 import { ATTRIBUTE_TYPE_LABEL, ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
@@ -23,7 +23,7 @@ import { useSubscribeDialog } from '../hooks/useSubscribeDialog'
 import { useExtensionDialog } from '../hooks/useExtensionDialog'
 import { downloadFile } from '../lib/file-utils'
 import { AxiosResponse } from 'axios'
-import { StyledAccordion } from '../components/StyledAccordion'
+import { StyledAccordion } from '../components/Shared/StyledAccordion'
 import { useFeedback } from '../hooks/useFeedback'
 
 type EServiceReadProps = {

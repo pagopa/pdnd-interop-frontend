@@ -3,8 +3,8 @@ import noop from 'lodash/noop'
 import { Button, Form } from 'react-bootstrap'
 import { StepperStepComponentProps } from '../../types'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
-import { StyledInputSelect } from './StyledInputSelect'
-import { StyledIntro } from './StyledIntro'
+import { StyledInputSelect } from './Shared/StyledInputSelect'
+import { StyledIntro } from './Shared/StyledIntro'
 import { WhiteBackground } from './WhiteBackground'
 
 export function EServiceWriteStep3Agreement({

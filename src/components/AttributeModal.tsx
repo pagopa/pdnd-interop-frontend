@@ -6,10 +6,10 @@ import { TOAST_CONTENTS } from '../lib/constants'
 import { getFetchOutcome } from '../lib/error-utils'
 import { AsyncAutocomplete } from './AsyncAutocomplete'
 import { LoadingOverlay } from './LoadingOverlay'
-import { StyledAccordion } from './StyledAccordion'
-import { StyledInputCheckbox } from './StyledInputCheckbox'
-import { StyledInputText } from './StyledInputText'
-import { StyledInputTextArea } from './StyledInputTextArea'
+import { StyledAccordion } from './Shared/StyledAccordion'
+import { StyledInputCheckbox } from './Shared/StyledInputCheckbox'
+import { StyledInputText } from './Shared/StyledInputText'
+import { StyledInputTextArea } from './Shared/StyledInputTextArea'
 
 type AttributeModalCreateNewProps = {
   close: any

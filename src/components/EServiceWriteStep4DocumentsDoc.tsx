@@ -8,9 +8,9 @@ import {
   EServiceReadType,
 } from '../../types'
 import { getActiveDocs } from '../lib/eservice-utils'
-import { StyledDeleteableDocument } from './StyledDeleteableDocument'
-import { StyledInputFile } from './StyledInputFile'
-import { StyledInputTextArea } from './StyledInputTextArea'
+import { StyledDeleteableDocument } from './Shared/StyledDeleteableDocument'
+import { StyledInputFile } from './Shared/StyledInputFile'
+import { StyledInputTextArea } from './Shared/StyledInputTextArea'
 
 type EServiceWriteStep4DocumentsDocProps = {
   data: EServiceReadType

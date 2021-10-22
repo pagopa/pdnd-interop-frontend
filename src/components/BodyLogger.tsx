@@ -7,8 +7,8 @@ import { logAction } from '../lib/action-log'
 import { Header } from './Header'
 import { Main } from './Main'
 import { Footer } from './Footer'
-import { StyledToast } from './StyledToast'
-import { StyledDialog } from './StyledDialog'
+import { StyledToast } from './Shared/StyledToast'
+import { StyledDialog } from './Shared/StyledDialog'
 import { LoadingOverlay } from './LoadingOverlay'
 
 export function BodyLogger() {

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { DescriptionBlock } from '../components/DescriptionBlock'
-import { StyledIntro } from '../components/StyledIntro'
+import { StyledIntro } from '../components/Shared/StyledIntro'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { USER_ROLE_LABEL } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'

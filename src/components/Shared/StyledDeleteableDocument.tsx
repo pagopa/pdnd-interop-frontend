@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
-import { EServiceDocumentRead } from '../../types'
-import { useFeedback } from '../hooks/useFeedback'
-import { ActionWithTooltip } from './ActionWithTooltip'
+import { EServiceDocumentRead } from '../../../types'
+import { useFeedback } from '../../hooks/useFeedback'
+import { ActionWithTooltip } from '../ActionWithTooltip'
 
 type StyledDeleteableDocumentComponentProps = {
   eserviceId: string

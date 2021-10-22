@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 import { useLocation } from 'react-router'
 import { getBits } from '../lib/url-utils'
 import { EServiceWriteStep4DocumentsDoc } from './EServiceWriteStep4DocumentsDoc'
-import { StyledIntro } from './StyledIntro'
+import { StyledIntro } from './Shared/StyledIntro'
 import { useFeedback } from '../hooks/useFeedback'
 
 export function EServiceWriteStep4Documents({

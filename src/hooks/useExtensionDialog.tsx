@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StyledInputTextArea } from '../components/StyledInputTextArea'
+import { StyledInputTextArea } from '../components/Shared/StyledInputTextArea'
 import { DialogContext } from '../lib/context'
 
 type useExtensionDialogProps = {

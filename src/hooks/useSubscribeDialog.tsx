@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { StyledInputCheckbox } from '../components/StyledInputCheckbox'
-import { StyledInputTextArea } from '../components/StyledInputTextArea'
+import { StyledInputCheckbox } from '../components/Shared/StyledInputCheckbox'
+import { StyledInputTextArea } from '../components/Shared/StyledInputTextArea'
 import { USER_ROLE_LABEL } from '../lib/constants'
 import { DialogContext, PartyContext, UserContext } from '../lib/context'
 

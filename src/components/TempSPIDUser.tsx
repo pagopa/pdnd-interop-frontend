@@ -4,7 +4,7 @@ import { Button, Form } from 'react-bootstrap'
 import { useLogin } from '../hooks/useLogin'
 import { UsersObject } from './OnboardingStep2'
 import { PlatformUserForm } from './PlatformUserForm'
-import { StyledIntro } from './StyledIntro'
+import { StyledIntro } from './Shared/StyledIntro'
 
 export function TempSPIDUser() {
   const [data, setData] = useState<UsersObject>({})
