@@ -4,9 +4,7 @@ import { ProviderOrSubscriber, RouteConfig } from '../../types'
 import { ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { isParentRoute, isRoute } from '../lib/router-utils'
-import { StyledContainer } from './Shared/StyledContainer'
 import { StyledIntro } from './Shared/StyledIntro'
-import { StyledRow } from './Shared/StyledRow'
 
 type SectionHeaderProps = {
   view: ProviderOrSubscriber
@@ -72,23 +70,21 @@ export function SectionHeader({ view }: SectionHeaderProps) {
   const protectedSections: RouteConfig[] = sections[party?.platformRole || leastPrivilegeRole]!
 
   return (
-    <StyledContainer>
-      <StyledRow>
-        <StyledIntro>{{ title, description }}</StyledIntro>
-        <div className="d-flex">
-          {protectedSections.map(({ PATH, LABEL }, i) => (
-            <Link
-              key={i}
-              to={PATH}
-              className={`px-5 py-2 border-bottom border-3 ${
-                isActive(PATH) ? 'text-primary border-primary' : 'text-dark border-white'
-              } text-decoration-none`}
-            >
-              {LABEL}
-            </Link>
-          ))}
-        </div>
-      </StyledRow>
-    </StyledContainer>
+    <React.Fragment>
+      <StyledIntro>{{ title, description }}</StyledIntro>
+      <div className="d-flex">
+        {protectedSections.map(({ PATH, LABEL }, i) => (
+          <Link
+            key={i}
+            to={PATH}
+            className={`px-5 py-2 border-bottom border-3 ${
+              isActive(PATH) ? 'text-primary border-primary' : 'text-dark border-white'
+            } text-decoration-none`}
+          >
+            {LABEL}
+          </Link>
+        ))}
+      </div>
+    </React.Fragment>
   )
 }

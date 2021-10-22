@@ -9,7 +9,6 @@ import { ROUTES, USE_MOCK_SPID_USER } from '../lib/constants'
 import { mockSPIDUser } from '../lib/mock-static-data'
 import { useHistory } from 'react-router'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { StyledRow } from '../components/Shared/StyledRow'
 import { Layout } from '../components/Shared/Layout'
 
 const informativa =
@@ -41,7 +40,7 @@ export function Login() {
             'Seleziona la modalità di autenticazione che preferisci e inizia il processo di adesione',
         }}
       </StyledIntro>
-      <StyledRow className="mb-5">
+      <div className="mb-5">
         <StyledInputTextArea
           className="mt-3 mb-0"
           readOnly={true}
@@ -56,8 +55,8 @@ export function Login() {
           label="Accetto l'informativa"
           inline={true}
         />
-      </StyledRow>
-      <StyledRow className="mx-auto" style={{ maxWidth: 280 }}>
+      </div>
+      <div className="mx-auto" style={{ maxWidth: 280 }}>
         <StyledButton
           className="mb-2 text-none"
           variant="primary"
@@ -75,7 +74,7 @@ export function Login() {
           </i>{' '}
           <span className="ms-2">Autenticati con CIE</span>
         </StyledButton>
-      </StyledRow>
+      </div>
     </Layout>
   )
 }

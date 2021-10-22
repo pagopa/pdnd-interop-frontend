@@ -6,7 +6,6 @@ import { objectIsEmpty } from '../lib/object-utils'
 import { StyledIntro } from './Shared/StyledIntro'
 import { PlatformUserForm } from './PlatformUserForm'
 import { StyledButton } from './Shared/StyledButton'
-import { StyledContainer } from './Shared/StyledContainer'
 
 // Could be an ES6 Set but it's too bothersome for now
 export type UsersObject = { [key: string]: UserOnCreate }
@@ -28,7 +27,7 @@ export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
   }
 
   return (
-    <StyledContainer className="container-align-left form-max-width">
+    <React.Fragment>
       <StyledIntro>{{ title: 'Dati del rappresentante legale' }}</StyledIntro>
       <PlatformUserForm
         prefix="admin"
@@ -72,6 +71,6 @@ export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
           disabled: objectIsEmpty(people),
         }}
       />
-    </StyledContainer>
+    </React.Fragment>
   )
 }

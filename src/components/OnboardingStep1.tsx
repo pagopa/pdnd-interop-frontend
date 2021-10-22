@@ -6,8 +6,6 @@ import { AsyncAutocomplete } from './AsyncAutocomplete'
 import { StyledIntro } from './Shared/StyledIntro'
 import { ROUTES } from '../lib/constants'
 import { Link } from 'react-router-dom'
-import { StyledRow } from './Shared/StyledRow'
-import { StyledContainer } from './Shared/StyledContainer'
 
 export function OnboardingStep1({ forward }: StepperStepComponentProps) {
   const { user } = useContext(UserContext)
@@ -21,7 +19,7 @@ export function OnboardingStep1({ forward }: StepperStepComponentProps) {
   }
 
   return (
-    <StyledContainer className="container-align-left form-max-width">
+    <React.Fragment>
       <StyledIntro>
         {{
           title: `Ciao, ${user?.name} ${user?.surname}`,
@@ -39,7 +37,7 @@ export function OnboardingStep1({ forward }: StepperStepComponentProps) {
           ),
         }}
       </StyledIntro>
-      <StyledRow className="my-4">
+      <div className="my-4">
         <AsyncAutocomplete
           selected={selected}
           setSelected={setSelected}
@@ -48,11 +46,11 @@ export function OnboardingStep1({ forward }: StepperStepComponentProps) {
           transformFn={(data: { items: IPACatalogParty[] }) => data.items}
           labelKey="description"
         />
-      </StyledRow>
+      </div>
 
       <OnboardingStepActions
         forward={{ action: onForwardAction, label: 'prosegui', disabled: selected.length === 0 }}
       />
-    </StyledContainer>
+    </React.Fragment>
   )
 }
