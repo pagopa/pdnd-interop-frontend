@@ -1,36 +1,43 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { Modal } from 'react-bootstrap'
 import { Overlay } from '../Overlay'
 import { StyledButton } from './StyledButton'
 
 type ConfirmationDialogOverlayProps = {
   title?: string
-  description?: string | React.ReactNode
   close: VoidFunction
   proceedCallback: VoidFunction
   proceedLabel?: string
   disabled?: boolean
+  minWidth?: number | string
 }
 
-export function StyledDialog({
+export const StyledDialog: FunctionComponent<ConfirmationDialogOverlayProps> = ({
   title = 'Conferma azione',
-  description,
   close,
   proceedCallback,
   proceedLabel = 'Conferma',
   disabled = false,
-}: ConfirmationDialogOverlayProps) {
+  minWidth = 'auto',
+  children,
+}) => {
+  // TEMP Refactor
+  // This is silly, but it is to avoid a runtime TypeError when closing the AttributeModal
+  const voidClose = () => {
+    close()
+  }
+
   return (
     <Overlay>
-      <Modal.Dialog contentClassName="px-1 py-1">
+      <Modal.Dialog contentClassName="px-1 py-1" style={{ minWidth }} scrollable={true}>
         <Modal.Header onHide={close} closeButton>
           <Modal.Title className="me-5">{title}</Modal.Title>
         </Modal.Header>
 
-        {description && <Modal.Body className="py-4">{description}</Modal.Body>}
+        {children && <Modal.Body className="py-4">{children}</Modal.Body>}
 
         <Modal.Footer>
-          <StyledButton variant="outline-primary" onClick={close}>
+          <StyledButton variant="outline-primary" onClick={voidClose}>
             Annulla
           </StyledButton>
           <StyledButton variant="primary" onClick={proceedCallback} disabled={disabled}>

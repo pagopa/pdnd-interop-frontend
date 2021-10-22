@@ -23,7 +23,7 @@ export const useExtensionDialog = ({ onProceedCallback }: useExtensionDialogProp
   const openDialog = (_?: any) => {
     setDialog({
       title: "Richiedi estensione dell'e-service",
-      description: (
+      children: (
         <React.Fragment>
           <p>
             Compila il form indicando i motivi per cui ritieni che il tuo ente abbia diritto di
