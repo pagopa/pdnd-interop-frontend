@@ -8,7 +8,6 @@ import { WhiteBackground } from '../components/WhiteBackground'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import { OverlayTrigger } from 'react-bootstrap'
 import { TempFilters } from '../components/TempFilters'
 import { isAdmin } from '../lib/auth-utils'
 import { canSubscribe } from '../lib/attributes'
@@ -17,6 +16,7 @@ import { useExtensionDialog } from '../hooks/useExtensionDialog'
 import { useFeedback } from '../hooks/useFeedback'
 import { buildDynamicPath } from '../lib/url-utils'
 import { StyledTooltip } from '../components/Shared/StyledTooltip'
+import { StyledOverlayTrigger } from '../components/Shared/StyledOverlayTrigger'
 
 function CatalogExtensionAction({ runFakeAction }: { runFakeAction: any }) {
   const askExtension = (_: any) => {
@@ -99,7 +99,7 @@ export function EServiceCatalog() {
   const headData = ['nome e-service', 'ente erogatore', 'versione attuale', 'stato e-service', '']
 
   const OwnerTooltip = ({ label = '', iconClass = '' }) => (
-    <OverlayTrigger
+    <StyledOverlayTrigger
       placement="top"
       overlay={
         <StyledTooltip className="opacity-100" id="tooltip">
@@ -108,7 +108,7 @@ export function EServiceCatalog() {
       }
     >
       <i className={`text-primary ms-2 fs-5 bi ${iconClass}`} />
-    </OverlayTrigger>
+    </StyledOverlayTrigger>
   )
 
   return (

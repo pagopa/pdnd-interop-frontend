@@ -1,5 +1,5 @@
 import React, { CSSProperties, FunctionComponent } from 'react'
-import { Container } from 'react-bootstrap'
+import { StyledContainer } from './Shared/StyledContainer'
 
 type WhiteBackgroundProps = {
   containerClassNames?: string
@@ -20,9 +20,9 @@ export const WhiteBackground: FunctionComponent<WhiteBackgroundProps> = ({
   /* 
     Don't generalize the children container, aka don't try to extract 
 
-      <Container className={containerClassNames} style={containerStyles}>
+      <StyledContainer className={containerClassNames} style={containerStyles}>
         {children}
-      </Container>
+      </StyledContainer>
 
     It would cause a rerender of Container at each render that breaks some forms.
     This is due to React reconciliation, see why here:
@@ -36,9 +36,9 @@ export const WhiteBackground: FunctionComponent<WhiteBackgroundProps> = ({
     return (
       <div className="px-4 py-4 bg-white w-100">
         <div className="mx-auto" style={{ maxWidth: MAX_WIDTH }}>
-          <Container className={containerClassNames} style={containerStyles}>
+          <StyledContainer className={containerClassNames} style={containerStyles}>
             {children}
-          </Container>
+          </StyledContainer>
         </div>
       </div>
     )
@@ -50,9 +50,9 @@ export const WhiteBackground: FunctionComponent<WhiteBackgroundProps> = ({
         className={`px-4 pt-4 bg-white mx-auto${noBottomSpacing ? '' : ' pb-4'}`}
         style={{ maxWidth: MAX_WIDTH }}
       >
-        <Container className={containerClassNames} style={containerStyles}>
+        <StyledContainer className={containerClassNames} style={containerStyles}>
           {children}
-        </Container>
+        </StyledContainer>
       </div>
     </div>
   )

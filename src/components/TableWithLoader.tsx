@@ -1,7 +1,7 @@
-import { AxiosError } from 'axios'
 import React, { FunctionComponent } from 'react'
-import { Table } from 'react-bootstrap'
+import { AxiosError } from 'axios'
 import { LoadingWithMessage } from './LoadingWithMessage'
+import { StyledTable } from './Shared/StyledTable'
 import { TablePagination } from './TablePagination'
 
 type TableWithLoaderProps = {
@@ -36,7 +36,7 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
   ) : (
     <div>
       {pagination && <TablePagination />}
-      <Table striped>
+      <StyledTable striped>
         <thead className="bg-secondary">
           <tr>
             {headData.map((item, i) => (
@@ -53,7 +53,7 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
             </tr>
           )}
         </tbody>
-      </Table>
+      </StyledTable>
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import { Link, useLocation } from 'react-router-dom'
 import { RouteConfig } from '../../types'
 import { isOperatorAPI, isOperatorSecurity } from '../lib/auth-utils'
@@ -9,6 +9,7 @@ import { storageWrite } from '../lib/storage-utils'
 import { includesAny } from '../lib/string-utils'
 import { MainHeader } from './MainHeader'
 import { PageTitle } from './PageTitle'
+import { StyledContainer } from './Shared/StyledContainer'
 
 type NavLinkProps = {
   route: RouteConfig
@@ -70,7 +71,7 @@ function PlatformHeader() {
 
   return (
     <Navbar className="justify-content-between py-0">
-      <Container className="d-flex align-items-stretch">
+      <StyledContainer className="d-flex align-items-stretch">
         <Nav>
           {!isOperatorAPI(party) && (
             <NavLink customStyle={true} eventKey="1" route={ROUTES.SUBSCRIBE} />
@@ -111,7 +112,7 @@ function PlatformHeader() {
             </NavLink>
           </Nav>
         </div>
-      </Container>
+      </StyledContainer>
     </Navbar>
   )
 }

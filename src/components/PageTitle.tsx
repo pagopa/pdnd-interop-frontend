@@ -1,14 +1,15 @@
 import React from 'react'
-import { Container, Row } from 'react-bootstrap'
+import { StyledContainer } from './Shared/StyledContainer'
+import { StyledRow } from './Shared/StyledRow'
 
 export function PageTitle() {
   return (
     <div className="bg-white">
-      <Container>
-        <Row>
+      <StyledContainer>
+        <StyledRow>
           <h1 className="bg-white py-4">Portale interoperabilità</h1>
-        </Row>
-      </Container>
+        </StyledRow>
+      </StyledContainer>
     </div>
   )
 }

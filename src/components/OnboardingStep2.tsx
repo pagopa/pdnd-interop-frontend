@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Container } from 'react-bootstrap'
 import { OnboardingStepActions } from './OnboardingStepActions'
 import { WhiteBackground } from './WhiteBackground'
 import cryptoRandomString from 'crypto-random-string'
@@ -8,6 +7,7 @@ import { objectIsEmpty } from '../lib/object-utils'
 import { StyledIntro } from './Shared/StyledIntro'
 import { PlatformUserForm } from './PlatformUserForm'
 import { StyledButton } from './Shared/StyledButton'
+import { StyledContainer } from './Shared/StyledContainer'
 
 // Could be an ES6 Set but it's too bothersome for now
 export type UsersObject = { [key: string]: UserOnCreate }
@@ -31,7 +31,7 @@ export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
   return (
     <React.Fragment>
       <WhiteBackground>
-        <Container className="container-align-left form-max-width">
+        <StyledContainer className="container-align-left form-max-width">
           <StyledIntro>{{ title: 'Dati del rappresentante legale' }}</StyledIntro>
           <PlatformUserForm
             prefix="admin"
@@ -40,10 +40,10 @@ export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
             people={people}
             setPeople={setPeople}
           />
-        </Container>
+        </StyledContainer>
       </WhiteBackground>
       <WhiteBackground>
-        <Container className="container-align-left form-max-width">
+        <StyledContainer className="container-align-left form-max-width">
           <StyledIntro>
             {{ title: 'Dati dei delegati', description: "L'aggiunta di delegati è opzionale" }}
           </StyledIntro>
@@ -78,7 +78,7 @@ export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
               disabled: objectIsEmpty(people),
             }}
           />
-        </Container>
+        </StyledContainer>
       </WhiteBackground>
     </React.Fragment>
   )
