@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Button } from 'react-bootstrap'
 import has from 'lodash/has'
 import {
   AgreementStatus,
@@ -21,6 +20,7 @@ import { DescriptionBlock } from '../components/DescriptionBlock'
 import { PartyContext } from '../lib/context'
 import { getAgreementStatus } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
+import { StyledButton } from '../components/Shared/StyledButton'
 
 export function AgreementEdit() {
   const {
@@ -185,9 +185,9 @@ export function AgreementEdit() {
             <span>rifiutato dall'erogatore</span>
           )
         ) : mode === 'provider' ? (
-          <Button variant="primary" onClick={wrapVerify(id)}>
+          <StyledButton variant="primary" onClick={wrapVerify(id)}>
             verifica
-          </Button>
+          </StyledButton>
         ) : (
           <span>in attesa di verifica</span>
         )}
@@ -299,14 +299,14 @@ export function AgreementEdit() {
 
       <div className="mt-5 d-flex">
         {getAvailableActions().map(({ onClick, label, isMock }, i) => (
-          <Button
+          <StyledButton
             key={i}
             className={`me-3${isMock ? ' mockFeature' : ''}`}
             variant={i === 0 ? 'primary' : 'outline-primary'}
             onClick={onClick}
           >
             {label}
-          </Button>
+          </StyledButton>
         ))}
       </div>
     </WhiteBackground>

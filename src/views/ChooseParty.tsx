@@ -4,10 +4,11 @@ import { Party } from '../../types'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { HARDCODED_MAIN_TAG_HEIGHT, ROUTES, USER_ROLE_LABEL } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import { Row, Col, Button } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 import { StyledInputRadioGroup } from '../components/Shared/StyledInputRadioGroup'
 import { storageWrite } from '../lib/storage-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
+import { StyledButton } from '../components/Shared/StyledButton'
 
 export function ChooseParty() {
   const { setParty, party, availableParties } = useContext(PartyContext)
@@ -56,15 +57,20 @@ export function ChooseParty() {
             currentValue={party?.institutionId}
           />
 
-          <Button className="mt-3" variant="primary" onClick={confirmChoice} disabled={!party}>
+          <StyledButton
+            className="mt-3"
+            variant="primary"
+            onClick={confirmChoice}
+            disabled={!party}
+          >
             prosegui
-          </Button>
+          </StyledButton>
         </Col>
         <Col className="text-center">
           <p>oppure</p>
-          <Button variant="primary" onClick={goToOnboarding}>
+          <StyledButton variant="primary" onClick={goToOnboarding}>
             registra nuovo ente
-          </Button>
+          </StyledButton>
         </Col>
       </Row>
     </WhiteBackground>
@@ -86,9 +92,9 @@ export function ChooseParty() {
               ),
             }}
           </StyledIntro>
-          <Button variant="primary" onClick={goToOnboarding}>
+          <StyledButton variant="primary" onClick={goToOnboarding}>
             registra nuovo ente
-          </Button>
+          </StyledButton>
         </Col>
       </Row>
     </WhiteBackground>

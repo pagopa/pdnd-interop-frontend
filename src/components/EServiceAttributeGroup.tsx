@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import isEmpty from 'lodash/isEmpty'
-import { Button } from 'react-bootstrap'
 import {
   AttributeModalTemplate,
   AttributeType,
@@ -12,6 +11,7 @@ import { Overlay } from './Overlay'
 import { ActionWithTooltip } from './ActionWithTooltip'
 import { TableWithLoader } from './TableWithLoader'
 import { ToastContext } from '../lib/context'
+import { StyledButton } from './Shared/StyledButton'
 
 type EServiceAttributeGroupProps = {
   attributesGroup: FrontendAttribute[]
@@ -87,20 +87,20 @@ export function EServiceAttributeGroup({
       </TableWithLoader>
 
       <div className="d-flex align-items-center">
-        <Button className="me-3" variant="primary" onClick={buildShowModal('add')}>
+        <StyledButton className="me-3" variant="primary" onClick={buildShowModal('add')}>
           aggiungi attributo o gruppo
-        </Button>
+        </StyledButton>
 
         {canCreateNewAttributes && (
           <p className="mb-0 d-flex align-items-center">
             <span className="me-2">L'attributo non è presente nella lista?</span>
-            <Button
+            <StyledButton
               className="px-0 py-0 mx-0 my-0 border-0 link-default"
               variant="link"
               onClick={buildShowModal('create')}
             >
               Crealo qui!
-            </Button>
+            </StyledButton>
           </p>
         )}
       </div>

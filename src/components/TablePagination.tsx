@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import { StyledButton } from './Shared/StyledButton'
 
 export function TablePagination() {
   const pages = [1, 2, 3, 4, 5]
@@ -11,9 +11,14 @@ export function TablePagination() {
         <i className="text-primary fs-5 bi bi-arrow-left" />
         {pages.map((p, i) => {
           return (
-            <Button className="text-decoration-none" key={i} variant="link" onClick={() => {}}>
+            <StyledButton
+              className="text-decoration-none"
+              key={i}
+              variant="link"
+              onClick={() => {}}
+            >
               {p}
-            </Button>
+            </StyledButton>
           )
         })}
         <i className="text-primary fs-5 bi bi-arrow-right" />

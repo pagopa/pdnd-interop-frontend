@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import keyBy from 'lodash/keyBy'
-import { Button, Form } from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 import {
   EServiceDescriptorRead,
   EServiceDocumentRead,
@@ -11,6 +11,7 @@ import { getActiveDocs } from '../lib/eservice-utils'
 import { StyledDeleteableDocument } from './Shared/StyledDeleteableDocument'
 import { StyledInputFile } from './Shared/StyledInputFile'
 import { StyledInputTextArea } from './Shared/StyledInputTextArea'
+import { StyledButton } from './Shared/StyledButton'
 
 type EServiceWriteStep4DocumentsDocProps = {
   data: EServiceReadType
@@ -108,19 +109,19 @@ export function EServiceWriteStep4DocumentsDoc({
           />
 
           <div className="d-flex justify-content-end">
-            <Button type="submit" variant="primary">
+            <StyledButton type="submit" variant="primary">
               <i
                 className="fs-5 bi bi-upload me-2 position-relative"
                 style={{ transform: 'translateY(0.1rem)' }}
               />{' '}
               carica
-            </Button>
+            </StyledButton>
           </div>
         </Form>
       ) : (
-        <Button variant="primary" onClick={showFileInputForm}>
+        <StyledButton variant="primary" onClick={showFileInputForm}>
           Aggiungi documento
-        </Button>
+        </StyledButton>
       )}
     </React.Fragment>
   )

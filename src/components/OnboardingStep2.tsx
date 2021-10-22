@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Container } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 import { OnboardingStepActions } from './OnboardingStepActions'
 import { WhiteBackground } from './WhiteBackground'
 import cryptoRandomString from 'crypto-random-string'
@@ -7,6 +7,7 @@ import { StepperStepComponentProps, UserOnCreate } from '../../types'
 import { objectIsEmpty } from '../lib/object-utils'
 import { StyledIntro } from './Shared/StyledIntro'
 import { PlatformUserForm } from './PlatformUserForm'
+import { StyledButton } from './Shared/StyledButton'
 
 // Could be an ES6 Set but it's too bothersome for now
 export type UsersObject = { [key: string]: UserOnCreate }
@@ -57,17 +58,17 @@ export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
                   people={people}
                   setPeople={setPeople}
                 />
-                <Button variant="primary" onClick={buildRemoveDelegateForm(id)}>
+                <StyledButton variant="primary" onClick={buildRemoveDelegateForm(id)}>
                   rimuovi questo delegato
-                </Button>
+                </StyledButton>
               </div>
             )
           })}
 
           <div className="mb-5">
-            <Button variant="primary" onClick={addDelegateForm}>
+            <StyledButton variant="primary" onClick={addDelegateForm}>
               aggiungi nuovo delegato
-            </Button>
+            </StyledButton>
           </div>
           <OnboardingStepActions
             back={{ action: back, label: 'indietro', disabled: false }}

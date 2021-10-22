@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Modal, Button } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap'
 import { AttributeModalTemplate, AttributeType, CatalogAttribute } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { TOAST_CONTENTS } from '../lib/constants'
@@ -7,6 +7,7 @@ import { getFetchOutcome } from '../lib/error-utils'
 import { AsyncAutocomplete } from './AsyncAutocomplete'
 import { LoadingOverlay } from './LoadingOverlay'
 import { StyledAccordion } from './Shared/StyledAccordion'
+import { StyledButton } from './Shared/StyledButton'
 import { StyledInputCheckbox } from './Shared/StyledInputCheckbox'
 import { StyledInputText } from './Shared/StyledInputText'
 import { StyledInputTextArea } from './Shared/StyledInputTextArea'
@@ -98,12 +99,12 @@ export function AttributeModalCreateNew({ close, attributeKey }: AttributeModalC
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="outline-primary" onClick={close}>
+          <StyledButton variant="outline-primary" onClick={close}>
             Annulla
-          </Button>
-          <Button variant="primary" onClick={create} disabled={!data}>
+          </StyledButton>
+          <StyledButton variant="primary" onClick={create} disabled={!data}>
             Crea attributo
-          </Button>
+          </StyledButton>
         </Modal.Footer>
       </Modal.Dialog>
 
@@ -182,12 +183,12 @@ export function AttributeModalAddExisting({
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="outline-primary" onClick={(_: any) => close()}>
+        <StyledButton variant="outline-primary" onClick={(_: any) => close()}>
           Annulla
-        </Button>
-        <Button variant="primary" onClick={confirm} disabled={!!(selected.length === 0)}>
+        </StyledButton>
+        <StyledButton variant="primary" onClick={confirm} disabled={!!(selected.length === 0)}>
           Conferma
-        </Button>
+        </StyledButton>
       </Modal.Footer>
     </Modal.Dialog>
   )

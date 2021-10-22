@@ -1,5 +1,7 @@
 import React from 'react'
-import { OverlayTrigger, Button, Tooltip } from 'react-bootstrap'
+import { StyledButton } from './Shared/StyledButton'
+import { StyledOverlayTrigger } from './Shared/StyledOverlayTrigger'
+import { StyledTooltip } from './Shared/StyledTooltip'
 
 type BtnProps = {
   to?: string
@@ -25,22 +27,22 @@ export function ActionWithTooltip({
   style,
 }: ActionWithTooltipProps) {
   return (
-    <OverlayTrigger
+    <StyledOverlayTrigger
       placement="top"
       overlay={
-        <Tooltip className="opacity-100" id="tooltip">
+        <StyledTooltip className="opacity-100" id="tooltip">
           {label}
-        </Tooltip>
+        </StyledTooltip>
       }
     >
-      <Button
+      <StyledButton
         className={`${isMock ? 'mockFeature' : ''} ${className || ''}`}
         style={style || {}}
         variant="link"
         {...btnProps}
       >
         <i className={`text-primary fs-5 bi ${iconClass}`} />
-      </Button>
-    </OverlayTrigger>
+      </StyledButton>
+    </StyledOverlayTrigger>
   )
 }

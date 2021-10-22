@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import { StyledButton } from './Shared/StyledButton'
 
 type ActionStep = {
   action?: () => void
@@ -16,19 +16,19 @@ export function OnboardingStepActions({ forward, back }: ActionStepsProps) {
   return (
     <div className="d-flex">
       {back && (
-        <Button
+        <StyledButton
           className="me-2"
           variant="outline-primary"
           onClick={back.action}
           disabled={back.disabled}
         >
           {back.label}
-        </Button>
+        </StyledButton>
       )}
       {forward && (
-        <Button variant="primary" onClick={forward.action} disabled={forward.disabled}>
+        <StyledButton variant="primary" onClick={forward.action} disabled={forward.disabled}>
           {forward.label}
-        </Button>
+        </StyledButton>
       )}
     </div>
   )

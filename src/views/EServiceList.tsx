@@ -3,7 +3,6 @@ import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
 import { WhiteBackground } from '../components/WhiteBackground'
 import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
-import { Button } from 'react-bootstrap'
 import { PartyContext } from '../lib/context'
 import {
   ApiEndpointKey,
@@ -22,6 +21,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { TempFilters } from '../components/TempFilters'
 import { AxiosResponse } from 'axios'
 import { buildDynamicPath } from '../lib/url-utils'
+import { StyledButton } from '../components/Shared/StyledButton'
 
 export function EServiceList() {
   const { runAction, runFakeAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -238,9 +238,13 @@ export function EServiceList() {
         </StyledIntro>
 
         <div className="mt-4">
-          <Button variant="primary" as={Link} to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.PATH}>
+          <StyledButton
+            variant="primary"
+            as={Link}
+            to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.PATH}
+          >
             {ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.LABEL}
-          </Button>
+          </StyledButton>
 
           <TempFilters />
 

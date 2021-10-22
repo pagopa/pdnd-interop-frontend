@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import isEmpty from 'lodash/isEmpty'
-import { Button } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
 import { ActionWithTooltipBtn, ApiEndpointKey, User, UserStatus } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
@@ -15,6 +14,7 @@ import { useMode } from '../hooks/useMode'
 import { mergeActions } from '../lib/eservice-utils'
 import { SecurityOperatorKeys } from '../components/SecurityOperatorKeys'
 import { useFeedback } from '../hooks/useFeedback'
+import { StyledButton } from '../components/Shared/StyledButton'
 
 type UserEndpoinParams =
   | { operatorTaxCode: string; clientId: string }
@@ -159,14 +159,14 @@ export function UserEdit() {
 
         <div className="mt-5 d-flex">
           {getAvailableActions().map(({ onClick, label }, i) => (
-            <Button
+            <StyledButton
               key={i}
               className="me-3"
               variant={i === 0 ? 'primary' : 'outline-primary'}
               onClick={onClick}
             >
               {label}
-            </Button>
+            </StyledButton>
           ))}
         </div>
       </WhiteBackground>

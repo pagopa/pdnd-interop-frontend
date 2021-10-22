@@ -1,6 +1,6 @@
-import { noop } from 'lodash'
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import noop from 'lodash/noop'
+import { StyledButton } from './StyledButton'
 import { StyledInputFileUploader } from './StyledInputFileUploader'
 import { StyledInputText } from './StyledInputText'
 
@@ -35,12 +35,12 @@ export function StyledInputFileUploaderWithControls({
           </div>
 
           <div>
-            <Button className="me-3" variant="primary" onClick={noop}>
+            <StyledButton className="me-3" variant="primary" onClick={noop}>
               <i className="fs-5 bi bi-pencil me-2" /> modifica
-            </Button>
-            <Button variant="outline-primary" onClick={requestDelete}>
+            </StyledButton>
+            <StyledButton variant="outline-primary" onClick={requestDelete}>
               elimina
-            </Button>
+            </StyledButton>
           </div>
         </div>
       )}
@@ -60,13 +60,13 @@ export function StyledInputFileUploaderWithControls({
           onChange={onChangeDescription}
         />
         <div className="d-flex justify-content-end">
-          <Button className="me-3" variant="primary" onClick={requestUpload}>
+          <StyledButton className="me-3" variant="primary" onClick={requestUpload}>
             <i
               className="fs-5 bi bi-upload me-2 position-relative"
               style={{ transform: 'translateY(0.1rem)' }}
             />{' '}
             carica
-          </Button>
+          </StyledButton>
         </div>
       </div>
     </div>

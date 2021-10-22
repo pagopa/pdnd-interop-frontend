@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { useLocation } from 'react-router'
-import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import {
   ProviderOrSubscriber,
@@ -27,6 +26,7 @@ import { isAdmin, isOperatorAPI, isOperatorSecurity } from '../lib/auth-utils'
 import { PartyContext, UserContext } from '../lib/context'
 import { buildDynamicPath, getLastBit } from '../lib/url-utils'
 import { useFeedback } from '../hooks/useFeedback'
+import { StyledButton } from '../components/Shared/StyledButton'
 
 export function UserList() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -191,7 +191,7 @@ export function UserList() {
 
       <div className="mt-4">
         {isAdmin(party) && (
-          <Button
+          <StyledButton
             variant="primary"
             as={Link}
             to={`${CREATE_ACTIONS[mode!].PATH}${
@@ -199,7 +199,7 @@ export function UserList() {
             }`}
           >
             {CREATE_ACTIONS[mode!].LABEL}
-          </Button>
+          </StyledButton>
         )}
 
         <TempFilters />
