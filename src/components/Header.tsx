@@ -18,11 +18,9 @@ export function Header() {
   return (
     <header>
       <MainHeader />
-      <div className="bg-white">
-        <Layout>
-          <h1 className="bg-white py-4">Portale interoperabilità</h1>
-        </Layout>
-      </div>
+      <Layout>
+        <h1 className="py-4">Portale interoperabilità</h1>
+      </Layout>
       {isInPlatform && <PlatformHeader />}
     </header>
   )
