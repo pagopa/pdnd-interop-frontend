@@ -10,6 +10,8 @@ import { Footer } from './Footer'
 import { StyledToast } from './Shared/StyledToast'
 import { StyledDialog } from './Shared/StyledDialog'
 import { LoadingOverlay } from './LoadingOverlay'
+import { MainNav } from './MainNav'
+import { Layout } from './Shared/Layout'
 
 export function BodyLogger() {
   const [toast, setToast] = useState<ToastProps | null>(null)
@@ -50,7 +52,12 @@ export function BodyLogger() {
       <DialogContext.Provider value={{ dialog, setDialog }}>
         <LoaderContext.Provider value={{ loadingText, setLoadingText }}>
           <Header />
-          <Main />
+          <Layout>
+            <div className="d-flex">
+              <MainNav />
+              <Main />
+            </div>
+          </Layout>
           <Footer />
           {toast && <StyledToast {...toast} />}
           {dialog && <StyledDialog {...dialog} />}
