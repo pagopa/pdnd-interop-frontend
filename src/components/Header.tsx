@@ -6,7 +6,8 @@ import { PartyContext, UserContext } from '../lib/context'
 import { storageWrite } from '../lib/storage-utils'
 import { Layout } from './Shared/Layout'
 import { StyledButton } from './Shared/StyledButton'
-import logo from '../assets/pagopa-logo.svg'
+import logo from '../assets/pagopa-logo-white.svg'
+import { Box } from '@mui/system'
 
 export function Header() {
   const { party, availableParties, setParty } = useContext(PartyContext)
@@ -29,18 +30,27 @@ export function Header() {
 
   return (
     <header>
-      <Layout>
-        <div className="d-flex justify-content-between align-items-center py-4">
-          <Link to="/">
-            <img src={logo} alt="Logo PagoPA" />
-          </Link>
-          <StyledButton variant="primary" as={Link} to={btnPath}>
-            {btnLabel}
-          </StyledButton>
-        </div>
-      </Layout>
+      <Box sx={{ bgcolor: 'primary.dark' }}>
+        <Layout>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              py: '1rem',
+            }}
+          >
+            <Link to="/">
+              <img src={logo} alt="Logo PagoPA" />
+            </Link>
+            <StyledButton variant="primary" as={Link} to={btnPath}>
+              {btnLabel}
+            </StyledButton>
+          </Box>
+        </Layout>
+      </Box>
 
-      <div style={{ background: 'blue' }}>
+      <Box sx={{ bgcolor: 'primary.main' }}>
         <Layout>
           <div className="d-flex justify-content-between align-items-center">
             <div className="py-4">
@@ -74,7 +84,7 @@ export function Header() {
             </Nav>
           </div>
         </Layout>
-      </div>
+      </Box>
     </header>
   )
 }

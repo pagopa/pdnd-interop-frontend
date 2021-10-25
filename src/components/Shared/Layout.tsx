@@ -1,11 +1,6 @@
 import React, { FunctionComponent } from 'react'
-import { StyledContainer } from './StyledContainer'
-import { StyledRow } from './StyledRow'
+import { Container } from '@mui/material'
 
 export const Layout: FunctionComponent = ({ children }) => {
-  return (
-    <StyledContainer>
-      <StyledRow>{children}</StyledRow>
-    </StyledContainer>
-  )
+  return <Container>{children}</Container>
 }

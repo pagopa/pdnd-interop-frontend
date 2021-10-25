@@ -22,14 +22,6 @@ $danger: #ff8181;
 /*
  * Bootstrap extend
  */
-.container-align-left {
-  @include make-container();
-  padding-left: 0;
-  padding-right: 0;
-  margin-left: 0;
-  margin-right: 0;
-}
-
 .link-default {
   color: inherit;
   font-weight: 700;
