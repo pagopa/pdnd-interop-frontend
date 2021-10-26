@@ -116,8 +116,8 @@ export function MainNav() {
           const isActive = open === view.type
 
           return !!view.children && Boolean(view.children.length > 0) ? (
-            <Box color="primary.main">
-              <ListItemButton key={i} onClick={wrapSetOpen(view.type!)}>
+            <Box key={i} color="primary.main">
+              <ListItemButton onClick={wrapSetOpen(view.type!)}>
                 <ListItemText
                   disableTypography
                   primary={

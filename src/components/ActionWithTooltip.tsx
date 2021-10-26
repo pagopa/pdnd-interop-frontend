@@ -1,6 +1,5 @@
 import React from 'react'
 import { StyledButton } from './Shared/StyledButton'
-import { StyledOverlayTrigger } from './Shared/StyledOverlayTrigger'
 import { StyledTooltip } from './Shared/StyledTooltip'
 
 type BtnProps = {
@@ -27,14 +26,7 @@ export function ActionWithTooltip({
   style,
 }: ActionWithTooltipProps) {
   return (
-    <StyledOverlayTrigger
-      placement="top"
-      overlay={
-        <StyledTooltip className="opacity-100" id="tooltip">
-          {label}
-        </StyledTooltip>
-      }
-    >
+    <StyledTooltip title={label}>
       <StyledButton
         className={`${isMock ? 'mockFeature' : ''} ${className || ''}`}
         sx={style || {}}
@@ -42,6 +34,6 @@ export function ActionWithTooltip({
       >
         <i className={`text-primary fs-5 bi ${iconClass}`} />
       </StyledButton>
-    </StyledOverlayTrigger>
+    </StyledTooltip>
   )
 }

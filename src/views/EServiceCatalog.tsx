@@ -14,7 +14,6 @@ import { useExtensionDialog } from '../hooks/useExtensionDialog'
 import { useFeedback } from '../hooks/useFeedback'
 import { buildDynamicPath } from '../lib/url-utils'
 import { StyledTooltip } from '../components/Shared/StyledTooltip'
-import { StyledOverlayTrigger } from '../components/Shared/StyledOverlayTrigger'
 import { StyledLink } from '../components/Shared/StyledLink'
 
 function CatalogExtensionAction({ runFakeAction }: { runFakeAction: any }) {
@@ -98,16 +97,9 @@ export function EServiceCatalog() {
   const headData = ['nome e-service', 'ente erogatore', 'versione attuale', 'stato e-service', '']
 
   const OwnerTooltip = ({ label = '', iconClass = '' }) => (
-    <StyledOverlayTrigger
-      placement="top"
-      overlay={
-        <StyledTooltip className="opacity-100" id="tooltip">
-          {label}
-        </StyledTooltip>
-      }
-    >
+    <StyledTooltip title={label}>
       <i className={`text-primary ms-2 fs-5 bi ${iconClass}`} />
-    </StyledOverlayTrigger>
+    </StyledTooltip>
   )
 
   return (
