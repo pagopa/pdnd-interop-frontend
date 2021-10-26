@@ -9,6 +9,10 @@ export function isRoute(location: any, path: string) {
   return location.pathname === path
 }
 
+export function isActiveTree(location: any, path: string) {
+  return isRoute(location, path) || isParentRoute(location, path)
+}
+
 export function isProviderOrSubscriber(location: any): ProviderOrSubscriber | null {
   if (isParentRoute(location, ROUTES.PROVIDE.PATH) || isRoute(location, ROUTES.PROVIDE.PATH)) {
     return 'provider'
