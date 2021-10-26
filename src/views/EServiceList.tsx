@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router'
-import { Link } from 'react-router-dom'
 import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import {
@@ -22,6 +21,7 @@ import { AxiosResponse } from 'axios'
 import { buildDynamicPath } from '../lib/url-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Layout } from '../components/Shared/Layout'
+import { StyledLink } from '../components/Shared/StyledLink'
 
 export function EServiceList() {
   const { runAction, runFakeAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -239,7 +239,7 @@ export function EServiceList() {
       <div className="mt-4">
         <StyledButton
           variant="contained"
-          component={Link}
+          component={StyledLink}
           to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.PATH}
         >
           {ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.LABEL}
@@ -265,7 +265,7 @@ export function EServiceList() {
                   const btnProps: any = {}
 
                   if ((tableAction as ActionWithTooltipLink).to) {
-                    btnProps.as = Link
+                    btnProps.as = StyledLink
                     btnProps.to = (tableAction as ActionWithTooltipLink).to
                   } else {
                     btnProps.onClick = (tableAction as ActionWithTooltipBtn).onClick

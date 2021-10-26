@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios'
 import { isEmpty } from 'lodash'
 import React, { useContext, useEffect, useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import {
   ApiEndpointKey,
   EServiceCreateDataType,
@@ -26,6 +26,7 @@ import { StyledInputRadioGroup } from './Shared/StyledInputRadioGroup'
 import { StyledInputText } from './Shared/StyledInputText'
 import { StyledInputTextArea } from './Shared/StyledInputTextArea'
 import { StyledIntro } from './Shared/StyledIntro'
+import { StyledLink } from './Shared/StyledLink'
 
 type FieldType = 'text' | 'radio' | 'checkbox'
 
@@ -199,7 +200,7 @@ export function EServiceWriteStep1General({
           </StyledButton>
           <StyledButton
             variant="outlined"
-            component={Link}
+            component={StyledLink}
             to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}
           >
             Torna agli e-service

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { fetchWithLogs } from '../lib/api-utils'
 import { MessageNoAction } from '../components/MessageNoAction'
 import { RequestOutcome, RequestOutcomeOptions } from '../../types'
@@ -15,6 +15,7 @@ import { LoaderContext } from '../lib/context'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
 import { Layout } from '../components/Shared/Layout'
+import { StyledLink } from '../components/Shared/StyledLink'
 
 export function CompleteRegistration() {
   const { setLoadingText } = useContext(LoaderContext)
@@ -81,11 +82,7 @@ export function CompleteRegistration() {
       title: 'Congratulazioni',
       description: [
         <p>
-          La registrazione è completa.{' '}
-          <Link to="/" className="link-default">
-            Clicca qui
-          </Link>{' '}
-          per iniziare
+          La registrazione è completa. <StyledLink to="/">Clicca qui</StyledLink> per iniziare
         </p>,
       ],
     },

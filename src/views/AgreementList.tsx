@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
 import { AGREEMENT_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import {
@@ -20,6 +19,7 @@ import { mergeActions } from '../lib/eservice-utils'
 import { getAgreementStatus } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { Layout } from '../components/Shared/Layout'
+import { StyledLink } from '../components/Shared/StyledLink'
 
 export function AgreementList() {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -199,7 +199,7 @@ export function AgreementList() {
                   const btnProps: any = {}
 
                   if ((tableAction as ActionWithTooltipLink).to) {
-                    btnProps.as = Link
+                    btnProps.as = StyledLink
                     btnProps.to = (tableAction as ActionWithTooltipLink).to
                   } else {
                     btnProps.onClick = (tableAction as ActionWithTooltipBtn).onClick

@@ -1,7 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { Layout } from '../components/Shared/Layout'
 import { StyledIntro } from '../components/Shared/StyledIntro'
+import { StyledLink } from '../components/Shared/StyledLink'
 
 type NotFoundProps = {
   errorType?: 'not-found' | 'server-error'
@@ -22,9 +22,9 @@ export function NotFound({ errorType = 'not-found' }: NotFoundProps) {
             description: (
               <>
                 {DESCRIPTIONS[errorType]}. Torna alla{' '}
-                <Link to="/" className="link-default">
+                <StyledLink to="/" className="link-default">
                   home
-                </Link>
+                </StyledLink>
                 .
               </>
             ),

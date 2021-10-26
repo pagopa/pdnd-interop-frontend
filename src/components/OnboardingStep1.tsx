@@ -5,7 +5,7 @@ import { OnboardingStepActions } from './OnboardingStepActions'
 import { AsyncAutocomplete } from './AsyncAutocomplete'
 import { StyledIntro } from './Shared/StyledIntro'
 import { ROUTES } from '../lib/constants'
-import { Link } from 'react-router-dom'
+import { StyledLink } from './Shared/StyledLink'
 
 export function OnboardingStep1({ forward }: StepperStepComponentProps) {
   const { user } = useContext(UserContext)
@@ -29,10 +29,7 @@ export function OnboardingStep1({ forward }: StepperStepComponentProps) {
               riferimento dall’elenco IPA.
               <br />
               Se non trovi il tuo ente nell’elenco,{' '}
-              <Link className="link-default" to={ROUTES.IPA_GUIDE.PATH}>
-                scopri qui
-              </Link>{' '}
-              come aggiungerti.
+              <StyledLink to={ROUTES.IPA_GUIDE.PATH}>scopri qui</StyledLink> come aggiungerti.
             </>
           ),
         }}

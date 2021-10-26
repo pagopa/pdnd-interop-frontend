@@ -2,7 +2,6 @@ import React from 'react'
 import { Box, Typography } from '@mui/material'
 import { Layout } from './Shared/Layout'
 import logo from '../assets/pagopa-logo-white.svg'
-import { Link } from 'react-router-dom'
 import { StyledLink } from './Shared/StyledLink'
 
 export function Footer() {
@@ -11,9 +10,9 @@ export function Footer() {
       <Layout>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ mr: '4.25rem' }}>
-            <Link to="/">
+            <StyledLink to="/">
               <Box component="img" src={logo} alt="Logo PagoPA" sx={{ width: '7.5rem' }} />
-            </Link>
+            </StyledLink>
           </Box>
           <Typography variant="caption">
             PagoPA S.p.A. - società per azioni con socio unico - capitale sociale di euro 1,000,000

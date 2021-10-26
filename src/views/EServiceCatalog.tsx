@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
 import { EServiceFlatReadType } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { ActionWithTooltip } from '../components/ActionWithTooltip'
@@ -17,6 +16,7 @@ import { buildDynamicPath } from '../lib/url-utils'
 import { StyledTooltip } from '../components/Shared/StyledTooltip'
 import { StyledOverlayTrigger } from '../components/Shared/StyledOverlayTrigger'
 import { Layout } from '../components/Shared/Layout'
+import { StyledLink } from '../components/Shared/StyledLink'
 
 function CatalogExtensionAction({ runFakeAction }: { runFakeAction: any }) {
   const askExtension = (_: any) => {
@@ -159,7 +159,7 @@ export function EServiceCatalog() {
                       to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
                         id: item.callerSubscribed,
                       }),
-                      as: Link,
+                      as: StyledLink,
                     }}
                     label="Vai all'accordo"
                     iconClass={'bi-link'}
@@ -179,7 +179,7 @@ export function EServiceCatalog() {
                 )}
                 <ActionWithTooltip
                   btnProps={{
-                    as: Link,
+                    as: StyledLink,
                     to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
                       eserviceId: item.id,
                       descriptorId: item.descriptorId!,

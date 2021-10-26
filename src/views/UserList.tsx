@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { useLocation } from 'react-router'
-import { Link } from 'react-router-dom'
 import {
   ProviderOrSubscriber,
   ActionWithTooltipBtn,
@@ -27,6 +26,7 @@ import { buildDynamicPath, getLastBit } from '../lib/url-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Layout } from '../components/Shared/Layout'
+import { StyledLink } from '../components/Shared/StyledLink'
 
 export function UserList() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -193,7 +193,7 @@ export function UserList() {
         {isAdmin(party) && (
           <StyledButton
             variant="contained"
-            component={Link}
+            component={StyledLink}
             to={`${CREATE_ACTIONS[mode!].PATH}${
               mode === 'subscriber' ? `?clientId=${clientId}` : ''
             }`}
@@ -227,7 +227,7 @@ export function UserList() {
                   const btnProps: any = {}
 
                   if ((tableAction as ActionWithTooltipLink).to) {
-                    btnProps.as = Link
+                    btnProps.as = StyledLink
                     btnProps.to = (tableAction as ActionWithTooltipLink).to
                   } else {
                     btnProps.onClick = (tableAction as ActionWithTooltipBtn).onClick
