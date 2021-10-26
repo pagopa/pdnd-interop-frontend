@@ -28,7 +28,7 @@ export function ChooseParty() {
 
   return availableParties.length > 0 ? (
     <Layout>
-      <StyledIntro priority={2} additionalClasses="text-center mx-auto">
+      <StyledIntro variant="h1" sx={{ textAlign: 'center', mx: 'auto' }}>
         {{
           title: 'Per quale ente vuoi operare?',
           description: (
@@ -77,7 +77,7 @@ export function ChooseParty() {
     <Layout>
       <div className="d-flex align-items-center mx-auto my-auto">
         <div className="text-center">
-          <StyledIntro priority={2}>
+          <StyledIntro variant="h1">
             {{
               title: 'Ciao!',
               description: (

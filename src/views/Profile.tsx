@@ -11,7 +11,7 @@ export function Profile() {
 
   return (
     <Layout>
-      <StyledIntro priority={2}>{{ title: 'Il mio profilo' }}</StyledIntro>
+      <StyledIntro variant="h1">{{ title: 'Il mio profilo' }}</StyledIntro>
 
       <DescriptionBlock label="Nome e cognome">
         <span>

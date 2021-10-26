@@ -112,7 +112,7 @@ export function ClientList() {
 
   return (
     <Layout>
-      <StyledIntro priority={2}>
+      <StyledIntro variant="h1">
         {{
           title: 'I tuoi client',
           description: "In quest'area puoi i trovare e gestire tutti i client che hai creato",

@@ -127,7 +127,7 @@ export function SecurityOperatorKeys({
 
   return (
     <React.Fragment>
-      <StyledIntro priority={3}>
+      <StyledIntro variant="h4">
         {{
           title: 'Gestione chiave pubblica',
           description: (

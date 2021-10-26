@@ -117,7 +117,7 @@ export function EServiceWriteStep2Version({
 
   return (
     <React.Fragment>
-      <StyledIntro priority={2}>
+      <StyledIntro variant="h1">
         {{ title: 'Crea e-service: informazioni di versione' }}
       </StyledIntro>
 

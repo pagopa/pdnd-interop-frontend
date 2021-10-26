@@ -101,9 +101,9 @@ export function EServiceWriteStep4Documents({
 
   return (
     <React.Fragment>
-      <StyledIntro priority={2}>{{ title: 'Crea e-service: documentazione' }}</StyledIntro>
+      <StyledIntro variant="h1">{{ title: 'Crea e-service: documentazione' }}</StyledIntro>
 
-      <StyledIntro priority={2}>
+      <StyledIntro variant="h1">
         {{
           title: 'Interfaccia*',
           description: "Carica il file OpenAPI/WSDL che descrive l'API",
@@ -117,7 +117,7 @@ export function EServiceWriteStep4Documents({
         activeDescriptorId={activeDescriptorId}
       />
 
-      <StyledIntro priority={2}>
+      <StyledIntro variant="h1">
         {{
           title: 'Documentazione',
           description: 'Inserisci la documentazione tecnica utile all’utilizzo di questo e-service',
@@ -145,7 +145,7 @@ export function EServiceWriteStep4Documents({
         </StyledButton>
       </div>
 
-      <StyledIntro priority={2}>{{ title: 'Pubblicazione della versione' }}</StyledIntro>
+      <StyledIntro variant="h1">{{ title: 'Pubblicazione della versione' }}</StyledIntro>
       <div className="d-flex">
         <StyledButton
           className="me-3"

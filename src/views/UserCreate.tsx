@@ -67,7 +67,7 @@ export function UserCreate() {
 
   return (
     <Layout>
-      <StyledIntro priority={2}>{INTRO[mode!]}</StyledIntro>
+      <StyledIntro variant="h1">{INTRO[mode!]}</StyledIntro>
 
       <StyledForm onSubmit={handleSubmit} style={{ maxWidth: 768 }}>
         <PlatformUserForm

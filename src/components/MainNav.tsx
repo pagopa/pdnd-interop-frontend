@@ -14,7 +14,6 @@ import { ROUTES } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
 import { isActiveTree } from '../lib/router-utils'
 import { includesAny } from '../lib/string-utils'
-import { Layout } from './Shared/Layout'
 import { StyledLink } from './Shared/StyledLink'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
 

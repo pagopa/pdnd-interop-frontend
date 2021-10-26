@@ -201,7 +201,7 @@ export function AgreementEdit() {
 
   return (
     <Layout>
-      <StyledIntro priority={2}>{{ title: 'Accordo di interoperabilità' }}</StyledIntro>
+      <StyledIntro variant="h1">{{ title: 'Accordo di interoperabilità' }}</StyledIntro>
 
       <DescriptionBlock label="Accordo relativo a">
         <div style={{ maxWidth: 500 }}>

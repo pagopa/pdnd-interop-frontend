@@ -187,7 +187,7 @@ export function UserList() {
 
   return (
     <Layout>
-      <StyledIntro priority={2}>{TITLES[mode!]}</StyledIntro>
+      <StyledIntro variant="h1">{TITLES[mode!]}</StyledIntro>
 
       <div className="mt-4">
         {isAdmin(party) && (

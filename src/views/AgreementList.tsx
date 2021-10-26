@@ -175,7 +175,7 @@ export function AgreementList() {
 
   return (
     <Layout>
-      <StyledIntro priority={2}>{INTRO[mode!]}</StyledIntro>
+      <StyledIntro variant="h1">{INTRO[mode!]}</StyledIntro>
 
       <div className="mt-4">
         <TempFilters />
