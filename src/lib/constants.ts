@@ -828,51 +828,50 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
 }
 
 export const ESERVICE_STATUS_LABEL = {
-  published: 'attivo',
-  draft: 'in bozza',
-  suspended: 'sospeso',
-  // Not implemented yet
-  archived: 'archiviato',
-  deprecated: 'deprecato',
+  published: 'Attivo',
+  draft: 'In bozza',
+  suspended: 'Sospeso',
+  archived: 'Archiviato',
+  deprecated: 'Deprecato',
 }
 
 export const ATTRIBUTE_TYPE_LABEL = {
-  certified: 'certificati',
-  verified: 'verificati',
-  declared: 'dichiarati',
+  certified: 'Certificati',
+  verified: 'Verificati',
+  declared: 'Dichiarati',
 }
 
 export const AGREEMENT_STATUS_LABEL = {
-  active: 'attivo',
-  suspended: 'sospeso',
-  pending: 'in attesa di approvazione',
-  inactive: 'archiviato',
+  active: 'Attivo',
+  suspended: 'Sospeso',
+  pending: 'In attesa di approvazione',
+  inactive: 'Archiviato',
 }
 
 export const CLIENT_STATUS_LABEL = {
-  active: 'attivo',
-  suspended: 'sospeso',
+  active: 'Attivo',
+  suspended: 'Sospeso',
 }
 
 export const COMPUTED_STATUS_LABEL = {
-  active: 'attivo',
-  inactive: 'non attivo',
+  active: 'Attivo',
+  inactive: 'Non attivo',
 }
 
 export const USER_STATUS_LABEL = {
-  pending: 'in attesa di approvazione',
-  active: 'attivo',
-  suspended: 'sospeso',
+  pending: 'In attesa di approvazione',
+  active: 'Attivo',
+  suspended: 'Sospeso',
 }
 
 export const USER_ROLE_LABEL = {
-  Manager: 'admin', // 'rappresentante legale',
-  Delegate: 'delegato',
-  Operator: 'operatore',
+  Manager: 'Amministratore',
+  Delegate: 'Delegato',
+  Operator: 'Operatore',
 }
 
 export const USER_PLATFORM_ROLE_LABEL = {
-  admin: 'amministratore',
-  security: 'operatore di sicurezza',
-  api: 'operatore API',
+  admin: 'Amministratore',
+  security: 'Operatore di sicurezza',
+  api: 'Operatore API',
 }
