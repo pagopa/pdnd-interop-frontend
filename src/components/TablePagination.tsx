@@ -11,12 +11,7 @@ export function TablePagination() {
         <i className="text-primary fs-5 bi bi-arrow-left" />
         {pages.map((p, i) => {
           return (
-            <StyledButton
-              className="text-decoration-none"
-              key={i}
-              variant="link"
-              onClick={() => {}}
-            >
+            <StyledButton className="text-decoration-none" key={i} onClick={() => {}}>
               {p}
             </StyledButton>
           )

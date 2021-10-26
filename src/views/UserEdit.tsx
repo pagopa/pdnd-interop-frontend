@@ -161,7 +161,7 @@ export function UserEdit() {
           <StyledButton
             key={i}
             className="me-3"
-            variant={i === 0 ? 'primary' : 'outline-primary'}
+            variant={i === 0 ? 'contained' : 'outlined'}
             onClick={onClick}
           >
             {label}

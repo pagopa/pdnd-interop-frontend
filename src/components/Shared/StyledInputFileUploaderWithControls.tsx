@@ -35,10 +35,10 @@ export function StyledInputFileUploaderWithControls({
           </div>
 
           <div>
-            <StyledButton className="me-3" variant="primary" onClick={noop}>
+            <StyledButton className="me-3" variant="contained" onClick={noop}>
               <i className="fs-5 bi bi-pencil me-2" /> modifica
             </StyledButton>
-            <StyledButton variant="outline-primary" onClick={requestDelete}>
+            <StyledButton variant="outlined" onClick={requestDelete}>
               elimina
             </StyledButton>
           </div>
@@ -60,7 +60,7 @@ export function StyledInputFileUploaderWithControls({
           onChange={onChangeDescription}
         />
         <div className="d-flex justify-content-end">
-          <StyledButton className="me-3" variant="primary" onClick={requestUpload}>
+          <StyledButton className="me-3" variant="contained" onClick={requestUpload}>
             <i
               className="fs-5 bi bi-upload me-2 position-relative"
               style={{ transform: 'translateY(0.1rem)' }}

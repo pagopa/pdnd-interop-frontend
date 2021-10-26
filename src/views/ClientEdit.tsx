@@ -201,7 +201,7 @@ export function ClientEdit() {
                 <StyledButton
                   key={i}
                   className={`me-3${isMock ? ' mockFeature' : ''}`}
-                  variant={i === 0 ? 'primary' : 'outline-primary'}
+                  variant={i === 0 ? 'contained' : 'outlined'}
                   onClick={onClick}
                 >
                   {label}

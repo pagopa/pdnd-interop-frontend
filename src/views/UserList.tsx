@@ -192,8 +192,8 @@ export function UserList() {
       <div className="mt-4">
         {isAdmin(party) && (
           <StyledButton
-            variant="primary"
-            as={Link}
+            variant="contained"
+            component={Link}
             to={`${CREATE_ACTIONS[mode!].PATH}${
               mode === 'subscriber' ? `?clientId=${clientId}` : ''
             }`}

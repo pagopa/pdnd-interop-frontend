@@ -122,7 +122,7 @@ export function CompleteRegistration() {
               label="carica accordo"
             />
 
-            <StyledButton variant="primary" type="submit" disabled={!contract}>
+            <StyledButton variant="contained" type="submit" disabled={!contract}>
               prosegui
             </StyledButton>
           </StyledForm>

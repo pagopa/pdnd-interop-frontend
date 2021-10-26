@@ -96,7 +96,7 @@ export function EServiceWriteStep4DocumentsInterface({
       />
 
       <div className="d-flex justify-content-end">
-        <StyledButton type="submit" variant="primary">
+        <StyledButton type="submit" variant="contained">
           <i
             className="fs-5 bi bi-upload me-2 position-relative"
             style={{ transform: 'translateY(0.1rem)' }}

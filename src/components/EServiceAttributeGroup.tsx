@@ -87,7 +87,7 @@ export function EServiceAttributeGroup({
       </TableWithLoader>
 
       <div className="d-flex align-items-center">
-        <StyledButton className="me-3" variant="primary" onClick={buildShowModal('add')}>
+        <StyledButton className="me-3" variant="contained" onClick={buildShowModal('add')}>
           aggiungi attributo o gruppo
         </StyledButton>
 
@@ -96,7 +96,6 @@ export function EServiceAttributeGroup({
             <span className="me-2">L'attributo non è presente nella lista?</span>
             <StyledButton
               className="px-0 py-0 mx-0 my-0 border-0 link-default"
-              variant="link"
               onClick={buildShowModal('create')}
             >
               Crealo qui!

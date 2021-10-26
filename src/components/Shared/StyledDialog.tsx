@@ -37,10 +37,10 @@ export const StyledDialog: FunctionComponent<ConfirmationDialogOverlayProps> = (
         {children && <Modal.Body className="py-4">{children}</Modal.Body>}
 
         <Modal.Footer>
-          <StyledButton variant="outline-primary" onClick={voidClose}>
+          <StyledButton variant="outlined" onClick={voidClose}>
             Annulla
           </StyledButton>
-          <StyledButton variant="primary" onClick={proceedCallback} disabled={disabled}>
+          <StyledButton variant="contained" onClick={proceedCallback} disabled={disabled}>
             {proceedLabel}
           </StyledButton>
         </Modal.Footer>

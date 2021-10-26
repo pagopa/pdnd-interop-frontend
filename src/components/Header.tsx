@@ -43,7 +43,7 @@ export function Header() {
             <Link to="/">
               <img src={logo} alt="Logo PagoPA" />
             </Link>
-            <StyledButton variant="primary" as={Link} to={btnPath}>
+            <StyledButton variant="contained" component={Link} to={btnPath}>
               {btnLabel}
             </StyledButton>
           </Box>

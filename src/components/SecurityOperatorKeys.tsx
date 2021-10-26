@@ -147,7 +147,7 @@ export function SecurityOperatorKeys({
       </StyledIntro>
 
       {user?.taxCode === userData.taxCode && !key && (
-        <StyledButton className="mb-4" onClick={openModal} variant="primary">
+        <StyledButton className="mb-4" onClick={openModal} variant="contained">
           carica nuova chiave
         </StyledButton>
       )}

@@ -156,10 +156,10 @@ export function EServiceWriteStep2Version({
         />
 
         <div className="mt-5 d-flex">
-          <StyledButton className="me-3" variant="primary" type="submit">
+          <StyledButton className="me-3" variant="contained" type="submit">
             salva bozza e prosegui
           </StyledButton>
-          <StyledButton variant="outline-primary" onClick={back}>
+          <StyledButton variant="outlined" onClick={back}>
             indietro
           </StyledButton>
         </div>

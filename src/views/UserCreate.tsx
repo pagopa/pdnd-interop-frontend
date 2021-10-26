@@ -78,7 +78,7 @@ export function UserCreate() {
           setPeople={setPeople}
         />
 
-        <StyledButton className="mt-3" variant="primary" type="submit" disabled={false}>
+        <StyledButton className="mt-3" variant="contained" type="submit" disabled={false}>
           crea operatore
         </StyledButton>
       </StyledForm>

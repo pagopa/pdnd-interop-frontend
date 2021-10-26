@@ -235,22 +235,22 @@ export function EServiceRead({ data }: EServiceReadProps) {
       {mode === 'subscriber' && (
         <div className="d-flex">
           {isVersionPublished && !isMine && isAdmin(party) && canSubscribeEservice && (
-            <StyledButton className="me-3" variant="primary" onClick={openSubscribeDialog}>
+            <StyledButton className="me-3" variant="contained" onClick={openSubscribeDialog}>
               iscriviti
             </StyledButton>
           )}
           {!isMine && isAdmin(party) && !canSubscribeEservice && (
             <StyledButton
               className="me-3 mockFeature"
-              variant="primary"
+              variant="contained"
               onClick={openExtensionDialog}
             >
               richiedi estensione
             </StyledButton>
           )}
           <StyledButton
-            variant="outline-primary"
-            as={Link}
+            variant="outlined"
+            component={Link}
             to={ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}
           >
             torna al catalogo

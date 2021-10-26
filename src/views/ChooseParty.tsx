@@ -58,7 +58,7 @@ export function ChooseParty() {
 
           <StyledButton
             className="mt-3"
-            variant="primary"
+            variant="contained"
             onClick={confirmChoice}
             disabled={!party}
           >
@@ -67,7 +67,7 @@ export function ChooseParty() {
         </div>
         <div className="text-center">
           <p>oppure</p>
-          <StyledButton variant="primary" onClick={goToOnboarding}>
+          <StyledButton variant="contained" onClick={goToOnboarding}>
             registra nuovo ente
           </StyledButton>
         </div>
@@ -88,7 +88,7 @@ export function ChooseParty() {
               ),
             }}
           </StyledIntro>
-          <StyledButton variant="primary" onClick={goToOnboarding}>
+          <StyledButton variant="contained" onClick={goToOnboarding}>
             registra nuovo ente
           </StyledButton>
         </div>
