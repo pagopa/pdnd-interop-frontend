@@ -37,8 +37,7 @@ export function ActionWithTooltip({
     >
       <StyledButton
         className={`${isMock ? 'mockFeature' : ''} ${className || ''}`}
-        style={style || {}}
-        variant="link"
+        sx={style || {}}
         {...btnProps}
       >
         <i className={`text-primary fs-5 bi ${iconClass}`} />

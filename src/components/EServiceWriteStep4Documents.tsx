@@ -134,13 +134,13 @@ export function EServiceWriteStep4Documents({
       <div className="mt-5 d-flex">
         <StyledButton
           className="me-3"
-          variant="primary"
-          as={Link}
+          variant="contained"
+          component={Link}
           to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}
         >
           salva bozza e torna ai servizi
         </StyledButton>
-        <StyledButton className="me-3" variant="outline-primary" onClick={back}>
+        <StyledButton className="me-3" variant="outlined" onClick={back}>
           indietro
         </StyledButton>
       </div>
@@ -149,13 +149,13 @@ export function EServiceWriteStep4Documents({
       <div className="d-flex">
         <StyledButton
           className="me-3"
-          variant="primary"
+          variant="contained"
           onClick={wrapActionInDialog(publishVersion, 'ESERVICE_VERSION_PUBLISH')}
         >
           pubblica bozza
         </StyledButton>
         <StyledButton
-          variant="outline-primary"
+          variant="outlined"
           onClick={wrapActionInDialog(deleteVersion, 'ESERVICE_VERSION_DELETE')}
         >
           cancella bozza

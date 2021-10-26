@@ -192,14 +192,14 @@ export function EServiceWriteStep1General({
           <StyledButton
             className="me-3"
             type="submit"
-            variant="primary"
+            variant="contained"
             disabled={!eserviceData.name}
           >
             salva bozza e prosegui
           </StyledButton>
           <StyledButton
-            variant="outline-primary"
-            as={Link}
+            variant="outlined"
+            component={Link}
             to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}
           >
             torna agli e-service

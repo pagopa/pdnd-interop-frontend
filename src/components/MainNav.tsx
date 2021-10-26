@@ -88,8 +88,8 @@ export function MainNav() {
                 {Boolean(view.children.length > 0) && (
                   <ul>
                     {view.children.map((child, j) => (
-                      <li>
-                        <WrappedLink route={child} key={j} />
+                      <li key={j}>
+                        <WrappedLink route={child} />
                       </li>
                     ))}
                   </ul>
@@ -99,8 +99,8 @@ export function MainNav() {
           })}
 
           {[ROUTES.NOTIFICATION, ROUTES.PROFILE, ROUTES.HELP].map((route, i) => (
-            <li>
-              <WrappedLink route={route} key={i} />
+            <li key={i}>
+              <WrappedLink route={route} />
             </li>
           ))}
         </ul>

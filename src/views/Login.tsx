@@ -59,7 +59,7 @@ export function Login() {
       <div className="mx-auto" style={{ maxWidth: 280 }}>
         <StyledButton
           className="mb-2 text-none"
-          variant="primary"
+          variant="contained"
           onClick={goToSPID}
           disabled={!privacy}
         >
@@ -68,7 +68,7 @@ export function Login() {
           </i>{' '}
           <span className="ms-2">Autenticati con SPID</span>
         </StyledButton>
-        <StyledButton className="text-none" variant="primary" disabled>
+        <StyledButton className="text-none" variant="contained" disabled>
           <i>
             <img src={cieIcon} alt="Icona di CIE" />
           </i>{' '}

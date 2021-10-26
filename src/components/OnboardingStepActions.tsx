@@ -18,7 +18,7 @@ export function OnboardingStepActions({ forward, back }: ActionStepsProps) {
       {back && (
         <StyledButton
           className="me-2"
-          variant="outline-primary"
+          variant="outlined"
           onClick={back.action}
           disabled={back.disabled}
         >
@@ -26,7 +26,7 @@ export function OnboardingStepActions({ forward, back }: ActionStepsProps) {
         </StyledButton>
       )}
       {forward && (
-        <StyledButton variant="primary" onClick={forward.action} disabled={forward.disabled}>
+        <StyledButton variant="contained" onClick={forward.action} disabled={forward.disabled}>
           {forward.label}
         </StyledButton>
       )}

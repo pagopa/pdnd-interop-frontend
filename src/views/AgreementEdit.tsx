@@ -185,7 +185,7 @@ export function AgreementEdit() {
             <span>rifiutato dall'erogatore</span>
           )
         ) : mode === 'provider' ? (
-          <StyledButton variant="primary" onClick={wrapVerify(id)}>
+          <StyledButton variant="contained" onClick={wrapVerify(id)}>
             verifica
           </StyledButton>
         ) : (
@@ -302,7 +302,7 @@ export function AgreementEdit() {
           <StyledButton
             key={i}
             className={`me-3${isMock ? ' mockFeature' : ''}`}
-            variant={i === 0 ? 'primary' : 'outline-primary'}
+            variant={i === 0 ? 'contained' : 'outlined'}
             onClick={onClick}
           >
             {label}

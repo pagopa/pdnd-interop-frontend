@@ -122,8 +122,8 @@ export function ClientList() {
       <div className="mt-4">
         {isAdmin(party) && (
           <StyledButton
-            variant="primary"
-            as={Link}
+            variant="contained"
+            component={Link}
             to={ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_CREATE.PATH}
           >
             {ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_CREATE.LABEL}

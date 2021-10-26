@@ -238,8 +238,8 @@ export function EServiceList() {
 
       <div className="mt-4">
         <StyledButton
-          variant="primary"
-          as={Link}
+          variant="contained"
+          component={Link}
           to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.PATH}
         >
           {ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.LABEL}

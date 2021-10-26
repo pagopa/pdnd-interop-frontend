@@ -1,16 +1,20 @@
 import React, { FunctionComponent } from 'react'
-import { Button, ButtonProps } from 'react-bootstrap'
+import { Button } from '@mui/material'
 
-type AdditionalTempProps = {
-  to?: string
+/*
+className
+style
+variant
+onClick
+type
+disabled
+as
+to
+
+*/
+
+export const StyledButton: FunctionComponent<any> = ({ children, classes, ...props }) => {
+  console.log(props)
+
+  return <Button {...props}>{children}</Button>
 }
-
-export const StyledButton: FunctionComponent<ButtonProps & AdditionalTempProps> = React.forwardRef(
-  ({ children, ...props }, ref) => {
-    return (
-      <Button ref={ref} {...props}>
-        {children}
-      </Button>
-    )
-  }
-)
