@@ -25,7 +25,6 @@ import { PartyContext, UserContext } from '../lib/context'
 import { buildDynamicPath, getLastBit } from '../lib/url-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { Layout } from '../components/Shared/Layout'
 import { StyledLink } from '../components/Shared/StyledLink'
 
 export function UserList() {
@@ -186,8 +185,8 @@ export function UserList() {
    */
 
   return (
-    <Layout>
-      <StyledIntro variant="h1">{TITLES[mode!]}</StyledIntro>
+    <React.Fragment>
+      <StyledIntro>{TITLES[mode!]}</StyledIntro>
 
       <div className="mt-4">
         {isAdmin(party) && (
@@ -247,6 +246,6 @@ export function UserList() {
           ))}
         </TableWithLoader>
       </div>
-    </Layout>
+    </React.Fragment>
   )
 }

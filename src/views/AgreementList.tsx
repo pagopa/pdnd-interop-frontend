@@ -18,7 +18,6 @@ import { TempFilters } from '../components/TempFilters'
 import { mergeActions } from '../lib/eservice-utils'
 import { getAgreementStatus } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
-import { Layout } from '../components/Shared/Layout'
 import { StyledLink } from '../components/Shared/StyledLink'
 
 export function AgreementList() {
@@ -174,8 +173,8 @@ export function AgreementList() {
   }
 
   return (
-    <Layout>
-      <StyledIntro variant="h1">{INTRO[mode!]}</StyledIntro>
+    <React.Fragment>
+      <StyledIntro>{INTRO[mode!]}</StyledIntro>
 
       <div className="mt-4">
         <TempFilters />
@@ -220,6 +219,6 @@ export function AgreementList() {
           ))}
         </TableWithLoader>
       </div>
-    </Layout>
+    </React.Fragment>
   )
 }

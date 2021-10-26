@@ -9,7 +9,6 @@ import { PartyContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
-import { Layout } from '../components/Shared/Layout'
 
 type ClientSubmit = {
   name: string
@@ -64,8 +63,8 @@ export function ClientCreate() {
   }, [eserviceData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Layout>
-      <StyledIntro variant="h1">
+    <React.Fragment>
+      <StyledIntro>
         {{
           title: `Crea nuovo client`,
           description:
@@ -110,6 +109,6 @@ export function ClientCreate() {
           Crea client
         </StyledButton>
       </StyledForm>
-    </Layout>
+    </React.Fragment>
   )
 }

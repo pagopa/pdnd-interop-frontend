@@ -20,7 +20,6 @@ import { TempFilters } from '../components/TempFilters'
 import { AxiosResponse } from 'axios'
 import { buildDynamicPath } from '../lib/url-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { Layout } from '../components/Shared/Layout'
 import { StyledLink } from '../components/Shared/StyledLink'
 
 export function EServiceList() {
@@ -228,8 +227,8 @@ export function EServiceList() {
   const headData = ['nome e-service', 'versione', 'stato e-service', '']
 
   return (
-    <Layout>
-      <StyledIntro variant="h1">
+    <React.Fragment>
+      <StyledIntro>
         {{
           title: 'I tuoi e-service',
           description: "In quest'area puoi gestire tutti gli e-service che stai erogando",
@@ -286,6 +285,6 @@ export function EServiceList() {
           ))}
         </TableWithLoader>
       </div>
-    </Layout>
+    </React.Fragment>
   )
 }

@@ -15,7 +15,6 @@ import { useFeedback } from '../hooks/useFeedback'
 import { buildDynamicPath } from '../lib/url-utils'
 import { StyledTooltip } from '../components/Shared/StyledTooltip'
 import { StyledOverlayTrigger } from '../components/Shared/StyledOverlayTrigger'
-import { Layout } from '../components/Shared/Layout'
 import { StyledLink } from '../components/Shared/StyledLink'
 
 function CatalogExtensionAction({ runFakeAction }: { runFakeAction: any }) {
@@ -112,8 +111,8 @@ export function EServiceCatalog() {
   )
 
   return (
-    <Layout>
-      <StyledIntro variant="h1">
+    <React.Fragment>
+      <StyledIntro>
         {{
           title: 'Gli e-service disponibili',
           description:
@@ -193,6 +192,6 @@ export function EServiceCatalog() {
           )
         })}
       </TableWithLoader>
-    </Layout>
+    </React.Fragment>
   )
 }

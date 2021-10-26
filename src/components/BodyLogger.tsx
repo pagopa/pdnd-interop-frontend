@@ -12,6 +12,7 @@ import { StyledDialog } from './Shared/StyledDialog'
 import { LoadingOverlay } from './LoadingOverlay'
 import { MainNav } from './MainNav'
 import { Layout } from './Shared/Layout'
+import { Box } from '@mui/system'
 
 export function BodyLogger() {
   const [toast, setToast] = useState<ToastProps | null>(null)
@@ -55,7 +56,9 @@ export function BodyLogger() {
           <Layout>
             <div className="d-flex">
               <MainNav />
-              <Main />
+              <Box sx={{ py: '5rem', px: '2rem' }}>
+                <Main />
+              </Box>
             </div>
           </Layout>
           <Footer />

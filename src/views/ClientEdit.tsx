@@ -19,7 +19,6 @@ import { PartyContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { Layout } from '../components/Shared/Layout'
 
 export function ClientEdit() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -100,10 +99,10 @@ export function ClientEdit() {
   const actions = getAvailableActions()
 
   return (
-    <Layout>
+    <React.Fragment>
       {!isEmpty(data) && (
         <React.Fragment>
-          <StyledIntro variant="h1">{{ title: `Client: ${data.name}` }}</StyledIntro>
+          <StyledIntro>{{ title: `Client: ${data.name}` }}</StyledIntro>
 
           <div style={{ maxWidth: 586 }}>
             <DescriptionBlock label="Descrizione">
@@ -210,6 +209,6 @@ export function ClientEdit() {
       )}
 
       <UserList />
-    </Layout>
+    </React.Fragment>
   )
 }

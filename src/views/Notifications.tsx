@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Layout } from '../components/Shared/Layout'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 
 type Notification = {
@@ -70,8 +69,8 @@ export function Notifications() {
   }
 
   return (
-    <Layout>
-      <StyledIntro variant="h1">{{ title: 'Notifiche' }}</StyledIntro>
+    <React.Fragment>
+      <StyledIntro>{{ title: 'Notifiche' }}</StyledIntro>
 
       <div className="fakeData fakeDataStart" style={{ position: 'relative' }}>
         <button
@@ -113,6 +112,6 @@ export function Notifications() {
           )
         })}
       </div>
-    </Layout>
+    </React.Fragment>
   )
 }

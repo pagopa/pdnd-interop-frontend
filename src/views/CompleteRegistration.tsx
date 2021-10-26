@@ -14,7 +14,6 @@ import { parseSearch } from '../lib/url-utils'
 import { LoaderContext } from '../lib/context'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
-import { Layout } from '../components/Shared/Layout'
 import { StyledLink } from '../components/Shared/StyledLink'
 
 export function CompleteRegistration() {
@@ -100,7 +99,7 @@ export function CompleteRegistration() {
   }
 
   return (
-    <Layout>
+    <React.Fragment>
       {!outcome ? (
         <div className="mx-auto my-auto text-center">
           <StyledIntro sx={{ mx: 'auto' }}>
@@ -127,6 +126,6 @@ export function CompleteRegistration() {
       ) : (
         <MessageNoAction {...outcomeContent[outcome]} />
       )}
-    </Layout>
+    </React.Fragment>
   )
 }
