@@ -6,7 +6,7 @@ import { StyledTooltip } from './Shared/StyledTooltip'
 type BtnProps = {
   to?: string
   onClick?: any
-  as?: any
+  component?: any
 }
 
 type ActionWithTooltipProps = {

@@ -39,9 +39,7 @@ export function Help() {
     return (
       <ul>
         <li>
-          <a className="link-default" href={`#${snakeCase(text)}`}>
-            {text}
-          </a>
+          <a href={`#${snakeCase(text)}`}>{text}</a>
           {Boolean(branches.length > 0) &&
             branches.map((branch, i) => <TOCBranch key={i} {...branch} />)}
         </li>

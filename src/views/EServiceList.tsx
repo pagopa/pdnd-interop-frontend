@@ -265,7 +265,7 @@ export function EServiceList() {
                   const btnProps: any = {}
 
                   if ((tableAction as ActionWithTooltipLink).to) {
-                    btnProps.as = StyledLink
+                    btnProps.component = StyledLink
                     btnProps.to = (tableAction as ActionWithTooltipLink).to
                   } else {
                     btnProps.onClick = (tableAction as ActionWithTooltipBtn).onClick
