@@ -52,7 +52,7 @@ export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
               setPeople={setPeople}
             />
             <StyledButton variant="contained" onClick={buildRemoveDelegateForm(id)}>
-              rimuovi questo delegato
+              Rimuovi questo delegato
             </StyledButton>
           </div>
         )
@@ -60,14 +60,14 @@ export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
 
       <div className="mb-5">
         <StyledButton variant="contained" onClick={addDelegateForm}>
-          aggiungi nuovo delegato
+          Aggiungi nuovo delegato
         </StyledButton>
       </div>
       <OnboardingStepActions
-        back={{ action: back, label: 'indietro', disabled: false }}
+        back={{ action: back, label: 'Indietro', disabled: false }}
         forward={{
           action: onForwardAction,
-          label: 'prosegui',
+          label: 'Prosegui',
           disabled: objectIsEmpty(people),
         }}
       />

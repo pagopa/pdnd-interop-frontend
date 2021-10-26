@@ -138,10 +138,10 @@ export function EServiceWriteStep4Documents({
           component={Link}
           to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}
         >
-          salva bozza e torna ai servizi
+          Salva bozza e torna ai servizi
         </StyledButton>
         <StyledButton className="me-3" variant="outlined" onClick={back}>
-          indietro
+          Indietro
         </StyledButton>
       </div>
 
@@ -152,13 +152,13 @@ export function EServiceWriteStep4Documents({
           variant="contained"
           onClick={wrapActionInDialog(publishVersion, 'ESERVICE_VERSION_PUBLISH')}
         >
-          pubblica bozza
+          Pubblica bozza
         </StyledButton>
         <StyledButton
           variant="outlined"
           onClick={wrapActionInDialog(deleteVersion, 'ESERVICE_VERSION_DELETE')}
         >
-          cancella bozza
+          Cancella bozza
         </StyledButton>
       </div>
     </React.Fragment>

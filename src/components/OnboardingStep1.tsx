@@ -49,7 +49,7 @@ export function OnboardingStep1({ forward }: StepperStepComponentProps) {
       </div>
 
       <OnboardingStepActions
-        forward={{ action: onForwardAction, label: 'prosegui', disabled: selected.length === 0 }}
+        forward={{ action: onForwardAction, label: 'Prosegui', disabled: selected.length === 0 }}
       />
     </React.Fragment>
   )

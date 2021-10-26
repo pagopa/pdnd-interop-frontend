@@ -57,18 +57,13 @@ export function Login() {
         />
       </div>
       <div className="mx-auto" style={{ maxWidth: 280 }}>
-        <StyledButton
-          className="mb-2 text-none"
-          variant="contained"
-          onClick={goToSPID}
-          disabled={!privacy}
-        >
+        <StyledButton className="mb-2" variant="contained" onClick={goToSPID} disabled={!privacy}>
           <i>
             <img src={spidIcon} alt="Icona di SPID" />
           </i>{' '}
           <span className="ms-2">Autenticati con SPID</span>
         </StyledButton>
-        <StyledButton className="text-none" variant="contained" disabled>
+        <StyledButton variant="contained" disabled>
           <i>
             <img src={cieIcon} alt="Icona di CIE" />
           </i>{' '}

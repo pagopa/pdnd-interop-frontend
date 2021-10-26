@@ -28,8 +28,8 @@ export function OnboardingStep3({ forward, back, data }: StepperStepComponentPro
       </div>
 
       <OnboardingStepActions
-        back={{ action: back, label: 'indietro', disabled: false }}
-        forward={{ action: forward, label: 'invia', disabled: false }}
+        back={{ action: back, label: 'Indietro', disabled: false }}
+        forward={{ action: forward, label: 'Invia', disabled: false }}
       />
     </React.Fragment>
   )

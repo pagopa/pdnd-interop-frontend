@@ -236,7 +236,7 @@ export function EServiceRead({ data }: EServiceReadProps) {
         <div className="d-flex">
           {isVersionPublished && !isMine && isAdmin(party) && canSubscribeEservice && (
             <StyledButton className="me-3" variant="contained" onClick={openSubscribeDialog}>
-              iscriviti
+              Iscriviti
             </StyledButton>
           )}
           {!isMine && isAdmin(party) && !canSubscribeEservice && (
@@ -245,7 +245,7 @@ export function EServiceRead({ data }: EServiceReadProps) {
               variant="contained"
               onClick={openExtensionDialog}
             >
-              richiedi estensione
+              Richiedi estensione
             </StyledButton>
           )}
           <StyledButton
@@ -253,7 +253,7 @@ export function EServiceRead({ data }: EServiceReadProps) {
             component={Link}
             to={ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}
           >
-            torna al catalogo
+            Torna al catalogo
           </StyledButton>
         </div>
       )}

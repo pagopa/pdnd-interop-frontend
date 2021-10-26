@@ -107,7 +107,7 @@ export function ClientCreate() {
         />
 
         <StyledButton className="mt-3" variant="contained" type="submit" disabled={false}>
-          crea client
+          Crea client
         </StyledButton>
       </StyledForm>
     </Layout>
