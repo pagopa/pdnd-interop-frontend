@@ -7,7 +7,7 @@ import { Layout } from './Shared/Layout'
 import { StyledButton } from './Shared/StyledButton'
 import logo from '../assets/pagopa-logo-white.svg'
 import { Box } from '@mui/system'
-import { MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
+import { FormControl, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
 
 export function Header() {
   const { party, availableParties, setParty } = useContext(PartyContext)
@@ -52,20 +52,23 @@ export function Header() {
             </Box>
 
             {party !== null && (
-              <Select
-                sx={{ color: 'common.white', minWidth: 260 }}
-                value={party!.institutionId}
-                label="Ente operante"
-                onChange={updateActiveParty}
-              >
-                {availableParties.map((availableParty, i) => (
-                  <MenuItem key={i} value={availableParty.institutionId}>
-                    {availableParty.description}
-                    <br />
-                    {USER_ROLE_LABEL[availableParty.role]}
-                  </MenuItem>
-                ))}
-              </Select>
+              <FormControl variant="standard">
+                <Select
+                  sx={{ color: 'common.white', minWidth: 260 }}
+                  value={party!.institutionId}
+                  label="Ente operante"
+                  onChange={updateActiveParty}
+                >
+                  {availableParties.map((availableParty, i) => (
+                    <MenuItem key={i} value={availableParty.institutionId}>
+                      <Typography sx={{ fontWeight: 600 }}>{availableParty.description}</Typography>
+                      <Typography variant="caption">
+                        {USER_ROLE_LABEL[availableParty.role]}
+                      </Typography>
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             )}
           </div>
         </Layout>

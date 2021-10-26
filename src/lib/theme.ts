@@ -13,7 +13,7 @@ const theme = createTheme({
       main: '#5c6f82',
     },
     background: {
-      default: '#fff',
+      default: '#F5F6F7',
     },
     text: {
       primary: '#19191a',
@@ -84,6 +84,7 @@ const theme = createTheme({
     caption: {
       fontSize: 14,
       fontWeight: 300,
+      lineHeight: 1.28,
     },
   },
   spacing: 8,

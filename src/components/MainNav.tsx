@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { useLocation } from 'react-router'
 import { Link } from 'react-router-dom'
+import { Box } from '@mui/material'
 import { RouteConfig, UserPlatformRole } from '../../types'
 import { ROUTES } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
@@ -77,7 +78,7 @@ export function MainNav() {
   const availableViews = views[party?.platformRole || 'security']
 
   return (
-    <nav className="d-block" style={{ background: 'pink' }}>
+    <Box sx={{ bgcolor: 'common.white', display: 'block' }} component="nav">
       <Layout>
         <ul>
           {availableViews.map((view, i) => {
@@ -105,6 +106,6 @@ export function MainNav() {
           ))}
         </ul>
       </Layout>
-    </nav>
+    </Box>
   )
 }
