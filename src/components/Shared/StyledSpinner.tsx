@@ -1,4 +1,6 @@
 import React, { FunctionComponent } from 'react'
-import { Spinner, SpinnerProps } from 'react-bootstrap'
+import { CircularProgress, CircularProgressProps } from '@mui/material'
 
-export const StyledSpinner: FunctionComponent<SpinnerProps> = (props) => <Spinner {...props} />
+export const StyledSpinner: FunctionComponent<CircularProgressProps> = (props) => (
+  <CircularProgress {...props} />
+)

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
-import { Modal } from 'react-bootstrap'
-import { Overlay } from '../Overlay'
+import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
+import { Box } from '@mui/system'
 import { StyledButton } from './StyledButton'
 
 type ConfirmationDialogOverlayProps = {
@@ -28,23 +28,26 @@ export const StyledDialog: FunctionComponent<ConfirmationDialogOverlayProps> = (
   }
 
   return (
-    <Overlay>
-      <Modal.Dialog contentClassName="px-1 py-1" style={{ minWidth }} scrollable={true}>
-        <Modal.Header onHide={close} closeButton>
-          <Modal.Title className="me-5">{title}</Modal.Title>
-        </Modal.Header>
+    <Dialog
+      open={true}
+      onClose={close}
+      aria-describedby={`Modale per azione: ${title}`}
+      sx={{ minWidth }}
+    >
+      <Box>
+        <DialogTitle>{title}</DialogTitle>
 
-        {children && <Modal.Body className="py-4">{children}</Modal.Body>}
+        {children && <DialogContent>{children}</DialogContent>}
 
-        <Modal.Footer>
+        <DialogActions>
           <StyledButton variant="outlined" onClick={voidClose}>
             Annulla
           </StyledButton>
           <StyledButton variant="contained" onClick={proceedCallback} disabled={disabled}>
             {proceedLabel}
           </StyledButton>
-        </Modal.Footer>
-      </Modal.Dialog>
-    </Overlay>
+        </DialogActions>
+      </Box>
+    </Dialog>
   )
 }
