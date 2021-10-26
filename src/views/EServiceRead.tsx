@@ -13,7 +13,6 @@ import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useMode } from '../hooks/useMode'
 import { ATTRIBUTE_TYPE_LABEL, ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import { Link } from 'react-router-dom'
 import { minutesToHHMMSS } from '../lib/date-utils'
 import { canSubscribe } from '../lib/attributes'
 import { isAdmin } from '../lib/auth-utils'
@@ -25,6 +24,7 @@ import { StyledAccordion } from '../components/Shared/StyledAccordion'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Layout } from '../components/Shared/Layout'
+import { StyledLink } from '../components/Shared/StyledLink'
 
 type EServiceReadProps = {
   data: EServiceReadType
@@ -250,7 +250,7 @@ export function EServiceRead({ data }: EServiceReadProps) {
           )}
           <StyledButton
             variant="outlined"
-            component={Link}
+            component={StyledLink}
             to={ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}
           >
             Torna al catalogo

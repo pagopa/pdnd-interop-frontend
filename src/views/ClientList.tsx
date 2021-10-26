@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
 import {
   Client,
   ClientStatus,
@@ -20,6 +19,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { buildDynamicPath } from '../lib/url-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Layout } from '../components/Shared/Layout'
+import { StyledLink } from '../components/Shared/StyledLink'
 
 export function ClientList() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -123,7 +123,7 @@ export function ClientList() {
         {isAdmin(party) && (
           <StyledButton
             variant="contained"
-            component={Link}
+            component={StyledLink}
             to={ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_CREATE.PATH}
           >
             {ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_CREATE.LABEL}
@@ -151,7 +151,7 @@ export function ClientList() {
                   const btnProps: any = {}
 
                   if ((tableAction as ActionWithTooltipLink).to) {
-                    btnProps.as = Link
+                    btnProps.as = StyledLink
                     btnProps.to = (tableAction as ActionWithTooltipLink).to
                   } else {
                     btnProps.onClick = (tableAction as ActionWithTooltipBtn).onClick

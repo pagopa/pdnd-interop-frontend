@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { Client, ClientStatus, ActionWithTooltipBtn } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
@@ -18,6 +18,7 @@ import { isAdmin } from '../lib/auth-utils'
 import { PartyContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
+import { StyledLink } from '../components/Shared/StyledLink'
 import { Layout } from '../components/Shared/Layout'
 
 export function ClientEdit() {
@@ -123,7 +124,7 @@ export function ClientEdit() {
 
             <DescriptionBlock label="La versione dell'e-service che stai usando">
               <span>
-                <Link
+                <StyledLink
                   className="link-default"
                   to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
                     eserviceId: data.eservice.id,
@@ -131,7 +132,7 @@ export function ClientEdit() {
                   })}
                 >
                   {data.eservice.name}, versione {data.agreement.descriptor.version}
-                </Link>{' '}
+                </StyledLink>{' '}
                 {!!(
                   data.eservice.activeDescriptor &&
                   data.agreement.descriptor.version !== data.eservice.activeDescriptor.version
@@ -139,7 +140,7 @@ export function ClientEdit() {
                   <p className="mt-2">
                     È disponibile una versione più recente
                     <br />
-                    <Link
+                    <StyledLink
                       to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
                         eserviceId: data.eservice.id,
                         descriptorId: data.eservice.activeDescriptor.id,
@@ -147,16 +148,16 @@ export function ClientEdit() {
                       className="link-default"
                     >
                       Vedi il contenuto della nuova versione
-                    </Link>
+                    </StyledLink>
                     <br />
-                    <Link
+                    <StyledLink
                       className="link-default"
                       to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
                         id: data.agreement.id,
                       })}
                     >
                       Vai alla pagina dell'accordo
-                    </Link>{' '}
+                    </StyledLink>{' '}
                     (da lì potrai aggiornarlo)
                   </p>
                 )}
@@ -175,14 +176,14 @@ export function ClientEdit() {
 
             <DescriptionBlock label="Accordo">
               <span>
-                <Link
+                <StyledLink
                   className="link-default"
                   to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
                     id: data.agreement.id,
                   })}
                 >
                   Vedi accordo
-                </Link>
+                </StyledLink>
               </span>
             </DescriptionBlock>
 

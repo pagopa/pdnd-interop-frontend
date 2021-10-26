@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { useLocation } from 'react-router'
-import { Link } from 'react-router-dom'
 import { Box } from '@mui/material'
 import { RouteConfig, UserPlatformRole } from '../../types'
 import { ROUTES } from '../lib/constants'
@@ -8,6 +7,7 @@ import { PartyContext, UserContext } from '../lib/context'
 import { isParentRoute, isRoute } from '../lib/router-utils'
 import { includesAny } from '../lib/string-utils'
 import { Layout } from './Shared/Layout'
+import { StyledLink } from './Shared/StyledLink'
 
 type View = {
   route: RouteConfig
@@ -35,12 +35,9 @@ export function MainNav() {
     const isActive = isRoute(location, PATH) || isParentRoute(location, PATH)
 
     return (
-      <Link
-        className={`text-primary fw-bold text-decoration-none me-4${isActive ? ' bg-danger' : ''}`}
-        to={PATH}
-      >
+      <StyledLink underline="none" fontWeight={isActive ? 600 : 300} to={PATH}>
         {LABEL}
-      </Link>
+      </StyledLink>
     )
   }
 

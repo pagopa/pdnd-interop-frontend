@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import has from 'lodash/has'
 import {
   AgreementStatus,
@@ -21,6 +21,7 @@ import { getAgreementStatus } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Layout } from '../components/Shared/Layout'
+import { StyledLink } from '../components/Shared/StyledLink'
 
 export function AgreementEdit() {
   const {
@@ -204,30 +205,28 @@ export function AgreementEdit() {
 
       <DescriptionBlock label="Accordo relativo a">
         <div style={{ maxWidth: 500 }}>
-          <Link
-            className="link-default"
+          <StyledLink
             to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
               eserviceId: data?.eservice.id,
               descriptorId: data?.eserviceDescriptorId,
             })}
           >
             {data?.eservice.name}, versione {data?.eservice.version}
-          </Link>
+          </StyledLink>
           {mode === 'subscriber' &&
           data?.eservice.activeDescriptor &&
           data?.status !== 'inactive' ? (
             <React.Fragment>
               {' '}
               (è disponibile una{' '}
-              <Link
-                className="link-default"
+              <StyledLink
                 to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
                   eserviceId: data?.eservice.id,
                   descriptorId: data?.eservice.activeDescriptor.id,
                 })}
               >
                 versione più recente
-              </Link>
+              </StyledLink>
               ; per attivarla, aggiorna l'accordo di interoperabilità)
             </React.Fragment>
           ) : null}

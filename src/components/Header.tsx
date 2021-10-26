@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
 import { ROUTES, USER_ROLE_LABEL } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
 import { storageWrite } from '../lib/storage-utils'
@@ -8,6 +7,7 @@ import { StyledButton } from './Shared/StyledButton'
 import logo from '../assets/pagopa-logo-white.svg'
 import { Box } from '@mui/system'
 import { FormControl, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
+import { StyledLink } from './Shared/StyledLink'
 
 export function Header() {
   const { party, availableParties, setParty } = useContext(PartyContext)
@@ -33,10 +33,10 @@ export function Header() {
               py: '1.5rem',
             }}
           >
-            <Link to="/">
+            <StyledLink to="/">
               <img src={logo} alt="Logo PagoPA" />
-            </Link>
-            <StyledButton variant="contained" component={Link} to={btnPath}>
+            </StyledLink>
+            <StyledButton variant="contained" component={StyledLink} to={btnPath}>
               {btnLabel}
             </StyledButton>
           </Box>
