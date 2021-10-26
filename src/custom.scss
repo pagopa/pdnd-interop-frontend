@@ -3,47 +3,12 @@ $body-bg: white;
 $light: #c2c2c2;
 $dark: #475a6d;
 $primary: #0073e6;
-// $secondary: #ccd4dc;
 $secondary: #dedede;
 $success: #96dbbe;
 $danger: #ff8181;
 
 // Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';
-// Override CSS custom properties
-:root {
-  --bs-font-sans-serif: 'Titillium Web', sans-serif;
-}
-
-.row {
-  --bs-gutter-x: 0;
-}
-
-/*
- * Bootstrap extend
- */
-.link-default {
-  color: inherit;
-  font-weight: 700;
-}
-
-.btn-as-link-default {
-  /* Reset btn */
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-  padding: 0;
-  text-align: initial;
-  /* Add other things */
-  text-decoration: underline;
-  /* Add link default properties */
-  @extend .link-default;
-}
-
-.link-default:hover,
-.btn-as-link-default:hover {
-  color: $primary;
-}
 
 /*
  * Bootstrap override/customize

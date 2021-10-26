@@ -95,7 +95,7 @@ export function EServiceAttributeGroup({
           <p className="mb-0 d-flex align-items-center">
             <span className="me-2">L'attributo non è presente nella lista?</span>
             <StyledButton
-              className="px-0 py-0 mx-0 my-0 border-0 link-default"
+              className="px-0 py-0 mx-0 my-0 border-0"
               onClick={buildShowModal('create')}
             >
               Crealo qui!

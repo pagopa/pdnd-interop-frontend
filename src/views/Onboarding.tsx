@@ -108,9 +108,7 @@ export function Onboarding() {
       description: [
         <p>
           Il salvataggio dei dati inseriti non è andato a buon fine.{' '}
-          <button className="reset-btn btn-as-link link-default" onClick={reload}>
-            Prova nuovamente a registrarti
-          </button>
+          <button onClick={reload}>Prova nuovamente a registrarti</button>
           , e se il problema dovesse persistere, <InlineSupportLink />!
         </p>,
       ],

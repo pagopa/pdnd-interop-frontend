@@ -12,6 +12,7 @@ import { DescriptionBlock } from './DescriptionBlock'
 import { downloadFile } from '../lib/file-utils'
 import { ROUTES } from '../lib/constants'
 import { StyledButton } from './Shared/StyledButton'
+import { StyledLink } from './Shared/StyledLink'
 
 type SecurityOperatorKeysProps = {
   clientId: string
@@ -132,15 +133,14 @@ export function SecurityOperatorKeys({
           description: (
             <React.Fragment>
               Per maggiori dettagli,{' '}
-              <a
-                href={ROUTES.SECURITY_KEY_GUIDE.PATH}
-                className="link-default"
+              <StyledLink
+                to={ROUTES.SECURITY_KEY_GUIDE.PATH}
                 title="Vai alla guida per la creazione delle chiavi di sicurezza"
                 target="_blank"
-                rel="noreferrer"
+                rel="noreferrer noopener"
               >
                 consulta la guida
-              </a>
+              </StyledLink>
             </React.Fragment>
           ),
         }}

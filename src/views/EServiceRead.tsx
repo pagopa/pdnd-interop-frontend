@@ -178,17 +178,14 @@ export function EServiceRead({ data }: EServiceReadProps) {
       </DescriptionBlock>
 
       <DescriptionBlock label="Accordo di interoperabilità">
-        <a className="fakeData link-default" href="#0" target="_blank">
+        <a className="fakeData" href="#0" target="_blank">
           Scarica
         </a>
       </DescriptionBlock>
 
       {data.activeDescriptor!.interface && (
         <DescriptionBlock label="Interfaccia">
-          <button
-            className="btn-as-link-default"
-            onClick={wrapDownloadDocument(data.activeDescriptor!.interface!.id)}
-          >
+          <button onClick={wrapDownloadDocument(data.activeDescriptor!.interface!.id)}>
             Scarica il documento di interfaccia
           </button>
         </DescriptionBlock>
@@ -214,7 +211,7 @@ export function EServiceRead({ data }: EServiceReadProps) {
                   </React.Fragment>
                 )}
               </div>
-              <button className="btn-as-link-default" onClick={wrapDownloadDocument(d.id)}>
+              <button onClick={wrapDownloadDocument(d.id)}>
                 <i className="text-primary fs-5 bi bi-download me-2" />
               </button>
             </div>

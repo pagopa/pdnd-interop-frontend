@@ -21,11 +21,7 @@ export function NotFound({ errorType = 'not-found' }: NotFoundProps) {
             title: 'Spiacenti',
             description: (
               <>
-                {DESCRIPTIONS[errorType]}. Torna alla{' '}
-                <StyledLink to="/" className="link-default">
-                  home
-                </StyledLink>
-                .
+                {DESCRIPTIONS[errorType]}. Torna alla <StyledLink to="/">home</StyledLink>.
               </>
             ),
           }}

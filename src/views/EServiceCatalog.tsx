@@ -159,7 +159,7 @@ export function EServiceCatalog() {
                       to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
                         id: item.callerSubscribed,
                       }),
-                      as: StyledLink,
+                      component: StyledLink,
                     }}
                     label="Vai all'accordo"
                     iconClass={'bi-link'}
@@ -179,7 +179,7 @@ export function EServiceCatalog() {
                 )}
                 <ActionWithTooltip
                   btnProps={{
-                    as: StyledLink,
+                    component: StyledLink,
                     to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
                       eserviceId: item.id,
                       descriptorId: item.descriptorId!,

@@ -125,7 +125,6 @@ export function ClientEdit() {
             <DescriptionBlock label="La versione dell'e-service che stai usando">
               <span>
                 <StyledLink
-                  className="link-default"
                   to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
                     eserviceId: data.eservice.id,
                     descriptorId: data.agreement.descriptor.id,
@@ -145,13 +144,11 @@ export function ClientEdit() {
                         eserviceId: data.eservice.id,
                         descriptorId: data.eservice.activeDescriptor.id,
                       })}
-                      className="link-default"
                     >
                       Vedi il contenuto della nuova versione
                     </StyledLink>
                     <br />
                     <StyledLink
-                      className="link-default"
                       to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
                         id: data.agreement.id,
                       })}
@@ -177,7 +174,6 @@ export function ClientEdit() {
             <DescriptionBlock label="Accordo">
               <span>
                 <StyledLink
-                  className="link-default"
                   to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
                     id: data.agreement.id,
                   })}
