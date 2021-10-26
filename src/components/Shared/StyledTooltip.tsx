@@ -1,12 +1,6 @@
-import React, { FunctionComponent, Ref } from 'react'
-import { Tooltip, TooltipProps } from 'react-bootstrap'
+import React, { FunctionComponent } from 'react'
+import { Tooltip, TooltipProps } from '@mui/material'
 
-export const StyledTooltip: FunctionComponent<TooltipProps> = React.forwardRef(
-  ({ children, ...props }, ref: Ref<HTMLDivElement> | undefined) => {
-    return (
-      <Tooltip {...props} ref={ref}>
-        {children}
-      </Tooltip>
-    )
-  }
-)
+export const StyledTooltip: FunctionComponent<TooltipProps> = ({ title, children }) => {
+  return <Tooltip title={title}>{children}</Tooltip>
+}
