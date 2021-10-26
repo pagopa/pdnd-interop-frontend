@@ -1,31 +1,3 @@
-body {
-  margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#root {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-main {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-tr > td:not(:last-of-type) {
-  vertical-align: middle;
-}
-
-tr > td:not(:only-child):last-of-type {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
 /*
  * Just used for development
  */
