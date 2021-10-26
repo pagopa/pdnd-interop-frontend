@@ -7,7 +7,6 @@ import { StyledInputRadioGroup } from '../components/Shared/StyledInputRadioGrou
 import { storageWrite } from '../lib/storage-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { Layout } from '../components/Shared/Layout'
 
 export function ChooseParty() {
   const { setParty, party, availableParties } = useContext(PartyContext)
@@ -27,8 +26,8 @@ export function ChooseParty() {
   }
 
   return availableParties.length > 0 ? (
-    <Layout>
-      <StyledIntro variant="h1" sx={{ textAlign: 'center', mx: 'auto' }}>
+    <React.Fragment>
+      <StyledIntro sx={{ textAlign: 'center', mx: 'auto' }}>
         {{
           title: 'Per quale ente vuoi operare?',
           description: (
@@ -72,9 +71,9 @@ export function ChooseParty() {
           </StyledButton>
         </div>
       </div>
-    </Layout>
+    </React.Fragment>
   ) : (
-    <Layout>
+    <React.Fragment>
       <div className="d-flex align-items-center mx-auto my-auto">
         <div className="text-center">
           <StyledIntro variant="h1">
@@ -93,6 +92,6 @@ export function ChooseParty() {
           </StyledButton>
         </div>
       </div>
-    </Layout>
+    </React.Fragment>
   )
 }

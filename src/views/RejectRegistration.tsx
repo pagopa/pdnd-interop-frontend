@@ -9,7 +9,6 @@ import { getFetchOutcome } from '../lib/error-utils'
 import { useLocation } from 'react-router'
 import { LoadingOverlay } from '../components/LoadingOverlay'
 import { InlineSupportLink } from '../components/InlineSupportLink'
-import { Layout } from '../components/Shared/Layout'
 
 export function RejectRegistration() {
   const location = useLocation()
@@ -57,13 +56,9 @@ export function RejectRegistration() {
     },
   }
 
-  return (
-    <Layout>
-      {!outcome ? (
-        <LoadingOverlay loadingText="Stiamo cancellando la tua iscrizione" />
-      ) : (
-        <MessageNoAction {...outcomeContent[outcome!]} />
-      )}
-    </Layout>
+  return !outcome ? (
+    <LoadingOverlay loadingText="Stiamo cancellando la tua iscrizione" />
+  ) : (
+    <MessageNoAction {...outcomeContent[outcome!]} />
   )
 }

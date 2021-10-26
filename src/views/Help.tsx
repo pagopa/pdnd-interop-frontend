@@ -2,7 +2,6 @@ import React from 'react'
 import snakeCase from 'lodash/snakeCase'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import textData from '../assets/data/help.json'
-import { Layout } from '../components/Shared/Layout'
 
 type Entry = {
   type: 'h3' | 'h4' | 'h5' | 'h6' | 'p'
@@ -56,7 +55,7 @@ export function Help() {
   )
 
   return (
-    <Layout>
+    <React.Fragment>
       <StyledIntro>
         {{
           title: 'Pagina di supporto',
@@ -81,6 +80,6 @@ export function Help() {
 
         return <HTMLTag key={i}>{text}</HTMLTag>
       })}
-    </Layout>
+    </React.Fragment>
   )
 }

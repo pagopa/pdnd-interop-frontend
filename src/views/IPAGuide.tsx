@@ -1,5 +1,4 @@
 import React from 'react'
-import { Layout } from '../components/Shared/Layout'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 
 const CONTENTS = [
@@ -23,7 +22,7 @@ const CONTENTS = [
 
 export function IPAGuide() {
   return (
-    <Layout>
+    <React.Fragment>
       <StyledIntro>
         {{
           title: 'Accreditarsi su IPA',
@@ -37,6 +36,6 @@ export function IPAGuide() {
           <p>{text}</p>
         </div>
       ))}
-    </Layout>
+    </React.Fragment>
   )
 }

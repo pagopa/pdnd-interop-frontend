@@ -11,7 +11,6 @@ import { ProviderOrSubscriber } from '../../types'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
-import { Layout } from '../components/Shared/Layout'
 
 export function UserCreate() {
   const { runActionWithDestination } = useFeedback()
@@ -66,8 +65,8 @@ export function UserCreate() {
   }
 
   return (
-    <Layout>
-      <StyledIntro variant="h1">{INTRO[mode!]}</StyledIntro>
+    <React.Fragment>
+      <StyledIntro>{INTRO[mode!]}</StyledIntro>
 
       <StyledForm onSubmit={handleSubmit} style={{ maxWidth: 768 }}>
         <PlatformUserForm
@@ -82,6 +81,6 @@ export function UserCreate() {
           Crea operatore
         </StyledButton>
       </StyledForm>
-    </Layout>
+    </React.Fragment>
   )
 }

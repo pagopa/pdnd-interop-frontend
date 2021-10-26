@@ -18,7 +18,6 @@ import { PartyContext, UserContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { buildDynamicPath } from '../lib/url-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { Layout } from '../components/Shared/Layout'
 import { StyledLink } from '../components/Shared/StyledLink'
 
 export function ClientList() {
@@ -111,8 +110,8 @@ export function ClientList() {
   const headData = ['nome client', 'nome e-service', 'ente erogatore', 'stato', '']
 
   return (
-    <Layout>
-      <StyledIntro variant="h1">
+    <React.Fragment>
+      <StyledIntro>
         {{
           title: 'I tuoi client',
           description: "In quest'area puoi i trovare e gestire tutti i client che hai creato",
@@ -172,6 +171,6 @@ export function ClientList() {
           ))}
         </TableWithLoader>
       </div>
-    </Layout>
+    </React.Fragment>
   )
 }

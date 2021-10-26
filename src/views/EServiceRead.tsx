@@ -23,7 +23,6 @@ import { AxiosResponse } from 'axios'
 import { StyledAccordion } from '../components/Shared/StyledAccordion'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { Layout } from '../components/Shared/Layout'
 import { StyledLink } from '../components/Shared/StyledLink'
 
 type EServiceReadProps = {
@@ -140,10 +139,8 @@ export function EServiceRead({ data }: EServiceReadProps) {
   }
 
   return (
-    <Layout>
-      <StyledIntro variant="h1">
-        {{ title: data.name, description: DESCRIPTIONS[mode!] }}
-      </StyledIntro>
+    <React.Fragment>
+      <StyledIntro>{{ title: data.name, description: DESCRIPTIONS[mode!] }}</StyledIntro>
 
       <DescriptionBlock label="Descrizione dell'e-service">
         <span>{data.description}</span>
@@ -254,6 +251,6 @@ export function EServiceRead({ data }: EServiceReadProps) {
           </StyledButton>
         </div>
       )}
-    </Layout>
+    </React.Fragment>
   )
 }

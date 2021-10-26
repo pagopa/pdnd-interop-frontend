@@ -9,7 +9,6 @@ import { EServiceWriteStep4Documents } from '../components/EServiceWriteStep4Doc
 import { Stepper } from '../components/Stepper'
 import { useHistory } from 'react-router-dom'
 import { scrollToTop } from '../lib/page-utils'
-import { Layout } from '../components/Shared/Layout'
 
 const STEPS: StepperStep[] = [
   { label: 'Generale', component: EServiceWriteStep1General },
@@ -63,9 +62,9 @@ export function EServiceWrite({ fetchedDataMaybe }: EServiceWriteProps) {
   const Step = STEPS[activeStep].component
 
   return (
-    <Layout>
+    <React.Fragment>
       <Stepper steps={STEPS} activeIndex={activeStep} />
       <Step {...stepProps} />
-    </Layout>
+    </React.Fragment>
   )
 }

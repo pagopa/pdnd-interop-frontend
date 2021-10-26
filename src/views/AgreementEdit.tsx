@@ -20,7 +20,6 @@ import { PartyContext } from '../lib/context'
 import { getAgreementStatus } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { Layout } from '../components/Shared/Layout'
 import { StyledLink } from '../components/Shared/StyledLink'
 
 export function AgreementEdit() {
@@ -200,8 +199,8 @@ export function AgreementEdit() {
     "L'accordo può essere sospeso sia dall'erogatore che dal fruitore dell'e-service. Se almeno uno dei due attori lo sospende, inibirà l'accesso all'e-service a tutti i client associati all'e-service dal fruitore"
 
   return (
-    <Layout>
-      <StyledIntro variant="h1">{{ title: 'Accordo di interoperabilità' }}</StyledIntro>
+    <React.Fragment>
+      <StyledIntro>{{ title: 'Accordo di interoperabilità' }}</StyledIntro>
 
       <DescriptionBlock label="Accordo relativo a">
         <div style={{ maxWidth: 500 }}>
@@ -308,6 +307,6 @@ export function AgreementEdit() {
           </StyledButton>
         ))}
       </div>
-    </Layout>
+    </React.Fragment>
   )
 }

@@ -1,11 +1,10 @@
 import React from 'react'
 import { InlineSupportLink } from '../components/InlineSupportLink'
-import { Layout } from '../components/Shared/Layout'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 
 export function SecurityKeyGuide() {
   return (
-    <Layout>
+    <React.Fragment>
       <StyledIntro>{{ title: 'Generazione e caricamento chiavi di sicurezza' }}</StyledIntro>
       <div>
         <h3>Come generare le chiavi</h3>
@@ -47,6 +46,6 @@ export function SecurityKeyGuide() {
           </li>
         </ol>
       </div>
-    </Layout>
+    </React.Fragment>
   )
 }

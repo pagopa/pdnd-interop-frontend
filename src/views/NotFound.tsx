@@ -1,5 +1,4 @@
 import React from 'react'
-import { Layout } from '../components/Shared/Layout'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledLink } from '../components/Shared/StyledLink'
 
@@ -14,7 +13,7 @@ export function NotFound({ errorType = 'not-found' }: NotFoundProps) {
   }
 
   return (
-    <Layout>
+    <React.Fragment>
       <div className="bg-danger px-3 py-3">
         <StyledIntro variant="h1">
           {{
@@ -27,6 +26,6 @@ export function NotFound({ errorType = 'not-found' }: NotFoundProps) {
           }}
         </StyledIntro>
       </div>
-    </Layout>
+    </React.Fragment>
   )
 }

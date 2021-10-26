@@ -14,7 +14,6 @@ import { mergeActions } from '../lib/eservice-utils'
 import { SecurityOperatorKeys } from '../components/SecurityOperatorKeys'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { Layout } from '../components/Shared/Layout'
 
 type UserEndpoinParams =
   | { operatorTaxCode: string; clientId: string }
@@ -125,8 +124,8 @@ export function UserEdit() {
   }
 
   return (
-    <Layout>
-      <StyledIntro variant="h1">
+    <React.Fragment>
+      <StyledIntro>
         {{
           title: `Utente: ${
             userData?.name && userData?.surname ? userData.name + ' ' + userData.surname : 'n/d'
@@ -178,6 +177,6 @@ export function UserEdit() {
           wrapActionInDialog={wrapActionInDialog}
         />
       )}
-    </Layout>
+    </React.Fragment>
   )
 }
