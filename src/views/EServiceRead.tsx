@@ -141,7 +141,7 @@ export function EServiceRead({ data }: EServiceReadProps) {
 
   return (
     <Layout>
-      <StyledIntro priority={2}>
+      <StyledIntro variant="h1">
         {{ title: data.name, description: DESCRIPTIONS[mode!] }}
       </StyledIntro>
 

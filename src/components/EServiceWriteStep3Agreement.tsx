@@ -26,7 +26,7 @@ export function EServiceWriteStep3Agreement({
   return (
     <React.Fragment>
       <StyledForm onSubmit={submit}>
-        <StyledIntro priority={2}>
+        <StyledIntro variant="h1">
           {{
             title: 'Crea e-service: accordo di interoperabilità*',
             description: 'Seleziona il template di accordo che intendi proporre al fruitore',

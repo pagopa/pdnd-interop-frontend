@@ -71,11 +71,9 @@ export function Notifications() {
 
   return (
     <Layout>
-      <StyledIntro priority={2} additionalClasses="fakeData fakeDataStart">
-        {{ title: 'Notifiche' }}
-      </StyledIntro>
+      <StyledIntro variant="h1">{{ title: 'Notifiche' }}</StyledIntro>
 
-      <div style={{ position: 'relative' }}>
+      <div className="fakeData fakeDataStart" style={{ position: 'relative' }}>
         <button
           onClick={wrapSetView('p')}
           style={{

@@ -103,7 +103,7 @@ export function CompleteRegistration() {
     <Layout>
       {!outcome ? (
         <div className="mx-auto my-auto text-center">
-          <StyledIntro additionalClasses="mx-auto">
+          <StyledIntro sx={{ mx: 'auto' }}>
             {{
               title: 'Ciao!',
               description:

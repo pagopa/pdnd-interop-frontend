@@ -229,7 +229,7 @@ export function EServiceList() {
 
   return (
     <Layout>
-      <StyledIntro priority={2}>
+      <StyledIntro variant="h1">
         {{
           title: 'I tuoi e-service',
           description: "In quest'area puoi gestire tutti gli e-service che stai erogando",

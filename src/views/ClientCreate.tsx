@@ -65,7 +65,7 @@ export function ClientCreate() {
 
   return (
     <Layout>
-      <StyledIntro priority={2}>
+      <StyledIntro variant="h1">
         {{
           title: `Crea nuovo client`,
           description:

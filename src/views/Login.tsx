@@ -33,7 +33,7 @@ export function Login() {
 
   return (
     <Layout>
-      <StyledIntro priority={2} additionalClasses="text-center">
+      <StyledIntro variant="h1" sx={{ textAlign: 'center' }}>
         {{
           title: 'Accedi con SPID/CIE',
           description:

@@ -113,7 +113,7 @@ export function EServiceCatalog() {
 
   return (
     <Layout>
-      <StyledIntro priority={2}>
+      <StyledIntro variant="h1">
         {{
           title: 'Gli e-service disponibili',
           description:

@@ -70,7 +70,7 @@ export function EServiceAttributeSection({
 
         return (
           <div className="my-5" key={i}>
-            <StyledIntro priority={2}>{{ title, description }}</StyledIntro>
+            <StyledIntro variant="h1">{{ title, description }}</StyledIntro>
             <EServiceAttributeGroup
               canRequireVerification={attributeKey === 'verified'}
               canCreateNewAttributes={attributeKey !== 'certified'}

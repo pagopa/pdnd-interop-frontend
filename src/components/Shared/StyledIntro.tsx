@@ -1,3 +1,5 @@
+import { Typography } from '@mui/material'
+import { Box, SxProps } from '@mui/system'
 import React, { FunctionComponent } from 'react'
 
 type ChildrenProps = {
@@ -5,25 +7,40 @@ type ChildrenProps = {
   description?: React.ReactNode
 }
 
+type TypographyVariant =
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'subtitle1'
+  | 'subtitle2'
+  | 'body1'
+  | 'body2'
+  | 'caption'
+  | 'button'
+  | 'overline'
+  | 'inherit'
+  | undefined
+
 type StyledIntroProps = {
   children: ChildrenProps
-  priority?: 1 | 2 | 3
-  additionalClasses?: string
+  variant?: TypographyVariant
+  sx?: SxProps
 }
 
 export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
   children,
-  additionalClasses,
-  priority = 1,
+  variant = 'h1',
+  sx = {},
 }) => {
-  // from https://stackoverflow.com/a/33471928
-  // Priority 1 is h2, 2 is h3, 3 is h4
-  const TitleTag = `h${priority + 1}` as keyof JSX.IntrinsicElements
-
   return (
-    <div className={`mb-4 py-4 ${additionalClasses || ''}`} style={{ maxWidth: 480 }}>
-      <TitleTag>{children.title}</TitleTag>
-      {children.description && <p className="mb-0">{children.description}</p>}
-    </div>
+    <Box sx={{ maxWidth: 480, mb: '2rem', pb: '1.5rem', ...sx }}>
+      <Typography variant={variant} sx={{ mb: '1rem' }}>
+        {children.title}
+      </Typography>
+      {children.description && <Typography className="mb-0">{children.description}</Typography>}
+    </Box>
   )
 }

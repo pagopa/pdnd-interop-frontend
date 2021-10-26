@@ -126,7 +126,7 @@ export function UserEdit() {
 
   return (
     <Layout>
-      <StyledIntro priority={2}>
+      <StyledIntro variant="h1">
         {{
           title: `Utente: ${
             userData?.name && userData?.surname ? userData.name + ' ' + userData.surname : 'n/d'

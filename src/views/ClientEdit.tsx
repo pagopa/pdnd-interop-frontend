@@ -103,7 +103,7 @@ export function ClientEdit() {
     <Layout>
       {!isEmpty(data) && (
         <React.Fragment>
-          <StyledIntro priority={2}>{{ title: `Client: ${data.name}` }}</StyledIntro>
+          <StyledIntro variant="h1">{{ title: `Client: ${data.name}` }}</StyledIntro>
 
           <div style={{ maxWidth: 586 }}>
             <DescriptionBlock label="Descrizione">

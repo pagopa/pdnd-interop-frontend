@@ -16,7 +16,7 @@ export function NotFound({ errorType = 'not-found' }: NotFoundProps) {
   return (
     <Layout>
       <div className="bg-danger px-3 py-3">
-        <StyledIntro priority={2}>
+        <StyledIntro variant="h1">
           {{
             title: 'Spiacenti',
             description: (

@@ -146,7 +146,7 @@ export function EServiceWriteStep1General({
         }}
       </StyledIntro>
       <StyledForm onSubmit={submit}>
-        <StyledIntro priority={2}>{{ title: 'Caratterizzazione e-service' }}</StyledIntro>
+        <StyledIntro variant="h1">{{ title: 'Caratterizzazione e-service' }}</StyledIntro>
 
         <StyledInputText
           id="name"
@@ -186,7 +186,7 @@ export function EServiceWriteStep1General({
           readOnly={!isEditable}
         />
 
-        <StyledIntro priority={2}>{{ title: 'Attributi' }}</StyledIntro>
+        <StyledIntro variant="h1">{{ title: 'Attributi' }}</StyledIntro>
         <EServiceAttributeSection attributes={attributes} setAttributes={setAttributes} />
 
         <div className="mt-5 d-flex">
