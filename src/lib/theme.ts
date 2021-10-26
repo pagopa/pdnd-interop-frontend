@@ -51,7 +51,7 @@ const theme = createTheme({
     },
     h4: {
       fontSize: 24,
-      ontWeight: 600,
+      fontWeight: 600,
     },
     h5: {
       fontSize: 20,
@@ -80,6 +80,10 @@ const theme = createTheme({
       fontWeight: 600,
       lineHeight: 1.2,
       textTransform: 'none',
+    },
+    caption: {
+      fontSize: 14,
+      fontWeight: 300,
     },
   },
   spacing: 8,
