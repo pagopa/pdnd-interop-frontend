@@ -110,11 +110,11 @@ export function AgreementEdit() {
     }
 
     const sharedActions: AgreementActions = {
-      active: [{ onClick: wrapActionInDialog(suspend, 'AGREEMENT_SUSPEND'), label: 'sospendi' }],
+      active: [{ onClick: wrapActionInDialog(suspend, 'AGREEMENT_SUSPEND'), label: 'Sospendi' }],
       suspended: [
         {
           onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'),
-          label: 'riattiva',
+          label: 'Riattiva',
         },
       ],
       pending: [],
@@ -124,10 +124,10 @@ export function AgreementEdit() {
     const providerOnlyActions: AgreementActions = {
       active: [],
       pending: [
-        { onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'), label: 'attiva' },
-        { onClick: wrapActionInDialog(refuse), label: 'rifiuta', isMock: true },
+        { onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'), label: 'Attiva' },
+        { onClick: wrapActionInDialog(refuse), label: 'Rifiuta', isMock: true },
       ],
-      suspended: [{ onClick: wrapActionInDialog(archive), label: 'archivia', isMock: true }],
+      suspended: [{ onClick: wrapActionInDialog(archive), label: 'Archivia', isMock: true }],
       inactive: [],
     }
 
@@ -138,7 +138,7 @@ export function AgreementEdit() {
     ) {
       subscriberOnlyActionsActive.push({
         onClick: wrapActionInDialog(upgrade, 'AGREEMENT_UPGRADE'),
-        label: 'aggiorna',
+        label: 'Aggiorna',
       })
     }
 
@@ -186,7 +186,7 @@ export function AgreementEdit() {
           )
         ) : mode === 'provider' ? (
           <StyledButton variant="contained" onClick={wrapVerify(id)}>
-            verifica
+            Verifica
           </StyledButton>
         ) : (
           <span>in attesa di verifica</span>

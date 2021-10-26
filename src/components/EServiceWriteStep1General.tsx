@@ -195,14 +195,14 @@ export function EServiceWriteStep1General({
             variant="contained"
             disabled={!eserviceData.name}
           >
-            salva bozza e prosegui
+            Salva bozza e prosegui
           </StyledButton>
           <StyledButton
             variant="outlined"
             component={Link}
             to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}
           >
-            torna agli e-service
+            Torna agli e-service
           </StyledButton>
         </div>
       </StyledForm>

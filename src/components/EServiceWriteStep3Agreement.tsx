@@ -43,10 +43,10 @@ export function EServiceWriteStep3Agreement({
 
         <div className="mt-5 d-flex">
           <StyledButton className="me-3" variant="contained" type="submit">
-            salva bozza e prosegui
+            Salva bozza e prosegui
           </StyledButton>
           <StyledButton variant="outlined" onClick={back}>
-            indietro
+            Indietro
           </StyledButton>
         </div>
       </StyledForm>

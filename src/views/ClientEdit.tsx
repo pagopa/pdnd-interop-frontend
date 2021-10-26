@@ -66,9 +66,9 @@ export function ClientEdit() {
     }
 
     const actions: { [key in ClientStatus]: ActionWithTooltipBtn[] } = {
-      active: [{ onClick: wrapActionInDialog(suspend, 'CLIENT_SUSPEND'), label: 'sospendi' }],
+      active: [{ onClick: wrapActionInDialog(suspend, 'CLIENT_SUSPEND'), label: 'Sospendi' }],
       suspended: [
-        { onClick: wrapActionInDialog(reactivate, 'CLIENT_ACTIVATE'), label: 'riattiva' },
+        { onClick: wrapActionInDialog(reactivate, 'CLIENT_ACTIVATE'), label: 'Riattiva' },
       ],
     }
 

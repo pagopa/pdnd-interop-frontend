@@ -114,7 +114,7 @@ export function CompleteRegistration() {
             }}
           </StyledIntro>
 
-          <StyledForm className="mt-4 form-max-width" onSubmit={handleSubmit}>
+          <StyledForm className="mt-4" onSubmit={handleSubmit}>
             <StyledInputFile
               id="contratto"
               onChange={loadFile}
@@ -123,7 +123,7 @@ export function CompleteRegistration() {
             />
 
             <StyledButton variant="contained" type="submit" disabled={!contract}>
-              prosegui
+              Prosegui
             </StyledButton>
           </StyledForm>
         </div>

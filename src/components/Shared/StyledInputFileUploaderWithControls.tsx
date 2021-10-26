@@ -36,10 +36,10 @@ export function StyledInputFileUploaderWithControls({
 
           <div>
             <StyledButton className="me-3" variant="contained" onClick={noop}>
-              <i className="fs-5 bi bi-pencil me-2" /> modifica
+              <i className="fs-5 bi bi-pencil me-2" /> Modifica
             </StyledButton>
             <StyledButton variant="outlined" onClick={requestDelete}>
-              elimina
+              Elimina
             </StyledButton>
           </div>
         </div>
@@ -65,7 +65,7 @@ export function StyledInputFileUploaderWithControls({
               className="fs-5 bi bi-upload me-2 position-relative"
               style={{ transform: 'translateY(0.1rem)' }}
             />{' '}
-            carica
+            Carica
           </StyledButton>
         </div>
       </div>

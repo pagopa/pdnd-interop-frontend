@@ -101,7 +101,7 @@ export function EServiceWriteStep4DocumentsInterface({
             className="fs-5 bi bi-upload me-2 position-relative"
             style={{ transform: 'translateY(0.1rem)' }}
           />{' '}
-          carica
+          Carica
         </StyledButton>
       </div>
     </StyledForm>

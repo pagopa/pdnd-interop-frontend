@@ -88,7 +88,7 @@ export function EServiceAttributeGroup({
 
       <div className="d-flex align-items-center">
         <StyledButton className="me-3" variant="contained" onClick={buildShowModal('add')}>
-          aggiungi attributo o gruppo
+          Aggiungi attributo o gruppo
         </StyledButton>
 
         {canCreateNewAttributes && (

@@ -79,7 +79,7 @@ export function UserCreate() {
         />
 
         <StyledButton className="mt-3" variant="contained" type="submit" disabled={false}>
-          crea operatore
+          Crea operatore
         </StyledButton>
       </StyledForm>
     </Layout>
