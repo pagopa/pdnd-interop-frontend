@@ -178,9 +178,9 @@ export function EServiceWriteStep1General({
         />
 
         <StyledInputCheckbox
-          groupLabel="POP"
+          groupLabel="POP*"
           id="pop"
-          label="Proof of Possession*"
+          label="Proof of Possession"
           checked={!!eserviceData.pop}
           onChange={wrapSetEServiceData('pop', 'checkbox')}
           readOnly={!isEditable}

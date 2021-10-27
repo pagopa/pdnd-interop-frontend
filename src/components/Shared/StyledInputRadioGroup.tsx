@@ -24,7 +24,7 @@ export function StyledInputRadioGroup({
   name,
 }: StyledInputRadioGroupProps) {
   return (
-    <FormControl component="fieldset">
+    <FormControl component="fieldset" sx={{ display: 'block' }}>
       <FormLabel component="legend">{groupLabel}</FormLabel>
       <RadioGroup aria-label={groupLabel} value={currentValue} onChange={onChange} name={name}>
         {options.map(({ label, value }, i) => (
