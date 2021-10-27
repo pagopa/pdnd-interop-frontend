@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useLocation } from 'react-router-dom'
-import { Client, ClientStatus, ActionBtn } from '../../types'
+import { Client, ClientStatus, ActionProps } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -17,8 +17,8 @@ import { getClientComputedStatus } from '../lib/status-utils'
 import { isAdmin } from '../lib/auth-utils'
 import { PartyContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
-import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
+import { Action } from '../components/Action'
 
 export function ClientEdit() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -65,10 +65,15 @@ export function ClientEdit() {
       return []
     }
 
-    const actions: { [key in ClientStatus]: ActionBtn[] } = {
-      active: [{ onClick: wrapActionInDialog(suspend, 'CLIENT_SUSPEND'), label: 'Sospendi' }],
+    const actions: { [key in ClientStatus]: ActionProps[] } = {
+      active: [
+        { btnProps: { onClick: wrapActionInDialog(suspend, 'CLIENT_SUSPEND') }, label: 'Sospendi' },
+      ],
       suspended: [
-        { onClick: wrapActionInDialog(reactivate, 'CLIENT_ACTIVATE'), label: 'Riattiva' },
+        {
+          btnProps: { onClick: wrapActionInDialog(reactivate, 'CLIENT_ACTIVATE') },
+          label: 'Riattiva',
+        },
       ],
     }
 
@@ -193,15 +198,8 @@ export function ClientEdit() {
 
           {actions.length > 0 && (
             <div className="mt-5 d-flex">
-              {actions.map(({ onClick, label, isMock }, i) => (
-                <StyledButton
-                  key={i}
-                  className={`me-3${isMock ? ' mockFeature' : ''}`}
-                  variant={i === 0 ? 'contained' : 'outlined'}
-                  onClick={onClick}
-                >
-                  {label}
-                </StyledButton>
+              {actions.map((actionProps, i) => (
+                <Action key={i} {...actionProps} />
               ))}
             </div>
           )}

@@ -1,13 +1,6 @@
 import React, { useContext } from 'react'
 import { useLocation } from 'react-router'
-import {
-  ProviderOrSubscriber,
-  User,
-  UserStatus,
-  ActionBtn,
-  ActionLink,
-  ActionProps,
-} from '../../types'
+import { ProviderOrSubscriber, User, UserStatus, ActionProps } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { Action } from '../components/Action'
 import { TableWithLoader } from '../components/TableWithLoader'
@@ -99,20 +92,22 @@ export function UserList() {
   // Build list of available actions for each service in its current state
   const getAvailableActions = (user: User) => {
     const suspendAction = {
-      onClick: wrapActionInDialog(
-        wrapSuspend((user.taxCode || user.from) as string),
-        'USER_SUSPEND'
-      ),
+      btnProps: {
+        onClick: wrapActionInDialog(
+          wrapSuspend((user.taxCode || user.from) as string),
+          'USER_SUSPEND'
+        ),
+      },
       label: 'Sospendi',
-      icon: 'bi-pause-circle',
     }
     const reactivateAction = {
-      onClick: wrapActionInDialog(
-        wrapReactivate((user.taxCode || user.from) as string),
-        'USER_REACTIVATE'
-      ),
+      btnProps: {
+        onClick: wrapActionInDialog(
+          wrapReactivate((user.taxCode || user.from) as string),
+          'USER_REACTIVATE'
+        ),
+      },
       label: 'Riattiva',
-      icon: 'bi-play-circle',
     }
 
     const availableActions: { [key in UserStatus]: ActionProps[] } = {
@@ -136,8 +131,7 @@ export function UserList() {
           })
 
     const inspectAction = {
-      to: route,
-      icon: 'bi-info-circle',
+      btnProps: { to: route, component: StyledLink },
       label: 'Ispeziona',
     }
 
@@ -222,18 +216,9 @@ export function UserList() {
               <td>{USER_PLATFORM_ROLE_LABEL[item.platformRole]}</td>
               <td>{USER_STATUS_LABEL[item.status]}</td>
               <td>
-                {getAvailableActions(item).map((tableAction, j) => {
-                  const btnProps: any = {}
-
-                  if ((tableAction as ActionLink).to) {
-                    btnProps.component = StyledLink
-                    btnProps.to = (tableAction as ActionLink).to
-                  } else {
-                    btnProps.onClick = (tableAction as ActionBtn).onClick
-                  }
-
-                  return <Action key={j} btnProps={btnProps} label={tableAction.label} />
-                })}
+                {getAvailableActions(item).map((actionProps, j) => (
+                  <Action key={j} {...actionProps} />
+                ))}
               </td>
             </tr>
           ))}

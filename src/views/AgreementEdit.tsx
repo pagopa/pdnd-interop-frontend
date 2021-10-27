@@ -4,9 +4,9 @@ import has from 'lodash/has'
 import {
   AgreementStatus,
   AgreementSummary,
-  ActionBtn,
   SingleBackendAttribute,
   GroupBackendAttribute,
+  ActionProps,
 } from '../../types'
 import { AGREEMENT_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { buildDynamicPath, getLastBit } from '../lib/url-utils'
@@ -21,6 +21,7 @@ import { getAgreementStatus } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
+import { Action } from '../components/Action'
 
 export function AgreementEdit() {
   const {
@@ -102,7 +103,7 @@ export function AgreementEdit() {
    * End list of actions
    */
 
-  type AgreementActions = { [key in AgreementStatus]: ActionBtn[] }
+  type AgreementActions = { [key in AgreementStatus]: ActionProps[] }
   // Build list of available actions for each agreement in its current state
   const getAvailableActions = () => {
     if (!data) {
@@ -110,10 +111,15 @@ export function AgreementEdit() {
     }
 
     const sharedActions: AgreementActions = {
-      active: [{ onClick: wrapActionInDialog(suspend, 'AGREEMENT_SUSPEND'), label: 'Sospendi' }],
+      active: [
+        {
+          btnProps: { onClick: wrapActionInDialog(suspend, 'AGREEMENT_SUSPEND') },
+          label: 'Sospendi',
+        },
+      ],
       suspended: [
         {
-          onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'),
+          btnProps: { onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE') },
           label: 'Riattiva',
         },
       ],
@@ -124,20 +130,25 @@ export function AgreementEdit() {
     const providerOnlyActions: AgreementActions = {
       active: [],
       pending: [
-        { onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'), label: 'Attiva' },
-        { onClick: wrapActionInDialog(refuse), label: 'Rifiuta', isMock: true },
+        {
+          btnProps: { onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE') },
+          label: 'Attiva',
+        },
+        { btnProps: { onClick: wrapActionInDialog(refuse) }, label: 'Rifiuta', isMock: true },
       ],
-      suspended: [{ onClick: wrapActionInDialog(archive), label: 'Archivia', isMock: true }],
+      suspended: [
+        { btnProps: { onClick: wrapActionInDialog(archive) }, label: 'Archivia', isMock: true },
+      ],
       inactive: [],
     }
 
-    const subscriberOnlyActionsActive: ActionBtn[] = []
+    const subscriberOnlyActionsActive: ActionProps[] = []
     if (
       data.eservice.activeDescriptor &&
       data.eservice.activeDescriptor.version > data.eservice.version
     ) {
       subscriberOnlyActionsActive.push({
-        onClick: wrapActionInDialog(upgrade, 'AGREEMENT_UPGRADE'),
+        btnProps: { onClick: wrapActionInDialog(upgrade, 'AGREEMENT_UPGRADE') },
         label: 'Aggiorna',
       })
     }
@@ -296,15 +307,8 @@ export function AgreementEdit() {
       )}
 
       <div className="mt-5 d-flex">
-        {getAvailableActions().map(({ onClick, label, isMock }, i) => (
-          <StyledButton
-            key={i}
-            className={`me-3${isMock ? ' mockFeature' : ''}`}
-            variant={i === 0 ? 'contained' : 'outlined'}
-            onClick={onClick}
-          >
-            {label}
-          </StyledButton>
+        {getAvailableActions().map((actionProps, i) => (
+          <Action key={i} {...actionProps} />
         ))}
       </div>
     </React.Fragment>

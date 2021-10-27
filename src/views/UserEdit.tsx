@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import { useLocation } from 'react-router-dom'
-import { ActionBtn, ApiEndpointKey, User, UserStatus } from '../../types'
+import { ActionProps, ApiEndpointKey, User, UserStatus } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -13,7 +13,7 @@ import { useMode } from '../hooks/useMode'
 import { mergeActions } from '../lib/eservice-utils'
 import { SecurityOperatorKeys } from '../components/SecurityOperatorKeys'
 import { useFeedback } from '../hooks/useFeedback'
-import { StyledButton } from '../components/Shared/StyledButton'
+import { Action } from '../components/Action'
 
 type UserEndpoinParams =
   | { operatorTaxCode: string; clientId: string }
@@ -96,7 +96,7 @@ export function UserEdit() {
   /*
    * End list of actions
    */
-  type UserActions = { [key in UserStatus]: ActionBtn[] }
+  type UserActions = { [key in UserStatus]: ActionProps[] }
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = () => {
@@ -105,9 +105,14 @@ export function UserEdit() {
     }
 
     const sharedActions: UserActions = {
-      active: [{ onClick: wrapActionInDialog(suspend, 'USER_SUSPEND'), label: 'Sospendi' }],
+      active: [
+        { btnProps: { onClick: wrapActionInDialog(suspend, 'USER_SUSPEND') }, label: 'Sospendi' },
+      ],
       suspended: [
-        { onClick: wrapActionInDialog(reactivate, 'USER_REACTIVATE'), label: 'Riattiva' },
+        {
+          btnProps: { onClick: wrapActionInDialog(reactivate, 'USER_REACTIVATE') },
+          label: 'Riattiva',
+        },
       ],
       pending: [],
     }
@@ -156,15 +161,8 @@ export function UserEdit() {
       </DescriptionBlock>
 
       <div className="mt-5 d-flex">
-        {getAvailableActions().map(({ onClick, label }, i) => (
-          <StyledButton
-            key={i}
-            className="me-3"
-            variant={i === 0 ? 'contained' : 'outlined'}
-            onClick={onClick}
-          >
-            {label}
-          </StyledButton>
+        {getAvailableActions().map((actionProps, i) => (
+          <Action key={i} {...actionProps} />
         ))}
       </div>
 

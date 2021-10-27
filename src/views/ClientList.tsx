@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Client, ClientStatus, ActionBtn, ActionLink, ActionProps } from '../../types'
+import { Client, ClientStatus, ActionProps } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { Action } from '../components/Action'
 import { TableWithLoader } from '../components/TableWithLoader'
@@ -63,8 +63,10 @@ export function ClientList() {
   // Build list of available actions for each service in its current state
   const getAvailableActions = (client: Client): ActionProps[] => {
     const inspectAction = {
-      to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_EDIT.PATH, { id: client.id }),
-      icon: 'bi-info-circle',
+      btnProps: {
+        to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_EDIT.PATH, { id: client.id }),
+        component: StyledLink,
+      },
       label: 'Ispeziona',
     }
 
@@ -76,16 +78,14 @@ export function ClientList() {
     const availableActions: { [key in ClientStatus]: ActionProps[] } = {
       active: [
         {
-          onClick: wrapActionInDialog(wrapSuspend(client.id), 'CLIENT_SUSPEND'),
+          btnProps: { onClick: wrapActionInDialog(wrapSuspend(client.id), 'CLIENT_SUSPEND') },
           label: 'Sospendi client',
-          icon: 'bi-pause-circle',
         },
       ],
       suspended: [
         {
-          onClick: wrapActionInDialog(wrapReactivate(client.id), 'CLIENT_ACTIVATE'),
+          btnProps: { onClick: wrapActionInDialog(wrapReactivate(client.id), 'CLIENT_ACTIVATE') },
           label: 'Riattiva client',
-          icon: 'bi-play-circle',
         },
       ],
     }
@@ -140,25 +140,9 @@ export function ClientList() {
               <td>{item.eservice.provider.description}</td>
               <td>{COMPUTED_STATUS_LABEL[getClientComputedStatus(item)]}</td>
               <td>
-                {getAvailableActions(item).map((tableAction, j) => {
-                  const btnProps: any = {}
-
-                  if ((tableAction as ActionLink).to) {
-                    btnProps.component = StyledLink
-                    btnProps.to = (tableAction as ActionLink).to
-                  } else {
-                    btnProps.onClick = (tableAction as ActionBtn).onClick
-                  }
-
-                  return (
-                    <Action
-                      key={j}
-                      btnProps={btnProps}
-                      label={tableAction.label}
-                      isMock={tableAction.isMock}
-                    />
-                  )
-                })}
+                {getAvailableActions(item).map((actionProps, j) => (
+                  <Action key={j} {...actionProps} />
+                ))}
               </td>
             </tr>
           ))}
