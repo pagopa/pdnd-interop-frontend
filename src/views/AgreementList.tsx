@@ -11,6 +11,7 @@ import { TempFilters } from '../components/TempFilters'
 import { mergeActions } from '../lib/eservice-utils'
 import { getAgreementStatus } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
+import { StyledLink } from '../components/Shared/StyledLink'
 
 export function AgreementList() {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -132,9 +133,12 @@ export function AgreementList() {
     const mergedActions = mergeActions<AgreementActions>([currentActions, sharedActions], status)
 
     const inspectAction = {
-      to: `${
-        ROUTES[mode === 'provider' ? 'PROVIDE' : 'SUBSCRIBE'].SUBROUTES!.AGREEMENT_LIST.PATH
-      }/${agreement.id}`,
+      btnProps: {
+        to: `${
+          ROUTES[mode === 'provider' ? 'PROVIDE' : 'SUBSCRIBE'].SUBROUTES!.AGREEMENT_LIST.PATH
+        }/${agreement.id}`,
+        component: StyledLink,
+      },
       label: 'Ispeziona',
     }
 

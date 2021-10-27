@@ -36,7 +36,7 @@ export function StyledInputText({
     <div className={className}>
       <div className="d-flex align-contents-center">
         <StyledInputLabel label={label} id={id} white={white} />{' '}
-        {tooltipLabel && <InfoTooltip className="ms-2" label={tooltipLabel} />}
+        {tooltipLabel && <InfoTooltip label={tooltipLabel} />}
       </div>
 
       <Form.Control

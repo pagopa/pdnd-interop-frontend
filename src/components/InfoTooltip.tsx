@@ -3,13 +3,12 @@ import { StyledTooltip } from './Shared/StyledTooltip'
 
 type InfoTooltipProps = {
   label: string
-  className?: string
 }
 
-export function InfoTooltip({ label, className = '' }: InfoTooltipProps) {
+export function InfoTooltip({ label }: InfoTooltipProps) {
   return (
     <StyledTooltip title={label}>
-      <i className={`text-primary fs-6 bi bi-info-circle ${className}`} />
+      <i className={`text-primary fs-6 bi bi-info-circle ms-2`} />
     </StyledTooltip>
   )
 }
