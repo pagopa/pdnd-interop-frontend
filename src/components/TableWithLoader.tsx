@@ -1,8 +1,16 @@
 import React, { FunctionComponent } from 'react'
 import { AxiosError } from 'axios'
 import { LoadingWithMessage } from './LoadingWithMessage'
-import { StyledTable } from './Shared/StyledTable'
-import { TablePagination } from './TablePagination'
+import {
+  TableContainer,
+  Table,
+  // TableFooter,
+  // TablePagination,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableCell,
+} from '@mui/material'
 
 type TableWithLoaderProps = {
   loadingText: string | null
@@ -34,26 +42,26 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
   return loadingText ? (
     <LoadingWithMessage label={loadingText} />
   ) : (
-    <div>
-      {pagination && <TablePagination />}
-      <StyledTable striped>
-        <thead className="bg-secondary">
-          <tr>
+    <TableContainer>
+      <Table>
+        <TableHead>
+          <TableRow>
             {headData.map((item, i) => (
-              <th key={i}>{item.toUpperCase()}</th>
+              <TableCell key={i}>{item.toUpperCase()}</TableCell>
             ))}
-          </tr>
-        </thead>
-        <tbody>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {data && data.length > 0 ? (
             children
           ) : (
-            <tr>
-              <td colSpan={headData.length}>{noDataLabel}</td>
-            </tr>
+            <TableRow>
+              <TableCell colSpan={headData.length}>{noDataLabel}</TableCell>
+            </TableRow>
           )}
-        </tbody>
-      </StyledTable>
-    </div>
+        </TableBody>
+        {/* <TableFooter>{pagination && <TablePagination />}</TableFooter> */}
+      </Table>
+    </TableContainer>
   )
 }
