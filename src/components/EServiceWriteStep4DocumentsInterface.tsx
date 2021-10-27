@@ -88,7 +88,6 @@ export function EServiceWriteStep4DocumentsInterface({
       />
 
       <StyledInputTextArea
-        className="mt-3 mb-3"
         id="interface-descr"
         label="Descrizione"
         value={writeDoc?.description || ''}

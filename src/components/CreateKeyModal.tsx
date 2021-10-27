@@ -81,7 +81,6 @@ export function CreateKeyModal({ close, clientId, taxCode, afterSuccess }: NewPu
         label="Chiave pubblica*"
         value={data?.key || ''}
         onChange={buildSetData('key')}
-        height={280}
       />
     </StyledDialog>
   )

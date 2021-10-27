@@ -101,7 +101,6 @@ export function EServiceWriteStep4DocumentsDoc({
           />
 
           <StyledInputTextArea
-            className="mt-3 mb-3"
             id="doc-descr"
             label="Descrizione"
             value={writeDoc?.description || ''}

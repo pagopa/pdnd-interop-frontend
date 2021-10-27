@@ -30,12 +30,7 @@ export const useExtensionDialog = ({ onProceedCallback }: useExtensionDialogProp
             iscriversi all'e-service, completo di basi giuridiche e finalità. Una notifica sarà
             inviata all'ente erogatore del servizio
           </p>
-          <StyledInputTextArea
-            value={text || ''}
-            onChange={updateText}
-            height={200}
-            className="mb-1"
-          />
+          <StyledInputTextArea value={text || ''} onChange={updateText} />
         </React.Fragment>
       ),
       proceedCallback: onProceedCallback,
