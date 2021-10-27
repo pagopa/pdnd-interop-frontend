@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { EServiceFlatReadType } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { Action } from '../components/Shared/Action'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
@@ -15,6 +14,8 @@ import { useFeedback } from '../hooks/useFeedback'
 import { buildDynamicPath } from '../lib/url-utils'
 import { StyledTooltip } from '../components/Shared/StyledTooltip'
 import { StyledLink } from '../components/Shared/StyledLink'
+import { StyledButton } from '../components/Shared/StyledButton'
+import { TableCell, TableRow } from '@mui/material'
 
 function CatalogExtensionAction({ runFakeAction }: { runFakeAction: any }) {
   const askExtension = (_: any) => {
@@ -26,7 +27,9 @@ function CatalogExtensionAction({ runFakeAction }: { runFakeAction: any }) {
   })
 
   return (
-    <Action btnProps={{ onClick: openExtensionDialog }} label="Richiedi estensione" isMock={true} />
+    <StyledButton onClick={openExtensionDialog} isMock={true}>
+      Richiedi estensione
+    </StyledButton>
   )
 }
 
@@ -57,7 +60,7 @@ function CatalogSubscribeAction({
     producerName: data.producerName,
   })
 
-  return <Action btnProps={{ onClick: openSubscribeDialog }} label="Iscriviti" />
+  return <StyledButton onClick={openSubscribeDialog}>Iscriviti</StyledButton>
 }
 
 type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
@@ -115,8 +118,8 @@ export function EServiceCatalog() {
           const canSubscribeEservice = canSubscribe(party?.attributes, item.certifiedAttributes)
 
           return (
-            <tr key={i}>
-              <td>
+            <TableRow key={i} sx={{ bgcolor: 'common.white' }}>
+              <TableCell>
                 {item.name}
                 {item.isMine && <OwnerTooltip label="Sei l'erogatore" iconClass="bi-key-fill" />}
                 {item.callerSubscribed && isAdmin(party) && (
@@ -128,21 +131,20 @@ export function EServiceCatalog() {
                     iconClass="bi-x-circle"
                   />
                 )}
-              </td>
-              <td>{item.producerName}</td>
-              <td>{item.version}</td>
-              <td>{ESERVICE_STATUS_LABEL[item.status!]}</td>
-              <td>
+              </TableCell>
+              <TableCell>{item.producerName}</TableCell>
+              <TableCell>{item.version}</TableCell>
+              <TableCell>{ESERVICE_STATUS_LABEL[item.status!]}</TableCell>
+              <TableCell>
                 {!item.isMine && isAdmin(party) && item.callerSubscribed && (
-                  <Action
-                    btnProps={{
-                      to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
-                        id: item.callerSubscribed,
-                      }),
-                      component: StyledLink,
-                    }}
-                    label="Vai all'accordo"
-                  />
+                  <StyledButton
+                    to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
+                      id: item.callerSubscribed,
+                    })}
+                    component={StyledLink}
+                  >
+                    Vai all'accordo
+                  </StyledButton>
                 )}
                 {!item.isMine &&
                   isAdmin(party) &&
@@ -156,18 +158,17 @@ export function EServiceCatalog() {
                 {!item.isMine && isAdmin(party) && !canSubscribeEservice && (
                   <CatalogExtensionAction runFakeAction={runFakeAction} />
                 )}
-                <Action
-                  btnProps={{
-                    component: StyledLink,
-                    to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
-                      eserviceId: item.id,
-                      descriptorId: item.descriptorId!,
-                    }),
-                  }}
-                  label="Ispeziona"
-                />
-              </td>
-            </tr>
+                <StyledButton
+                  component={StyledLink}
+                  to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
+                    eserviceId: item.id,
+                    descriptorId: item.descriptorId!,
+                  })}
+                >
+                  Ispeziona
+                </StyledButton>
+              </TableCell>
+            </TableRow>
           )
         })}
       </TableWithLoader>

@@ -21,7 +21,6 @@ import { getAgreementStatus } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { Action } from '../components/Shared/Action'
 
 export function AgreementEdit() {
   const {
@@ -113,13 +112,13 @@ export function AgreementEdit() {
     const sharedActions: AgreementActions = {
       active: [
         {
-          btnProps: { onClick: wrapActionInDialog(suspend, 'AGREEMENT_SUSPEND') },
+          onClick: wrapActionInDialog(suspend, 'AGREEMENT_SUSPEND'),
           label: 'Sospendi',
         },
       ],
       suspended: [
         {
-          btnProps: { onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE') },
+          onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'),
           label: 'Riattiva',
         },
       ],
@@ -131,14 +130,12 @@ export function AgreementEdit() {
       active: [],
       pending: [
         {
-          btnProps: { onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE') },
+          onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'),
           label: 'Attiva',
         },
-        { btnProps: { onClick: wrapActionInDialog(refuse) }, label: 'Rifiuta', isMock: true },
+        { onClick: wrapActionInDialog(refuse), label: 'Rifiuta', isMock: true },
       ],
-      suspended: [
-        { btnProps: { onClick: wrapActionInDialog(archive) }, label: 'Archivia', isMock: true },
-      ],
+      suspended: [{ onClick: wrapActionInDialog(archive), label: 'Archivia', isMock: true }],
       inactive: [],
     }
 
@@ -148,7 +145,7 @@ export function AgreementEdit() {
       data.eservice.activeDescriptor.version > data.eservice.version
     ) {
       subscriberOnlyActionsActive.push({
-        btnProps: { onClick: wrapActionInDialog(upgrade, 'AGREEMENT_UPGRADE') },
+        onClick: wrapActionInDialog(upgrade, 'AGREEMENT_UPGRADE'),
         label: 'Aggiorna',
       })
     }
@@ -307,8 +304,10 @@ export function AgreementEdit() {
       )}
 
       <div className="mt-5 d-flex">
-        {getAvailableActions().map((actionProps, i) => (
-          <Action key={i} {...actionProps} />
+        {getAvailableActions().map(({ onClick, label }, i) => (
+          <StyledButton key={i} onClick={onClick}>
+            {label}
+          </StyledButton>
         ))}
       </div>
     </React.Fragment>

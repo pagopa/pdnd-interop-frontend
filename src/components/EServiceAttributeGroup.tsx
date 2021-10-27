@@ -8,10 +8,10 @@ import {
 } from '../../types'
 import { AttributeModal } from './AttributeModal'
 import { Overlay } from './Shared/Overlay'
-import { Action } from './Shared/Action'
 import { TableWithLoader } from './Shared/TableWithLoader'
 import { ToastContext } from '../lib/context'
 import { StyledButton } from './Shared/StyledButton'
+import { TableCell, TableRow } from '@mui/material'
 
 type EServiceAttributeGroupProps = {
   attributesGroup: FrontendAttribute[]
@@ -53,6 +53,10 @@ export function EServiceAttributeGroup({
     setToast(null)
   }
 
+  const wrapRemove = (attributes: any) => (_: any) => {
+    remove(attributes)
+  }
+
   return (
     <React.Fragment>
       <TableWithLoader
@@ -63,24 +67,19 @@ export function EServiceAttributeGroup({
       >
         {attributesGroup.map(({ attributes, explicitAttributeVerification }, j) => {
           return (
-            <tr key={j}>
-              <td
+            <TableRow key={j} sx={{ bgcolor: 'common.white' }}>
+              <TableCell
                 dangerouslySetInnerHTML={{
                   __html: attributes.map(({ name }) => name).join(' <em>oppure</em> '),
                 }}
               />
-              {canRequireVerification && <td>{explicitAttributeVerification ? 'Sì' : 'No'}</td>}
-              <td>
-                <Action
-                  label="Elimina"
-                  btnProps={{
-                    onClick: () => {
-                      remove(attributes)
-                    },
-                  }}
-                />
-              </td>
-            </tr>
+              {canRequireVerification && (
+                <TableCell>{explicitAttributeVerification ? 'Sì' : 'No'}</TableCell>
+              )}
+              <TableCell>
+                <StyledButton onClick={wrapRemove(attributes)}>Elimina</StyledButton>
+              </TableCell>
+            </TableRow>
           )
         })}
       </TableWithLoader>

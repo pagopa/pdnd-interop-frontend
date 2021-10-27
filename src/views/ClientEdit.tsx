@@ -18,7 +18,7 @@ import { isAdmin } from '../lib/auth-utils'
 import { PartyContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { Action } from '../components/Shared/Action'
+import { StyledButton } from '../components/Shared/StyledButton'
 
 export function ClientEdit() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -66,12 +66,10 @@ export function ClientEdit() {
     }
 
     const actions: { [key in ClientStatus]: ActionProps[] } = {
-      active: [
-        { btnProps: { onClick: wrapActionInDialog(suspend, 'CLIENT_SUSPEND') }, label: 'Sospendi' },
-      ],
+      active: [{ onClick: wrapActionInDialog(suspend, 'CLIENT_SUSPEND'), label: 'Sospendi' }],
       suspended: [
         {
-          btnProps: { onClick: wrapActionInDialog(reactivate, 'CLIENT_ACTIVATE') },
+          onClick: wrapActionInDialog(reactivate, 'CLIENT_ACTIVATE'),
           label: 'Riattiva',
         },
       ],
@@ -198,8 +196,10 @@ export function ClientEdit() {
 
           {actions.length > 0 && (
             <div className="mt-5 d-flex">
-              {actions.map((actionProps, i) => (
-                <Action key={i} {...actionProps} />
+              {actions.map(({ onClick, label }, i) => (
+                <StyledButton key={i} onClick={onClick}>
+                  {label}
+                </StyledButton>
               ))}
             </div>
           )}

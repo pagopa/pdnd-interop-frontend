@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import { useLocation } from 'react-router'
 import { ProviderOrSubscriber, User, UserStatus, ActionProps } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { Action } from '../components/Shared/Action'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import {
@@ -19,6 +18,9 @@ import { buildDynamicPath, getLastBit } from '../lib/url-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
+import { TableCell, TableRow } from '@mui/material'
+import { Box } from '@mui/system'
+import { ActionMenu } from '../components/Shared/ActionMenu'
 
 export function UserList() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -116,32 +118,8 @@ export function UserList() {
       suspended: [reactivateAction],
     }
 
-    const status = party?.status
-
-    // TEMP BACKEND: this should not happen, it depends on the difference between our API
-    // and the one shared with self care
-    const route =
-      mode === 'provider'
-        ? buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_EDIT.PATH, {
-            id: (user.taxCode || user.from) as string,
-          })
-        : buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.OPERATOR_SECURITY_EDIT.PATH, {
-            clientId,
-            operatorId: user.taxCode,
-          })
-
-    const inspectAction = {
-      btnProps: { to: route, component: StyledLink },
-      label: 'Ispeziona',
-    }
-
-    // Get all the actions available for this particular status
-    const actions: ActionProps[] = availableActions[status!] || []
-
-    // Add the last action, which is always EDIT/INSPECT
-    actions.push(inspectAction)
-
-    return actions
+    // Return all the actions available for this particular status
+    return availableActions[party!.status] || []
   }
 
   // TEMP BACKEND: this should not happen, it depends on the difference between our API
@@ -206,21 +184,43 @@ export function UserList() {
           error={error}
         >
           {data?.map((item, i) => (
-            <tr key={i}>
+            <TableRow key={i} sx={{ bgcolor: 'common.white' }}>
               {/*
                * TEMP BACKEND: this should not happen, it depends on the difference between our API
                * and the one shared with self care, that doesn't expose name and surname
                */}
-              <td>{mode === 'provider' ? item.from : `${item.name + ' ' + item.surname}`}</td>
-              <td>{USER_ROLE_LABEL[item.role]}</td>
-              <td>{USER_PLATFORM_ROLE_LABEL[item.platformRole]}</td>
-              <td>{USER_STATUS_LABEL[item.status]}</td>
-              <td>
-                {getAvailableActions(item).map((actionProps, j) => (
-                  <Action key={j} {...actionProps} />
-                ))}
-              </td>
-            </tr>
+              <TableCell>
+                {mode === 'provider' ? item.from : `${item.name + ' ' + item.surname}`}
+              </TableCell>
+              <TableCell>{USER_ROLE_LABEL[item.role]}</TableCell>
+              <TableCell>{USER_PLATFORM_ROLE_LABEL[item.platformRole]}</TableCell>
+              <TableCell>{USER_STATUS_LABEL[item.status]}</TableCell>
+              <TableCell>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <StyledButton
+                    variant="outlined"
+                    to={
+                      mode === 'provider'
+                        ? buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_EDIT.PATH, {
+                            id: (item.taxCode || item.from) as string,
+                          })
+                        : buildDynamicPath(
+                            ROUTES.SUBSCRIBE.SUBROUTES!.OPERATOR_SECURITY_EDIT.PATH,
+                            {
+                              clientId,
+                              operatorId: item.taxCode,
+                            }
+                          )
+                    }
+                    component={StyledLink}
+                  >
+                    Ispeziona
+                  </StyledButton>
+
+                  <ActionMenu actions={getAvailableActions(item)} index={i} />
+                </Box>
+              </TableCell>
+            </TableRow>
           ))}
         </TableWithLoader>
       </div>

@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { Client, ClientStatus, ActionProps } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { Action } from '../components/Shared/Action'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { TempFilters } from '../components/TempFilters'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -13,6 +12,9 @@ import { useFeedback } from '../hooks/useFeedback'
 import { buildDynamicPath } from '../lib/url-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
+import { TableCell, TableRow } from '@mui/material'
+import { Box } from '@mui/system'
+import { ActionMenu } from '../components/Shared/ActionMenu'
 
 export function ClientList() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -62,29 +64,21 @@ export function ClientList() {
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = (client: Client): ActionProps[] => {
-    const inspectAction = {
-      btnProps: {
-        to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_EDIT.PATH, { id: client.id }),
-        component: StyledLink,
-      },
-      label: 'Ispeziona',
-    }
-
     // Exit early if user cannot perform actions
     if (!isAdmin(party)) {
-      return [inspectAction]
+      return []
     }
 
     const availableActions: { [key in ClientStatus]: ActionProps[] } = {
       active: [
         {
-          btnProps: { onClick: wrapActionInDialog(wrapSuspend(client.id), 'CLIENT_SUSPEND') },
+          onClick: wrapActionInDialog(wrapSuspend(client.id), 'CLIENT_SUSPEND'),
           label: 'Sospendi client',
         },
       ],
       suspended: [
         {
-          btnProps: { onClick: wrapActionInDialog(wrapReactivate(client.id), 'CLIENT_ACTIVATE') },
+          onClick: wrapActionInDialog(wrapReactivate(client.id), 'CLIENT_ACTIVATE'),
           label: 'Riattiva client',
         },
       ],
@@ -92,13 +86,8 @@ export function ClientList() {
 
     const status = client.status
 
-    // Get all the actions available for this particular status
-    const actions: ActionProps[] = (availableActions as any)[status] || []
-
-    // Add the last action, which is always EDIT/INSPECT
-    actions.push(inspectAction)
-
-    return actions
+    // Return all the actions available for this particular status
+    return (availableActions as any)[status] || []
   }
 
   const headData = ['nome client', 'nome e-service', 'ente erogatore', 'stato', '']
@@ -134,17 +123,28 @@ export function ClientList() {
           error={error}
         >
           {data.map((item, i) => (
-            <tr key={i}>
-              <td>{item.name}</td>
-              <td>{item.eservice.name}</td>
-              <td>{item.eservice.provider.description}</td>
-              <td>{COMPUTED_STATUS_LABEL[getClientComputedStatus(item)]}</td>
-              <td>
-                {getAvailableActions(item).map((actionProps, j) => (
-                  <Action key={j} {...actionProps} />
-                ))}
-              </td>
-            </tr>
+            <TableRow key={i} sx={{ bgcolor: 'common.white' }}>
+              <TableCell>{item.name}</TableCell>
+              <TableCell>{item.eservice.name}</TableCell>
+              <TableCell>{item.eservice.provider.description}</TableCell>
+              <TableCell>{COMPUTED_STATUS_LABEL[getClientComputedStatus(item)]}</TableCell>
+
+              <TableCell>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <StyledButton
+                    variant="outlined"
+                    to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_EDIT.PATH, {
+                      id: item.id,
+                    })}
+                    component={StyledLink}
+                  >
+                    Ispeziona
+                  </StyledButton>
+
+                  <ActionMenu actions={getAvailableActions(item)} index={i} />
+                </Box>
+              </TableCell>
+            </TableRow>
           ))}
         </TableWithLoader>
       </div>
