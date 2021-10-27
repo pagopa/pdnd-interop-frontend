@@ -1,5 +1,5 @@
 import React from 'react'
-import { RequestOutcomeMessage } from '../../types'
+import { RequestOutcomeMessage } from '../../../types'
 
 export function MessageNoAction({ img, title, description }: RequestOutcomeMessage) {
   return (

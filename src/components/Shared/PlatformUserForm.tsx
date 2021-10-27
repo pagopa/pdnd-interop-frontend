@@ -1,7 +1,7 @@
 import React from 'react'
-import { UserOnCreate, UserPlatformRole, UserRole } from '../../types'
-import { UsersObject } from './OnboardingStep2'
-import { StyledInputText, StyledInputTextType } from './Shared/StyledInputText'
+import { UserOnCreate, UserPlatformRole, UserRole } from '../../../types'
+import { UsersObject } from '../OnboardingStep2'
+import { StyledInputText, StyledInputTextType } from './StyledInputText'
 
 type PlatformUserFormProps = {
   prefix: keyof UsersObject

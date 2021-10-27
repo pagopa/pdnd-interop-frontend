@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyledSpinner } from './Shared/StyledSpinner'
+import { StyledSpinner } from './StyledSpinner'
 
 type LoadingWithMessageProps = {
   label?: string

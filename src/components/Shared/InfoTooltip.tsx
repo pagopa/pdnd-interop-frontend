@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyledTooltip } from './Shared/StyledTooltip'
+import { StyledTooltip } from './StyledTooltip'
 
 type InfoTooltipProps = {
   label: string

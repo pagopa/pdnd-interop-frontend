@@ -1,6 +1,6 @@
 import React from 'react'
-import { ActionProps } from '../../types'
-import { StyledButton } from './Shared/StyledButton'
+import { ActionProps } from '../../../types'
+import { StyledButton } from './StyledButton'
 
 export function Action({ btnProps, label, isMock = false }: ActionProps) {
   return (

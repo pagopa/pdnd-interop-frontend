@@ -9,8 +9,8 @@ import {
   EServiceStatus,
   ActionProps,
 } from '../../types'
-import { TableWithLoader } from '../components/TableWithLoader'
-import { Action } from '../components/Action'
+import { TableWithLoader } from '../components/Shared/TableWithLoader'
+import { Action } from '../components/Shared/Action'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'

@@ -4,7 +4,7 @@ import cryptoRandomString from 'crypto-random-string'
 import { StepperStepComponentProps, UserOnCreate } from '../../types'
 import { objectIsEmpty } from '../lib/object-utils'
 import { StyledIntro } from './Shared/StyledIntro'
-import { PlatformUserForm } from './PlatformUserForm'
+import { PlatformUserForm } from './Shared/PlatformUserForm'
 import { StyledButton } from './Shared/StyledButton'
 
 // Could be an ES6 Set but it's too bothersome for now

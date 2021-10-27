@@ -1,5 +1,5 @@
 import React from 'react'
-import { InlineSupportLink } from '../components/InlineSupportLink'
+import { InlineSupportLink } from '../components/Shared/InlineSupportLink'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 
 export function SecurityKeyGuide() {

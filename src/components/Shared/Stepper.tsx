@@ -1,6 +1,6 @@
 import React from 'react'
-import { StepperStep } from '../../types'
-import checkIcon from '../assets/icons/check.svg'
+import { StepperStep } from '../../../types'
+import checkIcon from '../../assets/icons/check.svg'
 
 type StepperProps = {
   steps: StepperStep[]
