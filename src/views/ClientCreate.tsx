@@ -91,11 +91,9 @@ export function ClientCreate() {
           id="eserviceId"
           label="E-service da associare*"
           disabled={eserviceData.length === 0}
-          options={[{ id: '-1', name: 'Seleziona servizio...' }, ...eserviceData].map((s) => ({
-            value: s.id,
-            label: s.name,
-          }))}
+          options={eserviceData.map((s) => ({ value: s.id, label: s.name }))}
           onChange={wrapSetData('eServiceId')}
+          currentValue={data.eServiceId}
         />
 
         <StyledInputText

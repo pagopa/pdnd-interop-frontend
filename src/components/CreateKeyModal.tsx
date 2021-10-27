@@ -24,7 +24,7 @@ type NewPublicKey = {
 
 export function CreateKeyModal({ close, clientId, taxCode, afterSuccess }: NewPublicKeyProps) {
   const { setLoadingText } = useFeedback()
-  const [data, setData] = useState<Partial<NewPublicKey>>({ use: 'sig', clientId })
+  const [data, setData] = useState<Partial<NewPublicKey>>({ use: 'sig', clientId, alg: 'RS256' })
 
   const buildSetData = (key: string) => (e: any) => {
     setData({ ...(data || {}), [key]: e.target.value })
@@ -72,8 +72,9 @@ export function CreateKeyModal({ close, clientId, taxCode, afterSuccess }: NewPu
       <StyledInputSelect
         id="alg"
         onChange={buildSetData('alg')}
-        options={[{ label: 'Seleziona algoritmo...' }, { label: 'RS256', value: 'RS256' }]}
-        label="Algoritmo*"
+        options={[{ label: 'RS256', value: 'RS256' }]}
+        label="Seleziona algoritmo*"
+        currentValue={data.alg}
       />
 
       <StyledInputTextArea

@@ -39,6 +39,7 @@ export function EServiceWriteStep3Agreement({
           disabled={false}
           options={options}
           onChange={noop}
+          currentValue={options[0].value}
         />
 
         <div className="mt-5 d-flex">
