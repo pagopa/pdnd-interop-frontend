@@ -2,20 +2,24 @@ import React, { useContext, useState } from 'react'
 import { IPACatalogParty, PartyOnCreate, StepperStepComponentProps } from '../../types'
 import { UserContext } from '../lib/context'
 import { OnboardingStepActions } from './OnboardingStepActions'
-import { AsyncAutocomplete } from './Shared/AsyncAutocomplete'
+import { StyledAsyncAutocomplete } from './Shared/StyledAsyncAutocomplete'
 import { StyledIntro } from './Shared/StyledIntro'
 import { ROUTES } from '../lib/constants'
 import { StyledLink } from './Shared/StyledLink'
 
 export function OnboardingStep1({ forward }: StepperStepComponentProps) {
   const { user } = useContext(UserContext)
-  const [selected, setSelected] = useState<IPACatalogParty[]>([])
+  const [selected, setSelected] = useState<IPACatalogParty | null>()
 
   const onForwardAction = () => {
-    const catalogParty: IPACatalogParty = selected[0]
+    const catalogParty: IPACatalogParty = selected!
     const { description, digitalAddress, id } = catalogParty
     const platformParty: PartyOnCreate = { description, institutionId: id, digitalAddress }
     forward!(platformParty)
+  }
+
+  const updateSelected = (_: any, newSelected: IPACatalogParty | null) => {
+    setSelected(newSelected)
   }
 
   return (
@@ -35,9 +39,9 @@ export function OnboardingStep1({ forward }: StepperStepComponentProps) {
         }}
       </StyledIntro>
       <div className="my-4">
-        <AsyncAutocomplete
+        <StyledAsyncAutocomplete
           selected={selected}
-          setSelected={setSelected}
+          setSelected={updateSelected}
           placeholder="Cerca ente nel catalogo IPA"
           path={{ endpoint: 'ONBOARDING_GET_SEARCH_PARTIES' }}
           transformFn={(data: { items: IPACatalogParty[] }) => data.items}
@@ -46,7 +50,11 @@ export function OnboardingStep1({ forward }: StepperStepComponentProps) {
       </div>
 
       <OnboardingStepActions
-        forward={{ action: onForwardAction, label: 'Prosegui', disabled: selected.length === 0 }}
+        forward={{
+          action: onForwardAction,
+          label: 'Prosegui',
+          disabled: !selected,
+        }}
       />
     </React.Fragment>
   )
