@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form } from 'react-bootstrap'
-import { InfoTooltip } from '../InfoTooltip'
+import { InfoTooltip } from './InfoTooltip'
 import { StyledInputLabel } from './StyledInputLabel'
 
 export type StyledInputTextType = 'text' | 'email' | 'number'

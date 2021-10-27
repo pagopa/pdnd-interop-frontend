@@ -21,7 +21,7 @@ import { getAgreementStatus } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { Action } from '../components/Action'
+import { Action } from '../components/Shared/Action'
 
 export function AgreementEdit() {
   const {

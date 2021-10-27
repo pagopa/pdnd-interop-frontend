@@ -13,7 +13,7 @@ import { useMode } from '../hooks/useMode'
 import { mergeActions } from '../lib/eservice-utils'
 import { SecurityOperatorKeys } from '../components/SecurityOperatorKeys'
 import { useFeedback } from '../hooks/useFeedback'
-import { Action } from '../components/Action'
+import { Action } from '../components/Shared/Action'
 
 type UserEndpoinParams =
   | { operatorTaxCode: string; clientId: string }

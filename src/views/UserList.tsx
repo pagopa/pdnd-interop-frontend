@@ -2,8 +2,8 @@ import React, { useContext } from 'react'
 import { useLocation } from 'react-router'
 import { ProviderOrSubscriber, User, UserStatus, ActionProps } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { Action } from '../components/Action'
-import { TableWithLoader } from '../components/TableWithLoader'
+import { Action } from '../components/Shared/Action'
+import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import {
   ROUTES,

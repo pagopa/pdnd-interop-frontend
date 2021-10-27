@@ -7,9 +7,9 @@ import {
   ToastContentWithOutcome,
 } from '../../types'
 import { AttributeModal } from './AttributeModal'
-import { Overlay } from './Overlay'
-import { Action } from './Action'
-import { TableWithLoader } from './TableWithLoader'
+import { Overlay } from './Shared/Overlay'
+import { Action } from './Shared/Action'
+import { TableWithLoader } from './Shared/TableWithLoader'
 import { ToastContext } from '../lib/context'
 import { StyledButton } from './Shared/StyledButton'
 

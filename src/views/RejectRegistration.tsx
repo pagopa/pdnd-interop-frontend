@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { MessageNoAction } from '../components/MessageNoAction'
+import { MessageNoAction } from '../components/Shared/MessageNoAction'
 import checkIllustration from '../assets/check-illustration.svg'
 import redXIllustration from '../assets/red-x-illustration.svg'
 import { RequestOutcome, RequestOutcomeOptions } from '../../types'
@@ -7,8 +7,8 @@ import { parseSearch } from '../lib/url-utils'
 import { fetchWithLogs } from '../lib/api-utils'
 import { getFetchOutcome } from '../lib/error-utils'
 import { useLocation } from 'react-router'
-import { LoadingOverlay } from '../components/LoadingOverlay'
-import { InlineSupportLink } from '../components/InlineSupportLink'
+import { LoadingOverlay } from '../components/Shared/LoadingOverlay'
+import { InlineSupportLink } from '../components/Shared/InlineSupportLink'
 
 export function RejectRegistration() {
   const location = useLocation()

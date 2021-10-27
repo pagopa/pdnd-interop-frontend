@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { AsyncTypeahead } from 'react-bootstrap-typeahead'
-import { Endpoint } from '../../types'
-import { fetchWithLogs } from '../lib/api-utils'
+import { Endpoint } from '../../../types'
+import { fetchWithLogs } from '../../lib/api-utils'
 import debounce from 'lodash/debounce'
 import 'react-bootstrap-typeahead/css/Typeahead.css'
-import { getFetchOutcome } from '../lib/error-utils'
+import { getFetchOutcome } from '../../lib/error-utils'
 import { AxiosResponse } from 'axios'
 
 type AutocompleteProps = {

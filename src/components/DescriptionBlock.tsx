@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { InfoTooltip } from './InfoTooltip'
+import { InfoTooltip } from './Shared/InfoTooltip'
 
 type DescriptionBlockProps = {
   label: string

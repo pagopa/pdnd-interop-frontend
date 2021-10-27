@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { UsersObject } from '../components/OnboardingStep2'
-import { PlatformUserForm } from '../components/PlatformUserForm'
+import { PlatformUserForm } from '../components/Shared/PlatformUserForm'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'

@@ -6,18 +6,18 @@ import {
   StepperStep,
   User,
 } from '../../types'
-import { Stepper } from '../components/Stepper'
+import { Stepper } from '../components/Shared/Stepper'
 import { OnboardingStep1 } from '../components/OnboardingStep1'
 import { OnboardingStep2 } from '../components/OnboardingStep2'
 import { OnboardingStep3 } from '../components/OnboardingStep3'
-import { LoadingOverlay } from '../components/LoadingOverlay'
+import { LoadingOverlay } from '../components/Shared/LoadingOverlay'
 import { fetchWithLogs } from '../lib/api-utils'
-import { MessageNoAction } from '../components/MessageNoAction'
+import { MessageNoAction } from '../components/Shared/MessageNoAction'
 import emailIllustration from '../assets/email-illustration.svg'
 import redXIllustration from '../assets/red-x-illustration.svg'
 import { getFetchOutcome } from '../lib/error-utils'
 import { useHistory } from 'react-router-dom'
-import { InlineSupportLink } from '../components/InlineSupportLink'
+import { InlineSupportLink } from '../components/Shared/InlineSupportLink'
 import { scrollToTop } from '../lib/page-utils'
 
 export function Onboarding() {
