@@ -124,7 +124,7 @@ export const ROUTES: RoutesObject = {
       ESERVICE_CREATE: {
         PATH: `${BASE_ROUTE}/erogazione/e-service/crea`,
         EXACT: true,
-        LABEL: 'Crea nuovo e-service',
+        LABEL: '+ Aggiungi',
         COMPONENT: EServiceWrite,
         PUBLIC: false,
         AUTH_LEVELS: ['admin', 'api'],
@@ -164,7 +164,7 @@ export const ROUTES: RoutesObject = {
       OPERATOR_API_CREATE: {
         PATH: `${BASE_ROUTE}/erogazione/operatori/crea`,
         EXACT: false,
-        LABEL: 'Crea nuovo operatore API',
+        LABEL: '+ Aggiungi',
         COMPONENT: UserCreate,
         PUBLIC: false,
         AUTH_LEVELS: ['admin'],
@@ -197,7 +197,7 @@ export const ROUTES: RoutesObject = {
       CLIENT_CREATE: {
         PATH: `${BASE_ROUTE}/fruizione/client/crea`,
         EXACT: false,
-        LABEL: 'Crea nuovo client',
+        LABEL: '+ Aggiungi',
         COMPONENT: ClientCreate,
         PUBLIC: false,
         AUTH_LEVELS: ['admin'],
@@ -253,7 +253,7 @@ export const ROUTES: RoutesObject = {
       OPERATOR_SECURITY_CREATE: {
         PATH: `${BASE_ROUTE}/fruizione/client/operatori/crea`,
         EXACT: false,
-        LABEL: 'Crea nuovo operatore di sicurezza',
+        LABEL: '+ Aggiungi',
         COMPONENT: UserCreate,
         PUBLIC: false,
         AUTH_LEVELS: ['admin'],
