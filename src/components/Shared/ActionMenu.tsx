@@ -20,6 +20,10 @@ export const ActionMenu: FunctionComponent<ActionMenuProps> = ({ actions, index 
     setAnchorEl(null)
   }
 
+  if (!Boolean(actions.length > 0)) {
+    return null
+  }
+
   return (
     <React.Fragment>
       <StyledButton
