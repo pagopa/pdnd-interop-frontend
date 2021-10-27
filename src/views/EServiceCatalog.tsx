@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { EServiceFlatReadType } from '../../types'
+import { EServiceFlatReadType, ActionProps } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -10,65 +10,19 @@ import { isAdmin } from '../lib/auth-utils'
 import { canSubscribe } from '../lib/attributes'
 import { useSubscribeDialog } from '../hooks/useSubscribeDialog'
 import { useExtensionDialog } from '../hooks/useExtensionDialog'
-import { useFeedback } from '../hooks/useFeedback'
 import { buildDynamicPath } from '../lib/url-utils'
 import { StyledTooltip } from '../components/Shared/StyledTooltip'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { TableCell, TableRow } from '@mui/material'
-
-function CatalogExtensionAction({ runFakeAction }: { runFakeAction: any }) {
-  const askExtension = (_: any) => {
-    runFakeAction('Richiedi estensione')
-  }
-
-  const { openDialog: openExtensionDialog } = useExtensionDialog({
-    onProceedCallback: askExtension,
-  })
-
-  return (
-    <StyledButton onClick={openExtensionDialog} isMock={true}>
-      Richiedi estensione
-    </StyledButton>
-  )
-}
-
-function CatalogSubscribeAction({
-  data,
-  runActionWithDestination,
-}: {
-  data: EServiceFlatReadType
-  runActionWithDestination: any
-}) {
-  const { party } = useContext(PartyContext)
-
-  const subscribe = async (_: any) => {
-    const agreementData = {
-      eserviceId: data.id,
-      descriptorId: data.descriptorId,
-      consumerId: party?.partyId,
-    }
-
-    await runActionWithDestination(
-      { path: { endpoint: 'AGREEMENT_CREATE' }, config: { data: agreementData } },
-      { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST, suppressToast: false }
-    )
-  }
-
-  const { openDialog: openSubscribeDialog } = useSubscribeDialog({
-    onProceedCallback: subscribe,
-    producerName: data.producerName,
-  })
-
-  return <StyledButton onClick={openSubscribeDialog}>Iscriviti</StyledButton>
-}
+import { Box } from '@mui/system'
+import { ActionMenu } from '../components/Shared/ActionMenu'
 
 type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
   isMine: boolean
 }
 
 export function EServiceCatalog() {
-  const { runActionWithDestination, runFakeAction } = useFeedback()
   const { party } = useContext(PartyContext)
   const { data, loadingText, error } = useAsyncFetch<
     EServiceFlatReadType[],
@@ -86,6 +40,16 @@ export function EServiceCatalog() {
     }
   )
 
+  /*
+   * Ask extension action
+   */
+  const { openDialog: openExtensionDialog } = useExtensionDialog()
+
+  /*
+   * Subscribe to e-service action
+   */
+  const { openDialog: openSubscribeDialog } = useSubscribeDialog()
+
   const headData = ['nome e-service', 'ente erogatore', 'versione attuale', 'stato e-service', '']
 
   const OwnerTooltip = ({ label = '', iconClass = '' }) => (
@@ -93,6 +57,42 @@ export function EServiceCatalog() {
       <i className={`text-primary ms-2 fs-5 bi ${iconClass}`} />
     </StyledTooltip>
   )
+
+  const getAvailableActions = (
+    eservice: ExtendedEServiceFlatReadType,
+    canSubscribeEservice: boolean
+  ) => {
+    const actions: ActionProps[] = []
+
+    if (!eservice.isMine && isAdmin(party) && eservice.callerSubscribed) {
+      actions.push({
+        to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
+          id: eservice.callerSubscribed,
+        }),
+        component: StyledLink,
+        label: "Vai all'accordo",
+      })
+    }
+
+    if (!eservice.isMine && isAdmin(party) && !eservice.callerSubscribed && canSubscribeEservice) {
+      actions.push({
+        onClick: () => {
+          openSubscribeDialog(eservice)
+        },
+        label: 'Iscriviti',
+      })
+    }
+
+    if (!eservice.isMine && isAdmin(party) && !canSubscribeEservice) {
+      actions.push({
+        onClick: openExtensionDialog,
+        label: 'Richiedi estensione',
+        isMock: true,
+      })
+    }
+
+    return actions
+  }
 
   return (
     <React.Fragment>
@@ -136,37 +136,20 @@ export function EServiceCatalog() {
               <TableCell>{item.version}</TableCell>
               <TableCell>{ESERVICE_STATUS_LABEL[item.status!]}</TableCell>
               <TableCell>
-                {!item.isMine && isAdmin(party) && item.callerSubscribed && (
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                   <StyledButton
-                    to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
-                      id: item.callerSubscribed,
-                    })}
+                    variant="outlined"
                     component={StyledLink}
+                    to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
+                      eserviceId: item.id,
+                      descriptorId: item.descriptorId!,
+                    })}
                   >
-                    Vai all'accordo
+                    Ispeziona
                   </StyledButton>
-                )}
-                {!item.isMine &&
-                  isAdmin(party) &&
-                  !item.callerSubscribed &&
-                  canSubscribeEservice && (
-                    <CatalogSubscribeAction
-                      data={item}
-                      runActionWithDestination={runActionWithDestination}
-                    />
-                  )}
-                {!item.isMine && isAdmin(party) && !canSubscribeEservice && (
-                  <CatalogExtensionAction runFakeAction={runFakeAction} />
-                )}
-                <StyledButton
-                  component={StyledLink}
-                  to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
-                    eserviceId: item.id,
-                    descriptorId: item.descriptorId!,
-                  })}
-                >
-                  Ispeziona
-                </StyledButton>
+
+                  <ActionMenu actions={getAvailableActions(item, canSubscribeEservice)} index={i} />
+                </Box>
               </TableCell>
             </TableRow>
           )

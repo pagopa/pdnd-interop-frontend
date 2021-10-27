@@ -1,22 +1,31 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { EServiceFlatReadType } from '../../types'
 import { StyledInputCheckbox } from '../components/Shared/StyledInputCheckbox'
 import { StyledInputTextArea } from '../components/Shared/StyledInputTextArea'
-import { USER_ROLE_LABEL } from '../lib/constants'
+import { ROUTES, USER_ROLE_LABEL } from '../lib/constants'
 import { DialogContext, PartyContext, UserContext } from '../lib/context'
+import { useFeedback } from './useFeedback'
 
-type UseSubscribeDialogProps = {
-  onProceedCallback: any
-  producerName: string
-}
-
-export const useSubscribeDialog = ({
-  onProceedCallback,
-  producerName,
-}: UseSubscribeDialogProps) => {
+export const useSubscribeDialog = () => {
+  const { runActionWithDestination } = useFeedback()
   const { party } = useContext(PartyContext)
   const { user } = useContext(UserContext)
   const { setDialog } = useContext(DialogContext)
   const [checked, setChecked] = useState<boolean | undefined>(undefined)
+  const [internalEService, setInternalEService] = useState<EServiceFlatReadType | undefined>()
+
+  const wrapSubscribe = (eservice?: EServiceFlatReadType) => async (_: any) => {
+    const agreementData = {
+      eserviceId: eservice?.id,
+      descriptorId: eservice?.descriptorId,
+      consumerId: party?.partyId,
+    }
+
+    await runActionWithDestination(
+      { path: { endpoint: 'AGREEMENT_CREATE' }, config: { data: agreementData } },
+      { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST, suppressToast: false }
+    )
+  }
 
   useEffect(() => {
     if (typeof checked !== 'undefined') {
@@ -24,7 +33,13 @@ export const useSubscribeDialog = ({
     }
   }, [checked]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const openDialog = (_?: any) => {
+  const openDialog = (eservice?: EServiceFlatReadType) => {
+    if (eservice) {
+      // TEMP Refactor: this reeeeally sucks. Find a better way to pass the eservice
+      // without setting it as state from the outside
+      setInternalEService(eservice)
+    }
+
     setDialog({
       title: "Iscriviti all'e-service",
       children: (
@@ -34,7 +49,9 @@ export const useSubscribeDialog = ({
             interoperabilità.
           </p>
           <StyledInputTextArea
-            value={`Accordo di Interoperabilità\n\ntra\n${producerName} (di seguito anche solo “Erogatore”)\n\ne\n${
+            value={`Accordo di Interoperabilità\n\ntra\n${
+              (eservice || internalEService)?.producerName
+            } (di seguito anche solo “Erogatore”)\n\ne\n${
               party?.description
             } (di seguito anche solo “Fruitore”), indirizzo domicilio digitale ${
               party?.digitalAddress
@@ -54,7 +71,7 @@ export const useSubscribeDialog = ({
           />
         </React.Fragment>
       ),
-      proceedCallback: onProceedCallback,
+      proceedCallback: wrapSubscribe(eservice || internalEService),
       close: () => {
         setDialog(null)
         setChecked(undefined)

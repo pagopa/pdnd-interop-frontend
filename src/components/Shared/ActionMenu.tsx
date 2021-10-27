@@ -45,9 +45,9 @@ export const ActionMenu: FunctionComponent<ActionMenuProps> = ({ actions, index 
           'aria-labelledby': 'basic-button',
         }}
       >
-        {actions.map(({ onClick, label }, i) => {
+        {actions.map(({ onClick, label, isMock }, i) => {
           return (
-            <MenuItem key={i} onClick={onClick}>
+            <MenuItem key={i} onClick={onClick} className={`${isMock ? 'mockFeature' : ''}`}>
               {label}
             </MenuItem>
           )
