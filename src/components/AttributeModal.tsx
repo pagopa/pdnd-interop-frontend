@@ -4,7 +4,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { fetchWithLogs } from '../lib/api-utils'
 import { TOAST_CONTENTS } from '../lib/constants'
 import { getFetchOutcome } from '../lib/error-utils'
-import { AsyncAutocomplete } from './Shared/AsyncAutocomplete'
+import { StyledAsyncAutocomplete } from './Shared/StyledAsyncAutocomplete'
 import { StyledAccordion } from './Shared/StyledAccordion'
 import { StyledDialog } from './Shared/StyledDialog'
 import { StyledInputCheckbox } from './Shared/StyledInputCheckbox'
@@ -108,7 +108,7 @@ export function AttributeModalAddExisting({
   const [selected, setSelected] = useState<CatalogAttribute[]>([])
   const [validation, setValidation] = useState(false)
 
-  const updateSelected = (newSelected: CatalogAttribute[]) => {
+  const updateSelected = (_: any, newSelected: CatalogAttribute[]) => {
     setSelected(newSelected)
   }
 
@@ -134,7 +134,7 @@ export function AttributeModalAddExisting({
       disabled={!!(selected.length === 0)}
     >
       <p>Se selezioni più di un attributo verrà trattato come "gruppo"</p>
-      <AsyncAutocomplete
+      <StyledAsyncAutocomplete
         multiple={true}
         selected={selected}
         setSelected={updateSelected}
