@@ -1,12 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StyledInputTextArea } from '../components/Shared/StyledInputTextArea'
 import { DialogContext } from '../lib/context'
+import { useFeedback } from './useFeedback'
 
-type useExtensionDialogProps = {
-  onProceedCallback: any
-}
-
-export const useExtensionDialog = ({ onProceedCallback }: useExtensionDialogProps) => {
+export const useExtensionDialog = () => {
+  const { runFakeAction } = useFeedback()
   const { setDialog } = useContext(DialogContext)
   const [text, setText] = useState<string | undefined>(undefined)
 
@@ -19,6 +17,10 @@ export const useExtensionDialog = ({ onProceedCallback }: useExtensionDialogProp
       openDialog()
     }
   }, [text]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const askExtension = async (_: any) => {
+    await runFakeAction('Richiedi estensione')
+  }
 
   const openDialog = (_?: any) => {
     setDialog({
@@ -33,7 +35,7 @@ export const useExtensionDialog = ({ onProceedCallback }: useExtensionDialogProp
           <StyledInputTextArea value={text || ''} onChange={updateText} />
         </React.Fragment>
       ),
-      proceedCallback: onProceedCallback,
+      proceedCallback: askExtension,
       close: () => {
         setDialog(null)
         setText(undefined)

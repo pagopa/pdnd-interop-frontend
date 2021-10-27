@@ -4,6 +4,7 @@ import has from 'lodash/has'
 import {
   AttributeType,
   BackendAttribute,
+  EServiceFlatReadType,
   EServiceReadType,
   GroupBackendAttribute,
   SingleBackendAttribute,
@@ -30,7 +31,7 @@ type EServiceReadProps = {
 }
 
 export function EServiceRead({ data }: EServiceReadProps) {
-  const { runAction, runFakeAction, runActionWithDestination } = useFeedback()
+  const { runAction } = useFeedback()
   const { party } = useContext(PartyContext)
   const mode = useMode()
 
@@ -44,30 +45,8 @@ export function EServiceRead({ data }: EServiceReadProps) {
   /*
    * List of possible actions for the user to perform
    */
-  const subscribe = async () => {
-    const agreementData = {
-      eserviceId: data.id,
-      descriptorId: data.activeDescriptor!.id,
-      consumerId: party?.partyId,
-    }
-
-    await runActionWithDestination(
-      { path: { endpoint: 'AGREEMENT_CREATE' }, config: { data: agreementData } },
-      { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST, suppressToast: false }
-    )
-  }
-
-  const askExtension = () => {
-    runFakeAction('Richiedi estensione')
-  }
-
-  const { openDialog: openSubscribeDialog } = useSubscribeDialog({
-    onProceedCallback: subscribe,
-    producerName: data.producer.name,
-  })
-  const { openDialog: openExtensionDialog } = useExtensionDialog({
-    onProceedCallback: askExtension,
-  })
+  const { openDialog: openSubscribeDialog } = useSubscribeDialog()
+  const { openDialog: openExtensionDialog } = useExtensionDialog()
   /*
    * End list of actions
    */
@@ -136,6 +115,18 @@ export function EServiceRead({ data }: EServiceReadProps) {
 
       return { summary, details }
     })
+  }
+
+  const handleSubscriptionDialog = () => {
+    const flatEService: EServiceFlatReadType = {
+      name: data.name,
+      id: data.id,
+      producerId: data.producer.id,
+      producerName: data.producer.name,
+      certifiedAttributes: data.attributes.certified,
+    }
+
+    openSubscribeDialog(flatEService)
   }
 
   return (
@@ -229,7 +220,7 @@ export function EServiceRead({ data }: EServiceReadProps) {
       {mode === 'subscriber' && (
         <div className="d-flex">
           {isVersionPublished && !isMine && isAdmin(party) && canSubscribeEservice && (
-            <StyledButton className="me-3" variant="contained" onClick={openSubscribeDialog}>
+            <StyledButton className="me-3" variant="contained" onClick={handleSubscriptionDialog}>
               Iscriviti
             </StyledButton>
           )}

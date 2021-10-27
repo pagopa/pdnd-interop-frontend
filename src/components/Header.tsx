@@ -54,7 +54,7 @@ export function Header() {
               <Typography variant="caption">Il catalogo degli e-service delle PA</Typography>
             </Box>
 
-            {isInPlatform(location) && (
+            {isInPlatform(location) && party !== null && (
               <FormControl variant="standard">
                 <Select
                   sx={{ color: 'common.white', minWidth: 260 }}
