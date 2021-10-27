@@ -7,8 +7,6 @@ import {
   EServiceDescriptorRead,
   EServiceFlatReadType,
   EServiceStatus,
-  ActionBtn,
-  ActionLink,
   ActionProps,
 } from '../../types'
 import { TableWithLoader } from '../components/TableWithLoader'
@@ -143,47 +141,62 @@ export function EServiceList() {
     const { id: eserviceId, descriptorId, status } = service
 
     const suspendAction = {
-      onClick: wrapActionInDialog(
-        wrapSuspend(eserviceId, descriptorId),
-        'ESERVICE_VERSION_SUSPEND'
-      ),
+      btnProps: {
+        onClick: wrapActionInDialog(
+          wrapSuspend(eserviceId, descriptorId),
+          'ESERVICE_VERSION_SUSPEND'
+        ),
+      },
       label: 'Sospendi',
     }
     const reactivateAction = {
-      onClick: wrapActionInDialog(
-        wrapReactivate(eserviceId, descriptorId),
-        'ESERVICE_VERSION_REACTIVATE'
-      ),
+      btnProps: {
+        onClick: wrapActionInDialog(
+          wrapReactivate(eserviceId, descriptorId),
+          'ESERVICE_VERSION_REACTIVATE'
+        ),
+      },
       label: 'Riattiva',
     }
     const cloneAction = {
-      onClick: wrapActionInDialog(
-        wrapClone(eserviceId, descriptorId),
-        'ESERVICE_CLONE_FROM_VERSION'
-      ),
+      btnProps: {
+        onClick: wrapActionInDialog(
+          wrapClone(eserviceId, descriptorId),
+          'ESERVICE_CLONE_FROM_VERSION'
+        ),
+      },
       label: 'Clona',
     }
     const createVersionDraftAction = {
-      onClick: wrapActionInDialog(wrapCreateNewVersionDraft(eserviceId), 'ESERVICE_VERSION_CREATE'),
+      btnProps: {
+        onClick: wrapActionInDialog(
+          wrapCreateNewVersionDraft(eserviceId),
+          'ESERVICE_VERSION_CREATE'
+        ),
+      },
       label: 'Crea bozza nuova versione',
     }
     const archiveAction = {
-      onClick: wrapActionInDialog(archive),
+      btnProps: { onClick: wrapActionInDialog(archive) },
       label: 'Archivia',
       isMock: true,
     }
     const publishDraftAction = {
-      onClick: wrapActionInDialog(
-        wrapPublishDraft(eserviceId, descriptorId),
-        'ESERVICE_VERSION_PUBLISH'
-      ),
+      btnProps: {
+        onClick: wrapActionInDialog(
+          wrapPublishDraft(eserviceId, descriptorId),
+          'ESERVICE_VERSION_PUBLISH'
+        ),
+      },
       label: 'Pubblica',
     }
     const deleteDraftAction = {
-      onClick: wrapActionInDialog(
-        wrapDeleteDraft(eserviceId, descriptorId),
-        'ESERVICE_VERSION_DELETE'
-      ),
+      btnProps: {
+        onClick: wrapActionInDialog(
+          wrapDeleteDraft(eserviceId, descriptorId),
+          'ESERVICE_VERSION_DELETE'
+        ),
+      },
       label: 'Elimina',
     }
 
@@ -197,10 +210,13 @@ export function EServiceList() {
 
     // If status === 'draft', show precompiled write template. Else, readonly template
     const inspectAction = {
-      to: buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE_EDIT.PATH, {
-        eserviceId,
-        descriptorId: descriptorId || 'prima-bozza',
-      }),
+      btnProps: {
+        to: buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE_EDIT.PATH, {
+          eserviceId,
+          descriptorId: descriptorId || 'prima-bozza',
+        }),
+        component: StyledLink,
+      },
       label: !status || status === 'draft' ? 'Modifica' : 'Ispeziona',
     }
 
@@ -250,25 +266,9 @@ export function EServiceList() {
               <td>{item.version || '1'}</td>
               <td>{ESERVICE_STATUS_LABEL[item.status || 'draft']}</td>
               <td>
-                {getAvailableActions(item).map((tableAction, j) => {
-                  const btnProps: any = {}
-
-                  if ((tableAction as ActionLink).to) {
-                    btnProps.component = StyledLink
-                    btnProps.to = (tableAction as ActionLink).to
-                  } else {
-                    btnProps.onClick = (tableAction as ActionBtn).onClick
-                  }
-
-                  return (
-                    <Action
-                      key={j}
-                      btnProps={btnProps}
-                      label={tableAction.label}
-                      isMock={tableAction.isMock}
-                    />
-                  )
-                })}
+                {getAvailableActions(item).map((actionProps, j) => (
+                  <Action key={j} {...actionProps} />
+                ))}
               </td>
             </tr>
           ))}

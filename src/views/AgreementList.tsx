@@ -1,14 +1,7 @@
 import React, { useContext } from 'react'
 import { AGREEMENT_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import {
-  AgreementStatus,
-  AgreementSummary,
-  ActionBtn,
-  ActionLink,
-  ActionProps,
-  ProviderOrSubscriber,
-} from '../../types'
+import { AgreementStatus, AgreementSummary, ProviderOrSubscriber, ActionProps } from '../../types'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { Action } from '../components/Action'
 import { StyledIntro } from '../components/Shared/StyledIntro'
@@ -18,7 +11,6 @@ import { TempFilters } from '../components/TempFilters'
 import { mergeActions } from '../lib/eservice-utils'
 import { getAgreementStatus } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
-import { StyledLink } from '../components/Shared/StyledLink'
 
 export function AgreementList() {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -85,16 +77,16 @@ export function AgreementList() {
     const sharedActions: AgreementActions = {
       active: [
         {
-          onClick: wrapActionInDialog(wrapSuspend(agreement.id), 'AGREEMENT_SUSPEND'),
+          btnProps: { onClick: wrapActionInDialog(wrapSuspend(agreement.id), 'AGREEMENT_SUSPEND') },
           label: 'Sospendi',
-          icon: 'bi-pause-circle',
         },
       ],
       suspended: [
         {
-          onClick: wrapActionInDialog(wrapActivate(agreement.id), 'AGREEMENT_ACTIVATE'),
+          btnProps: {
+            onClick: wrapActionInDialog(wrapActivate(agreement.id), 'AGREEMENT_ACTIVATE'),
+          },
           label: 'Riattiva',
-          icon: 'bi-play-circle',
         },
       ],
       pending: [],
@@ -104,9 +96,8 @@ export function AgreementList() {
     const subscriberOnlyActionsActive: ActionProps[] = []
     if (agreement.eservice.activeDescriptor) {
       subscriberOnlyActionsActive.push({
-        onClick: wrapActionInDialog(wrapUpgrade(agreement.id), 'AGREEMENT_UPGRADE'),
+        btnProps: { onClick: wrapActionInDialog(wrapUpgrade(agreement.id), 'AGREEMENT_UPGRADE') },
         label: 'Aggiorna',
-        icon: 'bi-arrow-up-square',
       })
     }
 
@@ -122,9 +113,10 @@ export function AgreementList() {
       suspended: [],
       pending: [
         {
-          onClick: wrapActionInDialog(wrapActivate(agreement.id), 'AGREEMENT_ACTIVATE'),
+          btnProps: {
+            onClick: wrapActionInDialog(wrapActivate(agreement.id), 'AGREEMENT_ACTIVATE'),
+          },
           label: 'Attiva',
-          icon: 'bi-toggle2-on',
         },
       ],
       inactive: [],
@@ -143,7 +135,6 @@ export function AgreementList() {
       to: `${
         ROUTES[mode === 'provider' ? 'PROVIDE' : 'SUBSCRIBE'].SUBROUTES!.AGREEMENT_LIST.PATH
       }/${agreement.id}`,
-      icon: 'bi-info-circle',
       label: 'Ispeziona',
     }
 
@@ -194,24 +185,8 @@ export function AgreementList() {
               <td>{AGREEMENT_STATUS_LABEL[item.status]}</td>
               <td>{mode === 'provider' ? item.consumer.name : item.producer.name}</td>
               <td>
-                {getAvailableActions(item).map((tableAction, j) => {
-                  const btnProps: any = {}
-
-                  if ((tableAction as ActionLink).to) {
-                    btnProps.component = StyledLink
-                    btnProps.to = (tableAction as ActionLink).to
-                  } else {
-                    btnProps.onClick = (tableAction as ActionBtn).onClick
-                  }
-
-                  return (
-                    <Action
-                      key={j}
-                      btnProps={btnProps}
-                      label={tableAction.label}
-                      isMock={tableAction.isMock}
-                    />
-                  )
+                {getAvailableActions(item).map((actionProps, j) => {
+                  return <Action key={j} {...actionProps} />
                 })}
               </td>
             </tr>

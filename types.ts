@@ -1,5 +1,5 @@
 import { AxiosRequestConfig, Method } from 'axios'
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import {
   AGREEMENT_STATUS_LABEL,
   API,
@@ -357,7 +357,7 @@ export type FrontendAttributes = {
  * Dialog, loader and toast components typings
  * Here because they reflect onto React state updates
  */
-export type ActionFunction = ((event?: any) => Promise<void>) | VoidFunction
+export type ActionFunction = ((_: any) => Promise<void>) | VoidFunction
 
 export type RunActionProps = {
   loadingText: string
@@ -408,15 +408,13 @@ export type LoaderType = 'global' | 'contextual'
  * Action buttons in tables
  */
 export type ActionBtn = {
-  onClick: ActionFunction
-  icon?: string
+  onClick?: ActionFunction
+  component?: FunctionComponent<any>
+  to?: string
+}
+
+export type ActionProps = {
+  btnProps: ActionBtn
   label: string
   isMock?: boolean
 }
-export type ActionLink = {
-  to: string
-  icon?: string
-  label: string
-  isMock?: boolean
-}
-export type ActionProps = ActionBtn | ActionLink

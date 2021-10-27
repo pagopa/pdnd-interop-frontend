@@ -2,11 +2,12 @@ import React, { FunctionComponent } from 'react'
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { Box } from '@mui/system'
 import { StyledButton } from './StyledButton'
+import { ActionFunction } from '../../../types'
 
 type ConfirmationDialogOverlayProps = {
   title?: string
   close: VoidFunction
-  proceedCallback: VoidFunction
+  proceedCallback: ActionFunction
   proceedLabel?: string
   disabled?: boolean
   minWidth?: number | string
