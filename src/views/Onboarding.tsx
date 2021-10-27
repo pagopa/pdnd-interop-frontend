@@ -6,7 +6,7 @@ import {
   StepperStep,
   User,
 } from '../../types'
-import { Stepper } from '../components/Shared/Stepper'
+import { StyledStepper } from '../components/Shared/StyledStepper'
 import { OnboardingStep1 } from '../components/OnboardingStep1'
 import { OnboardingStep2 } from '../components/OnboardingStep2'
 import { OnboardingStep3 } from '../components/OnboardingStep3'
@@ -116,7 +116,7 @@ export function Onboarding() {
 
   return !outcome ? (
     <React.Fragment>
-      <Stepper steps={STEPS} activeIndex={activeStep} />
+      <StyledStepper steps={STEPS} activeIndex={activeStep} />
       <Step {...stepsProps[activeStep]} />
       {loading && <LoadingOverlay loadingText="Stiamo verificando i tuoi dati" />}
     </React.Fragment>
