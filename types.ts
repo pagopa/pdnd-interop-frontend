@@ -303,6 +303,13 @@ export type Client = {
 }
 
 /*
+ * Public keys
+ */
+export type SecurityOperatorPublicKey = {
+  kid: string
+}
+
+/*
  * Attributes
  */
 export type AttributeModalTemplate = 'add' | 'create'

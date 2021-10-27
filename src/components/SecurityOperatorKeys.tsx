@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AxiosResponse } from 'axios'
 import isEmpty from 'lodash/isEmpty'
-import { ToastContentWithOutcome, User } from '../../types'
+import { ActionProps, SecurityOperatorPublicKey, ToastContentWithOutcome, User } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { getFetchOutcome } from '../lib/error-utils'
 import { Action } from './Action'
@@ -108,14 +108,16 @@ export function SecurityOperatorKeys({
     )
   }
 
-  const getAvailableActions = (key: any) => {
-    const actions: any = [
+  const getAvailableActions = (key: SecurityOperatorPublicKey) => {
+    const actions: ActionProps[] = [
       {
-        onClick: wrapDownloadKey(key.key.kid),
+        btnProps: { onClick: wrapDownloadKey(key.kid) },
         label: 'Scarica chiave',
       },
       {
-        onClick: wrapActionInDialog(wrapDeleteKey(key.key.kid), 'OPERATOR_SECURITY_KEY_DELETE'),
+        btnProps: {
+          onClick: wrapActionInDialog(wrapDeleteKey(key.kid), 'OPERATOR_SECURITY_KEY_DELETE'),
+        },
         label: 'Cancella chiave',
       },
     ]
@@ -155,16 +157,9 @@ export function SecurityOperatorKeys({
           <div className="d-flex justify-content-between align-items-center border-top border-bottom py-3">
             <span>Chiave pubblica</span>
             <div>
-              {getAvailableActions(key).map((tableAction: any, j: number) => {
-                return (
-                  <Action
-                    key={j}
-                    btnProps={{ onClick: tableAction.onClick }}
-                    label={tableAction.label}
-                    isMock={tableAction.isMock}
-                  />
-                )
-              })}
+              {getAvailableActions(key.key).map((actionProps, j) => (
+                <Action key={j} {...actionProps} />
+              ))}
             </div>
           </div>
           <div className="mt-4">

@@ -185,9 +185,9 @@ export function AgreementList() {
               <td>{AGREEMENT_STATUS_LABEL[item.status]}</td>
               <td>{mode === 'provider' ? item.consumer.name : item.producer.name}</td>
               <td>
-                {getAvailableActions(item).map((actionProps, j) => {
-                  return <Action key={j} {...actionProps} />
-                })}
+                {getAvailableActions(item).map((actionProps, j) => (
+                  <Action key={j} {...actionProps} />
+                ))}
               </td>
             </tr>
           ))}
