@@ -47,7 +47,6 @@ export function TempSPIDUser() {
                 prefix="spid"
                 people={data}
                 setPeople={setData}
-                white={true}
               />
 
               <StyledButton

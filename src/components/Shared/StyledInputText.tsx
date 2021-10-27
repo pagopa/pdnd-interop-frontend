@@ -1,7 +1,6 @@
 import React from 'react'
-import { Form } from 'react-bootstrap'
+import { Input, FormControl, FormLabel, InputBaseComponentProps } from '@mui/material'
 import { InfoTooltip } from './InfoTooltip'
-import { StyledInputLabel } from './StyledInputLabel'
 
 export type StyledInputTextType = 'text' | 'email' | 'number'
 
@@ -15,8 +14,7 @@ type StyledInputTextProps = {
   onChange?: any
   className?: string
   tooltipLabel?: string
-  min?: number | string | undefined
-  white?: boolean
+  inputProps?: InputBaseComponentProps
 }
 
 export function StyledInputText({
@@ -27,28 +25,25 @@ export function StyledInputText({
   readOnly = false,
   value,
   onChange,
-  className = 'mt-4 mb-3',
   tooltipLabel,
-  min,
-  white,
+  inputProps,
 }: StyledInputTextProps) {
   return (
-    <div className={className}>
-      <div className="d-flex align-contents-center">
-        <StyledInputLabel label={label} id={id} white={white} />{' '}
-        {tooltipLabel && <InfoTooltip label={tooltipLabel} />}
-      </div>
+    <FormControl component="fieldset" sx={{ display: 'block' }}>
+      <FormLabel component="legend">
+        {label} {tooltipLabel && <InfoTooltip label={tooltipLabel} />}
+      </FormLabel>
 
-      <Form.Control
+      <Input
+        fullWidth
         id={id}
-        className="py-3"
+        disabled={readOnly}
+        onChange={onChange}
         type={type}
         placeholder={placeholder}
         value={value}
-        onChange={onChange}
-        readOnly={readOnly}
-        min={min}
+        inputProps={inputProps}
       />
-    </div>
+    </FormControl>
   )
 }
