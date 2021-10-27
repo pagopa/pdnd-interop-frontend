@@ -1,6 +1,5 @@
 import React from 'react'
-import { Form } from 'react-bootstrap'
-import { StyledInputLabel } from './StyledInputLabel'
+import { Checkbox, FormControl, FormControlLabel, FormLabel, FormGroup } from '@mui/material'
 
 type StyledInputCheckboxProps = {
   id: string
@@ -16,38 +15,36 @@ type StyledInputCheckboxProps = {
 export function StyledInputCheckbox({
   groupLabel,
   label,
-  id,
   checked,
   onChange,
   inline = false,
   readOnly = false,
-  className = 'mt-4 mb-3',
 }: StyledInputCheckboxProps) {
   if (inline) {
     return (
-      <Form.Check
-        className="mt-2"
-        onChange={onChange}
+      <FormControlLabel
+        sx={{ display: 'block' }}
         checked={checked}
-        type="checkbox"
-        id={id}
-        label={label}
+        onChange={onChange}
         disabled={readOnly}
+        control={<Checkbox />}
+        label={label}
       />
     )
   }
 
   return (
-    <div className={className}>
-      {groupLabel && <StyledInputLabel label={groupLabel!} isHTMLLabelElement={false} />}
-      <Form.Check
-        type="checkbox"
-        id={id}
-        label={label}
-        checked={checked}
-        onChange={onChange}
-        disabled={readOnly}
-      />
-    </div>
+    <FormControl component="fieldset" sx={{ display: 'block' }}>
+      <FormLabel component="legend">{groupLabel}</FormLabel>
+      <FormGroup>
+        <FormControlLabel
+          checked={checked}
+          onChange={onChange}
+          disabled={readOnly}
+          control={<Checkbox />}
+          label={label}
+        />
+      </FormGroup>
+    </FormControl>
   )
 }
