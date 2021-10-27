@@ -8,8 +8,11 @@ import logo from '../assets/pagopa-logo-white.svg'
 import { Box } from '@mui/system'
 import { FormControl, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
 import { StyledLink } from './Shared/StyledLink'
+import { isInPlatform } from '../lib/router-utils'
+import { useLocation } from 'react-router'
 
 export function Header() {
+  const location = useLocation()
   const { party, availableParties, setParty } = useContext(PartyContext)
   const { user } = useContext(UserContext)
   const { PATH: btnPath, LABEL: btnLabel } = user ? ROUTES.LOGOUT : ROUTES.LOGIN
@@ -51,7 +54,7 @@ export function Header() {
               <Typography variant="caption">Il catalogo degli e-service delle PA</Typography>
             </Box>
 
-            {party !== null && (
+            {isInPlatform(location) && (
               <FormControl variant="standard">
                 <Select
                   sx={{ color: 'common.white', minWidth: 260 }}
