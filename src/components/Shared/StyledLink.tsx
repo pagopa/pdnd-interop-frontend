@@ -6,14 +6,12 @@ type StyledLinkProps = {
   to: string
 }
 
-export const StyledLink: FunctionComponent<StyledLinkProps & LinkProps> = ({
-  children,
-  to,
-  ...props
-}) => {
-  return (
-    <MUILink component={RouterLink} to={to} {...props}>
-      {children}
-    </MUILink>
-  )
-}
+export const StyledLink: FunctionComponent<StyledLinkProps & LinkProps> = React.forwardRef(
+  ({ children, to, ...props }, ref) => {
+    return (
+      <MUILink component={RouterLink} to={to} {...props} ref={ref}>
+        {children}
+      </MUILink>
+    )
+  }
+)

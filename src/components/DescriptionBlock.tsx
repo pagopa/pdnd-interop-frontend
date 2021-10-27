@@ -14,7 +14,7 @@ export const DescriptionBlock: FunctionComponent<DescriptionBlockProps> = ({
   return (
     <div className="mb-3">
       <strong>{label}</strong>
-      {tooltipLabel && <InfoTooltip className="ms-2" label={tooltipLabel} />}
+      {tooltipLabel && <InfoTooltip label={tooltipLabel} />}
       <br />
       {children}
     </div>
