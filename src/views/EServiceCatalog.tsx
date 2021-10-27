@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { EServiceFlatReadType } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { ActionWithTooltip } from '../components/ActionWithTooltip'
+import { Action } from '../components/Action'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
@@ -26,12 +26,7 @@ function CatalogExtensionAction({ runFakeAction }: { runFakeAction: any }) {
   })
 
   return (
-    <ActionWithTooltip
-      btnProps={{ onClick: openExtensionDialog }}
-      label="Richiedi estensione"
-      iconClass={'bi-chat-square-text'}
-      isMock={true}
-    />
+    <Action btnProps={{ onClick: openExtensionDialog }} label="Richiedi estensione" isMock={true} />
   )
 }
 
@@ -62,13 +57,7 @@ function CatalogSubscribeAction({
     producerName: data.producerName,
   })
 
-  return (
-    <ActionWithTooltip
-      btnProps={{ onClick: openSubscribeDialog }}
-      label="Iscriviti"
-      iconClass={'bi-pencil-square'}
-    />
-  )
+  return <Action btnProps={{ onClick: openSubscribeDialog }} label="Iscriviti" />
 }
 
 type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
@@ -145,7 +134,7 @@ export function EServiceCatalog() {
               <td>{ESERVICE_STATUS_LABEL[item.status!]}</td>
               <td>
                 {!item.isMine && isAdmin(party) && item.callerSubscribed && (
-                  <ActionWithTooltip
+                  <Action
                     btnProps={{
                       to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
                         id: item.callerSubscribed,
@@ -153,7 +142,6 @@ export function EServiceCatalog() {
                       component: StyledLink,
                     }}
                     label="Vai all'accordo"
-                    iconClass={'bi-link'}
                   />
                 )}
                 {!item.isMine &&
@@ -168,7 +156,7 @@ export function EServiceCatalog() {
                 {!item.isMine && isAdmin(party) && !canSubscribeEservice && (
                   <CatalogExtensionAction runFakeAction={runFakeAction} />
                 )}
-                <ActionWithTooltip
+                <Action
                   btnProps={{
                     component: StyledLink,
                     to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
@@ -177,7 +165,6 @@ export function EServiceCatalog() {
                     }),
                   }}
                   label="Ispeziona"
-                  iconClass={'bi-info-circle'}
                 />
               </td>
             </tr>

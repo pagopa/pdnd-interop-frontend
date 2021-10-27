@@ -2,14 +2,14 @@ import React, { useContext } from 'react'
 import { useLocation } from 'react-router'
 import {
   ProviderOrSubscriber,
-  ActionWithTooltipBtn,
-  ActionWithTooltipLink,
-  ActionWithTooltipProps,
   User,
   UserStatus,
+  ActionBtn,
+  ActionLink,
+  ActionProps,
 } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { ActionWithTooltip } from '../components/ActionWithTooltip'
+import { Action } from '../components/Action'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import {
@@ -115,7 +115,7 @@ export function UserList() {
       icon: 'bi-play-circle',
     }
 
-    const availableActions: { [key in UserStatus]: ActionWithTooltipProps[] } = {
+    const availableActions: { [key in UserStatus]: ActionProps[] } = {
       pending: [],
       active: [suspendAction],
       suspended: [reactivateAction],
@@ -142,7 +142,7 @@ export function UserList() {
     }
 
     // Get all the actions available for this particular status
-    const actions: ActionWithTooltipProps[] = availableActions[status!] || []
+    const actions: ActionProps[] = availableActions[status!] || []
 
     // Add the last action, which is always EDIT/INSPECT
     actions.push(inspectAction)
@@ -225,21 +225,14 @@ export function UserList() {
                 {getAvailableActions(item).map((tableAction, j) => {
                   const btnProps: any = {}
 
-                  if ((tableAction as ActionWithTooltipLink).to) {
+                  if ((tableAction as ActionLink).to) {
                     btnProps.component = StyledLink
-                    btnProps.to = (tableAction as ActionWithTooltipLink).to
+                    btnProps.to = (tableAction as ActionLink).to
                   } else {
-                    btnProps.onClick = (tableAction as ActionWithTooltipBtn).onClick
+                    btnProps.onClick = (tableAction as ActionBtn).onClick
                   }
 
-                  return (
-                    <ActionWithTooltip
-                      key={j}
-                      btnProps={btnProps}
-                      label={tableAction.label}
-                      iconClass={tableAction.icon!}
-                    />
-                  )
+                  return <Action key={j} btnProps={btnProps} label={tableAction.label} />
                 })}
               </td>
             </tr>

@@ -407,16 +407,16 @@ export type LoaderType = 'global' | 'contextual'
 /*
  * Action buttons in tables
  */
-export type ActionWithTooltipBtn = {
+export type ActionBtn = {
   onClick: ActionFunction
   icon?: string
   label: string
   isMock?: boolean
 }
-export type ActionWithTooltipLink = {
+export type ActionLink = {
   to: string
   icon?: string
   label: string
   isMock?: boolean
 }
-export type ActionWithTooltipProps = ActionWithTooltipBtn | ActionWithTooltipLink
+export type ActionProps = ActionBtn | ActionLink

@@ -7,12 +7,12 @@ import {
   EServiceDescriptorRead,
   EServiceFlatReadType,
   EServiceStatus,
-  ActionWithTooltipBtn,
-  ActionWithTooltipLink,
-  ActionWithTooltipProps,
+  ActionBtn,
+  ActionLink,
+  ActionProps,
 } from '../../types'
 import { TableWithLoader } from '../components/TableWithLoader'
-import { ActionWithTooltip } from '../components/ActionWithTooltip'
+import { Action } from '../components/Action'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
@@ -137,7 +137,7 @@ export function EServiceList() {
    * End list of actions
    */
 
-  type EServiceAction = { [key in EServiceStatus]: Array<ActionWithTooltipProps | null> }
+  type EServiceAction = { [key in EServiceStatus]: Array<ActionProps | null> }
   // Build list of available actions for each service in its current state
   const getAvailableActions = (service: EServiceFlatReadType) => {
     const { id: eserviceId, descriptorId, status } = service
@@ -147,7 +147,6 @@ export function EServiceList() {
         wrapSuspend(eserviceId, descriptorId),
         'ESERVICE_VERSION_SUSPEND'
       ),
-      icon: 'bi-pause-circle',
       label: 'Sospendi',
     }
     const reactivateAction = {
@@ -155,7 +154,6 @@ export function EServiceList() {
         wrapReactivate(eserviceId, descriptorId),
         'ESERVICE_VERSION_REACTIVATE'
       ),
-      icon: 'bi-play-circle',
       label: 'Riattiva',
     }
     const cloneAction = {
@@ -163,17 +161,14 @@ export function EServiceList() {
         wrapClone(eserviceId, descriptorId),
         'ESERVICE_CLONE_FROM_VERSION'
       ),
-      icon: 'bi-files',
       label: 'Clona',
     }
     const createVersionDraftAction = {
       onClick: wrapActionInDialog(wrapCreateNewVersionDraft(eserviceId), 'ESERVICE_VERSION_CREATE'),
-      icon: 'bi-clipboard-plus',
       label: 'Crea bozza nuova versione',
     }
     const archiveAction = {
       onClick: wrapActionInDialog(archive),
-      icon: 'bi-archive',
       label: 'Archivia',
       isMock: true,
     }
@@ -182,7 +177,6 @@ export function EServiceList() {
         wrapPublishDraft(eserviceId, descriptorId),
         'ESERVICE_VERSION_PUBLISH'
       ),
-      icon: 'bi-box-arrow-up',
       label: 'Pubblica',
     }
     const deleteDraftAction = {
@@ -190,7 +184,6 @@ export function EServiceList() {
         wrapDeleteDraft(eserviceId, descriptorId),
         'ESERVICE_VERSION_DELETE'
       ),
-      icon: 'bi-trash',
       label: 'Elimina',
     }
 
@@ -208,14 +201,11 @@ export function EServiceList() {
         eserviceId,
         descriptorId: descriptorId || 'prima-bozza',
       }),
-      icon: !status || status === 'draft' ? 'bi-pencil' : 'bi-info-circle',
       label: !status || status === 'draft' ? 'Modifica' : 'Ispeziona',
     }
 
     // Get all the actions available for this particular status
-    const actions = availableActions[status || 'draft'].filter(
-      (a) => a !== null
-    ) as ActionWithTooltipProps[]
+    const actions = availableActions[status || 'draft'].filter((a) => a !== null) as ActionProps[]
 
     // Add the last action, which is always EDIT/INSPECT
     actions.push(inspectAction)
@@ -263,19 +253,18 @@ export function EServiceList() {
                 {getAvailableActions(item).map((tableAction, j) => {
                   const btnProps: any = {}
 
-                  if ((tableAction as ActionWithTooltipLink).to) {
+                  if ((tableAction as ActionLink).to) {
                     btnProps.component = StyledLink
-                    btnProps.to = (tableAction as ActionWithTooltipLink).to
+                    btnProps.to = (tableAction as ActionLink).to
                   } else {
-                    btnProps.onClick = (tableAction as ActionWithTooltipBtn).onClick
+                    btnProps.onClick = (tableAction as ActionBtn).onClick
                   }
 
                   return (
-                    <ActionWithTooltip
+                    <Action
                       key={j}
                       btnProps={btnProps}
                       label={tableAction.label}
-                      iconClass={tableAction.icon!}
                       isMock={tableAction.isMock}
                     />
                   )

@@ -4,13 +4,13 @@ import { PartyContext } from '../lib/context'
 import {
   AgreementStatus,
   AgreementSummary,
-  ActionWithTooltipBtn,
-  ActionWithTooltipLink,
-  ActionWithTooltipProps,
+  ActionBtn,
+  ActionLink,
+  ActionProps,
   ProviderOrSubscriber,
 } from '../../types'
 import { TableWithLoader } from '../components/TableWithLoader'
-import { ActionWithTooltip } from '../components/ActionWithTooltip'
+import { Action } from '../components/Action'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useMode } from '../hooks/useMode'
@@ -79,7 +79,7 @@ export function AgreementList() {
    * End list of actions
    */
 
-  type AgreementActions = { [key in AgreementStatus]: ActionWithTooltipProps[] }
+  type AgreementActions = { [key in AgreementStatus]: ActionProps[] }
   // Build list of available actions for each service in its current state
   const getAvailableActions = (agreement: AgreementSummary) => {
     const sharedActions: AgreementActions = {
@@ -101,7 +101,7 @@ export function AgreementList() {
       inactive: [],
     }
 
-    const subscriberOnlyActionsActive: ActionWithTooltipProps[] = []
+    const subscriberOnlyActionsActive: ActionProps[] = []
     if (agreement.eservice.activeDescriptor) {
       subscriberOnlyActionsActive.push({
         onClick: wrapActionInDialog(wrapUpgrade(agreement.id), 'AGREEMENT_UPGRADE'),
@@ -197,19 +197,18 @@ export function AgreementList() {
                 {getAvailableActions(item).map((tableAction, j) => {
                   const btnProps: any = {}
 
-                  if ((tableAction as ActionWithTooltipLink).to) {
+                  if ((tableAction as ActionLink).to) {
                     btnProps.component = StyledLink
-                    btnProps.to = (tableAction as ActionWithTooltipLink).to
+                    btnProps.to = (tableAction as ActionLink).to
                   } else {
-                    btnProps.onClick = (tableAction as ActionWithTooltipBtn).onClick
+                    btnProps.onClick = (tableAction as ActionBtn).onClick
                   }
 
                   return (
-                    <ActionWithTooltip
+                    <Action
                       key={j}
                       btnProps={btnProps}
                       label={tableAction.label}
-                      iconClass={tableAction.icon!}
                       isMock={tableAction.isMock}
                     />
                   )

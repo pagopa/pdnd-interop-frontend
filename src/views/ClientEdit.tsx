@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useLocation } from 'react-router-dom'
-import { Client, ClientStatus, ActionWithTooltipBtn } from '../../types'
+import { Client, ClientStatus, ActionBtn } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -65,7 +65,7 @@ export function ClientEdit() {
       return []
     }
 
-    const actions: { [key in ClientStatus]: ActionWithTooltipBtn[] } = {
+    const actions: { [key in ClientStatus]: ActionBtn[] } = {
       active: [{ onClick: wrapActionInDialog(suspend, 'CLIENT_SUSPEND'), label: 'Sospendi' }],
       suspended: [
         { onClick: wrapActionInDialog(reactivate, 'CLIENT_ACTIVATE'), label: 'Riattiva' },

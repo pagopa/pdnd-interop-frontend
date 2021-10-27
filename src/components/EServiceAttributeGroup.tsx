@@ -8,7 +8,7 @@ import {
 } from '../../types'
 import { AttributeModal } from './AttributeModal'
 import { Overlay } from './Overlay'
-import { ActionWithTooltip } from './ActionWithTooltip'
+import { Action } from './Action'
 import { TableWithLoader } from './TableWithLoader'
 import { ToastContext } from '../lib/context'
 import { StyledButton } from './Shared/StyledButton'
@@ -71,9 +71,8 @@ export function EServiceAttributeGroup({
               />
               {canRequireVerification && <td>{explicitAttributeVerification ? 'Sì' : 'No'}</td>}
               <td>
-                <ActionWithTooltip
+                <Action
                   label="Elimina"
-                  iconClass="bi-trash"
                   btnProps={{
                     onClick: () => {
                       remove(attributes)

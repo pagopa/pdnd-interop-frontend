@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty'
 import { ToastContentWithOutcome, User } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { getFetchOutcome } from '../lib/error-utils'
-import { ActionWithTooltip } from './ActionWithTooltip'
+import { Action } from './Action'
 import { CreateKeyModal } from './CreateKeyModal'
 import { StyledIntro } from './Shared/StyledIntro'
 import { ToastContext, UserContext } from '../lib/context'
@@ -113,12 +113,10 @@ export function SecurityOperatorKeys({
       {
         onClick: wrapDownloadKey(key.key.kid),
         label: 'Scarica chiave',
-        icon: 'bi-download',
       },
       {
         onClick: wrapActionInDialog(wrapDeleteKey(key.key.kid), 'OPERATOR_SECURITY_KEY_DELETE'),
         label: 'Cancella chiave',
-        icon: 'bi-trash',
       },
     ]
 
@@ -159,11 +157,10 @@ export function SecurityOperatorKeys({
             <div>
               {getAvailableActions(key).map((tableAction: any, j: number) => {
                 return (
-                  <ActionWithTooltip
+                  <Action
                     key={j}
                     btnProps={{ onClick: tableAction.onClick }}
                     label={tableAction.label}
-                    iconClass={tableAction.icon}
                     isMock={tableAction.isMock}
                   />
                 )

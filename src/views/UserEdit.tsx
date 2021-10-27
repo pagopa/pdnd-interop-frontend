@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import { useLocation } from 'react-router-dom'
-import { ActionWithTooltipBtn, ApiEndpointKey, User, UserStatus } from '../../types'
+import { ActionBtn, ApiEndpointKey, User, UserStatus } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -96,7 +96,7 @@ export function UserEdit() {
   /*
    * End list of actions
    */
-  type UserActions = { [key in UserStatus]: ActionWithTooltipBtn[] }
+  type UserActions = { [key in UserStatus]: ActionBtn[] }
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = () => {
