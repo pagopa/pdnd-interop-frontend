@@ -3,7 +3,6 @@ import { AGREEMENT_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { AgreementStatus, AgreementSummary, ProviderOrSubscriber, ActionProps } from '../../types'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
-import { Action } from '../components/Shared/Action'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useMode } from '../hooks/useMode'
@@ -12,6 +11,10 @@ import { mergeActions } from '../lib/eservice-utils'
 import { getAgreementStatus } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledLink } from '../components/Shared/StyledLink'
+import { TableCell, TableRow } from '@mui/material'
+import { Box } from '@mui/system'
+import { StyledButton } from '../components/Shared/StyledButton'
+import { ActionMenu } from '../components/Shared/ActionMenu'
 
 export function AgreementList() {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -78,15 +81,13 @@ export function AgreementList() {
     const sharedActions: AgreementActions = {
       active: [
         {
-          btnProps: { onClick: wrapActionInDialog(wrapSuspend(agreement.id), 'AGREEMENT_SUSPEND') },
+          onClick: wrapActionInDialog(wrapSuspend(agreement.id), 'AGREEMENT_SUSPEND'),
           label: 'Sospendi',
         },
       ],
       suspended: [
         {
-          btnProps: {
-            onClick: wrapActionInDialog(wrapActivate(agreement.id), 'AGREEMENT_ACTIVATE'),
-          },
+          onClick: wrapActionInDialog(wrapActivate(agreement.id), 'AGREEMENT_ACTIVATE'),
           label: 'Riattiva',
         },
       ],
@@ -97,7 +98,7 @@ export function AgreementList() {
     const subscriberOnlyActionsActive: ActionProps[] = []
     if (agreement.eservice.activeDescriptor) {
       subscriberOnlyActionsActive.push({
-        btnProps: { onClick: wrapActionInDialog(wrapUpgrade(agreement.id), 'AGREEMENT_UPGRADE') },
+        onClick: wrapActionInDialog(wrapUpgrade(agreement.id), 'AGREEMENT_UPGRADE'),
         label: 'Aggiorna',
       })
     }
@@ -114,9 +115,7 @@ export function AgreementList() {
       suspended: [],
       pending: [
         {
-          btnProps: {
-            onClick: wrapActionInDialog(wrapActivate(agreement.id), 'AGREEMENT_ACTIVATE'),
-          },
+          onClick: wrapActionInDialog(wrapActivate(agreement.id), 'AGREEMENT_ACTIVATE'),
           label: 'Attiva',
         },
       ],
@@ -130,22 +129,7 @@ export function AgreementList() {
 
     const status = getAgreementStatus(agreement, mode)
 
-    const mergedActions = mergeActions<AgreementActions>([currentActions, sharedActions], status)
-
-    const inspectAction = {
-      btnProps: {
-        to: `${
-          ROUTES[mode === 'provider' ? 'PROVIDE' : 'SUBSCRIBE'].SUBROUTES!.AGREEMENT_LIST.PATH
-        }/${agreement.id}`,
-        component: StyledLink,
-      },
-      label: 'Ispeziona',
-    }
-
-    // Add the last action, which is always EDIT/INSPECT
-    mergedActions.push(inspectAction)
-
-    return mergedActions
+    return mergeActions<AgreementActions>([currentActions, sharedActions], status)
   }
 
   const headData = [
@@ -183,17 +167,29 @@ export function AgreementList() {
           error={error}
         >
           {data.map((item, i) => (
-            <tr key={i}>
-              <td>{item.eservice.name}</td>
-              <td>{item.eservice.version}</td>
-              <td>{AGREEMENT_STATUS_LABEL[item.status]}</td>
-              <td>{mode === 'provider' ? item.consumer.name : item.producer.name}</td>
-              <td>
-                {getAvailableActions(item).map((actionProps, j) => (
-                  <Action key={j} {...actionProps} />
-                ))}
-              </td>
-            </tr>
+            <TableRow key={i} sx={{ bgcolor: 'common.white' }}>
+              <TableCell>{item.eservice.name}</TableCell>
+              <TableCell>{item.eservice.version}</TableCell>
+              <TableCell>{AGREEMENT_STATUS_LABEL[item.status]}</TableCell>
+              <TableCell>{mode === 'provider' ? item.consumer.name : item.producer.name}</TableCell>
+
+              <TableCell>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <StyledButton
+                    variant="outlined"
+                    to={`${
+                      ROUTES[mode === 'provider' ? 'PROVIDE' : 'SUBSCRIBE'].SUBROUTES!
+                        .AGREEMENT_LIST.PATH
+                    }/${item.id}`}
+                    component={StyledLink}
+                  >
+                    Ispeziona
+                  </StyledButton>
+
+                  <ActionMenu actions={getAvailableActions(item)} index={i} />
+                </Box>
+              </TableCell>
+            </TableRow>
           ))}
         </TableWithLoader>
       </div>

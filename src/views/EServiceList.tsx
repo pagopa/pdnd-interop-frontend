@@ -10,7 +10,6 @@ import {
   ActionProps,
 } from '../../types'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
-import { Action } from '../components/Shared/Action'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
@@ -19,6 +18,9 @@ import { AxiosResponse } from 'axios'
 import { buildDynamicPath } from '../lib/url-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
+import { TableCell, TableRow } from '@mui/material'
+import { ActionMenu } from '../components/Shared/ActionMenu'
+import { Box } from '@mui/system'
 
 export function EServiceList() {
   const { runAction, runFakeAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -141,62 +143,47 @@ export function EServiceList() {
     const { id: eserviceId, descriptorId, status } = service
 
     const suspendAction = {
-      btnProps: {
-        onClick: wrapActionInDialog(
-          wrapSuspend(eserviceId, descriptorId),
-          'ESERVICE_VERSION_SUSPEND'
-        ),
-      },
+      onClick: wrapActionInDialog(
+        wrapSuspend(eserviceId, descriptorId),
+        'ESERVICE_VERSION_SUSPEND'
+      ),
       label: 'Sospendi',
     }
     const reactivateAction = {
-      btnProps: {
-        onClick: wrapActionInDialog(
-          wrapReactivate(eserviceId, descriptorId),
-          'ESERVICE_VERSION_REACTIVATE'
-        ),
-      },
+      onClick: wrapActionInDialog(
+        wrapReactivate(eserviceId, descriptorId),
+        'ESERVICE_VERSION_REACTIVATE'
+      ),
       label: 'Riattiva',
     }
     const cloneAction = {
-      btnProps: {
-        onClick: wrapActionInDialog(
-          wrapClone(eserviceId, descriptorId),
-          'ESERVICE_CLONE_FROM_VERSION'
-        ),
-      },
+      onClick: wrapActionInDialog(
+        wrapClone(eserviceId, descriptorId),
+        'ESERVICE_CLONE_FROM_VERSION'
+      ),
       label: 'Clona',
     }
     const createVersionDraftAction = {
-      btnProps: {
-        onClick: wrapActionInDialog(
-          wrapCreateNewVersionDraft(eserviceId),
-          'ESERVICE_VERSION_CREATE'
-        ),
-      },
+      onClick: wrapActionInDialog(wrapCreateNewVersionDraft(eserviceId), 'ESERVICE_VERSION_CREATE'),
       label: 'Crea bozza nuova versione',
     }
     const archiveAction = {
-      btnProps: { onClick: wrapActionInDialog(archive) },
+      onClick: wrapActionInDialog(archive),
       label: 'Archivia',
       isMock: true,
     }
     const publishDraftAction = {
-      btnProps: {
-        onClick: wrapActionInDialog(
-          wrapPublishDraft(eserviceId, descriptorId),
-          'ESERVICE_VERSION_PUBLISH'
-        ),
-      },
+      onClick: wrapActionInDialog(
+        wrapPublishDraft(eserviceId, descriptorId),
+        'ESERVICE_VERSION_PUBLISH'
+      ),
       label: 'Pubblica',
     }
     const deleteDraftAction = {
-      btnProps: {
-        onClick: wrapActionInDialog(
-          wrapDeleteDraft(eserviceId, descriptorId),
-          'ESERVICE_VERSION_DELETE'
-        ),
-      },
+      onClick: wrapActionInDialog(
+        wrapDeleteDraft(eserviceId, descriptorId),
+        'ESERVICE_VERSION_DELETE'
+      ),
       label: 'Elimina',
     }
 
@@ -208,25 +195,8 @@ export function EServiceList() {
       suspended: [reactivateAction, cloneAction, createVersionDraftAction],
     }
 
-    // If status === 'draft', show precompiled write template. Else, readonly template
-    const inspectAction = {
-      btnProps: {
-        to: buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE_EDIT.PATH, {
-          eserviceId,
-          descriptorId: descriptorId || 'prima-bozza',
-        }),
-        component: StyledLink,
-      },
-      label: !status || status === 'draft' ? 'Modifica' : 'Ispeziona',
-    }
-
-    // Get all the actions available for this particular status
-    const actions = availableActions[status || 'draft'].filter((a) => a !== null) as ActionProps[]
-
-    // Add the last action, which is always EDIT/INSPECT
-    actions.push(inspectAction)
-
-    return actions
+    // Return all the actions available for this particular status
+    return availableActions[status || 'draft'].filter((a) => a !== null) as ActionProps[]
   }
 
   // Data for the table head
@@ -261,16 +231,27 @@ export function EServiceList() {
           error={error}
         >
           {data.map((item, i) => (
-            <tr key={i}>
-              <td>{item.name}</td>
-              <td>{item.version || '1'}</td>
-              <td>{ESERVICE_STATUS_LABEL[item.status || 'draft']}</td>
-              <td>
-                {getAvailableActions(item).map((actionProps, j) => (
-                  <Action key={j} {...actionProps} />
-                ))}
-              </td>
-            </tr>
+            <TableRow key={i} sx={{ bgcolor: 'common.white' }}>
+              <TableCell>{item.name}</TableCell>
+              <TableCell>{item.version || '1'}</TableCell>
+              <TableCell>{ESERVICE_STATUS_LABEL[item.status || 'draft']}</TableCell>
+              <TableCell>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <StyledButton
+                    variant="outlined"
+                    to={buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE_EDIT.PATH, {
+                      eserviceId: item.id,
+                      descriptorId: item.descriptorId || 'prima-bozza',
+                    })}
+                    component={StyledLink}
+                  >
+                    {!item.status || item.status === 'draft' ? 'Modifica' : 'Ispeziona'}
+                  </StyledButton>
+
+                  <ActionMenu actions={getAvailableActions(item)} index={i} />
+                </Box>
+              </TableCell>
+            </TableRow>
           ))}
         </TableWithLoader>
       </div>

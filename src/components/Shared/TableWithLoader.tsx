@@ -43,7 +43,7 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
     <LoadingWithMessage label={loadingText} />
   ) : (
     <TableContainer>
-      <Table>
+      <Table sx={{ borderSpacing: '0 1rem', borderCollapse: 'separate' }}>
         <TableHead>
           <TableRow>
             {headData.map((item, i) => (

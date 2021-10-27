@@ -13,7 +13,7 @@ import { useMode } from '../hooks/useMode'
 import { mergeActions } from '../lib/eservice-utils'
 import { SecurityOperatorKeys } from '../components/SecurityOperatorKeys'
 import { useFeedback } from '../hooks/useFeedback'
-import { Action } from '../components/Shared/Action'
+import { StyledButton } from '../components/Shared/StyledButton'
 
 type UserEndpoinParams =
   | { operatorTaxCode: string; clientId: string }
@@ -105,12 +105,10 @@ export function UserEdit() {
     }
 
     const sharedActions: UserActions = {
-      active: [
-        { btnProps: { onClick: wrapActionInDialog(suspend, 'USER_SUSPEND') }, label: 'Sospendi' },
-      ],
+      active: [{ onClick: wrapActionInDialog(suspend, 'USER_SUSPEND'), label: 'Sospendi' }],
       suspended: [
         {
-          btnProps: { onClick: wrapActionInDialog(reactivate, 'USER_REACTIVATE') },
+          onClick: wrapActionInDialog(reactivate, 'USER_REACTIVATE'),
           label: 'Riattiva',
         },
       ],
@@ -161,19 +159,15 @@ export function UserEdit() {
       </DescriptionBlock>
 
       <div className="mt-5 d-flex">
-        {getAvailableActions().map((actionProps, i) => (
-          <Action key={i} {...actionProps} />
+        {getAvailableActions().map(({ onClick, label }, i) => (
+          <StyledButton key={i} onClick={onClick}>
+            {label}
+          </StyledButton>
         ))}
       </div>
 
       {clientId && !isEmpty(userData) && (
-        <SecurityOperatorKeys
-          clientId={clientId}
-          userData={userData!}
-          runAction={runAction}
-          forceRerenderCounter={forceRerenderCounter}
-          wrapActionInDialog={wrapActionInDialog}
-        />
+        <SecurityOperatorKeys clientId={clientId} userData={userData!} />
       )}
     </React.Fragment>
   )
