@@ -67,8 +67,8 @@ export function EServiceWriteStep1General({
   const wrapSetEServiceData =
     (fieldName: keyof EServiceCreateDataType, fieldType: FieldType = 'text') =>
     (e: any) => {
-      const { value, checked, id } = e.target
-      const fieldValueMaybe = { text: value, checkbox: checked, radio: id }[fieldType]
+      const { value, checked } = e.target
+      const fieldValueMaybe = { text: value, checkbox: checked, radio: value }[fieldType]
 
       // Check for false positives (e.g. empty strings in input types), and set them explicitly to undefined
       const fieldValue = !isEmptyTextField(fieldType, fieldValueMaybe) ? fieldValueMaybe : undefined
@@ -166,13 +166,13 @@ export function EServiceWriteStep1General({
         />
 
         <StyledInputRadioGroup
-          id="technology"
+          name="technology"
           groupLabel="Tecnologia*"
           options={[
             { label: 'REST', value: 'REST' },
             { label: 'SOAP', value: 'SOAP' },
           ]}
-          currentValue={eserviceData.technology}
+          currentValue={eserviceData.technology!}
           onChange={wrapSetEServiceData('technology', 'radio')}
           readOnly={!isEditable}
         />

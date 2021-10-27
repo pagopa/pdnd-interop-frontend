@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form } from 'react-bootstrap'
+import { FormLabel } from '@mui/material'
 
 type StyledInputLabelProps = {
   label: string
@@ -21,8 +21,8 @@ export function StyledInputLabel({
   }
 
   return (
-    <Form.Label className={styleClasses} htmlFor={id}>
+    <FormLabel className={styleClasses} htmlFor={id}>
       {label}
-    </Form.Label>
+    </FormLabel>
   )
 }

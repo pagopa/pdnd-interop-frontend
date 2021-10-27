@@ -1,53 +1,42 @@
 import React from 'react'
-import { Form } from 'react-bootstrap'
-import { StyledInputLabel } from './StyledInputLabel'
+import { FormControl, FormLabel, FormControlLabel, Radio, RadioGroup } from '@mui/material'
 
 type Option = {
   label: string
-  disabled?: boolean
-  onChange?: any
   value: string
 }
 
 type StyledInputRadioGroupProps = {
   groupLabel: string
   options: Option[]
-  id: string
-  currentValue?: string
-  onChange?: any
+  currentValue: string
+  onChange: any
+  name: string
   readOnly?: boolean
-  className?: string
 }
 
 export function StyledInputRadioGroup({
   groupLabel,
   options,
-  id,
   currentValue,
   onChange,
   readOnly = false,
-  className = 'mt-4 mb-3',
+  name,
 }: StyledInputRadioGroupProps) {
   return (
-    <div className={className}>
-      <StyledInputLabel label={groupLabel} isHTMLLabelElement={false} />
-      {options.map((option, i) => {
-        return (
-          <Form.Check
+    <FormControl component="fieldset">
+      <FormLabel component="legend">{groupLabel}</FormLabel>
+      <RadioGroup aria-label={groupLabel} value={currentValue} onChange={onChange} name={name}>
+        {options.map(({ label, value }, i) => (
+          <FormControlLabel
             key={i}
-            type="radio"
-            disabled={option.disabled || readOnly}
-            // This looks weird but it is actually meant.
-            // Usually id and name coincide for easy debugging,
-            // but here id is needed to associate label to specific option
-            name={id}
-            id={option.value}
-            label={option.label}
-            checked={currentValue === option.value}
-            onChange={onChange || option.onChange}
+            value={value}
+            control={<Radio />}
+            label={label}
+            disabled={readOnly}
           />
-        )
-      })}
-    </div>
+        ))}
+      </RadioGroup>
+    </FormControl>
   )
 }
