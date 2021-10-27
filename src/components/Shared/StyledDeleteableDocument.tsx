@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { EServiceDocumentRead } from '../../../types'
 import { useFeedback } from '../../hooks/useFeedback'
-import { ActionWithTooltip } from '../ActionWithTooltip'
+import { Action } from '../Action'
 
 type StyledDeleteableDocumentComponentProps = {
   eserviceId: string
@@ -85,19 +85,17 @@ export function StyledDeleteableDocument({
         />
       </div>
       <div className="ms-5 flex-shrink-0">
-        <ActionWithTooltip
+        <Action
           className={`rounded-circle px-2 py-2 d-inline-block${canEdit ? ' bg-secondary' : ''}`}
           style={{ width: 48 }}
           btnProps={{ onClick: updateCanEdit }}
           label="Modifica descrizione"
-          iconClass="bi-pencil"
         />
-        <ActionWithTooltip
+        <Action
           className="px-2 py-2"
           style={{ width: 48 }}
           btnProps={{ onClick: deleteDocument }}
           label="Cancella documento"
-          iconClass="bi-trash"
         />
       </div>
     </div>

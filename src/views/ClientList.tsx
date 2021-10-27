@@ -1,13 +1,7 @@
 import React, { useContext } from 'react'
-import {
-  Client,
-  ClientStatus,
-  ActionWithTooltipBtn,
-  ActionWithTooltipLink,
-  ActionWithTooltipProps,
-} from '../../types'
+import { Client, ClientStatus, ActionBtn, ActionLink, ActionProps } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { ActionWithTooltip } from '../components/ActionWithTooltip'
+import { Action } from '../components/Action'
 import { TableWithLoader } from '../components/TableWithLoader'
 import { TempFilters } from '../components/TempFilters'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -67,7 +61,7 @@ export function ClientList() {
    */
 
   // Build list of available actions for each service in its current state
-  const getAvailableActions = (client: Client): ActionWithTooltipProps[] => {
+  const getAvailableActions = (client: Client): ActionProps[] => {
     const inspectAction = {
       to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_EDIT.PATH, { id: client.id }),
       icon: 'bi-info-circle',
@@ -79,7 +73,7 @@ export function ClientList() {
       return [inspectAction]
     }
 
-    const availableActions: { [key in ClientStatus]: ActionWithTooltipProps[] } = {
+    const availableActions: { [key in ClientStatus]: ActionProps[] } = {
       active: [
         {
           onClick: wrapActionInDialog(wrapSuspend(client.id), 'CLIENT_SUSPEND'),
@@ -99,7 +93,7 @@ export function ClientList() {
     const status = client.status
 
     // Get all the actions available for this particular status
-    const actions: ActionWithTooltipProps[] = (availableActions as any)[status] || []
+    const actions: ActionProps[] = (availableActions as any)[status] || []
 
     // Add the last action, which is always EDIT/INSPECT
     actions.push(inspectAction)
@@ -149,19 +143,18 @@ export function ClientList() {
                 {getAvailableActions(item).map((tableAction, j) => {
                   const btnProps: any = {}
 
-                  if ((tableAction as ActionWithTooltipLink).to) {
+                  if ((tableAction as ActionLink).to) {
                     btnProps.component = StyledLink
-                    btnProps.to = (tableAction as ActionWithTooltipLink).to
+                    btnProps.to = (tableAction as ActionLink).to
                   } else {
-                    btnProps.onClick = (tableAction as ActionWithTooltipBtn).onClick
+                    btnProps.onClick = (tableAction as ActionBtn).onClick
                   }
 
                   return (
-                    <ActionWithTooltip
+                    <Action
                       key={j}
                       btnProps={btnProps}
                       label={tableAction.label}
-                      iconClass={tableAction.icon!}
                       isMock={tableAction.isMock}
                     />
                   )

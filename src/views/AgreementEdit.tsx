@@ -4,7 +4,7 @@ import has from 'lodash/has'
 import {
   AgreementStatus,
   AgreementSummary,
-  ActionWithTooltipBtn,
+  ActionBtn,
   SingleBackendAttribute,
   GroupBackendAttribute,
 } from '../../types'
@@ -102,7 +102,7 @@ export function AgreementEdit() {
    * End list of actions
    */
 
-  type AgreementActions = { [key in AgreementStatus]: ActionWithTooltipBtn[] }
+  type AgreementActions = { [key in AgreementStatus]: ActionBtn[] }
   // Build list of available actions for each agreement in its current state
   const getAvailableActions = () => {
     if (!data) {
@@ -131,7 +131,7 @@ export function AgreementEdit() {
       inactive: [],
     }
 
-    const subscriberOnlyActionsActive: ActionWithTooltipBtn[] = []
+    const subscriberOnlyActionsActive: ActionBtn[] = []
     if (
       data.eservice.activeDescriptor &&
       data.eservice.activeDescriptor.version > data.eservice.version
