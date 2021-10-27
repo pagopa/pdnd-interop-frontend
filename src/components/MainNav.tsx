@@ -12,8 +12,7 @@ import {
 import { ProviderOrSubscriber, RouteConfig, UserPlatformRole } from '../../types'
 import { ROUTES } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
-import { isActiveTree } from '../lib/router-utils'
-import { includesAny } from '../lib/string-utils'
+import { isActiveTree, isInPlatform } from '../lib/router-utils'
 import { StyledLink } from './Shared/StyledLink'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
 
@@ -31,12 +30,6 @@ export function MainNav() {
   const { user } = useContext(UserContext)
   const { party } = useContext(PartyContext)
   const location = useLocation()
-  const isInPlatform = includesAny(location.pathname, [
-    ROUTES.PROVIDE.PATH,
-    ROUTES.SUBSCRIBE.PATH,
-    ROUTES.PROFILE.PATH,
-    ROUTES.NOTIFICATION.PATH,
-  ])
   const [open, setOpen] = useState<ProviderOrSubscriber | null>(null)
 
   const wrapSetOpen = (menu: ProviderOrSubscriber) => () => {
@@ -47,7 +40,7 @@ export function MainNav() {
     return isActiveTree(location, path) ? 600 : 300
   }
 
-  if (!isInPlatform || !user) {
+  if (!isInPlatform(location) || !user) {
     return null
   }
 
