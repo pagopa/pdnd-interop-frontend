@@ -40,12 +40,7 @@ export function Login() {
         }}
       </StyledIntro>
       <div className="mb-5">
-        <StyledInputTextArea
-          className="mt-3 mb-0"
-          readOnly={true}
-          value={informativa}
-          readOnlyBgWhite={true}
-        />
+        <StyledInputTextArea readOnly={true} value={informativa} />
 
         <StyledInputCheckbox
           onChange={updatePrivacy}
