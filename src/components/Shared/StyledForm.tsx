@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react'
-import { Form, FormProps } from 'react-bootstrap'
 
-export const StyledForm: FunctionComponent<FormProps> = ({ children, ...props }) => {
-  return <Form {...props}>{children}</Form>
+export const StyledForm: FunctionComponent<
+  React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>
+> = ({ children, ...props }) => {
+  return <form {...props}>{children}</form>
 }

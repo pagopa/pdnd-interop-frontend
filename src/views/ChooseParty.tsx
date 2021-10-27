@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Party } from '../../types'
 import { ROUTES, USER_ROLE_LABEL } from '../lib/constants'
@@ -12,7 +12,10 @@ export function ChooseParty() {
   const { setParty, party, availableParties } = useContext(PartyContext)
   const history = useHistory()
 
-  const buildUpdateActiveParty = (newParty: Party) => (_: React.SyntheticEvent) => {
+  const updateActiveParty = (e: React.SyntheticEvent) => {
+    const newParty = availableParties.find(
+      (p) => p.institutionId === (e.target as any).value
+    ) as Party
     setParty(newParty)
     storageWrite('currentParty', newParty, 'object')
   }
@@ -24,6 +27,12 @@ export function ChooseParty() {
   const goToOnboarding = () => {
     history.push(ROUTES.ONBOARDING.PATH)
   }
+
+  useEffect(() => {
+    if (availableParties.length > 0) {
+      setParty(availableParties[0])
+    }
+  }, [availableParties]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return availableParties.length > 0 ? (
     <React.Fragment>
@@ -41,19 +50,21 @@ export function ChooseParty() {
 
       <div className="d-flex align-items-center">
         <div>
-          <StyledInputRadioGroup
-            id="istituzioni"
-            groupLabel="Selezione ente"
-            options={availableParties.map((p) => ({
-              label: `${p.description} (${USER_ROLE_LABEL[p.role]})${
-                p.status === 'pending' ? ' - registrazione da completare' : ''
-              }`,
-              disabled: p.status === 'pending',
-              onChange: buildUpdateActiveParty(p),
-              value: p.institutionId,
-            }))}
-            currentValue={party?.institutionId}
-          />
+          {party && (
+            <StyledInputRadioGroup
+              name="istituzioni"
+              groupLabel="Selezione ente"
+              options={availableParties.map((p) => ({
+                label: `${p.description} (${USER_ROLE_LABEL[p.role]})${
+                  p.status === 'pending' ? ' - registrazione da completare' : ''
+                }`,
+                disabled: p.status === 'pending',
+                value: p.institutionId,
+              }))}
+              onChange={updateActiveParty}
+              currentValue={party!.institutionId}
+            />
+          )}
 
           <StyledButton
             className="mt-3"
