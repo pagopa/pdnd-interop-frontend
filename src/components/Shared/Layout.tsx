@@ -1,6 +1,10 @@
 import React, { FunctionComponent } from 'react'
-import { Container } from '@mui/material'
+import { Container, ContainerProps } from '@mui/material'
 
-export const Layout: FunctionComponent = ({ children }) => {
-  return <Container maxWidth={false}>{children}</Container>
+export const Layout: FunctionComponent<ContainerProps> = ({ sx, children }) => {
+  return (
+    <Container sx={sx} maxWidth={false}>
+      {children}
+    </Container>
+  )
 }
