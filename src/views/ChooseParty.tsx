@@ -1,12 +1,15 @@
 import React, { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Party } from '../../types'
-import { ROUTES, USER_ROLE_LABEL } from '../lib/constants'
+import { NARROW_MAX_WIDTH, ROUTES, USER_ROLE_LABEL } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { StyledInputRadioGroup } from '../components/Shared/StyledInputRadioGroup'
 import { storageWrite } from '../lib/storage-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
+import { Box } from '@mui/system'
+import { StyledLink } from '../components/Shared/StyledLink'
+import { Typography } from '@mui/material'
 
 export function ChooseParty() {
   const { setParty, party, availableParties } = useContext(PartyContext)
@@ -42,14 +45,22 @@ export function ChooseParty() {
           description: (
             <>
               Se l’ente per il quale vuoi operare non è ancora accreditato sulla piattaforma, puoi
-              aggiungerlo cliccando su <em>registra nuovo ente</em>
+              aggiungerlo cliccando sul link in basso
             </>
           ),
         }}
       </StyledIntro>
 
-      <div className="d-flex align-items-center">
-        <div>
+      <Box sx={{ mx: 'auto', maxWidth: NARROW_MAX_WIDTH }}>
+        <Box
+          sx={{
+            borderBottom: 1,
+            borderColor: 'grey.500',
+            mb: '0.5rem',
+            pb: '1.5rem',
+            textAlign: 'center',
+          }}
+        >
           {party && (
             <StyledInputRadioGroup
               name="istituzioni"
@@ -67,42 +78,45 @@ export function ChooseParty() {
           )}
 
           <StyledButton
-            className="mt-3"
+            sx={{ mt: '1rem' }}
             variant="contained"
             onClick={confirmChoice}
             disabled={!party}
           >
-            Prosegui
+            Entra
           </StyledButton>
-        </div>
-        <div className="text-center">
-          <p>oppure</p>
-          <StyledButton variant="contained" onClick={goToOnboarding}>
-            Registra nuovo ente
-          </StyledButton>
-        </div>
-      </div>
+        </Box>
+
+        <Box sx={{ mt: '0.5rem', display: 'flex', alignItems: 'center' }}>
+          <Typography component="span" sx={{ mr: '0.25rem' }}>
+            Vuoi registrare un nuovo ente?
+          </Typography>
+          <StyledLink component="button" onClick={goToOnboarding}>
+            Clicca qui
+          </StyledLink>
+        </Box>
+      </Box>
     </React.Fragment>
   ) : (
-    <React.Fragment>
-      <div className="d-flex align-items-center mx-auto my-auto">
-        <div className="text-center">
-          <StyledIntro variant="h1">
-            {{
-              title: 'Ciao!',
-              description: (
-                <>
-                  Dev'essere il tuo primo accesso, non ci sono enti a te associati. Se sei il
-                  rappresentante legale di un ente, accreditalo e accedi
-                </>
-              ),
-            }}
-          </StyledIntro>
-          <StyledButton variant="contained" onClick={goToOnboarding}>
-            Registra nuovo ente
-          </StyledButton>
-        </div>
-      </div>
-    </React.Fragment>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        m: 'auto',
+        textAlign: 'center',
+      }}
+    >
+      <StyledIntro variant="h1">
+        {{
+          title: 'Ciao!',
+          description:
+            "Dev'essere il tuo primo accesso, non ci sono enti a te associati. Se sei il rappresentante legale di un ente, accreditalo e accedi",
+        }}
+      </StyledIntro>
+      <StyledButton variant="contained" onClick={goToOnboarding}>
+        Registra nuovo ente
+      </StyledButton>
+    </Box>
   )
 }

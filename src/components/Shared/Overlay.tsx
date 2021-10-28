@@ -1,3 +1,4 @@
+import { Box } from '@mui/system'
 import React, { FunctionComponent, useEffect } from 'react'
 
 type EventOptions = boolean | EventListenerOptions | undefined | any
@@ -58,11 +59,19 @@ export const Overlay: FunctionComponent = ({ children }) => {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div
-      className="position-fixed top-0 bottom-0 start-0 end-0 bg-black bg-opacity-50 d-flex"
-      style={{ zIndex: 2 }}
+    <Box
+      sx={{
+        position: 'fixed',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        bgcolor: '#00000099',
+        display: 'flex',
+        zIndex: 2,
+      }}
     >
-      <div className="mx-auto my-auto">{children}</div>
-    </div>
+      <Box sx={{ m: 'auto' }}>{children}</Box>
+    </Box>
   )
 }
