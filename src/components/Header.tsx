@@ -48,7 +48,7 @@ export function Header() {
 
       <Box sx={{ bgcolor: 'primary.main' }}>
         <Layout>
-          <div className="d-flex justify-content-between align-items-center">
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Box sx={{ color: 'common.white', py: '1.5rem' }}>
               <Typography variant="h4">Interoperabilità</Typography>
               <Typography variant="caption">Il catalogo degli e-service delle PA</Typography>
@@ -73,7 +73,7 @@ export function Header() {
                 </Select>
               </FormControl>
             )}
-          </div>
+          </Box>
         </Layout>
       </Box>
     </header>
