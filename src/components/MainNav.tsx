@@ -11,8 +11,8 @@ import {
 } from '@mui/material'
 import { ProviderOrSubscriber, RouteConfig, UserPlatformRole } from '../../types'
 import { ROUTES } from '../lib/constants'
-import { PartyContext, UserContext } from '../lib/context'
-import { isActiveTree, isInPlatform } from '../lib/router-utils'
+import { PartyContext } from '../lib/context'
+import { isActiveTree } from '../lib/router-utils'
 import { StyledLink } from './Shared/StyledLink'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
 
@@ -27,7 +27,6 @@ type Views = { [key in UserPlatformRole]: View[] }
 const WIDTH = '21.25rem' // aka 340px
 
 export function MainNav() {
-  const { user } = useContext(UserContext)
   const { party } = useContext(PartyContext)
   const location = useLocation()
   const [open, setOpen] = useState<ProviderOrSubscriber | null>(null)
@@ -98,10 +97,6 @@ export function MainNav() {
     { route: ROUTES.HELP },
   ]
 
-  if (!isInPlatform(location) || !user) {
-    return null
-  }
-
   return (
     <Box
       sx={{
@@ -121,7 +116,11 @@ export function MainNav() {
       }}
       component="nav"
     >
-      <List sx={{ width: WIDTH }} aria-label="Navigazione principale" disablePadding>
+      <List
+        sx={{ width: WIDTH, position: 'sticky', top: '5rem' }}
+        aria-label="Navigazione principale"
+        disablePadding
+      >
         {availableViews.map((view, i) => {
           const isActive = open === view.type
 
