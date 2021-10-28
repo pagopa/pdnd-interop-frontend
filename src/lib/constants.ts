@@ -37,10 +37,12 @@ import { SecurityKeyGuide } from '../views/SecurityKeyGuide'
 const isDevelopment = !!(process.env.NODE_ENV === 'development')
 
 export const SHOW_DEV_LABELS = isDevelopment || getDevLabels()
-export const USE_MOCK_SPID_USER = isDevelopment
+export const USE_MOCK_SPID_USER = false // isDevelopment
 export const DISPLAY_LOGS = isDevelopment
 
 export const BASE_ROUTE = '/ui'
+
+export const NARROW_MAX_WIDTH = 480
 
 export const ROUTES: RoutesObject = {
   LOGIN: { PATH: `${BASE_ROUTE}/login`, LABEL: 'Login', COMPONENT: Login, PUBLIC: true },

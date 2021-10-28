@@ -3,13 +3,14 @@ import { Link as RouterLink } from 'react-router-dom'
 import { Link as MUILink, LinkProps } from '@mui/material'
 
 type StyledLinkProps = {
-  to: string
+  to?: string
+  component?: any
 }
 
 export const StyledLink: FunctionComponent<StyledLinkProps & LinkProps> = React.forwardRef(
-  ({ children, to, ...props }, ref) => {
+  ({ children, to, component = RouterLink, ...props }, ref) => {
     return (
-      <MUILink component={RouterLink} to={to} {...props} ref={ref}>
+      <MUILink component={component} to={to} {...props} ref={ref}>
         {children}
       </MUILink>
     )

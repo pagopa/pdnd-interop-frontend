@@ -13,6 +13,7 @@ import { LoadingOverlay } from './Shared/LoadingOverlay'
 import { MainNav } from './MainNav'
 import { Layout } from './Shared/Layout'
 import { Box } from '@mui/system'
+import { isInPlatform } from '../lib/router-utils'
 
 export function BodyLogger() {
   const [toast, setToast] = useState<ToastProps | null>(null)
@@ -54,12 +55,18 @@ export function BodyLogger() {
         <LoaderContext.Provider value={{ loadingText, setLoadingText }}>
           <Header />
           <Layout>
-            <div className="d-flex">
-              <MainNav />
+            {isInPlatform(location) ? (
+              <Box sx={{ display: 'flex' }}>
+                <MainNav />
+                <Box sx={{ py: '5rem', px: '2rem' }}>
+                  <Main />
+                </Box>
+              </Box>
+            ) : (
               <Box sx={{ py: '5rem', px: '2rem' }}>
                 <Main />
               </Box>
-            </div>
+            )}
           </Layout>
           <Footer />
           {toast && <StyledToast {...toast} />}

@@ -40,10 +40,6 @@ export function MainNav() {
     return isActiveTree(location, path) ? 600 : 300
   }
 
-  if (!isInPlatform(location) || !user) {
-    return null
-  }
-
   const WrappedLink = ({ route: { PATH, LABEL } }: { route: RouteConfig }) => {
     return (
       <StyledLink underline="none" to={PATH}>
@@ -102,8 +98,29 @@ export function MainNav() {
     { route: ROUTES.HELP },
   ]
 
+  if (!isInPlatform(location) || !user) {
+    return null
+  }
+
   return (
-    <Box sx={{ bgcolor: 'common.white', display: 'block', py: '5rem' }} component="nav">
+    <Box
+      sx={{
+        bgcolor: 'common.white',
+        display: 'block',
+        py: '5rem',
+        position: 'relative',
+        '::before': {
+          content: '""',
+          position: 'absolute',
+          left: -24,
+          top: 0,
+          bgcolor: 'common.white',
+          width: 24,
+          height: '100%',
+        },
+      }}
+      component="nav"
+    >
       <List sx={{ width: WIDTH }} aria-label="Navigazione principale" disablePadding>
         {availableViews.map((view, i) => {
           const isActive = open === view.type
