@@ -12,6 +12,8 @@ import { StyledInputFile } from './Shared/StyledInputFile'
 import { StyledInputTextArea } from './Shared/StyledInputTextArea'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
+import { UploadFile as UploadFileIcon } from '@mui/icons-material'
+import { Box } from '@mui/system'
 
 type EServiceWriteStep4DocumentsInterfaceProps = {
   data: EServiceReadType
@@ -78,9 +80,8 @@ export function EServiceWriteStep4DocumentsInterface({
       deleteDocument={deletePreviousInterfaceDoc}
     />
   ) : (
-    <StyledForm className="px-3 py-3 rounded bg-secondary" onSubmit={uploadNewInterfaceDoc}>
+    <StyledForm onSubmit={uploadNewInterfaceDoc}>
       <StyledInputFile
-        className="mt-2 mb-0"
         id="interface-doc"
         label="Seleziona documento"
         value={writeDoc?.doc}
@@ -94,15 +95,11 @@ export function EServiceWriteStep4DocumentsInterface({
         onChange={wrapUpdateDoc('description')}
       />
 
-      <div className="d-flex justify-content-end">
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <StyledButton type="submit" variant="contained">
-          <i
-            className="fs-5 bi bi-upload me-2 position-relative"
-            style={{ transform: 'translateY(0.1rem)' }}
-          />{' '}
-          Carica
+          <UploadFileIcon fontSize="small" sx={{ mr: '0.5rem' }} /> Carica
         </StyledButton>
-      </div>
+      </Box>
     </StyledForm>
   )
 }

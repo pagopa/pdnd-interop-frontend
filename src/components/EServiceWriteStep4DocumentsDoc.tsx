@@ -93,7 +93,6 @@ export function EServiceWriteStep4DocumentsDoc({
       {showWriteDocInput ? (
         <StyledForm className="px-3 py-3 rounded bg-secondary" onSubmit={uploadNewDoc}>
           <StyledInputFile
-            className="mt-2 mb-0"
             id="doc-doc"
             label="Seleziona documento"
             value={writeDoc?.doc}

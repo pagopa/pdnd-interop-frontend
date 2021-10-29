@@ -11,6 +11,7 @@ import {
   TableRow,
   TableCell,
 } from '@mui/material'
+import { Box } from '@mui/system'
 
 type TableWithLoaderProps = {
   loadingText: string | null
@@ -32,10 +33,10 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
 }) => {
   if (error) {
     return (
-      <div className="bg-danger my-4 px-3 py-3">
+      <Box sx={{ my: '2rem', px: '1.5rem', py: '1.5rem', bgcolor: 'error' }}>
         C'è stato un errore, e non è stato possibile reperire le informazioni richieste. Per favore,
         riprova più tardi
-      </div>
+      </Box>
     )
   }
 

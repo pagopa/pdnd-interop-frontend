@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material'
 import React from 'react'
 import { PartyOnCreate, User } from '../../types'
 
@@ -7,22 +8,27 @@ import { PartyOnCreate, User } from '../../types'
 export function getAccessionAgreement(admin: User, party: PartyOnCreate, currentUser: User) {
   return (
     <React.Fragment>
-      <p
-        className="position-relative d-inline-block mt-3"
-        style={{ left: '100%', transform: `translate(-100%, 0) translate(-2rem, 0)` }}
+      <Typography
+        sx={{
+          position: 'relative',
+          display: 'inline-block',
+          mt: '1rem',
+          left: '100%',
+          transform: `translate(-100%, 0) translate(-2rem, 0)`,
+        }}
       >
         Spett. le
         <br />
         <strong>PagoPA S.p.A.</strong>
         <br />
         Pec:
-      </p>
-      <p className="my-4">
+      </Typography>
+      <Typography sx={{ my: '1.5rem' }}>
         <strong>
           Oggetto: Lettera di adesione alla Piattaforma Digitale Nazionale Dati ai sensi dell’art.
           50-ter, comma 2, del Decreto Legislativo 7 marzo 2005, n. 82
         </strong>
-      </p>
+      </Typography>
       <p>
         Lo/la scrivente{' '}
         <strong>

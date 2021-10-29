@@ -27,6 +27,7 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
+import { FileDownload as FileDownloadIcon } from '@mui/icons-material'
 
 type EServiceReadProps = {
   data: EServiceReadType
@@ -104,11 +105,12 @@ export function EServiceRead({ data }: EServiceReadProps) {
           <React.Fragment>
             {labels.map((label, i) => {
               return (
-                <div className={i !== labels.length - 1 ? 'mb-3' : ''} key={i}>
-                  <div>
-                    <strong>{label.name}</strong>: {label.description}
-                  </div>
-                </div>
+                <Box sx={{ mb: i !== labels.length - 1 ? '1rem' : 0 }} key={i}>
+                  <Typography component="span" sx={{ fontWeight: 600 }}>
+                    {label.name}
+                  </Typography>
+                  : {label.description}
+                </Box>
               )
             })}
           </React.Fragment>
@@ -215,7 +217,7 @@ export function EServiceRead({ data }: EServiceReadProps) {
                 )}
               </Box>
               <StyledLink component="button" onClick={wrapDownloadDocument(d.id)}>
-                <i className="text-primary fs-5 bi bi-download me-2" />
+                <FileDownloadIcon fontSize="small" sx={{ mr: '0.25rem' }} color="primary" />
               </StyledLink>
             </Box>
           ))}

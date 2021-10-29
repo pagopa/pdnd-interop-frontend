@@ -9,7 +9,6 @@ type StyledInputCheckboxProps = {
   onChange: any
   inline?: boolean
   readOnly?: boolean
-  className?: string
 }
 
 export function StyledInputCheckbox({

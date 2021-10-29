@@ -13,7 +13,6 @@ type StyledInputSelectProps = {
   options: Option[]
   currentValue: any
   disabled?: boolean
-  className?: string
 }
 
 export function StyledInputSelect({
@@ -25,7 +24,7 @@ export function StyledInputSelect({
   disabled = false,
 }: StyledInputSelectProps) {
   return (
-    <FormControl component="fieldset" sx={{ display: 'block' }}>
+    <FormControl component="fieldset" sx={{ display: 'block' }} disabled={disabled} id={id}>
       <FormLabel component="legend">{label}</FormLabel>
 
       <Select value={currentValue} onChange={onChange}>
@@ -35,28 +34,6 @@ export function StyledInputSelect({
           </MenuItem>
         ))}
       </Select>
-
-      {/* <Input
-        fullWidth
-        id={id}
-        disabled={readOnly}
-        onChange={onChange}
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        inputProps={inputProps}
-      /> */}
     </FormControl>
-
-    // <Form.Group className={className} controlId={id}>
-    //   <StyledInputLabel label={label} />
-    //   <Form.Select onChange={onChange} disabled={disabled}>
-    //     {options.map((option, i) => (
-    //       <option key={i} value={option.value}>
-    //         {option.label}
-    //       </option>
-    //     ))}
-    //   </Form.Select>
-    // </Form.Group>
   )
 }

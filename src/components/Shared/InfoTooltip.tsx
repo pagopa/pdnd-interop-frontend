@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyledTooltip } from './StyledTooltip'
+import { Info as InfoIcon } from '@mui/icons-material'
 
 type InfoTooltipProps = {
   label: string
@@ -8,7 +9,7 @@ type InfoTooltipProps = {
 export function InfoTooltip({ label }: InfoTooltipProps) {
   return (
     <StyledTooltip title={label}>
-      <i className={`text-primary fs-6 bi bi-info-circle ms-2`} />
+      <InfoIcon color="primary" fontSize="small" sx={{ ml: '0.25rem' }} />
     </StyledTooltip>
   )
 }
