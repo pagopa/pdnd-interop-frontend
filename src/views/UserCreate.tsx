@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { UsersObject } from '../components/OnboardingStep2'
 import { PlatformUserForm } from '../components/Shared/PlatformUserForm'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { ROUTES } from '../lib/constants'
+import { MEDIUM_MAX_WIDTH, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { useMode } from '../hooks/useMode'
 import { useLocation } from 'react-router-dom'
@@ -68,7 +68,7 @@ export function UserCreate() {
     <React.Fragment>
       <StyledIntro>{INTRO[mode!]}</StyledIntro>
 
-      <StyledForm onSubmit={handleSubmit} style={{ maxWidth: 768 }}>
+      <StyledForm onSubmit={handleSubmit} style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
         <PlatformUserForm
           prefix="operator"
           role="Operator"
@@ -77,7 +77,7 @@ export function UserCreate() {
           setPeople={setPeople}
         />
 
-        <StyledButton className="mt-3" variant="contained" type="submit" disabled={false}>
+        <StyledButton sx={{ mt: '1.5rem' }} variant="contained" type="submit" disabled={false}>
           Crea operatore
         </StyledButton>
       </StyledForm>

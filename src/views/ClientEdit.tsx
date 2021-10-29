@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { FunctionComponent, useContext, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Client, ClientStatus, ActionProps } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
@@ -8,6 +8,7 @@ import {
   AGREEMENT_STATUS_LABEL,
   CLIENT_STATUS_LABEL,
   ESERVICE_STATUS_LABEL,
+  NARROW_MAX_WIDTH,
   ROUTES,
 } from '../lib/constants'
 import { buildDynamicPath, getLastBit } from '../lib/url-utils'
@@ -19,9 +20,35 @@ import { PartyContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { StyledButton } from '../components/Shared/StyledButton'
+import { Box } from '@mui/system'
+import { Tab, Tabs, Typography } from '@mui/material'
+
+type TabPanelType = {
+  value: number
+  index: number
+}
+
+const TabPanel: FunctionComponent<TabPanelType> = ({ value, index, children }) => {
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`tabpanel-${index}`}
+      aria-labelledby={`tab-${index}`}
+    >
+      {value === index ? children : null}
+    </div>
+  )
+}
+
+const a11yProps = (index: number) => ({
+  id: `tab-${index}`,
+  'aria-controls': `tabpanel-${index}`,
+})
 
 export function ClientEdit() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
+  const [activeTab, setActiveTab] = useState(0)
   const { party } = useContext(PartyContext)
   const clientId = getLastBit(useLocation())
   const { data } = useAsyncFetch<Client>(
@@ -34,6 +61,10 @@ export function ClientEdit() {
       loadingTextLabel: 'Stiamo caricando il client richiesto',
     }
   )
+
+  const updateActiveTab = (_: any, newTab: number) => {
+    setActiveTab(newTab)
+  }
 
   /*
    * List of possible actions for the user to perform
@@ -101,112 +132,129 @@ export function ClientEdit() {
 
   const actions = getAvailableActions()
 
+  if (isEmpty(data)) {
+    return null
+  }
+
   return (
     <React.Fragment>
-      {!isEmpty(data) && (
-        <React.Fragment>
-          <StyledIntro>{{ title: `Client: ${data.name}` }}</StyledIntro>
+      <StyledIntro>{{ title: `Client: ${data.name}` }}</StyledIntro>
 
-          <div style={{ maxWidth: 586 }}>
-            <DescriptionBlock label="Descrizione">
-              <span>{data.description}</span>
-            </DescriptionBlock>
+      <Tabs
+        value={activeTab}
+        onChange={updateActiveTab}
+        aria-label="Due tab diverse per i dettagli del client e gli operatori di sicurezza"
+        sx={{ mb: '4rem' }}
+      >
+        <Tab label="Dettagli del client" {...a11yProps(0)} />
+        <Tab label="Operatori di sicurezza" {...a11yProps(1)} />
+      </Tabs>
 
-            <DescriptionBlock label="Questo client può accedere all'e-service?">
-              <span>
-                {getClientComputedStatus(data) === 'active'
-                  ? 'Sì'
-                  : `No: ${getReasonClientIsBlocked().join(', ')}`}
-              </span>
-            </DescriptionBlock>
+      <TabPanel value={activeTab} index={0}>
+        <Box style={{ maxWidth: NARROW_MAX_WIDTH }}>
+          <DescriptionBlock label="Descrizione">
+            <Typography component="span">{data.description}</Typography>
+          </DescriptionBlock>
 
-            <DescriptionBlock label="Stato del client">
-              <span>{CLIENT_STATUS_LABEL[data.status]}</span>
-            </DescriptionBlock>
+          <DescriptionBlock label="Questo client può accedere all'e-service?">
+            <Typography component="span">
+              {getClientComputedStatus(data) === 'active'
+                ? 'Sì'
+                : `No: ${getReasonClientIsBlocked().join(', ')}`}
+            </Typography>
+          </DescriptionBlock>
 
-            <DescriptionBlock label="La versione dell'e-service che stai usando">
-              <span>
-                <StyledLink
-                  to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
-                    eserviceId: data.eservice.id,
-                    descriptorId: data.agreement.descriptor.id,
-                  })}
-                >
-                  {data.eservice.name}, versione {data.agreement.descriptor.version}
-                </StyledLink>{' '}
-                {!!(
-                  data.eservice.activeDescriptor &&
-                  data.agreement.descriptor.version !== data.eservice.activeDescriptor.version
-                ) && (
-                  <p className="mt-2">
-                    È disponibile una versione più recente
-                    <br />
-                    <StyledLink
-                      to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
-                        eserviceId: data.eservice.id,
-                        descriptorId: data.eservice.activeDescriptor.id,
-                      })}
-                    >
-                      Vedi il contenuto della nuova versione
-                    </StyledLink>
-                    <br />
-                    <StyledLink
-                      to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
-                        id: data.agreement.id,
-                      })}
-                    >
-                      Vai alla pagina dell'accordo
-                    </StyledLink>{' '}
-                    (da lì potrai aggiornarlo)
-                  </p>
-                )}
-              </span>
-            </DescriptionBlock>
+          <DescriptionBlock label="Stato del client">
+            <Typography component="span">{CLIENT_STATUS_LABEL[data.status]}</Typography>
+          </DescriptionBlock>
 
-            <DescriptionBlock label="Ente erogatore">
-              <span>{data.eservice.provider.description}</span>
-            </DescriptionBlock>
+          <DescriptionBlock label="La versione dell'e-service che stai usando">
+            <Typography component="span">
+              <StyledLink
+                to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
+                  eserviceId: data.eservice.id,
+                  descriptorId: data.agreement.descriptor.id,
+                })}
+              >
+                {data.eservice.name}, versione {data.agreement.descriptor.version}
+              </StyledLink>{' '}
+              {!!(
+                data.eservice.activeDescriptor &&
+                data.agreement.descriptor.version !== data.eservice.activeDescriptor.version
+              ) && (
+                <Typography sx={{ mt: '0.5rem' }}>
+                  È disponibile una versione più recente
+                  <br />
+                  <StyledLink
+                    to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
+                      eserviceId: data.eservice.id,
+                      descriptorId: data.eservice.activeDescriptor.id,
+                    })}
+                  >
+                    Vedi il contenuto della nuova versione
+                  </StyledLink>
+                  <br />
+                  <StyledLink
+                    to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
+                      id: data.agreement.id,
+                    })}
+                  >
+                    Vai alla pagina dell'accordo
+                  </StyledLink>{' '}
+                  (da lì potrai aggiornarlo)
+                </Typography>
+              )}
+            </Typography>
+          </DescriptionBlock>
 
-            <DescriptionBlock
-              label={`Stato dell'e-service per la versione ${data.agreement.descriptor.version}`}
-            >
-              <span>{ESERVICE_STATUS_LABEL[data.agreement.descriptor.status]}</span>
-            </DescriptionBlock>
+          <DescriptionBlock label="Ente erogatore">
+            <Typography component="span">{data.eservice.provider.description}</Typography>
+          </DescriptionBlock>
 
-            <DescriptionBlock label="Accordo">
-              <span>
-                <StyledLink
-                  to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
-                    id: data.agreement.id,
-                  })}
-                >
-                  Vedi accordo
-                </StyledLink>
-              </span>
-            </DescriptionBlock>
+          <DescriptionBlock
+            label={`Stato dell'e-service per la versione ${data.agreement.descriptor.version}`}
+          >
+            <Typography component="span">
+              {ESERVICE_STATUS_LABEL[data.agreement.descriptor.status]}
+            </Typography>
+          </DescriptionBlock>
 
-            <DescriptionBlock label="Stato dell'accordo">
-              <span>{AGREEMENT_STATUS_LABEL[data.agreement.status]}</span>
-            </DescriptionBlock>
+          <DescriptionBlock label="Accordo">
+            <Typography component="span">
+              <StyledLink
+                to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
+                  id: data.agreement.id,
+                })}
+              >
+                Vedi accordo
+              </StyledLink>
+            </Typography>
+          </DescriptionBlock>
 
-            <DescriptionBlock label="Finalità">
-              <span>{data.purposes}</span>
-            </DescriptionBlock>
-          </div>
+          <DescriptionBlock label="Stato dell'accordo">
+            <Typography component="span">
+              {AGREEMENT_STATUS_LABEL[data.agreement.status]}
+            </Typography>
+          </DescriptionBlock>
 
-          {actions.length > 0 && (
-            <div className="mt-5 d-flex">
-              {actions.map(({ onClick, label }, i) => (
-                <StyledButton key={i} onClick={onClick}>
-                  {label}
-                </StyledButton>
-              ))}
-            </div>
-          )}
-        </React.Fragment>
-      )}
+          <DescriptionBlock label="Finalità">
+            <Typography component="span">{data.purposes}</Typography>
+          </DescriptionBlock>
+        </Box>
 
-      <UserList />
+        {actions.length > 0 && (
+          <Box sx={{ mt: '2rem', display: 'flex' }}>
+            {actions.map(({ onClick, label }, i) => (
+              <StyledButton variant="contained" key={i} onClick={onClick}>
+                {label}
+              </StyledButton>
+            ))}
+          </Box>
+        )}
+      </TabPanel>
+      <TabPanel value={activeTab} index={1}>
+        <UserList />
+      </TabPanel>
     </React.Fragment>
   )
 }

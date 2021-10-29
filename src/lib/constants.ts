@@ -43,6 +43,7 @@ export const DISPLAY_LOGS = isDevelopment
 export const BASE_ROUTE = '/ui'
 
 export const NARROW_MAX_WIDTH = 480
+export const MEDIUM_MAX_WIDTH = 768
 
 export const ROUTES: RoutesObject = {
   LOGIN: { PATH: `${BASE_ROUTE}/login`, LABEL: 'Login', COMPONENT: Login, PUBLIC: true },
