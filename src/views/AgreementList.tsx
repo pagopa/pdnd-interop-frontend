@@ -155,7 +155,7 @@ export function AgreementList() {
     <React.Fragment>
       <StyledIntro>{INTRO[mode!]}</StyledIntro>
 
-      <div className="mt-4">
+      <Box sx={{ mt: '2rem' }}>
         <TempFilters />
 
         <TableWithLoader
@@ -192,7 +192,7 @@ export function AgreementList() {
             </TableRow>
           ))}
         </TableWithLoader>
-      </div>
+      </Box>
     </React.Fragment>
   )
 }

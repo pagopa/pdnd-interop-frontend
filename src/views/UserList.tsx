@@ -160,7 +160,7 @@ export function UserList() {
     <React.Fragment>
       <StyledIntro>{TITLES[mode!]}</StyledIntro>
 
-      <div className="mt-4">
+      <Box sx={{ mt: '2rem' }}>
         {isAdmin(party) && (
           <StyledButton
             variant="contained"
@@ -223,7 +223,7 @@ export function UserList() {
             </TableRow>
           ))}
         </TableWithLoader>
-      </div>
+      </Box>
     </React.Fragment>
   )
 }

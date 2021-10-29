@@ -101,7 +101,7 @@ export function ClientList() {
         }}
       </StyledIntro>
 
-      <div className="mt-4">
+      <Box sx={{ mt: '2rem' }}>
         {isAdmin(party) && (
           <StyledButton
             variant="contained"
@@ -147,7 +147,7 @@ export function ClientList() {
             </TableRow>
           ))}
         </TableWithLoader>
-      </div>
+      </Box>
     </React.Fragment>
   )
 }
