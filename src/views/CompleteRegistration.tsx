@@ -15,6 +15,7 @@ import { LoaderContext } from '../lib/context'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
 import { StyledLink } from '../components/Shared/StyledLink'
+import { Box } from '@mui/system'
 
 export function CompleteRegistration() {
   const { setLoadingText } = useContext(LoaderContext)
@@ -101,7 +102,7 @@ export function CompleteRegistration() {
   return (
     <React.Fragment>
       {!outcome ? (
-        <div className="mx-auto my-auto text-center">
+        <Box sx={{ m: 'auto', textAlign: 'center' }}>
           <StyledIntro sx={{ mx: 'auto' }}>
             {{
               title: 'Ciao!',
@@ -110,19 +111,21 @@ export function CompleteRegistration() {
             }}
           </StyledIntro>
 
-          <StyledForm className="mt-4" onSubmit={handleSubmit}>
-            <StyledInputFile
-              id="contratto"
-              onChange={loadFile}
-              value={contract}
-              label="carica accordo"
-            />
+          <Box sx={{ mt: '2rem' }}>
+            <StyledForm onSubmit={handleSubmit}>
+              <StyledInputFile
+                id="contratto"
+                label="Carica accordo"
+                value={contract}
+                onChange={loadFile}
+              />
 
-            <StyledButton variant="contained" type="submit" disabled={!contract}>
-              Prosegui
-            </StyledButton>
-          </StyledForm>
-        </div>
+              <StyledButton variant="contained" type="submit" disabled={!contract}>
+                Prosegui
+              </StyledButton>
+            </StyledForm>
+          </Box>
+        </Box>
       ) : (
         <MessageNoAction {...outcomeContent[outcome]} />
       )}

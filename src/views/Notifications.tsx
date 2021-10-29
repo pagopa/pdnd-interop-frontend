@@ -1,3 +1,5 @@
+import { Typography } from '@mui/material'
+import { Box } from '@mui/system'
 import React, { useState } from 'react'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 
@@ -102,13 +104,22 @@ export function Notifications() {
 
         {mockNotifications[view].map(({ date, type, title, message }, i) => {
           return (
-            <div className="my-3 p-3 border border-secondary" key={i}>
-              <p className="d-flex align-items-center text-primary my-0">
+            <Box sx={{ my: '1rem', p: '1rem', border: 1, borderColor: 'divider' }} key={i}>
+              <Typography
+                sx={{ display: 'flex', alignItems: 'center', my: 0 }}
+                color="primary.main"
+              >
                 <i className={`me-2 fs-5 bi ${ICON_TYPES[type]}`} />
-                <strong className="me-2">{title}</strong> — <span className="ms-2">{date}</span>
-              </p>
-              <p className="my-2">{message}</p>
-            </div>
+                <Typography component="span" sx={{ fontWeight: 600, mr: '0.5rem' }}>
+                  {title}
+                </Typography>{' '}
+                —{' '}
+                <Typography component="span" sx={{ fontWeight: 600, ml: '0.5rem' }}>
+                  {date}
+                </Typography>
+              </Typography>
+              <Typography sx={{ my: '0.5rem' }}>{message}</Typography>
+            </Box>
           )
         })}
       </div>
