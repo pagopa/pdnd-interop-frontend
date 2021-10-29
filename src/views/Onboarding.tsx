@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import { Typography } from '@mui/material'
 import {
   PartyOnCreate,
   RequestOutcome,
@@ -6,19 +8,19 @@ import {
   StepperStep,
   User,
 } from '../../types'
+import { fetchWithLogs } from '../lib/api-utils'
+import { getFetchOutcome } from '../lib/error-utils'
+import { scrollToTop } from '../lib/page-utils'
 import { StyledStepper } from '../components/Shared/StyledStepper'
 import { OnboardingStep1 } from '../components/OnboardingStep1'
 import { OnboardingStep2 } from '../components/OnboardingStep2'
 import { OnboardingStep3 } from '../components/OnboardingStep3'
 import { LoadingOverlay } from '../components/Shared/LoadingOverlay'
-import { fetchWithLogs } from '../lib/api-utils'
 import { MessageNoAction } from '../components/Shared/MessageNoAction'
 import emailIllustration from '../assets/email-illustration.svg'
 import redXIllustration from '../assets/red-x-illustration.svg'
-import { getFetchOutcome } from '../lib/error-utils'
-import { useHistory } from 'react-router-dom'
 import { InlineSupportLink } from '../components/Shared/InlineSupportLink'
-import { scrollToTop } from '../lib/page-utils'
+import { StyledLink } from '../components/Shared/StyledLink'
 
 export function Onboarding() {
   const [loading, setLoading] = useState(false)
@@ -91,25 +93,27 @@ export function Onboarding() {
       img: { src: emailIllustration, alt: "Icona dell'email" },
       title: 'Ci siamo quasi...',
       description: [
-        <p>
+        <Typography>
           Per completare la registrazione, segui le istruzioni che trovi nella mail che ti abbiamo
           inviato a <strong>{party?.digitalAddress}</strong>
-        </p>,
-        <p>
+        </Typography>,
+        <Typography>
           Non hai ricevuto nessuna mail? Attendi qualche minuto e controlla anche nello spam. Se non
           arriva, <InlineSupportLink />
-        </p>,
+        </Typography>,
       ],
     },
     error: {
       img: { src: redXIllustration, alt: "Icona dell'email" },
       title: "C'è stato un problema...",
       description: [
-        <p>
+        <Typography>
           Il salvataggio dei dati inseriti non è andato a buon fine.{' '}
-          <button onClick={reload}>Prova nuovamente a registrarti</button>
+          <StyledLink component="button" onClick={reload}>
+            Prova nuovamente a registrarti
+          </StyledLink>
           , e se il problema dovesse persistere, <InlineSupportLink />!
-        </p>,
+        </Typography>,
       ],
     },
   }

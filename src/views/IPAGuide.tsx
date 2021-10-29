@@ -1,3 +1,5 @@
+import { Typography } from '@mui/material'
+import { Box } from '@mui/system'
 import React from 'react'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 
@@ -31,10 +33,10 @@ export function IPAGuide() {
         }}
       </StyledIntro>
       {CONTENTS.map(({ title, text }, i) => (
-        <div key={i}>
-          <h3>{title}</h3>
-          <p>{text}</p>
-        </div>
+        <Box key={i}>
+          <Typography component="h3">{title}</Typography>
+          <Typography>{text}</Typography>
+        </Box>
       ))}
     </React.Fragment>
   )

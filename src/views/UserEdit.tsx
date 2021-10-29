@@ -14,6 +14,8 @@ import { mergeActions } from '../lib/eservice-utils'
 import { SecurityOperatorKeys } from '../components/SecurityOperatorKeys'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
+import { Typography } from '@mui/material'
+import { Box } from '@mui/system'
 
 type UserEndpoinParams =
   | { operatorTaxCode: string; clientId: string }
@@ -137,34 +139,38 @@ export function UserEdit() {
       </StyledIntro>
 
       <DescriptionBlock label="Codice fiscale">
-        <span>{userData?.taxCode || userData?.from}</span>
+        <Typography component="span">{userData?.taxCode || userData?.from}</Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Email">
-        <span>{userData?.email || 'n/d'}</span>
+        <Typography component="span">{userData?.email || 'n/d'}</Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Ruolo">
-        <span>{userData?.role ? USER_ROLE_LABEL[userData!.role] : 'n/d'}</span>
+        <Typography component="span">
+          {userData?.role ? USER_ROLE_LABEL[userData!.role] : 'n/d'}
+        </Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Permessi">
-        <span>
+        <Typography component="span">
           {userData?.platformRole ? USER_PLATFORM_ROLE_LABEL[userData!.platformRole] : 'n/d'}
-        </span>
+        </Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Stato dell'utente">
-        <span>{userData?.status ? USER_STATUS_LABEL[userData!.status] : 'n/d'}</span>
+        <Typography component="span">
+          {userData?.status ? USER_STATUS_LABEL[userData!.status] : 'n/d'}
+        </Typography>
       </DescriptionBlock>
 
-      <div className="mt-5 d-flex">
+      <Box sx={{ mt: '2rem', display: 'flex' }}>
         {getAvailableActions().map(({ onClick, label }, i) => (
-          <StyledButton key={i} onClick={onClick}>
+          <StyledButton variant="contained" key={i} onClick={onClick}>
             {label}
           </StyledButton>
         ))}
-      </div>
+      </Box>
 
       {clientId && !isEmpty(userData) && (
         <SecurityOperatorKeys clientId={clientId} userData={userData!} />

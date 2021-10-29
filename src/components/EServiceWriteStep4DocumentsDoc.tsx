@@ -95,7 +95,7 @@ export function EServiceWriteStep4DocumentsDoc({
           <StyledInputFile
             className="mt-2 mb-0"
             id="doc-doc"
-            label="seleziona documento"
+            label="Seleziona documento"
             value={writeDoc?.doc}
             onChange={wrapUpdateDoc('doc')}
           />

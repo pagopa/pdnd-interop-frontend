@@ -1,4 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material'
+import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material'
+import { MEDIUM_MAX_WIDTH } from '../../lib/constants'
 
 type AccordionEntry = {
   summary: string | JSX.Element
@@ -10,46 +13,20 @@ type StyledAccordionProps = {
 }
 
 export function StyledAccordion({ entries }: StyledAccordionProps) {
-  const [index, setIndex] = useState<number | null>(null)
-
-  const collapse = () => {
-    setIndex(null)
-  }
-
-  const wrapToggle = (newIndex: number) => (e: any) => {
-    e.preventDefault()
-
-    if (newIndex === index) {
-      collapse()
-    } else {
-      setIndex(newIndex)
-    }
-  }
   return (
     <React.Fragment>
-      {entries.map(({ summary, details }, i: number) => {
-        return (
-          <div className="mt-2 py-3 px-3 border-bottom border-secondary" key={i}>
-            <button
-              className="reset-btn w-100 d-flex justify-content-between align-items-center"
-              onClick={wrapToggle(i)}
-            >
-              <span>{summary}</span>
-              <i className={`text-primary fs-5 bi bi-chevron-${i === index ? 'up' : 'down'}`} />
-            </button>
-            <div
-              style={{
-                overflowX: 'hidden',
-                overflowY: 'auto',
-                transition: '0.45s max-height ease-in-out',
-                maxHeight: i !== index ? 0 : 500,
-              }}
-            >
-              <div className="pt-3">{details}</div>
-            </div>
-          </div>
-        )
-      })}
+      {entries.map(({ summary, details }, i: number) => (
+        <Accordion sx={{ maxWidth: MEDIUM_MAX_WIDTH }} key={i}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls={`panel-content-${i}`}
+            id={`panel-header-${i}`}
+          >
+            <Typography>{summary}</Typography>
+          </AccordionSummary>
+          <AccordionDetails>{details}</AccordionDetails>
+        </Accordion>
+      ))}
     </React.Fragment>
   )
 }

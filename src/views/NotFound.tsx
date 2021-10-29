@@ -1,4 +1,5 @@
 import React from 'react'
+import { Box } from '@mui/system'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledLink } from '../components/Shared/StyledLink'
 
@@ -13,19 +14,17 @@ export function NotFound({ errorType = 'not-found' }: NotFoundProps) {
   }
 
   return (
-    <React.Fragment>
-      <div className="bg-danger px-3 py-3">
-        <StyledIntro variant="h1">
-          {{
-            title: 'Spiacenti',
-            description: (
-              <>
-                {DESCRIPTIONS[errorType]}. Torna alla <StyledLink to="/">home</StyledLink>.
-              </>
-            ),
-          }}
-        </StyledIntro>
-      </div>
-    </React.Fragment>
+    <Box sx={{ px: '1.5rem', py: '1.5rem', bgcolor: 'error.main' }}>
+      <StyledIntro variant="h1">
+        {{
+          title: 'Spiacenti',
+          description: (
+            <>
+              {DESCRIPTIONS[errorType]}. Torna alla <StyledLink to="/">home</StyledLink>.
+            </>
+          ),
+        }}
+      </StyledIntro>
+    </Box>
   )
 }

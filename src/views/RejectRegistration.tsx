@@ -9,6 +9,7 @@ import { getFetchOutcome } from '../lib/error-utils'
 import { useLocation } from 'react-router'
 import { LoadingOverlay } from '../components/Shared/LoadingOverlay'
 import { InlineSupportLink } from '../components/Shared/InlineSupportLink'
+import { Typography } from '@mui/material'
 
 export function RejectRegistration() {
   const location = useLocation()
@@ -42,16 +43,16 @@ export function RejectRegistration() {
     success: {
       img: { src: checkIllustration, alt: 'Icona del check' },
       title: 'Congratulazioni',
-      description: [<p>La registrazione è stata cancellata correttamente</p>],
+      description: [<Typography>La registrazione è stata cancellata correttamente</Typography>],
     },
     error: {
       img: { src: redXIllustration, alt: 'Icona della X' },
       title: 'Attenzione!',
       description: [
-        <p>
+        <Typography>
           C'è stato un errore nel completamento della procedura. Per favore, riprova! Se non riesci
           a cancellarti, <InlineSupportLink />.
-        </p>,
+        </Typography>,
       ],
     },
   }

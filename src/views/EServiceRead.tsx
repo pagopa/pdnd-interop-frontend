@@ -25,6 +25,8 @@ import { StyledAccordion } from '../components/Shared/StyledAccordion'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
+import { Typography } from '@mui/material'
+import { Box } from '@mui/system'
 
 type EServiceReadProps = {
   data: EServiceReadType
@@ -134,35 +136,41 @@ export function EServiceRead({ data }: EServiceReadProps) {
       <StyledIntro>{{ title: data.name, description: DESCRIPTIONS[mode!] }}</StyledIntro>
 
       <DescriptionBlock label="Descrizione dell'e-service">
-        <span>{data.description}</span>
+        <Typography component="span">{data.description}</Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Ente erogatore">
-        <span>{data.producer.name}</span>
+        <Typography component="span">{data.producer.name}</Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Versione">
-        <span>{data.activeDescriptor!.version}</span>
+        <Typography component="span">{data.activeDescriptor!.version}</Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Stato della versione">
-        <span>{ESERVICE_STATUS_LABEL[data.activeDescriptor!.status]}</span>
+        <Typography component="span">
+          {ESERVICE_STATUS_LABEL[data.activeDescriptor!.status]}
+        </Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Audience">
-        <span>{data.activeDescriptor!.audience.join(', ')}</span>
+        <Typography component="span">{data.activeDescriptor!.audience.join(', ')}</Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Tecnologia">
-        <span>{data.technology}</span>
+        <Typography component="span">{data.technology}</Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="PoP (Proof of Possession)">
-        <span className="fakeData">Non richiesta</span>
+        <Typography component="span" className="fakeData">
+          Non richiesta
+        </Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Durata del voucher dall'attivazione">
-        <span>{minutesToHHMMSS(data.activeDescriptor!.voucherLifespan)} (hh:mm:ss)</span>
+        <Typography component="span">
+          {minutesToHHMMSS(data.activeDescriptor!.voucherLifespan)} (hh:mm:ss)
+        </Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Accordo di interoperabilità">
@@ -173,36 +181,43 @@ export function EServiceRead({ data }: EServiceReadProps) {
 
       {data.activeDescriptor!.interface && (
         <DescriptionBlock label="Interfaccia">
-          <button onClick={wrapDownloadDocument(data.activeDescriptor!.interface!.id)}>
+          <StyledLink
+            component="button"
+            onClick={wrapDownloadDocument(data.activeDescriptor!.interface!.id)}
+          >
             Scarica il documento di interfaccia
-          </button>
+          </StyledLink>
         </DescriptionBlock>
       )}
 
       {data.activeDescriptor!.docs.length > 0 && (
         <DescriptionBlock label="Documentazione">
           {data.activeDescriptor!.docs.map((d, i) => (
-            <div
-              className={`d-flex justify-content-between border-bottom border-bottom-1 ${
-                i === 0 ? 'mt-2' : ''
-              }`}
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                borderBottom: 1,
+                borderColor: 'divider',
+                mt: i === 0 ? '1rem' : 0,
+              }}
               key={i}
             >
-              <div className="py-1 my-1">
+              <Box sx={{ py: '0.25rem', my: '0.25rem' }}>
                 <strong>{d.name}</strong>
                 {d.description !== 'undefined' && (
                   <React.Fragment>
                     <br />
-                    <span className="d-inline-block mt-1 mb-2">
+                    <Typography sx={{ display: 'inline-block', mt: '0.25rem', mb: '0.5rem' }}>
                       {decodeURIComponent(d.description)}
-                    </span>
+                    </Typography>
                   </React.Fragment>
                 )}
-              </div>
-              <button onClick={wrapDownloadDocument(d.id)}>
+              </Box>
+              <StyledLink component="button" onClick={wrapDownloadDocument(d.id)}>
                 <i className="text-primary fs-5 bi bi-download me-2" />
-              </button>
-            </div>
+              </StyledLink>
+            </Box>
           ))}
         </DescriptionBlock>
       )}
@@ -210,23 +225,30 @@ export function EServiceRead({ data }: EServiceReadProps) {
       {(Object.keys(data.attributes) as AttributeType[]).map((key, i) => (
         <DescriptionBlock key={i} label={`Attributi ${ATTRIBUTE_TYPE_LABEL[key]}`}>
           {data.attributes[key].length > 0 ? (
-            <StyledAccordion entries={toAccordionEntries(data.attributes[key])} />
+            <Box sx={{ mt: '0.5rem' }}>
+              <StyledAccordion entries={toAccordionEntries(data.attributes[key])} />
+            </Box>
           ) : (
-            <span>Nessun attributo presente</span>
+            <Typography component="span">Nessun attributo presente</Typography>
           )}
         </DescriptionBlock>
       ))}
 
       {mode === 'subscriber' && (
-        <div className="d-flex">
+        <Box sx={{ display: 'flex' }}>
           {isVersionPublished && !isMine && isAdmin(party) && canSubscribeEservice && (
-            <StyledButton className="me-3" variant="contained" onClick={handleSubscriptionDialog}>
+            <StyledButton
+              sx={{ mr: '0.5rem' }}
+              variant="contained"
+              onClick={handleSubscriptionDialog}
+            >
               Iscriviti
             </StyledButton>
           )}
           {!isMine && isAdmin(party) && !canSubscribeEservice && (
             <StyledButton
-              className="me-3 mockFeature"
+              className="mockFeature"
+              sx={{ mr: '0.5rem' }}
               variant="contained"
               onClick={openExtensionDialog}
             >
@@ -240,7 +262,7 @@ export function EServiceRead({ data }: EServiceReadProps) {
           >
             Torna al catalogo
           </StyledButton>
-        </div>
+        </Box>
       )}
     </React.Fragment>
   )

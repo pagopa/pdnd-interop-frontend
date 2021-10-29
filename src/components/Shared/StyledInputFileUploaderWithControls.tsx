@@ -48,7 +48,7 @@ export function StyledInputFileUploaderWithControls({
       <div className="mb-3 px-3 py-3 rounded bg-secondary">
         <StyledInputFileUploader
           id={`${id}-doc`}
-          label="seleziona"
+          label="Seleziona"
           value={file}
           onChange={onChangeFile}
         />
