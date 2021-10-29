@@ -40,7 +40,7 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
   }
 
   return loadingText ? (
-    <LoadingWithMessage label={loadingText} />
+    <LoadingWithMessage label={loadingText} transparentBackground={true} />
   ) : (
     <TableContainer>
       <Table sx={{ borderSpacing: '0 1rem', borderCollapse: 'separate' }}>

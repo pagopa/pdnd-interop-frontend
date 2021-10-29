@@ -5,17 +5,25 @@ import { StyledSpinner } from './StyledSpinner'
 
 type LoadingWithMessageProps = {
   label?: string
+  transparentBackground?: boolean
 }
 
-export function LoadingWithMessage({ label }: LoadingWithMessageProps) {
+export function LoadingWithMessage({
+  label,
+  transparentBackground = false,
+}: LoadingWithMessageProps) {
+  const background = transparentBackground
+    ? { backgroundColor: 'transparent' }
+    : { bgcolor: 'common.white' }
+
   return (
     <Box
       sx={{
         textAlign: 'center',
         px: '1.5rem',
         py: '1.5rem',
-        bgcolor: 'common.white',
         color: 'primary.main',
+        ...background,
       }}
     >
       <StyledSpinner />

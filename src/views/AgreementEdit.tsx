@@ -8,7 +8,7 @@ import {
   GroupBackendAttribute,
   ActionProps,
 } from '../../types'
-import { AGREEMENT_STATUS_LABEL, ROUTES } from '../lib/constants'
+import { AGREEMENT_STATUS_LABEL, NARROW_MAX_WIDTH, ROUTES } from '../lib/constants'
 import { buildDynamicPath, getLastBit } from '../lib/url-utils'
 import { formatDate, getRandomDate } from '../lib/date-utils'
 import { mergeActions } from '../lib/eservice-utils'
@@ -21,6 +21,8 @@ import { getAgreementStatus } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
+import { Box } from '@mui/system'
+import { Typography } from '@mui/material'
 
 export function AgreementEdit() {
   const {
@@ -178,28 +180,28 @@ export function AgreementEdit() {
     const randomDate = getRandomDate(new Date(2022, 0, 1), new Date(2023, 0, 1))
 
     return (
-      <div className="d-flex justify-content-between align-items-center">
-        <span>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Typography>
           {name}, con <span className="fakeData">scadenza {formatDate(randomDate)}</span>
-        </span>
+        </Typography>
 
         {typeof verified === 'boolean' ? (
           verified ? (
             <div className="text-primary d-flex align-items-center my-1">
               <i className="text-primary fs-5 bi bi-check me-2" />
-              <span>verificato</span>
+              <Typography>verificato</Typography>
             </div>
           ) : (
-            <span>rifiutato dall'erogatore</span>
+            <Typography>rifiutato dall'erogatore</Typography>
           )
         ) : mode === 'provider' ? (
           <StyledButton variant="contained" onClick={wrapVerify(id)}>
             Verifica
           </StyledButton>
         ) : (
-          <span>in attesa di verifica</span>
+          <Typography>in attesa di verifica</Typography>
         )}
-      </div>
+      </Box>
     )
   }
 
@@ -211,7 +213,7 @@ export function AgreementEdit() {
       <StyledIntro>{{ title: 'Accordo di interoperabilità' }}</StyledIntro>
 
       <DescriptionBlock label="Accordo relativo a">
-        <div style={{ maxWidth: 500 }}>
+        <Box style={{ maxWidth: NARROW_MAX_WIDTH }}>
           <StyledLink
             to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
               eserviceId: data?.eservice.id,
@@ -237,27 +239,27 @@ export function AgreementEdit() {
               ; per attivarla, aggiorna l'accordo di interoperabilità)
             </React.Fragment>
           ) : null}
-        </div>
+        </Box>
       </DescriptionBlock>
 
       <DescriptionBlock label="Stato dell'accordo" tooltipLabel={agreementSuspendExplanation}>
         {data?.status === 'suspended' ? (
           <React.Fragment>
-            <span>
+            <Typography>
               Lato erogatore: {AGREEMENT_STATUS_LABEL[getAgreementStatus(data, 'provider')]}
-            </span>
+            </Typography>
             <br />
-            <span>
+            <Typography>
               Lato fruitore: {AGREEMENT_STATUS_LABEL[getAgreementStatus(data, 'subscriber')]}
-            </span>
+            </Typography>
           </React.Fragment>
         ) : (
-          <span>{AGREEMENT_STATUS_LABEL[data?.status]}</span>
+          <Typography>{AGREEMENT_STATUS_LABEL[data?.status]}</Typography>
         )}
       </DescriptionBlock>
 
       <DescriptionBlock label="Attributi">
-        <div className="mt-1">
+        <Box sx={{ mt: '0.5rem' }}>
           {data?.attributes.length > 0 ? (
             data?.attributes.map((backendAttribute, i) => {
               let attributesToDisplay: any
@@ -282,34 +284,40 @@ export function AgreementEdit() {
               }
 
               return (
-                <div
+                <Box
                   key={i}
-                  className="w-100 border-bottom border-secondary mb-2 pb-2"
-                  style={{ maxWidth: 768 }}
+                  sx={{
+                    width: '100%',
+                    mb: '1rem',
+                    pb: '1rem',
+                    borderBottom: 1,
+                    borderColor: 'secondary.main',
+                  }}
+                  style={{ maxWidth: NARROW_MAX_WIDTH }}
                 >
                   {attributesToDisplay}
-                </div>
+                </Box>
               )
             })
           ) : (
-            <span>Per questo e-service non sono stati richiesti attributi</span>
+            <Typography>Per questo e-service non sono stati richiesti attributi</Typography>
           )}
-        </div>
+        </Box>
       </DescriptionBlock>
 
       {mode === 'provider' && (
         <DescriptionBlock label="Ente fruitore">
-          <span>{data?.consumer.name}</span>
+          <Typography>{data?.consumer.name}</Typography>
         </DescriptionBlock>
       )}
 
-      <div className="mt-5 d-flex">
+      <Box sx={{ mt: '2rem', display: 'flex' }}>
         {getAvailableActions().map(({ onClick, label }, i) => (
-          <StyledButton key={i} onClick={onClick}>
+          <StyledButton variant="contained" key={i} onClick={onClick}>
             {label}
           </StyledButton>
         ))}
-      </div>
+      </Box>
     </React.Fragment>
   )
 }
