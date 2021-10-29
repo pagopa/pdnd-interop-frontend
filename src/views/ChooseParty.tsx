@@ -55,7 +55,7 @@ export function ChooseParty() {
         <Box
           sx={{
             borderBottom: 1,
-            borderColor: 'grey.500',
+            borderColor: 'divider',
             mb: '0.5rem',
             pb: '1.5rem',
             textAlign: 'center',

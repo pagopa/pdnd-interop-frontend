@@ -8,7 +8,7 @@ import {
   GroupBackendAttribute,
   ActionProps,
 } from '../../types'
-import { AGREEMENT_STATUS_LABEL, NARROW_MAX_WIDTH, ROUTES } from '../lib/constants'
+import { AGREEMENT_STATUS_LABEL, MEDIUM_MAX_WIDTH, ROUTES } from '../lib/constants'
 import { buildDynamicPath, getLastBit } from '../lib/url-utils'
 import { formatDate, getRandomDate } from '../lib/date-utils'
 import { mergeActions } from '../lib/eservice-utils'
@@ -181,7 +181,7 @@ export function AgreementEdit() {
 
     return (
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography>
+        <Typography component="span">
           {name}, con <span className="fakeData">scadenza {formatDate(randomDate)}</span>
         </Typography>
 
@@ -189,17 +189,17 @@ export function AgreementEdit() {
           verified ? (
             <div className="text-primary d-flex align-items-center my-1">
               <i className="text-primary fs-5 bi bi-check me-2" />
-              <Typography>verificato</Typography>
+              <Typography component="span">verificato</Typography>
             </div>
           ) : (
-            <Typography>rifiutato dall'erogatore</Typography>
+            <Typography component="span">rifiutato dall'erogatore</Typography>
           )
         ) : mode === 'provider' ? (
           <StyledButton variant="contained" onClick={wrapVerify(id)}>
             Verifica
           </StyledButton>
         ) : (
-          <Typography>in attesa di verifica</Typography>
+          <Typography component="span">in attesa di verifica</Typography>
         )}
       </Box>
     )
@@ -213,7 +213,7 @@ export function AgreementEdit() {
       <StyledIntro>{{ title: 'Accordo di interoperabilità' }}</StyledIntro>
 
       <DescriptionBlock label="Accordo relativo a">
-        <Box style={{ maxWidth: NARROW_MAX_WIDTH }}>
+        <Box style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
           <StyledLink
             to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
               eserviceId: data?.eservice.id,
@@ -245,16 +245,16 @@ export function AgreementEdit() {
       <DescriptionBlock label="Stato dell'accordo" tooltipLabel={agreementSuspendExplanation}>
         {data?.status === 'suspended' ? (
           <React.Fragment>
-            <Typography>
+            <Typography component="span">
               Lato erogatore: {AGREEMENT_STATUS_LABEL[getAgreementStatus(data, 'provider')]}
             </Typography>
             <br />
-            <Typography>
+            <Typography component="span">
               Lato fruitore: {AGREEMENT_STATUS_LABEL[getAgreementStatus(data, 'subscriber')]}
             </Typography>
           </React.Fragment>
         ) : (
-          <Typography>{AGREEMENT_STATUS_LABEL[data?.status]}</Typography>
+          <Typography component="span">{AGREEMENT_STATUS_LABEL[data?.status]}</Typography>
         )}
       </DescriptionBlock>
 
@@ -291,9 +291,9 @@ export function AgreementEdit() {
                     mb: '1rem',
                     pb: '1rem',
                     borderBottom: 1,
-                    borderColor: 'secondary.main',
+                    borderColor: 'divider',
                   }}
-                  style={{ maxWidth: NARROW_MAX_WIDTH }}
+                  style={{ maxWidth: MEDIUM_MAX_WIDTH }}
                 >
                   {attributesToDisplay}
                 </Box>
@@ -307,7 +307,7 @@ export function AgreementEdit() {
 
       {mode === 'provider' && (
         <DescriptionBlock label="Ente fruitore">
-          <Typography>{data?.consumer.name}</Typography>
+          <Typography component="span">{data?.consumer.name}</Typography>
         </DescriptionBlock>
       )}
 
