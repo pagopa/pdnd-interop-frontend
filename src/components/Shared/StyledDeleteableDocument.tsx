@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react'
+import { Delete as DeleteIcon, ModeEdit as ModeEditIcon } from '@mui/icons-material'
 import { EServiceDocumentRead } from '../../../types'
 import { useFeedback } from '../../hooks/useFeedback'
 import { StyledButton } from './StyledButton'
@@ -90,13 +91,17 @@ export function StyledDeleteableDocument({
           style={{ width: 48 }}
           onClick={updateCanEdit}
           label="Modifica descrizione"
-        />
+        >
+          <ModeEditIcon fontSize="small" />
+        </StyledButton>
         <StyledButton
           className="px-2 py-2"
           style={{ width: 48 }}
           onClick={deleteDocument}
           label="Cancella documento"
-        />
+        >
+          <DeleteIcon fontSize="small" />
+        </StyledButton>
       </div>
     </div>
   )

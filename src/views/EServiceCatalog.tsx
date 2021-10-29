@@ -17,6 +17,11 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { TableCell, TableRow } from '@mui/material'
 import { Box } from '@mui/system'
 import { ActionMenu } from '../components/Shared/ActionMenu'
+import {
+  Lock as LockIcon,
+  CheckCircle as CheckCircleIcon,
+  Cancel as CancelIcon,
+} from '@mui/icons-material'
 
 type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
   isMine: boolean
@@ -52,9 +57,9 @@ export function EServiceCatalog() {
 
   const headData = ['nome e-service', 'ente erogatore', 'versione attuale', 'stato e-service', '']
 
-  const OwnerTooltip = ({ label = '', iconClass = '' }) => (
+  const OwnerTooltip = ({ label = '', Icon }: { label: string; Icon: any }) => (
     <StyledTooltip title={label}>
-      <i className={`text-primary ms-2 fs-5 bi ${iconClass}`} />
+      <Icon sx={{ ml: '0.25rem' }} fontSize="small" color="primary" />
     </StyledTooltip>
   )
 
@@ -121,14 +126,14 @@ export function EServiceCatalog() {
             <TableRow key={i} sx={{ bgcolor: 'common.white' }}>
               <TableCell>
                 {item.name}
-                {item.isMine && <OwnerTooltip label="Sei l'erogatore" iconClass="bi-key-fill" />}
+                {item.isMine && <OwnerTooltip label="Sei l'erogatore" Icon={LockIcon} />}
                 {item.callerSubscribed && isAdmin(party) && (
-                  <OwnerTooltip label="Sei già iscritto" iconClass="bi-check-circle" />
+                  <OwnerTooltip label="Sei già iscritto" Icon={CheckCircleIcon} />
                 )}
                 {!item.isMine && !canSubscribeEservice && (
                   <OwnerTooltip
                     label="Il tuo ente non ha gli attributi certificati necessari per iscriversi"
-                    iconClass="bi-x-circle"
+                    Icon={CancelIcon}
                   />
                 )}
               </TableCell>

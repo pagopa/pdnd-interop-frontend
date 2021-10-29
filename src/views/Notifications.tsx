@@ -1,6 +1,7 @@
+import React, { useState } from 'react'
+import { Info as InfoIcon, Warning as WarningIcon } from '@mui/icons-material'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import React, { useState } from 'react'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 
 type Notification = {
@@ -62,8 +63,8 @@ export function Notifications() {
   const [view, setView] = useState<'p' | 's'>('p')
 
   const ICON_TYPES = {
-    'action-required': 'bi-exclamation-triangle',
-    info: 'bi-info-circle',
+    'action-required': WarningIcon,
+    info: InfoIcon,
   }
 
   const wrapSetView = (v: 'p' | 's') => (_: any) => {
@@ -103,13 +104,15 @@ export function Notifications() {
         </button>
 
         {mockNotifications[view].map(({ date, type, title, message }, i) => {
+          const Icon = ICON_TYPES[type]
+
           return (
             <Box sx={{ my: '1rem', p: '1rem', border: 1, borderColor: 'divider' }} key={i}>
               <Typography
                 sx={{ display: 'flex', alignItems: 'center', my: 0 }}
                 color="primary.main"
               >
-                <i className={`me-2 fs-5 bi ${ICON_TYPES[type]}`} />
+                <Icon fontSize="small" sx={{ mr: '0.25rem' }} />
                 <Typography component="span" sx={{ fontWeight: 600, mr: '0.5rem' }}>
                   {title}
                 </Typography>{' '}

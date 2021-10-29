@@ -23,6 +23,7 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { Box } from '@mui/system'
 import { Typography } from '@mui/material'
+import { CheckCircle as CheckCircleIcon } from '@mui/icons-material'
 
 export function AgreementEdit() {
   const {
@@ -181,16 +182,21 @@ export function AgreementEdit() {
 
     return (
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography component="span">
-          {name}, con <span className="fakeData">scadenza {formatDate(randomDate)}</span>
+        <Typography>
+          {name}, con{' '}
+          <Typography component="span" className="fakeData">
+            scadenza {formatDate(randomDate)}
+          </Typography>
         </Typography>
 
         {typeof verified === 'boolean' ? (
           verified ? (
-            <div className="text-primary d-flex align-items-center my-1">
-              <i className="text-primary fs-5 bi bi-check me-2" />
+            <Box
+              sx={{ display: 'flex', alignItems: 'center', my: '0.25rem', color: 'primary.main' }}
+            >
+              <CheckCircleIcon sx={{ mr: '0.25rem' }} fontSize="small" color="primary" />
               <Typography component="span">verificato</Typography>
-            </div>
+            </Box>
           ) : (
             <Typography component="span">rifiutato dall'erogatore</Typography>
           )

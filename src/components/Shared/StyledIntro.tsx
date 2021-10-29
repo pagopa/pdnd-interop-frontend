@@ -1,6 +1,6 @@
+import React, { FunctionComponent } from 'react'
 import { Typography } from '@mui/material'
 import { Box, SxProps } from '@mui/system'
-import React, { FunctionComponent } from 'react'
 import { NARROW_MAX_WIDTH } from '../../lib/constants'
 
 type ChildrenProps = {
@@ -41,7 +41,7 @@ export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
       <Typography variant={variant} sx={{ mb: '1rem' }}>
         {children.title}
       </Typography>
-      {children.description && <Typography className="mb-0">{children.description}</Typography>}
+      {children.description && <Typography sx={{ mb: 0 }}>{children.description}</Typography>}
     </Box>
   )
 }

@@ -67,7 +67,6 @@ export const useSubscribeDialog = () => {
             onChange={() => {
               setChecked(!checked)
             }}
-            className="mt-0"
           />
         </React.Fragment>
       ),

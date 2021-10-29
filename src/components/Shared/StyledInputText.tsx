@@ -12,7 +12,6 @@ type StyledInputTextProps = {
   readOnly?: boolean
   value?: string | number
   onChange?: any
-  className?: string
   tooltipLabel?: string
   inputProps?: InputBaseComponentProps
 }
