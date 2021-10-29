@@ -50,39 +50,31 @@ export function BodyLogger() {
     logAction('Route change', location)
   }, [location])
 
-  const PlatformLayout = () => {
-    return (
-      <Box sx={{ flexGrow: 1 }}>
-        <Layout sx={{ height: '100%' }}>
-          <Box sx={{ display: 'flex', height: '100%' }}>
-            {user && <MainNav />}
-            <Box sx={{ py: '5rem', pl: '2rem', flexGrow: 1 }}>
-              <Main />
-            </Box>
-          </Box>
-        </Layout>
-      </Box>
-    )
-  }
-
-  const OnboardingLayout = () => {
-    return (
-      <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-        <Box sx={{ m: 'auto', py: '5rem', px: '2rem' }}>
-          <Layout>
-            <Main />
-          </Layout>
-        </Box>
-      </Box>
-    )
-  }
-
   return (
     <ToastContext.Provider value={{ toast, setToast }}>
       <DialogContext.Provider value={{ dialog, setDialog }}>
         <LoaderContext.Provider value={{ loadingText, setLoadingText }}>
           <Header />
-          {isInPlatform(location) ? <PlatformLayout /> : <OnboardingLayout />}
+          {isInPlatform(location) ? (
+            <Box sx={{ flexGrow: 1 }}>
+              <Layout sx={{ height: '100%' }}>
+                <Box sx={{ display: 'flex', height: '100%' }}>
+                  {user && <MainNav />}
+                  <Box sx={{ py: '5rem', pl: '2rem', flexGrow: 1 }}>
+                    <Main />
+                  </Box>
+                </Box>
+              </Layout>
+            </Box>
+          ) : (
+            <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+              <Box sx={{ m: 'auto', py: '5rem', px: '2rem' }}>
+                <Layout>
+                  <Main />
+                </Layout>
+              </Box>
+            </Box>
+          )}
           <Footer />
           {toast && <StyledToast {...toast} />}
           {dialog && <StyledDialog {...dialog} />}
