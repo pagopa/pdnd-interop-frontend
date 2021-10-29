@@ -1,3 +1,4 @@
+import { Box } from '@mui/system'
 import React, { useContext } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { BASE_ROUTE, ROUTES, SHOW_DEV_LABELS } from '../lib/constants'
@@ -8,7 +9,7 @@ export function Main() {
   const { user } = useContext(UserContext)
 
   return (
-    <main className={`pb-4${!SHOW_DEV_LABELS ? ' hideDevLabels' : ''}`}>
+    <Box component="main" sx={{ pb: '2rem' }} className={!SHOW_DEV_LABELS ? ' hideDevLabels' : ''}>
       <Switch>
         {Object.values(ROUTES).map(({ PATH, EXACT, COMPONENT, PUBLIC, AUTH_LEVELS }, i) => (
           <Route path={PATH} exact={EXACT} key={i}>
@@ -25,6 +26,6 @@ export function Main() {
           <Redirect to={user !== null ? ROUTES.SUBSCRIBE.PATH : ROUTES.LOGIN.PATH} />
         </Route>
       </Switch>
-    </main>
+    </Box>
   )
 }
