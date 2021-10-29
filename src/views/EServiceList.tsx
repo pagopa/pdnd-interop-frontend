@@ -211,7 +211,7 @@ export function EServiceList() {
         }}
       </StyledIntro>
 
-      <div className="mt-4">
+      <Box sx={{ mt: '2rem' }}>
         <StyledButton
           variant="contained"
           component={StyledLink}
@@ -254,7 +254,7 @@ export function EServiceList() {
             </TableRow>
           ))}
         </TableWithLoader>
-      </div>
+      </Box>
     </React.Fragment>
   )
 }
