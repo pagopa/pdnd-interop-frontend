@@ -1,5 +1,5 @@
 import React from 'react'
-import { Input, FormControl, FormLabel, InputBaseComponentProps } from '@mui/material'
+import { Input, FormControl, FormLabel, InputBaseComponentProps, Typography } from '@mui/material'
 import { InfoTooltip } from './InfoTooltip'
 
 export type StyledInputTextType = 'text' | 'email' | 'number'
@@ -29,11 +29,15 @@ export function StyledInputText({
 }: StyledInputTextProps) {
   return (
     <FormControl component="fieldset" sx={{ display: 'block' }}>
-      <FormLabel component="legend">
-        {label} {tooltipLabel && <InfoTooltip label={tooltipLabel} />}
+      <FormLabel component="legend" sx={{ mb: '0.5rem' }}>
+        <Typography component="span" sx={{ fontWeight: 600, px: '0.5rem' }}>
+          {label}
+        </Typography>{' '}
+        {tooltipLabel && <InfoTooltip label={tooltipLabel} />}
       </FormLabel>
 
       <Input
+        sx={{ px: '0.5rem', py: '0.5rem' }}
         fullWidth
         id={id}
         disabled={readOnly}
