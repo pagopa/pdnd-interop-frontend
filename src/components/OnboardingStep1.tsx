@@ -6,6 +6,7 @@ import { StyledAsyncAutocomplete } from './Shared/StyledAsyncAutocomplete'
 import { StyledIntro } from './Shared/StyledIntro'
 import { ROUTES } from '../lib/constants'
 import { StyledLink } from './Shared/StyledLink'
+import { Box } from '@mui/system'
 
 export function OnboardingStep1({ forward }: StepperStepComponentProps) {
   const { user } = useContext(UserContext)
@@ -38,7 +39,7 @@ export function OnboardingStep1({ forward }: StepperStepComponentProps) {
           ),
         }}
       </StyledIntro>
-      <div className="my-4">
+      <Box sx={{ my: '1rem' }}>
         <StyledAsyncAutocomplete
           selected={selected}
           setSelected={updateSelected}
@@ -47,7 +48,7 @@ export function OnboardingStep1({ forward }: StepperStepComponentProps) {
           transformFn={(data: { items: IPACatalogParty[] }) => data.items}
           labelKey="description"
         />
-      </div>
+      </Box>
 
       <OnboardingStepActions
         forward={{

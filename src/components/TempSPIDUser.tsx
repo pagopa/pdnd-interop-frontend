@@ -6,6 +6,8 @@ import { PlatformUserForm } from './Shared/PlatformUserForm'
 import { StyledIntro } from './Shared/StyledIntro'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
+import { Box } from '@mui/system'
+import { NARROW_MAX_WIDTH } from '../lib/constants'
 
 export function TempSPIDUser() {
   const [data, setData] = useState<UsersObject>({})
@@ -18,10 +20,13 @@ export function TempSPIDUser() {
 
   return (
     <React.Fragment>
-      <div className="position-fixed top-0 start-0 w-100 h-100 bg-primary">
-        <div className="d-flex h-100">
-          <div className="mx-auto my-auto w-100" style={{ maxWidth: 480 }}>
-            <div className="text-white">
+      <Box
+        sx={{ position: 'fixed', top: 0, left: 0, right: 0, width: '100%', height: '100%' }}
+        bgcolor="primary.main"
+      >
+        <Box sx={{ display: 'flex', height: '100%' }}>
+          <Box sx={{ mx: 'auto', my: 'auto', width: '100%', maxWidth: NARROW_MAX_WIDTH }}>
+            <Box color="common.white">
               <StyledIntro>
                 {{
                   title: 'Inserisci dati SPID',
@@ -38,7 +43,7 @@ export function TempSPIDUser() {
                   ),
                 }}
               </StyledIntro>
-            </div>
+            </Box>
 
             <StyledForm onSubmit={handleSubmit}>
               <PlatformUserForm
@@ -50,7 +55,7 @@ export function TempSPIDUser() {
               />
 
               <StyledButton
-                className="mt-3"
+                sx={{ mt: '0.5rem' }}
                 variant="secondary"
                 type="submit"
                 disabled={isEmpty(data) || isEmpty(data['spid'])}
@@ -58,9 +63,9 @@ export function TempSPIDUser() {
                 Effettua il login
               </StyledButton>
             </StyledForm>
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
     </React.Fragment>
   )
 }

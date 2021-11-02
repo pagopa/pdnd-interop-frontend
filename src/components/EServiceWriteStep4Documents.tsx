@@ -1,4 +1,5 @@
 import React from 'react'
+import { Box } from '@mui/system'
 import { EServiceDocumentKind, StepperStepComponentProps } from '../../types'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
 import { EServiceWriteStep4DocumentsInterface } from './EServiceWriteStep4DocumentsInterface'
@@ -131,24 +132,24 @@ export function EServiceWriteStep4Documents({
         activeDescriptorId={activeDescriptorId}
       />
 
-      <div className="mt-5 d-flex">
+      <Box sx={{ mt: '2rem', display: 'flex' }}>
         <StyledButton
-          className="me-3"
+          sx={{ mr: '1rem' }}
           variant="contained"
           component={StyledLink}
           to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}
         >
           Salva bozza e torna ai servizi
         </StyledButton>
-        <StyledButton className="me-3" variant="outlined" onClick={back}>
+        <StyledButton sx={{ mr: '1rem' }} variant="outlined" onClick={back}>
           Indietro
         </StyledButton>
-      </div>
+      </Box>
 
       <StyledIntro variant="h1">{{ title: 'Pubblicazione della versione' }}</StyledIntro>
-      <div className="d-flex">
+      <Box sx={{ display: 'flex' }}>
         <StyledButton
-          className="me-3"
+          sx={{ mr: '1rem' }}
           variant="contained"
           onClick={wrapActionInDialog(publishVersion, 'ESERVICE_VERSION_PUBLISH')}
         >
@@ -160,7 +161,7 @@ export function EServiceWriteStep4Documents({
         >
           Cancella bozza
         </StyledButton>
-      </div>
+      </Box>
     </React.Fragment>
   )
 }

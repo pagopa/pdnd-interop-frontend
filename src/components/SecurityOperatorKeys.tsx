@@ -13,6 +13,8 @@ import { ROUTES } from '../lib/constants'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledLink } from './Shared/StyledLink'
 import { useFeedback } from '../hooks/useFeedback'
+import { Box } from '@mui/system'
+import { Typography } from '@mui/material'
 
 type SecurityOperatorKeysProps = {
   clientId: string
@@ -137,34 +139,43 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
       </StyledIntro>
 
       {user?.taxCode === userData.taxCode && !key && (
-        <StyledButton className="mb-4" onClick={openModal} variant="contained">
+        <StyledButton sx={{ mb: '1rem' }} onClick={openModal} variant="contained">
           Carica nuova chiave
         </StyledButton>
       )}
 
       {key ? (
         <React.Fragment>
-          <div className="d-flex justify-content-between align-items-center border-top border-bottom py-3">
-            <span>Chiave pubblica</span>
-            <div>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              py: '1rem',
+              borderTop: 1,
+              borderBottom: 1,
+            }}
+          >
+            <Typography>Chiave pubblica</Typography>
+            <Box>
               {getAvailableActions(key.key).map(({ label, onClick }, j) => (
                 <StyledButton key={j} onClick={onClick}>
                   {label}
                 </StyledButton>
               ))}
-            </div>
-          </div>
-          <div className="mt-4">
+            </Box>
+          </Box>
+          <Box sx={{ mt: '1rem' }}>
             <DescriptionBlock label="Id del client">
               <span>{clientId}</span>
             </DescriptionBlock>
             <DescriptionBlock label="Id della chiave">
               <span>{key.key.kid}</span>
             </DescriptionBlock>
-          </div>
+          </Box>
         </React.Fragment>
       ) : (
-        <div>Nessuna chiave presente</div>
+        <Typography>Nessuna chiave presente</Typography>
       )}
 
       {modal && (

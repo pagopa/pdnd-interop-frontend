@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from 'react'
+import { Box } from '@mui/system'
 import { InfoTooltip } from './Shared/InfoTooltip'
 
 type DescriptionBlockProps = {
@@ -12,11 +13,11 @@ export const DescriptionBlock: FunctionComponent<DescriptionBlockProps> = ({
   tooltipLabel,
 }) => {
   return (
-    <div className="mb-3">
+    <Box sx={{ mb: '1rem' }}>
       <strong>{label}</strong>
       {tooltipLabel && <InfoTooltip label={tooltipLabel} />}
       <br />
       {children}
-    </div>
+    </Box>
   )
 }

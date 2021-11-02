@@ -1,3 +1,4 @@
+import { Box } from '@mui/system'
 import { AxiosResponse } from 'axios'
 import { isEmpty } from 'lodash'
 import React, { useEffect, useState } from 'react'
@@ -155,14 +156,14 @@ export function EServiceWriteStep2Version({
           onChange={wrapSetVersionData('description')}
         />
 
-        <div className="mt-5 d-flex">
-          <StyledButton className="me-3" variant="contained" type="submit">
+        <Box sx={{ mt: '2rem', display: 'flex' }}>
+          <StyledButton sx={{ mr: '1rem' }} variant="contained" type="submit">
             Salva bozza e prosegui
           </StyledButton>
           <StyledButton variant="outlined" onClick={back}>
             Indietro
           </StyledButton>
-        </div>
+        </Box>
       </StyledForm>
     </React.Fragment>
   )

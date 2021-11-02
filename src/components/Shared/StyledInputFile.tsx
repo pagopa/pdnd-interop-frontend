@@ -1,3 +1,5 @@
+import { Typography } from '@mui/material'
+import { Box } from '@mui/system'
 import React from 'react'
 
 type StyledInputFileProps = {
@@ -5,35 +7,40 @@ type StyledInputFileProps = {
   onChange: any
   value?: any
   label: string
-  className?: string
 }
 
-export function StyledInputFile({
-  id,
-  onChange,
-  value,
-  label,
-  className = 'mt-4 mb-3',
-}: StyledInputFileProps) {
+export function StyledInputFile({ id, onChange, value, label }: StyledInputFileProps) {
   return (
-    <div className={`${className} d-flex align-items-center`}>
-      <div className="me-3 flex-shrink-0 position-relative">
-        <input className="position-absolute w-100 h-100" type="file" id={id} onChange={onChange} />
-        <label
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ mr: '1rem', flexShrink: 0, position: 'relative' }}>
+        <Box
+          component="input"
+          type="file"
+          id={id}
+          onChange={onChange}
+          sx={{ position: 'absolute', width: '100%', height: '100%' }}
+        />
+        <Box
+          component="label"
           htmlFor={id}
-          className="text-white bg-primary rounded  d-inline-flex align-items-center px-3 py-2 position-relative"
-          style={{ cursor: 'pointer', zIndex: 1 }}
+          sx={{
+            zIndex: 1,
+            cursor: 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center',
+            px: '1rem',
+            py: '0.5rem',
+            position: 'relative',
+          }}
+          color="common.white"
+          bgcolor="primary.main"
         >
-          {/* <i
-            className="fs-5 bi bi-upload me-2 position-relative"
-            style={{ transform: 'translateY(0.1rem)' }}
-          /> */}
           {label}
-        </label>
-      </div>
-      <div>
+        </Box>
+      </Box>
+      <Typography component="span">
         File selezionato: <strong>{value ? value.name : 'nessun file selezionato'}</strong>
-      </div>
-    </div>
+      </Typography>
+    </Box>
   )
 }

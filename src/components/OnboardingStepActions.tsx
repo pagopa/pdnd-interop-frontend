@@ -1,3 +1,4 @@
+import { Box } from '@mui/system'
 import React from 'react'
 import { StyledButton } from './Shared/StyledButton'
 
@@ -14,10 +15,10 @@ type ActionStepsProps = {
 
 export function OnboardingStepActions({ forward, back }: ActionStepsProps) {
   return (
-    <div className="d-flex">
+    <Box sx={{ display: 'flex' }}>
       {back && (
         <StyledButton
-          className="me-2"
+          sx={{ mr: '0.25rem' }}
           variant="outlined"
           onClick={back.action}
           disabled={back.disabled}
@@ -30,6 +31,6 @@ export function OnboardingStepActions({ forward, back }: ActionStepsProps) {
           {forward.label}
         </StyledButton>
       )}
-    </div>
+    </Box>
   )
 }

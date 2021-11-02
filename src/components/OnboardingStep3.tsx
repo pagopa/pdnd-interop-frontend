@@ -1,3 +1,4 @@
+import { Box } from '@mui/system'
 import React, { useContext } from 'react'
 import { StepperStepComponentProps, User } from '../../types'
 import { UserContext } from '../lib/context'
@@ -21,11 +22,13 @@ export function OnboardingStep3({ forward, back, data }: StepperStepComponentPro
             'Questo è l’accordo che ti verrà inviato via mail da firmare e restituire per l’attivazione dell’account sulla piattaforma interoperabilità.',
         }}
       </StyledIntro>
-      <div className="mt-4 mb-3 bg-secondary rounded px-3 py-3 shadow">{agreement}</div>
+      <Box bgcolor="grey.500" sx={{ mt: '1.5rem', mb: '1rem', p: '1rem', boxShadow: 3 }}>
+        {agreement}
+      </Box>
 
-      <div className="my-4">
+      <Box sx={{ my: '1rem' }}>
         <StyledAccordion entries={attachments} />
-      </div>
+      </Box>
 
       <OnboardingStepActions
         back={{ action: back, label: 'Indietro', disabled: false }}

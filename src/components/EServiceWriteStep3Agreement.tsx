@@ -6,6 +6,7 @@ import { StyledInputSelect } from './Shared/StyledInputSelect'
 import { StyledIntro } from './Shared/StyledIntro'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
+import { Box } from '@mui/system'
 
 export function EServiceWriteStep3Agreement({
   forward,
@@ -42,14 +43,14 @@ export function EServiceWriteStep3Agreement({
           currentValue={options[0].value}
         />
 
-        <div className="mt-5 d-flex">
-          <StyledButton className="me-3" variant="contained" type="submit">
+        <Box sx={{ mt: '2rem', display: 'flex' }}>
+          <StyledButton sx={{ mr: '1rem' }} variant="contained" type="submit">
             Salva bozza e prosegui
           </StyledButton>
           <StyledButton variant="outlined" onClick={back}>
             Indietro
           </StyledButton>
-        </div>
+        </Box>
       </StyledForm>
     </React.Fragment>
   )

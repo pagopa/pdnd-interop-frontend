@@ -3,6 +3,7 @@ import { EServiceAttributeGroup } from './EServiceAttributeGroup'
 import { StyledIntro } from './Shared/StyledIntro'
 import isEqual from 'lodash/isEqual'
 import { AttributeType, CatalogAttribute, FrontendAttributes } from '../../types'
+import { Box } from '@mui/system'
 
 type EServiceAttributeSectionProps = {
   attributes: FrontendAttributes
@@ -69,7 +70,7 @@ export function EServiceAttributeSection({
         const { title, description } = TYPE_LABELS[attributeKey]
 
         return (
-          <div className="my-5" key={i}>
+          <Box sx={{ my: '2rem' }} key={i}>
             <StyledIntro variant="h1">{{ title, description }}</StyledIntro>
             <EServiceAttributeGroup
               canRequireVerification={attributeKey === 'verified'}
@@ -79,7 +80,7 @@ export function EServiceAttributeSection({
               remove={wrapRemove(attributeKey)}
               attributeKey={attributeKey}
             />
-          </div>
+          </Box>
         )
       })}
     </React.Fragment>

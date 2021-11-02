@@ -6,6 +6,7 @@ import { objectIsEmpty } from '../lib/object-utils'
 import { StyledIntro } from './Shared/StyledIntro'
 import { PlatformUserForm } from './Shared/PlatformUserForm'
 import { StyledButton } from './Shared/StyledButton'
+import { Box } from '@mui/system'
 
 // Could be an ES6 Set but it's too bothersome for now
 export type UsersObject = { [key: string]: UserOnCreate }
@@ -43,7 +44,7 @@ export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
 
       {delegateFormIds.map((id) => {
         return (
-          <div className="my-5" key={id}>
+          <Box sx={{ mb: '2rem' }} key={id}>
             <PlatformUserForm
               prefix={`delegate-${id}`}
               role="Delegate"
@@ -54,15 +55,15 @@ export function OnboardingStep2({ forward, back }: StepperStepComponentProps) {
             <StyledButton variant="contained" onClick={buildRemoveDelegateForm(id)}>
               Rimuovi questo delegato
             </StyledButton>
-          </div>
+          </Box>
         )
       })}
 
-      <div className="mb-5">
+      <Box sx={{ mb: '2rem' }}>
         <StyledButton variant="contained" onClick={addDelegateForm}>
           Aggiungi nuovo delegato
         </StyledButton>
-      </div>
+      </Box>
       <OnboardingStepActions
         back={{ action: back, label: 'Indietro', disabled: false }}
         forward={{
