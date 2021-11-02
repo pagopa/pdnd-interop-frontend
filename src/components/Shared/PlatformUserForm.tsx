@@ -1,3 +1,4 @@
+import { Box } from '@mui/system'
 import React from 'react'
 import { UserOnCreate, UserPlatformRole, UserRole } from '../../../types'
 import { UsersObject } from '../OnboardingStep2'
@@ -41,7 +42,7 @@ export function PlatformUserForm({
   return (
     <React.Fragment>
       {fields.map(({ id, label, type = 'text' }, i) => (
-        <React.Fragment key={i}>
+        <Box sx={{ my: '3rem' }} key={i}>
           <StyledInputText
             id={`${prefix}-${id}`}
             label={label}
@@ -51,7 +52,7 @@ export function PlatformUserForm({
             value={people[prefix] && people[prefix][id] ? people[prefix][id] : ''}
             onChange={buildSetPerson(id)}
           />
-        </React.Fragment>
+        </Box>
       ))}
     </React.Fragment>
   )
