@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { Typography } from '@mui/material'
+import { Box } from '@mui/system'
 import { AttributeModalTemplate, AttributeType, CatalogAttribute } from '../../types'
 import { useFeedback } from '../hooks/useFeedback'
 import { fetchWithLogs } from '../lib/api-utils'
@@ -156,8 +158,10 @@ export function AttributeModalAddExisting({
         />
       )}
 
-      <div className="border-top mt-3 pt-3">
-        <p className="h5 mt-0 mb-2">Hai selezionato</p>
+      <Box sx={{ mt: '1rem', pt: '1rem', borderTop: 1 }}>
+        <Typography variant="h5" component="p" sx={{ mt: 0, mb: '0.5rem' }}>
+          Hai selezionato
+        </Typography>
         {selected && !!(selected.length > 0) ? (
           <StyledAccordion
             entries={selected.map(({ name, description }) => ({
@@ -166,9 +170,9 @@ export function AttributeModalAddExisting({
             }))}
           />
         ) : (
-          <span>nessun attributo selezionato</span>
+          <Typography>nessun attributo selezionato</Typography>
         )}
-      </div>
+      </Box>
     </StyledDialog>
   )
 }

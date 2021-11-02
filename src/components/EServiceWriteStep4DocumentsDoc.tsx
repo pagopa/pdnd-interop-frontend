@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { Box } from '@mui/system'
+import { UploadFile as UploadFileIcon } from '@mui/icons-material'
 import keyBy from 'lodash/keyBy'
 import {
   EServiceDescriptorRead,
@@ -91,31 +93,29 @@ export function EServiceWriteStep4DocumentsDoc({
       })}
 
       {showWriteDocInput ? (
-        <StyledForm className="px-3 py-3 rounded bg-secondary" onSubmit={uploadNewDoc}>
-          <StyledInputFile
-            id="doc-doc"
-            label="Seleziona documento"
-            value={writeDoc?.doc}
-            onChange={wrapUpdateDoc('doc')}
-          />
+        <Box sx={{ px: '1rem', py: '1rem' }} bgcolor="grey.500">
+          <StyledForm onSubmit={uploadNewDoc}>
+            <StyledInputFile
+              id="doc-doc"
+              label="Seleziona documento"
+              value={writeDoc?.doc}
+              onChange={wrapUpdateDoc('doc')}
+            />
 
-          <StyledInputTextArea
-            id="doc-descr"
-            label="Descrizione"
-            value={writeDoc?.description || ''}
-            onChange={wrapUpdateDoc('description')}
-          />
+            <StyledInputTextArea
+              id="doc-descr"
+              label="Descrizione"
+              value={writeDoc?.description || ''}
+              onChange={wrapUpdateDoc('description')}
+            />
 
-          <div className="d-flex justify-content-end">
-            <StyledButton type="submit" variant="contained">
-              <i
-                className="fs-5 bi bi-upload me-2 position-relative"
-                style={{ transform: 'translateY(0.1rem)' }}
-              />{' '}
-              Carica
-            </StyledButton>
-          </div>
-        </StyledForm>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <StyledButton type="submit" variant="contained">
+                <UploadFileIcon fontSize="small" sx={{ mr: '0.5rem' }} /> Carica Carica
+              </StyledButton>
+            </Box>
+          </StyledForm>
+        </Box>
       ) : (
         <StyledButton variant="contained" onClick={showFileInputForm}>
           Aggiungi documento

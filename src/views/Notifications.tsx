@@ -75,7 +75,7 @@ export function Notifications() {
     <React.Fragment>
       <StyledIntro>{{ title: 'Notifiche' }}</StyledIntro>
 
-      <div className="fakeData fakeDataStart" style={{ position: 'relative' }}>
+      <Box className="fakeData fakeDataStart" sx={{ position: 'relative' }}>
         <button
           onClick={wrapSetView('p')}
           style={{
@@ -125,7 +125,7 @@ export function Notifications() {
             </Box>
           )
         })}
-      </div>
+      </Box>
     </React.Fragment>
   )
 }

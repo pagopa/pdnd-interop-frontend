@@ -11,7 +11,9 @@ import { Overlay } from './Shared/Overlay'
 import { TableWithLoader } from './Shared/TableWithLoader'
 import { ToastContext } from '../lib/context'
 import { StyledButton } from './Shared/StyledButton'
-import { TableCell, TableRow } from '@mui/material'
+import { TableCell, TableRow, Typography } from '@mui/material'
+import { Box } from '@mui/system'
+import { StyledLink } from './Shared/StyledLink'
 
 type EServiceAttributeGroupProps = {
   attributesGroup: FrontendAttribute[]
@@ -84,23 +86,22 @@ export function EServiceAttributeGroup({
         })}
       </TableWithLoader>
 
-      <div className="d-flex align-items-center">
-        <StyledButton className="me-3" variant="contained" onClick={buildShowModal('add')}>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <StyledButton sx={{ mr: '1rem' }} variant="contained" onClick={buildShowModal('add')}>
           Aggiungi attributo o gruppo
         </StyledButton>
 
         {canCreateNewAttributes && (
-          <p className="mb-0 d-flex align-items-center">
-            <span className="me-2">L'attributo non è presente nella lista?</span>
-            <StyledButton
-              className="px-0 py-0 mx-0 my-0 border-0"
-              onClick={buildShowModal('create')}
-            >
+          <Typography sx={{ mb: 0, display: 'flex', alignItems: 'center' }}>
+            <Typography component="span" sx={{ mr: '0.25rem' }}>
+              L'attributo non è presente nella lista?
+            </Typography>
+            <StyledLink component={StyledButton} onClick={buildShowModal('create')}>
               Crealo qui!
-            </StyledButton>
-          </p>
+            </StyledLink>
+          </Typography>
         )}
-      </div>
+      </Box>
 
       {modalTemplate && (
         <Overlay>

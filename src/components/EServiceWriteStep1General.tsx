@@ -1,3 +1,4 @@
+import { Box } from '@mui/system'
 import { AxiosResponse } from 'axios'
 import { isEmpty } from 'lodash'
 import React, { useContext, useEffect, useState } from 'react'
@@ -189,9 +190,9 @@ export function EServiceWriteStep1General({
         <StyledIntro variant="h1">{{ title: 'Attributi' }}</StyledIntro>
         <EServiceAttributeSection attributes={attributes} setAttributes={setAttributes} />
 
-        <div className="mt-5 d-flex">
+        <Box sx={{ mt: '2rem', display: 'flex' }}>
           <StyledButton
-            className="me-3"
+            sx={{ mr: '1rem' }}
             type="submit"
             variant="contained"
             disabled={!eserviceData.name}
@@ -205,7 +206,7 @@ export function EServiceWriteStep1General({
           >
             Torna agli e-service
           </StyledButton>
-        </div>
+        </Box>
       </StyledForm>
     </React.Fragment>
   )

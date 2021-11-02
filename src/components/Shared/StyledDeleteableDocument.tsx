@@ -3,6 +3,7 @@ import { Delete as DeleteIcon, ModeEdit as ModeEditIcon } from '@mui/icons-mater
 import { EServiceDocumentRead } from '../../../types'
 import { useFeedback } from '../../hooks/useFeedback'
 import { StyledButton } from './StyledButton'
+import { Box } from '@mui/system'
 
 type StyledDeleteableDocumentComponentProps = {
   eserviceId: string
@@ -72,37 +73,52 @@ export function StyledDeleteableDocument({
   }
 
   return (
-    <div className="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom">
-      <div className="me-5 flex-shrink-1">
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        mb: '1rem',
+        pb: '1rem',
+        borderBottom: 1,
+      }}
+    >
+      <Box sx={{ mr: '2rem', flexShrink: 1 }}>
         <strong>{readable.name}</strong>
         <br />
 
-        <div
+        <Box
           ref={contentEditableRef}
           contentEditable={canEdit}
-          className="mt-2"
+          sx={{ mt: '0.25rem' }}
           onBlur={onBlur}
           dangerouslySetInnerHTML={{ __html: decodeURIComponent(readable.description) }}
         />
-      </div>
-      <div className="ms-5 flex-shrink-0">
+      </Box>
+      <Box sx={{ ml: '2rem', flexShrink: 0 }}>
         <StyledButton
-          className={`rounded-circle px-2 py-2 d-inline-block${canEdit ? ' bg-secondary' : ''}`}
-          style={{ width: 48 }}
+          sx={{
+            px: '0.25rem',
+            py: '0.25rem',
+            display: 'inline-block',
+            borderRadius: '100%',
+            width: 48,
+          }}
+          bgcolor={canEdit ? 'grey.500' : 'transparent'}
           onClick={updateCanEdit}
           label="Modifica descrizione"
         >
           <ModeEditIcon fontSize="small" />
         </StyledButton>
         <StyledButton
-          className="px-2 py-2"
+          sx={{ px: '0.25rem', py: '0.25rem' }}
           style={{ width: 48 }}
           onClick={deleteDocument}
           label="Cancella documento"
         >
           <DeleteIcon fontSize="small" />
         </StyledButton>
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }
