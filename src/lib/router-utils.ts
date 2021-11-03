@@ -32,5 +32,6 @@ export function isInPlatform(location: any) {
     ROUTES.SUBSCRIBE.PATH,
     ROUTES.PROFILE.PATH,
     ROUTES.NOTIFICATION.PATH,
+    ROUTES.HELP.PATH,
   ])
 }
