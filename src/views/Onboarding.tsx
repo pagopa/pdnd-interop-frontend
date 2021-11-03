@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Typography } from '@mui/material'
+import { Box } from '@mui/system'
 import {
   PartyOnCreate,
   RequestOutcome,
@@ -11,7 +12,6 @@ import {
 import { fetchWithLogs } from '../lib/api-utils'
 import { getFetchOutcome } from '../lib/error-utils'
 import { scrollToTop } from '../lib/page-utils'
-import { StyledStepper } from '../components/Shared/StyledStepper'
 import { OnboardingStep1 } from '../components/OnboardingStep1'
 import { OnboardingStep2 } from '../components/OnboardingStep2'
 import { OnboardingStep3 } from '../components/OnboardingStep3'
@@ -25,7 +25,7 @@ import { StyledLink } from '../components/Shared/StyledLink'
 export function Onboarding() {
   const [loading, setLoading] = useState(false)
   const [activeStep, setActiveStep] = useState(0)
-  const [partyPeople, setPartyPeople] = useState<{ [key: string]: User }>()
+  const [partyPeople, setPartyPeople] = useState<Record<string, User>>()
   const [party, setParty] = useState<PartyOnCreate>()
   const [outcome, setOutcome] = useState<RequestOutcome>()
   const history = useHistory()
@@ -43,7 +43,7 @@ export function Onboarding() {
     scrollToTop()
   }
 
-  const forwardWithUser = (newPartyPeople: { [key: string]: User }) => {
+  const forwardWithUser = (newPartyPeople: Record<string, User>) => {
     setPartyPeople(newPartyPeople)
     forward()
   }
@@ -74,15 +74,15 @@ export function Onboarding() {
     setOutcome(outcome)
   }
 
-  const STEPS: StepperStep[] = [
-    { label: "Seleziona l'ente", component: OnboardingStep1 },
-    { label: 'Inserisci i dati', component: OnboardingStep2 },
-    { label: "Verifica l'accordo", component: OnboardingStep3 },
+  const STEPS: Omit<StepperStep, 'label'>[] = [
+    { component: OnboardingStep1 },
+    { component: OnboardingStep2 },
+    { component: OnboardingStep3 },
   ]
 
   const stepsProps = [
-    { forward: forwardWithParty },
-    { forward: forwardWithUser, back },
+    { forward: forwardWithParty, data: { partyPeople, party } },
+    { forward: forwardWithUser, back, data: { partyPeople, party } },
     { forward: submit, back, data: { partyPeople, party } },
   ]
 
@@ -93,7 +93,7 @@ export function Onboarding() {
       img: { src: emailIllustration, alt: "Icona dell'email" },
       title: 'Ci siamo quasi...',
       description: [
-        <Typography>
+        <Typography sx={{ mb: 2 }}>
           Per completare la registrazione, segui le istruzioni che trovi nella mail che ti abbiamo
           inviato a <strong>{party?.digitalAddress}</strong>
         </Typography>,
@@ -110,7 +110,7 @@ export function Onboarding() {
         <Typography>
           Il salvataggio dei dati inseriti non è andato a buon fine.{' '}
           <StyledLink component="button" onClick={reload}>
-            Prova nuovamente a registrarti
+            <Typography>Prova nuovamente a registrarti</Typography>
           </StyledLink>
           , e se il problema dovesse persistere, <InlineSupportLink />!
         </Typography>,
@@ -120,8 +120,9 @@ export function Onboarding() {
 
   return !outcome ? (
     <React.Fragment>
-      <StyledStepper steps={STEPS} activeIndex={activeStep} />
-      <Step {...stepsProps[activeStep]} />
+      <Box sx={{ textAlign: 'center' }}>
+        <Step {...stepsProps[activeStep]} />
+      </Box>
       {loading && <LoadingOverlay loadingText="Stiamo verificando i tuoi dati" />}
     </React.Fragment>
   ) : (

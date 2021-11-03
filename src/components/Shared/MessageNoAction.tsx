@@ -10,13 +10,9 @@ export function MessageNoAction({ img, title, description }: RequestOutcomeMessa
       <i>
         <img width={120} src={img.src} alt={img.alt} />
       </i>
-      {title && (
-        <Typography
-          variant="h2"
-          sx={{ mt: '1.5rem', mb: '1rem', fontWeight: 600 }}
-          dangerouslySetInnerHTML={{ __html: title }}
-        />
-      )}
+      <Typography variant="h1" sx={{ mt: 3, mb: 2 }}>
+        {title}
+      </Typography>
       {description.map((paragraph, i) => (
         <React.Fragment key={i}>{paragraph}</React.Fragment>
       ))}

@@ -15,10 +15,10 @@ type ActionStepsProps = {
 
 export function OnboardingStepActions({ forward, back }: ActionStepsProps) {
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: '2rem' }}>
       {back && (
         <StyledButton
-          sx={{ mr: '0.25rem' }}
+          sx={{ mx: '0.5rem' }}
           variant="outlined"
           onClick={back.action}
           disabled={back.disabled}

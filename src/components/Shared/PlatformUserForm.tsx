@@ -1,21 +1,16 @@
-import { Box } from '@mui/system'
 import React from 'react'
+import { Box } from '@mui/system'
+import { InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material'
 import { UserOnCreate, UserPlatformRole, UserRole } from '../../../types'
-import { UsersObject } from '../OnboardingStep2'
-import { StyledInputText, StyledInputTextType } from './StyledInputText'
+import { StyledInputText } from './StyledInputText'
+import { Typography } from '@mui/material'
 
 type PlatformUserFormProps = {
-  prefix: keyof UsersObject
+  prefix: string
   role: UserRole
   platformRole: UserPlatformRole
-  people: UsersObject
-  setPeople: React.Dispatch<React.SetStateAction<UsersObject>>
-}
-
-type Field = {
-  id: keyof UserOnCreate
-  label: string
-  type?: 'text' | 'email'
+  people: Record<string, UserOnCreate>
+  setPeople: React.Dispatch<React.SetStateAction<Record<string, UserOnCreate>>>
 }
 
 export function PlatformUserForm({
@@ -32,28 +27,52 @@ export function PlatformUserForm({
     })
   }
 
-  const fields: Field[] = [
-    { id: 'name', label: 'Nome*' },
-    { id: 'surname', label: 'Cognome*' },
-    { id: 'taxCode', label: 'Codice Fiscale*' },
-    { id: 'email', label: 'Email*', type: 'email' },
-  ]
+  const peoplePrefix = people[prefix]
 
   return (
-    <React.Fragment>
-      {fields.map(({ id, label, type = 'text' }, i) => (
-        <Box sx={{ my: '3rem' }} key={i}>
+    <Box sx={{ py: '1rem' }}>
+      <Box sx={{ py: '1rem', display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ mr: '1rem', flexGrow: 1 }}>
           <StyledInputText
-            id={`${prefix}-${id}`}
-            label={label}
-            type={type as StyledInputTextType}
-            // Below, ugly hack to prevent React from complaining.
-            // Controlled components values cannot start as 'undefined'
-            value={people[prefix] && people[prefix][id] ? people[prefix][id] : ''}
-            onChange={buildSetPerson(id)}
+            id="name"
+            label="Nome*"
+            value={peoplePrefix && peoplePrefix['name'] ? peoplePrefix['name'] : ''}
+            onChange={buildSetPerson('name')}
           />
         </Box>
-      ))}
-    </React.Fragment>
+        <Box sx={{ ml: '1rem', flexGrow: 1 }}>
+          <StyledInputText
+            id="surname"
+            label="Cognome*"
+            value={peoplePrefix && peoplePrefix['surname'] ? peoplePrefix['surname'] : ''}
+            onChange={buildSetPerson('surname')}
+          />
+        </Box>
+      </Box>
+      <Box sx={{ py: '1rem' }}>
+        <StyledInputText
+          id="taxCode"
+          label="Codice Fiscale*"
+          value={peoplePrefix && peoplePrefix['taxCode'] ? peoplePrefix['taxCode'] : ''}
+          onChange={buildSetPerson('taxCode')}
+        />
+      </Box>
+      <Box sx={{ py: '1rem' }}>
+        <StyledInputText
+          id="email"
+          label="Email ad uso aziendale*"
+          type="email"
+          value={people[prefix] && people[prefix]['email'] ? people[prefix]['email'] : ''}
+          onChange={buildSetPerson('email')}
+        />
+
+        <Box sx={{ display: 'flex', alignItems: 'center', mt: '1rem' }}>
+          <InfoOutlinedIcon sx={{ fontSize: 18, mr: '0.25rem' }} />
+          <Typography component="span" variant="caption">
+            Inserisci l'indirizzo email ad uso aziendale utilizzato per l'Ente
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
   )
 }
