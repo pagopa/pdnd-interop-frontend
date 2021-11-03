@@ -3,8 +3,8 @@
 export function TempFilters() {
   return null
   // return (
-  //   <h1 className="py-3" style={{ color: 'red' }}>
+  //   <Typography component="h2" color="#ff0000">
   //     Aggiungere filtri
-  //   </h1>
+  //   </Typography>
   // )
 }

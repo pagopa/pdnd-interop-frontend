@@ -1,5 +1,6 @@
 import { ProviderOrSubscriber } from '../../types'
 import { ROUTES } from './constants'
+import { includesAny } from './string-utils'
 
 export function isParentRoute(location: any, path: string) {
   return location.pathname.indexOf(path) > -1
@@ -7,6 +8,10 @@ export function isParentRoute(location: any, path: string) {
 
 export function isRoute(location: any, path: string) {
   return location.pathname === path
+}
+
+export function isActiveTree(location: any, path: string) {
+  return isRoute(location, path) || isParentRoute(location, path)
 }
 
 export function isProviderOrSubscriber(location: any): ProviderOrSubscriber | null {
@@ -19,4 +24,14 @@ export function isProviderOrSubscriber(location: any): ProviderOrSubscriber | nu
   }
 
   return null
+}
+
+export function isInPlatform(location: any) {
+  return includesAny(location.pathname, [
+    ROUTES.PROVIDE.PATH,
+    ROUTES.SUBSCRIBE.PATH,
+    ROUTES.PROFILE.PATH,
+    ROUTES.NOTIFICATION.PATH,
+    ROUTES.HELP.PATH,
+  ])
 }

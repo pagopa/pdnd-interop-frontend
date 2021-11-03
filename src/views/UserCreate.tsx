@@ -1,23 +1,22 @@
 import React, { useContext, useState } from 'react'
-import { Button, Form } from 'react-bootstrap'
-import { UsersObject } from '../components/OnboardingStep2'
-import { PlatformUserForm } from '../components/PlatformUserForm'
-import { StyledIntro } from '../components/StyledIntro'
-import { WhiteBackground } from '../components/WhiteBackground'
-import { ROUTES } from '../lib/constants'
+import { PlatformUserForm } from '../components/Shared/PlatformUserForm'
+import { StyledIntro } from '../components/Shared/StyledIntro'
+import { MEDIUM_MAX_WIDTH, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { useMode } from '../hooks/useMode'
 import { useLocation } from 'react-router-dom'
 import { buildDynamicRoute, parseSearch } from '../lib/url-utils'
-import { ProviderOrSubscriber } from '../../types'
+import { ProviderOrSubscriber, UserOnCreate } from '../../types'
 import { useFeedback } from '../hooks/useFeedback'
+import { StyledButton } from '../components/Shared/StyledButton'
+import { StyledForm } from '../components/Shared/StyledForm'
 
 export function UserCreate() {
   const { runActionWithDestination } = useFeedback()
   const location = useLocation()
   const mode = useMode()
   const { party } = useContext(PartyContext)
-  const [people, setPeople] = useState<UsersObject>({})
+  const [people, setPeople] = useState<Record<string, UserOnCreate>>({})
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     // Avoid page reload
@@ -65,10 +64,10 @@ export function UserCreate() {
   }
 
   return (
-    <WhiteBackground>
-      <StyledIntro priority={2}>{INTRO[mode!]}</StyledIntro>
+    <React.Fragment>
+      <StyledIntro>{INTRO[mode!]}</StyledIntro>
 
-      <Form onSubmit={handleSubmit} style={{ maxWidth: 768 }}>
+      <StyledForm onSubmit={handleSubmit} style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
         <PlatformUserForm
           prefix="operator"
           role="Operator"
@@ -77,10 +76,10 @@ export function UserCreate() {
           setPeople={setPeople}
         />
 
-        <Button className="mt-3" variant="primary" type="submit" disabled={false}>
-          crea operatore
-        </Button>
-      </Form>
-    </WhiteBackground>
+        <StyledButton sx={{ mt: '1.5rem' }} variant="contained" type="submit" disabled={false}>
+          Crea operatore
+        </StyledButton>
+      </StyledForm>
+    </React.Fragment>
   )
 }

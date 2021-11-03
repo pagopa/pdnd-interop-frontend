@@ -1,26 +1,29 @@
 import React, { useContext } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { Button } from 'react-bootstrap'
+import { useLocation } from 'react-router-dom'
 import has from 'lodash/has'
 import {
   AgreementStatus,
   AgreementSummary,
-  ActionWithTooltipBtn,
   SingleBackendAttribute,
   GroupBackendAttribute,
+  ActionProps,
 } from '../../types'
-import { AGREEMENT_STATUS_LABEL, ROUTES } from '../lib/constants'
+import { AGREEMENT_STATUS_LABEL, MEDIUM_MAX_WIDTH, ROUTES } from '../lib/constants'
 import { buildDynamicPath, getLastBit } from '../lib/url-utils'
 import { formatDate, getRandomDate } from '../lib/date-utils'
 import { mergeActions } from '../lib/eservice-utils'
 import { useMode } from '../hooks/useMode'
-import { StyledIntro } from '../components/StyledIntro'
-import { WhiteBackground } from '../components/WhiteBackground'
+import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { PartyContext } from '../lib/context'
 import { getAgreementStatus } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
+import { StyledButton } from '../components/Shared/StyledButton'
+import { StyledLink } from '../components/Shared/StyledLink'
+import { Box } from '@mui/system'
+import { Typography } from '@mui/material'
+import { CheckCircle as CheckCircleIcon } from '@mui/icons-material'
 
 export function AgreementEdit() {
   const {
@@ -102,7 +105,7 @@ export function AgreementEdit() {
    * End list of actions
    */
 
-  type AgreementActions = { [key in AgreementStatus]: ActionWithTooltipBtn[] }
+  type AgreementActions = { [key in AgreementStatus]: ActionProps[] }
   // Build list of available actions for each agreement in its current state
   const getAvailableActions = () => {
     if (!data) {
@@ -110,11 +113,16 @@ export function AgreementEdit() {
     }
 
     const sharedActions: AgreementActions = {
-      active: [{ onClick: wrapActionInDialog(suspend, 'AGREEMENT_SUSPEND'), label: 'sospendi' }],
+      active: [
+        {
+          onClick: wrapActionInDialog(suspend, 'AGREEMENT_SUSPEND'),
+          label: 'Sospendi',
+        },
+      ],
       suspended: [
         {
           onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'),
-          label: 'riattiva',
+          label: 'Riattiva',
         },
       ],
       pending: [],
@@ -124,21 +132,24 @@ export function AgreementEdit() {
     const providerOnlyActions: AgreementActions = {
       active: [],
       pending: [
-        { onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'), label: 'attiva' },
-        { onClick: wrapActionInDialog(refuse), label: 'rifiuta', isMock: true },
+        {
+          onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'),
+          label: 'Attiva',
+        },
+        { onClick: wrapActionInDialog(refuse), label: 'Rifiuta', isMock: true },
       ],
-      suspended: [{ onClick: wrapActionInDialog(archive), label: 'archivia', isMock: true }],
+      suspended: [{ onClick: wrapActionInDialog(archive), label: 'Archivia', isMock: true }],
       inactive: [],
     }
 
-    const subscriberOnlyActionsActive: ActionWithTooltipBtn[] = []
+    const subscriberOnlyActionsActive: ActionProps[] = []
     if (
       data.eservice.activeDescriptor &&
       data.eservice.activeDescriptor.version > data.eservice.version
     ) {
       subscriberOnlyActionsActive.push({
         onClick: wrapActionInDialog(upgrade, 'AGREEMENT_UPGRADE'),
-        label: 'aggiorna',
+        label: 'Aggiorna',
       })
     }
 
@@ -170,28 +181,33 @@ export function AgreementEdit() {
     const randomDate = getRandomDate(new Date(2022, 0, 1), new Date(2023, 0, 1))
 
     return (
-      <div className="d-flex justify-content-between align-items-center">
-        <span>
-          {name}, con <span className="fakeData">scadenza {formatDate(randomDate)}</span>
-        </span>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Typography>
+          {name}, con{' '}
+          <Typography component="span" className="fakeData">
+            scadenza {formatDate(randomDate)}
+          </Typography>
+        </Typography>
 
         {typeof verified === 'boolean' ? (
           verified ? (
-            <div className="text-primary d-flex align-items-center my-1">
-              <i className="text-primary fs-5 bi bi-check me-2" />
-              <span>verificato</span>
-            </div>
+            <Box
+              sx={{ display: 'flex', alignItems: 'center', my: '0.25rem', color: 'primary.main' }}
+            >
+              <CheckCircleIcon sx={{ mr: '0.25rem' }} fontSize="small" color="primary" />
+              <Typography component="span">verificato</Typography>
+            </Box>
           ) : (
-            <span>rifiutato dall'erogatore</span>
+            <Typography component="span">rifiutato dall'erogatore</Typography>
           )
         ) : mode === 'provider' ? (
-          <Button variant="primary" onClick={wrapVerify(id)}>
-            verifica
-          </Button>
+          <StyledButton variant="contained" onClick={wrapVerify(id)}>
+            Verifica
+          </StyledButton>
         ) : (
-          <span>in attesa di verifica</span>
+          <Typography component="span">in attesa di verifica</Typography>
         )}
-      </div>
+      </Box>
     )
   }
 
@@ -199,59 +215,57 @@ export function AgreementEdit() {
     "L'accordo può essere sospeso sia dall'erogatore che dal fruitore dell'e-service. Se almeno uno dei due attori lo sospende, inibirà l'accesso all'e-service a tutti i client associati all'e-service dal fruitore"
 
   return (
-    <WhiteBackground>
-      <StyledIntro priority={2}>{{ title: 'Accordo di interoperabilità' }}</StyledIntro>
+    <React.Fragment>
+      <StyledIntro>{{ title: 'Accordo di interoperabilità' }}</StyledIntro>
 
       <DescriptionBlock label="Accordo relativo a">
-        <div style={{ maxWidth: 500 }}>
-          <Link
-            className="link-default"
+        <Box style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
+          <StyledLink
             to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
               eserviceId: data?.eservice.id,
               descriptorId: data?.eserviceDescriptorId,
             })}
           >
             {data?.eservice.name}, versione {data?.eservice.version}
-          </Link>
+          </StyledLink>
           {mode === 'subscriber' &&
           data?.eservice.activeDescriptor &&
           data?.status !== 'inactive' ? (
             <React.Fragment>
               {' '}
               (è disponibile una{' '}
-              <Link
-                className="link-default"
+              <StyledLink
                 to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
                   eserviceId: data?.eservice.id,
                   descriptorId: data?.eservice.activeDescriptor.id,
                 })}
               >
                 versione più recente
-              </Link>
+              </StyledLink>
               ; per attivarla, aggiorna l'accordo di interoperabilità)
             </React.Fragment>
           ) : null}
-        </div>
+        </Box>
       </DescriptionBlock>
 
       <DescriptionBlock label="Stato dell'accordo" tooltipLabel={agreementSuspendExplanation}>
         {data?.status === 'suspended' ? (
           <React.Fragment>
-            <span>
+            <Typography component="span">
               Lato erogatore: {AGREEMENT_STATUS_LABEL[getAgreementStatus(data, 'provider')]}
-            </span>
+            </Typography>
             <br />
-            <span>
+            <Typography component="span">
               Lato fruitore: {AGREEMENT_STATUS_LABEL[getAgreementStatus(data, 'subscriber')]}
-            </span>
+            </Typography>
           </React.Fragment>
         ) : (
-          <span>{AGREEMENT_STATUS_LABEL[data?.status]}</span>
+          <Typography component="span">{AGREEMENT_STATUS_LABEL[data?.status]}</Typography>
         )}
       </DescriptionBlock>
 
       <DescriptionBlock label="Attributi">
-        <div className="mt-1">
+        <Box sx={{ mt: '0.5rem' }}>
           {data?.attributes.length > 0 ? (
             data?.attributes.map((backendAttribute, i) => {
               let attributesToDisplay: any
@@ -276,39 +290,40 @@ export function AgreementEdit() {
               }
 
               return (
-                <div
+                <Box
                   key={i}
-                  className="w-100 border-bottom border-secondary mb-2 pb-2"
-                  style={{ maxWidth: 768 }}
+                  sx={{
+                    width: '100%',
+                    mb: '1rem',
+                    pb: '1rem',
+                    borderBottom: 1,
+                    borderColor: 'divider',
+                  }}
+                  style={{ maxWidth: MEDIUM_MAX_WIDTH }}
                 >
                   {attributesToDisplay}
-                </div>
+                </Box>
               )
             })
           ) : (
-            <span>Per questo e-service non sono stati richiesti attributi</span>
+            <Typography>Per questo e-service non sono stati richiesti attributi</Typography>
           )}
-        </div>
+        </Box>
       </DescriptionBlock>
 
       {mode === 'provider' && (
         <DescriptionBlock label="Ente fruitore">
-          <span>{data?.consumer.name}</span>
+          <Typography component="span">{data?.consumer.name}</Typography>
         </DescriptionBlock>
       )}
 
-      <div className="mt-5 d-flex">
-        {getAvailableActions().map(({ onClick, label, isMock }, i) => (
-          <Button
-            key={i}
-            className={`me-3${isMock ? ' mockFeature' : ''}`}
-            variant={i === 0 ? 'primary' : 'outline-primary'}
-            onClick={onClick}
-          >
+      <Box sx={{ mt: '2rem', display: 'flex' }}>
+        {getAvailableActions().map(({ onClick, label }, i) => (
+          <StyledButton variant="contained" key={i} onClick={onClick}>
             {label}
-          </Button>
+          </StyledButton>
         ))}
-      </div>
-    </WhiteBackground>
+      </Box>
+    </React.Fragment>
   )
 }

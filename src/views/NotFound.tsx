@@ -1,7 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { StyledIntro } from '../components/StyledIntro'
-import { WhiteBackground } from '../components/WhiteBackground'
+import { Box } from '@mui/system'
+import { StyledIntro } from '../components/Shared/StyledIntro'
+import { StyledLink } from '../components/Shared/StyledLink'
 
 type NotFoundProps = {
   errorType?: 'not-found' | 'server-error'
@@ -14,23 +14,17 @@ export function NotFound({ errorType = 'not-found' }: NotFoundProps) {
   }
 
   return (
-    <WhiteBackground>
-      <div className="bg-danger px-3 py-3">
-        <StyledIntro priority={2}>
-          {{
-            title: 'Spiacenti',
-            description: (
-              <>
-                {DESCRIPTIONS[errorType]}. Torna alla{' '}
-                <Link to="/" className="link-default">
-                  home
-                </Link>
-                .
-              </>
-            ),
-          }}
-        </StyledIntro>
-      </div>
-    </WhiteBackground>
+    <Box sx={{ px: '1.5rem', py: '1.5rem', bgcolor: 'error.main' }}>
+      <StyledIntro variant="h1">
+        {{
+          title: 'Spiacenti',
+          description: (
+            <>
+              {DESCRIPTIONS[errorType]}. Torna alla <StyledLink to="/">home</StyledLink>.
+            </>
+          ),
+        }}
+      </StyledIntro>
+    </Box>
   )
 }

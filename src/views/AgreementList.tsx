@@ -1,25 +1,20 @@
 import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
-import { WhiteBackground } from '../components/WhiteBackground'
 import { AGREEMENT_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import {
-  AgreementStatus,
-  AgreementSummary,
-  ActionWithTooltipBtn,
-  ActionWithTooltipLink,
-  ActionWithTooltipProps,
-  ProviderOrSubscriber,
-} from '../../types'
-import { TableWithLoader } from '../components/TableWithLoader'
-import { ActionWithTooltip } from '../components/ActionWithTooltip'
-import { StyledIntro } from '../components/StyledIntro'
+import { AgreementStatus, AgreementSummary, ProviderOrSubscriber, ActionProps } from '../../types'
+import { TableWithLoader } from '../components/Shared/TableWithLoader'
+import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useMode } from '../hooks/useMode'
 import { TempFilters } from '../components/TempFilters'
 import { mergeActions } from '../lib/eservice-utils'
 import { getAgreementStatus } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
+import { StyledLink } from '../components/Shared/StyledLink'
+import { TableCell, TableRow } from '@mui/material'
+import { Box } from '@mui/system'
+import { StyledButton } from '../components/Shared/StyledButton'
+import { ActionMenu } from '../components/Shared/ActionMenu'
 
 export function AgreementList() {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -80,7 +75,7 @@ export function AgreementList() {
    * End list of actions
    */
 
-  type AgreementActions = { [key in AgreementStatus]: ActionWithTooltipProps[] }
+  type AgreementActions = { [key in AgreementStatus]: ActionProps[] }
   // Build list of available actions for each service in its current state
   const getAvailableActions = (agreement: AgreementSummary) => {
     const sharedActions: AgreementActions = {
@@ -88,26 +83,23 @@ export function AgreementList() {
         {
           onClick: wrapActionInDialog(wrapSuspend(agreement.id), 'AGREEMENT_SUSPEND'),
           label: 'Sospendi',
-          icon: 'bi-pause-circle',
         },
       ],
       suspended: [
         {
           onClick: wrapActionInDialog(wrapActivate(agreement.id), 'AGREEMENT_ACTIVATE'),
           label: 'Riattiva',
-          icon: 'bi-play-circle',
         },
       ],
       pending: [],
       inactive: [],
     }
 
-    const subscriberOnlyActionsActive: ActionWithTooltipProps[] = []
+    const subscriberOnlyActionsActive: ActionProps[] = []
     if (agreement.eservice.activeDescriptor) {
       subscriberOnlyActionsActive.push({
         onClick: wrapActionInDialog(wrapUpgrade(agreement.id), 'AGREEMENT_UPGRADE'),
         label: 'Aggiorna',
-        icon: 'bi-arrow-up-square',
       })
     }
 
@@ -125,7 +117,6 @@ export function AgreementList() {
         {
           onClick: wrapActionInDialog(wrapActivate(agreement.id), 'AGREEMENT_ACTIVATE'),
           label: 'Attiva',
-          icon: 'bi-toggle2-on',
         },
       ],
       inactive: [],
@@ -138,20 +129,7 @@ export function AgreementList() {
 
     const status = getAgreementStatus(agreement, mode)
 
-    const mergedActions = mergeActions<AgreementActions>([currentActions, sharedActions], status)
-
-    const inspectAction = {
-      to: `${
-        ROUTES[mode === 'provider' ? 'PROVIDE' : 'SUBSCRIBE'].SUBROUTES!.AGREEMENT_LIST.PATH
-      }/${agreement.id}`,
-      icon: 'bi-info-circle',
-      label: 'Ispeziona',
-    }
-
-    // Add the last action, which is always EDIT/INSPECT
-    mergedActions.push(inspectAction)
-
-    return mergedActions
+    return mergeActions<AgreementActions>([currentActions, sharedActions], status)
   }
 
   const headData = [
@@ -174,10 +152,10 @@ export function AgreementList() {
   }
 
   return (
-    <WhiteBackground>
-      <StyledIntro priority={2}>{INTRO[mode!]}</StyledIntro>
+    <React.Fragment>
+      <StyledIntro>{INTRO[mode!]}</StyledIntro>
 
-      <div className="mt-4">
+      <Box sx={{ mt: '2rem' }}>
         <TempFilters />
 
         <TableWithLoader
@@ -189,37 +167,32 @@ export function AgreementList() {
           error={error}
         >
           {data.map((item, i) => (
-            <tr key={i}>
-              <td>{item.eservice.name}</td>
-              <td>{item.eservice.version}</td>
-              <td>{AGREEMENT_STATUS_LABEL[item.status]}</td>
-              <td>{mode === 'provider' ? item.consumer.name : item.producer.name}</td>
-              <td>
-                {getAvailableActions(item).map((tableAction, j) => {
-                  const btnProps: any = {}
+            <TableRow key={i} sx={{ bgcolor: 'common.white' }}>
+              <TableCell>{item.eservice.name}</TableCell>
+              <TableCell>{item.eservice.version}</TableCell>
+              <TableCell>{AGREEMENT_STATUS_LABEL[item.status]}</TableCell>
+              <TableCell>{mode === 'provider' ? item.consumer.name : item.producer.name}</TableCell>
 
-                  if ((tableAction as ActionWithTooltipLink).to) {
-                    btnProps.as = Link
-                    btnProps.to = (tableAction as ActionWithTooltipLink).to
-                  } else {
-                    btnProps.onClick = (tableAction as ActionWithTooltipBtn).onClick
-                  }
+              <TableCell>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <StyledButton
+                    variant="outlined"
+                    to={`${
+                      ROUTES[mode === 'provider' ? 'PROVIDE' : 'SUBSCRIBE'].SUBROUTES!
+                        .AGREEMENT_LIST.PATH
+                    }/${item.id}`}
+                    component={StyledLink}
+                  >
+                    Ispeziona
+                  </StyledButton>
 
-                  return (
-                    <ActionWithTooltip
-                      key={j}
-                      btnProps={btnProps}
-                      label={tableAction.label}
-                      iconClass={tableAction.icon!}
-                      isMock={tableAction.isMock}
-                    />
-                  )
-                })}
-              </td>
-            </tr>
+                  <ActionMenu actions={getAvailableActions(item)} index={i} />
+                </Box>
+              </TableCell>
+            </TableRow>
           ))}
         </TableWithLoader>
-      </div>
-    </WhiteBackground>
+      </Box>
+    </React.Fragment>
   )
 }

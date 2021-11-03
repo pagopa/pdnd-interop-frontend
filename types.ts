@@ -1,5 +1,5 @@
 import { AxiosRequestConfig, Method } from 'axios'
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import {
   AGREEMENT_STATUS_LABEL,
   API,
@@ -45,7 +45,7 @@ export type RouteConfig = {
 export type Image = { src: string; alt: string }
 export type RequestOutcome = 'success' | 'error'
 export type RequestOutcomeMessage = { title: string; description: JSX.Element[]; img: Image }
-export type RequestOutcomeOptions = { [key in RequestOutcome]: RequestOutcomeMessage }
+export type RequestOutcomeOptions = Record<RequestOutcome, RequestOutcomeMessage>
 
 /*
  * Mode
@@ -58,10 +58,9 @@ export type ProviderOrSubscriber = Provider | Subscriber
  * Onboarding component
  */
 export type StepperStepComponentProps = {
-  forward?: any
+  forward: any
   back?: VoidFunction
-  updateFormData?: React.Dispatch<React.SetStateAction<any>>
-  data?: any
+  data: any
 }
 
 export type StepperStep = {
@@ -303,6 +302,13 @@ export type Client = {
 }
 
 /*
+ * Public keys
+ */
+export type SecurityOperatorPublicKey = {
+  kid: string
+}
+
+/*
  * Attributes
  */
 export type AttributeModalTemplate = 'add' | 'create'
@@ -357,7 +363,7 @@ export type FrontendAttributes = {
  * Dialog, loader and toast components typings
  * Here because they reflect onto React state updates
  */
-export type ActionFunction = ((event?: any) => Promise<void>) | VoidFunction
+export type ActionFunction = ((_: any) => Promise<void>) | VoidFunction
 
 export type RunActionProps = {
   loadingText: string
@@ -379,7 +385,7 @@ export type DialogProps = DialogContent & {
 
 export type DialogContent = {
   title?: string
-  description?: string | JSX.Element
+  children?: React.ReactNode
 }
 
 export type DialogActionKeys = Exclude<
@@ -407,16 +413,10 @@ export type LoaderType = 'global' | 'contextual'
 /*
  * Action buttons in tables
  */
-export type ActionWithTooltipBtn = {
-  onClick: ActionFunction
-  icon?: string
+export type ActionProps = {
+  component?: FunctionComponent<any>
+  to?: string
+  onClick?: ActionFunction
   label: string
   isMock?: boolean
 }
-export type ActionWithTooltipLink = {
-  to: string
-  icon?: string
-  label: string
-  isMock?: boolean
-}
-export type ActionWithTooltipProps = ActionWithTooltipBtn | ActionWithTooltipLink

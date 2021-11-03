@@ -1,83 +1,33 @@
 import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
-import { EServiceFlatReadType } from '../../types'
-import { StyledIntro } from '../components/StyledIntro'
-import { ActionWithTooltip } from '../components/ActionWithTooltip'
-import { TableWithLoader } from '../components/TableWithLoader'
-import { WhiteBackground } from '../components/WhiteBackground'
+import { EServiceFlatReadType, ActionProps } from '../../types'
+import { StyledIntro } from '../components/Shared/StyledIntro'
+import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { TempFilters } from '../components/TempFilters'
 import { isAdmin } from '../lib/auth-utils'
 import { canSubscribe } from '../lib/attributes'
 import { useSubscribeDialog } from '../hooks/useSubscribeDialog'
 import { useExtensionDialog } from '../hooks/useExtensionDialog'
-import { useFeedback } from '../hooks/useFeedback'
 import { buildDynamicPath } from '../lib/url-utils'
-
-function CatalogExtensionAction({ runFakeAction }: { runFakeAction: any }) {
-  const askExtension = (_: any) => {
-    runFakeAction('Richiedi estensione')
-  }
-
-  const { openDialog: openExtensionDialog } = useExtensionDialog({
-    onProceedCallback: askExtension,
-  })
-
-  return (
-    <ActionWithTooltip
-      btnProps={{ onClick: openExtensionDialog }}
-      label="Richiedi estensione"
-      iconClass={'bi-chat-square-text'}
-      isMock={true}
-    />
-  )
-}
-
-function CatalogSubscribeAction({
-  data,
-  runActionWithDestination,
-}: {
-  data: EServiceFlatReadType
-  runActionWithDestination: any
-}) {
-  const { party } = useContext(PartyContext)
-
-  const subscribe = async (_: any) => {
-    const agreementData = {
-      eserviceId: data.id,
-      descriptorId: data.descriptorId,
-      consumerId: party?.partyId,
-    }
-
-    await runActionWithDestination(
-      { path: { endpoint: 'AGREEMENT_CREATE' }, config: { data: agreementData } },
-      { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST, suppressToast: false }
-    )
-  }
-
-  const { openDialog: openSubscribeDialog } = useSubscribeDialog({
-    onProceedCallback: subscribe,
-    producerName: data.producerName,
-  })
-
-  return (
-    <ActionWithTooltip
-      btnProps={{ onClick: openSubscribeDialog }}
-      label="Iscriviti"
-      iconClass={'bi-pencil-square'}
-    />
-  )
-}
+import { StyledTooltip } from '../components/Shared/StyledTooltip'
+import { StyledLink } from '../components/Shared/StyledLink'
+import { StyledButton } from '../components/Shared/StyledButton'
+import { TableCell, TableRow } from '@mui/material'
+import { Box } from '@mui/system'
+import { ActionMenu } from '../components/Shared/ActionMenu'
+import {
+  Lock as LockIcon,
+  CheckCircle as CheckCircleIcon,
+  Cancel as CancelIcon,
+} from '@mui/icons-material'
 
 type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
   isMine: boolean
 }
 
 export function EServiceCatalog() {
-  const { runActionWithDestination, runFakeAction } = useFeedback()
   const { party } = useContext(PartyContext)
   const { data, loadingText, error } = useAsyncFetch<
     EServiceFlatReadType[],
@@ -95,24 +45,63 @@ export function EServiceCatalog() {
     }
   )
 
+  /*
+   * Ask extension action
+   */
+  const { openDialog: openExtensionDialog } = useExtensionDialog()
+
+  /*
+   * Subscribe to e-service action
+   */
+  const { openDialog: openSubscribeDialog } = useSubscribeDialog()
+
   const headData = ['nome e-service', 'ente erogatore', 'versione attuale', 'stato e-service', '']
 
-  const OwnerTooltip = ({ label = '', iconClass = '' }) => (
-    <OverlayTrigger
-      placement="top"
-      overlay={
-        <Tooltip className="opacity-100" id="tooltip">
-          {label}
-        </Tooltip>
-      }
-    >
-      <i className={`text-primary ms-2 fs-5 bi ${iconClass}`} />
-    </OverlayTrigger>
+  const OwnerTooltip = ({ label = '', Icon }: { label: string; Icon: any }) => (
+    <StyledTooltip title={label}>
+      <Icon sx={{ ml: '0.25rem' }} fontSize="small" color="primary" />
+    </StyledTooltip>
   )
 
+  const getAvailableActions = (
+    eservice: ExtendedEServiceFlatReadType,
+    canSubscribeEservice: boolean
+  ) => {
+    const actions: ActionProps[] = []
+
+    if (!eservice.isMine && isAdmin(party) && eservice.callerSubscribed) {
+      actions.push({
+        to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
+          id: eservice.callerSubscribed,
+        }),
+        component: StyledLink,
+        label: "Vai all'accordo",
+      })
+    }
+
+    if (!eservice.isMine && isAdmin(party) && !eservice.callerSubscribed && canSubscribeEservice) {
+      actions.push({
+        onClick: () => {
+          openSubscribeDialog(eservice)
+        },
+        label: 'Iscriviti',
+      })
+    }
+
+    if (!eservice.isMine && isAdmin(party) && !canSubscribeEservice) {
+      actions.push({
+        onClick: openExtensionDialog,
+        label: 'Richiedi estensione',
+        isMock: true,
+      })
+    }
+
+    return actions
+  }
+
   return (
-    <WhiteBackground>
-      <StyledIntro priority={2}>
+    <React.Fragment>
+      <StyledIntro>
         {{
           title: 'Gli e-service disponibili',
           description:
@@ -134,64 +123,43 @@ export function EServiceCatalog() {
           const canSubscribeEservice = canSubscribe(party?.attributes, item.certifiedAttributes)
 
           return (
-            <tr key={i}>
-              <td>
+            <TableRow key={i} sx={{ bgcolor: 'common.white' }}>
+              <TableCell>
                 {item.name}
-                {item.isMine && <OwnerTooltip label="Sei l'erogatore" iconClass="bi-key-fill" />}
+                {item.isMine && <OwnerTooltip label="Sei l'erogatore" Icon={LockIcon} />}
                 {item.callerSubscribed && isAdmin(party) && (
-                  <OwnerTooltip label="Sei già iscritto" iconClass="bi-check-circle" />
+                  <OwnerTooltip label="Sei già iscritto" Icon={CheckCircleIcon} />
                 )}
                 {!item.isMine && !canSubscribeEservice && (
                   <OwnerTooltip
                     label="Il tuo ente non ha gli attributi certificati necessari per iscriversi"
-                    iconClass="bi-x-circle"
+                    Icon={CancelIcon}
                   />
                 )}
-              </td>
-              <td>{item.producerName}</td>
-              <td>{item.version}</td>
-              <td>{ESERVICE_STATUS_LABEL[item.status!]}</td>
-              <td>
-                {!item.isMine && isAdmin(party) && item.callerSubscribed && (
-                  <ActionWithTooltip
-                    btnProps={{
-                      to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
-                        id: item.callerSubscribed,
-                      }),
-                      as: Link,
-                    }}
-                    label="Vai all'accordo"
-                    iconClass={'bi-link'}
-                  />
-                )}
-                {!item.isMine &&
-                  isAdmin(party) &&
-                  !item.callerSubscribed &&
-                  canSubscribeEservice && (
-                    <CatalogSubscribeAction
-                      data={item}
-                      runActionWithDestination={runActionWithDestination}
-                    />
-                  )}
-                {!item.isMine && isAdmin(party) && !canSubscribeEservice && (
-                  <CatalogExtensionAction runFakeAction={runFakeAction} />
-                )}
-                <ActionWithTooltip
-                  btnProps={{
-                    as: Link,
-                    to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
+              </TableCell>
+              <TableCell>{item.producerName}</TableCell>
+              <TableCell>{item.version}</TableCell>
+              <TableCell>{ESERVICE_STATUS_LABEL[item.status!]}</TableCell>
+              <TableCell>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <StyledButton
+                    variant="outlined"
+                    component={StyledLink}
+                    to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
                       eserviceId: item.id,
                       descriptorId: item.descriptorId!,
-                    }),
-                  }}
-                  label="Ispeziona"
-                  iconClass={'bi-info-circle'}
-                />
-              </td>
-            </tr>
+                    })}
+                  >
+                    Ispeziona
+                  </StyledButton>
+
+                  <ActionMenu actions={getAvailableActions(item, canSubscribeEservice)} index={i} />
+                </Box>
+              </TableCell>
+            </TableRow>
           )
         })}
       </TableWithLoader>
-    </WhiteBackground>
+    </React.Fragment>
   )
 }

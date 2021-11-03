@@ -6,8 +6,7 @@ import { EServiceWriteStep1General } from '../components/EServiceWriteStep1Gener
 import { EServiceWriteStep2Version } from '../components/EServiceWriteStep2Version'
 import { EServiceWriteStep3Agreement } from '../components/EServiceWriteStep3Agreement'
 import { EServiceWriteStep4Documents } from '../components/EServiceWriteStep4Documents'
-import { Stepper } from '../components/Stepper'
-import { WhiteBackground } from '../components/WhiteBackground'
+import { StyledStepper } from '../components/Shared/StyledStepper'
 import { useHistory } from 'react-router-dom'
 import { scrollToTop } from '../lib/page-utils'
 
@@ -64,9 +63,7 @@ export function EServiceWrite({ fetchedDataMaybe }: EServiceWriteProps) {
 
   return (
     <React.Fragment>
-      <WhiteBackground>
-        <Stepper steps={STEPS} activeIndex={activeStep} />
-      </WhiteBackground>
+      <StyledStepper steps={STEPS} activeIndex={activeStep} />
       <Step {...stepProps} />
     </React.Fragment>
   )

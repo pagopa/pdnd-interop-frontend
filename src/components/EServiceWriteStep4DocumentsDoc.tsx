@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import { Box } from '@mui/system'
+import { UploadFile as UploadFileIcon } from '@mui/icons-material'
 import keyBy from 'lodash/keyBy'
-import { Button, Form } from 'react-bootstrap'
 import {
   EServiceDescriptorRead,
   EServiceDocumentRead,
@@ -8,9 +9,11 @@ import {
   EServiceReadType,
 } from '../../types'
 import { getActiveDocs } from '../lib/eservice-utils'
-import { StyledDeleteableDocument } from './StyledDeleteableDocument'
-import { StyledInputFile } from './StyledInputFile'
-import { StyledInputTextArea } from './StyledInputTextArea'
+import { StyledDeleteableDocument } from './Shared/StyledDeleteableDocument'
+import { StyledInputFile } from './Shared/StyledInputFile'
+import { StyledInputTextArea } from './Shared/StyledInputTextArea'
+import { StyledButton } from './Shared/StyledButton'
+import { StyledForm } from './Shared/StyledForm'
 
 type EServiceWriteStep4DocumentsDocProps = {
   data: EServiceReadType
@@ -90,37 +93,33 @@ export function EServiceWriteStep4DocumentsDoc({
       })}
 
       {showWriteDocInput ? (
-        <Form className="px-3 py-3 rounded bg-secondary" onSubmit={uploadNewDoc}>
-          <StyledInputFile
-            className="mt-2 mb-0"
-            id="doc-doc"
-            label="seleziona documento"
-            value={writeDoc?.doc}
-            onChange={wrapUpdateDoc('doc')}
-          />
+        <Box sx={{ px: '1rem', py: '1rem' }} bgcolor="grey.500">
+          <StyledForm onSubmit={uploadNewDoc}>
+            <StyledInputFile
+              id="doc-doc"
+              label="Seleziona documento"
+              value={writeDoc?.doc}
+              onChange={wrapUpdateDoc('doc')}
+            />
 
-          <StyledInputTextArea
-            className="mt-3 mb-3"
-            id="doc-descr"
-            label="Descrizione"
-            value={writeDoc?.description || ''}
-            onChange={wrapUpdateDoc('description')}
-          />
+            <StyledInputTextArea
+              id="doc-descr"
+              label="Descrizione"
+              value={writeDoc?.description || ''}
+              onChange={wrapUpdateDoc('description')}
+            />
 
-          <div className="d-flex justify-content-end">
-            <Button type="submit" variant="primary">
-              <i
-                className="fs-5 bi bi-upload me-2 position-relative"
-                style={{ transform: 'translateY(0.1rem)' }}
-              />{' '}
-              carica
-            </Button>
-          </div>
-        </Form>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <StyledButton type="submit" variant="contained">
+                <UploadFileIcon fontSize="small" sx={{ mr: '0.5rem' }} /> Carica Carica
+              </StyledButton>
+            </Box>
+          </StyledForm>
+        </Box>
       ) : (
-        <Button variant="primary" onClick={showFileInputForm}>
+        <StyledButton variant="contained" onClick={showFileInputForm}>
           Aggiungi documento
-        </Button>
+        </StyledButton>
       )}
     </React.Fragment>
   )

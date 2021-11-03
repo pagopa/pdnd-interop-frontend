@@ -1,27 +1,26 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router'
-import { Link } from 'react-router-dom'
-import { WhiteBackground } from '../components/WhiteBackground'
 import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
-import { Button } from 'react-bootstrap'
 import { PartyContext } from '../lib/context'
 import {
   ApiEndpointKey,
   EServiceDescriptorRead,
   EServiceFlatReadType,
   EServiceStatus,
-  ActionWithTooltipBtn,
-  ActionWithTooltipLink,
-  ActionWithTooltipProps,
+  ActionProps,
 } from '../../types'
-import { TableWithLoader } from '../components/TableWithLoader'
-import { ActionWithTooltip } from '../components/ActionWithTooltip'
-import { StyledIntro } from '../components/StyledIntro'
+import { TableWithLoader } from '../components/Shared/TableWithLoader'
+import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
 import { TempFilters } from '../components/TempFilters'
 import { AxiosResponse } from 'axios'
 import { buildDynamicPath } from '../lib/url-utils'
+import { StyledButton } from '../components/Shared/StyledButton'
+import { StyledLink } from '../components/Shared/StyledLink'
+import { TableCell, TableRow } from '@mui/material'
+import { ActionMenu } from '../components/Shared/ActionMenu'
+import { Box } from '@mui/system'
 
 export function EServiceList() {
   const { runAction, runFakeAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -138,7 +137,7 @@ export function EServiceList() {
    * End list of actions
    */
 
-  type EServiceAction = { [key in EServiceStatus]: Array<ActionWithTooltipProps | null> }
+  type EServiceAction = { [key in EServiceStatus]: Array<ActionProps | null> }
   // Build list of available actions for each service in its current state
   const getAvailableActions = (service: EServiceFlatReadType) => {
     const { id: eserviceId, descriptorId, status } = service
@@ -148,7 +147,6 @@ export function EServiceList() {
         wrapSuspend(eserviceId, descriptorId),
         'ESERVICE_VERSION_SUSPEND'
       ),
-      icon: 'bi-pause-circle',
       label: 'Sospendi',
     }
     const reactivateAction = {
@@ -156,7 +154,6 @@ export function EServiceList() {
         wrapReactivate(eserviceId, descriptorId),
         'ESERVICE_VERSION_REACTIVATE'
       ),
-      icon: 'bi-play-circle',
       label: 'Riattiva',
     }
     const cloneAction = {
@@ -164,17 +161,14 @@ export function EServiceList() {
         wrapClone(eserviceId, descriptorId),
         'ESERVICE_CLONE_FROM_VERSION'
       ),
-      icon: 'bi-files',
       label: 'Clona',
     }
     const createVersionDraftAction = {
       onClick: wrapActionInDialog(wrapCreateNewVersionDraft(eserviceId), 'ESERVICE_VERSION_CREATE'),
-      icon: 'bi-clipboard-plus',
       label: 'Crea bozza nuova versione',
     }
     const archiveAction = {
       onClick: wrapActionInDialog(archive),
-      icon: 'bi-archive',
       label: 'Archivia',
       isMock: true,
     }
@@ -183,7 +177,6 @@ export function EServiceList() {
         wrapPublishDraft(eserviceId, descriptorId),
         'ESERVICE_VERSION_PUBLISH'
       ),
-      icon: 'bi-box-arrow-up',
       label: 'Pubblica',
     }
     const deleteDraftAction = {
@@ -191,7 +184,6 @@ export function EServiceList() {
         wrapDeleteDraft(eserviceId, descriptorId),
         'ESERVICE_VERSION_DELETE'
       ),
-      icon: 'bi-trash',
       label: 'Elimina',
     }
 
@@ -203,25 +195,8 @@ export function EServiceList() {
       suspended: [reactivateAction, cloneAction, createVersionDraftAction],
     }
 
-    // If status === 'draft', show precompiled write template. Else, readonly template
-    const inspectAction = {
-      to: buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE_EDIT.PATH, {
-        eserviceId,
-        descriptorId: descriptorId || 'prima-bozza',
-      }),
-      icon: !status || status === 'draft' ? 'bi-pencil' : 'bi-info-circle',
-      label: !status || status === 'draft' ? 'Modifica' : 'Ispeziona',
-    }
-
-    // Get all the actions available for this particular status
-    const actions = availableActions[status || 'draft'].filter(
-      (a) => a !== null
-    ) as ActionWithTooltipProps[]
-
-    // Add the last action, which is always EDIT/INSPECT
-    actions.push(inspectAction)
-
-    return actions
+    // Return all the actions available for this particular status
+    return availableActions[status || 'draft'].filter((a) => a !== null) as ActionProps[]
   }
 
   // Data for the table head
@@ -229,61 +204,57 @@ export function EServiceList() {
 
   return (
     <React.Fragment>
-      <WhiteBackground>
-        <StyledIntro priority={2}>
-          {{
-            title: 'I tuoi e-service',
-            description: "In quest'area puoi gestire tutti gli e-service che stai erogando",
-          }}
-        </StyledIntro>
+      <StyledIntro>
+        {{
+          title: 'I tuoi e-service',
+          description: "In quest'area puoi gestire tutti gli e-service che stai erogando",
+        }}
+      </StyledIntro>
 
-        <div className="mt-4">
-          <Button variant="primary" as={Link} to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.PATH}>
-            {ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.LABEL}
-          </Button>
+      <Box sx={{ mt: '2rem' }}>
+        <StyledButton
+          variant="contained"
+          component={StyledLink}
+          to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.PATH}
+        >
+          {ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.LABEL}
+        </StyledButton>
 
-          <TempFilters />
+        <TempFilters />
 
-          <TableWithLoader
-            loadingText={loadingText}
-            headData={headData}
-            pagination={true}
-            data={data}
-            noDataLabel="Non ci sono servizi disponibili"
-            error={error}
-          >
-            {data.map((item, i) => (
-              <tr key={i}>
-                <td>{item.name}</td>
-                <td>{item.version || '1'}</td>
-                <td>{ESERVICE_STATUS_LABEL[item.status || 'draft']}</td>
-                <td>
-                  {getAvailableActions(item).map((tableAction, j) => {
-                    const btnProps: any = {}
+        <TableWithLoader
+          loadingText={loadingText}
+          headData={headData}
+          pagination={true}
+          data={data}
+          noDataLabel="Non ci sono servizi disponibili"
+          error={error}
+        >
+          {data.map((item, i) => (
+            <TableRow key={i} sx={{ bgcolor: 'common.white' }}>
+              <TableCell>{item.name}</TableCell>
+              <TableCell>{item.version || '1'}</TableCell>
+              <TableCell>{ESERVICE_STATUS_LABEL[item.status || 'draft']}</TableCell>
+              <TableCell>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <StyledButton
+                    variant="outlined"
+                    to={buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE_EDIT.PATH, {
+                      eserviceId: item.id,
+                      descriptorId: item.descriptorId || 'prima-bozza',
+                    })}
+                    component={StyledLink}
+                  >
+                    {!item.status || item.status === 'draft' ? 'Modifica' : 'Ispeziona'}
+                  </StyledButton>
 
-                    if ((tableAction as ActionWithTooltipLink).to) {
-                      btnProps.as = Link
-                      btnProps.to = (tableAction as ActionWithTooltipLink).to
-                    } else {
-                      btnProps.onClick = (tableAction as ActionWithTooltipBtn).onClick
-                    }
-
-                    return (
-                      <ActionWithTooltip
-                        key={j}
-                        btnProps={btnProps}
-                        label={tableAction.label}
-                        iconClass={tableAction.icon!}
-                        isMock={tableAction.isMock}
-                      />
-                    )
-                  })}
-                </td>
-              </tr>
-            ))}
-          </TableWithLoader>
-        </div>
-      </WhiteBackground>
+                  <ActionMenu actions={getAvailableActions(item)} index={i} />
+                </Box>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableWithLoader>
+      </Box>
     </React.Fragment>
   )
 }

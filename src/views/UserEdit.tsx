@@ -1,11 +1,9 @@
 import React, { useContext } from 'react'
 import isEmpty from 'lodash/isEmpty'
-import { Button } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
-import { ActionWithTooltipBtn, ApiEndpointKey, User, UserStatus } from '../../types'
+import { ActionProps, ApiEndpointKey, User, UserStatus } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
-import { StyledIntro } from '../components/StyledIntro'
-import { WhiteBackground } from '../components/WhiteBackground'
+import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATUS_LABEL } from '../lib/constants'
 import { getBits } from '../lib/url-utils'
@@ -15,6 +13,9 @@ import { useMode } from '../hooks/useMode'
 import { mergeActions } from '../lib/eservice-utils'
 import { SecurityOperatorKeys } from '../components/SecurityOperatorKeys'
 import { useFeedback } from '../hooks/useFeedback'
+import { StyledButton } from '../components/Shared/StyledButton'
+import { Typography } from '@mui/material'
+import { Box } from '@mui/system'
 
 type UserEndpoinParams =
   | { operatorTaxCode: string; clientId: string }
@@ -97,7 +98,7 @@ export function UserEdit() {
   /*
    * End list of actions
    */
-  type UserActions = { [key in UserStatus]: ActionWithTooltipBtn[] }
+  type UserActions = { [key in UserStatus]: ActionProps[] }
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = () => {
@@ -108,7 +109,10 @@ export function UserEdit() {
     const sharedActions: UserActions = {
       active: [{ onClick: wrapActionInDialog(suspend, 'USER_SUSPEND'), label: 'Sospendi' }],
       suspended: [
-        { onClick: wrapActionInDialog(reactivate, 'USER_REACTIVATE'), label: 'Riattiva' },
+        {
+          onClick: wrapActionInDialog(reactivate, 'USER_REACTIVATE'),
+          label: 'Riattiva',
+        },
       ],
       pending: [],
     }
@@ -126,59 +130,50 @@ export function UserEdit() {
 
   return (
     <React.Fragment>
-      <WhiteBackground>
-        <StyledIntro priority={2}>
-          {{
-            title: `Utente: ${
-              userData?.name && userData?.surname ? userData.name + ' ' + userData.surname : 'n/d'
-            }`,
-          }}
-        </StyledIntro>
+      <StyledIntro>
+        {{
+          title: `Utente: ${
+            userData?.name && userData?.surname ? userData.name + ' ' + userData.surname : 'n/d'
+          }`,
+        }}
+      </StyledIntro>
 
-        <DescriptionBlock label="Codice fiscale">
-          <span>{userData?.taxCode || userData?.from}</span>
-        </DescriptionBlock>
+      <DescriptionBlock label="Codice fiscale">
+        <Typography component="span">{userData?.taxCode || userData?.from}</Typography>
+      </DescriptionBlock>
 
-        <DescriptionBlock label="Email">
-          <span>{userData?.email || 'n/d'}</span>
-        </DescriptionBlock>
+      <DescriptionBlock label="Email">
+        <Typography component="span">{userData?.email || 'n/d'}</Typography>
+      </DescriptionBlock>
 
-        <DescriptionBlock label="Ruolo">
-          <span>{userData?.role ? USER_ROLE_LABEL[userData!.role] : 'n/d'}</span>
-        </DescriptionBlock>
+      <DescriptionBlock label="Ruolo">
+        <Typography component="span">
+          {userData?.role ? USER_ROLE_LABEL[userData!.role] : 'n/d'}
+        </Typography>
+      </DescriptionBlock>
 
-        <DescriptionBlock label="Permessi">
-          <span>
-            {userData?.platformRole ? USER_PLATFORM_ROLE_LABEL[userData!.platformRole] : 'n/d'}
-          </span>
-        </DescriptionBlock>
+      <DescriptionBlock label="Permessi">
+        <Typography component="span">
+          {userData?.platformRole ? USER_PLATFORM_ROLE_LABEL[userData!.platformRole] : 'n/d'}
+        </Typography>
+      </DescriptionBlock>
 
-        <DescriptionBlock label="Stato dell'utente">
-          <span>{userData?.status ? USER_STATUS_LABEL[userData!.status] : 'n/d'}</span>
-        </DescriptionBlock>
+      <DescriptionBlock label="Stato dell'utente">
+        <Typography component="span">
+          {userData?.status ? USER_STATUS_LABEL[userData!.status] : 'n/d'}
+        </Typography>
+      </DescriptionBlock>
 
-        <div className="mt-5 d-flex">
-          {getAvailableActions().map(({ onClick, label }, i) => (
-            <Button
-              key={i}
-              className="me-3"
-              variant={i === 0 ? 'primary' : 'outline-primary'}
-              onClick={onClick}
-            >
-              {label}
-            </Button>
-          ))}
-        </div>
-      </WhiteBackground>
+      <Box sx={{ mt: '2rem', display: 'flex' }}>
+        {getAvailableActions().map(({ onClick, label }, i) => (
+          <StyledButton variant="contained" key={i} onClick={onClick}>
+            {label}
+          </StyledButton>
+        ))}
+      </Box>
 
       {clientId && !isEmpty(userData) && (
-        <SecurityOperatorKeys
-          clientId={clientId}
-          userData={userData!}
-          runAction={runAction}
-          forceRerenderCounter={forceRerenderCounter}
-          wrapActionInDialog={wrapActionInDialog}
-        />
+        <SecurityOperatorKeys clientId={clientId} userData={userData!} />
       )}
     </React.Fragment>
   )

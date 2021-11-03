@@ -1,8 +1,8 @@
+import { Box } from '@mui/system'
 import { AxiosResponse } from 'axios'
 import { isEmpty } from 'lodash'
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Form } from 'react-bootstrap'
-import { Link, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import {
   ApiEndpointKey,
   EServiceCreateDataType,
@@ -20,12 +20,14 @@ import { PartyContext } from '../lib/context'
 import { buildDynamicPath } from '../lib/url-utils'
 import { EServiceWriteProps } from '../views/EServiceWrite'
 import { EServiceAttributeSection } from './EServiceAttributeSection'
-import { StyledInputCheckbox } from './StyledInputCheckbox'
-import { StyledInputRadioGroup } from './StyledInputRadioGroup'
-import { StyledInputText } from './StyledInputText'
-import { StyledInputTextArea } from './StyledInputTextArea'
-import { StyledIntro } from './StyledIntro'
-import { WhiteBackground } from './WhiteBackground'
+import { StyledButton } from './Shared/StyledButton'
+import { StyledForm } from './Shared/StyledForm'
+import { StyledInputCheckbox } from './Shared/StyledInputCheckbox'
+import { StyledInputRadioGroup } from './Shared/StyledInputRadioGroup'
+import { StyledInputText } from './Shared/StyledInputText'
+import { StyledInputTextArea } from './Shared/StyledInputTextArea'
+import { StyledIntro } from './Shared/StyledIntro'
+import { StyledLink } from './Shared/StyledLink'
 
 type FieldType = 'text' | 'radio' | 'checkbox'
 
@@ -66,8 +68,8 @@ export function EServiceWriteStep1General({
   const wrapSetEServiceData =
     (fieldName: keyof EServiceCreateDataType, fieldType: FieldType = 'text') =>
     (e: any) => {
-      const { value, checked, id } = e.target
-      const fieldValueMaybe = { text: value, checkbox: checked, radio: id }[fieldType]
+      const { value, checked } = e.target
+      const fieldValueMaybe = { text: value, checkbox: checked, radio: value }[fieldType]
 
       // Check for false positives (e.g. empty strings in input types), and set them explicitly to undefined
       const fieldValue = !isEmptyTextField(fieldType, fieldValueMaybe) ? fieldValueMaybe : undefined
@@ -137,75 +139,75 @@ export function EServiceWriteStep1General({
 
   return (
     <React.Fragment>
-      <WhiteBackground>
-        <StyledIntro>
-          {{
-            title: 'Crea e-service: informazioni generali',
-            description:
-              "Attenzione: una volta pubblicata la prima versione dell'e-service, le informazioni contenute in questa sezione non saranno più modificabili",
-          }}
-        </StyledIntro>
-      </WhiteBackground>
-      <Form onSubmit={submit}>
-        <WhiteBackground>
-          <StyledIntro priority={2}>{{ title: 'Caratterizzazione e-service' }}</StyledIntro>
+      <StyledIntro>
+        {{
+          title: 'Crea e-service: informazioni generali',
+          description:
+            "Attenzione: una volta pubblicata la prima versione dell'e-service, le informazioni contenute in questa sezione non saranno più modificabili",
+        }}
+      </StyledIntro>
+      <StyledForm onSubmit={submit}>
+        <StyledIntro variant="h1">{{ title: 'Caratterizzazione e-service' }}</StyledIntro>
 
-          <StyledInputText
-            id="name"
-            label="Nome dell'e-service*"
-            value={eserviceData.name || ''}
-            onChange={wrapSetEServiceData('name')}
-            readOnly={!isEditable}
-          />
+        <StyledInputText
+          id="name"
+          label="Nome dell'e-service*"
+          value={eserviceData.name || ''}
+          onChange={wrapSetEServiceData('name')}
+          readOnly={!isEditable}
+        />
 
-          <StyledInputTextArea
-            id="description"
-            label="Descrizione dell'e-service*"
-            value={eserviceData.description || ''}
-            onChange={wrapSetEServiceData('description')}
-            readOnly={!isEditable}
-            placeholder={undefined}
-          />
+        <StyledInputTextArea
+          id="description"
+          label="Descrizione dell'e-service*"
+          value={eserviceData.description || ''}
+          onChange={wrapSetEServiceData('description')}
+          readOnly={!isEditable}
+          placeholder={undefined}
+        />
 
-          <StyledInputRadioGroup
-            id="technology"
-            groupLabel="Tecnologia*"
-            options={[
-              { label: 'REST', value: 'REST' },
-              { label: 'SOAP', value: 'SOAP' },
-            ]}
-            currentValue={eserviceData.technology}
-            onChange={wrapSetEServiceData('technology', 'radio')}
-            readOnly={!isEditable}
-          />
+        <StyledInputRadioGroup
+          name="technology"
+          groupLabel="Tecnologia*"
+          options={[
+            { label: 'REST', value: 'REST' },
+            { label: 'SOAP', value: 'SOAP' },
+          ]}
+          currentValue={eserviceData.technology!}
+          onChange={wrapSetEServiceData('technology', 'radio')}
+          readOnly={!isEditable}
+        />
 
-          <StyledInputCheckbox
-            groupLabel="POP"
-            id="pop"
-            label="Proof of Possession*"
-            checked={!!eserviceData.pop}
-            onChange={wrapSetEServiceData('pop', 'checkbox')}
-            readOnly={!isEditable}
-          />
-        </WhiteBackground>
-        <WhiteBackground>
-          <StyledIntro priority={2}>{{ title: 'Attributi' }}</StyledIntro>
-          <EServiceAttributeSection attributes={attributes} setAttributes={setAttributes} />
+        <StyledInputCheckbox
+          groupLabel="POP*"
+          id="pop"
+          label="Proof of Possession"
+          checked={!!eserviceData.pop}
+          onChange={wrapSetEServiceData('pop', 'checkbox')}
+          readOnly={!isEditable}
+        />
 
-          <div className="mt-5 d-flex">
-            <Button className="me-3" type="submit" variant="primary" disabled={!eserviceData.name}>
-              salva bozza e prosegui
-            </Button>
-            <Button
-              variant="outline-primary"
-              as={Link}
-              to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}
-            >
-              torna agli e-service
-            </Button>
-          </div>
-        </WhiteBackground>
-      </Form>
+        <StyledIntro variant="h1">{{ title: 'Attributi' }}</StyledIntro>
+        <EServiceAttributeSection attributes={attributes} setAttributes={setAttributes} />
+
+        <Box sx={{ mt: '2rem', display: 'flex' }}>
+          <StyledButton
+            sx={{ mr: '1rem' }}
+            type="submit"
+            variant="contained"
+            disabled={!eserviceData.name}
+          >
+            Salva bozza e prosegui
+          </StyledButton>
+          <StyledButton
+            variant="outlined"
+            component={StyledLink}
+            to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}
+          >
+            Torna agli e-service
+          </StyledButton>
+        </Box>
+      </StyledForm>
     </React.Fragment>
   )
 }

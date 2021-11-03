@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import { Typography } from '@mui/material'
+import { Box } from '@mui/system'
 import {
   PartyOnCreate,
   RequestOutcome,
@@ -6,25 +9,23 @@ import {
   StepperStep,
   User,
 } from '../../types'
-import { Stepper } from '../components/Stepper'
-import { WhiteBackground } from '../components/WhiteBackground'
+import { fetchWithLogs } from '../lib/api-utils'
+import { getFetchOutcome } from '../lib/error-utils'
+import { scrollToTop } from '../lib/page-utils'
 import { OnboardingStep1 } from '../components/OnboardingStep1'
 import { OnboardingStep2 } from '../components/OnboardingStep2'
 import { OnboardingStep3 } from '../components/OnboardingStep3'
-import { LoadingOverlay } from '../components/LoadingOverlay'
-import { fetchWithLogs } from '../lib/api-utils'
-import { MessageNoAction } from '../components/MessageNoAction'
+import { LoadingOverlay } from '../components/Shared/LoadingOverlay'
+import { MessageNoAction } from '../components/Shared/MessageNoAction'
 import emailIllustration from '../assets/email-illustration.svg'
 import redXIllustration from '../assets/red-x-illustration.svg'
-import { getFetchOutcome } from '../lib/error-utils'
-import { useHistory } from 'react-router-dom'
-import { InlineSupportLink } from '../components/InlineSupportLink'
-import { scrollToTop } from '../lib/page-utils'
+import { InlineSupportLink } from '../components/Shared/InlineSupportLink'
+import { StyledLink } from '../components/Shared/StyledLink'
 
 export function Onboarding() {
   const [loading, setLoading] = useState(false)
   const [activeStep, setActiveStep] = useState(0)
-  const [partyPeople, setPartyPeople] = useState<{ [key: string]: User }>()
+  const [partyPeople, setPartyPeople] = useState<Record<string, User>>()
   const [party, setParty] = useState<PartyOnCreate>()
   const [outcome, setOutcome] = useState<RequestOutcome>()
   const history = useHistory()
@@ -42,7 +43,7 @@ export function Onboarding() {
     scrollToTop()
   }
 
-  const forwardWithUser = (newPartyPeople: { [key: string]: User }) => {
+  const forwardWithUser = (newPartyPeople: Record<string, User>) => {
     setPartyPeople(newPartyPeople)
     forward()
   }
@@ -73,15 +74,15 @@ export function Onboarding() {
     setOutcome(outcome)
   }
 
-  const STEPS: StepperStep[] = [
-    { label: "Seleziona l'ente", component: OnboardingStep1 },
-    { label: 'Inserisci i dati', component: OnboardingStep2 },
-    { label: "Verifica l'accordo", component: OnboardingStep3 },
+  const STEPS: Omit<StepperStep, 'label'>[] = [
+    { component: OnboardingStep1 },
+    { component: OnboardingStep2 },
+    { component: OnboardingStep3 },
   ]
 
   const stepsProps = [
-    { forward: forwardWithParty },
-    { forward: forwardWithUser, back },
+    { forward: forwardWithParty, data: { partyPeople, party } },
+    { forward: forwardWithUser, back, data: { partyPeople, party } },
     { forward: submit, back, data: { partyPeople, party } },
   ]
 
@@ -92,37 +93,36 @@ export function Onboarding() {
       img: { src: emailIllustration, alt: "Icona dell'email" },
       title: 'Ci siamo quasi...',
       description: [
-        <p>
+        <Typography sx={{ mb: 2 }}>
           Per completare la registrazione, segui le istruzioni che trovi nella mail che ti abbiamo
           inviato a <strong>{party?.digitalAddress}</strong>
-        </p>,
-        <p>
+        </Typography>,
+        <Typography>
           Non hai ricevuto nessuna mail? Attendi qualche minuto e controlla anche nello spam. Se non
           arriva, <InlineSupportLink />
-        </p>,
+        </Typography>,
       ],
     },
     error: {
       img: { src: redXIllustration, alt: "Icona dell'email" },
       title: "C'è stato un problema...",
       description: [
-        <p>
+        <Typography>
           Il salvataggio dei dati inseriti non è andato a buon fine.{' '}
-          <button className="reset-btn btn-as-link link-default" onClick={reload}>
-            Prova nuovamente a registrarti
-          </button>
+          <StyledLink component="button" onClick={reload}>
+            <Typography>Prova nuovamente a registrarti</Typography>
+          </StyledLink>
           , e se il problema dovesse persistere, <InlineSupportLink />!
-        </p>,
+        </Typography>,
       ],
     },
   }
 
   return !outcome ? (
     <React.Fragment>
-      <WhiteBackground stickToTop={true}>
-        <Stepper steps={STEPS} activeIndex={activeStep} />
-      </WhiteBackground>
-      <Step {...stepsProps[activeStep]} />
+      <Box sx={{ textAlign: 'center' }}>
+        <Step {...stepsProps[activeStep]} />
+      </Box>
       {loading && <LoadingOverlay loadingText="Stiamo verificando i tuoi dati" />}
     </React.Fragment>
   ) : (
