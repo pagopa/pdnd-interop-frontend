@@ -45,7 +45,7 @@ export type RouteConfig = {
 export type Image = { src: string; alt: string }
 export type RequestOutcome = 'success' | 'error'
 export type RequestOutcomeMessage = { title: string; description: JSX.Element[]; img: Image }
-export type RequestOutcomeOptions = { [key in RequestOutcome]: RequestOutcomeMessage }
+export type RequestOutcomeOptions = Record<RequestOutcome, RequestOutcomeMessage>
 
 /*
  * Mode
@@ -58,10 +58,9 @@ export type ProviderOrSubscriber = Provider | Subscriber
  * Onboarding component
  */
 export type StepperStepComponentProps = {
-  forward?: any
+  forward: any
   back?: VoidFunction
-  updateFormData?: React.Dispatch<React.SetStateAction<any>>
-  data?: any
+  data: any
 }
 
 export type StepperStep = {

@@ -96,7 +96,7 @@ export function EServiceAttributeGroup({
             <Typography component="span" sx={{ mr: '0.25rem' }}>
               L'attributo non è presente nella lista?
             </Typography>
-            <StyledLink component={StyledButton} onClick={buildShowModal('create')}>
+            <StyledLink component="button" onClick={buildShowModal('create')}>
               Crealo qui!
             </StyledLink>
           </Typography>

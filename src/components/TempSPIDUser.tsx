@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import { useLogin } from '../hooks/useLogin'
-import { UsersObject } from './OnboardingStep2'
 import { PlatformUserForm } from './Shared/PlatformUserForm'
 import { StyledIntro } from './Shared/StyledIntro'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
 import { Box } from '@mui/system'
 import { NARROW_MAX_WIDTH } from '../lib/constants'
+import { UserOnCreate } from '../../types'
 
 export function TempSPIDUser() {
-  const [data, setData] = useState<UsersObject>({})
+  const [data, setData] = useState<Record<string, UserOnCreate>>({})
   const { setTestSPIDUser } = useLogin()
 
   const handleSubmit = (e: React.SyntheticEvent) => {

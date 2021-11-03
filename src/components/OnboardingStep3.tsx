@@ -1,38 +1,77 @@
+import React, { useEffect, useState } from 'react'
+import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import React, { useContext } from 'react'
-import { StepperStepComponentProps, User } from '../../types'
-import { UserContext } from '../lib/context'
-import { getAccessionAgreement, getAccessionAgreementAttachments } from '../lib/legal'
-import { OnboardingStepActions } from './OnboardingStepActions'
-import { StyledAccordion } from './Shared/StyledAccordion'
+import cryptoRandomString from 'crypto-random-string'
+import { CloseOutlined as CloseOutlinedIcon } from '@mui/icons-material'
+import { StepperStepComponentProps, UserOnCreate } from '../../types'
+import { objectIsEmpty } from '../lib/object-utils'
 import { StyledIntro } from './Shared/StyledIntro'
+import { PlatformUserForm } from './Shared/PlatformUserForm'
+import { StyledButton } from './Shared/StyledButton'
+import { StyledLink } from './Shared/StyledLink'
+import { OnboardingStepActions } from './OnboardingStepActions'
 
-export function OnboardingStep3({ forward, back, data }: StepperStepComponentProps) {
-  const { user } = useContext(UserContext)
-  const agreement = getAccessionAgreement(data.partyPeople.admin, data.party, user!)
-  const delegates = (Object.values(data.partyPeople) as User[]).filter((p) => p.role !== 'Manager')
-  const attachments = getAccessionAgreementAttachments(delegates)
+export function OnboardingStep3({ forward, back }: StepperStepComponentProps) {
+  const [delegateFormIds, setDelegateFormIds] = useState<string[]>([])
+  const [people, setPeople] = useState<Record<string, UserOnCreate>>({})
+
+  const addDelegateForm = () => {
+    setDelegateFormIds([...delegateFormIds, cryptoRandomString({ length: 8 })])
+  }
+  const buildRemoveDelegateForm = (idToRemove: string) => (_: React.SyntheticEvent) => {
+    const filteredDelegateFormIds = delegateFormIds.filter((id) => id !== idToRemove)
+    setDelegateFormIds(filteredDelegateFormIds)
+  }
+
+  const onForwardAction = () => {
+    forward!(people)
+  }
+
+  useEffect(() => {
+    addDelegateForm()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <React.Fragment>
-      <StyledIntro>
-        {{
-          title: 'Verifica i dati e i termini dell’accordo di adesione*',
-          description:
-            'Questo è l’accordo che ti verrà inviato via mail da firmare e restituire per l’attivazione dell’account sulla piattaforma interoperabilità.',
-        }}
-      </StyledIntro>
-      <Box bgcolor="grey.500" sx={{ mt: '1.5rem', mb: '1rem', p: '1rem', boxShadow: 3 }}>
-        {agreement}
-      </Box>
+      <StyledIntro>{{ title: 'Indica i Delegati' }}</StyledIntro>
 
-      <Box sx={{ my: '1rem' }}>
-        <StyledAccordion entries={attachments} />
+      {delegateFormIds.map((id, i) => {
+        return (
+          <Box sx={{ textAlign: 'left', boxShadow: 7, mb: '2rem' }}>
+            {i > 0 && (
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <StyledButton onClick={buildRemoveDelegateForm(id)}>
+                  <CloseOutlinedIcon />
+                </StyledButton>
+              </Box>
+            )}
+
+            <Box sx={{ px: '1rem', py: '0.25rem' }}>
+              <PlatformUserForm
+                prefix={`delegate-${id}`}
+                role="Delegate"
+                platformRole="admin"
+                people={people}
+                setPeople={setPeople}
+              />
+            </Box>
+          </Box>
+        )
+      })}
+
+      <Box sx={{ mb: '2rem' }}>
+        <StyledLink component="button" onClick={addDelegateForm}>
+          <Typography>Aggiungi nuovo delegato</Typography>
+        </StyledLink>
       </Box>
 
       <OnboardingStepActions
         back={{ action: back, label: 'Indietro', disabled: false }}
-        forward={{ action: forward, label: 'Invia', disabled: false }}
+        forward={{
+          action: onForwardAction,
+          label: 'Conferma',
+          disabled: objectIsEmpty(people),
+        }}
       />
     </React.Fragment>
   )

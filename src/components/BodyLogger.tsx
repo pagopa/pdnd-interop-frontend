@@ -14,6 +14,7 @@ import { MainNav } from './MainNav'
 import { Layout } from './Shared/Layout'
 import { Box } from '@mui/system'
 import { isInPlatform } from '../lib/router-utils'
+import { MEDIUM_MAX_WIDTH } from '../lib/constants'
 
 export function BodyLogger() {
   const { user } = useContext(UserContext)
@@ -68,7 +69,15 @@ export function BodyLogger() {
             </Box>
           ) : (
             <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-              <Box sx={{ m: 'auto', py: '5rem', px: '2rem' }}>
+              <Box
+                sx={{
+                  m: 'auto',
+                  py: '5rem',
+                  px: '2rem',
+                  maxWidth: MEDIUM_MAX_WIDTH,
+                  width: '100%',
+                }}
+              >
                 <Layout>
                   <Main />
                 </Layout>

@@ -65,7 +65,7 @@ export function StyledAsyncAutocomplete({
   return (
     <Autocomplete
       multiple={multiple}
-      value={selected}
+      value={selected || ''}
       onChange={setSelected}
       open={isOpen}
       onInputChange={debounce(handleSearch, 100)}

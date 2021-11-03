@@ -92,7 +92,7 @@ export function ChooseParty() {
             Vuoi registrare un nuovo ente?
           </Typography>
           <StyledLink component="button" onClick={goToOnboarding}>
-            Clicca qui
+            <Typography>Clicca qui</Typography>
           </StyledLink>
         </Box>
       </Box>
