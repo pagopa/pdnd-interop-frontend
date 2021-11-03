@@ -3,17 +3,19 @@
 ## Info generali
 Stack:
 - template: [Create React App](https://github.com/facebook/create-react-app)
-- base dei componenti: [React Bootstrap](https://react-bootstrap.github.io)
-- icone: [Bootstrap Icons](https://icons.getbootstrap.com)
+- tema: [MUI Italia](https://github.com/pagopa/mui-italia)
+- base dei componenti: [MUI](https://mui.com/)
+- icone: [MUI Icons](https://mui.com/components/material-icons/)
 - router: [React Router DOM](https://reactrouter.com/web)
 - astrazione chiamate: [Axios](https://axios-http.com)
 
 Design:
-- progetto Figma: [v0](https://www.figma.com/file/7GJmdr43yZb3D47sMZRskN/v0)
+- progetto Figma: [v0.0 (PoC)](https://www.figma.com/file/7GJmdr43yZb3D47sMZRskN/PDND-Interoperabilit%C3%A0-%E2%80%94-v0.0-PoC)
+- progetto Figma: [v0.1 (Sperimentazione enti)](https://www.figma.com/file/yNH799rIu1Jkyl3HNuFBrH/PDND-Interoperabilit%C3%A0-%E2%80%94-v0.1-Sperimentazione-enti)
 
 ## Comandi npm
 - `npm run start`
-- `npm run dev`
+- `npm run build`
 - `npm run test`
 - `npm run eject` (non ce n'è bisogno per ora)
 
