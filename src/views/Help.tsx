@@ -1,7 +1,6 @@
 import React from 'react'
 import snakeCase from 'lodash/snakeCase'
-import { StyledIntro } from '../components/StyledIntro'
-import { WhiteBackground } from '../components/WhiteBackground'
+import { StyledIntro } from '../components/Shared/StyledIntro'
 import textData from '../assets/data/help.json'
 
 type Entry = {
@@ -39,9 +38,7 @@ export function Help() {
     return (
       <ul>
         <li>
-          <a className="link-default" href={`#${snakeCase(text)}`}>
-            {text}
-          </a>
+          <a href={`#${snakeCase(text)}`}>{text}</a>
           {Boolean(branches.length > 0) &&
             branches.map((branch, i) => <TOCBranch key={i} {...branch} />)}
         </li>
@@ -58,7 +55,7 @@ export function Help() {
   )
 
   return (
-    <WhiteBackground>
+    <React.Fragment>
       <StyledIntro>
         {{
           title: 'Pagina di supporto',
@@ -83,6 +80,6 @@ export function Help() {
 
         return <HTMLTag key={i}>{text}</HTMLTag>
       })}
-    </WhiteBackground>
+    </React.Fragment>
   )
 }

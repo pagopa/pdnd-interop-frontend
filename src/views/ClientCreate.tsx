@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Form, Button } from 'react-bootstrap'
-import { StyledIntro } from '../components/StyledIntro'
-import { WhiteBackground } from '../components/WhiteBackground'
-import { ROUTES } from '../lib/constants'
-import { StyledInputText } from '../components/StyledInputText'
-import { StyledInputSelect } from '../components/StyledInputSelect'
+import { StyledIntro } from '../components/Shared/StyledIntro'
+import { MEDIUM_MAX_WIDTH, ROUTES } from '../lib/constants'
+import { StyledInputText } from '../components/Shared/StyledInputText'
+import { StyledInputSelect } from '../components/Shared/StyledInputSelect'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { EServiceReadType } from '../../types'
 import { PartyContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
+import { StyledButton } from '../components/Shared/StyledButton'
+import { StyledForm } from '../components/Shared/StyledForm'
 
 type ClientSubmit = {
   name: string
@@ -63,8 +63,8 @@ export function ClientCreate() {
   }, [eserviceData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <WhiteBackground>
-      <StyledIntro priority={2}>
+    <React.Fragment>
+      <StyledIntro>
         {{
           title: `Crea nuovo client`,
           description:
@@ -72,7 +72,7 @@ export function ClientCreate() {
         }}
       </StyledIntro>
 
-      <Form onSubmit={handleSubmit} style={{ maxWidth: 768 }}>
+      <StyledForm onSubmit={handleSubmit} style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
         <StyledInputText
           id="name"
           label="Nome del client*"
@@ -91,11 +91,9 @@ export function ClientCreate() {
           id="eserviceId"
           label="E-service da associare*"
           disabled={eserviceData.length === 0}
-          options={[{ id: '-1', name: 'Seleziona servizio...' }, ...eserviceData].map((s) => ({
-            value: s.id,
-            label: s.name,
-          }))}
+          options={eserviceData.map((s) => ({ value: s.id, label: s.name }))}
           onChange={wrapSetData('eServiceId')}
+          currentValue={data.eServiceId}
         />
 
         <StyledInputText
@@ -105,10 +103,10 @@ export function ClientCreate() {
           onChange={wrapSetData('purposes')}
         />
 
-        <Button className="mt-3" variant="primary" type="submit" disabled={false}>
-          crea client
-        </Button>
-      </Form>
-    </WhiteBackground>
+        <StyledButton sx={{ mt: '1.5rem' }} variant="contained" type="submit" disabled={false}>
+          Crea client
+        </StyledButton>
+      </StyledForm>
+    </React.Fragment>
   )
 }

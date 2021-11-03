@@ -37,13 +37,13 @@ import { SecurityKeyGuide } from '../views/SecurityKeyGuide'
 const isDevelopment = !!(process.env.NODE_ENV === 'development')
 
 export const SHOW_DEV_LABELS = isDevelopment || getDevLabels()
-export const USE_MOCK_SPID_USER = isDevelopment
+export const USE_MOCK_SPID_USER = false // isDevelopment
 export const DISPLAY_LOGS = isDevelopment
 
-// TEMP PoC: we won't need this with the new UI
-export const HARDCODED_MAIN_TAG_HEIGHT = 'calc(100vh - 86px - 101px - 3rem - 72px - 3rem)'
-
 export const BASE_ROUTE = '/ui'
+
+export const NARROW_MAX_WIDTH = 480
+export const MEDIUM_MAX_WIDTH = 768
 
 export const ROUTES: RoutesObject = {
   LOGIN: { PATH: `${BASE_ROUTE}/login`, LABEL: 'Login', COMPONENT: Login, PUBLIC: true },
@@ -127,7 +127,7 @@ export const ROUTES: RoutesObject = {
       ESERVICE_CREATE: {
         PATH: `${BASE_ROUTE}/erogazione/e-service/crea`,
         EXACT: true,
-        LABEL: 'Crea nuovo e-service',
+        LABEL: '+ Aggiungi',
         COMPONENT: EServiceWrite,
         PUBLIC: false,
         AUTH_LEVELS: ['admin', 'api'],
@@ -167,7 +167,7 @@ export const ROUTES: RoutesObject = {
       OPERATOR_API_CREATE: {
         PATH: `${BASE_ROUTE}/erogazione/operatori/crea`,
         EXACT: false,
-        LABEL: 'Crea nuovo operatore API',
+        LABEL: '+ Aggiungi',
         COMPONENT: UserCreate,
         PUBLIC: false,
         AUTH_LEVELS: ['admin'],
@@ -200,7 +200,7 @@ export const ROUTES: RoutesObject = {
       CLIENT_CREATE: {
         PATH: `${BASE_ROUTE}/fruizione/client/crea`,
         EXACT: false,
-        LABEL: 'Crea nuovo client',
+        LABEL: '+ Aggiungi',
         COMPONENT: ClientCreate,
         PUBLIC: false,
         AUTH_LEVELS: ['admin'],
@@ -256,7 +256,7 @@ export const ROUTES: RoutesObject = {
       OPERATOR_SECURITY_CREATE: {
         PATH: `${BASE_ROUTE}/fruizione/client/operatori/crea`,
         EXACT: false,
-        LABEL: 'Crea nuovo operatore di sicurezza',
+        LABEL: '+ Aggiungi',
         COMPONENT: UserCreate,
         PUBLIC: false,
         AUTH_LEVELS: ['admin'],
@@ -728,43 +728,43 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   ESERVICE_GET_SINGLE: {},
   ESERVICE_CREATE: {
     title: 'Conferma creazione bozza',
-    description:
+    children:
       'Cliccando "conferma", una nuova bozza verrà creata. Potrà essere pubblicata successivamente, oppure cancellata',
   },
   ESERVICE_UPDATE: {},
   ESERVICE_DELETE: {
     title: 'Conferma cancellazione bozza',
-    description:
+    children:
       'Cliccando "conferma" questa bozza verrà cancellata e non sarà più recuperabile. Sarà sempre possibile creare nuove bozze',
   },
   ESERVICE_CLONE_FROM_VERSION: {
     title: 'Conferma clonazione e-service',
-    description:
+    children:
       "Verrà creato un nuovo e-service in bozza con le stesse caratteristiche dell'e-service selezionato",
   },
   ESERVICE_VERSION_CREATE: {
     title: 'Conferma creazione bozza versione',
-    description: "Verrà creata una nuova versione (in bozza) dell'e-service selezionato",
+    children: "Verrà creata una nuova versione (in bozza) dell'e-service selezionato",
   },
   ESERVICE_VERSION_UPDATE: {},
   ESERVICE_VERSION_PUBLISH: {
     title: 'Conferma pubblicazione bozza',
-    description:
+    children:
       "Una volta pubblicata, una versione dell'e-service non è più cancellabile e diventa disponibile nel catalogo degli e-service. Sarà comunque possibile sospenderla, o renderla obsoleta una volta che una nuova versione diventa disponibile.",
   },
   ESERVICE_VERSION_DELETE: {
     title: 'Conferma cancellazione bozza',
-    description:
+    children:
       'Cliccando "conferma" questa bozza verrà cancellata e non sarà più recuperabile. Sarà sempre possibile creare nuove bozze',
   },
   ESERVICE_VERSION_SUSPEND: {
     title: 'Conferma sospensione versione',
-    description:
+    children:
       'Cliccando "conferma" questa versione di e-service sarà sospesa. Nessun fruitore potrà accedere a questa versione finché non sarà riattivata',
   },
   ESERVICE_VERSION_REACTIVATE: {
     title: 'Conferma riattivazione versione',
-    description:
+    children:
       'Cliccando "conferma" questa versione di e-service sarà riattivata. Tutti i fruitori che hanno un accordo di interoperabilità attivo per questa versione di servizio potranno nuovamente usufruirne',
   },
   ESERVICE_VERSION_POST_DOCUMENT: {},
@@ -781,17 +781,17 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   AGREEMENT_GET_SINGLE: {},
   AGREEMENT_ACTIVATE: {
     title: "Attiva l'accordo",
-    description:
+    children:
       'Cliccando su "conferma" si attiverà l\'accordo di interoperabilità. Potrà essere sospeso in qualunque momento da questo pannello',
   },
   AGREEMENT_SUSPEND: {
     title: "Sospendi l'accordo",
-    description:
+    children:
       "Cliccando su \"conferma\", l'accordo di interoperabilità sarà sospeso. I client collegati a questo accordo non avranno più accesso all'e-service in erogazione. L'accordo è riattivabile in qualsiasi momento da questa stessa pagina",
   },
   AGREEMENT_UPGRADE: {
     title: "Aggiorna l'accordo",
-    description:
+    children:
       "Cliccando su \"conferma\", l'accordo di interoperabilità sarà aggiornato alla versione più recente dell'e-service attualmente disponibile. I client collegati a questo accordo continueranno ad avere accesso all'e-service in erogazione, aggiornato all'ultima versione",
   },
   CLIENT_GET_LIST: {},
@@ -799,12 +799,12 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   CLIENT_CREATE: {},
   CLIENT_SUSPEND: {
     title: 'Sospendi il client',
-    description:
+    children:
       'Il client è attualmente attivo. Cliccando "conferma" verrà sospeso e le chiavi di sicurezza associate a quel client non saranno considerate più valide per garantire l\'accesso al servizio erogato. Il client si potrà riattivare in qualsiasi momento, ripristinando l\'accesso al servizio',
   },
   CLIENT_ACTIVATE: {
     title: 'Riattiva il client',
-    description:
+    children:
       "Il client è attualmente inattivo, e si sta per riattivarlo. Se ci sono altri impedimenti (es. l'accordo di interoperabilità è sospeso) non sarà comunque possibile accedere all'e-service erogato",
   },
   OPERATOR_SECURITY_GET_LIST: {},
@@ -815,67 +815,66 @@ export const DIALOG_CONTENTS: { [key in DialogActionKeys]: DialogContent } = {
   OPERATOR_SECURITY_KEY_DOWNLOAD: {},
   OPERATOR_SECURITY_KEY_DELETE: {
     title: 'Cancella la chiave pubblica',
-    description:
+    children:
       'Cliccando su "conferma" si cancellerà la chiave pubblica relativa a questo operatore. NB: tutti i servizi che utilizzano questa chiave non potranno più accedere al servizio dell\'ente erogatore. Se non sei sicuro, scarica e salva la tua chiave pubblica prima di cancellarla',
   },
   USER_SUSPEND: {
     title: 'Sospendi operatore',
-    description:
+    children:
       "Cliccando su \"conferma\", l'operatore richiesto sarà sospeso dall'accesso alla piattaforma per l'ente corrente. Se è un operatore di sicurezza, anche le sue chiavi sono sospese",
   },
   USER_REACTIVATE: {
     title: 'Riattiva operatore',
-    description:
+    children:
       "Cliccando su \"conferma\", l'operatore richiesto sarà riabilitato all'accesso alla piattaforma per l'ente corrente. Se è un operatore di sicurezza, anche le sue chiavi sono riabilitate",
   },
 }
 
 export const ESERVICE_STATUS_LABEL = {
-  published: 'attivo',
-  draft: 'in bozza',
-  suspended: 'sospeso',
-  // Not implemented yet
-  archived: 'archiviato',
-  deprecated: 'deprecato',
+  published: 'Attivo',
+  draft: 'In bozza',
+  suspended: 'Sospeso',
+  archived: 'Archiviato',
+  deprecated: 'Deprecato',
 }
 
 export const ATTRIBUTE_TYPE_LABEL = {
-  certified: 'certificati',
-  verified: 'verificati',
-  declared: 'dichiarati',
+  certified: 'Certificati',
+  verified: 'Verificati',
+  declared: 'Dichiarati',
 }
 
 export const AGREEMENT_STATUS_LABEL = {
-  active: 'attivo',
-  suspended: 'sospeso',
-  pending: 'in attesa di approvazione',
-  inactive: 'archiviato',
+  active: 'Attivo',
+  suspended: 'Sospeso',
+  pending: 'In attesa di approvazione',
+  inactive: 'Archiviato',
 }
 
 export const CLIENT_STATUS_LABEL = {
-  active: 'attivo',
-  suspended: 'sospeso',
+  active: 'Attivo',
+  suspended: 'Sospeso',
 }
 
 export const COMPUTED_STATUS_LABEL = {
-  active: 'attivo',
-  inactive: 'non attivo',
+  active: 'Attivo',
+  inactive: 'Non attivo',
 }
 
 export const USER_STATUS_LABEL = {
-  pending: 'in attesa di approvazione',
-  active: 'attivo',
-  suspended: 'sospeso',
+  pending: 'In attesa di approvazione',
+  active: 'Attivo',
+  suspended: 'Sospeso',
 }
 
 export const USER_ROLE_LABEL = {
-  Manager: 'admin', // 'rappresentante legale',
-  Delegate: 'delegato',
-  Operator: 'operatore',
+  Manager: 'Amministratore',
+  Delegate: 'Delegato',
+  Operator: 'Operatore',
 }
 
 export const USER_PLATFORM_ROLE_LABEL = {
-  admin: 'amministratore',
-  security: 'operatore di sicurezza',
-  api: 'operatore API',
+  admin: 'Amministratore',
+  security: 'Operatore di sicurezza',
+  api: 'Operatore API',
 }

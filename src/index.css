@@ -1,31 +1,12 @@
-body {
-  margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html,
+body,
+#root {
+  height: 100%;
 }
 
 #root {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-}
-
-main {
-  background: #ddd;
-  flex-grow: 1;
-
-  display: flex;
-  flex-direction: column;
-}
-
-tr > td:not(:last-of-type) {
-  vertical-align: middle;
-}
-
-tr > td:not(:only-child):last-of-type {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
 }
 
 /*

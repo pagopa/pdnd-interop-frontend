@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import isEmpty from 'lodash/isEmpty'
-import { Button, Form } from 'react-bootstrap'
 import {
   EServiceDescriptorRead,
   EServiceDocumentRead,
@@ -8,9 +7,13 @@ import {
   EServiceReadType,
 } from '../../types'
 import { getActiveInterface } from '../lib/eservice-utils'
-import { StyledDeleteableDocument } from './StyledDeleteableDocument'
-import { StyledInputFile } from './StyledInputFile'
-import { StyledInputTextArea } from './StyledInputTextArea'
+import { StyledDeleteableDocument } from './Shared/StyledDeleteableDocument'
+import { StyledInputFile } from './Shared/StyledInputFile'
+import { StyledInputTextArea } from './Shared/StyledInputTextArea'
+import { StyledButton } from './Shared/StyledButton'
+import { StyledForm } from './Shared/StyledForm'
+import { UploadFile as UploadFileIcon } from '@mui/icons-material'
+import { Box } from '@mui/system'
 
 type EServiceWriteStep4DocumentsInterfaceProps = {
   data: EServiceReadType
@@ -77,32 +80,26 @@ export function EServiceWriteStep4DocumentsInterface({
       deleteDocument={deletePreviousInterfaceDoc}
     />
   ) : (
-    <Form className="px-3 py-3 rounded bg-secondary" onSubmit={uploadNewInterfaceDoc}>
+    <StyledForm onSubmit={uploadNewInterfaceDoc}>
       <StyledInputFile
-        className="mt-2 mb-0"
         id="interface-doc"
-        label="seleziona documento"
+        label="Seleziona documento"
         value={writeDoc?.doc}
         onChange={wrapUpdateDoc('doc')}
       />
 
       <StyledInputTextArea
-        className="mt-3 mb-3"
         id="interface-descr"
         label="Descrizione"
         value={writeDoc?.description || ''}
         onChange={wrapUpdateDoc('description')}
       />
 
-      <div className="d-flex justify-content-end">
-        <Button type="submit" variant="primary">
-          <i
-            className="fs-5 bi bi-upload me-2 position-relative"
-            style={{ transform: 'translateY(0.1rem)' }}
-          />{' '}
-          carica
-        </Button>
-      </div>
-    </Form>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <StyledButton type="submit" variant="contained">
+          <UploadFileIcon fontSize="small" sx={{ mr: '0.5rem' }} /> Carica
+        </StyledButton>
+      </Box>
+    </StyledForm>
   )
 }

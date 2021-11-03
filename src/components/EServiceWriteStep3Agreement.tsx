@@ -1,11 +1,12 @@
 import React from 'react'
 import noop from 'lodash/noop'
-import { Button, Form } from 'react-bootstrap'
 import { StepperStepComponentProps } from '../../types'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
-import { StyledInputSelect } from './StyledInputSelect'
-import { StyledIntro } from './StyledIntro'
-import { WhiteBackground } from './WhiteBackground'
+import { StyledInputSelect } from './Shared/StyledInputSelect'
+import { StyledIntro } from './Shared/StyledIntro'
+import { StyledButton } from './Shared/StyledButton'
+import { StyledForm } from './Shared/StyledForm'
+import { Box } from '@mui/system'
 
 export function EServiceWriteStep3Agreement({
   forward,
@@ -25,33 +26,32 @@ export function EServiceWriteStep3Agreement({
 
   return (
     <React.Fragment>
-      <WhiteBackground>
-        <Form onSubmit={submit}>
-          <StyledIntro priority={2}>
-            {{
-              title: 'Crea e-service: accordo di interoperabilità*',
-              description: 'Seleziona il template di accordo che intendi proporre al fruitore',
-            }}
-          </StyledIntro>
+      <StyledForm onSubmit={submit}>
+        <StyledIntro variant="h1">
+          {{
+            title: 'Crea e-service: accordo di interoperabilità*',
+            description: 'Seleziona il template di accordo che intendi proporre al fruitore',
+          }}
+        </StyledIntro>
 
-          <StyledInputSelect
-            id="accordo"
-            label="Seleziona template"
-            disabled={false}
-            options={options}
-            onChange={noop}
-          />
+        <StyledInputSelect
+          id="accordo"
+          label="Seleziona template"
+          disabled={false}
+          options={options}
+          onChange={noop}
+          currentValue={options[0].value}
+        />
 
-          <div className="mt-5 d-flex">
-            <Button className="me-3" variant="primary" type="submit">
-              salva bozza e prosegui
-            </Button>
-            <Button variant="outline-primary" onClick={back}>
-              indietro
-            </Button>
-          </div>
-        </Form>
-      </WhiteBackground>
+        <Box sx={{ mt: '2rem', display: 'flex' }}>
+          <StyledButton sx={{ mr: '1rem' }} variant="contained" type="submit">
+            Salva bozza e prosegui
+          </StyledButton>
+          <StyledButton variant="outlined" onClick={back}>
+            Indietro
+          </StyledButton>
+        </Box>
+      </StyledForm>
     </React.Fragment>
   )
 }

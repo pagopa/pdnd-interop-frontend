@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { Modal, Button } from 'react-bootstrap'
 import { ToastContentWithOutcome } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { TOAST_CONTENTS } from '../lib/constants'
 import { getFetchOutcome } from '../lib/error-utils'
-import { LoadingOverlay } from './LoadingOverlay'
-import { StyledInputSelect } from './StyledInputSelect'
-import { StyledInputTextArea } from './StyledInputTextArea'
+import { StyledInputSelect } from './Shared/StyledInputSelect'
+import { StyledInputTextArea } from './Shared/StyledInputTextArea'
+import { useFeedback } from '../hooks/useFeedback'
+import { StyledDialog } from './Shared/StyledDialog'
 
 type NewPublicKeyProps = {
   close: (toastContent?: ToastContentWithOutcome) => void
@@ -23,8 +23,8 @@ type NewPublicKey = {
 }
 
 export function CreateKeyModal({ close, clientId, taxCode, afterSuccess }: NewPublicKeyProps) {
-  const [loadingText, setLoadingText] = useState<string | undefined>()
-  const [data, setData] = useState<Partial<NewPublicKey>>({ use: 'sig', clientId })
+  const { setLoadingText } = useFeedback()
+  const [data, setData] = useState<Partial<NewPublicKey>>({ use: 'sig', clientId, alg: 'RS256' })
 
   const buildSetData = (key: string) => (e: any) => {
     setData({ ...(data || {}), [key]: e.target.value })
@@ -48,7 +48,7 @@ export function CreateKeyModal({ close, clientId, taxCode, afterSuccess }: NewPu
       outcome,
     }
 
-    setLoadingText(undefined)
+    setLoadingText(null)
     close(toastContent)
 
     if (afterSuccess) {
@@ -61,40 +61,28 @@ export function CreateKeyModal({ close, clientId, taxCode, afterSuccess }: NewPu
   }
 
   return (
-    <React.Fragment>
-      <Modal.Dialog contentClassName="px-1 py-1" style={{ minWidth: 640 }}>
-        <Modal.Header onHide={simpleClose} closeButton>
-          <Modal.Title className="me-5">Carica nuova chiave pubblica</Modal.Title>
-        </Modal.Header>
+    <StyledDialog
+      minWidth={640}
+      close={simpleClose}
+      title="Carica nuova chiave pubblica"
+      proceedLabel="Carica chiave"
+      proceedCallback={upload}
+      disabled={!data}
+    >
+      <StyledInputSelect
+        id="alg"
+        onChange={buildSetData('alg')}
+        options={[{ label: 'RS256', value: 'RS256' }]}
+        label="Seleziona algoritmo*"
+        currentValue={data.alg}
+      />
 
-        <Modal.Body className="py-4">
-          <StyledInputSelect
-            id="alg"
-            onChange={buildSetData('alg')}
-            options={[{ label: 'Seleziona algoritmo...' }, { label: 'RS256', value: 'RS256' }]}
-            label="Algoritmo*"
-          />
-
-          <StyledInputTextArea
-            id="key"
-            label="Chiave pubblica*"
-            value={data?.key || ''}
-            onChange={buildSetData('key')}
-            height={280}
-          />
-        </Modal.Body>
-
-        <Modal.Footer>
-          <Button variant="outline-primary" onClick={simpleClose}>
-            Annulla
-          </Button>
-          <Button variant="primary" onClick={upload} disabled={!data}>
-            Carica chiave
-          </Button>
-        </Modal.Footer>
-      </Modal.Dialog>
-
-      {loadingText && <LoadingOverlay loadingText={loadingText} />}
-    </React.Fragment>
+      <StyledInputTextArea
+        id="key"
+        label="Chiave pubblica*"
+        value={data?.key || ''}
+        onChange={buildSetData('key')}
+      />
+    </StyledDialog>
   )
 }

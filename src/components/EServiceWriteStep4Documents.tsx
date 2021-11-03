@@ -1,16 +1,16 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import { Box } from '@mui/system'
 import { EServiceDocumentKind, StepperStepComponentProps } from '../../types'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
-import { WhiteBackground } from './WhiteBackground'
 import { EServiceWriteStep4DocumentsInterface } from './EServiceWriteStep4DocumentsInterface'
 import { ROUTES } from '../lib/constants'
-import { Link } from 'react-router-dom'
 import { useLocation } from 'react-router'
 import { getBits } from '../lib/url-utils'
 import { EServiceWriteStep4DocumentsDoc } from './EServiceWriteStep4DocumentsDoc'
-import { StyledIntro } from './StyledIntro'
+import { StyledIntro } from './Shared/StyledIntro'
 import { useFeedback } from '../hooks/useFeedback'
+import { StyledButton } from './Shared/StyledButton'
+import { StyledLink } from './Shared/StyledLink'
 
 export function EServiceWriteStep4Documents({
   back,
@@ -102,75 +102,66 @@ export function EServiceWriteStep4Documents({
 
   return (
     <React.Fragment>
-      <WhiteBackground>
-        <StyledIntro priority={2}>{{ title: 'Crea e-service: documentazione' }}</StyledIntro>
-      </WhiteBackground>
+      <StyledIntro variant="h1">{{ title: 'Crea e-service: documentazione' }}</StyledIntro>
 
-      <WhiteBackground>
-        <StyledIntro priority={2}>
-          {{
-            title: 'Interfaccia*',
-            description: "Carica il file OpenAPI/WSDL che descrive l'API",
-          }}
-        </StyledIntro>
+      <StyledIntro variant="h1">
+        {{
+          title: 'Interfaccia*',
+          description: "Carica il file OpenAPI/WSDL che descrive l'API",
+        }}
+      </StyledIntro>
 
-        <EServiceWriteStep4DocumentsInterface
-          data={fetchedData}
-          uploadDescriptorDocument={uploadDescriptorDocument}
-          deleteDescriptorDocument={deleteDescriptorDocument}
-          activeDescriptorId={activeDescriptorId}
-        />
-      </WhiteBackground>
+      <EServiceWriteStep4DocumentsInterface
+        data={fetchedData}
+        uploadDescriptorDocument={uploadDescriptorDocument}
+        deleteDescriptorDocument={deleteDescriptorDocument}
+        activeDescriptorId={activeDescriptorId}
+      />
 
-      <WhiteBackground>
-        <StyledIntro priority={2}>
-          {{
-            title: 'Documentazione',
-            description:
-              'Inserisci la documentazione tecnica utile all’utilizzo di questo e-service',
-          }}
-        </StyledIntro>
+      <StyledIntro variant="h1">
+        {{
+          title: 'Documentazione',
+          description: 'Inserisci la documentazione tecnica utile all’utilizzo di questo e-service',
+        }}
+      </StyledIntro>
 
-        <EServiceWriteStep4DocumentsDoc
-          data={fetchedData}
-          uploadDescriptorDocument={uploadDescriptorDocument}
-          deleteDescriptorDocument={deleteDescriptorDocument}
-          activeDescriptorId={activeDescriptorId}
-        />
+      <EServiceWriteStep4DocumentsDoc
+        data={fetchedData}
+        uploadDescriptorDocument={uploadDescriptorDocument}
+        deleteDescriptorDocument={deleteDescriptorDocument}
+        activeDescriptorId={activeDescriptorId}
+      />
 
-        <div className="mt-5 d-flex">
-          <Button
-            className="me-3"
-            variant="primary"
-            as={Link}
-            to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}
-          >
-            salva bozza e torna ai servizi
-          </Button>
-          <Button className="me-3" variant="outline-primary" onClick={back}>
-            indietro
-          </Button>
-        </div>
-      </WhiteBackground>
+      <Box sx={{ mt: '2rem', display: 'flex' }}>
+        <StyledButton
+          sx={{ mr: '1rem' }}
+          variant="contained"
+          component={StyledLink}
+          to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}
+        >
+          Salva bozza e torna ai servizi
+        </StyledButton>
+        <StyledButton sx={{ mr: '1rem' }} variant="outlined" onClick={back}>
+          Indietro
+        </StyledButton>
+      </Box>
 
-      <WhiteBackground>
-        <StyledIntro priority={2}>{{ title: 'Pubblicazione della versione' }}</StyledIntro>
-        <div className="d-flex">
-          <Button
-            className="me-3"
-            variant="primary"
-            onClick={wrapActionInDialog(publishVersion, 'ESERVICE_VERSION_PUBLISH')}
-          >
-            pubblica bozza
-          </Button>
-          <Button
-            variant="outline-primary"
-            onClick={wrapActionInDialog(deleteVersion, 'ESERVICE_VERSION_DELETE')}
-          >
-            cancella bozza
-          </Button>
-        </div>
-      </WhiteBackground>
+      <StyledIntro variant="h1">{{ title: 'Pubblicazione della versione' }}</StyledIntro>
+      <Box sx={{ display: 'flex' }}>
+        <StyledButton
+          sx={{ mr: '1rem' }}
+          variant="contained"
+          onClick={wrapActionInDialog(publishVersion, 'ESERVICE_VERSION_PUBLISH')}
+        >
+          Pubblica bozza
+        </StyledButton>
+        <StyledButton
+          variant="outlined"
+          onClick={wrapActionInDialog(deleteVersion, 'ESERVICE_VERSION_DELETE')}
+        >
+          Cancella bozza
+        </StyledButton>
+      </Box>
     </React.Fragment>
   )
 }

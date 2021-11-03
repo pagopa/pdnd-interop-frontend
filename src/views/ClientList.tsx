@@ -1,18 +1,8 @@
 import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
-import { Button } from 'react-bootstrap'
-import {
-  Client,
-  ClientStatus,
-  ActionWithTooltipBtn,
-  ActionWithTooltipLink,
-  ActionWithTooltipProps,
-} from '../../types'
-import { StyledIntro } from '../components/StyledIntro'
-import { ActionWithTooltip } from '../components/ActionWithTooltip'
-import { TableWithLoader } from '../components/TableWithLoader'
+import { Client, ClientStatus, ActionProps } from '../../types'
+import { StyledIntro } from '../components/Shared/StyledIntro'
+import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { TempFilters } from '../components/TempFilters'
-import { WhiteBackground } from '../components/WhiteBackground'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { getClientComputedStatus } from '../lib/status-utils'
 import { isAdmin, isOperatorSecurity } from '../lib/auth-utils'
@@ -20,6 +10,11 @@ import { COMPUTED_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { buildDynamicPath } from '../lib/url-utils'
+import { StyledButton } from '../components/Shared/StyledButton'
+import { StyledLink } from '../components/Shared/StyledLink'
+import { TableCell, TableRow } from '@mui/material'
+import { Box } from '@mui/system'
+import { ActionMenu } from '../components/Shared/ActionMenu'
 
 export function ClientList() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -68,62 +63,53 @@ export function ClientList() {
    */
 
   // Build list of available actions for each service in its current state
-  const getAvailableActions = (client: Client): ActionWithTooltipProps[] => {
-    const inspectAction = {
-      to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_EDIT.PATH, { id: client.id }),
-      icon: 'bi-info-circle',
-      label: 'Ispeziona',
-    }
-
+  const getAvailableActions = (client: Client): ActionProps[] => {
     // Exit early if user cannot perform actions
     if (!isAdmin(party)) {
-      return [inspectAction]
+      return []
     }
 
-    const availableActions: { [key in ClientStatus]: ActionWithTooltipProps[] } = {
+    const availableActions: { [key in ClientStatus]: ActionProps[] } = {
       active: [
         {
           onClick: wrapActionInDialog(wrapSuspend(client.id), 'CLIENT_SUSPEND'),
           label: 'Sospendi client',
-          icon: 'bi-pause-circle',
         },
       ],
       suspended: [
         {
           onClick: wrapActionInDialog(wrapReactivate(client.id), 'CLIENT_ACTIVATE'),
           label: 'Riattiva client',
-          icon: 'bi-play-circle',
         },
       ],
     }
 
     const status = client.status
 
-    // Get all the actions available for this particular status
-    const actions: ActionWithTooltipProps[] = (availableActions as any)[status] || []
-
-    // Add the last action, which is always EDIT/INSPECT
-    actions.push(inspectAction)
-
-    return actions
+    // Return all the actions available for this particular status
+    return (availableActions as any)[status] || []
   }
 
   const headData = ['nome client', 'nome e-service', 'ente erogatore', 'stato', '']
 
   return (
-    <WhiteBackground>
-      <StyledIntro priority={2}>
+    <React.Fragment>
+      <StyledIntro>
         {{
           title: 'I tuoi client',
           description: "In quest'area puoi i trovare e gestire tutti i client che hai creato",
         }}
       </StyledIntro>
 
-      <div className="mt-4">
+      <Box sx={{ mt: '2rem' }}>
         {isAdmin(party) && (
-          <Button variant="primary" as={Link} to={ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_CREATE.PATH}>
+          <StyledButton
+            variant="contained"
+            component={StyledLink}
+            to={ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_CREATE.PATH}
+          >
             {ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_CREATE.LABEL}
-          </Button>
+          </StyledButton>
         )}
 
         <TempFilters />
@@ -137,37 +123,31 @@ export function ClientList() {
           error={error}
         >
           {data.map((item, i) => (
-            <tr key={i}>
-              <td>{item.name}</td>
-              <td>{item.eservice.name}</td>
-              <td>{item.eservice.provider.description}</td>
-              <td>{COMPUTED_STATUS_LABEL[getClientComputedStatus(item)]}</td>
-              <td>
-                {getAvailableActions(item).map((tableAction, j) => {
-                  const btnProps: any = {}
+            <TableRow key={i} sx={{ bgcolor: 'common.white' }}>
+              <TableCell>{item.name}</TableCell>
+              <TableCell>{item.eservice.name}</TableCell>
+              <TableCell>{item.eservice.provider.description}</TableCell>
+              <TableCell>{COMPUTED_STATUS_LABEL[getClientComputedStatus(item)]}</TableCell>
 
-                  if ((tableAction as ActionWithTooltipLink).to) {
-                    btnProps.as = Link
-                    btnProps.to = (tableAction as ActionWithTooltipLink).to
-                  } else {
-                    btnProps.onClick = (tableAction as ActionWithTooltipBtn).onClick
-                  }
+              <TableCell>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <StyledButton
+                    variant="outlined"
+                    to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_EDIT.PATH, {
+                      id: item.id,
+                    })}
+                    component={StyledLink}
+                  >
+                    Ispeziona
+                  </StyledButton>
 
-                  return (
-                    <ActionWithTooltip
-                      key={j}
-                      btnProps={btnProps}
-                      label={tableAction.label}
-                      iconClass={tableAction.icon!}
-                      isMock={tableAction.isMock}
-                    />
-                  )
-                })}
-              </td>
-            </tr>
+                  <ActionMenu actions={getAvailableActions(item)} index={i} />
+                </Box>
+              </TableCell>
+            </TableRow>
           ))}
         </TableWithLoader>
-      </div>
-    </WhiteBackground>
+      </Box>
+    </React.Fragment>
   )
 }

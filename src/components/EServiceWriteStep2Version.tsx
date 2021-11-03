@@ -1,17 +1,18 @@
+import { Box } from '@mui/system'
 import { AxiosResponse } from 'axios'
 import { isEmpty } from 'lodash'
 import React, { useEffect, useState } from 'react'
-import { Button, Form } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 import { ApiEndpointKey, StepperStepComponentProps } from '../../types'
 import { useFeedback } from '../hooks/useFeedback'
 import { ROUTES } from '../lib/constants'
 import { buildDynamicPath } from '../lib/url-utils'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
-import { StyledInputText } from './StyledInputText'
-import { StyledInputTextArea } from './StyledInputTextArea'
-import { StyledIntro } from './StyledIntro'
-import { WhiteBackground } from './WhiteBackground'
+import { StyledButton } from './Shared/StyledButton'
+import { StyledForm } from './Shared/StyledForm'
+import { StyledInputText } from './Shared/StyledInputText'
+import { StyledInputTextArea } from './Shared/StyledInputTextArea'
+import { StyledIntro } from './Shared/StyledIntro'
 
 type FieldType = 'text' | 'textArray' | 'number'
 
@@ -117,55 +118,53 @@ export function EServiceWriteStep2Version({
 
   return (
     <React.Fragment>
-      <WhiteBackground>
-        <StyledIntro priority={2}>
-          {{ title: 'Crea e-service: informazioni di versione' }}
-        </StyledIntro>
+      <StyledIntro variant="h1">
+        {{ title: 'Crea e-service: informazioni di versione' }}
+      </StyledIntro>
 
-        <Form onSubmit={submit}>
-          <StyledInputText
-            id="version"
-            label="Numero della versione*"
-            value={getVersion()}
-            readOnly={true}
-          />
+      <StyledForm onSubmit={submit}>
+        <StyledInputText
+          id="version"
+          label="Numero della versione*"
+          value={getVersion()}
+          readOnly={true}
+        />
 
-          <StyledInputText
-            id="audience"
-            label="Identificativo dell'e-service*"
-            tooltipLabel="L'id con il quale il fruitore dichiara il servizio richiesto. Questo identificativo deve essere unico tra i tuoi e-service"
-            value={
-              versionData.audience && versionData.audience.length > 0 ? versionData.audience[0] : ''
-            }
-            onChange={wrapSetVersionData('audience', 'textArray')}
-          />
+        <StyledInputText
+          id="audience"
+          label="Identificativo dell'e-service*"
+          tooltipLabel="L'id con il quale il fruitore dichiara il servizio richiesto. Questo identificativo deve essere unico tra i tuoi e-service"
+          value={
+            versionData.audience && versionData.audience.length > 0 ? versionData.audience[0] : ''
+          }
+          onChange={wrapSetVersionData('audience', 'textArray')}
+        />
 
-          <StyledInputText
-            type="number"
-            id="voucherLifespan"
-            label="Durata di validità del voucher (in minuti)*"
-            value={versionData.voucherLifespan || 0}
-            onChange={wrapSetVersionData('voucherLifespan', 'number')}
-            min="0"
-          />
+        <StyledInputText
+          type="number"
+          id="voucherLifespan"
+          label="Durata di validità del voucher (in minuti)*"
+          value={versionData.voucherLifespan || 0}
+          onChange={wrapSetVersionData('voucherLifespan', 'number')}
+          inputProps={{ min: '0', max: '5' }}
+        />
 
-          <StyledInputTextArea
-            id="description"
-            label="Descrizione della versione*"
-            value={versionData.description || ''}
-            onChange={wrapSetVersionData('description')}
-          />
+        <StyledInputTextArea
+          id="description"
+          label="Descrizione della versione*"
+          value={versionData.description || ''}
+          onChange={wrapSetVersionData('description')}
+        />
 
-          <div className="mt-5 d-flex">
-            <Button className="me-3" variant="primary" type="submit">
-              salva bozza e prosegui
-            </Button>
-            <Button variant="outline-primary" onClick={back}>
-              indietro
-            </Button>
-          </div>
-        </Form>
-      </WhiteBackground>
+        <Box sx={{ mt: '2rem', display: 'flex' }}>
+          <StyledButton sx={{ mr: '1rem' }} variant="contained" type="submit">
+            Salva bozza e prosegui
+          </StyledButton>
+          <StyledButton variant="outlined" onClick={back}>
+            Indietro
+          </StyledButton>
+        </Box>
+      </StyledForm>
     </React.Fragment>
   )
 }

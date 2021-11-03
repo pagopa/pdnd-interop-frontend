@@ -1,43 +1,43 @@
 import React, { useContext } from 'react'
-import { DescriptionBlock } from '../components/DescriptionBlock'
-import { StyledIntro } from '../components/StyledIntro'
-import { WhiteBackground } from '../components/WhiteBackground'
+import { Typography } from '@mui/material'
 import { USER_ROLE_LABEL } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
+import { DescriptionBlock } from '../components/DescriptionBlock'
+import { StyledIntro } from '../components/Shared/StyledIntro'
 
 export function Profile() {
   const { user } = useContext(UserContext)
   const { availableParties, party } = useContext(PartyContext)
 
   return (
-    <WhiteBackground>
-      <StyledIntro priority={2}>{{ title: 'Il mio profilo' }}</StyledIntro>
+    <React.Fragment>
+      <StyledIntro>{{ title: 'Il mio profilo' }}</StyledIntro>
 
       <DescriptionBlock label="Nome e cognome">
-        <span>
+        <Typography component="span">
           {user?.name} {user?.surname}
-        </span>
+        </Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Codice fiscale">
-        <span>{user?.taxCode}</span>
+        <Typography component="span">{user?.taxCode}</Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Mail di notifica">
-        <span>{user?.email}</span>
+        <Typography component="span">{user?.email}</Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Attualmente stai operando per l'ente">
-        <span>
+        <Typography component="span">
           {party?.description} ({party ? USER_ROLE_LABEL[party!.role] : ''})
-        </span>
+        </Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Sei registrato su questa piattaforma per gli enti">
-        <span>
+        <Typography component="span">
           {availableParties.map((p) => `${p.description} (${USER_ROLE_LABEL[p.role]})`).join(', ')}
-        </span>
+        </Typography>
       </DescriptionBlock>
-    </WhiteBackground>
+    </React.Fragment>
   )
 }

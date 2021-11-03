@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
-import { StyledIntro } from '../components/StyledIntro'
-import { WhiteBackground } from '../components/WhiteBackground'
+import { Info as InfoIcon, Warning as WarningIcon } from '@mui/icons-material'
+import { Typography } from '@mui/material'
+import { Box } from '@mui/system'
+import { StyledIntro } from '../components/Shared/StyledIntro'
 
 type Notification = {
   type: 'info' | 'action-required'
@@ -61,8 +63,8 @@ export function Notifications() {
   const [view, setView] = useState<'p' | 's'>('p')
 
   const ICON_TYPES = {
-    'action-required': 'bi-exclamation-triangle',
-    info: 'bi-info-circle',
+    'action-required': WarningIcon,
+    info: InfoIcon,
   }
 
   const wrapSetView = (v: 'p' | 's') => (_: any) => {
@@ -70,12 +72,10 @@ export function Notifications() {
   }
 
   return (
-    <WhiteBackground>
-      <StyledIntro priority={2} additionalClasses="fakeData fakeDataStart">
-        {{ title: 'Notifiche' }}
-      </StyledIntro>
+    <React.Fragment>
+      <StyledIntro>{{ title: 'Notifiche' }}</StyledIntro>
 
-      <div style={{ position: 'relative' }}>
+      <Box className="fakeData fakeDataStart" sx={{ position: 'relative' }}>
         <button
           onClick={wrapSetView('p')}
           style={{
@@ -104,17 +104,28 @@ export function Notifications() {
         </button>
 
         {mockNotifications[view].map(({ date, type, title, message }, i) => {
+          const Icon = ICON_TYPES[type]
+
           return (
-            <div className="my-3 p-3 border border-secondary" key={i}>
-              <p className="d-flex align-items-center text-primary my-0">
-                <i className={`me-2 fs-5 bi ${ICON_TYPES[type]}`} />
-                <strong className="me-2">{title}</strong> — <span className="ms-2">{date}</span>
-              </p>
-              <p className="my-2">{message}</p>
-            </div>
+            <Box sx={{ my: '1rem', p: '1rem', border: 1, borderColor: 'divider' }} key={i}>
+              <Typography
+                sx={{ display: 'flex', alignItems: 'center', my: 0 }}
+                color="primary.main"
+              >
+                <Icon fontSize="small" sx={{ mr: '0.25rem' }} />
+                <Typography component="span" sx={{ fontWeight: 600, mr: '0.5rem' }}>
+                  {title}
+                </Typography>{' '}
+                —{' '}
+                <Typography component="span" sx={{ fontWeight: 600, ml: '0.5rem' }}>
+                  {date}
+                </Typography>
+              </Typography>
+              <Typography sx={{ my: '0.5rem' }}>{message}</Typography>
+            </Box>
           )
         })}
-      </div>
-    </WhiteBackground>
+      </Box>
+    </React.Fragment>
   )
 }

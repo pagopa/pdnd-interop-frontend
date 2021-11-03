@@ -1,6 +1,7 @@
+import { Typography } from '@mui/material'
+import { Box } from '@mui/system'
 import React from 'react'
-import { StyledIntro } from '../components/StyledIntro'
-import { WhiteBackground } from '../components/WhiteBackground'
+import { StyledIntro } from '../components/Shared/StyledIntro'
 
 const CONTENTS = [
   {
@@ -23,7 +24,7 @@ const CONTENTS = [
 
 export function IPAGuide() {
   return (
-    <WhiteBackground>
+    <React.Fragment>
       <StyledIntro>
         {{
           title: 'Accreditarsi su IPA',
@@ -32,11 +33,11 @@ export function IPAGuide() {
         }}
       </StyledIntro>
       {CONTENTS.map(({ title, text }, i) => (
-        <div key={i}>
-          <h3>{title}</h3>
-          <p>{text}</p>
-        </div>
+        <Box key={i}>
+          <Typography component="h3">{title}</Typography>
+          <Typography>{text}</Typography>
+        </Box>
       ))}
-    </WhiteBackground>
+    </React.Fragment>
   )
 }

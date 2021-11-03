@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import isEmpty from 'lodash/isEmpty'
-import { Button } from 'react-bootstrap'
 import {
   AttributeModalTemplate,
   AttributeType,
@@ -8,10 +7,13 @@ import {
   ToastContentWithOutcome,
 } from '../../types'
 import { AttributeModal } from './AttributeModal'
-import { Overlay } from './Overlay'
-import { ActionWithTooltip } from './ActionWithTooltip'
-import { TableWithLoader } from './TableWithLoader'
+import { Overlay } from './Shared/Overlay'
+import { TableWithLoader } from './Shared/TableWithLoader'
 import { ToastContext } from '../lib/context'
+import { StyledButton } from './Shared/StyledButton'
+import { TableCell, TableRow, Typography } from '@mui/material'
+import { Box } from '@mui/system'
+import { StyledLink } from './Shared/StyledLink'
 
 type EServiceAttributeGroupProps = {
   attributesGroup: FrontendAttribute[]
@@ -53,6 +55,10 @@ export function EServiceAttributeGroup({
     setToast(null)
   }
 
+  const wrapRemove = (attributes: any) => (_: any) => {
+    remove(attributes)
+  }
+
   return (
     <React.Fragment>
       <TableWithLoader
@@ -63,47 +69,39 @@ export function EServiceAttributeGroup({
       >
         {attributesGroup.map(({ attributes, explicitAttributeVerification }, j) => {
           return (
-            <tr key={j}>
-              <td
+            <TableRow key={j} sx={{ bgcolor: 'common.white' }}>
+              <TableCell
                 dangerouslySetInnerHTML={{
                   __html: attributes.map(({ name }) => name).join(' <em>oppure</em> '),
                 }}
               />
-              {canRequireVerification && <td>{explicitAttributeVerification ? 'Sì' : 'No'}</td>}
-              <td>
-                <ActionWithTooltip
-                  label="Elimina"
-                  iconClass="bi-trash"
-                  btnProps={{
-                    onClick: () => {
-                      remove(attributes)
-                    },
-                  }}
-                />
-              </td>
-            </tr>
+              {canRequireVerification && (
+                <TableCell>{explicitAttributeVerification ? 'Sì' : 'No'}</TableCell>
+              )}
+              <TableCell>
+                <StyledButton onClick={wrapRemove(attributes)}>Elimina</StyledButton>
+              </TableCell>
+            </TableRow>
           )
         })}
       </TableWithLoader>
 
-      <div className="d-flex align-items-center">
-        <Button className="me-3" variant="primary" onClick={buildShowModal('add')}>
-          aggiungi attributo o gruppo
-        </Button>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <StyledButton sx={{ mr: '1rem' }} variant="contained" onClick={buildShowModal('add')}>
+          Aggiungi attributo o gruppo
+        </StyledButton>
 
         {canCreateNewAttributes && (
-          <p className="mb-0 d-flex align-items-center">
-            <span className="me-2">L'attributo non è presente nella lista?</span>
-            <Button
-              className="px-0 py-0 mx-0 my-0 border-0 link-default"
-              variant="link"
-              onClick={buildShowModal('create')}
-            >
+          <Typography sx={{ mb: 0, display: 'flex', alignItems: 'center' }}>
+            <Typography component="span" sx={{ mr: '0.25rem' }}>
+              L'attributo non è presente nella lista?
+            </Typography>
+            <StyledLink component="button" onClick={buildShowModal('create')}>
               Crealo qui!
-            </Button>
-          </p>
+            </StyledLink>
+          </Typography>
         )}
-      </div>
+      </Box>
 
       {modalTemplate && (
         <Overlay>

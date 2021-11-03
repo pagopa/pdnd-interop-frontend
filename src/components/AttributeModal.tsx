@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
-import { Modal, Button } from 'react-bootstrap'
+import { Typography } from '@mui/material'
+import { Box } from '@mui/system'
 import { AttributeModalTemplate, AttributeType, CatalogAttribute } from '../../types'
+import { useFeedback } from '../hooks/useFeedback'
 import { fetchWithLogs } from '../lib/api-utils'
 import { TOAST_CONTENTS } from '../lib/constants'
 import { getFetchOutcome } from '../lib/error-utils'
-import { AsyncAutocomplete } from './AsyncAutocomplete'
-import { LoadingOverlay } from './LoadingOverlay'
-import { StyledAccordion } from './StyledAccordion'
-import { StyledInputCheckbox } from './StyledInputCheckbox'
-import { StyledInputText } from './StyledInputText'
-import { StyledInputTextArea } from './StyledInputTextArea'
+import { StyledAsyncAutocomplete } from './Shared/StyledAsyncAutocomplete'
+import { StyledAccordion } from './Shared/StyledAccordion'
+import { StyledDialog } from './Shared/StyledDialog'
+import { StyledInputCheckbox } from './Shared/StyledInputCheckbox'
+import { StyledInputText } from './Shared/StyledInputText'
+import { StyledInputTextArea } from './Shared/StyledInputTextArea'
 
 type AttributeModalCreateNewProps = {
   close: any
@@ -41,7 +43,7 @@ type NewAttribute = {
 }
 
 export function AttributeModalCreateNew({ close, attributeKey }: AttributeModalCreateNewProps) {
-  const [loadingText, setLoadingText] = useState<string | undefined>()
+  const { setLoadingText } = useFeedback()
   const [data, setData] = useState<NewAttribute>({ certified: false })
   // Certified is unused, it is here just to shup TypeScript up
   const label = { verified: 'verificato', declared: 'dichiarato', certified: null }[attributeKey]
@@ -61,54 +63,42 @@ export function AttributeModalCreateNew({ close, attributeKey }: AttributeModalC
     const outcome = getFetchOutcome(attributeCreateResponse)
     const toastContent = { ...TOAST_CONTENTS.ATTRIBUTE_CREATE[outcome], outcome }
 
-    setLoadingText(undefined)
+    setLoadingText(null)
     close(toastContent)
   }
 
   return (
-    <React.Fragment>
-      <Modal.Dialog contentClassName="px-1 py-1" style={{ minWidth: 550 }} scrollable={true}>
-        <Modal.Header onHide={close} closeButton>
-          <Modal.Title className="me-5">Crea nuovo attributo {label}</Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body className="py-4">
-          {[
-            { id: 'name', label: "Nome dell'attributo", type: 'text' },
-            { id: 'code', label: 'Id della fonte autoritativa', type: 'text' },
-            { id: 'origin', label: 'Nome della fonte autoritativa', type: 'text' },
-          ].map(({ id, label }, i) => {
-            return (
-              <StyledInputText
-                key={i}
-                id={id}
-                label={label}
-                value={(data?.[id as keyof NewAttribute] as string) || ''}
-                onChange={buildSetData(id)}
-              />
-            )
-          })}
-
-          <StyledInputTextArea
-            id="description"
-            label="Descrizione dell'attributo"
-            value={data?.['description'] || ''}
-            onChange={buildSetData('description')}
+    <StyledDialog
+      minWidth={550}
+      close={close}
+      title={`Crea nuovo attributo ${label}`}
+      proceedLabel="Crea attributo"
+      proceedCallback={create}
+      disabled={!data}
+    >
+      {[
+        { id: 'name', label: "Nome dell'attributo", type: 'text' },
+        { id: 'code', label: 'Id della fonte autoritativa', type: 'text' },
+        { id: 'origin', label: 'Nome della fonte autoritativa', type: 'text' },
+      ].map(({ id, label }, i) => {
+        return (
+          <StyledInputText
+            key={i}
+            id={id}
+            label={label}
+            value={(data?.[id as keyof NewAttribute] as string) || ''}
+            onChange={buildSetData(id)}
           />
-        </Modal.Body>
+        )
+      })}
 
-        <Modal.Footer>
-          <Button variant="outline-primary" onClick={close}>
-            Annulla
-          </Button>
-          <Button variant="primary" onClick={create} disabled={!data}>
-            Crea attributo
-          </Button>
-        </Modal.Footer>
-      </Modal.Dialog>
-
-      {loadingText && <LoadingOverlay loadingText={loadingText} />}
-    </React.Fragment>
+      <StyledInputTextArea
+        id="description"
+        label="Descrizione dell'attributo"
+        value={data?.['description'] || ''}
+        onChange={buildSetData('description')}
+      />
+    </StyledDialog>
   )
 }
 
@@ -120,7 +110,7 @@ export function AttributeModalAddExisting({
   const [selected, setSelected] = useState<CatalogAttribute[]>([])
   const [validation, setValidation] = useState(false)
 
-  const updateSelected = (newSelected: CatalogAttribute[]) => {
+  const updateSelected = (_: any, newSelected: CatalogAttribute[]) => {
     setSelected(newSelected)
   }
 
@@ -137,58 +127,52 @@ export function AttributeModalAddExisting({
   const verifiedCondition = attributeKey === 'verified'
 
   return (
-    <Modal.Dialog contentClassName="px-1 py-1" style={{ minWidth: 550 }} scrollable={true}>
-      <Modal.Header onHide={close} closeButton>
-        <Modal.Title className="me-5">Aggiungi attributo o gruppo</Modal.Title>
-      </Modal.Header>
+    <StyledDialog
+      minWidth={550}
+      close={close}
+      title="Aggiungi attributo o gruppo"
+      proceedLabel="Aggiungi attributo"
+      proceedCallback={confirm}
+      disabled={!!(selected.length === 0)}
+    >
+      <p>Se selezioni più di un attributo verrà trattato come "gruppo"</p>
+      <StyledAsyncAutocomplete
+        multiple={true}
+        selected={selected}
+        setSelected={updateSelected}
+        placeholder="Aggiungi nuovo attributo"
+        path={{ endpoint: 'ATTRIBUTES_GET_LIST' }}
+        transformFn={(data: any) =>
+          data.attributes.filter((a: CatalogAttribute) => a.certified === certifiedCondition)
+        }
+        labelKey="name"
+      />
 
-      <Modal.Body className="py-4">
-        <p>Se selezioni più di un attributo verrà trattato come "gruppo"</p>
-        <AsyncAutocomplete
-          multiple={true}
-          selected={selected}
-          setSelected={updateSelected}
-          placeholder="Aggiungi nuovo attributo"
-          path={{ endpoint: 'ATTRIBUTES_GET_LIST' }}
-          transformFn={(data: any) =>
-            data.attributes.filter((a: CatalogAttribute) => a.certified === certifiedCondition)
-          }
-          labelKey="name"
+      {verifiedCondition && (
+        <StyledInputCheckbox
+          inline={true}
+          id="require-verification"
+          label="Richiedi nuova convalida dell'attributo"
+          checked={validation}
+          onChange={updateValidation}
         />
+      )}
 
-        {verifiedCondition && (
-          <StyledInputCheckbox
-            inline={true}
-            id="require-verification"
-            label="Richiedi nuova convalida dell'attributo"
-            checked={validation}
-            onChange={updateValidation}
+      <Box sx={{ mt: '1rem', pt: '1rem', borderTop: 1 }}>
+        <Typography variant="h5" component="p" sx={{ mt: 0, mb: '0.5rem' }}>
+          Hai selezionato
+        </Typography>
+        {selected && !!(selected.length > 0) ? (
+          <StyledAccordion
+            entries={selected.map(({ name, description }) => ({
+              summary: name,
+              details: description,
+            }))}
           />
+        ) : (
+          <Typography>nessun attributo selezionato</Typography>
         )}
-
-        <div className="border-top mt-3 pt-3">
-          <p className="h5 mt-0 mb-2">Hai selezionato</p>
-          {selected && !!(selected.length > 0) ? (
-            <StyledAccordion
-              entries={selected.map(({ name, description }) => ({
-                summary: name,
-                details: description,
-              }))}
-            />
-          ) : (
-            <span>nessun attributo selezionato</span>
-          )}
-        </div>
-      </Modal.Body>
-
-      <Modal.Footer>
-        <Button variant="outline-primary" onClick={(_: any) => close()}>
-          Annulla
-        </Button>
-        <Button variant="primary" onClick={confirm} disabled={!!(selected.length === 0)}>
-          Conferma
-        </Button>
-      </Modal.Footer>
-    </Modal.Dialog>
+      </Box>
+    </StyledDialog>
   )
 }

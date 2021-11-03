@@ -1,35 +1,28 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AxiosResponse } from 'axios'
 import isEmpty from 'lodash/isEmpty'
-import { Button } from 'react-bootstrap'
-import { Overlay } from './Overlay'
-import { ToastContentWithOutcome, User } from '../../types'
+import { ActionProps, SecurityOperatorPublicKey, ToastContentWithOutcome, User } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { getFetchOutcome } from '../lib/error-utils'
-import { ActionWithTooltip } from './ActionWithTooltip'
 import { CreateKeyModal } from './CreateKeyModal'
-import { StyledIntro } from './StyledIntro'
-import { WhiteBackground } from './WhiteBackground'
+import { StyledIntro } from './Shared/StyledIntro'
 import { ToastContext, UserContext } from '../lib/context'
 import { DescriptionBlock } from './DescriptionBlock'
 import { downloadFile } from '../lib/file-utils'
 import { ROUTES } from '../lib/constants'
+import { StyledButton } from './Shared/StyledButton'
+import { StyledLink } from './Shared/StyledLink'
+import { useFeedback } from '../hooks/useFeedback'
+import { Box } from '@mui/system'
+import { Typography } from '@mui/material'
 
 type SecurityOperatorKeysProps = {
   clientId: string
   userData: User
-  runAction: any
-  forceRerenderCounter: any
-  wrapActionInDialog: any
 }
 
-export function SecurityOperatorKeys({
-  clientId,
-  userData,
-  runAction,
-  wrapActionInDialog,
-  forceRerenderCounter,
-}: SecurityOperatorKeysProps) {
+export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKeysProps) {
+  const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
   const { user } = useContext(UserContext)
   const [key, setKey] = useState<any>()
   const { setToast } = useContext(ToastContext)
@@ -92,7 +85,7 @@ export function SecurityOperatorKeys({
     )
 
     if (outcome === 'success') {
-      const decoded = atob(response.data.key)
+      const decoded = atob((response as AxiosResponse).data.key)
       downloadFile(decoded, 'public_key')
     }
   }
@@ -109,17 +102,15 @@ export function SecurityOperatorKeys({
     )
   }
 
-  const getAvailableActions = (key: any) => {
-    const actions: any = [
+  const getAvailableActions = (key: SecurityOperatorPublicKey) => {
+    const actions: ActionProps[] = [
       {
-        onClick: wrapDownloadKey(key.key.kid),
+        onClick: wrapDownloadKey(key.kid),
         label: 'Scarica chiave',
-        icon: 'bi-download',
       },
       {
-        onClick: wrapActionInDialog(wrapDeleteKey(key.key.kid), 'OPERATOR_SECURITY_KEY_DELETE'),
+        onClick: wrapActionInDialog(wrapDeleteKey(key.kid), 'OPERATOR_SECURITY_KEY_DELETE'),
         label: 'Cancella chiave',
-        icon: 'bi-trash',
       },
     ]
 
@@ -128,74 +119,72 @@ export function SecurityOperatorKeys({
 
   return (
     <React.Fragment>
-      <WhiteBackground>
-        <StyledIntro priority={3}>
-          {{
-            title: 'Gestione chiave pubblica',
-            description: (
-              <React.Fragment>
-                Per maggiori dettagli,{' '}
-                <a
-                  href={ROUTES.SECURITY_KEY_GUIDE.PATH}
-                  className="link-default"
-                  title="Vai alla guida per la creazione delle chiavi di sicurezza"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  consulta la guida
-                </a>
-              </React.Fragment>
-            ),
-          }}
-        </StyledIntro>
+      <StyledIntro variant="h4">
+        {{
+          title: 'Gestione chiave pubblica',
+          description: (
+            <React.Fragment>
+              Per maggiori dettagli,{' '}
+              <StyledLink
+                to={ROUTES.SECURITY_KEY_GUIDE.PATH}
+                title="Vai alla guida per la creazione delle chiavi di sicurezza"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                consulta la guida
+              </StyledLink>
+            </React.Fragment>
+          ),
+        }}
+      </StyledIntro>
 
-        {user?.taxCode === userData.taxCode && !key && (
-          <Button className="mb-4" onClick={openModal} variant="primary">
-            carica nuova chiave
-          </Button>
-        )}
+      {user?.taxCode === userData.taxCode && !key && (
+        <StyledButton sx={{ mb: '1rem' }} onClick={openModal} variant="contained">
+          Carica nuova chiave
+        </StyledButton>
+      )}
 
-        {key ? (
-          <React.Fragment>
-            <div className="d-flex justify-content-between align-items-center border-top border-bottom py-3">
-              <span>Chiave pubblica</span>
-              <div>
-                {getAvailableActions(key).map((tableAction: any, j: number) => {
-                  return (
-                    <ActionWithTooltip
-                      key={j}
-                      btnProps={{ onClick: tableAction.onClick }}
-                      label={tableAction.label}
-                      iconClass={tableAction.icon}
-                      isMock={tableAction.isMock}
-                    />
-                  )
-                })}
-              </div>
-            </div>
-            <div className="mt-4">
-              <DescriptionBlock label="Id del client">
-                <span>{clientId}</span>
-              </DescriptionBlock>
-              <DescriptionBlock label="Id della chiave">
-                <span>{key.key.kid}</span>
-              </DescriptionBlock>
-            </div>
-          </React.Fragment>
-        ) : (
-          <div>Nessuna chiave presente</div>
-        )}
-      </WhiteBackground>
+      {key ? (
+        <React.Fragment>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              py: '1rem',
+              borderTop: 1,
+              borderBottom: 1,
+            }}
+          >
+            <Typography>Chiave pubblica</Typography>
+            <Box>
+              {getAvailableActions(key.key).map(({ label, onClick }, j) => (
+                <StyledButton key={j} onClick={onClick}>
+                  {label}
+                </StyledButton>
+              ))}
+            </Box>
+          </Box>
+          <Box sx={{ mt: '1rem' }}>
+            <DescriptionBlock label="Id del client">
+              <span>{clientId}</span>
+            </DescriptionBlock>
+            <DescriptionBlock label="Id della chiave">
+              <span>{key.key.kid}</span>
+            </DescriptionBlock>
+          </Box>
+        </React.Fragment>
+      ) : (
+        <Typography>Nessuna chiave presente</Typography>
+      )}
 
       {modal && (
-        <Overlay>
-          <CreateKeyModal
-            close={closeModal}
-            clientId={clientId}
-            taxCode={userData.taxCode}
-            afterSuccess={updateKeyCreationCounter}
-          />
-        </Overlay>
+        <CreateKeyModal
+          close={closeModal}
+          clientId={clientId}
+          taxCode={userData.taxCode}
+          afterSuccess={updateKeyCreationCounter}
+        />
       )}
     </React.Fragment>
   )

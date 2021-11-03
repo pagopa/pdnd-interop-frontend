@@ -1,20 +1,21 @@
 import React, { useContext, useState } from 'react'
-import { WhiteBackground } from '../components/WhiteBackground'
-import { Link, useLocation } from 'react-router-dom'
-import { Form, Button } from 'react-bootstrap'
+import { useLocation } from 'react-router-dom'
 import { fetchWithLogs } from '../lib/api-utils'
-import { MessageNoAction } from '../components/MessageNoAction'
+import { MessageNoAction } from '../components/Shared/MessageNoAction'
 import { RequestOutcome, RequestOutcomeOptions } from '../../types'
 import checkIllustration from '../assets/check-illustration.svg'
 import redXIllustration from '../assets/red-x-illustration.svg'
-import { StyledInputFile } from '../components/StyledInputFile'
+import { StyledInputFile } from '../components/Shared/StyledInputFile'
 import { getFetchOutcome } from '../lib/error-utils'
-import { InlineSupportLink } from '../components/InlineSupportLink'
+import { InlineSupportLink } from '../components/Shared/InlineSupportLink'
 import isEmpty from 'lodash/isEmpty'
-import { HARDCODED_MAIN_TAG_HEIGHT } from '../lib/constants'
-import { StyledIntro } from '../components/StyledIntro'
+import { StyledIntro } from '../components/Shared/StyledIntro'
 import { parseSearch } from '../lib/url-utils'
 import { LoaderContext } from '../lib/context'
+import { StyledButton } from '../components/Shared/StyledButton'
+import { StyledForm } from '../components/Shared/StyledForm'
+import { StyledLink } from '../components/Shared/StyledLink'
+import { Box } from '@mui/system'
 
 export function CompleteRegistration() {
   const { setLoadingText } = useContext(LoaderContext)
@@ -81,11 +82,7 @@ export function CompleteRegistration() {
       title: 'Congratulazioni',
       description: [
         <p>
-          La registrazione è completa.{' '}
-          <Link to="/" className="link-default">
-            Clicca qui
-          </Link>{' '}
-          per iniziare
+          La registrazione è completa. <StyledLink to="/">Clicca qui</StyledLink> per iniziare
         </p>,
       ],
     },
@@ -102,14 +99,11 @@ export function CompleteRegistration() {
     },
   }
 
-  return !outcome ? (
+  return (
     <React.Fragment>
-      <WhiteBackground
-        containerClassNames="d-flex flex-direction-column"
-        containerStyles={{ minHeight: HARDCODED_MAIN_TAG_HEIGHT }}
-      >
-        <div className="mx-auto my-auto text-center">
-          <StyledIntro additionalClasses="mx-auto">
+      {!outcome ? (
+        <Box sx={{ m: 'auto', textAlign: 'center' }}>
+          <StyledIntro sx={{ mx: 'auto' }}>
             {{
               title: 'Ciao!',
               description:
@@ -117,22 +111,24 @@ export function CompleteRegistration() {
             }}
           </StyledIntro>
 
-          <Form className="mt-4 form-max-width" onSubmit={handleSubmit}>
-            <StyledInputFile
-              id="contratto"
-              onChange={loadFile}
-              value={contract}
-              label="carica accordo"
-            />
+          <Box sx={{ mt: '2rem' }}>
+            <StyledForm onSubmit={handleSubmit}>
+              <StyledInputFile
+                id="contratto"
+                label="Carica accordo"
+                value={contract}
+                onChange={loadFile}
+              />
 
-            <Button variant="primary" type="submit" disabled={!contract}>
-              prosegui
-            </Button>
-          </Form>
-        </div>
-      </WhiteBackground>
+              <StyledButton variant="contained" type="submit" disabled={!contract}>
+                Prosegui
+              </StyledButton>
+            </StyledForm>
+          </Box>
+        </Box>
+      ) : (
+        <MessageNoAction {...outcomeContent[outcome]} />
+      )}
     </React.Fragment>
-  ) : (
-    <MessageNoAction {...outcomeContent[outcome]} />
   )
 }

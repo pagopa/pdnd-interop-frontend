@@ -1,19 +1,24 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Party } from '../../types'
-import { WhiteBackground } from '../components/WhiteBackground'
-import { HARDCODED_MAIN_TAG_HEIGHT, ROUTES, USER_ROLE_LABEL } from '../lib/constants'
+import { NARROW_MAX_WIDTH, ROUTES, USER_ROLE_LABEL } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import { Row, Col, Button } from 'react-bootstrap'
-import { StyledInputRadioGroup } from '../components/StyledInputRadioGroup'
+import { StyledInputRadioGroup } from '../components/Shared/StyledInputRadioGroup'
 import { storageWrite } from '../lib/storage-utils'
-import { StyledIntro } from '../components/StyledIntro'
+import { StyledIntro } from '../components/Shared/StyledIntro'
+import { StyledButton } from '../components/Shared/StyledButton'
+import { Box } from '@mui/system'
+import { StyledLink } from '../components/Shared/StyledLink'
+import { Typography } from '@mui/material'
 
 export function ChooseParty() {
   const { setParty, party, availableParties } = useContext(PartyContext)
   const history = useHistory()
 
-  const buildUpdateActiveParty = (newParty: Party) => (_: React.SyntheticEvent) => {
+  const updateActiveParty = (e: React.SyntheticEvent) => {
+    const newParty = availableParties.find(
+      (p) => p.institutionId === (e.target as any).value
+    ) as Party
     setParty(newParty)
     storageWrite('currentParty', newParty, 'object')
   }
@@ -26,71 +31,92 @@ export function ChooseParty() {
     history.push(ROUTES.ONBOARDING.PATH)
   }
 
+  useEffect(() => {
+    if (availableParties.length > 0) {
+      setParty(availableParties[0])
+    }
+  }, [availableParties]) // eslint-disable-line react-hooks/exhaustive-deps
+
   return availableParties.length > 0 ? (
-    <WhiteBackground containerStyles={{ minHeight: HARDCODED_MAIN_TAG_HEIGHT }}>
-      <StyledIntro priority={2} additionalClasses="text-center mx-auto">
+    <React.Fragment>
+      <StyledIntro sx={{ textAlign: 'center', mx: 'auto' }}>
         {{
           title: 'Per quale ente vuoi operare?',
           description: (
             <>
               Se l’ente per il quale vuoi operare non è ancora accreditato sulla piattaforma, puoi
-              aggiungerlo cliccando su <em>registra nuovo ente</em>
+              aggiungerlo cliccando sul link in basso
             </>
           ),
         }}
       </StyledIntro>
 
-      <Row className="d-flex align-items-center">
-        <Col>
-          <StyledInputRadioGroup
-            id="istituzioni"
-            groupLabel="Selezione ente"
-            options={availableParties.map((p) => ({
-              label: `${p.description} (${USER_ROLE_LABEL[p.role]})${
-                p.status === 'pending' ? ' - registrazione da completare' : ''
-              }`,
-              disabled: p.status === 'pending',
-              onChange: buildUpdateActiveParty(p),
-              value: p.institutionId,
-            }))}
-            currentValue={party?.institutionId}
-          />
+      <Box sx={{ mx: 'auto', maxWidth: NARROW_MAX_WIDTH }}>
+        <Box
+          sx={{
+            borderBottom: 1,
+            borderColor: 'divider',
+            mb: '0.5rem',
+            pb: '1.5rem',
+            textAlign: 'center',
+          }}
+        >
+          {party && (
+            <StyledInputRadioGroup
+              name="istituzioni"
+              groupLabel="Selezione ente"
+              options={availableParties.map((p) => ({
+                label: `${p.description} (${USER_ROLE_LABEL[p.role]})${
+                  p.status === 'pending' ? ' - registrazione da completare' : ''
+                }`,
+                disabled: p.status === 'pending',
+                value: p.institutionId,
+              }))}
+              onChange={updateActiveParty}
+              currentValue={party!.institutionId}
+            />
+          )}
 
-          <Button className="mt-3" variant="primary" onClick={confirmChoice} disabled={!party}>
-            prosegui
-          </Button>
-        </Col>
-        <Col className="text-center">
-          <p>oppure</p>
-          <Button variant="primary" onClick={goToOnboarding}>
-            registra nuovo ente
-          </Button>
-        </Col>
-      </Row>
-    </WhiteBackground>
+          <StyledButton
+            sx={{ mt: '1rem' }}
+            variant="contained"
+            onClick={confirmChoice}
+            disabled={!party}
+          >
+            Entra
+          </StyledButton>
+        </Box>
+
+        <Box sx={{ mt: '0.5rem', display: 'flex', alignItems: 'center' }}>
+          <Typography component="span" sx={{ mr: '0.25rem' }}>
+            Vuoi registrare un nuovo ente?
+          </Typography>
+          <StyledLink component="button" onClick={goToOnboarding}>
+            <Typography>Clicca qui</Typography>
+          </StyledLink>
+        </Box>
+      </Box>
+    </React.Fragment>
   ) : (
-    <WhiteBackground
-      containerStyles={{ minHeight: HARDCODED_MAIN_TAG_HEIGHT }}
-      containerClassNames="d-flex flex-direction-column"
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        m: 'auto',
+        textAlign: 'center',
+      }}
     >
-      <Row className="d-flex align-items-center mx-auto my-auto">
-        <Col className="text-center">
-          <StyledIntro priority={2}>
-            {{
-              title: 'Ciao!',
-              description: (
-                <>
-                  Dev'essere il tuo primo accesso, non ci sono enti a te associati. Se sei il
-                  rappresentante legale di un ente, accreditalo e accedi
-                </>
-              ),
-            }}
-          </StyledIntro>
-          <Button variant="primary" onClick={goToOnboarding}>
-            registra nuovo ente
-          </Button>
-        </Col>
-      </Row>
-    </WhiteBackground>
+      <StyledIntro variant="h1">
+        {{
+          title: 'Ciao!',
+          description:
+            "Dev'essere il tuo primo accesso, non ci sono enti a te associati. Se sei il rappresentante legale di un ente, accreditalo e accedi",
+        }}
+      </StyledIntro>
+      <StyledButton variant="contained" onClick={goToOnboarding}>
+        Registra nuovo ente
+      </StyledButton>
+    </Box>
   )
 }

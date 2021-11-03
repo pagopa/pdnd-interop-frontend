@@ -1,5 +1,6 @@
+import { Box } from '@mui/system'
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import { StyledButton } from './Shared/StyledButton'
 
 type ActionStep = {
   action?: () => void
@@ -14,22 +15,22 @@ type ActionStepsProps = {
 
 export function OnboardingStepActions({ forward, back }: ActionStepsProps) {
   return (
-    <div className="d-flex">
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: '2rem' }}>
       {back && (
-        <Button
-          className="me-2"
-          variant="outline-primary"
+        <StyledButton
+          sx={{ mx: '0.5rem' }}
+          variant="outlined"
           onClick={back.action}
           disabled={back.disabled}
         >
           {back.label}
-        </Button>
+        </StyledButton>
       )}
       {forward && (
-        <Button variant="primary" onClick={forward.action} disabled={forward.disabled}>
+        <StyledButton variant="contained" onClick={forward.action} disabled={forward.disabled}>
           {forward.label}
-        </Button>
+        </StyledButton>
       )}
-    </div>
+    </Box>
   )
 }

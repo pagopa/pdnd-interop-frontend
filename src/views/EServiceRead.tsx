@@ -1,21 +1,19 @@
 import React, { useContext } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import has from 'lodash/has'
-import { Button } from 'react-bootstrap'
 import {
   AttributeType,
   BackendAttribute,
+  EServiceFlatReadType,
   EServiceReadType,
   GroupBackendAttribute,
   SingleBackendAttribute,
 } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
-import { StyledIntro } from '../components/StyledIntro'
-import { WhiteBackground } from '../components/WhiteBackground'
+import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useMode } from '../hooks/useMode'
 import { ATTRIBUTE_TYPE_LABEL, ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import { Link } from 'react-router-dom'
 import { minutesToHHMMSS } from '../lib/date-utils'
 import { canSubscribe } from '../lib/attributes'
 import { isAdmin } from '../lib/auth-utils'
@@ -23,15 +21,20 @@ import { useSubscribeDialog } from '../hooks/useSubscribeDialog'
 import { useExtensionDialog } from '../hooks/useExtensionDialog'
 import { downloadFile } from '../lib/file-utils'
 import { AxiosResponse } from 'axios'
-import { StyledAccordion } from '../components/StyledAccordion'
+import { StyledAccordion } from '../components/Shared/StyledAccordion'
 import { useFeedback } from '../hooks/useFeedback'
+import { StyledButton } from '../components/Shared/StyledButton'
+import { StyledLink } from '../components/Shared/StyledLink'
+import { Typography } from '@mui/material'
+import { Box } from '@mui/system'
+import { FileDownload as FileDownloadIcon } from '@mui/icons-material'
 
 type EServiceReadProps = {
   data: EServiceReadType
 }
 
 export function EServiceRead({ data }: EServiceReadProps) {
-  const { runAction, runFakeAction, runActionWithDestination } = useFeedback()
+  const { runAction } = useFeedback()
   const { party } = useContext(PartyContext)
   const mode = useMode()
 
@@ -45,30 +48,8 @@ export function EServiceRead({ data }: EServiceReadProps) {
   /*
    * List of possible actions for the user to perform
    */
-  const subscribe = async () => {
-    const agreementData = {
-      eserviceId: data.id,
-      descriptorId: data.activeDescriptor!.id,
-      consumerId: party?.partyId,
-    }
-
-    await runActionWithDestination(
-      { path: { endpoint: 'AGREEMENT_CREATE' }, config: { data: agreementData } },
-      { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST, suppressToast: false }
-    )
-  }
-
-  const askExtension = () => {
-    runFakeAction('Richiedi estensione')
-  }
-
-  const { openDialog: openSubscribeDialog } = useSubscribeDialog({
-    onProceedCallback: subscribe,
-    producerName: data.producer.name,
-  })
-  const { openDialog: openExtensionDialog } = useExtensionDialog({
-    onProceedCallback: askExtension,
-  })
+  const { openDialog: openSubscribeDialog } = useSubscribeDialog()
+  const { openDialog: openExtensionDialog } = useExtensionDialog()
   /*
    * End list of actions
    */
@@ -124,11 +105,12 @@ export function EServiceRead({ data }: EServiceReadProps) {
           <React.Fragment>
             {labels.map((label, i) => {
               return (
-                <div className={i !== labels.length - 1 ? 'mb-3' : ''} key={i}>
-                  <div>
-                    <strong>{label.name}</strong>: {label.description}
-                  </div>
-                </div>
+                <Box sx={{ mb: i !== labels.length - 1 ? '1rem' : 0 }} key={i}>
+                  <Typography component="span" sx={{ fontWeight: 600 }}>
+                    {label.name}
+                  </Typography>
+                  : {label.description}
+                </Box>
               )
             })}
           </React.Fragment>
@@ -139,123 +121,150 @@ export function EServiceRead({ data }: EServiceReadProps) {
     })
   }
 
+  const handleSubscriptionDialog = () => {
+    const flatEService: EServiceFlatReadType = {
+      name: data.name,
+      id: data.id,
+      producerId: data.producer.id,
+      producerName: data.producer.name,
+      certifiedAttributes: data.attributes.certified,
+    }
+
+    openSubscribeDialog(flatEService)
+  }
+
   return (
     <React.Fragment>
-      <WhiteBackground>
-        <StyledIntro priority={2}>
-          {{ title: data.name, description: DESCRIPTIONS[mode!] }}
-        </StyledIntro>
+      <StyledIntro>{{ title: data.name, description: DESCRIPTIONS[mode!] }}</StyledIntro>
 
-        <DescriptionBlock label="Descrizione dell'e-service">
-          <span>{data.description}</span>
+      <DescriptionBlock label="Descrizione dell'e-service">
+        <Typography component="span">{data.description}</Typography>
+      </DescriptionBlock>
+
+      <DescriptionBlock label="Ente erogatore">
+        <Typography component="span">{data.producer.name}</Typography>
+      </DescriptionBlock>
+
+      <DescriptionBlock label="Versione">
+        <Typography component="span">{data.activeDescriptor!.version}</Typography>
+      </DescriptionBlock>
+
+      <DescriptionBlock label="Stato della versione">
+        <Typography component="span">
+          {ESERVICE_STATUS_LABEL[data.activeDescriptor!.status]}
+        </Typography>
+      </DescriptionBlock>
+
+      <DescriptionBlock label="Audience">
+        <Typography component="span">{data.activeDescriptor!.audience.join(', ')}</Typography>
+      </DescriptionBlock>
+
+      <DescriptionBlock label="Tecnologia">
+        <Typography component="span">{data.technology}</Typography>
+      </DescriptionBlock>
+
+      <DescriptionBlock label="PoP (Proof of Possession)">
+        <Typography component="span" className="fakeData">
+          Non richiesta
+        </Typography>
+      </DescriptionBlock>
+
+      <DescriptionBlock label="Durata del voucher dall'attivazione">
+        <Typography component="span">
+          {minutesToHHMMSS(data.activeDescriptor!.voucherLifespan)} (hh:mm:ss)
+        </Typography>
+      </DescriptionBlock>
+
+      <DescriptionBlock label="Accordo di interoperabilità">
+        <a className="fakeData" href="#0" target="_blank">
+          Scarica
+        </a>
+      </DescriptionBlock>
+
+      {data.activeDescriptor!.interface && (
+        <DescriptionBlock label="Interfaccia">
+          <StyledLink
+            component="button"
+            onClick={wrapDownloadDocument(data.activeDescriptor!.interface!.id)}
+          >
+            Scarica il documento di interfaccia
+          </StyledLink>
         </DescriptionBlock>
+      )}
 
-        <DescriptionBlock label="Ente erogatore">
-          <span>{data.producer.name}</span>
-        </DescriptionBlock>
-
-        <DescriptionBlock label="Versione">
-          <span>{data.activeDescriptor!.version}</span>
-        </DescriptionBlock>
-
-        <DescriptionBlock label="Stato della versione">
-          <span>{ESERVICE_STATUS_LABEL[data.activeDescriptor!.status]}</span>
-        </DescriptionBlock>
-
-        <DescriptionBlock label="Audience">
-          <span>{data.activeDescriptor!.audience.join(', ')}</span>
-        </DescriptionBlock>
-
-        <DescriptionBlock label="Tecnologia">
-          <span>{data.technology}</span>
-        </DescriptionBlock>
-
-        <DescriptionBlock label="PoP (Proof of Possession)">
-          <span className="fakeData">Non richiesta</span>
-        </DescriptionBlock>
-
-        <DescriptionBlock label="Durata del voucher dall'attivazione">
-          <span>{minutesToHHMMSS(data.activeDescriptor!.voucherLifespan)} (hh:mm:ss)</span>
-        </DescriptionBlock>
-
-        <DescriptionBlock label="Accordo di interoperabilità">
-          <a className="fakeData link-default" href="#0" target="_blank">
-            Scarica
-          </a>
-        </DescriptionBlock>
-
-        {data.activeDescriptor!.interface && (
-          <DescriptionBlock label="Interfaccia">
-            <button
-              className="btn-as-link-default"
-              onClick={wrapDownloadDocument(data.activeDescriptor!.interface!.id)}
+      {data.activeDescriptor!.docs.length > 0 && (
+        <DescriptionBlock label="Documentazione">
+          {data.activeDescriptor!.docs.map((d, i) => (
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                borderBottom: 1,
+                borderColor: 'divider',
+                mt: i === 0 ? '1rem' : 0,
+              }}
+              key={i}
             >
-              Scarica il documento di interfaccia
-            </button>
-          </DescriptionBlock>
-        )}
+              <Box sx={{ py: '0.25rem', my: '0.25rem' }}>
+                <strong>{d.name}</strong>
+                {d.description !== 'undefined' && (
+                  <React.Fragment>
+                    <br />
+                    <Typography sx={{ display: 'inline-block', mt: '0.25rem', mb: '0.5rem' }}>
+                      {decodeURIComponent(d.description)}
+                    </Typography>
+                  </React.Fragment>
+                )}
+              </Box>
+              <StyledLink component="button" onClick={wrapDownloadDocument(d.id)}>
+                <FileDownloadIcon fontSize="small" sx={{ mr: '0.25rem' }} color="primary" />
+              </StyledLink>
+            </Box>
+          ))}
+        </DescriptionBlock>
+      )}
 
-        {data.activeDescriptor!.docs.length > 0 && (
-          <DescriptionBlock label="Documentazione">
-            {data.activeDescriptor!.docs.map((d, i) => (
-              <div
-                className={`d-flex justify-content-between border-bottom border-bottom-1 ${
-                  i === 0 ? 'mt-2' : ''
-                }`}
-                key={i}
-              >
-                <div className="py-1 my-1">
-                  <strong>{d.name}</strong>
-                  {d.description !== 'undefined' && (
-                    <React.Fragment>
-                      <br />
-                      <span className="d-inline-block mt-1 mb-2">
-                        {decodeURIComponent(d.description)}
-                      </span>
-                    </React.Fragment>
-                  )}
-                </div>
-                <button className="btn-as-link-default" onClick={wrapDownloadDocument(d.id)}>
-                  <i className="text-primary fs-5 bi bi-download me-2" />
-                </button>
-              </div>
-            ))}
-          </DescriptionBlock>
-        )}
-
-        {(Object.keys(data.attributes) as AttributeType[]).map((key, i) => (
-          <DescriptionBlock key={i} label={`Attributi ${ATTRIBUTE_TYPE_LABEL[key]}`}>
-            {data.attributes[key].length > 0 ? (
+      {(Object.keys(data.attributes) as AttributeType[]).map((key, i) => (
+        <DescriptionBlock key={i} label={`Attributi ${ATTRIBUTE_TYPE_LABEL[key]}`}>
+          {data.attributes[key].length > 0 ? (
+            <Box sx={{ mt: '0.5rem' }}>
               <StyledAccordion entries={toAccordionEntries(data.attributes[key])} />
-            ) : (
-              <span>Nessun attributo presente</span>
-            )}
-          </DescriptionBlock>
-        ))}
-      </WhiteBackground>
+            </Box>
+          ) : (
+            <Typography component="span">Nessun attributo presente</Typography>
+          )}
+        </DescriptionBlock>
+      ))}
 
       {mode === 'subscriber' && (
-        <WhiteBackground>
-          <div className="d-flex">
-            {isVersionPublished && !isMine && isAdmin(party) && canSubscribeEservice && (
-              <Button className="me-3" variant="primary" onClick={openSubscribeDialog}>
-                iscriviti
-              </Button>
-            )}
-            {!isMine && isAdmin(party) && !canSubscribeEservice && (
-              <Button className="me-3 mockFeature" variant="primary" onClick={openExtensionDialog}>
-                richiedi estensione
-              </Button>
-            )}
-            <Button
-              variant="outline-primary"
-              as={Link}
-              to={ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}
+        <Box sx={{ display: 'flex' }}>
+          {isVersionPublished && !isMine && isAdmin(party) && canSubscribeEservice && (
+            <StyledButton
+              sx={{ mr: '0.5rem' }}
+              variant="contained"
+              onClick={handleSubscriptionDialog}
             >
-              torna al catalogo
-            </Button>
-          </div>
-        </WhiteBackground>
+              Iscriviti
+            </StyledButton>
+          )}
+          {!isMine && isAdmin(party) && !canSubscribeEservice && (
+            <StyledButton
+              className="mockFeature"
+              sx={{ mr: '0.5rem' }}
+              variant="contained"
+              onClick={openExtensionDialog}
+            >
+              Richiedi estensione
+            </StyledButton>
+          )}
+          <StyledButton
+            variant="outlined"
+            component={StyledLink}
+            to={ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}
+          >
+            Torna al catalogo
+          </StyledButton>
+        </Box>
       )}
     </React.Fragment>
   )

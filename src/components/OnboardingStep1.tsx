@@ -1,60 +1,75 @@
-import React, { useContext, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router'
+import { Typography } from '@mui/material'
+import { Box } from '@mui/system'
+import isEmpty from 'lodash/isEmpty'
 import { IPACatalogParty, PartyOnCreate, StepperStepComponentProps } from '../../types'
-import { WhiteBackground } from '../components/WhiteBackground'
-import { UserContext } from '../lib/context'
-import { Row, Container } from 'react-bootstrap'
+import { NARROW_MAX_WIDTH, ROUTES } from '../lib/constants'
 import { OnboardingStepActions } from './OnboardingStepActions'
-import { AsyncAutocomplete } from './AsyncAutocomplete'
-import { StyledIntro } from './StyledIntro'
-import { ROUTES } from '../lib/constants'
-import { Link } from 'react-router-dom'
+import { StyledAsyncAutocomplete } from './Shared/StyledAsyncAutocomplete'
+import { StyledIntro } from './Shared/StyledIntro'
+import { StyledLink } from './Shared/StyledLink'
 
-export function OnboardingStep1({ forward }: StepperStepComponentProps) {
-  const { user } = useContext(UserContext)
-  const [selected, setSelected] = useState<IPACatalogParty[]>([])
+export function OnboardingStep1({ forward, data }: StepperStepComponentProps) {
+  const history = useHistory()
+  const [selected, setSelected] = useState<IPACatalogParty | null>()
 
   const onForwardAction = () => {
-    const catalogParty: IPACatalogParty = selected[0]
+    const catalogParty: IPACatalogParty = selected!
     const { description, digitalAddress, id } = catalogParty
     const platformParty: PartyOnCreate = { description, institutionId: id, digitalAddress }
     forward!(platformParty)
   }
 
+  const goToChooseParty = () => {
+    history.push(ROUTES.CHOOSE_PARTY.PATH)
+  }
+
+  const updateSelected = (_: any, newSelected: IPACatalogParty | null) => {
+    setSelected(newSelected)
+  }
+
+  useEffect(() => {
+    if (!isEmpty(data.party)) {
+      setSelected(data.party)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
-    <WhiteBackground>
-      <Container className="container-align-left form-max-width">
-        <StyledIntro>
-          {{
-            title: `Ciao, ${user?.name} ${user?.surname}`,
-            description: (
-              <>
-                Per registrarti alla piattaforma di interoperabilità, seleziona il tuo l’ente di
-                riferimento dall’elenco IPA.
-                <br />
-                Se non trovi il tuo ente nell’elenco,{' '}
-                <Link className="link-default" to={ROUTES.IPA_GUIDE.PATH}>
-                  scopri qui
-                </Link>{' '}
-                come aggiungerti.
-              </>
-            ),
-          }}
-        </StyledIntro>
-        <Row className="my-4">
-          <AsyncAutocomplete
+    <React.Fragment>
+      <StyledIntro>
+        {{
+          title: 'Seleziona il tuo Ente',
+          description:
+            "Seleziona dall'indice IPA l'Ente per il quale vuoi richiedere l'adesione alla Piattaforma Interoperabilità",
+        }}
+      </StyledIntro>
+
+      <Box sx={{ maxWidth: NARROW_MAX_WIDTH, mx: 'auto' }}>
+        <Box sx={{ my: '4rem' }}>
+          <StyledAsyncAutocomplete
             selected={selected}
-            setSelected={setSelected}
+            setSelected={updateSelected}
             placeholder="Cerca ente nel catalogo IPA"
             path={{ endpoint: 'ONBOARDING_GET_SEARCH_PARTIES' }}
             transformFn={(data: { items: IPACatalogParty[] }) => data.items}
             labelKey="description"
           />
-        </Row>
+        </Box>
 
-        <OnboardingStepActions
-          forward={{ action: onForwardAction, label: 'prosegui', disabled: selected.length === 0 }}
-        />
-      </Container>
-    </WhiteBackground>
+        <Box>
+          <Typography variant="caption">
+            Non trovi il tuo Ente nell’indice IPA?{' '}
+            <StyledLink to={ROUTES.IPA_GUIDE.PATH}>Clicca qui</StyledLink> per maggiori informazioni
+            e istruzioni per essere inclusi nell’indice delle Pubbliche Amministrazioni
+          </Typography>
+        </Box>
+      </Box>
+
+      <OnboardingStepActions
+        back={{ action: goToChooseParty, label: 'Indietro' }}
+        forward={{ action: onForwardAction, label: 'Conferma', disabled: !selected }}
+      />
+    </React.Fragment>
   )
 }
