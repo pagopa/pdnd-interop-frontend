@@ -24,7 +24,12 @@ export function ChooseParty() {
   }
 
   const confirmChoice = () => {
-    history.push(ROUTES.SUBSCRIBE.PATH)
+    const DESTINATIONS = {
+      admin: ROUTES.SUBSCRIBE.PATH,
+      api: ROUTES.PROVIDE.PATH,
+      security: ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST.PATH,
+    }
+    history.push(DESTINATIONS[party?.platformRole!])
   }
 
   const goToOnboarding = () => {
