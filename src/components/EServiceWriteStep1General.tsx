@@ -1,8 +1,9 @@
-import { Box } from '@mui/system'
-import { AxiosResponse } from 'axios'
-import { isEmpty } from 'lodash'
 import React, { useContext, useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
+import { AxiosResponse } from 'axios'
+import isEmpty from 'lodash/isEmpty'
+import { Box } from '@mui/system'
 import {
   ApiEndpointKey,
   EServiceCreateDataType,
@@ -10,40 +11,40 @@ import {
   FrontendAttributes,
   StepperStepComponentProps,
 } from '../../types'
-import { useFeedback } from '../hooks/useFeedback'
+import { ROUTES } from '../lib/constants'
+import { PartyContext } from '../lib/context'
+import { buildDynamicPath } from '../lib/url-utils'
+import { requiredValidationPattern } from '../lib/validation'
 import {
   remapBackendAttributesToFrontend,
   remapFrontendAttributesToBackend,
 } from '../lib/attributes'
-import { ROUTES } from '../lib/constants'
-import { PartyContext } from '../lib/context'
-import { buildDynamicPath } from '../lib/url-utils'
+import { useFeedback } from '../hooks/useFeedback'
 import { EServiceWriteProps } from '../views/EServiceWrite'
 import { EServiceAttributeSection } from './EServiceAttributeSection'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
-import { StyledInputCheckbox } from './Shared/StyledInputCheckbox'
-import { StyledInputRadioGroup } from './Shared/StyledInputRadioGroup'
-import { StyledInputText } from './Shared/StyledInputText'
-import { StyledInputTextArea } from './Shared/StyledInputTextArea'
 import { StyledIntro } from './Shared/StyledIntro'
 import { StyledLink } from './Shared/StyledLink'
-
-type FieldType = 'text' | 'radio' | 'checkbox'
+import { StyledInputControlledText } from './Shared/StyledInputControlledText'
+import { StyledInputControlledRadio } from './Shared/StyledInputControlledRadio'
+import { StyledInputControlledSwitch } from './Shared/StyledInputControlledSwitch'
 
 export function EServiceWriteStep1General({
   forward,
   fetchedDataMaybe,
 }: StepperStepComponentProps & EServiceWriteProps) {
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    formState: { errors },
+  } = useForm()
+
   const { party } = useContext(PartyContext)
   const history = useHistory()
   const { runActionWithCallback } = useFeedback()
 
-  // All the data except for the attributes
-  const [eserviceData, setEserviceData] = useState<Partial<EServiceCreateDataType>>({
-    technology: 'REST',
-    pop: false,
-  })
   // Attributes are separated from the rest of the data.
   // There is no logical reason, it is just easier to handle the operations this way
   const [attributes, setAttributes] = useState<FrontendAttributes>({
@@ -56,33 +57,17 @@ export function EServiceWriteStep1General({
   useEffect(() => {
     if (!isEmpty(fetchedDataMaybe)) {
       const { technology, name, description, attributes: backendAttributes } = fetchedDataMaybe!
-      setEserviceData({ technology, name, description })
+      setValue('technology', technology)
+      setValue('name', name)
+      setValue('description', description)
       setAttributes(remapBackendAttributesToFrontend(backendAttributes))
     }
-  }, [fetchedDataMaybe])
+  }, [fetchedDataMaybe]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Check for empty strings in input text field
-  const isEmptyTextField = (fieldType: FieldType, valueToTest: any) =>
-    fieldType === 'text' && valueToTest === ''
-
-  const wrapSetEServiceData =
-    (fieldName: keyof EServiceCreateDataType, fieldType: FieldType = 'text') =>
-    (e: any) => {
-      const { value, checked } = e.target
-      const fieldValueMaybe = { text: value, checkbox: checked, radio: value }[fieldType]
-
-      // Check for false positives (e.g. empty strings in input types), and set them explicitly to undefined
-      const fieldValue = !isEmptyTextField(fieldType, fieldValueMaybe) ? fieldValueMaybe : undefined
-
-      setEserviceData({ ...eserviceData, [fieldName]: fieldValue })
-    }
-
-  const submit = async (e: any) => {
-    e.preventDefault()
-
+  const onSubmit = async (data: Partial<EServiceCreateDataType>) => {
     // Format the data like the backend wants it
     const dataToPost = {
-      ...eserviceData,
+      ...data,
       producerId: party!.partyId,
       attributes: remapFrontendAttributesToBackend(attributes),
     }
@@ -146,57 +131,54 @@ export function EServiceWriteStep1General({
             "Attenzione: una volta pubblicata la prima versione dell'e-service, le informazioni contenute in questa sezione non saranno più modificabili",
         }}
       </StyledIntro>
-      <StyledForm onSubmit={submit}>
+      <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <StyledIntro variant="h1">{{ title: 'Caratterizzazione e-service' }}</StyledIntro>
 
-        <StyledInputText
-          id="name"
+        <StyledInputControlledText
+          name="name"
           label="Nome dell'e-service*"
-          value={eserviceData.name || ''}
-          onChange={wrapSetEServiceData('name')}
-          readOnly={!isEditable}
+          control={control}
+          rules={{ required: requiredValidationPattern }}
+          errors={errors}
+          disabled={!isEditable}
         />
 
-        <StyledInputTextArea
-          id="description"
+        <StyledInputControlledText
+          name="description"
           label="Descrizione dell'e-service*"
-          value={eserviceData.description || ''}
-          onChange={wrapSetEServiceData('description')}
-          readOnly={!isEditable}
-          placeholder={undefined}
+          control={control}
+          rules={{ required: requiredValidationPattern }}
+          errors={errors}
+          disabled={!isEditable}
+          multiline={true}
         />
 
-        <StyledInputRadioGroup
+        <StyledInputControlledRadio
           name="technology"
-          groupLabel="Tecnologia*"
+          label="Tecnologia*"
+          control={control}
+          rules={{ required: requiredValidationPattern }}
+          errors={errors}
+          disabled={!isEditable}
           options={[
             { label: 'REST', value: 'REST' },
             { label: 'SOAP', value: 'SOAP' },
           ]}
-          currentValue={eserviceData.technology!}
-          onChange={wrapSetEServiceData('technology', 'radio')}
-          readOnly={!isEditable}
+          defaultValue="REST"
         />
 
-        <StyledInputCheckbox
-          groupLabel="POP*"
-          id="pop"
-          label="Proof of Possession"
-          checked={!!eserviceData.pop}
-          onChange={wrapSetEServiceData('pop', 'checkbox')}
-          readOnly={!isEditable}
+        <StyledInputControlledSwitch
+          name="pop"
+          label="Proof of Possession*"
+          control={control}
+          disabled={!isEditable}
         />
 
         <StyledIntro variant="h1">{{ title: 'Attributi' }}</StyledIntro>
         <EServiceAttributeSection attributes={attributes} setAttributes={setAttributes} />
 
-        <Box sx={{ mt: '2rem', display: 'flex' }}>
-          <StyledButton
-            sx={{ mr: '1rem' }}
-            type="submit"
-            variant="contained"
-            disabled={!eserviceData.name}
-          >
+        <Box sx={{ mt: 4, display: 'flex' }}>
+          <StyledButton sx={{ mr: 3 }} type="submit" variant="contained">
             Salva bozza e prosegui
           </StyledButton>
           <StyledButton

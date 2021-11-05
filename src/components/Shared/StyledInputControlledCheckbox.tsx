@@ -3,6 +3,7 @@ import { Controller } from 'react-hook-form'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import { Checkbox, FormControlLabel, FormGroup, FormLabel } from '@mui/material'
+import { Box } from '@mui/system'
 import { StyledInputError } from './StyledInputError'
 import { InfoMessage } from './InfoMessage'
 
@@ -43,7 +44,7 @@ export function StyledInputControlledCheckbox({
   const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
 
   return (
-    <React.Fragment>
+    <Box sx={{ my: 2 }}>
       <Controller
         name={name}
         control={control}
@@ -69,6 +70,6 @@ export function StyledInputControlledCheckbox({
 
       {hasFieldError && <StyledInputError error={get(errors, name)} />}
       {infoLabel && <InfoMessage label={infoLabel} />}
-    </React.Fragment>
+    </Box>
   )
 }
