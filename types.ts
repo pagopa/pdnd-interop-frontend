@@ -59,7 +59,7 @@ export type ProviderOrSubscriber = Provider | Subscriber
  */
 export type StepperStepComponentProps = {
   forward: any
-  back?: VoidFunction
+  back: () => void
   data: any
 }
 
