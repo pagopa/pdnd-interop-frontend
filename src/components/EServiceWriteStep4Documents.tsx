@@ -75,7 +75,7 @@ export function EServiceWriteStep4Documents({
   ) => {
     const formData = new FormData()
     formData.append('kind', kind)
-    formData.append('description', description)
+    formData.append('description', description || '')
     formData.append('doc', doc!)
 
     const { outcome, response } = await runAction(
@@ -104,10 +104,12 @@ export function EServiceWriteStep4Documents({
     <React.Fragment>
       <StyledIntro variant="h1">{{ title: 'Crea e-service: documentazione' }}</StyledIntro>
 
-      <StyledIntro variant="h1">
+      <StyledIntro variant="h2" sx={{ mb: 0 }}>
         {{
           title: 'Interfaccia*',
-          description: "Carica il file OpenAPI/WSDL che descrive l'API",
+          description: `Carica il file ${
+            fetchedData.technology === 'REST' ? 'OpenAPI' : 'WSDL'
+          }  che descrive l'API`,
         }}
       </StyledIntro>
 
@@ -118,7 +120,7 @@ export function EServiceWriteStep4Documents({
         activeDescriptorId={activeDescriptorId}
       />
 
-      <StyledIntro variant="h1">
+      <StyledIntro variant="h2" sx={{ mt: 6, mb: 0 }}>
         {{
           title: 'Documentazione',
           description: 'Inserisci la documentazione tecnica utile all’utilizzo di questo e-service',
@@ -132,24 +134,26 @@ export function EServiceWriteStep4Documents({
         activeDescriptorId={activeDescriptorId}
       />
 
-      <Box sx={{ mt: '2rem', display: 'flex' }}>
+      <Box sx={{ mt: 8, display: 'flex' }}>
         <StyledButton
-          sx={{ mr: '1rem' }}
+          sx={{ mr: 3 }}
           variant="contained"
           component={StyledLink}
           to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}
         >
           Salva bozza e torna ai servizi
         </StyledButton>
-        <StyledButton sx={{ mr: '1rem' }} variant="outlined" onClick={back}>
+        <StyledButton sx={{ mr: 3 }} variant="outlined" onClick={back}>
           Indietro
         </StyledButton>
       </Box>
 
-      <StyledIntro variant="h1">{{ title: 'Pubblicazione della versione' }}</StyledIntro>
+      <StyledIntro variant="h2" sx={{ mt: 8, mb: 0 }}>
+        {{ title: 'Pubblicazione della versione' }}
+      </StyledIntro>
       <Box sx={{ display: 'flex' }}>
         <StyledButton
-          sx={{ mr: '1rem' }}
+          sx={{ mr: 3 }}
           variant="contained"
           onClick={wrapActionInDialog(publishVersion, 'ESERVICE_VERSION_PUBLISH')}
         >

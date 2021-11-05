@@ -93,7 +93,7 @@ export function EServiceWriteStep4DocumentsDoc({
       })}
 
       {showWriteDocInput ? (
-        <Box sx={{ px: '1rem', py: '1rem' }} bgcolor="grey.500">
+        <Box sx={{ px: 2, py: 2 }} bgcolor="common.white">
           <StyledForm onSubmit={uploadNewDoc}>
             <StyledInputFile
               id="doc-doc"
@@ -102,23 +102,25 @@ export function EServiceWriteStep4DocumentsDoc({
               onChange={wrapUpdateDoc('doc')}
             />
 
-            <StyledInputTextArea
-              id="doc-descr"
-              label="Descrizione"
-              value={writeDoc?.description || ''}
-              onChange={wrapUpdateDoc('description')}
-            />
+            <Box sx={{ my: 2 }}>
+              <StyledInputTextArea
+                id="doc-descr"
+                label="Descrizione"
+                value={writeDoc?.description || ''}
+                onChange={wrapUpdateDoc('description')}
+              />
+            </Box>
 
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <StyledButton type="submit" variant="contained">
-                <UploadFileIcon fontSize="small" sx={{ mr: '0.5rem' }} /> Carica Carica
+              <StyledButton type="submit" variant="contained" disabled={!writeDoc}>
+                <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> Carica
               </StyledButton>
             </Box>
           </StyledForm>
         </Box>
       ) : (
         <StyledButton variant="contained" onClick={showFileInputForm}>
-          Aggiungi documento
+          + Aggiungi
         </StyledButton>
       )}
     </React.Fragment>
