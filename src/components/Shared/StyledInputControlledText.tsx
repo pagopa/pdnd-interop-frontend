@@ -21,7 +21,6 @@ type StyledInputControlledTextProps = {
   errors: any
 
   inputProps?: InputBaseComponentProps
-  readOnly?: boolean
   type?: StyledInputTextType
   multiline?: boolean
 }
@@ -38,25 +37,9 @@ export function StyledInputControlledText({
   errors,
 
   inputProps,
-  readOnly = false,
   type = 'text',
   multiline = false,
 }: StyledInputControlledTextProps) {
-  if (readOnly) {
-    return (
-      <TextField
-        multiline={multiline}
-        rows={multiline ? 6 : 1}
-        disabled={true}
-        sx={{ width: '100%', my: 2 }}
-        variant="standard"
-        label={label}
-        type={type}
-        defaultValue={defaultValue}
-      />
-    )
-  }
-
   const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
 
   return (
@@ -77,6 +60,7 @@ export function StyledInputControlledText({
             type={type}
             error={hasFieldError}
             {...field}
+            inputProps={inputProps}
           />
         )}
       />
