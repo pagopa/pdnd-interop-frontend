@@ -104,6 +104,7 @@ export function StyledInputControlledAsyncAutocomplete({
             onOpen={open}
             onClose={close}
             getOptionLabel={(option: any) => (option ? option[labelKey] : '')}
+            isOptionEqualToValue={(option: any, value: any) => option[labelKey] === value[labelKey]}
             filterOptions={(options) => uniqBy(options, (o) => o[labelKey].toLowerCase())}
             options={options}
             loading={isLoading}

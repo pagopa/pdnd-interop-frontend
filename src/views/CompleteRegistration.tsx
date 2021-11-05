@@ -111,14 +111,16 @@ export function CompleteRegistration() {
             }}
           </StyledIntro>
 
-          <Box sx={{ mt: '2rem' }}>
+          <Box sx={{ mt: 4 }}>
             <StyledForm onSubmit={handleSubmit}>
-              <StyledInputFile
-                id="contratto"
-                label="Carica accordo"
-                value={contract}
-                onChange={loadFile}
-              />
+              <Box sx={{ mb: 3 }}>
+                <StyledInputFile
+                  id="contratto"
+                  label="Carica accordo"
+                  value={contract}
+                  onChange={loadFile}
+                />
+              </Box>
 
               <StyledButton variant="contained" type="submit" disabled={!contract}>
                 Prosegui
