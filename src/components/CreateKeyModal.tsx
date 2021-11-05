@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useForm } from 'react-hook-form'
 import { ToastContentWithOutcome } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { TOAST_CONTENTS } from '../lib/constants'
 import { getFetchOutcome } from '../lib/error-utils'
-import { StyledInputSelect } from './Shared/StyledInputSelect'
-import { StyledInputTextArea } from './Shared/StyledInputTextArea'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledDialog } from './Shared/StyledDialog'
+import { StyledInputControlledSelect } from './Shared/StyledInputControlledSelect'
+import { requiredValidationPattern } from '../lib/validation'
+import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 
 type NewPublicKeyProps = {
   close: (toastContent?: ToastContentWithOutcome) => void
@@ -23,18 +25,19 @@ type NewPublicKey = {
 }
 
 export function CreateKeyModal({ close, clientId, taxCode, afterSuccess }: NewPublicKeyProps) {
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm()
+
   const { setLoadingText } = useFeedback()
-  const [data, setData] = useState<Partial<NewPublicKey>>({ use: 'sig', clientId, alg: 'RS256' })
 
-  const buildSetData = (key: string) => (e: any) => {
-    setData({ ...(data || {}), [key]: e.target.value })
-  }
-
-  const upload = async () => {
+  const onSubmit = async (data: Partial<NewPublicKey>) => {
     setLoadingText('Stiamo creando la nuova chiave')
 
     // Encode public key
-    const dataToPost = { ...data }
+    const dataToPost = { ...data, use: 'sig', clientId }
     dataToPost.key = btoa(dataToPost.key!)
 
     const keyCreateResponse = await fetchWithLogs({
@@ -66,22 +69,25 @@ export function CreateKeyModal({ close, clientId, taxCode, afterSuccess }: NewPu
       close={simpleClose}
       title="Carica nuova chiave pubblica"
       proceedLabel="Carica chiave"
-      proceedCallback={upload}
-      disabled={!data}
+      proceedCallback={handleSubmit(onSubmit)}
     >
-      <StyledInputSelect
-        id="alg"
-        onChange={buildSetData('alg')}
-        options={[{ label: 'RS256', value: 'RS256' }]}
+      <StyledInputControlledSelect
+        name="alg"
         label="Seleziona algoritmo*"
-        currentValue={data.alg}
+        options={[{ label: 'RS256', value: 'RS256' }]}
+        control={control}
+        rules={{ required: requiredValidationPattern }}
+        errors={errors}
+        defaultValue="RS256"
       />
 
-      <StyledInputTextArea
-        id="key"
+      <StyledInputControlledText
+        name="key"
         label="Chiave pubblica*"
-        value={data?.key || ''}
-        onChange={buildSetData('key')}
+        control={control}
+        rules={{ required: requiredValidationPattern }}
+        errors={errors}
+        multiline={true}
       />
     </StyledDialog>
   )
