@@ -3,20 +3,17 @@ import { Controller } from 'react-hook-form'
 import { MenuItem, TextField } from '@mui/material'
 import { InfoTooltip } from './InfoTooltip'
 import { StyledInputError } from './StyledInputError'
-
-type Option = {
-  value: string
-  label: string
-}
+import { SelectOption } from '../../../types'
+import { isEmpty } from 'lodash'
 
 type StyledInputControlledSelectProps = {
   label?: string
-  options?: Option[]
+  options?: SelectOption[]
   disabled?: boolean
   tooltipLabel?: string
 
   name: string
-  defaultValue?: any
+  defaultValue?: string | number | null
   control: any
   rules: any
   errors: any
@@ -29,7 +26,7 @@ export function StyledInputControlledSelect({
   tooltipLabel,
 
   name,
-  defaultValue,
+  defaultValue = null,
   control,
   rules,
   errors,
@@ -37,6 +34,8 @@ export function StyledInputControlledSelect({
   if (!options || Boolean(options.length === 0)) {
     return null
   }
+
+  const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(errors[name]))
 
   return (
     <React.Fragment>
@@ -52,7 +51,7 @@ export function StyledInputControlledSelect({
             sx={{ width: '100%', my: 2 }}
             variant="standard"
             label={label}
-            error={errors[name]}
+            error={hasFieldError}
             {...field}
           >
             {options.map((o, i) => (
@@ -64,7 +63,7 @@ export function StyledInputControlledSelect({
         )}
       />
 
-      {errors && <StyledInputError error={errors[name]} />}
+      {hasFieldError && <StyledInputError error={errors[name]} />}
       {tooltipLabel && <InfoTooltip label={tooltipLabel} />}
     </React.Fragment>
   )

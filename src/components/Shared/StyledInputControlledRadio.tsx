@@ -1,5 +1,6 @@
 import React from 'react'
 import { Controller } from 'react-hook-form'
+import isEmpty from 'lodash/isEmpty'
 import { FormControlLabel, FormLabel, MenuItem, Radio, RadioGroup } from '@mui/material'
 import { InfoTooltip } from './InfoTooltip'
 import { StyledInputError } from './StyledInputError'
@@ -38,6 +39,8 @@ export function StyledInputControlledRadio({
     return null
   }
 
+  const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(errors[name]))
+
   return (
     <React.Fragment>
       <Controller
@@ -63,7 +66,7 @@ export function StyledInputControlledRadio({
         )}
       />
 
-      {errors && <StyledInputError error={errors[name]} />}
+      {hasFieldError && <StyledInputError error={errors[name]} />}
       {tooltipLabel && <InfoTooltip label={tooltipLabel} />}
     </React.Fragment>
   )
