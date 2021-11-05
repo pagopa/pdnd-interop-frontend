@@ -80,26 +80,30 @@ export function EServiceWriteStep4DocumentsInterface({
       deleteDocument={deletePreviousInterfaceDoc}
     />
   ) : (
-    <StyledForm onSubmit={uploadNewInterfaceDoc}>
-      <StyledInputFile
-        id="interface-doc"
-        label="Seleziona documento"
-        value={writeDoc?.doc}
-        onChange={wrapUpdateDoc('doc')}
-      />
+    <Box sx={{ px: 2, py: 2 }} bgcolor="common.white">
+      <StyledForm onSubmit={uploadNewInterfaceDoc}>
+        <StyledInputFile
+          id="interface-doc"
+          label="Seleziona documento"
+          value={writeDoc?.doc}
+          onChange={wrapUpdateDoc('doc')}
+        />
 
-      <StyledInputTextArea
-        id="interface-descr"
-        label="Descrizione"
-        value={writeDoc?.description || ''}
-        onChange={wrapUpdateDoc('description')}
-      />
+        <Box sx={{ my: 2 }}>
+          <StyledInputTextArea
+            id="interface-descr"
+            label="Descrizione"
+            value={writeDoc?.description || ''}
+            onChange={wrapUpdateDoc('description')}
+          />
+        </Box>
 
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <StyledButton type="submit" variant="contained">
-          <UploadFileIcon fontSize="small" sx={{ mr: '0.5rem' }} /> Carica
-        </StyledButton>
-      </Box>
-    </StyledForm>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <StyledButton type="submit" variant="contained" disabled={!writeDoc}>
+            <UploadFileIcon fontSize="small" sx={{ mr: '0.5rem' }} /> Carica
+          </StyledButton>
+        </Box>
+      </StyledForm>
+    </Box>
   )
 }

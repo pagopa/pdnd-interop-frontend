@@ -4,6 +4,7 @@ import { EServiceDocumentRead } from '../../../types'
 import { useFeedback } from '../../hooks/useFeedback'
 import { StyledButton } from './StyledButton'
 import { Box } from '@mui/system'
+import { StyledTooltip } from './StyledTooltip'
 
 type StyledDeleteableDocumentComponentProps = {
   eserviceId: string
@@ -76,7 +77,7 @@ export function StyledDeleteableDocument({
     <Box
       sx={{
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         justifyContent: 'space-between',
         mb: '1rem',
         pb: '1rem',
@@ -90,34 +91,30 @@ export function StyledDeleteableDocument({
         <Box
           ref={contentEditableRef}
           contentEditable={canEdit}
-          sx={{ mt: '0.25rem' }}
+          sx={{ mt: 1, py: 2, px: 1, mx: -1 }}
           onBlur={onBlur}
           dangerouslySetInnerHTML={{ __html: decodeURIComponent(readable.description) }}
         />
       </Box>
-      <Box sx={{ ml: '2rem', flexShrink: 0 }}>
-        <StyledButton
-          sx={{
-            px: '0.25rem',
-            py: '0.25rem',
-            display: 'inline-block',
-            borderRadius: '100%',
-            width: 48,
-          }}
-          bgcolor={canEdit ? 'grey.500' : 'transparent'}
-          onClick={updateCanEdit}
-          label="Modifica descrizione"
-        >
-          <ModeEditIcon fontSize="small" />
-        </StyledButton>
-        <StyledButton
-          sx={{ px: '0.25rem', py: '0.25rem' }}
-          style={{ width: 48 }}
-          onClick={deleteDocument}
-          label="Cancella documento"
-        >
-          <DeleteIcon fontSize="small" />
-        </StyledButton>
+      <Box sx={{ ml: 4, flexShrink: 0 }}>
+        <StyledTooltip title="Modifica descrizione">
+          <StyledButton
+            sx={{
+              px: 1,
+              py: 1,
+              bgcolor: canEdit ? 'primary.main' : 'transparent',
+              color: canEdit ? 'common.white' : 'primary.main',
+            }}
+            onClick={updateCanEdit}
+          >
+            <ModeEditIcon fontSize="small" />
+          </StyledButton>
+        </StyledTooltip>
+        <StyledTooltip title="Cancella documento">
+          <StyledButton sx={{ px: 1, py: 1 }} onClick={deleteDocument}>
+            <DeleteIcon fontSize="small" />
+          </StyledButton>
+        </StyledTooltip>
       </Box>
     </Box>
   )
