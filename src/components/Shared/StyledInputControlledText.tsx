@@ -3,6 +3,7 @@ import { Controller } from 'react-hook-form'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import { InputBaseComponentProps, TextField } from '@mui/material'
+import { Box } from '@mui/system'
 import { StyledInputError } from './StyledInputError'
 import { InfoMessage } from './InfoMessage'
 
@@ -59,7 +60,7 @@ export function StyledInputControlledText({
   const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
 
   return (
-    <React.Fragment>
+    <Box sx={{ my: 2 }}>
       <Controller
         name={name}
         control={control}
@@ -70,7 +71,7 @@ export function StyledInputControlledText({
             multiline={multiline}
             rows={multiline ? 6 : 1}
             disabled={disabled}
-            sx={{ width: '100%', my: 2 }}
+            sx={{ width: '100%' }}
             variant="standard"
             label={label}
             type={type}
@@ -82,6 +83,6 @@ export function StyledInputControlledText({
 
       {hasFieldError && <StyledInputError error={get(errors, name)} />}
       {infoLabel && <InfoMessage label={infoLabel} />}
-    </React.Fragment>
+    </Box>
   )
 }

@@ -3,6 +3,7 @@ import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import { Controller } from 'react-hook-form'
 import { MenuItem, TextField } from '@mui/material'
+import { Box } from '@mui/system'
 import { SelectOption } from '../../../types'
 import { StyledInputError } from './StyledInputError'
 import { InfoMessage } from './InfoMessage'
@@ -39,7 +40,7 @@ export function StyledInputControlledSelect({
   const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
 
   return (
-    <React.Fragment>
+    <Box sx={{ my: 2 }}>
       <Controller
         name={name}
         control={control}
@@ -49,7 +50,7 @@ export function StyledInputControlledSelect({
           <TextField
             select
             disabled={disabled}
-            sx={{ width: '100%', my: 2 }}
+            sx={{ width: '100%' }}
             variant="standard"
             label={label}
             error={hasFieldError}
@@ -66,6 +67,6 @@ export function StyledInputControlledSelect({
 
       {hasFieldError && <StyledInputError error={get(errors, name)} />}
       {infoLabel && <InfoMessage label={infoLabel} />}
-    </React.Fragment>
+    </Box>
   )
 }
