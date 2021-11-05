@@ -1,6 +1,7 @@
 import React from 'react'
-import { InputBaseComponentProps, TextField } from '@mui/material'
 import { Controller } from 'react-hook-form'
+import isEmpty from 'lodash/isEmpty'
+import { InputBaseComponentProps, TextField } from '@mui/material'
 import { InfoTooltip } from './InfoTooltip'
 import { StyledInputError } from './StyledInputError'
 
@@ -12,7 +13,7 @@ type StyledInputControlledTextProps = {
   tooltipLabel?: string
 
   name: string
-  defaultValue?: any
+  defaultValue?: string
   control: any
   rules: any
   errors: any
@@ -29,7 +30,7 @@ export function StyledInputControlledText({
   tooltipLabel,
 
   name,
-  defaultValue,
+  defaultValue = '',
   control,
   rules,
   errors,
@@ -54,6 +55,8 @@ export function StyledInputControlledText({
     )
   }
 
+  const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(errors[name]))
+
   return (
     <React.Fragment>
       <Controller
@@ -70,13 +73,13 @@ export function StyledInputControlledText({
             variant="standard"
             label={label}
             type={type}
-            error={errors[name]}
+            error={hasFieldError}
             {...field}
           />
         )}
       />
 
-      {errors && <StyledInputError error={errors[name]} />}
+      {hasFieldError && <StyledInputError error={errors[name]} />}
       {tooltipLabel && <InfoTooltip label={tooltipLabel} />}
     </React.Fragment>
   )

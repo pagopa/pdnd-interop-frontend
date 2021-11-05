@@ -420,3 +420,11 @@ export type ActionProps = {
   label: string
   isMock?: boolean
 }
+
+/*
+ * Input field related types
+ */
+export type SelectOption = {
+  label: string
+  value: string | number
+}
