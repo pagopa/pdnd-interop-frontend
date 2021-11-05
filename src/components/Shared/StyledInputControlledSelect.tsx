@@ -1,16 +1,17 @@
 import React from 'react'
+import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 import { Controller } from 'react-hook-form'
 import { MenuItem, TextField } from '@mui/material'
-import { InfoTooltip } from './InfoTooltip'
-import { StyledInputError } from './StyledInputError'
 import { SelectOption } from '../../../types'
-import { isEmpty } from 'lodash'
+import { StyledInputError } from './StyledInputError'
+import { InfoMessage } from './InfoMessage'
 
 type StyledInputControlledSelectProps = {
   label?: string
   options?: SelectOption[]
   disabled?: boolean
-  tooltipLabel?: string
+  infoLabel?: string
 
   name: string
   defaultValue?: string | number | null
@@ -23,7 +24,7 @@ export function StyledInputControlledSelect({
   label,
   options,
   disabled = false,
-  tooltipLabel,
+  infoLabel,
 
   name,
   defaultValue = null,
@@ -35,7 +36,7 @@ export function StyledInputControlledSelect({
     return null
   }
 
-  const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(errors[name]))
+  const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
 
   return (
     <React.Fragment>
@@ -63,8 +64,8 @@ export function StyledInputControlledSelect({
         )}
       />
 
-      {hasFieldError && <StyledInputError error={errors[name]} />}
-      {tooltipLabel && <InfoTooltip label={tooltipLabel} />}
+      {hasFieldError && <StyledInputError error={get(errors, name)} />}
+      {infoLabel && <InfoMessage label={infoLabel} />}
     </React.Fragment>
   )
 }

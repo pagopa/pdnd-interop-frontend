@@ -1,9 +1,10 @@
 import React from 'react'
 import { Controller } from 'react-hook-form'
 import isEmpty from 'lodash/isEmpty'
-import { FormControlLabel, FormLabel, MenuItem, Radio, RadioGroup } from '@mui/material'
-import { InfoTooltip } from './InfoTooltip'
+import get from 'lodash/get'
+import { FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
 import { StyledInputError } from './StyledInputError'
+import { InfoMessage } from './InfoMessage'
 
 type Option = {
   value: string
@@ -14,7 +15,7 @@ type StyledInputControlledRadioProps = {
   label?: string
   options?: Option[]
   disabled?: boolean
-  tooltipLabel?: string
+  infoLabel?: string
 
   name: string
   defaultValue?: any
@@ -27,7 +28,7 @@ export function StyledInputControlledRadio({
   label,
   options,
   disabled = false,
-  tooltipLabel,
+  infoLabel,
 
   name,
   defaultValue,
@@ -39,7 +40,7 @@ export function StyledInputControlledRadio({
     return null
   }
 
-  const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(errors[name]))
+  const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
 
   return (
     <React.Fragment>
@@ -66,8 +67,8 @@ export function StyledInputControlledRadio({
         )}
       />
 
-      {hasFieldError && <StyledInputError error={errors[name]} />}
-      {tooltipLabel && <InfoTooltip label={tooltipLabel} />}
+      {hasFieldError && <StyledInputError error={get(errors, name)} />}
+      {infoLabel && <InfoMessage label={infoLabel} />}
     </React.Fragment>
   )
 }
