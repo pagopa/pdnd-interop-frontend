@@ -82,10 +82,6 @@ export function AgreementEdit() {
     )
   }
 
-  const refuse = () => {
-    runFakeAction('Rifiuta accordo')
-  }
-
   const archive = () => {
     runFakeAction('Archivia accordo')
   }
@@ -136,7 +132,6 @@ export function AgreementEdit() {
           onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'),
           label: 'Attiva',
         },
-        { onClick: wrapActionInDialog(refuse), label: 'Rifiuta', isMock: true },
       ],
       suspended: [{ onClick: wrapActionInDialog(archive), label: 'Archivia', isMock: true }],
       inactive: [],
@@ -317,7 +312,12 @@ export function AgreementEdit() {
 
       <Box sx={{ mt: 4, display: 'flex' }}>
         {getAvailableActions().map(({ onClick, label }, i) => (
-          <StyledButton variant="contained" key={i} onClick={onClick}>
+          <StyledButton
+            sx={{ mr: 2 }}
+            variant={i === 0 ? 'contained' : 'outlined'}
+            key={i}
+            onClick={onClick}
+          >
             {label}
           </StyledButton>
         ))}
