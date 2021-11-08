@@ -17,9 +17,9 @@ type ActionStepsProps = {
 
 export function OnboardingStepActions({ forward, back }: ActionStepsProps) {
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', mt: '2rem' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
       {back && (
-        <StyledButton variant="outlined" sx={{ mx: '0.5rem' }} onClick={back.action}>
+        <StyledButton variant="outlined" sx={{ mx: 1 }} onClick={back.action}>
           {back.label}
         </StyledButton>
       )}

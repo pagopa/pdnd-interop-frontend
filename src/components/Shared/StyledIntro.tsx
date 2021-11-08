@@ -36,8 +36,8 @@ export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
   sx = {},
 }) => {
   return (
-    <Box sx={{ mb: '2rem', pb: '1.5rem', ...sx }}>
-      <Typography variant={variant} sx={{ mb: '1rem' }}>
+    <Box sx={{ mb: 4, pb: 3, ...sx }}>
+      <Typography variant={variant} sx={{ mb: 2 }}>
         {children.title}
       </Typography>
       {children.description && <Typography sx={{ mb: 0 }}>{children.description}</Typography>}

@@ -96,7 +96,7 @@ export function ClientCreate() {
           errors={errors}
         />
 
-        <StyledButton sx={{ mt: '1.5rem' }} variant="contained" type="submit">
+        <StyledButton sx={{ mt: 3 }} variant="contained" type="submit">
           Crea client
         </StyledButton>
       </StyledForm>

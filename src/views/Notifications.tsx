@@ -107,21 +107,21 @@ export function Notifications() {
           const Icon = ICON_TYPES[type]
 
           return (
-            <Box sx={{ my: '1rem', p: '1rem', border: 1, borderColor: 'divider' }} key={i}>
+            <Box sx={{ my: 2, p: 2, border: 1, borderColor: 'divider' }} key={i}>
               <Typography
                 sx={{ display: 'flex', alignItems: 'center', my: 0 }}
                 color="primary.main"
               >
-                <Icon fontSize="small" sx={{ mr: '0.25rem' }} />
-                <Typography component="span" sx={{ fontWeight: 600, mr: '0.5rem' }}>
+                <Icon fontSize="small" sx={{ mr: 1 }} />
+                <Typography component="span" sx={{ fontWeight: 600, mr: 1 }}>
                   {title}
                 </Typography>{' '}
                 —{' '}
-                <Typography component="span" sx={{ fontWeight: 600, ml: '0.5rem' }}>
+                <Typography component="span" sx={{ fontWeight: 600, ml: 1 }}>
                   {date}
                 </Typography>
               </Typography>
-              <Typography sx={{ my: '0.5rem' }}>{message}</Typography>
+              <Typography sx={{ my: 1 }}>{message}</Typography>
             </Box>
           )
         })}

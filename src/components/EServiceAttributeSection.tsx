@@ -70,7 +70,7 @@ export function EServiceAttributeSection({
         const { title, description } = TYPE_LABELS[attributeKey]
 
         return (
-          <Box sx={{ my: '2rem' }} key={i}>
+          <Box sx={{ my: 4 }} key={i}>
             <StyledIntro variant="h1">{{ title, description }}</StyledIntro>
             <EServiceAttributeGroup
               canRequireVerification={attributeKey === 'verified'}

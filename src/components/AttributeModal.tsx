@@ -158,8 +158,8 @@ export function AttributeModalAddExisting({
         />
       )}
 
-      <Box sx={{ mt: '1rem', pt: '1rem', borderTop: 1 }}>
-        <Typography variant="h5" component="p" sx={{ mt: 0, mb: '0.5rem' }}>
+      <Box sx={{ mt: 2, pt: 2, borderTop: 1 }}>
+        <Typography variant="h5" component="p" sx={{ mt: 0, mb: 1 }}>
           Hai selezionato
         </Typography>
         {selected && !!(selected.length > 0) ? (

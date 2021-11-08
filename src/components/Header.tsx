@@ -33,7 +33,7 @@ export function Header() {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              py: '1.5rem',
+              py: 3,
             }}
           >
             <StyledLink to="/">
@@ -49,7 +49,7 @@ export function Header() {
       <Box sx={{ bgcolor: 'primary.main' }}>
         <Layout>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Box sx={{ color: 'common.white', py: '1.5rem' }}>
+            <Box sx={{ color: 'common.white', py: 3 }}>
               <Typography variant="h4">Interoperabilità</Typography>
               <Typography variant="caption">Il catalogo degli e-service delle PA</Typography>
             </Box>

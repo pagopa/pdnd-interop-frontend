@@ -159,7 +159,7 @@ export function UserList() {
     <React.Fragment>
       <StyledIntro>{TITLES[mode!]}</StyledIntro>
 
-      <Box sx={{ mt: '2rem' }}>
+      <Box sx={{ mt: 4 }}>
         {isAdmin(party) && (
           <StyledButton
             variant="contained"

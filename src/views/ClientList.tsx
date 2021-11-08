@@ -100,7 +100,7 @@ export function ClientList() {
         }}
       </StyledIntro>
 
-      <Box sx={{ mt: '2rem' }}>
+      <Box sx={{ mt: 4 }}>
         {isAdmin(party) && (
           <StyledButton
             variant="contained"

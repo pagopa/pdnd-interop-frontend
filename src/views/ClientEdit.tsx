@@ -144,7 +144,7 @@ export function ClientEdit() {
         value={activeTab}
         onChange={updateActiveTab}
         aria-label="Due tab diverse per i dettagli del client e gli operatori di sicurezza"
-        sx={{ mb: '4rem' }}
+        sx={{ mb: 2 }}
       >
         <Tab label="Dettagli del client" {...a11yProps(0)} />
         <Tab label="Operatori di sicurezza" {...a11yProps(1)} />
@@ -182,7 +182,7 @@ export function ClientEdit() {
                 data.eservice.activeDescriptor &&
                 data.agreement.descriptor.version !== data.eservice.activeDescriptor.version
               ) && (
-                <Typography sx={{ mt: '0.5rem' }}>
+                <Typography sx={{ mt: 1 }}>
                   È disponibile una versione più recente
                   <br />
                   <StyledLink
@@ -243,7 +243,7 @@ export function ClientEdit() {
         </Box>
 
         {actions.length > 0 && (
-          <Box sx={{ mt: '2rem', display: 'flex' }}>
+          <Box sx={{ mt: 4, display: 'flex' }}>
             {actions.map(({ onClick, label }, i) => (
               <StyledButton variant="contained" key={i} onClick={onClick}>
                 {label}

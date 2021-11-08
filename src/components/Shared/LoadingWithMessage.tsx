@@ -20,14 +20,14 @@ export function LoadingWithMessage({
     <Box
       sx={{
         textAlign: 'center',
-        px: '1.5rem',
-        py: '1.5rem',
+        px: 3,
+        py: 3,
         color: 'primary.main',
         ...background,
       }}
     >
       <StyledSpinner />
-      {label && <Typography sx={{ mt: '1rem', mb: 0 }}>{label}</Typography>}
+      {label && <Typography sx={{ mt: 2, mb: 0 }}>{label}</Typography>}
     </Box>
   )
 }

@@ -100,7 +100,7 @@ export function EServiceWriteStep4DocumentsInterface({
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <StyledButton type="submit" variant="contained" disabled={!writeDoc}>
-            <UploadFileIcon fontSize="small" sx={{ mr: '0.5rem' }} /> Carica
+            <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> Carica
           </StyledButton>
         </Box>
       </StyledForm>
