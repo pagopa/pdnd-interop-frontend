@@ -32,7 +32,7 @@ export function MainNav() {
   const [open, setOpen] = useState<ProviderOrSubscriber | null>(null)
 
   const wrapSetOpen = (menu: ProviderOrSubscriber) => () => {
-    setOpen(!open ? menu : null)
+    setOpen(!open || menu !== open ? menu : null)
   }
 
   const computeFontWeight = (path: string) => {
@@ -102,22 +102,23 @@ export function MainNav() {
       sx={{
         bgcolor: 'common.white',
         display: 'block',
-        py: '5rem',
+        py: 10,
         position: 'relative',
         '::before': {
           content: '""',
           position: 'absolute',
-          left: -24,
+          left: 0,
           top: 0,
           bgcolor: 'common.white',
-          width: 24,
+          width: 10000,
           height: '100%',
+          transform: 'translate(-100%, 0)',
         },
       }}
       component="nav"
     >
       <List
-        sx={{ width: WIDTH, position: 'sticky', top: '5rem' }}
+        sx={{ width: WIDTH, position: 'sticky', top: 10 }}
         aria-label="Navigazione principale"
         disablePadding
       >
@@ -139,7 +140,7 @@ export function MainNav() {
               </ListItemButton>
 
               <Collapse in={isActive} timeout="auto" unmountOnExit>
-                <List disablePadding sx={{ width: WIDTH, pl: '1rem' }}>
+                <List disablePadding sx={{ width: WIDTH, pl: 2 }}>
                   {view.children!.map((child, j) => (
                     <ListItem sx={{ display: 'block' }} key={j}>
                       <WrappedLink route={child} />
