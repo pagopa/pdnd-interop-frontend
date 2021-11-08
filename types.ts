@@ -59,7 +59,7 @@ export type ProviderOrSubscriber = Provider | Subscriber
  */
 export type StepperStepComponentProps = {
   forward: any
-  back?: VoidFunction
+  back: () => void
   data: any
 }
 
@@ -419,4 +419,12 @@ export type ActionProps = {
   onClick?: ActionFunction
   label: string
   isMock?: boolean
+}
+
+/*
+ * Input field related types
+ */
+export type SelectOption = {
+  label: string
+  value: string | number
 }

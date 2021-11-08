@@ -10,6 +10,7 @@ import {
   TableHead,
   TableRow,
   TableCell,
+  Typography,
 } from '@mui/material'
 import { Box } from '@mui/system'
 
@@ -48,7 +49,16 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
         <TableHead>
           <TableRow>
             {headData.map((item, i) => (
-              <TableCell key={i}>{item.toUpperCase()}</TableCell>
+              <TableCell key={i}>
+                <Typography
+                  component="span"
+                  variant="caption"
+                  color="secondary.main"
+                  sx={{ fontWeight: 700 }}
+                >
+                  {item.toUpperCase()}
+                </Typography>
+              </TableCell>
             ))}
           </TableRow>
         </TableHead>

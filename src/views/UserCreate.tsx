@@ -1,26 +1,34 @@
-import React, { useContext, useState } from 'react'
-import { PlatformUserForm } from '../components/Shared/PlatformUserForm'
-import { StyledIntro } from '../components/Shared/StyledIntro'
+import React, { useContext } from 'react'
+import { useForm } from 'react-hook-form'
+import { useLocation } from 'react-router-dom'
+import { useMode } from '../hooks/useMode'
+import { ProviderOrSubscriber, UserOnCreate } from '../../types'
 import { MEDIUM_MAX_WIDTH, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import { useMode } from '../hooks/useMode'
-import { useLocation } from 'react-router-dom'
 import { buildDynamicRoute, parseSearch } from '../lib/url-utils'
-import { ProviderOrSubscriber, UserOnCreate } from '../../types'
+import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
+import { PlatformUserControlledForm } from '../components/Shared/PlatformUserControlledForm'
 
 export function UserCreate() {
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm()
   const { runActionWithDestination } = useFeedback()
   const location = useLocation()
   const mode = useMode()
   const { party } = useContext(PartyContext)
-  const [people, setPeople] = useState<Record<string, UserOnCreate>>({})
 
-  const handleSubmit = async (e: React.SyntheticEvent) => {
-    // Avoid page reload
-    e.preventDefault()
+  const onSubmit = async ({ operator }: Record<string, Partial<UserOnCreate>>) => {
+    const userData = {
+      ...operator,
+      role: 'Operator',
+      platformRole: mode === 'provider' ? 'api' : 'security',
+    }
 
     const { clientId } = parseSearch(location.search)
 
@@ -32,9 +40,7 @@ export function UserCreate() {
         : buildDynamicRoute(ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_EDIT, { id: clientId })
 
     const dataToPost =
-      mode === 'provider'
-        ? { users: [people['operator']], institutionId: party!.institutionId }
-        : { ...people['operator'] }
+      mode === 'provider' ? { users: [userData], institutionId: party!.institutionId } : userData
 
     await runActionWithDestination(
       {
@@ -67,16 +73,10 @@ export function UserCreate() {
     <React.Fragment>
       <StyledIntro>{INTRO[mode!]}</StyledIntro>
 
-      <StyledForm onSubmit={handleSubmit} style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
-        <PlatformUserForm
-          prefix="operator"
-          role="Operator"
-          platformRole={mode === 'provider' ? 'api' : 'security'}
-          people={people}
-          setPeople={setPeople}
-        />
+      <StyledForm onSubmit={handleSubmit(onSubmit)} style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
+        <PlatformUserControlledForm prefix="operator" control={control} errors={errors} />
 
-        <StyledButton sx={{ mt: '1.5rem' }} variant="contained" type="submit" disabled={false}>
+        <StyledButton sx={{ mt: '1.5rem' }} variant="contained" type="submit">
           Crea operatore
         </StyledButton>
       </StyledForm>

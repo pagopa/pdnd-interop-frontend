@@ -12,7 +12,7 @@ type StyledInputFileProps = {
 export function StyledInputFile({ id, onChange, value, label }: StyledInputFileProps) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      <Box sx={{ mr: '1rem', flexShrink: 0, position: 'relative' }}>
+      <Box sx={{ mr: 3, flexShrink: 0, position: 'relative' }}>
         <Box
           component="input"
           type="file"
@@ -20,6 +20,7 @@ export function StyledInputFile({ id, onChange, value, label }: StyledInputFileP
           onChange={onChange}
           sx={{ position: 'absolute', width: '100%', height: '100%' }}
         />
+
         <Box
           component="label"
           htmlFor={id}
@@ -28,9 +29,13 @@ export function StyledInputFile({ id, onChange, value, label }: StyledInputFileP
             cursor: 'pointer',
             display: 'inline-flex',
             alignItems: 'center',
-            px: '1rem',
-            py: '0.5rem',
+            px: '24px',
+            py: '12px',
             position: 'relative',
+            fontWeight: 600,
+            fontSize: '1rem',
+            lineHeight: 1.2,
+            borderRadius: 1,
           }}
           color="common.white"
           bgcolor="primary.main"

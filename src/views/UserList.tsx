@@ -18,9 +18,8 @@ import { buildDynamicPath, getLastBit } from '../lib/url-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { TableCell, TableRow } from '@mui/material'
 import { Box } from '@mui/system'
-import { ActionMenu } from '../components/Shared/ActionMenu'
+import { StyledTableRow } from '../components/Shared/StyledTableRow'
 
 export function UserList() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -184,43 +183,35 @@ export function UserList() {
           error={error}
         >
           {data?.map((item, i) => (
-            <TableRow key={i} sx={{ bgcolor: 'common.white' }}>
-              {/*
-               * TEMP BACKEND: this should not happen, it depends on the difference between our API
-               * and the one shared with self care, that doesn't expose name and surname
-               */}
-              <TableCell>
-                {mode === 'provider' ? item.from : `${item.name + ' ' + item.surname}`}
-              </TableCell>
-              <TableCell>{USER_ROLE_LABEL[item.role]}</TableCell>
-              <TableCell>{USER_PLATFORM_ROLE_LABEL[item.platformRole]}</TableCell>
-              <TableCell>{USER_STATUS_LABEL[item.status]}</TableCell>
-              <TableCell>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <StyledButton
-                    variant="outlined"
-                    to={
-                      mode === 'provider'
-                        ? buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_EDIT.PATH, {
-                            id: (item.taxCode || item.from) as string,
-                          })
-                        : buildDynamicPath(
-                            ROUTES.SUBSCRIBE.SUBROUTES!.OPERATOR_SECURITY_EDIT.PATH,
-                            {
-                              clientId,
-                              operatorId: item.taxCode,
-                            }
-                          )
-                    }
-                    component={StyledLink}
-                  >
-                    Ispeziona
-                  </StyledButton>
-
-                  <ActionMenu actions={getAvailableActions(item)} index={i} />
-                </Box>
-              </TableCell>
-            </TableRow>
+            <StyledTableRow
+              cellData={[
+                /*
+                 * TEMP BACKEND: this should not happen, it depends on the difference between our API
+                 * and the one shared with self care, that doesn't expose name and surname
+                 */
+                { label: mode === 'provider' ? item.from! : `${item.name + ' ' + item.surname}` },
+                { label: USER_ROLE_LABEL[item.role] },
+                { label: USER_PLATFORM_ROLE_LABEL[item.platformRole] },
+                { label: USER_STATUS_LABEL[item.status] },
+              ]}
+              index={i}
+              singleActionBtn={{
+                props: {
+                  to:
+                    mode === 'provider'
+                      ? buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_EDIT.PATH, {
+                          id: (item.taxCode || item.from) as string,
+                        })
+                      : buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.OPERATOR_SECURITY_EDIT.PATH, {
+                          clientId,
+                          operatorId: item.taxCode,
+                        }),
+                  component: StyledLink,
+                },
+                label: '',
+              }}
+              actions={getAvailableActions(item)}
+            />
           ))}
         </TableWithLoader>
       </Box>

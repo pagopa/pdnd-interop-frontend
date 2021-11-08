@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import {
-  PartyOnCreate,
+  IPACatalogParty,
   RequestOutcome,
   RequestOutcomeOptions,
   StepperStep,
@@ -25,8 +25,8 @@ import { StyledLink } from '../components/Shared/StyledLink'
 export function Onboarding() {
   const [loading, setLoading] = useState(false)
   const [activeStep, setActiveStep] = useState(0)
-  const [partyPeople, setPartyPeople] = useState<Record<string, User>>()
-  const [party, setParty] = useState<PartyOnCreate>()
+  const [partyPeople, setPartyPeople] = useState<Record<string, User>>({})
+  const [party, setParty] = useState<IPACatalogParty>()
   const [outcome, setOutcome] = useState<RequestOutcome>()
   const history = useHistory()
 
@@ -34,32 +34,34 @@ export function Onboarding() {
     history.go(0)
   }
 
-  const back = () => {
+  const back = (e?: any) => {
+    if (e) e.preventDefault()
     setActiveStep(activeStep - 1)
   }
 
-  const forward = () => {
+  const forward = (e?: any) => {
+    if (e) e.preventDefault()
     setActiveStep(activeStep + 1)
     scrollToTop()
   }
 
-  const forwardWithUser = (newPartyPeople: Record<string, User>) => {
-    setPartyPeople(newPartyPeople)
+  const forwardWithManager = (managerObject: Record<string, User>) => {
+    setPartyPeople({ ...partyPeople, ...managerObject })
     forward()
   }
 
-  const forwardWithParty = (newParty: PartyOnCreate) => {
+  const forwardWithParty = (newParty: IPACatalogParty) => {
     setParty(newParty)
     forward()
   }
 
-  const submit = async () => {
+  const submit = async (delegatesObject: Record<string, User>) => {
+    const usersObject = { ...partyPeople, ...delegatesObject }
+    setPartyPeople(usersObject)
+
     setLoading(true)
 
-    const formData = {
-      institutionId: party!.institutionId,
-      users: Object.values(partyPeople!),
-    }
+    const formData = { institutionId: party!.id, users: Object.values(usersObject!) }
 
     const postLegalsResponse = await fetchWithLogs({
       path: { endpoint: 'ONBOARDING_POST_LEGALS' },
@@ -82,7 +84,7 @@ export function Onboarding() {
 
   const stepsProps = [
     { forward: forwardWithParty, data: { partyPeople, party } },
-    { forward: forwardWithUser, back, data: { partyPeople, party } },
+    { forward: forwardWithManager, back, data: { partyPeople, party } },
     { forward: submit, back, data: { partyPeople, party } },
   ]
 

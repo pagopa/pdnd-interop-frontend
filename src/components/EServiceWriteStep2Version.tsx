@@ -1,23 +1,22 @@
-import { Box } from '@mui/system'
-import { AxiosResponse } from 'axios'
-import { isEmpty } from 'lodash'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
+import { AxiosResponse } from 'axios'
+import isEmpty from 'lodash/isEmpty'
+import { Box } from '@mui/system'
 import { ApiEndpointKey, StepperStepComponentProps } from '../../types'
-import { useFeedback } from '../hooks/useFeedback'
 import { ROUTES } from '../lib/constants'
 import { buildDynamicPath } from '../lib/url-utils'
+import { useFeedback } from '../hooks/useFeedback'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
-import { StyledInputText } from './Shared/StyledInputText'
-import { StyledInputTextArea } from './Shared/StyledInputTextArea'
 import { StyledIntro } from './Shared/StyledIntro'
-
-type FieldType = 'text' | 'textArray' | 'number'
+import { StyledInputControlledText } from './Shared/StyledInputControlledText'
+import { requiredValidationPattern } from '../lib/validation'
 
 type VersionData = {
-  audience: string[]
+  audience: string
   version: string
   voucherLifespan: number
   description: string
@@ -28,7 +27,13 @@ export function EServiceWriteStep2Version({
   back,
   fetchedData,
 }: StepperStepComponentProps & EServiceWriteStepProps) {
-  const [versionData, setVersionData] = useState<Partial<VersionData>>({})
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    formState: { errors },
+  } = useForm()
+
   const history = useHistory()
   const { runActionWithCallback } = useFeedback()
 
@@ -36,7 +41,12 @@ export function EServiceWriteStep2Version({
   useEffect(() => {
     if (!isEmpty(fetchedData.activeDescriptor)) {
       const { audience, version, voucherLifespan, description } = fetchedData.activeDescriptor!
-      setVersionData({ audience, version, voucherLifespan, description })
+      setValue('version', version)
+      if (Boolean(audience.length > 0)) {
+        setValue('audience', audience[0])
+      }
+      setValue('voucherLifespan', voucherLifespan)
+      setValue('description', description)
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -45,35 +55,15 @@ export function EServiceWriteStep2Version({
     return !isEmpty(fetchedData.activeDescriptor) ? fetchedData.activeDescriptor!.version : '1'
   }
 
-  // Check for empty strings in input text field
-  const isEmptyTextField = (fieldType: FieldType, valueToTest: any) => {
-    const failConditions = {
-      text: valueToTest === '',
-      textArray: valueToTest[0] === '',
-      number: false,
-    }
-    return failConditions[fieldType]
-  }
-
-  const wrapSetVersionData =
-    (fieldName: keyof VersionData, fieldType: FieldType = 'text') =>
-    (e: any) => {
-      const { value } = e.target
-      const fieldValueMaybe = { text: value, textArray: [value], number: parseInt(value, 10) }[
-        fieldType
-      ]
-
-      // Check for false positives (e.g. empty strings in input types), and set them explicitly to undefined
-      const fieldValue = !isEmptyTextField(fieldType, fieldValueMaybe) ? fieldValueMaybe : undefined
-
-      setVersionData({ ...versionData, [fieldName]: fieldValue })
-    }
-
-  const submit = async (e: any) => {
-    e.preventDefault()
-
+  const onSubmit = async (data: Partial<VersionData>) => {
     // Format the data like the backend wants it
-    const dataToPost = { ...versionData }
+    const dataToPost: any = { ...data }
+    if (data.audience) {
+      dataToPost.audience = [data.audience]
+    }
+    if (data.voucherLifespan) {
+      dataToPost.voucherLifespan = +data.voucherLifespan
+    }
 
     // Define which endpoint to call
     let endpoint: ApiEndpointKey = 'ESERVICE_VERSION_CREATE'
@@ -122,42 +112,48 @@ export function EServiceWriteStep2Version({
         {{ title: 'Crea e-service: informazioni di versione' }}
       </StyledIntro>
 
-      <StyledForm onSubmit={submit}>
-        <StyledInputText
-          id="version"
+      <StyledForm onSubmit={handleSubmit(onSubmit)}>
+        <StyledInputControlledText
+          name="version"
           label="Numero della versione*"
-          value={getVersion()}
-          readOnly={true}
+          defaultValue={getVersion()}
+          disabled={true}
+          control={control}
+          rules={{}}
+          errors={errors}
         />
 
-        <StyledInputText
-          id="audience"
+        <StyledInputControlledText
+          name="audience"
           label="Identificativo dell'e-service*"
-          tooltipLabel="L'id con il quale il fruitore dichiara il servizio richiesto. Questo identificativo deve essere unico tra i tuoi e-service"
-          value={
-            versionData.audience && versionData.audience.length > 0 ? versionData.audience[0] : ''
-          }
-          onChange={wrapSetVersionData('audience', 'textArray')}
+          infoLabel="L'id con il quale il fruitore dichiara il servizio richiesto. Questo identificativo deve essere unico tra i tuoi e-service"
+          control={control}
+          rules={{ required: requiredValidationPattern }}
+          errors={errors}
         />
 
-        <StyledInputText
-          type="number"
-          id="voucherLifespan"
+        <StyledInputControlledText
+          name="voucherLifespan"
           label="Durata di validità del voucher (in minuti)*"
-          value={versionData.voucherLifespan || 0}
-          onChange={wrapSetVersionData('voucherLifespan', 'number')}
-          inputProps={{ min: '0', max: '5' }}
+          type="number"
+          inputProps={{ min: '1', max: '5' }}
+          defaultValue="1"
+          control={control}
+          rules={{ required: requiredValidationPattern }}
+          errors={errors}
         />
 
-        <StyledInputTextArea
-          id="description"
+        <StyledInputControlledText
+          name="description"
           label="Descrizione della versione*"
-          value={versionData.description || ''}
-          onChange={wrapSetVersionData('description')}
+          control={control}
+          rules={{ required: requiredValidationPattern }}
+          errors={errors}
+          multiline={true}
         />
 
-        <Box sx={{ mt: '2rem', display: 'flex' }}>
-          <StyledButton sx={{ mr: '1rem' }} variant="contained" type="submit">
+        <Box sx={{ mt: 4, display: 'flex' }}>
+          <StyledButton sx={{ mr: 3 }} variant="contained" type="submit">
             Salva bozza e prosegui
           </StyledButton>
           <StyledButton variant="outlined" onClick={back}>
