@@ -169,11 +169,6 @@ export const useFeedback = () => {
   const runFakeAction = (actionName: string) => {
     closeDialog()
     showTempAlert(actionName)
-    showToast({
-      outcome: 'success',
-      title: actionName,
-      description: "L'operazione è andata a buon fine",
-    })
   }
   /*
    * End API calls
