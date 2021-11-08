@@ -30,9 +30,9 @@ export function PlatformUserForm({
   const peoplePrefix = people[prefix]
 
   return (
-    <Box sx={{ py: '1rem' }}>
-      <Box sx={{ py: '1rem', display: 'flex', justifyContent: 'space-between' }}>
-        <Box sx={{ mr: '1rem', flexGrow: 1 }}>
+    <Box sx={{ py: 2 }}>
+      <Box sx={{ py: 2, display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ mr: 2, flexGrow: 1 }}>
           <StyledInputText
             id="name"
             label="Nome*"
@@ -40,7 +40,7 @@ export function PlatformUserForm({
             onChange={buildSetPerson('name')}
           />
         </Box>
-        <Box sx={{ ml: '1rem', flexGrow: 1 }}>
+        <Box sx={{ ml: 2, flexGrow: 1 }}>
           <StyledInputText
             id="surname"
             label="Cognome*"
@@ -49,7 +49,7 @@ export function PlatformUserForm({
           />
         </Box>
       </Box>
-      <Box sx={{ py: '1rem' }}>
+      <Box sx={{ py: 2 }}>
         <StyledInputText
           id="taxCode"
           label="Codice Fiscale*"
@@ -57,7 +57,7 @@ export function PlatformUserForm({
           onChange={buildSetPerson('taxCode')}
         />
       </Box>
-      <Box sx={{ py: '1rem' }}>
+      <Box sx={{ py: 2 }}>
         <StyledInputText
           id="email"
           label="Email ad uso aziendale*"
@@ -66,8 +66,8 @@ export function PlatformUserForm({
           onChange={buildSetPerson('email')}
         />
 
-        <Box sx={{ display: 'flex', alignItems: 'center', mt: '1rem' }}>
-          <InfoOutlinedIcon sx={{ fontSize: 18, mr: '0.25rem' }} />
+        <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+          <InfoOutlinedIcon sx={{ fontSize: 18, mr: 1 }} />
           <Typography component="span" variant="caption">
             Inserisci l'indirizzo email ad uso aziendale utilizzato per l'Ente
           </Typography>

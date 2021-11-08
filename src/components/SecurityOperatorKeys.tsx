@@ -139,7 +139,7 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
       </StyledIntro>
 
       {user?.taxCode === userData.taxCode && !key && (
-        <StyledButton sx={{ mb: '1rem' }} onClick={openModal} variant="contained">
+        <StyledButton sx={{ mb: 2 }} onClick={openModal} variant="contained">
           Carica nuova chiave
         </StyledButton>
       )}
@@ -151,7 +151,7 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              py: '1rem',
+              py: 2,
               borderTop: 1,
               borderBottom: 1,
             }}
@@ -165,7 +165,7 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
               ))}
             </Box>
           </Box>
-          <Box sx={{ mt: '1rem' }}>
+          <Box sx={{ mt: 2 }}>
             <DescriptionBlock label="Id del client">
               <span>{clientId}</span>
             </DescriptionBlock>

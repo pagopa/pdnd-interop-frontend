@@ -13,7 +13,7 @@ export const DescriptionBlock: FunctionComponent<DescriptionBlockProps> = ({
   tooltipLabel,
 }) => {
   return (
-    <Box sx={{ mb: '1rem' }}>
+    <Box sx={{ mb: 2 }}>
       <strong>{label}</strong>
       {tooltipLabel && <InfoTooltip label={tooltipLabel} />}
       <br />

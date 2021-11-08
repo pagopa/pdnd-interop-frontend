@@ -87,13 +87,13 @@ export function EServiceAttributeGroup({
       </TableWithLoader>
 
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <StyledButton sx={{ mr: '1rem' }} variant="contained" onClick={buildShowModal('add')}>
+        <StyledButton sx={{ mr: 2 }} variant="contained" onClick={buildShowModal('add')}>
           Aggiungi attributo o gruppo
         </StyledButton>
 
         {canCreateNewAttributes && (
           <Typography sx={{ mb: 0, display: 'flex', alignItems: 'center' }}>
-            <Typography component="span" sx={{ mr: '0.25rem' }}>
+            <Typography component="span" sx={{ mr: 1 }}>
               L'attributo non è presente nella lista?
             </Typography>
             <StyledLink component="button" onClick={buildShowModal('create')}>

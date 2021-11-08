@@ -9,7 +9,7 @@ type StepperProps = {
 
 export function StyledStepper({ steps, activeIndex }: StepperProps) {
   return (
-    <Stepper activeStep={activeIndex} sx={{ py: '2rem' }} alternativeLabel>
+    <Stepper activeStep={activeIndex} sx={{ py: 4 }} alternativeLabel>
       {steps.map(({ label }) => (
         <Step key={label}>
           <StepLabel>{label}</StepLabel>

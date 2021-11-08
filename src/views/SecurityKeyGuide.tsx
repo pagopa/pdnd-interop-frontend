@@ -10,14 +10,14 @@ export function SecurityKeyGuide() {
     <Box sx={{ maxWidth: MEDIUM_MAX_WIDTH }}>
       <StyledIntro>{{ title: 'Generazione e caricamento chiavi di sicurezza' }}</StyledIntro>
 
-      <Box sx={{ mt: '1rem' }}>
+      <Box sx={{ mt: 2 }}>
         <Typography variant="h3">Come generare le chiavi</Typography>
         <Typography>
           Seleziona il tuo algoritmo di criptazione dall'elenco sotto e esegui i comandi indicati
           nel terminale
         </Typography>
 
-        <Typography variant="h4" sx={{ mt: '1rem' }}>
+        <Typography variant="h4" sx={{ mt: 2 }}>
           RSA
         </Typography>
         <Typography>
@@ -32,7 +32,7 @@ export function SecurityKeyGuide() {
         </Typography>
       </Box>
 
-      <Box sx={{ mt: '1rem' }}>
+      <Box sx={{ mt: 2 }}>
         <Typography variant="h3">Come caricare le chiavi</Typography>
         <ol>
           <Typography component="li">

@@ -12,7 +12,7 @@ export function getAccessionAgreement(admin: User, party: PartyOnCreate, current
         sx={{
           position: 'relative',
           display: 'inline-block',
-          mt: '1rem',
+          mt: 2,
           left: '100%',
           transform: `translate(-100%, 0) translate(-2rem, 0)`,
         }}
@@ -23,7 +23,7 @@ export function getAccessionAgreement(admin: User, party: PartyOnCreate, current
         <br />
         Pec:
       </Typography>
-      <Typography sx={{ my: '1.5rem' }}>
+      <Typography sx={{ my: 3 }}>
         <strong>
           Oggetto: Lettera di adesione alla Piattaforma Digitale Nazionale Dati ai sensi dell’art.
           50-ter, comma 2, del Decreto Legislativo 7 marzo 2005, n. 82

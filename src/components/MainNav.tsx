@@ -24,7 +24,7 @@ type View = {
 
 type Views = { [key in UserPlatformRole]: View[] }
 
-const WIDTH = '21.25rem' // aka 340px
+const WIDTH = 340
 
 export function MainNav() {
   const { party } = useContext(PartyContext)

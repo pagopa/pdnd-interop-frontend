@@ -6,12 +6,12 @@ import { StyledLink } from './Shared/StyledLink'
 
 export function Footer() {
   return (
-    <Box component="footer" sx={{ bgcolor: '#01254C', color: 'common.white', py: '1.5rem' }}>
+    <Box component="footer" sx={{ bgcolor: '#01254C', color: 'common.white', py: 3 }}>
       <Layout>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Box sx={{ mr: '4.25rem' }}>
+          <Box sx={{ mr: 8 }}>
             <StyledLink to="/">
-              <Box component="img" src={logo} alt="Logo PagoPA" sx={{ width: '7.5rem' }} />
+              <Box component="img" src={logo} alt="Logo PagoPA" sx={{ width: 120 }} />
             </StyledLink>
           </Box>
           <Typography variant="caption">
@@ -32,7 +32,7 @@ export function Footer() {
               to={href}
               underline="none"
               color="inherit"
-              sx={{ display: 'inline-block', mr: '1rem', py: '1rem' }}
+              sx={{ display: 'inline-block', mr: 2, py: 2 }}
               variant="caption"
             >
               {label}

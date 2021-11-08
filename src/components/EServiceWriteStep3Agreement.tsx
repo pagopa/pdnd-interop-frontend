@@ -43,8 +43,8 @@ export function EServiceWriteStep3Agreement({
           currentValue={options[0].value}
         />
 
-        <Box sx={{ mt: '2rem', display: 'flex' }}>
-          <StyledButton sx={{ mr: '1rem' }} variant="contained" type="submit">
+        <Box sx={{ mt: 4, display: 'flex' }}>
+          <StyledButton sx={{ mr: 2 }} variant="contained" type="submit">
             Salva bozza e prosegui
           </StyledButton>
           <StyledButton variant="outlined" onClick={back}>

@@ -38,7 +38,7 @@ export function TempSPIDUser() {
           right: 0,
           width: '100%',
           height: '100%',
-          py: '2rem',
+          py: 4,
         }}
         bgcolor="common.white"
         color="primary.main"
@@ -72,7 +72,7 @@ export function TempSPIDUser() {
               />
 
               <StyledButton
-                sx={{ mt: '0.5rem' }}
+                sx={{ mt: 1 }}
                 variant="contained"
                 type="submit"
                 disabled={isEmpty(data) || isEmpty(data['spid'])}

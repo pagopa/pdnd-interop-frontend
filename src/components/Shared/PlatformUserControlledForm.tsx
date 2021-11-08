@@ -19,9 +19,9 @@ export function PlatformUserControlledForm({
   errors,
 }: PlatformUserControlledFormProps) {
   return (
-    <Box sx={{ py: '1rem' }}>
-      <Box sx={{ py: '1rem', display: 'flex', justifyContent: 'space-between' }}>
-        <Box sx={{ mr: '1rem', flexGrow: 1 }}>
+    <Box sx={{ py: 2 }}>
+      <Box sx={{ py: 2, display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ mr: 2, flexGrow: 1 }}>
           <StyledInputControlledText
             label="Nome*"
             name={`${prefix}.name`}
@@ -30,7 +30,7 @@ export function PlatformUserControlledForm({
             errors={errors}
           />
         </Box>
-        <Box sx={{ ml: '1rem', flexGrow: 1 }}>
+        <Box sx={{ ml: 2, flexGrow: 1 }}>
           <StyledInputControlledText
             label="Cognome*"
             name={`${prefix}.surname`}
@@ -40,7 +40,7 @@ export function PlatformUserControlledForm({
           />
         </Box>
       </Box>
-      <Box sx={{ py: '1rem' }}>
+      <Box sx={{ py: 2 }}>
         <StyledInputControlledText
           label="Codice Fiscale*"
           name={`${prefix}.taxCode`}
@@ -49,7 +49,7 @@ export function PlatformUserControlledForm({
           errors={errors}
         />
       </Box>
-      <Box sx={{ py: '1rem' }}>
+      <Box sx={{ py: 2 }}>
         <StyledInputControlledText
           label="Email ad uso aziendale*"
           name={`${prefix}.email`}

@@ -191,10 +191,8 @@ export function AgreementEdit() {
 
         {typeof verified === 'boolean' ? (
           verified ? (
-            <Box
-              sx={{ display: 'flex', alignItems: 'center', my: '0.25rem', color: 'primary.main' }}
-            >
-              <CheckCircleIcon sx={{ mr: '0.25rem' }} fontSize="small" color="primary" />
+            <Box sx={{ display: 'flex', alignItems: 'center', my: 1, color: 'primary.main' }}>
+              <CheckCircleIcon sx={{ mr: 1 }} fontSize="small" color="primary" />
               <Typography component="span">verificato</Typography>
             </Box>
           ) : (
@@ -265,7 +263,7 @@ export function AgreementEdit() {
       </DescriptionBlock>
 
       <DescriptionBlock label="Attributi">
-        <Box sx={{ mt: '0.5rem' }}>
+        <Box sx={{ mt: 1 }}>
           {data?.attributes.length > 0 ? (
             data?.attributes.map((backendAttribute, i) => {
               let attributesToDisplay: any
@@ -294,8 +292,8 @@ export function AgreementEdit() {
                   key={i}
                   sx={{
                     width: '100%',
-                    mb: '1rem',
-                    pb: '1rem',
+                    mb: 2,
+                    pb: 2,
                     borderBottom: 1,
                     borderColor: 'divider',
                   }}
@@ -317,7 +315,7 @@ export function AgreementEdit() {
         </DescriptionBlock>
       )}
 
-      <Box sx={{ mt: '2rem', display: 'flex' }}>
+      <Box sx={{ mt: 4, display: 'flex' }}>
         {getAvailableActions().map(({ onClick, label }, i) => (
           <StyledButton variant="contained" key={i} onClick={onClick}>
             {label}

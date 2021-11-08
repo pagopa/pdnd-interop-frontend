@@ -105,7 +105,7 @@ export function EServiceRead({ data }: EServiceReadProps) {
           <React.Fragment>
             {labels.map((label, i) => {
               return (
-                <Box sx={{ mb: i !== labels.length - 1 ? '1rem' : 0 }} key={i}>
+                <Box sx={{ mb: i !== labels.length - 1 ? 2 : 0 }} key={i}>
                   <Typography component="span" sx={{ fontWeight: 600 }}>
                     {label.name}
                   </Typography>
@@ -201,23 +201,23 @@ export function EServiceRead({ data }: EServiceReadProps) {
                 justifyContent: 'space-between',
                 borderBottom: 1,
                 borderColor: 'divider',
-                mt: i === 0 ? '1rem' : 0,
+                mt: i === 0 ? 2 : 0,
               }}
               key={i}
             >
-              <Box sx={{ py: '0.25rem', my: '0.25rem' }}>
+              <Box sx={{ py: 1, my: 1 }}>
                 <strong>{d.name}</strong>
                 {d.description !== 'undefined' && (
                   <React.Fragment>
                     <br />
-                    <Typography sx={{ display: 'inline-block', mt: '0.25rem', mb: '0.5rem' }}>
+                    <Typography sx={{ display: 'inline-block', mt: 1, mb: 1 }}>
                       {decodeURIComponent(d.description)}
                     </Typography>
                   </React.Fragment>
                 )}
               </Box>
               <StyledLink component="button" onClick={wrapDownloadDocument(d.id)}>
-                <FileDownloadIcon fontSize="small" sx={{ mr: '0.25rem' }} color="primary" />
+                <FileDownloadIcon fontSize="small" sx={{ mr: 1 }} color="primary" />
               </StyledLink>
             </Box>
           ))}
@@ -227,7 +227,7 @@ export function EServiceRead({ data }: EServiceReadProps) {
       {(Object.keys(data.attributes) as AttributeType[]).map((key, i) => (
         <DescriptionBlock key={i} label={`Attributi ${ATTRIBUTE_TYPE_LABEL[key]}`}>
           {data.attributes[key].length > 0 ? (
-            <Box sx={{ mt: '0.5rem' }}>
+            <Box sx={{ mt: 1 }}>
               <StyledAccordion entries={toAccordionEntries(data.attributes[key])} />
             </Box>
           ) : (
@@ -239,18 +239,14 @@ export function EServiceRead({ data }: EServiceReadProps) {
       {mode === 'subscriber' && (
         <Box sx={{ display: 'flex' }}>
           {isVersionPublished && !isMine && isAdmin(party) && canSubscribeEservice && (
-            <StyledButton
-              sx={{ mr: '0.5rem' }}
-              variant="contained"
-              onClick={handleSubscriptionDialog}
-            >
+            <StyledButton sx={{ mr: 1 }} variant="contained" onClick={handleSubscriptionDialog}>
               Iscriviti
             </StyledButton>
           )}
           {!isMine && isAdmin(party) && !canSubscribeEservice && (
             <StyledButton
               className="mockFeature"
-              sx={{ mr: '0.5rem' }}
+              sx={{ mr: 1 }}
               variant="contained"
               onClick={openExtensionDialog}
             >

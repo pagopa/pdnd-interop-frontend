@@ -9,7 +9,7 @@ export function Main() {
   const { user } = useContext(UserContext)
 
   return (
-    <Box component="main" sx={{ pb: '2rem' }} className={!SHOW_DEV_LABELS ? ' hideDevLabels' : ''}>
+    <Box component="main" sx={{ pb: 4 }} className={!SHOW_DEV_LABELS ? ' hideDevLabels' : ''}>
       <Switch>
         {Object.values(ROUTES).map(({ PATH, EXACT, COMPONENT, PUBLIC, AUTH_LEVELS }, i) => (
           <Route path={PATH} exact={EXACT} key={i}>

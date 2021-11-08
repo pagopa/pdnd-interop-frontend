@@ -9,7 +9,7 @@ type InfoTooltipProps = {
 export function InfoTooltip({ label }: InfoTooltipProps) {
   return (
     <StyledTooltip title={label}>
-      <InfoIcon color="primary" fontSize="small" sx={{ ml: '0.25rem' }} />
+      <InfoIcon color="primary" fontSize="small" sx={{ ml: 1 }} />
     </StyledTooltip>
   )
 }

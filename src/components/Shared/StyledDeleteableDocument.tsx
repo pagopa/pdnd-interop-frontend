@@ -79,12 +79,12 @@ export function StyledDeleteableDocument({
         display: 'flex',
         alignItems: 'flex-end',
         justifyContent: 'space-between',
-        mb: '1rem',
-        pb: '1rem',
+        mb: 2,
+        pb: 2,
         borderBottom: 1,
       }}
     >
-      <Box sx={{ mr: '2rem', flexShrink: 1 }}>
+      <Box sx={{ mr: 4, flexShrink: 1 }}>
         <strong>{readable.name}</strong>
         <br />
 

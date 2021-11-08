@@ -29,15 +29,15 @@ export function StyledInputText({
 }: StyledInputTextProps) {
   return (
     <FormControl component="fieldset" sx={{ display: 'block' }}>
-      <FormLabel component="legend" sx={{ mb: '0.5rem' }}>
-        <Typography component="span" sx={{ fontWeight: 600, px: '0.5rem' }}>
+      <FormLabel component="legend" sx={{ mb: 1 }}>
+        <Typography component="span" sx={{ fontWeight: 600, px: 1 }}>
           {label}
         </Typography>{' '}
         {tooltipLabel && <InfoTooltip label={tooltipLabel} />}
       </FormLabel>
 
       <Input
-        sx={{ px: '0.5rem', py: '0.5rem' }}
+        sx={{ px: 1, py: 1 }}
         fullWidth
         id={id}
         disabled={readOnly}

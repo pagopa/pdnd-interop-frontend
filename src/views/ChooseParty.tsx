@@ -61,8 +61,8 @@ export function ChooseParty() {
           sx={{
             borderBottom: 1,
             borderColor: 'divider',
-            mb: '0.5rem',
-            pb: '1.5rem',
+            mb: 1,
+            pb: 3,
             textAlign: 'center',
           }}
         >
@@ -83,7 +83,7 @@ export function ChooseParty() {
           )}
 
           <StyledButton
-            sx={{ mt: '1rem' }}
+            sx={{ mt: 2 }}
             variant="contained"
             onClick={confirmChoice}
             disabled={!party}
@@ -92,8 +92,8 @@ export function ChooseParty() {
           </StyledButton>
         </Box>
 
-        <Box sx={{ mt: '0.5rem', display: 'flex', alignItems: 'center' }}>
-          <Typography component="span" sx={{ mr: '0.25rem' }}>
+        <Box sx={{ mt: 1, display: 'flex', alignItems: 'center' }}>
+          <Typography component="span" sx={{ mr: 1 }}>
             Vuoi registrare un nuovo ente?
           </Typography>
           <StyledLink component="button" onClick={goToOnboarding}>

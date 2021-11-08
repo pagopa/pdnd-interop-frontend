@@ -153,7 +153,7 @@ export function AgreementList() {
     <React.Fragment>
       <StyledIntro>{INTRO[mode!]}</StyledIntro>
 
-      <Box sx={{ mt: '2rem' }}>
+      <Box sx={{ mt: 4 }}>
         <TempFilters />
 
         <TableWithLoader

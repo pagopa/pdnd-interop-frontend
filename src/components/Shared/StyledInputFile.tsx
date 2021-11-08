@@ -29,18 +29,17 @@ export function StyledInputFile({ id, onChange, value, label }: StyledInputFileP
             cursor: 'pointer',
             display: 'inline-flex',
             alignItems: 'center',
-            px: '24px',
-            py: '12px',
+            px: 4,
+            py: 2,
             position: 'relative',
-            fontWeight: 600,
-            fontSize: '1rem',
-            lineHeight: 1.2,
             borderRadius: 1,
           }}
           color="common.white"
           bgcolor="primary.main"
         >
-          {label}
+          <Typography component="span" variant="body2" sx={{ fontWeight: 600 }}>
+            {label}
+          </Typography>
         </Box>
       </Box>
       <Typography component="span">
