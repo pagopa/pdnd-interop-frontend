@@ -35,7 +35,6 @@ export type RouteAuthLevel = 'any' | UserPlatformRole[]
 export type RouteConfig = {
   PATH: string
   LABEL: string
-  EXACT?: boolean
   SUBROUTES?: RoutesObject
   COMPONENT: React.FunctionComponent<any>
   PUBLIC: boolean

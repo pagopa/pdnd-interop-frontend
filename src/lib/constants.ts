@@ -78,7 +78,6 @@ export const ROUTES: RoutesObject = {
   ONBOARDING: {
     PATH: `${BASE_ROUTE}/onboarding`,
     LABEL: 'Onboarding',
-    EXACT: true,
     COMPONENT: Onboarding,
     PUBLIC: false,
     AUTH_LEVELS: 'any',
@@ -118,7 +117,6 @@ export const ROUTES: RoutesObject = {
     SUBROUTES: {
       ESERVICE_LIST: {
         PATH: `${BASE_ROUTE}/erogazione/e-service`,
-        EXACT: true,
         LABEL: 'Gestisci e-service',
         COMPONENT: EServiceList,
         PUBLIC: false,
@@ -126,7 +124,6 @@ export const ROUTES: RoutesObject = {
       },
       ESERVICE_CREATE: {
         PATH: `${BASE_ROUTE}/erogazione/e-service/crea`,
-        EXACT: true,
         LABEL: '+ Aggiungi',
         COMPONENT: EServiceWrite,
         PUBLIC: false,
@@ -134,7 +131,6 @@ export const ROUTES: RoutesObject = {
       },
       ESERVICE_EDIT: {
         PATH: `${BASE_ROUTE}/erogazione/e-service/:eserviceId/:descriptorId`,
-        EXACT: false,
         LABEL: 'Ispeziona e-service',
         COMPONENT: EServiceGate,
         PUBLIC: false,
@@ -142,7 +138,6 @@ export const ROUTES: RoutesObject = {
       },
       AGREEMENT_LIST: {
         PATH: `${BASE_ROUTE}/erogazione/accordi`,
-        EXACT: true,
         LABEL: 'Gestisci accordi',
         COMPONENT: AgreementList,
         PUBLIC: false,
@@ -150,7 +145,6 @@ export const ROUTES: RoutesObject = {
       },
       AGREEMENT_EDIT: {
         PATH: `${BASE_ROUTE}/erogazione/accordi/:id`,
-        EXACT: false,
         LABEL: 'Modifica accordo',
         COMPONENT: AgreementEdit,
         PUBLIC: false,
@@ -158,7 +152,6 @@ export const ROUTES: RoutesObject = {
       },
       OPERATOR_API_LIST: {
         PATH: `${BASE_ROUTE}/erogazione/operatori`,
-        EXACT: true,
         LABEL: 'Gestisci operatori API',
         COMPONENT: UserList,
         PUBLIC: false,
@@ -166,7 +159,6 @@ export const ROUTES: RoutesObject = {
       },
       OPERATOR_API_CREATE: {
         PATH: `${BASE_ROUTE}/erogazione/operatori/crea`,
-        EXACT: false,
         LABEL: '+ Aggiungi',
         COMPONENT: UserCreate,
         PUBLIC: false,
@@ -174,7 +166,6 @@ export const ROUTES: RoutesObject = {
       },
       OPERATOR_API_EDIT: {
         PATH: `${BASE_ROUTE}/erogazione/operatori/:id`,
-        EXACT: false,
         LABEL: 'Modifica operatore API',
         COMPONENT: UserEdit,
         PUBLIC: false,
@@ -191,7 +182,6 @@ export const ROUTES: RoutesObject = {
     SUBROUTES: {
       CLIENT_LIST: {
         PATH: `${BASE_ROUTE}/fruizione/client`,
-        EXACT: true,
         LABEL: 'Gestisci client',
         COMPONENT: ClientList,
         PUBLIC: false,
@@ -199,7 +189,6 @@ export const ROUTES: RoutesObject = {
       },
       CLIENT_CREATE: {
         PATH: `${BASE_ROUTE}/fruizione/client/crea`,
-        EXACT: false,
         LABEL: '+ Aggiungi',
         COMPONENT: ClientCreate,
         PUBLIC: false,
@@ -207,7 +196,6 @@ export const ROUTES: RoutesObject = {
       },
       CLIENT_EDIT: {
         PATH: `${BASE_ROUTE}/fruizione/client/:id`,
-        EXACT: true,
         LABEL: 'Modifica client',
         COMPONENT: ClientEdit,
         PUBLIC: false,
@@ -215,7 +203,6 @@ export const ROUTES: RoutesObject = {
       },
       AGREEMENT_LIST: {
         PATH: `${BASE_ROUTE}/fruizione/accordi`,
-        EXACT: true,
         LABEL: 'Gestisci accordi',
         COMPONENT: AgreementList,
         PUBLIC: false,
@@ -223,7 +210,6 @@ export const ROUTES: RoutesObject = {
       },
       AGREEMENT_EDIT: {
         PATH: `${BASE_ROUTE}/fruizione/accordi/:id`,
-        EXACT: false,
         LABEL: 'Modifica accordo',
         COMPONENT: AgreementEdit,
         PUBLIC: false,
@@ -231,7 +217,6 @@ export const ROUTES: RoutesObject = {
       },
       CATALOG_LIST: {
         PATH: `${BASE_ROUTE}/fruizione/catalogo-e-service`,
-        EXACT: true,
         LABEL: 'Catalogo e-service',
         COMPONENT: EServiceCatalog,
         PUBLIC: false,
@@ -239,7 +224,6 @@ export const ROUTES: RoutesObject = {
       },
       CATALOG_VIEW: {
         PATH: `${BASE_ROUTE}/fruizione/catalogo-e-service/:eserviceId/:descriptorId`,
-        EXACT: false,
         LABEL: 'Visualizza e-service',
         COMPONENT: EServiceGate,
         PUBLIC: false,
@@ -247,7 +231,6 @@ export const ROUTES: RoutesObject = {
       },
       OPERATOR_SECURITY_LIST: {
         PATH: `${BASE_ROUTE}/fruizione/client/operatori`,
-        EXACT: true,
         LABEL: 'Gestisci operatori',
         COMPONENT: UserList,
         PUBLIC: false,
@@ -255,7 +238,6 @@ export const ROUTES: RoutesObject = {
       },
       OPERATOR_SECURITY_CREATE: {
         PATH: `${BASE_ROUTE}/fruizione/client/operatori/crea`,
-        EXACT: false,
         LABEL: '+ Aggiungi',
         COMPONENT: UserCreate,
         PUBLIC: false,
@@ -263,7 +245,6 @@ export const ROUTES: RoutesObject = {
       },
       OPERATOR_SECURITY_EDIT: {
         PATH: `${BASE_ROUTE}/fruizione/client/:clientId/operatori/:operatorId`,
-        EXACT: false,
         LABEL: 'Modifica operatore',
         COMPONENT: UserEdit,
         PUBLIC: false,
