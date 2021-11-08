@@ -1,24 +1,23 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
+import isEmpty from 'lodash/isEmpty'
 import { useHistory } from 'react-router-dom'
+import { Chip, List, ListItem, Typography } from '@mui/material'
+import { Box } from '@mui/system'
 import { Party } from '../../types'
 import { NARROW_MAX_WIDTH, ROUTES, USER_ROLE_LABEL } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import { StyledInputRadioGroup } from '../components/Shared/StyledInputRadioGroup'
 import { storageWrite } from '../lib/storage-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { Box } from '@mui/system'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { Typography } from '@mui/material'
 
 export function ChooseParty() {
   const { setParty, party, availableParties } = useContext(PartyContext)
   const history = useHistory()
 
-  const updateActiveParty = (e: React.SyntheticEvent) => {
-    const newParty = availableParties.find(
-      (p) => p.institutionId === (e.target as any).value
-    ) as Party
+  const wrapUpdateActiveParty = (id: string) => (e?: any) => {
+    if (e) e.preventDefault()
+    const newParty = availableParties.find((p) => p.institutionId === id) as Party
     setParty(newParty)
     storageWrite('currentParty', newParty, 'object')
   }
@@ -35,12 +34,6 @@ export function ChooseParty() {
   const goToOnboarding = () => {
     history.push(ROUTES.ONBOARDING.PATH)
   }
-
-  useEffect(() => {
-    if (availableParties.length > 0) {
-      setParty(availableParties[0])
-    }
-  }, [availableParties]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return availableParties.length > 0 ? (
     <React.Fragment>
@@ -66,27 +59,60 @@ export function ChooseParty() {
             textAlign: 'center',
           }}
         >
-          {party && (
-            <StyledInputRadioGroup
-              name="istituzioni"
-              groupLabel="Selezione ente"
-              options={availableParties.map((p) => ({
-                label: `${p.description} (${USER_ROLE_LABEL[p.role]})${
-                  p.status === 'pending' ? ' - registrazione da completare' : ''
-                }`,
-                disabled: p.status === 'pending',
-                value: p.institutionId,
-              }))}
-              onChange={updateActiveParty}
-              currentValue={party!.institutionId}
-            />
+          {availableParties && (
+            <List sx={{ height: 240, overflow: 'auto' }} component="ul">
+              {availableParties.map((p, i) => {
+                const disabled = p.status === 'pending' || p.status === ('Pending' as any)
+                return (
+                  <ListItem
+                    key={i}
+                    sx={{ mb: 1, position: 'relative' }}
+                    selected={p.institutionId === party?.institutionId}
+                    disablePadding={true}
+                  >
+                    <StyledButton
+                      sx={{
+                        width: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'flex-start',
+                        bgcolor: 'common.white',
+                        px: 2,
+                        py: 3,
+                        opacity: disabled ? 0.5 : 1,
+                      }}
+                      disabled={disabled}
+                      onClick={wrapUpdateActiveParty(p.institutionId)}
+                    >
+                      <Typography
+                        component="span"
+                        color={disabled ? 'secondary' : 'primary'}
+                        variant="body2"
+                        sx={{ fontWeight: 600, display: 'block', mb: 0.5 }}
+                      >
+                        {p.description}
+                      </Typography>
+                      <Typography component="span" color="secondary" variant="caption">
+                        {USER_ROLE_LABEL[p.role]}
+                      </Typography>
+                    </StyledButton>
+                    {p.status === 'pending' ||
+                      (p.status === ('Pending' as any) && (
+                        <Box sx={{ position: 'absolute', right: 12, top: 12 }}>
+                          <Chip label="Da completare" color="primary" size="small" />
+                        </Box>
+                      ))}
+                  </ListItem>
+                )
+              })}
+            </List>
           )}
 
           <StyledButton
             sx={{ mt: 2 }}
             variant="contained"
             onClick={confirmChoice}
-            disabled={!party}
+            disabled={isEmpty(party)}
           >
             Entra
           </StyledButton>
