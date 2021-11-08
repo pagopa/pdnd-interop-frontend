@@ -166,6 +166,7 @@ export function AgreementList() {
         >
           {data.map((item, i) => (
             <StyledTableRow
+              key={i}
               cellData={[
                 { label: item.eservice.name },
                 { label: item.eservice.version },

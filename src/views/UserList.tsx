@@ -184,6 +184,7 @@ export function UserList() {
         >
           {data?.map((item, i) => (
             <StyledTableRow
+              key={i}
               cellData={[
                 /*
                  * TEMP BACKEND: this should not happen, it depends on the difference between our API

@@ -231,6 +231,7 @@ export function EServiceList() {
         >
           {data.map((item, i) => (
             <StyledTableRow
+              key={i}
               cellData={[
                 { label: item.name },
                 { label: item.version || '1' },
