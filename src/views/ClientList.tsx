@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { Box } from '@mui/system'
 import { Client, ClientStatus, ActionProps } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
@@ -12,9 +13,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { buildDynamicPath } from '../lib/url-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { TableCell, TableRow } from '@mui/material'
-import { Box } from '@mui/system'
-import { ActionMenu } from '../components/Shared/ActionMenu'
+import { StyledTableRow } from '../components/Shared/StyledTableRow'
 
 export function ClientList() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -123,28 +122,25 @@ export function ClientList() {
           error={error}
         >
           {data.map((item, i) => (
-            <TableRow key={i} sx={{ bgcolor: 'common.white' }}>
-              <TableCell>{item.name}</TableCell>
-              <TableCell>{item.eservice.name}</TableCell>
-              <TableCell>{item.eservice.provider.description}</TableCell>
-              <TableCell>{COMPUTED_STATUS_LABEL[getClientComputedStatus(item)]}</TableCell>
-
-              <TableCell>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <StyledButton
-                    variant="outlined"
-                    to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_EDIT.PATH, {
-                      id: item.id,
-                    })}
-                    component={StyledLink}
-                  >
-                    Ispeziona
-                  </StyledButton>
-
-                  <ActionMenu actions={getAvailableActions(item)} index={i} />
-                </Box>
-              </TableCell>
-            </TableRow>
+            <StyledTableRow
+              cellData={[
+                { label: item.name },
+                { label: item.eservice.name },
+                { label: item.eservice.provider.description },
+                { label: COMPUTED_STATUS_LABEL[getClientComputedStatus(item)] },
+              ]}
+              index={i}
+              singleActionBtn={{
+                props: {
+                  to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_EDIT.PATH, {
+                    id: item.id,
+                  }),
+                  component: StyledLink,
+                },
+                label: 'Ispeziona',
+              }}
+              actions={getAvailableActions(item)}
+            />
           ))}
         </TableWithLoader>
       </Box>
