@@ -11,10 +11,8 @@ import { mergeActions } from '../lib/eservice-utils'
 import { getAgreementStatus } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { TableCell, TableRow } from '@mui/material'
 import { Box } from '@mui/system'
-import { StyledButton } from '../components/Shared/StyledButton'
-import { ActionMenu } from '../components/Shared/ActionMenu'
+import { StyledTableRow } from '../components/Shared/StyledTableRow'
 
 export function AgreementList() {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -167,29 +165,26 @@ export function AgreementList() {
           error={error}
         >
           {data.map((item, i) => (
-            <TableRow key={i} sx={{ bgcolor: 'common.white' }}>
-              <TableCell>{item.eservice.name}</TableCell>
-              <TableCell>{item.eservice.version}</TableCell>
-              <TableCell>{AGREEMENT_STATUS_LABEL[item.status]}</TableCell>
-              <TableCell>{mode === 'provider' ? item.consumer.name : item.producer.name}</TableCell>
-
-              <TableCell>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <StyledButton
-                    variant="outlined"
-                    to={`${
-                      ROUTES[mode === 'provider' ? 'PROVIDE' : 'SUBSCRIBE'].SUBROUTES!
-                        .AGREEMENT_LIST.PATH
-                    }/${item.id}`}
-                    component={StyledLink}
-                  >
-                    Ispeziona
-                  </StyledButton>
-
-                  <ActionMenu actions={getAvailableActions(item)} index={i} />
-                </Box>
-              </TableCell>
-            </TableRow>
+            <StyledTableRow
+              cellData={[
+                { label: item.eservice.name },
+                { label: item.eservice.version },
+                { label: AGREEMENT_STATUS_LABEL[item.status] },
+                { label: mode === 'provider' ? item.consumer.name : item.producer.name },
+              ]}
+              index={i}
+              singleActionBtn={{
+                props: {
+                  to: `${
+                    ROUTES[mode === 'provider' ? 'PROVIDE' : 'SUBSCRIBE'].SUBROUTES!.AGREEMENT_LIST
+                      .PATH
+                  }/${item.id}`,
+                  component: StyledLink,
+                },
+                label: 'Ispeziona',
+              }}
+              actions={getAvailableActions(item)}
+            />
           ))}
         </TableWithLoader>
       </Box>

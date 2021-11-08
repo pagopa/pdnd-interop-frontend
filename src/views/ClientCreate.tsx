@@ -1,14 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
+import { useForm } from 'react-hook-form'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { MEDIUM_MAX_WIDTH, ROUTES } from '../lib/constants'
-import { StyledInputText } from '../components/Shared/StyledInputText'
-import { StyledInputSelect } from '../components/Shared/StyledInputSelect'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { EServiceReadType } from '../../types'
+import { EServiceReadType, SelectOption } from '../../types'
 import { PartyContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
+import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
+import { requiredValidationPattern } from '../lib/validation'
+import { StyledInputControlledSelect } from '../components/Shared/StyledInputControlledSelect'
 
 type ClientSubmit = {
   name: string
@@ -19,48 +21,34 @@ type ClientSubmit = {
 }
 
 export function ClientCreate() {
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm()
+
   const { runActionWithDestination } = useFeedback()
   const { party } = useContext(PartyContext)
-  const [data, setData] = useState<Partial<ClientSubmit>>({})
-  const { data: eserviceData } = useAsyncFetch<EServiceReadType[]>(
+  const { data: eserviceData } = useAsyncFetch<EServiceReadType[], SelectOption[]>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST' },
       config: { params: { consumerId: party?.partyId } },
     },
     {
       defaultValue: [],
-      mapFn: (data) => {
-        console.log(data)
-        return data
-      },
+      mapFn: (data) => data.map((d) => ({ value: d.id, label: d.name })),
       loadingTextLabel: 'Stiamo caricando gli e-service associabili al client',
     }
   )
 
-  const wrapSetData = (id: keyof ClientSubmit) => (e: any) => {
-    setData({ ...data, [id]: e.target.value })
-  }
-
-  const handleSubmit = async (e: any) => {
-    // Avoid page reload
-    e.preventDefault()
+  const onSubmit = async (data: Partial<ClientSubmit>) => {
+    const dataToPost = { ...data, consumerInstitutionId: party?.institutionId }
 
     await runActionWithDestination(
-      { path: { endpoint: 'CLIENT_CREATE' }, config: { data } },
+      { path: { endpoint: 'CLIENT_CREATE' }, config: { data: dataToPost } },
       { destination: ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST, suppressToast: false }
     )
   }
-
-  useEffect(() => {
-    // When e-service data is loaded, set the e-service select to the first available value
-    if (eserviceData.length > 0) {
-      setData({
-        ...data,
-        eServiceId: eserviceData[0].id,
-        consumerInstitutionId: party?.institutionId,
-      })
-    }
-  }, [eserviceData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <React.Fragment>
@@ -72,38 +60,43 @@ export function ClientCreate() {
         }}
       </StyledIntro>
 
-      <StyledForm onSubmit={handleSubmit} style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
-        <StyledInputText
-          id="name"
+      <StyledForm onSubmit={handleSubmit(onSubmit)} style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
+        <StyledInputControlledText
+          name="name"
           label="Nome del client*"
-          value={data['name'] || ''}
-          onChange={wrapSetData('name')}
+          control={control}
+          rules={{ required: requiredValidationPattern }}
+          errors={errors}
         />
 
-        <StyledInputText
-          id="description"
+        <StyledInputControlledText
+          name="description"
           label="Descrizione del client*"
-          value={data['description'] || ''}
-          onChange={wrapSetData('description')}
+          control={control}
+          rules={{ required: requiredValidationPattern }}
+          errors={errors}
         />
 
-        <StyledInputSelect
-          id="eserviceId"
+        <StyledInputControlledSelect
+          name="eserviceId"
           label="E-service da associare*"
+          control={control}
+          rules={{ required: requiredValidationPattern }}
+          errors={errors}
           disabled={eserviceData.length === 0}
-          options={eserviceData.map((s) => ({ value: s.id, label: s.name }))}
-          onChange={wrapSetData('eServiceId')}
-          currentValue={data.eServiceId}
+          options={eserviceData}
+          defaultValue={Boolean(eserviceData.length > 0) ? eserviceData[0].value : null}
         />
 
-        <StyledInputText
-          id="purposes"
+        <StyledInputControlledText
+          name="purposes"
           label="Finalità*"
-          value={data['purposes'] || ''}
-          onChange={wrapSetData('purposes')}
+          control={control}
+          rules={{ required: requiredValidationPattern }}
+          errors={errors}
         />
 
-        <StyledButton sx={{ mt: '1.5rem' }} variant="contained" type="submit" disabled={false}>
+        <StyledButton sx={{ mt: '1.5rem' }} variant="contained" type="submit">
           Crea client
         </StyledButton>
       </StyledForm>

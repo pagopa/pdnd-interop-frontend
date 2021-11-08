@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useHistory, useLocation } from 'react-router'
 import isEmpty from 'lodash/isEmpty'
 import { useLogin } from '../hooks/useLogin'
 import { PlatformUserForm } from './Shared/PlatformUserForm'
@@ -6,17 +7,26 @@ import { StyledIntro } from './Shared/StyledIntro'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
 import { Box } from '@mui/system'
-import { NARROW_MAX_WIDTH } from '../lib/constants'
+import { NARROW_MAX_WIDTH, ROUTES } from '../lib/constants'
 import { UserOnCreate } from '../../types'
 
 export function TempSPIDUser() {
   const [data, setData] = useState<Record<string, UserOnCreate>>({})
   const { setTestSPIDUser } = useLogin()
+  const history = useHistory()
+  const location = useLocation()
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
     setTestSPIDUser({ ...data['spid'], status: 'active' })
   }
+
+  // If the user hasn't accepted the privacy policy, go back to login
+  useEffect(() => {
+    if (isEmpty(location.state) || !(location.state as any).privacy) {
+      history.replace(ROUTES.LOGIN.PATH)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <React.Fragment>

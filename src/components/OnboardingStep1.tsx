@@ -1,39 +1,33 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import isEmpty from 'lodash/isEmpty'
-import { IPACatalogParty, PartyOnCreate, StepperStepComponentProps } from '../../types'
+import { IPACatalogParty, StepperStepComponentProps } from '../../types'
 import { NARROW_MAX_WIDTH, ROUTES } from '../lib/constants'
 import { OnboardingStepActions } from './OnboardingStepActions'
-import { StyledAsyncAutocomplete } from './Shared/StyledAsyncAutocomplete'
 import { StyledIntro } from './Shared/StyledIntro'
 import { StyledLink } from './Shared/StyledLink'
+import { requiredValidationPattern } from '../lib/validation'
+import { StyledInputControlledAsyncAutocomplete } from './Shared/StyledInputControlledAsyncAutocomplete'
+import { StyledForm } from './Shared/StyledForm'
 
 export function OnboardingStep1({ forward, data }: StepperStepComponentProps) {
-  const history = useHistory()
-  const [selected, setSelected] = useState<IPACatalogParty | null>()
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({ defaultValues: data.party })
 
-  const onForwardAction = () => {
-    const catalogParty: IPACatalogParty = selected!
-    const { description, digitalAddress, id } = catalogParty
-    const platformParty: PartyOnCreate = { description, institutionId: id, digitalAddress }
-    forward!(platformParty)
+  const history = useHistory()
+
+  const onForwardAction = ({ partySelection }: Record<string, IPACatalogParty>) => {
+    forward!(partySelection)
   }
 
   const goToChooseParty = () => {
     history.push(ROUTES.CHOOSE_PARTY.PATH)
   }
-
-  const updateSelected = (_: any, newSelected: IPACatalogParty | null) => {
-    setSelected(newSelected)
-  }
-
-  useEffect(() => {
-    if (!isEmpty(data.party)) {
-      setSelected(data.party)
-    }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <React.Fragment>
@@ -45,31 +39,38 @@ export function OnboardingStep1({ forward, data }: StepperStepComponentProps) {
         }}
       </StyledIntro>
 
-      <Box sx={{ maxWidth: NARROW_MAX_WIDTH, mx: 'auto' }}>
-        <Box sx={{ my: '4rem' }}>
-          <StyledAsyncAutocomplete
-            selected={selected}
-            setSelected={updateSelected}
-            placeholder="Cerca ente nel catalogo IPA"
-            path={{ endpoint: 'ONBOARDING_GET_SEARCH_PARTIES' }}
-            transformFn={(data: { items: IPACatalogParty[] }) => data.items}
-            labelKey="description"
-          />
+      <StyledForm onSubmit={handleSubmit(onForwardAction)}>
+        <Box sx={{ maxWidth: NARROW_MAX_WIDTH, mx: 'auto' }}>
+          <Box sx={{ my: 6 }}>
+            <StyledInputControlledAsyncAutocomplete
+              label="Seleziona ente"
+              defaultValue={data.party || null}
+              placeholder="Cerca ente nel catalogo IPA"
+              path={{ endpoint: 'ONBOARDING_GET_SEARCH_PARTIES' }}
+              transformFn={(data: { items: IPACatalogParty[] }) => data.items}
+              labelKey="description"
+              name="partySelection"
+              control={control}
+              rules={{ required: requiredValidationPattern }}
+              errors={errors}
+            />
+          </Box>
+
+          <Box>
+            <Typography variant="caption">
+              Non trovi il tuo Ente nell’indice IPA?{' '}
+              <StyledLink to={ROUTES.IPA_GUIDE.PATH}>Clicca qui</StyledLink> per maggiori
+              informazioni e istruzioni per essere inclusi nell’indice delle Pubbliche
+              Amministrazioni
+            </Typography>
+          </Box>
         </Box>
 
-        <Box>
-          <Typography variant="caption">
-            Non trovi il tuo Ente nell’indice IPA?{' '}
-            <StyledLink to={ROUTES.IPA_GUIDE.PATH}>Clicca qui</StyledLink> per maggiori informazioni
-            e istruzioni per essere inclusi nell’indice delle Pubbliche Amministrazioni
-          </Typography>
-        </Box>
-      </Box>
-
-      <OnboardingStepActions
-        back={{ action: goToChooseParty, label: 'Indietro' }}
-        forward={{ action: onForwardAction, label: 'Conferma', disabled: !selected }}
-      />
+        <OnboardingStepActions
+          back={{ action: goToChooseParty, label: 'Indietro' }}
+          forward={{ label: 'Conferma' }}
+        />
+      </StyledForm>
     </React.Fragment>
   )
 }

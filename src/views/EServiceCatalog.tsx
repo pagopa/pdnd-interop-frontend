@@ -13,15 +13,12 @@ import { useExtensionDialog } from '../hooks/useExtensionDialog'
 import { buildDynamicPath } from '../lib/url-utils'
 import { StyledTooltip } from '../components/Shared/StyledTooltip'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { StyledButton } from '../components/Shared/StyledButton'
-import { TableCell, TableRow } from '@mui/material'
-import { Box } from '@mui/system'
-import { ActionMenu } from '../components/Shared/ActionMenu'
 import {
   Lock as LockIcon,
   CheckCircle as CheckCircleIcon,
   Cancel as CancelIcon,
 } from '@mui/icons-material'
+import { StyledTableRow } from '../components/Shared/StyledTableRow'
 
 type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
   isMine: boolean
@@ -99,6 +96,27 @@ export function EServiceCatalog() {
     return actions
   }
 
+  const getTooltip = (item: ExtendedEServiceFlatReadType, canSubscribeEservice: boolean) => {
+    if (item.isMine) {
+      return <OwnerTooltip label="Sei l'erogatore" Icon={LockIcon} />
+    }
+
+    if (item.callerSubscribed && isAdmin(party)) {
+      return <OwnerTooltip label="Sei già iscritto" Icon={CheckCircleIcon} />
+    }
+
+    if (!item.isMine && !canSubscribeEservice) {
+      return (
+        <OwnerTooltip
+          label="Il tuo ente non ha gli attributi certificati necessari per iscriversi"
+          Icon={CancelIcon}
+        />
+      )
+    }
+
+    return null
+  }
+
   return (
     <React.Fragment>
       <StyledIntro>
@@ -121,42 +139,28 @@ export function EServiceCatalog() {
       >
         {data.map((item, i) => {
           const canSubscribeEservice = canSubscribe(party?.attributes, item.certifiedAttributes)
-
+          const tooltip = getTooltip(item, canSubscribeEservice)
           return (
-            <TableRow key={i} sx={{ bgcolor: 'common.white' }}>
-              <TableCell>
-                {item.name}
-                {item.isMine && <OwnerTooltip label="Sei l'erogatore" Icon={LockIcon} />}
-                {item.callerSubscribed && isAdmin(party) && (
-                  <OwnerTooltip label="Sei già iscritto" Icon={CheckCircleIcon} />
-                )}
-                {!item.isMine && !canSubscribeEservice && (
-                  <OwnerTooltip
-                    label="Il tuo ente non ha gli attributi certificati necessari per iscriversi"
-                    Icon={CancelIcon}
-                  />
-                )}
-              </TableCell>
-              <TableCell>{item.producerName}</TableCell>
-              <TableCell>{item.version}</TableCell>
-              <TableCell>{ESERVICE_STATUS_LABEL[item.status!]}</TableCell>
-              <TableCell>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <StyledButton
-                    variant="outlined"
-                    component={StyledLink}
-                    to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
-                      eserviceId: item.id,
-                      descriptorId: item.descriptorId!,
-                    })}
-                  >
-                    Ispeziona
-                  </StyledButton>
-
-                  <ActionMenu actions={getAvailableActions(item, canSubscribeEservice)} index={i} />
-                </Box>
-              </TableCell>
-            </TableRow>
+            <StyledTableRow
+              cellData={[
+                { label: item.name, tooltip },
+                { label: item.producerName },
+                { label: item.version! },
+                { label: ESERVICE_STATUS_LABEL[item.status!] },
+              ]}
+              index={i}
+              singleActionBtn={{
+                props: {
+                  to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
+                    eserviceId: item.id,
+                    descriptorId: item.descriptorId!,
+                  }),
+                  component: StyledLink,
+                },
+                label: 'Ispeziona',
+              }}
+              actions={getAvailableActions(item, canSubscribeEservice)}
+            />
           )
         })}
       </TableWithLoader>

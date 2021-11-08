@@ -97,7 +97,7 @@ export function EServiceAttributeGroup({
               L'attributo non è presente nella lista?
             </Typography>
             <StyledLink component="button" onClick={buildShowModal('create')}>
-              Crealo qui!
+              <Typography component="span">Crealo qui!</Typography>
             </StyledLink>
           </Typography>
         )}
