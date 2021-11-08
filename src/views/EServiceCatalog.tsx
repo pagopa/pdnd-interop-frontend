@@ -142,6 +142,7 @@ export function EServiceCatalog() {
           const tooltip = getTooltip(item, canSubscribeEservice)
           return (
             <StyledTableRow
+              key={i}
               cellData={[
                 { label: item.name, tooltip },
                 { label: item.producerName },
