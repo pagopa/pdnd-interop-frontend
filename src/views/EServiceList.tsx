@@ -18,9 +18,8 @@ import { AxiosResponse } from 'axios'
 import { buildDynamicPath } from '../lib/url-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { TableCell, TableRow } from '@mui/material'
-import { ActionMenu } from '../components/Shared/ActionMenu'
 import { Box } from '@mui/system'
+import { StyledTableRow } from '../components/Shared/StyledTableRow'
 
 export function EServiceList() {
   const { runAction, runFakeAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -231,27 +230,25 @@ export function EServiceList() {
           error={error}
         >
           {data.map((item, i) => (
-            <TableRow key={i} sx={{ bgcolor: 'common.white' }}>
-              <TableCell>{item.name}</TableCell>
-              <TableCell>{item.version || '1'}</TableCell>
-              <TableCell>{ESERVICE_STATUS_LABEL[item.status || 'draft']}</TableCell>
-              <TableCell>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <StyledButton
-                    variant="outlined"
-                    to={buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE_EDIT.PATH, {
-                      eserviceId: item.id,
-                      descriptorId: item.descriptorId || 'prima-bozza',
-                    })}
-                    component={StyledLink}
-                  >
-                    {!item.status || item.status === 'draft' ? 'Modifica' : 'Ispeziona'}
-                  </StyledButton>
-
-                  <ActionMenu actions={getAvailableActions(item)} index={i} />
-                </Box>
-              </TableCell>
-            </TableRow>
+            <StyledTableRow
+              cellData={[
+                { label: item.name },
+                { label: item.version || '1' },
+                { label: ESERVICE_STATUS_LABEL[item.status || 'draft'] },
+              ]}
+              index={i}
+              singleActionBtn={{
+                props: {
+                  to: buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE_EDIT.PATH, {
+                    eserviceId: item.id,
+                    descriptorId: item.descriptorId || 'prima-bozza',
+                  }),
+                  component: StyledLink,
+                },
+                label: !item.status || item.status === 'draft' ? 'Modifica' : 'Ispeziona',
+              }}
+              actions={getAvailableActions(item)}
+            />
           ))}
         </TableWithLoader>
       </Box>
