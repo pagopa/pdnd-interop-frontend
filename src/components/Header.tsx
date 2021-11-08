@@ -36,8 +36,8 @@ export function Header() {
               py: 3,
             }}
           >
-            <StyledLink to="/">
-              <img src={logo} alt="Logo PagoPA" />
+            <StyledLink to="/" sx={{ display: 'flex' }}>
+              <Box component="img" src={logo} alt="Logo PagoPA" sx={{ margin: 'auto' }} />
             </StyledLink>
             <StyledButton variant="contained" component={StyledLink} to={btnPath}>
               {btnLabel}
