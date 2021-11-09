@@ -1,35 +1,40 @@
 import React from 'react'
-import { Route, Switch } from 'react-router'
-import { Redirect } from 'react-router-dom'
-import { RouteConfig, RoutesObject } from '../../types'
+import { Route, Routes, Navigate } from 'react-router-dom'
 import { AuthGuard } from './AuthGuard'
+import { RouteConfig } from '../../types'
 
 type SubroutingProps = {
-  subroutes: RoutesObject
-  redirectDestRoute?: RouteConfig
-  redirectSrcRoute?: RouteConfig
+  subroutes: Array<RouteConfig>
+  rootRedirect?: string
 }
 
-export function ProtectedSubroutes({
-  subroutes,
-  redirectSrcRoute,
-  redirectDestRoute,
-}: SubroutingProps) {
+export function ProtectedSubroutes({ subroutes, rootRedirect }: SubroutingProps) {
   return (
-    <React.Fragment>
-      <Switch>
-        {Object.values(subroutes).map(({ PATH, COMPONENT, PUBLIC, AUTH_LEVELS }, i) => (
-          <Route path={PATH} key={i}>
-            <AuthGuard Component={COMPONENT} isRoutePublic={PUBLIC} authLevels={AUTH_LEVELS} />
-          </Route>
-        ))}
+    <Routes>
+      {subroutes.map(({ element: Component, render = true, config, label, path, children }, i) => {
+        const redirectToFirstChild =
+          !render && children ? Object.values(children)[0].path : undefined
 
-        {redirectSrcRoute && redirectDestRoute && (
-          <Route path={redirectSrcRoute.PATH}>
-            <Redirect to={redirectDestRoute.PATH} />
-          </Route>
-        )}
-      </Switch>
-    </React.Fragment>
+        return (
+          <Route
+            key={i}
+            path={children || !render ? `${path}/*` : path}
+            element={
+              <AuthGuard {...config}>
+                {render && <Component />}
+                {children && (
+                  <ProtectedSubroutes
+                    subroutes={Object.values(children)}
+                    rootRedirect={redirectToFirstChild}
+                  />
+                )}
+              </AuthGuard>
+            }
+          />
+        )
+      })}
+
+      {rootRedirect && <Route path="/" element={<Navigate to={rootRedirect} />} />}
+    </Routes>
   )
 }

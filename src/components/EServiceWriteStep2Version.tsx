@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { AxiosResponse } from 'axios'
 import isEmpty from 'lodash/isEmpty'
 import { Box } from '@mui/system'
@@ -34,7 +34,7 @@ export function EServiceWriteStep2Version({
     formState: { errors },
   } = useForm()
 
-  const history = useHistory()
+  const navigate = useNavigate()
   const { runActionWithCallback } = useFeedback()
 
   // Pre-fill if there is already a draft of the service available
@@ -93,12 +93,12 @@ export function EServiceWriteStep2Version({
       // a change of route, we are still in the 'ESERVICE_EDIT' route.
       // The EServiceGate component rerenders because we added "history.location"
       // as a useEffect dependency in EServiceGate useAsyncFetch hook
-      history.replace(
-        buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE_EDIT.PATH, {
+      navigate(
+        buildDynamicPath(ROUTES.provide.children!.eservice.children!.edit.path, {
           eserviceId: fetchedData.id,
           descriptorId,
         }),
-        { stepIndexDestination: 2 }
+        { replace: true, state: { stepIndexDestination: 2 } }
       )
     } else {
       // Go to next step

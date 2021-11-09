@@ -15,11 +15,12 @@ import { PartyContext } from '../lib/context'
 import { isActiveTree } from '../lib/router-utils'
 import { StyledLink } from './Shared/StyledLink'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
+import { buildNestedUrl } from '../lib/url-utils'
 
 type View = {
   route: RouteConfig
   type?: ProviderOrSubscriber
-  children?: RouteConfig[]
+  children?: Array<RouteConfig>
 }
 
 type Views = { [key in UserPlatformRole]: View[] }
@@ -39,12 +40,16 @@ export function MainNav() {
     return isActiveTree(location, path) ? 600 : 300
   }
 
-  const WrappedLink = ({ route: { PATH, LABEL } }: { route: RouteConfig }) => {
+  const WrappedLink = ({ route }: { route: RouteConfig }) => {
+    const builtPath = buildNestedUrl(route)
+
     return (
-      <StyledLink underline="none" to={PATH}>
+      <StyledLink underline="none" to={builtPath}>
         <ListItemText
           disableTypography
-          primary={<Typography sx={{ fontWeight: computeFontWeight(PATH) }}>{LABEL}</Typography>}
+          primary={
+            <Typography sx={{ fontWeight: computeFontWeight(builtPath) }}>{route.label}</Typography>
+          }
         />
       </StyledLink>
     )
@@ -53,38 +58,38 @@ export function MainNav() {
   const views: Views = {
     admin: [
       {
-        route: ROUTES.PROVIDE,
+        route: ROUTES.provide,
         type: 'provider',
         children: [
-          ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST,
-          ROUTES.PROVIDE.SUBROUTES!.AGREEMENT_LIST,
-          ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_LIST,
+          ROUTES.provide.children!.eservice.children!.list,
+          ROUTES.provide.children!.agreement.children!.list,
+          ROUTES.provide.children!.operator.children!.list,
         ],
       },
       {
-        route: ROUTES.SUBSCRIBE,
+        route: ROUTES.subscribe,
         type: 'subscriber',
         children: [
-          ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST,
-          ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST,
-          ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST,
+          ROUTES.subscribe.children!.catalog.children!.list,
+          ROUTES.subscribe.children!.client.children!.list,
+          ROUTES.subscribe.children!.agreement.children!.list,
         ],
       },
     ],
     api: [
       {
-        route: ROUTES.PROVIDE,
+        route: ROUTES.provide,
         type: 'provider',
-        children: [ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST],
+        children: [ROUTES.provide.children!.eservice.children!.list],
       },
     ],
     security: [
       {
-        route: ROUTES.SUBSCRIBE,
+        route: ROUTES.subscribe,
         type: 'subscriber',
         children: [
-          ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST,
-          ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST,
+          ROUTES.subscribe.children!.catalog.children!.list,
+          ROUTES.subscribe.children!.client.children!.list,
         ],
       },
     ],
@@ -92,9 +97,9 @@ export function MainNav() {
 
   const availableViews = [
     ...views[party?.platformRole || 'security'],
-    { route: ROUTES.NOTIFICATION },
-    { route: ROUTES.PROFILE },
-    { route: ROUTES.HELP },
+    { route: ROUTES.notification },
+    { route: ROUTES.profile },
+    { route: ROUTES.help },
   ]
 
   return (
@@ -131,8 +136,8 @@ export function MainNav() {
                 <ListItemText
                   disableTypography
                   primary={
-                    <Typography sx={{ fontWeight: computeFontWeight(view.route.PATH) }}>
-                      {view.route.LABEL}
+                    <Typography sx={{ fontWeight: computeFontWeight(view.route.path) }}>
+                      {view.route.label}
                     </Typography>
                   }
                 />

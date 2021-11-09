@@ -7,7 +7,7 @@ import { EServiceWriteStep2Version } from '../components/EServiceWriteStep2Versi
 import { EServiceWriteStep3Agreement } from '../components/EServiceWriteStep3Agreement'
 import { EServiceWriteStep4Documents } from '../components/EServiceWriteStep4Documents'
 import { StyledStepper } from '../components/Shared/StyledStepper'
-import { useHistory } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { scrollToTop } from '../lib/page-utils'
 
 const STEPS: StepperStep[] = [
@@ -27,18 +27,18 @@ export type EServiceWriteStepProps = {
 
 export function EServiceWrite({ fetchedDataMaybe }: EServiceWriteProps) {
   const [activeStep, setActiveStep] = useState(0)
-  const history = useHistory()
+  const location = useLocation()
 
   // Handles which step to go to after a "creation" action has been performed
   // and a history.replace action has taken place and the whole EServiceGate
   // component has rerendered and fetched fresh data
   useEffect(() => {
-    const { state } = history.location
+    const { state } = location
 
     if (!isEmpty(state) && has(state, 'stepIndexDestination')) {
       goToStep((state as any).stepIndexDestination)
     }
-  }, [history.location])
+  }, [location])
 
   /*
    * Stepper actions

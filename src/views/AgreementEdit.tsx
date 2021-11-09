@@ -78,7 +78,7 @@ export function AgreementEdit() {
       {
         path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } },
       },
-      { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST, suppressToast: false }
+      { destination: ROUTES.subscribe.children!.agreement.children!.list, suppressToast: false }
     )
   }
 
@@ -214,7 +214,7 @@ export function AgreementEdit() {
       <DescriptionBlock label="Accordo relativo a">
         <Box style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
           <StyledLink
-            to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
+            to={buildDynamicPath(ROUTES.subscribe.children!.catalog.children!.edit.path, {
               eserviceId: data?.eservice.id,
               descriptorId: data?.eserviceDescriptorId,
             })}
@@ -228,7 +228,7 @@ export function AgreementEdit() {
               {' '}
               (è disponibile una{' '}
               <StyledLink
-                to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
+                to={buildDynamicPath(ROUTES.subscribe.children!.catalog.children!.edit.path, {
                   eserviceId: data?.eservice.id,
                   descriptorId: data?.eservice.activeDescriptor.id,
                 })}

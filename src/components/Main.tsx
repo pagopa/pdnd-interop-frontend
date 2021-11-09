@@ -1,31 +1,18 @@
 import React, { useContext } from 'react'
 import { Box } from '@mui/system'
-import { Redirect, Route, Switch } from 'react-router-dom'
-import { BASE_ROUTE, ROUTES, SHOW_DEV_LABELS } from '../lib/constants'
+import { ROUTES, SHOW_DEV_LABELS } from '../lib/constants'
 import { UserContext } from '../lib/context'
-import { AuthGuard } from './AuthGuard'
+import { ProtectedSubroutes } from './ProtectedSubroutes'
 
 export function Main() {
   const { user } = useContext(UserContext)
 
   return (
     <Box component="main" sx={{ pb: 4 }} className={!SHOW_DEV_LABELS ? ' hideDevLabels' : ''}>
-      <Switch>
-        {Object.values(ROUTES).map(({ PATH, COMPONENT, PUBLIC, AUTH_LEVELS }, i) => (
-          <Route path={PATH} key={i}>
-            <AuthGuard Component={COMPONENT} isRoutePublic={PUBLIC} authLevels={AUTH_LEVELS} />
-          </Route>
-        ))}
-
-        <Route path="/">
-          <Redirect to={BASE_ROUTE} />
-        </Route>
-
-        {/* If on the ROOT, redirect to platform or login page based on whether the user is logged in */}
-        <Route path={BASE_ROUTE}>
-          <Redirect to={user !== null ? ROUTES.SUBSCRIBE.PATH : ROUTES.LOGIN.PATH} />
-        </Route>
-      </Switch>
+      <ProtectedSubroutes
+        subroutes={Object.values(ROUTES)}
+        rootRedirect={user !== null ? 'fruizione' : 'login'}
+      />
     </Box>
   )
 }

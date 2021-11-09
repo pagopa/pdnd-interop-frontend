@@ -15,7 +15,7 @@ export function Header() {
   const location = useLocation()
   const { party, availableParties, setParty } = useContext(PartyContext)
   const { user } = useContext(UserContext)
-  const { PATH: btnPath, LABEL: btnLabel } = user ? ROUTES.LOGOUT : ROUTES.LOGIN
+  const { path: btnPath, label: btnLabel } = user ? ROUTES.logout : ROUTES.login
 
   const updateActiveParty = (event: SelectChangeEvent<string>) => {
     const newPartyInstitutionId = event.target.value

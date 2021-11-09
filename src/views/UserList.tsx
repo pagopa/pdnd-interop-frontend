@@ -148,8 +148,9 @@ export function UserList() {
   }
 
   const CREATE_ACTIONS = {
-    provider: ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_CREATE,
-    subscriber: ROUTES.SUBSCRIBE.SUBROUTES!.OPERATOR_SECURITY_CREATE,
+    provider: ROUTES.provide.children!.operator.children!.create,
+    subscriber:
+      ROUTES.subscribe.children!.client.children!.edit.children!.operator.children!.create,
   }
   /*
    * End labels and buttons
@@ -164,11 +165,11 @@ export function UserList() {
           <StyledButton
             variant="contained"
             component={StyledLink}
-            to={`${CREATE_ACTIONS[mode!].PATH}${
+            to={`${CREATE_ACTIONS[mode!].path}${
               mode === 'subscriber' ? `?clientId=${clientId}` : ''
             }`}
           >
-            {CREATE_ACTIONS[mode!].LABEL}
+            {CREATE_ACTIONS[mode!].label}
           </StyledButton>
         )}
 
@@ -200,13 +201,16 @@ export function UserList() {
                 props: {
                   to:
                     mode === 'provider'
-                      ? buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_EDIT.PATH, {
+                      ? buildDynamicPath(ROUTES.provide.children!.operator.children!.edit.path, {
                           id: (item.taxCode || item.from) as string,
                         })
-                      : buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.OPERATOR_SECURITY_EDIT.PATH, {
-                          clientId,
-                          operatorId: item.taxCode,
-                        }),
+                      : buildDynamicPath(
+                          ROUTES.subscribe.children!.client.children!.operator.children!.edit.path,
+                          {
+                            clientId,
+                            operatorId: item.taxCode,
+                          }
+                        ),
                   component: StyledLink,
                 },
                 label: '',

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import {
@@ -23,7 +23,7 @@ import { StyledTableRow } from '../components/Shared/StyledTableRow'
 
 export function EServiceList() {
   const { runAction, runFakeAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
-  const history = useHistory()
+  const navigate = useNavigate()
   const { party } = useContext(PartyContext)
   const { data, loadingText, error } = useAsyncFetch<EServiceFlatReadType[]>(
     {
@@ -123,12 +123,12 @@ export function EServiceList() {
     if (outcome === 'success') {
       const successResponse = response as AxiosResponse<EServiceDescriptorRead>
       const descriptorId = successResponse.data.id
-      history.push(
-        buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE_EDIT.PATH, {
+      navigate(
+        buildDynamicPath(ROUTES.provide.children!.eservice.children!.edit.path, {
           eserviceId,
           descriptorId,
         }),
-        { stepIndexDestination: 1 }
+        { state: { stepIndexDestination: 1 } }
       )
     }
   }
@@ -214,9 +214,9 @@ export function EServiceList() {
         <StyledButton
           variant="contained"
           component={StyledLink}
-          to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.PATH}
+          to={ROUTES.provide.children!.eservice.children!.create.path}
         >
-          {ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.LABEL}
+          + Aggiungi
         </StyledButton>
 
         <TempFilters />
@@ -240,7 +240,7 @@ export function EServiceList() {
               index={i}
               singleActionBtn={{
                 props: {
-                  to: buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE_EDIT.PATH, {
+                  to: buildDynamicPath(ROUTES.provide.children!.eservice.children!.edit.path, {
                     eserviceId: item.id,
                     descriptorId: item.descriptorId || 'prima-bozza',
                   }),

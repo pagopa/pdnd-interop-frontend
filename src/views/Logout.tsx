@@ -1,12 +1,12 @@
 import { useContext, useEffect } from 'react'
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { PartyContext, UserContext } from '../lib/context'
 import { storageDelete } from '../lib/storage-utils'
 
 export function Logout() {
   const { setParty, setAvailableParties } = useContext(PartyContext)
   const { setUser } = useContext(UserContext)
-  const history = useHistory()
+  const navigate = useNavigate()
 
   useEffect(() => {
     // clean up user
@@ -20,7 +20,7 @@ export function Logout() {
     storageDelete('currentParty')
 
     // go back to homepage (which will redirect to login)
-    history.push('/')
+    navigate('/')
   }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
   return null

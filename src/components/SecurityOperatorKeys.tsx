@@ -126,7 +126,7 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
             <React.Fragment>
               Per maggiori dettagli,{' '}
               <StyledLink
-                to={ROUTES.SECURITY_KEY_GUIDE.PATH}
+                to={ROUTES.securityKeyGuide.path}
                 title="Vai alla guida per la creazione delle chiavi di sicurezza"
                 target="_blank"
                 rel="noreferrer noopener"

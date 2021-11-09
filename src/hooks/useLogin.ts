@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import { AxiosResponse } from 'axios'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Party, User } from '../../types'
 import { fetchAllWithLogs, fetchWithLogs } from '../lib/api-utils'
 import { ROUTES } from '../lib/constants'
@@ -10,9 +10,10 @@ import { isFetchError } from '../lib/error-utils'
 import { testBearerToken } from '../lib/mock-static-data'
 import { storageDelete, storageRead, storageWrite } from '../lib/storage-utils'
 import { sleep } from '../lib/wait-utils'
+import { logAction } from '../lib/action-log'
 
 export const useLogin = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const { setLoadingText } = useContext(LoaderContext)
   const { setUser } = useContext(UserContext)
   const { setAvailableParties, setParty } = useContext(PartyContext)
@@ -90,7 +91,7 @@ export const useLogin = () => {
     await fetchAndSetAvailableParties(testUserData.taxCode)
 
     // Go to choice view
-    history.push(ROUTES.CHOOSE_PARTY.PATH)
+    navigate(ROUTES.chooseParty.path)
   }
 
   // This happens when the user does a hard refresh when logged in
@@ -99,7 +100,7 @@ export const useLogin = () => {
   // WARNING: this is not secure and will ultimately be rewritten
   // See PIN-403
   const attemptSilentLogin = async (): Promise<boolean> => {
-    console.log('attempting silent login')
+    logAction('Attempt silent login')
     const sessionStorageUser = storageRead('user', 'object')
     const sessionStorageParty = storageRead('currentParty', 'object')
     const sessionStorageBearerToken = storageRead('bearer', 'string')
@@ -110,6 +111,8 @@ export const useLogin = () => {
       storageDelete('user')
       storageDelete('currentParty')
       storageDelete('bearer')
+      // Log action result
+      logAction('Silent login failed')
       // Return failure
       return false
     }
@@ -122,6 +125,9 @@ export const useLogin = () => {
 
     // In the end, set the user to the last known party
     setParty(sessionStorageParty)
+
+    // Log action result
+    logAction('Silent login success')
 
     // Return success
     return true

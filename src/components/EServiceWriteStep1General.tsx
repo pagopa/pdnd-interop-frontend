@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { AxiosResponse } from 'axios'
 import isEmpty from 'lodash/isEmpty'
 import { Box } from '@mui/system'
@@ -42,7 +42,7 @@ export function EServiceWriteStep1General({
   } = useForm()
 
   const { party } = useContext(PartyContext)
-  const history = useHistory()
+  const navigate = useNavigate()
   const { runActionWithCallback } = useFeedback()
 
   // Attributes are separated from the rest of the data.
@@ -96,12 +96,12 @@ export function EServiceWriteStep1General({
       // Replace the create route with the acutal eserviceId, now that we have it.
       // WARNING: this will cause a re-render that will fetch fresh data
       // at the EServiceGate component level
-      history.replace(
-        buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE_EDIT.PATH, {
+      navigate(
+        buildDynamicPath(ROUTES.provide.children!.eservice.children!.edit.path, {
           eserviceId,
           descriptorId: tempDescriptorId,
         }),
-        { stepIndexDestination: 1 }
+        { replace: true, state: { stepIndexDestination: 1 } }
       )
     } else {
       // Go to next step
@@ -184,7 +184,7 @@ export function EServiceWriteStep1General({
           <StyledButton
             variant="outlined"
             component={StyledLink}
-            to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}
+            to={ROUTES.provide.children!.eservice.children!.list.path}
           >
             Torna agli e-service
           </StyledButton>

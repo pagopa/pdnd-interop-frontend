@@ -6,7 +6,7 @@ import { useLogin } from '../hooks/useLogin'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { NARROW_MAX_WIDTH, ROUTES, USE_MOCK_SPID_USER } from '../lib/constants'
 import { mockSPIDUser } from '../lib/mock-static-data'
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Box } from '@mui/system'
 import { informativaPrivacy } from '../lib/legal'
@@ -28,7 +28,7 @@ export function Login() {
     getValues,
     formState: { errors },
   } = useForm()
-  const history = useHistory()
+  const navigate = useNavigate()
   const [privacy, setPrivacy] = useState(false)
   const { setTestSPIDUser } = useLogin()
   const watchPrivacyCheckbox = watch('privacyHandle')
@@ -42,7 +42,7 @@ export function Login() {
     if (privacyHandle) {
       USE_MOCK_SPID_USER
         ? await setTestSPIDUser(mockSPIDUser)
-        : history.push(ROUTES.TEMP_SPID_USER.PATH, { privacy: true })
+        : navigate(ROUTES.tempSpidUser.path, { state: { privacy: true } })
     }
   }
 

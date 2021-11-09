@@ -105,9 +105,9 @@ export function ClientList() {
           <StyledButton
             variant="contained"
             component={StyledLink}
-            to={ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_CREATE.PATH}
+            to={ROUTES.subscribe.children!.client.children!.create.path}
           >
-            {ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_CREATE.LABEL}
+            + Aggiungi
           </StyledButton>
         )}
 
@@ -133,7 +133,7 @@ export function ClientList() {
               index={i}
               singleActionBtn={{
                 props: {
-                  to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_EDIT.PATH, {
+                  to: buildDynamicPath(ROUTES.subscribe.children!.client.children!.edit.path, {
                     id: item.id,
                   }),
                   component: StyledLink,

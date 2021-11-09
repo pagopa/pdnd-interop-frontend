@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import isEmpty from 'lodash/isEmpty'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Chip, List, ListItem, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { Party } from '../../types'
@@ -13,7 +13,7 @@ import { StyledLink } from '../components/Shared/StyledLink'
 
 export function ChooseParty() {
   const { setParty, party, availableParties } = useContext(PartyContext)
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const wrapUpdateActiveParty = (id: string) => (e?: any) => {
     if (e) e.preventDefault()
@@ -24,15 +24,15 @@ export function ChooseParty() {
 
   const confirmChoice = () => {
     const DESTINATIONS = {
-      admin: ROUTES.SUBSCRIBE.PATH,
-      api: ROUTES.PROVIDE.PATH,
-      security: ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST.PATH,
+      admin: ROUTES.subscribe.path,
+      api: ROUTES.provide.path,
+      security: ROUTES.subscribe.children!.client.children!.list.path,
     }
-    history.push(DESTINATIONS[party?.platformRole!])
+    navigate(DESTINATIONS[party?.platformRole!])
   }
 
   const goToOnboarding = () => {
-    history.push(ROUTES.ONBOARDING.PATH)
+    navigate(ROUTES.onboarding.path)
   }
 
   return availableParties.length > 0 ? (

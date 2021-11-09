@@ -2,7 +2,7 @@ import {
   ApiEndpointContent,
   DialogActionKeys,
   DialogContent,
-  RoutesObject,
+  RouteConfig,
   RunActionProps,
   ToastActionKeys,
 } from '../../types'
@@ -22,8 +22,6 @@ import { Onboarding } from '../views/Onboarding'
 import { CompleteRegistration } from '../views/CompleteRegistration'
 import { RejectRegistration } from '../views/RejectRegistration'
 import { Profile } from '../views/Profile'
-import { Provide } from '../views/Provide'
-import { Subscribe } from '../views/Subscribe'
 import { UserEdit } from '../views/UserEdit'
 import { UserList } from '../views/UserList'
 import { EServiceGate } from '../views/EServiceGate'
@@ -33,226 +31,291 @@ import { ClientCreate } from '../views/ClientCreate'
 import { IPAGuide } from '../views/IPAGuide'
 import { getDevLabels } from './wip-utils'
 import { SecurityKeyGuide } from '../views/SecurityKeyGuide'
+import { getFlattenedRoutes } from './url-utils'
 
 const isDevelopment = !!(process.env.NODE_ENV === 'development')
 
 export const SHOW_DEV_LABELS = isDevelopment || getDevLabels()
 export const USE_MOCK_SPID_USER = false // isDevelopment
-export const DISPLAY_LOGS = isDevelopment
-
-export const BASE_ROUTE = '/ui'
+export const DISPLAY_LOGS = false // isDevelopment
 
 export const NARROW_MAX_WIDTH = 480
 export const MEDIUM_MAX_WIDTH = 768
 
-export const ROUTES: RoutesObject = {
-  LOGIN: { PATH: `${BASE_ROUTE}/login`, LABEL: 'Login', COMPONENT: Login, PUBLIC: true },
-  LOGOUT: { PATH: `${BASE_ROUTE}/logout`, LABEL: 'Logout', COMPONENT: Logout, PUBLIC: true },
-  HELP: { PATH: `${BASE_ROUTE}/aiuto`, LABEL: 'Serve aiuto?', COMPONENT: Help, PUBLIC: true },
-  IPA_GUIDE: {
-    PATH: `${BASE_ROUTE}/guida-ipa`,
-    LABEL: 'Accreditarsi su IPA',
-    COMPONENT: IPAGuide,
-    PUBLIC: true,
+export const EmptyElement = () => null
+
+export const ROUTES: Record<string, RouteConfig> = {
+  login: {
+    name: 'login',
+    path: '/login',
+    label: 'Login',
+    element: Login,
+    config: { isPublic: true },
   },
-  SECURITY_KEY_GUIDE: {
-    PATH: `${BASE_ROUTE}/generazione-chiavi`,
-    LABEL: 'Come caricare le chiavi di sicurezza',
-    COMPONENT: SecurityKeyGuide,
-    PUBLIC: true,
+  logout: {
+    name: 'logout',
+    path: '/logout',
+    label: 'Logout',
+    element: Logout,
+    config: { isPublic: true },
   },
-  TEMP_SPID_USER: {
-    PATH: `${BASE_ROUTE}/temp-spid`,
-    LABEL: 'Genera utente SPID di test',
-    COMPONENT: TempSPIDUser,
-    PUBLIC: false,
-    AUTH_LEVELS: 'any',
+  help: {
+    name: 'help',
+    path: '/aiuto',
+    label: 'Serve aiuto?',
+    element: Help,
+    config: { isPublic: true },
   },
-  CHOOSE_PARTY: {
-    PATH: `${BASE_ROUTE}/scelta`,
-    LABEL: 'Scegli ente',
-    COMPONENT: ChooseParty,
-    PUBLIC: false,
-    AUTH_LEVELS: 'any',
+  ipaGuide: { name: 'ipaGuide', path: '/guida-ipa', element: IPAGuide, config: { isPublic: true } },
+  securityKeyGuide: {
+    name: 'securityKeyGuide',
+    path: '/generazione-chiavi',
+    element: SecurityKeyGuide,
+    config: { isPublic: true },
   },
-  ONBOARDING: {
-    PATH: `${BASE_ROUTE}/onboarding`,
-    LABEL: 'Onboarding',
-    COMPONENT: Onboarding,
-    PUBLIC: false,
-    AUTH_LEVELS: 'any',
+  tempSpidUser: {
+    name: 'tempSpidUser',
+    path: '/temp-spid',
+    element: TempSPIDUser,
+    config: { isPublic: false, authLevels: 'any' },
   },
-  REGISTRATION_FINALIZE_COMPLETE: {
-    PATH: `${BASE_ROUTE}/conferma-registrazione`,
-    LABEL: 'Completa la procedura di onboarding',
-    COMPONENT: CompleteRegistration,
-    PUBLIC: true,
+  chooseParty: {
+    name: 'chooseParty',
+    path: '/scelta',
+    element: ChooseParty,
+    config: { isPublic: false, authLevels: 'any' },
   },
-  REGISTRATION_FINALIZE_REJECT: {
-    PATH: `${BASE_ROUTE}/cancella-registrazione`,
-    LABEL: 'Cancella la procedura di onboarding',
-    COMPONENT: RejectRegistration,
-    PUBLIC: true,
+  onboarding: {
+    name: 'onboarding',
+    path: '/onboarding',
+    element: Onboarding,
+    config: { isPublic: false, authLevels: 'any' },
   },
-  PROFILE: {
-    PATH: `${BASE_ROUTE}/profilo`,
-    LABEL: 'Profilo',
-    COMPONENT: Profile,
-    PUBLIC: false,
-    AUTH_LEVELS: 'any',
+  registrationFinalizeComplete: {
+    name: 'registrationFinalizeComplete',
+    path: '/conferma-registrazione',
+    element: CompleteRegistration,
+    config: { isPublic: true },
   },
-  NOTIFICATION: {
-    PATH: `${BASE_ROUTE}/notifiche`,
-    LABEL: 'Notifiche',
-    COMPONENT: Notifications,
-    PUBLIC: true,
-    AUTH_LEVELS: 'any',
+  registrationFinalizeReject: {
+    name: 'registrationFinalizeReject',
+    path: '/cancella-registrazione',
+    element: RejectRegistration,
+    config: { isPublic: true },
   },
-  PROVIDE: {
-    PATH: `${BASE_ROUTE}/erogazione`,
-    LABEL: 'Erogazione',
-    COMPONENT: Provide,
-    PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'api'],
-    SUBROUTES: {
-      ESERVICE_LIST: {
-        PATH: `${BASE_ROUTE}/erogazione/e-service`,
-        LABEL: 'Gestisci e-service',
-        COMPONENT: EServiceList,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin', 'api'],
+  profile: {
+    name: 'profile',
+    path: '/profilo',
+    label: 'Profilo',
+    element: Profile,
+    config: { isPublic: false, authLevels: 'any' },
+  },
+  notification: {
+    name: 'notification',
+    path: '/notifiche',
+    label: 'Notifiche',
+    element: Notifications,
+    config: { isPublic: false, authLevels: 'any' },
+  },
+  provide: {
+    name: 'provide',
+    path: '/erogazione',
+    label: 'Erogazione',
+    element: EmptyElement,
+    render: false,
+    config: { isPublic: false, authLevels: ['admin', 'api'] },
+    children: {
+      eservice: {
+        name: 'provide-eservice',
+        path: '/e-service',
+        element: EmptyElement,
+        render: false,
+        config: { isPublic: false, authLevels: ['admin', 'api'] },
+        children: {
+          list: {
+            name: 'provide-eservice-list',
+            path: '/lista',
+            label: 'I tuoi e-service',
+            element: EServiceList,
+            config: { isPublic: false, authLevels: ['admin', 'api'] },
+          },
+          create: {
+            name: 'provide-eservice-create',
+            path: '/crea',
+            element: EServiceWrite,
+            config: { isPublic: false, authLevels: ['admin', 'api'] },
+          },
+          edit: {
+            name: 'provide-eservice-edit',
+            path: '/:id',
+            element: EServiceGate,
+            config: { isPublic: false, authLevels: ['admin', 'api'] },
+          },
+        },
       },
-      ESERVICE_CREATE: {
-        PATH: `${BASE_ROUTE}/erogazione/e-service/crea`,
-        LABEL: '+ Aggiungi',
-        COMPONENT: EServiceWrite,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin', 'api'],
+      agreement: {
+        name: 'provide-agreement',
+        path: '/accordi',
+        element: EmptyElement,
+        render: false,
+        config: { isPublic: false, authLevels: ['admin'] },
+        children: {
+          list: {
+            name: 'provide-agreement-list',
+            path: '/lista',
+            label: 'I tuoi accordi',
+            element: AgreementList,
+            config: { isPublic: false, authLevels: ['admin'] },
+          },
+          edit: {
+            name: 'provide-agreement-edit',
+            path: '/:id',
+            element: AgreementEdit,
+            config: { isPublic: false, authLevels: ['admin'] },
+          },
+        },
       },
-      ESERVICE_EDIT: {
-        PATH: `${BASE_ROUTE}/erogazione/e-service/:eserviceId/:descriptorId`,
-        LABEL: 'Ispeziona e-service',
-        COMPONENT: EServiceGate,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin', 'api'],
-      },
-      AGREEMENT_LIST: {
-        PATH: `${BASE_ROUTE}/erogazione/accordi`,
-        LABEL: 'Gestisci accordi',
-        COMPONENT: AgreementList,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin'],
-      },
-      AGREEMENT_EDIT: {
-        PATH: `${BASE_ROUTE}/erogazione/accordi/:id`,
-        LABEL: 'Modifica accordo',
-        COMPONENT: AgreementEdit,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin'],
-      },
-      OPERATOR_API_LIST: {
-        PATH: `${BASE_ROUTE}/erogazione/operatori`,
-        LABEL: 'Gestisci operatori API',
-        COMPONENT: UserList,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin'],
-      },
-      OPERATOR_API_CREATE: {
-        PATH: `${BASE_ROUTE}/erogazione/operatori/crea`,
-        LABEL: '+ Aggiungi',
-        COMPONENT: UserCreate,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin'],
-      },
-      OPERATOR_API_EDIT: {
-        PATH: `${BASE_ROUTE}/erogazione/operatori/:id`,
-        LABEL: 'Modifica operatore API',
-        COMPONENT: UserEdit,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin'],
+      operator: {
+        name: 'provide-operators',
+        path: '/operatori',
+        element: EmptyElement,
+        render: false,
+        config: { isPublic: false, authLevels: ['admin', 'security'] },
+        children: {
+          list: {
+            name: 'provide-operators-list',
+            path: '/lista',
+            label: 'I tuoi operatori API',
+            element: UserList,
+            render: true,
+            config: { isPublic: false, authLevels: ['admin'] },
+          },
+          create: {
+            name: 'provide-operators-create',
+            path: '/crea',
+            label: 'Crea operatore API',
+            element: UserCreate,
+            render: true,
+            config: { isPublic: false, authLevels: ['admin'] },
+          },
+          edit: {
+            name: 'provide-operators-edit',
+            path: `/:id`,
+            element: UserEdit,
+            config: { isPublic: false, authLevels: ['admin', 'security'] },
+          },
+        },
       },
     },
   },
-  SUBSCRIBE: {
-    PATH: `${BASE_ROUTE}/fruizione`,
-    LABEL: 'Fruizione',
-    COMPONENT: Subscribe,
-    PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'security'],
-    SUBROUTES: {
-      CLIENT_LIST: {
-        PATH: `${BASE_ROUTE}/fruizione/client`,
-        LABEL: 'Gestisci client',
-        COMPONENT: ClientList,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin', 'security'],
+  subscribe: {
+    name: 'subscribe',
+    path: '/fruizione',
+    label: 'Fruizione',
+    element: EmptyElement,
+    render: false,
+    config: { isPublic: false, authLevels: ['admin', 'security'] },
+    children: {
+      client: {
+        name: 'subscribe-client',
+        path: '/client',
+        element: EmptyElement,
+        render: false,
+        config: { isPublic: false, authLevels: ['admin', 'security'] },
+        children: {
+          list: {
+            name: 'subscribe-client-list',
+            path: '/lista',
+            label: 'I tuoi client',
+            element: ClientList,
+            config: { isPublic: false, authLevels: ['admin', 'security'] },
+          },
+          create: {
+            name: 'subscribe-client-create',
+            path: '/crea',
+            element: ClientCreate,
+            config: { isPublic: false, authLevels: ['admin'] },
+          },
+          edit: {
+            name: 'subscribe-client-edit',
+            path: '/:id',
+            element: ClientEdit,
+            config: { isPublic: false, authLevels: ['admin', 'security'] },
+            children: {
+              operator: {
+                name: 'subscribe-client-edit-operators',
+                path: '/operatori',
+                element: EmptyElement,
+                render: false,
+                config: { isPublic: false, authLevels: ['admin', 'security'] },
+                children: {
+                  create: {
+                    name: 'subscribe-client-edit-operators-create',
+                    path: '/crea',
+                    element: UserCreate,
+                    config: { isPublic: false, authLevels: ['admin'] },
+                  },
+                  edit: {
+                    name: 'subscribe-client-edit-operators-edit',
+                    path: '/:id',
+                    element: UserEdit,
+                    config: { isPublic: false, authLevels: ['admin', 'security'] },
+                  },
+                },
+              },
+            },
+          },
+        },
       },
-      CLIENT_CREATE: {
-        PATH: `${BASE_ROUTE}/fruizione/client/crea`,
-        LABEL: '+ Aggiungi',
-        COMPONENT: ClientCreate,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin'],
+      agreement: {
+        name: 'subscribe-agreement',
+        path: '/accordi',
+        element: EmptyElement,
+        render: false,
+        config: { isPublic: false, authLevels: ['admin'] },
+        children: {
+          list: {
+            name: 'subscribe-agreement-list',
+            path: '/lista',
+            label: 'I tuoi accordi',
+            element: AgreementList,
+            config: { isPublic: false, authLevels: ['admin'] },
+          },
+          edit: {
+            name: 'subscribe-agreement-edit',
+            path: '/:id',
+            element: AgreementEdit,
+            config: { isPublic: false, authLevels: ['admin'] },
+          },
+        },
       },
-      CLIENT_EDIT: {
-        PATH: `${BASE_ROUTE}/fruizione/client/:id`,
-        LABEL: 'Modifica client',
-        COMPONENT: ClientEdit,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin', 'security'],
-      },
-      AGREEMENT_LIST: {
-        PATH: `${BASE_ROUTE}/fruizione/accordi`,
-        LABEL: 'Gestisci accordi',
-        COMPONENT: AgreementList,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin'],
-      },
-      AGREEMENT_EDIT: {
-        PATH: `${BASE_ROUTE}/fruizione/accordi/:id`,
-        LABEL: 'Modifica accordo',
-        COMPONENT: AgreementEdit,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin'],
-      },
-      CATALOG_LIST: {
-        PATH: `${BASE_ROUTE}/fruizione/catalogo-e-service`,
-        LABEL: 'Catalogo e-service',
-        COMPONENT: EServiceCatalog,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin', 'security'],
-      },
-      CATALOG_VIEW: {
-        PATH: `${BASE_ROUTE}/fruizione/catalogo-e-service/:eserviceId/:descriptorId`,
-        LABEL: 'Visualizza e-service',
-        COMPONENT: EServiceGate,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin', 'security'],
-      },
-      OPERATOR_SECURITY_LIST: {
-        PATH: `${BASE_ROUTE}/fruizione/client/operatori`,
-        LABEL: 'Gestisci operatori',
-        COMPONENT: UserList,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin', 'security'],
-      },
-      OPERATOR_SECURITY_CREATE: {
-        PATH: `${BASE_ROUTE}/fruizione/client/operatori/crea`,
-        LABEL: '+ Aggiungi',
-        COMPONENT: UserCreate,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin'],
-      },
-      OPERATOR_SECURITY_EDIT: {
-        PATH: `${BASE_ROUTE}/fruizione/client/:clientId/operatori/:operatorId`,
-        LABEL: 'Modifica operatore',
-        COMPONENT: UserEdit,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin', 'security'],
+      catalog: {
+        name: 'subscribe-catalog',
+        path: '/catalogo-e-service',
+        element: EmptyElement,
+        render: false,
+        config: { isPublic: false, authLevels: ['admin', 'security'] },
+        children: {
+          list: {
+            name: 'subscribe-catalog-list',
+            path: '/lista',
+            label: 'Catalogo degli e-service',
+            element: EServiceCatalog,
+            config: { isPublic: false, authLevels: ['admin', 'security'] },
+          },
+          edit: {
+            name: 'subscribe-catalog-edit',
+            path: '/:id',
+            element: EServiceGate,
+            config: { isPublic: false, authLevels: ['admin', 'security'] },
+          },
+        },
       },
     },
   },
 }
+
+export const FLATTENED_ROUTES = getFlattenedRoutes()
 
 export const API: { [key: string]: ApiEndpointContent } = {
   ONBOARDING_GET_AVAILABLE_PARTIES: {

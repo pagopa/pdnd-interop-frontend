@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import {
@@ -28,10 +28,11 @@ export function Onboarding() {
   const [partyPeople, setPartyPeople] = useState<Record<string, User>>({})
   const [party, setParty] = useState<IPACatalogParty>()
   const [outcome, setOutcome] = useState<RequestOutcome>()
-  const history = useHistory()
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const reload = () => {
-    history.go(0)
+    navigate(location)
   }
 
   const back = (e?: any) => {

@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import { AxiosError, AxiosResponse } from 'axios'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
   ActionFunction,
   DialogActionKeys,
@@ -47,7 +47,7 @@ export type UserFeedbackHOCProps = {
 }
 
 export const useFeedback = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const { setLoadingText } = useContext(LoaderContext)
   const { setDialog } = useContext(DialogContext)
   const { setToast } = useContext(ToastContext)
@@ -162,7 +162,7 @@ export const useFeedback = () => {
 
     if (outcome === 'success') {
       // Go to destination path, and optionally display the toast
-      history.push(destination.PATH, { toast: !suppressToast && toastContent })
+      navigate(destination.path, { state: { toast: !suppressToast && toastContent } })
     }
   }
 

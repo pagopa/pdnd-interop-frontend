@@ -32,7 +32,7 @@ export function EServiceWriteStep4Documents({
           },
         },
       },
-      { destination: ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST, suppressToast: false }
+      { destination: ROUTES.provide.children!.eservice.children!.list, suppressToast: false }
     )
   }
 
@@ -47,7 +47,7 @@ export function EServiceWriteStep4Documents({
           },
         },
       },
-      { destination: ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST, suppressToast: false }
+      { destination: ROUTES.provide.children!.eservice.children!.list, suppressToast: false }
     )
   }
 
@@ -139,7 +139,7 @@ export function EServiceWriteStep4Documents({
           sx={{ mr: 3 }}
           variant="contained"
           component={StyledLink}
-          to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}
+          to={ROUTES.provide.children!.eservice.children!.list.path}
         >
           Salva bozza e torna ai servizi
         </StyledButton>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { IPACatalogParty, StepperStepComponentProps } from '../../types'
@@ -19,14 +19,14 @@ export function OnboardingStep1({ forward, data }: StepperStepComponentProps) {
     formState: { errors },
   } = useForm({ defaultValues: data.party })
 
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const onForwardAction = ({ partySelection }: Record<string, IPACatalogParty>) => {
     forward!(partySelection)
   }
 
   const goToChooseParty = () => {
-    history.push(ROUTES.CHOOSE_PARTY.PATH)
+    navigate(ROUTES.chooseParty.path)
   }
 
   return (
@@ -59,7 +59,7 @@ export function OnboardingStep1({ forward, data }: StepperStepComponentProps) {
           <Box>
             <Typography variant="caption">
               Non trovi il tuo Ente nell’indice IPA?{' '}
-              <StyledLink to={ROUTES.IPA_GUIDE.PATH}>Clicca qui</StyledLink> per maggiori
+              <StyledLink to={ROUTES.ipaGuide.path}>Clicca qui</StyledLink> per maggiori
               informazioni e istruzioni per essere inclusi nell’indice delle Pubbliche
               Amministrazioni
             </Typography>

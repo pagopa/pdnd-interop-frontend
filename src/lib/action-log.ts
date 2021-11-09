@@ -1,6 +1,6 @@
 import { DISPLAY_LOGS } from './constants'
 
-export function logAction(actionLabel: string, data: any) {
+export function logAction(actionLabel: string, data?: any) {
   if (DISPLAY_LOGS) {
     console.log(actionLabel, data)
   }

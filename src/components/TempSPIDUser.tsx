@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useHistory, useLocation } from 'react-router'
+import { useNavigate, useLocation } from 'react-router-dom'
 import isEmpty from 'lodash/isEmpty'
 import { useLogin } from '../hooks/useLogin'
 import { PlatformUserForm } from './Shared/PlatformUserForm'
@@ -13,7 +13,7 @@ import { UserOnCreate } from '../../types'
 export function TempSPIDUser() {
   const [data, setData] = useState<Record<string, UserOnCreate>>({})
   const { setTestSPIDUser } = useLogin()
-  const history = useHistory()
+  const navigate = useNavigate()
   const location = useLocation()
 
   const handleSubmit = (e: React.SyntheticEvent) => {
@@ -24,7 +24,7 @@ export function TempSPIDUser() {
   // If the user hasn't accepted the privacy policy, go back to login
   useEffect(() => {
     if (isEmpty(location.state) || !(location.state as any).privacy) {
-      history.replace(ROUTES.LOGIN.PATH)
+      navigate(ROUTES.login.path, { replace: true })
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
