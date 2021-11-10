@@ -56,7 +56,7 @@ export function MainNav() {
         route: ROUTES.PROVIDE,
         type: 'provider',
         children: [
-          ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST,
+          ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.LIST,
           ROUTES.PROVIDE.SUBROUTES!.AGREEMENT.SUBROUTES!.LIST,
           ROUTES.PROVIDE.SUBROUTES!.OPERATOR.SUBROUTES!.LIST,
         ],
@@ -65,7 +65,7 @@ export function MainNav() {
         route: ROUTES.SUBSCRIBE,
         type: 'subscriber',
         children: [
-          ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST,
+          ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.LIST,
           ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.LIST,
           ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT.SUBROUTES!.LIST,
         ],
@@ -75,7 +75,7 @@ export function MainNav() {
       {
         route: ROUTES.PROVIDE,
         type: 'provider',
-        children: [ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST],
+        children: [ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.LIST],
       },
     ],
     security: [
@@ -83,7 +83,7 @@ export function MainNav() {
         route: ROUTES.SUBSCRIBE,
         type: 'subscriber',
         children: [
-          ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST,
+          ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.LIST,
           ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.LIST,
         ],
       },

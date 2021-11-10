@@ -146,11 +146,6 @@ export function UserList() {
         'In quest’area puoi trovare e gestire tutti gli operatori di sicurezza che sono stati abilitati a gestire le chiavi per il tuo client',
     },
   }
-
-  const CREATE_ACTIONS = {
-    provider: ROUTES.PROVIDE.SUBROUTES!.OPERATOR.SUBROUTES!.CREATE,
-    subscriber: ROUTES.SUBSCRIBE.SUBROUTES!.OPERATOR_SECURITY_CREATE,
-  }
   /*
    * End labels and buttons
    */
@@ -164,10 +159,16 @@ export function UserList() {
           <StyledButton
             variant="contained"
             component={StyledLink}
-            to={`${CREATE_ACTIONS[mode!].PATH}${
-              mode === 'subscriber' ? `?clientId=${clientId}` : ''
-            }`}
+            to={
+              mode === 'provider'
+                ? ROUTES.PROVIDE.SUBROUTES!.OPERATOR.SUBROUTES!.CREATE
+                : buildDynamicPath(
+                    ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.OPERATOR.SUBROUTES!.CREATE.PATH,
+                    { id: clientId }
+                  )
+            }
           >
+            {' '}
             + Aggiungi
           </StyledButton>
         )}
@@ -203,10 +204,14 @@ export function UserList() {
                       ? buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.OPERATOR.SUBROUTES!.EDIT.PATH, {
                           id: (item.taxCode || item.from) as string,
                         })
-                      : buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.OPERATOR_SECURITY_EDIT.PATH, {
-                          clientId,
-                          operatorId: item.taxCode,
-                        }),
+                      : buildDynamicPath(
+                          ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.OPERATOR.SUBROUTES!.EDIT
+                            .PATH,
+                          {
+                            id: clientId,
+                            operatorId: item.taxCode,
+                          }
+                        ),
                   component: StyledLink,
                 },
                 label: '',
