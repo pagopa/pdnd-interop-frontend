@@ -1,11 +1,11 @@
 import React from 'react'
 import { Route, Switch } from 'react-router'
 import { Redirect } from 'react-router-dom'
-import { RouteConfig, RoutesObject } from '../../types'
+import { RouteConfig } from '../../types'
 import { AuthGuard } from './AuthGuard'
 
 type SubroutingProps = {
-  subroutes: RoutesObject
+  subroutes: Record<string, RouteConfig>
   redirectDestRoute?: RouteConfig
   redirectSrcRoute?: RouteConfig
 }

@@ -1,8 +1,9 @@
 import {
   ApiEndpointContent,
+  BasicRouteConfig,
   DialogActionKeys,
   DialogContent,
-  RoutesObject,
+  RouteConfig,
   RunActionProps,
   ToastActionKeys,
 } from '../../types'
@@ -33,13 +34,13 @@ import { ClientCreate } from '../views/ClientCreate'
 import { IPAGuide } from '../views/IPAGuide'
 import { getDevLabels } from './wip-utils'
 import { SecurityKeyGuide } from '../views/SecurityKeyGuide'
-import { getFlattenedRoutes } from './url-utils'
+import { decorateRouteWithParents } from './url-utils'
 import { EmptyComponent } from '../components/Shared/EmptyComponent'
 
 const isDevelopment = !!(process.env.NODE_ENV === 'development')
 
 export const SHOW_DEV_LABELS = isDevelopment || getDevLabels()
-export const USE_MOCK_SPID_USER = false // isDevelopment
+export const USE_MOCK_SPID_USER = isDevelopment
 export const DISPLAY_LOGS = isDevelopment
 
 export const BASE_ROUTE = '/ui'
@@ -47,10 +48,25 @@ export const BASE_ROUTE = '/ui'
 export const NARROW_MAX_WIDTH = 480
 export const MEDIUM_MAX_WIDTH = 768
 
-export const ROUTES: RoutesObject = {
-  LOGIN: { PATH: `${BASE_ROUTE}/login`, LABEL: 'Login', COMPONENT: Login, PUBLIC: true },
-  LOGOUT: { PATH: `${BASE_ROUTE}/logout`, LABEL: 'Logout', COMPONENT: Logout, PUBLIC: true },
-  HELP: { PATH: `${BASE_ROUTE}/aiuto`, LABEL: 'Serve aiuto?', COMPONENT: Help, PUBLIC: true },
+const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
+  LOGIN: {
+    PATH: `${BASE_ROUTE}/login`,
+    LABEL: 'Login',
+    COMPONENT: Login,
+    PUBLIC: true,
+  },
+  LOGOUT: {
+    PATH: `${BASE_ROUTE}/logout`,
+    LABEL: 'Logout',
+    COMPONENT: Logout,
+    PUBLIC: true,
+  },
+  HELP: {
+    PATH: `${BASE_ROUTE}/aiuto`,
+    LABEL: 'Serve aiuto?',
+    COMPONENT: Help,
+    PUBLIC: true,
+  },
   IPA_GUIDE: {
     PATH: `${BASE_ROUTE}/guida-ipa`,
     LABEL: 'Accreditarsi su IPA',
@@ -337,9 +353,9 @@ export const ROUTES: RoutesObject = {
   },
 }
 
-export const DECORATED_ROUTES = getFlattenedRoutes()
+export const ROUTES = decorateRouteWithParents(BASIC_ROUTES as Record<string, RouteConfig>)
 
-export const API: { [key: string]: ApiEndpointContent } = {
+export const API: Record<string, ApiEndpointContent> = {
   ONBOARDING_GET_AVAILABLE_PARTIES: {
     URL: 'pdnd-interop-uservice-party-process/0.1/onboarding/info/:taxCode',
     METHOD: 'GET',
