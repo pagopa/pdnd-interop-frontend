@@ -37,7 +37,7 @@ export function StyledInputFile({ id, onChange, value, label }: StyledInputFileP
           color="common.white"
           bgcolor="primary.main"
         >
-          <Typography component="span" variant="body2" sx={{ fontWeight: 600 }}>
+          <Typography component="span" variant="body2" sx={{ fontWeight: 700 }}>
             {label}
           </Typography>
         </Box>

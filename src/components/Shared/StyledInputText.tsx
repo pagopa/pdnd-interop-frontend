@@ -30,7 +30,7 @@ export function StyledInputText({
   return (
     <FormControl component="fieldset" sx={{ display: 'block' }}>
       <FormLabel component="legend" sx={{ mb: 1 }}>
-        <Typography component="span" sx={{ fontWeight: 600, px: 1 }}>
+        <Typography component="span" sx={{ fontWeight: 700, px: 1 }}>
           {label}
         </Typography>{' '}
         {tooltipLabel && <InfoTooltip label={tooltipLabel} />}

@@ -51,7 +51,7 @@ const theme = createTheme({
     },
     h4: {
       fontSize: 24,
-      fontWeight: 600,
+      fontWeight: 700,
     },
     h5: {
       fontSize: 20,
@@ -59,7 +59,7 @@ const theme = createTheme({
     },
     h6: {
       fontSize: 16,
-      fontWeight: 600,
+      fontWeight: 700,
       lineHeight: 1.28,
     },
     subtitle1: {
@@ -77,7 +77,7 @@ const theme = createTheme({
       lineHeight: 1.2,
     },
     button: {
-      fontWeight: 600,
+      fontWeight: 700,
       lineHeight: 1.2,
       textTransform: 'none',
     },

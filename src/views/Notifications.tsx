@@ -113,11 +113,11 @@ export function Notifications() {
                 color="primary.main"
               >
                 <Icon fontSize="small" sx={{ mr: 1 }} />
-                <Typography component="span" sx={{ fontWeight: 600, mr: 1 }}>
+                <Typography component="span" sx={{ fontWeight: 700, mr: 1 }}>
                   {title}
                 </Typography>{' '}
                 —{' '}
-                <Typography component="span" sx={{ fontWeight: 600, ml: 1 }}>
+                <Typography component="span" sx={{ fontWeight: 700, ml: 1 }}>
                   {date}
                 </Typography>
               </Typography>
