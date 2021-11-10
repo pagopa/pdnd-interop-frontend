@@ -5,7 +5,6 @@ import { ActionProps, SecurityOperatorPublicKey, ToastContentWithOutcome, User }
 import { fetchWithLogs } from '../lib/api-utils'
 import { getFetchOutcome } from '../lib/error-utils'
 import { CreateKeyModal } from './CreateKeyModal'
-import { StyledIntro } from './Shared/StyledIntro'
 import { ToastContext, UserContext } from '../lib/context'
 import { DescriptionBlock } from './DescriptionBlock'
 import { downloadFile } from '../lib/file-utils'
@@ -119,25 +118,6 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
 
   return (
     <React.Fragment>
-      <StyledIntro variant="h4">
-        {{
-          title: 'Gestione chiave pubblica',
-          description: (
-            <React.Fragment>
-              Per maggiori dettagli,{' '}
-              <StyledLink
-                to={ROUTES.SECURITY_KEY_GUIDE.PATH}
-                title="Vai alla guida per la creazione delle chiavi di sicurezza"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                consulta la guida
-              </StyledLink>
-            </React.Fragment>
-          ),
-        }}
-      </StyledIntro>
-
       {user?.taxCode === userData.taxCode && !key && (
         <StyledButton sx={{ mb: 2 }} onClick={openModal} variant="contained">
           Carica nuova chiave
@@ -186,6 +166,18 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
           afterSuccess={updateKeyCreationCounter}
         />
       )}
+
+      <Typography sx={{ mt: 2 }}>
+        Per maggiori dettagli,{' '}
+        <StyledLink
+          to={ROUTES.SECURITY_KEY_GUIDE.PATH}
+          title="Vai alla guida per la creazione delle chiavi di sicurezza"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          consulta la guida
+        </StyledLink>
+      </Typography>
     </React.Fragment>
   )
 }

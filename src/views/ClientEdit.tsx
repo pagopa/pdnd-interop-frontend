@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Client, ClientStatus, ActionProps } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
@@ -22,29 +22,7 @@ import { StyledLink } from '../components/Shared/StyledLink'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Box } from '@mui/system'
 import { Tab, Tabs, Typography } from '@mui/material'
-
-type TabPanelType = {
-  value: number
-  index: number
-}
-
-const TabPanel: FunctionComponent<TabPanelType> = ({ value, index, children }) => {
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`tabpanel-${index}`}
-      aria-labelledby={`tab-${index}`}
-    >
-      {value === index ? children : null}
-    </div>
-  )
-}
-
-const a11yProps = (index: number) => ({
-  id: `tab-${index}`,
-  'aria-controls': `tabpanel-${index}`,
-})
+import { a11yProps, TabPanel } from '../components/TabPanel'
 
 export function ClientEdit() {
   const location = useLocation()
