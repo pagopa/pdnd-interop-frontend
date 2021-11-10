@@ -55,7 +55,7 @@ export function PartySelect() {
           {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
         </StyledButton>
         <Menu
-          PaperProps={{ style: { maxHeight: 180, width: 260 } }}
+          PaperProps={{ style: { maxHeight: 220, width: 260 } }}
           anchorEl={anchorEl}
           open={open}
           onClose={handleClose}
