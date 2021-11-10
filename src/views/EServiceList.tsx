@@ -216,7 +216,7 @@ export function EServiceList() {
           component={StyledLink}
           to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.PATH}
         >
-          {ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.LABEL}
+          + Aggiungi
         </StyledButton>
 
         <TempFilters />

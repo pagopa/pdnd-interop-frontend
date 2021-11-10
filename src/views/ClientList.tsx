@@ -107,7 +107,7 @@ export function ClientList() {
             component={StyledLink}
             to={ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_CREATE.PATH}
           >
-            {ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_CREATE.LABEL}
+            + Aggiungi
           </StyledButton>
         )}
 

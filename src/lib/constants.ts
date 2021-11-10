@@ -33,6 +33,7 @@ import { ClientCreate } from '../views/ClientCreate'
 import { IPAGuide } from '../views/IPAGuide'
 import { getDevLabels } from './wip-utils'
 import { SecurityKeyGuide } from '../views/SecurityKeyGuide'
+import { getFlattenedRoutes } from './url-utils'
 
 const isDevelopment = !!(process.env.NODE_ENV === 'development')
 
@@ -127,7 +128,7 @@ export const ROUTES: RoutesObject = {
       ESERVICE_CREATE: {
         PATH: `${BASE_ROUTE}/erogazione/e-service/crea`,
         EXACT: true,
-        LABEL: '+ Aggiungi',
+        LABEL: 'Crea e-service',
         COMPONENT: EServiceWrite,
         PUBLIC: false,
         AUTH_LEVELS: ['admin', 'api'],
@@ -167,7 +168,7 @@ export const ROUTES: RoutesObject = {
       OPERATOR_API_CREATE: {
         PATH: `${BASE_ROUTE}/erogazione/operatori/crea`,
         EXACT: false,
-        LABEL: '+ Aggiungi',
+        LABEL: 'Crea operatore API',
         COMPONENT: UserCreate,
         PUBLIC: false,
         AUTH_LEVELS: ['admin'],
@@ -200,7 +201,7 @@ export const ROUTES: RoutesObject = {
       CLIENT_CREATE: {
         PATH: `${BASE_ROUTE}/fruizione/client/crea`,
         EXACT: false,
-        LABEL: '+ Aggiungi',
+        LABEL: 'Crea client',
         COMPONENT: ClientCreate,
         PUBLIC: false,
         AUTH_LEVELS: ['admin'],
@@ -256,7 +257,7 @@ export const ROUTES: RoutesObject = {
       OPERATOR_SECURITY_CREATE: {
         PATH: `${BASE_ROUTE}/fruizione/client/operatori/crea`,
         EXACT: false,
-        LABEL: '+ Aggiungi',
+        LABEL: 'Crea operatore di sicurezza',
         COMPONENT: UserCreate,
         PUBLIC: false,
         AUTH_LEVELS: ['admin'],
@@ -272,6 +273,8 @@ export const ROUTES: RoutesObject = {
     },
   },
 }
+
+export const DECORATED_ROUTES = getFlattenedRoutes()
 
 export const API: { [key: string]: ApiEndpointContent } = {
   ONBOARDING_GET_AVAILABLE_PARTIES: {
