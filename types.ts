@@ -42,9 +42,7 @@ export type BasicRouteConfig = {
 
 export type RouteConfig = BasicRouteConfig & {
   SUBROUTES?: Record<string, RouteConfig>
-  ID: number
   SPLIT_PATH: Array<string>
-  NAME: string
   PARENTS?: Array<RouteConfig>
 }
 
