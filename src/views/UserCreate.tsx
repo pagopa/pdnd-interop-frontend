@@ -36,8 +36,8 @@ export function UserCreate() {
     const endpointParams = mode === 'provider' ? {} : { clientId }
     const destination =
       mode === 'provider'
-        ? ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_LIST
-        : buildDynamicRoute(ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_EDIT, { id: clientId })
+        ? ROUTES.PROVIDE.SUBROUTES!.OPERATOR.SUBROUTES!.LIST
+        : buildDynamicRoute(ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.EDIT, { id: clientId })
 
     const dataToPost =
       mode === 'provider' ? { users: [userData], institutionId: party!.institutionId } : userData

@@ -7,7 +7,7 @@ export function Subscribe() {
     <ProtectedSubroutes
       subroutes={ROUTES.SUBSCRIBE.SUBROUTES!}
       redirectSrcRoute={ROUTES.SUBSCRIBE}
-      redirectDestRoute={ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST}
+      redirectDestRoute={ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.LIST}
     />
   )
 }

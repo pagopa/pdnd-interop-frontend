@@ -13,6 +13,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { Box } from '@mui/system'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
+import { buildDynamicPath } from '../lib/url-utils'
 
 export function AgreementList() {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -176,10 +177,11 @@ export function AgreementList() {
               index={i}
               singleActionBtn={{
                 props: {
-                  to: `${
-                    ROUTES[mode === 'provider' ? 'PROVIDE' : 'SUBSCRIBE'].SUBROUTES!.AGREEMENT_LIST
-                      .PATH
-                  }/${item.id}`,
+                  to: buildDynamicPath(
+                    ROUTES[mode === 'provider' ? 'PROVIDE' : 'SUBSCRIBE'].SUBROUTES!.AGREEMENT
+                      .SUBROUTES!.EDIT.PATH,
+                    { id: item.id }
+                  ),
                   component: StyledLink,
                 },
                 label: 'Ispeziona',

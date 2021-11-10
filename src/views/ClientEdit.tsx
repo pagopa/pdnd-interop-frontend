@@ -171,7 +171,7 @@ export function ClientEdit() {
           <DescriptionBlock label="La versione dell'e-service che stai usando">
             <Typography component="span">
               <StyledLink
-                to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
+                to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.VIEW.PATH, {
                   eserviceId: data.eservice.id,
                   descriptorId: data.agreement.descriptor.id,
                 })}
@@ -186,7 +186,7 @@ export function ClientEdit() {
                   È disponibile una versione più recente
                   <br />
                   <StyledLink
-                    to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
+                    to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.VIEW.PATH, {
                       eserviceId: data.eservice.id,
                       descriptorId: data.eservice.activeDescriptor.id,
                     })}
@@ -195,9 +195,12 @@ export function ClientEdit() {
                   </StyledLink>
                   <br />
                   <StyledLink
-                    to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
-                      id: data.agreement.id,
-                    })}
+                    to={buildDynamicPath(
+                      ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT.SUBROUTES!.EDIT.PATH,
+                      {
+                        id: data.agreement.id,
+                      }
+                    )}
                   >
                     Vai alla pagina dell'accordo
                   </StyledLink>{' '}
@@ -222,7 +225,7 @@ export function ClientEdit() {
           <DescriptionBlock label="Accordo">
             <Typography component="span">
               <StyledLink
-                to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
+                to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT.SUBROUTES!.EDIT.PATH, {
                   id: data.agreement.id,
                 })}
               >

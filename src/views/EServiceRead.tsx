@@ -187,7 +187,7 @@ export function EServiceRead({ data }: EServiceReadProps) {
             component="button"
             onClick={wrapDownloadDocument(data.activeDescriptor!.interface!.id)}
           >
-            Scarica il documento di interfaccia
+            <Typography component="span">Scarica il documento di interfaccia</Typography>
           </StyledLink>
         </DescriptionBlock>
       )}
@@ -256,7 +256,7 @@ export function EServiceRead({ data }: EServiceReadProps) {
           <StyledButton
             variant="outlined"
             component={StyledLink}
-            to={ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}
+            to={ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.LIST.PATH}
           >
             Torna al catalogo
           </StyledButton>
