@@ -10,8 +10,9 @@ export function Main() {
   return (
     <Box component="main" sx={{ pb: 4 }} className={!SHOW_DEV_LABELS ? ' hideDevLabels' : ''}>
       <ProtectedSubroutes
+        parentPath="/"
         subroutes={Object.values(ROUTES)}
-        rootRedirect={user !== null ? 'fruizione' : 'login'}
+        rootRedirect={user !== null ? '/fruizione' : '/login'}
       />
     </Box>
   )

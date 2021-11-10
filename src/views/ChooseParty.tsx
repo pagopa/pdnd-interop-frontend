@@ -10,6 +10,7 @@ import { storageWrite } from '../lib/storage-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
+import { buildNestedUrl } from '../lib/url-utils'
 
 export function ChooseParty() {
   const { setParty, party, availableParties } = useContext(PartyContext)
@@ -26,8 +27,9 @@ export function ChooseParty() {
     const DESTINATIONS = {
       admin: ROUTES.subscribe.path,
       api: ROUTES.provide.path,
-      security: ROUTES.subscribe.children!.client.children!.list.path,
+      security: buildNestedUrl(ROUTES.subscribe.children!.client.children!.list),
     }
+
     navigate(DESTINATIONS[party?.platformRole!])
   }
 
@@ -62,21 +64,17 @@ export function ChooseParty() {
           {availableParties && (
             <List sx={{ height: 240, overflow: 'auto' }} component="ul">
               {availableParties.map((p, i) => {
+                const selected = p.institutionId === party?.institutionId
                 const disabled = p.status === 'pending' || p.status === ('Pending' as any)
                 return (
-                  <ListItem
-                    key={i}
-                    sx={{ mb: 1, position: 'relative' }}
-                    selected={p.institutionId === party?.institutionId}
-                    disablePadding={true}
-                  >
+                  <ListItem key={i} sx={{ mb: 1, position: 'relative' }} disablePadding={true}>
                     <StyledButton
                       sx={{
                         width: '100%',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'flex-start',
-                        bgcolor: 'common.white',
+                        bgcolor: selected ? 'grey.300' : 'common.white',
                         px: 2,
                         py: 3,
                         opacity: disabled ? 0.5 : 1,
