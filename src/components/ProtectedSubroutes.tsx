@@ -19,10 +19,12 @@ export function ProtectedSubroutes({
     <React.Fragment>
       <Switch>
         {Object.values(subroutes).map((route, i) => {
-          const { PATH, COMPONENT, EXACT, PUBLIC, AUTH_LEVELS, SUBROUTES } = route
+          const { PATH, COMPONENT, RENDER = true, EXACT, PUBLIC, AUTH_LEVELS, SUBROUTES } = route
           return (
             <Route path={PATH} key={i} exact={EXACT}>
-              <AuthGuard Component={COMPONENT} isRoutePublic={PUBLIC} authLevels={AUTH_LEVELS} />
+              {RENDER && (
+                <AuthGuard Component={COMPONENT} isRoutePublic={PUBLIC} authLevels={AUTH_LEVELS} />
+              )}
               {SUBROUTES && (
                 <ProtectedSubroutes
                   subroutes={SUBROUTES}

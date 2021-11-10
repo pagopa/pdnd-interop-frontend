@@ -36,6 +36,7 @@ export type BasicRouteConfig = {
   EXACT?: boolean
   SUBROUTES?: Record<string, BasicRouteConfig>
   COMPONENT: React.FunctionComponent<any>
+  RENDER?: boolean
   PUBLIC: boolean
   AUTH_LEVELS?: RouteAuthLevel
 }
