@@ -11,7 +11,7 @@ import {
   NARROW_MAX_WIDTH,
   ROUTES,
 } from '../lib/constants'
-import { buildDynamicPath, getLastBit } from '../lib/url-utils'
+import { buildDynamicPath, getBits } from '../lib/url-utils'
 import isEmpty from 'lodash/isEmpty'
 import { UserList } from './UserList'
 import { getClientComputedStatus } from '../lib/status-utils'
@@ -47,10 +47,12 @@ const a11yProps = (index: number) => ({
 })
 
 export function ClientEdit() {
+  const location = useLocation()
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
   const [activeTab, setActiveTab] = useState(0)
   const { party } = useContext(PartyContext)
-  const clientId = getLastBit(useLocation())
+  const locationBits = getBits(location)
+  const clientId = locationBits[locationBits.length - 2]
   const { data } = useAsyncFetch<Client>(
     {
       path: { endpoint: 'CLIENT_GET_SINGLE', endpointParams: { clientId } },
@@ -138,13 +140,13 @@ export function ClientEdit() {
 
   return (
     <React.Fragment>
-      <StyledIntro>{{ title: `Client: ${data.name}` }}</StyledIntro>
+      <StyledIntro sx={{ mb: 0 }}>{{ title: `Client: ${data.name}` }}</StyledIntro>
 
       <Tabs
         value={activeTab}
         onChange={updateActiveTab}
         aria-label="Due tab diverse per i dettagli del client e gli operatori di sicurezza"
-        sx={{ mb: 2 }}
+        sx={{ mb: 6 }}
       >
         <Tab label="Dettagli del client" {...a11yProps(0)} />
         <Tab label="Operatori di sicurezza" {...a11yProps(1)} />

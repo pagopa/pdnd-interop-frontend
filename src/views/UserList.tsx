@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useLocation } from 'react-router'
-import { ProviderOrSubscriber, User, UserStatus, ActionProps } from '../../types'
+import { User, UserStatus, ActionProps } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -14,16 +14,19 @@ import { useMode } from '../hooks/useMode'
 import { TempFilters } from '../components/TempFilters'
 import { isAdmin, isOperatorAPI, isOperatorSecurity } from '../lib/auth-utils'
 import { PartyContext, UserContext } from '../lib/context'
-import { buildDynamicPath, getLastBit } from '../lib/url-utils'
+import { buildDynamicPath, getBits } from '../lib/url-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { Box } from '@mui/system'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 
 export function UserList() {
+  const location = useLocation()
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
-  const clientId = getLastBit(useLocation()) // Only for subscriber
+
+  // Only for subscriber
+  const locationBits = getBits(location)
+  const clientId = locationBits[locationBits.length - 2]
 
   const mode = useMode()
   const { party } = useContext(PartyContext)
@@ -131,96 +134,83 @@ export function UserList() {
     '',
   ]
 
-  /*
-   * Labels and buttons dependant on the current mode
-   */
-  const TITLES: { [key in ProviderOrSubscriber]: { title: string; description: string } } = {
-    provider: {
-      title: "Operatori API dell'ente",
-      description:
-        "In quest’area puoi trovare e gestire tutti gli operatori API che sono stati abilitati alla gestione degli e-service dell'ente",
-    },
-    subscriber: {
-      title: 'Operatori di sicurezza del client',
-      description:
-        'In quest’area puoi trovare e gestire tutti gli operatori di sicurezza che sono stati abilitati a gestire le chiavi per il tuo client',
-    },
-  }
-  /*
-   * End labels and buttons
-   */
-
   return (
     <React.Fragment>
-      <StyledIntro>{TITLES[mode!]}</StyledIntro>
+      {mode === 'provider' && (
+        <StyledIntro>
+          {{
+            title: "Operatori API dell'ente",
+            description:
+              "In quest’area puoi trovare e gestire tutti gli operatori API che sono stati abilitati alla gestione degli e-service dell'ente",
+          }}
+        </StyledIntro>
+      )}
 
-      <Box sx={{ mt: 4 }}>
-        {isAdmin(party) && (
-          <StyledButton
-            variant="contained"
-            component={StyledLink}
-            to={
-              mode === 'provider'
-                ? ROUTES.PROVIDE.SUBROUTES!.OPERATOR.SUBROUTES!.CREATE.PATH
-                : buildDynamicPath(
-                    ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.OPERATOR.SUBROUTES!.CREATE.PATH,
-                    { id: clientId }
-                  )
-            }
-          >
-            {' '}
-            + Aggiungi
-          </StyledButton>
-        )}
-
-        <TempFilters />
-
-        <TableWithLoader
-          loadingText={loadingText}
-          headData={headData}
-          pagination={true}
-          data={data}
-          noDataLabel="Non ci sono operatori disponibili"
-          error={error}
+      {isAdmin(party) && (
+        <StyledButton
+          variant="contained"
+          component={StyledLink}
+          to={
+            mode === 'provider'
+              ? ROUTES.PROVIDE.SUBROUTES!.OPERATOR.SUBROUTES!.CREATE.PATH
+              : buildDynamicPath(
+                  ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.OPERATOR.SUBROUTES!.CREATE.PATH,
+                  { id: clientId }
+                )
+          }
         >
-          {data?.map((item, i) => (
-            <StyledTableRow
-              key={i}
-              cellData={[
-                /*
-                 * TEMP BACKEND: this should not happen, it depends on the difference between our API
-                 * and the one shared with self care, that doesn't expose name and surname
-                 */
-                { label: mode === 'provider' ? item.from! : `${item.name + ' ' + item.surname}` },
-                { label: USER_ROLE_LABEL[item.role] },
-                { label: USER_PLATFORM_ROLE_LABEL[item.platformRole] },
-                { label: USER_STATUS_LABEL[item.status] },
-              ]}
-              index={i}
-              singleActionBtn={{
-                props: {
-                  to:
-                    mode === 'provider'
-                      ? buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.OPERATOR.SUBROUTES!.EDIT.PATH, {
-                          id: (item.taxCode || item.from) as string,
-                        })
-                      : buildDynamicPath(
-                          ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.OPERATOR.SUBROUTES!.EDIT
-                            .PATH,
-                          {
-                            id: clientId,
-                            operatorId: item.taxCode,
-                          }
-                        ),
-                  component: StyledLink,
-                },
-                label: 'Gestisci',
-              }}
-              actions={getAvailableActions(item)}
-            />
-          ))}
-        </TableWithLoader>
-      </Box>
+          {' '}
+          + Aggiungi
+        </StyledButton>
+      )}
+
+      <TempFilters />
+
+      <TableWithLoader
+        loadingText={loadingText}
+        headData={headData}
+        pagination={true}
+        data={data}
+        noDataLabel="Non ci sono operatori disponibili"
+        error={error}
+      >
+        {data?.map((item, i) => (
+          <StyledTableRow
+            key={i}
+            cellData={[
+              /*
+               * TEMP BACKEND: this should not happen, it depends on the difference between our API
+               * and the one shared with self care, that doesn't expose name and surname
+               */
+              { label: mode === 'provider' ? item.from! : `${item.name + ' ' + item.surname}` },
+              { label: USER_ROLE_LABEL[item.role] },
+              { label: USER_PLATFORM_ROLE_LABEL[item.platformRole] },
+              { label: USER_STATUS_LABEL[item.status] },
+            ]}
+            index={i}
+            singleActionBtn={{
+              props: {
+                to:
+                  mode === 'provider'
+                    ? buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.OPERATOR.SUBROUTES!.EDIT.PATH, {
+                        id: (item.taxCode || item.from) as string,
+                      })
+                    : buildDynamicPath(
+                        ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.HANDLE.SUBROUTES!.OPERATOR
+                          .SUBROUTES!.EDIT.PATH,
+                        {
+                          id: clientId,
+                          operatorId: item.taxCode,
+                        }
+                      ),
+                component: StyledLink,
+              },
+              label: 'Gestisci',
+            }}
+            actions={getAvailableActions(item)}
+          />
+        ))}
+      </TableWithLoader>
     </React.Fragment>
   )
 }
