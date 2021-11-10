@@ -40,8 +40,8 @@ import { EmptyComponent } from '../components/Shared/EmptyComponent'
 const isDevelopment = !!(process.env.NODE_ENV === 'development')
 
 export const SHOW_DEV_LABELS = isDevelopment || getDevLabels()
-export const USE_MOCK_SPID_USER = isDevelopment
-export const DISPLAY_LOGS = isDevelopment
+export const USE_MOCK_SPID_USER = false // isDevelopment
+export const DISPLAY_LOGS = false // isDevelopment
 
 export const BASE_ROUTE = '/ui'
 
@@ -145,7 +145,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
           LIST: {
             PATH: `${BASE_ROUTE}/erogazione/e-service/lista`,
             EXACT: true,
-            LABEL: 'Gestisci e-service',
+            LABEL: 'I tuoi e-service',
             COMPONENT: EServiceList,
             PUBLIC: false,
             AUTH_LEVELS: ['admin', 'api'],
@@ -205,7 +205,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
           LIST: {
             PATH: `${BASE_ROUTE}/erogazione/operatori/lista`,
             EXACT: true,
-            LABEL: 'Gestisci operatori API',
+            LABEL: 'I tuoi operatori API',
             COMPONENT: UserList,
             PUBLIC: false,
             AUTH_LEVELS: ['admin'],
@@ -272,7 +272,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
           OPERATOR: {
             PATH: `${BASE_ROUTE}/fruizione/client/:id/operatori`,
             EXACT: false,
-            LABEL: 'Crea operatore di sicurezza',
+            LABEL: 'I tuoi operatori di sicurezza',
             COMPONENT: EmptyComponent,
             PUBLIC: false,
             AUTH_LEVELS: ['admin'],

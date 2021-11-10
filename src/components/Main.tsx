@@ -12,7 +12,11 @@ export function Main() {
   const location = useLocation()
 
   return (
-    <Box component="main" sx={{ pb: 4 }} className={!SHOW_DEV_LABELS ? ' hideDevLabels' : ''}>
+    <Box
+      component="main"
+      sx={{ pt: 1.5, pb: 4 }}
+      className={!SHOW_DEV_LABELS ? ' hideDevLabels' : ''}
+    >
       {isInPlatform(location) && <StyledBreadcrumbs />}
       <Switch>
         {Object.values(ROUTES).map(({ PATH, EXACT, COMPONENT, PUBLIC, AUTH_LEVELS }, i) => (

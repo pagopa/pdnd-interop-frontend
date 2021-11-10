@@ -4,7 +4,7 @@ import { ROUTES } from './constants'
 import { includesAny } from './string-utils'
 import { getBits } from './url-utils'
 
-function isSameRoute(location: Location<unknown>, targetRoute: RouteConfig) {
+export function isSameRoute(location: Location<unknown>, targetRoute: RouteConfig) {
   const locationBits = getBits(location)
 
   const sameLength = locationBits.length === targetRoute.SPLIT_PATH.length
