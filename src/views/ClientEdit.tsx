@@ -195,9 +195,12 @@ export function ClientEdit() {
                   </StyledLink>
                   <br />
                   <StyledLink
-                    to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
-                      id: data.agreement.id,
-                    })}
+                    to={buildDynamicPath(
+                      ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT.SUBROUTES!.EDIT.PATH,
+                      {
+                        id: data.agreement.id,
+                      }
+                    )}
                   >
                     Vai alla pagina dell'accordo
                   </StyledLink>{' '}
@@ -222,7 +225,7 @@ export function ClientEdit() {
           <DescriptionBlock label="Accordo">
             <Typography component="span">
               <StyledLink
-                to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
+                to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT.SUBROUTES!.EDIT.PATH, {
                   id: data.agreement.id,
                 })}
               >

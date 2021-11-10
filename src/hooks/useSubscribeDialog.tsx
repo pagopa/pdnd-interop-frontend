@@ -23,7 +23,7 @@ export const useSubscribeDialog = () => {
 
     await runActionWithDestination(
       { path: { endpoint: 'AGREEMENT_CREATE' }, config: { data: agreementData } },
-      { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST, suppressToast: false }
+      { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT.SUBROUTES!.LIST, suppressToast: false }
     )
   }
 

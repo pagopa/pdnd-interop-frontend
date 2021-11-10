@@ -68,7 +68,7 @@ export function EServiceCatalog() {
 
     if (!eservice.isMine && isAdmin(party) && eservice.callerSubscribed) {
       actions.push({
-        to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
+        to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT.SUBROUTES!.EDIT.PATH, {
           id: eservice.callerSubscribed,
         }),
         component: StyledLink,

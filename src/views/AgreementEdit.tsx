@@ -78,7 +78,7 @@ export function AgreementEdit() {
       {
         path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } },
       },
-      { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST, suppressToast: false }
+      { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT.SUBROUTES!.LIST, suppressToast: false }
     )
   }
 

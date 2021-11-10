@@ -57,7 +57,7 @@ export function MainNav() {
         type: 'provider',
         children: [
           ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST,
-          ROUTES.PROVIDE.SUBROUTES!.AGREEMENT_LIST,
+          ROUTES.PROVIDE.SUBROUTES!.AGREEMENT.SUBROUTES!.LIST,
           ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_LIST,
         ],
       },
@@ -67,7 +67,7 @@ export function MainNav() {
         children: [
           ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST,
           ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.LIST,
-          ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST,
+          ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT.SUBROUTES!.LIST,
         ],
       },
     ],

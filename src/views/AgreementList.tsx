@@ -177,8 +177,8 @@ export function AgreementList() {
               singleActionBtn={{
                 props: {
                   to: `${
-                    ROUTES[mode === 'provider' ? 'PROVIDE' : 'SUBSCRIBE'].SUBROUTES!.AGREEMENT_LIST
-                      .PATH
+                    ROUTES[mode === 'provider' ? 'PROVIDE' : 'SUBSCRIBE'].SUBROUTES!.AGREEMENT
+                      .SUBROUTES!.LIST.PATH
                   }/${item.id}`,
                   component: StyledLink,
                 },
