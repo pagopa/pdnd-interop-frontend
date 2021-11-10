@@ -106,7 +106,7 @@ export function EServiceRead({ data }: EServiceReadProps) {
             {labels.map((label, i) => {
               return (
                 <Box sx={{ mb: i !== labels.length - 1 ? 2 : 0 }} key={i}>
-                  <Typography component="span" sx={{ fontWeight: 600 }}>
+                  <Typography component="span" sx={{ fontWeight: 700 }}>
                     {label.name}
                   </Typography>
                   : {label.description}

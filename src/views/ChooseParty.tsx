@@ -84,7 +84,7 @@ export function ChooseParty() {
                         component="span"
                         color={disabled ? 'secondary' : 'primary'}
                         variant="body2"
-                        sx={{ fontWeight: 600, display: 'block', mb: 0.5 }}
+                        sx={{ fontWeight: 700, display: 'block', mb: 0.5 }}
                       >
                         {p.description}
                       </Typography>

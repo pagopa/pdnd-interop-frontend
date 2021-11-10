@@ -1,28 +1,21 @@
 import React, { useContext } from 'react'
-import { ROUTES, USER_ROLE_LABEL } from '../lib/constants'
+import { useLocation } from 'react-router-dom'
+import { Typography } from '@mui/material'
+import { Box } from '@mui/system'
+import { ROUTES } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
-import { storageWrite } from '../lib/storage-utils'
+import { isInPlatform } from '../lib/router-utils'
 import { Layout } from './Shared/Layout'
 import { StyledButton } from './Shared/StyledButton'
-import logo from '../assets/pagopa-logo-white.svg'
-import { Box } from '@mui/system'
-import { FormControl, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
 import { StyledLink } from './Shared/StyledLink'
-import { isInPlatform } from '../lib/router-utils'
-import { useLocation } from 'react-router'
+import { PartySelect } from './PartySelect'
+import logo from '../assets/pagopa-logo-white.svg'
 
 export function Header() {
   const location = useLocation()
-  const { party, availableParties, setParty } = useContext(PartyContext)
+  const { party } = useContext(PartyContext)
   const { user } = useContext(UserContext)
   const { PATH: btnPath, LABEL: btnLabel } = user ? ROUTES.LOGOUT : ROUTES.LOGIN
-
-  const updateActiveParty = (event: SelectChangeEvent<string>) => {
-    const newPartyInstitutionId = event.target.value
-    const newParty = availableParties.find((p) => p.institutionId === newPartyInstitutionId)
-    setParty(newParty!)
-    storageWrite('currentParty', newParty!, 'object')
-  }
 
   return (
     <header>
@@ -54,25 +47,7 @@ export function Header() {
               <Typography variant="caption">Il catalogo degli e-service delle PA</Typography>
             </Box>
 
-            {isInPlatform(location) && party !== null && (
-              <FormControl variant="standard">
-                <Select
-                  sx={{ color: 'common.white', minWidth: 260 }}
-                  value={party!.institutionId}
-                  label="Ente operante"
-                  onChange={updateActiveParty}
-                >
-                  {availableParties.map((availableParty, i) => (
-                    <MenuItem key={i} value={availableParty.institutionId}>
-                      <Typography sx={{ fontWeight: 600 }}>{availableParty.description}</Typography>
-                      <Typography variant="caption">
-                        {USER_ROLE_LABEL[availableParty.role]}
-                      </Typography>
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            )}
+            {isInPlatform(location) && party !== null && <PartySelect />}
           </Box>
         </Layout>
       </Box>
