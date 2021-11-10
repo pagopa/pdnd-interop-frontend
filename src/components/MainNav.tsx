@@ -66,7 +66,7 @@ export function MainNav() {
         type: 'subscriber',
         children: [
           ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST,
-          ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST,
+          ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.LIST,
           ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_LIST,
         ],
       },
@@ -84,7 +84,7 @@ export function MainNav() {
         type: 'subscriber',
         children: [
           ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST,
-          ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST,
+          ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.LIST,
         ],
       },
     ],

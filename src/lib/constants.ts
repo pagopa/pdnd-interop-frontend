@@ -34,6 +34,7 @@ import { IPAGuide } from '../views/IPAGuide'
 import { getDevLabels } from './wip-utils'
 import { SecurityKeyGuide } from '../views/SecurityKeyGuide'
 import { getFlattenedRoutes } from './url-utils'
+import { EmptyComponent } from '../components/Shared/EmptyComponent'
 
 const isDevelopment = !!(process.env.NODE_ENV === 'development')
 
@@ -190,29 +191,39 @@ export const ROUTES: RoutesObject = {
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'security'],
     SUBROUTES: {
-      CLIENT_LIST: {
+      CLIENT: {
         PATH: `${BASE_ROUTE}/fruizione/client`,
-        EXACT: true,
-        LABEL: 'Gestisci client',
-        COMPONENT: ClientList,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin', 'security'],
-      },
-      CLIENT_CREATE: {
-        PATH: `${BASE_ROUTE}/fruizione/client/crea`,
         EXACT: false,
-        LABEL: 'Crea client',
-        COMPONENT: ClientCreate,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin'],
-      },
-      CLIENT_EDIT: {
-        PATH: `${BASE_ROUTE}/fruizione/client/:id`,
-        EXACT: true,
-        LABEL: 'Modifica client',
-        COMPONENT: ClientEdit,
+        LABEL: 'Gestisci client',
+        COMPONENT: EmptyComponent,
         PUBLIC: false,
         AUTH_LEVELS: ['admin', 'security'],
+        SUBROUTES: {
+          LIST: {
+            PATH: `${BASE_ROUTE}/fruizione/client/lista`,
+            EXACT: true,
+            LABEL: 'I tuoi client',
+            COMPONENT: ClientList,
+            PUBLIC: false,
+            AUTH_LEVELS: ['admin', 'security'],
+          },
+          CREATE: {
+            PATH: `${BASE_ROUTE}/fruizione/client/crea`,
+            EXACT: true,
+            LABEL: 'Crea client',
+            COMPONENT: ClientCreate,
+            PUBLIC: false,
+            AUTH_LEVELS: ['admin'],
+          },
+          EDIT: {
+            PATH: `${BASE_ROUTE}/fruizione/client/:id`,
+            EXACT: true,
+            LABEL: 'Modifica client',
+            COMPONENT: ClientEdit,
+            PUBLIC: false,
+            AUTH_LEVELS: ['admin', 'security'],
+          },
+        },
       },
       AGREEMENT_LIST: {
         PATH: `${BASE_ROUTE}/fruizione/accordi`,

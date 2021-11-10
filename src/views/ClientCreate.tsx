@@ -46,7 +46,7 @@ export function ClientCreate() {
 
     await runActionWithDestination(
       { path: { endpoint: 'CLIENT_CREATE' }, config: { data: dataToPost } },
-      { destination: ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST, suppressToast: false }
+      { destination: ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT, suppressToast: false }
     )
   }
 

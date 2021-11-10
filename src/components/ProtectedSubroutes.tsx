@@ -18,11 +18,21 @@ export function ProtectedSubroutes({
   return (
     <React.Fragment>
       <Switch>
-        {Object.values(subroutes).map(({ PATH, COMPONENT, EXACT, PUBLIC, AUTH_LEVELS }, i) => (
-          <Route path={PATH} key={i} exact={EXACT}>
-            <AuthGuard Component={COMPONENT} isRoutePublic={PUBLIC} authLevels={AUTH_LEVELS} />
-          </Route>
-        ))}
+        {Object.values(subroutes).map((route, i) => {
+          const { PATH, COMPONENT, EXACT, PUBLIC, AUTH_LEVELS, SUBROUTES } = route
+          return (
+            <Route path={PATH} key={i} exact={EXACT}>
+              <AuthGuard Component={COMPONENT} isRoutePublic={PUBLIC} authLevels={AUTH_LEVELS} />
+              {SUBROUTES && (
+                <ProtectedSubroutes
+                  subroutes={SUBROUTES}
+                  redirectSrcRoute={route}
+                  redirectDestRoute={Object.values(SUBROUTES)[0]}
+                />
+              )}
+            </Route>
+          )
+        })}
 
         {redirectSrcRoute && redirectDestRoute && (
           <Route path={redirectSrcRoute.PATH} exact={redirectSrcRoute.EXACT}>

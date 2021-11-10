@@ -26,7 +26,7 @@ export function ChooseParty() {
     const DESTINATIONS = {
       admin: ROUTES.SUBSCRIBE.PATH,
       api: ROUTES.PROVIDE.PATH,
-      security: ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT_LIST.PATH,
+      security: ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.LIST.PATH,
     }
     history.push(DESTINATIONS[party?.platformRole!])
   }
@@ -63,20 +63,16 @@ export function ChooseParty() {
             <List sx={{ height: 240, overflow: 'auto' }} component="ul">
               {availableParties.map((p, i) => {
                 const disabled = p.status === 'pending' || p.status === ('Pending' as any)
+                const selected = p.institutionId === party?.institutionId
                 return (
-                  <ListItem
-                    key={i}
-                    sx={{ mb: 1, position: 'relative' }}
-                    selected={p.institutionId === party?.institutionId}
-                    disablePadding={true}
-                  >
+                  <ListItem key={i} sx={{ mb: 1, position: 'relative' }} disablePadding={true}>
                     <StyledButton
                       sx={{
                         width: '100%',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'flex-start',
-                        bgcolor: 'common.white',
+                        bgcolor: selected ? 'grey.300' : 'common.white',
                         px: 2,
                         py: 3,
                         opacity: disabled ? 0.5 : 1,
