@@ -161,7 +161,7 @@ export function UserList() {
             component={StyledLink}
             to={
               mode === 'provider'
-                ? ROUTES.PROVIDE.SUBROUTES!.OPERATOR.SUBROUTES!.CREATE
+                ? ROUTES.PROVIDE.SUBROUTES!.OPERATOR.SUBROUTES!.CREATE.PATH
                 : buildDynamicPath(
                     ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.OPERATOR.SUBROUTES!.CREATE.PATH,
                     { id: clientId }
