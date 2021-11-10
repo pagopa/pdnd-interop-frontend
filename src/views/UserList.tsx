@@ -155,7 +155,8 @@ export function UserList() {
             mode === 'provider'
               ? ROUTES.PROVIDE.SUBROUTES!.OPERATOR.SUBROUTES!.CREATE.PATH
               : buildDynamicPath(
-                  ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.OPERATOR.SUBROUTES!.CREATE.PATH,
+                  ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.HANDLE.SUBROUTES!.OPERATOR
+                    .SUBROUTES!.CREATE.PATH,
                   { id: clientId }
                 )
           }
