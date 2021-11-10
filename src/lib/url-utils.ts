@@ -3,7 +3,6 @@ import identity from 'lodash/identity'
 import isEmpty from 'lodash/isEmpty'
 import qs from 'query-string'
 import { RouteConfig } from '../../types'
-import cryptoRandomString from 'crypto-random-string'
 
 export function getBits(location: Location<unknown>): string[] {
   return location.pathname.split('/').filter(identity)
@@ -37,7 +36,6 @@ export function decorateRouteWithParents(
   return Object.keys(routes).reduce((acc, next) => {
     const nextObj = {
       ...routes[next],
-      ID: cryptoRandomString({ length: 8 }),
       SPLIT_PATH: routes[next].PATH.split('/').filter(identity),
     }
 
