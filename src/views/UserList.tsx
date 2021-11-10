@@ -148,6 +148,7 @@ export function UserList() {
 
       {isAdmin(party) && (
         <StyledButton
+          sx={{ mb: 4 }}
           variant="contained"
           component={StyledLink}
           to={
