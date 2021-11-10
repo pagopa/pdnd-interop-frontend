@@ -171,7 +171,7 @@ export function ClientEdit() {
           <DescriptionBlock label="La versione dell'e-service che stai usando">
             <Typography component="span">
               <StyledLink
-                to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
+                to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.VIEW.PATH, {
                   eserviceId: data.eservice.id,
                   descriptorId: data.agreement.descriptor.id,
                 })}
@@ -186,7 +186,7 @@ export function ClientEdit() {
                   È disponibile una versione più recente
                   <br />
                   <StyledLink
-                    to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
+                    to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.VIEW.PATH, {
                       eserviceId: data.eservice.id,
                       descriptorId: data.eservice.activeDescriptor.id,
                     })}

@@ -256,7 +256,7 @@ export function EServiceRead({ data }: EServiceReadProps) {
           <StyledButton
             variant="outlined"
             component={StyledLink}
-            to={ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_LIST.PATH}
+            to={ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.LIST.PATH}
           >
             Torna al catalogo
           </StyledButton>

@@ -214,7 +214,7 @@ export function AgreementEdit() {
       <DescriptionBlock label="Accordo relativo a">
         <Box style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
           <StyledLink
-            to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
+            to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.VIEW.PATH, {
               eserviceId: data?.eservice.id,
               descriptorId: data?.eserviceDescriptorId,
             })}
@@ -228,7 +228,7 @@ export function AgreementEdit() {
               {' '}
               (è disponibile una{' '}
               <StyledLink
-                to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
+                to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.VIEW.PATH, {
                   eserviceId: data?.eservice.id,
                   descriptorId: data?.eservice.activeDescriptor.id,
                 })}

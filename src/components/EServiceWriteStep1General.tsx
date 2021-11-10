@@ -97,7 +97,7 @@ export function EServiceWriteStep1General({
       // WARNING: this will cause a re-render that will fetch fresh data
       // at the EServiceGate component level
       history.replace(
-        buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE_EDIT.PATH, {
+        buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.EDIT.PATH, {
           eserviceId,
           descriptorId: tempDescriptorId,
         }),
@@ -184,7 +184,7 @@ export function EServiceWriteStep1General({
           <StyledButton
             variant="outlined"
             component={StyledLink}
-            to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST.PATH}
+            to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.LIST.PATH}
           >
             Torna agli e-service
           </StyledButton>

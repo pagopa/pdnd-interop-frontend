@@ -152,7 +152,7 @@ export function EServiceCatalog() {
               index={i}
               singleActionBtn={{
                 props: {
-                  to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
+                  to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.VIEW.PATH, {
                     eserviceId: item.id,
                     descriptorId: item.descriptorId!,
                   }),
