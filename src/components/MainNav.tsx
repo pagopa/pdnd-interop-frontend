@@ -58,7 +58,7 @@ export function MainNav() {
         children: [
           ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST,
           ROUTES.PROVIDE.SUBROUTES!.AGREEMENT.SUBROUTES!.LIST,
-          ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_LIST,
+          ROUTES.PROVIDE.SUBROUTES!.OPERATOR.SUBROUTES!.LIST,
         ],
       },
       {

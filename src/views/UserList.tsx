@@ -148,7 +148,7 @@ export function UserList() {
   }
 
   const CREATE_ACTIONS = {
-    provider: ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_CREATE,
+    provider: ROUTES.PROVIDE.SUBROUTES!.OPERATOR.SUBROUTES!.CREATE,
     subscriber: ROUTES.SUBSCRIBE.SUBROUTES!.OPERATOR_SECURITY_CREATE,
   }
   /*
@@ -200,7 +200,7 @@ export function UserList() {
                 props: {
                   to:
                     mode === 'provider'
-                      ? buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.OPERATOR_API_EDIT.PATH, {
+                      ? buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.OPERATOR.SUBROUTES!.EDIT.PATH, {
                           id: (item.taxCode || item.from) as string,
                         })
                       : buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.OPERATOR_SECURITY_EDIT.PATH, {
