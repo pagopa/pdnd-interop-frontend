@@ -1,7 +1,9 @@
 import React from 'react'
 import { TableCell, TableRow, Typography } from '@mui/material'
+import { Box } from '@mui/system'
 import { ActionMenu } from './ActionMenu'
 import { StyledButton } from './StyledButton'
+import { ActionProps } from '../../../types'
 
 type Cell = {
   label: string
@@ -22,7 +24,7 @@ type StyledTableRowProps = {
   cellData: Cell[]
   index: number
   singleActionBtn?: SingleActionBtnProps
-  actions?: any
+  actions?: ActionProps[]
 }
 
 export function StyledTableRow({ cellData, index, singleActionBtn, actions }: StyledTableRowProps) {
@@ -43,13 +45,18 @@ export function StyledTableRow({ cellData, index, singleActionBtn, actions }: St
         )
       })}
 
-      <TableCell>
+      <TableCell align="right">
         {singleActionBtn && (
           <StyledButton variant="outlined" {...singleActionBtn.props}>
             {singleActionBtn.label}
           </StyledButton>
         )}
-        {actions && <ActionMenu actions={actions} index={index} />}
+
+        {actions && Boolean(actions.length > 0) ? (
+          <ActionMenu actions={actions} index={index} />
+        ) : (
+          <Box component="span" sx={{ width: 75, display: 'inline-block' }} />
+        )}
       </TableCell>
     </TableRow>
   )
