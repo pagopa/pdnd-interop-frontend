@@ -43,58 +43,56 @@ export const SHOW_DEV_LABELS = isDevelopment || getDevLabels()
 export const USE_MOCK_SPID_USER = isDevelopment
 export const DISPLAY_LOGS = isDevelopment
 
-export const BASE_ROUTE = '/ui'
-
 export const NARROW_MAX_WIDTH = 480
 export const MEDIUM_MAX_WIDTH = 768
 
 const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
   LOGIN: {
-    PATH: `${BASE_ROUTE}/login`,
+    PATH: '/login',
     LABEL: 'Login',
     COMPONENT: Login,
     PUBLIC: true,
   },
   LOGOUT: {
-    PATH: `${BASE_ROUTE}/logout`,
+    PATH: '/logout',
     LABEL: 'Logout',
     COMPONENT: Logout,
     PUBLIC: true,
   },
   HELP: {
-    PATH: `${BASE_ROUTE}/aiuto`,
+    PATH: '/aiuto',
     LABEL: 'Serve aiuto?',
     COMPONENT: Help,
     PUBLIC: true,
   },
   IPA_GUIDE: {
-    PATH: `${BASE_ROUTE}/guida-ipa`,
+    PATH: '/guida-ipa',
     LABEL: 'Accreditarsi su IPA',
     COMPONENT: IPAGuide,
     PUBLIC: true,
   },
   SECURITY_KEY_GUIDE: {
-    PATH: `${BASE_ROUTE}/generazione-chiavi`,
+    PATH: '/generazione-chiavi',
     LABEL: 'Come caricare le chiavi di sicurezza',
     COMPONENT: SecurityKeyGuide,
     PUBLIC: true,
   },
   TEMP_SPID_USER: {
-    PATH: `${BASE_ROUTE}/temp-spid`,
+    PATH: '/temp-spid',
     LABEL: 'Genera utente SPID di test',
     COMPONENT: TempSPIDUser,
     PUBLIC: false,
     AUTH_LEVELS: 'any',
   },
   CHOOSE_PARTY: {
-    PATH: `${BASE_ROUTE}/scelta`,
+    PATH: '/scelta',
     LABEL: 'Scegli ente',
     COMPONENT: ChooseParty,
     PUBLIC: false,
     AUTH_LEVELS: 'any',
   },
   ONBOARDING: {
-    PATH: `${BASE_ROUTE}/onboarding`,
+    PATH: '/onboarding',
     LABEL: 'Onboarding',
     EXACT: true,
     COMPONENT: Onboarding,
@@ -102,40 +100,40 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     AUTH_LEVELS: 'any',
   },
   REGISTRATION_FINALIZE_COMPLETE: {
-    PATH: `${BASE_ROUTE}/conferma-registrazione`,
+    PATH: '/conferma-registrazione',
     LABEL: 'Completa la procedura di onboarding',
     COMPONENT: CompleteRegistration,
     PUBLIC: true,
   },
   REGISTRATION_FINALIZE_REJECT: {
-    PATH: `${BASE_ROUTE}/cancella-registrazione`,
+    PATH: '/cancella-registrazione',
     LABEL: 'Cancella la procedura di onboarding',
     COMPONENT: RejectRegistration,
     PUBLIC: true,
   },
   PROFILE: {
-    PATH: `${BASE_ROUTE}/profilo`,
+    PATH: '/profilo',
     LABEL: 'Profilo',
     COMPONENT: Profile,
     PUBLIC: false,
     AUTH_LEVELS: 'any',
   },
   NOTIFICATION: {
-    PATH: `${BASE_ROUTE}/notifiche`,
+    PATH: '/notifiche',
     LABEL: 'Notifiche',
     COMPONENT: Notifications,
     PUBLIC: true,
     AUTH_LEVELS: 'any',
   },
   PROVIDE: {
-    PATH: `${BASE_ROUTE}/erogazione`,
+    PATH: '/erogazione',
     LABEL: 'Erogazione',
     COMPONENT: Provide,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'api'],
     SUBROUTES: {
       ESERVICE: {
-        PATH: `${BASE_ROUTE}/erogazione/e-service`,
+        PATH: '/erogazione/e-service',
         EXACT: false,
         LABEL: 'Gestisci e-service',
         COMPONENT: EmptyComponent,
@@ -143,7 +141,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
         AUTH_LEVELS: ['admin', 'api'],
         SUBROUTES: {
           LIST: {
-            PATH: `${BASE_ROUTE}/erogazione/e-service/lista`,
+            PATH: '/erogazione/e-service/lista',
             EXACT: true,
             LABEL: 'I tuoi e-service',
             COMPONENT: EServiceList,
@@ -151,7 +149,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
             AUTH_LEVELS: ['admin', 'api'],
           },
           CREATE: {
-            PATH: `${BASE_ROUTE}/erogazione/e-service/crea`,
+            PATH: '/erogazione/e-service/crea',
             EXACT: true,
             LABEL: 'Crea e-service',
             COMPONENT: EServiceWrite,
@@ -159,7 +157,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
             AUTH_LEVELS: ['admin', 'api'],
           },
           EDIT: {
-            PATH: `${BASE_ROUTE}/erogazione/e-service/:eserviceId/:descriptorId`,
+            PATH: '/erogazione/e-service/:eserviceId/:descriptorId',
             EXACT: false,
             LABEL: 'Ispeziona e-service',
             COMPONENT: EServiceGate,
@@ -169,7 +167,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
         },
       },
       AGREEMENT: {
-        PATH: `${BASE_ROUTE}/erogazione/accordi`,
+        PATH: '/erogazione/accordi',
         EXACT: false,
         LABEL: 'Gestisci accordi',
         COMPONENT: EmptyComponent,
@@ -177,7 +175,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
         AUTH_LEVELS: ['admin'],
         SUBROUTES: {
           LIST: {
-            PATH: `${BASE_ROUTE}/erogazione/accordi/lista`,
+            PATH: '/erogazione/accordi/lista',
             EXACT: true,
             LABEL: 'I tuoi accordi',
             COMPONENT: AgreementList,
@@ -185,7 +183,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
             AUTH_LEVELS: ['admin'],
           },
           EDIT: {
-            PATH: `${BASE_ROUTE}/erogazione/accordi/:id`,
+            PATH: '/erogazione/accordi/:id',
             EXACT: false,
             LABEL: 'Modifica accordo',
             COMPONENT: AgreementEdit,
@@ -195,7 +193,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
         },
       },
       OPERATOR: {
-        PATH: `${BASE_ROUTE}/erogazione/operatori`,
+        PATH: '/erogazione/operatori',
         EXACT: false,
         LABEL: 'Gestisci operatori API',
         COMPONENT: EmptyComponent,
@@ -203,7 +201,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
         AUTH_LEVELS: ['admin'],
         SUBROUTES: {
           LIST: {
-            PATH: `${BASE_ROUTE}/erogazione/operatori/lista`,
+            PATH: '/erogazione/operatori/lista',
             EXACT: true,
             LABEL: 'I tuoi operatori API',
             COMPONENT: UserList,
@@ -211,7 +209,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
             AUTH_LEVELS: ['admin'],
           },
           CREATE: {
-            PATH: `${BASE_ROUTE}/erogazione/operatori/crea`,
+            PATH: '/erogazione/operatori/crea',
             EXACT: false,
             LABEL: 'Crea operatore API',
             COMPONENT: UserCreate,
@@ -219,7 +217,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
             AUTH_LEVELS: ['admin'],
           },
           EDIT: {
-            PATH: `${BASE_ROUTE}/erogazione/operatori/:id`,
+            PATH: '/erogazione/operatori/:id',
             EXACT: false,
             LABEL: 'Modifica operatore API',
             COMPONENT: UserEdit,
@@ -231,14 +229,14 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     },
   },
   SUBSCRIBE: {
-    PATH: `${BASE_ROUTE}/fruizione`,
+    PATH: '/fruizione',
     LABEL: 'Fruizione',
     COMPONENT: Subscribe,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'security'],
     SUBROUTES: {
       CLIENT: {
-        PATH: `${BASE_ROUTE}/fruizione/client`,
+        PATH: '/fruizione/client',
         EXACT: false,
         LABEL: 'Gestisci client',
         COMPONENT: EmptyComponent,
@@ -246,7 +244,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
         AUTH_LEVELS: ['admin', 'security'],
         SUBROUTES: {
           LIST: {
-            PATH: `${BASE_ROUTE}/fruizione/client/lista`,
+            PATH: '/fruizione/client/lista',
             EXACT: true,
             LABEL: 'I tuoi client',
             COMPONENT: ClientList,
@@ -254,7 +252,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
             AUTH_LEVELS: ['admin', 'security'],
           },
           CREATE: {
-            PATH: `${BASE_ROUTE}/fruizione/client/crea`,
+            PATH: '/fruizione/client/crea',
             EXACT: true,
             LABEL: 'Crea client',
             COMPONENT: ClientCreate,
@@ -262,7 +260,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
             AUTH_LEVELS: ['admin'],
           },
           EDIT: {
-            PATH: `${BASE_ROUTE}/fruizione/client/:id`,
+            PATH: '/fruizione/client/:id',
             EXACT: true,
             LABEL: 'Modifica client',
             COMPONENT: ClientEdit,
@@ -270,7 +268,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
             AUTH_LEVELS: ['admin', 'security'],
           },
           OPERATOR: {
-            PATH: `${BASE_ROUTE}/fruizione/client/:id/operatori`,
+            PATH: '/fruizione/client/:id/operatori',
             EXACT: false,
             LABEL: 'I tuoi operatori di sicurezza',
             COMPONENT: EmptyComponent,
@@ -278,7 +276,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
             AUTH_LEVELS: ['admin'],
             SUBROUTES: {
               CREATE: {
-                PATH: `${BASE_ROUTE}/fruizione/client/:id/operatori/crea`,
+                PATH: '/fruizione/client/:id/operatori/crea',
                 EXACT: false,
                 LABEL: 'Crea operatore di sicurezza',
                 COMPONENT: UserCreate,
@@ -286,7 +284,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
                 AUTH_LEVELS: ['admin'],
               },
               EDIT: {
-                PATH: `${BASE_ROUTE}/fruizione/client/:id/operatori/:operatorId`,
+                PATH: '/fruizione/client/:id/operatori/:operatorId',
                 EXACT: false,
                 LABEL: 'Modifica operatore',
                 COMPONENT: UserEdit,
@@ -298,7 +296,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
         },
       },
       AGREEMENT: {
-        PATH: `${BASE_ROUTE}/fruizione/accordi`,
+        PATH: '/fruizione/accordi',
         EXACT: false,
         LABEL: 'Gestisci accordi',
         COMPONENT: EmptyComponent,
@@ -306,7 +304,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
         AUTH_LEVELS: ['admin'],
         SUBROUTES: {
           LIST: {
-            PATH: `${BASE_ROUTE}/fruizione/accordi/lista`,
+            PATH: '/fruizione/accordi/lista',
             EXACT: true,
             LABEL: 'I tuoi accordi',
             COMPONENT: AgreementList,
@@ -314,7 +312,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
             AUTH_LEVELS: ['admin'],
           },
           EDIT: {
-            PATH: `${BASE_ROUTE}/fruizione/accordi/:id`,
+            PATH: '/fruizione/accordi/:id',
             EXACT: false,
             LABEL: 'Modifica accordo',
             COMPONENT: AgreementEdit,
@@ -324,7 +322,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
         },
       },
       CATALOG: {
-        PATH: `${BASE_ROUTE}/fruizione/catalogo-e-service`,
+        PATH: '/fruizione/catalogo-e-service',
         EXACT: false,
         LABEL: 'Catalogo e-service',
         COMPONENT: EmptyComponent,
@@ -332,7 +330,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
         AUTH_LEVELS: ['admin', 'security'],
         SUBROUTES: {
           LIST: {
-            PATH: `${BASE_ROUTE}/fruizione/catalogo-e-service/lista`,
+            PATH: '/fruizione/catalogo-e-service/lista',
             EXACT: true,
             LABEL: 'E-service disponibili',
             COMPONENT: EServiceCatalog,
@@ -340,7 +338,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
             AUTH_LEVELS: ['admin', 'security'],
           },
           VIEW: {
-            PATH: `${BASE_ROUTE}/fruizione/catalogo-e-service/:eserviceId/:descriptorId`,
+            PATH: '/fruizione/catalogo-e-service/:eserviceId/:descriptorId',
             EXACT: false,
             LABEL: 'Visualizza e-service',
             COMPONENT: EServiceGate,

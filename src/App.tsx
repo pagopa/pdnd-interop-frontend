@@ -15,7 +15,7 @@ export function App() {
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <PartyContext.Provider value={{ party, availableParties, setParty, setAvailableParties }}>
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <BodyLogger />
