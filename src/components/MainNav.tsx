@@ -35,16 +35,17 @@ export function MainNav() {
     setOpen(!open || menu !== open ? menu : null)
   }
 
-  const computeFontWeight = (path: string) => {
-    return isActiveTree(location, path) ? 600 : 300
+  const computeFontWeight = (route: RouteConfig) => {
+    return isActiveTree(location, route) ? 600 : 300
   }
 
-  const WrappedLink = ({ route: { PATH, LABEL } }: { route: RouteConfig }) => {
+  const WrappedLink = ({ route }: { route: RouteConfig }) => {
+    const { PATH, LABEL } = route
     return (
       <StyledLink underline="none" to={PATH}>
         <ListItemText
           disableTypography
-          primary={<Typography sx={{ fontWeight: computeFontWeight(PATH) }}>{LABEL}</Typography>}
+          primary={<Typography sx={{ fontWeight: computeFontWeight(route) }}>{LABEL}</Typography>}
         />
       </StyledLink>
     )
@@ -56,18 +57,18 @@ export function MainNav() {
         route: ROUTES.PROVIDE,
         type: 'provider',
         children: [
-          ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.LIST,
-          ROUTES.PROVIDE.SUBROUTES!.AGREEMENT.SUBROUTES!.LIST,
-          ROUTES.PROVIDE.SUBROUTES!.OPERATOR.SUBROUTES!.LIST,
+          ROUTES.PROVIDE.SUBROUTES!.ESERVICE,
+          ROUTES.PROVIDE.SUBROUTES!.AGREEMENT,
+          ROUTES.PROVIDE.SUBROUTES!.OPERATOR,
         ],
       },
       {
         route: ROUTES.SUBSCRIBE,
         type: 'subscriber',
         children: [
-          ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.LIST,
-          ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.LIST,
-          ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT.SUBROUTES!.LIST,
+          ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG,
+          ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT,
+          ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT,
         ],
       },
     ],
@@ -75,17 +76,14 @@ export function MainNav() {
       {
         route: ROUTES.PROVIDE,
         type: 'provider',
-        children: [ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.LIST],
+        children: [ROUTES.PROVIDE.SUBROUTES!.ESERVICE],
       },
     ],
     security: [
       {
         route: ROUTES.SUBSCRIBE,
         type: 'subscriber',
-        children: [
-          ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.LIST,
-          ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.LIST,
-        ],
+        children: [ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG, ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT],
       },
     ],
   }
@@ -131,7 +129,7 @@ export function MainNav() {
                 <ListItemText
                   disableTypography
                   primary={
-                    <Typography sx={{ fontWeight: computeFontWeight(view.route.PATH) }}>
+                    <Typography sx={{ fontWeight: computeFontWeight(view.route) }}>
                       {view.route.LABEL}
                     </Typography>
                   }

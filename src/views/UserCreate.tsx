@@ -30,9 +30,6 @@ export function UserCreate() {
       platformRole: mode === 'provider' ? 'api' : 'security',
     }
 
-    const bits = location.pathname.split('/')
-    console.log(bits)
-
     const { clientId } = parseSearch(location.search)
 
     const endpoint = mode === 'provider' ? 'OPERATOR_API_CREATE' : 'OPERATOR_SECURITY_CREATE'

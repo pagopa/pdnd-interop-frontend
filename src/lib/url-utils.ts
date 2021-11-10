@@ -1,11 +1,12 @@
 import { Location } from 'history'
-import { isEmpty } from 'lodash'
+import identity from 'lodash/identity'
+import isEmpty from 'lodash/isEmpty'
 import qs from 'query-string'
-import { RouteConfig, RouteConfigWithParents } from '../../types'
-import { ROUTES } from './constants'
+import { RouteConfig } from '../../types'
+import cryptoRandomString from 'crypto-random-string'
 
 export function getBits(location: Location<unknown>): string[] {
-  return location.pathname.split('/').filter((b: string) => b)
+  return location.pathname.split('/').filter(identity)
 }
 
 export function getLastBit(location: Location<unknown>): string {
@@ -29,30 +30,33 @@ export function buildDynamicRoute(route: RouteConfig, params: { [key: string]: s
   return { ...route, PATH: buildDynamicPath(route.PATH, params) }
 }
 
-function decorateRouteWithParents(
-  routes: Record<string, RouteConfigWithParents>,
+export function decorateRouteWithParents(
+  routes: Record<string, RouteConfig>,
   parents?: Array<RouteConfig>
-): any {
+): Record<string, RouteConfig> {
   return Object.keys(routes).reduce((acc, next) => {
-    const nextObj: RouteConfigWithParents = { ...routes[next] }
-
-    if (parents && !isEmpty(parents)) {
-      nextObj.PARENTS = Array.isArray(parents) ? parents : [parents]
+    const nextObj = {
+      ...routes[next],
+      ID: cryptoRandomString({ length: 8 }),
+      SPLIT_PATH: routes[next].PATH.split('/').filter(identity),
     }
 
-    if (routes[next].SUBROUTES) {
-      const parents = [...(nextObj.PARENTS || []), routes[next]]
-      nextObj.SUBROUTES = decorateRouteWithParents(routes[next].SUBROUTES!, parents)
+    // Add parents to this route
+    if (parents && !isEmpty(parents)) {
+      nextObj.PARENTS = parents
+    }
+
+    // Add parents to subroutes of this route
+    if (nextObj.SUBROUTES) {
+      const parents = [...(nextObj.PARENTS || []), { ...nextObj }]
+      nextObj.SUBROUTES = decorateRouteWithParents(nextObj.SUBROUTES!, parents)
     }
 
     return { ...acc, [next]: nextObj }
   }, {})
 }
 
-function flattenRoutes(
-  routes: Record<string, RouteConfigWithParents>,
-  arr: Array<RouteConfigWithParents> = []
-) {
+export function flattenRoutes(routes: Record<string, RouteConfig>, arr: Array<RouteConfig> = []) {
   const routesArr = Object.values(routes)
 
   routesArr.forEach((r: any) => {
@@ -63,9 +67,4 @@ function flattenRoutes(
   })
 
   return arr
-}
-
-export const getFlattenedRoutes = () => {
-  const decorated = decorateRouteWithParents(ROUTES)
-  return flattenRoutes(decorated)
 }

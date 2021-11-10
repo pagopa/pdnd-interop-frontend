@@ -1,15 +1,15 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 import { Breadcrumbs, Typography } from '@mui/material'
-import { RouteConfigWithParents } from '../../../types'
-import { DECORATED_ROUTES } from '../../lib/constants'
+import { ROUTES } from '../../lib/constants'
 import { StyledLink } from './StyledLink'
+import { RouteConfig } from '../../../types'
+import { flattenRoutes } from '../../lib/url-utils'
 
 export function StyledBreadcrumbs() {
   const location = useLocation()
-  const currentRoute: RouteConfigWithParents | undefined = DECORATED_ROUTES.find(
-    (r) => r.PATH === location.pathname
-  )
+  const flattened = flattenRoutes(ROUTES)
+  const currentRoute: RouteConfig | undefined = flattened.find((r) => r.PATH === location.pathname)
 
   if (!currentRoute) {
     return null
