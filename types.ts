@@ -37,6 +37,7 @@ export type BasicRouteConfig = {
   SUBROUTES?: Record<string, BasicRouteConfig>
   COMPONENT: React.FunctionComponent<any>
   RENDER?: boolean
+  HIDE_BREADCRUMB?: boolean
   PUBLIC: boolean
   AUTH_LEVELS?: RouteAuthLevel
 }

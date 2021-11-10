@@ -266,7 +266,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
           HANDLE: {
             PATH: '/fruizione/client/:id',
             EXACT: false,
-            LABEL: 'Gestisci client',
+            LABEL: 'Gestisci singolo client',
             COMPONENT: EmptyComponent,
             RENDER: false,
             PUBLIC: false,
@@ -284,6 +284,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
                 PATH: '/fruizione/client/:id/operatori',
                 EXACT: false,
                 LABEL: 'I tuoi operatori di sicurezza',
+                HIDE_BREADCRUMB: true,
                 COMPONENT: EmptyComponent,
                 RENDER: false,
                 PUBLIC: false,
