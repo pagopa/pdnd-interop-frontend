@@ -5,11 +5,12 @@ import { ROUTES } from '../../lib/constants'
 import { StyledLink } from './StyledLink'
 import { RouteConfig } from '../../../types'
 import { flattenRoutes } from '../../lib/url-utils'
+import { isSameRoute } from '../../lib/router-utils'
 
 export function StyledBreadcrumbs() {
   const location = useLocation()
   const flattened = flattenRoutes(ROUTES)
-  const currentRoute: RouteConfig | undefined = flattened.find((r) => r.PATH === location.pathname)
+  const currentRoute: RouteConfig | undefined = flattened.find((r) => isSameRoute(location, r))
 
   if (!currentRoute) {
     return null
@@ -17,8 +18,13 @@ export function StyledBreadcrumbs() {
 
   const links = [...(currentRoute.PARENTS || []), currentRoute]
 
+  // Don't display breadcrumbs for first level descentants, they are useless
+  if (links.length < 2) {
+    return null
+  }
+
   return (
-    <Breadcrumbs>
+    <Breadcrumbs sx={{ mb: 4 }}>
       {links.map((link, i) => {
         if (i === links.length - 1) {
           return (
