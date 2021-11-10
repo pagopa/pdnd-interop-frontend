@@ -42,6 +42,10 @@ export type RouteConfig = {
   AUTH_LEVELS?: RouteAuthLevel
 }
 
+export type RouteConfigWithParents = RouteConfig & {
+  PARENTS?: Array<RouteConfig>
+}
+
 export type Image = { src: string; alt: string }
 export type RequestOutcome = 'success' | 'error'
 export type RequestOutcomeMessage = { title: string; description: JSX.Element[]; img: Image }

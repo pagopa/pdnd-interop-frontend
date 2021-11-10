@@ -168,7 +168,7 @@ export function UserList() {
               mode === 'subscriber' ? `?clientId=${clientId}` : ''
             }`}
           >
-            {CREATE_ACTIONS[mode!].LABEL}
+            + Aggiungi
           </StyledButton>
         )}
 
