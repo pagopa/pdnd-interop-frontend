@@ -124,7 +124,7 @@ export function EServiceList() {
       const successResponse = response as AxiosResponse<EServiceDescriptorRead>
       const descriptorId = successResponse.data.id
       history.push(
-        buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE_EDIT.PATH, {
+        buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.EDIT.PATH, {
           eserviceId,
           descriptorId,
         }),
@@ -214,9 +214,9 @@ export function EServiceList() {
         <StyledButton
           variant="contained"
           component={StyledLink}
-          to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.PATH}
+          to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.CREATE.PATH}
         >
-          {ROUTES.PROVIDE.SUBROUTES!.ESERVICE_CREATE.LABEL}
+          + Aggiungi
         </StyledButton>
 
         <TempFilters />
@@ -240,7 +240,7 @@ export function EServiceList() {
               index={i}
               singleActionBtn={{
                 props: {
-                  to: buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE_EDIT.PATH, {
+                  to: buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.EDIT.PATH, {
                     eserviceId: item.id,
                     descriptorId: item.descriptorId || 'prima-bozza',
                   }),

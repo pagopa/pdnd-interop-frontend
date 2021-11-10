@@ -94,7 +94,7 @@ export function EServiceWriteStep2Version({
       // The EServiceGate component rerenders because we added "history.location"
       // as a useEffect dependency in EServiceGate useAsyncFetch hook
       history.replace(
-        buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE_EDIT.PATH, {
+        buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.EDIT.PATH, {
           eserviceId: fetchedData.id,
           descriptorId,
         }),

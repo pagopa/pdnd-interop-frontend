@@ -28,18 +28,22 @@ export type RequestConfig = {
   config?: AxiosRequestConfig
 }
 
-export type RoutesObject = { [key: string]: RouteConfig }
-
 export type RouteAuthLevel = 'any' | UserPlatformRole[]
 
-export type RouteConfig = {
+export type BasicRouteConfig = {
   PATH: string
   LABEL: string
   EXACT?: boolean
-  SUBROUTES?: RoutesObject
+  SUBROUTES?: Record<string, BasicRouteConfig>
   COMPONENT: React.FunctionComponent<any>
   PUBLIC: boolean
   AUTH_LEVELS?: RouteAuthLevel
+}
+
+export type RouteConfig = BasicRouteConfig & {
+  SUBROUTES?: Record<string, RouteConfig>
+  SPLIT_PATH: Array<string>
+  PARENTS?: Array<RouteConfig>
 }
 
 export type Image = { src: string; alt: string }

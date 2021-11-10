@@ -68,7 +68,7 @@ export function EServiceCatalog() {
 
     if (!eservice.isMine && isAdmin(party) && eservice.callerSubscribed) {
       actions.push({
-        to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT_EDIT.PATH, {
+        to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT.SUBROUTES!.EDIT.PATH, {
           id: eservice.callerSubscribed,
         }),
         component: StyledLink,
@@ -152,7 +152,7 @@ export function EServiceCatalog() {
               index={i}
               singleActionBtn={{
                 props: {
-                  to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG_VIEW.PATH, {
+                  to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.VIEW.PATH, {
                     eserviceId: item.id,
                     descriptorId: item.descriptorId!,
                   }),

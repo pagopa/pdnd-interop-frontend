@@ -7,7 +7,7 @@ export function Provide() {
     <ProtectedSubroutes
       subroutes={ROUTES.PROVIDE.SUBROUTES!}
       redirectSrcRoute={ROUTES.PROVIDE}
-      redirectDestRoute={ROUTES.PROVIDE.SUBROUTES!.ESERVICE_LIST}
+      redirectDestRoute={ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.LIST}
     />
   )
 }
