@@ -214,7 +214,7 @@ export function UserList() {
                         ),
                   component: StyledLink,
                 },
-                label: '',
+                label: 'Gestisci',
               }}
               actions={getAvailableActions(item)}
             />
