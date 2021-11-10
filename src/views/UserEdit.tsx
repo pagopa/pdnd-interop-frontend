@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import { useLocation } from 'react-router-dom'
 import { ActionProps, ApiEndpointKey, User, UserStatus } from '../../types'
@@ -14,8 +14,9 @@ import { mergeActions } from '../lib/eservice-utils'
 import { SecurityOperatorKeys } from '../components/SecurityOperatorKeys'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { Typography } from '@mui/material'
+import { Tab, Tabs, Typography } from '@mui/material'
 import { Box } from '@mui/system'
+import { a11yProps, TabPanel } from '../components/TabPanel'
 
 type UserEndpoinParams =
   | { operatorTaxCode: string; clientId: string }
@@ -27,6 +28,11 @@ export function UserEdit() {
   const { party } = useContext(PartyContext)
   const bits = getBits(useLocation())
   const taxCode = bits[bits.length - 1]
+
+  const [activeTab, setActiveTab] = useState(0)
+  const updateActiveTab = (_: any, newTab: number) => {
+    setActiveTab(newTab)
+  }
 
   let clientId: string | undefined = bits[bits.length - 3]
   let endpoint: ApiEndpointKey = 'OPERATOR_SECURITY_GET_SINGLE'
@@ -128,52 +134,78 @@ export function UserEdit() {
     return mergeActions([sharedActions, currentActions], 'active')
   }
 
+  const UserSheet = () => {
+    return (
+      <TabPanel value={activeTab} index={0}>
+        <DescriptionBlock label="Nome e cognome">
+          <Typography component="span">
+            {userData?.name && userData?.surname ? userData.name + ' ' + userData.surname : 'n/d'}
+          </Typography>
+        </DescriptionBlock>
+
+        <DescriptionBlock label="Codice fiscale">
+          <Typography component="span">{userData?.taxCode || userData?.from}</Typography>
+        </DescriptionBlock>
+
+        <DescriptionBlock label="Email">
+          <Typography component="span">{userData?.email || 'n/d'}</Typography>
+        </DescriptionBlock>
+
+        <DescriptionBlock label="Ruolo">
+          <Typography component="span">
+            {userData?.role ? USER_ROLE_LABEL[userData!.role] : 'n/d'}
+          </Typography>
+        </DescriptionBlock>
+
+        <DescriptionBlock label="Permessi">
+          <Typography component="span">
+            {userData?.platformRole ? USER_PLATFORM_ROLE_LABEL[userData!.platformRole] : 'n/d'}
+          </Typography>
+        </DescriptionBlock>
+
+        <DescriptionBlock label="Stato dell'utenza sulla piattaforma">
+          <Typography component="span">
+            {userData?.status ? USER_STATUS_LABEL[userData!.status] : 'n/d'}
+          </Typography>
+        </DescriptionBlock>
+
+        <Box sx={{ mt: 4, display: 'flex' }}>
+          {getAvailableActions().map(({ onClick, label }, i) => (
+            <StyledButton variant="contained" key={i} onClick={onClick}>
+              {label}
+            </StyledButton>
+          ))}
+        </Box>
+      </TabPanel>
+    )
+  }
+
   return (
     <React.Fragment>
-      <StyledIntro>
-        {{
-          title: `Utente: ${
-            userData?.name && userData?.surname ? userData.name + ' ' + userData.surname : 'n/d'
-          }`,
-        }}
-      </StyledIntro>
+      <StyledIntro sx={{ mb: 0 }}>{{ title: 'Modifica operatore' }}</StyledIntro>
 
-      <DescriptionBlock label="Codice fiscale">
-        <Typography component="span">{userData?.taxCode || userData?.from}</Typography>
-      </DescriptionBlock>
+      {mode === 'provider' ? (
+        <UserSheet />
+      ) : (
+        <React.Fragment>
+          <Tabs
+            value={activeTab}
+            onChange={updateActiveTab}
+            aria-label="Due tab diverse per le informazioni dell'operatore e la chiave pubblica che può caricare"
+            sx={{ mb: 6 }}
+          >
+            <Tab label="Informazioni sull'operatore" {...a11yProps(0)} />
+            <Tab label="Chiave pubblica" {...a11yProps(1)} />
+          </Tabs>
 
-      <DescriptionBlock label="Email">
-        <Typography component="span">{userData?.email || 'n/d'}</Typography>
-      </DescriptionBlock>
+          <UserSheet />
 
-      <DescriptionBlock label="Ruolo">
-        <Typography component="span">
-          {userData?.role ? USER_ROLE_LABEL[userData!.role] : 'n/d'}
-        </Typography>
-      </DescriptionBlock>
-
-      <DescriptionBlock label="Permessi">
-        <Typography component="span">
-          {userData?.platformRole ? USER_PLATFORM_ROLE_LABEL[userData!.platformRole] : 'n/d'}
-        </Typography>
-      </DescriptionBlock>
-
-      <DescriptionBlock label="Stato dell'utente">
-        <Typography component="span">
-          {userData?.status ? USER_STATUS_LABEL[userData!.status] : 'n/d'}
-        </Typography>
-      </DescriptionBlock>
-
-      <Box sx={{ mt: 4, display: 'flex' }}>
-        {getAvailableActions().map(({ onClick, label }, i) => (
-          <StyledButton variant="contained" key={i} onClick={onClick}>
-            {label}
-          </StyledButton>
-        ))}
-      </Box>
-
-      {clientId && !isEmpty(userData) && (
-        <SecurityOperatorKeys clientId={clientId} userData={userData!} />
+          {clientId && !isEmpty(userData) && (
+            <TabPanel value={activeTab} index={1}>
+              <SecurityOperatorKeys clientId={clientId} userData={userData!} />
+            </TabPanel>
+          )}
+        </React.Fragment>
       )}
     </React.Fragment>
   )
