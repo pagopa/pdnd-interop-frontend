@@ -16,6 +16,7 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { Box } from '@mui/system'
+import { Typography } from '@mui/material'
 
 export function CompleteRegistration() {
   const { setLoadingText } = useContext(LoaderContext)
@@ -23,29 +24,12 @@ export function CompleteRegistration() {
   const [contract, setContract] = useState<Blob>()
   const location = useLocation()
 
-  // From: https://stackoverflow.com/a/38552302
-  // const parseJwt = (token: string) => {
-  //   const base64Url = token.split('.')[1]
-  //   const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-  //   const jsonPayload = decodeURIComponent(
-  //     atob(base64)
-  //       .split('')
-  //       .map(function (c) {
-  //         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-  //       })
-  //       .join('')
-  //   )
-
-  //   return JSON.parse(jsonPayload)
-  // }
-
   const getJwt = () => {
     const s = parseSearch(location.search)
     return s.jwt
   }
 
   const token = getJwt()
-  // const parsedToken = parseJwt(token)
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     // Avoid page reload
@@ -79,22 +63,21 @@ export function CompleteRegistration() {
   const outcomeContent: RequestOutcomeOptions = {
     success: {
       img: { src: successIllustration, alt: 'Icona che rappresenta successo' },
-      title: 'Congratulazioni',
+      title: 'La registrazione è completa!',
       description: [
-        <p>
-          La registrazione è completa. <StyledLink to="/">Clicca qui</StyledLink> per iniziare
-        </p>,
+        <Typography>
+          <StyledLink to="/">Clicca qui</StyledLink> per iniziare
+        </Typography>,
       ],
     },
     error: {
       img: { src: errorIllustration, alt: 'Icona che rappresenta errore' },
-      title: 'Attenzione!',
+      title: 'Non è stato possibile completare la procedura!',
       description: [
-        <p>
-          C'è stato un errore nel completamento della procedura. Assicurati che il file caricato sia
-          l'accordo firmato. Per ritentare, ricarica la pagina. Se credi sia un errore,{' '}
-          <InlineSupportLink />.
-        </p>,
+        <Typography>
+          Assicurati che il file caricato sia l'accordo firmato, e che la firma digitale appartenga
+          al Legale Rappresentante. Se credi sia un errore, <InlineSupportLink />.
+        </Typography>,
       ],
     },
   }
@@ -102,18 +85,18 @@ export function CompleteRegistration() {
   return (
     <React.Fragment>
       {!outcome ? (
-        <Box sx={{ m: 'auto', textAlign: 'center' }}>
-          <StyledIntro sx={{ mx: 'auto' }}>
+        <Box sx={{ m: 'auto', textAlign: 'left' }}>
+          <StyledIntro sx={{ mx: 'auto' }} variant="h2">
             {{
-              title: 'Ciao!',
+              title: "Carica l'atto di adesione",
               description:
-                "Per completare la procedura di registrazione, carica l'accordo ricevuto via email, completo della firma in originale del rappresentante legale",
+                "Per completare la procedura di adesione, inserisci qui l'accordo ricevuto al domicilio digitale dell'ente, firmato digitalmente dal Legale Rappresentante.",
             }}
           </StyledIntro>
 
           <Box sx={{ mt: 4 }}>
             <StyledForm onSubmit={handleSubmit}>
-              <Box sx={{ mb: 3 }}>
+              <Box sx={{ mb: 6 }}>
                 <StyledInputFile
                   id="contratto"
                   label="Carica accordo"
@@ -122,8 +105,8 @@ export function CompleteRegistration() {
                 />
               </Box>
 
-              <StyledButton variant="contained" type="submit" disabled={!contract}>
-                Prosegui
+              <StyledButton variant="contained" size="small" type="submit" disabled={!contract}>
+                Invia
               </StyledButton>
             </StyledForm>
           </Box>
