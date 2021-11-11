@@ -191,22 +191,16 @@ export function UserList() {
             ]}
             index={i}
             singleActionBtn={{
-              props: {
-                to:
-                  mode === 'provider'
-                    ? buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.OPERATOR.SUBROUTES!.EDIT.PATH, {
-                        id: (item.taxCode || item.from) as string,
-                      })
-                    : buildDynamicPath(
-                        ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.HANDLE.SUBROUTES!.OPERATOR
-                          .SUBROUTES!.EDIT.PATH,
-                        {
-                          id: clientId,
-                          operatorId: item.taxCode,
-                        }
-                      ),
-                component: StyledLink,
-              },
+              to:
+                mode === 'provider'
+                  ? buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.OPERATOR.SUBROUTES!.EDIT.PATH, {
+                      id: (item.taxCode || item.from) as string,
+                    })
+                  : buildDynamicPath(
+                      ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.HANDLE.SUBROUTES!.OPERATOR
+                        .SUBROUTES!.EDIT.PATH,
+                      { id: clientId, operatorId: item.taxCode }
+                    ),
               label: 'Gestisci',
             }}
             actions={getAvailableActions(item)}

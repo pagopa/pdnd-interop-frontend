@@ -42,9 +42,13 @@ export function Header() {
       <Box sx={{ bgcolor: 'primary.main' }}>
         <Layout>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Box sx={{ color: 'common.white', py: 3 }}>
-              <Typography variant="h4">Interoperabilità</Typography>
-              <Typography variant="caption">Il catalogo degli e-service delle PA</Typography>
+            <Box sx={{ py: 3 }}>
+              <Typography color="common.white" variant="h4">
+                Interoperabilità
+              </Typography>
+              <Typography color="common.white" variant="caption">
+                Il catalogo degli e-service delle PA
+              </Typography>
             </Box>
 
             {isInPlatform(location) && party !== null && <PartySelect />}

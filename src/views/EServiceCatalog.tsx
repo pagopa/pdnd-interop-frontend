@@ -13,11 +13,7 @@ import { useExtensionDialog } from '../hooks/useExtensionDialog'
 import { buildDynamicPath } from '../lib/url-utils'
 import { StyledTooltip } from '../components/Shared/StyledTooltip'
 import { StyledLink } from '../components/Shared/StyledLink'
-import {
-  Lock as LockIcon,
-  CheckCircle as CheckCircleIcon,
-  Cancel as CancelIcon,
-} from '@mui/icons-material'
+import { Clear as ClearIcon, Check as CheckIcon, Person as PersonIcon } from '@mui/icons-material'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 
 type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
@@ -56,7 +52,7 @@ export function EServiceCatalog() {
 
   const OwnerTooltip = ({ label = '', Icon }: { label: string; Icon: any }) => (
     <StyledTooltip title={label}>
-      <Icon sx={{ ml: 1 }} fontSize="small" color="primary" />
+      <Icon sx={{ ml: 0.5, fontSize: 16 }} color="secondary" />
     </StyledTooltip>
   )
 
@@ -98,18 +94,18 @@ export function EServiceCatalog() {
 
   const getTooltip = (item: ExtendedEServiceFlatReadType, canSubscribeEservice: boolean) => {
     if (item.isMine) {
-      return <OwnerTooltip label="Sei l'erogatore" Icon={LockIcon} />
+      return <OwnerTooltip label="Sei l'erogatore" Icon={PersonIcon} />
     }
 
     if (item.callerSubscribed && isAdmin(party)) {
-      return <OwnerTooltip label="Sei già iscritto" Icon={CheckCircleIcon} />
+      return <OwnerTooltip label="Sei già iscritto" Icon={CheckIcon} />
     }
 
     if (!item.isMine && !canSubscribeEservice) {
       return (
         <OwnerTooltip
           label="Il tuo ente non ha gli attributi certificati necessari per iscriversi"
-          Icon={CancelIcon}
+          Icon={ClearIcon}
         />
       )
     }
@@ -151,13 +147,10 @@ export function EServiceCatalog() {
               ]}
               index={i}
               singleActionBtn={{
-                props: {
-                  to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.VIEW.PATH, {
-                    eserviceId: item.id,
-                    descriptorId: item.descriptorId!,
-                  }),
-                  component: StyledLink,
-                },
+                to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.VIEW.PATH, {
+                  eserviceId: item.id,
+                  descriptorId: item.descriptorId!,
+                }),
                 label: 'Ispeziona',
               }}
               actions={getAvailableActions(item, canSubscribeEservice)}

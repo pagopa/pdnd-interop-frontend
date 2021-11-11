@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import { TableCell, TableRow, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { ActionMenu } from './ActionMenu'
@@ -10,29 +11,26 @@ type Cell = {
   tooltip?: any
 }
 
-type SingleActionBtnLinkProps = {
-  component: any
-  to: string
-}
-
-type SingleActionBtnProps = {
+type SingleActionLinkProps = {
   label: string
-  props: SingleActionBtnLinkProps
+  to: string
 }
 
 type StyledTableRowProps = {
   cellData: Cell[]
   index: number
-  singleActionBtn?: SingleActionBtnProps
+  singleActionBtn?: SingleActionLinkProps
   actions?: ActionProps[]
 }
 
 export function StyledTableRow({ cellData, index, singleActionBtn, actions }: StyledTableRowProps) {
+  const history = useHistory()
+
   return (
     <TableRow sx={{ bgcolor: 'common.white' }}>
       {cellData.map(({ label, tooltip }, i) => {
         return (
-          <TableCell key={i}>
+          <TableCell key={i} sx={{ py: 2 }}>
             <Typography
               component="span"
               sx={{ fontWeight: i === 0 ? 600 : 300, display: 'inline-flex', alignItems: 'center' }}
@@ -47,7 +45,13 @@ export function StyledTableRow({ cellData, index, singleActionBtn, actions }: St
 
       <TableCell align="right">
         {singleActionBtn && (
-          <StyledButton variant="outlined" {...singleActionBtn.props}>
+          <StyledButton
+            variant="outlined"
+            size="small"
+            onClick={() => {
+              history.push(singleActionBtn.to)
+            }}
+          >
             {singleActionBtn.label}
           </StyledButton>
         )}

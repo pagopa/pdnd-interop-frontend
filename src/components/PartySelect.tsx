@@ -43,11 +43,11 @@ export function PartySelect() {
           onClick={handleClick}
         >
           <Box component="span" sx={{ textAlign: 'left' }}>
-            <Typography component="span" variant="body2" sx={{ fontWeight: 700 }}>
+            <Typography color="inherit" component="span" variant="body2" sx={{ fontWeight: 700 }}>
               {party!.description}
             </Typography>
             <br />
-            <Typography component="span" variant="caption">
+            <Typography color="inherit" component="span" variant="caption">
               {USER_ROLE_LABEL[party!.role]}
             </Typography>
           </Box>

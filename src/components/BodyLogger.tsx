@@ -57,7 +57,7 @@ export function BodyLogger() {
         <LoaderContext.Provider value={{ loadingText, setLoadingText }}>
           <Header />
           {isInPlatform(location) ? (
-            <Box sx={{ flexGrow: 1 }}>
+            <Box sx={{ flexGrow: 1 }} bgcolor="#F5F6F7">
               <Layout sx={{ height: '100%' }}>
                 <Box sx={{ display: 'flex', height: '100%' }}>
                   {user && <MainNav />}

@@ -59,8 +59,12 @@ export function OnboardingStep1({ forward, data }: StepperStepComponentProps) {
           <Box>
             <Typography variant="caption">
               Non trovi il tuo Ente nell’indice IPA?{' '}
-              <StyledLink to={ROUTES.IPA_GUIDE.PATH}>Clicca qui</StyledLink> per maggiori
-              informazioni e istruzioni per essere inclusi nell’indice delle Pubbliche
+              <StyledLink to={ROUTES.IPA_GUIDE.PATH}>
+                <Typography variant="caption" component="span">
+                  Clicca qui
+                </Typography>
+              </StyledLink>{' '}
+              per maggiori informazioni e istruzioni per essere inclusi nell’indice delle Pubbliche
               Amministrazioni
             </Typography>
           </Box>

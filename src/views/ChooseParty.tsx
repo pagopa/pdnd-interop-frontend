@@ -31,19 +31,15 @@ export function ChooseParty() {
     history.push(DESTINATIONS[party?.platformRole!])
   }
 
-  const goToOnboarding = () => {
-    history.push(ROUTES.ONBOARDING.PATH)
-  }
-
   return availableParties.length > 0 ? (
     <React.Fragment>
       <StyledIntro sx={{ textAlign: 'center', mx: 'auto' }}>
         {{
-          title: 'Per quale ente vuoi operare?',
+          title: "Seleziona l'ente per cui accedi",
           description: (
             <>
-              Se l’ente per il quale vuoi operare non è ancora accreditato sulla piattaforma, puoi
-              aggiungerlo cliccando sul link in basso
+              Potrai in ogni momento cambiare Ente/ruolo anche all'interno dell'interfaccia di
+              gestione dei prodotti
             </>
           ),
         }}
@@ -72,10 +68,14 @@ export function ChooseParty() {
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'flex-start',
-                        bgcolor: selected ? 'grey.300' : 'common.white',
+                        border: 2,
+                        borderColor: selected ? 'primary.main' : 'common.white',
+                        mx: 2,
                         px: 2,
                         py: 3,
                         opacity: disabled ? 0.5 : 1,
+                        boxShadow: 2,
+                        borderRadius: 0,
                       }}
                       disabled={disabled}
                       onClick={wrapUpdateActiveParty(p.institutionId)}
@@ -94,7 +94,7 @@ export function ChooseParty() {
                     </StyledButton>
                     {p.status === 'pending' ||
                       (p.status === ('Pending' as any) && (
-                        <Box sx={{ position: 'absolute', right: 12, top: 12 }}>
+                        <Box sx={{ position: 'absolute', right: 20, top: 12 }}>
                           <Chip label="Da completare" color="primary" size="small" />
                         </Box>
                       ))}
@@ -116,11 +116,11 @@ export function ChooseParty() {
 
         <Box sx={{ mt: 1, display: 'flex', alignItems: 'center' }}>
           <Typography component="span" sx={{ mr: 1 }}>
-            Vuoi registrare un nuovo ente?
+            Vuoi registrare un nuovo ente?{' '}
+            <StyledLink sx={{ verticalAlign: 'top' }} to={ROUTES.ONBOARDING.PATH}>
+              Clicca qui
+            </StyledLink>
           </Typography>
-          <StyledLink component="button" onClick={goToOnboarding}>
-            <Typography>Clicca qui</Typography>
-          </StyledLink>
         </Box>
       </Box>
     </React.Fragment>
@@ -141,7 +141,12 @@ export function ChooseParty() {
             "Dev'essere il tuo primo accesso, non ci sono enti a te associati. Se sei il rappresentante legale di un ente, accreditalo e accedi",
         }}
       </StyledIntro>
-      <StyledButton variant="contained" onClick={goToOnboarding}>
+      <StyledButton
+        variant="contained"
+        onClick={() => {
+          history.push(ROUTES.ONBOARDING.PATH)
+        }}
+      >
         Registra nuovo ente
       </StyledButton>
     </Box>

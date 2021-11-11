@@ -44,7 +44,7 @@ body,
 
 .fakeData::before {
   content: 'fake data';
-  background: red;
+  background: tomato;
   color: white;
 }
 

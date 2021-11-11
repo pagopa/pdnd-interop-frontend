@@ -1,19 +1,18 @@
 import React, { useContext } from 'react'
+import { Box } from '@mui/system'
+import { AgreementStatus, AgreementSummary, ProviderOrSubscriber, ActionProps } from '../../types'
 import { AGREEMENT_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import { AgreementStatus, AgreementSummary, ProviderOrSubscriber, ActionProps } from '../../types'
-import { TableWithLoader } from '../components/Shared/TableWithLoader'
-import { StyledIntro } from '../components/Shared/StyledIntro'
-import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { useMode } from '../hooks/useMode'
-import { TempFilters } from '../components/TempFilters'
 import { mergeActions } from '../lib/eservice-utils'
 import { getAgreementStatus } from '../lib/status-utils'
-import { useFeedback } from '../hooks/useFeedback'
-import { StyledLink } from '../components/Shared/StyledLink'
-import { Box } from '@mui/system'
-import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { buildDynamicPath } from '../lib/url-utils'
+import { useAsyncFetch } from '../hooks/useAsyncFetch'
+import { useFeedback } from '../hooks/useFeedback'
+import { useMode } from '../hooks/useMode'
+import { StyledIntro } from '../components/Shared/StyledIntro'
+import { StyledTableRow } from '../components/Shared/StyledTableRow'
+import { TableWithLoader } from '../components/Shared/TableWithLoader'
+import { TempFilters } from '../components/TempFilters'
 
 export function AgreementList() {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -176,14 +175,11 @@ export function AgreementList() {
               ]}
               index={i}
               singleActionBtn={{
-                props: {
-                  to: buildDynamicPath(
-                    ROUTES[mode === 'provider' ? 'PROVIDE' : 'SUBSCRIBE'].SUBROUTES!.AGREEMENT
-                      .SUBROUTES!.EDIT.PATH,
-                    { id: item.id }
-                  ),
-                  component: StyledLink,
-                },
+                to: buildDynamicPath(
+                  ROUTES[mode === 'provider' ? 'PROVIDE' : 'SUBSCRIBE'].SUBROUTES!.AGREEMENT
+                    .SUBROUTES!.EDIT.PATH,
+                  { id: item.id }
+                ),
                 label: 'Ispeziona',
               }}
               actions={getAvailableActions(item)}

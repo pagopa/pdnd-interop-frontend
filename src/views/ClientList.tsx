@@ -132,13 +132,10 @@ export function ClientList() {
               ]}
               index={i}
               singleActionBtn={{
-                props: {
-                  to: buildDynamicPath(
-                    ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.HANDLE.SUBROUTES!.EDIT.PATH,
-                    { id: item.id }
-                  ),
-                  component: StyledLink,
-                },
+                to: buildDynamicPath(
+                  ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.HANDLE.SUBROUTES!.EDIT.PATH,
+                  { id: item.id }
+                ),
                 label: 'Ispeziona',
               }}
               actions={getAvailableActions(item)}
