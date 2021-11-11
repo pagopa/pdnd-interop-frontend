@@ -29,21 +29,29 @@ export function StyledInputFile({ id, onChange, value, label }: StyledInputFileP
             cursor: 'pointer',
             display: 'inline-flex',
             alignItems: 'center',
-            px: 4,
-            py: 2,
+            px: 3,
+            py: 1.5,
             position: 'relative',
             borderRadius: 1,
           }}
           color="common.white"
           bgcolor="primary.main"
         >
-          <Typography component="span" variant="body2" sx={{ fontWeight: 700 }}>
+          <Typography
+            component="span"
+            variant="body2"
+            color="common.white"
+            sx={{ fontWeight: 600 }}
+          >
             {label}
           </Typography>
         </Box>
       </Box>
-      <Typography component="span">
-        File selezionato: <strong>{value ? value.name : 'nessun file selezionato'}</strong>
+      <Typography component="span" variant="caption">
+        File selezionato:{' '}
+        <Typography component="span" variant="inherit" sx={{ fontWeight: 700 }}>
+          {value ? value.name : 'nessun file selezionato'}
+        </Typography>
       </Typography>
     </Box>
   )
