@@ -420,9 +420,7 @@ export type LoaderType = 'global' | 'contextual'
  * Action buttons in tables
  */
 export type ActionProps = {
-  component?: FunctionComponent<any>
-  to?: string
-  onClick?: ActionFunction
+  onClick: ActionFunction
   label: string
   isMock?: boolean
 }
