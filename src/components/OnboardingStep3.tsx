@@ -81,7 +81,7 @@ export function OnboardingStep3({ forward, back }: StepperStepComponentProps) {
 
         <Box sx={{ mb: 4 }}>
           <StyledLink component="button" onClick={addDelegateForm}>
-            <Typography>Aggiungi nuovo delegato</Typography>
+            <Typography component="span">Aggiungi nuovo delegato</Typography>
           </StyledLink>
         </Box>
 

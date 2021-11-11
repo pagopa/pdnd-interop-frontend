@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import {
@@ -17,21 +16,23 @@ import { OnboardingStep2 } from '../components/OnboardingStep2'
 import { OnboardingStep3 } from '../components/OnboardingStep3'
 import { LoadingOverlay } from '../components/Shared/LoadingOverlay'
 import { MessageNoAction } from '../components/Shared/MessageNoAction'
-import emailIllustration from '../assets/email-illustration.svg'
-import redXIllustration from '../assets/red-x-illustration.svg'
+import successIllustration from '../assets/success-illustration.svg'
+import errorIllustration from '../assets/error-illustration.svg'
 import { InlineSupportLink } from '../components/Shared/InlineSupportLink'
-import { StyledLink } from '../components/Shared/StyledLink'
+import { StyledButton } from '../components/Shared/StyledButton'
+import { useHistory } from 'react-router'
+import { ROUTES } from '../lib/constants'
 
 export function Onboarding() {
+  const history = useHistory()
   const [loading, setLoading] = useState(false)
   const [activeStep, setActiveStep] = useState(0)
   const [partyPeople, setPartyPeople] = useState<Record<string, User>>({})
   const [party, setParty] = useState<IPACatalogParty>()
   const [outcome, setOutcome] = useState<RequestOutcome>()
-  const history = useHistory()
 
-  const reload = () => {
-    history.go(0)
+  const goHome = () => {
+    history.push(ROUTES.LOGIN.PATH)
   }
 
   const back = (e?: any) => {
@@ -92,30 +93,35 @@ export function Onboarding() {
 
   const outcomeContent: RequestOutcomeOptions = {
     success: {
-      img: { src: emailIllustration, alt: "Icona dell'email" },
-      title: 'Ci siamo quasi...',
+      img: { src: successIllustration, alt: 'Icona che rappresenta successo' },
+      title: 'La tua richiesta è stata inviata con successo',
       description: [
         <Typography sx={{ mb: 2 }}>
-          Per completare la registrazione, segui le istruzioni che trovi nella mail che ti abbiamo
-          inviato a <strong>{party?.digitalAddress}</strong>
+          Per completare la registrazione, segui le istruzioni che trovi nella mail inviata a{' '}
+          <strong>{party?.digitalAddress}</strong>
         </Typography>,
         <Typography>
-          Non hai ricevuto nessuna mail? Attendi qualche minuto e controlla anche nello spam. Se non
-          arriva, <InlineSupportLink />
+          Se non hai ricevuto nessuna mail, attendi qualche minuto e verifica anche tra lo spam.
+          <br />
+          Se ancora non arriva, <InlineSupportLink />.
         </Typography>,
+        <StyledButton sx={{ mt: 6 }} size="small" variant="contained" onClick={goHome}>
+          Torna al portale
+        </StyledButton>,
       ],
     },
     error: {
-      img: { src: redXIllustration, alt: "Icona dell'email" },
-      title: "C'è stato un problema...",
+      img: { src: errorIllustration, alt: 'Icona che rappresenta errore' },
+      title: 'Spiacenti, qualcosa è andato storto',
       description: [
         <Typography>
-          Il salvataggio dei dati inseriti non è andato a buon fine.{' '}
-          <StyledLink component="button" onClick={reload}>
-            <Typography>Prova nuovamente a registrarti</Typography>
-          </StyledLink>
-          , e se il problema dovesse persistere, <InlineSupportLink />!
+          A causa di un errore del sistema non è possibile completare la procedura.
+          <br />
+          Ti chiediamo di riprovare più tardi.
         </Typography>,
+        <StyledButton sx={{ mt: 6 }} size="small" variant="contained" onClick={goHome}>
+          Torna al portale
+        </StyledButton>,
       ],
     },
   }

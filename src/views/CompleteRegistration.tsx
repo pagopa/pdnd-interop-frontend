@@ -3,8 +3,8 @@ import { useLocation } from 'react-router-dom'
 import { fetchWithLogs } from '../lib/api-utils'
 import { MessageNoAction } from '../components/Shared/MessageNoAction'
 import { RequestOutcome, RequestOutcomeOptions } from '../../types'
-import checkIllustration from '../assets/check-illustration.svg'
-import redXIllustration from '../assets/red-x-illustration.svg'
+import successIllustration from '../assets/success-illustration.svg'
+import errorIllustration from '../assets/error-illustration.svg'
 import { StyledInputFile } from '../components/Shared/StyledInputFile'
 import { getFetchOutcome } from '../lib/error-utils'
 import { InlineSupportLink } from '../components/Shared/InlineSupportLink'
@@ -78,7 +78,7 @@ export function CompleteRegistration() {
 
   const outcomeContent: RequestOutcomeOptions = {
     success: {
-      img: { src: checkIllustration, alt: "Icona dell'email" },
+      img: { src: successIllustration, alt: 'Icona che rappresenta successo' },
       title: 'Congratulazioni',
       description: [
         <p>
@@ -87,7 +87,7 @@ export function CompleteRegistration() {
       ],
     },
     error: {
-      img: { src: redXIllustration, alt: "Icona dell'email" },
+      img: { src: errorIllustration, alt: 'Icona che rappresenta errore' },
       title: 'Attenzione!',
       description: [
         <p>

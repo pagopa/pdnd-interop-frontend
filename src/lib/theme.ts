@@ -51,6 +51,17 @@ const theme = createTheme({
         },
       ],
     },
+    MuiLink: {
+      variants: [
+        {
+          props: { color: 'primary' },
+          style: {
+            color: italia[500],
+            textDecoration: 'underline',
+          },
+        },
+      ],
+    },
   },
   palette: {
     background: {
@@ -90,19 +101,11 @@ const theme = createTheme({
       color: '#17324D',
     },
     body1: {
-      a: {
-        color: italia[500],
-        textDecoration: 'underline',
-      },
       fontSize: 18,
       fontWeight: 300,
       lineHeight: 1.35,
     },
     body2: {
-      a: {
-        color: italia[500],
-        textDecoration: 'underline',
-      },
       fontSize: 16,
       fontWeight: 400,
       lineHeight: 1.2,

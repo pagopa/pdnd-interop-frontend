@@ -24,13 +24,7 @@ export function AuthGuard({ Component, isRoutePublic, authLevels }: AuthGuardPro
       const isNowSilentlyLoggedIn = await attemptSilentLogin()
 
       // Exclude the routes necessary to log in to avoid perpetual loop
-      const whitelist = [
-        ROUTES.LOGIN,
-        ROUTES.TEMP_SPID_USER,
-        ROUTES.REGISTRATION_FINALIZE_COMPLETE,
-        ROUTES.REGISTRATION_FINALIZE_REJECT,
-        ROUTES.SECURITY_KEY_GUIDE,
-      ]
+      const whitelist = Object.values(ROUTES).filter((r) => r.PUBLIC)
       const isWhitelistedPage = whitelist.map((r) => r.PATH).includes(history.location.pathname)
 
       // If it still fails, redirect to login page
