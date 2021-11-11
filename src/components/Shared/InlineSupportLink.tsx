@@ -1,9 +1,10 @@
 import React from 'react'
+import { StyledLink } from './StyledLink'
 
 export function InlineSupportLink() {
   return (
-    <a href="#0" title="Contatta l'assistenza">
+    <StyledLink color="inherit" href="#0" title="Contatta l'assistenza">
       contatta l'assistenza
-    </a>
+    </StyledLink>
   )
 }

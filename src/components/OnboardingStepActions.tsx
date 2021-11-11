@@ -19,12 +19,12 @@ export function OnboardingStepActions({ forward, back }: ActionStepsProps) {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
       {back && (
-        <StyledButton variant="outlined" sx={{ mx: 1 }} onClick={back.action}>
+        <StyledButton size="small" variant="outlined" sx={{ mx: 2 }} onClick={back.action}>
           {back.label}
         </StyledButton>
       )}
       {forward && (
-        <StyledButton variant="contained" type="submit">
+        <StyledButton size="small" variant="contained" type="submit">
           {forward.label}
         </StyledButton>
       )}

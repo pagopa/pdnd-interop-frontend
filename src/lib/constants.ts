@@ -122,7 +122,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     PATH: '/notifiche',
     LABEL: 'Notifiche',
     COMPONENT: Notifications,
-    PUBLIC: true,
+    PUBLIC: false,
     AUTH_LEVELS: 'any',
   },
   PROVIDE: {
