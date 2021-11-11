@@ -12,7 +12,12 @@ import {
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useMode } from '../hooks/useMode'
-import { ATTRIBUTE_TYPE_LABEL, ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
+import {
+  ATTRIBUTE_TYPE_LABEL,
+  ESERVICE_STATUS_LABEL,
+  MEDIUM_MAX_WIDTH,
+  ROUTES,
+} from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { minutesToHHMMSS } from '../lib/date-utils'
 import { canSubscribe } from '../lib/attributes'
@@ -27,7 +32,7 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { FileDownload as FileDownloadIcon } from '@mui/icons-material'
+import { FileDownloadOutlined as FileDownloadOutlinedIcon } from '@mui/icons-material'
 
 type EServiceReadProps = {
   data: EServiceReadType
@@ -193,7 +198,7 @@ export function EServiceRead({ data }: EServiceReadProps) {
       )}
 
       {data.activeDescriptor!.docs.length > 0 && (
-        <DescriptionBlock label="Documentazione">
+        <DescriptionBlock label="Documentazione" sx={{ maxWidth: MEDIUM_MAX_WIDTH }}>
           {data.activeDescriptor!.docs.map((d, i) => (
             <Box
               sx={{
@@ -217,7 +222,7 @@ export function EServiceRead({ data }: EServiceReadProps) {
                 )}
               </Box>
               <StyledLink component="button" onClick={wrapDownloadDocument(d.id)}>
-                <FileDownloadIcon fontSize="small" sx={{ mr: 1 }} color="primary" />
+                <FileDownloadOutlinedIcon fontSize="small" sx={{ mr: 1 }} color="primary" />
               </StyledLink>
             </Box>
           ))}
@@ -225,7 +230,11 @@ export function EServiceRead({ data }: EServiceReadProps) {
       )}
 
       {(Object.keys(data.attributes) as AttributeType[]).map((key, i) => (
-        <DescriptionBlock key={i} label={`Attributi ${ATTRIBUTE_TYPE_LABEL[key]}`}>
+        <DescriptionBlock
+          key={i}
+          label={`Attributi ${ATTRIBUTE_TYPE_LABEL[key]}`}
+          sx={{ maxWidth: MEDIUM_MAX_WIDTH }}
+        >
           {data.attributes[key].length > 0 ? (
             <Box sx={{ mt: 1 }}>
               <StyledAccordion entries={toAccordionEntries(data.attributes[key])} />
@@ -239,14 +248,14 @@ export function EServiceRead({ data }: EServiceReadProps) {
       {mode === 'subscriber' && (
         <Box sx={{ display: 'flex' }}>
           {isVersionPublished && !isMine && isAdmin(party) && canSubscribeEservice && (
-            <StyledButton sx={{ mr: 1 }} variant="contained" onClick={handleSubscriptionDialog}>
+            <StyledButton sx={{ mr: 2 }} variant="contained" onClick={handleSubscriptionDialog}>
               Iscriviti
             </StyledButton>
           )}
           {!isMine && isAdmin(party) && !canSubscribeEservice && (
             <StyledButton
               className="mockFeature"
-              sx={{ mr: 1 }}
+              sx={{ mr: 2 }}
               variant="contained"
               onClick={openExtensionDialog}
             >

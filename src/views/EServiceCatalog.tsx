@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 import { EServiceFlatReadType, ActionProps } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
@@ -12,7 +13,6 @@ import { useSubscribeDialog } from '../hooks/useSubscribeDialog'
 import { useExtensionDialog } from '../hooks/useExtensionDialog'
 import { buildDynamicPath } from '../lib/url-utils'
 import { StyledTooltip } from '../components/Shared/StyledTooltip'
-import { StyledLink } from '../components/Shared/StyledLink'
 import { Clear as ClearIcon, Check as CheckIcon, Person as PersonIcon } from '@mui/icons-material'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 
@@ -21,6 +21,7 @@ type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
 }
 
 export function EServiceCatalog() {
+  const history = useHistory()
   const { party } = useContext(PartyContext)
   const { data, loadingText, error } = useAsyncFetch<
     EServiceFlatReadType[],
@@ -64,10 +65,13 @@ export function EServiceCatalog() {
 
     if (!eservice.isMine && isAdmin(party) && eservice.callerSubscribed) {
       actions.push({
-        to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT.SUBROUTES!.EDIT.PATH, {
-          id: eservice.callerSubscribed,
-        }),
-        component: StyledLink,
+        onClick: () => {
+          history.push(
+            buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT.SUBROUTES!.EDIT.PATH, {
+              id: eservice.callerSubscribed!,
+            })
+          )
+        },
         label: "Vai all'accordo",
       })
     }

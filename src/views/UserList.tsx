@@ -96,21 +96,17 @@ export function UserList() {
   // Build list of available actions for each service in its current state
   const getAvailableActions = (user: User) => {
     const suspendAction = {
-      btnProps: {
-        onClick: wrapActionInDialog(
-          wrapSuspend((user.taxCode || user.from) as string),
-          'USER_SUSPEND'
-        ),
-      },
+      onClick: wrapActionInDialog(
+        wrapSuspend((user.taxCode || user.from) as string),
+        'USER_SUSPEND'
+      ),
       label: 'Sospendi',
     }
     const reactivateAction = {
-      btnProps: {
-        onClick: wrapActionInDialog(
-          wrapReactivate((user.taxCode || user.from) as string),
-          'USER_REACTIVATE'
-        ),
-      },
+      onClick: wrapActionInDialog(
+        wrapReactivate((user.taxCode || user.from) as string),
+        'USER_REACTIVATE'
+      ),
       label: 'Riattiva',
     }
 
