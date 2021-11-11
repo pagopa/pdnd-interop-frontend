@@ -18,6 +18,7 @@
     "@types/react": "^17.0.18",
     "@types/react-dom": "^17.0.9",
     "@types/react-router-dom": "^5.1.8",
+    "@vito.falco/mui-italia": "^0.2.1",
     "axios": "^0.21.1",
     "crypto-random-string": "^3.3.1",
     "lodash": "^4.17.21",
