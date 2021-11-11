@@ -239,13 +239,10 @@ export function EServiceList() {
               ]}
               index={i}
               singleActionBtn={{
-                props: {
-                  to: buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.EDIT.PATH, {
-                    eserviceId: item.id,
-                    descriptorId: item.descriptorId || 'prima-bozza',
-                  }),
-                  component: StyledLink,
-                },
+                to: buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.EDIT.PATH, {
+                  eserviceId: item.id,
+                  descriptorId: item.descriptorId || 'prima-bozza',
+                }),
                 label: !item.status || item.status === 'draft' ? 'Modifica' : 'Ispeziona',
               }}
               actions={getAvailableActions(item)}

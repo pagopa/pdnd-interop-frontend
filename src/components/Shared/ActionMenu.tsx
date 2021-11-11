@@ -44,6 +44,8 @@ export const ActionMenu: FunctionComponent<ActionMenuProps> = ({ actions, index 
         MenuListProps={{
           'aria-labelledby': 'basic-button',
         }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         {actions.map(({ onClick, label, isMock }, i) => {
           return (

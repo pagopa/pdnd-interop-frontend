@@ -14,7 +14,7 @@ export function Footer() {
               <Box component="img" src={logo} alt="Logo PagoPA" sx={{ width: 120 }} />
             </StyledLink>
           </Box>
-          <Typography variant="caption">
+          <Typography color="inherit" variant="caption">
             PagoPA S.p.A. - società per azioni con socio unico - capitale sociale di euro 1,000,000
             interamente versato - sede legale in Roma, Piazza Colonna 370, CAP 00187 - n. di
             iscrizione a Registro Imprese di Roma, CF e P.IVA 15376371009

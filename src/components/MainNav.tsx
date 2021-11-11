@@ -35,17 +35,27 @@ export function MainNav() {
     setOpen(!open || menu !== open ? menu : null)
   }
 
-  const computeFontWeight = (route: RouteConfig) => {
-    return isActiveTree(location, route) ? 600 : 300
-  }
-
   const WrappedLink = ({ route }: { route: RouteConfig }) => {
+    const isSelected = isActiveTree(location, route)
     const { PATH, LABEL } = route
     return (
       <StyledLink underline="none" to={PATH}>
         <ListItemText
           disableTypography
-          primary={<Typography sx={{ fontWeight: computeFontWeight(route) }}>{LABEL}</Typography>}
+          primary={
+            <Typography
+              color="inherit"
+              sx={{
+                borderRight: 2,
+                fontWeight: isSelected ? 600 : 300,
+                borderColor: isSelected ? 'primary.min' : 'common.white',
+                px: 2,
+                py: 1,
+              }}
+            >
+              {LABEL}
+            </Typography>
+          }
         />
       </StyledLink>
     )
@@ -122,6 +132,7 @@ export function MainNav() {
       >
         {availableViews.map((view, i) => {
           const isActive = open === view.type
+          const isSelected = isActiveTree(location, view.route)
 
           return !!view.children && Boolean(view.children.length > 0) ? (
             <Box key={i} color="primary.main">
@@ -129,7 +140,7 @@ export function MainNav() {
                 <ListItemText
                   disableTypography
                   primary={
-                    <Typography sx={{ fontWeight: computeFontWeight(view.route) }}>
+                    <Typography color="inherit" sx={{ fontWeight: isSelected ? 600 : 300 }}>
                       {view.route.LABEL}
                     </Typography>
                   }
@@ -140,7 +151,7 @@ export function MainNav() {
               <Collapse in={isActive} timeout="auto" unmountOnExit>
                 <List disablePadding sx={{ width: WIDTH, pl: 2 }}>
                   {view.children!.map((child, j) => (
-                    <ListItem sx={{ display: 'block' }} key={j}>
+                    <ListItem sx={{ display: 'block', p: 0 }} key={j}>
                       <WrappedLink route={child} />
                     </ListItem>
                   ))}
@@ -148,7 +159,7 @@ export function MainNav() {
               </Collapse>
             </Box>
           ) : (
-            <ListItem sx={{ display: 'block' }} key={i}>
+            <ListItem sx={{ display: 'block', p: 0 }} key={i}>
               <WrappedLink route={view.route} />
             </ListItem>
           )
