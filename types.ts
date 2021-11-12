@@ -391,7 +391,7 @@ export type DialogProps = DialogContent & {
 
 export type DialogContent = {
   title?: string
-  children?: React.ReactNode
+  contents?: any
 }
 
 export type DialogActionKeys = Exclude<
