@@ -5,7 +5,6 @@ import { ActionProps, ApiEndpointKey, User, UserStatus } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATUS_LABEL } from '../lib/constants'
 import { getBits } from '../lib/url-utils'
 import { isAdmin } from '../lib/auth-utils'
 import { PartyContext } from '../lib/context'
@@ -17,6 +16,7 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { Tab, Tabs, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { a11yProps, TabPanel } from '../components/TabPanel'
+import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATUS_LABEL } from '../config/labels'
 
 type UserEndpoinParams =
   | { operatorTaxCode: string; clientId: string }

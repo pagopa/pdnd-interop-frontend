@@ -1,6 +1,6 @@
 import { Location } from 'history'
 import { ProviderOrSubscriber, RouteConfig } from '../../types'
-import { ROUTES } from './constants'
+import { ROUTES } from '../config/routes'
 import { includesAny } from './string-utils'
 import { getBits } from './url-utils'
 

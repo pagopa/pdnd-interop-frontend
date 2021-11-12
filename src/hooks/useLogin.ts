@@ -4,12 +4,12 @@ import { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import { Party, User } from '../../types'
 import { fetchAllWithLogs, fetchWithLogs } from '../lib/api-utils'
-import { ROUTES } from '../lib/constants'
 import { LoaderContext, PartyContext, UserContext } from '../lib/context'
 import { isFetchError } from '../lib/error-utils'
 import { testBearerToken } from '../lib/mock-static-data'
 import { storageDelete, storageRead, storageWrite } from '../lib/storage-utils'
 import { sleep } from '../lib/wait-utils'
+import { ROUTES } from '../config/routes'
 
 export const useLogin = () => {
   const history = useHistory()

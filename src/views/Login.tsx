@@ -4,7 +4,7 @@ import spidIcon from '../assets/icons/spid.svg'
 import cieIcon from '../assets/icons/cie.svg'
 import { useLogin } from '../hooks/useLogin'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { NARROW_MAX_WIDTH, ROUTES, USE_MOCK_SPID_USER } from '../lib/constants'
+import { NARROW_MAX_WIDTH, USE_MOCK_SPID_USER } from '../lib/constants'
 import { mockSPIDUser } from '../lib/mock-static-data'
 import { useHistory } from 'react-router'
 import { StyledButton } from '../components/Shared/StyledButton'
@@ -14,6 +14,7 @@ import { StyledForm } from '../components/Shared/StyledForm'
 import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 import { requiredValidationPattern } from '../lib/validation'
 import { StyledInputControlledCheckbox } from '../components/Shared/StyledInputControlledCheckbox'
+import { ROUTES } from '../config/routes'
 
 type LoginSubmitProps = {
   privacyHandle: boolean

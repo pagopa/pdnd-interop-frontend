@@ -1,12 +1,12 @@
+import React from 'react'
 import { AxiosRequestConfig, Method } from 'axios'
-import React, { FunctionComponent } from 'react'
+import { API } from './src/config/api-endpoints'
 import {
   AGREEMENT_STATUS_LABEL,
-  API,
   ATTRIBUTE_TYPE_LABEL,
   CLIENT_STATUS_LABEL,
   ESERVICE_STATUS_LABEL,
-} from './src/lib/constants'
+} from './src/config/labels'
 
 /*
  * Fetch data and router related types

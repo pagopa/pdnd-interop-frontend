@@ -4,7 +4,6 @@ import { Box } from '@mui/system'
 import { AttributeModalTemplate, AttributeType, CatalogAttribute } from '../../types'
 import { useFeedback } from '../hooks/useFeedback'
 import { fetchWithLogs } from '../lib/api-utils'
-import { TOAST_CONTENTS } from '../lib/constants'
 import { getFetchOutcome } from '../lib/error-utils'
 import { StyledAsyncAutocomplete } from './Shared/StyledAsyncAutocomplete'
 import { StyledAccordion } from './Shared/StyledAccordion'
@@ -12,6 +11,7 @@ import { StyledDialog } from './Shared/StyledDialog'
 import { StyledInputCheckbox } from './Shared/StyledInputCheckbox'
 import { StyledInputText } from './Shared/StyledInputText'
 import { StyledInputTextArea } from './Shared/StyledInputTextArea'
+import { TOAST_CONTENTS } from '../config/toast'
 
 type AttributeModalCreateNewProps = {
   close: any

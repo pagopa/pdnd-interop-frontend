@@ -11,7 +11,6 @@ import {
   FrontendAttributes,
   StepperStepComponentProps,
 } from '../../types'
-import { ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { buildDynamicPath } from '../lib/url-utils'
 import { requiredValidationPattern } from '../lib/validation'
@@ -29,6 +28,7 @@ import { StyledLink } from './Shared/StyledLink'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { StyledInputControlledRadio } from './Shared/StyledInputControlledRadio'
 import { StyledInputControlledSwitch } from './Shared/StyledInputControlledSwitch'
+import { ROUTES } from '../config/routes'
 
 export function EServiceWriteStep1General({
   forward,

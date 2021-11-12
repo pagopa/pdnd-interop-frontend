@@ -1,18 +1,20 @@
 import React, { useContext, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { Client, ClientStatus, ActionProps } from '../../types'
-import { DescriptionBlock } from '../components/DescriptionBlock'
-import { StyledIntro } from '../components/Shared/StyledIntro'
-import { useAsyncFetch } from '../hooks/useAsyncFetch'
+import isEmpty from 'lodash/isEmpty'
+import { Tab, Tabs, Typography } from '@mui/material'
+import { Box } from '@mui/system'
 import {
   AGREEMENT_STATUS_LABEL,
   CLIENT_STATUS_LABEL,
   ESERVICE_STATUS_LABEL,
-  NARROW_MAX_WIDTH,
-  ROUTES,
-} from '../lib/constants'
+} from '../config/labels'
+import { NARROW_MAX_WIDTH } from '../lib/constants'
+import { ROUTES } from '../config/routes'
+import { Client, ClientStatus, ActionProps } from '../../types'
+import { DescriptionBlock } from '../components/DescriptionBlock'
+import { StyledIntro } from '../components/Shared/StyledIntro'
+import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { buildDynamicPath, getBits } from '../lib/url-utils'
-import isEmpty from 'lodash/isEmpty'
 import { UserList } from './UserList'
 import { getClientComputedStatus } from '../lib/status-utils'
 import { isAdmin } from '../lib/auth-utils'
@@ -20,8 +22,6 @@ import { PartyContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { Box } from '@mui/system'
-import { Tab, Tabs, Typography } from '@mui/material'
 import { a11yProps, TabPanel } from '../components/TabPanel'
 
 export function ClientEdit() {

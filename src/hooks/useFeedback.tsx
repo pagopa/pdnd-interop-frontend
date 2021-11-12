@@ -12,10 +12,11 @@ import {
   ToastContentWithOutcome,
 } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
-import { DIALOG_CONTENTS, TOAST_CONTENTS } from '../lib/constants'
 import { DialogContext, LoaderContext, TableActionMenuContext, ToastContext } from '../lib/context'
 import { getFetchOutcome } from '../lib/error-utils'
 import { showTempAlert } from '../lib/wip-utils'
+import { DIALOG_CONTENTS } from '../config/dialog'
+import { TOAST_CONTENTS } from '../config/toast'
 
 type ActionOptions = { suppressToast: boolean }
 

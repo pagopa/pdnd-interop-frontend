@@ -1,6 +1,6 @@
 import React from 'react'
 import { ProtectedSubroutes } from '../components/ProtectedSubroutes'
-import { ROUTES } from '../lib/constants'
+import { ROUTES } from '../config/routes'
 
 export function Provide() {
   return (

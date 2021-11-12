@@ -1,9 +1,9 @@
 import { AxiosError, AxiosResponse } from 'axios'
 import { RequestConfig } from '../../types'
-import { API } from './constants'
 import instance from './api-interceptors-utils'
 import { buildDynamicPath } from './url-utils'
 import { logError } from './action-log'
+import { API } from '../config/api-endpoints'
 
 export async function fetchAllWithLogs(reqsConfig: RequestConfig[]) {
   return await Promise.all(reqsConfig.map(async (requestConfig) => await request(requestConfig)))

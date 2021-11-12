@@ -2,13 +2,13 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { ToastContentWithOutcome } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
-import { TOAST_CONTENTS } from '../lib/constants'
 import { getFetchOutcome } from '../lib/error-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledDialog } from './Shared/StyledDialog'
 import { StyledInputControlledSelect } from './Shared/StyledInputControlledSelect'
 import { requiredValidationPattern } from '../lib/validation'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
+import { TOAST_CONTENTS } from '../config/toast'
 
 type NewPublicKeyProps = {
   close: (toastContent?: ToastContentWithOutcome) => void
