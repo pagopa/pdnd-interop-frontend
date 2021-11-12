@@ -46,6 +46,7 @@ export function StyledInputControlledCheckbox({
   return (
     <Box sx={{ my: 2 }}>
       <Controller
+        shouldUnregister={true}
         name={name}
         control={control}
         defaultValue={defaultValue}

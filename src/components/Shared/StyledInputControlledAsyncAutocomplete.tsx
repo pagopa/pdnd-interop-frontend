@@ -89,6 +89,7 @@ export function StyledInputControlledAsyncAutocomplete({
   return (
     <React.Fragment>
       <Controller
+        shouldUnregister={true}
         name={name}
         control={control}
         defaultValue={defaultValue}
