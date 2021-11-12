@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   Dialog,
@@ -11,6 +11,7 @@ import { Box } from '@mui/system'
 import { StyledButton } from './StyledButton'
 import { ActionFunction } from '../../../types'
 import { StyledForm } from './StyledForm'
+import { TableActionMenuContext } from '../../lib/context'
 
 type ConfirmationDialogOverlayProps = {
   title?: string
@@ -34,16 +35,17 @@ export const StyledDialog: FunctionComponent<ConfirmationDialogOverlayProps> = (
 
   contents: Contents,
 }) => {
+  const { setTableActionMenu } = useContext(TableActionMenuContext)
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm()
 
-  // TEMP Refactor
-  // This is silly, but it is to avoid a runtime TypeError when closing the AttributeModal
   const voidClose = () => {
     close()
+    // Close any table action that might be open
+    setTableActionMenu(null)
   }
 
   return (
