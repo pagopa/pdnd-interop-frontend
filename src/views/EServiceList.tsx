@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router'
-import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import {
   ApiEndpointKey,
@@ -20,6 +19,8 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { Box } from '@mui/system'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
+import { ESERVICE_STATUS_LABEL } from '../config/labels'
+import { ROUTES } from '../config/routes'
 
 export function EServiceList() {
   const { runAction, runFakeAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()

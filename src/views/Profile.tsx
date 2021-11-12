@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import { Typography } from '@mui/material'
-import { USER_ROLE_LABEL } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
+import { USER_ROLE_LABEL } from '../config/labels'
 
 export function Profile() {
   const { user } = useContext(UserContext)

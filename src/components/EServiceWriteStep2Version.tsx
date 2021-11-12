@@ -5,7 +5,6 @@ import { AxiosResponse } from 'axios'
 import isEmpty from 'lodash/isEmpty'
 import { Box } from '@mui/system'
 import { ApiEndpointKey, StepperStepComponentProps } from '../../types'
-import { ROUTES } from '../lib/constants'
 import { buildDynamicPath } from '../lib/url-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
@@ -14,6 +13,7 @@ import { StyledForm } from './Shared/StyledForm'
 import { StyledIntro } from './Shared/StyledIntro'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { requiredValidationPattern } from '../lib/validation'
+import { ROUTES } from '../config/routes'
 
 type VersionData = {
   audience: string

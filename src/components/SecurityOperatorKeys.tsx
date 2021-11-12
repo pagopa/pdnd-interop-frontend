@@ -8,12 +8,12 @@ import { CreateKeyModal } from './CreateKeyModal'
 import { ToastContext, UserContext } from '../lib/context'
 import { DescriptionBlock } from './DescriptionBlock'
 import { downloadFile } from '../lib/file-utils'
-import { ROUTES } from '../lib/constants'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledLink } from './Shared/StyledLink'
 import { useFeedback } from '../hooks/useFeedback'
 import { Box } from '@mui/system'
 import { Typography } from '@mui/material'
+import { ROUTES } from '../config/routes'
 
 type SecurityOperatorKeysProps = {
   clientId: string

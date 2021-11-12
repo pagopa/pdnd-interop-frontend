@@ -4,13 +4,14 @@ import { useHistory } from 'react-router'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { IPACatalogParty, StepperStepComponentProps } from '../../types'
-import { NARROW_MAX_WIDTH, ROUTES } from '../lib/constants'
+import { NARROW_MAX_WIDTH } from '../lib/constants'
 import { OnboardingStepActions } from './OnboardingStepActions'
 import { StyledIntro } from './Shared/StyledIntro'
 import { StyledLink } from './Shared/StyledLink'
 import { requiredValidationPattern } from '../lib/validation'
 import { StyledInputControlledAsyncAutocomplete } from './Shared/StyledInputControlledAsyncAutocomplete'
 import { StyledForm } from './Shared/StyledForm'
+import { ROUTES } from '../config/routes'
 
 export function OnboardingStep1({ forward, data }: StepperStepComponentProps) {
   const {

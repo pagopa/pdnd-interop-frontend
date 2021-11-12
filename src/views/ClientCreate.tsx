@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { MEDIUM_MAX_WIDTH, ROUTES } from '../lib/constants'
+import { MEDIUM_MAX_WIDTH } from '../lib/constants'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { EServiceReadType, SelectOption } from '../../types'
 import { PartyContext } from '../lib/context'
@@ -11,6 +11,7 @@ import { StyledForm } from '../components/Shared/StyledForm'
 import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 import { requiredValidationPattern } from '../lib/validation'
 import { StyledInputControlledSelect } from '../components/Shared/StyledInputControlledSelect'
+import { ROUTES } from '../config/routes'
 
 type ClientSubmit = {
   name: string
