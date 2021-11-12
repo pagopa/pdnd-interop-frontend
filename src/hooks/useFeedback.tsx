@@ -13,7 +13,7 @@ import {
 } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { DIALOG_CONTENTS, TOAST_CONTENTS } from '../lib/constants'
-import { DialogContext, LoaderContext, ToastContext } from '../lib/context'
+import { DialogContext, LoaderContext, TableActionMenuContext, ToastContext } from '../lib/context'
 import { getFetchOutcome } from '../lib/error-utils'
 import { showTempAlert } from '../lib/wip-utils'
 
@@ -48,6 +48,7 @@ export type UserFeedbackHOCProps = {
 
 export const useFeedback = () => {
   const history = useHistory()
+  const { setTableActionMenu } = useContext(TableActionMenuContext)
   const { setLoadingText } = useContext(LoaderContext)
   const { setDialog } = useContext(DialogContext)
   const { setToast } = useContext(ToastContext)
@@ -121,6 +122,9 @@ export const useFeedback = () => {
     // Hide loader
     setLoadingText(null)
 
+    // If this comes from an action in a table, close it
+    setTableActionMenu(null)
+
     if (!suppressToast) {
       showToast(toastContent)
     }
@@ -137,6 +141,9 @@ export const useFeedback = () => {
 
     // Hide loader
     setLoadingText(null)
+
+    // If this comes from an action in a table, close it
+    setTableActionMenu(null)
 
     // Here, we are making a big assumption: callback kills the current view,
     // so no state can be set after it, just like in runActionWithDestination.
@@ -160,6 +167,9 @@ export const useFeedback = () => {
     // Hide loader
     setLoadingText(null)
 
+    // If this comes from an action in a table, close it
+    setTableActionMenu(null)
+
     if (outcome === 'success') {
       // Go to destination path, and optionally display the toast
       history.push(destination.PATH, { toast: !suppressToast && toastContent })
@@ -169,6 +179,7 @@ export const useFeedback = () => {
   const runFakeAction = (actionName: string) => {
     closeDialog()
     showTempAlert(actionName)
+    setTableActionMenu(null)
   }
   /*
    * End API calls
