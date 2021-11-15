@@ -1,27 +1,30 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { fetchWithLogs } from '../lib/api-utils'
-import { MessageNoAction } from '../components/Shared/MessageNoAction'
+import { useForm } from 'react-hook-form'
+import { Typography } from '@mui/material'
+import { Box } from '@mui/system'
 import { RequestOutcome, RequestOutcomeOptions } from '../../types'
-import successIllustration from '../assets/success-illustration.svg'
-import errorIllustration from '../assets/error-illustration.svg'
-import { StyledInputFile } from '../components/Shared/StyledInputFile'
-import { getFetchOutcome } from '../lib/error-utils'
-import { InlineSupportLink } from '../components/Shared/InlineSupportLink'
-import isEmpty from 'lodash/isEmpty'
-import { StyledIntro } from '../components/Shared/StyledIntro'
 import { parseSearch } from '../lib/url-utils'
-import { LoaderContext } from '../lib/context'
+import { requiredValidationPattern } from '../lib/validation'
+import { useFeedback } from '../hooks/useFeedback'
+import { MessageNoAction } from '../components/Shared/MessageNoAction'
+import { StyledInputFile } from '../components/Shared/StyledInputFile'
+import { InlineSupportLink } from '../components/Shared/InlineSupportLink'
+import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { Box } from '@mui/system'
-import { Typography } from '@mui/material'
+import successIllustration from '../assets/success-illustration.svg'
+import errorIllustration from '../assets/error-illustration.svg'
 
 export function CompleteRegistration() {
-  const { setLoadingText } = useContext(LoaderContext)
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm()
+  const { runAction } = useFeedback()
   const [outcome, setOutcome] = useState<RequestOutcome>()
-  const [contract, setContract] = useState<Blob>()
   const location = useLocation()
 
   const getJwt = () => {
@@ -29,35 +32,21 @@ export function CompleteRegistration() {
     return s.jwt
   }
 
-  const token = getJwt()
-
-  const handleSubmit = async (e: React.SyntheticEvent) => {
-    // Avoid page reload
-    e.preventDefault()
-    // Start the loader
-    setLoadingText('Stiamo caricando il tuo contratto')
+  const onSubmit = async (data: any) => {
+    const token = getJwt()
     // Append the file as form data
     const formData = new FormData()
-    formData.append('contract', contract!)
+    formData.append('contract', data.contract[0])
     // Send multipart/form-data POST request
-    const contractPostResponse = await fetchWithLogs({
-      path: { endpoint: 'ONBOARDING_COMPLETE_REGISTRATION', endpointParams: { token } },
-      config: { data: formData, headers: { 'Content-Type': 'multipart/form-data' } },
-    })
-    // Stop the loader
-    setLoadingText(null)
-
-    // Check the outcome
-    const outcome = getFetchOutcome(contractPostResponse)
-
-    // Show it to the end user
+    const { outcome } = await runAction(
+      {
+        path: { endpoint: 'ONBOARDING_COMPLETE_REGISTRATION', endpointParams: { token } },
+        config: { data: formData, headers: { 'Content-Type': 'multipart/form-data' } },
+      },
+      { suppressToast: true }
+    )
+    // Show the outcome to the end user
     setOutcome(outcome)
-  }
-
-  const loadFile = (e: any) => {
-    if (!isEmpty(e.target.files) && e.target.files.length > 0) {
-      setContract(e.target.files[0])
-    }
   }
 
   const outcomeContent: RequestOutcomeOptions = {
@@ -95,17 +84,18 @@ export function CompleteRegistration() {
           </StyledIntro>
 
           <Box sx={{ mt: 4 }}>
-            <StyledForm onSubmit={handleSubmit}>
+            <StyledForm onSubmit={handleSubmit(onSubmit)}>
               <Box sx={{ mb: 6 }}>
                 <StyledInputFile
-                  id="contratto"
+                  name="contract"
                   label="Carica accordo"
-                  value={contract}
-                  onChange={loadFile}
+                  control={control}
+                  rules={{ required: requiredValidationPattern }}
+                  errors={errors}
                 />
               </Box>
 
-              <StyledButton variant="contained" size="small" type="submit" disabled={!contract}>
+              <StyledButton variant="contained" size="small" type="submit">
                 Invia
               </StyledButton>
             </StyledForm>

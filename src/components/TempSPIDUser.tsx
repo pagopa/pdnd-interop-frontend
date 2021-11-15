@@ -1,25 +1,34 @@
-import React, { useEffect, useState } from 'react'
-import { useHistory, useLocation } from 'react-router'
+import React, { useEffect } from 'react'
 import isEmpty from 'lodash/isEmpty'
+import { useForm } from 'react-hook-form'
+import { useHistory, useLocation } from 'react-router'
 import { useLogin } from '../hooks/useLogin'
-import { PlatformUserForm } from './Shared/PlatformUserForm'
 import { StyledIntro } from './Shared/StyledIntro'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
 import { Box } from '@mui/system'
 import { NARROW_MAX_WIDTH } from '../lib/constants'
-import { UserOnCreate } from '../../types'
+import { User, UserOnCreate } from '../../types'
 import { ROUTES } from '../config/routes'
+import { PlatformUserControlledForm } from './Shared/PlatformUserControlledForm'
 
 export function TempSPIDUser() {
-  const [data, setData] = useState<Record<string, UserOnCreate>>({})
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm()
   const { setTestSPIDUser } = useLogin()
   const history = useHistory()
   const location = useLocation()
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
-    e.preventDefault()
-    setTestSPIDUser({ ...data['spid'], status: 'active' })
+  const onSubmit = (data: Record<string, Partial<UserOnCreate>>) => {
+    setTestSPIDUser({
+      ...data['spid'],
+      role: 'Manager',
+      platformRole: 'admin',
+      status: 'active',
+    } as User)
   }
 
   // If the user hasn't accepted the privacy policy, go back to login
@@ -63,21 +72,10 @@ export function TempSPIDUser() {
               }}
             </StyledIntro>
 
-            <StyledForm onSubmit={handleSubmit}>
-              <PlatformUserForm
-                platformRole="admin"
-                role="Manager"
-                prefix="spid"
-                people={data}
-                setPeople={setData}
-              />
+            <StyledForm onSubmit={handleSubmit(onSubmit)}>
+              <PlatformUserControlledForm prefix="spid" control={control} errors={errors} />
 
-              <StyledButton
-                sx={{ mt: 1 }}
-                variant="contained"
-                type="submit"
-                disabled={isEmpty(data) || isEmpty(data['spid'])}
-              >
+              <StyledButton sx={{ mt: 1 }} variant="contained" type="submit">
                 Effettua il login
               </StyledButton>
             </StyledForm>

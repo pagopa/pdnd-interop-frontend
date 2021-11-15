@@ -30,6 +30,7 @@ type StyledInputControlledAsyncAutocompleteProps = {
   transformFn: any
   labelKey: string
   multiple?: boolean
+  focusOnMount?: boolean
   inline?: boolean
 }
 
@@ -49,6 +50,7 @@ export function StyledInputControlledAsyncAutocomplete({
   transformFn,
   labelKey,
   multiple = false,
+  focusOnMount = false,
   inline = false,
 }: StyledInputControlledAsyncAutocompleteProps) {
   const [isOpen, setIsOpen] = useState(false)
@@ -117,6 +119,7 @@ export function StyledInputControlledAsyncAutocomplete({
             renderInput={(params) => {
               return (
                 <TextField
+                  autoFocus={focusOnMount}
                   label={label}
                   {...params}
                   placeholder={placeholder}

@@ -130,6 +130,7 @@ export function EServiceWriteStep2Version({
           control={control}
           rules={{ required: requiredValidationPattern }}
           errors={errors}
+          focusOnMount={true}
         />
 
         <StyledInputControlledText

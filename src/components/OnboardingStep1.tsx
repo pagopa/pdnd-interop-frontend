@@ -44,6 +44,7 @@ export function OnboardingStep1({ forward, data }: StepperStepComponentProps) {
         <Box sx={{ maxWidth: NARROW_MAX_WIDTH, mx: 'auto' }}>
           <Box sx={{ my: 6 }}>
             <StyledInputControlledAsyncAutocomplete
+              focusOnMount={true}
               label="Seleziona ente"
               defaultValue={data.party || null}
               placeholder="Cerca ente nel catalogo IPA"

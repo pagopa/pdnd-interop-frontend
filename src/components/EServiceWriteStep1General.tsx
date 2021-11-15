@@ -141,6 +141,7 @@ export function EServiceWriteStep1General({
           rules={{ required: requiredValidationPattern }}
           errors={errors}
           disabled={!isEditable}
+          focusOnMount={isEditable}
         />
 
         <StyledInputControlledText
