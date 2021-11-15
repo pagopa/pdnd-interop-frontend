@@ -115,6 +115,14 @@ export function EServiceWriteStep4Documents({
         uploadDescriptorDocument={uploadDescriptorDocument}
         deleteDescriptorDocument={deleteDescriptorDocument}
         activeDescriptorId={activeDescriptorId}
+        interfaceAcceptedMimeTypes={
+          fetchedData.technology === 'REST'
+            ? { mime: ['application/x-yaml'], format: 'yaml (MIME type: application/x-yaml)' }
+            : {
+                mime: ['application/xml', 'text/xml'],
+                format: 'xml (MIME type: application/xml o text/xml)',
+              }
+        }
       />
 
       <StyledIntro variant="h2" sx={{ mt: 6, mb: 0 }}>
