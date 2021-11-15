@@ -4,7 +4,6 @@ import { EServiceFlatReadType, ActionProps } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { ESERVICE_STATUS_LABEL, ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { TempFilters } from '../components/TempFilters'
 import { isAdmin } from '../lib/auth-utils'
@@ -15,6 +14,8 @@ import { buildDynamicPath } from '../lib/url-utils'
 import { StyledTooltip } from '../components/Shared/StyledTooltip'
 import { Clear as ClearIcon, Check as CheckIcon, Person as PersonIcon } from '@mui/icons-material'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
+import { ROUTES } from '../config/routes'
+import { ESERVICE_STATUS_LABEL } from '../config/labels'
 
 type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
   isMine: boolean

@@ -4,12 +4,12 @@ import { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import { Party, User } from '../../types'
 import { fetchAllWithLogs, fetchWithLogs } from '../lib/api-utils'
-import { ROUTES } from '../lib/constants'
 import { LoaderContext, PartyContext, UserContext } from '../lib/context'
 import { isFetchError } from '../lib/error-utils'
 import { testBearerToken } from '../lib/mock-static-data'
 import { storageDelete, storageRead, storageWrite } from '../lib/storage-utils'
 import { sleep } from '../lib/wait-utils'
+import { ROUTES } from '../config/routes'
 
 export const useLogin = () => {
   const history = useHistory()
@@ -99,7 +99,6 @@ export const useLogin = () => {
   // WARNING: this is not secure and will ultimately be rewritten
   // See PIN-403
   const attemptSilentLogin = async (): Promise<boolean> => {
-    console.log('attempting silent login')
     const sessionStorageUser = storageRead('user', 'object')
     const sessionStorageParty = storageRead('currentParty', 'object')
     const sessionStorageBearerToken = storageRead('bearer', 'string')

@@ -11,7 +11,6 @@ import {
   FrontendAttributes,
   StepperStepComponentProps,
 } from '../../types'
-import { ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { buildDynamicPath } from '../lib/url-utils'
 import { requiredValidationPattern } from '../lib/validation'
@@ -29,6 +28,7 @@ import { StyledLink } from './Shared/StyledLink'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { StyledInputControlledRadio } from './Shared/StyledInputControlledRadio'
 import { StyledInputControlledSwitch } from './Shared/StyledInputControlledSwitch'
+import { ROUTES } from '../config/routes'
 
 export function EServiceWriteStep1General({
   forward,
@@ -124,7 +124,7 @@ export function EServiceWriteStep1General({
 
   return (
     <React.Fragment>
-      <StyledIntro>
+      <StyledIntro sx={{ mt: 4 }}>
         {{
           title: 'Crea e-service: informazioni generali',
           description:
@@ -132,7 +132,7 @@ export function EServiceWriteStep1General({
         }}
       </StyledIntro>
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <StyledIntro variant="h1">{{ title: 'Caratterizzazione e-service' }}</StyledIntro>
+        <StyledIntro variant="h2">{{ title: 'Caratterizzazione e-service' }}</StyledIntro>
 
         <StyledInputControlledText
           name="name"
@@ -174,10 +174,12 @@ export function EServiceWriteStep1General({
           disabled={!isEditable}
         />
 
-        <StyledIntro variant="h1">{{ title: 'Attributi' }}</StyledIntro>
+        <StyledIntro variant="h2" sx={{ mt: 12, mb: 0 }}>
+          {{ title: 'Attributi' }}
+        </StyledIntro>
         <EServiceAttributeSection attributes={attributes} setAttributes={setAttributes} />
 
-        <Box sx={{ mt: 4, display: 'flex' }}>
+        <Box sx={{ mt: 12, display: 'flex' }}>
           <StyledButton sx={{ mr: 3 }} type="submit" variant="contained">
             Salva bozza e prosegui
           </StyledButton>

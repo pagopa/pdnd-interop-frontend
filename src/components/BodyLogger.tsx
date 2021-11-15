@@ -2,7 +2,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import { DialogProps, ToastContentWithOutcome, ToastProps } from '../../types'
 import { useLocation } from 'react-router-dom'
 import isEmpty from 'lodash/isEmpty'
-import { DialogContext, LoaderContext, ToastContext, UserContext } from '../lib/context'
+import {
+  DialogContext,
+  LoaderContext,
+  TableActionMenuContext,
+  ToastContext,
+  UserContext,
+} from '../lib/context'
 import { logAction } from '../lib/action-log'
 import { Header } from './Header'
 import { Main } from './Main'
@@ -21,6 +27,7 @@ export function BodyLogger() {
   const [toast, setToast] = useState<ToastProps | null>(null)
   const [dialog, setDialog] = useState<DialogProps | null>(null)
   const [loadingText, setLoadingText] = useState<string | null>(null)
+  const [tableActionMenu, setTableActionMenu] = useState<string | null>(null)
   const location = useLocation()
 
   /*
@@ -52,44 +59,46 @@ export function BodyLogger() {
   }, [location])
 
   return (
-    <ToastContext.Provider value={{ toast, setToast }}>
-      <DialogContext.Provider value={{ dialog, setDialog }}>
-        <LoaderContext.Provider value={{ loadingText, setLoadingText }}>
-          <Header />
-          {isInPlatform(location) ? (
-            <Box sx={{ flexGrow: 1 }} bgcolor="#F5F6F7">
-              <Layout sx={{ height: '100%' }}>
-                <Box sx={{ display: 'flex', height: '100%' }}>
-                  {user && <MainNav />}
-                  <Box sx={{ py: 10, pl: 4, flexGrow: 1 }}>
-                    <Main />
+    <TableActionMenuContext.Provider value={{ tableActionMenu, setTableActionMenu }}>
+      <ToastContext.Provider value={{ toast, setToast }}>
+        <DialogContext.Provider value={{ dialog, setDialog }}>
+          <LoaderContext.Provider value={{ loadingText, setLoadingText }}>
+            <Header />
+            {isInPlatform(location) ? (
+              <Box sx={{ flexGrow: 1 }} bgcolor="#F5F6F7">
+                <Layout sx={{ height: '100%' }}>
+                  <Box sx={{ display: 'flex', height: '100%' }}>
+                    {user && <MainNav />}
+                    <Box sx={{ py: 10, pl: 4, flexGrow: 1 }}>
+                      <Main />
+                    </Box>
                   </Box>
-                </Box>
-              </Layout>
-            </Box>
-          ) : (
-            <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-              <Box
-                sx={{
-                  m: 'auto',
-                  py: 10,
-                  px: 4,
-                  maxWidth: MEDIUM_MAX_WIDTH,
-                  width: '100%',
-                }}
-              >
-                <Layout>
-                  <Main />
                 </Layout>
               </Box>
-            </Box>
-          )}
-          <Footer />
-          {toast && <StyledToast {...toast} />}
-          {dialog && <StyledDialog {...dialog} />}
-          {loadingText && <LoadingOverlay loadingText={loadingText} />}
-        </LoaderContext.Provider>
-      </DialogContext.Provider>
-    </ToastContext.Provider>
+            ) : (
+              <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+                <Box
+                  sx={{
+                    m: 'auto',
+                    py: 10,
+                    px: 4,
+                    maxWidth: MEDIUM_MAX_WIDTH,
+                    width: '100%',
+                  }}
+                >
+                  <Layout>
+                    <Main />
+                  </Layout>
+                </Box>
+              </Box>
+            )}
+            <Footer />
+            {toast && <StyledToast {...toast} />}
+            {dialog && <StyledDialog {...dialog} />}
+            {loadingText && <LoadingOverlay loadingText={loadingText} />}
+          </LoaderContext.Provider>
+        </DialogContext.Provider>
+      </ToastContext.Provider>
+    </TableActionMenuContext.Provider>
   )
 }

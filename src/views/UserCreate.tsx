@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useLocation } from 'react-router-dom'
 import { useMode } from '../hooks/useMode'
 import { ProviderOrSubscriber, UserOnCreate } from '../../types'
-import { MEDIUM_MAX_WIDTH, ROUTES } from '../lib/constants'
+import { MEDIUM_MAX_WIDTH } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { buildDynamicRoute, parseSearch } from '../lib/url-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
@@ -11,6 +11,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
 import { PlatformUserControlledForm } from '../components/Shared/PlatformUserControlledForm'
+import { ROUTES } from '../config/routes'
 
 export function UserCreate() {
   const {

@@ -4,12 +4,6 @@ import { User, UserStatus, ActionProps } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import {
-  ROUTES,
-  USER_PLATFORM_ROLE_LABEL,
-  USER_ROLE_LABEL,
-  USER_STATUS_LABEL,
-} from '../lib/constants'
 import { useMode } from '../hooks/useMode'
 import { TempFilters } from '../components/TempFilters'
 import { isAdmin, isOperatorAPI, isOperatorSecurity } from '../lib/auth-utils'
@@ -19,6 +13,8 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
+import { ROUTES } from '../config/routes'
+import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATUS_LABEL } from '../config/labels'
 
 export function UserList() {
   const location = useLocation()

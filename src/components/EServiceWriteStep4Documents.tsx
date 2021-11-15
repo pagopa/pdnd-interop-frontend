@@ -3,7 +3,6 @@ import { Box } from '@mui/system'
 import { EServiceDocumentKind, StepperStepComponentProps } from '../../types'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
 import { EServiceWriteStep4DocumentsInterface } from './EServiceWriteStep4DocumentsInterface'
-import { ROUTES } from '../lib/constants'
 import { useLocation } from 'react-router'
 import { getBits } from '../lib/url-utils'
 import { EServiceWriteStep4DocumentsDoc } from './EServiceWriteStep4DocumentsDoc'
@@ -11,6 +10,7 @@ import { StyledIntro } from './Shared/StyledIntro'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledLink } from './Shared/StyledLink'
+import { ROUTES } from '../config/routes'
 
 export function EServiceWriteStep4Documents({
   back,

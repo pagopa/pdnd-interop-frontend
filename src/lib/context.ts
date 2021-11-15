@@ -48,3 +48,13 @@ export const LoaderContext = createContext({
   loadingText: null,
   setLoadingText: () => {},
 } as LoaderContextType)
+
+type TableActionMenuContextType = {
+  tableActionMenu: string | null
+  setTableActionMenu: React.Dispatch<React.SetStateAction<string | null>>
+}
+
+export const TableActionMenuContext = createContext({
+  tableActionMenu: null,
+  setTableActionMenu: () => {},
+} as TableActionMenuContextType)

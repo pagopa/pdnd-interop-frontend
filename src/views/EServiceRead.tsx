@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import has from 'lodash/has'
 import {
-  AttributeType,
+  AttributeKey,
   BackendAttribute,
   EServiceFlatReadType,
   EServiceReadType,
@@ -12,12 +12,7 @@ import {
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useMode } from '../hooks/useMode'
-import {
-  ATTRIBUTE_TYPE_LABEL,
-  ESERVICE_STATUS_LABEL,
-  MEDIUM_MAX_WIDTH,
-  ROUTES,
-} from '../lib/constants'
+import { MEDIUM_MAX_WIDTH } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { minutesToHHMMSS } from '../lib/date-utils'
 import { canSubscribe } from '../lib/attributes'
@@ -33,6 +28,8 @@ import { StyledLink } from '../components/Shared/StyledLink'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { FileDownloadOutlined as FileDownloadOutlinedIcon } from '@mui/icons-material'
+import { ATTRIBUTE_TYPE_PLURAL_LABEL, ESERVICE_STATUS_LABEL } from '../config/labels'
+import { ROUTES } from '../config/routes'
 
 type EServiceReadProps = {
   data: EServiceReadType
@@ -229,10 +226,10 @@ export function EServiceRead({ data }: EServiceReadProps) {
         </DescriptionBlock>
       )}
 
-      {(Object.keys(data.attributes) as AttributeType[]).map((key, i) => (
+      {(Object.keys(data.attributes) as AttributeKey[]).map((key, i) => (
         <DescriptionBlock
           key={i}
-          label={`Attributi ${ATTRIBUTE_TYPE_LABEL[key]}`}
+          label={`Attributi ${ATTRIBUTE_TYPE_PLURAL_LABEL[key]}`}
           sx={{ maxWidth: MEDIUM_MAX_WIDTH }}
         >
           {data.attributes[key].length > 0 ? (

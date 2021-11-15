@@ -8,7 +8,9 @@ import {
   GroupBackendAttribute,
   ActionProps,
 } from '../../types'
-import { AGREEMENT_STATUS_LABEL, MEDIUM_MAX_WIDTH, ROUTES } from '../lib/constants'
+import { MEDIUM_MAX_WIDTH } from '../lib/constants'
+import { ROUTES } from '../config/routes'
+import { AGREEMENT_STATUS_LABEL } from '../config/labels'
 import { buildDynamicPath, getLastBit } from '../lib/url-utils'
 import { formatDate, getRandomDate } from '../lib/date-utils'
 import { mergeActions } from '../lib/eservice-utils'

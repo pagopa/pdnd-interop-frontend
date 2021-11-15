@@ -4,12 +4,14 @@ import { useHistory } from 'react-router-dom'
 import { Chip, List, ListItem, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { Party } from '../../types'
-import { NARROW_MAX_WIDTH, ROUTES, USER_ROLE_LABEL } from '../lib/constants'
+import { NARROW_MAX_WIDTH } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { storageWrite } from '../lib/storage-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
+import { USER_ROLE_LABEL } from '../config/labels'
+import { ROUTES } from '../config/routes'
 
 export function ChooseParty() {
   const { setParty, party, availableParties } = useContext(PartyContext)
