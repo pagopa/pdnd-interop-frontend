@@ -12,6 +12,7 @@ import { getFetchOutcome } from '../../lib/error-utils'
 import { StyledSpinner } from './StyledSpinner'
 import { StyledInputError } from './StyledInputError'
 import { InfoMessage } from './InfoMessage'
+import { Box } from '@mui/system'
 
 type StyledInputControlledAsyncAutocompleteProps = {
   label: string
@@ -19,7 +20,7 @@ type StyledInputControlledAsyncAutocompleteProps = {
   infoLabel?: string
 
   name: string
-  defaultValue?: string
+  defaultValue: string[] | string | null // array if multiple = true, string | null if multiple = false
   control: any
   rules: any
   errors: any
@@ -29,6 +30,7 @@ type StyledInputControlledAsyncAutocompleteProps = {
   transformFn: any
   labelKey: string
   multiple?: boolean
+  inline?: boolean
 }
 
 export function StyledInputControlledAsyncAutocomplete({
@@ -47,6 +49,7 @@ export function StyledInputControlledAsyncAutocomplete({
   transformFn,
   labelKey,
   multiple = false,
+  inline = false,
 }: StyledInputControlledAsyncAutocompleteProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [options, setOptions] = useState<any>([])
@@ -87,7 +90,7 @@ export function StyledInputControlledAsyncAutocomplete({
   const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
 
   return (
-    <React.Fragment>
+    <Box sx={{ my: inline ? 0 : 2 }}>
       <Controller
         shouldUnregister={true}
         name={name}
@@ -137,6 +140,6 @@ export function StyledInputControlledAsyncAutocomplete({
 
       {hasFieldError && <StyledInputError error={errors[name]} />}
       {infoLabel && <InfoMessage label={infoLabel} />}
-    </React.Fragment>
+    </Box>
   )
 }

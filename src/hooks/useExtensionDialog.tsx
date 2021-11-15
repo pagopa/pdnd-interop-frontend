@@ -15,7 +15,7 @@ export const useExtensionDialog = () => {
   const openDialog = (_?: any) => {
     setDialog({
       title: "Richiedi estensione dell'e-service",
-      contents: ({ control, errors }: any) => {
+      Contents: ({ control, errors }: any) => {
         return (
           <React.Fragment>
             <p>

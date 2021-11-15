@@ -1,19 +1,11 @@
-import React, { useContext, useState } from 'react'
-import isEmpty from 'lodash/isEmpty'
-import {
-  AttributeModalTemplate,
-  AttributeType,
-  FrontendAttribute,
-  ToastContentWithOutcome,
-} from '../../types'
-import { AttributeModal } from './AttributeModal'
-import { Overlay } from './Shared/Overlay'
-import { TableWithLoader } from './Shared/TableWithLoader'
-import { ToastContext } from '../lib/context'
-import { StyledButton } from './Shared/StyledButton'
-import { TableCell, TableRow, Typography } from '@mui/material'
+import React from 'react'
+import { TableCell, TableRow } from '@mui/material'
 import { Box } from '@mui/system'
-import { StyledLink } from './Shared/StyledLink'
+import { AttributeKey, FrontendAttribute } from '../../types'
+import { useNewAttributeDialog } from '../hooks/useNewAttributeDialog'
+import { useExistingAttributeDialog } from '../hooks/useExistingAttributeDialog'
+import { StyledButton } from './Shared/StyledButton'
+import { TableWithLoader } from './Shared/TableWithLoader'
 
 type EServiceAttributeGroupProps = {
   attributesGroup: FrontendAttribute[]
@@ -21,39 +13,26 @@ type EServiceAttributeGroupProps = {
   canCreateNewAttributes?: boolean
   add: any
   remove: any
-  attributeKey: AttributeType
+  attributeKey: AttributeKey
 }
 
-// TEMP REFACTOR: does it make sense and can this be aligned with the withUserFeedback HOC?
 export function EServiceAttributeGroup({
   attributesGroup,
   canRequireVerification = false,
   canCreateNewAttributes = false,
-  add,
   remove,
+  add,
   attributeKey,
 }: EServiceAttributeGroupProps) {
-  const { setToast } = useContext(ToastContext)
-  const [modalTemplate, setModalTemplate] = useState<AttributeModalTemplate>()
+  const { openDialog: openCreateNewAttributeDialog } = useNewAttributeDialog({ attributeKey })
+  const { openDialog: openExistingAttributeDialog } = useExistingAttributeDialog({
+    attributeKey,
+    add,
+  })
 
   const headData = canRequireVerification
     ? ['nome attributo', 'convalida richiesta', '']
     : ['nome attributo', '']
-
-  const buildShowModal = (template: AttributeModalTemplate) => (_: any) => {
-    setModalTemplate(template)
-  }
-
-  const closeModal = (toastContent?: ToastContentWithOutcome) => {
-    setModalTemplate(undefined)
-    if (!isEmpty(toastContent)) {
-      setToast({ ...toastContent!, onClose: closeToast })
-    }
-  }
-
-  const closeToast = () => {
-    setToast(null)
-  }
 
   const wrapRemove = (attributes: any) => (_: any) => {
     remove(attributes)
@@ -87,32 +66,16 @@ export function EServiceAttributeGroup({
       </TableWithLoader>
 
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <StyledButton sx={{ mr: 2 }} variant="contained" onClick={buildShowModal('add')}>
+        <StyledButton sx={{ mr: 2 }} variant="contained" onClick={openExistingAttributeDialog}>
           Aggiungi attributo o gruppo
         </StyledButton>
 
         {canCreateNewAttributes && (
-          <Typography sx={{ mb: 0, display: 'flex', alignItems: 'center' }}>
-            <Typography component="span" sx={{ mr: 1 }}>
-              L'attributo non è presente nella lista?
-            </Typography>
-            <StyledLink component="button" onClick={buildShowModal('create')}>
-              <Typography component="span">Crealo qui!</Typography>
-            </StyledLink>
-          </Typography>
+          <StyledButton variant="outlined" onClick={openCreateNewAttributeDialog}>
+            Crea nuovo attributo
+          </StyledButton>
         )}
       </Box>
-
-      {modalTemplate && (
-        <Overlay>
-          <AttributeModal
-            template={modalTemplate}
-            add={add}
-            close={closeModal}
-            attributeKey={attributeKey}
-          />
-        </Overlay>
-      )}
     </React.Fragment>
   )
 }

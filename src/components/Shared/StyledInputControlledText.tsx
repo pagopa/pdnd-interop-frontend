@@ -25,6 +25,7 @@ type StyledInputControlledTextProps = {
   multiline?: boolean
   rows?: number
   focusOnMount?: boolean
+  inline?: boolean
 }
 
 export function StyledInputControlledText({
@@ -43,11 +44,12 @@ export function StyledInputControlledText({
   multiline = false,
   rows = 6,
   focusOnMount = false,
+  inline = false,
 }: StyledInputControlledTextProps) {
   const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
 
   return (
-    <Box sx={{ my: 2 }}>
+    <Box sx={{ my: inline ? 0 : 2 }}>
       <Controller
         shouldUnregister={true}
         name={name}
