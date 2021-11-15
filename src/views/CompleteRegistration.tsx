@@ -8,7 +8,7 @@ import { parseSearch } from '../lib/url-utils'
 import { requiredValidationPattern } from '../lib/validation'
 import { useFeedback } from '../hooks/useFeedback'
 import { MessageNoAction } from '../components/Shared/MessageNoAction'
-import { StyledInputFile } from '../components/Shared/StyledInputFile'
+import { StyledInputControlledFile } from '../components/Shared/StyledInputControlledFile'
 import { InlineSupportLink } from '../components/Shared/InlineSupportLink'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
@@ -86,7 +86,7 @@ export function CompleteRegistration() {
           <Box sx={{ mt: 4 }}>
             <StyledForm onSubmit={handleSubmit(onSubmit)}>
               <Box sx={{ mb: 6 }}>
-                <StyledInputFile
+                <StyledInputControlledFile
                   name="contract"
                   label="Carica accordo"
                   control={control}

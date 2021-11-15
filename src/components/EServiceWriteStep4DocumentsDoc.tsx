@@ -11,7 +11,7 @@ import {
 } from '../../types'
 import { getActiveDocs } from '../lib/eservice-utils'
 import { StyledDeleteableDocument } from './Shared/StyledDeleteableDocument'
-import { StyledInputFile } from './Shared/StyledInputFile'
+import { StyledInputControlledFile } from './Shared/StyledInputControlledFile'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
 import { requiredValidationPattern } from '../lib/validation'
@@ -93,7 +93,7 @@ export function EServiceWriteStep4DocumentsDoc({
       {showWriteDocInput ? (
         <Box sx={{ px: 2, py: 2 }} bgcolor="common.white">
           <StyledForm onSubmit={handleSubmit(uploadNewDoc)}>
-            <StyledInputFile
+            <StyledInputControlledFile
               name="doc"
               label="Seleziona documento"
               control={control}
