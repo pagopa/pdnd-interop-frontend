@@ -1,12 +1,11 @@
+import React from 'react'
 import { AxiosRequestConfig, Method } from 'axios'
-import React, { FunctionComponent } from 'react'
+import { API } from './src/config/api-endpoints'
 import {
   AGREEMENT_STATUS_LABEL,
-  API,
-  ATTRIBUTE_TYPE_LABEL,
   CLIENT_STATUS_LABEL,
   ESERVICE_STATUS_LABEL,
-} from './src/lib/constants'
+} from './src/config/labels'
 
 /*
  * Fetch data and router related types
@@ -317,9 +316,9 @@ export type SecurityOperatorPublicKey = {
 /*
  * Attributes
  */
-export type AttributeModalTemplate = 'add' | 'create'
+export type AttributeKey = 'certified' | 'verified' | 'declared'
 
-export type AttributeType = keyof typeof ATTRIBUTE_TYPE_LABEL
+export type AttributeModalTemplate = 'add' | 'create'
 
 // Backend attribute is the attribute as it is expected when POSTed to the backend
 export type BackendAttributeContent = {
@@ -338,9 +337,7 @@ export type GroupBackendAttribute = {
   group: BackendAttributeContent[]
 }
 export type BackendAttribute = SingleBackendAttribute | GroupBackendAttribute
-export type BackendAttributes = {
-  [key in AttributeType]: BackendAttribute[]
-}
+export type BackendAttributes = Record<AttributeKey, BackendAttribute[]>
 
 // Catalog attribute as it comes from the attributes catalog
 export type CatalogAttribute = {
@@ -361,9 +358,7 @@ export type FrontendAttribute = {
   attributes: CatalogAttribute[]
   explicitAttributeVerification: boolean
 }
-export type FrontendAttributes = {
-  [key in AttributeType]: FrontendAttribute[]
-}
+export type FrontendAttributes = Record<AttributeKey, FrontendAttribute[]>
 
 /*
  * Dialog, loader and toast components typings
@@ -387,16 +382,46 @@ export type DialogProps = DialogContent & {
   proceedCallback: ActionFunction
   close: VoidFunction
   disabled?: boolean
+  maxWidth?: MUISize
 }
 
 export type DialogContent = {
   title?: string
-  children?: React.ReactNode
+  Contents?: any
 }
 
 export type DialogActionKeys = Exclude<
   ApiEndpointKey,
-  'AGREEMENT_VERIFY_ATTRIBUTE' | 'AGREEMENT_CREATE'
+  | 'AGREEMENT_VERIFY_ATTRIBUTE'
+  | 'AGREEMENT_CREATE'
+  | 'ONBOARDING_GET_AVAILABLE_PARTIES'
+  | 'ONBOARDING_GET_SEARCH_PARTIES'
+  | 'ONBOARDING_POST_LEGALS'
+  | 'ONBOARDING_COMPLETE_REGISTRATION'
+  | 'ESERVICE_GET_LIST'
+  | 'ESERVICE_GET_LIST_FLAT'
+  | 'ESERVICE_GET_SINGLE'
+  | 'ESERVICE_UPDATE'
+  | 'ESERVICE_VERSION_UPDATE'
+  | 'ESERVICE_VERSION_POST_DOCUMENT'
+  | 'ESERVICE_VERSION_DELETE_DOCUMENT'
+  | 'ESERVICE_VERSION_DOWNLOAD_DOCUMENT'
+  | 'ESERVICE_VERSION_UPDATE_DOCUMENT_DESCRIPTION'
+  | 'OPERATOR_API_GET_LIST'
+  | 'OPERATOR_API_GET_SINGLE'
+  | 'OPERATOR_API_CREATE'
+  | 'ATTRIBUTES_GET_LIST'
+  | 'ATTRIBUTE_CREATE'
+  | 'PARTY_GET_PARTY_ID'
+  | 'AGREEMENT_GET_LIST'
+  | 'AGREEMENT_GET_SINGLE'
+  | 'CLIENT_GET_LIST'
+  | 'CLIENT_GET_SINGLE'
+  | 'CLIENT_CREATE'
+  | 'OPERATOR_SECURITY_GET_LIST'
+  | 'OPERATOR_SECURITY_GET_SINGLE'
+  | 'OPERATOR_SECURITY_CREATE'
+  | 'OPERATOR_SECURITY_KEYS_GET'
 >
 
 export type ToastContent = {
@@ -412,7 +437,34 @@ export type ToastProps = ToastContentWithOutcome & {
   onClose: VoidFunction
 }
 
-export type ToastActionKeys = ApiEndpointKey // Exclude<ApiEndpointKey, ''>
+export type ToastActionKeys = Exclude<
+  ApiEndpointKey,
+  | 'ONBOARDING_GET_AVAILABLE_PARTIES'
+  | 'ONBOARDING_GET_SEARCH_PARTIES'
+  | 'ONBOARDING_POST_LEGALS'
+  | 'ONBOARDING_COMPLETE_REGISTRATION'
+  | 'ESERVICE_GET_SINGLE'
+  | 'ESERVICE_UPDATE'
+  | 'ESERVICE_VERSION_UPDATE'
+  | 'ESERVICE_VERSION_POST_DOCUMENT'
+  | 'ESERVICE_VERSION_DELETE_DOCUMENT'
+  | 'ESERVICE_VERSION_UPDATE_DOCUMENT_DESCRIPTION'
+  | 'ATTRIBUTES_GET_LIST'
+  | 'AGREEMENT_GET_LIST'
+  | 'AGREEMENT_GET_SINGLE'
+  | 'OPERATOR_API_GET_LIST'
+  | 'OPERATOR_API_GET_SINGLE'
+  | 'PARTY_GET_PARTY_ID'
+  | 'CLIENT_GET_LIST'
+  | 'CLIENT_GET_SINGLE'
+  | 'OPERATOR_SECURITY_GET_LIST'
+  | 'OPERATOR_SECURITY_GET_SINGLE'
+  | 'OPERATOR_SECURITY_CREATE'
+  | 'OPERATOR_SECURITY_KEYS_GET'
+  | 'OPERATOR_SECURITY_KEYS_POST'
+  | 'OPERATOR_SECURITY_KEY_DOWNLOAD'
+  | 'OPERATOR_SECURITY_KEY_DELETE'
+>
 
 export type LoaderType = 'global' | 'contextual'
 
@@ -432,3 +484,8 @@ export type SelectOption = {
   label: string
   value: string | number
 }
+
+/*
+ * MUI related props
+ */
+export type MUISize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'

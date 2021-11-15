@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router'
 import { RouteAuthLevel } from '../../types'
+import { ROUTES } from '../config/routes'
 import { useLogin } from '../hooks/useLogin'
-import { ROUTES } from '../lib/constants'
 import { LoaderContext, PartyContext, UserContext } from '../lib/context'
 import { Unauthorized } from './Unauthorized'
 

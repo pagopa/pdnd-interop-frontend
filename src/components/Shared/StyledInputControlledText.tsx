@@ -17,12 +17,15 @@ type StyledInputControlledTextProps = {
   name: string
   defaultValue?: string
   control: any
-  rules: any
+  rules?: any
   errors: any
 
   inputProps?: InputBaseComponentProps
   type?: StyledInputTextType
   multiline?: boolean
+  rows?: number
+  focusOnMount?: boolean
+  inline?: boolean
 }
 
 export function StyledInputControlledText({
@@ -33,26 +36,31 @@ export function StyledInputControlledText({
   name,
   defaultValue = '',
   control,
-  rules,
+  rules = {},
   errors,
 
   inputProps,
   type = 'text',
   multiline = false,
+  rows = 6,
+  focusOnMount = false,
+  inline = false,
 }: StyledInputControlledTextProps) {
   const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
 
   return (
-    <Box sx={{ my: 2 }}>
+    <Box sx={{ my: inline ? 0 : 2 }}>
       <Controller
+        shouldUnregister={true}
         name={name}
         control={control}
         defaultValue={defaultValue}
         rules={rules}
         render={({ field }) => (
           <TextField
+            autoFocus={focusOnMount}
             multiline={multiline}
-            rows={multiline ? 6 : 1}
+            rows={multiline ? rows : 1}
             disabled={disabled}
             sx={{ width: '100%' }}
             variant="standard"

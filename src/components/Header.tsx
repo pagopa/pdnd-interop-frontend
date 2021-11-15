@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { ROUTES } from '../lib/constants'
 import { PartyContext, UserContext } from '../lib/context'
 import { isInPlatform } from '../lib/router-utils'
 import { Layout } from './Shared/Layout'
@@ -10,6 +9,7 @@ import { StyledButton } from './Shared/StyledButton'
 import { StyledLink } from './Shared/StyledLink'
 import { PartySelect } from './PartySelect'
 import logo from '../assets/pagopa-logo-white.svg'
+import { ROUTES } from '../config/routes'
 
 export function Header() {
   const location = useLocation()

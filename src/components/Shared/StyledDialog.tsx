@@ -1,16 +1,26 @@
-import React, { FunctionComponent } from 'react'
-import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
+import React, { FunctionComponent, useContext } from 'react'
+import { useForm } from 'react-hook-form'
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Unstable_TrapFocus as TrapFocus,
+} from '@mui/material'
 import { Box } from '@mui/system'
 import { StyledButton } from './StyledButton'
-import { ActionFunction } from '../../../types'
+import { ActionFunction, MUISize } from '../../../types'
+import { StyledForm } from './StyledForm'
+import { TableActionMenuContext } from '../../lib/context'
 
 type ConfirmationDialogOverlayProps = {
   title?: string
+  Contents?: any
   close: VoidFunction
   proceedCallback: ActionFunction
   proceedLabel?: string
   disabled?: boolean
-  minWidth?: number | string
+  maxWidth?: MUISize
 }
 
 export const StyledDialog: FunctionComponent<ConfirmationDialogOverlayProps> = ({
@@ -19,36 +29,57 @@ export const StyledDialog: FunctionComponent<ConfirmationDialogOverlayProps> = (
   proceedCallback,
   proceedLabel = 'Conferma',
   disabled = false,
-  minWidth = 'auto',
+  maxWidth = 'xs',
   children,
+
+  Contents,
 }) => {
-  // TEMP Refactor
-  // This is silly, but it is to avoid a runtime TypeError when closing the AttributeModal
+  const { setTableActionMenu } = useContext(TableActionMenuContext)
+  const {
+    handleSubmit,
+    control,
+    watch,
+    getValues,
+    formState: { errors },
+  } = useForm()
+
   const voidClose = () => {
     close()
+    // Close any table action that might be open
+    setTableActionMenu(null)
   }
 
   return (
-    <Dialog
-      open={true}
-      onClose={close}
-      aria-describedby={`Modale per azione: ${title}`}
-      sx={{ minWidth }}
-    >
-      <Box>
-        <DialogTitle>{title}</DialogTitle>
+    <TrapFocus open>
+      <Dialog
+        open={true}
+        onClose={close}
+        aria-describedby={`Modale per azione: ${title}`}
+        maxWidth={maxWidth}
+        fullWidth
+      >
+        <StyledForm onSubmit={handleSubmit(proceedCallback)}>
+          <Box>
+            <DialogTitle>{title}</DialogTitle>
 
-        {children && <DialogContent>{children}</DialogContent>}
+            {children && <DialogContent>{children}</DialogContent>}
+            {Contents && (
+              <DialogContent>
+                <Contents control={control} errors={errors} watch={watch} getValues={getValues} />
+              </DialogContent>
+            )}
 
-        <DialogActions>
-          <StyledButton variant="outlined" onClick={voidClose}>
-            Annulla
-          </StyledButton>
-          <StyledButton variant="contained" onClick={proceedCallback} disabled={disabled}>
-            {proceedLabel}
-          </StyledButton>
-        </DialogActions>
-      </Box>
-    </Dialog>
+            <DialogActions>
+              <StyledButton variant="outlined" onClick={voidClose}>
+                Annulla
+              </StyledButton>
+              <StyledButton variant="contained" type="submit" disabled={disabled}>
+                {proceedLabel}
+              </StyledButton>
+            </DialogActions>
+          </Box>
+        </StyledForm>
+      </Dialog>
+    </TrapFocus>
   )
 }

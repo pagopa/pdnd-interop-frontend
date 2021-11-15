@@ -10,11 +10,11 @@ import {
   Typography,
 } from '@mui/material'
 import { ProviderOrSubscriber, RouteConfig, UserPlatformRole } from '../../types'
-import { ROUTES } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { isActiveTree } from '../lib/router-utils'
 import { StyledLink } from './Shared/StyledLink'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
+import { ROUTES } from '../config/routes'
 
 type View = {
   route: RouteConfig

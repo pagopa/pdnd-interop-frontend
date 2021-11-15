@@ -23,6 +23,7 @@ type StyledInputControlledCheckboxProps = {
   control: any
   rules: any
   errors: any
+  inline?: boolean
 }
 
 export function StyledInputControlledCheckbox({
@@ -36,6 +37,7 @@ export function StyledInputControlledCheckbox({
   control,
   rules,
   errors,
+  inline = false,
 }: StyledInputControlledCheckboxProps) {
   if (!options || Boolean(options.length === 0)) {
     return null
@@ -44,8 +46,9 @@ export function StyledInputControlledCheckbox({
   const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
 
   return (
-    <Box sx={{ my: 2 }}>
+    <Box sx={{ my: inline ? 0 : 2 }}>
       <Controller
+        shouldUnregister={true}
         name={name}
         control={control}
         defaultValue={defaultValue}

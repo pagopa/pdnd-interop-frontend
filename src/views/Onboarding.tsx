@@ -21,7 +21,7 @@ import errorIllustration from '../assets/error-illustration.svg'
 import { InlineSupportLink } from '../components/Shared/InlineSupportLink'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { useHistory } from 'react-router'
-import { ROUTES } from '../lib/constants'
+import { ROUTES } from '../config/routes'
 
 export function Onboarding() {
   const history = useHistory()

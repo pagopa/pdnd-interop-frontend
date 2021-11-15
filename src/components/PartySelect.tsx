@@ -2,12 +2,12 @@ import { Menu, MenuItem, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { useContext, useState } from 'react'
 import { Party } from '../../types'
-import { USER_ROLE_LABEL } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { storageWrite } from '../lib/storage-utils'
 import { StyledButton } from './Shared/StyledButton'
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material'
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from '@mui/icons-material'
+import { USER_ROLE_LABEL } from '../config/labels'
 
 export function PartySelect() {
   const { party, availableParties, setParty } = useContext(PartyContext)

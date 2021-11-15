@@ -1,11 +1,11 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 import { Breadcrumbs, Typography } from '@mui/material'
-import { ROUTES } from '../../lib/constants'
 import { StyledLink } from './StyledLink'
 import { RouteConfig } from '../../../types'
 import { flattenRoutes, getBits } from '../../lib/url-utils'
 import { isSameRoute } from '../../lib/router-utils'
+import { ROUTES } from '../../config/routes'
 
 export function StyledBreadcrumbs() {
   const location = useLocation()

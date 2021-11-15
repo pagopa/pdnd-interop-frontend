@@ -1,11 +1,12 @@
 import React, { useContext } from 'react'
 import { Box } from '@mui/system'
 import { Redirect, Route, Switch, useLocation } from 'react-router-dom'
-import { ROUTES, SHOW_DEV_LABELS } from '../lib/constants'
+import { SHOW_DEV_LABELS } from '../lib/constants'
 import { UserContext } from '../lib/context'
 import { AuthGuard } from './AuthGuard'
 import { StyledBreadcrumbs } from './Shared/StyledBreadcrumbs'
 import { isInPlatform } from '../lib/router-utils'
+import { ROUTES } from '../config/routes'
 
 export function Main() {
   const { user } = useContext(UserContext)

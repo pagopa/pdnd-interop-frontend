@@ -19,6 +19,7 @@ type StyledInputControlledSelectProps = {
   control: any
   rules: any
   errors: any
+  inline?: boolean
 }
 
 export function StyledInputControlledSelect({
@@ -32,6 +33,7 @@ export function StyledInputControlledSelect({
   control,
   rules,
   errors,
+  inline,
 }: StyledInputControlledSelectProps) {
   if (!options || Boolean(options.length === 0)) {
     return null
@@ -40,8 +42,9 @@ export function StyledInputControlledSelect({
   const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
 
   return (
-    <Box sx={{ my: 2 }}>
+    <Box sx={{ my: inline ? 0 : 2 }}>
       <Controller
+        shouldUnregister={true}
         name={name}
         control={control}
         defaultValue={defaultValue}

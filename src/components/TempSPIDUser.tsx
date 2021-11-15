@@ -7,8 +7,9 @@ import { StyledIntro } from './Shared/StyledIntro'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
 import { Box } from '@mui/system'
-import { NARROW_MAX_WIDTH, ROUTES } from '../lib/constants'
+import { NARROW_MAX_WIDTH } from '../lib/constants'
 import { UserOnCreate } from '../../types'
+import { ROUTES } from '../config/routes'
 
 export function TempSPIDUser() {
   const [data, setData] = useState<Record<string, UserOnCreate>>({})
