@@ -22,6 +22,7 @@ type EServiceWriteStep4DocumentsInterfaceProps = {
   uploadDescriptorDocument: any
   deleteDescriptorDocument: any
   activeDescriptorId: string
+  interfaceAcceptedMimeTypes: any
 }
 
 export function EServiceWriteStep4DocumentsInterface({
@@ -29,6 +30,7 @@ export function EServiceWriteStep4DocumentsInterface({
   uploadDescriptorDocument,
   deleteDescriptorDocument,
   activeDescriptorId,
+  interfaceAcceptedMimeTypes,
 }: EServiceWriteStep4DocumentsInterfaceProps) {
   const {
     handleSubmit,
@@ -86,7 +88,12 @@ export function EServiceWriteStep4DocumentsInterface({
           label="Seleziona documento"
           control={control}
           errors={errors}
-          rules={{ required: requiredValidationPattern }}
+          rules={{
+            required: requiredValidationPattern,
+            validate: (files: FileList) =>
+              interfaceAcceptedMimeTypes.mime.includes(files[0].type) ||
+              `Formato errato. È previsto un file ${interfaceAcceptedMimeTypes.format}`,
+          }}
         />
 
         <StyledInputControlledText
