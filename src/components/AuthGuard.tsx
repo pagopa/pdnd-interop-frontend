@@ -38,6 +38,12 @@ export function AuthGuard({ Component, isRoutePublic, authLevels }: AuthGuardPro
     if (!user) {
       asyncAttemptSilentLogin()
     }
+
+    // If the user is logged in but hasn't chosen a party yet, go there
+    // to avoid having users without a current party
+    if (user && !party) {
+      history.push(ROUTES.CHOOSE_PARTY.PATH)
+    }
   }, [user]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const userCanAccess =
