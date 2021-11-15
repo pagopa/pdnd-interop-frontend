@@ -1,19 +1,11 @@
 import { DialogActionKeys, DialogContent } from '../../types'
 
 export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
-  ONBOARDING_GET_AVAILABLE_PARTIES: {},
-  ONBOARDING_GET_SEARCH_PARTIES: {},
-  ONBOARDING_POST_LEGALS: {},
-  ONBOARDING_COMPLETE_REGISTRATION: {},
-  ESERVICE_GET_LIST: {},
-  ESERVICE_GET_LIST_FLAT: {},
-  ESERVICE_GET_SINGLE: {},
   ESERVICE_CREATE: {
     title: 'Conferma creazione bozza',
     contents: () =>
       'Cliccando "conferma", una nuova bozza verrà creata. Potrà essere pubblicata successivamente, oppure cancellata',
   },
-  ESERVICE_UPDATE: {},
   ESERVICE_DELETE: {
     title: 'Conferma cancellazione bozza',
     contents: () =>
@@ -28,7 +20,6 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
     title: 'Conferma creazione bozza versione',
     contents: () => "Verrà creata una nuova versione (in bozza) dell'e-service selezionato",
   },
-  ESERVICE_VERSION_UPDATE: {},
   ESERVICE_VERSION_PUBLISH: {
     title: 'Conferma pubblicazione bozza',
     contents: () =>
@@ -49,18 +40,6 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
     contents: () =>
       'Cliccando "conferma" questa versione di e-service sarà riattivata. Tutti i fruitori che hanno un accordo di interoperabilità attivo per questa versione di servizio potranno nuovamente usufruirne',
   },
-  ESERVICE_VERSION_POST_DOCUMENT: {},
-  ESERVICE_VERSION_DELETE_DOCUMENT: {},
-  ESERVICE_VERSION_DOWNLOAD_DOCUMENT: {},
-  ESERVICE_VERSION_UPDATE_DOCUMENT_DESCRIPTION: {},
-  OPERATOR_API_GET_LIST: {},
-  OPERATOR_API_GET_SINGLE: {},
-  OPERATOR_API_CREATE: {},
-  ATTRIBUTES_GET_LIST: {},
-  ATTRIBUTE_CREATE: {},
-  PARTY_GET_PARTY_ID: {},
-  AGREEMENT_GET_LIST: {},
-  AGREEMENT_GET_SINGLE: {},
   AGREEMENT_ACTIVATE: {
     title: "Attiva l'accordo",
     contents: () =>
@@ -76,9 +55,6 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
     contents: () =>
       "Cliccando su \"conferma\", l'accordo di interoperabilità sarà aggiornato alla versione più recente dell'e-service attualmente disponibile. I client collegati a questo accordo continueranno ad avere accesso all'e-service in erogazione, aggiornato all'ultima versione",
   },
-  CLIENT_GET_LIST: {},
-  CLIENT_GET_SINGLE: {},
-  CLIENT_CREATE: {},
   CLIENT_SUSPEND: {
     title: 'Sospendi il client',
     contents: () =>
@@ -89,12 +65,6 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
     contents: () =>
       "Il client è attualmente inattivo, e si sta per riattivarlo. Se ci sono altri impedimenti (es. l'accordo di interoperabilità è sospeso) non sarà comunque possibile accedere all'e-service erogato",
   },
-  OPERATOR_SECURITY_GET_LIST: {},
-  OPERATOR_SECURITY_GET_SINGLE: {},
-  OPERATOR_SECURITY_CREATE: {},
-  OPERATOR_SECURITY_KEYS_GET: {},
-  OPERATOR_SECURITY_KEYS_POST: {},
-  OPERATOR_SECURITY_KEY_DOWNLOAD: {},
   OPERATOR_SECURITY_KEY_DELETE: {
     title: 'Cancella la chiave pubblica',
     contents: () =>

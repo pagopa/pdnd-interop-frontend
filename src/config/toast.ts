@@ -1,13 +1,8 @@
 import { RunActionProps, ToastActionKeys } from '../../types'
 
 export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
-  ONBOARDING_GET_AVAILABLE_PARTIES: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  ONBOARDING_GET_SEARCH_PARTIES: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  ONBOARDING_POST_LEGALS: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  ONBOARDING_COMPLETE_REGISTRATION: { loadingText: 'Operazione in corso', success: {}, error: {} },
   ESERVICE_GET_LIST: { loadingText: 'Stiamo caricando gli e-service', success: {}, error: {} },
   ESERVICE_GET_LIST_FLAT: { loadingText: 'Stiamo caricando gli e-service', success: {}, error: {} },
-  ESERVICE_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   ESERVICE_CREATE: {
     loadingText: 'Stiamo creando la bozza',
     success: { title: 'Bozza creata', description: 'La bozza è stata creata correttamente' },
@@ -17,7 +12,6 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
         'Non è stato possibile creare la bozza. Verifica di aver compilato tutti i campi richiesti e riprova!',
     },
   },
-  ESERVICE_UPDATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   ESERVICE_DELETE: {
     loadingText: 'Stiamo cancellando la bozza',
     success: {
@@ -52,7 +46,6 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
         "Non è stato possibile creare una bozza per la nuova versione dell'e-service. Assicurarsi di aver compilato tuttii i campi e riprovare",
     },
   },
-  ESERVICE_VERSION_UPDATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   ESERVICE_VERSION_PUBLISH: {
     loadingText: 'Stiamo pubblicando la versione in bozza',
     success: {
@@ -100,16 +93,6 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: 'Si è verificato un errore, non è stato possibile cancellare la bozza',
     },
   },
-  ESERVICE_VERSION_POST_DOCUMENT: {
-    loadingText: 'Operazione in corso',
-    success: {},
-    error: {},
-  },
-  ESERVICE_VERSION_DELETE_DOCUMENT: {
-    loadingText: 'Operazione in corso',
-    success: {},
-    error: {},
-  },
   ESERVICE_VERSION_DOWNLOAD_DOCUMENT: {
     loadingText: 'Stiamo scaricando il documento',
     success: {
@@ -122,13 +105,6 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: 'Non è stato possibile scaricare il documento. Riprova!',
     },
   },
-  ESERVICE_VERSION_UPDATE_DOCUMENT_DESCRIPTION: {
-    loadingText: 'Operazione in corso',
-    success: {},
-    error: {},
-  },
-  OPERATOR_API_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  OPERATOR_API_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   OPERATOR_API_CREATE: {
     loadingText: 'Stiamo creando il nuovo operatore',
     success: {
@@ -141,7 +117,6 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
         "Non è stato possibile creare il nuovo operatore. Assicurarsi che non esista già l'utenza ed eventualmente ritentare",
     },
   },
-  ATTRIBUTES_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
   ATTRIBUTE_CREATE: {
     loadingText: 'Stiamo salvando il nuovo attributo',
     success: {
@@ -153,7 +128,6 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: "C'è stato un errore, non è stato possibile completare l'operazione",
     },
   },
-  PARTY_GET_PARTY_ID: { loadingText: 'Operazione in corso', success: {}, error: {} },
   AGREEMENT_CREATE: {
     loadingText: "Stiamo creando l'accordo richiesto",
     success: {
@@ -167,8 +141,6 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
         "Non è stato possibile creare l'accordo. Se sei sicuro/a di averne diritto, contatta l'assistenza per maggiori informazioni",
     },
   },
-  AGREEMENT_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  AGREEMENT_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   AGREEMENT_VERIFY_ATTRIBUTE: {
     loadingText: "Stiamo verificando l'attributo",
     success: { title: 'Attributo verificato', description: "L'attributo è ora stato verificato" },
@@ -213,8 +185,6 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: "C'è stato un errore, non è stato possibile aggiornare l'accordo",
     },
   },
-  CLIENT_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  CLIENT_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   CLIENT_CREATE: { loadingText: 'Stiamo creando il client richiesto', success: {}, error: {} },
   CLIENT_SUSPEND: { loadingText: 'Stiamo sospendendo il client richiesto', success: {}, error: {} },
   CLIENT_ACTIVATE: {
@@ -222,13 +192,6 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     success: {},
     error: {},
   },
-  OPERATOR_SECURITY_GET_LIST: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  OPERATOR_SECURITY_GET_SINGLE: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  OPERATOR_SECURITY_CREATE: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  OPERATOR_SECURITY_KEYS_GET: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  OPERATOR_SECURITY_KEYS_POST: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  OPERATOR_SECURITY_KEY_DOWNLOAD: { loadingText: 'Operazione in corso', success: {}, error: {} },
-  OPERATOR_SECURITY_KEY_DELETE: { loadingText: 'Operazione in corso', success: {}, error: {} },
   USER_SUSPEND: {
     loadingText: "Stiamo sospendendo l'operatore",
     success: {
