@@ -20,6 +20,7 @@ type StyledInputControlledSelectProps = {
   rules: any
   errors: any
   inline?: boolean
+  focusOnMount?: boolean
 }
 
 export function StyledInputControlledSelect({
@@ -34,6 +35,7 @@ export function StyledInputControlledSelect({
   rules,
   errors,
   inline,
+  focusOnMount = false,
 }: StyledInputControlledSelectProps) {
   if (!options || Boolean(options.length === 0)) {
     return null
@@ -51,6 +53,7 @@ export function StyledInputControlledSelect({
         rules={rules}
         render={({ field }) => (
           <TextField
+            autoFocus={focusOnMount}
             select
             disabled={disabled}
             sx={{ width: '100%' }}

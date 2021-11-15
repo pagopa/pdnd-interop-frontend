@@ -23,6 +23,7 @@ export function PlatformUserControlledForm({
       <Box sx={{ py: 2, display: 'flex', justifyContent: 'space-between' }}>
         <Box sx={{ mr: 2, flexGrow: 1 }}>
           <StyledInputControlledText
+            focusOnMount={true}
             label="Nome*"
             name={`${prefix}.name`}
             control={control}

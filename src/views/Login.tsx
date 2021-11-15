@@ -63,7 +63,7 @@ export function Login() {
         }}
       </StyledIntro>
       <StyledForm>
-        <Box sx={{ mb: 4 }}>
+        <Box sx={{ mb: 6 }}>
           <StyledInputControlledText
             name="privacyTerms"
             control={control}
@@ -72,6 +72,7 @@ export function Login() {
             disabled={true}
             defaultValue={informativaPrivacy}
             multiline={true}
+            inline={true}
           />
 
           <StyledInputControlledCheckbox
@@ -80,6 +81,7 @@ export function Login() {
             rules={{ required: requiredValidationPattern }}
             options={[{ label: "Accetto l'informativa", value: 'privacy' }]}
             errors={errors}
+            inline={true}
           />
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: 240, mx: 'auto' }}>

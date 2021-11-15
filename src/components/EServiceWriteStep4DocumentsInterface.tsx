@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import isEmpty from 'lodash/isEmpty'
 import {
   EServiceDescriptorRead,
@@ -9,11 +10,12 @@ import {
 import { getActiveInterface } from '../lib/eservice-utils'
 import { StyledDeleteableDocument } from './Shared/StyledDeleteableDocument'
 import { StyledInputFile } from './Shared/StyledInputFile'
-import { StyledInputTextArea } from './Shared/StyledInputTextArea'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
 import { UploadFile as UploadFileIcon } from '@mui/icons-material'
 import { Box } from '@mui/system'
+import { StyledInputControlledText } from './Shared/StyledInputControlledText'
+import { requiredValidationPattern } from '../lib/validation'
 
 type EServiceWriteStep4DocumentsInterfaceProps = {
   data: EServiceReadType
@@ -28,8 +30,12 @@ export function EServiceWriteStep4DocumentsInterface({
   deleteDescriptorDocument,
   activeDescriptorId,
 }: EServiceWriteStep4DocumentsInterfaceProps) {
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm()
   const [readDoc, setReadDoc] = useState<EServiceDocumentRead | undefined>()
-  const [writeDoc, setWriteDoc] = useState<Partial<EServiceDocumentWrite>>()
 
   useEffect(() => {
     const initialInterface = getActiveInterface(data, activeDescriptorId)
@@ -48,14 +54,13 @@ export function EServiceWriteStep4DocumentsInterface({
     }
   }
 
-  const uploadNewInterfaceDoc = async (e: any) => {
-    e.preventDefault()
-
+  const uploadNewInterfaceDoc = async (data: Partial<EServiceDocumentWrite>) => {
     if (!isEmpty(readDoc)) {
       await deletePreviousInterfaceDoc()
     }
 
-    const { outcome, response } = await uploadDescriptorDocument(writeDoc, 'interface')
+    const dataToPost = { ...data, doc: data.doc[0], kind: 'interface' }
+    const { outcome, response } = await uploadDescriptorDocument(dataToPost)
 
     if (outcome === 'success') {
       const activeDescriptor = response.data.descriptors.find(
@@ -63,13 +68,7 @@ export function EServiceWriteStep4DocumentsInterface({
       )
       const file = activeDescriptor.interface
       setReadDoc(file)
-      setWriteDoc(undefined)
     }
-  }
-
-  const wrapUpdateDoc = (type: 'doc' | 'description') => (e: any) => {
-    const value = type === 'doc' ? e.target.files[0] : e.target.value
-    setWriteDoc({ ...writeDoc, [type]: value })
   }
 
   return readDoc ? (
@@ -81,25 +80,26 @@ export function EServiceWriteStep4DocumentsInterface({
     />
   ) : (
     <Box sx={{ px: 2, py: 2 }} bgcolor="common.white">
-      <StyledForm onSubmit={uploadNewInterfaceDoc}>
+      <StyledForm onSubmit={handleSubmit(uploadNewInterfaceDoc)}>
         <StyledInputFile
-          id="interface-doc"
+          name="doc"
           label="Seleziona documento"
-          value={writeDoc?.doc}
-          onChange={wrapUpdateDoc('doc')}
+          control={control}
+          errors={errors}
+          rules={{ required: requiredValidationPattern }}
         />
 
-        <Box sx={{ my: 2 }}>
-          <StyledInputTextArea
-            id="interface-descr"
-            label="Descrizione"
-            value={writeDoc?.description || ''}
-            onChange={wrapUpdateDoc('description')}
-          />
-        </Box>
+        <StyledInputControlledText
+          name="description"
+          label="Descrizione"
+          control={control}
+          rules={{}}
+          errors={errors}
+          multiline={true}
+        />
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <StyledButton type="submit" variant="contained" disabled={!writeDoc}>
+          <StyledButton type="submit" variant="contained">
             <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> Carica
           </StyledButton>
         </Box>

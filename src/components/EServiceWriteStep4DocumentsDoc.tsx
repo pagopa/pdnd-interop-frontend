@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import keyBy from 'lodash/keyBy'
 import { Box } from '@mui/system'
 import { UploadFile as UploadFileIcon } from '@mui/icons-material'
-import keyBy from 'lodash/keyBy'
 import {
   EServiceDescriptorRead,
   EServiceDocumentRead,
@@ -11,9 +12,10 @@ import {
 import { getActiveDocs } from '../lib/eservice-utils'
 import { StyledDeleteableDocument } from './Shared/StyledDeleteableDocument'
 import { StyledInputFile } from './Shared/StyledInputFile'
-import { StyledInputTextArea } from './Shared/StyledInputTextArea'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
+import { requiredValidationPattern } from '../lib/validation'
+import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 
 type EServiceWriteStep4DocumentsDocProps = {
   data: EServiceReadType
@@ -22,21 +24,24 @@ type EServiceWriteStep4DocumentsDocProps = {
   activeDescriptorId: string
 }
 
-type EServiceDocumentsReadObject = { [key: string]: EServiceDocumentRead }
-
 export function EServiceWriteStep4DocumentsDoc({
   data,
   uploadDescriptorDocument,
   deleteDescriptorDocument,
   activeDescriptorId,
 }: EServiceWriteStep4DocumentsDocProps) {
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm()
+
   const initialDocs = getActiveDocs(data, activeDescriptorId)
 
-  const toArray = (obj: EServiceDocumentsReadObject) => Object.values(obj)
+  const toArray = (obj: Record<string, EServiceDocumentRead>) => Object.values(obj)
   const toObject = (arr: EServiceDocumentRead[]) => keyBy(arr, 'id')
 
-  const [readDocs, setReadDocs] = useState<EServiceDocumentsReadObject>({})
-  const [writeDoc, setWriteDoc] = useState<Partial<EServiceDocumentWrite>>()
+  const [readDocs, setReadDocs] = useState<Record<string, EServiceDocumentRead>>({})
   const [showWriteDocInput, setShowWriteDocInput] = useState(false)
 
   useEffect(() => {
@@ -53,10 +58,9 @@ export function EServiceWriteStep4DocumentsDoc({
     }
   }
 
-  const uploadNewDoc = async (e: any) => {
-    e.preventDefault()
-
-    const { outcome, response } = await uploadDescriptorDocument(writeDoc, 'document')
+  const uploadNewDoc = async (data: Partial<EServiceDocumentWrite>) => {
+    const dataToPost = { ...data, doc: data.doc[0], kind: 'document' }
+    const { outcome, response } = await uploadDescriptorDocument(dataToPost)
 
     if (outcome === 'success') {
       const activeDescriptor = response.data.descriptors.find(
@@ -64,14 +68,8 @@ export function EServiceWriteStep4DocumentsDoc({
       )
       const files = activeDescriptor.docs
       setReadDocs(toObject(files))
-      setWriteDoc(undefined)
       setShowWriteDocInput(false)
     }
-  }
-
-  const wrapUpdateDoc = (type: 'doc' | 'description') => (e: any) => {
-    const value = type === 'doc' ? e.target.files[0] : e.target.value
-    setWriteDoc({ ...writeDoc, [type]: value })
   }
 
   const showFileInputForm = (_: any) => {
@@ -94,25 +92,26 @@ export function EServiceWriteStep4DocumentsDoc({
 
       {showWriteDocInput ? (
         <Box sx={{ px: 2, py: 2 }} bgcolor="common.white">
-          <StyledForm onSubmit={uploadNewDoc}>
+          <StyledForm onSubmit={handleSubmit(uploadNewDoc)}>
             <StyledInputFile
-              id="doc-doc"
+              name="doc"
               label="Seleziona documento"
-              value={writeDoc?.doc}
-              onChange={wrapUpdateDoc('doc')}
+              control={control}
+              rules={{ required: requiredValidationPattern }}
+              errors={errors}
             />
 
-            <Box sx={{ my: 2 }}>
-              <StyledInputTextArea
-                id="doc-descr"
-                label="Descrizione"
-                value={writeDoc?.description || ''}
-                onChange={wrapUpdateDoc('description')}
-              />
-            </Box>
+            <StyledInputControlledText
+              name="description"
+              label="Descrizione"
+              control={control}
+              rules={{}}
+              errors={errors}
+              multiline={true}
+            />
 
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <StyledButton type="submit" variant="contained" disabled={!writeDoc}>
+              <StyledButton type="submit" variant="contained">
                 <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> Carica
               </StyledButton>
             </Box>

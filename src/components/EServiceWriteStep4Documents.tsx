@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box } from '@mui/system'
-import { EServiceDocumentKind, StepperStepComponentProps } from '../../types'
+import { EServiceDocumentWrite, StepperStepComponentProps } from '../../types'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
 import { EServiceWriteStep4DocumentsInterface } from './EServiceWriteStep4DocumentsInterface'
 import { useLocation } from 'react-router'
@@ -69,10 +69,7 @@ export function EServiceWriteStep4Documents({
     return { outcome, response }
   }
 
-  const uploadDescriptorDocument = async (
-    { description, doc }: any,
-    kind: EServiceDocumentKind
-  ) => {
+  const uploadDescriptorDocument = async ({ description, doc, kind }: EServiceDocumentWrite) => {
     const formData = new FormData()
     formData.append('kind', kind)
     formData.append('description', description || '')

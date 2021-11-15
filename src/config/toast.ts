@@ -1,6 +1,11 @@
 import { RunActionProps, ToastActionKeys } from '../../types'
 
 export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
+  ONBOARDING_COMPLETE_REGISTRATION: {
+    loadingText: "Stiamo caricando l'accordo e verificando la sua autenticità",
+    success: {},
+    error: {},
+  },
   ESERVICE_GET_LIST: { loadingText: 'Stiamo caricando gli e-service', success: {}, error: {} },
   ESERVICE_GET_LIST_FLAT: { loadingText: 'Stiamo caricando gli e-service', success: {}, error: {} },
   ESERVICE_CREATE: {
@@ -10,6 +15,18 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       title: "C'è stato un problema",
       description:
         'Non è stato possibile creare la bozza. Verifica di aver compilato tutti i campi richiesti e riprova!',
+    },
+  },
+  ESERVICE_UPDATE: {
+    loadingText: 'Stiamo aggiornando la bozza',
+    success: {
+      title: 'Bozza aggiornata',
+      description: 'La bozza è stata aggiornata correttamente',
+    },
+    error: {
+      title: "C'è stato un problema",
+      description:
+        'Non è stato possibile aggiornare la bozza. Verifica di aver compilato tutti i campi richiesti e riprova!',
     },
   },
   ESERVICE_DELETE: {
@@ -37,13 +54,25 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
   ESERVICE_VERSION_CREATE: {
     loadingText: 'Stiamo creando la nuova versione (in bozza)',
     success: {
-      title: 'Nuova versione disponibile',
+      title: 'Bozza creata correttamente',
       description: "La nuova versione della nuova versione dell'e-service è disponibile in bozza",
     },
     error: {
       title: 'Errore',
       description:
         "Non è stato possibile creare una bozza per la nuova versione dell'e-service. Assicurarsi di aver compilato tuttii i campi e riprovare",
+    },
+  },
+  ESERVICE_VERSION_UPDATE: {
+    loadingText: 'Stiamo aggiornando la nuova versione (in bozza)',
+    success: {
+      title: 'Bozza aggiornata correttamente',
+      description: "La nuova versione della nuova versione dell'e-service è disponibile in bozza",
+    },
+    error: {
+      title: 'Errore',
+      description:
+        "Non è stato possibile aggiornare una bozza per la nuova versione dell'e-service. Assicurarsi di aver compilato tuttii i campi e riprovare",
     },
   },
   ESERVICE_VERSION_PUBLISH: {
@@ -93,6 +122,22 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: 'Si è verificato un errore, non è stato possibile cancellare la bozza',
     },
   },
+  ESERVICE_VERSION_POST_DOCUMENT: {
+    loadingText: 'Stiamo caricando il documento',
+    success: { title: 'Successo', description: 'Il documento è stato caricato correttamente' },
+    error: {
+      title: 'Errore',
+      description: 'Non è stato possibile caricare il documento. Riprova!',
+    },
+  },
+  ESERVICE_VERSION_DELETE_DOCUMENT: {
+    loadingText: 'Stiamo eliminando il documento',
+    success: { title: 'Successo', description: 'Il documento è stato eliminato correttamente' },
+    error: {
+      title: 'Errore',
+      description: 'Non è stato possibile eliminare il documento. Riprova!',
+    },
+  },
   ESERVICE_VERSION_DOWNLOAD_DOCUMENT: {
     loadingText: 'Stiamo scaricando il documento',
     success: {
@@ -103,6 +148,17 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     error: {
       title: 'Errore',
       description: 'Non è stato possibile scaricare il documento. Riprova!',
+    },
+  },
+  ESERVICE_VERSION_UPDATE_DOCUMENT_DESCRIPTION: {
+    loadingText: 'Stiamo aggiornando la descrizione del documento',
+    success: {
+      title: 'Successo',
+      description: 'La descrizione è stata aggiornata correttamente',
+    },
+    error: {
+      title: 'Errore',
+      description: 'Non è stato possibile aggiornare la descrizione. Riprova!',
     },
   },
   OPERATOR_API_CREATE: {
