@@ -387,6 +387,7 @@ export type DialogProps = DialogContent & {
   proceedCallback: ActionFunction
   close: VoidFunction
   disabled?: boolean
+  maxWidth?: MUISize
 }
 
 export type DialogContent = {
@@ -426,8 +427,6 @@ export type DialogActionKeys = Exclude<
   | 'OPERATOR_SECURITY_GET_SINGLE'
   | 'OPERATOR_SECURITY_CREATE'
   | 'OPERATOR_SECURITY_KEYS_GET'
-  | 'OPERATOR_SECURITY_KEYS_POST'
-  | 'OPERATOR_SECURITY_KEY_DOWNLOAD'
 >
 
 export type ToastContent = {
@@ -490,3 +489,8 @@ export type SelectOption = {
   label: string
   value: string | number
 }
+
+/*
+ * MUI related props
+ */
+export type MUISize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'

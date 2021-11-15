@@ -63,7 +63,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     PATH: '/temp-spid',
     LABEL: 'Genera utente SPID di test',
     COMPONENT: TempSPIDUser,
-    PUBLIC: false,
+    PUBLIC: true,
     AUTH_LEVELS: 'any',
   },
   CHOOSE_PARTY: {

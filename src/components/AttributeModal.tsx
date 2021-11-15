@@ -69,7 +69,7 @@ export function AttributeModalCreateNew({ close, attributeKey }: AttributeModalC
 
   return (
     <StyledDialog
-      minWidth={550}
+      maxWidth="sm"
       close={close}
       title={`Crea nuovo attributo ${label}`}
       proceedLabel="Crea attributo"
@@ -128,7 +128,7 @@ export function AttributeModalAddExisting({
 
   return (
     <StyledDialog
-      minWidth={550}
+      maxWidth="sm"
       close={close}
       title="Aggiungi attributo o gruppo"
       proceedLabel="Aggiungi attributo"
