@@ -210,4 +210,31 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     },
     error: {},
   },
+  OPERATOR_SECURITY_KEYS_POST: {
+    loadingText: 'Stiamo caricando la chiave',
+    success: {
+      title: 'Chiave caricata',
+      description:
+        "La chiave è ora utilizzabile per confermare la validità del token per l'e-service richiesto",
+    },
+    error: {
+      title: 'Errore',
+      description:
+        'Non è stato possibile caricare la chiave. Assicurarsi sia nel formato corretto e riprovare',
+    },
+  },
+  OPERATOR_SECURITY_KEY_DELETE: {
+    loadingText: 'Stiamo cancellando la chiave',
+    success: {
+      title: 'Chiave cancellata',
+      description:
+        "La chiave pubblica è stata cancellata correttamente. Da questo momento non potrà più essere usata per autenticarsi presso l'erogatore dell'e-service",
+    },
+    error: {},
+  },
+  OPERATOR_SECURITY_KEY_DOWNLOAD: {
+    loadingText: 'Stiamo scaricando la chiave',
+    success: {},
+    error: {},
+  },
 }

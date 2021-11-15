@@ -1,11 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AxiosResponse } from 'axios'
-import isEmpty from 'lodash/isEmpty'
-import { ActionProps, SecurityOperatorPublicKey, ToastContentWithOutcome, User } from '../../types'
+import { ActionProps, SecurityOperatorPublicKey, User } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { getFetchOutcome } from '../lib/error-utils'
-import { CreateKeyModal } from './CreateKeyModal'
-import { ToastContext, UserContext } from '../lib/context'
+import { UserContext } from '../lib/context'
 import { DescriptionBlock } from './DescriptionBlock'
 import { downloadFile } from '../lib/file-utils'
 import { StyledButton } from './Shared/StyledButton'
@@ -14,6 +12,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { Box } from '@mui/system'
 import { Typography } from '@mui/material'
 import { ROUTES } from '../config/routes'
+import { useSecurityOperatorKeyDialog } from '../hooks/useSecurityOperatorKeyDialog'
 
 type SecurityOperatorKeysProps = {
   clientId: string
@@ -24,28 +23,12 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
   const { user } = useContext(UserContext)
   const [key, setKey] = useState<any>()
-  const { setToast } = useContext(ToastContext)
-  const [modal, setModal] = useState(false)
-  const [keyCreationCounter, setKeyCreationCounter] = useState(0)
 
-  const closeToast = () => {
-    setToast(null)
-  }
-
-  const openModal = () => {
-    setModal(true)
-  }
-
-  const closeModal = (toastContent?: ToastContentWithOutcome) => {
-    setModal(false)
-    if (!isEmpty(toastContent)) {
-      setToast({ ...toastContent!, onClose: closeToast })
-    }
-  }
-
-  const updateKeyCreationCounter = () => {
-    setKeyCreationCounter(keyCreationCounter + 1)
-  }
+  const { openDialog, forceRerenderCounter: securityKeyPostForceRerenderCounter } =
+    useSecurityOperatorKeyDialog({
+      clientId,
+      taxCode: userData.taxCode,
+    })
 
   /*
    * List of keys related actions to perform
@@ -70,7 +53,7 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
     }
 
     asyncFetchKeys()
-  }, [forceRerenderCounter, keyCreationCounter]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [forceRerenderCounter, securityKeyPostForceRerenderCounter]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const wrapDownloadKey = (keyId: string) => async (_: any) => {
     const { response, outcome } = await runAction(
@@ -119,7 +102,7 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
   return (
     <React.Fragment>
       {user?.taxCode === userData.taxCode && !key && (
-        <StyledButton sx={{ mb: 2 }} onClick={openModal} variant="contained">
+        <StyledButton sx={{ mb: 2 }} onClick={openDialog} variant="contained">
           Carica nuova chiave
         </StyledButton>
       )}
@@ -156,15 +139,6 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
         </React.Fragment>
       ) : (
         <Typography>Nessuna chiave presente</Typography>
-      )}
-
-      {modal && (
-        <CreateKeyModal
-          close={closeModal}
-          clientId={clientId}
-          taxCode={userData.taxCode}
-          afterSuccess={updateKeyCreationCounter}
-        />
       )}
 
       <Typography sx={{ mt: 2 }}>

@@ -9,19 +9,18 @@ import {
 } from '@mui/material'
 import { Box } from '@mui/system'
 import { StyledButton } from './StyledButton'
-import { ActionFunction } from '../../../types'
+import { ActionFunction, MUISize } from '../../../types'
 import { StyledForm } from './StyledForm'
 import { TableActionMenuContext } from '../../lib/context'
 
 type ConfirmationDialogOverlayProps = {
   title?: string
+  contents?: any
   close: VoidFunction
   proceedCallback: ActionFunction
   proceedLabel?: string
   disabled?: boolean
-  minWidth?: number | string
-
-  contents?: any
+  maxWidth?: MUISize
 }
 
 export const StyledDialog: FunctionComponent<ConfirmationDialogOverlayProps> = ({
@@ -30,7 +29,7 @@ export const StyledDialog: FunctionComponent<ConfirmationDialogOverlayProps> = (
   proceedCallback,
   proceedLabel = 'Conferma',
   disabled = false,
-  minWidth = 'auto',
+  maxWidth = 'xs',
   children,
 
   contents: Contents,
@@ -54,7 +53,8 @@ export const StyledDialog: FunctionComponent<ConfirmationDialogOverlayProps> = (
         open={true}
         onClose={close}
         aria-describedby={`Modale per azione: ${title}`}
-        sx={{ minWidth }}
+        maxWidth={maxWidth}
+        fullWidth
       >
         <StyledForm onSubmit={handleSubmit(proceedCallback)}>
           <Box>
