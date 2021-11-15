@@ -3,7 +3,6 @@ import { AxiosRequestConfig, Method } from 'axios'
 import { API } from './src/config/api-endpoints'
 import {
   AGREEMENT_STATUS_LABEL,
-  ATTRIBUTE_TYPE_LABEL,
   CLIENT_STATUS_LABEL,
   ESERVICE_STATUS_LABEL,
 } from './src/config/labels'
@@ -317,9 +316,9 @@ export type SecurityOperatorPublicKey = {
 /*
  * Attributes
  */
-export type AttributeModalTemplate = 'add' | 'create'
+export type AttributeKey = 'certified' | 'verified' | 'declared'
 
-export type AttributeType = keyof typeof ATTRIBUTE_TYPE_LABEL
+export type AttributeModalTemplate = 'add' | 'create'
 
 // Backend attribute is the attribute as it is expected when POSTed to the backend
 export type BackendAttributeContent = {
@@ -338,9 +337,7 @@ export type GroupBackendAttribute = {
   group: BackendAttributeContent[]
 }
 export type BackendAttribute = SingleBackendAttribute | GroupBackendAttribute
-export type BackendAttributes = {
-  [key in AttributeType]: BackendAttribute[]
-}
+export type BackendAttributes = Record<AttributeKey, BackendAttribute[]>
 
 // Catalog attribute as it comes from the attributes catalog
 export type CatalogAttribute = {
@@ -361,9 +358,7 @@ export type FrontendAttribute = {
   attributes: CatalogAttribute[]
   explicitAttributeVerification: boolean
 }
-export type FrontendAttributes = {
-  [key in AttributeType]: FrontendAttribute[]
-}
+export type FrontendAttributes = Record<AttributeKey, FrontendAttribute[]>
 
 /*
  * Dialog, loader and toast components typings
@@ -392,7 +387,7 @@ export type DialogProps = DialogContent & {
 
 export type DialogContent = {
   title?: string
-  contents?: any
+  Contents?: any
 }
 
 export type DialogActionKeys = Exclude<

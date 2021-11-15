@@ -39,7 +39,7 @@ export const useSubscribeDialog = () => {
 
     setDialog({
       title: "Iscriviti all'e-service",
-      contents: ({ control, errors }: any) => {
+      Contents: ({ control, errors }: any) => {
         return (
           <React.Fragment>
             <p>

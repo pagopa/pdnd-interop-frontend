@@ -15,7 +15,7 @@ import { TableActionMenuContext } from '../../lib/context'
 
 type ConfirmationDialogOverlayProps = {
   title?: string
-  contents?: any
+  Contents?: any
   close: VoidFunction
   proceedCallback: ActionFunction
   proceedLabel?: string
@@ -32,12 +32,14 @@ export const StyledDialog: FunctionComponent<ConfirmationDialogOverlayProps> = (
   maxWidth = 'xs',
   children,
 
-  contents: Contents,
+  Contents,
 }) => {
   const { setTableActionMenu } = useContext(TableActionMenuContext)
   const {
     handleSubmit,
     control,
+    watch,
+    getValues,
     formState: { errors },
   } = useForm()
 
@@ -63,7 +65,7 @@ export const StyledDialog: FunctionComponent<ConfirmationDialogOverlayProps> = (
             {children && <DialogContent>{children}</DialogContent>}
             {Contents && (
               <DialogContent>
-                <Contents control={control} errors={errors} />
+                <Contents control={control} errors={errors} watch={watch} getValues={getValues} />
               </DialogContent>
             )}
 

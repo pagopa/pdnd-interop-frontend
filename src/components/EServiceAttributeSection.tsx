@@ -2,7 +2,7 @@ import React from 'react'
 import { EServiceAttributeGroup } from './EServiceAttributeGroup'
 import { StyledIntro } from './Shared/StyledIntro'
 import isEqual from 'lodash/isEqual'
-import { AttributeType, CatalogAttribute, FrontendAttributes } from '../../types'
+import { AttributeKey, CatalogAttribute, FrontendAttributes } from '../../types'
 import { Box } from '@mui/system'
 
 type EServiceAttributeSectionProps = {
@@ -14,9 +14,7 @@ type TypeLabel = {
   title: string
   description: string
 }
-type TypeLabels = {
-  [key in AttributeType]: TypeLabel
-}
+type TypeLabels = Record<AttributeKey, TypeLabel>
 
 const TYPE_LABELS: TypeLabels = {
   certified: {
@@ -42,7 +40,7 @@ export function EServiceAttributeSection({
 }: EServiceAttributeSectionProps) {
   const getIds = (arr: any[]) => arr.map((item) => item.id)
 
-  const wrapRemove = (key: AttributeType) => (attributeGroupToRemove: CatalogAttribute[]) => {
+  const wrapRemove = (key: AttributeKey) => (attributeGroupToRemove: CatalogAttribute[]) => {
     // Just for safety, generate new object
     const filteredAttributes = { ...attributes }
     // Filter out those that have the exact same id list as the group to remove
@@ -55,7 +53,7 @@ export function EServiceAttributeSection({
   }
 
   const wrapAdd =
-    (key: AttributeType) =>
+    (key: AttributeKey) =>
     (attributeGroup: CatalogAttribute[], explicitAttributeVerification: boolean) => {
       setAttributes({
         ...attributes,
@@ -66,12 +64,12 @@ export function EServiceAttributeSection({
   return (
     <React.Fragment>
       {Object.keys(attributes).map((key, i) => {
-        const attributeKey = key as AttributeType
+        const attributeKey = key as AttributeKey
         const { title, description } = TYPE_LABELS[attributeKey]
 
         return (
-          <Box sx={{ my: 4 }} key={i}>
-            <StyledIntro variant="h1">{{ title, description }}</StyledIntro>
+          <Box sx={{ mb: 8 }} key={i}>
+            <StyledIntro variant="h3">{{ title, description }}</StyledIntro>
             <EServiceAttributeGroup
               canRequireVerification={attributeKey === 'verified'}
               canCreateNewAttributes={attributeKey !== 'certified'}

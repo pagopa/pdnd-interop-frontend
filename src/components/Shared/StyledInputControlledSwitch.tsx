@@ -18,6 +18,7 @@ type StyledInputControlledSwitchProps = {
   control: any
   rules?: any
   errors?: any
+  inline?: boolean
 }
 
 export function StyledInputControlledSwitch({
@@ -31,11 +32,12 @@ export function StyledInputControlledSwitch({
   control,
   rules,
   errors,
+  inline = false,
 }: StyledInputControlledSwitchProps) {
   const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
 
   return (
-    <Box sx={{ my: 2 }}>
+    <Box sx={{ my: inline ? 0 : 2 }}>
       <Controller
         shouldUnregister={true}
         name={name}

@@ -6,10 +6,16 @@ export const ESERVICE_STATUS_LABEL = {
   deprecated: 'Deprecato',
 }
 
-export const ATTRIBUTE_TYPE_LABEL = {
+export const ATTRIBUTE_TYPE_PLURAL_LABEL = {
   certified: 'Certificati',
   verified: 'Verificati',
   declared: 'Dichiarati',
+}
+
+export const ATTRIBUTE_TYPE_SINGULAR_LABEL = {
+  certified: 'certificato',
+  verified: 'verificato',
+  declared: 'dichiarato',
 }
 
 export const AGREEMENT_STATUS_LABEL = {
