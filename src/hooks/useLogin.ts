@@ -99,7 +99,6 @@ export const useLogin = () => {
   // WARNING: this is not secure and will ultimately be rewritten
   // See PIN-403
   const attemptSilentLogin = async (): Promise<boolean> => {
-    console.log('attempting silent login')
     const sessionStorageUser = storageRead('user', 'object')
     const sessionStorageParty = storageRead('currentParty', 'object')
     const sessionStorageBearerToken = storageRead('bearer', 'string')
