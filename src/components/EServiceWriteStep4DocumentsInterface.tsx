@@ -9,7 +9,7 @@ import {
 } from '../../types'
 import { getActiveInterface } from '../lib/eservice-utils'
 import { StyledDeleteableDocument } from './Shared/StyledDeleteableDocument'
-import { StyledInputFile } from './Shared/StyledInputFile'
+import { StyledInputControlledFile } from './Shared/StyledInputControlledFile'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
 import { UploadFile as UploadFileIcon } from '@mui/icons-material'
@@ -81,7 +81,7 @@ export function EServiceWriteStep4DocumentsInterface({
   ) : (
     <Box sx={{ px: 2, py: 2 }} bgcolor="common.white">
       <StyledForm onSubmit={handleSubmit(uploadNewInterfaceDoc)}>
-        <StyledInputFile
+        <StyledInputControlledFile
           name="doc"
           label="Seleziona documento"
           control={control}

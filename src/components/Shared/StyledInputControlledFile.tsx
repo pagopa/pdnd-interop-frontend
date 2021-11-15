@@ -7,7 +7,7 @@ import { Box } from '@mui/system'
 import { StyledInputError } from './StyledInputError'
 import { InfoMessage } from './InfoMessage'
 
-type StyledInputFileProps = {
+type StyledInputControlledFileProps = {
   label: string
 
   name: string
@@ -18,7 +18,7 @@ type StyledInputFileProps = {
   inline?: boolean
 }
 
-export function StyledInputFile({
+export function StyledInputControlledFile({
   label,
   control,
   rules,
@@ -26,7 +26,7 @@ export function StyledInputFile({
   name,
   infoLabel,
   inline = false,
-}: StyledInputFileProps) {
+}: StyledInputControlledFileProps) {
   const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
 
   const wrapOnFieldChange = (callback: any) => (e: any) => {
