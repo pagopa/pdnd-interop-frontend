@@ -82,6 +82,7 @@ export function StyledDeleteableDocument({
         mb: 2,
         pb: 2,
         borderBottom: 1,
+        borderColor: 'divider',
       }}
     >
       <Box sx={{ mr: 4, flexShrink: 1 }}>
