@@ -117,6 +117,7 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
               py: 2,
               borderTop: 1,
               borderBottom: 1,
+              borderColor: 'divider',
             }}
           >
             <Typography>Chiave pubblica</Typography>
