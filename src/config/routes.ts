@@ -16,8 +16,6 @@ import { Onboarding } from '../views/Onboarding'
 import { CompleteRegistration } from '../views/CompleteRegistration'
 import { RejectRegistration } from '../views/RejectRegistration'
 import { Profile } from '../views/Profile'
-import { Provide } from '../views/Provide'
-import { Subscribe } from '../views/Subscribe'
 import { UserEdit } from '../views/UserEdit'
 import { UserList } from '../views/UserList'
 import { EServiceGate } from '../views/EServiceGate'
@@ -110,7 +108,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
   PROVIDE: {
     PATH: '/erogazione',
     LABEL: 'Erogazione',
-    COMPONENT: Provide,
+    COMPONENT: EmptyComponent,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'api'],
     SUBROUTES: {
@@ -216,10 +214,37 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
   SUBSCRIBE: {
     PATH: '/fruizione',
     LABEL: 'Fruizione',
-    COMPONENT: Subscribe,
+    COMPONENT: EmptyComponent,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'security'],
     SUBROUTES: {
+      CATALOG: {
+        PATH: '/fruizione/catalogo-e-service',
+        EXACT: false,
+        LABEL: 'Catalogo e-service',
+        COMPONENT: EmptyComponent,
+        RENDER: false,
+        PUBLIC: false,
+        AUTH_LEVELS: ['admin', 'security'],
+        SUBROUTES: {
+          LIST: {
+            PATH: '/fruizione/catalogo-e-service/lista',
+            EXACT: true,
+            LABEL: 'E-service disponibili',
+            COMPONENT: EServiceCatalog,
+            PUBLIC: false,
+            AUTH_LEVELS: ['admin', 'security'],
+          },
+          VIEW: {
+            PATH: '/fruizione/catalogo-e-service/:eserviceId/:descriptorId',
+            EXACT: false,
+            LABEL: 'Visualizza e-service',
+            COMPONENT: EServiceGate,
+            PUBLIC: false,
+            AUTH_LEVELS: ['admin', 'security'],
+          },
+        },
+      },
       CLIENT: {
         PATH: '/fruizione/client',
         EXACT: false,
@@ -318,33 +343,6 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
             COMPONENT: AgreementEdit,
             PUBLIC: false,
             AUTH_LEVELS: ['admin'],
-          },
-        },
-      },
-      CATALOG: {
-        PATH: '/fruizione/catalogo-e-service',
-        EXACT: false,
-        LABEL: 'Catalogo e-service',
-        COMPONENT: EmptyComponent,
-        RENDER: false,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin', 'security'],
-        SUBROUTES: {
-          LIST: {
-            PATH: '/fruizione/catalogo-e-service/lista',
-            EXACT: true,
-            LABEL: 'E-service disponibili',
-            COMPONENT: EServiceCatalog,
-            PUBLIC: false,
-            AUTH_LEVELS: ['admin', 'security'],
-          },
-          VIEW: {
-            PATH: '/fruizione/catalogo-e-service/:eserviceId/:descriptorId',
-            EXACT: false,
-            LABEL: 'Visualizza e-service',
-            COMPONENT: EServiceGate,
-            PUBLIC: false,
-            AUTH_LEVELS: ['admin', 'security'],
           },
         },
       },

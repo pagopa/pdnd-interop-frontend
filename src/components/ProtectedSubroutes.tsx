@@ -6,8 +6,8 @@ import { AuthGuard } from './AuthGuard'
 
 type SubroutingProps = {
   subroutes: Record<string, RouteConfig>
-  redirectDestRoute?: RouteConfig
-  redirectSrcRoute?: RouteConfig
+  redirectDestRoute?: Partial<RouteConfig>
+  redirectSrcRoute?: Partial<RouteConfig>
 }
 
 export function ProtectedSubroutes({
@@ -16,32 +16,30 @@ export function ProtectedSubroutes({
   redirectDestRoute,
 }: SubroutingProps) {
   return (
-    <React.Fragment>
-      <Switch>
-        {Object.values(subroutes).map((route, i) => {
-          const { PATH, COMPONENT, RENDER = true, EXACT, PUBLIC, AUTH_LEVELS, SUBROUTES } = route
-          return (
-            <Route path={PATH} key={i} exact={EXACT}>
-              {RENDER && (
-                <AuthGuard Component={COMPONENT} isRoutePublic={PUBLIC} authLevels={AUTH_LEVELS} />
-              )}
-              {SUBROUTES && (
-                <ProtectedSubroutes
-                  subroutes={SUBROUTES}
-                  redirectSrcRoute={route}
-                  redirectDestRoute={Object.values(SUBROUTES)[0]}
-                />
-              )}
-            </Route>
-          )
-        })}
-
-        {redirectSrcRoute && redirectDestRoute && (
-          <Route path={redirectSrcRoute.PATH} exact={redirectSrcRoute.EXACT}>
-            <Redirect to={redirectDestRoute.PATH} />
+    <Switch>
+      {Object.values(subroutes).map((route, i) => {
+        const { PATH, COMPONENT, RENDER = true, EXACT, PUBLIC, AUTH_LEVELS, SUBROUTES } = route
+        return (
+          <Route path={PATH} key={i} exact={EXACT}>
+            {RENDER && (
+              <AuthGuard Component={COMPONENT} isRoutePublic={PUBLIC} authLevels={AUTH_LEVELS} />
+            )}
+            {SUBROUTES && (
+              <ProtectedSubroutes
+                subroutes={SUBROUTES}
+                redirectSrcRoute={route}
+                redirectDestRoute={Object.values(SUBROUTES)[0]}
+              />
+            )}
           </Route>
-        )}
-      </Switch>
-    </React.Fragment>
+        )
+      })}
+
+      {redirectSrcRoute && redirectDestRoute && (
+        <Route path={redirectSrcRoute.PATH} exact={redirectSrcRoute.EXACT}>
+          <Redirect to={redirectDestRoute.PATH!} />
+        </Route>
+      )}
+    </Switch>
   )
 }
