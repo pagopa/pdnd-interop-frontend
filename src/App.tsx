@@ -5,7 +5,7 @@ import { BodyLogger } from './components/BodyLogger'
 import { PartyContext, UserContext } from './lib/context'
 import { Party, User } from '../types'
 import { ThemeProvider } from '@mui/material'
-import theme from '@vito.falco/mui-italia/theme'
+import theme from '@pagopa/mui-italia/theme'
 
 export function App() {
   const [user, setUser] = useState<User | null>(null)
