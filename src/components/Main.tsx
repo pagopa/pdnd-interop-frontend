@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
 import { Box } from '@mui/system'
-import { useLocation } from 'react-router-dom'
+import { Switch, Redirect, Route, useLocation } from 'react-router-dom'
 import { SHOW_DEV_LABELS } from '../lib/constants'
 import { UserContext } from '../lib/context'
 import { StyledBreadcrumbs } from './Shared/StyledBreadcrumbs'
 import { isInPlatform } from '../lib/router-utils'
 import { ROUTES } from '../config/routes'
-import { ProtectedSubroutes } from './ProtectedSubroutes'
+import { AuthGuard } from './AuthGuard'
 
 export function Main() {
   const { user } = useContext(UserContext)
@@ -20,11 +20,24 @@ export function Main() {
     >
       {isInPlatform(location) && <StyledBreadcrumbs />}
 
-      <ProtectedSubroutes
-        subroutes={ROUTES}
-        redirectSrcRoute={{ PATH: '/', EXACT: true }}
-        redirectDestRoute={{ PATH: user !== null ? ROUTES.SUBSCRIBE.PATH : ROUTES.LOGIN.PATH }}
-      />
+      <Switch>
+        {Object.values(ROUTES).map((route, i) => {
+          const { PATH, COMPONENT, PUBLIC, AUTH_LEVELS, EXACT = false, REDIRECT = false } = route
+          return (
+            <Route path={PATH} key={i} exact={EXACT}>
+              {REDIRECT ? (
+                <Redirect to={REDIRECT!} />
+              ) : (
+                <AuthGuard Component={COMPONENT} isRoutePublic={PUBLIC} authLevels={AUTH_LEVELS} />
+              )}
+            </Route>
+          )
+        })}
+
+        <Route path="/" exact>
+          <Redirect to={user !== null ? ROUTES.SUBSCRIBE.PATH : ROUTES.LOGIN.PATH} />
+        </Route>
+      </Switch>
     </Box>
   )
 }

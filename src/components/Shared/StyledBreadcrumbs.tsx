@@ -3,14 +3,14 @@ import { useLocation } from 'react-router-dom'
 import { Breadcrumbs, Typography } from '@mui/material'
 import { StyledLink } from './StyledLink'
 import { RouteConfig } from '../../../types'
-import { flattenRoutes, getBits } from '../../lib/url-utils'
-import { isSameRoute } from '../../lib/router-utils'
+import { getBits, isSamePath } from '../../lib/router-utils'
 import { ROUTES } from '../../config/routes'
 
 export function StyledBreadcrumbs() {
   const location = useLocation()
-  const flattened = flattenRoutes(ROUTES)
-  const currentRoute: RouteConfig | undefined = flattened.find((r) => isSameRoute(location, r))
+  const currentRoute: RouteConfig | undefined = Object.values(ROUTES).find((r) =>
+    isSamePath(location.pathname, r.PATH)
+  )
 
   if (!currentRoute) {
     return null
@@ -27,7 +27,7 @@ export function StyledBreadcrumbs() {
     return `/${dynamicSplit.join('/')}`
   }
 
-  const parentRoutes = (currentRoute.PARENTS || []).filter((r) => !r.HIDE_BREADCRUMB)
+  const parentRoutes = currentRoute.PARENTS || []
   const links = [...parentRoutes, currentRoute].map((r) => ({
     label: r.LABEL,
     // Remap dynamic parts of the path to their current value

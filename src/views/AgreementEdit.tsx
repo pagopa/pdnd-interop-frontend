@@ -11,7 +11,7 @@ import {
 import { MEDIUM_MAX_WIDTH } from '../lib/constants'
 import { ROUTES } from '../config/routes'
 import { AGREEMENT_STATUS_LABEL } from '../config/labels'
-import { buildDynamicPath, getLastBit } from '../lib/url-utils'
+import { buildDynamicPath, getLastBit } from '../lib/router-utils'
 import { formatDate, getRandomDate } from '../lib/date-utils'
 import { mergeActions } from '../lib/eservice-utils'
 import { useMode } from '../hooks/useMode'
@@ -80,7 +80,7 @@ export function AgreementEdit() {
       {
         path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } },
       },
-      { destination: ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT.SUBROUTES!.LIST, suppressToast: false }
+      { destination: ROUTES.SUBSCRIBE_AGREEMENT_LIST, suppressToast: false }
     )
   }
 
@@ -216,7 +216,7 @@ export function AgreementEdit() {
       <DescriptionBlock label="Accordo relativo a">
         <Box style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
           <StyledLink
-            to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.VIEW.PATH, {
+            to={buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
               eserviceId: data?.eservice.id,
               descriptorId: data?.eserviceDescriptorId,
             })}
@@ -230,7 +230,7 @@ export function AgreementEdit() {
               {' '}
               (è disponibile una{' '}
               <StyledLink
-                to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.VIEW.PATH, {
+                to={buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
                   eserviceId: data?.eservice.id,
                   descriptorId: data?.eservice.activeDescriptor.id,
                 })}

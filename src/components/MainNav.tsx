@@ -11,10 +11,10 @@ import {
 } from '@mui/material'
 import { ProviderOrSubscriber, RouteConfig, UserPlatformRole } from '../../types'
 import { PartyContext } from '../lib/context'
-import { isActiveTree } from '../lib/router-utils'
 import { StyledLink } from './Shared/StyledLink'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import { ROUTES } from '../config/routes'
+import { belongsToTree } from '../lib/router-utils'
 
 type View = {
   route: RouteConfig
@@ -36,7 +36,7 @@ export function MainNav() {
   }
 
   const WrappedLink = ({ route }: { route: RouteConfig }) => {
-    const isSelected = isActiveTree(location, route)
+    const isSelected = belongsToTree(location, route)
     const { PATH, LABEL } = route
     return (
       <StyledLink underline="none" to={PATH}>
@@ -67,18 +67,18 @@ export function MainNav() {
         route: ROUTES.PROVIDE,
         type: 'provider',
         children: [
-          ROUTES.PROVIDE.SUBROUTES!.ESERVICE,
-          ROUTES.PROVIDE.SUBROUTES!.AGREEMENT,
-          ROUTES.PROVIDE.SUBROUTES!.OPERATOR,
+          ROUTES.PROVIDE_ESERVICE_LIST,
+          ROUTES.PROVIDE_AGREEMENT_LIST,
+          ROUTES.PROVIDE_OPERATOR_LIST,
         ],
       },
       {
         route: ROUTES.SUBSCRIBE,
         type: 'subscriber',
         children: [
-          ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG,
-          ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT,
-          ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT,
+          ROUTES.SUBSCRIBE_CATALOG_LIST,
+          ROUTES.SUBSCRIBE_CLIENT_LIST,
+          ROUTES.SUBSCRIBE_AGREEMENT_LIST,
         ],
       },
     ],
@@ -86,14 +86,14 @@ export function MainNav() {
       {
         route: ROUTES.PROVIDE,
         type: 'provider',
-        children: [ROUTES.PROVIDE.SUBROUTES!.ESERVICE],
+        children: [ROUTES.PROVIDE_ESERVICE_LIST],
       },
     ],
     security: [
       {
         route: ROUTES.SUBSCRIBE,
         type: 'subscriber',
-        children: [ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG, ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT],
+        children: [ROUTES.SUBSCRIBE_CATALOG_LIST, ROUTES.SUBSCRIBE_CLIENT_LIST],
       },
     ],
   }
@@ -132,7 +132,7 @@ export function MainNav() {
       >
         {availableViews.map((view, i) => {
           const isActive = open === view.type
-          const isSelected = isActiveTree(location, view.route)
+          const isSelected = belongsToTree(location, view.route)
 
           return !!view.children && Boolean(view.children.length > 0) ? (
             <Box key={i} color="primary.main">

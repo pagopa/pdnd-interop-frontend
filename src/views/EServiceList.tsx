@@ -14,7 +14,7 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
 import { TempFilters } from '../components/TempFilters'
 import { AxiosResponse } from 'axios'
-import { buildDynamicPath } from '../lib/url-utils'
+import { buildDynamicPath } from '../lib/router-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { Box } from '@mui/system'
@@ -125,7 +125,7 @@ export function EServiceList() {
       const successResponse = response as AxiosResponse<EServiceDescriptorRead>
       const descriptorId = successResponse.data.id
       history.push(
-        buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.EDIT.PATH, {
+        buildDynamicPath(ROUTES.PROVIDE_ESERVICE_EDIT.PATH, {
           eserviceId,
           descriptorId,
         }),
@@ -215,7 +215,7 @@ export function EServiceList() {
         <StyledButton
           variant="contained"
           component={StyledLink}
-          to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.CREATE.PATH}
+          to={ROUTES.PROVIDE_ESERVICE_CREATE.PATH}
         >
           + Aggiungi
         </StyledButton>
@@ -240,7 +240,7 @@ export function EServiceList() {
               ]}
               index={i}
               singleActionBtn={{
-                to: buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.EDIT.PATH, {
+                to: buildDynamicPath(ROUTES.PROVIDE_ESERVICE_EDIT.PATH, {
                   eserviceId: item.id,
                   descriptorId: item.descriptorId || 'prima-bozza',
                 }),

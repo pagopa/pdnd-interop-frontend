@@ -1,5 +1,5 @@
 import isEmpty from 'lodash/isEmpty'
-import { parseSearch } from './url-utils'
+import { parseSearch } from './router-utils'
 
 export function showTempAlert(featureName: string) {
   alert(`${featureName}: questa funzionalità sarà disponibile a breve`)
