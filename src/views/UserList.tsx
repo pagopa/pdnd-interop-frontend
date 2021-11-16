@@ -8,7 +8,7 @@ import { useMode } from '../hooks/useMode'
 import { TempFilters } from '../components/TempFilters'
 import { isAdmin, isOperatorAPI, isOperatorSecurity } from '../lib/auth-utils'
 import { PartyContext, UserContext } from '../lib/context'
-import { buildDynamicPath, getBits } from '../lib/url-utils'
+import { buildDynamicPath, getBits } from '../lib/router-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
@@ -22,7 +22,7 @@ export function UserList() {
 
   // Only for subscriber
   const locationBits = getBits(location)
-  const clientId = locationBits[locationBits.length - 2]
+  const clientId = locationBits[locationBits.length - 1]
 
   const mode = useMode()
   const { party } = useContext(PartyContext)
@@ -145,12 +145,8 @@ export function UserList() {
           component={StyledLink}
           to={
             mode === 'provider'
-              ? ROUTES.PROVIDE.SUBROUTES!.OPERATOR.SUBROUTES!.CREATE.PATH
-              : buildDynamicPath(
-                  ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.HANDLE.SUBROUTES!.OPERATOR
-                    .SUBROUTES!.CREATE.PATH,
-                  { id: clientId }
-                )
+              ? ROUTES.PROVIDE_OPERATOR_CREATE.PATH
+              : buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_OPERATOR_CREATE.PATH, { id: clientId })
           }
         >
           {' '}
@@ -185,14 +181,13 @@ export function UserList() {
             singleActionBtn={{
               to:
                 mode === 'provider'
-                  ? buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.OPERATOR.SUBROUTES!.EDIT.PATH, {
+                  ? buildDynamicPath(ROUTES.PROVIDE_OPERATOR_EDIT.PATH, {
                       id: (item.taxCode || item.from) as string,
                     })
-                  : buildDynamicPath(
-                      ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.HANDLE.SUBROUTES!.OPERATOR
-                        .SUBROUTES!.EDIT.PATH,
-                      { id: clientId, operatorId: item.taxCode }
-                    ),
+                  : buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_OPERATOR_EDIT.PATH, {
+                      id: clientId,
+                      operatorId: item.taxCode,
+                    }),
               label: 'Gestisci',
             }}
             actions={getAvailableActions(item)}

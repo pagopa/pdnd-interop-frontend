@@ -5,7 +5,7 @@ import { AxiosResponse } from 'axios'
 import isEmpty from 'lodash/isEmpty'
 import { Box } from '@mui/system'
 import { ApiEndpointKey, StepperStepComponentProps } from '../../types'
-import { buildDynamicPath } from '../lib/url-utils'
+import { buildDynamicPath } from '../lib/router-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
 import { StyledButton } from './Shared/StyledButton'
@@ -94,7 +94,7 @@ export function EServiceWriteStep2Version({
       // The EServiceGate component rerenders because we added "history.location"
       // as a useEffect dependency in EServiceGate useAsyncFetch hook
       history.replace(
-        buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.EDIT.PATH, {
+        buildDynamicPath(ROUTES.PROVIDE_ESERVICE_EDIT.PATH, {
           eserviceId: fetchedData.id,
           descriptorId,
         }),

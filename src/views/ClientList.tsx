@@ -9,7 +9,7 @@ import { getClientComputedStatus } from '../lib/status-utils'
 import { isAdmin, isOperatorSecurity } from '../lib/auth-utils'
 import { PartyContext, UserContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
-import { buildDynamicPath } from '../lib/url-utils'
+import { buildDynamicPath } from '../lib/router-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
@@ -106,7 +106,7 @@ export function ClientList() {
           <StyledButton
             variant="contained"
             component={StyledLink}
-            to={ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.CREATE.PATH}
+            to={ROUTES.SUBSCRIBE_CLIENT_CREATE.PATH}
           >
             + Aggiungi
           </StyledButton>
@@ -133,10 +133,7 @@ export function ClientList() {
               ]}
               index={i}
               singleActionBtn={{
-                to: buildDynamicPath(
-                  ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.HANDLE.SUBROUTES!.EDIT.PATH,
-                  { id: item.id }
-                ),
+                to: buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_EDIT.PATH, { id: item.id }),
                 label: 'Ispeziona',
               }}
               actions={getAvailableActions(item)}
