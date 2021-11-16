@@ -10,7 +10,7 @@ import { isAdmin } from '../lib/auth-utils'
 import { canSubscribe } from '../lib/attributes'
 import { useSubscribeDialog } from '../hooks/useSubscribeDialog'
 import { useExtensionDialog } from '../hooks/useExtensionDialog'
-import { buildDynamicPath } from '../lib/url-utils'
+import { buildDynamicPath } from '../lib/router-utils'
 import { StyledTooltip } from '../components/Shared/StyledTooltip'
 import { Clear as ClearIcon, Check as CheckIcon, Person as PersonIcon } from '@mui/icons-material'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
@@ -68,7 +68,7 @@ export function EServiceCatalog() {
       actions.push({
         onClick: () => {
           history.push(
-            buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT.SUBROUTES!.EDIT.PATH, {
+            buildDynamicPath(ROUTES.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
               id: eservice.callerSubscribed!,
             })
           )
@@ -152,7 +152,7 @@ export function EServiceCatalog() {
               ]}
               index={i}
               singleActionBtn={{
-                to: buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.VIEW.PATH, {
+                to: buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
                   eserviceId: item.id,
                   descriptorId: item.descriptorId!,
                 }),

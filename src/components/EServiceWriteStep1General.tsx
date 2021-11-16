@@ -12,7 +12,7 @@ import {
   StepperStepComponentProps,
 } from '../../types'
 import { PartyContext } from '../lib/context'
-import { buildDynamicPath } from '../lib/url-utils'
+import { buildDynamicPath } from '../lib/router-utils'
 import { requiredValidationPattern } from '../lib/validation'
 import {
   remapBackendAttributesToFrontend,
@@ -97,7 +97,7 @@ export function EServiceWriteStep1General({
       // WARNING: this will cause a re-render that will fetch fresh data
       // at the EServiceGate component level
       history.replace(
-        buildDynamicPath(ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.EDIT.PATH, {
+        buildDynamicPath(ROUTES.PROVIDE_ESERVICE_EDIT.PATH, {
           eserviceId,
           descriptorId: tempDescriptorId,
         }),
@@ -187,7 +187,7 @@ export function EServiceWriteStep1General({
           <StyledButton
             variant="outlined"
             component={StyledLink}
-            to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.LIST.PATH}
+            to={ROUTES.PROVIDE_ESERVICE_LIST.PATH}
           >
             Torna agli e-service
           </StyledButton>

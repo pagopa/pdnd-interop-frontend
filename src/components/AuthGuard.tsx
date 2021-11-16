@@ -40,10 +40,13 @@ export function AuthGuard({ Component, isRoutePublic, authLevels }: AuthGuardPro
     }
 
     // If the user is logged in but hasn't chosen a party yet, go there
-    // to avoid having users without a current party
-    if (user && !party) {
-      history.push(ROUTES.CHOOSE_PARTY.PATH)
-    }
+    // to avoid having users without a current party.
+    // TEMP REFACTOR: this is horrible. It is here only because party be set slightly after
+    setTimeout(() => {
+      if (user && !party) {
+        history.push(ROUTES.CHOOSE_PARTY.PATH)
+      }
+    }, 10)
   }, [user]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const userCanAccess =

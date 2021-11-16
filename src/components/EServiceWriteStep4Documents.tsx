@@ -1,16 +1,16 @@
 import React from 'react'
+import { useLocation } from 'react-router'
 import { Box } from '@mui/system'
 import { EServiceDocumentWrite, StepperStepComponentProps } from '../../types'
-import { EServiceWriteStepProps } from '../views/EServiceWrite'
-import { EServiceWriteStep4DocumentsInterface } from './EServiceWriteStep4DocumentsInterface'
-import { useLocation } from 'react-router'
-import { getBits } from '../lib/url-utils'
-import { EServiceWriteStep4DocumentsDoc } from './EServiceWriteStep4DocumentsDoc'
-import { StyledIntro } from './Shared/StyledIntro'
+import { getBits } from '../lib/router-utils'
+import { ROUTES } from '../config/routes'
 import { useFeedback } from '../hooks/useFeedback'
+import { EServiceWriteStepProps } from '../views/EServiceWrite'
+import { StyledIntro } from './Shared/StyledIntro'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledLink } from './Shared/StyledLink'
-import { ROUTES } from '../config/routes'
+import { EServiceWriteStep4DocumentsInterface } from './EServiceWriteStep4DocumentsInterface'
+import { EServiceWriteStep4DocumentsDoc } from './EServiceWriteStep4DocumentsDoc'
 
 export function EServiceWriteStep4Documents({
   back,
@@ -32,7 +32,7 @@ export function EServiceWriteStep4Documents({
           },
         },
       },
-      { destination: ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.LIST, suppressToast: false }
+      { destination: ROUTES.PROVIDE_ESERVICE_LIST, suppressToast: false }
     )
   }
 
@@ -47,7 +47,7 @@ export function EServiceWriteStep4Documents({
           },
         },
       },
-      { destination: ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.LIST, suppressToast: false }
+      { destination: ROUTES.PROVIDE_ESERVICE_LIST, suppressToast: false }
     )
   }
 
@@ -144,7 +144,7 @@ export function EServiceWriteStep4Documents({
           sx={{ mr: 3 }}
           variant="contained"
           component={StyledLink}
-          to={ROUTES.PROVIDE.SUBROUTES!.ESERVICE.SUBROUTES!.LIST.PATH}
+          to={ROUTES.PROVIDE_ESERVICE_LIST.PATH}
         >
           Salva bozza e torna ai servizi
         </StyledButton>
