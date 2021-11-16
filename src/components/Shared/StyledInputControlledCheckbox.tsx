@@ -3,9 +3,7 @@ import { Controller } from 'react-hook-form'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import { Checkbox, FormControlLabel, FormGroup, FormLabel } from '@mui/material'
-import { Box } from '@mui/system'
-import { StyledInputError } from './StyledInputError'
-import { InfoMessage } from './InfoMessage'
+import { StyledInputWrapper } from './StyledInputWrapper'
 
 type Option = {
   value: string
@@ -23,7 +21,7 @@ type StyledInputControlledCheckboxProps = {
   control: any
   rules: any
   errors: any
-  inline?: boolean
+  sx?: any
 }
 
 export function StyledInputControlledCheckbox({
@@ -37,7 +35,7 @@ export function StyledInputControlledCheckbox({
   control,
   rules,
   errors,
-  inline = false,
+  sx,
 }: StyledInputControlledCheckboxProps) {
   if (!options || Boolean(options.length === 0)) {
     return null
@@ -46,7 +44,13 @@ export function StyledInputControlledCheckbox({
   const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
 
   return (
-    <Box sx={{ my: inline ? 0 : 2 }}>
+    <StyledInputWrapper
+      name={name}
+      errors={errors}
+      sx={sx}
+      infoLabel={infoLabel}
+      hasFieldError={hasFieldError}
+    >
       <Controller
         shouldUnregister={true}
         name={name}
@@ -70,9 +74,6 @@ export function StyledInputControlledCheckbox({
           </React.Fragment>
         )}
       />
-
-      {hasFieldError && <StyledInputError error={get(errors, name)} />}
-      {infoLabel && <InfoMessage label={infoLabel} />}
-    </Box>
+    </StyledInputWrapper>
   )
 }

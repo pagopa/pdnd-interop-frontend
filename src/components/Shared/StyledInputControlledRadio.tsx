@@ -3,9 +3,7 @@ import { Controller } from 'react-hook-form'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import { FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
-import { Box } from '@mui/system'
-import { StyledInputError } from './StyledInputError'
-import { InfoMessage } from './InfoMessage'
+import { StyledInputWrapper } from './StyledInputWrapper'
 
 type Option = {
   value: string
@@ -23,7 +21,7 @@ type StyledInputControlledRadioProps = {
   control: any
   rules: any
   errors: any
-  inline?: boolean
+  sx?: any
 }
 
 export function StyledInputControlledRadio({
@@ -37,7 +35,7 @@ export function StyledInputControlledRadio({
   control,
   rules,
   errors,
-  inline = false,
+  sx,
 }: StyledInputControlledRadioProps) {
   if (!options || Boolean(options.length === 0)) {
     return null
@@ -46,7 +44,13 @@ export function StyledInputControlledRadio({
   const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
 
   return (
-    <Box sx={{ my: inline ? 0 : 2 }}>
+    <StyledInputWrapper
+      name={name}
+      errors={errors}
+      sx={sx}
+      infoLabel={infoLabel}
+      hasFieldError={hasFieldError}
+    >
       <Controller
         shouldUnregister={true}
         name={name}
@@ -56,7 +60,7 @@ export function StyledInputControlledRadio({
         render={({ field }) => (
           <React.Fragment>
             {label && <FormLabel component="legend">{label}</FormLabel>}
-            <RadioGroup {...field}>
+            <RadioGroup {...field} sx={{ mt: 2 }}>
               {options.map((o, i) => (
                 <FormControlLabel
                   disabled={disabled}
@@ -70,9 +74,6 @@ export function StyledInputControlledRadio({
           </React.Fragment>
         )}
       />
-
-      {hasFieldError && <StyledInputError error={get(errors, name)} />}
-      {infoLabel && <InfoMessage label={infoLabel} />}
-    </Box>
+    </StyledInputWrapper>
   )
 }

@@ -3,10 +3,8 @@ import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import { Controller } from 'react-hook-form'
 import { MenuItem, TextField } from '@mui/material'
-import { Box } from '@mui/system'
 import { SelectOption } from '../../../types'
-import { StyledInputError } from './StyledInputError'
-import { InfoMessage } from './InfoMessage'
+import { StyledInputWrapper } from './StyledInputWrapper'
 
 type StyledInputControlledSelectProps = {
   label?: string
@@ -19,7 +17,7 @@ type StyledInputControlledSelectProps = {
   control: any
   rules: any
   errors: any
-  inline?: boolean
+  sx?: any
   focusOnMount?: boolean
 }
 
@@ -34,7 +32,7 @@ export function StyledInputControlledSelect({
   control,
   rules,
   errors,
-  inline,
+  sx,
   focusOnMount = false,
 }: StyledInputControlledSelectProps) {
   if (!options || Boolean(options.length === 0)) {
@@ -44,7 +42,13 @@ export function StyledInputControlledSelect({
   const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
 
   return (
-    <Box sx={{ my: inline ? 0 : 2 }}>
+    <StyledInputWrapper
+      name={name}
+      errors={errors}
+      sx={sx}
+      infoLabel={infoLabel}
+      hasFieldError={hasFieldError}
+    >
       <Controller
         shouldUnregister={true}
         name={name}
@@ -70,9 +74,6 @@ export function StyledInputControlledSelect({
           </TextField>
         )}
       />
-
-      {hasFieldError && <StyledInputError error={get(errors, name)} />}
-      {infoLabel && <InfoMessage label={infoLabel} />}
-    </Box>
+    </StyledInputWrapper>
   )
 }

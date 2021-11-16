@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation } from 'react-router'
+import { useLocation, useHistory } from 'react-router'
 import { Box } from '@mui/system'
 import { EServiceDocumentWrite, StepperStepComponentProps } from '../../types'
 import { getBits } from '../lib/router-utils'
@@ -8,14 +8,17 @@ import { useFeedback } from '../hooks/useFeedback'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
 import { StyledIntro } from './Shared/StyledIntro'
 import { StyledButton } from './Shared/StyledButton'
-import { StyledLink } from './Shared/StyledLink'
 import { EServiceWriteStep4DocumentsInterface } from './EServiceWriteStep4DocumentsInterface'
 import { EServiceWriteStep4DocumentsDoc } from './EServiceWriteStep4DocumentsDoc'
+import { EServiceWriteActions } from './Shared/EServiceWriteActions'
+import { Paper } from '@mui/material'
+import { TOAST_CONTENTS } from '../config/toast'
 
 export function EServiceWriteStep4Documents({
   back,
   fetchedData,
 }: StepperStepComponentProps & EServiceWriteStepProps) {
+  const history = useHistory()
   const { runAction, runActionWithDestination, wrapActionInDialog } = useFeedback()
   const location = useLocation()
   const bits = getBits(location)
@@ -99,8 +102,6 @@ export function EServiceWriteStep4Documents({
 
   return (
     <React.Fragment>
-      <StyledIntro variant="h1">{{ title: 'Crea e-service: documentazione' }}</StyledIntro>
-
       <StyledIntro variant="h2" sx={{ mb: 0 }}>
         {{
           title: 'Interfaccia*',
@@ -125,7 +126,7 @@ export function EServiceWriteStep4Documents({
         }
       />
 
-      <StyledIntro variant="h2" sx={{ mt: 6, mb: 0 }}>
+      <StyledIntro variant="h2" sx={{ mt: 8, mb: 2, pt: 4, borderTop: 1, borderColor: 'divider' }}>
         {{
           title: 'Documentazione',
           description: 'Inserisci la documentazione tecnica utile all’utilizzo di questo e-service',
@@ -139,38 +140,42 @@ export function EServiceWriteStep4Documents({
         activeDescriptorId={activeDescriptorId}
       />
 
-      <Box sx={{ mt: 8, display: 'flex' }}>
-        <StyledButton
-          sx={{ mr: 3 }}
-          variant="contained"
-          component={StyledLink}
-          to={ROUTES.PROVIDE_ESERVICE_LIST.PATH}
-        >
-          Salva bozza e torna ai servizi
-        </StyledButton>
-        <StyledButton sx={{ mr: 3 }} variant="outlined" onClick={back}>
-          Indietro
-        </StyledButton>
-      </Box>
+      <EServiceWriteActions
+        back={{ label: 'Indietro', onClick: back }}
+        forward={{
+          label: 'Salva bozza',
+          onClick: () => {
+            history.push(ROUTES.PROVIDE_ESERVICE_LIST.PATH, {
+              toast: { outcome: 'success', ...TOAST_CONTENTS.ESERVICE_VERSION_UPDATE.success },
+            })
+          },
+        }}
+      />
 
-      <StyledIntro variant="h2" sx={{ mt: 8, mb: 0 }}>
-        {{ title: 'Pubblicazione della versione' }}
-      </StyledIntro>
-      <Box sx={{ display: 'flex' }}>
-        <StyledButton
-          sx={{ mr: 3 }}
-          variant="contained"
-          onClick={wrapActionInDialog(publishVersion, 'ESERVICE_VERSION_PUBLISH')}
-        >
-          Pubblica bozza
-        </StyledButton>
-        <StyledButton
-          variant="outlined"
-          onClick={wrapActionInDialog(deleteVersion, 'ESERVICE_VERSION_DELETE')}
-        >
-          Cancella bozza
-        </StyledButton>
-      </Box>
+      <Paper sx={{ px: 3, py: 4, mt: 8 }}>
+        <StyledIntro variant="h2" sx={{ my: 0, pt: 0 }}>
+          {{
+            title: 'Azioni rapide di pubblicazione',
+            description:
+              'Hai inserito tutte le informazioni per questo e-service? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra o abbandona questa pagina',
+          }}
+        </StyledIntro>
+        <Box sx={{ display: 'flex' }}>
+          <StyledButton
+            sx={{ mr: 3 }}
+            variant="contained"
+            onClick={wrapActionInDialog(publishVersion, 'ESERVICE_VERSION_PUBLISH')}
+          >
+            Pubblica bozza
+          </StyledButton>
+          <StyledButton
+            variant="outlined"
+            onClick={wrapActionInDialog(deleteVersion, 'ESERVICE_VERSION_DELETE')}
+          >
+            Cancella bozza
+          </StyledButton>
+        </Box>
+      </Paper>
     </React.Fragment>
   )
 }

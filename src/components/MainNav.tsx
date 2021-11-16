@@ -112,6 +112,7 @@ export function MainNav() {
         display: 'block',
         py: 10,
         position: 'relative',
+        boxShadow: 5,
         '::before': {
           content: '""',
           position: 'absolute',

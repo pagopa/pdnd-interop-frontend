@@ -2,12 +2,11 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { StepperStepComponentProps } from '../../types'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
-import { StyledIntro } from './Shared/StyledIntro'
-import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
-import { Box } from '@mui/system'
 import { StyledInputControlledSelect } from './Shared/StyledInputControlledSelect'
 import { requiredValidationPattern } from '../lib/validation'
+import { EServiceWriteActions } from './Shared/EServiceWriteActions'
+import { StyledIntro } from './Shared/StyledIntro'
 
 export function EServiceWriteStep3Agreement({
   forward,
@@ -30,36 +29,29 @@ export function EServiceWriteStep3Agreement({
   }
 
   return (
-    <React.Fragment>
-      <StyledIntro variant="h1">
+    <StyledForm onSubmit={handleSubmit(onSubmit)}>
+      <StyledIntro variant="h2" sx={{ mb: 0, pb: 0 }}>
         {{
-          title: 'Crea e-service: accordo di interoperabilità*',
-          description: 'Seleziona il template di accordo che intendi proporre al fruitore',
+          title: 'Template accordo di interoperabilità',
         }}
       </StyledIntro>
 
-      <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <StyledInputControlledSelect
-          focusOnMount={true}
-          name="accordo"
-          label="Seleziona template"
-          disabled={false}
-          options={options}
-          control={control}
-          rules={{ required: requiredValidationPattern }}
-          errors={errors}
-          defaultValue={options[0].value}
-        />
+      <StyledInputControlledSelect
+        focusOnMount={true}
+        name="accordo"
+        label="Seleziona template"
+        disabled={false}
+        options={options}
+        control={control}
+        rules={{ required: requiredValidationPattern }}
+        errors={errors}
+        defaultValue={options[0].value}
+      />
 
-        <Box sx={{ mt: 4, display: 'flex' }}>
-          <StyledButton sx={{ mr: 2 }} variant="contained" type="submit">
-            Salva bozza e prosegui
-          </StyledButton>
-          <StyledButton variant="outlined" onClick={back}>
-            Indietro
-          </StyledButton>
-        </Box>
-      </StyledForm>
-    </React.Fragment>
+      <EServiceWriteActions
+        back={{ label: 'Indietro', onClick: back }}
+        forward={{ label: 'Salva bozza e prosegui' }}
+      />
+    </StyledForm>
   )
 }

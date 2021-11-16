@@ -3,9 +3,7 @@ import { Controller } from 'react-hook-form'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import { FormControlLabel, Switch } from '@mui/material'
-import { Box } from '@mui/system'
-import { StyledInputError } from './StyledInputError'
-import { InfoMessage } from './InfoMessage'
+import { StyledInputWrapper } from './StyledInputWrapper'
 
 type StyledInputControlledSwitchProps = {
   label?: string
@@ -18,7 +16,7 @@ type StyledInputControlledSwitchProps = {
   control: any
   rules?: any
   errors?: any
-  inline?: boolean
+  sx?: any
 }
 
 export function StyledInputControlledSwitch({
@@ -32,12 +30,18 @@ export function StyledInputControlledSwitch({
   control,
   rules,
   errors,
-  inline = false,
+  sx,
 }: StyledInputControlledSwitchProps) {
   const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
 
   return (
-    <Box sx={{ my: inline ? 0 : 2 }}>
+    <StyledInputWrapper
+      name={name}
+      errors={errors}
+      sx={sx}
+      infoLabel={infoLabel}
+      hasFieldError={hasFieldError}
+    >
       <Controller
         shouldUnregister={true}
         name={name}
@@ -48,9 +52,6 @@ export function StyledInputControlledSwitch({
           <FormControlLabel {...field} control={<Switch disabled={disabled} />} label={label} />
         )}
       />
-
-      {hasFieldError && <StyledInputError error={get(errors, name)} />}
-      {infoLabel && <InfoMessage label={infoLabel} />}
-    </Box>
+    </StyledInputWrapper>
   )
 }

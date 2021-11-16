@@ -1,11 +1,9 @@
 import React from 'react'
-import { Controller } from 'react-hook-form'
-import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
+import get from 'lodash/get'
+import { Controller } from 'react-hook-form'
 import { InputBaseComponentProps, TextField } from '@mui/material'
-import { Box } from '@mui/system'
-import { StyledInputError } from './StyledInputError'
-import { InfoMessage } from './InfoMessage'
+import { StyledInputWrapper } from './StyledInputWrapper'
 
 export type StyledInputTextType = 'text' | 'email' | 'number'
 
@@ -25,7 +23,7 @@ type StyledInputControlledTextProps = {
   multiline?: boolean
   rows?: number
   focusOnMount?: boolean
-  inline?: boolean
+  sx?: any
 }
 
 export function StyledInputControlledText({
@@ -44,12 +42,18 @@ export function StyledInputControlledText({
   multiline = false,
   rows = 6,
   focusOnMount = false,
-  inline = false,
+  sx,
 }: StyledInputControlledTextProps) {
   const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
 
   return (
-    <Box sx={{ my: inline ? 0 : 2 }}>
+    <StyledInputWrapper
+      name={name}
+      errors={errors}
+      sx={sx}
+      infoLabel={infoLabel}
+      hasFieldError={hasFieldError}
+    >
       <Controller
         shouldUnregister={true}
         name={name}
@@ -72,9 +76,6 @@ export function StyledInputControlledText({
           />
         )}
       />
-
-      {hasFieldError && <StyledInputError error={get(errors, name)} />}
-      {infoLabel && <InfoMessage label={infoLabel} />}
-    </Box>
+    </StyledInputWrapper>
   )
 }

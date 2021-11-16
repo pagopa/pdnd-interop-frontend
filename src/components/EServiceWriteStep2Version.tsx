@@ -3,17 +3,15 @@ import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
 import { AxiosResponse } from 'axios'
 import isEmpty from 'lodash/isEmpty'
-import { Box } from '@mui/system'
 import { ApiEndpointKey, StepperStepComponentProps } from '../../types'
 import { buildDynamicPath } from '../lib/router-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
-import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
-import { StyledIntro } from './Shared/StyledIntro'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { requiredValidationPattern } from '../lib/validation'
 import { ROUTES } from '../config/routes'
+import { EServiceWriteActions } from './Shared/EServiceWriteActions'
 
 type VersionData = {
   audience: string
@@ -107,61 +105,51 @@ export function EServiceWriteStep2Version({
   }
 
   return (
-    <React.Fragment>
-      <StyledIntro variant="h1">
-        {{ title: 'Crea e-service: informazioni di versione' }}
-      </StyledIntro>
+    <StyledForm onSubmit={handleSubmit(onSubmit)}>
+      <StyledInputControlledText
+        name="version"
+        label="Numero della versione*"
+        defaultValue={getVersion()}
+        disabled={true}
+        control={control}
+        rules={{}}
+        errors={errors}
+      />
 
-      <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <StyledInputControlledText
-          name="version"
-          label="Numero della versione*"
-          defaultValue={getVersion()}
-          disabled={true}
-          control={control}
-          rules={{}}
-          errors={errors}
-        />
+      <StyledInputControlledText
+        name="audience"
+        label="Identificativo dell'e-service*"
+        infoLabel="L'id con il quale il fruitore dichiara il servizio richiesto. Questo identificativo deve essere unico tra i tuoi e-service"
+        control={control}
+        rules={{ required: requiredValidationPattern }}
+        errors={errors}
+        focusOnMount={true}
+      />
 
-        <StyledInputControlledText
-          name="audience"
-          label="Identificativo dell'e-service*"
-          infoLabel="L'id con il quale il fruitore dichiara il servizio richiesto. Questo identificativo deve essere unico tra i tuoi e-service"
-          control={control}
-          rules={{ required: requiredValidationPattern }}
-          errors={errors}
-          focusOnMount={true}
-        />
+      <StyledInputControlledText
+        name="voucherLifespan"
+        label="Durata di validità del voucher (in minuti)*"
+        type="number"
+        inputProps={{ min: '1', max: '5' }}
+        defaultValue="1"
+        control={control}
+        rules={{ required: requiredValidationPattern }}
+        errors={errors}
+      />
 
-        <StyledInputControlledText
-          name="voucherLifespan"
-          label="Durata di validità del voucher (in minuti)*"
-          type="number"
-          inputProps={{ min: '1', max: '5' }}
-          defaultValue="1"
-          control={control}
-          rules={{ required: requiredValidationPattern }}
-          errors={errors}
-        />
+      <StyledInputControlledText
+        name="description"
+        label="Descrizione della versione*"
+        control={control}
+        rules={{ required: requiredValidationPattern }}
+        errors={errors}
+        multiline={true}
+      />
 
-        <StyledInputControlledText
-          name="description"
-          label="Descrizione della versione*"
-          control={control}
-          rules={{ required: requiredValidationPattern }}
-          errors={errors}
-          multiline={true}
-        />
-
-        <Box sx={{ mt: 4, display: 'flex' }}>
-          <StyledButton sx={{ mr: 3 }} variant="contained" type="submit">
-            Salva bozza e prosegui
-          </StyledButton>
-          <StyledButton variant="outlined" onClick={back}>
-            Indietro
-          </StyledButton>
-        </Box>
-      </StyledForm>
-    </React.Fragment>
+      <EServiceWriteActions
+        back={{ label: 'Indietro', onClick: back }}
+        forward={{ label: 'Salva bozza e prosegui' }}
+      />
+    </StyledForm>
   )
 }
