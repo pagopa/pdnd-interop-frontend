@@ -28,7 +28,7 @@ export function ChooseParty() {
     const DESTINATIONS = {
       admin: ROUTES.SUBSCRIBE.PATH,
       api: ROUTES.PROVIDE.PATH,
-      security: ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.LIST.PATH,
+      security: ROUTES.SUBSCRIBE_CLIENT_LIST.PATH,
     }
     history.push(DESTINATIONS[party?.platformRole!])
   }

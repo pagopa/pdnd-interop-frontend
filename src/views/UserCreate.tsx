@@ -5,7 +5,7 @@ import { useMode } from '../hooks/useMode'
 import { ProviderOrSubscriber, UserOnCreate } from '../../types'
 import { MEDIUM_MAX_WIDTH } from '../lib/constants'
 import { PartyContext } from '../lib/context'
-import { buildDynamicRoute, parseSearch } from '../lib/url-utils'
+import { buildDynamicRoute, parseSearch } from '../lib/router-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
@@ -37,8 +37,8 @@ export function UserCreate() {
     const endpointParams = mode === 'provider' ? {} : { clientId }
     const destination =
       mode === 'provider'
-        ? ROUTES.PROVIDE.SUBROUTES!.OPERATOR.SUBROUTES!.LIST
-        : buildDynamicRoute(ROUTES.SUBSCRIBE.SUBROUTES!.CLIENT.SUBROUTES!.HANDLE.SUBROUTES!.EDIT, {
+        ? ROUTES.PROVIDE_OPERATOR_LIST
+        : buildDynamicRoute(ROUTES.SUBSCRIBE_CLIENT_EDIT, {
             id: clientId,
           })
 

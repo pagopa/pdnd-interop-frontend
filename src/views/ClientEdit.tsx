@@ -14,7 +14,7 @@ import { Client, ClientStatus, ActionProps } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { buildDynamicPath, getBits } from '../lib/url-utils'
+import { buildDynamicPath, getBits } from '../lib/router-utils'
 import { UserList } from './UserList'
 import { getClientComputedStatus } from '../lib/status-utils'
 import { isAdmin } from '../lib/auth-utils'
@@ -30,7 +30,7 @@ export function ClientEdit() {
   const [activeTab, setActiveTab] = useState(0)
   const { party } = useContext(PartyContext)
   const locationBits = getBits(location)
-  const clientId = locationBits[locationBits.length - 2]
+  const clientId = locationBits[locationBits.length - 1]
   const { data } = useAsyncFetch<Client>(
     {
       path: { endpoint: 'CLIENT_GET_SINGLE', endpointParams: { clientId } },
@@ -151,7 +151,7 @@ export function ClientEdit() {
           <DescriptionBlock label="La versione dell'e-service che stai usando">
             <Typography component="span">
               <StyledLink
-                to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.VIEW.PATH, {
+                to={buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
                   eserviceId: data.eservice.id,
                   descriptorId: data.agreement.descriptor.id,
                 })}
@@ -166,7 +166,7 @@ export function ClientEdit() {
                   È disponibile una versione più recente
                   <br />
                   <StyledLink
-                    to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.CATALOG.SUBROUTES!.VIEW.PATH, {
+                    to={buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
                       eserviceId: data.eservice.id,
                       descriptorId: data.eservice.activeDescriptor.id,
                     })}
@@ -175,12 +175,9 @@ export function ClientEdit() {
                   </StyledLink>
                   <br />
                   <StyledLink
-                    to={buildDynamicPath(
-                      ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT.SUBROUTES!.EDIT.PATH,
-                      {
-                        id: data.agreement.id,
-                      }
-                    )}
+                    to={buildDynamicPath(ROUTES.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
+                      id: data.agreement.id,
+                    })}
                   >
                     Vai alla pagina dell'accordo
                   </StyledLink>{' '}
@@ -205,7 +202,7 @@ export function ClientEdit() {
           <DescriptionBlock label="Accordo">
             <Typography component="span">
               <StyledLink
-                to={buildDynamicPath(ROUTES.SUBSCRIBE.SUBROUTES!.AGREEMENT.SUBROUTES!.EDIT.PATH, {
+                to={buildDynamicPath(ROUTES.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
                   id: data.agreement.id,
                 })}
               >

@@ -6,7 +6,7 @@ import { AgreementStatus, AgreementSummary, ProviderOrSubscriber, ActionProps } 
 import { PartyContext } from '../lib/context'
 import { mergeActions } from '../lib/eservice-utils'
 import { getAgreementStatus } from '../lib/status-utils'
-import { buildDynamicPath } from '../lib/url-utils'
+import { buildDynamicPath } from '../lib/router-utils'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
 import { useMode } from '../hooks/useMode'
@@ -177,8 +177,9 @@ export function AgreementList() {
               index={i}
               singleActionBtn={{
                 to: buildDynamicPath(
-                  ROUTES[mode === 'provider' ? 'PROVIDE' : 'SUBSCRIBE'].SUBROUTES!.AGREEMENT
-                    .SUBROUTES!.EDIT.PATH,
+                  ROUTES[
+                    mode === 'provider' ? 'PROVIDE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_EDIT'
+                  ].PATH,
                   { id: item.id }
                 ),
                 label: 'Ispeziona',

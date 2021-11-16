@@ -33,10 +33,8 @@ export type BasicRouteConfig = {
   PATH: string
   LABEL: string
   EXACT?: boolean
-  SUBROUTES?: Record<string, BasicRouteConfig>
   COMPONENT: React.FunctionComponent<any>
-  RENDER?: boolean
-  HIDE_BREADCRUMB?: boolean
+  REDIRECT?: string
   PUBLIC: boolean
   AUTH_LEVELS?: RouteAuthLevel
 }
