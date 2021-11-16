@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { useLocation } from 'react-router'
+import { Box } from '@mui/system'
 import { User, UserStatus, ActionProps } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
@@ -139,19 +140,20 @@ export function UserList() {
       )}
 
       {isAdmin(party) && (
-        <StyledButton
-          sx={{ mb: 4 }}
-          variant="contained"
-          component={StyledLink}
-          to={
-            mode === 'provider'
-              ? ROUTES.PROVIDE_OPERATOR_CREATE.PATH
-              : buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_OPERATOR_CREATE.PATH, { id: clientId })
-          }
-        >
-          {' '}
-          + Aggiungi
-        </StyledButton>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
+          <StyledButton
+            variant="contained"
+            component={StyledLink}
+            to={
+              mode === 'provider'
+                ? ROUTES.PROVIDE_OPERATOR_CREATE.PATH
+                : buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_OPERATOR_CREATE.PATH, { id: clientId })
+            }
+          >
+            {' '}
+            + Aggiungi
+          </StyledButton>
+        </Box>
       )}
 
       <TempFilters />
