@@ -62,6 +62,7 @@ export function ClientCreate() {
 
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <StyledInputControlledText
+          focusOnMount={true}
           name="name"
           label="Nome del client*"
           control={control}
@@ -75,6 +76,7 @@ export function ClientCreate() {
           control={control}
           rules={{ required: requiredValidationPattern }}
           errors={errors}
+          multiline={true}
         />
 
         <StyledInputControlledSelect
@@ -96,7 +98,7 @@ export function ClientCreate() {
           errors={errors}
         />
 
-        <StyledButton sx={{ mt: 3 }} variant="contained" type="submit">
+        <StyledButton sx={{ mt: 8 }} variant="contained" type="submit">
           Crea client
         </StyledButton>
       </StyledForm>
