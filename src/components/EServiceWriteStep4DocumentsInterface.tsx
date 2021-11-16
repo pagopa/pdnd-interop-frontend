@@ -81,9 +81,10 @@ export function EServiceWriteStep4DocumentsInterface({
       deleteDocument={deletePreviousInterfaceDoc}
     />
   ) : (
-    <Box sx={{ px: 2, py: 2 }} bgcolor="common.white">
+    <Box sx={{ px: 2, py: 2, borderLeft: 6, borderColor: 'primary.main' }} bgcolor="common.white">
       <StyledForm onSubmit={handleSubmit(uploadNewInterfaceDoc)}>
         <StyledInputControlledFile
+          sx={{ my: 0 }}
           name="doc"
           label="Seleziona documento"
           control={control}
@@ -97,12 +98,14 @@ export function EServiceWriteStep4DocumentsInterface({
         />
 
         <StyledInputControlledText
+          sx={{ my: 2 }}
           name="description"
           label="Descrizione"
           control={control}
           rules={{}}
           errors={errors}
           multiline={true}
+          rows={4}
         />
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>

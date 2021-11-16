@@ -4,8 +4,7 @@ import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { StyledInputError } from './StyledInputError'
-import { InfoMessage } from './InfoMessage'
+import { StyledInputWrapper } from './StyledInputWrapper'
 
 type StyledInputControlledFileProps = {
   label: string
@@ -15,7 +14,7 @@ type StyledInputControlledFileProps = {
   rules: any
   errors?: any
   infoLabel?: string
-  inline?: boolean
+  sx?: any
 }
 
 export function StyledInputControlledFile({
@@ -25,7 +24,7 @@ export function StyledInputControlledFile({
   errors,
   name,
   infoLabel,
-  inline = false,
+  sx,
 }: StyledInputControlledFileProps) {
   const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
 
@@ -34,13 +33,19 @@ export function StyledInputControlledFile({
   }
 
   return (
-    <Controller
-      shouldUnregister={true}
+    <StyledInputWrapper
       name={name}
-      control={control}
-      rules={rules}
-      render={({ field: { value, onChange, ...fieldProps } }) => (
-        <Box sx={{ my: inline ? 0 : 2 }}>
+      errors={errors}
+      sx={sx}
+      infoLabel={infoLabel}
+      hasFieldError={hasFieldError}
+    >
+      <Controller
+        shouldUnregister={true}
+        name={name}
+        control={control}
+        rules={rules}
+        render={({ field: { value, onChange, ...fieldProps } }) => (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box sx={{ mr: 3, flexShrink: 0, position: 'relative' }}>
               <input
@@ -84,11 +89,8 @@ export function StyledInputControlledFile({
               </Typography>
             </Typography>
           </Box>
-
-          {hasFieldError && <StyledInputError error={get(errors, name)} />}
-          {infoLabel && <InfoMessage label={infoLabel} />}
-        </Box>
-      )}
-    />
+        )}
+      />
+    </StyledInputWrapper>
   )
 }

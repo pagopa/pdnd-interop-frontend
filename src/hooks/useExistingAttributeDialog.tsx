@@ -17,7 +17,7 @@ export const useExistingAttributeDialog = ({ add, attributeKey }: ExistingAttrib
   const { setDialog } = useContext(DialogContext)
 
   const confirm = async (data: any) => {
-    add(data.selection, data.verification)
+    add(data.selection, Boolean(data.verification))
     closeDialog()
   }
 
@@ -72,7 +72,7 @@ export const useExistingAttributeDialog = ({ add, attributeKey }: ExistingAttrib
                   options={[
                     { label: "Richiedi nuova convalida dell'attributo", value: 'attribute' },
                   ]}
-                  inline={true}
+                  sx={{ my: 0 }}
                 />
               )}
             </Box>

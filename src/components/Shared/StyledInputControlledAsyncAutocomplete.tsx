@@ -10,9 +10,7 @@ import { Endpoint } from '../../../types'
 import { fetchWithLogs } from '../../lib/api-utils'
 import { getFetchOutcome } from '../../lib/error-utils'
 import { StyledSpinner } from './StyledSpinner'
-import { StyledInputError } from './StyledInputError'
-import { InfoMessage } from './InfoMessage'
-import { Box } from '@mui/system'
+import { StyledInputWrapper } from './StyledInputWrapper'
 
 type StyledInputControlledAsyncAutocompleteProps = {
   label: string
@@ -31,7 +29,7 @@ type StyledInputControlledAsyncAutocompleteProps = {
   labelKey: string
   multiple?: boolean
   focusOnMount?: boolean
-  inline?: boolean
+  sx?: any
 }
 
 export function StyledInputControlledAsyncAutocomplete({
@@ -51,7 +49,7 @@ export function StyledInputControlledAsyncAutocomplete({
   labelKey,
   multiple = false,
   focusOnMount = false,
-  inline = false,
+  sx,
 }: StyledInputControlledAsyncAutocompleteProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [options, setOptions] = useState<any>([])
@@ -92,7 +90,13 @@ export function StyledInputControlledAsyncAutocomplete({
   const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
 
   return (
-    <Box sx={{ my: inline ? 0 : 2 }}>
+    <StyledInputWrapper
+      name={name}
+      errors={errors}
+      sx={sx}
+      infoLabel={infoLabel}
+      hasFieldError={hasFieldError}
+    >
       <Controller
         shouldUnregister={true}
         name={name}
@@ -140,9 +144,6 @@ export function StyledInputControlledAsyncAutocomplete({
           />
         )}
       />
-
-      {hasFieldError && <StyledInputError error={errors[name]} />}
-      {infoLabel && <InfoMessage label={infoLabel} />}
-    </Box>
+    </StyledInputWrapper>
   )
 }

@@ -7,4 +7,5 @@ export const USE_MOCK_SPID_USER = isDevelopment
 export const DISPLAY_LOGS = isDevelopment
 
 export const NARROW_MAX_WIDTH = 480
+export const FIELD_MAX_WIDTH = 640
 export const MEDIUM_MAX_WIDTH = 768

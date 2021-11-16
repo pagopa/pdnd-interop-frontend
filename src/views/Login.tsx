@@ -72,7 +72,7 @@ export function Login() {
             disabled={true}
             defaultValue={informativaPrivacy}
             multiline={true}
-            inline={true}
+            sx={{ mb: 0 }}
           />
 
           <StyledInputControlledCheckbox
@@ -81,7 +81,7 @@ export function Login() {
             rules={{ required: requiredValidationPattern }}
             options={[{ label: "Accetto l'informativa", value: 'privacy' }]}
             errors={errors}
-            inline={true}
+            sx={{ mt: 0 }}
           />
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: 240, mx: 'auto' }}>

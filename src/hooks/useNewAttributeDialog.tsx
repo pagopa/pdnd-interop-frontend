@@ -5,7 +5,6 @@ import { ATTRIBUTE_TYPE_SINGULAR_LABEL } from '../config/labels'
 import { useFeedback } from './useFeedback'
 import { AttributeKey } from '../../types'
 import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
-import { Box } from '@mui/system'
 
 type NewAttribute = {
   name?: string
@@ -42,17 +41,15 @@ export const useNewAttributeDialog = ({ attributeKey }: NewAttributeDialogProps)
               { id: 'origin', label: 'Nome della fonte autoritativa', type: 'text' },
             ].map(({ id, label }, i) => {
               return (
-                <Box sx={{ mb: 4 }}>
-                  <StyledInputControlledText
-                    focusOnMount={i === 0}
-                    key={i}
-                    name={id}
-                    control={control}
-                    rules={{ required: requiredValidationPattern }}
-                    errors={errors}
-                    label={label}
-                  />
-                </Box>
+                <StyledInputControlledText
+                  focusOnMount={i === 0}
+                  key={i}
+                  name={id}
+                  control={control}
+                  rules={{ required: requiredValidationPattern }}
+                  errors={errors}
+                  label={label}
+                />
               )
             })}
 

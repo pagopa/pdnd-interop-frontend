@@ -21,14 +21,13 @@ import {
 import { useFeedback } from '../hooks/useFeedback'
 import { EServiceWriteProps } from '../views/EServiceWrite'
 import { EServiceAttributeSection } from './EServiceAttributeSection'
-import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
 import { StyledIntro } from './Shared/StyledIntro'
-import { StyledLink } from './Shared/StyledLink'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { StyledInputControlledRadio } from './Shared/StyledInputControlledRadio'
 import { StyledInputControlledSwitch } from './Shared/StyledInputControlledSwitch'
 import { ROUTES } from '../config/routes'
+import { EServiceWriteActions } from './Shared/EServiceWriteActions'
 
 export function EServiceWriteStep1General({
   forward,
@@ -123,37 +122,32 @@ export function EServiceWriteStep1General({
       fetchedDataMaybe!.activeDescriptor!.status === 'draft')
 
   return (
-    <React.Fragment>
-      <StyledIntro sx={{ mt: 4 }}>
-        {{
-          title: 'Crea e-service: informazioni generali',
-          description:
-            "Attenzione: una volta pubblicata la prima versione dell'e-service, le informazioni contenute in questa sezione non saranno più modificabili",
-        }}
+    <StyledForm onSubmit={handleSubmit(onSubmit)}>
+      <StyledIntro variant="h2" sx={{ mb: 0, pb: 0 }}>
+        {{ title: 'Caratterizzazione e-service' }}
       </StyledIntro>
-      <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <StyledIntro variant="h2">{{ title: 'Caratterizzazione e-service' }}</StyledIntro>
 
-        <StyledInputControlledText
-          name="name"
-          label="Nome dell'e-service*"
-          control={control}
-          rules={{ required: requiredValidationPattern }}
-          errors={errors}
-          disabled={!isEditable}
-          focusOnMount={isEditable}
-        />
+      <StyledInputControlledText
+        name="name"
+        label="Nome dell'e-service*"
+        control={control}
+        rules={{ required: requiredValidationPattern }}
+        errors={errors}
+        disabled={!isEditable}
+        focusOnMount={isEditable}
+      />
 
-        <StyledInputControlledText
-          name="description"
-          label="Descrizione dell'e-service*"
-          control={control}
-          rules={{ required: requiredValidationPattern }}
-          errors={errors}
-          disabled={!isEditable}
-          multiline={true}
-        />
+      <StyledInputControlledText
+        name="description"
+        label="Descrizione dell'e-service*"
+        control={control}
+        rules={{ required: requiredValidationPattern }}
+        errors={errors}
+        disabled={!isEditable}
+        multiline={true}
+      />
 
+      <Box sx={{ my: 8 }}>
         <StyledInputControlledRadio
           name="technology"
           label="Tecnologia*"
@@ -167,32 +161,24 @@ export function EServiceWriteStep1General({
           ]}
           defaultValue="REST"
         />
+      </Box>
 
-        <StyledInputControlledSwitch
-          name="pop"
-          label="Proof of Possession*"
-          control={control}
-          disabled={!isEditable}
-        />
+      <StyledInputControlledSwitch
+        name="pop"
+        label="Proof of Possession*"
+        control={control}
+        disabled={!isEditable}
+      />
 
-        <StyledIntro variant="h2" sx={{ mt: 12, mb: 0 }}>
-          {{ title: 'Attributi' }}
-        </StyledIntro>
-        <EServiceAttributeSection attributes={attributes} setAttributes={setAttributes} />
+      <StyledIntro variant="h2" sx={{ mt: 8, mb: 2, pt: 4, borderTop: 1, borderColor: 'divider' }}>
+        {{ title: 'Attributi' }}
+      </StyledIntro>
+      <EServiceAttributeSection attributes={attributes} setAttributes={setAttributes} />
 
-        <Box sx={{ mt: 12, display: 'flex' }}>
-          <StyledButton sx={{ mr: 3 }} type="submit" variant="contained">
-            Salva bozza e prosegui
-          </StyledButton>
-          <StyledButton
-            variant="outlined"
-            component={StyledLink}
-            to={ROUTES.PROVIDE_ESERVICE_LIST.PATH}
-          >
-            Torna agli e-service
-          </StyledButton>
-        </Box>
-      </StyledForm>
-    </React.Fragment>
+      <EServiceWriteActions
+        back={{ label: 'Torna agli e-service', to: ROUTES.PROVIDE_ESERVICE_LIST.PATH }}
+        forward={{ label: 'Salva bozza e prosegui' }}
+      />
+    </StyledForm>
   )
 }

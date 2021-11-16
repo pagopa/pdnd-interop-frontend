@@ -65,7 +65,7 @@ export function EServiceAttributeGroup({
         })}
       </TableWithLoader>
 
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
         <StyledButton sx={{ mr: 2 }} variant="contained" onClick={openExistingAttributeDialog}>
           Aggiungi attributo o gruppo
         </StyledButton>
