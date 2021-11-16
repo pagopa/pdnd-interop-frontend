@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from 'react'
+import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { InfoTooltip } from './Shared/InfoTooltip'
 
@@ -16,7 +17,9 @@ export const DescriptionBlock: FunctionComponent<DescriptionBlockProps> = ({
 }) => {
   return (
     <Box sx={{ my: 4, ...sx }}>
-      <strong>{label}</strong>
+      <Typography component="span" fontWeight={700} color="secondary">
+        {label}
+      </Typography>
       {tooltipLabel && <InfoTooltip label={tooltipLabel} />}
       <br />
       {children}

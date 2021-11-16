@@ -3,6 +3,7 @@ import { Info as InfoIcon, Warning as WarningIcon } from '@mui/icons-material'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { StyledIntro } from '../components/Shared/StyledIntro'
+import { Contained } from '../components/Shared/Contained'
 
 type Notification = {
   type: 'info' | 'action-required'
@@ -103,28 +104,30 @@ export function Notifications() {
           fruitore
         </button>
 
-        {mockNotifications[view].map(({ date, type, title, message }, i) => {
-          const Icon = ICON_TYPES[type]
+        <Contained>
+          {mockNotifications[view].map(({ date, type, title, message }, i) => {
+            const Icon = ICON_TYPES[type]
 
-          return (
-            <Box sx={{ my: 2, p: 2, border: 1, borderColor: 'divider' }} key={i}>
-              <Typography
-                sx={{ display: 'flex', alignItems: 'center', my: 0 }}
-                color="primary.main"
-              >
-                <Icon fontSize="small" sx={{ mr: 1 }} />
-                <Typography component="span" sx={{ fontWeight: 700, mr: 1 }}>
-                  {title}
-                </Typography>{' '}
-                —{' '}
-                <Typography component="span" sx={{ fontWeight: 700, ml: 1 }}>
-                  {date}
+            return (
+              <Box sx={{ my: 2, p: 2, border: 1, borderColor: 'divider' }} key={i}>
+                <Typography
+                  sx={{ display: 'flex', alignItems: 'center', my: 0 }}
+                  color="primary.main"
+                >
+                  <Icon fontSize="small" sx={{ mr: 1 }} />
+                  <Typography component="span" sx={{ fontWeight: 700, mr: 1 }}>
+                    {title}
+                  </Typography>{' '}
+                  —{' '}
+                  <Typography component="span" sx={{ fontWeight: 700, ml: 1 }}>
+                    {date}
+                  </Typography>
                 </Typography>
-              </Typography>
-              <Typography sx={{ my: 1 }}>{message}</Typography>
-            </Box>
-          )
-        })}
+                <Typography sx={{ my: 1 }}>{message}</Typography>
+              </Box>
+            )
+          })}
+        </Contained>
       </Box>
     </React.Fragment>
   )

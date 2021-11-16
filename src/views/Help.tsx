@@ -2,6 +2,7 @@ import React from 'react'
 import snakeCase from 'lodash/snakeCase'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import textData from '../assets/data/help.json'
+import { Contained } from '../components/Shared/Contained'
 
 type Entry = {
   type: 'h3' | 'h4' | 'h5' | 'h6' | 'p'
@@ -66,20 +67,22 @@ export function Help() {
 
       <TOCTree data={toTOCTree(textData as Entry[])} />
 
-      {/* Page content */}
-      {textData.map(({ type, text }, i) => {
-        const HTMLTag = type as keyof JSX.IntrinsicElements
+      <Contained>
+        {/* Page content */}
+        {textData.map(({ type, text }, i) => {
+          const HTMLTag = type as keyof JSX.IntrinsicElements
 
-        if (anchorTags.includes(type)) {
-          return (
-            <HTMLTag id={`${snakeCase(text)}`} key={i}>
-              {text}
-            </HTMLTag>
-          )
-        }
+          if (anchorTags.includes(type)) {
+            return (
+              <HTMLTag id={`${snakeCase(text)}`} key={i}>
+                {text}
+              </HTMLTag>
+            )
+          }
 
-        return <HTMLTag key={i}>{text}</HTMLTag>
-      })}
+          return <HTMLTag key={i}>{text}</HTMLTag>
+        })}
+      </Contained>
     </React.Fragment>
   )
 }

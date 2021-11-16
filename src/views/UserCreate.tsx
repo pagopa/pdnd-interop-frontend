@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form'
 import { useLocation } from 'react-router-dom'
 import { useMode } from '../hooks/useMode'
 import { ProviderOrSubscriber, UserOnCreate } from '../../types'
-import { MEDIUM_MAX_WIDTH } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { buildDynamicRoute, parseSearch } from '../lib/router-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
@@ -12,6 +11,7 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
 import { PlatformUserControlledForm } from '../components/Shared/PlatformUserControlledForm'
 import { ROUTES } from '../config/routes'
+import { Contained } from '../components/Shared/Contained'
 
 export function UserCreate() {
   const {
@@ -76,8 +76,10 @@ export function UserCreate() {
     <React.Fragment>
       <StyledIntro>{INTRO[mode!]}</StyledIntro>
 
-      <StyledForm onSubmit={handleSubmit(onSubmit)} style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
-        <PlatformUserControlledForm prefix="operator" control={control} errors={errors} />
+      <StyledForm onSubmit={handleSubmit(onSubmit)}>
+        <Contained>
+          <PlatformUserControlledForm prefix="operator" control={control} errors={errors} />
+        </Contained>
 
         <StyledButton sx={{ mt: 3 }} variant="contained" type="submit">
           Crea operatore

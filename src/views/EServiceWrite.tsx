@@ -12,6 +12,7 @@ import { EServiceWriteStep3Agreement } from '../components/EServiceWriteStep3Agr
 import { EServiceWriteStep4Documents } from '../components/EServiceWriteStep4Documents'
 import { StyledStepper } from '../components/Shared/StyledStepper'
 import { StyledIntro } from '../components/Shared/StyledIntro'
+import { Contained } from '../components/Shared/Contained'
 
 const STEPS: (StepperStep & { intro: { title: string; description?: string } })[] = [
   {
@@ -93,9 +94,9 @@ export function EServiceWrite({ fetchedDataMaybe }: EServiceWriteProps) {
       <Paper sx={{ mb: 12 }}>
         <StyledStepper steps={STEPS} activeIndex={activeStep} />
       </Paper>
-      <Box sx={{ maxWidth: 768 }}>
+      <Contained>
         <Step {...stepProps} />
-      </Box>
+      </Contained>
     </Box>
   )
 }
