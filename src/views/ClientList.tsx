@@ -103,13 +103,15 @@ export function ClientList() {
 
       <Box sx={{ mt: 4 }}>
         {isAdmin(party) && (
-          <StyledButton
-            variant="contained"
-            component={StyledLink}
-            to={ROUTES.SUBSCRIBE_CLIENT_CREATE.PATH}
-          >
-            + Aggiungi
-          </StyledButton>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
+            <StyledButton
+              variant="contained"
+              component={StyledLink}
+              to={ROUTES.SUBSCRIBE_CLIENT_CREATE.PATH}
+            >
+              + Aggiungi
+            </StyledButton>
+          </Box>
         )}
 
         <TempFilters />

@@ -212,13 +212,15 @@ export function EServiceList() {
       </StyledIntro>
 
       <Box sx={{ mt: 4 }}>
-        <StyledButton
-          variant="contained"
-          component={StyledLink}
-          to={ROUTES.PROVIDE_ESERVICE_CREATE.PATH}
-        >
-          + Aggiungi
-        </StyledButton>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
+          <StyledButton
+            variant="contained"
+            component={StyledLink}
+            to={ROUTES.PROVIDE_ESERVICE_CREATE.PATH}
+          >
+            + Aggiungi
+          </StyledButton>
+        </Box>
 
         <TempFilters />
 
