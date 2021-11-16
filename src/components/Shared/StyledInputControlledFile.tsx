@@ -82,9 +82,14 @@ export function StyledInputControlledFile({
                 </Typography>
               </Box>
             </Box>
-            <Typography component="span" variant="caption">
+            <Typography component="span">
               File selezionato:{' '}
-              <Typography component="span" variant="inherit" sx={{ fontWeight: 700 }}>
+              <Typography
+                component="span"
+                variant="inherit"
+                sx={{ fontWeight: 700 }}
+                color="secondary"
+              >
                 {value && value[0] ? value[0].name : 'nessun file selezionato'}
               </Typography>
             </Typography>

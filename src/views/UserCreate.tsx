@@ -81,7 +81,7 @@ export function UserCreate() {
           <PlatformUserControlledForm prefix="operator" control={control} errors={errors} />
         </Contained>
 
-        <StyledButton sx={{ mt: 3 }} variant="contained" type="submit">
+        <StyledButton sx={{ mt: 8 }} variant="contained" type="submit">
           Crea operatore
         </StyledButton>
       </StyledForm>

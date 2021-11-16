@@ -69,7 +69,7 @@ export function EServiceAttributeSection({
 
         return (
           <Box sx={{ mb: 12 }} key={i}>
-            <StyledIntro variant="h3" sx={{ mb: 0, pb: 0 }}>
+            <StyledIntro variant="h3" sx={{ mb: 2, pb: 0 }}>
               {{ title, description }}
             </StyledIntro>
             <EServiceAttributeGroup
