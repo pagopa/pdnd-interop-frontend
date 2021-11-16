@@ -3,11 +3,9 @@ import { RunActionProps, ToastActionKeys } from '../../types'
 export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
   ONBOARDING_COMPLETE_REGISTRATION: {
     loadingText: "Stiamo caricando l'accordo e verificando la sua autenticità",
-    success: {},
-    error: {},
   },
-  ESERVICE_GET_LIST: { loadingText: 'Stiamo caricando gli e-service', success: {}, error: {} },
-  ESERVICE_GET_LIST_FLAT: { loadingText: 'Stiamo caricando gli e-service', success: {}, error: {} },
+  ESERVICE_GET_LIST: { loadingText: 'Stiamo caricando gli e-service' },
+  ESERVICE_GET_LIST_FLAT: { loadingText: 'Stiamo caricando gli e-service' },
   ESERVICE_CREATE: {
     loadingText: 'Stiamo creando la bozza',
     success: { title: 'Bozza creata', description: 'La bozza è stata creata correttamente' },
@@ -36,19 +34,19 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: 'La bozza è stata cancellata correttamente',
     },
     error: {
-      title: 'Errore',
-      description: 'Si è verificato un errore, non è stato possibile cancellare la bozza',
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile cancellare la bozza. Per favore, riprova!',
     },
   },
   ESERVICE_CLONE_FROM_VERSION: {
     loadingText: "Stiamo clonando l'e-service richiesto",
     success: {
       title: 'Nuova bozza disponibile',
-      description: 'Il servizio è stato clonato correttamente ed è disponibile in bozza',
+      description: "L'e-service è stato clonato correttamente ed è disponibile in bozza",
     },
     error: {
-      title: 'Errore',
-      description: "Non è stato possibile completare l'operazione. Per favore, riprovare",
+      title: "C'è stato un problema",
+      description: "Non è stato possibile clonare l'e-service richiesto. Per favore, riprova!",
     },
   },
   ESERVICE_VERSION_CREATE: {
@@ -58,7 +56,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: "La nuova versione della nuova versione dell'e-service è disponibile in bozza",
     },
     error: {
-      title: 'Errore',
+      title: "C'è stato un problema",
       description:
         "Non è stato possibile creare una bozza per la nuova versione dell'e-service. Assicurarsi di aver compilato tuttii i campi e riprovare",
     },
@@ -70,7 +68,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: "La nuova versione della nuova versione dell'e-service è disponibile in bozza",
     },
     error: {
-      title: 'Errore',
+      title: "C'è stato un problema",
       description:
         "Non è stato possibile aggiornare una bozza per la nuova versione dell'e-service. Assicurarsi di aver compilato tuttii i campi e riprovare",
     },
@@ -82,9 +80,9 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: "La nuova versione dell'e-service è stata pubblicata correttamente",
     },
     error: {
-      title: 'Errore',
+      title: "C'è stato un problema",
       description:
-        "Si è verificato un errore, non è stato possibile pubblicare la nuova versione dell'e-service",
+        "Non è stato possibile pubblicare la nuova versione dell'e-service. Per favore, riprova!",
     },
   },
   ESERVICE_VERSION_SUSPEND: {
@@ -94,9 +92,9 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: "La versione dell'e-service è stata sospesa",
     },
     error: {
-      title: 'Errore',
+      title: "C'è stato un problema",
       description:
-        "Si è verificato un errore, non è stato possibile sospendere questa versione dell'e-service",
+        "Non è stato possibile sospendere questa versione dell'e-service. Per favore, riprova!",
     },
   },
   ESERVICE_VERSION_REACTIVATE: {
@@ -106,9 +104,9 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: "La versione dell'e-service è stata riattivata",
     },
     error: {
-      title: 'Errore',
+      title: "C'è stato un problema",
       description:
-        "Si è verificato un errore, non è stato possibile riattivare questa versione dell'e-service",
+        "Non è stato possibile riattivare questa versione dell'e-service. Per favore, riprova!",
     },
   },
   ESERVICE_VERSION_DELETE: {
@@ -118,24 +116,24 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: 'La bozza è stata cancellata correttamente',
     },
     error: {
-      title: 'Errore',
-      description: 'Si è verificato un errore, non è stato possibile cancellare la bozza',
+      title: "C'è stato un problema",
+      description: "Non è stato possibile cancellare la bozza dell'e-service. Per favore, riprova!",
     },
   },
   ESERVICE_VERSION_POST_DOCUMENT: {
     loadingText: 'Stiamo caricando il documento',
     success: { title: 'Successo', description: 'Il documento è stato caricato correttamente' },
     error: {
-      title: 'Errore',
-      description: 'Non è stato possibile caricare il documento. Riprova!',
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile caricare il documento. Per favore, riprova!',
     },
   },
   ESERVICE_VERSION_DELETE_DOCUMENT: {
     loadingText: 'Stiamo eliminando il documento',
     success: { title: 'Successo', description: 'Il documento è stato eliminato correttamente' },
     error: {
-      title: 'Errore',
-      description: 'Non è stato possibile eliminare il documento. Riprova!',
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile eliminare il documento. Per favore, riprova!',
     },
   },
   ESERVICE_VERSION_DOWNLOAD_DOCUMENT: {
@@ -146,8 +144,8 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
         'Il documento è stato scaricato correttamente. Lo trovi nella cartella dei download del tuo device',
     },
     error: {
-      title: 'Errore',
-      description: 'Non è stato possibile scaricare il documento. Riprova!',
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile scaricare il documento. Per favore, riprova!',
     },
   },
   ESERVICE_VERSION_UPDATE_DOCUMENT_DESCRIPTION: {
@@ -157,8 +155,8 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: 'La descrizione è stata aggiornata correttamente',
     },
     error: {
-      title: 'Errore',
-      description: 'Non è stato possibile aggiornare la descrizione. Riprova!',
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile aggiornare la descrizione. Per favore, riprova!',
     },
   },
   OPERATOR_API_CREATE: {
@@ -168,7 +166,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: 'Nuovo operatore creato correttamente',
     },
     error: {
-      title: 'Errore',
+      title: "C'è stato un problema",
       description:
         "Non è stato possibile creare il nuovo operatore. Assicurarsi che non esista già l'utenza ed eventualmente ritentare",
     },
@@ -180,8 +178,8 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: "Adesso puoi aggiungere l'attributo al tuo e-service",
     },
     error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile completare l'operazione",
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile creare il nuovo attributo. Per favore, riprova!',
     },
   },
   AGREEMENT_CREATE: {
@@ -192,17 +190,17 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
         "L'accordo è stato creato correttamente ed è in attesa di approvazione. Riceverai notifiche di aggiornamento sul suo stato",
     },
     error: {
-      title: 'Errore',
+      title: "C'è stato un problema",
       description:
-        "Non è stato possibile creare l'accordo. Se sei sicuro/a di averne diritto, contatta l'assistenza per maggiori informazioni",
+        "Non è stato possibile creare l'accordo. Se sei sicuro/a di averne diritto, contatta l'assistenza per ulteriori verifiche",
     },
   },
   AGREEMENT_VERIFY_ATTRIBUTE: {
     loadingText: "Stiamo verificando l'attributo",
     success: { title: 'Attributo verificato', description: "L'attributo è ora stato verificato" },
     error: {
-      title: 'Errore',
-      description: "Non è stato possibile verificare l'attributo. Riprova!",
+      title: "C'è stato un problema",
+      description: "Non è stato possibile verificare l'attributo. Per favore, riprova!",
     },
   },
   AGREEMENT_ACTIVATE: {
@@ -213,9 +211,9 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
         "L'accordo è ora attivo, ed è possibile creare client da associare all'e-service",
     },
     error: {
-      title: 'Errore',
+      title: "C'è stato un problema",
       description:
-        "Non è stato possibile attivare l'accordo. Accertarsi che tutti gli attributi siano stati verificati",
+        "Non è stato possibile attivare l'accordo. Accertarsi che tutti gli attributi siano stati verificati e riprovare",
     },
   },
   AGREEMENT_SUSPEND: {
@@ -226,8 +224,8 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
         "Non è più possibile per i client associati all'e-service accedere al servizio in erogazione",
     },
     error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile sospendere l'accordo",
+      title: "C'è stato un problema",
+      description: "Non è stato possibile sospendere l'accordo. Per favore, riprova!",
     },
   },
   AGREEMENT_UPGRADE: {
@@ -237,17 +235,13 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: "L'accordo è stato aggiornato alla versione più recente dell'e-service",
     },
     error: {
-      title: 'Errore',
-      description: "C'è stato un errore, non è stato possibile aggiornare l'accordo",
+      title: "C'è stato un problema",
+      description: "Non è stato possibile aggiornare l'accordo. Per favore, riprova!",
     },
   },
-  CLIENT_CREATE: { loadingText: 'Stiamo creando il client richiesto', success: {}, error: {} },
-  CLIENT_SUSPEND: { loadingText: 'Stiamo sospendendo il client richiesto', success: {}, error: {} },
-  CLIENT_ACTIVATE: {
-    loadingText: 'Stiamo riattivando il client richiesto',
-    success: {},
-    error: {},
-  },
+  CLIENT_CREATE: { loadingText: 'Stiamo creando il client richiesto' },
+  CLIENT_SUSPEND: { loadingText: 'Stiamo sospendendo il client richiesto' },
+  CLIENT_ACTIVATE: { loadingText: 'Stiamo riattivando il client richiesto' },
   USER_SUSPEND: {
     loadingText: "Stiamo sospendendo l'operatore",
     success: {
@@ -255,7 +249,10 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description:
         "L'operatore richiesto è stato sospeso e non può più accedere alla piattaforma per quest'ente",
     },
-    error: {},
+    error: {
+      title: "C'è stato un problema",
+      description: "Non è stato possibile sospendere l'operatore richiesto. Per favore, riprova!",
+    },
   },
   USER_REACTIVATE: {
     loadingText: "Stiamo riattivando l'operatore",
@@ -264,7 +261,10 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description:
         "L'operatore richiesto è stato riattivato e può nuovamente accedere alla piattaforma per quest'ente",
     },
-    error: {},
+    error: {
+      title: "C'è stato un problema",
+      description: "Non è stato possibile riattivare l'operatore richiesto. Per favore, riprova!",
+    },
   },
   OPERATOR_SECURITY_KEYS_POST: {
     loadingText: 'Stiamo caricando la chiave',
@@ -274,7 +274,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
         "La chiave è ora utilizzabile per confermare la validità del token per l'e-service richiesto",
     },
     error: {
-      title: 'Errore',
+      title: "C'è stato un problema",
       description:
         'Non è stato possibile caricare la chiave. Assicurarsi sia nel formato corretto e riprovare',
     },
@@ -286,11 +286,10 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description:
         "La chiave pubblica è stata cancellata correttamente. Da questo momento non potrà più essere usata per autenticarsi presso l'erogatore dell'e-service",
     },
-    error: {},
+    error: {
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile cancellare la chiave. Per favore, riprova!',
+    },
   },
-  OPERATOR_SECURITY_KEY_DOWNLOAD: {
-    loadingText: 'Stiamo scaricando la chiave',
-    success: {},
-    error: {},
-  },
+  OPERATOR_SECURITY_KEY_DOWNLOAD: { loadingText: 'Stiamo scaricando la chiave' },
 }

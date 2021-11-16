@@ -368,8 +368,8 @@ export type ActionFunction = ((_: any) => Promise<void>) | VoidFunction
 
 export type RunActionProps = {
   loadingText: string
-  success: ToastContent
-  error: ToastContent
+  success?: ToastContent
+  error?: ToastContent
 }
 
 export type WrappableAction = {
