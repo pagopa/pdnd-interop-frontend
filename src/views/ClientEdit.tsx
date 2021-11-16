@@ -8,7 +8,6 @@ import {
   CLIENT_STATUS_LABEL,
   ESERVICE_STATUS_LABEL,
 } from '../config/labels'
-import { NARROW_MAX_WIDTH } from '../lib/constants'
 import { ROUTES } from '../config/routes'
 import { Client, ClientStatus, ActionProps } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
@@ -131,96 +130,92 @@ export function ClientEdit() {
       </Tabs>
 
       <TabPanel value={activeTab} index={0}>
-        <Box style={{ maxWidth: NARROW_MAX_WIDTH }}>
-          <DescriptionBlock label="Descrizione">
-            <Typography component="span">{data.description}</Typography>
-          </DescriptionBlock>
+        <DescriptionBlock label="Descrizione">
+          <Typography component="span">{data.description}</Typography>
+        </DescriptionBlock>
 
-          <DescriptionBlock label="Questo client può accedere all'e-service?">
-            <Typography component="span">
-              {getClientComputedStatus(data) === 'active'
-                ? 'Sì'
-                : `No: ${getReasonClientIsBlocked().join(', ')}`}
-            </Typography>
-          </DescriptionBlock>
+        <DescriptionBlock label="Questo client può accedere all'e-service?">
+          <Typography component="span">
+            {getClientComputedStatus(data) === 'active'
+              ? 'Sì'
+              : `No: ${getReasonClientIsBlocked().join(', ')}`}
+          </Typography>
+        </DescriptionBlock>
 
-          <DescriptionBlock label="Stato del client">
-            <Typography component="span">{CLIENT_STATUS_LABEL[data.status]}</Typography>
-          </DescriptionBlock>
+        <DescriptionBlock label="Stato del client">
+          <Typography component="span">{CLIENT_STATUS_LABEL[data.status]}</Typography>
+        </DescriptionBlock>
 
-          <DescriptionBlock label="La versione dell'e-service che stai usando">
-            <Typography component="span">
-              <StyledLink
-                to={buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
-                  eserviceId: data.eservice.id,
-                  descriptorId: data.agreement.descriptor.id,
-                })}
-              >
-                {data.eservice.name}, versione {data.agreement.descriptor.version}
-              </StyledLink>{' '}
-              {!!(
-                data.eservice.activeDescriptor &&
-                data.agreement.descriptor.version !== data.eservice.activeDescriptor.version
-              ) && (
-                <Typography sx={{ mt: 1 }}>
-                  È disponibile una versione più recente
-                  <br />
-                  <StyledLink
-                    to={buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
-                      eserviceId: data.eservice.id,
-                      descriptorId: data.eservice.activeDescriptor.id,
-                    })}
-                  >
-                    Vedi il contenuto della nuova versione
-                  </StyledLink>
-                  <br />
-                  <StyledLink
-                    to={buildDynamicPath(ROUTES.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
-                      id: data.agreement.id,
-                    })}
-                  >
-                    Vai alla pagina dell'accordo
-                  </StyledLink>{' '}
-                  (da lì potrai aggiornarlo)
-                </Typography>
-              )}
-            </Typography>
-          </DescriptionBlock>
+        <DescriptionBlock label="La versione dell'e-service che stai usando">
+          <Typography component="span">
+            <StyledLink
+              to={buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
+                eserviceId: data.eservice.id,
+                descriptorId: data.agreement.descriptor.id,
+              })}
+            >
+              {data.eservice.name}, versione {data.agreement.descriptor.version}
+            </StyledLink>{' '}
+            {!!(
+              data.eservice.activeDescriptor &&
+              data.agreement.descriptor.version !== data.eservice.activeDescriptor.version
+            ) && (
+              <Typography sx={{ mt: 1 }}>
+                È disponibile una versione più recente
+                <br />
+                <StyledLink
+                  to={buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
+                    eserviceId: data.eservice.id,
+                    descriptorId: data.eservice.activeDescriptor.id,
+                  })}
+                >
+                  Vedi il contenuto della nuova versione
+                </StyledLink>
+                <br />
+                <StyledLink
+                  to={buildDynamicPath(ROUTES.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
+                    id: data.agreement.id,
+                  })}
+                >
+                  Vai alla pagina dell'accordo
+                </StyledLink>{' '}
+                (da lì potrai aggiornarlo)
+              </Typography>
+            )}
+          </Typography>
+        </DescriptionBlock>
 
-          <DescriptionBlock label="Ente erogatore">
-            <Typography component="span">{data.eservice.provider.description}</Typography>
-          </DescriptionBlock>
+        <DescriptionBlock label="Ente erogatore">
+          <Typography component="span">{data.eservice.provider.description}</Typography>
+        </DescriptionBlock>
 
-          <DescriptionBlock
-            label={`Stato dell'e-service per la versione ${data.agreement.descriptor.version}`}
-          >
-            <Typography component="span">
-              {ESERVICE_STATUS_LABEL[data.agreement.descriptor.status]}
-            </Typography>
-          </DescriptionBlock>
+        <DescriptionBlock
+          label={`Stato dell'e-service per la versione ${data.agreement.descriptor.version}`}
+        >
+          <Typography component="span">
+            {ESERVICE_STATUS_LABEL[data.agreement.descriptor.status]}
+          </Typography>
+        </DescriptionBlock>
 
-          <DescriptionBlock label="Accordo">
-            <Typography component="span">
-              <StyledLink
-                to={buildDynamicPath(ROUTES.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
-                  id: data.agreement.id,
-                })}
-              >
-                Vedi accordo
-              </StyledLink>
-            </Typography>
-          </DescriptionBlock>
+        <DescriptionBlock label="Accordo">
+          <Typography component="span">
+            <StyledLink
+              to={buildDynamicPath(ROUTES.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
+                id: data.agreement.id,
+              })}
+            >
+              Vedi accordo
+            </StyledLink>
+          </Typography>
+        </DescriptionBlock>
 
-          <DescriptionBlock label="Stato dell'accordo">
-            <Typography component="span">
-              {AGREEMENT_STATUS_LABEL[data.agreement.status]}
-            </Typography>
-          </DescriptionBlock>
+        <DescriptionBlock label="Stato dell'accordo">
+          <Typography component="span">{AGREEMENT_STATUS_LABEL[data.agreement.status]}</Typography>
+        </DescriptionBlock>
 
-          <DescriptionBlock label="Finalità">
-            <Typography component="span">{data.purposes}</Typography>
-          </DescriptionBlock>
-        </Box>
+        <DescriptionBlock label="Finalità">
+          <Typography component="span">{data.purposes}</Typography>
+        </DescriptionBlock>
 
         {actions.length > 0 && (
           <Box sx={{ mt: 4, display: 'flex' }}>

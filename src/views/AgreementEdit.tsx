@@ -8,7 +8,6 @@ import {
   GroupBackendAttribute,
   ActionProps,
 } from '../../types'
-import { MEDIUM_MAX_WIDTH } from '../lib/constants'
 import { ROUTES } from '../config/routes'
 import { AGREEMENT_STATUS_LABEL } from '../config/labels'
 import { buildDynamicPath, getLastBit } from '../lib/router-utils'
@@ -26,6 +25,7 @@ import { StyledLink } from '../components/Shared/StyledLink'
 import { Box } from '@mui/system'
 import { Typography } from '@mui/material'
 import { CheckCircle as CheckCircleIcon } from '@mui/icons-material'
+import { Contained } from '../components/Shared/Contained'
 
 export function AgreementEdit() {
   const {
@@ -214,33 +214,29 @@ export function AgreementEdit() {
       <StyledIntro>{{ title: 'Accordo di interoperabilità' }}</StyledIntro>
 
       <DescriptionBlock label="Accordo relativo a">
-        <Box style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
-          <StyledLink
-            to={buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
-              eserviceId: data?.eservice.id,
-              descriptorId: data?.eserviceDescriptorId,
-            })}
-          >
-            {data?.eservice.name}, versione {data?.eservice.version}
-          </StyledLink>
-          {mode === 'subscriber' &&
-          data?.eservice.activeDescriptor &&
-          data?.status !== 'inactive' ? (
-            <React.Fragment>
-              {' '}
-              (è disponibile una{' '}
-              <StyledLink
-                to={buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
-                  eserviceId: data?.eservice.id,
-                  descriptorId: data?.eservice.activeDescriptor.id,
-                })}
-              >
-                versione più recente
-              </StyledLink>
-              ; per attivarla, aggiorna l'accordo di interoperabilità)
-            </React.Fragment>
-          ) : null}
-        </Box>
+        <StyledLink
+          to={buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
+            eserviceId: data?.eservice.id,
+            descriptorId: data?.eserviceDescriptorId,
+          })}
+        >
+          {data?.eservice.name}, versione {data?.eservice.version}
+        </StyledLink>
+        {mode === 'subscriber' && data?.eservice.activeDescriptor && data?.status !== 'inactive' ? (
+          <React.Fragment>
+            {' '}
+            (è disponibile una{' '}
+            <StyledLink
+              to={buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
+                eserviceId: data?.eservice.id,
+                descriptorId: data?.eservice.activeDescriptor.id,
+              })}
+            >
+              versione più recente
+            </StyledLink>
+            ; per attivarla, aggiorna l'accordo di interoperabilità)
+          </React.Fragment>
+        ) : null}
       </DescriptionBlock>
 
       <DescriptionBlock label="Stato dell'accordo" tooltipLabel={agreementSuspendExplanation}>
@@ -260,50 +256,51 @@ export function AgreementEdit() {
       </DescriptionBlock>
 
       <DescriptionBlock label="Attributi">
-        <Box sx={{ mt: 1 }}>
-          {data?.attributes.length > 0 ? (
-            data?.attributes.map((backendAttribute, i) => {
-              let attributesToDisplay: any
+        <Contained>
+          <Box sx={{ mt: 1 }}>
+            {data?.attributes.length > 0 ? (
+              data?.attributes.map((backendAttribute, i) => {
+                let attributesToDisplay: any
 
-              if (has(backendAttribute, 'single')) {
-                const { single } = backendAttribute as SingleBackendAttribute
-                attributesToDisplay = <SingleAttribute {...single} />
-              } else {
-                const { group } = backendAttribute as GroupBackendAttribute
-                attributesToDisplay = group.map((a, j) => {
-                  if (j === group.length - 1) {
-                    return <SingleAttribute key={j} {...a} />
-                  }
+                if (has(backendAttribute, 'single')) {
+                  const { single } = backendAttribute as SingleBackendAttribute
+                  attributesToDisplay = <SingleAttribute {...single} />
+                } else {
+                  const { group } = backendAttribute as GroupBackendAttribute
+                  attributesToDisplay = group.map((a, j) => {
+                    if (j === group.length - 1) {
+                      return <SingleAttribute key={j} {...a} />
+                    }
 
-                  return (
-                    <React.Fragment key={j}>
-                      <SingleAttribute {...a} />
-                      <em>oppure</em>
-                    </React.Fragment>
-                  )
-                })
-              }
+                    return (
+                      <React.Fragment key={j}>
+                        <SingleAttribute {...a} />
+                        <em>oppure</em>
+                      </React.Fragment>
+                    )
+                  })
+                }
 
-              return (
-                <Box
-                  key={i}
-                  sx={{
-                    width: '100%',
-                    mb: 2,
-                    pb: 2,
-                    borderBottom: 1,
-                    borderColor: 'divider',
-                  }}
-                  style={{ maxWidth: MEDIUM_MAX_WIDTH }}
-                >
-                  {attributesToDisplay}
-                </Box>
-              )
-            })
-          ) : (
-            <Typography>Per questo e-service non sono stati richiesti attributi</Typography>
-          )}
-        </Box>
+                return (
+                  <Box
+                    key={i}
+                    sx={{
+                      width: '100%',
+                      mb: 2,
+                      pb: 2,
+                      borderBottom: 1,
+                      borderColor: 'divider',
+                    }}
+                  >
+                    {attributesToDisplay}
+                  </Box>
+                )
+              })
+            ) : (
+              <Typography>Per questo e-service non sono stati richiesti attributi</Typography>
+            )}
+          </Box>
+        </Contained>
       </DescriptionBlock>
 
       {mode === 'provider' && (

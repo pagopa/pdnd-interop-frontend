@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box } from '@mui/system'
+import { Grid } from '@mui/material'
 import {
   emailValidationPattern,
   requiredValidationPattern,
@@ -19,39 +19,44 @@ export function PlatformUserControlledForm({
   errors,
 }: PlatformUserControlledFormProps) {
   return (
-    <Box sx={{ py: 2 }}>
-      <Box sx={{ py: 2, display: 'flex', justifyContent: 'space-between' }}>
-        <Box sx={{ mr: 2, flexGrow: 1 }}>
-          <StyledInputControlledText
-            focusOnMount={true}
-            label="Nome*"
-            name={`${prefix}.name`}
-            control={control}
-            rules={{ required: requiredValidationPattern }}
-            errors={errors}
-          />
-        </Box>
-        <Box sx={{ ml: 2, flexGrow: 1 }}>
-          <StyledInputControlledText
-            label="Cognome*"
-            name={`${prefix}.surname`}
-            control={control}
-            rules={{ required: requiredValidationPattern }}
-            errors={errors}
-          />
-        </Box>
-      </Box>
-      <Box sx={{ py: 2 }}>
+    <Grid container spacing={2}>
+      <Grid item xs={6}>
         <StyledInputControlledText
+          sx={{ my: 4 }}
+          focusOnMount={true}
+          label="Nome*"
+          name={`${prefix}.name`}
+          control={control}
+          rules={{ required: requiredValidationPattern }}
+          errors={errors}
+        />
+      </Grid>
+
+      <Grid item xs={6}>
+        <StyledInputControlledText
+          sx={{ my: 4 }}
+          label="Cognome*"
+          name={`${prefix}.surname`}
+          control={control}
+          rules={{ required: requiredValidationPattern }}
+          errors={errors}
+        />
+      </Grid>
+
+      <Grid item xs={12}>
+        <StyledInputControlledText
+          sx={{ my: 4 }}
           label="Codice Fiscale*"
           name={`${prefix}.taxCode`}
           control={control}
           rules={{ required: requiredValidationPattern, pattern: taxCodeValidationPattern }}
           errors={errors}
         />
-      </Box>
-      <Box sx={{ py: 2 }}>
+      </Grid>
+
+      <Grid item xs={12}>
         <StyledInputControlledText
+          sx={{ my: 4 }}
           label="Email ad uso aziendale*"
           name={`${prefix}.email`}
           type="email"
@@ -60,7 +65,7 @@ export function PlatformUserControlledForm({
           errors={errors}
           infoLabel="Inserisci l'indirizzo email ad uso aziendale utilizzato per l'Ente"
         />
-      </Box>
-    </Box>
+      </Grid>
+    </Grid>
   )
 }

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material'
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material'
-import { MEDIUM_MAX_WIDTH } from '../../lib/constants'
 
 type AccordionEntry = {
   summary: string | JSX.Element
@@ -16,7 +15,7 @@ export function StyledAccordion({ entries }: StyledAccordionProps) {
   return (
     <React.Fragment>
       {entries.map(({ summary, details }, i: number) => (
-        <Accordion sx={{ maxWidth: MEDIUM_MAX_WIDTH }} key={i}>
+        <Accordion key={i}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls={`panel-content-${i}`}

@@ -1,13 +1,12 @@
 import React from 'react'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { MEDIUM_MAX_WIDTH } from '../lib/constants'
 import { InlineSupportLink } from '../components/Shared/InlineSupportLink'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 
 export function SecurityKeyGuide() {
   return (
-    <Box sx={{ maxWidth: MEDIUM_MAX_WIDTH }}>
+    <React.Fragment>
       <StyledIntro>{{ title: 'Generazione e caricamento chiavi di sicurezza' }}</StyledIntro>
 
       <Box sx={{ mt: 2 }}>
@@ -56,6 +55,6 @@ export function SecurityKeyGuide() {
           </Typography>
         </ol>
       </Box>
-    </Box>
+    </React.Fragment>
   )
 }

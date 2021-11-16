@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { MEDIUM_MAX_WIDTH } from '../lib/constants'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { EServiceReadType, SelectOption } from '../../types'
 import { PartyContext } from '../lib/context'
@@ -61,7 +60,7 @@ export function ClientCreate() {
         }}
       </StyledIntro>
 
-      <StyledForm onSubmit={handleSubmit(onSubmit)} style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
+      <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <StyledInputControlledText
           name="name"
           label="Nome del client*"

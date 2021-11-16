@@ -34,7 +34,7 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
 }) => {
   if (error) {
     return (
-      <Box sx={{ my: 4, px: 3, py: 3, bgcolor: 'error' }}>
+      <Box sx={{ my: 4, p: 2 }} bgcolor="error.main" color="common.white">
         C'è stato un errore, e non è stato possibile reperire le informazioni richieste. Per favore,
         riprova più tardi
       </Box>
