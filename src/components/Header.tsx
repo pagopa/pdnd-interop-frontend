@@ -43,7 +43,7 @@ export function Header() {
         <Layout>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Box sx={{ py: 3 }}>
-              <Typography color="common.white" variant="h4">
+              <Typography color="common.white" fontWeight={700} fontSize={24}>
                 Interoperabilità
               </Typography>
               <Typography color="common.white" variant="caption">
