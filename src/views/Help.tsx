@@ -4,8 +4,10 @@ import { StyledIntro } from '../components/Shared/StyledIntro'
 import textData from '../assets/data/help.json'
 import { Contained } from '../components/Shared/Contained'
 
+type Anchor = 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+
 type Entry = {
-  type: 'h3' | 'h4' | 'h5' | 'h6' | 'p'
+  type: Anchor | 'p'
   text: string
 }
 
@@ -14,15 +16,18 @@ type EntryTreeBranch = Entry & {
 }
 
 export function Help() {
-  const anchorTags = ['h3', 'h4', 'h5', 'h6']
+  const getNestingLevel = (tag: Anchor): number => +tag.replace('h', '')
+
+  const anchorTags: Anchor[] = ['h2', 'h3', 'h4', 'h5', 'h6']
+  const minimumNestingLevel = getNestingLevel(anchorTags[0])
 
   const toTOCTree = (arr: Entry[]): EntryTreeBranch[] =>
     arr.reduce((acc: any, entry: Entry) => {
-      if (!anchorTags.includes(entry.type)) {
+      if (!anchorTags.includes(entry.type as any)) {
         return acc
       }
 
-      const nestingLevel = +entry.type.replace('h', '') - 3
+      const nestingLevel = getNestingLevel(entry.type as Anchor) - minimumNestingLevel
       addTOCChildren(acc, entry, nestingLevel)
       return acc
     }, [])
@@ -72,7 +77,7 @@ export function Help() {
         {textData.map(({ type, text }, i) => {
           const HTMLTag = type as keyof JSX.IntrinsicElements
 
-          if (anchorTags.includes(type)) {
+          if (anchorTags.includes(type as any)) {
             return (
               <HTMLTag id={`${snakeCase(text)}`} key={i}>
                 {text}
