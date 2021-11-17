@@ -1,7 +1,12 @@
 import { Skeleton } from '@mui/material'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
+import { useHistory, useLocation } from 'react-router'
 import { RouteAuthLevel } from '../../types'
+import { ROUTES } from '../config/routes'
+import { useLogin } from '../hooks/useLogin'
+import { useParties } from '../hooks/useParties'
 import { LoaderContext, PartyContext, UserContext } from '../lib/context'
+import { isSamePath } from '../lib/router-utils'
 import { Unauthorized } from './Unauthorized'
 
 type AuthGuardProps = {
@@ -10,17 +15,17 @@ type AuthGuardProps = {
 }
 
 export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
-  // const history = useHistory()
+  const history = useHistory()
+  const location = useLocation()
   const { party, availableParties } = useContext(PartyContext)
   const { user } = useContext(UserContext)
   const { loadingText } = useContext(LoaderContext)
+  const { silentLoginAttempt } = useLogin()
+  const { fetchAvailablePartiesAttempt, setPartyFromStorageAttempt } = useParties()
 
-  // const { silentLoginAttempt } = useLogin()
-  // const { fetchAvailablePartiesAttempt, setPartyFromStorageAttempt } = useParties()
-
-  /*
+  // If there is no user, attempt to sign him/her in silently
   useEffect(() => {
-    async function asyncAttemptSilentLogin() {
+    async function asyncSilentLoginAttempt() {
       const isNowSilentlyLoggedIn = await silentLoginAttempt()
 
       // Exclude the routes necessary to log in to avoid perpetual loop
@@ -36,48 +41,38 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
     // The user might still be in session but might have refreshed the page
     // In this case, try to log him/her in by getting their info from localStorage
     // Same goes if no fetchAvailableParties has occurred yet. We cannot log into
-    // a protected page until we have a user and a list of availableParties
+    // a protected page until we have a user
     if (!user) {
-      asyncAttemptSilentLogin()
+      asyncSilentLoginAttempt()
+    }
+  }, [user]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // If there are no availableParties, try to fetch and set them
+  useEffect(() => {
+    async function asyncSilentAssignPartyAttempt() {
+      const hasFetchedAndSetAvailableParties = await fetchAvailablePartiesAttempt()
+      const hasSetParty = setPartyFromStorageAttempt()
+
+      // If something goes wrong in fetching or setting the user,
+      // redirect to login page
+      if (!hasFetchedAndSetAvailableParties || !hasSetParty) {
+        history.push('/')
+      }
     }
 
-    // If the user is logged in but hasn't chosen a party yet, go there
-    // to avoid having users without a current party.
-    // TEMP REFACTOR: this is horrible. It is here only because party be set slightly after
-    // setTimeout(() => {
-    //   if (user && !party) {
-    //     history.push(ROUTES.CHOOSE_PARTY.PATH)
-    //   }
-    // }, 500)
+    // If we have a user but don't have available parties, and we are not in the
+    // ChooseParty view, fetch the available parties and attempt to assign one
+    // to the user by reading into the localStorage
+    const isChoosePartyPage = isSamePath(location.pathname, ROUTES.CHOOSE_PARTY.PATH)
+    if (user && !availableParties && !isChoosePartyPage) {
+      asyncSilentAssignPartyAttempt()
+    }
   }, [user]) // eslint-disable-line react-hooks/exhaustive-deps
-  */
-
-  // useEffect(() => {
-  //   async function asyncFetchAvailableParties() {
-  //     await fetchAvailablePartiesAttempt()
-  //     setPartyFromStorageAttempt()
-  //   }
-
-  //   if (!availableParties) {
-  //     asyncFetchAvailableParties()
-  //   }
-  // }, [availableParties]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  console.log('--- AuthGuard ---', { loadingText, user, availableParties })
-
-  const isLoading = loadingText && (!user || !availableParties)
 
   // If we are still fetching data, display a skeleton
+  const isLoading = loadingText && (!user || !availableParties)
   if (isLoading) {
-    return (
-      <React.Fragment>
-        {Array(6)
-          .fill(0)
-          .map((_, i) => (
-            <Skeleton key={i} height={400} />
-          ))}
-      </React.Fragment>
-    )
+    return <Skeleton height={400} />
   }
 
   // If the route can be accessed, display the component
@@ -86,6 +81,7 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
     return <Component />
   }
 
-  // If data was fetched but user cannot access, tell them
+  // If we identified the user and he/she should not access this resource,
+  // show an unauthorized feedback
   return <Unauthorized />
 }
