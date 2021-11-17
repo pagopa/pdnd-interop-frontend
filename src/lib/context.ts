@@ -10,14 +10,17 @@ export const UserContext = createContext({ user: null, setUser: () => {} } as Us
 
 type PartyContextType = {
   party: Party | null
-  availableParties: Party[]
+  availableParties: Party[] | null
   setParty: React.Dispatch<React.SetStateAction<Party | null>>
-  setAvailableParties: React.Dispatch<React.SetStateAction<Party[]>>
+  setAvailableParties: React.Dispatch<React.SetStateAction<Party[] | null>>
 }
 
 export const PartyContext = createContext({
   party: null,
-  availableParties: [],
+  // Initially null, which means no fetch has occurred.
+  // Then it may become [], which signifies that a fetch has occurred,
+  // but this user has no availableParties onboarded for now
+  availableParties: null,
   setParty: () => {},
   setAvailableParties: () => {},
 } as PartyContextType)

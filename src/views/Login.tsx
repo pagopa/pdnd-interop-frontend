@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import spidIcon from '../assets/icons/spid.svg'
 import cieIcon from '../assets/icons/cie.svg'
-import { useLogin } from '../hooks/useLogin'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { NARROW_MAX_WIDTH, USE_MOCK_SPID_USER } from '../lib/constants'
-import { mockSPIDUser } from '../lib/mock-static-data'
+import { NARROW_MAX_WIDTH } from '../lib/constants'
 import { useHistory } from 'react-router'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Box } from '@mui/system'
@@ -31,7 +29,6 @@ export function Login() {
   } = useForm()
   const history = useHistory()
   const [privacy, setPrivacy] = useState(false)
-  const { setTestSPIDUser } = useLogin()
   const watchPrivacyCheckbox = watch('privacyHandle')
 
   useEffect(() => {
@@ -41,9 +38,7 @@ export function Login() {
 
   const goToSPID = async ({ privacyHandle }: LoginSubmitProps) => {
     if (privacyHandle) {
-      USE_MOCK_SPID_USER
-        ? await setTestSPIDUser(mockSPIDUser)
-        : history.push(ROUTES.TEMP_SPID_USER.PATH, { privacy: true })
+      history.push(ROUTES.TEMP_SPID_USER.PATH, { privacy: true })
     }
   }
 

@@ -35,7 +35,7 @@ export function Profile() {
 
       <DescriptionBlock label="Sei registrato su questa piattaforma per gli enti">
         <Typography component="span">
-          {availableParties.map((p) => `${p.description} (${USER_ROLE_LABEL[p.role]})`).join(', ')}
+          {availableParties!.map((p) => `${p.description} (${USER_ROLE_LABEL[p.role]})`).join(', ')}
         </Typography>
       </DescriptionBlock>
     </React.Fragment>

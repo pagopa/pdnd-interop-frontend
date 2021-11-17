@@ -61,7 +61,7 @@ export function PartySelect() {
           onClose={handleClose}
           MenuListProps={{ 'aria-labelledby': 'party-menu-button' }}
         >
-          {availableParties.map((p, i) => {
+          {availableParties!.map((p, i) => {
             return (
               <MenuItem key={i} onClick={wrapUpdateActiveParty(p)} sx={{ display: 'block' }}>
                 <Typography component="span" variant="body2" sx={{ fontWeight: 700 }}>
