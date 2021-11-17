@@ -48,28 +48,41 @@ export const useParties = () => {
       },
     })
 
+    const hasInstitutions = !isFetchError(availablePartiesResponse)
+
     // If user already has institutions subscribed
-    if (!isFetchError(availablePartiesResponse)) {
+    if (hasInstitutions) {
       // Set parties
       await setPartiesInContext((availablePartiesResponse as AxiosResponse).data!)
     }
 
     // Stop the loader
     setLoadingText(null)
+
+    // Return the outcome (true for ok, false for ko)
+    return hasInstitutions
   }
 
   const fetchAvailablePartiesAttempt = async () => {
     const sessionStorageUser = storageRead('user', 'object')
     if (sessionStorageUser && sessionStorageUser.taxCode) {
-      await fetchAndSetAvailableParties(sessionStorageUser.taxCode)
+      const hasFetchedAndSetAvailableParties = await fetchAndSetAvailableParties(
+        sessionStorageUser.taxCode
+      )
+      return hasFetchedAndSetAvailableParties
     }
+
+    return false
   }
 
   const setPartyFromStorageAttempt = () => {
     const sessionStorageParty = storageRead('currentParty', 'object')
     if (sessionStorageParty) {
       setParty(sessionStorageParty)
+      return true
     }
+
+    return false
   }
 
   return { fetchAvailablePartiesAttempt, setPartyFromStorageAttempt }
