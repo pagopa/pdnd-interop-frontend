@@ -169,7 +169,7 @@ export function UserEdit() {
           </Typography>
         </DescriptionBlock>
 
-        <Box sx={{ mt: 4, display: 'flex' }}>
+        <Box sx={{ mt: 8, display: 'flex' }}>
           {getAvailableActions().map(({ onClick, label }, i) => (
             <StyledButton variant="contained" key={i} onClick={onClick}>
               {label}

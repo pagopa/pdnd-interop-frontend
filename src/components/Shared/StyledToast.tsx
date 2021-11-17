@@ -1,24 +1,27 @@
 import React from 'react'
-import { RequestOutcome, ToastContent, ToastContentWithOutcome } from '../../../types'
+import { RequestOutcome, ToastContent, ToastProps } from '../../../types'
 import { Alert, AlertTitle, Snackbar } from '@mui/material'
 
-type StyledToastProps = ToastContentWithOutcome & {
-  onClose?: any
-}
-
-const DEFAULT_TEXT: { [key in RequestOutcome]: ToastContent } = {
+const DEFAULT_TEXT: Record<RequestOutcome, ToastContent> = {
   success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
   error: {
     title: 'Errore',
-    description: "C'è stato un errore, non è stato possibile completare l'operazione",
+    description: "Non è stato possibile completare l'operazione",
   },
 }
 
-export function StyledToast({ outcome, title, description, onClose }: StyledToastProps) {
+export function StyledToast({
+  outcome,
+  title,
+  description,
+  onClose,
+  autoHideDuration,
+}: ToastProps) {
   return (
     <Snackbar
       open={true}
       onClose={onClose}
+      autoHideDuration={autoHideDuration}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
     >
       <Alert severity={outcome} onClose={onClose}>

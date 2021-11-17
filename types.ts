@@ -427,6 +427,7 @@ export type ToastContentWithOutcome = ToastContent & {
 
 export type ToastProps = ToastContentWithOutcome & {
   onClose: VoidFunction
+  autoHideDuration?: number
 }
 
 export type ToastActionKeys = Exclude<
