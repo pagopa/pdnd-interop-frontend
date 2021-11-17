@@ -8,7 +8,6 @@ import { getBits } from '../lib/router-utils'
 import { EServiceRead } from './EServiceRead'
 import { EServiceWrite } from './EServiceWrite'
 import { decorateEServiceWithActiveDescriptor } from '../lib/eservice-utils'
-import { Skeleton } from '@mui/material'
 
 export function EServiceGate() {
   const location = useLocation()
@@ -19,7 +18,7 @@ export function EServiceGate() {
   const descriptorId: string | EServiceNoDescriptorId | undefined = bits.pop() // last item in bits array
   const eserviceId = bits.pop() // last-but-two item in bits array
 
-  const { data, error, isItReallyLoading } = useAsyncFetch<EServiceReadType>(
+  const { data, error } = useAsyncFetch<EServiceReadType>(
     {
       path: { endpoint: 'ESERVICE_GET_SINGLE', endpointParams: { eserviceId } },
     },
@@ -31,7 +30,18 @@ export function EServiceGate() {
     }
   )
 
+  // TEMP PIN-706
+  // This below is not enough, it needs more thinking.
+  // As it is, it breaks the forward/back process.
+  // The problem is that, along with Part II, makes the
+  // EServiceWrite component remount, thus making the
+  // initialStepIndex always 0
+  // Part I
   const getInitialStepIndexDestination = () => {
+    if (isEmpty(data)) {
+      return undefined
+    }
+
     // Descriptors never created
     if (data.descriptors.length === 0) {
       // Go to step 2 to create them
@@ -54,11 +64,13 @@ export function EServiceGate() {
     return <NotFound errorType="server-error" />
   }
 
-  // We are sure that no data means loading because if the e-service has no data at all,
-  // it should directly mount the EServiceWrite component without passing any fetchedDataMaybe
-  if (isItReallyLoading) {
-    return <Skeleton height={400} />
-  }
+  // TEMP PIN-706
+  // This below is not enough, it needs more thinking.
+  // As it is, it breaks the forward/back process.
+  // Part II
+  // if (isItReallyLoading) {
+  //   return <Skeleton height={400} />
+  // }
 
   return isEditable ? (
     <EServiceWrite
