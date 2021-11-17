@@ -22,13 +22,22 @@ export function Main() {
 
       <Switch>
         {Object.values(ROUTES).map((route, i) => {
-          const { PATH, COMPONENT, PUBLIC, AUTH_LEVELS, EXACT = false, REDIRECT = false } = route
+          const {
+            PATH,
+            COMPONENT: Component,
+            PUBLIC,
+            AUTH_LEVELS,
+            EXACT = false,
+            REDIRECT = false,
+          } = route
           return (
             <Route path={PATH} key={i} exact={EXACT}>
               {REDIRECT ? (
                 <Redirect to={REDIRECT!} />
+              ) : PUBLIC ? (
+                <Component />
               ) : (
-                <AuthGuard Component={COMPONENT} isRoutePublic={PUBLIC} authLevels={AUTH_LEVELS} />
+                <AuthGuard Component={Component} authLevels={AUTH_LEVELS!} />
               )}
             </Route>
           )

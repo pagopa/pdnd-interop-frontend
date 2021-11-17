@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import { useHistory } from 'react-router-dom'
 import { Chip, List, ListItem, Typography } from '@mui/material'
@@ -12,14 +12,24 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { USER_ROLE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
+import { useParties } from '../hooks/useParties'
 
 export function ChooseParty() {
   const { setParty, party, availableParties } = useContext(PartyContext)
   const history = useHistory()
+  const { fetchAvailablePartiesAttempt } = useParties()
+
+  useEffect(() => {
+    async function asyncFetchAvailablePartiesAttempt() {
+      await fetchAvailablePartiesAttempt()
+    }
+
+    asyncFetchAvailablePartiesAttempt()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const wrapUpdateActiveParty = (id: string) => (e?: any) => {
     if (e) e.preventDefault()
-    const newParty = availableParties.find((p) => p.institutionId === id) as Party
+    const newParty = availableParties!.find((p) => p.institutionId === id) as Party
     setParty(newParty)
     storageWrite('currentParty', newParty, 'object')
   }
@@ -33,7 +43,11 @@ export function ChooseParty() {
     history.push(DESTINATIONS[party?.platformRole!])
   }
 
-  return availableParties.length > 0 ? (
+  if (!availableParties) {
+    return null
+  }
+
+  return availableParties!.length > 0 ? (
     <React.Fragment>
       <StyledIntro sx={{ textAlign: 'center', mx: 'auto' }}>
         {{
@@ -57,9 +71,9 @@ export function ChooseParty() {
             textAlign: 'center',
           }}
         >
-          {availableParties && (
+          {availableParties!.length > 0 && (
             <List sx={{ height: 240, overflow: 'auto' }} component="ul">
-              {availableParties.map((p, i) => {
+              {availableParties!.map((p, i) => {
                 const disabled = p.status === 'pending' || p.status === ('Pending' as any)
                 const selected = p.institutionId === party?.institutionId
                 return (
