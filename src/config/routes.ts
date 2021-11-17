@@ -116,7 +116,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
   PROVIDE_ESERVICE_EDIT: {
     PATH: '/erogazione/e-service/:eserviceId/:descriptorId',
     EXACT: false,
-    LABEL: 'Ispeziona e-service',
+    LABEL: 'Gestisci o visualizza e-service',
     COMPONENT: EServiceGate,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'api'],
@@ -132,7 +132,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
   PROVIDE_AGREEMENT_EDIT: {
     PATH: '/erogazione/accordi/:id',
     EXACT: false,
-    LABEL: 'Modifica accordo',
+    LABEL: 'Gestisci accordo',
     COMPONENT: AgreementEdit,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
@@ -156,7 +156,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
   PROVIDE_OPERATOR_EDIT: {
     PATH: '/erogazione/operatori/:id',
     EXACT: false,
-    LABEL: 'Modifica operatore API',
+    LABEL: 'Gestisci operatore API',
     COMPONENT: UserEdit,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
@@ -205,7 +205,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
   SUBSCRIBE_CLIENT_OPERATOR_EDIT: {
     PATH: '/fruizione/client/:id/operatori/:operatorId',
     EXACT: false,
-    LABEL: 'Modifica operatore',
+    LABEL: 'Gestisci operatore del client',
     COMPONENT: UserEdit,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'security'],
@@ -221,7 +221,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
   SUBSCRIBE_CLIENT_EDIT: {
     PATH: '/fruizione/client/:id',
     EXACT: true,
-    LABEL: 'Modifica client',
+    LABEL: 'Gestisci client',
     COMPONENT: ClientEdit,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'security'],
@@ -237,7 +237,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
   SUBSCRIBE_AGREEMENT_EDIT: {
     PATH: '/fruizione/accordi/:id',
     EXACT: false,
-    LABEL: 'Modifica accordo',
+    LABEL: 'Gestisci accordo',
     COMPONENT: AgreementEdit,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],

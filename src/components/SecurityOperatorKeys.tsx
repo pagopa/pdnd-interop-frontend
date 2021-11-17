@@ -13,6 +13,7 @@ import { Box } from '@mui/system'
 import { Typography } from '@mui/material'
 import { ROUTES } from '../config/routes'
 import { useSecurityOperatorKeyDialog } from '../hooks/useSecurityOperatorKeyDialog'
+import { InlineClipboard } from './Shared/InlineClipboard'
 
 type SecurityOperatorKeysProps = {
   clientId: string
@@ -88,11 +89,11 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
     const actions: ActionProps[] = [
       {
         onClick: wrapDownloadKey(key.kid),
-        label: 'Scarica chiave',
+        label: 'Scarica',
       },
       {
         onClick: wrapActionInDialog(wrapDeleteKey(key.kid), 'OPERATOR_SECURITY_KEY_DELETE'),
-        label: 'Cancella chiave',
+        label: 'Elimina',
       },
     ]
 
@@ -102,9 +103,22 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
   return (
     <React.Fragment>
       {user?.taxCode === userData.taxCode && !key && (
-        <StyledButton sx={{ mb: 2 }} onClick={openDialog} variant="contained">
-          Carica nuova chiave
-        </StyledButton>
+        <React.Fragment>
+          <StyledButton sx={{ mb: 2 }} onClick={openDialog} variant="contained">
+            Carica nuova chiave
+          </StyledButton>
+          <Typography sx={{ mt: 2 }}>
+            Per maggiori dettagli,{' '}
+            <StyledLink
+              to={ROUTES.SECURITY_KEY_GUIDE.PATH}
+              title="Vai alla guida per la creazione delle chiavi di sicurezza"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              consulta la guida
+            </StyledLink>
+          </Typography>
+        </React.Fragment>
       )}
 
       {key ? (
@@ -129,30 +143,18 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
               ))}
             </Box>
           </Box>
-          <Box sx={{ mt: 2 }}>
+          <Box sx={{ mt: 6 }}>
             <DescriptionBlock label="Id del client">
-              <span>{clientId}</span>
+              <InlineClipboard text={clientId} successTooltipText="Id copiato correttamente" />
             </DescriptionBlock>
             <DescriptionBlock label="Id della chiave">
-              <span>{key.key.kid}</span>
+              <InlineClipboard text={key.key.kid} successTooltipText="Id copiato correttamente" />
             </DescriptionBlock>
           </Box>
         </React.Fragment>
       ) : (
         <Typography>Nessuna chiave presente</Typography>
       )}
-
-      <Typography sx={{ mt: 2 }}>
-        Per maggiori dettagli,{' '}
-        <StyledLink
-          to={ROUTES.SECURITY_KEY_GUIDE.PATH}
-          title="Vai alla guida per la creazione delle chiavi di sicurezza"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          consulta la guida
-        </StyledLink>
-      </Typography>
     </React.Fragment>
   )
 }
