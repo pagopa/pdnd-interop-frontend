@@ -30,6 +30,7 @@ export const useAsyncFetch = <T, U = T>(
   const [contextualLoadingText, setContextualLoadingText] = useState<string | null>(null)
   const [data, setData] = useState<U>(defaultValue)
   const [error, setError] = useState<AxiosError<any>>()
+  const [isBeforeMount, setIsBeforeMount] = useState(true)
 
   useEffect(() => {
     let isMounted = true
@@ -38,6 +39,8 @@ export const useAsyncFetch = <T, U = T>(
       const setLoadingText =
         loaderType === 'global' ? setGlobalLoadingText : setContextualLoadingText
       setLoadingText(loadingTextLabel)
+
+      setIsBeforeMount(false)
 
       const response = await fetchWithLogs(requestConfig)
 
@@ -50,11 +53,7 @@ export const useAsyncFetch = <T, U = T>(
       }
     }
 
-    // There may be a lag in retrieving the party, but most requests make use of it
-    // So make sure you have it before fetching data
-    if (party !== null) {
-      asyncFetchWithLogs()
-    }
+    asyncFetchWithLogs()
 
     return () => {
       isMounted = false
@@ -63,9 +62,11 @@ export const useAsyncFetch = <T, U = T>(
     // If the user changes party, fresh data should be fetched
   }, [party, ...useEffectDeps]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  return {
-    loadingText: loaderType === 'global' ? globalLoadingText : contextualLoadingText,
-    data,
-    error,
-  }
+  const loadingText = loaderType === 'global' ? globalLoadingText : contextualLoadingText
+  // loadingText is not enough to determine whether the component is loading,
+  // because before the component mounts it is impossible to set the loadingText.
+  // To account for this lag, the isBeforeMount flag tells whether the request has
+  // not started it. The two together give a reliable isItReallyLoading flag
+  const isItReallyLoading = loadingText || isBeforeMount
+  return { loadingText, data, error, isItReallyLoading }
 }

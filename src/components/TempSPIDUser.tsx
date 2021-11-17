@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import { useForm } from 'react-hook-form'
 import { useHistory, useLocation } from 'react-router'
-import { useLogin } from '../hooks/useLogin'
 import { StyledIntro } from './Shared/StyledIntro'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
@@ -11,6 +10,7 @@ import { NARROW_MAX_WIDTH } from '../lib/constants'
 import { User, UserOnCreate } from '../../types'
 import { ROUTES } from '../config/routes'
 import { PlatformUserControlledForm } from './Shared/PlatformUserControlledForm'
+import { useLogin } from '../hooks/useLogin'
 
 export function TempSPIDUser() {
   const {
@@ -18,17 +18,22 @@ export function TempSPIDUser() {
     control,
     formState: { errors },
   } = useForm()
-  const { setTestSPIDUser } = useLogin()
+  const { doLogin } = useLogin()
   const history = useHistory()
   const location = useLocation()
 
   const onSubmit = (data: Record<string, Partial<UserOnCreate>>) => {
-    setTestSPIDUser({
+    const userData = {
       ...data['spid'],
       role: 'Manager',
       platformRole: 'admin',
       status: 'active',
-    } as User)
+    } as User
+
+    // Log the user in
+    doLogin(userData)
+    // Go to the party choice page
+    history.push(ROUTES.CHOOSE_PARTY.PATH)
   }
 
   // If the user hasn't accepted the privacy policy, go back to login
