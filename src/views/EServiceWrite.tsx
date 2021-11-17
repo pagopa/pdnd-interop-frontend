@@ -45,15 +45,19 @@ const STEPS: (StepperStep & { intro: { title: string; description?: string } })[
 ]
 
 export type EServiceWriteProps = {
-  fetchedDataMaybe: EServiceReadType | undefined
+  fetchedDataMaybe?: EServiceReadType
+  initialStepIndexDestination?: number
 }
 
 export type EServiceWriteStepProps = {
   fetchedData: EServiceReadType
 }
 
-export function EServiceWrite({ fetchedDataMaybe }: EServiceWriteProps) {
-  const [activeStep, setActiveStep] = useState(0)
+export function EServiceWrite({
+  fetchedDataMaybe,
+  initialStepIndexDestination,
+}: EServiceWriteProps) {
+  const [activeStep, setActiveStep] = useState(initialStepIndexDestination || 0)
   const history = useHistory()
 
   // Handles which step to go to after a "creation" action has been performed
