@@ -53,7 +53,7 @@ export const useSecurityOperatorKeyDialog = ({
       },
       proceedCallback: async (data: { alg: string; key: string }) => {
         // Encode public key
-        const dataToPost = { ...data, use: 'sig', clientId }
+        const dataToPost: NewPublicKey = { ...data, use: 'sig', clientId }
         dataToPost.key = btoa(dataToPost.key)
 
         await runAction(
