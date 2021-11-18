@@ -1,1 +1,1 @@
-export const getKeys = Object.keys as <T extends object>(obj: T) => Array<keyof T>
+export const getKeys = Object.keys as <T extends Record<string, unknown>>(obj: T) => Array<keyof T>
