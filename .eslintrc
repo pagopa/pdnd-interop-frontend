@@ -19,7 +19,8 @@
     "plugin:prettier/recommended"
   ],
   "rules": {
-    // Sources of errors
+    // TypeScript does the type checking. Turning this off avoids
+    // some false positives with the FunctionComponent generics
     "react/prop-types": "off",
     // Sources of warnings
     "@typescript-eslint/no-explicit-any": "off",
