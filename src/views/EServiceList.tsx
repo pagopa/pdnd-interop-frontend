@@ -58,7 +58,7 @@ export function EServiceList() {
 
   const wrapDeleteDraft = (eserviceId: string, descriptorId?: string) => async (_: any) => {
     let endpoint: ApiEndpointKey = 'ESERVICE_DELETE'
-    let endpointParams: any = { eserviceId }
+    const endpointParams: any = { eserviceId }
 
     if (descriptorId) {
       endpoint = 'ESERVICE_VERSION_DELETE'

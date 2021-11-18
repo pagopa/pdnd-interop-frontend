@@ -42,39 +42,43 @@ export function PartySelect() {
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
         >
-          <Box component="span" sx={{ textAlign: 'left' }}>
-            <Typography color="inherit" component="span" variant="body2" sx={{ fontWeight: 700 }}>
-              {party!.description}
-            </Typography>
-            <br />
-            <Typography color="inherit" component="span" variant="caption">
-              {USER_ROLE_LABEL[party!.role]}
-            </Typography>
-          </Box>
+          {party && (
+            <Box component="span" sx={{ textAlign: 'left' }}>
+              <Typography color="inherit" component="span" variant="body2" sx={{ fontWeight: 700 }}>
+                {party.description}
+              </Typography>
+              <br />
+              <Typography color="inherit" component="span" variant="caption">
+                {USER_ROLE_LABEL[party.role]}
+              </Typography>
+            </Box>
+          )}
 
           {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
         </StyledButton>
-        <Menu
-          PaperProps={{ style: { maxHeight: 220, width: 260 } }}
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{ 'aria-labelledby': 'party-menu-button' }}
-        >
-          {availableParties!.map((p, i) => {
-            return (
-              <MenuItem key={i} onClick={wrapUpdateActiveParty(p)} sx={{ display: 'block' }}>
-                <Typography component="span" variant="body2" sx={{ fontWeight: 700 }}>
-                  {p.description}
-                </Typography>
-                <br />
-                <Typography component="span" variant="caption">
-                  {USER_ROLE_LABEL[p.role]}
-                </Typography>
-              </MenuItem>
-            )
-          })}
-        </Menu>
+        {availableParties && (
+          <Menu
+            PaperProps={{ style: { maxHeight: 220, width: 260 } }}
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{ 'aria-labelledby': 'party-menu-button' }}
+          >
+            {availableParties.map((p, i) => {
+              return (
+                <MenuItem key={i} onClick={wrapUpdateActiveParty(p)} sx={{ display: 'block' }}>
+                  <Typography component="span" variant="body2" sx={{ fontWeight: 700 }}>
+                    {p.description}
+                  </Typography>
+                  <br />
+                  <Typography component="span" variant="caption">
+                    {USER_ROLE_LABEL[p.role]}
+                  </Typography>
+                </MenuItem>
+              )
+            })}
+          </Menu>
+        )}
       </Box>
     </React.Fragment>
   )

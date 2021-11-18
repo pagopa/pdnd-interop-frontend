@@ -43,23 +43,23 @@ export function RejectRegistration() {
     success: {
       img: { src: successIllustration, alt: 'Icona che rappresenta successo' },
       title: 'Congratulazioni',
-      description: [<Typography>La registrazione è stata cancellata correttamente</Typography>],
+      description: <Typography>La registrazione è stata cancellata correttamente</Typography>,
     },
     error: {
       img: { src: errorIllustration, alt: 'Icona che rappresenta errore' },
       title: 'Attenzione!',
-      description: [
+      description: (
         <Typography>
-          C'è stato un errore nel completamento della procedura. Per favore, riprova! Se non riesci
+          C’è stato un errore nel completamento della procedura. Per favore, riprova! Se non riesci
           a cancellarti, <InlineSupportLink />.
-        </Typography>,
-      ],
+        </Typography>
+      ),
     },
   }
 
   return !outcome ? (
     <LoadingOverlay loadingText="Stiamo cancellando la tua iscrizione" />
   ) : (
-    <MessageNoAction {...outcomeContent[outcome!]} />
+    <MessageNoAction {...outcomeContent[outcome]} />
   )
 }

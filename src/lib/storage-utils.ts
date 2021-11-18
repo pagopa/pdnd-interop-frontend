@@ -1,4 +1,4 @@
-type StorageValue = string | number | object
+type StorageValue = string | number | Record<string, unknown>
 type StorageValueType = 'string' | 'number' | 'object'
 
 export function storageDelete(key: string) {

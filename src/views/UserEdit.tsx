@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import { useLocation } from 'react-router-dom'
-import { ActionProps, ApiEndpointKey, User, UserStatus } from '../../types'
+import { ActionProps, ApiEndpointKey, ProviderOrSubscriber, User, UserStatus } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -25,6 +25,7 @@ type UserEndpoinParams =
 export function UserEdit() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
   const mode = useMode()
+  const currentMode = mode as ProviderOrSubscriber
   const { party } = useContext(PartyContext)
   const bits = getBits(useLocation())
   const taxCode = bits[bits.length - 1]
@@ -128,7 +129,7 @@ export function UserEdit() {
     const subscriberOnlyActions: UserActions = { active: [], suspended: [], pending: [] }
 
     const currentActions = { provider: providerOnlyActions, subscriber: subscriberOnlyActions }[
-      mode!
+      currentMode
     ]
 
     return mergeActions([sharedActions, currentActions], 'active')
@@ -153,19 +154,19 @@ export function UserEdit() {
 
         <DescriptionBlock label="Ruolo">
           <Typography component="span">
-            {userData?.role ? USER_ROLE_LABEL[userData!.role] : 'n/d'}
+            {userData?.role ? USER_ROLE_LABEL[userData.role] : 'n/d'}
           </Typography>
         </DescriptionBlock>
 
         <DescriptionBlock label="Permessi">
           <Typography component="span">
-            {userData?.platformRole ? USER_PLATFORM_ROLE_LABEL[userData!.platformRole] : 'n/d'}
+            {userData?.platformRole ? USER_PLATFORM_ROLE_LABEL[userData.platformRole] : 'n/d'}
           </Typography>
         </DescriptionBlock>
 
         <DescriptionBlock label="Stato dell'utenza sulla piattaforma">
           <Typography component="span">
-            {userData?.status ? USER_STATUS_LABEL[userData!.status] : 'n/d'}
+            {userData?.status ? USER_STATUS_LABEL[userData.status] : 'n/d'}
           </Typography>
         </DescriptionBlock>
 
@@ -202,7 +203,7 @@ export function UserEdit() {
 
           {clientId && !isEmpty(userData) && (
             <TabPanel value={activeTab} index={1}>
-              <SecurityOperatorKeys clientId={clientId} userData={userData!} />
+              <SecurityOperatorKeys clientId={clientId} userData={userData as User} />
             </TabPanel>
           )}
         </React.Fragment>

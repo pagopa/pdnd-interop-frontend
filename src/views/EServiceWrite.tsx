@@ -7,10 +7,10 @@ import { EServiceWriteStep2Version } from '../components/EServiceWriteStep2Versi
 import { EServiceWriteStep3Agreement } from '../components/EServiceWriteStep3Agreement'
 import { EServiceWriteStep4Documents } from '../components/EServiceWriteStep4Documents'
 import { StyledStepper } from '../components/Shared/StyledStepper'
-import { StyledIntro } from '../components/Shared/StyledIntro'
+import { StyledIntro, StyledIntroChildrenProps } from '../components/Shared/StyledIntro'
 import { Contained } from '../components/Shared/Contained'
 
-const STEPS: (StepperStep & { intro: { title: string; description?: string } })[] = [
+const STEPS: (StepperStep & { intro: StyledIntroChildrenProps })[] = [
   {
     label: 'Generale',
     component: EServiceWriteStep1General,

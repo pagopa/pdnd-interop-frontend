@@ -1,7 +1,11 @@
 import React from 'react'
 import { useLocation, useHistory } from 'react-router'
 import { Box } from '@mui/system'
-import { EServiceDocumentWrite, StepperStepComponentProps } from '../../types'
+import {
+  EServiceDescriptorRead,
+  EServiceDocumentWrite,
+  StepperStepComponentProps,
+} from '../../types'
 import { getBits } from '../lib/router-utils'
 import { ROUTES } from '../config/routes'
 import { useFeedback } from '../hooks/useFeedback'
@@ -25,13 +29,14 @@ export function EServiceWriteStep4Documents({
   const activeDescriptorId: string = bits.pop() as string
 
   const publishVersion = async (_: any) => {
+    const activeDescriptor = fetchedData.activeDescriptor as EServiceDescriptorRead
     await runActionWithDestination(
       {
         path: {
           endpoint: 'ESERVICE_VERSION_PUBLISH',
           endpointParams: {
             eserviceId: fetchedData.id,
-            descriptorId: fetchedData.activeDescriptor!.id,
+            descriptorId: activeDescriptor.id,
           },
         },
       },
@@ -40,13 +45,14 @@ export function EServiceWriteStep4Documents({
   }
 
   const deleteVersion = async (_: any) => {
+    const activeDescriptor = fetchedData.activeDescriptor as EServiceDescriptorRead
     await runActionWithDestination(
       {
         path: {
           endpoint: 'ESERVICE_VERSION_DELETE',
           endpointParams: {
             eserviceId: fetchedData.id,
-            descriptorId: fetchedData.activeDescriptor!.id,
+            descriptorId: activeDescriptor.id,
           },
         },
       },
@@ -55,13 +61,14 @@ export function EServiceWriteStep4Documents({
   }
 
   const deleteDescriptorDocument = async (documentId: string) => {
+    const activeDescriptor = fetchedData.activeDescriptor as EServiceDescriptorRead
     const { outcome, response } = await runAction(
       {
         path: {
           endpoint: 'ESERVICE_VERSION_DELETE_DOCUMENT',
           endpointParams: {
             eserviceId: fetchedData.id,
-            descriptorId: fetchedData.activeDescriptor!.id,
+            descriptorId: activeDescriptor.id,
             documentId,
           },
         },
@@ -76,15 +83,16 @@ export function EServiceWriteStep4Documents({
     const formData = new FormData()
     formData.append('kind', kind)
     formData.append('description', description || '')
-    formData.append('doc', doc!)
+    formData.append('doc', doc)
 
+    const activeDescriptor = fetchedData.activeDescriptor as EServiceDescriptorRead
     const { outcome, response } = await runAction(
       {
         path: {
           endpoint: 'ESERVICE_VERSION_POST_DOCUMENT',
           endpointParams: {
             eserviceId: fetchedData.id,
-            descriptorId: fetchedData.activeDescriptor!.id,
+            descriptorId: activeDescriptor.id,
           },
         },
         config: {

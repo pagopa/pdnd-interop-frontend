@@ -31,7 +31,7 @@ export const useExistingAttributeDialog = ({ add, attributeKey }: ExistingAttrib
   const openDialog = () => {
     setDialog({
       title: 'Aggiungi attributo esistente',
-      Contents: ({ control, errors, watch, getValues }: any) => {
+      Contents: function Contents({ control, errors, watch, getValues }: any) {
         const [selected, setSelected] = useState([])
         const watchSelection = watch('selection')
 
@@ -42,7 +42,7 @@ export const useExistingAttributeDialog = ({ add, attributeKey }: ExistingAttrib
 
         return (
           <React.Fragment>
-            <Typography>Se selezioni più di un attributo verrà trattato come "gruppo"</Typography>
+            <Typography>Se selezioni più di un attributo verrà trattato come “gruppo”</Typography>
 
             <Box sx={{ mt: 3 }}>
               <StyledInputControlledAsyncAutocomplete

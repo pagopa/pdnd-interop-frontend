@@ -29,7 +29,7 @@ export function ChooseParty() {
 
   const wrapUpdateActiveParty = (id: string) => (e?: any) => {
     if (e) e.preventDefault()
-    const newParty = availableParties!.find((p) => p.institutionId === id) as Party
+    const newParty = (availableParties as Party[]).find((p) => p.institutionId === id) as Party
     setParty(newParty)
     storageWrite('currentParty', newParty, 'object')
   }
@@ -40,21 +40,23 @@ export function ChooseParty() {
       api: ROUTES.PROVIDE.PATH,
       security: ROUTES.SUBSCRIBE_CLIENT_LIST.PATH,
     }
-    history.push(DESTINATIONS[party?.platformRole!])
+    if (party) {
+      history.push(DESTINATIONS[party.platformRole])
+    }
   }
 
   if (!availableParties) {
     return null
   }
 
-  return availableParties!.length > 0 ? (
+  return availableParties.length > 0 ? (
     <React.Fragment>
       <StyledIntro sx={{ textAlign: 'center', mx: 'auto' }}>
         {{
           title: "Seleziona l'ente per cui accedi",
           description: (
             <>
-              Potrai in ogni momento cambiare Ente/ruolo anche all'interno dell'interfaccia di
+              Potrai in ogni momento cambiare Ente/ruolo anche all’interno dell’interfaccia di
               gestione dei prodotti
             </>
           ),
@@ -71,9 +73,9 @@ export function ChooseParty() {
             textAlign: 'center',
           }}
         >
-          {availableParties!.length > 0 && (
+          {availableParties.length > 0 && (
             <List sx={{ height: 240, overflow: 'auto' }} component="ul">
-              {availableParties!.map((p, i) => {
+              {availableParties.map((p, i) => {
                 const disabled = p.status === 'pending' || p.status === ('Pending' as any)
                 const selected = p.institutionId === party?.institutionId
                 return (

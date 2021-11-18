@@ -27,7 +27,7 @@ export const useSecurityOperatorKeyDialog = ({
   const openDialog = () => {
     setDialog({
       title: 'Carica nuova chiave pubblica',
-      Contents: ({ control, errors }: any) => {
+      Contents: function Contents({ control, errors }: any) {
         return (
           <React.Fragment>
             <StyledInputControlledSelect
@@ -51,10 +51,10 @@ export const useSecurityOperatorKeyDialog = ({
           </React.Fragment>
         )
       },
-      proceedCallback: async (data: Partial<NewPublicKey>) => {
+      proceedCallback: async (data: { alg: string; key: string }) => {
         // Encode public key
-        const dataToPost = { ...data, use: 'sig', clientId }
-        dataToPost.key = btoa(dataToPost.key!)
+        const dataToPost: NewPublicKey = { ...data, use: 'sig', clientId }
+        dataToPost.key = btoa(dataToPost.key)
 
         await runAction(
           {

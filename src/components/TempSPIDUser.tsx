@@ -65,13 +65,13 @@ export function TempSPIDUser() {
                 title: 'Inserisci dati SPID',
                 description: (
                   <React.Fragment>
-                    Per questa PoC, per favore inserire manualmente i dati dell'utente SPID per il
+                    Per questa PoC, per favore inserire manualmente i dati dell’utente SPID per il
                     quale effettuare accesso alla piattaforma.
                     <br />
                     <br />
                     Attenzione: se si intende fare più test nel tempo, si consiglia di conservare il
                     codice fiscale inserito per questo finto login, in modo da poter associare
-                    l'utente a tutte le operazioni che ha già effettuato sulla piattaforma
+                    l’utente a tutte le operazioni che ha già effettuato sulla piattaforma
                   </React.Fragment>
                 ),
               }}

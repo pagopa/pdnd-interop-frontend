@@ -62,7 +62,8 @@ export function Onboarding() {
 
     setLoading(true)
 
-    const formData = { institutionId: party!.id, users: Object.values(usersObject!) }
+    if (!party) return
+    const formData = { institutionId: party.id, users: Object.values(usersObject) }
 
     const postLegalsResponse = await fetchWithLogs({
       path: { endpoint: 'ONBOARDING_POST_LEGALS' },
@@ -95,34 +96,38 @@ export function Onboarding() {
     success: {
       img: { src: successIllustration, alt: 'Icona che rappresenta successo' },
       title: 'La tua richiesta è stata inviata con successo',
-      description: [
-        <Typography sx={{ mb: 2 }}>
-          Per completare la registrazione, segui le istruzioni che trovi nella mail inviata a{' '}
-          <strong>{party?.digitalAddress}</strong>
-        </Typography>,
-        <Typography>
-          Se non hai ricevuto nessuna mail, attendi qualche minuto e verifica anche tra lo spam.
-          <br />
-          Se ancora non arriva, <InlineSupportLink />.
-        </Typography>,
-        <StyledButton sx={{ mt: 6 }} size="small" variant="contained" onClick={goHome}>
-          Torna al portale
-        </StyledButton>,
-      ],
+      description: (
+        <React.Fragment>
+          <Typography sx={{ mb: 2 }}>
+            Per completare la registrazione, segui le istruzioni che trovi nella mail inviata a{' '}
+            <strong>{party?.digitalAddress}</strong>
+          </Typography>{' '}
+          <Typography>
+            Se non hai ricevuto nessuna mail, attendi qualche minuto e verifica anche tra lo spam.
+            <br />
+            Se ancora non arriva, <InlineSupportLink />.
+          </Typography>
+          <StyledButton sx={{ mt: 6 }} size="small" variant="contained" onClick={goHome}>
+            Torna al portale
+          </StyledButton>
+        </React.Fragment>
+      ),
     },
     error: {
       img: { src: errorIllustration, alt: 'Icona che rappresenta errore' },
       title: 'Spiacenti, qualcosa è andato storto',
-      description: [
-        <Typography>
-          A causa di un errore del sistema non è possibile completare la procedura.
-          <br />
-          Ti chiediamo di riprovare più tardi.
-        </Typography>,
-        <StyledButton sx={{ mt: 6 }} size="small" variant="contained" onClick={goHome}>
-          Torna al portale
-        </StyledButton>,
-      ],
+      description: (
+        <React.Fragment>
+          <Typography>
+            A causa di un errore del sistema non è possibile completare la procedura.
+            <br />
+            Ti chiediamo di riprovare più tardi.
+          </Typography>
+          <StyledButton sx={{ mt: 6 }} size="small" variant="contained" onClick={goHome}>
+            Torna al portale
+          </StyledButton>
+        </React.Fragment>
+      ),
     },
   }
 
