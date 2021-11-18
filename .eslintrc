@@ -20,7 +20,6 @@
   ],
   "rules": {
     // Sources of errors
-    "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
     "@typescript-eslint/ban-types": "off",
     "react/no-unescaped-entities": "off",
     "react/jsx-key": "off",
