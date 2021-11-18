@@ -36,7 +36,9 @@
     "build": "react-scripts build",
     "postbuild": "node ./scripts/absolute-urls.js",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint . -c .eslintrc --ext .ts,.tsx --fix",
+    "format": "prettier \"./**/*.{ts,tsx}\" --write"
   },
   "eslintConfig": {
     "extends": [
@@ -55,5 +57,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.29.1",
+    "@typescript-eslint/parser": "^4.29.1",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "prettier": "^2.4.1"
   }
 }
