@@ -27,7 +27,7 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
   loadingText,
   headData,
   children,
-  pagination = false,
+  // pagination = false,
   data,
   noDataLabel = 'Questa ricerca non ha prodotto risultati',
   error,
@@ -35,7 +35,7 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
   if (error) {
     return (
       <Box sx={{ my: 4, p: 2 }} bgcolor="error.main" color="common.white">
-        C'è stato un errore, e non è stato possibile reperire le informazioni richieste. Per favore,
+        C’è stato un errore, e non è stato possibile reperire le informazioni richieste. Per favore,
         riprova più tardi
       </Box>
     )

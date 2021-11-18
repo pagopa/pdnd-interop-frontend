@@ -76,7 +76,7 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
   }
 
   // If the route can be accessed, display the component
-  const userCanAccess = authLevels === 'any' || (party && authLevels.includes(party!.platformRole))
+  const userCanAccess = authLevels === 'any' || (party && authLevels.includes(party.platformRole))
   if (userCanAccess) {
     return <Component />
   }

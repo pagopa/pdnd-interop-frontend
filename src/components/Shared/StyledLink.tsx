@@ -7,7 +7,7 @@ type StyledLinkProps = {
   component?: any
 }
 
-export const StyledLink: FunctionComponent<StyledLinkProps & LinkProps> = React.forwardRef(
+const StyledLinkComponent: FunctionComponent<StyledLinkProps & LinkProps> = React.forwardRef(
   ({ children, to, component = RouterLink, ...props }, ref) => {
     return (
       <MUILink component={component} to={to} {...props} ref={ref}>
@@ -16,3 +16,7 @@ export const StyledLink: FunctionComponent<StyledLinkProps & LinkProps> = React.
     )
   }
 )
+
+StyledLinkComponent.displayName = 'StyledButton'
+
+export const StyledLink = StyledLinkComponent

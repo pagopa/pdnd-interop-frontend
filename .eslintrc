@@ -1,0 +1,46 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    // TypeScript does the type checking. Turning this off avoids
+    // some false positives with the FunctionComponent generics
+    "react/prop-types": "off",
+    // This pattern avoids eslint checks for arguments that begin
+    // with an underscore, while keeping the no-unused-vars rule.
+    // It is mostly used in unused function arguments, such as
+    // event handlers where the event is not needed, eg.
+    // onClick: (_: React.SyntheticEvent) => { /* do something */ }
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    // Module boundary means input and output for all exports must
+    // be explicit. This also means that every exported React Component
+    // should explicitly have a : JSX.Element as a return type.
+    // This is too bothersome. So, turning this rule off
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    // This will take forever to remove. Every now and then, when I
+    // have time, I will remove all the anys in the code and ultimately
+    // turn this off, one day. As of today, 18/11/2021, there are 167 violations
+    "@typescript-eslint/no-explicit-any": "off"
+  }
+}

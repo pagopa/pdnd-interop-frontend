@@ -4,9 +4,11 @@ import has from 'lodash/has'
 import {
   AttributeKey,
   BackendAttribute,
+  EServiceDescriptorRead,
   EServiceFlatReadType,
   EServiceReadType,
   GroupBackendAttribute,
+  ProviderOrSubscriber,
   SingleBackendAttribute,
 } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
@@ -40,6 +42,8 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
   const { runAction } = useFeedback()
   const { party } = useContext(PartyContext)
   const mode = useMode()
+  const currentMode = mode as ProviderOrSubscriber
+  const activeDescriptor = data.activeDescriptor as EServiceDescriptorRead
 
   const DESCRIPTIONS = {
     provider: "Nota: questa versione dell'e-service non è più modificabile",
@@ -58,14 +62,14 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
    */
 
   // Get all documents actual URL
-  const wrapDownloadDocument = (documentId: string) => async (e: any) => {
+  const wrapDownloadDocument = (documentId: string) => async (_: any) => {
     const { response, outcome } = await runAction(
       {
         path: {
           endpoint: 'ESERVICE_VERSION_DOWNLOAD_DOCUMENT',
           endpointParams: {
             eserviceId: data.id,
-            descriptorId: data.activeDescriptor!.id,
+            descriptorId: activeDescriptor.id,
             documentId,
           },
         },
@@ -91,15 +95,15 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
       const isSingle = has(attribute, 'single')
 
       const labels = isSingle
-        ? [(attribute as SingleBackendAttribute).single!]
-        : (attribute as GroupBackendAttribute).group!
+        ? [(attribute as SingleBackendAttribute).single]
+        : (attribute as GroupBackendAttribute).group
 
       let summary = ''
       let details: string | JSX.Element = ''
       if (labels.length === 1) {
         const { name, description, explicitAttributeVerification } = labels[0]
         summary = `${name} ${explicitAttributeVerification ? ' (verifica richiesta)' : ''}`
-        details = description!
+        details = description
       } else {
         summary = `${labels.map(({ name }) => name).join(' oppure ')}${
           labels[0].explicitAttributeVerification ? ' (verifica richiesta)' : ''
@@ -142,7 +146,7 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
 
   return (
     <React.Fragment>
-      <StyledIntro>{{ title: data.name, description: DESCRIPTIONS[mode!] }}</StyledIntro>
+      <StyledIntro>{{ title: data.name, description: DESCRIPTIONS[currentMode] }}</StyledIntro>
 
       <DescriptionBlock label="Descrizione dell'e-service">
         <Typography component="span">{data.description}</Typography>
@@ -153,17 +157,15 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
       </DescriptionBlock>
 
       <DescriptionBlock label="Versione">
-        <Typography component="span">{data.activeDescriptor!.version}</Typography>
+        <Typography component="span">{activeDescriptor.version}</Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Stato della versione">
-        <Typography component="span">
-          {ESERVICE_STATUS_LABEL[data.activeDescriptor!.status]}
-        </Typography>
+        <Typography component="span">{ESERVICE_STATUS_LABEL[activeDescriptor.status]}</Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Audience">
-        <Typography component="span">{data.activeDescriptor!.audience.join(', ')}</Typography>
+        <Typography component="span">{activeDescriptor.audience.join(', ')}</Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Tecnologia">
@@ -178,7 +180,7 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
 
       <DescriptionBlock label="Durata del voucher dall'attivazione">
         <Typography component="span">
-          {minutesToHHMMSS(data.activeDescriptor!.voucherLifespan)} (hh:mm:ss)
+          {minutesToHHMMSS(activeDescriptor.voucherLifespan)} (hh:mm:ss)
         </Typography>
       </DescriptionBlock>
 
@@ -188,20 +190,20 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
         </a>
       </DescriptionBlock>
 
-      {data.activeDescriptor!.interface && (
+      {activeDescriptor.interface && (
         <DescriptionBlock label="Interfaccia">
           <StyledLink
             component="button"
-            onClick={wrapDownloadDocument(data.activeDescriptor!.interface!.id)}
+            onClick={wrapDownloadDocument(activeDescriptor.interface.id)}
           >
             <Typography component="span">Scarica il documento di interfaccia</Typography>
           </StyledLink>
         </DescriptionBlock>
       )}
 
-      {data.activeDescriptor!.docs.length > 0 && (
+      {Boolean(activeDescriptor.docs.length > 0) && (
         <DescriptionBlock label="Documentazione">
-          {data.activeDescriptor!.docs.map((d, i) => (
+          {activeDescriptor.docs.map((d, i) => (
             <Box
               sx={{
                 display: 'flex',

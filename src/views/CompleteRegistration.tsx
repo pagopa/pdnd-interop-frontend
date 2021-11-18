@@ -53,21 +53,21 @@ export function CompleteRegistration() {
     success: {
       img: { src: successIllustration, alt: 'Icona che rappresenta successo' },
       title: 'La registrazione è completa!',
-      description: [
+      description: (
         <Typography>
           <StyledLink to="/">Clicca qui</StyledLink> per iniziare
-        </Typography>,
-      ],
+        </Typography>
+      ),
     },
     error: {
       img: { src: errorIllustration, alt: 'Icona che rappresenta errore' },
       title: 'Non è stato possibile completare la procedura!',
-      description: [
+      description: (
         <Typography>
-          Assicurati che il file caricato sia l'accordo firmato, e che la firma digitale appartenga
+          Assicurati che il file caricato sia l’accordo firmato, e che la firma digitale appartenga
           al Legale Rappresentante. Se credi sia un errore, <InlineSupportLink />.
-        </Typography>,
-      ],
+        </Typography>
+      ),
     },
   }
 

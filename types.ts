@@ -47,7 +47,7 @@ export type RouteConfig = BasicRouteConfig & {
 
 export type Image = { src: string; alt: string }
 export type RequestOutcome = 'success' | 'error'
-export type RequestOutcomeMessage = { title: string; description: JSX.Element[]; img: Image }
+export type RequestOutcomeMessage = { title: string; description: JSX.Element; img: Image }
 export type RequestOutcomeOptions = Record<RequestOutcome, RequestOutcomeMessage>
 
 /*

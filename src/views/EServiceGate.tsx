@@ -1,7 +1,7 @@
 import React from 'react'
 import isEmpty from 'lodash/isEmpty'
 import { useLocation } from 'react-router-dom'
-import { EServiceNoDescriptorId, EServiceReadType } from '../../types'
+import { EServiceDescriptorRead, EServiceNoDescriptorId, EServiceReadType } from '../../types'
 import { NotFound } from './NotFound'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { getBits, isSamePath } from '../lib/router-utils'
@@ -37,7 +37,9 @@ export function EServiceGate() {
   const { back, forward, activeStep } = useActiveStep({ data })
 
   const isCreatePage = isSamePath(location.pathname, ROUTES.PROVIDE_ESERVICE_CREATE.PATH)
-  const isDraft = isEmpty(data.activeDescriptor) || data.activeDescriptor!.status === 'draft'
+  const isDraft =
+    isEmpty(data.activeDescriptor) ||
+    (data.activeDescriptor as EServiceDescriptorRead).status === 'draft'
   const isEditable = isCreatePage || isDraft
 
   if (error && !isCreatePage) {

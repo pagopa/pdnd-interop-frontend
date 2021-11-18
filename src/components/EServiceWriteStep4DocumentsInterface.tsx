@@ -49,7 +49,11 @@ export function EServiceWriteStep4DocumentsInterface({
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const deletePreviousInterfaceDoc = async () => {
-    const { outcome } = await deleteDescriptorDocument(readDoc!.id)
+    if (!readDoc) {
+      return
+    }
+
+    const { outcome } = await deleteDescriptorDocument(readDoc.id)
 
     if (outcome === 'success') {
       setReadDoc(undefined)
@@ -73,10 +77,11 @@ export function EServiceWriteStep4DocumentsInterface({
     }
   }
 
+  const activeDescriptor = data.activeDescriptor as EServiceDescriptorRead
   return readDoc ? (
     <StyledDeleteableDocument
       eserviceId={data.id}
-      descriptorId={data.activeDescriptor!.id}
+      descriptorId={activeDescriptor.id}
       readable={readDoc}
       deleteDocument={deletePreviousInterfaceDoc}
     />

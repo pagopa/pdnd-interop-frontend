@@ -7,6 +7,8 @@ import {
   SingleBackendAttribute,
   GroupBackendAttribute,
   ActionProps,
+  Party,
+  ProviderOrSubscriber,
 } from '../../types'
 import { ROUTES } from '../config/routes'
 import { AGREEMENT_STATUS_LABEL } from '../config/labels'
@@ -52,11 +54,12 @@ export function AgreementEdit() {
    * List of possible actions for the user to perform
    */
   const activate = async () => {
+    const { partyId } = party as Party
     await runAction(
       {
         path: {
           endpoint: 'AGREEMENT_ACTIVATE',
-          endpointParams: { agreementId, partyId: party!.partyId },
+          endpointParams: { agreementId, partyId },
         },
       },
       { suppressToast: false }
@@ -64,11 +67,12 @@ export function AgreementEdit() {
   }
 
   const suspend = async () => {
+    const { partyId } = party as Party
     await runAction(
       {
         path: {
           endpoint: 'AGREEMENT_SUSPEND',
-          endpointParams: { agreementId, partyId: party!.partyId },
+          endpointParams: { agreementId, partyId },
         },
       },
       { suppressToast: false }
@@ -93,7 +97,7 @@ export function AgreementEdit() {
       {
         path: {
           endpoint: 'AGREEMENT_VERIFY_ATTRIBUTE',
-          endpointParams: { agreementId: data!.id, attributeId },
+          endpointParams: { agreementId: data.id, attributeId },
         },
       },
       { suppressToast: false }
@@ -157,8 +161,9 @@ export function AgreementEdit() {
       inactive: [],
     }
 
+    const currentMode = mode as ProviderOrSubscriber
     const currentActions = { provider: providerOnlyActions, subscriber: subscriberOnlyActions }[
-      mode!
+      currentMode
     ]
 
     const status = data ? getAgreementStatus(data, mode) : 'suspended'
@@ -193,7 +198,7 @@ export function AgreementEdit() {
               <Typography component="span">verificato</Typography>
             </Box>
           ) : (
-            <Typography component="span">rifiutato dall'erogatore</Typography>
+            <Typography component="span">rifiutato dall’erogatore</Typography>
           )
         ) : mode === 'provider' ? (
           <StyledButton variant="contained" onClick={wrapVerify(id)}>
@@ -234,7 +239,7 @@ export function AgreementEdit() {
             >
               versione più recente
             </StyledLink>
-            ; per attivarla, aggiorna l'accordo di interoperabilità)
+            ; per attivarla, aggiorna l’accordo di interoperabilità)
           </React.Fragment>
         ) : null}
       </DescriptionBlock>

@@ -29,15 +29,19 @@ export function Profile() {
 
       <DescriptionBlock label="Attualmente stai operando per l'ente">
         <Typography component="span">
-          {party?.description} ({party ? USER_ROLE_LABEL[party!.role] : ''})
+          {party?.description} ({party ? USER_ROLE_LABEL[party.role] : ''})
         </Typography>
       </DescriptionBlock>
 
-      <DescriptionBlock label="Sei registrato su questa piattaforma per gli enti">
-        <Typography component="span">
-          {availableParties!.map((p) => `${p.description} (${USER_ROLE_LABEL[p.role]})`).join(', ')}
-        </Typography>
-      </DescriptionBlock>
+      {availableParties && (
+        <DescriptionBlock label="Sei registrato su questa piattaforma per gli enti">
+          <Typography component="span">
+            {availableParties
+              .map((p) => `${p.description} (${USER_ROLE_LABEL[p.role]})`)
+              .join(', ')}
+          </Typography>
+        </DescriptionBlock>
+      )}
     </React.Fragment>
   )
 }

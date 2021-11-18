@@ -177,7 +177,7 @@ export function ClientEdit() {
                     id: data.agreement.id,
                   })}
                 >
-                  Vai alla pagina dell'accordo
+                  Vai alla pagina dell’accordo
                 </StyledLink>{' '}
                 (da lì potrai aggiornarlo)
               </Typography>

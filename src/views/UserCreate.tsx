@@ -2,10 +2,10 @@ import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { useLocation } from 'react-router-dom'
 import { useMode } from '../hooks/useMode'
-import { ProviderOrSubscriber, UserOnCreate } from '../../types'
+import { Party, ProviderOrSubscriber, UserOnCreate } from '../../types'
 import { PartyContext } from '../lib/context'
 import { buildDynamicRoute, parseSearch } from '../lib/router-utils'
-import { StyledIntro } from '../components/Shared/StyledIntro'
+import { StyledIntro, StyledIntroChildrenProps } from '../components/Shared/StyledIntro'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
@@ -22,6 +22,7 @@ export function UserCreate() {
   const { runActionWithDestination } = useFeedback()
   const location = useLocation()
   const mode = useMode()
+  const currentMode = mode as ProviderOrSubscriber
   const { party } = useContext(PartyContext)
 
   const onSubmit = async ({ operator }: Record<string, Partial<UserOnCreate>>) => {
@@ -42,8 +43,8 @@ export function UserCreate() {
             id: clientId,
           })
 
-    const dataToPost =
-      mode === 'provider' ? { users: [userData], institutionId: party!.institutionId } : userData
+    const { institutionId } = party as Party
+    const dataToPost = mode === 'provider' ? { users: [userData], institutionId } : userData
 
     await runActionWithDestination(
       {
@@ -59,7 +60,7 @@ export function UserCreate() {
     )
   }
 
-  const INTRO: { [key in ProviderOrSubscriber]: { title: string; description?: string } } = {
+  const INTRO: Record<ProviderOrSubscriber, StyledIntroChildrenProps> = {
     provider: {
       title: 'Crea nuovo operatore API',
       description:
@@ -74,7 +75,7 @@ export function UserCreate() {
 
   return (
     <React.Fragment>
-      <StyledIntro>{INTRO[mode!]}</StyledIntro>
+      <StyledIntro>{INTRO[currentMode]}</StyledIntro>
 
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <Contained>
