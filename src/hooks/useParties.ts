@@ -53,7 +53,8 @@ export const useParties = () => {
     // If user already has institutions subscribed
     if (hasInstitutions) {
       // Set parties
-      await setPartiesInContext((availablePartiesResponse as AxiosResponse).data!)
+      const { data } = availablePartiesResponse as AxiosResponse
+      await setPartiesInContext(data)
     }
 
     // Stop the loader

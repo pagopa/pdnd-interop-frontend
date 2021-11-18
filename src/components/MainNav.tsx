@@ -137,7 +137,7 @@ export function MainNav() {
 
           return !!view.children && Boolean(view.children.length > 0) ? (
             <Box key={i} color="primary.main">
-              <ListItemButton onClick={wrapSetOpen(view.type!)}>
+              <ListItemButton onClick={wrapSetOpen(view.type as ProviderOrSubscriber)}>
                 <ListItemText
                   disableTypography
                   primary={
@@ -151,7 +151,7 @@ export function MainNav() {
 
               <Collapse in={isActive} timeout="auto" unmountOnExit>
                 <List disablePadding sx={{ width: WIDTH, pl: 2 }}>
-                  {view.children!.map((child, j) => (
+                  {(view.children as RouteConfig[]).map((child, j) => (
                     <ListItem sx={{ display: 'block', p: 0 }} key={j}>
                       <WrappedLink route={child} />
                     </ListItem>

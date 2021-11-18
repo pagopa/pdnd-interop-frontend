@@ -60,6 +60,6 @@ export function RejectRegistration() {
   return !outcome ? (
     <LoadingOverlay loadingText="Stiamo cancellando la tua iscrizione" />
   ) : (
-    <MessageNoAction {...outcomeContent[outcome!]} />
+    <MessageNoAction {...outcomeContent[outcome]} />
   )
 }

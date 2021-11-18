@@ -6,6 +6,7 @@ import { EServiceDocumentRead } from '../../../types'
 import { useFeedback } from '../../hooks/useFeedback'
 import { StyledButton } from './StyledButton'
 import { StyledTooltip } from './StyledTooltip'
+import { forceReflow } from '../../lib/wait-utils'
 
 type StyledDeleteableDocumentComponentProps = {
   eserviceId: string
@@ -33,8 +34,9 @@ export function StyledDeleteableDocument({
       range.selectNodeContents(el)
       range.collapse(false)
       const sel = window.getSelection()
-      sel!.removeAllRanges()
-      sel!.addRange(range)
+      if (!sel) return
+      sel.removeAllRanges()
+      sel.addRange(range)
     } else if (typeof (document.body as any).createTextRange != 'undefined') {
       const textRange = (document.body as any).createTextRange()
       textRange.moveToElementText(el)
@@ -43,27 +45,28 @@ export function StyledDeleteableDocument({
     }
   }
 
-  const updateCanEdit = (e: any) => {
+  const updateCanEdit = async (e: any) => {
     e.preventDefault()
     const newState = !canEdit
     setCanEdit(newState)
 
     if (newState) {
-      setTimeout(() => {
-        contentEditableRef.current!.focus()
-        placeCaretAtEnd(contentEditableRef.current!)
-      }, 0)
+      await forceReflow()
+      const ref = contentEditableRef.current as HTMLDivElement
+      ref.focus()
+      placeCaretAtEnd(ref)
     }
   }
 
   const postDescription = async () => {
+    const ref = contentEditableRef.current as HTMLDivElement
     await runAction(
       {
         path: {
           endpoint: 'ESERVICE_VERSION_UPDATE_DOCUMENT_DESCRIPTION',
           endpointParams: { eserviceId, descriptorId, documentId: readable.id },
         },
-        config: { data: { description: contentEditableRef.current!.textContent } },
+        config: { data: { description: ref.textContent } },
       },
       { suppressToast: true }
     )

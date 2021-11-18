@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import { Typography } from '@mui/material'
 import { Box, SxProps } from '@mui/system'
 
-type ChildrenProps = {
+export type StyledIntroChildrenProps = {
   title: React.ReactNode
   description?: React.ReactNode
 }
@@ -25,7 +25,7 @@ type TypographyVariant =
   | undefined
 
 type StyledIntroProps = {
-  children: ChildrenProps
+  children: StyledIntroChildrenProps
   variant?: TypographyVariant
   component?: any
   sx?: SxProps

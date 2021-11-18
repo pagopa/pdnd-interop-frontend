@@ -62,7 +62,8 @@ export function Onboarding() {
 
     setLoading(true)
 
-    const formData = { institutionId: party!.id, users: Object.values(usersObject!) }
+    if (!party) return
+    const formData = { institutionId: party.id, users: Object.values(usersObject) }
 
     const postLegalsResponse = await fetchWithLogs({
       path: { endpoint: 'ONBOARDING_POST_LEGALS' },
