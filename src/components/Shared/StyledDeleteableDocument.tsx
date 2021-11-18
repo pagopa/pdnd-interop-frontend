@@ -36,7 +36,7 @@ export function StyledDeleteableDocument({
       sel!.removeAllRanges()
       sel!.addRange(range)
     } else if (typeof (document.body as any).createTextRange != 'undefined') {
-      var textRange = (document.body as any).createTextRange()
+      const textRange = (document.body as any).createTextRange()
       textRange.moveToElementText(el)
       textRange.collapse(false)
       textRange.select()

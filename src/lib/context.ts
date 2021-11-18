@@ -1,4 +1,5 @@
 import { createContext } from 'react'
+import noop from 'lodash/noop'
 import { DialogProps, Party, ToastProps, User } from '../../types'
 
 type UserContextType = {
@@ -6,7 +7,7 @@ type UserContextType = {
   setUser: React.Dispatch<React.SetStateAction<User | null>>
 }
 
-export const UserContext = createContext({ user: null, setUser: () => {} } as UserContextType)
+export const UserContext = createContext({ user: null, setUser: noop } as UserContextType)
 
 type PartyContextType = {
   party: Party | null
@@ -21,8 +22,8 @@ export const PartyContext = createContext({
   // Then it may become [], which signifies that a fetch has occurred,
   // but this user has no availableParties onboarded for now
   availableParties: null,
-  setParty: () => {},
-  setAvailableParties: () => {},
+  setParty: noop,
+  setAvailableParties: noop,
 } as PartyContextType)
 
 type ToastContextType = {
@@ -30,7 +31,7 @@ type ToastContextType = {
   setToast: React.Dispatch<React.SetStateAction<ToastProps | null>>
 }
 
-export const ToastContext = createContext({ toast: null, setToast: () => {} } as ToastContextType)
+export const ToastContext = createContext({ toast: null, setToast: noop } as ToastContextType)
 
 type DialogContextType = {
   dialog: DialogProps | null
@@ -39,7 +40,7 @@ type DialogContextType = {
 
 export const DialogContext = createContext({
   dialog: null,
-  setDialog: () => {},
+  setDialog: noop,
 } as DialogContextType)
 
 type LoaderContextType = {
@@ -49,7 +50,7 @@ type LoaderContextType = {
 
 export const LoaderContext = createContext({
   loadingText: null,
-  setLoadingText: () => {},
+  setLoadingText: noop,
 } as LoaderContextType)
 
 type TableActionMenuContextType = {
@@ -59,5 +60,5 @@ type TableActionMenuContextType = {
 
 export const TableActionMenuContext = createContext({
   tableActionMenu: null,
-  setTableActionMenu: () => {},
+  setTableActionMenu: noop,
 } as TableActionMenuContextType)
