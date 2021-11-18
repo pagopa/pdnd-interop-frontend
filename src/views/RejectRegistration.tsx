@@ -50,7 +50,7 @@ export function RejectRegistration() {
       title: 'Attenzione!',
       description: [
         <Typography>
-          C'è stato un errore nel completamento della procedura. Per favore, riprova! Se non riesci
+          C’è stato un errore nel completamento della procedura. Per favore, riprova! Se non riesci
           a cancellarti, <InlineSupportLink />.
         </Typography>,
       ],

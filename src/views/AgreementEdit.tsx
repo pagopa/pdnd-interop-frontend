@@ -193,7 +193,7 @@ export function AgreementEdit() {
               <Typography component="span">verificato</Typography>
             </Box>
           ) : (
-            <Typography component="span">rifiutato dall'erogatore</Typography>
+            <Typography component="span">rifiutato dall’erogatore</Typography>
           )
         ) : mode === 'provider' ? (
           <StyledButton variant="contained" onClick={wrapVerify(id)}>
@@ -234,7 +234,7 @@ export function AgreementEdit() {
             >
               versione più recente
             </StyledLink>
-            ; per attivarla, aggiorna l'accordo di interoperabilità)
+            ; per attivarla, aggiorna l’accordo di interoperabilità)
           </React.Fragment>
         ) : null}
       </DescriptionBlock>
