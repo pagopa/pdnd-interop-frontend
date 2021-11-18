@@ -14,8 +14,8 @@ export function NotFound({ errorType = 'not-found' }: NotFoundProps) {
   }
 
   return (
-    <Box sx={{ px: 3, py: 3, bgcolor: 'error.main' }}>
-      <StyledIntro variant="h1">
+    <Box sx={{ p: 2 }} bgcolor="error.main" color="common.white">
+      <StyledIntro sx={{ mb: 0, pb: 0 }}>
         {{
           title: 'Spiacenti',
           description: (
