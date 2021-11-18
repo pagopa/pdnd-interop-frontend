@@ -12,9 +12,7 @@ export function MessageNoAction({ img, title, description }: RequestOutcomeMessa
       <Typography variant="h2" component="h1" sx={{ mt: 3, mb: 2 }}>
         {title}
       </Typography>
-      {description.map((paragraph, i) => (
-        <React.Fragment key={i}>{paragraph}</React.Fragment>
-      ))}
+      {description}
     </Box>
   )
 }
