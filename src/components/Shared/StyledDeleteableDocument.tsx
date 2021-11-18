@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react'
+import { Typography } from '@mui/material'
+import { Box } from '@mui/system'
 import { Delete as DeleteIcon, ModeEdit as ModeEditIcon } from '@mui/icons-material'
 import { EServiceDocumentRead } from '../../../types'
 import { useFeedback } from '../../hooks/useFeedback'
 import { StyledButton } from './StyledButton'
-import { Box } from '@mui/system'
 import { StyledTooltip } from './StyledTooltip'
 
 type StyledDeleteableDocumentComponentProps = {
@@ -86,7 +87,9 @@ export function StyledDeleteableDocument({
       }}
     >
       <Box sx={{ mr: 4, flexShrink: 1 }}>
-        <strong>{readable.name}</strong>
+        <Typography component="span" fontWeight={700}>
+          {readable.name}
+        </Typography>
         <br />
 
         <Box

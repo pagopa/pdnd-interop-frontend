@@ -39,11 +39,13 @@ export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
 }) => {
   return (
     <Box sx={{ mb: 4, pb: 3, ...sx }}>
-      <Typography component={component} variant={variant} sx={{ mb: 2 }}>
+      <Typography component={component} variant={variant} sx={{ mb: 2 }} color="inherit">
         {children.title}
       </Typography>
       {children.description && (
-        <Typography sx={{ mb: 0, maxWidth: 740 }}>{children.description}</Typography>
+        <Typography sx={{ mb: 0, maxWidth: 740 }} color="inherit">
+          {children.description}
+        </Typography>
       )}
     </Box>
   )

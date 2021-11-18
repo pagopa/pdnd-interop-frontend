@@ -6,7 +6,6 @@ import { ClientList } from '../views/ClientList'
 import { AgreementEdit } from '../views/AgreementEdit'
 import { AgreementList } from '../views/AgreementList'
 import { EServiceCatalog } from '../views/EServiceCatalog'
-import { EServiceWrite } from '../views/EServiceWrite'
 import { EServiceList } from '../views/EServiceList'
 import { Help } from '../views/Help'
 import { Login } from '../views/Login'
@@ -109,7 +108,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     PATH: '/erogazione/e-service/crea',
     EXACT: true,
     LABEL: 'Crea e-service',
-    COMPONENT: EServiceWrite,
+    COMPONENT: EServiceGate,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'api'],
   },
