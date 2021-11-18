@@ -9,7 +9,6 @@ import { EServiceRead } from './EServiceRead'
 import { EServiceWrite } from './EServiceWrite'
 import { decorateEServiceWithActiveDescriptor } from '../lib/eservice-utils'
 import { useActiveStep } from '../hooks/useActiveStep'
-import { Skeleton } from '@mui/material'
 import { ROUTES } from '../config/routes'
 
 export function EServiceGate() {
@@ -45,13 +44,9 @@ export function EServiceGate() {
     return <NotFound errorType="server-error" />
   }
 
-  if (isItReallyLoading) {
-    return <Skeleton height={400} />
-  }
-
   return isEditable ? (
     <EServiceWrite back={back} forward={forward} activeStep={activeStep} fetchedDataMaybe={data} />
   ) : (
-    <EServiceRead data={data} />
+    <EServiceRead isLoading={isItReallyLoading} data={data} />
   )
 }

@@ -67,6 +67,6 @@ export const useAsyncFetch = <T, U = T>(
   // because before the component mounts it is impossible to set the loadingText.
   // To account for this lag, the isBeforeMount flag tells whether the request has
   // not started it. The two together give a reliable isItReallyLoading flag
-  const isItReallyLoading = loadingText || isBeforeMount
+  const isItReallyLoading = Boolean(loadingText) || isBeforeMount
   return { loadingText, data, error, isItReallyLoading }
 }
