@@ -27,7 +27,7 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
   loadingText,
   headData,
   children,
-  pagination = false,
+  // pagination = false,
   data,
   noDataLabel = 'Questa ricerca non ha prodotto risultati',
   error,

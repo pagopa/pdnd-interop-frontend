@@ -22,8 +22,18 @@
     // TypeScript does the type checking. Turning this off avoids
     // some false positives with the FunctionComponent generics
     "react/prop-types": "off",
+    // This pattern avoids eslint checks for arguments that begin
+    // with an underscore, while keeping the no-unused-vars rule.
+    // It is mostly used in unused function arguments, such as
+    // event handlers where the event is not needed, eg.
+    // onClick: (_: React.SyntheticEvent) => { /* do something */ }
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
     // Sources of warnings
-    "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "off"
   }
