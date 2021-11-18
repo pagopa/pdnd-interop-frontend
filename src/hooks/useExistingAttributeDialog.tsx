@@ -42,7 +42,7 @@ export const useExistingAttributeDialog = ({ add, attributeKey }: ExistingAttrib
 
         return (
           <React.Fragment>
-            <Typography>Se selezioni più di un attributo verrà trattato come "gruppo"</Typography>
+            <Typography>Se selezioni più di un attributo verrà trattato come “gruppo”</Typography>
 
             <Box sx={{ mt: 3 }}>
               <StyledInputControlledAsyncAutocomplete

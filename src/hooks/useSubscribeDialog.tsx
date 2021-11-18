@@ -43,7 +43,7 @@ export const useSubscribeDialog = () => {
         return (
           <React.Fragment>
             <p>
-              Spunta la checkbox per confermare che accetti i termini dell'accordo di
+              Spunta la checkbox per confermare che accetti i termini dell’accordo di
               interoperabilità.
             </p>
             <StyledInputControlledText

@@ -98,7 +98,7 @@ export function getAccessionAgreement(admin: User, party: PartyOnCreate, current
           presente Accordo;
         </li>
         <li>comunicherà alla Società dati reali per la durata della fase 2;</li>
-        <li>nella fase 2, non troverà applicazione l'articolo 6 di cui al presente Accordo.</li>
+        <li>nella fase 2, non troverà applicazione l’articolo 6 di cui al presente Accordo.</li>
       </ul>
       <p>
         Resta inteso che al termine delle fasi di sperimentazione come sopra individuate ed
@@ -113,7 +113,7 @@ export function getAccessionAgreement(admin: User, party: PartyOnCreate, current
         <strong>
           {admin.name} {admin.surname}
         </strong>
-        , CF <strong>{admin.taxCode}</strong>, domicilio digitale dell'ente{' '}
+        , CF <strong>{admin.taxCode}</strong>, domicilio digitale dell’ente{' '}
         <strong>{party.digitalAddress}</strong>.
       </p>
       <p>
@@ -205,7 +205,7 @@ export function getAccessionAgreementAttachments(delegates: User[]) {
                   dei professionisti di cui all’art. 6-bis del CAD, l’Indice dei domicili digitali
                   delle pubbliche amministrazioni e dei gestori di pubblici servizi di cui all’art.
                   6-ter del CAD, o l’Indice dei domicili digitali delle persone fisiche, dei
-                  professionisti e degli altri enti di diritto privato, non tenuti all'iscrizione in
+                  professionisti e degli altri enti di diritto privato, non tenuti all’iscrizione in
                   albi, elenchi o registri professionali o nel registro delle imprese di cui
                   all’art. 6-quater del CAD da cui la Infrastruttura recupera il domicilio digitale
                   dell’Aderente utilizzato nelle comunicazioni.
@@ -409,8 +409,8 @@ export function getAccessionAgreementAttachments(delegates: User[]) {
             trasmettere i dati alle seguenti categorie di destinatari:
             <br />
             - responsabile del trattamento quale unico fornitore di servizi tecnici;
-            <br />- altri soggetti pubblici o privati che ne facciano richiesta per l'esecuzione di
-            un compito di interesse pubblico o connesso all'esercizio di un pubblico potere o per
+            <br />- altri soggetti pubblici o privati che ne facciano richiesta per l’esecuzione di
+            un compito di interesse pubblico o connesso all’esercizio di un pubblico potere o per
             adempiere a un obbligo legale o contrattuale.
           </p>
 
@@ -437,8 +437,8 @@ export function getAccessionAgreementAttachments(delegates: User[]) {
             <strong>Diritti degli interessati</strong>
             <br />
             Gli Utenti, ai quali i dati personali si riferiscono, hanno il diritto di ottenere dalla
-            Società, in qualità di titolare del trattamento, l'accesso ai propri dati personali,
-            l'aggiornamento, l'integrazione, la rettifica o, laddove previsto dalla legge e nei
+            Società, in qualità di titolare del trattamento, l’accesso ai propri dati personali,
+            l’aggiornamento, l’integrazione, la rettifica o, laddove previsto dalla legge e nei
             limiti previsti, la cancellazione degli stessi, la limitazione del trattamento e il
             diritto di opporsi allo stesso. Gli Utenti potranno, altresì, chiedere la trasformazione
             dei dati in forma anonima o il blocco dei dati trattati in violazione di legge, compresi
@@ -446,14 +446,14 @@ export function getAccessionAgreementAttachments(delegates: User[]) {
             <br />
             Le richieste dovranno essere inoltrate alla Società. Gli interessati possono, altresì,
             contattare il responsabile della protezione dei dati per tutte le questioni inerenti il
-            trattamento dei propri dati personali e l'esercizio dei propri diritti, utilizzando il
+            trattamento dei propri dati personali e l’esercizio dei propri diritti, utilizzando il
             presente form dedicato alla gestione delle richieste degli interessati.
             <br />
             E’, inoltre, diritto degli Utenti proporre reclamo al Garante per la protezione dei dati
             personali.
             <br />
             Il Titolare garantisce che non è prevista alcuna forma di processo decisionale
-            automatizzato che comporti effetti giuridici sull'Utente.
+            automatizzato che comporti effetti giuridici sull’Utente.
           </p>
 
           <p>

@@ -56,7 +56,7 @@ export function ChooseParty() {
           title: "Seleziona l'ente per cui accedi",
           description: (
             <>
-              Potrai in ogni momento cambiare Ente/ruolo anche all'interno dell'interfaccia di
+              Potrai in ogni momento cambiare Ente/ruolo anche all’interno dell’interfaccia di
               gestione dei prodotti
             </>
           ),

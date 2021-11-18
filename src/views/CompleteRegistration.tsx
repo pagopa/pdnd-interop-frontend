@@ -64,7 +64,7 @@ export function CompleteRegistration() {
       title: 'Non è stato possibile completare la procedura!',
       description: [
         <Typography>
-          Assicurati che il file caricato sia l'accordo firmato, e che la firma digitale appartenga
+          Assicurati che il file caricato sia l’accordo firmato, e che la firma digitale appartenga
           al Legale Rappresentante. Se credi sia un errore, <InlineSupportLink />.
         </Typography>,
       ],
