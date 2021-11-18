@@ -40,7 +40,9 @@ export function ChooseParty() {
       api: ROUTES.PROVIDE.PATH,
       security: ROUTES.SUBSCRIBE_CLIENT_LIST.PATH,
     }
-    history.push(DESTINATIONS[party?.platformRole!])
+    if (party) {
+      history.push(DESTINATIONS[party.platformRole!])
+    }
   }
 
   if (!availableParties) {
