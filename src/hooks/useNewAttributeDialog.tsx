@@ -32,7 +32,7 @@ export const useNewAttributeDialog = ({ attributeKey }: NewAttributeDialogProps)
   const openDialog = () => {
     setDialog({
       title: `Crea nuovo attributo ${ATTRIBUTE_TYPE_SINGULAR_LABEL[attributeKey]}`,
-      Contents: ({ control, errors }: any) => {
+      Contents: function Contents({ control, errors }: any) {
         return (
           <React.Fragment>
             {[

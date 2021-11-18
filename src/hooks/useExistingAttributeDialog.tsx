@@ -31,7 +31,7 @@ export const useExistingAttributeDialog = ({ add, attributeKey }: ExistingAttrib
   const openDialog = () => {
     setDialog({
       title: 'Aggiungi attributo esistente',
-      Contents: ({ control, errors, watch, getValues }: any) => {
+      Contents: function Contents({ control, errors, watch, getValues }: any) {
         const [selected, setSelected] = useState([])
         const watchSelection = watch('selection')
 
