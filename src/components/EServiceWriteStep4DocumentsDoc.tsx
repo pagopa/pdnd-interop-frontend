@@ -79,11 +79,12 @@ export function EServiceWriteStep4DocumentsDoc({
   return (
     <React.Fragment>
       {toArray(readDocs).map((readDoc, i) => {
+        const activeDescriptor = data.activeDescriptor as EServiceDescriptorRead
         return (
           <StyledDeleteableDocument
             key={i}
             eserviceId={data.id}
-            descriptorId={data.activeDescriptor!.id}
+            descriptorId={activeDescriptor.id}
             readable={readDoc}
             deleteDocument={wrapDeletePreviousDoc(readDoc.id)}
           />

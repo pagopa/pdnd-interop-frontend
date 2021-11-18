@@ -8,6 +8,7 @@ import {
   ApiEndpointKey,
   EServiceCreateDataType,
   EServiceNoDescriptorId,
+  EServiceReadType,
   FrontendAttributes,
   StepperStepComponentProps,
 } from '../../types'
@@ -55,7 +56,8 @@ export function EServiceWriteStep1General({
   // Pre-fill if there is already a draft of the service available
   useEffect(() => {
     if (!isEmpty(fetchedDataMaybe)) {
-      const { technology, name, description, attributes: backendAttributes } = fetchedDataMaybe!
+      const fetchedData = fetchedDataMaybe as EServiceReadType
+      const { technology, name, description, attributes: backendAttributes } = fetchedData
       setValue('technology', technology)
       setValue('name', name)
       setValue('description', description)
@@ -64,20 +66,25 @@ export function EServiceWriteStep1General({
   }, [fetchedDataMaybe]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSubmit = async (data: Partial<EServiceCreateDataType>) => {
+    if (!party) {
+      return
+    }
+
     // Format the data like the backend wants it
     const dataToPost = {
       ...data,
-      producerId: party!.partyId,
+      producerId: party.partyId,
       attributes: remapFrontendAttributesToBackend(attributes),
     }
 
+    const fetchedData = fetchedDataMaybe as EServiceReadType
     // Define which endpoint to call
     let endpoint: ApiEndpointKey = 'ESERVICE_CREATE'
     let endpointParams = {}
     const isNewService = isEmpty(fetchedDataMaybe)
     if (!isNewService) {
       endpoint = 'ESERVICE_UPDATE'
-      endpointParams = { eserviceId: fetchedDataMaybe!.id }
+      endpointParams = { eserviceId: fetchedData.id }
     }
 
     await runActionWithCallback(
@@ -118,8 +125,10 @@ export function EServiceWriteStep1General({
     // case 3: already existing service and version, but version is 1 and still a draft
     (!isNewService &&
       hasVersion &&
+      /* eslint-disable @typescript-eslint/no-non-null-assertion */
       fetchedDataMaybe!.activeDescriptor!.version === '1' &&
       fetchedDataMaybe!.activeDescriptor!.status === 'draft')
+  /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>

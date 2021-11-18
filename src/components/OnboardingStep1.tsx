@@ -23,7 +23,7 @@ export function OnboardingStep1({ forward, data }: StepperStepComponentProps) {
   const history = useHistory()
 
   const onForwardAction = ({ partySelection }: Record<string, IPACatalogParty>) => {
-    forward!(partySelection)
+    forward(partySelection)
   }
 
   const goToChooseParty = () => {

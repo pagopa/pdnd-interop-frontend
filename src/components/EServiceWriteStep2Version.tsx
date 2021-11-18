@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
 import { AxiosResponse } from 'axios'
 import isEmpty from 'lodash/isEmpty'
-import { ApiEndpointKey, StepperStepComponentProps } from '../../types'
+import { ApiEndpointKey, EServiceDescriptorRead, StepperStepComponentProps } from '../../types'
 import { buildDynamicPath } from '../lib/router-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { EServiceWriteStepProps } from '../views/EServiceWrite'
@@ -38,7 +38,8 @@ export function EServiceWriteStep2Version({
   // Pre-fill if there is already a draft of the service available
   useEffect(() => {
     if (!isEmpty(fetchedData.activeDescriptor)) {
-      const { audience, version, voucherLifespan, description } = fetchedData.activeDescriptor!
+      const activeDescriptor = fetchedData.activeDescriptor as EServiceDescriptorRead
+      const { audience, version, voucherLifespan, description } = activeDescriptor
       setValue('version', version)
       if (Boolean(audience.length > 0)) {
         setValue('audience', audience[0])
@@ -50,7 +51,12 @@ export function EServiceWriteStep2Version({
 
   // Determine the current version of the service
   const getVersion = () => {
-    return !isEmpty(fetchedData.activeDescriptor) ? fetchedData.activeDescriptor!.version : '1'
+    if (!isEmpty(fetchedData.activeDescriptor)) {
+      const activeDescriptor = fetchedData.activeDescriptor as EServiceDescriptorRead
+      return activeDescriptor.version
+    }
+
+    return '1'
   }
 
   const onSubmit = async (data: Partial<VersionData>) => {
@@ -68,8 +74,9 @@ export function EServiceWriteStep2Version({
     const endpointParams: any = { eserviceId: fetchedData.id }
     const isNewDescriptor = isEmpty(fetchedData.activeDescriptor)
     if (!isNewDescriptor) {
+      const activeDescriptor = fetchedData.activeDescriptor as EServiceDescriptorRead
       endpoint = 'ESERVICE_VERSION_UPDATE'
-      endpointParams.descriptorId = fetchedData.activeDescriptor!.id
+      endpointParams.descriptorId = activeDescriptor.id
     }
 
     await runActionWithCallback(

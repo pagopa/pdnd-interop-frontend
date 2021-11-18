@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
-import { EServiceFlatReadType, ActionProps } from '../../types'
+import { EServiceFlatReadType, ActionProps, EServiceStatus } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -69,7 +69,7 @@ export function EServiceCatalog() {
         onClick: () => {
           history.push(
             buildDynamicPath(ROUTES.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
-              id: eservice.callerSubscribed!,
+              id: eservice.callerSubscribed as string,
             })
           )
         },
@@ -147,14 +147,14 @@ export function EServiceCatalog() {
               cellData={[
                 { label: item.name, tooltip },
                 { label: item.producerName },
-                { label: item.version! },
-                { label: ESERVICE_STATUS_LABEL[item.status!] },
+                { label: item.version as string },
+                { label: ESERVICE_STATUS_LABEL[item.status as EServiceStatus] },
               ]}
               index={i}
               singleActionBtn={{
                 to: buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
                   eserviceId: item.id,
-                  descriptorId: item.descriptorId!,
+                  descriptorId: item.descriptorId as string,
                 }),
                 label: 'Ispeziona',
               }}

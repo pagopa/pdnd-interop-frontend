@@ -15,7 +15,7 @@ export function OnboardingStep2({ forward, back, data }: StepperStepComponentPro
   } = useForm({ defaultValues: data.partyPeople })
 
   const onForwardAction = ({ admin }: Record<string, UserOnCreate>) => {
-    forward!({ admin: { ...admin, role: 'Manager', platformRole: 'admin' } as User })
+    forward({ admin: { ...admin, role: 'Manager', platformRole: 'admin' } as User })
   }
 
   return (

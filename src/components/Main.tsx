@@ -7,6 +7,7 @@ import { StyledBreadcrumbs } from './Shared/StyledBreadcrumbs'
 import { isInPlatform } from '../lib/router-utils'
 import { ROUTES } from '../config/routes'
 import { AuthGuard } from './AuthGuard'
+import { RouteAuthLevel } from '../../types'
 
 export function Main() {
   const { user } = useContext(UserContext)
@@ -33,11 +34,11 @@ export function Main() {
           return (
             <Route path={PATH} key={i} exact={EXACT}>
               {REDIRECT ? (
-                <Redirect to={REDIRECT!} />
+                <Redirect to={REDIRECT as string} />
               ) : PUBLIC ? (
                 <Component />
               ) : (
-                <AuthGuard Component={Component} authLevels={AUTH_LEVELS!} />
+                <AuthGuard Component={Component} authLevels={AUTH_LEVELS as RouteAuthLevel} />
               )}
             </Route>
           )

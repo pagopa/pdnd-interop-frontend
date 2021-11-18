@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { useLocation } from 'react-router'
 import { Box } from '@mui/system'
-import { User, UserStatus, ActionProps } from '../../types'
+import { User, UserStatus, ActionProps, Party } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -114,7 +114,8 @@ export function UserList() {
     }
 
     // Return all the actions available for this particular status
-    return availableActions[party!.status] || []
+    const { status } = party as Party
+    return availableActions[status] || []
   }
 
   // TEMP BACKEND: this should not happen, it depends on the difference between our API
@@ -174,7 +175,10 @@ export function UserList() {
                * TEMP BACKEND: this should not happen, it depends on the difference between our API
                * and the one shared with self care, that doesn't expose name and surname
                */
-              { label: mode === 'provider' ? item.from! : `${item.name + ' ' + item.surname}` },
+              {
+                label:
+                  mode === 'provider' ? (item.from as string) : `${item.name + ' ' + item.surname}`,
+              },
               { label: USER_ROLE_LABEL[item.role] },
               { label: USER_PLATFORM_ROLE_LABEL[item.platformRole] },
               { label: USER_STATUS_LABEL[item.status] },

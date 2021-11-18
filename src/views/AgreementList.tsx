@@ -2,7 +2,13 @@ import React, { useContext } from 'react'
 import { AGREEMENT_STATUS_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
 import { Box } from '@mui/system'
-import { AgreementStatus, AgreementSummary, ProviderOrSubscriber, ActionProps } from '../../types'
+import {
+  AgreementStatus,
+  AgreementSummary,
+  ProviderOrSubscriber,
+  ActionProps,
+  Party,
+} from '../../types'
 import { PartyContext } from '../lib/context'
 import { mergeActions } from '../lib/eservice-utils'
 import { getAgreementStatus } from '../lib/status-utils'
@@ -10,7 +16,7 @@ import { buildDynamicPath } from '../lib/router-utils'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
 import { useMode } from '../hooks/useMode'
-import { StyledIntro } from '../components/Shared/StyledIntro'
+import { StyledIntro, StyledIntroChildrenProps } from '../components/Shared/StyledIntro'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { TempFilters } from '../components/TempFilters'
@@ -18,6 +24,7 @@ import { TempFilters } from '../components/TempFilters'
 export function AgreementList() {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
   const mode = useMode()
+  const currentMode = mode as ProviderOrSubscriber
   const { party } = useContext(PartyContext)
 
   const params =
@@ -39,11 +46,12 @@ export function AgreementList() {
    * List of possible actions for the user to perform
    */
   const wrapActivate = (agreementId: string) => async () => {
+    const { partyId } = party as Party
     await runAction(
       {
         path: {
           endpoint: 'AGREEMENT_ACTIVATE',
-          endpointParams: { agreementId, partyId: party!.partyId },
+          endpointParams: { agreementId, partyId },
         },
       },
       { suppressToast: false }
@@ -51,11 +59,12 @@ export function AgreementList() {
   }
 
   const wrapSuspend = (agreementId: string) => async () => {
+    const { partyId } = party as Party
     await runAction(
       {
         path: {
           endpoint: 'AGREEMENT_SUSPEND',
-          endpointParams: { agreementId, partyId: party!.partyId },
+          endpointParams: { agreementId, partyId },
         },
       },
       { suppressToast: false }
@@ -124,7 +133,7 @@ export function AgreementList() {
     const currentActions: AgreementActions = {
       provider: providerOnlyActions,
       subscriber: subscriberOnlyActions,
-    }[mode!]
+    }[currentMode]
 
     const status = getAgreementStatus(agreement, mode)
 
@@ -139,7 +148,7 @@ export function AgreementList() {
     '',
   ]
 
-  const INTRO: { [key in ProviderOrSubscriber]: { title: string; description?: string } } = {
+  const INTRO: Record<ProviderOrSubscriber, StyledIntroChildrenProps> = {
     provider: {
       title: 'Gli accordi',
       description: "In quest'area puoi gestire tutti gli accordi di cui sei erogatore",
@@ -152,7 +161,7 @@ export function AgreementList() {
 
   return (
     <React.Fragment>
-      <StyledIntro>{INTRO[mode!]}</StyledIntro>
+      <StyledIntro>{INTRO[currentMode]}</StyledIntro>
 
       <Box sx={{ mt: 4 }}>
         <TempFilters />
