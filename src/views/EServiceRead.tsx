@@ -24,7 +24,7 @@ import { StyledAccordion } from '../components/Shared/StyledAccordion'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { Typography } from '@mui/material'
+import { Skeleton, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { FileDownloadOutlined as FileDownloadOutlinedIcon } from '@mui/icons-material'
 import { ATTRIBUTE_TYPE_PLURAL_LABEL, ESERVICE_STATUS_LABEL } from '../config/labels'
@@ -33,9 +33,10 @@ import { Contained } from '../components/Shared/Contained'
 
 type EServiceReadProps = {
   data: EServiceReadType
+  isLoading: boolean
 }
 
-export function EServiceRead({ data }: EServiceReadProps) {
+export function EServiceRead({ data, isLoading }: EServiceReadProps) {
   const { runAction } = useFeedback()
   const { party } = useContext(PartyContext)
   const mode = useMode()
@@ -133,6 +134,10 @@ export function EServiceRead({ data }: EServiceReadProps) {
     }
 
     openSubscribeDialog(flatEService)
+  }
+
+  if (isLoading) {
+    return <Skeleton height={400} />
   }
 
   return (
