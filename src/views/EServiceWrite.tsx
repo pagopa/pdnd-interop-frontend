@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import isEmpty from 'lodash/isEmpty'
-import has from 'lodash/has'
+import React from 'react'
 import { Box } from '@mui/system'
 import { Paper } from '@mui/material'
 import { EServiceReadType, StepperStep } from '../../types'
-import { scrollToTop } from '../lib/page-utils'
 import { EServiceWriteStep1General } from '../components/EServiceWriteStep1General'
 import { EServiceWriteStep2Version } from '../components/EServiceWriteStep2Version'
 import { EServiceWriteStep3Agreement } from '../components/EServiceWriteStep3Agreement'
@@ -46,48 +42,16 @@ const STEPS: (StepperStep & { intro: { title: string; description?: string } })[
 
 export type EServiceWriteProps = {
   fetchedDataMaybe?: EServiceReadType
-  initialStepIndexDestination?: number
+  back: any
+  forward: any
+  activeStep: number
 }
 
 export type EServiceWriteStepProps = {
   fetchedData: EServiceReadType
 }
 
-export function EServiceWrite({
-  fetchedDataMaybe,
-  initialStepIndexDestination,
-}: EServiceWriteProps) {
-  const [activeStep, setActiveStep] = useState(initialStepIndexDestination || 0)
-  const history = useHistory()
-
-  // Handles which step to go to after a "creation" action has been performed
-  // and a history.replace action has taken place and the whole EServiceGate
-  // component has rerendered and fetched fresh data
-  useEffect(() => {
-    const { state } = history.location
-
-    if (!isEmpty(state) && has(state, 'stepIndexDestination')) {
-      goToStep((state as any).stepIndexDestination)
-    }
-  }, [history.location])
-
-  /*
-   * Stepper actions
-   */
-  const back = () => {
-    setActiveStep(activeStep - 1)
-  }
-
-  const forward = () => {
-    setActiveStep(activeStep + 1)
-    scrollToTop()
-  }
-
-  const goToStep = (step: number) => {
-    setActiveStep(step)
-    scrollToTop()
-  }
-
+export function EServiceWrite({ fetchedDataMaybe, back, forward, activeStep }: EServiceWriteProps) {
   const fetchedData = fetchedDataMaybe as EServiceReadType
   const stepProps = { forward, back, fetchedData, fetchedDataMaybe }
   const { component: Step, intro } = STEPS[activeStep]
