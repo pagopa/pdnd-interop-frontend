@@ -20,7 +20,6 @@
   ],
   "rules": {
     // Sources of errors
-    "@typescript-eslint/ban-types": "off",
     "react/no-unescaped-entities": "off",
     "react/jsx-key": "off",
     "react/display-name": "off",
