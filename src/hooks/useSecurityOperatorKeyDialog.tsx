@@ -27,7 +27,7 @@ export const useSecurityOperatorKeyDialog = ({
   const openDialog = () => {
     setDialog({
       title: 'Carica nuova chiave pubblica',
-      Contents: ({ control, errors }: any) => {
+      Contents: function Contents({ control, errors }: any) {
         return (
           <React.Fragment>
             <StyledInputControlledSelect

@@ -20,7 +20,6 @@
   ],
   "rules": {
     // Sources of errors
-    "react/display-name": "off",
     "react/prop-types": "off",
     // Sources of warnings
     "@typescript-eslint/no-explicit-any": "off",
