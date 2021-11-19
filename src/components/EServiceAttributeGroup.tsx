@@ -1,7 +1,7 @@
 import React from 'react'
 import { TableCell, TableRow } from '@mui/material'
 import { Box } from '@mui/system'
-import { AttributeKey, FrontendAttribute } from '../../types'
+import { AttributeKey, CatalogAttribute, FrontendAttribute } from '../../types'
 import { useNewAttributeDialog } from '../hooks/useNewAttributeDialog'
 import { useExistingAttributeDialog } from '../hooks/useExistingAttributeDialog'
 import { StyledButton } from './Shared/StyledButton'
@@ -11,8 +11,8 @@ type EServiceAttributeGroupProps = {
   attributesGroup: FrontendAttribute[]
   canRequireVerification?: boolean
   canCreateNewAttributes?: boolean
-  add: any
-  remove: any
+  add: (attributeGroup: CatalogAttribute[], explicitAttributeVerification: boolean) => void
+  remove: (attributeGroupToRemove: CatalogAttribute[]) => void
   attributeKey: AttributeKey
 }
 
@@ -34,7 +34,7 @@ export function EServiceAttributeGroup({
     ? ['nome attributo', 'convalida richiesta', '']
     : ['nome attributo', '']
 
-  const wrapRemove = (attributes: any) => (_: any) => {
+  const wrapRemove = (attributes: CatalogAttribute[]) => () => {
     remove(attributes)
   }
 

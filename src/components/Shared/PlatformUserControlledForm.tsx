@@ -6,11 +6,12 @@ import {
   taxCodeValidationPattern,
 } from '../../lib/validation'
 import { StyledInputControlledText } from './StyledInputControlledText'
+import { Control, FieldValues } from 'react-hook-form'
 
 type PlatformUserControlledFormProps = {
   prefix: string
-  control: any
-  errors: any
+  control: Control<FieldValues, Record<string, unknown>>
+  errors: Record<string, unknown>
 }
 
 export function PlatformUserControlledForm({

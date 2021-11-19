@@ -25,7 +25,7 @@ export function OnboardingStep3({ forward, back }: StepperStepComponentProps) {
 
   const forceUpdate = useForceUpdate()
 
-  const addDelegateForm = (e?: any) => {
+  const addDelegateForm = (e?: React.SyntheticEvent) => {
     if (e) e.preventDefault()
     setValue(cryptoRandomString({ length: 8 }), {}, { shouldValidate: false })
     forceUpdate() // Without this, the component doesn't rerender and doesn't show the new field

@@ -38,7 +38,8 @@ export function TempSPIDUser() {
 
   // If the user hasn't accepted the privacy policy, go back to login
   useEffect(() => {
-    if (isEmpty(location.state) || !(location.state as any).privacy) {
+    const locationState: Record<string, unknown> = location.state as Record<string, unknown>
+    if (isEmpty(locationState) || !locationState.privacy) {
       history.replace(ROUTES.LOGIN.PATH)
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps

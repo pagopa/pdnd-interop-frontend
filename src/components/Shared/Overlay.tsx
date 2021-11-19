@@ -1,7 +1,8 @@
-import { Box } from '@mui/system'
 import React, { FunctionComponent, useEffect } from 'react'
+import noop from 'lodash/noop'
+import { Box } from '@mui/system'
 
-type EventOptions = boolean | EventListenerOptions | undefined | any
+type EventOptions = boolean | (EventListenerOptions & { passive: boolean }) | undefined
 type KeyObj = { [key in number]: number }
 
 export const Overlay: FunctionComponent = ({ children }) => {
@@ -11,11 +12,11 @@ export const Overlay: FunctionComponent = ({ children }) => {
   // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
   const keys: KeyObj = { 37: 1, 38: 1, 39: 1, 40: 1 }
 
-  function preventDefault(e: any) {
+  function preventDefault(e: Event) {
     e.preventDefault()
   }
 
-  function preventDefaultForScrollKeys(e: any) {
+  function preventDefaultForScrollKeys(e: KeyboardEvent) {
     if (!!keys[e.keyCode]) {
       preventDefault(e)
       return false
@@ -24,14 +25,14 @@ export const Overlay: FunctionComponent = ({ children }) => {
 
   // modern Chrome requires { passive: false } when adding event
   let supportsPassive = false
-  const passiveCheck = Object.defineProperty({}, 'passive', {
+  const passiveCheck = Object.defineProperty({ handleEvent: noop }, 'passive', {
     // eslint-disable-next-line getter-return
     get: function () {
       supportsPassive = true
     },
   })
   try {
-    window.addEventListener('test' as any, null as any, passiveCheck)
+    window.addEventListener('test', passiveCheck)
   } catch (e) {}
 
   const wheelOpt: EventOptions = supportsPassive ? { passive: false } : false

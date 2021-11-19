@@ -28,9 +28,11 @@ export function StyledInputControlledFile({
 }: StyledInputControlledFileProps) {
   const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
 
-  const wrapOnFieldChange = (callback: any) => (e: any) => {
-    callback(e.target.files)
-  }
+  const wrapOnFieldChange =
+    (callback: (files: FileList | null) => void) => (e: React.SyntheticEvent) => {
+      const target = e.target as HTMLInputElement
+      callback(target.files)
+    }
 
   return (
     <StyledInputWrapper

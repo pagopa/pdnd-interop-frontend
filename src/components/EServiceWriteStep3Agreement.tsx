@@ -24,7 +24,7 @@ export function EServiceWriteStep3Agreement({
     { value: '3', label: 'Template ...' },
   ]
 
-  const onSubmit = (_: any) => {
+  const onSubmit = () => {
     forward()
   }
 

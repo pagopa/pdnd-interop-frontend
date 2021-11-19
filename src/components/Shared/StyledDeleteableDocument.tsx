@@ -12,7 +12,7 @@ type StyledDeleteableDocumentComponentProps = {
   eserviceId: string
   descriptorId: string
   readable: EServiceDocumentRead
-  deleteDocument: any
+  deleteDocument: () => Promise<void>
 }
 
 export function StyledDeleteableDocument({
@@ -45,7 +45,7 @@ export function StyledDeleteableDocument({
     }
   }
 
-  const updateCanEdit = async (e: any) => {
+  const updateCanEdit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
     const newState = !canEdit
     setCanEdit(newState)
