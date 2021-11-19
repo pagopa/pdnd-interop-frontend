@@ -55,20 +55,6 @@ export function remapBackendAttributesToFrontend(
   return mappedAttributes
 }
 
-export function unformatAttributes(formattedAttributes: any): any {
-  // const unformattedAttributes = Object.keys(formattedAttributes).reduce(
-  //   (acc, key) => {
-  //     const attributesType = formattedAttributes[key as AttributeKey]
-  //     const unformatted = attributesType.map((simple, group) => (simple ? [simple] : group))
-  //     return { ...acc, [key]: unformatted }
-  //   },
-  //   { certified: [], verified: [], declared: [] }
-  // )
-
-  // return unformattedAttributes
-  return formattedAttributes
-}
-
 export function canSubscribe(
   partyAttributes: string[] | undefined,
   eserviceAttributes: BackendAttribute[]

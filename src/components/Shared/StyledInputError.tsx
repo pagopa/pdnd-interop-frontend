@@ -3,14 +3,18 @@ import { Box } from '@mui/system'
 import { Typography } from '@mui/material'
 
 type StyledInputErrorProps = {
-  error: any
+  error: unknown
+}
+
+type Error = {
+  message: string
 }
 
 export function StyledInputError({ error }: StyledInputErrorProps) {
   return (
     <Box>
       <Typography variant="caption" color="error">
-        {error.message}
+        {(error as Error).message}
       </Typography>
     </Box>
   )

@@ -31,7 +31,7 @@ export function UserEdit() {
   const taxCode = bits[bits.length - 1]
 
   const [activeTab, setActiveTab] = useState(0)
-  const updateActiveTab = (_: any, newTab: number) => {
+  const updateActiveTab = (_: React.SyntheticEvent, newTab: number) => {
     setActiveTab(newTab)
   }
 
@@ -73,7 +73,7 @@ export function UserEdit() {
   /*
    * List of possible actions for the user to perform
    */
-  const suspend = async (_: any) => {
+  const suspend = async () => {
     await runAction(
       {
         path: {
@@ -88,7 +88,7 @@ export function UserEdit() {
     )
   }
 
-  const reactivate = async (_: any) => {
+  const reactivate = async () => {
     await runAction(
       {
         path: {

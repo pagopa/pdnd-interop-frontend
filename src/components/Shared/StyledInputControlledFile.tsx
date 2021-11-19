@@ -1,20 +1,20 @@
 import React from 'react'
-import { Controller } from 'react-hook-form'
+import { Control, Controller, FieldValues } from 'react-hook-form'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import { Typography } from '@mui/material'
-import { Box } from '@mui/system'
+import { Box, SxProps } from '@mui/system'
 import { StyledInputWrapper } from './StyledInputWrapper'
 
 type StyledInputControlledFileProps = {
   label: string
 
   name: string
-  control?: any
-  rules: any
-  errors?: any
+  control?: Control<FieldValues, Record<string, unknown>>
+  rules: Record<string, unknown>
+  errors: Record<string, unknown>
   infoLabel?: string
-  sx?: any
+  sx?: SxProps
 }
 
 export function StyledInputControlledFile({

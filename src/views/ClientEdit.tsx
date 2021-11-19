@@ -41,7 +41,7 @@ export function ClientEdit() {
     }
   )
 
-  const updateActiveTab = (_: any, newTab: number) => {
+  const updateActiveTab = (_: React.SyntheticEvent, newTab: number) => {
     setActiveTab(newTab)
   }
 

@@ -27,7 +27,7 @@ export function ChooseParty() {
     asyncFetchAvailablePartiesAttempt()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const wrapUpdateActiveParty = (id: string) => (e?: any) => {
+  const wrapUpdateActiveParty = (id: string) => (e?: React.SyntheticEvent) => {
     if (e) e.preventDefault()
     const newParty = (availableParties as Party[]).find((p) => p.institutionId === id) as Party
     setParty(newParty)

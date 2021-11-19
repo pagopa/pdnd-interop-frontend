@@ -32,7 +32,7 @@ export function CompleteRegistration() {
     return s.jwt
   }
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: Record<string, any>) => {
     const token = getJwt()
     // Append the file as form data
     const formData = new FormData()

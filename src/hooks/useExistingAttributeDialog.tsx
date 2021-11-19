@@ -3,10 +3,11 @@ import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { DialogContext } from '../lib/context'
 import { requiredValidationPattern } from '../lib/validation'
-import { AttributeKey, CatalogAttribute } from '../../types'
+import { AttributeKey, CatalogAttribute, CustomDialogContentsProps } from '../../types'
 import { StyledInputControlledAsyncAutocomplete } from '../components/Shared/StyledInputControlledAsyncAutocomplete'
 import { StyledInputControlledCheckbox } from '../components/Shared/StyledInputControlledCheckbox'
 import { StyledAccordion } from '../components/Shared/StyledAccordion'
+import { FieldValues, UseFormGetValues, UseFormWatch } from 'react-hook-form'
 
 type ExistingAttributeDialogProps = {
   add: any
@@ -31,12 +32,20 @@ export const useExistingAttributeDialog = ({ add, attributeKey }: ExistingAttrib
   const openDialog = () => {
     setDialog({
       title: 'Aggiungi attributo esistente',
-      Contents: function Contents({ control, errors, watch, getValues }: any) {
+      Contents: function Contents({
+        control,
+        errors,
+        watch,
+        getValues,
+      }: CustomDialogContentsProps) {
+        const sureWatch = watch as UseFormWatch<FieldValues>
+        const sureGetValues = getValues as UseFormGetValues<FieldValues>
+
         const [selected, setSelected] = useState([])
-        const watchSelection = watch('selection')
+        const watchSelection = sureWatch('selection')
 
         useEffect(() => {
-          const { selection } = getValues()
+          const { selection } = sureGetValues()
           setSelected(selection)
         }, [watchSelection]) // eslint-disable-line react-hooks/exhaustive-deps
 

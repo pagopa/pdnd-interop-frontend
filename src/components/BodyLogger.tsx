@@ -30,6 +30,8 @@ export function BodyLogger() {
   const [tableActionMenu, setTableActionMenu] = useState<string | null>(null)
   const location = useLocation()
 
+  console.log(location.state)
+
   /*
    * Handle toast
    */
@@ -39,9 +41,10 @@ export function BodyLogger() {
       setToast(null)
     }
 
+    const locationState: Record<string, unknown> = location.state as Record<string, unknown>
     // If there is explicitly a new toast to show on this page, display it
-    if (!isEmpty(location.state) && !isEmpty((location.state as any).toast)) {
-      const toastContent = (location.state as any).toast as ToastContentWithOutcome
+    if (!isEmpty(locationState) && !isEmpty(locationState.toast)) {
+      const toastContent = locationState.toast as ToastContentWithOutcome
       setToast({
         ...toastContent,
         onClose: () => {

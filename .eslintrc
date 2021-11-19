@@ -40,7 +40,7 @@
     "@typescript-eslint/explicit-module-boundary-types": "off",
     // This will take forever to remove. Every now and then, when I
     // have time, I will remove all the anys in the code and ultimately
-    // turn this off, one day. As of today, 18/11/2021, there are 167 violations
+    // turn this off, one day. As of today, 19/11/2021, there are 74 violations
     "@typescript-eslint/no-explicit-any": "off"
   }
 }

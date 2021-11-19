@@ -3,7 +3,7 @@ import { DialogContext } from '../lib/context'
 import { requiredValidationPattern } from '../lib/validation'
 import { ATTRIBUTE_TYPE_SINGULAR_LABEL } from '../config/labels'
 import { useFeedback } from './useFeedback'
-import { AttributeKey } from '../../types'
+import { AttributeKey, CustomDialogContentsProps } from '../../types'
 import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 
 type NewAttribute = {
@@ -32,7 +32,7 @@ export const useNewAttributeDialog = ({ attributeKey }: NewAttributeDialogProps)
   const openDialog = () => {
     setDialog({
       title: `Crea nuovo attributo ${ATTRIBUTE_TYPE_SINGULAR_LABEL[attributeKey]}`,
-      Contents: function Contents({ control, errors }: any) {
+      Contents: function Contents({ control, errors }: CustomDialogContentsProps) {
         return (
           <React.Fragment>
             {[

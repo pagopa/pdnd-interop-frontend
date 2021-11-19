@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { CustomDialogContentsProps } from '../../types'
 import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 import { DialogContext } from '../lib/context'
 import { requiredValidationPattern } from '../lib/validation'
@@ -8,14 +9,14 @@ export const useExtensionDialog = () => {
   const { runFakeAction } = useFeedback()
   const { setDialog } = useContext(DialogContext)
 
-  const askExtension = async (_: any) => {
+  const askExtension = async () => {
     await runFakeAction('Richiedi estensione')
   }
 
-  const openDialog = (_?: any) => {
+  const openDialog = () => {
     setDialog({
       title: "Richiedi estensione dell'e-service",
-      Contents: function Contents({ control, errors }: any) {
+      Contents: function Contents({ control, errors }: CustomDialogContentsProps) {
         return (
           <React.Fragment>
             <p>

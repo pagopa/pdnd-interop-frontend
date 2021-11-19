@@ -35,12 +35,12 @@ export function Onboarding() {
     history.push(ROUTES.LOGIN.PATH)
   }
 
-  const back = (e?: any) => {
+  const back = (e?: React.SyntheticEvent) => {
     if (e) e.preventDefault()
     setActiveStep(activeStep - 1)
   }
 
-  const forward = (e?: any) => {
+  const forward = (e?: React.SyntheticEvent) => {
     if (e) e.preventDefault()
     setActiveStep(activeStep + 1)
     scrollToTop()

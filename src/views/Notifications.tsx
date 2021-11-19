@@ -68,7 +68,7 @@ export function Notifications() {
     info: InfoIcon,
   }
 
-  const wrapSetView = (v: 'p' | 's') => (_: any) => {
+  const wrapSetView = (v: 'p' | 's') => () => {
     setView(v)
   }
 

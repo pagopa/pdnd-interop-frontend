@@ -54,7 +54,7 @@ export function Help() {
 
   const TOCTree = ({ data }: { data: EntryTreeBranch[] }) => (
     <React.Fragment>
-      {data.map((branch: any, i: any) => (
+      {data.map((branch: EntryTreeBranch, i: number) => (
         <TOCBranch key={i} {...branch} />
       ))}
     </React.Fragment>

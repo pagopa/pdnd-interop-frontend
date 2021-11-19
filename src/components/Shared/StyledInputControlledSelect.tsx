@@ -1,10 +1,11 @@
 import React from 'react'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
-import { Controller } from 'react-hook-form'
+import { Control, Controller, FieldValues } from 'react-hook-form'
 import { MenuItem, TextField } from '@mui/material'
 import { SelectOption } from '../../../types'
 import { StyledInputWrapper } from './StyledInputWrapper'
+import { SxProps } from '@mui/system'
 
 type StyledInputControlledSelectProps = {
   label?: string
@@ -14,10 +15,10 @@ type StyledInputControlledSelectProps = {
 
   name: string
   defaultValue?: string | number | null
-  control: any
-  rules: any
-  errors: any
-  sx?: any
+  control: Control<FieldValues, Record<string, unknown>>
+  rules: Record<string, unknown>
+  errors: Record<string, unknown>
+  sx?: SxProps
   focusOnMount?: boolean
 }
 

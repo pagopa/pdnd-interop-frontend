@@ -1,15 +1,15 @@
 import React, { FunctionComponent } from 'react'
 import get from 'lodash/get'
-import { Box } from '@mui/system'
+import { Box, SxProps } from '@mui/system'
 import { StyledInputError } from './StyledInputError'
 import { InfoMessage } from './InfoMessage'
 
 type StyledInputWrapperProps = {
-  errors: any
+  errors: Record<string, unknown>
   name: string
   infoLabel?: string
   hasFieldError: boolean
-  sx?: any
+  sx?: SxProps
 }
 
 export const StyledInputWrapper: FunctionComponent<StyledInputWrapperProps> = ({

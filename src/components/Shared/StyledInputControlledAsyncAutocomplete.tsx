@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Controller } from 'react-hook-form'
+import { Control, Controller, FieldValues } from 'react-hook-form'
 import debounce from 'lodash/debounce'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
@@ -11,6 +11,7 @@ import { fetchWithLogs } from '../../lib/api-utils'
 import { getFetchOutcome } from '../../lib/error-utils'
 import { StyledSpinner } from './StyledSpinner'
 import { StyledInputWrapper } from './StyledInputWrapper'
+import { SxProps } from '@mui/system'
 
 type StyledInputControlledAsyncAutocompleteProps = {
   label: string
@@ -19,9 +20,9 @@ type StyledInputControlledAsyncAutocompleteProps = {
 
   name: string
   defaultValue: string[] | string | null // array if multiple = true, string | null if multiple = false
-  control: any
-  rules: any
-  errors: any
+  control: Control<FieldValues, Record<string, unknown>>
+  rules: Record<string, unknown>
+  errors: Record<string, unknown>
 
   placeholder: string
   path: Endpoint
@@ -29,7 +30,7 @@ type StyledInputControlledAsyncAutocompleteProps = {
   labelKey: string
   multiple?: boolean
   focusOnMount?: boolean
-  sx?: any
+  sx?: SxProps
 }
 
 export function StyledInputControlledAsyncAutocomplete({

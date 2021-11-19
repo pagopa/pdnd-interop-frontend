@@ -42,8 +42,8 @@ const STEPS: (StepperStep & { intro: StyledIntroChildrenProps })[] = [
 
 export type EServiceWriteProps = {
   fetchedDataMaybe?: EServiceReadType
-  back: any
-  forward: any
+  back: VoidFunction
+  forward: VoidFunction
   activeStep: number
 }
 

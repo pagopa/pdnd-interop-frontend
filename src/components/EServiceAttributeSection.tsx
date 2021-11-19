@@ -38,7 +38,7 @@ export function EServiceAttributeSection({
   attributes,
   setAttributes,
 }: EServiceAttributeSectionProps) {
-  const getIds = (arr: any[]) => arr.map((item) => item.id)
+  const getIds = (arr: CatalogAttribute[]) => arr.map((item) => item.id)
 
   const wrapRemove = (key: AttributeKey) => (attributeGroupToRemove: CatalogAttribute[]) => {
     // Just for safety, generate new object

@@ -10,7 +10,7 @@ import { isSamePath } from '../lib/router-utils'
 import { Unauthorized } from './Unauthorized'
 
 type AuthGuardProps = {
-  Component: React.FunctionComponent<any>
+  Component: React.FunctionComponent
   authLevels: RouteAuthLevel
 }
 

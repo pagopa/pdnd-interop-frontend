@@ -11,11 +11,11 @@ export async function fetchAllWithLogs(reqsConfig: RequestConfig[]) {
 
 export async function fetchWithLogs(
   requestConfig: RequestConfig
-): Promise<AxiosResponse<any> | AxiosError<any>> {
+): Promise<AxiosResponse | AxiosError> {
   return await request(requestConfig)
 }
 
-export async function request<T>(requestConfig: RequestConfig): Promise<T | AxiosError<any>> {
+export async function request<T>(requestConfig: RequestConfig): Promise<T | AxiosError> {
   const {
     path: { endpoint, endpointParams },
     config,
@@ -30,6 +30,6 @@ export async function request<T>(requestConfig: RequestConfig): Promise<T | Axio
     return await instance.request({ url, method, ...(config || {}) })
   } catch (error) {
     logError(error)
-    return error as AxiosError<any>
+    return error as AxiosError
   }
 }
