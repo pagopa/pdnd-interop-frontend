@@ -41,7 +41,7 @@ export function ClientList() {
   /*
    * List of possible actions for the user to perform
    */
-  const wrapSuspend = (clientId: string) => async (_: any) => {
+  const wrapSuspend = (clientId: string) => async () => {
     await runAction(
       {
         path: { endpoint: 'CLIENT_SUSPEND', endpointParams: { clientId } },
@@ -50,7 +50,7 @@ export function ClientList() {
     )
   }
 
-  const wrapReactivate = (clientId: string) => async (_: any) => {
+  const wrapReactivate = (clientId: string) => async () => {
     await runAction(
       {
         path: { endpoint: 'CLIENT_ACTIVATE', endpointParams: { clientId } },
@@ -69,7 +69,7 @@ export function ClientList() {
       return []
     }
 
-    const availableActions: { [key in ClientStatus]: ActionProps[] } = {
+    const availableActions: Record<ClientStatus, ActionProps[]> = {
       active: [
         {
           onClick: wrapActionInDialog(wrapSuspend(client.id), 'CLIENT_SUSPEND'),
@@ -87,7 +87,7 @@ export function ClientList() {
     const status = client.status
 
     // Return all the actions available for this particular status
-    return (availableActions as any)[status] || []
+    return availableActions[status] || []
   }
 
   const headData = ['nome client', 'nome e-service', 'ente erogatore', 'stato', '']

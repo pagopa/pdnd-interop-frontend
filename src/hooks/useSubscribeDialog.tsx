@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { EServiceFlatReadType, Party, User } from '../../types'
+import { CustomDialogContentsProps, EServiceFlatReadType, Party, User } from '../../types'
 import { StyledInputControlledCheckbox } from '../components/Shared/StyledInputControlledCheckbox'
 import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 import { USER_ROLE_LABEL } from '../config/labels'
@@ -15,20 +15,21 @@ export const useSubscribeDialog = () => {
   const { setDialog } = useContext(DialogContext)
   const [internalEService, setInternalEService] = useState<EServiceFlatReadType | undefined>()
 
-  const wrapSubscribe = (eservice?: EServiceFlatReadType) => async (data: any) => {
-    const agreementData = {
-      eserviceId: eservice?.id,
-      descriptorId: eservice?.descriptorId,
-      consumerId: party?.partyId,
-    }
+  const wrapSubscribe =
+    (eservice?: EServiceFlatReadType) => async (data: Record<string, boolean>) => {
+      const agreementData = {
+        eserviceId: eservice?.id,
+        descriptorId: eservice?.descriptorId,
+        consumerId: party?.partyId,
+      }
 
-    if (data.agreementHandle) {
-      await runActionWithDestination(
-        { path: { endpoint: 'AGREEMENT_CREATE' }, config: { data: agreementData } },
-        { destination: ROUTES.SUBSCRIBE_AGREEMENT_LIST, suppressToast: false }
-      )
+      if (data.agreementHandle) {
+        await runActionWithDestination(
+          { path: { endpoint: 'AGREEMENT_CREATE' }, config: { data: agreementData } },
+          { destination: ROUTES.SUBSCRIBE_AGREEMENT_LIST, suppressToast: false }
+        )
+      }
     }
-  }
 
   const openDialog = (eservice?: EServiceFlatReadType) => {
     if (eservice) {
@@ -39,7 +40,7 @@ export const useSubscribeDialog = () => {
 
     setDialog({
       title: "Iscriviti all'e-service",
-      Contents: function Contents({ control, errors }: any) {
+      Contents: function Contents({ control, errors }: CustomDialogContentsProps) {
         const userData = user as User
         const partyData = party as Party
         return (

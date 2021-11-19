@@ -176,6 +176,7 @@ export function EServiceWriteStep1General({
         name="pop"
         label="Proof of Possession*"
         control={control}
+        errors={errors}
         disabled={!isEditable}
       />
 

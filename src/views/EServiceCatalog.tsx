@@ -12,7 +12,12 @@ import { useSubscribeDialog } from '../hooks/useSubscribeDialog'
 import { useExtensionDialog } from '../hooks/useExtensionDialog'
 import { buildDynamicPath } from '../lib/router-utils'
 import { StyledTooltip } from '../components/Shared/StyledTooltip'
-import { Clear as ClearIcon, Check as CheckIcon, Person as PersonIcon } from '@mui/icons-material'
+import {
+  Clear as ClearIcon,
+  Check as CheckIcon,
+  Person as PersonIcon,
+  SvgIconComponent,
+} from '@mui/icons-material'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ROUTES } from '../config/routes'
 import { ESERVICE_STATUS_LABEL } from '../config/labels'
@@ -52,7 +57,7 @@ export function EServiceCatalog() {
 
   const headData = ['nome e-service', 'ente erogatore', 'versione attuale', 'stato e-service', '']
 
-  const OwnerTooltip = ({ label = '', Icon }: { label: string; Icon: any }) => (
+  const OwnerTooltip = ({ label = '', Icon }: { label: string; Icon: SvgIconComponent }) => (
     <StyledTooltip title={label}>
       <Icon sx={{ ml: 0.5, fontSize: 16 }} color="secondary" />
     </StyledTooltip>

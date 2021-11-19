@@ -57,7 +57,7 @@ export function UserList() {
   /*
    * List of possible actions for the user to perform
    */
-  const wrapSuspend = (taxCode: string) => async (_: any) => {
+  const wrapSuspend = (taxCode: string) => async () => {
     await runAction(
       {
         path: {
@@ -72,7 +72,7 @@ export function UserList() {
     )
   }
 
-  const wrapReactivate = (taxCode: string) => async (_: any) => {
+  const wrapReactivate = (taxCode: string) => async () => {
     await runAction(
       {
         path: {

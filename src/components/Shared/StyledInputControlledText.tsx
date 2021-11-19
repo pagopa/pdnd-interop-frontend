@@ -1,9 +1,10 @@
 import React from 'react'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
-import { Controller } from 'react-hook-form'
+import { Control, Controller, FieldValues } from 'react-hook-form'
 import { InputBaseComponentProps, TextField } from '@mui/material'
 import { StyledInputWrapper } from './StyledInputWrapper'
+import { SxProps } from '@mui/system'
 
 export type StyledInputTextType = 'text' | 'email' | 'number'
 
@@ -14,16 +15,16 @@ type StyledInputControlledTextProps = {
 
   name: string
   defaultValue?: string
-  control: any
-  rules?: any
-  errors: any
+  control: Control<FieldValues, Record<string, unknown>>
+  rules?: Record<string, unknown>
+  errors: Record<string, unknown>
 
   inputProps?: InputBaseComponentProps
   type?: StyledInputTextType
   multiline?: boolean
   rows?: number
   focusOnMount?: boolean
-  sx?: any
+  sx?: SxProps
 }
 
 export function StyledInputControlledText({

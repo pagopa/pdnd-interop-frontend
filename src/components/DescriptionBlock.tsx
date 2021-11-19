@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react'
 import { Typography } from '@mui/material'
-import { Box } from '@mui/system'
+import { Box, SxProps } from '@mui/system'
 import { InfoTooltip } from './Shared/InfoTooltip'
 
 type DescriptionBlockProps = {
   label: string
   tooltipLabel?: string
-  sx?: any
+  sx?: SxProps
 }
 
 export const DescriptionBlock: FunctionComponent<DescriptionBlockProps> = ({

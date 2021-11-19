@@ -28,7 +28,7 @@ export function EServiceWriteStep4Documents({
   const bits = getBits(location)
   const activeDescriptorId: string = bits.pop() as string
 
-  const publishVersion = async (_: any) => {
+  const publishVersion = async () => {
     const activeDescriptor = fetchedData.activeDescriptor as EServiceDescriptorRead
     await runActionWithDestination(
       {
@@ -44,7 +44,7 @@ export function EServiceWriteStep4Documents({
     )
   }
 
-  const deleteVersion = async (_: any) => {
+  const deleteVersion = async () => {
     const activeDescriptor = fetchedData.activeDescriptor as EServiceDescriptorRead
     await runActionWithDestination(
       {

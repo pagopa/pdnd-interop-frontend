@@ -6,6 +6,7 @@ import {
   CLIENT_STATUS_LABEL,
   ESERVICE_STATUS_LABEL,
 } from './src/config/labels'
+import { Control, FieldValues, UseFormGetValues, UseFormWatch } from 'react-hook-form'
 
 /*
  * Fetch data and router related types
@@ -478,3 +479,13 @@ export type SelectOption = {
  * MUI related props
  */
 export type MUISize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+
+/*
+ * MISC
+ */
+export type CustomDialogContentsProps = {
+  control: Control<FieldValues, Record<string, unknown>>
+  errors: Record<string, unknown>
+  getValues?: UseFormGetValues<FieldValues>
+  watch?: UseFormWatch<FieldValues>
+}

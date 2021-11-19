@@ -20,10 +20,18 @@ type SecurityOperatorKeysProps = {
   userData: User
 }
 
+type Key = {
+  kid: string
+}
+
+type PublicKeyObject = {
+  key: Key
+}
+
 export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKeysProps) {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
   const { user } = useContext(UserContext)
-  const [key, setKey] = useState<any>()
+  const [key, setKey] = useState<PublicKeyObject | undefined>()
 
   const { openDialog, forceRerenderCounter: securityKeyPostForceRerenderCounter } =
     useSecurityOperatorKeyDialog({
@@ -56,7 +64,7 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
     asyncFetchKeys()
   }, [forceRerenderCounter, securityKeyPostForceRerenderCounter]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const wrapDownloadKey = (keyId: string) => async (_: any) => {
+  const wrapDownloadKey = (keyId: string) => async () => {
     const { response, outcome } = await runAction(
       {
         path: {
@@ -73,7 +81,7 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
     }
   }
 
-  const wrapDeleteKey = (keyId: string) => async (_: any) => {
+  const wrapDeleteKey = (keyId: string) => async () => {
     await runAction(
       {
         path: {

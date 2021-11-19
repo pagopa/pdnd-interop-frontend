@@ -8,7 +8,7 @@ import { LoaderContext, PartyContext } from '../lib/context'
 
 type Settings<T, U> = {
   defaultValue?: any
-  useEffectDeps?: any
+  useEffectDeps?: unknown[]
   mapFn?: (data: T) => U
   loaderType?: LoaderType
   loadingTextLabel: string
@@ -29,7 +29,7 @@ export const useAsyncFetch = <T, U = T>(
     useContext(LoaderContext)
   const [contextualLoadingText, setContextualLoadingText] = useState<string | null>(null)
   const [data, setData] = useState<U>(defaultValue)
-  const [error, setError] = useState<AxiosError<any>>()
+  const [error, setError] = useState<AxiosError>()
   const [isBeforeMount, setIsBeforeMount] = useState(true)
 
   useEffect(() => {
@@ -46,8 +46,8 @@ export const useAsyncFetch = <T, U = T>(
 
       if (isMounted) {
         isFetchError(response)
-          ? setError(response as AxiosError<any>)
-          : setData(mapFn((response as AxiosResponse<any>).data))
+          ? setError(response as AxiosError)
+          : setData(mapFn((response as AxiosResponse).data))
 
         setLoadingText(null)
       }

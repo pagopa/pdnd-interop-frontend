@@ -4,6 +4,7 @@ import { requiredValidationPattern } from '../lib/validation'
 import { useFeedback } from './useFeedback'
 import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 import { StyledInputControlledSelect } from '../components/Shared/StyledInputControlledSelect'
+import { CustomDialogContentsProps } from '../../types'
 
 type SecurityOperatorKeyDialogProps = {
   clientId: string
@@ -27,7 +28,7 @@ export const useSecurityOperatorKeyDialog = ({
   const openDialog = () => {
     setDialog({
       title: 'Carica nuova chiave pubblica',
-      Contents: function Contents({ control, errors }: any) {
+      Contents: function Contents({ control, errors }: CustomDialogContentsProps) {
         return (
           <React.Fragment>
             <StyledInputControlledSelect

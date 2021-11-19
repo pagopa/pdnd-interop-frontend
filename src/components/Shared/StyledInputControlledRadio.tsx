@@ -1,9 +1,10 @@
 import React from 'react'
-import { Controller } from 'react-hook-form'
+import { Control, Controller, FieldValues } from 'react-hook-form'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import { FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
 import { StyledInputWrapper } from './StyledInputWrapper'
+import { SxProps } from '@mui/system'
 
 type Option = {
   value: string
@@ -18,10 +19,10 @@ type StyledInputControlledRadioProps = {
 
   name: string
   defaultValue?: any
-  control: any
-  rules: any
-  errors: any
-  sx?: any
+  control: Control<FieldValues, Record<string, unknown>>
+  rules: Record<string, unknown>
+  errors: Record<string, unknown>
+  sx?: SxProps
 }
 
 export function StyledInputControlledRadio({

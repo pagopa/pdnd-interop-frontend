@@ -62,7 +62,7 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
    */
 
   // Get all documents actual URL
-  const wrapDownloadDocument = (documentId: string) => async (_: any) => {
+  const wrapDownloadDocument = (documentId: string) => async () => {
     const { response, outcome } = await runAction(
       {
         path: {

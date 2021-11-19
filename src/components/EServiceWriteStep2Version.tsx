@@ -20,6 +20,13 @@ type VersionData = {
   description: string
 }
 
+type VersionDataWriteType = {
+  audience: string[]
+  version: string
+  voucherLifespan: number
+  description: string
+}
+
 export function EServiceWriteStep2Version({
   forward,
   back,
@@ -61,17 +68,14 @@ export function EServiceWriteStep2Version({
 
   const onSubmit = async (data: Partial<VersionData>) => {
     // Format the data like the backend wants it
-    const dataToPost: any = { ...data }
-    if (data.audience) {
-      dataToPost.audience = [data.audience]
-    }
-    if (data.voucherLifespan) {
-      dataToPost.voucherLifespan = +data.voucherLifespan
+    const dataToPost: Partial<VersionDataWriteType> = {
+      ...data,
+      audience: [data.audience as string],
     }
 
     // Define which endpoint to call
     let endpoint: ApiEndpointKey = 'ESERVICE_VERSION_CREATE'
-    const endpointParams: any = { eserviceId: fetchedData.id }
+    const endpointParams: Record<string, string> = { eserviceId: fetchedData.id }
     const isNewDescriptor = isEmpty(fetchedData.activeDescriptor)
     if (!isNewDescriptor) {
       const activeDescriptor = fetchedData.activeDescriptor as EServiceDescriptorRead

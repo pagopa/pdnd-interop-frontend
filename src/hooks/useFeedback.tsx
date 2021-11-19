@@ -57,7 +57,7 @@ export const useFeedback = () => {
 
   // Dialog, toast and counter related functions
   const wrapActionInDialog =
-    (wrappedAction: ActionFunction, endpointKey?: DialogActionKeys) => async (_: any) => {
+    (wrappedAction: ActionFunction, endpointKey?: DialogActionKeys) => async () => {
       const contents = endpointKey ? DIALOG_CONTENTS[endpointKey] : {}
       setDialog({ proceedCallback: wrappedAction, close: closeDialog, ...contents })
     }

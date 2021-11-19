@@ -20,7 +20,7 @@ type TableWithLoaderProps = {
   pagination?: boolean
   data?: any[]
   noDataLabel?: string
-  error?: AxiosError<any>
+  error?: AxiosError
 }
 
 export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({

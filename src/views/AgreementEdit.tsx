@@ -92,7 +92,7 @@ export function AgreementEdit() {
     runFakeAction('Archivia accordo')
   }
 
-  const wrapVerify = (attributeId: string) => async (_: any) => {
+  const wrapVerify = (attributeId: string) => async () => {
     await runAction(
       {
         path: {
@@ -265,7 +265,7 @@ export function AgreementEdit() {
           <Box sx={{ mt: 1 }}>
             {data?.attributes.length > 0 ? (
               data?.attributes.map((backendAttribute, i) => {
-                let attributesToDisplay: any
+                let attributesToDisplay: JSX.Element | JSX.Element[]
 
                 if (has(backendAttribute, 'single')) {
                   const { single } = backendAttribute as SingleBackendAttribute

@@ -44,7 +44,7 @@ export function EServiceList() {
   /*
    * List of possible actions for the user to perform
    */
-  const wrapPublishDraft = (eserviceId: string, descriptorId?: string) => async (_: any) => {
+  const wrapPublishDraft = (eserviceId: string, descriptorId?: string) => async () => {
     await runAction(
       {
         path: {
@@ -56,9 +56,9 @@ export function EServiceList() {
     )
   }
 
-  const wrapDeleteDraft = (eserviceId: string, descriptorId?: string) => async (_: any) => {
+  const wrapDeleteDraft = (eserviceId: string, descriptorId?: string) => async () => {
     let endpoint: ApiEndpointKey = 'ESERVICE_DELETE'
-    const endpointParams: any = { eserviceId }
+    const endpointParams: Record<string, string> = { eserviceId }
 
     if (descriptorId) {
       endpoint = 'ESERVICE_VERSION_DELETE'
@@ -68,7 +68,7 @@ export function EServiceList() {
     await runAction({ path: { endpoint, endpointParams } }, { suppressToast: false })
   }
 
-  const wrapSuspend = (eserviceId: string, descriptorId?: string) => async (_: any) => {
+  const wrapSuspend = (eserviceId: string, descriptorId?: string) => async () => {
     await runAction(
       {
         path: {
@@ -80,7 +80,7 @@ export function EServiceList() {
     )
   }
 
-  const wrapReactivate = (eserviceId: string, descriptorId?: string) => async (_: any) => {
+  const wrapReactivate = (eserviceId: string, descriptorId?: string) => async () => {
     await runAction(
       {
         path: {
@@ -99,7 +99,7 @@ export function EServiceList() {
   }
 
   // Clones the properties and generates a new service
-  const wrapClone = (eserviceId: string, descriptorId?: string) => async (_: any) => {
+  const wrapClone = (eserviceId: string, descriptorId?: string) => async () => {
     await runAction(
       {
         path: {
