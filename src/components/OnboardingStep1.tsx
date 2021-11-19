@@ -49,7 +49,7 @@ export function OnboardingStep1({ forward, data }: StepperStepComponentProps) {
               defaultValue={data.party || null}
               placeholder="Cerca ente nel catalogo IPA"
               path={{ endpoint: 'ONBOARDING_GET_SEARCH_PARTIES' }}
-              transformFn={(data: { items: IPACatalogParty[] }) => data.items}
+              transformFn={(data) => data.items as IPACatalogParty[]}
               labelKey="description"
               name="partySelection"
               control={control}

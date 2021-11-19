@@ -17,7 +17,7 @@ export const InlineClipboard: FunctionComponent<InlineClipboardProps> = ({
 }) => {
   const { setToast } = useContext(ToastContext)
 
-  const attemptCopy = async (_: any) => {
+  const attemptCopy = async () => {
     const clipboardWritePermission = 'clipboard-write' as PermissionName
     const permission = await navigator.permissions.query({ name: clipboardWritePermission })
 

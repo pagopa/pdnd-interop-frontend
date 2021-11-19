@@ -1,5 +1,5 @@
 import React from 'react'
-import { AxiosRequestConfig, Method } from 'axios'
+import { AxiosError, AxiosRequestConfig, AxiosResponse, Method } from 'axios'
 import { API } from './src/config/api-endpoints'
 import {
   AGREEMENT_STATUS_LABEL,
@@ -488,4 +488,14 @@ export type CustomDialogContentsProps = {
   errors: Record<string, unknown>
   getValues?: UseFormGetValues<FieldValues>
   watch?: UseFormWatch<FieldValues>
+}
+
+export type RunActionOutput = {
+  response: AxiosResponse | AxiosError
+  outcome: RequestOutcome
+}
+
+export type EServiceInterfaceMimeType = {
+  mime: string[]
+  format: string
 }

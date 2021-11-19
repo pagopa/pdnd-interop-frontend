@@ -7,6 +7,7 @@ import {
   RequestConfig,
   RequestOutcome,
   RouteConfig,
+  RunActionOutput,
   RunActionProps,
   ToastActionKeys,
   ToastContentWithOutcome,
@@ -112,7 +113,10 @@ export const useFeedback = () => {
   }
 
   // The most basic action. Makes request, and displays the outcome
-  const runAction = async (request: RequestConfig, { suppressToast }: ActionOptions) => {
+  const runAction = async (
+    request: RequestConfig,
+    { suppressToast }: ActionOptions
+  ): Promise<RunActionOutput> => {
     const { outcome, toastContent, response } = await makeRequestAndGetOutcome(request)
 
     if (outcome === 'success') {

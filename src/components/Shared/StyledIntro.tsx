@@ -27,19 +27,17 @@ type TypographyVariant =
 type StyledIntroProps = {
   children: StyledIntroChildrenProps
   variant?: TypographyVariant
-  component?: any
   sx?: SxProps
 }
 
 export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
   children,
-  component = 'h1',
   variant = 'h1',
   sx = {},
 }) => {
   return (
     <Box sx={{ mb: 4, pb: 3, ...sx }}>
-      <Typography component={component} variant={variant} sx={{ mb: 2 }} color="inherit">
+      <Typography variant={variant} sx={{ mb: 2 }} color="inherit">
         {children.title}
       </Typography>
       {children.description && (

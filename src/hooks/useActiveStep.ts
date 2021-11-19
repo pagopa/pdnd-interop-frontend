@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import isEmpty from 'lodash/isEmpty'
-import has from 'lodash/has'
 import { scrollToTop } from '../lib/page-utils'
 import { EServiceReadType } from '../../types'
 
@@ -17,11 +16,10 @@ export const useActiveStep = ({ data }: ActiveStepProps) => {
   // and a history.replace action has taken place and the whole EServiceGate
   // component has rerendered and fetched fresh data
   useEffect(() => {
-    const { state } = history.location
-
     // State has priority since it is a direct order to go to a location
-    if (!isEmpty(state) && has(state, 'stepIndexDestination')) {
-      goToStep((state as any).stepIndexDestination)
+    const locationState: Record<string, unknown> = history.location.state as Record<string, unknown>
+    if (!isEmpty(locationState) && locationState.stepIndexDestination) {
+      goToStep(locationState.stepIndexDestination as number)
       // If there is no state but we have data, compute the location
     } else if (!isEmpty(data)) {
       goToStep(getInitialStepIndexDestination(data))

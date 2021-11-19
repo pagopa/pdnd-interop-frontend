@@ -7,7 +7,7 @@ type ForwardActionStep = {
 }
 
 type BackActionStep = ForwardActionStep & {
-  action: (e?: any) => void
+  action: VoidFunction
 }
 
 type ActionStepsProps = {

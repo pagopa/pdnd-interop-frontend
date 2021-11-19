@@ -15,7 +15,7 @@ import { TableActionMenuContext } from '../../lib/context'
 
 type ConfirmationDialogOverlayProps = {
   title?: string
-  Contents?: any
+  Contents?: FunctionComponent<any>
   close: VoidFunction
   proceedCallback: ActionFunction
   proceedLabel?: string

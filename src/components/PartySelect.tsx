@@ -12,16 +12,17 @@ import { USER_ROLE_LABEL } from '../config/labels'
 export function PartySelect() {
   const { party, availableParties, setParty } = useContext(PartyContext)
 
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
   const open = Boolean(anchorEl)
-  const handleClick = (e: any) => {
-    setAnchorEl(e.currentTarget)
+  const handleClick = (e: React.SyntheticEvent) => {
+    const currentTarget = e.currentTarget as HTMLButtonElement
+    setAnchorEl(currentTarget)
   }
   const handleClose = () => {
     setAnchorEl(null)
   }
 
-  const wrapUpdateActiveParty = (newParty: Party) => (e: any) => {
+  const wrapUpdateActiveParty = (newParty: Party) => (e: React.SyntheticEvent) => {
     if (e) {
       e.preventDefault()
     }

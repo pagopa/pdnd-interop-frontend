@@ -8,6 +8,8 @@ import {
   EServiceDocumentRead,
   EServiceDocumentWrite,
   EServiceReadType,
+  EServiceDocumentKind,
+  RunActionOutput,
 } from '../../types'
 import { getActiveDocs } from '../lib/eservice-utils'
 import { StyledDeleteableDocument } from './Shared/StyledDeleteableDocument'
@@ -16,11 +18,12 @@ import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
 import { requiredValidationPattern } from '../lib/validation'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
+import { AxiosResponse } from 'axios'
 
 type EServiceWriteStep4DocumentsDocProps = {
   data: EServiceReadType
-  uploadDescriptorDocument: any
-  deleteDescriptorDocument: any
+  uploadDescriptorDocument: (document: EServiceDocumentWrite) => Promise<RunActionOutput>
+  deleteDescriptorDocument: (documentId: string) => Promise<RunActionOutput>
   activeDescriptorId: string
 }
 
@@ -58,12 +61,12 @@ export function EServiceWriteStep4DocumentsDoc({
     }
   }
 
-  const uploadNewDoc = async (data: Partial<EServiceDocumentWrite>) => {
-    const dataToPost = { ...data, doc: data.doc[0], kind: 'document' }
+  const uploadNewDoc = async (data: Exclude<EServiceDocumentWrite, 'kind'>) => {
+    const dataToPost = { ...data, doc: data.doc[0], kind: 'document' as EServiceDocumentKind }
     const { outcome, response } = await uploadDescriptorDocument(dataToPost)
 
     if (outcome === 'success') {
-      const activeDescriptor = response.data.descriptors.find(
+      const activeDescriptor = (response as AxiosResponse).data.descriptors.find(
         (d: EServiceDescriptorRead) => d.id === activeDescriptorId
       )
       const files = activeDescriptor.docs
@@ -72,7 +75,7 @@ export function EServiceWriteStep4DocumentsDoc({
     }
   }
 
-  const showFileInputForm = (_: any) => {
+  const showFileInputForm = () => {
     setShowWriteDocInput(true)
   }
 

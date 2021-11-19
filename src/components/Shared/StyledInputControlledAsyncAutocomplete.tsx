@@ -26,7 +26,7 @@ type StyledInputControlledAsyncAutocompleteProps = {
 
   placeholder: string
   path: Endpoint
-  transformFn: any
+  transformFn: (data: Record<string, unknown>) => Array<Record<string, unknown>>
   labelKey: string
   multiple?: boolean
   focusOnMount?: boolean
@@ -53,13 +53,14 @@ export function StyledInputControlledAsyncAutocomplete({
   sx,
 }: StyledInputControlledAsyncAutocompleteProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [options, setOptions] = useState<any>([])
+  const [options, setOptions] = useState<Array<Record<string, unknown>>>([])
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleSearch = async (e: any) => {
+  const handleSearch = async (e: React.SyntheticEvent) => {
     if (!e) return
 
-    if (!e.target.value) {
+    const target = e.target as HTMLInputElement
+    if (!target.value) {
       setOptions([])
       return
     }
@@ -68,7 +69,7 @@ export function StyledInputControlledAsyncAutocomplete({
 
     const searchResponse = await fetchWithLogs({
       path,
-      config: { params: { limit: 100, page: 1, search: e.target.value } },
+      config: { params: { limit: 100, page: 1, search: target.value } },
     })
 
     const outcome = getFetchOutcome(searchResponse)
@@ -114,8 +115,8 @@ export function StyledInputControlledAsyncAutocomplete({
             onInputChange={debounce(handleSearch, 100)}
             onOpen={open}
             onClose={close}
-            getOptionLabel={(option: any) => (option ? option[labelKey] : '')}
-            isOptionEqualToValue={(option: any, value: any) => option[labelKey] === value[labelKey]}
+            getOptionLabel={(option) => (option ? option[labelKey] : '')}
+            isOptionEqualToValue={(option, value) => option[labelKey] === value[labelKey]}
             filterOptions={(options) => uniqBy(options, (o) => o[labelKey].toLowerCase())}
             options={options}
             loading={isLoading}

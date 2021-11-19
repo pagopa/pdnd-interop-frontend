@@ -3,9 +3,12 @@ import { useForm } from 'react-hook-form'
 import isEmpty from 'lodash/isEmpty'
 import {
   EServiceDescriptorRead,
+  EServiceDocumentKind,
   EServiceDocumentRead,
   EServiceDocumentWrite,
+  EServiceInterfaceMimeType,
   EServiceReadType,
+  RunActionOutput,
 } from '../../types'
 import { getActiveInterface } from '../lib/eservice-utils'
 import { StyledDeleteableDocument } from './Shared/StyledDeleteableDocument'
@@ -16,13 +19,14 @@ import { UploadFile as UploadFileIcon } from '@mui/icons-material'
 import { Box } from '@mui/system'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { requiredValidationPattern } from '../lib/validation'
+import { AxiosResponse } from 'axios'
 
 type EServiceWriteStep4DocumentsInterfaceProps = {
   data: EServiceReadType
-  uploadDescriptorDocument: any
-  deleteDescriptorDocument: any
+  uploadDescriptorDocument: (document: EServiceDocumentWrite) => Promise<RunActionOutput>
+  deleteDescriptorDocument: (documentId: string) => Promise<RunActionOutput>
   activeDescriptorId: string
-  interfaceAcceptedMimeTypes: any
+  interfaceAcceptedMimeTypes: EServiceInterfaceMimeType
 }
 
 export function EServiceWriteStep4DocumentsInterface({
@@ -60,16 +64,16 @@ export function EServiceWriteStep4DocumentsInterface({
     }
   }
 
-  const uploadNewInterfaceDoc = async (data: Partial<EServiceDocumentWrite>) => {
+  const uploadNewInterfaceDoc = async (data: Exclude<EServiceDocumentWrite, 'kind'>) => {
     if (!isEmpty(readDoc)) {
       await deletePreviousInterfaceDoc()
     }
 
-    const dataToPost = { ...data, doc: data.doc[0], kind: 'interface' }
+    const dataToPost = { ...data, doc: data.doc[0], kind: 'interface' as EServiceDocumentKind }
     const { outcome, response } = await uploadDescriptorDocument(dataToPost)
 
     if (outcome === 'success') {
-      const activeDescriptor = response.data.descriptors.find(
+      const activeDescriptor = (response as AxiosResponse).data.descriptors.find(
         (d: EServiceDescriptorRead) => d.id === activeDescriptorId
       )
       const file = activeDescriptor.interface
