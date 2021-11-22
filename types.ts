@@ -20,7 +20,7 @@ export type ApiEndpointContent = {
 
 export type Endpoint = {
   endpoint: ApiEndpointKey
-  endpointParams?: any
+  endpointParams?: Record<string, string | number | null | undefined>
 }
 
 export type RequestConfig = {
