@@ -69,7 +69,11 @@ export function EServiceWriteStep4DocumentsInterface({
       await deletePreviousInterfaceDoc()
     }
 
-    const dataToPost = { ...data, doc: data.doc[0], kind: 'interface' as EServiceDocumentKind }
+    const dataToPost = {
+      ...data,
+      doc: (data.doc as unknown as File[])[0],
+      kind: 'interface' as EServiceDocumentKind,
+    }
     const { outcome, response } = await uploadDescriptorDocument(dataToPost)
 
     if (outcome === 'success') {

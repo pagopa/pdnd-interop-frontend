@@ -1,21 +1,4 @@
-import {
-  EServiceDocumentKind,
-  EServiceDocumentRead,
-  EServiceDocumentWrite,
-  EServiceReadType,
-} from '../../types'
-
-export function remapBackendDocumentToFrontend(
-  backendDocument: EServiceDocumentRead,
-  kind: EServiceDocumentKind
-): EServiceDocumentWrite | undefined {
-  if (!backendDocument) {
-    return
-  }
-
-  const { id, description, name } = backendDocument
-  return { kind, description, doc: { name, id } }
-}
+import { EServiceReadType } from '../../types'
 
 // Isolate activeDescriptor for easier access
 export function decorateEServiceWithActiveDescriptor(descriptorId: string | undefined) {

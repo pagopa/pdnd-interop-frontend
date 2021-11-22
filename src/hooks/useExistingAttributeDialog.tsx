@@ -17,11 +17,12 @@ type ExistingAttributeDialogProps = {
 export const useExistingAttributeDialog = ({ add, attributeKey }: ExistingAttributeDialogProps) => {
   const { setDialog } = useContext(DialogContext)
 
-  const confirm = async (data: {
-    selection: CatalogAttribute[]
-    verification: string | undefined
-  }) => {
-    add(data.selection, Boolean(data.verification))
+  const confirm = async (data: Record<string, unknown>) => {
+    const { selection, verification } = data as {
+      selection: CatalogAttribute[]
+      verification: string | undefined
+    }
+    add(selection, Boolean(verification))
     closeDialog()
   }
 

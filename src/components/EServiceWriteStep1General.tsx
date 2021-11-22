@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
 import { AxiosResponse } from 'axios'
@@ -30,10 +30,9 @@ import { StyledInputControlledSwitch } from './Shared/StyledInputControlledSwitc
 import { ROUTES } from '../config/routes'
 import { EServiceWriteActions } from './Shared/EServiceWriteActions'
 
-export function EServiceWriteStep1General({
-  forward,
-  fetchedDataMaybe,
-}: StepperStepComponentProps & EServiceWriteProps) {
+export const EServiceWriteStep1General: FunctionComponent<
+  StepperStepComponentProps & EServiceWriteProps
+> = ({ forward, fetchedDataMaybe }) => {
   const {
     handleSubmit,
     control,

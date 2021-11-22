@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { AxiosError, AxiosRequestConfig, AxiosResponse, Method } from 'axios'
 import { API } from './src/config/api-endpoints'
 import {
@@ -34,7 +34,7 @@ export type BasicRouteConfig = {
   PATH: string
   LABEL: string
   EXACT?: boolean
-  COMPONENT: React.FunctionComponent<any>
+  COMPONENT: React.FunctionComponent<unknown>
   REDIRECT?: string
   PUBLIC: boolean
   AUTH_LEVELS?: RouteAuthLevel
@@ -62,14 +62,15 @@ export type ProviderOrSubscriber = Provider | Subscriber
  * Onboarding component
  */
 export type StepperStepComponentProps = {
-  forward: any
+  forward: (e?: React.SyntheticEvent, data?: Record<string, unknown>) => void
   back: () => void
-  data: any
+  data: Record<string, unknown>
 }
 
 export type StepperStep = {
   label: string
-  component: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  component: React.ElementType<StepperStepComponentProps & any>
 }
 
 export type IPACatalogParty = {
@@ -151,7 +152,7 @@ export type EServiceWriteType = {
 export type EServiceDocumentWrite = {
   kind: EServiceDocumentKind
   description: string
-  doc: any // File
+  doc: File
 }
 
 export type EServiceDescriptorWrite = {
@@ -386,7 +387,11 @@ export type DialogProps = DialogContent & {
 
 export type DialogContent = {
   title?: string
-  Contents?: any
+  // Use this field if it's only a textual description
+  description?: string
+  // Use this other field if you must pass a component
+  // (e.g. put a form to validate inside the dialog)
+  Contents?: FunctionComponent<RHFProps>
 }
 
 export type DialogActionKeys = Exclude<
@@ -498,4 +503,11 @@ export type RunActionOutput = {
 export type EServiceInterfaceMimeType = {
   mime: string[]
   format: string
+}
+
+export type RHFProps = {
+  control: Control<FieldValues, Record<string, unknown>>
+  errors: Record<string, unknown>
+  watch: UseFormWatch<FieldValues>
+  getValues: UseFormGetValues<FieldValues>
 }
