@@ -43,7 +43,7 @@ export type UserFeedbackHOCProps = {
   runFakeAction: (actionName: string) => void
   forceRerenderCounter: number
   requestRerender: VoidFunction
-  wrapActionInDialog: any
+  wrapActionInDialog: Promise<void>
   showToast: (toastContent: ToastContentWithOutcome) => void
   setLoadingText: (text: string | undefined) => void
 }

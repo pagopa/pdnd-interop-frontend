@@ -76,7 +76,7 @@ export function ChooseParty() {
           {availableParties.length > 0 && (
             <List sx={{ height: 240, overflow: 'auto' }} component="ul">
               {availableParties.map((p, i) => {
-                const disabled = p.status === 'pending' || p.status === ('Pending' as any)
+                const disabled = p.status === 'pending'
                 const selected = p.institutionId === party?.institutionId
                 return (
                   <ListItem key={i} sx={{ mb: 1, position: 'relative' }} disablePadding={true}>
@@ -110,12 +110,11 @@ export function ChooseParty() {
                         {USER_ROLE_LABEL[p.role]}
                       </Typography>
                     </StyledButton>
-                    {p.status === 'pending' ||
-                      (p.status === ('Pending' as any) && (
-                        <Box sx={{ position: 'absolute', right: 20, top: 12 }}>
-                          <Chip label="Da completare" color="primary" size="small" />
-                        </Box>
-                      ))}
+                    {p.status === 'pending' && (
+                      <Box sx={{ position: 'absolute', right: 20, top: 12 }}>
+                        <Chip label="Da completare" color="primary" size="small" />
+                      </Box>
+                    )}
                   </ListItem>
                 )
               })}

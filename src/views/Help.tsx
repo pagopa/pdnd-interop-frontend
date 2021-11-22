@@ -22,8 +22,10 @@ export function Help() {
   const minimumNestingLevel = getNestingLevel(anchorTags[0])
 
   const toTOCTree = (arr: Entry[]): EntryTreeBranch[] =>
-    arr.reduce((acc: any, entry: Entry) => {
-      if (!anchorTags.includes(entry.type as any)) {
+    arr.reduce((acc: EntryTreeBranch[], entry: Entry) => {
+      // This sucks, but it is here because of this TS decision:
+      // https://github.com/microsoft/TypeScript/issues/26255
+      if (!anchorTags.includes(entry.type as Anchor)) {
         return acc
       }
 
@@ -77,7 +79,9 @@ export function Help() {
         {textData.map(({ type, text }, i) => {
           const HTMLTag = type as keyof JSX.IntrinsicElements
 
-          if (anchorTags.includes(type as any)) {
+          // This sucks, but it is here because of this TS decision:
+          // https://github.com/microsoft/TypeScript/issues/26255
+          if (anchorTags.includes(type as Anchor)) {
             return (
               <HTMLTag id={`${snakeCase(text)}`} key={i}>
                 {text}

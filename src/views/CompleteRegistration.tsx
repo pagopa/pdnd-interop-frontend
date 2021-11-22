@@ -32,11 +32,12 @@ export function CompleteRegistration() {
     return s.jwt
   }
 
-  const onSubmit = async (data: Record<string, any>) => {
+  const onSubmit = async (data: Record<string, unknown>) => {
+    const contract: Blob | string = (data.contract as (Blob | string)[])[0]
     const token = getJwt()
     // Append the file as form data
     const formData = new FormData()
-    formData.append('contract', data.contract[0])
+    formData.append('contract', contract)
     // Send multipart/form-data POST request
     const { outcome } = await runAction(
       {
