@@ -31,7 +31,7 @@ export function UserList() {
   const endpointParams =
     mode === 'provider' ? { institutionId: party?.institutionId } : { clientId }
 
-  const { data, loadingText, error } = useAsyncFetch<User[]>(
+  const { data, loadingText, error } = useAsyncFetch<Array<User>>(
     { path: { endpoint, endpointParams } },
     {
       useEffectDeps: [forceRerenderCounter, user],
@@ -105,7 +105,7 @@ export function UserList() {
       label: 'Riattiva',
     }
 
-    const availableActions: { [key in UserStatus]: ActionProps[] } = {
+    const availableActions: Record<UserStatus, Array<ActionProps>> = {
       pending: [],
       active: [suspendAction],
       suspended: [reactivateAction],

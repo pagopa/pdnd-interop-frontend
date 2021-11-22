@@ -11,9 +11,9 @@ export const UserContext = createContext({ user: null, setUser: noop } as UserCo
 
 type PartyContextType = {
   party: Party | null
-  availableParties: Party[] | null
+  availableParties: Array<Party> | null
   setParty: React.Dispatch<React.SetStateAction<Party | null>>
-  setAvailableParties: React.Dispatch<React.SetStateAction<Party[] | null>>
+  setAvailableParties: React.Dispatch<React.SetStateAction<Array<Party> | null>>
 }
 
 export const PartyContext = createContext({

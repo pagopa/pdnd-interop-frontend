@@ -109,7 +109,7 @@ export function AgreementEdit() {
    * End list of actions
    */
 
-  type AgreementActions = { [key in AgreementStatus]: ActionProps[] }
+  type AgreementActions = Record<AgreementStatus, Array<ActionProps>>
   // Build list of available actions for each agreement in its current state
   const getAvailableActions = () => {
     if (!data) {
@@ -145,7 +145,7 @@ export function AgreementEdit() {
       inactive: [],
     }
 
-    const subscriberOnlyActionsActive: ActionProps[] = []
+    const subscriberOnlyActionsActive: Array<ActionProps> = []
     if (
       data.eservice.activeDescriptor &&
       data.eservice.activeDescriptor.version > data.eservice.version
@@ -271,7 +271,7 @@ export function AgreementEdit() {
           <Box sx={{ mt: 1 }}>
             {data?.attributes.length > 0 ? (
               data?.attributes.map((backendAttribute, i) => {
-                let attributesToDisplay: JSX.Element | JSX.Element[]
+                let attributesToDisplay: JSX.Element | Array<JSX.Element>
 
                 if (has(backendAttribute, 'single')) {
                   const { single } = backendAttribute as SingleBackendAttribute

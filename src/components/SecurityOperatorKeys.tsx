@@ -94,7 +94,7 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
   }
 
   const getAvailableActions = (key: SecurityOperatorPublicKey) => {
-    const actions: ActionProps[] = [
+    const actions: Array<ActionProps> = [
       {
         onClick: wrapDownloadKey(key.kid),
         label: 'Scarica',

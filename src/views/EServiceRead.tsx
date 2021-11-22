@@ -90,7 +90,7 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
   const isMine = data.producer.id === party?.partyId
   const isVersionPublished = data.activeDescriptor?.status === 'published'
 
-  const toAccordionEntries = (attributes: BackendAttribute[]) => {
+  const toAccordionEntries = (attributes: Array<BackendAttribute>) => {
     return attributes.map((attribute) => {
       const isSingle = has(attribute, 'single')
 
@@ -233,7 +233,7 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
         </DescriptionBlock>
       )}
 
-      {(Object.keys(data.attributes) as AttributeKey[]).map((key, i) => (
+      {(Object.keys(data.attributes) as Array<AttributeKey>).map((key, i) => (
         <DescriptionBlock key={i} label={`Attributi ${ATTRIBUTE_TYPE_PLURAL_LABEL[key]}`}>
           <Contained>
             {data.attributes[key].length > 0 ? (

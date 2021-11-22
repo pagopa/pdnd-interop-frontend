@@ -21,7 +21,7 @@ type VersionData = {
 }
 
 type VersionDataWriteType = {
-  audience: string[]
+  audience: Array<string>
   version: string
   voucherLifespan: number
   description: string

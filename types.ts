@@ -28,7 +28,7 @@ export type RequestConfig = {
   config?: AxiosRequestConfig
 }
 
-export type RouteAuthLevel = 'any' | UserPlatformRole[]
+export type RouteAuthLevel = 'any' | Array<UserPlatformRole>
 
 export type BasicRouteConfig = {
   PATH: string
@@ -117,7 +117,7 @@ export type Party = PartyOnCreate & {
   role: UserRole
   platformRole: UserPlatformRole
   partyId?: string
-  attributes: string[]
+  attributes: Array<string>
 }
 
 /*
@@ -146,7 +146,7 @@ export type EServiceWriteType = {
   name: string
   version: string
   status: EServiceStatus
-  descriptors: EServiceDescriptorWrite[]
+  descriptors: Array<EServiceDescriptorWrite>
 }
 
 export type EServiceDocumentWrite = {
@@ -158,7 +158,7 @@ export type EServiceDocumentWrite = {
 export type EServiceDescriptorWrite = {
   id: string
   status: EServiceStatus
-  docs: EServiceDocumentWrite[]
+  docs: Array<EServiceDocumentWrite>
   interface: EServiceDocumentWrite
   version: string
 }
@@ -181,7 +181,7 @@ export type EServiceFlatReadType = {
   status?: EServiceStatus
   version?: string
   callerSubscribed?: string
-  certifiedAttributes: BackendAttribute[]
+  certifiedAttributes: Array<BackendAttribute>
 }
 
 export type EServiceFlatDecoratedReadType = EServiceFlatReadType & {
@@ -202,19 +202,19 @@ export type EServiceReadType = {
   attributes: BackendAttributes
   id: string
   status: EServiceStatus
-  descriptors: EServiceDescriptorRead[]
+  descriptors: Array<EServiceDescriptorRead>
   activeDescriptor?: EServiceDescriptorRead // TEMP Refactor : this is added by the client
 }
 
 export type EServiceDescriptorRead = {
   id: string
   status: EServiceStatus
-  docs: EServiceDocumentRead[]
+  docs: Array<EServiceDocumentRead>
   interface: EServiceDocumentRead
   version: string
   voucherLifespan: number
   description: string
-  audience: string[]
+  audience: Array<string>
 }
 
 export type EServiceDocumentRead = {
@@ -259,7 +259,7 @@ export type AgreementSummary = {
   eserviceDescriptorId: string
   consumer: AgreementProducerAndConsumer
   producer: AgreementProducerAndConsumer
-  attributes: BackendAttribute[]
+  attributes: Array<BackendAttribute>
   suspendedByProducer?: boolean
   suspendedBySubscriber?: boolean
 }
@@ -334,10 +334,10 @@ export type SingleBackendAttribute = {
   single: BackendAttributeContent
 }
 export type GroupBackendAttribute = {
-  group: BackendAttributeContent[]
+  group: Array<BackendAttributeContent>
 }
 export type BackendAttribute = SingleBackendAttribute | GroupBackendAttribute
-export type BackendAttributes = Record<AttributeKey, BackendAttribute[]>
+export type BackendAttributes = Record<AttributeKey, Array<BackendAttribute>>
 
 // Catalog attribute as it comes from the attributes catalog
 export type CatalogAttribute = {
@@ -355,10 +355,10 @@ export type CatalogAttribute = {
 // Also, it needs to be in array form to display it into a table, and the explicitAttributeVerification
 // must only come once per group
 export type FrontendAttribute = {
-  attributes: CatalogAttribute[]
+  attributes: Array<CatalogAttribute>
   explicitAttributeVerification: boolean
 }
-export type FrontendAttributes = Record<AttributeKey, FrontendAttribute[]>
+export type FrontendAttributes = Record<AttributeKey, Array<FrontendAttribute>>
 
 /*
  * Dialog, loader and toast components typings
@@ -501,7 +501,7 @@ export type RunActionOutput = {
 }
 
 export type EServiceInterfaceMimeType = {
-  mime: string[]
+  mime: Array<string>
   format: string
 }
 

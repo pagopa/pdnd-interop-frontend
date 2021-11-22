@@ -3,14 +3,13 @@ import noop from 'lodash/noop'
 import { Box } from '@mui/system'
 
 type EventOptions = boolean | (EventListenerOptions & { passive: boolean }) | undefined
-type KeyObj = { [key in number]: number }
 
 export const Overlay: FunctionComponent = ({ children }) => {
   // From https://stackoverflow.com/a/4770179
 
   // left: 37, up: 38, right: 39, down: 40,
   // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
-  const keys: KeyObj = { 37: 1, 38: 1, 39: 1, 40: 1 }
+  const keys: Record<number, number> = { 37: 1, 38: 1, 39: 1, 40: 1 }
 
   function preventDefault(e: Event) {
     e.preventDefault()

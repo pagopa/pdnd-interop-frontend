@@ -44,7 +44,7 @@ export function UserEdit() {
     endpointParams = { taxCode, institutionId: party?.institutionId }
   }
 
-  const { data } = useAsyncFetch<User, User[]>(
+  const { data } = useAsyncFetch<User, Array<User>>(
     { path: { endpoint, endpointParams } },
     {
       useEffectDeps: [forceRerenderCounter],
@@ -57,7 +57,7 @@ export function UserEdit() {
           // as admin users. Basically, we should create a stable User type shared across all users
           // of PDND interop and also shared with the self-care portal. While waiting, the frontend
           // fixes it with a temporary hack
-          return data as unknown as User[]
+          return data as unknown as Array<User>
         }
 
         return [data]
@@ -103,7 +103,7 @@ export function UserEdit() {
   /*
    * End list of actions
    */
-  type UserActions = { [key in UserStatus]: ActionProps[] }
+  type UserActions = Record<UserStatus, Array<ActionProps>>
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = () => {

@@ -13,7 +13,7 @@ type Option = {
 
 type StyledInputControlledCheckboxProps = {
   label?: string
-  options?: Option[]
+  options?: Array<Option>
   disabled?: boolean
   infoLabel?: string
 

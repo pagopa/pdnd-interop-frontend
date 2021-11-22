@@ -10,7 +10,7 @@ import { StyledStepper } from '../components/Shared/StyledStepper'
 import { StyledIntro, StyledIntroChildrenProps } from '../components/Shared/StyledIntro'
 import { Contained } from '../components/Shared/Contained'
 
-const STEPS: (StepperStep & { intro: StyledIntroChildrenProps })[] = [
+const STEPS: Array<StepperStep & { intro: StyledIntroChildrenProps }> = [
   {
     label: 'Generale',
     component: EServiceWriteStep1General,

@@ -29,7 +29,7 @@ export function AgreementList() {
 
   const params =
     mode === 'provider' ? { producerId: party?.partyId } : { consumerId: party?.partyId }
-  const { data, loadingText, error } = useAsyncFetch<AgreementSummary[]>(
+  const { data, loadingText, error } = useAsyncFetch<Array<AgreementSummary>>(
     {
       path: { endpoint: 'AGREEMENT_GET_LIST' },
       config: { params },
@@ -82,7 +82,7 @@ export function AgreementList() {
    * End list of actions
    */
 
-  type AgreementActions = { [key in AgreementStatus]: ActionProps[] }
+  type AgreementActions = Record<AgreementStatus, Array<ActionProps>>
   // Build list of available actions for each service in its current state
   const getAvailableActions = (agreement: AgreementSummary) => {
     const sharedActions: AgreementActions = {
@@ -102,7 +102,7 @@ export function AgreementList() {
       inactive: [],
     }
 
-    const subscriberOnlyActionsActive: ActionProps[] = []
+    const subscriberOnlyActionsActive: Array<ActionProps> = []
     if (agreement.eservice.activeDescriptor) {
       subscriberOnlyActionsActive.push({
         onClick: wrapActionInDialog(wrapUpgrade(agreement.id), 'AGREEMENT_UPGRADE'),

@@ -30,7 +30,7 @@ export function ClientCreate() {
 
   const { runActionWithDestination } = useFeedback()
   const { party } = useContext(PartyContext)
-  const { data: eserviceData } = useAsyncFetch<EServiceReadType[], SelectOption[]>(
+  const { data: eserviceData } = useAsyncFetch<Array<EServiceReadType>, Array<SelectOption>>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST' },
       config: { params: { consumerId: party?.partyId } },

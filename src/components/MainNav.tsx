@@ -19,10 +19,10 @@ import { belongsToTree } from '../lib/router-utils'
 type View = {
   route: RouteConfig
   type?: ProviderOrSubscriber
-  children?: RouteConfig[]
+  children?: Array<RouteConfig>
 }
 
-type Views = { [key in UserPlatformRole]: View[] }
+type Views = Record<UserPlatformRole, Array<View>>
 
 const WIDTH = 340
 
@@ -151,7 +151,7 @@ export function MainNav() {
 
               <Collapse in={isActive} timeout="auto" unmountOnExit>
                 <List disablePadding sx={{ width: WIDTH, pl: 2 }}>
-                  {(view.children as RouteConfig[]).map((child, j) => (
+                  {(view.children as Array<RouteConfig>).map((child, j) => (
                     <ListItem sx={{ display: 'block', p: 0 }} key={j}>
                       <WrappedLink route={child} />
                     </ListItem>

@@ -6,7 +6,7 @@ export function storageDelete(key: string) {
 }
 
 export function storageWrite(key: string, value: StorageValue, type: StorageValueType) {
-  const stringifyFn: { [key in StorageValueType]: () => string } = {
+  const stringifyFn: Record<StorageValueType, () => string> = {
     string: () => value as string,
     number: () => String(value),
     object: () => JSON.stringify(value),

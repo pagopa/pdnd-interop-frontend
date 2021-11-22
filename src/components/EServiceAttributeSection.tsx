@@ -38,9 +38,9 @@ export function EServiceAttributeSection({
   attributes,
   setAttributes,
 }: EServiceAttributeSectionProps) {
-  const getIds = (arr: CatalogAttribute[]) => arr.map((item) => item.id)
+  const getIds = (arr: Array<CatalogAttribute>) => arr.map((item) => item.id)
 
-  const wrapRemove = (key: AttributeKey) => (attributeGroupToRemove: CatalogAttribute[]) => {
+  const wrapRemove = (key: AttributeKey) => (attributeGroupToRemove: Array<CatalogAttribute>) => {
     // Just for safety, generate new object
     const filteredAttributes = { ...attributes }
     // Filter out those that have the exact same id list as the group to remove
@@ -54,7 +54,7 @@ export function EServiceAttributeSection({
 
   const wrapAdd =
     (key: AttributeKey) =>
-    (attributeGroup: CatalogAttribute[], explicitAttributeVerification: boolean) => {
+    (attributeGroup: Array<CatalogAttribute>, explicitAttributeVerification: boolean) => {
       setAttributes({
         ...attributes,
         [key]: [...attributes[key], { attributes: attributeGroup, explicitAttributeVerification }],

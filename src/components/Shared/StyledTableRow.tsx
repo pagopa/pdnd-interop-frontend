@@ -17,10 +17,10 @@ type SingleActionLinkProps = {
 }
 
 type StyledTableRowProps = {
-  cellData: Cell[]
+  cellData: Array<Cell>
   index: number
   singleActionBtn?: SingleActionLinkProps
-  actions?: ActionProps[]
+  actions?: Array<ActionProps>
 }
 
 export function StyledTableRow({ cellData, index, singleActionBtn, actions }: StyledTableRowProps) {

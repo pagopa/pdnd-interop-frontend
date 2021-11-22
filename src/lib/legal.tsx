@@ -129,7 +129,7 @@ export function getAccessionAgreement(admin: User, party: PartyOnCreate, current
   )
 }
 
-export function getAccessionAgreementAttachments(delegates: User[]) {
+export function getAccessionAgreementAttachments(delegates: Array<User>) {
   const attachments = [
     {
       summary: "Allegato 1: termini e condizioni di adesione e d'uso della infrastruttura",

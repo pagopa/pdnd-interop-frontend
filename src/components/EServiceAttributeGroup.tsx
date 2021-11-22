@@ -8,11 +8,11 @@ import { StyledButton } from './Shared/StyledButton'
 import { TableWithLoader } from './Shared/TableWithLoader'
 
 type EServiceAttributeGroupProps = {
-  attributesGroup: FrontendAttribute[]
+  attributesGroup: Array<FrontendAttribute>
   canRequireVerification?: boolean
   canCreateNewAttributes?: boolean
-  add: (attributeGroup: CatalogAttribute[], explicitAttributeVerification: boolean) => void
-  remove: (attributeGroupToRemove: CatalogAttribute[]) => void
+  add: (attributeGroup: Array<CatalogAttribute>, explicitAttributeVerification: boolean) => void
+  remove: (attributeGroupToRemove: Array<CatalogAttribute>) => void
   attributeKey: AttributeKey
 }
 
@@ -34,7 +34,7 @@ export function EServiceAttributeGroup({
     ? ['nome attributo', 'convalida richiesta', '']
     : ['nome attributo', '']
 
-  const wrapRemove = (attributes: CatalogAttribute[]) => () => {
+  const wrapRemove = (attributes: Array<CatalogAttribute>) => () => {
     remove(attributes)
   }
 

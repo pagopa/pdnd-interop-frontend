@@ -56,8 +56,8 @@ export function remapBackendAttributesToFrontend(
 }
 
 export function canSubscribe(
-  partyAttributes: string[] | undefined,
-  eserviceAttributes: BackendAttribute[]
+  partyAttributes: Array<string> | undefined,
+  eserviceAttributes: Array<BackendAttribute>
 ) {
   if (!partyAttributes) {
     return false

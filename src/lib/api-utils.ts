@@ -5,7 +5,7 @@ import { buildDynamicPath } from './router-utils'
 import { logError } from './action-log'
 import { API } from '../config/api-endpoints'
 
-export async function fetchAllWithLogs(reqsConfig: RequestConfig[]) {
+export async function fetchAllWithLogs(reqsConfig: Array<RequestConfig>) {
   return await Promise.all(reqsConfig.map(async (requestConfig) => await request(requestConfig)))
 }
 
