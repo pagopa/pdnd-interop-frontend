@@ -6,7 +6,7 @@ import { ActionProps } from '../../../types'
 import { TableActionMenuContext } from '../../lib/context'
 
 type ActionMenuProps = {
-  actions: ActionProps[]
+  actions: Array<ActionProps>
   index: number
 }
 

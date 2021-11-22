@@ -9,7 +9,7 @@ import { SxProps } from '@mui/system'
 
 type StyledInputControlledSelectProps = {
   label?: string
-  options?: SelectOption[]
+  options?: Array<SelectOption>
   disabled?: boolean
   infoLabel?: string
 

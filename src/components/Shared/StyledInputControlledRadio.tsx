@@ -13,7 +13,7 @@ type Option = {
 
 type StyledInputControlledRadioProps = {
   label?: string
-  options?: Option[]
+  options?: Array<Option>
   disabled?: boolean
   infoLabel?: string
 

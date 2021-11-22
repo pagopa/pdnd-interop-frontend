@@ -78,7 +78,7 @@ export function Onboarding() {
     setOutcome(outcome)
   }
 
-  const STEPS: Omit<StepperStep, 'label'>[] = [
+  const STEPS: Array<Omit<StepperStep, 'label'>> = [
     { component: OnboardingStep1 },
     { component: OnboardingStep2 },
     { component: OnboardingStep3 },

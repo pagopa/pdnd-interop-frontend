@@ -10,7 +10,7 @@ export const useParties = () => {
   const { setLoadingText } = useContext(LoaderContext)
   const { setAvailableParties, setParty } = useContext(PartyContext)
 
-  const setPartiesInContext = async (data: Party[]) => {
+  const setPartiesInContext = async (data: Array<Party>) => {
     // Store them in a variable
     let parties = [...data]
     // Fetch all the partyIds (this can be optimized)
@@ -22,7 +22,7 @@ export const useParties = () => {
 
     // Associate each partyId to the correspondent party, along with its attributes
     parties = parties.map((party) => {
-      const currentParty = (partyIdsResponses as AxiosResponse[]).find(
+      const currentParty = (partyIdsResponses as Array<AxiosResponse>).find(
         (r: AxiosResponse) => r.data.institutionId === party.institutionId
       )
 

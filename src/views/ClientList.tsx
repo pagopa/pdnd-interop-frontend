@@ -19,7 +19,7 @@ export function ClientList() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
   const { user } = useContext(UserContext)
   const { party } = useContext(PartyContext)
-  const { data, loadingText, error } = useAsyncFetch<Client[]>(
+  const { data, loadingText, error } = useAsyncFetch<Array<Client>>(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
       config: {
@@ -61,13 +61,13 @@ export function ClientList() {
    */
 
   // Build list of available actions for each service in its current state
-  const getAvailableActions = (client: Client): ActionProps[] => {
+  const getAvailableActions = (client: Client): Array<ActionProps> => {
     // Exit early if user cannot perform actions
     if (!isAdmin(party)) {
       return []
     }
 
-    const availableActions: Record<ClientStatus, ActionProps[]> = {
+    const availableActions: Record<ClientStatus, Array<ActionProps>> = {
       active: [
         {
           onClick: wrapActionInDialog(wrapSuspend(client.id), 'CLIENT_SUSPEND'),

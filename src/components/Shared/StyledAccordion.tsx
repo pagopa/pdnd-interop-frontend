@@ -8,7 +8,7 @@ type AccordionEntry = {
 }
 
 type StyledAccordionProps = {
-  entries: AccordionEntry[]
+  entries: Array<AccordionEntry>
 }
 
 export function StyledAccordion({ entries }: StyledAccordionProps) {

@@ -25,7 +25,7 @@ export function EServiceList() {
   const { runAction, runFakeAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
   const history = useHistory()
   const { party } = useContext(PartyContext)
-  const { data, loadingText, error } = useAsyncFetch<EServiceFlatReadType[]>(
+  const { data, loadingText, error } = useAsyncFetch<Array<EServiceFlatReadType>>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
       config: {
@@ -135,7 +135,7 @@ export function EServiceList() {
    * End list of actions
    */
 
-  type EServiceAction = { [key in EServiceStatus]: Array<ActionProps | null> }
+  type EServiceAction = Record<EServiceStatus, Array<ActionProps | null>>
   // Build list of available actions for each service in its current state
   const getAvailableActions = (service: EServiceFlatReadType) => {
     const { id: eserviceId, descriptorId, status } = service
@@ -194,7 +194,7 @@ export function EServiceList() {
     }
 
     // Return all the actions available for this particular status
-    return availableActions[status || 'draft'].filter((a) => a !== null) as ActionProps[]
+    return availableActions[status || 'draft'].filter((a) => a !== null) as Array<ActionProps>
   }
 
   // Data for the table head

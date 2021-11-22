@@ -30,8 +30,8 @@ export function EServiceCatalog() {
   const history = useHistory()
   const { party } = useContext(PartyContext)
   const { data, loadingText, error } = useAsyncFetch<
-    EServiceFlatReadType[],
-    ExtendedEServiceFlatReadType[]
+    Array<EServiceFlatReadType>,
+    Array<ExtendedEServiceFlatReadType>
   >(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
@@ -66,7 +66,7 @@ export function EServiceCatalog() {
     eservice: ExtendedEServiceFlatReadType,
     canSubscribeEservice: boolean
   ) => {
-    const actions: ActionProps[] = []
+    const actions: Array<ActionProps> = []
 
     if (!eservice.isMine && isAdmin(party) && eservice.callerSubscribed) {
       actions.push({

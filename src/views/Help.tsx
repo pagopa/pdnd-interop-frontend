@@ -12,17 +12,17 @@ type Entry = {
 }
 
 type EntryTreeBranch = Entry & {
-  branches: EntryTreeBranch[]
+  branches: Array<EntryTreeBranch>
 }
 
 export function Help() {
   const getNestingLevel = (tag: Anchor): number => +tag.replace('h', '')
 
-  const anchorTags: Anchor[] = ['h2', 'h3', 'h4', 'h5', 'h6']
+  const anchorTags: Array<Anchor> = ['h2', 'h3', 'h4', 'h5', 'h6']
   const minimumNestingLevel = getNestingLevel(anchorTags[0])
 
-  const toTOCTree = (arr: Entry[]): EntryTreeBranch[] =>
-    arr.reduce((acc: EntryTreeBranch[], entry: Entry) => {
+  const toTOCTree = (arr: Array<Entry>): Array<EntryTreeBranch> =>
+    arr.reduce((acc: Array<EntryTreeBranch>, entry: Entry) => {
       // This sucks, but it is here because of this TS decision:
       // https://github.com/microsoft/TypeScript/issues/26255
       if (!anchorTags.includes(entry.type as Anchor)) {
@@ -34,7 +34,7 @@ export function Help() {
       return acc
     }, [])
 
-  const addTOCChildren = (acc: EntryTreeBranch[], entry: Entry, nestingLevel: number) => {
+  const addTOCChildren = (acc: Array<EntryTreeBranch>, entry: Entry, nestingLevel: number) => {
     if (nestingLevel === 0) {
       acc.push({ ...entry, branches: [] })
     } else {
@@ -54,7 +54,7 @@ export function Help() {
     )
   }
 
-  const TOCTree = ({ data }: { data: EntryTreeBranch[] }) => (
+  const TOCTree = ({ data }: { data: Array<EntryTreeBranch> }) => (
     <React.Fragment>
       {data.map((branch: EntryTreeBranch, i: number) => (
         <TOCBranch key={i} {...branch} />
@@ -72,7 +72,7 @@ export function Help() {
         }}
       </StyledIntro>
 
-      <TOCTree data={toTOCTree(textData as Entry[])} />
+      <TOCTree data={toTOCTree(textData as Array<Entry>)} />
 
       <Contained>
         {/* Page content */}

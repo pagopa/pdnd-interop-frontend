@@ -29,7 +29,7 @@ export function ChooseParty() {
 
   const wrapUpdateActiveParty = (id: string) => (e?: React.SyntheticEvent) => {
     if (e) e.preventDefault()
-    const newParty = (availableParties as Party[]).find((p) => p.institutionId === id) as Party
+    const newParty = (availableParties as Array<Party>).find((p) => p.institutionId === id) as Party
     setParty(newParty)
     storageWrite('currentParty', newParty, 'object')
   }

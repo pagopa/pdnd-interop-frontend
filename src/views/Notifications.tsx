@@ -12,7 +12,7 @@ type Notification = {
   message: string
 }
 
-const mockNotifications: { [key in 'p' | 's']: Notification[] } = {
+const mockNotifications: Record<'p' | 's', Array<Notification>> = {
   p: [
     {
       type: 'info',

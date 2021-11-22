@@ -3,7 +3,7 @@ import { Stepper, Step, StepLabel, Typography } from '@mui/material'
 import { StepperStep } from '../../../types'
 
 type StepperProps = {
-  steps: StepperStep[]
+  steps: Array<StepperStep>
   activeIndex: number
 }
 

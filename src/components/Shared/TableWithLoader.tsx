@@ -16,9 +16,9 @@ import { Box } from '@mui/system'
 
 type TableWithLoaderProps = {
   loadingText: string | null
-  headData: string[]
+  headData: Array<string>
   pagination?: boolean
-  data?: unknown[]
+  data?: Array<unknown>
   noDataLabel?: string
   error?: AxiosError
 }

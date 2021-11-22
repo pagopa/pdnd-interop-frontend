@@ -7,7 +7,7 @@ import { isFetchError } from '../lib/error-utils'
 import { LoaderContext, PartyContext } from '../lib/context'
 
 type Settings<T, U> = {
-  useEffectDeps?: unknown[]
+  useEffectDeps?: Array<unknown>
   mapFn?: (data: T) => U
   loaderType?: LoaderType
   loadingTextLabel: string

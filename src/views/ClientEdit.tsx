@@ -77,7 +77,7 @@ export function ClientEdit() {
     }
     const sureData = data as Client
 
-    const actions: { [key in ClientStatus]: ActionProps[] } = {
+    const actions: Record<ClientStatus, Array<ActionProps>> = {
       active: [{ onClick: wrapActionInDialog(suspend, 'CLIENT_SUSPEND'), label: 'Sospendi' }],
       suspended: [
         {
@@ -91,7 +91,7 @@ export function ClientEdit() {
   }
 
   const getReasonClientIsBlocked = () => {
-    const reasons: string[] = []
+    const reasons: Array<string> = []
     const sureData = data as Client
 
     if (

@@ -10,7 +10,7 @@ import theme from '@pagopa/mui-italia/theme'
 export function App() {
   const [user, setUser] = useState<User | null>(null)
   const [party, setParty] = useState<Party | null>(null)
-  const [availableParties, setAvailableParties] = useState<Party[] | null>(null)
+  const [availableParties, setAvailableParties] = useState<Array<Party> | null>(null)
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

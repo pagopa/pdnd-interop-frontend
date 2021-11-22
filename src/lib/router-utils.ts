@@ -80,7 +80,7 @@ export function isInPlatform(location: Location<unknown>) {
   ])
 }
 
-export function getBits(location: Location<unknown>): string[] {
+export function getBits(location: Location<unknown>): Array<string> {
   return location.pathname.split('/').filter(identity)
 }
 
@@ -107,7 +107,7 @@ export function buildDynamicPath(
   return path
 }
 
-export function buildDynamicRoute(route: RouteConfig, params: { [key: string]: string }) {
+export function buildDynamicRoute(route: RouteConfig, params: Record<string, string>) {
   return { ...route, PATH: buildDynamicPath(route.PATH, params) }
 }
 

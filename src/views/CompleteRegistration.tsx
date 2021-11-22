@@ -33,7 +33,7 @@ export function CompleteRegistration() {
   }
 
   const onSubmit = async (data: Record<string, unknown>) => {
-    const contract: Blob | string = (data.contract as (Blob | string)[])[0]
+    const contract: Blob | string = (data.contract as Array<Blob | string>)[0]
     const token = getJwt()
     // Append the file as form data
     const formData = new FormData()

@@ -42,7 +42,7 @@ export function EServiceWriteStep4DocumentsDoc({
   const initialDocs = getActiveDocs(data, activeDescriptorId)
 
   const toArray = (obj: Record<string, EServiceDocumentRead>) => Object.values(obj)
-  const toObject = (arr: EServiceDocumentRead[]) => keyBy(arr, 'id')
+  const toObject = (arr: Array<EServiceDocumentRead>) => keyBy(arr, 'id')
 
   const [readDocs, setReadDocs] = useState<Record<string, EServiceDocumentRead>>({})
   const [showWriteDocInput, setShowWriteDocInput] = useState(false)
@@ -64,7 +64,7 @@ export function EServiceWriteStep4DocumentsDoc({
   const uploadNewDoc = async (data: Exclude<EServiceDocumentWrite, 'kind'>) => {
     const dataToPost = {
       ...data,
-      doc: (data.doc as unknown as File[])[0],
+      doc: (data.doc as unknown as Array<File>)[0],
       kind: 'document' as EServiceDocumentKind,
     }
     const { outcome, response } = await uploadDescriptorDocument(dataToPost)

@@ -19,7 +19,7 @@ type StyledInputControlledAsyncAutocompleteProps = {
   infoLabel?: string
 
   name: string
-  defaultValue: string[] | string | null // array if multiple = true, string | null if multiple = false
+  defaultValue: Array<string> | string | null // array if multiple = true, string | null if multiple = false
   control: Control<FieldValues, Record<string, unknown>>
   rules: Record<string, unknown>
   errors: Record<string, unknown>
