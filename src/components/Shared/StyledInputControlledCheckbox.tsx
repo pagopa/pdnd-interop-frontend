@@ -18,7 +18,7 @@ type StyledInputControlledCheckboxProps = {
   infoLabel?: string
 
   name: string
-  defaultValue?: any
+  defaultValue?: string
   control: Control<FieldValues, Record<string, unknown>>
   rules: Record<string, unknown>
   errors: Record<string, unknown>
