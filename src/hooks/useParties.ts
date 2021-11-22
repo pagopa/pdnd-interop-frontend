@@ -10,9 +10,9 @@ export const useParties = () => {
   const { setLoadingText } = useContext(LoaderContext)
   const { setAvailableParties, setParty } = useContext(PartyContext)
 
-  const setPartiesInContext = async (data: any) => {
+  const setPartiesInContext = async (data: Party[]) => {
     // Store them in a variable
-    let parties: Party[] = data.institutions
+    let parties = [...data]
     // Fetch all the partyIds (this can be optimized)
     const partyIdsResponses = await fetchAllWithLogs(
       parties.map(({ institutionId }) => ({
@@ -54,7 +54,7 @@ export const useParties = () => {
     if (hasInstitutions) {
       // Set parties
       const { data } = availablePartiesResponse as AxiosResponse
-      await setPartiesInContext(data)
+      await setPartiesInContext(data.institutions)
     }
 
     // Stop the loader

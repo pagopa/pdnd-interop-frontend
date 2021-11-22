@@ -10,14 +10,17 @@ import { StyledAccordion } from '../components/Shared/StyledAccordion'
 import { FieldValues, UseFormGetValues, UseFormWatch } from 'react-hook-form'
 
 type ExistingAttributeDialogProps = {
-  add: any
+  add: (attributeGroup: CatalogAttribute[], explicitAttributeVerification: boolean) => void
   attributeKey: AttributeKey
 }
 
 export const useExistingAttributeDialog = ({ add, attributeKey }: ExistingAttributeDialogProps) => {
   const { setDialog } = useContext(DialogContext)
 
-  const confirm = async (data: any) => {
+  const confirm = async (data: {
+    selection: CatalogAttribute[]
+    verification: string | undefined
+  }) => {
     add(data.selection, Boolean(data.verification))
     closeDialog()
   }
@@ -61,9 +64,9 @@ export const useExistingAttributeDialog = ({ add, attributeKey }: ExistingAttrib
                 labelKey="name"
                 placeholder="..."
                 path={{ endpoint: 'ATTRIBUTES_GET_LIST' }}
-                transformFn={(data: any) =>
-                  data.attributes.filter(
-                    (a: CatalogAttribute) => a.certified === certifiedCondition
+                transformFn={(data) =>
+                  (data.attributes as CatalogAttribute[]).filter(
+                    (a) => a.certified === certifiedCondition
                   )
                 }
                 name="selection"
