@@ -144,7 +144,6 @@ export function UserList() {
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
           <StyledButton
             variant="contained"
-            component={StyledLink}
             to={
               mode === 'provider'
                 ? ROUTES.PROVIDE_OPERATOR_CREATE.PATH

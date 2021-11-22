@@ -264,11 +264,7 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
               Richiedi estensione
             </StyledButton>
           )}
-          <StyledButton
-            variant="outlined"
-            component={StyledLink}
-            to={ROUTES.SUBSCRIBE_CATALOG_LIST.PATH}
-          >
+          <StyledButton variant="outlined" to={ROUTES.SUBSCRIBE_CATALOG_LIST.PATH}>
             Torna al catalogo
           </StyledButton>
         </Box>

@@ -30,8 +30,6 @@ export function BodyLogger() {
   const [tableActionMenu, setTableActionMenu] = useState<string | null>(null)
   const location = useLocation()
 
-  console.log(location.state)
-
   /*
    * Handle toast
    */
