@@ -364,7 +364,7 @@ export type FrontendAttributes = Record<AttributeKey, FrontendAttribute[]>
  * Dialog, loader and toast components typings
  * Here because they reflect onto React state updates
  */
-export type ActionFunction = ((_: any) => Promise<void>) | VoidFunction
+export type ActionFunction = any // eslint-disable-line @typescript-eslint/no-explicit-any
 
 export type RunActionProps = {
   loadingText: string
