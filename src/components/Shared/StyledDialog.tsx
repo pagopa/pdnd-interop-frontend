@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useContext } from 'react'
-import { useForm } from 'react-hook-form'
+import { Control, FieldValues, useForm, UseFormGetValues, UseFormWatch } from 'react-hook-form'
 import {
   Dialog,
   DialogActions,
@@ -13,9 +13,16 @@ import { ActionFunction, MUISize } from '../../../types'
 import { StyledForm } from './StyledForm'
 import { TableActionMenuContext } from '../../lib/context'
 
+type RHFProps = {
+  control: Control<FieldValues, Record<string, unknown>>
+  errors: Record<string, unknown>
+  watch: UseFormWatch<FieldValues>
+  getValues: UseFormGetValues<FieldValues>
+}
+
 type ConfirmationDialogOverlayProps = {
   title?: string
-  Contents?: FunctionComponent<any>
+  Contents?: FunctionComponent<RHFProps>
   close: VoidFunction
   proceedCallback: ActionFunction
   proceedLabel?: string
