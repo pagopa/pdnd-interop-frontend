@@ -7,6 +7,7 @@ import { PartyContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
+import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 import { requiredValidationPattern } from '../lib/validation'
 import { StyledInputControlledSelect } from '../components/Shared/StyledInputControlledSelect'
@@ -35,7 +36,6 @@ export function ClientCreate() {
       config: { params: { consumerId: party?.partyId } },
     },
     {
-      defaultValue: [],
       mapFn: (data) => data.map((d) => ({ value: d.id, label: d.name })),
       loadingTextLabel: 'Stiamo caricando gli e-service associabili al client',
     }
@@ -48,6 +48,10 @@ export function ClientCreate() {
       { path: { endpoint: 'CLIENT_CREATE' }, config: { data: dataToPost } },
       { destination: ROUTES.SUBSCRIBE_CLIENT_LIST, suppressToast: false }
     )
+  }
+
+  if (!eserviceData) {
+    return <StyledSkeleton />
   }
 
   return (

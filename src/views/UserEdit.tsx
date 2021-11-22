@@ -38,7 +38,6 @@ export function UserEdit() {
   let clientId: string | undefined = bits[bits.length - 3]
   let endpoint: ApiEndpointKey = 'OPERATOR_SECURITY_GET_SINGLE'
   let endpointParams: UserEndpoinParams = { operatorTaxCode: taxCode, clientId }
-  const defaultValue: User[] = []
   if (mode === 'provider') {
     clientId = undefined
     endpoint = 'OPERATOR_API_GET_SINGLE'
@@ -48,7 +47,6 @@ export function UserEdit() {
   const { data } = useAsyncFetch<User, User[]>(
     { path: { endpoint, endpointParams } },
     {
-      defaultValue,
       useEffectDeps: [forceRerenderCounter],
       mapFn: (data) => {
         if (mode === 'provider') {
@@ -68,7 +66,7 @@ export function UserEdit() {
     }
   )
 
-  const userData = data.length > 0 ? data[0] : undefined
+  const userData = data && data.length > 0 ? data[0] : undefined
 
   /*
    * List of possible actions for the user to perform

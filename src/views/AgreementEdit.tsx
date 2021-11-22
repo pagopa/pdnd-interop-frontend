@@ -28,6 +28,7 @@ import { Box } from '@mui/system'
 import { Typography } from '@mui/material'
 import { CheckCircle as CheckCircleIcon } from '@mui/icons-material'
 import { Contained } from '../components/Shared/Contained'
+import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 
 export function AgreementEdit() {
   const {
@@ -93,11 +94,12 @@ export function AgreementEdit() {
   }
 
   const wrapVerify = (attributeId: string) => async () => {
+    const sureData = data as AgreementSummary
     await runAction(
       {
         path: {
           endpoint: 'AGREEMENT_VERIFY_ATTRIBUTE',
-          endpointParams: { agreementId: data.id, attributeId },
+          endpointParams: { agreementId: sureData.id, attributeId },
         },
       },
       { suppressToast: false }
@@ -213,6 +215,10 @@ export function AgreementEdit() {
 
   const agreementSuspendExplanation =
     "L'accordo può essere sospeso sia dall'erogatore che dal fruitore dell'e-service. Se almeno uno dei due attori lo sospende, inibirà l'accesso all'e-service a tutti i client associati all'e-service dal fruitore"
+
+  if (!data) {
+    return <StyledSkeleton />
+  }
 
   return (
     <React.Fragment>

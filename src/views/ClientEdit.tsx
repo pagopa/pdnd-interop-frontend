@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import isEmpty from 'lodash/isEmpty'
 import { Tab, Tabs, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import {
@@ -22,6 +21,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { a11yProps, TabPanel } from '../components/TabPanel'
+import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 
 export function ClientEdit() {
   const location = useLocation()
@@ -35,7 +35,6 @@ export function ClientEdit() {
       path: { endpoint: 'CLIENT_GET_SINGLE', endpointParams: { clientId } },
     },
     {
-      defaultValue: {},
       useEffectDeps: [forceRerenderCounter],
       loadingTextLabel: 'Stiamo caricando il client richiesto',
     }
@@ -49,18 +48,20 @@ export function ClientEdit() {
    * List of possible actions for the user to perform
    */
   const suspend = async () => {
+    const sureData = data as Client
     await runAction(
       {
-        path: { endpoint: 'CLIENT_SUSPEND', endpointParams: { clientId: data.id } },
+        path: { endpoint: 'CLIENT_SUSPEND', endpointParams: { clientId: sureData.id } },
       },
       { suppressToast: false }
     )
   }
 
   const reactivate = async () => {
+    const sureData = data as Client
     await runAction(
       {
-        path: { endpoint: 'CLIENT_ACTIVATE', endpointParams: { clientId: data.id } },
+        path: { endpoint: 'CLIENT_ACTIVATE', endpointParams: { clientId: sureData.id } },
       },
       { suppressToast: false }
     )
@@ -71,9 +72,10 @@ export function ClientEdit() {
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = () => {
-    if (isEmpty(data) || !isAdmin(party)) {
+    if (!data || !isAdmin(party)) {
       return []
     }
+    const sureData = data as Client
 
     const actions: { [key in ClientStatus]: ActionProps[] } = {
       active: [{ onClick: wrapActionInDialog(suspend, 'CLIENT_SUSPEND'), label: 'Sospendi' }],
@@ -85,35 +87,36 @@ export function ClientEdit() {
       ],
     }
 
-    return actions[data.status]
+    return actions[sureData.status]
   }
 
   const getReasonClientIsBlocked = () => {
     const reasons: string[] = []
+    const sureData = data as Client
 
     if (
-      data.agreement.descriptor.status !== 'published' &&
-      data.agreement.descriptor.status !== 'deprecated'
+      sureData.agreement.descriptor.status !== 'published' &&
+      sureData.agreement.descriptor.status !== 'deprecated'
     ) {
       reasons.push("l'erogatore dell'e-service ha sospeso questa versione")
     }
 
-    if (data.agreement.status !== 'active') {
+    if (sureData.agreement.status !== 'active') {
       reasons.push("l'accordo di interoperabilità relativo all'e-service non è attivo")
     }
 
-    if (data.status !== 'active') {
+    if (sureData.status !== 'active') {
       reasons.push('il client non è attivo')
     }
 
     return reasons
   }
 
-  const actions = getAvailableActions()
-
-  if (isEmpty(data)) {
-    return null
+  if (!data) {
+    return <StyledSkeleton />
   }
+
+  const actions = getAvailableActions()
 
   return (
     <React.Fragment>

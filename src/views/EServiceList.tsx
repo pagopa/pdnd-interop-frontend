@@ -33,7 +33,6 @@ export function EServiceList() {
       },
     },
     {
-      defaultValue: [],
       useEffectDeps: [forceRerenderCounter],
       loaderType: 'contextual',
       loadingTextLabel: 'Stiamo caricando i tuoi e-service',
@@ -227,7 +226,7 @@ export function EServiceList() {
           noDataLabel="Non ci sono servizi disponibili"
           error={error}
         >
-          {data.map((item, i) => (
+          {data?.map((item, i) => (
             <StyledTableRow
               key={i}
               cellData={[
