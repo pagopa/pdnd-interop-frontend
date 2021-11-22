@@ -62,7 +62,11 @@ export function EServiceWriteStep4DocumentsDoc({
   }
 
   const uploadNewDoc = async (data: Exclude<EServiceDocumentWrite, 'kind'>) => {
-    const dataToPost = { ...data, doc: data.doc[0], kind: 'document' as EServiceDocumentKind }
+    const dataToPost = {
+      ...data,
+      doc: (data.doc as unknown as File[])[0],
+      kind: 'document' as EServiceDocumentKind,
+    }
     const { outcome, response } = await uploadDescriptorDocument(dataToPost)
 
     if (outcome === 'success') {

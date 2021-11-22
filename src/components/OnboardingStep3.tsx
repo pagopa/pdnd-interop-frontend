@@ -46,7 +46,7 @@ export function OnboardingStep3({ forward, back }: StepperStepComponentProps) {
       {}
     )
 
-    forward(delegatesWithRole)
+    forward(undefined, delegatesWithRole)
   }
 
   useEffect(() => {

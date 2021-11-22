@@ -1,9 +1,9 @@
 import React from 'react'
-import { useForm } from 'react-hook-form'
+import { Control, FieldValues, useForm } from 'react-hook-form'
 import { useHistory } from 'react-router'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { IPACatalogParty, StepperStepComponentProps } from '../../types'
+import { IPACatalogParty, Party, StepperStepComponentProps } from '../../types'
 import { NARROW_MAX_WIDTH } from '../lib/constants'
 import { OnboardingStepActions } from './OnboardingStepActions'
 import { StyledIntro } from './Shared/StyledIntro'
@@ -18,12 +18,12 @@ export function OnboardingStep1({ forward, data }: StepperStepComponentProps) {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm({ defaultValues: data.party })
+  } = useForm({ defaultValues: data.party as Party })
 
   const history = useHistory()
 
   const onForwardAction = ({ partySelection }: Record<string, IPACatalogParty>) => {
-    forward(partySelection)
+    forward(undefined, partySelection)
   }
 
   const goToChooseParty = () => {
@@ -46,13 +46,13 @@ export function OnboardingStep1({ forward, data }: StepperStepComponentProps) {
             <StyledInputControlledAsyncAutocomplete
               focusOnMount={true}
               label="Seleziona ente"
-              defaultValue={data.party || null}
+              defaultValue={(data.party as string) || null}
               placeholder="Cerca ente nel catalogo IPA"
               path={{ endpoint: 'ONBOARDING_GET_SEARCH_PARTIES' }}
               transformFn={(data) => data.items as IPACatalogParty[]}
               labelKey="description"
               name="partySelection"
-              control={control}
+              control={control as Control<FieldValues, Record<string, unknown>>}
               rules={{ required: requiredValidationPattern }}
               errors={errors}
             />
