@@ -24,7 +24,7 @@ export async function request<T>(requestConfig: RequestConfig): Promise<T | Axio
   const method = API[endpoint].METHOD
 
   // Replace dynamic parts of the URL by substitution
-  const url = buildDynamicPath(API[endpoint].URL, endpointParams)
+  const url = buildDynamicPath(API[endpoint].URL, endpointParams || {})
 
   try {
     return await instance.request({ url, method, ...(config || {}) })

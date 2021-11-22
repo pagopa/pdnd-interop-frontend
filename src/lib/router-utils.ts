@@ -93,9 +93,15 @@ export function parseSearch(search: string) {
   return qs.parse(search)
 }
 
-export function buildDynamicPath(path: string, params: { [key: string]: string }) {
+export function buildDynamicPath(
+  path: string,
+  params: Record<string, string | number | null | undefined>
+) {
   if (!isEmpty(params)) {
-    return Object.keys(params).reduce((acc, key) => acc.replace(`:${key}`, params[key]), path)
+    return Object.keys(params).reduce(
+      (acc, key) => acc.replace(`:${key}`, String(params[key])),
+      path
+    )
   }
 
   return path
