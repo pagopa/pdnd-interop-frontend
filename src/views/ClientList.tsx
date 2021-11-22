@@ -104,11 +104,7 @@ export function ClientList() {
       <Box sx={{ mt: 4 }}>
         {isAdmin(party) && (
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-            <StyledButton
-              variant="contained"
-              component={StyledLink}
-              to={ROUTES.SUBSCRIBE_CLIENT_CREATE.PATH}
-            >
+            <StyledButton variant="contained" to={ROUTES.SUBSCRIBE_CLIENT_CREATE.PATH}>
               + Aggiungi
             </StyledButton>
           </Box>

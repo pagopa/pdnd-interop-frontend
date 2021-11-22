@@ -16,7 +16,6 @@ import { TempFilters } from '../components/TempFilters'
 import { AxiosResponse } from 'axios'
 import { buildDynamicPath } from '../lib/router-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { StyledLink } from '../components/Shared/StyledLink'
 import { Box } from '@mui/system'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ESERVICE_STATUS_LABEL } from '../config/labels'
@@ -213,11 +212,7 @@ export function EServiceList() {
 
       <Box sx={{ mt: 4 }}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-          <StyledButton
-            variant="contained"
-            component={StyledLink}
-            to={ROUTES.PROVIDE_ESERVICE_CREATE.PATH}
-          >
+          <StyledButton variant="contained" to={ROUTES.PROVIDE_ESERVICE_CREATE.PATH}>
             + Aggiungi
           </StyledButton>
         </Box>

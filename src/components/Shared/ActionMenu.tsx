@@ -11,7 +11,7 @@ type ActionMenuProps = {
 }
 
 export const ActionMenu: FunctionComponent<ActionMenuProps> = ({ actions, index }) => {
-  const anchorRef = useRef()
+  const anchorRef = useRef() as React.MutableRefObject<HTMLSpanElement>
   const anchorId = `basic-button-${index}`
   const { tableActionMenu, setTableActionMenu } = useContext(TableActionMenuContext)
   const open = Boolean(tableActionMenu !== null && tableActionMenu === anchorId)
@@ -32,14 +32,15 @@ export const ActionMenu: FunctionComponent<ActionMenuProps> = ({ actions, index 
   return (
     <React.Fragment>
       <StyledButton
-        ref={anchorRef}
         id={anchorId}
         aria-controls={`basic-menu-${index}`}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        <MoreVertIcon color="primary" />
+        <span ref={anchorRef}>
+          <MoreVertIcon color="primary" />
+        </span>
       </StyledButton>
 
       <Menu
