@@ -35,7 +35,6 @@ export function AgreementList() {
       config: { params },
     },
     {
-      defaultValue: [],
       useEffectDeps: [forceRerenderCounter],
       loaderType: 'contextual',
       loadingTextLabel: 'Stiamo caricando gli accordi',
@@ -174,7 +173,7 @@ export function AgreementList() {
           noDataLabel="Non ci sono accordi disponibili"
           error={error}
         >
-          {data.map((item, i) => (
+          {data?.map((item, i) => (
             <StyledTableRow
               key={i}
               cellData={[

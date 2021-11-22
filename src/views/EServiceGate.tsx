@@ -25,7 +25,6 @@ export function EServiceGate() {
       path: { endpoint: 'ESERVICE_GET_SINGLE', endpointParams: { eserviceId } },
     },
     {
-      defaultValue: {},
       mapFn: decorateEServiceWithActiveDescriptor(descriptorId),
       useEffectDeps: [location],
       loadingTextLabel: 'Stiamo caricando il tuo e-service',
@@ -38,6 +37,7 @@ export function EServiceGate() {
 
   const isCreatePage = isSamePath(location.pathname, ROUTES.PROVIDE_ESERVICE_CREATE.PATH)
   const isDraft =
+    !data ||
     isEmpty(data.activeDescriptor) ||
     (data.activeDescriptor as EServiceDescriptorRead).status === 'draft'
   const isEditable = isCreatePage || isDraft
@@ -49,6 +49,6 @@ export function EServiceGate() {
   return isEditable ? (
     <EServiceWrite back={back} forward={forward} activeStep={activeStep} fetchedDataMaybe={data} />
   ) : (
-    <EServiceRead isLoading={isItReallyLoading} data={data} />
+    <EServiceRead isLoading={isItReallyLoading} data={data as EServiceReadType} />
   )
 }

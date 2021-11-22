@@ -38,7 +38,6 @@ export function EServiceCatalog() {
       config: { params: { status: 'published', callerId: party?.partyId } },
     },
     {
-      defaultValue: [],
       mapFn: (data) => data.map((d) => ({ ...d, isMine: d.producerId === party?.partyId })),
       loaderType: 'contextual',
       loadingTextLabel: 'Stiamo caricando la lista degli e-service',
@@ -120,7 +119,7 @@ export function EServiceCatalog() {
       )
     }
 
-    return null
+    return undefined
   }
 
   return (
@@ -143,7 +142,7 @@ export function EServiceCatalog() {
         noDataLabel="Non ci sono servizi disponibili"
         error={error}
       >
-        {data.map((item, i) => {
+        {data?.map((item, i) => {
           const canSubscribeEservice = canSubscribe(party?.attributes, item.certifiedAttributes)
           const tooltip = getTooltip(item, canSubscribeEservice)
           return (

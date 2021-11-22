@@ -7,7 +7,6 @@ import { isFetchError } from '../lib/error-utils'
 import { LoaderContext, PartyContext } from '../lib/context'
 
 type Settings<T, U> = {
-  defaultValue?: any
   useEffectDeps?: unknown[]
   mapFn?: (data: T) => U
   loaderType?: LoaderType
@@ -16,19 +15,13 @@ type Settings<T, U> = {
 
 export const useAsyncFetch = <T, U = T>(
   requestConfig: RequestConfig,
-  {
-    defaultValue,
-    loaderType = 'global',
-    loadingTextLabel,
-    useEffectDeps = [],
-    mapFn = identity,
-  }: Settings<T, U>
+  { loaderType = 'global', loadingTextLabel, useEffectDeps = [], mapFn = identity }: Settings<T, U>
 ) => {
   const { party } = useContext(PartyContext)
   const { loadingText: globalLoadingText, setLoadingText: setGlobalLoadingText } =
     useContext(LoaderContext)
   const [contextualLoadingText, setContextualLoadingText] = useState<string | null>(null)
-  const [data, setData] = useState<U>(defaultValue)
+  const [data, setData] = useState<U | undefined>()
   const [error, setError] = useState<AxiosError>()
   const [isBeforeMount, setIsBeforeMount] = useState(true)
 

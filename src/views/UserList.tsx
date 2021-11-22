@@ -34,7 +34,6 @@ export function UserList() {
   const { data, loadingText, error } = useAsyncFetch<User[]>(
     { path: { endpoint, endpointParams } },
     {
-      defaultValue: [],
       useEffectDeps: [forceRerenderCounter, user],
       // TEMP BACKEND: Waiting for new onboarding API with user filtering
       mapFn: (data) => {

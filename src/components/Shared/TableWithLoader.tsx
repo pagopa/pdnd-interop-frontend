@@ -18,7 +18,7 @@ type TableWithLoaderProps = {
   loadingText: string | null
   headData: string[]
   pagination?: boolean
-  data?: any[]
+  data?: unknown[]
   noDataLabel?: string
   error?: AxiosError
 }

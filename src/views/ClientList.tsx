@@ -30,7 +30,6 @@ export function ClientList() {
       },
     },
     {
-      defaultValue: [],
       useEffectDeps: [forceRerenderCounter, user],
       loaderType: 'contextual',
       loadingTextLabel: 'Stiamo caricando i client',
@@ -119,7 +118,7 @@ export function ClientList() {
           noDataLabel="Non ci sono client disponibili"
           error={error}
         >
-          {data.map((item, i) => (
+          {data?.map((item, i) => (
             <StyledTableRow
               key={i}
               cellData={[

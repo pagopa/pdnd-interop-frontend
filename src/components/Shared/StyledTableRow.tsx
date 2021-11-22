@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { useHistory } from 'react-router-dom'
 import { TableCell, TableRow, Typography } from '@mui/material'
 import { Box } from '@mui/system'
@@ -8,7 +8,7 @@ import { ActionProps } from '../../../types'
 
 type Cell = {
   label: string
-  tooltip?: any
+  tooltip?: ReactElement
 }
 
 type SingleActionLinkProps = {

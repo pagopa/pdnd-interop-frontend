@@ -5,7 +5,7 @@ import { scrollToTop } from '../lib/page-utils'
 import { EServiceReadType } from '../../types'
 
 type ActiveStepProps = {
-  data: EServiceReadType
+  data?: EServiceReadType
 }
 
 export const useActiveStep = ({ data }: ActiveStepProps) => {
@@ -21,7 +21,7 @@ export const useActiveStep = ({ data }: ActiveStepProps) => {
     if (!isEmpty(locationState) && locationState.stepIndexDestination) {
       goToStep(locationState.stepIndexDestination as number)
       // If there is no state but we have data, compute the location
-    } else if (!isEmpty(data)) {
+    } else if (!data) {
       goToStep(getInitialStepIndexDestination(data))
     }
   }, [history.location, data])
@@ -43,7 +43,11 @@ export const useActiveStep = ({ data }: ActiveStepProps) => {
     scrollToTop()
   }
 
-  const getInitialStepIndexDestination = (data: EServiceReadType) => {
+  const getInitialStepIndexDestination = (data?: EServiceReadType) => {
+    if (!data) {
+      return 0
+    }
+
     // Descriptors never created
     if (data.descriptors.length === 0) {
       // Go to step 2 to create them
