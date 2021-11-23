@@ -48,7 +48,7 @@ export function PlatformUserControlledForm({
         <StyledInputControlledText
           sx={{ my: 4 }}
           label="Codice Fiscale*"
-          name={`${prefix}.taxCode`}
+          name={`${prefix}.externalId`}
           control={control}
           rules={{ required: requiredValidationPattern, pattern: taxCodeValidationPattern }}
           errors={errors}
@@ -59,7 +59,7 @@ export function PlatformUserControlledForm({
         <StyledInputControlledText
           sx={{ my: 4 }}
           label="Email ad uso aziendale*"
-          name={`${prefix}.email`}
+          name={`${prefix}.extras.email`}
           type="email"
           control={control}
           rules={{ required: requiredValidationPattern, pattern: emailValidationPattern }}

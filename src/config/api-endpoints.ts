@@ -1,8 +1,16 @@
 import { ApiEndpointContent } from '../../types'
 
 export const API: Record<string, ApiEndpointContent> = {
+  ONBOARDING_GET_USER: {
+    URL: 'pdnd-interop-uservice-user-registry-management/0.1/users/external-id',
+    METHOD: 'POST',
+  },
+  ONBOARDING_CREATE_USER: {
+    URL: 'pdnd-interop-uservice-user-registry-management/0.1/users',
+    METHOD: 'POST',
+  },
   ONBOARDING_GET_AVAILABLE_PARTIES: {
-    URL: 'pdnd-interop-uservice-party-process/0.1/onboarding/info/:taxCode',
+    URL: 'pdnd-interop-uservice-party-process/0.1/onboarding/info',
     METHOD: 'GET',
   },
   ONBOARDING_GET_SEARCH_PARTIES: {

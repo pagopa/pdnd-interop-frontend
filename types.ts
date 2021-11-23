@@ -92,14 +92,24 @@ export type UserStatus = 'pending' | 'active' | 'suspended'
 export type UserRole = 'Manager' | 'Delegate' | 'Operator'
 export type UserPlatformRole = 'admin' | 'security' | 'api'
 
+type UserExtraInfo = {
+  email: string
+  birthDate: string
+}
+
 export type UserOnCreate = {
   name: string
   surname: string
-  taxCode: string // This should not be optional, it is temporarily because of the "from" below
-  from?: string // This is temporary, part of the API shared with self-care
-  email: string
-  role: UserRole
-  platformRole: UserPlatformRole
+  externalId: string
+  certification: string
+  extras: UserExtraInfo
+
+  // All the below should disappear, now keeping them while WIP upgrading all the API calls
+  taxCode?: string
+  from?: string
+  email?: string
+  role?: UserRole
+  platformRole?: UserPlatformRole
 }
 
 export type User = UserOnCreate & {

@@ -1,6 +1,12 @@
 import { RunActionProps, ToastActionKeys } from '../../types'
 
 export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
+  ONBOARDING_GET_USER: {
+    loadingText: "Stiamo cercando l'utente richiesto",
+  },
+  ONBOARDING_CREATE_USER: {
+    loadingText: 'Stiamo creando una nuova utenza',
+  },
   ONBOARDING_COMPLETE_REGISTRATION: {
     loadingText: "Stiamo caricando l'accordo e verificando la sua autenticità",
   },

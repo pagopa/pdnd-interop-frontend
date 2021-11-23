@@ -1,11 +1,10 @@
-import { Skeleton } from '@mui/material'
 import React, { useContext, useEffect } from 'react'
 import { useHistory, useLocation } from 'react-router'
 import { RouteAuthLevel } from '../../types'
 import { ROUTES } from '../config/routes'
 import { useLogin } from '../hooks/useLogin'
 import { useParties } from '../hooks/useParties'
-import { LoaderContext, PartyContext, UserContext } from '../lib/context'
+import { PartyContext, UserContext } from '../lib/context'
 import { isSamePath } from '../lib/router-utils'
 import { Unauthorized } from './Unauthorized'
 
@@ -19,7 +18,6 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
   const location = useLocation()
   const { party, availableParties } = useContext(PartyContext)
   const { user } = useContext(UserContext)
-  const { loadingText } = useContext(LoaderContext)
   const { silentLoginAttempt } = useLogin()
   const { fetchAvailablePartiesAttempt, setPartyFromStorageAttempt } = useParties()
 
@@ -56,20 +54,15 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
       }
     }
 
-    // If we have a user but don't have available parties, and we are not in the
-    // ChooseParty view, fetch the available parties and attempt to assign one
+    // If we have a logged user but don't have available parties,
+    // and we are not in the ChooseParty view, fetch
+    // the available parties and attempt to assign one
     // to the user by reading into the localStorage
     const isChoosePartyPage = isSamePath(location.pathname, ROUTES.CHOOSE_PARTY.PATH)
     if (user && !availableParties && !isChoosePartyPage) {
       asyncSilentAssignPartyAttempt()
     }
   }, [user]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  // If we are still fetching data, display a skeleton
-  const isLoading = loadingText && (!user || !availableParties)
-  if (isLoading) {
-    return <Skeleton height={400} />
-  }
 
   // If the route can be accessed, display the component
   const userCanAccess = authLevels === 'any' || (party && authLevels.includes(party.platformRole))
