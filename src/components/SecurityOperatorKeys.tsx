@@ -36,7 +36,7 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
   const { openDialog, forceRerenderCounter: securityKeyPostForceRerenderCounter } =
     useSecurityOperatorKeyDialog({
       clientId,
-      taxCode: userData.taxCode,
+      taxCode: userData.taxCode as string,
     })
 
   /*

@@ -37,15 +37,12 @@ export const useParties = () => {
     setAvailableParties(parties)
   }
 
-  const fetchAndSetAvailableParties = async (taxCode: string) => {
+  const fetchAndSetAvailableParties = async () => {
     setLoadingText('Stiamo associando la tua utenza ai tuoi enti')
 
     // Get all available parties related to the user
     const availablePartiesResponse = await fetchWithLogs({
-      path: {
-        endpoint: 'ONBOARDING_GET_AVAILABLE_PARTIES',
-        endpointParams: { taxCode },
-      },
+      path: { endpoint: 'ONBOARDING_GET_AVAILABLE_PARTIES' },
     })
 
     const hasInstitutions = !isFetchError(availablePartiesResponse)
@@ -55,6 +52,9 @@ export const useParties = () => {
       // Set parties
       const { data } = availablePartiesResponse as AxiosResponse
       await setPartiesInContext(data.institutions)
+    } else {
+      // Otherwise, mark that there are no parties available
+      setAvailableParties([])
     }
 
     // Stop the loader
@@ -66,10 +66,8 @@ export const useParties = () => {
 
   const fetchAvailablePartiesAttempt = async () => {
     const sessionStorageUser = storageRead('user', 'object')
-    if (sessionStorageUser && sessionStorageUser.taxCode) {
-      const hasFetchedAndSetAvailableParties = await fetchAndSetAvailableParties(
-        sessionStorageUser.taxCode
-      )
+    if (sessionStorageUser && sessionStorageUser.id) {
+      const hasFetchedAndSetAvailableParties = await fetchAndSetAvailableParties()
       return hasFetchedAndSetAvailableParties
     }
 

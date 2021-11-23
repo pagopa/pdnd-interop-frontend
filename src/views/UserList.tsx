@@ -45,7 +45,7 @@ export function UserList() {
           return data.filter((d) => d.platformRole === 'security')
         }
 
-        return data.filter((d) => ['admin', 'api'].includes(d.platformRole))
+        return data.filter((d) => ['admin', 'api'].includes(d.platformRole as string))
       },
       loaderType: 'contextual',
       loadingTextLabel: 'Stiamo caricando gli operatori',
@@ -176,8 +176,8 @@ export function UserList() {
                 label:
                   mode === 'provider' ? (item.from as string) : `${item.name + ' ' + item.surname}`,
               },
-              { label: USER_ROLE_LABEL[item.role] },
-              { label: USER_PLATFORM_ROLE_LABEL[item.platformRole] },
+              { label: item.role ? USER_ROLE_LABEL[item.role] : '' },
+              { label: item.platformRole ? USER_PLATFORM_ROLE_LABEL[item.platformRole] : '' },
               { label: USER_STATUS_LABEL[item.status] },
             ]}
             index={i}

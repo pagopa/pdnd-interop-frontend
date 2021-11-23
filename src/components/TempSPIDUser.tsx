@@ -7,7 +7,7 @@ import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
 import { Box } from '@mui/system'
 import { NARROW_MAX_WIDTH } from '../lib/constants'
-import { User, UserOnCreate } from '../../types'
+import { UserOnCreate } from '../../types'
 import { ROUTES } from '../config/routes'
 import { PlatformUserControlledForm } from './Shared/PlatformUserControlledForm'
 import { useLogin } from '../hooks/useLogin'
@@ -22,18 +22,19 @@ export function TempSPIDUser() {
   const history = useHistory()
   const location = useLocation()
 
-  const onSubmit = (data: Record<string, Partial<UserOnCreate>>) => {
-    const userData = {
+  const onSubmit = async (data: Record<string, Omit<UserOnCreate, 'certificate'>>) => {
+    const userData: UserOnCreate = {
       ...data['spid'],
-      role: 'Manager',
-      platformRole: 'admin',
-      status: 'active',
-    } as User
+      certification: 'NONE',
+      extras: { ...data['spid'].extras, birthDate: '1900-01-01' },
+    }
 
     // Log the user in
-    doLogin(userData)
+    const successLogin = await doLogin(userData)
     // Go to the party choice page
-    history.push(ROUTES.CHOOSE_PARTY.PATH)
+    if (successLogin) {
+      history.push(ROUTES.CHOOSE_PARTY.PATH)
+    }
   }
 
   // If the user hasn't accepted the privacy policy, go back to login

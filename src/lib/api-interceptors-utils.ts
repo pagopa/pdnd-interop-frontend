@@ -8,7 +8,11 @@ instance.interceptors.request.use(
   (config) => {
     logAction('Log request', config)
 
-    config.headers.Authorization = `Bearer ${storageRead('bearer', 'string')}`
+    const sessionStorageUser = storageRead('user', 'object')
+    if (sessionStorageUser && sessionStorageUser.id) {
+      config.headers.Authorization = `Bearer ${sessionStorageUser.id}`
+    }
+
     return config
   },
   (error) => {

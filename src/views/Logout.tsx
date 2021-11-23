@@ -13,10 +13,9 @@ export function Logout() {
     setUser(null)
     // clean up parties
     setParty(null)
-    setAvailableParties([])
+    setAvailableParties(null)
     // delete everything from the storage
     storageDelete('user')
-    storageDelete('bearer')
     storageDelete('currentParty')
 
     // go back to homepage (which will redirect to login)
