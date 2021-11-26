@@ -248,8 +248,8 @@ type AgreementEService = {
   id: string
   descriptorId: string
   version: string
-  status?: EServiceStatus
-  activeDescriptor: AgreementEService
+  status: EServiceStatus
+  activeDescriptor?: AgreementEService
 }
 
 export type AgreementSummary = {
