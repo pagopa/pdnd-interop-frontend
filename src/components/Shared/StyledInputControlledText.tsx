@@ -63,6 +63,7 @@ export function StyledInputControlledText({
         rules={rules}
         render={({ field }) => (
           <TextField
+            id={name} // used to generate the a11y htmlFor in label and id in input
             autoFocus={focusOnMount}
             multiline={multiline}
             rows={multiline ? rows : 1}
