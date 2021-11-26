@@ -52,7 +52,7 @@ export function OnboardingStep1({ forward, data }: StepperStepComponentProps) {
               transformFn={(data) => data.items as Array<IPACatalogParty>}
               labelKey="description"
               name="partySelection"
-              control={control as Control<FieldValues, Record<string, unknown>>}
+              control={control as unknown as Control<FieldValues, Record<string, unknown>>}
               rules={{ required: requiredValidationPattern }}
               errors={errors}
             />
