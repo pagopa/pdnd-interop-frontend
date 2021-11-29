@@ -56,13 +56,9 @@ export function remapBackendAttributesToFrontend(
 }
 
 export function canSubscribe(
-  partyAttributes: Array<string> | undefined,
+  partyAttributes: Array<string>,
   eserviceAttributes: Array<BackendAttribute>
 ) {
-  if (!partyAttributes) {
-    return false
-  }
-
   const hasAllAttributes = eserviceAttributes.every((eserviceAttribute) => {
     if (has(eserviceAttribute, 'single')) {
       const match = partyAttributes.find(

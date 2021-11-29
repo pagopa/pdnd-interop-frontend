@@ -321,10 +321,19 @@ export type AttributeKey = 'certified' | 'verified' | 'declared'
 export type AttributeModalTemplate = 'add' | 'create'
 
 // Backend attribute is the attribute as it is expected when POSTed to the backend
+// The "explicitAttributeVerification" and "verified" parameters
+// are only relevant for "verified" attributes. The explicitAttributeVerification
+// is not actively used by the frontend. The provider sets it the first time it creates an e-service,
+// and then it is only used as a read only value. In each Agreement, a verified attributes whose
+// "verified" value is set to null, identifies an attribute which needs to be manually validated
+// by the provider before an agreement can be activated. The only exception is for a GroupBackendAttribute,
+// where it is enough that one of the attributes has the "verified" flag set to true.
+// If an attribute has a "verified" parameter explicitly set to false, it means that the attribute validation
+// was rejected by the e-service provider, which means that this Agreement can never be activated
 export type BackendAttributeContent = {
   id: string
   explicitAttributeVerification: boolean
-  verified: boolean
+  verified: boolean | null
   origin: string
   code: string
   name: string
