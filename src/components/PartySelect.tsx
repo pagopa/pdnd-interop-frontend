@@ -38,7 +38,7 @@ export function PartySelect() {
       <Box>
         <StyledButton
           sx={{ color: 'common.white', justifyContent: 'space-between', width: 260 }}
-          arial-label="party-menu-button"
+          aria-label="party-menu-button"
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
