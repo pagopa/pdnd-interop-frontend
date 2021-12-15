@@ -2,7 +2,6 @@ import { AxiosError, AxiosResponse } from 'axios'
 import { RequestConfig } from '../../types'
 import instance from './api-interceptors-utils'
 import { buildDynamicPath } from './router-utils'
-import { logError } from './action-log'
 import { API } from '../config/api-endpoints'
 
 export async function fetchAllWithLogs(reqsConfig: Array<RequestConfig>) {
@@ -27,9 +26,8 @@ export async function request<T>(requestConfig: RequestConfig): Promise<T | Axio
   const url = buildDynamicPath(API[endpoint].URL, endpointParams || {})
 
   try {
-    return await instance.request({ url, method, ...(config || {}) })
+    return (await instance.request({ url, method, ...(config || {}) })) as T
   } catch (error) {
-    logError(error)
     return error as AxiosError
   }
 }
