@@ -142,30 +142,31 @@ export function EServiceCatalog() {
         noDataLabel="Non ci sono servizi disponibili"
         error={error}
       >
-        {data?.map((item, i) => {
-          const canSubscribeEservice = canSubscribe(party?.attributes, item.certifiedAttributes)
-          const tooltip = getTooltip(item, canSubscribeEservice)
-          return (
-            <StyledTableRow
-              key={i}
-              cellData={[
-                { label: item.name, tooltip },
-                { label: item.producerName },
-                { label: item.version as string },
-                { label: ESERVICE_STATUS_LABEL[item.status as EServiceStatus] },
-              ]}
-              index={i}
-              singleActionBtn={{
-                to: buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
-                  eserviceId: item.id,
-                  descriptorId: item.descriptorId as string,
-                }),
-                label: 'Ispeziona',
-              }}
-              actions={getAvailableActions(item, canSubscribeEservice)}
-            />
-          )
-        })}
+        {party &&
+          data?.map((item, i) => {
+            const canSubscribeEservice = canSubscribe(party.attributes, item.certifiedAttributes)
+            const tooltip = getTooltip(item, canSubscribeEservice)
+            return (
+              <StyledTableRow
+                key={i}
+                cellData={[
+                  { label: item.name, tooltip },
+                  { label: item.producerName },
+                  { label: item.version as string },
+                  { label: ESERVICE_STATUS_LABEL[item.status as EServiceStatus] },
+                ]}
+                index={i}
+                singleActionBtn={{
+                  to: buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
+                    eserviceId: item.id,
+                    descriptorId: item.descriptorId as string,
+                  }),
+                  label: 'Ispeziona',
+                }}
+                actions={getAvailableActions(item, canSubscribeEservice)}
+              />
+            )
+          })}
       </TableWithLoader>
     </React.Fragment>
   )

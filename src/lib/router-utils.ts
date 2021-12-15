@@ -5,7 +5,6 @@ import sortBy from 'lodash/sortBy'
 import qs from 'query-string'
 import { ProviderOrSubscriber, RouteConfig } from '../../types'
 import { ROUTES } from '../config/routes'
-import { includesAny } from './string-utils'
 
 export function belongsToTree(location: Location<unknown>, route: RouteConfig) {
   // Find the actual route in the router
@@ -68,6 +67,10 @@ export function isProviderOrSubscriber(location: Location<unknown>): ProviderOrS
   }
 
   return null
+}
+
+function includesAny(stringToTest: string, match: Array<string>) {
+  return match.some((m) => stringToTest.includes(m))
 }
 
 export function isInPlatform(location: Location<unknown>) {
