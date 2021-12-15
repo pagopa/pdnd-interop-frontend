@@ -21,7 +21,7 @@ export const useLogin = () => {
   // with the credentials stored in the sessionStorage
   // WARNING: this is not secure and will ultimately be rewritten
   // See PIN-403
-  const silentLoginAttempt = async (): Promise<boolean> => {
+  const silentLoginAttempt = (): boolean => {
     const sessionStorageUser = storageRead('user', 'object')
 
     // If there are no credentials, it is impossible to get the user, so

@@ -179,7 +179,7 @@ export function AgreementEdit() {
     id,
   }: {
     name?: string | undefined
-    verified?: boolean
+    verified: boolean | null
     id: string
   }) => {
     const randomDate = getRandomDate(new Date(2022, 0, 1), new Date(2023, 0, 1))

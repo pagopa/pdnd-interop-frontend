@@ -25,8 +25,12 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
 
   // If there is no user, attempt to sign him/her in silently
   useEffect(() => {
-    async function asyncSilentLoginAttempt() {
-      const isNowSilentlyLoggedIn = await silentLoginAttempt()
+    // The user might still be in session but might have refreshed the page
+    // In this case, try to log him/her in by getting their info from localStorage
+    // Same goes if no fetchAvailableParties has occurred yet. We cannot log into
+    // a protected page until we have a user
+    if (!user) {
+      const isNowSilentlyLoggedIn = silentLoginAttempt()
 
       // Exclude the routes necessary to log in to avoid perpetual loop
       const whitelist = Object.values(ROUTES).filter((r) => r.PUBLIC)
@@ -36,14 +40,6 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
       if (!isNowSilentlyLoggedIn && !isWhitelistedPage) {
         history.push('/')
       }
-    }
-
-    // The user might still be in session but might have refreshed the page
-    // In this case, try to log him/her in by getting their info from localStorage
-    // Same goes if no fetchAvailableParties has occurred yet. We cannot log into
-    // a protected page until we have a user
-    if (!user) {
-      asyncSilentLoginAttempt()
     }
   }, [user]) // eslint-disable-line react-hooks/exhaustive-deps
 

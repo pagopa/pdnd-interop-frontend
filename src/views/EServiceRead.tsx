@@ -82,11 +82,11 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
     }
   }
 
-  if (isEmpty(data)) {
+  if (isEmpty(data) || !party) {
     return null
   }
 
-  const canSubscribeEservice = canSubscribe(party?.attributes, data.attributes.certified)
+  const canSubscribeEservice = canSubscribe(party.attributes, data.attributes.certified)
   const isMine = data.producer.id === party?.partyId
   const isVersionPublished = data.activeDescriptor?.status === 'published'
 

@@ -137,7 +137,7 @@ export const EServiceWriteStep1General: FunctionComponent<
 
       <StyledInputControlledText
         name="name"
-        label="Nome dell'e-service*"
+        label="Nome dell'eservice (richiesto)"
         control={control}
         rules={{ required: requiredValidationPattern }}
         errors={errors}
@@ -147,7 +147,7 @@ export const EServiceWriteStep1General: FunctionComponent<
 
       <StyledInputControlledText
         name="description"
-        label="Descrizione dell'e-service*"
+        label="Descrizione dell'e-service (richiesto)"
         control={control}
         rules={{ required: requiredValidationPattern }}
         errors={errors}
@@ -158,7 +158,7 @@ export const EServiceWriteStep1General: FunctionComponent<
       <Box sx={{ my: 8 }}>
         <StyledInputControlledRadio
           name="technology"
-          label="Tecnologia*"
+          label="Tecnologia (richiesto)"
           control={control}
           rules={{ required: requiredValidationPattern }}
           errors={errors}
@@ -173,7 +173,7 @@ export const EServiceWriteStep1General: FunctionComponent<
 
       <StyledInputControlledSwitch
         name="pop"
-        label="Proof of Possession*"
+        label="Proof of Possession (richiesto)"
         control={control}
         errors={errors}
         disabled={!isEditable}
