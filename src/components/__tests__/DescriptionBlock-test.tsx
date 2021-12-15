@@ -31,7 +31,7 @@ describe('Rendering tests', () => {
 })
 
 describe('Snapshot tests', () => {
-  it('matches snapshot', () => {
+  it('Matches snapshot', () => {
     const component = renderer.create(
       <DescriptionBlock label="test" tooltipLabel="tooltip-test">
         <span>content-test</span>
