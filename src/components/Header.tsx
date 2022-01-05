@@ -10,12 +10,15 @@ import { StyledLink } from './Shared/StyledLink'
 import { PartySelect } from './PartySelect'
 import logo from '../assets/pagopa-logo-white.svg'
 import { ROUTES } from '../config/routes'
+import { URL_FE_LOGIN } from '../lib/constants'
 
 export function Header() {
   const location = useLocation()
   const { party } = useContext(PartyContext)
   const { user } = useContext(UserContext)
-  const { PATH: btnPath, LABEL: btnLabel } = user ? ROUTES.LOGOUT : ROUTES.LOGIN
+  const { PATH: btnPath, LABEL: btnLabel } = user
+    ? ROUTES.LOGOUT
+    : { PATH: URL_FE_LOGIN, LABEL: 'Login' }
 
   return (
     <header>

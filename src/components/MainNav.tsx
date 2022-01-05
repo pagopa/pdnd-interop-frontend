@@ -99,7 +99,7 @@ export function MainNav() {
   }
 
   const availableViews = [
-    ...views[party?.platformRole || 'security'],
+    ...views[party?.productInfo.role || 'security'],
     { route: ROUTES.NOTIFICATION },
     { route: ROUTES.PROFILE },
     { route: ROUTES.HELP },
