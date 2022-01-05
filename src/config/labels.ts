@@ -36,15 +36,15 @@ export const COMPUTED_STATUS_LABEL = {
 }
 
 export const USER_STATUS_LABEL = {
-  pending: 'In attesa di approvazione',
-  active: 'Attivo',
-  suspended: 'Sospeso',
+  PENDING: 'In attesa di approvazione',
+  ACTIVE: 'Attivo',
+  SUSPENDED: 'Sospeso',
 }
 
 export const USER_ROLE_LABEL = {
-  Manager: 'Amministratore',
-  Delegate: 'Delegato',
-  Operator: 'Operatore',
+  MANAGER: 'Amministratore',
+  DELEGATE: 'Delegato',
+  OPERATOR: 'Operatore',
 }
 
 export const USER_PLATFORM_ROLE_LABEL = {

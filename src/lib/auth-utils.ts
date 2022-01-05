@@ -1,13 +1,13 @@
 import { Party } from '../../types'
 
 export function isAdmin(party: Party | null) {
-  return party?.platformRole === 'admin'
+  return party?.productInfo.role === 'admin'
 }
 
 export function isOperatorAPI(party: Party | null) {
-  return party?.platformRole === 'api'
+  return party?.productInfo.role === 'api'
 }
 
 export function isOperatorSecurity(party: Party | null) {
-  return party?.platformRole === 'security'
+  return party?.productInfo.role === 'security'
 }

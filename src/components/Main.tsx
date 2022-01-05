@@ -45,7 +45,7 @@ export function Main() {
         })}
 
         <Route path="/" exact>
-          <Redirect to={user !== null ? ROUTES.SUBSCRIBE.PATH : ROUTES.LOGIN.PATH} />
+          <Redirect to={user !== null ? ROUTES.SUBSCRIBE.PATH : ROUTES.CHOOSE_PARTY.PATH} />
         </Route>
       </Switch>
     </Box>

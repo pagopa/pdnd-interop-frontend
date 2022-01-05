@@ -115,7 +115,7 @@ export const API: Record<string, ApiEndpointContent> = {
     METHOD: 'POST',
   },
   PARTY_GET_PARTY_ID: {
-    URL: 'pdnd-interop-uservice-party-management/0.1/organizations/:institutionId',
+    URL: 'pdnd-interop-uservice-party-management/0.1/organizations/external/:id',
     METHOD: 'GET',
   },
   AGREEMENT_CREATE: {

@@ -5,6 +5,7 @@ import { useLogin } from '../useLogin'
 import { User } from '../../../types'
 import userEvent from '@testing-library/user-event'
 import { storageWrite } from '../../lib/storage-utils'
+import { STORAGE_KEY_USER } from '../../lib/constants'
 
 type TestComponentProps = {
   userData: User
@@ -83,7 +84,7 @@ fit('Logs in silently', async () => {
     role: 'Manager',
     platformRole: 'admin',
   }
-  storageWrite('user', userData, 'object')
+  storageWrite(STORAGE_KEY_USER, userData, 'object')
 
   const { getByText } = render(
     <TestLoginProvider>

@@ -4,12 +4,11 @@ import { useHistory } from 'react-router-dom'
 import { Chip, List, ListItem, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { Party } from '../../types'
-import { NARROW_MAX_WIDTH } from '../lib/constants'
-import { PartyContext } from '../lib/context'
+import { NARROW_MAX_WIDTH, URL_FE_ONBOARDING } from '../lib/constants'
+import { PartyContext, UserContext } from '../lib/context'
 import { storageWrite } from '../lib/storage-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { StyledLink } from '../components/Shared/StyledLink'
 import { USER_ROLE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
 import { useParties } from '../hooks/useParties'
@@ -17,6 +16,7 @@ import { useParties } from '../hooks/useParties'
 export function ChooseParty() {
   const { setParty, party, availableParties } = useContext(PartyContext)
   const history = useHistory()
+  const { user } = useContext(UserContext)
   const { fetchAvailablePartiesAttempt } = useParties()
 
   useEffect(() => {
@@ -24,8 +24,10 @@ export function ChooseParty() {
       await fetchAvailablePartiesAttempt()
     }
 
-    asyncFetchAvailablePartiesAttempt()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+    if (user) {
+      asyncFetchAvailablePartiesAttempt()
+    }
+  }, [user]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const wrapUpdateActiveParty = (id: string) => (e?: React.SyntheticEvent) => {
     if (e) e.preventDefault()
@@ -41,7 +43,7 @@ export function ChooseParty() {
       security: ROUTES.SUBSCRIBE_CLIENT_LIST.PATH,
     }
     if (party) {
-      history.push(DESTINATIONS[party.platformRole])
+      history.push(DESTINATIONS[party.productInfo.role])
     }
   }
 
@@ -76,7 +78,7 @@ export function ChooseParty() {
           {availableParties.length > 0 && (
             <List sx={{ height: 240, overflow: 'auto' }} component="ul">
               {availableParties.map((p, i) => {
-                const disabled = p.status === 'pending'
+                const disabled = p.state === 'PENDING'
                 const selected = p.institutionId === party?.institutionId
                 return (
                   <ListItem key={i} sx={{ mb: 1, position: 'relative' }} disablePadding={true}>
@@ -110,7 +112,7 @@ export function ChooseParty() {
                         {USER_ROLE_LABEL[p.role]}
                       </Typography>
                     </StyledButton>
-                    {p.status === 'pending' && (
+                    {p.state === 'PENDING' && (
                       <Box sx={{ position: 'absolute', right: 20, top: 12 }}>
                         <Chip label="Da completare" color="primary" size="small" />
                       </Box>
@@ -134,9 +136,9 @@ export function ChooseParty() {
         <Box sx={{ mt: 1, display: 'flex', alignItems: 'center' }}>
           <Typography component="span" sx={{ mr: 1 }}>
             Vuoi registrare un nuovo ente?{' '}
-            <StyledLink sx={{ verticalAlign: 'top' }} to={ROUTES.ONBOARDING.PATH}>
+            <a href={URL_FE_ONBOARDING} title="Vai all'onboarding">
               Clicca qui
-            </StyledLink>
+            </a>
           </Typography>
         </Box>
       </Box>
@@ -161,7 +163,7 @@ export function ChooseParty() {
       <StyledButton
         variant="contained"
         onClick={() => {
-          history.push(ROUTES.ONBOARDING.PATH)
+          window.location.assign(URL_FE_ONBOARDING)
         }}
       >
         Registra nuovo ente
