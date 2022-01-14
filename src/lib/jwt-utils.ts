@@ -1,6 +1,6 @@
 import { User } from '../../types'
 
-export const parseJwt = (token: string): Record<string, string> | null => {
+export const parseJwt = (token: string): Record<string, string | number | boolean> | null => {
   try {
     return JSON.parse(atob(token.split('.')[1]))
   } catch (e) {

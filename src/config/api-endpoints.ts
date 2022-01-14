@@ -202,4 +202,8 @@ export const API: Record<string, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-party-process/0.1/institutions/:institutionId/relationships/:taxCode/activate',
     METHOD: 'POST',
   },
+  USER_GET: {
+    URL: 'pdnd-interop-uservice-party-management/0.1/persons/:id',
+    METHOD: 'GET',
+  },
 }
