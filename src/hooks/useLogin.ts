@@ -1,39 +1,48 @@
-import isEmpty from 'lodash/isEmpty'
 import { storageDelete, storageRead, storageWrite } from '../lib/storage-utils'
 import { STORAGE_KEY_TOKEN, USE_MOCK_SPID_USER } from '../lib/constants'
 import { useContext } from 'react'
 import { UserContext } from '../lib/context'
 import { jwtToUser, parseJwt } from '../lib/jwt-utils'
+import { fetchWithLogs } from '../lib/api-utils'
+import { isFetchError } from '../lib/error-utils'
 
 const testToken =
-  'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImYyNmUwM2RiLWY4YjMtNDk5ZS04ZjMyLTA3MmM5M2VjZjc2MSJ9.eyJlbWFpbCI6ImNhcmxhLnJvc3NpQHRlc3QucGFnb3BhLml0IiwiZmFtaWx5X25hbWUiOiJSb3NzaSIsImZpc2NhbF9udW1iZXIiOiJJU1BYTkIzMlI4Mlk3NjZEIiwibW9iaWxlX3Bob25lIjoiMzMzMzMzMzMzIiwibmFtZSI6IkNhcmxhIiwiZnJvbV9hYSI6ZmFsc2UsInVpZCI6ImZiMjgwNGQwLTllN2QtNGIwNC05MjVhLWNhNmY4MDJhNzI4MiIsImxldmVsIjoiTDIiLCJpYXQiOjE2NDEyMjUwNzMsImV4cCI6MTY0MTIyODY3MywiaXNzIjoiU1BJRCIsImp0aSI6IjAxRlJHQTZDSkpXSjRFWTg4RjJQOEFRWE1aIn0.I2WXyq1Fdm7qEeSBbGcVtzypmQwpEostG94C4qjuZTqWR_jLDKKFHYKySk2Vi8F9wuCoEQGUX6-vELqah3pDL8R_Uf4aHTWUg5xKMlV8Ee90fKFGpb2ENzC6ZTt2UAmbQzarVabDTl8aQL_ExSabD5qLm65QvKsIuLMxnN-eGNOs9Ra9OfayobqHecKjGlyovNKFdUqcMlaHsQwM4X1g26SoeG87hd8Njelo_qBePEzJjdq2BdMzOGBJzJ_nPAjiZU5xkdcjDEmYrUGJKgvyxqrwpAwWA-WGaDXdulWueEb069-KMydgo3X4L9ENZVPTVDRl5We_wdb4flOfA8jLCQ'
+  'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImYyNmUwM2RiLWY4YjMtNDk5ZS04ZjMyLTA3MmM5M2VjZjc2MSJ9.eyJlbWFpbCI6ImNhcmxhLnJvc3NpQHRlc3QucGFnb3BhLml0IiwiZmFtaWx5X25hbWUiOiJSb3NzaSIsImZpc2NhbF9udW1iZXIiOiJJU1BYTkIzMlI4Mlk3NjZEIiwibW9iaWxlX3Bob25lIjoiMzMzMzMzMzMzIiwibmFtZSI6IkNhcmxhIiwiZnJvbV9hYSI6ZmFsc2UsInVpZCI6ImZiMjgwNGQwLTllN2QtNGIwNC05MjVhLWNhNmY4MDJhNzI4MiIsImxldmVsIjoiTDIiLCJpYXQiOjE2NDIwODUxMTAsImV4cCI6MTY0MjA4ODcxMCwiaXNzIjoiU1BJRCIsImp0aSI6IjAxRlM5WUNNWlhKUkczNENGMkQ4QUc4VktFIn0.a2xrKtsl44B9YvAAr5UnQcP0bz3pZCz0mv1eYltOPmMdN3wyjAtk1V6wbuMvvr0Fgg5BOGDAEci7hF0AhxQ-dZ9-BRcLwt0xqWqpv1aUo-C2NEU_q9xZgRUeq4nG1Ok-lHI8_FuBPR8IogbmZvDlMWjesofSuU4DnxyHGILiPE6fWrQW-Y8QZ5-ZRykeCPPm1Ezj4SyWvQ5rWYK1oms6PJIFQDHZMozTed-6J7Oh5ekor9uUIAj658DPK3oCHCgQ-alSn2YNekHVgn2rUHP_WoBs8xCTmIlGx3I63-kVsiQk7Y-WDMDAnmQty_bkNWeOPqUN9DwNTXhD814dMwax4g'
 
 export const useLogin = () => {
   const { setUser } = useContext(UserContext)
 
-  const silentLoginAttempt = (): boolean => {
+  const silentLoginAttempt = async (): Promise<boolean> => {
     if (USE_MOCK_SPID_USER) {
       storageWrite(STORAGE_KEY_TOKEN, testToken, 'string')
-
-      const jwt = parseJwt(testToken)
-      setUser(jwtToUser(jwt as Record<string, string>))
-      return true
     }
 
+    // Try to get the token from the sessionStorage
     const sessionStorageToken = storageRead(STORAGE_KEY_TOKEN, 'string')
 
-    // If there are no token, it is impossible to get the user, so
-    if (isEmpty(sessionStorageToken)) {
+    // If there is no token, the session is not authenticated, so
+    if (!sessionStorageToken) {
       // Remove any partial data that might have remained, just for safety
       storageDelete(STORAGE_KEY_TOKEN)
       setUser(null)
-      // Return failure
+      // Return failure (which will lead to a redirect to the login page)
       return false
     }
 
-    // TODO: check that the token is still valid with a call to the backend
-    const isTokenValid = true
-    // Then, return the result
+    // If there is a token, check if it is still valid with a call to the backend
+    const jwt = parseJwt(sessionStorageToken) as Record<string, string | number | boolean>
+    const uid = jwt.uid as string
+    const resp = await fetchWithLogs({
+      path: { endpoint: 'USER_GET', endpointParams: { id: uid } },
+    })
+    const isTokenValid = !isFetchError(resp)
+
+    // If it is valid, turn it into State so that it is easier
+    // to make it interact with React
+    if (isTokenValid) {
+      setUser(jwtToUser(jwt as Record<string, string>))
+    }
+
     return isTokenValid
   }
 
