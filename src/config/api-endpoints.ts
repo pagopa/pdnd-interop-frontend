@@ -94,7 +94,7 @@ export const API: Record<string, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId/descriptors/:descriptorId/documents/:documentId/update',
     METHOD: 'POST',
   },
-  OPERATOR_API_CREATE: {
+  OPERATOR_CREATE: {
     URL: 'pdnd-interop-uservice-party-process/0.1/onboarding/operators',
     METHOD: 'POST',
   },

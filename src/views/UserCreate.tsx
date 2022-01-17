@@ -28,14 +28,13 @@ export function UserCreate() {
   const onSubmit = async ({ operator }: Record<string, Partial<UserOnCreate>>) => {
     const userData = {
       ...operator,
-      role: 'Operator',
-      platformRole: mode === 'provider' ? 'api' : 'security',
+      role: 'OPERATOR',
+      product: 'interop',
+      productRole: mode === 'provider' ? 'api' : 'security',
     }
 
     const { clientId } = parseSearch(location.search)
 
-    const endpoint = mode === 'provider' ? 'OPERATOR_API_CREATE' : 'OPERATOR_SECURITY_CREATE'
-    const endpointParams = mode === 'provider' ? {} : { clientId }
     const destination =
       mode === 'provider'
         ? ROUTES.PROVIDE_OPERATOR_LIST
@@ -44,11 +43,12 @@ export function UserCreate() {
           })
 
     const { institutionId } = party as Party
-    const dataToPost = mode === 'provider' ? { users: [userData], institutionId } : userData
+    const contract = { version: '1', path: 'contracts/v1/interop-contract.html' }
+    const dataToPost = { users: [userData], institutionId, contract }
 
     await runActionWithDestination(
       {
-        path: { endpoint, endpointParams },
+        path: { endpoint: 'OPERATOR_CREATE' },
         config: {
           data: dataToPost,
         },
