@@ -32,7 +32,7 @@ import { EServiceWriteActions } from './Shared/EServiceWriteActions'
 
 export const EServiceWriteStep1General: FunctionComponent<
   StepperStepComponentProps & EServiceWriteProps
-> = ({ forward, fetchedDataMaybe }) => {
+> = ({ forward, fetchedData }) => {
   const {
     handleSubmit,
     control,
@@ -54,15 +54,19 @@ export const EServiceWriteStep1General: FunctionComponent<
 
   // Pre-fill if there is already a draft of the service available
   useEffect(() => {
-    if (!isEmpty(fetchedDataMaybe)) {
-      const fetchedData = fetchedDataMaybe as EServiceReadType
-      const { technology, name, description, attributes: backendAttributes } = fetchedData
+    if (fetchedData) {
+      const {
+        technology,
+        name,
+        description,
+        attributes: backendAttributes,
+      } = fetchedData as EServiceReadType
       setValue('technology', technology)
       setValue('name', name)
       setValue('description', description)
       setAttributes(remapBackendAttributesToFrontend(backendAttributes))
     }
-  }, [fetchedDataMaybe]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [fetchedData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSubmit = async (data: Partial<EServiceCreateDataType>) => {
     if (!party) {
@@ -76,11 +80,10 @@ export const EServiceWriteStep1General: FunctionComponent<
       attributes: remapFrontendAttributesToBackend(attributes),
     }
 
-    const fetchedData = fetchedDataMaybe as EServiceReadType
     // Define which endpoint to call
     let endpoint: ApiEndpointKey = 'ESERVICE_CREATE'
     let endpointParams = {}
-    const isNewService = isEmpty(fetchedDataMaybe)
+    const isNewService = !fetchedData
     if (!isNewService) {
       endpoint = 'ESERVICE_UPDATE'
       endpointParams = { eserviceId: fetchedData.id }
@@ -115,8 +118,8 @@ export const EServiceWriteStep1General: FunctionComponent<
     }
   }
 
-  const isNewService = isEmpty(fetchedDataMaybe)
-  const hasVersion = !isEmpty(fetchedDataMaybe?.activeDescriptor)
+  const isNewService = !fetchedData
+  const hasVersion = !isEmpty(fetchedData?.activeDescriptor)
   const isEditable =
     // case 1: new service
     isNewService ||
@@ -126,8 +129,8 @@ export const EServiceWriteStep1General: FunctionComponent<
     (!isNewService &&
       hasVersion &&
       /* eslint-disable @typescript-eslint/no-non-null-assertion */
-      fetchedDataMaybe!.activeDescriptor!.version === '1' &&
-      fetchedDataMaybe!.activeDescriptor!.state === 'DRAFT')
+      fetchedData!.activeDescriptor!.version === '1' &&
+      fetchedData!.activeDescriptor!.state === 'DRAFT')
   /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
   return (
