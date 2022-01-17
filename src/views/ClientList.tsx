@@ -1,18 +1,18 @@
 import React, { useContext } from 'react'
 import { Box } from '@mui/system'
-import { Client, ClientStatus, ActionProps } from '../../types'
+import { Client, ClientState, ActionProps } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { TempFilters } from '../components/TempFilters'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { getClientComputedStatus } from '../lib/status-utils'
+import { getClientComputedState } from '../lib/status-utils'
 import { isAdmin, isOperatorSecurity } from '../lib/auth-utils'
 import { PartyContext, UserContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { buildDynamicPath } from '../lib/router-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
-import { COMPUTED_STATUS_LABEL } from '../config/labels'
+import { COMPUTED_STATE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
 
 export function ClientList() {
@@ -25,7 +25,8 @@ export function ClientList() {
       config: {
         params: {
           institutionId: party?.institutionId,
-          operatorTaxCode: isOperatorSecurity(party) ? user?.taxCode : undefined,
+          // TEMP-BACKEND: when there is the new endpoint for security operators, update this
+          operatorTaxCode: isOperatorSecurity(party) ? user?.id : undefined,
         },
       },
     },
@@ -67,7 +68,7 @@ export function ClientList() {
       return []
     }
 
-    const availableActions: Record<ClientStatus, Array<ActionProps>> = {
+    const availableActions: Record<ClientState, Array<ActionProps>> = {
       active: [
         {
           onClick: wrapActionInDialog(wrapSuspend(client.id), 'CLIENT_SUSPEND'),
@@ -125,7 +126,7 @@ export function ClientList() {
                 { label: item.name },
                 { label: item.eservice.name },
                 { label: item.eservice.provider.description },
-                { label: COMPUTED_STATUS_LABEL[getClientComputedStatus(item)] },
+                { label: COMPUTED_STATE_LABEL[getClientComputedState(item)] },
               ]}
               index={i}
               singleActionBtn={{

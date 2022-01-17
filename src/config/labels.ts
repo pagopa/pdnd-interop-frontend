@@ -1,4 +1,4 @@
-export const ESERVICE_STATUS_LABEL = {
+export const ESERVICE_STATE_LABEL = {
   PUBLISHED: 'Attivo',
   DRAFT: 'In bozza',
   SUSPENDED: 'Sospeso',
@@ -18,24 +18,24 @@ export const ATTRIBUTE_TYPE_SINGULAR_LABEL = {
   declared: 'dichiarato',
 }
 
-export const AGREEMENT_STATUS_LABEL = {
+export const AGREEMENT_STATE_LABEL = {
   active: 'Attivo',
   suspended: 'Sospeso',
   pending: 'In attesa di approvazione',
   inactive: 'Archiviato',
 }
 
-export const CLIENT_STATUS_LABEL = {
+export const CLIENT_STATE_LABEL = {
   active: 'Attivo',
   suspended: 'Sospeso',
 }
 
-export const COMPUTED_STATUS_LABEL = {
+export const COMPUTED_STATE_LABEL = {
   active: 'Attivo',
   inactive: 'Non attivo',
 }
 
-export const USER_STATUS_LABEL = {
+export const USER_STATE_LABEL = {
   PENDING: 'In attesa di approvazione',
   ACTIVE: 'Attivo',
   SUSPENDED: 'Sospeso',

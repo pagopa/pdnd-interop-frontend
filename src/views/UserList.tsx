@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { useLocation } from 'react-router'
 import { Box } from '@mui/system'
-import { UserStatus, ActionProps, Party, UUser } from '../../types'
+import { UserState, ActionProps, Party, User } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -14,7 +14,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ROUTES } from '../config/routes'
-import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATUS_LABEL } from '../config/labels'
+import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATE_LABEL } from '../config/labels'
 
 export function UserList() {
   const location = useLocation()
@@ -32,7 +32,7 @@ export function UserList() {
     mode === 'provider' ? { institutionId: party?.institutionId } : { clientId }
   const params = mode === 'provider' ? { productRoles: ['admin', 'api'].join(',') } : {}
 
-  const { data, loadingText, error } = useAsyncFetch<Array<UUser>>(
+  const { data, loadingText, error } = useAsyncFetch<Array<User>>(
     { path: { endpoint, endpointParams }, config: { params } },
     {
       useEffectDeps: [forceRerenderCounter, user],
@@ -62,7 +62,7 @@ export function UserList() {
    */
 
   // Build list of available actions for each service in its current state
-  const getAvailableActions = (user: UUser) => {
+  const getAvailableActions = (user: User) => {
     const suspendAction = {
       onClick: wrapActionInDialog(wrapSuspend(user.id), 'USER_SUSPEND'),
       label: 'Sospendi',
@@ -72,7 +72,7 @@ export function UserList() {
       label: 'Riattiva',
     }
 
-    const availableActions: Record<UserStatus, Array<ActionProps>> = {
+    const availableActions: Record<UserState, Array<ActionProps>> = {
       PENDING: [],
       ACTIVE: [suspendAction],
       SUSPENDED: [reactivateAction],
@@ -140,7 +140,7 @@ export function UserList() {
               { label: `${item.name + ' ' + item.surname}` },
               { label: item.role ? USER_ROLE_LABEL[item.role] : '' },
               { label: item.product.role ? USER_PLATFORM_ROLE_LABEL[item.product.role] : '' },
-              { label: USER_STATUS_LABEL[item.state] },
+              { label: USER_STATE_LABEL[item.state] },
             ]}
             index={i}
             singleActionBtn={{

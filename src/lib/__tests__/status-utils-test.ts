@@ -1,5 +1,5 @@
 import { AgreementSummary, Client, ProviderOrSubscriber } from '../../../types'
-import { getAgreementStatus, getClientComputedStatus } from '../status-utils'
+import { getAgreementState, getClientComputedState } from '../status-utils'
 
 describe('Client status', () => {
   it('It is active', () => {
@@ -27,8 +27,8 @@ describe('Client status', () => {
       },
       purposes: 'accesso pieno',
     }
-    const computedStatus = getClientComputedStatus(client)
-    expect(computedStatus).toBe('active')
+    const computedState = getClientComputedState(client)
+    expect(computedState).toBe('active')
   })
 
   it('It is active – even if e-service version is deprecated', () => {
@@ -61,8 +61,8 @@ describe('Client status', () => {
       },
       purposes: 'accesso pieno',
     }
-    const computedStatus = getClientComputedStatus(client)
-    expect(computedStatus).toBe('active')
+    const computedState = getClientComputedState(client)
+    expect(computedState).toBe('active')
   })
 
   it('It is inactive – client suspended', () => {
@@ -90,8 +90,8 @@ describe('Client status', () => {
       },
       purposes: 'accesso pieno',
     }
-    const computedStatus = getClientComputedStatus(client)
-    expect(computedStatus).toBe('inactive')
+    const computedState = getClientComputedState(client)
+    expect(computedState).toBe('inactive')
   })
 
   it('It is inactive – agreement suspended', () => {
@@ -119,8 +119,8 @@ describe('Client status', () => {
       },
       purposes: 'accesso pieno',
     }
-    const computedStatus = getClientComputedStatus(client)
-    expect(computedStatus).toBe('inactive')
+    const computedState = getClientComputedState(client)
+    expect(computedState).toBe('inactive')
   })
 
   it('It is inactive – e-service version suspended', () => {
@@ -148,8 +148,8 @@ describe('Client status', () => {
       },
       purposes: 'accesso pieno',
     }
-    const computedStatus = getClientComputedStatus(client)
-    expect(computedStatus).toBe('inactive')
+    const computedState = getClientComputedState(client)
+    expect(computedState).toBe('inactive')
   })
 })
 
@@ -179,7 +179,7 @@ describe('Agreement status', () => {
       suspendedBySubscriber: false,
     }
     const mode = null
-    const status = getAgreementStatus(agreementSummary, mode)
+    const status = getAgreementState(agreementSummary, mode)
     expect(status).toBe('active')
   })
 
@@ -208,7 +208,7 @@ describe('Agreement status', () => {
       suspendedBySubscriber: false,
     }
     const mode: ProviderOrSubscriber = 'provider'
-    const status = getAgreementStatus(agreementSummary, mode)
+    const status = getAgreementState(agreementSummary, mode)
     expect(status).toBe('suspended')
   })
 
@@ -237,7 +237,7 @@ describe('Agreement status', () => {
       suspendedBySubscriber: true,
     }
     const mode: ProviderOrSubscriber = 'subscriber'
-    const status = getAgreementStatus(agreementSummary, mode)
+    const status = getAgreementState(agreementSummary, mode)
     expect(status).toBe('suspended')
   })
 })

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
-import { EServiceFlatReadType, ActionProps, EServiceStatus } from '../../types'
+import { EServiceFlatReadType, ActionProps, EServiceState } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -20,7 +20,7 @@ import {
 } from '@mui/icons-material'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ROUTES } from '../config/routes'
-import { ESERVICE_STATUS_LABEL } from '../config/labels'
+import { ESERVICE_STATE_LABEL } from '../config/labels'
 
 type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
   isMine: boolean
@@ -156,7 +156,7 @@ export function EServiceCatalog() {
                   { label: item.name, tooltip },
                   { label: item.producerName },
                   { label: item.version as string },
-                  { label: ESERVICE_STATUS_LABEL[item.state as EServiceStatus] },
+                  { label: ESERVICE_STATE_LABEL[item.state as EServiceState] },
                 ]}
                 index={i}
                 singleActionBtn={{

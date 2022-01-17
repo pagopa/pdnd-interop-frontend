@@ -9,7 +9,7 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material'
-import { ProviderOrSubscriber, RouteConfig, UserPlatformRole } from '../../types'
+import { ProviderOrSubscriber, RouteConfig, UserProductRole } from '../../types'
 import { PartyContext } from '../lib/context'
 import { StyledLink } from './Shared/StyledLink'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
@@ -22,7 +22,7 @@ type View = {
   children?: Array<RouteConfig>
 }
 
-type Views = Record<UserPlatformRole, Array<View>>
+type Views = Record<UserProductRole, Array<View>>
 
 const WIDTH = 340
 

@@ -5,6 +5,7 @@ import { UserContext } from '../lib/context'
 import { jwtToUser, parseJwt } from '../lib/jwt-utils'
 import { fetchWithLogs } from '../lib/api-utils'
 import { isFetchError } from '../lib/error-utils'
+import { User } from '../../types'
 
 export const useLogin = () => {
   const { setUser } = useContext(UserContext)
@@ -37,7 +38,8 @@ export const useLogin = () => {
     // If it is valid, turn it into State so that it is easier
     // to make it interact with React
     if (isTokenValid) {
-      setUser(jwtToUser(jwt as Record<string, string>))
+      // TEMP REFACTOR: user is no longer necessary. It is enough to have the token as a global state
+      setUser(jwtToUser(jwt as Record<string, string>) as unknown as User)
     }
 
     return isTokenValid
