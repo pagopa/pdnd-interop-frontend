@@ -32,14 +32,14 @@ const STEPS: Array<StepperStep & { intro: StyledIntroChildrenProps }> = [
 ]
 
 export type EServiceWriteProps = {
-  fetchedDataMaybe?: EServiceReadType
+  fetchedData?: EServiceReadType
   back: VoidFunction
   forward: VoidFunction
   activeStep: number
 }
 
-export function EServiceWrite({ fetchedDataMaybe, back, forward, activeStep }: EServiceWriteProps) {
-  const stepProps = { forward, back, fetchedDataMaybe }
+export function EServiceWrite({ fetchedData, back, forward, activeStep }: EServiceWriteProps) {
+  const stepProps = { forward, back, fetchedData }
   const { component: Step, intro } = STEPS[activeStep]
 
   return (

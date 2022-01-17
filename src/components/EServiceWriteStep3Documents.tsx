@@ -17,25 +17,27 @@ import { EServiceWriteStep3DocumentsDoc } from './EServiceWriteStep3DocumentsDoc
 import { EServiceWriteActions } from './Shared/EServiceWriteActions'
 import { Paper } from '@mui/material'
 import { TOAST_CONTENTS } from '../config/toast'
-import { useEservice } from '../hooks/useEservice'
+import { EServiceWriteProps } from '../views/EServiceWrite'
 
-export function EServiceWriteStep3Documents({ back }: StepperStepComponentProps) {
+export function EServiceWriteStep3Documents({
+  back,
+  fetchedData,
+}: StepperStepComponentProps & EServiceWriteProps) {
   const history = useHistory()
-  const { data } = useEservice()
   const { runAction, runActionWithDestination, wrapActionInDialog } = useFeedback()
   const location = useLocation()
   const bits = getBits(location)
   const activeDescriptorId: string = bits.pop() as string
-  const fetchedData = data as EServiceReadType
+  const sureFetchedData = fetchedData as EServiceReadType
 
   const publishVersion = async () => {
-    const activeDescriptor = fetchedData.activeDescriptor as EServiceDescriptorRead
+    const activeDescriptor = sureFetchedData.activeDescriptor as EServiceDescriptorRead
     await runActionWithDestination(
       {
         path: {
           endpoint: 'ESERVICE_VERSION_PUBLISH',
           endpointParams: {
-            eserviceId: fetchedData.id,
+            eserviceId: sureFetchedData.id,
             descriptorId: activeDescriptor.id,
           },
         },
@@ -45,13 +47,13 @@ export function EServiceWriteStep3Documents({ back }: StepperStepComponentProps)
   }
 
   const deleteVersion = async () => {
-    const activeDescriptor = fetchedData.activeDescriptor as EServiceDescriptorRead
+    const activeDescriptor = sureFetchedData.activeDescriptor as EServiceDescriptorRead
     await runActionWithDestination(
       {
         path: {
           endpoint: 'ESERVICE_VERSION_DELETE',
           endpointParams: {
-            eserviceId: fetchedData.id,
+            eserviceId: sureFetchedData.id,
             descriptorId: activeDescriptor.id,
           },
         },
@@ -61,13 +63,13 @@ export function EServiceWriteStep3Documents({ back }: StepperStepComponentProps)
   }
 
   const deleteDescriptorDocument = async (documentId: string) => {
-    const activeDescriptor = fetchedData.activeDescriptor as EServiceDescriptorRead
+    const activeDescriptor = sureFetchedData.activeDescriptor as EServiceDescriptorRead
     const { outcome, response } = await runAction(
       {
         path: {
           endpoint: 'ESERVICE_VERSION_DELETE_DOCUMENT',
           endpointParams: {
-            eserviceId: fetchedData.id,
+            eserviceId: sureFetchedData.id,
             descriptorId: activeDescriptor.id,
             documentId,
           },
@@ -85,13 +87,13 @@ export function EServiceWriteStep3Documents({ back }: StepperStepComponentProps)
     formData.append('description', description || '')
     formData.append('doc', doc)
 
-    const activeDescriptor = fetchedData.activeDescriptor as EServiceDescriptorRead
+    const activeDescriptor = sureFetchedData.activeDescriptor as EServiceDescriptorRead
     const { outcome, response } = await runAction(
       {
         path: {
           endpoint: 'ESERVICE_VERSION_POST_DOCUMENT',
           endpointParams: {
-            eserviceId: fetchedData.id,
+            eserviceId: sureFetchedData.id,
             descriptorId: activeDescriptor.id,
           },
         },

@@ -16,7 +16,7 @@ import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { requiredValidationPattern } from '../lib/validation'
 import { ROUTES } from '../config/routes'
 import { EServiceWriteActions } from './Shared/EServiceWriteActions'
-import { useEservice } from '../hooks/useEservice'
+import { EServiceWriteProps } from '../views/EServiceWrite'
 
 type VersionData = {
   audience: string
@@ -32,7 +32,11 @@ type VersionDataWriteType = {
   description: string
 }
 
-export function EServiceWriteStep2Version({ forward, back }: StepperStepComponentProps) {
+export function EServiceWriteStep2Version({
+  forward,
+  back,
+  fetchedData,
+}: StepperStepComponentProps & EServiceWriteProps) {
   const {
     handleSubmit,
     control,
@@ -42,7 +46,6 @@ export function EServiceWriteStep2Version({ forward, back }: StepperStepComponen
 
   const history = useHistory()
   const { runActionWithCallback } = useFeedback()
-  const { data: fetchedData } = useEservice()
 
   // Pre-fill if there is already a draft of the service available
   useEffect(() => {
