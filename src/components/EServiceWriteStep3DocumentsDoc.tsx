@@ -20,19 +20,19 @@ import { requiredValidationPattern } from '../lib/validation'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { AxiosResponse } from 'axios'
 
-type EServiceWriteStep4DocumentsDocProps = {
+type EServiceWriteStep3DocumentsDocProps = {
   data: EServiceReadType
   uploadDescriptorDocument: (document: EServiceDocumentWrite) => Promise<RunActionOutput>
   deleteDescriptorDocument: (documentId: string) => Promise<RunActionOutput>
   activeDescriptorId: string
 }
 
-export function EServiceWriteStep4DocumentsDoc({
+export function EServiceWriteStep3DocumentsDoc({
   data,
   uploadDescriptorDocument,
   deleteDescriptorDocument,
   activeDescriptorId,
-}: EServiceWriteStep4DocumentsDocProps) {
+}: EServiceWriteStep3DocumentsDocProps) {
   const {
     handleSubmit,
     control,
