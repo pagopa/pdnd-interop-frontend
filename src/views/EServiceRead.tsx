@@ -88,7 +88,7 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
 
   const canSubscribeEservice = canSubscribe(party.attributes, data.attributes.certified)
   const isMine = data.producer.id === party?.partyId
-  const isVersionPublished = data.activeDescriptor?.status === 'published'
+  const isVersionPublished = data.activeDescriptor?.state === 'PUBLISHED'
 
   const toAccordionEntries = (attributes: Array<BackendAttribute>) => {
     return attributes.map((attribute) => {
@@ -161,7 +161,7 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
       </DescriptionBlock>
 
       <DescriptionBlock label="Stato della versione">
-        <Typography component="span">{ESERVICE_STATUS_LABEL[activeDescriptor.status]}</Typography>
+        <Typography component="span">{ESERVICE_STATUS_LABEL[activeDescriptor.state]}</Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Audience">

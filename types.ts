@@ -112,8 +112,27 @@ export type UserOnCreate = {
 }
 
 // export type User = UserOnCreate & {
-//   status: UserStatus
+//   state: UserStatus
 // }
+
+export type UserProduct = {
+  createdAt: string // actually should be Date
+  id: 'interop'
+  role: UserPlatformRole
+}
+
+export type UUser = {
+  id: string
+  createdAt: string // actually should be Date
+  updatedAt: string // actually should be Date
+  email: string
+  from: string
+  name: string
+  surname: string
+  state: UserStatus
+  role: UserRole
+  product: UserProduct
+}
 
 export type User = {
   uid: string
@@ -168,7 +187,7 @@ export type EServiceWriteType = {
   id: string
   name: string
   version: string
-  status: EServiceStatus
+  state: EServiceStatus
   descriptors: Array<EServiceDescriptorWrite>
 }
 
@@ -180,7 +199,7 @@ export type EServiceDocumentWrite = {
 
 export type EServiceDescriptorWrite = {
   id: string
-  status: EServiceStatus
+  state: EServiceStatus
   docs: Array<EServiceDocumentWrite>
   interface: EServiceDocumentWrite
   version: string
@@ -191,7 +210,7 @@ export type EServiceCreateDataType = {
   name: string
   description: string
   technology: EServiceTechnologyType
-  pop: boolean
+  // pop: boolean
 }
 
 // Read only
@@ -201,7 +220,7 @@ export type EServiceFlatReadType = {
   producerId: string
   producerName: string
   descriptorId?: string
-  status?: EServiceStatus
+  state?: EServiceStatus
   version?: string
   callerSubscribed?: string
   certifiedAttributes: Array<BackendAttribute>
@@ -224,14 +243,14 @@ export type EServiceReadType = {
   technology: EServiceTechnologyType
   attributes: BackendAttributes
   id: string
-  status: EServiceStatus
+  state: EServiceStatus
   descriptors: Array<EServiceDescriptorRead>
   activeDescriptor?: EServiceDescriptorRead // TEMP Refactor : this is added by the client
 }
 
 export type EServiceDescriptorRead = {
   id: string
-  status: EServiceStatus
+  state: EServiceStatus
   docs: Array<EServiceDocumentRead>
   interface: EServiceDocumentRead
   version: string
@@ -271,13 +290,13 @@ type AgreementEService = {
   id: string
   descriptorId: string
   version: string
-  status: EServiceStatus
+  state: EServiceStatus
   activeDescriptor?: AgreementEService
 }
 
 export type AgreementSummary = {
   id: string
-  status: AgreementStatus
+  state: AgreementStatus
   eservice: AgreementEService
   eserviceDescriptorId: string
   consumer: AgreementProducerAndConsumer
@@ -294,7 +313,7 @@ export type ClientStatus = keyof typeof CLIENT_STATUS_LABEL
 
 type ClientEServiceDescriptor = {
   id: string
-  status: EServiceStatus
+  state: EServiceStatus
   version: string
 }
 
@@ -310,7 +329,7 @@ type ClientEService = {
 
 type ClientAgreement = {
   id: string
-  status: AgreementStatus
+  state: AgreementStatus
   descriptor: ClientEServiceDescriptor
 }
 
@@ -323,7 +342,7 @@ export type Client = {
   id: string
   name: string
   description: string
-  status: ClientStatus
+  state: ClientStatus
   agreement: ClientAgreement
   eservice: ClientEService
   purposes: string

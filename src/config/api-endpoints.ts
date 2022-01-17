@@ -103,7 +103,7 @@ export const API: Record<string, ApiEndpointContent> = {
     METHOD: 'GET',
   },
   OPERATOR_API_GET_SINGLE: {
-    URL: 'pdnd-interop-uservice-party-process/0.1/institutions/:institutionId/relationships/:taxCode',
+    URL: 'pdnd-interop-uservice-party-process/0.1/relationships/:relationshipId',
     METHOD: 'GET',
   },
   ATTRIBUTES_GET_LIST: {
@@ -195,11 +195,11 @@ export const API: Record<string, ApiEndpointContent> = {
     METHOD: 'DELETE',
   },
   USER_SUSPEND: {
-    URL: 'pdnd-interop-uservice-party-process/0.1/institutions/:institutionId/relationships/:taxCode/suspend',
+    URL: 'pdnd-interop-uservice-party-process/0.1/relationships/:relationshipId/suspend',
     METHOD: 'POST',
   },
   USER_REACTIVATE: {
-    URL: 'pdnd-interop-uservice-party-process/0.1/institutions/:institutionId/relationships/:taxCode/activate',
+    URL: 'pdnd-interop-uservice-party-process/0.1/relationships/:relationshipId/activate',
     METHOD: 'POST',
   },
   USER_GET: {

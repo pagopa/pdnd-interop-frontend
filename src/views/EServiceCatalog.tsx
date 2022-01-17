@@ -29,13 +29,16 @@ type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
 export function EServiceCatalog() {
   const history = useHistory()
   const { party } = useContext(PartyContext)
+
   const { data, loadingText, error } = useAsyncFetch<
     Array<EServiceFlatReadType>,
     Array<ExtendedEServiceFlatReadType>
   >(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
-      config: { params: { status: 'published', callerId: party?.partyId } },
+      config: { params: { callerId: party?.partyId } },
+      // TEMP PIN-948
+      // config: { params: { state: 'PUBLISHED', callerId: party?.partyId } },
     },
     {
       mapFn: (data) => data.map((d) => ({ ...d, isMine: d.producerId === party?.partyId })),
@@ -153,7 +156,7 @@ export function EServiceCatalog() {
                   { label: item.name, tooltip },
                   { label: item.producerName },
                   { label: item.version as string },
-                  { label: ESERVICE_STATUS_LABEL[item.status as EServiceStatus] },
+                  { label: ESERVICE_STATUS_LABEL[item.state as EServiceStatus] },
                 ]}
                 index={i}
                 singleActionBtn={{

@@ -4,12 +4,12 @@ import { Box } from '@mui/system'
 import {
   EServiceDescriptorRead,
   EServiceDocumentWrite,
+  EServiceReadType,
   StepperStepComponentProps,
 } from '../../types'
 import { getBits } from '../lib/router-utils'
 import { ROUTES } from '../config/routes'
 import { useFeedback } from '../hooks/useFeedback'
-import { EServiceWriteStepProps } from '../views/EServiceWrite'
 import { StyledIntro } from './Shared/StyledIntro'
 import { StyledButton } from './Shared/StyledButton'
 import { EServiceWriteStep4DocumentsInterface } from './EServiceWriteStep4DocumentsInterface'
@@ -17,16 +17,16 @@ import { EServiceWriteStep4DocumentsDoc } from './EServiceWriteStep4DocumentsDoc
 import { EServiceWriteActions } from './Shared/EServiceWriteActions'
 import { Paper } from '@mui/material'
 import { TOAST_CONTENTS } from '../config/toast'
+import { useEservice } from '../hooks/useEservice'
 
-export function EServiceWriteStep4Documents({
-  back,
-  fetchedData,
-}: StepperStepComponentProps & EServiceWriteStepProps) {
+export function EServiceWriteStep4Documents({ back }: StepperStepComponentProps) {
   const history = useHistory()
+  const { data } = useEservice()
   const { runAction, runActionWithDestination, wrapActionInDialog } = useFeedback()
   const location = useLocation()
   const bits = getBits(location)
   const activeDescriptorId: string = bits.pop() as string
+  const fetchedData = data as EServiceReadType
 
   const publishVersion = async () => {
     const activeDescriptor = fetchedData.activeDescriptor as EServiceDescriptorRead
@@ -114,25 +114,27 @@ export function EServiceWriteStep4Documents({
         {{
           title: 'Interfaccia*',
           description: `Carica il file ${
-            fetchedData.technology === 'REST' ? 'OpenAPI' : 'WSDL'
+            fetchedData?.technology === 'REST' ? 'OpenAPI' : 'WSDL'
           }  che descrive l'API`,
         }}
       </StyledIntro>
 
-      <EServiceWriteStep4DocumentsInterface
-        data={fetchedData}
-        uploadDescriptorDocument={uploadDescriptorDocument}
-        deleteDescriptorDocument={deleteDescriptorDocument}
-        activeDescriptorId={activeDescriptorId}
-        interfaceAcceptedMimeTypes={
-          fetchedData.technology === 'REST'
-            ? { mime: ['application/x-yaml'], format: 'yaml (MIME type: application/x-yaml)' }
-            : {
-                mime: ['application/xml', 'text/xml'],
-                format: 'xml (MIME type: application/xml o text/xml)',
-              }
-        }
-      />
+      {fetchedData && (
+        <EServiceWriteStep4DocumentsInterface
+          data={fetchedData}
+          uploadDescriptorDocument={uploadDescriptorDocument}
+          deleteDescriptorDocument={deleteDescriptorDocument}
+          activeDescriptorId={activeDescriptorId}
+          interfaceAcceptedMimeTypes={
+            fetchedData.technology === 'REST'
+              ? { mime: ['application/x-yaml'], format: 'yaml (MIME type: application/x-yaml)' }
+              : {
+                  mime: ['application/xml', 'text/xml'],
+                  format: 'xml (MIME type: application/xml o text/xml)',
+                }
+          }
+        />
+      )}
 
       <StyledIntro variant="h2" sx={{ mt: 8, mb: 2, pt: 4, borderTop: 1, borderColor: 'divider' }}>
         {{
@@ -141,12 +143,14 @@ export function EServiceWriteStep4Documents({
         }}
       </StyledIntro>
 
-      <EServiceWriteStep4DocumentsDoc
-        data={fetchedData}
-        uploadDescriptorDocument={uploadDescriptorDocument}
-        deleteDescriptorDocument={deleteDescriptorDocument}
-        activeDescriptorId={activeDescriptorId}
-      />
+      {fetchedData && (
+        <EServiceWriteStep4DocumentsDoc
+          data={fetchedData}
+          uploadDescriptorDocument={uploadDescriptorDocument}
+          deleteDescriptorDocument={deleteDescriptorDocument}
+          activeDescriptorId={activeDescriptorId}
+        />
+      )}
 
       <EServiceWriteActions
         back={{ label: 'Indietro', onClick: back }}

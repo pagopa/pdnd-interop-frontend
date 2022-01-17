@@ -26,7 +26,7 @@ import { StyledForm } from './Shared/StyledForm'
 import { StyledIntro } from './Shared/StyledIntro'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { StyledInputControlledRadio } from './Shared/StyledInputControlledRadio'
-import { StyledInputControlledSwitch } from './Shared/StyledInputControlledSwitch'
+// import { StyledInputControlledSwitch } from './Shared/StyledInputControlledSwitch'
 import { ROUTES } from '../config/routes'
 import { EServiceWriteActions } from './Shared/EServiceWriteActions'
 
@@ -84,6 +84,7 @@ export const EServiceWriteStep1General: FunctionComponent<
     if (!isNewService) {
       endpoint = 'ESERVICE_UPDATE'
       endpointParams = { eserviceId: fetchedData.id }
+      delete dataToPost.producerId // Needed to avoid getting an error on PUT
     }
 
     await runActionWithCallback(
@@ -126,7 +127,7 @@ export const EServiceWriteStep1General: FunctionComponent<
       hasVersion &&
       /* eslint-disable @typescript-eslint/no-non-null-assertion */
       fetchedDataMaybe!.activeDescriptor!.version === '1' &&
-      fetchedDataMaybe!.activeDescriptor!.status === 'draft')
+      fetchedDataMaybe!.activeDescriptor!.state === 'DRAFT')
   /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
   return (
@@ -171,13 +172,13 @@ export const EServiceWriteStep1General: FunctionComponent<
         />
       </Box>
 
-      <StyledInputControlledSwitch
+      {/* <StyledInputControlledSwitch
         name="pop"
         label="Proof of Possession (richiesto)"
         control={control}
         errors={errors}
         disabled={!isEditable}
-      />
+      /> */}
 
       <StyledIntro variant="h2" sx={{ mt: 8, mb: 2, pt: 4, borderTop: 1, borderColor: 'divider' }}>
         {{ title: 'Attributi' }}

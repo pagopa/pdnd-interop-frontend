@@ -233,7 +233,7 @@ export function AgreementEdit() {
         >
           {data?.eservice.name}, versione {data?.eservice.version}
         </StyledLink>
-        {mode === 'subscriber' && data?.eservice.activeDescriptor && data?.status !== 'inactive' ? (
+        {mode === 'subscriber' && data?.eservice.activeDescriptor && data?.state !== 'inactive' ? (
           <React.Fragment>
             {' '}
             (è disponibile una{' '}
@@ -251,7 +251,7 @@ export function AgreementEdit() {
       </DescriptionBlock>
 
       <DescriptionBlock label="Stato dell'accordo" tooltipLabel={agreementSuspendExplanation}>
-        {data?.status === 'suspended' ? (
+        {data?.state === 'suspended' ? (
           <React.Fragment>
             <Typography component="span">
               Lato erogatore: {AGREEMENT_STATUS_LABEL[getAgreementStatus(data, 'provider')]}
@@ -262,7 +262,7 @@ export function AgreementEdit() {
             </Typography>
           </React.Fragment>
         ) : (
-          <Typography component="span">{AGREEMENT_STATUS_LABEL[data?.status]}</Typography>
+          <Typography component="span">{AGREEMENT_STATUS_LABEL[data?.state]}</Typography>
         )}
       </DescriptionBlock>
 

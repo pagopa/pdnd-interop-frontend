@@ -138,7 +138,7 @@ export function EServiceList() {
   type EServiceAction = Record<EServiceStatus, Array<ActionProps | null>>
   // Build list of available actions for each service in its current state
   const getAvailableActions = (service: EServiceFlatReadType) => {
-    const { id: eserviceId, descriptorId, status } = service
+    const { id: eserviceId, descriptorId, state } = service
 
     const suspendAction = {
       onClick: wrapActionInDialog(
@@ -186,15 +186,15 @@ export function EServiceList() {
     }
 
     const availableActions: EServiceAction = {
-      published: [suspendAction, cloneAction, createVersionDraftAction],
-      archived: [],
-      deprecated: [suspendAction, archiveAction],
-      draft: [descriptorId ? publishDraftAction : null, deleteDraftAction],
-      suspended: [reactivateAction, cloneAction, createVersionDraftAction],
+      PUBLISHED: [suspendAction, cloneAction, createVersionDraftAction],
+      ARCHIVED: [],
+      DEPRECATED: [suspendAction, archiveAction],
+      DRAFT: [descriptorId ? publishDraftAction : null, deleteDraftAction],
+      SUSPENDED: [reactivateAction, cloneAction, createVersionDraftAction],
     }
 
     // Return all the actions available for this particular status
-    return availableActions[status || 'draft'].filter((a) => a !== null) as Array<ActionProps>
+    return availableActions[state || 'DRAFT'].filter((a) => a !== null) as Array<ActionProps>
   }
 
   // Data for the table head
@@ -232,7 +232,7 @@ export function EServiceList() {
               cellData={[
                 { label: item.name },
                 { label: item.version || '1' },
-                { label: ESERVICE_STATUS_LABEL[item.status || 'draft'] },
+                { label: ESERVICE_STATUS_LABEL[item.state || 'DRAFT'] },
               ]}
               index={i}
               singleActionBtn={{
@@ -240,7 +240,7 @@ export function EServiceList() {
                   eserviceId: item.id,
                   descriptorId: item.descriptorId || 'prima-bozza',
                 }),
-                label: !item.status || item.status === 'draft' ? 'Modifica' : 'Ispeziona',
+                label: !item.state || item.state === 'DRAFT' ? 'Modifica' : 'Ispeziona',
               }}
               actions={getAvailableActions(item)}
             />

@@ -82,7 +82,7 @@ export function ClientList() {
       ],
     }
 
-    const status = client.status
+    const status = client.state
 
     // Return all the actions available for this particular status
     return availableActions[status] || []

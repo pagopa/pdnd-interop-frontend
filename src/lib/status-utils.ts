@@ -3,10 +3,10 @@ import { COMPUTED_STATUS_LABEL } from '../config/labels'
 
 export function getClientComputedStatus(item: Client): keyof typeof COMPUTED_STATUS_LABEL {
   if (
-    (item.agreement.descriptor.status === 'published' ||
-      item.agreement.descriptor.status === 'deprecated') &&
-    item.agreement.status === 'active' &&
-    item.status === 'active'
+    (item.agreement.descriptor.state === 'PUBLISHED' ||
+      item.agreement.descriptor.state === 'DEPRECATED') &&
+    item.agreement.state === 'active' &&
+    item.state === 'active'
   ) {
     return 'active'
   }
@@ -18,8 +18,8 @@ export function getAgreementStatus(
   item: AgreementSummary,
   mode: ProviderOrSubscriber | null
 ): AgreementStatus {
-  if (item.status !== 'suspended') {
-    return item.status
+  if (item.state !== 'suspended') {
+    return item.state
   }
 
   if (mode === 'provider') {
