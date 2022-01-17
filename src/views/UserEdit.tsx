@@ -1,14 +1,7 @@
 import React, { useContext, useState } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import { useLocation } from 'react-router-dom'
-import {
-  ActionProps,
-  ApiEndpointKey,
-  ProviderOrSubscriber,
-  User,
-  UserStatus,
-  UUser,
-} from '../../types'
+import { ActionProps, ApiEndpointKey, ProviderOrSubscriber, User, UserState } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -23,7 +16,7 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { Tab, Tabs, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { a11yProps, TabPanel } from '../components/TabPanel'
-import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATUS_LABEL } from '../config/labels'
+import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATE_LABEL } from '../config/labels'
 
 type UserEndpoinParams = { operatorTaxCode: string; clientId: string } | { relationshipId: string }
 
@@ -49,7 +42,7 @@ export function UserEdit() {
     endpointParams = { relationshipId }
   }
 
-  const { data: userData } = useAsyncFetch<UUser>(
+  const { data: userData } = useAsyncFetch<User>(
     { path: { endpoint, endpointParams } },
     {
       useEffectDeps: [forceRerenderCounter],
@@ -78,7 +71,7 @@ export function UserEdit() {
   /*
    * End list of actions
    */
-  type UserActions = Record<UserStatus, Array<ActionProps>>
+  type UserActions = Record<UserState, Array<ActionProps>>
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = () => {
@@ -135,7 +128,7 @@ export function UserEdit() {
 
         <DescriptionBlock label="Stato dell'utenza sulla piattaforma">
           <Typography component="span">
-            {userData?.state ? USER_STATUS_LABEL[userData.state] : 'n/d'}
+            {userData?.state ? USER_STATE_LABEL[userData.state] : 'n/d'}
           </Typography>
         </DescriptionBlock>
 

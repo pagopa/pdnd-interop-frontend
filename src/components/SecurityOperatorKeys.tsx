@@ -36,7 +36,8 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
   const { openDialog, forceRerenderCounter: securityKeyPostForceRerenderCounter } =
     useSecurityOperatorKeyDialog({
       clientId,
-      taxCode: userData.taxCode as string,
+      // TEMP-BACKEND: when there is the new endpoint for security operators, update this
+      taxCode: userData.id,
     })
 
   /*
@@ -47,7 +48,8 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
       const resp = await fetchWithLogs({
         path: {
           endpoint: 'OPERATOR_SECURITY_KEYS_GET',
-          endpointParams: { taxCode: userData.taxCode, clientId },
+          // TEMP-BACKEND: when there is the new endpoint for security operators, update this
+          endpointParams: { taxCode: userData.id, clientId },
         },
       })
       const outcome = getFetchOutcome(resp)
@@ -110,7 +112,7 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
 
   return (
     <React.Fragment>
-      {user?.taxCode === userData.taxCode && !key && (
+      {user?.id === userData.id && !key && (
         <React.Fragment>
           <StyledButton sx={{ mb: 2 }} onClick={openDialog} variant="contained">
             Carica nuova chiave

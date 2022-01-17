@@ -29,7 +29,7 @@ import { StyledLink } from '../components/Shared/StyledLink'
 import { Skeleton, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { FileDownloadOutlined as FileDownloadOutlinedIcon } from '@mui/icons-material'
-import { ATTRIBUTE_TYPE_PLURAL_LABEL, ESERVICE_STATUS_LABEL } from '../config/labels'
+import { ATTRIBUTE_TYPE_PLURAL_LABEL, ESERVICE_STATE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
 import { Contained } from '../components/Shared/Contained'
 
@@ -161,7 +161,7 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
       </DescriptionBlock>
 
       <DescriptionBlock label="Stato della versione">
-        <Typography component="span">{ESERVICE_STATUS_LABEL[activeDescriptor.state]}</Typography>
+        <Typography component="span">{ESERVICE_STATE_LABEL[activeDescriptor.state]}</Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Audience">

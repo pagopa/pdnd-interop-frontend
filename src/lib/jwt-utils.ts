@@ -1,4 +1,4 @@
-import { User } from '../../types'
+import { JwtUser } from '../../types'
 
 export const parseJwt = (token: string): Record<string, string | number | boolean> | null => {
   try {
@@ -8,10 +8,10 @@ export const parseJwt = (token: string): Record<string, string | number | boolea
   }
 }
 
-export function jwtToUser(jwt: Record<string, string>): User {
+export function jwtToUser(jwt: Record<string, string>): JwtUser {
   return {
-    uid: jwt.uid,
-    taxCode: jwt.fiscal_number,
+    id: jwt.uid,
+    // taxCode: jwt.fiscal_number,
     name: jwt.name,
     surname: jwt.family_name,
     email: jwt.email,

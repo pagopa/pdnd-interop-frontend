@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { useLocation } from 'react-router-dom'
 import has from 'lodash/has'
 import {
-  AgreementStatus,
+  AgreementState,
   AgreementSummary,
   SingleBackendAttribute,
   GroupBackendAttribute,
@@ -11,7 +11,7 @@ import {
   ProviderOrSubscriber,
 } from '../../types'
 import { ROUTES } from '../config/routes'
-import { AGREEMENT_STATUS_LABEL } from '../config/labels'
+import { AGREEMENT_STATE_LABEL } from '../config/labels'
 import { buildDynamicPath, getLastBit } from '../lib/router-utils'
 import { formatDate, getRandomDate } from '../lib/date-utils'
 import { mergeActions } from '../lib/eservice-utils'
@@ -20,7 +20,7 @@ import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { PartyContext } from '../lib/context'
-import { getAgreementStatus } from '../lib/status-utils'
+import { getAgreementState } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
@@ -109,7 +109,7 @@ export function AgreementEdit() {
    * End list of actions
    */
 
-  type AgreementActions = Record<AgreementStatus, Array<ActionProps>>
+  type AgreementActions = Record<AgreementState, Array<ActionProps>>
   // Build list of available actions for each agreement in its current state
   const getAvailableActions = () => {
     if (!data) {
@@ -168,7 +168,7 @@ export function AgreementEdit() {
       currentMode
     ]
 
-    const status = data ? getAgreementStatus(data, mode) : 'suspended'
+    const status = data ? getAgreementState(data, mode) : 'suspended'
 
     return mergeActions<AgreementActions>([currentActions, sharedActions], status)
   }
@@ -254,15 +254,15 @@ export function AgreementEdit() {
         {data?.state === 'suspended' ? (
           <React.Fragment>
             <Typography component="span">
-              Lato erogatore: {AGREEMENT_STATUS_LABEL[getAgreementStatus(data, 'provider')]}
+              Lato erogatore: {AGREEMENT_STATE_LABEL[getAgreementState(data, 'provider')]}
             </Typography>
             <br />
             <Typography component="span">
-              Lato fruitore: {AGREEMENT_STATUS_LABEL[getAgreementStatus(data, 'subscriber')]}
+              Lato fruitore: {AGREEMENT_STATE_LABEL[getAgreementState(data, 'subscriber')]}
             </Typography>
           </React.Fragment>
         ) : (
-          <Typography component="span">{AGREEMENT_STATUS_LABEL[data?.state]}</Typography>
+          <Typography component="span">{AGREEMENT_STATE_LABEL[data?.state]}</Typography>
         )}
       </DescriptionBlock>
 

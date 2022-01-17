@@ -2,19 +2,15 @@ import React, { useContext, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Tab, Tabs, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import {
-  AGREEMENT_STATUS_LABEL,
-  CLIENT_STATUS_LABEL,
-  ESERVICE_STATUS_LABEL,
-} from '../config/labels'
+import { AGREEMENT_STATE_LABEL, CLIENT_STATE_LABEL, ESERVICE_STATE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
-import { Client, ClientStatus, ActionProps } from '../../types'
+import { Client, ClientState, ActionProps } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { buildDynamicPath, getBits } from '../lib/router-utils'
 import { UserList } from './UserList'
-import { getClientComputedStatus } from '../lib/status-utils'
+import { getClientComputedState } from '../lib/status-utils'
 import { isAdmin } from '../lib/auth-utils'
 import { PartyContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
@@ -77,7 +73,7 @@ export function ClientEdit() {
     }
     const sureData = data as Client
 
-    const actions: Record<ClientStatus, Array<ActionProps>> = {
+    const actions: Record<ClientState, Array<ActionProps>> = {
       active: [{ onClick: wrapActionInDialog(suspend, 'CLIENT_SUSPEND'), label: 'Sospendi' }],
       suspended: [
         {
@@ -139,14 +135,14 @@ export function ClientEdit() {
 
         <DescriptionBlock label="Questo client può accedere all'e-service?">
           <Typography component="span">
-            {getClientComputedStatus(data) === 'active'
+            {getClientComputedState(data) === 'active'
               ? 'Sì'
               : `No: ${getReasonClientIsBlocked().join(', ')}`}
           </Typography>
         </DescriptionBlock>
 
         <DescriptionBlock label="Stato del client">
-          <Typography component="span">{CLIENT_STATUS_LABEL[data.state]}</Typography>
+          <Typography component="span">{CLIENT_STATE_LABEL[data.state]}</Typography>
         </DescriptionBlock>
 
         <DescriptionBlock label="La versione dell'e-service che stai usando">
@@ -196,7 +192,7 @@ export function ClientEdit() {
           label={`Stato dell'e-service per la versione ${data.agreement.descriptor.version}`}
         >
           <Typography component="span">
-            {ESERVICE_STATUS_LABEL[data.agreement.descriptor.state]}
+            {ESERVICE_STATE_LABEL[data.agreement.descriptor.state]}
           </Typography>
         </DescriptionBlock>
 
@@ -213,7 +209,7 @@ export function ClientEdit() {
         </DescriptionBlock>
 
         <DescriptionBlock label="Stato dell'accordo">
-          <Typography component="span">{AGREEMENT_STATUS_LABEL[data.agreement.state]}</Typography>
+          <Typography component="span">{AGREEMENT_STATE_LABEL[data.agreement.state]}</Typography>
         </DescriptionBlock>
 
         <DescriptionBlock label="Finalità">

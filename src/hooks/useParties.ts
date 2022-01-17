@@ -58,7 +58,7 @@ export const useParties = () => {
   }
 
   const fetchAvailablePartiesAttempt = async () => {
-    if (user && user.uid) {
+    if (user && user.id) {
       const hasFetchedAndSetAvailableParties = await fetchAndSetAvailableParties()
       return hasFetchedAndSetAvailableParties
     }

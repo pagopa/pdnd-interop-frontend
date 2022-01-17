@@ -19,10 +19,6 @@ export function Profile() {
         </Typography>
       </DescriptionBlock>
 
-      <DescriptionBlock label="Codice fiscale">
-        <Typography component="span">{user?.taxCode}</Typography>
-      </DescriptionBlock>
-
       <DescriptionBlock label="Mail di notifica">
         <Typography component="span">{user?.email}</Typography>
       </DescriptionBlock>

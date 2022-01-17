@@ -12,7 +12,7 @@ const exampleParty: Party = {
   digitalAddress: 'comune@test.it',
 }
 
-describe('Check PlatformRole', () => {
+describe('Check ProductRole', () => {
   it('Is admin', () => {
     expect(isAdmin({ ...exampleParty, role: 'Manager', platformRole: 'admin' })).toBeTruthy()
     expect(isAdmin({ ...exampleParty, role: 'Delegate', platformRole: 'admin' })).toBeTruthy()

@@ -2,9 +2,9 @@ import React, { FunctionComponent } from 'react'
 import { AxiosError, AxiosRequestConfig, AxiosResponse, Method } from 'axios'
 import { API } from './src/config/api-endpoints'
 import {
-  AGREEMENT_STATUS_LABEL,
-  CLIENT_STATUS_LABEL,
-  ESERVICE_STATUS_LABEL,
+  AGREEMENT_STATE_LABEL,
+  CLIENT_STATE_LABEL,
+  ESERVICE_STATE_LABEL,
 } from './src/config/labels'
 import { Control, FieldValues, UseFormGetValues, UseFormWatch } from 'react-hook-form'
 
@@ -28,7 +28,7 @@ export type RequestConfig = {
   config?: AxiosRequestConfig
 }
 
-export type RouteAuthLevel = 'any' | Array<UserPlatformRole>
+export type RouteAuthLevel = 'any' | Array<UserProductRole>
 
 export type BasicRouteConfig = {
   PATH: string
@@ -85,61 +85,49 @@ export type IPACatalogParty = {
 }
 
 /*
- * Platform user and party
+ * Product user and party
  */
-export type UserStatus = 'PENDING' | 'ACTIVE' | 'SUSPENDED'
+export type UserState = 'PENDING' | 'ACTIVE' | 'SUSPENDED'
 export type UserRole = 'MANAGER' | 'DELEGATE' | 'OPERATOR'
-export type UserPlatformRole = 'admin' | 'security' | 'api'
+export type UserProductRole = 'admin' | 'security' | 'api'
 
-type UserExtraInfo = {
-  email: string
-  birthDate: string
+type UserContract = {
+  version: string
+  path: string
 }
 
 export type UserOnCreate = {
   name: string
   surname: string
-  externalId: string
-  certification: string
-  extras: UserExtraInfo
-
-  // All the below should disappear, now keeping them while WIP upgrading all the API calls
-  taxCode?: string
-  from?: string
-  email?: string
-  role?: UserRole
-  platformRole?: UserPlatformRole
+  taxCode: string
+  email: string
+  role: UserRole
+  product: UserProduct
+  productRole: UserProductRole
+  contract: UserContract
 }
-
-// export type User = UserOnCreate & {
-//   state: UserStatus
-// }
 
 export type UserProduct = {
   createdAt: string // actually should be Date
   id: 'interop'
-  role: UserPlatformRole
+  role: UserProductRole
 }
 
-export type UUser = {
+export type JwtUser = {
   id: string // the relationshipId between the user and the current institution
+  name: string
+  surname: string
+  email: string
+}
+
+export type User = JwtUser & {
   createdAt: string // actually should be Date
   updatedAt: string // actually should be Date
   email: string
   from: string // the external uid of the user
-  name: string
-  surname: string
-  state: UserStatus
+  state: UserState
   role: UserRole
   product: UserProduct
-}
-
-export type User = {
-  uid: string
-  taxCode: string
-  name: string
-  surname: string
-  email: string
 }
 
 export type PartyOnCreate = {
@@ -151,13 +139,13 @@ export type PartyOnCreate = {
 export type ProductInfo = {
   createdAt: string // Date
   id: 'interop'
-  role: UserPlatformRole
+  role: UserProductRole
 }
 
 export type Party = PartyOnCreate & {
   partyId?: string
   role: UserRole
-  state: UserStatus
+  state: UserState
   attributes: Array<string>
   productInfo: ProductInfo
 }
@@ -165,8 +153,8 @@ export type Party = PartyOnCreate & {
 /*
  * EService
  */
-export type EServiceStatus = keyof typeof ESERVICE_STATUS_LABEL
-export type EServiceStatusLabel = Record<EServiceStatus, string>
+export type EServiceState = keyof typeof ESERVICE_STATE_LABEL
+export type EServiceStateLabel = Record<EServiceState, string>
 
 // EServices are subdivided into their write and read type
 // The write is for when data is POSTed to the backend
@@ -187,7 +175,7 @@ export type EServiceWriteType = {
   id: string
   name: string
   version: string
-  state: EServiceStatus
+  state: EServiceState
   descriptors: Array<EServiceDescriptorWrite>
 }
 
@@ -199,7 +187,7 @@ export type EServiceDocumentWrite = {
 
 export type EServiceDescriptorWrite = {
   id: string
-  state: EServiceStatus
+  state: EServiceState
   docs: Array<EServiceDocumentWrite>
   interface: EServiceDocumentWrite
   version: string
@@ -220,7 +208,7 @@ export type EServiceFlatReadType = {
   producerId: string
   producerName: string
   descriptorId?: string
-  state?: EServiceStatus
+  state?: EServiceState
   version?: string
   callerSubscribed?: string
   certifiedAttributes: Array<BackendAttribute>
@@ -243,14 +231,14 @@ export type EServiceReadType = {
   technology: EServiceTechnologyType
   attributes: BackendAttributes
   id: string
-  state: EServiceStatus
+  state: EServiceState
   descriptors: Array<EServiceDescriptorRead>
   activeDescriptor?: EServiceDescriptorRead // TEMP Refactor : this is added by the client
 }
 
 export type EServiceDescriptorRead = {
   id: string
-  state: EServiceStatus
+  state: EServiceState
   docs: Array<EServiceDocumentRead>
   interface: EServiceDocumentRead
   version: string
@@ -269,7 +257,7 @@ export type EServiceDocumentRead = {
 /*
  * Agreement
  */
-export type AgreementStatus = keyof typeof AGREEMENT_STATUS_LABEL
+export type AgreementState = keyof typeof AGREEMENT_STATE_LABEL
 
 export type AgreementVerifiableAttribute = {
   id: string
@@ -290,13 +278,13 @@ type AgreementEService = {
   id: string
   descriptorId: string
   version: string
-  state: EServiceStatus
+  state: EServiceState
   activeDescriptor?: AgreementEService
 }
 
 export type AgreementSummary = {
   id: string
-  state: AgreementStatus
+  state: AgreementState
   eservice: AgreementEService
   eserviceDescriptorId: string
   consumer: AgreementProducerAndConsumer
@@ -309,11 +297,11 @@ export type AgreementSummary = {
 /*
  * Client
  */
-export type ClientStatus = keyof typeof CLIENT_STATUS_LABEL
+export type ClientState = keyof typeof CLIENT_STATE_LABEL
 
 type ClientEServiceDescriptor = {
   id: string
-  state: EServiceStatus
+  state: EServiceState
   version: string
 }
 
@@ -329,7 +317,7 @@ type ClientEService = {
 
 type ClientAgreement = {
   id: string
-  state: AgreementStatus
+  state: AgreementState
   descriptor: ClientEServiceDescriptor
 }
 
@@ -342,7 +330,7 @@ export type Client = {
   id: string
   name: string
   description: string
-  state: ClientStatus
+  state: ClientState
   agreement: ClientAgreement
   eservice: ClientEService
   purposes: string

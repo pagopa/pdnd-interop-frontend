@@ -5,7 +5,7 @@ import {
   ApiEndpointKey,
   EServiceDescriptorRead,
   EServiceFlatReadType,
-  EServiceStatus,
+  EServiceState,
   ActionProps,
 } from '../../types'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
@@ -18,7 +18,7 @@ import { buildDynamicPath } from '../lib/router-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Box } from '@mui/system'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
-import { ESERVICE_STATUS_LABEL } from '../config/labels'
+import { ESERVICE_STATE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
 
 export function EServiceList() {
@@ -135,7 +135,7 @@ export function EServiceList() {
    * End list of actions
    */
 
-  type EServiceAction = Record<EServiceStatus, Array<ActionProps | null>>
+  type EServiceAction = Record<EServiceState, Array<ActionProps | null>>
   // Build list of available actions for each service in its current state
   const getAvailableActions = (service: EServiceFlatReadType) => {
     const { id: eserviceId, descriptorId, state } = service
@@ -232,7 +232,7 @@ export function EServiceList() {
               cellData={[
                 { label: item.name },
                 { label: item.version || '1' },
-                { label: ESERVICE_STATUS_LABEL[item.state || 'DRAFT'] },
+                { label: ESERVICE_STATE_LABEL[item.state || 'DRAFT'] },
               ]}
               index={i}
               singleActionBtn={{
