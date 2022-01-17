@@ -2,13 +2,13 @@ import { AxiosResponse } from 'axios'
 import { useContext } from 'react'
 import { Party } from '../../types'
 import { fetchAllWithLogs, fetchWithLogs } from '../lib/api-utils'
-import { LoaderContext, PartyContext, UserContext } from '../lib/context'
+import { LoaderContext, PartyContext, TokenContext } from '../lib/context'
 import { storageRead } from '../lib/storage-utils'
 
 export const useParties = () => {
   const { setLoadingText } = useContext(LoaderContext)
   const { setAvailableParties, setParty } = useContext(PartyContext)
-  const { user } = useContext(UserContext)
+  const { token } = useContext(TokenContext)
 
   const setPartiesInContext = async (data: Array<Party>) => {
     // Store them in a variable
@@ -58,7 +58,7 @@ export const useParties = () => {
   }
 
   const fetchAvailablePartiesAttempt = async () => {
-    if (user && user.id) {
+    if (token) {
       const hasFetchedAndSetAvailableParties = await fetchAndSetAvailableParties()
       return hasFetchedAndSetAvailableParties
     }

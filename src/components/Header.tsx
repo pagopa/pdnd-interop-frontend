@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { PartyContext, UserContext } from '../lib/context'
+import { PartyContext, TokenContext } from '../lib/context'
 import { isInPlatform } from '../lib/router-utils'
 import { Layout } from './Shared/Layout'
 import { StyledButton } from './Shared/StyledButton'
@@ -15,8 +15,8 @@ import { URL_FE_LOGIN } from '../lib/constants'
 export function Header() {
   const location = useLocation()
   const { party } = useContext(PartyContext)
-  const { user } = useContext(UserContext)
-  const { PATH: btnPath, LABEL: btnLabel } = user
+  const { token } = useContext(TokenContext)
+  const { PATH: btnPath, LABEL: btnLabel } = token
     ? ROUTES.LOGOUT
     : { PATH: URL_FE_LOGIN, LABEL: 'Login' }
 
