@@ -122,11 +122,11 @@ export type UserProduct = {
 }
 
 export type UUser = {
-  id: string
+  id: string // the relationshipId between the user and the current institution
   createdAt: string // actually should be Date
   updatedAt: string // actually should be Date
   email: string
-  from: string
+  from: string // the external uid of the user
   name: string
   surname: string
   state: UserStatus
@@ -467,9 +467,9 @@ export type DialogActionKeys = Exclude<
   | 'CLIENT_GET_LIST'
   | 'CLIENT_GET_SINGLE'
   | 'CLIENT_CREATE'
+  | 'JOIN_OPERATOR_WITH_CLIENT'
   | 'OPERATOR_SECURITY_GET_LIST'
   | 'OPERATOR_SECURITY_GET_SINGLE'
-  | 'OPERATOR_SECURITY_CREATE'
   | 'OPERATOR_SECURITY_KEYS_GET'
 >
 

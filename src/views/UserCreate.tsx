@@ -12,6 +12,7 @@ import { StyledForm } from '../components/Shared/StyledForm'
 import { PlatformUserControlledForm } from '../components/Shared/PlatformUserControlledForm'
 import { ROUTES } from '../config/routes'
 import { Contained } from '../components/Shared/Contained'
+import { AxiosResponse } from 'axios'
 
 export function UserCreate() {
   const {
@@ -19,7 +20,7 @@ export function UserCreate() {
     control,
     formState: { errors },
   } = useForm()
-  const { runActionWithDestination } = useFeedback()
+  const { runActionWithDestination, runAction } = useFeedback()
   const location = useLocation()
   const mode = useMode()
   const currentMode = mode as ProviderOrSubscriber
@@ -33,31 +34,43 @@ export function UserCreate() {
       productRole: mode === 'provider' ? 'api' : 'security',
     }
 
-    const { clientId } = parseSearch(location.search)
-
-    const destination =
-      mode === 'provider'
-        ? ROUTES.PROVIDE_OPERATOR_LIST
-        : buildDynamicRoute(ROUTES.SUBSCRIBE_CLIENT_EDIT, {
-            id: clientId,
-          })
-
     const { institutionId } = party as Party
     const contract = { version: '1', path: 'contracts/v1/interop-contract.html' }
     const dataToPost = { users: [userData], institutionId, contract }
 
-    await runActionWithDestination(
-      {
-        path: { endpoint: 'OPERATOR_CREATE' },
-        config: {
-          data: dataToPost,
+    if (mode === 'provider') {
+      // Create the api operator
+      await runActionWithDestination(
+        { path: { endpoint: 'OPERATOR_CREATE' }, config: { data: dataToPost } },
+        { destination: ROUTES.PROVIDE_OPERATOR_LIST, suppressToast: false }
+      )
+    } else {
+      // First create the security operator
+      const { response } = await runAction(
+        { path: { endpoint: 'OPERATOR_CREATE' }, config: { data: dataToPost } },
+        { suppressToast: false }
+      )
+
+      const { clientId } = parseSearch(location.search)
+      // Then, join it with the client it belongs to
+      await runActionWithDestination(
+        {
+          path: {
+            endpoint: 'JOIN_OPERATOR_WITH_CLIENT',
+            endpointParams: {
+              clientId,
+              relationshipId: (response as AxiosResponse).data.relationshipId,
+            },
+          },
         },
-      },
-      {
-        destination,
-        suppressToast: false,
-      }
-    )
+        {
+          destination: buildDynamicRoute(ROUTES.SUBSCRIBE_CLIENT_EDIT, {
+            id: clientId,
+          }),
+          suppressToast: false,
+        }
+      )
+    }
   }
 
   const INTRO: Record<ProviderOrSubscriber, StyledIntroChildrenProps> = {

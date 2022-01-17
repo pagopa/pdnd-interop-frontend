@@ -166,6 +166,11 @@ export const API: Record<string, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/activate',
     METHOD: 'POST',
   },
+  JOIN_OPERATOR_WITH_CLIENT: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/{clientId}/relationships/{relationshipId}',
+    METHOD: 'POST',
+  },
+
   OPERATOR_SECURITY_GET_LIST: {
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/operators',
     METHOD: 'GET',

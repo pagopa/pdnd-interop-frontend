@@ -177,6 +177,18 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
         "Non è stato possibile creare il nuovo operatore. Assicurarsi che non esista già l'utenza ed eventualmente ritentare",
     },
   },
+  JOIN_OPERATOR_WITH_CLIENT: {
+    loadingText: "Stiamo associando l'operatore al client",
+    success: {
+      title: "C'è un nuovo operatore",
+      description: 'Nuovo operatore creato e associato correttamente',
+    },
+    error: {
+      title: "C'è stato un problema",
+      description:
+        "Non è stato possibile associare il nuovo operatore al suo client. Assicurarsi che non esista già l'utenza ed eventualmente ritentare",
+    },
+  },
   ATTRIBUTE_CREATE: {
     loadingText: 'Stiamo salvando il nuovo attributo',
     success: {
