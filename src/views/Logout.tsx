@@ -1,15 +1,15 @@
 import { useContext, useEffect } from 'react'
 import { STORAGE_KEY_USER, URL_FE_LOGIN } from '../lib/constants'
-import { PartyContext, UserContext } from '../lib/context'
+import { PartyContext, TokenContext } from '../lib/context'
 import { storageDelete } from '../lib/storage-utils'
 
 export function Logout() {
   const { setParty, setAvailableParties } = useContext(PartyContext)
-  const { setUser } = useContext(UserContext)
+  const { setToken } = useContext(TokenContext)
 
   useEffect(() => {
-    // clean up user
-    setUser(null)
+    // clean up token
+    setToken(null)
     // clean up parties
     setParty(null)
     setAvailableParties(null)

@@ -1,13 +1,15 @@
 import React, { useContext } from 'react'
 import { Typography } from '@mui/material'
-import { PartyContext, UserContext } from '../lib/context'
+import { PartyContext, TokenContext } from '../lib/context'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { USER_ROLE_LABEL } from '../config/labels'
+import { jwtToUser } from '../lib/jwt-utils'
 
 export function Profile() {
-  const { user } = useContext(UserContext)
+  const { token } = useContext(TokenContext)
   const { availableParties, party } = useContext(PartyContext)
+  const { name, surname, email } = jwtToUser(token as string)
 
   return (
     <React.Fragment>
@@ -15,12 +17,12 @@ export function Profile() {
 
       <DescriptionBlock label="Nome e cognome">
         <Typography component="span">
-          {user?.name} {user?.surname}
+          {name} {surname}
         </Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Mail di notifica">
-        <Typography component="span">{user?.email}</Typography>
+        <Typography component="span">{email}</Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Attualmente stai operando per l'ente">

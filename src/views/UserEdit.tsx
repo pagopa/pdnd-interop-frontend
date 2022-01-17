@@ -50,8 +50,6 @@ export function UserEdit() {
     }
   )
 
-  console.log(userData)
-
   /*
    * List of possible actions for the user to perform
    */

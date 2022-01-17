@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios'
 import { ActionProps, SecurityOperatorPublicKey, User } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { getFetchOutcome } from '../lib/error-utils'
-import { UserContext } from '../lib/context'
+import { TokenContext } from '../lib/context'
 import { DescriptionBlock } from './DescriptionBlock'
 import { downloadFile } from '../lib/file-utils'
 import { StyledButton } from './Shared/StyledButton'
@@ -14,6 +14,7 @@ import { Typography } from '@mui/material'
 import { ROUTES } from '../config/routes'
 import { useSecurityOperatorKeyDialog } from '../hooks/useSecurityOperatorKeyDialog'
 import { InlineClipboard } from './Shared/InlineClipboard'
+import { jwtToUser } from '../lib/jwt-utils'
 
 type SecurityOperatorKeysProps = {
   clientId: string
@@ -30,7 +31,7 @@ type PublicKeyObject = {
 
 export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKeysProps) {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
-  const { user } = useContext(UserContext)
+  const { token } = useContext(TokenContext)
   const [key, setKey] = useState<PublicKeyObject | undefined>()
 
   const { openDialog, forceRerenderCounter: securityKeyPostForceRerenderCounter } =
@@ -110,9 +111,12 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
     return actions
   }
 
+  const userId = jwtToUser(token as string).id
+  const isCurrentUser = userId === userData.id
+
   return (
     <React.Fragment>
-      {user?.id === userData.id && !key && (
+      {isCurrentUser && !key && (
         <React.Fragment>
           <StyledButton sx={{ mb: 2 }} onClick={openDialog} variant="contained">
             Carica nuova chiave

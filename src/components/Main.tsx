@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Box } from '@mui/system'
 import { Switch, Redirect, Route, useLocation } from 'react-router-dom'
 import { SHOW_DEV_LABELS } from '../lib/constants'
-import { UserContext } from '../lib/context'
+import { TokenContext } from '../lib/context'
 import { StyledBreadcrumbs } from './Shared/StyledBreadcrumbs'
 import { isInPlatform } from '../lib/router-utils'
 import { ROUTES } from '../config/routes'
@@ -10,7 +10,7 @@ import { AuthGuard } from './AuthGuard'
 import { RouteAuthLevel } from '../../types'
 
 export function Main() {
-  const { user } = useContext(UserContext)
+  const { token } = useContext(TokenContext)
   const location = useLocation()
 
   return (
@@ -45,7 +45,7 @@ export function Main() {
         })}
 
         <Route path="/" exact>
-          <Redirect to={user !== null ? ROUTES.SUBSCRIBE.PATH : ROUTES.CHOOSE_PARTY.PATH} />
+          <Redirect to={token !== null ? ROUTES.SUBSCRIBE.PATH : ROUTES.CHOOSE_PARTY.PATH} />
         </Route>
       </Switch>
     </Box>

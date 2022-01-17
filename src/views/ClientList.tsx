@@ -7,17 +7,18 @@ import { TempFilters } from '../components/TempFilters'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { getClientComputedState } from '../lib/status-utils'
 import { isAdmin, isOperatorSecurity } from '../lib/auth-utils'
-import { PartyContext, UserContext } from '../lib/context'
+import { PartyContext, TokenContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { buildDynamicPath } from '../lib/router-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { COMPUTED_STATE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
+import { jwtToUser } from '../lib/jwt-utils'
 
 export function ClientList() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
-  const { user } = useContext(UserContext)
+  const { token } = useContext(TokenContext)
   const { party } = useContext(PartyContext)
   const { data, loadingText, error } = useAsyncFetch<Array<Client>>(
     {
@@ -26,12 +27,12 @@ export function ClientList() {
         params: {
           institutionId: party?.institutionId,
           // TEMP-BACKEND: when there is the new endpoint for security operators, update this
-          operatorTaxCode: isOperatorSecurity(party) ? user?.id : undefined,
+          operatorTaxCode: isOperatorSecurity(party) ? jwtToUser(token as string).id : undefined,
         },
       },
     },
     {
-      useEffectDeps: [forceRerenderCounter, user],
+      useEffectDeps: [forceRerenderCounter, token],
       loaderType: 'contextual',
       loadingTextLabel: 'Stiamo caricando i client',
     }

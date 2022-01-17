@@ -1,14 +1,13 @@
 import { storageDelete, storageRead, storageWrite } from '../lib/storage-utils'
 import { STORAGE_KEY_TOKEN, USE_MOCK_SPID_USER } from '../lib/constants'
 import { useContext } from 'react'
-import { UserContext } from '../lib/context'
-import { jwtToUser, parseJwt } from '../lib/jwt-utils'
+import { TokenContext } from '../lib/context'
+import { parseJwt } from '../lib/jwt-utils'
 import { fetchWithLogs } from '../lib/api-utils'
 import { isFetchError } from '../lib/error-utils'
-import { User } from '../../types'
 
 export const useLogin = () => {
-  const { setUser } = useContext(UserContext)
+  const { setToken } = useContext(TokenContext)
 
   const silentLoginAttempt = async (): Promise<boolean> => {
     if (USE_MOCK_SPID_USER) {
@@ -22,7 +21,7 @@ export const useLogin = () => {
     if (!sessionStorageToken) {
       // Remove any partial data that might have remained, just for safety
       storageDelete(STORAGE_KEY_TOKEN)
-      setUser(null)
+      setToken(null)
       // Return failure (which will lead to a redirect to the login page)
       return false
     }
@@ -39,7 +38,7 @@ export const useLogin = () => {
     // to make it interact with React
     if (isTokenValid) {
       // TEMP REFACTOR: user is no longer necessary. It is enough to have the token as a global state
-      setUser(jwtToUser(jwt as Record<string, string>) as unknown as User)
+      setToken(sessionStorageToken)
     }
 
     return isTokenValid

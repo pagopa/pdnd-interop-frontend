@@ -8,7 +8,7 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useMode } from '../hooks/useMode'
 import { TempFilters } from '../components/TempFilters'
 import { isAdmin } from '../lib/auth-utils'
-import { PartyContext, UserContext } from '../lib/context'
+import { PartyContext, TokenContext } from '../lib/context'
 import { buildDynamicPath, getBits } from '../lib/router-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
@@ -26,7 +26,7 @@ export function UserList() {
 
   const mode = useMode()
   const { party } = useContext(PartyContext)
-  const { user } = useContext(UserContext)
+  const { token } = useContext(TokenContext)
   const endpoint = mode === 'provider' ? 'OPERATOR_API_GET_LIST' : 'OPERATOR_SECURITY_GET_LIST'
   const endpointParams =
     mode === 'provider' ? { institutionId: party?.institutionId } : { clientId }
@@ -35,7 +35,7 @@ export function UserList() {
   const { data, loadingText, error } = useAsyncFetch<Array<User>>(
     { path: { endpoint, endpointParams }, config: { params } },
     {
-      useEffectDeps: [forceRerenderCounter, user],
+      useEffectDeps: [forceRerenderCounter, token],
       loaderType: 'contextual',
       loadingTextLabel: 'Stiamo caricando gli operatori',
     }
@@ -78,8 +78,6 @@ export function UserList() {
       SUSPENDED: [reactivateAction],
     }
 
-    console.log({ party })
-
     // Return all the actions available for this particular status
     const { state } = party as Party
     return availableActions[state] || []
@@ -87,13 +85,7 @@ export function UserList() {
 
   // TEMP BACKEND: this should not happen, it depends on the difference between our API
   // and the one shared with self care, that doesn't expose name and surname
-  const headData = [
-    mode === 'provider' ? 'codice fiscale' : 'nome e cognome',
-    'ruolo',
-    'permessi',
-    'stato',
-    '',
-  ]
+  const headData = ['nome e cognome', 'ruolo', 'permessi', 'stato', '']
 
   return (
     <React.Fragment>

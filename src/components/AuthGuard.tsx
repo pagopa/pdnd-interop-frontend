@@ -5,7 +5,7 @@ import { ROUTES } from '../config/routes'
 import { useLogin } from '../hooks/useLogin'
 import { useParties } from '../hooks/useParties'
 import { URL_FE_LOGIN } from '../lib/constants'
-import { PartyContext, UserContext } from '../lib/context'
+import { PartyContext, TokenContext } from '../lib/context'
 import { isSamePath } from '../lib/router-utils'
 import { Unauthorized } from './Unauthorized'
 
@@ -17,7 +17,7 @@ type AuthGuardProps = {
 export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
   const history = useHistory()
   const { party, availableParties } = useContext(PartyContext)
-  const { user } = useContext(UserContext)
+  const { token } = useContext(TokenContext)
   const { silentLoginAttempt } = useLogin()
   const { fetchAvailablePartiesAttempt, setPartyFromStorageAttempt } = useParties()
 
@@ -40,10 +40,10 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
     // In this case, try to log him/her in by getting their info from storage
     // Same goes if no fetchAvailableParties has occurred yet. We cannot log into
     // a protected page until we have a user
-    if (!user) {
+    if (!token) {
       asyncSilentLoginAttempt()
     }
-  }, [user]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [token]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // If there are no availableParties, try to fetch and set them
   useEffect(() => {
@@ -69,10 +69,10 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
     // and we are not in the ChooseParty view, fetch
     // the available parties and attempt to assign one
     // to the user by reading into the localStorage.
-    if (user && !availableParties) {
+    if (token && !availableParties) {
       asyncSilentAssignPartyAttempt()
     }
-  }, [user]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [token]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // If the route can be accessed, display the component
   const userCanAccess =

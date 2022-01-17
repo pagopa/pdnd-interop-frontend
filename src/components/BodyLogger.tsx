@@ -7,7 +7,7 @@ import {
   LoaderContext,
   TableActionMenuContext,
   ToastContext,
-  UserContext,
+  TokenContext,
 } from '../lib/context'
 import { logAction } from '../lib/action-log'
 import { Header } from './Header'
@@ -23,7 +23,7 @@ import { isInPlatform } from '../lib/router-utils'
 import { MEDIUM_MAX_WIDTH } from '../lib/constants'
 
 export function BodyLogger() {
-  const { user } = useContext(UserContext)
+  const { token } = useContext(TokenContext)
   const [toast, setToast] = useState<ToastProps | null>(null)
   const [dialog, setDialog] = useState<DialogProps | null>(null)
   const [loadingText, setLoadingText] = useState<string | null>(null)
@@ -69,7 +69,7 @@ export function BodyLogger() {
               <Box sx={{ flexGrow: 1 }} bgcolor="#F5F6F7">
                 <Layout sx={{ height: '100%' }}>
                   <Box sx={{ display: 'flex', height: '100%' }}>
-                    {user && <MainNav />}
+                    {token && <MainNav />}
                     <Box sx={{ py: 10, pl: 4, flexGrow: 1 }}>
                       <Main />
                     </Box>
