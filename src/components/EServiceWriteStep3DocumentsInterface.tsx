@@ -21,7 +21,7 @@ import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { requiredValidationPattern } from '../lib/validation'
 import { AxiosResponse } from 'axios'
 
-type EServiceWriteStep4DocumentsInterfaceProps = {
+type EServiceWriteStep3DocumentsInterfaceProps = {
   data: EServiceReadType
   uploadDescriptorDocument: (document: EServiceDocumentWrite) => Promise<RunActionOutput>
   deleteDescriptorDocument: (documentId: string) => Promise<RunActionOutput>
@@ -29,13 +29,13 @@ type EServiceWriteStep4DocumentsInterfaceProps = {
   interfaceAcceptedMimeTypes: EServiceInterfaceMimeType
 }
 
-export function EServiceWriteStep4DocumentsInterface({
+export function EServiceWriteStep3DocumentsInterface({
   data,
   uploadDescriptorDocument,
   deleteDescriptorDocument,
   activeDescriptorId,
   interfaceAcceptedMimeTypes,
-}: EServiceWriteStep4DocumentsInterfaceProps) {
+}: EServiceWriteStep3DocumentsInterfaceProps) {
   const {
     handleSubmit,
     control,

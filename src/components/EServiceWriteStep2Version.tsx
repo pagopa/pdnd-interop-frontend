@@ -167,6 +167,17 @@ export function EServiceWriteStep2Version({ forward, back }: StepperStepComponen
         multiline={true}
       />
 
+      <StyledInputControlledText
+        name="load-estimate"
+        label="Soglia di carico ammesso (richiesto)"
+        infoLabel="Calcolata in numero di richieste al giorno sostenibili per richiesta di fruizione"
+        type="number"
+        defaultValue="20000"
+        control={control}
+        rules={{ required: requiredValidationPattern }}
+        errors={errors}
+      />
+
       <EServiceWriteActions
         back={{ label: 'Indietro', onClick: back }}
         forward={{ label: 'Salva bozza e prosegui' }}
