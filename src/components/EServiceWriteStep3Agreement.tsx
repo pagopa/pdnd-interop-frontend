@@ -1,17 +1,14 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { StepperStepComponentProps } from '../../types'
-import { EServiceWriteStepProps } from '../views/EServiceWrite'
 import { StyledForm } from './Shared/StyledForm'
 import { StyledInputControlledSelect } from './Shared/StyledInputControlledSelect'
 import { requiredValidationPattern } from '../lib/validation'
 import { EServiceWriteActions } from './Shared/EServiceWriteActions'
 import { StyledIntro } from './Shared/StyledIntro'
+import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 
-export function EServiceWriteStep3Agreement({
-  forward,
-  back,
-}: StepperStepComponentProps & EServiceWriteStepProps) {
+export function EServiceWriteStep3Agreement({ forward, back }: StepperStepComponentProps) {
   const {
     handleSubmit,
     control,
@@ -46,6 +43,17 @@ export function EServiceWriteStep3Agreement({
         rules={{ required: requiredValidationPattern }}
         errors={errors}
         defaultValue={options[0].value}
+      />
+
+      <StyledInputControlledText
+        name="load-estimate"
+        label="Soglia di carico ammesso (richiesto)"
+        infoLabel="Calcolata in numero di richieste al giorno sostenibili per richiesta di fruizione"
+        type="number"
+        defaultValue="20000"
+        control={control}
+        rules={{ required: requiredValidationPattern }}
+        errors={errors}
       />
 
       <EServiceWriteActions

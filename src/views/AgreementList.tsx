@@ -179,7 +179,7 @@ export function AgreementList() {
               cellData={[
                 { label: item.eservice.name },
                 { label: item.eservice.version },
-                { label: AGREEMENT_STATUS_LABEL[item.status] },
+                { label: AGREEMENT_STATUS_LABEL[item.state] },
                 { label: mode === 'provider' ? item.consumer.name : item.producer.name },
               ]}
               index={i}

@@ -3,35 +3,36 @@ import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
 import { AxiosResponse } from 'axios'
 import isEmpty from 'lodash/isEmpty'
-import { ApiEndpointKey, EServiceDescriptorRead, StepperStepComponentProps } from '../../types'
+import {
+  ApiEndpointKey,
+  EServiceDescriptorRead,
+  EServiceReadType,
+  StepperStepComponentProps,
+} from '../../types'
 import { buildDynamicPath } from '../lib/router-utils'
 import { useFeedback } from '../hooks/useFeedback'
-import { EServiceWriteStepProps } from '../views/EServiceWrite'
 import { StyledForm } from './Shared/StyledForm'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { requiredValidationPattern } from '../lib/validation'
 import { ROUTES } from '../config/routes'
 import { EServiceWriteActions } from './Shared/EServiceWriteActions'
+import { useEservice } from '../hooks/useEservice'
 
 type VersionData = {
   audience: string
   version: string
-  voucherLifespan: number
+  voucherLifespan: string
   description: string
 }
 
 type VersionDataWriteType = {
   audience: Array<string>
-  version: string
+  // version: string
   voucherLifespan: number
   description: string
 }
 
-export function EServiceWriteStep2Version({
-  forward,
-  back,
-  fetchedData,
-}: StepperStepComponentProps & EServiceWriteStepProps) {
+export function EServiceWriteStep2Version({ forward, back }: StepperStepComponentProps) {
   const {
     handleSubmit,
     control,
@@ -41,11 +42,13 @@ export function EServiceWriteStep2Version({
 
   const history = useHistory()
   const { runActionWithCallback } = useFeedback()
+  const { data: fetchedData } = useEservice()
 
   // Pre-fill if there is already a draft of the service available
   useEffect(() => {
-    if (!isEmpty(fetchedData.activeDescriptor)) {
-      const activeDescriptor = fetchedData.activeDescriptor as EServiceDescriptorRead
+    if (fetchedData && !isEmpty(fetchedData.activeDescriptor)) {
+      const activeDescriptor = (fetchedData as EServiceReadType)
+        .activeDescriptor as EServiceDescriptorRead
       const { audience, version, voucherLifespan, description } = activeDescriptor
       setValue('version', version)
       if (Boolean(audience.length > 0)) {
@@ -54,11 +57,11 @@ export function EServiceWriteStep2Version({
       setValue('voucherLifespan', voucherLifespan)
       setValue('description', description)
     }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [fetchedData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Determine the current version of the service
   const getVersion = () => {
-    if (!isEmpty(fetchedData.activeDescriptor)) {
+    if (fetchedData && !isEmpty(fetchedData.activeDescriptor)) {
       const activeDescriptor = fetchedData.activeDescriptor as EServiceDescriptorRead
       return activeDescriptor.version
     }
@@ -66,19 +69,26 @@ export function EServiceWriteStep2Version({
     return '1'
   }
 
+  const mapData = (data: Partial<VersionData>): VersionDataWriteType => {
+    return {
+      voucherLifespan: +(data.voucherLifespan as string) as number,
+      audience: [data.audience as string],
+      description: data.description as string,
+    }
+  }
+
   const onSubmit = async (data: Partial<VersionData>) => {
     // Format the data like the backend wants it
-    const dataToPost: Partial<VersionDataWriteType> = {
-      ...data,
-      audience: [data.audience as string],
-    }
+    const dataToPost = mapData(data)
+
+    const sureFetchedData = fetchedData as EServiceReadType
 
     // Define which endpoint to call
     let endpoint: ApiEndpointKey = 'ESERVICE_VERSION_CREATE'
-    const endpointParams: Record<string, string> = { eserviceId: fetchedData.id }
-    const isNewDescriptor = isEmpty(fetchedData.activeDescriptor)
+    const endpointParams: Record<string, string> = { eserviceId: sureFetchedData.id }
+    const isNewDescriptor = isEmpty(sureFetchedData.activeDescriptor)
     if (!isNewDescriptor) {
-      const activeDescriptor = fetchedData.activeDescriptor as EServiceDescriptorRead
+      const activeDescriptor = sureFetchedData.activeDescriptor as EServiceDescriptorRead
       endpoint = 'ESERVICE_VERSION_UPDATE'
       endpointParams.descriptorId = activeDescriptor.id
     }
@@ -104,7 +114,7 @@ export function EServiceWriteStep2Version({
       // as a useEffect dependency in EServiceGate useAsyncFetch hook
       history.replace(
         buildDynamicPath(ROUTES.PROVIDE_ESERVICE_EDIT.PATH, {
-          eserviceId: fetchedData.id,
+          eserviceId: (fetchedData as EServiceReadType).id,
           descriptorId,
         }),
         { stepIndexDestination: 2 }

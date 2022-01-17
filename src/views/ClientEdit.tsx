@@ -87,7 +87,7 @@ export function ClientEdit() {
       ],
     }
 
-    return actions[sureData.status]
+    return actions[sureData.state]
   }
 
   const getReasonClientIsBlocked = () => {
@@ -95,17 +95,17 @@ export function ClientEdit() {
     const sureData = data as Client
 
     if (
-      sureData.agreement.descriptor.status !== 'published' &&
-      sureData.agreement.descriptor.status !== 'deprecated'
+      sureData.agreement.descriptor.state !== 'PUBLISHED' &&
+      sureData.agreement.descriptor.state !== 'DEPRECATED'
     ) {
       reasons.push("l'erogatore dell'e-service ha sospeso questa versione")
     }
 
-    if (sureData.agreement.status !== 'active') {
+    if (sureData.agreement.state !== 'active') {
       reasons.push("l'accordo di interoperabilità relativo all'e-service non è attivo")
     }
 
-    if (sureData.status !== 'active') {
+    if (sureData.state !== 'active') {
       reasons.push('il client non è attivo')
     }
 
@@ -146,7 +146,7 @@ export function ClientEdit() {
         </DescriptionBlock>
 
         <DescriptionBlock label="Stato del client">
-          <Typography component="span">{CLIENT_STATUS_LABEL[data.status]}</Typography>
+          <Typography component="span">{CLIENT_STATUS_LABEL[data.state]}</Typography>
         </DescriptionBlock>
 
         <DescriptionBlock label="La versione dell'e-service che stai usando">
@@ -196,7 +196,7 @@ export function ClientEdit() {
           label={`Stato dell'e-service per la versione ${data.agreement.descriptor.version}`}
         >
           <Typography component="span">
-            {ESERVICE_STATUS_LABEL[data.agreement.descriptor.status]}
+            {ESERVICE_STATUS_LABEL[data.agreement.descriptor.state]}
           </Typography>
         </DescriptionBlock>
 
@@ -213,7 +213,7 @@ export function ClientEdit() {
         </DescriptionBlock>
 
         <DescriptionBlock label="Stato dell'accordo">
-          <Typography component="span">{AGREEMENT_STATUS_LABEL[data.agreement.status]}</Typography>
+          <Typography component="span">{AGREEMENT_STATUS_LABEL[data.agreement.state]}</Typography>
         </DescriptionBlock>
 
         <DescriptionBlock label="Finalità">

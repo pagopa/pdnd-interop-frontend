@@ -47,13 +47,8 @@ export type EServiceWriteProps = {
   activeStep: number
 }
 
-export type EServiceWriteStepProps = {
-  fetchedData: EServiceReadType
-}
-
 export function EServiceWrite({ fetchedDataMaybe, back, forward, activeStep }: EServiceWriteProps) {
-  const fetchedData = fetchedDataMaybe as EServiceReadType
-  const stepProps = { forward, back, fetchedData, fetchedDataMaybe }
+  const stepProps = { forward, back, fetchedDataMaybe }
   const { component: Step, intro } = STEPS[activeStep]
 
   return (
