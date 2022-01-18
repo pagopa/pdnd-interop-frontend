@@ -86,20 +86,20 @@ export function AgreementList() {
   // Build list of available actions for each service in its current state
   const getAvailableActions = (agreement: AgreementSummary) => {
     const sharedActions: AgreementActions = {
-      active: [
+      ACTIVE: [
         {
           onClick: wrapActionInDialog(wrapSuspend(agreement.id), 'AGREEMENT_SUSPEND'),
           label: 'Sospendi',
         },
       ],
-      suspended: [
+      SUSPENDED: [
         {
           onClick: wrapActionInDialog(wrapActivate(agreement.id), 'AGREEMENT_ACTIVATE'),
           label: 'Riattiva',
         },
       ],
-      pending: [],
-      inactive: [],
+      PENDING: [],
+      INACTIVE: [],
     }
 
     const subscriberOnlyActionsActive: Array<ActionProps> = []
@@ -111,22 +111,22 @@ export function AgreementList() {
     }
 
     const subscriberOnlyActions: AgreementActions = {
-      active: subscriberOnlyActionsActive,
-      suspended: [],
-      pending: [],
-      inactive: [],
+      ACTIVE: subscriberOnlyActionsActive,
+      SUSPENDED: [],
+      PENDING: [],
+      INACTIVE: [],
     }
 
     const providerOnlyActions: AgreementActions = {
-      active: [],
-      suspended: [],
-      pending: [
+      ACTIVE: [],
+      SUSPENDED: [],
+      PENDING: [
         {
           onClick: wrapActionInDialog(wrapActivate(agreement.id), 'AGREEMENT_ACTIVATE'),
           label: 'Attiva',
         },
       ],
-      inactive: [],
+      INACTIVE: [],
     }
 
     const currentActions: AgreementActions = {

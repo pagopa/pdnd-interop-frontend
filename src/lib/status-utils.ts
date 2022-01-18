@@ -5,7 +5,7 @@ export function getClientComputedState(item: Client): keyof typeof COMPUTED_STAT
   if (
     (item.agreement.descriptor.state === 'PUBLISHED' ||
       item.agreement.descriptor.state === 'DEPRECATED') &&
-    item.agreement.state === 'active' &&
+    item.agreement.state === 'ACTIVE' &&
     item.state === 'active'
   ) {
     return 'active'
@@ -18,13 +18,13 @@ export function getAgreementState(
   item: AgreementSummary,
   mode: ProviderOrSubscriber | null
 ): AgreementState {
-  if (item.state !== 'suspended') {
+  if (item.state !== 'SUSPENDED') {
     return item.state
   }
 
   if (mode === 'provider') {
-    return !!item.suspendedByProducer ? 'suspended' : 'active'
+    return !!item.suspendedByProducer ? 'SUSPENDED' : 'ACTIVE'
   }
 
-  return !!item.suspendedBySubscriber ? 'suspended' : 'active'
+  return !!item.suspendedBySubscriber ? 'SUSPENDED' : 'ACTIVE'
 }
