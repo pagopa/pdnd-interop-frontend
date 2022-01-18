@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { PartyContext, TokenContext } from '../lib/context'
-import { isInPlatform } from '../lib/router-utils'
+import { showPlatformTwoColumnsLayout } from '../lib/router-utils'
 import { Layout } from './Shared/Layout'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledLink } from './Shared/StyledLink'
@@ -16,6 +16,7 @@ export function Header() {
   const location = useLocation()
   const { party } = useContext(PartyContext)
   const { token } = useContext(TokenContext)
+
   const { PATH: btnPath, LABEL: btnLabel } = token
     ? ROUTES.LOGOUT
     : { PATH: URL_FE_LOGIN, LABEL: 'Login' }
@@ -54,7 +55,7 @@ export function Header() {
               </Typography>
             </Box>
 
-            {isInPlatform(location) && party !== null && <PartySelect />}
+            {showPlatformTwoColumnsLayout(location) && party !== null && <PartySelect />}
           </Box>
         </Layout>
       </Box>

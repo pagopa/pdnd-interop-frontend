@@ -2,15 +2,15 @@ import React, { useContext } from 'react'
 import { Box } from '@mui/system'
 import { Switch, Redirect, Route, useLocation } from 'react-router-dom'
 import { SHOW_DEV_LABELS } from '../lib/constants'
-import { TokenContext } from '../lib/context'
+import { PartyContext } from '../lib/context'
 import { StyledBreadcrumbs } from './Shared/StyledBreadcrumbs'
-import { isInPlatform } from '../lib/router-utils'
+import { showPlatformTwoColumnsLayout } from '../lib/router-utils'
 import { ROUTES } from '../config/routes'
 import { AuthGuard } from './AuthGuard'
 import { RouteAuthLevel } from '../../types'
 
 export function Main() {
-  const { token } = useContext(TokenContext)
+  const { party } = useContext(PartyContext)
   const location = useLocation()
 
   return (
@@ -19,24 +19,15 @@ export function Main() {
       sx={{ pt: 1.5, pb: 4 }}
       className={!SHOW_DEV_LABELS ? ' hideDevLabels' : ''}
     >
-      {isInPlatform(location) && <StyledBreadcrumbs />}
+      {showPlatformTwoColumnsLayout(location) && <StyledBreadcrumbs />}
 
       <Switch>
         {Object.values(ROUTES).map((route, i) => {
-          const {
-            PATH,
-            COMPONENT: Component,
-            PUBLIC,
-            AUTH_LEVELS,
-            EXACT = false,
-            REDIRECT = false,
-          } = route
+          const { PATH, COMPONENT: Component, AUTH_LEVELS, EXACT = false, REDIRECT = false } = route
           return (
             <Route path={PATH} key={i} exact={EXACT}>
               {REDIRECT ? (
                 <Redirect to={REDIRECT as string} />
-              ) : PUBLIC ? (
-                <Component />
               ) : (
                 <AuthGuard Component={Component} authLevels={AUTH_LEVELS as RouteAuthLevel} />
               )}
@@ -45,7 +36,7 @@ export function Main() {
         })}
 
         <Route path="/" exact>
-          <Redirect to={token !== null ? ROUTES.SUBSCRIBE.PATH : ROUTES.CHOOSE_PARTY.PATH} />
+          <Redirect to={party !== null ? ROUTES.SUBSCRIBE.PATH : ROUTES.CHOOSE_PARTY.PATH} />
         </Route>
       </Switch>
     </Box>
