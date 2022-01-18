@@ -16,7 +16,6 @@ import { UserList } from '../views/UserList'
 import { EServiceGate } from '../views/EServiceGate'
 import { UserCreate } from '../views/UserCreate'
 import { ClientCreate } from '../views/ClientCreate'
-import { IPAGuide } from '../views/IPAGuide'
 import { SecurityKeyGuide } from '../views/SecurityKeyGuide'
 import { EmptyComponent } from '../components/Shared/EmptyComponent'
 
@@ -31,12 +30,6 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     PATH: '/aiuto',
     LABEL: 'Serve aiuto?',
     COMPONENT: Help,
-    PUBLIC: true,
-  },
-  IPA_GUIDE: {
-    PATH: '/guida-ipa',
-    LABEL: 'Accreditarsi su IPA',
-    COMPONENT: IPAGuide,
     PUBLIC: true,
   },
   SECURITY_KEY_GUIDE: {
