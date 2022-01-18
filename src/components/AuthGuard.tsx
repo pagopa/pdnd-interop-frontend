@@ -1,4 +1,6 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { CircularProgress } from '@mui/material'
+import { Box } from '@mui/system'
 import { useHistory } from 'react-router'
 import { RouteAuthLevel } from '../../types'
 import { ROUTES } from '../config/routes'
@@ -20,15 +22,20 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
   const { token } = useContext(TokenContext)
   const { silentLoginAttempt } = useLogin()
   const { fetchAvailablePartiesAttempt, setPartyFromStorageAttempt } = useParties()
+  const [isLoading, setIsLoading] = useState(false)
 
   // If there is no user, attempt to sign him/her in silently
   useEffect(() => {
     async function asyncSilentLoginAttempt() {
+      setIsLoading(true)
+
       const isNowSilentlyLoggedIn = await silentLoginAttempt()
 
       // Exclude the routes necessary to log in to avoid perpetual loop
       const whitelist = Object.values(ROUTES).filter((r) => r.PUBLIC)
       const isWhitelistedPage = whitelist.map((r) => r.PATH).includes(history.location.pathname)
+
+      setIsLoading(false)
 
       // If it still fails, redirect to login page
       if (!isNowSilentlyLoggedIn && !isWhitelistedPage) {
@@ -48,6 +55,8 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
   // If there are no availableParties, try to fetch and set them
   useEffect(() => {
     async function asyncSilentAssignPartyAttempt() {
+      setIsLoading(true)
+
       const hasFetchedAndSetAvailableParties = await fetchAvailablePartiesAttempt()
       const hasSetParty = setPartyFromStorageAttempt()
 
@@ -56,6 +65,8 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
       if (!hasFetchedAndSetAvailableParties) {
         window.location.assign(URL_FE_LOGIN)
       }
+
+      setIsLoading(false)
 
       // If the party wasn't set and we are not in the page to set it,
       // redirect to that page
@@ -79,6 +90,14 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
     authLevels === 'any' || (party && authLevels.includes(party.productInfo.role))
   if (userCanAccess) {
     return <Component />
+  }
+
+  if (isLoading) {
+    return (
+      <Box sx={{ textAlign: 'center' }}>
+        <CircularProgress />
+      </Box>
+    )
   }
 
   // If we identified the user and he/she should not access this resource,
