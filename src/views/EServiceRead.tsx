@@ -132,6 +132,7 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
     const flatEService: EServiceFlatReadType = {
       name: data.name,
       id: data.id,
+      descriptorId: data.activeDescriptor?.id,
       producerId: data.producer.id,
       producerName: data.producer.name,
       certifiedAttributes: data.attributes.certified,
@@ -172,19 +173,13 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
         <Typography component="span">{data.technology}</Typography>
       </DescriptionBlock>
 
-      <DescriptionBlock label="PoP (Proof of Possession)">
-        <Typography component="span" className="fakeData">
-          Non richiesta
-        </Typography>
-      </DescriptionBlock>
-
       <DescriptionBlock label="Durata del voucher dall'attivazione">
         <Typography component="span">
           {minutesToHHMMSS(activeDescriptor.voucherLifespan)} (hh:mm:ss)
         </Typography>
       </DescriptionBlock>
 
-      <DescriptionBlock label="Accordo di interoperabilità">
+      <DescriptionBlock label="Richiesta di fruizione">
         <a className="fakeData" href="#0" target="_blank">
           Scarica
         </a>

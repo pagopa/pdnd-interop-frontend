@@ -178,6 +178,10 @@ export const useFeedback = () => {
     if (outcome === 'success') {
       // Go to destination path, and optionally display the toast
       history.push(destination.PATH, { toast: !suppressToast && toastContent })
+    } else {
+      if (!suppressToast) {
+        showToast(toastContent)
+      }
     }
   }
 
