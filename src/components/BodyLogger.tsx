@@ -13,7 +13,7 @@ import { LoadingOverlay } from './Shared/LoadingOverlay'
 import { MainNav } from './MainNav'
 import { Layout } from './Shared/Layout'
 import { Box } from '@mui/system'
-import { isInPlatform } from '../lib/router-utils'
+import { showPlatformTwoColumnsLayout } from '../lib/router-utils'
 import { MEDIUM_MAX_WIDTH } from '../lib/constants'
 
 export function BodyLogger() {
@@ -58,7 +58,7 @@ export function BodyLogger() {
         <DialogContext.Provider value={{ dialog, setDialog }}>
           <LoaderContext.Provider value={{ loadingText, setLoadingText }}>
             <Header />
-            {isInPlatform(location) ? (
+            {showPlatformTwoColumnsLayout(location) ? (
               <Box sx={{ flexGrow: 1 }} bgcolor="#F5F6F7">
                 <Layout sx={{ height: '100%' }}>
                   <Box sx={{ display: 'flex', height: '100%' }}>

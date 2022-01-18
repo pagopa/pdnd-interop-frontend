@@ -8,7 +8,7 @@ import { useLogin } from '../hooks/useLogin'
 import { useParties } from '../hooks/useParties'
 import { URL_FE_LOGIN } from '../lib/constants'
 import { PartyContext, TokenContext } from '../lib/context'
-import { isSamePath } from '../lib/router-utils'
+import { isProtectedRoute, isSamePath } from '../lib/router-utils'
 import { Unauthorized } from './Unauthorized'
 
 type AuthGuardProps = {
@@ -24,6 +24,8 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
   const { fetchAvailablePartiesAttempt, setPartyFromStorageAttempt } = useParties()
   const [isLoading, setIsLoading] = useState(false)
 
+  const isCurrentRouteProtected = isProtectedRoute(history.location)
+
   // If there is no user, attempt to sign him/her in silently
   useEffect(() => {
     async function asyncSilentLoginAttempt() {
@@ -31,14 +33,11 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
 
       const isNowSilentlyLoggedIn = await silentLoginAttempt()
 
-      // Exclude the routes necessary to log in to avoid perpetual loop
-      const whitelist = Object.values(ROUTES).filter((r) => r.PUBLIC)
-      const isWhitelistedPage = whitelist.map((r) => r.PATH).includes(history.location.pathname)
-
       setIsLoading(false)
 
-      // If it still fails, redirect to login page
-      if (!isNowSilentlyLoggedIn && !isWhitelistedPage) {
+      // If it still fails, redirect to login module
+      // Note: this only applies to private routes, to avoid perpetual loop
+      if (!isNowSilentlyLoggedIn && isCurrentRouteProtected) {
         window.location.assign(URL_FE_LOGIN)
       }
     }
@@ -80,14 +79,16 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
     // and we are not in the ChooseParty view, fetch
     // the available parties and attempt to assign one
     // to the user by reading into the localStorage.
-    if (token && !availableParties) {
+    if (token && !availableParties && isCurrentRouteProtected) {
       asyncSilentAssignPartyAttempt()
     }
   }, [token]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // If the route can be accessed, display the component
   const userCanAccess =
-    authLevels === 'any' || (party && authLevels.includes(party.productInfo.role))
+    !isCurrentRouteProtected ||
+    authLevels === 'any' ||
+    (party && authLevels.includes(party.productInfo.role))
   if (userCanAccess) {
     return <Component />
   }
