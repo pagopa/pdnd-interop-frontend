@@ -97,7 +97,7 @@ export function ClientEdit() {
       reasons.push("l'erogatore dell'e-service ha sospeso questa versione")
     }
 
-    if (sureData.agreement.state !== 'active') {
+    if (sureData.agreement.state !== 'ACTIVE') {
       reasons.push("l'accordo di interoperabilità relativo all'e-service non è attivo")
     }
 

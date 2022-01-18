@@ -117,32 +117,32 @@ export function AgreementEdit() {
     }
 
     const sharedActions: AgreementActions = {
-      active: [
+      ACTIVE: [
         {
           onClick: wrapActionInDialog(suspend, 'AGREEMENT_SUSPEND'),
           label: 'Sospendi',
         },
       ],
-      suspended: [
+      SUSPENDED: [
         {
           onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'),
           label: 'Riattiva',
         },
       ],
-      pending: [],
-      inactive: [],
+      PENDING: [],
+      INACTIVE: [],
     }
 
     const providerOnlyActions: AgreementActions = {
-      active: [],
-      pending: [
+      ACTIVE: [],
+      SUSPENDED: [{ onClick: wrapActionInDialog(archive), label: 'Archivia', isMock: true }],
+      PENDING: [
         {
           onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'),
           label: 'Attiva',
         },
       ],
-      suspended: [{ onClick: wrapActionInDialog(archive), label: 'Archivia', isMock: true }],
-      inactive: [],
+      INACTIVE: [],
     }
 
     const subscriberOnlyActionsActive: Array<ActionProps> = []
@@ -157,10 +157,10 @@ export function AgreementEdit() {
     }
 
     const subscriberOnlyActions: AgreementActions = {
-      active: subscriberOnlyActionsActive,
-      suspended: [],
-      pending: [],
-      inactive: [],
+      ACTIVE: subscriberOnlyActionsActive,
+      SUSPENDED: [],
+      PENDING: [],
+      INACTIVE: [],
     }
 
     const currentMode = mode as ProviderOrSubscriber
@@ -168,7 +168,7 @@ export function AgreementEdit() {
       currentMode
     ]
 
-    const status = data ? getAgreementState(data, mode) : 'suspended'
+    const status = data ? getAgreementState(data, mode) : 'SUSPENDED'
 
     return mergeActions<AgreementActions>([currentActions, sharedActions], status)
   }
@@ -233,7 +233,7 @@ export function AgreementEdit() {
         >
           {data?.eservice.name}, versione {data?.eservice.version}
         </StyledLink>
-        {mode === 'subscriber' && data?.eservice.activeDescriptor && data?.state !== 'inactive' ? (
+        {mode === 'subscriber' && data?.eservice.activeDescriptor && data?.state !== 'INACTIVE' ? (
           <React.Fragment>
             {' '}
             (è disponibile una{' '}
@@ -251,7 +251,7 @@ export function AgreementEdit() {
       </DescriptionBlock>
 
       <DescriptionBlock label="Stato dell'accordo" tooltipLabel={agreementSuspendExplanation}>
-        {data?.state === 'suspended' ? (
+        {data?.state === 'SUSPENDED' ? (
           <React.Fragment>
             <Typography component="span">
               Lato erogatore: {AGREEMENT_STATE_LABEL[getAgreementState(data, 'provider')]}

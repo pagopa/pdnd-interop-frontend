@@ -19,10 +19,10 @@ export const ATTRIBUTE_TYPE_SINGULAR_LABEL = {
 }
 
 export const AGREEMENT_STATE_LABEL = {
-  active: 'Attivo',
-  suspended: 'Sospeso',
-  pending: 'In attesa di approvazione',
-  inactive: 'Archiviato',
+  ACTIVE: 'Attivo',
+  SUSPENDED: 'Sospeso',
+  PENDING: 'In attesa di approvazione',
+  INACTIVE: 'Archiviato',
 }
 
 export const CLIENT_STATE_LABEL = {
