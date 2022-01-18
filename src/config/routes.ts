@@ -10,8 +10,6 @@ import { EServiceList } from '../views/EServiceList'
 import { Help } from '../views/Help'
 import { Logout } from '../views/Logout'
 import { Notifications } from '../views/Notifications'
-import { CompleteRegistration } from '../views/CompleteRegistration'
-import { RejectRegistration } from '../views/RejectRegistration'
 import { Profile } from '../views/Profile'
 import { UserEdit } from '../views/UserEdit'
 import { UserList } from '../views/UserList'
@@ -53,18 +51,6 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     COMPONENT: ChooseParty,
     PUBLIC: false,
     AUTH_LEVELS: 'any',
-  },
-  REGISTRATION_FINALIZE_COMPLETE: {
-    PATH: '/conferma-registrazione',
-    LABEL: 'Completa la procedura di onboarding',
-    COMPONENT: CompleteRegistration,
-    PUBLIC: true,
-  },
-  REGISTRATION_FINALIZE_REJECT: {
-    PATH: '/cancella-registrazione',
-    LABEL: 'Cancella la procedura di onboarding',
-    COMPONENT: RejectRegistration,
-    PUBLIC: true,
   },
   PROFILE: {
     PATH: '/profilo',
