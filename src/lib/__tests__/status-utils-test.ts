@@ -7,13 +7,13 @@ describe('Client status', () => {
       id: 'dsfsdjf-sdfjsdfj-sdfjdsf',
       name: 'dipendenti del comune',
       description: 'il client dei dipendenti del mio comune',
-      status: 'active',
+      state: 'active',
       agreement: {
         id: 'sjfaisds-sdfjsaodfj-sfajd',
-        status: 'active',
+        state: 'ACTIVE',
         descriptor: {
           id: 'djfiosj-dfjdsofj-dfjsdf',
-          status: 'published',
+          state: 'PUBLISHED',
           version: '5',
         },
       },
@@ -36,13 +36,13 @@ describe('Client status', () => {
       id: 'dsfsdjf-sdfjsdfj-sdfjdsf',
       name: 'dipendenti del comune',
       description: 'il client dei dipendenti del mio comune',
-      status: 'active',
+      state: 'active',
       agreement: {
         id: 'sjfaisds-sdfjsaodfj-sfajd',
-        status: 'active',
+        state: 'ACTIVE',
         descriptor: {
           id: 'djfiosj-dfjdsofj-dfjsdf',
-          status: 'deprecated',
+          state: 'DEPRECATED',
           version: '5',
         },
       },
@@ -55,7 +55,7 @@ describe('Client status', () => {
         },
         activeDescriptor: {
           id: 'sdjfsdjf-djfsdj-sdjfdsj',
-          status: 'published',
+          state: 'PUBLISHED',
           version: '7',
         },
       },
@@ -70,13 +70,13 @@ describe('Client status', () => {
       id: 'dsfsdjf-sdfjsdfj-sdfjdsf',
       name: 'dipendenti del comune',
       description: 'il client dei dipendenti del mio comune',
-      status: 'suspended',
+      state: 'suspended',
       agreement: {
         id: 'sjfaisds-sdfjsaodfj-sfajd',
-        status: 'active',
+        state: 'ACTIVE',
         descriptor: {
           id: 'djfiosj-dfjdsofj-dfjsdf',
-          status: 'published',
+          state: 'PUBLISHED',
           version: '5',
         },
       },
@@ -99,13 +99,13 @@ describe('Client status', () => {
       id: 'dsfsdjf-sdfjsdfj-sdfjdsf',
       name: 'dipendenti del comune',
       description: 'il client dei dipendenti del mio comune',
-      status: 'active',
+      state: 'active',
       agreement: {
         id: 'sjfaisds-sdfjsaodfj-sfajd',
-        status: 'suspended',
+        state: 'SUSPENDED',
         descriptor: {
           id: 'djfiosj-dfjdsofj-dfjsdf',
-          status: 'published',
+          state: 'PUBLISHED',
           version: '5',
         },
       },
@@ -128,13 +128,13 @@ describe('Client status', () => {
       id: 'dsfsdjf-sdfjsdfj-sdfjdsf',
       name: 'dipendenti del comune',
       description: 'il client dei dipendenti del mio comune',
-      status: 'active',
+      state: 'active',
       agreement: {
         id: 'sjfaisds-sdfjsaodfj-sfajd',
-        status: 'active',
+        state: 'ACTIVE',
         descriptor: {
           id: 'djfiosj-dfjdsofj-dfjsdf',
-          status: 'suspended',
+          state: 'SUSPENDED',
           version: '5',
         },
       },
@@ -157,13 +157,13 @@ describe('Agreement status', () => {
   it('Provider/subscriber view: it is active', () => {
     const agreementSummary: AgreementSummary = {
       id: 'dsfjds-jojoi-jdsfds',
-      status: 'active',
+      state: 'ACTIVE',
       eservice: {
         name: 'Riscossione TARI',
         id: 'osdijf-dsjfdisj-jsdfdsj',
         descriptorId: 'lskdfok-jisjdfs-djdsjfn',
         version: '4',
-        status: 'published',
+        state: 'PUBLISHED',
       },
       eserviceDescriptorId: 'dnsoifn-dsfjdsiof-dsjfsd',
       consumer: {
@@ -180,19 +180,19 @@ describe('Agreement status', () => {
     }
     const mode = null
     const status = getAgreementState(agreementSummary, mode)
-    expect(status).toBe('active')
+    expect(status).toBe('ACTIVE')
   })
 
   it('Provider view: it is suspended by producer', () => {
     const agreementSummary: AgreementSummary = {
       id: 'dsfjds-jojoi-jdsfds',
-      status: 'suspended',
+      state: 'SUSPENDED',
       eservice: {
         name: 'Riscossione TARI',
         id: 'osdijf-dsjfdisj-jsdfdsj',
         descriptorId: 'lskdfok-jisjdfs-djdsjfn',
         version: '4',
-        status: 'published',
+        state: 'PUBLISHED',
       },
       eserviceDescriptorId: 'dnsoifn-dsfjdsiof-dsjfsd',
       consumer: {
@@ -209,19 +209,19 @@ describe('Agreement status', () => {
     }
     const mode: ProviderOrSubscriber = 'provider'
     const status = getAgreementState(agreementSummary, mode)
-    expect(status).toBe('suspended')
+    expect(status).toBe('SUSPENDED')
   })
 
   it('Subscriber view: it is suspended by subscriber', () => {
     const agreementSummary: AgreementSummary = {
       id: 'dsfjds-jojoi-jdsfds',
-      status: 'suspended',
+      state: 'SUSPENDED',
       eservice: {
         name: 'Riscossione TARI',
         id: 'osdijf-dsjfdisj-jsdfdsj',
         descriptorId: 'lskdfok-jisjdfs-djdsjfn',
         version: '4',
-        status: 'published',
+        state: 'PUBLISHED',
       },
       eserviceDescriptorId: 'dnsoifn-dsfjdsiof-dsjfsd',
       consumer: {
@@ -238,6 +238,6 @@ describe('Agreement status', () => {
     }
     const mode: ProviderOrSubscriber = 'subscriber'
     const status = getAgreementState(agreementSummary, mode)
-    expect(status).toBe('suspended')
+    expect(status).toBe('SUSPENDED')
   })
 })

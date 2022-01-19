@@ -123,7 +123,6 @@ export type JwtUser = {
 export type User = JwtUser & {
   createdAt: string // actually should be Date
   updatedAt: string // actually should be Date
-  email: string
   from: string // the external uid of the user
   state: UserState
   role: UserRole
@@ -136,18 +135,12 @@ export type PartyOnCreate = {
   digitalAddress: string
 }
 
-export type ProductInfo = {
-  createdAt: string // Date
-  id: 'interop'
-  role: UserProductRole
-}
-
 export type Party = PartyOnCreate & {
   partyId?: string
   role: UserRole
   state: UserState
   attributes: Array<string>
-  productInfo: ProductInfo
+  productInfo: UserProduct
 }
 
 /*

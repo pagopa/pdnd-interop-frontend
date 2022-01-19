@@ -44,10 +44,6 @@ describe('Rendering tests', () => {
     expect(screen.getByLabelText('REST')).toBeInTheDocument()
     expect(screen.getByLabelText('SOAP')).toBeInTheDocument()
 
-    expect(
-      screen.getByRole('checkbox', { name: 'Proof of Possession (richiesto)' })
-    ).toBeInTheDocument()
-
     expect(screen.getByRole('heading', { name: 'Attributi' })).toBeInTheDocument()
 
     expect(screen.getByRole('button', { name: 'Salva bozza e prosegui' })).toBeInTheDocument()
@@ -57,7 +53,7 @@ describe('Rendering tests', () => {
     const back = jest.fn()
     const forward = jest.fn()
     const data = {}
-    const fetchedDataMaybe: EServiceReadType = {
+    const fetchedData: EServiceReadType = {
       producer: {
         id: 'djofsi-sdfjdsi-djsfs',
         name: 'Comune di Bologna',
@@ -66,7 +62,7 @@ describe('Rendering tests', () => {
       description: 'Descrizione e-service',
       technology: 'REST',
       id: 'sdjof-sdfjdspof-dsfdsjf',
-      status: 'published',
+      state: 'PUBLISHED',
       descriptors: [],
       attributes: {
         verified: [],
@@ -94,7 +90,7 @@ describe('Rendering tests', () => {
           back={back}
           data={data}
           activeStep={0}
-          fetchedDataMaybe={fetchedDataMaybe}
+          fetchedData={fetchedData}
         />
       </BrowserRouter>
     )

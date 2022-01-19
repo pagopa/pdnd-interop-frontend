@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react'
-import { STORAGE_KEY_USER, URL_FE_LOGIN } from '../lib/constants'
+import { STORAGE_KEY_TOKEN, URL_FE_LOGIN } from '../lib/constants'
 import { PartyContext, TokenContext } from '../lib/context'
 import { storageDelete } from '../lib/storage-utils'
 
@@ -14,7 +14,7 @@ export function Logout() {
     setParty(null)
     setAvailableParties(null)
     // delete everything from the storage
-    storageDelete(STORAGE_KEY_USER)
+    storageDelete(STORAGE_KEY_TOKEN)
 
     // go back to homepage (which will redirect to login)
     window.location.assign(URL_FE_LOGIN)
