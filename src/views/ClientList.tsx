@@ -6,7 +6,7 @@ import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { TempFilters } from '../components/TempFilters'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { getClientComputedState } from '../lib/status-utils'
-import { isAdmin, isOperatorSecurity } from '../lib/auth-utils'
+import { isAdmin } from '../lib/auth-utils'
 import { PartyContext, TokenContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { buildDynamicPath } from '../lib/router-utils'
@@ -25,9 +25,8 @@ export function ClientList() {
       path: { endpoint: 'CLIENT_GET_LIST' },
       config: {
         params: {
-          institutionId: party?.institutionId,
-          // TEMP-BACKEND: when there is the new endpoint for security operators, update this
-          operatorTaxCode: isOperatorSecurity(party) ? jwtToUser(token as string).id : undefined,
+          consumerId: party?.institutionId,
+          operatorId: jwtToUser(token as string).id,
         },
       },
     },

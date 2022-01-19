@@ -42,7 +42,7 @@ export function ClientCreate() {
   )
 
   const onSubmit = async (data: Partial<ClientSubmit>) => {
-    const dataToPost = { ...data, consumerInstitutionId: party?.institutionId }
+    const dataToPost = { ...data, consumerId: party?.institutionId }
 
     await runActionWithDestination(
       { path: { endpoint: 'CLIENT_CREATE' }, config: { data: dataToPost } },
@@ -84,7 +84,7 @@ export function ClientCreate() {
         />
 
         <StyledInputControlledSelect
-          name="eserviceId"
+          name="eServiceId"
           label="E-service da associare*"
           control={control}
           rules={{ required: requiredValidationPattern }}
