@@ -3,20 +3,21 @@ import { render } from '@testing-library/react'
 import { Header } from '../Header'
 import { MemoryRouter, Router } from 'react-router'
 import { createMemoryHistory } from 'history'
-import { Party, User } from '../../../types'
-import { PartyContext, UserContext } from '../../lib/context'
+import { Party } from '../../../types'
+import { PartyContext, TokenContext } from '../../lib/context'
+import { ROUTES } from '../../config/routes'
 
-type UserProviderProps = {
-  defaultUser?: User
+type TokenProviderProps = {
+  defaultToken?: string
 }
 
 type PartyProviderProps = {
   defaultParty?: Party
 }
 
-const UserProvider: FunctionComponent<UserProviderProps> = ({ children, defaultUser }) => {
-  const [user, setUser] = useState<User | null>(defaultUser || null)
-  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>
+const TokenProvider: FunctionComponent<TokenProviderProps> = ({ children, defaultToken }) => {
+  const [token, setToken] = useState<string | null>(defaultToken || null)
+  return <TokenContext.Provider value={{ token, setToken }}>{children}</TokenContext.Provider>
 }
 
 const PartyProvider: FunctionComponent<PartyProviderProps> = ({ children, defaultParty }) => {
@@ -35,30 +36,23 @@ describe('Render the correct header variant', () => {
   it('Show login button if not logged in', () => {
     const { getByText } = render(
       <MemoryRouter>
-        <UserProvider>
+        <TokenProvider>
           <Header />
-        </UserProvider>
+        </TokenProvider>
       </MemoryRouter>
     )
     expect(getByText('Login')).toBeInTheDocument()
   })
 
   it('Show logout button if user logged in', () => {
-    const userData: User = {
-      name: 'Antonio',
-      surname: 'Berielli',
-      taxCode: 'BRLNTN67E11L405R',
-      email: 'antonio.berielli@test.it',
-      status: 'active',
-      role: 'Manager',
-      platformRole: 'admin',
-    }
+    const tokenData =
+      'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImYyNmUwM2RiLWY4YjMtNDk5ZS04ZjMyLTA3MmM5M2VjZjc2MSJ9.eyJlbWFpbCI6ImNhcmxhLnJvc3NpQHRlc3QucGFnb3BhLml0IiwiZmFtaWx5X25hbWUiOiJSb3NzaSIsImZpc2NhbF9udW1iZXIiOiJJU1BYTkIzMlI4Mlk3NjZEIiwibW9iaWxlX3Bob25lIjoiMzMzMzMzMzMzIiwibmFtZSI6IkNhcmxhIiwiZnJvbV9hYSI6ZmFsc2UsInVpZCI6ImZiMjgwNGQwLTllN2QtNGIwNC05MjVhLWNhNmY4MDJhNzI4MiIsImxldmVsIjoiTDIiLCJpYXQiOjE2NDI1ODg2ODEsImV4cCI6MTY0MjU5MjI4MSwiaXNzIjoiU1BJRCIsImp0aSI6IjAxRlNSWU1DVlAwTTA1WkFXWFdIVlJNWldBIn0.oZODSEMPduJ4ExsDOm7Ddn9m6oFgt_qtABR3RfgV26NiCPZfEAuiAHz3x23m2xz3bP5-XPSpfT4JBD6biAxZlV0C_1HV83KHOy9ylweKNeyPQZxRn_wfZ2I4taC6PC0Nc-6YJ3KrzXsEJOtQQWm3FMG4LrWnChz4Smn16gjrjQ1X3lW2UDbef9qI9nvpaZW1bUmxjxYXN2FLv5I_gkWUxtiCgCcVPD8fVfyk8dh4mM_I1-aswktX65UiGhgTZfwa6O-10enhbN03bmIKp800WRcx_xslIaD8REviBRJcTqQLDTMe5Omt0ylSLzy7XBodMpuyjghh9K-Yojr67x7KpA'
 
     const { getByText } = render(
       <MemoryRouter>
-        <UserProvider defaultUser={userData}>
+        <TokenProvider defaultToken={tokenData}>
           <Header />
-        </UserProvider>
+        </TokenProvider>
       </MemoryRouter>
     )
     expect(getByText('Logout')).toBeInTheDocument()
@@ -77,16 +71,20 @@ describe('Render the correct header variant', () => {
     const partyData: Party = {
       partyId: 'dsofdm-dsfjds',
       attributes: [],
-      status: 'active',
-      role: 'Manager',
-      platformRole: 'admin',
+      state: 'ACTIVE',
+      role: 'MANAGER',
+      productInfo: {
+        createdAt: '',
+        id: 'interop',
+        role: 'admin',
+      },
       description: 'Comune di Test',
       institutionId: 'dsfjisdo-sdfdjs-sdfjsd',
       digitalAddress: 'comune@test.it',
     }
 
     const history = createMemoryHistory()
-    history.push('/erogazione')
+    history.push(ROUTES.PROVIDE.PATH)
     const { getByLabelText } = render(
       <Router history={history}>
         <PartyProvider defaultParty={partyData}>

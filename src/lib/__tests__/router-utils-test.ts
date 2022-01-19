@@ -6,7 +6,7 @@ import {
   decorateRouteWithParents,
   getBits,
   getLastBit,
-  isInPlatform,
+  isProtectedRoute,
   isParentRoute,
   isProviderOrSubscriber,
   isSamePath,
@@ -155,17 +155,17 @@ describe('Test protected routes', () => {
       state: {},
       hash: 'djsf-dsfjs-dsfj',
     }
-    expect(isInPlatform(location)).toBeTruthy()
+    expect(isProtectedRoute(location)).toBeTruthy()
   })
 
   it('It is not in platform', () => {
     const location = {
-      pathname: '/guida-ipa',
+      pathname: '/aiuto',
       search: '',
       state: {},
       hash: 'djsf-dsfjs-dsfj',
     }
-    expect(isInPlatform(location)).toBeFalsy()
+    expect(isProtectedRoute(location)).toBeFalsy()
   })
 })
 

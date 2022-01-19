@@ -29,6 +29,7 @@ export const useLogin = () => {
     // If there is a token, check if it is still valid with a call to the backend
     const jwt = parseJwt(sessionStorageToken) as Record<string, string | number | boolean>
     const uid = jwt.uid as string
+
     const resp = await fetchWithLogs({
       path: { endpoint: 'USER_GET', endpointParams: { id: uid } },
     })
@@ -37,7 +38,6 @@ export const useLogin = () => {
     // If it is valid, turn it into State so that it is easier
     // to make it interact with React
     if (isTokenValid) {
-      // TEMP REFACTOR: user is no longer necessary. It is enough to have the token as a global state
       setToken(sessionStorageToken)
     }
 
