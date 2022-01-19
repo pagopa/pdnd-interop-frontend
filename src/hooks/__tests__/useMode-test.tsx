@@ -9,7 +9,7 @@ function TestComponent() {
   return <div>modalità attiva: {mode ?? 'nessuna'}</div>
 }
 
-fit('Gets the current mode correctly', () => {
+it('Gets the current mode correctly', () => {
   const history = createMemoryHistory()
   render(
     <Router history={history}>
