@@ -32,7 +32,7 @@ function TestSilentLoginSubscriber() {
   )
 }
 
-fit('Logs in silently', async () => {
+it('Logs in silently', async () => {
   const mockedAxios = axios as jest.Mocked<typeof axios>
 
   mockedAxios.request.mockImplementationOnce(() => Promise.resolve({ isAxiosError: false }))
