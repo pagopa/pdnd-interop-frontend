@@ -26,7 +26,6 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { Box } from '@mui/system'
 import { Typography } from '@mui/material'
-import { CheckCircle as CheckCircleIcon } from '@mui/icons-material'
 import { Contained } from '../components/Shared/Contained'
 import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 
@@ -177,12 +176,26 @@ export function AgreementEdit() {
     name,
     verified,
     id,
+    explicitAttributeVerification,
   }: {
     name?: string | undefined
     verified: boolean | null
     id: string
+    explicitAttributeVerification: boolean
   }) => {
     const randomDate = getRandomDate(new Date(2022, 0, 1), new Date(2023, 0, 1))
+
+    const computeLabel = () => {
+      if (!explicitAttributeVerification) {
+        return 'verificato, nuova verifica non richiesta'
+      }
+
+      if (verified === null || typeof verified === 'undefined') {
+        return 'in attesa di verifica'
+      }
+
+      return verified ? 'verificato' : 'rifiutato'
+    }
 
     return (
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -193,21 +206,19 @@ export function AgreementEdit() {
           </Typography>
         </Typography>
 
-        {typeof verified === 'boolean' ? (
-          verified ? (
-            <Box sx={{ display: 'flex', alignItems: 'center', my: 1, color: 'primary.main' }}>
-              <CheckCircleIcon sx={{ mr: 1 }} fontSize="small" color="primary" />
-              <Typography component="span">verificato</Typography>
-            </Box>
-          ) : (
-            <Typography component="span">rifiutato dall’erogatore</Typography>
-          )
-        ) : mode === 'provider' ? (
-          <StyledButton variant="contained" onClick={wrapVerify(id)}>
-            Verifica
-          </StyledButton>
-        ) : (
-          <Typography component="span">in attesa di verifica</Typography>
+        {/* display */}
+        <Typography component="span">{computeLabel()}</Typography>
+
+        {/* actions */}
+        {mode === 'provider' && explicitAttributeVerification && (
+          <Box sx={{ display: 'flex' }}>
+            <StyledButton variant="contained" onClick={wrapVerify(id)}>
+              Verifica
+            </StyledButton>
+            {/* <StyledButton variant="contained" onClick={wrapRefuse(id)}>
+              Rifiuta
+            </StyledButton> */}
+          </Box>
         )}
       </Box>
     )

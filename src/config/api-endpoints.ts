@@ -32,12 +32,10 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'PUT',
   },
   ESERVICE_DRAFT_DELETE: {
-    // TO TEST
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId',
     METHOD: 'DELETE',
   },
   ESERVICE_CLONE_FROM_VERSION: {
-    // TO TEST
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId/descriptors/:descriptorId/clone',
     METHOD: 'POST',
   },
@@ -54,17 +52,14 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'POST',
   },
   ESERVICE_VERSION_SUSPEND: {
-    // TO TEST
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId/descriptors/:descriptorId/suspend',
     METHOD: 'POST',
   },
   ESERVICE_VERSION_REACTIVATE: {
-    // TO TEST
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId/descriptors/:descriptorId/activate',
     METHOD: 'POST',
   },
   ESERVICE_VERSION_DRAFT_DELETE: {
-    // TO TEST
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId/descriptors/:descriptorId',
     METHOD: 'DELETE',
   },
@@ -77,20 +72,19 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'DELETE',
   },
   ESERVICE_VERSION_DRAFT_UPDATE_DOCUMENT_DESCRIPTION: {
-    // TO TEST
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId/descriptors/:descriptorId/documents/:documentId/update',
     METHOD: 'POST',
   },
   ESERVICE_VERSION_DOWNLOAD_DOCUMENT: {
-    // TO TEST
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId/descriptors/:descriptorId/documents/:documentId',
     METHOD: 'GET',
   },
-
   OPERATOR_CREATE: {
     URL: 'pdnd-interop-uservice-party-process/0.1/onboarding/operators',
     METHOD: 'POST',
   },
+
+  //
   OPERATOR_API_GET_LIST: {
     // See if it can be unified with OPERATOR_SECURITY_GET_LIST
     URL: 'pdnd-interop-uservice-party-process/0.1/institutions/:institutionId/relationships',
@@ -101,6 +95,8 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-party-process/0.1/relationships/:relationshipId',
     METHOD: 'GET',
   },
+  //
+
   ATTRIBUTES_GET_LIST: {
     URL: 'pdnd-interop-uservice-attribute-registry-management/0.1/attributes',
     METHOD: 'GET',
@@ -109,7 +105,6 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-attribute-registry-management/0.1/attributes',
     METHOD: 'POST',
   },
-
   AGREEMENT_CREATE: {
     URL: 'pdnd-interop-uservice-agreement-process/0.1/agreements',
     METHOD: 'POST',
@@ -123,7 +118,6 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'GET',
   },
   AGREEMENT_VERIFY_ATTRIBUTE: {
-    // TO TEST
     URL: 'pdnd-interop-uservice-agreement-process/0.1/agreements/:agreementId/attributes/:attributeId/verify',
     METHOD: 'PATCH',
   },
