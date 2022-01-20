@@ -6,12 +6,12 @@ export function getClientComputedState(item: Client): keyof typeof COMPUTED_STAT
     (item.agreement.descriptor.state === 'PUBLISHED' ||
       item.agreement.descriptor.state === 'DEPRECATED') &&
     item.agreement.state === 'ACTIVE' &&
-    item.state === 'active'
+    item.state === 'ACTIVE'
   ) {
-    return 'active'
+    return 'ACTIVE'
   }
 
-  return 'inactive'
+  return 'INACTIVE'
 }
 
 export function getAgreementState(

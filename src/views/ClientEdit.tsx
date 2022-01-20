@@ -74,8 +74,8 @@ export function ClientEdit() {
     const sureData = data as Client
 
     const actions: Record<ClientState, Array<ActionProps>> = {
-      active: [{ onClick: wrapActionInDialog(suspend, 'CLIENT_SUSPEND'), label: 'Sospendi' }],
-      suspended: [
+      ACTIVE: [{ onClick: wrapActionInDialog(suspend, 'CLIENT_SUSPEND'), label: 'Sospendi' }],
+      SUSPENDED: [
         {
           onClick: wrapActionInDialog(reactivate, 'CLIENT_ACTIVATE'),
           label: 'Riattiva',
@@ -101,7 +101,7 @@ export function ClientEdit() {
       reasons.push("l'accordo di interoperabilità relativo all'e-service non è attivo")
     }
 
-    if (sureData.state !== 'active') {
+    if (sureData.state !== 'ACTIVE') {
       reasons.push('il client non è attivo')
     }
 
@@ -135,7 +135,7 @@ export function ClientEdit() {
 
         <DescriptionBlock label="Questo client può accedere all'e-service?">
           <Typography component="span">
-            {getClientComputedState(data) === 'active'
+            {getClientComputedState(data) === 'ACTIVE'
               ? 'Sì'
               : `No: ${getReasonClientIsBlocked().join(', ')}`}
           </Typography>

@@ -14,7 +14,6 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { COMPUTED_STATE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
-import { jwtToUser } from '../lib/jwt-utils'
 
 export function ClientList() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -25,8 +24,8 @@ export function ClientList() {
       path: { endpoint: 'CLIENT_GET_LIST' },
       config: {
         params: {
-          consumerId: party?.institutionId,
-          operatorId: jwtToUser(token as string).id,
+          consumerId: party?.partyId,
+          // operatorId: jwtToUser(token as string).id,
         },
       },
     },
@@ -69,13 +68,13 @@ export function ClientList() {
     }
 
     const availableActions: Record<ClientState, Array<ActionProps>> = {
-      active: [
+      ACTIVE: [
         {
           onClick: wrapActionInDialog(wrapSuspend(client.id), 'CLIENT_SUSPEND'),
           label: 'Sospendi client',
         },
       ],
-      suspended: [
+      SUSPENDED: [
         {
           onClick: wrapActionInDialog(wrapReactivate(client.id), 'CLIENT_ACTIVATE'),
           label: 'Riattiva client',

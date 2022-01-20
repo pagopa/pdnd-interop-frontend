@@ -26,13 +26,13 @@ export const AGREEMENT_STATE_LABEL = {
 }
 
 export const CLIENT_STATE_LABEL = {
-  active: 'Attivo',
-  suspended: 'Sospeso',
+  ACTIVE: 'Attivo',
+  SUSPENDED: 'Sospeso',
 }
 
 export const COMPUTED_STATE_LABEL = {
-  active: 'Attivo',
-  inactive: 'Non attivo',
+  ACTIVE: 'Attivo',
+  INACTIVE: 'Non attivo',
 }
 
 export const USER_STATE_LABEL = {

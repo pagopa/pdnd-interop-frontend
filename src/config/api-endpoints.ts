@@ -28,7 +28,6 @@ export const API: Record<string, ApiEndpointContent> = {
     METHOD: 'POST',
   },
   ESERVICE_UPDATE: {
-    // TO TEST
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId',
     METHOD: 'PUT',
   },
@@ -142,27 +141,24 @@ export const API: Record<string, ApiEndpointContent> = {
     METHOD: 'POST',
   },
   CLIENT_GET_LIST: {
-    // PIN-1025
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients',
     METHOD: 'GET',
   },
   CLIENT_GET_SINGLE: {
-    // PIN-1025
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId',
     METHOD: 'GET',
   },
   CLIENT_CREATE: {
-    // PIN-1025
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients',
     METHOD: 'POST',
   },
   CLIENT_SUSPEND: {
-    // PIN-1025
+    // PIN-1026
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/suspend',
     METHOD: 'POST',
   },
   CLIENT_ACTIVATE: {
-    // PIN-1025
+    // PIN-1026
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/activate',
     METHOD: 'POST',
   },

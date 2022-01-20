@@ -16,7 +16,7 @@ import { ROUTES } from '../config/routes'
 type ClientSubmit = {
   name: string
   description: string
-  consumerInstitutionId: string
+  consumerId: string
   eServiceId: string
   purposes: string
 }
@@ -42,7 +42,7 @@ export function ClientCreate() {
   )
 
   const onSubmit = async (data: Partial<ClientSubmit>) => {
-    const dataToPost = { ...data, consumerId: party?.institutionId }
+    const dataToPost = { ...data, consumerId: party?.partyId }
 
     await runActionWithDestination(
       { path: { endpoint: 'CLIENT_CREATE' }, config: { data: dataToPost } },
