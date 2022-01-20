@@ -157,7 +157,7 @@ export function EServiceWriteStep3Documents({
       <EServiceWriteActions
         back={{ label: 'Indietro', onClick: back }}
         forward={{
-          label: 'Salva bozza',
+          label: 'Salva bozza e torna agli e-service',
           onClick: () => {
             history.push(ROUTES.PROVIDE_ESERVICE_LIST.PATH, {
               toast: {
