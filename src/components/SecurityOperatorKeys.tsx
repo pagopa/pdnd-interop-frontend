@@ -48,7 +48,7 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
     async function asyncFetchKeys() {
       const resp = await fetchWithLogs({
         path: {
-          endpoint: 'OPERATOR_SECURITY_KEYS_GET',
+          endpoint: 'OPERATOR_SECURITY_KEYS_GET_LIST',
           // TEMP-BACKEND: when there is the new endpoint for security operators, update this
           endpointParams: { taxCode: userData.id, clientId },
         },

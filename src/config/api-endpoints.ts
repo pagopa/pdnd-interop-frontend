@@ -79,24 +79,6 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId/descriptors/:descriptorId/documents/:documentId',
     METHOD: 'GET',
   },
-  OPERATOR_CREATE: {
-    URL: 'pdnd-interop-uservice-party-process/0.1/onboarding/operators',
-    METHOD: 'POST',
-  },
-
-  //
-  OPERATOR_API_GET_LIST: {
-    // See if it can be unified with OPERATOR_SECURITY_GET_LIST
-    URL: 'pdnd-interop-uservice-party-process/0.1/institutions/:institutionId/relationships',
-    METHOD: 'GET',
-  },
-  OPERATOR_API_GET_SINGLE: {
-    // See if it can be unified with OPERATOR_SECURITY_GET_SINGLE
-    URL: 'pdnd-interop-uservice-party-process/0.1/relationships/:relationshipId',
-    METHOD: 'GET',
-  },
-  //
-
   ATTRIBUTES_GET_LIST: {
     URL: 'pdnd-interop-uservice-attribute-registry-management/0.1/attributes',
     METHOD: 'GET',
@@ -130,7 +112,6 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'PATCH',
   },
   AGREEMENT_UPGRADE: {
-    // TO TEST
     URL: 'pdnd-interop-uservice-agreement-process/0.1/agreements/:agreementId/upgrade',
     METHOD: 'POST',
   },
@@ -156,9 +137,25 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/activate',
     METHOD: 'POST',
   },
-  JOIN_OPERATOR_WITH_CLIENT: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/{clientId}/relationships/{relationshipId}',
+  OPERATOR_API_CREATE: {
+    URL: 'pdnd-interop-uservice-party-process/0.1/onboarding/operators',
     METHOD: 'POST',
+  },
+  OPERATOR_SECURITY_CREATE: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/operators',
+    METHOD: 'POST',
+  },
+  JOIN_OPERATOR_WITH_CLIENT: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/{clientId}/relationships/:relationshipId',
+    METHOD: 'POST',
+  },
+  OPERATOR_API_GET_LIST: {
+    URL: 'pdnd-interop-uservice-party-process/0.1/institutions/:institutionId/relationships',
+    METHOD: 'GET',
+  },
+  OPERATOR_API_GET_SINGLE: {
+    URL: 'pdnd-interop-uservice-party-process/0.1/relationships/:relationshipId',
+    METHOD: 'GET',
   },
 
   OPERATOR_SECURITY_GET_LIST: {
@@ -171,12 +168,7 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/operators/:operatorTaxCode',
     METHOD: 'GET',
   },
-  OPERATOR_SECURITY_CREATE: {
-    // TO TEST
-    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/operators',
-    METHOD: 'POST',
-  },
-  OPERATOR_SECURITY_KEYS_GET: {
+  OPERATOR_SECURITY_KEYS_GET_LIST: {
     // TO TEST
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/operators/:taxCode/keys',
     METHOD: 'GET',

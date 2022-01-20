@@ -41,13 +41,13 @@ export function UserCreate() {
     if (mode === 'provider') {
       // Create the api operator
       await runActionWithDestination(
-        { path: { endpoint: 'OPERATOR_CREATE' }, config: { data: dataToPost } },
+        { path: { endpoint: 'OPERATOR_API_CREATE' }, config: { data: dataToPost } },
         { destination: ROUTES.PROVIDE_OPERATOR_LIST, suppressToast: false }
       )
     } else {
       // First create the security operator
       const { response } = await runAction(
-        { path: { endpoint: 'OPERATOR_CREATE' }, config: { data: dataToPost } },
+        { path: { endpoint: 'OPERATOR_SECURITY_CREATE' }, config: { data: dataToPost } },
         { suppressToast: false }
       )
 

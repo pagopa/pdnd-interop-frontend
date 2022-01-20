@@ -156,7 +156,19 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: 'Non è stato possibile aggiornare la descrizione. Per favore, riprova!',
     },
   },
-  OPERATOR_CREATE: {
+  OPERATOR_API_CREATE: {
+    loadingText: 'Stiamo creando il nuovo operatore',
+    success: {
+      title: "C'è un nuovo operatore",
+      description: 'Nuovo operatore creato correttamente',
+    },
+    error: {
+      title: "C'è stato un problema",
+      description:
+        "Non è stato possibile creare il nuovo operatore. Assicurarsi che non esista già l'utenza ed eventualmente ritentare",
+    },
+  },
+  OPERATOR_SECURITY_CREATE: {
     loadingText: 'Stiamo creando il nuovo operatore',
     success: {
       title: "C'è un nuovo operatore",
