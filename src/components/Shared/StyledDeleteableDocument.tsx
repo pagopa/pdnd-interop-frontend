@@ -58,7 +58,7 @@ export function StyledDeleteableDocument({
     await runAction(
       {
         path: {
-          endpoint: 'ESERVICE_VERSION_UPDATE_DOCUMENT_DESCRIPTION',
+          endpoint: 'ESERVICE_VERSION_DRAFT_UPDATE_DOCUMENT_DESCRIPTION',
           endpointParams: { eserviceId, descriptorId, documentId: readable.id },
         },
         config: { data: { description: ref.textContent } },

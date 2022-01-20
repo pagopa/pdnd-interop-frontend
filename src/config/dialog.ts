@@ -1,12 +1,12 @@
 import { DialogActionKeys, DialogContent } from '../../types'
 
 export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
-  ESERVICE_CREATE: {
+  ESERVICE_DRAFT_CREATE: {
     title: 'Conferma creazione bozza',
     description:
       'Cliccando "conferma", una nuova bozza verrà creata. Potrà essere pubblicata successivamente, oppure cancellata',
   },
-  ESERVICE_DELETE: {
+  ESERVICE_DRAFT_DELETE: {
     title: 'Conferma cancellazione bozza',
     description:
       'Cliccando "conferma" questa bozza verrà cancellata e non sarà più recuperabile. Sarà sempre possibile creare nuove bozze',
@@ -16,16 +16,16 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
     description:
       "Verrà creato un nuovo e-service in bozza con le stesse caratteristiche dell'e-service selezionato",
   },
-  ESERVICE_VERSION_CREATE: {
+  ESERVICE_VERSION_DRAFT_CREATE: {
     title: 'Conferma creazione bozza versione',
     description: "Verrà creata una nuova versione (in bozza) dell'e-service selezionato",
   },
-  ESERVICE_VERSION_PUBLISH: {
+  ESERVICE_VERSION_DRAFT_PUBLISH: {
     title: 'Conferma pubblicazione bozza',
     description:
       "Una volta pubblicata, una versione dell'e-service non è più cancellabile e diventa disponibile nel catalogo degli e-service. Sarà comunque possibile sospenderla, o renderla obsoleta una volta che una nuova versione diventa disponibile.",
   },
-  ESERVICE_VERSION_DELETE: {
+  ESERVICE_VERSION_DRAFT_DELETE: {
     title: 'Conferma cancellazione bozza',
     description:
       'Cliccando "conferma" questa bozza verrà cancellata e non sarà più recuperabile. Sarà sempre possibile creare nuove bozze',

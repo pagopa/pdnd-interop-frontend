@@ -1,6 +1,6 @@
-import { ApiEndpointContent } from '../../types'
+import { ApiEndpointContent, ApiEndpointKey } from '../../types'
 
-export const API: Record<string, ApiEndpointContent> = {
+export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
   ONBOARDING_GET_AVAILABLE_PARTIES: {
     URL: 'pdnd-interop-uservice-party-process/0.1/onboarding/info',
     METHOD: 'GET',
@@ -23,15 +23,15 @@ export const API: Record<string, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId',
     METHOD: 'GET',
   },
-  ESERVICE_CREATE: {
+  ESERVICE_DRAFT_CREATE: {
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices',
     METHOD: 'POST',
   },
-  ESERVICE_UPDATE: {
+  ESERVICE_DRAFT_UPDATE: {
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId',
     METHOD: 'PUT',
   },
-  ESERVICE_DELETE: {
+  ESERVICE_DRAFT_DELETE: {
     // TO TEST
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId',
     METHOD: 'DELETE',
@@ -41,15 +41,15 @@ export const API: Record<string, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId/descriptors/:descriptorId/clone',
     METHOD: 'POST',
   },
-  ESERVICE_VERSION_CREATE: {
+  ESERVICE_VERSION_DRAFT_CREATE: {
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId/descriptors',
     METHOD: 'POST',
   },
-  ESERVICE_VERSION_UPDATE: {
+  ESERVICE_VERSION_DRAFT_UPDATE: {
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId/descriptors/:descriptorId',
     METHOD: 'PUT',
   },
-  ESERVICE_VERSION_PUBLISH: {
+  ESERVICE_VERSION_DRAFT_PUBLISH: {
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId/descriptors/:descriptorId/publish',
     METHOD: 'POST',
   },
@@ -63,30 +63,30 @@ export const API: Record<string, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId/descriptors/:descriptorId/activate',
     METHOD: 'POST',
   },
-  // Only drafts can be deleted
-  ESERVICE_VERSION_DELETE: {
+  ESERVICE_VERSION_DRAFT_DELETE: {
     // TO TEST
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId/descriptors/:descriptorId',
     METHOD: 'DELETE',
   },
-  ESERVICE_VERSION_POST_DOCUMENT: {
+  ESERVICE_VERSION_DRAFT_POST_DOCUMENT: {
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId/descriptors/:descriptorId/documents',
     METHOD: 'POST',
   },
-  ESERVICE_VERSION_DELETE_DOCUMENT: {
+  ESERVICE_VERSION_DRAFT_DELETE_DOCUMENT: {
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId/descriptors/:descriptorId/documents/:documentId',
     METHOD: 'DELETE',
+  },
+  ESERVICE_VERSION_DRAFT_UPDATE_DOCUMENT_DESCRIPTION: {
+    // TO TEST
+    URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId/descriptors/:descriptorId/documents/:documentId/update',
+    METHOD: 'POST',
   },
   ESERVICE_VERSION_DOWNLOAD_DOCUMENT: {
     // TO TEST
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId/descriptors/:descriptorId/documents/:documentId',
     METHOD: 'GET',
   },
-  ESERVICE_VERSION_UPDATE_DOCUMENT_DESCRIPTION: {
-    // TO TEST
-    URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId/descriptors/:descriptorId/documents/:documentId/update',
-    METHOD: 'POST',
-  },
+
   OPERATOR_CREATE: {
     URL: 'pdnd-interop-uservice-party-process/0.1/onboarding/operators',
     METHOD: 'POST',

@@ -81,11 +81,11 @@ export const EServiceWriteStep1General: FunctionComponent<
     }
 
     // Define which endpoint to call
-    let endpoint: ApiEndpointKey = 'ESERVICE_CREATE'
+    let endpoint: ApiEndpointKey = 'ESERVICE_DRAFT_CREATE'
     let endpointParams = {}
     const isNewService = !fetchedData
     if (!isNewService) {
-      endpoint = 'ESERVICE_UPDATE'
+      endpoint = 'ESERVICE_DRAFT_UPDATE'
       endpointParams = { eserviceId: fetchedData.id }
       delete dataToPost.producerId // Needed to avoid getting an error on PUT
     }

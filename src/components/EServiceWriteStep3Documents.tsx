@@ -35,7 +35,7 @@ export function EServiceWriteStep3Documents({
     await runActionWithDestination(
       {
         path: {
-          endpoint: 'ESERVICE_VERSION_PUBLISH',
+          endpoint: 'ESERVICE_VERSION_DRAFT_PUBLISH',
           endpointParams: {
             eserviceId: sureFetchedData.id,
             descriptorId: activeDescriptor.id,
@@ -51,7 +51,7 @@ export function EServiceWriteStep3Documents({
     await runActionWithDestination(
       {
         path: {
-          endpoint: 'ESERVICE_VERSION_DELETE',
+          endpoint: 'ESERVICE_VERSION_DRAFT_DELETE',
           endpointParams: {
             eserviceId: sureFetchedData.id,
             descriptorId: activeDescriptor.id,
@@ -67,7 +67,7 @@ export function EServiceWriteStep3Documents({
     const { outcome, response } = await runAction(
       {
         path: {
-          endpoint: 'ESERVICE_VERSION_DELETE_DOCUMENT',
+          endpoint: 'ESERVICE_VERSION_DRAFT_DELETE_DOCUMENT',
           endpointParams: {
             eserviceId: sureFetchedData.id,
             descriptorId: activeDescriptor.id,
@@ -91,7 +91,7 @@ export function EServiceWriteStep3Documents({
     const { outcome, response } = await runAction(
       {
         path: {
-          endpoint: 'ESERVICE_VERSION_POST_DOCUMENT',
+          endpoint: 'ESERVICE_VERSION_DRAFT_POST_DOCUMENT',
           endpointParams: {
             eserviceId: sureFetchedData.id,
             descriptorId: activeDescriptor.id,
@@ -160,7 +160,10 @@ export function EServiceWriteStep3Documents({
           label: 'Salva bozza',
           onClick: () => {
             history.push(ROUTES.PROVIDE_ESERVICE_LIST.PATH, {
-              toast: { outcome: 'success', ...TOAST_CONTENTS.ESERVICE_VERSION_UPDATE.success },
+              toast: {
+                outcome: 'success',
+                ...TOAST_CONTENTS.ESERVICE_VERSION_DRAFT_UPDATE.success,
+              },
             })
           },
         }}
@@ -178,13 +181,13 @@ export function EServiceWriteStep3Documents({
           <StyledButton
             sx={{ mr: 3 }}
             variant="contained"
-            onClick={wrapActionInDialog(publishVersion, 'ESERVICE_VERSION_PUBLISH')}
+            onClick={wrapActionInDialog(publishVersion, 'ESERVICE_VERSION_DRAFT_PUBLISH')}
           >
             Pubblica bozza
           </StyledButton>
           <StyledButton
             variant="outlined"
-            onClick={wrapActionInDialog(deleteVersion, 'ESERVICE_VERSION_DELETE')}
+            onClick={wrapActionInDialog(deleteVersion, 'ESERVICE_VERSION_DRAFT_DELETE')}
           >
             Cancella bozza
           </StyledButton>

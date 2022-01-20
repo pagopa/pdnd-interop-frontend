@@ -87,12 +87,12 @@ export function EServiceWriteStep2Version({
     const sureFetchedData = fetchedData as EServiceReadType
 
     // Define which endpoint to call
-    let endpoint: ApiEndpointKey = 'ESERVICE_VERSION_CREATE'
+    let endpoint: ApiEndpointKey = 'ESERVICE_VERSION_DRAFT_CREATE'
     const endpointParams: Record<string, string> = { eserviceId: sureFetchedData.id }
     const isNewDescriptor = isEmpty(sureFetchedData.activeDescriptor)
     if (!isNewDescriptor) {
       const activeDescriptor = sureFetchedData.activeDescriptor as EServiceDescriptorRead
-      endpoint = 'ESERVICE_VERSION_UPDATE'
+      endpoint = 'ESERVICE_VERSION_DRAFT_UPDATE'
       endpointParams.descriptorId = activeDescriptor.id
     }
 

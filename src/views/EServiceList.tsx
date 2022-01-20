@@ -46,7 +46,7 @@ export function EServiceList() {
     await runAction(
       {
         path: {
-          endpoint: 'ESERVICE_VERSION_PUBLISH',
+          endpoint: 'ESERVICE_VERSION_DRAFT_PUBLISH',
           endpointParams: { eserviceId, descriptorId },
         },
       },
@@ -55,11 +55,11 @@ export function EServiceList() {
   }
 
   const wrapDeleteDraft = (eserviceId: string, descriptorId?: string) => async () => {
-    let endpoint: ApiEndpointKey = 'ESERVICE_DELETE'
+    let endpoint: ApiEndpointKey = 'ESERVICE_DRAFT_DELETE'
     const endpointParams: Record<string, string> = { eserviceId }
 
     if (descriptorId) {
-      endpoint = 'ESERVICE_VERSION_DELETE'
+      endpoint = 'ESERVICE_VERSION_DRAFT_DELETE'
       endpointParams.descriptorId = descriptorId
     }
 
@@ -113,7 +113,7 @@ export function EServiceList() {
   const wrapCreateNewVersionDraft = (eserviceId: string) => async () => {
     const { outcome, response } = await runAction(
       {
-        path: { endpoint: 'ESERVICE_VERSION_CREATE', endpointParams: { eserviceId } },
+        path: { endpoint: 'ESERVICE_VERSION_DRAFT_CREATE', endpointParams: { eserviceId } },
         config: { data: { voucherLifespan: 0, audience: [], description: '' } },
       },
       { suppressToast: true }
@@ -162,7 +162,10 @@ export function EServiceList() {
       label: 'Clona',
     }
     const createVersionDraftAction = {
-      onClick: wrapActionInDialog(wrapCreateNewVersionDraft(eserviceId), 'ESERVICE_VERSION_CREATE'),
+      onClick: wrapActionInDialog(
+        wrapCreateNewVersionDraft(eserviceId),
+        'ESERVICE_VERSION_DRAFT_CREATE'
+      ),
       label: 'Crea bozza nuova versione',
     }
     const archiveAction = {
@@ -173,14 +176,14 @@ export function EServiceList() {
     const publishDraftAction = {
       onClick: wrapActionInDialog(
         wrapPublishDraft(eserviceId, descriptorId),
-        'ESERVICE_VERSION_PUBLISH'
+        'ESERVICE_VERSION_DRAFT_PUBLISH'
       ),
       label: 'Pubblica',
     }
     const deleteDraftAction = {
       onClick: wrapActionInDialog(
         wrapDeleteDraft(eserviceId, descriptorId),
-        'ESERVICE_VERSION_DELETE'
+        'ESERVICE_VERSION_DRAFT_DELETE'
       ),
       label: 'Elimina',
     }
