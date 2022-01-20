@@ -72,7 +72,7 @@ export function EServiceWriteStep3DocumentsInterface({
     const dataToPost = {
       ...data,
       doc: (data.doc as unknown as Array<File>)[0],
-      kind: 'interface' as EServiceDocumentKind,
+      kind: 'INTERFACE' as EServiceDocumentKind,
     }
     const { outcome, response } = await uploadDescriptorDocument(dataToPost)
 
