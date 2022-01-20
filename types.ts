@@ -201,7 +201,7 @@ export type EServiceStateLabel = Record<EServiceState, string>
 // The read, when data is returned from the backend
 
 // Some types are shared between the two
-export type EServiceDocumentKind = 'interface' | 'document'
+export type EServiceDocumentKind = 'INTERFACE' | 'DOCUMENT'
 export type EServiceTechnologyType = 'REST' | 'SOAP'
 
 // Making this as explicit as possible. It might be that there is an eserviceId,
