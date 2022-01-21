@@ -128,12 +128,12 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'POST',
   },
   CLIENT_SUSPEND: {
-    // PIN-1026
+    // TEMP PIN-1026
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/suspend',
     METHOD: 'POST',
   },
   CLIENT_ACTIVATE: {
-    // PIN-1026
+    // TEMP PIN-1026
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/activate',
     METHOD: 'POST',
   },
