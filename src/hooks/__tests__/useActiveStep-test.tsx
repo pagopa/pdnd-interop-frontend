@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { Router, BrowserRouter } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 import { useActiveStep } from '../useActiveStep'
+import { AllTheProviders } from '../../__mocks__/providers'
 
 function TestComponent() {
   const { activeStep, back, forward } = useActiveStep()
@@ -40,9 +41,9 @@ describe('Active step navigation', () => {
     const history = createMemoryHistory()
     history.push('/not-relevant', { stepIndexDestination: 3 })
     render(
-      <Router history={history}>
+      <AllTheProviders defaultHistory={history}>
         <TestComponent />
-      </Router>
+      </AllTheProviders>
     )
 
     expect(screen.getByText('Step: 3')).toBeInTheDocument()

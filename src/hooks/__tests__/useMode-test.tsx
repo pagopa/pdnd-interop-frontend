@@ -1,8 +1,8 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
-import { Router } from 'react-router-dom'
 import { useMode } from '../useMode'
+import { AllTheProviders } from '../../__mocks__/providers'
 
 function TestComponent() {
   const mode = useMode()
@@ -12,9 +12,9 @@ function TestComponent() {
 it('Gets the current mode correctly', () => {
   const history = createMemoryHistory()
   render(
-    <Router history={history}>
+    <AllTheProviders defaultHistory={history}>
       <TestComponent />
-    </Router>
+    </AllTheProviders>
   )
 
   history.push('/erogazione/e-service/crea')
