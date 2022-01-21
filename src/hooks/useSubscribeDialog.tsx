@@ -31,7 +31,7 @@ export const useSubscribeDialog = () => {
 
   const openDialog = (eservice?: EServiceFlatReadType) => {
     if (eservice) {
-      // TEMP Refactor: this reeeeally sucks. Find a better way to pass the eservice
+      // TEMP REFACTOR: this reeeeally sucks. Find a better way to pass the eservice
       // without setting it as state from the outside
       setInternalEService(eservice)
     }
