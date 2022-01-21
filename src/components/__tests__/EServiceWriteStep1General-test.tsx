@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { render, screen } from '@testing-library/react'
 import { EServiceWriteStep1General } from '../EServiceWriteStep1General'
 import { EServiceReadType } from '../../../types'
+import { eservicePublished } from '../../__mocks__/e-service'
 
 describe('Rendering tests', () => {
   it('Renders without crashing', () => {
@@ -53,35 +54,6 @@ describe('Rendering tests', () => {
     const back = jest.fn()
     const forward = jest.fn()
     const data = {}
-    const fetchedData: EServiceReadType = {
-      producer: {
-        id: 'djofsi-sdfjdsi-djsfs',
-        name: 'Comune di Bologna',
-      },
-      name: 'Nome e-service',
-      description: 'Descrizione e-service',
-      technology: 'REST',
-      id: 'sdjof-sdfjdspof-dsfdsjf',
-      state: 'PUBLISHED',
-      descriptors: [],
-      attributes: {
-        verified: [],
-        declared: [],
-        certified: [
-          {
-            single: {
-              id: 'dsdsld-dsdlds-lsdasdas',
-              explicitAttributeVerification: false,
-              verified: false,
-              origin: 'dfkdsfk',
-              code: 'dfjdso',
-              name: 'Attributo 1',
-              description: 'Descrizione attributo 1',
-            },
-          },
-        ],
-      },
-    }
 
     render(
       <BrowserRouter>
@@ -90,7 +62,7 @@ describe('Rendering tests', () => {
           back={back}
           data={data}
           activeStep={0}
-          fetchedData={fetchedData}
+          fetchedData={eservicePublished}
         />
       </BrowserRouter>
     )
