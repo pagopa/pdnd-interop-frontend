@@ -68,11 +68,7 @@ it('useAsyncFetch hook updates correctly with data', async () => {
 
   mockedAxios.request.mockImplementationOnce(() =>
     Promise.resolve({
-      data: [
-        {
-          name: 'Il mio e-service 1',
-        },
-      ],
+      data: [{ name: 'Il mio e-service 1' }],
     })
   )
 
