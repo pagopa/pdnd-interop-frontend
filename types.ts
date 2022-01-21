@@ -273,7 +273,7 @@ export type EServiceReadType = {
   id: string
   state: EServiceState
   descriptors: Array<EServiceDescriptorRead>
-  activeDescriptor?: EServiceDescriptorRead // TEMP Refactor : this is added by the client
+  activeDescriptor?: EServiceDescriptorRead // TEMP REFACTOR : this is added by the client
 }
 
 export type EServiceDescriptorRead = {

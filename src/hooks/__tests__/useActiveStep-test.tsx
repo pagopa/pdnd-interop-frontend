@@ -6,7 +6,7 @@ import { createMemoryHistory } from 'history'
 import { useActiveStep } from '../useActiveStep'
 
 function TestComponent() {
-  const { activeStep, back, forward } = useActiveStep({})
+  const { activeStep, back, forward } = useActiveStep()
   return (
     <div>
       <button onClick={back} id="back">
