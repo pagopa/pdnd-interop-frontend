@@ -3,16 +3,25 @@ import { Box } from '@mui/system'
 import { StyledButton } from './StyledButton'
 import { StyledLink } from './StyledLink'
 
-type BackAction = {
+type ActionButton = {
   label: string
-  to?: string
-  onClick?: VoidFunction
+  type: 'button'
+  onClick: VoidFunction
 }
 
-type ForwardAction = {
+type ActionLink = {
   label: string
-  onClick?: VoidFunction
+  type: 'link'
+  to: string
 }
+
+type ActionSubmit = {
+  label: string
+  type: 'submit'
+}
+
+export type BackAction = ActionButton | ActionLink
+export type ForwardAction = ActionButton | ActionSubmit
 
 type EServiceWriteActionsProps = {
   back: BackAction
@@ -20,8 +29,9 @@ type EServiceWriteActionsProps = {
 }
 
 export function EServiceWriteActions({ back, forward }: EServiceWriteActionsProps) {
-  const forwardProps = forward.onClick ? { onClick: forward.onClick } : { type: 'submit' }
-  const backProps = back.to ? { component: StyledLink, to: back.to } : { onClick: back.onClick }
+  const forwardProps = forward.type === 'button' ? { onClick: forward.onClick } : { type: 'submit' }
+  const backProps =
+    back.type === 'link' ? { component: StyledLink, to: back.to } : { onClick: back.onClick }
 
   return (
     <Box sx={{ mt: 12, pt: 4, display: 'flex', borderTop: 1, borderColor: 'divider' }}>

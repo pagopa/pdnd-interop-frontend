@@ -182,8 +182,8 @@ export function EServiceWriteStep2Version({
       />
 
       <EServiceWriteActions
-        back={{ label: 'Indietro', onClick: back }}
-        forward={{ label: 'Salva bozza e prosegui' }}
+        back={{ label: 'Indietro', type: 'button', onClick: back }}
+        forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
       />
     </StyledForm>
   )
