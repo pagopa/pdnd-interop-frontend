@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot test renders medium 1`] = `
+<div
+  className="MuiBox-root css-i63f07"
+/>
+`;
+
+exports[`Snapshot test renders narrow 1`] = `
+<div
+  className="MuiBox-root css-11s6vt6"
+/>
+`;

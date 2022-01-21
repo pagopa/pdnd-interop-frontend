@@ -189,8 +189,12 @@ export const EServiceWriteStep1General: FunctionComponent<
       <EServiceAttributeSection attributes={attributes} setAttributes={setAttributes} />
 
       <EServiceWriteActions
-        back={{ label: 'Torna agli e-service', to: ROUTES.PROVIDE_ESERVICE_LIST.PATH }}
-        forward={{ label: 'Salva bozza e prosegui' }}
+        back={{
+          label: 'Torna agli e-service',
+          type: 'link',
+          to: ROUTES.PROVIDE_ESERVICE_LIST.PATH,
+        }}
+        forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
       />
     </StyledForm>
   )
