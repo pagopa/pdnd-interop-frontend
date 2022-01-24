@@ -1,0 +1,148 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot matches 1`] = `
+<div
+  className="MuiStepper-root MuiStepper-horizontal MuiStepper-alternativeLabel css-1ofe8un-MuiStepper-root"
+>
+  <div
+    className="MuiStep-root MuiStep-horizontal MuiStep-alternativeLabel Mui-completed css-n7tliy-MuiStep-root"
+  >
+    <span
+      className="MuiStepLabel-root MuiStepLabel-horizontal MuiStepLabel-alternativeLabel css-ascpo7-MuiStepLabel-root"
+    >
+      <span
+        className="MuiStepLabel-iconContainer MuiStepLabel-alternativeLabel css-vnkopk-MuiStepLabel-iconContainer"
+      >
+        <svg
+          aria-hidden={true}
+          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root Mui-completed css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root"
+          data-testid="CheckCircleIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm-2 17l-5-5 1.4-1.4 3.6 3.6 7.6-7.6L19 8l-9 9z"
+          />
+        </svg>
+      </span>
+      <span
+        className="MuiStepLabel-labelContainer css-16ubnlw-MuiStepLabel-labelContainer"
+      >
+        <span
+          className="MuiStepLabel-label Mui-completed MuiStepLabel-alternativeLabel css-qivjh0-MuiStepLabel-label"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-body1 css-9jwtj4-MuiTypography-root"
+          >
+            Step 1
+          </span>
+        </span>
+      </span>
+    </span>
+  </div>
+  <div
+    className="MuiStep-root MuiStep-horizontal MuiStep-alternativeLabel css-n7tliy-MuiStep-root"
+  >
+    <div
+      className="MuiStepConnector-root MuiStepConnector-horizontal MuiStepConnector-alternativeLabel Mui-active css-zpcwqm-MuiStepConnector-root"
+    >
+      <span
+        className="MuiStepConnector-line MuiStepConnector-lineHorizontal css-z7uhs0-MuiStepConnector-line"
+      />
+    </div>
+    <span
+      className="MuiStepLabel-root MuiStepLabel-horizontal MuiStepLabel-alternativeLabel css-ascpo7-MuiStepLabel-root"
+    >
+      <span
+        className="MuiStepLabel-iconContainer MuiStepLabel-alternativeLabel css-vnkopk-MuiStepLabel-iconContainer"
+      >
+        <svg
+          aria-hidden={true}
+          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root Mui-active css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            cx="12"
+            cy="12"
+            r="12"
+          />
+          <text
+            className="MuiStepIcon-text css-117w1su-MuiStepIcon-text"
+            textAnchor="middle"
+            x="12"
+            y="16"
+          >
+            2
+          </text>
+        </svg>
+      </span>
+      <span
+        className="MuiStepLabel-labelContainer css-16ubnlw-MuiStepLabel-labelContainer"
+      >
+        <span
+          className="MuiStepLabel-label Mui-active MuiStepLabel-alternativeLabel css-qivjh0-MuiStepLabel-label"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-body1 css-9jwtj4-MuiTypography-root"
+          >
+            Step 2
+          </span>
+        </span>
+      </span>
+    </span>
+  </div>
+  <div
+    className="MuiStep-root MuiStep-horizontal MuiStep-alternativeLabel css-n7tliy-MuiStep-root"
+  >
+    <div
+      className="MuiStepConnector-root MuiStepConnector-horizontal MuiStepConnector-alternativeLabel Mui-disabled css-zpcwqm-MuiStepConnector-root"
+    >
+      <span
+        className="MuiStepConnector-line MuiStepConnector-lineHorizontal css-z7uhs0-MuiStepConnector-line"
+      />
+    </div>
+    <span
+      className="MuiStepLabel-root MuiStepLabel-horizontal Mui-disabled MuiStepLabel-alternativeLabel css-ascpo7-MuiStepLabel-root"
+    >
+      <span
+        className="MuiStepLabel-iconContainer MuiStepLabel-alternativeLabel css-vnkopk-MuiStepLabel-iconContainer"
+      >
+        <svg
+          aria-hidden={true}
+          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiStepIcon-root css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            cx="12"
+            cy="12"
+            r="12"
+          />
+          <text
+            className="MuiStepIcon-text css-117w1su-MuiStepIcon-text"
+            textAnchor="middle"
+            x="12"
+            y="16"
+          >
+            3
+          </text>
+        </svg>
+      </span>
+      <span
+        className="MuiStepLabel-labelContainer css-16ubnlw-MuiStepLabel-labelContainer"
+      >
+        <span
+          className="MuiStepLabel-label Mui-disabled MuiStepLabel-alternativeLabel css-qivjh0-MuiStepLabel-label"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-body1 css-9jwtj4-MuiTypography-root"
+          >
+            Step 3
+          </span>
+        </span>
+      </span>
+    </span>
+  </div>
+</div>
+`;
