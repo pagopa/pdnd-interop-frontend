@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot matches 1`] = `
+<div
+  className="MuiBox-root css-62igne"
+>
+  <div
+    className="MuiBox-root css-70qvj9"
+  >
+    <div
+      className="MuiBox-root css-14b8c80"
+    >
+      <input
+        id="file"
+        name="file"
+        onBlur={[Function]}
+        onChange={[Function]}
+        style={
+          Object {
+            "height": "100%",
+            "position": "absolute",
+            "width": "100%",
+          }
+        }
+        type="file"
+      />
+      <label
+        className="MuiBox-root css-ih0hcs"
+        htmlFor="file"
+      >
+        <span
+          className="MuiTypography-root MuiTypography-body2 css-1p88kj8-MuiTypography-root"
+        >
+          Test file input
+        </span>
+      </label>
+    </div>
+    <span
+      className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+    >
+      File selezionato:
+       
+      <span
+        className="MuiTypography-root MuiTypography-inherit css-19wno5d-MuiTypography-root"
+      >
+        nessun file selezionato
+      </span>
+    </span>
+  </div>
+</div>
+`;

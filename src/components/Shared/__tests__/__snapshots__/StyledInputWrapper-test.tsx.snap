@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot matches input field 1`] = `
+<div
+  className="MuiBox-root css-62igne"
+>
+  <input
+    type="text"
+  />
+</div>
+`;
+
+exports[`Snapshot matches input field with error 1`] = `
+<div
+  className="MuiBox-root css-62igne"
+>
+  <input
+    type="text"
+  />
+  <div
+    className="MuiBox-root css-0"
+  >
+    <span
+      className="MuiTypography-root MuiTypography-caption css-19m5e5t-MuiTypography-root"
+    >
+      il campo è vuoto
+    </span>
+  </div>
+</div>
+`;
