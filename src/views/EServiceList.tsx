@@ -224,7 +224,6 @@ export function EServiceList() {
         <TableWithLoader
           loadingText={loadingText}
           headData={headData}
-          pagination={true}
           data={data}
           noDataLabel="Non ci sono servizi disponibili"
           error={error}

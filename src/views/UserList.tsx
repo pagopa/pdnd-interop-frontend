@@ -120,7 +120,6 @@ export function UserList() {
       <TableWithLoader
         loadingText={loadingText}
         headData={headData}
-        pagination={true}
         data={data}
         noDataLabel="Non ci sono operatori disponibili"
         error={error}

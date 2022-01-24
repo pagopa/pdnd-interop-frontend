@@ -1,0 +1,586 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot matches error 1`] = `
+<div
+  className="MuiBox-root css-1qm4nww"
+>
+  C’è stato un errore, e non è stato possibile reperire le informazioni richieste. Per favore, riprova più tardi
+</div>
+`;
+
+exports[`Snapshot matches loading 1`] = `
+<div
+  className="MuiBox-root css-2vyar9"
+>
+  <span
+    className="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-18lrjg1-MuiCircularProgress-root"
+    role="progressbar"
+    style={
+      Object {
+        "height": 40,
+        "width": 40,
+      }
+    }
+  >
+    <svg
+      className="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+      viewBox="22 22 44 44"
+    >
+      <circle
+        className="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
+        cx={44}
+        cy={44}
+        fill="none"
+        r={20.2}
+        strokeWidth={3.6}
+        style={Object {}}
+      />
+    </svg>
+  </span>
+  <p
+    className="MuiTypography-root MuiTypography-body1 css-1sghids-MuiTypography-root"
+  >
+    Sto caricando...
+  </p>
+</div>
+`;
+
+exports[`Snapshot matches table with single action button 1`] = `
+<div
+  className="MuiTableContainer-root css-rorn0c-MuiTableContainer-root"
+>
+  <table
+    className="MuiTable-root css-smfe75-MuiTable-root"
+    role={null}
+  >
+    <thead
+      className="MuiTableHead-root css-15wwp11-MuiTableHead-root"
+      role={null}
+    >
+      <tr
+        className="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+        role={null}
+      >
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+          scope="col"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-caption css-1na98xh-MuiTypography-root"
+          >
+            NOME
+          </span>
+        </th>
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+          scope="col"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-caption css-1na98xh-MuiTypography-root"
+          >
+            COGNOME
+          </span>
+        </th>
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+          scope="col"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-caption css-1na98xh-MuiTypography-root"
+          >
+            
+          </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      className="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+      role={null}
+    >
+      <tr
+        className="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+        role={null}
+      >
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-body2 css-1qzgq0n-MuiTypography-root"
+          >
+            Mario
+          </span>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-caption css-1b37dve-MuiTypography-root"
+          >
+            Rossi
+          </span>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
+        >
+          <button
+            className="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButtonBase-root  css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Ispeziona
+          </button>
+          <span
+            className="MuiBox-root css-24nojk"
+          />
+        </td>
+      </tr>
+      <tr
+        className="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+        role={null}
+      >
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-body2 css-1qzgq0n-MuiTypography-root"
+          >
+            Teresa
+          </span>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-caption css-1b37dve-MuiTypography-root"
+          >
+            Verdi
+          </span>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
+        >
+          <button
+            className="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButtonBase-root  css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Ispeziona
+          </button>
+          <span
+            className="MuiBox-root css-24nojk"
+          />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`Snapshot matches table with single action button and action list button 1`] = `
+<div
+  className="MuiTableContainer-root css-rorn0c-MuiTableContainer-root"
+>
+  <table
+    className="MuiTable-root css-smfe75-MuiTable-root"
+    role={null}
+  >
+    <thead
+      className="MuiTableHead-root css-15wwp11-MuiTableHead-root"
+      role={null}
+    >
+      <tr
+        className="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+        role={null}
+      >
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+          scope="col"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-caption css-1na98xh-MuiTypography-root"
+          >
+            NOME
+          </span>
+        </th>
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+          scope="col"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-caption css-1na98xh-MuiTypography-root"
+          >
+            COGNOME
+          </span>
+        </th>
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+          scope="col"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-caption css-1na98xh-MuiTypography-root"
+          >
+            
+          </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      className="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+      role={null}
+    >
+      <tr
+        className="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+        role={null}
+      >
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-body2 css-1qzgq0n-MuiTypography-root"
+          >
+            Mario
+          </span>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-caption css-1b37dve-MuiTypography-root"
+          >
+            Rossi
+          </span>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
+        >
+          <button
+            className="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButtonBase-root  css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Ispeziona
+            <span
+              className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            aria-controls="basic-menu-0"
+            aria-haspopup="true"
+            className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+            disabled={false}
+            id="basic-button-0"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            <span>
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium css-ci5apu-MuiSvgIcon-root"
+                data-testid="MoreVertIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                />
+              </svg>
+            </span>
+            <span
+              className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </td>
+      </tr>
+      <tr
+        className="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+        role={null}
+      >
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-body2 css-1qzgq0n-MuiTypography-root"
+          >
+            Teresa
+          </span>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-caption css-1b37dve-MuiTypography-root"
+          >
+            Verdi
+          </span>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
+        >
+          <button
+            className="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButtonBase-root  css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            Ispeziona
+            <span
+              className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            aria-controls="basic-menu-1"
+            aria-haspopup="true"
+            className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+            disabled={false}
+            id="basic-button-1"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onContextMenu={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            <span>
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium css-ci5apu-MuiSvgIcon-root"
+                data-testid="MoreVertIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                />
+              </svg>
+            </span>
+            <span
+              className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`Snapshot matches table without actions 1`] = `
+<div
+  className="MuiTableContainer-root css-rorn0c-MuiTableContainer-root"
+>
+  <table
+    className="MuiTable-root css-smfe75-MuiTable-root"
+    role={null}
+  >
+    <thead
+      className="MuiTableHead-root css-15wwp11-MuiTableHead-root"
+      role={null}
+    >
+      <tr
+        className="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+        role={null}
+      >
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+          scope="col"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-caption css-1na98xh-MuiTypography-root"
+          >
+            NOME
+          </span>
+        </th>
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+          scope="col"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-caption css-1na98xh-MuiTypography-root"
+          >
+            COGNOME
+          </span>
+        </th>
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+          scope="col"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-caption css-1na98xh-MuiTypography-root"
+          >
+            
+          </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      className="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+      role={null}
+    >
+      <tr
+        className="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+        role={null}
+      >
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-body2 css-1qzgq0n-MuiTypography-root"
+          >
+            Mario
+          </span>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-caption css-1b37dve-MuiTypography-root"
+          >
+            Rossi
+          </span>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
+        >
+          <span
+            className="MuiBox-root css-24nojk"
+          />
+        </td>
+      </tr>
+      <tr
+        className="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+        role={null}
+      >
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-body2 css-1qzgq0n-MuiTypography-root"
+          >
+            Teresa
+          </span>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+        >
+          <span
+            className="MuiTypography-root MuiTypography-caption css-1b37dve-MuiTypography-root"
+          >
+            Verdi
+          </span>
+        </td>
+        <td
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
+        >
+          <span
+            className="MuiBox-root css-24nojk"
+          />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;

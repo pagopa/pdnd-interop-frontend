@@ -168,7 +168,6 @@ export function AgreementList() {
         <TableWithLoader
           loadingText={loadingText}
           headData={headData}
-          pagination={true}
           data={data}
           noDataLabel="Non ci sono accordi disponibili"
           error={error}
