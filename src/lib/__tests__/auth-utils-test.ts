@@ -6,19 +6,19 @@ import {
 } from '../../__mocks__/party'
 import { isAdmin, isOperatorAPI, isOperatorSecurity } from '../auth-utils'
 
-describe('Check ProductRole', () => {
-  it('Is admin', () => {
+describe('ProductRole', () => {
+  it('is admin', () => {
     expect(isAdmin(partyActiveManager)).toBeTruthy()
     expect(isAdmin(partyActiveDelegate)).toBeTruthy()
     expect(isAdmin(null)).toBeFalsy()
   })
 
-  it('Is operator API', () => {
+  it('is operator API', () => {
     expect(isOperatorAPI(partyActiveOperatorApi)).toBeTruthy()
     expect(isOperatorAPI(null)).toBeFalsy()
   })
 
-  it('Is operator security', () => {
+  it('is operator security', () => {
     expect(isOperatorSecurity(partyActiveOperatorSecurity)).toBeTruthy()
     expect(isOperatorSecurity(null)).toBeFalsy()
   })

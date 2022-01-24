@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Snapshot test renders button and submit 1`] = `
+exports[`Snapshot matches button and submit 1`] = `
 <div
   className="MuiBox-root css-1evj0i2"
 >
@@ -54,7 +54,7 @@ exports[`Snapshot test renders button and submit 1`] = `
 </div>
 `;
 
-exports[`Snapshot test renders link and button 1`] = `
+exports[`Snapshot matches link and button 1`] = `
 <div
   className="MuiBox-root css-1evj0i2"
 >

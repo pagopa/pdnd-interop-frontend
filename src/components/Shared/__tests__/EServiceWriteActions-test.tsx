@@ -4,8 +4,8 @@ import { noop } from 'lodash'
 import { BackAction, EServiceWriteActions, ForwardAction } from '../EServiceWriteActions'
 import { AllTheProviders } from '../../../__mocks__/providers'
 
-describe('Snapshot test', () => {
-  it('renders link and button', () => {
+describe('Snapshot', () => {
+  it('matches link and button', () => {
     const back: BackAction = { label: 'Indietro', type: 'link', to: '/test-route' }
     const forward: ForwardAction = { label: 'Avanti', type: 'button', onClick: noop }
     const component = renderer.create(
@@ -17,7 +17,7 @@ describe('Snapshot test', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  it('renders button and submit', () => {
+  it('matches button and submit', () => {
     const back: BackAction = { label: 'Indietro', type: 'button', onClick: noop }
     const forward: ForwardAction = { label: 'Avanti', type: 'submit' }
     const component = renderer.create(

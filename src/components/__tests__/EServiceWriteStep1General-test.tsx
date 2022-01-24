@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import { render, screen } from '@testing-library/react'
 import { EServiceWriteStep1General } from '../EServiceWriteStep1General'
-import { EServiceReadType } from '../../../types'
 import { eservicePublished } from '../../__mocks__/e-service'
 
 describe('Rendering tests', () => {

@@ -3,14 +3,14 @@ import renderer from 'react-test-renderer'
 import noop from 'lodash/noop'
 import { ActionMenu } from '../ActionMenu'
 
-describe('Snapshot test', () => {
-  it('renders null with no actions', () => {
+describe('Snapshot', () => {
+  it('matches button (1)', () => {
     const component = renderer.create(<ActionMenu index={0} actions={[]}></ActionMenu>)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 
-  it('renders button', () => {
+  it('matches button (2)', () => {
     const actions = [{ onClick: noop, label: 'Azione 1' }]
     const component = renderer.create(<ActionMenu index={0} actions={actions}></ActionMenu>)
     const tree = component.toJSON()
@@ -21,7 +21,7 @@ describe('Snapshot test', () => {
   // and react-test-renderer not being able to handle them. The workarounds suggested
   // in this issue (https://github.com/facebook/react/issues/11565) don't work with MUI,
   // as it uses Portals internally, so they cannot be mocked from the outside
-  // it('renders list', async () => {
+  // it('matches action list', async () => {
   //   const actions = [{ onClick: noop, label: 'Azione 1' }]
 
   //   const component = renderer.create(
