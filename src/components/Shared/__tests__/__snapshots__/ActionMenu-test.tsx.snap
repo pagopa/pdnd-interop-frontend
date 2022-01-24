@@ -1,6 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Snapshot test renders button 1`] = `
+exports[`Snapshot matches button (1) 1`] = `null`;
+
+exports[`Snapshot matches button (2) 1`] = `
 <button
   aria-controls="basic-menu-0"
   aria-haspopup="true"
@@ -38,5 +40,3 @@ exports[`Snapshot test renders button 1`] = `
   </span>
 </button>
 `;
-
-exports[`Snapshot test renders null with no actions 1`] = `null`;

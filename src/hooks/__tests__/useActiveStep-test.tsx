@@ -1,7 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Router, BrowserRouter } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 import { useActiveStep } from '../useActiveStep'
 import { AllTheProviders } from '../../__mocks__/providers'
@@ -24,9 +23,9 @@ function TestComponent() {
 describe('Active step navigation', () => {
   it('Updates step index correctly on click actions', () => {
     render(
-      <BrowserRouter>
+      <AllTheProviders>
         <TestComponent />
-      </BrowserRouter>
+      </AllTheProviders>
     )
     expect(screen.getByText('Step: 0')).toBeInTheDocument()
 

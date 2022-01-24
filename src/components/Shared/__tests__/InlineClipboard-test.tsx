@@ -6,38 +6,36 @@ import { render, screen, waitFor, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { AllTheProviders } from '../../../__mocks__/providers'
 
-describe('Snapshot test', () => {
-  it('renders', () => {
+describe('Snapshot', () => {
+  it('matches', () => {
     const component = renderer.create(<InlineClipboard text="This is my text to copy" />)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 })
 
-describe('Unit test', () => {
-  it('shows feedback after successful copy', async () => {
-    Object.assign(navigator, {
-      clipboard: { writeText: noop },
-      permissions: { query: async () => Promise.resolve({ permission: { state: 'granted' } }) },
-    })
-    jest.spyOn(navigator.clipboard, 'writeText')
-    jest.spyOn(navigator.permissions, 'query')
+it('Shows feedback after successful copy', async () => {
+  Object.assign(navigator, {
+    clipboard: { writeText: noop },
+    permissions: { query: async () => Promise.resolve({ permission: { state: 'granted' } }) },
+  })
+  jest.spyOn(navigator.clipboard, 'writeText')
+  jest.spyOn(navigator.permissions, 'query')
 
-    const textToCopy = 'This is my text to copy'
+  const textToCopy = 'This is my text to copy'
 
-    act(() => {
-      render(
-        <AllTheProviders>
-          <InlineClipboard text={textToCopy} />
-        </AllTheProviders>
-      )
-    })
-    expect(screen.getByText(textToCopy)).toBeInTheDocument()
+  act(() => {
+    render(
+      <AllTheProviders>
+        <InlineClipboard text={textToCopy} />
+      </AllTheProviders>
+    )
+  })
+  expect(screen.getByText(textToCopy)).toBeInTheDocument()
 
-    userEvent.click(screen.getByText(textToCopy))
+  userEvent.click(screen.getByText(textToCopy))
 
-    waitFor(() => {
-      expect(screen.getByText('Messaggio copiato correttamente')).toBeInTheDocument()
-    })
+  waitFor(() => {
+    expect(screen.getByText('Messaggio copiato correttamente')).toBeInTheDocument()
   })
 })

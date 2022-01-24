@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot matches 1`] = `
+<a
+  href="#0"
+  title="Contatta l’assistenza"
+>
+  contatta l’assistenza
+</a>
+`;
