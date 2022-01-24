@@ -113,7 +113,6 @@ export function ClientList() {
         <TableWithLoader
           loadingText={loadingText}
           headData={headData}
-          pagination={true}
           data={data}
           noDataLabel="Non ci sono client disponibili"
           error={error}
