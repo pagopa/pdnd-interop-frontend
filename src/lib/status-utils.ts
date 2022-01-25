@@ -1,30 +1,30 @@
-import { AgreementStatus, AgreementSummary, Client, ProviderOrSubscriber } from '../../types'
-import { COMPUTED_STATUS_LABEL } from '../config/labels'
+import { AgreementState, AgreementSummary, Client, ProviderOrSubscriber } from '../../types'
+import { COMPUTED_STATE_LABEL } from '../config/labels'
 
-export function getClientComputedStatus(item: Client): keyof typeof COMPUTED_STATUS_LABEL {
+export function getClientComputedState(item: Client): keyof typeof COMPUTED_STATE_LABEL {
   if (
-    (item.agreement.descriptor.status === 'published' ||
-      item.agreement.descriptor.status === 'deprecated') &&
-    item.agreement.status === 'active' &&
-    item.status === 'active'
+    (item.agreement.descriptor.state === 'PUBLISHED' ||
+      item.agreement.descriptor.state === 'DEPRECATED') &&
+    item.agreement.state === 'ACTIVE' &&
+    item.state === 'ACTIVE'
   ) {
-    return 'active'
+    return 'ACTIVE'
   }
 
-  return 'inactive'
+  return 'INACTIVE'
 }
 
-export function getAgreementStatus(
+export function getAgreementState(
   item: AgreementSummary,
   mode: ProviderOrSubscriber | null
-): AgreementStatus {
-  if (item.status !== 'suspended') {
-    return item.status
+): AgreementState {
+  if (item.state !== 'SUSPENDED') {
+    return item.state
   }
 
   if (mode === 'provider') {
-    return !!item.suspendedByProducer ? 'suspended' : 'active'
+    return !!item.suspendedByProducer ? 'SUSPENDED' : 'ACTIVE'
   }
 
-  return !!item.suspendedBySubscriber ? 'suspended' : 'active'
+  return !!item.suspendedBySubscriber ? 'SUSPENDED' : 'ACTIVE'
 }

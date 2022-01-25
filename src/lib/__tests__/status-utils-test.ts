@@ -1,243 +1,61 @@
-import { AgreementSummary, Client, ProviderOrSubscriber } from '../../../types'
-import { getAgreementStatus, getClientComputedStatus } from '../status-utils'
+import { ProviderOrSubscriber } from '../../../types'
+import {
+  agreementActiveEservicePublished,
+  agreementSuspendedByProducerEservicePublished,
+  agreementSuspendedBySubscriberEservicePublished,
+} from '../../__mocks__/agreement'
+import {
+  clientActiveAgreementActiveEserviceDeprecated,
+  clientActiveAgreementActiveEservicePublished,
+  clientActiveAgreementActiveEserviceSuspended,
+  clientActiveAgreementSuspendedEservicePublished,
+  clientSuspendedAgreementActiveEservicePublished,
+} from '../../__mocks__/client'
+import { getAgreementState, getClientComputedState } from '../status-utils'
 
-describe('Client status', () => {
-  it('It is active', () => {
-    const client: Client = {
-      id: 'dsfsdjf-sdfjsdfj-sdfjdsf',
-      name: 'dipendenti del comune',
-      description: 'il client dei dipendenti del mio comune',
-      status: 'active',
-      agreement: {
-        id: 'sjfaisds-sdfjsaodfj-sfajd',
-        status: 'active',
-        descriptor: {
-          id: 'djfiosj-dfjdsofj-dfjsdf',
-          status: 'published',
-          version: '5',
-        },
-      },
-      eservice: {
-        id: 'dsnodsi-sdfdsljf-sdjfodsjf',
-        name: 'anagrafe comune di roma',
-        provider: {
-          institutionId: 'abc_fd_df',
-          description: 'Comune di Roma',
-        },
-      },
-      purposes: 'accesso pieno',
-    }
-    const computedStatus = getClientComputedStatus(client)
-    expect(computedStatus).toBe('active')
+describe('Client state', () => {
+  it('is active', () => {
+    const computedState = getClientComputedState(clientActiveAgreementActiveEservicePublished)
+    expect(computedState).toBe('ACTIVE')
   })
 
-  it('It is active – even if e-service version is deprecated', () => {
-    const client: Client = {
-      id: 'dsfsdjf-sdfjsdfj-sdfjdsf',
-      name: 'dipendenti del comune',
-      description: 'il client dei dipendenti del mio comune',
-      status: 'active',
-      agreement: {
-        id: 'sjfaisds-sdfjsaodfj-sfajd',
-        status: 'active',
-        descriptor: {
-          id: 'djfiosj-dfjdsofj-dfjsdf',
-          status: 'deprecated',
-          version: '5',
-        },
-      },
-      eservice: {
-        id: 'dsnodsi-sdfdsljf-sdjfodsjf',
-        name: 'anagrafe comune di roma',
-        provider: {
-          institutionId: 'abc_fd_df',
-          description: 'Comune di Roma',
-        },
-        activeDescriptor: {
-          id: 'sdjfsdjf-djfsdj-sdjfdsj',
-          status: 'published',
-          version: '7',
-        },
-      },
-      purposes: 'accesso pieno',
-    }
-    const computedStatus = getClientComputedStatus(client)
-    expect(computedStatus).toBe('active')
+  it('is active – even if e-service version is deprecated', () => {
+    const computedState = getClientComputedState(clientActiveAgreementActiveEserviceDeprecated)
+    expect(computedState).toBe('ACTIVE')
   })
 
-  it('It is inactive – client suspended', () => {
-    const client: Client = {
-      id: 'dsfsdjf-sdfjsdfj-sdfjdsf',
-      name: 'dipendenti del comune',
-      description: 'il client dei dipendenti del mio comune',
-      status: 'suspended',
-      agreement: {
-        id: 'sjfaisds-sdfjsaodfj-sfajd',
-        status: 'active',
-        descriptor: {
-          id: 'djfiosj-dfjdsofj-dfjsdf',
-          status: 'published',
-          version: '5',
-        },
-      },
-      eservice: {
-        id: 'dsnodsi-sdfdsljf-sdjfodsjf',
-        name: 'anagrafe comune di roma',
-        provider: {
-          institutionId: 'abc_fd_df',
-          description: 'Comune di Roma',
-        },
-      },
-      purposes: 'accesso pieno',
-    }
-    const computedStatus = getClientComputedStatus(client)
-    expect(computedStatus).toBe('inactive')
+  it('is inactive – client suspended', () => {
+    const computedState = getClientComputedState(clientSuspendedAgreementActiveEservicePublished)
+    expect(computedState).toBe('INACTIVE')
   })
 
-  it('It is inactive – agreement suspended', () => {
-    const client: Client = {
-      id: 'dsfsdjf-sdfjsdfj-sdfjdsf',
-      name: 'dipendenti del comune',
-      description: 'il client dei dipendenti del mio comune',
-      status: 'active',
-      agreement: {
-        id: 'sjfaisds-sdfjsaodfj-sfajd',
-        status: 'suspended',
-        descriptor: {
-          id: 'djfiosj-dfjdsofj-dfjsdf',
-          status: 'published',
-          version: '5',
-        },
-      },
-      eservice: {
-        id: 'dsnodsi-sdfdsljf-sdjfodsjf',
-        name: 'anagrafe comune di roma',
-        provider: {
-          institutionId: 'abc_fd_df',
-          description: 'Comune di Roma',
-        },
-      },
-      purposes: 'accesso pieno',
-    }
-    const computedStatus = getClientComputedStatus(client)
-    expect(computedStatus).toBe('inactive')
+  it('is inactive – agreement suspended', () => {
+    const computedState = getClientComputedState(clientActiveAgreementSuspendedEservicePublished)
+    expect(computedState).toBe('INACTIVE')
   })
 
-  it('It is inactive – e-service version suspended', () => {
-    const client: Client = {
-      id: 'dsfsdjf-sdfjsdfj-sdfjdsf',
-      name: 'dipendenti del comune',
-      description: 'il client dei dipendenti del mio comune',
-      status: 'active',
-      agreement: {
-        id: 'sjfaisds-sdfjsaodfj-sfajd',
-        status: 'active',
-        descriptor: {
-          id: 'djfiosj-dfjdsofj-dfjsdf',
-          status: 'suspended',
-          version: '5',
-        },
-      },
-      eservice: {
-        id: 'dsnodsi-sdfdsljf-sdjfodsjf',
-        name: 'anagrafe comune di roma',
-        provider: {
-          institutionId: 'abc_fd_df',
-          description: 'Comune di Roma',
-        },
-      },
-      purposes: 'accesso pieno',
-    }
-    const computedStatus = getClientComputedStatus(client)
-    expect(computedStatus).toBe('inactive')
+  it('is inactive – e-service version suspended', () => {
+    const computedState = getClientComputedState(clientActiveAgreementActiveEserviceSuspended)
+    expect(computedState).toBe('INACTIVE')
   })
 })
 
-describe('Agreement status', () => {
-  it('Provider/subscriber view: it is active', () => {
-    const agreementSummary: AgreementSummary = {
-      id: 'dsfjds-jojoi-jdsfds',
-      status: 'active',
-      eservice: {
-        name: 'Riscossione TARI',
-        id: 'osdijf-dsjfdisj-jsdfdsj',
-        descriptorId: 'lskdfok-jisjdfs-djdsjfn',
-        version: '4',
-        status: 'published',
-      },
-      eserviceDescriptorId: 'dnsoifn-dsfjdsiof-dsjfsd',
-      consumer: {
-        name: 'Comune di Milano',
-        id: 'afd_dss_cds',
-      },
-      producer: {
-        name: 'Comune di Bologna',
-        id: 'lds_kji_dsj',
-      },
-      attributes: [],
-      suspendedByProducer: false,
-      suspendedBySubscriber: false,
-    }
+describe('Agreement state', () => {
+  it('is active', () => {
     const mode = null
-    const status = getAgreementStatus(agreementSummary, mode)
-    expect(status).toBe('active')
+    const status = getAgreementState(agreementActiveEservicePublished, mode)
+    expect(status).toBe('ACTIVE')
   })
 
-  it('Provider view: it is suspended by producer', () => {
-    const agreementSummary: AgreementSummary = {
-      id: 'dsfjds-jojoi-jdsfds',
-      status: 'suspended',
-      eservice: {
-        name: 'Riscossione TARI',
-        id: 'osdijf-dsjfdisj-jsdfdsj',
-        descriptorId: 'lskdfok-jisjdfs-djdsjfn',
-        version: '4',
-        status: 'published',
-      },
-      eserviceDescriptorId: 'dnsoifn-dsfjdsiof-dsjfsd',
-      consumer: {
-        name: 'Comune di Milano',
-        id: 'afd_dss_cds',
-      },
-      producer: {
-        name: 'Comune di Bologna',
-        id: 'lds_kji_dsj',
-      },
-      attributes: [],
-      suspendedByProducer: true,
-      suspendedBySubscriber: false,
-    }
+  it('is suspended by producer', () => {
     const mode: ProviderOrSubscriber = 'provider'
-    const status = getAgreementStatus(agreementSummary, mode)
-    expect(status).toBe('suspended')
+    const status = getAgreementState(agreementSuspendedByProducerEservicePublished, mode)
+    expect(status).toBe('SUSPENDED')
   })
 
-  it('Subscriber view: it is suspended by subscriber', () => {
-    const agreementSummary: AgreementSummary = {
-      id: 'dsfjds-jojoi-jdsfds',
-      status: 'suspended',
-      eservice: {
-        name: 'Riscossione TARI',
-        id: 'osdijf-dsjfdisj-jsdfdsj',
-        descriptorId: 'lskdfok-jisjdfs-djdsjfn',
-        version: '4',
-        status: 'published',
-      },
-      eserviceDescriptorId: 'dnsoifn-dsfjdsiof-dsjfsd',
-      consumer: {
-        name: 'Comune di Milano',
-        id: 'afd_dss_cds',
-      },
-      producer: {
-        name: 'Comune di Bologna',
-        id: 'lds_kji_dsj',
-      },
-      attributes: [],
-      suspendedByProducer: false,
-      suspendedBySubscriber: true,
-    }
+  it('is suspended by subscriber', () => {
     const mode: ProviderOrSubscriber = 'subscriber'
-    const status = getAgreementStatus(agreementSummary, mode)
-    expect(status).toBe('suspended')
+    const status = getAgreementState(agreementSuspendedBySubscriberEservicePublished, mode)
+    expect(status).toBe('SUSPENDED')
   })
 })

@@ -1,13 +1,13 @@
 import { createContext } from 'react'
 import noop from 'lodash/noop'
-import { DialogProps, Party, ToastProps, User } from '../../types'
+import { DialogProps, Party, ToastProps } from '../../types'
 
-type UserContextType = {
-  user: User | null
-  setUser: React.Dispatch<React.SetStateAction<User | null>>
+type TokenContextType = {
+  token: string | null
+  setToken: React.Dispatch<React.SetStateAction<string | null>>
 }
 
-export const UserContext = createContext({ user: null, setUser: noop } as UserContextType)
+export const TokenContext = createContext({ token: null, setToken: noop } as TokenContextType)
 
 type PartyContextType = {
   party: Party | null

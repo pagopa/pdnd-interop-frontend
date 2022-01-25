@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot matches 1`] = `
+<svg
+  aria-hidden={true}
+  aria-label="This is my message"
+  aria-labelledby={null}
+  className="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-kpimro-MuiSvgIcon-root"
+  data-mui-internal-clone-element={true}
+  data-testid="InfoIcon"
+  focusable="false"
+  onBlur={[Function]}
+  onFocus={[Function]}
+  onMouseLeave={[Function]}
+  onMouseOver={[Function]}
+  onTouchEnd={[Function]}
+  onTouchStart={[Function]}
+  viewBox="0 0 24 24"
+>
+  <path
+    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
+  />
+</svg>
+`;

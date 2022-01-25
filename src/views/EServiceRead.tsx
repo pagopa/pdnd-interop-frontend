@@ -29,7 +29,7 @@ import { StyledLink } from '../components/Shared/StyledLink'
 import { Skeleton, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { FileDownloadOutlined as FileDownloadOutlinedIcon } from '@mui/icons-material'
-import { ATTRIBUTE_TYPE_PLURAL_LABEL, ESERVICE_STATUS_LABEL } from '../config/labels'
+import { ATTRIBUTE_TYPE_PLURAL_LABEL, ESERVICE_STATE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
 import { Contained } from '../components/Shared/Contained'
 
@@ -88,7 +88,7 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
 
   const canSubscribeEservice = canSubscribe(party.attributes, data.attributes.certified)
   const isMine = data.producer.id === party?.partyId
-  const isVersionPublished = data.activeDescriptor?.status === 'published'
+  const isVersionPublished = data.activeDescriptor?.state === 'PUBLISHED'
 
   const toAccordionEntries = (attributes: Array<BackendAttribute>) => {
     return attributes.map((attribute) => {
@@ -132,6 +132,7 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
     const flatEService: EServiceFlatReadType = {
       name: data.name,
       id: data.id,
+      descriptorId: data.activeDescriptor?.id,
       producerId: data.producer.id,
       producerName: data.producer.name,
       certifiedAttributes: data.attributes.certified,
@@ -161,7 +162,7 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
       </DescriptionBlock>
 
       <DescriptionBlock label="Stato della versione">
-        <Typography component="span">{ESERVICE_STATUS_LABEL[activeDescriptor.status]}</Typography>
+        <Typography component="span">{ESERVICE_STATE_LABEL[activeDescriptor.state]}</Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Audience">
@@ -172,19 +173,13 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
         <Typography component="span">{data.technology}</Typography>
       </DescriptionBlock>
 
-      <DescriptionBlock label="PoP (Proof of Possession)">
-        <Typography component="span" className="fakeData">
-          Non richiesta
-        </Typography>
-      </DescriptionBlock>
-
       <DescriptionBlock label="Durata del voucher dall'attivazione">
         <Typography component="span">
           {minutesToHHMMSS(activeDescriptor.voucherLifespan)} (hh:mm:ss)
         </Typography>
       </DescriptionBlock>
 
-      <DescriptionBlock label="Accordo di interoperabilità">
+      <DescriptionBlock label="Richiesta di fruizione">
         <a className="fakeData" href="#0" target="_blank">
           Scarica
         </a>

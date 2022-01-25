@@ -6,14 +6,14 @@ import {
   decorateRouteWithParents,
   getBits,
   getLastBit,
-  isInPlatform,
+  isProtectedRoute,
   isParentRoute,
   isProviderOrSubscriber,
   isSamePath,
 } from '../router-utils'
 
-describe('Test if location belongs to route tree', () => {
-  it('Current location belongs to route tree (aka has an ancestor in that route)', () => {
+describe('Location belongs to route tree', () => {
+  it('belongs to route tree (aka has an ancestor in that route)', () => {
     const location = {
       pathname: '/erogazione/e-service/crea',
       search: '',
@@ -34,7 +34,7 @@ describe('Test if location belongs to route tree', () => {
     expect(belongsToTree(location, route)).toBeTruthy()
   })
 
-  it("Current location doesn't belongs to route tree", () => {
+  it("doesn't belongs to route tree", () => {
     const location = {
       pathname: '/erogazione/e-service/crea',
       search: '',
@@ -56,12 +56,12 @@ describe('Test if location belongs to route tree', () => {
   })
 })
 
-describe('Test path matching', () => {
-  it('Is same path - static path', () => {
+describe('Path matches', () => {
+  it('matches - static path', () => {
     expect(isSamePath('/erogazione/e-service/crea', '/erogazione/e-service/crea')).toBeTruthy()
   })
 
-  it('Is same path - dynamic path', () => {
+  it('matches - dynamic path', () => {
     expect(
       isSamePath(
         '/fruizione/client/dksfdskf-sdfksdfk-sdfksdf/operatori/ABCDEF44R33E333W',
@@ -70,7 +70,7 @@ describe('Test path matching', () => {
     ).toBeTruthy()
   })
 
-  it('It is not same path - ancestor', () => {
+  it("doesn't match - ancestor", () => {
     expect(
       isSamePath(
         '/fruizione/client/dksfdskf-sdfksdfk-sdfksdf/operatori/ABCDEF44R33E333W',
@@ -79,7 +79,7 @@ describe('Test path matching', () => {
     ).toBeFalsy()
   })
 
-  it('It is not same path - different roots', () => {
+  it("doesn't match - different roots", () => {
     expect(
       isSamePath(
         '/fruizione/client/dksfdskf-sdfksdfk-sdfksdf',
@@ -89,34 +89,32 @@ describe('Test path matching', () => {
   })
 })
 
-describe('Test if route descends from another route', () => {
-  it('It does', () => {
-    const possibleParentRoute: RouteConfig = {
-      PATH: '/erogazione',
-      LABEL: 'Erogazione',
-      EXACT: true,
-      REDIRECT: '/erogazione/e-service',
-      COMPONENT: () => null,
-      PUBLIC: false,
-      AUTH_LEVELS: ['admin', 'api'],
-      SPLIT_PATH: ['erogazione'],
-    }
-    const currentRoute: RouteConfig = {
-      PATH: '/erogazione/e-service',
-      EXACT: true,
-      LABEL: 'I tuoi e-service',
-      COMPONENT: () => null,
-      PUBLIC: false,
-      AUTH_LEVELS: ['admin', 'api'],
-      SPLIT_PATH: ['erogazione', 'e-service'],
-    }
+describe('Route descends from another route', () => {
+  const possibleParentRoute: RouteConfig = {
+    PATH: '/erogazione',
+    LABEL: 'Erogazione',
+    EXACT: true,
+    REDIRECT: '/erogazione/e-service',
+    COMPONENT: () => null,
+    PUBLIC: false,
+    AUTH_LEVELS: ['admin', 'api'],
+    SPLIT_PATH: ['erogazione'],
+  }
+  const currentRoute: RouteConfig = {
+    PATH: '/erogazione/e-service',
+    EXACT: true,
+    LABEL: 'I tuoi e-service',
+    COMPONENT: () => null,
+    PUBLIC: false,
+    AUTH_LEVELS: ['admin', 'api'],
+    SPLIT_PATH: ['erogazione', 'e-service'],
+  }
 
-    expect(isParentRoute(possibleParentRoute, currentRoute)).toBeTruthy()
-  })
+  expect(isParentRoute(possibleParentRoute, currentRoute)).toBeTruthy()
 })
 
-describe('Test if route falls under the provider or subscriber view', () => {
-  it('It is a provider view', () => {
+describe('Route falls under the provider or subscriber view', () => {
+  it('is a provider view', () => {
     const location = {
       pathname: '/erogazione/e-service/crea',
       search: '',
@@ -126,7 +124,7 @@ describe('Test if route falls under the provider or subscriber view', () => {
     expect(isProviderOrSubscriber(location)).toBe('provider')
   })
 
-  it('It is a subscriber view', () => {
+  it('is a subscriber view', () => {
     const location = {
       pathname: '/fruizione/client/djsfidsj-dsjfdsij-sdfjsd',
       search: '',
@@ -136,7 +134,7 @@ describe('Test if route falls under the provider or subscriber view', () => {
     expect(isProviderOrSubscriber(location)).toBe('subscriber')
   })
 
-  it('It is neither', () => {
+  it('is neither', () => {
     const location = {
       pathname: '/notifiche',
       search: '',
@@ -147,30 +145,30 @@ describe('Test if route falls under the provider or subscriber view', () => {
   })
 })
 
-describe('Test protected routes', () => {
-  it('It is in platform', () => {
+describe('Route guard', () => {
+  it('is protected', () => {
     const location = {
       pathname: '/erogazione/e-service/crea',
       search: '',
       state: {},
       hash: 'djsf-dsfjs-dsfj',
     }
-    expect(isInPlatform(location)).toBeTruthy()
+    expect(isProtectedRoute(location)).toBeTruthy()
   })
 
-  it('It is not in platform', () => {
+  it('is not protected', () => {
     const location = {
-      pathname: '/guida-ipa',
+      pathname: '/aiuto',
       search: '',
       state: {},
       hash: 'djsf-dsfjs-dsfj',
     }
-    expect(isInPlatform(location)).toBeFalsy()
+    expect(isProtectedRoute(location)).toBeFalsy()
   })
 })
 
-describe('Test path splitting', () => {
-  it('It is split correctly', () => {
+describe('Location path splitting', () => {
+  it('is split correctly', () => {
     const location = {
       pathname: '/erogazione/e-service/crea',
       search: '',
@@ -180,7 +178,7 @@ describe('Test path splitting', () => {
     expect(getBits(location)).toEqual(['erogazione', 'e-service', 'crea'])
   })
 
-  it('It returns last url bit correctly', () => {
+  it('returns last url bit correctly', () => {
     const location = {
       pathname: '/fruizione/client/sdfjs-dsfjsdik-werwer',
       search: '',
@@ -191,8 +189,8 @@ describe('Test path splitting', () => {
   })
 })
 
-describe('Test building dynamic routes and paths', () => {
-  it('It creates dynamic path from parameters', () => {
+describe('Dynamic routes and paths building', () => {
+  it('creates dynamic path from parameters', () => {
     const eserviceId = 'ewjfiw-sdfjsdiz-nifs'
     const descriptorId = 'weorjw-uuioew-weirjwe'
 
@@ -204,7 +202,7 @@ describe('Test building dynamic routes and paths', () => {
     ).toBe(`/erogazione/e-service/${eserviceId}/${descriptorId}`)
   })
 
-  it('It creates dynamic route from parameters', () => {
+  it('creates dynamic route from parameters', () => {
     const eserviceId = 'ewjfiw-sdfjsdiz-nifs'
     const descriptorId = 'weorjw-uuioew-weirjwe'
 
@@ -226,58 +224,56 @@ describe('Test building dynamic routes and paths', () => {
   })
 })
 
-describe('Test decorating route with parent routes', () => {
-  it('It creates parent tree correctly', () => {
-    const routes: Record<string, RouteConfig> = {
-      PROVIDE_ESERVICE_CREATE: {
-        PATH: '/erogazione/e-service/crea',
-        EXACT: true,
-        LABEL: 'Crea e-service',
-        COMPONENT: () => null,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin', 'api'],
-        SPLIT_PATH: ['erogazione', 'e-service', 'crea'],
-      },
-      PROVIDE_ESERVICE_EDIT: {
-        PATH: '/erogazione/e-service/:eserviceId/:descriptorId',
-        EXACT: false,
-        LABEL: 'Gestisci o visualizza e-service',
-        COMPONENT: () => null,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin', 'api'],
-        SPLIT_PATH: ['erogazione', 'e-service', ':eserviceId', ':descriptorId'],
-      },
-      PROVIDE_ESERVICE_LIST: {
-        PATH: '/erogazione/e-service',
-        EXACT: true,
-        LABEL: 'I tuoi e-service',
-        COMPONENT: () => null,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin', 'api'],
-        SPLIT_PATH: ['erogazione', 'e-service'],
-      },
-      PROVIDE: {
-        PATH: '/erogazione',
-        LABEL: 'Erogazione',
-        EXACT: true,
-        REDIRECT: '/erogazione/e-service',
-        COMPONENT: () => null,
-        PUBLIC: false,
-        AUTH_LEVELS: ['admin', 'api'],
-        SPLIT_PATH: ['erogazione'],
-      },
-    }
+describe('Decorate route with parent routes creates parent tree correctly', () => {
+  const routes: Record<string, RouteConfig> = {
+    PROVIDE_ESERVICE_CREATE: {
+      PATH: '/erogazione/e-service/crea',
+      EXACT: true,
+      LABEL: 'Crea e-service',
+      COMPONENT: () => null,
+      PUBLIC: false,
+      AUTH_LEVELS: ['admin', 'api'],
+      SPLIT_PATH: ['erogazione', 'e-service', 'crea'],
+    },
+    PROVIDE_ESERVICE_EDIT: {
+      PATH: '/erogazione/e-service/:eserviceId/:descriptorId',
+      EXACT: false,
+      LABEL: 'Gestisci o visualizza e-service',
+      COMPONENT: () => null,
+      PUBLIC: false,
+      AUTH_LEVELS: ['admin', 'api'],
+      SPLIT_PATH: ['erogazione', 'e-service', ':eserviceId', ':descriptorId'],
+    },
+    PROVIDE_ESERVICE_LIST: {
+      PATH: '/erogazione/e-service',
+      EXACT: true,
+      LABEL: 'I tuoi e-service',
+      COMPONENT: () => null,
+      PUBLIC: false,
+      AUTH_LEVELS: ['admin', 'api'],
+      SPLIT_PATH: ['erogazione', 'e-service'],
+    },
+    PROVIDE: {
+      PATH: '/erogazione',
+      LABEL: 'Erogazione',
+      EXACT: true,
+      REDIRECT: '/erogazione/e-service',
+      COMPONENT: () => null,
+      PUBLIC: false,
+      AUTH_LEVELS: ['admin', 'api'],
+      SPLIT_PATH: ['erogazione'],
+    },
+  }
 
-    const decorated = decorateRouteWithParents(routes)
+  const decorated = decorateRouteWithParents(routes)
 
-    expect(decorated.PROVIDE.PARENTS?.length).toBe(0)
-    expect(decorated.PROVIDE_ESERVICE_LIST.PARENTS?.length).toBe(1)
-    expect(decorated.PROVIDE_ESERVICE_CREATE.PARENTS?.length).toBe(2)
-    expect(decorated.PROVIDE_ESERVICE_EDIT.PARENTS?.length).toBe(2)
+  expect(decorated.PROVIDE.PARENTS?.length).toBe(0)
+  expect(decorated.PROVIDE_ESERVICE_LIST.PARENTS?.length).toBe(1)
+  expect(decorated.PROVIDE_ESERVICE_CREATE.PARENTS?.length).toBe(2)
+  expect(decorated.PROVIDE_ESERVICE_EDIT.PARENTS?.length).toBe(2)
 
-    expect(decorated.PROVIDE_ESERVICE_EDIT.PARENTS?.[0].PATH).toBe(decorated.PROVIDE.PATH)
-    expect(decorated.PROVIDE_ESERVICE_EDIT.PARENTS?.[1].PATH).toBe(
-      decorated.PROVIDE_ESERVICE_LIST.PATH
-    )
-  })
+  expect(decorated.PROVIDE_ESERVICE_EDIT.PARENTS?.[0].PATH).toBe(decorated.PROVIDE.PATH)
+  expect(decorated.PROVIDE_ESERVICE_EDIT.PARENTS?.[1].PATH).toBe(
+    decorated.PROVIDE_ESERVICE_LIST.PATH
+  )
 })

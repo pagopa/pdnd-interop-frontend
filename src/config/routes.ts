@@ -8,30 +8,18 @@ import { AgreementList } from '../views/AgreementList'
 import { EServiceCatalog } from '../views/EServiceCatalog'
 import { EServiceList } from '../views/EServiceList'
 import { Help } from '../views/Help'
-import { Login } from '../views/Login'
 import { Logout } from '../views/Logout'
 import { Notifications } from '../views/Notifications'
-import { Onboarding } from '../views/Onboarding'
-import { CompleteRegistration } from '../views/CompleteRegistration'
-import { RejectRegistration } from '../views/RejectRegistration'
 import { Profile } from '../views/Profile'
 import { UserEdit } from '../views/UserEdit'
 import { UserList } from '../views/UserList'
 import { EServiceGate } from '../views/EServiceGate'
 import { UserCreate } from '../views/UserCreate'
-import { TempSPIDUser } from '../components/TempSPIDUser'
 import { ClientCreate } from '../views/ClientCreate'
-import { IPAGuide } from '../views/IPAGuide'
 import { SecurityKeyGuide } from '../views/SecurityKeyGuide'
 import { EmptyComponent } from '../components/Shared/EmptyComponent'
 
 const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
-  LOGIN: {
-    PATH: '/login',
-    LABEL: 'Login',
-    COMPONENT: Login,
-    PUBLIC: true,
-  },
   LOGOUT: {
     PATH: '/logout',
     LABEL: 'Logout',
@@ -44,24 +32,11 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     COMPONENT: Help,
     PUBLIC: true,
   },
-  IPA_GUIDE: {
-    PATH: '/guida-ipa',
-    LABEL: 'Accreditarsi su IPA',
-    COMPONENT: IPAGuide,
-    PUBLIC: true,
-  },
   SECURITY_KEY_GUIDE: {
     PATH: '/generazione-chiavi',
     LABEL: 'Come caricare le chiavi di sicurezza',
     COMPONENT: SecurityKeyGuide,
     PUBLIC: true,
-  },
-  TEMP_SPID_USER: {
-    PATH: '/temp-spid',
-    LABEL: 'Genera utente SPID di test',
-    COMPONENT: TempSPIDUser,
-    PUBLIC: true,
-    AUTH_LEVELS: 'any',
   },
   CHOOSE_PARTY: {
     PATH: '/scelta',
@@ -69,26 +44,6 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     COMPONENT: ChooseParty,
     PUBLIC: false,
     AUTH_LEVELS: 'any',
-  },
-  ONBOARDING: {
-    PATH: '/onboarding',
-    LABEL: 'Onboarding',
-    EXACT: true,
-    COMPONENT: Onboarding,
-    PUBLIC: false,
-    AUTH_LEVELS: 'any',
-  },
-  REGISTRATION_FINALIZE_COMPLETE: {
-    PATH: '/conferma-registrazione',
-    LABEL: 'Completa la procedura di onboarding',
-    COMPONENT: CompleteRegistration,
-    PUBLIC: true,
-  },
-  REGISTRATION_FINALIZE_REJECT: {
-    PATH: '/cancella-registrazione',
-    LABEL: 'Cancella la procedura di onboarding',
-    COMPONENT: RejectRegistration,
-    PUBLIC: true,
   },
   PROFILE: {
     PATH: '/profilo',

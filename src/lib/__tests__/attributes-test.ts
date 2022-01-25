@@ -177,7 +177,7 @@ const exampleFrontendAttributes: FrontendAttributes = {
 }
 
 describe('Attributes mapping', () => {
-  it('Map backend attributes to frontend', () => {
+  it('maps backend attributes to frontend correctly', () => {
     const backendAttributes: BackendAttributes = { ...exampleBackendAttributes }
     const frontendAttributes = remapBackendAttributesToFrontend(backendAttributes)
 
@@ -188,7 +188,7 @@ describe('Attributes mapping', () => {
     expect(frontendAttributes.declared.length).toBe(2)
   })
 
-  it('Map frontend attributes to backend', () => {
+  it('maps frontend attributes to backend correctly', () => {
     const frontendAttributes: FrontendAttributes = { ...exampleFrontendAttributes }
     const backendAttributes = remapFrontendAttributesToBackend(frontendAttributes)
 
@@ -202,24 +202,20 @@ describe('Attributes mapping', () => {
   })
 })
 
-describe('Attributes checks', () => {
-  it('Subscriber possesses required certified attributes to subscribe to e-service', () => {
-    const getIds = (attribute: BackendAttribute) => {
-      if (has(attribute, 'single')) {
-        return [(attribute as SingleBackendAttribute).single.id]
-      }
-
-      return (attribute as GroupBackendAttribute).group.map((a) => a.id)
+it('Subscriber possesses required certified attributes to subscribe to e-service', () => {
+  const getIds = (attribute: BackendAttribute) => {
+    if (has(attribute, 'single')) {
+      return [(attribute as SingleBackendAttribute).single.id]
     }
 
-    const partyAttributes: Array<string> = flattenDeep(
-      exampleBackendAttributes.certified.map(getIds)
-    )
-    const eserviceAttributes: Array<BackendAttribute> = [...exampleBackendAttributes.certified]
+    return (attribute as GroupBackendAttribute).group.map((a) => a.id)
+  }
 
-    expect(canSubscribe(partyAttributes, eserviceAttributes)).toBeTruthy()
+  const partyAttributes: Array<string> = flattenDeep(exampleBackendAttributes.certified.map(getIds))
+  const eserviceAttributes: Array<BackendAttribute> = [...exampleBackendAttributes.certified]
 
-    partyAttributes.pop()
-    expect(canSubscribe(partyAttributes, eserviceAttributes)).toBeFalsy()
-  })
+  expect(canSubscribe(partyAttributes, eserviceAttributes)).toBeTruthy()
+
+  partyAttributes.pop()
+  expect(canSubscribe(partyAttributes, eserviceAttributes)).toBeFalsy()
 })

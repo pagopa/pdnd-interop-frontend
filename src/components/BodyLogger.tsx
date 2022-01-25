@@ -1,14 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DialogProps, ToastContentWithOutcome, ToastProps } from '../../types'
 import { useLocation } from 'react-router-dom'
 import isEmpty from 'lodash/isEmpty'
-import {
-  DialogContext,
-  LoaderContext,
-  TableActionMenuContext,
-  ToastContext,
-  UserContext,
-} from '../lib/context'
+import { DialogContext, LoaderContext, TableActionMenuContext, ToastContext } from '../lib/context'
 import { logAction } from '../lib/action-log'
 import { Header } from './Header'
 import { Main } from './Main'
@@ -19,11 +13,10 @@ import { LoadingOverlay } from './Shared/LoadingOverlay'
 import { MainNav } from './MainNav'
 import { Layout } from './Shared/Layout'
 import { Box } from '@mui/system'
-import { isInPlatform } from '../lib/router-utils'
+import { showPlatformTwoColumnsLayout } from '../lib/router-utils'
 import { MEDIUM_MAX_WIDTH } from '../lib/constants'
 
 export function BodyLogger() {
-  const { user } = useContext(UserContext)
   const [toast, setToast] = useState<ToastProps | null>(null)
   const [dialog, setDialog] = useState<DialogProps | null>(null)
   const [loadingText, setLoadingText] = useState<string | null>(null)
@@ -65,11 +58,11 @@ export function BodyLogger() {
         <DialogContext.Provider value={{ dialog, setDialog }}>
           <LoaderContext.Provider value={{ loadingText, setLoadingText }}>
             <Header />
-            {isInPlatform(location) ? (
+            {showPlatformTwoColumnsLayout(location) ? (
               <Box sx={{ flexGrow: 1 }} bgcolor="#F5F6F7">
                 <Layout sx={{ height: '100%' }}>
                   <Box sx={{ display: 'flex', height: '100%' }}>
-                    {user && <MainNav />}
+                    <MainNav />
                     <Box sx={{ py: 10, pl: 4, flexGrow: 1 }}>
                       <Main />
                     </Box>
