@@ -4,8 +4,7 @@ import { Paper } from '@mui/material'
 import { EServiceReadType, StepperStep } from '../../types'
 import { EServiceWriteStep1General } from '../components/EServiceWriteStep1General'
 import { EServiceWriteStep2Version } from '../components/EServiceWriteStep2Version'
-import { EServiceWriteStep3Agreement } from '../components/EServiceWriteStep3Agreement'
-import { EServiceWriteStep4Documents } from '../components/EServiceWriteStep4Documents'
+import { EServiceWriteStep3Documents } from '../components/EServiceWriteStep3Documents'
 import { StyledStepper } from '../components/Shared/StyledStepper'
 import { StyledIntro, StyledIntroChildrenProps } from '../components/Shared/StyledIntro'
 import { Contained } from '../components/Shared/Contained'
@@ -26,34 +25,21 @@ const STEPS: Array<StepperStep & { intro: StyledIntroChildrenProps }> = [
     intro: { title: 'Crea e-service: informazioni di versione' },
   },
   {
-    label: 'Accordo',
-    component: EServiceWriteStep3Agreement,
-    intro: {
-      title: 'Crea e-service: accordo di interoperabilità*',
-      description: 'Seleziona il template di accordo che intendi proporre al fruitore',
-    },
-  },
-  {
     label: 'Documentazione',
-    component: EServiceWriteStep4Documents,
+    component: EServiceWriteStep3Documents,
     intro: { title: 'Crea e-service: documentazione' },
   },
 ]
 
 export type EServiceWriteProps = {
-  fetchedDataMaybe?: EServiceReadType
+  fetchedData?: EServiceReadType
   back: VoidFunction
   forward: VoidFunction
   activeStep: number
 }
 
-export type EServiceWriteStepProps = {
-  fetchedData: EServiceReadType
-}
-
-export function EServiceWrite({ fetchedDataMaybe, back, forward, activeStep }: EServiceWriteProps) {
-  const fetchedData = fetchedDataMaybe as EServiceReadType
-  const stepProps = { forward, back, fetchedData, fetchedDataMaybe }
+export function EServiceWrite({ fetchedData, back, forward, activeStep }: EServiceWriteProps) {
+  const stepProps = { forward, back, fetchedData }
   const { component: Step, intro } = STEPS[activeStep]
 
   return (

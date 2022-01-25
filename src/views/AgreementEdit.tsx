@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { useLocation } from 'react-router-dom'
 import has from 'lodash/has'
 import {
-  AgreementStatus,
+  AgreementState,
   AgreementSummary,
   SingleBackendAttribute,
   GroupBackendAttribute,
@@ -11,7 +11,7 @@ import {
   ProviderOrSubscriber,
 } from '../../types'
 import { ROUTES } from '../config/routes'
-import { AGREEMENT_STATUS_LABEL } from '../config/labels'
+import { AGREEMENT_STATE_LABEL } from '../config/labels'
 import { buildDynamicPath, getLastBit } from '../lib/router-utils'
 import { formatDate, getRandomDate } from '../lib/date-utils'
 import { mergeActions } from '../lib/eservice-utils'
@@ -20,13 +20,12 @@ import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { PartyContext } from '../lib/context'
-import { getAgreementStatus } from '../lib/status-utils'
+import { getAgreementState } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { Box } from '@mui/system'
 import { Typography } from '@mui/material'
-import { CheckCircle as CheckCircleIcon } from '@mui/icons-material'
 import { Contained } from '../components/Shared/Contained'
 import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 
@@ -109,7 +108,7 @@ export function AgreementEdit() {
    * End list of actions
    */
 
-  type AgreementActions = Record<AgreementStatus, Array<ActionProps>>
+  type AgreementActions = Record<AgreementState, Array<ActionProps>>
   // Build list of available actions for each agreement in its current state
   const getAvailableActions = () => {
     if (!data) {
@@ -117,32 +116,32 @@ export function AgreementEdit() {
     }
 
     const sharedActions: AgreementActions = {
-      active: [
+      ACTIVE: [
         {
           onClick: wrapActionInDialog(suspend, 'AGREEMENT_SUSPEND'),
           label: 'Sospendi',
         },
       ],
-      suspended: [
+      SUSPENDED: [
         {
           onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'),
           label: 'Riattiva',
         },
       ],
-      pending: [],
-      inactive: [],
+      PENDING: [],
+      INACTIVE: [],
     }
 
     const providerOnlyActions: AgreementActions = {
-      active: [],
-      pending: [
+      ACTIVE: [],
+      SUSPENDED: [{ onClick: wrapActionInDialog(archive), label: 'Archivia', isMock: true }],
+      PENDING: [
         {
           onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'),
           label: 'Attiva',
         },
       ],
-      suspended: [{ onClick: wrapActionInDialog(archive), label: 'Archivia', isMock: true }],
-      inactive: [],
+      INACTIVE: [],
     }
 
     const subscriberOnlyActionsActive: Array<ActionProps> = []
@@ -157,10 +156,10 @@ export function AgreementEdit() {
     }
 
     const subscriberOnlyActions: AgreementActions = {
-      active: subscriberOnlyActionsActive,
-      suspended: [],
-      pending: [],
-      inactive: [],
+      ACTIVE: subscriberOnlyActionsActive,
+      SUSPENDED: [],
+      PENDING: [],
+      INACTIVE: [],
     }
 
     const currentMode = mode as ProviderOrSubscriber
@@ -168,7 +167,7 @@ export function AgreementEdit() {
       currentMode
     ]
 
-    const status = data ? getAgreementStatus(data, mode) : 'suspended'
+    const status = data ? getAgreementState(data, mode) : 'SUSPENDED'
 
     return mergeActions<AgreementActions>([currentActions, sharedActions], status)
   }
@@ -177,12 +176,26 @@ export function AgreementEdit() {
     name,
     verified,
     id,
+    explicitAttributeVerification,
   }: {
     name?: string | undefined
     verified: boolean | null
     id: string
+    explicitAttributeVerification: boolean
   }) => {
     const randomDate = getRandomDate(new Date(2022, 0, 1), new Date(2023, 0, 1))
+
+    const computeLabel = () => {
+      if (!explicitAttributeVerification) {
+        return 'verificato, nuova verifica non richiesta'
+      }
+
+      if (verified === null || typeof verified === 'undefined') {
+        return 'in attesa di verifica'
+      }
+
+      return verified ? 'verificato' : 'rifiutato'
+    }
 
     return (
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -193,21 +206,19 @@ export function AgreementEdit() {
           </Typography>
         </Typography>
 
-        {typeof verified === 'boolean' ? (
-          verified ? (
-            <Box sx={{ display: 'flex', alignItems: 'center', my: 1, color: 'primary.main' }}>
-              <CheckCircleIcon sx={{ mr: 1 }} fontSize="small" color="primary" />
-              <Typography component="span">verificato</Typography>
-            </Box>
-          ) : (
-            <Typography component="span">rifiutato dall’erogatore</Typography>
-          )
-        ) : mode === 'provider' ? (
-          <StyledButton variant="contained" onClick={wrapVerify(id)}>
-            Verifica
-          </StyledButton>
-        ) : (
-          <Typography component="span">in attesa di verifica</Typography>
+        {/* display */}
+        <Typography component="span">{computeLabel()}</Typography>
+
+        {/* actions */}
+        {mode === 'provider' && explicitAttributeVerification && (
+          <Box sx={{ display: 'flex' }}>
+            <StyledButton variant="contained" onClick={wrapVerify(id)}>
+              Verifica
+            </StyledButton>
+            {/* <StyledButton variant="contained" onClick={wrapRefuse(id)}>
+              Rifiuta
+            </StyledButton> */}
+          </Box>
         )}
       </Box>
     )
@@ -233,7 +244,7 @@ export function AgreementEdit() {
         >
           {data?.eservice.name}, versione {data?.eservice.version}
         </StyledLink>
-        {mode === 'subscriber' && data?.eservice.activeDescriptor && data?.status !== 'inactive' ? (
+        {mode === 'subscriber' && data?.eservice.activeDescriptor && data?.state !== 'INACTIVE' ? (
           <React.Fragment>
             {' '}
             (è disponibile una{' '}
@@ -251,18 +262,18 @@ export function AgreementEdit() {
       </DescriptionBlock>
 
       <DescriptionBlock label="Stato dell'accordo" tooltipLabel={agreementSuspendExplanation}>
-        {data?.status === 'suspended' ? (
+        {data?.state === 'SUSPENDED' ? (
           <React.Fragment>
             <Typography component="span">
-              Lato erogatore: {AGREEMENT_STATUS_LABEL[getAgreementStatus(data, 'provider')]}
+              Lato erogatore: {AGREEMENT_STATE_LABEL[getAgreementState(data, 'provider')]}
             </Typography>
             <br />
             <Typography component="span">
-              Lato fruitore: {AGREEMENT_STATUS_LABEL[getAgreementStatus(data, 'subscriber')]}
+              Lato fruitore: {AGREEMENT_STATE_LABEL[getAgreementState(data, 'subscriber')]}
             </Typography>
           </React.Fragment>
         ) : (
-          <Typography component="span">{AGREEMENT_STATUS_LABEL[data?.status]}</Typography>
+          <Typography component="span">{AGREEMENT_STATE_LABEL[data?.state]}</Typography>
         )}
       </DescriptionBlock>
 

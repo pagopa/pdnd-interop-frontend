@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import { render, screen } from '@testing-library/react'
 import { EServiceWriteStep1General } from '../EServiceWriteStep1General'
-import { EServiceReadType } from '../../../types'
+import { eservicePublished } from '../../__mocks__/e-service'
 
 describe('Rendering tests', () => {
   it('Renders without crashing', () => {
@@ -44,10 +44,6 @@ describe('Rendering tests', () => {
     expect(screen.getByLabelText('REST')).toBeInTheDocument()
     expect(screen.getByLabelText('SOAP')).toBeInTheDocument()
 
-    expect(
-      screen.getByRole('checkbox', { name: 'Proof of Possession (richiesto)' })
-    ).toBeInTheDocument()
-
     expect(screen.getByRole('heading', { name: 'Attributi' })).toBeInTheDocument()
 
     expect(screen.getByRole('button', { name: 'Salva bozza e prosegui' })).toBeInTheDocument()
@@ -57,35 +53,6 @@ describe('Rendering tests', () => {
     const back = jest.fn()
     const forward = jest.fn()
     const data = {}
-    const fetchedDataMaybe: EServiceReadType = {
-      producer: {
-        id: 'djofsi-sdfjdsi-djsfs',
-        name: 'Comune di Bologna',
-      },
-      name: 'Nome e-service',
-      description: 'Descrizione e-service',
-      technology: 'REST',
-      id: 'sdjof-sdfjdspof-dsfdsjf',
-      status: 'published',
-      descriptors: [],
-      attributes: {
-        verified: [],
-        declared: [],
-        certified: [
-          {
-            single: {
-              id: 'dsdsld-dsdlds-lsdasdas',
-              explicitAttributeVerification: false,
-              verified: false,
-              origin: 'dfkdsfk',
-              code: 'dfjdso',
-              name: 'Attributo 1',
-              description: 'Descrizione attributo 1',
-            },
-          },
-        ],
-      },
-    }
 
     render(
       <BrowserRouter>
@@ -94,7 +61,7 @@ describe('Rendering tests', () => {
           back={back}
           data={data}
           activeStep={0}
-          fetchedDataMaybe={fetchedDataMaybe}
+          fetchedData={eservicePublished}
         />
       </BrowserRouter>
     )

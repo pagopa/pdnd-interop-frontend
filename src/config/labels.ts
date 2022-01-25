@@ -1,9 +1,9 @@
-export const ESERVICE_STATUS_LABEL = {
-  published: 'Attivo',
-  draft: 'In bozza',
-  suspended: 'Sospeso',
-  archived: 'Archiviato',
-  deprecated: 'Deprecato',
+export const ESERVICE_STATE_LABEL = {
+  PUBLISHED: 'Attivo',
+  DRAFT: 'In bozza',
+  SUSPENDED: 'Sospeso',
+  ARCHIVED: 'Archiviato',
+  DEPRECATED: 'Deprecato',
 }
 
 export const ATTRIBUTE_TYPE_PLURAL_LABEL = {
@@ -18,33 +18,33 @@ export const ATTRIBUTE_TYPE_SINGULAR_LABEL = {
   declared: 'dichiarato',
 }
 
-export const AGREEMENT_STATUS_LABEL = {
-  active: 'Attivo',
-  suspended: 'Sospeso',
-  pending: 'In attesa di approvazione',
-  inactive: 'Archiviato',
+export const AGREEMENT_STATE_LABEL = {
+  ACTIVE: 'Attivo',
+  SUSPENDED: 'Sospeso',
+  PENDING: 'In attesa di approvazione',
+  INACTIVE: 'Archiviato',
 }
 
-export const CLIENT_STATUS_LABEL = {
-  active: 'Attivo',
-  suspended: 'Sospeso',
+export const CLIENT_STATE_LABEL = {
+  ACTIVE: 'Attivo',
+  SUSPENDED: 'Sospeso',
 }
 
-export const COMPUTED_STATUS_LABEL = {
-  active: 'Attivo',
-  inactive: 'Non attivo',
+export const COMPUTED_STATE_LABEL = {
+  ACTIVE: 'Attivo',
+  INACTIVE: 'Non attivo',
 }
 
-export const USER_STATUS_LABEL = {
-  pending: 'In attesa di approvazione',
-  active: 'Attivo',
-  suspended: 'Sospeso',
+export const USER_STATE_LABEL = {
+  PENDING: 'In attesa di approvazione',
+  ACTIVE: 'Attivo',
+  SUSPENDED: 'Sospeso',
 }
 
 export const USER_ROLE_LABEL = {
-  Manager: 'Amministratore',
-  Delegate: 'Delegato',
-  Operator: 'Operatore',
+  MANAGER: 'Amministratore',
+  DELEGATE: 'Delegato',
+  OPERATOR: 'Operatore',
 }
 
 export const USER_PLATFORM_ROLE_LABEL = {

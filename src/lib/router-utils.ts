@@ -69,18 +69,17 @@ export function isProviderOrSubscriber(location: Location<unknown>): ProviderOrS
   return null
 }
 
-function includesAny(stringToTest: string, match: Array<string>) {
-  return match.some((m) => stringToTest.includes(m))
+export function isProtectedRoute(location: Location<unknown>) {
+  const whitelist = Object.values(ROUTES).filter((r) => r.PUBLIC)
+  const isWhitelistedPage = whitelist.map((r) => r.PATH).includes(location.pathname)
+  return !isWhitelistedPage
 }
 
-export function isInPlatform(location: Location<unknown>) {
-  return includesAny(location.pathname, [
-    ROUTES.PROVIDE.PATH,
-    ROUTES.SUBSCRIBE.PATH,
-    ROUTES.PROFILE.PATH,
-    ROUTES.NOTIFICATION.PATH,
-    ROUTES.HELP.PATH,
-  ])
+// Here consider the CHOOSE_PARTY route kind of like a public route, layout-wise.
+// Until a Party is chosen, the user will not see the left side menu
+// and will be in a transition state between out of the platform and into it
+export function showPlatformTwoColumnsLayout(location: Location<unknown>) {
+  return isProtectedRoute(location) && location.pathname !== ROUTES.CHOOSE_PARTY.PATH
 }
 
 export function getBits(location: Location<unknown>): Array<string> {

@@ -2,21 +2,22 @@ import { AxiosResponse } from 'axios'
 import { useContext } from 'react'
 import { Party } from '../../types'
 import { fetchAllWithLogs, fetchWithLogs } from '../lib/api-utils'
-import { LoaderContext, PartyContext } from '../lib/context'
-import { isFetchError } from '../lib/error-utils'
+import { LoaderContext, PartyContext, TokenContext } from '../lib/context'
 import { storageRead } from '../lib/storage-utils'
 
 export const useParties = () => {
   const { setLoadingText } = useContext(LoaderContext)
   const { setAvailableParties, setParty } = useContext(PartyContext)
+  const { token } = useContext(TokenContext)
 
   const setPartiesInContext = async (data: Array<Party>) => {
     // Store them in a variable
     let parties = [...data]
+
     // Fetch all the partyIds (this can be optimized)
     const partyIdsResponses = await fetchAllWithLogs(
       parties.map(({ institutionId }) => ({
-        path: { endpoint: 'PARTY_GET_PARTY_ID', endpointParams: { institutionId } },
+        path: { endpoint: 'PARTY_GET_PARTY_ID', endpointParams: { id: institutionId } },
       }))
     )
 
@@ -28,7 +29,7 @@ export const useParties = () => {
 
       return {
         ...party,
-        partyId: currentParty?.data.partyId,
+        partyId: currentParty?.data.id,
         attributes: currentParty?.data.attributes,
       }
     })
@@ -37,39 +38,28 @@ export const useParties = () => {
     setAvailableParties(parties)
   }
 
-  const fetchAndSetAvailableParties = async (taxCode: string) => {
+  const fetchAndSetAvailableParties = async () => {
     setLoadingText('Stiamo associando la tua utenza ai tuoi enti')
 
-    // Get all available parties related to the user
+    // // Get all available parties related to the user
     const availablePartiesResponse = await fetchWithLogs({
-      path: {
-        endpoint: 'ONBOARDING_GET_AVAILABLE_PARTIES',
-        endpointParams: { taxCode },
-      },
+      path: { endpoint: 'ONBOARDING_GET_AVAILABLE_PARTIES' },
     })
 
-    const hasInstitutions = !isFetchError(availablePartiesResponse)
+    // TODO: handle actual error, such as invalid token. Make it global
 
-    // If user already has institutions subscribed
-    if (hasInstitutions) {
-      // Set parties
-      const { data } = availablePartiesResponse as AxiosResponse
-      await setPartiesInContext(data.institutions)
-    }
+    const { data } = availablePartiesResponse as AxiosResponse
+    await setPartiesInContext(data.institutions)
 
     // Stop the loader
     setLoadingText(null)
 
-    // Return the outcome (true for ok, false for ko)
-    return hasInstitutions
+    return true
   }
 
   const fetchAvailablePartiesAttempt = async () => {
-    const sessionStorageUser = storageRead('user', 'object')
-    if (sessionStorageUser && sessionStorageUser.taxCode) {
-      const hasFetchedAndSetAvailableParties = await fetchAndSetAvailableParties(
-        sessionStorageUser.taxCode
-      )
+    if (token) {
+      const hasFetchedAndSetAvailableParties = await fetchAndSetAvailableParties()
       return hasFetchedAndSetAvailableParties
     }
 

@@ -1,12 +1,12 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Router, BrowserRouter } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 import { useActiveStep } from '../useActiveStep'
+import { AllTheProviders } from '../../__mocks__/providers'
 
 function TestComponent() {
-  const { activeStep, back, forward } = useActiveStep({})
+  const { activeStep, back, forward } = useActiveStep()
   return (
     <div>
       <button onClick={back} id="back">
@@ -23,9 +23,9 @@ function TestComponent() {
 describe('Active step navigation', () => {
   it('Updates step index correctly on click actions', () => {
     render(
-      <BrowserRouter>
+      <AllTheProviders>
         <TestComponent />
-      </BrowserRouter>
+      </AllTheProviders>
     )
     expect(screen.getByText('Step: 0')).toBeInTheDocument()
 
@@ -40,9 +40,9 @@ describe('Active step navigation', () => {
     const history = createMemoryHistory()
     history.push('/not-relevant', { stepIndexDestination: 3 })
     render(
-      <Router history={history}>
+      <AllTheProviders defaultHistory={history}>
         <TestComponent />
-      </Router>
+      </AllTheProviders>
     )
 
     expect(screen.getByText('Step: 3')).toBeInTheDocument()

@@ -1,17 +1,64 @@
 import React, { FunctionComponent } from 'react'
 import { AxiosError, AxiosRequestConfig, AxiosResponse, Method } from 'axios'
-import { API } from './src/config/api-endpoints'
 import {
-  AGREEMENT_STATUS_LABEL,
-  CLIENT_STATUS_LABEL,
-  ESERVICE_STATUS_LABEL,
+  AGREEMENT_STATE_LABEL,
+  CLIENT_STATE_LABEL,
+  ESERVICE_STATE_LABEL,
 } from './src/config/labels'
 import { Control, FieldValues, UseFormGetValues, UseFormWatch } from 'react-hook-form'
 
 /*
  * Fetch data and router related types
  */
-export type ApiEndpointKey = keyof typeof API
+// export type ApiEndpointKey = keyof typeof API
+export type ApiEndpointKey =
+  | 'ONBOARDING_GET_AVAILABLE_PARTIES'
+  | 'PARTY_GET_PARTY_ID'
+  | 'ESERVICE_GET_LIST'
+  | 'ESERVICE_GET_LIST_FLAT'
+  | 'ESERVICE_GET_SINGLE'
+  | 'ESERVICE_DRAFT_CREATE'
+  | 'ESERVICE_DRAFT_UPDATE'
+  | 'ESERVICE_DRAFT_DELETE'
+  | 'ESERVICE_CLONE_FROM_VERSION'
+  | 'ESERVICE_VERSION_DRAFT_CREATE'
+  | 'ESERVICE_VERSION_DRAFT_UPDATE'
+  | 'ESERVICE_VERSION_DRAFT_PUBLISH'
+  | 'ESERVICE_VERSION_SUSPEND'
+  | 'ESERVICE_VERSION_REACTIVATE'
+  | 'ESERVICE_VERSION_DRAFT_DELETE'
+  | 'ESERVICE_VERSION_DRAFT_POST_DOCUMENT'
+  | 'ESERVICE_VERSION_DRAFT_DELETE_DOCUMENT'
+  | 'ESERVICE_VERSION_DRAFT_UPDATE_DOCUMENT_DESCRIPTION'
+  | 'ESERVICE_VERSION_DOWNLOAD_DOCUMENT'
+  | 'ATTRIBUTES_GET_LIST'
+  | 'ATTRIBUTE_CREATE'
+  | 'AGREEMENT_CREATE'
+  | 'AGREEMENT_GET_LIST'
+  | 'AGREEMENT_GET_SINGLE'
+  | 'AGREEMENT_VERIFY_ATTRIBUTE'
+  | 'AGREEMENT_ACTIVATE'
+  | 'AGREEMENT_SUSPEND'
+  | 'AGREEMENT_UPGRADE'
+  | 'CLIENT_GET_LIST'
+  | 'CLIENT_GET_SINGLE'
+  | 'CLIENT_CREATE'
+  | 'CLIENT_SUSPEND'
+  | 'CLIENT_ACTIVATE'
+  | 'OPERATOR_API_CREATE'
+  | 'OPERATOR_SECURITY_CREATE'
+  | 'JOIN_OPERATOR_WITH_CLIENT'
+  | 'OPERATOR_API_GET_LIST'
+  | 'OPERATOR_API_GET_SINGLE'
+  | 'OPERATOR_SECURITY_GET_LIST'
+  | 'OPERATOR_SECURITY_GET_SINGLE'
+  | 'OPERATOR_SECURITY_KEYS_GET_LIST'
+  | 'OPERATOR_SECURITY_KEYS_POST'
+  | 'OPERATOR_SECURITY_KEY_DOWNLOAD'
+  | 'OPERATOR_SECURITY_KEY_DELETE'
+  | 'USER_SUSPEND'
+  | 'USER_REACTIVATE'
+  | 'USER_GET'
 
 export type ApiEndpointContent = {
   URL: string
@@ -28,7 +75,7 @@ export type RequestConfig = {
   config?: AxiosRequestConfig
 }
 
-export type RouteAuthLevel = 'any' | Array<UserPlatformRole>
+export type RouteAuthLevel = 'any' | Array<UserProductRole>
 
 export type BasicRouteConfig = {
   PATH: string
@@ -85,25 +132,48 @@ export type IPACatalogParty = {
 }
 
 /*
- * Platform user and party
+ * Product user and party
  */
-// TEMP BACKEND: this weird typing is due to the discrepancies between two data models in the backend
-export type UserStatus = 'pending' | 'active' | 'suspended'
-export type UserRole = 'Manager' | 'Delegate' | 'Operator'
-export type UserPlatformRole = 'admin' | 'security' | 'api'
+export type UserState = 'PENDING' | 'ACTIVE' | 'SUSPENDED'
+export type UserRole = 'MANAGER' | 'DELEGATE' | 'OPERATOR'
+export type UserProductRole = 'admin' | 'security' | 'api'
+
+type UserContract = {
+  version: string
+  path: string
+}
 
 export type UserOnCreate = {
   name: string
   surname: string
-  taxCode: string // This should not be optional, it is temporarily because of the "from" below
-  from?: string // This is temporary, part of the API shared with self-care
+  taxCode: string
   email: string
   role: UserRole
-  platformRole: UserPlatformRole
+  product: UserProduct
+  productRole: UserProductRole
+  contract: UserContract
 }
 
-export type User = UserOnCreate & {
-  status: UserStatus
+export type UserProduct = {
+  createdAt: string // actually should be Date
+  id: 'interop'
+  role: UserProductRole
+}
+
+export type JwtUser = {
+  id: string // the relationshipId between the user and the current institution
+  name: string
+  surname: string
+  email: string
+}
+
+export type User = JwtUser & {
+  createdAt: string // actually should be Date
+  updatedAt: string // actually should be Date
+  from: string // the external uid of the user
+  state: UserState
+  role: UserRole
+  product: UserProduct
 }
 
 export type PartyOnCreate = {
@@ -113,25 +183,25 @@ export type PartyOnCreate = {
 }
 
 export type Party = PartyOnCreate & {
-  status: UserStatus
-  role: UserRole
-  platformRole: UserPlatformRole
   partyId?: string
+  role: UserRole
+  state: UserState
   attributes: Array<string>
+  productInfo: UserProduct
 }
 
 /*
  * EService
  */
-export type EServiceStatus = keyof typeof ESERVICE_STATUS_LABEL
-export type EServiceStatusLabel = Record<EServiceStatus, string>
+export type EServiceState = keyof typeof ESERVICE_STATE_LABEL
+export type EServiceStateLabel = Record<EServiceState, string>
 
 // EServices are subdivided into their write and read type
 // The write is for when data is POSTed to the backend
 // The read, when data is returned from the backend
 
 // Some types are shared between the two
-export type EServiceDocumentKind = 'interface' | 'document'
+export type EServiceDocumentKind = 'INTERFACE' | 'DOCUMENT'
 export type EServiceTechnologyType = 'REST' | 'SOAP'
 
 // Making this as explicit as possible. It might be that there is an eserviceId,
@@ -145,7 +215,7 @@ export type EServiceWriteType = {
   id: string
   name: string
   version: string
-  status: EServiceStatus
+  state: EServiceState
   descriptors: Array<EServiceDescriptorWrite>
 }
 
@@ -157,7 +227,7 @@ export type EServiceDocumentWrite = {
 
 export type EServiceDescriptorWrite = {
   id: string
-  status: EServiceStatus
+  state: EServiceState
   docs: Array<EServiceDocumentWrite>
   interface: EServiceDocumentWrite
   version: string
@@ -168,7 +238,7 @@ export type EServiceCreateDataType = {
   name: string
   description: string
   technology: EServiceTechnologyType
-  pop: boolean
+  // pop: boolean
 }
 
 // Read only
@@ -178,7 +248,7 @@ export type EServiceFlatReadType = {
   producerId: string
   producerName: string
   descriptorId?: string
-  status?: EServiceStatus
+  state?: EServiceState
   version?: string
   callerSubscribed?: string
   certifiedAttributes: Array<BackendAttribute>
@@ -201,14 +271,14 @@ export type EServiceReadType = {
   technology: EServiceTechnologyType
   attributes: BackendAttributes
   id: string
-  status: EServiceStatus
+  state: EServiceState
   descriptors: Array<EServiceDescriptorRead>
-  activeDescriptor?: EServiceDescriptorRead // TEMP Refactor : this is added by the client
+  activeDescriptor?: EServiceDescriptorRead // TEMP REFACTOR : this is added by the client
 }
 
 export type EServiceDescriptorRead = {
   id: string
-  status: EServiceStatus
+  state: EServiceState
   docs: Array<EServiceDocumentRead>
   interface: EServiceDocumentRead
   version: string
@@ -227,7 +297,7 @@ export type EServiceDocumentRead = {
 /*
  * Agreement
  */
-export type AgreementStatus = keyof typeof AGREEMENT_STATUS_LABEL
+export type AgreementState = keyof typeof AGREEMENT_STATE_LABEL
 
 export type AgreementVerifiableAttribute = {
   id: string
@@ -248,13 +318,13 @@ type AgreementEService = {
   id: string
   descriptorId: string
   version: string
-  status: EServiceStatus
+  state: EServiceState
   activeDescriptor?: AgreementEService
 }
 
 export type AgreementSummary = {
   id: string
-  status: AgreementStatus
+  state: AgreementState
   eservice: AgreementEService
   eserviceDescriptorId: string
   consumer: AgreementProducerAndConsumer
@@ -267,11 +337,11 @@ export type AgreementSummary = {
 /*
  * Client
  */
-export type ClientStatus = keyof typeof CLIENT_STATUS_LABEL
+export type ClientState = keyof typeof CLIENT_STATE_LABEL
 
 type ClientEServiceDescriptor = {
   id: string
-  status: EServiceStatus
+  state: EServiceState
   version: string
 }
 
@@ -287,7 +357,7 @@ type ClientEService = {
 
 type ClientAgreement = {
   id: string
-  status: AgreementStatus
+  state: AgreementState
   descriptor: ClientEServiceDescriptor
 }
 
@@ -300,7 +370,7 @@ export type Client = {
   id: string
   name: string
   description: string
-  status: ClientStatus
+  state: ClientState
   agreement: ClientAgreement
   eservice: ClientEService
   purposes: string
@@ -405,30 +475,38 @@ export type DialogContent = {
 
 export type DialogActionKeys = Exclude<
   ApiEndpointKey,
-  | 'AGREEMENT_VERIFY_ATTRIBUTE'
-  | 'AGREEMENT_CREATE'
   | 'ONBOARDING_GET_AVAILABLE_PARTIES'
-  | 'ONBOARDING_GET_SEARCH_PARTIES'
-  | 'ONBOARDING_POST_LEGALS'
-  | 'ONBOARDING_COMPLETE_REGISTRATION'
+  | 'PARTY_GET_PARTY_ID'
   | 'ESERVICE_GET_LIST'
   | 'ESERVICE_GET_LIST_FLAT'
   | 'ESERVICE_GET_SINGLE'
-  | 'OPERATOR_API_GET_LIST'
-  | 'OPERATOR_API_GET_SINGLE'
-  | 'OPERATOR_API_CREATE'
+  | 'ESERVICE_DRAFT_UPDATE'
+  | 'ESERVICE_VERSION_DRAFT_UPDATE'
+  | 'ESERVICE_VERSION_DRAFT_POST_DOCUMENT'
+  | 'ESERVICE_VERSION_DRAFT_DELETE_DOCUMENT'
+  | 'ESERVICE_VERSION_DRAFT_UPDATE_DOCUMENT_DESCRIPTION'
+  | 'ESERVICE_VERSION_DOWNLOAD_DOCUMENT'
   | 'ATTRIBUTES_GET_LIST'
   | 'ATTRIBUTE_CREATE'
-  | 'PARTY_GET_PARTY_ID'
+  | 'AGREEMENT_CREATE'
   | 'AGREEMENT_GET_LIST'
   | 'AGREEMENT_GET_SINGLE'
+  | 'AGREEMENT_VERIFY_ATTRIBUTE'
   | 'CLIENT_GET_LIST'
   | 'CLIENT_GET_SINGLE'
   | 'CLIENT_CREATE'
+  | 'OPERATOR_API_CREATE'
+  | 'OPERATOR_SECURITY_CREATE'
+  | 'JOIN_OPERATOR_WITH_CLIENT'
+  | 'OPERATOR_API_GET_LIST'
+  | 'OPERATOR_API_GET_SINGLE'
   | 'OPERATOR_SECURITY_GET_LIST'
   | 'OPERATOR_SECURITY_GET_SINGLE'
   | 'OPERATOR_SECURITY_CREATE'
-  | 'OPERATOR_SECURITY_KEYS_GET'
+  | 'OPERATOR_SECURITY_KEYS_GET_LIST'
+  | 'OPERATOR_SECURITY_KEYS_POST'
+  | 'OPERATOR_SECURITY_KEY_DOWNLOAD'
+  | 'USER_GET'
 >
 
 export type ToastContent = {
@@ -448,26 +526,19 @@ export type ToastProps = ToastContentWithOutcome & {
 export type ToastActionKeys = Exclude<
   ApiEndpointKey,
   | 'ONBOARDING_GET_AVAILABLE_PARTIES'
-  | 'ONBOARDING_GET_SEARCH_PARTIES'
-  | 'ONBOARDING_POST_LEGALS'
-  | 'ONBOARDING_COMPLETE_REGISTRATION'
+  | 'PARTY_GET_PARTY_ID'
   | 'ESERVICE_GET_SINGLE'
-  | 'ESERVICE_VERSION_UPDATE_DOCUMENT_DESCRIPTION'
   | 'ATTRIBUTES_GET_LIST'
   | 'AGREEMENT_GET_LIST'
   | 'AGREEMENT_GET_SINGLE'
-  | 'OPERATOR_API_GET_LIST'
-  | 'OPERATOR_API_GET_SINGLE'
-  | 'PARTY_GET_PARTY_ID'
   | 'CLIENT_GET_LIST'
   | 'CLIENT_GET_SINGLE'
+  | 'OPERATOR_API_GET_LIST'
+  | 'OPERATOR_API_GET_SINGLE'
   | 'OPERATOR_SECURITY_GET_LIST'
   | 'OPERATOR_SECURITY_GET_SINGLE'
-  | 'OPERATOR_SECURITY_CREATE'
-  | 'OPERATOR_SECURITY_KEYS_GET'
-  | 'OPERATOR_SECURITY_KEYS_POST'
-  | 'OPERATOR_SECURITY_KEY_DOWNLOAD'
-  | 'OPERATOR_SECURITY_KEY_DELETE'
+  | 'OPERATOR_SECURITY_KEYS_GET_LIST'
+  | 'USER_GET'
 >
 
 export type LoaderType = 'global' | 'contextual'

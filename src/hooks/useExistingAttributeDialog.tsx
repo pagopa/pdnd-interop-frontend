@@ -60,6 +60,7 @@ export const useExistingAttributeDialog = ({ add, attributeKey }: ExistingAttrib
             <Box sx={{ mt: 3 }}>
               <StyledInputControlledAsyncAutocomplete
                 label="Attributi selezionati"
+                sx={{ mt: 6, mb: 0 }}
                 multiple={true}
                 defaultValue={[]}
                 labelKey="name"

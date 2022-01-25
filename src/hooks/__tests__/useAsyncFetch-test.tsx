@@ -1,13 +1,13 @@
 import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
-import { useAsyncFetch } from '../useAsyncFetch'
-import { isEmpty } from 'lodash'
 import { act } from 'react-dom/test-utils'
 import axios from 'axios'
+import { isEmpty } from 'lodash'
+import { useAsyncFetch } from '../useAsyncFetch'
 import { EServiceReadType } from '../../../types'
 
 function TestComponent() {
-  const { data, loadingText, error } = useAsyncFetch<Partial<EServiceReadType>>(
+  const { data, loadingText, error } = useAsyncFetch<Array<Partial<EServiceReadType>>>(
     { path: { endpoint: 'ESERVICE_GET_LIST' } },
     { loadingTextLabel: 'Stiamo caricando i dati...', loaderType: 'contextual' }
   )
@@ -24,9 +24,9 @@ function TestComponent() {
     return <div>no data</div>
   }
 
-  const safeData = data as Partial<EServiceReadType>
+  const safeData = data as Array<Partial<EServiceReadType>>
 
-  return <div>{safeData.name}</div>
+  return <div>{safeData[0].name}</div>
 }
 
 it('useAsyncFetch hook updates correctly with error', async () => {
@@ -68,9 +68,7 @@ it('useAsyncFetch hook updates correctly with data', async () => {
 
   mockedAxios.request.mockImplementationOnce(() =>
     Promise.resolve({
-      data: {
-        name: 'Il mio e-service 1',
-      },
+      data: [{ name: 'Il mio e-service 1' }],
     })
   )
 

@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
-import { AGREEMENT_STATUS_LABEL } from '../config/labels'
+import { AGREEMENT_STATE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
 import { Box } from '@mui/system'
 import {
-  AgreementStatus,
+  AgreementState,
   AgreementSummary,
   ProviderOrSubscriber,
   ActionProps,
@@ -11,7 +11,7 @@ import {
 } from '../../types'
 import { PartyContext } from '../lib/context'
 import { mergeActions } from '../lib/eservice-utils'
-import { getAgreementStatus } from '../lib/status-utils'
+import { getAgreementState } from '../lib/status-utils'
 import { buildDynamicPath } from '../lib/router-utils'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
@@ -82,24 +82,24 @@ export function AgreementList() {
    * End list of actions
    */
 
-  type AgreementActions = Record<AgreementStatus, Array<ActionProps>>
+  type AgreementActions = Record<AgreementState, Array<ActionProps>>
   // Build list of available actions for each service in its current state
   const getAvailableActions = (agreement: AgreementSummary) => {
     const sharedActions: AgreementActions = {
-      active: [
+      ACTIVE: [
         {
           onClick: wrapActionInDialog(wrapSuspend(agreement.id), 'AGREEMENT_SUSPEND'),
           label: 'Sospendi',
         },
       ],
-      suspended: [
+      SUSPENDED: [
         {
           onClick: wrapActionInDialog(wrapActivate(agreement.id), 'AGREEMENT_ACTIVATE'),
           label: 'Riattiva',
         },
       ],
-      pending: [],
-      inactive: [],
+      PENDING: [],
+      INACTIVE: [],
     }
 
     const subscriberOnlyActionsActive: Array<ActionProps> = []
@@ -111,22 +111,22 @@ export function AgreementList() {
     }
 
     const subscriberOnlyActions: AgreementActions = {
-      active: subscriberOnlyActionsActive,
-      suspended: [],
-      pending: [],
-      inactive: [],
+      ACTIVE: subscriberOnlyActionsActive,
+      SUSPENDED: [],
+      PENDING: [],
+      INACTIVE: [],
     }
 
     const providerOnlyActions: AgreementActions = {
-      active: [],
-      suspended: [],
-      pending: [
+      ACTIVE: [],
+      SUSPENDED: [],
+      PENDING: [
         {
           onClick: wrapActionInDialog(wrapActivate(agreement.id), 'AGREEMENT_ACTIVATE'),
           label: 'Attiva',
         },
       ],
-      inactive: [],
+      INACTIVE: [],
     }
 
     const currentActions: AgreementActions = {
@@ -134,7 +134,7 @@ export function AgreementList() {
       subscriber: subscriberOnlyActions,
     }[currentMode]
 
-    const status = getAgreementStatus(agreement, mode)
+    const status = getAgreementState(agreement, mode)
 
     return mergeActions<AgreementActions>([currentActions, sharedActions], status)
   }
@@ -168,7 +168,6 @@ export function AgreementList() {
         <TableWithLoader
           loadingText={loadingText}
           headData={headData}
-          pagination={true}
           data={data}
           noDataLabel="Non ci sono accordi disponibili"
           error={error}
@@ -179,7 +178,7 @@ export function AgreementList() {
               cellData={[
                 { label: item.eservice.name },
                 { label: item.eservice.version },
-                { label: AGREEMENT_STATUS_LABEL[item.status] },
+                { label: AGREEMENT_STATE_LABEL[item.state] },
                 { label: mode === 'provider' ? item.consumer.name : item.producer.name },
               ]}
               index={i}

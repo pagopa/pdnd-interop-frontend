@@ -16,21 +16,21 @@ import { Box } from '@mui/system'
 
 type TableWithLoaderProps = {
   loadingText: string | null
-  headData: Array<string>
-  pagination?: boolean
-  data?: Array<unknown>
   noDataLabel?: string
   error?: AxiosError
+  headData: Array<string>
+  data?: Array<unknown>
+  // pagination?: boolean
 }
 
 export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
   loadingText,
-  headData,
-  children,
-  // pagination = false,
-  data,
   noDataLabel = 'Questa ricerca non ha prodotto risultati',
   error,
+  headData,
+  data,
+  // pagination = false,
+  children,
 }) => {
   if (error) {
     return (

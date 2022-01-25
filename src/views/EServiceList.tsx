@@ -5,7 +5,7 @@ import {
   ApiEndpointKey,
   EServiceDescriptorRead,
   EServiceFlatReadType,
-  EServiceStatus,
+  EServiceState,
   ActionProps,
 } from '../../types'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
@@ -18,7 +18,7 @@ import { buildDynamicPath } from '../lib/router-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Box } from '@mui/system'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
-import { ESERVICE_STATUS_LABEL } from '../config/labels'
+import { ESERVICE_STATE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
 
 export function EServiceList() {
@@ -46,7 +46,7 @@ export function EServiceList() {
     await runAction(
       {
         path: {
-          endpoint: 'ESERVICE_VERSION_PUBLISH',
+          endpoint: 'ESERVICE_VERSION_DRAFT_PUBLISH',
           endpointParams: { eserviceId, descriptorId },
         },
       },
@@ -55,11 +55,11 @@ export function EServiceList() {
   }
 
   const wrapDeleteDraft = (eserviceId: string, descriptorId?: string) => async () => {
-    let endpoint: ApiEndpointKey = 'ESERVICE_DELETE'
+    let endpoint: ApiEndpointKey = 'ESERVICE_DRAFT_DELETE'
     const endpointParams: Record<string, string> = { eserviceId }
 
     if (descriptorId) {
-      endpoint = 'ESERVICE_VERSION_DELETE'
+      endpoint = 'ESERVICE_VERSION_DRAFT_DELETE'
       endpointParams.descriptorId = descriptorId
     }
 
@@ -113,7 +113,7 @@ export function EServiceList() {
   const wrapCreateNewVersionDraft = (eserviceId: string) => async () => {
     const { outcome, response } = await runAction(
       {
-        path: { endpoint: 'ESERVICE_VERSION_CREATE', endpointParams: { eserviceId } },
+        path: { endpoint: 'ESERVICE_VERSION_DRAFT_CREATE', endpointParams: { eserviceId } },
         config: { data: { voucherLifespan: 0, audience: [], description: '' } },
       },
       { suppressToast: true }
@@ -135,10 +135,10 @@ export function EServiceList() {
    * End list of actions
    */
 
-  type EServiceAction = Record<EServiceStatus, Array<ActionProps | null>>
+  type EServiceAction = Record<EServiceState, Array<ActionProps | null>>
   // Build list of available actions for each service in its current state
   const getAvailableActions = (service: EServiceFlatReadType) => {
-    const { id: eserviceId, descriptorId, status } = service
+    const { id: eserviceId, descriptorId, state } = service
 
     const suspendAction = {
       onClick: wrapActionInDialog(
@@ -162,7 +162,10 @@ export function EServiceList() {
       label: 'Clona',
     }
     const createVersionDraftAction = {
-      onClick: wrapActionInDialog(wrapCreateNewVersionDraft(eserviceId), 'ESERVICE_VERSION_CREATE'),
+      onClick: wrapActionInDialog(
+        wrapCreateNewVersionDraft(eserviceId),
+        'ESERVICE_VERSION_DRAFT_CREATE'
+      ),
       label: 'Crea bozza nuova versione',
     }
     const archiveAction = {
@@ -173,28 +176,28 @@ export function EServiceList() {
     const publishDraftAction = {
       onClick: wrapActionInDialog(
         wrapPublishDraft(eserviceId, descriptorId),
-        'ESERVICE_VERSION_PUBLISH'
+        'ESERVICE_VERSION_DRAFT_PUBLISH'
       ),
       label: 'Pubblica',
     }
     const deleteDraftAction = {
       onClick: wrapActionInDialog(
         wrapDeleteDraft(eserviceId, descriptorId),
-        'ESERVICE_VERSION_DELETE'
+        'ESERVICE_VERSION_DRAFT_DELETE'
       ),
       label: 'Elimina',
     }
 
     const availableActions: EServiceAction = {
-      published: [suspendAction, cloneAction, createVersionDraftAction],
-      archived: [],
-      deprecated: [suspendAction, archiveAction],
-      draft: [descriptorId ? publishDraftAction : null, deleteDraftAction],
-      suspended: [reactivateAction, cloneAction, createVersionDraftAction],
+      PUBLISHED: [suspendAction, cloneAction, createVersionDraftAction],
+      ARCHIVED: [],
+      DEPRECATED: [suspendAction, archiveAction],
+      DRAFT: [descriptorId ? publishDraftAction : null, deleteDraftAction],
+      SUSPENDED: [reactivateAction, cloneAction, createVersionDraftAction],
     }
 
     // Return all the actions available for this particular status
-    return availableActions[status || 'draft'].filter((a) => a !== null) as Array<ActionProps>
+    return availableActions[state || 'DRAFT'].filter((a) => a !== null) as Array<ActionProps>
   }
 
   // Data for the table head
@@ -221,7 +224,6 @@ export function EServiceList() {
         <TableWithLoader
           loadingText={loadingText}
           headData={headData}
-          pagination={true}
           data={data}
           noDataLabel="Non ci sono servizi disponibili"
           error={error}
@@ -232,7 +234,7 @@ export function EServiceList() {
               cellData={[
                 { label: item.name },
                 { label: item.version || '1' },
-                { label: ESERVICE_STATUS_LABEL[item.status || 'draft'] },
+                { label: ESERVICE_STATE_LABEL[item.state || 'DRAFT'] },
               ]}
               index={i}
               singleActionBtn={{
@@ -240,7 +242,7 @@ export function EServiceList() {
                   eserviceId: item.id,
                   descriptorId: item.descriptorId || 'prima-bozza',
                 }),
-                label: !item.status || item.status === 'draft' ? 'Modifica' : 'Ispeziona',
+                label: !item.state || item.state === 'DRAFT' ? 'Modifica' : 'Ispeziona',
               }}
               actions={getAvailableActions(item)}
             />

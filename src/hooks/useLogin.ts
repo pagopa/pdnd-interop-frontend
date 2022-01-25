@@ -1,44 +1,48 @@
-import { useContext } from 'react'
-import isEmpty from 'lodash/isEmpty'
-import { UserContext } from '../lib/context'
 import { storageDelete, storageRead, storageWrite } from '../lib/storage-utils'
-import { User } from '../../types'
-import { testBearerToken } from '../lib/mock-static-data'
+import { STORAGE_KEY_TOKEN, USE_MOCK_SPID_USER } from '../lib/constants'
+import { useContext } from 'react'
+import { TokenContext } from '../lib/context'
+import { parseJwt } from '../lib/jwt-utils'
+import { fetchWithLogs } from '../lib/api-utils'
+import { isFetchError } from '../lib/error-utils'
 
 export const useLogin = () => {
-  const { setUser } = useContext(UserContext)
+  const { setToken } = useContext(TokenContext)
 
-  const doLogin = (userData: User) => {
-    // Set the user
-    setUser(userData)
-    // Fill the storage
-    storageWrite('user', userData, 'object')
-    storageWrite('bearer', testBearerToken, 'string')
-  }
+  const silentLoginAttempt = async (): Promise<boolean> => {
+    if (USE_MOCK_SPID_USER) {
+      storageWrite(STORAGE_KEY_TOKEN, process.env.REACT_APP_MOCK_TOKEN as string, 'string')
+    }
 
-  // This happens when the user does a hard refresh when logged in
-  // Instead of losing the user, we attempt at logging it back in
-  // with the credentials stored in the sessionStorage
-  // WARNING: this is not secure and will ultimately be rewritten
-  // See PIN-403
-  const silentLoginAttempt = (): boolean => {
-    const sessionStorageUser = storageRead('user', 'object')
+    // Try to get the token from the sessionStorage
+    const sessionStorageToken = storageRead(STORAGE_KEY_TOKEN, 'string')
 
-    // If there are no credentials, it is impossible to get the user, so
-    if (isEmpty(sessionStorageUser)) {
+    // If there is no token, the session is not authenticated, so
+    if (!sessionStorageToken) {
       // Remove any partial data that might have remained, just for safety
-      storageDelete('user')
-      storageDelete('currentParty')
-      storageDelete('bearer')
-      // Return failure
+      storageDelete(STORAGE_KEY_TOKEN)
+      setToken(null)
+      // Return failure (which will lead to a redirect to the login page)
       return false
     }
 
-    // Otherwise, set the user to the one stored in the storage
-    setUser(sessionStorageUser)
+    // If there is a token, check if it is still valid with a call to the backend
+    const jwt = parseJwt(sessionStorageToken) as Record<string, string | number | boolean>
+    const uid = jwt.uid as string
 
-    return true
+    const resp = await fetchWithLogs({
+      path: { endpoint: 'USER_GET', endpointParams: { id: uid } },
+    })
+    const isTokenValid = !isFetchError(resp)
+
+    // If it is valid, turn it into State so that it is easier
+    // to make it interact with React
+    if (isTokenValid) {
+      setToken(sessionStorageToken)
+    }
+
+    return isTokenValid
   }
 
-  return { silentLoginAttempt, doLogin }
+  return { silentLoginAttempt }
 }

@@ -1,33 +1,25 @@
-import { Party } from '../../../types'
+import {
+  partyActiveDelegate,
+  partyActiveManager,
+  partyActiveOperatorApi,
+  partyActiveOperatorSecurity,
+} from '../../__mocks__/party'
 import { isAdmin, isOperatorAPI, isOperatorSecurity } from '../auth-utils'
 
-const exampleParty: Party = {
-  role: 'Manager',
-  platformRole: 'admin',
-  status: 'active',
-  partyId: 'dsjdf-djsfsdoj-sdfjdso',
-  attributes: [],
-  description: 'Lorem ipsum...',
-  institutionId: 'dmsfisd-sdfjsdis-df',
-  digitalAddress: 'comune@test.it',
-}
-
-describe('Check PlatformRole', () => {
-  it('Is admin', () => {
-    expect(isAdmin({ ...exampleParty, role: 'Manager', platformRole: 'admin' })).toBeTruthy()
-    expect(isAdmin({ ...exampleParty, role: 'Delegate', platformRole: 'admin' })).toBeTruthy()
+describe('ProductRole', () => {
+  it('is admin', () => {
+    expect(isAdmin(partyActiveManager)).toBeTruthy()
+    expect(isAdmin(partyActiveDelegate)).toBeTruthy()
     expect(isAdmin(null)).toBeFalsy()
   })
 
-  it('Is operator API', () => {
-    expect(isOperatorAPI({ ...exampleParty, role: 'Operator', platformRole: 'api' })).toBeTruthy()
+  it('is operator API', () => {
+    expect(isOperatorAPI(partyActiveOperatorApi)).toBeTruthy()
     expect(isOperatorAPI(null)).toBeFalsy()
   })
 
-  it('Is operator security', () => {
-    expect(
-      isOperatorSecurity({ ...exampleParty, role: 'Operator', platformRole: 'security' })
-    ).toBeTruthy()
+  it('is operator security', () => {
+    expect(isOperatorSecurity(partyActiveOperatorSecurity)).toBeTruthy()
     expect(isOperatorSecurity(null)).toBeFalsy()
   })
 })

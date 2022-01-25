@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import { useLocation } from 'react-router-dom'
-import { ActionProps, ApiEndpointKey, ProviderOrSubscriber, User, UserStatus } from '../../types'
+import { ActionProps, ApiEndpointKey, ProviderOrSubscriber, User, UserState } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -16,11 +16,9 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { Tab, Tabs, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { a11yProps, TabPanel } from '../components/TabPanel'
-import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATUS_LABEL } from '../config/labels'
+import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATE_LABEL } from '../config/labels'
 
-type UserEndpoinParams =
-  | { operatorTaxCode: string; clientId: string }
-  | { taxCode: string; institutionId: string | undefined }
+type UserEndpoinParams = { operatorTaxCode: string; clientId: string } | { relationshipId: string }
 
 export function UserEdit() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -28,7 +26,7 @@ export function UserEdit() {
   const currentMode = mode as ProviderOrSubscriber
   const { party } = useContext(PartyContext)
   const bits = getBits(useLocation())
-  const taxCode = bits[bits.length - 1]
+  const relationshipId = bits[bits.length - 1]
 
   const [activeTab, setActiveTab] = useState(0)
   const updateActiveTab = (_: React.SyntheticEvent, newTab: number) => {
@@ -37,73 +35,41 @@ export function UserEdit() {
 
   let clientId: string | undefined = bits[bits.length - 3]
   let endpoint: ApiEndpointKey = 'OPERATOR_SECURITY_GET_SINGLE'
-  let endpointParams: UserEndpoinParams = { operatorTaxCode: taxCode, clientId }
+  let endpointParams: UserEndpoinParams = { operatorTaxCode: relationshipId, clientId }
   if (mode === 'provider') {
     clientId = undefined
     endpoint = 'OPERATOR_API_GET_SINGLE'
-    endpointParams = { taxCode, institutionId: party?.institutionId }
+    endpointParams = { relationshipId }
   }
 
-  const { data } = useAsyncFetch<User, Array<User>>(
+  const { data: userData } = useAsyncFetch<User>(
     { path: { endpoint, endpointParams } },
     {
       useEffectDeps: [forceRerenderCounter],
-      mapFn: (data) => {
-        if (mode === 'provider') {
-          // TEMP BACKEND: This is horrible, but it is right while waiting for backend-for-frontend
-          // Why is it necessary? Because the OPERATOR_API_GET_SINGLE is part of the API that will
-          // be shared with self care, that returns an array even for requests on single users.
-          // The OPERATOR_SECURITY_GET_SINGLE is internal to PDND interop and has the same structure
-          // as admin users. Basically, we should create a stable User type shared across all users
-          // of PDND interop and also shared with the self-care portal. While waiting, the frontend
-          // fixes it with a temporary hack
-          return data as unknown as Array<User>
-        }
-
-        return [data]
-      },
       loadingTextLabel: "Stiamo caricando l'operatore richiesto",
     }
   )
-
-  const userData = data && data.length > 0 ? data[0] : undefined
 
   /*
    * List of possible actions for the user to perform
    */
   const suspend = async () => {
     await runAction(
-      {
-        path: {
-          endpoint: 'USER_SUSPEND',
-          endpointParams: { taxCode: userData?.taxCode, institutionId: party?.institutionId },
-        },
-        config: {
-          data: { platformRole: mode === 'provider' ? 'api' : 'security' },
-        },
-      },
+      { path: { endpoint: 'USER_SUSPEND', endpointParams: { relationshipId: userData?.id } } },
       { suppressToast: false }
     )
   }
 
   const reactivate = async () => {
     await runAction(
-      {
-        path: {
-          endpoint: 'USER_REACTIVATE',
-          endpointParams: { taxCode: userData?.taxCode, institutionId: party?.institutionId },
-        },
-        config: {
-          data: { platformRole: mode === 'provider' ? 'api' : 'security' },
-        },
-      },
+      { path: { endpoint: 'USER_REACTIVATE', endpointParams: { relationshipId: userData?.id } } },
       { suppressToast: false }
     )
   }
   /*
    * End list of actions
    */
-  type UserActions = Record<UserStatus, Array<ActionProps>>
+  type UserActions = Record<UserState, Array<ActionProps>>
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = () => {
@@ -112,25 +78,25 @@ export function UserEdit() {
     }
 
     const sharedActions: UserActions = {
-      active: [{ onClick: wrapActionInDialog(suspend, 'USER_SUSPEND'), label: 'Sospendi' }],
-      suspended: [
+      ACTIVE: [{ onClick: wrapActionInDialog(suspend, 'USER_SUSPEND'), label: 'Sospendi' }],
+      SUSPENDED: [
         {
           onClick: wrapActionInDialog(reactivate, 'USER_REACTIVATE'),
           label: 'Riattiva',
         },
       ],
-      pending: [],
+      PENDING: [],
     }
 
-    const providerOnlyActions: UserActions = { active: [], suspended: [], pending: [] }
+    const providerOnlyActions: UserActions = { ACTIVE: [], SUSPENDED: [], PENDING: [] }
 
-    const subscriberOnlyActions: UserActions = { active: [], suspended: [], pending: [] }
+    const subscriberOnlyActions: UserActions = { ACTIVE: [], SUSPENDED: [], PENDING: [] }
 
     const currentActions = { provider: providerOnlyActions, subscriber: subscriberOnlyActions }[
       currentMode
     ]
 
-    return mergeActions([sharedActions, currentActions], 'active')
+    return mergeActions([sharedActions, currentActions], 'ACTIVE')
   }
 
   const UserSheet = () => {
@@ -140,10 +106,6 @@ export function UserEdit() {
           <Typography component="span">
             {userData?.name && userData?.surname ? userData.name + ' ' + userData.surname : 'n/d'}
           </Typography>
-        </DescriptionBlock>
-
-        <DescriptionBlock label="Codice fiscale">
-          <Typography component="span">{userData?.taxCode || userData?.from}</Typography>
         </DescriptionBlock>
 
         <DescriptionBlock label="Email">
@@ -158,13 +120,13 @@ export function UserEdit() {
 
         <DescriptionBlock label="Permessi">
           <Typography component="span">
-            {userData?.platformRole ? USER_PLATFORM_ROLE_LABEL[userData.platformRole] : 'n/d'}
+            {userData?.product.role ? USER_PLATFORM_ROLE_LABEL[userData.product.role] : 'n/d'}
           </Typography>
         </DescriptionBlock>
 
         <DescriptionBlock label="Stato dell'utenza sulla piattaforma">
           <Typography component="span">
-            {userData?.status ? USER_STATUS_LABEL[userData.status] : 'n/d'}
+            {userData?.state ? USER_STATE_LABEL[userData.state] : 'n/d'}
           </Typography>
         </DescriptionBlock>
 
@@ -201,7 +163,7 @@ export function UserEdit() {
 
           {clientId && !isEmpty(userData) && (
             <TabPanel value={activeTab} index={1}>
-              <SecurityOperatorKeys clientId={clientId} userData={userData as User} />
+              <SecurityOperatorKeys clientId={clientId} userData={userData as unknown as User} />
             </TabPanel>
           )}
         </React.Fragment>

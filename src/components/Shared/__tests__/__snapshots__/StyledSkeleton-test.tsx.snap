@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot matches 1`] = `
+<div
+  className="MuiBox-root css-0"
+>
+  <span
+    className="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+    style={
+      Object {
+        "height": 200,
+        "width": undefined,
+      }
+    }
+  />
+  <span
+    className="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+    style={
+      Object {
+        "height": 200,
+        "width": undefined,
+      }
+    }
+  />
+  <span
+    className="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+    style={
+      Object {
+        "height": 200,
+        "width": undefined,
+      }
+    }
+  />
+  <span
+    className="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+    style={
+      Object {
+        "height": 200,
+        "width": undefined,
+      }
+    }
+  />
+  <span
+    className="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+    style={
+      Object {
+        "height": 200,
+        "width": undefined,
+      }
+    }
+  />
+  <span
+    className="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+    style={
+      Object {
+        "height": 200,
+        "width": undefined,
+      }
+    }
+  />
+</div>
+`;

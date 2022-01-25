@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
-import { EServiceFlatReadType, ActionProps, EServiceStatus } from '../../types'
+import { EServiceFlatReadType, ActionProps, EServiceState } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -20,7 +20,7 @@ import {
 } from '@mui/icons-material'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ROUTES } from '../config/routes'
-import { ESERVICE_STATUS_LABEL } from '../config/labels'
+import { ESERVICE_STATE_LABEL } from '../config/labels'
 
 type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
   isMine: boolean
@@ -29,13 +29,16 @@ type ExtendedEServiceFlatReadType = EServiceFlatReadType & {
 export function EServiceCatalog() {
   const history = useHistory()
   const { party } = useContext(PartyContext)
+
   const { data, loadingText, error } = useAsyncFetch<
     Array<EServiceFlatReadType>,
     Array<ExtendedEServiceFlatReadType>
   >(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
-      config: { params: { status: 'published', callerId: party?.partyId } },
+      config: { params: { callerId: party?.partyId } },
+      // TEMP PIN-948
+      // config: { params: { state: 'PUBLISHED', callerId: party?.partyId } },
     },
     {
       mapFn: (data) => data.map((d) => ({ ...d, isMine: d.producerId === party?.partyId })),
@@ -137,7 +140,6 @@ export function EServiceCatalog() {
       <TableWithLoader
         loadingText={loadingText}
         headData={headData}
-        pagination={true}
         data={data}
         noDataLabel="Non ci sono servizi disponibili"
         error={error}
@@ -153,7 +155,7 @@ export function EServiceCatalog() {
                   { label: item.name, tooltip },
                   { label: item.producerName },
                   { label: item.version as string },
-                  { label: ESERVICE_STATUS_LABEL[item.status as EServiceStatus] },
+                  { label: ESERVICE_STATE_LABEL[item.state as EServiceState] },
                 ]}
                 index={i}
                 singleActionBtn={{

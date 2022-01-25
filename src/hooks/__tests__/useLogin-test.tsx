@@ -1,29 +1,25 @@
-import React, { FunctionComponent, useContext, useState } from 'react'
-import { render, screen } from '@testing-library/react'
-import { UserContext } from '../../lib/context'
-import { useLogin } from '../useLogin'
-import { User } from '../../../types'
+import React, { useContext } from 'react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import axios from 'axios'
+import { useLogin } from '../useLogin'
+import { TokenContext } from '../../lib/context'
 import { storageWrite } from '../../lib/storage-utils'
-
-type TestComponentProps = {
-  userData: User
-}
-
-const TestLoginProvider: FunctionComponent = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null)
-  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>
-}
+import { STORAGE_KEY_TOKEN } from '../../lib/constants'
+import { jwtToUser } from '../../lib/jwt-utils'
+import { AllTheProviders } from '../../__mocks__/providers'
+import { token } from '../../__mocks__/token'
 
 function TestSilentLoginSubscriber() {
   const { silentLoginAttempt } = useLogin()
-  const { user } = useContext(UserContext)
+  const { token } = useContext(TokenContext)
+  const user = token && jwtToUser(token)
 
   return (
     <div>
       <button
-        onClick={() => {
-          silentLoginAttempt()
+        onClick={async () => {
+          await silentLoginAttempt()
         }}
       >
         silent login
@@ -33,65 +29,23 @@ function TestSilentLoginSubscriber() {
   )
 }
 
-function TestLoginConsumer({ userData }: TestComponentProps) {
-  const { doLogin } = useLogin()
-  const { user } = useContext(UserContext)
+it('Logs in silently', async () => {
+  const mockedAxios = axios as jest.Mocked<typeof axios>
 
-  return (
-    <div>
-      <button
-        onClick={() => {
-          doLogin(userData)
-        }}
-      >
-        login
-      </button>
-      <div>{user ? `${user.name} ${user.surname}` : 'nessun utente'}</div>
-    </div>
-  )
-}
+  mockedAxios.request.mockImplementationOnce(() => Promise.resolve({ isAxiosError: false }))
 
-it('Logs in', async () => {
-  const userData: User = {
-    name: 'Antonio',
-    surname: 'Berielli',
-    taxCode: 'BRLNTN67E11L405R',
-    email: 'antonio.berielli@test.it',
-    status: 'active',
-    role: 'Manager',
-    platformRole: 'admin',
-  }
+  storageWrite(STORAGE_KEY_TOKEN, token, 'string')
+  const userData = jwtToUser(token)
 
   const { getByText } = render(
-    <TestLoginProvider>
-      <TestLoginConsumer userData={userData} />
-    </TestLoginProvider>
-  )
-  expect(getByText('nessun utente')).toBeInTheDocument()
-
-  userEvent.click(screen.getByText('login'))
-  expect(getByText(`${userData.name} ${userData.surname}`)).toBeInTheDocument()
-})
-
-fit('Logs in silently', async () => {
-  const userData: User = {
-    name: 'Antonio',
-    surname: 'Berielli',
-    taxCode: 'BRLNTN67E11L405R',
-    email: 'antonio.berielli@test.it',
-    status: 'active',
-    role: 'Manager',
-    platformRole: 'admin',
-  }
-  storageWrite('user', userData, 'object')
-
-  const { getByText } = render(
-    <TestLoginProvider>
+    <AllTheProviders>
       <TestSilentLoginSubscriber />
-    </TestLoginProvider>
+    </AllTheProviders>
   )
   expect(getByText('nessun utente')).toBeInTheDocument()
 
   userEvent.click(screen.getByText('silent login'))
-  expect(getByText(`${userData.name} ${userData.surname}`)).toBeInTheDocument()
+  await waitFor(() => {
+    expect(getByText(`${userData.name} ${userData.surname}`)).toBeInTheDocument()
+  })
 })

@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios'
 import { ActionProps, SecurityOperatorPublicKey, User } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { getFetchOutcome } from '../lib/error-utils'
-import { UserContext } from '../lib/context'
+import { TokenContext } from '../lib/context'
 import { DescriptionBlock } from './DescriptionBlock'
 import { downloadFile } from '../lib/file-utils'
 import { StyledButton } from './Shared/StyledButton'
@@ -14,6 +14,7 @@ import { Typography } from '@mui/material'
 import { ROUTES } from '../config/routes'
 import { useSecurityOperatorKeyDialog } from '../hooks/useSecurityOperatorKeyDialog'
 import { InlineClipboard } from './Shared/InlineClipboard'
+import { jwtToUser } from '../lib/jwt-utils'
 
 type SecurityOperatorKeysProps = {
   clientId: string
@@ -30,13 +31,14 @@ type PublicKeyObject = {
 
 export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKeysProps) {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
-  const { user } = useContext(UserContext)
+  const { token } = useContext(TokenContext)
   const [key, setKey] = useState<PublicKeyObject | undefined>()
 
   const { openDialog, forceRerenderCounter: securityKeyPostForceRerenderCounter } =
     useSecurityOperatorKeyDialog({
       clientId,
-      taxCode: userData.taxCode,
+      // TEMP-BACKEND: when there is the new endpoint for security operators, update this
+      taxCode: userData.id,
     })
 
   /*
@@ -46,8 +48,9 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
     async function asyncFetchKeys() {
       const resp = await fetchWithLogs({
         path: {
-          endpoint: 'OPERATOR_SECURITY_KEYS_GET',
-          endpointParams: { taxCode: userData.taxCode, clientId },
+          endpoint: 'OPERATOR_SECURITY_KEYS_GET_LIST',
+          // TEMP-BACKEND: when there is the new endpoint for security operators, update this
+          endpointParams: { taxCode: userData.id, clientId },
         },
       })
       const outcome = getFetchOutcome(resp)
@@ -108,9 +111,12 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
     return actions
   }
 
+  const userId = jwtToUser(token as string).id
+  const isCurrentUser = userId === userData.id
+
   return (
     <React.Fragment>
-      {user?.taxCode === userData.taxCode && !key && (
+      {isCurrentUser && !key && (
         <React.Fragment>
           <StyledButton sx={{ mb: 2 }} onClick={openDialog} variant="contained">
             Carica nuova chiave

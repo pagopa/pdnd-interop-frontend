@@ -31,6 +31,7 @@ export const InlineClipboard: FunctionComponent<InlineClipboardProps> = ({
       description: 'Verificare i permessi per accedere alla clipboard',
     }
 
+    //  TEMP REFACTOR: handle permission denied
     if (['granted', 'prompt'].includes(permission.state)) {
       // Write to clipboard
       navigator.clipboard.writeText(text)

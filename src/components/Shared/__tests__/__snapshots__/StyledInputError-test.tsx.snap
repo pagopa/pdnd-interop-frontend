@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot matches 1`] = `
+<div
+  className="MuiBox-root css-0"
+>
+  <span
+    className="MuiTypography-root MuiTypography-caption css-19m5e5t-MuiTypography-root"
+  >
+    Testo messaggio di errore...
+  </span>
+</div>
+`;
