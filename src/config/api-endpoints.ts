@@ -9,7 +9,6 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-party-management/0.1/organizations/external/:id',
     METHOD: 'GET',
   },
-
   ESERVICE_GET_LIST: {
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices',
     METHOD: 'GET',
@@ -137,16 +136,26 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/activate',
     METHOD: 'POST',
   },
-  OPERATOR_API_CREATE: {
+  USER_SUSPEND: {
+    // TEMP PIN-968
+    URL: 'pdnd-interop-uservice-party-process/0.1/relationships/:relationshipId/suspend',
+    METHOD: 'POST',
+  },
+  USER_REACTIVATE: {
+    // TEMP PIN-968
+    URL: 'pdnd-interop-uservice-party-process/0.1/relationships/:relationshipId/activate',
+    METHOD: 'POST',
+  },
+  USER_GET: {
+    URL: 'pdnd-interop-uservice-party-management/0.1/persons/:id',
+    METHOD: 'GET',
+  },
+  OPERATOR_CREATE: {
     URL: 'pdnd-interop-uservice-party-process/0.1/onboarding/operators',
     METHOD: 'POST',
   },
-  OPERATOR_SECURITY_CREATE: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/operators',
-    METHOD: 'POST',
-  },
-  JOIN_OPERATOR_WITH_CLIENT: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/{clientId}/relationships/:relationshipId',
+  OPERATOR_SECURITY_JOIN_WITH_CLIENT: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/relationships/:relationshipId',
     METHOD: 'POST',
   },
   OPERATOR_API_GET_LIST: {
@@ -157,48 +166,28 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-party-process/0.1/relationships/:relationshipId',
     METHOD: 'GET',
   },
-
   OPERATOR_SECURITY_GET_LIST: {
-    // TO TEST
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/operators',
     METHOD: 'GET',
   },
   OPERATOR_SECURITY_GET_SINGLE: {
-    // TO TEST
-    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/operators/:operatorTaxCode',
+    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/operators',
     METHOD: 'GET',
   },
   OPERATOR_SECURITY_KEYS_GET_LIST: {
-    // TO TEST
-    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/operators/:taxCode/keys',
+    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/operators/:operatorId/keys',
     METHOD: 'GET',
   },
   OPERATOR_SECURITY_KEYS_POST: {
-    // TO TEST
-    URL: 'pdnd-interop-uservice-authorization-process/0.1/operators/:taxCode/keys',
+    URL: 'pdnd-interop-uservice-authorization-process/0.1/operators/:operatorId/keys',
     METHOD: 'POST',
   },
   OPERATOR_SECURITY_KEY_DOWNLOAD: {
-    // TO TEST
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/encoded/keys/:keyId',
     METHOD: 'GET',
   },
   OPERATOR_SECURITY_KEY_DELETE: {
-    // TO TEST
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/keys/:keyId',
     METHOD: 'DELETE',
-  },
-
-  USER_SUSPEND: {
-    URL: 'pdnd-interop-uservice-party-process/0.1/relationships/:relationshipId/suspend',
-    METHOD: 'POST',
-  },
-  USER_REACTIVATE: {
-    URL: 'pdnd-interop-uservice-party-process/0.1/relationships/:relationshipId/activate',
-    METHOD: 'POST',
-  },
-  USER_GET: {
-    URL: 'pdnd-interop-uservice-party-management/0.1/persons/:id',
-    METHOD: 'GET',
   },
 }
