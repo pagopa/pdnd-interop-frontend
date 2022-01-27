@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 import { useMode } from '../hooks/useMode'
 import { Party, ProviderOrSubscriber, UserOnCreate } from '../../types'
 import { PartyContext } from '../lib/context'
-import { buildDynamicRoute, parseSearch } from '../lib/router-utils'
+import { buildDynamicRoute, getBits } from '../lib/router-utils'
 import { StyledIntro, StyledIntroChildrenProps } from '../components/Shared/StyledIntro'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
@@ -41,25 +41,27 @@ export function UserCreate() {
     if (mode === 'provider') {
       // Create the api operator
       await runActionWithDestination(
-        { path: { endpoint: 'OPERATOR_API_CREATE' }, config: { data: dataToPost } },
+        { path: { endpoint: 'OPERATOR_CREATE' }, config: { data: dataToPost } },
         { destination: ROUTES.PROVIDE_OPERATOR_LIST, suppressToast: false }
       )
     } else {
       // First create the security operator
       const { response } = await runAction(
-        { path: { endpoint: 'OPERATOR_SECURITY_CREATE' }, config: { data: dataToPost } },
+        { path: { endpoint: 'OPERATOR_CREATE' }, config: { data: dataToPost } },
         { suppressToast: false }
       )
 
-      const { clientId } = parseSearch(location.search)
+      const bits = getBits(location)
+      const clientId = bits[2]
+
       // Then, join it with the client it belongs to
       await runActionWithDestination(
         {
           path: {
-            endpoint: 'JOIN_OPERATOR_WITH_CLIENT',
+            endpoint: 'OPERATOR_SECURITY_JOIN_WITH_CLIENT',
             endpointParams: {
               clientId,
-              relationshipId: (response as AxiosResponse).data.relationshipId,
+              relationshipId: (response as AxiosResponse).data[0].id,
             },
           },
         },
