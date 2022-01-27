@@ -1,70 +1,57 @@
 import React from 'react'
 import { Grid } from '@mui/material'
-import {
-  emailValidationPattern,
-  requiredValidationPattern,
-  taxCodeValidationPattern,
-} from '../../lib/validation'
-import { StyledInputControlledText } from './StyledInputControlledText'
-import { Control, FieldValues } from 'react-hook-form'
+import { StyledInputControlledTextFormik } from './StyledInputControlledTextFormik'
+import { FormikErrors, FormikValues } from 'formik'
 
 type PlatformUserControlledFormProps = {
   prefix: string
-  control: Control<FieldValues, Record<string, unknown>>
-  errors: Record<string, unknown>
+  errors: FormikErrors<FormikValues>
 }
 
-export function PlatformUserControlledForm({
-  prefix,
-  control,
-  errors,
-}: PlatformUserControlledFormProps) {
+export function PlatformUserControlledForm({ prefix, errors }: PlatformUserControlledFormProps) {
+  const name = `${prefix}.name`
+  const surname = `${prefix}.surname`
+  const taxCode = `${prefix}.taxCode`
+  const email = `${prefix}.email`
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={6}>
-        <StyledInputControlledText
-          sx={{ my: 4 }}
+        <StyledInputControlledTextFormik
           focusOnMount={true}
+          sx={{ my: 4 }}
           label="Nome*"
-          name={`${prefix}.name`}
-          control={control}
-          rules={{ required: requiredValidationPattern }}
-          errors={errors}
+          name={name}
+          error={errors[name] as string | undefined}
         />
       </Grid>
 
       <Grid item xs={6}>
-        <StyledInputControlledText
+        <StyledInputControlledTextFormik
           sx={{ my: 4 }}
           label="Cognome*"
-          name={`${prefix}.surname`}
-          control={control}
-          rules={{ required: requiredValidationPattern }}
-          errors={errors}
+          name={surname}
+          error={errors[surname] as string | undefined}
         />
       </Grid>
 
       <Grid item xs={12}>
-        <StyledInputControlledText
+        <StyledInputControlledTextFormik
           sx={{ my: 4 }}
           label="Codice Fiscale*"
-          name={`${prefix}.taxCode`}
-          control={control}
-          rules={{ required: requiredValidationPattern, pattern: taxCodeValidationPattern }}
-          errors={errors}
+          name={taxCode}
+          error={errors[taxCode] as string | undefined}
         />
       </Grid>
 
       <Grid item xs={12}>
-        <StyledInputControlledText
+        <StyledInputControlledTextFormik
+          type="email"
+          infoLabel="Inserisci l'indirizzo email ad uso aziendale utilizzato per l'Ente"
           sx={{ my: 4 }}
           label="Email ad uso aziendale*"
-          name={`${prefix}.email`}
-          type="email"
-          control={control}
-          rules={{ required: requiredValidationPattern, pattern: emailValidationPattern }}
-          errors={errors}
-          infoLabel="Inserisci l'indirizzo email ad uso aziendale utilizzato per l'Ente"
+          name={email}
+          error={errors[email] as string | undefined}
         />
       </Grid>
     </Grid>
