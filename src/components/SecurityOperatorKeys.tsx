@@ -37,8 +37,7 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
   const { openDialog, forceRerenderCounter: securityKeyPostForceRerenderCounter } =
     useSecurityOperatorKeyDialog({
       clientId,
-      // TEMP-BACKEND: when there is the new endpoint for security operators, update this
-      taxCode: userData.id,
+      operatorId: userData.id,
     })
 
   /*
@@ -49,8 +48,7 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
       const resp = await fetchWithLogs({
         path: {
           endpoint: 'OPERATOR_SECURITY_KEYS_GET_LIST',
-          // TEMP-BACKEND: when there is the new endpoint for security operators, update this
-          endpointParams: { taxCode: userData.id, clientId },
+          endpointParams: { operatorId: userData.id, clientId },
         },
       })
       const outcome = getFetchOutcome(resp)
@@ -116,6 +114,12 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
 
   return (
     <React.Fragment>
+      {!key && (
+        <Typography component="span" sx={{ display: 'block', mb: 2 }}>
+          Nessuna chiave presente
+        </Typography>
+      )}
+
       {isCurrentUser && !key && (
         <React.Fragment>
           <StyledButton sx={{ mb: 2 }} onClick={openDialog} variant="contained">
@@ -135,7 +139,7 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
         </React.Fragment>
       )}
 
-      {key ? (
+      {key && (
         <React.Fragment>
           <Box
             sx={{
@@ -166,8 +170,6 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
             </DescriptionBlock>
           </Box>
         </React.Fragment>
-      ) : (
-        <Typography>Nessuna chiave presente</Typography>
       )}
     </React.Fragment>
   )

@@ -18,7 +18,7 @@ import { Box } from '@mui/system'
 import { a11yProps, TabPanel } from '../components/TabPanel'
 import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATE_LABEL } from '../config/labels'
 
-type UserEndpoinParams = { operatorTaxCode: string; clientId: string } | { relationshipId: string }
+type UserEndpoinParams = { clientId: string } | { relationshipId: string }
 
 export function UserEdit() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -35,7 +35,11 @@ export function UserEdit() {
 
   let clientId: string | undefined = bits[bits.length - 3]
   let endpoint: ApiEndpointKey = 'OPERATOR_SECURITY_GET_SINGLE'
-  let endpointParams: UserEndpoinParams = { operatorTaxCode: relationshipId, clientId }
+  let endpointParams: UserEndpoinParams = {
+    // PIN-1038
+    // operatorTaxCode: relationshipId,
+    clientId,
+  }
   if (mode === 'provider') {
     clientId = undefined
     endpoint = 'OPERATOR_API_GET_SINGLE'
@@ -47,6 +51,14 @@ export function UserEdit() {
     {
       useEffectDeps: [forceRerenderCounter],
       loadingTextLabel: "Stiamo caricando l'operatore richiesto",
+      // PIN-1038
+      mapFn: (data): User => {
+        if (mode === 'provider') {
+          return data
+        }
+
+        return (data as unknown as User[]).find((d) => d.id === relationshipId) as User
+      },
     }
   )
 

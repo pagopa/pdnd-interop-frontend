@@ -8,19 +8,19 @@ import { CustomDialogContentsProps } from '../../types'
 
 type SecurityOperatorKeyDialogProps = {
   clientId: string
-  taxCode: string
+  operatorId: string
 }
 
 type NewPublicKey = {
   clientId: string
-  use: string
+  use: 'SIG' | 'ENC'
   alg: string
   key: string
 }
 
 export const useSecurityOperatorKeyDialog = ({
   clientId,
-  taxCode,
+  operatorId,
 }: SecurityOperatorKeyDialogProps) => {
   const { runAction, forceRerenderCounter } = useFeedback()
   const { setDialog } = useContext(DialogContext)
@@ -54,14 +54,14 @@ export const useSecurityOperatorKeyDialog = ({
       },
       proceedCallback: async (data: { alg: string; key: string }) => {
         // Encode public key
-        const dataToPost: NewPublicKey = { ...data, use: 'sig', clientId }
+        const dataToPost: NewPublicKey = { ...data, use: 'SIG', clientId }
         dataToPost.key = btoa(dataToPost.key)
 
         await runAction(
           {
             path: {
               endpoint: 'OPERATOR_SECURITY_KEYS_POST',
-              endpointParams: { clientId, taxCode },
+              endpointParams: { clientId, operatorId },
             },
             config: { data: [dataToPost] },
           },
