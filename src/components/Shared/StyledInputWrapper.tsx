@@ -1,29 +1,28 @@
 import React, { FunctionComponent } from 'react'
-import get from 'lodash/get'
 import { Box, SxProps } from '@mui/system'
 import { StyledInputError } from './StyledInputError'
 import { InfoMessage } from './InfoMessage'
 
 type StyledInputWrapperProps = {
-  errors: Record<string, unknown>
+  errors?: Record<string, unknown>
+  hasFieldError?: boolean
+
   name: string
+  error?: string
   infoLabel?: string
-  hasFieldError: boolean
   sx?: SxProps
 }
 
 export const StyledInputWrapper: FunctionComponent<StyledInputWrapperProps> = ({
-  errors,
-  name,
+  error,
   sx = { my: 6 },
   infoLabel,
-  hasFieldError,
   children,
 }) => {
   return (
     <Box sx={sx}>
       {children}
-      {hasFieldError && <StyledInputError error={get(errors, name)} />}
+      {Boolean(error) && <StyledInputError error={{ message: error }} />}
       {infoLabel && <InfoMessage label={infoLabel} />}
     </Box>
   )
