@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import React, { useEffect, useState } from 'react'
+import { Formik } from 'formik'
+import { object, string, number } from 'yup'
 import { useHistory } from 'react-router-dom'
 import { AxiosResponse } from 'axios'
 import isEmpty from 'lodash/isEmpty'
@@ -12,24 +13,17 @@ import {
 import { buildDynamicPath } from '../lib/router-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledForm } from './Shared/StyledForm'
-import { StyledInputControlledText } from './Shared/StyledInputControlledText'
-import { requiredValidationPattern } from '../lib/validation'
 import { ROUTES } from '../config/routes'
 import { EServiceWriteActions } from './Shared/EServiceWriteActions'
 import { EServiceWriteProps } from '../views/EServiceWrite'
+import { StyledInputControlledTextFormik } from './Shared/StyledInputControlledTextFormik'
 
 type VersionData = {
   audience: string
   version: string
-  voucherLifespan: string
-  description: string
-}
-
-type VersionDataWriteType = {
-  audience: Array<string>
-  // version: string
   voucherLifespan: number
   description: string
+  loadEstimate: number
 }
 
 export function EServiceWriteStep2Version({
@@ -37,15 +31,24 @@ export function EServiceWriteStep2Version({
   back,
   fetchedData,
 }: StepperStepComponentProps & EServiceWriteProps) {
-  const {
-    handleSubmit,
-    control,
-    setValue,
-    formState: { errors },
-  } = useForm()
-
   const history = useHistory()
   const { runActionWithCallback } = useFeedback()
+
+  const validationSchema = object({
+    version: string().required(),
+    audience: string().required(),
+    voucherLifespan: number().required(),
+    description: string().required(),
+    loadEstimate: number().required(),
+  })
+  const initialValues: VersionData = {
+    version: '1',
+    audience: '',
+    voucherLifespan: 1,
+    description: '',
+    loadEstimate: 20000,
+  }
+  const [initialOrFetchedValues, setInitialOrFetchedValues] = useState(initialValues)
 
   // Pre-fill if there is already a draft of the service available
   useEffect(() => {
@@ -53,36 +56,24 @@ export function EServiceWriteStep2Version({
       const activeDescriptor = (fetchedData as EServiceReadType)
         .activeDescriptor as EServiceDescriptorRead
       const { audience, version, voucherLifespan, description } = activeDescriptor
-      setValue('version', version)
-      if (Boolean(audience.length > 0)) {
-        setValue('audience', audience[0])
-      }
-      setValue('voucherLifespan', voucherLifespan)
-      setValue('description', description)
+      setInitialOrFetchedValues({
+        version,
+        audience: Boolean(audience.length > 0) ? audience[0] : '',
+        voucherLifespan,
+        description,
+        loadEstimate: 20000,
+      })
     }
   }, [fetchedData]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Determine the current version of the service
-  const getVersion = () => {
-    if (fetchedData && !isEmpty(fetchedData.activeDescriptor)) {
-      const activeDescriptor = fetchedData.activeDescriptor as EServiceDescriptorRead
-      return activeDescriptor.version
-    }
-
-    return '1'
-  }
-
-  const mapData = (data: Partial<VersionData>): VersionDataWriteType => {
-    return {
-      voucherLifespan: +(data.voucherLifespan as string) as number,
-      audience: [data.audience as string],
-      description: data.description as string,
-    }
-  }
-
-  const onSubmit = async (data: Partial<VersionData>) => {
+  const onSubmit = async (data: VersionData) => {
     // Format the data like the backend wants it
-    const dataToPost = mapData(data)
+    const dataToPost = {
+      audience: [data.audience],
+      voucherLifespan: data.voucherLifespan,
+      description: data.description,
+      // loadEstimate: data.loadEstimate
+    }
 
     const sureFetchedData = fetchedData as EServiceReadType
 
@@ -129,62 +120,69 @@ export function EServiceWriteStep2Version({
   }
 
   return (
-    <StyledForm onSubmit={handleSubmit(onSubmit)}>
-      <StyledInputControlledText
-        name="version"
-        label="Numero della versione*"
-        defaultValue={getVersion()}
-        disabled={true}
-        control={control}
-        rules={{}}
-        errors={errors}
-      />
+    <Formik
+      initialValues={initialOrFetchedValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+      validateOnChange={false}
+      validateOnBlur={false}
+      enableReinitialize={true}
+    >
+      {({ handleSubmit, errors, values, handleChange }) => (
+        <StyledForm onSubmit={handleSubmit}>
+          <StyledInputControlledTextFormik
+            name="version"
+            label="Numero della versione*"
+            disabled={true}
+            value={values.version}
+            error={errors.version}
+          />
 
-      <StyledInputControlledText
-        name="audience"
-        label="Identificativo dell'e-service*"
-        infoLabel="L'id con il quale il fruitore dichiara il servizio richiesto. Questo identificativo deve essere unico tra i tuoi e-service"
-        control={control}
-        rules={{ required: requiredValidationPattern }}
-        errors={errors}
-        focusOnMount={true}
-      />
+          <StyledInputControlledTextFormik
+            name="audience"
+            label="Identificativo dell'e-service*"
+            infoLabel="L'id con il quale il fruitore dichiara il servizio richiesto. Questo identificativo deve essere unico tra i tuoi e-service"
+            value={values.audience}
+            error={errors.audience}
+            onChange={handleChange}
+            focusOnMount={true}
+          />
 
-      <StyledInputControlledText
-        name="voucherLifespan"
-        label="Durata di validità del voucher (in minuti)*"
-        type="number"
-        inputProps={{ min: '1', max: '5' }}
-        defaultValue="1"
-        control={control}
-        rules={{ required: requiredValidationPattern }}
-        errors={errors}
-      />
+          <StyledInputControlledTextFormik
+            name="voucherLifespan"
+            label="Durata di validità del voucher (in minuti)*"
+            type="number"
+            inputProps={{ min: '1', max: '5' }}
+            value={values.voucherLifespan}
+            error={errors.voucherLifespan}
+            onChange={handleChange}
+          />
 
-      <StyledInputControlledText
-        name="description"
-        label="Descrizione della versione*"
-        control={control}
-        rules={{ required: requiredValidationPattern }}
-        errors={errors}
-        multiline={true}
-      />
+          <StyledInputControlledTextFormik
+            name="description"
+            label="Descrizione della versione*"
+            value={values.description}
+            error={errors.description}
+            onChange={handleChange}
+            multiline={true}
+          />
 
-      <StyledInputControlledText
-        name="load-estimate"
-        label="Soglia di carico ammesso (richiesto)"
-        infoLabel="Calcolata in numero di richieste al giorno sostenibili per richiesta di fruizione"
-        type="number"
-        defaultValue="20000"
-        control={control}
-        rules={{ required: requiredValidationPattern }}
-        errors={errors}
-      />
+          <StyledInputControlledTextFormik
+            name="load-estimate"
+            label="Soglia di carico ammesso (richiesto)"
+            infoLabel="Calcolata in numero di richieste al giorno sostenibili per richiesta di fruizione"
+            type="number"
+            value={values.loadEstimate}
+            error={errors.loadEstimate}
+            onChange={handleChange}
+          />
 
-      <EServiceWriteActions
-        back={{ label: 'Indietro', type: 'button', onClick: back }}
-        forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
-      />
-    </StyledForm>
+          <EServiceWriteActions
+            back={{ label: 'Indietro', type: 'button', onClick: back }}
+            forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
+          />
+        </StyledForm>
+      )}
+    </Formik>
   )
 }

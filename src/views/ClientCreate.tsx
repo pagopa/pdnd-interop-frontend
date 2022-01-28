@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { useFormik } from 'formik'
+import { Formik } from 'formik'
 import { object, string } from 'yup'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -50,11 +50,10 @@ export function ClientCreate() {
     purposes: string().required(),
   })
   const initialValues: ClientFields = { name: '', description: '', eServiceId: '', purposes: '' }
-  const formik = useFormik({ initialValues, validationSchema, onSubmit })
 
   useEffect(() => {
     if (eserviceData && eserviceData.length > 0) {
-      formik.setValues({ ...initialValues, eServiceId: String(eserviceData[0].value) }, false)
+      initialValues.eServiceId = String(eserviceData[0].value)
     }
   }, [eserviceData]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -72,47 +71,57 @@ export function ClientCreate() {
         }}
       </StyledIntro>
 
-      <StyledForm onSubmit={formik.handleSubmit}>
-        <StyledInputControlledTextFormik
-          focusOnMount={true}
-          name="name"
-          label="Nome del client*"
-          value={formik.values.name}
-          onChange={formik.handleChange}
-          error={formik.errors.name}
-        />
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+        validateOnChange={false}
+        validateOnBlur={false}
+      >
+        {({ handleSubmit, errors, values, handleChange }) => (
+          <StyledForm onSubmit={handleSubmit}>
+            <StyledInputControlledTextFormik
+              focusOnMount={true}
+              name="name"
+              label="Nome del client*"
+              value={values.name}
+              onChange={handleChange}
+              error={errors.name}
+            />
 
-        <StyledInputControlledTextFormik
-          name="description"
-          label="Descrizione del client*"
-          value={formik.values.description}
-          onChange={formik.handleChange}
-          error={formik.errors.description}
-          multiline={true}
-        />
+            <StyledInputControlledTextFormik
+              name="description"
+              label="Descrizione del client*"
+              value={values.description}
+              onChange={handleChange}
+              error={errors.description}
+              multiline={true}
+            />
 
-        <StyledInputControlledSelectFormik
-          name="eServiceId"
-          label="E-service da associare*"
-          value={formik.values.eServiceId}
-          onChange={formik.handleChange}
-          error={formik.errors.eServiceId}
-          disabled={eserviceData.length === 0}
-          options={eserviceData}
-        />
+            <StyledInputControlledSelectFormik
+              name="eServiceId"
+              label="E-service da associare*"
+              value={values.eServiceId}
+              onChange={handleChange}
+              error={errors.eServiceId}
+              disabled={eserviceData.length === 0}
+              options={eserviceData}
+            />
 
-        <StyledInputControlledTextFormik
-          name="purposes"
-          label="Finalità*"
-          value={formik.values.purposes}
-          onChange={formik.handleChange}
-          error={formik.errors.purposes}
-        />
+            <StyledInputControlledTextFormik
+              name="purposes"
+              label="Finalità*"
+              value={values.purposes}
+              onChange={handleChange}
+              error={errors.purposes}
+            />
 
-        <StyledButton sx={{ mt: 8 }} variant="contained" type="submit">
-          Crea client
-        </StyledButton>
-      </StyledForm>
+            <StyledButton sx={{ mt: 8 }} variant="contained" type="submit">
+              Crea client
+            </StyledButton>
+          </StyledForm>
+        )}
+      </Formik>
     </React.Fragment>
   )
 }
