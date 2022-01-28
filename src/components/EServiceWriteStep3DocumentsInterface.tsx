@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { Formik } from 'formik'
+import { object, mixed, string } from 'yup'
 import isEmpty from 'lodash/isEmpty'
+import { AxiosResponse } from 'axios'
+import { UploadFile as UploadFileIcon } from '@mui/icons-material'
+import { Box } from '@mui/system'
 import {
   EServiceDescriptorRead,
   EServiceDocumentKind,
@@ -12,14 +16,10 @@ import {
 } from '../../types'
 import { getActiveInterface } from '../lib/eservice-utils'
 import { StyledDeleteableDocument } from './Shared/StyledDeleteableDocument'
-import { StyledInputControlledFile } from './Shared/StyledInputControlledFile'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
-import { UploadFile as UploadFileIcon } from '@mui/icons-material'
-import { Box } from '@mui/system'
-import { StyledInputControlledText } from './Shared/StyledInputControlledText'
-import { requiredValidationPattern } from '../lib/validation'
-import { AxiosResponse } from 'axios'
+import { StyledInputControlledFileFormik } from './Shared/StyledInputControlledFileFormik'
+import { StyledInputControlledTextFormik } from './Shared/StyledInputControlledTextFormik'
 
 type EServiceWriteStep3DocumentsInterfaceProps = {
   data: EServiceReadType
@@ -29,6 +29,11 @@ type EServiceWriteStep3DocumentsInterfaceProps = {
   interfaceAcceptedMimeTypes: EServiceInterfaceMimeType
 }
 
+type InputValues = {
+  interface: File | null
+  description?: string
+}
+
 export function EServiceWriteStep3DocumentsInterface({
   data,
   uploadDescriptorDocument,
@@ -36,11 +41,18 @@ export function EServiceWriteStep3DocumentsInterface({
   activeDescriptorId,
   interfaceAcceptedMimeTypes,
 }: EServiceWriteStep3DocumentsInterfaceProps) {
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm()
+  const validationSchema = object({
+    interface: mixed()
+      .test(
+        'fileFormat',
+        `Formato errato. È previsto un file ${interfaceAcceptedMimeTypes.format}`,
+        (value) => value === null || interfaceAcceptedMimeTypes.mime.includes(value.type)
+      )
+      .required(),
+    description: string().required(),
+  })
+  const initialValues: InputValues = { interface: null, description: '' }
+
   const [readDoc, setReadDoc] = useState<EServiceDocumentRead | undefined>()
 
   useEffect(() => {
@@ -64,14 +76,14 @@ export function EServiceWriteStep3DocumentsInterface({
     }
   }
 
-  const uploadNewInterfaceDoc = async (data: Exclude<EServiceDocumentWrite, 'kind'>) => {
+  const uploadNewInterfaceDoc = async (data: InputValues) => {
     if (!isEmpty(readDoc)) {
       await deletePreviousInterfaceDoc()
     }
 
     const dataToPost = {
-      ...data,
-      doc: (data.doc as unknown as Array<File>)[0],
+      doc: data.interface as File,
+      description: data.description as string,
       kind: 'INTERFACE' as EServiceDocumentKind,
     }
     const { outcome, response } = await uploadDescriptorDocument(dataToPost)
@@ -95,38 +107,44 @@ export function EServiceWriteStep3DocumentsInterface({
     />
   ) : (
     <Box sx={{ px: 2, py: 2, borderLeft: 6, borderColor: 'primary.main' }} bgcolor="common.white">
-      <StyledForm onSubmit={handleSubmit(uploadNewInterfaceDoc)}>
-        <StyledInputControlledFile
-          sx={{ my: 0 }}
-          name="doc"
-          label="Seleziona documento"
-          control={control}
-          errors={errors}
-          rules={{
-            required: requiredValidationPattern,
-            validate: (files: FileList) =>
-              interfaceAcceptedMimeTypes.mime.includes(files[0].type) ||
-              `Formato errato. È previsto un file ${interfaceAcceptedMimeTypes.format}`,
-          }}
-        />
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={uploadNewInterfaceDoc}
+        validateOnChange={false}
+        validateOnBlur={false}
+        enableReinitialize={true}
+      >
+        {({ handleSubmit, errors, values, handleChange, setFieldValue }) => (
+          <StyledForm onSubmit={handleSubmit}>
+            <StyledInputControlledFileFormik
+              sx={{ my: 0 }}
+              name="interface"
+              label="Seleziona documento"
+              value={values.interface}
+              error={errors.interface}
+              setFieldValue={setFieldValue}
+            />
 
-        <StyledInputControlledText
-          sx={{ my: 2 }}
-          name="description"
-          label="Descrizione"
-          control={control}
-          rules={{}}
-          errors={errors}
-          multiline={true}
-          rows={4}
-        />
+            <StyledInputControlledTextFormik
+              sx={{ my: 2 }}
+              name="description"
+              label="Descrizione"
+              value={values.description}
+              error={errors.description}
+              onChange={handleChange}
+              multiline={true}
+              rows={4}
+            />
 
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <StyledButton type="submit" variant="contained">
-            <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> Carica
-          </StyledButton>
-        </Box>
-      </StyledForm>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <StyledButton type="submit" variant="contained">
+                <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> Carica
+              </StyledButton>
+            </Box>
+          </StyledForm>
+        )}
+      </Formik>
     </Box>
   )
 }

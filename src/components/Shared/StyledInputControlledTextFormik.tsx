@@ -5,23 +5,31 @@ import { SxProps } from '@mui/system'
 
 export type StyledInputTextType = 'text' | 'email' | 'number'
 
-type StyledInputControlledTextProps = {
-  name: string
-  value?: string
-  error?: string
-  onChange?: ChangeEventHandler
-  label?: string
+type StyledInputControlledTextProps =
+  | {
+      name: string
+      error?: string
+      onChange?: ChangeEventHandler
+      label?: string
 
-  disabled?: boolean
-  infoLabel?: string
+      disabled?: boolean
+      infoLabel?: string
 
-  inputProps?: InputBaseComponentProps
-  type?: StyledInputTextType
-  multiline?: boolean
-  rows?: number
-  focusOnMount?: boolean
-  sx?: SxProps
-}
+      inputProps?: InputBaseComponentProps
+      multiline?: boolean
+      rows?: number
+      focusOnMount?: boolean
+      sx?: SxProps
+    } & (
+      | {
+          type?: 'text' | 'email'
+          value?: string
+        }
+      | {
+          type?: 'number'
+          value?: number
+        }
+    )
 
 export function StyledInputControlledTextFormik({
   label,
