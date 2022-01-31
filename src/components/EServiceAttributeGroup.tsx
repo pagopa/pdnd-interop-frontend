@@ -1,11 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { TableCell, TableRow } from '@mui/material'
 import { Box } from '@mui/system'
-import { AttributeKey, CatalogAttribute, FrontendAttribute } from '../../types'
-import { useNewAttributeDialog } from '../hooks/useNewAttributeDialog'
-import { useExistingAttributeDialog } from '../hooks/useExistingAttributeDialog'
+import { object, string } from 'yup'
+import {
+  AttributeKey,
+  CatalogAttribute,
+  DialogExistingAttributeProps,
+  ExistingAttributeFormInputValues,
+  FrontendAttribute,
+  NewAttributeFormInputValues,
+} from '../../types'
 import { StyledButton } from './Shared/StyledButton'
 import { TableWithLoader } from './Shared/TableWithLoader'
+import { DialogContext } from '../lib/context'
+import { useFeedback } from '../hooks/useFeedback'
+import { useCloseDialog } from '../hooks/useCloseDialog'
 
 type EServiceAttributeGroupProps = {
   attributesGroup: Array<FrontendAttribute>
@@ -24,11 +33,60 @@ export function EServiceAttributeGroup({
   add,
   attributeKey,
 }: EServiceAttributeGroupProps) {
-  const { openDialog: openCreateNewAttributeDialog } = useNewAttributeDialog({ attributeKey })
-  const { openDialog: openExistingAttributeDialog } = useExistingAttributeDialog({
-    attributeKey,
-    add,
-  })
+  const { setDialog } = useContext(DialogContext)
+  const { runAction } = useFeedback()
+  const { closeDialog } = useCloseDialog()
+
+  const openCreateNewAttributeDialog = () => {
+    const createNewAttributeInitialValues = { name: '', code: '', origin: '', description: '' }
+    const createNewAttributeValidationSchema = object({
+      name: string().required(),
+      code: string().required(),
+      origin: string().required(),
+      description: string().required(),
+    })
+
+    const createNewAttribute = async (data: NewAttributeFormInputValues) => {
+      const dataToPost = { ...data, certified: false }
+
+      await runAction(
+        { path: { endpoint: 'ATTRIBUTE_CREATE' }, config: { data: dataToPost } },
+        { suppressToast: false }
+      )
+    }
+
+    setDialog({
+      type: 'newAttribute',
+      attributeKey,
+      onSubmit: createNewAttribute,
+      initialValues: createNewAttributeInitialValues,
+      validationSchema: createNewAttributeValidationSchema,
+    })
+  }
+
+  const openExistingAttributeDialog = () => {
+    const existingAttributeInitialValues: ExistingAttributeFormInputValues = {
+      selected: [],
+      verifiedCondition: {
+        attribute: false,
+      },
+    }
+
+    const addExistingAttributes = ({
+      selected,
+      verifiedCondition,
+    }: ExistingAttributeFormInputValues) => {
+      add(selected, Boolean(verifiedCondition?.attribute))
+      closeDialog()
+    }
+
+    setDialog({
+      type: 'existingAttribute',
+      attributeKey,
+      initialValues: existingAttributeInitialValues,
+      onSubmit: addExistingAttributes,
+    } as DialogExistingAttributeProps)
+  }
 
   const headData = canRequireVerification
     ? ['nome attributo', 'convalida richiesta', '']

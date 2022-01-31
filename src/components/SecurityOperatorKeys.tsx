@@ -1,9 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AxiosResponse } from 'axios'
-import { ActionProps, SecurityOperatorPublicKey, User } from '../../types'
+import {
+  ActionProps,
+  SecurityOperatorKeysFormInputValues,
+  SecurityOperatorPublicKey,
+  User,
+} from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { getFetchOutcome } from '../lib/error-utils'
-import { TokenContext } from '../lib/context'
+import { DialogContext, TokenContext } from '../lib/context'
 import { DescriptionBlock } from './DescriptionBlock'
 import { downloadFile } from '../lib/file-utils'
 import { StyledButton } from './Shared/StyledButton'
@@ -11,8 +16,8 @@ import { StyledLink } from './Shared/StyledLink'
 import { useFeedback } from '../hooks/useFeedback'
 import { Box } from '@mui/system'
 import { Typography } from '@mui/material'
+import { object, string, mixed } from 'yup'
 import { ROUTES } from '../config/routes'
-import { useSecurityOperatorKeyDialog } from '../hooks/useSecurityOperatorKeyDialog'
 import { InlineClipboard } from './Shared/InlineClipboard'
 import { jwtToUser } from '../lib/jwt-utils'
 
@@ -29,16 +34,48 @@ type PublicKeyObject = {
   key: Key
 }
 
+type NewPublicKey = SecurityOperatorKeysFormInputValues & {
+  clientId: string
+  use: 'SIG' | 'ENC'
+}
+
 export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKeysProps) {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
+  const { setDialog } = useContext(DialogContext)
   const { token } = useContext(TokenContext)
   const [key, setKey] = useState<PublicKeyObject | undefined>()
 
-  const { openDialog, forceRerenderCounter: securityKeyPostForceRerenderCounter } =
-    useSecurityOperatorKeyDialog({
-      clientId,
-      operatorId: userData.id,
+  const uploadKeyFormInitialValues: SecurityOperatorKeysFormInputValues = { alg: 'RS256', key: '' }
+  const uploadKeyFormValidationSchema = object({
+    alg: mixed().oneOf(['RS256']).required(),
+    key: string().required(),
+  })
+
+  const uploadKey = async (data: SecurityOperatorKeysFormInputValues) => {
+    // Encode public key
+    const dataToPost: NewPublicKey = { ...data, use: 'SIG', clientId }
+    dataToPost.key = btoa(dataToPost.key)
+
+    await runAction(
+      {
+        path: {
+          endpoint: 'OPERATOR_SECURITY_KEYS_POST',
+          endpointParams: { clientId, operatorId: userData.id },
+        },
+        config: { data: [dataToPost] },
+      },
+      { suppressToast: false }
+    )
+  }
+
+  const openUploadKeyDialog = () => {
+    setDialog({
+      type: 'securityOperatorKey',
+      onSubmit: uploadKey,
+      initialValues: uploadKeyFormInitialValues,
+      validationSchema: uploadKeyFormValidationSchema,
     })
+  }
 
   /*
    * List of keys related actions to perform
@@ -63,7 +100,7 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
     }
 
     asyncFetchKeys()
-  }, [forceRerenderCounter, securityKeyPostForceRerenderCounter]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [forceRerenderCounter]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const wrapDownloadKey = (keyId: string) => async () => {
     const { response, outcome } = await runAction(
@@ -122,7 +159,7 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
 
       {isCurrentUser && !key && (
         <React.Fragment>
-          <StyledButton sx={{ mb: 2 }} onClick={openDialog} variant="contained">
+          <StyledButton sx={{ mb: 2 }} onClick={openUploadKeyDialog} variant="contained">
             Carica nuova chiave
           </StyledButton>
           <Typography sx={{ mt: 2 }}>
