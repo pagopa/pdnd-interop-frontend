@@ -1,11 +1,11 @@
-import React, { FunctionComponent } from 'react'
+import React from 'react'
 import { AxiosError, AxiosRequestConfig, AxiosResponse, Method } from 'axios'
 import {
   AGREEMENT_STATE_LABEL,
   CLIENT_STATE_LABEL,
   ESERVICE_STATE_LABEL,
 } from './src/config/labels'
-import { Control, FieldValues, UseFormGetValues, UseFormWatch } from 'react-hook-form'
+import { SchemaOf } from 'yup'
 
 /*
  * Fetch data and router related types
@@ -254,7 +254,6 @@ export type EServiceFlatReadType = {
 }
 
 export type EServiceFlatDecoratedReadType = EServiceFlatReadType & {
-  amISubscribed: boolean
   isMine: boolean
 }
 
@@ -456,20 +455,89 @@ export type WrappableAction = {
   isMock: boolean // TEMP PoC
 }
 
-export type DialogProps = DialogContent & {
-  proceedCallback: ActionFunction
+export type DialogContent = {
+  title: string
+  description?: string
+}
+
+export type DialogDefaultProps = {
   close: VoidFunction
-  disabled?: boolean
   maxWidth?: MUISize
 }
 
-export type DialogContent = {
-  title?: string
-  // Use this field if it's only a textual description
+export type DialogProps =
+  | DialogBasicProps
+  | DialogAskExtensionProps
+  | DialogSubscribeProps
+  | DialogSecurityOperatorKeyProps
+  | DialogExistingAttributeProps
+  | DialogNewAttributeProps
+
+export type DialogNewAttributeProps = {
+  type: 'newAttribute'
+  attributeKey: AttributeKey
+  onSubmit: (data: NewAttributeFormInputValues) => void
+  initialValues: NewAttributeFormInputValues
+  validationSchema: SchemaOf<NewAttributeFormInputValues>
+}
+
+export type NewAttributeFormInputValues = {
+  name: string
+  code: string
+  origin: string
+  description: string
+}
+
+export type DialogExistingAttributeProps = {
+  type: 'existingAttribute'
+  attributeKey: AttributeKey
+  onSubmit: (data: ExistingAttributeFormInputValues) => void
+  initialValues: ExistingAttributeFormInputValues
+}
+
+export type ExistingAttributeVerifiedCondition = {
+  attribute: boolean
+}
+
+export type ExistingAttributeFormInputValues = {
+  verifiedCondition?: ExistingAttributeVerifiedCondition
+  selected: Array<CatalogAttribute>
+}
+
+export type DialogSecurityOperatorKeyProps = {
+  type: 'securityOperatorKey'
+  onSubmit: (data: SecurityOperatorKeysFormInputValues) => void
+  initialValues: SecurityOperatorKeysFormInputValues
+  validationSchema: SchemaOf<SecurityOperatorKeysFormInputValues>
+}
+
+export type SecurityOperatorKeysFormInputValues = {
+  alg: 'RS256'
+  key: string
+}
+
+export type DialogSubscribeProps = {
+  type: 'subscribe'
+  onSubmit: (data: EserviceSubscribeFormInputValues) => void
+  initialValues: EserviceSubscribeFormInputValues
+  validationSchema: SchemaOf<EserviceSubscribeFormInputValues>
+}
+
+export type EserviceSubscribeFormInputValues = {
+  agreementHandle: Record<string, boolean>
+}
+
+export type DialogAskExtensionProps = {
+  type: 'askExtension'
+}
+
+export type DialogBasicProps = DialogDefaultProps & {
+  type: 'basic'
+  title: string
   description?: string
-  // Use this other field if you must pass a component
-  // (e.g. put a form to validate inside the dialog)
-  Contents?: FunctionComponent<RHFProps>
+  proceedCallback: ActionFunction
+  proceedLabel?: string
+  disabled?: boolean
 }
 
 export type DialogActionKeys = Exclude<
@@ -566,13 +634,6 @@ export type MUISize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 /*
  * MISC
  */
-export type CustomDialogContentsProps = {
-  control: Control<FieldValues, Record<string, unknown>>
-  errors: Record<string, unknown>
-  getValues?: UseFormGetValues<FieldValues>
-  watch?: UseFormWatch<FieldValues>
-}
-
 export type RunActionOutput = {
   response: AxiosResponse | AxiosError
   outcome: RequestOutcome
@@ -581,11 +642,4 @@ export type RunActionOutput = {
 export type EServiceInterfaceMimeType = {
   mime: Array<string>
   format: string
-}
-
-export type RHFProps = {
-  control: Control<FieldValues, Record<string, unknown>>
-  errors: Record<string, unknown>
-  watch: UseFormWatch<FieldValues>
-  getValues: UseFormGetValues<FieldValues>
 }

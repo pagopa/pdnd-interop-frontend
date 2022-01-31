@@ -1,88 +1,51 @@
-import React, { FunctionComponent, useContext } from 'react'
-import { useForm } from 'react-hook-form'
+import React from 'react'
 import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Unstable_TrapFocus as TrapFocus,
-} from '@mui/material'
-import { Box } from '@mui/system'
-import { StyledButton } from './StyledButton'
-import { ActionFunction, MUISize, RHFProps } from '../../../types'
-import { StyledForm } from './StyledForm'
-import { TableActionMenuContext } from '../../lib/context'
+  DialogAskExtensionProps,
+  DialogBasicProps,
+  DialogExistingAttributeProps,
+  DialogNewAttributeProps,
+  DialogProps,
+  DialogSecurityOperatorKeyProps,
+  DialogSubscribeProps,
+} from '../../../types'
+import { StyledDialogExtension } from './StyledDialogExtension'
+import { StyledDialogBasic } from './StyledDialogBasic'
+import { StyledDialogSubscribe } from './StyledDialogSubscribe'
+import { StyledDialogSecurityOperatorKey } from './StyledDialogSecurityOperatorKey'
+import { StyledDialogExistingAttribute } from './StyledDialogExistingAttribute'
+import { StyledDialogNewAttribute } from './StyledDialogNewAttribute'
 
-type ConfirmationDialogOverlayProps = {
-  title?: string
-  description?: string
-  Contents?: FunctionComponent<RHFProps>
-  close: VoidFunction
-  proceedCallback: ActionFunction
-  proceedLabel?: string
-  disabled?: boolean
-  maxWidth?: MUISize
-}
-
-export const StyledDialog: FunctionComponent<ConfirmationDialogOverlayProps> = ({
-  title = 'Conferma azione',
-  description,
-  close,
-  proceedCallback,
-  proceedLabel = 'Conferma',
-  disabled = false,
-  maxWidth = 'xs',
-  children,
-
-  Contents,
-}) => {
-  const { setTableActionMenu } = useContext(TableActionMenuContext)
-  const {
-    handleSubmit,
-    control,
-    watch,
-    getValues,
-    formState: { errors },
-  } = useForm()
-
-  const voidClose = () => {
-    close()
-    // Close any table action that might be open
-    setTableActionMenu(null)
+function match<T>(
+  onBasic: (props: DialogBasicProps) => T,
+  onAskExtension: (props: DialogAskExtensionProps) => T,
+  onSubscribe: (props: DialogSubscribeProps) => T,
+  onSecurityOperatorKey: (props: DialogSecurityOperatorKeyProps) => T,
+  onExistingAttribute: (props: DialogExistingAttributeProps) => T,
+  onNewAttribute: (props: DialogNewAttributeProps) => T
+) {
+  return (props: DialogProps) => {
+    switch (props.type) {
+      case 'basic':
+        return onBasic(props)
+      case 'askExtension':
+        return onAskExtension(props)
+      case 'subscribe':
+        return onSubscribe(props)
+      case 'securityOperatorKey':
+        return onSecurityOperatorKey(props)
+      case 'existingAttribute':
+        return onExistingAttribute(props)
+      case 'newAttribute':
+        return onNewAttribute(props)
+    }
   }
-
-  return (
-    <TrapFocus open>
-      <Dialog
-        open={true}
-        onClose={close}
-        aria-describedby={`Modale per azione: ${title}`}
-        maxWidth={maxWidth}
-        fullWidth
-      >
-        <StyledForm onSubmit={handleSubmit(proceedCallback)}>
-          <Box>
-            <DialogTitle>{title}</DialogTitle>
-
-            {children && <DialogContent>{children}</DialogContent>}
-            {Contents && (
-              <DialogContent>
-                {description}
-                <Contents control={control} errors={errors} watch={watch} getValues={getValues} />
-              </DialogContent>
-            )}
-
-            <DialogActions>
-              <StyledButton variant="outlined" onClick={voidClose}>
-                Annulla
-              </StyledButton>
-              <StyledButton variant="contained" type="submit" disabled={disabled}>
-                {proceedLabel}
-              </StyledButton>
-            </DialogActions>
-          </Box>
-        </StyledForm>
-      </Dialog>
-    </TrapFocus>
-  )
 }
+
+export const StyledDialog = match(
+  (props) => <StyledDialogBasic {...props} />,
+  (props) => <StyledDialogExtension {...props} />,
+  (props) => <StyledDialogSubscribe {...props} />,
+  (props) => <StyledDialogSecurityOperatorKey {...props} />,
+  (props) => <StyledDialogExistingAttribute {...props} />,
+  (props) => <StyledDialogNewAttribute {...props} />
+)
