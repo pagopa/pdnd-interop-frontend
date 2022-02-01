@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { useLocation } from 'react-router'
 import { Box } from '@mui/system'
-import { UserState, ActionProps, Party, User } from '../../types'
+import { UserState, ActionProps, User } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -15,6 +15,7 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ROUTES } from '../config/routes'
 import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATE_LABEL } from '../config/labels'
+import { jwtToUser } from '../lib/jwt-utils'
 
 export function UserList() {
   const location = useLocation()
@@ -63,7 +64,6 @@ export function UserList() {
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = (user: User) => {
-    console.log(user)
     const suspendAction = {
       onClick: wrapActionInDialog(wrapSuspend(user.id), 'USER_SUSPEND'),
       label: 'Sospendi',
@@ -79,9 +79,14 @@ export function UserList() {
       SUSPENDED: [reactivateAction],
     }
 
+    const currentUserId = jwtToUser(token as string).id
+    // Is same user, so it cannot suspend or reactivate itself
+    if (user.from === currentUserId) {
+      return []
+    }
+
     // Return all the actions available for this particular status
-    const { state } = party as Party
-    return availableActions[state] || []
+    return availableActions[user.state] || []
   }
 
   // TEMP BACKEND: this should not happen, it depends on the difference between our API

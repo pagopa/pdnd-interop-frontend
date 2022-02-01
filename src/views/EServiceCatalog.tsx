@@ -42,9 +42,7 @@ export function EServiceCatalog() {
   >(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
-      config: { params: { callerId: party?.partyId } },
-      // TEMP PIN-948
-      // config: { params: { state: 'PUBLISHED', callerId: party?.partyId } },
+      config: { params: { state: 'PUBLISHED', callerId: party?.partyId } },
     },
     {
       mapFn: (data) => data.map((d) => ({ ...d, isMine: d.producerId === party?.partyId })),

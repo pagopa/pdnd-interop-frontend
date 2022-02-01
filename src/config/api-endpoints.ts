@@ -14,7 +14,7 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'GET',
   },
   ESERVICE_GET_LIST_FLAT: {
-    // TEMP PIN-948
+    // TEMP PIN-1052
     URL: 'pdnd-interop-uservice-catalog-process/0.1/flatten/eservices',
     METHOD: 'GET',
   },
@@ -137,12 +137,10 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'POST',
   },
   USER_SUSPEND: {
-    // TEMP PIN-968
     URL: 'pdnd-interop-uservice-party-process/0.1/relationships/:relationshipId/suspend',
     METHOD: 'POST',
   },
   USER_REACTIVATE: {
-    // TEMP PIN-968
     URL: 'pdnd-interop-uservice-party-process/0.1/relationships/:relationshipId/activate',
     METHOD: 'POST',
   },
