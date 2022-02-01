@@ -1,19 +1,18 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import axios from 'axios'
 import { useLogin } from '../useLogin'
-import { TokenContext } from '../../lib/context'
 import { storageWrite } from '../../lib/storage-utils'
 import { STORAGE_KEY_TOKEN } from '../../lib/constants'
-import { jwtToUser } from '../../lib/jwt-utils'
 import { AllTheProviders } from '../../__mocks__/providers'
 import { token } from '../../__mocks__/token'
+import { useUser } from '../useUser'
+import { jwtToUser } from '../../lib/jwt-utils'
 
 function TestSilentLoginSubscriber() {
   const { silentLoginAttempt } = useLogin()
-  const { token } = useContext(TokenContext)
-  const user = token && jwtToUser(token)
+  const { user } = useUser()
 
   return (
     <div>

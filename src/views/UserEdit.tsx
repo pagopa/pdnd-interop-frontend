@@ -17,6 +17,7 @@ import { Tab, Tabs, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { a11yProps, TabPanel } from '../components/TabPanel'
 import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATE_LABEL } from '../config/labels'
+import { useUser } from '../hooks/useUser'
 
 type UserEndpoinParams = { clientId: string } | { relationshipId: string }
 
@@ -25,6 +26,7 @@ export function UserEdit() {
   const mode = useMode()
   const currentMode = mode as ProviderOrSubscriber
   const { party } = useContext(PartyContext)
+  const { isCurrentUser } = useUser()
   const bits = getBits(useLocation())
   const relationshipId = bits[bits.length - 1]
 
@@ -85,7 +87,9 @@ export function UserEdit() {
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = () => {
-    if (isEmpty(userData) || !isAdmin(party)) {
+    // Only admins can handle other people
+    // also, if same user, it cannot suspend or reactivate itself
+    if (!isAdmin(party) || !userData || isCurrentUser(userData.from)) {
       return []
     }
 

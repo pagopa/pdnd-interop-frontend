@@ -15,11 +15,12 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ROUTES } from '../config/routes'
 import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATE_LABEL } from '../config/labels'
-import { jwtToUser } from '../lib/jwt-utils'
+import { useUser } from '../hooks/useUser'
 
 export function UserList() {
   const location = useLocation()
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
+  const { isCurrentUser } = useUser()
 
   // Only for subscriber
   const locationBits = getBits(location)
@@ -64,6 +65,12 @@ export function UserList() {
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = (user: User) => {
+    // If same user, it cannot suspend or reactivate itself
+    // also, only admins can handle other people
+    if (isCurrentUser(user.from) || !isAdmin(party)) {
+      return []
+    }
+
     const suspendAction = {
       onClick: wrapActionInDialog(wrapSuspend(user.id), 'USER_SUSPEND'),
       label: 'Sospendi',
@@ -77,12 +84,6 @@ export function UserList() {
       PENDING: [],
       ACTIVE: [suspendAction],
       SUSPENDED: [reactivateAction],
-    }
-
-    const currentUserId = jwtToUser(token as string).id
-    // Is same user, so it cannot suspend or reactivate itself
-    if (user.from === currentUserId) {
-      return []
     }
 
     // Return all the actions available for this particular status
@@ -148,7 +149,7 @@ export function UserList() {
                       id: clientId,
                       operatorId: item.id,
                     }),
-              label: 'Gestisci',
+              label: 'Ispeziona',
             }}
             actions={getAvailableActions(item)}
           />

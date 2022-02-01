@@ -14,18 +14,21 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { COMPUTED_STATE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
+import { useUser } from '../hooks/useUser'
 
 export function ClientList() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
   const { token } = useContext(TokenContext)
   const { party } = useContext(PartyContext)
+  const { user } = useUser()
+
   const { data, loadingText, error } = useAsyncFetch<Array<Client>>(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
       config: {
         params: {
           consumerId: party?.partyId,
-          // operatorId: jwtToUser(token as string).id,
+          operatorId: user && party && party.productInfo.role === 'security' ? user.id : undefined,
         },
       },
     },

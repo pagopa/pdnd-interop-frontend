@@ -8,7 +8,7 @@ import {
 } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { getFetchOutcome } from '../lib/error-utils'
-import { DialogContext, TokenContext } from '../lib/context'
+import { DialogContext } from '../lib/context'
 import { DescriptionBlock } from './DescriptionBlock'
 import { downloadFile } from '../lib/file-utils'
 import { StyledButton } from './Shared/StyledButton'
@@ -19,7 +19,7 @@ import { Typography } from '@mui/material'
 import { object, string, mixed } from 'yup'
 import { ROUTES } from '../config/routes'
 import { InlineClipboard } from './Shared/InlineClipboard'
-import { jwtToUser } from '../lib/jwt-utils'
+import { useUser } from '../hooks/useUser'
 
 type SecurityOperatorKeysProps = {
   clientId: string
@@ -42,8 +42,8 @@ type NewPublicKey = SecurityOperatorKeysFormInputValues & {
 export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKeysProps) {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
   const { setDialog } = useContext(DialogContext)
-  const { token } = useContext(TokenContext)
   const [key, setKey] = useState<PublicKeyObject | undefined>()
+  const { isCurrentUser } = useUser()
 
   const uploadKeyFormInitialValues: SecurityOperatorKeysFormInputValues = { alg: 'RS256', key: '' }
   const uploadKeyFormValidationSchema = object({
@@ -146,9 +146,6 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
     return actions
   }
 
-  const userId = jwtToUser(token as string).id
-  const isCurrentUser = userId === userData.id
-
   return (
     <React.Fragment>
       {!key && (
@@ -157,7 +154,7 @@ export function SecurityOperatorKeys({ clientId, userData }: SecurityOperatorKey
         </Typography>
       )}
 
-      {isCurrentUser && !key && (
+      {isCurrentUser(userData.id) && !key && (
         <React.Fragment>
           <StyledButton sx={{ mb: 2 }} onClick={openUploadKeyDialog} variant="contained">
             Carica nuova chiave
