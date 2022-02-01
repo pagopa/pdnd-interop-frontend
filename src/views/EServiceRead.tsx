@@ -4,9 +4,10 @@ import has from 'lodash/has'
 import {
   AttributeKey,
   BackendAttribute,
+  DialogSubscribeProps,
   EServiceDescriptorRead,
-  EServiceFlatReadType,
   EServiceReadType,
+  EserviceSubscribeFormInputValues,
   GroupBackendAttribute,
   ProviderOrSubscriber,
   SingleBackendAttribute,
@@ -14,12 +15,10 @@ import {
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useMode } from '../hooks/useMode'
-import { PartyContext } from '../lib/context'
+import { DialogContext, PartyContext } from '../lib/context'
 import { minutesToHHMMSS } from '../lib/date-utils'
 import { canSubscribe } from '../lib/attributes'
 import { isAdmin } from '../lib/auth-utils'
-import { useSubscribeDialog } from '../hooks/useSubscribeDialog'
-import { useExtensionDialog } from '../hooks/useExtensionDialog'
 import { downloadFile } from '../lib/file-utils'
 import { AxiosResponse } from 'axios'
 import { StyledAccordion } from '../components/Shared/StyledAccordion'
@@ -32,6 +31,8 @@ import { FileDownloadOutlined as FileDownloadOutlinedIcon } from '@mui/icons-mat
 import { ATTRIBUTE_TYPE_PLURAL_LABEL, ESERVICE_STATE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
 import { Contained } from '../components/Shared/Contained'
+import { object, boolean } from 'yup'
+import { isTrue } from '../lib/validation-config'
 
 type EServiceReadProps = {
   data: EServiceReadType
@@ -39,8 +40,9 @@ type EServiceReadProps = {
 }
 
 export function EServiceRead({ data, isLoading }: EServiceReadProps) {
-  const { runAction } = useFeedback()
+  const { runAction, runActionWithDestination } = useFeedback()
   const { party } = useContext(PartyContext)
+  const { setDialog } = useContext(DialogContext)
   const mode = useMode()
   const currentMode = mode as ProviderOrSubscriber
   const activeDescriptor = data.activeDescriptor as EServiceDescriptorRead
@@ -51,15 +53,6 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
       party?.partyId === data.producer.id ? "Nota: sei l'erogatore di questo e-service" : ''
     }`,
   }
-
-  /*
-   * List of possible actions for the user to perform
-   */
-  const { openDialog: openSubscribeDialog } = useSubscribeDialog()
-  const { openDialog: openExtensionDialog } = useExtensionDialog()
-  /*
-   * End list of actions
-   */
 
   // Get all documents actual URL
   const wrapDownloadDocument = (documentId: string) => async () => {
@@ -129,16 +122,34 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
   }
 
   const handleSubscriptionDialog = () => {
-    const flatEService: EServiceFlatReadType = {
-      name: data.name,
-      id: data.id,
-      descriptorId: data.activeDescriptor?.id,
-      producerId: data.producer.id,
-      producerName: data.producer.name,
-      certifiedAttributes: data.attributes.certified,
+    const subscribe = async () => {
+      const agreementData = {
+        eserviceId: data.id,
+        descriptorId: data.activeDescriptor?.id,
+        consumerId: party?.partyId,
+      }
+
+      await runActionWithDestination(
+        { path: { endpoint: 'AGREEMENT_CREATE' }, config: { data: agreementData } },
+        { destination: ROUTES.SUBSCRIBE_AGREEMENT_LIST, suppressToast: false }
+      )
     }
 
-    openSubscribeDialog(flatEService)
+    const eserviceSubscribeFormInitialValues: EserviceSubscribeFormInputValues = {
+      agreementHandle: { confirm: false },
+    }
+    const eserviceSubscribeFormValidationSchema = object({
+      agreementHandle: object({
+        confirm: boolean().test('value', 'La checkbox deve essere spuntata', isTrue),
+      }),
+    })
+
+    setDialog({
+      type: 'subscribe',
+      onSubmit: subscribe,
+      initialValues: eserviceSubscribeFormInitialValues,
+      validationSchema: eserviceSubscribeFormValidationSchema,
+    } as DialogSubscribeProps)
   }
 
   if (isLoading) {
@@ -254,7 +265,9 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
               className="mockFeature"
               sx={{ mr: 2 }}
               variant="contained"
-              onClick={openExtensionDialog}
+              onClick={() => {
+                setDialog({ type: 'askExtension' })
+              }}
             >
               Richiedi estensione
             </StyledButton>

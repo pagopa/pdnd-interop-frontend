@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { Formik } from 'formik'
+import { object, string } from 'yup'
 import { useHistory } from 'react-router-dom'
 import { AxiosResponse } from 'axios'
 import isEmpty from 'lodash/isEmpty'
@@ -14,7 +15,6 @@ import {
 } from '../../types'
 import { PartyContext } from '../lib/context'
 import { buildDynamicPath } from '../lib/router-utils'
-import { requiredValidationPattern } from '../lib/validation'
 import {
   remapBackendAttributesToFrontend,
   remapFrontendAttributesToBackend,
@@ -24,25 +24,29 @@ import { EServiceWriteProps } from '../views/EServiceWrite'
 import { EServiceAttributeSection } from './EServiceAttributeSection'
 import { StyledForm } from './Shared/StyledForm'
 import { StyledIntro } from './Shared/StyledIntro'
-import { StyledInputControlledText } from './Shared/StyledInputControlledText'
-import { StyledInputControlledRadio } from './Shared/StyledInputControlledRadio'
-// import { StyledInputControlledSwitch } from './Shared/StyledInputControlledSwitch'
 import { ROUTES } from '../config/routes'
 import { EServiceWriteActions } from './Shared/EServiceWriteActions'
+import { StyledInputControlledText } from './Shared/StyledInputControlledText'
+import { StyledInputControlledRadio } from './Shared/StyledInputControlledRadio'
 
 export const EServiceWriteStep1General: FunctionComponent<
   StepperStepComponentProps & EServiceWriteProps
 > = ({ forward, fetchedData }) => {
-  const {
-    handleSubmit,
-    control,
-    setValue,
-    formState: { errors },
-  } = useForm()
-
   const { party } = useContext(PartyContext)
   const history = useHistory()
   const { runActionWithCallback } = useFeedback()
+
+  const validationSchema = object({
+    name: string().required(),
+    description: string().required(),
+    technology: string().required(),
+  })
+  const initialValues: Omit<EServiceCreateDataType, 'producerId'> = {
+    name: '',
+    description: '',
+    technology: 'REST',
+  }
+  const [initialOrFetchedValues, setInitialOrFetchedValues] = useState(initialValues)
 
   // Attributes are separated from the rest of the data.
   // There is no logical reason, it is just easier to handle the operations this way
@@ -61,9 +65,7 @@ export const EServiceWriteStep1General: FunctionComponent<
         description,
         attributes: backendAttributes,
       } = fetchedData as EServiceReadType
-      setValue('technology', technology)
-      setValue('name', name)
-      setValue('description', description)
+      setInitialOrFetchedValues({ technology, name, description })
       setAttributes(remapBackendAttributesToFrontend(backendAttributes))
     }
   }, [fetchedData]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -134,68 +136,73 @@ export const EServiceWriteStep1General: FunctionComponent<
   /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
   return (
-    <StyledForm onSubmit={handleSubmit(onSubmit)}>
-      <StyledIntro variant="h2" sx={{ mb: 0, pb: 0 }}>
-        {{ title: 'Caratterizzazione e-service' }}
-      </StyledIntro>
+    <Formik
+      initialValues={initialOrFetchedValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+      validateOnChange={false}
+      validateOnBlur={false}
+      enableReinitialize={true}
+    >
+      {({ handleSubmit, errors, values, handleChange }) => (
+        <StyledForm onSubmit={handleSubmit}>
+          <StyledIntro variant="h2" sx={{ mb: 0, pb: 0 }}>
+            {{ title: 'Caratterizzazione e-service' }}
+          </StyledIntro>
 
-      <StyledInputControlledText
-        name="name"
-        label="Nome dell'eservice (richiesto)"
-        control={control}
-        rules={{ required: requiredValidationPattern }}
-        errors={errors}
-        disabled={!isEditable}
-        focusOnMount={isEditable}
-      />
+          <StyledInputControlledText
+            name="name"
+            label="Nome dell'eservice (richiesto)"
+            error={errors.name}
+            value={values.name}
+            onChange={handleChange}
+            disabled={!isEditable}
+            focusOnMount={isEditable}
+          />
 
-      <StyledInputControlledText
-        name="description"
-        label="Descrizione dell'e-service (richiesto)"
-        control={control}
-        rules={{ required: requiredValidationPattern }}
-        errors={errors}
-        disabled={!isEditable}
-        multiline={true}
-      />
+          <StyledInputControlledText
+            name="description"
+            label="Descrizione dell'e-service (richiesto)"
+            error={errors.description}
+            value={values.description}
+            onChange={handleChange}
+            disabled={!isEditable}
+            multiline={true}
+          />
 
-      <Box sx={{ my: 8 }}>
-        <StyledInputControlledRadio
-          name="technology"
-          label="Tecnologia (richiesto)"
-          control={control}
-          rules={{ required: requiredValidationPattern }}
-          errors={errors}
-          disabled={!isEditable}
-          options={[
-            { label: 'REST', value: 'REST' },
-            { label: 'SOAP', value: 'SOAP' },
-          ]}
-          defaultValue="REST"
-        />
-      </Box>
+          <Box sx={{ my: 8 }}>
+            <StyledInputControlledRadio
+              name="technology"
+              label="Tecnologia (richiesto)"
+              error={errors.technology}
+              value={values.technology}
+              onChange={handleChange}
+              disabled={!isEditable}
+              options={[
+                { label: 'REST', value: 'REST' },
+                { label: 'SOAP', value: 'SOAP' },
+              ]}
+            />
+          </Box>
 
-      {/* <StyledInputControlledSwitch
-        name="pop"
-        label="Proof of Possession (richiesto)"
-        control={control}
-        errors={errors}
-        disabled={!isEditable}
-      /> */}
+          <StyledIntro
+            variant="h2"
+            sx={{ mt: 8, mb: 2, pt: 4, borderTop: 1, borderColor: 'divider' }}
+          >
+            {{ title: 'Attributi' }}
+          </StyledIntro>
+          <EServiceAttributeSection attributes={attributes} setAttributes={setAttributes} />
 
-      <StyledIntro variant="h2" sx={{ mt: 8, mb: 2, pt: 4, borderTop: 1, borderColor: 'divider' }}>
-        {{ title: 'Attributi' }}
-      </StyledIntro>
-      <EServiceAttributeSection attributes={attributes} setAttributes={setAttributes} />
-
-      <EServiceWriteActions
-        back={{
-          label: 'Torna agli e-service',
-          type: 'link',
-          to: ROUTES.PROVIDE_ESERVICE_LIST.PATH,
-        }}
-        forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
-      />
-    </StyledForm>
+          <EServiceWriteActions
+            back={{
+              label: 'Torna agli e-service',
+              type: 'link',
+              to: ROUTES.PROVIDE_ESERVICE_LIST.PATH,
+            }}
+            forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
+          />
+        </StyledForm>
+      )}
+    </Formik>
   )
 }

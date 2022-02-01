@@ -1,6 +1,5 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { useForm } from 'react-hook-form'
 import { StyledInputControlledSelect } from '../StyledInputControlledSelect'
 
 type Option = {
@@ -13,16 +12,7 @@ type SelectProps = {
 }
 
 function Select({ options }: SelectProps) {
-  const props = { name: 'test', rules: {}, defaultValue: options && options[0].value }
-
-  const {
-    control,
-    formState: { errors },
-  } = useForm()
-
-  return (
-    <StyledInputControlledSelect {...props} control={control} errors={errors} options={options} />
-  )
+  return <StyledInputControlledSelect name="test" options={options} />
 }
 
 describe('Snapshot', () => {

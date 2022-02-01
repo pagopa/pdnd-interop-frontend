@@ -1,5 +1,6 @@
-import React, { useContext } from 'react'
-import { useForm } from 'react-hook-form'
+import React, { useContext, useEffect } from 'react'
+import { Formik } from 'formik'
+import { object, string } from 'yup'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { EServiceReadType, SelectOption } from '../../types'
@@ -8,26 +9,18 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
 import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
-import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
-import { requiredValidationPattern } from '../lib/validation'
-import { StyledInputControlledSelect } from '../components/Shared/StyledInputControlledSelect'
 import { ROUTES } from '../config/routes'
+import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
+import { StyledInputControlledSelect } from '../components/Shared/StyledInputControlledSelect'
 
-type ClientSubmit = {
+type ClientFields = {
   name: string
   description: string
-  consumerId: string
   eServiceId: string
   purposes: string
 }
 
 export function ClientCreate() {
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm()
-
   const { runActionWithDestination } = useFeedback()
   const { party } = useContext(PartyContext)
   const { data: eserviceData } = useAsyncFetch<Array<EServiceReadType>, Array<SelectOption>>(
@@ -41,14 +34,28 @@ export function ClientCreate() {
     }
   )
 
-  const onSubmit = async (data: Partial<ClientSubmit>) => {
-    const dataToPost = { ...data, consumerId: party?.partyId }
+  const onSubmit = async (values: ClientFields) => {
+    const dataToPost = { ...values, consumerId: party?.partyId }
 
     await runActionWithDestination(
       { path: { endpoint: 'CLIENT_CREATE' }, config: { data: dataToPost } },
       { destination: ROUTES.SUBSCRIBE_CLIENT_LIST, suppressToast: false }
     )
   }
+
+  const validationSchema = object({
+    name: string().required(),
+    description: string().required(),
+    eServiceId: string().required(),
+    purposes: string().required(),
+  })
+  const initialValues: ClientFields = { name: '', description: '', eServiceId: '', purposes: '' }
+
+  useEffect(() => {
+    if (eserviceData && eserviceData.length > 0) {
+      initialValues.eServiceId = String(eserviceData[0].value)
+    }
+  }, [eserviceData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!eserviceData) {
     return <StyledSkeleton />
@@ -64,48 +71,57 @@ export function ClientCreate() {
         }}
       </StyledIntro>
 
-      <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <StyledInputControlledText
-          focusOnMount={true}
-          name="name"
-          label="Nome del client*"
-          control={control}
-          rules={{ required: requiredValidationPattern }}
-          errors={errors}
-        />
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+        validateOnChange={false}
+        validateOnBlur={false}
+      >
+        {({ handleSubmit, errors, values, handleChange }) => (
+          <StyledForm onSubmit={handleSubmit}>
+            <StyledInputControlledText
+              focusOnMount={true}
+              name="name"
+              label="Nome del client*"
+              value={values.name}
+              onChange={handleChange}
+              error={errors.name}
+            />
 
-        <StyledInputControlledText
-          name="description"
-          label="Descrizione del client*"
-          control={control}
-          rules={{ required: requiredValidationPattern }}
-          errors={errors}
-          multiline={true}
-        />
+            <StyledInputControlledText
+              name="description"
+              label="Descrizione del client*"
+              value={values.description}
+              onChange={handleChange}
+              error={errors.description}
+              multiline={true}
+            />
 
-        <StyledInputControlledSelect
-          name="eServiceId"
-          label="E-service da associare*"
-          control={control}
-          rules={{ required: requiredValidationPattern }}
-          errors={errors}
-          disabled={eserviceData.length === 0}
-          options={eserviceData}
-          defaultValue={Boolean(eserviceData.length > 0) ? eserviceData[0].value : null}
-        />
+            <StyledInputControlledSelect
+              name="eServiceId"
+              label="E-service da associare*"
+              value={values.eServiceId}
+              onChange={handleChange}
+              error={errors.eServiceId}
+              disabled={eserviceData.length === 0}
+              options={eserviceData}
+            />
 
-        <StyledInputControlledText
-          name="purposes"
-          label="Finalità*"
-          control={control}
-          rules={{ required: requiredValidationPattern }}
-          errors={errors}
-        />
+            <StyledInputControlledText
+              name="purposes"
+              label="Finalità*"
+              value={values.purposes}
+              onChange={handleChange}
+              error={errors.purposes}
+            />
 
-        <StyledButton sx={{ mt: 8 }} variant="contained" type="submit">
-          Crea client
-        </StyledButton>
-      </StyledForm>
+            <StyledButton sx={{ mt: 8 }} variant="contained" type="submit">
+              Crea client
+            </StyledButton>
+          </StyledForm>
+        )}
+      </Formik>
     </React.Fragment>
   )
 }

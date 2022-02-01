@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
-import { useForm } from 'react-hook-form'
+import { Formik } from 'formik'
+import { object, string } from 'yup'
 import { useLocation } from 'react-router-dom'
 import { useMode } from '../hooks/useMode'
 import { Party, ProviderOrSubscriber, UserOnCreate } from '../../types'
@@ -9,24 +10,20 @@ import { StyledIntro, StyledIntroChildrenProps } from '../components/Shared/Styl
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
-import { PlatformUserControlledForm } from '../components/Shared/PlatformUserControlledForm'
 import { ROUTES } from '../config/routes'
 import { Contained } from '../components/Shared/Contained'
 import { AxiosResponse } from 'axios'
+import { Grid } from '@mui/material'
+import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 
 export function UserCreate() {
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm()
   const { runActionWithDestination, runAction } = useFeedback()
   const location = useLocation()
   const mode = useMode()
   const currentMode = mode as ProviderOrSubscriber
   const { party } = useContext(PartyContext)
 
-  const onSubmit = async ({ operator }: Record<string, Partial<UserOnCreate>>) => {
+  const onSubmit = async (operator: Partial<UserOnCreate>) => {
     const userData = {
       ...operator,
       role: 'OPERATOR',
@@ -88,19 +85,84 @@ export function UserCreate() {
     },
   }
 
+  const initialValues = { name: '', surname: '', taxCode: '', email: '' }
+  const validationSchema = object({
+    name: string().required(),
+    surname: string().required(),
+    taxCode: string().required(),
+    email: string().email().required(),
+  })
+
   return (
     <React.Fragment>
       <StyledIntro>{INTRO[currentMode]}</StyledIntro>
 
-      <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <Contained>
-          <PlatformUserControlledForm prefix="operator" control={control} errors={errors} />
-        </Contained>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+        validateOnChange={false}
+        validateOnBlur={false}
+      >
+        {({ handleSubmit, errors, values, handleChange }) => (
+          <StyledForm onSubmit={handleSubmit}>
+            <Contained>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <StyledInputControlledText
+                    focusOnMount={true}
+                    sx={{ my: 4 }}
+                    label="Nome*"
+                    name="name"
+                    onChange={handleChange}
+                    value={values.name}
+                    error={errors.name}
+                  />
+                </Grid>
 
-        <StyledButton sx={{ mt: 8 }} variant="contained" type="submit">
-          Crea operatore
-        </StyledButton>
-      </StyledForm>
+                <Grid item xs={6}>
+                  <StyledInputControlledText
+                    sx={{ my: 4 }}
+                    label="Cognome*"
+                    name="surname"
+                    onChange={handleChange}
+                    value={values.surname}
+                    error={errors.surname}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <StyledInputControlledText
+                    sx={{ my: 4 }}
+                    label="Codice Fiscale*"
+                    name="taxCode"
+                    onChange={handleChange}
+                    value={values.taxCode}
+                    error={errors.taxCode}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <StyledInputControlledText
+                    type="email"
+                    infoLabel="Inserisci l'indirizzo email ad uso aziendale utilizzato per l'Ente"
+                    sx={{ my: 4 }}
+                    label="Email ad uso aziendale*"
+                    name="email"
+                    onChange={handleChange}
+                    value={values.email}
+                    error={errors.email}
+                  />
+                </Grid>
+              </Grid>
+            </Contained>
+
+            <StyledButton sx={{ mt: 8 }} variant="contained" type="submit">
+              Crea operatore
+            </StyledButton>
+          </StyledForm>
+        )}
+      </Formik>
     </React.Fragment>
   )
 }
