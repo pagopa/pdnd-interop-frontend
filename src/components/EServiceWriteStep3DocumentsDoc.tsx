@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { Formik } from 'formik'
+import { object, string, mixed } from 'yup'
 import keyBy from 'lodash/keyBy'
 import { Box } from '@mui/system'
 import { UploadFile as UploadFileIcon } from '@mui/icons-material'
@@ -13,12 +14,11 @@ import {
 } from '../../types'
 import { getActiveDocs } from '../lib/eservice-utils'
 import { StyledDeleteableDocument } from './Shared/StyledDeleteableDocument'
-import { StyledInputControlledFile } from './Shared/StyledInputControlledFile'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
-import { requiredValidationPattern } from '../lib/validation'
-import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { AxiosResponse } from 'axios'
+import { StyledInputControlledText } from './Shared/StyledInputControlledText'
+import { StyledInputControlledFile } from './Shared/StyledInputControlledFile'
 
 type EServiceWriteStep3DocumentsDocProps = {
   data: EServiceReadType
@@ -27,17 +27,22 @@ type EServiceWriteStep3DocumentsDocProps = {
   activeDescriptorId: string
 }
 
+type InputValues = {
+  doc: File | null
+  description?: string
+}
+
 export function EServiceWriteStep3DocumentsDoc({
   data,
   uploadDescriptorDocument,
   deleteDescriptorDocument,
   activeDescriptorId,
 }: EServiceWriteStep3DocumentsDocProps) {
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm()
+  const validationSchema = object({
+    doc: mixed().required(),
+    description: string().required(),
+  })
+  const initialValues: InputValues = { doc: null, description: '' }
 
   const initialDocs = getActiveDocs(data, activeDescriptorId)
 
@@ -61,10 +66,10 @@ export function EServiceWriteStep3DocumentsDoc({
     }
   }
 
-  const uploadNewDoc = async (data: Exclude<EServiceDocumentWrite, 'kind'>) => {
+  const uploadNewDoc = async (data: InputValues) => {
     const dataToPost = {
-      ...data,
-      doc: (data.doc as unknown as Array<File>)[0],
+      doc: data.doc as File,
+      description: data.description as string,
       kind: 'DOCUMENT' as EServiceDocumentKind,
     }
     const { outcome, response } = await uploadDescriptorDocument(dataToPost)
@@ -103,33 +108,44 @@ export function EServiceWriteStep3DocumentsDoc({
           sx={{ px: 2, py: 2, borderLeft: 6, borderColor: 'primary.main' }}
           bgcolor="common.white"
         >
-          <StyledForm onSubmit={handleSubmit(uploadNewDoc)}>
-            <StyledInputControlledFile
-              sx={{ my: 0 }}
-              name="doc"
-              label="Seleziona documento"
-              control={control}
-              rules={{ required: requiredValidationPattern }}
-              errors={errors}
-            />
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={uploadNewDoc}
+            validateOnChange={false}
+            validateOnBlur={false}
+            enableReinitialize={true}
+          >
+            {({ handleSubmit, errors, values, handleChange, setFieldValue }) => (
+              <StyledForm onSubmit={handleSubmit}>
+                <StyledInputControlledFile
+                  sx={{ my: 0 }}
+                  name="doc"
+                  label="Seleziona documento"
+                  value={values.doc}
+                  error={errors.doc as string | undefined}
+                  setFieldValue={setFieldValue}
+                />
 
-            <StyledInputControlledText
-              sx={{ my: 2 }}
-              name="description"
-              label="Descrizione"
-              control={control}
-              rules={{}}
-              errors={errors}
-              multiline={true}
-              rows={4}
-            />
+                <StyledInputControlledText
+                  sx={{ my: 2 }}
+                  name="description"
+                  label="Descrizione"
+                  value={values.description}
+                  error={errors.description}
+                  onChange={handleChange}
+                  multiline={true}
+                  rows={4}
+                />
 
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <StyledButton type="submit" variant="contained">
-                <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> Carica
-              </StyledButton>
-            </Box>
-          </StyledForm>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <StyledButton type="submit" variant="contained">
+                    <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> Carica
+                  </StyledButton>
+                </Box>
+              </StyledForm>
+            )}
+          </Formik>
         </Box>
       ) : (
         <StyledButton variant="contained" onClick={showFileInputForm}>

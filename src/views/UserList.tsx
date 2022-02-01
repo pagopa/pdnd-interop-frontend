@@ -63,6 +63,7 @@ export function UserList() {
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = (user: User) => {
+    console.log(user)
     const suspendAction = {
       onClick: wrapActionInDialog(wrapSuspend(user.id), 'USER_SUSPEND'),
       label: 'Sospendi',

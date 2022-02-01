@@ -15,6 +15,7 @@ import { Layout } from './Shared/Layout'
 import { Box } from '@mui/system'
 import { showPlatformTwoColumnsLayout } from '../lib/router-utils'
 import { MEDIUM_MAX_WIDTH } from '../lib/constants'
+import '../lib/validation-config'
 
 export function BodyLogger() {
   const [toast, setToast] = useState<ToastProps | null>(null)

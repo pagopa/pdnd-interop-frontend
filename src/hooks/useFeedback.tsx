@@ -59,8 +59,17 @@ export const useFeedback = () => {
   // Dialog, toast and counter related functions
   const wrapActionInDialog =
     (wrappedAction: ActionFunction, endpointKey?: DialogActionKeys) => async () => {
-      const contents = endpointKey ? DIALOG_CONTENTS[endpointKey] : {}
-      setDialog({ proceedCallback: wrappedAction, close: closeDialog, ...contents })
+      const contents = endpointKey ? DIALOG_CONTENTS[endpointKey] : null
+      if (contents) {
+        setDialog({
+          type: 'basic',
+          proceedCallback: wrappedAction,
+          close: closeDialog,
+          ...contents,
+        })
+      } else {
+        throw new Error('La dialog richiesta non esiste')
+      }
     }
 
   const closeDialog = () => {
