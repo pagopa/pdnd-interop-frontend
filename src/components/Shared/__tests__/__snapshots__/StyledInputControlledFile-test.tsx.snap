@@ -13,7 +13,6 @@ exports[`Snapshot matches 1`] = `
       <input
         id="file"
         name="file"
-        onBlur={[Function]}
         onChange={[Function]}
         style={
           Object {

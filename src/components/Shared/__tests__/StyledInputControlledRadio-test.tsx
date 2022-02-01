@@ -1,5 +1,4 @@
 import React from 'react'
-import { useForm } from 'react-hook-form'
 import renderer from 'react-test-renderer'
 import { StyledInputControlledRadio } from '../StyledInputControlledRadio'
 
@@ -13,16 +12,7 @@ type CheckboxProps = {
 }
 
 function Radio({ options }: CheckboxProps) {
-  const props = { name: 'test', rules: {} }
-
-  const {
-    control,
-    formState: { errors },
-  } = useForm()
-
-  return (
-    <StyledInputControlledRadio {...props} control={control} errors={errors} options={options} />
-  )
+  return <StyledInputControlledRadio name="test" options={options} />
 }
 
 describe('Snapshot', () => {

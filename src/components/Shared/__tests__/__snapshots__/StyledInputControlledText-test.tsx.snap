@@ -33,7 +33,6 @@ exports[`Snapshot matches 1`] = `
         required={false}
         rows={1}
         type="text"
-        value=""
       />
     </div>
   </div>

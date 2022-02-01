@@ -8,7 +8,6 @@ exports[`Snapshot matches options 1`] = `
 >
   <div
     className="MuiFormGroup-root css-xa081x-MuiFormGroup-root"
-    onBlur={[Function]}
     role="radiogroup"
   >
     <label
