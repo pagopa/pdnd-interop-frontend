@@ -2,11 +2,7 @@ import React, { ChangeEventHandler } from 'react'
 import { FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
 import { StyledInputWrapper } from './StyledInputWrapper'
 import { SxProps } from '@mui/system'
-
-type Option = {
-  value: string
-  label: string
-}
+import { InputRadioOption } from '../../../types'
 
 type StyledInputControlledRadioProps = {
   name: string
@@ -20,7 +16,7 @@ type StyledInputControlledRadioProps = {
 
   sx?: SxProps
 
-  options?: Array<Option>
+  options?: Array<InputRadioOption>
 }
 
 export function StyledInputControlledRadio({

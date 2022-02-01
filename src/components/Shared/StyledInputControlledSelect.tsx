@@ -1,6 +1,6 @@
 import React, { ChangeEventHandler } from 'react'
 import { InputBaseComponentProps, MenuItem, TextField } from '@mui/material'
-import { SelectOption } from '../../../types'
+import { InputSelectOption } from '../../../types'
 import { StyledInputWrapper } from './StyledInputWrapper'
 import { SxProps } from '@mui/system'
 
@@ -18,7 +18,7 @@ type StyledInputControlledSelectProps = {
   focusOnMount?: boolean
   sx?: SxProps
 
-  options?: Array<SelectOption>
+  options?: Array<InputSelectOption>
 }
 
 export function StyledInputControlledSelect({

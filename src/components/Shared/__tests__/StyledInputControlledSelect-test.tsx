@@ -1,14 +1,10 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
+import { InputSelectOption } from '../../../../types'
 import { StyledInputControlledSelect } from '../StyledInputControlledSelect'
 
-type Option = {
-  label: string
-  value: string | number
-}
-
 type SelectProps = {
-  options?: Array<Option>
+  options?: Array<InputSelectOption>
 }
 
 function Select({ options }: SelectProps) {

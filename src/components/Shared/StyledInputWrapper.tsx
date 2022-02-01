@@ -4,9 +4,6 @@ import { StyledInputError } from './StyledInputError'
 import { InfoMessage } from './InfoMessage'
 
 type StyledInputWrapperProps = {
-  errors?: Record<string, unknown>
-  hasFieldError?: boolean
-
   name: string
   error?: string
   infoLabel?: string

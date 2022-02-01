@@ -1,17 +1,13 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
+import { InputRadioOption } from '../../../../types'
 import { StyledInputControlledRadio } from '../StyledInputControlledRadio'
 
-type Option = {
-  value: string
-  label: string
+type RadioProps = {
+  options?: Array<InputRadioOption>
 }
 
-type CheckboxProps = {
-  options?: Array<Option>
-}
-
-function Radio({ options }: CheckboxProps) {
+function Radio({ options }: RadioProps) {
   return <StyledInputControlledRadio name="test" options={options} />
 }
 

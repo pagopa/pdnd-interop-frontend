@@ -15,11 +15,7 @@ describe('Snapshot', () => {
   })
 
   it('matches input field with error', () => {
-    const props = {
-      name: 'input-wrapper',
-      errors: { 'input-wrapper': { message: 'il campo è vuoto' } },
-      hasFieldError: true,
-    }
+    const props = { name: 'input-wrapper', error: 'il campo è vuoto' }
     const component = renderer.create(
       <StyledInputWrapper {...props}>
         <input type="text" />

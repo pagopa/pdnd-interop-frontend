@@ -621,9 +621,19 @@ export type ActionProps = {
 /*
  * Input field related types
  */
-export type SelectOption = {
+export type InputSelectOption = {
   label: string
   value: string | number
+}
+
+export type InputRadioOption = {
+  label: string
+  value: string
+}
+
+export type InputCheckboxOption = {
+  label: string
+  name: string
 }
 
 /*

@@ -3,11 +3,7 @@ import { Checkbox, FormControlLabel, FormGroup, FormLabel } from '@mui/material'
 import { SxProps } from '@mui/system'
 import { FormikErrors } from 'formik'
 import { StyledInputWrapper } from './StyledInputWrapper'
-
-type Option = {
-  label: string
-  name: string
-}
+import { InputCheckboxOption } from '../../../types'
 
 type StyledInputControlledCheckboxProps = {
   name: string
@@ -20,7 +16,7 @@ type StyledInputControlledCheckboxProps = {
 
   sx?: SxProps
 
-  options?: Array<Option>
+  options?: Array<InputCheckboxOption>
   errors?: FormikErrors<Record<string, boolean>>
 }
 

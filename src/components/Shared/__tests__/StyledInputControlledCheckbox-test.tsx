@@ -1,15 +1,11 @@
 import { noop } from 'lodash'
 import React from 'react'
 import renderer from 'react-test-renderer'
+import { InputCheckboxOption } from '../../../../types'
 import { StyledInputControlledCheckbox } from '../StyledInputControlledCheckbox'
 
-type Option = {
-  name: string
-  label: string
-}
-
 type CheckboxProps = {
-  options?: Array<Option>
+  options?: Array<InputCheckboxOption>
 }
 
 function Checkbox({ options }: CheckboxProps) {
