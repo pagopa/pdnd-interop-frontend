@@ -3,7 +3,7 @@ import { Formik } from 'formik'
 import { object, string } from 'yup'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { EServiceReadType, SelectOption } from '../../types'
+import { EServiceReadType, InputSelectOption } from '../../types'
 import { PartyContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
@@ -23,7 +23,7 @@ type ClientFields = {
 export function ClientCreate() {
   const { runActionWithDestination } = useFeedback()
   const { party } = useContext(PartyContext)
-  const { data: eserviceData } = useAsyncFetch<Array<EServiceReadType>, Array<SelectOption>>(
+  const { data: eserviceData } = useAsyncFetch<Array<EServiceReadType>, Array<InputSelectOption>>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST' },
       config: { params: { consumerId: party?.partyId } },
