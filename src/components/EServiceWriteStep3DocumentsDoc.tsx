@@ -17,8 +17,8 @@ import { StyledDeleteableDocument } from './Shared/StyledDeleteableDocument'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
 import { AxiosResponse } from 'axios'
-import { StyledInputControlledTextFormik } from './Shared/StyledInputControlledTextFormik'
-import { StyledInputControlledFileFormik } from './Shared/StyledInputControlledFileFormik'
+import { StyledInputControlledText } from './Shared/StyledInputControlledText'
+import { StyledInputControlledFile } from './Shared/StyledInputControlledFile'
 
 type EServiceWriteStep3DocumentsDocProps = {
   data: EServiceReadType
@@ -118,7 +118,7 @@ export function EServiceWriteStep3DocumentsDoc({
           >
             {({ handleSubmit, errors, values, handleChange, setFieldValue }) => (
               <StyledForm onSubmit={handleSubmit}>
-                <StyledInputControlledFileFormik
+                <StyledInputControlledFile
                   sx={{ my: 0 }}
                   name="doc"
                   label="Seleziona documento"
@@ -127,7 +127,7 @@ export function EServiceWriteStep3DocumentsDoc({
                   setFieldValue={setFieldValue}
                 />
 
-                <StyledInputControlledTextFormik
+                <StyledInputControlledText
                   sx={{ my: 2 }}
                   name="description"
                   label="Descrizione"

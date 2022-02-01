@@ -11,7 +11,7 @@ import { StyledButton } from './StyledButton'
 import { DialogNewAttributeProps } from '../../../types'
 import { useCloseDialog } from '../../hooks/useCloseDialog'
 import { StyledForm } from './StyledForm'
-import { StyledInputControlledTextFormik } from './StyledInputControlledTextFormik'
+import { StyledInputControlledText } from './StyledInputControlledText'
 import { ATTRIBUTE_TYPE_SINGULAR_LABEL } from '../../config/labels'
 
 export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps> = ({
@@ -39,7 +39,7 @@ export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps
               </DialogTitle>
 
               <DialogContent>
-                <StyledInputControlledTextFormik
+                <StyledInputControlledText
                   focusOnMount={true}
                   name="name"
                   error={errors.name}
@@ -47,21 +47,21 @@ export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps
                   onChange={handleChange}
                   label="Nome dell'attributo (richiesto)"
                 />
-                <StyledInputControlledTextFormik
+                <StyledInputControlledText
                   name="code"
                   error={errors.code}
                   value={values.code}
                   onChange={handleChange}
                   label="Id della fonte autoritativa (richiesto)"
                 />
-                <StyledInputControlledTextFormik
+                <StyledInputControlledText
                   name="origin"
                   error={errors.origin}
                   value={values.origin}
                   onChange={handleChange}
                   label="Nome della fonte autoritativa (richiesto)"
                 />
-                <StyledInputControlledTextFormik
+                <StyledInputControlledText
                   name="description"
                   error={errors.description}
                   value={values.description}

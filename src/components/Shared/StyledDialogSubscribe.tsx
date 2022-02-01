@@ -11,7 +11,7 @@ import { Formik } from 'formik'
 import { StyledButton } from './StyledButton'
 import { PartyContext } from '../../lib/context'
 import { DialogSubscribeProps } from '../../../types'
-import { StyledInputControlledCheckboxFormik } from './StyledInputControlledCheckboxFormik'
+import { StyledInputControlledCheckbox } from './StyledInputControlledCheckbox'
 import { StyledForm } from './StyledForm'
 import { useCloseDialog } from '../../hooks/useCloseDialog'
 
@@ -85,7 +85,7 @@ export const StyledDialogSubscribe: FunctionComponent<DialogSubscribeProps> = ({
                   interoperabilità (di seguito “Accordo”).
                 </Typography>
 
-                <StyledInputControlledCheckboxFormik
+                <StyledInputControlledCheckbox
                   name="agreementHandle"
                   errors={errors.agreementHandle}
                   value={values.agreementHandle}

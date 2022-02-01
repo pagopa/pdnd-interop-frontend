@@ -1,80 +1,70 @@
-import React from 'react'
-import get from 'lodash/get'
-import isEmpty from 'lodash/isEmpty'
-import { Control, Controller, FieldValues } from 'react-hook-form'
-import { MenuItem, TextField } from '@mui/material'
+import React, { ChangeEventHandler } from 'react'
+import { InputBaseComponentProps, MenuItem, TextField } from '@mui/material'
 import { SelectOption } from '../../../types'
 import { StyledInputWrapper } from './StyledInputWrapper'
 import { SxProps } from '@mui/system'
 
 type StyledInputControlledSelectProps = {
+  name: string
+  value?: string
+  error?: string
+  onChange?: ChangeEventHandler
   label?: string
-  options?: Array<SelectOption>
+
   disabled?: boolean
   infoLabel?: string
 
-  name: string
-  defaultValue?: string | number | null
-  control: Control<FieldValues, Record<string, unknown>>
-  rules: Record<string, unknown>
-  errors: Record<string, unknown>
-  sx?: SxProps
+  inputProps?: InputBaseComponentProps
   focusOnMount?: boolean
+  sx?: SxProps
+
+  options?: Array<SelectOption>
 }
 
 export function StyledInputControlledSelect({
   label,
-  options,
   disabled = false,
   infoLabel,
 
   name,
-  defaultValue = null,
-  control,
-  rules,
-  errors,
-  sx,
+  value,
+  onChange,
+  error,
+
+  inputProps,
   focusOnMount = false,
+  sx,
+
+  options,
 }: StyledInputControlledSelectProps) {
   if (!options || Boolean(options.length === 0)) {
     return null
   }
 
-  const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
+  const hasFieldError = Boolean(error)
 
   return (
-    <StyledInputWrapper
-      name={name}
-      errors={errors}
-      sx={sx}
-      infoLabel={infoLabel}
-      hasFieldError={hasFieldError}
-    >
-      <Controller
-        shouldUnregister={true}
+    <StyledInputWrapper name={name} error={error} sx={sx} infoLabel={infoLabel}>
+      <TextField
         name={name}
-        control={control}
-        defaultValue={defaultValue}
-        rules={rules}
-        render={({ field }) => (
-          <TextField
-            autoFocus={focusOnMount}
-            select
-            disabled={disabled}
-            sx={{ width: '100%' }}
-            variant="standard"
-            label={label}
-            error={hasFieldError}
-            {...field}
-          >
-            {options.map((o, i) => (
-              <MenuItem key={i} value={o.value}>
-                {o.label}
-              </MenuItem>
-            ))}
-          </TextField>
-        )}
-      />
+        value={value}
+        onChange={onChange}
+        id={name}
+        autoFocus={focusOnMount}
+        select
+        disabled={disabled}
+        sx={{ width: '100%' }}
+        variant="standard"
+        label={label}
+        error={hasFieldError}
+        inputProps={inputProps}
+      >
+        {options.map((o, i) => (
+          <MenuItem key={i} value={o.value}>
+            {o.label}
+          </MenuItem>
+        ))}
+      </TextField>
     </StyledInputWrapper>
   )
 }

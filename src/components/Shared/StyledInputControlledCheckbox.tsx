@@ -1,80 +1,68 @@
-import React from 'react'
-import { Control, Controller, FieldValues } from 'react-hook-form'
-import get from 'lodash/get'
-import isEmpty from 'lodash/isEmpty'
+import React, { SyntheticEvent } from 'react'
 import { Checkbox, FormControlLabel, FormGroup, FormLabel } from '@mui/material'
-import { StyledInputWrapper } from './StyledInputWrapper'
 import { SxProps } from '@mui/system'
+import { FormikErrors } from 'formik'
+import { StyledInputWrapper } from './StyledInputWrapper'
 
 type Option = {
-  value: string
   label: string
+  name: string
 }
 
 type StyledInputControlledCheckboxProps = {
+  name: string
+  setFieldValue(field: string, value: unknown, shouldValidate?: boolean | undefined): void
+  value: Record<string, boolean>
   label?: string
-  options?: Array<Option>
+
   disabled?: boolean
   infoLabel?: string
 
-  name: string
-  defaultValue?: string
-  control: Control<FieldValues, Record<string, unknown>>
-  rules: Record<string, unknown>
-  errors: Record<string, unknown>
   sx?: SxProps
+
+  options?: Array<Option>
+  errors?: FormikErrors<Record<string, boolean>>
 }
 
 export function StyledInputControlledCheckbox({
   label,
-  options,
   disabled = false,
   infoLabel,
 
   name,
-  defaultValue,
-  control,
-  rules,
-  errors,
+  setFieldValue,
+  value,
+
   sx,
+
+  options,
+  errors,
 }: StyledInputControlledCheckboxProps) {
   if (!options || Boolean(options.length === 0)) {
     return null
   }
 
-  const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
+  const onChange = (e: SyntheticEvent) => {
+    const target = e.target as HTMLInputElement
+    setFieldValue(`${name}.${target.name}`, target.checked, false)
+  }
+
+  const error =
+    errors && Object.keys(errors).length > 0 ? Object.values(errors).join(', ') : undefined
 
   return (
-    <StyledInputWrapper
-      name={name}
-      errors={errors}
-      sx={sx}
-      infoLabel={infoLabel}
-      hasFieldError={hasFieldError}
-    >
-      <Controller
-        shouldUnregister={true}
-        name={name}
-        control={control}
-        defaultValue={defaultValue}
-        rules={rules}
-        render={({ field }) => (
-          <React.Fragment>
-            {label && <FormLabel component="legend">{label}</FormLabel>}
-            <FormGroup {...field}>
-              {options.map((o, i) => (
-                <FormControlLabel
-                  disabled={disabled}
-                  key={i}
-                  value={o.value}
-                  control={<Checkbox />}
-                  label={o.label}
-                />
-              ))}
-            </FormGroup>
-          </React.Fragment>
-        )}
-      />
+    <StyledInputWrapper name={name} error={error} sx={sx} infoLabel={infoLabel}>
+      {label && <FormLabel component="legend">{label}</FormLabel>}
+      <FormGroup>
+        {options.map((o, i) => (
+          <FormControlLabel
+            disabled={disabled}
+            key={i}
+            control={<Checkbox checked={value[o.name]} onChange={onChange} name={o.name} />}
+            label={o.label}
+          />
+        ))}
+      </FormGroup>
     </StyledInputWrapper>
   )
 }

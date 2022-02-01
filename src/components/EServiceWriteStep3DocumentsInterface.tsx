@@ -18,8 +18,8 @@ import { getActiveInterface } from '../lib/eservice-utils'
 import { StyledDeleteableDocument } from './Shared/StyledDeleteableDocument'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
-import { StyledInputControlledFileFormik } from './Shared/StyledInputControlledFileFormik'
-import { StyledInputControlledTextFormik } from './Shared/StyledInputControlledTextFormik'
+import { StyledInputControlledFile } from './Shared/StyledInputControlledFile'
+import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 
 type EServiceWriteStep3DocumentsInterfaceProps = {
   data: EServiceReadType
@@ -117,7 +117,7 @@ export function EServiceWriteStep3DocumentsInterface({
       >
         {({ handleSubmit, errors, values, handleChange, setFieldValue }) => (
           <StyledForm onSubmit={handleSubmit}>
-            <StyledInputControlledFileFormik
+            <StyledInputControlledFile
               sx={{ my: 0 }}
               name="interface"
               label="Seleziona documento"
@@ -126,7 +126,7 @@ export function EServiceWriteStep3DocumentsInterface({
               setFieldValue={setFieldValue}
             />
 
-            <StyledInputControlledTextFormik
+            <StyledInputControlledText
               sx={{ my: 2 }}
               name="description"
               label="Descrizione"

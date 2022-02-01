@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
-import { Control, Controller, FieldValues } from 'react-hook-form'
 import debounce from 'lodash/debounce'
-import get from 'lodash/get'
-import isEmpty from 'lodash/isEmpty'
 import uniqBy from 'lodash/uniqBy'
 import { AxiosResponse } from 'axios'
 import { Autocomplete, TextField } from '@mui/material'
@@ -19,10 +16,8 @@ type StyledInputControlledAsyncAutocompleteProps = {
   infoLabel?: string
 
   name: string
-  defaultValue: Array<string> | string | null // array if multiple = true, string | null if multiple = false
-  control: Control<FieldValues, Record<string, unknown>>
-  rules: Record<string, unknown>
-  errors: Record<string, unknown>
+  onChange: (data: unknown) => void
+  error?: string
 
   placeholder: string
   path: Endpoint
@@ -39,10 +34,8 @@ export function StyledInputControlledAsyncAutocomplete({
   infoLabel,
 
   name,
-  defaultValue,
-  control,
-  rules,
-  errors,
+  onChange,
+  error,
 
   placeholder,
   path,
@@ -89,62 +82,44 @@ export function StyledInputControlledAsyncAutocomplete({
     setIsOpen(false)
   }
 
-  const hasFieldError = Boolean(!isEmpty(errors) && !isEmpty(get(errors, name)))
-
   return (
-    <StyledInputWrapper
-      name={name}
-      errors={errors}
-      sx={sx}
-      infoLabel={infoLabel}
-      hasFieldError={hasFieldError}
-    >
-      <Controller
-        shouldUnregister={true}
-        name={name}
-        control={control}
-        defaultValue={defaultValue}
-        rules={rules}
-        render={({ field }) => (
-          <Autocomplete
-            {...field}
-            disabled={disabled}
-            multiple={multiple}
-            open={isOpen}
-            onChange={(_, data) => field.onChange(data)}
-            onInputChange={debounce(handleSearch, 100)}
-            onOpen={open}
-            onClose={close}
-            getOptionLabel={(option) => (option ? option[labelKey] : '')}
-            isOptionEqualToValue={(option, value) => option[labelKey] === value[labelKey]}
-            filterOptions={(options) => uniqBy(options, (o) => o[labelKey].toLowerCase())}
-            options={options}
-            loading={isLoading}
-            loadingText="Stiamo cercando..."
-            noOptionsText="Nessun risultato trovato"
-            renderInput={(params) => {
-              return (
-                <TextField
-                  autoFocus={focusOnMount}
-                  label={label}
-                  {...params}
-                  placeholder={placeholder}
-                  variant="standard"
-                  InputProps={{
-                    ...params.InputProps,
-                    endAdornment: (
-                      <React.Fragment>
-                        {isLoading ? <StyledSpinner color="primary" size={20} /> : null}
-                        {params.InputProps.endAdornment}
-                      </React.Fragment>
-                    ),
-                  }}
-                  error={hasFieldError}
-                />
-              )
-            }}
-          />
-        )}
+    <StyledInputWrapper name={name} error={error} sx={sx} infoLabel={infoLabel}>
+      <Autocomplete
+        disabled={disabled}
+        multiple={multiple}
+        open={isOpen}
+        onChange={(_, data) => onChange(data)}
+        onInputChange={debounce(handleSearch, 100)}
+        onOpen={open}
+        onClose={close}
+        getOptionLabel={(option) => (option ? (option[labelKey] as string) : '')}
+        isOptionEqualToValue={(option, value) => option[labelKey] === value[labelKey]}
+        filterOptions={(options) => uniqBy(options, (o) => (o[labelKey] as string).toLowerCase())}
+        options={options}
+        loading={isLoading}
+        loadingText="Stiamo cercando..."
+        noOptionsText="Nessun risultato trovato"
+        renderInput={(params) => {
+          return (
+            <TextField
+              autoFocus={focusOnMount}
+              label={label}
+              {...params}
+              placeholder={placeholder}
+              variant="standard"
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <React.Fragment>
+                    {isLoading ? <StyledSpinner color="primary" size={20} /> : null}
+                    {params.InputProps.endAdornment}
+                  </React.Fragment>
+                ),
+              }}
+              error={Boolean(error)}
+            />
+          )
+        }}
       />
     </StyledInputWrapper>
   )

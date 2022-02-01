@@ -11,8 +11,8 @@ import { StyledButton } from './StyledButton'
 import { DialogSecurityOperatorKeyProps } from '../../../types'
 import { useCloseDialog } from '../../hooks/useCloseDialog'
 import { StyledForm } from './StyledForm'
-import { StyledInputControlledSelectFormik } from './StyledInputControlledSelectFormik'
-import { StyledInputControlledTextFormik } from './StyledInputControlledTextFormik'
+import { StyledInputControlledSelect } from './StyledInputControlledSelect'
+import { StyledInputControlledText } from './StyledInputControlledText'
 
 export const StyledDialogSecurityOperatorKey: FunctionComponent<DialogSecurityOperatorKeyProps> = ({
   onSubmit,
@@ -36,7 +36,7 @@ export const StyledDialogSecurityOperatorKey: FunctionComponent<DialogSecurityOp
               <DialogTitle>Carica nuova chiave pubblica</DialogTitle>
 
               <DialogContent>
-                <StyledInputControlledSelectFormik
+                <StyledInputControlledSelect
                   name="alg"
                   label="Seleziona algoritmo*"
                   options={[{ label: 'RS256', value: 'RS256' }]}
@@ -45,7 +45,7 @@ export const StyledDialogSecurityOperatorKey: FunctionComponent<DialogSecurityOp
                   onChange={handleChange}
                 />
 
-                <StyledInputControlledTextFormik
+                <StyledInputControlledText
                   name="key"
                   label="Chiave pubblica*"
                   error={errors.key}
