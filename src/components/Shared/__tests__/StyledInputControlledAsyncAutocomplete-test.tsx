@@ -1,26 +1,19 @@
 import React from 'react'
-import { useForm } from 'react-hook-form'
 import renderer from 'react-test-renderer'
+import { noop } from 'lodash'
 import { ApiEndpointKey } from '../../../../types'
 import { StyledInputControlledAsyncAutocomplete } from '../StyledInputControlledAsyncAutocomplete'
 
 describe('Snapshot', () => {
-  it('matches', () => {
+  it.only('matches', () => {
     function AsyncAutocomplete() {
-      const {
-        control,
-        formState: { errors },
-      } = useForm()
-
       const props = {
         label: 'Snapshot autocomplete',
         name: 'autocomplete',
         defaultValue: null,
-        errors,
-        control,
         labelKey: 'name',
         placeholder: '...',
-        rules: {},
+        onChange: noop,
         path: { endpoint: 'ONBOARDING_GET_AVAILABLE_PARTIES' as ApiEndpointKey },
         transformFn: (data: Record<string, unknown>) =>
           data.values as Array<Record<string, unknown>>,

@@ -1,10 +1,10 @@
+import { noop } from 'lodash'
 import React from 'react'
-import { useForm } from 'react-hook-form'
 import renderer from 'react-test-renderer'
 import { StyledInputControlledCheckbox } from '../StyledInputControlledCheckbox'
 
 type Option = {
-  value: string
+  name: string
   label: string
 }
 
@@ -14,14 +14,14 @@ type CheckboxProps = {
 
 function Checkbox({ options }: CheckboxProps) {
   const props = { name: 'test', rules: {} }
-
-  const {
-    control,
-    formState: { errors },
-  } = useForm()
-
   return (
-    <StyledInputControlledCheckbox {...props} control={control} errors={errors} options={options} />
+    <StyledInputControlledCheckbox
+      {...props}
+      name="test"
+      options={options}
+      setFieldValue={noop}
+      value={{ first: true }}
+    />
   )
 }
 
@@ -34,8 +34,8 @@ describe('Snapshot', () => {
 
   it('matches options', () => {
     const options = [
-      { label: 'Prima opzione', value: 'first' },
-      { label: 'Seconda opzione', value: 'second' },
+      { label: 'Prima opzione', name: 'first' },
+      { label: 'Seconda opzione', name: 'second' },
     ]
     const component = renderer.create(<Checkbox options={options} />)
     const tree = component.toJSON()

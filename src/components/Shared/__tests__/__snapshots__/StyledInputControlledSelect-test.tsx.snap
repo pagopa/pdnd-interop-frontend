@@ -16,9 +16,9 @@ exports[`Snapshot matches select 1`] = `
       <div
         aria-expanded="false"
         aria-haspopup="listbox"
-        aria-labelledby="mui-component-select-test"
+        aria-labelledby="test"
         className="MuiSelect-select MuiSelect-standard MuiInput-input MuiInputBase-input css-1rxz5jq-MuiSelect-select-MuiInputBase-input-MuiInput-input"
-        id="mui-component-select-test"
+        id="test"
         onBlur={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
@@ -26,7 +26,14 @@ exports[`Snapshot matches select 1`] = `
         role="button"
         tabIndex={0}
       >
-        Opzione 1
+        <span
+          className="notranslate"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "&#8203;",
+            }
+          }
+        />
       </div>
       <input
         aria-hidden={true}
@@ -38,7 +45,6 @@ exports[`Snapshot matches select 1`] = `
         onChange={[Function]}
         required={false}
         tabIndex={-1}
-        value={1}
       />
       <svg
         aria-hidden={true}
