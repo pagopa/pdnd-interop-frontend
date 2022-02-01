@@ -16,7 +16,7 @@ import { StyledForm } from './Shared/StyledForm'
 import { ROUTES } from '../config/routes'
 import { EServiceWriteActions } from './Shared/EServiceWriteActions'
 import { EServiceWriteProps } from '../views/EServiceWrite'
-import { StyledInputControlledTextFormik } from './Shared/StyledInputControlledTextFormik'
+import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 
 type VersionData = {
   audience: string
@@ -130,7 +130,7 @@ export function EServiceWriteStep2Version({
     >
       {({ handleSubmit, errors, values, handleChange }) => (
         <StyledForm onSubmit={handleSubmit}>
-          <StyledInputControlledTextFormik
+          <StyledInputControlledText
             name="version"
             label="Numero della versione*"
             disabled={true}
@@ -138,7 +138,7 @@ export function EServiceWriteStep2Version({
             error={errors.version}
           />
 
-          <StyledInputControlledTextFormik
+          <StyledInputControlledText
             name="audience"
             label="Identificativo dell'e-service*"
             infoLabel="L'id con il quale il fruitore dichiara il servizio richiesto. Questo identificativo deve essere unico tra i tuoi e-service"
@@ -148,7 +148,7 @@ export function EServiceWriteStep2Version({
             focusOnMount={true}
           />
 
-          <StyledInputControlledTextFormik
+          <StyledInputControlledText
             name="voucherLifespan"
             label="Durata di validità del voucher (in minuti)*"
             type="number"
@@ -158,7 +158,7 @@ export function EServiceWriteStep2Version({
             onChange={handleChange}
           />
 
-          <StyledInputControlledTextFormik
+          <StyledInputControlledText
             name="description"
             label="Descrizione della versione*"
             value={values.description}
@@ -167,7 +167,7 @@ export function EServiceWriteStep2Version({
             multiline={true}
           />
 
-          <StyledInputControlledTextFormik
+          <StyledInputControlledText
             name="load-estimate"
             label="Soglia di carico ammesso (richiesto)"
             infoLabel="Calcolata in numero di richieste al giorno sostenibili per richiesta di fruizione"

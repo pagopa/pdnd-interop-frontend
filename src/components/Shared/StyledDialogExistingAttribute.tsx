@@ -18,8 +18,8 @@ import { useCloseDialog } from '../../hooks/useCloseDialog'
 import { Box } from '@mui/system'
 import { StyledForm } from './StyledForm'
 import { StyledAccordion } from './StyledAccordion'
-import { StyledInputControlledCheckboxFormik } from './StyledInputControlledCheckboxFormik'
-import { StyledInputControlledAsyncAutocompleteFormik } from './StyledInputControlledAsyncAutocompleteFormik'
+import { StyledInputControlledCheckbox } from './StyledInputControlledCheckbox'
+import { StyledInputControlledAsyncAutocomplete } from './StyledInputControlledAsyncAutocomplete'
 
 export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttributeProps> = ({
   initialValues,
@@ -60,7 +60,7 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
                 </Typography>
 
                 <Box sx={{ mt: 3 }}>
-                  <StyledInputControlledAsyncAutocompleteFormik
+                  <StyledInputControlledAsyncAutocomplete
                     label="Attributi selezionati"
                     sx={{ mt: 6, mb: 0 }}
                     multiple={true}
@@ -77,7 +77,7 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
                   />
 
                   {verifiedCondition && (
-                    <StyledInputControlledCheckboxFormik
+                    <StyledInputControlledCheckbox
                       name="verifiedCondition"
                       value={values.verifiedCondition as ExistingAttributeVerifiedCondition}
                       setFieldValue={setFieldValue}

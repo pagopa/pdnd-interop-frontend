@@ -26,8 +26,8 @@ import { StyledForm } from './Shared/StyledForm'
 import { StyledIntro } from './Shared/StyledIntro'
 import { ROUTES } from '../config/routes'
 import { EServiceWriteActions } from './Shared/EServiceWriteActions'
-import { StyledInputControlledTextFormik } from './Shared/StyledInputControlledTextFormik'
-import { StyledInputControlledRadioFormik } from './Shared/StyledInputControlledRadioFormik'
+import { StyledInputControlledText } from './Shared/StyledInputControlledText'
+import { StyledInputControlledRadio } from './Shared/StyledInputControlledRadio'
 
 export const EServiceWriteStep1General: FunctionComponent<
   StepperStepComponentProps & EServiceWriteProps
@@ -150,7 +150,7 @@ export const EServiceWriteStep1General: FunctionComponent<
             {{ title: 'Caratterizzazione e-service' }}
           </StyledIntro>
 
-          <StyledInputControlledTextFormik
+          <StyledInputControlledText
             name="name"
             label="Nome dell'eservice (richiesto)"
             error={errors.name}
@@ -160,7 +160,7 @@ export const EServiceWriteStep1General: FunctionComponent<
             focusOnMount={isEditable}
           />
 
-          <StyledInputControlledTextFormik
+          <StyledInputControlledText
             name="description"
             label="Descrizione dell'e-service (richiesto)"
             error={errors.description}
@@ -171,7 +171,7 @@ export const EServiceWriteStep1General: FunctionComponent<
           />
 
           <Box sx={{ my: 8 }}>
-            <StyledInputControlledRadioFormik
+            <StyledInputControlledRadio
               name="technology"
               label="Tecnologia (richiesto)"
               error={errors.technology}

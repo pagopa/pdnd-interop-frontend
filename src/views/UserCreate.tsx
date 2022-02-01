@@ -14,7 +14,7 @@ import { ROUTES } from '../config/routes'
 import { Contained } from '../components/Shared/Contained'
 import { AxiosResponse } from 'axios'
 import { Grid } from '@mui/material'
-import { StyledInputControlledTextFormik } from '../components/Shared/StyledInputControlledTextFormik'
+import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 
 export function UserCreate() {
   const { runActionWithDestination, runAction } = useFeedback()
@@ -109,7 +109,7 @@ export function UserCreate() {
             <Contained>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <StyledInputControlledTextFormik
+                  <StyledInputControlledText
                     focusOnMount={true}
                     sx={{ my: 4 }}
                     label="Nome*"
@@ -121,7 +121,7 @@ export function UserCreate() {
                 </Grid>
 
                 <Grid item xs={6}>
-                  <StyledInputControlledTextFormik
+                  <StyledInputControlledText
                     sx={{ my: 4 }}
                     label="Cognome*"
                     name="surname"
@@ -132,7 +132,7 @@ export function UserCreate() {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <StyledInputControlledTextFormik
+                  <StyledInputControlledText
                     sx={{ my: 4 }}
                     label="Codice Fiscale*"
                     name="taxCode"
@@ -143,7 +143,7 @@ export function UserCreate() {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <StyledInputControlledTextFormik
+                  <StyledInputControlledText
                     type="email"
                     infoLabel="Inserisci l'indirizzo email ad uso aziendale utilizzato per l'Ente"
                     sx={{ my: 4 }}

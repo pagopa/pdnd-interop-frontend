@@ -9,7 +9,7 @@ import {
 } from '@mui/material'
 import { StyledButton } from './StyledButton'
 import { DialogAskExtensionProps } from '../../../types'
-import { StyledInputControlledTextFormik } from './StyledInputControlledTextFormik'
+import { StyledInputControlledText } from './StyledInputControlledText'
 import { StyledForm } from './StyledForm'
 import { useFeedback } from '../../hooks/useFeedback'
 import { useCloseDialog } from '../../hooks/useCloseDialog'
@@ -49,7 +49,7 @@ export const StyledDialogExtension: FunctionComponent<DialogAskExtensionProps> =
                   di iscriversi all’e-service, completo di basi giuridiche e finalità. Una notifica
                   sarà inviata all’ente erogatore del servizio
                 </p>
-                <StyledInputControlledTextFormik
+                <StyledInputControlledText
                   focusOnMount={true}
                   name="reasons"
                   error={errors.reasons}

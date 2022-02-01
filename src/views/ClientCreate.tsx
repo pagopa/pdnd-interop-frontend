@@ -10,8 +10,8 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
 import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 import { ROUTES } from '../config/routes'
-import { StyledInputControlledTextFormik } from '../components/Shared/StyledInputControlledTextFormik'
-import { StyledInputControlledSelectFormik } from '../components/Shared/StyledInputControlledSelectFormik'
+import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
+import { StyledInputControlledSelect } from '../components/Shared/StyledInputControlledSelect'
 
 type ClientFields = {
   name: string
@@ -80,7 +80,7 @@ export function ClientCreate() {
       >
         {({ handleSubmit, errors, values, handleChange }) => (
           <StyledForm onSubmit={handleSubmit}>
-            <StyledInputControlledTextFormik
+            <StyledInputControlledText
               focusOnMount={true}
               name="name"
               label="Nome del client*"
@@ -89,7 +89,7 @@ export function ClientCreate() {
               error={errors.name}
             />
 
-            <StyledInputControlledTextFormik
+            <StyledInputControlledText
               name="description"
               label="Descrizione del client*"
               value={values.description}
@@ -98,7 +98,7 @@ export function ClientCreate() {
               multiline={true}
             />
 
-            <StyledInputControlledSelectFormik
+            <StyledInputControlledSelect
               name="eServiceId"
               label="E-service da associare*"
               value={values.eServiceId}
@@ -108,7 +108,7 @@ export function ClientCreate() {
               options={eserviceData}
             />
 
-            <StyledInputControlledTextFormik
+            <StyledInputControlledText
               name="purposes"
               label="Finalità*"
               value={values.purposes}
