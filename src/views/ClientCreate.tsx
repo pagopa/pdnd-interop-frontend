@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Formik } from 'formik'
+import { useFormik } from 'formik'
 import { array, object, string } from 'yup'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { DialogContext, PartyContext } from '../lib/context'
@@ -10,7 +10,7 @@ import { ROUTES } from '../config/routes'
 import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 // import { StyledTableRow } from '../components/Shared/StyledTableRow'
-import { AddSecurityOperatorFormInputValues, FormikSetFieldValue, User } from '../../types'
+import { AddSecurityOperatorFormInputValues, User } from '../../types'
 import { Box } from '@mui/system'
 import { TableCell, TableRow, Typography } from '@mui/material'
 
@@ -21,17 +21,18 @@ type ClientFields = {
 }
 
 export function ClientCreate() {
-  const { runActionWithDestination } = useFeedback()
+  const { /* runActionWithDestination, */ runFakeAction } = useFeedback()
   const { party } = useContext(PartyContext)
   const { setDialog } = useContext(DialogContext)
 
-  const onSubmit = async (values: ClientFields) => {
-    const dataToPost = { ...values, consumerId: party?.partyId }
+  const onSubmit = async (data: ClientFields) => {
+    const dataToPost = { ...data, consumerId: party?.partyId }
 
-    await runActionWithDestination(
-      { path: { endpoint: 'CLIENT_CREATE' }, config: { data: dataToPost } },
-      { destination: ROUTES.SUBSCRIBE_CLIENT_LIST, suppressToast: false }
-    )
+    runFakeAction(`Client esempio creato con i seguenti dati ${JSON.stringify(dataToPost)}`)
+    // await runActionWithDestination(
+    // { path: { endpoint: 'CLIENT_CREATE' }, config: { data: dataToPost } },
+    // { destination: ROUTES.SUBSCRIBE_CLIENT_LIST, suppressToast: false }
+    // )
   }
 
   const validationSchema = object({
@@ -39,31 +40,35 @@ export function ClientCreate() {
     description: string().required(),
     operators: array(object({ id: string().required() })),
   })
+
   const initialValues: ClientFields = { name: '', description: '', operators: [] }
 
-  const headData = ['Nome e cognome', '']
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit,
+    validateOnChange: false,
+    validateOnBlur: false,
+  })
 
-  const wrapOpenAddOperatoDialog = (setFieldValue: FormikSetFieldValue) => () => {
+  const openAddOperatoDialog = () => {
     setDialog({
       type: 'addSecurityOperator',
       initialValues: { selected: [] },
-      onSubmit: wrapAddOperators(setFieldValue),
+      onSubmit: addOperators,
     })
   }
 
-  const wrapAddOperators =
-    (setFieldValue: FormikSetFieldValue) => (data: AddSecurityOperatorFormInputValues) => {
-      setFieldValue('operators', data.selected, false)
-    }
+  const addOperators = (data: AddSecurityOperatorFormInputValues) => {
+    formik.setFieldValue('operators', data.selected, false)
+  }
 
-  const wrapRemoveOperator =
-    (setFieldValue: FormikSetFieldValue, data: ClientFields, id: string) => () => {
-      setFieldValue(
-        'operators',
-        data.operators.filter((u) => u.id !== id),
-        false
-      )
-    }
+  const wrapRemoveOperator = (id: string) => () => {
+    const filteredOperators = formik.values.operators.filter((u) => u.id !== id)
+    formik.setFieldValue('operators', filteredOperators, false)
+  }
+
+  const headData = ['Nome e cognome', '']
 
   return (
     <React.Fragment>
@@ -75,100 +80,81 @@ export function ClientCreate() {
         }}
       </StyledIntro>
 
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={onSubmit}
-        validateOnChange={false}
-        validateOnBlur={false}
-      >
-        {({ handleSubmit, errors, values, handleChange, setFieldValue }) => (
-          <StyledForm onSubmit={handleSubmit}>
-            <Box sx={{ mb: 12 }}>
-              <StyledIntro sx={{ mb: 2, pb: 0 }} variant="h2">
-                {{ title: 'Informazioni generali' }}
-              </StyledIntro>
+      <StyledForm onSubmit={formik.handleSubmit}>
+        <Box sx={{ mb: 12 }}>
+          <StyledIntro sx={{ mb: 2, pb: 0 }} variant="h2">
+            {{ title: 'Informazioni generali' }}
+          </StyledIntro>
 
-              <StyledInputControlledText
-                focusOnMount={true}
-                name="name"
-                label="Nome del client*"
-                value={values.name}
-                onChange={handleChange}
-                error={errors.name}
-              />
+          <StyledInputControlledText
+            focusOnMount={true}
+            name="name"
+            label="Nome del client*"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            error={formik.errors.name}
+          />
 
-              <StyledInputControlledText
-                name="description"
-                label="Descrizione del client*"
-                value={values.description}
-                onChange={handleChange}
-                error={errors.description}
-                multiline={true}
-              />
-            </Box>
+          <StyledInputControlledText
+            name="description"
+            label="Descrizione del client*"
+            value={formik.values.description}
+            onChange={formik.handleChange}
+            error={formik.errors.description}
+            multiline={true}
+          />
+        </Box>
 
-            <Box sx={{ mb: 12 }}>
-              <StyledIntro sx={{ mb: 2, pb: 0 }} variant="h2">
-                {{ title: 'Operatori di sicurezza' }}
-              </StyledIntro>
+        <Box sx={{ mb: 12 }}>
+          <StyledIntro sx={{ mb: 2, pb: 0 }} variant="h2">
+            {{ title: 'Operatori di sicurezza' }}
+          </StyledIntro>
 
-              <TableWithLoader
-                loadingText={null}
-                headData={headData}
-                data={values.operators}
-                noDataLabel="Nessun utente aggiunto"
-              >
-                {values.operators.map((user, i) => (
-                  <TableRow key={i} sx={{ bgcolor: 'common.white' }}>
-                    <TableCell
-                      dangerouslySetInnerHTML={{ __html: `${user.name} ${user.surname}` }}
-                    />
+          <TableWithLoader
+            loadingText={null}
+            headData={headData}
+            data={formik.values.operators}
+            noDataLabel="Nessun utente aggiunto"
+          >
+            {formik.values.operators.map((user, i) => (
+              <TableRow key={i} sx={{ bgcolor: 'common.white' }}>
+                <TableCell dangerouslySetInnerHTML={{ __html: `${user.name} ${user.surname}` }} />
 
-                    <TableCell>
-                      <StyledButton onClick={wrapRemoveOperator(setFieldValue, values, user.id)}>
-                        Elimina
-                      </StyledButton>
-                    </TableCell>
-                  </TableRow>
+                <TableCell>
+                  <StyledButton onClick={wrapRemoveOperator(user.id)}>Elimina</StyledButton>
+                </TableCell>
+              </TableRow>
 
-                  // <StyledTableRow
-                  //   key={i}
-                  //   cellData={[{ label: `${user.name} ${user.surname}` }]}
-                  //   index={i}
-                  //   singleActionBtn={{
-                  //     to: ''
-                  //     label: 'Rimuovi',
-                  //   }}
-                  // />
-                ))}
-              </TableWithLoader>
-              <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
-                <StyledButton
-                  sx={{ mr: 2 }}
-                  variant="contained"
-                  onClick={wrapOpenAddOperatoDialog(setFieldValue)}
-                >
-                  + Aggiungi
-                </StyledButton>
-                <Typography>
-                  L’operatore non è presente nell’elenco? Clicca qui per aggiungerlo [TODO SELF
-                  CARE?]
-                </Typography>
-              </Box>
-            </Box>
+              // <StyledTableRow
+              //   key={i}
+              //   cellData={[{ label: `${user.name} ${user.surname}` }]}
+              //   index={i}
+              //   singleActionBtn={{
+              //     to: ''
+              //     label: 'Rimuovi',
+              //   }}
+              // />
+            ))}
+          </TableWithLoader>
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
+            <StyledButton sx={{ mr: 2 }} variant="contained" onClick={openAddOperatoDialog}>
+              + Aggiungi
+            </StyledButton>
+            <Typography>
+              L’operatore non è presente nell’elenco? Clicca qui per aggiungerlo [TODO SELF CARE?]
+            </Typography>
+          </Box>
+        </Box>
 
-            <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
-              <StyledButton sx={{ mr: 2 }} variant="contained" type="submit">
-                Crea client
-              </StyledButton>
-              <StyledButton variant="outlined" to={ROUTES.SUBSCRIBE_CLIENT_LIST.PATH}>
-                Torna ai client
-              </StyledButton>
-            </Box>
-          </StyledForm>
-        )}
-      </Formik>
+        <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
+          <StyledButton sx={{ mr: 2 }} variant="contained" type="submit">
+            Crea client
+          </StyledButton>
+          <StyledButton variant="outlined" to={ROUTES.SUBSCRIBE_CLIENT_LIST.PATH}>
+            Torna ai client
+          </StyledButton>
+        </Box>
+      </StyledForm>
     </React.Fragment>
   )
 }
