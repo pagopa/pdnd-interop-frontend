@@ -5,7 +5,6 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Typography,
   Unstable_TrapFocus as TrapFocus,
 } from '@mui/material'
 import { StyledButton } from './StyledButton'
@@ -16,6 +15,7 @@ import { StyledForm } from './StyledForm'
 import { StyledInputControlledAutocomplete } from './StyledInputControlledAutocomplete'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { PartyContext } from '../../lib/context'
+import { sortBy } from 'lodash'
 
 export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurityOperatorProps> = ({
   initialValues,
@@ -50,6 +50,15 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
     closeDialog()
   }
 
+  const transformFn = (options: Array<User>, search: string) => {
+    const selectedIds: Array<string> = formik.values.selected.map((o) => o.id)
+    const isAlreadySelected = (o: User) => selectedIds.includes(o.id)
+    const isInSearch = (o: User) => `${o.name} ${o.surname}`.toLowerCase().includes(search)
+
+    const filtered = options.filter((o) => isInSearch(o) && !isAlreadySelected(o))
+    return sortBy(filtered, ['surname', 'name'])
+  }
+
   return (
     <TrapFocus open>
       <Dialog open={true} onClose={closeDialog} aria-describedby="Modale per azione" fullWidth>
@@ -59,6 +68,7 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
           <DialogContent>
             <Box sx={{ mt: 3 }}>
               <StyledInputControlledAutocomplete
+                focusOnMount={true}
                 label="Operatori selezionati"
                 sx={{ mt: 6, mb: 0 }}
                 multiple={true}
@@ -70,26 +80,9 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
                   option ? `${option.name} ${option.surname}` : ''
                 }
                 isOptionEqualToValue={(option: User, value: User) => option.id === value.id}
-                filterFn={(options, search) =>
-                  options.filter(
-                    (o) =>
-                      o.name.toLowerCase().includes(search) ||
-                      o.surname.toLowerCase().includes(search)
-                  )
-                }
+                transformFn={transformFn}
               />
             </Box>
-
-            {formik.values.selected && !!(formik.values.selected.length > 0) && (
-              <Box sx={{ mt: 2 }}>
-                <Typography sx={{ mt: 0, mb: 1 }} fontWeight={600}>
-                  Hai selezionato{' '}
-                  {formik.values.selected
-                    .map(({ name, surname }) => `${name} ${surname}`)
-                    .join(', ')}
-                </Typography>
-              </Box>
-            )}
           </DialogContent>
 
           <DialogActions>
