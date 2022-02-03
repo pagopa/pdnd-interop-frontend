@@ -17,15 +17,19 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
 import { useMode } from '../hooks/useMode'
 import { StyledIntro, StyledIntroChildrenProps } from '../components/Shared/StyledIntro'
-import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { TempFilters } from '../components/TempFilters'
+import { StyledTableRow } from '../components/Shared/StyledTableRow'
+import { StyledButton } from '../components/Shared/StyledButton'
+import { ActionMenu } from '../components/Shared/ActionMenu'
+import { useHistory } from 'react-router-dom'
 
 export function AgreementList() {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
   const mode = useMode()
   const currentMode = mode as ProviderOrSubscriber
   const { party } = useContext(PartyContext)
+  const history = useHistory()
 
   const params =
     mode === 'provider' ? { producerId: party?.partyId } : { consumerId: party?.partyId }
@@ -181,18 +185,26 @@ export function AgreementList() {
                 { label: AGREEMENT_STATE_LABEL[item.state] },
                 { label: mode === 'provider' ? item.consumer.name : item.producer.name },
               ]}
-              index={i}
-              singleActionBtn={{
-                to: buildDynamicPath(
-                  ROUTES[
-                    mode === 'provider' ? 'PROVIDE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_EDIT'
-                  ].PATH,
-                  { id: item.id }
-                ),
-                label: 'Ispeziona',
-              }}
-              actions={getAvailableActions(item)}
-            />
+            >
+              <StyledButton
+                variant="outlined"
+                size="small"
+                onClick={() => {
+                  history.push(
+                    buildDynamicPath(
+                      ROUTES[
+                        mode === 'provider' ? 'PROVIDE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_EDIT'
+                      ].PATH,
+                      { id: item.id }
+                    )
+                  )
+                }}
+              >
+                Ispeziona
+              </StyledButton>
+
+              <ActionMenu actions={getAvailableActions(item)} />
+            </StyledTableRow>
           ))}
         </TableWithLoader>
       </Box>

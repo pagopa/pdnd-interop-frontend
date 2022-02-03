@@ -24,11 +24,13 @@ import {
   Person as PersonIcon,
   SvgIconComponent,
 } from '@mui/icons-material'
-import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ROUTES } from '../config/routes'
 import { ESERVICE_STATE_LABEL } from '../config/labels'
 import { isTrue } from '../lib/validation-config'
 import { useFeedback } from '../hooks/useFeedback'
+import { StyledTableRow } from '../components/Shared/StyledTableRow'
+import { ActionMenu } from '../components/Shared/ActionMenu'
+import { StyledButton } from '../components/Shared/StyledButton'
 
 export function EServiceCatalog() {
   const history = useHistory()
@@ -180,16 +182,24 @@ export function EServiceCatalog() {
                   { label: item.version as string },
                   { label: ESERVICE_STATE_LABEL[item.state as EServiceState] },
                 ]}
-                index={i}
-                singleActionBtn={{
-                  to: buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
-                    eserviceId: item.id,
-                    descriptorId: item.descriptorId as string,
-                  }),
-                  label: 'Ispeziona',
-                }}
-                actions={getAvailableActions(item, canSubscribeEservice)}
-              />
+              >
+                <StyledButton
+                  variant="outlined"
+                  size="small"
+                  onClick={() => {
+                    history.push(
+                      buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
+                        eserviceId: item.id,
+                        descriptorId: item.descriptorId as string,
+                      })
+                    )
+                  }}
+                >
+                  Ispeziona
+                </StyledButton>
+
+                <ActionMenu actions={getAvailableActions(item, canSubscribeEservice)} />
+              </StyledTableRow>
             )
           })}
       </TableWithLoader>

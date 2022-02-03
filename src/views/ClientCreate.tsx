@@ -9,10 +9,11 @@ import { StyledForm } from '../components/Shared/StyledForm'
 import { ROUTES } from '../config/routes'
 import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
-// import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { AddSecurityOperatorFormInputValues, User } from '../../types'
 import { Box } from '@mui/system'
-import { TableCell, TableRow, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
+import { DeleteOutline as DeleteOutlineIcon } from '@mui/icons-material'
+import { StyledTableRow } from '../components/Shared/StyledTableRow'
 
 type ClientFields = {
   name: string
@@ -117,23 +118,11 @@ export function ClientCreate() {
             noDataLabel="Nessun utente aggiunto"
           >
             {formik.values.operators.map((user, i) => (
-              <TableRow key={i} sx={{ bgcolor: 'common.white' }}>
-                <TableCell dangerouslySetInnerHTML={{ __html: `${user.name} ${user.surname}` }} />
-
-                <TableCell>
-                  <StyledButton onClick={wrapRemoveOperator(user.id)}>Elimina</StyledButton>
-                </TableCell>
-              </TableRow>
-
-              // <StyledTableRow
-              //   key={i}
-              //   cellData={[{ label: `${user.name} ${user.surname}` }]}
-              //   index={i}
-              //   singleActionBtn={{
-              //     to: ''
-              //     label: 'Rimuovi',
-              //   }}
-              // />
+              <StyledTableRow key={i} cellData={[{ label: `${user.name} ${user.surname}` }]}>
+                <StyledButton onClick={wrapRemoveOperator(user.id)}>
+                  <DeleteOutlineIcon fontSize="small" sx={{ mr: 1 }} color="primary" />
+                </StyledButton>
+              </StyledTableRow>
             ))}
           </TableWithLoader>
           <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>

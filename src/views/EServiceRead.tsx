@@ -24,7 +24,6 @@ import { AxiosResponse } from 'axios'
 import { StyledAccordion } from '../components/Shared/StyledAccordion'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { StyledLink } from '../components/Shared/StyledLink'
 import { Skeleton, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { FileDownloadOutlined as FileDownloadOutlinedIcon } from '@mui/icons-material'
@@ -198,12 +197,9 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
 
       {activeDescriptor.interface && (
         <DescriptionBlock label="Interfaccia">
-          <StyledLink
-            component="button"
-            onClick={wrapDownloadDocument(activeDescriptor.interface.id)}
-          >
+          <StyledButton onClick={wrapDownloadDocument(activeDescriptor.interface.id)}>
             <Typography component="span">Scarica il documento di interfaccia</Typography>
-          </StyledLink>
+          </StyledButton>
         </DescriptionBlock>
       )}
 
@@ -231,9 +227,9 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
                   </React.Fragment>
                 )}
               </Box>
-              <StyledLink component="button" onClick={wrapDownloadDocument(d.id)}>
+              <StyledButton onClick={wrapDownloadDocument(d.id)}>
                 <FileDownloadOutlinedIcon fontSize="small" sx={{ mr: 1 }} color="primary" />
-              </StyledLink>
+              </StyledButton>
             </Box>
           ))}
         </DescriptionBlock>

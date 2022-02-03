@@ -11,16 +11,19 @@ import { PartyContext, TokenContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { buildDynamicPath } from '../lib/router-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { COMPUTED_STATE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
 import { useUser } from '../hooks/useUser'
+import { StyledTableRow } from '../components/Shared/StyledTableRow'
+import { ActionMenu } from '../components/Shared/ActionMenu'
+import { useHistory } from 'react-router-dom'
 
 export function ClientList() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
   const { token } = useContext(TokenContext)
   const { party } = useContext(PartyContext)
   const { user } = useUser()
+  const history = useHistory()
 
   const { data, loadingText, error } = useAsyncFetch<Array<Client>>(
     {
@@ -129,13 +132,19 @@ export function ClientList() {
                 { label: item.eservice.provider.description },
                 { label: COMPUTED_STATE_LABEL[getClientComputedState(item)] },
               ]}
-              index={i}
-              singleActionBtn={{
-                to: buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_EDIT.PATH, { id: item.id }),
-                label: 'Ispeziona',
-              }}
-              actions={getAvailableActions(item)}
-            />
+            >
+              <StyledButton
+                variant="outlined"
+                size="small"
+                onClick={() => {
+                  history.push(buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_EDIT.PATH, { id: item.id }))
+                }}
+              >
+                Ispeziona
+              </StyledButton>
+
+              <ActionMenu actions={getAvailableActions(item)} />
+            </StyledTableRow>
           ))}
         </TableWithLoader>
       </Box>

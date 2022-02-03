@@ -12,15 +12,18 @@ import { PartyContext, TokenContext } from '../lib/context'
 import { buildDynamicPath, getBits } from '../lib/router-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ROUTES } from '../config/routes'
 import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATE_LABEL } from '../config/labels'
 import { useUser } from '../hooks/useUser'
+import { StyledTableRow } from '../components/Shared/StyledTableRow'
+import { ActionMenu } from '../components/Shared/ActionMenu'
+import { useHistory } from 'react-router'
 
 export function UserList() {
   const location = useLocation()
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
   const { isCurrentUser } = useUser()
+  const history = useHistory()
 
   // Only for subscriber
   const locationBits = getBits(location)
@@ -139,19 +142,26 @@ export function UserList() {
               { label: item.product.role ? USER_PLATFORM_ROLE_LABEL[item.product.role] : '' },
               { label: USER_STATE_LABEL[item.state] },
             ]}
-            index={i}
-            singleActionBtn={{
-              to:
-                mode === 'provider'
-                  ? buildDynamicPath(ROUTES.PROVIDE_OPERATOR_EDIT.PATH, { id: item.id })
-                  : buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_OPERATOR_EDIT.PATH, {
-                      id: clientId,
-                      operatorId: item.id,
-                    }),
-              label: 'Ispeziona',
-            }}
-            actions={getAvailableActions(item)}
-          />
+          >
+            <StyledButton
+              variant="outlined"
+              size="small"
+              onClick={() => {
+                history.push(
+                  mode === 'provider'
+                    ? buildDynamicPath(ROUTES.PROVIDE_OPERATOR_EDIT.PATH, { id: item.id })
+                    : buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_OPERATOR_EDIT.PATH, {
+                        id: clientId,
+                        operatorId: item.id,
+                      })
+                )
+              }}
+            >
+              Ispeziona
+            </StyledButton>
+
+            <ActionMenu actions={getAvailableActions(item)} />
+          </StyledTableRow>
         ))}
       </TableWithLoader>
     </React.Fragment>

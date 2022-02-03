@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { TableCell, TableRow } from '@mui/material'
 import { Box } from '@mui/system'
 import { object, string } from 'yup'
 import {
@@ -15,6 +14,8 @@ import { TableWithLoader } from './Shared/TableWithLoader'
 import { DialogContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { useCloseDialog } from '../hooks/useCloseDialog'
+import { StyledTableRow } from './Shared/StyledTableRow'
+import { DeleteOutline as DeleteOutlineIcon } from '@mui/icons-material'
 
 type EServiceAttributeGroupProps = {
   attributesGroup: Array<FrontendAttribute>
@@ -104,23 +105,19 @@ export function EServiceAttributeGroup({
         data={attributesGroup}
         noDataLabel="Nessun attributo presente"
       >
-        {attributesGroup.map(({ attributes, explicitAttributeVerification }, j) => {
-          return (
-            <TableRow key={j} sx={{ bgcolor: 'common.white' }}>
-              <TableCell
-                dangerouslySetInnerHTML={{
-                  __html: attributes.map(({ name }) => name).join(' <em>oppure</em> '),
-                }}
-              />
-              {canRequireVerification && (
-                <TableCell>{explicitAttributeVerification ? 'Sì' : 'No'}</TableCell>
-              )}
-              <TableCell>
-                <StyledButton onClick={wrapRemove(attributes)}>Elimina</StyledButton>
-              </TableCell>
-            </TableRow>
-          )
-        })}
+        {attributesGroup.map(({ attributes, explicitAttributeVerification }, j) => (
+          <StyledTableRow
+            key={j}
+            cellData={[
+              { label: attributes.map(({ name }) => name).join(' oppure ') },
+              { label: explicitAttributeVerification ? 'Sì' : 'No' },
+            ]}
+          >
+            <StyledButton onClick={wrapRemove(attributes)}>
+              <DeleteOutlineIcon fontSize="small" sx={{ mr: 1 }} color="primary" />
+            </StyledButton>
+          </StyledTableRow>
+        ))}
       </TableWithLoader>
 
       <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>

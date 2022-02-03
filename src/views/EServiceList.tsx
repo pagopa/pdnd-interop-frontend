@@ -17,9 +17,10 @@ import { AxiosResponse } from 'axios'
 import { buildDynamicPath } from '../lib/router-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Box } from '@mui/system'
-import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ESERVICE_STATE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
+import { StyledTableRow } from '../components/Shared/StyledTableRow'
+import { ActionMenu } from '../components/Shared/ActionMenu'
 
 export function EServiceList() {
   const { runAction, runFakeAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -236,16 +237,24 @@ export function EServiceList() {
                 { label: item.version || '1' },
                 { label: ESERVICE_STATE_LABEL[item.state || 'DRAFT'] },
               ]}
-              index={i}
-              singleActionBtn={{
-                to: buildDynamicPath(ROUTES.PROVIDE_ESERVICE_EDIT.PATH, {
-                  eserviceId: item.id,
-                  descriptorId: item.descriptorId || 'prima-bozza',
-                }),
-                label: !item.state || item.state === 'DRAFT' ? 'Modifica' : 'Ispeziona',
-              }}
-              actions={getAvailableActions(item)}
-            />
+            >
+              <StyledButton
+                variant="outlined"
+                size="small"
+                onClick={() => {
+                  history.push(
+                    buildDynamicPath(ROUTES.PROVIDE_ESERVICE_EDIT.PATH, {
+                      eserviceId: item.id,
+                      descriptorId: item.descriptorId || 'prima-bozza',
+                    })
+                  )
+                }}
+              >
+                {!item.state || item.state === 'DRAFT' ? 'Modifica' : 'Ispeziona'}
+              </StyledButton>
+
+              <ActionMenu actions={getAvailableActions(item)} />
+            </StyledTableRow>
           ))}
         </TableWithLoader>
       </Box>

@@ -1,18 +1,22 @@
-import React, { FunctionComponent, useContext, useRef } from 'react'
+import React, { FunctionComponent, useContext, useRef, useState } from 'react'
 import { MoreVert as MoreVertIcon } from '@mui/icons-material'
 import { StyledButton } from './StyledButton'
 import { Menu, MenuItem } from '@mui/material'
 import { ActionProps } from '../../../types'
 import { TableActionMenuContext } from '../../lib/context'
+import uniqueString from 'unique-string'
+import { Box } from '@mui/system'
 
 type ActionMenuProps = {
   actions: Array<ActionProps>
-  index: number
 }
 
-export const ActionMenu: FunctionComponent<ActionMenuProps> = ({ actions, index }) => {
+export const ActionMenu: FunctionComponent<ActionMenuProps> = ({ actions }) => {
+  // Needs to be state to avoid it changing on rerender
+  const [id] = useState(uniqueString())
   const anchorRef = useRef() as React.MutableRefObject<HTMLSpanElement>
-  const anchorId = `basic-button-${index}`
+  const anchorId = `basic-button-${id}`
+  const menuId = `basic-menu-${id}`
   const { tableActionMenu, setTableActionMenu } = useContext(TableActionMenuContext)
   const open = Boolean(tableActionMenu !== null && tableActionMenu === anchorId)
 
@@ -26,14 +30,15 @@ export const ActionMenu: FunctionComponent<ActionMenuProps> = ({ actions, index 
   }
 
   if (!Boolean(actions.length > 0)) {
-    return null
+    // Used to keep the buttons visually aligned in case there is no ActionMenu
+    return <Box component="span" sx={{ width: 75, display: 'inline-block' }} />
   }
 
   return (
     <React.Fragment>
       <StyledButton
         id={anchorId}
-        aria-controls={`basic-menu-${index}`}
+        aria-controls={menuId}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
@@ -44,7 +49,7 @@ export const ActionMenu: FunctionComponent<ActionMenuProps> = ({ actions, index 
       </StyledButton>
 
       <Menu
-        id={`basic-menu-${index}`}
+        id={menuId}
         anchorEl={anchorRef.current}
         open={open}
         onClose={handleClose}
