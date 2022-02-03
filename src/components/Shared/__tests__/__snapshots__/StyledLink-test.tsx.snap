@@ -1,16 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Snapshot matches button 1`] = `
-<button
-  className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button css-1j2qdm2-MuiTypography-root-MuiLink-root"
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
->
-  Clicca qui
-</button>
-`;
-
 exports[`Snapshot matches link 1`] = `
 <a
   className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1iwtne7-MuiTypography-root-MuiLink-root"

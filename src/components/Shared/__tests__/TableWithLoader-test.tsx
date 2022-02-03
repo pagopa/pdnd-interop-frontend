@@ -4,6 +4,10 @@ import { TableWithLoader } from '../TableWithLoader'
 import { AxiosError } from 'axios'
 import { StyledTableRow } from '../StyledTableRow'
 import { noop } from 'lodash'
+import { createMemoryHistory } from 'history'
+import { AllTheProviders } from '../../../__mocks__/providers'
+import { ActionMenu } from '../ActionMenu'
+import { StyledButton } from '../StyledButton'
 
 type ExampleDatum = {
   name: string
@@ -42,11 +46,7 @@ describe('Snapshot', () => {
 
   it('matches table without actions', () => {
     const getTableRow = (item: ExampleDatum, i: number) => (
-      <StyledTableRow
-        key={i}
-        index={i}
-        cellData={[{ label: item.name }, { label: item.surname }]}
-      />
+      <StyledTableRow key={i} cellData={[{ label: item.name }, { label: item.surname }]} />
     )
     const component = renderer.create(
       <TableWithLoader loadingText={null} headData={headData} data={rawData}>
@@ -58,40 +58,56 @@ describe('Snapshot', () => {
   })
 
   it('matches table with single action button', () => {
+    const history = createMemoryHistory()
+
     const getTableRow = (item: ExampleDatum, i: number) => (
-      <StyledTableRow
-        key={i}
-        index={i}
-        cellData={[{ label: item.name }, { label: item.surname }]}
-        singleActionBtn={{ to: `/user/${item.id}`, label: 'Ispeziona' }}
-      />
+      <StyledTableRow key={i} cellData={[{ label: item.name }, { label: item.surname }]}>
+        <StyledButton
+          onClick={() => {
+            history.push(`/user/${item.id}`)
+          }}
+        >
+          Ispeziona
+        </StyledButton>
+      </StyledTableRow>
     )
     const component = renderer.create(
-      <TableWithLoader loadingText={null} headData={headData} data={rawData}>
-        {rawData.map((item, i) => getTableRow(item, i))}
-      </TableWithLoader>
+      <AllTheProviders defaultHistory={history}>
+        <TableWithLoader loadingText={null} headData={headData} data={rawData}>
+          {rawData.map((item, i) => getTableRow(item, i))}
+        </TableWithLoader>
+      </AllTheProviders>
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 
   it('matches table with single action button and action list button', () => {
+    const history = createMemoryHistory()
+
     const getTableRow = (item: ExampleDatum, i: number) => (
-      <StyledTableRow
-        key={i}
-        index={i}
-        cellData={[{ label: item.name }, { label: item.surname }]}
-        singleActionBtn={{ to: `/user/${item.id}`, label: 'Ispeziona' }}
-        actions={[
-          { onClick: noop, label: 'Azione 1' },
-          { onClick: noop, label: 'Azione 2' },
-        ]}
-      />
+      <StyledTableRow key={i} cellData={[{ label: item.name }, { label: item.surname }]}>
+        <StyledButton
+          onClick={() => {
+            history.push(`/user/${item.id}`)
+          }}
+        >
+          Ispeziona
+        </StyledButton>
+        <ActionMenu
+          actions={[
+            { onClick: noop, label: 'Azione 1' },
+            { onClick: noop, label: 'Azione 2' },
+          ]}
+        />
+      </StyledTableRow>
     )
     const component = renderer.create(
-      <TableWithLoader loadingText={null} headData={headData} data={rawData}>
-        {rawData.map((item, i) => getTableRow(item, i))}
-      </TableWithLoader>
+      <AllTheProviders defaultHistory={history}>
+        <TableWithLoader loadingText={null} headData={headData} data={rawData}>
+          {rawData.map((item, i) => getTableRow(item, i))}
+        </TableWithLoader>
+      </AllTheProviders>
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

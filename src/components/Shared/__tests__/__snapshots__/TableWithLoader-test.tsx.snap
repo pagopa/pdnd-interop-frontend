@@ -129,7 +129,7 @@ exports[`Snapshot matches table with single action button 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
         >
           <button
-            className="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButtonBase-root  css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+            className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -149,9 +149,6 @@ exports[`Snapshot matches table with single action button 1`] = `
           >
             Ispeziona
           </button>
-          <span
-            className="MuiBox-root css-24nojk"
-          />
         </td>
       </tr>
       <tr
@@ -183,7 +180,7 @@ exports[`Snapshot matches table with single action button 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
         >
           <button
-            className="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButtonBase-root  css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+            className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -203,9 +200,6 @@ exports[`Snapshot matches table with single action button 1`] = `
           >
             Ispeziona
           </button>
-          <span
-            className="MuiBox-root css-24nojk"
-          />
         </td>
       </tr>
     </tbody>
@@ -297,7 +291,7 @@ exports[`Snapshot matches table with single action button and action list button
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
         >
           <button
-            className="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButtonBase-root  css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+            className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -321,11 +315,11 @@ exports[`Snapshot matches table with single action button and action list button
             />
           </button>
           <button
-            aria-controls="basic-menu-0"
+            aria-controls="basic-menu-1076dd0469bf66fd7ab2adf87e612d17"
             aria-haspopup="true"
             className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
             disabled={false}
-            id="basic-button-0"
+            id="basic-button-1076dd0469bf66fd7ab2adf87e612d17"
             onBlur={[Function]}
             onClick={[Function]}
             onContextMenu={[Function]}
@@ -390,7 +384,7 @@ exports[`Snapshot matches table with single action button and action list button
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
         >
           <button
-            className="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButtonBase-root  css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+            className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -414,11 +408,11 @@ exports[`Snapshot matches table with single action button and action list button
             />
           </button>
           <button
-            aria-controls="basic-menu-1"
+            aria-controls="basic-menu-5b800ec12a5384529a2c68ae53bd054b"
             aria-haspopup="true"
             className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
             disabled={false}
-            id="basic-button-1"
+            id="basic-button-5b800ec12a5384529a2c68ae53bd054b"
             onBlur={[Function]}
             onClick={[Function]}
             onContextMenu={[Function]}
@@ -538,14 +532,6 @@ exports[`Snapshot matches table without actions 1`] = `
             Rossi
           </span>
         </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
-        >
-          <span
-            className="MuiBox-root css-24nojk"
-          />
-        </td>
       </tr>
       <tr
         className="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
@@ -570,14 +556,6 @@ exports[`Snapshot matches table without actions 1`] = `
           >
             Verdi
           </span>
-        </td>
-        <td
-          aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
-        >
-          <span
-            className="MuiBox-root css-24nojk"
-          />
         </td>
       </tr>
     </tbody>
