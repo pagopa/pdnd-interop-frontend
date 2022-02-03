@@ -136,6 +136,10 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/activate',
     METHOD: 'POST',
   },
+  USERS_GET_LIST: {
+    URL: 'pdnd-interop-uservice-party-process/0.1/institutions/:institutionId/relationships',
+    METHOD: 'GET',
+  },
   USER_SUSPEND: {
     URL: 'pdnd-interop-uservice-party-process/0.1/relationships/:relationshipId/suspend',
     METHOD: 'POST',
@@ -155,10 +159,6 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
   OPERATOR_SECURITY_JOIN_WITH_CLIENT: {
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/relationships/:relationshipId',
     METHOD: 'POST',
-  },
-  OPERATOR_API_GET_LIST: {
-    URL: 'pdnd-interop-uservice-party-process/0.1/institutions/:institutionId/relationships',
-    METHOD: 'GET',
   },
   OPERATOR_API_GET_SINGLE: {
     URL: 'pdnd-interop-uservice-party-process/0.1/relationships/:relationshipId',
