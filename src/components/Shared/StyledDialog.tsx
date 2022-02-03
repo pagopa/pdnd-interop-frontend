@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  DialogAddSecurityOperatorProps,
   DialogAskExtensionProps,
   DialogBasicProps,
   DialogExistingAttributeProps,
@@ -14,6 +15,7 @@ import { StyledDialogSubscribe } from './StyledDialogSubscribe'
 import { StyledDialogSecurityOperatorKey } from './StyledDialogSecurityOperatorKey'
 import { StyledDialogExistingAttribute } from './StyledDialogExistingAttribute'
 import { StyledDialogNewAttribute } from './StyledDialogNewAttribute'
+import { StyledDialogAddSecurityOperator } from './StyledDialogAddSecurityOperator'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -21,7 +23,8 @@ function match<T>(
   onSubscribe: (props: DialogSubscribeProps) => T,
   onSecurityOperatorKey: (props: DialogSecurityOperatorKeyProps) => T,
   onExistingAttribute: (props: DialogExistingAttributeProps) => T,
-  onNewAttribute: (props: DialogNewAttributeProps) => T
+  onNewAttribute: (props: DialogNewAttributeProps) => T,
+  onAddSecurityOperator: (props: DialogAddSecurityOperatorProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -37,6 +40,8 @@ function match<T>(
         return onExistingAttribute(props)
       case 'newAttribute':
         return onNewAttribute(props)
+      case 'addSecurityOperator':
+        return onAddSecurityOperator(props)
     }
   }
 }
@@ -47,5 +52,6 @@ export const StyledDialog = match(
   (props) => <StyledDialogSubscribe {...props} />,
   (props) => <StyledDialogSecurityOperatorKey {...props} />,
   (props) => <StyledDialogExistingAttribute {...props} />,
-  (props) => <StyledDialogNewAttribute {...props} />
+  (props) => <StyledDialogNewAttribute {...props} />,
+  (props) => <StyledDialogAddSecurityOperator {...props} />
 )

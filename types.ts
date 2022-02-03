@@ -472,6 +472,17 @@ export type DialogProps =
   | DialogSecurityOperatorKeyProps
   | DialogExistingAttributeProps
   | DialogNewAttributeProps
+  | DialogAddSecurityOperatorProps
+
+export type DialogAddSecurityOperatorProps = {
+  type: 'addSecurityOperator'
+  onSubmit: (data: AddSecurityOperatorFormInputValues) => void
+  initialValues: AddSecurityOperatorFormInputValues
+}
+
+export type AddSecurityOperatorFormInputValues = {
+  selected: Array<User>
+}
 
 export type DialogNewAttributeProps = {
   type: 'newAttribute'
@@ -653,3 +664,9 @@ export type EServiceInterfaceMimeType = {
   mime: Array<string>
   format: string
 }
+
+export type FormikSetFieldValue = (
+  field: string,
+  value: unknown,
+  shouldValidate?: boolean | undefined
+) => void

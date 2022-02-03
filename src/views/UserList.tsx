@@ -116,7 +116,6 @@ export function UserList() {
                 : buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_OPERATOR_CREATE.PATH, { id: clientId })
             }
           >
-            {' '}
             + Aggiungi
           </StyledButton>
         </Box>
