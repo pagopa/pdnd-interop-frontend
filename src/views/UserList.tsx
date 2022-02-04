@@ -93,8 +93,6 @@ export function UserList() {
     return availableActions[user.state] || []
   }
 
-  // TEMP BACKEND: this should not happen, it depends on the difference between our API
-  // and the one shared with self care, that doesn't expose name and surname
   const headData = ['nome e cognome', 'ruolo', 'permessi', 'stato', '']
 
   return (

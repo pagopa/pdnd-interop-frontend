@@ -1,18 +1,18 @@
 import React from 'react'
 import {
+  DialogAddSecurityOperatorKeyProps,
   DialogAddSecurityOperatorProps,
   DialogAskExtensionProps,
   DialogBasicProps,
   DialogExistingAttributeProps,
   DialogNewAttributeProps,
   DialogProps,
-  DialogSecurityOperatorKeyProps,
   DialogSubscribeProps,
 } from '../../../types'
 import { StyledDialogExtension } from './StyledDialogExtension'
 import { StyledDialogBasic } from './StyledDialogBasic'
 import { StyledDialogSubscribe } from './StyledDialogSubscribe'
-import { StyledDialogSecurityOperatorKey } from './StyledDialogSecurityOperatorKey'
+import { StyledDialogAddSecurityOperatorKey } from './StyledDialogAddSecurityOperatorKey'
 import { StyledDialogExistingAttribute } from './StyledDialogExistingAttribute'
 import { StyledDialogNewAttribute } from './StyledDialogNewAttribute'
 import { StyledDialogAddSecurityOperator } from './StyledDialogAddSecurityOperator'
@@ -21,7 +21,7 @@ function match<T>(
   onBasic: (props: DialogBasicProps) => T,
   onAskExtension: (props: DialogAskExtensionProps) => T,
   onSubscribe: (props: DialogSubscribeProps) => T,
-  onSecurityOperatorKey: (props: DialogSecurityOperatorKeyProps) => T,
+  onAddSecurityOperatorKey: (props: DialogAddSecurityOperatorKeyProps) => T,
   onExistingAttribute: (props: DialogExistingAttributeProps) => T,
   onNewAttribute: (props: DialogNewAttributeProps) => T,
   onAddSecurityOperator: (props: DialogAddSecurityOperatorProps) => T
@@ -35,7 +35,7 @@ function match<T>(
       case 'subscribe':
         return onSubscribe(props)
       case 'securityOperatorKey':
-        return onSecurityOperatorKey(props)
+        return onAddSecurityOperatorKey(props)
       case 'existingAttribute':
         return onExistingAttribute(props)
       case 'newAttribute':
@@ -50,7 +50,7 @@ export const StyledDialog = match(
   (props) => <StyledDialogBasic {...props} />,
   (props) => <StyledDialogExtension {...props} />,
   (props) => <StyledDialogSubscribe {...props} />,
-  (props) => <StyledDialogSecurityOperatorKey {...props} />,
+  (props) => <StyledDialogAddSecurityOperatorKey {...props} />,
   (props) => <StyledDialogExistingAttribute {...props} />,
   (props) => <StyledDialogNewAttribute {...props} />,
   (props) => <StyledDialogAddSecurityOperator {...props} />

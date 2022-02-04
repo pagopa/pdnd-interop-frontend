@@ -2,7 +2,7 @@ import { Box } from '@mui/system'
 import { AxiosResponse } from 'axios'
 import React, { useContext } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
-import { object, string, mixed } from 'yup'
+import { object, string } from 'yup'
 import {
   ActionProps,
   PublicKeyItem,
@@ -23,6 +23,7 @@ import { StyledTableRow } from './Shared/StyledTableRow'
 
 type KeyToPostProps = SecurityOperatorKeysFormInputValues & {
   use: 'SIG'
+  alg: 'RS256'
   operatorId: string
 }
 
@@ -89,16 +90,19 @@ export function KeysList() {
     return actions
   }
 
-  const uploadKeyFormInitialValues: SecurityOperatorKeysFormInputValues = { alg: 'RS256', key: '' }
+  const uploadKeyFormInitialValues: SecurityOperatorKeysFormInputValues = { key: '' }
   const uploadKeyFormValidationSchema = object({
-    alg: mixed().oneOf(['RS256']).required(),
     key: string().required(),
   })
 
   const uploadKey = async (data: SecurityOperatorKeysFormInputValues) => {
     // Encode public key
-    // TEMP BACKEND: user.id doesn't work. Maybe it should be "from"
-    const dataToPost: KeyToPostProps = { ...data, use: 'SIG', operatorId: user?.id as string }
+    const dataToPost: KeyToPostProps = {
+      ...data,
+      use: 'SIG',
+      alg: 'RS256',
+      operatorId: user?.id as string,
+    }
     dataToPost.key = btoa(dataToPost.key)
 
     await runAction(

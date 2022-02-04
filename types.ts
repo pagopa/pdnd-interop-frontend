@@ -481,7 +481,7 @@ export type DialogProps =
   | DialogBasicProps
   | DialogAskExtensionProps
   | DialogSubscribeProps
-  | DialogSecurityOperatorKeyProps
+  | DialogAddSecurityOperatorKeyProps
   | DialogExistingAttributeProps
   | DialogNewAttributeProps
   | DialogAddSecurityOperatorProps
@@ -527,7 +527,7 @@ export type ExistingAttributeFormInputValues = {
   selected: Array<CatalogAttribute>
 }
 
-export type DialogSecurityOperatorKeyProps = {
+export type DialogAddSecurityOperatorKeyProps = {
   type: 'securityOperatorKey'
   onSubmit: (data: SecurityOperatorKeysFormInputValues) => void
   initialValues: SecurityOperatorKeysFormInputValues
@@ -535,7 +535,6 @@ export type DialogSecurityOperatorKeyProps = {
 }
 
 export type SecurityOperatorKeysFormInputValues = {
-  alg: 'RS256'
   key: string
 }
 

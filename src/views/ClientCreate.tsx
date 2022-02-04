@@ -29,6 +29,7 @@ export function ClientCreate() {
   const onSubmit = async (data: ClientFields) => {
     const dataToPost = { ...data, consumerId: party?.partyId }
 
+    // TEMP PIN-933: as soon as backend purpose is deployed, plug back in actual action
     runFakeAction(`Client esempio creato con i seguenti dati ${JSON.stringify(dataToPost)}`)
     // await runActionWithDestination(
     // { path: { endpoint: 'CLIENT_CREATE' }, config: { data: dataToPost } },
