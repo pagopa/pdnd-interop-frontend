@@ -31,7 +31,7 @@ export const useLogin = () => {
     const uid = jwt.uid as string
 
     const resp = await fetchWithLogs({
-      path: { endpoint: 'USER_GET', endpointParams: { id: uid } },
+      path: { endpoint: 'USER_GET_SINGLE', endpointParams: { id: uid } },
     })
     const isTokenValid = !isFetchError(resp)
 

@@ -65,7 +65,7 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
     description:
       "Il client è attualmente inattivo, e si sta per riattivarlo. Se ci sono altri impedimenti (es. l'accordo di interoperabilità è sospeso) non sarà comunque possibile accedere all'e-service erogato",
   },
-  OPERATOR_SECURITY_KEY_DELETE: {
+  KEY_DELETE: {
     title: 'Cancella la chiave pubblica',
     description:
       'Cliccando su "conferma" si cancellerà la chiave pubblica relativa a questo operatore. NB: tutti i servizi che utilizzano questa chiave non potranno più accedere al servizio dell\'ente erogatore. Se non sei sicuro, scarica e salva la tua chiave pubblica prima di cancellarla',

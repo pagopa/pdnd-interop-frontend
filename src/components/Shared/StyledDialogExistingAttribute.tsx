@@ -63,7 +63,7 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
                     multiple={true}
                     labelKey="name"
                     placeholder="..."
-                    path={{ endpoint: 'ATTRIBUTES_GET_LIST' }}
+                    path={{ endpoint: 'ATTRIBUTE_GET_LIST' }}
                     transformFn={(data) =>
                       (data.attributes as Array<CatalogAttribute>).filter(
                         (a) => a.certified === certifiedCondition

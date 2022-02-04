@@ -78,7 +78,7 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId/descriptors/:descriptorId/documents/:documentId',
     METHOD: 'GET',
   },
-  ATTRIBUTES_GET_LIST: {
+  ATTRIBUTE_GET_LIST: {
     URL: 'pdnd-interop-uservice-attribute-registry-management/0.1/attributes',
     METHOD: 'GET',
   },
@@ -144,8 +144,24 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/keys/:kid',
     METHOD: 'GET',
   },
-  USERS_GET_LIST: {
+  KEY_POST: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/keys',
+    METHOD: 'POST',
+  },
+  KEY_DOWNLOAD: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/encoded/keys/:keyId',
+    METHOD: 'GET',
+  },
+  KEY_DELETE: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/keys/:keyId',
+    METHOD: 'DELETE',
+  },
+  USER_GET_LIST: {
     URL: 'pdnd-interop-uservice-party-process/0.1/institutions/:institutionId/relationships',
+    METHOD: 'GET',
+  },
+  USER_GET_SINGLE: {
+    URL: 'pdnd-interop-uservice-party-management/0.1/persons/:id',
     METHOD: 'GET',
   },
   USER_SUSPEND: {
@@ -155,10 +171,6 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
   USER_REACTIVATE: {
     URL: 'pdnd-interop-uservice-party-process/0.1/relationships/:relationshipId/activate',
     METHOD: 'POST',
-  },
-  USER_GET: {
-    URL: 'pdnd-interop-uservice-party-management/0.1/persons/:id',
-    METHOD: 'GET',
   },
   OPERATOR_CREATE: {
     URL: 'pdnd-interop-uservice-party-process/0.1/onboarding/operators',
@@ -179,21 +191,5 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
   OPERATOR_SECURITY_GET_SINGLE: {
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/operators',
     METHOD: 'GET',
-  },
-  OPERATOR_SECURITY_KEYS_GET_LIST: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/operators/:operatorId/keys',
-    METHOD: 'GET',
-  },
-  OPERATOR_SECURITY_KEYS_POST: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/keys',
-    METHOD: 'POST',
-  },
-  OPERATOR_SECURITY_KEY_DOWNLOAD: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/encoded/keys/:keyId',
-    METHOD: 'GET',
-  },
-  OPERATOR_SECURITY_KEY_DELETE: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/keys/:keyId',
-    METHOD: 'DELETE',
   },
 }

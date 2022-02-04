@@ -32,7 +32,7 @@ export function KeyEdit() {
     const { response, outcome } = await runAction(
       {
         path: {
-          endpoint: 'OPERATOR_SECURITY_KEY_DOWNLOAD',
+          endpoint: 'KEY_DOWNLOAD',
           endpointParams: { clientId, keyId: data?.key.kid },
         },
       },
@@ -49,7 +49,7 @@ export function KeyEdit() {
     await runActionWithDestination(
       {
         path: {
-          endpoint: 'OPERATOR_SECURITY_KEY_DELETE',
+          endpoint: 'KEY_DELETE',
           endpointParams: { clientId, keyId: data?.key.kid },
         },
       },
@@ -78,10 +78,7 @@ export function KeyEdit() {
         <StyledButton sx={{ mr: 2 }} variant="contained" onClick={downloadKey}>
           Scarica
         </StyledButton>
-        <StyledButton
-          variant="outlined"
-          onClick={wrapActionInDialog(deleteKey, 'OPERATOR_SECURITY_KEY_DELETE')}
-        >
+        <StyledButton variant="outlined" onClick={wrapActionInDialog(deleteKey, 'KEY_DELETE')}>
           Elimina
         </StyledButton>
       </Box>

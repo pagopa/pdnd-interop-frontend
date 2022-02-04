@@ -49,7 +49,7 @@ export function KeysList() {
     const { response, outcome } = await runAction(
       {
         path: {
-          endpoint: 'OPERATOR_SECURITY_KEY_DOWNLOAD',
+          endpoint: 'KEY_DOWNLOAD',
           endpointParams: { clientId, keyId },
         },
       },
@@ -66,7 +66,7 @@ export function KeysList() {
     await runAction(
       {
         path: {
-          endpoint: 'OPERATOR_SECURITY_KEY_DELETE',
+          endpoint: 'KEY_DELETE',
           endpointParams: { clientId, keyId },
         },
       },
@@ -81,7 +81,7 @@ export function KeysList() {
         label: 'Scarica',
       },
       {
-        onClick: wrapActionInDialog(wrapDeleteKey(key.kid), 'OPERATOR_SECURITY_KEY_DELETE'),
+        onClick: wrapActionInDialog(wrapDeleteKey(key.kid), 'KEY_DELETE'),
         label: 'Elimina',
       },
     ]
@@ -103,7 +103,7 @@ export function KeysList() {
 
     await runAction(
       {
-        path: { endpoint: 'OPERATOR_SECURITY_KEYS_POST', endpointParams: { clientId } },
+        path: { endpoint: 'KEY_POST', endpointParams: { clientId } },
         config: { data: [dataToPost] },
       },
       { suppressToast: false }

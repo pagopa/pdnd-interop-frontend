@@ -32,7 +32,7 @@ export function UserList() {
   const mode = useMode()
   const { party } = useContext(PartyContext)
   const { token } = useContext(TokenContext)
-  const endpoint = mode === 'provider' ? 'USERS_GET_LIST' : 'OPERATOR_SECURITY_GET_LIST' // TODO: remove after integration with selfcare
+  const endpoint = mode === 'provider' ? 'USER_GET_LIST' : 'OPERATOR_SECURITY_GET_LIST' // TODO: remove after integration with selfcare
   const endpointParams =
     mode === 'provider' ? { institutionId: party?.institutionId } : { clientId }
   const params = mode === 'provider' ? { productRoles: ['admin', 'api'].join(',') } : {}

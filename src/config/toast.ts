@@ -275,7 +275,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: "Non è stato possibile riattivare l'operatore richiesto. Per favore, riprova!",
     },
   },
-  OPERATOR_SECURITY_KEYS_POST: {
+  KEY_POST: {
     loadingText: 'Stiamo caricando la chiave',
     success: {
       title: 'Chiave caricata',
@@ -288,7 +288,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
         'Non è stato possibile caricare la chiave. Assicurarsi sia nel formato corretto e riprovare',
     },
   },
-  OPERATOR_SECURITY_KEY_DELETE: {
+  KEY_DELETE: {
     loadingText: 'Stiamo cancellando la chiave',
     success: {
       title: 'Chiave cancellata',
@@ -300,5 +300,5 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: 'Non è stato possibile cancellare la chiave. Per favore, riprova!',
     },
   },
-  OPERATOR_SECURITY_KEY_DOWNLOAD: { loadingText: 'Stiamo scaricando la chiave' },
+  KEY_DOWNLOAD: { loadingText: 'Stiamo scaricando la chiave' },
 }
