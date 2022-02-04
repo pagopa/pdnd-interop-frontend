@@ -8,7 +8,7 @@ import { Box } from '@mui/system'
 import { InlineClipboard } from '../components/Shared/InlineClipboard'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useLocation } from 'react-router-dom'
-import { getBits } from '../lib/router-utils'
+import { buildDynamicRoute, getBits } from '../lib/router-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { ROUTES } from '../config/routes'
@@ -54,7 +54,7 @@ export function KeyEdit() {
         },
       },
       {
-        destination: ROUTES.SUBSCRIBE_CLIENT_LIST,
+        destination: buildDynamicRoute(ROUTES.SUBSCRIBE_CLIENT_EDIT, { clientId }),
         suppressToast: false,
       }
     )
