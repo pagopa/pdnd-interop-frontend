@@ -1,10 +1,17 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { ActionProps, ApiEndpointKey, ProviderOrSubscriber, User, UserState } from '../../types'
+import {
+  ActionProps,
+  ApiEndpointKey,
+  ProviderOrSubscriber,
+  PublicKey,
+  User,
+  UserState,
+} from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { getBits } from '../lib/router-utils'
+import { buildDynamicPath, getBits } from '../lib/router-utils'
 import { isAdmin } from '../lib/auth-utils'
 import { PartyContext } from '../lib/context'
 import { useMode } from '../hooks/useMode'
@@ -15,6 +22,11 @@ import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATE_LABEL } from '../config/labels'
 import { useUser } from '../hooks/useUser'
+import { fetchWithLogs } from '../lib/api-utils'
+import { isFetchError } from '../lib/error-utils'
+import { AxiosResponse } from 'axios'
+import { StyledLink } from '../components/Shared/StyledLink'
+import { ROUTES } from '../config/routes'
 
 type UserEndpoinParams = { clientId: string } | { relationshipId: string }
 
@@ -26,6 +38,7 @@ export function UserEdit() {
   const { isCurrentUser } = useUser()
   const bits = getBits(useLocation())
   const relationshipId = bits[bits.length - 1]
+  const [keys, setKeys] = useState<Array<PublicKey>>([])
 
   let clientId: string | undefined = bits[bits.length - 3]
   let endpoint: ApiEndpointKey = 'OPERATOR_SECURITY_GET_SINGLE'
@@ -55,6 +68,26 @@ export function UserEdit() {
       },
     }
   )
+
+  useEffect(() => {
+    async function asyncFetchKeyData(operatorId: string) {
+      const response = await fetchWithLogs({
+        path: {
+          endpoint: 'OPERATOR_SECURITY_GET_KEYS_LIST',
+          endpointParams: { clientId, operatorId },
+        },
+      })
+
+      if (!isFetchError(response)) {
+        setKeys((response as AxiosResponse).data.keys)
+      }
+    }
+
+    // Fetch associated keys for security operatos
+    if (userData && userData.product.role === 'security') {
+      asyncFetchKeyData(userData.id)
+    }
+  }, [userData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   /*
    * List of possible actions for the user to perform
@@ -138,6 +171,22 @@ export function UserEdit() {
           {userData?.state ? USER_STATE_LABEL[userData.state] : 'n/d'}
         </Typography>
       </DescriptionBlock>
+
+      {userData?.product.role === 'security' && (
+        <DescriptionBlock label="Chiavi associate">
+          {keys.map(({ key }, i) => {
+            const to = buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_KEY_EDIT.PATH, {
+              clientId,
+              kid: key.kid,
+            })
+            return (
+              <StyledLink key={i} to={to} sx={{ display: 'block' }}>
+                {key.kid}
+              </StyledLink>
+            )
+          })}
+        </DescriptionBlock>
+      )}
 
       <Box sx={{ mt: 8, display: 'flex' }}>
         {getAvailableActions().map(({ onClick, label }, i) => (

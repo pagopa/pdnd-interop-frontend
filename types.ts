@@ -47,6 +47,9 @@ export type ApiEndpointKey =
   | 'CLIENT_ACTIVATE'
   | 'KEY_GET_LIST'
   | 'KEY_GET_SINGLE'
+  | 'KEY_POST'
+  | 'KEY_DOWNLOAD'
+  | 'KEY_DELETE'
   | 'USER_GET_LIST'
   | 'USER_SUSPEND'
   | 'USER_REACTIVATE'
@@ -56,9 +59,7 @@ export type ApiEndpointKey =
   | 'OPERATOR_API_GET_SINGLE'
   | 'OPERATOR_SECURITY_GET_LIST'
   | 'OPERATOR_SECURITY_GET_SINGLE'
-  | 'KEY_POST'
-  | 'KEY_DOWNLOAD'
-  | 'KEY_DELETE'
+  | 'OPERATOR_SECURITY_GET_KEYS_LIST'
 
 export type ApiEndpointContent = {
   URL: string
@@ -586,6 +587,8 @@ export type DialogActionKeys = Exclude<
   | 'CLIENT_CREATE'
   | 'KEY_GET_LIST'
   | 'KEY_GET_SINGLE'
+  | 'KEY_POST'
+  | 'KEY_DOWNLOAD'
   | 'USER_GET_LIST'
   | 'USER_GET_SINGLE'
   | 'OPERATOR_CREATE'
@@ -594,8 +597,7 @@ export type DialogActionKeys = Exclude<
   | 'OPERATOR_SECURITY_GET_LIST'
   | 'OPERATOR_SECURITY_GET_SINGLE'
   | 'OPERATOR_SECURITY_CREATE'
-  | 'KEY_POST'
-  | 'KEY_DOWNLOAD'
+  | 'OPERATOR_SECURITY_GET_KEYS_LIST'
 >
 
 export type ToastContent = {
@@ -629,6 +631,7 @@ export type ToastActionKeys = Exclude<
   | 'OPERATOR_API_GET_SINGLE'
   | 'OPERATOR_SECURITY_GET_LIST'
   | 'OPERATOR_SECURITY_GET_SINGLE'
+  | 'OPERATOR_SECURITY_GET_KEYS_LIST'
 >
 
 export type LoaderType = 'global' | 'contextual'

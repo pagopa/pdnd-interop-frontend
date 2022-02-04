@@ -192,4 +192,8 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/operators',
     METHOD: 'GET',
   },
+  OPERATOR_SECURITY_GET_KEYS_LIST: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/operators/:operatorId/keys',
+    METHOD: 'GET',
+  },
 }
