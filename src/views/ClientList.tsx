@@ -5,13 +5,12 @@ import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { TempFilters } from '../components/TempFilters'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { getClientComputedState } from '../lib/status-utils'
 import { isAdmin } from '../lib/auth-utils'
 import { PartyContext, TokenContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { buildDynamicPath } from '../lib/router-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { COMPUTED_STATE_LABEL } from '../config/labels'
+import { CLIENT_STATE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
 import { useUser } from '../hooks/useUser'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
@@ -130,7 +129,7 @@ export function ClientList() {
                 { label: item.name },
                 { label: item.eservice.name },
                 { label: item.eservice.provider.description },
-                { label: COMPUTED_STATE_LABEL[getClientComputedState(item)] },
+                { label: CLIENT_STATE_LABEL[item.state] },
               ]}
             >
               <StyledButton

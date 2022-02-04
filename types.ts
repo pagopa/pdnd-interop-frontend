@@ -45,6 +45,8 @@ export type ApiEndpointKey =
   | 'CLIENT_CREATE'
   | 'CLIENT_SUSPEND'
   | 'CLIENT_ACTIVATE'
+  | 'KEY_GET_LIST'
+  | 'KEY_GET_SINGLE'
   | 'USERS_GET_LIST'
   | 'USER_SUSPEND'
   | 'USER_REACTIVATE'
@@ -377,8 +379,18 @@ export type Client = {
 /*
  * Public keys
  */
-export type SecurityOperatorPublicKey = {
+export type PublicKeyItem = {
   kid: string
+  use: 'SIG' | 'ENC'
+  clientId?: string
+}
+
+export type PublicKey = {
+  key: PublicKeyItem
+}
+
+export type PublicKeys = {
+  keys: Array<PublicKey>
 }
 
 /*
@@ -573,6 +585,8 @@ export type DialogActionKeys = Exclude<
   | 'CLIENT_GET_LIST'
   | 'CLIENT_GET_SINGLE'
   | 'CLIENT_CREATE'
+  | 'KEY_GET_LIST'
+  | 'KEY_GET_SINGLE'
   | 'USERS_GET_LIST'
   | 'USER_GET'
   | 'OPERATOR_CREATE'
@@ -610,6 +624,8 @@ export type ToastActionKeys = Exclude<
   | 'AGREEMENT_GET_SINGLE'
   | 'CLIENT_GET_LIST'
   | 'CLIENT_GET_SINGLE'
+  | 'KEY_GET_LIST'
+  | 'KEY_GET_SINGLE'
   | 'USERS_GET_LIST'
   | 'USER_GET'
   | 'OPERATOR_API_GET_SINGLE'

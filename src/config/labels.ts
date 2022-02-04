@@ -30,11 +30,6 @@ export const CLIENT_STATE_LABEL = {
   SUSPENDED: 'Sospeso',
 }
 
-export const COMPUTED_STATE_LABEL = {
-  ACTIVE: 'Attivo',
-  INACTIVE: 'Non attivo',
-}
-
 export const USER_STATE_LABEL = {
   PENDING: 'In attesa di approvazione',
   ACTIVE: 'Attivo',

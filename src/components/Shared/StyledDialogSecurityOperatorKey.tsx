@@ -52,6 +52,7 @@ export const StyledDialogSecurityOperatorKey: FunctionComponent<DialogSecurityOp
                   value={values.key}
                   multiline={true}
                   onChange={handleChange}
+                  focusOnMount={true}
                 />
               </DialogContent>
 
@@ -60,7 +61,7 @@ export const StyledDialogSecurityOperatorKey: FunctionComponent<DialogSecurityOp
                   Annulla
                 </StyledButton>
                 <StyledButton variant="contained" type="submit">
-                  Iscriviti
+                  Carica
                 </StyledButton>
               </DialogActions>
             </StyledForm>

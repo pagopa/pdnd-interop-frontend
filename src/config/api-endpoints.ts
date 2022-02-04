@@ -136,6 +136,14 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/activate',
     METHOD: 'POST',
   },
+  KEY_GET_LIST: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/keys',
+    METHOD: 'GET',
+  },
+  KEY_GET_SINGLE: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/keys/:kid',
+    METHOD: 'GET',
+  },
   USERS_GET_LIST: {
     URL: 'pdnd-interop-uservice-party-process/0.1/institutions/:institutionId/relationships',
     METHOD: 'GET',
@@ -177,7 +185,7 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'GET',
   },
   OPERATOR_SECURITY_KEYS_POST: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.1/operators/:operatorId/keys',
+    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/keys',
     METHOD: 'POST',
   },
   OPERATOR_SECURITY_KEY_DOWNLOAD: {

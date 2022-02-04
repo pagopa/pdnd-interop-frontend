@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Tab, Tabs, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { AGREEMENT_STATE_LABEL, CLIENT_STATE_LABEL, ESERVICE_STATE_LABEL } from '../config/labels'
+import { CLIENT_STATE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
 import { Client, ClientState, ActionProps } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
@@ -10,7 +10,6 @@ import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { buildDynamicPath, getBits } from '../lib/router-utils'
 import { UserList } from './UserList'
-import { getClientComputedState } from '../lib/status-utils'
 import { isAdmin } from '../lib/auth-utils'
 import { PartyContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
@@ -18,6 +17,7 @@ import { StyledLink } from '../components/Shared/StyledLink'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { a11yProps, TabPanel } from '../components/TabPanel'
 import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
+import { KeysList } from '../components/KeysList'
 
 export function ClientEdit() {
   const location = useLocation()
@@ -86,28 +86,6 @@ export function ClientEdit() {
     return actions[sureData.state]
   }
 
-  const getReasonClientIsBlocked = () => {
-    const reasons: Array<string> = []
-    const sureData = data as Client
-
-    if (
-      sureData.agreement.descriptor.state !== 'PUBLISHED' &&
-      sureData.agreement.descriptor.state !== 'DEPRECATED'
-    ) {
-      reasons.push("l'erogatore dell'e-service ha sospeso questa versione")
-    }
-
-    if (sureData.agreement.state !== 'ACTIVE') {
-      reasons.push("l'accordo di interoperabilità relativo all'e-service non è attivo")
-    }
-
-    if (sureData.state !== 'ACTIVE') {
-      reasons.push('il client non è attivo')
-    }
-
-    return reasons
-  }
-
   if (!data) {
     return <StyledSkeleton />
   }
@@ -116,7 +94,7 @@ export function ClientEdit() {
 
   return (
     <React.Fragment>
-      <StyledIntro sx={{ mb: 0 }}>{{ title: `Client: ${data.name}` }}</StyledIntro>
+      <StyledIntro sx={{ mb: 0 }}>{{ title: data.name }}</StyledIntro>
 
       <Tabs
         value={activeTab}
@@ -126,23 +104,12 @@ export function ClientEdit() {
       >
         <Tab label="Dettagli del client" {...a11yProps(0)} />
         <Tab label="Operatori di sicurezza" {...a11yProps(1)} />
+        <Tab label="Chiavi pubbliche" {...a11yProps(2)} />
       </Tabs>
 
       <TabPanel value={activeTab} index={0}>
         <DescriptionBlock label="Descrizione">
           <Typography component="span">{data.description}</Typography>
-        </DescriptionBlock>
-
-        <DescriptionBlock label="Questo client può accedere all'e-service?">
-          <Typography component="span">
-            {getClientComputedState(data) === 'ACTIVE'
-              ? 'Sì'
-              : `No: ${getReasonClientIsBlocked().join(', ')}`}
-          </Typography>
-        </DescriptionBlock>
-
-        <DescriptionBlock label="Stato del client">
-          <Typography component="span">{CLIENT_STATE_LABEL[data.state]}</Typography>
         </DescriptionBlock>
 
         <DescriptionBlock label="La versione dell'e-service che stai usando">
@@ -188,14 +155,6 @@ export function ClientEdit() {
           <Typography component="span">{data.eservice.provider.description}</Typography>
         </DescriptionBlock>
 
-        <DescriptionBlock
-          label={`Stato dell'e-service per la versione ${data.agreement.descriptor.version}`}
-        >
-          <Typography component="span">
-            {ESERVICE_STATE_LABEL[data.agreement.descriptor.state]}
-          </Typography>
-        </DescriptionBlock>
-
         <DescriptionBlock label="Accordo">
           <Typography component="span">
             <StyledLink
@@ -208,12 +167,12 @@ export function ClientEdit() {
           </Typography>
         </DescriptionBlock>
 
-        <DescriptionBlock label="Stato dell'accordo">
-          <Typography component="span">{AGREEMENT_STATE_LABEL[data.agreement.state]}</Typography>
-        </DescriptionBlock>
-
         <DescriptionBlock label="Finalità">
           <Typography component="span">{data.purposes}</Typography>
+        </DescriptionBlock>
+
+        <DescriptionBlock label="Stato del client">
+          <Typography component="span">{CLIENT_STATE_LABEL[data.state]}</Typography>
         </DescriptionBlock>
 
         {actions.length > 0 && (
@@ -226,8 +185,13 @@ export function ClientEdit() {
           </Box>
         )}
       </TabPanel>
+
       <TabPanel value={activeTab} index={1}>
         <UserList />
+      </TabPanel>
+
+      <TabPanel value={activeTab} index={2}>
+        <KeysList />
       </TabPanel>
     </React.Fragment>
   )

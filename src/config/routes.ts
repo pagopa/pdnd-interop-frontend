@@ -18,6 +18,7 @@ import { UserCreate } from '../views/UserCreate'
 import { ClientCreate } from '../views/ClientCreate'
 import { SecurityKeyGuide } from '../views/SecurityKeyGuide'
 import { EmptyComponent } from '../components/Shared/EmptyComponent'
+import { KeyEdit } from '../views/KeyEdit'
 
 const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
   LOGOUT: {
@@ -161,6 +162,14 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     EXACT: false,
     LABEL: 'Gestisci operatore del client',
     COMPONENT: UserEdit,
+    PUBLIC: false,
+    AUTH_LEVELS: ['admin', 'security'],
+  },
+  SUBSCRIBE_CLIENT_KEY_EDIT: {
+    PATH: '/fruizione/client/:id/chiavi/:kid',
+    EXACT: false,
+    LABEL: 'Gestisci chiave pubblica del client',
+    COMPONENT: KeyEdit,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'security'],
   },
