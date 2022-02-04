@@ -63,9 +63,7 @@ export function UserCreate() {
           },
         },
         {
-          destination: buildDynamicRoute(ROUTES.SUBSCRIBE_CLIENT_EDIT, {
-            id: clientId,
-          }),
+          destination: buildDynamicRoute(ROUTES.SUBSCRIBE_CLIENT_EDIT, { clientId }),
           suppressToast: false,
         }
       )

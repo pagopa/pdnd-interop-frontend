@@ -85,7 +85,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     AUTH_LEVELS: ['admin', 'api'],
   },
   PROVIDE_AGREEMENT_EDIT: {
-    PATH: '/erogazione/accordi/:id',
+    PATH: '/erogazione/accordi/:agreementId',
     EXACT: false,
     LABEL: 'Gestisci accordo',
     COMPONENT: AgreementEdit,
@@ -109,7 +109,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     AUTH_LEVELS: ['admin'],
   },
   PROVIDE_OPERATOR_EDIT: {
-    PATH: '/erogazione/operatori/:id',
+    PATH: '/erogazione/operatori/:operatorId',
     EXACT: false,
     LABEL: 'Gestisci operatore API',
     COMPONENT: UserEdit,
@@ -150,7 +150,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     AUTH_LEVELS: ['admin', 'security'],
   },
   SUBSCRIBE_CLIENT_OPERATOR_CREATE: {
-    PATH: '/fruizione/client/:id/operatori/crea',
+    PATH: '/fruizione/client/:clientId/operatori/crea',
     EXACT: false,
     LABEL: 'Crea operatore di sicurezza',
     COMPONENT: UserCreate,
@@ -158,7 +158,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     AUTH_LEVELS: ['admin'],
   },
   SUBSCRIBE_CLIENT_OPERATOR_EDIT: {
-    PATH: '/fruizione/client/:id/operatori/:operatorId',
+    PATH: '/fruizione/client/:clientId/operatori/:operatorId',
     EXACT: false,
     LABEL: 'Gestisci operatore del client',
     COMPONENT: UserEdit,
@@ -166,7 +166,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     AUTH_LEVELS: ['admin', 'security'],
   },
   SUBSCRIBE_CLIENT_KEY_EDIT: {
-    PATH: '/fruizione/client/:id/chiavi/:kid',
+    PATH: '/fruizione/client/:clientId/chiavi/:kid',
     EXACT: false,
     LABEL: 'Gestisci chiave pubblica del client',
     COMPONENT: KeyEdit,
@@ -182,7 +182,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     AUTH_LEVELS: ['admin'],
   },
   SUBSCRIBE_CLIENT_EDIT: {
-    PATH: '/fruizione/client/:id',
+    PATH: '/fruizione/client/:clientId',
     EXACT: true,
     LABEL: 'Gestisci client',
     COMPONENT: ClientEdit,
@@ -198,7 +198,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     AUTH_LEVELS: ['admin', 'security'],
   },
   SUBSCRIBE_AGREEMENT_EDIT: {
-    PATH: '/fruizione/accordi/:id',
+    PATH: '/fruizione/accordi/:agreementId',
     EXACT: false,
     LABEL: 'Gestisci accordo',
     COMPONENT: AgreementEdit,

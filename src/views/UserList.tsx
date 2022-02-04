@@ -116,7 +116,7 @@ export function UserList() {
             to={
               mode === 'provider'
                 ? ROUTES.PROVIDE_OPERATOR_CREATE.PATH
-                : buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_OPERATOR_CREATE.PATH, { id: clientId })
+                : buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_OPERATOR_CREATE.PATH, { clientId })
             }
           >
             + Aggiungi
@@ -149,9 +149,9 @@ export function UserList() {
               onClick={() => {
                 history.push(
                   mode === 'provider'
-                    ? buildDynamicPath(ROUTES.PROVIDE_OPERATOR_EDIT.PATH, { id: item.id })
+                    ? buildDynamicPath(ROUTES.PROVIDE_OPERATOR_EDIT.PATH, { operatorId: item.id })
                     : buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_OPERATOR_EDIT.PATH, {
-                        id: clientId,
+                        clientId,
                         operatorId: item.id,
                       })
                 )

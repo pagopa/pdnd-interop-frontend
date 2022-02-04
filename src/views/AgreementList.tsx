@@ -195,7 +195,7 @@ export function AgreementList() {
                       ROUTES[
                         mode === 'provider' ? 'PROVIDE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_EDIT'
                       ].PATH,
-                      { id: item.id }
+                      { agreementId: item.id }
                     )
                   )
                 }}

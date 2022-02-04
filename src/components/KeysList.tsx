@@ -152,7 +152,7 @@ export function KeysList() {
               onClick={() => {
                 history.push(
                   buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_KEY_EDIT.PATH, {
-                    id: clientId,
+                    clientId,
                     kid: key.kid,
                   })
                 )

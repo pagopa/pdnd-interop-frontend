@@ -136,7 +136,9 @@ export function ClientList() {
                 variant="outlined"
                 size="small"
                 onClick={() => {
-                  history.push(buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_EDIT.PATH, { id: item.id }))
+                  history.push(
+                    buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_EDIT.PATH, { clientId: item.id })
+                  )
                 }}
               >
                 Ispeziona
