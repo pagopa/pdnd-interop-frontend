@@ -174,17 +174,22 @@ export function UserEdit() {
 
       {userData?.product.role === 'security' && (
         <DescriptionBlock label="Chiavi associate">
-          {keys.map(({ key }, i) => {
-            const to = buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_KEY_EDIT.PATH, {
-              clientId,
-              kid: key.kid,
-            })
-            return (
-              <StyledLink key={i} to={to} sx={{ display: 'block' }}>
+          {Boolean(keys.length > 0) ? (
+            keys.map(({ key }, i) => (
+              <StyledLink
+                key={i}
+                to={buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_KEY_EDIT.PATH, {
+                  clientId,
+                  kid: key.kid,
+                })}
+                sx={{ display: 'block' }}
+              >
                 {key.kid}
               </StyledLink>
-            )
-          })}
+            ))
+          ) : (
+            <Typography component="span">Nessuna chiave associata</Typography>
+          )}
         </DescriptionBlock>
       )}
 
