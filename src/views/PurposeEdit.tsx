@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Tab, Tabs, Typography } from '@mui/material'
 import { a11yProps, TabPanel } from '../components/TabPanel'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { useLocation } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { buildDynamicPath, getBits } from '../lib/router-utils'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { mockPurpose1 } from '../temp/mock-purpose'
@@ -12,21 +12,25 @@ import { decoratePurposeWithMostRecentVersion, getComputedPurposeState } from '.
 import { formatThousands } from '../lib/number-utils'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { ROUTES } from '../config/routes'
-import { PURPOSE_STATE_LABEL } from '../config/labels'
+import { CLIENT_STATE_LABEL, PURPOSE_STATE_LABEL } from '../config/labels'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { useFeedback } from '../hooks/useFeedback'
 import { downloadFile } from '../lib/file-utils'
 import { AxiosResponse } from 'axios'
 import { Box } from '@mui/system'
+import { TableWithLoader } from '../components/Shared/TableWithLoader'
+import { StyledTableRow } from '../components/Shared/StyledTableRow'
+// import { ActionMenu } from '../components/Shared/ActionMenu'
 
 export const PurposeEdit = () => {
+  const history = useHistory()
   const [mockData, setMockData] = useState<DecoratedPurpose>()
   const location = useLocation()
   const { runAction, wrapActionInDialog } = useFeedback()
   const [activeTab, setActiveTab] = useState(0)
   const locationBits = getBits(location)
   const purposeId = locationBits[locationBits.length - 1]
-  const { data } = useAsyncFetch<Purpose>(
+  const { data /*, error */ } = useAsyncFetch<Purpose>(
     {
       path: { endpoint: 'PURPOSE_GET_SINGLE', endpointParams: { purposeId } },
     },
@@ -73,6 +77,8 @@ export const PurposeEdit = () => {
   const archive = async () => {
     //
   }
+
+  const headData = ['nome client', 'stato', '']
 
   return (
     <React.Fragment>
@@ -187,8 +193,44 @@ export const PurposeEdit = () => {
           </StyledButton>
         </Box>
       </TabPanel>
+
       <TabPanel value={activeTab} index={1}>
-        client associati
+        <Box sx={{ mt: 4 }}>
+          {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
+            <StyledButton variant="contained" to={ROUTES.SUBSCRIBE_CLIENT_CREATE.PATH}>
+              + Aggiungi
+            </StyledButton>
+          </Box> */}
+
+          <TableWithLoader
+            loadingText=""
+            headData={headData}
+            data={mockData?.clients}
+            noDataLabel="Non ci sono client disponibili"
+            // error={error}
+          >
+            {mockData?.clients?.map((item, i) => (
+              <StyledTableRow
+                key={i}
+                cellData={[{ label: item.name }, { label: CLIENT_STATE_LABEL[item.state] }]}
+              >
+                <StyledButton
+                  variant="outlined"
+                  size="small"
+                  onClick={() => {
+                    history.push(
+                      buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_EDIT.PATH, { clientId: item.id })
+                    )
+                  }}
+                >
+                  Ispeziona
+                </StyledButton>
+
+                {/* <ActionMenu actions={getAvailableActions(item)} /> */}
+              </StyledTableRow>
+            ))}
+          </TableWithLoader>
+        </Box>
       </TabPanel>
     </React.Fragment>
   )
