@@ -25,7 +25,7 @@ import { EServiceAttributeSection } from './EServiceAttributeSection'
 import { StyledForm } from './Shared/StyledForm'
 import { StyledIntro } from './Shared/StyledIntro'
 import { ROUTES } from '../config/routes'
-import { EServiceWriteActions } from './Shared/EServiceWriteActions'
+import { StepActions } from './Shared/StepActions'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { StyledInputControlledRadio } from './Shared/StyledInputControlledRadio'
 
@@ -193,7 +193,7 @@ export const EServiceWriteStep1General: FunctionComponent<
           </StyledIntro>
           <EServiceAttributeSection attributes={attributes} setAttributes={setAttributes} />
 
-          <EServiceWriteActions
+          <StepActions
             back={{
               label: 'Torna agli e-service',
               type: 'link',

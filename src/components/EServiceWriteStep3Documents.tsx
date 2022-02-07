@@ -14,7 +14,7 @@ import { StyledIntro } from './Shared/StyledIntro'
 import { StyledButton } from './Shared/StyledButton'
 import { EServiceWriteStep3DocumentsInterface } from './EServiceWriteStep3DocumentsInterface'
 import { EServiceWriteStep3DocumentsDoc } from './EServiceWriteStep3DocumentsDoc'
-import { EServiceWriteActions } from './Shared/EServiceWriteActions'
+import { StepActions } from './Shared/StepActions'
 import { Paper } from '@mui/material'
 import { TOAST_CONTENTS } from '../config/toast'
 import { EServiceWriteProps } from '../views/EServiceWrite'
@@ -154,7 +154,7 @@ export function EServiceWriteStep3Documents({
         />
       )}
 
-      <EServiceWriteActions
+      <StepActions
         back={{ label: 'Indietro', type: 'button', onClick: back }}
         forward={{
           label: 'Salva bozza e torna agli e-service',

@@ -14,7 +14,7 @@ import { buildDynamicPath } from '../lib/router-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledForm } from './Shared/StyledForm'
 import { ROUTES } from '../config/routes'
-import { EServiceWriteActions } from './Shared/EServiceWriteActions'
+import { StepActions } from './Shared/StepActions'
 import { EServiceWriteProps } from '../views/EServiceWrite'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 
@@ -23,7 +23,7 @@ type VersionData = {
   version: string
   voucherLifespan: number
   description: string
-  loadEstimate: number
+  dailyCalls: number
 }
 
 export function EServiceWriteStep2Version({
@@ -39,14 +39,14 @@ export function EServiceWriteStep2Version({
     audience: string().required(),
     voucherLifespan: number().required(),
     description: string().required(),
-    loadEstimate: number().required(),
+    dailyCalls: number().required(),
   })
   const initialValues: VersionData = {
     version: '1',
     audience: '',
     voucherLifespan: 1,
     description: '',
-    loadEstimate: 20000,
+    dailyCalls: 20000,
   }
   const [initialOrFetchedValues, setInitialOrFetchedValues] = useState(initialValues)
 
@@ -61,7 +61,7 @@ export function EServiceWriteStep2Version({
         audience: Boolean(audience.length > 0) ? audience[0] : '',
         voucherLifespan,
         description,
-        loadEstimate: 20000,
+        dailyCalls: 20000,
       })
     }
   }, [fetchedData]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -72,7 +72,7 @@ export function EServiceWriteStep2Version({
       audience: [data.audience],
       voucherLifespan: data.voucherLifespan,
       description: data.description,
-      // loadEstimate: data.loadEstimate
+      // dailyCalls: data.dailyCalls
     }
 
     const sureFetchedData = fetchedData as EServiceReadType
@@ -168,16 +168,16 @@ export function EServiceWriteStep2Version({
           />
 
           <StyledInputControlledText
-            name="load-estimate"
+            name="dailyCalls"
             label="Soglia di carico ammesso (richiesto)"
             infoLabel="Calcolata in numero di richieste al giorno sostenibili per richiesta di fruizione"
             type="number"
-            value={values.loadEstimate}
-            error={errors.loadEstimate}
+            value={values.dailyCalls}
+            error={errors.dailyCalls}
             onChange={handleChange}
           />
 
-          <EServiceWriteActions
+          <StepActions
             back={{ label: 'Indietro', type: 'button', onClick: back }}
             forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
           />

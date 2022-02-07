@@ -23,12 +23,12 @@ type ActionSubmit = {
 export type BackAction = ActionButton | ActionLink
 export type ForwardAction = ActionButton | ActionSubmit
 
-type EServiceWriteActionsProps = {
+type StepActionsProps = {
   back: BackAction
   forward: ForwardAction
 }
 
-export function EServiceWriteActions({ back, forward }: EServiceWriteActionsProps) {
+export function StepActions({ back, forward }: StepActionsProps) {
   const forwardProps = forward.type === 'button' ? { onClick: forward.onClick } : { type: 'submit' }
   const backProps =
     back.type === 'link' ? { component: StyledLink, to: back.to } : { onClick: back.onClick }
