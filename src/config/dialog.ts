@@ -60,6 +60,21 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
     description:
       'Cliccando "conferma" questa finalità verrà cancellata e non sarà più recuperabile. Tutti i client ad essa associata non potranno più accedere all\'e-service dell\'erogatore. Sarà sempre possibile creare nuove finalità',
   },
+  PURPOSE_SUSPEND: {
+    title: 'Conferma sospensione finalità',
+    description:
+      'Cliccando "conferma" questa finalità verrà sospesa. Tutti i client associati non avranno più accesso all\'e-service erogato fino a che non sarà riattivata',
+  },
+  PURPOSE_ACTIVATE: {
+    title: 'Conferma riattivazione finalità',
+    description:
+      'Cliccando "conferma" questa finalità verrà riattivata. Tutti i client associati torneranno ad avere accesso all\'e-service erogato',
+  },
+  PURPOSE_ARCHIVE: {
+    title: 'Conferma archiviazione finalità',
+    description:
+      'Cliccando "conferma" questa finalità verrà archiviata. Tutti i client associati non avranno più accesso all\'e-service erogato',
+  },
   CLIENT_SUSPEND: {
     title: 'Sospendi il client',
     description:

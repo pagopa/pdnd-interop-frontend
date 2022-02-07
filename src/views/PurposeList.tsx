@@ -1,7 +1,7 @@
 import { Box } from '@mui/system'
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { ActionProps, Purpose, PurposeState } from '../../types'
+import { ActionProps, DecoratedPurpose, Purpose, PurposeState } from '../../types'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledIntro } from '../components/Shared/StyledIntro'
@@ -13,29 +13,9 @@ import { ROUTES } from '../config/routes'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
 import { formatThousands } from '../lib/number-utils'
+import { decoratePurposeWithMostRecentVersion } from '../lib/purpose'
 import { buildDynamicPath } from '../lib/router-utils'
-
-const _mock: Array<Purpose> = [
-  {
-    id: 'dsiofn-sdfjdsifnsds',
-    name: 'Finalità 1',
-    description: 'Descrizione finalità',
-    eservice: {
-      id: 'dsijfs-sfsdajfioa',
-      name: 'TARI di Lozza',
-      provider: {
-        id: 'dniofdsn-iofdnsfdsfds-j',
-        name: 'Comune di Lozza',
-      },
-    },
-    dailyCalls: 20000,
-    state: 'ACTIVE',
-    riskAnalysis: {
-      version: '1',
-      answers: {},
-    },
-  },
-]
+import { mockPurposeList } from '../temp/mock-purpose'
 
 export const PurposeList = () => {
   const history = useHistory()
@@ -48,13 +28,15 @@ export const PurposeList = () => {
     {
       loaderType: 'contextual',
       loadingTextLabel: 'Stiamo caricando le finalità',
+      // mapFn: (data) => data.map(decoratePurposeWithMostRecentVersion)
     }
   )
-  const [mockData, setMockData] = useState<Array<Purpose>>([])
+  const [mockData, setMockData] = useState<Array<DecoratedPurpose>>([])
 
   useEffect(() => {
     if (!data) {
-      setMockData(_mock)
+      const decorated = mockPurposeList.map(decoratePurposeWithMostRecentVersion)
+      setMockData(decorated)
     }
   }, [data])
 
@@ -74,7 +56,7 @@ export const PurposeList = () => {
    */
 
   // Build list of available actions for each service in its current state
-  const getAvailableActions = (purpose: Purpose): Array<ActionProps> => {
+  const getAvailableActions = (purpose: DecoratedPurpose): Array<ActionProps> => {
     const availableActions: Record<PurposeState, Array<ActionProps>> = {
       ACTIVE: [
         {
@@ -83,11 +65,11 @@ export const PurposeList = () => {
         },
       ],
       SUSPENDED: [],
-      PENDING: [],
+      WAITING_FOR_APPROVAL: [],
       ARCHIVED: [],
     }
 
-    const status = purpose.state
+    const status = purpose.mostRecentVersion.state
 
     // Return all the actions available for this particular status
     return availableActions[status] || []
@@ -126,8 +108,8 @@ export const PurposeList = () => {
               cellData={[
                 { label: item.name },
                 { label: item.eservice.name },
-                { label: formatThousands(item.dailyCalls) },
-                { label: PURPOSE_STATE_LABEL[item.state] },
+                { label: formatThousands(item.mostRecentVersion.dailyCalls) },
+                { label: PURPOSE_STATE_LABEL[item.mostRecentVersion.state] },
               ]}
             >
               <StyledButton

@@ -248,7 +248,6 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: "Non è stato possibile aggiornare l'accordo. Per favore, riprova!",
     },
   },
-  PURPOSE_GET_LIST: { loadingText: 'Stiamo caricando le finalità' },
   PURPOSE_CREATE: { loadingText: 'Stiamo creando la finalità richiesta' },
   PURPOSE_DELETE: {
     loadingText: 'Stiamo cancellando la finalità',
@@ -259,6 +258,41 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     error: {
       title: "C'è stato un problema",
       description: 'Non è stato possibile cancellare la finalità. Per favore, riprova!',
+    },
+  },
+  PURPOSE_SUSPEND: {
+    loadingText: 'Stiamo sospendendo la finalità',
+    success: {
+      title: 'Finalità sospesa',
+      description:
+        'Non è più possibile per i client associati alla finalità accedere al servizio in erogazione',
+    },
+    error: {
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile sospendere la finalità. Per favore, riprova!',
+    },
+  },
+  PURPOSE_ACTIVATE: {
+    loadingText: 'Stiamo riattivando la finalità',
+    success: {
+      title: 'Finalità attivata',
+      description: 'La finalità è ora attiva',
+    },
+    error: {
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile riattivare la finalità. Per favore, riprova!',
+    },
+  },
+  PURPOSE_ARCHIVE: {
+    loadingText: 'Stiamo archiviando la finalità',
+    success: {
+      title: 'Finalità archiviata',
+      description:
+        'La finalità è stata ora archiviata perché non più in uso. Potrai sempre creare nuove finalità',
+    },
+    error: {
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile archiviare la finalità. Per favore, riprova!',
     },
   },
   CLIENT_CREATE: { loadingText: 'Stiamo creando il client richiesto' },

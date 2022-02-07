@@ -45,6 +45,10 @@ export type ApiEndpointKey =
   | 'PURPOSE_GET_SINGLE'
   | 'PURPOSE_CREATE'
   | 'PURPOSE_DELETE'
+  | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
+  | 'PURPOSE_SUSPEND'
+  | 'PURPOSE_ACTIVATE'
+  | 'PURPOSE_ARCHIVE'
   | 'CLIENT_GET_LIST'
   | 'CLIENT_GET_SINGLE'
   | 'CLIENT_CREATE'
@@ -290,6 +294,7 @@ export type EServiceDescriptorRead = {
   voucherLifespan: number
   description: string
   audience: Array<string>
+  dailyCalls: number
 }
 
 export type EServiceDocumentRead = {
@@ -344,34 +349,83 @@ export type AgreementSummary = {
  */
 export type PurposeState = keyof typeof PURPOSE_STATE_LABEL
 
-type PurposeEserviceProvider = {
-  id: string
-  name: string
+type PurposeYesNoAnswer = 'YES' | 'NO'
+
+type PurposeLegalBasisAnswer =
+  | 'CONSENT'
+  | 'CONTRACT'
+  | 'OBLIGATION'
+  | 'SAFEGUARD'
+  | 'PUBLIC_INTEREST'
+  | 'LEGITIMATE_INTEREST'
+
+type PurposeDataQuantityAnswer =
+  | 'QUANTITY_0_TO_100'
+  | 'QUANTITY_101_TO_500'
+  | 'QUANTITY_500_TO_1000'
+  | 'QUANTITY_1001_TO_5000'
+  | 'QUANTITY_5001_OVER'
+
+type PurposeDeliveryMethodAnswer = 'CLEARTEXT' | 'AGGREGATE' | 'ANONYMOUS' | 'PSEUDOANONYMOUS'
+
+type PurposePursuitAnswer = 'MERE_CORRECTNESS' | 'NEW_PERSONAL_DATA'
+
+type PurposeRiskAnalysisFormAnswers = {
+  purpose: string
+  usesPersonalData: PurposeYesNoAnswer
+  usesThirdPartyPersonalData?: PurposeYesNoAnswer
+  usesConfidentialData?: PurposeYesNoAnswer
+  securedDataAccess?: PurposeYesNoAnswer
+  legalBasis?: Array<PurposeLegalBasisAnswer>
+  legalObligationReference?: string
+  publicInterestReference?: string
+  knowsAccessedDataCategories?: PurposeYesNoAnswer
+  accessDataArt9Gdpr?: PurposeYesNoAnswer
+  accessUnderageData?: PurposeYesNoAnswer
+  knowsDataQuantity?: PurposeYesNoAnswer
+  dataQuantity?: PurposeDataQuantityAnswer
+  deliveryMethod?: PurposeDeliveryMethodAnswer
+  doneDpia?: PurposeYesNoAnswer
+  definedDataRetentionPeriod?: PurposeYesNoAnswer
+  purposePursuit?: PurposePursuitAnswer
+  checkedExistenceMereCorrectnessInteropCatalogue?: 'YES'
+  checkedAllDataNeeded?: PurposeYesNoAnswer
+  checkedExistenceMinimalDataInteropCatalogue?: PurposeYesNoAnswer
 }
 
-type PurposeEservice = {
-  id: string
-  provider: PurposeEserviceProvider
-  name: string
-}
-
-type PurposeRiskAnalysisAnswers = {
-  //
-}
-
-type PurposeRiskAnalysis = {
+type PurposeRiskAnalysisForm = {
   version: string
-  answers: PurposeRiskAnalysisAnswers
+  answers: PurposeRiskAnalysisFormAnswers
+}
+
+export type PurposeVersion = {
+  id: string
+  state: PurposeState
+  dailyCalls: number
+  riskAnalysis: string
+  createdAt: string
+  approvalDateEstimate?: string
+  approvalDate?: string
 }
 
 export type Purpose = {
   id: string
   name: string
   description: string
-  eservice: PurposeEservice
-  dailyCalls: number
-  state: PurposeState
-  riskAnalysis: PurposeRiskAnalysis
+  eservice: Pick<EServiceReadType, 'id' | 'name' | 'producer'>
+  eserviceDescriptor: Pick<EServiceDescriptorRead, 'id' | 'version' | 'dailyCalls' | 'state'>
+  agreement: Pick<AgreementSummary, 'id' | 'state'>
+  riskAnalysisForm: PurposeRiskAnalysisForm
+  clients?: Array<Pick<Client, 'id' | 'name' | 'state'>>
+  versions: Array<PurposeVersion>
+}
+
+// The frontend adds this, currentVersion and mostRecentVersion
+// differ if mostRecentVersion's state is WAITING_FOR_APPROVAL
+export type DecoratedPurpose = Purpose & {
+  mostRecentVersion: PurposeVersion
+  currentVersion: PurposeVersion
+  awaitingApproval: boolean
 }
 
 /*
@@ -624,6 +678,7 @@ export type DialogActionKeys = Exclude<
   | 'PURPOSE_GET_LIST'
   | 'PURPOSE_GET_SINGLE'
   | 'PURPOSE_CREATE'
+  | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
   | 'CLIENT_GET_LIST'
   | 'CLIENT_GET_SINGLE'
   | 'CLIENT_CREATE'
@@ -666,7 +721,9 @@ export type ToastActionKeys = Exclude<
   | 'AGREEMENT_GET_SINGLE'
   | 'CLIENT_GET_LIST'
   | 'CLIENT_GET_SINGLE'
+  | 'PURPOSE_GET_LIST'
   | 'PURPOSE_GET_SINGLE'
+  | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
   | 'KEY_GET_LIST'
   | 'KEY_GET_SINGLE'
   | 'USER_GET_LIST'

@@ -115,20 +115,44 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'POST',
   },
   PURPOSE_GET_LIST: {
+    // TEMP BACKEND: waiting for backend endpoint
     URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes',
     METHOD: 'GET',
   },
   PURPOSE_GET_SINGLE: {
+    // TEMP BACKEND: waiting for backend endpoint
     URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes/:purposeId',
     METHOD: 'GET',
   },
   PURPOSE_CREATE: {
+    // TEMP BACKEND: waiting for backend endpoint
     URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes',
     METHOD: 'POST',
   },
   PURPOSE_DELETE: {
+    // TEMP BACKEND: waiting for backend endpoint
     URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes/:purposeId',
     METHOD: 'DELETE',
+  },
+  PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD: {
+    // TEMP BACKEND: waiting for backend endpoint
+    URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes/:purposeId/versions/:versionId/documents/:documentId',
+    METHOD: 'GET',
+  },
+  PURPOSE_SUSPEND: {
+    // TEMP BACKEND: waiting for backend endpoint
+    URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes/:purposeId/suspend',
+    METHOD: 'PATCH',
+  },
+  PURPOSE_ACTIVATE: {
+    // TEMP BACKEND: waiting for backend endpoint
+    URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes/:purposeId/activate',
+    METHOD: 'PATCH',
+  },
+  PURPOSE_ARCHIVE: {
+    // TEMP BACKEND: waiting for backend endpoint
+    URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes/:purposeId/archive',
+    METHOD: 'PATCH',
   },
   CLIENT_GET_LIST: {
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients',

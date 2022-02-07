@@ -28,7 +28,7 @@ export const AGREEMENT_STATE_LABEL = {
 export const PURPOSE_STATE_LABEL = {
   ACTIVE: 'Attivo',
   SUSPENDED: 'Sospeso',
-  PENDING: 'In attesa di valutazione',
+  WAITING_FOR_APPROVAL: 'In attesa di valutazione',
   ARCHIVED: 'Archiviato',
 }
 
