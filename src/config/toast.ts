@@ -248,6 +248,19 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: "Non è stato possibile aggiornare l'accordo. Per favore, riprova!",
     },
   },
+  PURPOSE_GET_LIST: { loadingText: 'Stiamo caricando le finalità' },
+  PURPOSE_CREATE: { loadingText: 'Stiamo creando la finalità richiesta' },
+  PURPOSE_DELETE: {
+    loadingText: 'Stiamo cancellando la finalità',
+    success: {
+      title: 'Finalità cancellata correttamente',
+      description: 'La finalità è stata cancellata correttamente',
+    },
+    error: {
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile cancellare la finalità. Per favore, riprova!',
+    },
+  },
   CLIENT_CREATE: { loadingText: 'Stiamo creando il client richiesto' },
   CLIENT_SUSPEND: { loadingText: 'Stiamo sospendendo il client richiesto' },
   CLIENT_ACTIVATE: { loadingText: 'Stiamo riattivando il client richiesto' },

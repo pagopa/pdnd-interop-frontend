@@ -4,6 +4,7 @@ import {
   AGREEMENT_STATE_LABEL,
   CLIENT_STATE_LABEL,
   ESERVICE_STATE_LABEL,
+  PURPOSE_STATE_LABEL,
 } from './src/config/labels'
 import { SchemaOf } from 'yup'
 
@@ -40,6 +41,10 @@ export type ApiEndpointKey =
   | 'AGREEMENT_ACTIVATE'
   | 'AGREEMENT_SUSPEND'
   | 'AGREEMENT_UPGRADE'
+  | 'PURPOSE_GET_LIST'
+  | 'PURPOSE_GET_SINGLE'
+  | 'PURPOSE_CREATE'
+  | 'PURPOSE_DELETE'
   | 'CLIENT_GET_LIST'
   | 'CLIENT_GET_SINGLE'
   | 'CLIENT_CREATE'
@@ -335,6 +340,41 @@ export type AgreementSummary = {
 }
 
 /*
+ * Purpose
+ */
+export type PurposeState = keyof typeof PURPOSE_STATE_LABEL
+
+type PurposeEserviceProvider = {
+  id: string
+  name: string
+}
+
+type PurposeEservice = {
+  id: string
+  provider: PurposeEserviceProvider
+  name: string
+}
+
+type PurposeRiskAnalysisAnswers = {
+  //
+}
+
+type PurposeRiskAnalysis = {
+  version: string
+  answers: PurposeRiskAnalysisAnswers
+}
+
+export type Purpose = {
+  id: string
+  name: string
+  description: string
+  eservice: PurposeEservice
+  dailyCalls: number
+  state: PurposeState
+  riskAnalysis: PurposeRiskAnalysis
+}
+
+/*
  * Client
  */
 export type ClientState = keyof typeof CLIENT_STATE_LABEL
@@ -581,6 +621,9 @@ export type DialogActionKeys = Exclude<
   | 'AGREEMENT_GET_LIST'
   | 'AGREEMENT_GET_SINGLE'
   | 'AGREEMENT_VERIFY_ATTRIBUTE'
+  | 'PURPOSE_GET_LIST'
+  | 'PURPOSE_GET_SINGLE'
+  | 'PURPOSE_CREATE'
   | 'CLIENT_GET_LIST'
   | 'CLIENT_GET_SINGLE'
   | 'CLIENT_CREATE'
@@ -623,6 +666,7 @@ export type ToastActionKeys = Exclude<
   | 'AGREEMENT_GET_SINGLE'
   | 'CLIENT_GET_LIST'
   | 'CLIENT_GET_SINGLE'
+  | 'PURPOSE_GET_SINGLE'
   | 'KEY_GET_LIST'
   | 'KEY_GET_SINGLE'
   | 'USER_GET_LIST'

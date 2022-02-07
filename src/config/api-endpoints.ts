@@ -114,6 +114,22 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-agreement-process/0.1/agreements/:agreementId/upgrade',
     METHOD: 'POST',
   },
+  PURPOSE_GET_LIST: {
+    URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes',
+    METHOD: 'GET',
+  },
+  PURPOSE_GET_SINGLE: {
+    URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes/:purposeId',
+    METHOD: 'GET',
+  },
+  PURPOSE_CREATE: {
+    URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes',
+    METHOD: 'POST',
+  },
+  PURPOSE_DELETE: {
+    URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes/:purposeId',
+    METHOD: 'DELETE',
+  },
   CLIENT_GET_LIST: {
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients',
     METHOD: 'GET',

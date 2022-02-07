@@ -19,6 +19,9 @@ import { ClientCreate } from '../views/ClientCreate'
 import { SecurityKeyGuide } from '../views/SecurityKeyGuide'
 import { EmptyComponent } from '../components/Shared/EmptyComponent'
 import { KeyEdit } from '../views/KeyEdit'
+import { PurposeList } from '../views/PurposeList'
+import { PurposeEdit } from '../views/PurposeEdit'
+import { PurposeCreate } from '../views/PurposeCreate'
 
 const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
   LOGOUT: {
@@ -148,6 +151,30 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     COMPONENT: EServiceCatalog,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'security'],
+  },
+  SUBSCRIBE_PURPOSE_CREATE: {
+    PATH: '/fruizione/finalita/crea',
+    EXACT: false,
+    LABEL: 'Crea finalità',
+    COMPONENT: PurposeCreate,
+    PUBLIC: false,
+    AUTH_LEVELS: ['admin'],
+  },
+  SUBSCRIBE_PURPOSE_EDIT: {
+    PATH: '/fruizione/finalita/:purposeId',
+    EXACT: false,
+    LABEL: 'Modifica finalità',
+    COMPONENT: PurposeEdit,
+    PUBLIC: false,
+    AUTH_LEVELS: ['admin'],
+  },
+  SUBSCRIBE_PURPOSE_LIST: {
+    PATH: '/fruizione/finalita',
+    EXACT: false,
+    LABEL: 'Le tue finalità',
+    COMPONENT: PurposeList,
+    PUBLIC: false,
+    AUTH_LEVELS: ['admin'],
   },
   SUBSCRIBE_CLIENT_OPERATOR_CREATE: {
     PATH: '/fruizione/client/:clientId/operatori/crea',

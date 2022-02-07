@@ -78,6 +78,7 @@ export function MainNav() {
         type: 'subscriber',
         children: [
           ROUTES.SUBSCRIBE_CATALOG_LIST,
+          ROUTES.SUBSCRIBE_PURPOSE_LIST,
           ROUTES.SUBSCRIBE_CLIENT_LIST,
           ROUTES.SUBSCRIBE_AGREEMENT_LIST,
         ],

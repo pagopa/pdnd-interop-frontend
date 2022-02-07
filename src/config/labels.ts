@@ -25,6 +25,13 @@ export const AGREEMENT_STATE_LABEL = {
   INACTIVE: 'Archiviato',
 }
 
+export const PURPOSE_STATE_LABEL = {
+  ACTIVE: 'Attivo',
+  SUSPENDED: 'Sospeso',
+  PENDING: 'In attesa di valutazione',
+  ARCHIVED: 'Archiviato',
+}
+
 export const CLIENT_STATE_LABEL = {
   ACTIVE: 'Attivo',
   SUSPENDED: 'Sospeso',
