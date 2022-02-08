@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { FunctionComponent, useContext, useEffect } from 'react'
 import { useFormik } from 'formik'
 import { object, string, number } from 'yup'
 import { EServiceReadType, InputSelectOption } from '../../types'
@@ -9,7 +9,7 @@ import { StepActions } from './Shared/StepActions'
 import { StyledForm } from './Shared/StyledForm'
 import { StyledInputControlledSelect } from './Shared/StyledInputControlledSelect'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
-import { StyledIntro } from './Shared/StyledIntro'
+import { ActiveStepProps } from '../hooks/useActiveStep'
 
 type PurposeStep1Write = {
   name: string
@@ -18,7 +18,7 @@ type PurposeStep1Write = {
   dailyCalls: number
 }
 
-export const PurposeWriteStep1General = () => {
+export const PurposeWriteStep1General: FunctionComponent<ActiveStepProps> = ({ forward }) => {
   const { party } = useContext(PartyContext)
   const { data: eserviceData } = useAsyncFetch<Array<EServiceReadType>, Array<InputSelectOption>>(
     {
@@ -39,6 +39,8 @@ export const PurposeWriteStep1General = () => {
 
   const onSubmit = (data: PurposeStep1Write) => {
     console.log({ data })
+
+    forward()
   }
 
   const initialValues = { name: '', description: '', eservice: '', dailyCalls: 0 }
@@ -59,10 +61,6 @@ export const PurposeWriteStep1General = () => {
 
   return (
     <StyledForm onSubmit={formik.handleSubmit}>
-      <StyledIntro variant="h2" sx={{ mb: 0, pb: 0 }}>
-        {{ title: 'Caratterizzazione e-service' }}
-      </StyledIntro>
-
       <StyledInputControlledText
         name="name"
         label="Nome della finalità (richiesto)"

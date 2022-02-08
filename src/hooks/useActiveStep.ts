@@ -3,7 +3,13 @@ import { useHistory } from 'react-router'
 import isEmpty from 'lodash/isEmpty'
 import { scrollToTop } from '../lib/page-utils'
 
-export const useActiveStep = () => {
+export type ActiveStepProps = {
+  back: VoidFunction
+  forward: VoidFunction
+  activeStep: number
+}
+
+export const useActiveStep = (): ActiveStepProps => {
   const [activeStep, setActiveStep] = useState(0)
   const history = useHistory()
 

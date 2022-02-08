@@ -1,6 +1,6 @@
+import React from 'react'
 import { Paper } from '@mui/material'
 import { Box } from '@mui/system'
-import React from 'react'
 import { StepperStep } from '../../types'
 import { PurposeWriteStep1General } from '../components/PurposeWriteStep1General'
 import { PurposeWriteStep2RiskAnalysis } from '../components/PurposeWriteStep2RiskAnalysis'
@@ -12,19 +12,23 @@ import { useActiveStep } from '../hooks/useActiveStep'
 
 const STEPS: Array<StepperStep & { intro: StyledIntroChildrenProps }> = [
   {
-    label: 'Caratteristiche generali',
+    label: 'Generale',
     component: PurposeWriteStep1General,
-    intro: { title: 'Crea finalità: informazioni generali' },
+    intro: { title: 'Informazioni generali' },
   },
   {
     label: 'Analisi del rischio',
     component: PurposeWriteStep2RiskAnalysis,
-    intro: { title: 'Crea finalità: analisi del rischio' },
+    intro: {
+      title: 'Analisi del rischio',
+      description:
+        'Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare',
+    },
   },
   {
-    label: 'Client associati',
+    label: 'Client',
     component: PurposeWriteStep3Clients,
-    intro: { title: 'Crea finalità: associazione client' },
+    intro: { title: 'Associazione client' },
   },
 ]
 
@@ -35,11 +39,14 @@ export const PurposeCreate = () => {
 
   return (
     <Box sx={{ maxWidth: 860 }}>
-      <StyledIntro sx={{ my: 2 }}>{intro}</StyledIntro>
-      <Paper sx={{ mb: 12 }}>
+      <StyledIntro sx={{ my: 2 }}>{{ title: 'Crea finalità' }}</StyledIntro>
+      <Paper sx={{ mb: 8 }}>
         <StyledStepper steps={STEPS} activeIndex={activeStep} />
       </Paper>
       <Contained>
+        <StyledIntro variant="h2" sx={{ mb: 2, pb: 0 }}>
+          {intro}
+        </StyledIntro>
         <Step {...stepProps} />
       </Contained>
     </Box>

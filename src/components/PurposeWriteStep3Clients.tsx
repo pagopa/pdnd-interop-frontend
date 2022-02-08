@@ -1,5 +1,10 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
+import { ActiveStepProps } from '../hooks/useActiveStep'
 
-export const PurposeWriteStep3Clients = () => {
-  return <div>step 1</div>
+export const PurposeWriteStep3Clients: FunctionComponent<ActiveStepProps> = (
+  {
+    /* back, forward */
+  }
+) => {
+  return <div>step 3</div>
 }

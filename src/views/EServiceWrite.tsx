@@ -8,13 +8,14 @@ import { EServiceWriteStep3Documents } from '../components/EServiceWriteStep3Doc
 import { StyledStepper } from '../components/Shared/StyledStepper'
 import { StyledIntro, StyledIntroChildrenProps } from '../components/Shared/StyledIntro'
 import { Contained } from '../components/Shared/Contained'
+import { ActiveStepProps } from '../hooks/useActiveStep'
 
 const STEPS: Array<StepperStep & { intro: StyledIntroChildrenProps }> = [
   {
     label: 'Generale',
     component: EServiceWriteStep1General,
     intro: {
-      title: 'Crea e-service: informazioni generali',
+      title: 'Informazioni generali',
       description:
         "Attenzione: una volta pubblicata la prima versione dell'e-service, le informazioni contenute in questa sezione non saranno più modificabili",
     },
@@ -22,20 +23,17 @@ const STEPS: Array<StepperStep & { intro: StyledIntroChildrenProps }> = [
   {
     label: 'Versione',
     component: EServiceWriteStep2Version,
-    intro: { title: 'Crea e-service: informazioni di versione' },
+    intro: { title: 'Informazioni di versione' },
   },
   {
     label: 'Documentazione',
     component: EServiceWriteStep3Documents,
-    intro: { title: 'Crea e-service: documentazione' },
+    intro: { title: 'Documentazione' },
   },
 ]
 
-export type EServiceWriteProps = {
+export type EServiceWriteProps = ActiveStepProps & {
   fetchedData?: EServiceReadType
-  back: VoidFunction
-  forward: VoidFunction
-  activeStep: number
 }
 
 export function EServiceWrite({ fetchedData, back, forward, activeStep }: EServiceWriteProps) {
@@ -44,11 +42,12 @@ export function EServiceWrite({ fetchedData, back, forward, activeStep }: EServi
 
   return (
     <Box sx={{ maxWidth: 860 }}>
-      <StyledIntro sx={{ my: 2 }}>{intro}</StyledIntro>
-      <Paper sx={{ mb: 12 }}>
+      <StyledIntro sx={{ my: 2 }}>{{ title: 'Crea e-service' }}</StyledIntro>
+      <Paper sx={{ mb: 8 }}>
         <StyledStepper steps={STEPS} activeIndex={activeStep} />
       </Paper>
       <Contained>
+        <StyledIntro sx={{ mb: 0, pb: 0 }}>{intro}</StyledIntro>
         <Step {...stepProps} />
       </Contained>
     </Box>
