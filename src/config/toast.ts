@@ -248,8 +248,31 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: "Non è stato possibile aggiornare l'accordo. Per favore, riprova!",
     },
   },
-  PURPOSE_CREATE: { loadingText: 'Stiamo creando la finalità richiesta' },
-  PURPOSE_DELETE: {
+  PURPOSE_DRAFT_CREATE: { loadingText: 'Stiamo creando la finalità richiesta' },
+  PURPOSE_VERSION_DRAFT_PUBLISH: {
+    loadingText: 'Stiamo aggiornando la bozza',
+    success: {
+      title: 'Bozza pubblicata',
+      description:
+        "La finalità è stata pubblicata correttamente. Se over quota rispetto alla disponibilità dell'erogatore, risulterà in attesa di approvazione",
+    },
+    error: {
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile pubblicare la finalità. Per favore, riprova!',
+    },
+  },
+  PURPOSE_VERSION_DRAFT_UPDATE: {
+    loadingText: 'Stiamo aggiornando la bozza',
+    success: {
+      title: 'Bozza aggiornata',
+      description: 'La finalità è stata aggiornata correttamente',
+    },
+    error: {
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile aggiornare la finalità. Per favore, riprova!',
+    },
+  },
+  PURPOSE_VERSION_DRAFT_DELETE: {
     loadingText: 'Stiamo cancellando la finalità',
     success: {
       title: 'Finalità cancellata correttamente',

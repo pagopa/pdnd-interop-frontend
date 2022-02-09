@@ -46,7 +46,7 @@ export const PurposeList = () => {
   const wrapDelete = (purposeId: string) => async () => {
     await runAction(
       {
-        path: { endpoint: 'PURPOSE_DELETE', endpointParams: { purposeId } },
+        path: { endpoint: 'PURPOSE_VERSION_DRAFT_DELETE', endpointParams: { purposeId } },
       },
       { suppressToast: false }
     )
@@ -60,7 +60,7 @@ export const PurposeList = () => {
     const availableActions: Record<PurposeState, Array<ActionProps>> = {
       ACTIVE: [
         {
-          onClick: wrapActionInDialog(wrapDelete(purpose.id), 'PURPOSE_DELETE'),
+          onClick: wrapActionInDialog(wrapDelete(purpose.id), 'PURPOSE_VERSION_DRAFT_DELETE'),
           label: 'Elimina',
         },
       ],
@@ -88,7 +88,7 @@ export const PurposeList = () => {
 
       <Box sx={{ mt: 4 }}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-          <StyledButton variant="contained" to={ROUTES.SUBSCRIBE_PURPOSE_CREATE.PATH}>
+          <StyledButton variant="contained" to={ROUTES.SUBSCRIBE_PURPOSE_DRAFT_CREATE.PATH}>
             + Aggiungi
           </StyledButton>
         </Box>

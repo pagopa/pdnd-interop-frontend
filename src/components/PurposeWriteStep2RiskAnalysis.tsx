@@ -150,39 +150,37 @@ export const PurposeWriteStep2RiskAnalysis: FunctionComponent<ActiveStepProps> =
   }, [formik.values]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <React.Fragment>
-      <StyledForm onSubmit={formik.handleSubmit}>
-        {Object.keys(questions).map((id, i) => {
-          const { type, label, options, helperText, required } = questions[id] as Question
+    <StyledForm onSubmit={formik.handleSubmit}>
+      {Object.keys(questions).map((id, i) => {
+        const { type, label, options, helperText, required } = questions[id] as Question
 
-          const untypedProps = {
-            name: id,
-            value: formik.values[id],
-            type,
-            setFieldValue: formik.setFieldValue,
-            onChange: formik.handleChange,
-            label,
-            options,
-            error: formik.errors[id],
-            helperText,
-            required,
-          }
+        const untypedProps = {
+          name: id,
+          value: formik.values[id],
+          type,
+          setFieldValue: formik.setFieldValue,
+          onChange: formik.handleChange,
+          label,
+          options,
+          error: formik.errors[id],
+          helperText,
+          required,
+        }
 
-          const props = {
-            text: untypedProps as StyledInputControlledTextProps,
-            radio: untypedProps as StyledInputControlledRadioProps,
-            checkbox: untypedProps as StyledInputControlledCheckboxMultipleProps,
-            'select-one': untypedProps as StyledInputControlledSelectProps,
-          }[type]
+        const props = {
+          text: untypedProps as StyledInputControlledTextProps,
+          radio: untypedProps as StyledInputControlledRadioProps,
+          checkbox: untypedProps as StyledInputControlledCheckboxMultipleProps,
+          'select-one': untypedProps as StyledInputControlledSelectProps,
+        }[type]
 
-          return <StyledInput key={i} {...props} />
-        })}
+        return <StyledInput key={i} {...props} />
+      })}
 
-        <StepActions
-          back={{ label: 'Indietro', type: 'button', onClick: back }}
-          forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
-        />
-      </StyledForm>
-    </React.Fragment>
+      <StepActions
+        back={{ label: 'Indietro', type: 'button', onClick: back }}
+        forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
+      />
+    </StyledForm>
   )
 }

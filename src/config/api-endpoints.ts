@@ -124,12 +124,22 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes/:purposeId',
     METHOD: 'GET',
   },
-  PURPOSE_CREATE: {
+  PURPOSE_DRAFT_CREATE: {
     // TEMP BACKEND: waiting for backend endpoint
     URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes',
     METHOD: 'POST',
   },
-  PURPOSE_DELETE: {
+  PURPOSE_VERSION_DRAFT_PUBLISH: {
+    // TEMP BACKEND: waiting for backend endpoint
+    URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes/:purposeId/publish',
+    METHOD: 'PATCH',
+  },
+  PURPOSE_VERSION_DRAFT_UPDATE: {
+    // TEMP BACKEND: waiting for backend endpoint
+    URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes/:purposeId/update',
+    METHOD: 'PATCH',
+  },
+  PURPOSE_VERSION_DRAFT_DELETE: {
     // TEMP BACKEND: waiting for backend endpoint
     URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes/:purposeId',
     METHOD: 'DELETE',

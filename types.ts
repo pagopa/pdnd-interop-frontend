@@ -43,8 +43,10 @@ export type ApiEndpointKey =
   | 'AGREEMENT_UPGRADE'
   | 'PURPOSE_GET_LIST'
   | 'PURPOSE_GET_SINGLE'
-  | 'PURPOSE_CREATE'
-  | 'PURPOSE_DELETE'
+  | 'PURPOSE_DRAFT_CREATE'
+  | 'PURPOSE_VERSION_DRAFT_DELETE'
+  | 'PURPOSE_VERSION_DRAFT_UPDATE'
+  | 'PURPOSE_VERSION_DRAFT_PUBLISH'
   | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
   | 'PURPOSE_SUSPEND'
   | 'PURPOSE_ACTIVATE'
@@ -579,6 +581,13 @@ export type DialogProps =
   | DialogExistingAttributeProps
   | DialogNewAttributeProps
   | DialogAddSecurityOperatorProps
+  | DialogAddClientsProps
+
+export type DialogAddClientsProps = {
+  type: 'addClients'
+  onSubmit: (data: Array<Client>) => void
+  exclude: Array<Client>
+}
 
 export type DialogAddSecurityOperatorProps = {
   type: 'addSecurityOperator'
@@ -677,7 +686,8 @@ export type DialogActionKeys = Exclude<
   | 'AGREEMENT_VERIFY_ATTRIBUTE'
   | 'PURPOSE_GET_LIST'
   | 'PURPOSE_GET_SINGLE'
-  | 'PURPOSE_CREATE'
+  | 'PURPOSE_DRAFT_CREATE'
+  | 'PURPOSE_VERSION_DRAFT_UPDATE'
   | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
   | 'CLIENT_GET_LIST'
   | 'CLIENT_GET_SINGLE'

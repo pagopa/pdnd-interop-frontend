@@ -152,7 +152,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'security'],
   },
-  SUBSCRIBE_PURPOSE_CREATE: {
+  SUBSCRIBE_PURPOSE_DRAFT_CREATE: {
     PATH: '/fruizione/finalita/crea',
     EXACT: false,
     LABEL: 'Crea finalità',
