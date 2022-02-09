@@ -9,11 +9,12 @@ import { Box } from '@mui/system'
 
 type ActionMenuProps = {
   actions: Array<ActionProps>
+  testInternalId?: string // Only used by tests
 }
 
-export const ActionMenu: FunctionComponent<ActionMenuProps> = ({ actions }) => {
+export const ActionMenu: FunctionComponent<ActionMenuProps> = ({ actions, testInternalId }) => {
   // Needs to be state to avoid it changing on rerender
-  const [id] = useState(uniqueString())
+  const [id] = useState(testInternalId || uniqueString())
   const anchorRef = useRef() as React.MutableRefObject<HTMLSpanElement>
   const anchorId = `basic-button-${id}`
   const menuId = `basic-menu-${id}`

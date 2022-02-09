@@ -99,6 +99,7 @@ describe('Snapshot', () => {
             { onClick: noop, label: 'Azione 1' },
             { onClick: noop, label: 'Azione 2' },
           ]}
+          testInternalId="1"
         />
       </StyledTableRow>
     )

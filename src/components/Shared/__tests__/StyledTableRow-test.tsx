@@ -54,7 +54,7 @@ describe('Snapshot', () => {
           </StyledButton>
         </StyledTableRow>
 
-        <ActionMenu actions={actions} />
+        <ActionMenu actions={actions} testInternalId="1" />
       </AllTheProviders>
     )
     const tree = component.toJSON()
