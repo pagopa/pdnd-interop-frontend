@@ -1,5 +1,5 @@
-import { noop } from 'lodash'
 import React from 'react'
+import { noop } from 'lodash'
 import renderer from 'react-test-renderer'
 import { InputCheckboxOption } from '../../../../types'
 import { StyledInputControlledCheckbox } from '../StyledInputControlledCheckbox'
@@ -30,8 +30,8 @@ describe('Snapshot', () => {
 
   it('matches options', () => {
     const options = [
-      { label: 'Prima opzione', name: 'first' },
-      { label: 'Seconda opzione', name: 'second' },
+      { label: 'Prima opzione', value: 'first' },
+      { label: 'Seconda opzione', value: 'second' },
     ]
     const component = renderer.create(<Checkbox options={options} />)
     const tree = component.toJSON()

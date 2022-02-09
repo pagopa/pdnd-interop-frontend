@@ -4,7 +4,7 @@ import { StyledInputWrapper } from './StyledInputWrapper'
 import { SxProps } from '@mui/system'
 import { InputRadioOption } from '../../../types'
 
-type StyledInputControlledRadioProps = {
+export type StyledInputControlledRadioProps = {
   name: string
   value?: string
   error?: string
@@ -17,6 +17,8 @@ type StyledInputControlledRadioProps = {
   sx?: SxProps
 
   options?: Array<InputRadioOption>
+
+  type?: 'radio'
 }
 
 export function StyledInputControlledRadio({

@@ -1,14 +1,13 @@
 import React, { SyntheticEvent } from 'react'
 import { Checkbox, FormControlLabel, FormGroup, FormLabel } from '@mui/material'
 import { SxProps } from '@mui/system'
-import { FormikErrors } from 'formik'
 import { StyledInputWrapper } from './StyledInputWrapper'
 import { FormikSetFieldValue, InputCheckboxOption } from '../../../types'
 
-export type StyledInputControlledCheckboxProps = {
+export type StyledInputControlledCheckboxMultipleProps = {
   name: string
   setFieldValue: FormikSetFieldValue
-  value: Record<string, boolean>
+  value: Array<string>
   label?: string
 
   disabled?: boolean
@@ -17,10 +16,12 @@ export type StyledInputControlledCheckboxProps = {
   sx?: SxProps
 
   options?: Array<InputCheckboxOption>
-  errors?: FormikErrors<Record<string, boolean>>
+  error?: string
+
+  type?: 'checkbox'
 }
 
-export function StyledInputControlledCheckbox({
+export function StyledInputControlledCheckboxMultiple({
   label,
   disabled = false,
   infoLabel,
@@ -32,19 +33,23 @@ export function StyledInputControlledCheckbox({
   sx,
 
   options,
-  errors,
-}: StyledInputControlledCheckboxProps) {
+  error,
+}: StyledInputControlledCheckboxMultipleProps) {
   if (!options || Boolean(options.length === 0)) {
     return null
   }
 
   const onChange = (e: SyntheticEvent) => {
     const target = e.target as HTMLInputElement
-    setFieldValue(`${name}.${target.name}`, target.checked, false)
-  }
 
-  const error =
-    errors && Object.keys(errors).length > 0 ? Object.values(errors).join(', ') : undefined
+    const newValue = value.includes(target.name)
+      ? value.filter((v) => v !== target.name)
+      : [...value, target.name]
+
+    setFieldValue(name, newValue, false)
+
+    console.log(newValue)
+  }
 
   return (
     <StyledInputWrapper name={name} error={error} sx={sx} infoLabel={infoLabel}>
@@ -54,7 +59,9 @@ export function StyledInputControlledCheckbox({
           <FormControlLabel
             disabled={disabled}
             key={i}
-            control={<Checkbox checked={value[o.value]} onChange={onChange} name={o.value} />}
+            control={
+              <Checkbox checked={value.includes(o.value)} onChange={onChange} name={o.value} />
+            }
             label={o.label}
           />
         ))}

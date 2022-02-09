@@ -29,7 +29,7 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
 }) => {
   const { closeDialog } = useCloseDialog()
 
-  const options = [{ label: "Richiedi nuova convalida dell'attributo", name: 'attribute' }]
+  const options = [{ label: "Richiedi nuova convalida dell'attributo", value: 'attribute' }]
 
   const wrapUpdateSelected = (setFieldValue: FormikSetFieldValue) => (data: unknown) => {
     setFieldValue('selected', data as Array<CatalogAttribute>, false)

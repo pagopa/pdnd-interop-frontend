@@ -5,7 +5,7 @@ import { SxProps } from '@mui/system'
 
 export type StyledInputTextType = 'text' | 'email' | 'number'
 
-type StyledInputControlledTextProps =
+export type StyledInputControlledTextProps =
   | {
       name: string
       error?: string

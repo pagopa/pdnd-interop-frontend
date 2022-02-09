@@ -23,7 +23,7 @@ export const StyledDialogSubscribe: FunctionComponent<DialogSubscribeProps> = ({
   const { party } = useContext(PartyContext)
   const { closeDialog } = useCloseDialog()
 
-  const options = [{ label: "Ho letto l'accordo, accetto i termini", name: 'confirm' }]
+  const options = [{ label: "Ho letto l'accordo, accetto i termini", value: 'confirm' }]
 
   return (
     <TrapFocus open>

@@ -38,7 +38,7 @@ export const PurposeWriteStep1General: FunctionComponent<ActiveStepProps> = ({ f
   }, [eserviceData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSubmit = (data: PurposeStep1Write) => {
-    console.log({ data })
+    console.log('submit', data)
 
     forward()
   }

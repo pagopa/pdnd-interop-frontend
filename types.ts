@@ -760,7 +760,7 @@ export type InputRadioOption = {
 
 export type InputCheckboxOption = {
   label: string
-  name: string
+  value: string
 }
 
 /*
