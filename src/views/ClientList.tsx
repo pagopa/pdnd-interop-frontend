@@ -30,6 +30,7 @@ export function ClientList() {
       config: {
         params: {
           consumerId: party?.partyId,
+          // If it is admin, it can see all clients; if operator, only those it is associated to
           operatorId: user && party && party.productInfo.role === 'security' ? user.id : undefined,
         },
       },

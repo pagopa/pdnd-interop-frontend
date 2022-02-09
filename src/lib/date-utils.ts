@@ -10,3 +10,7 @@ export function formatDate(date: Date) {
 export function minutesToHHMMSS(minutes: number) {
   return new Date(minutes * 60 * 1000).toISOString().substr(11, 8)
 }
+
+export function formatDateString(dateString: string) {
+  return formatDate(new Date(dateString))
+}

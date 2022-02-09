@@ -147,7 +147,7 @@ export function KeysList() {
             key={i}
             cellData={[
               { label: `${key.kid.substring(0, 9)}...` },
-              { label: '[TODO] Nome e cognome' },
+              { label: '[TEMP BACKEND] Nome e cognome' },
             ]}
           >
             <StyledButton

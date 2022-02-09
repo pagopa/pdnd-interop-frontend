@@ -57,15 +57,15 @@ export const PurposeList = () => {
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = (purpose: DecoratedPurpose): Array<ActionProps> => {
+    const deleteAction = {
+      onClick: wrapActionInDialog(wrapDelete(purpose.id), 'PURPOSE_VERSION_DRAFT_DELETE'),
+      label: 'Elimina',
+    }
+
     const availableActions: Record<PurposeState, Array<ActionProps>> = {
-      ACTIVE: [
-        {
-          onClick: wrapActionInDialog(wrapDelete(purpose.id), 'PURPOSE_VERSION_DRAFT_DELETE'),
-          label: 'Elimina',
-        },
-      ],
+      ACTIVE: [deleteAction],
       SUSPENDED: [],
-      WAITING_FOR_APPROVAL: [],
+      WAITING_FOR_APPROVAL: [deleteAction],
       ARCHIVED: [],
     }
 
@@ -102,31 +102,38 @@ export const PurposeList = () => {
           noDataLabel="Non ci sono finalità disponibili"
           // error={error}
         >
-          {mockData.map((item, i) => (
-            <StyledTableRow
-              key={i}
-              cellData={[
-                { label: item.name },
-                { label: item.eservice.name },
-                { label: formatThousands(item.mostRecentVersion.dailyCalls) },
-                { label: PURPOSE_STATE_LABEL[item.mostRecentVersion.state] },
-              ]}
-            >
-              <StyledButton
-                variant="outlined"
-                size="small"
-                onClick={() => {
-                  history.push(
-                    buildDynamicPath(ROUTES.SUBSCRIBE_PURPOSE_EDIT.PATH, { purposeId: item.id })
-                  )
-                }}
+          {mockData.map((item, i) => {
+            const purposeStateLabel = PURPOSE_STATE_LABEL[item.currentVersion.state]
+            return (
+              <StyledTableRow
+                key={i}
+                cellData={[
+                  { label: item.name },
+                  { label: item.eservice.name },
+                  { label: formatThousands(item.currentVersion.dailyCalls) },
+                  {
+                    label: item.awaitingApproval
+                      ? `${purposeStateLabel}, atteso aggiornamento stima di carico`
+                      : purposeStateLabel,
+                  },
+                ]}
               >
-                Ispeziona
-              </StyledButton>
+                <StyledButton
+                  variant="outlined"
+                  size="small"
+                  onClick={() => {
+                    history.push(
+                      buildDynamicPath(ROUTES.SUBSCRIBE_PURPOSE_EDIT.PATH, { purposeId: item.id })
+                    )
+                  }}
+                >
+                  Ispeziona
+                </StyledButton>
 
-              <ActionMenu actions={getAvailableActions(item)} />
-            </StyledTableRow>
-          ))}
+                <ActionMenu actions={getAvailableActions(item)} />
+              </StyledTableRow>
+            )
+          })}
         </TableWithLoader>
       </Box>
     </React.Fragment>

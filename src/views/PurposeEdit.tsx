@@ -20,6 +20,7 @@ import { AxiosResponse } from 'axios'
 import { Box } from '@mui/system'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
+import { formatDateString } from '../lib/date-utils'
 // import { ActionMenu } from '../components/Shared/ActionMenu'
 
 export const PurposeEdit = () => {
@@ -101,7 +102,7 @@ export const PurposeEdit = () => {
 
         <DescriptionBlock label="Stima di carico corrente">
           <Typography component="span">
-            {mockData && formatThousands(mockData?.mostRecentVersion.dailyCalls)} chiamate/giorno
+            {mockData && formatThousands(mockData?.currentVersion.dailyCalls)} chiamate/giorno
           </Typography>
         </DescriptionBlock>
 
@@ -146,13 +147,16 @@ export const PurposeEdit = () => {
 
         {mockData && mockData.awaitingApproval && (
           <DescriptionBlock label="Richiesta di aggiornamento">
-            <Typography component="span" sx={{ display: 'inline-block' }}>
+            <Typography component="span">
               Stima di carico: {formatThousands(mockData.mostRecentVersion.dailyCalls)}{' '}
               chiamate/giorno
             </Typography>
-            <Typography component="span" sx={{ display: 'inline-block' }}>
+            <br />
+            <Typography component="span">
               {mockData.mostRecentVersion.approvalDateEstimate
-                ? `Data di approvazione stimata: ${mockData.mostRecentVersion.approvalDateEstimate}`
+                ? `Data di approvazione stimata: ${formatDateString(
+                    mockData.mostRecentVersion.approvalDateEstimate
+                  )}`
                 : 'Non è stata determinata una data di approvazione'}
             </Typography>
           </DescriptionBlock>
@@ -161,10 +165,11 @@ export const PurposeEdit = () => {
         {mockData && mockData.versions.length > 1 && (
           <DescriptionBlock label="Storico di questa finalità">
             {mockData.versions.map((v, i) => {
+              const date = v.approvalDate || v.approvalDateEstimate
               return (
                 <Typography component="span" key={i} sx={{ display: 'inline-block' }}>
                   {v.dailyCalls} chiamate/giorno; data di approvazione:{' '}
-                  {v.approvalDate || v.approvalDateEstimate}
+                  {date && formatDateString(date)}
                 </Typography>
               )
             })}
