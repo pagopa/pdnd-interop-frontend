@@ -12,7 +12,7 @@ const sleep = async (ms: number) => await new Promise((resolve) => setTimeout(re
 const forceReflow = async () => await sleep(1)
 
 type EditableFieldProps = {
-  onSave: (content: string | null) => void
+  onSave: (updatedString: string | null) => void
   value: string
   multiline?: boolean
   ariaLabel: string

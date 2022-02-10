@@ -81,6 +81,10 @@ export const PurposeEdit = () => {
     //
   }
 
+  const wrapFieldUpdate = (fieldName: 'name' | 'description') => (updatedString: string | null) => {
+    console.log({ fieldName, updatedString })
+  }
+
   const headData = ['nome client', 'stato']
 
   return (
@@ -90,9 +94,7 @@ export const PurposeEdit = () => {
           {mockData?.name && (
             <EditableField
               value={mockData?.name}
-              onSave={(updatedName) => {
-                console.log('updatedName', updatedName)
-              }}
+              onSave={wrapFieldUpdate('name')}
               ariaLabel="Modifica nome"
               multiline={false}
             />
@@ -127,9 +129,7 @@ export const PurposeEdit = () => {
           {mockData?.description && (
             <EditableField
               value={mockData?.description}
-              onSave={(updatedDescription) => {
-                console.log('updatedDescription', updatedDescription)
-              }}
+              onSave={wrapFieldUpdate('description')}
               ariaLabel="Modifica descrizione"
               multiline={true}
             />

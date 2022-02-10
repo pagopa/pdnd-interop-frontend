@@ -50,13 +50,13 @@ export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = 
     <TrapFocus open>
       <Dialog open={true} onClose={closeDialog} aria-describedby="Modale per azione" fullWidth>
         <StyledForm onSubmit={handleSubmit}>
-          <DialogTitle>Aggiungi operatori di sicurezza</DialogTitle>
+          <DialogTitle>Aggiungi client</DialogTitle>
 
           <DialogContent>
             <Box sx={{ mt: 3 }}>
               <StyledInputControlledAutocomplete
                 focusOnMount={true}
-                label="Operatori selezionati"
+                label="Client selezionati"
                 sx={{ mt: 6, mb: 0 }}
                 multiple={true}
                 placeholder="..."
