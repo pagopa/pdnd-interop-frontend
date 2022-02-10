@@ -16,6 +16,7 @@ import { useUser } from '../hooks/useUser'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { useHistory } from 'react-router-dom'
+import { axiosErrorToError } from '../lib/error-utils'
 
 export function ClientList() {
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -94,7 +95,7 @@ export function ClientList() {
     return availableActions[status] || []
   }
 
-  const headData = ['nome client', 'nome e-service', 'ente erogatore', 'stato', '']
+  const headData = ['nome client', 'nome e-service', 'ente erogatore', 'stato']
 
   return (
     <React.Fragment>
@@ -119,9 +120,8 @@ export function ClientList() {
         <TableWithLoader
           loadingText={loadingText}
           headData={headData}
-          data={data}
           noDataLabel="Non ci sono client disponibili"
-          error={error}
+          error={axiosErrorToError(error)}
         >
           {data?.map((item, i) => (
             <StyledTableRow

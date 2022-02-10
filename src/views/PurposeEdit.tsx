@@ -21,6 +21,7 @@ import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { formatDateString } from '../lib/date-utils'
 import { EditableField } from '../components/Shared/EditableField'
+// import { axiosErrorToError } from '../lib/error-utils'
 // import { StyledIntro } from '../components/Shared/StyledIntro'
 // import { ActionMenu } from '../components/Shared/ActionMenu'
 
@@ -80,7 +81,7 @@ export const PurposeEdit = () => {
     //
   }
 
-  const headData = ['nome client', 'stato', '']
+  const headData = ['nome client', 'stato']
 
   return (
     <React.Fragment>
@@ -235,9 +236,8 @@ export const PurposeEdit = () => {
           <TableWithLoader
             loadingText=""
             headData={headData}
-            data={mockData?.clients}
             noDataLabel="Non ci sono client disponibili"
-            // error={error}
+            // error={axiosErrorToError(error)}
           >
             {mockData?.clients?.map((item, i) => (
               <StyledTableRow

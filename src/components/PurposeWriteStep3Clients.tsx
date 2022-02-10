@@ -97,7 +97,7 @@ export const PurposeWriteStep3Clients: FunctionComponent<ActiveStepProps> = ({ b
     setDialog({ type: 'addClients', exclude: formik.values.clients, onSubmit: addClients })
   }
 
-  const headData = ['nome client', 'stato', '']
+  const headData = ['nome client', 'stato']
 
   return (
     <React.Fragment>
@@ -105,7 +105,6 @@ export const PurposeWriteStep3Clients: FunctionComponent<ActiveStepProps> = ({ b
         <TableWithLoader
           loadingText={null}
           headData={headData}
-          data={formik.values.clients}
           noDataLabel="Nessun client presente"
         >
           {formik.values.clients.map((client, i) => (

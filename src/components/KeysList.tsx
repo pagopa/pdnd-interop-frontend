@@ -15,6 +15,7 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
 import { useUser } from '../hooks/useUser'
 import { DialogContext, PartyContext } from '../lib/context'
+import { axiosErrorToError } from '../lib/error-utils'
 import { downloadFile } from '../lib/file-utils'
 import { buildDynamicPath, getBits } from '../lib/router-utils'
 import { ActionMenu } from './Shared/ActionMenu'
@@ -123,7 +124,7 @@ export function KeysList() {
     })
   }
 
-  const headData = ['kid', 'operatore', '']
+  const headData = ['kid', 'operatore']
 
   return (
     <React.Fragment>
@@ -138,9 +139,8 @@ export function KeysList() {
       <TableWithLoader
         loadingText={loadingText}
         headData={headData}
-        data={data?.keys}
         noDataLabel="Non ci sono chiavi disponibili"
-        error={error}
+        error={axiosErrorToError(error)}
       >
         {data?.keys.map(({ key }, i) => (
           <StyledTableRow

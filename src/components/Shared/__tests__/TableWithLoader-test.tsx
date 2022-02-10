@@ -8,13 +8,14 @@ import { createMemoryHistory } from 'history'
 import { AllTheProviders } from '../../../__mocks__/providers'
 import { ActionMenu } from '../ActionMenu'
 import { StyledButton } from '../StyledButton'
+import { axiosErrorToError } from '../../../lib/error-utils'
 
 type ExampleDatum = {
   name: string
   surname: string
   id: string
 }
-const headData = ['nome', 'cognome', '']
+const headData = ['nome', 'cognome']
 const rawData: Array<ExampleDatum> = [
   { name: 'Mario', surname: 'Rossi', id: 'rejsedf3-re4k-rew2-eoer' },
   { name: 'Teresa', surname: 'Verdi', id: 'dosf0i23-jkds-32jd-23rj' },
@@ -30,7 +31,7 @@ describe('Snapshot', () => {
       toJSON: () => ({}),
     }
     const component = renderer.create(
-      <TableWithLoader loadingText={null} headData={headData} error={error} />
+      <TableWithLoader loadingText={null} headData={headData} error={axiosErrorToError(error)} />
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -49,7 +50,7 @@ describe('Snapshot', () => {
       <StyledTableRow key={i} cellData={[{ label: item.name }, { label: item.surname }]} />
     )
     const component = renderer.create(
-      <TableWithLoader loadingText={null} headData={headData} data={rawData}>
+      <TableWithLoader loadingText={null} headData={headData}>
         {rawData.map((item, i) => getTableRow(item, i))}
       </TableWithLoader>
     )
@@ -73,7 +74,7 @@ describe('Snapshot', () => {
     )
     const component = renderer.create(
       <AllTheProviders defaultHistory={history}>
-        <TableWithLoader loadingText={null} headData={headData} data={rawData}>
+        <TableWithLoader loadingText={null} headData={headData}>
           {rawData.map((item, i) => getTableRow(item, i))}
         </TableWithLoader>
       </AllTheProviders>
@@ -105,7 +106,7 @@ describe('Snapshot', () => {
     )
     const component = renderer.create(
       <AllTheProviders defaultHistory={history}>
-        <TableWithLoader loadingText={null} headData={headData} data={rawData}>
+        <TableWithLoader loadingText={null} headData={headData}>
           {rawData.map((item, i) => getTableRow(item, i))}
         </TableWithLoader>
       </AllTheProviders>

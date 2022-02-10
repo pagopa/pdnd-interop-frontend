@@ -16,6 +16,7 @@ import { formatThousands } from '../lib/number-utils'
 import { decoratePurposeWithMostRecentVersion } from '../lib/purpose'
 import { buildDynamicPath } from '../lib/router-utils'
 import { mockPurposeList } from '../temp/mock-purpose'
+// import { axiosErrorToError } from '../lib/error-utils'
 
 export const PurposeList = () => {
   const history = useHistory()
@@ -75,7 +76,7 @@ export const PurposeList = () => {
     return availableActions[status] || []
   }
 
-  const headData = ['nome finalità', 'e-service', 'stima di carico', 'stato', '']
+  const headData = ['nome finalità', 'e-service', 'stima di carico', 'stato']
 
   return (
     <React.Fragment>
@@ -98,9 +99,8 @@ export const PurposeList = () => {
         <TableWithLoader
           loadingText={loadingText}
           headData={headData}
-          data={mockData}
           noDataLabel="Non ci sono finalità disponibili"
-          // error={error}
+          // error={axiosErrorToError(error)}
         >
           {mockData.map((item, i) => {
             const purposeStateLabel = PURPOSE_STATE_LABEL[item.currentVersion.state]

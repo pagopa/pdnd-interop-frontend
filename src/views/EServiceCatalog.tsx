@@ -31,6 +31,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { StyledButton } from '../components/Shared/StyledButton'
+import { axiosErrorToError } from '../lib/error-utils'
 
 export function EServiceCatalog() {
   const history = useHistory()
@@ -53,7 +54,7 @@ export function EServiceCatalog() {
     }
   )
 
-  const headData = ['nome e-service', 'ente erogatore', 'versione attuale', 'stato e-service', '']
+  const headData = ['nome e-service', 'ente erogatore', 'versione attuale', 'stato e-service']
 
   const OwnerTooltip = ({ label = '', Icon }: { label: string; Icon: SvgIconComponent }) => (
     <StyledTooltip title={label}>
@@ -165,9 +166,8 @@ export function EServiceCatalog() {
       <TableWithLoader
         loadingText={loadingText}
         headData={headData}
-        data={data}
         noDataLabel="Non ci sono servizi disponibili"
-        error={error}
+        error={axiosErrorToError(error)}
       >
         {party &&
           data?.map((item, i) => {

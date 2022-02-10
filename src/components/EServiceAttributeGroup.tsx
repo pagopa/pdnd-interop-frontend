@@ -90,8 +90,8 @@ export function EServiceAttributeGroup({
   }
 
   const headData = canRequireVerification
-    ? ['nome attributo', 'convalida richiesta', '']
-    : ['nome attributo', '']
+    ? ['nome attributo', 'convalida richiesta']
+    : ['nome attributo']
 
   const wrapRemove = (attributes: Array<CatalogAttribute>) => () => {
     remove(attributes)
@@ -102,7 +102,6 @@ export function EServiceAttributeGroup({
       <TableWithLoader
         loadingText={null}
         headData={headData}
-        data={attributesGroup}
         noDataLabel="Nessun attributo presente"
       >
         {attributesGroup.map(({ attributes, explicitAttributeVerification }, j) => (

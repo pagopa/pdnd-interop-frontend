@@ -18,6 +18,7 @@ import { useUser } from '../hooks/useUser'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { useHistory } from 'react-router'
+import { axiosErrorToError } from '../lib/error-utils'
 
 export function UserList() {
   const location = useLocation()
@@ -93,7 +94,7 @@ export function UserList() {
     return availableActions[user.state] || []
   }
 
-  const headData = ['nome e cognome', 'ruolo', 'permessi', 'stato', '']
+  const headData = ['nome e cognome', 'ruolo', 'permessi', 'stato']
 
   return (
     <React.Fragment>
@@ -127,9 +128,8 @@ export function UserList() {
       <TableWithLoader
         loadingText={loadingText}
         headData={headData}
-        data={data}
         noDataLabel="Non ci sono operatori disponibili"
-        error={error}
+        error={axiosErrorToError(error)}
       >
         {data?.map((item, i) => (
           <StyledTableRow

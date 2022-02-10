@@ -23,6 +23,7 @@ import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { useHistory } from 'react-router-dom'
+import { axiosErrorToError } from '../lib/error-utils'
 
 export function AgreementList() {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -148,7 +149,6 @@ export function AgreementList() {
     'versione e-service',
     'stato accordo',
     mode === 'provider' ? 'ente fruitore' : 'ente erogatore',
-    '',
   ]
 
   const INTRO: Record<ProviderOrSubscriber, StyledIntroChildrenProps> = {
@@ -172,9 +172,8 @@ export function AgreementList() {
         <TableWithLoader
           loadingText={loadingText}
           headData={headData}
-          data={data}
           noDataLabel="Non ci sono accordi disponibili"
-          error={error}
+          error={axiosErrorToError(error)}
         >
           {data?.map((item, i) => (
             <StyledTableRow

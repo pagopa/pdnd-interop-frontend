@@ -70,7 +70,7 @@ export function ClientCreate() {
     formik.setFieldValue('operators', filteredOperators, false)
   }
 
-  const headData = ['Nome e cognome', '']
+  const headData = ['Nome e cognome']
 
   return (
     <React.Fragment>
@@ -115,7 +115,6 @@ export function ClientCreate() {
           <TableWithLoader
             loadingText={null}
             headData={headData}
-            data={formik.values.operators}
             noDataLabel="Nessun utente aggiunto"
           >
             {formik.values.operators.map((user, i) => (

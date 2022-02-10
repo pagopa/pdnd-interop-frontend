@@ -1,11 +1,8 @@
 import React, { FunctionComponent } from 'react'
-import { AxiosError } from 'axios'
 import { LoadingWithMessage } from './LoadingWithMessage'
 import {
   TableContainer,
   Table,
-  // TableFooter,
-  // TablePagination,
   TableBody,
   TableHead,
   TableRow,
@@ -17,10 +14,8 @@ import { Box } from '@mui/system'
 type TableWithLoaderProps = {
   loadingText: string | null
   noDataLabel?: string
-  error?: AxiosError
+  error?: Error
   headData: Array<string>
-  data?: Array<unknown>
-  // pagination?: boolean
 }
 
 export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
@@ -28,8 +23,6 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
   noDataLabel = 'Questa ricerca non ha prodotto risultati',
   error,
   headData,
-  data,
-  // pagination = false,
   children,
 }) => {
   if (error) {
@@ -63,15 +56,12 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {data && data.length > 0 ? (
-            children
-          ) : (
+          {children || (
             <TableRow>
               <TableCell colSpan={headData.length}>{noDataLabel}</TableCell>
             </TableRow>
           )}
         </TableBody>
-        {/* <TableFooter>{pagination && <TablePagination />}</TableFooter> */}
       </Table>
     </TableContainer>
   )

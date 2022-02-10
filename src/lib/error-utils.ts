@@ -8,3 +8,7 @@ export function isFetchError(resp: AxiosResponse | AxiosError) {
 export function getFetchOutcome(resp: AxiosResponse | AxiosError) {
   return isFetchError(resp) ? 'error' : 'success'
 }
+
+export function axiosErrorToError(axiosError: AxiosError | undefined): Error | undefined {
+  return axiosError && new Error(axiosError.message)
+}

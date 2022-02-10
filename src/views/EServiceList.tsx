@@ -21,6 +21,7 @@ import { ESERVICE_STATE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ActionMenu } from '../components/Shared/ActionMenu'
+import { axiosErrorToError } from '../lib/error-utils'
 
 export function EServiceList() {
   const { runAction, runFakeAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -202,7 +203,7 @@ export function EServiceList() {
   }
 
   // Data for the table head
-  const headData = ['nome e-service', 'versione', 'stato e-service', '']
+  const headData = ['nome e-service', 'versione', 'stato e-service']
 
   return (
     <React.Fragment>
@@ -225,9 +226,8 @@ export function EServiceList() {
         <TableWithLoader
           loadingText={loadingText}
           headData={headData}
-          data={data}
           noDataLabel="Non ci sono servizi disponibili"
-          error={error}
+          error={axiosErrorToError(error)}
         >
           {data?.map((item, i) => (
             <StyledTableRow
