@@ -5,7 +5,9 @@ import { ActionMenu } from '../ActionMenu'
 
 describe('Snapshot', () => {
   it('matches button (1)', () => {
-    const component = renderer.create(<ActionMenu actions={[]} testInternalId="1"></ActionMenu>)
+    const component = renderer.create(
+      <ActionMenu actions={[]} snapshotTestInternalId="1"></ActionMenu>
+    )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
@@ -13,7 +15,7 @@ describe('Snapshot', () => {
   it('matches button (2)', () => {
     const actions = [{ onClick: noop, label: 'Azione 1' }]
     const component = renderer.create(
-      <ActionMenu actions={actions} testInternalId="2"></ActionMenu>
+      <ActionMenu actions={actions} snapshotTestInternalId="2"></ActionMenu>
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()

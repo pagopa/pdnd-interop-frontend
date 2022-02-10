@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Tab, Tabs, Typography } from '@mui/material'
 import { a11yProps, TabPanel } from '../components/TabPanel'
-import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useHistory, useLocation } from 'react-router-dom'
 import { buildDynamicPath, getBits } from '../lib/router-utils'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -22,6 +21,7 @@ import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { formatDateString } from '../lib/date-utils'
 import { EditableField } from '../components/Shared/EditableField'
+// import { StyledIntro } from '../components/Shared/StyledIntro'
 // import { ActionMenu } from '../components/Shared/ActionMenu'
 
 export const PurposeEdit = () => {

@@ -8,26 +8,58 @@ import uniqueString from 'unique-string'
 import { Box } from '@mui/system'
 
 type ActionMenuProps = {
+  // The list of actions to display in the menu
   actions: Array<ActionProps>
-  testInternalId?: string // Only used by tests
+  onOpen: (id: string) => void
+  onClose: VoidFunction
+  // The id of the menu currently clicked. In a table there may be many of them,
+  // but only one is open at a time (or none, if the value is null)
+  openMenuId: string | null
+  // Only used for snapshot tests, to have a stable id
+  snapshotTestInternalId?: string
 }
 
-export const ActionMenu: FunctionComponent<ActionMenuProps> = ({ actions, testInternalId }) => {
+export const ActionMenu: FunctionComponent<
+  Omit<ActionMenuProps, 'onOpen' | 'onClose' | 'openMenuId'>
+> = (props) => {
+  const { tableActionMenu, setTableActionMenu } = useContext(TableActionMenuContext)
+
+  const onOpen = (id: string) => {
+    setTableActionMenu(id)
+  }
+
+  const onClose = () => {
+    setTableActionMenu(null)
+  }
+
+  return (
+    <ActionMenuComponent
+      {...props}
+      onOpen={onOpen}
+      onClose={onClose}
+      openMenuId={tableActionMenu}
+    />
+  )
+}
+
+const ActionMenuComponent: FunctionComponent<ActionMenuProps> = ({
+  actions,
+  onOpen,
+  onClose,
+  openMenuId,
+  snapshotTestInternalId,
+}) => {
   // Needs to be state to avoid it changing on rerender
-  const [id] = useState(testInternalId || uniqueString())
+  const [id] = useState(snapshotTestInternalId || uniqueString())
   const anchorRef = useRef() as React.MutableRefObject<HTMLSpanElement>
   const anchorId = `basic-button-${id}`
   const menuId = `basic-menu-${id}`
-  const { tableActionMenu, setTableActionMenu } = useContext(TableActionMenuContext)
-  const open = Boolean(tableActionMenu !== null && tableActionMenu === anchorId)
+  const open = Boolean(openMenuId !== null && openMenuId === anchorId)
 
   const handleClick = (event: React.SyntheticEvent) => {
     event.stopPropagation()
     event.preventDefault()
-    setTableActionMenu(event.currentTarget.id)
-  }
-  const handleClose = () => {
-    setTableActionMenu(null)
+    onOpen(event.currentTarget.id)
   }
 
   if (!Boolean(actions.length > 0)) {
@@ -53,7 +85,7 @@ export const ActionMenu: FunctionComponent<ActionMenuProps> = ({ actions, testIn
         id={menuId}
         anchorEl={anchorRef.current}
         open={open}
-        onClose={handleClose}
+        onClose={onClose}
         MenuListProps={{
           'aria-labelledby': 'basic-button',
         }}

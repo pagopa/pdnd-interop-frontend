@@ -66,11 +66,11 @@ export function KeyEdit() {
       <Box sx={{ mt: 6 }}>
         <DescriptionBlock label="Id della chiave">
           {data?.key && (
-            <InlineClipboard text={data.key.kid} successTooltipText="Id copiato correttamente" />
+            <InlineClipboard text={data.key.kid} successFeedbackText="Id copiato correttamente" />
           )}
         </DescriptionBlock>
         <DescriptionBlock label="Id del client">
-          <InlineClipboard text={clientId} successTooltipText="Id copiato correttamente" />
+          <InlineClipboard text={clientId} successFeedbackText="Id copiato correttamente" />
         </DescriptionBlock>
       </Box>
 
