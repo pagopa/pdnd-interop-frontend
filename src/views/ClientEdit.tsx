@@ -101,6 +101,7 @@ export function ClientEdit() {
         onChange={updateActiveTab}
         aria-label="Due tab diverse per i dettagli del client e gli operatori di sicurezza"
         sx={{ mb: 6 }}
+        variant="fullWidth"
       >
         <Tab label="Dettagli del client" {...a11yProps(0)} />
         <Tab label="Operatori di sicurezza" {...a11yProps(1)} />

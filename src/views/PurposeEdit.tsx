@@ -21,6 +21,7 @@ import { Box } from '@mui/system'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { formatDateString } from '../lib/date-utils'
+import { EditableField } from '../components/Shared/EditableField'
 // import { ActionMenu } from '../components/Shared/ActionMenu'
 
 export const PurposeEdit = () => {
@@ -83,13 +84,28 @@ export const PurposeEdit = () => {
 
   return (
     <React.Fragment>
-      <StyledIntro>{{ title: mockData?.name }}</StyledIntro>
+      <Box sx={{ mb: 4, pb: 3 }}>
+        <Typography variant="h1" color="inherit">
+          {mockData?.name && (
+            <EditableField
+              value={mockData?.name}
+              onSave={(updatedName) => {
+                console.log('updatedName', updatedName)
+              }}
+              ariaLabel="Modifica nome"
+              multiline={false}
+            />
+          )}
+        </Typography>
+      </Box>
+      {/* <StyledIntro>{{ title: mockData?.name }}</StyledIntro> */}
 
       <Tabs
         value={activeTab}
         onChange={updateActiveTab}
         aria-label="Due tab diverse per i dettagli della finalità e i client associati"
         sx={{ mb: 6 }}
+        variant="fullWidth"
       >
         <Tab label="Dettagli finalità" {...a11yProps(0)} />
         <Tab label="Client associati" {...a11yProps(1)} />
@@ -106,8 +122,17 @@ export const PurposeEdit = () => {
           </Typography>
         </DescriptionBlock>
 
-        <DescriptionBlock label="Descrizione">
-          <Typography component="span">{mockData?.description}</Typography>
+        <DescriptionBlock label="Descrizione" childWrapperSx={{ pt: 0 }}>
+          {mockData?.description && (
+            <EditableField
+              value={mockData?.description}
+              onSave={(updatedDescription) => {
+                console.log('updatedDescription', updatedDescription)
+              }}
+              ariaLabel="Modifica descrizione"
+              multiline={true}
+            />
+          )}
         </DescriptionBlock>
 
         <DescriptionBlock label="La versione dell'e-service che stai usando">
