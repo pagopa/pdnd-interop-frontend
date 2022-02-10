@@ -30,8 +30,12 @@ exports[`Snapshot matches 1`] = `
     />
   </svg>
   <br />
-  <span>
-    content-test
-  </span>
+  <div
+    className="MuiBox-root css-zoser8"
+  >
+    <span>
+      content-test
+    </span>
+  </div>
 </div>
 `;
