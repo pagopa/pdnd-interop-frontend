@@ -9,7 +9,7 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material'
-import { ProviderOrSubscriber, RouteConfig, UserProductRole } from '../../types'
+import { RouteConfig, UserProductRole } from '../../types'
 import { PartyContext, TokenContext } from '../lib/context'
 import { StyledLink } from './Shared/StyledLink'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
@@ -18,7 +18,7 @@ import { belongsToTree } from '../lib/router-utils'
 
 type View = {
   route: RouteConfig
-  type?: ProviderOrSubscriber
+  id?: string
   children?: Array<RouteConfig>
 }
 
@@ -26,18 +26,93 @@ type Views = Record<UserProductRole, Array<View>>
 
 const WIDTH = 340
 
-export function MainNav() {
+export const MainNav = () => {
   const { token } = useContext(TokenContext)
   const { party } = useContext(PartyContext)
   const location = useLocation()
-  const [open, setOpen] = useState<ProviderOrSubscriber | null>(null)
+  const [openId, setOpenId] = useState<string | null>(null)
 
-  const wrapSetOpen = (menu: ProviderOrSubscriber) => () => {
-    setOpen(!open || menu !== open ? menu : null)
+  const views: Views = {
+    admin: [
+      {
+        route: ROUTES.PROVIDE,
+        id: 'provider',
+        children: [
+          ROUTES.PROVIDE_ESERVICE_LIST,
+          ROUTES.PROVIDE_AGREEMENT_LIST,
+          ROUTES.PROVIDE_OPERATOR_LIST,
+        ],
+      },
+      {
+        route: ROUTES.SUBSCRIBE,
+        id: 'subscriber',
+        children: [
+          ROUTES.SUBSCRIBE_CATALOG_LIST,
+          ROUTES.SUBSCRIBE_PURPOSE_LIST,
+          ROUTES.SUBSCRIBE_CLIENT_LIST,
+          ROUTES.SUBSCRIBE_AGREEMENT_LIST,
+        ],
+      },
+    ],
+    api: [
+      {
+        route: ROUTES.PROVIDE,
+        id: 'provider',
+        children: [ROUTES.PROVIDE_ESERVICE_LIST],
+      },
+    ],
+    security: [
+      {
+        route: ROUTES.SUBSCRIBE,
+        id: 'subscriber',
+        children: [ROUTES.SUBSCRIBE_CATALOG_LIST, ROUTES.SUBSCRIBE_CLIENT_LIST],
+      },
+    ],
   }
 
+  const availableViews = [
+    ...views[party?.productInfo.role || 'security'],
+    { route: ROUTES.NOTIFICATION },
+    { route: ROUTES.PROFILE },
+    { route: ROUTES.HELP },
+  ]
+
+  const wrapSetOpenSubmenuId = (newOpenId?: string) => () => {
+    setOpenId(newOpenId && newOpenId !== openId ? newOpenId : null)
+  }
+
+  const isItemSelected = (route: RouteConfig) => {
+    return belongsToTree(location, route)
+  }
+
+  return (
+    <MainNavComponent
+      items={availableViews}
+      isItemSelected={isItemSelected}
+      openSubmenuId={openId}
+      wrapSetOpenSubmenuId={wrapSetOpenSubmenuId}
+      shouldRender={Boolean(token)}
+    />
+  )
+}
+
+type MainNavComponentProps = {
+  items: Array<View>
+  isItemSelected: (route: RouteConfig) => boolean
+  openSubmenuId: string | null
+  wrapSetOpenSubmenuId: (id?: string) => () => void
+  shouldRender: boolean
+}
+
+const MainNavComponent = ({
+  items,
+  isItemSelected,
+  openSubmenuId,
+  wrapSetOpenSubmenuId,
+  shouldRender,
+}: MainNavComponentProps) => {
   const WrappedLink = ({ route }: { route: RouteConfig }) => {
-    const isSelected = belongsToTree(location, route)
+    const isSelected = isItemSelected(route)
     const { PATH, LABEL } = route
     return (
       <StyledLink underline="none" to={PATH}>
@@ -62,51 +137,6 @@ export function MainNav() {
     )
   }
 
-  const views: Views = {
-    admin: [
-      {
-        route: ROUTES.PROVIDE,
-        type: 'provider',
-        children: [
-          ROUTES.PROVIDE_ESERVICE_LIST,
-          ROUTES.PROVIDE_AGREEMENT_LIST,
-          ROUTES.PROVIDE_OPERATOR_LIST,
-        ],
-      },
-      {
-        route: ROUTES.SUBSCRIBE,
-        type: 'subscriber',
-        children: [
-          ROUTES.SUBSCRIBE_CATALOG_LIST,
-          ROUTES.SUBSCRIBE_PURPOSE_LIST,
-          ROUTES.SUBSCRIBE_CLIENT_LIST,
-          ROUTES.SUBSCRIBE_AGREEMENT_LIST,
-        ],
-      },
-    ],
-    api: [
-      {
-        route: ROUTES.PROVIDE,
-        type: 'provider',
-        children: [ROUTES.PROVIDE_ESERVICE_LIST],
-      },
-    ],
-    security: [
-      {
-        route: ROUTES.SUBSCRIBE,
-        type: 'subscriber',
-        children: [ROUTES.SUBSCRIBE_CATALOG_LIST, ROUTES.SUBSCRIBE_CLIENT_LIST],
-      },
-    ],
-  }
-
-  const availableViews = [
-    ...views[party?.productInfo.role || 'security'],
-    { route: ROUTES.NOTIFICATION },
-    { route: ROUTES.PROFILE },
-    { route: ROUTES.HELP },
-  ]
-
   return (
     <Box
       sx={{
@@ -128,33 +158,33 @@ export function MainNav() {
       }}
       component="nav"
     >
-      {token && (
+      {shouldRender && (
         <List
           sx={{ width: WIDTH, position: 'sticky', top: 10 }}
           aria-label="Navigazione principale"
           disablePadding
         >
-          {availableViews.map((view, i) => {
-            const isActive = open === view.type
-            const isSelected = belongsToTree(location, view.route)
+          {items.map((item, i) => {
+            const isSubmenuOpen = openSubmenuId === item.id
+            const isSelected = isItemSelected(item.route)
 
-            return !!view.children && Boolean(view.children.length > 0) ? (
+            return !!item.children && Boolean(item.children.length > 0) ? (
               <Box key={i} color="primary.main">
-                <ListItemButton onClick={wrapSetOpen(view.type as ProviderOrSubscriber)}>
+                <ListItemButton onClick={wrapSetOpenSubmenuId(item.id)}>
                   <ListItemText
                     disableTypography
                     primary={
                       <Typography color="inherit" sx={{ fontWeight: isSelected ? 600 : 300 }}>
-                        {view.route.LABEL}
+                        {item.route.LABEL}
                       </Typography>
                     }
                   />
-                  {isActive ? <ExpandLess /> : <ExpandMore />}
+                  {isSubmenuOpen ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
 
-                <Collapse in={isActive} timeout="auto" unmountOnExit>
+                <Collapse in={isSubmenuOpen} timeout="auto" unmountOnExit>
                   <List disablePadding sx={{ width: WIDTH, pl: 2 }}>
-                    {(view.children as Array<RouteConfig>).map((child, j) => (
+                    {(item.children as Array<RouteConfig>).map((child, j) => (
                       <ListItem sx={{ display: 'block', p: 0 }} key={j}>
                         <WrappedLink route={child} />
                       </ListItem>
@@ -164,7 +194,7 @@ export function MainNav() {
               </Box>
             ) : (
               <ListItem sx={{ display: 'block', p: 0 }} key={i}>
-                <WrappedLink route={view.route} />
+                <WrappedLink route={item.route} />
               </ListItem>
             )
           })}

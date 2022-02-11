@@ -18,6 +18,7 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { a11yProps, TabPanel } from '../components/TabPanel'
 import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 import { KeysList } from '../components/KeysList'
+import { EditableField } from '../components/Shared/EditableField'
 
 export function ClientEdit() {
   const location = useLocation()
@@ -86,6 +87,10 @@ export function ClientEdit() {
     return actions[sureData.state]
   }
 
+  const wrapFieldUpdate = (fieldName: 'description') => (updatedString: string | null) => {
+    console.log({ fieldName, updatedString })
+  }
+
   if (!data) {
     return <StyledSkeleton />
   }
@@ -111,6 +116,15 @@ export function ClientEdit() {
       <TabPanel value={activeTab} index={0}>
         <DescriptionBlock label="Descrizione">
           <Typography component="span">{data.description}</Typography>
+        </DescriptionBlock>
+
+        <DescriptionBlock label="Descrizione" childWrapperSx={{ pt: 0 }}>
+          <EditableField
+            value={data.description}
+            onSave={wrapFieldUpdate('description')}
+            ariaLabel="Modifica descrizione"
+            multiline={true}
+          />
         </DescriptionBlock>
 
         <DescriptionBlock label="La versione dell'e-service che stai usando">

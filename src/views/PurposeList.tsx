@@ -113,7 +113,7 @@ export const PurposeList = () => {
                   { label: formatThousands(item.currentVersion.dailyCalls) },
                   {
                     label: item.awaitingApproval
-                      ? `${purposeStateLabel}, atteso aggiornamento stima di carico`
+                      ? `${purposeStateLabel}, in aggiornamento`
                       : purposeStateLabel,
                   },
                 ]}

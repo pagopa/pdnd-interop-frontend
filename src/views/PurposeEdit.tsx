@@ -20,9 +20,8 @@ import { Box } from '@mui/system'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { formatDateString } from '../lib/date-utils'
-import { EditableField } from '../components/Shared/EditableField'
+import { StyledIntro } from '../components/Shared/StyledIntro'
 // import { axiosErrorToError } from '../lib/error-utils'
-// import { StyledIntro } from '../components/Shared/StyledIntro'
 // import { ActionMenu } from '../components/Shared/ActionMenu'
 
 export const PurposeEdit = () => {
@@ -81,27 +80,11 @@ export const PurposeEdit = () => {
     //
   }
 
-  const wrapFieldUpdate = (fieldName: 'name' | 'description') => (updatedString: string | null) => {
-    console.log({ fieldName, updatedString })
-  }
-
   const headData = ['nome client', 'stato']
 
   return (
     <React.Fragment>
-      <Box sx={{ mb: 4, pb: 3 }}>
-        <Typography variant="h1" color="inherit">
-          {mockData?.name && (
-            <EditableField
-              value={mockData?.name}
-              onSave={wrapFieldUpdate('name')}
-              ariaLabel="Modifica nome"
-              multiline={false}
-            />
-          )}
-        </Typography>
-      </Box>
-      {/* <StyledIntro>{{ title: mockData?.name }}</StyledIntro> */}
+      <StyledIntro>{{ title: mockData?.name }}</StyledIntro>
 
       <Tabs
         value={activeTab}
@@ -125,15 +108,8 @@ export const PurposeEdit = () => {
           </Typography>
         </DescriptionBlock>
 
-        <DescriptionBlock label="Descrizione" childWrapperSx={{ pt: 0 }}>
-          {mockData?.description && (
-            <EditableField
-              value={mockData?.description}
-              onSave={wrapFieldUpdate('description')}
-              ariaLabel="Modifica descrizione"
-              multiline={true}
-            />
-          )}
+        <DescriptionBlock label="Descrizione">
+          <Typography component="span">{mockData?.description}</Typography>
         </DescriptionBlock>
 
         <DescriptionBlock label="La versione dell'e-service che stai usando">
