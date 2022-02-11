@@ -39,7 +39,7 @@ export const PurposeCreate = () => {
 
   return (
     <Box sx={{ maxWidth: 860 }}>
-      <StyledIntro sx={{ my: 2 }}>{{ title: 'Crea finalità' }}</StyledIntro>
+      <StyledIntro>{{ title: 'Crea finalità' }}</StyledIntro>
       <Paper sx={{ mb: 8 }}>
         <StyledStepper steps={STEPS} activeIndex={activeStep} />
       </Paper>
