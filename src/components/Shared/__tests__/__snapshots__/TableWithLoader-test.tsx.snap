@@ -50,7 +50,7 @@ exports[`Snapshot matches table with single action button 1`] = `
   className="MuiTableContainer-root css-rorn0c-MuiTableContainer-root"
 >
   <table
-    className="MuiTable-root css-smfe75-MuiTable-root"
+    className="MuiTable-root css-ui69f2-MuiTable-root"
     role={null}
   >
     <thead
@@ -67,7 +67,7 @@ exports[`Snapshot matches table with single action button 1`] = `
           scope="col"
         >
           <span
-            className="MuiTypography-root MuiTypography-caption css-1na98xh-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-caption css-udomqy-MuiTypography-root"
           >
             NOME
           </span>
@@ -78,7 +78,7 @@ exports[`Snapshot matches table with single action button 1`] = `
           scope="col"
         >
           <span
-            className="MuiTypography-root MuiTypography-caption css-1na98xh-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-caption css-udomqy-MuiTypography-root"
           >
             COGNOME
           </span>
@@ -201,7 +201,7 @@ exports[`Snapshot matches table with single action button and action list button
   className="MuiTableContainer-root css-rorn0c-MuiTableContainer-root"
 >
   <table
-    className="MuiTable-root css-smfe75-MuiTable-root"
+    className="MuiTable-root css-ui69f2-MuiTable-root"
     role={null}
   >
     <thead
@@ -218,7 +218,7 @@ exports[`Snapshot matches table with single action button and action list button
           scope="col"
         >
           <span
-            className="MuiTypography-root MuiTypography-caption css-1na98xh-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-caption css-udomqy-MuiTypography-root"
           >
             NOME
           </span>
@@ -229,7 +229,7 @@ exports[`Snapshot matches table with single action button and action list button
           scope="col"
         >
           <span
-            className="MuiTypography-root MuiTypography-caption css-1na98xh-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-caption css-udomqy-MuiTypography-root"
           >
             COGNOME
           </span>
@@ -436,7 +436,7 @@ exports[`Snapshot matches table without actions 1`] = `
   className="MuiTableContainer-root css-rorn0c-MuiTableContainer-root"
 >
   <table
-    className="MuiTable-root css-smfe75-MuiTable-root"
+    className="MuiTable-root css-ui69f2-MuiTable-root"
     role={null}
   >
     <thead
@@ -453,7 +453,7 @@ exports[`Snapshot matches table without actions 1`] = `
           scope="col"
         >
           <span
-            className="MuiTypography-root MuiTypography-caption css-1na98xh-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-caption css-udomqy-MuiTypography-root"
           >
             NOME
           </span>
@@ -464,7 +464,7 @@ exports[`Snapshot matches table without actions 1`] = `
           scope="col"
         >
           <span
-            className="MuiTypography-root MuiTypography-caption css-1na98xh-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-caption css-udomqy-MuiTypography-root"
           >
             COGNOME
           </span>

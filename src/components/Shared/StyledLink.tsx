@@ -17,6 +17,6 @@ const StyledLinkComponent: FunctionComponent<StyledLinkProps & LinkProps> = Reac
   }
 )
 
-StyledLinkComponent.displayName = 'StyledButton'
+StyledLinkComponent.displayName = 'StyledLink'
 
 export const StyledLink = StyledLinkComponent

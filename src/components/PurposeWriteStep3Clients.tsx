@@ -128,7 +128,7 @@ export const PurposeWriteStep3Clients: FunctionComponent<ActiveStepProps> = ({ b
         />
       </StyledForm>
 
-      <Paper sx={{ px: 3, py: 4, mt: 8 }}>
+      <Paper sx={{ px: 3, py: 4, mt: 12 }} variant="outlined">
         <StyledIntro variant="h2" sx={{ my: 0, pt: 0 }}>
           {{
             title: 'Azioni rapide di pubblicazione',

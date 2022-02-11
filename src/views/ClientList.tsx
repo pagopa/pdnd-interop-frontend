@@ -123,31 +123,33 @@ export function ClientList() {
           noDataLabel="Non ci sono client disponibili"
           error={axiosErrorToError(error)}
         >
-          {data?.map((item, i) => (
-            <StyledTableRow
-              key={i}
-              cellData={[
-                { label: item.name },
-                { label: item.eservice.name },
-                { label: item.eservice.provider.description },
-                { label: CLIENT_STATE_LABEL[item.state] },
-              ]}
-            >
-              <StyledButton
-                variant="outlined"
-                size="small"
-                onClick={() => {
-                  history.push(
-                    buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_EDIT.PATH, { clientId: item.id })
-                  )
-                }}
+          {data &&
+            Boolean(data.length > 0) &&
+            data.map((item, i) => (
+              <StyledTableRow
+                key={i}
+                cellData={[
+                  { label: item.name },
+                  { label: item.eservice.name },
+                  { label: item.eservice.provider.description },
+                  { label: CLIENT_STATE_LABEL[item.state] },
+                ]}
               >
-                Ispeziona
-              </StyledButton>
+                <StyledButton
+                  variant="outlined"
+                  size="small"
+                  onClick={() => {
+                    history.push(
+                      buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_EDIT.PATH, { clientId: item.id })
+                    )
+                  }}
+                >
+                  Ispeziona
+                </StyledButton>
 
-              <ActionMenu actions={getAvailableActions(item)} />
-            </StyledTableRow>
-          ))}
+                <ActionMenu actions={getAvailableActions(item)} />
+              </StyledTableRow>
+            ))}
         </TableWithLoader>
       </Box>
     </React.Fragment>

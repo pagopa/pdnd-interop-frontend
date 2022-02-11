@@ -128,38 +128,40 @@ export const PurposeList = () => {
           noDataLabel="Non ci sono finalità disponibili"
           // error={axiosErrorToError(error)}
         >
-          {mockData.map((item, i) => {
-            const purposeStateLabel = PURPOSE_STATE_LABEL[item.currentVersion.state]
-            return (
-              <StyledTableRow
-                key={i}
-                cellData={[
-                  { label: item.name },
-                  { label: item.eservice.name },
-                  { label: formatThousands(item.currentVersion.dailyCalls) },
-                  {
-                    label: item.awaitingApproval
-                      ? `${purposeStateLabel}, in aggiornamento`
-                      : purposeStateLabel,
-                  },
-                ]}
-              >
-                <StyledButton
-                  variant="outlined"
-                  size="small"
-                  onClick={() => {
-                    history.push(
-                      buildDynamicPath(ROUTES.SUBSCRIBE_PURPOSE_EDIT.PATH, { purposeId: item.id })
-                    )
-                  }}
+          {mockData &&
+            Boolean(mockData.length > 0) &&
+            mockData.map((item, i) => {
+              const purposeStateLabel = PURPOSE_STATE_LABEL[item.currentVersion.state]
+              return (
+                <StyledTableRow
+                  key={i}
+                  cellData={[
+                    { label: item.name },
+                    { label: item.eservice.name },
+                    { label: formatThousands(item.currentVersion.dailyCalls) },
+                    {
+                      label: item.awaitingApproval
+                        ? `${purposeStateLabel}, in aggiornamento`
+                        : purposeStateLabel,
+                    },
+                  ]}
                 >
-                  Ispeziona
-                </StyledButton>
+                  <StyledButton
+                    variant="outlined"
+                    size="small"
+                    onClick={() => {
+                      history.push(
+                        buildDynamicPath(ROUTES.SUBSCRIBE_PURPOSE_EDIT.PATH, { purposeId: item.id })
+                      )
+                    }}
+                  >
+                    Ispeziona
+                  </StyledButton>
 
-                <ActionMenu actions={getAvailableActions(item)} />
-              </StyledTableRow>
-            )
-          })}
+                  <ActionMenu actions={getAvailableActions(item)} />
+                </StyledTableRow>
+              )
+            })}
         </TableWithLoader>
       </Box>
     </React.Fragment>

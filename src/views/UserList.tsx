@@ -131,36 +131,38 @@ export function UserList() {
         noDataLabel="Non ci sono operatori disponibili"
         error={axiosErrorToError(error)}
       >
-        {data?.map((item, i) => (
-          <StyledTableRow
-            key={i}
-            cellData={[
-              { label: `${item.name + ' ' + item.surname}` },
-              { label: item.role ? USER_ROLE_LABEL[item.role] : '' },
-              { label: item.product.role ? USER_PLATFORM_ROLE_LABEL[item.product.role] : '' },
-              { label: USER_STATE_LABEL[item.state] },
-            ]}
-          >
-            <StyledButton
-              variant="outlined"
-              size="small"
-              onClick={() => {
-                history.push(
-                  mode === 'provider'
-                    ? buildDynamicPath(ROUTES.PROVIDE_OPERATOR_EDIT.PATH, { operatorId: item.id })
-                    : buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_OPERATOR_EDIT.PATH, {
-                        clientId,
-                        operatorId: item.id,
-                      })
-                )
-              }}
+        {data &&
+          Boolean(data.length > 0) &&
+          data.map((item, i) => (
+            <StyledTableRow
+              key={i}
+              cellData={[
+                { label: `${item.name + ' ' + item.surname}` },
+                { label: item.role ? USER_ROLE_LABEL[item.role] : '' },
+                { label: item.product.role ? USER_PLATFORM_ROLE_LABEL[item.product.role] : '' },
+                { label: USER_STATE_LABEL[item.state] },
+              ]}
             >
-              Ispeziona
-            </StyledButton>
+              <StyledButton
+                variant="outlined"
+                size="small"
+                onClick={() => {
+                  history.push(
+                    mode === 'provider'
+                      ? buildDynamicPath(ROUTES.PROVIDE_OPERATOR_EDIT.PATH, { operatorId: item.id })
+                      : buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_OPERATOR_EDIT.PATH, {
+                          clientId,
+                          operatorId: item.id,
+                        })
+                  )
+                }}
+              >
+                Ispeziona
+              </StyledButton>
 
-            <ActionMenu actions={getAvailableActions(item)} />
-          </StyledTableRow>
-        ))}
+              <ActionMenu actions={getAvailableActions(item)} />
+            </StyledTableRow>
+          ))}
       </TableWithLoader>
     </React.Fragment>
   )

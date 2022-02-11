@@ -58,7 +58,7 @@ export function EServiceCatalog() {
 
   const OwnerTooltip = ({ label = '', Icon }: { label: string; Icon: SvgIconComponent }) => (
     <StyledTooltip title={label}>
-      <Icon sx={{ ml: 0.5, fontSize: 16 }} color="secondary" />
+      <Icon sx={{ ml: 0.5, fontSize: 16 }} color="info" />
     </StyledTooltip>
   )
 
@@ -170,7 +170,9 @@ export function EServiceCatalog() {
         error={axiosErrorToError(error)}
       >
         {party &&
-          data?.map((item, i) => {
+          data &&
+          Boolean(data.length > 0) &&
+          data.map((item, i) => {
             const canSubscribeEservice = canSubscribe(party.attributes, item.certifiedAttributes)
             const tooltip = getTooltip(item, canSubscribeEservice)
             return (

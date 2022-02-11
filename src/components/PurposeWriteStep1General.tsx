@@ -43,7 +43,7 @@ export const PurposeWriteStep1General: FunctionComponent<ActiveStepProps> = ({ f
     forward()
   }
 
-  const initialValues = { name: '', description: '', eservice: '', dailyCalls: 0 }
+  const initialValues = { name: '', description: '', eservice: '', dailyCalls: 1 }
   const validationSchema = object({
     name: string().required(),
     description: string().required(),
@@ -91,13 +91,12 @@ export const PurposeWriteStep1General: FunctionComponent<ActiveStepProps> = ({ f
 
       <StyledInputControlledText
         name="dailyCalls"
-        label="Soglia di carico ammesso (richiesto)"
-        infoLabel="Calcolata in numero di richieste al giorno sostenibili per richiesta di fruizione"
+        label="Numero di chiamate API al giorno stimate (richiesto)"
         type="number"
         value={formik.values.dailyCalls}
         error={formik.errors.dailyCalls}
         onChange={formik.handleChange}
-        inputProps={{ min: '0', max: '500000' }}
+        inputProps={{ min: '1', max: '500000' }}
       />
 
       <StepActions

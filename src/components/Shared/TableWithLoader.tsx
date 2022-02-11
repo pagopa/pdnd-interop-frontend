@@ -38,7 +38,7 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
     <LoadingWithMessage label={loadingText} transparentBackground={true} />
   ) : (
     <TableContainer>
-      <Table sx={{ borderCollapse: 'separate' }}>
+      <Table sx={{ borderCollapse: 'separate', borderSpacing: '0 0.5rem' }}>
         <TableHead>
           <TableRow>
             {headData.map((item, i) => (
@@ -46,7 +46,7 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
                 <Typography
                   component="span"
                   variant="caption"
-                  color="secondary.main"
+                  color="text.secondary"
                   sx={{ fontWeight: 700 }}
                 >
                   {item.toUpperCase()}

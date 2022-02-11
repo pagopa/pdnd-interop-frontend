@@ -73,7 +73,7 @@ export function ClientCreate() {
   const headData = ['Nome e cognome']
 
   return (
-    <React.Fragment>
+    <Box sx={{ maxWidth: 860 }}>
       <StyledIntro>
         {{
           title: `Crea nuovo client`,
@@ -115,15 +115,16 @@ export function ClientCreate() {
           <TableWithLoader
             loadingText={null}
             headData={headData}
-            noDataLabel="Nessun utente aggiunto"
+            noDataLabel="Nessun operatore aggiunto"
           >
-            {formik.values.operators.map((user, i) => (
-              <StyledTableRow key={i} cellData={[{ label: `${user.name} ${user.surname}` }]}>
-                <StyledButton onClick={wrapRemoveOperator(user.id)}>
-                  <DeleteOutlineIcon fontSize="small" sx={{ mr: 1 }} color="primary" />
-                </StyledButton>
-              </StyledTableRow>
-            ))}
+            {Boolean(formik.values.operators.length > 0) &&
+              formik.values.operators.map((user, i) => (
+                <StyledTableRow key={i} cellData={[{ label: `${user.name} ${user.surname}` }]}>
+                  <StyledButton onClick={wrapRemoveOperator(user.id)}>
+                    <DeleteOutlineIcon fontSize="small" sx={{ mr: 1 }} color="primary" />
+                  </StyledButton>
+                </StyledTableRow>
+              ))}
           </TableWithLoader>
           <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
             <StyledButton sx={{ mr: 2 }} variant="contained" onClick={openAddOperatoDialog}>
@@ -144,6 +145,6 @@ export function ClientCreate() {
           </StyledButton>
         </Box>
       </StyledForm>
-    </React.Fragment>
+    </Box>
   )
 }

@@ -106,7 +106,7 @@ export function StyledInputControlledAsyncAutocomplete({
               label={label}
               {...params}
               placeholder={placeholder}
-              variant="standard"
+              variant="outlined"
               InputProps={{
                 ...params.InputProps,
                 endAdornment: (

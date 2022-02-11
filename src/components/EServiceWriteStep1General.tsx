@@ -146,7 +146,7 @@ export const EServiceWriteStep1General: FunctionComponent<
     >
       {({ handleSubmit, errors, values, handleChange }) => (
         <StyledForm onSubmit={handleSubmit}>
-          <StyledIntro variant="h2" sx={{ mb: 0, pb: 0 }}>
+          <StyledIntro variant="h2" sx={{ mt: 8, mb: 4 }}>
             {{ title: 'Caratterizzazione e-service' }}
           </StyledIntro>
 
@@ -187,7 +187,7 @@ export const EServiceWriteStep1General: FunctionComponent<
 
           <StyledIntro
             variant="h2"
-            sx={{ mt: 8, mb: 2, pt: 4, borderTop: 1, borderColor: 'divider' }}
+            sx={{ mt: 8, mb: 4, pt: 4, borderTop: 1, borderColor: 'divider' }}
           >
             {{ title: 'Attributi' }}
           </StyledIntro>

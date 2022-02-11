@@ -112,7 +112,7 @@ export function EServiceWriteStep3Documents({
 
   return (
     <React.Fragment>
-      <StyledIntro variant="h2" sx={{ mb: 0 }}>
+      <StyledIntro variant="h2" sx={{ mt: 8, mb: 4 }}>
         {{
           title: 'Interfaccia*',
           description: `Carica il file ${
@@ -138,7 +138,7 @@ export function EServiceWriteStep3Documents({
         />
       )}
 
-      <StyledIntro variant="h2" sx={{ mt: 8, mb: 2, pt: 4, borderTop: 1, borderColor: 'divider' }}>
+      <StyledIntro variant="h3" sx={{ mt: 8, mb: 2, pt: 4, borderTop: 1, borderColor: 'divider' }}>
         {{
           title: 'Documentazione',
           description: 'Inserisci la documentazione tecnica utile all’utilizzo di questo e-service',
@@ -170,8 +170,8 @@ export function EServiceWriteStep3Documents({
         }}
       />
 
-      <Paper sx={{ px: 3, py: 4, mt: 8 }}>
-        <StyledIntro variant="h2" sx={{ my: 0, pt: 0 }}>
+      <Paper sx={{ px: 3, py: 4, mt: 12 }} variant="outlined">
+        <StyledIntro variant="h2">
           {{
             title: 'Azioni rapide di pubblicazione',
             description:

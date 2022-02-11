@@ -89,13 +89,13 @@ export function ChooseParty() {
                     >
                       <Typography
                         component="span"
-                        color={disabled ? 'secondary' : 'primary'}
+                        color={disabled ? 'text' : 'primary'}
                         variant="body2"
                         sx={{ fontWeight: 700, display: 'block', mb: 0.5 }}
                       >
                         {p.description}
                       </Typography>
-                      <Typography component="span" color="secondary" variant="caption">
+                      <Typography component="span" color="text" variant="caption">
                         {USER_ROLE_LABEL[p.role]}
                       </Typography>
                     </StyledButton>

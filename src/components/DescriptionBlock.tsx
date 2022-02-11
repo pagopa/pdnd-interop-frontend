@@ -14,12 +14,12 @@ export const DescriptionBlock: FunctionComponent<DescriptionBlockProps> = ({
   children,
   label,
   tooltipLabel,
-  sx = { my: 4 },
+  sx = { my: 5 },
   childWrapperSx = { pt: 1 },
 }) => {
   return (
     <Box sx={sx}>
-      <Typography component="span" fontWeight={700} color="secondary">
+      <Typography component="span" fontWeight={700} color="text.secondary">
         {label}
       </Typography>
       {tooltipLabel && <InfoTooltip label={tooltipLabel} />}

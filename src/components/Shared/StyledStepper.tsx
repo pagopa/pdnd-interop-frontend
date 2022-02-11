@@ -1,6 +1,7 @@
 import React from 'react'
-import { Stepper, Step, StepLabel, Typography } from '@mui/material'
+import { Stepper, Step, StepLabel } from '@mui/material'
 import { StepperStep } from '../../../types'
+import { Box } from '@mui/system'
 
 type StepperProps = {
   steps: Array<StepperStep>
@@ -9,16 +10,14 @@ type StepperProps = {
 
 export function StyledStepper({ steps, activeIndex }: StepperProps) {
   return (
-    <Stepper activeStep={activeIndex} sx={{ py: 4 }} alternativeLabel>
-      {steps.map(({ label }) => (
-        <Step key={label}>
-          <StepLabel>
-            <Typography component="span" color="secondary" fontWeight={600} fontSize={14}>
-              {label}
-            </Typography>
-          </StepLabel>
-        </Step>
-      ))}
-    </Stepper>
+    <Box sx={{ borderTop: 1, borderBottom: 1, borderColor: '#bdbdbd', mb: 8, py: 6 }}>
+      <Stepper activeStep={activeIndex} alternativeLabel>
+        {steps.map(({ label }) => (
+          <Step key={label}>
+            <StepLabel>{label}</StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+    </Box>
   )
 }

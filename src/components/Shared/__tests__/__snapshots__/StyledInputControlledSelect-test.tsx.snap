@@ -4,20 +4,20 @@ exports[`Snapshot matches null 1`] = `null`;
 
 exports[`Snapshot matches select 1`] = `
 <div
-  className="MuiBox-root css-62igne"
+  className="MuiBox-root css-z727b5"
 >
   <div
     className="MuiFormControl-root MuiTextField-root css-136h9lv-MuiFormControl-root-MuiTextField-root"
   >
     <div
-      className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiSelect-root css-1480iag-MuiInputBase-root-MuiInput-root"
+      className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiSelect-root css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
       onClick={[Function]}
     >
       <div
         aria-expanded="false"
         aria-haspopup="listbox"
         aria-labelledby="test"
-        className="MuiSelect-select MuiSelect-standard MuiInput-input MuiInputBase-input css-1rxz5jq-MuiSelect-select-MuiInputBase-input-MuiInput-input"
+        className="MuiSelect-select MuiSelect-outlined MuiOutlinedInput-input MuiInputBase-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
         id="test"
         onBlur={[Function]}
         onFocus={[Function]}
@@ -48,7 +48,7 @@ exports[`Snapshot matches select 1`] = `
       />
       <svg
         aria-hidden={true}
-        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
         data-testid="ArrowDropDownIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -57,6 +57,23 @@ exports[`Snapshot matches select 1`] = `
           d="M7 10l5 5 5-5z"
         />
       </svg>
+      <fieldset
+        aria-hidden={true}
+        className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+      >
+        <legend
+          className="css-1a1ihhj"
+        >
+          <span
+            className="notranslate"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#8203;",
+              }
+            }
+          />
+        </legend>
+      </fieldset>
     </div>
   </div>
 </div>

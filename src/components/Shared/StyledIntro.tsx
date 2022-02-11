@@ -20,11 +20,11 @@ export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
 }) => {
   return (
     <Box sx={sx}>
-      <Typography variant={variant} sx={{ mb: 2 }} color="inherit">
+      <Typography variant={variant} color="inherit">
         {children.title}
       </Typography>
       {children.description && (
-        <Typography sx={{ mb: 0, maxWidth: 740 }} color="inherit">
+        <Typography sx={{ mt: 2, mb: 0, maxWidth: 740 }} color="inherit">
           {children.description}
         </Typography>
       )}

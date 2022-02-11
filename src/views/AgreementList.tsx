@@ -175,36 +175,40 @@ export function AgreementList() {
           noDataLabel="Non ci sono accordi disponibili"
           error={axiosErrorToError(error)}
         >
-          {data?.map((item, i) => (
-            <StyledTableRow
-              key={i}
-              cellData={[
-                { label: item.eservice.name },
-                { label: item.eservice.version },
-                { label: AGREEMENT_STATE_LABEL[item.state] },
-                { label: mode === 'provider' ? item.consumer.name : item.producer.name },
-              ]}
-            >
-              <StyledButton
-                variant="outlined"
-                size="small"
-                onClick={() => {
-                  history.push(
-                    buildDynamicPath(
-                      ROUTES[
-                        mode === 'provider' ? 'PROVIDE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_EDIT'
-                      ].PATH,
-                      { agreementId: item.id }
-                    )
-                  )
-                }}
+          {data &&
+            Boolean(data.length > 0) &&
+            data.map((item, i) => (
+              <StyledTableRow
+                key={i}
+                cellData={[
+                  { label: item.eservice.name },
+                  { label: item.eservice.version },
+                  { label: AGREEMENT_STATE_LABEL[item.state] },
+                  { label: mode === 'provider' ? item.consumer.name : item.producer.name },
+                ]}
               >
-                Ispeziona
-              </StyledButton>
+                <StyledButton
+                  variant="outlined"
+                  size="small"
+                  onClick={() => {
+                    history.push(
+                      buildDynamicPath(
+                        ROUTES[
+                          mode === 'provider'
+                            ? 'PROVIDE_AGREEMENT_EDIT'
+                            : 'SUBSCRIBE_AGREEMENT_EDIT'
+                        ].PATH,
+                        { agreementId: item.id }
+                      )
+                    )
+                  }}
+                >
+                  Ispeziona
+                </StyledButton>
 
-              <ActionMenu actions={getAvailableActions(item)} />
-            </StyledTableRow>
-          ))}
+                <ActionMenu actions={getAvailableActions(item)} />
+              </StyledTableRow>
+            ))}
         </TableWithLoader>
       </Box>
     </React.Fragment>

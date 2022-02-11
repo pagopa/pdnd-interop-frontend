@@ -229,33 +229,35 @@ export function EServiceList() {
           noDataLabel="Non ci sono servizi disponibili"
           error={axiosErrorToError(error)}
         >
-          {data?.map((item, i) => (
-            <StyledTableRow
-              key={i}
-              cellData={[
-                { label: item.name },
-                { label: item.version || '1' },
-                { label: ESERVICE_STATE_LABEL[item.state || 'DRAFT'] },
-              ]}
-            >
-              <StyledButton
-                variant="outlined"
-                size="small"
-                onClick={() => {
-                  history.push(
-                    buildDynamicPath(ROUTES.PROVIDE_ESERVICE_EDIT.PATH, {
-                      eserviceId: item.id,
-                      descriptorId: item.descriptorId || 'prima-bozza',
-                    })
-                  )
-                }}
+          {data &&
+            Boolean(data.length > 0) &&
+            data.map((item, i) => (
+              <StyledTableRow
+                key={i}
+                cellData={[
+                  { label: item.name },
+                  { label: item.version || '1' },
+                  { label: ESERVICE_STATE_LABEL[item.state || 'DRAFT'] },
+                ]}
               >
-                {!item.state || item.state === 'DRAFT' ? 'Modifica' : 'Ispeziona'}
-              </StyledButton>
+                <StyledButton
+                  variant="outlined"
+                  size="small"
+                  onClick={() => {
+                    history.push(
+                      buildDynamicPath(ROUTES.PROVIDE_ESERVICE_EDIT.PATH, {
+                        eserviceId: item.id,
+                        descriptorId: item.descriptorId || 'prima-bozza',
+                      })
+                    )
+                  }}
+                >
+                  {!item.state || item.state === 'DRAFT' ? 'Modifica' : 'Ispeziona'}
+                </StyledButton>
 
-              <ActionMenu actions={getAvailableActions(item)} />
-            </StyledTableRow>
-          ))}
+                <ActionMenu actions={getAvailableActions(item)} />
+              </StyledTableRow>
+            ))}
         </TableWithLoader>
       </Box>
     </React.Fragment>

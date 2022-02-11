@@ -56,7 +56,7 @@ export function StyledInputControlledSelect({
         select
         disabled={disabled}
         sx={{ width: '100%' }}
-        variant="standard"
+        variant="outlined"
         label={label}
         error={hasFieldError}
         inputProps={inputProps}

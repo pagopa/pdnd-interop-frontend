@@ -1,5 +1,4 @@
 import React from 'react'
-import { Paper } from '@mui/material'
 import { Box } from '@mui/system'
 import { StepperStep } from '../../types'
 import { PurposeWriteStep1General } from '../components/PurposeWriteStep1General'
@@ -40,9 +39,7 @@ export const PurposeCreate = () => {
   return (
     <Box sx={{ maxWidth: 860 }}>
       <StyledIntro>{{ title: 'Crea finalità' }}</StyledIntro>
-      <Paper sx={{ mb: 8 }}>
-        <StyledStepper steps={STEPS} activeIndex={activeStep} />
-      </Paper>
+      <StyledStepper steps={STEPS} activeIndex={activeStep} />
       <Contained>
         <StyledIntro variant="h2" sx={{ mb: 2, pb: 0 }}>
           {intro}

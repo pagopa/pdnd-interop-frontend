@@ -2,27 +2,27 @@
 
 exports[`Snapshot matches 1`] = `
 <div
-  className="MuiBox-root css-62igne"
+  className="MuiBox-root css-z727b5"
 >
   <div
     className="MuiFormControl-root MuiTextField-root css-136h9lv-MuiFormControl-root-MuiTextField-root"
   >
     <label
-      className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root"
-      data-shrink={false}
+      className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-1kty9di-MuiFormLabel-root-MuiInputLabel-root"
+      data-shrink={true}
       htmlFor="test"
       id="test-label"
     >
       Test testo
     </label>
     <div
-      className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1480iag-MuiInputBase-root-MuiInput-root"
+      className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
       onClick={[Function]}
     >
       <input
         aria-invalid={false}
         autoFocus={false}
-        className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
+        className="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
         disabled={false}
         id="test"
         name="test"
@@ -34,6 +34,18 @@ exports[`Snapshot matches 1`] = `
         rows={1}
         type="text"
       />
+      <fieldset
+        aria-hidden={true}
+        className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+      >
+        <legend
+          className="css-186xcr5"
+        >
+          <span>
+            Test testo
+          </span>
+        </legend>
+      </fieldset>
     </div>
   </div>
 </div>

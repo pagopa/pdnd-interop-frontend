@@ -90,7 +90,7 @@ export const StyledInputControlledAutocomplete = <T extends unknown>({
               label={label}
               {...params}
               placeholder={placeholder}
-              variant="standard"
+              variant="outlined"
               InputProps={{ ...params.InputProps }}
               error={Boolean(error)}
             />

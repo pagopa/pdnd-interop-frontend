@@ -106,7 +106,7 @@ export function EServiceWriteStep3DocumentsInterface({
       deleteDocument={deletePreviousInterfaceDoc}
     />
   ) : (
-    <Box sx={{ px: 2, py: 2, borderLeft: 6, borderColor: 'primary.main' }} bgcolor="common.white">
+    <Box sx={{ px: 2, py: 2, borderLeft: 4, borderColor: 'primary.main' }} bgcolor="common.white">
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
