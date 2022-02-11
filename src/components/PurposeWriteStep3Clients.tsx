@@ -105,18 +105,19 @@ export const PurposeWriteStep3Clients: FunctionComponent<ActiveStepProps> = ({ b
         <TableWithLoader
           loadingText={null}
           headData={headData}
-          noDataLabel="Nessun client presente"
+          noDataLabel="Nessun client associato"
         >
-          {formik.values.clients.map((client, i) => (
-            <StyledTableRow
-              key={i}
-              cellData={[{ label: client.name }, { label: CLIENT_STATE_LABEL[client.state] }]}
-            >
-              <StyledButton onClick={wrapRemove(client)}>
-                <DeleteOutlineIcon fontSize="small" sx={{ mr: 1 }} color="primary" />
-              </StyledButton>
-            </StyledTableRow>
-          ))}
+          {Boolean(formik.values.clients.length > 0) &&
+            formik.values.clients.map((client, i) => (
+              <StyledTableRow
+                key={i}
+                cellData={[{ label: client.name }, { label: CLIENT_STATE_LABEL[client.state] }]}
+              >
+                <StyledButton onClick={wrapRemove(client)}>
+                  <DeleteOutlineIcon fontSize="small" sx={{ mr: 1 }} color="primary" />
+                </StyledButton>
+              </StyledTableRow>
+            ))}
         </TableWithLoader>
         <StyledButton sx={{ mt: 2 }} variant="contained" onClick={showClientsDialog}>
           + Aggiungi
@@ -129,7 +130,7 @@ export const PurposeWriteStep3Clients: FunctionComponent<ActiveStepProps> = ({ b
       </StyledForm>
 
       <Paper sx={{ px: 3, py: 4, mt: 12 }} variant="outlined">
-        <StyledIntro variant="h2" sx={{ my: 0, pt: 0 }}>
+        <StyledIntro variant="h2">
           {{
             title: 'Azioni rapide di pubblicazione',
             description:
