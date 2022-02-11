@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { object, number } from 'yup'
-import { Tab, Tabs, Typography } from '@mui/material'
+import { Grid, Tab, Tabs, Typography } from '@mui/material'
 import { a11yProps, TabPanel } from '../components/TabPanel'
 import { useHistory, useLocation } from 'react-router-dom'
 import { buildDynamicPath, getBits } from '../lib/router-utils'
@@ -27,6 +27,7 @@ import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { formatDateString } from '../lib/date-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { DialogContext } from '../lib/context'
+import { DownloadList } from '../components/Shared/DownloadList'
 // import { axiosErrorToError } from '../lib/error-utils'
 // import { ActionMenu } from '../components/Shared/ActionMenu'
 
@@ -109,7 +110,7 @@ export const PurposeEdit = () => {
         value={activeTab}
         onChange={updateActiveTab}
         aria-label="Due tab diverse per i dettagli della finalità e i client associati"
-        sx={{ mb: 6 }}
+        sx={{ my: 6 }}
         variant="fullWidth"
       >
         <Tab label="Dettagli finalità" {...a11yProps(0)} />
@@ -117,85 +118,94 @@ export const PurposeEdit = () => {
       </Tabs>
 
       <TabPanel value={activeTab} index={0}>
-        <DescriptionBlock label="Questa finalità può accedere all’e-service dell’erogatore?">
-          <Typography component="span">{mockData && getComputedPurposeState(mockData)}</Typography>
-        </DescriptionBlock>
+        <Grid container columnSpacing={2}>
+          <Grid item xs={8}>
+            <DescriptionBlock label="Questa finalità può accedere all’e-service dell’erogatore?">
+              <Typography component="span">
+                {mockData && getComputedPurposeState(mockData)}
+              </Typography>
+            </DescriptionBlock>
 
-        <DescriptionBlock label="Stima di carico corrente">
-          <Typography component="span">
-            {mockData && formatThousands(mockData?.currentVersion.dailyCalls)} chiamate/giorno
-          </Typography>
-        </DescriptionBlock>
+            <DescriptionBlock label="Stima di carico corrente">
+              <Typography component="span">
+                {mockData && formatThousands(mockData?.currentVersion.dailyCalls)} chiamate/giorno
+              </Typography>
+            </DescriptionBlock>
 
-        <DescriptionBlock label="Descrizione">
-          <Typography component="span">{mockData?.description}</Typography>
-        </DescriptionBlock>
+            <DescriptionBlock label="Descrizione">
+              <Typography component="span">{mockData?.description}</Typography>
+            </DescriptionBlock>
 
-        <DescriptionBlock label="La versione dell'e-service che stai usando">
-          <StyledLink
-            to={buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
-              eserviceId: mockData?.eservice.id,
-              descriptorId: mockData?.eserviceDescriptor.id,
-            })}
-          >
-            {mockData?.eservice.name}, versione {mockData?.eserviceDescriptor.version}
-          </StyledLink>
-        </DescriptionBlock>
+            <DescriptionBlock label="La versione dell'e-service che stai usando">
+              <StyledLink
+                to={buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
+                  eserviceId: mockData?.eservice.id,
+                  descriptorId: mockData?.eserviceDescriptor.id,
+                })}
+              >
+                {mockData?.eservice.name}, versione {mockData?.eserviceDescriptor.version}
+              </StyledLink>
+            </DescriptionBlock>
 
-        <DescriptionBlock label="Richiesta di fruizione">
-          <StyledLink
-            to={buildDynamicPath(ROUTES.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
-              agreementId: mockData?.agreement.id,
-            })}
-          >
-            Vedi richiesta
-          </StyledLink>
-        </DescriptionBlock>
+            <DescriptionBlock label="Richiesta di fruizione">
+              <StyledLink
+                to={buildDynamicPath(ROUTES.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
+                  agreementId: mockData?.agreement.id,
+                })}
+              >
+                Vedi richiesta
+              </StyledLink>
+            </DescriptionBlock>
 
-        <DescriptionBlock label="Stato della finalità">
-          <Typography component="span">
-            {mockData && PURPOSE_STATE_LABEL[mockData.currentVersion.state]}
-          </Typography>
-        </DescriptionBlock>
+            <DescriptionBlock label="Stato della finalità">
+              <Typography component="span">
+                {mockData && PURPOSE_STATE_LABEL[mockData.currentVersion.state]}
+              </Typography>
+            </DescriptionBlock>
 
-        {mockData && (
-          <DescriptionBlock label="Analisi del rischio">
-            <StyledButton onClick={downloadDocument}>
-              <Typography component="span">Scarica il documento di interfaccia</Typography>
-            </StyledButton>
-          </DescriptionBlock>
-        )}
-
-        {mockData && mockData.awaitingApproval && (
-          <DescriptionBlock label="Richiesta di aggiornamento">
-            <Typography component="span">
-              Stima di carico: {formatThousands(mockData.mostRecentVersion.dailyCalls)}{' '}
-              chiamate/giorno
-            </Typography>
-            <br />
-            <Typography component="span">
-              {mockData.mostRecentVersion.approvalDateEstimate
-                ? `Data di approvazione stimata: ${formatDateString(
-                    mockData.mostRecentVersion.approvalDateEstimate
-                  )}`
-                : 'Non è stata determinata una data di approvazione'}
-            </Typography>
-          </DescriptionBlock>
-        )}
-
-        {mockData && mockData.versions.length > 1 && (
-          <DescriptionBlock label="Storico di questa finalità">
-            {mockData.versions.map((v, i) => {
-              const date = v.approvalDate || v.approvalDateEstimate
-              return (
-                <Typography component="span" key={i} sx={{ display: 'inline-block' }}>
-                  {v.dailyCalls} chiamate/giorno; data di approvazione:{' '}
-                  {date && formatDateString(date)}
+            {mockData && mockData.awaitingApproval && (
+              <DescriptionBlock label="Richiesta di aggiornamento">
+                <Typography component="span">
+                  Stima di carico: {formatThousands(mockData.mostRecentVersion.dailyCalls)}{' '}
+                  chiamate/giorno
                 </Typography>
-              )
-            })}
-          </DescriptionBlock>
-        )}
+                <br />
+                <Typography component="span">
+                  {mockData.mostRecentVersion.approvalDateEstimate
+                    ? `Data di approvazione stimata: ${formatDateString(
+                        mockData.mostRecentVersion.approvalDateEstimate
+                      )}`
+                    : 'Non è stata determinata una data di approvazione'}
+                </Typography>
+              </DescriptionBlock>
+            )}
+
+            {mockData && mockData.versions.length > 1 && (
+              <DescriptionBlock label="Storico di questa finalità">
+                {mockData.versions.map((v, i) => {
+                  const date = v.approvalDate || v.approvalDateEstimate
+                  return (
+                    <Typography component="span" key={i} sx={{ display: 'inline-block' }}>
+                      {v.dailyCalls} chiamate/giorno; data di approvazione:{' '}
+                      {date && formatDateString(date)}
+                    </Typography>
+                  )
+                })}
+              </DescriptionBlock>
+            )}
+          </Grid>
+
+          <Grid item xs={4} sx={{ mt: 5 }}>
+            <DownloadList
+              downloads={[
+                {
+                  label: 'Analisi del rischio',
+                  onClick: downloadDocument,
+                },
+              ]}
+            />
+          </Grid>
+        </Grid>
 
         <Box sx={{ mt: 4, display: 'flex' }}>
           <StyledButton

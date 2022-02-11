@@ -16,7 +16,6 @@ import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useMode } from '../hooks/useMode'
 import { DialogContext, PartyContext } from '../lib/context'
-import { minutesToHHMMSS } from '../lib/date-utils'
 import { canSubscribe } from '../lib/attributes'
 import { isAdmin } from '../lib/auth-utils'
 import { downloadFile } from '../lib/file-utils'
@@ -24,14 +23,14 @@ import { AxiosResponse } from 'axios'
 import { StyledAccordion } from '../components/Shared/StyledAccordion'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { Skeleton, Typography } from '@mui/material'
+import { Grid, Skeleton, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { FileDownloadOutlined as FileDownloadOutlinedIcon } from '@mui/icons-material'
 import { ATTRIBUTE_TYPE_PLURAL_LABEL, ESERVICE_STATE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
 import { Contained } from '../components/Shared/Contained'
 import { object, boolean } from 'yup'
 import { isTrue } from '../lib/validation-config'
+import { DownloadList } from '../components/Shared/DownloadList'
 
 type EServiceReadProps = {
   data: EServiceReadType
@@ -159,95 +158,72 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
     <React.Fragment>
       <StyledIntro>{{ title: data.name, description: DESCRIPTIONS[currentMode] }}</StyledIntro>
 
-      <DescriptionBlock label="Descrizione dell'e-service">
-        <Typography component="span">{data.description}</Typography>
-      </DescriptionBlock>
+      <Grid container columnSpacing={2}>
+        <Grid item xs={8}>
+          <DescriptionBlock label="Descrizione dell'e-service">
+            <Typography component="span">{data.description}</Typography>
+          </DescriptionBlock>
 
-      <DescriptionBlock label="Ente erogatore">
-        <Typography component="span">{data.producer.name}</Typography>
-      </DescriptionBlock>
+          <DescriptionBlock label="Ente erogatore">
+            <Typography component="span">{data.producer.name}</Typography>
+          </DescriptionBlock>
 
-      <DescriptionBlock label="Versione">
-        <Typography component="span">{activeDescriptor.version}</Typography>
-      </DescriptionBlock>
+          <DescriptionBlock label="Versione">
+            <Typography component="span">{activeDescriptor.version}</Typography>
+          </DescriptionBlock>
 
-      <DescriptionBlock label="Stato della versione">
-        <Typography component="span">{ESERVICE_STATE_LABEL[activeDescriptor.state]}</Typography>
-      </DescriptionBlock>
+          <DescriptionBlock label="Stato della versione">
+            <Typography component="span">{ESERVICE_STATE_LABEL[activeDescriptor.state]}</Typography>
+          </DescriptionBlock>
 
-      <DescriptionBlock label="Audience">
-        <Typography component="span">{activeDescriptor.audience.join(', ')}</Typography>
-      </DescriptionBlock>
+          <DescriptionBlock label="Audience">
+            <Typography component="span">{activeDescriptor.audience.join(', ')}</Typography>
+          </DescriptionBlock>
 
-      <DescriptionBlock label="Tecnologia">
-        <Typography component="span">{data.technology}</Typography>
-      </DescriptionBlock>
+          <DescriptionBlock label="Tecnologia">
+            <Typography component="span">{data.technology}</Typography>
+          </DescriptionBlock>
 
-      <DescriptionBlock label="Durata del voucher dall'attivazione">
-        <Typography component="span">
-          {minutesToHHMMSS(activeDescriptor.voucherLifespan)} (hh:mm:ss)
-        </Typography>
-      </DescriptionBlock>
+          <DescriptionBlock label="Durata del voucher">
+            <Typography component="span">{activeDescriptor.voucherLifespan} minuti</Typography>
+          </DescriptionBlock>
 
-      <DescriptionBlock label="Richiesta di fruizione">
-        <a className="fakeData" href="#0" target="_blank">
-          Scarica
-        </a>
-      </DescriptionBlock>
-
-      {activeDescriptor.interface && (
-        <DescriptionBlock label="Interfaccia">
-          <StyledButton onClick={wrapDownloadDocument(activeDescriptor.interface.id)}>
-            <Typography component="span">Scarica il documento di interfaccia</Typography>
-          </StyledButton>
-        </DescriptionBlock>
-      )}
-
-      {Boolean(activeDescriptor.docs.length > 0) && (
-        <DescriptionBlock label="Documentazione">
-          {activeDescriptor.docs.map((d, i) => (
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                borderBottom: 1,
-                borderColor: 'divider',
-                mt: i === 0 ? 2 : 0,
-              }}
-              key={i}
-            >
-              <Box sx={{ py: 1, my: 1 }}>
-                <strong>{d.name}</strong>
-                {d.description !== 'undefined' && (
-                  <React.Fragment>
-                    <br />
-                    <Typography sx={{ display: 'inline-block', mt: 1, mb: 1 }}>
-                      {decodeURIComponent(d.description)}
-                    </Typography>
-                  </React.Fragment>
+          {(Object.keys(data.attributes) as Array<AttributeKey>).map((key, i) => (
+            <DescriptionBlock key={i} label={`Attributi ${ATTRIBUTE_TYPE_PLURAL_LABEL[key]}`}>
+              <Contained>
+                {data.attributes[key].length > 0 ? (
+                  <Box sx={{ mt: 1 }}>
+                    <StyledAccordion entries={toAccordionEntries(data.attributes[key])} />
+                  </Box>
+                ) : (
+                  <Typography component="span">Nessun attributo presente</Typography>
                 )}
-              </Box>
-              <StyledButton onClick={wrapDownloadDocument(d.id)}>
-                <FileDownloadOutlinedIcon fontSize="small" sx={{ mr: 1 }} color="primary" />
-              </StyledButton>
-            </Box>
+              </Contained>
+            </DescriptionBlock>
           ))}
-        </DescriptionBlock>
-      )}
+        </Grid>
 
-      {(Object.keys(data.attributes) as Array<AttributeKey>).map((key, i) => (
-        <DescriptionBlock key={i} label={`Attributi ${ATTRIBUTE_TYPE_PLURAL_LABEL[key]}`}>
-          <Contained>
-            {data.attributes[key].length > 0 ? (
-              <Box sx={{ mt: 1 }}>
-                <StyledAccordion entries={toAccordionEntries(data.attributes[key])} />
-              </Box>
-            ) : (
-              <Typography component="span">Nessun attributo presente</Typography>
-            )}
-          </Contained>
-        </DescriptionBlock>
-      ))}
+        <Grid item xs={4} sx={{ mt: 5 }}>
+          <DownloadList
+            downloads={[
+              {
+                label: 'Richiesta di fruizione',
+                onClick: () => {
+                  console.log('download richiesta di fruizione')
+                },
+              },
+              {
+                label: 'Documento di interfaccia',
+                onClick: wrapDownloadDocument(activeDescriptor.interface.id),
+              },
+              ...activeDescriptor.docs.map((d) => ({
+                label: d.description,
+                onClick: wrapDownloadDocument(d.id),
+              })),
+            ]}
+          />
+        </Grid>
+      </Grid>
 
       {mode === 'subscriber' && (
         <Box sx={{ display: 'flex' }}>

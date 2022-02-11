@@ -1,5 +1,4 @@
 import React from 'react'
-import { Box } from '@mui/system'
 import { StepperStep } from '../../types'
 import { PurposeWriteStep1General } from '../components/PurposeWriteStep1General'
 import { PurposeWriteStep2RiskAnalysis } from '../components/PurposeWriteStep2RiskAnalysis'
@@ -37,7 +36,7 @@ export const PurposeCreate = () => {
   const stepProps = { forward, back }
 
   return (
-    <Box sx={{ maxWidth: 860 }}>
+    <React.Fragment>
       <StyledIntro>{{ title: 'Crea finalità' }}</StyledIntro>
       <StyledStepper steps={STEPS} activeIndex={activeStep} />
       <Contained>
@@ -46,6 +45,6 @@ export const PurposeCreate = () => {
         </StyledIntro>
         <Step {...stepProps} />
       </Contained>
-    </Box>
+    </React.Fragment>
   )
 }

@@ -73,7 +73,7 @@ export function ClientCreate() {
   const headData = ['Nome e cognome']
 
   return (
-    <Box sx={{ maxWidth: 860 }}>
+    <React.Fragment>
       <StyledIntro>
         {{
           title: `Crea nuovo client`,
@@ -145,6 +145,6 @@ export function ClientCreate() {
           </StyledButton>
         </Box>
       </StyledForm>
-    </Box>
+    </React.Fragment>
   )
 }

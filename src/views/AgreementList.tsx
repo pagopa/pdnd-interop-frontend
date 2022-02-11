@@ -146,9 +146,8 @@ export function AgreementList() {
 
   const headData = [
     'nome e-service',
-    'versione e-service',
-    'stato accordo',
     mode === 'provider' ? 'ente fruitore' : 'ente erogatore',
+    'stato accordo',
   ]
 
   const INTRO: Record<ProviderOrSubscriber, StyledIntroChildrenProps> = {
@@ -182,9 +181,8 @@ export function AgreementList() {
                 key={i}
                 cellData={[
                   { label: item.eservice.name },
-                  { label: item.eservice.version },
-                  { label: AGREEMENT_STATE_LABEL[item.state] },
                   { label: mode === 'provider' ? item.consumer.name : item.producer.name },
+                  { label: AGREEMENT_STATE_LABEL[item.state] },
                 ]}
               >
                 <StyledButton
