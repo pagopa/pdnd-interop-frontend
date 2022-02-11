@@ -9,6 +9,7 @@ import {
   DialogNewAttributeProps,
   DialogProps,
   DialogSubscribeProps,
+  DialogUpdatePurposeDailyCallsProps,
 } from '../../../types'
 import { StyledDialogExtension } from './StyledDialogExtension'
 import { StyledDialogBasic } from './StyledDialogBasic'
@@ -18,6 +19,7 @@ import { StyledDialogExistingAttribute } from './StyledDialogExistingAttribute'
 import { StyledDialogNewAttribute } from './StyledDialogNewAttribute'
 import { StyledDialogAddSecurityOperator } from './StyledDialogAddSecurityOperator'
 import { StyledDialogAddClients } from './StyledDialogAddClients'
+import { StyledDialogUpdatePurposeDailyCalls } from './StyledDialogUpdatePurposeDailyCalls'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -27,7 +29,8 @@ function match<T>(
   onExistingAttribute: (props: DialogExistingAttributeProps) => T,
   onNewAttribute: (props: DialogNewAttributeProps) => T,
   onAddSecurityOperator: (props: DialogAddSecurityOperatorProps) => T,
-  onAddClients: (props: DialogAddClientsProps) => T
+  onAddClients: (props: DialogAddClientsProps) => T,
+  onUpdatePurposeDailyCalls: (props: DialogUpdatePurposeDailyCallsProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -47,6 +50,8 @@ function match<T>(
         return onAddSecurityOperator(props)
       case 'addClients':
         return onAddClients(props)
+      case 'updatePurposeDailyCalls':
+        return onUpdatePurposeDailyCalls(props)
     }
   }
 }
@@ -59,5 +64,6 @@ export const StyledDialog = match(
   (props) => <StyledDialogExistingAttribute {...props} />,
   (props) => <StyledDialogNewAttribute {...props} />,
   (props) => <StyledDialogAddSecurityOperator {...props} />,
-  (props) => <StyledDialogAddClients {...props} />
+  (props) => <StyledDialogAddClients {...props} />,
+  (props) => <StyledDialogUpdatePurposeDailyCalls {...props} />
 )

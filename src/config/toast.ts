@@ -249,6 +249,19 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     },
   },
   PURPOSE_DRAFT_CREATE: { loadingText: 'Stiamo creando la finalità richiesta' },
+  PURPOSE_DAILY_CALLS_UPDATE: {
+    loadingText: 'Stiamo aggiornando la stima di carico',
+    success: {
+      title: 'Richiesta registrata',
+      description:
+        "Se over quota rispetto alla disponibilità dell'erogatore, la nuova stima di carico risulterà in attesa di approvazione. In caso contrario, sarà immediatamente utilizzabile",
+    },
+    error: {
+      title: "C'è stato un problema",
+      description:
+        'Non è stato possibile aggiornare la stima di carico per la finalità richiesta. Per favore, riprova!',
+    },
+  },
   PURPOSE_VERSION_DRAFT_PUBLISH: {
     loadingText: 'Stiamo aggiornando la bozza',
     success: {

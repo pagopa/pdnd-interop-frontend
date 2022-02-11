@@ -1,7 +1,14 @@
 import { Box } from '@mui/system'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { ActionProps, DecoratedPurpose, Purpose, PurposeState } from '../../types'
+import { number, object } from 'yup'
+import {
+  ActionProps,
+  DecoratedPurpose,
+  DialogUpdatePurposeDailyCallsFormInputValues,
+  Purpose,
+  PurposeState,
+} from '../../types'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledIntro } from '../components/Shared/StyledIntro'
@@ -12,6 +19,7 @@ import { PURPOSE_STATE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
+import { DialogContext } from '../lib/context'
 import { formatThousands } from '../lib/number-utils'
 import { decoratePurposeWithMostRecentVersion } from '../lib/purpose'
 import { buildDynamicPath } from '../lib/router-utils'
@@ -20,7 +28,8 @@ import { mockPurposeList } from '../temp/mock-purpose'
 
 export const PurposeList = () => {
   const history = useHistory()
-  const { wrapActionInDialog, runAction } = useFeedback()
+  const { wrapActionInDialog, runAction, runFakeAction } = useFeedback()
+  const { setDialog } = useContext(DialogContext)
 
   const { data, loadingText /*, error */ } = useAsyncFetch<Array<Purpose>>(
     {
@@ -44,6 +53,18 @@ export const PurposeList = () => {
   /*
    * List of possible actions for the user to perform
    */
+  const wrapUpdateDailyCalls = (purposeId: string) => async () => {
+    setDialog({
+      type: 'updatePurposeDailyCalls',
+      initialValues: { dailyCalls: 0 },
+      validationSchema: object({ dailyCalls: number().required() }),
+      onSubmit: async (data: DialogUpdatePurposeDailyCallsFormInputValues) => {
+        console.log({ data, purposeId })
+        await runFakeAction('Aggiornamento stima di carico')
+      },
+    })
+  }
+
   const wrapDelete = (purposeId: string) => async () => {
     await runAction(
       {
@@ -63,10 +84,15 @@ export const PurposeList = () => {
       label: 'Elimina',
     }
 
+    const updateDailyCallsAction = {
+      onClick: wrapUpdateDailyCalls(purpose.id),
+      label: 'Aggiorna stima di carico',
+    }
+
     const availableActions: Record<PurposeState, Array<ActionProps>> = {
-      ACTIVE: [deleteAction],
+      ACTIVE: [deleteAction, updateDailyCallsAction],
       SUSPENDED: [],
-      WAITING_FOR_APPROVAL: [deleteAction],
+      WAITING_FOR_APPROVAL: [deleteAction, updateDailyCallsAction],
       ARCHIVED: [],
     }
 

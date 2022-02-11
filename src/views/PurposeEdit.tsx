@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { object, number } from 'yup'
 import { Tab, Tabs, Typography } from '@mui/material'
 import { a11yProps, TabPanel } from '../components/TabPanel'
 import { useHistory, useLocation } from 'react-router-dom'
 import { buildDynamicPath, getBits } from '../lib/router-utils'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { mockPurpose1 } from '../temp/mock-purpose'
-import { DecoratedPurpose, Purpose } from '../../types'
+import {
+  DecoratedPurpose,
+  DialogUpdatePurposeDailyCallsFormInputValues,
+  Purpose,
+} from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { decoratePurposeWithMostRecentVersion, getComputedPurposeState } from '../lib/purpose'
 import { formatThousands } from '../lib/number-utils'
@@ -21,6 +26,7 @@ import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { formatDateString } from '../lib/date-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
+import { DialogContext } from '../lib/context'
 // import { axiosErrorToError } from '../lib/error-utils'
 // import { ActionMenu } from '../components/Shared/ActionMenu'
 
@@ -28,7 +34,8 @@ export const PurposeEdit = () => {
   const history = useHistory()
   const [mockData, setMockData] = useState<DecoratedPurpose>()
   const location = useLocation()
-  const { runAction, wrapActionInDialog } = useFeedback()
+  const { runAction, wrapActionInDialog, runFakeAction } = useFeedback()
+  const { setDialog } = useContext(DialogContext)
   const [activeTab, setActiveTab] = useState(0)
   const locationBits = getBits(location)
   const purposeId = locationBits[locationBits.length - 1]
@@ -78,6 +85,18 @@ export const PurposeEdit = () => {
 
   const archive = async () => {
     //
+  }
+
+  const updateDailyCalls = () => {
+    setDialog({
+      type: 'updatePurposeDailyCalls',
+      initialValues: { dailyCalls: 0 },
+      validationSchema: object({ dailyCalls: number().required() }),
+      onSubmit: async (data: DialogUpdatePurposeDailyCallsFormInputValues) => {
+        console.log({ data, purposeId })
+        await runFakeAction('Aggiornamento stima di carico')
+      },
+    })
   }
 
   const headData = ['nome client', 'stato']
@@ -185,6 +204,10 @@ export const PurposeEdit = () => {
             onClick={wrapActionInDialog(suspend, 'PURPOSE_SUSPEND')}
           >
             Sospendi
+          </StyledButton>
+
+          <StyledButton variant="outlined" sx={{ mr: 2 }} onClick={updateDailyCalls}>
+            Aggiorna stima di carico
           </StyledButton>
 
           <StyledButton

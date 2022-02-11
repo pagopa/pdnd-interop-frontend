@@ -44,6 +44,7 @@ export type ApiEndpointKey =
   | 'PURPOSE_GET_LIST'
   | 'PURPOSE_GET_SINGLE'
   | 'PURPOSE_DRAFT_CREATE'
+  | 'PURPOSE_DAILY_CALLS_UPDATE'
   | 'PURPOSE_VERSION_DRAFT_DELETE'
   | 'PURPOSE_VERSION_DRAFT_UPDATE'
   | 'PURPOSE_VERSION_DRAFT_PUBLISH'
@@ -582,6 +583,18 @@ export type DialogProps =
   | DialogNewAttributeProps
   | DialogAddSecurityOperatorProps
   | DialogAddClientsProps
+  | DialogUpdatePurposeDailyCallsProps
+
+export type DialogUpdatePurposeDailyCallsProps = {
+  type: 'updatePurposeDailyCalls'
+  onSubmit: (data: DialogUpdatePurposeDailyCallsFormInputValues) => void
+  initialValues: DialogUpdatePurposeDailyCallsFormInputValues
+  validationSchema: SchemaOf<DialogUpdatePurposeDailyCallsFormInputValues>
+}
+
+export type DialogUpdatePurposeDailyCallsFormInputValues = {
+  dailyCalls: number
+}
 
 export type DialogAddClientsProps = {
   type: 'addClients'
@@ -687,6 +700,7 @@ export type DialogActionKeys = Exclude<
   | 'PURPOSE_GET_LIST'
   | 'PURPOSE_GET_SINGLE'
   | 'PURPOSE_DRAFT_CREATE'
+  | 'PURPOSE_DAILY_CALLS_UPDATE'
   | 'PURPOSE_VERSION_DRAFT_UPDATE'
   | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
   | 'CLIENT_GET_LIST'
