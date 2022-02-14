@@ -224,7 +224,7 @@ export type EServiceTechnologyType = 'REST' | 'SOAP'
 export type EServiceNoDescriptorId = 'prima-bozza'
 
 // Write only
-export type EServiceWriteType = {
+export type EServiceCreateType = {
   id: string
   name: string
   version: string

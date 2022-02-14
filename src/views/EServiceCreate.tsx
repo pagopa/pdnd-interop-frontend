@@ -1,25 +1,25 @@
 import React from 'react'
 import { Box } from '@mui/system'
 import { EServiceReadType, StepperStep } from '../../types'
-import { EServiceWriteStep1General } from '../components/EServiceWriteStep1General'
-import { EServiceWriteStep2Version } from '../components/EServiceWriteStep2Version'
-import { EServiceWriteStep3Documents } from '../components/EServiceWriteStep3Documents'
+import { EServiceCreateStep1General } from '../components/EServiceCreateStep1General'
+import { EServiceCreateStep2Version } from '../components/EServiceCreateStep2Version'
+import { EServiceCreateStep3Documents } from '../components/EServiceCreateStep3Documents'
 import { StyledStepper } from '../components/Shared/StyledStepper'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { Contained } from '../components/Shared/Contained'
 import { ActiveStepProps } from '../hooks/useActiveStep'
 
 const STEPS: Array<StepperStep> = [
-  { label: 'Generale', component: EServiceWriteStep1General },
-  { label: 'Versione', component: EServiceWriteStep2Version },
-  { label: 'Documentazione', component: EServiceWriteStep3Documents },
+  { label: 'Generale', component: EServiceCreateStep1General },
+  { label: 'Versione', component: EServiceCreateStep2Version },
+  { label: 'Documentazione', component: EServiceCreateStep3Documents },
 ]
 
-export type EServiceWriteProps = ActiveStepProps & {
+export type EServiceCreateProps = ActiveStepProps & {
   fetchedData?: EServiceReadType
 }
 
-export function EServiceWrite({ fetchedData, back, forward, activeStep }: EServiceWriteProps) {
+export function EServiceCreate({ fetchedData, back, forward, activeStep }: EServiceCreateProps) {
   const stepProps = { forward, back, fetchedData }
   const { component: Step } = STEPS[activeStep]
 

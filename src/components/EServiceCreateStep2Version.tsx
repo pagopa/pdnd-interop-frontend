@@ -15,7 +15,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledForm } from './Shared/StyledForm'
 import { ROUTES } from '../config/routes'
 import { StepActions } from './Shared/StepActions'
-import { EServiceWriteProps } from '../views/EServiceWrite'
+import { EServiceCreateProps } from '../views/EServiceCreate'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 
 type VersionData = {
@@ -26,11 +26,11 @@ type VersionData = {
   dailyCalls: number
 }
 
-export function EServiceWriteStep2Version({
+export function EServiceCreateStep2Version({
   forward,
   back,
   fetchedData,
-}: StepperStepComponentProps & EServiceWriteProps) {
+}: StepperStepComponentProps & EServiceCreateProps) {
   const history = useHistory()
   const { runActionWithCallback } = useFeedback()
 

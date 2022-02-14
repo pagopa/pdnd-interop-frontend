@@ -28,6 +28,7 @@ import { formatDateString } from '../lib/date-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { DialogContext } from '../lib/context'
 import { DownloadList } from '../components/Shared/DownloadList'
+import { useActiveTab } from '../hooks/useActiveTab'
 // import { axiosErrorToError } from '../lib/error-utils'
 // import { ActionMenu } from '../components/Shared/ActionMenu'
 
@@ -37,7 +38,7 @@ export const PurposeEdit = () => {
   const location = useLocation()
   const { runAction, wrapActionInDialog, runFakeAction } = useFeedback()
   const { setDialog } = useContext(DialogContext)
-  const [activeTab, setActiveTab] = useState(0)
+  const { activeTab, updateActiveTab } = useActiveTab()
   const locationBits = getBits(location)
   const purposeId = locationBits[locationBits.length - 1]
   const { data /*, error */ } = useAsyncFetch<Purpose>(
@@ -55,10 +56,6 @@ export const PurposeEdit = () => {
       setMockData(decorated)
     }
   }, [data])
-
-  const updateActiveTab = (_: React.SyntheticEvent, newTab: number) => {
-    setActiveTab(newTab)
-  }
 
   const downloadDocument = async () => {
     const { response, outcome } = await runAction(

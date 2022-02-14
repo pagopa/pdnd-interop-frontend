@@ -21,7 +21,7 @@ import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { StyledInputControlledFile } from './Shared/StyledInputControlledFile'
 import { Typography } from '@mui/material'
 
-type EServiceWriteStep3DocumentsDocProps = {
+type EServiceCreateStep3DocumentsDocProps = {
   data: EServiceReadType
   uploadDescriptorDocument: (document: EServiceDocumentWrite) => Promise<RunActionOutput>
   deleteDescriptorDocument: (documentId: string) => Promise<RunActionOutput>
@@ -33,12 +33,12 @@ type InputValues = {
   description?: string
 }
 
-export function EServiceWriteStep3DocumentsDoc({
+export function EServiceCreateStep3DocumentsDoc({
   data,
   uploadDescriptorDocument,
   deleteDescriptorDocument,
   activeDescriptorId,
-}: EServiceWriteStep3DocumentsDocProps) {
+}: EServiceCreateStep3DocumentsDocProps) {
   const validationSchema = object({
     doc: mixed().required(),
     description: string().required(),

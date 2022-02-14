@@ -1,129 +1,56 @@
 import React, { useContext } from 'react'
-import isEmpty from 'lodash/isEmpty'
-import has from 'lodash/has'
 import {
-  AttributeKey,
-  BackendAttribute,
   DialogSubscribeProps,
-  EServiceDescriptorRead,
   EServiceReadType,
   EserviceSubscribeFormInputValues,
-  GroupBackendAttribute,
-  ProviderOrSubscriber,
-  SingleBackendAttribute,
 } from '../../types'
-import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { useMode } from '../hooks/useMode'
 import { DialogContext, PartyContext } from '../lib/context'
 import { canSubscribe } from '../lib/attributes'
 import { isAdmin } from '../lib/auth-utils'
-import { downloadFile } from '../lib/file-utils'
-import { AxiosResponse } from 'axios'
-import { StyledAccordion } from '../components/Shared/StyledAccordion'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { Grid, Skeleton, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { ATTRIBUTE_TYPE_PLURAL_LABEL, ESERVICE_STATE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
-import { Contained } from '../components/Shared/Contained'
 import { object, boolean } from 'yup'
 import { isTrue } from '../lib/validation-config'
-import { DownloadList } from '../components/Shared/DownloadList'
+import { EServiceContentInfo } from '../components/Shared/EServiceContentInfo'
+import { useAsyncFetch } from '../hooks/useAsyncFetch'
+import {
+  decorateEServiceWithActiveDescriptor,
+  getEserviceAndDescriptorFromUrl,
+} from '../lib/eservice-utils'
+import { useLocation } from 'react-router-dom'
+import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
+import { NotFound } from './NotFound'
 
-type EServiceReadProps = {
-  data: EServiceReadType
-  isLoading: boolean
-}
-
-export function EServiceRead({ data, isLoading }: EServiceReadProps) {
-  const { runAction, runActionWithDestination } = useFeedback()
+export function EServiceRead() {
+  const { runActionWithDestination } = useFeedback()
   const { party } = useContext(PartyContext)
   const { setDialog } = useContext(DialogContext)
-  const mode = useMode()
-  const currentMode = mode as ProviderOrSubscriber
-  const activeDescriptor = data.activeDescriptor as EServiceDescriptorRead
 
-  const DESCRIPTIONS = {
-    provider: "Nota: questa versione dell'e-service non è più modificabile",
-    subscriber: `${
-      party?.partyId === data.producer.id ? "Nota: sei l'erogatore di questo e-service" : ''
-    }`,
-  }
-
-  // Get all documents actual URL
-  const wrapDownloadDocument = (documentId: string) => async () => {
-    const { response, outcome } = await runAction(
-      {
-        path: {
-          endpoint: 'ESERVICE_VERSION_DOWNLOAD_DOCUMENT',
-          endpointParams: {
-            eserviceId: data.id,
-            descriptorId: activeDescriptor.id,
-            documentId,
-          },
-        },
-      },
-      { suppressToast: true }
-    )
-
-    if (outcome === 'success') {
-      downloadFile((response as AxiosResponse).data, 'document')
+  const location = useLocation()
+  const { eserviceId, descriptorId } = getEserviceAndDescriptorFromUrl(location)
+  const { data, error } = useAsyncFetch<EServiceReadType>(
+    {
+      path: { endpoint: 'ESERVICE_GET_SINGLE', endpointParams: { eserviceId } },
+    },
+    {
+      mapFn: decorateEServiceWithActiveDescriptor(descriptorId),
+      loadingTextLabel: 'Stiamo caricando il tuo e-service',
     }
-  }
+  )
 
-  if (isEmpty(data) || !party) {
-    return null
-  }
-
-  const canSubscribeEservice = canSubscribe(party.attributes, data.attributes.certified)
-  const isMine = data.producer.id === party?.partyId
-  const isVersionPublished = data.activeDescriptor?.state === 'PUBLISHED'
-
-  const toAccordionEntries = (attributes: Array<BackendAttribute>) => {
-    return attributes.map((attribute) => {
-      const isSingle = has(attribute, 'single')
-
-      const labels = isSingle
-        ? [(attribute as SingleBackendAttribute).single]
-        : (attribute as GroupBackendAttribute).group
-
-      let summary = ''
-      let details: string | JSX.Element = ''
-      if (labels.length === 1) {
-        const { name, description, explicitAttributeVerification } = labels[0]
-        summary = `${name} ${explicitAttributeVerification ? ' (verifica richiesta)' : ''}`
-        details = description
-      } else {
-        summary = `${labels.map(({ name }) => name).join(' oppure ')}${
-          labels[0].explicitAttributeVerification ? ' (verifica richiesta)' : ''
-        }`
-        details = (
-          <React.Fragment>
-            {labels.map((label, i) => {
-              return (
-                <Box sx={{ mb: i !== labels.length - 1 ? 2 : 0 }} key={i}>
-                  <Typography component="span" sx={{ fontWeight: 700 }}>
-                    {label.name}
-                  </Typography>
-                  : {label.description}
-                </Box>
-              )
-            })}
-          </React.Fragment>
-        )
-      }
-
-      return { summary, details }
-    })
-  }
+  const canSubscribeEservice =
+    party && data && canSubscribe(party.attributes, data.attributes.certified)
+  const isMine = data?.producer.id === party?.partyId
+  const isVersionPublished = data?.activeDescriptor?.state === 'PUBLISHED'
 
   const handleSubscriptionDialog = () => {
     const subscribe = async () => {
       const agreementData = {
-        eserviceId: data.id,
-        descriptorId: data.activeDescriptor?.id,
+        eserviceId: data?.id,
+        descriptorId: data?.activeDescriptor?.id,
         consumerId: party?.partyId,
       }
 
@@ -150,105 +77,51 @@ export function EServiceRead({ data, isLoading }: EServiceReadProps) {
     } as DialogSubscribeProps)
   }
 
-  if (isLoading) {
-    return <Skeleton height={400} />
+  if (!data) {
+    return <StyledSkeleton />
+  }
+
+  if (error) {
+    return <NotFound errorType="server-error" />
   }
 
   return (
     <React.Fragment>
-      <StyledIntro>{{ title: data.name, description: DESCRIPTIONS[currentMode] }}</StyledIntro>
+      <StyledIntro>
+        {{
+          title: data?.name,
+          description: `${
+            party?.partyId === data?.producer.id
+              ? "Nota: sei l'erogatore di questo e-service"
+              : undefined
+          }`,
+        }}
+      </StyledIntro>
 
-      <Grid container columnSpacing={2}>
-        <Grid item xs={8}>
-          <DescriptionBlock label="Descrizione dell'e-service">
-            <Typography component="span">{data.description}</Typography>
-          </DescriptionBlock>
+      {data && <EServiceContentInfo data={data} />}
 
-          <DescriptionBlock label="Ente erogatore">
-            <Typography component="span">{data.producer.name}</Typography>
-          </DescriptionBlock>
-
-          <DescriptionBlock label="Versione">
-            <Typography component="span">{activeDescriptor.version}</Typography>
-          </DescriptionBlock>
-
-          <DescriptionBlock label="Stato della versione">
-            <Typography component="span">{ESERVICE_STATE_LABEL[activeDescriptor.state]}</Typography>
-          </DescriptionBlock>
-
-          <DescriptionBlock label="Audience">
-            <Typography component="span">{activeDescriptor.audience.join(', ')}</Typography>
-          </DescriptionBlock>
-
-          <DescriptionBlock label="Tecnologia">
-            <Typography component="span">{data.technology}</Typography>
-          </DescriptionBlock>
-
-          <DescriptionBlock label="Durata del voucher">
-            <Typography component="span">{activeDescriptor.voucherLifespan} minuti</Typography>
-          </DescriptionBlock>
-
-          {(Object.keys(data.attributes) as Array<AttributeKey>).map((key, i) => (
-            <DescriptionBlock key={i} label={`Attributi ${ATTRIBUTE_TYPE_PLURAL_LABEL[key]}`}>
-              <Contained>
-                {data.attributes[key].length > 0 ? (
-                  <Box sx={{ mt: 1 }}>
-                    <StyledAccordion entries={toAccordionEntries(data.attributes[key])} />
-                  </Box>
-                ) : (
-                  <Typography component="span">Nessun attributo presente</Typography>
-                )}
-              </Contained>
-            </DescriptionBlock>
-          ))}
-        </Grid>
-
-        <Grid item xs={4} sx={{ mt: 5 }}>
-          <DownloadList
-            downloads={[
-              {
-                label: 'Richiesta di fruizione',
-                onClick: () => {
-                  console.log('download richiesta di fruizione')
-                },
-              },
-              {
-                label: 'Documento di interfaccia',
-                onClick: wrapDownloadDocument(activeDescriptor.interface.id),
-              },
-              ...activeDescriptor.docs.map((d) => ({
-                label: d.description,
-                onClick: wrapDownloadDocument(d.id),
-              })),
-            ]}
-          />
-        </Grid>
-      </Grid>
-
-      {mode === 'subscriber' && (
-        <Box sx={{ display: 'flex' }}>
-          {isVersionPublished && !isMine && isAdmin(party) && canSubscribeEservice && (
-            <StyledButton sx={{ mr: 2 }} variant="contained" onClick={handleSubscriptionDialog}>
-              Iscriviti
-            </StyledButton>
-          )}
-          {!isMine && isAdmin(party) && !canSubscribeEservice && (
-            <StyledButton
-              className="mockFeature"
-              sx={{ mr: 2 }}
-              variant="contained"
-              onClick={() => {
-                setDialog({ type: 'askExtension' })
-              }}
-            >
-              Richiedi estensione
-            </StyledButton>
-          )}
-          <StyledButton variant="outlined" to={ROUTES.SUBSCRIBE_CATALOG_LIST.PATH}>
-            Torna al catalogo
+      <Box sx={{ display: 'flex' }}>
+        {isVersionPublished && !isMine && isAdmin(party) && canSubscribeEservice && (
+          <StyledButton sx={{ mr: 2 }} variant="contained" onClick={handleSubscriptionDialog}>
+            Iscriviti
           </StyledButton>
-        </Box>
-      )}
+        )}
+        {!isMine && isAdmin(party) && !canSubscribeEservice && (
+          <StyledButton
+            className="mockFeature"
+            sx={{ mr: 2 }}
+            variant="contained"
+            onClick={() => {
+              setDialog({ type: 'askExtension' })
+            }}
+          >
+            Richiedi estensione
+          </StyledButton>
+        )}
+        <StyledButton variant="outlined" to={ROUTES.SUBSCRIBE_CATALOG_LIST.PATH}>
+          Torna al catalogo
+        </StyledButton>
+      </Box>
     </React.Fragment>
   )
 }

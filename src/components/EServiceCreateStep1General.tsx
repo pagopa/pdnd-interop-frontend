@@ -20,7 +20,7 @@ import {
   remapFrontendAttributesToBackend,
 } from '../lib/attributes'
 import { useFeedback } from '../hooks/useFeedback'
-import { EServiceWriteProps } from '../views/EServiceWrite'
+import { EServiceCreateProps } from '../views/EServiceCreate'
 import { EServiceAttributeSection } from './EServiceAttributeSection'
 import { StyledForm } from './Shared/StyledForm'
 import { StyledIntro } from './Shared/StyledIntro'
@@ -29,8 +29,8 @@ import { StepActions } from './Shared/StepActions'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { StyledInputControlledRadio } from './Shared/StyledInputControlledRadio'
 
-export const EServiceWriteStep1General: FunctionComponent<
-  StepperStepComponentProps & EServiceWriteProps
+export const EServiceCreateStep1General: FunctionComponent<
+  StepperStepComponentProps & EServiceCreateProps
 > = ({ forward, fetchedData }) => {
   const { party } = useContext(PartyContext)
   const history = useHistory()

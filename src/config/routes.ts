@@ -22,6 +22,7 @@ import { KeyEdit } from '../views/KeyEdit'
 import { PurposeList } from '../views/PurposeList'
 import { PurposeEdit } from '../views/PurposeEdit'
 import { PurposeCreate } from '../views/PurposeCreate'
+import { EServiceRead } from '../views/EServiceRead'
 
 const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
   LOGOUT: {
@@ -140,7 +141,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     PATH: '/fruizione/catalogo-e-service/:eserviceId/:descriptorId',
     EXACT: false,
     LABEL: 'Visualizza e-service',
-    COMPONENT: EServiceGate,
+    COMPONENT: EServiceRead,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'security'],
   },

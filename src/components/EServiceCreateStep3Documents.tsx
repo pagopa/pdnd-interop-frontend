@@ -12,17 +12,17 @@ import { ROUTES } from '../config/routes'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledIntro } from './Shared/StyledIntro'
 import { StyledButton } from './Shared/StyledButton'
-import { EServiceWriteStep3DocumentsInterface } from './EServiceWriteStep3DocumentsInterface'
-import { EServiceWriteStep3DocumentsDoc } from './EServiceWriteStep3DocumentsDoc'
+import { EServiceCreateStep3DocumentsInterface } from './EServiceCreateStep3DocumentsInterface'
+import { EServiceCreateStep3DocumentsDoc } from './EServiceCreateStep3DocumentsDoc'
 import { StepActions } from './Shared/StepActions'
 import { Paper } from '@mui/material'
 import { TOAST_CONTENTS } from '../config/toast'
-import { EServiceWriteProps } from '../views/EServiceWrite'
+import { EServiceCreateProps } from '../views/EServiceCreate'
 
-export function EServiceWriteStep3Documents({
+export function EServiceCreateStep3Documents({
   back,
   fetchedData,
-}: StepperStepComponentProps & EServiceWriteProps) {
+}: StepperStepComponentProps & EServiceCreateProps) {
   const history = useHistory()
   const { runAction, runActionWithDestination, wrapActionInDialog } = useFeedback()
   const location = useLocation()
@@ -122,7 +122,7 @@ export function EServiceWriteStep3Documents({
       </StyledIntro>
 
       {fetchedData && (
-        <EServiceWriteStep3DocumentsInterface
+        <EServiceCreateStep3DocumentsInterface
           data={fetchedData}
           uploadDescriptorDocument={uploadDescriptorDocument}
           deleteDescriptorDocument={deleteDescriptorDocument}
@@ -146,7 +146,7 @@ export function EServiceWriteStep3Documents({
       </StyledIntro>
 
       {fetchedData && (
-        <EServiceWriteStep3DocumentsDoc
+        <EServiceCreateStep3DocumentsDoc
           data={fetchedData}
           uploadDescriptorDocument={uploadDescriptorDocument}
           deleteDescriptorDocument={deleteDescriptorDocument}

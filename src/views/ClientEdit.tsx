@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Tab, Tabs, Typography } from '@mui/material'
 import { Box } from '@mui/system'
@@ -19,11 +19,12 @@ import { a11yProps, TabPanel } from '../components/TabPanel'
 import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 import { KeysList } from '../components/KeysList'
 import { EditableField } from '../components/Shared/EditableField'
+import { useActiveTab } from '../hooks/useActiveTab'
 
 export function ClientEdit() {
   const location = useLocation()
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
-  const [activeTab, setActiveTab] = useState(0)
+  const { activeTab, updateActiveTab } = useActiveTab()
   const { party } = useContext(PartyContext)
   const locationBits = getBits(location)
   const clientId = locationBits[locationBits.length - 1]
@@ -36,10 +37,6 @@ export function ClientEdit() {
       loadingTextLabel: 'Stiamo caricando il client richiesto',
     }
   )
-
-  const updateActiveTab = (_: React.SyntheticEvent, newTab: number) => {
-    setActiveTab(newTab)
-  }
 
   /*
    * List of possible actions for the user to perform

@@ -21,7 +21,7 @@ import { StyledForm } from './Shared/StyledForm'
 import { StyledInputControlledFile } from './Shared/StyledInputControlledFile'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 
-type EServiceWriteStep3DocumentsInterfaceProps = {
+type EServiceCreateStep3DocumentsInterfaceProps = {
   data: EServiceReadType
   uploadDescriptorDocument: (document: EServiceDocumentWrite) => Promise<RunActionOutput>
   deleteDescriptorDocument: (documentId: string) => Promise<RunActionOutput>
@@ -34,13 +34,13 @@ type InputValues = {
   description?: string
 }
 
-export function EServiceWriteStep3DocumentsInterface({
+export function EServiceCreateStep3DocumentsInterface({
   data,
   uploadDescriptorDocument,
   deleteDescriptorDocument,
   activeDescriptorId,
   interfaceAcceptedMimeTypes,
-}: EServiceWriteStep3DocumentsInterfaceProps) {
+}: EServiceCreateStep3DocumentsInterfaceProps) {
   const validationSchema = object({
     interface: mixed()
       .test(
