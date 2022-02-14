@@ -11,7 +11,6 @@ import { StyledInputControlledText } from '../components/Shared/StyledInputContr
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { AddSecurityOperatorFormInputValues, User } from '../../types'
 import { Box } from '@mui/system'
-import { Typography } from '@mui/material'
 import { DeleteOutline as DeleteOutlineIcon } from '@mui/icons-material'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 
@@ -59,6 +58,10 @@ export function ClientCreate() {
       initialValues: { selected: [] },
       onSubmit: addOperators,
     })
+  }
+
+  const openCreateOperatoDialog = () => {
+    setDialog({ type: 'createSecurityOperator' })
   }
 
   const addOperators = (data: AddSecurityOperatorFormInputValues) => {
@@ -130,9 +133,9 @@ export function ClientCreate() {
             <StyledButton sx={{ mr: 2 }} variant="contained" onClick={openAddOperatoDialog}>
               + Aggiungi
             </StyledButton>
-            <Typography>
-              L’operatore non è presente nell’elenco? Clicca qui per aggiungerlo [TODO SELF CARE?]
-            </Typography>
+            <StyledButton variant="outlined" onClick={openCreateOperatoDialog}>
+              Crea nuovo operatore
+            </StyledButton>
           </Box>
         </Box>
 

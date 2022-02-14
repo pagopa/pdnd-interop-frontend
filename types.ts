@@ -584,6 +584,15 @@ export type DialogProps =
   | DialogAddSecurityOperatorProps
   | DialogAddClientsProps
   | DialogUpdatePurposeDailyCallsProps
+  | DialogCreateSecurityOperatorProps
+
+export type DialogCreateSecurityOperatorProps = {
+  type: 'createSecurityOperator'
+}
+
+export type CreateSecurityOperatorFormInputValues = {
+  selected: Array<User>
+}
 
 export type DialogUpdatePurposeDailyCallsProps = {
   type: 'updatePurposeDailyCalls'
