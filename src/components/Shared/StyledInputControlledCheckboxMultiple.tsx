@@ -47,8 +47,6 @@ export function StyledInputControlledCheckboxMultiple({
       : [...value, target.name]
 
     setFieldValue(name, newValue, false)
-
-    console.log(newValue)
   }
 
   return (

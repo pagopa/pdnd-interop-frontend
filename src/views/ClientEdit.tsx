@@ -18,7 +18,7 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { a11yProps, TabPanel } from '../components/TabPanel'
 import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 import { KeysList } from '../components/KeysList'
-import { EditableField } from '../components/Shared/EditableField'
+// import { EditableField } from '../components/Shared/EditableField'
 import { useActiveTab } from '../hooks/useActiveTab'
 
 export function ClientEdit() {
@@ -84,9 +84,10 @@ export function ClientEdit() {
     return actions[sureData.state]
   }
 
-  const wrapFieldUpdate = (fieldName: 'description') => (updatedString: string | null) => {
-    console.log({ fieldName, updatedString })
-  }
+  // const wrapFieldUpdate = (fieldName: 'description') => (updatedString: string | null) => {
+  //   // TEMP PIN-1113
+  //   console.log({ fieldName, updatedString })
+  // }
 
   if (!data) {
     return <StyledSkeleton />
@@ -116,12 +117,13 @@ export function ClientEdit() {
         </DescriptionBlock>
 
         <DescriptionBlock label="Descrizione" childWrapperSx={{ pt: 0 }}>
-          <EditableField
+          {/* <EditableField
             value={data.description}
             onSave={wrapFieldUpdate('description')}
             ariaLabel="Modifica descrizione"
             multiline={true}
-          />
+          /> */}
+          <Typography component="span">{data.description}</Typography>
         </DescriptionBlock>
 
         <DescriptionBlock label="La versione dell'e-service che stai usando">

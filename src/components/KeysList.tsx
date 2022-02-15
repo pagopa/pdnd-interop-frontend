@@ -124,7 +124,7 @@ export function KeysList() {
     })
   }
 
-  const headData = ['kid', 'operatore']
+  const headData = ['kid' /*, 'operatore' */]
 
   return (
     <React.Fragment>
@@ -147,7 +147,8 @@ export function KeysList() {
             key={i}
             cellData={[
               { label: `${key.kid.substring(0, 9)}...` },
-              { label: '[TEMP BACKEND] Nome e cognome' },
+              // TEMP PIN-1114
+              // { label: '[TEMP BACKEND] Nome e cognome' },
             ]}
           >
             <StyledButton

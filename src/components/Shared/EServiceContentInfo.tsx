@@ -133,12 +133,13 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
       <Grid item xs={4} sx={{ mt: 5 }}>
         <DownloadList
           downloads={[
-            {
-              label: 'Richiesta di fruizione',
-              onClick: () => {
-                console.log('download richiesta di fruizione')
-              },
-            },
+            // TEMP PIN-1095 and PIN-1105
+            // {
+            //   label: 'Richiesta di fruizione',
+            //   onClick: () => {
+            //     console.log('download richiesta di fruizione')
+            //   },
+            // },
             {
               label: 'Documento di interfaccia',
               onClick: wrapDownloadDocument(activeDescriptor.interface.id),
