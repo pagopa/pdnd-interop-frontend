@@ -56,7 +56,7 @@ export const PurposeList = () => {
   const wrapUpdateDailyCalls = (purposeId: string) => async () => {
     setDialog({
       type: 'updatePurposeDailyCalls',
-      initialValues: { dailyCalls: 0 },
+      initialValues: { dailyCalls: 1 },
       validationSchema: object({ dailyCalls: number().required() }),
       onSubmit: async (data: DialogUpdatePurposeDailyCallsFormInputValues) => {
         console.log({ data, purposeId })
@@ -86,7 +86,7 @@ export const PurposeList = () => {
 
     const updateDailyCallsAction = {
       onClick: wrapUpdateDailyCalls(purpose.id),
-      label: 'Aggiorna stima di carico',
+      label: 'Aggiorna numero chiamate',
     }
 
     const availableActions: Record<PurposeState, Array<ActionProps>> = {

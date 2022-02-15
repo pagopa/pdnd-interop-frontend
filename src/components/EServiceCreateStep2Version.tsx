@@ -46,7 +46,7 @@ export function EServiceCreateStep2Version({
     audience: '',
     voucherLifespan: 1,
     description: '',
-    dailyCalls: 20000,
+    dailyCalls: 1,
   }
   const [initialOrFetchedValues, setInitialOrFetchedValues] = useState(initialValues)
 
@@ -55,13 +55,13 @@ export function EServiceCreateStep2Version({
     if (fetchedData && !isEmpty(fetchedData.activeDescriptor)) {
       const activeDescriptor = (fetchedData as EServiceReadType)
         .activeDescriptor as EServiceDescriptorRead
-      const { audience, version, voucherLifespan, description } = activeDescriptor
+      const { audience, version, voucherLifespan, description, dailyCalls } = activeDescriptor
       setInitialOrFetchedValues({
         version,
         audience: Boolean(audience.length > 0) ? audience[0] : '',
         voucherLifespan,
         description,
-        dailyCalls: 20000,
+        dailyCalls: dailyCalls || 1,
       })
     }
   }, [fetchedData]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -72,7 +72,7 @@ export function EServiceCreateStep2Version({
       audience: [data.audience],
       voucherLifespan: data.voucherLifespan,
       description: data.description,
-      // dailyCalls: data.dailyCalls
+      dailyCalls: data.dailyCalls,
     }
 
     const sureFetchedData = fetchedData as EServiceReadType
@@ -169,12 +169,13 @@ export function EServiceCreateStep2Version({
 
           <StyledInputControlledText
             name="dailyCalls"
-            label="Soglia di carico ammesso (richiesto)"
-            infoLabel="Calcolata in numero di richieste al giorno sostenibili per richiesta di fruizione"
+            label="Soglia chiamate API/giorno (richiesto)"
+            infoLabel="Il fruitore dovrà dichiarare una stima delle chiamate che effettuerà per ogni finalità. Se la somma delle chiamate dichiarate dal fruitore sarà sopra la soglia da te impostata, potrai approvare manualmente l'accesso di queste finalità alla fruizione del tuo e-service"
             type="number"
             value={values.dailyCalls}
             error={errors.dailyCalls}
             onChange={handleChange}
+            inputProps={{ min: '1' }}
           />
 
           <StepActions

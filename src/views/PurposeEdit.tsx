@@ -88,7 +88,7 @@ export const PurposeEdit = () => {
   const updateDailyCalls = () => {
     setDialog({
       type: 'updatePurposeDailyCalls',
-      initialValues: { dailyCalls: 0 },
+      initialValues: { dailyCalls: 1 },
       validationSchema: object({ dailyCalls: number().required() }),
       onSubmit: async (data: DialogUpdatePurposeDailyCallsFormInputValues) => {
         console.log({ data, purposeId })
@@ -214,7 +214,7 @@ export const PurposeEdit = () => {
           </StyledButton>
 
           <StyledButton variant="outlined" sx={{ mr: 2 }} onClick={updateDailyCalls}>
-            Aggiorna stima di carico
+            Aggiorna numero chiamate
           </StyledButton>
 
           <StyledButton

@@ -250,16 +250,16 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
   },
   PURPOSE_DRAFT_CREATE: { loadingText: 'Stiamo creando la finalità richiesta' },
   PURPOSE_DAILY_CALLS_UPDATE: {
-    loadingText: 'Stiamo aggiornando la stima di carico',
+    loadingText: 'Stiamo aggiornando il numero di chiamate stimate',
     success: {
       title: 'Richiesta registrata',
       description:
-        "Se over quota rispetto alla disponibilità dell'erogatore, la nuova stima di carico risulterà in attesa di approvazione. In caso contrario, sarà immediatamente utilizzabile",
+        "Se over quota rispetto alla disponibilità dell'erogatore, la nuova versione della finalità risulterà in attesa di approvazione. In caso contrario, sarà immediatamente utilizzabile",
     },
     error: {
       title: "C'è stato un problema",
       description:
-        'Non è stato possibile aggiornare la stima di carico per la finalità richiesta. Per favore, riprova!',
+        'Non è stato possibile aggiornare il numero di chiamate stimate per la finalità richiesta. Per favore, riprova!',
     },
   },
   PURPOSE_VERSION_DRAFT_PUBLISH: {

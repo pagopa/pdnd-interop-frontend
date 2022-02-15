@@ -97,7 +97,7 @@ export const PurposeWriteStep1General: FunctionComponent<ActiveStepProps> = ({ f
         value={formik.values.dailyCalls}
         error={formik.errors.dailyCalls}
         onChange={formik.handleChange}
-        inputProps={{ min: '1', max: '500000' }}
+        inputProps={{ min: '1' }}
       />
 
       <StepActions
