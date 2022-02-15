@@ -22,7 +22,7 @@ export function EServiceGate() {
 
   const location = useLocation()
   const { eserviceId, descriptorId } = getEserviceAndDescriptorFromUrl(location)
-  const { data, error, isItReallyLoading } = useAsyncFetch<EServiceReadType>(
+  const { data, error } = useAsyncFetch<EServiceReadType>(
     {
       path: { endpoint: 'ESERVICE_GET_SINGLE', endpointParams: { eserviceId } },
     },
@@ -49,6 +49,6 @@ export function EServiceGate() {
   return isEditable ? (
     <EServiceCreate back={back} forward={forward} activeStep={activeStep} fetchedData={data} />
   ) : (
-    <EServiceEdit isLoading={isItReallyLoading} data={data as EServiceReadType} />
+    <EServiceEdit />
   )
 }

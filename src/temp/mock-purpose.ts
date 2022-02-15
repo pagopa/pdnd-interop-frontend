@@ -48,7 +48,7 @@ export const mockPurpose1: Purpose = {
       state: 'ARCHIVED',
       riskAnalysis: '',
       createdAt: '2022-02-01T13:26:58.843Z',
-      approvalDate: '2022-02-01T13:26:58.843Z',
+      firstActivation: '2022-02-01T13:26:58.843Z',
     },
     {
       id: 'djiof-jdsldssd-odmsfd',
@@ -56,7 +56,7 @@ export const mockPurpose1: Purpose = {
       state: 'ACTIVE',
       riskAnalysis: '',
       createdAt: '2022-02-05T13:26:58.843Z',
-      approvalDate: '2022-02-05T13:26:58.843Z',
+      firstActivation: '2022-02-05T13:26:58.843Z',
     },
     {
       id: 'djiof-jdsldssd-idnsois',
@@ -64,7 +64,7 @@ export const mockPurpose1: Purpose = {
       state: 'WAITING_FOR_APPROVAL',
       riskAnalysis: '',
       createdAt: '2022-02-07T13:26:58.843Z',
-      approvalDateEstimate: '2022-02-20T13:26:58.843Z',
+      expectedApprovalDate: '2022-02-20T13:26:58.843Z',
     },
   ],
 }

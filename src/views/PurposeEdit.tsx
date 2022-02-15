@@ -168,9 +168,9 @@ export const PurposeEdit = () => {
                 </Typography>
                 <br />
                 <Typography component="span">
-                  {mockData.mostRecentVersion.approvalDateEstimate
+                  {mockData.mostRecentVersion.expectedApprovalDate
                     ? `Data di approvazione stimata: ${formatDateString(
-                        mockData.mostRecentVersion.approvalDateEstimate
+                        mockData.mostRecentVersion.expectedApprovalDate
                       )}`
                     : 'Non è stata determinata una data di approvazione'}
                 </Typography>
@@ -180,7 +180,7 @@ export const PurposeEdit = () => {
             {mockData && mockData.versions.length > 1 && (
               <DescriptionBlock label="Storico di questa finalità">
                 {mockData.versions.map((v, i) => {
-                  const date = v.approvalDate || v.approvalDateEstimate
+                  const date = v.firstActivation || v.expectedApprovalDate
                   return (
                     <Typography component="span" key={i} sx={{ display: 'inline-block' }}>
                       {v.dailyCalls} chiamate/giorno; data di approvazione:{' '}

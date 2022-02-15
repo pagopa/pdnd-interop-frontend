@@ -7,6 +7,7 @@ import {
   PURPOSE_STATE_LABEL,
 } from './src/config/labels'
 import { SchemaOf } from 'yup'
+import { RunAction } from './src/hooks/useFeedback'
 
 /*
  * Fetch data and router related types
@@ -286,6 +287,7 @@ export type EServiceReadType = {
   state: EServiceState
   descriptors: Array<EServiceDescriptorRead>
   activeDescriptor?: EServiceDescriptorRead // TEMP REFACTOR : this is added by the client
+  subscriberPurpose?: Array<Purpose>
 }
 
 export type EServiceDescriptorRead = {
@@ -407,8 +409,8 @@ export type PurposeVersion = {
   dailyCalls: number
   riskAnalysis: string
   createdAt: string
-  approvalDateEstimate?: string
-  approvalDate?: string
+  expectedApprovalDate?: string
+  firstActivation?: string
 }
 
 export type Purpose = {
@@ -585,6 +587,14 @@ export type DialogProps =
   | DialogAddClientsProps
   | DialogUpdatePurposeDailyCallsProps
   | DialogCreateSecurityOperatorProps
+  | DialogSetPurposeExpectedApprovalDateProps
+
+export type DialogSetPurposeExpectedApprovalDateProps = {
+  type: 'setPurposeExpectedApprovalDate'
+  id: string
+  approvalDate?: string
+  runAction: RunAction
+}
 
 export type DialogCreateSecurityOperatorProps = {
   type: 'createSecurityOperator'

@@ -6,6 +6,8 @@ import { PartyContext, TokenContext } from './lib/context'
 import { Party } from '../types'
 import { ThemeProvider } from '@mui/material'
 import theme from '@pagopa/mui-italia/theme'
+import DateAdapter from '@mui/lab/AdapterDateFns'
+import { LocalizationProvider } from '@mui/lab'
 
 export function App() {
   const [token, setToken] = useState<string | null>(null)
@@ -16,10 +18,12 @@ export function App() {
     <TokenContext.Provider value={{ token, setToken }}>
       <PartyContext.Provider value={{ party, availableParties, setParty, setAvailableParties }}>
         <BrowserRouter basename={process.env.PUBLIC_URL}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <BodyLogger />
-          </ThemeProvider>
+          <LocalizationProvider dateAdapter={DateAdapter}>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <BodyLogger />
+            </ThemeProvider>
+          </LocalizationProvider>
         </BrowserRouter>
       </PartyContext.Provider>
     </TokenContext.Provider>
