@@ -68,7 +68,43 @@ export const PurposeList = () => {
   const wrapDelete = (purposeId: string) => async () => {
     await runAction(
       {
-        path: { endpoint: 'PURPOSE_VERSION_DRAFT_DELETE', endpointParams: { purposeId } },
+        path: { endpoint: 'PURPOSE_DELETE', endpointParams: { purposeId } },
+      },
+      { suppressToast: false }
+    )
+  }
+
+  const wrapArchive = (purpose: DecoratedPurpose) => async () => {
+    await runAction(
+      {
+        path: {
+          endpoint: 'PURPOSE_VERSION_ARCHIVE',
+          endpointParams: { purposeId: purpose.id, versionId: purpose.currentVersion.id },
+        },
+      },
+      { suppressToast: false }
+    )
+  }
+
+  const wrapSuspend = (purpose: DecoratedPurpose) => async () => {
+    await runAction(
+      {
+        path: {
+          endpoint: 'PURPOSE_VERSION_SUSPEND',
+          endpointParams: { purposeId: purpose.id, versionId: purpose.currentVersion.id },
+        },
+      },
+      { suppressToast: false }
+    )
+  }
+
+  const wrapActivate = (purpose: DecoratedPurpose) => async () => {
+    await runAction(
+      {
+        path: {
+          endpoint: 'PURPOSE_VERSION_ACTIVATE',
+          endpointParams: { purposeId: purpose.id, versionId: purpose.currentVersion.id },
+        },
       },
       { suppressToast: false }
     )
@@ -79,8 +115,23 @@ export const PurposeList = () => {
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = (purpose: DecoratedPurpose): Array<ActionProps> => {
+    const archiveAction = {
+      onClick: wrapActionInDialog(wrapArchive(purpose), 'PURPOSE_VERSION_ARCHIVE'),
+      label: 'Archivia',
+    }
+
+    const suspendAction = {
+      onClick: wrapActionInDialog(wrapSuspend(purpose), 'PURPOSE_VERSION_SUSPEND'),
+      label: 'Sospendi',
+    }
+
+    const reactivateAction = {
+      onClick: wrapActionInDialog(wrapActivate(purpose), 'PURPOSE_VERSION_ACTIVATE'),
+      label: 'Riattiva',
+    }
+
     const deleteAction = {
-      onClick: wrapActionInDialog(wrapDelete(purpose.id), 'PURPOSE_VERSION_DRAFT_DELETE'),
+      onClick: wrapActionInDialog(wrapDelete(purpose.id), 'PURPOSE_DELETE'),
       label: 'Elimina',
     }
 
@@ -90,9 +141,10 @@ export const PurposeList = () => {
     }
 
     const availableActions: Record<PurposeState, Array<ActionProps>> = {
-      ACTIVE: [deleteAction, updateDailyCallsAction],
-      SUSPENDED: [],
-      WAITING_FOR_APPROVAL: [deleteAction, updateDailyCallsAction],
+      DRAFT: [deleteAction],
+      ACTIVE: [suspendAction, updateDailyCallsAction],
+      SUSPENDED: [reactivateAction, archiveAction],
+      WAITING_FOR_APPROVAL: [updateDailyCallsAction],
       ARCHIVED: [],
     }
 
@@ -136,7 +188,7 @@ export const PurposeList = () => {
                 <StyledTableRow
                   key={i}
                   cellData={[
-                    { label: item.name },
+                    { label: item.title },
                     { label: item.eservice.name },
                     { label: formatThousands(item.currentVersion.dailyCalls) },
                     {

@@ -50,7 +50,7 @@ export function StyledBreadcrumbs() {
           )
         }
         return (
-          <StyledLink key={i} to={path} sx={{ fontWeight: 700, color: 'text.secondary' }}>
+          <StyledLink key={i} to={path} sx={{ fontWeight: 700 }}>
             {label}
           </StyledLink>
         )

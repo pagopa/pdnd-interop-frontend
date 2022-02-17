@@ -11,10 +11,11 @@ import { StyledInputControlledRadioProps } from './Shared/StyledInputControlledR
 import { StyledInputControlledCheckboxMultipleProps } from './Shared/StyledInputControlledCheckboxMultiple'
 import { StyledInputControlledSelectProps } from './Shared/StyledInputControlledSelect'
 import { ObjectShape } from 'yup/lib/object'
-
-/*
- *
- */
+import { useFeedback } from '../hooks/useFeedback'
+import { useLocation } from 'react-router-dom'
+import { getBits } from '../lib/router-utils'
+import { useAsyncFetch } from '../hooks/useAsyncFetch'
+import { Purpose } from '../../types'
 
 type Dependency = {
   id: string
@@ -49,8 +50,12 @@ export const PurposeWriteStep2RiskAnalysis: FunctionComponent<ActiveStepProps> =
   back,
   forward,
 }) => {
-  const riskAnalysisConfig = _riskAnalysisConfig as RiskAnalysis
+  const location = useLocation()
+  const bits = getBits(location)
+  const purposeId = bits[bits.length - 1]
 
+  const riskAnalysisConfig = _riskAnalysisConfig as RiskAnalysis
+  const { runAction } = useFeedback()
   const [validation, setValidation] = useState({})
   const [questions, setQuestions] = useState<Questions>({})
   const initialValues = riskAnalysisConfig.questions.reduce(
@@ -58,10 +63,27 @@ export const PurposeWriteStep2RiskAnalysis: FunctionComponent<ActiveStepProps> =
     {}
   ) as Answers
 
-  const onSubmit = (data: unknown) => {
-    console.log('submit', data)
+  const { data: purposeData } = useAsyncFetch<Purpose>(
+    { path: { endpoint: 'PURPOSE_GET_SINGLE' }, config: { params: { purposeId } } },
+    { loadingTextLabel: 'Stiamo caricando le informazioni della finalità' }
+  )
 
-    forward()
+  const onSubmit = async (riskAnalysisForm: unknown) => {
+    const dataToPost = {
+      riskAnalysisForm,
+      title: purposeData?.title,
+      description: purposeData?.description,
+      eserviceId: purposeData?.eservice.id,
+    }
+    console.log('submit', dataToPost)
+    const { outcome } = await runAction(
+      { path: { endpoint: 'PURPOSE_UPDATE' }, config: { data: dataToPost } },
+      { suppressToast: true }
+    )
+
+    if (outcome === 'success') {
+      forward()
+    }
   }
 
   const formik = useFormik({

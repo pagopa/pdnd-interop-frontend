@@ -7,6 +7,8 @@ import { buildDynamicPath, getBits } from '../lib/router-utils'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { mockPurpose1 } from '../temp/mock-purpose'
 import {
+  ActionProps,
+  Client,
   DecoratedPurpose,
   DialogUpdatePurposeDailyCallsFormInputValues,
   Purpose,
@@ -29,6 +31,7 @@ import { StyledIntro } from '../components/Shared/StyledIntro'
 import { DialogContext } from '../lib/context'
 import { DownloadList } from '../components/Shared/DownloadList'
 import { useActiveTab } from '../hooks/useActiveTab'
+import { ActionMenu } from '../components/Shared/ActionMenu'
 // import { axiosErrorToError } from '../lib/error-utils'
 // import { ActionMenu } from '../components/Shared/ActionMenu'
 
@@ -42,12 +45,8 @@ export const PurposeEdit = () => {
   const locationBits = getBits(location)
   const purposeId = locationBits[locationBits.length - 1]
   const { data /*, error */ } = useAsyncFetch<Purpose>(
-    {
-      path: { endpoint: 'PURPOSE_GET_SINGLE', endpointParams: { purposeId } },
-    },
-    {
-      loadingTextLabel: 'Stiamo caricando il client richiesto',
-    }
+    { path: { endpoint: 'PURPOSE_GET_SINGLE', endpointParams: { purposeId } } },
+    { loadingTextLabel: 'Stiamo caricando la finalità richiesta' }
   )
 
   useEffect(() => {
@@ -65,7 +64,7 @@ export const PurposeEdit = () => {
           endpointParams: {
             purposeId,
             versionId: mockData?.currentVersion.id,
-            documentId: mockData?.currentVersion.riskAnalysis,
+            documentId: mockData?.currentVersion.riskAnalysisDocument.id,
           },
         },
       },
@@ -77,12 +76,49 @@ export const PurposeEdit = () => {
     }
   }
 
+  const wrapRemoveFromPurpose = async (clientId: string) => {
+    await runAction(
+      {
+        path: { endpoint: 'CLIENT_SPLIT_FROM_PURPOSE', endpointParams: { clientId } },
+        config: { params: { purposeId } },
+      },
+      { suppressToast: true }
+    )
+  }
+
   const suspend = async () => {
-    //
+    await runAction(
+      {
+        path: {
+          endpoint: 'PURPOSE_VERSION_SUSPEND',
+          endpointParams: { purposeId: mockData?.id, versionId: mockData?.currentVersion.id },
+        },
+      },
+      { suppressToast: false }
+    )
   }
 
   const archive = async () => {
-    //
+    await runAction(
+      {
+        path: {
+          endpoint: 'PURPOSE_VERSION_ARCHIVE',
+          endpointParams: { purposeId: mockData?.id, versionId: mockData?.currentVersion.id },
+        },
+      },
+      { suppressToast: false }
+    )
+  }
+
+  const getClientAvailableActions = (
+    item: Pick<Client, 'id' | 'name' | 'state'>
+  ): Array<ActionProps> => {
+    const removeFromPurposeAction = {
+      onClick: wrapActionInDialog(wrapRemoveFromPurpose(item.id), 'CLIENT_SPLIT_FROM_PURPOSE'),
+      label: 'Rimuovi dalla finalità',
+    }
+
+    return [removeFromPurposeAction]
   }
 
   const updateDailyCalls = () => {
@@ -101,7 +137,7 @@ export const PurposeEdit = () => {
 
   return (
     <React.Fragment>
-      <StyledIntro>{{ title: mockData?.name }}</StyledIntro>
+      <StyledIntro>{{ title: mockData?.title }}</StyledIntro>
 
       <Tabs
         value={activeTab}
@@ -208,7 +244,7 @@ export const PurposeEdit = () => {
           <StyledButton
             variant="contained"
             sx={{ mr: 2 }}
-            onClick={wrapActionInDialog(suspend, 'PURPOSE_SUSPEND')}
+            onClick={wrapActionInDialog(suspend, 'PURPOSE_VERSION_SUSPEND')}
           >
             Sospendi
           </StyledButton>
@@ -220,7 +256,7 @@ export const PurposeEdit = () => {
           <StyledButton
             variant="outlined"
             sx={{ mr: 2 }}
-            onClick={wrapActionInDialog(archive, 'PURPOSE_ARCHIVE')}
+            onClick={wrapActionInDialog(archive, 'PURPOSE_VERSION_ARCHIVE')}
           >
             Archivia
           </StyledButton>
@@ -262,7 +298,7 @@ export const PurposeEdit = () => {
                   Ispeziona
                 </StyledButton>
 
-                {/* <ActionMenu actions={getAvailableActions(item)} /> */}
+                <ActionMenu actions={getClientAvailableActions(item)} />
               </StyledTableRow>
             ))}
           </TableWithLoader>

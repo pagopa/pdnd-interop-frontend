@@ -55,27 +55,22 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
     description:
       "Cliccando su \"conferma\", l'accordo di interoperabilità sarà aggiornato alla versione più recente dell'e-service attualmente disponibile. I client collegati a questo accordo continueranno ad avere accesso all'e-service in erogazione, aggiornato all'ultima versione",
   },
-  PURPOSE_VERSION_DRAFT_PUBLISH: {
-    title: 'Conferma pubblicazione finalità',
-    description:
-      "Cliccando \"conferma\" questa finalità verrà pubblicata. Se al di sotto della soglia ammessa dall'erogatore, sarà immediatamente utilizzabile; se al di sopra, bisognerà attendere la conferma dell'erogatore per assicurare la capacità dell'infrastruttura di reggere il carico richiesto",
-  },
-  PURPOSE_VERSION_DRAFT_DELETE: {
+  PURPOSE_DELETE: {
     title: 'Conferma cancellazione finalità',
     description:
       'Cliccando "conferma" questa finalità verrà cancellata e non sarà più recuperabile. Tutti i client ad essa associata non potranno più accedere all\'e-service dell\'erogatore. Sarà sempre possibile creare nuove finalità',
   },
-  PURPOSE_SUSPEND: {
+  PURPOSE_VERSION_SUSPEND: {
     title: 'Conferma sospensione finalità',
     description:
       'Cliccando "conferma" questa finalità verrà sospesa. Tutti i client associati non avranno più accesso all\'e-service erogato fino a che non sarà riattivata',
   },
-  PURPOSE_ACTIVATE: {
+  PURPOSE_VERSION_ACTIVATE: {
     title: 'Conferma riattivazione finalità',
     description:
       'Cliccando "conferma" questa finalità verrà riattivata. Tutti i client associati torneranno ad avere accesso all\'e-service erogato',
   },
-  PURPOSE_ARCHIVE: {
+  PURPOSE_VERSION_ARCHIVE: {
     title: 'Conferma archiviazione finalità',
     description:
       'Cliccando "conferma" questa finalità verrà archiviata. Tutti i client associati non avranno più accesso all\'e-service erogato',
@@ -89,6 +84,11 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
     title: 'Riattiva il client',
     description:
       "Il client è attualmente inattivo, e si sta per riattivarlo. Se ci sono altri impedimenti (es. l'accordo di interoperabilità è sospeso) non sarà comunque possibile accedere all'e-service erogato",
+  },
+  CLIENT_SPLIT_FROM_PURPOSE: {
+    title: 'Elimina client dalla finalità',
+    description:
+      "Il client sarà rimosso da questa finalità. Tutte le chiavi caricate non potranno più essere usate per accedere all'e-service per questa finalità",
   },
   KEY_DELETE: {
     title: 'Cancella la chiave pubblica',

@@ -8,9 +8,8 @@ import { ROUTES } from '../config/routes'
 import { useActiveTab } from '../hooks/useActiveTab'
 import { a11yProps, TabPanel } from '../components/TabPanel'
 import { EServiceContentInfo } from '../components/Shared/EServiceContentInfo'
-import { ActionProps, DecoratedPurpose, EServiceReadType } from '../../types'
+import { ActionProps, DecoratedPurpose, EServiceReadType, Purpose } from '../../types'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
-import { mockPurposeList } from '../temp/mock-purpose'
 import { formatThousands } from '../lib/number-utils'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { decoratePurposeWithMostRecentVersion } from '../lib/purpose'
@@ -33,13 +32,28 @@ export function EServiceEdit() {
 
   const location = useLocation()
   const { eserviceId, descriptorId } = getEserviceAndDescriptorFromUrl(location)
-  const { data, error } = useAsyncFetch<EServiceReadType>(
+  const { data: eserviceData, error } = useAsyncFetch<EServiceReadType>(
     {
       path: { endpoint: 'ESERVICE_GET_SINGLE', endpointParams: { eserviceId } },
     },
     {
       mapFn: decorateEServiceWithActiveDescriptor(descriptorId),
       loadingTextLabel: 'Stiamo caricando il tuo e-service',
+      useEffectDeps: [forceRerenderCounter],
+    }
+  )
+
+  const { data: purposeData /* , error */ } = useAsyncFetch<
+    Array<Purpose>,
+    Array<DecoratedPurpose>
+  >(
+    {
+      path: { endpoint: 'PURPOSE_GET_LIST' },
+      config: { params: { state: 'WAITING_FOR_APPROVAL', eserviceId } },
+    },
+    {
+      mapFn: (data) => data.map(decoratePurposeWithMostRecentVersion),
+      loadingTextLabel: 'Stiamo caricando le finalità in attesa',
       useEffectDeps: [forceRerenderCounter],
     }
   )
@@ -69,7 +83,7 @@ export function EServiceEdit() {
     return actions
   }
 
-  if (!data) {
+  if (!eserviceData) {
     return <StyledSkeleton />
   }
 
@@ -79,14 +93,9 @@ export function EServiceEdit() {
 
   const headData = ['Nome finalità', 'Stima di carico', 'Data di completamento']
 
-  // const purposes = (data?.subscriberPurpose || []).map(decoratePurposeWithMostRecentVersion) as Array<DecoratedPurpose>
-  const purposes = mockPurposeList.map(
-    decoratePurposeWithMostRecentVersion
-  ) as Array<DecoratedPurpose>
-
   return (
     <React.Fragment>
-      <StyledIntro sx={{ mb: 0 }}>{{ title: data.name }}</StyledIntro>
+      <StyledIntro sx={{ mb: 0 }}>{{ title: eserviceData.name }}</StyledIntro>
 
       <Tabs
         value={activeTab}
@@ -101,7 +110,7 @@ export function EServiceEdit() {
 
       <TabPanel value={activeTab} index={0}>
         <React.Fragment>
-          <EServiceContentInfo data={data} />
+          <EServiceContentInfo data={eserviceData} />
 
           <Box sx={{ display: 'flex', mt: 4 }}>
             <StyledButton variant="outlined" to={ROUTES.SUBSCRIBE_CATALOG_LIST.PATH}>
@@ -118,13 +127,14 @@ export function EServiceEdit() {
           headData={headData}
           noDataLabel="Nessuna finalità da evadere"
         >
-          {Boolean(purposes.length > 0) &&
-            purposes.map((item, i) => {
+          {purposeData &&
+            Boolean(purposeData.length > 0) &&
+            purposeData.map((item, i) => {
               return (
                 <StyledTableRow
                   key={i}
                   cellData={[
-                    { label: item.name },
+                    { label: item.title },
                     { label: formatThousands(item.currentVersion.dailyCalls) },
                     {
                       label: item.currentVersion.expectedApprovalDate

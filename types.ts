@@ -44,20 +44,22 @@ export type ApiEndpointKey =
   | 'AGREEMENT_UPGRADE'
   | 'PURPOSE_GET_LIST'
   | 'PURPOSE_GET_SINGLE'
-  | 'PURPOSE_DRAFT_CREATE'
-  | 'PURPOSE_DAILY_CALLS_UPDATE'
-  | 'PURPOSE_VERSION_DRAFT_DELETE'
+  | 'PURPOSE_CREATE'
+  | 'PURPOSE_UPDATE'
+  | 'PURPOSE_DELETE'
+  | 'PURPOSE_VERSION_DRAFT_CREATE'
   | 'PURPOSE_VERSION_DRAFT_UPDATE'
-  | 'PURPOSE_VERSION_DRAFT_PUBLISH'
   | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
-  | 'PURPOSE_SUSPEND'
-  | 'PURPOSE_ACTIVATE'
-  | 'PURPOSE_ARCHIVE'
+  | 'PURPOSE_VERSION_SUSPEND'
+  | 'PURPOSE_VERSION_ACTIVATE'
+  | 'PURPOSE_VERSION_ARCHIVE'
   | 'CLIENT_GET_LIST'
   | 'CLIENT_GET_SINGLE'
   | 'CLIENT_CREATE'
   | 'CLIENT_SUSPEND'
   | 'CLIENT_ACTIVATE'
+  | 'CLIENT_JOIN_WITH_PURPOSE'
+  | 'CLIENT_SPLIT_FROM_PURPOSE'
   | 'KEY_GET_LIST'
   | 'KEY_GET_SINGLE'
   | 'KEY_POST'
@@ -403,11 +405,17 @@ type PurposeRiskAnalysisForm = {
   answers: PurposeRiskAnalysisFormAnswers
 }
 
+type PurposeRiskAnalysisDocument = {
+  contentType: string
+  createdAt: string
+  id: string
+}
+
 export type PurposeVersion = {
   id: string
   state: PurposeState
   dailyCalls: number
-  riskAnalysis: string
+  riskAnalysisDocument: PurposeRiskAnalysisDocument
   createdAt: string
   expectedApprovalDate?: string
   firstActivation?: string
@@ -415,13 +423,13 @@ export type PurposeVersion = {
 
 export type Purpose = {
   id: string
-  name: string
+  title: string
   description: string
   eservice: Pick<EServiceReadType, 'id' | 'name' | 'producer'>
   eserviceDescriptor: Pick<EServiceDescriptorRead, 'id' | 'version' | 'dailyCalls' | 'state'>
   agreement: Pick<AgreementSummary, 'id' | 'state'>
   riskAnalysisForm: PurposeRiskAnalysisForm
-  clients?: Array<Pick<Client, 'id' | 'name' | 'state'>>
+  clients: Array<Pick<Client, 'id' | 'name' | 'state'>> // TEMP PIN-1100: state should be removed
   versions: Array<PurposeVersion>
 }
 
@@ -718,13 +726,15 @@ export type DialogActionKeys = Exclude<
   | 'AGREEMENT_VERIFY_ATTRIBUTE'
   | 'PURPOSE_GET_LIST'
   | 'PURPOSE_GET_SINGLE'
-  | 'PURPOSE_DRAFT_CREATE'
-  | 'PURPOSE_DAILY_CALLS_UPDATE'
-  | 'PURPOSE_VERSION_DRAFT_UPDATE'
+  | 'PURPOSE_UPDATE'
+  | 'PURPOSE_CREATE'
   | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
+  | 'PURPOSE_VERSION_DRAFT_CREATE'
+  | 'PURPOSE_VERSION_DRAFT_UPDATE'
   | 'CLIENT_GET_LIST'
   | 'CLIENT_GET_SINGLE'
   | 'CLIENT_CREATE'
+  | 'CLIENT_JOIN_WITH_PURPOSE'
   | 'KEY_GET_LIST'
   | 'KEY_GET_SINGLE'
   | 'KEY_POST'
@@ -766,6 +776,8 @@ export type ToastActionKeys = Exclude<
   | 'CLIENT_GET_SINGLE'
   | 'PURPOSE_GET_LIST'
   | 'PURPOSE_GET_SINGLE'
+  | 'PURPOSE_CREATE'
+  | 'PURPOSE_VERSION_DRAFT_CREATE'
   | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
   | 'KEY_GET_LIST'
   | 'KEY_GET_SINGLE'

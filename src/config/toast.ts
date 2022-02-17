@@ -248,47 +248,11 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: "Non è stato possibile aggiornare l'accordo. Per favore, riprova!",
     },
   },
-  PURPOSE_DRAFT_CREATE: { loadingText: 'Stiamo creando la finalità richiesta' },
-  PURPOSE_DAILY_CALLS_UPDATE: {
-    loadingText: 'Stiamo aggiornando il numero di chiamate stimate',
+  PURPOSE_UPDATE: { loadingText: 'Stiamo aggiornando la bozza' },
+  PURPOSE_DELETE: {
+    loadingText: 'Stiamo cancellando la finalità in bozza',
     success: {
-      title: 'Richiesta registrata',
-      description:
-        "Se over quota rispetto alla disponibilità dell'erogatore, la nuova versione della finalità risulterà in attesa di approvazione. In caso contrario, sarà immediatamente utilizzabile",
-    },
-    error: {
-      title: "C'è stato un problema",
-      description:
-        'Non è stato possibile aggiornare il numero di chiamate stimate per la finalità richiesta. Per favore, riprova!',
-    },
-  },
-  PURPOSE_VERSION_DRAFT_PUBLISH: {
-    loadingText: 'Stiamo aggiornando la bozza',
-    success: {
-      title: 'Bozza pubblicata',
-      description:
-        "La finalità è stata pubblicata correttamente. Se over quota rispetto alla disponibilità dell'erogatore, risulterà in attesa di approvazione",
-    },
-    error: {
-      title: "C'è stato un problema",
-      description: 'Non è stato possibile pubblicare la finalità. Per favore, riprova!',
-    },
-  },
-  PURPOSE_VERSION_DRAFT_UPDATE: {
-    loadingText: 'Stiamo aggiornando la bozza',
-    success: {
-      title: 'Bozza aggiornata',
-      description: 'La finalità è stata aggiornata correttamente',
-    },
-    error: {
-      title: "C'è stato un problema",
-      description: 'Non è stato possibile aggiornare la finalità. Per favore, riprova!',
-    },
-  },
-  PURPOSE_VERSION_DRAFT_DELETE: {
-    loadingText: 'Stiamo cancellando la finalità',
-    success: {
-      title: 'Finalità cancellata correttamente',
+      title: 'Finalità cancellata',
       description: 'La finalità è stata cancellata correttamente',
     },
     error: {
@@ -296,7 +260,8 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: 'Non è stato possibile cancellare la finalità. Per favore, riprova!',
     },
   },
-  PURPOSE_SUSPEND: {
+  PURPOSE_VERSION_DRAFT_UPDATE: { loadingText: 'Stiamo aggiornando la bozza' },
+  PURPOSE_VERSION_SUSPEND: {
     loadingText: 'Stiamo sospendendo la finalità',
     success: {
       title: 'Finalità sospesa',
@@ -308,7 +273,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: 'Non è stato possibile sospendere la finalità. Per favore, riprova!',
     },
   },
-  PURPOSE_ACTIVATE: {
+  PURPOSE_VERSION_ACTIVATE: {
     loadingText: 'Stiamo riattivando la finalità',
     success: {
       title: 'Finalità attivata',
@@ -319,7 +284,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: 'Non è stato possibile riattivare la finalità. Per favore, riprova!',
     },
   },
-  PURPOSE_ARCHIVE: {
+  PURPOSE_VERSION_ARCHIVE: {
     loadingText: 'Stiamo archiviando la finalità',
     success: {
       title: 'Finalità archiviata',
@@ -334,6 +299,28 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
   CLIENT_CREATE: { loadingText: 'Stiamo creando il client richiesto' },
   CLIENT_SUSPEND: { loadingText: 'Stiamo sospendendo il client richiesto' },
   CLIENT_ACTIVATE: { loadingText: 'Stiamo riattivando il client richiesto' },
+  CLIENT_JOIN_WITH_PURPOSE: {
+    loadingText: 'Stiamo associando il client alla finalità',
+    success: {
+      title: 'Client associato alla finalità',
+      description: 'Il client è stato associato alla finalità correttamente',
+    },
+    error: {
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile associare il client alla finalità. Per favore, riprova!',
+    },
+  },
+  CLIENT_SPLIT_FROM_PURPOSE: {
+    loadingText: 'Stiamo rimuovendo il client dalla finalità',
+    success: {
+      title: 'Client rimosso dalla finalità',
+      description: 'Il client è stato rimosso dalla finalità correttamente',
+    },
+    error: {
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile rimuovere il client dalla finalità. Per favore, riprova!',
+    },
+  },
   USER_SUSPEND: {
     loadingText: "Stiamo sospendendo l'operatore",
     success: {

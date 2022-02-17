@@ -2,7 +2,7 @@ import { Purpose } from '../../types'
 
 export const mockPurpose1: Purpose = {
   id: 'dsiofn-sdfjdsifnsds',
-  name: 'Finalità 1',
+  title: 'Finalità 1',
   description: 'Descrizione finalità',
   eservice: {
     id: 'dsijfs-sfsdajfioa',
@@ -46,7 +46,11 @@ export const mockPurpose1: Purpose = {
       id: 'djiof-jdsldssd-jdsfods',
       dailyCalls: 20000,
       state: 'ARCHIVED',
-      riskAnalysis: '',
+      riskAnalysisDocument: {
+        id: 'djsoifdsj-sdfjdsif-sdfjdsi',
+        createdAt: '2022-02-01T14:24:56.544Z',
+        contentType: 'text/pdf',
+      },
       createdAt: '2022-02-01T13:26:58.843Z',
       firstActivation: '2022-02-01T13:26:58.843Z',
     },
@@ -54,7 +58,11 @@ export const mockPurpose1: Purpose = {
       id: 'djiof-jdsldssd-odmsfd',
       dailyCalls: 45000,
       state: 'ACTIVE',
-      riskAnalysis: '',
+      riskAnalysisDocument: {
+        id: 'djsoifdsj-sdfjdsif-sdfjdsi',
+        createdAt: '2022-02-01T14:24:56.544Z',
+        contentType: 'text/pdf',
+      },
       createdAt: '2022-02-05T13:26:58.843Z',
       firstActivation: '2022-02-05T13:26:58.843Z',
     },
@@ -62,7 +70,11 @@ export const mockPurpose1: Purpose = {
       id: 'djiof-jdsldssd-idnsois',
       dailyCalls: 260000,
       state: 'WAITING_FOR_APPROVAL',
-      riskAnalysis: '',
+      riskAnalysisDocument: {
+        id: 'djsoifdsj-sdfjdsif-sdfjdsi',
+        createdAt: '2022-02-01T14:24:56.544Z',
+        contentType: 'text/pdf',
+      },
       createdAt: '2022-02-07T13:26:58.843Z',
       expectedApprovalDate: '2022-02-20T13:26:58.843Z',
     },
