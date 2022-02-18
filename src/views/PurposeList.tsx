@@ -28,7 +28,7 @@ import { mockPurposeList } from '../temp/mock-purpose'
 
 export const PurposeList = () => {
   const history = useHistory()
-  const { wrapActionInDialog, runAction, runFakeAction } = useFeedback()
+  const { wrapActionInDialog, runAction } = useFeedback()
   const { setDialog } = useContext(DialogContext)
 
   const { data, loadingText /*, error */ } = useAsyncFetch<Array<Purpose>>(
@@ -58,9 +58,14 @@ export const PurposeList = () => {
       type: 'updatePurposeDailyCalls',
       initialValues: { dailyCalls: 1 },
       validationSchema: object({ dailyCalls: number().required() }),
-      onSubmit: async (data: DialogUpdatePurposeDailyCallsFormInputValues) => {
-        console.log({ data, purposeId })
-        await runFakeAction('Aggiornamento stima di carico')
+      onSubmit: async ({ dailyCalls }: DialogUpdatePurposeDailyCallsFormInputValues) => {
+        await runAction(
+          {
+            path: { endpoint: 'PURPOSE_VERSION_DRAFT_CREATE', endpointParams: { purposeId } },
+            config: { params: { dailyCalls } },
+          },
+          { suppressToast: false }
+        )
       },
     })
   }

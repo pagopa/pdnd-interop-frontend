@@ -39,7 +39,7 @@ export const PurposeEdit = () => {
   const history = useHistory()
   const [mockData, setMockData] = useState<DecoratedPurpose>()
   const location = useLocation()
-  const { runAction, wrapActionInDialog, runFakeAction } = useFeedback()
+  const { runAction, wrapActionInDialog } = useFeedback()
   const { setDialog } = useContext(DialogContext)
   const { activeTab, updateActiveTab } = useActiveTab()
   const locationBits = getBits(location)
@@ -60,7 +60,7 @@ export const PurposeEdit = () => {
     const { response, outcome } = await runAction(
       {
         path: {
-          endpoint: 'ESERVICE_VERSION_DOWNLOAD_DOCUMENT',
+          endpoint: 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD',
           endpointParams: {
             purposeId,
             versionId: mockData?.currentVersion.id,
@@ -126,9 +126,17 @@ export const PurposeEdit = () => {
       type: 'updatePurposeDailyCalls',
       initialValues: { dailyCalls: 1 },
       validationSchema: object({ dailyCalls: number().required() }),
-      onSubmit: async (data: DialogUpdatePurposeDailyCallsFormInputValues) => {
-        console.log({ data, purposeId })
-        await runFakeAction('Aggiornamento stima di carico')
+      onSubmit: async ({ dailyCalls }: DialogUpdatePurposeDailyCallsFormInputValues) => {
+        await runAction(
+          {
+            path: {
+              endpoint: 'PURPOSE_VERSION_DRAFT_CREATE',
+              endpointParams: { purposeId: mockData?.id },
+            },
+            config: { params: { dailyCalls } },
+          },
+          { suppressToast: false }
+        )
       },
     })
   }
