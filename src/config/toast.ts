@@ -180,6 +180,17 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
         "Non è stato possibile associare il nuovo operatore al suo client. Assicurarsi che non esista già l'utenza ed eventualmente ritentare",
     },
   },
+  OPERATOR_SECURITY_REMOVE_FROM_CLIENT: {
+    loadingText: "Stiamo rimuovendo l'operatore dal client",
+    success: {
+      title: 'Operatore rimosso',
+      description: "L'operatore è stato rimosso correttamente dal client",
+    },
+    error: {
+      title: "C'è stato un problema",
+      description: "Non è stato possibile rimuovere l'operatore dal client. Per favore, riprova!",
+    },
+  },
   ATTRIBUTE_CREATE: {
     loadingText: 'Stiamo salvando il nuovo attributo',
     success: {
@@ -310,7 +321,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: 'Non è stato possibile associare il client alla finalità. Per favore, riprova!',
     },
   },
-  CLIENT_SPLIT_FROM_PURPOSE: {
+  CLIENT_REMOVE_FROM_PURPOSE: {
     loadingText: 'Stiamo rimuovendo il client dalla finalità',
     success: {
       title: 'Client rimosso dalla finalità',

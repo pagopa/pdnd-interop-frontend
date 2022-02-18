@@ -17,7 +17,6 @@ import { DeleteOutline as DeleteOutlineIcon } from '@mui/icons-material'
 import { StyledTableRow } from './Shared/StyledTableRow'
 import { Client } from '../../types'
 import { DialogContext } from '../lib/context'
-import { CLIENT_STATE_LABEL } from '../config/labels'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 
 type ClientList = {
@@ -110,7 +109,7 @@ export const PurposeWriteStep3Clients: FunctionComponent<ActiveStepProps> = ({ b
     }
   }, [clientsData]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const headData = ['nome client', 'stato']
+  const headData = ['nome client']
 
   return (
     <React.Fragment>
@@ -122,10 +121,7 @@ export const PurposeWriteStep3Clients: FunctionComponent<ActiveStepProps> = ({ b
         >
           {Boolean(formik.values.clients.length > 0) &&
             formik.values.clients.map((client, i) => (
-              <StyledTableRow
-                key={i}
-                cellData={[{ label: client.name }, { label: CLIENT_STATE_LABEL[client.state] }]}
-              >
+              <StyledTableRow key={i} cellData={[{ label: client.name }]}>
                 <StyledButton onClick={wrapRemove(client)}>
                   <DeleteOutlineIcon fontSize="small" sx={{ mr: 1 }} color="primary" />
                 </StyledButton>

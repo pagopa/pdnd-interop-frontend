@@ -1,26 +1,21 @@
 import React, { useContext } from 'react'
 import { Box } from '@mui/system'
-import { Client, ClientState, ActionProps } from '../../types'
+import { Client } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { TempFilters } from '../components/TempFilters'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { isAdmin } from '../lib/auth-utils'
-import { PartyContext, TokenContext } from '../lib/context'
-import { useFeedback } from '../hooks/useFeedback'
+import { PartyContext } from '../lib/context'
 import { buildDynamicPath } from '../lib/router-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { CLIENT_STATE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
 import { useUser } from '../hooks/useUser'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
-import { ActionMenu } from '../components/Shared/ActionMenu'
 import { useHistory } from 'react-router-dom'
 import { axiosErrorToError } from '../lib/error-utils'
 
 export function ClientList() {
-  const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
-  const { token } = useContext(TokenContext)
   const { party } = useContext(PartyContext)
   const { user } = useUser()
   const history = useHistory()
@@ -37,65 +32,12 @@ export function ClientList() {
       },
     },
     {
-      useEffectDeps: [forceRerenderCounter, token],
       loaderType: 'contextual',
       loadingTextLabel: 'Stiamo caricando i client',
     }
   )
 
-  /*
-   * List of possible actions for the user to perform
-   */
-  const wrapSuspend = (clientId: string) => async () => {
-    await runAction(
-      {
-        path: { endpoint: 'CLIENT_SUSPEND', endpointParams: { clientId } },
-      },
-      { suppressToast: false }
-    )
-  }
-
-  const wrapReactivate = (clientId: string) => async () => {
-    await runAction(
-      {
-        path: { endpoint: 'CLIENT_ACTIVATE', endpointParams: { clientId } },
-      },
-      { suppressToast: false }
-    )
-  }
-  /*
-   * End list of actions
-   */
-
-  // Build list of available actions for each service in its current state
-  const getAvailableActions = (client: Client): Array<ActionProps> => {
-    // Exit early if user cannot perform actions
-    if (!isAdmin(party)) {
-      return []
-    }
-
-    const availableActions: Record<ClientState, Array<ActionProps>> = {
-      ACTIVE: [
-        {
-          onClick: wrapActionInDialog(wrapSuspend(client.id), 'CLIENT_SUSPEND'),
-          label: 'Sospendi client',
-        },
-      ],
-      SUSPENDED: [
-        {
-          onClick: wrapActionInDialog(wrapReactivate(client.id), 'CLIENT_ACTIVATE'),
-          label: 'Riattiva client',
-        },
-      ],
-    }
-
-    const status = client.state
-
-    // Return all the actions available for this particular status
-    return availableActions[status] || []
-  }
-
-  const headData = ['nome client', 'nome e-service', 'ente erogatore', 'stato']
+  const headData = ['nome client']
 
   return (
     <React.Fragment>
@@ -126,15 +68,7 @@ export function ClientList() {
           {data &&
             Boolean(data.length > 0) &&
             data.map((item, i) => (
-              <StyledTableRow
-                key={i}
-                cellData={[
-                  { label: item.name },
-                  { label: item.eservice.name },
-                  { label: item.eservice.provider.description },
-                  { label: CLIENT_STATE_LABEL[item.state] },
-                ]}
-              >
+              <StyledTableRow key={i} cellData={[{ label: item.name }]}>
                 <StyledButton
                   variant="outlined"
                   size="small"
@@ -146,8 +80,6 @@ export function ClientList() {
                 >
                   Ispeziona
                 </StyledButton>
-
-                <ActionMenu actions={getAvailableActions(item)} />
               </StyledTableRow>
             ))}
         </TableWithLoader>

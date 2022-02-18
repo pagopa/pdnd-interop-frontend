@@ -33,11 +33,6 @@ export const PURPOSE_STATE_LABEL = {
   ARCHIVED: 'Archiviato',
 }
 
-export const CLIENT_STATE_LABEL = {
-  ACTIVE: 'Attivo',
-  SUSPENDED: 'Sospeso',
-}
-
 export const USER_STATE_LABEL = {
   PENDING: 'In attesa di approvazione',
   ACTIVE: 'Attivo',

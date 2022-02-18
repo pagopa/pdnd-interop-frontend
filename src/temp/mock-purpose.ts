@@ -26,12 +26,10 @@ export const mockPurpose1: Purpose = {
     {
       id: '970496eb-fe21-46fe-9233-281685c5bd70',
       name: 'Client test 01',
-      state: 'SUSPENDED',
     },
     {
       id: '7d045004-1f31-4517-b39f-2942c8d78eca',
       name: 'Client test 02',
-      state: 'ACTIVE',
     },
   ],
   riskAnalysisForm: {

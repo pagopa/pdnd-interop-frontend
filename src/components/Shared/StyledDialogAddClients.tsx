@@ -15,7 +15,6 @@ import { StyledInputControlledAutocomplete } from './StyledInputControlledAutoco
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { PartyContext } from '../../lib/context'
 import { differenceBy } from 'lodash'
-import { CLIENT_STATE_LABEL } from '../../config/labels'
 
 export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = ({
   onSubmit,
@@ -63,9 +62,7 @@ export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = 
                 name="selection"
                 onChange={updateSelected}
                 values={availableClients || []}
-                getOptionLabel={(option: Client) =>
-                  option ? `${option.name} - ${CLIENT_STATE_LABEL[option.state]}` : ''
-                }
+                getOptionLabel={(option: Client) => (option ? option.name : '')}
                 isOptionEqualToValue={(option: Client, value: Client) => option.id === value.id}
                 transformFn={(o) => o}
               />

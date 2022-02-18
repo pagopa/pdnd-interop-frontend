@@ -18,7 +18,7 @@ import { decoratePurposeWithMostRecentVersion, getComputedPurposeState } from '.
 import { formatThousands } from '../lib/number-utils'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { ROUTES } from '../config/routes'
-import { CLIENT_STATE_LABEL, PURPOSE_STATE_LABEL } from '../config/labels'
+import { PURPOSE_STATE_LABEL } from '../config/labels'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { useFeedback } from '../hooks/useFeedback'
 import { downloadFile } from '../lib/file-utils'
@@ -33,7 +33,6 @@ import { DownloadList } from '../components/Shared/DownloadList'
 import { useActiveTab } from '../hooks/useActiveTab'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 // import { axiosErrorToError } from '../lib/error-utils'
-// import { ActionMenu } from '../components/Shared/ActionMenu'
 
 export const PurposeEdit = () => {
   const history = useHistory()
@@ -79,7 +78,7 @@ export const PurposeEdit = () => {
   const wrapRemoveFromPurpose = async (clientId: string) => {
     await runAction(
       {
-        path: { endpoint: 'CLIENT_SPLIT_FROM_PURPOSE', endpointParams: { clientId } },
+        path: { endpoint: 'CLIENT_REMOVE_FROM_PURPOSE', endpointParams: { clientId } },
         config: { params: { purposeId } },
       },
       { suppressToast: true }
@@ -110,11 +109,9 @@ export const PurposeEdit = () => {
     )
   }
 
-  const getClientAvailableActions = (
-    item: Pick<Client, 'id' | 'name' | 'state'>
-  ): Array<ActionProps> => {
+  const getClientAvailableActions = (item: Pick<Client, 'id' | 'name'>): Array<ActionProps> => {
     const removeFromPurposeAction = {
-      onClick: wrapActionInDialog(wrapRemoveFromPurpose(item.id), 'CLIENT_SPLIT_FROM_PURPOSE'),
+      onClick: wrapActionInDialog(wrapRemoveFromPurpose(item.id), 'CLIENT_REMOVE_FROM_PURPOSE'),
       label: 'Rimuovi dalla finalità',
     }
 
@@ -141,7 +138,7 @@ export const PurposeEdit = () => {
     })
   }
 
-  const headData = ['nome client', 'stato']
+  const headData = ['nome client']
 
   return (
     <React.Fragment>
@@ -277,12 +274,6 @@ export const PurposeEdit = () => {
 
       <TabPanel value={activeTab} index={1}>
         <Box sx={{ mt: 4 }}>
-          {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-            <StyledButton variant="contained" to={ROUTES.SUBSCRIBE_CLIENT_CREATE.PATH}>
-              + Aggiungi
-            </StyledButton>
-          </Box> */}
-
           <TableWithLoader
             loadingText=""
             headData={headData}
@@ -290,10 +281,7 @@ export const PurposeEdit = () => {
             // error={axiosErrorToError(error)}
           >
             {mockData?.clients?.map((item, i) => (
-              <StyledTableRow
-                key={i}
-                cellData={[{ label: item.name }, { label: CLIENT_STATE_LABEL[item.state] }]}
-              >
+              <StyledTableRow key={i} cellData={[{ label: item.name }]}>
                 <StyledButton
                   variant="outlined"
                   size="small"

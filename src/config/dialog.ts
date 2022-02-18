@@ -85,8 +85,8 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
     description:
       "Il client è attualmente inattivo, e si sta per riattivarlo. Se ci sono altri impedimenti (es. l'accordo di interoperabilità è sospeso) non sarà comunque possibile accedere all'e-service erogato",
   },
-  CLIENT_SPLIT_FROM_PURPOSE: {
-    title: 'Elimina client dalla finalità',
+  CLIENT_REMOVE_FROM_PURPOSE: {
+    title: 'Rimuovi client dalla finalità',
     description:
       "Il client sarà rimosso da questa finalità. Tutte le chiavi caricate non potranno più essere usate per accedere all'e-service per questa finalità",
   },
@@ -104,5 +104,10 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
     title: 'Riattiva operatore',
     description:
       "Cliccando su \"conferma\", l'operatore richiesto sarà riabilitato all'accesso alla piattaforma per l'ente corrente. Se è un operatore di sicurezza, anche le sue chiavi sono riabilitate",
+  },
+  OPERATOR_SECURITY_REMOVE_FROM_CLIENT: {
+    title: 'Rimuovi operatore dal client',
+    description:
+      "L'operatore sarà rimosso da questo client. Le chiavi che ha caricato per questo client rimarranno comunque utilizzabili, a meno che tu non le rimuova manualmente dalla lista di chiavi per questo client",
   },
 }

@@ -197,7 +197,7 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: '',
     METHOD: 'POST',
   },
-  CLIENT_SPLIT_FROM_PURPOSE: {
+  CLIENT_REMOVE_FROM_PURPOSE: {
     // TEMP BACKEND: waiting for backend endpoint
     URL: '',
     METHOD: 'POST',
@@ -246,6 +246,10 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
   OPERATOR_SECURITY_JOIN_WITH_CLIENT: {
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/relationships/:relationshipId',
     METHOD: 'POST',
+  },
+  OPERATOR_SECURITY_REMOVE_FROM_CLIENT: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/relationships/:relationshipId',
+    METHOD: 'DELETE',
   },
   OPERATOR_API_GET_SINGLE: {
     URL: 'pdnd-interop-uservice-party-process/0.1/relationships/:relationshipId',

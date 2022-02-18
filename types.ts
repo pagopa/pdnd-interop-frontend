@@ -2,7 +2,6 @@ import React from 'react'
 import { AxiosError, AxiosRequestConfig, AxiosResponse, Method } from 'axios'
 import {
   AGREEMENT_STATE_LABEL,
-  CLIENT_STATE_LABEL,
   ESERVICE_STATE_LABEL,
   PURPOSE_STATE_LABEL,
 } from './src/config/labels'
@@ -59,7 +58,7 @@ export type ApiEndpointKey =
   | 'CLIENT_SUSPEND'
   | 'CLIENT_ACTIVATE'
   | 'CLIENT_JOIN_WITH_PURPOSE'
-  | 'CLIENT_SPLIT_FROM_PURPOSE'
+  | 'CLIENT_REMOVE_FROM_PURPOSE'
   | 'KEY_GET_LIST'
   | 'KEY_GET_SINGLE'
   | 'KEY_POST'
@@ -71,6 +70,7 @@ export type ApiEndpointKey =
   | 'USER_GET_SINGLE'
   | 'OPERATOR_CREATE'
   | 'OPERATOR_SECURITY_JOIN_WITH_CLIENT'
+  | 'OPERATOR_SECURITY_REMOVE_FROM_CLIENT'
   | 'OPERATOR_API_GET_SINGLE'
   | 'OPERATOR_SECURITY_GET_LIST'
   | 'OPERATOR_SECURITY_GET_SINGLE'
@@ -429,7 +429,7 @@ export type Purpose = {
   eserviceDescriptor: Pick<EServiceDescriptorRead, 'id' | 'version' | 'dailyCalls' | 'state'>
   agreement: Pick<AgreementSummary, 'id' | 'state'>
   riskAnalysisForm: PurposeRiskAnalysisForm
-  clients: Array<Pick<Client, 'id' | 'name' | 'state'>> // TEMP PIN-1100: state should be removed
+  clients: Array<Pick<Client, 'id' | 'name'>>
   versions: Array<PurposeVersion>
 }
 
@@ -444,43 +444,11 @@ export type DecoratedPurpose = Purpose & {
 /*
  * Client
  */
-export type ClientState = keyof typeof CLIENT_STATE_LABEL
-
-type ClientEServiceDescriptor = {
-  id: string
-  state: EServiceState
-  version: string
-}
-
-type ClientEService = {
-  id: string
-  name: string
-  provider: ClientProvider
-  // activeDescriptor will only be available if the e-service has one published version
-  // For example, if the latest version of the e-service is suspended (and by default
-  // the previous version is deprecated), there will not be an activeDescriptor available
-  activeDescriptor?: ClientEServiceDescriptor
-}
-
-type ClientAgreement = {
-  id: string
-  state: AgreementState
-  descriptor: ClientEServiceDescriptor
-}
-
-type ClientProvider = {
-  institutionId: string
-  description: string
-}
-
 export type Client = {
   id: string
   name: string
   description: string
-  state: ClientState
-  agreement: ClientAgreement
-  eservice: ClientEService
-  purposes: string
+  operators: Array<User>
 }
 
 /*

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { useLocation } from 'react-router'
 import { Box } from '@mui/system'
-import { UserState, ActionProps, User } from '../../types'
+import { User } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -14,7 +14,6 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { ROUTES } from '../config/routes'
 import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATE_LABEL } from '../config/labels'
-import { useUser } from '../hooks/useUser'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { useHistory } from 'react-router'
@@ -23,7 +22,6 @@ import { axiosErrorToError } from '../lib/error-utils'
 export function UserList() {
   const location = useLocation()
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
-  const { isCurrentUser } = useUser()
   const history = useHistory()
 
   // Only for subscriber
@@ -50,16 +48,27 @@ export function UserList() {
   /*
    * List of possible actions for the user to perform
    */
-  const wrapSuspend = (relationshipId: string) => async () => {
-    await runAction(
-      { path: { endpoint: 'USER_SUSPEND', endpointParams: { relationshipId } } },
-      { suppressToast: false }
-    )
-  }
+  // const wrapSuspend = (relationshipId: string) => async () => {
+  //   await runAction(
+  //     { path: { endpoint: 'USER_SUSPEND', endpointParams: { relationshipId } } },
+  //     { suppressToast: false }
+  //   )
+  // }
 
-  const wrapReactivate = (relationshipId: string) => async () => {
+  // const wrapReactivate = (relationshipId: string) => async () => {
+  //   await runAction(
+  //     { path: { endpoint: 'USER_REACTIVATE', endpointParams: { relationshipId } } },
+  //     { suppressToast: false }
+  //   )
+  // }
+  const wrapRemoveFromClient = (relationshipId: string) => async () => {
     await runAction(
-      { path: { endpoint: 'USER_REACTIVATE', endpointParams: { relationshipId } } },
+      {
+        path: {
+          endpoint: 'OPERATOR_SECURITY_REMOVE_FROM_CLIENT',
+          endpointParams: { relationshipId },
+        },
+      },
       { suppressToast: false }
     )
   }
@@ -67,31 +76,47 @@ export function UserList() {
    * End list of actions
    */
 
+  // TEMP: User suspension and reactivation may be removed from interop and only available in self-care
   // Build list of available actions for each service in its current state
+  // const getAvailableActions = (user: User) => {
+  //   // If same user, it cannot suspend or reactivate itself
+  //   // also, only admins can handle other people
+  //   if (isCurrentUser(user.from) || !isAdmin(party)) {
+  //     return []
+  //   }
+
+  //   const suspendAction = {
+  //     onClick: wrapActionInDialog(wrapSuspend(user.id), 'USER_SUSPEND'),
+  //     label: 'Sospendi',
+  //   }
+  //   const reactivateAction = {
+  //     onClick: wrapActionInDialog(wrapReactivate(user.id), 'USER_REACTIVATE'),
+  //     label: 'Riattiva',
+  //   }
+
+  //   const availableActions: Record<UserState, Array<ActionProps>> = {
+  //     PENDING: [],
+  //     ACTIVE: [suspendAction],
+  //     SUSPENDED: [reactivateAction],
+  //   }
+
+  //   // Return all the actions available for this particular status
+  //   return availableActions[user.state] || []
+  // }
   const getAvailableActions = (user: User) => {
-    // If same user, it cannot suspend or reactivate itself
-    // also, only admins can handle other people
-    if (isCurrentUser(user.from) || !isAdmin(party)) {
-      return []
+    if (mode === 'subscriber') {
+      const removeFromClientAction = {
+        onClick: wrapActionInDialog(
+          wrapRemoveFromClient(user.id),
+          'OPERATOR_SECURITY_REMOVE_FROM_CLIENT'
+        ),
+        label: 'Rimuovi dal client',
+      }
+
+      return [removeFromClientAction]
     }
 
-    const suspendAction = {
-      onClick: wrapActionInDialog(wrapSuspend(user.id), 'USER_SUSPEND'),
-      label: 'Sospendi',
-    }
-    const reactivateAction = {
-      onClick: wrapActionInDialog(wrapReactivate(user.id), 'USER_REACTIVATE'),
-      label: 'Riattiva',
-    }
-
-    const availableActions: Record<UserState, Array<ActionProps>> = {
-      PENDING: [],
-      ACTIVE: [suspendAction],
-      SUSPENDED: [reactivateAction],
-    }
-
-    // Return all the actions available for this particular status
-    return availableActions[user.state] || []
+    return []
   }
 
   const headData = ['nome e cognome', 'ruolo', 'permessi', 'stato']
