@@ -46,7 +46,7 @@ type RiskAnalysis = {
 type Questions = Record<string, Question>
 type Answers = Record<string, unknown>
 
-export const PurposeWriteStep2RiskAnalysis: FunctionComponent<ActiveStepProps> = ({
+export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> = ({
   back,
   forward,
 }) => {
@@ -77,7 +77,7 @@ export const PurposeWriteStep2RiskAnalysis: FunctionComponent<ActiveStepProps> =
     }
     console.log('submit', dataToPost)
     const { outcome } = await runAction(
-      { path: { endpoint: 'PURPOSE_UPDATE' }, config: { data: dataToPost } },
+      { path: { endpoint: 'PURPOSE_DRAFT_UPDATE' }, config: { data: dataToPost } },
       { suppressToast: true }
     )
 

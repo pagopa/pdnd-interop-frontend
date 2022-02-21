@@ -95,20 +95,18 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
 
     await runActionWithCallback(
       { path: { endpoint, endpointParams }, config: { data: dataToPost } },
-      { callback: wrapOnSubmitSuccess(isNewService), suppressToast: false }
+      { callback: wrapGoForward(isNewService), suppressToast: false }
     )
   }
 
-  const wrapOnSubmitSuccess = (isNewService: boolean) => (response: AxiosResponse) => {
-    const eserviceId = response.data.id
-
+  const wrapGoForward = (isNewService: boolean) => (response: AxiosResponse) => {
     if (isNewService) {
       // Replace the create route with the acutal eserviceId, now that we have it.
       // WARNING: this will cause a re-render that will fetch fresh data
       // at the EServiceCreate component level (which is ugly)
       history.replace(
         buildDynamicPath(ROUTES.PROVIDE_ESERVICE_EDIT.PATH, {
-          eserviceId,
+          eserviceId: response.data.id,
           descriptorId: FIRST_DRAFT_FRAGMENT,
         }),
         { stepIndexDestination: 1 }

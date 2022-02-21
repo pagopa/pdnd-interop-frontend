@@ -19,12 +19,11 @@ import { SecurityKeyGuide } from '../views/SecurityKeyGuide'
 import { EmptyComponent } from '../components/Shared/EmptyComponent'
 import { KeyEdit } from '../views/KeyEdit'
 import { PurposeList } from '../views/PurposeList'
-import { PurposeEdit } from '../views/PurposeEdit'
+import { PurposeView } from '../views/PurposeView'
 import { PurposeCreate } from '../views/PurposeCreate'
 import { EServiceRead } from '../views/EServiceRead'
 import { EServiceCreate } from '../views/EServiceCreate'
 import { EServiceManage } from '../views/EServiceManage'
-import { EServiceEdit } from '../views/EServiceEdit'
 
 const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
   LOGOUT: {
@@ -78,7 +77,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     PATH: '/erogazione/e-service/:eserviceId/:descriptorId/modifica',
     EXACT: false,
     LABEL: 'Modifica e-service',
-    COMPONENT: EServiceEdit,
+    COMPONENT: EServiceCreate,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'api'],
   },
@@ -175,7 +174,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     PATH: '/fruizione/finalita/:purposeId/modifica',
     EXACT: false,
     LABEL: 'Modifica finalità',
-    COMPONENT: PurposeEdit,
+    COMPONENT: PurposeCreate,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },
@@ -183,7 +182,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     PATH: '/fruizione/finalita/:purposeId',
     EXACT: false,
     LABEL: 'Modifica finalità',
-    COMPONENT: PurposeEdit,
+    COMPONENT: PurposeView,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },

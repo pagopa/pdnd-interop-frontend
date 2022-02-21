@@ -1,7 +1,13 @@
 import React, { FunctionComponent, useContext, useEffect } from 'react'
 import { useFormik } from 'formik'
 import { object, string, number } from 'yup'
-import { EServiceReadType, InputSelectOption, Purpose } from '../../types'
+import {
+  ApiEndpointKey,
+  DecoratedPurpose,
+  EServiceReadType,
+  InputSelectOption,
+  Purpose,
+} from '../../types'
 import { ROUTES } from '../config/routes'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { PartyContext } from '../lib/context'
@@ -12,8 +18,9 @@ import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { ActiveStepProps } from '../hooks/useActiveStep'
 import { useFeedback } from '../hooks/useFeedback'
 import { AxiosResponse } from 'axios'
-import { useLocation } from 'react-router-dom'
-import { getBits } from '../lib/router-utils'
+import { useHistory } from 'react-router-dom'
+import { buildDynamicPath, getBits } from '../lib/router-utils'
+import { decoratePurposeWithMostRecentVersion } from '../lib/purpose'
 
 type PurposeCreate = {
   title: string
@@ -27,12 +34,12 @@ type PurposeVersionCreate = {
 
 type PurposeStep1Write = PurposeCreate & PurposeVersionCreate
 
-export const PurposeWriteStep1General: FunctionComponent<ActiveStepProps> = ({ forward }) => {
-  const location = useLocation()
-  const bits = getBits(location)
+export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ forward }) => {
+  const history = useHistory()
+  const bits = getBits(history.location)
   const purposeId = bits[bits.length - 1]
 
-  const { runAction } = useFeedback()
+  const { runAction, runActionWithCallback } = useFeedback()
   const { party } = useContext(PartyContext)
   const { data: eserviceData } = useAsyncFetch<Array<EServiceReadType>, Array<InputSelectOption>>(
     {
@@ -45,53 +52,97 @@ export const PurposeWriteStep1General: FunctionComponent<ActiveStepProps> = ({ f
     }
   )
 
-  const { data: purposeData } = useAsyncFetch<Purpose>(
+  const { data: purposeFetchedData } = useAsyncFetch<Purpose, DecoratedPurpose>(
     { path: { endpoint: 'PURPOSE_GET_SINGLE' }, config: { params: { purposeId } } },
-    { loadingTextLabel: 'Stiamo caricando le informazioni della finalità' }
+    {
+      loadingTextLabel: 'Stiamo caricando le informazioni della finalità',
+      mapFn: decoratePurposeWithMostRecentVersion,
+    }
   )
 
   useEffect(() => {
-    if (purposeData) {
-      formik.setFieldValue('title', purposeData.title, false)
-      formik.setFieldValue('description', purposeData.description, false)
-      formik.setFieldValue('eserviceId', purposeData.eservice.id, false)
-      formik.setFieldValue('dailyCalls', purposeData.versions[0].dailyCalls, false)
-    } else if (!purposeData && eserviceData && eserviceData.length > 0) {
+    if (eserviceData && eserviceData.length > 0) {
       formik.setFieldValue('eserviceId', eserviceData[0].value, false)
     }
-  }, [purposeData, eserviceData]) // eslint-disable-line react-hooks/exhaustive-deps
+
+    // If there already is a draft, set its data
+    if (purposeFetchedData) {
+      formik.setFieldValue('title', purposeFetchedData.title, false)
+      formik.setFieldValue('description', purposeFetchedData.description, false)
+      formik.setFieldValue('dailyCalls', purposeFetchedData.versions[0].dailyCalls, false)
+    }
+
+    // Even if there are purposeData, it may happen that the eservice used
+    // to create the previous draft is no longer available (e.g. it has been suspended).
+    // To aviod this case, check if the eservice currently selected is among
+    // those eligible to be chosen
+    if (
+      purposeFetchedData &&
+      eserviceData &&
+      eserviceData.length > 0 &&
+      eserviceData.map((item) => item.value).includes(purposeFetchedData.eservice.id)
+    ) {
+      formik.setFieldValue('eserviceId', purposeFetchedData.eservice.id, false)
+    }
+  }, [purposeFetchedData, eserviceData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSubmit = async (data: PurposeStep1Write) => {
-    const createData = {
+    const purposeData = {
       title: data.title,
       description: data.description,
       eserviceId: data.eserviceId,
       consumerId: party?.partyId,
     }
+    const purposeVersionData = { dailyCalls: data.dailyCalls }
 
-    // First, create the purpose
+    // Define which endpoint to call
+    let purposeEndpoint: ApiEndpointKey = 'PURPOSE_DRAFT_CREATE'
+    let purposeEndpointParams = {}
+    let purposeVersionEndpoint: ApiEndpointKey = 'PURPOSE_VERSION_DRAFT_CREATE'
+    const isNewPurpose = !purposeFetchedData
+    if (!isNewPurpose) {
+      purposeEndpoint = 'PURPOSE_DRAFT_UPDATE'
+      purposeEndpointParams = { purposeId }
+      delete purposeData.consumerId
+      purposeVersionEndpoint = 'PURPOSE_VERSION_DRAFT_UPDATE'
+    }
+
+    // First, create or update the purpose
     const { outcome: createOutcome, response: createResp } = await runAction(
-      { path: { endpoint: 'PURPOSE_CREATE' }, config: { data: createData } },
+      {
+        path: { endpoint: purposeEndpoint, endpointParams: purposeEndpointParams },
+        config: { data: purposeData },
+      },
       { suppressToast: false }
     )
 
-    // Then create a new version that holds the dailyCalls
+    // Then create or update a new version that holds the dailyCalls
     if (createOutcome === 'success') {
-      const versionCreateData = { dailyCalls: data.dailyCalls }
-      const { outcome: versionCreateOutcome } = await runAction(
+      await runActionWithCallback(
         {
           path: {
-            endpoint: 'PURPOSE_VERSION_DRAFT_CREATE',
+            endpoint: purposeVersionEndpoint,
             endpointParams: { purposeId: (createResp as AxiosResponse).data.id },
           },
-          config: { data: versionCreateData },
+          config: { data: purposeVersionData },
         },
-        { suppressToast: false }
+        { callback: wrapGoForward(isNewPurpose), suppressToast: false }
       )
+    }
+  }
 
-      if (versionCreateOutcome === 'success') {
-        forward()
-      }
+  const wrapGoForward = (isNewPurpose: boolean) => (response: AxiosResponse) => {
+    if (isNewPurpose) {
+      // Replace the create route with the acutal eserviceId, now that we have it.
+      // WARNING: this will cause a re-render that will fetch fresh data
+      // at the PurposeCreate component level (which is ugly)
+      history.replace(
+        buildDynamicPath(ROUTES.SUBSCRIBE_PURPOSE_EDIT.PATH, { purposeId: response.data.id }),
+        { stepIndexDestination: 1 }
+      )
+    } else {
+      // Go to next step
+      forward()
     }
   }
 
@@ -99,7 +150,7 @@ export const PurposeWriteStep1General: FunctionComponent<ActiveStepProps> = ({ f
   const validationSchema = object({
     title: string().required(),
     description: string().required(),
-    eservice: object().required(),
+    eserviceId: string().required(),
     dailyCalls: number().required(),
   })
   const formik = useFormik({
@@ -146,8 +197,8 @@ export const PurposeWriteStep1General: FunctionComponent<ActiveStepProps> = ({ f
         label="Numero di chiamate API/giorno (richiesto)"
         infoLabel="Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'e-service"
         type="number"
-        value={formik.values.dailyCalls}
         error={formik.errors.dailyCalls}
+        value={formik.values.dailyCalls}
         onChange={formik.handleChange}
         inputProps={{ min: '1' }}
       />

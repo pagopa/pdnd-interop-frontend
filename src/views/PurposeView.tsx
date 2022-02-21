@@ -34,7 +34,7 @@ import { useActiveTab } from '../hooks/useActiveTab'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 // import { axiosErrorToError } from '../lib/error-utils'
 
-export const PurposeEdit = () => {
+export const PurposeView = () => {
   const history = useHistory()
   const [mockData, setMockData] = useState<DecoratedPurpose>()
   const location = useLocation()

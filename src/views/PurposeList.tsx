@@ -73,7 +73,7 @@ export const PurposeList = () => {
   const wrapDelete = (purposeId: string) => async () => {
     await runAction(
       {
-        path: { endpoint: 'PURPOSE_DELETE', endpointParams: { purposeId } },
+        path: { endpoint: 'PURPOSE_DRAFT_DELETE', endpointParams: { purposeId } },
       },
       { suppressToast: false }
     )
@@ -136,7 +136,7 @@ export const PurposeList = () => {
     }
 
     const deleteAction = {
-      onClick: wrapActionInDialog(wrapDelete(purpose.id), 'PURPOSE_DELETE'),
+      onClick: wrapActionInDialog(wrapDelete(purpose.id), 'PURPOSE_DRAFT_DELETE'),
       label: 'Elimina',
     }
 

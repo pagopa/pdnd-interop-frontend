@@ -23,7 +23,7 @@ type ClientList = {
   clients: Array<Client>
 }
 
-export const PurposeWriteStep3Clients: FunctionComponent<ActiveStepProps> = ({ back }) => {
+export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ back }) => {
   const location = useLocation()
   const bits = getBits(location)
   const purposeId = bits.pop()
@@ -81,7 +81,7 @@ export const PurposeWriteStep3Clients: FunctionComponent<ActiveStepProps> = ({ b
   const deleteVersion = async () => {
     await runActionWithDestination(
       {
-        path: { endpoint: 'PURPOSE_DELETE', endpointParams: { purposeId } },
+        path: { endpoint: 'PURPOSE_DRAFT_DELETE', endpointParams: { purposeId } },
       },
       { destination: ROUTES.SUBSCRIBE_PURPOSE_LIST, suppressToast: false }
     )
@@ -156,7 +156,7 @@ export const PurposeWriteStep3Clients: FunctionComponent<ActiveStepProps> = ({ b
           </StyledButton>
           <StyledButton
             variant="outlined"
-            onClick={wrapActionInDialog(deleteVersion, 'PURPOSE_DELETE')}
+            onClick={wrapActionInDialog(deleteVersion, 'PURPOSE_DRAFT_DELETE')}
           >
             Cancella bozza
           </StyledButton>
