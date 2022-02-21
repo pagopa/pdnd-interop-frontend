@@ -4,7 +4,7 @@ import { InputSelectOption } from '../../../types'
 import { StyledInputWrapper } from './StyledInputWrapper'
 import { SxProps } from '@mui/system'
 
-type StyledInputControlledSelectProps = {
+export type StyledInputControlledSelectProps = {
   name: string
   value?: string
   error?: string
@@ -19,6 +19,8 @@ type StyledInputControlledSelectProps = {
   sx?: SxProps
 
   options?: Array<InputSelectOption>
+
+  type?: 'select-one'
 }
 
 export function StyledInputControlledSelect({
@@ -54,7 +56,7 @@ export function StyledInputControlledSelect({
         select
         disabled={disabled}
         sx={{ width: '100%' }}
-        variant="standard"
+        variant="outlined"
         label={label}
         error={hasFieldError}
         inputProps={inputProps}

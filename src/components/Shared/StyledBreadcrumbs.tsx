@@ -40,11 +40,11 @@ export function StyledBreadcrumbs() {
   }
 
   return (
-    <Breadcrumbs sx={{ mb: 5, color: 'secondary.main' }}>
+    <Breadcrumbs sx={{ mb: 5 }}>
       {links.map(({ label, path }, i) => {
         if (i === links.length - 1) {
           return (
-            <Typography component="span" color="inherit" key={i}>
+            <Typography component="span" color="text.secondary" key={i}>
               {label}
             </Typography>
           )

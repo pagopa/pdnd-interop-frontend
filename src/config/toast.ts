@@ -180,6 +180,17 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
         "Non è stato possibile associare il nuovo operatore al suo client. Assicurarsi che non esista già l'utenza ed eventualmente ritentare",
     },
   },
+  OPERATOR_SECURITY_REMOVE_FROM_CLIENT: {
+    loadingText: "Stiamo rimuovendo l'operatore dal client",
+    success: {
+      title: 'Operatore rimosso',
+      description: "L'operatore è stato rimosso correttamente dal client",
+    },
+    error: {
+      title: "C'è stato un problema",
+      description: "Non è stato possibile rimuovere l'operatore dal client. Per favore, riprova!",
+    },
+  },
   ATTRIBUTE_CREATE: {
     loadingText: 'Stiamo salvando il nuovo attributo',
     success: {
@@ -248,9 +259,79 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: "Non è stato possibile aggiornare l'accordo. Per favore, riprova!",
     },
   },
+  PURPOSE_UPDATE: { loadingText: 'Stiamo aggiornando la bozza' },
+  PURPOSE_DELETE: {
+    loadingText: 'Stiamo cancellando la finalità in bozza',
+    success: {
+      title: 'Finalità cancellata',
+      description: 'La finalità è stata cancellata correttamente',
+    },
+    error: {
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile cancellare la finalità. Per favore, riprova!',
+    },
+  },
+  PURPOSE_VERSION_DRAFT_UPDATE: { loadingText: 'Stiamo aggiornando la bozza' },
+  PURPOSE_VERSION_SUSPEND: {
+    loadingText: 'Stiamo sospendendo la finalità',
+    success: {
+      title: 'Finalità sospesa',
+      description:
+        'Non è più possibile per i client associati alla finalità accedere al servizio in erogazione',
+    },
+    error: {
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile sospendere la finalità. Per favore, riprova!',
+    },
+  },
+  PURPOSE_VERSION_ACTIVATE: {
+    loadingText: 'Stiamo riattivando la finalità',
+    success: {
+      title: 'Finalità attivata',
+      description: 'La finalità è ora attiva',
+    },
+    error: {
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile riattivare la finalità. Per favore, riprova!',
+    },
+  },
+  PURPOSE_VERSION_ARCHIVE: {
+    loadingText: 'Stiamo archiviando la finalità',
+    success: {
+      title: 'Finalità archiviata',
+      description:
+        'La finalità è stata ora archiviata perché non più in uso. Potrai sempre creare nuove finalità',
+    },
+    error: {
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile archiviare la finalità. Per favore, riprova!',
+    },
+  },
   CLIENT_CREATE: { loadingText: 'Stiamo creando il client richiesto' },
   CLIENT_SUSPEND: { loadingText: 'Stiamo sospendendo il client richiesto' },
   CLIENT_ACTIVATE: { loadingText: 'Stiamo riattivando il client richiesto' },
+  CLIENT_JOIN_WITH_PURPOSE: {
+    loadingText: 'Stiamo associando il client alla finalità',
+    success: {
+      title: 'Client associato alla finalità',
+      description: 'Il client è stato associato alla finalità correttamente',
+    },
+    error: {
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile associare il client alla finalità. Per favore, riprova!',
+    },
+  },
+  CLIENT_REMOVE_FROM_PURPOSE: {
+    loadingText: 'Stiamo rimuovendo il client dalla finalità',
+    success: {
+      title: 'Client rimosso dalla finalità',
+      description: 'Il client è stato rimosso dalla finalità correttamente',
+    },
+    error: {
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile rimuovere il client dalla finalità. Per favore, riprova!',
+    },
+  },
   USER_SUSPEND: {
     loadingText: "Stiamo sospendendo l'operatore",
     success: {
@@ -275,7 +356,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: "Non è stato possibile riattivare l'operatore richiesto. Per favore, riprova!",
     },
   },
-  OPERATOR_SECURITY_KEYS_POST: {
+  KEY_POST: {
     loadingText: 'Stiamo caricando la chiave',
     success: {
       title: 'Chiave caricata',
@@ -288,7 +369,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
         'Non è stato possibile caricare la chiave. Assicurarsi sia nel formato corretto e riprovare',
     },
   },
-  OPERATOR_SECURITY_KEY_DELETE: {
+  KEY_DELETE: {
     loadingText: 'Stiamo cancellando la chiave',
     success: {
       title: 'Chiave cancellata',
@@ -300,5 +381,5 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: 'Non è stato possibile cancellare la chiave. Per favore, riprova!',
     },
   },
-  OPERATOR_SECURITY_KEY_DOWNLOAD: { loadingText: 'Stiamo scaricando la chiave' },
+  KEY_DOWNLOAD: { loadingText: 'Stiamo scaricando la chiave' },
 }

@@ -55,6 +55,26 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
     description:
       "Cliccando su \"conferma\", l'accordo di interoperabilità sarà aggiornato alla versione più recente dell'e-service attualmente disponibile. I client collegati a questo accordo continueranno ad avere accesso all'e-service in erogazione, aggiornato all'ultima versione",
   },
+  PURPOSE_DELETE: {
+    title: 'Conferma cancellazione finalità',
+    description:
+      'Cliccando "conferma" questa finalità verrà cancellata e non sarà più recuperabile. Tutti i client ad essa associata non potranno più accedere all\'e-service dell\'erogatore. Sarà sempre possibile creare nuove finalità',
+  },
+  PURPOSE_VERSION_SUSPEND: {
+    title: 'Conferma sospensione finalità',
+    description:
+      'Cliccando "conferma" questa finalità verrà sospesa. Tutti i client associati non avranno più accesso all\'e-service erogato fino a che non sarà riattivata',
+  },
+  PURPOSE_VERSION_ACTIVATE: {
+    title: 'Conferma riattivazione finalità',
+    description:
+      'Cliccando "conferma" questa finalità verrà riattivata. Tutti i client associati torneranno ad avere accesso all\'e-service erogato',
+  },
+  PURPOSE_VERSION_ARCHIVE: {
+    title: 'Conferma archiviazione finalità',
+    description:
+      'Cliccando "conferma" questa finalità verrà archiviata. Tutti i client associati non avranno più accesso all\'e-service erogato',
+  },
   CLIENT_SUSPEND: {
     title: 'Sospendi il client',
     description:
@@ -65,7 +85,12 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
     description:
       "Il client è attualmente inattivo, e si sta per riattivarlo. Se ci sono altri impedimenti (es. l'accordo di interoperabilità è sospeso) non sarà comunque possibile accedere all'e-service erogato",
   },
-  OPERATOR_SECURITY_KEY_DELETE: {
+  CLIENT_REMOVE_FROM_PURPOSE: {
+    title: 'Rimuovi client dalla finalità',
+    description:
+      "Il client sarà rimosso da questa finalità. Tutte le chiavi caricate non potranno più essere usate per accedere all'e-service per questa finalità",
+  },
+  KEY_DELETE: {
     title: 'Cancella la chiave pubblica',
     description:
       'Cliccando su "conferma" si cancellerà la chiave pubblica relativa a questo operatore. NB: tutti i servizi che utilizzano questa chiave non potranno più accedere al servizio dell\'ente erogatore. Se non sei sicuro, scarica e salva la tua chiave pubblica prima di cancellarla',
@@ -79,5 +104,10 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
     title: 'Riattiva operatore',
     description:
       "Cliccando su \"conferma\", l'operatore richiesto sarà riabilitato all'accesso alla piattaforma per l'ente corrente. Se è un operatore di sicurezza, anche le sue chiavi sono riabilitate",
+  },
+  OPERATOR_SECURITY_REMOVE_FROM_CLIENT: {
+    title: 'Rimuovi operatore dal client',
+    description:
+      "L'operatore sarà rimosso da questo client. Le chiavi che ha caricato per questo client rimarranno comunque utilizzabili, a meno che tu non le rimuova manualmente dalla lista di chiavi per questo client",
   },
 }

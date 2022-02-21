@@ -2,10 +2,11 @@ import React from 'react'
 import { AxiosError, AxiosRequestConfig, AxiosResponse, Method } from 'axios'
 import {
   AGREEMENT_STATE_LABEL,
-  CLIENT_STATE_LABEL,
   ESERVICE_STATE_LABEL,
+  PURPOSE_STATE_LABEL,
 } from './src/config/labels'
 import { SchemaOf } from 'yup'
+import { RunAction } from './src/hooks/useFeedback'
 
 /*
  * Fetch data and router related types
@@ -31,7 +32,7 @@ export type ApiEndpointKey =
   | 'ESERVICE_VERSION_DRAFT_DELETE_DOCUMENT'
   | 'ESERVICE_VERSION_DRAFT_UPDATE_DOCUMENT_DESCRIPTION'
   | 'ESERVICE_VERSION_DOWNLOAD_DOCUMENT'
-  | 'ATTRIBUTES_GET_LIST'
+  | 'ATTRIBUTE_GET_LIST'
   | 'ATTRIBUTE_CREATE'
   | 'AGREEMENT_CREATE'
   | 'AGREEMENT_GET_LIST'
@@ -40,24 +41,40 @@ export type ApiEndpointKey =
   | 'AGREEMENT_ACTIVATE'
   | 'AGREEMENT_SUSPEND'
   | 'AGREEMENT_UPGRADE'
+  | 'PURPOSE_GET_LIST'
+  | 'PURPOSE_GET_SINGLE'
+  | 'PURPOSE_CREATE'
+  | 'PURPOSE_UPDATE'
+  | 'PURPOSE_DELETE'
+  | 'PURPOSE_VERSION_DRAFT_CREATE'
+  | 'PURPOSE_VERSION_DRAFT_UPDATE'
+  | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
+  | 'PURPOSE_VERSION_SUSPEND'
+  | 'PURPOSE_VERSION_ACTIVATE'
+  | 'PURPOSE_VERSION_ARCHIVE'
   | 'CLIENT_GET_LIST'
   | 'CLIENT_GET_SINGLE'
   | 'CLIENT_CREATE'
   | 'CLIENT_SUSPEND'
   | 'CLIENT_ACTIVATE'
+  | 'CLIENT_JOIN_WITH_PURPOSE'
+  | 'CLIENT_REMOVE_FROM_PURPOSE'
+  | 'KEY_GET_LIST'
+  | 'KEY_GET_SINGLE'
+  | 'KEY_POST'
+  | 'KEY_DOWNLOAD'
+  | 'KEY_DELETE'
+  | 'USER_GET_LIST'
+  | 'USER_SUSPEND'
+  | 'USER_REACTIVATE'
+  | 'USER_GET_SINGLE'
   | 'OPERATOR_CREATE'
   | 'OPERATOR_SECURITY_JOIN_WITH_CLIENT'
-  | 'OPERATOR_API_GET_LIST'
+  | 'OPERATOR_SECURITY_REMOVE_FROM_CLIENT'
   | 'OPERATOR_API_GET_SINGLE'
   | 'OPERATOR_SECURITY_GET_LIST'
   | 'OPERATOR_SECURITY_GET_SINGLE'
-  | 'OPERATOR_SECURITY_KEYS_GET_LIST'
-  | 'OPERATOR_SECURITY_KEYS_POST'
-  | 'OPERATOR_SECURITY_KEY_DOWNLOAD'
-  | 'OPERATOR_SECURITY_KEY_DELETE'
-  | 'USER_SUSPEND'
-  | 'USER_REACTIVATE'
-  | 'USER_GET'
+  | 'OPERATOR_SECURITY_GET_KEYS_LIST'
 
 export type ApiEndpointContent = {
   URL: string
@@ -210,7 +227,7 @@ export type EServiceTechnologyType = 'REST' | 'SOAP'
 export type EServiceNoDescriptorId = 'prima-bozza'
 
 // Write only
-export type EServiceWriteType = {
+export type EServiceCreateType = {
   id: string
   name: string
   version: string
@@ -272,6 +289,7 @@ export type EServiceReadType = {
   state: EServiceState
   descriptors: Array<EServiceDescriptorRead>
   activeDescriptor?: EServiceDescriptorRead // TEMP REFACTOR : this is added by the client
+  subscriberPurpose?: Array<Purpose>
 }
 
 export type EServiceDescriptorRead = {
@@ -283,6 +301,7 @@ export type EServiceDescriptorRead = {
   voucherLifespan: number
   description: string
   audience: Array<string>
+  dailyCalls: number
 }
 
 export type EServiceDocumentRead = {
@@ -333,52 +352,120 @@ export type AgreementSummary = {
 }
 
 /*
+ * Purpose
+ */
+export type PurposeState = keyof typeof PURPOSE_STATE_LABEL
+
+type PurposeYesNoAnswer = 'YES' | 'NO'
+
+type PurposeLegalBasisAnswer =
+  | 'CONSENT'
+  | 'CONTRACT'
+  | 'OBLIGATION'
+  | 'SAFEGUARD'
+  | 'PUBLIC_INTEREST'
+  | 'LEGITIMATE_INTEREST'
+
+type PurposeDataQuantityAnswer =
+  | 'QUANTITY_0_TO_100'
+  | 'QUANTITY_101_TO_500'
+  | 'QUANTITY_500_TO_1000'
+  | 'QUANTITY_1001_TO_5000'
+  | 'QUANTITY_5001_OVER'
+
+type PurposeDeliveryMethodAnswer = 'CLEARTEXT' | 'AGGREGATE' | 'ANONYMOUS' | 'PSEUDOANONYMOUS'
+
+type PurposePursuitAnswer = 'MERE_CORRECTNESS' | 'NEW_PERSONAL_DATA'
+
+type PurposeRiskAnalysisFormAnswers = {
+  purpose: string
+  usesPersonalData: PurposeYesNoAnswer
+  usesThirdPartyPersonalData?: PurposeYesNoAnswer
+  usesConfidentialData?: PurposeYesNoAnswer
+  securedDataAccess?: PurposeYesNoAnswer
+  legalBasis?: Array<PurposeLegalBasisAnswer>
+  legalObligationReference?: string
+  publicInterestReference?: string
+  knowsAccessedDataCategories?: PurposeYesNoAnswer
+  accessDataArt9Gdpr?: PurposeYesNoAnswer
+  accessUnderageData?: PurposeYesNoAnswer
+  knowsDataQuantity?: PurposeYesNoAnswer
+  dataQuantity?: PurposeDataQuantityAnswer
+  deliveryMethod?: PurposeDeliveryMethodAnswer
+  doneDpia?: PurposeYesNoAnswer
+  definedDataRetentionPeriod?: PurposeYesNoAnswer
+  purposePursuit?: PurposePursuitAnswer
+  checkedExistenceMereCorrectnessInteropCatalogue?: 'YES'
+  checkedAllDataNeeded?: PurposeYesNoAnswer
+  checkedExistenceMinimalDataInteropCatalogue?: PurposeYesNoAnswer
+}
+
+type PurposeRiskAnalysisForm = {
+  version: string
+  answers: PurposeRiskAnalysisFormAnswers
+}
+
+type PurposeRiskAnalysisDocument = {
+  contentType: string
+  createdAt: string
+  id: string
+}
+
+export type PurposeVersion = {
+  id: string
+  state: PurposeState
+  dailyCalls: number
+  riskAnalysisDocument: PurposeRiskAnalysisDocument
+  createdAt: string
+  expectedApprovalDate?: string
+  firstActivation?: string
+}
+
+export type Purpose = {
+  id: string
+  title: string
+  description: string
+  eservice: Pick<EServiceReadType, 'id' | 'name' | 'producer'>
+  eserviceDescriptor: Pick<EServiceDescriptorRead, 'id' | 'version' | 'dailyCalls' | 'state'>
+  agreement: Pick<AgreementSummary, 'id' | 'state'>
+  riskAnalysisForm: PurposeRiskAnalysisForm
+  clients: Array<Pick<Client, 'id' | 'name'>>
+  versions: Array<PurposeVersion>
+}
+
+// The frontend adds this, currentVersion and mostRecentVersion
+// differ if mostRecentVersion's state is WAITING_FOR_APPROVAL
+export type DecoratedPurpose = Purpose & {
+  mostRecentVersion: PurposeVersion
+  currentVersion: PurposeVersion
+  awaitingApproval: boolean
+}
+
+/*
  * Client
  */
-export type ClientState = keyof typeof CLIENT_STATE_LABEL
-
-type ClientEServiceDescriptor = {
-  id: string
-  state: EServiceState
-  version: string
-}
-
-type ClientEService = {
-  id: string
-  name: string
-  provider: ClientProvider
-  // activeDescriptor will only be available if the e-service has one published version
-  // For example, if the latest version of the e-service is suspended (and by default
-  // the previous version is deprecated), there will not be an activeDescriptor available
-  activeDescriptor?: ClientEServiceDescriptor
-}
-
-type ClientAgreement = {
-  id: string
-  state: AgreementState
-  descriptor: ClientEServiceDescriptor
-}
-
-type ClientProvider = {
-  institutionId: string
-  description: string
-}
-
 export type Client = {
   id: string
   name: string
   description: string
-  state: ClientState
-  agreement: ClientAgreement
-  eservice: ClientEService
-  purposes: string
+  operators: Array<User>
 }
 
 /*
  * Public keys
  */
-export type SecurityOperatorPublicKey = {
+export type PublicKeyItem = {
   kid: string
+  use: 'SIG' | 'ENC'
+  clientId?: string
+}
+
+export type PublicKey = {
+  key: PublicKeyItem
+}
+
+export type PublicKeys = {
+  keys: Array<PublicKey>
 }
 
 /*
@@ -469,9 +556,56 @@ export type DialogProps =
   | DialogBasicProps
   | DialogAskExtensionProps
   | DialogSubscribeProps
-  | DialogSecurityOperatorKeyProps
+  | DialogAddSecurityOperatorKeyProps
   | DialogExistingAttributeProps
   | DialogNewAttributeProps
+  | DialogAddSecurityOperatorProps
+  | DialogAddClientsProps
+  | DialogUpdatePurposeDailyCallsProps
+  | DialogCreateSecurityOperatorProps
+  | DialogSetPurposeExpectedApprovalDateProps
+
+export type DialogSetPurposeExpectedApprovalDateProps = {
+  type: 'setPurposeExpectedApprovalDate'
+  id: string
+  approvalDate?: string
+  runAction: RunAction
+}
+
+export type DialogCreateSecurityOperatorProps = {
+  type: 'createSecurityOperator'
+}
+
+export type CreateSecurityOperatorFormInputValues = {
+  selected: Array<User>
+}
+
+export type DialogUpdatePurposeDailyCallsProps = {
+  type: 'updatePurposeDailyCalls'
+  onSubmit: (data: DialogUpdatePurposeDailyCallsFormInputValues) => void
+  initialValues: DialogUpdatePurposeDailyCallsFormInputValues
+  validationSchema: SchemaOf<DialogUpdatePurposeDailyCallsFormInputValues>
+}
+
+export type DialogUpdatePurposeDailyCallsFormInputValues = {
+  dailyCalls: number
+}
+
+export type DialogAddClientsProps = {
+  type: 'addClients'
+  onSubmit: (data: Array<Client>) => void
+  exclude: Array<Client>
+}
+
+export type DialogAddSecurityOperatorProps = {
+  type: 'addSecurityOperator'
+  onSubmit: (data: AddSecurityOperatorFormInputValues) => void
+  initialValues: AddSecurityOperatorFormInputValues
+}
+
+export type AddSecurityOperatorFormInputValues = {
+  selected: Array<User>
+}
 
 export type DialogNewAttributeProps = {
   type: 'newAttribute'
@@ -504,7 +638,7 @@ export type ExistingAttributeFormInputValues = {
   selected: Array<CatalogAttribute>
 }
 
-export type DialogSecurityOperatorKeyProps = {
+export type DialogAddSecurityOperatorKeyProps = {
   type: 'securityOperatorKey'
   onSubmit: (data: SecurityOperatorKeysFormInputValues) => void
   initialValues: SecurityOperatorKeysFormInputValues
@@ -512,7 +646,6 @@ export type DialogSecurityOperatorKeyProps = {
 }
 
 export type SecurityOperatorKeysFormInputValues = {
-  alg: 'RS256'
   key: string
 }
 
@@ -553,26 +686,36 @@ export type DialogActionKeys = Exclude<
   | 'ESERVICE_VERSION_DRAFT_DELETE_DOCUMENT'
   | 'ESERVICE_VERSION_DRAFT_UPDATE_DOCUMENT_DESCRIPTION'
   | 'ESERVICE_VERSION_DOWNLOAD_DOCUMENT'
-  | 'ATTRIBUTES_GET_LIST'
+  | 'ATTRIBUTE_GET_LIST'
   | 'ATTRIBUTE_CREATE'
   | 'AGREEMENT_CREATE'
   | 'AGREEMENT_GET_LIST'
   | 'AGREEMENT_GET_SINGLE'
   | 'AGREEMENT_VERIFY_ATTRIBUTE'
+  | 'PURPOSE_GET_LIST'
+  | 'PURPOSE_GET_SINGLE'
+  | 'PURPOSE_UPDATE'
+  | 'PURPOSE_CREATE'
+  | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
+  | 'PURPOSE_VERSION_DRAFT_CREATE'
+  | 'PURPOSE_VERSION_DRAFT_UPDATE'
   | 'CLIENT_GET_LIST'
   | 'CLIENT_GET_SINGLE'
   | 'CLIENT_CREATE'
+  | 'CLIENT_JOIN_WITH_PURPOSE'
+  | 'KEY_GET_LIST'
+  | 'KEY_GET_SINGLE'
+  | 'KEY_POST'
+  | 'KEY_DOWNLOAD'
+  | 'USER_GET_LIST'
+  | 'USER_GET_SINGLE'
   | 'OPERATOR_CREATE'
   | 'OPERATOR_SECURITY_JOIN_WITH_CLIENT'
-  | 'OPERATOR_API_GET_LIST'
   | 'OPERATOR_API_GET_SINGLE'
   | 'OPERATOR_SECURITY_GET_LIST'
   | 'OPERATOR_SECURITY_GET_SINGLE'
   | 'OPERATOR_SECURITY_CREATE'
-  | 'OPERATOR_SECURITY_KEYS_GET_LIST'
-  | 'OPERATOR_SECURITY_KEYS_POST'
-  | 'OPERATOR_SECURITY_KEY_DOWNLOAD'
-  | 'USER_GET'
+  | 'OPERATOR_SECURITY_GET_KEYS_LIST'
 >
 
 export type ToastContent = {
@@ -594,17 +737,24 @@ export type ToastActionKeys = Exclude<
   | 'ONBOARDING_GET_AVAILABLE_PARTIES'
   | 'PARTY_GET_PARTY_ID'
   | 'ESERVICE_GET_SINGLE'
-  | 'ATTRIBUTES_GET_LIST'
+  | 'ATTRIBUTE_GET_LIST'
   | 'AGREEMENT_GET_LIST'
   | 'AGREEMENT_GET_SINGLE'
   | 'CLIENT_GET_LIST'
   | 'CLIENT_GET_SINGLE'
-  | 'OPERATOR_API_GET_LIST'
+  | 'PURPOSE_GET_LIST'
+  | 'PURPOSE_GET_SINGLE'
+  | 'PURPOSE_CREATE'
+  | 'PURPOSE_VERSION_DRAFT_CREATE'
+  | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
+  | 'KEY_GET_LIST'
+  | 'KEY_GET_SINGLE'
+  | 'USER_GET_LIST'
+  | 'USER_GET_SINGLE'
   | 'OPERATOR_API_GET_SINGLE'
   | 'OPERATOR_SECURITY_GET_LIST'
   | 'OPERATOR_SECURITY_GET_SINGLE'
-  | 'OPERATOR_SECURITY_KEYS_GET_LIST'
-  | 'USER_GET'
+  | 'OPERATOR_SECURITY_GET_KEYS_LIST'
 >
 
 export type LoaderType = 'global' | 'contextual'
@@ -633,7 +783,7 @@ export type InputRadioOption = {
 
 export type InputCheckboxOption = {
   label: string
-  name: string
+  value: string
 }
 
 /*
@@ -653,3 +803,9 @@ export type EServiceInterfaceMimeType = {
   mime: Array<string>
   format: string
 }
+
+export type FormikSetFieldValue = (
+  field: string,
+  value: unknown,
+  shouldValidate?: boolean | undefined
+) => void

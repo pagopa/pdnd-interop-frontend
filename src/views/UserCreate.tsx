@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { Formik } from 'formik'
-import { object, string } from 'yup'
 import { useLocation } from 'react-router-dom'
 import { useMode } from '../hooks/useMode'
 import { Party, ProviderOrSubscriber, UserOnCreate } from '../../types'
@@ -11,10 +10,13 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
 import { ROUTES } from '../config/routes'
-import { Contained } from '../components/Shared/Contained'
 import { AxiosResponse } from 'axios'
-import { Grid } from '@mui/material'
-import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
+import { UserCreationForm } from '../components/Shared/UserCreationForm'
+import {
+  userCreationFormContract,
+  userCreationFormInitialValues,
+  userCreationFormValidationSchema,
+} from '../config/forms'
 
 export function UserCreate() {
   const { runActionWithDestination, runAction } = useFeedback()
@@ -30,10 +32,8 @@ export function UserCreate() {
       product: 'interop',
       productRole: mode === 'provider' ? 'api' : 'security',
     }
-
     const { institutionId } = party as Party
-    const contract = { version: '1', path: 'contracts/v1/interop-contract.html' }
-    const dataToPost = { users: [userData], institutionId, contract }
+    const dataToPost = { users: [userData], institutionId, contract: userCreationFormContract }
 
     if (mode === 'provider') {
       // Create the api operator
@@ -63,9 +63,7 @@ export function UserCreate() {
           },
         },
         {
-          destination: buildDynamicRoute(ROUTES.SUBSCRIBE_CLIENT_EDIT, {
-            id: clientId,
-          }),
+          destination: buildDynamicRoute(ROUTES.SUBSCRIBE_CLIENT_EDIT, { clientId }),
           suppressToast: false,
         }
       )
@@ -85,78 +83,20 @@ export function UserCreate() {
     },
   }
 
-  const initialValues = { name: '', surname: '', taxCode: '', email: '' }
-  const validationSchema = object({
-    name: string().required(),
-    surname: string().required(),
-    taxCode: string().required(),
-    email: string().email().required(),
-  })
-
   return (
     <React.Fragment>
       <StyledIntro>{INTRO[currentMode]}</StyledIntro>
 
       <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
+        initialValues={userCreationFormInitialValues}
+        validationSchema={userCreationFormValidationSchema}
         onSubmit={onSubmit}
         validateOnChange={false}
         validateOnBlur={false}
       >
         {({ handleSubmit, errors, values, handleChange }) => (
           <StyledForm onSubmit={handleSubmit}>
-            <Contained>
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <StyledInputControlledText
-                    focusOnMount={true}
-                    sx={{ my: 4 }}
-                    label="Nome*"
-                    name="name"
-                    onChange={handleChange}
-                    value={values.name}
-                    error={errors.name}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <StyledInputControlledText
-                    sx={{ my: 4 }}
-                    label="Cognome*"
-                    name="surname"
-                    onChange={handleChange}
-                    value={values.surname}
-                    error={errors.surname}
-                  />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <StyledInputControlledText
-                    sx={{ my: 4 }}
-                    label="Codice Fiscale*"
-                    name="taxCode"
-                    onChange={handleChange}
-                    value={values.taxCode}
-                    error={errors.taxCode}
-                  />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <StyledInputControlledText
-                    type="email"
-                    infoLabel="Inserisci l'indirizzo email ad uso aziendale utilizzato per l'Ente"
-                    sx={{ my: 4 }}
-                    label="Email ad uso aziendale*"
-                    name="email"
-                    onChange={handleChange}
-                    value={values.email}
-                    error={errors.email}
-                  />
-                </Grid>
-              </Grid>
-            </Contained>
-
+            <UserCreationForm handleChange={handleChange} errors={errors} values={values} />
             <StyledButton sx={{ mt: 8 }} variant="contained" type="submit">
               Crea operatore
             </StyledButton>

@@ -2,7 +2,7 @@ import { Location } from 'history'
 import identity from 'lodash/identity'
 import isEmpty from 'lodash/isEmpty'
 import sortBy from 'lodash/sortBy'
-import qs from 'query-string'
+import qs from 'qs'
 import { ProviderOrSubscriber, RouteConfig } from '../../types'
 import { ROUTES } from '../config/routes'
 
@@ -92,7 +92,7 @@ export function getLastBit(location: Location<unknown>): string {
 }
 
 export function parseSearch(search: string) {
-  return qs.parse(search)
+  return qs.parse(search, { ignoreQueryPrefix: true })
 }
 
 export function buildDynamicPath(

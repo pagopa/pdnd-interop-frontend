@@ -1,56 +1,76 @@
-import React, { FunctionComponent, useContext } from 'react'
-import { Typography } from '@mui/material'
-import { Box } from '@mui/system'
-import { ToastContext } from '../../lib/context'
-import { ToastProps } from '../../../types'
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
+import { Typography, Popover } from '@mui/material'
 import { StyledButton } from './StyledButton'
-import { StyledTooltip } from './StyledTooltip'
 
 type InlineClipboardProps = {
   text: string
-  successTooltipText?: string
+  successFeedbackText?: string
+  autoHideDuration?: number
 }
 
 export const InlineClipboard: FunctionComponent<InlineClipboardProps> = ({
   text,
-  successTooltipText = 'Messaggio copiato correttamente',
+  successFeedbackText = 'Messaggio copiato correttamente',
+  autoHideDuration = 1500,
 }) => {
-  const { setToast } = useContext(ToastContext)
+  const [permission, setPermission] = useState(false)
+  const [popover, setPopover] = useState(false)
+  const anchorRef = useRef() as React.MutableRefObject<HTMLSpanElement>
 
-  const attemptCopy = async () => {
-    const clipboardWritePermission = 'clipboard-write' as PermissionName
-    const permission = await navigator.permissions.query({ name: clipboardWritePermission })
+  useEffect(() => {
+    async function asyncTestPermission() {
+      try {
+        const clipboardWritePermission = 'clipboard-write' as PermissionName
+        const permission = await navigator.permissions.query({ name: clipboardWritePermission })
 
-    const toastProps: ToastProps = {
-      onClose: () => {
-        setToast(null)
-      },
-      autoHideDuration: 1250,
-      outcome: 'error',
-      title: 'Errore',
-      description: 'Verificare i permessi per accedere alla clipboard',
+        if (['granted', 'prompt'].includes(permission.state)) {
+          setPermission(true)
+        }
+      } catch (err) {
+        console.error(err)
+        setPermission(false)
+      }
     }
 
-    //  TEMP REFACTOR: handle permission denied
-    if (['granted', 'prompt'].includes(permission.state)) {
-      // Write to clipboard
-      navigator.clipboard.writeText(text)
-      // Change toast props to success
-      toastProps.outcome = 'success'
-      toastProps.title = successTooltipText
-      toastProps.description = 'Puoi ora incollare il contenuto altrove'
-    }
+    asyncTestPermission()
+  }, [])
 
-    setToast({ ...toastProps })
+  const copy = async () => {
+    setPopover(true)
+
+    // TEMP REFACTOR: this autohide is probably not good for a11y
+    setTimeout(() => {
+      setPopover(false)
+    }, autoHideDuration)
   }
 
-  return (
-    <Box sx={{ mt: 1, py: 1 }}>
-      <StyledTooltip title="Clicca per copiare nella clipboard">
-        <StyledButton onClick={attemptCopy} sx={{ p: 0 }}>
-          <Typography component="span">{text}</Typography>
-        </StyledButton>
-      </StyledTooltip>
-    </Box>
+  return permission ? (
+    <React.Fragment>
+      <StyledButton onClick={copy} sx={{ p: 0 }}>
+        <Typography ref={anchorRef} component="span">
+          {text}
+        </Typography>
+      </StyledButton>
+      <Popover
+        anchorEl={anchorRef.current}
+        open={popover}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Typography
+          sx={{ p: 1 }}
+          component="span"
+          color="common.white"
+          bgcolor="primary.main"
+          variant="caption"
+        >
+          {successFeedbackText}
+        </Typography>
+      </Popover>
+    </React.Fragment>
+  ) : (
+    <Typography ref={anchorRef} component="span">
+      {text}
+    </Typography>
   )
 }

@@ -1,14 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Snapshot matches button (1) 1`] = `null`;
+exports[`Snapshot matches button (1) 1`] = `
+<span
+  className="MuiBox-root css-24nojk"
+/>
+`;
 
 exports[`Snapshot matches button (2) 1`] = `
 <button
-  aria-controls="basic-menu-0"
+  aria-controls="basic-menu-2"
   aria-haspopup="true"
   className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
   disabled={false}
-  id="basic-button-0"
+  id="basic-button-2"
   onBlur={[Function]}
   onClick={[Function]}
   onContextMenu={[Function]}

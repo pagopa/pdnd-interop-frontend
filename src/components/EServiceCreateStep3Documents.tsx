@@ -12,17 +12,17 @@ import { ROUTES } from '../config/routes'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledIntro } from './Shared/StyledIntro'
 import { StyledButton } from './Shared/StyledButton'
-import { EServiceWriteStep3DocumentsInterface } from './EServiceWriteStep3DocumentsInterface'
-import { EServiceWriteStep3DocumentsDoc } from './EServiceWriteStep3DocumentsDoc'
-import { EServiceWriteActions } from './Shared/EServiceWriteActions'
+import { EServiceCreateStep3DocumentsInterface } from './EServiceCreateStep3DocumentsInterface'
+import { EServiceCreateStep3DocumentsDoc } from './EServiceCreateStep3DocumentsDoc'
+import { StepActions } from './Shared/StepActions'
 import { Paper } from '@mui/material'
 import { TOAST_CONTENTS } from '../config/toast'
-import { EServiceWriteProps } from '../views/EServiceWrite'
+import { EServiceCreateProps } from '../views/EServiceCreate'
 
-export function EServiceWriteStep3Documents({
+export function EServiceCreateStep3Documents({
   back,
   fetchedData,
-}: StepperStepComponentProps & EServiceWriteProps) {
+}: StepperStepComponentProps & EServiceCreateProps) {
   const history = useHistory()
   const { runAction, runActionWithDestination, wrapActionInDialog } = useFeedback()
   const location = useLocation()
@@ -112,7 +112,7 @@ export function EServiceWriteStep3Documents({
 
   return (
     <React.Fragment>
-      <StyledIntro variant="h2" sx={{ mb: 0 }}>
+      <StyledIntro variant="h2" sx={{ mt: 8, mb: 4 }}>
         {{
           title: 'Interfaccia*',
           description: `Carica il file ${
@@ -122,7 +122,7 @@ export function EServiceWriteStep3Documents({
       </StyledIntro>
 
       {fetchedData && (
-        <EServiceWriteStep3DocumentsInterface
+        <EServiceCreateStep3DocumentsInterface
           data={fetchedData}
           uploadDescriptorDocument={uploadDescriptorDocument}
           deleteDescriptorDocument={deleteDescriptorDocument}
@@ -138,7 +138,7 @@ export function EServiceWriteStep3Documents({
         />
       )}
 
-      <StyledIntro variant="h2" sx={{ mt: 8, mb: 2, pt: 4, borderTop: 1, borderColor: 'divider' }}>
+      <StyledIntro variant="h3" sx={{ mt: 8, mb: 2, pt: 4, borderTop: 1, borderColor: 'divider' }}>
         {{
           title: 'Documentazione',
           description: 'Inserisci la documentazione tecnica utile all’utilizzo di questo e-service',
@@ -146,7 +146,7 @@ export function EServiceWriteStep3Documents({
       </StyledIntro>
 
       {fetchedData && (
-        <EServiceWriteStep3DocumentsDoc
+        <EServiceCreateStep3DocumentsDoc
           data={fetchedData}
           uploadDescriptorDocument={uploadDescriptorDocument}
           deleteDescriptorDocument={deleteDescriptorDocument}
@@ -154,7 +154,7 @@ export function EServiceWriteStep3Documents({
         />
       )}
 
-      <EServiceWriteActions
+      <StepActions
         back={{ label: 'Indietro', type: 'button', onClick: back }}
         forward={{
           label: 'Salva bozza e torna agli e-service',
@@ -170,8 +170,8 @@ export function EServiceWriteStep3Documents({
         }}
       />
 
-      <Paper sx={{ px: 3, py: 4, mt: 8 }}>
-        <StyledIntro variant="h2" sx={{ my: 0, pt: 0 }}>
+      <Paper sx={{ px: 3, py: 4, mt: 12 }} variant="outlined">
+        <StyledIntro variant="h2">
           {{
             title: 'Azioni rapide di pubblicazione',
             description:

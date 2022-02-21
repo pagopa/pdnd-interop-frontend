@@ -17,9 +17,11 @@ import { AxiosResponse } from 'axios'
 import { buildDynamicPath } from '../lib/router-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Box } from '@mui/system'
-import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ESERVICE_STATE_LABEL } from '../config/labels'
 import { ROUTES } from '../config/routes'
+import { StyledTableRow } from '../components/Shared/StyledTableRow'
+import { ActionMenu } from '../components/Shared/ActionMenu'
+import { axiosErrorToError } from '../lib/error-utils'
 
 export function EServiceList() {
   const { runAction, runFakeAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -201,7 +203,7 @@ export function EServiceList() {
   }
 
   // Data for the table head
-  const headData = ['nome e-service', 'versione', 'stato e-service', '']
+  const headData = ['nome e-service', 'versione', 'stato e-service']
 
   return (
     <React.Fragment>
@@ -224,29 +226,38 @@ export function EServiceList() {
         <TableWithLoader
           loadingText={loadingText}
           headData={headData}
-          data={data}
           noDataLabel="Non ci sono servizi disponibili"
-          error={error}
+          error={axiosErrorToError(error)}
         >
-          {data?.map((item, i) => (
-            <StyledTableRow
-              key={i}
-              cellData={[
-                { label: item.name },
-                { label: item.version || '1' },
-                { label: ESERVICE_STATE_LABEL[item.state || 'DRAFT'] },
-              ]}
-              index={i}
-              singleActionBtn={{
-                to: buildDynamicPath(ROUTES.PROVIDE_ESERVICE_EDIT.PATH, {
-                  eserviceId: item.id,
-                  descriptorId: item.descriptorId || 'prima-bozza',
-                }),
-                label: !item.state || item.state === 'DRAFT' ? 'Modifica' : 'Ispeziona',
-              }}
-              actions={getAvailableActions(item)}
-            />
-          ))}
+          {data &&
+            Boolean(data.length > 0) &&
+            data.map((item, i) => (
+              <StyledTableRow
+                key={i}
+                cellData={[
+                  { label: item.name },
+                  { label: item.version || '1' },
+                  { label: ESERVICE_STATE_LABEL[item.state || 'DRAFT'] },
+                ]}
+              >
+                <StyledButton
+                  variant="outlined"
+                  size="small"
+                  onClick={() => {
+                    history.push(
+                      buildDynamicPath(ROUTES.PROVIDE_ESERVICE_EDIT.PATH, {
+                        eserviceId: item.id,
+                        descriptorId: item.descriptorId || 'prima-bozza',
+                      })
+                    )
+                  }}
+                >
+                  {!item.state || item.state === 'DRAFT' ? 'Modifica' : 'Ispeziona'}
+                </StyledButton>
+
+                <ActionMenu actions={getAvailableActions(item)} />
+              </StyledTableRow>
+            ))}
         </TableWithLoader>
       </Box>
     </React.Fragment>

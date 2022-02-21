@@ -2,7 +2,7 @@
 
 exports[`Snapshot matches input field 1`] = `
 <div
-  className="MuiBox-root css-62igne"
+  className="MuiBox-root css-z727b5"
 >
   <input
     type="text"
@@ -12,7 +12,7 @@ exports[`Snapshot matches input field 1`] = `
 
 exports[`Snapshot matches input field with error 1`] = `
 <div
-  className="MuiBox-root css-62igne"
+  className="MuiBox-root css-z727b5"
 >
   <input
     type="text"

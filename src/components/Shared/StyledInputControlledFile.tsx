@@ -2,12 +2,13 @@ import React, { ChangeEvent } from 'react'
 import { Typography } from '@mui/material'
 import { Box, SxProps } from '@mui/system'
 import { StyledInputWrapper } from './StyledInputWrapper'
+import { FormikSetFieldValue } from '../../../types'
 
 type StyledInputControlledFileProps = {
   name: string
   value: File | null
   error?: string
-  setFieldValue(field: string, value: unknown, shouldValidate?: boolean | undefined): void
+  setFieldValue: FormikSetFieldValue
   label?: string
 
   infoLabel?: string
@@ -72,7 +73,7 @@ export function StyledInputControlledFile({
         </Box>
         <Typography component="span">
           File selezionato:{' '}
-          <Typography component="span" variant="inherit" sx={{ fontWeight: 700 }} color="secondary">
+          <Typography component="span" variant="inherit" sx={{ fontWeight: 700 }} color="text">
             {value ? value.name : 'nessun file selezionato'}
           </Typography>
         </Typography>

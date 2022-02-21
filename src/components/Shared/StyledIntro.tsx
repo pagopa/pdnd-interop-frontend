@@ -16,15 +16,15 @@ type StyledIntroProps = {
 export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
   children,
   variant = 'h1',
-  sx = {},
+  sx = { mb: 4, pb: 3 },
 }) => {
   return (
-    <Box sx={{ mb: 4, pb: 3, ...sx }}>
-      <Typography variant={variant} sx={{ mb: 2 }} color="inherit">
+    <Box sx={sx}>
+      <Typography variant={variant} color="inherit">
         {children.title}
       </Typography>
       {children.description && (
-        <Typography sx={{ mb: 0, maxWidth: 740 }} color="inherit">
+        <Typography sx={{ mt: 2, mb: 0, maxWidth: 740 }} color="inherit">
           {children.description}
         </Typography>
       )}

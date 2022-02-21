@@ -78,7 +78,7 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-catalog-process/0.1/eservices/:eserviceId/descriptors/:descriptorId/documents/:documentId',
     METHOD: 'GET',
   },
-  ATTRIBUTES_GET_LIST: {
+  ATTRIBUTE_GET_LIST: {
     URL: 'pdnd-interop-uservice-attribute-registry-management/0.1/attributes',
     METHOD: 'GET',
   },
@@ -114,6 +114,62 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-agreement-process/0.1/agreements/:agreementId/upgrade',
     METHOD: 'POST',
   },
+  PURPOSE_GET_LIST: {
+    // TEMP BACKEND: waiting for backend endpoint
+    URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes',
+    METHOD: 'GET',
+  },
+  PURPOSE_GET_SINGLE: {
+    // TEMP BACKEND: waiting for backend endpoint
+    URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes/:purposeId',
+    METHOD: 'GET',
+  },
+  PURPOSE_CREATE: {
+    // TEMP BACKEND: waiting for backend endpoint
+    URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes',
+    METHOD: 'POST',
+  },
+  PURPOSE_UPDATE: {
+    // TEMP BACKEND: waiting for backend endpoint
+    URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes/:purposeId/update',
+    METHOD: 'POST',
+  },
+  // Only applicable if empty or just 1 version in DRAFT
+  PURPOSE_DELETE: {
+    // TEMP BACKEND: waiting for backend endpoint
+    URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes/:purposeId',
+    METHOD: 'DELETE',
+  },
+  PURPOSE_VERSION_DRAFT_CREATE: {
+    // TEMP BACKEND: waiting for backend endpoint
+    URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes/:purposeId/versions',
+    METHOD: 'POST',
+  },
+  PURPOSE_VERSION_DRAFT_UPDATE: {
+    // TEMP BACKEND: waiting for backend endpoint
+    URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes/:purposeId/versions/:versionId/update',
+    METHOD: 'POST',
+  },
+  PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD: {
+    // TEMP BACKEND: waiting for backend endpoint
+    URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes/:purposeId/versions/:versionId/documents/:documentId',
+    METHOD: 'GET',
+  },
+  PURPOSE_VERSION_SUSPEND: {
+    // TEMP BACKEND: waiting for backend endpoint
+    URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes/:purposeId/versions/:versionId/suspend',
+    METHOD: 'POST',
+  },
+  PURPOSE_VERSION_ACTIVATE: {
+    // TEMP BACKEND: waiting for backend endpoint
+    URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes/:purposeId/versions/:versionId/activate',
+    METHOD: 'POST',
+  },
+  PURPOSE_VERSION_ARCHIVE: {
+    // TEMP BACKEND: waiting for backend endpoint
+    URL: 'pdnd-interop-uservice-purpose-process/0.1/purposes/:purposeId/versions/:versionId/archive',
+    METHOD: 'POST',
+  },
   CLIENT_GET_LIST: {
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients',
     METHOD: 'GET',
@@ -136,6 +192,45 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/activate',
     METHOD: 'POST',
   },
+  CLIENT_JOIN_WITH_PURPOSE: {
+    // TEMP BACKEND: waiting for backend endpoint
+    URL: '',
+    METHOD: 'POST',
+  },
+  CLIENT_REMOVE_FROM_PURPOSE: {
+    // TEMP BACKEND: waiting for backend endpoint
+    URL: '',
+    METHOD: 'POST',
+  },
+
+  KEY_GET_LIST: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/keys',
+    METHOD: 'GET',
+  },
+  KEY_GET_SINGLE: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/keys/:kid',
+    METHOD: 'GET',
+  },
+  KEY_POST: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/keys',
+    METHOD: 'POST',
+  },
+  KEY_DOWNLOAD: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/encoded/keys/:keyId',
+    METHOD: 'GET',
+  },
+  KEY_DELETE: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/keys/:keyId',
+    METHOD: 'DELETE',
+  },
+  USER_GET_LIST: {
+    URL: 'pdnd-interop-uservice-party-process/0.1/institutions/:institutionId/relationships',
+    METHOD: 'GET',
+  },
+  USER_GET_SINGLE: {
+    URL: 'pdnd-interop-uservice-party-management/0.1/persons/:id',
+    METHOD: 'GET',
+  },
   USER_SUSPEND: {
     URL: 'pdnd-interop-uservice-party-process/0.1/relationships/:relationshipId/suspend',
     METHOD: 'POST',
@@ -143,10 +238,6 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
   USER_REACTIVATE: {
     URL: 'pdnd-interop-uservice-party-process/0.1/relationships/:relationshipId/activate',
     METHOD: 'POST',
-  },
-  USER_GET: {
-    URL: 'pdnd-interop-uservice-party-management/0.1/persons/:id',
-    METHOD: 'GET',
   },
   OPERATOR_CREATE: {
     URL: 'pdnd-interop-uservice-party-process/0.1/onboarding/operators',
@@ -156,9 +247,9 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/relationships/:relationshipId',
     METHOD: 'POST',
   },
-  OPERATOR_API_GET_LIST: {
-    URL: 'pdnd-interop-uservice-party-process/0.1/institutions/:institutionId/relationships',
-    METHOD: 'GET',
+  OPERATOR_SECURITY_REMOVE_FROM_CLIENT: {
+    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/relationships/:relationshipId',
+    METHOD: 'DELETE',
   },
   OPERATOR_API_GET_SINGLE: {
     URL: 'pdnd-interop-uservice-party-process/0.1/relationships/:relationshipId',
@@ -172,20 +263,8 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/operators',
     METHOD: 'GET',
   },
-  OPERATOR_SECURITY_KEYS_GET_LIST: {
+  OPERATOR_SECURITY_GET_KEYS_LIST: {
     URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/operators/:operatorId/keys',
     METHOD: 'GET',
-  },
-  OPERATOR_SECURITY_KEYS_POST: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.1/operators/:operatorId/keys',
-    METHOD: 'POST',
-  },
-  OPERATOR_SECURITY_KEY_DOWNLOAD: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/encoded/keys/:keyId',
-    METHOD: 'GET',
-  },
-  OPERATOR_SECURITY_KEY_DELETE: {
-    URL: 'pdnd-interop-uservice-authorization-process/0.1/clients/:clientId/keys/:keyId',
-    METHOD: 'DELETE',
   },
 }

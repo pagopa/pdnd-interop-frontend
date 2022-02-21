@@ -23,18 +23,18 @@ type ActionSubmit = {
 export type BackAction = ActionButton | ActionLink
 export type ForwardAction = ActionButton | ActionSubmit
 
-type EServiceWriteActionsProps = {
+type StepActionsProps = {
   back: BackAction
   forward: ForwardAction
 }
 
-export function EServiceWriteActions({ back, forward }: EServiceWriteActionsProps) {
+export function StepActions({ back, forward }: StepActionsProps) {
   const forwardProps = forward.type === 'button' ? { onClick: forward.onClick } : { type: 'submit' }
   const backProps =
     back.type === 'link' ? { component: StyledLink, to: back.to } : { onClick: back.onClick }
 
   return (
-    <Box sx={{ mt: 12, pt: 4, display: 'flex', borderTop: 1, borderColor: 'divider' }}>
+    <Box sx={{ mt: 12, pt: 4, display: 'flex', borderTop: 1, borderColor: '#bdbdbd' }}>
       <StyledButton variant="contained" sx={{ mr: 3 }} {...forwardProps}>
         {forward.label}
       </StyledButton>

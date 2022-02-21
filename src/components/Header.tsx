@@ -30,7 +30,7 @@ export function Header() {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              py: 3,
+              py: 1,
             }}
           >
             <StyledLink to="/" sx={{ display: 'flex' }}>

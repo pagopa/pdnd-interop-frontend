@@ -1,0 +1,496 @@
+{
+  "version": "0.1",
+  "questions": [
+    {
+      "id": "purpose",
+      "type": "text",
+      "label": "Finalità (richiesto)",
+      "helperText": "Indicare per quale finalità si intende accedere ai dati messi a disposizione con la fruizione del presente E-service",
+      "defaultValue": "",
+      "required": true,
+      "dependencies": []
+    },
+    {
+      "id": "usesPersonalData",
+      "type": "radio",
+      "label": "Indicare se si accede a dati personali (richiesto)",
+      "options": [
+        {
+          "label": "Sì",
+          "value": "YES"
+        },
+        {
+          "label": "No",
+          "value": "NO"
+        }
+      ],
+      "defaultValue": "NO",
+      "required": true,
+      "dependencies": []
+    },
+    {
+      "id": "usesThirdPartyPersonalData",
+      "type": "radio",
+      "label": "Indicare se si accede a dati non personali di terzi (richiesto)",
+      "options": [
+        {
+          "label": "Sì",
+          "value": "YES"
+        },
+        {
+          "label": "No",
+          "value": "NO"
+        }
+      ],
+      "defaultValue": "NO",
+      "required": true,
+      "dependencies": [
+        {
+          "id": "usesPersonalData",
+          "value": "NO"
+        }
+      ]
+    },
+    {
+      "id": "usesConfidentialData",
+      "type": "radio",
+      "label": "Indicare se si accede a dati non personali ma confidenziali o strettamente riservati (richiesto)",
+      "options": [
+        {
+          "label": "Sì",
+          "value": "YES"
+        },
+        {
+          "label": "No",
+          "value": "NO"
+        }
+      ],
+      "defaultValue": "NO",
+      "required": true,
+      "dependencies": [
+        {
+          "id": "usesPersonalData",
+          "value": "NO"
+        },
+        {
+          "id": "usesThirdPartyPersonalData",
+          "value": "YES"
+        }
+      ]
+    },
+    {
+      "id": "securedDataAccess",
+      "type": "radio",
+      "label": "Indicare se sono state adottate tutte le misure di sicurezza necessarie e/o richieste per l’accesso al dato (richiesto)",
+      "helperText": "Se la risposta a questa domanda è no, prima di procedere con l’invio della richiesta di accesso al presente E-service per la finalità indicata, si invita a adottare ogni misura di sicurezza necessaria e/o richiesta per l’accesso al dato",
+      "options": [
+        {
+          "label": "Sì",
+          "value": "YES"
+        },
+        {
+          "label": "No",
+          "value": "NO"
+        }
+      ],
+      "defaultValue": "NO",
+      "required": true,
+      "dependencies": [
+        {
+          "id": "usesPersonalData",
+          "value": "NO"
+        }
+      ]
+    },
+    {
+      "id": "legalBasis",
+      "type": "checkbox",
+      "label": "Indicare sulla base di quale, fra le seguenti basi giuridiche ex art. 6 del GDPR, ritiene di essere titolato ad accedere ai dati personali messi a disposizione con la fruizione dell’E-service (richiesto, scelta multipla)",
+      "options": [
+        {
+          "label": "consenso dell’interessato al trattamento dei dati personali per una o più specifiche finalità",
+          "value": "CONSENT"
+        },
+        {
+          "label": "esecuzione di un contratto di cui l'interessato è parte o di misure precontrattuali adottate su richiesta dello stesso",
+          "value": "CONTRACT"
+        },
+        {
+          "label": "adempimento di un obbligo legale",
+          "value": "OBLIGATION"
+        },
+        {
+          "label": "salvaguardia degli interessi vitali di una persona fisica",
+          "value": "SAFEGUARD"
+        },
+        {
+          "label": "esecuzione di un compito di interesse pubblico o connesso all'esercizio di pubblici poteri di cui sei investito",
+          "value": "PUBLIC_INTEREST"
+        },
+        {
+          "label": "perseguimento del legittimo interesse del titolare del trattamento o di terzi, a condizione che non prevalgano gli interessi o i diritti e le libertà fondamentali dell'interessato che richiedono la protezione dei dati personali, in particolare se l'interessato è un minore",
+          "value": "LEGITIMATE_INTEREST"
+        }
+      ],
+      "defaultValue": [],
+      "required": true,
+      "dependencies": [
+        {
+          "id": "usesPersonalData",
+          "value": "YES"
+        }
+      ]
+    },
+    {
+      "id": "legalObligationReference",
+      "type": "text",
+      "label": "Inserire riferimento normativo per adempimento di un obbligo legale (richiesto)",
+      "defaultValue": "",
+      "required": true,
+      "dependencies": [
+        {
+          "id": "legalBasis",
+          "value": "OBLIGATION"
+        }
+      ]
+    },
+    {
+      "id": "publicInterestReference",
+      "type": "text",
+      "label": "Inserire riferimento normativo per esecuzione di un compito di interesse pubblico o connesso all'esercizio di pubblici poteri di cui sei investito (richiesto)",
+      "defaultValue": "",
+      "required": true,
+      "dependencies": [
+        {
+          "id": "legalBasis",
+          "value": "PUBLIC_INTEREST"
+        }
+      ]
+    },
+    {
+      "id": "knowsAccessedDataCategories",
+      "type": "radio",
+      "label": "Indicare se si conosce la tipologia di dati personali cui si avrà accesso attraverso la fruizione del presente E-service di cui alle definizioni contenute nell’art. 4, nn. 1, 13, 14 e 15 del GDPR (richiesto)",
+      "options": [
+        {
+          "label": "Sì",
+          "value": "YES"
+        },
+        {
+          "label": "No",
+          "value": "NO"
+        }
+      ],
+      "defaultValue": "NO",
+      "required": true,
+      "dependencies": [
+        {
+          "id": "usesPersonalData",
+          "value": "YES"
+        }
+      ]
+    },
+    {
+      "id": "accessDataArt9Gdpr",
+      "type": "radio",
+      "label": "Indicare se si accederà a particolari categorie di dati personali ex art. 9 del GDPR (richiesto)",
+      "options": [
+        {
+          "label": "Sì",
+          "value": "YES"
+        },
+        {
+          "label": "No",
+          "value": "NO"
+        }
+      ],
+      "defaultValue": "NO",
+      "required": true,
+      "dependencies": [
+        {
+          "id": "usesPersonalData",
+          "value": "YES"
+        },
+        {
+          "id": "knowsAccessedDataCategories",
+          "value": "YES"
+        }
+      ]
+    },
+    {
+      "id": "accessUnderageData",
+      "type": "radio",
+      "label": "Indicare se si accederà a dati di minori ex art. 8 del GDPR (richiesto)",
+      "options": [
+        {
+          "label": "Sì",
+          "value": "YES"
+        },
+        {
+          "label": "No",
+          "value": "NO"
+        }
+      ],
+      "defaultValue": "NO",
+      "required": true,
+      "dependencies": [
+        {
+          "id": "usesPersonalData",
+          "value": "YES"
+        },
+        {
+          "id": "knowsAccessedDataCategories",
+          "value": "YES"
+        }
+      ]
+    },
+    {
+      "id": "knowsDataQuantity",
+      "type": "radio",
+      "label": "Indicare se si conosce la quantità di dati personali di cui si entrerà in possesso attraverso la fruizione del presente E-service (richiesto)",
+      "options": [
+        {
+          "label": "Sì",
+          "value": "YES"
+        },
+        {
+          "label": "No",
+          "value": "NO"
+        }
+      ],
+      "defaultValue": "NO",
+      "required": true,
+      "dependencies": [
+        {
+          "id": "usesPersonalData",
+          "value": "YES"
+        }
+      ]
+    },
+    {
+      "id": "dataQuantity",
+      "type": "select-one",
+      "label": "Fascia di riferimento (richiesto)",
+      "helperText": "Si richiede di specificare la fascia di riferimento fra quelle di seguito indicate anche in funzione del periodo di validità del voucher emesso per la fruizione dell’E-service",
+      "options": [
+        {
+          "label": "0-100",
+          "value": "QUANTITY_0_TO_100"
+        },
+        {
+          "label": "101-500",
+          "value": "QUANTITY_101_TO_500"
+        },
+        {
+          "label": "501-1000",
+          "value": "QUANTITY_500_TO_1000"
+        },
+        {
+          "label": "1001-5000",
+          "value": "QUANTITY_1001_TO_5000"
+        },
+        {
+          "label": "da 5001 in su",
+          "value": "QUANTITY_5001_OVER"
+        }
+      ],
+      "defaultValue": "QUANTITY_0_TO_100",
+      "required": true,
+      "dependencies": [
+        {
+          "id": "usesPersonalData",
+          "value": "YES"
+        },
+        {
+          "id": "knowsDataQuantity",
+          "value": "YES"
+        }
+      ]
+    },
+    {
+      "id": "deliveryMethod",
+      "type": "select-one",
+      "label": "Modalità di erogazione (richiesto)",
+      "helperText": "Indicare con quali modalità il Fruitore intende ricevere le informazioni dall’Erogatore, d’accordo con quelle già previste dall’Erogatore stesso",
+      "options": [
+        {
+          "label": "in chiaro",
+          "value": "CLEARTEXT"
+        },
+        {
+          "label": "in forma aggregata",
+          "value": "AGGREGATE"
+        },
+        {
+          "label": "in forma anonimizzata",
+          "value": "ANONYMOUS"
+        },
+        {
+          "label": "in forma pseudoanonimizzata",
+          "value": "PSEUDOANONYMOUS"
+        }
+      ],
+      "defaultValue": "CLEARTEXT",
+      "required": true,
+      "dependencies": [
+        {
+          "id": "usesPersonalData",
+          "value": "YES"
+        }
+      ]
+    },
+    {
+      "id": "doneDpia",
+      "type": "radio",
+      "label": "Indicare se è stata fatta un’apposita valutazione di impatto (c.d. DPIA) relativamente alle attività di trattamento dei dati personali che saranno effettuate attraverso la fruizione del presente E-service (richiesto)",
+      "helperText": "Se la risposta a questa domanda è no, si invita a fare tale valutazione prima di fruire dell’E-service",
+      "options": [
+        {
+          "label": "Sì",
+          "value": "YES"
+        },
+        {
+          "label": "No",
+          "value": "NO"
+        }
+      ],
+      "defaultValue": "NO",
+      "required": true,
+      "dependencies": [
+        {
+          "id": "usesPersonalData",
+          "value": "YES"
+        }
+      ]
+    },
+    {
+      "id": "definedDataRetentionPeriod",
+      "type": "radio",
+      "label": "Indicare se è stato determinato un periodo di conservazione dei dati cui si avrà accesso attraverso il presente E-service (richiesto)",
+      "helperText": "Se la risposta a questa domanda è no, si invita a determinare tale periodo prima di fruire dell’E-service",
+      "options": [
+        {
+          "label": "Sì",
+          "value": "YES"
+        },
+        {
+          "label": "No",
+          "value": "NO"
+        }
+      ],
+      "defaultValue": "NO",
+      "required": true,
+      "dependencies": [
+        {
+          "id": "usesPersonalData",
+          "value": "YES"
+        }
+      ]
+    },
+    {
+      "id": "purposePursuit",
+      "type": "radio",
+      "label": "Per perseguire la finalità dichiarata, indicare se (richiesto)",
+      "options": [
+        {
+          "label": "è sufficiente che l’Erogatore verifichi la mera correttezza di una/o determinata/o informazione/dato personale già in suo possesso",
+          "value": "MERE_CORRECTNESS"
+        },
+        {
+          "label": "è necessario ricevere ex novo una/o determinata/o informazione/dato personale",
+          "value": "NEW_PERSONAL_DATA"
+        }
+      ],
+      "defaultValue": "MERE_CORRECTNESS",
+      "required": true,
+      "dependencies": [
+        {
+          "id": "usesPersonalData",
+          "value": "YES"
+        }
+      ]
+    },
+    {
+      "id": "checkedExistenceMereCorrectnessInteropCatalogue",
+      "type": "checkbox",
+      "label": "Confermare se è stato verificato se sul Catalogo API è presente un altro E-service in grado di svolgere questa attività di mera verifica (che non preveda ex novo la comunicazione di altri informazioni/dati personali - richiesto)",
+      "options": [
+        {
+          "label": "Confermo",
+          "value": "YES"
+        }
+      ],
+      "defaultValue": [],
+      "required": true,
+      "dependencies": [
+        {
+          "id": "usesPersonalData",
+          "value": "YES"
+        },
+        {
+          "id": "purposePursuit",
+          "value": "MERE_CORRECTNESS"
+        }
+      ]
+    },
+    {
+      "id": "checkedAllDataNeeded",
+      "type": "radio",
+      "label": "Indicare se è stato verificato se occorrono necessariamente tutte le informazioni e i dati personali messi a disposizione con il presente E-service (richiesto)",
+      "options": [
+        {
+          "label": "Sì",
+          "value": "YES"
+        },
+        {
+          "label": "No",
+          "value": "NO"
+        }
+      ],
+      "defaultValue": "NO",
+      "required": true,
+      "dependencies": [
+        {
+          "id": "usesPersonalData",
+          "value": "YES"
+        },
+        {
+          "id": "purposePursuit",
+          "value": "NEW_PERSONAL_DATA"
+        }
+      ]
+    },
+    {
+      "id": "checkedExistenceMinimalDataInteropCatalogue",
+      "type": "radio",
+      "label": "Indicare se si è verificato se sul Catalogo API è presente un altro E-service che consenta di accedere alle sole informazioni/dati personali di cui si necessita (richiesto)",
+      "helperText": "Se la risposta a questa domanda è no, per evitare comunicazioni di informazioni/dati personali non necessarie, si invita a sollecitare un Erogatore ad attivare un E-service che consenta di accedere ai soli dati personali di cui si necessita e, una volta attivato, si invita a inviare una richiesta di accesso per quell’E-service",
+      "options": [
+        {
+          "label": "Sì",
+          "value": "YES"
+        },
+        {
+          "label": "No",
+          "value": "NO"
+        }
+      ],
+      "defaultValue": "NO",
+      "required": true,
+      "dependencies": [
+        {
+          "id": "usesPersonalData",
+          "value": "YES"
+        },
+        {
+          "id": "purposePursuit",
+          "value": "NEW_PERSONAL_DATA"
+        },
+        {
+          "id": "checkedAllDataNeeded",
+          "value": "NO"
+        }
+      ]
+    }
+  ]
+}

@@ -14,6 +14,8 @@ exports[`Snapshot matches 1`] = `
     </span>
     <br />
     <div
+      aria-label="Inserisci descrizione del documento"
+      aria-multiline="true"
       className="MuiBox-root css-oehp33"
       contentEditable={false}
       dangerouslySetInnerHTML={
@@ -22,6 +24,7 @@ exports[`Snapshot matches 1`] = `
         }
       }
       onBlur={[Function]}
+      role="textbox"
     />
   </div>
   <div

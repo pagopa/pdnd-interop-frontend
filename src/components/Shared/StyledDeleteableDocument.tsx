@@ -96,6 +96,9 @@ export function StyledDeleteableDocument({
           sx={{ mt: 1, py: 2, px: 1, mx: -1 }}
           onBlur={onBlur}
           dangerouslySetInnerHTML={{ __html: decodeURIComponent(readable.description) }}
+          role="textbox"
+          aria-multiline="true"
+          aria-label="Inserisci descrizione del documento"
         />
       </Box>
       <Box sx={{ ml: 4, flexShrink: 0 }}>

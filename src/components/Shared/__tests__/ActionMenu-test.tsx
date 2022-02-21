@@ -5,14 +5,18 @@ import { ActionMenu } from '../ActionMenu'
 
 describe('Snapshot', () => {
   it('matches button (1)', () => {
-    const component = renderer.create(<ActionMenu index={0} actions={[]}></ActionMenu>)
+    const component = renderer.create(
+      <ActionMenu actions={[]} snapshotTestInternalId="1"></ActionMenu>
+    )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 
   it('matches button (2)', () => {
     const actions = [{ onClick: noop, label: 'Azione 1' }]
-    const component = renderer.create(<ActionMenu index={0} actions={actions}></ActionMenu>)
+    const component = renderer.create(
+      <ActionMenu actions={actions} snapshotTestInternalId="2"></ActionMenu>
+    )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
@@ -26,7 +30,7 @@ describe('Snapshot', () => {
 
   //   const component = renderer.create(
   //     <AllTheProviders defaultTableActionMenu="basic-button-0">
-  //       <ActionMenu index={0} actions={actions}></ActionMenu>
+  //       <ActionMenu actions={actions}></ActionMenu>
   //     </AllTheProviders>
   //   )
 

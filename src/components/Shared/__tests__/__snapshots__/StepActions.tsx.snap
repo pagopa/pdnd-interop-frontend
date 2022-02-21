@@ -2,7 +2,7 @@
 
 exports[`Snapshot matches button and submit 1`] = `
 <div
-  className="MuiBox-root css-1evj0i2"
+  className="MuiBox-root css-f9yzus"
 >
   <button
     className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-15hz626-MuiButtonBase-root-MuiButton-root"
@@ -56,7 +56,7 @@ exports[`Snapshot matches button and submit 1`] = `
 
 exports[`Snapshot matches link and button 1`] = `
 <div
-  className="MuiBox-root css-1evj0i2"
+  className="MuiBox-root css-f9yzus"
 >
   <button
     className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-15hz626-MuiButtonBase-root-MuiButton-root"

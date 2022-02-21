@@ -19,8 +19,9 @@ import { StyledForm } from './Shared/StyledForm'
 import { AxiosResponse } from 'axios'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { StyledInputControlledFile } from './Shared/StyledInputControlledFile'
+import { Typography } from '@mui/material'
 
-type EServiceWriteStep3DocumentsDocProps = {
+type EServiceCreateStep3DocumentsDocProps = {
   data: EServiceReadType
   uploadDescriptorDocument: (document: EServiceDocumentWrite) => Promise<RunActionOutput>
   deleteDescriptorDocument: (documentId: string) => Promise<RunActionOutput>
@@ -32,12 +33,12 @@ type InputValues = {
   description?: string
 }
 
-export function EServiceWriteStep3DocumentsDoc({
+export function EServiceCreateStep3DocumentsDoc({
   data,
   uploadDescriptorDocument,
   deleteDescriptorDocument,
   activeDescriptorId,
-}: EServiceWriteStep3DocumentsDocProps) {
+}: EServiceCreateStep3DocumentsDocProps) {
   const validationSchema = object({
     doc: mixed().required(),
     description: string().required(),
@@ -88,24 +89,32 @@ export function EServiceWriteStep3DocumentsDoc({
     setShowWriteDocInput(true)
   }
 
+  const readDocsArray = toArray(readDocs)
+
   return (
     <React.Fragment>
-      {toArray(readDocs).map((readDoc, i) => {
-        const activeDescriptor = data.activeDescriptor as EServiceDescriptorRead
-        return (
-          <StyledDeleteableDocument
-            key={i}
-            eserviceId={data.id}
-            descriptorId={activeDescriptor.id}
-            readable={readDoc}
-            deleteDocument={wrapDeletePreviousDoc(readDoc.id)}
-          />
-        )
-      })}
+      <Box sx={{ mt: 6, mb: 4 }}>
+        {Boolean(readDocsArray.length > 0) ? (
+          readDocsArray.map((readDoc, i) => {
+            const activeDescriptor = data.activeDescriptor as EServiceDescriptorRead
+            return (
+              <StyledDeleteableDocument
+                key={i}
+                eserviceId={data.id}
+                descriptorId={activeDescriptor.id}
+                readable={readDoc}
+                deleteDocument={wrapDeletePreviousDoc(readDoc.id)}
+              />
+            )
+          })
+        ) : (
+          <Typography fontWeight={700}>Nessun documento caricato</Typography>
+        )}
+      </Box>
 
       {showWriteDocInput ? (
         <Box
-          sx={{ px: 2, py: 2, borderLeft: 6, borderColor: 'primary.main' }}
+          sx={{ px: 2, py: 2, borderLeft: 4, borderColor: 'primary.main' }}
           bgcolor="common.white"
         >
           <Formik

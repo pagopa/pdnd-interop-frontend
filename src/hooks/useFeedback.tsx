@@ -29,12 +29,14 @@ type DestinationActionOptions = ActionOptions & {
   destination: RouteConfig
 }
 
+export type RunAction = (
+  request: RequestConfig,
+  options: ActionOptions
+) => Promise<{ outcome: RequestOutcome; response: AxiosResponse | AxiosError }>
+
 // TEMP REFACTOR: this typing needs to be refactored
 export type UserFeedbackHOCProps = {
-  runAction: (
-    request: RequestConfig,
-    options: ActionOptions
-  ) => Promise<{ outcome: RequestOutcome; response: AxiosResponse | AxiosError }>
+  runAction: RunAction
   runActionWithDestination: (
     request: RequestConfig,
     options: DestinationActionOptions

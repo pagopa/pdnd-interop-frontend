@@ -1,65 +1,79 @@
-import React, { useContext, useEffect } from 'react'
-import { Formik } from 'formik'
-import { object, string } from 'yup'
+import React, { useContext } from 'react'
+import { useFormik } from 'formik'
+import { array, object, string } from 'yup'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { EServiceReadType, InputSelectOption } from '../../types'
-import { PartyContext } from '../lib/context'
+import { DialogContext, PartyContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
-import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 import { ROUTES } from '../config/routes'
 import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
-import { StyledInputControlledSelect } from '../components/Shared/StyledInputControlledSelect'
+import { TableWithLoader } from '../components/Shared/TableWithLoader'
+import { AddSecurityOperatorFormInputValues, User } from '../../types'
+import { Box } from '@mui/system'
+import { DeleteOutline as DeleteOutlineIcon } from '@mui/icons-material'
+import { StyledTableRow } from '../components/Shared/StyledTableRow'
 
 type ClientFields = {
   name: string
   description: string
-  eServiceId: string
-  purposes: string
+  operators: Array<User>
 }
 
 export function ClientCreate() {
-  const { runActionWithDestination } = useFeedback()
+  const { /* runActionWithDestination, */ runFakeAction } = useFeedback()
   const { party } = useContext(PartyContext)
-  const { data: eserviceData } = useAsyncFetch<Array<EServiceReadType>, Array<InputSelectOption>>(
-    {
-      path: { endpoint: 'ESERVICE_GET_LIST' },
-      config: { params: { consumerId: party?.partyId } },
-    },
-    {
-      mapFn: (data) => data.map((d) => ({ value: d.id, label: d.name })),
-      loadingTextLabel: 'Stiamo caricando gli e-service associabili al client',
-    }
-  )
+  const { setDialog } = useContext(DialogContext)
 
-  const onSubmit = async (values: ClientFields) => {
-    const dataToPost = { ...values, consumerId: party?.partyId }
+  const onSubmit = async (data: ClientFields) => {
+    const dataToPost = { ...data, consumerId: party?.partyId }
 
-    await runActionWithDestination(
-      { path: { endpoint: 'CLIENT_CREATE' }, config: { data: dataToPost } },
-      { destination: ROUTES.SUBSCRIBE_CLIENT_LIST, suppressToast: false }
-    )
+    // TEMP PIN-933: as soon as backend purpose is deployed, plug back in actual action
+    runFakeAction(`Client esempio creato con i seguenti dati ${JSON.stringify(dataToPost)}`)
+    // await runActionWithDestination(
+    // { path: { endpoint: 'CLIENT_CREATE' }, config: { data: dataToPost } },
+    // { destination: ROUTES.SUBSCRIBE_CLIENT_LIST, suppressToast: false }
+    // )
   }
 
   const validationSchema = object({
     name: string().required(),
     description: string().required(),
-    eServiceId: string().required(),
-    purposes: string().required(),
+    operators: array(object({ id: string().required() })),
   })
-  const initialValues: ClientFields = { name: '', description: '', eServiceId: '', purposes: '' }
 
-  useEffect(() => {
-    if (eserviceData && eserviceData.length > 0) {
-      initialValues.eServiceId = String(eserviceData[0].value)
-    }
-  }, [eserviceData]) // eslint-disable-line react-hooks/exhaustive-deps
+  const initialValues: ClientFields = { name: '', description: '', operators: [] }
 
-  if (!eserviceData) {
-    return <StyledSkeleton />
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit,
+    validateOnChange: false,
+    validateOnBlur: false,
+  })
+
+  const openAddOperatoDialog = () => {
+    setDialog({
+      type: 'addSecurityOperator',
+      initialValues: { selected: [] },
+      onSubmit: addOperators,
+    })
   }
+
+  const openCreateOperatoDialog = () => {
+    setDialog({ type: 'createSecurityOperator' })
+  }
+
+  const addOperators = (data: AddSecurityOperatorFormInputValues) => {
+    formik.setFieldValue('operators', data.selected, false)
+  }
+
+  const wrapRemoveOperator = (id: string) => () => {
+    const filteredOperators = formik.values.operators.filter((u) => u.id !== id)
+    formik.setFieldValue('operators', filteredOperators, false)
+  }
+
+  const headData = ['Nome e cognome']
 
   return (
     <React.Fragment>
@@ -67,61 +81,73 @@ export function ClientCreate() {
         {{
           title: `Crea nuovo client`,
           description:
-            "Il client sarà associato ad uno specifico e-service. Una volta creato, sarà possibile aggiungere operatori di sicurezza che gestiranno le chiavi per permettere l'accesso machine-to-machine all'e-service",
+            'Una volta creato il client, potrai completarlo inserendo tutti gli operatori che hanno la possibilità di caricare chiavi di sicurezza e le finalità per fruire degli e-service per i quali hai una richiesta di fruizione attiva',
         }}
       </StyledIntro>
 
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={onSubmit}
-        validateOnChange={false}
-        validateOnBlur={false}
-      >
-        {({ handleSubmit, errors, values, handleChange }) => (
-          <StyledForm onSubmit={handleSubmit}>
-            <StyledInputControlledText
-              focusOnMount={true}
-              name="name"
-              label="Nome del client*"
-              value={values.name}
-              onChange={handleChange}
-              error={errors.name}
-            />
+      <StyledForm onSubmit={formik.handleSubmit}>
+        <Box sx={{ mb: 12 }}>
+          <StyledIntro sx={{ mb: 2, pb: 0 }} variant="h2">
+            {{ title: 'Informazioni generali' }}
+          </StyledIntro>
 
-            <StyledInputControlledText
-              name="description"
-              label="Descrizione del client*"
-              value={values.description}
-              onChange={handleChange}
-              error={errors.description}
-              multiline={true}
-            />
+          <StyledInputControlledText
+            focusOnMount={true}
+            name="name"
+            label="Nome del client*"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            error={formik.errors.name}
+          />
 
-            <StyledInputControlledSelect
-              name="eServiceId"
-              label="E-service da associare*"
-              value={values.eServiceId}
-              onChange={handleChange}
-              error={errors.eServiceId}
-              disabled={eserviceData.length === 0}
-              options={eserviceData}
-            />
+          <StyledInputControlledText
+            name="description"
+            label="Descrizione del client*"
+            value={formik.values.description}
+            onChange={formik.handleChange}
+            error={formik.errors.description}
+            multiline={true}
+          />
+        </Box>
 
-            <StyledInputControlledText
-              name="purposes"
-              label="Finalità*"
-              value={values.purposes}
-              onChange={handleChange}
-              error={errors.purposes}
-            />
+        <Box sx={{ mb: 12 }}>
+          <StyledIntro sx={{ mb: 2, pb: 0 }} variant="h2">
+            {{ title: 'Operatori di sicurezza' }}
+          </StyledIntro>
 
-            <StyledButton sx={{ mt: 8 }} variant="contained" type="submit">
-              Crea client
+          <TableWithLoader
+            loadingText={null}
+            headData={headData}
+            noDataLabel="Nessun operatore aggiunto"
+          >
+            {Boolean(formik.values.operators.length > 0) &&
+              formik.values.operators.map((user, i) => (
+                <StyledTableRow key={i} cellData={[{ label: `${user.name} ${user.surname}` }]}>
+                  <StyledButton onClick={wrapRemoveOperator(user.id)}>
+                    <DeleteOutlineIcon fontSize="small" sx={{ mr: 1 }} color="primary" />
+                  </StyledButton>
+                </StyledTableRow>
+              ))}
+          </TableWithLoader>
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
+            <StyledButton sx={{ mr: 2 }} variant="contained" onClick={openAddOperatoDialog}>
+              + Aggiungi
             </StyledButton>
-          </StyledForm>
-        )}
-      </Formik>
+            <StyledButton variant="outlined" onClick={openCreateOperatoDialog}>
+              Crea nuovo operatore
+            </StyledButton>
+          </Box>
+        </Box>
+
+        <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
+          <StyledButton sx={{ mr: 2 }} variant="contained" type="submit">
+            Crea client
+          </StyledButton>
+          <StyledButton variant="outlined" to={ROUTES.SUBSCRIBE_CLIENT_LIST.PATH}>
+            Torna ai client
+          </StyledButton>
+        </Box>
+      </StyledForm>
     </React.Fragment>
   )
 }

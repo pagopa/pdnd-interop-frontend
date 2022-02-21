@@ -18,17 +18,17 @@ type TypeLabels = Record<AttributeKey, TypeLabel>
 
 const TYPE_LABELS: TypeLabels = {
   certified: {
-    title: 'Attributi Certificati',
+    title: 'Certificati',
     description:
       'Questi attributi sono verificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori verifiche',
   },
   verified: {
-    title: 'Attributi Verificati',
+    title: 'Verificati',
     description:
       'Questi attributi potrebbero essere stati già verificati da altre organizzazioni. Decidi se verificarli comunque',
   },
   declared: {
-    title: 'Attributi Dichiarati',
+    title: 'Dichiarati',
     description:
       'Il fruitore dichiara di possedere questi attributi. Non è necessaria la verifica e il fruitore si assume la responsabilità di quanto dichiarato',
   },
@@ -69,7 +69,7 @@ export function EServiceAttributeSection({
 
         return (
           <Box sx={{ mb: 12 }} key={i}>
-            <StyledIntro variant="h3" sx={{ mb: 2, pb: 0 }}>
+            <StyledIntro variant="h3" sx={{ mb: 2 }}>
               {{ title, description }}
             </StyledIntro>
             <EServiceAttributeGroup

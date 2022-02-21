@@ -5,7 +5,7 @@ import { SxProps } from '@mui/system'
 
 export type StyledInputTextType = 'text' | 'email' | 'number'
 
-type StyledInputControlledTextProps =
+export type StyledInputControlledTextProps =
   | {
       name: string
       error?: string
@@ -62,11 +62,12 @@ export function StyledInputControlledText({
         rows={multiline ? rows : 1}
         disabled={disabled}
         sx={{ width: '100%' }}
-        variant="standard"
+        variant="outlined"
         label={label}
         type={type}
         error={hasFieldError}
         inputProps={inputProps}
+        InputLabelProps={{ shrink: true }}
       />
     </StyledInputWrapper>
   )

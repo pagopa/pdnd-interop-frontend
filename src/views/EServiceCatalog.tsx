@@ -24,11 +24,14 @@ import {
   Person as PersonIcon,
   SvgIconComponent,
 } from '@mui/icons-material'
-import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ROUTES } from '../config/routes'
 import { ESERVICE_STATE_LABEL } from '../config/labels'
 import { isTrue } from '../lib/validation-config'
 import { useFeedback } from '../hooks/useFeedback'
+import { StyledTableRow } from '../components/Shared/StyledTableRow'
+import { ActionMenu } from '../components/Shared/ActionMenu'
+import { StyledButton } from '../components/Shared/StyledButton'
+import { axiosErrorToError } from '../lib/error-utils'
 
 export function EServiceCatalog() {
   const history = useHistory()
@@ -51,11 +54,11 @@ export function EServiceCatalog() {
     }
   )
 
-  const headData = ['nome e-service', 'ente erogatore', 'versione attuale', 'stato e-service', '']
+  const headData = ['nome e-service', 'ente erogatore', 'versione attuale', 'stato e-service']
 
   const OwnerTooltip = ({ label = '', Icon }: { label: string; Icon: SvgIconComponent }) => (
     <StyledTooltip title={label}>
-      <Icon sx={{ ml: 0.5, fontSize: 16 }} color="secondary" />
+      <Icon sx={{ ml: 0.5, fontSize: 16 }} color="info" />
     </StyledTooltip>
   )
 
@@ -163,12 +166,13 @@ export function EServiceCatalog() {
       <TableWithLoader
         loadingText={loadingText}
         headData={headData}
-        data={data}
         noDataLabel="Non ci sono servizi disponibili"
-        error={error}
+        error={axiosErrorToError(error)}
       >
         {party &&
-          data?.map((item, i) => {
+          data &&
+          Boolean(data.length > 0) &&
+          data.map((item, i) => {
             const canSubscribeEservice = canSubscribe(party.attributes, item.certifiedAttributes)
             const tooltip = getTooltip(item, canSubscribeEservice)
             return (
@@ -180,16 +184,24 @@ export function EServiceCatalog() {
                   { label: item.version as string },
                   { label: ESERVICE_STATE_LABEL[item.state as EServiceState] },
                 ]}
-                index={i}
-                singleActionBtn={{
-                  to: buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
-                    eserviceId: item.id,
-                    descriptorId: item.descriptorId as string,
-                  }),
-                  label: 'Ispeziona',
-                }}
-                actions={getAvailableActions(item, canSubscribeEservice)}
-              />
+              >
+                <StyledButton
+                  variant="outlined"
+                  size="small"
+                  onClick={() => {
+                    history.push(
+                      buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
+                        eserviceId: item.id,
+                        descriptorId: item.descriptorId as string,
+                      })
+                    )
+                  }}
+                >
+                  Ispeziona
+                </StyledButton>
+
+                <ActionMenu actions={getAvailableActions(item, canSubscribeEservice)} />
+              </StyledTableRow>
             )
           })}
       </TableWithLoader>

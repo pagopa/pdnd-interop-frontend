@@ -3,11 +3,11 @@ import { Checkbox, FormControlLabel, FormGroup, FormLabel } from '@mui/material'
 import { SxProps } from '@mui/system'
 import { FormikErrors } from 'formik'
 import { StyledInputWrapper } from './StyledInputWrapper'
-import { InputCheckboxOption } from '../../../types'
+import { FormikSetFieldValue, InputCheckboxOption } from '../../../types'
 
-type StyledInputControlledCheckboxProps = {
+export type StyledInputControlledCheckboxProps = {
   name: string
-  setFieldValue(field: string, value: unknown, shouldValidate?: boolean | undefined): void
+  setFieldValue: FormikSetFieldValue
   value: Record<string, boolean>
   label?: string
 
@@ -54,7 +54,7 @@ export function StyledInputControlledCheckbox({
           <FormControlLabel
             disabled={disabled}
             key={i}
-            control={<Checkbox checked={value[o.name]} onChange={onChange} name={o.name} />}
+            control={<Checkbox checked={value[o.value]} onChange={onChange} name={o.value} />}
             label={o.label}
           />
         ))}

@@ -20,17 +20,17 @@ import {
   remapFrontendAttributesToBackend,
 } from '../lib/attributes'
 import { useFeedback } from '../hooks/useFeedback'
-import { EServiceWriteProps } from '../views/EServiceWrite'
+import { EServiceCreateProps } from '../views/EServiceCreate'
 import { EServiceAttributeSection } from './EServiceAttributeSection'
 import { StyledForm } from './Shared/StyledForm'
 import { StyledIntro } from './Shared/StyledIntro'
 import { ROUTES } from '../config/routes'
-import { EServiceWriteActions } from './Shared/EServiceWriteActions'
+import { StepActions } from './Shared/StepActions'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { StyledInputControlledRadio } from './Shared/StyledInputControlledRadio'
 
-export const EServiceWriteStep1General: FunctionComponent<
-  StepperStepComponentProps & EServiceWriteProps
+export const EServiceCreateStep1General: FunctionComponent<
+  StepperStepComponentProps & EServiceCreateProps
 > = ({ forward, fetchedData }) => {
   const { party } = useContext(PartyContext)
   const history = useHistory()
@@ -146,7 +146,7 @@ export const EServiceWriteStep1General: FunctionComponent<
     >
       {({ handleSubmit, errors, values, handleChange }) => (
         <StyledForm onSubmit={handleSubmit}>
-          <StyledIntro variant="h2" sx={{ mb: 0, pb: 0 }}>
+          <StyledIntro variant="h2" sx={{ mt: 8, mb: 4 }}>
             {{ title: 'Caratterizzazione e-service' }}
           </StyledIntro>
 
@@ -187,13 +187,13 @@ export const EServiceWriteStep1General: FunctionComponent<
 
           <StyledIntro
             variant="h2"
-            sx={{ mt: 8, mb: 2, pt: 4, borderTop: 1, borderColor: 'divider' }}
+            sx={{ mt: 8, mb: 4, pt: 4, borderTop: 1, borderColor: 'divider' }}
           >
             {{ title: 'Attributi' }}
           </StyledIntro>
           <EServiceAttributeSection attributes={attributes} setAttributes={setAttributes} />
 
-          <EServiceWriteActions
+          <StepActions
             back={{
               label: 'Torna agli e-service',
               type: 'link',

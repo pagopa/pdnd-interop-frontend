@@ -5,12 +5,12 @@ exports[`Snapshot matches main page title - h1 1`] = `
   className="MuiBox-root css-1qk4flb"
 >
   <h1
-    className="MuiTypography-root MuiTypography-h1 css-1k1cq1y-MuiTypography-root"
+    className="MuiTypography-root MuiTypography-h1 css-p5tjz8-MuiTypography-root"
   >
     Test h1
   </h1>
   <p
-    className="MuiTypography-root MuiTypography-body1 css-ei54zl-MuiTypography-root"
+    className="MuiTypography-root MuiTypography-body1 css-1hj5kek-MuiTypography-root"
   >
     Lorem ipsum dolor sit amet...
   </p>
@@ -22,12 +22,12 @@ exports[`Snapshot matches paragraph title - h3 1`] = `
   className="MuiBox-root css-1qk4flb"
 >
   <h3
-    className="MuiTypography-root MuiTypography-h3 css-181191u-MuiTypography-root"
+    className="MuiTypography-root MuiTypography-h3 css-1ytmv4v-MuiTypography-root"
   >
     Test h3
   </h3>
   <p
-    className="MuiTypography-root MuiTypography-body1 css-ei54zl-MuiTypography-root"
+    className="MuiTypography-root MuiTypography-body1 css-1hj5kek-MuiTypography-root"
   >
     Lorem ipsum dolor sit amet...
   </p>

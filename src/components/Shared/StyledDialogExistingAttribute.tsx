@@ -13,6 +13,7 @@ import {
   CatalogAttribute,
   DialogExistingAttributeProps,
   ExistingAttributeVerifiedCondition,
+  FormikSetFieldValue,
 } from '../../../types'
 import { useCloseDialog } from '../../hooks/useCloseDialog'
 import { Box } from '@mui/system'
@@ -28,15 +29,11 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
 }) => {
   const { closeDialog } = useCloseDialog()
 
-  const options = [{ label: "Richiedi nuova convalida dell'attributo", name: 'attribute' }]
+  const options = [{ label: "Richiedi nuova convalida dell'attributo", value: 'attribute' }]
 
-  const wrapUpdateSelected =
-    (
-      setFieldValue: (field: string, value: unknown, shouldValidate?: boolean | undefined) => void
-    ) =>
-    (data: unknown) => {
-      setFieldValue('selected', data as Array<CatalogAttribute>, false)
-    }
+  const wrapUpdateSelected = (setFieldValue: FormikSetFieldValue) => (data: unknown) => {
+    setFieldValue('selected', data as Array<CatalogAttribute>, false)
+  }
 
   const certifiedCondition = attributeKey === 'certified'
   const verifiedCondition = attributeKey === 'verified'
@@ -66,7 +63,7 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
                     multiple={true}
                     labelKey="name"
                     placeholder="..."
-                    path={{ endpoint: 'ATTRIBUTES_GET_LIST' }}
+                    path={{ endpoint: 'ATTRIBUTE_GET_LIST' }}
                     transformFn={(data) =>
                       (data.attributes as Array<CatalogAttribute>).filter(
                         (a) => a.certified === certifiedCondition

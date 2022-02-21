@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { noop } from 'lodash'
-import { BackAction, EServiceWriteActions, ForwardAction } from '../EServiceWriteActions'
+import { BackAction, StepActions, ForwardAction } from '../StepActions'
 import { AllTheProviders } from '../../../__mocks__/providers'
 
 describe('Snapshot', () => {
@@ -10,7 +10,7 @@ describe('Snapshot', () => {
     const forward: ForwardAction = { label: 'Avanti', type: 'button', onClick: noop }
     const component = renderer.create(
       <AllTheProviders>
-        <EServiceWriteActions back={back} forward={forward}></EServiceWriteActions>
+        <StepActions back={back} forward={forward}></StepActions>
       </AllTheProviders>
     )
     const tree = component.toJSON()
@@ -20,9 +20,7 @@ describe('Snapshot', () => {
   it('matches button and submit', () => {
     const back: BackAction = { label: 'Indietro', type: 'button', onClick: noop }
     const forward: ForwardAction = { label: 'Avanti', type: 'submit' }
-    const component = renderer.create(
-      <EServiceWriteActions back={back} forward={forward}></EServiceWriteActions>
-    )
+    const component = renderer.create(<StepActions back={back} forward={forward}></StepActions>)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

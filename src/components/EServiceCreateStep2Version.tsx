@@ -14,8 +14,8 @@ import { buildDynamicPath } from '../lib/router-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledForm } from './Shared/StyledForm'
 import { ROUTES } from '../config/routes'
-import { EServiceWriteActions } from './Shared/EServiceWriteActions'
-import { EServiceWriteProps } from '../views/EServiceWrite'
+import { StepActions } from './Shared/StepActions'
+import { EServiceCreateProps } from '../views/EServiceCreate'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 
 type VersionData = {
@@ -23,14 +23,14 @@ type VersionData = {
   version: string
   voucherLifespan: number
   description: string
-  loadEstimate: number
+  dailyCalls: number
 }
 
-export function EServiceWriteStep2Version({
+export function EServiceCreateStep2Version({
   forward,
   back,
   fetchedData,
-}: StepperStepComponentProps & EServiceWriteProps) {
+}: StepperStepComponentProps & EServiceCreateProps) {
   const history = useHistory()
   const { runActionWithCallback } = useFeedback()
 
@@ -39,14 +39,14 @@ export function EServiceWriteStep2Version({
     audience: string().required(),
     voucherLifespan: number().required(),
     description: string().required(),
-    loadEstimate: number().required(),
+    dailyCalls: number().required(),
   })
   const initialValues: VersionData = {
     version: '1',
     audience: '',
     voucherLifespan: 1,
     description: '',
-    loadEstimate: 20000,
+    dailyCalls: 1,
   }
   const [initialOrFetchedValues, setInitialOrFetchedValues] = useState(initialValues)
 
@@ -55,13 +55,13 @@ export function EServiceWriteStep2Version({
     if (fetchedData && !isEmpty(fetchedData.activeDescriptor)) {
       const activeDescriptor = (fetchedData as EServiceReadType)
         .activeDescriptor as EServiceDescriptorRead
-      const { audience, version, voucherLifespan, description } = activeDescriptor
+      const { audience, version, voucherLifespan, description, dailyCalls } = activeDescriptor
       setInitialOrFetchedValues({
         version,
         audience: Boolean(audience.length > 0) ? audience[0] : '',
         voucherLifespan,
         description,
-        loadEstimate: 20000,
+        dailyCalls: dailyCalls || 1,
       })
     }
   }, [fetchedData]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -72,7 +72,7 @@ export function EServiceWriteStep2Version({
       audience: [data.audience],
       voucherLifespan: data.voucherLifespan,
       description: data.description,
-      // loadEstimate: data.loadEstimate
+      dailyCalls: data.dailyCalls,
     }
 
     const sureFetchedData = fetchedData as EServiceReadType
@@ -168,16 +168,17 @@ export function EServiceWriteStep2Version({
           />
 
           <StyledInputControlledText
-            name="load-estimate"
-            label="Soglia di carico ammesso (richiesto)"
-            infoLabel="Calcolata in numero di richieste al giorno sostenibili per richiesta di fruizione"
+            name="dailyCalls"
+            label="Soglia chiamate API/giorno (richiesto)"
+            infoLabel="Il fruitore dovrà dichiarare una stima delle chiamate che effettuerà per ogni finalità. Se la somma delle chiamate dichiarate dal fruitore sarà sopra la soglia da te impostata, potrai approvare manualmente l'accesso di queste finalità alla fruizione del tuo e-service"
             type="number"
-            value={values.loadEstimate}
-            error={errors.loadEstimate}
+            value={values.dailyCalls}
+            error={errors.dailyCalls}
             onChange={handleChange}
+            inputProps={{ min: '1' }}
           />
 
-          <EServiceWriteActions
+          <StepActions
             back={{ label: 'Indietro', type: 'button', onClick: back }}
             forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
           />

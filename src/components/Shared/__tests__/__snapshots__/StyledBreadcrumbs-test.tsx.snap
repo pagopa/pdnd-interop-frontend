@@ -2,7 +2,7 @@
 
 exports[`Snapshot matches breadcrumbs 1`] = `
 <nav
-  className="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-4the5x-MuiTypography-root-MuiBreadcrumbs-root"
+  className="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-jibey9-MuiTypography-root-MuiBreadcrumbs-root"
 >
   <ol
     className="MuiBreadcrumbs-ol css-4pdmu4-MuiBreadcrumbs-ol"
@@ -30,7 +30,7 @@ exports[`Snapshot matches breadcrumbs 1`] = `
       className="MuiBreadcrumbs-li"
     >
       <span
-        className="MuiTypography-root MuiTypography-body1 css-1mdftu-MuiTypography-root"
+        className="MuiTypography-root MuiTypography-body1 css-1pnmrwp-MuiTypography-root"
       >
         I tuoi accordi
       </span>
@@ -41,7 +41,7 @@ exports[`Snapshot matches breadcrumbs 1`] = `
 
 exports[`Snapshot matches breadcrumbs 2`] = `
 <nav
-  className="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-4the5x-MuiTypography-root-MuiBreadcrumbs-root"
+  className="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-jibey9-MuiTypography-root-MuiBreadcrumbs-root"
 >
   <ol
     className="MuiBreadcrumbs-ol css-4pdmu4-MuiBreadcrumbs-ol"
@@ -88,7 +88,7 @@ exports[`Snapshot matches breadcrumbs 2`] = `
       className="MuiBreadcrumbs-li"
     >
       <span
-        className="MuiTypography-root MuiTypography-body1 css-1mdftu-MuiTypography-root"
+        className="MuiTypography-root MuiTypography-body1 css-1pnmrwp-MuiTypography-root"
       >
         Crea e-service
       </span>

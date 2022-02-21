@@ -1,39 +1,77 @@
-import React, { FunctionComponent, useContext, useRef } from 'react'
+import React, { FunctionComponent, useContext, useRef, useState } from 'react'
 import { MoreVert as MoreVertIcon } from '@mui/icons-material'
 import { StyledButton } from './StyledButton'
 import { Menu, MenuItem } from '@mui/material'
 import { ActionProps } from '../../../types'
 import { TableActionMenuContext } from '../../lib/context'
+import uniqueString from 'unique-string'
+import { Box } from '@mui/system'
 
 type ActionMenuProps = {
+  // The list of actions to display in the menu
   actions: Array<ActionProps>
-  index: number
+  onOpen: (id: string) => void
+  onClose: VoidFunction
+  // The id of the menu currently clicked. In a table there may be many of them,
+  // but only one is open at a time (or none, if the value is null)
+  openMenuId: string | null
+  // Only used for snapshot tests, to have a stable id
+  snapshotTestInternalId?: string
 }
 
-export const ActionMenu: FunctionComponent<ActionMenuProps> = ({ actions, index }) => {
-  const anchorRef = useRef() as React.MutableRefObject<HTMLSpanElement>
-  const anchorId = `basic-button-${index}`
+export const ActionMenu: FunctionComponent<
+  Omit<ActionMenuProps, 'onOpen' | 'onClose' | 'openMenuId'>
+> = (props) => {
   const { tableActionMenu, setTableActionMenu } = useContext(TableActionMenuContext)
-  const open = Boolean(tableActionMenu !== null && tableActionMenu === anchorId)
+
+  const onOpen = (id: string) => {
+    setTableActionMenu(id)
+  }
+
+  const onClose = () => {
+    setTableActionMenu(null)
+  }
+
+  return (
+    <ActionMenuComponent
+      {...props}
+      onOpen={onOpen}
+      onClose={onClose}
+      openMenuId={tableActionMenu}
+    />
+  )
+}
+
+const ActionMenuComponent: FunctionComponent<ActionMenuProps> = ({
+  actions,
+  onOpen,
+  onClose,
+  openMenuId,
+  snapshotTestInternalId,
+}) => {
+  // Needs to be state to avoid it changing on rerender
+  const [id] = useState(snapshotTestInternalId || uniqueString())
+  const anchorRef = useRef() as React.MutableRefObject<HTMLSpanElement>
+  const anchorId = `basic-button-${id}`
+  const menuId = `basic-menu-${id}`
+  const open = Boolean(openMenuId !== null && openMenuId === anchorId)
 
   const handleClick = (event: React.SyntheticEvent) => {
     event.stopPropagation()
     event.preventDefault()
-    setTableActionMenu(event.currentTarget.id)
-  }
-  const handleClose = () => {
-    setTableActionMenu(null)
+    onOpen(event.currentTarget.id)
   }
 
   if (!Boolean(actions.length > 0)) {
-    return null
+    // Used to keep the buttons visually aligned in case there is no ActionMenu
+    return <Box component="span" sx={{ width: 75, display: 'inline-block' }} />
   }
 
   return (
     <React.Fragment>
       <StyledButton
         id={anchorId}
-        aria-controls={`basic-menu-${index}`}
+        aria-controls={menuId}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
@@ -44,10 +82,10 @@ export const ActionMenu: FunctionComponent<ActionMenuProps> = ({ actions, index 
       </StyledButton>
 
       <Menu
-        id={`basic-menu-${index}`}
+        id={menuId}
         anchorEl={anchorRef.current}
         open={open}
-        onClose={handleClose}
+        onClose={onClose}
         MenuListProps={{
           'aria-labelledby': 'basic-button',
         }}

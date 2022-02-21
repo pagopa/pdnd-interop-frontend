@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import { render, screen } from '@testing-library/react'
-import { EServiceWriteStep1General } from '../EServiceWriteStep1General'
+import { EServiceCreateStep1General } from '../EServiceCreateStep1General'
 import { eservicePublished } from '../../__mocks__/e-service'
 
 describe('Rendering tests', () => {
@@ -14,7 +14,7 @@ describe('Rendering tests', () => {
     const div = document.createElement('div')
     ReactDOM.render(
       <BrowserRouter>
-        <EServiceWriteStep1General forward={forward} back={back} data={data} activeStep={0} />
+        <EServiceCreateStep1General forward={forward} back={back} data={data} activeStep={0} />
       </BrowserRouter>,
       div
     )
@@ -27,7 +27,7 @@ describe('Rendering tests', () => {
 
     render(
       <BrowserRouter>
-        <EServiceWriteStep1General forward={forward} back={back} data={data} activeStep={0} />
+        <EServiceCreateStep1General forward={forward} back={back} data={data} activeStep={0} />
       </BrowserRouter>
     )
 
@@ -56,7 +56,7 @@ describe('Rendering tests', () => {
 
     render(
       <BrowserRouter>
-        <EServiceWriteStep1General
+        <EServiceCreateStep1General
           forward={forward}
           back={back}
           data={data}

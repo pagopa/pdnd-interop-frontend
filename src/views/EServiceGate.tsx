@@ -4,8 +4,7 @@ import { useLocation } from 'react-router-dom'
 import { EServiceDescriptorRead, EServiceReadType } from '../../types'
 import { NotFound } from './NotFound'
 import { isSamePath } from '../lib/router-utils'
-import { EServiceRead } from './EServiceRead'
-import { EServiceWrite } from './EServiceWrite'
+import { EServiceCreate } from './EServiceCreate'
 import { useActiveStep } from '../hooks/useActiveStep'
 import { ROUTES } from '../config/routes'
 import {
@@ -13,16 +12,17 @@ import {
   getEserviceAndDescriptorFromUrl,
 } from '../lib/eservice-utils'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
+import { EServiceEdit } from './EServiceEdit'
 
 export function EServiceGate() {
-  // Active step logic should belong in EServiceWrite. It was raised here
+  // Active step logic should belong in EServiceCreate. It was raised here
   // with good reason, to allow for the step index logic to work better
   // and to avoid it breaking if a Skeleton is introduced when the component is loading
   const { back, forward, activeStep } = useActiveStep()
 
   const location = useLocation()
   const { eserviceId, descriptorId } = getEserviceAndDescriptorFromUrl(location)
-  const { data, error, isItReallyLoading } = useAsyncFetch<EServiceReadType>(
+  const { data, error } = useAsyncFetch<EServiceReadType>(
     {
       path: { endpoint: 'ESERVICE_GET_SINGLE', endpointParams: { eserviceId } },
     },
@@ -47,8 +47,8 @@ export function EServiceGate() {
   }
 
   return isEditable ? (
-    <EServiceWrite back={back} forward={forward} activeStep={activeStep} fetchedData={data} />
+    <EServiceCreate back={back} forward={forward} activeStep={activeStep} fetchedData={data} />
   ) : (
-    <EServiceRead isLoading={isItReallyLoading} data={data as EServiceReadType} />
+    <EServiceEdit />
   )
 }

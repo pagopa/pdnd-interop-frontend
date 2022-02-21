@@ -40,7 +40,7 @@ exports[`Snapshot matches row with single action button 1`] = `
     className="MuiTableCell-root MuiTableCell-alignRight MuiTableCell-sizeMedium css-r7oxtk-MuiTableCell-root"
   >
     <button
-      className="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButtonBase-root  css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+      className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -60,117 +60,116 @@ exports[`Snapshot matches row with single action button 1`] = `
     >
       Ispeziona
     </button>
-    <span
-      className="MuiBox-root css-24nojk"
-    />
   </td>
 </tr>
 `;
 
 exports[`Snapshot matches row with single action button and action list button 1`] = `
-<tr
-  className="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
-  role={null}
->
-  <td
-    aria-sort={null}
-    className="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+Array [
+  <tr
+    className="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+    role={null}
   >
-    <span
-      className="MuiTypography-root MuiTypography-body2 css-1qzgq0n-MuiTypography-root"
+    <td
+      aria-sort={null}
+      className="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
     >
-      Mario
-    </span>
-  </td>
-  <td
-    aria-sort={null}
-    className="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
-  >
-    <span
-      className="MuiTypography-root MuiTypography-caption css-1b37dve-MuiTypography-root"
-    >
-      Rossi
-    </span>
-  </td>
-  <td
-    aria-sort={null}
-    className="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
-  >
-    <span
-      className="MuiTypography-root MuiTypography-caption css-1b37dve-MuiTypography-root"
-    >
-      rejsedf3-re4k-rew2-eoer
-    </span>
-  </td>
-  <td
-    aria-sort={null}
-    className="MuiTableCell-root MuiTableCell-alignRight MuiTableCell-sizeMedium css-r7oxtk-MuiTableCell-root"
-  >
-    <button
-      className="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButtonBase-root  css-1k23hlb-MuiButtonBase-root-MuiButton-root"
-      disabled={false}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onContextMenu={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      tabIndex={0}
-      type="button"
-    >
-      Ispeziona
       <span
-        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
-    </button>
-    <button
-      aria-controls="basic-menu-0"
-      aria-haspopup="true"
-      className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
-      disabled={false}
-      id="basic-button-0"
-      onBlur={[Function]}
-      onClick={[Function]}
-      onContextMenu={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      tabIndex={0}
-      type="button"
-    >
-      <span>
-        <svg
-          aria-hidden={true}
-          className="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium css-ci5apu-MuiSvgIcon-root"
-          data-testid="MoreVertIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-          />
-        </svg>
+        className="MuiTypography-root MuiTypography-body2 css-1qzgq0n-MuiTypography-root"
+      >
+        Mario
       </span>
+    </td>
+    <td
+      aria-sort={null}
+      className="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+    >
       <span
-        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
-    </button>
-  </td>
-</tr>
+        className="MuiTypography-root MuiTypography-caption css-1b37dve-MuiTypography-root"
+      >
+        Rossi
+      </span>
+    </td>
+    <td
+      aria-sort={null}
+      className="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+    >
+      <span
+        className="MuiTypography-root MuiTypography-caption css-1b37dve-MuiTypography-root"
+      >
+        rejsedf3-re4k-rew2-eoer
+      </span>
+    </td>
+    <td
+      aria-sort={null}
+      className="MuiTableCell-root MuiTableCell-alignRight MuiTableCell-sizeMedium css-r7oxtk-MuiTableCell-root"
+    >
+      <button
+        className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+        disabled={false}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onContextMenu={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="button"
+      >
+        Ispeziona
+        <span
+          className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </button>
+    </td>
+  </tr>,
+  <button
+    aria-controls="basic-menu-1"
+    aria-haspopup="true"
+    className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+    disabled={false}
+    id="basic-button-1"
+    onBlur={[Function]}
+    onClick={[Function]}
+    onContextMenu={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <span>
+      <svg
+        aria-hidden={true}
+        className="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium css-ci5apu-MuiSvgIcon-root"
+        data-testid="MoreVertIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+        />
+      </svg>
+    </span>
+    <span
+      className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+    />
+  </button>,
+]
 `;
 
 exports[`Snapshot matches row without actions 1`] = `
@@ -207,14 +206,6 @@ exports[`Snapshot matches row without actions 1`] = `
     >
       rejsedf3-re4k-rew2-eoer
     </span>
-  </td>
-  <td
-    aria-sort={null}
-    className="MuiTableCell-root MuiTableCell-alignRight MuiTableCell-sizeMedium css-r7oxtk-MuiTableCell-root"
-  >
-    <span
-      className="MuiBox-root css-24nojk"
-    />
   </td>
 </tr>
 `;

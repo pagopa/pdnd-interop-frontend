@@ -7,22 +7,24 @@ type DescriptionBlockProps = {
   label: string
   tooltipLabel?: string
   sx?: SxProps
+  childWrapperSx?: SxProps
 }
 
 export const DescriptionBlock: FunctionComponent<DescriptionBlockProps> = ({
   children,
   label,
   tooltipLabel,
-  sx = {},
+  sx = { my: 5 },
+  childWrapperSx = { pt: 1 },
 }) => {
   return (
-    <Box sx={{ my: 4, ...sx }}>
-      <Typography component="span" fontWeight={700} color="secondary">
+    <Box sx={sx}>
+      <Typography component="span" fontWeight={700} color="text.secondary">
         {label}
       </Typography>
       {tooltipLabel && <InfoTooltip label={tooltipLabel} />}
       <br />
-      {children}
+      <Box sx={childWrapperSx}>{children}</Box>
     </Box>
   )
 }

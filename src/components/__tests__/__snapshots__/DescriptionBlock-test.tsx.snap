@@ -2,10 +2,10 @@
 
 exports[`Snapshot matches 1`] = `
 <div
-  className="MuiBox-root css-zitybv"
+  className="MuiBox-root css-rm9e7r"
 >
   <span
-    className="MuiTypography-root MuiTypography-body1 css-1ds6k66-MuiTypography-root"
+    className="MuiTypography-root MuiTypography-body1 css-oxlhpk-MuiTypography-root"
   >
     test
   </span>
@@ -30,8 +30,12 @@ exports[`Snapshot matches 1`] = `
     />
   </svg>
   <br />
-  <span>
-    content-test
-  </span>
+  <div
+    className="MuiBox-root css-zoser8"
+  >
+    <span>
+      content-test
+    </span>
+  </div>
 </div>
 `;
