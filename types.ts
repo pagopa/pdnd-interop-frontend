@@ -7,7 +7,7 @@ import {
 } from './src/config/labels'
 import { SchemaOf } from 'yup'
 import { RunAction } from './src/hooks/useFeedback'
-import { FIRST_DRAFT_FRAGMENT } from './src/lib/constants'
+import { FIRST_DRAFT_FRAGMENT, LANG } from './src/lib/constants'
 
 /*
  * Fetch data and router related types
@@ -94,20 +94,34 @@ export type RequestConfig = {
 
 export type RouteAuthLevel = 'any' | Array<UserProductRole>
 
-export type BasicRouteConfig = {
-  PATH: string
-  LABEL: string
+export type Lang = typeof LANG[number]
+
+export type LangKeyedValue = {
+  [key in Lang]: string
+}
+
+export type RouteConfig = {
+  PATH: LangKeyedValue
+  LABEL: LangKeyedValue
+  REDIRECT?: LangKeyedValue
   EXACT?: boolean
   COMPONENT: React.FunctionComponent<unknown>
-  REDIRECT?: string
   PUBLIC: boolean
   AUTH_LEVELS?: RouteAuthLevel
 }
 
-export type RouteConfig = BasicRouteConfig & {
-  SUBROUTES?: Record<string, RouteConfig>
+export type MappedRouteConfig = {
+  PATH: string
+  LABEL: string
+  REDIRECT?: string
+  EXACT?: boolean
+  COMPONENT: React.FunctionComponent<unknown>
+  PUBLIC: boolean
+  AUTH_LEVELS?: RouteAuthLevel
+
+  SUBROUTES?: Record<string, MappedRouteConfig>
   SPLIT_PATH: Array<string>
-  PARENTS?: Array<RouteConfig>
+  PARENTS?: Array<MappedRouteConfig>
 }
 
 export type Image = { src: string; alt: string }

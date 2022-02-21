@@ -1,4 +1,4 @@
-import { RouteConfig } from '../../../types'
+import { MappedRouteConfig } from '../../../types'
 import {
   belongsToTree,
   buildDynamicPath,
@@ -20,7 +20,7 @@ describe('Location belongs to route tree', () => {
       state: {},
       hash: 'djsf-dsfjs-dsfj',
     }
-    const route: RouteConfig = {
+    const route: MappedRouteConfig = {
       PATH: '/erogazione',
       LABEL: 'Erogazione',
       EXACT: true,
@@ -41,7 +41,7 @@ describe('Location belongs to route tree', () => {
       state: {},
       hash: 'djsf-dsfjs-dsfj',
     }
-    const route: RouteConfig = {
+    const route: MappedRouteConfig = {
       PATH: '/fruizione',
       LABEL: 'Fruizione',
       EXACT: true,
@@ -90,7 +90,7 @@ describe('Path matches', () => {
 })
 
 describe('Route descends from another route', () => {
-  const possibleParentRoute: RouteConfig = {
+  const possibleParentRoute: MappedRouteConfig = {
     PATH: '/erogazione',
     LABEL: 'Erogazione',
     EXACT: true,
@@ -100,7 +100,7 @@ describe('Route descends from another route', () => {
     AUTH_LEVELS: ['admin', 'api'],
     SPLIT_PATH: ['erogazione'],
   }
-  const currentRoute: RouteConfig = {
+  const currentRoute: MappedRouteConfig = {
     PATH: '/erogazione/e-service',
     EXACT: true,
     LABEL: 'I tuoi e-service',
@@ -206,7 +206,7 @@ describe('Dynamic routes and paths building', () => {
     const eserviceId = 'ewjfiw-sdfjsdiz-nifs'
     const descriptorId = 'weorjw-uuioew-weirjwe'
 
-    const inputRoute: RouteConfig = {
+    const inputRoute: MappedRouteConfig = {
       PATH: '/erogazione/e-service/:eserviceId/:descriptorId',
       EXACT: false,
       LABEL: 'Gestisci o visualizza e-service',
@@ -225,7 +225,7 @@ describe('Dynamic routes and paths building', () => {
 })
 
 describe('Decorate route with parent routes creates parent tree correctly', () => {
-  const routes: Record<string, RouteConfig> = {
+  const routes: Record<string, MappedRouteConfig> = {
     PROVIDE_ESERVICE_CREATE: {
       PATH: '/erogazione/e-service/crea',
       EXACT: true,

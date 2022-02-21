@@ -16,3 +16,6 @@ export const URL_FE_ONBOARDING = `${process.env.REACT_APP_API_BASE_URL}${process
 
 export const FIRST_DRAFT_FRAGMENT = 'prima-bozza'
 export const EDIT_FRAGMENT = 'modifica'
+
+export const DEFAULT_LANG = 'it'
+export const LANG = [DEFAULT_LANG]

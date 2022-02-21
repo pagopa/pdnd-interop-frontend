@@ -2,14 +2,14 @@ import React from 'react'
 import { useLocation } from 'react-router-dom'
 import { Breadcrumbs, Typography } from '@mui/material'
 import { StyledLink } from './StyledLink'
-import { RouteConfig } from '../../../types'
+import { MappedRouteConfig } from '../../../types'
 import { getBits, isSamePath } from '../../lib/router-utils'
 import { ROUTES } from '../../config/routes'
 import { EDIT_FRAGMENT } from '../../lib/constants'
 
 export function StyledBreadcrumbs() {
   const location = useLocation()
-  const currentRoute: RouteConfig | undefined = Object.values(ROUTES).find((r) =>
+  const currentRoute: MappedRouteConfig | undefined = Object.values(ROUTES).find((r) =>
     isSamePath(location.pathname, r.PATH)
   )
 
@@ -28,7 +28,7 @@ export function StyledBreadcrumbs() {
     return _links
   }
 
-  const toDynamicPath = (route: RouteConfig) => {
+  const toDynamicPath = (route: MappedRouteConfig) => {
     const locationBits = getBits(location)
 
     const dynamicSplit = route.SPLIT_PATH.map((pathFragment, i) => {

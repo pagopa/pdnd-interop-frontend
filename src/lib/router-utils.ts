@@ -3,10 +3,16 @@ import identity from 'lodash/identity'
 import isEmpty from 'lodash/isEmpty'
 import sortBy from 'lodash/sortBy'
 import qs from 'qs'
-import { ProviderOrSubscriber, RouteConfig } from '../../types'
+import {
+  RouteConfig,
+  Lang,
+  ProviderOrSubscriber,
+  MappedRouteConfig,
+  LangKeyedValue,
+} from '../../types'
 import { ROUTES } from '../config/routes'
 
-export function belongsToTree(location: Location<unknown>, route: RouteConfig) {
+export function belongsToTree(location: Location<unknown>, route: MappedRouteConfig) {
   // Find the actual route in the router
   const currentRoute = Object.values(ROUTES).find((r) => isSamePath(location.pathname, r.PATH))
   // If no route, end it here
@@ -44,7 +50,10 @@ export function isSamePath(path: string, matchPath: string) {
   return isSamePath
 }
 
-export function isParentRoute(possibleParentRoute: RouteConfig, currentRoute: RouteConfig) {
+export function isParentRoute(
+  possibleParentRoute: MappedRouteConfig,
+  currentRoute: MappedRouteConfig
+) {
   if (possibleParentRoute.SPLIT_PATH.length >= currentRoute.SPLIT_PATH.length) {
     return false
   }
@@ -109,14 +118,14 @@ export function buildDynamicPath(
   return path
 }
 
-export function buildDynamicRoute(route: RouteConfig, params: Record<string, string>) {
+export function buildDynamicRoute(route: MappedRouteConfig, params: Record<string, string>) {
   return { ...route, PATH: buildDynamicPath(route.PATH, params) }
 }
 
 export function decorateRouteWithParents(
-  routes: Record<string, RouteConfig>
-): Record<string, RouteConfig> {
-  const withSplitPath: Record<string, RouteConfig & { SPLIT_PATH: string[] }> = Object.keys(
+  routes: Record<string, MappedRouteConfig>
+): Record<string, MappedRouteConfig> {
+  const withSplitPath: Record<string, MappedRouteConfig & { SPLIT_PATH: string[] }> = Object.keys(
     routes
   ).reduce((acc, next) => {
     const currentRoute = routes[next]
@@ -138,4 +147,20 @@ export function decorateRouteWithParents(
   }, {})
 
   return withParents
+}
+
+export function mapRoutesToLang(routes: Record<string, RouteConfig>, lang: Lang) {
+  const reduced = Object.keys(routes).reduce((acc, nextKey) => {
+    const PATH = routes[nextKey].PATH[lang]
+    const LABEL = routes[nextKey].LABEL[lang]
+    const REDIRECT = routes[nextKey].REDIRECT
+      ? (routes[nextKey].REDIRECT as LangKeyedValue)[lang]
+      : undefined
+
+    const route = { [nextKey]: { ...routes[nextKey], PATH, LABEL, REDIRECT } }
+
+    return { ...acc, ...route }
+  }, {})
+
+  return reduced
 }

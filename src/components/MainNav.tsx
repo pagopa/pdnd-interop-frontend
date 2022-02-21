@@ -9,7 +9,7 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material'
-import { RouteConfig, UserProductRole } from '../../types'
+import { MappedRouteConfig, UserProductRole } from '../../types'
 import { PartyContext, TokenContext } from '../lib/context'
 import { StyledLink } from './Shared/StyledLink'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
@@ -17,9 +17,9 @@ import { ROUTES } from '../config/routes'
 import { belongsToTree } from '../lib/router-utils'
 
 type View = {
-  route: RouteConfig
+  route: MappedRouteConfig
   id?: string
-  children?: Array<RouteConfig>
+  children?: Array<MappedRouteConfig>
 }
 
 type Views = Record<UserProductRole, Array<View>>
@@ -81,7 +81,7 @@ export const MainNav = () => {
     setOpenId(newOpenId && newOpenId !== openId ? newOpenId : null)
   }
 
-  const isItemSelected = (route: RouteConfig) => {
+  const isItemSelected = (route: MappedRouteConfig) => {
     return belongsToTree(location, route)
   }
 
@@ -98,7 +98,7 @@ export const MainNav = () => {
 
 type MainNavComponentProps = {
   items: Array<View>
-  isItemSelected: (route: RouteConfig) => boolean
+  isItemSelected: (route: MappedRouteConfig) => boolean
   openSubmenuId: string | null
   wrapSetOpenSubmenuId: (id?: string) => () => void
   shouldRender: boolean
@@ -111,7 +111,7 @@ const MainNavComponent = ({
   wrapSetOpenSubmenuId,
   shouldRender,
 }: MainNavComponentProps) => {
-  const WrappedLink = ({ route }: { route: RouteConfig }) => {
+  const WrappedLink = ({ route }: { route: MappedRouteConfig }) => {
     const isSelected = isItemSelected(route)
     const { PATH, LABEL } = route
     return (
@@ -184,7 +184,7 @@ const MainNavComponent = ({
 
                 <Collapse in={isSubmenuOpen} timeout="auto" unmountOnExit>
                   <List disablePadding sx={{ width: WIDTH, pl: 2 }}>
-                    {(item.children as Array<RouteConfig>).map((child, j) => (
+                    {(item.children as Array<MappedRouteConfig>).map((child, j) => (
                       <ListItem sx={{ display: 'block', p: 0 }} key={j}>
                         <WrappedLink route={child} />
                       </ListItem>

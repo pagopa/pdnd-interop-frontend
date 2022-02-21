@@ -6,7 +6,7 @@ import {
   DialogActionKeys,
   RequestConfig,
   RequestOutcome,
-  RouteConfig,
+  MappedRouteConfig,
   RunActionOutput,
   RunActionProps,
   ToastActionKeys,
@@ -26,7 +26,7 @@ type CallbackActionOptions = ActionOptions & {
 }
 
 type DestinationActionOptions = ActionOptions & {
-  destination: RouteConfig
+  destination: MappedRouteConfig
 }
 
 export type RunAction = (
