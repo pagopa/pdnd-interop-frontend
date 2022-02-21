@@ -25,7 +25,7 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { NotFound } from './NotFound'
 import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 
-export function EServiceEdit() {
+export function EServiceManage() {
   const { setDialog } = useContext(DialogContext)
   const { runFakeAction, runAction, forceRerenderCounter } = useFeedback()
   const { activeTab, updateActiveTab } = useActiveTab()

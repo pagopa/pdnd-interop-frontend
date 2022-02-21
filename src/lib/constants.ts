@@ -13,3 +13,6 @@ export const STORAGE_KEY_TOKEN = 'token'
 
 export const URL_FE_LOGIN = `${process.env.REACT_APP_API_BASE_URL}${process.env.REACT_APP_URL_FE_LOGIN}`
 export const URL_FE_ONBOARDING = `${process.env.REACT_APP_API_BASE_URL}${process.env.REACT_APP_URL_FE_ONBOARDING}`
+
+export const FIRST_DRAFT_FRAGMENT = 'prima-bozza'
+export const EDIT_FRAGMENT = 'modifica'

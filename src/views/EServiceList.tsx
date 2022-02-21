@@ -22,6 +22,7 @@ import { ROUTES } from '../config/routes'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { axiosErrorToError } from '../lib/error-utils'
+import { FIRST_DRAFT_FRAGMENT } from '../lib/constants'
 
 export function EServiceList() {
   const { runAction, runFakeAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -244,10 +245,15 @@ export function EServiceList() {
                   variant="outlined"
                   size="small"
                   onClick={() => {
+                    const destPath =
+                      !item.state || item.state === 'DRAFT'
+                        ? ROUTES.PROVIDE_ESERVICE_EDIT.PATH
+                        : ROUTES.PROVIDE_ESERVICE_MANAGE.PATH
+
                     history.push(
-                      buildDynamicPath(ROUTES.PROVIDE_ESERVICE_EDIT.PATH, {
+                      buildDynamicPath(destPath, {
                         eserviceId: item.id,
-                        descriptorId: item.descriptorId || 'prima-bozza',
+                        descriptorId: item.descriptorId || FIRST_DRAFT_FRAGMENT,
                       })
                     )
                   }}

@@ -14,7 +14,7 @@ export const useActiveStep = (): ActiveStepProps => {
   const history = useHistory()
 
   // Handles which step to go to after a "creation" action has been performed
-  // and a history.replace action has taken place and the whole EServiceGate
+  // and a history.replace action has taken place and the whole EServiceCreate
   // component has rerendered and fetched fresh data
   useEffect(() => {
     // State has priority since it is a direct order to go to a location

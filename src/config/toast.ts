@@ -259,8 +259,21 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: "Non è stato possibile aggiornare l'accordo. Per favore, riprova!",
     },
   },
-  PURPOSE_UPDATE: { loadingText: 'Stiamo aggiornando la bozza' },
-  PURPOSE_DELETE: {
+  PURPOSE_DRAFT_CREATE: {
+    loadingText: 'Stiamo creando la bozza',
+    error: {
+      title: 'Errore',
+      description: 'Non è stato possibile creare la bozza di finalità. Per favore, riprova!',
+    },
+  },
+  PURPOSE_DRAFT_UPDATE: {
+    loadingText: 'Stiamo aggiornando la bozza',
+    error: {
+      title: 'Errore',
+      description: 'Non è stato possibile aggiornare la bozza di finalità. Per favore, riprova!',
+    },
+  },
+  PURPOSE_DRAFT_DELETE: {
     loadingText: 'Stiamo cancellando la finalità in bozza',
     success: {
       title: 'Finalità cancellata',
@@ -271,7 +284,20 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: 'Non è stato possibile cancellare la finalità. Per favore, riprova!',
     },
   },
-  PURPOSE_VERSION_DRAFT_UPDATE: { loadingText: 'Stiamo aggiornando la bozza' },
+  PURPOSE_VERSION_DRAFT_CREATE: {
+    loadingText: 'Stiamo aggiornando la bozza',
+    error: {
+      title: 'Errore',
+      description: 'Non è stato possibile aggiornare la bozza di finalità. Per favore, riprova!',
+    },
+  },
+  PURPOSE_VERSION_DRAFT_UPDATE: {
+    loadingText: 'Stiamo aggiornando la bozza',
+    error: {
+      title: 'Errore',
+      description: 'Non è stato possibile aggiornare la bozza di finalità. Per favore, riprova!',
+    },
+  },
   PURPOSE_VERSION_SUSPEND: {
     loadingText: 'Stiamo sospendendo la finalità',
     success: {

@@ -7,6 +7,7 @@ import {
 } from './src/config/labels'
 import { SchemaOf } from 'yup'
 import { RunAction } from './src/hooks/useFeedback'
+import { FIRST_DRAFT_FRAGMENT } from './src/lib/constants'
 
 /*
  * Fetch data and router related types
@@ -43,9 +44,9 @@ export type ApiEndpointKey =
   | 'AGREEMENT_UPGRADE'
   | 'PURPOSE_GET_LIST'
   | 'PURPOSE_GET_SINGLE'
-  | 'PURPOSE_CREATE'
-  | 'PURPOSE_UPDATE'
-  | 'PURPOSE_DELETE'
+  | 'PURPOSE_DRAFT_CREATE'
+  | 'PURPOSE_DRAFT_UPDATE'
+  | 'PURPOSE_DRAFT_DELETE'
   | 'PURPOSE_VERSION_DRAFT_CREATE'
   | 'PURPOSE_VERSION_DRAFT_UPDATE'
   | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
@@ -224,7 +225,7 @@ export type EServiceTechnologyType = 'REST' | 'SOAP'
 // but not a descriptorId. This happens when I've just created a new service,
 // but not yet created a descriptor for it. This leads to 'prima-bozza' being used
 // in the page URL to identify this peculiar case
-export type EServiceNoDescriptorId = 'prima-bozza'
+export type EServiceNoDescriptorId = typeof FIRST_DRAFT_FRAGMENT
 
 // Write only
 export type EServiceCreateType = {
@@ -694,8 +695,8 @@ export type DialogActionKeys = Exclude<
   | 'AGREEMENT_VERIFY_ATTRIBUTE'
   | 'PURPOSE_GET_LIST'
   | 'PURPOSE_GET_SINGLE'
-  | 'PURPOSE_UPDATE'
-  | 'PURPOSE_CREATE'
+  | 'PURPOSE_DRAFT_UPDATE'
+  | 'PURPOSE_DRAFT_CREATE'
   | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
   | 'PURPOSE_VERSION_DRAFT_CREATE'
   | 'PURPOSE_VERSION_DRAFT_UPDATE'
@@ -744,8 +745,6 @@ export type ToastActionKeys = Exclude<
   | 'CLIENT_GET_SINGLE'
   | 'PURPOSE_GET_LIST'
   | 'PURPOSE_GET_SINGLE'
-  | 'PURPOSE_CREATE'
-  | 'PURPOSE_VERSION_DRAFT_CREATE'
   | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
   | 'KEY_GET_LIST'
   | 'KEY_GET_SINGLE'

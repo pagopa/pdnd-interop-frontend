@@ -8,7 +8,6 @@ import { Box } from '@mui/system'
 import {
   ApiEndpointKey,
   EServiceCreateDataType,
-  EServiceNoDescriptorId,
   EServiceReadType,
   FrontendAttributes,
   StepperStepComponentProps,
@@ -20,7 +19,6 @@ import {
   remapFrontendAttributesToBackend,
 } from '../lib/attributes'
 import { useFeedback } from '../hooks/useFeedback'
-import { EServiceCreateProps } from '../views/EServiceCreate'
 import { EServiceAttributeSection } from './EServiceAttributeSection'
 import { StyledForm } from './Shared/StyledForm'
 import { StyledIntro } from './Shared/StyledIntro'
@@ -28,13 +26,16 @@ import { ROUTES } from '../config/routes'
 import { StepActions } from './Shared/StepActions'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { StyledInputControlledRadio } from './Shared/StyledInputControlledRadio'
+import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
+import { FIRST_DRAFT_FRAGMENT } from '../lib/constants'
 
-export const EServiceCreateStep1General: FunctionComponent<
-  StepperStepComponentProps & EServiceCreateProps
-> = ({ forward, fetchedData }) => {
+export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentProps> = ({
+  forward,
+}) => {
   const { party } = useContext(PartyContext)
   const history = useHistory()
   const { runActionWithCallback } = useFeedback()
+  const { data: fetchedData } = useEserviceCreateFetch()
 
   const validationSchema = object({
     name: string().required(),
@@ -94,23 +95,19 @@ export const EServiceCreateStep1General: FunctionComponent<
 
     await runActionWithCallback(
       { path: { endpoint, endpointParams }, config: { data: dataToPost } },
-      { callback: wrapOnSubmitSuccess(isNewService), suppressToast: false }
+      { callback: wrapGoForward(isNewService), suppressToast: false }
     )
   }
 
-  const wrapOnSubmitSuccess = (isNewService: boolean) => (response: AxiosResponse) => {
-    const eserviceId = response.data.id
-
+  const wrapGoForward = (isNewService: boolean) => (response: AxiosResponse) => {
     if (isNewService) {
-      const tempDescriptorId: EServiceNoDescriptorId = 'prima-bozza'
-
       // Replace the create route with the acutal eserviceId, now that we have it.
       // WARNING: this will cause a re-render that will fetch fresh data
-      // at the EServiceGate component level
+      // at the EServiceCreate component level (which is ugly)
       history.replace(
         buildDynamicPath(ROUTES.PROVIDE_ESERVICE_EDIT.PATH, {
-          eserviceId,
-          descriptorId: tempDescriptorId,
+          eserviceId: response.data.id,
+          descriptorId: FIRST_DRAFT_FRAGMENT,
         }),
         { stepIndexDestination: 1 }
       )

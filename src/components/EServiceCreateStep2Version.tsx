@@ -15,8 +15,8 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledForm } from './Shared/StyledForm'
 import { ROUTES } from '../config/routes'
 import { StepActions } from './Shared/StepActions'
-import { EServiceCreateProps } from '../views/EServiceCreate'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
+import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
 
 type VersionData = {
   audience: string
@@ -26,13 +26,10 @@ type VersionData = {
   dailyCalls: number
 }
 
-export function EServiceCreateStep2Version({
-  forward,
-  back,
-  fetchedData,
-}: StepperStepComponentProps & EServiceCreateProps) {
+export function EServiceCreateStep2Version({ forward, back }: StepperStepComponentProps) {
   const history = useHistory()
   const { runActionWithCallback } = useFeedback()
+  const { data: fetchedData } = useEserviceCreateFetch()
 
   const validationSchema = object({
     version: string().required(),
@@ -72,7 +69,7 @@ export function EServiceCreateStep2Version({
       audience: [data.audience],
       voucherLifespan: data.voucherLifespan,
       description: data.description,
-      dailyCalls: data.dailyCalls,
+      // dailyCalls: data.dailyCalls,
     }
 
     const sureFetchedData = fetchedData as EServiceReadType
@@ -102,10 +99,10 @@ export function EServiceCreateStep2Version({
 
       // Replace the create route with the acutal descriptorId, now that we have it.
       // WARNING: this will NOT cause a re-render that will fetch fresh data
-      // at the EServiceGate component level. This is because, to the router, this is not
+      // at the EServiceCreate component level. This is because, to the router, this is not
       // a change of route, we are still in the 'ESERVICE_EDIT' route.
-      // The EServiceGate component rerenders because we added "history.location"
-      // as a useEffect dependency in EServiceGate useAsyncFetch hook
+      // The EServiceCreate component rerenders because we added "history.location"
+      // as a useEffect dependency in EServiceCreate useEserviceCreateFetch hook
       history.replace(
         buildDynamicPath(ROUTES.PROVIDE_ESERVICE_EDIT.PATH, {
           eserviceId: (fetchedData as EServiceReadType).id,

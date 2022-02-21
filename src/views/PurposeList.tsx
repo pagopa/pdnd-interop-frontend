@@ -73,7 +73,7 @@ export const PurposeList = () => {
   const wrapDelete = (purposeId: string) => async () => {
     await runAction(
       {
-        path: { endpoint: 'PURPOSE_DELETE', endpointParams: { purposeId } },
+        path: { endpoint: 'PURPOSE_DRAFT_DELETE', endpointParams: { purposeId } },
       },
       { suppressToast: false }
     )
@@ -136,7 +136,7 @@ export const PurposeList = () => {
     }
 
     const deleteAction = {
-      onClick: wrapActionInDialog(wrapDelete(purpose.id), 'PURPOSE_DELETE'),
+      onClick: wrapActionInDialog(wrapDelete(purpose.id), 'PURPOSE_DRAFT_DELETE'),
       label: 'Elimina',
     }
 
@@ -172,7 +172,7 @@ export const PurposeList = () => {
 
       <Box sx={{ mt: 4 }}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-          <StyledButton variant="contained" to={ROUTES.SUBSCRIBE_PURPOSE_DRAFT_CREATE.PATH}>
+          <StyledButton variant="contained" to={ROUTES.SUBSCRIBE_PURPOSE_CREATE.PATH}>
             + Aggiungi
           </StyledButton>
         </Box>
@@ -207,9 +207,12 @@ export const PurposeList = () => {
                     variant="outlined"
                     size="small"
                     onClick={() => {
-                      history.push(
-                        buildDynamicPath(ROUTES.SUBSCRIBE_PURPOSE_EDIT.PATH, { purposeId: item.id })
-                      )
+                      const path =
+                        item.currentVersion.state === 'DRAFT'
+                          ? ROUTES.SUBSCRIBE_PURPOSE_EDIT.PATH
+                          : ROUTES.SUBSCRIBE_PURPOSE_VIEW.PATH
+
+                      history.push(buildDynamicPath(path, { purposeId: item.id }))
                     }}
                   >
                     Ispeziona
