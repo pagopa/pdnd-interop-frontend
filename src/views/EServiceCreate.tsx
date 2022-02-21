@@ -1,13 +1,13 @@
 import React from 'react'
 import { Box } from '@mui/system'
-import { EServiceReadType, StepperStep } from '../../types'
+import { StepperStep } from '../../types'
 import { EServiceCreateStep1General } from '../components/EServiceCreateStep1General'
 import { EServiceCreateStep2Version } from '../components/EServiceCreateStep2Version'
 import { EServiceCreateStep3Documents } from '../components/EServiceCreateStep3Documents'
 import { StyledStepper } from '../components/Shared/StyledStepper'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { Contained } from '../components/Shared/Contained'
-import { ActiveStepProps } from '../hooks/useActiveStep'
+import { useActiveStep } from '../hooks/useActiveStep'
 
 const STEPS: Array<StepperStep> = [
   { label: 'Generale', component: EServiceCreateStep1General },
@@ -15,12 +15,9 @@ const STEPS: Array<StepperStep> = [
   { label: 'Documentazione', component: EServiceCreateStep3Documents },
 ]
 
-export type EServiceCreateProps = ActiveStepProps & {
-  fetchedData?: EServiceReadType
-}
-
-export function EServiceCreate({ fetchedData, back, forward, activeStep }: EServiceCreateProps) {
-  const stepProps = { forward, back, fetchedData }
+export function EServiceCreate() {
+  const { back, forward, activeStep } = useActiveStep()
+  const stepProps = { forward, back }
   const { component: Step } = STEPS[activeStep]
 
   return (

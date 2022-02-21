@@ -5,6 +5,7 @@ import { StyledLink } from './StyledLink'
 import { RouteConfig } from '../../../types'
 import { getBits, isSamePath } from '../../lib/router-utils'
 import { ROUTES } from '../../config/routes'
+import { EDIT_FRAGMENT } from '../../lib/constants'
 
 export function StyledBreadcrumbs() {
   const location = useLocation()
@@ -14,6 +15,17 @@ export function StyledBreadcrumbs() {
 
   if (!currentRoute) {
     return null
+  }
+
+  const filterFalseParents = (links: Array<{ label: string; path: string }>) => {
+    const _links = [...links]
+    // Handle exception for /modifica paths
+    if (_links[_links.length - 1].path.endsWith(EDIT_FRAGMENT)) {
+      // Remove item before that one, because it is not a true parent
+      _links.splice(_links.length - 2, 1)
+    }
+
+    return _links
   }
 
   const toDynamicPath = (route: RouteConfig) => {
@@ -34,15 +46,18 @@ export function StyledBreadcrumbs() {
     path: toDynamicPath(r),
   }))
 
+  // Remove false parent "Gestisci" when current route is "Modifica"
+  const filteredLinks = filterFalseParents(links)
+
   // Don't display breadcrumbs for first level descentants, they are useless
-  if (links.length < 2) {
+  if (filteredLinks.length < 2) {
     return null
   }
 
   return (
     <Breadcrumbs sx={{ mb: 5 }}>
-      {links.map(({ label, path }, i) => {
-        if (i === links.length - 1) {
+      {filteredLinks.map(({ label, path }, i) => {
+        if (i === filteredLinks.length - 1) {
           return (
             <Typography component="span" color="text.secondary" key={i}>
               {label}

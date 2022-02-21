@@ -7,6 +7,7 @@ import {
 } from './src/config/labels'
 import { SchemaOf } from 'yup'
 import { RunAction } from './src/hooks/useFeedback'
+import { FIRST_DRAFT_FRAGMENT } from './src/lib/constants'
 
 /*
  * Fetch data and router related types
@@ -224,7 +225,7 @@ export type EServiceTechnologyType = 'REST' | 'SOAP'
 // but not a descriptorId. This happens when I've just created a new service,
 // but not yet created a descriptor for it. This leads to 'prima-bozza' being used
 // in the page URL to identify this peculiar case
-export type EServiceNoDescriptorId = 'prima-bozza'
+export type EServiceNoDescriptorId = typeof FIRST_DRAFT_FRAGMENT
 
 // Write only
 export type EServiceCreateType = {

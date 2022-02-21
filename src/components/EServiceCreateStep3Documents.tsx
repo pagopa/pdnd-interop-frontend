@@ -17,17 +17,15 @@ import { EServiceCreateStep3DocumentsDoc } from './EServiceCreateStep3DocumentsD
 import { StepActions } from './Shared/StepActions'
 import { Paper } from '@mui/material'
 import { TOAST_CONTENTS } from '../config/toast'
-import { EServiceCreateProps } from '../views/EServiceCreate'
+import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
 
-export function EServiceCreateStep3Documents({
-  back,
-  fetchedData,
-}: StepperStepComponentProps & EServiceCreateProps) {
+export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps) {
   const history = useHistory()
   const { runAction, runActionWithDestination, wrapActionInDialog } = useFeedback()
   const location = useLocation()
   const bits = getBits(location)
   const activeDescriptorId: string = bits.pop() as string
+  const { data: fetchedData } = useEserviceCreateFetch()
   const sureFetchedData = fetchedData as EServiceReadType
 
   const publishVersion = async () => {

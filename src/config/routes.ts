@@ -13,7 +13,6 @@ import { Notifications } from '../views/Notifications'
 import { Profile } from '../views/Profile'
 import { UserEdit } from '../views/UserEdit'
 import { UserList } from '../views/UserList'
-import { EServiceGate } from '../views/EServiceGate'
 import { UserCreate } from '../views/UserCreate'
 import { ClientCreate } from '../views/ClientCreate'
 import { SecurityKeyGuide } from '../views/SecurityKeyGuide'
@@ -23,6 +22,9 @@ import { PurposeList } from '../views/PurposeList'
 import { PurposeEdit } from '../views/PurposeEdit'
 import { PurposeCreate } from '../views/PurposeCreate'
 import { EServiceRead } from '../views/EServiceRead'
+import { EServiceCreate } from '../views/EServiceCreate'
+import { EServiceManage } from '../views/EServiceManage'
+import { EServiceEdit } from '../views/EServiceEdit'
 
 const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
   LOGOUT: {
@@ -68,15 +70,23 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     PATH: '/erogazione/e-service/crea',
     EXACT: true,
     LABEL: 'Crea e-service',
-    COMPONENT: EServiceGate,
+    COMPONENT: EServiceCreate,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'api'],
   },
   PROVIDE_ESERVICE_EDIT: {
+    PATH: '/erogazione/e-service/:eserviceId/:descriptorId/modifica',
+    EXACT: false,
+    LABEL: 'Modifica e-service',
+    COMPONENT: EServiceEdit,
+    PUBLIC: false,
+    AUTH_LEVELS: ['admin', 'api'],
+  },
+  PROVIDE_ESERVICE_MANAGE: {
     PATH: '/erogazione/e-service/:eserviceId/:descriptorId',
     EXACT: false,
-    LABEL: 'Gestisci o visualizza e-service',
-    COMPONENT: EServiceGate,
+    LABEL: 'Visualizza e-service',
+    COMPONENT: EServiceManage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'api'],
   },
@@ -153,7 +163,7 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'security'],
   },
-  SUBSCRIBE_PURPOSE_DRAFT_CREATE: {
+  SUBSCRIBE_PURPOSE_CREATE: {
     PATH: '/fruizione/finalita/crea',
     EXACT: false,
     LABEL: 'Crea finalità',
@@ -162,6 +172,14 @@ const BASIC_ROUTES: Record<string, BasicRouteConfig> = {
     AUTH_LEVELS: ['admin'],
   },
   SUBSCRIBE_PURPOSE_EDIT: {
+    PATH: '/fruizione/finalita/:purposeId/modifica',
+    EXACT: false,
+    LABEL: 'Modifica finalità',
+    COMPONENT: PurposeEdit,
+    PUBLIC: false,
+    AUTH_LEVELS: ['admin'],
+  },
+  SUBSCRIBE_PURPOSE_VIEW: {
     PATH: '/fruizione/finalita/:purposeId',
     EXACT: false,
     LABEL: 'Modifica finalità',
