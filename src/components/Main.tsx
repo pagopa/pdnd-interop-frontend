@@ -4,14 +4,15 @@ import { Switch, Redirect, Route, useLocation } from 'react-router-dom'
 import { DEFAULT_LANG, SHOW_DEV_LABELS } from '../lib/constants'
 import { PartyContext, RoutesContext } from '../lib/context'
 import { StyledBreadcrumbs } from './Shared/StyledBreadcrumbs'
-import { showPlatformTwoColumnsLayout } from '../lib/router-utils'
 import { AuthGuard } from './AuthGuard'
 import { RouteAuthLevel } from '../../types'
+import { useRoute } from '../hooks/useRoute'
 
 export function Main() {
   const { party } = useContext(PartyContext)
   const { routes } = useContext(RoutesContext)
   const location = useLocation()
+  const { doesRouteAllowTwoColumnsLayout } = useRoute()
 
   return (
     <Box
@@ -19,7 +20,7 @@ export function Main() {
       sx={{ pt: 1.5, pb: 4 }}
       className={!SHOW_DEV_LABELS ? ' hideDevLabels' : ''}
     >
-      {showPlatformTwoColumnsLayout(routes, location) && <StyledBreadcrumbs />}
+      {doesRouteAllowTwoColumnsLayout(location) && <StyledBreadcrumbs />}
 
       <Switch>
         {Object.values(routes).map((route, i) => {

@@ -2,23 +2,24 @@ import React, { useContext } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { PartyContext, TokenContext } from '../lib/context'
-import { showPlatformTwoColumnsLayout } from '../lib/router-utils'
+import { PartyContext, RoutesContext, TokenContext } from '../lib/context'
 import { Layout } from './Shared/Layout'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledLink } from './Shared/StyledLink'
 import { PartySelect } from './PartySelect'
 import logo from '../assets/pagopa-logo-white.svg'
-import { ROUTES } from '../config/routes'
 import { URL_FE_LOGIN } from '../lib/constants'
+import { useRoute } from '../hooks/useRoute'
 
 export function Header() {
   const location = useLocation()
   const { party } = useContext(PartyContext)
   const { token } = useContext(TokenContext)
+  const { routes } = useContext(RoutesContext)
+  const { doesRouteAllowTwoColumnsLayout } = useRoute()
 
   const { PATH: btnPath, LABEL: btnLabel } = token
-    ? ROUTES.LOGOUT
+    ? routes.LOGOUT
     : { PATH: URL_FE_LOGIN, LABEL: 'Login' }
 
   return (
@@ -55,7 +56,7 @@ export function Header() {
               </Typography>
             </Box>
 
-            {showPlatformTwoColumnsLayout(location) && party !== null && <PartySelect />}
+            {doesRouteAllowTwoColumnsLayout(location) && party !== null && <PartySelect />}
           </Box>
         </Layout>
       </Box>

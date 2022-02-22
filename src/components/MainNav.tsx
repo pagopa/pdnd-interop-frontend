@@ -10,11 +10,10 @@ import {
   Typography,
 } from '@mui/material'
 import { MappedRouteConfig, UserProductRole } from '../../types'
-import { PartyContext, TokenContext } from '../lib/context'
+import { PartyContext, RoutesContext, TokenContext } from '../lib/context'
 import { StyledLink } from './Shared/StyledLink'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
-import { ROUTES } from '../config/routes'
-import { belongsToTree } from '../lib/router-utils'
+import { useRoute } from '../hooks/useRoute'
 
 type View = {
   route: MappedRouteConfig
@@ -31,50 +30,52 @@ export const MainNav = () => {
   const { party } = useContext(PartyContext)
   const location = useLocation()
   const [openId, setOpenId] = useState<string | null>(null)
+  const { isRouteInTree } = useRoute()
+  const { routes } = useContext(RoutesContext)
 
   const views: Views = {
     admin: [
       {
-        route: ROUTES.PROVIDE,
+        route: routes.PROVIDE,
         id: 'provider',
         children: [
-          ROUTES.PROVIDE_ESERVICE_LIST,
-          ROUTES.PROVIDE_AGREEMENT_LIST,
-          ROUTES.PROVIDE_OPERATOR_LIST,
+          routes.PROVIDE_ESERVICE_LIST,
+          routes.PROVIDE_AGREEMENT_LIST,
+          routes.PROVIDE_OPERATOR_LIST,
         ],
       },
       {
-        route: ROUTES.SUBSCRIBE,
+        route: routes.SUBSCRIBE,
         id: 'subscriber',
         children: [
-          ROUTES.SUBSCRIBE_CATALOG_LIST,
-          ROUTES.SUBSCRIBE_PURPOSE_LIST,
-          ROUTES.SUBSCRIBE_CLIENT_LIST,
-          ROUTES.SUBSCRIBE_AGREEMENT_LIST,
+          routes.SUBSCRIBE_CATALOG_LIST,
+          routes.SUBSCRIBE_PURPOSE_LIST,
+          routes.SUBSCRIBE_CLIENT_LIST,
+          routes.SUBSCRIBE_AGREEMENT_LIST,
         ],
       },
     ],
     api: [
       {
-        route: ROUTES.PROVIDE,
+        route: routes.PROVIDE,
         id: 'provider',
-        children: [ROUTES.PROVIDE_ESERVICE_LIST],
+        children: [routes.PROVIDE_ESERVICE_LIST],
       },
     ],
     security: [
       {
-        route: ROUTES.SUBSCRIBE,
+        route: routes.SUBSCRIBE,
         id: 'subscriber',
-        children: [ROUTES.SUBSCRIBE_CATALOG_LIST, ROUTES.SUBSCRIBE_CLIENT_LIST],
+        children: [routes.SUBSCRIBE_CATALOG_LIST, routes.SUBSCRIBE_CLIENT_LIST],
       },
     ],
   }
 
   const availableViews = [
     ...views[party?.productInfo.role || 'security'],
-    { route: ROUTES.NOTIFICATION },
-    { route: ROUTES.PROFILE },
-    { route: ROUTES.HELP },
+    { route: routes.NOTIFICATION },
+    { route: routes.PROFILE },
+    { route: routes.HELP },
   ]
 
   const wrapSetOpenSubmenuId = (newOpenId?: string) => () => {
@@ -82,7 +83,7 @@ export const MainNav = () => {
   }
 
   const isItemSelected = (route: MappedRouteConfig) => {
-    return belongsToTree(location, route)
+    return isRouteInTree(location, route)
   }
 
   return (

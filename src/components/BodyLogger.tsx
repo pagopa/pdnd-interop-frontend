@@ -1,14 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DialogProps, ToastContentWithOutcome, ToastProps } from '../../types'
 import { useLocation } from 'react-router-dom'
 import isEmpty from 'lodash/isEmpty'
-import {
-  DialogContext,
-  LoaderContext,
-  RoutesContext,
-  TableActionMenuContext,
-  ToastContext,
-} from '../lib/context'
+import { DialogContext, LoaderContext, TableActionMenuContext, ToastContext } from '../lib/context'
 import { logAction } from '../lib/action-log'
 import { Header } from './Header'
 import { Main } from './Main'
@@ -19,17 +13,17 @@ import { LoadingOverlay } from './Shared/LoadingOverlay'
 import { MainNav } from './MainNav'
 import { Layout } from './Shared/Layout'
 import { Box } from '@mui/system'
-import { showPlatformTwoColumnsLayout } from '../lib/router-utils'
 import { MEDIUM_MAX_WIDTH } from '../lib/constants'
+import { useRoute } from '../hooks/useRoute'
 import '../lib/validation-config'
 
 export function BodyLogger() {
-  const { routes } = useContext(RoutesContext)
   const [toast, setToast] = useState<ToastProps | null>(null)
   const [dialog, setDialog] = useState<DialogProps | null>(null)
   const [loadingText, setLoadingText] = useState<string | null>(null)
   const [tableActionMenu, setTableActionMenu] = useState<string | null>(null)
   const location = useLocation()
+  const { doesRouteAllowTwoColumnsLayout } = useRoute()
 
   /*
    * Handle toast
@@ -66,7 +60,7 @@ export function BodyLogger() {
         <DialogContext.Provider value={{ dialog, setDialog }}>
           <LoaderContext.Provider value={{ loadingText, setLoadingText }}>
             <Header />
-            {showPlatformTwoColumnsLayout(routes, location) ? (
+            {doesRouteAllowTwoColumnsLayout(location) ? (
               <Box sx={{ flexGrow: 1 }} bgcolor="#F5F6F7">
                 <Layout sx={{ height: '100%' }}>
                   <Box sx={{ display: 'flex', height: '100%' }}>

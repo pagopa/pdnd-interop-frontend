@@ -3,13 +3,13 @@ import { CircularProgress } from '@mui/material'
 import { Box } from '@mui/system'
 import { useHistory } from 'react-router'
 import { RouteAuthLevel } from '../../types'
-import { ROUTES } from '../config/routes'
 import { useLogin } from '../hooks/useLogin'
 import { useParties } from '../hooks/useParties'
 import { URL_FE_LOGIN } from '../lib/constants'
 import { PartyContext, TokenContext } from '../lib/context'
-import { isProtectedRoute, isSamePath } from '../lib/router-utils'
+import { isSamePath } from '../lib/router-utils'
 import { Unauthorized } from './Unauthorized'
+import { useRoute } from '../hooks/useRoute'
 
 type AuthGuardProps = {
   Component: React.FunctionComponent
@@ -23,8 +23,9 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
   const { silentLoginAttempt } = useLogin()
   const { fetchAvailablePartiesAttempt, setPartyFromStorageAttempt } = useParties()
   const [isLoading, setIsLoading] = useState(false)
+  const { isRouteProtected } = useRoute()
 
-  const isCurrentRouteProtected = isProtectedRoute(history.location)
+  const isCurrentRouteProtected = isRouteProtected(history.location)
 
   // If there is no user, attempt to sign him/her in silently
   useEffect(() => {
