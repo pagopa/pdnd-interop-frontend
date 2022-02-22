@@ -1,5 +1,4 @@
-import { RouteConfig, MappedRouteConfig } from '../../types'
-import { decorateRouteWithParents } from '../lib/router-utils'
+import { RouteConfig } from '../../types'
 import { ChooseParty } from '../views/ChooseParty'
 import { ClientEdit } from '../views/ClientEdit'
 import { ClientList } from '../views/ClientList'
@@ -268,6 +267,3 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     AUTH_LEVELS: ['admin', 'api'],
   },
 }
-
-export const ROUTES = {} as Record<string, MappedRouteConfig>
-// decorateRouteWithParents(BASIC_ROUTES as Record<string, MappedRouteConfig>)

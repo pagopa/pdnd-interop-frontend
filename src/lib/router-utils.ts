@@ -10,11 +10,14 @@ import {
   MappedRouteConfig,
   LangKeyedValue,
 } from '../../types'
-import { ROUTES } from '../config/routes'
 
-export function belongsToTree(location: Location<unknown>, route: MappedRouteConfig) {
+export function belongsToTree(
+  routes: Record<string, MappedRouteConfig>,
+  location: Location<unknown>,
+  route: MappedRouteConfig
+) {
   // Find the actual route in the router
-  const currentRoute = Object.values(ROUTES).find((r) => isSamePath(location.pathname, r.PATH))
+  const currentRoute = Object.values(routes).find((r) => isSamePath(location.pathname, r.PATH))
   // If no route, end it here
   if (!currentRoute) {
     return false
@@ -78,8 +81,11 @@ export function isProviderOrSubscriber(location: Location<unknown>): ProviderOrS
   return null
 }
 
-export function isProtectedRoute(location: Location<unknown>) {
-  const whitelist = Object.values(ROUTES).filter((r) => r.PUBLIC)
+export function isProtectedRoute(
+  routes: Record<string, MappedRouteConfig>,
+  location: Location<unknown>
+) {
+  const whitelist = Object.values(routes).filter((r) => r.PUBLIC)
   const isWhitelistedPage = whitelist.map((r) => r.PATH).includes(location.pathname)
   return !isWhitelistedPage
 }
@@ -87,8 +93,11 @@ export function isProtectedRoute(location: Location<unknown>) {
 // Here consider the CHOOSE_PARTY route kind of like a public route, layout-wise.
 // Until a Party is chosen, the user will not see the left side menu
 // and will be in a transition state between out of the platform and into it
-export function showPlatformTwoColumnsLayout(location: Location<unknown>) {
-  return isProtectedRoute(location) && location.pathname !== ROUTES.CHOOSE_PARTY.PATH
+export function showPlatformTwoColumnsLayout(
+  routes: Record<string, MappedRouteConfig>,
+  location: Location<unknown>
+) {
+  return isProtectedRoute(routes, location) && location.pathname !== routes.CHOOSE_PARTY.PATH
 }
 
 export function getBits(location: Location<unknown>): Array<string> {

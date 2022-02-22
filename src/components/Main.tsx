@@ -1,16 +1,16 @@
 import React, { useContext } from 'react'
 import { Box } from '@mui/system'
 import { Switch, Redirect, Route, useLocation } from 'react-router-dom'
-import { SHOW_DEV_LABELS } from '../lib/constants'
-import { PartyContext } from '../lib/context'
+import { DEFAULT_LANG, SHOW_DEV_LABELS } from '../lib/constants'
+import { PartyContext, RoutesContext } from '../lib/context'
 import { StyledBreadcrumbs } from './Shared/StyledBreadcrumbs'
 import { showPlatformTwoColumnsLayout } from '../lib/router-utils'
-import { ROUTES } from '../config/routes'
 import { AuthGuard } from './AuthGuard'
 import { RouteAuthLevel } from '../../types'
 
 export function Main() {
   const { party } = useContext(PartyContext)
+  const { routes } = useContext(RoutesContext)
   const location = useLocation()
 
   return (
@@ -19,10 +19,10 @@ export function Main() {
       sx={{ pt: 1.5, pb: 4 }}
       className={!SHOW_DEV_LABELS ? ' hideDevLabels' : ''}
     >
-      {showPlatformTwoColumnsLayout(location) && <StyledBreadcrumbs />}
+      {showPlatformTwoColumnsLayout(routes, location) && <StyledBreadcrumbs />}
 
       <Switch>
-        {Object.values(ROUTES).map((route, i) => {
+        {Object.values(routes).map((route, i) => {
           const { PATH, COMPONENT: Component, AUTH_LEVELS, EXACT = false, REDIRECT = false } = route
           return (
             <Route path={PATH} key={i} exact={EXACT}>
@@ -36,7 +36,11 @@ export function Main() {
         })}
 
         <Route path="/" exact>
-          <Redirect to={party !== null ? ROUTES.SUBSCRIBE.PATH : ROUTES.CHOOSE_PARTY.PATH} />
+          <Redirect to={DEFAULT_LANG} />
+        </Route>
+
+        <Route path={`/${DEFAULT_LANG}`} exact>
+          <Redirect to={party !== null ? routes.SUBSCRIBE.PATH : routes.CHOOSE_PARTY.PATH} />
         </Route>
       </Switch>
     </Box>
