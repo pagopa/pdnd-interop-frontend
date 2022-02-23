@@ -4,7 +4,6 @@ import { DialogContext } from '../lib/context'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Tab, Tabs } from '@mui/material'
 import { Box } from '@mui/system'
-import { ROUTES } from '../config/routes'
 import { useActiveTab } from '../hooks/useActiveTab'
 import { a11yProps, TabPanel } from '../components/TabPanel'
 import { EServiceContentInfo } from '../components/Shared/EServiceContentInfo'
@@ -24,8 +23,10 @@ import {
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { NotFound } from './NotFound'
 import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
+import { useRoute } from '../hooks/useRoute'
 
 export function EServiceManage() {
+  const { routes } = useRoute()
   const { setDialog } = useContext(DialogContext)
   const { runFakeAction, runAction, forceRerenderCounter } = useFeedback()
   const { activeTab, updateActiveTab } = useActiveTab()
@@ -113,7 +114,7 @@ export function EServiceManage() {
           <EServiceContentInfo data={eserviceData} />
 
           <Box sx={{ display: 'flex', mt: 4 }}>
-            <StyledButton variant="outlined" to={ROUTES.SUBSCRIBE_CATALOG_LIST.PATH}>
+            <StyledButton variant="outlined" to={routes.SUBSCRIBE_CATALOG_LIST.PATH}>
               Torna al catalogo
             </StyledButton>
           </Box>

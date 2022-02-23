@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import CssBaseline from '@mui/material/CssBaseline'
 import { BodyLogger } from './components/BodyLogger'
@@ -10,6 +10,13 @@ import DateAdapter from '@mui/lab/AdapterDateFns'
 import { LocalizationProvider } from '@mui/lab'
 import { BASIC_ROUTES } from './config/routes'
 import { decorateRouteWithParents, mapRoutesToLang } from './lib/router-utils'
+import { LANGUAGES } from './lib/constants'
+
+const allRoutes = LANGUAGES.reduce((acc, l) => {
+  const mapped = mapRoutesToLang(BASIC_ROUTES, l)
+  const decorated = decorateRouteWithParents(mapped)
+  return { ...acc, [l]: decorated }
+}, {})
 
 export function App() {
   const [lang, setLang] = useState<Lang>('it')
@@ -17,14 +24,9 @@ export function App() {
   const [party, setParty] = useState<Party | null>(null)
   const [availableParties, setAvailableParties] = useState<Array<Party> | null>(null)
 
-  const routes = useMemo(() => {
-    const mappedRoutes = mapRoutesToLang(BASIC_ROUTES, lang)
-    return decorateRouteWithParents(mappedRoutes)
-  }, [lang])
-
   return (
     <LangContext.Provider value={{ lang, setLang }}>
-      <RoutesContext.Provider value={{ routes }}>
+      <RoutesContext.Provider value={{ allRoutes }}>
         <TokenContext.Provider value={{ token, setToken }}>
           <PartyContext.Provider value={{ party, availableParties, setParty, setAvailableParties }}>
             <BrowserRouter basename={process.env.PUBLIC_URL}>

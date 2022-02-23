@@ -11,7 +11,6 @@ import { isAdmin } from '../lib/auth-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Box } from '@mui/system'
-import { ROUTES } from '../config/routes'
 import { object, boolean } from 'yup'
 import { isTrue } from '../lib/validation-config'
 import { EServiceContentInfo } from '../components/Shared/EServiceContentInfo'
@@ -23,9 +22,11 @@ import {
 import { useLocation } from 'react-router-dom'
 import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 import { NotFound } from './NotFound'
+import { useRoute } from '../hooks/useRoute'
 
 export function EServiceRead() {
   const { runActionWithDestination } = useFeedback()
+  const { routes } = useRoute()
   const { party } = useContext(PartyContext)
   const { setDialog } = useContext(DialogContext)
 
@@ -56,7 +57,7 @@ export function EServiceRead() {
 
       await runActionWithDestination(
         { path: { endpoint: 'AGREEMENT_CREATE' }, config: { data: agreementData } },
-        { destination: ROUTES.SUBSCRIBE_AGREEMENT_LIST, suppressToast: false }
+        { destination: routes.SUBSCRIBE_AGREEMENT_LIST, suppressToast: false }
       )
     }
 
@@ -118,7 +119,7 @@ export function EServiceRead() {
             Richiedi estensione
           </StyledButton>
         )}
-        <StyledButton variant="outlined" to={ROUTES.SUBSCRIBE_CATALOG_LIST.PATH}>
+        <StyledButton variant="outlined" to={routes.SUBSCRIBE_CATALOG_LIST.PATH}>
           Torna al catalogo
         </StyledButton>
       </Box>

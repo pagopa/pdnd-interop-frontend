@@ -4,7 +4,6 @@ import { Box } from '@mui/system'
 import { useFormik } from 'formik'
 import { useLocation } from 'react-router-dom'
 import { array, object, string } from 'yup'
-import { ROUTES } from '../config/routes'
 import { ActiveStepProps } from '../hooks/useActiveStep'
 import { useFeedback } from '../hooks/useFeedback'
 import { getBits } from '../lib/router-utils'
@@ -18,6 +17,7 @@ import { StyledTableRow } from './Shared/StyledTableRow'
 import { Client } from '../../types'
 import { DialogContext } from '../lib/context'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
+import { useRoute } from '../hooks/useRoute'
 
 type ClientList = {
   clients: Array<Client>
@@ -28,6 +28,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
   const bits = getBits(location)
   const purposeId = bits.pop()
   const { setDialog } = useContext(DialogContext)
+  const { routes } = useRoute()
 
   const { wrapActionInDialog, runActionWithDestination } = useFeedback()
 
@@ -56,7 +57,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
         path: { endpoint: 'CLIENT_JOIN_WITH_PURPOSE', endpointParams: { purposeId } },
         config: { params: dataToPost },
       },
-      { destination: ROUTES.SUBSCRIBE_PURPOSE_LIST, suppressToast: false }
+      { destination: routes.SUBSCRIBE_PURPOSE_LIST, suppressToast: false }
     )
   }
 
@@ -74,7 +75,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
       {
         path: { endpoint: 'PURPOSE_VERSION_ACTIVATE', endpointParams: { purposeId } },
       },
-      { destination: ROUTES.SUBSCRIBE_PURPOSE_LIST, suppressToast: false }
+      { destination: routes.SUBSCRIBE_PURPOSE_LIST, suppressToast: false }
     )
   }
 
@@ -83,7 +84,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
       {
         path: { endpoint: 'PURPOSE_DRAFT_DELETE', endpointParams: { purposeId } },
       },
-      { destination: ROUTES.SUBSCRIBE_PURPOSE_LIST, suppressToast: false }
+      { destination: routes.SUBSCRIBE_PURPOSE_LIST, suppressToast: false }
     )
   }
 

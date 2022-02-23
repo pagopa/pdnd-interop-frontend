@@ -7,7 +7,7 @@ import {
 } from './src/config/labels'
 import { SchemaOf } from 'yup'
 import { RunAction } from './src/hooks/useFeedback'
-import { FIRST_DRAFT_FRAGMENT, LANG } from './src/lib/constants'
+import { LANGUAGES } from './src/lib/constants'
 
 /*
  * Fetch data and router related types
@@ -94,7 +94,7 @@ export type RequestConfig = {
 
 export type RouteAuthLevel = 'any' | Array<UserProductRole>
 
-export type Lang = typeof LANG[number]
+export type Lang = typeof LANGUAGES[number]
 
 export type LangKeyedValue = {
   [key in Lang]: string
@@ -234,12 +234,6 @@ export type EServiceStateLabel = Record<EServiceState, string>
 // Some types are shared between the two
 export type EServiceDocumentKind = 'INTERFACE' | 'DOCUMENT'
 export type EServiceTechnologyType = 'REST' | 'SOAP'
-
-// Making this as explicit as possible. It might be that there is an eserviceId,
-// but not a descriptorId. This happens when I've just created a new service,
-// but not yet created a descriptor for it. This leads to 'prima-bozza' being used
-// in the page URL to identify this peculiar case
-export type EServiceNoDescriptorId = typeof FIRST_DRAFT_FRAGMENT
 
 // Write only
 export type EServiceCreateType = {

@@ -10,6 +10,7 @@ import {
   MappedRouteConfig,
   LangKeyedValue,
 } from '../../types'
+import { LANGUAGES } from './constants'
 
 export function isSamePath(path: string, matchPath: string) {
   const pathBits = path.split('/')
@@ -49,7 +50,8 @@ export function isParentRoute(
 }
 
 export function isProviderOrSubscriber(location: Location<unknown>): ProviderOrSubscriber | null {
-  const locationBits = getBits(location).filter((b) => b !== 'ui')
+  const excludeList = ['ui', ...LANGUAGES]
+  const locationBits = getBits(location).filter((b) => !excludeList.includes(b))
   const mode = locationBits[0]
 
   if (mode === 'erogazione') {
@@ -76,22 +78,47 @@ export function parseSearch(search: string) {
   return qs.parse(search, { ignoreQueryPrefix: true })
 }
 
+export function extractDynamicParams(
+  staticPath: string,
+  dynamicPath: string
+): Record<string, string | number> {
+  const staticSplit = staticPath.split('/')
+  const dynamicSplit = dynamicPath.split('/')
+
+  if (dynamicSplit.length !== staticSplit.length) {
+    throw new Error('Not the same route')
+  }
+
+  const params = staticSplit.reduce((acc, staticParam, i) => {
+    const dynamicParam = dynamicSplit[i]
+    const isDynamic = staticParam !== dynamicParam
+    if (isDynamic) {
+      const cleanStaticParam = staticParam.replace(':', '')
+      return { ...acc, [cleanStaticParam]: dynamicParam }
+    }
+
+    return acc
+  }, {})
+
+  return params
+}
+
 export function buildDynamicPath(
-  path: string,
-  params: Record<string, string | number | null | undefined>
+  staticPath: string,
+  dynamicParams: Record<string, string | number | null | undefined>
 ) {
-  if (!isEmpty(params)) {
-    return Object.keys(params).reduce(
-      (acc, key) => acc.replace(`:${key}`, String(params[key])),
-      path
+  if (!isEmpty(dynamicParams)) {
+    return Object.keys(dynamicParams).reduce(
+      (acc, key) => acc.replace(`:${key}`, String(dynamicParams[key])),
+      staticPath
     )
   }
 
-  return path
+  return staticPath
 }
 
-export function buildDynamicRoute(route: MappedRouteConfig, params: Record<string, string>) {
-  return { ...route, PATH: buildDynamicPath(route.PATH, params) }
+export function buildDynamicRoute(route: MappedRouteConfig, dynamicParams: Record<string, string>) {
+  return { ...route, PATH: buildDynamicPath(route.PATH, dynamicParams) }
 }
 
 export function decorateRouteWithParents(

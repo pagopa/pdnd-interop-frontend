@@ -1,17 +1,20 @@
-import { useContext } from 'react'
+import { useContext, useMemo } from 'react'
 import { Location } from 'history'
 import { MappedRouteConfig } from '../../types'
-import { RoutesContext } from '../lib/context'
+import { LangContext, RoutesContext } from '../lib/context'
 import { isSamePath } from '../lib/router-utils'
 
 export const useRoute = () => {
-  const { routes } = useContext(RoutesContext)
+  const { allRoutes } = useContext(RoutesContext)
+  const { lang } = useContext(LangContext)
+
+  const routes = useMemo(() => allRoutes[lang], [lang]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const isRouteInTree = belongsToTree(routes)
   const isRouteProtected = isProtectedRoute(routes)
   const doesRouteAllowTwoColumnsLayout = showTwoColumnsLayout(routes)
 
-  return { isRouteInTree, isRouteProtected, doesRouteAllowTwoColumnsLayout }
+  return { isRouteInTree, isRouteProtected, doesRouteAllowTwoColumnsLayout, routes }
 }
 
 function belongsToTree(routes: Record<string, MappedRouteConfig>) {

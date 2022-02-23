@@ -1,15 +1,18 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Breadcrumbs, Typography } from '@mui/material'
 import { StyledLink } from './StyledLink'
-import { MappedRouteConfig } from '../../../types'
+import { Lang, MappedRouteConfig } from '../../../types'
 import { getBits, isSamePath } from '../../lib/router-utils'
-import { ROUTES } from '../../config/routes'
-import { EDIT_FRAGMENT } from '../../lib/constants'
+import { URL_FRAGMENTS } from '../../lib/constants'
+import { useRoute } from '../../hooks/useRoute'
+import { LangContext } from '../../lib/context'
 
 export function StyledBreadcrumbs() {
   const location = useLocation()
-  const currentRoute: MappedRouteConfig | undefined = Object.values(ROUTES).find((r) =>
+  const { routes } = useRoute()
+  const { lang } = useContext(LangContext)
+  const currentRoute: MappedRouteConfig | undefined = Object.values(routes).find((r) =>
     isSamePath(location.pathname, r.PATH)
   )
 
@@ -17,10 +20,10 @@ export function StyledBreadcrumbs() {
     return null
   }
 
-  const filterFalseParents = (links: Array<{ label: string; path: string }>) => {
+  const filterFalseParents = (links: Array<{ label: string; path: string }>, lang: Lang) => {
     const _links = [...links]
     // Handle exception for /modifica paths
-    if (_links[_links.length - 1].path.endsWith(EDIT_FRAGMENT)) {
+    if (_links[_links.length - 1].path.endsWith(URL_FRAGMENTS.EDIT[lang])) {
       // Remove item before that one, because it is not a true parent
       _links.splice(_links.length - 2, 1)
     }
@@ -47,7 +50,7 @@ export function StyledBreadcrumbs() {
   }))
 
   // Remove false parent "Gestisci" when current route is "Modifica"
-  const filteredLinks = filterFalseParents(links)
+  const filteredLinks = filterFalseParents(links, lang)
 
   // Don't display breadcrumbs for first level descentants, they are useless
   if (filteredLinks.length < 2) {

@@ -23,7 +23,7 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
   const { silentLoginAttempt } = useLogin()
   const { fetchAvailablePartiesAttempt, setPartyFromStorageAttempt } = useParties()
   const [isLoading, setIsLoading] = useState(false)
-  const { isRouteProtected } = useRoute()
+  const { isRouteProtected, routes } = useRoute()
 
   const isCurrentRouteProtected = isRouteProtected(history.location)
 
@@ -70,9 +70,9 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
 
       // If the party wasn't set and we are not in the page to set it,
       // redirect to that page
-      const isChoosePartyPage = isSamePath(location.pathname, ROUTES.CHOOSE_PARTY.PATH)
+      const isChoosePartyPage = isSamePath(location.pathname, routes.CHOOSE_PARTY.PATH)
       if (!hasSetParty && !isChoosePartyPage) {
-        history.push(ROUTES.CHOOSE_PARTY.PATH)
+        history.push(routes.CHOOSE_PARTY.PATH)
       }
     }
 

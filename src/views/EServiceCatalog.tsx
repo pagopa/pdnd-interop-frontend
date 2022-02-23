@@ -24,7 +24,6 @@ import {
   Person as PersonIcon,
   SvgIconComponent,
 } from '@mui/icons-material'
-import { ROUTES } from '../config/routes'
 import { ESERVICE_STATE_LABEL } from '../config/labels'
 import { isTrue } from '../lib/validation-config'
 import { useFeedback } from '../hooks/useFeedback'
@@ -32,12 +31,14 @@ import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { axiosErrorToError } from '../lib/error-utils'
+import { useRoute } from '../hooks/useRoute'
 
 export function EServiceCatalog() {
   const history = useHistory()
   const { runActionWithDestination } = useFeedback()
   const { party } = useContext(PartyContext)
   const { setDialog } = useContext(DialogContext)
+  const { routes } = useRoute()
 
   const { data, loadingText, error } = useAsyncFetch<
     Array<EServiceFlatReadType>,
@@ -71,7 +72,7 @@ export function EServiceCatalog() {
 
     await runActionWithDestination(
       { path: { endpoint: 'AGREEMENT_CREATE' }, config: { data: agreementData } },
-      { destination: ROUTES.SUBSCRIBE_AGREEMENT_LIST, suppressToast: false }
+      { destination: routes.SUBSCRIBE_AGREEMENT_LIST, suppressToast: false }
     )
   }
 
@@ -85,7 +86,7 @@ export function EServiceCatalog() {
       actions.push({
         onClick: () => {
           history.push(
-            buildDynamicPath(ROUTES.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
+            buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
               id: eservice.callerSubscribed as string,
             })
           )
@@ -190,7 +191,7 @@ export function EServiceCatalog() {
                   size="small"
                   onClick={() => {
                     history.push(
-                      buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
+                      buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
                         eserviceId: item.id,
                         descriptorId: item.descriptorId as string,
                       })

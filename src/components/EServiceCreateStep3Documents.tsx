@@ -8,7 +8,6 @@ import {
   StepperStepComponentProps,
 } from '../../types'
 import { getBits } from '../lib/router-utils'
-import { ROUTES } from '../config/routes'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledIntro } from './Shared/StyledIntro'
 import { StyledButton } from './Shared/StyledButton'
@@ -18,8 +17,10 @@ import { StepActions } from './Shared/StepActions'
 import { Paper } from '@mui/material'
 import { TOAST_CONTENTS } from '../config/toast'
 import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
+import { useRoute } from '../hooks/useRoute'
 
 export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps) {
+  const { routes } = useRoute()
   const history = useHistory()
   const { runAction, runActionWithDestination, wrapActionInDialog } = useFeedback()
   const location = useLocation()
@@ -40,7 +41,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
           },
         },
       },
-      { destination: ROUTES.PROVIDE_ESERVICE_LIST, suppressToast: false }
+      { destination: routes.PROVIDE_ESERVICE_LIST, suppressToast: false }
     )
   }
 
@@ -56,7 +57,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
           },
         },
       },
-      { destination: ROUTES.PROVIDE_ESERVICE_LIST, suppressToast: false }
+      { destination: routes.PROVIDE_ESERVICE_LIST, suppressToast: false }
     )
   }
 
@@ -158,7 +159,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
           label: 'Salva bozza e torna agli e-service',
           type: 'button',
           onClick: () => {
-            history.push(ROUTES.PROVIDE_ESERVICE_LIST.PATH, {
+            history.push(routes.PROVIDE_ESERVICE_LIST.PATH, {
               toast: {
                 outcome: 'success',
                 ...TOAST_CONTENTS.ESERVICE_VERSION_DRAFT_UPDATE.success,

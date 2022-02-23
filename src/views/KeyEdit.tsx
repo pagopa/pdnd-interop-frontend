@@ -11,9 +11,10 @@ import { useLocation } from 'react-router-dom'
 import { buildDynamicRoute, getBits } from '../lib/router-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { ROUTES } from '../config/routes'
+import { useRoute } from '../hooks/useRoute'
 
 export function KeyEdit() {
+  const { routes } = useRoute()
   const { runAction, runActionWithDestination, wrapActionInDialog } = useFeedback()
   const location = useLocation()
   const locationBits = getBits(location)
@@ -54,7 +55,7 @@ export function KeyEdit() {
         },
       },
       {
-        destination: buildDynamicRoute(ROUTES.SUBSCRIBE_CLIENT_EDIT, { clientId }),
+        destination: buildDynamicRoute(routes.SUBSCRIBE_CLIENT_EDIT, { clientId }),
         suppressToast: false,
       }
     )

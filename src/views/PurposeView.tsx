@@ -17,7 +17,6 @@ import { DescriptionBlock } from '../components/DescriptionBlock'
 import { decoratePurposeWithMostRecentVersion, getComputedPurposeState } from '../lib/purpose'
 import { formatThousands } from '../lib/number-utils'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { ROUTES } from '../config/routes'
 import { PURPOSE_STATE_LABEL } from '../config/labels'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { useFeedback } from '../hooks/useFeedback'
@@ -32,6 +31,7 @@ import { DialogContext } from '../lib/context'
 import { DownloadList } from '../components/Shared/DownloadList'
 import { useActiveTab } from '../hooks/useActiveTab'
 import { ActionMenu } from '../components/Shared/ActionMenu'
+import { useRoute } from '../hooks/useRoute'
 // import { axiosErrorToError } from '../lib/error-utils'
 
 export const PurposeView = () => {
@@ -40,6 +40,7 @@ export const PurposeView = () => {
   const location = useLocation()
   const { runAction, wrapActionInDialog } = useFeedback()
   const { setDialog } = useContext(DialogContext)
+  const { routes } = useRoute()
   const { activeTab, updateActiveTab } = useActiveTab()
   const locationBits = getBits(location)
   const purposeId = locationBits[locationBits.length - 1]
@@ -176,7 +177,7 @@ export const PurposeView = () => {
 
             <DescriptionBlock label="La versione dell'e-service che stai usando">
               <StyledLink
-                to={buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
+                to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
                   eserviceId: mockData?.eservice.id,
                   descriptorId: mockData?.eserviceDescriptor.id,
                 })}
@@ -187,7 +188,7 @@ export const PurposeView = () => {
 
             <DescriptionBlock label="Richiesta di fruizione">
               <StyledLink
-                to={buildDynamicPath(ROUTES.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
+                to={buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
                   agreementId: mockData?.agreement.id,
                 })}
               >
@@ -266,7 +267,7 @@ export const PurposeView = () => {
             Archivia
           </StyledButton>
 
-          <StyledButton variant="text" to={ROUTES.SUBSCRIBE_PURPOSE_LIST.PATH}>
+          <StyledButton variant="text" to={routes.SUBSCRIBE_PURPOSE_LIST.PATH}>
             Torna alla lista delle finalità
           </StyledButton>
         </Box>
@@ -287,7 +288,7 @@ export const PurposeView = () => {
                   size="small"
                   onClick={() => {
                     history.push(
-                      buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_EDIT.PATH, { clientId: item.id })
+                      buildDynamicPath(routes.SUBSCRIBE_CLIENT_EDIT.PATH, { clientId: item.id })
                     )
                   }}
                 >

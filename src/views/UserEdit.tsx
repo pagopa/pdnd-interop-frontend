@@ -15,11 +15,12 @@ import { fetchWithLogs } from '../lib/api-utils'
 import { isFetchError } from '../lib/error-utils'
 import { AxiosResponse } from 'axios'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { ROUTES } from '../config/routes'
+import { useRoute } from '../hooks/useRoute'
 
 type UserEndpoinParams = { clientId: string } | { relationshipId: string }
 
 export function UserEdit() {
+  const { routes } = useRoute()
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
   const mode = useMode()
   const bits = getBits(useLocation())
@@ -189,7 +190,7 @@ export function UserEdit() {
             keys.map(({ key }, i) => (
               <StyledLink
                 key={i}
-                to={buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_KEY_EDIT.PATH, {
+                to={buildDynamicPath(routes.SUBSCRIBE_CLIENT_KEY_EDIT.PATH, {
                   clientId,
                   kid: key.kid,
                 })}

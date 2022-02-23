@@ -7,9 +7,9 @@ import { PurposeCreateStep3Clients } from '../components/PurposeCreateStep3Clien
 import { Contained } from '../components/Shared/Contained'
 import { StyledIntro, StyledIntroChildrenProps } from '../components/Shared/StyledIntro'
 import { StyledStepper } from '../components/Shared/StyledStepper'
-import { ROUTES } from '../config/routes'
 import { useActiveStep } from '../hooks/useActiveStep'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
+import { useRoute } from '../hooks/useRoute'
 import { buildDynamicPath, getBits } from '../lib/router-utils'
 
 const STEPS: Array<StepperStep & { intro: StyledIntroChildrenProps }> = [
@@ -35,6 +35,7 @@ const STEPS: Array<StepperStep & { intro: StyledIntroChildrenProps }> = [
 ]
 
 export const PurposeCreate = () => {
+  const { routes } = useRoute()
   const { activeStep, forward, back } = useActiveStep()
   const { component: Step, intro } = STEPS[activeStep]
   const stepProps = { forward, back }
@@ -50,7 +51,7 @@ export const PurposeCreate = () => {
   useEffect(() => {
     // If this purpose is not in draft, you cannot edit it
     if (data && data.versions.length === 1 && data.versions[0].state !== 'DRAFT') {
-      history.replace(buildDynamicPath(ROUTES.SUBSCRIBE_PURPOSE_VIEW.PATH, { purposeId }))
+      history.replace(buildDynamicPath(routes.SUBSCRIBE_PURPOSE_VIEW.PATH, { purposeId }))
     }
   }, [data]) // eslint-disable-line react-hooks/exhaustive-deps
 

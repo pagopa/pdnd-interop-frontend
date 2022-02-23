@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/material'
 import { MappedRouteConfig, UserProductRole } from '../../types'
-import { PartyContext, RoutesContext, TokenContext } from '../lib/context'
+import { PartyContext, TokenContext } from '../lib/context'
 import { StyledLink } from './Shared/StyledLink'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import { useRoute } from '../hooks/useRoute'
@@ -31,7 +31,7 @@ export const MainNav = () => {
   const location = useLocation()
   const [openId, setOpenId] = useState<string | null>(null)
   const { isRouteInTree } = useRoute()
-  const { routes } = useContext(RoutesContext)
+  const { routes } = useRoute()
 
   const views: Views = {
     admin: [

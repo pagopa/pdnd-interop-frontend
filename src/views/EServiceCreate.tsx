@@ -11,7 +11,7 @@ import { Contained } from '../components/Shared/Contained'
 import { useActiveStep } from '../hooks/useActiveStep'
 import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
 import { buildDynamicPath } from '../lib/router-utils'
-import { ROUTES } from '../config/routes'
+import { useRoute } from '../hooks/useRoute'
 
 const STEPS: Array<StepperStep> = [
   { label: 'Generale', component: EServiceCreateStep1General },
@@ -20,6 +20,7 @@ const STEPS: Array<StepperStep> = [
 ]
 
 export function EServiceCreate() {
+  const { routes } = useRoute()
   const history = useHistory()
   const { back, forward, activeStep } = useActiveStep()
   const { data, eserviceId, descriptorId } = useEserviceCreateFetch()
@@ -30,7 +31,7 @@ export function EServiceCreate() {
     // If this e-service is not in draft, you cannot edit it
     if (data && data.activeDescriptor && data.activeDescriptor.state !== 'DRAFT') {
       history.replace(
-        buildDynamicPath(ROUTES.PROVIDE_ESERVICE_MANAGE.PATH, {
+        buildDynamicPath(routes.PROVIDE_ESERVICE_MANAGE.PATH, {
           eserviceId,
           descriptorId,
         })

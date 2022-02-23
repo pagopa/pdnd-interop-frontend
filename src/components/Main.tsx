@@ -1,18 +1,39 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Box } from '@mui/system'
-import { Switch, Redirect, Route, useLocation } from 'react-router-dom'
+import { Switch, Redirect, Route, useLocation, useHistory } from 'react-router-dom'
 import { DEFAULT_LANG, SHOW_DEV_LABELS } from '../lib/constants'
-import { PartyContext, RoutesContext } from '../lib/context'
+import { LangContext, PartyContext } from '../lib/context'
 import { StyledBreadcrumbs } from './Shared/StyledBreadcrumbs'
 import { AuthGuard } from './AuthGuard'
 import { RouteAuthLevel } from '../../types'
 import { useRoute } from '../hooks/useRoute'
+import { BASIC_ROUTES } from '../config/routes'
+import { buildDynamicPath, extractDynamicParams, isSamePath } from '../lib/router-utils'
 
 export function Main() {
   const { party } = useContext(PartyContext)
-  const { routes } = useContext(RoutesContext)
+  const history = useHistory()
   const location = useLocation()
-  const { doesRouteAllowTwoColumnsLayout } = useRoute()
+  const { routes, doesRouteAllowTwoColumnsLayout } = useRoute()
+  const { lang } = useContext(LangContext)
+  const [prevLang, setPrevLang] = useState(lang)
+
+  useEffect(() => {
+    if (lang !== prevLang) {
+      const prevRoute = Object.values(BASIC_ROUTES).find((r) =>
+        isSamePath(history.location.pathname, r.PATH[prevLang])
+      )
+
+      const oldPath = prevRoute?.PATH[prevLang] as string
+      const dynamicParams = extractDynamicParams(oldPath, history.location.pathname)
+
+      const newPath = prevRoute?.PATH[lang] as string
+      const newDynamicPath = buildDynamicPath(newPath, dynamicParams)
+
+      setPrevLang(lang)
+      history.push(newDynamicPath)
+    }
+  }, [lang]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Box

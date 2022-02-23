@@ -12,17 +12,18 @@ import { PartyContext, TokenContext } from '../lib/context'
 import { buildDynamicPath, getBits } from '../lib/router-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { ROUTES } from '../config/routes'
 import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATE_LABEL } from '../config/labels'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { useHistory } from 'react-router'
 import { axiosErrorToError } from '../lib/error-utils'
+import { useRoute } from '../hooks/useRoute'
 
 export function UserList() {
   const location = useLocation()
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
   const history = useHistory()
+  const { routes } = useRoute()
 
   // Only for subscriber
   const locationBits = getBits(location)
@@ -139,8 +140,8 @@ export function UserList() {
             variant="contained"
             to={
               mode === 'provider'
-                ? ROUTES.PROVIDE_OPERATOR_CREATE.PATH
-                : buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_OPERATOR_CREATE.PATH, { clientId })
+                ? routes.PROVIDE_OPERATOR_CREATE.PATH
+                : buildDynamicPath(routes.SUBSCRIBE_CLIENT_OPERATOR_CREATE.PATH, { clientId })
             }
           >
             + Aggiungi
@@ -174,8 +175,8 @@ export function UserList() {
                 onClick={() => {
                   history.push(
                     mode === 'provider'
-                      ? buildDynamicPath(ROUTES.PROVIDE_OPERATOR_EDIT.PATH, { operatorId: item.id })
-                      : buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_OPERATOR_EDIT.PATH, {
+                      ? buildDynamicPath(routes.PROVIDE_OPERATOR_EDIT.PATH, { operatorId: item.id })
+                      : buildDynamicPath(routes.SUBSCRIBE_CLIENT_OPERATOR_EDIT.PATH, {
                           clientId,
                           operatorId: item.id,
                         })

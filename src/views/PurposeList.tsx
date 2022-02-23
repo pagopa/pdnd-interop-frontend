@@ -1,6 +1,6 @@
-import { Box } from '@mui/system'
 import React, { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { Box } from '@mui/system'
 import { number, object } from 'yup'
 import {
   ActionProps,
@@ -16,9 +16,9 @@ import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { TempFilters } from '../components/TempFilters'
 import { PURPOSE_STATE_LABEL } from '../config/labels'
-import { ROUTES } from '../config/routes'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
+import { useRoute } from '../hooks/useRoute'
 import { DialogContext } from '../lib/context'
 import { formatThousands } from '../lib/number-utils'
 import { decoratePurposeWithMostRecentVersion } from '../lib/purpose'
@@ -30,6 +30,7 @@ export const PurposeList = () => {
   const history = useHistory()
   const { wrapActionInDialog, runAction } = useFeedback()
   const { setDialog } = useContext(DialogContext)
+  const { routes } = useRoute()
 
   const { data, loadingText /*, error */ } = useAsyncFetch<Array<Purpose>>(
     {
@@ -172,7 +173,7 @@ export const PurposeList = () => {
 
       <Box sx={{ mt: 4 }}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-          <StyledButton variant="contained" to={ROUTES.SUBSCRIBE_PURPOSE_CREATE.PATH}>
+          <StyledButton variant="contained" to={routes.SUBSCRIBE_PURPOSE_CREATE.PATH}>
             + Aggiungi
           </StyledButton>
         </Box>
@@ -209,8 +210,8 @@ export const PurposeList = () => {
                     onClick={() => {
                       const path =
                         item.currentVersion.state === 'DRAFT'
-                          ? ROUTES.SUBSCRIBE_PURPOSE_EDIT.PATH
-                          : ROUTES.SUBSCRIBE_PURPOSE_VIEW.PATH
+                          ? routes.SUBSCRIBE_PURPOSE_EDIT.PATH
+                          : routes.SUBSCRIBE_PURPOSE_VIEW.PATH
 
                       history.push(buildDynamicPath(path, { purposeId: item.id }))
                     }}

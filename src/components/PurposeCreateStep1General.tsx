@@ -8,7 +8,6 @@ import {
   InputSelectOption,
   Purpose,
 } from '../../types'
-import { ROUTES } from '../config/routes'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { PartyContext } from '../lib/context'
 import { StepActions } from './Shared/StepActions'
@@ -21,6 +20,7 @@ import { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import { buildDynamicPath, getBits } from '../lib/router-utils'
 import { decoratePurposeWithMostRecentVersion } from '../lib/purpose'
+import { useRoute } from '../hooks/useRoute'
 
 type PurposeCreate = {
   title: string
@@ -35,6 +35,7 @@ type PurposeVersionCreate = {
 type PurposeStep1Write = PurposeCreate & PurposeVersionCreate
 
 export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ forward }) => {
+  const { routes } = useRoute()
   const history = useHistory()
   const bits = getBits(history.location)
   const purposeId = bits[bits.length - 1]
@@ -137,7 +138,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
       // WARNING: this will cause a re-render that will fetch fresh data
       // at the PurposeCreate component level (which is ugly)
       history.replace(
-        buildDynamicPath(ROUTES.SUBSCRIBE_PURPOSE_EDIT.PATH, { purposeId: response.data.id }),
+        buildDynamicPath(routes.SUBSCRIBE_PURPOSE_EDIT.PATH, { purposeId: response.data.id }),
         { stepIndexDestination: 1 }
       )
     } else {
@@ -207,7 +208,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
         back={{
           label: 'Torna alle finalità',
           type: 'link',
-          to: ROUTES.SUBSCRIBE_PURPOSE_LIST.PATH,
+          to: routes.SUBSCRIBE_PURPOSE_LIST.PATH,
         }}
         forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
       />
