@@ -1,3 +1,4 @@
+import { Lang } from '../../types'
 import { getDevLabels } from './wip-utils'
 
 const isDevelopment = !!(process.env.NODE_ENV === 'development')
@@ -14,5 +15,10 @@ export const STORAGE_KEY_TOKEN = 'token'
 export const URL_FE_LOGIN = `${process.env.REACT_APP_API_BASE_URL}${process.env.REACT_APP_URL_FE_LOGIN}`
 export const URL_FE_ONBOARDING = `${process.env.REACT_APP_API_BASE_URL}${process.env.REACT_APP_URL_FE_ONBOARDING}`
 
-export const FIRST_DRAFT_FRAGMENT = 'prima-bozza'
-export const EDIT_FRAGMENT = 'modifica'
+export const URL_FRAGMENTS: Record<string, Record<Lang, string>> = {
+  FIRST_DRAFT: { it: 'prima-bozza', en: 'first-draft' },
+  EDIT: { it: 'modifica', en: 'edit' },
+}
+
+export const DEFAULT_LANG = 'it'
+export const LANGUAGES = [DEFAULT_LANG, 'en']

@@ -9,14 +9,15 @@ import { isAdmin } from '../lib/auth-utils'
 import { PartyContext } from '../lib/context'
 import { buildDynamicPath } from '../lib/router-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { ROUTES } from '../config/routes'
 import { useUser } from '../hooks/useUser'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { useHistory } from 'react-router-dom'
 import { axiosErrorToError } from '../lib/error-utils'
+import { useRoute } from '../hooks/useRoute'
 
 export function ClientList() {
   const { party } = useContext(PartyContext)
+  const { routes } = useRoute()
   const { user } = useUser()
   const history = useHistory()
 
@@ -51,7 +52,7 @@ export function ClientList() {
       <Box sx={{ mt: 4 }}>
         {isAdmin(party) && (
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-            <StyledButton variant="contained" to={ROUTES.SUBSCRIBE_CLIENT_CREATE.PATH}>
+            <StyledButton variant="contained" to={routes.SUBSCRIBE_CLIENT_CREATE.PATH}>
               + Aggiungi
             </StyledButton>
           </Box>
@@ -74,7 +75,7 @@ export function ClientList() {
                   size="small"
                   onClick={() => {
                     history.push(
-                      buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_EDIT.PATH, { clientId: item.id })
+                      buildDynamicPath(routes.SUBSCRIBE_CLIENT_EDIT.PATH, { clientId: item.id })
                     )
                   }}
                 >

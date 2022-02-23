@@ -3,22 +3,15 @@ import identity from 'lodash/identity'
 import isEmpty from 'lodash/isEmpty'
 import sortBy from 'lodash/sortBy'
 import qs from 'qs'
-import { ProviderOrSubscriber, RouteConfig } from '../../types'
-import { ROUTES } from '../config/routes'
-
-export function belongsToTree(location: Location<unknown>, route: RouteConfig) {
-  // Find the actual route in the router
-  const currentRoute = Object.values(ROUTES).find((r) => isSamePath(location.pathname, r.PATH))
-  // If no route, end it here
-  if (!currentRoute) {
-    return false
-  }
-  // Put together all routes that match the prerequisite,
-  // aka, belonging to the tree of the current location.pathname
-  const matches = [...(currentRoute.PARENTS || []), currentRoute]
-  // If there is at least one match, this route is in the tree of the current location
-  return matches.some((r) => isSamePath(route.PATH, r.PATH))
-}
+import {
+  RouteConfig,
+  Lang,
+  ProviderOrSubscriber,
+  MappedRouteConfig,
+  LangKeyedValue,
+} from '../../types'
+import { BASIC_ROUTES } from '../config/routes'
+import { LANGUAGES, URL_FRAGMENTS } from './constants'
 
 export function isSamePath(path: string, matchPath: string) {
   const pathBits = path.split('/')
@@ -44,18 +37,35 @@ export function isSamePath(path: string, matchPath: string) {
   return isSamePath
 }
 
-export function isParentRoute(possibleParentRoute: RouteConfig, currentRoute: RouteConfig) {
+export function isParentRoute(
+  possibleParentRoute: MappedRouteConfig,
+  currentRoute: MappedRouteConfig
+) {
   if (possibleParentRoute.SPLIT_PATH.length >= currentRoute.SPLIT_PATH.length) {
     return false
   }
 
-  return possibleParentRoute.SPLIT_PATH.every(
+  const allSameFragments = possibleParentRoute.SPLIT_PATH.every(
     (pathFragment, i) => pathFragment === currentRoute.SPLIT_PATH[i]
   )
+
+  const lastBit = currentRoute.SPLIT_PATH[currentRoute.SPLIT_PATH.length - 1]
+  const lastFragmentIsEditPath = Object.values(URL_FRAGMENTS.EDIT).some((f) => lastBit.endsWith(f))
+
+  // URL_FRAGMENTS.EDIT is appended at the end of a read path of the same type.
+  // E.g. /eservice/myid becomes /eservice/myid/edit. So it's always same length + 1
+  const isFalseParent = currentRoute.SPLIT_PATH.length === possibleParentRoute.SPLIT_PATH.length + 1
+
+  if (allSameFragments && lastFragmentIsEditPath && isFalseParent) {
+    return false
+  }
+
+  return allSameFragments
 }
 
 export function isProviderOrSubscriber(location: Location<unknown>): ProviderOrSubscriber | null {
-  const locationBits = getBits(location).filter((b) => b !== 'ui')
+  const excludeList = ['ui', ...LANGUAGES]
+  const locationBits = getBits(location).filter((b) => !excludeList.includes(b))
   const mode = locationBits[0]
 
   if (mode === 'erogazione') {
@@ -67,19 +77,6 @@ export function isProviderOrSubscriber(location: Location<unknown>): ProviderOrS
   }
 
   return null
-}
-
-export function isProtectedRoute(location: Location<unknown>) {
-  const whitelist = Object.values(ROUTES).filter((r) => r.PUBLIC)
-  const isWhitelistedPage = whitelist.map((r) => r.PATH).includes(location.pathname)
-  return !isWhitelistedPage
-}
-
-// Here consider the CHOOSE_PARTY route kind of like a public route, layout-wise.
-// Until a Party is chosen, the user will not see the left side menu
-// and will be in a transition state between out of the platform and into it
-export function showPlatformTwoColumnsLayout(location: Location<unknown>) {
-  return isProtectedRoute(location) && location.pathname !== ROUTES.CHOOSE_PARTY.PATH
 }
 
 export function getBits(location: Location<unknown>): Array<string> {
@@ -95,28 +92,53 @@ export function parseSearch(search: string) {
   return qs.parse(search, { ignoreQueryPrefix: true })
 }
 
+export function extractDynamicParams(
+  staticPath: string,
+  dynamicPath: string
+): Record<string, string | number> {
+  const staticSplit = staticPath.split('/')
+  const dynamicSplit = dynamicPath.split('/')
+
+  if (dynamicSplit.length !== staticSplit.length) {
+    throw new Error('Not the same route')
+  }
+
+  const params = staticSplit.reduce((acc, staticParam, i) => {
+    const dynamicParam = dynamicSplit[i]
+    const isDynamic = staticParam !== dynamicParam
+    if (isDynamic) {
+      const cleanStaticParam = staticParam.replace(':', '')
+      return { ...acc, [cleanStaticParam]: dynamicParam }
+    }
+
+    return acc
+  }, {})
+
+  return params
+}
+
 export function buildDynamicPath(
-  path: string,
-  params: Record<string, string | number | null | undefined>
+  staticPath: string,
+  dynamicParams: Record<string, string | number | null | undefined>
 ) {
-  if (!isEmpty(params)) {
-    return Object.keys(params).reduce(
-      (acc, key) => acc.replace(`:${key}`, String(params[key])),
-      path
+  if (!isEmpty(dynamicParams)) {
+    return Object.keys(dynamicParams).reduce(
+      (acc, key) => acc.replace(`:${key}`, String(dynamicParams[key])),
+      staticPath
     )
   }
 
-  return path
+  return staticPath
 }
 
-export function buildDynamicRoute(route: RouteConfig, params: Record<string, string>) {
-  return { ...route, PATH: buildDynamicPath(route.PATH, params) }
+export function buildDynamicRoute(route: MappedRouteConfig, dynamicParams: Record<string, string>) {
+  return { ...route, PATH: buildDynamicPath(route.PATH, dynamicParams) }
 }
 
-export function decorateRouteWithParents(
-  routes: Record<string, RouteConfig>
-): Record<string, RouteConfig> {
-  const withSplitPath: Record<string, RouteConfig & { SPLIT_PATH: string[] }> = Object.keys(
+function decorateRouteWithParents(
+  routes: Record<string, MappedRouteConfig>
+): Record<string, MappedRouteConfig> {
+  const withSplitPath: Record<string, MappedRouteConfig & { SPLIT_PATH: string[] }> = Object.keys(
     routes
   ).reduce((acc, next) => {
     const currentRoute = routes[next]
@@ -132,10 +154,35 @@ export function decorateRouteWithParents(
     const parents = Object.values(withSplitPath).filter((possibleParentRoute) =>
       isParentRoute(possibleParentRoute, currentRoute)
     )
+
     const sortedParents = sortBy(parents, (p) => p.SPLIT_PATH.length)
 
     return { ...acc, [next]: { ...currentRoute, PARENTS: sortedParents } }
   }, {})
 
   return withParents
+}
+
+function mapRoutesToLang(routes: Record<string, RouteConfig>, lang: Lang) {
+  const reduced = Object.keys(routes).reduce((acc, nextKey) => {
+    const PATH = routes[nextKey].PATH[lang]
+    const LABEL = routes[nextKey].LABEL[lang]
+    const REDIRECT = routes[nextKey].REDIRECT
+      ? (routes[nextKey].REDIRECT as LangKeyedValue)[lang]
+      : undefined
+
+    const route = { [nextKey]: { ...routes[nextKey], PATH, LABEL, REDIRECT } }
+
+    return { ...acc, ...route }
+  }, {})
+
+  return reduced
+}
+
+export function getDecoratedRoutes(): Record<Lang, Record<string, MappedRouteConfig>> {
+  return LANGUAGES.reduce((acc, l) => {
+    const mapped = mapRoutesToLang(BASIC_ROUTES, l)
+    const decorated = decorateRouteWithParents(mapped)
+    return { ...acc, [l]: decorated }
+  }, {})
 }

@@ -9,7 +9,6 @@ import { StyledIntro, StyledIntroChildrenProps } from '../components/Shared/Styl
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
-import { ROUTES } from '../config/routes'
 import { AxiosResponse } from 'axios'
 import { UserCreationForm } from '../components/Shared/UserCreationForm'
 import {
@@ -17,11 +16,13 @@ import {
   userCreationFormInitialValues,
   userCreationFormValidationSchema,
 } from '../config/forms'
+import { useRoute } from '../hooks/useRoute'
 
 export function UserCreate() {
   const { runActionWithDestination, runAction } = useFeedback()
   const location = useLocation()
   const mode = useMode()
+  const { routes } = useRoute()
   const currentMode = mode as ProviderOrSubscriber
   const { party } = useContext(PartyContext)
 
@@ -39,7 +40,7 @@ export function UserCreate() {
       // Create the api operator
       await runActionWithDestination(
         { path: { endpoint: 'OPERATOR_CREATE' }, config: { data: dataToPost } },
-        { destination: ROUTES.PROVIDE_OPERATOR_LIST, suppressToast: false }
+        { destination: routes.PROVIDE_OPERATOR_LIST, suppressToast: false }
       )
     } else {
       // First create the security operator
@@ -49,7 +50,7 @@ export function UserCreate() {
       )
 
       const bits = getBits(location)
-      const clientId = bits[2]
+      const clientId = bits[bits.length - 3]
 
       // Then, join it with the client it belongs to
       await runActionWithDestination(
@@ -63,7 +64,7 @@ export function UserCreate() {
           },
         },
         {
-          destination: buildDynamicRoute(ROUTES.SUBSCRIBE_CLIENT_EDIT, { clientId }),
+          destination: buildDynamicRoute(routes.SUBSCRIBE_CLIENT_EDIT, { clientId }),
           suppressToast: false,
         }
       )

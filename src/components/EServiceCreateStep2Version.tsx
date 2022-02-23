@@ -13,10 +13,10 @@ import {
 import { buildDynamicPath } from '../lib/router-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledForm } from './Shared/StyledForm'
-import { ROUTES } from '../config/routes'
 import { StepActions } from './Shared/StepActions'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
+import { useRoute } from '../hooks/useRoute'
 
 type VersionData = {
   audience: string
@@ -27,6 +27,7 @@ type VersionData = {
 }
 
 export function EServiceCreateStep2Version({ forward, back }: StepperStepComponentProps) {
+  const { routes } = useRoute()
   const history = useHistory()
   const { runActionWithCallback } = useFeedback()
   const { data: fetchedData } = useEserviceCreateFetch()
@@ -104,7 +105,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
       // The EServiceCreate component rerenders because we added "history.location"
       // as a useEffect dependency in EServiceCreate useEserviceCreateFetch hook
       history.replace(
-        buildDynamicPath(ROUTES.PROVIDE_ESERVICE_EDIT.PATH, {
+        buildDynamicPath(routes.PROVIDE_ESERVICE_EDIT.PATH, {
           eserviceId: (fetchedData as EServiceReadType).id,
           descriptorId,
         }),

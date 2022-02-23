@@ -1,6 +1,6 @@
+import React, { useContext } from 'react'
 import { Box } from '@mui/system'
 import { AxiosResponse } from 'axios'
-import React, { useContext } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { object, string } from 'yup'
 import {
@@ -10,7 +10,6 @@ import {
   SecurityOperatorKeysFormInputValues,
 } from '../../types'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
-import { ROUTES } from '../config/routes'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
 import { useUser } from '../hooks/useUser'
@@ -21,6 +20,7 @@ import { buildDynamicPath, getBits } from '../lib/router-utils'
 import { ActionMenu } from './Shared/ActionMenu'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledTableRow } from './Shared/StyledTableRow'
+import { useRoute } from '../hooks/useRoute'
 
 type KeyToPostProps = SecurityOperatorKeysFormInputValues & {
   use: 'SIG'
@@ -34,6 +34,7 @@ export function KeysList() {
   const clientId = locationBits[locationBits.length - 1]
   const { setDialog } = useContext(DialogContext)
   const { party } = useContext(PartyContext)
+  const { routes } = useRoute()
   const { user } = useUser()
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
   const history = useHistory()
@@ -156,7 +157,7 @@ export function KeysList() {
               size="small"
               onClick={() => {
                 history.push(
-                  buildDynamicPath(ROUTES.SUBSCRIBE_CLIENT_KEY_EDIT.PATH, {
+                  buildDynamicPath(routes.SUBSCRIBE_CLIENT_KEY_EDIT.PATH, {
                     clientId,
                     kid: key.kid,
                   })

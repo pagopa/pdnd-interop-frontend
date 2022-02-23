@@ -1,6 +1,19 @@
 import { createContext } from 'react'
 import noop from 'lodash/noop'
-import { DialogProps, Party, ToastProps } from '../../types'
+import { DialogProps, Lang, Party, MappedRouteConfig, ToastProps } from '../../types'
+
+type RoutesContextType = {
+  allRoutes: Record<Lang, Record<string, MappedRouteConfig>>
+}
+
+export const RoutesContext = createContext({ allRoutes: {} } as RoutesContextType)
+
+type LangContextType = {
+  lang: Lang
+  setLang: React.Dispatch<React.SetStateAction<Lang>>
+}
+
+export const LangContext = createContext({ lang: 'it', setLang: noop } as LangContextType)
 
 type TokenContextType = {
   token: string | null

@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { AGREEMENT_STATE_LABEL } from '../config/labels'
-import { ROUTES } from '../config/routes'
 import { Box } from '@mui/system'
 import {
   AgreementState,
@@ -24,12 +23,14 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { useHistory } from 'react-router-dom'
 import { axiosErrorToError } from '../lib/error-utils'
+import { useRoute } from '../hooks/useRoute'
 
 export function AgreementList() {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
   const mode = useMode()
   const currentMode = mode as ProviderOrSubscriber
   const { party } = useContext(PartyContext)
+  const { routes } = useRoute()
   const history = useHistory()
 
   const params =
@@ -191,7 +192,7 @@ export function AgreementList() {
                   onClick={() => {
                     history.push(
                       buildDynamicPath(
-                        ROUTES[
+                        routes[
                           mode === 'provider'
                             ? 'PROVIDE_AGREEMENT_EDIT'
                             : 'SUBSCRIBE_AGREEMENT_EDIT'

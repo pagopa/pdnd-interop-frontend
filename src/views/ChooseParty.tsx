@@ -10,9 +10,10 @@ import { storageWrite } from '../lib/storage-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { USER_ROLE_LABEL } from '../config/labels'
-import { ROUTES } from '../config/routes'
+import { useRoute } from '../hooks/useRoute'
 
 export function ChooseParty() {
+  const { routes } = useRoute()
   const { setParty, party, availableParties } = useContext(PartyContext)
   const history = useHistory()
 
@@ -25,9 +26,9 @@ export function ChooseParty() {
 
   const confirmChoice = () => {
     const DESTINATIONS = {
-      admin: ROUTES.SUBSCRIBE.PATH,
-      api: ROUTES.PROVIDE.PATH,
-      security: ROUTES.SUBSCRIBE_CLIENT_LIST.PATH,
+      admin: routes.SUBSCRIBE.PATH,
+      api: routes.PROVIDE.PATH,
+      security: routes.SUBSCRIBE_CLIENT_LIST.PATH,
     }
     if (party) {
       history.push(DESTINATIONS[party.productInfo.role])

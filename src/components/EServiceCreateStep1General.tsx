@@ -12,7 +12,7 @@ import {
   FrontendAttributes,
   StepperStepComponentProps,
 } from '../../types'
-import { PartyContext } from '../lib/context'
+import { LangContext, PartyContext } from '../lib/context'
 import { buildDynamicPath } from '../lib/router-utils'
 import {
   remapBackendAttributesToFrontend,
@@ -22,17 +22,19 @@ import { useFeedback } from '../hooks/useFeedback'
 import { EServiceAttributeSection } from './EServiceAttributeSection'
 import { StyledForm } from './Shared/StyledForm'
 import { StyledIntro } from './Shared/StyledIntro'
-import { ROUTES } from '../config/routes'
 import { StepActions } from './Shared/StepActions'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { StyledInputControlledRadio } from './Shared/StyledInputControlledRadio'
 import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
-import { FIRST_DRAFT_FRAGMENT } from '../lib/constants'
+import { URL_FRAGMENTS } from '../lib/constants'
+import { useRoute } from '../hooks/useRoute'
 
 export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentProps> = ({
   forward,
 }) => {
+  const { lang } = useContext(LangContext)
   const { party } = useContext(PartyContext)
+  const { routes } = useRoute()
   const history = useHistory()
   const { runActionWithCallback } = useFeedback()
   const { data: fetchedData } = useEserviceCreateFetch()
@@ -105,9 +107,9 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
       // WARNING: this will cause a re-render that will fetch fresh data
       // at the EServiceCreate component level (which is ugly)
       history.replace(
-        buildDynamicPath(ROUTES.PROVIDE_ESERVICE_EDIT.PATH, {
+        buildDynamicPath(routes.PROVIDE_ESERVICE_EDIT.PATH, {
           eserviceId: response.data.id,
-          descriptorId: FIRST_DRAFT_FRAGMENT,
+          descriptorId: URL_FRAGMENTS.FIRST_DRAFT[lang],
         }),
         { stepIndexDestination: 1 }
       )
@@ -194,7 +196,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
             back={{
               label: 'Torna agli e-service',
               type: 'link',
-              to: ROUTES.PROVIDE_ESERVICE_LIST.PATH,
+              to: routes.PROVIDE_ESERVICE_LIST.PATH,
             }}
             forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
           />

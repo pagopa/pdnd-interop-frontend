@@ -9,17 +9,16 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material'
-import { RouteConfig, UserProductRole } from '../../types'
+import { MappedRouteConfig, UserProductRole } from '../../types'
 import { PartyContext, TokenContext } from '../lib/context'
 import { StyledLink } from './Shared/StyledLink'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
-import { ROUTES } from '../config/routes'
-import { belongsToTree } from '../lib/router-utils'
+import { useRoute } from '../hooks/useRoute'
 
 type View = {
-  route: RouteConfig
+  route: MappedRouteConfig
   id?: string
-  children?: Array<RouteConfig>
+  children?: Array<MappedRouteConfig>
 }
 
 type Views = Record<UserProductRole, Array<View>>
@@ -31,58 +30,60 @@ export const MainNav = () => {
   const { party } = useContext(PartyContext)
   const location = useLocation()
   const [openId, setOpenId] = useState<string | null>(null)
+  const { isRouteInTree } = useRoute()
+  const { routes } = useRoute()
 
   const views: Views = {
     admin: [
       {
-        route: ROUTES.PROVIDE,
+        route: routes.PROVIDE,
         id: 'provider',
         children: [
-          ROUTES.PROVIDE_ESERVICE_LIST,
-          ROUTES.PROVIDE_AGREEMENT_LIST,
-          ROUTES.PROVIDE_OPERATOR_LIST,
+          routes.PROVIDE_ESERVICE_LIST,
+          routes.PROVIDE_AGREEMENT_LIST,
+          routes.PROVIDE_OPERATOR_LIST,
         ],
       },
       {
-        route: ROUTES.SUBSCRIBE,
+        route: routes.SUBSCRIBE,
         id: 'subscriber',
         children: [
-          ROUTES.SUBSCRIBE_CATALOG_LIST,
-          ROUTES.SUBSCRIBE_PURPOSE_LIST,
-          ROUTES.SUBSCRIBE_CLIENT_LIST,
-          ROUTES.SUBSCRIBE_AGREEMENT_LIST,
+          routes.SUBSCRIBE_CATALOG_LIST,
+          routes.SUBSCRIBE_PURPOSE_LIST,
+          routes.SUBSCRIBE_CLIENT_LIST,
+          routes.SUBSCRIBE_AGREEMENT_LIST,
         ],
       },
     ],
     api: [
       {
-        route: ROUTES.PROVIDE,
+        route: routes.PROVIDE,
         id: 'provider',
-        children: [ROUTES.PROVIDE_ESERVICE_LIST],
+        children: [routes.PROVIDE_ESERVICE_LIST],
       },
     ],
     security: [
       {
-        route: ROUTES.SUBSCRIBE,
+        route: routes.SUBSCRIBE,
         id: 'subscriber',
-        children: [ROUTES.SUBSCRIBE_CATALOG_LIST, ROUTES.SUBSCRIBE_CLIENT_LIST],
+        children: [routes.SUBSCRIBE_CATALOG_LIST, routes.SUBSCRIBE_CLIENT_LIST],
       },
     ],
   }
 
   const availableViews = [
     ...views[party?.productInfo.role || 'security'],
-    { route: ROUTES.NOTIFICATION },
-    { route: ROUTES.PROFILE },
-    { route: ROUTES.HELP },
+    { route: routes.NOTIFICATION },
+    { route: routes.PROFILE },
+    { route: routes.HELP },
   ]
 
   const wrapSetOpenSubmenuId = (newOpenId?: string) => () => {
     setOpenId(newOpenId && newOpenId !== openId ? newOpenId : null)
   }
 
-  const isItemSelected = (route: RouteConfig) => {
-    return belongsToTree(location, route)
+  const isItemSelected = (route: MappedRouteConfig) => {
+    return isRouteInTree(location, route)
   }
 
   return (
@@ -98,7 +99,7 @@ export const MainNav = () => {
 
 type MainNavComponentProps = {
   items: Array<View>
-  isItemSelected: (route: RouteConfig) => boolean
+  isItemSelected: (route: MappedRouteConfig) => boolean
   openSubmenuId: string | null
   wrapSetOpenSubmenuId: (id?: string) => () => void
   shouldRender: boolean
@@ -111,7 +112,7 @@ const MainNavComponent = ({
   wrapSetOpenSubmenuId,
   shouldRender,
 }: MainNavComponentProps) => {
-  const WrappedLink = ({ route }: { route: RouteConfig }) => {
+  const WrappedLink = ({ route }: { route: MappedRouteConfig }) => {
     const isSelected = isItemSelected(route)
     const { PATH, LABEL } = route
     return (
@@ -184,7 +185,7 @@ const MainNavComponent = ({
 
                 <Collapse in={isSubmenuOpen} timeout="auto" unmountOnExit>
                   <List disablePadding sx={{ width: WIDTH, pl: 2 }}>
-                    {(item.children as Array<RouteConfig>).map((child, j) => (
+                    {(item.children as Array<MappedRouteConfig>).map((child, j) => (
                       <ListItem sx={{ display: 'block', p: 0 }} key={j}>
                         <WrappedLink route={child} />
                       </ListItem>

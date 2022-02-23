@@ -1,6 +1,6 @@
 import { EServiceReadType } from '../../types'
 
-export const eservicePublished: EServiceReadType = {
+export const eserviceDraft: EServiceReadType = {
   producer: {
     id: 'djofsi-sdfjdsi-djsfs',
     name: 'Comune di Bologna',
@@ -9,7 +9,7 @@ export const eservicePublished: EServiceReadType = {
   description: 'Descrizione e-service',
   technology: 'REST',
   id: 'sdjof-sdfjdspof-dsfdsjf',
-  state: 'PUBLISHED',
+  state: 'DRAFT',
   descriptors: [],
   attributes: {
     verified: [],

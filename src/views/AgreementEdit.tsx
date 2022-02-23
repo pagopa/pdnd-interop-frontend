@@ -10,7 +10,6 @@ import {
   Party,
   ProviderOrSubscriber,
 } from '../../types'
-import { ROUTES } from '../config/routes'
 import { AGREEMENT_STATE_LABEL } from '../config/labels'
 import { buildDynamicPath, getLastBit } from '../lib/router-utils'
 import { formatDate, getRandomDate } from '../lib/date-utils'
@@ -28,6 +27,7 @@ import { Box } from '@mui/system'
 import { Typography } from '@mui/material'
 import { Contained } from '../components/Shared/Contained'
 import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
+import { useRoute } from '../hooks/useRoute'
 
 export function AgreementEdit() {
   const {
@@ -40,6 +40,7 @@ export function AgreementEdit() {
   const mode = useMode()
   const agreementId = getLastBit(useLocation())
   const { party } = useContext(PartyContext)
+  const { routes } = useRoute()
   const { data } = useAsyncFetch<AgreementSummary>(
     {
       path: { endpoint: 'AGREEMENT_GET_SINGLE', endpointParams: { agreementId } },
@@ -84,7 +85,7 @@ export function AgreementEdit() {
       {
         path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } },
       },
-      { destination: ROUTES.SUBSCRIBE_AGREEMENT_LIST, suppressToast: false }
+      { destination: routes.SUBSCRIBE_AGREEMENT_LIST, suppressToast: false }
     )
   }
 
@@ -237,7 +238,7 @@ export function AgreementEdit() {
 
       <DescriptionBlock label="Accordo relativo a">
         <StyledLink
-          to={buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
+          to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
             eserviceId: data?.eservice.id,
             descriptorId: data?.eserviceDescriptorId,
           })}
@@ -249,7 +250,7 @@ export function AgreementEdit() {
             {' '}
             (è disponibile una{' '}
             <StyledLink
-              to={buildDynamicPath(ROUTES.SUBSCRIBE_CATALOG_VIEW.PATH, {
+              to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
                 eserviceId: data?.eservice.id,
                 descriptorId: data?.eservice.activeDescriptor.id,
               })}

@@ -13,8 +13,8 @@ import { LoadingOverlay } from './Shared/LoadingOverlay'
 import { MainNav } from './MainNav'
 import { Layout } from './Shared/Layout'
 import { Box } from '@mui/system'
-import { showPlatformTwoColumnsLayout } from '../lib/router-utils'
 import { MEDIUM_MAX_WIDTH } from '../lib/constants'
+import { useRoute } from '../hooks/useRoute'
 import '../lib/validation-config'
 
 export function BodyLogger() {
@@ -23,6 +23,7 @@ export function BodyLogger() {
   const [loadingText, setLoadingText] = useState<string | null>(null)
   const [tableActionMenu, setTableActionMenu] = useState<string | null>(null)
   const location = useLocation()
+  const { doesRouteAllowTwoColumnsLayout } = useRoute()
 
   /*
    * Handle toast
@@ -59,7 +60,7 @@ export function BodyLogger() {
         <DialogContext.Provider value={{ dialog, setDialog }}>
           <LoaderContext.Provider value={{ loadingText, setLoadingText }}>
             <Header />
-            {showPlatformTwoColumnsLayout(location) ? (
+            {doesRouteAllowTwoColumnsLayout(location) ? (
               <Box sx={{ flexGrow: 1 }} bgcolor="#F5F6F7">
                 <Layout sx={{ height: '100%' }}>
                   <Box sx={{ display: 'flex', height: '100%' }}>

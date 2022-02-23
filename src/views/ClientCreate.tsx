@@ -6,13 +6,13 @@ import { DialogContext, PartyContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
-import { ROUTES } from '../config/routes'
 import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { AddSecurityOperatorFormInputValues, User } from '../../types'
 import { Box } from '@mui/system'
 import { DeleteOutline as DeleteOutlineIcon } from '@mui/icons-material'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
+import { useRoute } from '../hooks/useRoute'
 
 type ClientFields = {
   name: string
@@ -24,6 +24,7 @@ export function ClientCreate() {
   const { /* runActionWithDestination, */ runFakeAction } = useFeedback()
   const { party } = useContext(PartyContext)
   const { setDialog } = useContext(DialogContext)
+  const { routes } = useRoute()
 
   const onSubmit = async (data: ClientFields) => {
     const dataToPost = { ...data, consumerId: party?.partyId }
@@ -143,7 +144,7 @@ export function ClientCreate() {
           <StyledButton sx={{ mr: 2 }} variant="contained" type="submit">
             Crea client
           </StyledButton>
-          <StyledButton variant="outlined" to={ROUTES.SUBSCRIBE_CLIENT_LIST.PATH}>
+          <StyledButton variant="outlined" to={routes.SUBSCRIBE_CLIENT_LIST.PATH}>
             Torna ai client
           </StyledButton>
         </Box>

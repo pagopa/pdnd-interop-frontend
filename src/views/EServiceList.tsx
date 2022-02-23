@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router'
-import { PartyContext } from '../lib/context'
+import { LangContext, PartyContext } from '../lib/context'
 import {
   ApiEndpointKey,
   EServiceDescriptorRead,
@@ -18,16 +18,18 @@ import { buildDynamicPath } from '../lib/router-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Box } from '@mui/system'
 import { ESERVICE_STATE_LABEL } from '../config/labels'
-import { ROUTES } from '../config/routes'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { axiosErrorToError } from '../lib/error-utils'
-import { FIRST_DRAFT_FRAGMENT } from '../lib/constants'
+import { URL_FRAGMENTS } from '../lib/constants'
+import { useRoute } from '../hooks/useRoute'
 
 export function EServiceList() {
   const { runAction, runFakeAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
   const history = useHistory()
   const { party } = useContext(PartyContext)
+  const { lang } = useContext(LangContext)
+  const { routes } = useRoute()
   const { data, loadingText, error } = useAsyncFetch<Array<EServiceFlatReadType>>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
@@ -126,7 +128,7 @@ export function EServiceList() {
       const successResponse = response as AxiosResponse<EServiceDescriptorRead>
       const descriptorId = successResponse.data.id
       history.push(
-        buildDynamicPath(ROUTES.PROVIDE_ESERVICE_EDIT.PATH, {
+        buildDynamicPath(routes.PROVIDE_ESERVICE_EDIT.PATH, {
           eserviceId,
           descriptorId,
         }),
@@ -217,7 +219,7 @@ export function EServiceList() {
 
       <Box sx={{ mt: 4 }}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-          <StyledButton variant="contained" to={ROUTES.PROVIDE_ESERVICE_CREATE.PATH}>
+          <StyledButton variant="contained" to={routes.PROVIDE_ESERVICE_CREATE.PATH}>
             + Aggiungi
           </StyledButton>
         </Box>
@@ -247,13 +249,13 @@ export function EServiceList() {
                   onClick={() => {
                     const destPath =
                       !item.state || item.state === 'DRAFT'
-                        ? ROUTES.PROVIDE_ESERVICE_EDIT.PATH
-                        : ROUTES.PROVIDE_ESERVICE_MANAGE.PATH
+                        ? routes.PROVIDE_ESERVICE_EDIT.PATH
+                        : routes.PROVIDE_ESERVICE_MANAGE.PATH
 
                     history.push(
                       buildDynamicPath(destPath, {
                         eserviceId: item.id,
-                        descriptorId: item.descriptorId || FIRST_DRAFT_FRAGMENT,
+                        descriptorId: item.descriptorId || URL_FRAGMENTS.FIRST_DRAFT[lang],
                       })
                     )
                   }}
