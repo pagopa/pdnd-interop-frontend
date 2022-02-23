@@ -1,71 +1,68 @@
 import { MappedRouteConfig } from '../../../types'
 import {
-  belongsToTree,
   buildDynamicPath,
   buildDynamicRoute,
-  decorateRouteWithParents,
   getBits,
+  getDecoratedRoutes,
   getLastBit,
-  isProtectedRoute,
   isParentRoute,
   isProviderOrSubscriber,
   isSamePath,
 } from '../router-utils'
 
 describe('Location belongs to route tree', () => {
-  it('belongs to route tree (aka has an ancestor in that route)', () => {
-    const location = {
-      pathname: '/erogazione/e-service/crea',
-      search: '',
-      state: {},
-      hash: 'djsf-dsfjs-dsfj',
-    }
-    const route: MappedRouteConfig = {
-      PATH: '/erogazione',
-      LABEL: 'Erogazione',
-      EXACT: true,
-      REDIRECT: '/erogazione/e-service',
-      COMPONENT: () => null,
-      PUBLIC: false,
-      AUTH_LEVELS: ['admin', 'api'],
-      SPLIT_PATH: ['erogazione'],
-    }
-
-    expect(belongsToTree(location, route)).toBeTruthy()
-  })
-
-  it("doesn't belongs to route tree", () => {
-    const location = {
-      pathname: '/erogazione/e-service/crea',
-      search: '',
-      state: {},
-      hash: 'djsf-dsfjs-dsfj',
-    }
-    const route: MappedRouteConfig = {
-      PATH: '/fruizione',
-      LABEL: 'Fruizione',
-      EXACT: true,
-      REDIRECT: '/fruizione/catalogo-e-service',
-      COMPONENT: () => null,
-      PUBLIC: false,
-      AUTH_LEVELS: ['admin', 'security'],
-      SPLIT_PATH: ['fruizione'],
-    }
-
-    expect(belongsToTree(location, route)).toBeFalsy()
-  })
+  // it('belongs to route tree (aka has an ancestor in that route)', () => {
+  //   const location = {
+  //     pathname: '/erogazione/e-service/crea',
+  //     search: '',
+  //     state: {},
+  //     hash: 'djsf-dsfjs-dsfj',
+  //   }
+  //   const route: MappedRouteConfig = {
+  //     PATH: '/erogazione',
+  //     LABEL: 'Erogazione',
+  //     EXACT: true,
+  //     REDIRECT: '/erogazione/e-service',
+  //     COMPONENT: () => null,
+  //     PUBLIC: false,
+  //     AUTH_LEVELS: ['admin', 'api'],
+  //     SPLIT_PATH: ['erogazione'],
+  //   }
+  //   expect(belongsToTree(location, route)).toBeTruthy()
+  // })
+  // it("doesn't belongs to route tree", () => {
+  //   const location = {
+  //     pathname: '/erogazione/e-service/crea',
+  //     search: '',
+  //     state: {},
+  //     hash: 'djsf-dsfjs-dsfj',
+  //   }
+  //   const route: MappedRouteConfig = {
+  //     PATH: '/fruizione',
+  //     LABEL: 'Fruizione',
+  //     EXACT: true,
+  //     REDIRECT: '/fruizione/catalogo-e-service',
+  //     COMPONENT: () => null,
+  //     PUBLIC: false,
+  //     AUTH_LEVELS: ['admin', 'security'],
+  //     SPLIT_PATH: ['fruizione'],
+  //   }
+  //   expect(belongsToTree(location, route)).toBeFalsy()
+  // })
 })
 
 describe('Path matches', () => {
   it('matches - static path', () => {
-    expect(isSamePath('/erogazione/e-service/crea', '/erogazione/e-service/crea')).toBeTruthy()
+    expect(
+      isSamePath('/it/erogazione/e-service/crea', '/it/erogazione/e-service/crea')
+    ).toBeTruthy()
   })
 
   it('matches - dynamic path', () => {
     expect(
       isSamePath(
-        '/fruizione/client/dksfdskf-sdfksdfk-sdfksdf/operatori/ABCDEF44R33E333W',
-        '/fruizione/client/:id/operatori/:operatorId'
+        '/it/fruizione/client/dksfdskf-sdfksdfk-sdfksdf/operatori/ABCDEF44R33E333W',
+        '/it/fruizione/client/:id/operatori/:operatorId'
       )
     ).toBeTruthy()
   })
@@ -73,8 +70,8 @@ describe('Path matches', () => {
   it("doesn't match - ancestor", () => {
     expect(
       isSamePath(
-        '/fruizione/client/dksfdskf-sdfksdfk-sdfksdf/operatori/ABCDEF44R33E333W',
-        '/fruizione/client/:id'
+        '/it/fruizione/client/dksfdskf-sdfksdfk-sdfksdf/operatori/ABCDEF44R33E333W',
+        '/it/fruizione/client/:id'
       )
     ).toBeFalsy()
   })
@@ -82,8 +79,8 @@ describe('Path matches', () => {
   it("doesn't match - different roots", () => {
     expect(
       isSamePath(
-        '/fruizione/client/dksfdskf-sdfksdfk-sdfksdf',
-        '/erogazione/client/dksfdskf-sdfksdfk-sdfksdf'
+        '/it/fruizione/client/dksfdskf-sdfksdfk-sdfksdf',
+        '/it/erogazione/client/dksfdskf-sdfksdfk-sdfksdf'
       )
     ).toBeFalsy()
   })
@@ -145,27 +142,27 @@ describe('Route falls under the provider or subscriber view', () => {
   })
 })
 
-describe('Route guard', () => {
-  it('is protected', () => {
-    const location = {
-      pathname: '/erogazione/e-service/crea',
-      search: '',
-      state: {},
-      hash: 'djsf-dsfjs-dsfj',
-    }
-    expect(isProtectedRoute(location)).toBeTruthy()
-  })
+// describe('Route guard', () => {
+//   it('is protected', () => {
+//     const location = {
+//       pathname: '/erogazione/e-service/crea',
+//       search: '',
+//       state: {},
+//       hash: 'djsf-dsfjs-dsfj',
+//     }
+//     expect(isProtectedRoute(location)).toBeTruthy()
+//   })
 
-  it('is not protected', () => {
-    const location = {
-      pathname: '/aiuto',
-      search: '',
-      state: {},
-      hash: 'djsf-dsfjs-dsfj',
-    }
-    expect(isProtectedRoute(location)).toBeFalsy()
-  })
-})
+//   it('is not protected', () => {
+//     const location = {
+//       pathname: '/aiuto',
+//       search: '',
+//       state: {},
+//       hash: 'djsf-dsfjs-dsfj',
+//     }
+//     expect(isProtectedRoute(location)).toBeFalsy()
+//   })
+// })
 
 describe('Location path splitting', () => {
   it('is split correctly', () => {
@@ -225,55 +222,14 @@ describe('Dynamic routes and paths building', () => {
 })
 
 describe('Decorate route with parent routes creates parent tree correctly', () => {
-  const routes: Record<string, MappedRouteConfig> = {
-    PROVIDE_ESERVICE_CREATE: {
-      PATH: '/erogazione/e-service/crea',
-      EXACT: true,
-      LABEL: 'Crea e-service',
-      COMPONENT: () => null,
-      PUBLIC: false,
-      AUTH_LEVELS: ['admin', 'api'],
-      SPLIT_PATH: ['erogazione', 'e-service', 'crea'],
-    },
-    PROVIDE_ESERVICE_EDIT: {
-      PATH: '/erogazione/e-service/:eserviceId/:descriptorId',
-      EXACT: false,
-      LABEL: 'Gestisci o visualizza e-service',
-      COMPONENT: () => null,
-      PUBLIC: false,
-      AUTH_LEVELS: ['admin', 'api'],
-      SPLIT_PATH: ['erogazione', 'e-service', ':eserviceId', ':descriptorId'],
-    },
-    PROVIDE_ESERVICE_LIST: {
-      PATH: '/erogazione/e-service',
-      EXACT: true,
-      LABEL: 'I tuoi e-service',
-      COMPONENT: () => null,
-      PUBLIC: false,
-      AUTH_LEVELS: ['admin', 'api'],
-      SPLIT_PATH: ['erogazione', 'e-service'],
-    },
-    PROVIDE: {
-      PATH: '/erogazione',
-      LABEL: 'Erogazione',
-      EXACT: true,
-      REDIRECT: '/erogazione/e-service',
-      COMPONENT: () => null,
-      PUBLIC: false,
-      AUTH_LEVELS: ['admin', 'api'],
-      SPLIT_PATH: ['erogazione'],
-    },
-  }
+  const allRoutes = getDecoratedRoutes()
+  const routes = allRoutes['it']
 
-  const decorated = decorateRouteWithParents(routes)
+  expect(routes.PROVIDE.PARENTS?.length).toBe(0)
+  expect(routes.PROVIDE_ESERVICE_LIST.PARENTS?.length).toBe(1)
+  expect(routes.PROVIDE_ESERVICE_CREATE.PARENTS?.length).toBe(2)
+  expect(routes.PROVIDE_ESERVICE_EDIT.PARENTS?.length).toBe(2)
 
-  expect(decorated.PROVIDE.PARENTS?.length).toBe(0)
-  expect(decorated.PROVIDE_ESERVICE_LIST.PARENTS?.length).toBe(1)
-  expect(decorated.PROVIDE_ESERVICE_CREATE.PARENTS?.length).toBe(2)
-  expect(decorated.PROVIDE_ESERVICE_EDIT.PARENTS?.length).toBe(2)
-
-  expect(decorated.PROVIDE_ESERVICE_EDIT.PARENTS?.[0].PATH).toBe(decorated.PROVIDE.PATH)
-  expect(decorated.PROVIDE_ESERVICE_EDIT.PARENTS?.[1].PATH).toBe(
-    decorated.PROVIDE_ESERVICE_LIST.PATH
-  )
+  expect(routes.PROVIDE_ESERVICE_EDIT.PARENTS?.[0].PATH).toBe(routes.PROVIDE.PATH)
+  expect(routes.PROVIDE_ESERVICE_EDIT.PARENTS?.[1].PATH).toBe(routes.PROVIDE_ESERVICE_LIST.PATH)
 })

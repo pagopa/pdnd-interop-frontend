@@ -1,10 +1,12 @@
 import React, { FunctionComponent, useState } from 'react'
 import { Router } from 'react-router-dom'
-import { DialogProps, Party, ToastProps } from '../../types'
+import { DialogProps, Lang, Party, ToastProps } from '../../types'
 import {
   DialogContext,
+  LangContext,
   LoaderContext,
   PartyContext,
+  RoutesContext,
   TableActionMenuContext,
   ToastContext,
   TokenContext,
@@ -13,6 +15,11 @@ import {
 // import { ThemeProvider } from '@mui/material'
 // import theme from '@pagopa/mui-italia/theme'
 import { History, createMemoryHistory } from 'history'
+import { getDecoratedRoutes } from '../lib/router-utils'
+
+type LangProviderProps = {
+  defaultLang?: Lang
+}
 
 type TokenProviderProps = {
   defaultToken?: string
@@ -36,6 +43,16 @@ type DialogProviderProps = {
 
 type LoaderProviderProps = {
   defaultLoader?: string
+}
+
+const LangProvider: FunctionComponent<LangProviderProps> = ({ children, defaultLang = 'it' }) => {
+  const [lang, setLang] = useState<Lang>(defaultLang)
+  return <LangContext.Provider value={{ lang, setLang }}>{children}</LangContext.Provider>
+}
+
+const RoutesProvider: FunctionComponent = ({ children }) => {
+  const allRoutes = getDecoratedRoutes()
+  return <RoutesContext.Provider value={{ allRoutes }}>{children}</RoutesContext.Provider>
 }
 
 const TokenProvider: FunctionComponent<TokenProviderProps> = ({ children, defaultToken }) => {
@@ -93,7 +110,8 @@ type RouterProviderProps = {
 }
 
 export const AllTheProviders: FunctionComponent<
-  TokenProviderProps &
+  LangProviderProps &
+    TokenProviderProps &
     PartyProviderProps &
     TableActionMenuProviderProps &
     ToastProviderProps &
@@ -102,6 +120,7 @@ export const AllTheProviders: FunctionComponent<
     RouterProviderProps
 > = ({
   children,
+  defaultLang,
   defaultToken,
   defaultParty,
   defaultTableActionMenu,
@@ -113,22 +132,26 @@ export const AllTheProviders: FunctionComponent<
   const history = defaultHistory || createMemoryHistory()
 
   return (
-    <TokenProvider defaultToken={defaultToken}>
-      <PartyProvider defaultParty={defaultParty}>
-        <Router history={history}>
-          {/* <ThemeProvider theme={theme}> */}
-          {/* <CssBaseline /> */}
+    <LangProvider defaultLang={defaultLang}>
+      <RoutesProvider>
+        <TokenProvider defaultToken={defaultToken}>
+          <PartyProvider defaultParty={defaultParty}>
+            <Router history={history}>
+              {/* <ThemeProvider theme={theme}> */}
+              {/* <CssBaseline /> */}
 
-          <TableActionMenuProvider defaultTableActionMenu={defaultTableActionMenu}>
-            <ToastProvider defaultToast={defaultToast}>
-              <DialogProvider defaultDialog={defaultDialog}>
-                <LoaderProvider defaultLoader={defaultLoader}>{children}</LoaderProvider>
-              </DialogProvider>
-            </ToastProvider>
-          </TableActionMenuProvider>
-          {/* </ThemeProvider> */}
-        </Router>
-      </PartyProvider>
-    </TokenProvider>
+              <TableActionMenuProvider defaultTableActionMenu={defaultTableActionMenu}>
+                <ToastProvider defaultToast={defaultToast}>
+                  <DialogProvider defaultDialog={defaultDialog}>
+                    <LoaderProvider defaultLoader={defaultLoader}>{children}</LoaderProvider>
+                  </DialogProvider>
+                </ToastProvider>
+              </TableActionMenuProvider>
+              {/* </ThemeProvider> */}
+            </Router>
+          </PartyProvider>
+        </TokenProvider>
+      </RoutesProvider>
+    </LangProvider>
   )
 }

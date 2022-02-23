@@ -8,15 +8,9 @@ import { ThemeProvider } from '@mui/material'
 import theme from '@pagopa/mui-italia/theme'
 import DateAdapter from '@mui/lab/AdapterDateFns'
 import { LocalizationProvider } from '@mui/lab'
-import { BASIC_ROUTES } from './config/routes'
-import { decorateRouteWithParents, mapRoutesToLang } from './lib/router-utils'
-import { LANGUAGES } from './lib/constants'
+import { getDecoratedRoutes } from './lib/router-utils'
 
-const allRoutes = LANGUAGES.reduce((acc, l) => {
-  const mapped = mapRoutesToLang(BASIC_ROUTES, l)
-  const decorated = decorateRouteWithParents(mapped)
-  return { ...acc, [l]: decorated }
-}, {})
+const allRoutes = getDecoratedRoutes()
 
 export function App() {
   const [lang, setLang] = useState<Lang>('it')

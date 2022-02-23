@@ -10,7 +10,8 @@ import {
   MappedRouteConfig,
   LangKeyedValue,
 } from '../../types'
-import { LANGUAGES } from './constants'
+import { BASIC_ROUTES } from '../config/routes'
+import { LANGUAGES, URL_FRAGMENTS } from './constants'
 
 export function isSamePath(path: string, matchPath: string) {
   const pathBits = path.split('/')
@@ -44,9 +45,22 @@ export function isParentRoute(
     return false
   }
 
-  return possibleParentRoute.SPLIT_PATH.every(
+  const allSameFragments = possibleParentRoute.SPLIT_PATH.every(
     (pathFragment, i) => pathFragment === currentRoute.SPLIT_PATH[i]
   )
+
+  const lastBit = currentRoute.SPLIT_PATH[currentRoute.SPLIT_PATH.length - 1]
+  const lastFragmentIsEditPath = Object.values(URL_FRAGMENTS.EDIT).some((f) => lastBit.endsWith(f))
+
+  // URL_FRAGMENTS.EDIT is appended at the end of a read path of the same type.
+  // E.g. /eservice/myid becomes /eservice/myid/edit. So it's always same length + 1
+  const isFalseParent = currentRoute.SPLIT_PATH.length === possibleParentRoute.SPLIT_PATH.length + 1
+
+  if (allSameFragments && lastFragmentIsEditPath && isFalseParent) {
+    return false
+  }
+
+  return allSameFragments
 }
 
 export function isProviderOrSubscriber(location: Location<unknown>): ProviderOrSubscriber | null {
@@ -121,7 +135,7 @@ export function buildDynamicRoute(route: MappedRouteConfig, dynamicParams: Recor
   return { ...route, PATH: buildDynamicPath(route.PATH, dynamicParams) }
 }
 
-export function decorateRouteWithParents(
+function decorateRouteWithParents(
   routes: Record<string, MappedRouteConfig>
 ): Record<string, MappedRouteConfig> {
   const withSplitPath: Record<string, MappedRouteConfig & { SPLIT_PATH: string[] }> = Object.keys(
@@ -140,6 +154,7 @@ export function decorateRouteWithParents(
     const parents = Object.values(withSplitPath).filter((possibleParentRoute) =>
       isParentRoute(possibleParentRoute, currentRoute)
     )
+
     const sortedParents = sortBy(parents, (p) => p.SPLIT_PATH.length)
 
     return { ...acc, [next]: { ...currentRoute, PARENTS: sortedParents } }
@@ -148,7 +163,7 @@ export function decorateRouteWithParents(
   return withParents
 }
 
-export function mapRoutesToLang(routes: Record<string, RouteConfig>, lang: Lang) {
+function mapRoutesToLang(routes: Record<string, RouteConfig>, lang: Lang) {
   const reduced = Object.keys(routes).reduce((acc, nextKey) => {
     const PATH = routes[nextKey].PATH[lang]
     const LABEL = routes[nextKey].LABEL[lang]
@@ -162,4 +177,12 @@ export function mapRoutesToLang(routes: Record<string, RouteConfig>, lang: Lang)
   }, {})
 
   return reduced
+}
+
+export function getDecoratedRoutes(): Record<Lang, Record<string, MappedRouteConfig>> {
+  return LANGUAGES.reduce((acc, l) => {
+    const mapped = mapRoutesToLang(BASIC_ROUTES, l)
+    const decorated = decorateRouteWithParents(mapped)
+    return { ...acc, [l]: decorated }
+  }, {})
 }

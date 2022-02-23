@@ -142,7 +142,6 @@ export type ProviderOrSubscriber = Provider | Subscriber
 export type StepperStepComponentProps = {
   forward: (e?: React.SyntheticEvent, data?: Record<string, unknown>) => void
   back: () => void
-  data: Record<string, unknown>
 }
 
 export type StepperStep = {
