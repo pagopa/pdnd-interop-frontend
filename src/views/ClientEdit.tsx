@@ -1,8 +1,7 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
-import { Tab, Tabs, Typography } from '@mui/material'
+import { Tab, Tabs } from '@mui/material'
 import { Client } from '../../types'
-import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { getBits } from '../lib/router-utils'
@@ -41,7 +40,9 @@ export function ClientEdit() {
 
   return (
     <React.Fragment>
-      <StyledIntro sx={{ mb: 0 }}>{{ title: data.name }}</StyledIntro>
+      <StyledIntro sx={{ mb: 0 }}>
+        {{ title: data.name, description: data.description }}
+      </StyledIntro>
 
       <Tabs
         value={activeTab}
@@ -50,32 +51,26 @@ export function ClientEdit() {
         sx={{ my: 6 }}
         variant="fullWidth"
       >
-        <Tab label="Dettagli del client" {...a11yProps(0)} />
-        <Tab label="Operatori di sicurezza" {...a11yProps(1)} />
-        <Tab label="Chiavi pubbliche" {...a11yProps(2)} />
+        <Tab label="Operatori di sicurezza" {...a11yProps(0)} />
+        <Tab label="Chiavi pubbliche" {...a11yProps(1)} />
       </Tabs>
 
-      <TabPanel value={activeTab} index={0}>
-        <DescriptionBlock label="Descrizione">
-          <Typography component="span">{data.description}</Typography>
-        </DescriptionBlock>
-
+      {/* <TabPanel value={activeTab} index={0}>
         <DescriptionBlock label="Descrizione" childWrapperSx={{ pt: 0 }}>
-          {/* <EditableField
+          <EditableField
             value={data.description}
             onSave={wrapFieldUpdate('description')}
             ariaLabel="Modifica descrizione"
             multiline={true}
-          /> */}
-          <Typography component="span">{data.description}</Typography>
+          />
         </DescriptionBlock>
-      </TabPanel>
+      </TabPanel> */}
 
-      <TabPanel value={activeTab} index={1}>
+      <TabPanel value={activeTab} index={0}>
         <UserList />
       </TabPanel>
 
-      <TabPanel value={activeTab} index={2}>
+      <TabPanel value={activeTab} index={1}>
         <KeysList />
       </TabPanel>
     </React.Fragment>

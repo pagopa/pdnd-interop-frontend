@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useFormik } from 'formik'
 import { array, object, string } from 'yup'
 import { StyledIntro } from '../components/Shared/StyledIntro'
@@ -8,11 +9,12 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
 import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
-import { AddSecurityOperatorFormInputValues, User } from '../../types'
+import { AddSecurityOperatorFormInputValues, ClientKind, User } from '../../types'
 import { Box } from '@mui/system'
 import { DeleteOutline as DeleteOutlineIcon } from '@mui/icons-material'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { useRoute } from '../hooks/useRoute'
+import { parseSearch } from '../lib/router-utils'
 
 type ClientFields = {
   name: string
@@ -21,20 +23,25 @@ type ClientFields = {
 }
 
 export function ClientCreate() {
-  const { /* runActionWithDestination, */ runFakeAction } = useFeedback()
+  const { runActionWithDestination } = useFeedback()
   const { party } = useContext(PartyContext)
   const { setDialog } = useContext(DialogContext)
   const { routes } = useRoute()
+  const location = useLocation()
+  const queryParams = parseSearch(location.search)
+  const kind = (queryParams?.kind as ClientKind | undefined) || 'consumer'
 
   const onSubmit = async (data: ClientFields) => {
-    const dataToPost = { ...data, consumerId: party?.partyId }
+    const dataToPost = { ...data, consumerId: party?.partyId, kind }
+
+    const destination =
+      kind === 'consumer' ? routes.SUBSCRIBE_CLIENT_LIST : routes.PROVIDE_INTEROP_M2M
 
     // TEMP PIN-933: as soon as backend purpose is deployed, plug back in actual action
-    runFakeAction(`Client esempio creato con i seguenti dati ${JSON.stringify(dataToPost)}`)
-    // await runActionWithDestination(
-    // { path: { endpoint: 'CLIENT_CREATE' }, config: { data: dataToPost } },
-    // { destination: ROUTES.SUBSCRIBE_CLIENT_LIST, suppressToast: false }
-    // )
+    await runActionWithDestination(
+      { path: { endpoint: 'CLIENT_CREATE' }, config: { data: dataToPost } },
+      { destination, suppressToast: false }
+    )
   }
 
   const validationSchema = object({

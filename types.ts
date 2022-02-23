@@ -457,7 +457,10 @@ export type Client = {
   name: string
   description: string
   operators: Array<User>
+  kind: ClientKind
 }
+
+export type ClientKind = 'consumer' | 'api'
 
 /*
  * Public keys

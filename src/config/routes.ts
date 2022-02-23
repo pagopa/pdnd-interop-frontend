@@ -23,6 +23,8 @@ import { PurposeCreate } from '../views/PurposeCreate'
 import { EServiceRead } from '../views/EServiceRead'
 import { EServiceCreate } from '../views/EServiceCreate'
 import { EServiceManage } from '../views/EServiceManage'
+import { InteropM2M } from '../views/InteropM2M'
+import { ClientAssertionGuide } from '../views/ClientAssertionGuide'
 
 export const BASIC_ROUTES: Record<string, RouteConfig> = {
   LOGOUT: {
@@ -41,6 +43,12 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     PATH: { it: '/it/generazione-chiavi', en: '/en/generate-keys' },
     LABEL: { it: 'Come caricare le chiavi di sicurezza', en: 'How to upload public keys' },
     COMPONENT: SecurityKeyGuide,
+    PUBLIC: true,
+  },
+  CLIENT_ASSERTION_GUIDE: {
+    PATH: { it: '/it/client-assertion', en: '/en/client-assertion' },
+    LABEL: { it: 'Come implementare la client assertion', en: 'How to implement client assertion' },
+    COMPONENT: ClientAssertionGuide,
     PUBLIC: true,
   },
   CHOOSE_PARTY: {
@@ -280,6 +288,39 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     COMPONENT: AgreementList,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
+  },
+  SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT: {
+    PATH: {
+      it: '/it/fruizione/interop-m2m/:clientId/chiavi/:kid',
+      en: '/en/subscriber/interop-m2m/:clientId/keys/:kid',
+    },
+    LABEL: { it: 'Gestisci chiave pubblica del client', en: 'Manage client public key' },
+    EXACT: false,
+    COMPONENT: KeyEdit,
+    PUBLIC: false,
+    AUTH_LEVELS: ['admin', 'security'],
+  },
+  SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE: {
+    PATH: { it: '/it/fruizione/interop-m2m/crea', en: '/en/subscriber/interop-m2m/create' },
+    LABEL: { it: 'Crea client M2M', en: 'Create M2M client' },
+    COMPONENT: ClientCreate,
+    PUBLIC: false,
+    AUTH_LEVELS: ['admin'],
+  },
+  SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT: {
+    PATH: { it: '/it/fruizione/interop-m2m/:clientId', en: '/en/subscriber/interop-m2m/:clientId' },
+    LABEL: { it: 'Gestisci client M2M', en: 'Manage M2M client' },
+    EXACT: true,
+    COMPONENT: ClientEdit,
+    PUBLIC: false,
+    AUTH_LEVELS: ['admin', 'security'],
+  },
+  SUBSCRIBE_INTEROP_M2M: {
+    PATH: { it: '/it/fruizione/interop-m2m', en: '/en/subscriber/interop-m2m' },
+    LABEL: { it: 'Interop M2M', en: 'Interop M2M' },
+    COMPONENT: InteropM2M,
+    PUBLIC: false,
+    AUTH_LEVELS: ['admin', 'security'],
   },
   SUBSCRIBE: {
     PATH: { it: '/it/fruizione', en: '/en/subscriber' },
