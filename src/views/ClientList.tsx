@@ -16,10 +16,10 @@ import { axiosErrorToError } from '../lib/error-utils'
 import { useRoute } from '../hooks/useRoute'
 
 type ClientListProps = {
-  kind?: ClientKind
+  clientKind?: ClientKind
 }
 
-export const ClientList: FunctionComponent<ClientListProps> = ({ kind = 'consumer' }) => {
+export const ClientList: FunctionComponent<ClientListProps> = ({ clientKind = 'consumer' }) => {
   const { party } = useContext(PartyContext)
   const { routes } = useRoute()
   const { user } = useUser()
@@ -27,11 +27,11 @@ export const ClientList: FunctionComponent<ClientListProps> = ({ kind = 'consume
 
   // Clients can be M2M clients for provider, or Purpose clients for subscriber
   const createPath =
-    kind === 'consumer'
+    clientKind === 'consumer'
       ? routes.SUBSCRIBE_CLIENT_CREATE.PATH
       : routes.SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE.PATH
   const editPath =
-    kind === 'consumer'
+    clientKind === 'consumer'
       ? routes.SUBSCRIBE_CLIENT_EDIT.PATH
       : routes.SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT.PATH
 
@@ -40,7 +40,7 @@ export const ClientList: FunctionComponent<ClientListProps> = ({ kind = 'consume
       path: { endpoint: 'CLIENT_GET_LIST' },
       config: {
         params: {
-          kind,
+          kind: clientKind,
           consumerId: party?.partyId,
           // If it is admin, it can see all clients; if operator, only those it is associated to
           operatorId: user && party && party.productInfo.role === 'security' ? user.id : undefined,
@@ -57,7 +57,7 @@ export const ClientList: FunctionComponent<ClientListProps> = ({ kind = 'consume
 
   return (
     <React.Fragment>
-      {kind === 'consumer' && (
+      {clientKind === 'consumer' && (
         <StyledIntro>
           {{
             title: 'I tuoi client',

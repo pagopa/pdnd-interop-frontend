@@ -30,10 +30,10 @@ type KeyToPostProps = SecurityOperatorKeysFormInputValues & {
 }
 
 type KeysListProps = {
-  kind?: ClientKind
+  clientKind?: ClientKind
 }
 
-export const KeysList: FunctionComponent<KeysListProps> = ({ kind = 'consumer' }) => {
+export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'consumer' }) => {
   const location = useLocation()
   const locationBits = getBits(location)
   const clientId = locationBits[locationBits.length - 1]
@@ -164,7 +164,7 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ kind = 'consumer' }
               onClick={() => {
                 history.push(
                   buildDynamicPath(
-                    kind === 'api'
+                    clientKind === 'api'
                       ? routes.SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT.PATH
                       : routes.SUBSCRIBE_CLIENT_KEY_EDIT.PATH,
                     {

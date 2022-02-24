@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Formik } from 'formik'
 import { useLocation } from 'react-router-dom'
 import { useMode } from '../hooks/useMode'
-import { ClientKind, Party, ProviderOrSubscriber, UserOnCreate } from '../../types'
+import { Party, ProviderOrSubscriber, UserOnCreate } from '../../types'
 import { PartyContext } from '../lib/context'
 import { buildDynamicRoute, getBits } from '../lib/router-utils'
 import { StyledIntro, StyledIntroChildrenProps } from '../components/Shared/StyledIntro'
@@ -17,6 +17,7 @@ import {
   userCreationFormValidationSchema,
 } from '../config/forms'
 import { useRoute } from '../hooks/useRoute'
+import { useClientKind } from '../hooks/useClientKind'
 
 export function UserCreate() {
   const { runActionWithDestination, runAction } = useFeedback()
@@ -25,6 +26,7 @@ export function UserCreate() {
   const { routes } = useRoute()
   const currentMode = mode as ProviderOrSubscriber
   const { party } = useContext(PartyContext)
+  const clientKind = useClientKind()
 
   const onSubmit = async (operator: Partial<UserOnCreate>) => {
     const userData = {
@@ -35,7 +37,6 @@ export function UserCreate() {
     }
     const { institutionId } = party as Party
     const dataToPost = { users: [userData], institutionId, contract: userCreationFormContract }
-    const kind: ClientKind = location.pathname.includes('interop-m2m') ? 'api' : 'consumer'
 
     if (mode === 'provider') {
       // Create the api operator
@@ -54,7 +55,9 @@ export function UserCreate() {
       const clientId = bits[bits.length - 3]
 
       const destinationPath =
-        kind === 'api' ? routes.SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT : routes.SUBSCRIBE_CLIENT_EDIT
+        clientKind === 'api'
+          ? routes.SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT
+          : routes.SUBSCRIBE_CLIENT_EDIT
 
       // Then, join it with the client it belongs to
       await runActionWithDestination(

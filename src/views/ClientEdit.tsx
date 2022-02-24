@@ -1,7 +1,7 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 import { Tab, Tabs } from '@mui/material'
-import { Client, ClientKind } from '../../types'
+import { Client } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { getBits } from '../lib/router-utils'
@@ -12,6 +12,7 @@ import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 import { KeysList } from '../components/KeysList'
 // import { EditableField } from '../components/Shared/EditableField'
 import { useActiveTab } from '../hooks/useActiveTab'
+import { useClientKind } from '../hooks/useClientKind'
 
 export function ClientEdit() {
   const location = useLocation()
@@ -19,7 +20,7 @@ export function ClientEdit() {
   const { activeTab, updateActiveTab } = useActiveTab()
   const locationBits = getBits(location)
   const clientId = locationBits[locationBits.length - 1]
-  const kind: ClientKind = location.pathname.includes('interop-m2m') ? 'api' : 'consumer'
+  const clientKind = useClientKind()
   const { data } = useAsyncFetch<Client>(
     {
       path: { endpoint: 'CLIENT_GET_SINGLE', endpointParams: { clientId } },
@@ -68,11 +69,11 @@ export function ClientEdit() {
       </TabPanel> */}
 
       <TabPanel value={activeTab} index={0}>
-        <UserList kind={kind} />
+        <UserList clientKind={clientKind} />
       </TabPanel>
 
       <TabPanel value={activeTab} index={1}>
-        <KeysList kind={kind} />
+        <KeysList clientKind={clientKind} />
       </TabPanel>
     </React.Fragment>
   )

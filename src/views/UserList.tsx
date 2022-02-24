@@ -19,10 +19,10 @@ import { useRoute } from '../hooks/useRoute'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 
 type UserListProps = {
-  kind?: ClientKind
+  clientKind?: ClientKind
 }
 
-export const UserList: FunctionComponent<UserListProps> = ({ kind = 'consumer' }) => {
+export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'consumer' }) => {
   const history = useHistory()
   const { routes } = useRoute()
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
@@ -89,7 +89,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ kind = 'consumer' }
     }
 
     const subscriberPath =
-      kind === 'api'
+      clientKind === 'api'
         ? routes.SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_CREATE.PATH
         : routes.SUBSCRIBE_CLIENT_OPERATOR_CREATE.PATH
     return buildDynamicPath(subscriberPath, { clientId })
@@ -101,7 +101,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ kind = 'consumer' }
     }
 
     const subscriberRoute =
-      kind === 'api'
+      clientKind === 'api'
         ? routes.SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT.PATH
         : routes.SUBSCRIBE_CLIENT_OPERATOR_EDIT.PATH
 
