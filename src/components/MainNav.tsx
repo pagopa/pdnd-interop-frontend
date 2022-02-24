@@ -52,6 +52,7 @@ export const MainNav = () => {
           routes.SUBSCRIBE_PURPOSE_LIST,
           routes.SUBSCRIBE_CLIENT_LIST,
           routes.SUBSCRIBE_AGREEMENT_LIST,
+          routes.SUBSCRIBE_INTEROP_M2M,
         ],
       },
     ],

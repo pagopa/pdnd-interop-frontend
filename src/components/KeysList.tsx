@@ -1,10 +1,11 @@
-import React, { useContext } from 'react'
+import React, { FunctionComponent, useContext } from 'react'
 import { Box } from '@mui/system'
 import { AxiosResponse } from 'axios'
 import { useHistory, useLocation } from 'react-router-dom'
 import { object, string } from 'yup'
 import {
   ActionProps,
+  ClientKind,
   PublicKeyItem,
   PublicKeys,
   SecurityOperatorKeysFormInputValues,
@@ -28,7 +29,11 @@ type KeyToPostProps = SecurityOperatorKeysFormInputValues & {
   operatorId: string
 }
 
-export function KeysList() {
+type KeysListProps = {
+  kind?: ClientKind
+}
+
+export const KeysList: FunctionComponent<KeysListProps> = ({ kind = 'consumer' }) => {
   const location = useLocation()
   const locationBits = getBits(location)
   const clientId = locationBits[locationBits.length - 1]
@@ -157,10 +162,15 @@ export function KeysList() {
               size="small"
               onClick={() => {
                 history.push(
-                  buildDynamicPath(routes.SUBSCRIBE_CLIENT_KEY_EDIT.PATH, {
-                    clientId,
-                    kid: key.kid,
-                  })
+                  buildDynamicPath(
+                    kind === 'api'
+                      ? routes.SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT.PATH
+                      : routes.SUBSCRIBE_CLIENT_KEY_EDIT.PATH,
+                    {
+                      clientId,
+                      kid: key.kid,
+                    }
+                  )
                 )
               }}
             >
