@@ -6,7 +6,7 @@ COPY ./package.json /app/package.json
 COPY ./package-lock.json /app/package-lock.json
 COPY ./.git /app/
 
-RUN npm install
+RUN npm install --loglevel verbose
 COPY . /app/
 RUN npm run build
 
