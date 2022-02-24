@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
-import { Tab, Tabs, Typography } from '@mui/material'
+import { Tab, Typography } from '@mui/material'
+import { TabList, TabContext, TabPanel } from '@mui/lab'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { a11yProps, TabPanel } from '../components/TabPanel'
 import { useActiveTab } from '../hooks/useActiveTab'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { EServiceReadType } from '../../types'
@@ -16,7 +16,7 @@ import { PartyContext } from '../lib/context'
 import { isAdmin } from '../lib/auth-utils'
 
 export function InteropM2M() {
-  const { activeTab, updateActiveTab } = useActiveTab()
+  const { activeTab, updateActiveTab } = useActiveTab('details')
   const { routes } = useRoute()
   const { party } = useContext(PartyContext)
 
@@ -49,42 +49,46 @@ export function InteropM2M() {
 
       {isAdmin(party) ? (
         <React.Fragment>
-          <Tabs
-            value={activeTab}
-            onChange={updateActiveTab}
-            aria-label="Due tab diverse per i dettagli dell'interop m2m ed i client associati"
-            sx={{ my: 6 }}
-            variant="fullWidth"
-          >
-            <Tab label="Dettagli" {...a11yProps(0)} />
-            <Tab label="Client associati" {...a11yProps(1)} />
-          </Tabs>
+          <TabContext value={activeTab}>
+            <TabList
+              onChange={updateActiveTab}
+              aria-label="Due tab diverse per i dettagli dell'interop m2m ed i client associati"
+              sx={{ my: 6 }}
+              variant="fullWidth"
+            >
+              <Tab label="Dettagli" value="details" />
+              <Tab label="Client associati" value="clients" />
+            </TabList>
 
-          <TabPanel value={activeTab} index={0}>
-            <Contained>
-              <DescriptionBlock label="Interfaccia (OpenAPI) – versione corrente">
-                Questa versione dell’API è deprecata. Sarà ritirata il 15/02/2022
-                <StyledButton sx={{ ml: 3, px: 1, py: 1 }} onClick={wrapDownload('current')}>
-                  <FileDownloadOutlinedIcon />
-                </StyledButton>
-              </DescriptionBlock>
+            <TabPanel value="details">
+              <Contained>
+                <DescriptionBlock label="Interfaccia (OpenAPI) – versione corrente">
+                  Questa versione dell’API è deprecata. Sarà ritirata il 15/02/2022
+                  <StyledButton sx={{ ml: 3, px: 1, py: 1 }} onClick={wrapDownload('current')}>
+                    <FileDownloadOutlinedIcon />
+                  </StyledButton>
+                </DescriptionBlock>
 
-              <DescriptionBlock label="Interfaccia (OpenAPI) – prossima corrente">
-                <StyledButton sx={{ ml: 3, px: 1, py: 1 }} onClick={wrapDownload('next')}>
-                  <FileDownloadOutlinedIcon />
-                </StyledButton>
-              </DescriptionBlock>
+                <DescriptionBlock label="Interfaccia (OpenAPI) – prossima corrente">
+                  <StyledButton sx={{ ml: 3, px: 1, py: 1 }} onClick={wrapDownload('next')}>
+                    <FileDownloadOutlinedIcon />
+                  </StyledButton>
+                </DescriptionBlock>
 
-              <Typography>
-                Interop M2M sfrutta la client assertion per validare il client che effettua la
-                richiesta. Se hai dubbi sull’implementazione,{' '}
-                <StyledLink to={routes.CLIENT_ASSERTION_GUIDE.PATH}> consulta la guida</StyledLink>
-              </Typography>
-            </Contained>
-          </TabPanel>
-          <TabPanel value={activeTab} index={1}>
-            <ClientList clientKind="api" />
-          </TabPanel>
+                <Typography>
+                  Interop M2M sfrutta la client assertion per validare il client che effettua la
+                  richiesta. Se hai dubbi sull’implementazione,{' '}
+                  <StyledLink to={routes.CLIENT_ASSERTION_GUIDE.PATH}>
+                    {' '}
+                    consulta la guida
+                  </StyledLink>
+                </Typography>
+              </Contained>
+            </TabPanel>
+            <TabPanel value="clients">
+              <ClientList clientKind="api" />
+            </TabPanel>
+          </TabContext>
         </React.Fragment>
       ) : (
         <ClientList clientKind="api" />

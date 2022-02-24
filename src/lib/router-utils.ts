@@ -2,6 +2,7 @@ import { Location } from 'history'
 import identity from 'lodash/identity'
 import isEmpty from 'lodash/isEmpty'
 import sortBy from 'lodash/sortBy'
+import QueryString from 'qs'
 import qs from 'qs'
 import {
   RouteConfig,
@@ -90,6 +91,10 @@ export function getLastBit(location: Location<unknown>): string {
 
 export function parseSearch(search: string) {
   return qs.parse(search, { ignoreQueryPrefix: true })
+}
+
+export function stringifySearch(searchObj: Record<string, string> | QueryString.ParsedQs) {
+  return qs.stringify(searchObj)
 }
 
 export function extractDynamicParams(
