@@ -46,11 +46,11 @@ function match<T>(
         return onAskExtension(props)
       case 'subscribe':
         return onSubscribe(props)
-      case 'securityOperatorKey':
+      case 'addSecurityOperatorKey':
         return onAddSecurityOperatorKey(props)
-      case 'existingAttribute':
+      case 'addExistingAttribute':
         return onExistingAttribute(props)
-      case 'newAttribute':
+      case 'createNewAttribute':
         return onNewAttribute(props)
       case 'addSecurityOperator':
         return onAddSecurityOperator(props)

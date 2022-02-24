@@ -57,7 +57,7 @@ export function EServiceAttributeGroup({
     }
 
     setDialog({
-      type: 'newAttribute',
+      type: 'createNewAttribute',
       attributeKey,
       onSubmit: createNewAttribute,
       initialValues: createNewAttributeInitialValues,
@@ -82,7 +82,7 @@ export function EServiceAttributeGroup({
     }
 
     setDialog({
-      type: 'existingAttribute',
+      type: 'addExistingAttribute',
       attributeKey,
       initialValues: existingAttributeInitialValues,
       onSubmit: addExistingAttributes,

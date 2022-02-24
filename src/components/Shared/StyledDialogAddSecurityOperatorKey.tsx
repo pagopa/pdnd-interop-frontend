@@ -33,13 +33,22 @@ export const StyledDialogAddSecurityOperatorKey: FunctionComponent<DialogAddSecu
 
                 <DialogContent>
                   <StyledInputControlledText
+                    name="name"
+                    label="Nome della chiave (richiesto)"
+                    infoLabel="Ti aiuta a distinguerla dalle altre"
+                    error={errors.name}
+                    value={values.name}
+                    onChange={handleChange}
+                    focusOnMount={true}
+                  />
+
+                  <StyledInputControlledText
                     name="key"
-                    label="Chiave pubblica*"
+                    label="Chiave pubblica (richiesto)"
                     error={errors.key}
                     value={values.key}
                     multiline={true}
                     onChange={handleChange}
-                    focusOnMount={true}
                   />
                 </DialogContent>
 

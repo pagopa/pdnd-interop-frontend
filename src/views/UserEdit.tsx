@@ -196,7 +196,7 @@ export function UserEdit() {
                 })}
                 sx={{ display: 'block' }}
               >
-                {key.kid}
+                {key.name}
               </StyledLink>
             ))
           ) : (

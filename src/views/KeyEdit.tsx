@@ -65,12 +65,14 @@ export function KeyEdit() {
     <React.Fragment>
       <StyledIntro>{{ title: 'Gestisci chiave pubblica' }}</StyledIntro>
       <Box sx={{ mt: 6 }}>
-        <DescriptionBlock label="Id della chiave">
+        <DescriptionBlock label="Nome della chiave">{data?.key.name}</DescriptionBlock>
+
+        <DescriptionBlock label="Id della chiave (kid)">
           {data?.key && (
             <InlineClipboard text={data.key.kid} successFeedbackText="Id copiato correttamente" />
           )}
         </DescriptionBlock>
-        <DescriptionBlock label="Id del client">
+        <DescriptionBlock label="Id del client (clientId)">
           <InlineClipboard text={clientId} successFeedbackText="Id copiato correttamente" />
         </DescriptionBlock>
       </Box>

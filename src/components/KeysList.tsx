@@ -97,8 +97,9 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ kind = 'consumer' }
     return actions
   }
 
-  const uploadKeyFormInitialValues: SecurityOperatorKeysFormInputValues = { key: '' }
+  const uploadKeyFormInitialValues: SecurityOperatorKeysFormInputValues = { name: '', key: '' }
   const uploadKeyFormValidationSchema = object({
+    name: string().required(),
     key: string().required(),
   })
 
@@ -110,7 +111,7 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ kind = 'consumer' }
       alg: 'RS256',
       operatorId: user?.id as string,
     }
-    dataToPost.key = btoa(dataToPost.key)
+    dataToPost.key = btoa(dataToPost.key.trim())
 
     await runAction(
       {
@@ -123,14 +124,14 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ kind = 'consumer' }
 
   const openUploadKeyDialog = () => {
     setDialog({
-      type: 'securityOperatorKey',
+      type: 'addSecurityOperatorKey',
       onSubmit: uploadKey,
       initialValues: uploadKeyFormInitialValues,
       validationSchema: uploadKeyFormValidationSchema,
     })
   }
 
-  const headData = ['kid' /*, 'operatore' */]
+  const headData = ['nome della chiave' /*, 'operatore' */]
 
   return (
     <React.Fragment>
@@ -152,7 +153,7 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ kind = 'consumer' }
           <StyledTableRow
             key={i}
             cellData={[
-              { label: `${key.kid.substring(0, 9)}...` },
+              { label: key.name },
               // TEMP PIN-1114
               // { label: '[TEMP BACKEND] Nome e cognome' },
             ]}
