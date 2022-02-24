@@ -4,7 +4,6 @@ import { StyledButton } from './StyledButton'
 import { Menu, MenuItem } from '@mui/material'
 import { ActionProps } from '../../../types'
 import { TableActionMenuContext } from '../../lib/context'
-import uniqueString from 'unique-string'
 import { Box } from '@mui/system'
 
 type ActionMenuProps = {
@@ -42,6 +41,16 @@ export const ActionMenu: FunctionComponent<
   )
 }
 
+function uniqueString(length: number) {
+  let result = ''
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  const charactersLength = characters.length
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength))
+  }
+  return result
+}
+
 const ActionMenuComponent: FunctionComponent<ActionMenuProps> = ({
   actions,
   onOpen,
@@ -50,7 +59,7 @@ const ActionMenuComponent: FunctionComponent<ActionMenuProps> = ({
   snapshotTestInternalId,
 }) => {
   // Needs to be state to avoid it changing on rerender
-  const [id] = useState(snapshotTestInternalId || uniqueString())
+  const [id] = useState(snapshotTestInternalId || uniqueString(8))
   const anchorRef = useRef() as React.MutableRefObject<HTMLSpanElement>
   const anchorId = `basic-button-${id}`
   const menuId = `basic-menu-${id}`
