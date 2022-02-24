@@ -1,5 +1,5 @@
-import { noop } from 'lodash'
 import React from 'react'
+import noop from 'lodash/noop'
 import renderer from 'react-test-renderer'
 import { ToastProps } from '../../../../types'
 import { StyledToast } from '../StyledToast'

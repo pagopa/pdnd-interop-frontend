@@ -15,7 +15,7 @@ import { StyledForm } from './StyledForm'
 import { StyledInputControlledAutocomplete } from './StyledInputControlledAutocomplete'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { PartyContext } from '../../lib/context'
-import { sortBy } from 'lodash'
+import sortBy from 'lodash/sortBy'
 
 export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurityOperatorProps> = ({
   initialValues,

@@ -1,5 +1,5 @@
 import React from 'react'
-import { noop } from 'lodash'
+import noop from 'lodash/noop'
 import renderer from 'react-test-renderer'
 import { InputCheckboxOption } from '../../../../types'
 import { StyledInputControlledCheckbox } from '../StyledInputControlledCheckbox'

@@ -14,7 +14,7 @@ import { StyledForm } from './StyledForm'
 import { StyledInputControlledAutocomplete } from './StyledInputControlledAutocomplete'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { PartyContext } from '../../lib/context'
-import { differenceBy } from 'lodash'
+import differenceBy from 'lodash/differenceBy'
 
 export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = ({
   onSubmit,

@@ -1,6 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { noop } from 'lodash'
+import noop from 'lodash/noop'
 import { ApiEndpointKey } from '../../../../types'
 import { StyledInputControlledAsyncAutocomplete } from '../StyledInputControlledAsyncAutocomplete'
 

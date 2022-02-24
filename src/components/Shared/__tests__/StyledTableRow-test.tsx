@@ -1,6 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { noop } from 'lodash'
+import noop from 'lodash/noop'
 import { createMemoryHistory } from 'history'
 import { StyledTableRow } from '../StyledTableRow'
 import { StyledButton } from '../StyledButton'

@@ -8,7 +8,7 @@ it('Dialog is ok', () => {
 // This is just to make TS compiler read this file as a module, since there are no imports
 export {}
 
-// import { noop } from 'lodash'
+// import noop from 'lodash/noop'
 // import React from 'react'
 // import renderer from 'react-test-renderer'
 // import { AllTheProviders } from '../../../__mocks__/providers'

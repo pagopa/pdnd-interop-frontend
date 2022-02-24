@@ -1,6 +1,6 @@
 import { Box, Grid, Typography } from '@mui/material'
 import { AxiosResponse } from 'axios'
-import { has } from 'lodash'
+import has from 'lodash/has'
 import React, { FunctionComponent } from 'react'
 import {
   AttributeKey,

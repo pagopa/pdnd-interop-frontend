@@ -1,6 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { noop } from 'lodash'
+import noop from 'lodash/noop'
 import { InlineClipboard } from '../InlineClipboard'
 import { render, screen, waitFor, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'

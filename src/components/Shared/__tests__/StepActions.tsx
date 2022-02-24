@@ -1,6 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { noop } from 'lodash'
+import noop from 'lodash/noop'
 import { BackAction, StepActions, ForwardAction } from '../StepActions'
 import { AllTheProviders } from '../../../__mocks__/providers'
 
