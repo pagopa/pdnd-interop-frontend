@@ -4,10 +4,10 @@ WORKDIR /app
 
 COPY ./package.json /app/package.json
 COPY ./package-lock.json /app/package-lock.json
+COPY ./.git /app/
 
-# RUN npm install
-RUN node --max-old-space-size=250 `which npm` install
-COPY . .
+RUN npm install
+COPY . /app/
 RUN npm run build
 
 FROM nginx
