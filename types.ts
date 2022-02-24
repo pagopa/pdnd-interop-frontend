@@ -466,6 +466,7 @@ export type ClientKind = 'consumer' | 'api'
  * Public keys
  */
 export type PublicKeyItem = {
+  name: string
   kid: string
   use: 'SIG' | 'ENC'
   clientId?: string
@@ -619,7 +620,7 @@ export type AddSecurityOperatorFormInputValues = {
 }
 
 export type DialogNewAttributeProps = {
-  type: 'newAttribute'
+  type: 'createNewAttribute'
   attributeKey: AttributeKey
   onSubmit: (data: NewAttributeFormInputValues) => void
   initialValues: NewAttributeFormInputValues
@@ -634,7 +635,7 @@ export type NewAttributeFormInputValues = {
 }
 
 export type DialogExistingAttributeProps = {
-  type: 'existingAttribute'
+  type: 'addExistingAttribute'
   attributeKey: AttributeKey
   onSubmit: (data: ExistingAttributeFormInputValues) => void
   initialValues: ExistingAttributeFormInputValues
@@ -650,13 +651,14 @@ export type ExistingAttributeFormInputValues = {
 }
 
 export type DialogAddSecurityOperatorKeyProps = {
-  type: 'securityOperatorKey'
+  type: 'addSecurityOperatorKey'
   onSubmit: (data: SecurityOperatorKeysFormInputValues) => void
   initialValues: SecurityOperatorKeysFormInputValues
   validationSchema: SchemaOf<SecurityOperatorKeysFormInputValues>
 }
 
 export type SecurityOperatorKeysFormInputValues = {
+  name: string
   key: string
 }
 
