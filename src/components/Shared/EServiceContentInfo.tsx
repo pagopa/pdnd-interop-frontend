@@ -88,10 +88,6 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
   return (
     <Grid container columnSpacing={2}>
       <Grid item xs={8}>
-        <DescriptionBlock label="Descrizione dell'e-service">
-          <Typography component="span">{data.description}</Typography>
-        </DescriptionBlock>
-
         <DescriptionBlock label="Ente erogatore">
           <Typography component="span">{data.producer.name}</Typography>
         </DescriptionBlock>

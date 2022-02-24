@@ -91,7 +91,7 @@ export function EServiceRead() {
       <StyledIntro>
         {{
           title: data?.name,
-          description: `${
+          description: `${data?.description}\n${
             party?.partyId === data?.producer.id
               ? "Nota: sei l'erogatore di questo e-service"
               : undefined

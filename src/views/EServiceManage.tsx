@@ -96,7 +96,9 @@ export function EServiceManage() {
 
   return (
     <React.Fragment>
-      <StyledIntro sx={{ mb: 0 }}>{{ title: eserviceData.name }}</StyledIntro>
+      <StyledIntro sx={{ mb: 0 }}>
+        {{ title: eserviceData.name, description: eserviceData.description }}
+      </StyledIntro>
 
       <Tabs
         value={activeTab}
