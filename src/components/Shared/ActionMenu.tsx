@@ -41,12 +41,12 @@ export const ActionMenu: FunctionComponent<
   )
 }
 
+// From https://stackoverflow.com/a/1349426
 function uniqueString(length: number) {
   let result = ''
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-  const charactersLength = characters.length
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
   for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength))
+    result += chars.charAt(Math.floor(Math.random() * chars.length))
   }
   return result
 }
