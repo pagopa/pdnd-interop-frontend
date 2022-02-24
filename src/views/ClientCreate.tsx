@@ -14,7 +14,6 @@ import { Box } from '@mui/system'
 import { DeleteOutline as DeleteOutlineIcon } from '@mui/icons-material'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { useRoute } from '../hooks/useRoute'
-import { parseSearch } from '../lib/router-utils'
 
 type ClientFields = {
   name: string
@@ -28,8 +27,7 @@ export function ClientCreate() {
   const { setDialog } = useContext(DialogContext)
   const { routes } = useRoute()
   const location = useLocation()
-  const queryParams = parseSearch(location.search)
-  const kind = (queryParams?.kind as ClientKind | undefined) || 'consumer'
+  const kind: ClientKind = location.pathname.includes('interop-m2m') ? 'api' : 'consumer'
 
   const onSubmit = async (data: ClientFields) => {
     const dataToPost = { ...data, consumerId: party?.partyId, kind }

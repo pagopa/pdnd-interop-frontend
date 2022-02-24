@@ -1,7 +1,7 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 import { Tab, Tabs } from '@mui/material'
-import { Client } from '../../types'
+import { Client, ClientKind } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { getBits } from '../lib/router-utils'
@@ -19,6 +19,7 @@ export function ClientEdit() {
   const { activeTab, updateActiveTab } = useActiveTab()
   const locationBits = getBits(location)
   const clientId = locationBits[locationBits.length - 1]
+  const kind: ClientKind = location.pathname.includes('interop-m2m') ? 'api' : 'consumer'
   const { data } = useAsyncFetch<Client>(
     {
       path: { endpoint: 'CLIENT_GET_SINGLE', endpointParams: { clientId } },
@@ -67,11 +68,11 @@ export function ClientEdit() {
       </TabPanel> */}
 
       <TabPanel value={activeTab} index={0}>
-        <UserList />
+        <UserList kind={kind} />
       </TabPanel>
 
       <TabPanel value={activeTab} index={1}>
-        <KeysList />
+        <KeysList kind={kind} />
       </TabPanel>
     </React.Fragment>
   )

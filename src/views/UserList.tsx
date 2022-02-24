@@ -1,31 +1,41 @@
-import React, { useContext } from 'react'
-import { useLocation } from 'react-router'
-import { User } from '../../types'
+import React, { FunctionComponent, useContext } from 'react'
+import { useHistory } from 'react-router'
+import { ClientKind, User } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useMode } from '../hooks/useMode'
 import { TempFilters } from '../components/TempFilters'
 import { PartyContext, TokenContext } from '../lib/context'
-import { getBits } from '../lib/router-utils'
+import { buildDynamicPath, getBits } from '../lib/router-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATE_LABEL } from '../config/labels'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { axiosErrorToError } from '../lib/error-utils'
+import { Box } from '@mui/material'
+import { isAdmin } from '../lib/auth-utils'
+import { useRoute } from '../hooks/useRoute'
+import { ActionMenu } from '../components/Shared/ActionMenu'
 
-export function UserList() {
-  const location = useLocation()
+type UserListProps = {
+  kind?: ClientKind
+}
+
+export const UserList: FunctionComponent<UserListProps> = ({ kind = 'consumer' }) => {
+  const history = useHistory()
+  const { routes } = useRoute()
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
 
   // Only for subscriber
-  const locationBits = getBits(location)
+  const locationBits = getBits(history.location)
   const clientId = locationBits[locationBits.length - 1]
 
   const mode = useMode()
   const { party } = useContext(PartyContext)
   const { token } = useContext(TokenContext)
-  const endpoint = mode === 'provider' ? 'USER_GET_LIST' : 'OPERATOR_SECURITY_GET_LIST' // TODO: remove after integration with selfcare
+  // TODO: remove after integration with selfcare
+  const endpoint = mode === 'provider' ? 'USER_GET_LIST' : 'OPERATOR_SECURITY_GET_LIST'
   const endpointParams =
     mode === 'provider' ? { institutionId: party?.institutionId } : { clientId }
   const params = mode === 'provider' ? { productRoles: ['admin', 'api'].join(',') } : {}
@@ -57,6 +67,47 @@ export function UserList() {
    * End list of actions
    */
 
+  const getAvailableActions = (user: User) => {
+    if (mode === 'subscriber') {
+      const removeFromClientAction = {
+        onClick: wrapActionInDialog(
+          wrapRemoveFromClient(user.id),
+          'OPERATOR_SECURITY_REMOVE_FROM_CLIENT'
+        ),
+        label: 'Rimuovi dal client',
+      }
+
+      return [removeFromClientAction]
+    }
+
+    return []
+  }
+
+  const getAddBtnRoute = () => {
+    if (mode === 'provider') {
+      return routes.PROVIDE_OPERATOR_CREATE.PATH
+    }
+
+    const subscriberPath =
+      kind === 'api'
+        ? routes.SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_CREATE.PATH
+        : routes.SUBSCRIBE_CLIENT_OPERATOR_CREATE.PATH
+    return buildDynamicPath(subscriberPath, { clientId })
+  }
+
+  const getEditBtnRoute = (item: User) => {
+    if (mode === 'provider') {
+      return buildDynamicPath(routes.PROVIDE_OPERATOR_EDIT.PATH, { operatorId: item.id })
+    }
+
+    const subscriberRoute =
+      kind === 'api'
+        ? routes.SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT.PATH
+        : routes.SUBSCRIBE_CLIENT_OPERATOR_EDIT.PATH
+
+    return buildDynamicPath(subscriberRoute, { clientId, operatorId: item.id })
+  }
+
   const headData = ['nome e cognome', 'ruolo', 'permessi', 'stato']
 
   return (
@@ -71,20 +122,13 @@ export function UserList() {
         </StyledIntro>
       )}
 
-      {/* {isAdmin(party) && (
+      {isAdmin(party) && (
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-          <StyledButton
-            variant="contained"
-            to={
-              mode === 'provider'
-                ? routes.PROVIDE_OPERATOR_CREATE.PATH
-                : buildDynamicPath(routes.SUBSCRIBE_CLIENT_OPERATOR_CREATE.PATH, { clientId })
-            }
-          >
+          <StyledButton variant="contained" to={getAddBtnRoute()}>
             + Aggiungi
           </StyledButton>
         </Box>
-      )} */}
+      )}
 
       <TempFilters />
 
@@ -109,13 +153,14 @@ export function UserList() {
               <StyledButton
                 variant="outlined"
                 size="small"
-                onClick={wrapActionInDialog(
-                  wrapRemoveFromClient(item.id),
-                  'OPERATOR_SECURITY_REMOVE_FROM_CLIENT'
-                )}
+                onClick={() => {
+                  history.push(getEditBtnRoute(item))
+                }}
               >
-                Rimuovi
+                Ispeziona
               </StyledButton>
+
+              <ActionMenu actions={getAvailableActions(item)} />
             </StyledTableRow>
           ))}
       </TableWithLoader>

@@ -289,6 +289,28 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },
+  SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_CREATE: {
+    PATH: {
+      it: '/it/fruizione/interop-m2m/:clientId/operatori/crea',
+      en: '/en/subscriber/interop-m2m/:clientId/operators/create',
+    },
+    LABEL: { it: 'Crea operatore di sicurezza', en: 'Create security operator' },
+    EXACT: false,
+    COMPONENT: UserCreate,
+    PUBLIC: false,
+    AUTH_LEVELS: ['admin'],
+  },
+  SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT: {
+    PATH: {
+      it: '/it/fruizione/interop-m2m/:clientId/operatori/:operatorId',
+      en: '/en/subscriber/interop-m2m/:clientId/operators/:operatorId',
+    },
+    LABEL: { it: 'Gestisci operatore del client', en: 'Manage client operator' },
+    EXACT: false,
+    COMPONENT: UserEdit,
+    PUBLIC: false,
+    AUTH_LEVELS: ['admin', 'security'],
+  },
   SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT: {
     PATH: {
       it: '/it/fruizione/interop-m2m/:clientId/chiavi/:kid',

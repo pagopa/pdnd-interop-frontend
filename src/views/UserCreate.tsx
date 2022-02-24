@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Formik } from 'formik'
 import { useLocation } from 'react-router-dom'
 import { useMode } from '../hooks/useMode'
-import { Party, ProviderOrSubscriber, UserOnCreate } from '../../types'
+import { ClientKind, Party, ProviderOrSubscriber, UserOnCreate } from '../../types'
 import { PartyContext } from '../lib/context'
 import { buildDynamicRoute, getBits } from '../lib/router-utils'
 import { StyledIntro, StyledIntroChildrenProps } from '../components/Shared/StyledIntro'
@@ -35,6 +35,7 @@ export function UserCreate() {
     }
     const { institutionId } = party as Party
     const dataToPost = { users: [userData], institutionId, contract: userCreationFormContract }
+    const kind: ClientKind = location.pathname.includes('interop-m2m') ? 'api' : 'consumer'
 
     if (mode === 'provider') {
       // Create the api operator
@@ -52,6 +53,9 @@ export function UserCreate() {
       const bits = getBits(location)
       const clientId = bits[bits.length - 3]
 
+      const destinationPath =
+        kind === 'api' ? routes.SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT : routes.SUBSCRIBE_CLIENT_EDIT
+
       // Then, join it with the client it belongs to
       await runActionWithDestination(
         {
@@ -64,7 +68,7 @@ export function UserCreate() {
           },
         },
         {
-          destination: buildDynamicRoute(routes.SUBSCRIBE_CLIENT_EDIT, { clientId }),
+          destination: buildDynamicRoute(destinationPath, { clientId }),
           suppressToast: false,
         }
       )
