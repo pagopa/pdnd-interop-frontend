@@ -4,10 +4,10 @@ WORKDIR /app
 
 COPY ./package.json /app/package.json
 COPY ./package-lock.json /app/package-lock.json
-COPY ./.git /app/
+# COPY ./.git /app/
 
-RUN npm install --loglevel verbose
-COPY . /app/
+RUN npm install
+COPY . .
 RUN npm run build
 
 FROM nginx
