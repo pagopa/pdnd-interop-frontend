@@ -35,7 +35,7 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
   },
   HELP: {
     PATH: { it: '/it/aiuto', en: '/en/help' },
-    LABEL: { it: 'Serve aiuto?', en: 'Need help?' },
+    LABEL: { it: 'Guida introduttiva', en: 'Introductive guide' },
     COMPONENT: Help,
     PUBLIC: true,
   },
@@ -112,7 +112,7 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
   },
   PROVIDE_AGREEMENT_EDIT: {
     PATH: { it: '/it/erogazione/accordi/:agreementId', en: '/en/provider/agreements/:agreementId' },
-    LABEL: { it: 'Gestisci accordo', en: 'Manage agreement' },
+    LABEL: { it: 'Gestisci richiesta', en: 'Manage request' },
     EXACT: false,
     COMPONENT: AgreementEdit,
     PUBLIC: false,
@@ -120,7 +120,7 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
   },
   PROVIDE_AGREEMENT_LIST: {
     PATH: { it: '/it/erogazione/accordi', en: '/en/provider/agreements' },
-    LABEL: { it: 'I tuoi accordi', en: 'Your agreements' },
+    LABEL: { it: 'Richieste di fruizione', en: 'Requests for use' },
     EXACT: true,
     COMPONENT: AgreementList,
     PUBLIC: false,
@@ -172,7 +172,7 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
   },
   SUBSCRIBE_CATALOG_LIST: {
     PATH: { it: '/it/fruizione/catalogo-e-service', en: '/en/subscriber/e-service-catalog' },
-    LABEL: { it: 'E-service disponibili', en: 'Available e-services' },
+    LABEL: { it: 'Catalogo e-service', en: 'E-service catalog' },
     EXACT: false,
     COMPONENT: EServiceCatalog,
     PUBLIC: false,
@@ -275,7 +275,7 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
       it: '/it/fruizione/accordi/:agreementId',
       en: '/en/subscriber/agreements/:agreementId',
     },
-    LABEL: { it: 'Gestisci accordo', en: 'Manage agreement' },
+    LABEL: { it: 'Gestisci richiesta', en: 'Manage request' },
     EXACT: false,
     COMPONENT: AgreementEdit,
     PUBLIC: false,
@@ -283,7 +283,7 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
   },
   SUBSCRIBE_AGREEMENT_LIST: {
     PATH: { it: '/it/fruizione/accordi', en: '/en/subscriber/agreements' },
-    LABEL: { it: 'I tuoi accordi', en: 'Your agreements' },
+    LABEL: { it: 'Le tue richieste', en: 'Your requests' },
     EXACT: true,
     COMPONENT: AgreementList,
     PUBLIC: false,

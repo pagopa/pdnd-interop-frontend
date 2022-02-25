@@ -108,7 +108,7 @@ export function EServiceManage() {
           variant="fullWidth"
         >
           <Tab label="Dettagli dell'e-service" value="details" />
-          <Tab label="Stime di carico" value="dailyCalls" />
+          <Tab label="Finalità da evadere" value="purposeAwaitingApproval" />
         </TabList>
 
         <TabPanel value="details">
@@ -122,7 +122,7 @@ export function EServiceManage() {
             </Box>
           </React.Fragment>
         </TabPanel>
-        <TabPanel value="dailyCalls">
+        <TabPanel value="purposeAwaitingApproval">
           <StyledIntro variant="h2">{{ title: 'Finalità in attesa di completamento' }}</StyledIntro>
 
           <TableWithLoader
