@@ -26,7 +26,7 @@ export const useLogin = () => {
       return false
     }
 
-    // If there is a token, check if it is still valid with a call to the backend
+    // If there is a token, check if it is still valid with a dummy call to the backend
     const jwt = parseJwt(sessionStorageToken) as Record<string, string | number | boolean>
     const uid = jwt.uid as string
 
