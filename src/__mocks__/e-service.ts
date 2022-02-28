@@ -18,6 +18,7 @@ export const eserviceDraft: EServiceReadType = {
       {
         single: {
           id: 'dsdsld-dsdlds-lsdasdas',
+          creationTime: '2022-02-28T16:16:18.879093Z',
           explicitAttributeVerification: false,
           verified: false,
           origin: 'dfkdsfk',

@@ -3,6 +3,7 @@ import flattenDeep from 'lodash/flattenDeep'
 import {
   BackendAttribute,
   BackendAttributes,
+  CertifiedAttribute,
   FrontendAttributes,
   GroupBackendAttribute,
   SingleBackendAttribute,
@@ -13,11 +14,24 @@ import {
   remapFrontendAttributesToBackend,
 } from '../attributes'
 
+const exampleCertifiedAttributes: Array<CertifiedAttribute> = [
+  {
+    kind: 'CERTIFIED',
+    id: 'djsifdsj-dsfjdsi-djfds',
+    creationTime: '2022-02-28T16:16:18.879093Z',
+    origin: 'IPA',
+    code: 'djfids-sdfjsdi',
+    name: 'Attributo certificato 1',
+    description: 'Lorem ipsum...',
+  },
+]
+
 const exampleBackendAttributes: BackendAttributes = {
   certified: [
     {
       single: {
         id: 'djsifdsj-dsfjdsi-djfds',
+        creationTime: '2022-02-28T16:16:18.879093Z',
         explicitAttributeVerification: false,
         verified: true,
         origin: 'IPA',
@@ -32,6 +46,7 @@ const exampleBackendAttributes: BackendAttributes = {
       group: [
         {
           id: 'koniosn-ksdjfiods-ndsiofsn',
+          creationTime: '2022-02-28T16:16:18.879093Z',
           explicitAttributeVerification: false,
           verified: false,
           origin: 'IPA',
@@ -41,6 +56,7 @@ const exampleBackendAttributes: BackendAttributes = {
         },
         {
           id: 'oweurweop-dsfjsid-sdhfids',
+          creationTime: '2022-02-28T16:16:18.879093Z',
           explicitAttributeVerification: false,
           verified: false,
           origin: 'IPA',
@@ -53,6 +69,7 @@ const exampleBackendAttributes: BackendAttributes = {
     {
       single: {
         id: 'ncxjvncx-ksdfs-mvnsd',
+        creationTime: '2022-02-28T16:16:18.879093Z',
         explicitAttributeVerification: true,
         verified: true,
         origin: 'IPA',
@@ -66,6 +83,7 @@ const exampleBackendAttributes: BackendAttributes = {
     {
       single: {
         id: 'bruibfer-xuihgx-ldskgjwfn',
+        creationTime: '2022-02-28T16:16:18.879093Z',
         explicitAttributeVerification: false,
         verified: true,
         origin: 'IPA',
@@ -77,6 +95,7 @@ const exampleBackendAttributes: BackendAttributes = {
     {
       single: {
         id: 'oidjfhgs-sdjfsid-engkew',
+        creationTime: '2022-02-28T16:16:18.879093Z',
         explicitAttributeVerification: false,
         verified: true,
         origin: 'IPA',
@@ -94,7 +113,7 @@ const exampleFrontendAttributes: FrontendAttributes = {
       attributes: [
         {
           certified: true,
-          creationTime: '2021-11-11',
+          creationTime: '2022-02-28T16:16:18.879093Z',
           id: 'djsifdsj-dsfjdsi-djfds',
           origin: 'IPA',
           code: 'djfids-sdfjsdi',
@@ -110,7 +129,7 @@ const exampleFrontendAttributes: FrontendAttributes = {
       attributes: [
         {
           certified: false,
-          creationTime: '2021-11-11',
+          creationTime: '2022-02-28T16:16:18.879093Z',
           id: 'koniosn-ksdjfiods-ndsiofsn',
           origin: 'IPA',
           code: 'oiuer-ewur',
@@ -119,7 +138,7 @@ const exampleFrontendAttributes: FrontendAttributes = {
         },
         {
           certified: false,
-          creationTime: '2021-11-11',
+          creationTime: '2022-02-28T16:16:18.879093Z',
           id: 'oweurweop-dsfjsid-sdhfids',
           origin: 'IPA',
           code: 'poijdf-jdsfis',
@@ -133,7 +152,7 @@ const exampleFrontendAttributes: FrontendAttributes = {
       attributes: [
         {
           certified: false,
-          creationTime: '2021-11-11',
+          creationTime: '2022-02-28T16:16:18.879093Z',
           id: 'ncxjvncx-ksdfs-mvnsd',
           origin: 'IPA',
           code: 'osjdfids-dshfisd',
@@ -149,7 +168,7 @@ const exampleFrontendAttributes: FrontendAttributes = {
       attributes: [
         {
           certified: false,
-          creationTime: '2021-11-11',
+          creationTime: '2022-02-28T16:16:18.879093Z',
           id: 'bruibfer-xuihgx-ldskgjwfn',
           origin: 'IPA',
           code: 'oijsdfgs-nwegie',
@@ -163,7 +182,7 @@ const exampleFrontendAttributes: FrontendAttributes = {
       attributes: [
         {
           certified: false,
-          creationTime: '2021-11-11',
+          creationTime: '2022-02-28T16:16:18.879093Z',
           id: 'oidjfhgs-sdjfsid-engkew',
           origin: 'IPA',
           code: 'metorif-sdfns',
@@ -203,15 +222,7 @@ describe('Attributes mapping', () => {
 })
 
 it('Subscriber possesses required certified attributes to subscribe to e-service', () => {
-  const getIds = (attribute: BackendAttribute) => {
-    if (has(attribute, 'single')) {
-      return [(attribute as SingleBackendAttribute).single.id]
-    }
-
-    return (attribute as GroupBackendAttribute).group.map((a) => a.id)
-  }
-
-  const partyAttributes: Array<string> = flattenDeep(exampleBackendAttributes.certified.map(getIds))
+  const partyAttributes = [...exampleCertifiedAttributes]
   const eserviceAttributes: Array<BackendAttribute> = [...exampleBackendAttributes.certified]
 
   expect(canSubscribe(partyAttributes, eserviceAttributes)).toBeTruthy()

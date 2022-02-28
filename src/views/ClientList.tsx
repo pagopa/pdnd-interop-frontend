@@ -41,7 +41,7 @@ export const ClientList: FunctionComponent<ClientListProps> = ({ clientKind = 'c
       config: {
         params: {
           kind: clientKind,
-          consumerId: party?.partyId,
+          consumerId: party?.id,
           // If it is admin, it can see all clients; if operator, only those it is associated to
           operatorId: user && party && party.productInfo.role === 'security' ? user.id : undefined,
         },

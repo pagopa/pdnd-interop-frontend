@@ -46,10 +46,10 @@ export function EServiceCatalog() {
   >(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
-      config: { params: { state: 'PUBLISHED', callerId: party?.partyId } },
+      config: { params: { state: 'PUBLISHED', callerId: party?.id } },
     },
     {
-      mapFn: (data) => data.map((d) => ({ ...d, isMine: d.producerId === party?.partyId })),
+      mapFn: (data) => data.map((d) => ({ ...d, isMine: d.producerId === party?.id })),
       loaderType: 'contextual',
       loadingTextLabel: 'Stiamo caricando la lista degli e-service',
     }
@@ -67,7 +67,7 @@ export function EServiceCatalog() {
     const agreementData = {
       eserviceId: eservice.id,
       descriptorId: eservice.descriptorId,
-      consumerId: party?.partyId,
+      consumerId: party?.id,
     }
 
     await runActionWithDestination(

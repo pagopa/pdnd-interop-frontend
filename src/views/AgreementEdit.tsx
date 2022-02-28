@@ -55,7 +55,7 @@ export function AgreementEdit() {
    * List of possible actions for the user to perform
    */
   const activate = async () => {
-    const { partyId } = party as Party
+    const { id: partyId } = party as Party
     await runAction(
       {
         path: {
@@ -68,7 +68,7 @@ export function AgreementEdit() {
   }
 
   const suspend = async () => {
-    const { partyId } = party as Party
+    const { id: partyId } = party as Party
     await runAction(
       {
         path: {

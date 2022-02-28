@@ -5,10 +5,6 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'party-process/0.1/onboarding/info',
     METHOD: 'GET',
   },
-  PARTY_GET_PARTY_ID: {
-    URL: 'party-management/0.1/organizations/external/:id',
-    METHOD: 'GET',
-  },
   ESERVICE_GET_LIST: {
     URL: 'catalog-process/0.1/eservices',
     METHOD: 'GET',
@@ -80,6 +76,10 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
   },
   ATTRIBUTE_GET_LIST: {
     URL: 'attribute-registry-management/0.1/attributes',
+    METHOD: 'GET',
+  },
+  ATTRIBUTE_GET_SINGLE: {
+    URL: 'attribute-registry-management/0.1/attributes/origin/:origin/code/:code',
     METHOD: 'GET',
   },
   ATTRIBUTE_CREATE: {

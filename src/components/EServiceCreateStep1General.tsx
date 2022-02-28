@@ -81,7 +81,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
     // Format the data like the backend wants it
     const dataToPost = {
       ...data,
-      producerId: party.partyId,
+      producerId: party.id as string | undefined, // needed because of line 95
       attributes: remapFrontendAttributesToBackend(attributes),
     }
 

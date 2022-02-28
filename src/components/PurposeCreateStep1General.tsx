@@ -45,7 +45,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
   const { data: eserviceData } = useAsyncFetch<Array<EServiceReadType>, Array<InputSelectOption>>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST' },
-      config: { params: { consumerId: party?.partyId } },
+      config: { params: { consumerId: party?.id } },
     },
     {
       mapFn: (data) => data.map((d) => ({ value: d.id, label: d.name })),
@@ -92,7 +92,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
       title: data.title,
       description: data.description,
       eserviceId: data.eserviceId,
-      consumerId: party?.partyId,
+      consumerId: party?.id,
     }
     const purposeVersionData = { dailyCalls: data.dailyCalls }
 

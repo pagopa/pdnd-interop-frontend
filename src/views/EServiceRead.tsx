@@ -44,7 +44,7 @@ export function EServiceRead() {
 
   const canSubscribeEservice =
     party && data && canSubscribe(party.attributes, data.attributes.certified)
-  const isMine = data?.producer.id === party?.partyId
+  const isMine = data?.producer.id === party?.id
   const isVersionPublished = data?.activeDescriptor?.state === 'PUBLISHED'
 
   const handleSubscriptionDialog = () => {
@@ -52,7 +52,7 @@ export function EServiceRead() {
       const agreementData = {
         eserviceId: data?.id,
         descriptorId: data?.activeDescriptor?.id,
-        consumerId: party?.partyId,
+        consumerId: party?.id,
       }
 
       await runActionWithDestination(
@@ -92,7 +92,7 @@ export function EServiceRead() {
         {{
           title: data?.name,
           description: `${data?.description}\n${
-            party?.partyId === data?.producer.id
+            party?.id === data?.producer.id
               ? "Nota: sei l'erogatore di questo e-service"
               : undefined
           }`,

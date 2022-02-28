@@ -1,7 +1,7 @@
 import { Party } from '../../types'
 
 export const partyActiveManager: Party = {
-  partyId: 'dsofdm-dsfjds',
+  id: 'dsofdm-dsfjds',
   attributes: [],
   state: 'ACTIVE',
   role: 'MANAGER',
@@ -12,7 +12,7 @@ export const partyActiveManager: Party = {
 }
 
 export const partyActiveDelegate: Party = {
-  partyId: 'dsofdm-dsfjds',
+  id: 'dsofdm-dsfjds',
   attributes: [],
   state: 'ACTIVE',
   role: 'DELEGATE',
@@ -23,7 +23,7 @@ export const partyActiveDelegate: Party = {
 }
 
 export const partyActiveOperatorApi: Party = {
-  partyId: 'dsofdm-dsfjds',
+  id: 'dsofdm-dsfjds',
   attributes: [],
   state: 'ACTIVE',
   role: 'OPERATOR',
@@ -34,7 +34,7 @@ export const partyActiveOperatorApi: Party = {
 }
 
 export const partyActiveOperatorSecurity: Party = {
-  partyId: 'dsofdm-dsfjds',
+  id: 'dsofdm-dsfjds',
   attributes: [],
   state: 'ACTIVE',
   role: 'OPERATOR',

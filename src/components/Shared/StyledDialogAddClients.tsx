@@ -25,7 +25,7 @@ export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = 
   const [selected, setSelected] = useState<Array<Client>>([])
 
   const { data: clientData } = useAsyncFetch<Array<Client>>(
-    { path: { endpoint: 'CLIENT_GET_LIST' }, config: { params: { consumerId: party?.partyId } } },
+    { path: { endpoint: 'CLIENT_GET_LIST' }, config: { params: { consumerId: party?.id } } },
     { loadingTextLabel: 'Stiamo caricando i client associabili alla finalità' }
   )
 

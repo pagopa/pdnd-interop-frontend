@@ -29,7 +29,7 @@ export function ClientCreate() {
   const clientKind = useClientKind()
 
   const onSubmit = async (data: ClientFields) => {
-    const dataToPost = { ...data, consumerId: party?.partyId, kind: clientKind }
+    const dataToPost = { ...data, consumerId: party?.id, kind: clientKind }
 
     const destination =
       clientKind === 'consumer' ? routes.SUBSCRIBE_CLIENT_LIST : routes.PROVIDE_INTEROP_M2M

@@ -33,8 +33,7 @@ export function AgreementList() {
   const { routes } = useRoute()
   const history = useHistory()
 
-  const params =
-    mode === 'provider' ? { producerId: party?.partyId } : { consumerId: party?.partyId }
+  const params = mode === 'provider' ? { producerId: party?.id } : { consumerId: party?.id }
   const { data, loadingText, error } = useAsyncFetch<Array<AgreementSummary>>(
     {
       path: { endpoint: 'AGREEMENT_GET_LIST' },
@@ -51,7 +50,7 @@ export function AgreementList() {
    * List of possible actions for the user to perform
    */
   const wrapActivate = (agreementId: string) => async () => {
-    const { partyId } = party as Party
+    const { id: partyId } = party as Party
     await runAction(
       {
         path: {
@@ -64,7 +63,7 @@ export function AgreementList() {
   }
 
   const wrapSuspend = (agreementId: string) => async () => {
-    const { partyId } = party as Party
+    const { id: partyId } = party as Party
     await runAction(
       {
         path: {

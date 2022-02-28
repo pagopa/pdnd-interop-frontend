@@ -34,7 +34,7 @@ export function EServiceList() {
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
       config: {
-        params: { producerId: party?.partyId, callerId: party?.partyId },
+        params: { producerId: party?.id, callerId: party?.id },
       },
     },
     {

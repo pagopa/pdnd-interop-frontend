@@ -15,7 +15,6 @@ import { LANGUAGES } from './src/lib/constants'
 // export type ApiEndpointKey = keyof typeof API
 export type ApiEndpointKey =
   | 'ONBOARDING_GET_AVAILABLE_PARTIES'
-  | 'PARTY_GET_PARTY_ID'
   | 'ESERVICE_GET_LIST'
   | 'ESERVICE_GET_LIST_FLAT'
   | 'ESERVICE_GET_SINGLE'
@@ -34,6 +33,7 @@ export type ApiEndpointKey =
   | 'ESERVICE_VERSION_DRAFT_UPDATE_DOCUMENT_DESCRIPTION'
   | 'ESERVICE_VERSION_DOWNLOAD_DOCUMENT'
   | 'ATTRIBUTE_GET_LIST'
+  | 'ATTRIBUTE_GET_SINGLE'
   | 'ATTRIBUTE_CREATE'
   | 'AGREEMENT_CREATE'
   | 'AGREEMENT_GET_LIST'
@@ -206,17 +206,14 @@ export type User = JwtUser & {
   product: UserProduct
 }
 
-export type PartyOnCreate = {
+export type Party = {
   description: string
   institutionId: string
   digitalAddress: string
-}
-
-export type Party = PartyOnCreate & {
-  partyId?: string
+  id: string
   role: UserRole
   state: UserState
-  attributes: Array<string>
+  attributes: Array<CertifiedAttribute>
   productInfo: UserProduct
 }
 
@@ -487,6 +484,22 @@ export type AttributeKey = 'certified' | 'verified' | 'declared'
 
 export type AttributeModalTemplate = 'add' | 'create'
 
+export type PartyAttribute = {
+  origin: string
+  code: string
+  description: string
+}
+
+export type BasicAttribute = PartyAttribute & {
+  id: string
+  name: string
+  creationTime: string
+}
+
+export type CertifiedAttribute = BasicAttribute & {
+  kind: 'CERTIFIED'
+}
+
 // Backend attribute is the attribute as it is expected when POSTed to the backend
 // The "explicitAttributeVerification" and "verified" parameters
 // are only relevant for "verified" attributes. The explicitAttributeVerification
@@ -497,14 +510,9 @@ export type AttributeModalTemplate = 'add' | 'create'
 // where it is enough that one of the attributes has the "verified" flag set to true.
 // If an attribute has a "verified" parameter explicitly set to false, it means that the attribute validation
 // was rejected by the e-service provider, which means that this Agreement can never be activated
-export type BackendAttributeContent = {
-  id: string
+export type BackendAttributeContent = BasicAttribute & {
   explicitAttributeVerification: boolean
   verified: boolean | null
-  origin: string
-  code: string
-  name: string
-  description: string
 }
 export type SingleBackendAttribute = {
   single: BackendAttributeContent
@@ -689,7 +697,6 @@ export type DialogBasicProps = DialogDefaultProps & {
 export type DialogActionKeys = Exclude<
   ApiEndpointKey,
   | 'ONBOARDING_GET_AVAILABLE_PARTIES'
-  | 'PARTY_GET_PARTY_ID'
   | 'ESERVICE_GET_LIST'
   | 'ESERVICE_GET_LIST_FLAT'
   | 'ESERVICE_GET_SINGLE'
@@ -700,6 +707,7 @@ export type DialogActionKeys = Exclude<
   | 'ESERVICE_VERSION_DRAFT_UPDATE_DOCUMENT_DESCRIPTION'
   | 'ESERVICE_VERSION_DOWNLOAD_DOCUMENT'
   | 'ATTRIBUTE_GET_LIST'
+  | 'ATTRIBUTE_GET_SINGLE'
   | 'ATTRIBUTE_CREATE'
   | 'AGREEMENT_CREATE'
   | 'AGREEMENT_GET_LIST'
@@ -748,9 +756,9 @@ export type ToastProps = ToastContentWithOutcome & {
 export type ToastActionKeys = Exclude<
   ApiEndpointKey,
   | 'ONBOARDING_GET_AVAILABLE_PARTIES'
-  | 'PARTY_GET_PARTY_ID'
   | 'ESERVICE_GET_SINGLE'
   | 'ATTRIBUTE_GET_LIST'
+  | 'ATTRIBUTE_GET_SINGLE'
   | 'AGREEMENT_GET_LIST'
   | 'AGREEMENT_GET_SINGLE'
   | 'CLIENT_GET_LIST'
