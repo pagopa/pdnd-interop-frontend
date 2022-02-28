@@ -7,8 +7,8 @@ export function Help() {
 
   useEffect(() => {
     async function asyncFetchData() {
-      const resp = await axios.get(`${window.location.origin}/data/help.txt`)
-      setHtmlString(resp.data)
+      const resp = await axios.get(`${window.location.origin}/data/help.json`)
+      setHtmlString(resp.data.html)
     }
 
     asyncFetchData()
