@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { Contained } from '../components/Shared/Contained'
 
 export function Help() {
   const [htmlString, setHtmlString] = useState('')
@@ -25,9 +24,7 @@ export function Help() {
         }}
       </StyledIntro>
 
-      <Contained>
-        <div dangerouslySetInnerHTML={{ __html: htmlString }} />
-      </Contained>
+      <div dangerouslySetInnerHTML={{ __html: htmlString }} />
     </React.Fragment>
   )
 }

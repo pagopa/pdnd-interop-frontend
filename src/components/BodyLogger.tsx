@@ -13,9 +13,9 @@ import { LoadingOverlay } from './Shared/LoadingOverlay'
 import { MainNav } from './MainNav'
 import { Layout } from './Shared/Layout'
 import { Box } from '@mui/system'
-import { MEDIUM_MAX_WIDTH } from '../lib/constants'
 import { useRoute } from '../hooks/useRoute'
 import '../lib/validation-config'
+import { Grid } from '@mui/material'
 
 export function BodyLogger() {
   const [toast, setToast] = useState<ToastProps | null>(null)
@@ -72,19 +72,13 @@ export function BodyLogger() {
                 </Layout>
               </Box>
             ) : (
-              <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-                <Box
-                  sx={{
-                    m: 'auto',
-                    py: 10,
-                    px: 4,
-                    maxWidth: MEDIUM_MAX_WIDTH,
-                    width: '100%',
-                  }}
-                >
-                  <Layout>
-                    <Main />
-                  </Layout>
+              <Box sx={{ flexGrow: 1 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', py: 10, px: 4 }}>
+                  <Grid xs={8}>
+                    <Layout>
+                      <Main />
+                    </Layout>
+                  </Grid>
                 </Box>
               </Box>
             )}
