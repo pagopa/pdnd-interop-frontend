@@ -9,7 +9,7 @@ import { EServiceList } from '../views/EServiceList'
 import { Help } from '../views/Help'
 import { Logout } from '../views/Logout'
 import { Notifications } from '../views/Notifications'
-import { Profile } from '../views/Profile'
+// import { Profile } from '../views/Profile'
 import { UserEdit } from '../views/UserEdit'
 import { UserList } from '../views/UserList'
 import { UserCreate } from '../views/UserCreate'
@@ -58,13 +58,13 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     PUBLIC: false,
     AUTH_LEVELS: 'any',
   },
-  PROFILE: {
-    PATH: { it: '/it/profilo', en: '/en/profile' },
-    LABEL: { it: 'Profilo', en: 'Profile' },
-    COMPONENT: Profile,
-    PUBLIC: false,
-    AUTH_LEVELS: 'any',
-  },
+  // PROFILE: {
+  //   PATH: { it: '/it/profilo', en: '/en/profile' },
+  //   LABEL: { it: 'Profilo', en: 'Profile' },
+  //   COMPONENT: Profile,
+  //   PUBLIC: false,
+  //   AUTH_LEVELS: 'any',
+  // },
   NOTIFICATION: {
     PATH: { it: '/it/notifiche', en: '/en/notifications' },
     LABEL: { it: 'Notifiche', en: 'Notifications' },

@@ -75,7 +75,6 @@ export const MainNav = () => {
   const availableViews = [
     ...views[party?.productInfo.role || 'security'],
     { route: routes.NOTIFICATION },
-    { route: routes.PROFILE },
     { route: routes.HELP },
   ]
 
