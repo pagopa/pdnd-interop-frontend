@@ -73,13 +73,13 @@ export function BodyLogger() {
               </Box>
             ) : (
               <Box sx={{ flexGrow: 1 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'center', py: 10, px: 4 }}>
-                  <Grid xs={8}>
+                <Grid container sx={{ display: 'flex', justifyContent: 'center', py: 10, px: 4 }}>
+                  <Grid item xs={8}>
                     <Layout>
                       <Main />
                     </Layout>
                   </Grid>
-                </Box>
+                </Grid>
               </Box>
             )}
             <Footer />
