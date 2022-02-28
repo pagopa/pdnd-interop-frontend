@@ -227,10 +227,6 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'party-process/0.1/institutions/:institutionId/relationships',
     METHOD: 'GET',
   },
-  USER_GET_SINGLE: {
-    URL: 'party-management/0.1/persons/:id',
-    METHOD: 'GET',
-  },
   USER_SUSPEND: {
     URL: 'party-process/0.1/relationships/:relationshipId/suspend',
     METHOD: 'POST',

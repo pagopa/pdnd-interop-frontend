@@ -34,7 +34,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'consu
   const mode = useMode()
   const { party } = useContext(PartyContext)
   const { token } = useContext(TokenContext)
-  // TODO: remove after integration with selfcare
+  // TEMP REFACTOR: remove after integration with selfcare
   const endpoint = mode === 'provider' ? 'USER_GET_LIST' : 'OPERATOR_SECURITY_GET_LIST'
   const endpointParams =
     mode === 'provider' ? { institutionId: party?.institutionId } : { clientId }

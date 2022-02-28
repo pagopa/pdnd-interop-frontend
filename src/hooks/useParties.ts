@@ -47,7 +47,7 @@ export const useParties = () => {
       path: { endpoint: 'ONBOARDING_GET_AVAILABLE_PARTIES' },
     })
 
-    // TODO: handle actual error, such as invalid token. Make it global
+    // TEMP REFACTOR: handle actual error, such as invalid token. Make it global
 
     const { data } = availablePartiesResponse as AxiosResponse
     const institutions = data.institutions as Array<FetchedParty>
