@@ -93,6 +93,7 @@ export const StyledInputControlledAutocomplete = <T extends unknown>({
               variant="outlined"
               InputProps={{ ...params.InputProps }}
               error={Boolean(error)}
+              InputLabelProps={{ shrink: true }}
             />
           )
         }}

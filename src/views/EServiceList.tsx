@@ -25,7 +25,7 @@ import { URL_FRAGMENTS } from '../lib/constants'
 import { useRoute } from '../hooks/useRoute'
 
 export function EServiceList() {
-  const { runAction, runFakeAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
+  const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
   const history = useHistory()
   const { party } = useContext(PartyContext)
   const { lang } = useContext(LangContext)
@@ -95,11 +95,9 @@ export function EServiceList() {
     )
   }
 
-  const archive = () => {
-    // Can only archive if all agreements on that version are archived
-    // Check with backend if this can be automated
-    runFakeAction('Archivia e-service')
-  }
+  // const archive = () => {
+  //   //
+  // }
 
   // Clones the properties and generates a new service
   const wrapClone = (eserviceId: string, descriptorId?: string) => async () => {
@@ -119,7 +117,9 @@ export function EServiceList() {
     const { outcome, response } = await runAction(
       {
         path: { endpoint: 'ESERVICE_VERSION_DRAFT_CREATE', endpointParams: { eserviceId } },
-        config: { data: { voucherLifespan: 0, audience: [], description: '' } },
+        config: {
+          data: { voucherLifespan: 1, audience: [], description: '', dailyCallsMaxNumber: 1 },
+        },
       },
       { suppressToast: true }
     )
@@ -173,11 +173,11 @@ export function EServiceList() {
       ),
       label: 'Crea bozza nuova versione',
     }
-    const archiveAction = {
-      onClick: wrapActionInDialog(archive),
-      label: 'Archivia',
-      isMock: true,
-    }
+    // TEMP PIN-645
+    // const archiveAction = {
+    //   onClick: wrapActionInDialog(archive),
+    //   label: 'Archivia',
+    // }
     const publishDraftAction = {
       onClick: wrapActionInDialog(
         wrapPublishDraft(eserviceId, descriptorId),
@@ -196,7 +196,7 @@ export function EServiceList() {
     const availableActions: EServiceAction = {
       PUBLISHED: [suspendAction, cloneAction, createVersionDraftAction],
       ARCHIVED: [],
-      DEPRECATED: [suspendAction, archiveAction],
+      DEPRECATED: [suspendAction /*, archiveAction */],
       DRAFT: [descriptorId ? publishDraftAction : null, deleteDraftAction],
       SUSPENDED: [reactivateAction, cloneAction, createVersionDraftAction],
     }

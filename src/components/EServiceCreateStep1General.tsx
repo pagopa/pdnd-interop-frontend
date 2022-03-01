@@ -190,7 +190,11 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
           >
             {{ title: 'Attributi' }}
           </StyledIntro>
-          <EServiceAttributeSection attributes={attributes} setAttributes={setAttributes} />
+          <EServiceAttributeSection
+            attributes={attributes}
+            setAttributes={setAttributes}
+            disabled={!isEditable}
+          />
 
           <StepActions
             back={{
@@ -198,7 +202,11 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
               type: 'link',
               to: routes.PROVIDE_ESERVICE_LIST.PATH,
             }}
-            forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
+            forward={
+              !isEditable
+                ? { label: 'Prosegui', onClick: forward, type: 'button' }
+                : { label: 'Salva bozza e prosegui', type: 'submit' }
+            }
           />
         </StyledForm>
       )}

@@ -1,13 +1,10 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
-import { object, boolean } from 'yup'
 import {
   EServiceFlatReadType,
   ActionProps,
   EServiceState,
   EServiceFlatDecoratedReadType,
-  EserviceSubscribeFormInputValues,
-  DialogSubscribeProps,
 } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
@@ -25,7 +22,6 @@ import {
   SvgIconComponent,
 } from '@mui/icons-material'
 import { ESERVICE_STATE_LABEL } from '../config/labels'
-import { isTrue } from '../lib/validation-config'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ActionMenu } from '../components/Shared/ActionMenu'
@@ -59,7 +55,7 @@ export function EServiceCatalog() {
 
   const OwnerTooltip = ({ label = '', Icon }: { label: string; Icon: SvgIconComponent }) => (
     <StyledTooltip title={label}>
-      <Icon sx={{ ml: 0.5, fontSize: 16 }} color="info" />
+      <Icon sx={{ ml: 0.5, fontSize: 16 }} color="primary" />
     </StyledTooltip>
   )
 
@@ -96,23 +92,18 @@ export function EServiceCatalog() {
     }
 
     if (!eservice.isMine && isAdmin(party) && !eservice.callerSubscribed && canSubscribeEservice) {
-      const eserviceSubscribeFormInitialValues: EserviceSubscribeFormInputValues = {
-        agreementHandle: { confirm: false },
-      }
-      const eserviceSubscribeFormValidationSchema = object({
-        agreementHandle: object({
-          confirm: boolean().test('value', 'La checkbox deve essere spuntata', isTrue),
-        }),
-      })
-
       actions.push({
         onClick: () => {
           setDialog({
-            type: 'subscribe',
-            onSubmit: wrapSubscribe(eservice),
-            initialValues: eserviceSubscribeFormInitialValues,
-            validationSchema: eserviceSubscribeFormValidationSchema,
-          } as DialogSubscribeProps)
+            type: 'basic',
+            proceedCallback: wrapSubscribe(eservice),
+            proceedLabel: 'Iscriviti',
+            title: 'Richiesta di fruizione',
+            description: `Stai per inoltrare una richiesta di fruizione per l'e-service ${eservice.name}, versione ${eservice.version}`,
+            close: () => {
+              setDialog(null)
+            },
+          })
         },
         label: 'Iscriviti',
       })

@@ -305,7 +305,7 @@ export type EServiceDescriptorRead = {
   voucherLifespan: number
   description: string
   audience: Array<string>
-  dailyCalls: number
+  dailyCallsMaxNumber: number
 }
 
 export type EServiceDocumentRead = {
@@ -430,7 +430,10 @@ export type Purpose = {
   title: string
   description: string
   eservice: Pick<EServiceReadType, 'id' | 'name' | 'producer'>
-  eserviceDescriptor: Pick<EServiceDescriptorRead, 'id' | 'version' | 'dailyCalls' | 'state'>
+  eserviceDescriptor: Pick<
+    EServiceDescriptorRead,
+    'id' | 'version' | 'dailyCallsMaxNumber' | 'state'
+  >
   agreement: Pick<AgreementSummary, 'id' | 'state'>
   riskAnalysisForm: PurposeRiskAnalysisForm
   clients: Array<Pick<Client, 'id' | 'name'>>
@@ -576,7 +579,6 @@ export type DialogDefaultProps = {
 export type DialogProps =
   | DialogBasicProps
   | DialogAskExtensionProps
-  | DialogSubscribeProps
   | DialogAddSecurityOperatorKeyProps
   | DialogExistingAttributeProps
   | DialogNewAttributeProps
@@ -669,17 +671,6 @@ export type DialogAddSecurityOperatorKeyProps = {
 export type SecurityOperatorKeysFormInputValues = {
   name: string
   key: string
-}
-
-export type DialogSubscribeProps = {
-  type: 'subscribe'
-  onSubmit: (data: EserviceSubscribeFormInputValues) => void
-  initialValues: EserviceSubscribeFormInputValues
-  validationSchema: SchemaOf<EserviceSubscribeFormInputValues>
-}
-
-export type EserviceSubscribeFormInputValues = {
-  agreementHandle: Record<string, boolean>
 }
 
 export type DialogAskExtensionProps = {

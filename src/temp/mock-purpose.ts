@@ -15,7 +15,7 @@ export const mockPurpose1: Purpose = {
   eserviceDescriptor: {
     id: 'dsjfosd-sdfjdosf-sdfjds',
     version: '3',
-    dailyCalls: 100000,
+    dailyCallsMaxNumber: 100000,
     state: 'PUBLISHED',
   },
   agreement: {

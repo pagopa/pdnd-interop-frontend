@@ -24,6 +24,7 @@ type EServiceAttributeGroupProps = {
   add: (attributeGroup: Array<CatalogAttribute>, explicitAttributeVerification: boolean) => void
   remove: (attributeGroupToRemove: Array<CatalogAttribute>) => void
   attributeKey: AttributeKey
+  disabled: boolean
 }
 
 export function EServiceAttributeGroup({
@@ -33,6 +34,7 @@ export function EServiceAttributeGroup({
   remove,
   add,
   attributeKey,
+  disabled,
 }: EServiceAttributeGroupProps) {
   const { setDialog } = useContext(DialogContext)
   const { runAction } = useFeedback()
@@ -120,24 +122,28 @@ export function EServiceAttributeGroup({
                 { label: explicitAttributeVerification ? 'Sì' : 'No' },
               ]}
             >
-              <StyledButton onClick={wrapRemove(attributes)}>
-                <DeleteOutlineIcon fontSize="small" sx={{ mr: 1 }} color="primary" />
-              </StyledButton>
+              {!disabled && (
+                <StyledButton onClick={wrapRemove(attributes)}>
+                  <DeleteOutlineIcon fontSize="small" sx={{ mr: 1 }} color="primary" />
+                </StyledButton>
+              )}
             </StyledTableRow>
           ))}
       </TableWithLoader>
 
-      <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
-        <StyledButton sx={{ mr: 2 }} variant="contained" onClick={openExistingAttributeDialog}>
-          Aggiungi attributo o gruppo
-        </StyledButton>
-
-        {canCreateNewAttributes && (
-          <StyledButton variant="outlined" onClick={openCreateNewAttributeDialog}>
-            Crea nuovo attributo
+      {!disabled && (
+        <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
+          <StyledButton sx={{ mr: 2 }} variant="contained" onClick={openExistingAttributeDialog}>
+            Aggiungi attributo o gruppo
           </StyledButton>
-        )}
-      </Box>
+
+          {canCreateNewAttributes && (
+            <StyledButton variant="outlined" onClick={openCreateNewAttributeDialog}>
+              Crea nuovo attributo
+            </StyledButton>
+          )}
+        </Box>
+      )}
     </React.Fragment>
   )
 }

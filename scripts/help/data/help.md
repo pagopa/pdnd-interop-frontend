@@ -148,7 +148,7 @@ Gli e-service funzionano con un sistema di versionamento. Una volta pubblicata l
 
 ### Pubblicare una versione di e-service
 
-Un e-service in stato di bozza può essere pubblicato immediatamente al termine della procedura guidata di creazione della versione. In alternativa, se una versione di e-service è in bozza e tutti i campi sono stati compilati correttamente, si potrà pubblicare dalla pagina "Erogazione > I tuoi e-service". Cliccando sui tre pallini della versione di e-service in bozza, è possibile selezionare "Pubblica". Se l'opzione di pubblicazione non è disponibile, vuol dire che non tutti i campi sono stati compilati.
+Un e-service in stato di bozza può essere pubblicato immediatamente al termine della procedura guidata di creazione della versione. In alternativa, se una versione di e-service è in bozza e tutti i campi sono stati compilati correttamente, si potrà pubblicare dalla pagina "Erogazione > I tuoi e-service". Cliccando sui tre pallini della versione di e-service in bozza, è possibile selezionare "Pubblica". Se la pubblicazione fallisce, significa che uno o più campi richiesti non sono stati compilati.
 
 Una volta pubblicata una bozza, questa diventerà la nuova versione "attiva" dell'e-service, mandando la versione precedente in stato "deprecato". Le versioni deprecate continueranno a funzionare, ma forniranno un'indicazione utile agli enti fruitori, in modo che possano aggiornare i loro sistemi all'ultima versione.
 

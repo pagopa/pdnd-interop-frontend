@@ -45,7 +45,7 @@ export function EServiceManage() {
   )
 
   const { data: purposeData /* , error */ } = useAsyncFetch<
-    Array<Purpose>,
+    { purposes: Array<Purpose> },
     Array<DecoratedPurpose>
   >(
     {
@@ -53,7 +53,7 @@ export function EServiceManage() {
       config: { params: { state: 'WAITING_FOR_APPROVAL', eserviceId } },
     },
     {
-      mapFn: (data) => data.map(decoratePurposeWithMostRecentVersion),
+      mapFn: (data) => data.purposes.map(decoratePurposeWithMostRecentVersion),
       loadingTextLabel: 'Stiamo caricando le finalità in attesa',
       useEffectDeps: [forceRerenderCounter],
     }
@@ -116,15 +116,13 @@ export function EServiceManage() {
             <EServiceContentInfo data={eserviceData} />
 
             <Box sx={{ display: 'flex', mt: 4 }}>
-              <StyledButton variant="outlined" to={routes.SUBSCRIBE_CATALOG_LIST.PATH}>
+              <StyledButton variant="outlined" to={routes.PROVIDE_ESERVICE_LIST.PATH}>
                 Torna al catalogo
               </StyledButton>
             </Box>
           </React.Fragment>
         </TabPanel>
         <TabPanel value="purposeAwaitingApproval">
-          <StyledIntro variant="h2">{{ title: 'Finalità in attesa di completamento' }}</StyledIntro>
-
           <TableWithLoader
             loadingText={null}
             headData={headData}

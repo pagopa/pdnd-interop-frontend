@@ -1,9 +1,5 @@
 import React, { useContext } from 'react'
-import {
-  DialogSubscribeProps,
-  EServiceReadType,
-  EserviceSubscribeFormInputValues,
-} from '../../types'
+import { EServiceReadType } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { DialogContext, PartyContext } from '../lib/context'
 import { canSubscribe } from '../lib/attributes'
@@ -11,8 +7,6 @@ import { isAdmin } from '../lib/auth-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Box } from '@mui/system'
-import { object, boolean } from 'yup'
-import { isTrue } from '../lib/validation-config'
 import { EServiceContentInfo } from '../components/Shared/EServiceContentInfo'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import {
@@ -48,10 +42,14 @@ export function EServiceRead() {
   const isVersionPublished = data?.activeDescriptor?.state === 'PUBLISHED'
 
   const handleSubscriptionDialog = () => {
+    if (!data) {
+      return
+    }
+
     const subscribe = async () => {
       const agreementData = {
-        eserviceId: data?.id,
-        descriptorId: data?.activeDescriptor?.id,
+        eserviceId: data.id,
+        descriptorId: data.activeDescriptor?.id,
         consumerId: party?.id,
       }
 
@@ -61,21 +59,16 @@ export function EServiceRead() {
       )
     }
 
-    const eserviceSubscribeFormInitialValues: EserviceSubscribeFormInputValues = {
-      agreementHandle: { confirm: false },
-    }
-    const eserviceSubscribeFormValidationSchema = object({
-      agreementHandle: object({
-        confirm: boolean().test('value', 'La checkbox deve essere spuntata', isTrue),
-      }),
-    })
-
     setDialog({
-      type: 'subscribe',
-      onSubmit: subscribe,
-      initialValues: eserviceSubscribeFormInitialValues,
-      validationSchema: eserviceSubscribeFormValidationSchema,
-    } as DialogSubscribeProps)
+      type: 'basic',
+      proceedCallback: subscribe,
+      proceedLabel: 'Iscriviti',
+      title: 'Richiesta di fruizione',
+      description: `Stai per inoltrare una richiesta di fruizione per l'e-service ${data.name}, versione ${data.activeDescriptor?.version}`,
+      close: () => {
+        setDialog(null)
+      },
+    })
   }
 
   if (!data) {
@@ -92,9 +85,7 @@ export function EServiceRead() {
         {{
           title: data?.name,
           description: `${data?.description}\n${
-            party?.id === data?.producer.id
-              ? "Nota: sei l'erogatore di questo e-service"
-              : undefined
+            party?.id === data?.producer.id ? "Nota: sei l'erogatore di questo e-service" : ''
           }`,
         }}
       </StyledIntro>

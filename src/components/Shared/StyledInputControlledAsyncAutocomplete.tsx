@@ -124,6 +124,7 @@ export const StyledInputControlledAsyncAutocomplete = <T extends unknown>({
                   </React.Fragment>
                 ),
               }}
+              InputLabelProps={{ shrink: true }}
               error={Boolean(error)}
             />
           )

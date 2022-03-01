@@ -23,7 +23,7 @@ type VersionData = {
   version: string
   voucherLifespan: number
   description: string
-  dailyCalls: number
+  dailyCallsMaxNumber: number
 }
 
 export function EServiceCreateStep2Version({ forward, back }: StepperStepComponentProps) {
@@ -37,14 +37,14 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
     audience: string().required(),
     voucherLifespan: number().required(),
     description: string().required(),
-    dailyCalls: number().required(),
+    dailyCallsMaxNumber: number().required(),
   })
   const initialValues: VersionData = {
     version: '1',
     audience: '',
     voucherLifespan: 1,
     description: '',
-    dailyCalls: 1,
+    dailyCallsMaxNumber: 1,
   }
   const [initialOrFetchedValues, setInitialOrFetchedValues] = useState(initialValues)
 
@@ -53,13 +53,14 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
     if (fetchedData && !isEmpty(fetchedData.activeDescriptor)) {
       const activeDescriptor = (fetchedData as EServiceReadType)
         .activeDescriptor as EServiceDescriptorRead
-      const { audience, version, voucherLifespan, description, dailyCalls } = activeDescriptor
+      const { audience, version, voucherLifespan, description, dailyCallsMaxNumber } =
+        activeDescriptor
       setInitialOrFetchedValues({
         version,
         audience: Boolean(audience.length > 0) ? audience[0] : '',
         voucherLifespan,
         description,
-        dailyCalls: dailyCalls || 1,
+        dailyCallsMaxNumber: dailyCallsMaxNumber || 1,
       })
     }
   }, [fetchedData]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -70,7 +71,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
       audience: [data.audience],
       voucherLifespan: data.voucherLifespan,
       description: data.description,
-      // dailyCalls: data.dailyCalls,
+      dailyCallsMaxNumber: data.dailyCallsMaxNumber,
     }
 
     const sureFetchedData = fetchedData as EServiceReadType
@@ -166,12 +167,12 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
           />
 
           <StyledInputControlledText
-            name="dailyCalls"
+            name="dailyCallsMaxNumber"
             label="Soglia chiamate API/giorno (richiesto)"
             infoLabel="Il fruitore dovrà dichiarare una stima delle chiamate che effettuerà per ogni finalità. Se la somma delle chiamate dichiarate dal fruitore sarà sopra la soglia da te impostata, potrai approvare manualmente l'accesso di queste finalità alla fruizione del tuo e-service"
             type="number"
-            value={values.dailyCalls}
-            error={errors.dailyCalls}
+            value={values.dailyCallsMaxNumber}
+            error={errors.dailyCallsMaxNumber}
             onChange={handleChange}
             inputProps={{ min: '1' }}
           />

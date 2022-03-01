@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation, useHistory } from 'react-router'
+import { useHistory } from 'react-router'
 import { Box } from '@mui/system'
 import {
   EServiceDescriptorRead,
@@ -7,7 +7,6 @@ import {
   EServiceReadType,
   StepperStepComponentProps,
 } from '../../types'
-import { getBits } from '../lib/router-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledIntro } from './Shared/StyledIntro'
 import { StyledButton } from './Shared/StyledButton'
@@ -23,11 +22,9 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
   const { routes } = useRoute()
   const history = useHistory()
   const { runAction, runActionWithDestination, wrapActionInDialog } = useFeedback()
-  const location = useLocation()
-  const bits = getBits(location)
-  const activeDescriptorId: string = bits.pop() as string
-  const { data: fetchedData } = useEserviceCreateFetch()
+  const { data: fetchedData, descriptorId } = useEserviceCreateFetch()
   const sureFetchedData = fetchedData as EServiceReadType
+  const activeDescriptorId = descriptorId as string
 
   const publishVersion = async () => {
     const activeDescriptor = sureFetchedData.activeDescriptor as EServiceDescriptorRead
@@ -102,7 +99,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
         },
       },
       {
-        suppressToast: false,
+        suppressToast: true,
       }
     )
 

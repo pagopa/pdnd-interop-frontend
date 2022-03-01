@@ -10,12 +10,10 @@ import {
   DialogNewAttributeProps,
   DialogProps,
   DialogSetPurposeExpectedApprovalDateProps,
-  DialogSubscribeProps,
   DialogUpdatePurposeDailyCallsProps,
 } from '../../../types'
 import { StyledDialogExtension } from './StyledDialogExtension'
 import { StyledDialogBasic } from './StyledDialogBasic'
-import { StyledDialogSubscribe } from './StyledDialogSubscribe'
 import { StyledDialogAddSecurityOperatorKey } from './StyledDialogAddSecurityOperatorKey'
 import { StyledDialogExistingAttribute } from './StyledDialogExistingAttribute'
 import { StyledDialogNewAttribute } from './StyledDialogNewAttribute'
@@ -28,7 +26,6 @@ import { StyledDialogSetPurposeExpectedApprovalDate } from './StyledDialogSetPur
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
   onAskExtension: (props: DialogAskExtensionProps) => T,
-  onSubscribe: (props: DialogSubscribeProps) => T,
   onAddSecurityOperatorKey: (props: DialogAddSecurityOperatorKeyProps) => T,
   onExistingAttribute: (props: DialogExistingAttributeProps) => T,
   onNewAttribute: (props: DialogNewAttributeProps) => T,
@@ -44,8 +41,6 @@ function match<T>(
         return onBasic(props)
       case 'askExtension':
         return onAskExtension(props)
-      case 'subscribe':
-        return onSubscribe(props)
       case 'addSecurityOperatorKey':
         return onAddSecurityOperatorKey(props)
       case 'addExistingAttribute':
@@ -69,7 +64,6 @@ function match<T>(
 export const StyledDialog = match(
   (props) => <StyledDialogBasic {...props} />,
   (props) => <StyledDialogExtension {...props} />,
-  (props) => <StyledDialogSubscribe {...props} />,
   (props) => <StyledDialogAddSecurityOperatorKey {...props} />,
   (props) => <StyledDialogExistingAttribute {...props} />,
   (props) => <StyledDialogNewAttribute {...props} />,

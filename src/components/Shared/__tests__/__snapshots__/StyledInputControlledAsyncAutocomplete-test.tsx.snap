@@ -17,9 +17,8 @@ exports[`Snapshot matches 1`] = `
       className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
     >
       <label
-        className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
-        data-shrink={false}
-        id="undefined-label"
+        className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-1kty9di-MuiFormLabel-root-MuiInputLabel-root"
+        data-shrink={true}
       >
         Snapshot autocomplete
       </label>
@@ -90,7 +89,7 @@ exports[`Snapshot matches 1`] = `
           className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
         >
           <legend
-            className="css-dhh0px"
+            className="css-186xcr5"
           >
             <span>
               Snapshot autocomplete

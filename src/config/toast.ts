@@ -117,14 +117,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: "Non è stato possibile cancellare la bozza dell'e-service. Per favore, riprova!",
     },
   },
-  ESERVICE_VERSION_DRAFT_POST_DOCUMENT: {
-    loadingText: 'Stiamo caricando il documento',
-    success: { title: 'Successo', description: 'Il documento è stato caricato correttamente' },
-    error: {
-      title: "C'è stato un problema",
-      description: 'Non è stato possibile caricare il documento. Per favore, riprova!',
-    },
-  },
+  ESERVICE_VERSION_DRAFT_POST_DOCUMENT: { loadingText: 'Stiamo caricando il documento' },
   ESERVICE_VERSION_DRAFT_DELETE_DOCUMENT: {
     loadingText: 'Stiamo eliminando il documento',
     success: { title: 'Successo', description: 'Il documento è stato eliminato correttamente' },

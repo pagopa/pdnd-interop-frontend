@@ -8,6 +8,7 @@ import { Box } from '@mui/system'
 type EServiceAttributeSectionProps = {
   attributes: FrontendAttributes
   setAttributes: React.Dispatch<React.SetStateAction<FrontendAttributes>>
+  disabled: boolean
 }
 
 type TypeLabel = {
@@ -37,6 +38,7 @@ const TYPE_LABELS: TypeLabels = {
 export function EServiceAttributeSection({
   attributes,
   setAttributes,
+  disabled,
 }: EServiceAttributeSectionProps) {
   const getIds = (arr: Array<CatalogAttribute>) => arr.map((item) => item.id)
 
@@ -79,6 +81,7 @@ export function EServiceAttributeSection({
               add={wrapAdd(attributeKey)}
               remove={wrapRemove(attributeKey)}
               attributeKey={attributeKey}
+              disabled={disabled}
             />
           </Box>
         )
