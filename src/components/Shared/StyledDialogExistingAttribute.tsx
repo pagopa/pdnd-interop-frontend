@@ -61,16 +61,24 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
                     label="Attributi selezionati"
                     sx={{ mt: 6, mb: 0 }}
                     multiple={true}
-                    labelKey="name"
                     placeholder="..."
                     path={{ endpoint: 'ATTRIBUTE_GET_LIST' }}
-                    transformFn={(data) =>
-                      (data.attributes as Array<CatalogAttribute>).filter(
-                        (a) => a.certified === certifiedCondition
-                      )
-                    }
+                    transformKey="attributes"
+                    transformFn={(data) => {
+                      // TEMP PIN-1176: this is ugly on purpose, it will change as soon as it
+                      // is possible to filter attributes in the GET request
+                      if (certifiedCondition) {
+                        return data.filter((a) => a.kind === 'CERTIFIED')
+                      }
+
+                      return data.filter((a) => a.kind !== 'CERTIFIED')
+                    }}
                     name="selection"
                     onChange={wrapUpdateSelected(setFieldValue)}
+                    getOptionLabel={(option: CatalogAttribute) => (option ? option.name : '')}
+                    isOptionEqualToValue={(option: CatalogAttribute, value: CatalogAttribute) =>
+                      option.name === value.name
+                    }
                   />
 
                   {verifiedCondition && (

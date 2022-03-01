@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import noop from 'lodash/noop'
-import { ApiEndpointKey } from '../../../../types'
+import { ApiEndpointKey, Party } from '../../../../types'
 import { StyledInputControlledAsyncAutocomplete } from '../StyledInputControlledAsyncAutocomplete'
 
 describe('Snapshot', () => {
@@ -11,12 +11,13 @@ describe('Snapshot', () => {
         label: 'Snapshot autocomplete',
         name: 'autocomplete',
         defaultValue: null,
-        labelKey: 'name',
         placeholder: '...',
         onChange: noop,
         path: { endpoint: 'ONBOARDING_GET_AVAILABLE_PARTIES' as ApiEndpointKey },
-        transformFn: (data: Record<string, unknown>) =>
-          data.values as Array<Record<string, unknown>>,
+        transformKey: 'institutions',
+        transformFn: (data: Array<Party>) => data,
+        getOptionLabel: (option: Party) => (option ? option.description : ''),
+        isOptionEqualToValue: (option: Party, value: Party) => option.id === value.id,
       }
       return <StyledInputControlledAsyncAutocomplete {...props} />
     }

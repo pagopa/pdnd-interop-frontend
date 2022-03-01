@@ -479,6 +479,8 @@ export type PublicKeys = {
 /*
  * Attributes
  */
+export type AttributeKind = 'CERTIFIED' | 'VERIFIED' | 'DECLARED'
+
 export type AttributeKey = 'certified' | 'verified' | 'declared'
 
 export type AttributeModalTemplate = 'add' | 'create'
@@ -524,7 +526,7 @@ export type BackendAttributes = Record<AttributeKey, Array<BackendAttribute>>
 
 // Catalog attribute as it comes from the attributes catalog
 export type CatalogAttribute = {
-  certified: boolean
+  kind: AttributeKind
   creationTime: string
   description: string
   id: string

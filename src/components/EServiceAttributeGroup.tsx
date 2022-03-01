@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Box } from '@mui/system'
-import { object, string } from 'yup'
+import { mixed, object, string } from 'yup'
 import {
   AttributeKey,
   CatalogAttribute,
@@ -39,16 +39,23 @@ export function EServiceAttributeGroup({
   const { closeDialog } = useCloseDialog()
 
   const openCreateNewAttributeDialog = () => {
-    const createNewAttributeInitialValues = { name: '', code: '', origin: '', description: '' }
+    const createNewAttributeInitialValues = {
+      name: '',
+      code: '',
+      origin: '',
+      description: '',
+      kind: attributeKey.toUpperCase(),
+    }
     const createNewAttributeValidationSchema = object({
       name: string().required(),
       code: string().required(),
       origin: string().required(),
       description: string().required(),
+      kind: mixed().oneOf(['CERTIFIED', 'VERIFIED', 'DECLARED']).required(),
     })
 
     const createNewAttribute = async (data: NewAttributeFormInputValues) => {
-      const dataToPost = { ...data, certified: false }
+      const dataToPost = { ...data }
 
       await runAction(
         { path: { endpoint: 'ATTRIBUTE_CREATE' }, config: { data: dataToPost } },

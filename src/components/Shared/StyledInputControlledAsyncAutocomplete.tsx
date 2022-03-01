@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 import debounce from 'lodash/debounce'
-import uniqBy from 'lodash/uniqBy'
 import { AxiosResponse } from 'axios'
-import { Autocomplete, TextField } from '@mui/material'
+import { Autocomplete, TextField, Typography } from '@mui/material'
 import { Endpoint } from '../../../types'
 import { fetchWithLogs } from '../../lib/api-utils'
 import { getFetchOutcome } from '../../lib/error-utils'
 import { StyledSpinner } from './StyledSpinner'
 import { StyledInputWrapper } from './StyledInputWrapper'
 import { SxProps } from '@mui/system'
+import parse from 'autosuggest-highlight/parse'
+import match from 'autosuggest-highlight/match'
 
-type StyledInputControlledAsyncAutocompleteProps = {
+type StyledInputControlledAsyncAutocompleteProps<T> = {
   label: string
   disabled?: boolean
   infoLabel?: string
@@ -21,14 +22,17 @@ type StyledInputControlledAsyncAutocompleteProps = {
 
   placeholder: string
   path: Endpoint
-  transformFn: (data: Record<string, unknown>) => Array<Record<string, unknown>>
-  labelKey: string
+  transformFn: (data: Array<T>) => Array<T>
+  transformKey?: string
   multiple?: boolean
   focusOnMount?: boolean
   sx?: SxProps
+
+  getOptionLabel: (option: T) => string
+  isOptionEqualToValue: ((option: T, value: T) => boolean) | undefined
 }
 
-export function StyledInputControlledAsyncAutocomplete({
+export const StyledInputControlledAsyncAutocomplete = <T extends unknown>({
   label,
   disabled = false,
   infoLabel,
@@ -40,13 +44,16 @@ export function StyledInputControlledAsyncAutocomplete({
   placeholder,
   path,
   transformFn,
-  labelKey,
+  transformKey,
   multiple = false,
   focusOnMount = false,
   sx,
-}: StyledInputControlledAsyncAutocompleteProps) {
+
+  getOptionLabel,
+  isOptionEqualToValue,
+}: StyledInputControlledAsyncAutocompleteProps<T>) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [options, setOptions] = useState<Array<Record<string, unknown>>>([])
+  const [options, setOptions] = useState<Array<T>>([])
   const [isLoading, setIsLoading] = useState(false)
 
   const handleSearch = async (e: React.SyntheticEvent) => {
@@ -68,7 +75,8 @@ export function StyledInputControlledAsyncAutocomplete({
     const outcome = getFetchOutcome(searchResponse)
 
     if (outcome === 'success') {
-      setOptions(transformFn((searchResponse as AxiosResponse).data))
+      const data = (searchResponse as AxiosResponse).data
+      setOptions(transformFn(transformKey ? data[transformKey] : data))
     }
 
     setIsLoading(false)
@@ -92,9 +100,9 @@ export function StyledInputControlledAsyncAutocomplete({
         onInputChange={debounce(handleSearch, 100)}
         onOpen={open}
         onClose={close}
-        getOptionLabel={(option) => (option ? (option[labelKey] as string) : '')}
-        isOptionEqualToValue={(option, value) => option[labelKey] === value[labelKey]}
-        filterOptions={(options) => uniqBy(options, (o) => (o[labelKey] as string).toLowerCase())}
+        getOptionLabel={getOptionLabel}
+        isOptionEqualToValue={isOptionEqualToValue}
+        // filterOptions={(options) => uniqBy(options, (o) => (o[labelKey] as string).toLowerCase())}
         options={options}
         loading={isLoading}
         loadingText="Stiamo cercando..."
@@ -118,6 +126,27 @@ export function StyledInputControlledAsyncAutocomplete({
               }}
               error={Boolean(error)}
             />
+          )
+        }}
+        renderOption={(props, option, { inputValue }) => {
+          const label = getOptionLabel(option)
+          const matches = match(label, inputValue, { insideWords: true })
+          const parts = parse(label, matches)
+
+          return (
+            <li {...props}>
+              <div>
+                {parts.map((part, i) => (
+                  <Typography
+                    component="span"
+                    key={i}
+                    sx={{ fontWeight: part.highlight ? 700 : 400 }}
+                  >
+                    {part.text}
+                  </Typography>
+                ))}
+              </div>
+            </li>
           )
         }}
       />
