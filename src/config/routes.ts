@@ -37,7 +37,8 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     PATH: { it: '/it/aiuto', en: '/en/help' },
     LABEL: { it: 'Guida introduttiva', en: 'Introductive guide' },
     COMPONENT: Help,
-    PUBLIC: true,
+    PUBLIC: false,
+    AUTH_LEVELS: 'any',
   },
   SECURITY_KEY_GUIDE: {
     PATH: { it: '/it/generazione-chiavi', en: '/en/generate-keys' },

@@ -16,7 +16,7 @@ export function Help() {
 
   return (
     <React.Fragment>
-      <StyledIntro sx={{ mb: 2 }}>
+      <StyledIntro>
         {{
           title: 'Guida introduttiva',
           description:
