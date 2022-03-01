@@ -83,11 +83,11 @@ export function EServiceCatalog() {
         onClick: () => {
           history.push(
             buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
-              id: eservice.callerSubscribed as string,
+              agreementId: eservice.callerSubscribed as string,
             })
           )
         },
-        label: "Vai all'accordo",
+        label: 'Vai alla richiesta',
       })
     }
 

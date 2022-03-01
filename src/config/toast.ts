@@ -196,16 +196,16 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     },
   },
   AGREEMENT_CREATE: {
-    loadingText: "Stiamo creando l'accordo richiesto",
+    loadingText: 'Stiamo inoltrando la richiesta di fruizione',
     success: {
-      title: 'Accordo creato',
+      title: 'Richiesta inoltrata',
       description:
-        "L'accordo è stato creato correttamente ed è in attesa di approvazione. Riceverai notifiche di aggiornamento sul suo stato",
+        'La richiesta è stata inoltrata correttamente ed è in attesa di approvazione. Riceverai notifiche di aggiornamento sul suo stato',
     },
     error: {
       title: "C'è stato un problema",
       description:
-        "Non è stato possibile creare l'accordo. Se sei sicuro/a di averne diritto, contatta l'assistenza per ulteriori verifiche",
+        "Non è stato possibile inoltrare la richiesta. Se sei sicuro/a di averne diritto, contatta l'assistenza per ulteriori verifiche",
     },
   },
   AGREEMENT_VERIFY_ATTRIBUTE: {
@@ -217,39 +217,39 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     },
   },
   AGREEMENT_ACTIVATE: {
-    loadingText: "Stiamo attivando l'accordo",
+    loadingText: 'Stiamo attivando la richiesta',
     success: {
       title: 'Accordo attivato',
       description:
-        "L'accordo è ora attivo, ed è possibile creare client da associare all'e-service",
+        "La richiesta di fruizione è ora attiva, ed è possibile creare finalità da associare all'e-service",
     },
     error: {
       title: "C'è stato un problema",
       description:
-        "Non è stato possibile attivare l'accordo. Accertarsi che tutti gli attributi siano stati verificati e riprovare",
+        'Non è stato possibile attivare la richiesta. Accertarsi che tutti gli attributi siano stati verificati e riprovare',
     },
   },
   AGREEMENT_SUSPEND: {
-    loadingText: "Stiamo sospendendo l'accordo",
+    loadingText: 'Stiamo sospendendo la richiesta',
     success: {
       title: 'Accordo sospeso',
-      description:
-        "Non è più possibile per i client associati all'e-service accedere al servizio in erogazione",
+      description: 'Non è più possibile per i client accedere al servizio in erogazione',
     },
     error: {
       title: "C'è stato un problema",
-      description: "Non è stato possibile sospendere l'accordo. Per favore, riprova!",
+      description: 'Non è stato possibile sospendere la richiesta. Per favore, riprova!',
     },
   },
   AGREEMENT_UPGRADE: {
-    loadingText: "Stiamo aggiornando l'accordo",
+    loadingText: 'Stiamo aggiornando la richiesta',
     success: {
-      title: 'Accordo aggiornato',
-      description: "L'accordo è stato aggiornato alla versione più recente dell'e-service",
+      title: 'Richiesta aggiornata',
+      description:
+        "La richiesta di fruizione è stata aggiornata alla versione più recente dell'e-service",
     },
     error: {
       title: "C'è stato un problema",
-      description: "Non è stato possibile aggiornare l'accordo. Per favore, riprova!",
+      description: 'Non è stato possibile aggiornare la richiesta. Per favore, riprova!',
     },
   },
   PURPOSE_DRAFT_CREATE: {

@@ -9,8 +9,8 @@ export function getAgreementState(
   }
 
   if (mode === 'provider') {
-    return !!item.suspendedByProducer ? 'SUSPENDED' : 'ACTIVE'
+    return Boolean(item.suspendedByProducer) ? 'SUSPENDED' : 'ACTIVE'
   }
 
-  return !!item.suspendedBySubscriber ? 'SUSPENDED' : 'ACTIVE'
+  return Boolean(item.suspendedByConsumer) ? 'SUSPENDED' : 'ACTIVE'
 }

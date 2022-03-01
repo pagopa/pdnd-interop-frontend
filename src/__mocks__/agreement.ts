@@ -21,7 +21,7 @@ export const agreementActiveEservicePublished: AgreementSummary = {
   },
   attributes: [],
   suspendedByProducer: false,
-  suspendedBySubscriber: false,
+  suspendedByConsumer: false,
 }
 
 export const agreementSuspendedByProducerEservicePublished: AgreementSummary = {
@@ -45,7 +45,7 @@ export const agreementSuspendedByProducerEservicePublished: AgreementSummary = {
   },
   attributes: [],
   suspendedByProducer: true,
-  suspendedBySubscriber: false,
+  suspendedByConsumer: false,
 }
 
 export const agreementSuspendedBySubscriberEservicePublished: AgreementSummary = {
@@ -69,5 +69,5 @@ export const agreementSuspendedBySubscriberEservicePublished: AgreementSummary =
   },
   attributes: [],
   suspendedByProducer: false,
-  suspendedBySubscriber: true,
+  suspendedByConsumer: true,
 }

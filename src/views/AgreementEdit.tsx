@@ -12,7 +12,7 @@ import {
 } from '../../types'
 import { AGREEMENT_STATE_LABEL } from '../config/labels'
 import { buildDynamicPath, getLastBit } from '../lib/router-utils'
-import { formatDate, getRandomDate } from '../lib/date-utils'
+// import { formatDate, getRandomDate } from '../lib/date-utils'
 import { mergeActions } from '../lib/eservice-utils'
 import { useMode } from '../hooks/useMode'
 import { StyledIntro } from '../components/Shared/StyledIntro'
@@ -30,13 +30,8 @@ import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 import { useRoute } from '../hooks/useRoute'
 
 export function AgreementEdit() {
-  const {
-    runAction,
-    runFakeAction,
-    runActionWithDestination,
-    forceRerenderCounter,
-    wrapActionInDialog,
-  } = useFeedback()
+  const { runAction, runActionWithDestination, forceRerenderCounter, wrapActionInDialog } =
+    useFeedback()
   const mode = useMode()
   const agreementId = getLastBit(useLocation())
   const { party } = useContext(PartyContext)
@@ -47,7 +42,7 @@ export function AgreementEdit() {
     },
     {
       useEffectDeps: [forceRerenderCounter, mode],
-      loadingTextLabel: "Stiamo caricando l'accordo richiesto",
+      loadingTextLabel: 'Stiamo caricando la richiesta di fruizione',
     }
   )
 
@@ -89,9 +84,10 @@ export function AgreementEdit() {
     )
   }
 
-  const archive = () => {
-    runFakeAction('Archivia accordo')
-  }
+  // TEMP PIN-217
+  // const archive = () => {
+  //   //
+  // }
 
   const wrapVerify = (attributeId: string) => async () => {
     const sureData = data as AgreementSummary
@@ -135,7 +131,7 @@ export function AgreementEdit() {
 
     const providerOnlyActions: AgreementActions = {
       ACTIVE: [],
-      SUSPENDED: [{ onClick: wrapActionInDialog(archive), label: 'Archivia', isMock: true }],
+      SUSPENDED: [], // [{ onClick: wrapActionInDialog(archive), label: 'Archivia', isMock: true }],
       PENDING: [
         {
           onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'),
@@ -184,7 +180,7 @@ export function AgreementEdit() {
     id: string
     explicitAttributeVerification: boolean
   }) => {
-    const randomDate = getRandomDate(new Date(2022, 0, 1), new Date(2023, 0, 1))
+    // const randomDate = getRandomDate(new Date(2022, 0, 1), new Date(2023, 0, 1))
 
     const computeLabel = () => {
       if (!explicitAttributeVerification) {
@@ -200,12 +196,13 @@ export function AgreementEdit() {
 
     return (
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography>
+        {/* <Typography>
           {name}, con{' '}
           <Typography component="span" className="fakeData">
             scadenza {formatDate(randomDate)}
           </Typography>
-        </Typography>
+        </Typography> */}
+        <Typography>{name}</Typography>
 
         {/* display */}
         <Typography component="span">{computeLabel()}</Typography>
@@ -214,7 +211,7 @@ export function AgreementEdit() {
         {mode === 'provider' && explicitAttributeVerification && (
           <Box sx={{ display: 'flex' }}>
             <StyledButton variant="contained" onClick={wrapVerify(id)}>
-              Verifica
+              Verifica{verified !== null ? ' nuovamente' : ''}
             </StyledButton>
             {/* <StyledButton variant="contained" onClick={wrapRefuse(id)}>
               Rifiuta
@@ -226,7 +223,7 @@ export function AgreementEdit() {
   }
 
   const agreementSuspendExplanation =
-    "L'accordo può essere sospeso sia dall'erogatore che dal fruitore dell'e-service. Se almeno uno dei due attori lo sospende, inibirà l'accesso all'e-service a tutti i client associati all'e-service dal fruitore"
+    "La richiesta può essere sospesa sia dall'erogatore che dal fruitore dell'e-service. Se almeno uno dei due attori la sospende, inibirà l'accesso all'e-service a tutti i client associati all'e-service dal fruitore"
 
   if (!data) {
     return <StyledSkeleton />
@@ -257,12 +254,15 @@ export function AgreementEdit() {
             >
               versione più recente
             </StyledLink>
-            ; per attivarla, aggiorna l’accordo di interoperabilità)
+            ; per attivarla, aggiorna la richiesta di fruizione)
           </React.Fragment>
         ) : null}
       </DescriptionBlock>
 
-      <DescriptionBlock label="Stato dell'accordo" tooltipLabel={agreementSuspendExplanation}>
+      <DescriptionBlock
+        label="Stato della richiesta di fruizione"
+        tooltipLabel={data?.state !== 'PENDING' ? agreementSuspendExplanation : undefined}
+      >
         {data?.state === 'SUSPENDED' ? (
           <React.Fragment>
             <Typography component="span">
@@ -320,7 +320,7 @@ export function AgreementEdit() {
                 )
               })
             ) : (
-              <Typography>Per questo e-service non sono stati richiesti attributi</Typography>
+              <Typography>Per questo e-service non sono richiesti attributi</Typography>
             )}
           </Box>
         </Contained>

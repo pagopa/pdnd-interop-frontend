@@ -38,22 +38,22 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
   ESERVICE_VERSION_REACTIVATE: {
     title: 'Conferma riattivazione versione',
     description:
-      'Cliccando "conferma" questa versione di e-service sarà riattivata. Tutti i fruitori che hanno un accordo di interoperabilità attivo per questa versione di servizio potranno nuovamente usufruirne',
+      'Cliccando "conferma" questa versione di e-service sarà riattivata. Tutti i fruitori che hanno una richiesta di fruizione attiva per questa versione di e-service potranno nuovamente usufruirne',
   },
   AGREEMENT_ACTIVATE: {
-    title: "Attiva l'accordo",
+    title: 'Attiva la richiesta',
     description:
-      'Cliccando su "conferma" si attiverà l\'accordo di interoperabilità. Potrà essere sospeso in qualunque momento da questo pannello',
+      'Cliccando su "conferma" si attiverà la richiesta di fruizione. Potrà essere sospesa in qualunque momento da questo pannello',
   },
   AGREEMENT_SUSPEND: {
-    title: "Sospendi l'accordo",
+    title: 'Sospendi la richiesta',
     description:
-      "Cliccando su \"conferma\", l'accordo di interoperabilità sarà sospeso. I client collegati a questo accordo non avranno più accesso all'e-service in erogazione. L'accordo è riattivabile in qualsiasi momento da questa stessa pagina",
+      'Cliccando su "conferma", la richiesta di fruizione sarà sospesa. I client collegati a questa richiesta non avranno più accesso all\'e-service in erogazione. La richiesta è riattivabile in qualsiasi momento da questa stessa pagina',
   },
   AGREEMENT_UPGRADE: {
-    title: "Aggiorna l'accordo",
+    title: 'Aggiorna la richiesta',
     description:
-      "Cliccando su \"conferma\", l'accordo di interoperabilità sarà aggiornato alla versione più recente dell'e-service attualmente disponibile. I client collegati a questo accordo continueranno ad avere accesso all'e-service in erogazione, aggiornato all'ultima versione",
+      "Cliccando su \"conferma\", la richiesta di fruizione sarà aggiornata alla versione più recente dell'e-service attualmente disponibile. I client collegati a questa richiesta continueranno ad avere accesso all'e-service in erogazione, aggiornato all'ultima versione",
   },
   PURPOSE_DRAFT_DELETE: {
     title: 'Conferma cancellazione finalità',
@@ -83,7 +83,7 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
   CLIENT_ACTIVATE: {
     title: 'Riattiva il client',
     description:
-      "Il client è attualmente inattivo, e si sta per riattivarlo. Se ci sono altri impedimenti (es. l'accordo di interoperabilità è sospeso) non sarà comunque possibile accedere all'e-service erogato",
+      "Il client è attualmente inattivo, e si sta per riattivarlo. Se ci sono altri impedimenti (es. la richiesta di fruizione è sospesa) non sarà comunque possibile accedere all'e-service erogato",
   },
   CLIENT_REMOVE_FROM_PURPOSE: {
     title: 'Rimuovi client dalla finalità',

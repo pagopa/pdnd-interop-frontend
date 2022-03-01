@@ -147,17 +147,19 @@ export function AgreementList() {
   const headData = [
     'nome e-service',
     mode === 'provider' ? 'ente fruitore' : 'ente erogatore',
-    'stato accordo',
+    'stato richiesta',
   ]
 
   const INTRO: Record<ProviderOrSubscriber, StyledIntroChildrenProps> = {
     provider: {
-      title: 'Gli accordi',
-      description: "In quest'area puoi gestire tutti gli accordi di cui sei erogatore",
+      title: 'Richieste di fruizione',
+      description:
+        "In quest'area puoi gestire tutte le richieste di fruizione che ti sono state inoltrate da enti che intendono fruire dei tuoi e-service",
     },
     subscriber: {
-      title: 'Gli accordi',
-      description: "In quest'area puoi gestire tutti gli accordi di cui sei fruitore",
+      title: 'Le tue richieste',
+      description:
+        "In quest'area puoi gestire tutte le richieste di fruizione che hai sottoscritto con enti erogatori",
     },
   }
 

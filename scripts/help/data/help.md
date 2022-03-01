@@ -128,7 +128,7 @@ Ogni atto di sospensione di fatto prevederà che tutte le chiavi contenute nei c
 
 ### Creare un nuovo e-service
 
-Se sei un amministratore, delegato, o operatore API, troverai la voce di menù "Erogazione > I tuoi e-service". Da lì, clicca su "+ Aggiungi". Segui la procedura guidata, inserendo le informazioni indicate. Potrai interrompere il processo in qualsiasi momento. Ad ogni step è possibile salvare i dati in bozza e riprendere la compilazione in un successivo momento. È importante sapere che, una volta pubblicata la versione 1 di un e-service, non è più possibile modificare le informazioni generali (nome e descrizione dell'e-service, tecnologia utilizzata e attributi richiesti per sottoscrivere un accordo di fruizione). Sarà sempre possibile creare una nuova versione di e-service mano a mano che l'API evolve.
+Se sei un amministratore, delegato, o operatore API, troverai la voce di menù "Erogazione > I tuoi e-service". Da lì, clicca su "+ Aggiungi". Segui la procedura guidata, inserendo le informazioni indicate. Potrai interrompere il processo in qualsiasi momento. Ad ogni step è possibile salvare i dati in bozza e riprendere la compilazione in un successivo momento. È importante sapere che, una volta pubblicata la versione 1 di un e-service, non è più possibile modificare le informazioni generali (nome e descrizione dell'e-service, tecnologia utilizzata e attributi richiesti per sottoscrivere una richiesta di fruizione). Sarà sempre possibile creare una nuova versione di e-service mano a mano che l'API evolve.
 
 ### Come funzionano gli attributi?
 
