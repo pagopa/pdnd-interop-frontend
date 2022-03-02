@@ -338,6 +338,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: 'Non è stato possibile cancellare il client. Per favore, riprova!',
     },
   },
+  CLIENT_INTEROP_M2M_CREATE: { loadingText: 'Stiamo creando il client richiesto' },
   CLIENT_JOIN_WITH_PURPOSE: {
     loadingText: 'Stiamo associando il client alla finalità',
     success: {

@@ -186,10 +186,10 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'authorization-process/0.1/clients/:clientId',
     METHOD: 'DELETE',
   },
-  // CLIENT_INTEROP_M2M_CREATE: {
-  //   URL: 'authorization-process/0.1/clientsApi',
-  //   METHOD: 'POST',
-  // },
+  CLIENT_INTEROP_M2M_CREATE: {
+    URL: 'authorization-process/0.1/clientsApi',
+    METHOD: 'POST',
+  },
   CLIENT_JOIN_WITH_PURPOSE: {
     // TEMP BACKEND: waiting for backend endpoint
     URL: '',

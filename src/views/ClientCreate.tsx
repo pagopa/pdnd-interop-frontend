@@ -35,8 +35,9 @@ export function ClientCreate() {
   const onSubmit = async (data: ClientFields) => {
     const dataToPost = { name: data.name, description: data.description, consumerId: party?.id }
 
+    const endpoint = clientKind === 'CONSUMER' ? 'CLIENT_CREATE' : 'CLIENT_INTEROP_M2M_CREATE'
     const { outcome, response } = await runAction(
-      { path: { endpoint: 'CLIENT_CREATE' }, config: { data: dataToPost } },
+      { path: { endpoint }, config: { data: dataToPost } },
       { suppressToast: false }
     )
 
@@ -56,7 +57,7 @@ export function ClientCreate() {
       const destination =
         clientKind === 'CONSUMER'
           ? routes.SUBSCRIBE_CLIENT_LIST.PATH
-          : routes.PROVIDE_INTEROP_M2M.PATH
+          : `${routes.SUBSCRIBE_INTEROP_M2M.PATH}?tab=clients`
 
       history.push(destination)
     }

@@ -67,7 +67,11 @@ export const MainNav = () => {
       {
         route: routes.SUBSCRIBE,
         id: 'subscriber',
-        children: [routes.SUBSCRIBE_CATALOG_LIST, routes.SUBSCRIBE_CLIENT_LIST],
+        children: [
+          routes.SUBSCRIBE_CATALOG_LIST,
+          routes.SUBSCRIBE_CLIENT_LIST,
+          routes.SUBSCRIBE_INTEROP_M2M,
+        ],
       },
     ],
   }
