@@ -127,8 +127,8 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
             fetchedData.technology === 'REST'
               ? { mime: ['application/x-yaml'], format: 'yaml (MIME type: application/x-yaml)' }
               : {
-                  mime: ['application/xml', 'text/xml'],
-                  format: 'xml (MIME type: application/xml o text/xml)',
+                  mime: ['application/wsdl+xml', 'application/xml'],
+                  format: 'wsdl (MIME type: application/wsdl+xml o application/xml)',
                 }
           }
         />

@@ -185,7 +185,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
       />
 
       <StyledInputControlledSelect
-        name="eservice"
+        name="eserviceId"
         label="Eservice da associare (richiesto)"
         error={formik.errors.eserviceId}
         value={formik.values.eserviceId}

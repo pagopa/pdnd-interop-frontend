@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Box } from '@mui/system'
 import { number, object } from 'yup'
@@ -23,7 +23,6 @@ import { DialogContext } from '../lib/context'
 import { formatThousands } from '../lib/number-utils'
 import { decoratePurposeWithMostRecentVersion } from '../lib/purpose'
 import { buildDynamicPath } from '../lib/router-utils'
-import { mockPurposeList } from '../temp/mock-purpose'
 // import { axiosErrorToError } from '../lib/error-utils'
 
 export const PurposeList = () => {
@@ -32,24 +31,17 @@ export const PurposeList = () => {
   const { setDialog } = useContext(DialogContext)
   const { routes } = useRoute()
 
-  const { data, loadingText /*, error */ } = useAsyncFetch<Array<Purpose>>(
-    {
-      path: { endpoint: 'PURPOSE_GET_LIST' },
-    },
+  const { data, loadingText /*, error */ } = useAsyncFetch<
+    { purposes: Array<Purpose> },
+    Array<DecoratedPurpose>
+  >(
+    { path: { endpoint: 'PURPOSE_GET_LIST' } },
     {
       loaderType: 'contextual',
       loadingTextLabel: 'Stiamo caricando le finalità',
-      // mapFn: (data) => data.map(decoratePurposeWithMostRecentVersion)
+      mapFn: (data) => data.purposes.map(decoratePurposeWithMostRecentVersion),
     }
   )
-  const [mockData, setMockData] = useState<Array<DecoratedPurpose>>([])
-
-  useEffect(() => {
-    if (!data) {
-      const decorated = mockPurposeList.map(decoratePurposeWithMostRecentVersion)
-      setMockData(decorated)
-    }
-  }, [data])
 
   /*
    * List of possible actions for the user to perform
@@ -186,9 +178,9 @@ export const PurposeList = () => {
           noDataLabel="Non ci sono finalità disponibili"
           // error={axiosErrorToError(error)}
         >
-          {mockData &&
-            Boolean(mockData.length > 0) &&
-            mockData.map((item, i) => {
+          {data &&
+            Boolean(data.length > 0) &&
+            data.map((item, i) => {
               const purposeStateLabel = PURPOSE_STATE_LABEL[item.currentVersion.state]
               return (
                 <StyledTableRow

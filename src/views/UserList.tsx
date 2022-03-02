@@ -13,7 +13,7 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATE_LABEL } from '../config/labels'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { axiosErrorToError } from '../lib/error-utils'
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { isAdmin } from '../lib/auth-utils'
 import { useRoute } from '../hooks/useRoute'
 import { ActionMenu } from '../components/Shared/ActionMenu'
@@ -156,7 +156,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
         </StyledIntro>
       )}
 
-      {isAdmin(party) && (
+      {isAdmin(party) && mode === 'subscriber' && (
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
           <StyledButton variant="contained" onClick={openAddOperatoDialog}>
             + Aggiungi
@@ -198,6 +198,10 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
             </StyledTableRow>
           ))}
       </TableWithLoader>
+
+      <Typography sx={{ mt: 2 }} variant="body2">
+        Se l&rsquo;operatore non è in elenco, in questa fase di test contattaci per aggiungerlo
+      </Typography>
     </React.Fragment>
   )
 }

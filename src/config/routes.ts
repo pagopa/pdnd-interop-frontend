@@ -137,7 +137,7 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
   },
   PROVIDE_OPERATOR_EDIT: {
     PATH: { it: '/it/erogazione/operatori/:operatorId', en: '/en/provider/operators/:operatorId' },
-    LABEL: { it: 'Gestisci operatore API', en: 'Manage API operator' },
+    LABEL: { it: 'Gestisci utenza', en: 'Manage user' },
     EXACT: false,
     COMPONENT: UserEdit,
     PUBLIC: false,

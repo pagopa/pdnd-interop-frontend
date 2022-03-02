@@ -115,7 +115,6 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'POST',
   },
   PURPOSE_GET_LIST: {
-    // TEMP BACKEND: waiting for backend endpoint
     URL: 'purpose-process/0.1/purposes',
     METHOD: 'GET',
   },

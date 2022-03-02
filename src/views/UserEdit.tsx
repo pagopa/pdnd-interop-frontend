@@ -157,7 +157,7 @@ export function UserEdit() {
 
   return (
     <React.Fragment>
-      <StyledIntro sx={{ mb: 0 }}>{{ title: 'Modifica operatore' }}</StyledIntro>
+      <StyledIntro sx={{ mb: 0 }}>{{ title: 'Gestisci utenza' }}</StyledIntro>
 
       <DescriptionBlock label="Nome e cognome">
         <Typography component="span">
