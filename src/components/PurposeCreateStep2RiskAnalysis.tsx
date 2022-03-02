@@ -13,9 +13,9 @@ import { StyledInputControlledSelectProps } from './Shared/StyledInputControlled
 import { ObjectShape } from 'yup/lib/object'
 import { useFeedback } from '../hooks/useFeedback'
 import { useLocation } from 'react-router-dom'
-import { getBits } from '../lib/router-utils'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { Purpose } from '../../types'
+import { getPurposeFromUrl } from '../lib/purpose'
 
 type Dependency = {
   id: string
@@ -51,8 +51,7 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
   forward,
 }) => {
   const location = useLocation()
-  const bits = getBits(location)
-  const purposeId = bits[bits.length - 1]
+  const purposeId = getPurposeFromUrl(location)
 
   const riskAnalysisConfig = _riskAnalysisConfig as RiskAnalysis
   const { runAction } = useFeedback()
@@ -64,20 +63,22 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
   ) as Answers
 
   const { data: purposeData } = useAsyncFetch<Purpose>(
-    { path: { endpoint: 'PURPOSE_GET_SINGLE' }, config: { params: { purposeId } } },
+    { path: { endpoint: 'PURPOSE_GET_SINGLE', endpointParams: { purposeId } } },
     { loadingTextLabel: 'Stiamo caricando le informazioni della finalità' }
   )
 
-  const onSubmit = async (riskAnalysisForm: unknown) => {
+  const onSubmit = async (answers: unknown) => {
     const dataToPost = {
-      riskAnalysisForm,
+      riskAnalysisForm: { answers, version: riskAnalysisConfig.version },
       title: purposeData?.title,
       description: purposeData?.description,
-      eserviceId: purposeData?.eservice.id,
     }
     console.log('submit', dataToPost)
     const { outcome } = await runAction(
-      { path: { endpoint: 'PURPOSE_DRAFT_UPDATE' }, config: { data: dataToPost } },
+      {
+        path: { endpoint: 'PURPOSE_DRAFT_UPDATE', endpointParams: { purposeId } },
+        config: { data: dataToPost },
+      },
       { suppressToast: true }
     )
 

@@ -431,14 +431,17 @@ export type Purpose = {
   id: string
   title: string
   description: string
-  eservice: Pick<EServiceReadType, 'id' | 'name' | 'producer'>
-  eserviceDescriptor: Pick<
-    EServiceDescriptorRead,
-    'id' | 'version' | 'dailyCallsMaxNumber' | 'state'
-  >
+  eservice: Pick<EServiceReadType, 'id' | 'name' | 'producer'> & {
+    descriptor: Pick<
+      EServiceDescriptorRead,
+      // TEMP PIN-1194
+      'id' | 'version' /* | 'dailyCallsMaxNumber' */ | 'state'
+    > & { dailyCalls: number }
+  }
   agreement: Pick<AgreementSummary, 'id' | 'state'>
   riskAnalysisForm: PurposeRiskAnalysisForm
-  clients: Array<Pick<Client, 'id' | 'name'>>
+  // TEMP PIN-1195
+  clients: { clients: Array<Pick<Client, 'id' | 'name'>> }
   versions: Array<PurposeVersion>
 }
 

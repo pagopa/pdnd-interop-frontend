@@ -1,4 +1,7 @@
 import { DecoratedPurpose, Purpose } from '../../types'
+import { Location } from 'history'
+import { URL_FRAGMENTS } from './constants'
+import { getBits } from './router-utils'
 
 export function decoratePurposeWithMostRecentVersion(purpose: Purpose): DecoratedPurpose {
   const sorted = purpose.versions.sort(
@@ -20,8 +23,8 @@ export function decoratePurposeWithMostRecentVersion(purpose: Purpose): Decorate
 
 export function getComputedPurposeState(purpose: DecoratedPurpose) {
   const isEserviceActive =
-    purpose.eserviceDescriptor.state === 'PUBLISHED' ||
-    purpose.eserviceDescriptor.state === 'DEPRECATED'
+    purpose.eservice.descriptor.state === 'PUBLISHED' ||
+    purpose.eservice.descriptor.state === 'DEPRECATED'
   const isAgreementActive = purpose.agreement.state === 'ACTIVE'
 
   if (!isEserviceActive && isAgreementActive) {
@@ -37,4 +40,15 @@ export function getComputedPurposeState(purpose: DecoratedPurpose) {
   }
 
   return 'Sì, a patto che almeno uno dei client associati a questa finalità sia attivo ed abbia almeno un operatore che ha caricato una chiave pubblica'
+}
+
+export function getPurposeFromUrl(location: Location<unknown>) {
+  const bits = getBits(location)
+
+  // If we are in edit mode, strip that path bit
+  if (Object.values(URL_FRAGMENTS.EDIT).includes(bits[bits.length - 1])) {
+    bits.pop()
+  }
+
+  return bits.pop()
 }

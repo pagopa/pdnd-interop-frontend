@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { object, number } from 'yup'
 import { Grid, Tab, Typography } from '@mui/material'
 import { TabList, TabContext, TabPanel } from '@mui/lab'
 import { useHistory, useLocation } from 'react-router-dom'
 import { buildDynamicPath, getBits } from '../lib/router-utils'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { mockPurpose1 } from '../temp/mock-purpose'
 import {
   ActionProps,
   Client,
@@ -36,7 +35,6 @@ import { useRoute } from '../hooks/useRoute'
 
 export const PurposeView = () => {
   const history = useHistory()
-  const [mockData, setMockData] = useState<DecoratedPurpose>()
   const location = useLocation()
   const { runAction, wrapActionInDialog } = useFeedback()
   const { setDialog } = useContext(DialogContext)
@@ -44,17 +42,13 @@ export const PurposeView = () => {
   const { activeTab, updateActiveTab } = useActiveTab('details')
   const locationBits = getBits(location)
   const purposeId = locationBits[locationBits.length - 1]
-  const { data /*, error */ } = useAsyncFetch<Purpose>(
+  const { data /*, error */ } = useAsyncFetch<Purpose, DecoratedPurpose>(
     { path: { endpoint: 'PURPOSE_GET_SINGLE', endpointParams: { purposeId } } },
-    { loadingTextLabel: 'Stiamo caricando la finalità richiesta' }
-  )
-
-  useEffect(() => {
-    if (!data) {
-      const decorated = decoratePurposeWithMostRecentVersion(mockPurpose1)
-      setMockData(decorated)
+    {
+      loadingTextLabel: 'Stiamo caricando la finalità richiesta',
+      mapFn: decoratePurposeWithMostRecentVersion,
     }
-  }, [data])
+  )
 
   const downloadDocument = async () => {
     const { response, outcome } = await runAction(
@@ -63,8 +57,8 @@ export const PurposeView = () => {
           endpoint: 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD',
           endpointParams: {
             purposeId,
-            versionId: mockData?.currentVersion.id,
-            documentId: mockData?.currentVersion.riskAnalysisDocument.id,
+            versionId: data?.currentVersion.id,
+            documentId: data?.currentVersion.riskAnalysisDocument.id,
           },
         },
       },
@@ -91,7 +85,7 @@ export const PurposeView = () => {
       {
         path: {
           endpoint: 'PURPOSE_VERSION_SUSPEND',
-          endpointParams: { purposeId: mockData?.id, versionId: mockData?.currentVersion.id },
+          endpointParams: { purposeId: data?.id, versionId: data?.currentVersion.id },
         },
       },
       { suppressToast: false }
@@ -103,7 +97,7 @@ export const PurposeView = () => {
       {
         path: {
           endpoint: 'PURPOSE_VERSION_ARCHIVE',
-          endpointParams: { purposeId: mockData?.id, versionId: mockData?.currentVersion.id },
+          endpointParams: { purposeId: data?.id, versionId: data?.currentVersion.id },
         },
       },
       { suppressToast: false }
@@ -129,7 +123,7 @@ export const PurposeView = () => {
           {
             path: {
               endpoint: 'PURPOSE_VERSION_DRAFT_CREATE',
-              endpointParams: { purposeId: mockData?.id },
+              endpointParams: { purposeId: data?.id },
             },
             config: { params: { dailyCalls } },
           },
@@ -143,7 +137,7 @@ export const PurposeView = () => {
 
   return (
     <React.Fragment>
-      <StyledIntro>{{ title: mockData?.title }}</StyledIntro>
+      <StyledIntro>{{ title: data?.title }}</StyledIntro>
 
       <TabContext value={activeTab}>
         <TabList
@@ -160,36 +154,34 @@ export const PurposeView = () => {
           <Grid container columnSpacing={2}>
             <Grid item xs={8}>
               <DescriptionBlock label="Questa finalità può accedere all’e-service dell’erogatore?">
-                <Typography component="span">
-                  {mockData && getComputedPurposeState(mockData)}
-                </Typography>
+                <Typography component="span">{data && getComputedPurposeState(data)}</Typography>
               </DescriptionBlock>
 
               <DescriptionBlock label="Stima di carico corrente">
                 <Typography component="span">
-                  {mockData && formatThousands(mockData?.currentVersion.dailyCalls)} chiamate/giorno
+                  {data && formatThousands(data?.currentVersion.dailyCalls)} chiamate/giorno
                 </Typography>
               </DescriptionBlock>
 
               <DescriptionBlock label="Descrizione">
-                <Typography component="span">{mockData?.description}</Typography>
+                <Typography component="span">{data?.description}</Typography>
               </DescriptionBlock>
 
               <DescriptionBlock label="La versione dell'e-service che stai usando">
                 <StyledLink
                   to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
-                    eserviceId: mockData?.eservice.id,
-                    descriptorId: mockData?.eserviceDescriptor.id,
+                    eserviceId: data?.eservice.id,
+                    descriptorId: data?.eservice.descriptor.id,
                   })}
                 >
-                  {mockData?.eservice.name}, versione {mockData?.eserviceDescriptor.version}
+                  {data?.eservice.name}, versione {data?.eservice.descriptor.version}
                 </StyledLink>
               </DescriptionBlock>
 
               <DescriptionBlock label="Richiesta di fruizione">
                 <StyledLink
                   to={buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
-                    agreementId: mockData?.agreement.id,
+                    agreementId: data?.agreement.id,
                   })}
                 >
                   Vedi richiesta
@@ -198,30 +190,30 @@ export const PurposeView = () => {
 
               <DescriptionBlock label="Stato della finalità">
                 <Typography component="span">
-                  {mockData && PURPOSE_STATE_LABEL[mockData.currentVersion.state]}
+                  {data && PURPOSE_STATE_LABEL[data.currentVersion.state]}
                 </Typography>
               </DescriptionBlock>
 
-              {mockData && mockData.awaitingApproval && (
+              {data && data.awaitingApproval && (
                 <DescriptionBlock label="Richiesta di aggiornamento">
                   <Typography component="span">
-                    Stima di carico: {formatThousands(mockData.mostRecentVersion.dailyCalls)}{' '}
+                    Stima di carico: {formatThousands(data.mostRecentVersion.dailyCalls)}{' '}
                     chiamate/giorno
                   </Typography>
                   <br />
                   <Typography component="span">
-                    {mockData.mostRecentVersion.expectedApprovalDate
+                    {data.mostRecentVersion.expectedApprovalDate
                       ? `Data di approvazione stimata: ${formatDateString(
-                          mockData.mostRecentVersion.expectedApprovalDate
+                          data.mostRecentVersion.expectedApprovalDate
                         )}`
                       : 'Non è stata determinata una data di approvazione'}
                   </Typography>
                 </DescriptionBlock>
               )}
 
-              {mockData && mockData.versions.length > 1 && (
+              {data && data.versions.length > 1 && (
                 <DescriptionBlock label="Storico di questa finalità">
-                  {mockData.versions.map((v, i) => {
+                  {data.versions.map((v, i) => {
                     const date = v.firstActivation || v.expectedApprovalDate
                     return (
                       <Typography component="span" key={i} sx={{ display: 'inline-block' }}>
@@ -281,7 +273,7 @@ export const PurposeView = () => {
               noDataLabel="Non ci sono client disponibili"
               // error={axiosErrorToError(error)}
             >
-              {mockData?.clients?.map((item, i) => (
+              {data?.clients?.clients.map((item, i) => (
                 <StyledTableRow key={i} cellData={[{ label: item.name }]}>
                   <StyledButton
                     variant="outlined"

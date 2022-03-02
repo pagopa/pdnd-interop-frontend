@@ -208,7 +208,7 @@ export const PurposeList = () => {
                       history.push(buildDynamicPath(path, { purposeId: item.id }))
                     }}
                   >
-                    Ispeziona
+                    {item.currentVersion.state === 'DRAFT' ? 'Modifica' : 'Ispeziona'}
                   </StyledButton>
 
                   <ActionMenu actions={getAvailableActions(item)} />

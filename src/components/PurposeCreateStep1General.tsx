@@ -18,14 +18,14 @@ import { ActiveStepProps } from '../hooks/useActiveStep'
 import { useFeedback } from '../hooks/useFeedback'
 import { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
-import { buildDynamicPath, getBits } from '../lib/router-utils'
-import { decoratePurposeWithMostRecentVersion } from '../lib/purpose'
+import { buildDynamicPath } from '../lib/router-utils'
+import { decoratePurposeWithMostRecentVersion, getPurposeFromUrl } from '../lib/purpose'
 import { useRoute } from '../hooks/useRoute'
 
 type PurposeCreate = {
   title: string
   description: string
-  eserviceId: string
+  eserviceId?: string
 }
 
 type PurposeVersionCreate = {
@@ -37,8 +37,7 @@ type PurposeStep1Write = PurposeCreate & PurposeVersionCreate
 export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ forward }) => {
   const { routes } = useRoute()
   const history = useHistory()
-  const bits = getBits(history.location)
-  const purposeId = bits[bits.length - 1]
+  const purposeId = getPurposeFromUrl(history.location)
 
   const { runAction, runActionWithCallback } = useFeedback()
   const { party } = useContext(PartyContext)
@@ -54,7 +53,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
   )
 
   const { data: purposeFetchedData } = useAsyncFetch<Purpose, DecoratedPurpose>(
-    { path: { endpoint: 'PURPOSE_GET_SINGLE' }, config: { params: { purposeId } } },
+    { path: { endpoint: 'PURPOSE_GET_SINGLE', endpointParams: { purposeId } } },
     {
       loadingTextLabel: 'Stiamo caricando le informazioni della finalità',
       mapFn: decoratePurposeWithMostRecentVersion,
@@ -101,10 +100,12 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
     let purposeEndpointParams = {}
     let purposeVersionEndpoint: ApiEndpointKey = 'PURPOSE_VERSION_DRAFT_CREATE'
     const isNewPurpose = !purposeFetchedData
+    console.log('isNewPurpose', isNewPurpose)
     if (!isNewPurpose) {
       purposeEndpoint = 'PURPOSE_DRAFT_UPDATE'
       purposeEndpointParams = { purposeId }
       delete purposeData.consumerId
+      delete purposeData.eserviceId
       purposeVersionEndpoint = 'PURPOSE_VERSION_DRAFT_UPDATE'
     }
 
@@ -114,20 +115,28 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
         path: { endpoint: purposeEndpoint, endpointParams: purposeEndpointParams },
         config: { data: purposeData },
       },
-      { suppressToast: false }
+      { suppressToast: true }
     )
 
     // Then create or update a new version that holds the dailyCalls
     if (createOutcome === 'success') {
+      const newPurpose: Purpose = (createResp as AxiosResponse).data
+      const newDecoratedPurpose: DecoratedPurpose = decoratePurposeWithMostRecentVersion(newPurpose)
+
+      console.log(newDecoratedPurpose)
+
       await runActionWithCallback(
         {
           path: {
             endpoint: purposeVersionEndpoint,
-            endpointParams: { purposeId: (createResp as AxiosResponse).data.id },
+            endpointParams: {
+              purposeId: newDecoratedPurpose.id,
+              versionId: newDecoratedPurpose.currentVersion.id,
+            },
           },
           config: { data: purposeVersionData },
         },
-        { callback: wrapGoForward(isNewPurpose), suppressToast: false }
+        { callback: wrapGoForward(isNewPurpose), suppressToast: true }
       )
     }
   }

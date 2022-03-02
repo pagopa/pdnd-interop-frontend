@@ -119,18 +119,15 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'GET',
   },
   PURPOSE_GET_SINGLE: {
-    // TEMP BACKEND: waiting for backend endpoint
     URL: 'purpose-process/0.1/purposes/:purposeId',
     METHOD: 'GET',
   },
   PURPOSE_DRAFT_CREATE: {
-    // TEMP BACKEND: waiting for backend endpoint
     URL: 'purpose-process/0.1/purposes',
     METHOD: 'POST',
   },
   PURPOSE_DRAFT_UPDATE: {
-    // TEMP BACKEND: waiting for backend endpoint
-    URL: 'purpose-process/0.1/purposes/:purposeId/update',
+    URL: 'purpose-process/0.1/purposes/:purposeId',
     METHOD: 'POST',
   },
   // Only applicable if empty or just 1 version in DRAFT
@@ -140,15 +137,17 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'DELETE',
   },
   PURPOSE_VERSION_DRAFT_CREATE: {
-    // TEMP BACKEND: waiting for backend endpoint
     URL: 'purpose-process/0.1/purposes/:purposeId/versions',
     METHOD: 'POST',
   },
   PURPOSE_VERSION_DRAFT_UPDATE: {
-    // TEMP BACKEND: waiting for backend endpoint
-    URL: 'purpose-process/0.1/purposes/:purposeId/versions/:versionId/update',
+    URL: 'purpose-process/0.1/purposes/:purposeId/versions/:versionId/update/draft',
     METHOD: 'POST',
   },
+  // PURPOSE_VERSION_WAITING_FOR_APPROVAL_UPDATE: {
+  //   URL: 'purpose-process/0.1/purposes/:purposeId/versions/:versionId/update/waitingForApproval',
+  //   METHOD: 'POST',
+  // },
   PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD: {
     // TEMP BACKEND: waiting for backend endpoint
     URL: 'purpose-process/0.1/purposes/:purposeId/versions/:versionId/documents/:documentId',
