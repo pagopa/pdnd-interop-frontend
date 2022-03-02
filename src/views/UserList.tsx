@@ -90,6 +90,12 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
   }
 
   const addOperators = async (data: AddSecurityOperatorFormInputValues) => {
+    if (data.selected.length === 0) {
+      return
+    }
+
+    const lastSelected = data.selected.pop()
+
     // TEMP REFACTOR: improve this with error messages, failure handling, etc
     await fetchAllWithLogs(
       data.selected.map(({ id }) => ({
@@ -98,6 +104,17 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
           endpointParams: { clientId, relationshipId: id },
         },
       }))
+    )
+
+    // The last one also triggers the feedback toast
+    await runAction(
+      {
+        path: {
+          endpoint: 'OPERATOR_SECURITY_JOIN_WITH_CLIENT',
+          endpointParams: { clientId, relationshipId: (lastSelected as User).id },
+        },
+      },
+      { suppressToast: false }
     )
   }
 

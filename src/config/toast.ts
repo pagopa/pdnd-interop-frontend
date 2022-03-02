@@ -164,8 +164,8 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
   OPERATOR_SECURITY_JOIN_WITH_CLIENT: {
     loadingText: "Stiamo associando l'operatore al client",
     success: {
-      title: "C'è un nuovo operatore",
-      description: 'Nuovo operatore creato e associato correttamente',
+      title: "C'è un nuovo operatore nel client",
+      description: 'Nuovo operatore associato correttamente',
     },
     error: {
       title: "C'è stato un problema",
