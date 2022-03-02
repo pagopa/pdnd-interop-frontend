@@ -5,6 +5,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Typography,
   Unstable_TrapFocus as TrapFocus,
 } from '@mui/material'
 import { StyledButton } from './StyledButton'
@@ -20,6 +21,7 @@ import sortBy from 'lodash/sortBy'
 export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurityOperatorProps> = ({
   initialValues,
   onSubmit,
+  excludeIdsList = [],
 }) => {
   const { closeDialog } = useCloseDialog()
   const { party } = useContext(PartyContext)
@@ -38,7 +40,11 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
       },
       config: { params: { productRoles: ['security'] } },
     },
-    { loaderType: 'contextual', loadingTextLabel: 'Stiamo caricando gli operatori' }
+    {
+      loaderType: 'contextual',
+      loadingTextLabel: 'Stiamo caricando gli operatori',
+      mapFn: (data) => data.filter((d) => !excludeIdsList.includes(d.id)),
+    }
   )
 
   const updateSelected = (data: unknown) => {
@@ -83,6 +89,11 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
                 transformFn={transformFn}
               />
             </Box>
+
+            <Typography sx={{ mt: 2 }} variant="body2">
+              Se l&rsquo;operatore non è in elenco, in questa fase di test contattaci per
+              aggiungerlo
+            </Typography>
           </DialogContent>
 
           <DialogActions>

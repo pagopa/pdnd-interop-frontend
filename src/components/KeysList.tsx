@@ -33,7 +33,7 @@ type KeysListProps = {
   clientKind?: ClientKind
 }
 
-export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'consumer' }) => {
+export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSUMER' }) => {
   const location = useLocation()
   const locationBits = getBits(location)
   const clientId = locationBits[locationBits.length - 1]
@@ -164,7 +164,7 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'consu
               onClick={() => {
                 history.push(
                   buildDynamicPath(
-                    clientKind === 'api'
+                    clientKind === 'API'
                       ? routes.SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT.PATH
                       : routes.SUBSCRIBE_CLIENT_KEY_EDIT.PATH,
                     {

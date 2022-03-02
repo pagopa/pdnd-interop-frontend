@@ -55,7 +55,7 @@ export function UserCreate() {
       const clientId = bits[bits.length - 3]
 
       const destinationPath =
-        clientKind === 'api'
+        clientKind === 'API'
           ? routes.SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT
           : routes.SUBSCRIBE_CLIENT_EDIT
 

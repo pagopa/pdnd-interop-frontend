@@ -327,8 +327,17 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     },
   },
   CLIENT_CREATE: { loadingText: 'Stiamo creando il client richiesto' },
-  CLIENT_SUSPEND: { loadingText: 'Stiamo sospendendo il client richiesto' },
-  CLIENT_ACTIVATE: { loadingText: 'Stiamo riattivando il client richiesto' },
+  CLIENT_DELETE: {
+    loadingText: 'Stiamo cancellando il client richiesto',
+    success: {
+      title: 'Client cancellato correttamente',
+      description: 'Il client è stato cancellato correttamente',
+    },
+    error: {
+      title: "C'è stato un problema",
+      description: 'Non è stato possibile cancellare il client. Per favore, riprova!',
+    },
+  },
   CLIENT_JOIN_WITH_PURPOSE: {
     loadingText: 'Stiamo associando il client alla finalità',
     success: {

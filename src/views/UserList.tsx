@@ -1,12 +1,12 @@
 import React, { FunctionComponent, useContext } from 'react'
 import { useHistory } from 'react-router'
-import { ClientKind, User } from '../../types'
+import { AddSecurityOperatorFormInputValues, ClientKind, User } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useMode } from '../hooks/useMode'
 import { TempFilters } from '../components/TempFilters'
-import { PartyContext, TokenContext } from '../lib/context'
+import { DialogContext, PartyContext, TokenContext } from '../lib/context'
 import { buildDynamicPath, getBits } from '../lib/router-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
@@ -17,14 +17,16 @@ import { Box } from '@mui/material'
 import { isAdmin } from '../lib/auth-utils'
 import { useRoute } from '../hooks/useRoute'
 import { ActionMenu } from '../components/Shared/ActionMenu'
+import { fetchAllWithLogs } from '../lib/api-utils'
 
 type UserListProps = {
   clientKind?: ClientKind
 }
 
-export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'consumer' }) => {
+export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSUMER' }) => {
   const history = useHistory()
   const { routes } = useRoute()
+  const { setDialog } = useContext(DialogContext)
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
 
   // Only for subscriber
@@ -40,7 +42,11 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'consu
     mode === 'provider' ? { institutionId: party?.institutionId } : { clientId }
   const params = mode === 'provider' ? { productRoles: ['admin', 'api'].join(',') } : {}
 
-  const { data, loadingText, error } = useAsyncFetch<Array<User>>(
+  const {
+    data: users,
+    loadingText,
+    error,
+  } = useAsyncFetch<Array<User>>(
     { path: { endpoint, endpointParams }, config: { params } },
     {
       useEffectDeps: [forceRerenderCounter, token],
@@ -52,12 +58,12 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'consu
   /*
    * List of possible actions for the user to perform
    */
-  const wrapRemoveFromClient = (relationshipId: string) => async () => {
+  const wrapRemoveFromClient = (relationshipId?: string) => async () => {
     await runAction(
       {
         path: {
           endpoint: 'OPERATOR_SECURITY_REMOVE_FROM_CLIENT',
-          endpointParams: { relationshipId },
+          endpointParams: { clientId, relationshipId },
         },
       },
       { suppressToast: false }
@@ -71,7 +77,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'consu
     if (mode === 'subscriber') {
       const removeFromClientAction = {
         onClick: wrapActionInDialog(
-          wrapRemoveFromClient(user.id),
+          wrapRemoveFromClient(user.relationshipId),
           'OPERATOR_SECURITY_REMOVE_FROM_CLIENT'
         ),
         label: 'Rimuovi dal client',
@@ -83,16 +89,27 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'consu
     return []
   }
 
-  const getAddBtnRoute = () => {
-    if (mode === 'provider') {
-      return routes.PROVIDE_OPERATOR_CREATE.PATH
-    }
+  const addOperators = async (data: AddSecurityOperatorFormInputValues) => {
+    // TEMP REFACTOR: improve this with error messages, failure handling, etc
+    await fetchAllWithLogs(
+      data.selected.map(({ id }) => ({
+        path: {
+          endpoint: 'OPERATOR_SECURITY_JOIN_WITH_CLIENT',
+          endpointParams: { clientId, relationshipId: id },
+        },
+      }))
+    )
+  }
 
-    const subscriberPath =
-      clientKind === 'api'
-        ? routes.SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_CREATE.PATH
-        : routes.SUBSCRIBE_CLIENT_OPERATOR_CREATE.PATH
-    return buildDynamicPath(subscriberPath, { clientId })
+  const openAddOperatoDialog = () => {
+    setDialog({
+      type: 'addSecurityOperator',
+      initialValues: { selected: [] },
+      onSubmit: addOperators,
+      excludeIdsList: users?.map((u) => u.relationshipId).filter((id) => id) as
+        | string[]
+        | undefined,
+    })
   }
 
   const getEditBtnRoute = (item: User) => {
@@ -101,11 +118,11 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'consu
     }
 
     const subscriberRoute =
-      clientKind === 'api'
+      clientKind === 'API'
         ? routes.SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT.PATH
         : routes.SUBSCRIBE_CLIENT_OPERATOR_EDIT.PATH
 
-    return buildDynamicPath(subscriberRoute, { clientId, operatorId: item.id })
+    return buildDynamicPath(subscriberRoute, { clientId, operatorId: item.relationshipId })
   }
 
   const headData = ['nome e cognome', 'ruolo', 'permessi', 'stato']
@@ -124,7 +141,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'consu
 
       {isAdmin(party) && (
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-          <StyledButton variant="contained" to={getAddBtnRoute()}>
+          <StyledButton variant="contained" onClick={openAddOperatoDialog}>
             + Aggiungi
           </StyledButton>
         </Box>
@@ -138,9 +155,9 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'consu
         noDataLabel="Non ci sono operatori disponibili"
         error={axiosErrorToError(error)}
       >
-        {data &&
-          Boolean(data.length > 0) &&
-          data.map((item, i) => (
+        {users &&
+          Boolean(users.length > 0) &&
+          users.map((item, i) => (
             <StyledTableRow
               key={i}
               cellData={[

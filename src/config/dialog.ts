@@ -75,15 +75,10 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
     description:
       'Cliccando "conferma" questa finalità verrà archiviata. Tutti i client associati non avranno più accesso all\'e-service erogato',
   },
-  CLIENT_SUSPEND: {
-    title: 'Sospendi il client',
+  CLIENT_DELETE: {
+    title: 'Conferma cancellazione client',
     description:
-      'Il client è attualmente attivo. Cliccando "conferma" verrà sospeso e le chiavi di sicurezza associate a quel client non saranno considerate più valide per garantire l\'accesso al servizio erogato. Il client si potrà riattivare in qualsiasi momento, ripristinando l\'accesso al servizio',
-  },
-  CLIENT_ACTIVATE: {
-    title: 'Riattiva il client',
-    description:
-      "Il client è attualmente inattivo, e si sta per riattivarlo. Se ci sono altri impedimenti (es. la richiesta di fruizione è sospesa) non sarà comunque possibile accedere all'e-service erogato",
+      'Cliccando "conferma", questo client sarà cancellato. Tutte le chiavi contenute saranno eliminate e non saranno più utilizzabili per accedere agli e-service',
   },
   CLIENT_REMOVE_FROM_PURPOSE: {
     title: 'Rimuovi client dalla finalità',

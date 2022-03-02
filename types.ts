@@ -56,8 +56,7 @@ export type ApiEndpointKey =
   | 'CLIENT_GET_LIST'
   | 'CLIENT_GET_SINGLE'
   | 'CLIENT_CREATE'
-  | 'CLIENT_SUSPEND'
-  | 'CLIENT_ACTIVATE'
+  | 'CLIENT_DELETE'
   | 'CLIENT_JOIN_WITH_PURPOSE'
   | 'CLIENT_REMOVE_FROM_PURPOSE'
   | 'KEY_GET_LIST'
@@ -203,6 +202,8 @@ export type User = JwtUser & {
   state: UserState
   role: UserRole
   product: UserProduct
+
+  relationshipId?: string // TEMP PIN-1184
 }
 
 export type Party = {
@@ -459,7 +460,7 @@ export type Client = {
   kind: ClientKind
 }
 
-export type ClientKind = 'consumer' | 'api'
+export type ClientKind = 'CONSUMER' | 'API'
 
 /*
  * Public keys
@@ -624,6 +625,7 @@ export type DialogAddSecurityOperatorProps = {
   type: 'addSecurityOperator'
   onSubmit: (data: AddSecurityOperatorFormInputValues) => void
   initialValues: AddSecurityOperatorFormInputValues
+  excludeIdsList?: Array<string>
 }
 
 export type AddSecurityOperatorFormInputValues = {

@@ -86,12 +86,12 @@ export function InteropM2M() {
               </Contained>
             </TabPanel>
             <TabPanel value="clients">
-              <ClientList clientKind="api" />
+              <ClientList clientKind="API" />
             </TabPanel>
           </TabContext>
         </React.Fragment>
       ) : (
-        <ClientList clientKind="api" />
+        <ClientList clientKind="API" />
       )}
     </React.Fragment>
   )

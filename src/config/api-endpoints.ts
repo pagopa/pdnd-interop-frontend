@@ -179,19 +179,17 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'GET',
   },
   CLIENT_CREATE: {
-    URL: 'authorization-process/0.1/clients',
+    URL: 'authorization-process/0.1/clientsConsumer',
     METHOD: 'POST',
   },
-  CLIENT_SUSPEND: {
-    // TEMP PIN-1026
-    URL: 'authorization-process/0.1/clients/:clientId/suspend',
-    METHOD: 'POST',
+  CLIENT_DELETE: {
+    URL: 'authorization-process/0.1/clients/:clientId',
+    METHOD: 'DELETE',
   },
-  CLIENT_ACTIVATE: {
-    // TEMP PIN-1026
-    URL: 'authorization-process/0.1/clients/:clientId/activate',
-    METHOD: 'POST',
-  },
+  // CLIENT_INTEROP_M2M_CREATE: {
+  //   URL: 'authorization-process/0.1/clientsApi',
+  //   METHOD: 'POST',
+  // },
   CLIENT_JOIN_WITH_PURPOSE: {
     // TEMP BACKEND: waiting for backend endpoint
     URL: '',
@@ -202,7 +200,6 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: '',
     METHOD: 'POST',
   },
-
   KEY_GET_LIST: {
     URL: 'authorization-process/0.1/clients/:clientId/keys',
     METHOD: 'GET',
@@ -256,7 +253,7 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'GET',
   },
   OPERATOR_SECURITY_GET_SINGLE: {
-    URL: 'authorization-process/0.1/clients/:clientId/operators',
+    URL: 'authorization-process/0.1/clients/:clientId/relationships/:relationshipId',
     METHOD: 'GET',
   },
   OPERATOR_SECURITY_GET_KEYS_LIST: {

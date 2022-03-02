@@ -4,7 +4,7 @@ import { ApiEndpointKey, PublicKey, User } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { buildDynamicPath, getBits } from '../lib/router-utils'
+import { buildDynamicPath, buildDynamicRoute, getBits } from '../lib/router-utils'
 import { useMode } from '../hooks/useMode'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
@@ -17,11 +17,14 @@ import { AxiosResponse } from 'axios'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { useRoute } from '../hooks/useRoute'
 
-type UserEndpoinParams = { clientId: string } | { relationshipId: string }
+type UserEndpoinParams = {
+  relationshipId: string
+  clientId?: string
+}
 
 export function UserEdit() {
   const { routes } = useRoute()
-  const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
+  const { runActionWithDestination, wrapActionInDialog, forceRerenderCounter } = useFeedback()
   const mode = useMode()
   const bits = getBits(useLocation())
   const relationshipId = bits[bits.length - 1]
@@ -29,15 +32,13 @@ export function UserEdit() {
 
   let clientId: string | undefined = bits[bits.length - 3]
   let endpoint: ApiEndpointKey = 'OPERATOR_SECURITY_GET_SINGLE'
-  let endpointParams: UserEndpoinParams = {
-    // PIN-1038
-    // operatorTaxCode: relationshipId,
+  const endpointParams: UserEndpoinParams = {
     clientId,
+    relationshipId,
   }
   if (mode === 'provider') {
     clientId = undefined
     endpoint = 'OPERATOR_API_GET_SINGLE'
-    endpointParams = { relationshipId }
   }
 
   const { data: userData } = useAsyncFetch<User>(
@@ -45,14 +46,6 @@ export function UserEdit() {
     {
       useEffectDeps: [forceRerenderCounter],
       loadingTextLabel: "Stiamo caricando l'operatore richiesto",
-      // PIN-1038
-      mapFn: (data): User => {
-        if (mode === 'provider') {
-          return data
-        }
-
-        return (data as unknown as User[]).find((d) => d.id === relationshipId) as User
-      },
     }
   )
 
@@ -94,14 +87,19 @@ export function UserEdit() {
   // }
 
   const removeFromClient = async () => {
-    await runAction(
+    await runActionWithDestination(
       {
         path: {
           endpoint: 'OPERATOR_SECURITY_REMOVE_FROM_CLIENT',
-          endpointParams: { relationshipId: userData?.id },
+          endpointParams: { clientId, relationshipId: userData?.relationshipId },
         },
       },
-      { suppressToast: false }
+      {
+        destination: buildDynamicRoute(routes.SUBSCRIBE_CLIENT_EDIT, {
+          clientId: clientId as string,
+        }),
+        suppressToast: false,
+      }
     )
   }
   /*

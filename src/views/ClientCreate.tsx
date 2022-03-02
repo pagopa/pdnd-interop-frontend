@@ -14,6 +14,9 @@ import { DeleteOutline as DeleteOutlineIcon } from '@mui/icons-material'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { useRoute } from '../hooks/useRoute'
 import { useClientKind } from '../hooks/useClientKind'
+import { AxiosResponse } from 'axios'
+import { useHistory } from 'react-router-dom'
+import { fetchAllWithLogs } from '../lib/api-utils'
 
 type ClientFields = {
   name: string
@@ -22,23 +25,41 @@ type ClientFields = {
 }
 
 export function ClientCreate() {
-  const { runActionWithDestination } = useFeedback()
+  const { runAction } = useFeedback()
   const { party } = useContext(PartyContext)
   const { setDialog } = useContext(DialogContext)
   const { routes } = useRoute()
   const clientKind = useClientKind()
+  const history = useHistory()
 
   const onSubmit = async (data: ClientFields) => {
-    const dataToPost = { ...data, consumerId: party?.id, kind: clientKind }
+    const dataToPost = { name: data.name, description: data.description, consumerId: party?.id }
 
-    const destination =
-      clientKind === 'consumer' ? routes.SUBSCRIBE_CLIENT_LIST : routes.PROVIDE_INTEROP_M2M
-
-    // TEMP PIN-933: as soon as backend purpose is deployed, plug back in actual action
-    await runActionWithDestination(
+    const { outcome, response } = await runAction(
       { path: { endpoint: 'CLIENT_CREATE' }, config: { data: dataToPost } },
-      { destination, suppressToast: false }
+      { suppressToast: false }
     )
+
+    if (outcome === 'success') {
+      await fetchAllWithLogs(
+        data.operators.map(({ id }) => ({
+          path: {
+            endpoint: 'OPERATOR_SECURITY_JOIN_WITH_CLIENT',
+            endpointParams: {
+              clientId: (response as AxiosResponse).data.id,
+              relationshipId: id,
+            },
+          },
+        }))
+      )
+
+      const destination =
+        clientKind === 'CONSUMER'
+          ? routes.SUBSCRIBE_CLIENT_LIST.PATH
+          : routes.PROVIDE_INTEROP_M2M.PATH
+
+      history.push(destination)
+    }
   }
 
   const validationSchema = object({
@@ -65,9 +86,9 @@ export function ClientCreate() {
     })
   }
 
-  const openCreateOperatoDialog = () => {
-    setDialog({ type: 'createSecurityOperator' })
-  }
+  // const openCreateOperatoDialog = () => {
+  //   setDialog({ type: 'createSecurityOperator' })
+  // }
 
   const addOperators = (data: AddSecurityOperatorFormInputValues) => {
     formik.setFieldValue('operators', data.selected, false)
@@ -138,9 +159,9 @@ export function ClientCreate() {
             <StyledButton sx={{ mr: 2 }} variant="contained" onClick={openAddOperatoDialog}>
               + Aggiungi
             </StyledButton>
-            <StyledButton variant="outlined" onClick={openCreateOperatoDialog}>
+            {/* <StyledButton variant="outlined" onClick={openCreateOperatoDialog}>
               Crea nuovo operatore
-            </StyledButton>
+            </StyledButton> */}
           </Box>
         </Box>
 
