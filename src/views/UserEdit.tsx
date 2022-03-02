@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { ApiEndpointKey, PublicKey, User } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
@@ -16,6 +16,8 @@ import { isFetchError } from '../lib/error-utils'
 import { AxiosResponse } from 'axios'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { useRoute } from '../hooks/useRoute'
+import { PartyContext } from '../lib/context'
+import { isAdmin } from '../lib/auth-utils'
 
 type UserEndpoinParams = {
   relationshipId: string
@@ -23,6 +25,7 @@ type UserEndpoinParams = {
 }
 
 export function UserEdit() {
+  const { party } = useContext(PartyContext)
   const { routes } = useRoute()
   const { runActionWithDestination, wrapActionInDialog, forceRerenderCounter } = useFeedback()
   const mode = useMode()
@@ -63,7 +66,7 @@ export function UserEdit() {
       }
     }
 
-    // Fetch associated keys for security operatos
+    // Fetch associated keys for security operators
     if (userData && userData.product.role === 'security') {
       asyncFetchKeyData(userData.id)
     }
@@ -95,9 +98,11 @@ export function UserEdit() {
         },
       },
       {
-        destination: buildDynamicRoute(routes.SUBSCRIBE_CLIENT_EDIT, {
-          clientId: clientId as string,
-        }),
+        destination: buildDynamicRoute(
+          routes.SUBSCRIBE_CLIENT_EDIT,
+          { clientId: clientId as string },
+          { tab: 'securityOperators' }
+        ),
         suppressToast: false,
       }
     )
@@ -138,7 +143,7 @@ export function UserEdit() {
   //   return mergeActions([sharedActions, currentActions], 'ACTIVE')
   // }
   const getAvailableActions = () => {
-    if (mode === 'subscriber') {
+    if (mode === 'subscriber' && isAdmin(party)) {
       const removeFromClientAction = {
         onClick: wrapActionInDialog(removeFromClient, 'OPERATOR_SECURITY_REMOVE_FROM_CLIENT'),
         label: 'Rimuovi dal client',
@@ -185,7 +190,7 @@ export function UserEdit() {
       {userData?.product.role === 'security' && (
         <DescriptionBlock label="Chiavi associate">
           {Boolean(keys.length > 0) ? (
-            keys.map(({ key }, i) => (
+            keys.map(({ key, name }, i) => (
               <StyledLink
                 key={i}
                 to={buildDynamicPath(routes.SUBSCRIBE_CLIENT_KEY_EDIT.PATH, {
@@ -194,7 +199,7 @@ export function UserEdit() {
                 })}
                 sx={{ display: 'block' }}
               >
-                {key.name}
+                {name}
               </StyledLink>
             ))
           ) : (

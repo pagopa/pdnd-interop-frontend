@@ -74,7 +74,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
    */
 
   const getAvailableActions = (user: User) => {
-    if (mode === 'subscriber') {
+    if (mode === 'subscriber' && isAdmin(party)) {
       const removeFromClientAction = {
         onClick: wrapActionInDialog(
           wrapRemoveFromClient(user.relationshipId),

@@ -6,7 +6,7 @@ import { InfoMessage } from './InfoMessage'
 type StyledInputWrapperProps = {
   name: string
   error?: string
-  infoLabel?: string
+  infoLabel?: string | JSX.Element
   sx?: SxProps
 }
 

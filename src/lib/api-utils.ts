@@ -37,6 +37,7 @@ export async function request<T>(requestConfig: RequestConfig): Promise<T | Axio
   try {
     return (await instance.request(passedConfig)) as T
   } catch (error) {
-    return error as AxiosError
+    const axiosError = error as AxiosError
+    return axiosError
   }
 }

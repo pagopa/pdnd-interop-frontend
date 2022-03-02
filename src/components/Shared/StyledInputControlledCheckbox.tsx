@@ -12,7 +12,7 @@ export type StyledInputControlledCheckboxProps = {
   label?: string
 
   disabled?: boolean
-  infoLabel?: string
+  infoLabel?: string | JSX.Element
 
   sx?: SxProps
 

@@ -22,6 +22,7 @@ import { ActionMenu } from './Shared/ActionMenu'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledTableRow } from './Shared/StyledTableRow'
 import { useRoute } from '../hooks/useRoute'
+import { formatDateString } from '../lib/date-utils'
 
 type KeyToPostProps = SecurityOperatorKeysFormInputValues & {
   use: 'SIG'
@@ -131,7 +132,10 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
     })
   }
 
-  const headData = ['nome della chiave' /*, 'operatore' */]
+  const headData = ['nome della chiave', 'data di creazione' /*, 'operatore' */]
+
+  const fetchError =
+    error && error.response && error.response.status !== 404 ? axiosErrorToError(error) : undefined
 
   return (
     <React.Fragment>
@@ -147,13 +151,14 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
         loadingText={loadingText}
         headData={headData}
         noDataLabel="Non ci sono chiavi disponibili"
-        error={axiosErrorToError(error)}
+        error={fetchError}
       >
-        {data?.keys.map(({ key }, i) => (
+        {data?.keys.map(({ key, name, createdAt }, i) => (
           <StyledTableRow
             key={i}
             cellData={[
-              { label: key.name },
+              { label: name },
+              { label: formatDateString(createdAt) },
               // TEMP PIN-1114
               // { label: '[TEMP BACKEND] Nome e cognome' },
             ]}

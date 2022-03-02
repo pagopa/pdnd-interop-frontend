@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import React, { Children, FunctionComponent } from 'react'
 import { LoadingWithMessage } from './LoadingWithMessage'
 import {
   TableContainer,
@@ -56,7 +56,9 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {children || (
+          {children && Children.count(children) > 0 ? (
+            children
+          ) : (
             <TableRow>
               <TableCell colSpan={headData.length}>{noDataLabel}</TableCell>
             </TableRow>

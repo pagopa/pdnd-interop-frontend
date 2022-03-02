@@ -12,6 +12,7 @@ import { buildDynamicRoute, getBits } from '../lib/router-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { useRoute } from '../hooks/useRoute'
+import { formatDateString } from '../lib/date-utils'
 
 export function KeyEdit() {
   const { routes } = useRoute()
@@ -55,7 +56,11 @@ export function KeyEdit() {
         },
       },
       {
-        destination: buildDynamicRoute(routes.SUBSCRIBE_CLIENT_EDIT, { clientId }),
+        destination: buildDynamicRoute(
+          routes.SUBSCRIBE_CLIENT_EDIT,
+          { clientId },
+          { tab: 'publicKeys' }
+        ),
         suppressToast: false,
       }
     )
@@ -65,7 +70,10 @@ export function KeyEdit() {
     <React.Fragment>
       <StyledIntro>{{ title: 'Gestisci chiave pubblica' }}</StyledIntro>
       <Box sx={{ mt: 6 }}>
-        <DescriptionBlock label="Nome della chiave">{data?.key.name}</DescriptionBlock>
+        <DescriptionBlock label="Nome della chiave">{data?.name}</DescriptionBlock>
+        <DescriptionBlock label="Data di creazione">
+          {data && formatDateString(data.createdAt)}
+        </DescriptionBlock>
 
         <DescriptionBlock label="Id della chiave (kid)">
           {data?.key && (

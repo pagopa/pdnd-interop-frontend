@@ -124,20 +124,31 @@ export function extractDynamicParams(
 
 export function buildDynamicPath(
   staticPath: string,
-  dynamicParams: Record<string, string | number | null | undefined>
+  dynamicParams: Record<string, string | number | null | undefined>,
+  queryParams?: Record<string, string>
 ) {
+  let outputPath = staticPath
   if (!isEmpty(dynamicParams)) {
-    return Object.keys(dynamicParams).reduce(
+    outputPath = Object.keys(dynamicParams).reduce(
       (acc, key) => acc.replace(`:${key}`, String(dynamicParams[key])),
       staticPath
     )
   }
 
-  return staticPath
+  let search = ''
+  if (!isEmpty(queryParams)) {
+    search = `?${stringifySearch(queryParams as Record<string, string>)}`
+  }
+
+  return `${outputPath}${search}`
 }
 
-export function buildDynamicRoute(route: MappedRouteConfig, dynamicParams: Record<string, string>) {
-  return { ...route, PATH: buildDynamicPath(route.PATH, dynamicParams) }
+export function buildDynamicRoute(
+  route: MappedRouteConfig,
+  dynamicParams: Record<string, string>,
+  queryParams?: Record<string, string>
+) {
+  return { ...route, PATH: buildDynamicPath(route.PATH, dynamicParams, queryParams) }
 }
 
 function decorateRouteWithParents(

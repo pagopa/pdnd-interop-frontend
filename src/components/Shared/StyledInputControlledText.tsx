@@ -13,7 +13,7 @@ export type StyledInputControlledTextProps =
       label?: string
 
       disabled?: boolean
-      infoLabel?: string
+      infoLabel?: string | JSX.Element
 
       inputProps?: InputBaseComponentProps
       multiline?: boolean

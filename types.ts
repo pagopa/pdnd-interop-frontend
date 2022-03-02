@@ -466,13 +466,14 @@ export type ClientKind = 'CONSUMER' | 'API'
  * Public keys
  */
 export type PublicKeyItem = {
-  name: string
   kid: string
   use: 'SIG' | 'ENC'
   clientId?: string
 }
 
 export type PublicKey = {
+  name: string
+  createdAt: string
   key: PublicKeyItem
 }
 

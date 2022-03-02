@@ -1,23 +1,18 @@
 import React from 'react'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { InlineSupportLink } from '../components/Shared/InlineSupportLink'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 
 export function SecurityKeyGuide() {
   return (
     <React.Fragment>
-      <StyledIntro>{{ title: 'Generazione e caricamento chiavi di sicurezza' }}</StyledIntro>
+      <StyledIntro>{{ title: 'Generare e caricare chiavi di sicurezza' }}</StyledIntro>
 
       <Box sx={{ mt: 2 }}>
         <Typography variant="h3">Come generare le chiavi</Typography>
-        <Typography>
-          Seleziona il tuo algoritmo di criptazione dall’elenco sotto e esegui i comandi indicati
-          nel terminale
-        </Typography>
-
-        <Typography variant="h4" sx={{ mt: 2 }}>
-          RSA
+        <Typography sx={{ mt: 2, mb: 2 }}>
+          Apri il terminale e incolla i comandi qui sotto. Per cambiare nome alla chiave,
+          sostituisci &quot;client-test-keypair&quot; con il filename che vuoi dare alla chiave.
         </Typography>
         <Typography>
           <code>
@@ -50,10 +45,19 @@ export function SecurityKeyGuide() {
           <Typography component="li">
             A quel punto, clicca su “carica chiave”. Riceverai immediatamente riscontro se il
             caricamento sia andato a buon fine o meno. Se dovessero verificarsi errori, segui le
-            istruzioni indicate nel messaggio di errore. Se qualcosa non funzionasse come atteso,{' '}
-            <InlineSupportLink />
+            istruzioni indicate nel messaggio di errore.
           </Typography>
         </ol>
+      </Box>
+
+      <Box sx={{ mt: 2 }}>
+        <Typography>
+          Ritieni che questa guida sia incompleta? Segnalaci cosa manca a{' '}
+          <a title="Scrivici una mail" href="mailto:interop-guide@pagopa.it">
+            interop-guide@pagopa.it
+          </a>
+          . Attenzione: non è una mail di supporto tecnico.
+        </Typography>
       </Box>
     </React.Fragment>
   )

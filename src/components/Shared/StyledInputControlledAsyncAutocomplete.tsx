@@ -14,7 +14,7 @@ import match from 'autosuggest-highlight/match'
 type StyledInputControlledAsyncAutocompleteProps<T> = {
   label: string
   disabled?: boolean
-  infoLabel?: string
+  infoLabel?: string | JSX.Element
 
   name: string
   onChange: (data: unknown) => void

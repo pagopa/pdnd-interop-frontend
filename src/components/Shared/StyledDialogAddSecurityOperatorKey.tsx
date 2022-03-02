@@ -12,9 +12,12 @@ import { DialogAddSecurityOperatorKeyProps } from '../../../types'
 import { useCloseDialog } from '../../hooks/useCloseDialog'
 import { StyledForm } from './StyledForm'
 import { StyledInputControlledText } from './StyledInputControlledText'
+import { StyledLink } from './StyledLink'
+import { useRoute } from '../../hooks/useRoute'
 
 export const StyledDialogAddSecurityOperatorKey: FunctionComponent<DialogAddSecurityOperatorKeyProps> =
   ({ onSubmit, initialValues, validationSchema }) => {
+    const { routes } = useRoute()
     const { closeDialog } = useCloseDialog()
 
     return (
@@ -45,6 +48,14 @@ export const StyledDialogAddSecurityOperatorKey: FunctionComponent<DialogAddSecu
                   <StyledInputControlledText
                     name="key"
                     label="Chiave pubblica (richiesto)"
+                    infoLabel={
+                      <React.Fragment>
+                        Non sai come fare per creare una chiave? Segui la{' '}
+                        <StyledLink to={routes.SECURITY_KEY_GUIDE.PATH} target="_blank">
+                          guida
+                        </StyledLink>
+                      </React.Fragment>
+                    }
                     error={errors.key}
                     value={values.key}
                     multiline={true}

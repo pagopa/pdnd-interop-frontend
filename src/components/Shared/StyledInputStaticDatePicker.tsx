@@ -12,7 +12,7 @@ type StyledInputStaticDatePickerProps = {
   label?: string
 
   disabled?: boolean
-  infoLabel?: string
+  infoLabel?: string | JSX.Element
   value?: Date
 
   focusOnMount?: boolean

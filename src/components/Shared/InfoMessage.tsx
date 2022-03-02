@@ -4,7 +4,7 @@ import { InfoOutlined as InfoOutlinedIcon } from '@mui/icons-material'
 import { Typography } from '@mui/material'
 
 type InfoMessageProps = {
-  label: string
+  label: string | JSX.Element
   sx?: SxProps
 }
 

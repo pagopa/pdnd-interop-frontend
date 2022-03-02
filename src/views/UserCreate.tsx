@@ -71,7 +71,11 @@ export function UserCreate() {
           },
         },
         {
-          destination: buildDynamicRoute(destinationPath, { clientId }),
+          destination: buildDynamicRoute(
+            destinationPath,
+            { clientId },
+            { tab: 'securityOperators' }
+          ),
           suppressToast: false,
         }
       )

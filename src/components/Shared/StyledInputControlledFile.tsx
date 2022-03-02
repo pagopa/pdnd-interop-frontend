@@ -11,7 +11,7 @@ type StyledInputControlledFileProps = {
   setFieldValue: FormikSetFieldValue
   label?: string
 
-  infoLabel?: string
+  infoLabel?: string | JSX.Element
 
   sx?: SxProps
 }
