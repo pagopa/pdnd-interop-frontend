@@ -1,6 +1,6 @@
 const fs = require('fs')
 
-const OUTPUT_URL = 'https://gateway.interop.pdnd.dev/ui/'
+const OUTPUT_URL = 'https://fe-test.gateway-private.test.pdnd-interop.pagopa.it/ui/'
 const INDEX_LOCATION = './build/index.html'
 
 try {
