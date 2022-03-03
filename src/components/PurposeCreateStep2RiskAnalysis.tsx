@@ -62,7 +62,7 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
     {}
   ) as Answers
 
-  const { data: purposeData } = useAsyncFetch<Purpose>(
+  const { data: purposeFetchedData } = useAsyncFetch<Purpose>(
     { path: { endpoint: 'PURPOSE_GET_SINGLE', endpointParams: { purposeId } } },
     { loadingTextLabel: 'Stiamo caricando le informazioni della finalità' }
   )
@@ -77,8 +77,8 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
 
     const dataToPost = {
       riskAnalysisForm: { answers: validAnswers, version: riskAnalysisConfig.version },
-      title: purposeData?.title,
-      description: purposeData?.description,
+      title: purposeFetchedData?.title,
+      description: purposeFetchedData?.description,
     }
     const { outcome } = await runAction(
       {
@@ -210,8 +210,8 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
 
   useEffect(() => {
     // If there is data on the server
-    if (purposeData && purposeData.riskAnalysisForm) {
-      const { answers } = purposeData.riskAnalysisForm
+    if (purposeFetchedData && purposeFetchedData.riskAnalysisForm) {
+      const { answers } = purposeFetchedData.riskAnalysisForm
       const currentAnswersIds = Object.keys(answers)
       // Set them as formik values. This will also trigger the useEffect that
       // depends on formik.values and update the questions accordingly
@@ -220,7 +220,7 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
         formik.setFieldValue(id, answer, false)
       })
     }
-  }, [purposeData]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [purposeFetchedData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <StyledForm onSubmit={formik.handleSubmit}>

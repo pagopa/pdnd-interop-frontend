@@ -35,7 +35,10 @@ export const StyledDialogSetPurposeExpectedApprovalDate: FunctionComponent<Dialo
       const dataToPost = { ...data, id }
       const { response } = await runAction(
         {
-          path: { endpoint: 'PURPOSE_VERSION_DRAFT_UPDATE', endpointParams: { purposeId } },
+          path: {
+            endpoint: 'PURPOSE_VERSION_WAITING_FOR_APPROVAL_UPDATE',
+            endpointParams: { purposeId },
+          },
           config: { data: dataToPost },
         },
         { suppressToast: false }

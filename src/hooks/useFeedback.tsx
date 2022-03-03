@@ -19,7 +19,7 @@ import { showTempAlert } from '../lib/wip-utils'
 import { DIALOG_CONTENTS } from '../config/dialog'
 import { TOAST_CONTENTS } from '../config/toast'
 
-type ActionOptions = { suppressToast: boolean }
+type ActionOptions = { suppressToast: boolean; silent?: boolean }
 
 type CallbackActionOptions = ActionOptions & {
   callback: (response: AxiosResponse) => void
@@ -126,11 +126,11 @@ export const useFeedback = () => {
   // The most basic action. Makes request, and displays the outcome
   const runAction = async (
     request: RequestConfig,
-    { suppressToast }: ActionOptions
+    { suppressToast, silent = false }: ActionOptions
   ): Promise<RunActionOutput> => {
     const { outcome, toastContent, response } = await makeRequestAndGetOutcome(request)
 
-    if (outcome === 'success') {
+    if (outcome === 'success' && !silent) {
       // Force refresh the current view if needed
       setForceRerenderCounter(forceRerenderCounter + 1)
     }

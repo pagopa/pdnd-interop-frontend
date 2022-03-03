@@ -295,6 +295,9 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       description: 'Non è stato possibile aggiornare la bozza di finalità. Per favore, riprova!',
     },
   },
+  PURPOSE_VERSION_WAITING_FOR_APPROVAL_UPDATE: {
+    loadingText: 'Stiamo aggiornando la stima di carico',
+  },
   PURPOSE_VERSION_SUSPEND: {
     loadingText: 'Stiamo sospendendo la finalità',
     success: {
@@ -315,7 +318,8 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     },
     error: {
       title: "C'è stato un problema",
-      description: 'Non è stato possibile riattivare la finalità. Per favore, riprova!',
+      description:
+        'Non è stato possibile riattivare la finalità. Per favore, riprova! Se è la prima attivazione, assicurati che tutti i campi richiesti dalla finalità siano compilati',
     },
   },
   PURPOSE_VERSION_ARCHIVE: {

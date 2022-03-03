@@ -23,11 +23,12 @@ import { DialogContext } from '../lib/context'
 import { formatThousands } from '../lib/number-utils'
 import { decoratePurposeWithMostRecentVersion } from '../lib/purpose'
 import { buildDynamicPath } from '../lib/router-utils'
+import { AxiosResponse } from 'axios'
 // import { axiosErrorToError } from '../lib/error-utils'
 
 export const PurposeList = () => {
   const history = useHistory()
-  const { wrapActionInDialog, runAction } = useFeedback()
+  const { wrapActionInDialog, runAction, forceRerenderCounter } = useFeedback()
   const { setDialog } = useContext(DialogContext)
   const { routes } = useRoute()
 
@@ -40,6 +41,7 @@ export const PurposeList = () => {
       loaderType: 'contextual',
       loadingTextLabel: 'Stiamo caricando le finalità',
       mapFn: (data) => data.purposes.map(decoratePurposeWithMostRecentVersion),
+      useEffectDeps: [forceRerenderCounter],
     }
   )
 
@@ -52,13 +54,26 @@ export const PurposeList = () => {
       initialValues: { dailyCalls: 1 },
       validationSchema: object({ dailyCalls: number().required() }),
       onSubmit: async ({ dailyCalls }: DialogUpdatePurposeDailyCallsFormInputValues) => {
-        await runAction(
+        const { outcome, response } = await runAction(
           {
             path: { endpoint: 'PURPOSE_VERSION_DRAFT_CREATE', endpointParams: { purposeId } },
-            config: { params: { dailyCalls } },
+            config: { data: { dailyCalls } },
           },
-          { suppressToast: false }
+          { suppressToast: true, silent: true }
         )
+
+        if (outcome === 'success') {
+          const versionId = (response as AxiosResponse).data.id
+          await runAction(
+            {
+              path: {
+                endpoint: 'PURPOSE_VERSION_ACTIVATE',
+                endpointParams: { purposeId, versionId },
+              },
+            },
+            { suppressToast: false }
+          )
+        }
       },
     })
   }
@@ -123,9 +138,9 @@ export const PurposeList = () => {
       label: 'Sospendi',
     }
 
-    const reactivateAction = {
+    const activateAction = {
       onClick: wrapActionInDialog(wrapActivate(purpose), 'PURPOSE_VERSION_ACTIVATE'),
-      label: 'Riattiva',
+      label: 'Attiva',
     }
 
     const deleteAction = {
@@ -139,10 +154,10 @@ export const PurposeList = () => {
     }
 
     const availableActions: Record<PurposeState, Array<ActionProps>> = {
-      DRAFT: [deleteAction],
+      DRAFT: [activateAction, deleteAction],
       ACTIVE: [suspendAction, updateDailyCallsAction],
-      SUSPENDED: [reactivateAction, archiveAction],
-      WAITING_FOR_APPROVAL: [updateDailyCallsAction],
+      SUSPENDED: [activateAction, archiveAction],
+      WAITING_FOR_APPROVAL: [deleteAction],
       ARCHIVED: [],
     }
 

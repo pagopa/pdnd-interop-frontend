@@ -9,15 +9,15 @@ export function decoratePurposeWithMostRecentVersion(purpose: Purpose): Decorate
   )
   const mostRecentVersion = sorted[sorted.length - 1]
   const currentVersion =
-    sorted[sorted.length - 1].state === 'WAITING_FOR_APPROVAL'
+    mostRecentVersion.state === 'WAITING_FOR_APPROVAL' && sorted.length >= 2
       ? sorted[sorted.length - 2]
-      : sorted[sorted.length - 1]
+      : mostRecentVersion
 
   return {
     ...purpose,
     mostRecentVersion,
     currentVersion,
-    awaitingApproval: mostRecentVersion !== currentVersion,
+    awaitingApproval: mostRecentVersion.id !== currentVersion.id,
   }
 }
 

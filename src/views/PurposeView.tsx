@@ -3,7 +3,7 @@ import { object, number } from 'yup'
 import { Grid, Tab, Typography } from '@mui/material'
 import { TabList, TabContext, TabPanel } from '@mui/lab'
 import { useHistory, useLocation } from 'react-router-dom'
-import { buildDynamicPath, getBits } from '../lib/router-utils'
+import { buildDynamicPath } from '../lib/router-utils'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import {
   ActionProps,
@@ -11,9 +11,14 @@ import {
   DecoratedPurpose,
   DialogUpdatePurposeDailyCallsFormInputValues,
   Purpose,
+  PurposeState,
 } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
-import { decoratePurposeWithMostRecentVersion, getComputedPurposeState } from '../lib/purpose'
+import {
+  decoratePurposeWithMostRecentVersion,
+  getComputedPurposeState,
+  getPurposeFromUrl,
+} from '../lib/purpose'
 import { formatThousands } from '../lib/number-utils'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { PURPOSE_STATE_LABEL } from '../config/labels'
@@ -36,17 +41,17 @@ import { useRoute } from '../hooks/useRoute'
 export const PurposeView = () => {
   const history = useHistory()
   const location = useLocation()
-  const { runAction, wrapActionInDialog } = useFeedback()
+  const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
   const { setDialog } = useContext(DialogContext)
   const { routes } = useRoute()
   const { activeTab, updateActiveTab } = useActiveTab('details')
-  const locationBits = getBits(location)
-  const purposeId = locationBits[locationBits.length - 1]
+  const purposeId = getPurposeFromUrl(location)
   const { data /*, error */ } = useAsyncFetch<Purpose, DecoratedPurpose>(
     { path: { endpoint: 'PURPOSE_GET_SINGLE', endpointParams: { purposeId } } },
     {
       loadingTextLabel: 'Stiamo caricando la finalità richiesta',
       mapFn: decoratePurposeWithMostRecentVersion,
+      useEffectDeps: [forceRerenderCounter],
     }
   )
 
@@ -70,13 +75,18 @@ export const PurposeView = () => {
     }
   }
 
-  const wrapRemoveFromPurpose = async (clientId: string) => {
+  /*
+   * List of possible actions to perform in the purpose tab
+   */
+  const activate = async () => {
     await runAction(
       {
-        path: { endpoint: 'CLIENT_REMOVE_FROM_PURPOSE', endpointParams: { clientId } },
-        config: { params: { purposeId } },
+        path: {
+          endpoint: 'PURPOSE_VERSION_ACTIVATE',
+          endpointParams: { purposeId: data?.id, versionId: data?.currentVersion.id },
+        },
       },
-      { suppressToast: true }
+      { suppressToast: false }
     )
   }
 
@@ -104,6 +114,74 @@ export const PurposeView = () => {
     )
   }
 
+  const deletePurpose = async () => {
+    //
+  }
+  /*
+   * End list of actions
+   */
+
+  // Build list of available actions for this purpose
+  const getPurposeAvailableActions = () => {
+    if (!data) {
+      return []
+    }
+
+    const archiveAction = {
+      onClick: wrapActionInDialog(archive, 'PURPOSE_VERSION_ARCHIVE'),
+      label: 'Archivia',
+    }
+
+    const suspendAction = {
+      onClick: wrapActionInDialog(suspend, 'PURPOSE_VERSION_SUSPEND'),
+      label: 'Sospendi',
+    }
+
+    const activateAction = {
+      onClick: wrapActionInDialog(activate, 'PURPOSE_VERSION_ACTIVATE'),
+      label: 'Attiva',
+    }
+
+    const deleteAction = {
+      onClick: wrapActionInDialog(deletePurpose, 'PURPOSE_DRAFT_DELETE'),
+      label: 'Elimina',
+    }
+
+    const updateDailyCallsAction = {
+      onClick: updateDailyCalls,
+      label: 'Aggiorna numero chiamate',
+    }
+
+    const availableActions: Record<PurposeState, Array<ActionProps>> = {
+      DRAFT: [], // If in draft, it will go to the PurposeCreate component
+      ACTIVE: [suspendAction, updateDailyCallsAction],
+      SUSPENDED: [activateAction, archiveAction],
+      WAITING_FOR_APPROVAL: [deleteAction],
+      ARCHIVED: [],
+    }
+
+    const status = data.mostRecentVersion.state
+
+    // Return all the actions available for this particular status
+    return availableActions[status] || []
+  }
+
+  /*
+   * List of possible actions to perform in the client tab
+   */
+  const wrapRemoveFromPurpose = (clientId: string) => async () => {
+    await runAction(
+      {
+        path: { endpoint: 'CLIENT_REMOVE_FROM_PURPOSE', endpointParams: { clientId, purposeId } },
+      },
+      { suppressToast: false }
+    )
+  }
+  /*
+   * End list of actions
+   */
+
+  // Build list of available actions for each client in its current state
   const getClientAvailableActions = (item: Pick<Client, 'id' | 'name'>): Array<ActionProps> => {
     const removeFromPurposeAction = {
       onClick: wrapActionInDialog(wrapRemoveFromPurpose(item.id), 'CLIENT_REMOVE_FROM_PURPOSE'),
@@ -119,25 +197,60 @@ export const PurposeView = () => {
       initialValues: { dailyCalls: 1 },
       validationSchema: object({ dailyCalls: number().required() }),
       onSubmit: async ({ dailyCalls }: DialogUpdatePurposeDailyCallsFormInputValues) => {
-        await runAction(
+        const { outcome, response } = await runAction(
           {
             path: {
               endpoint: 'PURPOSE_VERSION_DRAFT_CREATE',
               endpointParams: { purposeId: data?.id },
             },
-            config: { params: { dailyCalls } },
+            config: { data: { dailyCalls } },
+          },
+          { suppressToast: true, silent: true }
+        )
+
+        if (outcome === 'success') {
+          const versionId = (response as AxiosResponse).data.id
+          await runAction(
+            {
+              path: {
+                endpoint: 'PURPOSE_VERSION_ACTIVATE',
+                endpointParams: { purposeId, versionId },
+              },
+            },
+            { suppressToast: false }
+          )
+        }
+      },
+    })
+  }
+
+  const addClients = async (newClientsData: Array<Client>) => {
+    const alreadyPostedClients = (data?.clients.clients || []).map((c) => c.id)
+    const newClients = newClientsData.filter((c) => !alreadyPostedClients.includes(c.id))
+
+    // TEMP REFACTOR: improve this with error messages, failure handling, etc
+    await Promise.all(
+      newClients.map(async ({ id: clientId }) => {
+        return await runAction(
+          {
+            path: { endpoint: 'CLIENT_JOIN_WITH_PURPOSE', endpointParams: { clientId } },
+            config: { data: { purposeId } },
           },
           { suppressToast: false }
         )
-      },
-    })
+      })
+    )
+  }
+
+  const showClientsDialog = () => {
+    setDialog({ type: 'addClients', exclude: data?.clients.clients || [], onSubmit: addClients })
   }
 
   const headData = ['nome client']
 
   return (
     <React.Fragment>
-      <StyledIntro>{{ title: data?.title }}</StyledIntro>
+      <StyledIntro>{{ title: data?.title, description: data?.description }}</StyledIntro>
 
       <TabContext value={activeTab}>
         <TabList
@@ -161,10 +274,6 @@ export const PurposeView = () => {
                 <Typography component="span">
                   {data && formatThousands(data?.currentVersion.dailyCalls)} chiamate/giorno
                 </Typography>
-              </DescriptionBlock>
-
-              <DescriptionBlock label="Descrizione">
-                <Typography component="span">{data?.description}</Typography>
               </DescriptionBlock>
 
               <DescriptionBlock label="La versione dell'e-service che stai usando">
@@ -214,11 +323,11 @@ export const PurposeView = () => {
               {data && data.versions.length > 1 && (
                 <DescriptionBlock label="Storico di questa finalità">
                   {data.versions.map((v, i) => {
-                    const date = v.firstActivation || v.expectedApprovalDate
+                    const date = v.firstActivationAt || v.expectedApprovalDate
                     return (
                       <Typography component="span" key={i} sx={{ display: 'inline-block' }}>
                         {v.dailyCalls} chiamate/giorno; data di approvazione:{' '}
-                        {date && formatDateString(date)}
+                        {date ? formatDateString(date) : 'n/d'}
                       </Typography>
                     )
                   })}
@@ -239,27 +348,18 @@ export const PurposeView = () => {
           </Grid>
 
           <Box sx={{ mt: 4, display: 'flex' }}>
-            <StyledButton
-              variant="contained"
-              sx={{ mr: 2 }}
-              onClick={wrapActionInDialog(suspend, 'PURPOSE_VERSION_SUSPEND')}
-            >
-              Sospendi
-            </StyledButton>
+            {getPurposeAvailableActions().map(({ onClick, label }, i) => (
+              <StyledButton
+                sx={{ mr: 2 }}
+                variant={i === 0 ? 'contained' : 'outlined'}
+                key={i}
+                onClick={onClick}
+              >
+                {label}
+              </StyledButton>
+            ))}
 
-            <StyledButton variant="outlined" sx={{ mr: 2 }} onClick={updateDailyCalls}>
-              Aggiorna numero chiamate
-            </StyledButton>
-
-            <StyledButton
-              variant="outlined"
-              sx={{ mr: 2 }}
-              onClick={wrapActionInDialog(archive, 'PURPOSE_VERSION_ARCHIVE')}
-            >
-              Archivia
-            </StyledButton>
-
-            <StyledButton variant="text" to={routes.SUBSCRIBE_PURPOSE_LIST.PATH}>
+            <StyledButton variant="outlined" to={routes.SUBSCRIBE_PURPOSE_LIST.PATH}>
               Torna alla lista delle finalità
             </StyledButton>
           </Box>
@@ -267,6 +367,12 @@ export const PurposeView = () => {
 
         <TabPanel value="clients">
           <Box sx={{ mt: 4 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
+              <StyledButton variant="contained" onClick={showClientsDialog}>
+                + Aggiungi
+              </StyledButton>
+            </Box>
+
             <TableWithLoader
               loadingText=""
               headData={headData}

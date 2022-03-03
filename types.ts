@@ -49,6 +49,7 @@ export type ApiEndpointKey =
   | 'PURPOSE_DRAFT_DELETE'
   | 'PURPOSE_VERSION_DRAFT_CREATE'
   | 'PURPOSE_VERSION_DRAFT_UPDATE'
+  | 'PURPOSE_VERSION_WAITING_FOR_APPROVAL_UPDATE'
   | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
   | 'PURPOSE_VERSION_SUSPEND'
   | 'PURPOSE_VERSION_ACTIVATE'
@@ -424,7 +425,7 @@ export type PurposeVersion = {
   riskAnalysisDocument: PurposeRiskAnalysisDocument
   createdAt: string
   expectedApprovalDate?: string
-  firstActivation?: string
+  firstActivationAt?: string
 }
 
 export type Purpose = {
@@ -623,7 +624,7 @@ export type DialogUpdatePurposeDailyCallsFormInputValues = {
 export type DialogAddClientsProps = {
   type: 'addClients'
   onSubmit: (data: Array<Client>) => void
-  exclude: Array<Client>
+  exclude: Array<Client> | Array<Pick<Client, 'id' | 'name'>>
 }
 
 export type DialogAddSecurityOperatorProps = {
@@ -719,6 +720,7 @@ export type DialogActionKeys = Exclude<
   | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
   | 'PURPOSE_VERSION_DRAFT_CREATE'
   | 'PURPOSE_VERSION_DRAFT_UPDATE'
+  | 'PURPOSE_VERSION_WAITING_FOR_APPROVAL_UPDATE'
   | 'CLIENT_GET_LIST'
   | 'CLIENT_GET_SINGLE'
   | 'CLIENT_CREATE'

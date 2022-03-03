@@ -112,6 +112,12 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
           <Typography component="span">{activeDescriptor.voucherLifespan} minuti</Typography>
         </DescriptionBlock>
 
+        <DescriptionBlock label="Soglia chiamate API/giorno">
+          <Typography component="span">
+            {activeDescriptor.dailyCallsMaxNumber} chiamate/giorno
+          </Typography>
+        </DescriptionBlock>
+
         {(Object.keys(data.attributes) as Array<AttributeKey>).map((key, i) => (
           <DescriptionBlock key={i} label={`Attributi ${ATTRIBUTE_TYPE_PLURAL_LABEL[key]}`}>
             <Contained>

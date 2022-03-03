@@ -10,7 +10,6 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'GET',
   },
   ESERVICE_GET_LIST_FLAT: {
-    // TEMP PIN-1052
     URL: 'catalog-process/0.1/flatten/eservices',
     METHOD: 'GET',
   },
@@ -100,15 +99,15 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
   },
   AGREEMENT_VERIFY_ATTRIBUTE: {
     URL: 'agreement-process/0.1/agreements/:agreementId/attributes/:attributeId/verify',
-    METHOD: 'PATCH',
+    METHOD: 'POST',
   },
   AGREEMENT_ACTIVATE: {
     URL: 'agreement-process/0.1/agreements/:agreementId/parties/:partyId/activate',
-    METHOD: 'PATCH',
+    METHOD: 'POST',
   },
   AGREEMENT_SUSPEND: {
     URL: 'agreement-process/0.1/agreements/:agreementId/parties/:partyId/suspend',
-    METHOD: 'PATCH',
+    METHOD: 'POST',
   },
   AGREEMENT_UPGRADE: {
     URL: 'agreement-process/0.1/agreements/:agreementId/upgrade',
@@ -130,9 +129,8 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'purpose-process/0.1/purposes/:purposeId',
     METHOD: 'POST',
   },
-  // Only applicable if empty or just 1 version in DRAFT
   PURPOSE_DRAFT_DELETE: {
-    // TEMP BACKEND: waiting for backend endpoint
+    // Only applicable if empty or just 1 version in DRAFT
     URL: 'purpose-process/0.1/purposes/:purposeId',
     METHOD: 'DELETE',
   },
@@ -144,27 +142,24 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'purpose-process/0.1/purposes/:purposeId/versions/:versionId/update/draft',
     METHOD: 'POST',
   },
-  // PURPOSE_VERSION_WAITING_FOR_APPROVAL_UPDATE: {
-  //   URL: 'purpose-process/0.1/purposes/:purposeId/versions/:versionId/update/waitingForApproval',
-  //   METHOD: 'POST',
-  // },
+  PURPOSE_VERSION_WAITING_FOR_APPROVAL_UPDATE: {
+    URL: 'purpose-process/0.1/purposes/:purposeId/versions/:versionId/update/waitingForApproval',
+    METHOD: 'POST',
+  },
   PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD: {
     // TEMP BACKEND: waiting for backend endpoint
     URL: 'purpose-process/0.1/purposes/:purposeId/versions/:versionId/documents/:documentId',
     METHOD: 'GET',
   },
   PURPOSE_VERSION_SUSPEND: {
-    // TEMP BACKEND: waiting for backend endpoint
     URL: 'purpose-process/0.1/purposes/:purposeId/versions/:versionId/suspend',
     METHOD: 'POST',
   },
   PURPOSE_VERSION_ACTIVATE: {
-    // TEMP BACKEND: waiting for backend endpoint
     URL: 'purpose-process/0.1/purposes/:purposeId/versions/:versionId/activate',
     METHOD: 'POST',
   },
   PURPOSE_VERSION_ARCHIVE: {
-    // TEMP BACKEND: waiting for backend endpoint
     URL: 'purpose-process/0.1/purposes/:purposeId/versions/:versionId/archive',
     METHOD: 'POST',
   },

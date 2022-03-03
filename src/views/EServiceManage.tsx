@@ -50,7 +50,7 @@ export function EServiceManage() {
   >(
     {
       path: { endpoint: 'PURPOSE_GET_LIST' },
-      config: { params: { state: 'WAITING_FOR_APPROVAL', eserviceId } },
+      config: { params: { states: 'WAITING_FOR_APPROVAL', eserviceId } },
     },
     {
       mapFn: (data) => data.purposes.map(decoratePurposeWithMostRecentVersion),

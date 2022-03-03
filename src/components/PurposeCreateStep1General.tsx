@@ -156,20 +156,19 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
           path: { endpoint: purposeVersionEndpoint, endpointParams: purposeVersionEndpointParams },
           config: { data: purposeVersionData },
         },
-        { callback: wrapGoForward(isNewPurpose), suppressToast: true }
+        { callback: wrapGoForward(isNewPurpose, newPurpose.id), suppressToast: true }
       )
     }
   }
 
-  const wrapGoForward = (isNewPurpose: boolean) => (response: AxiosResponse) => {
+  const wrapGoForward = (isNewPurpose: boolean, purposeId: string) => (_: AxiosResponse) => {
     if (isNewPurpose) {
       // Replace the create route with the acutal eserviceId, now that we have it.
       // WARNING: this will cause a re-render that will fetch fresh data
       // at the PurposeCreate component level (which is ugly)
-      history.replace(
-        buildDynamicPath(routes.SUBSCRIBE_PURPOSE_EDIT.PATH, { purposeId: response.data.id }),
-        { stepIndexDestination: 1 }
-      )
+      history.replace(buildDynamicPath(routes.SUBSCRIBE_PURPOSE_EDIT.PATH, { purposeId }), {
+        stepIndexDestination: 1,
+      })
     } else {
       // Go to next step
       forward()
