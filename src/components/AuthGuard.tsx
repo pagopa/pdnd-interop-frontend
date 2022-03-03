@@ -40,9 +40,9 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
 
       // If it still fails, redirect to login module
       // Note: this only applies to private routes, to avoid perpetual loop
-      // if (!isNowSilentlyLoggedIn && isCurrentRouteProtected) {
-      //   window.location.assign(URL_FE_LOGIN)
-      // }
+      if (!isNowSilentlyLoggedIn && isCurrentRouteProtected) {
+        window.location.assign(URL_FE_LOGIN)
+      }
     }
 
     // The user might still be in session but might have refreshed the page
