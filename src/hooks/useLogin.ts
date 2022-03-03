@@ -16,6 +16,8 @@ export const useLogin = () => {
     // Try to get the token from the sessionStorage
     const sessionStorageToken = storageRead(STORAGE_KEY_TOKEN, 'string')
 
+    console.log({ sessionStorageToken })
+
     // If there is no token, the session is not authenticated, so
     if (!sessionStorageToken) {
       // Remove any partial data that might have remained, just for safety
@@ -28,7 +30,9 @@ export const useLogin = () => {
     // If there is a token, check if it is still valid with a dummy call to the backend
     // TEMP REFACTOR: this is ugly, it can be unified with the useParties hook at this point
     const resp = await fetchWithLogs({ path: { endpoint: 'ONBOARDING_GET_AVAILABLE_PARTIES' } })
+    console.log({ resp })
     const isTokenValid = !isFetchError(resp)
+    console.log({ isTokenValid })
 
     // If it is valid, turn it into State so that it is easier
     // to make it interact with React
