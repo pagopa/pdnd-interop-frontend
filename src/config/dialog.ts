@@ -75,6 +75,11 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
     description:
       'Cliccando "conferma" questa finalità verrà archiviata. Tutti i client associati non avranno più accesso all\'e-service erogato',
   },
+  PURPOSE_VERSION_DELETE: {
+    title: 'Conferma cancellazione aggiornamento',
+    description:
+      'Cliccando "conferma", questo aggiornamento al numero di chiamate verso l\'e-service dell\'erogatore sarà cancellato. Potrai continuare a usare questa finalità con il numero di chiamate attuale',
+  },
   CLIENT_DELETE: {
     title: 'Conferma cancellazione client',
     description:

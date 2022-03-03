@@ -115,7 +115,24 @@ export const PurposeView = () => {
   }
 
   const deletePurpose = async () => {
-    //
+    await runAction(
+      {
+        path: { endpoint: 'PURPOSE_DRAFT_DELETE', endpointParams: { purposeId: data?.id } },
+      },
+      { suppressToast: false }
+    )
+  }
+
+  const deleteVersionPurpose = async () => {
+    await runAction(
+      {
+        path: {
+          endpoint: 'PURPOSE_VERSION_DELETE',
+          endpointParams: { purposeId: data?.id, versionId: data?.mostRecentVersion.id },
+        },
+      },
+      { suppressToast: false }
+    )
   }
   /*
    * End list of actions
@@ -147,6 +164,11 @@ export const PurposeView = () => {
       label: 'Elimina',
     }
 
+    const deleteVersionAction = {
+      onClick: wrapActionInDialog(deleteVersionPurpose, 'PURPOSE_VERSION_DELETE'),
+      label: 'Elimina aggiornamento',
+    }
+
     const updateDailyCallsAction = {
       onClick: updateDailyCalls,
       label: 'Aggiorna numero chiamate',
@@ -156,7 +178,7 @@ export const PurposeView = () => {
       DRAFT: [], // If in draft, it will go to the PurposeCreate component
       ACTIVE: [suspendAction, updateDailyCallsAction],
       SUSPENDED: [activateAction, archiveAction],
-      WAITING_FOR_APPROVAL: [deleteAction],
+      WAITING_FOR_APPROVAL: [data?.versions.length > 1 ? deleteVersionAction : deleteAction],
       ARCHIVED: [],
     }
 
@@ -276,6 +298,23 @@ export const PurposeView = () => {
                 </Typography>
               </DescriptionBlock>
 
+              {data && data.awaitingApproval && (
+                <DescriptionBlock label="Richiesta di aggiornamento">
+                  <Typography component="span">
+                    Stima di carico: {formatThousands(data.mostRecentVersion.dailyCalls)}{' '}
+                    chiamate/giorno
+                  </Typography>
+                  <br />
+                  <Typography component="span">
+                    {data.mostRecentVersion.expectedApprovalDate
+                      ? `Data di approvazione stimata: ${formatDateString(
+                          data.mostRecentVersion.expectedApprovalDate
+                        )}`
+                      : 'Non è stata determinata una data di approvazione'}
+                  </Typography>
+                </DescriptionBlock>
+              )}
+
               <DescriptionBlock label="La versione dell'e-service che stai usando">
                 <StyledLink
                   to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
@@ -303,30 +342,13 @@ export const PurposeView = () => {
                 </Typography>
               </DescriptionBlock>
 
-              {data && data.awaitingApproval && (
-                <DescriptionBlock label="Richiesta di aggiornamento">
-                  <Typography component="span">
-                    Stima di carico: {formatThousands(data.mostRecentVersion.dailyCalls)}{' '}
-                    chiamate/giorno
-                  </Typography>
-                  <br />
-                  <Typography component="span">
-                    {data.mostRecentVersion.expectedApprovalDate
-                      ? `Data di approvazione stimata: ${formatDateString(
-                          data.mostRecentVersion.expectedApprovalDate
-                        )}`
-                      : 'Non è stata determinata una data di approvazione'}
-                  </Typography>
-                </DescriptionBlock>
-              )}
-
               {data && data.versions.length > 1 && (
                 <DescriptionBlock label="Storico di questa finalità">
                   {data.versions.map((v, i) => {
                     const date = v.firstActivationAt || v.expectedApprovalDate
                     return (
                       <Typography component="span" key={i} sx={{ display: 'inline-block' }}>
-                        {v.dailyCalls} chiamate/giorno; data di approvazione:{' '}
+                        {formatThousands(v.dailyCalls)} chiamate/giorno; data di approvazione:{' '}
                         {date ? formatDateString(date) : 'n/d'}
                       </Typography>
                     )

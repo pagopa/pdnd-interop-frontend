@@ -78,6 +78,18 @@ export const PurposeList = () => {
     })
   }
 
+  const wrapDeleteVersion = (purpose: DecoratedPurpose) => async () => {
+    await runAction(
+      {
+        path: {
+          endpoint: 'PURPOSE_VERSION_DELETE',
+          endpointParams: { purposeId: purpose.id, versionId: purpose.mostRecentVersion.id },
+        },
+      },
+      { suppressToast: false }
+    )
+  }
+
   const wrapDelete = (purposeId: string) => async () => {
     await runAction(
       {
@@ -148,6 +160,11 @@ export const PurposeList = () => {
       label: 'Elimina',
     }
 
+    const deleteVersionAction = {
+      onClick: wrapActionInDialog(wrapDeleteVersion(purpose), 'PURPOSE_VERSION_DELETE'),
+      label: 'Elimina aggiornamento',
+    }
+
     const updateDailyCallsAction = {
       onClick: wrapUpdateDailyCalls(purpose.id),
       label: 'Aggiorna numero chiamate',
@@ -157,7 +174,7 @@ export const PurposeList = () => {
       DRAFT: [activateAction, deleteAction],
       ACTIVE: [suspendAction, updateDailyCallsAction],
       SUSPENDED: [activateAction, archiveAction],
-      WAITING_FOR_APPROVAL: [deleteAction],
+      WAITING_FOR_APPROVAL: [purpose.versions.length > 1 ? deleteVersionAction : deleteAction],
       ARCHIVED: [],
     }
 
@@ -167,7 +184,7 @@ export const PurposeList = () => {
     return availableActions[status] || []
   }
 
-  const headData = ['nome finalità', 'e-service', 'stima di carico', 'stato']
+  const headData = ['nome finalità', 'e-service', 'chiamate/giorno', 'stato']
 
   return (
     <React.Fragment>

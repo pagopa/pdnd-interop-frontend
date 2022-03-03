@@ -143,6 +143,7 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'POST',
   },
   PURPOSE_VERSION_WAITING_FOR_APPROVAL_UPDATE: {
+    // To TEST
     URL: 'purpose-process/0.1/purposes/:purposeId/versions/:versionId/update/waitingForApproval',
     METHOD: 'POST',
   },
@@ -162,6 +163,10 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
   PURPOSE_VERSION_ARCHIVE: {
     URL: 'purpose-process/0.1/purposes/:purposeId/versions/:versionId/archive',
     METHOD: 'POST',
+  },
+  PURPOSE_VERSION_DELETE: {
+    URL: 'purpose-process/0.1/purposes/:purposeId/versions/:versionId',
+    METHOD: 'DELETE',
   },
   CLIENT_GET_LIST: {
     URL: 'authorization-process/0.1/clients',

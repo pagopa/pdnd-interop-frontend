@@ -296,7 +296,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     },
   },
   PURPOSE_VERSION_WAITING_FOR_APPROVAL_UPDATE: {
-    loadingText: 'Stiamo aggiornando la stima di carico',
+    loadingText: 'Stiamo aggiornando la data stimata di pubblicazione',
   },
   PURPOSE_VERSION_SUSPEND: {
     loadingText: 'Stiamo sospendendo la finalità',
@@ -311,10 +311,11 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     },
   },
   PURPOSE_VERSION_ACTIVATE: {
-    loadingText: 'Stiamo attivando la finalità',
+    loadingText: 'Stiamo pubblicando la finalità',
     success: {
-      title: 'Finalità attivata',
-      description: 'La finalità è ora attiva',
+      title: 'Finalità pubblicata',
+      description:
+        "La finalità è ora pubblicata. Attenzione: se il numero di chiamate eccede il limite stabilito dall'erogatore, sarà necessaria una sua approvazione per poter sfruttare quel carico",
     },
     error: {
       title: "C'è stato un problema",
@@ -332,6 +333,18 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     error: {
       title: "C'è stato un problema",
       description: 'Non è stato possibile archiviare la finalità. Per favore, riprova!',
+    },
+  },
+  PURPOSE_VERSION_DELETE: {
+    loadingText: "Stiamo cancellando l'aggiornamento al numero di chiamate",
+    success: {
+      title: 'Aggiornamento cancellato',
+      description:
+        "L'aggiornamento al numero di chiamate per questa finalità è stato cancellato. Potrai continuare a usare questa finalità con il numero di chiamate corrente",
+    },
+    error: {
+      title: "C'è stato un problema",
+      description: "Non è stato possibile cancellare l'aggiornamento. Per favore, riprova!",
     },
   },
   CLIENT_CREATE: { loadingText: 'Stiamo creando il client richiesto' },
