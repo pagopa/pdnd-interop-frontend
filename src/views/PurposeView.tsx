@@ -166,7 +166,7 @@ export const PurposeView = () => {
 
     const deleteVersionAction = {
       onClick: wrapActionInDialog(deleteVersionPurpose, 'PURPOSE_VERSION_DELETE'),
-      label: 'Elimina aggiornamento',
+      label: 'Elimina aggiornamento numero chiamate',
     }
 
     const updateDailyCallsAction = {
