@@ -16,8 +16,10 @@ import { Box } from '@mui/system'
 import { useRoute } from '../hooks/useRoute'
 import '../lib/validation-config'
 import { Grid } from '@mui/material'
+import { useLogin } from '../hooks/useLogin'
 
 export function BodyLogger() {
+  const { loginAttempt } = useLogin()
   const [toast, setToast] = useState<ToastProps | null>(null)
   const [dialog, setDialog] = useState<DialogProps | null>(null)
   const [loadingText, setLoadingText] = useState<string | null>(null)
@@ -53,6 +55,10 @@ export function BodyLogger() {
   useEffect(() => {
     logAction('Route change', location)
   }, [location])
+
+  useEffect(() => {
+    loginAttempt()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <TableActionMenuContext.Provider value={{ tableActionMenu, setTableActionMenu }}>

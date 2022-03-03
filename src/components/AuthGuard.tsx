@@ -36,8 +36,6 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
 
       setIsLoading(false)
 
-      console.log({ URL_FE_LOGIN, isNowSilentlyLoggedIn, isCurrentRouteProtected })
-
       // If it still fails, redirect to login module
       // Note: this only applies to private routes, to avoid perpetual loop
       if (!isNowSilentlyLoggedIn && isCurrentRouteProtected) {
