@@ -14,7 +14,7 @@ import { ObjectShape } from 'yup/lib/object'
 import { useFeedback } from '../hooks/useFeedback'
 import { useLocation } from 'react-router-dom'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { Purpose } from '../../types'
+import { Purpose, PurposeRiskAnalysisFormAnswers } from '../../types'
 import { getPurposeFromUrl } from '../lib/purpose'
 
 type Dependency = {
@@ -67,13 +67,19 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
     { loadingTextLabel: 'Stiamo caricando le informazioni della finalità' }
   )
 
-  const onSubmit = async (answers: unknown) => {
+  const onSubmit = async (allAnswers: Record<string, unknown>) => {
+    const currentQuestions = Object.keys(questions)
+    // Send only answers to currently visible questions
+    const validAnswers = Object.keys(allAnswers).reduce(
+      (acc, key) => (currentQuestions.includes(key) ? { ...acc, [key]: allAnswers[key] } : acc),
+      {}
+    )
+
     const dataToPost = {
-      riskAnalysisForm: { answers, version: riskAnalysisConfig.version },
+      riskAnalysisForm: { answers: validAnswers, version: riskAnalysisConfig.version },
       title: purposeData?.title,
       description: purposeData?.description,
     }
-    console.log('submit', dataToPost)
     const { outcome } = await runAction(
       {
         path: { endpoint: 'PURPOSE_DRAFT_UPDATE', endpointParams: { purposeId } },
@@ -98,12 +104,19 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
 
   const getUpdatedQuestions = () => {
     const updatedQuestions = riskAnalysisConfig.questions.reduce((acc, next) => {
+      // We are sure we can only queue the questions that come after the current one
+      // because the dependencies are always on the questions that come before.
+      // E.g. question 3 can only have question 1 and/or 2 as a dependency,
+      // not question 4 and subsequent
       const queuedQuestions = Object.values(acc).map((d) => d.id)
 
+      // Check the dependencies of this questions
       const satisfiesAllDependencies = next.dependencies.every((d) => {
+        // If the question is a dependency
         const isInArray = queuedQuestions.includes(d.id)
         const id = d.id as string
 
+        // and if the field currently has the same value as stated in the dependency
         const hasSameValue = Array.isArray(formik.values[id])
           ? (formik.values[id] as Array<unknown>).includes(d.value)
           : formik.values[id] === d.value
@@ -111,6 +124,7 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
         return isInArray && hasSameValue
       })
 
+      // Then it needs to be added as a new question to ask
       if (satisfiesAllDependencies) {
         acc[next.id] = next
       }
@@ -163,6 +177,9 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
     return object(schema)
   }
 
+  // TEMP REFACTOR
+  // This is a very very very ugly piece of code. Find another way
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     // Update the questions that have to be shown
     const updatedQuestions = getUpdatedQuestions()
@@ -170,7 +187,40 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
     // Update the validation schema to validate only questions that are currently rendered
     const updatedValidation = getUpdatedValidation(updatedQuestions)
     setValidation(updatedValidation)
-  }, [formik.values]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [
+    formik.values.usesPersonalData,
+    formik.values.usesThirdPartyPersonalData,
+    formik.values.usesConfidentialData,
+    formik.values.securedDataAccess,
+    formik.values.legalBasis,
+    formik.values.knowsAccessedDataCategories,
+    formik.values.accessDataArt9Gdpr,
+    formik.values.accessUnderageData,
+    formik.values.knowsDataQuantity,
+    formik.values.dataQuantity,
+    formik.values.deliveryMethod,
+    formik.values.doneDpia,
+    formik.values.definedDataRetentionPeriod,
+    formik.values.purposePursuit,
+    formik.values.checkedExistenceMereCorrectnessInteropCatalogue,
+    formik.values.checkedAllDataNeeded,
+    formik.values.checkedExistenceMinimalDataInteropCatalogue,
+  ])
+  /* eslint-enable react-hooks/exhaustive-deps */
+
+  useEffect(() => {
+    // If there is data on the server
+    if (purposeData && purposeData.riskAnalysisForm) {
+      const { answers } = purposeData.riskAnalysisForm
+      const currentAnswersIds = Object.keys(answers)
+      // Set them as formik values. This will also trigger the useEffect that
+      // depends on formik.values and update the questions accordingly
+      currentAnswersIds.forEach((id) => {
+        const answer = answers[id as keyof PurposeRiskAnalysisFormAnswers]
+        formik.setFieldValue(id, answer, false)
+      })
+    }
+  }, [purposeData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <StyledForm onSubmit={formik.handleSubmit}>

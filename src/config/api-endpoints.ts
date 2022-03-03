@@ -189,14 +189,12 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'POST',
   },
   CLIENT_JOIN_WITH_PURPOSE: {
-    // TEMP BACKEND: waiting for backend endpoint
-    URL: '',
+    URL: 'authorization-process/0.1/clients/:clientId/purposes',
     METHOD: 'POST',
   },
   CLIENT_REMOVE_FROM_PURPOSE: {
-    // TEMP BACKEND: waiting for backend endpoint
-    URL: '',
-    METHOD: 'POST',
+    URL: 'authorization-process/0.1/clients/:clientId/purposes/:purposeId',
+    METHOD: 'DELETE',
   },
   KEY_GET_LIST: {
     URL: 'authorization-process/0.1/clients/:clientId/keys',

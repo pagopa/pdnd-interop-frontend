@@ -24,9 +24,15 @@ export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = 
   const { party } = useContext(PartyContext)
   const [selected, setSelected] = useState<Array<Client>>([])
 
-  const { data: clientData } = useAsyncFetch<Array<Client>>(
-    { path: { endpoint: 'CLIENT_GET_LIST' }, config: { params: { consumerId: party?.id } } },
-    { loadingTextLabel: 'Stiamo caricando i client associabili alla finalità' }
+  const { data: clientData } = useAsyncFetch<{ clients: Array<Client> }, Array<Client>>(
+    {
+      path: { endpoint: 'CLIENT_GET_LIST' },
+      config: { params: { kind: 'CONSUMER', consumerId: party?.id } },
+    },
+    {
+      loadingTextLabel: 'Stiamo caricando i client associabili alla finalità',
+      mapFn: (data) => data.clients,
+    }
   )
 
   const updateSelected = (data: Client | Client[] | null) => {
@@ -38,7 +44,8 @@ export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = 
     setSelected([...selected, ...dataToAdd])
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault()
     onSubmit(selected)
     closeDialog()
   }

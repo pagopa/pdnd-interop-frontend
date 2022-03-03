@@ -383,7 +383,7 @@ type PurposeDeliveryMethodAnswer = 'CLEARTEXT' | 'AGGREGATE' | 'ANONYMOUS' | 'PS
 
 type PurposePursuitAnswer = 'MERE_CORRECTNESS' | 'NEW_PERSONAL_DATA'
 
-type PurposeRiskAnalysisFormAnswers = {
+export type PurposeRiskAnalysisFormAnswers = {
   purpose: string
   usesPersonalData: PurposeYesNoAnswer
   usesThirdPartyPersonalData?: PurposeYesNoAnswer
@@ -406,7 +406,7 @@ type PurposeRiskAnalysisFormAnswers = {
   checkedExistenceMinimalDataInteropCatalogue?: PurposeYesNoAnswer
 }
 
-type PurposeRiskAnalysisForm = {
+export type PurposeRiskAnalysisForm = {
   version: string
   answers: PurposeRiskAnalysisFormAnswers
 }

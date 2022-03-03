@@ -66,7 +66,7 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
       'Cliccando "conferma" questa finalità verrà sospesa. Tutti i client associati non avranno più accesso all\'e-service erogato fino a che non sarà riattivata',
   },
   PURPOSE_VERSION_ACTIVATE: {
-    title: 'Conferma riattivazione finalità',
+    title: 'Conferma attivazione finalità',
     description:
       'Cliccando "conferma" questa finalità verrà riattivata. Tutti i client associati torneranno ad avere accesso all\'e-service erogato',
   },

@@ -7,6 +7,7 @@ import {
   EServiceReadType,
   InputSelectOption,
   Purpose,
+  PurposeRiskAnalysisForm,
 } from '../../types'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { PartyContext } from '../lib/context'
@@ -33,6 +34,14 @@ type PurposeVersionCreate = {
 }
 
 type PurposeStep1Write = PurposeCreate & PurposeVersionCreate
+
+type PurposeStep1SubmitData = {
+  title: string
+  description: string
+  eserviceId?: string
+  consumerId?: string
+  riskAnalysisForm?: PurposeRiskAnalysisForm
+}
 
 export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ forward }) => {
   const { routes } = useRoute()
@@ -87,7 +96,8 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
   }, [purposeFetchedData, eserviceData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSubmit = async (data: PurposeStep1Write) => {
-    const purposeData = {
+    // Separate the data for the purpose and purpose version services
+    const purposeData: PurposeStep1SubmitData = {
       title: data.title,
       description: data.description,
       eserviceId: data.eserviceId,
@@ -96,17 +106,26 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
     const purposeVersionData = { dailyCalls: data.dailyCalls }
 
     // Define which endpoint to call
+    // Default to the creation endpoint for a new purpose
     let purposeEndpoint: ApiEndpointKey = 'PURPOSE_DRAFT_CREATE'
     let purposeEndpointParams = {}
     let purposeVersionEndpoint: ApiEndpointKey = 'PURPOSE_VERSION_DRAFT_CREATE'
     const isNewPurpose = !purposeFetchedData
-    console.log('isNewPurpose', isNewPurpose)
+
+    // If it's not a new purpose, update the variables for a call to the update service
     if (!isNewPurpose) {
       purposeEndpoint = 'PURPOSE_DRAFT_UPDATE'
       purposeEndpointParams = { purposeId }
+      purposeVersionEndpoint = 'PURPOSE_VERSION_DRAFT_UPDATE'
+
+      // Delete values the backend doesn't accept for an update
       delete purposeData.consumerId
       delete purposeData.eserviceId
-      purposeVersionEndpoint = 'PURPOSE_VERSION_DRAFT_UPDATE'
+
+      // Pass back the risk analysis in case it was previously filled
+      if (purposeFetchedData.riskAnalysisForm) {
+        purposeData.riskAnalysisForm = purposeFetchedData.riskAnalysisForm
+      }
     }
 
     // First, create or update the purpose
@@ -121,19 +140,20 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
     // Then create or update a new version that holds the dailyCalls
     if (createOutcome === 'success') {
       const newPurpose: Purpose = (createResp as AxiosResponse).data
-      const newDecoratedPurpose: DecoratedPurpose = decoratePurposeWithMostRecentVersion(newPurpose)
+      const purposeVersionEndpointParams: { purposeId: string; versionId?: string } = {
+        purposeId: newPurpose.id,
+      }
 
-      console.log(newDecoratedPurpose)
+      // If we are updating the version, we also have to pass the versionId
+      if (!isNewPurpose) {
+        const newPurposeDecorated: DecoratedPurpose =
+          decoratePurposeWithMostRecentVersion(newPurpose)
+        purposeVersionEndpointParams.versionId = newPurposeDecorated.currentVersion.id
+      }
 
       await runActionWithCallback(
         {
-          path: {
-            endpoint: purposeVersionEndpoint,
-            endpointParams: {
-              purposeId: newDecoratedPurpose.id,
-              versionId: newDecoratedPurpose.currentVersion.id,
-            },
-          },
+          path: { endpoint: purposeVersionEndpoint, endpointParams: purposeVersionEndpointParams },
           config: { data: purposeVersionData },
         },
         { callback: wrapGoForward(isNewPurpose), suppressToast: true }

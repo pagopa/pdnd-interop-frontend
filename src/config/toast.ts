@@ -261,6 +261,10 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
   },
   PURPOSE_DRAFT_UPDATE: {
     loadingText: 'Stiamo aggiornando la bozza',
+    success: {
+      title: 'Bozza aggiornata',
+      description: 'La bozza di finalità è stata aggiornata correttamente',
+    },
     error: {
       title: 'Errore',
       description: 'Non è stato possibile aggiornare la bozza di finalità. Per favore, riprova!',
@@ -304,7 +308,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     },
   },
   PURPOSE_VERSION_ACTIVATE: {
-    loadingText: 'Stiamo riattivando la finalità',
+    loadingText: 'Stiamo attivando la finalità',
     success: {
       title: 'Finalità attivata',
       description: 'La finalità è ora attiva',
