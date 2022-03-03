@@ -28,7 +28,7 @@ import { useRoute } from '../hooks/useRoute'
 export function EServiceManage() {
   const { routes } = useRoute()
   const { setDialog } = useContext(DialogContext)
-  const { runFakeAction, runAction, forceRerenderCounter } = useFeedback()
+  const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
   const { activeTab, updateActiveTab } = useActiveTab('details')
 
   const location = useLocation()
@@ -59,12 +59,27 @@ export function EServiceManage() {
     }
   )
 
-  const wrapUpdatePurposeExpectedApprovalDate = (id: string, approvalDate?: string) => () => {
-    setDialog({ type: 'setPurposeExpectedApprovalDate', id, approvalDate, runAction })
-  }
+  const wrapUpdatePurposeExpectedApprovalDate =
+    (purposeId: string, versionId: string, approvalDate?: string) => () => {
+      setDialog({
+        type: 'setPurposeExpectedApprovalDate',
+        purposeId,
+        versionId,
+        approvalDate,
+        runAction,
+      })
+    }
 
-  const wrapActivatePurpose = (id: string) => () => {
-    runFakeAction(`Attivazione finalità ${id}`)
+  const wrapActivatePurpose = (purposeId: string, versionId: string) => async () => {
+    await runAction(
+      {
+        path: {
+          endpoint: 'PURPOSE_VERSION_ACTIVATE',
+          endpointParams: { purposeId, versionId },
+        },
+      },
+      { suppressToast: false }
+    )
   }
 
   const getAvailableActions = (item: DecoratedPurpose): Array<ActionProps> => {
@@ -72,12 +87,16 @@ export function EServiceManage() {
       {
         onClick: wrapUpdatePurposeExpectedApprovalDate(
           item.id,
-          item.currentVersion.expectedApprovalDate
+          item.mostRecentVersion.id,
+          item.mostRecentVersion.expectedApprovalDate
         ),
-        label: 'Aggiorna data di approvazione',
+        label: 'Aggiorna data di completamento',
       },
       {
-        onClick: wrapActivatePurpose(item.id),
+        onClick: wrapActionInDialog(
+          wrapActivatePurpose(item.id, item.mostRecentVersion.id),
+          'PURPOSE_VERSION_ACTIVATE'
+        ),
         label: 'Attiva',
       },
     ]
@@ -136,10 +155,10 @@ export function EServiceManage() {
                     key={i}
                     cellData={[
                       { label: item.title },
-                      { label: formatThousands(item.currentVersion.dailyCalls) },
+                      { label: formatThousands(item.mostRecentVersion.dailyCalls) },
                       {
-                        label: item.currentVersion.expectedApprovalDate
-                          ? formatDateString(item.currentVersion.expectedApprovalDate)
+                        label: item.mostRecentVersion.expectedApprovalDate
+                          ? formatDateString(item.mostRecentVersion.expectedApprovalDate)
                           : 'In attesa di presa in carico',
                       },
                     ]}

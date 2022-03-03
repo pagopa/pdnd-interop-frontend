@@ -598,7 +598,8 @@ export type DialogProps =
 
 export type DialogSetPurposeExpectedApprovalDateProps = {
   type: 'setPurposeExpectedApprovalDate'
-  id: string
+  purposeId: string
+  versionId: string
   approvalDate?: string
   runAction: RunAction
 }

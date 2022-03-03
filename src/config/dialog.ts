@@ -68,7 +68,7 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
   PURPOSE_VERSION_ACTIVATE: {
     title: 'Conferma attivazione finalità',
     description:
-      'Cliccando "conferma" questa finalità verrà riattivata. Tutti i client associati torneranno ad avere accesso all\'e-service erogato',
+      'Cliccando "conferma" questa finalità verrà attivata. Tutti i client associati dal fruitore avranno accesso all\'e-service dell\'erogatore con il numero di chiamate stabilito',
   },
   PURPOSE_VERSION_ARCHIVE: {
     title: 'Conferma archiviazione finalità',

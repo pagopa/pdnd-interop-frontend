@@ -307,10 +307,10 @@ export const PurposeView = () => {
                   <br />
                   <Typography component="span">
                     {data.mostRecentVersion.expectedApprovalDate
-                      ? `Data di approvazione stimata: ${formatDateString(
+                      ? `Data di completamento stimata: ${formatDateString(
                           data.mostRecentVersion.expectedApprovalDate
                         )}`
-                      : 'Non è stata determinata una data di approvazione'}
+                      : 'Non è stata determinata una data di completamento'}
                   </Typography>
                 </DescriptionBlock>
               )}
