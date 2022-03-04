@@ -1,5 +1,5 @@
 import { storageDelete, storageRead, storageWrite } from '../lib/storage-utils'
-import { STORAGE_KEY_TOKEN, USE_MOCK_SPID_USER } from '../lib/constants'
+import { MOCK_TOKEN, STORAGE_KEY_TOKEN, USE_MOCK_SPID_USER } from '../lib/constants'
 import { useContext } from 'react'
 import { TokenContext } from '../lib/context'
 import { fetchWithLogs } from '../lib/api-utils'
@@ -11,18 +11,20 @@ export const useLogin = () => {
   const location = useLocation()
 
   const loginAttempt = () => {
+    let token
     if (location.hash !== '') {
-      const token = location.hash.replace('#token=', '')
+      token = location.hash.replace('#token=', '')
+    } else if (USE_MOCK_SPID_USER && MOCK_TOKEN) {
+      token = MOCK_TOKEN
+    }
+
+    if (token) {
       storageWrite(STORAGE_KEY_TOKEN, token, 'string')
       setToken(token)
     }
   }
 
   const silentLoginAttempt = async (): Promise<boolean> => {
-    if (USE_MOCK_SPID_USER) {
-      storageWrite(STORAGE_KEY_TOKEN, process.env.REACT_APP_MOCK_TOKEN as string, 'string')
-    }
-
     // Try to get the token from the sessionStorage
     const sessionStorageToken = storageRead(STORAGE_KEY_TOKEN, 'string')
 

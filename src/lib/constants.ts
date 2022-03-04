@@ -15,7 +15,9 @@ export const STORAGE_KEY_TOKEN = 'token'
 export const BASE_URL_FE = process.env.REACT_APP_API_BASE_URL
 export const URL_FE_LOGIN = `${BASE_URL_FE}${process.env.REACT_APP_URL_FE_LOGIN}`
 export const URL_FE_ONBOARDING = `${BASE_URL_FE}${process.env.REACT_APP_URL_FE_ONBOARDING}`
-export const URL_INTEROP_M2M_INTERFACE = `${BASE_URL_FE}/api-gateway/0.1/swagger/docs/interface-specification.yml`
+export const URL_INTEROP_M2M_INTERFACE = `${BASE_URL_FE}${process.env.REACT_APP_URL_INTEROP_M2M_INTERFACE}`
+
+export const MOCK_TOKEN = process.env.REACT_APP_MOCK_TOKEN
 
 export const URL_FRAGMENTS: Record<string, Record<Lang, string>> = {
   FIRST_DRAFT: { it: 'prima-bozza', en: 'first-draft' },
