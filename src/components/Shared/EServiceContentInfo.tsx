@@ -94,11 +94,19 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
 
   const getFormattedVoucherLifespan = () => {
     const { hours, minutes } = minutesToHoursMinutes(activeDescriptor.voucherLifespan)
+
+    const minutesLabel = minutes !== 1 ? 'minuti' : 'minuto'
+    const hoursLabel = hours !== 1 ? 'ore' : 'ora'
+
     if (hours === 0) {
-      return `${minutes} minuti`
+      return `${minutes} ${minutesLabel}`
     }
 
-    return `${hours} ore e ${minutes} minuti`
+    if (minutes === 0) {
+      return `${hours} ${hoursLabel}`
+    }
+
+    return `${hours} ${hoursLabel} e ${minutes} ${minutesLabel}`
   }
 
   return (

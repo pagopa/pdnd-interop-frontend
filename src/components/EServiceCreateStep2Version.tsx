@@ -131,7 +131,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
         <StyledForm onSubmit={handleSubmit}>
           <StyledInputControlledText
             name="version"
-            label="Numero della versione*"
+            label="Numero della versione (richiesto)"
             disabled={true}
             value={values.version}
             error={errors.version}
@@ -139,7 +139,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
 
           <StyledInputControlledText
             name="audience"
-            label="Identificativo dell'e-service*"
+            label="Identificativo dell'e-service (richiesto)"
             infoLabel="L'id con il quale il fruitore dichiara il servizio richiesto. Questo identificativo deve essere unico tra i tuoi e-service"
             value={values.audience}
             error={errors.audience}
@@ -149,7 +149,8 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
 
           <StyledInputControlledText
             name="voucherLifespan"
-            label="Durata di validità del voucher (in minuti)*"
+            label="Durata di validità del voucher (in minuti - richiesto)"
+            infoLabel="Valore massimo: 1440 minuti (24 ore)"
             type="number"
             inputProps={{ min: '1', max: '1440' }}
             value={values.voucherLifespan}
@@ -159,7 +160,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
 
           <StyledInputControlledText
             name="description"
-            label="Descrizione della versione*"
+            label="Descrizione della versione (richiesto)"
             value={values.description}
             error={errors.description}
             onChange={handleChange}
