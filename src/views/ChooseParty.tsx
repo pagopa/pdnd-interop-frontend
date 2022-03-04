@@ -41,14 +41,14 @@ export function ChooseParty() {
 
   return availableParties.length > 0 ? (
     <React.Fragment>
-      <StyledIntro sx={{ textAlign: 'center', mx: 'auto' }}>
+      <StyledIntro sx={{ textAlign: 'center', mx: 'auto', mb: 3 }} centered>
         {{
           title: "Seleziona l'ente per cui accedi",
           description: (
-            <>
+            <React.Fragment>
               Potrai in ogni momento cambiare Ente/ruolo anche all’interno dell’interfaccia di
               gestione dei prodotti
-            </>
+            </React.Fragment>
           ),
         }}
       </StyledIntro>
@@ -56,8 +56,10 @@ export function ChooseParty() {
       <Box sx={{ mx: 'auto', maxWidth: NARROW_MAX_WIDTH }}>
         <Box
           sx={{
+            /*
             borderBottom: 1,
             borderColor: 'divider',
+            */
             mb: 1,
             pb: 3,
             textAlign: 'center',
@@ -121,14 +123,14 @@ export function ChooseParty() {
           </StyledButton>
         </Box>
 
-        <Box sx={{ mt: 1, display: 'flex', alignItems: 'center' }}>
+        {/* <Box sx={{ mt: 1, display: 'flex', alignItems: 'center' }}>
           <Typography component="span" sx={{ mr: 1 }}>
             Vuoi registrare un nuovo ente?{' '}
             <a href={URL_FE_ONBOARDING} title="Vai all'onboarding">
               Clicca qui
             </a>
           </Typography>
-        </Box>
+        </Box> */}
       </Box>
     </React.Fragment>
   ) : (
