@@ -22,8 +22,7 @@ export const StyledTableRow: FunctionComponent<StyledTableRowProps> = ({ cellDat
               component="span"
               sx={{
                 fontWeight: firstCell ? 600 : 300,
-                display: 'inline-flex',
-                alignItems: 'center',
+                display: 'inline-block',
               }}
               variant={firstCell ? 'body2' : 'caption'}
             >
@@ -33,7 +32,11 @@ export const StyledTableRow: FunctionComponent<StyledTableRowProps> = ({ cellDat
           </TableCell>
         )
       })}
-      {children && <TableCell align="right">{children}</TableCell>}
+      {children && (
+        <TableCell sx={{ minWidth: '15rem' }} align="right">
+          {children}
+        </TableCell>
+      )}
     </TableRow>
   )
 }

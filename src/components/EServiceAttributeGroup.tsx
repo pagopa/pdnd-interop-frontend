@@ -114,21 +114,28 @@ export function EServiceAttributeGroup({
         noDataLabel="Nessun attributo presente"
       >
         {Boolean(attributesGroup.length > 0) &&
-          attributesGroup.map(({ attributes, explicitAttributeVerification }, j) => (
-            <StyledTableRow
-              key={j}
-              cellData={[
-                { label: attributes.map(({ name }) => name).join(' oppure ') },
-                { label: explicitAttributeVerification ? 'Sì' : 'No' },
-              ]}
-            >
-              {!disabled && (
-                <StyledButton onClick={wrapRemove(attributes)}>
-                  <DeleteOutlineIcon fontSize="small" sx={{ mr: 1 }} color="primary" />
-                </StyledButton>
-              )}
-            </StyledTableRow>
-          ))}
+          attributesGroup.map(({ attributes, explicitAttributeVerification }, j) => {
+            const explicitAttributeVerificationLabel =
+              attributeKey !== 'certified'
+                ? { label: explicitAttributeVerification ? 'Sì' : 'No' }
+                : { label: '' }
+
+            return (
+              <StyledTableRow
+                key={j}
+                cellData={[
+                  { label: attributes.map(({ name }) => name).join(' oppure ') },
+                  explicitAttributeVerificationLabel,
+                ]}
+              >
+                {!disabled && (
+                  <StyledButton onClick={wrapRemove(attributes)}>
+                    <DeleteOutlineIcon fontSize="small" color="primary" />
+                  </StyledButton>
+                )}
+              </StyledTableRow>
+            )
+          })}
       </TableWithLoader>
 
       {!disabled && (

@@ -55,7 +55,7 @@ export function EServiceCatalog() {
 
   const OwnerTooltip = ({ label = '', Icon }: { label: string; Icon: SvgIconComponent }) => (
     <StyledTooltip title={label}>
-      <Icon sx={{ ml: 0.5, fontSize: 16 }} color="primary" />
+      <Icon sx={{ ml: 0.75, fontSize: 16 }} color="primary" />
     </StyledTooltip>
   )
 

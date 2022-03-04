@@ -189,7 +189,7 @@ export const PurposeList = () => {
     return availableActions[status] || []
   }
 
-  const headData = ['nome finalità', 'e-service', 'chiamate/giorno', 'stato']
+  const headData = ['nome finalità', 'e-service', 'ente erogatore', 'chiamate/giorno', 'stato']
 
   return (
     <React.Fragment>
@@ -225,6 +225,7 @@ export const PurposeList = () => {
                   cellData={[
                     { label: item.title },
                     { label: item.eservice.name },
+                    { label: item.eservice.producer.name },
                     { label: formatThousands(item.currentVersion.dailyCalls) },
                     {
                       label: item.awaitingApproval

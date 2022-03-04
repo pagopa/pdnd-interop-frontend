@@ -210,8 +210,8 @@ export function AgreementEdit() {
         {/* actions */}
         {mode === 'provider' && explicitAttributeVerification && (
           <Box sx={{ display: 'flex' }}>
-            <StyledButton variant="contained" onClick={wrapVerify(id)}>
-              Verifica{verified !== null ? ' nuovamente' : ''}
+            <StyledButton variant="outlined" onClick={wrapVerify(id)}>
+              Verifica{verified !== null && typeof verified !== 'undefined' ? ' nuovamente' : ''}
             </StyledButton>
             {/* <StyledButton variant="contained" onClick={wrapRefuse(id)}>
               Rifiuta
