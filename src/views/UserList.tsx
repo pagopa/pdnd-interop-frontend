@@ -40,7 +40,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
   const endpoint = mode === 'provider' ? 'USER_GET_LIST' : 'OPERATOR_SECURITY_GET_LIST'
   const endpointParams =
     mode === 'provider' ? { institutionId: party?.institutionId } : { clientId }
-  const params = mode === 'provider' ? { productRoles: ['admin', 'api'].join(',') } : {}
+  const params = mode === 'provider' ? { productRoles: ['api'].join(',') } : {}
 
   const {
     data: users,

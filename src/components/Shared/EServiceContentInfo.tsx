@@ -12,11 +12,14 @@ import {
 } from '../../../types'
 import { ATTRIBUTE_TYPE_PLURAL_LABEL, ESERVICE_STATE_LABEL } from '../../config/labels'
 import { useFeedback } from '../../hooks/useFeedback'
+import { useRoute } from '../../hooks/useRoute'
 import { downloadFile } from '../../lib/file-utils'
+import { buildDynamicPath } from '../../lib/router-utils'
 import { DescriptionBlock } from '../DescriptionBlock'
 import { Contained } from './Contained'
 import { DownloadList } from './DownloadList'
 import { StyledAccordion } from './StyledAccordion'
+import { StyledLink } from './StyledLink'
 
 type EServiceContentInfoProps = {
   data: EServiceReadType
@@ -24,7 +27,10 @@ type EServiceContentInfoProps = {
 
 export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = ({ data }) => {
   const { runAction } = useFeedback()
+  const { routes } = useRoute()
   const activeDescriptor = data.activeDescriptor as EServiceDescriptorRead
+
+  const otherVersions = data.descriptors.filter((d) => d.id !== data.activeDescriptor?.id) || []
 
   // Get all documents actual URL
   const wrapDownloadDocument = (documentId: string) => async () => {
@@ -131,6 +137,25 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
             </Contained>
           </DescriptionBlock>
         ))}
+
+        {Boolean(otherVersions.length > 0) && (
+          <DescriptionBlock label="Tutte le altre versioni di questo e-service">
+            {otherVersions.map((d, i) => {
+              return (
+                <Box key={i}>
+                  <StyledLink
+                    to={buildDynamicPath(routes.PROVIDE_ESERVICE_MANAGE.PATH, {
+                      eserviceId: data.id,
+                      descriptorId: d.id,
+                    })}
+                  >
+                    {data.name}, versione {d.version}
+                  </StyledLink>
+                </Box>
+              )
+            })}
+          </DescriptionBlock>
+        )}
       </Grid>
       <Grid item xs={4} sx={{ mt: 5 }}>
         <DownloadList
