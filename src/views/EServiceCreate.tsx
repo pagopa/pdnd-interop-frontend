@@ -39,9 +39,13 @@ export function EServiceCreate() {
     }
   }, [data]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  const intro = data
+    ? { title: data.name, description: data.description }
+    : { title: 'Crea e-service' }
+
   return (
     <Box sx={{ maxWidth: 860 }}>
-      <StyledIntro>{{ title: 'Crea e-service' }}</StyledIntro>
+      <StyledIntro>{intro}</StyledIntro>
       <StyledStepper steps={STEPS} activeIndex={activeStep} />
       <Contained>
         <Step {...stepProps} />
