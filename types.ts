@@ -482,6 +482,7 @@ export type PublicKey = {
   name: string
   createdAt: string
   key: PublicKeyItem
+  operator: Pick<User, 'id' | 'name' | 'surname'>
 }
 
 export type PublicKeys = {
