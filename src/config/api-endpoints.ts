@@ -249,7 +249,7 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'GET',
   },
   OPERATOR_SECURITY_GET_SINGLE: {
-    URL: 'authorization-process/0.1/clients/:clientId/relationships/:relationshipId',
+    URL: 'party-process/0.1/relationships/:relationshipId',
     METHOD: 'GET',
   },
   OPERATOR_SECURITY_GET_KEYS_LIST: {

@@ -1,20 +1,20 @@
-import React, { useContext /*, useEffect, useState */ } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { ApiEndpointKey, /* PublicKey, */ User } from '../../types'
+import { ApiEndpointKey, PublicKey, User } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { /* buildDynamicPath, */ buildDynamicRoute, getBits } from '../lib/router-utils'
+import { buildDynamicPath, buildDynamicRoute, getBits } from '../lib/router-utils'
 import { useMode } from '../hooks/useMode'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATE_LABEL } from '../config/labels'
-// import { fetchWithLogs } from '../lib/api-utils'
-// import { isFetchError } from '../lib/error-utils'
-// import { AxiosResponse } from 'axios'
-// import { StyledLink } from '../components/Shared/StyledLink'
+import { fetchWithLogs } from '../lib/api-utils'
+import { isFetchError } from '../lib/error-utils'
+import { AxiosResponse } from 'axios'
+import { StyledLink } from '../components/Shared/StyledLink'
 import { useRoute } from '../hooks/useRoute'
 import { PartyContext } from '../lib/context'
 import { isAdmin } from '../lib/auth-utils'
@@ -31,7 +31,7 @@ export function UserEdit() {
   const mode = useMode()
   const bits = getBits(useLocation())
   const relationshipId = bits[bits.length - 1]
-  // const [keys, setKeys] = useState<Array<PublicKey>>([])
+  const [keys, setKeys] = useState<Array<PublicKey>>([])
 
   let clientId: string | undefined = bits[bits.length - 3]
   let endpoint: ApiEndpointKey = 'OPERATOR_SECURITY_GET_SINGLE'
@@ -52,25 +52,25 @@ export function UserEdit() {
     }
   )
 
-  // useEffect(() => {
-  //   async function asyncFetchKeyData(operatorId: string) {
-  //     const response = await fetchWithLogs({
-  //       path: {
-  //         endpoint: 'OPERATOR_SECURITY_GET_KEYS_LIST',
-  //         endpointParams: { clientId, operatorId },
-  //       },
-  //     })
+  useEffect(() => {
+    async function asyncFetchKeyData(operatorId: string) {
+      const response = await fetchWithLogs({
+        path: {
+          endpoint: 'OPERATOR_SECURITY_GET_KEYS_LIST',
+          endpointParams: { clientId, operatorId },
+        },
+      })
 
-  //     if (!isFetchError(response)) {
-  //       setKeys((response as AxiosResponse).data.keys)
-  //     }
-  //   }
+      if (!isFetchError(response)) {
+        setKeys((response as AxiosResponse).data.keys)
+      }
+    }
 
-  //   // Fetch associated keys for security operators
-  //   if (userData && userData.product.role === 'security') {
-  //     asyncFetchKeyData(userData.id)
-  //   }
-  // }, [userData]) // eslint-disable-line react-hooks/exhaustive-deps
+    // Fetch associated keys for security operators
+    if (userData && userData.product.role === 'security') {
+      asyncFetchKeyData(userData.from)
+    }
+  }, [userData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   /*
    * List of possible actions for the user to perform
@@ -187,8 +187,7 @@ export function UserEdit() {
         </Typography>
       </DescriptionBlock>
 
-      {/* TEMP PIN-1205 */}
-      {/* {userData?.product.role === 'security' && (
+      {userData?.product.role === 'security' && (
         <DescriptionBlock label="Chiavi associate">
           {Boolean(keys.length > 0) ? (
             keys.map(({ key, name }, i) => (
@@ -207,7 +206,7 @@ export function UserEdit() {
             <Typography component="span">Nessuna chiave associata</Typography>
           )}
         </DescriptionBlock>
-      )} */}
+      )}
 
       <Box sx={{ mt: 8, display: 'flex' }}>
         {getAvailableActions().map(({ onClick, label }, i) => (
