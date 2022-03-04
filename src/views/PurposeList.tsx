@@ -19,7 +19,7 @@ import { PURPOSE_STATE_LABEL } from '../config/labels'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
 import { useRoute } from '../hooks/useRoute'
-import { DialogContext } from '../lib/context'
+import { DialogContext, PartyContext } from '../lib/context'
 import { formatThousands } from '../lib/number-utils'
 import { decoratePurposeWithMostRecentVersion } from '../lib/purpose'
 import { buildDynamicPath } from '../lib/router-utils'
@@ -30,6 +30,7 @@ export const PurposeList = () => {
   const history = useHistory()
   const { wrapActionInDialog, runAction, forceRerenderCounter } = useFeedback()
   const { setDialog } = useContext(DialogContext)
+  const { party } = useContext(PartyContext)
   const { routes } = useRoute()
 
   const { data, loadingText /*, error */ } = useAsyncFetch<
@@ -40,7 +41,11 @@ export const PurposeList = () => {
     {
       loaderType: 'contextual',
       loadingTextLabel: 'Stiamo caricando le finalità',
-      mapFn: (data) => data.purposes.map(decoratePurposeWithMostRecentVersion),
+      mapFn: (data) =>
+        data.purposes
+          // TEMP REFACTOR: after integration with self care, this will not be necessary
+          .filter((p) => p.consumerId === party?.id)
+          .map(decoratePurposeWithMostRecentVersion),
       useEffectDeps: [forceRerenderCounter],
     }
   )
