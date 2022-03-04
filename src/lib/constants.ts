@@ -23,7 +23,7 @@ export const BASE_URL_FE_PROD =
   extendedWindow.pagopa_env &&
   extendedWindow.pagopa_env.API_HOST &&
   extendedWindow.pagopa_env.API_HOST !== '__API_HOST__'
-    ? `https://${extendedWindow.pagopa_env.API_HOST}`
+    ? `https://${extendedWindow.pagopa_env.API_HOST}/`
     : ''
 export const BASE_URL_FE = isProduction ? BASE_URL_FE_PROD : process.env.REACT_APP_API_HOST
 export const URL_FE_LOGIN = `${BASE_URL_FE}${process.env.REACT_APP_URL_FE_LOGIN}`
