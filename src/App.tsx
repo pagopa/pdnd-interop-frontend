@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { BrowserRouter } from 'react-router-dom'
+import { FE_SUBPATH } from './lib/constants'
 import CssBaseline from '@mui/material/CssBaseline'
 import { BodyLogger } from './components/BodyLogger'
 import { LangContext, PartyContext, RoutesContext, TokenContext } from './lib/context'
@@ -23,7 +24,7 @@ export function App() {
       <RoutesContext.Provider value={{ allRoutes }}>
         <TokenContext.Provider value={{ token, setToken }}>
           <PartyContext.Provider value={{ party, availableParties, setParty, setAvailableParties }}>
-            <BrowserRouter basename={process.env.PUBLIC_URL}>
+            <BrowserRouter basename={FE_SUBPATH}>
               <LocalizationProvider dateAdapter={DateAdapter}>
                 <ThemeProvider theme={theme}>
                   <CssBaseline />

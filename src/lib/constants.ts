@@ -2,6 +2,7 @@ import { Lang } from '../../types'
 import { getDevLabels } from './wip-utils'
 
 const isDevelopment = !!(process.env.NODE_ENV === 'development')
+const isProduction = !!(process.env.NODE_ENV === 'production')
 
 export const SHOW_DEV_LABELS = isDevelopment || getDevLabels()
 export const USE_MOCK_SPID_USER = isDevelopment
@@ -12,7 +13,19 @@ export const MEDIUM_MAX_WIDTH = 700
 
 export const STORAGE_KEY_TOKEN = 'token'
 
-export const BASE_URL_FE = process.env.REACT_APP_API_BASE_URL
+type ExtendedWindow = Window & { pagopa_env?: { API_HOST?: string } }
+
+const extendedWindow = window as ExtendedWindow
+
+export const FE_SUBPATH = process.env.PUBLIC_URL
+
+export const BASE_URL_FE_PROD =
+  extendedWindow.pagopa_env &&
+  extendedWindow.pagopa_env.API_HOST &&
+  extendedWindow.pagopa_env.API_HOST !== '__API_HOST__'
+    ? `https://${extendedWindow.pagopa_env.API_HOST}`
+    : ''
+export const BASE_URL_FE = isProduction ? BASE_URL_FE_PROD : process.env.REACT_APP_API_HOST
 export const URL_FE_LOGIN = `${BASE_URL_FE}${process.env.REACT_APP_URL_FE_LOGIN}`
 export const URL_FE_ONBOARDING = `${BASE_URL_FE}${process.env.REACT_APP_URL_FE_ONBOARDING}`
 export const URL_INTEROP_M2M_INTERFACE = `${BASE_URL_FE}${process.env.REACT_APP_URL_INTEROP_M2M_INTERFACE}`

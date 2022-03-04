@@ -416,7 +416,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     error: {
       title: "C'è stato un problema",
       description:
-        'Non è stato possibile caricare la chiave. Assicurarsi sia nel formato corretto e riprovare',
+        'Non è stato possibile caricare la chiave. Assicurarsi sia nel formato corretto e riprovare. Attenzione: la stessa chiave non può essere caricata due volte',
     },
   },
   KEY_DELETE: {
