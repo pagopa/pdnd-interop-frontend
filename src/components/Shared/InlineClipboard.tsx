@@ -20,8 +20,8 @@ export const InlineClipboard: FunctionComponent<InlineClipboardProps> = ({
   useEffect(() => {
     async function asyncTestPermission() {
       try {
-        const clipboardWritePermission = 'clipboard-write' as PermissionName
-        const permission = await navigator.permissions.query({ name: clipboardWritePermission })
+        const descriptor = { name: 'clipboard-write' as PermissionName }
+        const permission = await navigator.permissions.query(descriptor)
 
         if (['granted', 'prompt'].includes(permission.state)) {
           setPermission(true)
@@ -35,18 +35,24 @@ export const InlineClipboard: FunctionComponent<InlineClipboardProps> = ({
     asyncTestPermission()
   }, [])
 
-  const copy = async () => {
-    setPopover(true)
+  const copyAttempt = async () => {
+    try {
+      await navigator.clipboard.writeText(text)
+      setPopover(true)
 
-    // TEMP REFACTOR: this autohide is probably not good for a11y
-    setTimeout(() => {
-      setPopover(false)
-    }, autoHideDuration)
+      // TEMP REFACTOR: this autohide is probably not good for a11y
+      setTimeout(() => {
+        setPopover(false)
+      }, autoHideDuration)
+    } catch (err) {
+      console.error(err)
+      setPermission(false)
+    }
   }
 
   return permission ? (
     <React.Fragment>
-      <StyledButton onClick={copy} sx={{ p: 0 }}>
+      <StyledButton onClick={copyAttempt} sx={{ p: 0 }}>
         <Typography ref={anchorRef} component="span">
           {text}
         </Typography>
@@ -58,8 +64,7 @@ export const InlineClipboard: FunctionComponent<InlineClipboardProps> = ({
         transformOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
         <Typography
-          sx={{ p: 1 }}
-          component="span"
+          sx={{ p: 1, display: 'inline-block' }}
           color="common.white"
           bgcolor="primary.main"
           variant="caption"
