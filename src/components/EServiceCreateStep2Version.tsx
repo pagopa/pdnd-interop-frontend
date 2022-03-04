@@ -151,7 +151,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
             name="voucherLifespan"
             label="Durata di validità del voucher (in minuti)*"
             type="number"
-            inputProps={{ min: '1', max: '5' }}
+            inputProps={{ min: '1', max: '1440' }}
             value={values.voucherLifespan}
             error={errors.voucherLifespan}
             onChange={handleChange}

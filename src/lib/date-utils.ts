@@ -10,3 +10,9 @@ export function formatDate(date: Date) {
 export function formatDateString(dateString: string) {
   return formatDate(new Date(dateString))
 }
+
+export function minutesToHoursMinutes(totalMinutes: number) {
+  const hours = Math.floor(totalMinutes / 60)
+  const minutes = totalMinutes % 60
+  return { hours, minutes }
+}

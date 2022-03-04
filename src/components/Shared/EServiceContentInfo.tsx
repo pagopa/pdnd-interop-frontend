@@ -13,6 +13,7 @@ import {
 import { ATTRIBUTE_TYPE_PLURAL_LABEL, ESERVICE_STATE_LABEL } from '../../config/labels'
 import { useFeedback } from '../../hooks/useFeedback'
 import { useRoute } from '../../hooks/useRoute'
+import { minutesToHoursMinutes } from '../../lib/date-utils'
 import { downloadFile } from '../../lib/file-utils'
 import { buildDynamicPath } from '../../lib/router-utils'
 import { DescriptionBlock } from '../DescriptionBlock'
@@ -91,6 +92,15 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
     })
   }
 
+  const getFormattedVoucherLifespan = () => {
+    const { hours, minutes } = minutesToHoursMinutes(activeDescriptor.voucherLifespan)
+    if (hours === 0) {
+      return `${minutes} minuti`
+    }
+
+    return `${hours} ore e ${minutes} minuti`
+  }
+
   return (
     <Grid container columnSpacing={2}>
       <Grid item xs={8}>
@@ -115,7 +125,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
         </DescriptionBlock>
 
         <DescriptionBlock label="Durata del voucher">
-          <Typography component="span">{activeDescriptor.voucherLifespan} minuti</Typography>
+          <Typography component="span">{getFormattedVoucherLifespan()}</Typography>
         </DescriptionBlock>
 
         <DescriptionBlock label="Soglia chiamate API/giorno">
