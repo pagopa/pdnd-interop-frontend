@@ -54,17 +54,17 @@
 
 ### E-service
 
-È un'API resa disponibile da un ente erogatore che ne permette la fruizione agli enti fruitori in possesso di una richiesta di fruizione attiva. L'API pubblicata sulla piattaforma dall'ente erogatore dovrà rispettare i criteri e gli standard stabiliti dalla Piattaforma Interoperabilità.
+È la descrizione di un servizio digitale accedibile tramite un'API. lE-Service è reso disponibile da un aderente erogatore che ne permette la fruizione agli aderenti fruitori in possesso di una richiesta di fruizione attiva. L'API pubblicata sulla piattaforma dall'ente erogatore dovrà rispettare i criteri e gli standard stabiliti dalla Piattaforma Interoperabilità.
 
-L'interazione tra le API dell'erogatore e le richieste del fruitore avviene al di fuori della piattaforma, che si fa garante della legittimità delle richieste, sulla base di quanto dichiarato da erogatore e fruitore all'interno della piattaforma stessa.
+L'interazione tra il Fruitore e l'Erogatore, la richiesta di servizi e lo scambio di eventuali dati, avviene al di fuori della Piattaforma di Interoperabilità. La Piattaforma si fa garante e registra la legittimità delle richieste sulla base di quanto dichiarato da erogatore e fruitore. La piattaforma reistra inoltre l'atto della sottoscrizione e della successiva attivazione della richiesta di fruizione. 
 
 ### Attributo
 
-Un attributo è una qualità che un ente possiede o dichiara di possedere. L'ente erogatore, all'atto della creazione di un e-service, stabilisce quali sono gli attributi che il fruitore dovrà possedere per poter vedere accettata la sua richiesta di fruizione. Per maggiori informazioni sugli attributi, vedi [la sezione dedicata](#come-funzionano-gli-attributi).
+Un attributo è una qualità che un aderente possiede o dichiara di possedere. L'aderente erogatore, all'atto della creazione di un e-service, stabilisce quali sono gli attributi che l'aderente fruitore dovrà possedere per poter vedere accettata la sua richiesta di fruizione. Per maggiori informazioni sugli attributi, vedi [la sezione dedicata](#come-funzionano-gli-attributi).
 
 ### Richiesta di fruizione
 
-L'ente fruitore interessato a fruire di un e-service disponibile sul catalogo degli e-service può presentare una richiesta di fruizione. Per poterlo fare, deve possedere alcuni attributi di default e dichiarare o dimostrare di possederne altri, sulla base di quanto richiesto dall'ente che eroga l'e-service. Per permettere questa verifica, la richiesta di fruizione non viene attivata automaticamente all'atto della sottoscrizione, ma è soggetta a valutazione da parte dell'ente erogatore.
+L'aderente fruitore interessato a fruire di un e-service disponibile sul catalogo degli e-service può presentare una richiesta di fruizione. Per poterlo fare, deve possedere alcuni attributi di default e dichiarare o dimostrare di possederne altri, sulla base di quanto richiesto dall'ente che eroga l'e-service. Per permettere questa verifica, la richiesta di fruizione non viene attivata automaticamente all'atto della sottoscrizione, ma è soggetta a valutazione da parte dell'ente erogatore.
 
 ### Chiave pubblica
 
@@ -72,13 +72,13 @@ L'autorizzazione all'accesso all'API dell'erogatore da parte del fruitore avvien
 
 ### Finalità
 
-È una dichiarazione che l'ente fruitore presenta per dettagliare il suo accesso all'e-service dell'ente erogatore presso il quale ha una richiesta di fruizione attiva. Per ogni e-service, è possibile presentare un numero indefinito di finalità. Ogni finalità raccoglierà l'analisi del rischio relativa alla natura dei dati utilizzati, e una "stima di carico" che indica qual è lo sforzo richiesto all'infrastruttura dell'ente erogatore (il numero di chiamate API al giorno stimate).
+È una dichiarazione che l'aderente fruitore presenta per dettagliare il suo accesso all'e-service dell'ente erogatore presso il quale ha una richiesta di fruizione attiva. Per ogni e-service, è possibile presentare un numero indefinito di finalità. Ogni finalità raccoglierà l'analisi del rischio relativa alla natura dei dati utilizzati, e una "stima di carico" che dichiara qual è lo sforzo richiesto all'infrastruttura dell'ente erogatore (il numero di chiamate API al giorno stimate).
 
-Le finalità vengono attivate mano a mano che sono presentate dal fruitore all'erogatore, automaticamente, fino al raggiungimento della soglia massima imposta dall'erogatore. Quando, sommando tutte le finalità che un ente fruitore dichiara su un determinato e-service, si eccede il carico che l'erogatore ha dichiarato di poter sostenere, le nuove finalità non saranno più attivate automaticamente. Da quel punto in poi, l'erogatore avrà facoltà di attivare manualmente le nuove finalità, dichiarando una data di attivazione, in modo da avere il tempo di adeguare l'infrastruttura a reggere il carico.
+Le finalità vengono attivate mano a mano che sono presentate dal fruitore all'erogatore, automaticamente, fino al raggiungimento della soglia massima imposta dall'erogatore. Quando, sommando tutte le finalità che un aderente fruitore dichiara su un determinato e-service, si eccede il carico che l'erogatore ha dichiarato di poter sostenere, le nuove finalità non saranno più attivate automaticamente. Da quel punto in poi, l'erogatore avrà facoltà di attivare manualmente le nuove finalità, dichiarando una data di attivazione, in modo da avere il tempo di adeguare l'infrastruttura a reggere il carico.
 
 ### Client
 
-Di fatto, un gruppo di operatori di sicurezza autorizzati a caricare chiavi pubbliche. Ogni client raccoglierà un gruppo di operatori di sicurezza e un gruppo di chiavi. La composizione del client potrà essere gestita piacimento degli amministratori dell'ente fruitore, che potranno associare lo stesso operatore di sicurezza a uno o più client. Ogni client (e quindi, di fatto, ogni gruppo di chiavi) può essere associato a una o più finalità.
+Di fatto, un gruppo di operatori di sicurezza autorizzati a caricare chiavi pubbliche. Ogni client raccoglierà un gruppo di operatori di sicurezza e un gruppo di chiavi. La composizione del client potrà essere gestita a piacimento degli amministratori dell'ente fruitore, che potranno associare lo stesso operatore di sicurezza a uno o più client. Ogni client (e quindi, di fatto, ogni gruppo di chiavi) può essere associato a una o più finalità.
 
 ### Operatori di sicurezza
 
@@ -94,9 +94,9 @@ Sono utenze amministrative. Oltre ai permessi degli operatori, hanno la possibil
 
 ## Introduzione alla piattaforma
 
-La piattaforma è divisa in due modalità: erogazione e fruzione. Se la tua utenza ha privilegi da "amministratore", le vedrai entrambe nel menù di sinistra. Ogni ente può essere contemporaneamente erogatore di alcuni e-service e fruitore di altri. La piattaforma fornisce una UI per gestire tutte le operazioni di creazione, modifica, aggiornamento e archiviazione del ciclo di vita degli e-service sia per gli erogatori che per i fruitori. Allo stesso tempo, fornisce una API machine to machine per automare molte delle operazioni disponibili da UI.
+La piattaforma è divisa in due modalità: erogazione e fruzione. Se la tua utenza ha privilegi da "amministratore", le vedrai entrambe nel menù di sinistra. Ogni aderente della Pubblica Amministrazione può essere contemporaneamente erogatore di alcuni e-service e fruitore di altri. La piattaforma fornisce una UI per gestire tutte le operazioni di creazione, modifica, aggiornamento e archiviazione del ciclo di vita degli e-service sia per gli erogatori che per i fruitori. Allo stesso tempo, fornisce una API machine to machine per automare molte delle operazioni disponibili da UI.
 
-NB: l'interazione machine to machine tra erogatore e fruitore avviene al di fuori della Piattaforma Interoperabilità, che fa da garante tra i due enti in base alle dichiarazione rese e conservate all'interno della Piattaforma stessa.
+NB: l'interazione machine to machine tra erogatore e fruitore avviene al di fuori della Piattaforma Interoperabilità. La Piattaforma ha il ruolo di garante tra i due enti in base alle dichiarazione rese e conservate all'interno della Piattaforma stessa.
 
 ### Flusso dell'erogatore
 
