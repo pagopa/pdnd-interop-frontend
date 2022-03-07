@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { AxiosResponse } from 'axios'
 import has from 'lodash/has'
 import React, { FunctionComponent } from 'react'
@@ -110,72 +110,52 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
   }
 
   return (
-    <Grid container columnSpacing={2}>
-      <Grid item xs={8}>
-        <DescriptionBlock label="Ente erogatore">
-          <Typography component="span">{data.producer.name}</Typography>
+    <React.Fragment>
+      <DescriptionBlock label="Ente erogatore">
+        <Typography component="span">{data.producer.name}</Typography>
+      </DescriptionBlock>
+
+      <DescriptionBlock label="Versione">
+        <Typography component="span">{activeDescriptor.version}</Typography>
+      </DescriptionBlock>
+
+      <DescriptionBlock label="Stato della versione">
+        <Typography component="span">{ESERVICE_STATE_LABEL[activeDescriptor.state]}</Typography>
+      </DescriptionBlock>
+
+      <DescriptionBlock label="Audience">
+        <Typography component="span">{activeDescriptor.audience.join(', ')}</Typography>
+      </DescriptionBlock>
+
+      <DescriptionBlock label="Tecnologia">
+        <Typography component="span">{data.technology}</Typography>
+      </DescriptionBlock>
+
+      <DescriptionBlock label="Durata del voucher">
+        <Typography component="span">{getFormattedVoucherLifespan()}</Typography>
+      </DescriptionBlock>
+
+      <DescriptionBlock label="Soglia chiamate API/giorno">
+        <Typography component="span">
+          {activeDescriptor.dailyCallsMaxNumber} chiamate/giorno
+        </Typography>
+      </DescriptionBlock>
+
+      {(Object.keys(data.attributes) as Array<AttributeKey>).map((key, i) => (
+        <DescriptionBlock key={i} label={`Attributi ${ATTRIBUTE_TYPE_PLURAL_LABEL[key]}`}>
+          <Contained>
+            {data.attributes[key].length > 0 ? (
+              <Box sx={{ mt: 1 }}>
+                <StyledAccordion entries={toAccordionEntries(data.attributes[key])} />
+              </Box>
+            ) : (
+              <Typography component="span">Nessun attributo presente</Typography>
+            )}
+          </Contained>
         </DescriptionBlock>
+      ))}
 
-        <DescriptionBlock label="Versione">
-          <Typography component="span">{activeDescriptor.version}</Typography>
-        </DescriptionBlock>
-
-        <DescriptionBlock label="Stato della versione">
-          <Typography component="span">{ESERVICE_STATE_LABEL[activeDescriptor.state]}</Typography>
-        </DescriptionBlock>
-
-        <DescriptionBlock label="Audience">
-          <Typography component="span">{activeDescriptor.audience.join(', ')}</Typography>
-        </DescriptionBlock>
-
-        <DescriptionBlock label="Tecnologia">
-          <Typography component="span">{data.technology}</Typography>
-        </DescriptionBlock>
-
-        <DescriptionBlock label="Durata del voucher">
-          <Typography component="span">{getFormattedVoucherLifespan()}</Typography>
-        </DescriptionBlock>
-
-        <DescriptionBlock label="Soglia chiamate API/giorno">
-          <Typography component="span">
-            {activeDescriptor.dailyCallsMaxNumber} chiamate/giorno
-          </Typography>
-        </DescriptionBlock>
-
-        {(Object.keys(data.attributes) as Array<AttributeKey>).map((key, i) => (
-          <DescriptionBlock key={i} label={`Attributi ${ATTRIBUTE_TYPE_PLURAL_LABEL[key]}`}>
-            <Contained>
-              {data.attributes[key].length > 0 ? (
-                <Box sx={{ mt: 1 }}>
-                  <StyledAccordion entries={toAccordionEntries(data.attributes[key])} />
-                </Box>
-              ) : (
-                <Typography component="span">Nessun attributo presente</Typography>
-              )}
-            </Contained>
-          </DescriptionBlock>
-        ))}
-
-        {Boolean(otherVersions.length > 0) && (
-          <DescriptionBlock label="Tutte le altre versioni di questo e-service">
-            {otherVersions.map((d, i) => {
-              return (
-                <Box key={i}>
-                  <StyledLink
-                    to={buildDynamicPath(routes.PROVIDE_ESERVICE_MANAGE.PATH, {
-                      eserviceId: data.id,
-                      descriptorId: d.id,
-                    })}
-                  >
-                    {data.name}, versione {d.version}
-                  </StyledLink>
-                </Box>
-              )
-            })}
-          </DescriptionBlock>
-        )}
-      </Grid>
-      <Grid item xs={4} sx={{ mt: 5 }}>
+      <DescriptionBlock label="Download">
         <DownloadList
           downloads={[
             // TEMP PIN-1095 and PIN-1105
@@ -187,6 +167,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
             // },
             {
               label: 'Documento di interfaccia',
+              description: activeDescriptor.interface.description,
               onClick: wrapDownloadDocument(activeDescriptor.interface.id),
             },
             ...activeDescriptor.docs.map((d) => ({
@@ -195,7 +176,26 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
             })),
           ]}
         />
-      </Grid>
-    </Grid>
+      </DescriptionBlock>
+
+      {Boolean(otherVersions.length > 0) && (
+        <DescriptionBlock label="Tutte le altre versioni di questo e-service">
+          {otherVersions.map((d, i) => {
+            return (
+              <Box key={i}>
+                <StyledLink
+                  to={buildDynamicPath(routes.PROVIDE_ESERVICE_MANAGE.PATH, {
+                    eserviceId: data.id,
+                    descriptorId: d.id,
+                  })}
+                >
+                  {data.name}, versione {d.version}
+                </StyledLink>
+              </Box>
+            )
+          })}
+        </DescriptionBlock>
+      )}
+    </React.Fragment>
   )
 }

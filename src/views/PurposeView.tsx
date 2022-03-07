@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { object, number } from 'yup'
-import { Grid, Tab, Typography } from '@mui/material'
+import { Tab, Typography } from '@mui/material'
 import { TabList, TabContext, TabPanel } from '@mui/lab'
 import { useHistory, useLocation } from 'react-router-dom'
 import { buildDynamicPath } from '../lib/router-utils'
@@ -286,88 +286,84 @@ export const PurposeView = () => {
         </TabList>
 
         <TabPanel value="details">
-          <Grid container columnSpacing={2}>
-            <Grid item xs={8}>
-              <DescriptionBlock label="Questa finalità può accedere all’e-service dell’erogatore?">
-                <Typography component="span">{data && getComputedPurposeState(data)}</Typography>
-              </DescriptionBlock>
+          <DescriptionBlock label="Questa finalità può accedere all’e-service dell’erogatore?">
+            <Typography component="span">{data && getComputedPurposeState(data)}</Typography>
+          </DescriptionBlock>
 
-              <DescriptionBlock label="Stima di carico corrente">
-                <Typography component="span">
-                  {data && formatThousands(data?.currentVersion.dailyCalls)} chiamate/giorno
-                </Typography>
-              </DescriptionBlock>
+          <DescriptionBlock label="Stima di carico corrente">
+            <Typography component="span">
+              {data && formatThousands(data?.currentVersion.dailyCalls)} chiamate/giorno
+            </Typography>
+          </DescriptionBlock>
 
-              {data && data.awaitingApproval && (
-                <DescriptionBlock label="Richiesta di aggiornamento">
-                  <Typography component="span">
-                    Stima di carico: {formatThousands(data.mostRecentVersion.dailyCalls)}{' '}
-                    chiamate/giorno
+          {data && data.awaitingApproval && (
+            <DescriptionBlock label="Richiesta di aggiornamento">
+              <Typography component="span">
+                Stima di carico: {formatThousands(data.mostRecentVersion.dailyCalls)}{' '}
+                chiamate/giorno
+              </Typography>
+              <br />
+              <Typography component="span">
+                {data.mostRecentVersion.expectedApprovalDate
+                  ? `Data di completamento stimata: ${formatDateString(
+                      data.mostRecentVersion.expectedApprovalDate
+                    )}`
+                  : 'Non è stata determinata una data di completamento'}
+              </Typography>
+            </DescriptionBlock>
+          )}
+
+          <DescriptionBlock label="La versione dell'e-service che stai usando">
+            <StyledLink
+              to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
+                eserviceId: data?.eservice.id,
+                descriptorId: data?.eservice.descriptor.id,
+              })}
+            >
+              {data?.eservice.name}, versione {data?.eservice.descriptor.version}
+            </StyledLink>
+          </DescriptionBlock>
+
+          <DescriptionBlock label="Richiesta di fruizione">
+            <StyledLink
+              to={buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
+                agreementId: data?.agreement.id,
+              })}
+            >
+              Vedi richiesta
+            </StyledLink>
+          </DescriptionBlock>
+
+          <DescriptionBlock label="Stato della finalità">
+            <Typography component="span">
+              {data && PURPOSE_STATE_LABEL[data.currentVersion.state]}
+            </Typography>
+          </DescriptionBlock>
+
+          <DescriptionBlock label="Download">
+            <DownloadList
+              downloads={[
+                {
+                  label: 'Analisi del rischio',
+                  onClick: downloadDocument,
+                },
+              ]}
+            />
+          </DescriptionBlock>
+
+          {data && data.versions.length > 1 && (
+            <DescriptionBlock label="Storico di questa finalità">
+              {data.versions.map((v, i) => {
+                const date = v.firstActivationAt || v.expectedApprovalDate
+                return (
+                  <Typography component="span" key={i} sx={{ display: 'inline-block' }}>
+                    {formatThousands(v.dailyCalls)} chiamate/giorno; data di approvazione:{' '}
+                    {date ? formatDateString(date) : 'n/d'}
                   </Typography>
-                  <br />
-                  <Typography component="span">
-                    {data.mostRecentVersion.expectedApprovalDate
-                      ? `Data di completamento stimata: ${formatDateString(
-                          data.mostRecentVersion.expectedApprovalDate
-                        )}`
-                      : 'Non è stata determinata una data di completamento'}
-                  </Typography>
-                </DescriptionBlock>
-              )}
-
-              <DescriptionBlock label="La versione dell'e-service che stai usando">
-                <StyledLink
-                  to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
-                    eserviceId: data?.eservice.id,
-                    descriptorId: data?.eservice.descriptor.id,
-                  })}
-                >
-                  {data?.eservice.name}, versione {data?.eservice.descriptor.version}
-                </StyledLink>
-              </DescriptionBlock>
-
-              <DescriptionBlock label="Richiesta di fruizione">
-                <StyledLink
-                  to={buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
-                    agreementId: data?.agreement.id,
-                  })}
-                >
-                  Vedi richiesta
-                </StyledLink>
-              </DescriptionBlock>
-
-              <DescriptionBlock label="Stato della finalità">
-                <Typography component="span">
-                  {data && PURPOSE_STATE_LABEL[data.currentVersion.state]}
-                </Typography>
-              </DescriptionBlock>
-
-              {data && data.versions.length > 1 && (
-                <DescriptionBlock label="Storico di questa finalità">
-                  {data.versions.map((v, i) => {
-                    const date = v.firstActivationAt || v.expectedApprovalDate
-                    return (
-                      <Typography component="span" key={i} sx={{ display: 'inline-block' }}>
-                        {formatThousands(v.dailyCalls)} chiamate/giorno; data di approvazione:{' '}
-                        {date ? formatDateString(date) : 'n/d'}
-                      </Typography>
-                    )
-                  })}
-                </DescriptionBlock>
-              )}
-            </Grid>
-
-            <Grid item xs={4} sx={{ mt: 5 }}>
-              <DownloadList
-                downloads={[
-                  {
-                    label: 'Analisi del rischio',
-                    onClick: downloadDocument,
-                  },
-                ]}
-              />
-            </Grid>
-          </Grid>
+                )
+              })}
+            </DescriptionBlock>
+          )}
 
           <Box sx={{ mt: 4, display: 'flex' }}>
             {getPurposeAvailableActions().map(({ onClick, label }, i) => (
