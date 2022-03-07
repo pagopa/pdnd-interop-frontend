@@ -394,7 +394,7 @@ export const PurposeView = () => {
             <TableWithLoader
               loadingText=""
               headData={headData}
-              noDataLabel="Non ci sono client disponibili"
+              noDataLabel="Non ci sono client associati a questa finalità"
               // error={axiosErrorToError(error)}
             >
               {data?.clients?.clients.map((item, i) => (
