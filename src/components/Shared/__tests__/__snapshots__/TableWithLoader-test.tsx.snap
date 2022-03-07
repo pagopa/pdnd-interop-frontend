@@ -98,7 +98,7 @@ exports[`Snapshot matches table with single action button 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-body2 css-1qzgq0n-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-body2 css-37ndlm-MuiTypography-root"
           >
             Mario
           </span>
@@ -108,14 +108,14 @@ exports[`Snapshot matches table with single action button 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-caption css-1b37dve-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-caption css-1mjc0vb-MuiTypography-root"
           >
             Rossi
           </span>
         </td>
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
         >
           <button
             className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
@@ -149,7 +149,7 @@ exports[`Snapshot matches table with single action button 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-body2 css-1qzgq0n-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-body2 css-37ndlm-MuiTypography-root"
           >
             Teresa
           </span>
@@ -159,14 +159,14 @@ exports[`Snapshot matches table with single action button 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-caption css-1b37dve-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-caption css-1mjc0vb-MuiTypography-root"
           >
             Verdi
           </span>
         </td>
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
         >
           <button
             className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
@@ -249,7 +249,7 @@ exports[`Snapshot matches table with single action button and action list button
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-body2 css-1qzgq0n-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-body2 css-37ndlm-MuiTypography-root"
           >
             Mario
           </span>
@@ -259,14 +259,14 @@ exports[`Snapshot matches table with single action button and action list button
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-caption css-1b37dve-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-caption css-1mjc0vb-MuiTypography-root"
           >
             Rossi
           </span>
         </td>
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
         >
           <button
             className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
@@ -342,7 +342,7 @@ exports[`Snapshot matches table with single action button and action list button
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-body2 css-1qzgq0n-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-body2 css-37ndlm-MuiTypography-root"
           >
             Teresa
           </span>
@@ -352,14 +352,14 @@ exports[`Snapshot matches table with single action button and action list button
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-caption css-1b37dve-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-caption css-1mjc0vb-MuiTypography-root"
           >
             Verdi
           </span>
         </td>
         <td
           aria-sort={null}
-          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-177gid-MuiTableCell-root"
+          className="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
         >
           <button
             className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
@@ -484,7 +484,7 @@ exports[`Snapshot matches table without actions 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-body2 css-1qzgq0n-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-body2 css-37ndlm-MuiTypography-root"
           >
             Mario
           </span>
@@ -494,7 +494,7 @@ exports[`Snapshot matches table without actions 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-caption css-1b37dve-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-caption css-1mjc0vb-MuiTypography-root"
           >
             Rossi
           </span>
@@ -509,7 +509,7 @@ exports[`Snapshot matches table without actions 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-body2 css-1qzgq0n-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-body2 css-37ndlm-MuiTypography-root"
           >
             Teresa
           </span>
@@ -519,7 +519,7 @@ exports[`Snapshot matches table without actions 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-caption css-1b37dve-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-caption css-1mjc0vb-MuiTypography-root"
           >
             Verdi
           </span>
