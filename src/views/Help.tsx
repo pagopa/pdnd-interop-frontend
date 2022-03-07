@@ -9,7 +9,7 @@ export function Help() {
   useEffect(() => {
     async function asyncFetchData() {
       const resp = await axios.get(
-        `${isProduction ? BASE_URL_FE_PROD : window.location.origin}/data/help.json`
+        `${isProduction ? `${BASE_URL_FE_PROD}/ui` : window.location.origin}/data/help.json`
       )
       console.log(window.location)
       setHtmlString(resp.data.html)
