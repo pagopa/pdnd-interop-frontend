@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const { marked } = require('marked')
 
-const OUTPUT_URL = 'https://fe-test.gateway.test.pdnd-interop.pagopa.it/ui'
+const OUTPUT_URL = 'https://uat.gateway.test.pdnd-interop.pagopa.it/ui'
 
 const MARKDOWN_LOCATION = 'data/help.md'
 const DEST_LOCATION = '../../public/data/help.json'

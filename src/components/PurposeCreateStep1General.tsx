@@ -53,7 +53,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
   const { data: eserviceData } = useAsyncFetch<Array<EServiceReadType>, Array<InputSelectOption>>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST' },
-      config: { params: { consumerId: party?.id } },
+      config: { params: { consumerId: party?.id, agreementStates: 'ACTIVE' } },
     },
     {
       mapFn: (data) => data.map((d) => ({ value: d.id, label: d.name })),
