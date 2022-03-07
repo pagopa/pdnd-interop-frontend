@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { StyledIntro } from '../components/Shared/StyledIntro'
+import { BASE_URL_FE_PROD, isProduction } from '../lib/constants'
 
 export function Help() {
   const [htmlString, setHtmlString] = useState('')
 
   useEffect(() => {
     async function asyncFetchData() {
-      const resp = await axios.get(`${window.location.origin}/data/help.json`)
+      const resp = await axios.get(
+        `${isProduction ? BASE_URL_FE_PROD : window.location.origin}/data/help.json`
+      )
+      console.log(window.location)
       setHtmlString(resp.data.html)
     }
 

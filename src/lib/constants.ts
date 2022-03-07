@@ -2,7 +2,7 @@ import { Lang } from '../../types'
 import { getDevLabels } from './wip-utils'
 
 const isDevelopment = !!(process.env.NODE_ENV === 'development')
-const isProduction = !!(process.env.NODE_ENV === 'production')
+export const isProduction = !!(process.env.NODE_ENV === 'production')
 
 export const SHOW_DEV_LABELS = isDevelopment || getDevLabels()
 export const USE_MOCK_SPID_USER = isDevelopment
