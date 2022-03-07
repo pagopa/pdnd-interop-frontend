@@ -1,7 +1,7 @@
 ## Sommario
 
 - Glossario
-  - [E-service](#E-Service)
+  - [E-Service](#e-service)
   - [Attributo](#attributo)
   - [Richiesta di fruizione](#richiesta-di-fruizione)
   - [Chiave pubblica](#chiave-pubblica)
@@ -15,15 +15,15 @@
   - [Flusso del fruitore](#flusso-del-fruitore)
   - [Operatività e sospensioni](#operatività-e-sospensioni)
 - E-service
-  - [Creare un nuovo E-Service](#creare-un-nuovo-E-Service)
+  - [Creare un nuovo E-Service](#creare-un-nuovo-e-service)
   - [Come funzionano gli attributi?](#come-funzionano-gli-attributi)
-  - [Creare una nuova versione di E-Service](#creare-una-nuova-versione-di-E-Service)
-  - [Pubblicare una versione di E-Service](#pubblicare-una-versione-di-E-Service)
-  - [Archiviare una versione di E-Service](#archiviare-una-versione-di-E-Service)
-  - [Cancellare una bozza di E-Service](#cancellare-una-bozza-di-E-Service)
-  - [Sospendere o riattivare una versione di E-Service](#sospendere-o-riattivare-una-versione-di-E-Service)
-  - [Clonare un E-Service](#clonare-un-E-Service)
-  - [Gestire il carico dell'E-Service](#gestire-il-carico-dellE-Service)
+  - [Creare una nuova versione di E-Service](#creare-una-nuova-versione-di-e-service)
+  - [Pubblicare una versione di E-Service](#pubblicare-una-versione-di-e-service)
+  - [Archiviare una versione di E-Service](#archiviare-una-versione-di-e-service)
+  - [Cancellare una bozza di E-Service](#cancellare-una-bozza-di-e-service)
+  - [Sospendere o riattivare una versione di E-Service](#sospendere-o-riattivare-una-versione-di-e-service)
+  - [Clonare un E-Service](#clonare-un-e-service)
+  - [Gestire il carico dell'E-Service](#gestire-il-carico-delle-service)
 - Richieste di fruizione
   - [Fruitore: sottoscrivere una richiesta di fruizione](#fruitore-sottoscrivere-una-richiesta-di-fruizione)
   - [Erogatore: approvare una richiesta di fruizione](#erogatore-approvare-una-richiesta-di-fruizione)
@@ -52,11 +52,11 @@
 
 ## Glossario
 
-### E-service
+### E-Service
 
 È la descrizione di un servizio digitale accedibile tramite un'API. L'E-Service è reso disponibile da un aderente erogatore che ne permette la fruizione agli aderenti fruitori in possesso di una richiesta di fruizione attiva. L'API pubblicata sulla Piattaforma dall'ente erogatore dovrà rispettare i criteri e gli standard stabiliti dalla Piattaforma Interoperabilità.
 
-L'interazione tra il Fruitore e l'Erogatore, la richiesta di servizi e lo scambio di eventuali dati, avviene al di fuori della Piattaforma di Interoperabilità. La Piattaforma si fa garante e registra la legittimità delle richieste sulla base di quanto dichiarato da erogatore e fruitore. La Piattaforma reistra inoltre l'atto della sottoscrizione e della successiva attivazione della richiesta di fruizione. 
+L'interazione tra il Fruitore e l'Erogatore, la richiesta di servizi e lo scambio di eventuali dati, avviene al di fuori della Piattaforma di Interoperabilità. La Piattaforma si fa garante e registra la legittimità delle richieste sulla base di quanto dichiarato da erogatore e fruitore. La Piattaforma reistra inoltre l'atto della sottoscrizione e della successiva attivazione della richiesta di fruizione.
 
 ### Attributo
 
