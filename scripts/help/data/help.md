@@ -54,7 +54,7 @@
 
 ### E-service
 
-È la descrizione di un servizio digitale accedibile tramite un'API. lE-Service è reso disponibile da un aderente erogatore che ne permette la fruizione agli aderenti fruitori in possesso di una richiesta di fruizione attiva. L'API pubblicata sulla Piattaforma dall'ente erogatore dovrà rispettare i criteri e gli standard stabiliti dalla Piattaforma Interoperabilità.
+È la descrizione di un servizio digitale accedibile tramite un'API. L'E-Service è reso disponibile da un aderente erogatore che ne permette la fruizione agli aderenti fruitori in possesso di una richiesta di fruizione attiva. L'API pubblicata sulla Piattaforma dall'ente erogatore dovrà rispettare i criteri e gli standard stabiliti dalla Piattaforma Interoperabilità.
 
 L'interazione tra il Fruitore e l'Erogatore, la richiesta di servizi e lo scambio di eventuali dati, avviene al di fuori della Piattaforma di Interoperabilità. La Piattaforma si fa garante e registra la legittimità delle richieste sulla base di quanto dichiarato da erogatore e fruitore. La Piattaforma reistra inoltre l'atto della sottoscrizione e della successiva attivazione della richiesta di fruizione. 
 
