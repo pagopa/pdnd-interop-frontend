@@ -26,7 +26,7 @@ import { useRoute } from '../hooks/useRoute'
 type PurposeCreate = {
   title: string
   description: string
-  eserviceId?: string
+  eserviceId: string
 }
 
 type PurposeVersionCreate = {
@@ -219,6 +219,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
         value={formik.values.eserviceId}
         onChange={formik.handleChange}
         options={eserviceData}
+        emptyLabel="Nessun e-service associabile"
       />
 
       <StyledInputControlledText

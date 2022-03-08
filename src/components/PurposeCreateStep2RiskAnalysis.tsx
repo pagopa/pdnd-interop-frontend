@@ -238,6 +238,7 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
           error: formik.errors[id],
           helperText,
           required,
+          emptyLabel: 'Nessun valore disponibile',
         }
 
         const props = {

@@ -12,6 +12,7 @@ export const NARROW_MAX_WIDTH = 480
 export const MEDIUM_MAX_WIDTH = 700
 
 export const STORAGE_KEY_TOKEN = 'token'
+export const STORAGE_PARTY_OBJECT = 'currentParty'
 
 type ExtendedWindow = Window & { pagopa_env?: { API_HOST?: string } }
 

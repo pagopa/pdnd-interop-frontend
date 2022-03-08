@@ -57,13 +57,14 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
     async function asyncSilentAssignPartyAttempt() {
       setIsLoading(true)
 
-      const hasFetchedAndSetAvailableParties = await fetchAvailablePartiesAttempt()
-      const hasSetParty = setPartyFromStorageAttempt()
+      const _availableParties = await fetchAvailablePartiesAttempt()
+      const hasSetParty = setPartyFromStorageAttempt(_availableParties)
 
       // If something goes wrong in fetching the parties,
       // redirect to login page
-      if (!hasFetchedAndSetAvailableParties) {
+      if (!_availableParties) {
         window.location.assign(URL_FE_LOGIN)
+        return
       }
 
       setIsLoading(false)
@@ -73,6 +74,7 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
       const isChoosePartyPage = isSamePath(location.pathname, routes.CHOOSE_PARTY.PATH)
       if (!hasSetParty && !isChoosePartyPage) {
         history.push(routes.CHOOSE_PARTY.PATH)
+        return
       }
     }
 

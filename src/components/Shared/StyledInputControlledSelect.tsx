@@ -19,6 +19,7 @@ export type StyledInputControlledSelectProps = {
   sx?: SxProps
 
   options?: Array<InputSelectOption>
+  emptyLabel: string
 
   type?: 'select-one'
 }
@@ -38,8 +39,9 @@ export function StyledInputControlledSelect({
   sx,
 
   options,
+  emptyLabel,
 }: StyledInputControlledSelectProps) {
-  if (!options || Boolean(options.length === 0)) {
+  if (!options) {
     return null
   }
 
@@ -60,12 +62,17 @@ export function StyledInputControlledSelect({
         label={label}
         error={hasFieldError}
         inputProps={inputProps}
+        InputLabelProps={{ shrink: true }}
       >
-        {options.map((o, i) => (
-          <MenuItem key={i} value={o.value}>
-            {o.label}
-          </MenuItem>
-        ))}
+        {Boolean(options.length > 0) ? (
+          options.map((o, i) => (
+            <MenuItem key={i} value={o.value}>
+              {o.label}
+            </MenuItem>
+          ))
+        ) : (
+          <MenuItem value="">{emptyLabel}</MenuItem>
+        )}
       </TextField>
     </StyledInputWrapper>
   )

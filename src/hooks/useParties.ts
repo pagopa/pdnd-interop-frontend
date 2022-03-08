@@ -2,6 +2,7 @@ import { AxiosResponse } from 'axios'
 import { useContext } from 'react'
 import { Party, PartyAttribute } from '../../types'
 import { fetchAllWithLogs, fetchWithLogs } from '../lib/api-utils'
+import { STORAGE_PARTY_OBJECT } from '../lib/constants'
 import { LoaderContext, PartyContext, TokenContext } from '../lib/context'
 import { storageRead } from '../lib/storage-utils'
 
@@ -59,23 +60,32 @@ export const useParties = () => {
     // Stop the loader
     setLoadingText(null)
 
-    return true
+    return decoratedInstitutions
   }
 
   const fetchAvailablePartiesAttempt = async () => {
     if (token) {
-      const hasFetchedAndSetAvailableParties = await fetchAndSetAvailableParties()
-      return hasFetchedAndSetAvailableParties
+      return await fetchAndSetAvailableParties()
     }
 
-    return false
+    return null
   }
 
-  const setPartyFromStorageAttempt = () => {
-    const sessionStorageParty = storageRead('currentParty', 'object')
-    if (sessionStorageParty) {
-      setParty(sessionStorageParty)
-      return true
+  const setPartyFromStorageAttempt = (fetchedParties: Array<Party> | null) => {
+    const sessionStorageParty = storageRead(STORAGE_PARTY_OBJECT, 'object')
+
+    if (sessionStorageParty && fetchedParties) {
+      const currentFetchedParty = fetchedParties.find((p) => p.id === sessionStorageParty.id)
+
+      // Is same user with same privileges
+      if (
+        currentFetchedParty &&
+        currentFetchedParty.role === sessionStorageParty.role &&
+        currentFetchedParty.productInfo.role === sessionStorageParty.productInfo.role
+      ) {
+        setParty(sessionStorageParty)
+        return true
+      }
     }
 
     return false
