@@ -19,7 +19,7 @@ import { useRoute } from '../hooks/useRoute'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { InlineClipboard } from '../components/Shared/InlineClipboard'
 import { getComputedClientAssertionState } from '../lib/client'
-import { BASE_URL_FE } from '../lib/constants'
+import { BASE_URL_FE, URL_GATEWAY } from '../lib/constants'
 
 export function ClientEdit() {
   const { routes } = useRoute()
@@ -156,6 +156,12 @@ export function ClientEdit() {
                 <InlineClipboard text={data.id} successFeedbackText="Id copiato correttamente" />
               </DescriptionBlock>
 
+              <DescriptionBlock sx={{ mb: 4 }} label="Id della finalità (purposeId)">
+                <Typography component="span">
+                  null (il purposeId non si applica in questo caso)
+                </Typography>
+              </DescriptionBlock>
+
               <DescriptionBlock sx={{ mb: 4 }} label="Audience">
                 <InlineClipboard
                   text="test.interop.pagopa.it"
@@ -164,9 +170,9 @@ export function ClientEdit() {
               </DescriptionBlock>
 
               {BASE_URL_FE && (
-                <DescriptionBlock sx={{ mb: 4 }} label="E-service da contattare (url)">
+                <DescriptionBlock sx={{ mb: 4 }} label="Gateway da contattare (url)">
                   <InlineClipboard
-                    text={BASE_URL_FE}
+                    text={URL_GATEWAY}
                     successFeedbackText="Id copiato correttamente"
                   />
                 </DescriptionBlock>

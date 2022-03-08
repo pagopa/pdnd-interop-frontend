@@ -30,6 +30,8 @@ export const URL_FE_LOGIN = `${BASE_URL_FE}${process.env.REACT_APP_URL_FE_LOGIN}
 export const URL_FE_ONBOARDING = `${BASE_URL_FE}${process.env.REACT_APP_URL_FE_ONBOARDING}`
 export const URL_INTEROP_M2M_INTERFACE = `${BASE_URL_FE}${process.env.REACT_APP_URL_INTEROP_M2M_INTERFACE}`
 
+export const URL_GATEWAY = process.env.REACT_APP_URL_GATEWAY
+
 export const MOCK_TOKEN = process.env.REACT_APP_MOCK_TOKEN
 
 export const URL_FRAGMENTS: Record<string, Record<Lang, string>> = {
