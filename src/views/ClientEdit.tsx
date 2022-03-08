@@ -19,7 +19,7 @@ import { useRoute } from '../hooks/useRoute'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { InlineClipboard } from '../components/Shared/InlineClipboard'
 import { getComputedClientAssertionState } from '../lib/client'
-import { BASE_URL_FE, URL_GATEWAY } from '../lib/constants'
+import { URL_GATEWAY } from '../lib/constants'
 
 export function ClientEdit() {
   const { routes } = useRoute()
@@ -169,7 +169,7 @@ export function ClientEdit() {
                 />
               </DescriptionBlock>
 
-              {BASE_URL_FE && (
+              {URL_GATEWAY && (
                 <DescriptionBlock sx={{ mb: 4 }} label="Gateway da contattare (url)">
                   <InlineClipboard
                     text={URL_GATEWAY}
