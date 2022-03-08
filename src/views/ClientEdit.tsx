@@ -19,6 +19,7 @@ import { useRoute } from '../hooks/useRoute'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { InlineClipboard } from '../components/Shared/InlineClipboard'
 import { getComputedClientAssertionState } from '../lib/client'
+import { BASE_URL_FE } from '../lib/constants'
 
 export function ClientEdit() {
   const { routes } = useRoute()
@@ -76,78 +77,115 @@ export function ClientEdit() {
             />
           </DescriptionBlock> */}
 
-          <DescriptionBlock sx={{ my: 0 }} label="Client assertion disponibili">
-            <StyledAccordion
-              entries={data.purposes.map((p) => {
-                return {
-                  summary: (
-                    <React.Fragment>
-                      Finalità: {p.title}
-                      <br />
-                      E-service: {p.agreement.eservice.name}
-                    </React.Fragment>
-                  ),
-                  details: (
-                    <React.Fragment>
-                      <DescriptionBlock sx={{ mb: 4 }} label="Id del client (subject – clientId)">
-                        <InlineClipboard
-                          text={data.id}
-                          successFeedbackText="Id copiato correttamente"
-                        />
-                      </DescriptionBlock>
+          {clientKind === 'CONSUMER' ? (
+            <DescriptionBlock sx={{ my: 0 }} label="Client assertion disponibili">
+              <StyledAccordion
+                entries={data.purposes.map((p) => {
+                  return {
+                    summary: (
+                      <React.Fragment>
+                        Finalità: {p.title}
+                        <br />
+                        E-service: {p.agreement.eservice.name}
+                      </React.Fragment>
+                    ),
+                    details: (
+                      <React.Fragment>
+                        <DescriptionBlock sx={{ mb: 4 }} label="Id del client (subject – clientId)">
+                          <InlineClipboard
+                            text={data.id}
+                            successFeedbackText="Id copiato correttamente"
+                          />
+                        </DescriptionBlock>
 
-                      <DescriptionBlock sx={{ mb: 4 }} label="Id della finalità (purposeId)">
-                        <InlineClipboard
-                          text={p.purposeId}
-                          successFeedbackText="Id copiato correttamente"
-                        />
-                      </DescriptionBlock>
+                        <DescriptionBlock sx={{ mb: 4 }} label="Id della finalità (purposeId)">
+                          <InlineClipboard
+                            text={p.purposeId}
+                            successFeedbackText="Id copiato correttamente"
+                          />
+                        </DescriptionBlock>
 
-                      <DescriptionBlock sx={{ mb: 4 }} label="Audience">
-                        <InlineClipboard
-                          text="test.interop.test"
-                          successFeedbackText="Id copiato correttamente"
-                        />
-                      </DescriptionBlock>
+                        <DescriptionBlock sx={{ mb: 4 }} label="Audience">
+                          <InlineClipboard
+                            text="test.interop.pagopa.it"
+                            successFeedbackText="Id copiato correttamente"
+                          />
+                        </DescriptionBlock>
 
-                      <DescriptionBlock sx={{ mb: 4 }} label="Il token può essere staccato?">
-                        <Typography component="span">
-                          {getComputedClientAssertionState(p)}
-                        </Typography>
-                      </DescriptionBlock>
+                        <DescriptionBlock sx={{ mb: 4 }} label="Il token può essere staccato?">
+                          <Typography component="span">
+                            {getComputedClientAssertionState(p)}
+                          </Typography>
+                        </DescriptionBlock>
 
-                      <DescriptionBlock sx={{ mb: 4 }} label="E-service di riferimento">
-                        <StyledLink
-                          to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
-                            eserviceId: p.agreement.eservice.id,
-                            descriptorId: p.agreement.descriptor.id,
-                          })}
-                        >
-                          {p.agreement.eservice.name}
-                        </StyledLink>
-                      </DescriptionBlock>
+                        <DescriptionBlock sx={{ mb: 4 }} label="E-service di riferimento">
+                          <StyledLink
+                            to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
+                              eserviceId: p.agreement.eservice.id,
+                              descriptorId: p.agreement.descriptor.id,
+                            })}
+                          >
+                            {p.agreement.eservice.name}
+                          </StyledLink>
+                        </DescriptionBlock>
 
-                      <DescriptionBlock sx={{ mb: 4 }} label="Chiavi pubbliche">
-                        <Typography component="span">
-                          Per firmare questo token, puoi usare qualsiasi chiave pubblica sia
-                          presente in questo client nella tab &quot;Chiavi pubbliche&quot;
-                        </Typography>
-                      </DescriptionBlock>
-                    </React.Fragment>
-                  ),
-                }
-              })}
-            />
+                        <DescriptionBlock sx={{ mb: 4 }} label="Chiavi pubbliche">
+                          <Typography component="span">
+                            Per firmare questo token, puoi usare qualsiasi chiave pubblica sia
+                            presente in questo client nella tab &quot;Chiavi pubbliche&quot;
+                          </Typography>
+                        </DescriptionBlock>
+                      </React.Fragment>
+                    ),
+                  }
+                })}
+              />
 
-            <Typography sx={{ mt: 2 }}>
-              Per maggiori informazioni su come funziona e come costruire la client assertion,
-              guarda la{' '}
-              <StyledLink to={routes.CLIENT_ASSERTION_GUIDE.PATH} target="_blank">
-                guida
-              </StyledLink>
-              .
-            </Typography>
-          </DescriptionBlock>
+              <Typography sx={{ mt: 2 }}>
+                Per maggiori informazioni su come funziona e come costruire la client assertion,
+                guarda la{' '}
+                <StyledLink to={routes.CLIENT_ASSERTION_GUIDE.PATH} target="_blank">
+                  guida
+                </StyledLink>
+                .
+              </Typography>
+            </DescriptionBlock>
+          ) : (
+            <React.Fragment>
+              <DescriptionBlock sx={{ mb: 4 }} label="Id del client (subject – clientId)">
+                <InlineClipboard text={data.id} successFeedbackText="Id copiato correttamente" />
+              </DescriptionBlock>
+
+              <DescriptionBlock sx={{ mb: 4 }} label="Audience">
+                <InlineClipboard
+                  text="test.interop.pagopa.it"
+                  successFeedbackText="Id copiato correttamente"
+                />
+              </DescriptionBlock>
+
+              {BASE_URL_FE && (
+                <DescriptionBlock sx={{ mb: 4 }} label="E-service da contattare (url)">
+                  <InlineClipboard
+                    text={BASE_URL_FE}
+                    successFeedbackText="Id copiato correttamente"
+                  />
+                </DescriptionBlock>
+              )}
+
+              <DescriptionBlock sx={{ mb: 4 }} label="Interfaccia API">
+                <StyledLink to={routes.SUBSCRIBE_INTEROP_M2M.PATH}>
+                  Vai all&lsquo;interfaccia
+                </StyledLink>
+              </DescriptionBlock>
+
+              <DescriptionBlock sx={{ mb: 4 }} label="Chiavi pubbliche">
+                <Typography component="span">
+                  Per firmare questo token, puoi usare qualsiasi chiave pubblica sia presente in
+                  questo client nella tab &quot;Chiavi pubbliche&quot;
+                </Typography>
+              </DescriptionBlock>
+            </React.Fragment>
+          )}
         </TabPanel>
 
         <TabPanel value="securityOperators">
