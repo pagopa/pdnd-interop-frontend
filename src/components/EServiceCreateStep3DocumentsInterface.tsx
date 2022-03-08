@@ -46,7 +46,11 @@ export function EServiceCreateStep3DocumentsInterface({
       .test(
         'fileFormat',
         `Formato errato. È previsto un file ${interfaceAcceptedMimeTypes.format}`,
-        (value) => value === null || interfaceAcceptedMimeTypes.mime.includes(value.type)
+        (value) => {
+          console.log(value)
+          return true
+          // return value === null || interfaceAcceptedMimeTypes.mime.includes(value.type)
+        }
       )
       .required(),
     description: string().required(),
