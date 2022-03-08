@@ -8,6 +8,7 @@ import { StyledButton } from './Shared/StyledButton'
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material'
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from '@mui/icons-material'
 import { USER_ROLE_LABEL } from '../config/labels'
+import { STORAGE_PARTY_OBJECT } from '../lib/constants'
 
 export function PartySelect() {
   const { party, availableParties, setParty } = useContext(PartyContext)
@@ -28,7 +29,7 @@ export function PartySelect() {
     }
 
     setParty(newParty)
-    storageWrite('currentParty', newParty, 'object')
+    storageWrite(STORAGE_PARTY_OBJECT, newParty, 'object')
 
     handleClose()
   }

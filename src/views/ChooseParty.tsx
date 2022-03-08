@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { Chip, List, ListItem, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { Party } from '../../types'
-import { NARROW_MAX_WIDTH, URL_FE_ONBOARDING } from '../lib/constants'
+import { NARROW_MAX_WIDTH, STORAGE_PARTY_OBJECT, URL_FE_ONBOARDING } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { storageWrite } from '../lib/storage-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
@@ -21,7 +21,7 @@ export function ChooseParty() {
     if (e) e.preventDefault()
     const newParty = (availableParties as Array<Party>).find((p) => p.institutionId === id) as Party
     setParty(newParty)
-    storageWrite('currentParty', newParty, 'object')
+    storageWrite(STORAGE_PARTY_OBJECT, newParty, 'object')
   }
 
   const confirmChoice = () => {
