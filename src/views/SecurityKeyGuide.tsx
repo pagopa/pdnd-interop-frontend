@@ -49,16 +49,6 @@ export function SecurityKeyGuide() {
           </Typography>
         </ol>
       </Box>
-
-      <Box sx={{ mt: 2 }}>
-        <Typography>
-          Ritieni che questa guida sia incompleta? Segnalaci cosa manca a{' '}
-          <a title="Scrivici una mail" href="mailto:interop-guide@pagopa.it">
-            interop-guide@pagopa.it
-          </a>
-          . Attenzione: non è una mail di supporto tecnico.
-        </Typography>
-      </Box>
     </React.Fragment>
   )
 }

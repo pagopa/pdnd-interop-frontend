@@ -47,7 +47,6 @@
   - [A cosa servono le API M2M?](#a-cosa-servono-le-api-m2m)
   - [Come utilizzare le API M2M](#come-utilizzare-le-api-m2m)
 - FAQ
-  - [Non trovo quello che sto cercando, come faccio?](#non-trovo-quello-che-sto-cercando-come-faccio)
   - [Mi mancano alcune voci di menù, cosa succede?](#mi-mancano-alcune-voci-di-menù-cosa-succede)
 
 ## Glossario
@@ -287,10 +286,6 @@ Se si desidera implementare delle automazioni oppure eseguire azioni in bulk, è
 Per utilizzare le API, si può andare sotto "Fruizione > Interop M2M". È necessario aggiungere almeno un client con un operatore di sicurezza, che a sua volta carichi almeno una chiave. Le chiavi depositate nei client Interop potranno essere usate esclusivamente per l'utilizzo con l'API Interop M2M.
 
 ## FAQ
-
-### Non trovo quello che sto cercando, come faccio?
-
-Se in questa breve guida manca un tema di suo interesse, segnalalo a [interop-guide@pagopa.it](mailto:interop-guide@pagopa.it), provvederemo ad aggiungerlo. Attenzione: questa non è una casella di supporto tecnico. Non è possibile rispondere ad eventuali richieste di aiuto, per le quali sono a disposizione altri canali e processi.
 
 ### Mi mancano alcune voci di menù, cosa succede?
 
