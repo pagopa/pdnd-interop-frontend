@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Autocomplete, TextField, Typography } from '@mui/material'
 import { StyledInputWrapper } from './StyledInputWrapper'
 import { SxProps } from '@mui/system'
@@ -47,12 +47,22 @@ export const StyledInputControlledAutocomplete = <T extends unknown>({
   const [isOpen, setIsOpen] = useState(false)
   const [options, setOptions] = useState<Array<T>>([])
 
+  const getEmptyOptions = () => {
+    return transformFn(values, '')
+  }
+
+  useEffect(() => {
+    if (Boolean(values.length > 0)) {
+      setOptions(getEmptyOptions())
+    }
+  }, [values]) // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleSearch = (e: React.SyntheticEvent) => {
     if (!e) return
 
     const target = e.target as HTMLInputElement
     if (!target.value) {
-      setOptions([])
+      setOptions(getEmptyOptions())
       return
     }
 
@@ -79,6 +89,8 @@ export const StyledInputControlledAutocomplete = <T extends unknown>({
         onOpen={open}
         onClose={close}
         getOptionLabel={getOptionLabel}
+        // This prop sometimes throws a warning, due to
+        // https://github.com/mui/material-ui/issues/29727
         isOptionEqualToValue={isOptionEqualToValue}
         // filterOptions={(options) => uniqBy(options, (o) => (o[labelKey] as string).toLowerCase())}
         options={options}

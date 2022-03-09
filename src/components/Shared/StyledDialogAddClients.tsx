@@ -15,6 +15,7 @@ import { StyledInputControlledAutocomplete } from './StyledInputControlledAutoco
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { PartyContext } from '../../lib/context'
 import differenceBy from 'lodash/differenceBy'
+import { sortBy } from 'lodash'
 
 export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = ({
   onSubmit,
@@ -50,6 +51,22 @@ export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = 
     closeDialog()
   }
 
+  const transformFn = (options: Array<Client>, search: string) => {
+    const selectedIds: Array<string> = selected.map((o) => o.id)
+    const isAlreadySelected = (o: Client) => selectedIds.includes(o.id)
+
+    if (search === '') {
+      const filtered = options.filter((o) => !isAlreadySelected(o))
+      return sortBy(filtered, ['name'])
+    }
+
+    const lowercaseSearch = search.toLowerCase()
+    const isInSearch = (o: Client) => o.name.toLowerCase().includes(lowercaseSearch)
+
+    const filtered = options.filter((o) => isInSearch(o) && !isAlreadySelected(o))
+    return sortBy(filtered, ['name'])
+  }
+
   const availableClients = differenceBy(clientData, exclude, 'id')
 
   return (
@@ -71,7 +88,7 @@ export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = 
                 values={availableClients || []}
                 getOptionLabel={(option: Client) => (option ? option.name : '')}
                 isOptionEqualToValue={(option: Client, value: Client) => option.id === value.id}
-                transformFn={(o) => o}
+                transformFn={transformFn}
               />
             </Box>
           </DialogContent>

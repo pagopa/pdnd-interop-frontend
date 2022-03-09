@@ -90,10 +90,16 @@ export function EServiceAttributeGroup({
       closeDialog()
     }
 
+    const selectedIds = attributesGroup.reduce<Array<string>>((acc, next) => {
+      const ids = next.attributes.map((a) => a.id)
+      return [...acc, ...ids]
+    }, [])
+
     setDialog({
       type: 'addExistingAttribute',
       attributeKey,
       initialValues: existingAttributeInitialValues,
+      selectedIds,
       onSubmit: addExistingAttributes,
     } as DialogExistingAttributeProps)
   }
@@ -116,7 +122,7 @@ export function EServiceAttributeGroup({
         {Boolean(attributesGroup.length > 0) &&
           attributesGroup.map(({ attributes, explicitAttributeVerification }, j) => {
             const explicitAttributeVerificationLabel =
-              attributeKey !== 'certified'
+              attributeKey === 'verified'
                 ? { label: explicitAttributeVerification ? 'Sì' : 'No' }
                 : { label: '' }
 

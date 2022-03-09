@@ -25,6 +25,7 @@ import { StyledInputControlledAsyncAutocomplete } from './StyledInputControlledA
 export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttributeProps> = ({
   initialValues,
   onSubmit,
+  selectedIds,
   attributeKey,
 }) => {
   const { closeDialog } = useCloseDialog()
@@ -64,14 +65,22 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
                     placeholder="..."
                     path={{ endpoint: 'ATTRIBUTE_GET_LIST' }}
                     transformKey="attributes"
-                    transformFn={(data) => {
+                    transformFn={(fetchedData) => {
+                      const alreadySelectedIds = [
+                        ...selectedIds,
+                        ...values.selected.map((a) => a.id),
+                      ]
+                      const notAlreadySelectedAttributes = fetchedData.filter(
+                        (d) => !alreadySelectedIds.includes(d.id)
+                      )
+
                       // TEMP PIN-1176: this is ugly on purpose, it will change as soon as it
                       // is possible to filter attributes in the GET request
                       if (certifiedCondition) {
-                        return data.filter((a) => a.kind === 'CERTIFIED')
+                        return notAlreadySelectedAttributes.filter((a) => a.kind === 'CERTIFIED')
                       }
 
-                      return data.filter((a) => a.kind !== 'CERTIFIED')
+                      return notAlreadySelectedAttributes.filter((a) => a.kind !== 'CERTIFIED')
                     }}
                     name="selection"
                     onChange={wrapUpdateSelected(setFieldValue)}
