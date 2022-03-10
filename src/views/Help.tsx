@@ -1,22 +1,23 @@
-import React /* useEffect, useState */ from 'react'
-// import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-// import { BASE_URL_FE_PROD, isProduction } from '../lib/constants'
+import { URL_FE } from '../lib/constants'
+
+const linkBitsRegex = /<a\shref="*(.*)">(.*)<\/a>/gi
 
 export function Help() {
-  // const [htmlString, setHtmlString] = useState('')
+  const [htmlString, setHtmlString] = useState('')
 
-  // useEffect(() => {
-  //   async function asyncFetchData() {
-  //     const resp = await axios.get(
-  //       `${isProduction ? `${BASE_URL_FE_PROD}/ui` : window.location.origin}/data/help.json`
-  //     )
-  //     console.log(window.location)
-  //     setHtmlString(resp.data.html)
-  //   }
+  useEffect(() => {
+    async function asyncFetchData() {
+      const { pathname } = window.location
+      const resp = await axios.get(`${URL_FE}/data/help.json`)
+      const html = resp.data.html.replace(linkBitsRegex, `<a href="${pathname}$1">$2<\/a>`)
+      setHtmlString(html)
+    }
 
-  //   asyncFetchData()
-  // }, [])
+    asyncFetchData()
+  }, [])
 
   return (
     <React.Fragment>
@@ -28,7 +29,7 @@ export function Help() {
         }}
       </StyledIntro>
 
-      <div dangerouslySetInnerHTML={{ __html: '' }} />
+      <div dangerouslySetInnerHTML={{ __html: htmlString }} />
     </React.Fragment>
   )
 }

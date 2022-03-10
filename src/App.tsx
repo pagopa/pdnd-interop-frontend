@@ -9,6 +9,7 @@ import theme from '@pagopa/mui-italia/theme'
 import DateAdapter from '@mui/lab/AdapterDateFns'
 import { LocalizationProvider } from '@mui/lab'
 import { getDecoratedRoutes } from './lib/router-utils'
+import { PUBLIC_URL } from './lib/constants'
 
 const allRoutes = getDecoratedRoutes()
 
@@ -23,7 +24,7 @@ export function App() {
       <RoutesContext.Provider value={{ allRoutes }}>
         <TokenContext.Provider value={{ token, setToken }}>
           <PartyContext.Provider value={{ party, availableParties, setParty, setAvailableParties }}>
-            <BrowserRouter basename={process.env.PUBLIC_URL}>
+            <BrowserRouter basename={PUBLIC_URL}>
               <LocalizationProvider dateAdapter={DateAdapter}>
                 <ThemeProvider theme={theme}>
                   <CssBaseline />
