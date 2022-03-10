@@ -23,7 +23,7 @@ export function App() {
       <RoutesContext.Provider value={{ allRoutes }}>
         <TokenContext.Provider value={{ token, setToken }}>
           <PartyContext.Provider value={{ party, availableParties, setParty, setAvailableParties }}>
-            <BrowserRouter>
+            <BrowserRouter basename={process.env.PUBLIC_URL}>
               <LocalizationProvider dateAdapter={DateAdapter}>
                 <ThemeProvider theme={theme}>
                   <CssBaseline />

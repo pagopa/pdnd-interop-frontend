@@ -1,7 +1,7 @@
 {
   "name": "pdnd-interop-frontend",
   "version": "0.1.0",
-  "homepage": "./",
+  "homepage": "/ui/",
   "private": true,
   "dependencies": {
     "@date-io/date-fns": "^2.13.1",

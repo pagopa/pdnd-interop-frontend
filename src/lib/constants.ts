@@ -14,12 +14,9 @@ export const MEDIUM_MAX_WIDTH = 700
 export const STORAGE_KEY_TOKEN = 'token'
 export const STORAGE_PARTY_OBJECT = 'currentParty'
 
-const FE_SUBPATH = '/ui'
-const API_HOST_PROD = window.location.origin.replace(FE_SUBPATH, '')
-const FE_HOST = window.location.origin
-
+const API_HOST_PROD = window.location.origin
 export const API_HOST = isProduction ? API_HOST_PROD : process.env.REACT_APP_API_HOST
-export const URL_FE_LOGIN = `${FE_HOST}/${process.env.REACT_APP_URL_FE_LOGIN}`
+export const URL_FE_LOGIN = `${API_HOST}/${process.env.REACT_APP_URL_FE_LOGIN}`
 export const URL_INTEROP_M2M = process.env.REACT_APP_URL_INTEROP_M2M
 export const URL_INTEROP_M2M_INTERFACE_DOCUMENT = `${API_HOST}/${URL_INTEROP_M2M}/${process.env.REACT_APP_URL_INTEROP_M2M_INTERFACE_DOCUMENT}`
 
