@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import { FE_SUBPATH } from './lib/constants'
 import CssBaseline from '@mui/material/CssBaseline'
 import { BodyLogger } from './components/BodyLogger'
 import { LangContext, PartyContext, RoutesContext, TokenContext } from './lib/context'
@@ -10,6 +9,7 @@ import theme from '@pagopa/mui-italia/theme'
 import DateAdapter from '@mui/lab/AdapterDateFns'
 import { LocalizationProvider } from '@mui/lab'
 import { getDecoratedRoutes } from './lib/router-utils'
+import { PUBLIC_URL } from './lib/constants'
 
 const allRoutes = getDecoratedRoutes()
 
@@ -24,7 +24,7 @@ export function App() {
       <RoutesContext.Provider value={{ allRoutes }}>
         <TokenContext.Provider value={{ token, setToken }}>
           <PartyContext.Provider value={{ party, availableParties, setParty, setAvailableParties }}>
-            <BrowserRouter basename={FE_SUBPATH}>
+            <BrowserRouter basename={PUBLIC_URL}>
               <LocalizationProvider dateAdapter={DateAdapter}>
                 <ThemeProvider theme={theme}>
                   <CssBaseline />

@@ -9,7 +9,7 @@ import { useRoute } from '../hooks/useRoute'
 import { FileDownloadOutlined as FileDownloadOutlinedIcon } from '@mui/icons-material'
 import { Contained } from '../components/Shared/Contained'
 import { ClientList } from './ClientList'
-import { URL_INTEROP_M2M_INTERFACE } from '../lib/constants'
+import { URL_INTEROP_M2M_INTERFACE_DOCUMENT } from '../lib/constants'
 
 export function InteropM2M() {
   const { activeTab, updateActiveTab } = useActiveTab('details')
@@ -43,7 +43,7 @@ export function InteropM2M() {
                 sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
               >
                 Scarica file di interfaccia
-                <a href={URL_INTEROP_M2M_INTERFACE}>
+                <a href={URL_INTEROP_M2M_INTERFACE_DOCUMENT}>
                   <FileDownloadOutlinedIcon />
                 </a>
               </Typography>

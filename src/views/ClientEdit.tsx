@@ -19,7 +19,7 @@ import { useRoute } from '../hooks/useRoute'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { InlineClipboard } from '../components/Shared/InlineClipboard'
 import { getComputedClientAssertionState } from '../lib/client'
-import { URL_GATEWAY } from '../lib/constants'
+import { URL_INTEROP_M2M } from '../lib/constants'
 
 export function ClientEdit() {
   const { routes } = useRoute()
@@ -167,10 +167,10 @@ export function ClientEdit() {
                 />
               </DescriptionBlock>
 
-              {URL_GATEWAY && (
+              {URL_INTEROP_M2M && (
                 <DescriptionBlock sx={{ mb: 4 }} label="Gateway da contattare (url)">
                   <InlineClipboard
-                    text={URL_GATEWAY}
+                    text={URL_INTEROP_M2M}
                     successFeedbackText="Id copiato correttamente"
                   />
                 </DescriptionBlock>
