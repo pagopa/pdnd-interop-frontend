@@ -1,6 +1,6 @@
 import React from 'react'
 import { AxiosResponse } from 'axios'
-import { PublicKey } from '../../types'
+import { PublicKey, User } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { downloadFile } from '../lib/file-utils'
 import { useFeedback } from '../hooks/useFeedback'
@@ -13,6 +13,8 @@ import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { useRoute } from '../hooks/useRoute'
 import { formatDateString } from '../lib/date-utils'
+import { Typography } from '@mui/material'
+import { isKeyOrphan } from '../lib/key-utils'
 
 export function KeyEdit() {
   const { routes } = useRoute()
@@ -22,7 +24,7 @@ export function KeyEdit() {
   const kid = locationBits[locationBits.length - 1]
   const clientId = locationBits[locationBits.length - 3]
 
-  const { data } = useAsyncFetch<PublicKey>(
+  const { data: keyData } = useAsyncFetch<PublicKey>(
     { path: { endpoint: 'KEY_GET_SINGLE', endpointParams: { clientId, kid } } },
     {
       loaderType: 'contextual',
@@ -30,12 +32,17 @@ export function KeyEdit() {
     }
   )
 
+  const { data: userData } = useAsyncFetch<Array<User>>(
+    { path: { endpoint: 'OPERATOR_SECURITY_GET_LIST', endpointParams: { clientId } } },
+    { loaderType: 'contextual', loadingTextLabel: 'Stiamo caricando gli operatori' }
+  )
+
   const downloadKey = async () => {
     const { response, outcome } = await runAction(
       {
         path: {
           endpoint: 'KEY_DOWNLOAD',
-          endpointParams: { clientId, keyId: data?.key.kid },
+          endpointParams: { clientId, keyId: keyData?.key.kid },
         },
       },
       { suppressToast: true }
@@ -52,7 +59,7 @@ export function KeyEdit() {
       {
         path: {
           endpoint: 'KEY_DELETE',
-          endpointParams: { clientId, keyId: data?.key.kid },
+          endpointParams: { clientId, keyId: keyData?.key.kid },
         },
       },
       {
@@ -70,19 +77,33 @@ export function KeyEdit() {
     <React.Fragment>
       <StyledIntro>{{ title: 'Gestisci chiave pubblica' }}</StyledIntro>
       <Box sx={{ mt: 6 }}>
-        <DescriptionBlock label="Nome della chiave">{data?.name}</DescriptionBlock>
+        <DescriptionBlock label="Nome della chiave">{keyData?.name}</DescriptionBlock>
         <DescriptionBlock label="Data di creazione">
-          {data && formatDateString(data.createdAt)}
+          {keyData && formatDateString(keyData.createdAt)}
+        </DescriptionBlock>
+
+        <DescriptionBlock label="Caricata da">
+          {keyData?.operator.name} {keyData?.operator.surname}
         </DescriptionBlock>
 
         <DescriptionBlock label="Id della chiave (kid)">
-          {data?.key && (
-            <InlineClipboard text={data.key.kid} successFeedbackText="Id copiato correttamente" />
+          {keyData?.key && (
+            <InlineClipboard
+              text={keyData.key.kid}
+              successFeedbackText="Id copiato correttamente"
+            />
           )}
         </DescriptionBlock>
         <DescriptionBlock label="Id del client (clientId)">
           <InlineClipboard text={clientId} successFeedbackText="Id copiato correttamente" />
         </DescriptionBlock>
+
+        {keyData && isKeyOrphan(keyData, userData) && (
+          <Typography bgcolor="error.main" color="common.white" sx={{ p: 2 }}>
+            Attenzione! L&lsquo;operatore che ha caricato questa chiave è stato rimosso da questo
+            ente. Si consiglia di eliminare la chiave e di sostituirla con una nuova
+          </Typography>
+        )}
       </Box>
 
       <Box sx={{ mt: 4, display: 'flex' }}>

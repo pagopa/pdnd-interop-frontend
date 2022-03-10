@@ -247,7 +247,7 @@ export const PurposeView = () => {
   }
 
   const addClients = async (newClientsData: Array<Client>) => {
-    const alreadyPostedClients = (data?.clients.clients || []).map((c) => c.id)
+    const alreadyPostedClients = (data?.clients || []).map((c) => c.id)
     const newClients = newClientsData.filter((c) => !alreadyPostedClients.includes(c.id))
 
     // TEMP REFACTOR: improve this with error messages, failure handling, etc
@@ -265,7 +265,7 @@ export const PurposeView = () => {
   }
 
   const showClientsDialog = () => {
-    setDialog({ type: 'addClients', exclude: data?.clients.clients || [], onSubmit: addClients })
+    setDialog({ type: 'addClients', exclude: data?.clients || [], onSubmit: addClients })
   }
 
   const headData = ['nome client']
@@ -397,7 +397,7 @@ export const PurposeView = () => {
               noDataLabel="Non ci sono client associati a questa finalità"
               // error={axiosErrorToError(error)}
             >
-              {data?.clients?.clients.map((item, i) => (
+              {data?.clients?.map((item, i) => (
                 <StyledTableRow key={i} cellData={[{ label: item.name }]}>
                   <StyledButton
                     variant="outlined"

@@ -2,7 +2,7 @@ import React, { FunctionComponent, useContext, useRef, useState } from 'react'
 import { MoreVert as MoreVertIcon } from '@mui/icons-material'
 import { StyledButton } from './StyledButton'
 import { Menu, MenuItem } from '@mui/material'
-import { ActionProps } from '../../../types'
+import { ActionProps, MUIColor } from '../../../types'
 import { TableActionMenuContext } from '../../lib/context'
 import { Box } from '@mui/system'
 
@@ -16,6 +16,7 @@ type ActionMenuProps = {
   openMenuId: string | null
   // Only used for snapshot tests, to have a stable id
   snapshotTestInternalId?: string
+  iconColor?: MUIColor
 }
 
 export const ActionMenu: FunctionComponent<
@@ -57,6 +58,7 @@ const ActionMenuComponent: FunctionComponent<ActionMenuProps> = ({
   onClose,
   openMenuId,
   snapshotTestInternalId,
+  iconColor = 'primary',
 }) => {
   // Needs to be state to avoid it changing on rerender
   const [id] = useState(snapshotTestInternalId || uniqueString(8))
@@ -84,9 +86,10 @@ const ActionMenuComponent: FunctionComponent<ActionMenuProps> = ({
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
+        color={iconColor}
       >
         <span ref={anchorRef}>
-          <MoreVertIcon color="primary" />
+          <MoreVertIcon color="inherit" />
         </span>
       </StyledButton>
 

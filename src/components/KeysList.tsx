@@ -9,6 +9,7 @@ import {
   PublicKeyItem,
   PublicKeys,
   SecurityOperatorKeysFormInputValues,
+  User,
 } from '../../types'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -23,6 +24,9 @@ import { StyledButton } from './Shared/StyledButton'
 import { StyledTableRow } from './Shared/StyledTableRow'
 import { useRoute } from '../hooks/useRoute'
 import { formatDateString } from '../lib/date-utils'
+import { StyledTooltip } from './Shared/StyledTooltip'
+import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
+import { isKeyOrphan } from '../lib/key-utils'
 
 type KeyToPostProps = SecurityOperatorKeysFormInputValues & {
   use: 'SIG'
@@ -45,13 +49,22 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
   const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
   const history = useHistory()
 
-  const { data, loadingText, error } = useAsyncFetch<PublicKeys>(
+  const {
+    data: keysData,
+    loadingText,
+    error,
+  } = useAsyncFetch<PublicKeys>(
     { path: { endpoint: 'KEY_GET_LIST', endpointParams: { clientId } } },
     {
       useEffectDeps: [forceRerenderCounter],
       loaderType: 'contextual',
       loadingTextLabel: 'Stiamo caricando le chiavi',
     }
+  )
+
+  const { data: userData } = useAsyncFetch<Array<User>>(
+    { path: { endpoint: 'OPERATOR_SECURITY_GET_LIST', endpointParams: { clientId } } },
+    { loaderType: 'contextual', loadingTextLabel: 'Stiamo caricando gli operatori' }
   )
 
   const wrapDownloadKey = (keyId: string) => async () => {
@@ -153,38 +166,50 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
         noDataLabel="Non ci sono chiavi disponibili"
         error={fetchError}
       >
-        {data?.keys.map(({ key, name, createdAt, operator }, i) => (
-          <StyledTableRow
-            key={i}
-            cellData={[
-              { label: name },
-              { label: formatDateString(createdAt) },
-              { label: `${operator.name} ${operator.surname}` },
-            ]}
-          >
-            <StyledButton
-              variant="outlined"
-              size="small"
-              onClick={() => {
-                history.push(
-                  buildDynamicPath(
-                    clientKind === 'API'
-                      ? routes.SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT.PATH
-                      : routes.SUBSCRIBE_CLIENT_KEY_EDIT.PATH,
-                    {
-                      clientId,
-                      kid: key.kid,
-                    }
-                  )
-                )
-              }}
+        {keysData?.keys.map((singleKey, i) => {
+          const { key, name, createdAt, operator } = singleKey
+          const color = isKeyOrphan(singleKey, userData) ? 'error' : 'primary'
+          return (
+            <StyledTableRow
+              key={i}
+              cellData={[
+                {
+                  label: name,
+                  tooltip: (
+                    <StyledTooltip title="Attenzione! L'operatore che ha caricato questa chiave è stato rimosso da questo ente. Si consiglia di eliminare la chiave e di sostituirla con una nuova">
+                      <ReportGmailerrorredIcon sx={{ ml: 0.75, fontSize: 16 }} color={color} />
+                    </StyledTooltip>
+                  ),
+                },
+                { label: formatDateString(createdAt) },
+                { label: `${operator.name} ${operator.surname}` },
+              ]}
             >
-              Ispeziona
-            </StyledButton>
+              <StyledButton
+                variant="outlined"
+                color={color}
+                size="small"
+                onClick={() => {
+                  history.push(
+                    buildDynamicPath(
+                      clientKind === 'API'
+                        ? routes.SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT.PATH
+                        : routes.SUBSCRIBE_CLIENT_KEY_EDIT.PATH,
+                      {
+                        clientId,
+                        kid: key.kid,
+                      }
+                    )
+                  )
+                }}
+              >
+                Ispeziona
+              </StyledButton>
 
-            <ActionMenu actions={getAvailableActions(key)} />
-          </StyledTableRow>
-        ))}
+              <ActionMenu actions={getAvailableActions(key)} iconColor={color} />
+            </StyledTableRow>
+          )
+        })}
       </TableWithLoader>
     </React.Fragment>
   )

@@ -443,8 +443,7 @@ export type Purpose = {
   }
   agreement: Pick<AgreementSummary, 'id' | 'state'>
   riskAnalysisForm: PurposeRiskAnalysisForm
-  // TEMP PIN-1195
-  clients: { clients: Array<Pick<Client, 'id' | 'name'>> }
+  clients: Array<Pick<Client, 'id' | 'name'>>
   versions: Array<PurposeVersion>
 }
 
@@ -521,7 +520,7 @@ export type PublicKey = {
   name: string
   createdAt: string
   key: PublicKeyItem
-  operator: Pick<User, 'id' | 'name' | 'surname'>
+  operator: Pick<User, 'relationshipId' | 'name' | 'surname'>
 }
 
 export type PublicKeys = {
@@ -872,3 +871,15 @@ export type FormikSetFieldValue = (
   value: unknown,
   shouldValidate?: boolean | undefined
 ) => void
+
+export type MUIColor =
+  | 'primary'
+  | 'inherit'
+  | 'disabled'
+  | 'action'
+  | 'secondary'
+  | 'error'
+  | 'info'
+  | 'success'
+  | 'warning'
+  | undefined
