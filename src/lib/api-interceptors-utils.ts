@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { logAction, logError } from './action-log'
-import { BASE_URL_FE, STORAGE_KEY_TOKEN } from './constants'
+import { API_HOST, STORAGE_KEY_TOKEN } from './constants'
 import { storageRead } from './storage-utils'
 
 const instance = axios.create()
@@ -14,7 +14,7 @@ instance.interceptors.request.use(
 
     logAction('Log request', config)
 
-    return { ...config, baseURL: BASE_URL_FE }
+    return { ...config, baseURL: API_HOST }
   },
   (error) => {
     logError(error)

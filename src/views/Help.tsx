@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React /* useEffect, useState */ from 'react'
+// import axios from 'axios'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { BASE_URL_FE_PROD, isProduction } from '../lib/constants'
+// import { BASE_URL_FE_PROD, isProduction } from '../lib/constants'
 
 export function Help() {
-  const [htmlString, setHtmlString] = useState('')
+  // const [htmlString, setHtmlString] = useState('')
 
-  useEffect(() => {
-    async function asyncFetchData() {
-      const resp = await axios.get(
-        `${isProduction ? `${BASE_URL_FE_PROD}/ui` : window.location.origin}/data/help.json`
-      )
-      console.log(window.location)
-      setHtmlString(resp.data.html)
-    }
+  // useEffect(() => {
+  //   async function asyncFetchData() {
+  //     const resp = await axios.get(
+  //       `${isProduction ? `${BASE_URL_FE_PROD}/ui` : window.location.origin}/data/help.json`
+  //     )
+  //     console.log(window.location)
+  //     setHtmlString(resp.data.html)
+  //   }
 
-    asyncFetchData()
-  }, [])
+  //   asyncFetchData()
+  // }, [])
 
   return (
     <React.Fragment>
@@ -28,7 +28,7 @@ export function Help() {
         }}
       </StyledIntro>
 
-      <div dangerouslySetInnerHTML={{ __html: htmlString }} />
+      <div dangerouslySetInnerHTML={{ __html: '' }} />
     </React.Fragment>
   )
 }

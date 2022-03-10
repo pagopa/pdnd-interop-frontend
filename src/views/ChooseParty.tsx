@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { Chip, List, ListItem, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { Party } from '../../types'
-import { NARROW_MAX_WIDTH, STORAGE_PARTY_OBJECT, URL_FE_ONBOARDING } from '../lib/constants'
+import { NARROW_MAX_WIDTH, STORAGE_PARTY_OBJECT } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { storageWrite } from '../lib/storage-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
@@ -122,7 +122,7 @@ export function ChooseParty() {
             Entra
           </StyledButton>
         </Box>
-
+        {/* TEMP REFACTOR: enable after integration with self-care */}
         {/* <Box sx={{ mt: 1, display: 'flex', alignItems: 'center' }}>
           <Typography component="span" sx={{ mr: 1 }}>
             Vuoi registrare un nuovo ente?{' '}
@@ -147,6 +147,14 @@ export function ChooseParty() {
         {{
           title: 'Ciao!',
           description:
+            "Dev'essere il tuo primo accesso, non ci sono enti a te associati. Se credi sia un errore, segnalalo al team Interoperabilità",
+        }}
+      </StyledIntro>
+      {/* TEMP REFACTOR: enable after integration with self-care */}
+      {/* <StyledIntro variant="h1">
+        {{
+          title: 'Ciao!',
+          description:
             "Dev'essere il tuo primo accesso, non ci sono enti a te associati. Se sei il rappresentante legale di un ente, accreditalo e accedi",
         }}
       </StyledIntro>
@@ -157,7 +165,7 @@ export function ChooseParty() {
         }}
       >
         Registra nuovo ente
-      </StyledButton>
+      </StyledButton> */}
     </Box>
   )
 }

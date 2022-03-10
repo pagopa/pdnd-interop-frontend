@@ -14,16 +14,14 @@ export const MEDIUM_MAX_WIDTH = 700
 export const STORAGE_KEY_TOKEN = 'token'
 export const STORAGE_PARTY_OBJECT = 'currentParty'
 
-export const FE_SUBPATH = process.env.PUBLIC_URL
+const FE_SUBPATH = '/ui'
+const API_HOST_PROD = window.location.origin.replace(FE_SUBPATH, '')
+const FE_HOST = window.location.origin
 
-export const BASE_URL_FE_PROD = window.location.origin.replace(FE_SUBPATH, '')
-
-export const BASE_URL_FE = isProduction ? BASE_URL_FE_PROD : process.env.REACT_APP_API_HOST
-export const URL_FE_LOGIN = `${BASE_URL_FE}${process.env.REACT_APP_URL_FE_LOGIN}`
-export const URL_FE_ONBOARDING = `${BASE_URL_FE}${process.env.REACT_APP_URL_FE_ONBOARDING}`
-export const URL_INTEROP_M2M_INTERFACE = `${BASE_URL_FE}${process.env.REACT_APP_URL_INTEROP_M2M_INTERFACE}`
-
-export const URL_GATEWAY = process.env.REACT_APP_URL_GATEWAY
+export const API_HOST = isProduction ? API_HOST_PROD : process.env.REACT_APP_API_HOST
+export const URL_FE_LOGIN = `${FE_HOST}/${process.env.REACT_APP_URL_FE_LOGIN}`
+export const URL_INTEROP_M2M = process.env.REACT_APP_URL_INTEROP_M2M
+export const URL_INTEROP_M2M_INTERFACE_DOCUMENT = `${API_HOST}/${URL_INTEROP_M2M}/${process.env.REACT_APP_URL_INTEROP_M2M_INTERFACE_DOCUMENT}`
 
 export const MOCK_TOKEN = process.env.REACT_APP_MOCK_TOKEN
 
