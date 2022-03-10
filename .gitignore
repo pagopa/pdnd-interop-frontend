@@ -18,9 +18,6 @@
 .env.test.local
 .env.production.local
 
-# this file is used by the Jenkins pipeline to inject the production URL
-.env.production
-
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
