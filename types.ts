@@ -700,6 +700,7 @@ export type DialogExistingAttributeProps = {
   type: 'addExistingAttribute'
   attributeKey: AttributeKey
   onSubmit: (data: ExistingAttributeFormInputValues) => void
+  selectedIds: Array<string>
   initialValues: ExistingAttributeFormInputValues
 }
 

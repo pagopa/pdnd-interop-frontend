@@ -59,7 +59,14 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
   const transformFn = (options: Array<User>, search: string) => {
     const selectedIds: Array<string> = formik.values.selected.map((o) => o.id)
     const isAlreadySelected = (o: User) => selectedIds.includes(o.id)
-    const isInSearch = (o: User) => `${o.name} ${o.surname}`.toLowerCase().includes(search)
+
+    if (search === '') {
+      const filtered = options.filter((o) => !isAlreadySelected(o))
+      return sortBy(filtered, ['surname', 'name'])
+    }
+
+    const lowercaseSearch = search.toLowerCase()
+    const isInSearch = (o: User) => `${o.name} ${o.surname}`.toLowerCase().includes(lowercaseSearch)
 
     const filtered = options.filter((o) => isInSearch(o) && !isAlreadySelected(o))
     return sortBy(filtered, ['surname', 'name'])

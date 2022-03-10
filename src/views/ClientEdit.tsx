@@ -48,8 +48,6 @@ export function ClientEdit() {
     return <StyledSkeleton />
   }
 
-  console.log(data)
-
   return (
     <React.Fragment>
       <StyledIntro sx={{ mb: 0 }}>

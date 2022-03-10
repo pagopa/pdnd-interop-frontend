@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import debounce from 'lodash/debounce'
 import { AxiosResponse } from 'axios'
 import { Autocomplete, TextField, Typography } from '@mui/material'
@@ -56,20 +56,20 @@ export const StyledInputControlledAsyncAutocomplete = <T extends unknown>({
   const [options, setOptions] = useState<Array<T>>([])
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleSearch = async (e: React.SyntheticEvent) => {
-    if (!e) return
-
-    const target = e.target as HTMLInputElement
-    if (!target.value) {
-      setOptions([])
-      return
+  useEffect(() => {
+    async function asyncFetchResults() {
+      await fetchResults('')
     }
 
+    asyncFetchResults()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const fetchResults = async (search: string) => {
     setIsLoading(true)
 
     const searchResponse = await fetchWithLogs({
       path,
-      config: { params: { limit: 100, page: 1, search: target.value } },
+      config: { params: { limit: 100, page: 1, search } },
     })
 
     const outcome = getFetchOutcome(searchResponse)
@@ -80,6 +80,12 @@ export const StyledInputControlledAsyncAutocomplete = <T extends unknown>({
     }
 
     setIsLoading(false)
+  }
+
+  const handleSearch = async (e: React.SyntheticEvent) => {
+    if (!e) return
+    const target = e.target as HTMLInputElement
+    await fetchResults(target.value || '')
   }
 
   const open = () => {
