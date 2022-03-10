@@ -111,7 +111,7 @@ Per garantire la possibilità di un pronto intervento da parte degli enti erogat
 
 A scopo esemplificativo, osservare il seguente grafico:
 
-![Grafico del flusso piattaforma interoperabilità](../public/assets/interop-chart.svg)
+![Grafico del flusso piattaforma interoperabilità](../../../public/assets/interop-chart.svg)
 
 Esistono tre punti nei quali è possibile limitare l'operatività del servizio:
 

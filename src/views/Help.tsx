@@ -4,7 +4,7 @@ import { StyledIntro } from '../components/Shared/StyledIntro'
 import { PUBLIC_URL, URL_FE } from '../lib/constants'
 
 const anchorBitsRegex = /href="(#.*)"/gi
-const localAssetsRegex = /..\/public/gi
+const localAssetsRegex = /..\/..\/..\/public/gi
 
 export function Help() {
   const [htmlString, setHtmlString] = useState('')
