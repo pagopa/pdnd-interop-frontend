@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { URL_FE } from '../lib/constants'
+import { PUBLIC_URL, URL_FE } from '../lib/constants'
 
-const linkBitsRegex = /<a\shref="*(.*)">(.*)<\/a>/gi
+const anchorBitsRegex = /href="(#.*)"/gi
+const localAssetsRegex = /..\/public/gi
 
 export function Help() {
   const [htmlString, setHtmlString] = useState('')
@@ -12,7 +13,9 @@ export function Help() {
     async function asyncFetchData() {
       const { pathname } = window.location
       const resp = await axios.get(`${URL_FE}/data/help.json`)
-      const html = resp.data.html.replace(linkBitsRegex, `<a href="${pathname}$1">$2<\/a>`)
+      const html = resp.data.html
+        .replace(anchorBitsRegex, `href="${pathname}$1"`)
+        .replace(localAssetsRegex, PUBLIC_URL)
       setHtmlString(html)
     }
 
