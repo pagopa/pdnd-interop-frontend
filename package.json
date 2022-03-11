@@ -1,6 +1,6 @@
 {
   "name": "pdnd-interop-frontend",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "/ui/",
   "private": true,
   "dependencies": {
