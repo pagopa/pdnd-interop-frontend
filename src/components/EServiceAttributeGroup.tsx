@@ -77,9 +77,7 @@ export function EServiceAttributeGroup({
   const openExistingAttributeDialog = () => {
     const existingAttributeInitialValues: ExistingAttributeFormInputValues = {
       selected: [],
-      verifiedCondition: {
-        attribute: false,
-      },
+      verifiedCondition: { attribute: true },
     }
 
     const addExistingAttributes = ({

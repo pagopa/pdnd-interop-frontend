@@ -97,6 +97,8 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
                       setFieldValue={setFieldValue}
                       options={options}
                       sx={{ mt: 0 }}
+                      // TEMP PIN-1227
+                      disabled={true}
                     />
                   )}
                 </Box>
