@@ -15,7 +15,6 @@ import { Layout } from './Shared/Layout'
 import { Box } from '@mui/system'
 import { useRoute } from '../hooks/useRoute'
 import '../lib/validation-config'
-import { Grid } from '@mui/material'
 import { useLogin } from '../hooks/useLogin'
 
 export function BodyLogger() {
@@ -79,13 +78,9 @@ export function BodyLogger() {
               </Box>
             ) : (
               <Box sx={{ flexGrow: 1 }}>
-                <Grid container sx={{ display: 'flex', justifyContent: 'center', py: 10, px: 4 }}>
-                  <Grid item xs={8}>
-                    <Layout>
-                      <Main />
-                    </Layout>
-                  </Grid>
-                </Grid>
+                <Layout>
+                  <Main />
+                </Layout>
               </Box>
             )}
             <Footer />

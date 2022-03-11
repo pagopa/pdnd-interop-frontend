@@ -40,7 +40,7 @@ export function ChooseParty() {
   }
 
   return availableParties.length > 0 ? (
-    <React.Fragment>
+    <Box sx={{ py: 10, px: 4 }}>
       <StyledIntro sx={{ textAlign: 'center', mx: 'auto', mb: 3 }} centered>
         {{
           title: "Seleziona l'ente per cui accedi",
@@ -132,7 +132,7 @@ export function ChooseParty() {
           </Typography>
         </Box> */}
       </Box>
-    </React.Fragment>
+    </Box>
   ) : (
     <Box
       sx={{

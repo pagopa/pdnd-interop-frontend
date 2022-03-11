@@ -3,6 +3,7 @@ import axios from 'axios'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { URL_FE } from '../lib/constants'
 import { getReplacedAssetsPaths } from '../lib/guides-utils'
+import { Grid } from '@mui/material'
 
 export function ClientAssertionGuide() {
   const [htmlString, setHtmlString] = useState('')
@@ -27,7 +28,11 @@ export function ClientAssertionGuide() {
         }}
       </StyledIntro>
 
-      <div dangerouslySetInnerHTML={{ __html: htmlString }} />
+      <Grid container>
+        <Grid item xs={8}>
+          <div dangerouslySetInnerHTML={{ __html: htmlString }} />
+        </Grid>
+      </Grid>
     </React.Fragment>
   )
 }
