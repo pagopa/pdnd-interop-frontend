@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import { AxiosResponse } from 'axios'
 import has from 'lodash/has'
 import React, { FunctionComponent } from 'react'
@@ -17,7 +17,6 @@ import { minutesToHoursMinutes } from '../../lib/date-utils'
 import { downloadFile } from '../../lib/file-utils'
 import { buildDynamicPath } from '../../lib/router-utils'
 import { DescriptionBlock } from '../DescriptionBlock'
-import { Contained } from './Contained'
 import { DownloadList } from './DownloadList'
 import { StyledAccordion } from './StyledAccordion'
 import { StyledLink } from './StyledLink'
@@ -143,15 +142,15 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
 
       {(Object.keys(data.attributes) as Array<AttributeKey>).map((key, i) => (
         <DescriptionBlock key={i} label={`Attributi ${ATTRIBUTE_TYPE_PLURAL_LABEL[key]}`}>
-          <Contained>
+          <Grid container>
             {data.attributes[key].length > 0 ? (
-              <Box sx={{ mt: 1 }}>
+              <Grid item xs={8} sx={{ mt: 1 }}>
                 <StyledAccordion entries={toAccordionEntries(data.attributes[key])} />
-              </Box>
+              </Grid>
             ) : (
               <Typography component="span">Nessun attributo presente</Typography>
             )}
-          </Contained>
+          </Grid>
         </DescriptionBlock>
       ))}
 

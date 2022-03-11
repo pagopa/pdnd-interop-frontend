@@ -8,9 +8,6 @@ export const SHOW_DEV_LABELS = isDevelopment || getDevLabels()
 export const USE_MOCK_SPID_USER = isDevelopment
 export const DISPLAY_LOGS = false // isDevelopment
 
-export const NARROW_MAX_WIDTH = 480
-export const MEDIUM_MAX_WIDTH = 700
-
 export const STORAGE_KEY_TOKEN = 'token'
 export const STORAGE_PARTY_OBJECT = 'currentParty'
 

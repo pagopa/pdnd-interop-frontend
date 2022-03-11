@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { Chip, List, ListItem, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { Party } from '../../types'
-import { NARROW_MAX_WIDTH, STORAGE_PARTY_OBJECT } from '../lib/constants'
+import { STORAGE_PARTY_OBJECT } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { storageWrite } from '../lib/storage-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
@@ -53,7 +53,7 @@ export function ChooseParty() {
         }}
       </StyledIntro>
 
-      <Box sx={{ mx: 'auto', maxWidth: NARROW_MAX_WIDTH }}>
+      <Box sx={{ mx: 'auto', maxWidth: 480 }}>
         <Box
           sx={{
             /*

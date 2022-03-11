@@ -1,9 +1,9 @@
 import React from 'react'
+import { Grid } from '@mui/material'
 import { StepperStep } from '../../types'
 import { PurposeCreateStep1General } from '../components/PurposeCreateStep1General'
 import { PurposeCreateStep2RiskAnalysis } from '../components/PurposeCreateStep2RiskAnalysis'
 import { PurposeCreateStep3Clients } from '../components/PurposeCreateStep3Clients'
-import { Contained } from '../components/Shared/Contained'
 import { StyledIntro, StyledIntroChildrenProps } from '../components/Shared/StyledIntro'
 import { StyledStepper } from '../components/Shared/StyledStepper'
 import { useActiveStep } from '../hooks/useActiveStep'
@@ -45,12 +45,14 @@ export const PurposeCreate = () => {
         }}
       </StyledIntro>
       <StyledStepper steps={STEPS} activeIndex={activeStep} />
-      <Contained>
-        <StyledIntro variant="h2" sx={{ mb: 2, pb: 0 }}>
-          {intro}
-        </StyledIntro>
-        <Step {...stepProps} />
-      </Contained>
+      <Grid container>
+        <Grid item xs={8}>
+          <StyledIntro variant="h2" sx={{ mb: 2, pb: 0 }}>
+            {intro}
+          </StyledIntro>
+          <Step {...stepProps} />
+        </Grid>
+      </Grid>
     </React.Fragment>
   )
 }

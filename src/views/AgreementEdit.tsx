@@ -24,8 +24,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { Box } from '@mui/system'
-import { Typography } from '@mui/material'
-import { Contained } from '../components/Shared/Contained'
+import { Grid, Typography } from '@mui/material'
 import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 import { useRoute } from '../hooks/useRoute'
 
@@ -279,51 +278,45 @@ export function AgreementEdit() {
       </DescriptionBlock>
 
       <DescriptionBlock label="Attributi">
-        <Contained>
-          <Box sx={{ mt: 1 }}>
-            {data?.attributes.length > 0 ? (
-              data?.attributes.map((backendAttribute, i) => {
-                let attributesToDisplay: JSX.Element | Array<JSX.Element>
+        {data?.attributes.length > 0 ? (
+          <Grid container>
+            {data?.attributes.map((backendAttribute, i) => {
+              let attributesToDisplay: JSX.Element | Array<JSX.Element>
 
-                if (has(backendAttribute, 'single')) {
-                  const { single } = backendAttribute as SingleBackendAttribute
-                  attributesToDisplay = <SingleAttribute {...single} />
-                } else {
-                  const { group } = backendAttribute as GroupBackendAttribute
-                  attributesToDisplay = group.map((a, j) => {
-                    if (j === group.length - 1) {
-                      return <SingleAttribute key={j} {...a} />
-                    }
+              if (has(backendAttribute, 'single')) {
+                const { single } = backendAttribute as SingleBackendAttribute
+                attributesToDisplay = <SingleAttribute {...single} />
+              } else {
+                const { group } = backendAttribute as GroupBackendAttribute
+                attributesToDisplay = group.map((a, j) => {
+                  if (j === group.length - 1) {
+                    return <SingleAttribute key={j} {...a} />
+                  }
 
-                    return (
-                      <React.Fragment key={j}>
-                        <SingleAttribute {...a} />
-                        <em>oppure</em>
-                      </React.Fragment>
-                    )
-                  })
-                }
+                  return (
+                    <React.Fragment key={j}>
+                      <SingleAttribute {...a} />
+                      <em>oppure</em>
+                    </React.Fragment>
+                  )
+                })
+              }
 
-                return (
-                  <Box
-                    key={i}
-                    sx={{
-                      width: '100%',
-                      mb: 2,
-                      pb: 2,
-                      borderBottom: 1,
-                      borderColor: 'divider',
-                    }}
-                  >
-                    {attributesToDisplay}
-                  </Box>
-                )
-              })
-            ) : (
-              <Typography>Per questo e-service non sono richiesti attributi</Typography>
-            )}
-          </Box>
-        </Contained>
+              return (
+                <Grid
+                  item
+                  xs={8}
+                  key={i}
+                  sx={{ mt: 1, mb: 2, pb: 2, borderBottom: 1, borderColor: 'divider' }}
+                >
+                  {attributesToDisplay}
+                </Grid>
+              )
+            })}
+          </Grid>
+        ) : (
+          <Typography>Per questo e-service non sono richiesti attributi</Typography>
+        )}
       </DescriptionBlock>
 
       {mode === 'provider' && (

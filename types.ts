@@ -633,7 +633,6 @@ export type DialogProps =
   | DialogAddSecurityOperatorProps
   | DialogAddClientsProps
   | DialogUpdatePurposeDailyCallsProps
-  | DialogCreateSecurityOperatorProps
   | DialogSetPurposeExpectedApprovalDateProps
 
 export type DialogSetPurposeExpectedApprovalDateProps = {
@@ -642,14 +641,6 @@ export type DialogSetPurposeExpectedApprovalDateProps = {
   versionId: string
   approvalDate?: string
   runAction: RunAction
-}
-
-export type DialogCreateSecurityOperatorProps = {
-  type: 'createSecurityOperator'
-}
-
-export type CreateSecurityOperatorFormInputValues = {
-  selected: Array<User>
 }
 
 export type DialogUpdatePurposeDailyCallsProps = {

@@ -7,11 +7,11 @@ import { EServiceCreateStep2Version } from '../components/EServiceCreateStep2Ver
 import { EServiceCreateStep3Documents } from '../components/EServiceCreateStep3Documents'
 import { StyledStepper } from '../components/Shared/StyledStepper'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { Contained } from '../components/Shared/Contained'
 import { useActiveStep } from '../hooks/useActiveStep'
 import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
 import { buildDynamicPath } from '../lib/router-utils'
 import { useRoute } from '../hooks/useRoute'
+import { Grid } from '@mui/material'
 
 const STEPS: Array<StepperStep> = [
   { label: 'Generale', component: EServiceCreateStep1General },
@@ -47,9 +47,11 @@ export function EServiceCreate() {
     <Box sx={{ maxWidth: 860 }}>
       <StyledIntro>{intro}</StyledIntro>
       <StyledStepper steps={STEPS} activeIndex={activeStep} />
-      <Contained>
-        <Step {...stepProps} />
-      </Contained>
+      <Grid container>
+        <Grid item xs={8}>
+          <Step {...stepProps} />
+        </Grid>
+      </Grid>
     </Box>
   )
 }

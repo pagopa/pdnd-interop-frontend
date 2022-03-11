@@ -12,7 +12,6 @@ import { Notifications } from '../views/Notifications'
 // import { Profile } from '../views/Profile'
 import { UserEdit } from '../views/UserEdit'
 import { UserList } from '../views/UserList'
-import { UserCreate } from '../views/UserCreate'
 import { ClientCreate } from '../views/ClientCreate'
 import { SecurityKeyGuide } from '../views/SecurityKeyGuide'
 import { EmptyComponent } from '../components/Shared/EmptyComponent'
@@ -129,14 +128,6 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },
-  PROVIDE_OPERATOR_CREATE: {
-    PATH: { it: '/it/erogazione/operatori/crea', en: '/en/provider/operators/create' },
-    LABEL: { it: 'Crea operatore API', en: 'Create API operator' },
-    EXACT: false,
-    COMPONENT: UserCreate,
-    PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
-  },
   PROVIDE_OPERATOR_EDIT: {
     PATH: { it: '/it/erogazione/operatori/:operatorId', en: '/en/provider/operators/:operatorId' },
     LABEL: { it: 'Gestisci utenza', en: 'Manage user' },
@@ -216,17 +207,6 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },
-  SUBSCRIBE_CLIENT_OPERATOR_CREATE: {
-    PATH: {
-      it: '/it/fruizione/client/:clientId/operatori/crea',
-      en: '/en/subscriber/client/:clientId/operators/create',
-    },
-    LABEL: { it: 'Crea operatore di sicurezza', en: 'Create security operator' },
-    EXACT: false,
-    COMPONENT: UserCreate,
-    PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
-  },
   SUBSCRIBE_CLIENT_OPERATOR_EDIT: {
     PATH: {
       it: '/it/fruizione/client/:clientId/operatori/:operatorId',
@@ -289,17 +269,6 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     LABEL: { it: 'Le tue richieste', en: 'Your requests' },
     EXACT: true,
     COMPONENT: AgreementList,
-    PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
-  },
-  SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_CREATE: {
-    PATH: {
-      it: '/it/fruizione/interop-m2m/:clientId/operatori/crea',
-      en: '/en/subscriber/interop-m2m/:clientId/operators/create',
-    },
-    LABEL: { it: 'Crea operatore di sicurezza', en: 'Create security operator' },
-    EXACT: false,
-    COMPONENT: UserCreate,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },
