@@ -10,7 +10,6 @@ import {
   EServiceDocumentKind,
   EServiceDocumentRead,
   EServiceDocumentWrite,
-  EServiceInterfaceMimeType,
   EServiceReadType,
   RunActionOutput,
 } from '../../types'
@@ -26,7 +25,6 @@ type EServiceCreateStep3DocumentsInterfaceProps = {
   uploadDescriptorDocument: (document: EServiceDocumentWrite) => Promise<RunActionOutput>
   deleteDescriptorDocument: (documentId: string) => Promise<RunActionOutput>
   activeDescriptorId: string
-  interfaceAcceptedMimeTypes: EServiceInterfaceMimeType
 }
 
 type InputValues = {
@@ -39,20 +37,9 @@ export function EServiceCreateStep3DocumentsInterface({
   uploadDescriptorDocument,
   deleteDescriptorDocument,
   activeDescriptorId,
-  interfaceAcceptedMimeTypes,
 }: EServiceCreateStep3DocumentsInterfaceProps) {
   const validationSchema = object({
-    interface: mixed()
-      .test(
-        'fileFormat',
-        `Formato errato. È previsto un file ${interfaceAcceptedMimeTypes.format}`,
-        (value) => {
-          console.log(value)
-          return true
-          // return value === null || interfaceAcceptedMimeTypes.mime.includes(value.type)
-        }
-      )
-      .required(),
+    interface: mixed().required(),
     description: string().required(),
   })
   const initialValues: InputValues = { interface: null, description: '' }

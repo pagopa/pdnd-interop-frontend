@@ -110,7 +110,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
     <React.Fragment>
       <StyledIntro variant="h2" sx={{ mt: 8, mb: 4 }}>
         {{
-          title: 'Interfaccia*',
+          title: 'Interfaccia (richiesto)',
           description: `Carica il file ${
             fetchedData?.technology === 'REST' ? 'OpenAPI' : 'WSDL'
           }  che descrive l'API`,
@@ -123,14 +123,6 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
           uploadDescriptorDocument={uploadDescriptorDocument}
           deleteDescriptorDocument={deleteDescriptorDocument}
           activeDescriptorId={activeDescriptorId}
-          interfaceAcceptedMimeTypes={
-            fetchedData.technology === 'REST'
-              ? { mime: ['application/x-yaml'], format: 'yaml (MIME type: application/x-yaml)' }
-              : {
-                  mime: ['', 'application/wsdl+xml', 'application/xml'],
-                  format: 'wsdl (MIME type: application/wsdl+xml o application/xml)',
-                }
-          }
         />
       )}
 

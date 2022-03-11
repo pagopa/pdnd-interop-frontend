@@ -861,11 +861,6 @@ export type RunActionOutput = {
   outcome: RequestOutcome
 }
 
-export type EServiceInterfaceMimeType = {
-  mime: Array<string>
-  format: string
-}
-
 export type FormikSetFieldValue = (
   field: string,
   value: unknown,

@@ -79,7 +79,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     error: {
       title: "C'è stato un problema",
       description:
-        "Non è stato possibile pubblicare la nuova versione dell'e-service. Per favore, riprova!",
+        "Non è stato possibile pubblicare la nuova versione dell'e-service. Verificare di aver caricato il documento di interfaccia e riprovare!",
     },
   },
   ESERVICE_VERSION_SUSPEND: {
