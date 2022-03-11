@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { PUBLIC_URL, URL_FE } from '../lib/constants'
-
-const anchorBitsRegex = /href="(#.*)"/gi
-const localAssetsRegex = /..\/..\/..\/public/gi
+import { URL_FE } from '../lib/constants'
+import { getReplacedAssetsPaths } from '../lib/guides-utils'
 
 export function Help() {
   const [htmlString, setHtmlString] = useState('')
 
   useEffect(() => {
     async function asyncFetchData() {
-      const { pathname } = window.location
-      const resp = await axios.get(`${URL_FE}/data/help.json`)
-      const html = resp.data.html
-        .replace(anchorBitsRegex, `href="${pathname}$1"`)
-        .replace(localAssetsRegex, PUBLIC_URL)
+      const resp = await axios.get(`${URL_FE}/data/it/help.json`)
+      const html = getReplacedAssetsPaths(resp.data.html)
       setHtmlString(html)
     }
 

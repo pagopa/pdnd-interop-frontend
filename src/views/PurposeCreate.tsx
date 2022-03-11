@@ -37,7 +37,13 @@ export const PurposeCreate = () => {
 
   return (
     <React.Fragment>
-      <StyledIntro>{{ title: 'Crea finalità' }}</StyledIntro>
+      <StyledIntro>
+        {{
+          title: 'Crea finalità',
+          description:
+            "NB: è possibile creare una nuova finalità solamente se l'ente ha almeno una richiesta di fruizione attiva per un e-service",
+        }}
+      </StyledIntro>
       <StyledStepper steps={STEPS} activeIndex={activeStep} />
       <Contained>
         <StyledIntro variant="h2" sx={{ mb: 2, pb: 0 }}>
