@@ -34,7 +34,7 @@ type Question = {
   options?: Array<Option>
   dependencies: Dependency[]
   type: 'text' | 'radio' | 'checkbox' | 'select-one'
-  helperText?: string
+  infoLabel?: string
   required: boolean
 }
 
@@ -225,7 +225,7 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
   return (
     <StyledForm onSubmit={formik.handleSubmit}>
       {Object.keys(questions).map((id, i) => {
-        const { type, label, options, helperText, required } = questions[id] as Question
+        const { type, label, options, infoLabel, required } = questions[id] as Question
 
         const untypedProps = {
           name: id,
@@ -236,7 +236,7 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
           label,
           options,
           error: formik.errors[id],
-          helperText,
+          infoLabel,
           required,
           emptyLabel: 'Nessun valore disponibile',
         }

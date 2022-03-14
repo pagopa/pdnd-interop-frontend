@@ -5,7 +5,7 @@
       "id": "purpose",
       "type": "text",
       "label": "Finalità (richiesto)",
-      "helperText": "Indicare per quale finalità si intende accedere ai dati messi a disposizione con la fruizione del presente E-service",
+      "infoLabel": "Indicare per quale finalità si intende accedere ai dati messi a disposizione con la fruizione del presente E-service",
       "defaultValue": "",
       "required": true,
       "dependencies": []
@@ -82,7 +82,7 @@
       "id": "securedDataAccess",
       "type": "radio",
       "label": "Indicare se sono state adottate tutte le misure di sicurezza necessarie e/o richieste per l’accesso al dato (richiesto)",
-      "helperText": "Se la risposta a questa domanda è no, prima di procedere con l’invio della richiesta di accesso al presente E-service per la finalità indicata, si invita a adottare ogni misura di sicurezza necessaria e/o richiesta per l’accesso al dato",
+      "infoLabel": "Se la risposta a questa domanda è no, prima di procedere con l’invio della richiesta di accesso al presente E-service per la finalità indicata, si invita a adottare ogni misura di sicurezza necessaria e/o richiesta per l’accesso al dato",
       "options": [
         {
           "label": "Sì",
@@ -271,7 +271,7 @@
       "id": "dataQuantity",
       "type": "select-one",
       "label": "Fascia di riferimento (richiesto)",
-      "helperText": "Si richiede di specificare la fascia di riferimento fra quelle di seguito indicate anche in funzione del periodo di validità del voucher emesso per la fruizione dell’E-service",
+      "infoLabel": "Si richiede di specificare la fascia di riferimento fra quelle di seguito indicate anche in funzione del periodo di validità del voucher emesso per la fruizione dell’E-service",
       "options": [
         {
           "label": "0-100",
@@ -311,7 +311,7 @@
       "id": "deliveryMethod",
       "type": "select-one",
       "label": "Modalità di erogazione (richiesto)",
-      "helperText": "Indicare con quali modalità il Fruitore intende ricevere le informazioni dall’Erogatore, d’accordo con quelle già previste dall’Erogatore stesso",
+      "infoLabel": "Indicare con quali modalità il Fruitore intende ricevere le informazioni dall’Erogatore, d’accordo con quelle già previste dall’Erogatore stesso",
       "options": [
         {
           "label": "in chiaro",
@@ -343,7 +343,7 @@
       "id": "doneDpia",
       "type": "radio",
       "label": "Indicare se è stata fatta un’apposita valutazione di impatto (c.d. DPIA) relativamente alle attività di trattamento dei dati personali che saranno effettuate attraverso la fruizione del presente E-service (richiesto)",
-      "helperText": "Se la risposta a questa domanda è no, si invita a fare tale valutazione prima di fruire dell’E-service",
+      "infoLabel": "Se la risposta a questa domanda è no, si invita a fare tale valutazione prima di fruire dell’E-service",
       "options": [
         {
           "label": "Sì",
@@ -367,7 +367,7 @@
       "id": "definedDataRetentionPeriod",
       "type": "radio",
       "label": "Indicare se è stato determinato un periodo di conservazione dei dati cui si avrà accesso attraverso il presente E-service (richiesto)",
-      "helperText": "Se la risposta a questa domanda è no, si invita a determinare tale periodo prima di fruire dell’E-service",
+      "infoLabel": "Se la risposta a questa domanda è no, si invita a determinare tale periodo prima di fruire dell’E-service",
       "options": [
         {
           "label": "Sì",
@@ -464,7 +464,7 @@
       "id": "checkedExistenceMinimalDataInteropCatalogue",
       "type": "radio",
       "label": "Indicare se si è verificato se sul Catalogo API è presente un altro E-service che consenta di accedere alle sole informazioni/dati personali di cui si necessita (richiesto)",
-      "helperText": "Se la risposta a questa domanda è no, per evitare comunicazioni di informazioni/dati personali non necessarie, si invita a sollecitare un Erogatore ad attivare un E-service che consenta di accedere ai soli dati personali di cui si necessita e, una volta attivato, si invita a inviare una richiesta di accesso per quell’E-service",
+      "infoLabel": "Se la risposta a questa domanda è no, per evitare comunicazioni di informazioni/dati personali non necessarie, si invita a sollecitare un Erogatore ad attivare un E-service che consenta di accedere ai soli dati personali di cui si necessita e, una volta attivato, si invita a inviare una richiesta di accesso per quell’E-service",
       "options": [
         {
           "label": "Sì",
