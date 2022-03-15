@@ -185,7 +185,7 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
   },
   SUBSCRIBE_PURPOSE_VIEW: {
     PATH: { it: '/it/fruizione/finalita/:purposeId', en: '/en/subscriber/purpose/:purposeId' },
-    LABEL: { it: 'Modifica finalità', en: 'Edit purpose' },
+    LABEL: { it: 'Gestisci singola finalità', en: 'Manage purpose' },
     EXACT: false,
     COMPONENT: PurposeView,
     PUBLIC: false,

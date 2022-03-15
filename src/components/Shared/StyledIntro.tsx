@@ -28,7 +28,7 @@ export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
         {children.title}
       </Typography>
       {children.description && (
-        <Typography sx={{ mt: 2, mb: 0, maxWidth: 740, ...pProps }} color="inherit">
+        <Typography sx={{ mt: 2, mb: 0, maxWidth: 740, ...pProps }} color="text.secondary">
           {children.description}
         </Typography>
       )}

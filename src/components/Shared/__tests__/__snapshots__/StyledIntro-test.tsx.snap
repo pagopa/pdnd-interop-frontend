@@ -10,7 +10,7 @@ exports[`Snapshot matches main page title - h1 1`] = `
     Test h1
   </h1>
   <p
-    className="MuiTypography-root MuiTypography-body1 css-1hj5kek-MuiTypography-root"
+    className="MuiTypography-root MuiTypography-body1 css-1jrowls-MuiTypography-root"
   >
     Lorem ipsum dolor sit amet...
   </p>
@@ -27,7 +27,7 @@ exports[`Snapshot matches paragraph title - h3 1`] = `
     Test h3
   </h3>
   <p
-    className="MuiTypography-root MuiTypography-body1 css-1hj5kek-MuiTypography-root"
+    className="MuiTypography-root MuiTypography-body1 css-1jrowls-MuiTypography-root"
   >
     Lorem ipsum dolor sit amet...
   </p>
