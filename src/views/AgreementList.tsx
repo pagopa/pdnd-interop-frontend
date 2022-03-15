@@ -159,7 +159,7 @@ export function AgreementList() {
     subscriber: {
       title: 'Le tue richieste',
       description:
-        "In quest'area puoi gestire tutte le richieste di fruizione che hai sottoscritto con enti erogatori",
+        "In quest'area puoi gestire tutte le richieste di fruizione che hai sottoscritto presso Enti Erogatori",
     },
   }
 

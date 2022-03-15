@@ -3,7 +3,7 @@ import { render, RenderResult, screen, waitFor } from '@testing-library/react'
 import uniq from 'lodash/uniq'
 import axios from '../../__mocks__/axios'
 import { Help } from '../Help'
-import html from '../../../public/data/help.json'
+import html from '../../../public/data/it/help.json'
 
 it('has all anchors working', async () => {
   const mockedAxios = axios as jest.Mocked<typeof axios>

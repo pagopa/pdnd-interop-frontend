@@ -9,7 +9,6 @@ import { EServiceList } from '../views/EServiceList'
 import { Help } from '../views/Help'
 import { Logout } from '../views/Logout'
 import { Notifications } from '../views/Notifications'
-// import { Profile } from '../views/Profile'
 import { UserEdit } from '../views/UserEdit'
 import { UserList } from '../views/UserList'
 import { ClientCreate } from '../views/ClientCreate'
@@ -60,13 +59,6 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     PUBLIC: false,
     AUTH_LEVELS: 'any',
   },
-  // PROFILE: {
-  //   PATH: { it: '/it/profilo', en: '/en/profile' },
-  //   LABEL: { it: 'Profilo', en: 'Profile' },
-  //   COMPONENT: Profile,
-  //   PUBLIC: false,
-  //   AUTH_LEVELS: 'any',
-  // },
   NOTIFICATION: {
     PATH: { it: '/it/notifiche', en: '/en/notifications' },
     LABEL: { it: 'Notifiche', en: 'Notifications' },
@@ -76,7 +68,7 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
   },
   PROVIDE_ESERVICE_CREATE: {
     PATH: { it: '/it/erogazione/e-service/crea', en: '/en/provider/e-service/create' },
-    LABEL: { it: 'Crea e-service', en: 'Create e-service' },
+    LABEL: { it: 'Crea E-Service', en: 'Create E-Service' },
     EXACT: true,
     COMPONENT: EServiceCreate,
     PUBLIC: false,
@@ -87,7 +79,7 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
       it: '/it/erogazione/e-service/:eserviceId/:descriptorId/modifica',
       en: '/en/provider/e-service/:eserviceId/:descriptorId/edit',
     },
-    LABEL: { it: 'Modifica e-service', en: 'Edit e-service' },
+    LABEL: { it: 'Modifica E-Service', en: 'Edit E-Service' },
     EXACT: false,
     COMPONENT: EServiceCreate,
     PUBLIC: false,
@@ -98,7 +90,7 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
       it: '/it/erogazione/e-service/:eserviceId/:descriptorId',
       en: '/en/provider/e-service/:eserviceId/:descriptorId',
     },
-    LABEL: { it: 'Visualizza e-service', en: 'View e-service' },
+    LABEL: { it: 'Visualizza E-Service', en: 'View E-Service' },
     EXACT: false,
     COMPONENT: EServiceManage,
     PUBLIC: false,
@@ -106,7 +98,7 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
   },
   PROVIDE_ESERVICE_LIST: {
     PATH: { it: '/it/erogazione/e-service', en: '/en/provider/e-service' },
-    LABEL: { it: 'I tuoi e-service', en: 'Your e-services' },
+    LABEL: { it: 'I tuoi E-Service', en: 'Your E-Services' },
     EXACT: true,
     COMPONENT: EServiceList,
     PUBLIC: false,
@@ -158,7 +150,7 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
       it: '/it/fruizione/catalogo-e-service/:eserviceId/:descriptorId',
       en: '/en/subscriber/e-service-catalog/:eserviceId/:descriptorId',
     },
-    LABEL: { it: 'Visualizza e-service', en: 'View e-service' },
+    LABEL: { it: 'Visualizza E-Service', en: 'View E-Service' },
     EXACT: false,
     COMPONENT: EServiceRead,
     PUBLIC: false,
@@ -166,7 +158,7 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
   },
   SUBSCRIBE_CATALOG_LIST: {
     PATH: { it: '/it/fruizione/catalogo-e-service', en: '/en/subscriber/e-service-catalog' },
-    LABEL: { it: 'Catalogo e-service', en: 'E-service catalog' },
+    LABEL: { it: 'Catalogo E-Service', en: 'E-Service catalog' },
     EXACT: false,
     COMPONENT: EServiceCatalog,
     PUBLIC: false,

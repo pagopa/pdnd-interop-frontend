@@ -20,7 +20,6 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
 import { useRoute } from '../hooks/useRoute'
 import { DialogContext, PartyContext } from '../lib/context'
-import { formatThousands } from '../lib/number-utils'
 import { decoratePurposeWithMostRecentVersion } from '../lib/purpose'
 import { buildDynamicPath } from '../lib/router-utils'
 import { AxiosResponse } from 'axios'
@@ -189,7 +188,7 @@ export const PurposeList = () => {
     return availableActions[status] || []
   }
 
-  const headData = ['nome finalità', 'e-service', 'ente erogatore', 'chiamate/giorno', 'stato']
+  const headData = ['nome finalità', 'e-service', 'ente erogatore', 'stato']
 
   return (
     <React.Fragment>
@@ -212,7 +211,7 @@ export const PurposeList = () => {
         <TableWithLoader
           loadingText={loadingText}
           headData={headData}
-          noDataLabel="Non ci sono finalità disponibili"
+          noDataLabel="Non sono state create finalità"
           // error={axiosErrorToError(error)}
         >
           {data &&
@@ -226,7 +225,6 @@ export const PurposeList = () => {
                     { label: item.title },
                     { label: item.eservice.name },
                     { label: item.eservice.producer.name },
-                    { label: formatThousands(item.currentVersion.dailyCalls) },
                     {
                       label: item.awaitingApproval
                         ? `${purposeStateLabel}, in aggiornamento`

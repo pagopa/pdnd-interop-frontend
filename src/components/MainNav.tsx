@@ -49,9 +49,9 @@ export const MainNav = () => {
         id: 'subscriber',
         children: [
           routes.SUBSCRIBE_CATALOG_LIST,
+          routes.SUBSCRIBE_AGREEMENT_LIST,
           routes.SUBSCRIBE_PURPOSE_LIST,
           routes.SUBSCRIBE_CLIENT_LIST,
-          routes.SUBSCRIBE_AGREEMENT_LIST,
           routes.SUBSCRIBE_INTEROP_M2M,
         ],
       },

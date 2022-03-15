@@ -147,9 +147,9 @@ export function EServiceCatalog() {
     <React.Fragment>
       <StyledIntro>
         {{
-          title: 'Gli e-service disponibili',
+          title: 'Catalogo degli E-Service',
           description:
-            "In quest'area puoi vedere tutti gli e-service nel catalogo, e aderire a quelli a cui sei interessato",
+            "In quest'area puoi vedere tutti gli E-Service nel catalogo, e aderire a quelli a cui sei interessato",
         }}
       </StyledIntro>
 

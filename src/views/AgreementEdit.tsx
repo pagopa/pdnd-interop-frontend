@@ -230,9 +230,9 @@ export function AgreementEdit() {
 
   return (
     <React.Fragment>
-      <StyledIntro>{{ title: 'Accordo di interoperabilità' }}</StyledIntro>
+      <StyledIntro>{{ title: 'Gestisci richiesta di fruizione' }}</StyledIntro>
 
-      <DescriptionBlock label="Accordo relativo a">
+      <DescriptionBlock label="Richiesta relativa a">
         <StyledLink
           to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
             eserviceId: data?.eservice.id,
@@ -259,7 +259,7 @@ export function AgreementEdit() {
       </DescriptionBlock>
 
       <DescriptionBlock
-        label="Stato della richiesta di fruizione"
+        label="Stato della richiesta"
         tooltipLabel={data?.state !== 'PENDING' ? agreementSuspendExplanation : undefined}
       >
         {data?.state === 'SUSPENDED' ? (

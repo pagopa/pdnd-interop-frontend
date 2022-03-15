@@ -75,7 +75,7 @@ exports[`Snapshot matches breadcrumbs 2`] = `
         onClick={[Function]}
         onFocus={[Function]}
       >
-        I tuoi e-service
+        I tuoi E-Service
       </a>
     </li>
     <li
@@ -90,7 +90,7 @@ exports[`Snapshot matches breadcrumbs 2`] = `
       <span
         className="MuiTypography-root MuiTypography-body1 css-1pnmrwp-MuiTypography-root"
       >
-        Crea e-service
+        Crea E-Service
       </span>
     </li>
   </ol>

@@ -152,6 +152,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
           <StyledInputControlledText
             name="name"
             label="Nome dell'eservice (richiesto)"
+            infoLabel='Se prevedi di usare più E-Service con lo stesso nome, inserisci una piccola indicazione per distinguerli (es. "TARI – dedicata Comuni" e "TARI - dedicata Regioni")'
             error={errors.name}
             value={values.name}
             onChange={handleChange}
@@ -162,6 +163,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
           <StyledInputControlledText
             name="description"
             label="Descrizione dell'e-service (richiesto)"
+            infoLabel={`(es. "Dedicato agli Enti che hanno necessità di ...", oppure "L'E-Service rivolto agli Enti che ...")`}
             error={errors.description}
             value={values.description}
             onChange={handleChange}
@@ -172,7 +174,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
           <Box sx={{ my: 8 }}>
             <StyledInputControlledRadio
               name="technology"
-              label="Tecnologia (richiesto)"
+              label="Tecnologia utilizzata (richiesto)"
               error={errors.technology}
               value={values.technology}
               onChange={handleChange}
