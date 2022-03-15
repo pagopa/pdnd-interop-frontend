@@ -286,7 +286,7 @@ export const PurposeView = () => {
         </TabList>
 
         <TabPanel value="details">
-          <DescriptionBlock label="Questa finalità può accedere all’e-service dell’erogatore?">
+          <DescriptionBlock label="Accesso consentito?">
             <Typography component="span">{data && getComputedPurposeState(data)}</Typography>
           </DescriptionBlock>
 

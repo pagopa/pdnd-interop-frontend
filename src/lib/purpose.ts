@@ -26,20 +26,21 @@ export function getComputedPurposeState(purpose: DecoratedPurpose) {
     purpose.eservice.descriptor.state === 'PUBLISHED' ||
     purpose.eservice.descriptor.state === 'DEPRECATED'
   const isAgreementActive = purpose.agreement.state === 'ACTIVE'
+  const isPurposeActive = purpose.currentVersion.state === 'ACTIVE'
 
-  if (!isEserviceActive && isAgreementActive) {
-    return "No, perché l'eservice non è attivo"
+  const reasons = [
+    { label: 'E-Service', outcome: isEserviceActive },
+    { label: 'richiesta di fruizione', outcome: isAgreementActive },
+    { label: 'finalità', outcome: isPurposeActive },
+  ]
+    .map(({ outcome, label }) => (outcome ? label : null))
+    .filter((r) => r)
+
+  if (reasons.length === 0) {
+    return 'Sì, questa finalità può accedere all’E-Service dell’erogatore a patto che abbia almeno un client associato che contenga almeno una chiave pubblica'
   }
 
-  if (isEserviceActive && !isAgreementActive) {
-    return 'No, perché la richiesta di fruizione non è attiva'
-  }
-
-  if (!isEserviceActive && !isAgreementActive) {
-    return "No, perché sia l'eservice che la richiesta di fruizione sono inattivi"
-  }
-
-  return 'Sì, a patto che almeno uno dei client associati a questa finalità sia attivo ed abbia almeno un operatore che ha caricato una chiave pubblica'
+  return `No, in questo momento non sono attivi: ${reasons.join(', ')}`
 }
 
 export function getPurposeFromUrl(location: Location<unknown>) {
