@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Chip, Typography } from '@mui/material'
 import { AxiosResponse } from 'axios'
 import has from 'lodash/has'
 import React, { FunctionComponent } from 'react'
@@ -177,19 +177,26 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
       {Boolean(data.descriptors.length > 0) && (
         <DescriptionBlock label="Storico delle versioni">
           {sortBy(data.descriptors, 'version').map((d, i) => {
+            const state = ESERVICE_STATE_LABEL[d.state]
+
             return (
-              <Box key={i}>
+              <Box key={i} sx={{ pb: 1 }}>
                 {d.id !== data.activeDescriptor?.id ? (
-                  <StyledLink
-                    to={buildDynamicPath(routes.PROVIDE_ESERVICE_MANAGE.PATH, {
-                      eserviceId: data.id,
-                      descriptorId: d.id,
-                    })}
-                  >
-                    Versione {d.version}
-                  </StyledLink>
+                  <Box>
+                    <StyledLink
+                      to={buildDynamicPath(routes.PROVIDE_ESERVICE_MANAGE.PATH, {
+                        eserviceId: data.id,
+                        descriptorId: d.id,
+                      })}
+                    >
+                      Versione {d.version}
+                    </StyledLink>{' '}
+                    <Chip label={state} />
+                  </Box>
                 ) : (
-                  <Typography component="span">Versione {d.version}</Typography>
+                  <Typography component="span">
+                    Versione {d.version} <Chip label={state} color="primary" />
+                  </Typography>
                 )}
               </Box>
             )

@@ -1,14 +1,14 @@
 import React from 'react'
-import { Grid, Tab, Typography } from '@mui/material'
+import { Tab, Typography } from '@mui/material'
 import { TabList, TabContext, TabPanel } from '@mui/lab'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useActiveTab } from '../hooks/useActiveTab'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { useRoute } from '../hooks/useRoute'
-import { FileDownloadOutlined as FileDownloadOutlinedIcon } from '@mui/icons-material'
 import { ClientList } from './ClientList'
 import { URL_INTEROP_M2M_INTERFACE_DOCUMENT } from '../lib/constants'
+import { DownloadList } from '../components/Shared/DownloadList'
 
 export function InteropM2M() {
   const { activeTab, updateActiveTab } = useActiveTab('details')
@@ -36,26 +36,24 @@ export function InteropM2M() {
         </TabList>
 
         <TabPanel value="details">
-          <Grid container>
-            <Grid item xs={8}>
-              <DescriptionBlock label="Download">
-                <Typography
-                  sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-                >
-                  Scarica file OpenAPI
-                  <a href={URL_INTEROP_M2M_INTERFACE_DOCUMENT}>
-                    <FileDownloadOutlinedIcon />
-                  </a>
-                </Typography>
-              </DescriptionBlock>
+          <DescriptionBlock label="Download">
+            <DownloadList
+              downloads={[
+                {
+                  label: 'Scarica il file OpenAPI',
+                  onClick: () => {
+                    window.location.assign(URL_INTEROP_M2M_INTERFACE_DOCUMENT)
+                  },
+                },
+              ]}
+            />
+          </DescriptionBlock>
 
-              <Typography>
-                Interop M2M sfrutta la client assertion per validare il client che effettua la
-                richiesta. Se hai dubbi sull’implementazione,{' '}
-                <StyledLink to={routes.CLIENT_ASSERTION_GUIDE.PATH}> consulta la guida</StyledLink>.
-              </Typography>
-            </Grid>
-          </Grid>
+          <Typography>
+            Interop M2M sfrutta la client assertion per validare il client che effettua la
+            richiesta. Se hai dubbi sull’implementazione,{' '}
+            <StyledLink to={routes.CLIENT_ASSERTION_GUIDE.PATH}> consulta la guida</StyledLink>.
+          </Typography>
         </TabPanel>
         <TabPanel value="clients">
           <ClientList clientKind="API" />

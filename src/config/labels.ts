@@ -1,9 +1,9 @@
 export const ESERVICE_STATE_LABEL = {
-  PUBLISHED: 'Attivo',
-  DRAFT: 'In bozza',
-  SUSPENDED: 'Sospeso',
-  ARCHIVED: 'Archiviato',
-  DEPRECATED: 'Deprecato',
+  PUBLISHED: 'attivo',
+  DRAFT: 'in bozza',
+  SUSPENDED: 'sospeso',
+  ARCHIVED: 'archiviato',
+  DEPRECATED: 'deprecato',
 }
 
 export const ATTRIBUTE_TYPE_PLURAL_LABEL = {
