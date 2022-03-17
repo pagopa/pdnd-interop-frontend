@@ -27,7 +27,7 @@ describe('Rendering tests', () => {
     expect(screen.getByRole('heading', { name: 'Caratterizzazione E-Service' })).toBeInTheDocument()
 
     expect(
-      screen.getByRole('textbox', { name: "Nome dell'eservice (richiesto)" })
+      screen.getByRole('textbox', { name: "Nome dell'E-Service (richiesto)" })
     ).toBeInTheDocument()
 
     expect(

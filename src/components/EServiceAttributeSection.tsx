@@ -21,17 +21,17 @@ const TYPE_LABELS: TypeLabels = {
   certified: {
     title: 'Certificati',
     description:
-      'Questi attributi sono verificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori verifiche',
+      'Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori verifiche',
   },
   verified: {
     title: 'Verificati',
     description:
-      'Questi attributi potrebbero essere stati già verificati da altre organizzazioni. Decidi se verificarli comunque',
+      'Questi attributi potrebbero essere stati già verificati da altre organizzazioni. Puoi decidere se verificarli comunque',
   },
   declared: {
     title: 'Dichiarati',
     description:
-      'Il fruitore dichiara di possedere questi attributi. Non è necessaria la verifica e il fruitore si assume la responsabilità di quanto dichiarato',
+      'All’atto dell’inoltro di una richiesta di fruizione, il fruitore dichiara sotto la propria responsabilità di possedere questi attributi. Non è dunque necessaria ulteriore verifica',
   },
 }
 

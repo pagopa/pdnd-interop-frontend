@@ -151,7 +151,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
 
           <StyledInputControlledText
             name="name"
-            label="Nome dell'eservice (richiesto)"
+            label="Nome dell'E-Service (richiesto)"
             infoLabel='Se prevedi di usare più E-Service con lo stesso nome, inserisci una piccola indicazione per distinguerli (es. "TARI – dedicata Comuni" e "TARI - dedicata Regioni")'
             error={errors.name}
             value={values.name}
