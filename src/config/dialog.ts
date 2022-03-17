@@ -12,18 +12,18 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
       'Cliccando "conferma" questa bozza verrà cancellata e non sarà più recuperabile. Sarà sempre possibile creare nuove bozze',
   },
   ESERVICE_CLONE_FROM_VERSION: {
-    title: 'Conferma clonazione e-service',
+    title: 'Conferma clonazione E-Service',
     description:
-      "Verrà creato un nuovo e-service in bozza con le stesse caratteristiche dell'e-service selezionato",
+      "Verrà creato un nuovo E-Service in bozza con le stesse caratteristiche dell'E-Service selezionato",
   },
   ESERVICE_VERSION_DRAFT_CREATE: {
     title: 'Conferma creazione bozza versione',
-    description: "Verrà creata una nuova versione (in bozza) dell'e-service selezionato",
+    description: "Verrà creata una nuova versione (in bozza) dell'E-Service selezionato",
   },
   ESERVICE_VERSION_DRAFT_PUBLISH: {
     title: 'Conferma pubblicazione bozza',
     description:
-      "Una volta pubblicata, una versione dell'e-service non è più cancellabile e diventa disponibile nel catalogo degli e-service. Sarà comunque possibile sospenderla, o renderla obsoleta una volta che una nuova versione diventa disponibile.",
+      "Una volta pubblicata, una versione dell'E-Service non è più cancellabile e diventa disponibile nel catalogo degli E-Service. Sarà comunque possibile sospenderla, o renderla obsoleta una volta che una nuova versione diventa disponibile.",
   },
   ESERVICE_VERSION_DRAFT_DELETE: {
     title: 'Conferma cancellazione bozza',
@@ -33,12 +33,12 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
   ESERVICE_VERSION_SUSPEND: {
     title: 'Conferma sospensione versione',
     description:
-      'Cliccando "conferma" questa versione di e-service sarà sospesa. Nessun fruitore potrà accedere a questa versione finché non sarà riattivata',
+      'Cliccando "conferma" questa versione di E-Service sarà sospesa. Nessun fruitore potrà accedere a questa versione finché non sarà riattivata',
   },
   ESERVICE_VERSION_REACTIVATE: {
     title: 'Conferma riattivazione versione',
     description:
-      'Cliccando "conferma" questa versione di e-service sarà riattivata. Tutti i fruitori che hanno una richiesta di fruizione attiva per questa versione di e-service potranno nuovamente usufruirne',
+      'Cliccando "conferma" questa versione di E-Service sarà riattivata. Tutti i fruitori che hanno una richiesta di fruizione attiva per questa versione di E-Service potranno nuovamente usufruirne',
   },
   AGREEMENT_ACTIVATE: {
     title: 'Attiva la richiesta',
@@ -48,47 +48,47 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
   AGREEMENT_SUSPEND: {
     title: 'Sospendi la richiesta',
     description:
-      'Cliccando su "conferma", la richiesta di fruizione sarà sospesa. I client collegati a questa richiesta non avranno più accesso all\'e-service in erogazione. La richiesta è riattivabile in qualsiasi momento da questa stessa pagina',
+      'Cliccando su "conferma", la richiesta di fruizione sarà sospesa. I client collegati a questa richiesta non avranno più accesso all\'E-Service in erogazione. La richiesta è riattivabile in qualsiasi momento da questa stessa pagina',
   },
   AGREEMENT_UPGRADE: {
     title: 'Aggiorna la richiesta',
     description:
-      "Cliccando su \"conferma\", la richiesta di fruizione sarà aggiornata alla versione più recente dell'e-service attualmente disponibile. I client collegati a questa richiesta continueranno ad avere accesso all'e-service in erogazione, aggiornato all'ultima versione",
+      "Cliccando su \"conferma\", la richiesta di fruizione sarà aggiornata alla versione più recente dell'E-Service attualmente disponibile. I client collegati a questa richiesta continueranno ad avere accesso all'E-Service in erogazione, aggiornato all'ultima versione",
   },
   PURPOSE_DRAFT_DELETE: {
     title: 'Conferma cancellazione finalità',
     description:
-      'Cliccando "conferma" questa finalità verrà cancellata e non sarà più recuperabile. Tutti i client ad essa associata non potranno più accedere all\'e-service dell\'erogatore. Sarà sempre possibile creare nuove finalità',
+      'Cliccando "conferma" questa finalità verrà cancellata e non sarà più recuperabile. Tutti i client ad essa associata non potranno più accedere all\'E-Service dell\'erogatore. Sarà sempre possibile creare nuove finalità',
   },
   PURPOSE_VERSION_SUSPEND: {
     title: 'Conferma sospensione finalità',
     description:
-      'Cliccando "conferma" questa finalità verrà sospesa. Tutti i client associati non avranno più accesso all\'e-service erogato fino a che non sarà riattivata',
+      'Cliccando "conferma" questa finalità verrà sospesa. Tutti i client associati non avranno più accesso all\'E-Service erogato fino a che non sarà riattivata',
   },
   PURPOSE_VERSION_ACTIVATE: {
     title: 'Conferma attivazione finalità',
     description:
-      'Cliccando "conferma" questa finalità verrà attivata. Tutti i client associati dal fruitore avranno accesso all\'e-service dell\'erogatore con il numero di chiamate stabilito',
+      'Cliccando "conferma" questa finalità verrà attivata. Tutti i client associati dal fruitore avranno accesso all\'E-Service dell\'erogatore con il numero di chiamate stabilito',
   },
   PURPOSE_VERSION_ARCHIVE: {
     title: 'Conferma archiviazione finalità',
     description:
-      'Cliccando "conferma" questa finalità verrà archiviata. Tutti i client associati non avranno più accesso all\'e-service erogato',
+      'Cliccando "conferma" questa finalità verrà archiviata. Tutti i client associati non avranno più accesso all\'E-Service erogato',
   },
   PURPOSE_VERSION_DELETE: {
     title: 'Conferma cancellazione aggiornamento',
     description:
-      'Cliccando "conferma", questo aggiornamento al numero di chiamate verso l\'e-service dell\'erogatore sarà cancellato. Potrai continuare a usare questa finalità con il numero di chiamate attuale',
+      'Cliccando "conferma", questo aggiornamento al numero di chiamate verso l\'E-Service dell\'erogatore sarà cancellato. Potrai continuare a usare questa finalità con il numero di chiamate attuale',
   },
   CLIENT_DELETE: {
     title: 'Conferma cancellazione client',
     description:
-      'Cliccando "conferma", questo client sarà cancellato. Tutte le chiavi contenute saranno eliminate e non saranno più utilizzabili per accedere agli e-service',
+      'Cliccando "conferma", questo client sarà cancellato. Tutte le chiavi contenute saranno eliminate e non saranno più utilizzabili per accedere agli E-Service',
   },
   CLIENT_REMOVE_FROM_PURPOSE: {
     title: 'Rimuovi client dalla finalità',
     description:
-      "Il client sarà rimosso da questa finalità. Tutte le chiavi caricate non potranno più essere usate per accedere all'e-service per questa finalità",
+      "Il client sarà rimosso da questa finalità. Tutte le chiavi caricate non potranno più essere usate per accedere all'E-Service per questa finalità",
   },
   KEY_DELETE: {
     title: 'Cancella la chiave pubblica',

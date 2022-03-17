@@ -46,7 +46,7 @@ export const StyledDialogExtension: FunctionComponent<DialogAskExtensionProps> =
               <DialogContent>
                 <p>
                   Compila il form indicando i motivi per cui ritieni che il tuo ente abbia diritto
-                  di iscriversi all’e-service, completo di basi giuridiche e finalità. Una notifica
+                  di iscriversi all’E-Service, completo di basi giuridiche e finalità. Una notifica
                   sarà inviata all’ente erogatore del servizio
                 </p>
                 <StyledInputControlledText

@@ -157,13 +157,12 @@ export function UserEdit() {
 
   return (
     <React.Fragment>
-      <StyledIntro sx={{ mb: 0 }}>{{ title: 'Gestisci utenza' }}</StyledIntro>
-
-      <DescriptionBlock label="Nome e cognome">
-        <Typography component="span">
-          {userData?.name && userData?.surname ? userData.name + ' ' + userData.surname : 'n/d'}
-        </Typography>
-      </DescriptionBlock>
+      <StyledIntro sx={{ mb: 0 }}>
+        {{
+          title:
+            userData?.name && userData?.surname ? userData.name + ' ' + userData.surname : 'n/d',
+        }}
+      </StyledIntro>
 
       <DescriptionBlock label="Email">
         <Typography component="span">{userData?.email || 'n/d'}</Typography>
@@ -181,7 +180,7 @@ export function UserEdit() {
         </Typography>
       </DescriptionBlock>
 
-      <DescriptionBlock label="Stato dell'utenza sulla piattaforma">
+      <DescriptionBlock label="Stato dell'utenza">
         <Typography component="span">
           {userData?.state ? USER_STATE_LABEL[userData.state] : 'n/d'}
         </Typography>

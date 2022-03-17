@@ -221,7 +221,7 @@ describe('Attributes mapping', () => {
   })
 })
 
-it('Subscriber possesses required certified attributes to subscribe to e-service', () => {
+it('Subscriber possesses required certified attributes to subscribe to E-Service', () => {
   const partyAttributes = [...exampleCertifiedAttributes]
   const eserviceAttributes: Array<BackendAttribute> = [...exampleBackendAttributes.certified]
 

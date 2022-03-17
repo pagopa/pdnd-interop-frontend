@@ -10,7 +10,7 @@ import { DialogContext, PartyContext, TokenContext } from '../lib/context'
 import { buildDynamicPath, getBits } from '../lib/router-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATE_LABEL } from '../config/labels'
+import { USER_STATE_LABEL } from '../config/labels'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { axiosErrorToError } from '../lib/error-utils'
 import { Box, Typography } from '@mui/material'
@@ -142,7 +142,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
     return buildDynamicPath(subscriberRoute, { clientId, operatorId: item.relationshipId })
   }
 
-  const headData = ['nome e cognome', 'ruolo', 'permessi', 'stato']
+  const headData = ['nome e cognome', 'stato']
 
   return (
     <React.Fragment>
@@ -151,7 +151,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
           {{
             title: "Operatori API dell'ente",
             description:
-              "In quest’area puoi trovare e gestire tutti gli operatori API che sono stati abilitati alla gestione degli e-service dell'ente",
+              "In quest’area puoi trovare e gestire tutti gli operatori API che sono stati abilitati alla gestione degli E-Service dell'ente",
           }}
         </StyledIntro>
       )}
@@ -179,8 +179,6 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
               key={i}
               cellData={[
                 { label: `${item.name + ' ' + item.surname}` },
-                { label: item.role ? USER_ROLE_LABEL[item.role] : '' },
-                { label: item.product.role ? USER_PLATFORM_ROLE_LABEL[item.product.role] : '' },
                 { label: USER_STATE_LABEL[item.state] },
               ]}
             >

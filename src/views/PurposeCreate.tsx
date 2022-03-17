@@ -41,7 +41,7 @@ export const PurposeCreate = () => {
         {{
           title: 'Crea finalità',
           description:
-            "NB: è possibile creare una nuova finalità solamente se l'ente ha almeno una richiesta di fruizione attiva per un e-service",
+            "NB: è possibile creare una nuova finalità solamente se l'ente ha almeno una richiesta di fruizione attiva per un E-Service",
         }}
       </StyledIntro>
       <StyledStepper steps={STEPS} activeIndex={activeStep} />

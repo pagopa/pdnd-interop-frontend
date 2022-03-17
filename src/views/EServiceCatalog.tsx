@@ -47,7 +47,7 @@ export function EServiceCatalog() {
     {
       mapFn: (data) => data.map((d) => ({ ...d, isMine: d.producerId === party?.id })),
       loaderType: 'contextual',
-      loadingTextLabel: 'Stiamo caricando la lista degli e-service',
+      loadingTextLabel: 'Stiamo caricando la lista degli E-Service',
     }
   )
 
@@ -99,7 +99,7 @@ export function EServiceCatalog() {
             proceedCallback: wrapSubscribe(eservice),
             proceedLabel: 'Iscriviti',
             title: 'Richiesta di fruizione',
-            description: `Stai per inoltrare una richiesta di fruizione per l'e-service ${eservice.name}, versione ${eservice.version}`,
+            description: `Stai per inoltrare una richiesta di fruizione per l'E-Service ${eservice.name}, versione ${eservice.version}`,
             close: () => {
               setDialog(null)
             },

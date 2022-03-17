@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Typography } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import { Box, SxProps } from '@mui/system'
 import { InfoTooltip } from './Shared/InfoTooltip'
 
@@ -15,16 +15,25 @@ export const DescriptionBlock: FunctionComponent<DescriptionBlockProps> = ({
   label,
   tooltipLabel,
   sx = { my: 5 },
-  childWrapperSx = { pt: 1 },
+  childWrapperSx = {},
 }) => {
   return (
-    <Box sx={sx}>
-      <Typography component="span" fontWeight={700} color="text.secondary">
-        {label}
-      </Typography>
-      {tooltipLabel && <InfoTooltip label={tooltipLabel} />}
-      <br />
-      <Box sx={childWrapperSx}>{children}</Box>
-    </Box>
+    <Grid container sx={sx} columnSpacing={4}>
+      <Grid item xs={3}>
+        <Typography
+          component="span"
+          fontWeight={700}
+          textTransform="uppercase"
+          color="text.secondary"
+          variant="body2"
+        >
+          {label}
+        </Typography>
+        {tooltipLabel && <InfoTooltip label={tooltipLabel} />}
+      </Grid>
+      <Grid item xs={9}>
+        <Box sx={childWrapperSx}>{children}</Box>
+      </Grid>
+    </Grid>
   )
 }

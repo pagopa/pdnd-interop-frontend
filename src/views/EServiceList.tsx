@@ -40,7 +40,7 @@ export function EServiceList() {
     {
       useEffectDeps: [forceRerenderCounter],
       loaderType: 'contextual',
-      loadingTextLabel: 'Stiamo caricando i tuoi e-service',
+      loadingTextLabel: 'Stiamo caricando i tuoi E-Service',
     }
   )
 
@@ -212,8 +212,8 @@ export function EServiceList() {
     <React.Fragment>
       <StyledIntro>
         {{
-          title: 'I tuoi e-service',
-          description: "In quest'area puoi gestire tutti gli e-service che stai erogando",
+          title: 'I tuoi E-Service',
+          description: "In quest'area puoi gestire tutti gli E-Service che stai erogando",
         }}
       </StyledIntro>
 

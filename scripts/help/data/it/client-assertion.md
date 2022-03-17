@@ -33,8 +33,8 @@ Un volta ottenuto il token firmato dalla Piattaforma Interoperabilità, questo s
 
 ### Come generare la client assertion per ottenere un token usabile su un E-Service?
 
-La client assertion per staccare un token da spendere presso l'e-service di un ente erogatore deve contenere gli stessi campi indicati per la client assertion InteropM2M, con una differenza nel payload:
+La client assertion per staccare un token da spendere presso l'E-Service di un ente erogatore deve contenere gli stessi campi indicati per la client assertion InteropM2M, con una differenza nel payload:
 
 - purposeId: un campo in più che identifica la finalità per la quale si sta facendo la richiesta, reperibile sulla Piattaforma Interoperabilità
 
-Una volta ottenuto un token firmato dalla Piattaforma Interoperabilità, questo sarà spendibile sull'e-service dell'erogatore secondo i termini e le audience stabilite nella descrizione dell'e-service stesso, nella richiesta di fruizione, e nella finalità indicata dal fruitore.
+Una volta ottenuto un token firmato dalla Piattaforma Interoperabilità, questo sarà spendibile sull'E-Service dell'erogatore secondo i termini e le audience stabilite nella descrizione dell'E-Service stesso, nella richiesta di fruizione, e nella finalità indicata dal fruitore.

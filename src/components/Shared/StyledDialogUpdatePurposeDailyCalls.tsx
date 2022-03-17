@@ -36,7 +36,7 @@ export const StyledDialogUpdatePurposeDailyCalls: FunctionComponent<DialogUpdate
                     type="number"
                     name="dailyCalls"
                     label="Numero di chiamate API/giorno (richiesto)"
-                    infoLabel="Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'e-service"
+                    infoLabel="Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'E-Service"
                     error={errors.dailyCalls}
                     value={values.dailyCalls}
                     onChange={handleChange}

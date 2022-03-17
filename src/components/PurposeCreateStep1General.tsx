@@ -57,7 +57,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
     },
     {
       mapFn: (data) => data.map((d) => ({ value: d.id, label: d.name })),
-      loadingTextLabel: 'Stiamo caricando gli e-service associabili alla finalità',
+      loadingTextLabel: 'Stiamo caricando gli E-Service associabili alla finalità',
     }
   )
 
@@ -214,18 +214,18 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
 
       <StyledInputControlledSelect
         name="eserviceId"
-        label="Eservice da associare (richiesto)"
+        label="E-Service da associare (richiesto)"
         error={formik.errors.eserviceId}
         value={formik.values.eserviceId}
         onChange={formik.handleChange}
         options={eserviceData}
-        emptyLabel="Nessun e-service associabile"
+        emptyLabel="Nessun E-Service associabile"
       />
 
       <StyledInputControlledText
         name="dailyCalls"
         label="Numero di chiamate API/giorno (richiesto)"
-        infoLabel="Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'e-service"
+        infoLabel="Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'E-Service"
         type="number"
         error={formik.errors.dailyCalls}
         value={formik.values.dailyCalls}

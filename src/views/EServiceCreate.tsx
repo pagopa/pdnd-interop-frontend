@@ -28,7 +28,7 @@ export function EServiceCreate() {
   const { component: Step } = STEPS[activeStep]
 
   useEffect(() => {
-    // If this e-service is not in draft, you cannot edit it
+    // If this E-Service is not in draft, you cannot edit it
     if (data && data.activeDescriptor && data.activeDescriptor.state !== 'DRAFT') {
       history.replace(
         buildDynamicPath(routes.PROVIDE_ESERVICE_MANAGE.PATH, {
@@ -41,7 +41,7 @@ export function EServiceCreate() {
 
   const intro = data
     ? { title: data.name, description: data.description }
-    : { title: 'Crea e-service' }
+    : { title: 'Crea E-Service' }
 
   return (
     <Box sx={{ maxWidth: 860 }}>

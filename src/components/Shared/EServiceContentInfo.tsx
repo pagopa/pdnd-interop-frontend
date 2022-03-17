@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { AxiosResponse } from 'axios'
 import has from 'lodash/has'
 import React, { FunctionComponent } from 'react'
@@ -20,6 +20,7 @@ import { DescriptionBlock } from '../DescriptionBlock'
 import { DownloadList } from './DownloadList'
 import { StyledAccordion } from './StyledAccordion'
 import { StyledLink } from './StyledLink'
+import sortBy from 'lodash/sortBy'
 
 type EServiceContentInfoProps = {
   data: EServiceReadType
@@ -29,8 +30,6 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
   const { runAction } = useFeedback()
   const { routes } = useRoute()
   const activeDescriptor = data.activeDescriptor as EServiceDescriptorRead
-
-  const otherVersions = data.descriptors.filter((d) => d.id !== data.activeDescriptor?.id) || []
 
   // Get all documents actual URL
   const wrapDownloadDocument = (documentId: string) => async () => {
@@ -142,15 +141,13 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
 
       {(Object.keys(data.attributes) as Array<AttributeKey>).map((key, i) => (
         <DescriptionBlock key={i} label={`Attributi ${ATTRIBUTE_TYPE_PLURAL_LABEL[key]}`}>
-          <Grid container>
-            {data.attributes[key].length > 0 ? (
-              <Grid item xs={8} sx={{ mt: 1 }}>
-                <StyledAccordion entries={toAccordionEntries(data.attributes[key])} />
-              </Grid>
-            ) : (
-              <Typography component="span">Nessun attributo presente</Typography>
-            )}
-          </Grid>
+          {data.attributes[key].length > 0 ? (
+            <Box sx={{ mt: 1 }}>
+              <StyledAccordion entries={toAccordionEntries(data.attributes[key])} />
+            </Box>
+          ) : (
+            <Typography component="span">Nessun attributo presente</Typography>
+          )}
         </DescriptionBlock>
       ))}
 
@@ -177,19 +174,23 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
         />
       </DescriptionBlock>
 
-      {Boolean(otherVersions.length > 0) && (
-        <DescriptionBlock label="Tutte le altre versioni di questo e-service">
-          {otherVersions.map((d, i) => {
+      {Boolean(data.descriptors.length > 0) && (
+        <DescriptionBlock label="Storico delle versioni">
+          {sortBy(data.descriptors, 'version').map((d, i) => {
             return (
               <Box key={i}>
-                <StyledLink
-                  to={buildDynamicPath(routes.PROVIDE_ESERVICE_MANAGE.PATH, {
-                    eserviceId: data.id,
-                    descriptorId: d.id,
-                  })}
-                >
-                  {data.name}, versione {d.version}
-                </StyledLink>
+                {d.id !== data.activeDescriptor?.id ? (
+                  <StyledLink
+                    to={buildDynamicPath(routes.PROVIDE_ESERVICE_MANAGE.PATH, {
+                      eserviceId: data.id,
+                      descriptorId: d.id,
+                    })}
+                  >
+                    Versione {d.version}
+                  </StyledLink>
+                ) : (
+                  <Typography component="span">Versione {d.version}</Typography>
+                )}
               </Box>
             )
           })}

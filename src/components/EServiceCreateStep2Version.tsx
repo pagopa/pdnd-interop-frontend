@@ -139,8 +139,8 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
 
           <StyledInputControlledText
             name="audience"
-            label="Identificativo dell'e-service (richiesto)"
-            infoLabel="L'id con il quale il fruitore dichiara il servizio richiesto. Questo identificativo deve essere unico tra i tuoi e-service"
+            label="Identificativo dell'E-Service (richiesto)"
+            infoLabel="L'id con il quale il fruitore dichiara il servizio richiesto. Questo identificativo deve essere unico tra i tuoi E-Service"
             value={values.audience}
             error={errors.audience}
             onChange={handleChange}
@@ -170,7 +170,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
           <StyledInputControlledText
             name="dailyCallsMaxNumber"
             label="Soglia chiamate API/giorno (richiesto)"
-            infoLabel="Il fruitore dovrà dichiarare una stima delle chiamate che effettuerà per ogni finalità. Se la somma delle chiamate dichiarate dal fruitore sarà sopra la soglia da te impostata, potrai approvare manualmente l'accesso di queste finalità alla fruizione del tuo e-service"
+            infoLabel="Il fruitore dovrà dichiarare una stima delle chiamate che effettuerà per ogni finalità. Se la somma delle chiamate dichiarate dal fruitore sarà sopra la soglia da te impostata, potrai approvare manualmente l'accesso di queste finalità alla fruizione del tuo E-Service"
             type="number"
             value={values.dailyCallsMaxNumber}
             error={errors.dailyCallsMaxNumber}

@@ -19,7 +19,7 @@ export const useEserviceCreateFetch = () => {
     },
     {
       mapFn: decorateEServiceWithActiveDescriptor(descriptorId),
-      loadingTextLabel: 'Stiamo caricando il tuo e-service',
+      loadingTextLabel: 'Stiamo caricando il tuo E-Service',
     }
   )
 

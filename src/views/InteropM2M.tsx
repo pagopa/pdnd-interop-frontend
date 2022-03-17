@@ -38,11 +38,11 @@ export function InteropM2M() {
         <TabPanel value="details">
           <Grid container>
             <Grid item xs={8}>
-              <DescriptionBlock label="Interfaccia (OpenAPI)">
+              <DescriptionBlock label="Download">
                 <Typography
                   sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
                 >
-                  Scarica file di interfaccia
+                  Scarica file OpenAPI
                   <a href={URL_INTEROP_M2M_INTERFACE_DOCUMENT}>
                     <FileDownloadOutlinedIcon />
                   </a>
@@ -52,7 +52,7 @@ export function InteropM2M() {
               <Typography>
                 Interop M2M sfrutta la client assertion per validare il client che effettua la
                 richiesta. Se hai dubbi sull’implementazione,{' '}
-                <StyledLink to={routes.CLIENT_ASSERTION_GUIDE.PATH}> consulta la guida</StyledLink>
+                <StyledLink to={routes.CLIENT_ASSERTION_GUIDE.PATH}> consulta la guida</StyledLink>.
               </Typography>
             </Grid>
           </Grid>

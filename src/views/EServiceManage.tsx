@@ -39,7 +39,7 @@ export function EServiceManage() {
     },
     {
       mapFn: decorateEServiceWithActiveDescriptor(descriptorId),
-      loadingTextLabel: 'Stiamo caricando il tuo e-service',
+      loadingTextLabel: 'Stiamo caricando il tuo E-Service',
       useEffectDeps: [forceRerenderCounter],
     }
   )
@@ -122,11 +122,11 @@ export function EServiceManage() {
       <TabContext value={activeTab}>
         <TabList
           onChange={updateActiveTab}
-          aria-label="Due tab diverse per i dettagli dell'e-service e le stime di carico indicate dai fruitori"
+          aria-label="Due tab diverse per i dettagli dell'E-Service e le stime di carico indicate dai fruitori"
           sx={{ my: 6 }}
           variant="fullWidth"
         >
-          <Tab label="Dettagli dell'e-service" value="details" />
+          <Tab label="Dettagli dell'E-Service" value="details" />
           <Tab label="Finalità da evadere" value="purposeAwaitingApproval" />
         </TabList>
 

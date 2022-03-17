@@ -1,8 +1,8 @@
 import { RunActionProps, ToastActionKeys } from '../../types'
 
 export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
-  ESERVICE_GET_LIST: { loadingText: 'Stiamo caricando gli e-service' },
-  ESERVICE_GET_LIST_FLAT: { loadingText: 'Stiamo caricando gli e-service' },
+  ESERVICE_GET_LIST: { loadingText: 'Stiamo caricando gli E-Service' },
+  ESERVICE_GET_LIST_FLAT: { loadingText: 'Stiamo caricando gli E-Service' },
   ESERVICE_DRAFT_CREATE: {
     loadingText: 'Stiamo creando la bozza',
     success: { title: 'Bozza creata', description: 'La bozza è stata creata correttamente' },
@@ -36,74 +36,74 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     },
   },
   ESERVICE_CLONE_FROM_VERSION: {
-    loadingText: "Stiamo clonando l'e-service richiesto",
+    loadingText: "Stiamo clonando l'E-Service richiesto",
     success: {
       title: 'Nuova bozza disponibile',
-      description: "L'e-service è stato clonato correttamente ed è disponibile in bozza",
+      description: "L'E-Service è stato clonato correttamente ed è disponibile in bozza",
     },
     error: {
       title: "C'è stato un problema",
-      description: "Non è stato possibile clonare l'e-service richiesto. Per favore, riprova!",
+      description: "Non è stato possibile clonare l'E-Service richiesto. Per favore, riprova!",
     },
   },
   ESERVICE_VERSION_DRAFT_CREATE: {
     loadingText: 'Stiamo creando la nuova versione (in bozza)',
     success: {
       title: 'Bozza creata correttamente',
-      description: "La nuova versione della nuova versione dell'e-service è disponibile in bozza",
+      description: "La nuova versione della nuova versione dell'E-Service è disponibile in bozza",
     },
     error: {
       title: "C'è stato un problema",
       description:
-        "Non è stato possibile creare una bozza per la nuova versione dell'e-service. Assicurarsi di aver compilato tutti i campi e riprovare",
+        "Non è stato possibile creare una bozza per la nuova versione dell'E-Service. Assicurarsi di aver compilato tutti i campi e riprovare",
     },
   },
   ESERVICE_VERSION_DRAFT_UPDATE: {
     loadingText: 'Stiamo aggiornando la nuova versione (in bozza)',
     success: {
       title: 'Bozza aggiornata correttamente',
-      description: "La nuova versione della nuova versione dell'e-service è disponibile in bozza",
+      description: "La nuova versione della nuova versione dell'E-Service è disponibile in bozza",
     },
     error: {
       title: "C'è stato un problema",
       description:
-        "Non è stato possibile aggiornare una bozza per la nuova versione dell'e-service. Assicurarsi di aver compilato tutti i campi e riprovare",
+        "Non è stato possibile aggiornare una bozza per la nuova versione dell'E-Service. Assicurarsi di aver compilato tutti i campi e riprovare",
     },
   },
   ESERVICE_VERSION_DRAFT_PUBLISH: {
     loadingText: 'Stiamo pubblicando la versione in bozza',
     success: {
       title: 'Nuova versione disponibile',
-      description: "La nuova versione dell'e-service è stata pubblicata correttamente",
+      description: "La nuova versione dell'E-Service è stata pubblicata correttamente",
     },
     error: {
       title: "C'è stato un problema",
       description:
-        "Non è stato possibile pubblicare la nuova versione dell'e-service. Verificare di aver caricato il documento di interfaccia e riprovare!",
+        "Non è stato possibile pubblicare la nuova versione dell'E-Service. Verificare di aver caricato il documento di interfaccia e riprovare!",
     },
   },
   ESERVICE_VERSION_SUSPEND: {
     loadingText: 'Stiamo sospendendo la versione',
     success: {
       title: 'Versione sospesa',
-      description: "La versione dell'e-service è stata sospesa",
+      description: "La versione dell'E-Service è stata sospesa",
     },
     error: {
       title: "C'è stato un problema",
       description:
-        "Non è stato possibile sospendere questa versione dell'e-service. Per favore, riprova!",
+        "Non è stato possibile sospendere questa versione dell'E-Service. Per favore, riprova!",
     },
   },
   ESERVICE_VERSION_REACTIVATE: {
     loadingText: 'Stiamo riattivando la versione',
     success: {
       title: 'Versione riattivata',
-      description: "La versione dell'e-service è stata riattivata",
+      description: "La versione dell'E-Service è stata riattivata",
     },
     error: {
       title: "C'è stato un problema",
       description:
-        "Non è stato possibile riattivare questa versione dell'e-service. Per favore, riprova!",
+        "Non è stato possibile riattivare questa versione dell'E-Service. Per favore, riprova!",
     },
   },
   ESERVICE_VERSION_DRAFT_DELETE: {
@@ -114,7 +114,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     },
     error: {
       title: "C'è stato un problema",
-      description: "Non è stato possibile cancellare la bozza dell'e-service. Per favore, riprova!",
+      description: "Non è stato possibile cancellare la bozza dell'E-Service. Per favore, riprova!",
     },
   },
   ESERVICE_VERSION_DRAFT_POST_DOCUMENT: { loadingText: 'Stiamo caricando il documento' },
@@ -188,7 +188,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     loadingText: 'Stiamo salvando il nuovo attributo',
     success: {
       title: 'Attributo creato correttamente',
-      description: "Adesso puoi aggiungere l'attributo al tuo e-service",
+      description: "Adesso puoi aggiungere l'attributo al tuo E-Service",
     },
     error: {
       title: "C'è stato un problema",
@@ -221,7 +221,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     success: {
       title: 'Accordo attivato',
       description:
-        "La richiesta di fruizione è ora attiva, ed è possibile creare finalità da associare all'e-service",
+        "La richiesta di fruizione è ora attiva, ed è possibile creare finalità da associare all'E-Service",
     },
     error: {
       title: "C'è stato un problema",
@@ -245,7 +245,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     success: {
       title: 'Richiesta aggiornata',
       description:
-        "La richiesta di fruizione è stata aggiornata alla versione più recente dell'e-service",
+        "La richiesta di fruizione è stata aggiornata alla versione più recente dell'E-Service",
     },
     error: {
       title: "C'è stato un problema",
@@ -411,7 +411,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     success: {
       title: 'Chiave caricata',
       description:
-        "La chiave è ora utilizzabile per confermare la validità del token per l'e-service richiesto",
+        "La chiave è ora utilizzabile per confermare la validità del token per l'E-Service richiesto",
     },
     error: {
       title: "C'è stato un problema",
@@ -424,7 +424,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     success: {
       title: 'Chiave cancellata',
       description:
-        "La chiave pubblica è stata cancellata correttamente. Da questo momento non potrà più essere usata per autenticarsi presso l'erogatore dell'e-service",
+        "La chiave pubblica è stata cancellata correttamente. Da questo momento non potrà più essere usata per autenticarsi presso l'erogatore dell'E-Service",
     },
     error: {
       title: "C'è stato un problema",

@@ -146,7 +146,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
       {({ handleSubmit, errors, values, handleChange }) => (
         <StyledForm onSubmit={handleSubmit}>
           <StyledIntro variant="h2" sx={{ mt: 8, mb: 4 }}>
-            {{ title: 'Caratterizzazione e-service' }}
+            {{ title: 'Caratterizzazione E-Service' }}
           </StyledIntro>
 
           <StyledInputControlledText
@@ -162,7 +162,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
 
           <StyledInputControlledText
             name="description"
-            label="Descrizione dell'e-service (richiesto)"
+            label="Descrizione dell'E-Service (richiesto)"
             infoLabel={`(es. "Dedicato agli Enti che hanno necessità di ...", oppure "L'E-Service rivolto agli Enti che ...")`}
             error={errors.description}
             value={values.description}
@@ -200,7 +200,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
 
           <StepActions
             back={{
-              label: 'Torna agli e-service',
+              label: 'Torna agli E-Service',
               type: 'link',
               to: routes.PROVIDE_ESERVICE_LIST.PATH,
             }}

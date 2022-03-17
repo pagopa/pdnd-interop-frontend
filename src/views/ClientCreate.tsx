@@ -108,7 +108,7 @@ export function ClientCreate() {
         {{
           title: `Crea nuovo client`,
           description:
-            'Una volta creato il client, potrai completarlo inserendo tutti gli operatori che hanno la possibilità di caricare chiavi di sicurezza e le finalità per fruire degli e-service per i quali hai una richiesta di fruizione attiva',
+            'Una volta creato il client, potrai completarlo inserendo tutti gli operatori che hanno la possibilità di caricare chiavi di sicurezza e le finalità per fruire degli E-Service per i quali hai una richiesta di fruizione attiva',
         }}
       </StyledIntro>
 
@@ -121,7 +121,8 @@ export function ClientCreate() {
           <StyledInputControlledText
             focusOnMount={true}
             name="name"
-            label="Nome del client*"
+            label="Nome del client (richiesto)"
+            infoLabel="Ti aiuta a distinguerlo dagli altri"
             value={formik.values.name}
             onChange={formik.handleChange}
             error={formik.errors.name}
@@ -129,7 +130,7 @@ export function ClientCreate() {
 
           <StyledInputControlledText
             name="description"
-            label="Descrizione del client*"
+            label="Descrizione del client (richiesto)"
             value={formik.values.description}
             onChange={formik.handleChange}
             error={formik.errors.description}
@@ -170,8 +171,8 @@ export function ClientCreate() {
           <StyledButton sx={{ mr: 2 }} variant="contained" type="submit">
             Crea client
           </StyledButton>
-          <StyledButton variant="outlined" to={routes.SUBSCRIBE_CLIENT_LIST.PATH}>
-            Torna ai client
+          <StyledButton variant="text" to={routes.SUBSCRIBE_CLIENT_LIST.PATH}>
+            Torna alla lista dei client
           </StyledButton>
         </Box>
       </StyledForm>

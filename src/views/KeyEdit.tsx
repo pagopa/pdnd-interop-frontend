@@ -75,9 +75,8 @@ export function KeyEdit() {
 
   return (
     <React.Fragment>
-      <StyledIntro>{{ title: 'Gestisci chiave pubblica' }}</StyledIntro>
+      <StyledIntro>{{ title: keyData?.name }}</StyledIntro>
       <Box sx={{ mt: 6 }}>
-        <DescriptionBlock label="Nome della chiave">{keyData?.name}</DescriptionBlock>
         <DescriptionBlock label="Data di creazione">
           {keyData && formatDateString(keyData.createdAt)}
         </DescriptionBlock>

@@ -129,7 +129,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
       <StyledIntro variant="h3" sx={{ mt: 8, mb: 2, pt: 4, borderTop: 1, borderColor: 'divider' }}>
         {{
           title: 'Documentazione',
-          description: 'Inserisci la documentazione tecnica utile all’utilizzo di questo e-service',
+          description: 'Inserisci la documentazione tecnica utile all’utilizzo di questo E-Service',
         }}
       </StyledIntro>
 
@@ -145,7 +145,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
       <StepActions
         back={{ label: 'Indietro', type: 'button', onClick: back }}
         forward={{
-          label: 'Salva bozza e torna agli e-service',
+          label: 'Salva bozza e torna agli E-Service',
           type: 'button',
           onClick: () => {
             history.push(routes.PROVIDE_ESERVICE_LIST.PATH, {
@@ -163,7 +163,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
           {{
             title: 'Azioni rapide di pubblicazione',
             description:
-              'Hai inserito tutte le informazioni per questo e-service? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra o abbandona questa pagina',
+              'Hai inserito tutte le informazioni per questo E-Service? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra o abbandona questa pagina',
           }}
         </StyledIntro>
         <Box sx={{ display: 'flex' }}>

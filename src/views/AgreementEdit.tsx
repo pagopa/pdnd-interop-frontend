@@ -222,7 +222,7 @@ export function AgreementEdit() {
   }
 
   const agreementSuspendExplanation =
-    "La richiesta può essere sospesa sia dall'erogatore che dal fruitore dell'e-service. Se almeno uno dei due attori la sospende, inibirà l'accesso all'e-service a tutti i client associati all'e-service dal fruitore"
+    "La richiesta può essere sospesa sia dall'erogatore che dal fruitore dell'E-Service. Se almeno uno dei due attori la sospende, inibirà l'accesso all'E-Service a tutti i client associati all'E-Service dal fruitore"
 
   if (!data) {
     return <StyledSkeleton />
@@ -315,7 +315,7 @@ export function AgreementEdit() {
             })}
           </Grid>
         ) : (
-          <Typography>Per questo e-service non sono richiesti attributi</Typography>
+          <Typography>Per questo E-Service non sono richiesti attributi</Typography>
         )}
       </DescriptionBlock>
 

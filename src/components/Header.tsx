@@ -77,7 +77,7 @@ export function Header() {
                 Interoperabilità
               </Typography>
               <Typography color="common.white" variant="caption">
-                Il catalogo degli e-service delle PA
+                Il catalogo degli E-Service delle PA
               </Typography>
             </Box>
 

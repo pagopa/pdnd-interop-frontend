@@ -154,7 +154,7 @@ export function AgreementList() {
     provider: {
       title: 'Richieste di fruizione',
       description:
-        "In quest'area puoi gestire tutte le richieste di fruizione che ti sono state inoltrate da enti che intendono fruire dei tuoi e-service",
+        "In quest'area puoi gestire tutte le richieste di fruizione che ti sono state inoltrate da enti che intendono fruire dei tuoi E-Service",
     },
     subscriber: {
       title: 'Le tue richieste',

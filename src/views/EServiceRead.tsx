@@ -32,7 +32,7 @@ export function EServiceRead() {
     },
     {
       mapFn: decorateEServiceWithActiveDescriptor(descriptorId),
-      loadingTextLabel: 'Stiamo caricando il tuo e-service',
+      loadingTextLabel: 'Stiamo caricando il tuo E-Service',
     }
   )
 
@@ -64,7 +64,7 @@ export function EServiceRead() {
       proceedCallback: subscribe,
       proceedLabel: 'Iscriviti',
       title: 'Richiesta di fruizione',
-      description: `Stai per inoltrare una richiesta di fruizione per l'e-service ${data.name}, versione ${data.activeDescriptor?.version}`,
+      description: `Stai per inoltrare una richiesta di fruizione per l'E-Service ${data.name}, versione ${data.activeDescriptor?.version}`,
       close: () => {
         setDialog(null)
       },
@@ -85,7 +85,7 @@ export function EServiceRead() {
         {{
           title: data?.name,
           description: `${data?.description}\n${
-            party?.id === data?.producer.id ? "Nota: sei l'erogatore di questo e-service" : ''
+            party?.id === data?.producer.id ? "Nota: sei l'erogatore di questo E-Service" : ''
           }`,
         }}
       </StyledIntro>

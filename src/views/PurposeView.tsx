@@ -313,7 +313,7 @@ export const PurposeView = () => {
             </DescriptionBlock>
           )}
 
-          <DescriptionBlock label="La versione dell'e-service che stai usando">
+          <DescriptionBlock label="La versione dell'E-Service che stai usando">
             <StyledLink
               to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
                 eserviceId: data?.eservice.id,

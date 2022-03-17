@@ -168,18 +168,19 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
       >
         {keysData?.keys.map((singleKey, i) => {
           const { key, name, createdAt, operator } = singleKey
-          const color = isKeyOrphan(singleKey, userData) ? 'error' : 'primary'
+          const isOrphan = isKeyOrphan(singleKey, userData)
+          const color = isOrphan ? 'error' : 'primary'
           return (
             <StyledTableRow
               key={i}
               cellData={[
                 {
                   label: name,
-                  tooltip: (
+                  tooltip: isOrphan ? (
                     <StyledTooltip title="Attenzione! L'operatore che ha caricato questa chiave è stato rimosso da questo ente. Si consiglia di eliminare la chiave e di sostituirla con una nuova">
                       <ReportGmailerrorredIcon sx={{ ml: 0.75, fontSize: 16 }} color={color} />
                     </StyledTooltip>
-                  ),
+                  ) : undefined,
                 },
                 { label: formatDateString(createdAt) },
                 { label: `${operator.name} ${operator.surname}` },
