@@ -2,7 +2,7 @@ import React, { FunctionComponent, useContext, useRef, useState } from 'react'
 import { MoreVert as MoreVertIcon } from '@mui/icons-material'
 import { StyledButton } from './StyledButton'
 import { Menu, MenuItem } from '@mui/material'
-import { ActionProps, MUIColor } from '../../../types'
+import { ActionProps, ExtendedMUIColor } from '../../../types'
 import { TableActionMenuContext } from '../../lib/context'
 import { Box } from '@mui/system'
 
@@ -16,7 +16,7 @@ type ActionMenuProps = {
   openMenuId: string | null
   // Only used for snapshot tests, to have a stable id
   snapshotTestInternalId?: string
-  iconColor?: MUIColor
+  iconColor?: ExtendedMUIColor
 }
 
 export const ActionMenu: FunctionComponent<

@@ -860,12 +860,11 @@ export type FormikSetFieldValue = (
 
 export type MUIColor =
   | 'primary'
-  | 'inherit'
-  | 'disabled'
-  | 'action'
   | 'secondary'
   | 'error'
   | 'info'
   | 'success'
   | 'warning'
   | undefined
+
+export type ExtendedMUIColor = MUIColor | 'disabled' | 'inherit' | 'action'
