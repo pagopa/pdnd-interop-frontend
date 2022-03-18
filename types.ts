@@ -611,7 +611,6 @@ export type RunActionProps = {
 export type WrappableAction = {
   proceedCallback: ActionFunction
   label: string
-  isMock: boolean // TEMP PoC
 }
 
 export type DialogContent = {
@@ -818,7 +817,6 @@ export type LoaderType = 'global' | 'contextual'
 export type ActionProps = {
   onClick: ActionFunction
   label: string
-  isMock?: boolean
 }
 
 /*

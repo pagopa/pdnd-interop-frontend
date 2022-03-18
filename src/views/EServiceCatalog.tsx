@@ -109,15 +109,15 @@ export function EServiceCatalog() {
       })
     }
 
-    if (!eservice.isMine && isAdmin(party) && !canSubscribeEservice) {
-      actions.push({
-        onClick: () => {
-          setDialog({ type: 'askExtension' })
-        },
-        label: 'Richiedi estensione',
-        isMock: true,
-      })
-    }
+    // TEMP PIN-612
+    // if (!eservice.isMine && isAdmin(party) && !canSubscribeEservice) {
+    //   actions.push({
+    //     onClick: () => {
+    //       setDialog({ type: 'askExtension' })
+    //     },
+    //     label: 'Richiedi estensione',
+    //   })
+    // }
 
     return actions
   }

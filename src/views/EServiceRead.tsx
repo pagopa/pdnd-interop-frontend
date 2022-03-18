@@ -98,9 +98,9 @@ export function EServiceRead() {
             Iscriviti
           </StyledButton>
         )}
-        {!isMine && isAdmin(party) && !canSubscribeEservice && (
+        {/* TEMP PIN-612 */}
+        {/* {!isMine && isAdmin(party) && !canSubscribeEservice && (
           <StyledButton
-            className="mockFeature"
             sx={{ mr: 2 }}
             variant="contained"
             onClick={() => {
@@ -109,7 +109,7 @@ export function EServiceRead() {
           >
             Richiedi estensione
           </StyledButton>
-        )}
+        )} */}
         <StyledButton variant="outlined" to={routes.SUBSCRIBE_CATALOG_LIST.PATH}>
           Torna al catalogo
         </StyledButton>

@@ -130,7 +130,7 @@ export function AgreementEdit() {
 
     const providerOnlyActions: AgreementActions = {
       ACTIVE: [],
-      SUSPENDED: [], // [{ onClick: wrapActionInDialog(archive), label: 'Archivia', isMock: true }],
+      SUSPENDED: [], // [{ onClick: wrapActionInDialog(archive), label: 'Archivia' }],
       PENDING: [
         {
           onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'),
@@ -197,7 +197,7 @@ export function AgreementEdit() {
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         {/* <Typography>
           {name}, con{' '}
-          <Typography component="span" className="fakeData">
+          <Typography component="span">
             scadenza {formatDate(randomDate)}
           </Typography>
         </Typography> */}

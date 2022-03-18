@@ -104,9 +104,9 @@ const ActionMenuComponent: FunctionComponent<ActionMenuProps> = ({
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        {actions.map(({ onClick, label, isMock }, i) => {
+        {actions.map(({ onClick, label }, i) => {
           return (
-            <MenuItem key={i} onClick={onClick} className={`${isMock ? 'mockFeature' : ''}`}>
+            <MenuItem key={i} onClick={onClick}>
               {label}
             </MenuItem>
           )
