@@ -1,11 +1,6 @@
 import React, { FunctionComponent } from 'react'
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Unstable_TrapFocus as TrapFocus,
-} from '@mui/material'
+import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
+import { Unstable_TrapFocus as TrapFocus } from '@mui/base'
 import { StyledButton } from './StyledButton'
 import { DialogBasicProps } from '../../../types'
 import { useCloseDialog } from '../../hooks/useCloseDialog'

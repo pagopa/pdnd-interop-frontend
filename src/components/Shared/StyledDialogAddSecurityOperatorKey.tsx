@@ -1,11 +1,6 @@
 import React, { FunctionComponent } from 'react'
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Unstable_TrapFocus as TrapFocus,
-} from '@mui/material'
+import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
+import { Unstable_TrapFocus as TrapFocus } from '@mui/base'
 import { Formik } from 'formik'
 import { StyledButton } from './StyledButton'
 import { DialogAddSecurityOperatorKeyProps } from '../../../types'

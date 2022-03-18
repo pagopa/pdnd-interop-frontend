@@ -1,17 +1,11 @@
 import React, { FunctionComponent } from 'react'
 import { object, date } from 'yup'
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Typography,
-  Unstable_TrapFocus as TrapFocus,
-} from '@mui/material'
+import { Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
+import { Unstable_TrapFocus as TrapFocus } from '@mui/base'
+import { Box } from '@mui/system'
 import { StyledButton } from './StyledButton'
 import { DialogSetPurposeExpectedApprovalDateProps } from '../../../types'
 import { useCloseDialog } from '../../hooks/useCloseDialog'
-import { Box } from '@mui/system'
 import { StyledForm } from './StyledForm'
 import { useFormik } from 'formik'
 import { getFetchOutcome } from '../../lib/error-utils'

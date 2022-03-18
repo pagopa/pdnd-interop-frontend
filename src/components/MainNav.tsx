@@ -123,13 +123,14 @@ const MainNavComponent = ({
       <StyledLink underline="none" to={PATH}>
         <ListItemText
           disableTypography
+          sx={{ color: 'inherit' }}
           primary={
             <Typography
               color="inherit"
               sx={{
                 borderRight: 2,
                 fontWeight: isSelected ? 600 : 300,
-                borderColor: isSelected ? 'primary.min' : 'common.white',
+                borderColor: isSelected ? 'primary.main' : 'common.white',
                 px: 2,
                 py: 1,
               }}
@@ -175,8 +176,9 @@ const MainNavComponent = ({
 
             return !!item.children && Boolean(item.children.length > 0) ? (
               <Box key={i} color="primary.main">
-                <ListItemButton onClick={wrapSetOpenSubmenuId(item.id)}>
+                <ListItemButton color="inherit" onClick={wrapSetOpenSubmenuId(item.id)}>
                   <ListItemText
+                    sx={{ color: 'inherit' }}
                     disableTypography
                     primary={
                       <Typography color="inherit" sx={{ fontWeight: isSelected ? 600 : 300 }}>

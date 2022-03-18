@@ -2,10 +2,10 @@
 
 exports[`Snapshot matches 1`] = `
 <div
-  className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined css-1rsokk3-MuiGrid-root"
+  className="MuiGrid-root MuiGrid-container css-1rsokk3-MuiGrid-root"
 >
   <div
-    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 css-j23p4t-MuiGrid-root"
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 css-1equabv-MuiGrid-root"
   >
     <span
       className="MuiTypography-root MuiTypography-body2 css-shj6dr-MuiTypography-root"
@@ -34,7 +34,7 @@ exports[`Snapshot matches 1`] = `
     </svg>
   </div>
   <div
-    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-l4g9cp-MuiGrid-root"
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-1qpzhgb-MuiGrid-root"
   >
     <div
       className="MuiBox-root css-0"

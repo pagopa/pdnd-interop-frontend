@@ -1,15 +1,10 @@
 import React, { FunctionComponent, useContext, useState } from 'react'
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Unstable_TrapFocus as TrapFocus,
-} from '@mui/material'
+import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
+import { Unstable_TrapFocus as TrapFocus } from '@mui/base'
+import { Box } from '@mui/system'
 import { StyledButton } from './StyledButton'
 import { DialogAddClientsProps, Client } from '../../../types'
 import { useCloseDialog } from '../../hooks/useCloseDialog'
-import { Box } from '@mui/system'
 import { StyledForm } from './StyledForm'
 import { StyledInputControlledAutocomplete } from './StyledInputControlledAutocomplete'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'

@@ -10,8 +10,9 @@ exports[`Snapshot matches select 1`] = `
     className="MuiFormControl-root MuiTextField-root css-136h9lv-MuiFormControl-root-MuiTextField-root"
   >
     <div
-      className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiSelect-root css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+      className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
       onClick={[Function]}
+      variant="outlined"
     >
       <div
         aria-expanded="false"
@@ -28,12 +29,9 @@ exports[`Snapshot matches select 1`] = `
       >
         <span
           className="notranslate"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "&#8203;",
-            }
-          }
-        />
+        >
+          ​
+        </span>
       </div>
       <input
         aria-hidden={true}
@@ -62,16 +60,13 @@ exports[`Snapshot matches select 1`] = `
         className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
       >
         <legend
-          className="css-1a1ihhj"
+          className="css-hdw1oc"
         >
           <span
             className="notranslate"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "&#8203;",
-              }
-            }
-          />
+          >
+            ​
+          </span>
         </legend>
       </fieldset>
     </div>

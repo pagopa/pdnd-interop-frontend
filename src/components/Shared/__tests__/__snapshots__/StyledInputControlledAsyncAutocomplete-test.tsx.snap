@@ -5,19 +5,17 @@ exports[`Snapshot matches 1`] = `
   className="MuiBox-root css-z727b5"
 >
   <div
-    aria-expanded={false}
     aria-owns={null}
-    className="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-1kpdewa-MuiAutocomplete-root"
+    className="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-16awh2u-MuiAutocomplete-root"
     onClick={[Function]}
     onKeyDown={[Function]}
     onMouseDown={[Function]}
-    role="combobox"
   >
     <div
       className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
     >
       <label
-        className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-1kty9di-MuiFormLabel-root-MuiInputLabel-root"
+        className="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
         data-shrink={true}
       >
         Snapshot autocomplete
@@ -29,12 +27,12 @@ exports[`Snapshot matches 1`] = `
         <input
           aria-activedescendant={null}
           aria-autocomplete="list"
-          aria-controls={null}
+          aria-expanded={false}
           aria-invalid={false}
           autoCapitalize="none"
           autoComplete="off"
           autoFocus={false}
-          className="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused MuiAutocomplete-input MuiAutocomplete-inputFocused css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
+          className="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
           disabled={false}
           onAnimationStart={[Function]}
           onBlur={[Function]}
@@ -42,7 +40,9 @@ exports[`Snapshot matches 1`] = `
           onFocus={[Function]}
           onMouseDown={[Function]}
           placeholder="..."
+          readOnly={false}
           required={false}
+          role="combobox"
           spellCheck="false"
           type="text"
           value=""
@@ -89,7 +89,7 @@ exports[`Snapshot matches 1`] = `
           className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
         >
           <legend
-            className="css-186xcr5"
+            className="css-1in441m"
           >
             <span>
               Snapshot autocomplete
