@@ -24,7 +24,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { Box } from '@mui/system'
-import { Grid, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 import { useRoute } from '../hooks/useRoute'
 
@@ -258,6 +258,12 @@ export function AgreementEdit() {
         ) : null}
       </DescriptionBlock>
 
+      {mode === 'provider' && (
+        <DescriptionBlock label="Ente fruitore">
+          <Typography component="span">{data?.consumer.name}</Typography>
+        </DescriptionBlock>
+      )}
+
       <DescriptionBlock
         label="Stato della richiesta"
         tooltipLabel={data?.state !== 'PENDING' ? agreementSuspendExplanation : undefined}
@@ -279,7 +285,7 @@ export function AgreementEdit() {
 
       <DescriptionBlock label="Attributi">
         {data?.attributes.length > 0 ? (
-          <Grid container>
+          <Box>
             {data?.attributes.map((backendAttribute, i) => {
               let attributesToDisplay: JSX.Element | Array<JSX.Element>
 
@@ -303,27 +309,16 @@ export function AgreementEdit() {
               }
 
               return (
-                <Grid
-                  item
-                  xs={8}
-                  key={i}
-                  sx={{ mt: 1, mb: 2, pb: 2, borderBottom: 1, borderColor: 'divider' }}
-                >
+                <Box key={i} sx={{ mt: 1, mb: 2, pb: 2, borderBottom: 1, borderColor: 'divider' }}>
                   {attributesToDisplay}
-                </Grid>
+                </Box>
               )
             })}
-          </Grid>
+          </Box>
         ) : (
           <Typography>Per questo E-Service non sono richiesti attributi</Typography>
         )}
       </DescriptionBlock>
-
-      {mode === 'provider' && (
-        <DescriptionBlock label="Ente fruitore">
-          <Typography component="span">{data?.consumer.name}</Typography>
-        </DescriptionBlock>
-      )}
 
       <Box sx={{ mt: 4, display: 'flex' }}>
         {getAvailableActions().map(({ onClick, label }, i) => (

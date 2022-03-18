@@ -130,17 +130,28 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
       {({ handleSubmit, errors, values, handleChange }) => (
         <StyledForm onSubmit={handleSubmit}>
           <StyledInputControlledText
+            sx={{ mt: 0 }}
             name="version"
             label="Numero della versione (richiesto)"
+            infoLabel="Assegnata automaticamente dal sistema e non modificabile"
             disabled={true}
             value={values.version}
             error={errors.version}
           />
 
           <StyledInputControlledText
+            name="description"
+            label="Descrizione della versione (richiesto)"
+            value={values.description}
+            error={errors.description}
+            onChange={handleChange}
+            multiline={true}
+          />
+
+          <StyledInputControlledText
             name="audience"
             label="Identificativo dell'E-Service (richiesto)"
-            infoLabel="L'id con il quale il fruitore dichiara il servizio richiesto. Questo identificativo deve essere unico tra i tuoi E-Service"
+            infoLabel="L'id con il quale il fruitore dichiara il servizio richiesto. Questo identificativo deve essere unico tra i tuoi E-Service. All’nterno del token JWT rappresenta l’audience (aud)"
             value={values.audience}
             error={errors.audience}
             onChange={handleChange}
@@ -156,15 +167,6 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
             value={values.voucherLifespan}
             error={errors.voucherLifespan}
             onChange={handleChange}
-          />
-
-          <StyledInputControlledText
-            name="description"
-            label="Descrizione della versione (richiesto)"
-            value={values.description}
-            error={errors.description}
-            onChange={handleChange}
-            multiline={true}
           />
 
           <StyledInputControlledText
