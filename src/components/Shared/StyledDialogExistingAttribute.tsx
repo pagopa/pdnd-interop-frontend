@@ -15,6 +15,7 @@ import { StyledForm } from './StyledForm'
 import { StyledAccordion } from './StyledAccordion'
 import { StyledInputControlledCheckbox } from './StyledInputControlledCheckbox'
 import { StyledInputControlledAsyncAutocomplete } from './StyledInputControlledAsyncAutocomplete'
+import { ATTRIBUTE_TYPE_SINGULAR_LABEL } from '../../config/labels'
 
 export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttributeProps> = ({
   initialValues,
@@ -44,7 +45,9 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
         >
           {({ handleSubmit, values, setFieldValue }) => (
             <StyledForm onSubmit={handleSubmit}>
-              <DialogTitle>Aggiungi attributo esistente</DialogTitle>
+              <DialogTitle>
+                Aggiungi attributo {ATTRIBUTE_TYPE_SINGULAR_LABEL[attributeKey]} esistente
+              </DialogTitle>
 
               <DialogContent>
                 <Typography>

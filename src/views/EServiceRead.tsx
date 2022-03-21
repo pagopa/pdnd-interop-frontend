@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { EServiceReadType } from '../../types'
+import { EServiceFlatReadType, EServiceReadType } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { DialogContext, PartyContext } from '../lib/context'
 import { canSubscribe } from '../lib/attributes'
@@ -17,6 +17,9 @@ import { useLocation } from 'react-router-dom'
 import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 import { NotFound } from './NotFound'
 import { useRoute } from '../hooks/useRoute'
+import { DescriptionBlock } from '../components/DescriptionBlock'
+import { StyledLink } from '../components/Shared/StyledLink'
+import { buildDynamicPath } from '../lib/router-utils'
 
 export function EServiceRead() {
   const { runActionWithDestination } = useFeedback()
@@ -32,6 +35,20 @@ export function EServiceRead() {
     },
     {
       mapFn: decorateEServiceWithActiveDescriptor(descriptorId),
+      loadingTextLabel: 'Stiamo caricando il tuo E-Service',
+    }
+  )
+
+  const { data: flatData } = useAsyncFetch<
+    Array<EServiceFlatReadType>,
+    EServiceFlatReadType | undefined
+  >(
+    {
+      path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
+      config: { params: { callerId: party?.id } },
+    },
+    {
+      mapFn: (list) => list.find((d) => d.id === eserviceId && d.descriptorId === descriptorId),
       loadingTextLabel: 'Stiamo caricando il tuo E-Service',
     }
   )
@@ -90,7 +107,22 @@ export function EServiceRead() {
         }}
       </StyledIntro>
 
-      {data && <EServiceContentInfo data={data} />}
+      {data && (
+        <React.Fragment>
+          {flatData && (
+            <DescriptionBlock label="Sei iscritto all'E-Service">
+              <StyledLink
+                to={buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
+                  agreementId: flatData.callerSubscribed as string,
+                })}
+              >
+                Vai alla richiesta di fruizione
+              </StyledLink>
+            </DescriptionBlock>
+          )}
+          <EServiceContentInfo data={data} />
+        </React.Fragment>
+      )}
 
       <Box sx={{ display: 'flex' }}>
         {isVersionPublished && !isMine && isAdmin(party) && canSubscribeEservice && (

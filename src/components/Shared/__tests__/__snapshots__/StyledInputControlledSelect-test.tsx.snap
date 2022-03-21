@@ -4,7 +4,7 @@ exports[`Snapshot matches null 1`] = `null`;
 
 exports[`Snapshot matches select 1`] = `
 <div
-  className="MuiBox-root css-z727b5"
+  className="MuiBox-root css-zitybv"
 >
   <div
     className="MuiFormControl-root MuiTextField-root css-136h9lv-MuiFormControl-root-MuiTextField-root"

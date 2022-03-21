@@ -4,10 +4,10 @@ exports[`Snapshot matches null 1`] = `null`;
 
 exports[`Snapshot matches options 1`] = `
 <div
-  className="MuiBox-root css-z727b5"
+  className="MuiBox-root css-zitybv"
 >
   <div
-    className="MuiFormGroup-root css-xa081x-MuiFormGroup-root"
+    className="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"
     role="radiogroup"
   >
     <label

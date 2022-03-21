@@ -43,6 +43,14 @@ export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps
                   label="Nome dell'attributo (richiesto)"
                 />
                 <StyledInputControlledText
+                  name="description"
+                  error={errors.description}
+                  value={values.description}
+                  onChange={handleChange}
+                  label="Descrizione dell'attributo (richiesto)"
+                  multiline={true}
+                />
+                <StyledInputControlledText
                   name="code"
                   error={errors.code}
                   value={values.code}
@@ -55,14 +63,6 @@ export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps
                   value={values.origin}
                   onChange={handleChange}
                   label="Nome della fonte autoritativa (richiesto)"
-                />
-                <StyledInputControlledText
-                  name="description"
-                  error={errors.description}
-                  value={values.description}
-                  onChange={handleChange}
-                  label="Descrizione della fonte autoritativa (richiesto)"
-                  multiline={true}
                 />
               </DialogContent>
 

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import { Box, SxProps } from '@mui/system'
 import { StyledInputError } from './StyledInputError'
-import { InfoMessage } from './InfoMessage'
+import { Typography } from '@mui/material'
 
 type StyledInputWrapperProps = {
   name: string
@@ -12,7 +12,7 @@ type StyledInputWrapperProps = {
 
 export const StyledInputWrapper: FunctionComponent<StyledInputWrapperProps> = ({
   error,
-  sx = { my: 8 },
+  sx = { my: 4 },
   infoLabel,
   children,
 }) => {
@@ -20,7 +20,11 @@ export const StyledInputWrapper: FunctionComponent<StyledInputWrapperProps> = ({
     <Box sx={sx}>
       {children}
       {Boolean(error) && <StyledInputError error={{ message: error }} />}
-      {infoLabel && <InfoMessage label={infoLabel} />}
+      {infoLabel && (
+        <Typography variant="caption" component="p" color="text.secondary">
+          {infoLabel}
+        </Typography>
+      )}
     </Box>
   )
 }

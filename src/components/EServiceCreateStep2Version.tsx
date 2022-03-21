@@ -146,6 +146,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
             error={errors.description}
             onChange={handleChange}
             multiline={true}
+            focusOnMount={true}
           />
 
           <StyledInputControlledText
@@ -155,7 +156,6 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
             value={values.audience}
             error={errors.audience}
             onChange={handleChange}
-            focusOnMount={true}
           />
 
           <StyledInputControlledText

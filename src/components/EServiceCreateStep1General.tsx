@@ -4,7 +4,6 @@ import { object, string } from 'yup'
 import { useHistory } from 'react-router-dom'
 import { AxiosResponse } from 'axios'
 import isEmpty from 'lodash/isEmpty'
-import { Box } from '@mui/system'
 import {
   ApiEndpointKey,
   EServiceCreateDataType,
@@ -171,20 +170,18 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
             multiline={true}
           />
 
-          <Box sx={{ my: 8 }}>
-            <StyledInputControlledRadio
-              name="technology"
-              label="Tecnologia utilizzata (richiesto)"
-              error={errors.technology}
-              value={values.technology}
-              onChange={handleChange}
-              disabled={!isEditable}
-              options={[
-                { label: 'REST', value: 'REST' },
-                { label: 'SOAP', value: 'SOAP' },
-              ]}
-            />
-          </Box>
+          <StyledInputControlledRadio
+            name="technology"
+            label="Tecnologia utilizzata (richiesto)"
+            error={errors.technology}
+            value={values.technology}
+            onChange={handleChange}
+            disabled={!isEditable}
+            options={[
+              { label: 'REST', value: 'REST' },
+              { label: 'SOAP', value: 'SOAP' },
+            ]}
+          />
 
           <StyledIntro
             variant="h2"

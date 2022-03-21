@@ -564,7 +564,8 @@ export type CertifiedAttribute = BasicAttribute & {
 // was rejected by the e-service provider, which means that this Agreement can never be activated
 export type BackendAttributeContent = BasicAttribute & {
   explicitAttributeVerification: boolean
-  verified: boolean | null
+  verified?: boolean
+  verificationDate?: string
 }
 export type SingleBackendAttribute = {
   single: BackendAttributeContent

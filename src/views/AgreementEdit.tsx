@@ -1,14 +1,12 @@
 import React, { useContext } from 'react'
 import { useLocation } from 'react-router-dom'
-import has from 'lodash/has'
 import {
   AgreementState,
   AgreementSummary,
-  SingleBackendAttribute,
-  GroupBackendAttribute,
   ActionProps,
   Party,
   ProviderOrSubscriber,
+  BackendAttributeContent,
 } from '../../types'
 import { AGREEMENT_STATE_LABEL } from '../config/labels'
 import { buildDynamicPath, getLastBit } from '../lib/router-utils'
@@ -24,9 +22,12 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { Box } from '@mui/system'
-import { Typography } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 import { useRoute } from '../hooks/useRoute'
+import { StyledAccordion } from '../components/Shared/StyledAccordion'
+import { formatDateString } from '../lib/date-utils'
+import { InfoMessage } from '../components/Shared/InfoMessage'
 
 export function AgreementEdit() {
   const { runAction, runActionWithDestination, forceRerenderCounter, wrapActionInDialog } =
@@ -168,55 +169,99 @@ export function AgreementEdit() {
     return mergeActions<AgreementActions>([currentActions, sharedActions], status)
   }
 
-  const SingleAttribute = ({
-    name,
-    verified,
-    id,
-    explicitAttributeVerification,
-  }: {
-    name?: string | undefined
-    verified: boolean | null
-    id: string
+  const checkVerifiedStatus = (
+    verified: boolean | undefined,
     explicitAttributeVerification: boolean
-  }) => {
-    // const randomDate = getRandomDate(new Date(2022, 0, 1), new Date(2023, 0, 1))
-
-    const computeLabel = () => {
-      if (!explicitAttributeVerification) {
-        return 'verificato, nuova verifica non richiesta'
-      }
-
-      if (verified === null || typeof verified === 'undefined') {
-        return 'in attesa di verifica'
-      }
-
-      return verified ? 'verificato' : 'rifiutato'
+  ) => {
+    if (!explicitAttributeVerification) {
+      return 'Verificato, nuova verifica non richiesta'
     }
 
+    if (typeof verified === 'undefined') {
+      return 'In attesa di verifica'
+    }
+
+    return verified ? 'Verificato' : 'Rifiutato'
+  }
+
+  const SubscriberAttributes = () => {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        {/* <Typography>
-          {name}, con{' '}
-          <Typography component="span">
-            scadenza {formatDate(randomDate)}
-          </Typography>
-        </Typography> */}
-        <Typography>{name}</Typography>
+      <Box>
+        {data?.attributes.map((backendAttribute, i) => {
+          const attributes: Array<BackendAttributeContent> =
+            'single' in backendAttribute ? [backendAttribute.single] : backendAttribute.group
+          const entries = attributes.map((a) => {
+            return {
+              summary: a.name,
+              summarySecondary: checkVerifiedStatus(a.verified, a.explicitAttributeVerification),
+              details: (
+                <React.Fragment>
+                  {a.verificationDate && (
+                    <DescriptionBlock label="Data di verifica">
+                      {formatDateString(a.verificationDate)}
+                    </DescriptionBlock>
+                  )}
+                  <DescriptionBlock label="Fonte autoritativa">{a.origin}</DescriptionBlock>
+                  <DescriptionBlock label="Descrizione">{a.description}</DescriptionBlock>
+                </React.Fragment>
+              ),
+            }
+          })
 
-        {/* display */}
-        <Typography component="span">{computeLabel()}</Typography>
+          return (
+            <Box key={i} sx={{ mt: 1, mb: 2, pb: 2, borderBottom: 1, borderColor: 'divider' }}>
+              {Boolean(entries.length > 1) && (
+                <InfoMessage
+                  sx={{ mb: 2 }}
+                  label="l’intero gruppo seguente è verificato se lo è almeno uno degli attributi che lo compongono"
+                />
+              )}
+              <StyledAccordion entries={entries} />
+            </Box>
+          )
+        })}
+      </Box>
+    )
+  }
 
-        {/* actions */}
-        {mode === 'provider' && explicitAttributeVerification && (
-          <Box sx={{ display: 'flex' }}>
-            <StyledButton variant="outlined" onClick={wrapVerify(id)}>
-              Verifica{verified !== null && typeof verified !== 'undefined' ? ' nuovamente' : ''}
-            </StyledButton>
-            {/* <StyledButton variant="contained" onClick={wrapRefuse(id)}>
-              Rifiuta
-            </StyledButton> */}
-          </Box>
-        )}
+  const ProviderAttributes = () => {
+    return (
+      <Box>
+        {data?.attributes.map((backendAttribute, i) => {
+          const attributes: Array<BackendAttributeContent> =
+            'single' in backendAttribute ? [backendAttribute.single] : backendAttribute.group
+
+          return (
+            <Box key={i} sx={{ mt: 1, mb: 2, pb: 2, borderBottom: 1, borderColor: 'divider' }}>
+              {Boolean(attributes.length > 1) && (
+                <InfoMessage
+                  sx={{ mb: 2 }}
+                  label="l’intero gruppo seguente è verificato se lo è almeno uno degli attributi che lo compongono"
+                />
+              )}
+              {attributes.map((a, i) => {
+                return (
+                  <Grid container key={i} sx={{ mb: 2 }}>
+                    <Grid item xs={4}>
+                      <Typography>{a.name}</Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Typography color="text.secondary">
+                        {checkVerifiedStatus(a.verified, a.explicitAttributeVerification)}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                      <StyledButton variant="outlined" size="small" onClick={wrapVerify(a.id)}>
+                        Verifica
+                        {typeof a.verified !== 'undefined' ? ' nuovamente' : ''}
+                      </StyledButton>
+                    </Grid>
+                  </Grid>
+                )
+              })}
+            </Box>
+          )
+        })}
       </Box>
     )
   }
@@ -283,38 +328,13 @@ export function AgreementEdit() {
         )}
       </DescriptionBlock>
 
-      <DescriptionBlock label="Attributi">
+      <DescriptionBlock label="Attributi verificati">
         {data?.attributes.length > 0 ? (
-          <Box>
-            {data?.attributes.map((backendAttribute, i) => {
-              let attributesToDisplay: JSX.Element | Array<JSX.Element>
-
-              if (has(backendAttribute, 'single')) {
-                const { single } = backendAttribute as SingleBackendAttribute
-                attributesToDisplay = <SingleAttribute {...single} />
-              } else {
-                const { group } = backendAttribute as GroupBackendAttribute
-                attributesToDisplay = group.map((a, j) => {
-                  if (j === group.length - 1) {
-                    return <SingleAttribute key={j} {...a} />
-                  }
-
-                  return (
-                    <React.Fragment key={j}>
-                      <SingleAttribute {...a} />
-                      <em>oppure</em>
-                    </React.Fragment>
-                  )
-                })
-              }
-
-              return (
-                <Box key={i} sx={{ mt: 1, mb: 2, pb: 2, borderBottom: 1, borderColor: 'divider' }}>
-                  {attributesToDisplay}
-                </Box>
-              )
-            })}
-          </Box>
+          mode === 'provider' ? (
+            <ProviderAttributes />
+          ) : (
+            <SubscriberAttributes />
+          )
         ) : (
           <Typography>Per questo E-Service non sono richiesti attributi</Typography>
         )}
