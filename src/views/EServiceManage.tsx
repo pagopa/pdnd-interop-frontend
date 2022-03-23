@@ -4,7 +4,6 @@ import { DialogContext } from '../lib/context'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Tab } from '@mui/material'
 import { TabList, TabContext, TabPanel } from '@mui/lab'
-import { Box } from '@mui/system'
 import { useActiveTab } from '../hooks/useActiveTab'
 import { EServiceContentInfo } from '../components/Shared/EServiceContentInfo'
 import { ActionProps, DecoratedPurpose, EServiceReadType, Purpose } from '../../types'
@@ -24,6 +23,7 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { NotFound } from './NotFound'
 import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 import { useRoute } from '../hooks/useRoute'
+import { PageBottomActions } from '../components/Shared/PageBottomActions'
 
 export function EServiceManage() {
   const { routes } = useRoute()
@@ -115,7 +115,7 @@ export function EServiceManage() {
 
   return (
     <React.Fragment>
-      <StyledIntro sx={{ mb: 0 }}>
+      <StyledIntro>
         {{ title: eserviceData.name, description: eserviceData.description }}
       </StyledIntro>
 
@@ -123,7 +123,6 @@ export function EServiceManage() {
         <TabList
           onChange={updateActiveTab}
           aria-label="Due tab diverse per i dettagli dell'E-Service e le stime di carico indicate dai fruitori"
-          sx={{ my: 6 }}
           variant="fullWidth"
         >
           <Tab label="Dettagli dell'E-Service" value="details" />
@@ -134,11 +133,11 @@ export function EServiceManage() {
           <React.Fragment>
             <EServiceContentInfo data={eserviceData} />
 
-            <Box sx={{ display: 'flex', mt: 4 }}>
+            <PageBottomActions>
               <StyledButton variant="outlined" to={routes.PROVIDE_ESERVICE_LIST.PATH}>
                 Torna al catalogo
               </StyledButton>
-            </Box>
+            </PageBottomActions>
           </React.Fragment>
         </TabPanel>
         <TabPanel value="purposeAwaitingApproval">

@@ -155,7 +155,7 @@ Array [
     <span>
       <svg
         aria-hidden={true}
-        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
         data-testid="MoreVertIcon"
         focusable="false"
         viewBox="0 0 24 24"

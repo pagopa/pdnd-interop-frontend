@@ -154,7 +154,7 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
     <React.Fragment>
       {party?.productInfo.role === 'security' && (
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-          <StyledButton variant="contained" onClick={openUploadKeyDialog}>
+          <StyledButton variant="contained" size="small" onClick={openUploadKeyDialog}>
             + Aggiungi
           </StyledButton>
         </Box>

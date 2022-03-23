@@ -201,7 +201,7 @@ export const PurposeList = () => {
 
       <Box sx={{ mt: 4 }}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-          <StyledButton variant="contained" to={routes.SUBSCRIBE_PURPOSE_CREATE.PATH}>
+          <StyledButton variant="contained" size="small" to={routes.SUBSCRIBE_PURPOSE_CREATE.PATH}>
             + Aggiungi
           </StyledButton>
         </Box>

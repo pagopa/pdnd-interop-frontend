@@ -386,7 +386,7 @@ export const PurposeView = () => {
         <TabPanel value="clients">
           <Box sx={{ mt: 4 }}>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-              <StyledButton variant="contained" onClick={showClientsDialog}>
+              <StyledButton variant="contained" size="small" onClick={showClientsDialog}>
                 + Aggiungi
               </StyledButton>
             </Box>

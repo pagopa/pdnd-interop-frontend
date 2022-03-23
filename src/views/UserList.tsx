@@ -158,7 +158,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
 
       {isAdmin(party) && mode === 'subscriber' && (
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-          <StyledButton variant="contained" onClick={openAddOperatoDialog}>
+          <StyledButton variant="contained" size="small" onClick={openAddOperatoDialog}>
             + Aggiungi
           </StyledButton>
         </Box>

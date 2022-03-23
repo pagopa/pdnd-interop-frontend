@@ -198,11 +198,11 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
                     >
                       Versione {d.version}
                     </StyledLink>{' '}
-                    <Chip label={state} />
+                    <Chip size="small" label={state} />
                   </Box>
                 ) : (
                   <Typography component="span">
-                    Versione {d.version} <Chip label={state} color="primary" />
+                    Versione {d.version} <Chip size="small" label={state} color="primary" />
                   </Typography>
                 )}
               </Box>

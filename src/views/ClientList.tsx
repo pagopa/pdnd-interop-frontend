@@ -87,7 +87,7 @@ export const ClientList: FunctionComponent<ClientListProps> = ({ clientKind = 'C
       <Box sx={{ mt: 4 }}>
         {isAdmin(party) && (
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-            <StyledButton variant="contained" to={createPath}>
+            <StyledButton variant="contained" size="small" to={createPath}>
               + Aggiungi
             </StyledButton>
           </Box>

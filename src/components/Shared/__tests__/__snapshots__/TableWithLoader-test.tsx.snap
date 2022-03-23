@@ -50,7 +50,7 @@ exports[`Snapshot matches table with single action button 1`] = `
   className="MuiTableContainer-root css-rorn0c-MuiTableContainer-root"
 >
   <table
-    className="MuiTable-root css-ui69f2-MuiTable-root"
+    className="MuiTable-root css-rqglhn-MuiTable-root"
     role={null}
   >
     <thead
@@ -193,7 +193,7 @@ exports[`Snapshot matches table with single action button and action list button
   className="MuiTableContainer-root css-rorn0c-MuiTableContainer-root"
 >
   <table
-    className="MuiTable-root css-ui69f2-MuiTable-root"
+    className="MuiTable-root css-rqglhn-MuiTable-root"
     role={null}
   >
     <thead
@@ -301,7 +301,7 @@ exports[`Snapshot matches table with single action button and action list button
             <span>
               <svg
                 aria-hidden={true}
-                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
                 data-testid="MoreVertIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -394,7 +394,7 @@ exports[`Snapshot matches table with single action button and action list button
             <span>
               <svg
                 aria-hidden={true}
-                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
                 data-testid="MoreVertIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -420,7 +420,7 @@ exports[`Snapshot matches table without actions 1`] = `
   className="MuiTableContainer-root css-rorn0c-MuiTableContainer-root"
 >
   <table
-    className="MuiTable-root css-ui69f2-MuiTable-root"
+    className="MuiTable-root css-rqglhn-MuiTable-root"
     role={null}
   >
     <thead

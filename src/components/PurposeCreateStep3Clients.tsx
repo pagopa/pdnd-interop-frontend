@@ -126,7 +126,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
             </StyledTableRow>
           ))}
       </TableWithLoader>
-      <StyledButton sx={{ mt: 2 }} variant="contained" onClick={showClientsDialog}>
+      <StyledButton sx={{ mt: 2 }} variant="contained" size="small" onClick={showClientsDialog}>
         + Aggiungi
       </StyledButton>
 

@@ -158,7 +158,12 @@ export function ClientCreate() {
               ))}
           </TableWithLoader>
           <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
-            <StyledButton sx={{ mr: 2 }} variant="contained" onClick={openAddOperatoDialog}>
+            <StyledButton
+              sx={{ mr: 2 }}
+              variant="contained"
+              size="small"
+              onClick={openAddOperatoDialog}
+            >
               + Aggiungi
             </StyledButton>
             {/* <StyledButton variant="outlined" onClick={openCreateOperatoDialog}>

@@ -42,7 +42,7 @@ export function AgreementList() {
     {
       useEffectDeps: [forceRerenderCounter],
       loaderType: 'contextual',
-      loadingTextLabel: 'Stiamo caricando gli accordi',
+      loadingTextLabel: 'Stiamo caricando le richieste',
     }
   )
 
@@ -173,7 +173,7 @@ export function AgreementList() {
         <TableWithLoader
           loadingText={loadingText}
           headData={headData}
-          noDataLabel="Non ci sono accordi disponibili"
+          noDataLabel="Non ci sono richieste disponibili"
           error={axiosErrorToError(error)}
         >
           {data &&

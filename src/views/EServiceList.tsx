@@ -217,57 +217,55 @@ export function EServiceList() {
         }}
       </StyledIntro>
 
-      <Box sx={{ mt: 4 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-          <StyledButton variant="contained" to={routes.PROVIDE_ESERVICE_CREATE.PATH}>
-            + Aggiungi
-          </StyledButton>
-        </Box>
-
-        <TempFilters />
-
-        <TableWithLoader
-          loadingText={loadingText}
-          headData={headData}
-          noDataLabel="Non ci sono servizi disponibili"
-          error={axiosErrorToError(error)}
-        >
-          {data &&
-            Boolean(data.length > 0) &&
-            data.map((item, i) => (
-              <StyledTableRow
-                key={i}
-                cellData={[
-                  { label: item.name },
-                  { label: item.version || '1' },
-                  { label: ESERVICE_STATE_LABEL[item.state || 'DRAFT'] },
-                ]}
-              >
-                <StyledButton
-                  variant="text"
-                  size="small"
-                  onClick={() => {
-                    const destPath =
-                      !item.state || item.state === 'DRAFT'
-                        ? routes.PROVIDE_ESERVICE_EDIT.PATH
-                        : routes.PROVIDE_ESERVICE_MANAGE.PATH
-
-                    history.push(
-                      buildDynamicPath(destPath, {
-                        eserviceId: item.id,
-                        descriptorId: item.descriptorId || URL_FRAGMENTS.FIRST_DRAFT[lang],
-                      })
-                    )
-                  }}
-                >
-                  {!item.state || item.state === 'DRAFT' ? 'Modifica' : 'Ispeziona'}
-                </StyledButton>
-
-                <ActionMenu actions={getAvailableActions(item)} />
-              </StyledTableRow>
-            ))}
-        </TableWithLoader>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', my: 3 }}>
+        <StyledButton variant="contained" size="small" to={routes.PROVIDE_ESERVICE_CREATE.PATH}>
+          + Aggiungi
+        </StyledButton>
       </Box>
+
+      <TempFilters />
+
+      <TableWithLoader
+        loadingText={loadingText}
+        headData={headData}
+        noDataLabel="Non ci sono servizi disponibili"
+        error={axiosErrorToError(error)}
+      >
+        {data &&
+          Boolean(data.length > 0) &&
+          data.map((item, i) => (
+            <StyledTableRow
+              key={i}
+              cellData={[
+                { label: item.name },
+                { label: item.version || '1' },
+                { label: ESERVICE_STATE_LABEL[item.state || 'DRAFT'] },
+              ]}
+            >
+              <StyledButton
+                variant="text"
+                size="small"
+                onClick={() => {
+                  const destPath =
+                    !item.state || item.state === 'DRAFT'
+                      ? routes.PROVIDE_ESERVICE_EDIT.PATH
+                      : routes.PROVIDE_ESERVICE_MANAGE.PATH
+
+                  history.push(
+                    buildDynamicPath(destPath, {
+                      eserviceId: item.id,
+                      descriptorId: item.descriptorId || URL_FRAGMENTS.FIRST_DRAFT[lang],
+                    })
+                  )
+                }}
+              >
+                {!item.state || item.state === 'DRAFT' ? 'Modifica' : 'Ispeziona'}
+              </StyledButton>
+
+              <ActionMenu actions={getAvailableActions(item)} />
+            </StyledTableRow>
+          ))}
+      </TableWithLoader>
     </React.Fragment>
   )
 }

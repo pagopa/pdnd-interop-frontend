@@ -105,7 +105,10 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     AUTH_LEVELS: ['admin', 'api'],
   },
   PROVIDE_AGREEMENT_EDIT: {
-    PATH: { it: '/it/erogazione/accordi/:agreementId', en: '/en/provider/agreements/:agreementId' },
+    PATH: {
+      it: '/it/erogazione/richieste/:agreementId',
+      en: '/en/provider/agreements/:agreementId',
+    },
     LABEL: { it: 'Gestisci richiesta', en: 'Manage request' },
     EXACT: false,
     COMPONENT: AgreementEdit,
@@ -113,7 +116,7 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     AUTH_LEVELS: ['admin'],
   },
   PROVIDE_AGREEMENT_LIST: {
-    PATH: { it: '/it/erogazione/accordi', en: '/en/provider/agreements' },
+    PATH: { it: '/it/erogazione/richieste', en: '/en/provider/agreements' },
     LABEL: { it: 'Richieste di fruizione', en: 'Requests for use' },
     EXACT: true,
     COMPONENT: AgreementList,
@@ -247,7 +250,7 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
   },
   SUBSCRIBE_AGREEMENT_EDIT: {
     PATH: {
-      it: '/it/fruizione/accordi/:agreementId',
+      it: '/it/fruizione/richieste/:agreementId',
       en: '/en/subscriber/agreements/:agreementId',
     },
     LABEL: { it: 'Gestisci richiesta', en: 'Manage request' },
@@ -257,7 +260,7 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     AUTH_LEVELS: ['admin'],
   },
   SUBSCRIBE_AGREEMENT_LIST: {
-    PATH: { it: '/it/fruizione/accordi', en: '/en/subscriber/agreements' },
+    PATH: { it: '/it/fruizione/richieste', en: '/en/subscriber/agreements' },
     LABEL: { it: 'Le tue richieste', en: 'Your requests' },
     EXACT: true,
     COMPONENT: AgreementList,
