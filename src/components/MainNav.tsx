@@ -144,26 +144,7 @@ const MainNavComponent = ({
   }
 
   return (
-    <Box
-      sx={{
-        bgcolor: 'common.white',
-        display: 'block',
-        py: 10,
-        position: 'relative',
-        boxShadow: 5,
-        '::before': {
-          content: '""',
-          position: 'absolute',
-          left: 0,
-          top: 0,
-          bgcolor: 'common.white',
-          width: 10000,
-          height: '100%',
-          transform: 'translate(-100%, 0)',
-        },
-      }}
-      component="nav"
-    >
+    <Box sx={{ display: 'block', py: 0.5, boxShadow: 5 }} component="nav">
       {shouldRender && (
         <List
           sx={{ width: WIDTH, position: 'sticky', top: 10 }}
