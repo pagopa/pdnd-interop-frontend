@@ -54,7 +54,7 @@ exports[`Snapshot matches table with single action button 1`] = `
     role={null}
   >
     <thead
-      className="MuiTableHead-root css-15wwp11-MuiTableHead-root"
+      className="MuiTableHead-root css-whv87p-MuiTableHead-root"
       role={null}
     >
       <tr
@@ -66,27 +66,19 @@ exports[`Snapshot matches table with single action button 1`] = `
           className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
           scope="col"
         >
-          <span
-            className="MuiTypography-root MuiTypography-caption css-udomqy-MuiTypography-root"
-          >
-            NOME
-          </span>
+          Nome
         </th>
         <th
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
           scope="col"
         >
-          <span
-            className="MuiTypography-root MuiTypography-caption css-udomqy-MuiTypography-root"
-          >
-            COGNOME
-          </span>
+          Cognome
         </th>
       </tr>
     </thead>
     <tbody
-      className="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+      className="MuiTableBody-root css-1nq9kkf-MuiTableBody-root"
       role={null}
     >
       <tr
@@ -205,7 +197,7 @@ exports[`Snapshot matches table with single action button and action list button
     role={null}
   >
     <thead
-      className="MuiTableHead-root css-15wwp11-MuiTableHead-root"
+      className="MuiTableHead-root css-whv87p-MuiTableHead-root"
       role={null}
     >
       <tr
@@ -217,27 +209,19 @@ exports[`Snapshot matches table with single action button and action list button
           className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
           scope="col"
         >
-          <span
-            className="MuiTypography-root MuiTypography-caption css-udomqy-MuiTypography-root"
-          >
-            NOME
-          </span>
+          Nome
         </th>
         <th
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
           scope="col"
         >
-          <span
-            className="MuiTypography-root MuiTypography-caption css-udomqy-MuiTypography-root"
-          >
-            COGNOME
-          </span>
+          Cognome
         </th>
       </tr>
     </thead>
     <tbody
-      className="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+      className="MuiTableBody-root css-1nq9kkf-MuiTableBody-root"
       role={null}
     >
       <tr
@@ -440,7 +424,7 @@ exports[`Snapshot matches table without actions 1`] = `
     role={null}
   >
     <thead
-      className="MuiTableHead-root css-15wwp11-MuiTableHead-root"
+      className="MuiTableHead-root css-whv87p-MuiTableHead-root"
       role={null}
     >
       <tr
@@ -452,27 +436,19 @@ exports[`Snapshot matches table without actions 1`] = `
           className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
           scope="col"
         >
-          <span
-            className="MuiTypography-root MuiTypography-caption css-udomqy-MuiTypography-root"
-          >
-            NOME
-          </span>
+          Nome
         </th>
         <th
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
           scope="col"
         >
-          <span
-            className="MuiTypography-root MuiTypography-caption css-udomqy-MuiTypography-root"
-          >
-            COGNOME
-          </span>
+          Cognome
         </th>
       </tr>
     </thead>
     <tbody
-      className="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+      className="MuiTableBody-root css-1nq9kkf-MuiTableBody-root"
       role={null}
     >
       <tr

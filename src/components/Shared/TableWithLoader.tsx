@@ -1,14 +1,6 @@
 import React, { Children, FunctionComponent } from 'react'
 import { LoadingWithMessage } from './LoadingWithMessage'
-import {
-  TableContainer,
-  Table,
-  TableBody,
-  TableHead,
-  TableRow,
-  TableCell,
-  Typography,
-} from '@mui/material'
+import { TableContainer, Table, TableBody, TableHead, TableRow, TableCell } from '@mui/material'
 import { Box } from '@mui/system'
 
 type TableWithLoaderProps = {
@@ -39,23 +31,14 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
   ) : (
     <TableContainer>
       <Table sx={{ borderCollapse: 'separate', borderSpacing: '0 0.5rem' }}>
-        <TableHead>
+        <TableHead sx={{ bgcolor: 'background.default' }}>
           <TableRow>
             {headData.map((item, i) => (
-              <TableCell key={i}>
-                <Typography
-                  component="span"
-                  variant="caption"
-                  color="text.secondary"
-                  sx={{ fontWeight: 700 }}
-                >
-                  {item.toUpperCase()}
-                </Typography>
-              </TableCell>
+              <TableCell key={i}>{item}</TableCell>
             ))}
           </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody sx={{ bgcolor: 'background.paper' }}>
           {children && Children.count(children) > 0 ? (
             children
           ) : (

@@ -145,9 +145,9 @@ export function AgreementList() {
   }
 
   const headData = [
-    'nome e-service',
-    mode === 'provider' ? 'ente fruitore' : 'ente erogatore',
-    'stato richiesta',
+    'Nome E-Service',
+    mode === 'provider' ? 'Ente fruitore' : 'Ente erogatore',
+    'Stato richiesta',
   ]
 
   const INTRO: Record<ProviderOrSubscriber, StyledIntroChildrenProps> = {

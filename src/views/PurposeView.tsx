@@ -268,7 +268,7 @@ export const PurposeView = () => {
     setDialog({ type: 'addClients', exclude: data?.clients || [], onSubmit: addClients })
   }
 
-  const headData = ['nome client']
+  const headData = ['Nome client']
 
   return (
     <React.Fragment>

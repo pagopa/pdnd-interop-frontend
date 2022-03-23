@@ -81,13 +81,13 @@ export function BodyLogger() {
                           position: 'absolute',
                           right: 0,
                           top: 0,
-                          bgcolor: '#F5F6F7',
+                          bgcolor: 'background.default',
                           width: 10000,
                           height: '100%',
                           transform: 'translate(100%, 0)',
                         },
                       }}
-                      bgcolor="#F5F6F7"
+                      bgcolor="background.default"
                     >
                       <Main />
                     </Box>

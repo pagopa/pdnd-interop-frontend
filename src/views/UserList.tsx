@@ -142,7 +142,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
     return buildDynamicPath(subscriberRoute, { clientId, operatorId: item.relationshipId })
   }
 
-  const headData = ['nome e cognome', 'stato']
+  const headData = ['Nome e cognome', 'Stato']
 
   return (
     <React.Fragment>

@@ -112,7 +112,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
     setDialog({ type: 'addClients', exclude: clientsData, onSubmit: addClients })
   }
 
-  const headData = ['nome client']
+  const headData = ['Nome client']
 
   return (
     <React.Fragment>

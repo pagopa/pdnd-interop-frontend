@@ -51,7 +51,7 @@ export function EServiceCatalog() {
     }
   )
 
-  const headData = ['nome e-service', 'ente erogatore', 'versione attuale', 'stato e-service']
+  const headData = ['Nome E-Service', 'Ente erogatore', 'Versione attuale', 'Stato E-Service']
 
   const OwnerTooltip = ({ label = '', Icon }: { label: string; Icon: SvgIconComponent }) => (
     <StyledTooltip title={label}>

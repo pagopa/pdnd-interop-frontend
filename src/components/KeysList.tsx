@@ -145,7 +145,7 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
     })
   }
 
-  const headData = ['nome della chiave', 'data di creazione', 'caricata da']
+  const headData = ['Nome della chiave', 'Data di creazione', 'Caricata da']
 
   const fetchError =
     error && error.response && error.response.status !== 404 ? axiosErrorToError(error) : undefined

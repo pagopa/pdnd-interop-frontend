@@ -103,8 +103,8 @@ export function EServiceAttributeGroup({
   }
 
   const headData = canRequireVerification
-    ? ['nome attributo', 'convalida richiesta']
-    : ['nome attributo']
+    ? ['Nome attributo', 'Convalida richiesta']
+    : ['Nome attributo']
 
   const wrapRemove = (attributes: Array<CatalogAttribute>) => () => {
     remove(attributes)

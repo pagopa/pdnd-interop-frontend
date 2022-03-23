@@ -71,7 +71,7 @@ export const ClientList: FunctionComponent<ClientListProps> = ({ clientKind = 'C
     ]
   }
 
-  const headData = ['nome client']
+  const headData = ['Nome client']
 
   return (
     <React.Fragment>
