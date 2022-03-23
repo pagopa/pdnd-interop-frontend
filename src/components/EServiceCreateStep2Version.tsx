@@ -23,7 +23,8 @@ type VersionData = {
   version: string
   voucherLifespan: number
   description: string
-  dailyCallsMaxNumber: number
+  dailyCallsPerConsumer: number
+  dailyCallsTotal: number
 }
 
 export function EServiceCreateStep2Version({ forward, back }: StepperStepComponentProps) {
@@ -37,14 +38,16 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
     audience: string().required(),
     voucherLifespan: number().required(),
     description: string().required(),
-    dailyCallsMaxNumber: number().required(),
+    dailyCallsPerConsumer: number().required(),
+    dailyCallsTotal: number().required(),
   })
   const initialValues: VersionData = {
     version: '1',
     audience: '',
     voucherLifespan: 1,
     description: '',
-    dailyCallsMaxNumber: 1,
+    dailyCallsPerConsumer: 1,
+    dailyCallsTotal: 1,
   }
   const [initialOrFetchedValues, setInitialOrFetchedValues] = useState(initialValues)
 
@@ -53,14 +56,21 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
     if (fetchedData && !isEmpty(fetchedData.activeDescriptor)) {
       const activeDescriptor = (fetchedData as EServiceReadType)
         .activeDescriptor as EServiceDescriptorRead
-      const { audience, version, voucherLifespan, description, dailyCallsMaxNumber } =
-        activeDescriptor
+      const {
+        audience,
+        version,
+        voucherLifespan,
+        description,
+        dailyCallsPerConsumer,
+        dailyCallsTotal,
+      } = activeDescriptor
       setInitialOrFetchedValues({
         version,
         audience: Boolean(audience.length > 0) ? audience[0] : '',
         voucherLifespan,
         description,
-        dailyCallsMaxNumber: dailyCallsMaxNumber || 1,
+        dailyCallsPerConsumer: dailyCallsPerConsumer || 1,
+        dailyCallsTotal: dailyCallsTotal || 1,
       })
     }
   }, [fetchedData]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -71,7 +81,8 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
       audience: [data.audience],
       voucherLifespan: data.voucherLifespan,
       description: data.description,
-      dailyCallsMaxNumber: data.dailyCallsMaxNumber,
+      dailyCallsPerConsumer: data.dailyCallsPerConsumer,
+      dailyCallsTotal: data.dailyCallsTotal,
     }
 
     const sureFetchedData = fetchedData as EServiceReadType
@@ -151,8 +162,8 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
 
           <StyledInputControlledText
             name="audience"
-            label="Identificativo dell'E-Service (richiesto)"
-            infoLabel="L'id con il quale il fruitore dichiara il servizio richiesto. Questo identificativo deve essere unico tra i tuoi E-Service. All’nterno del token JWT rappresenta l’audience (aud)"
+            label="Audience (richiesto)"
+            infoLabel="All’nterno del token JWT che il fruitore ti invierà rappresenterà l’audience (aud), l'id con il quale il fruitore dichiara il servizio richiesto"
             value={values.audience}
             error={errors.audience}
             onChange={handleChange}
@@ -170,12 +181,23 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
           />
 
           <StyledInputControlledText
-            name="dailyCallsMaxNumber"
-            label="Soglia chiamate API/giorno (richiesto)"
-            infoLabel="Il fruitore dovrà dichiarare una stima delle chiamate che effettuerà per ogni finalità. Se la somma delle chiamate dichiarate dal fruitore sarà sopra la soglia da te impostata, potrai approvare manualmente l'accesso di queste finalità alla fruizione del tuo E-Service"
+            name="dailyCallsPerConsumer"
+            label="Soglia chiamate API/giorno per fruitore (richiesto)"
+            infoLabel="Il fruitore dovrà dichiarare una stima delle chiamate che effettuerà per ogni finalità. Se la somma delle chiamate dichiarate dal fruitore sarà sopra la soglia da te impostata, potrai approvare manualmente l'accesso delle nuove finalità alla fruizione del tuo E-Service"
             type="number"
-            value={values.dailyCallsMaxNumber}
-            error={errors.dailyCallsMaxNumber}
+            value={values.dailyCallsPerConsumer}
+            error={errors.dailyCallsPerConsumer}
+            onChange={handleChange}
+            inputProps={{ min: '1' }}
+          />
+
+          <StyledInputControlledText
+            name="dailyCallsTotal"
+            label="Soglia chiamate API/giorno totali (richiesto)"
+            infoLabel="Il numero totale di chiamate al giorno permesse sommando quelle di tutti i fruitori. Se la somma sarà superiore alla soglia da te impostata, potrai approvare manualmente l'accesso delle nuove finalità alla fruizione del tuo E-Service"
+            type="number"
+            value={values.dailyCallsTotal}
+            error={errors.dailyCallsTotal}
             onChange={handleChange}
             inputProps={{ min: '1' }}
           />

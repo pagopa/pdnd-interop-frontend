@@ -21,6 +21,7 @@ import { DownloadList } from './DownloadList'
 import { StyledAccordion } from './StyledAccordion'
 import { StyledLink } from './StyledLink'
 import sortBy from 'lodash/sortBy'
+import { formatThousands } from '../../lib/number-utils'
 
 type EServiceContentInfoProps = {
   data: EServiceReadType
@@ -133,9 +134,15 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
         <Typography component="span">{getFormattedVoucherLifespan()}</Typography>
       </DescriptionBlock>
 
-      <DescriptionBlock label="Soglia chiamate API/giorno">
+      <DescriptionBlock label="Soglia chiamate API/giorno per fruitore">
         <Typography component="span">
-          {activeDescriptor.dailyCallsMaxNumber} chiamate/giorno
+          {formatThousands(activeDescriptor.dailyCallsPerConsumer)} chiamate/giorno
+        </Typography>
+      </DescriptionBlock>
+
+      <DescriptionBlock label="Soglia chiamate API/giorno totali">
+        <Typography component="span">
+          {formatThousands(activeDescriptor.dailyCallsTotal)} chiamate/giorno
         </Typography>
       </DescriptionBlock>
 

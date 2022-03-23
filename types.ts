@@ -309,7 +309,8 @@ export type EServiceDescriptorRead = {
   voucherLifespan: number
   description: string
   audience: Array<string>
-  dailyCallsMaxNumber: number
+  dailyCallsPerConsumer: number
+  dailyCallsTotal: number
 }
 
 export type EServiceDocumentRead = {
