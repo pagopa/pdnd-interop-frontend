@@ -1,7 +1,7 @@
 import React, { Children, FunctionComponent } from 'react'
-import { LoadingWithMessage } from './LoadingWithMessage'
 import { TableContainer, Table, TableBody, TableHead, TableRow, TableCell } from '@mui/material'
 import { Box } from '@mui/system'
+import { LoadingWithMessage } from './LoadingWithMessage'
 
 type TableWithLoaderProps = {
   loadingText: string | null
@@ -30,7 +30,7 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
     <LoadingWithMessage label={loadingText} transparentBackground={true} />
   ) : (
     <TableContainer>
-      <Table sx={{ borderCollapse: 'separate', borderSpacing: '0 0.5rem' }}>
+      <Table>
         <TableHead sx={{ bgcolor: 'background.default' }}>
           <TableRow>
             {headData.map((item, i) => (

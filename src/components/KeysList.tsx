@@ -187,7 +187,7 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
               ]}
             >
               <StyledButton
-                variant="outlined"
+                variant="text"
                 color={color}
                 size="small"
                 onClick={() => {

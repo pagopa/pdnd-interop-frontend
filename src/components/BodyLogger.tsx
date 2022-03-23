@@ -67,7 +67,7 @@ export function BodyLogger() {
             <Header />
             {doesRouteAllowTwoColumnsLayout(location) ? (
               <Box sx={{ flexGrow: 1 }}>
-                <Layout sx={{ height: '100%' }}>
+                <Layout sx={{ height: '100%', overflowX: 'hidden' }}>
                   <Box sx={{ display: 'flex', height: '100%' }}>
                     <MainNav />
                     <Box

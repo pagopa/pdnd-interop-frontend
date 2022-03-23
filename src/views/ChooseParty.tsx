@@ -54,17 +54,7 @@ export function ChooseParty() {
       </StyledIntro>
 
       <Box sx={{ mx: 'auto', maxWidth: 480 }}>
-        <Box
-          sx={{
-            /*
-            borderBottom: 1,
-            borderColor: 'divider',
-            */
-            mb: 1,
-            pb: 3,
-            textAlign: 'center',
-          }}
-        >
+        <Box sx={{ mb: 1, pb: 3, textAlign: 'center' }}>
           {availableParties.length > 0 && (
             <List sx={{ height: 240, overflow: 'auto' }} component="ul">
               {availableParties.map((p, i) => {

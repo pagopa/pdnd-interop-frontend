@@ -178,7 +178,7 @@ export function EServiceCatalog() {
                 ]}
               >
                 <StyledButton
-                  variant="outlined"
+                  variant="text"
                   size="small"
                   onClick={() => {
                     history.push(

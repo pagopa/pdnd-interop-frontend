@@ -2,7 +2,7 @@
 
 exports[`Snapshot matches main page title - h1 1`] = `
 <div
-  className="MuiBox-root css-1qk4flb"
+  className="MuiBox-root css-i3pbo"
 >
   <h1
     className="MuiTypography-root MuiTypography-h1 css-p5tjz8-MuiTypography-root"
@@ -19,7 +19,7 @@ exports[`Snapshot matches main page title - h1 1`] = `
 
 exports[`Snapshot matches paragraph title - h3 1`] = `
 <div
-  className="MuiBox-root css-1qk4flb"
+  className="MuiBox-root css-0"
 >
   <h3
     className="MuiTypography-root MuiTypography-h3 css-1ytmv4v-MuiTypography-root"

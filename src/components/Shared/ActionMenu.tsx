@@ -89,7 +89,7 @@ const ActionMenuComponent: FunctionComponent<ActionMenuProps> = ({
         color={iconColor}
       >
         <span ref={anchorRef}>
-          <MoreVertIcon color="inherit" />
+          <MoreVertIcon color="inherit" fontSize="small" />
         </span>
       </StyledButton>
 

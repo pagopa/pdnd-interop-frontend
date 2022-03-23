@@ -183,7 +183,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
               ]}
             >
               <StyledButton
-                variant="outlined"
+                variant="text"
                 size="small"
                 onClick={() => {
                   history.push(getEditBtnRoute(item))

@@ -244,7 +244,7 @@ export function EServiceList() {
                 ]}
               >
                 <StyledButton
-                  variant="outlined"
+                  variant="text"
                   size="small"
                   onClick={() => {
                     const destPath =

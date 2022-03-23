@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router'
-import { Box } from '@mui/system'
 import { StepperStep } from '../../types'
 import { EServiceCreateStep1General } from '../components/EServiceCreateStep1General'
 import { EServiceCreateStep2Version } from '../components/EServiceCreateStep2Version'
@@ -44,14 +43,14 @@ export function EServiceCreate() {
     : { title: 'Crea E-Service' }
 
   return (
-    <Box sx={{ maxWidth: 860 }}>
+    <React.Fragment>
       <StyledIntro>{intro}</StyledIntro>
-      <StyledStepper steps={STEPS} activeIndex={activeStep} />
       <Grid container>
         <Grid item xs={8}>
+          <StyledStepper steps={STEPS} activeIndex={activeStep} />
           <Step {...stepProps} />
         </Grid>
       </Grid>
-    </Box>
+    </React.Fragment>
   )
 }

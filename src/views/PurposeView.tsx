@@ -400,7 +400,7 @@ export const PurposeView = () => {
               {data?.clients?.map((item, i) => (
                 <StyledTableRow key={i} cellData={[{ label: item.name }]}>
                   <StyledButton
-                    variant="outlined"
+                    variant="text"
                     size="small"
                     onClick={() => {
                       history.push(

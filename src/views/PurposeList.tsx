@@ -233,7 +233,7 @@ export const PurposeList = () => {
                   ]}
                 >
                   <StyledButton
-                    variant="outlined"
+                    variant="text"
                     size="small"
                     onClick={() => {
                       const path =

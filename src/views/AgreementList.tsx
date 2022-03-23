@@ -188,7 +188,7 @@ export function AgreementList() {
                 ]}
               >
                 <StyledButton
-                  variant="outlined"
+                  variant="text"
                   size="small"
                   onClick={() => {
                     history.push(

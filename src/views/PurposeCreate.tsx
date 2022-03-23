@@ -44,9 +44,9 @@ export const PurposeCreate = () => {
             "NB: è possibile creare una nuova finalità solamente se l'ente ha almeno una richiesta di fruizione attiva per un E-Service",
         }}
       </StyledIntro>
-      <StyledStepper steps={STEPS} activeIndex={activeStep} />
       <Grid container>
         <Grid item xs={8}>
+          <StyledStepper steps={STEPS} activeIndex={activeStep} />
           <StyledIntro variant="h2" sx={{ mb: 2, pb: 0 }}>
             {intro}
           </StyledIntro>

@@ -103,8 +103,8 @@ export function EServiceAttributeGroup({
   }
 
   const headData = canRequireVerification
-    ? ['Nome attributo', 'Convalida richiesta']
-    : ['Nome attributo']
+    ? ['Nome attributo', 'Si richiede convalida?', '']
+    : ['Nome attributo', '']
 
   const wrapRemove = (attributes: Array<CatalogAttribute>) => () => {
     remove(attributes)
@@ -119,19 +119,17 @@ export function EServiceAttributeGroup({
       >
         {Boolean(attributesGroup.length > 0) &&
           attributesGroup.map(({ attributes, explicitAttributeVerification }, j) => {
-            const explicitAttributeVerificationLabel =
+            const attributesLabel = { label: attributes.map(({ name }) => name).join(' oppure ') }
+            const explicitAttributeVerificationLabel = {
+              label: explicitAttributeVerification ? 'Sì' : 'No',
+            }
+            const cellData =
               attributeKey === 'verified'
-                ? { label: explicitAttributeVerification ? 'Sì' : 'No' }
-                : { label: '' }
+                ? [attributesLabel, explicitAttributeVerificationLabel]
+                : [attributesLabel]
 
             return (
-              <StyledTableRow
-                key={j}
-                cellData={[
-                  { label: attributes.map(({ name }) => name).join(' oppure ') },
-                  explicitAttributeVerificationLabel,
-                ]}
-              >
+              <StyledTableRow key={j} cellData={cellData}>
                 {!disabled && (
                   <StyledButton onClick={wrapRemove(attributes)}>
                     <DeleteOutlineIcon fontSize="small" color="primary" />
@@ -143,13 +141,18 @@ export function EServiceAttributeGroup({
       </TableWithLoader>
 
       {!disabled && (
-        <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
-          <StyledButton sx={{ mr: 2 }} variant="contained" onClick={openExistingAttributeDialog}>
+        <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+          <StyledButton
+            sx={{ mr: 2 }}
+            size="small"
+            variant="contained"
+            onClick={openExistingAttributeDialog}
+          >
             Aggiungi attributo o gruppo
           </StyledButton>
 
           {canCreateNewAttributes && (
-            <StyledButton variant="outlined" onClick={openCreateNewAttributeDialog}>
+            <StyledButton size="small" variant="outlined" onClick={openCreateNewAttributeDialog}>
               Crea nuovo attributo
             </StyledButton>
           )}

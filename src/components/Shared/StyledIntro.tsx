@@ -17,13 +17,14 @@ type StyledIntroProps = {
 export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
   children,
   variant = 'h1',
-  sx = { mb: 4, pb: 3 },
+  sx = {},
   centered = false,
 }) => {
   const pProps = centered ? { ml: 'auto', mr: 'auto' } : {}
+  const pageTitleSpacing = variant === 'h1' ? { mb: 3 } : {}
 
   return (
-    <Box sx={sx}>
+    <Box sx={{ ...sx, ...pageTitleSpacing }}>
       <Typography variant={variant} color="inherit">
         {children.title}
       </Typography>

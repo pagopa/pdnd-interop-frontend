@@ -120,7 +120,7 @@ const MainNavComponent = ({
     const isSelected = isItemSelected(route)
     const { PATH, LABEL } = route
     return (
-      <StyledLink underline="none" to={PATH}>
+      <StyledLink underline="none" to={PATH} color="text.primary" sx={{ py: 1, display: 'block' }}>
         <ListItemText
           disableTypography
           sx={{ color: 'inherit' }}
@@ -144,7 +144,7 @@ const MainNavComponent = ({
   }
 
   return (
-    <Box sx={{ display: 'block', py: 0.5, boxShadow: 5 }} component="nav">
+    <Box sx={{ display: 'block', py: 3, boxShadow: 5 }} component="nav">
       {shouldRender && (
         <List
           sx={{ width: WIDTH, position: 'sticky', top: 10 }}
@@ -156,7 +156,7 @@ const MainNavComponent = ({
             const isSelected = isItemSelected(item.route)
 
             return !!item.children && Boolean(item.children.length > 0) ? (
-              <Box key={i} color="primary.main">
+              <Box key={i} color="text.primary">
                 <ListItemButton color="inherit" onClick={wrapSetOpenSubmenuId(item.id)}>
                   <ListItemText
                     sx={{ color: 'inherit' }}

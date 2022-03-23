@@ -2,6 +2,7 @@
 
 exports[`Snapshot matches 1`] = `
 <form
+  className="MuiBox-root css-0"
   noValidate={true}
 >
   Form fields
