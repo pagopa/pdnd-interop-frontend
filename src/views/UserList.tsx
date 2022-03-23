@@ -13,7 +13,7 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { USER_STATE_LABEL } from '../config/labels'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { axiosErrorToError } from '../lib/error-utils'
-import { Box, Typography } from '@mui/material'
+import { Alert, Box } from '@mui/material'
 import { isAdmin } from '../lib/auth-utils'
 import { useRoute } from '../hooks/useRoute'
 import { ActionMenu } from '../components/Shared/ActionMenu'
@@ -197,9 +197,9 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
           ))}
       </TableWithLoader>
 
-      <Typography sx={{ mt: 2 }} variant="body2">
+      <Alert sx={{ mt: 1 }} severity="info">
         Se l&rsquo;operatore non è in elenco, in questa fase di test contattaci per aggiungerlo
-      </Typography>
+      </Alert>
     </React.Fragment>
   )
 }
