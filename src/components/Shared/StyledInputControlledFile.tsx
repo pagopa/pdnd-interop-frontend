@@ -57,6 +57,9 @@ export function StyledInputControlledFile({
               py: 1.5,
               position: 'relative',
               borderRadius: 1,
+              '&:hover': {
+                backgroundColor: 'primary.dark',
+              },
             }}
             color="common.white"
             bgcolor="primary.main"
@@ -65,13 +68,13 @@ export function StyledInputControlledFile({
               component="span"
               variant="body2"
               color="common.white"
-              sx={{ fontWeight: 600 }}
+              sx={{ fontWeight: 700 }}
             >
               {label}
             </Typography>
           </Box>
         </Box>
-        <Typography component="span">
+        <Typography component="span" variant="body2">
           File selezionato:{' '}
           <Typography component="span" variant="inherit" sx={{ fontWeight: 700 }} color="text">
             {value ? value.name : 'nessun file selezionato'}

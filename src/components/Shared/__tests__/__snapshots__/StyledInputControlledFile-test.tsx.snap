@@ -24,18 +24,18 @@ exports[`Snapshot matches 1`] = `
         type="file"
       />
       <label
-        className="MuiBox-root css-ih0hcs"
+        className="MuiBox-root css-1dpt169"
         htmlFor="file"
       >
         <span
-          className="MuiTypography-root MuiTypography-body2 css-1p88kj8-MuiTypography-root"
+          className="MuiTypography-root MuiTypography-body2 css-10crab6-MuiTypography-root"
         >
           Test file input
         </span>
       </label>
     </div>
     <span
-      className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+      className="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
     >
       File selezionato:
        
