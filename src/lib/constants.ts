@@ -1,10 +1,8 @@
 import { Lang } from '../../types'
-import { getDevLabels } from './wip-utils'
 
 const isDevelopment = !!(process.env.NODE_ENV === 'development')
 const isProduction = !!(process.env.NODE_ENV === 'production')
 
-export const SHOW_DEV_LABELS = isDevelopment || getDevLabels()
 export const USE_MOCK_SPID_USER = isDevelopment
 export const DISPLAY_LOGS = false // isDevelopment
 
@@ -28,4 +26,4 @@ export const URL_FRAGMENTS: Record<string, Record<Lang, string>> = {
 }
 
 export const DEFAULT_LANG = 'it'
-export const LANGUAGES = [DEFAULT_LANG, 'en']
+export const LANGUAGES = [DEFAULT_LANG, 'en'] as const

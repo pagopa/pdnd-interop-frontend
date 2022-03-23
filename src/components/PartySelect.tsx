@@ -38,7 +38,7 @@ export function PartySelect() {
     <React.Fragment>
       <Box>
         <StyledButton
-          sx={{ color: 'common.white', justifyContent: 'space-between', width: 260 }}
+          sx={{ color: 'text.primary', justifyContent: 'space-between', width: 220, px: 0 }}
           aria-label="party-menu-button"
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}

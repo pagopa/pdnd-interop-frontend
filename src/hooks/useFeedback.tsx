@@ -15,7 +15,6 @@ import {
 import { fetchWithLogs } from '../lib/api-utils'
 import { DialogContext, LoaderContext, TableActionMenuContext, ToastContext } from '../lib/context'
 import { getFetchOutcome } from '../lib/error-utils'
-import { showTempAlert } from '../lib/wip-utils'
 import { DIALOG_CONTENTS } from '../config/dialog'
 import { TOAST_CONTENTS } from '../config/toast'
 
@@ -42,7 +41,6 @@ export type UserFeedbackHOCProps = {
     options: DestinationActionOptions
   ) => Promise<void>
   runActionWithCallback: (request: RequestConfig, options: CallbackActionOptions) => Promise<void>
-  runFakeAction: (actionName: string) => void
   forceRerenderCounter: number
   requestRerender: VoidFunction
   wrapActionInDialog: Promise<void>
@@ -195,12 +193,6 @@ export const useFeedback = () => {
       }
     }
   }
-
-  const runFakeAction = (actionName: string) => {
-    closeDialog()
-    showTempAlert(actionName)
-    setTableActionMenu(null)
-  }
   /*
    * End API calls
    */
@@ -209,7 +201,6 @@ export const useFeedback = () => {
     runAction,
     runActionWithCallback,
     runActionWithDestination,
-    runFakeAction,
     forceRerenderCounter,
     requestRerender,
     showToast,

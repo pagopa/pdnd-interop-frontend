@@ -70,7 +70,7 @@ export function BodyLogger() {
                 <Layout sx={{ height: '100%' }}>
                   <Box sx={{ display: 'flex', height: '100%' }}>
                     <MainNav />
-                    <Box sx={{ py: 10, pl: 4, flexGrow: 1, maxWidth: 1024 }}>
+                    <Box sx={{ pl: 2, py: 2, flexGrow: 1 }}>
                       <Main />
                     </Box>
                   </Box>

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Box } from '@mui/system'
 import { Switch, Redirect, Route, useLocation, useHistory } from 'react-router-dom'
-import { DEFAULT_LANG, SHOW_DEV_LABELS } from '../lib/constants'
+import { DEFAULT_LANG } from '../lib/constants'
 import { LangContext, PartyContext } from '../lib/context'
 import { StyledBreadcrumbs } from './Shared/StyledBreadcrumbs'
 import { AuthGuard } from './AuthGuard'
@@ -36,11 +36,7 @@ export function Main() {
   }, [lang]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Box
-      component="main"
-      sx={{ pt: 1.5, pb: 4 }}
-      className={!SHOW_DEV_LABELS ? ' hideDevLabels' : ''}
-    >
+    <Box component="main">
       {doesRouteAllowTwoColumnsLayout(location) && <StyledBreadcrumbs />}
 
       <Switch>

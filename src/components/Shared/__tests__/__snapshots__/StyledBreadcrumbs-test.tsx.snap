@@ -2,7 +2,7 @@
 
 exports[`Snapshot matches breadcrumbs 1`] = `
 <nav
-  className="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-jibey9-MuiTypography-root-MuiBreadcrumbs-root"
+  className="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-igbs82-MuiTypography-root-MuiBreadcrumbs-root"
 >
   <ol
     className="MuiBreadcrumbs-ol css-4pdmu4-MuiBreadcrumbs-ol"
@@ -11,7 +11,7 @@ exports[`Snapshot matches breadcrumbs 1`] = `
       className="MuiBreadcrumbs-li"
     >
       <a
-        className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-2gylcu-MuiTypography-root-MuiLink-root"
+        className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-19h09cy-MuiTypography-root-MuiLink-root"
         href="/it/erogazione"
         onBlur={[Function]}
         onClick={[Function]}
@@ -41,7 +41,7 @@ exports[`Snapshot matches breadcrumbs 1`] = `
 
 exports[`Snapshot matches breadcrumbs 2`] = `
 <nav
-  className="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-jibey9-MuiTypography-root-MuiBreadcrumbs-root"
+  className="MuiTypography-root MuiTypography-body1 MuiBreadcrumbs-root css-igbs82-MuiTypography-root-MuiBreadcrumbs-root"
 >
   <ol
     className="MuiBreadcrumbs-ol css-4pdmu4-MuiBreadcrumbs-ol"
@@ -50,7 +50,7 @@ exports[`Snapshot matches breadcrumbs 2`] = `
       className="MuiBreadcrumbs-li"
     >
       <a
-        className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-2gylcu-MuiTypography-root-MuiLink-root"
+        className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-19h09cy-MuiTypography-root-MuiLink-root"
         href="/it/erogazione"
         onBlur={[Function]}
         onClick={[Function]}
@@ -69,7 +69,7 @@ exports[`Snapshot matches breadcrumbs 2`] = `
       className="MuiBreadcrumbs-li"
     >
       <a
-        className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-2gylcu-MuiTypography-root-MuiLink-root"
+        className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-19h09cy-MuiTypography-root-MuiLink-root"
         href="/it/erogazione/e-service"
         onBlur={[Function]}
         onClick={[Function]}

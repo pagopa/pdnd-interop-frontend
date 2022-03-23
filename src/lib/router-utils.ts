@@ -200,5 +200,5 @@ export function getDecoratedRoutes(): Record<Lang, Record<string, MappedRouteCon
     const mapped = mapRoutesToLang(BASIC_ROUTES, l)
     const decorated = decorateRouteWithParents(mapped)
     return { ...acc, [l]: decorated }
-  }, {})
+  }, {}) as Record<Lang, Record<string, MappedRouteConfig>>
 }

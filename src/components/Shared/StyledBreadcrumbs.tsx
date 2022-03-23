@@ -41,7 +41,7 @@ export function StyledBreadcrumbs() {
   }
 
   return (
-    <Breadcrumbs sx={{ mb: 5 }}>
+    <Breadcrumbs sx={{ mb: 0 }}>
       {links.map(({ label, path }, i) => {
         if (i === links.length - 1) {
           return (
@@ -51,7 +51,7 @@ export function StyledBreadcrumbs() {
           )
         }
         return (
-          <StyledLink key={i} to={path} sx={{ fontWeight: 700 }}>
+          <StyledLink key={i} to={path} sx={{ fontWeight: 700 }} color="text.primary">
             {label}
           </StyledLink>
         )
