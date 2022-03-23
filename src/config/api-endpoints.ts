@@ -23,7 +23,7 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
   },
   ESERVICE_DRAFT_UPDATE: {
     URL: 'catalog-process/0.0/eservices/:eserviceId',
-    METHOD: 'POST',
+    METHOD: 'PUT',
   },
   ESERVICE_DRAFT_DELETE: {
     URL: 'catalog-process/0.0/eservices/:eserviceId',
