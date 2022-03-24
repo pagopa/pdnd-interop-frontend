@@ -124,13 +124,13 @@ const MainNavComponent = ({
         component={StyledLink}
         underline="none"
         to={PATH}
-        color={isSelected ? 'primary.main' : 'text.primary'}
         sx={{
           py: 2,
           display: 'block',
           borderRight: 2,
           borderColor: isSelected ? 'primary.main' : 'common.white',
           backgroundColor: isSelected ? 'rgba(0, 115, 230, 0.08)' : 'transparent',
+          color: isSelected ? 'primary.main' : 'text.primary',
         }}
       >
         <ListItemText
