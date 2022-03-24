@@ -111,7 +111,7 @@ export function EServiceManage() {
     return <NotFound errorType="server-error" />
   }
 
-  const headData = ['Nome finalità', 'Stima di carico', 'Data di completamento']
+  const headData = ['Nome finalità', 'Stima di carico', 'Data di completamento', '']
 
   return (
     <React.Fragment>

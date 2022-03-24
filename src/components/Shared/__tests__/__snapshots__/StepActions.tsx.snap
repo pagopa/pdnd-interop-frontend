@@ -9,7 +9,7 @@ Array [
     className="MuiBox-root css-114y1d0"
   >
     <button
-      className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-15hz626-MuiButtonBase-root-MuiButton-root"
+      className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-1s5vo3j-MuiButtonBase-root-MuiButton-root"
       disabled={false}
       onBlur={[Function]}
       onContextMenu={[Function]}
@@ -68,7 +68,7 @@ Array [
     className="MuiBox-root css-114y1d0"
   >
     <button
-      className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-15hz626-MuiButtonBase-root-MuiButton-root"
+      className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-1s5vo3j-MuiButtonBase-root-MuiButton-root"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}

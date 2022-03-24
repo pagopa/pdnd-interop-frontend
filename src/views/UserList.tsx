@@ -143,7 +143,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
     return buildDynamicPath(subscriberRoute, { clientId, operatorId: item.relationshipId })
   }
 
-  const headData = ['Nome e cognome', 'Stato']
+  const headData = ['Nome e cognome', 'Stato', '']
 
   return (
     <React.Fragment>
@@ -197,9 +197,11 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
           ))}
       </TableWithLoader>
 
-      <Alert sx={{ mt: 1 }} severity="info">
-        Se l&rsquo;operatore non è in elenco, in questa fase di test contattaci per aggiungerlo
-      </Alert>
+      {mode === 'provider' && (
+        <Alert sx={{ mt: 1 }} severity="info">
+          Se l&rsquo;operatore non è in elenco, in questa fase di test contattaci per aggiungerlo
+        </Alert>
+      )}
     </React.Fragment>
   )
 }

@@ -8,7 +8,7 @@ import { StyledLink } from '../components/Shared/StyledLink'
 import { useRoute } from '../hooks/useRoute'
 import { ClientList } from './ClientList'
 import { URL_INTEROP_M2M_INTERFACE_DOCUMENT } from '../lib/constants'
-import { DownloadList } from '../components/Shared/DownloadList'
+import { ResourceList } from '../components/Shared/ResourceList'
 
 export function InteropM2M() {
   const { activeTab, updateActiveTab } = useActiveTab('details')
@@ -28,7 +28,6 @@ export function InteropM2M() {
         <TabList
           onChange={updateActiveTab}
           aria-label="Due tab diverse per i dettagli dell'interop m2m ed i client associati"
-          sx={{ my: 6 }}
           variant="fullWidth"
         >
           <Tab label="Dettagli" value="details" />
@@ -36,14 +35,15 @@ export function InteropM2M() {
         </TabList>
 
         <TabPanel value="details">
-          <DescriptionBlock label="Download">
-            <DownloadList
-              downloads={[
+          <DescriptionBlock label="Risorse">
+            <ResourceList
+              resources={[
                 {
-                  label: 'Scarica il file OpenAPI',
+                  label: 'Specifica OpenAPI',
                   onClick: () => {
                     window.location.assign(URL_INTEROP_M2M_INTERFACE_DOCUMENT)
                   },
+                  type: 'externalLink',
                 },
               ]}
             />

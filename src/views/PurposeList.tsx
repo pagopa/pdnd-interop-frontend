@@ -188,7 +188,7 @@ export const PurposeList = () => {
     return availableActions[status] || []
   }
 
-  const headData = ['Nome finalità', 'E-Service', 'Ente erogatore', 'Stato']
+  const headData = ['Nome finalità', 'E-Service', 'Ente erogatore', 'Stato', '']
 
   return (
     <React.Fragment>

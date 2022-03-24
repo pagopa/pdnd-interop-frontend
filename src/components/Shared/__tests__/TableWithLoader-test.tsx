@@ -15,7 +15,7 @@ type ExampleDatum = {
   surname: string
   id: string
 }
-const headData = ['Nome', 'Cognome']
+const headData = ['Nome', 'Cognome', '']
 const rawData: Array<ExampleDatum> = [
   { name: 'Mario', surname: 'Rossi', id: 'rejsedf3-re4k-rew2-eoer' },
   { name: 'Teresa', surname: 'Verdi', id: 'dosf0i23-jkds-32jd-23rj' },

@@ -20,6 +20,7 @@ import { StyledLink } from '../components/Shared/StyledLink'
 import { InlineClipboard } from '../components/Shared/InlineClipboard'
 import { getComputedClientAssertionState } from '../lib/client'
 import { URL_INTEROP_M2M } from '../lib/constants'
+import { InfoMessage } from '../components/Shared/InfoMessage'
 
 export function ClientEdit() {
   const { routes } = useRoute()
@@ -50,14 +51,11 @@ export function ClientEdit() {
 
   return (
     <React.Fragment>
-      <StyledIntro sx={{ mb: 0 }}>
-        {{ title: data.name, description: data.description }}
-      </StyledIntro>
+      <StyledIntro>{{ title: data.name, description: data.description }}</StyledIntro>
       <TabContext value={activeTab}>
         <TabList
           onChange={updateActiveTab}
           aria-label="Due tab diverse per i dettagli del client e gli operatori di sicurezza"
-          sx={{ my: 6 }}
           variant="fullWidth"
         >
           <Tab label="Client assertion" value="clientAssertion" />
@@ -77,7 +75,7 @@ export function ClientEdit() {
 
           {clientKind === 'CONSUMER' ? (
             Boolean(data.purposes.length > 0) ? (
-              <DescriptionBlock sx={{ my: 0 }} label="Client assertion disponibili">
+              <DescriptionBlock sx={{ mt: 3, mb: 0 }} label="Client assertion disponibili">
                 <StyledAccordion
                   entries={data.purposes.map((p) => {
                     return {
@@ -92,25 +90,32 @@ export function ClientEdit() {
                       details: (
                         <React.Fragment>
                           <DescriptionBlock sx={{ mb: 4 }} label="Id del client">
-                            <Typography>sub – subject – clientId</Typography>
                             <InlineClipboard
                               text={data.id}
                               successFeedbackText="Id copiato correttamente"
                             />
+                            <InfoMessage
+                              sx={{ mt: 1 }}
+                              label="Rappresenta il sub (subject) e il clientId nel JWT"
+                            />
                           </DescriptionBlock>
 
                           <DescriptionBlock sx={{ mb: 4 }} label="Id della finalità">
-                            <Typography>purposeId</Typography>
                             <InlineClipboard
                               text={p.purposeId}
                               successFeedbackText="Id copiato correttamente"
                             />
+                            <InfoMessage sx={{ mt: 1 }} label="Rappresenta il purposeId nel JWT" />
                           </DescriptionBlock>
 
                           <DescriptionBlock sx={{ mb: 4 }} label="Audience">
                             <InlineClipboard
                               text="test.interop.pagopa.it"
                               successFeedbackText="Id copiato correttamente"
+                            />
+                            <InfoMessage
+                              sx={{ mt: 1 }}
+                              label="Rappresenta l'aud (audience) nel JWT"
                             />
                           </DescriptionBlock>
 

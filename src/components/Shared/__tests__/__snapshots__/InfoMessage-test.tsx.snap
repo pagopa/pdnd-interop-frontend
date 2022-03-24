@@ -2,7 +2,7 @@
 
 exports[`Snapshot matches 1`] = `
 <div
-  className="MuiBox-root css-4juikq"
+  className="MuiBox-root css-1v15ha9"
 >
   <svg
     aria-hidden={true}
@@ -16,7 +16,7 @@ exports[`Snapshot matches 1`] = `
     />
   </svg>
   <span
-    className="MuiTypography-root MuiTypography-caption css-1sn4lm3-MuiTypography-root"
+    className="MuiTypography-root MuiTypography-caption css-ffdaoj-MuiTypography-root"
   >
     This is my message
   </span>

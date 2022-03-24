@@ -8,11 +8,11 @@ type InfoMessageProps = {
   sx?: SxProps
 }
 
-export function InfoMessage({ label, sx = { mt: 1 } }: InfoMessageProps) {
+export function InfoMessage({ label, sx = {} }: InfoMessageProps) {
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', ...sx }}>
-      <InfoOutlinedIcon sx={{ fontSize: 18, mr: 1 }} />
-      <Typography component="span" variant="caption">
+    <Box sx={{ display: 'flex', alignItems: 'center', ...sx, color: 'text.secondary' }}>
+      <InfoOutlinedIcon sx={{ fontSize: 18, mr: 1 }} color="inherit" />
+      <Typography component="span" variant="caption" color="inherit">
         {label}
       </Typography>
     </Box>

@@ -75,6 +75,13 @@ exports[`Snapshot matches table with single action button 1`] = `
         >
           Cognome
         </th>
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+          scope="col"
+        >
+          
+        </th>
       </tr>
     </thead>
     <tbody
@@ -217,6 +224,13 @@ exports[`Snapshot matches table with single action button and action list button
           scope="col"
         >
           Cognome
+        </th>
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+          scope="col"
+        >
+          
         </th>
       </tr>
     </thead>
@@ -444,6 +458,13 @@ exports[`Snapshot matches table without actions 1`] = `
           scope="col"
         >
           Cognome
+        </th>
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+          scope="col"
+        >
+          
         </th>
       </tr>
     </thead>

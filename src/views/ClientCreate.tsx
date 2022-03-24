@@ -17,6 +17,8 @@ import { useClientKind } from '../hooks/useClientKind'
 import { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import { fetchAllWithLogs } from '../lib/api-utils'
+import { Divider, Grid, Paper } from '@mui/material'
+import { PageBottomActions } from '../components/Shared/PageBottomActions'
 
 type ClientFields = {
   name: string
@@ -100,7 +102,7 @@ export function ClientCreate() {
     formik.setFieldValue('operators', filteredOperators, false)
   }
 
-  const headData = ['Nome e cognome']
+  const headData = ['Nome e cognome', '']
 
   return (
     <React.Fragment>
@@ -112,75 +114,82 @@ export function ClientCreate() {
         }}
       </StyledIntro>
 
-      <StyledForm onSubmit={formik.handleSubmit}>
-        <Box sx={{ mb: 12 }}>
-          <StyledIntro sx={{ mb: 2, pb: 0 }} variant="h2">
-            {{ title: 'Informazioni generali' }}
-          </StyledIntro>
+      <Grid container>
+        <Grid item xs={8}>
+          <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
+            <StyledForm onSubmit={formik.handleSubmit}>
+              <StyledIntro sx={{ mb: 2, pb: 0 }} variant="h2">
+                {{ title: 'Informazioni generali' }}
+              </StyledIntro>
 
-          <StyledInputControlledText
-            focusOnMount={true}
-            name="name"
-            label="Nome del client (richiesto)"
-            infoLabel="Ti aiuta a distinguerlo dagli altri"
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            error={formik.errors.name}
-          />
+              <StyledInputControlledText
+                focusOnMount={true}
+                name="name"
+                label="Nome del client (richiesto)"
+                infoLabel="Ti aiuta a distinguerlo dagli altri"
+                value={formik.values.name}
+                onChange={formik.handleChange}
+                error={formik.errors.name}
+              />
 
-          <StyledInputControlledText
-            name="description"
-            label="Descrizione del client (richiesto)"
-            value={formik.values.description}
-            onChange={formik.handleChange}
-            error={formik.errors.description}
-            multiline={true}
-          />
-        </Box>
+              <StyledInputControlledText
+                name="description"
+                label="Descrizione del client (richiesto)"
+                value={formik.values.description}
+                onChange={formik.handleChange}
+                error={formik.errors.description}
+                multiline={true}
+              />
 
-        <Box sx={{ mb: 12 }}>
-          <StyledIntro sx={{ mb: 2, pb: 0 }} variant="h2">
-            {{ title: 'Operatori di sicurezza' }}
-          </StyledIntro>
+              <Divider />
 
-          <TableWithLoader
-            loadingText={null}
-            headData={headData}
-            noDataLabel="Nessun operatore aggiunto"
-          >
-            {Boolean(formik.values.operators.length > 0) &&
-              formik.values.operators.map((user, i) => (
-                <StyledTableRow key={i} cellData={[{ label: `${user.name} ${user.surname}` }]}>
-                  <StyledButton onClick={wrapRemoveOperator(user.id)}>
-                    <DeleteOutlineIcon fontSize="small" sx={{ mr: 1 }} color="primary" />
-                  </StyledButton>
-                </StyledTableRow>
-              ))}
-          </TableWithLoader>
-          <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
-            <StyledButton
-              sx={{ mr: 2 }}
-              variant="contained"
-              size="small"
-              onClick={openAddOperatoDialog}
-            >
-              + Aggiungi
-            </StyledButton>
-            {/* <StyledButton variant="outlined" onClick={openCreateOperatoDialog}>
+              <StyledIntro sx={{ mt: 8, mb: 4 }} variant="h2">
+                {{ title: 'Operatori di sicurezza' }}
+              </StyledIntro>
+
+              <TableWithLoader
+                loadingText={null}
+                headData={headData}
+                noDataLabel="Nessun operatore aggiunto"
+              >
+                {Boolean(formik.values.operators.length > 0) &&
+                  formik.values.operators.map((user, i) => (
+                    <StyledTableRow key={i} cellData={[{ label: `${user.name} ${user.surname}` }]}>
+                      <StyledButton onClick={wrapRemoveOperator(user.id)}>
+                        <DeleteOutlineIcon fontSize="small" color="primary" />
+                      </StyledButton>
+                    </StyledTableRow>
+                  ))}
+              </TableWithLoader>
+
+              <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
+                <StyledButton
+                  sx={{ mr: 2 }}
+                  variant="contained"
+                  size="small"
+                  onClick={openAddOperatoDialog}
+                >
+                  + Aggiungi
+                </StyledButton>
+                {/* <StyledButton variant="outlined" onClick={openCreateOperatoDialog}>
               Crea nuovo operatore
             </StyledButton> */}
-          </Box>
-        </Box>
+              </Box>
 
-        <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
-          <StyledButton sx={{ mr: 2 }} variant="contained" type="submit">
-            Crea client
-          </StyledButton>
-          <StyledButton variant="text" to={routes.SUBSCRIBE_CLIENT_LIST.PATH}>
-            Torna alla lista dei client
-          </StyledButton>
-        </Box>
-      </StyledForm>
+              <Divider />
+
+              <PageBottomActions>
+                <StyledButton variant="contained" type="submit">
+                  Crea client
+                </StyledButton>
+                <StyledButton variant="text" to={routes.SUBSCRIBE_CLIENT_LIST.PATH}>
+                  Torna alla lista dei client
+                </StyledButton>
+              </PageBottomActions>
+            </StyledForm>
+          </Paper>
+        </Grid>
+      </Grid>
     </React.Fragment>
   )
 }

@@ -31,7 +31,7 @@ import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { formatDateString } from '../lib/date-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { DialogContext } from '../lib/context'
-// import { DownloadList } from '../components/Shared/DownloadList'
+// import { ResourceList } from '../components/Shared/ResourceList'
 import { useActiveTab } from '../hooks/useActiveTab'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { useRoute } from '../hooks/useRoute'
@@ -269,7 +269,7 @@ export const PurposeView = () => {
     setDialog({ type: 'addClients', exclude: data?.clients || [], onSubmit: addClients })
   }
 
-  const headData = ['Nome client']
+  const headData = ['Nome client', '']
 
   return (
     <React.Fragment>
@@ -341,8 +341,8 @@ export const PurposeView = () => {
           </DescriptionBlock>
 
           {/* TEMP PIN-1139 and PIN-1178 */}
-          {/* <DescriptionBlock label="Download">
-            <DownloadList
+          {/* <DescriptionBlock label="Risorse">
+            <ResourceList
               downloads={[
                 {
                   label: 'Analisi del rischio',

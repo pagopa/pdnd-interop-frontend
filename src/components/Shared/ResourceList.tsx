@@ -1,23 +1,32 @@
 import React, { FunctionComponent } from 'react'
 import { Box } from '@mui/system'
 import { StyledButton } from './StyledButton'
-import { FileDownloadOutlined as FileDownloadOutlinedIcon } from '@mui/icons-material'
+import {
+  FileDownloadOutlined as FileDownloadOutlinedIcon,
+  Launch as LaunchIcon,
+} from '@mui/icons-material'
 import { Grid, Typography } from '@mui/material'
 
-type Download = {
+type Resource = {
   label: string
   description?: string
   onClick: VoidFunction
+  type?: 'download' | 'externalLink'
 }
 
-type DownloadListProps = {
-  downloads: Array<Download>
+type ResourceListProps = {
+  resources: Array<Resource>
 }
 
-export const DownloadList: FunctionComponent<DownloadListProps> = ({ downloads }) => {
+export const ResourceList: FunctionComponent<ResourceListProps> = ({ resources }) => {
   return (
     <Grid container columnSpacing={1} rowSpacing={1} alignItems="stretch">
-      {downloads.map((d, i) => {
+      {resources.map(({ label, description, onClick, type = 'download' }, i) => {
+        const Icon = {
+          download: FileDownloadOutlinedIcon,
+          externalLink: LaunchIcon,
+        }[type]
+
         return (
           <Grid item xs={6} key={i}>
             <StyledButton
@@ -31,21 +40,21 @@ export const DownloadList: FunctionComponent<DownloadListProps> = ({ downloads }
                 height: '100%',
                 bgcolor: 'background.paper',
               }}
-              onClick={d.onClick}
+              onClick={onClick}
               color="inherit"
             >
               <Box component="span" sx={{ display: 'inline', pr: 3 }}>
                 <Typography sx={{ fontWeight: 600 }} component="span">
-                  {d.label}
+                  {label}
                 </Typography>
-                {d.description && (
+                {description && (
                   <React.Fragment>
                     <br />
-                    <Typography component="span">{d.description}</Typography>
+                    <Typography component="span">{description}</Typography>
                   </React.Fragment>
                 )}
               </Box>
-              <FileDownloadOutlinedIcon fontSize="medium" color="primary" />
+              <Icon fontSize="medium" color="primary" />
             </StyledButton>
           </Grid>
         )

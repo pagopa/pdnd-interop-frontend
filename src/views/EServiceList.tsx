@@ -206,7 +206,7 @@ export function EServiceList() {
   }
 
   // Data for the table head
-  const headData = ['Nome E-Service', 'Versione', 'Stato E-Service']
+  const headData = ['Nome E-Service', 'Versione', 'Stato E-Service', '']
 
   return (
     <React.Fragment>

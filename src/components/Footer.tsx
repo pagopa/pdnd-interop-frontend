@@ -39,8 +39,9 @@ export function Footer() {
               to={href}
               underline="none"
               color="inherit"
-              sx={{ display: 'inline-block', mr: 2, py: 2 }}
+              sx={{ display: 'inline-block', mr: 2 }}
               variant="caption"
+              fontWeight="700"
             >
               {label}
             </StyledLink>
