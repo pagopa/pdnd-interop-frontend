@@ -175,7 +175,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
         </StyledIntro>
         <Box sx={{ display: 'flex', mt: 3 }}>
           <StyledButton
-            sx={{ mr: 3 }}
+            sx={{ mr: 2 }}
             variant="contained"
             onClick={wrapActionInDialog(publishVersion, 'ESERVICE_VERSION_DRAFT_PUBLISH')}
           >

@@ -22,6 +22,8 @@ import { useHistory } from 'react-router-dom'
 import { buildDynamicPath } from '../lib/router-utils'
 import { decoratePurposeWithMostRecentVersion, getPurposeFromUrl } from '../lib/purpose'
 import { useRoute } from '../hooks/useRoute'
+import { Paper } from '@mui/material'
+import { StyledIntro } from './Shared/StyledIntro'
 
 type PurposeCreate = {
   title: string
@@ -192,55 +194,59 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
   })
 
   return (
-    <StyledForm onSubmit={formik.handleSubmit}>
-      <StyledInputControlledText
-        name="title"
-        label="Nome della finalità (richiesto)"
-        infoLabel="Ti aiuterà a distinguerla dalle altre"
-        error={formik.errors.title}
-        value={formik.values.title}
-        onChange={formik.handleChange}
-        focusOnMount={true}
-      />
+    <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
+      <StyledIntro variant="h2">{{ title: 'Informazioni generali' }}</StyledIntro>
 
-      <StyledInputControlledText
-        name="description"
-        label="Descrizione della finalità (richiesto)"
-        error={formik.errors.description}
-        value={formik.values.description}
-        onChange={formik.handleChange}
-        multiline={true}
-      />
+      <StyledForm onSubmit={formik.handleSubmit}>
+        <StyledInputControlledText
+          name="title"
+          label="Nome della finalità (richiesto)"
+          infoLabel="Ti aiuterà a distinguerla dalle altre"
+          error={formik.errors.title}
+          value={formik.values.title}
+          onChange={formik.handleChange}
+          focusOnMount={true}
+        />
 
-      <StyledInputControlledSelect
-        name="eserviceId"
-        label="E-Service da associare (richiesto)"
-        error={formik.errors.eserviceId}
-        value={formik.values.eserviceId}
-        onChange={formik.handleChange}
-        options={eserviceData}
-        emptyLabel="Nessun E-Service associabile"
-      />
+        <StyledInputControlledText
+          name="description"
+          label="Descrizione della finalità (richiesto)"
+          error={formik.errors.description}
+          value={formik.values.description}
+          onChange={formik.handleChange}
+          multiline={true}
+        />
 
-      <StyledInputControlledText
-        name="dailyCalls"
-        label="Numero di chiamate API/giorno (richiesto)"
-        infoLabel="Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'E-Service"
-        type="number"
-        error={formik.errors.dailyCalls}
-        value={formik.values.dailyCalls}
-        onChange={formik.handleChange}
-        inputProps={{ min: '1' }}
-      />
+        <StyledInputControlledSelect
+          name="eserviceId"
+          label="E-Service da associare (richiesto)"
+          error={formik.errors.eserviceId}
+          value={formik.values.eserviceId}
+          onChange={formik.handleChange}
+          options={eserviceData}
+          emptyLabel="Nessun E-Service associabile"
+        />
 
-      <StepActions
-        back={{
-          label: 'Torna alle finalità',
-          type: 'link',
-          to: routes.SUBSCRIBE_PURPOSE_LIST.PATH,
-        }}
-        forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
-      />
-    </StyledForm>
+        <StyledInputControlledText
+          name="dailyCalls"
+          label="Numero di chiamate API/giorno (richiesto)"
+          infoLabel="Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'E-Service"
+          type="number"
+          error={formik.errors.dailyCalls}
+          value={formik.values.dailyCalls}
+          onChange={formik.handleChange}
+          inputProps={{ min: '1' }}
+        />
+
+        <StepActions
+          back={{
+            label: 'Torna alle finalità',
+            type: 'link',
+            to: routes.SUBSCRIBE_PURPOSE_LIST.PATH,
+          }}
+          forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
+        />
+      </StyledForm>
+    </Paper>
   )
 }

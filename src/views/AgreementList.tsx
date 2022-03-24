@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { AGREEMENT_STATE_LABEL } from '../config/labels'
-import { Box } from '@mui/system'
 import {
   AgreementState,
   AgreementSummary,
@@ -24,6 +23,7 @@ import { ActionMenu } from '../components/Shared/ActionMenu'
 import { useHistory } from 'react-router-dom'
 import { axiosErrorToError } from '../lib/error-utils'
 import { useRoute } from '../hooks/useRoute'
+import { PageTopFilters } from '../components/Shared/PageTopFilters'
 
 export function AgreementList() {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -167,50 +167,48 @@ export function AgreementList() {
     <React.Fragment>
       <StyledIntro>{INTRO[currentMode]}</StyledIntro>
 
-      <Box sx={{ mt: 4 }}>
+      <PageTopFilters>
         <TempFilters />
+      </PageTopFilters>
 
-        <TableWithLoader
-          loadingText={loadingText}
-          headData={headData}
-          noDataLabel="Non ci sono richieste disponibili"
-          error={axiosErrorToError(error)}
-        >
-          {data &&
-            Boolean(data.length > 0) &&
-            data.map((item, i) => (
-              <StyledTableRow
-                key={i}
-                cellData={[
-                  { label: item.eservice.name },
-                  { label: mode === 'provider' ? item.consumer.name : item.producer.name },
-                  { label: AGREEMENT_STATE_LABEL[item.state] },
-                ]}
-              >
-                <StyledButton
-                  variant="text"
-                  size="small"
-                  onClick={() => {
-                    history.push(
-                      buildDynamicPath(
-                        routes[
-                          mode === 'provider'
-                            ? 'PROVIDE_AGREEMENT_EDIT'
-                            : 'SUBSCRIBE_AGREEMENT_EDIT'
-                        ].PATH,
-                        { agreementId: item.id }
-                      )
+      <TableWithLoader
+        loadingText={loadingText}
+        headData={headData}
+        noDataLabel="Non ci sono richieste disponibili"
+        error={axiosErrorToError(error)}
+      >
+        {data &&
+          Boolean(data.length > 0) &&
+          data.map((item, i) => (
+            <StyledTableRow
+              key={i}
+              cellData={[
+                { label: item.eservice.name },
+                { label: mode === 'provider' ? item.consumer.name : item.producer.name },
+                { label: AGREEMENT_STATE_LABEL[item.state] },
+              ]}
+            >
+              <StyledButton
+                variant="text"
+                size="small"
+                onClick={() => {
+                  history.push(
+                    buildDynamicPath(
+                      routes[
+                        mode === 'provider' ? 'PROVIDE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_EDIT'
+                      ].PATH,
+                      { agreementId: item.id }
                     )
-                  }}
-                >
-                  Ispeziona
-                </StyledButton>
+                  )
+                }}
+              >
+                Ispeziona
+              </StyledButton>
 
-                <ActionMenu actions={getAvailableActions(item)} />
-              </StyledTableRow>
-            ))}
-        </TableWithLoader>
-      </Box>
+              <ActionMenu actions={getAvailableActions(item)} />
+            </StyledTableRow>
+          ))}
+      </TableWithLoader>
     </React.Fragment>
   )
 }

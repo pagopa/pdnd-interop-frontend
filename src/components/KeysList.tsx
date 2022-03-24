@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useContext } from 'react'
-import { Box } from '@mui/system'
 import { AxiosResponse } from 'axios'
 import { useHistory, useLocation } from 'react-router-dom'
 import { object, string } from 'yup'
@@ -27,6 +26,8 @@ import { formatDateString } from '../lib/date-utils'
 import { StyledTooltip } from './Shared/StyledTooltip'
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
 import { isKeyOrphan } from '../lib/key-utils'
+import { PageTopFilters } from './Shared/PageTopFilters'
+import { TempFilters } from './TempFilters'
 
 type KeyToPostProps = SecurityOperatorKeysFormInputValues & {
   use: 'SIG'
@@ -152,13 +153,14 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
 
   return (
     <React.Fragment>
-      {party?.productInfo.role === 'security' && (
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
+      <PageTopFilters>
+        <TempFilters />
+        {party?.productInfo.role === 'security' && (
           <StyledButton variant="contained" size="small" onClick={openUploadKeyDialog}>
             + Aggiungi
           </StyledButton>
-        </Box>
-      )}
+        )}
+      </PageTopFilters>
 
       <TableWithLoader
         loadingText={loadingText}

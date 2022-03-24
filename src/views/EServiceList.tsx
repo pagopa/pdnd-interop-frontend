@@ -16,13 +16,13 @@ import { TempFilters } from '../components/TempFilters'
 import { AxiosResponse } from 'axios'
 import { buildDynamicPath } from '../lib/router-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { Box } from '@mui/system'
 import { ESERVICE_STATE_LABEL } from '../config/labels'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { axiosErrorToError } from '../lib/error-utils'
 import { URL_FRAGMENTS } from '../lib/constants'
 import { useRoute } from '../hooks/useRoute'
+import { PageTopFilters } from '../components/Shared/PageTopFilters'
 
 export function EServiceList() {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -217,13 +217,12 @@ export function EServiceList() {
         }}
       </StyledIntro>
 
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', my: 3 }}>
+      <PageTopFilters>
+        <TempFilters />
         <StyledButton variant="contained" size="small" to={routes.PROVIDE_ESERVICE_CREATE.PATH}>
           + Aggiungi
         </StyledButton>
-      </Box>
-
-      <TempFilters />
+      </PageTopFilters>
 
       <TableWithLoader
         loadingText={loadingText}

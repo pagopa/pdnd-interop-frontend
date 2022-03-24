@@ -75,7 +75,7 @@ const ActionMenuComponent: FunctionComponent<ActionMenuProps> = ({
 
   if (!Boolean(actions.length > 0)) {
     // Used to keep the buttons visually aligned in case there is no ActionMenu
-    return <Box component="span" sx={{ width: 75, display: 'inline-block' }} />
+    return <Box component="span" sx={{ width: 70, display: 'inline-block' }} />
   }
 
   return (

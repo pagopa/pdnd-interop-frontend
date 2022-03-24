@@ -13,11 +13,12 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { USER_STATE_LABEL } from '../config/labels'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { axiosErrorToError } from '../lib/error-utils'
-import { Alert, Box } from '@mui/material'
+import { Alert } from '@mui/material'
 import { isAdmin } from '../lib/auth-utils'
 import { useRoute } from '../hooks/useRoute'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { fetchAllWithLogs } from '../lib/api-utils'
+import { PageTopFilters } from '../components/Shared/PageTopFilters'
 
 type UserListProps = {
   clientKind?: ClientKind
@@ -156,15 +157,14 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
         </StyledIntro>
       )}
 
-      {isAdmin(party) && mode === 'subscriber' && (
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
+      <PageTopFilters>
+        <TempFilters />
+        {isAdmin(party) && mode === 'subscriber' && (
           <StyledButton variant="contained" size="small" onClick={openAddOperatoDialog}>
             + Aggiungi
           </StyledButton>
-        </Box>
-      )}
-
-      <TempFilters />
+        )}
+      </PageTopFilters>
 
       <TableWithLoader
         loadingText={loadingText}
