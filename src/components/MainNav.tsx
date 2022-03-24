@@ -120,26 +120,29 @@ const MainNavComponent = ({
     const isSelected = isItemSelected(route)
     const { PATH, LABEL } = route
     return (
-      <StyledLink underline="none" to={PATH} color="text.primary" sx={{ py: 1, display: 'block' }}>
+      <ListItemButton
+        component={StyledLink}
+        underline="none"
+        to={PATH}
+        color={isSelected ? 'primary.main' : 'text.primary'}
+        sx={{
+          py: 2,
+          display: 'block',
+          borderRight: 2,
+          borderColor: isSelected ? 'primary.main' : 'common.white',
+        }}
+        bgcolor={isSelected ? 'rgba(0, 115, 230, 0.08)' : 'transparent'}
+      >
         <ListItemText
           disableTypography
           sx={{ color: 'inherit' }}
           primary={
-            <Typography
-              color="inherit"
-              sx={{
-                borderRight: 2,
-                fontWeight: isSelected ? 600 : 300,
-                borderColor: isSelected ? 'text.primary' : 'common.white',
-                px: 2,
-                py: 1,
-              }}
-            >
+            <Typography color="inherit" sx={{ fontWeight: isSelected ? 600 : 300, pl: 4 }}>
               {LABEL}
             </Typography>
           }
         />
-      </StyledLink>
+      </ListItemButton>
     )
   }
 
@@ -156,7 +159,7 @@ const MainNavComponent = ({
             const isSelected = isItemSelected(item.route)
 
             return !!item.children && Boolean(item.children.length > 0) ? (
-              <Box key={i} color="text.primary">
+              <Box key={i} color={isSelected ? 'primary.main' : 'text.primary'}>
                 <ListItemButton color="inherit" onClick={wrapSetOpenSubmenuId(item.id)}>
                   <ListItemText
                     sx={{ color: 'inherit' }}
@@ -171,7 +174,7 @@ const MainNavComponent = ({
                 </ListItemButton>
 
                 <Collapse in={isSubmenuOpen} timeout="auto" unmountOnExit>
-                  <List disablePadding sx={{ width: WIDTH, pl: 2 }}>
+                  <List disablePadding sx={{ width: WIDTH }}>
                     {(item.children as Array<MappedRouteConfig>).map((child, j) => (
                       <ListItem sx={{ display: 'block', p: 0 }} key={j}>
                         <WrappedLink route={child} />
