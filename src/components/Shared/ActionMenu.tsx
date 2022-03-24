@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useContext, useRef, useState } from 'react'
 import { MoreVert as MoreVertIcon } from '@mui/icons-material'
-import { StyledButton } from './StyledButton'
 import { Menu, MenuItem } from '@mui/material'
 import { ActionProps, ExtendedMUIColor } from '../../../types'
 import { TableActionMenuContext } from '../../lib/context'
 import { Box } from '@mui/system'
+import { ButtonNaked } from '@pagopa/mui-italia'
 
 type ActionMenuProps = {
   // The list of actions to display in the menu
@@ -75,23 +75,23 @@ const ActionMenuComponent: FunctionComponent<ActionMenuProps> = ({
 
   if (!Boolean(actions.length > 0)) {
     // Used to keep the buttons visually aligned in case there is no ActionMenu
-    return <Box component="span" sx={{ width: 70, display: 'inline-block' }} />
+    return <Box component="span" sx={{ width: 23, display: 'inline-block' }} />
   }
 
   return (
     <React.Fragment>
-      <StyledButton
+      <ButtonNaked
         id={anchorId}
         aria-controls={menuId}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        color={iconColor}
+        sx={{ display: 'inline-flex' }}
       >
-        <span ref={anchorRef}>
-          <MoreVertIcon color="inherit" fontSize="small" />
+        <span ref={anchorRef} style={{ display: 'flex' }}>
+          <MoreVertIcon color={iconColor} fontSize="small" />
         </span>
-      </StyledButton>
+      </ButtonNaked>
 
       <Menu
         id={menuId}

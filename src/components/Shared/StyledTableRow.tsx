@@ -22,18 +22,12 @@ export const StyledTableRow: FunctionComponent<StyledTableRowProps> = ({ cellDat
   return (
     <TableRow sx={{ bgcolor: 'common.white' }}>
       {cellData.map((cell, i) => {
-        const firstCell = i === 0
-
         return (
           <TableCell key={i} sx={{ py: 2 }}>
             {'chipLabel' in cell ? (
               <Chip label={cell.chipLabel} color={cell.color} />
             ) : (
-              <Typography
-                component="span"
-                sx={{ fontWeight: firstCell ? 600 : 300, display: 'inline-block' }}
-                variant={firstCell ? 'body2' : 'caption'}
-              >
+              <Typography component="span" sx={{ display: 'inline-block' }} variant="body2">
                 {cell.label}
                 {cell.tooltip}
               </Typography>

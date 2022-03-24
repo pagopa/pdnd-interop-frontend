@@ -28,6 +28,7 @@ import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
 import { isKeyOrphan } from '../lib/key-utils'
 import { PageTopFilters } from './Shared/PageTopFilters'
 import { TempFilters } from './TempFilters'
+import { Box } from '@mui/system'
 
 type KeyToPostProps = SecurityOperatorKeysFormInputValues & {
   use: 'SIG'
@@ -189,9 +190,9 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
               ]}
             >
               <StyledButton
-                variant="text"
-                color={color}
                 size="small"
+                variant="outlined"
+                sx={{ display: 'inline-flex' }}
                 onClick={() => {
                   history.push(
                     buildDynamicPath(
@@ -209,7 +210,9 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
                 Ispeziona
               </StyledButton>
 
-              <ActionMenu actions={getAvailableActions(key)} iconColor={color} />
+              <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+                <ActionMenu actions={getAvailableActions(key)} iconColor={color} />
+              </Box>
             </StyledTableRow>
           )
         })}

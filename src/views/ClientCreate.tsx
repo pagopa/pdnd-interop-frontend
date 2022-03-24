@@ -19,6 +19,7 @@ import { useHistory } from 'react-router-dom'
 import { fetchAllWithLogs } from '../lib/api-utils'
 import { Divider, Grid, Paper } from '@mui/material'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
+import { ButtonNaked } from '@pagopa/mui-italia'
 
 type ClientFields = {
   name: string
@@ -155,20 +156,15 @@ export function ClientCreate() {
                 {Boolean(formik.values.operators.length > 0) &&
                   formik.values.operators.map((user, i) => (
                     <StyledTableRow key={i} cellData={[{ label: `${user.name} ${user.surname}` }]}>
-                      <StyledButton onClick={wrapRemoveOperator(user.id)}>
+                      <ButtonNaked onClick={wrapRemoveOperator(user.id)}>
                         <DeleteOutlineIcon fontSize="small" color="primary" />
-                      </StyledButton>
+                      </ButtonNaked>
                     </StyledTableRow>
                   ))}
               </TableWithLoader>
 
               <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
-                <StyledButton
-                  sx={{ mr: 2 }}
-                  variant="contained"
-                  size="small"
-                  onClick={openAddOperatoDialog}
-                >
+                <StyledButton variant="contained" size="small" onClick={openAddOperatoDialog}>
                   + Aggiungi
                 </StyledButton>
                 {/* <StyledButton variant="outlined" onClick={openCreateOperatoDialog}>

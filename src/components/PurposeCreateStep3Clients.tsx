@@ -16,6 +16,7 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useRoute } from '../hooks/useRoute'
 import { decoratePurposeWithMostRecentVersion, getPurposeFromUrl } from '../lib/purpose'
 import { TOAST_CONTENTS } from '../config/toast'
+import { ButtonNaked } from '@pagopa/mui-italia'
 
 export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ back }) => {
   const history = useHistory()
@@ -129,9 +130,9 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
           {Boolean(clientsData.length > 0) &&
             clientsData.map((client, i) => (
               <StyledTableRow key={i} cellData={[{ label: client.name }]}>
-                <StyledButton onClick={wrapRemove(client)}>
-                  <DeleteOutlineIcon fontSize="small" sx={{ mr: 1 }} color="primary" />
-                </StyledButton>
+                <ButtonNaked onClick={wrapRemove(client)}>
+                  <DeleteOutlineIcon fontSize="small" color="primary" />
+                </ButtonNaked>
               </StyledTableRow>
             ))}
         </TableWithLoader>
@@ -153,7 +154,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
               'Hai inserito tutte le informazioni per questa finalità? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra',
           }}
         </StyledIntro>
-        <Box sx={{ display: 'flex', mt: 2 }}>
+        <Box sx={{ display: 'flex', mt: 3 }}>
           <StyledButton
             sx={{ mr: 2 }}
             variant="contained"

@@ -37,6 +37,7 @@ import { ActionMenu } from '../components/Shared/ActionMenu'
 import { useRoute } from '../hooks/useRoute'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { PageTopFilters } from '../components/Shared/PageTopFilters'
+import { Box } from '@mui/system'
 // import { axiosErrorToError } from '../lib/error-utils'
 
 export const PurposeView = () => {
@@ -395,7 +396,7 @@ export const PurposeView = () => {
             {data?.clients?.map((item, i) => (
               <StyledTableRow key={i} cellData={[{ label: item.name }]}>
                 <StyledButton
-                  variant="text"
+                  variant="outlined"
                   size="small"
                   onClick={() => {
                     history.push(
@@ -406,7 +407,9 @@ export const PurposeView = () => {
                   Ispeziona
                 </StyledButton>
 
-                <ActionMenu actions={getClientAvailableActions(item)} />
+                <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+                  <ActionMenu actions={getClientAvailableActions(item)} />
+                </Box>
               </StyledTableRow>
             ))}
           </TableWithLoader>

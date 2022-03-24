@@ -24,6 +24,7 @@ import { useHistory } from 'react-router-dom'
 import { axiosErrorToError } from '../lib/error-utils'
 import { useRoute } from '../hooks/useRoute'
 import { PageTopFilters } from '../components/Shared/PageTopFilters'
+import { Box } from '@mui/material'
 
 export function AgreementList() {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -190,7 +191,7 @@ export function AgreementList() {
               ]}
             >
               <StyledButton
-                variant="text"
+                variant="outlined"
                 size="small"
                 onClick={() => {
                   history.push(
@@ -206,7 +207,9 @@ export function AgreementList() {
                 Ispeziona
               </StyledButton>
 
-              <ActionMenu actions={getAvailableActions(item)} />
+              <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+                <ActionMenu actions={getAvailableActions(item)} />
+              </Box>
             </StyledTableRow>
           ))}
       </TableWithLoader>

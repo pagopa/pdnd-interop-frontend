@@ -23,6 +23,7 @@ import { decoratePurposeWithMostRecentVersion } from '../lib/purpose'
 import { buildDynamicPath } from '../lib/router-utils'
 import { AxiosResponse } from 'axios'
 import { PageTopFilters } from '../components/Shared/PageTopFilters'
+import { Box } from '@mui/system'
 // import { axiosErrorToError } from '../lib/error-utils'
 
 export const PurposeList = () => {
@@ -231,7 +232,7 @@ export const PurposeList = () => {
                 ]}
               >
                 <StyledButton
-                  variant="text"
+                  variant="outlined"
                   size="small"
                   onClick={() => {
                     const path =
@@ -245,7 +246,9 @@ export const PurposeList = () => {
                   {item.currentVersion.state === 'DRAFT' ? 'Modifica' : 'Ispeziona'}
                 </StyledButton>
 
-                <ActionMenu actions={getAvailableActions(item)} />
+                <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+                  <ActionMenu actions={getAvailableActions(item)} />
+                </Box>
               </StyledTableRow>
             )
           })}

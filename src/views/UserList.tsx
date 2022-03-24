@@ -13,7 +13,7 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { USER_STATE_LABEL } from '../config/labels'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { axiosErrorToError } from '../lib/error-utils'
-import { Alert } from '@mui/material'
+import { Alert, Box } from '@mui/material'
 import { isAdmin } from '../lib/auth-utils'
 import { useRoute } from '../hooks/useRoute'
 import { ActionMenu } from '../components/Shared/ActionMenu'
@@ -183,7 +183,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
               ]}
             >
               <StyledButton
-                variant="text"
+                variant="outlined"
                 size="small"
                 onClick={() => {
                   history.push(getEditBtnRoute(item))
@@ -192,7 +192,9 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
                 Ispeziona
               </StyledButton>
 
-              <ActionMenu actions={getAvailableActions(item)} />
+              <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+                <ActionMenu actions={getAvailableActions(item)} />
+              </Box>
             </StyledTableRow>
           ))}
       </TableWithLoader>

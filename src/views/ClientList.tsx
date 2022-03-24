@@ -15,6 +15,7 @@ import { axiosErrorToError } from '../lib/error-utils'
 import { useRoute } from '../hooks/useRoute'
 import { useFeedback } from '../hooks/useFeedback'
 import { PageTopFilters } from '../components/Shared/PageTopFilters'
+import { Box } from '@mui/material'
 
 type ClientListProps = {
   clientKind?: ClientKind
@@ -104,7 +105,7 @@ export const ClientList: FunctionComponent<ClientListProps> = ({ clientKind = 'C
           data.map((item, i) => (
             <StyledTableRow key={i} cellData={[{ label: item.name }]}>
               <StyledButton
-                variant="text"
+                variant="outlined"
                 size="small"
                 onClick={() => {
                   history.push(buildDynamicPath(editPath, { clientId: item.id }))
@@ -113,7 +114,9 @@ export const ClientList: FunctionComponent<ClientListProps> = ({ clientKind = 'C
                 Ispeziona
               </StyledButton>
 
-              <ActionMenu actions={getAvailableActions(item)} />
+              <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+                <ActionMenu actions={getAvailableActions(item)} />
+              </Box>
             </StyledTableRow>
           ))}
       </TableWithLoader>

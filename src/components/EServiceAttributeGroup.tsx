@@ -16,6 +16,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { useCloseDialog } from '../hooks/useCloseDialog'
 import { StyledTableRow } from './Shared/StyledTableRow'
 import { DeleteOutline as DeleteOutlineIcon } from '@mui/icons-material'
+import { ButtonNaked } from '@pagopa/mui-italia'
 
 type EServiceAttributeGroupProps = {
   attributesGroup: Array<FrontendAttribute>
@@ -131,9 +132,9 @@ export function EServiceAttributeGroup({
             return (
               <StyledTableRow key={j} cellData={cellData}>
                 {!disabled && (
-                  <StyledButton onClick={wrapRemove(attributes)}>
+                  <ButtonNaked onClick={wrapRemove(attributes)}>
                     <DeleteOutlineIcon fontSize="small" color="primary" />
-                  </StyledButton>
+                  </ButtonNaked>
                 )}
               </StyledTableRow>
             )

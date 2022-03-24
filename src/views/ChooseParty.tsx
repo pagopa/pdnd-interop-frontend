@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import isEmpty from 'lodash/isEmpty'
 import { useHistory } from 'react-router-dom'
-import { Chip, List, ListItem, Typography } from '@mui/material'
+import { Chip, List, ListItem, Paper, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { Party } from '../../types'
 import { STORAGE_PARTY_OBJECT } from '../lib/constants'
@@ -54,54 +54,56 @@ export function ChooseParty() {
       </StyledIntro>
 
       <Box sx={{ mx: 'auto', maxWidth: 480 }}>
-        <Box sx={{ mb: 1, pb: 3, textAlign: 'center' }}>
+        <Box sx={{ mb: 4, textAlign: 'center' }}>
           {availableParties.length > 0 && (
-            <List sx={{ height: 240, overflow: 'auto' }} component="ul">
-              {availableParties.map((p, i) => {
-                const disabled = p.state === 'PENDING'
-                const selected = p.institutionId === party?.institutionId
-                return (
-                  <ListItem key={i} sx={{ mb: 1, position: 'relative' }} disablePadding={true}>
-                    <StyledButton
-                      sx={{
-                        width: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'flex-start',
-                        border: 2,
-                        borderColor: selected ? 'primary.main' : 'common.white',
-                        backgroundColor: selected ? 'rgba(0, 115, 230, 0.08)' : undefined,
-                        mx: 2,
-                        px: 2,
-                        py: 5,
-                        opacity: disabled ? 0.5 : 1,
-                        boxShadow: 2,
-                        borderRadius: 0,
-                      }}
-                      disabled={disabled}
-                      onClick={wrapUpdateActiveParty(p.institutionId)}
-                    >
-                      <Typography
-                        component="span"
-                        color={disabled ? 'text' : 'primary'}
-                        variant="body2"
-                        sx={{ fontWeight: 700, display: 'block', mb: 0.5 }}
+            <Paper variant="outlined">
+              <List sx={{ maxHeight: 240, overflow: 'auto' }} component="ul">
+                {availableParties.map((p, i) => {
+                  const disabled = p.state === 'PENDING'
+                  const selected = p.institutionId === party?.institutionId
+                  return (
+                    <ListItem key={i} sx={{ my: 1, position: 'relative' }} disablePadding={true}>
+                      <StyledButton
+                        sx={{
+                          width: '100%',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'flex-start',
+                          border: 2,
+                          borderColor: selected ? 'primary.main' : 'common.white',
+                          backgroundColor: selected ? 'rgba(0, 115, 230, 0.08)' : undefined,
+                          mx: 2,
+                          px: 2,
+                          py: 5,
+                          opacity: disabled ? 0.5 : 1,
+                          boxShadow: 2,
+                          borderRadius: 0,
+                        }}
+                        disabled={disabled}
+                        onClick={wrapUpdateActiveParty(p.institutionId)}
                       >
-                        {p.description}
-                      </Typography>
-                      <Typography component="span" color="text" variant="caption">
-                        {USER_ROLE_LABEL[p.role]}
-                      </Typography>
-                    </StyledButton>
-                    {p.state === 'PENDING' && (
-                      <Box sx={{ position: 'absolute', right: 20, top: 12 }}>
-                        <Chip label="Da completare" color="primary" size="small" />
-                      </Box>
-                    )}
-                  </ListItem>
-                )
-              })}
-            </List>
+                        <Typography
+                          component="span"
+                          color={disabled ? 'text' : 'primary'}
+                          variant="body2"
+                          sx={{ fontWeight: 700, display: 'block', mb: 0.5 }}
+                        >
+                          {p.description}
+                        </Typography>
+                        <Typography component="span" color="text" variant="caption">
+                          {USER_ROLE_LABEL[p.role]}
+                        </Typography>
+                      </StyledButton>
+                      {p.state === 'PENDING' && (
+                        <Box sx={{ position: 'absolute', right: 20, top: 12 }}>
+                          <Chip label="Da completare" color="primary" size="small" />
+                        </Box>
+                      )}
+                    </ListItem>
+                  )
+                })}
+              </List>
+            </Paper>
           )}
 
           <StyledButton

@@ -1,5 +1,14 @@
 import React, { Children, FunctionComponent } from 'react'
-import { TableContainer, Table, TableBody, TableHead, TableRow, TableCell } from '@mui/material'
+import {
+  TableContainer,
+  Table,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableCell,
+  Grid,
+  Alert,
+} from '@mui/material'
 import { Box } from '@mui/system'
 import { LoadingWithMessage } from './LoadingWithMessage'
 
@@ -8,6 +17,7 @@ type TableWithLoaderProps = {
   noDataLabel?: string
   error?: Error
   headData: Array<string>
+  viewType?: 'table' | 'grid'
 }
 
 export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
@@ -15,6 +25,7 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
   noDataLabel = 'Questa ricerca non ha prodotto risultati',
   error,
   headData,
+  viewType = 'table',
   children,
 }) => {
   if (error) {
@@ -26,9 +37,11 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
     )
   }
 
-  return loadingText ? (
-    <LoadingWithMessage label={loadingText} transparentBackground={true} />
-  ) : (
+  if (loadingText) {
+    return <LoadingWithMessage label={loadingText} transparentBackground={true} />
+  }
+
+  return viewType === 'table' ? (
     <TableContainer>
       <Table>
         <TableHead sx={{ bgcolor: 'background.default' }}>
@@ -43,11 +56,27 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
             children
           ) : (
             <TableRow>
-              <TableCell colSpan={headData.length}>{noDataLabel}</TableCell>
+              <TableCell colSpan={headData.length}>
+                <Alert severity="info">{noDataLabel}</Alert>
+              </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
     </TableContainer>
+  ) : (
+    <Grid container columnSpacing={2} rowSpacing={2} alignItems="stretch">
+      {children && Children.count(children) > 0 ? (
+        Children.map(children, (c, i) => (
+          <Grid item xs={4} key={i}>
+            {c}
+          </Grid>
+        ))
+      ) : (
+        <Grid item xs={12}>
+          <Alert severity="info">{noDataLabel}</Alert>
+        </Grid>
+      )}
+    </Grid>
   )
 }

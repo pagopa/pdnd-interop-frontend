@@ -23,6 +23,7 @@ import { axiosErrorToError } from '../lib/error-utils'
 import { URL_FRAGMENTS } from '../lib/constants'
 import { useRoute } from '../hooks/useRoute'
 import { PageTopFilters } from '../components/Shared/PageTopFilters'
+import { Box } from '@mui/material'
 
 export function EServiceList() {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -242,7 +243,7 @@ export function EServiceList() {
               ]}
             >
               <StyledButton
-                variant="text"
+                variant="outlined"
                 size="small"
                 onClick={() => {
                   const destPath =
@@ -261,7 +262,9 @@ export function EServiceList() {
                 {!item.state || item.state === 'DRAFT' ? 'Modifica' : 'Ispeziona'}
               </StyledButton>
 
-              <ActionMenu actions={getAvailableActions(item)} />
+              <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+                <ActionMenu actions={getAvailableActions(item)} />
+              </Box>
             </StyledTableRow>
           ))}
       </TableWithLoader>
