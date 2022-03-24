@@ -130,7 +130,7 @@ const MainNavComponent = ({
               sx={{
                 borderRight: 2,
                 fontWeight: isSelected ? 600 : 300,
-                borderColor: isSelected ? 'primary.main' : 'common.white',
+                borderColor: isSelected ? 'text.primary' : 'common.white',
                 px: 2,
                 py: 1,
               }}

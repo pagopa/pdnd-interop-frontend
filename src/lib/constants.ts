@@ -27,3 +27,5 @@ export const URL_FRAGMENTS: Record<string, Record<Lang, string>> = {
 
 export const DEFAULT_LANG = 'it'
 export const LANGUAGES = [DEFAULT_LANG, 'en'] as const
+
+export const TEMP_LANGUAGES = [DEFAULT_LANG] as const

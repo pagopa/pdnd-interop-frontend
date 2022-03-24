@@ -55,6 +55,7 @@ export function InteropM2M() {
             <StyledLink to={routes.CLIENT_ASSERTION_GUIDE.PATH}> consulta la guida</StyledLink>.
           </Typography>
         </TabPanel>
+
         <TabPanel value="clients">
           <ClientList clientKind="API" />
         </TabPanel>

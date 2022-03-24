@@ -7,7 +7,7 @@ import { StyledButton } from './Shared/StyledButton'
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material'
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from '@mui/icons-material'
 import { LANGUAGE_LABEL } from '../config/labels'
-import { LANGUAGES } from '../lib/constants'
+import { TEMP_LANGUAGES } from '../lib/constants'
 
 export function LangSelect() {
   const { lang, setLang } = useContext(LangContext)
@@ -66,14 +66,14 @@ export function LangSelect() {
             <KeyboardArrowDownIcon fontSize="small" />
           )}
         </StyledButton>
-        {Boolean(LANGUAGES.length > 0) && (
+        {Boolean(TEMP_LANGUAGES.length > 0) && (
           <Menu
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}
             MenuListProps={{ 'aria-labelledby': 'lang-menu-button' }}
           >
-            {LANGUAGES.map((l, i) => {
+            {TEMP_LANGUAGES.map((l, i) => {
               return (
                 <MenuItem key={i} onClick={wrapUpdateActiveLang(l)} sx={{ display: 'block' }}>
                   <Typography component="span" variant="caption" sx={{ fontWeight: 700 }}>
