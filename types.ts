@@ -439,7 +439,7 @@ export type Purpose = {
     descriptor: Pick<
       EServiceDescriptorRead,
       // TEMP PIN-1194
-      'id' | 'version' /* | 'dailyCallsMaxNumber' */ | 'state'
+      'id' | 'version' | 'state'
     > & { dailyCalls: number }
   }
   agreement: Pick<AgreementSummary, 'id' | 'state'>

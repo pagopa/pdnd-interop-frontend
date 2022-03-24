@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useContext } from 'react'
-import { Box } from '@mui/system'
 import { AxiosResponse } from 'axios'
 import { useHistory, useLocation } from 'react-router-dom'
 import { object, string } from 'yup'
@@ -27,6 +26,9 @@ import { formatDateString } from '../lib/date-utils'
 import { StyledTooltip } from './Shared/StyledTooltip'
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
 import { isKeyOrphan } from '../lib/key-utils'
+import { PageTopFilters } from './Shared/PageTopFilters'
+import { TempFilters } from './TempFilters'
+import { Box } from '@mui/system'
 
 type KeyToPostProps = SecurityOperatorKeysFormInputValues & {
   use: 'SIG'
@@ -145,20 +147,21 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
     })
   }
 
-  const headData = ['nome della chiave', 'data di creazione', 'caricata da']
+  const headData = ['Nome della chiave', 'Data di creazione', 'Caricata da', '']
 
   const fetchError =
     error && error.response && error.response.status !== 404 ? axiosErrorToError(error) : undefined
 
   return (
     <React.Fragment>
-      {party?.productInfo.role === 'security' && (
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-          <StyledButton variant="contained" onClick={openUploadKeyDialog}>
+      <PageTopFilters>
+        <TempFilters />
+        {party?.productInfo.role === 'security' && (
+          <StyledButton variant="contained" size="small" onClick={openUploadKeyDialog}>
             + Aggiungi
           </StyledButton>
-        </Box>
-      )}
+        )}
+      </PageTopFilters>
 
       <TableWithLoader
         loadingText={loadingText}
@@ -187,9 +190,9 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
               ]}
             >
               <StyledButton
-                variant="outlined"
-                color={color}
                 size="small"
+                variant="outlined"
+                sx={{ display: 'inline-flex' }}
                 onClick={() => {
                   history.push(
                     buildDynamicPath(
@@ -207,7 +210,9 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
                 Ispeziona
               </StyledButton>
 
-              <ActionMenu actions={getAvailableActions(key)} iconColor={color} />
+              <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+                <ActionMenu actions={getAvailableActions(key)} iconColor={color} />
+              </Box>
             </StyledTableRow>
           )
         })}

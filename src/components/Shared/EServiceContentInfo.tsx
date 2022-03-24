@@ -17,7 +17,7 @@ import { minutesToHoursMinutes } from '../../lib/date-utils'
 import { downloadFile } from '../../lib/file-utils'
 import { buildDynamicPath } from '../../lib/router-utils'
 import { DescriptionBlock } from '../DescriptionBlock'
-import { DownloadList } from './DownloadList'
+import { ResourceList } from './ResourceList'
 import { StyledAccordion } from './StyledAccordion'
 import { StyledLink } from './StyledLink'
 import sortBy from 'lodash/sortBy'
@@ -158,9 +158,9 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
         </DescriptionBlock>
       ))}
 
-      <DescriptionBlock label="Download">
-        <DownloadList
-          downloads={[
+      <DescriptionBlock label="Risorse">
+        <ResourceList
+          resources={[
             // TEMP PIN-1095 and PIN-1105
             // {
             //   label: 'Richiesta di fruizione',
@@ -198,11 +198,11 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
                     >
                       Versione {d.version}
                     </StyledLink>{' '}
-                    <Chip label={state} />
+                    <Chip size="small" label={state} />
                   </Box>
                 ) : (
                   <Typography component="span">
-                    Versione {d.version} <Chip label={state} color="primary" />
+                    Versione {d.version} <Chip size="small" label={state} color="primary" />
                   </Typography>
                 )}
               </Box>

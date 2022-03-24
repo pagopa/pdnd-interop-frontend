@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Box } from '@mui/system'
 import { number, object } from 'yup'
 import {
   ActionProps,
@@ -23,6 +22,8 @@ import { DialogContext, PartyContext } from '../lib/context'
 import { decoratePurposeWithMostRecentVersion } from '../lib/purpose'
 import { buildDynamicPath } from '../lib/router-utils'
 import { AxiosResponse } from 'axios'
+import { PageTopFilters } from '../components/Shared/PageTopFilters'
+import { Box } from '@mui/system'
 // import { axiosErrorToError } from '../lib/error-utils'
 
 export const PurposeList = () => {
@@ -188,7 +189,7 @@ export const PurposeList = () => {
     return availableActions[status] || []
   }
 
-  const headData = ['nome finalità', 'e-service', 'ente erogatore', 'stato']
+  const headData = ['Nome finalità', 'E-Service', 'Ente erogatore', 'Stato', '']
 
   return (
     <React.Fragment>
@@ -199,60 +200,59 @@ export const PurposeList = () => {
         }}
       </StyledIntro>
 
-      <Box sx={{ mt: 4 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-          <StyledButton variant="contained" to={routes.SUBSCRIBE_PURPOSE_CREATE.PATH}>
-            + Aggiungi
-          </StyledButton>
-        </Box>
-
+      <PageTopFilters>
         <TempFilters />
+        <StyledButton variant="contained" size="small" to={routes.SUBSCRIBE_PURPOSE_CREATE.PATH}>
+          + Aggiungi
+        </StyledButton>
+      </PageTopFilters>
 
-        <TableWithLoader
-          loadingText={loadingText}
-          headData={headData}
-          noDataLabel="Non sono state create finalità"
-          // error={axiosErrorToError(error)}
-        >
-          {data &&
-            Boolean(data.length > 0) &&
-            data.map((item, i) => {
-              const purposeStateLabel = PURPOSE_STATE_LABEL[item.currentVersion.state]
-              return (
-                <StyledTableRow
-                  key={i}
-                  cellData={[
-                    { label: item.title },
-                    { label: item.eservice.name },
-                    { label: item.eservice.producer.name },
-                    {
-                      label: item.awaitingApproval
-                        ? `${purposeStateLabel}, in aggiornamento`
-                        : purposeStateLabel,
-                    },
-                  ]}
+      <TableWithLoader
+        loadingText={loadingText}
+        headData={headData}
+        noDataLabel="Non sono state create finalità"
+        // error={axiosErrorToError(error)}
+      >
+        {data &&
+          Boolean(data.length > 0) &&
+          data.map((item, i) => {
+            const purposeStateLabel = PURPOSE_STATE_LABEL[item.currentVersion.state]
+            return (
+              <StyledTableRow
+                key={i}
+                cellData={[
+                  { label: item.title },
+                  { label: item.eservice.name },
+                  { label: item.eservice.producer.name },
+                  {
+                    label: item.awaitingApproval
+                      ? `${purposeStateLabel}, in aggiornamento`
+                      : purposeStateLabel,
+                  },
+                ]}
+              >
+                <StyledButton
+                  variant="outlined"
+                  size="small"
+                  onClick={() => {
+                    const path =
+                      item.currentVersion.state === 'DRAFT'
+                        ? routes.SUBSCRIBE_PURPOSE_EDIT.PATH
+                        : routes.SUBSCRIBE_PURPOSE_VIEW.PATH
+
+                    history.push(buildDynamicPath(path, { purposeId: item.id }))
+                  }}
                 >
-                  <StyledButton
-                    variant="outlined"
-                    size="small"
-                    onClick={() => {
-                      const path =
-                        item.currentVersion.state === 'DRAFT'
-                          ? routes.SUBSCRIBE_PURPOSE_EDIT.PATH
-                          : routes.SUBSCRIBE_PURPOSE_VIEW.PATH
+                  {item.currentVersion.state === 'DRAFT' ? 'Modifica' : 'Ispeziona'}
+                </StyledButton>
 
-                      history.push(buildDynamicPath(path, { purposeId: item.id }))
-                    }}
-                  >
-                    {item.currentVersion.state === 'DRAFT' ? 'Modifica' : 'Ispeziona'}
-                  </StyledButton>
-
+                <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
                   <ActionMenu actions={getAvailableActions(item)} />
-                </StyledTableRow>
-              )
-            })}
-        </TableWithLoader>
-      </Box>
+                </Box>
+              </StyledTableRow>
+            )
+          })}
+      </TableWithLoader>
     </React.Fragment>
   )
 }

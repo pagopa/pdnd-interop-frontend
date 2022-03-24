@@ -2,6 +2,7 @@ import React from 'react'
 import { Box } from '@mui/system'
 import { StyledButton } from './StyledButton'
 import { StyledLink } from './StyledLink'
+import { Divider } from '@mui/material'
 
 type ActionButton = {
   label: string
@@ -34,14 +35,17 @@ export function StepActions({ back, forward }: StepActionsProps) {
     back.type === 'link' ? { component: StyledLink, to: back.to } : { onClick: back.onClick }
 
   return (
-    <Box sx={{ mt: 12, pt: 4, display: 'flex', borderTop: 1, borderColor: '#bdbdbd' }}>
-      <StyledButton variant="contained" sx={{ mr: 3 }} {...forwardProps}>
-        {forward.label}
-      </StyledButton>
+    <React.Fragment>
+      <Divider />
+      <Box sx={{ display: 'flex', mt: 8 }}>
+        <StyledButton variant="contained" sx={{ mr: 2 }} {...forwardProps}>
+          {forward.label}
+        </StyledButton>
 
-      <StyledButton variant="outlined" {...backProps}>
-        {back.label}
-      </StyledButton>
-    </Box>
+        <StyledButton variant="outlined" {...backProps}>
+          {back.label}
+        </StyledButton>
+      </Box>
+    </React.Fragment>
   )
 }

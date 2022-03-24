@@ -16,6 +16,7 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useRoute } from '../hooks/useRoute'
 import { decoratePurposeWithMostRecentVersion, getPurposeFromUrl } from '../lib/purpose'
 import { TOAST_CONTENTS } from '../config/toast'
+import { ButtonNaked } from '@pagopa/mui-italia'
 
 export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ back }) => {
   const history = useHistory()
@@ -112,30 +113,40 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
     setDialog({ type: 'addClients', exclude: clientsData, onSubmit: addClients })
   }
 
-  const headData = ['nome client']
+  const headData = ['Nome client', '']
 
   return (
     <React.Fragment>
-      <TableWithLoader loadingText={null} headData={headData} noDataLabel="Nessun client associato">
-        {Boolean(clientsData.length > 0) &&
-          clientsData.map((client, i) => (
-            <StyledTableRow key={i} cellData={[{ label: client.name }]}>
-              <StyledButton onClick={wrapRemove(client)}>
-                <DeleteOutlineIcon fontSize="small" sx={{ mr: 1 }} color="primary" />
-              </StyledButton>
-            </StyledTableRow>
-          ))}
-      </TableWithLoader>
-      <StyledButton sx={{ mt: 2 }} variant="contained" onClick={showClientsDialog}>
-        + Aggiungi
-      </StyledButton>
+      <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
+        <StyledIntro variant="h2" sx={{ mb: 4 }}>
+          {{ title: 'Associazione client' }}
+        </StyledIntro>
 
-      <StepActions
-        back={{ label: 'Indietro', type: 'button', onClick: back }}
-        forward={{ label: 'Salva e torna alle finalità', type: 'button', onClick: goToList }}
-      />
+        <TableWithLoader
+          loadingText={null}
+          headData={headData}
+          noDataLabel="Nessun client associato"
+        >
+          {Boolean(clientsData.length > 0) &&
+            clientsData.map((client, i) => (
+              <StyledTableRow key={i} cellData={[{ label: client.name }]}>
+                <ButtonNaked onClick={wrapRemove(client)}>
+                  <DeleteOutlineIcon fontSize="small" color="primary" />
+                </ButtonNaked>
+              </StyledTableRow>
+            ))}
+        </TableWithLoader>
+        <StyledButton sx={{ my: 2 }} variant="contained" size="small" onClick={showClientsDialog}>
+          + Aggiungi
+        </StyledButton>
 
-      <Paper sx={{ px: 3, py: 4, mt: 12 }} variant="outlined">
+        <StepActions
+          back={{ label: 'Indietro', type: 'button', onClick: back }}
+          forward={{ label: 'Salva e torna alle finalità', type: 'button', onClick: goToList }}
+        />
+      </Paper>
+
+      <Paper sx={{ p: 3, mt: 2 }}>
         <StyledIntro variant="h2">
           {{
             title: 'Azioni rapide di pubblicazione',
@@ -143,9 +154,9 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
               'Hai inserito tutte le informazioni per questa finalità? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra',
           }}
         </StyledIntro>
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex', mt: 3 }}>
           <StyledButton
-            sx={{ mr: 3 }}
+            sx={{ mr: 2 }}
             variant="contained"
             onClick={wrapActionInDialog(publishVersion, 'PURPOSE_VERSION_ACTIVATE')}
           >

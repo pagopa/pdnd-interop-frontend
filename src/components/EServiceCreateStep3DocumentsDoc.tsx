@@ -92,8 +92,8 @@ export function EServiceCreateStep3DocumentsDoc({
   const readDocsArray = toArray(readDocs)
 
   return (
-    <React.Fragment>
-      <Box sx={{ mt: 6, mb: 4 }}>
+    <Box sx={{ mb: 3 }}>
+      <Box sx={{ mb: 3 }}>
         {Boolean(readDocsArray.length > 0) ? (
           readDocsArray.map((readDoc, i) => {
             const activeDescriptor = data.activeDescriptor as EServiceDescriptorRead
@@ -108,7 +108,9 @@ export function EServiceCreateStep3DocumentsDoc({
             )
           })
         ) : (
-          <Typography fontWeight={700}>Nessun documento caricato</Typography>
+          <Box bgcolor="background.default" sx={{ px: 2, py: 2 }}>
+            <Typography>Nessun documento caricato</Typography>
+          </Box>
         )}
       </Box>
 
@@ -157,10 +159,10 @@ export function EServiceCreateStep3DocumentsDoc({
           </Formik>
         </Box>
       ) : (
-        <StyledButton variant="contained" onClick={showFileInputForm}>
+        <StyledButton variant="contained" size="small" onClick={showFileInputForm}>
           + Aggiungi
         </StyledButton>
       )}
-    </React.Fragment>
+    </Box>
   )
 }

@@ -28,6 +28,7 @@ import { useRoute } from '../hooks/useRoute'
 import { StyledAccordion } from '../components/Shared/StyledAccordion'
 import { formatDateString } from '../lib/date-utils'
 import { InfoMessage } from '../components/Shared/InfoMessage'
+import { PageBottomActions } from '../components/Shared/PageBottomActions'
 
 export function AgreementEdit() {
   const { runAction, runActionWithDestination, forceRerenderCounter, wrapActionInDialog } =
@@ -232,7 +233,7 @@ export function AgreementEdit() {
             'single' in backendAttribute ? [backendAttribute.single] : backendAttribute.group
 
           return (
-            <Box key={i} sx={{ mt: 1, mb: 2, pb: 2, borderBottom: 1, borderColor: 'divider' }}>
+            <Box key={i} sx={{ mb: 4, borderBottom: 1, borderColor: 'divider' }}>
               {Boolean(attributes.length > 1) && (
                 <InfoMessage
                   sx={{ mb: 2 }}
@@ -241,7 +242,7 @@ export function AgreementEdit() {
               )}
               {attributes.map((a, i) => {
                 return (
-                  <Grid container key={i} sx={{ mb: 2 }}>
+                  <Grid container key={i} sx={{ mb: 1 }} alignItems="center">
                     <Grid item xs={4}>
                       <Typography>{a.name}</Typography>
                     </Grid>
@@ -340,18 +341,13 @@ export function AgreementEdit() {
         )}
       </DescriptionBlock>
 
-      <Box sx={{ mt: 4, display: 'flex' }}>
+      <PageBottomActions>
         {getAvailableActions().map(({ onClick, label }, i) => (
-          <StyledButton
-            sx={{ mr: 2 }}
-            variant={i === 0 ? 'contained' : 'outlined'}
-            key={i}
-            onClick={onClick}
-          >
+          <StyledButton variant={i === 0 ? 'contained' : 'outlined'} key={i} onClick={onClick}>
             {label}
           </StyledButton>
         ))}
-      </Box>
+      </PageBottomActions>
     </React.Fragment>
   )
 }

@@ -2,7 +2,7 @@ type StorageValue = string | number | Record<string, unknown>
 type StorageValueType = 'string' | 'number' | 'object'
 
 export function storageDelete(key: string) {
-  window.sessionStorage.removeItem(key)
+  window.localStorage.removeItem(key)
 }
 
 export function storageWrite(key: string, value: StorageValue, type: StorageValueType) {
@@ -14,11 +14,11 @@ export function storageWrite(key: string, value: StorageValue, type: StorageValu
 
   const stringified = stringifyFn[type]()
 
-  window.sessionStorage.setItem(key, stringified)
+  window.localStorage.setItem(key, stringified)
 }
 
 export function storageRead(key: string, type: StorageValueType) {
-  const value: string | null = window.sessionStorage.getItem(key)
+  const value: string | null = window.localStorage.getItem(key)
 
   if (value === null) {
     return

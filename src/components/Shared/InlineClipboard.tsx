@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { Typography, Popover } from '@mui/material'
-import { StyledButton } from './StyledButton'
+import { ButtonNaked } from '@pagopa/mui-italia'
 
 type InlineClipboardProps = {
   text: string
@@ -52,11 +52,11 @@ export const InlineClipboard: FunctionComponent<InlineClipboardProps> = ({
 
   return permission ? (
     <React.Fragment>
-      <StyledButton onClick={copyAttempt} sx={{ p: 0 }}>
+      <ButtonNaked onClick={copyAttempt}>
         <Typography ref={anchorRef} component="span">
           {text}
         </Typography>
-      </StyledButton>
+      </ButtonNaked>
       <Popover
         anchorEl={anchorRef.current}
         open={popover}

@@ -4,35 +4,19 @@ import { StepperStep } from '../../types'
 import { PurposeCreateStep1General } from '../components/PurposeCreateStep1General'
 import { PurposeCreateStep2RiskAnalysis } from '../components/PurposeCreateStep2RiskAnalysis'
 import { PurposeCreateStep3Clients } from '../components/PurposeCreateStep3Clients'
-import { StyledIntro, StyledIntroChildrenProps } from '../components/Shared/StyledIntro'
+import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledStepper } from '../components/Shared/StyledStepper'
 import { useActiveStep } from '../hooks/useActiveStep'
 
-const STEPS: Array<StepperStep & { intro: StyledIntroChildrenProps }> = [
-  {
-    label: 'Generale',
-    component: PurposeCreateStep1General,
-    intro: { title: 'Informazioni generali' },
-  },
-  {
-    label: 'Analisi del rischio',
-    component: PurposeCreateStep2RiskAnalysis,
-    intro: {
-      title: 'Analisi del rischio',
-      description:
-        'Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare',
-    },
-  },
-  {
-    label: 'Client',
-    component: PurposeCreateStep3Clients,
-    intro: { title: 'Associazione client' },
-  },
+const STEPS: Array<StepperStep> = [
+  { label: 'Generale', component: PurposeCreateStep1General },
+  { label: 'Analisi del rischio', component: PurposeCreateStep2RiskAnalysis },
+  { label: 'Client', component: PurposeCreateStep3Clients },
 ]
 
 export const PurposeCreate = () => {
   const { activeStep, forward, back } = useActiveStep()
-  const { component: Step, intro } = STEPS[activeStep]
+  const { component: Step } = STEPS[activeStep]
   const stepProps = { forward, back }
 
   return (
@@ -44,12 +28,9 @@ export const PurposeCreate = () => {
             "NB: è possibile creare una nuova finalità solamente se l'ente ha almeno una richiesta di fruizione attiva per un E-Service",
         }}
       </StyledIntro>
-      <StyledStepper steps={STEPS} activeIndex={activeStep} />
       <Grid container>
         <Grid item xs={8}>
-          <StyledIntro variant="h2" sx={{ mb: 2, pb: 0 }}>
-            {intro}
-          </StyledIntro>
+          <StyledStepper steps={STEPS} activeIndex={activeStep} />
           <Step {...stepProps} />
         </Grid>
       </Grid>

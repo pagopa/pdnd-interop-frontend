@@ -50,11 +50,11 @@ exports[`Snapshot matches table with single action button 1`] = `
   className="MuiTableContainer-root css-rorn0c-MuiTableContainer-root"
 >
   <table
-    className="MuiTable-root css-ui69f2-MuiTable-root"
+    className="MuiTable-root css-rqglhn-MuiTable-root"
     role={null}
   >
     <thead
-      className="MuiTableHead-root css-15wwp11-MuiTableHead-root"
+      className="MuiTableHead-root css-whv87p-MuiTableHead-root"
       role={null}
     >
       <tr
@@ -66,27 +66,26 @@ exports[`Snapshot matches table with single action button 1`] = `
           className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
           scope="col"
         >
-          <span
-            className="MuiTypography-root MuiTypography-caption css-udomqy-MuiTypography-root"
-          >
-            NOME
-          </span>
+          Nome
         </th>
         <th
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
           scope="col"
         >
-          <span
-            className="MuiTypography-root MuiTypography-caption css-udomqy-MuiTypography-root"
-          >
-            COGNOME
-          </span>
+          Cognome
+        </th>
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+          scope="col"
+        >
+          
         </th>
       </tr>
     </thead>
     <tbody
-      className="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+      className="MuiTableBody-root css-1nq9kkf-MuiTableBody-root"
       role={null}
     >
       <tr
@@ -201,11 +200,11 @@ exports[`Snapshot matches table with single action button and action list button
   className="MuiTableContainer-root css-rorn0c-MuiTableContainer-root"
 >
   <table
-    className="MuiTable-root css-ui69f2-MuiTable-root"
+    className="MuiTable-root css-rqglhn-MuiTable-root"
     role={null}
   >
     <thead
-      className="MuiTableHead-root css-15wwp11-MuiTableHead-root"
+      className="MuiTableHead-root css-whv87p-MuiTableHead-root"
       role={null}
     >
       <tr
@@ -217,27 +216,26 @@ exports[`Snapshot matches table with single action button and action list button
           className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
           scope="col"
         >
-          <span
-            className="MuiTypography-root MuiTypography-caption css-udomqy-MuiTypography-root"
-          >
-            NOME
-          </span>
+          Nome
         </th>
         <th
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
           scope="col"
         >
-          <span
-            className="MuiTypography-root MuiTypography-caption css-udomqy-MuiTypography-root"
-          >
-            COGNOME
-          </span>
+          Cognome
+        </th>
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+          scope="col"
+        >
+          
         </th>
       </tr>
     </thead>
     <tbody
-      className="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+      className="MuiTableBody-root css-1nq9kkf-MuiTableBody-root"
       role={null}
     >
       <tr
@@ -317,7 +315,7 @@ exports[`Snapshot matches table with single action button and action list button
             <span>
               <svg
                 aria-hidden={true}
-                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
                 data-testid="MoreVertIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -410,7 +408,7 @@ exports[`Snapshot matches table with single action button and action list button
             <span>
               <svg
                 aria-hidden={true}
-                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
                 data-testid="MoreVertIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -436,11 +434,11 @@ exports[`Snapshot matches table without actions 1`] = `
   className="MuiTableContainer-root css-rorn0c-MuiTableContainer-root"
 >
   <table
-    className="MuiTable-root css-ui69f2-MuiTable-root"
+    className="MuiTable-root css-rqglhn-MuiTable-root"
     role={null}
   >
     <thead
-      className="MuiTableHead-root css-15wwp11-MuiTableHead-root"
+      className="MuiTableHead-root css-whv87p-MuiTableHead-root"
       role={null}
     >
       <tr
@@ -452,27 +450,26 @@ exports[`Snapshot matches table without actions 1`] = `
           className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
           scope="col"
         >
-          <span
-            className="MuiTypography-root MuiTypography-caption css-udomqy-MuiTypography-root"
-          >
-            NOME
-          </span>
+          Nome
         </th>
         <th
           aria-sort={null}
           className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
           scope="col"
         >
-          <span
-            className="MuiTypography-root MuiTypography-caption css-udomqy-MuiTypography-root"
-          >
-            COGNOME
-          </span>
+          Cognome
+        </th>
+        <th
+          aria-sort={null}
+          className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+          scope="col"
+        >
+          
         </th>
       </tr>
     </thead>
     <tbody
-      className="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+      className="MuiTableBody-root css-1nq9kkf-MuiTableBody-root"
       role={null}
     >
       <tr

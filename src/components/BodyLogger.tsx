@@ -66,11 +66,29 @@ export function BodyLogger() {
           <LoaderContext.Provider value={{ loadingText, setLoadingText }}>
             <Header />
             {doesRouteAllowTwoColumnsLayout(location) ? (
-              <Box sx={{ flexGrow: 1 }} bgcolor="#F5F6F7">
-                <Layout sx={{ height: '100%' }}>
+              <Box sx={{ flexGrow: 1 }}>
+                <Layout sx={{ height: '100%', overflowX: 'hidden' }}>
                   <Box sx={{ display: 'flex', height: '100%' }}>
                     <MainNav />
-                    <Box sx={{ py: 10, pl: 4, flexGrow: 1, maxWidth: 1024 }}>
+                    <Box
+                      sx={{
+                        pl: 2,
+                        py: 2,
+                        flexGrow: 1,
+                        position: 'relative',
+                        '::after': {
+                          content: '""',
+                          position: 'absolute',
+                          right: 0,
+                          top: 0,
+                          bgcolor: 'background.default',
+                          width: 10000,
+                          height: '100%',
+                          transform: 'translate(100%, 0)',
+                        },
+                      }}
+                      bgcolor="background.default"
+                    >
                       <Main />
                     </Box>
                   </Box>

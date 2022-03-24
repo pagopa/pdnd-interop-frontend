@@ -42,7 +42,7 @@ export function StyledInputControlledRadio({
   return (
     <StyledInputWrapper name={name} error={error} sx={sx} infoLabel={infoLabel}>
       {label && (
-        <FormLabel component="legend" sx={{ color: 'text.secondary', fontWeight: 600, mb: 1 }}>
+        <FormLabel component="legend" sx={{ mb: 1 }}>
           {label}
         </FormLabel>
       )}

@@ -6,7 +6,7 @@ type StyledSkeletonProps = {
   length?: number
 }
 
-export function StyledSkeleton({ length = 6 }: StyledSkeletonProps) {
+export function StyledSkeleton({ length = 1 }: StyledSkeletonProps) {
   return (
     <Box>
       {Array(length)

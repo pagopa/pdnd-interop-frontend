@@ -411,7 +411,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     success: {
       title: 'Chiave caricata',
       description:
-        "la chiave è ora utilizzabile per confermare la validità del token per l'E-Service richiesto",
+        'la chiave è ora utilizzabile per firmare il token presso gli E-Service ai quali il client è associato',
     },
     error: {
       title: "C'è stato un problema",
@@ -424,7 +424,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     success: {
       title: 'Chiave cancellata',
       description:
-        "la chiave pubblica è stata cancellata correttamente. Da questo momento non potrà più essere usata per autenticarsi presso l'erogatore dell'E-Service",
+        'la chiave pubblica è stata cancellata correttamente. Da questo momento non potrà più essere usata per autenticarsi presso gli erogatori degli E-Service',
     },
     error: {
       title: "C'è stato un problema",

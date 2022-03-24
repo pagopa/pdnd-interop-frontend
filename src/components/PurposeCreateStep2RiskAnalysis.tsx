@@ -16,6 +16,8 @@ import { useLocation } from 'react-router-dom'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { Purpose, PurposeRiskAnalysisFormAnswers } from '../../types'
 import { getPurposeFromUrl } from '../lib/purpose'
+import { Paper } from '@mui/material'
+import { StyledIntro } from './Shared/StyledIntro'
 
 type Dependency = {
   id: string
@@ -223,38 +225,47 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
   }, [purposeFetchedData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <StyledForm onSubmit={formik.handleSubmit}>
-      {Object.keys(questions).map((id, i) => {
-        const { type, label, options, infoLabel, required } = questions[id] as Question
+    <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
+      <StyledIntro variant="h2">
+        {{
+          title: 'Analisi del rischio',
+          description:
+            'Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare',
+        }}
+      </StyledIntro>
+      <StyledForm onSubmit={formik.handleSubmit}>
+        {Object.keys(questions).map((id, i) => {
+          const { type, label, options, infoLabel, required } = questions[id] as Question
 
-        const untypedProps = {
-          name: id,
-          value: formik.values[id],
-          type,
-          setFieldValue: formik.setFieldValue,
-          onChange: formik.handleChange,
-          label,
-          options,
-          error: formik.errors[id],
-          infoLabel,
-          required,
-          emptyLabel: 'Nessun valore disponibile',
-        }
+          const untypedProps = {
+            name: id,
+            value: formik.values[id],
+            type,
+            setFieldValue: formik.setFieldValue,
+            onChange: formik.handleChange,
+            label,
+            options,
+            error: formik.errors[id],
+            infoLabel,
+            required,
+            emptyLabel: 'Nessun valore disponibile',
+          }
 
-        const props = {
-          text: untypedProps as StyledInputControlledTextProps,
-          radio: untypedProps as StyledInputControlledRadioProps,
-          checkbox: untypedProps as StyledInputControlledCheckboxMultipleProps,
-          'select-one': untypedProps as StyledInputControlledSelectProps,
-        }[type]
+          const props = {
+            text: untypedProps as StyledInputControlledTextProps,
+            radio: untypedProps as StyledInputControlledRadioProps,
+            checkbox: untypedProps as StyledInputControlledCheckboxMultipleProps,
+            'select-one': untypedProps as StyledInputControlledSelectProps,
+          }[type]
 
-        return <StyledInput key={i} {...props} />
-      })}
+          return <StyledInput key={i} {...props} />
+        })}
 
-      <StepActions
-        back={{ label: 'Indietro', type: 'button', onClick: back }}
-        forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
-      />
-    </StyledForm>
+        <StepActions
+          back={{ label: 'Indietro', type: 'button', onClick: back }}
+          forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
+        />
+      </StyledForm>
+    </Paper>
   )
 }

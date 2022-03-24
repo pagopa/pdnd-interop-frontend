@@ -27,6 +27,7 @@ export function StyledToast({
       onClose={onClose}
       autoHideDuration={autoHideDuration}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      sx={{ maxWidth: 480 }}
     >
       <Alert severity={outcome} onClose={onClose} variant="outlined">
         {text}

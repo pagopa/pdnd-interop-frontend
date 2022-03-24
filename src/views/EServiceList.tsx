@@ -16,13 +16,14 @@ import { TempFilters } from '../components/TempFilters'
 import { AxiosResponse } from 'axios'
 import { buildDynamicPath } from '../lib/router-utils'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { Box } from '@mui/system'
 import { ESERVICE_STATE_LABEL } from '../config/labels'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { axiosErrorToError } from '../lib/error-utils'
 import { URL_FRAGMENTS } from '../lib/constants'
 import { useRoute } from '../hooks/useRoute'
+import { PageTopFilters } from '../components/Shared/PageTopFilters'
+import { Box } from '@mui/material'
 
 export function EServiceList() {
   const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
@@ -118,7 +119,13 @@ export function EServiceList() {
       {
         path: { endpoint: 'ESERVICE_VERSION_DRAFT_CREATE', endpointParams: { eserviceId } },
         config: {
-          data: { voucherLifespan: 1, audience: [], description: '', dailyCallsMaxNumber: 1 },
+          data: {
+            voucherLifespan: 1,
+            audience: [],
+            description: '',
+            dailyCallsPerConsumer: 1,
+            dailyCallsTotal: 1,
+          },
         },
       },
       { suppressToast: true }
@@ -206,7 +213,7 @@ export function EServiceList() {
   }
 
   // Data for the table head
-  const headData = ['nome e-service', 'versione', 'stato e-service']
+  const headData = ['Nome E-Service', 'Versione', 'Stato E-Service', '']
 
   return (
     <React.Fragment>
@@ -217,57 +224,56 @@ export function EServiceList() {
         }}
       </StyledIntro>
 
-      <Box sx={{ mt: 4 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-          <StyledButton variant="contained" to={routes.PROVIDE_ESERVICE_CREATE.PATH}>
-            + Aggiungi
-          </StyledButton>
-        </Box>
-
+      <PageTopFilters>
         <TempFilters />
+        <StyledButton variant="contained" size="small" to={routes.PROVIDE_ESERVICE_CREATE.PATH}>
+          + Aggiungi
+        </StyledButton>
+      </PageTopFilters>
 
-        <TableWithLoader
-          loadingText={loadingText}
-          headData={headData}
-          noDataLabel="Non ci sono servizi disponibili"
-          error={axiosErrorToError(error)}
-        >
-          {data &&
-            Boolean(data.length > 0) &&
-            data.map((item, i) => (
-              <StyledTableRow
-                key={i}
-                cellData={[
-                  { label: item.name },
-                  { label: item.version || '1' },
-                  { label: ESERVICE_STATE_LABEL[item.state || 'DRAFT'] },
-                ]}
+      <TableWithLoader
+        loadingText={loadingText}
+        headData={headData}
+        noDataLabel="Non ci sono servizi disponibili"
+        error={axiosErrorToError(error)}
+      >
+        {data &&
+          Boolean(data.length > 0) &&
+          data.map((item, i) => (
+            <StyledTableRow
+              key={i}
+              cellData={[
+                { label: item.name },
+                { label: item.version || '1' },
+                { label: ESERVICE_STATE_LABEL[item.state || 'DRAFT'] },
+              ]}
+            >
+              <StyledButton
+                variant="outlined"
+                size="small"
+                onClick={() => {
+                  const destPath =
+                    !item.state || item.state === 'DRAFT'
+                      ? routes.PROVIDE_ESERVICE_EDIT.PATH
+                      : routes.PROVIDE_ESERVICE_MANAGE.PATH
+
+                  history.push(
+                    buildDynamicPath(destPath, {
+                      eserviceId: item.id,
+                      descriptorId: item.descriptorId || URL_FRAGMENTS.FIRST_DRAFT[lang],
+                    })
+                  )
+                }}
               >
-                <StyledButton
-                  variant="outlined"
-                  size="small"
-                  onClick={() => {
-                    const destPath =
-                      !item.state || item.state === 'DRAFT'
-                        ? routes.PROVIDE_ESERVICE_EDIT.PATH
-                        : routes.PROVIDE_ESERVICE_MANAGE.PATH
+                {!item.state || item.state === 'DRAFT' ? 'Modifica' : 'Ispeziona'}
+              </StyledButton>
 
-                    history.push(
-                      buildDynamicPath(destPath, {
-                        eserviceId: item.id,
-                        descriptorId: item.descriptorId || URL_FRAGMENTS.FIRST_DRAFT[lang],
-                      })
-                    )
-                  }}
-                >
-                  {!item.state || item.state === 'DRAFT' ? 'Modifica' : 'Ispeziona'}
-                </StyledButton>
-
+              <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
                 <ActionMenu actions={getAvailableActions(item)} />
-              </StyledTableRow>
-            ))}
-        </TableWithLoader>
-      </Box>
+              </Box>
+            </StyledTableRow>
+          ))}
+      </TableWithLoader>
     </React.Fragment>
   )
 }

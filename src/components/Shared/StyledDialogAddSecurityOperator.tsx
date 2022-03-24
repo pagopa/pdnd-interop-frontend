@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext } from 'react'
 import { useFormik } from 'formik'
-import { Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
+import { Alert, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { Unstable_TrapFocus as TrapFocus } from '@mui/base'
 import { Box } from '@mui/system'
 import { StyledButton } from './StyledButton'
@@ -91,10 +91,10 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
               />
             </Box>
 
-            <Typography sx={{ mt: 2 }} variant="body2">
+            <Alert sx={{ mt: 1 }} severity="info">
               Se l&rsquo;operatore non è in elenco, in questa fase di test contattaci per
               aggiungerlo
-            </Typography>
+            </Alert>
           </DialogContent>
 
           <DialogActions>

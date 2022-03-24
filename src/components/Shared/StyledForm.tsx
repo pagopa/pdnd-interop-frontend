@@ -1,11 +1,15 @@
 import React, { FunctionComponent } from 'react'
+import { Box, SxProps } from '@mui/material'
 
-export const StyledForm: FunctionComponent<
-  React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>
-> = ({ children, ...props }) => {
+type StyledFormProps = {
+  sx?: SxProps
+  onSubmit: React.FormEventHandler<HTMLFormElement>
+}
+
+export const StyledForm: FunctionComponent<StyledFormProps> = ({ children, sx = {}, onSubmit }) => {
   return (
-    <form {...props} noValidate>
+    <Box component="form" noValidate sx={sx} onSubmit={onSubmit}>
       {children}
-    </form>
+    </Box>
   )
 }

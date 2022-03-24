@@ -24,18 +24,20 @@ import { StyledLink } from '../components/Shared/StyledLink'
 import { PURPOSE_STATE_LABEL } from '../config/labels'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { useFeedback } from '../hooks/useFeedback'
-import { downloadFile } from '../lib/file-utils'
+// import { downloadFile } from '../lib/file-utils'
 import { AxiosResponse } from 'axios'
-import { Box } from '@mui/system'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { formatDateString } from '../lib/date-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { DialogContext } from '../lib/context'
-import { DownloadList } from '../components/Shared/DownloadList'
+// import { ResourceList } from '../components/Shared/ResourceList'
 import { useActiveTab } from '../hooks/useActiveTab'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { useRoute } from '../hooks/useRoute'
+import { PageBottomActions } from '../components/Shared/PageBottomActions'
+import { PageTopFilters } from '../components/Shared/PageTopFilters'
+import { Box } from '@mui/system'
 // import { axiosErrorToError } from '../lib/error-utils'
 
 export const PurposeView = () => {
@@ -55,25 +57,25 @@ export const PurposeView = () => {
     }
   )
 
-  const downloadDocument = async () => {
-    const { response, outcome } = await runAction(
-      {
-        path: {
-          endpoint: 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD',
-          endpointParams: {
-            purposeId,
-            versionId: data?.currentVersion.id,
-            documentId: data?.currentVersion.riskAnalysisDocument.id,
-          },
-        },
-      },
-      { suppressToast: true }
-    )
+  // const downloadDocument = async () => {
+  //   const { response, outcome } = await runAction(
+  //     {
+  //       path: {
+  //         endpoint: 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD',
+  //         endpointParams: {
+  //           purposeId,
+  //           versionId: data?.currentVersion.id,
+  //           documentId: data?.currentVersion.riskAnalysisDocument.id,
+  //         },
+  //       },
+  //     },
+  //     { suppressToast: true }
+  //   )
 
-    if (outcome === 'success') {
-      downloadFile((response as AxiosResponse).data, 'document')
-    }
-  }
+  //   if (outcome === 'success') {
+  //     downloadFile((response as AxiosResponse).data, 'document')
+  //   }
+  // }
 
   /*
    * List of possible actions to perform in the purpose tab
@@ -268,7 +270,7 @@ export const PurposeView = () => {
     setDialog({ type: 'addClients', exclude: data?.clients || [], onSubmit: addClients })
   }
 
-  const headData = ['nome client']
+  const headData = ['Nome client', '']
 
   return (
     <React.Fragment>
@@ -278,7 +280,6 @@ export const PurposeView = () => {
         <TabList
           onChange={updateActiveTab}
           aria-label="Due tab diverse per i dettagli della finalità e i client associati"
-          sx={{ my: 6 }}
           variant="fullWidth"
         >
           <Tab label="Dettagli finalità" value="details" />
@@ -340,8 +341,9 @@ export const PurposeView = () => {
             </Typography>
           </DescriptionBlock>
 
-          <DescriptionBlock label="Download">
-            <DownloadList
+          {/* TEMP PIN-1139 and PIN-1178 */}
+          {/* <DescriptionBlock label="Risorse">
+            <ResourceList
               downloads={[
                 {
                   label: 'Analisi del rischio',
@@ -349,7 +351,7 @@ export const PurposeView = () => {
                 },
               ]}
             />
-          </DescriptionBlock>
+          </DescriptionBlock> */}
 
           {data && data.versions.length > 1 && (
             <DescriptionBlock label="Storico di questa finalità">
@@ -365,14 +367,9 @@ export const PurposeView = () => {
             </DescriptionBlock>
           )}
 
-          <Box sx={{ mt: 4, display: 'flex' }}>
+          <PageBottomActions>
             {getPurposeAvailableActions().map(({ onClick, label }, i) => (
-              <StyledButton
-                sx={{ mr: 2 }}
-                variant={i === 0 ? 'contained' : 'outlined'}
-                key={i}
-                onClick={onClick}
-              >
+              <StyledButton variant={i === 0 ? 'contained' : 'outlined'} key={i} onClick={onClick}>
                 {label}
               </StyledButton>
             ))}
@@ -380,42 +377,42 @@ export const PurposeView = () => {
             <StyledButton variant="outlined" to={routes.SUBSCRIBE_PURPOSE_LIST.PATH}>
               Torna alla lista delle finalità
             </StyledButton>
-          </Box>
+          </PageBottomActions>
         </TabPanel>
 
         <TabPanel value="clients">
-          <Box sx={{ mt: 4 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-              <StyledButton variant="contained" onClick={showClientsDialog}>
-                + Aggiungi
-              </StyledButton>
-            </Box>
+          <PageTopFilters>
+            <StyledButton variant="contained" size="small" onClick={showClientsDialog}>
+              + Aggiungi
+            </StyledButton>
+          </PageTopFilters>
 
-            <TableWithLoader
-              loadingText=""
-              headData={headData}
-              noDataLabel="Non ci sono client associati a questa finalità"
-              // error={axiosErrorToError(error)}
-            >
-              {data?.clients?.map((item, i) => (
-                <StyledTableRow key={i} cellData={[{ label: item.name }]}>
-                  <StyledButton
-                    variant="outlined"
-                    size="small"
-                    onClick={() => {
-                      history.push(
-                        buildDynamicPath(routes.SUBSCRIBE_CLIENT_EDIT.PATH, { clientId: item.id })
-                      )
-                    }}
-                  >
-                    Ispeziona
-                  </StyledButton>
+          <TableWithLoader
+            loadingText=""
+            headData={headData}
+            noDataLabel="Non ci sono client associati a questa finalità"
+            // error={axiosErrorToError(error)}
+          >
+            {data?.clients?.map((item, i) => (
+              <StyledTableRow key={i} cellData={[{ label: item.name }]}>
+                <StyledButton
+                  variant="outlined"
+                  size="small"
+                  onClick={() => {
+                    history.push(
+                      buildDynamicPath(routes.SUBSCRIBE_CLIENT_EDIT.PATH, { clientId: item.id })
+                    )
+                  }}
+                >
+                  Ispeziona
+                </StyledButton>
 
+                <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
                   <ActionMenu actions={getClientAvailableActions(item)} />
-                </StyledTableRow>
-              ))}
-            </TableWithLoader>
-          </Box>
+                </Box>
+              </StyledTableRow>
+            ))}
+          </TableWithLoader>
         </TabPanel>
       </TabContext>
     </React.Fragment>

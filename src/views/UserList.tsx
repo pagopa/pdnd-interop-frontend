@@ -13,11 +13,12 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { USER_STATE_LABEL } from '../config/labels'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { axiosErrorToError } from '../lib/error-utils'
-import { Box, Typography } from '@mui/material'
+import { Alert, Box } from '@mui/material'
 import { isAdmin } from '../lib/auth-utils'
 import { useRoute } from '../hooks/useRoute'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { fetchAllWithLogs } from '../lib/api-utils'
+import { PageTopFilters } from '../components/Shared/PageTopFilters'
 
 type UserListProps = {
   clientKind?: ClientKind
@@ -142,7 +143,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
     return buildDynamicPath(subscriberRoute, { clientId, operatorId: item.relationshipId })
   }
 
-  const headData = ['nome e cognome', 'stato']
+  const headData = ['Nome e cognome', 'Stato', '']
 
   return (
     <React.Fragment>
@@ -156,15 +157,14 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
         </StyledIntro>
       )}
 
-      {isAdmin(party) && mode === 'subscriber' && (
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-          <StyledButton variant="contained" onClick={openAddOperatoDialog}>
+      <PageTopFilters>
+        <TempFilters />
+        {isAdmin(party) && mode === 'subscriber' && (
+          <StyledButton variant="contained" size="small" onClick={openAddOperatoDialog}>
             + Aggiungi
           </StyledButton>
-        </Box>
-      )}
-
-      <TempFilters />
+        )}
+      </PageTopFilters>
 
       <TableWithLoader
         loadingText={loadingText}
@@ -192,14 +192,18 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
                 Ispeziona
               </StyledButton>
 
-              <ActionMenu actions={getAvailableActions(item)} />
+              <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+                <ActionMenu actions={getAvailableActions(item)} />
+              </Box>
             </StyledTableRow>
           ))}
       </TableWithLoader>
 
-      <Typography sx={{ mt: 2 }} variant="body2">
-        Se l&rsquo;operatore non è in elenco, in questa fase di test contattaci per aggiungerlo
-      </Typography>
+      {mode === 'provider' && (
+        <Alert sx={{ mt: 1 }} severity="info">
+          Se l&rsquo;operatore non è in elenco, in questa fase di test contattaci per aggiungerlo
+        </Alert>
+      )}
     </React.Fragment>
   )
 }

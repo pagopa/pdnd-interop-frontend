@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useContext } from 'react'
-import { Box } from '@mui/system'
 import { Client, ClientKind, ActionProps } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
@@ -15,6 +14,8 @@ import { useHistory } from 'react-router-dom'
 import { axiosErrorToError } from '../lib/error-utils'
 import { useRoute } from '../hooks/useRoute'
 import { useFeedback } from '../hooks/useFeedback'
+import { PageTopFilters } from '../components/Shared/PageTopFilters'
+import { Box } from '@mui/material'
 
 type ClientListProps = {
   clientKind?: ClientKind
@@ -71,7 +72,7 @@ export const ClientList: FunctionComponent<ClientListProps> = ({ clientKind = 'C
     ]
   }
 
-  const headData = ['nome client']
+  const headData = ['Nome client', '']
 
   return (
     <React.Fragment>
@@ -84,42 +85,41 @@ export const ClientList: FunctionComponent<ClientListProps> = ({ clientKind = 'C
         </StyledIntro>
       )}
 
-      <Box sx={{ mt: 4 }}>
-        {isAdmin(party) && (
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-            <StyledButton variant="contained" to={createPath}>
-              + Aggiungi
-            </StyledButton>
-          </Box>
-        )}
-
+      <PageTopFilters>
         <TempFilters />
+        {isAdmin(party) && (
+          <StyledButton variant="contained" size="small" to={createPath}>
+            + Aggiungi
+          </StyledButton>
+        )}
+      </PageTopFilters>
 
-        <TableWithLoader
-          loadingText={loadingText}
-          headData={headData}
-          noDataLabel="Non ci sono client disponibili"
-          error={axiosErrorToError(error)}
-        >
-          {data &&
-            Boolean(data.length > 0) &&
-            data.map((item, i) => (
-              <StyledTableRow key={i} cellData={[{ label: item.name }]}>
-                <StyledButton
-                  variant="outlined"
-                  size="small"
-                  onClick={() => {
-                    history.push(buildDynamicPath(editPath, { clientId: item.id }))
-                  }}
-                >
-                  Ispeziona
-                </StyledButton>
+      <TableWithLoader
+        loadingText={loadingText}
+        headData={headData}
+        noDataLabel="Non ci sono client disponibili"
+        error={axiosErrorToError(error)}
+      >
+        {data &&
+          Boolean(data.length > 0) &&
+          data.map((item, i) => (
+            <StyledTableRow key={i} cellData={[{ label: item.name }]}>
+              <StyledButton
+                variant="outlined"
+                size="small"
+                onClick={() => {
+                  history.push(buildDynamicPath(editPath, { clientId: item.id }))
+                }}
+              >
+                Ispeziona
+              </StyledButton>
 
+              <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
                 <ActionMenu actions={getAvailableActions(item)} />
-              </StyledTableRow>
-            ))}
-        </TableWithLoader>
-      </Box>
+              </Box>
+            </StyledTableRow>
+          ))}
+      </TableWithLoader>
     </React.Fragment>
   )
 }

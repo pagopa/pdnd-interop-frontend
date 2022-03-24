@@ -6,7 +6,7 @@ import { StyledButton } from './StyledButton'
 import { DialogAskExtensionProps } from '../../../types'
 import { StyledInputControlledText } from './StyledInputControlledText'
 import { StyledForm } from './StyledForm'
-import { useFeedback } from '../../hooks/useFeedback'
+// import { useFeedback } from '../../hooks/useFeedback'
 import { useCloseDialog } from '../../hooks/useCloseDialog'
 
 type InputValues = {
@@ -14,11 +14,11 @@ type InputValues = {
 }
 
 export const StyledDialogExtension: FunctionComponent<DialogAskExtensionProps> = () => {
-  const { runFakeAction } = useFeedback()
+  // const { runAction } = useFeedback()
   const { closeDialog } = useCloseDialog()
 
   const askExtension = async () => {
-    await runFakeAction('Richiedi estensione')
+    // await runAction('Richiedi estensione')
   }
 
   const initialValues: InputValues = { reasons: '' }

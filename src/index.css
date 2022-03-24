@@ -8,3 +8,10 @@ body,
   display: flex;
   flex-direction: column;
 }
+
+/*
+ * TEMP Waiting for MUI to reset the body color
+*/
+body {
+  background-color: white !important;
+}

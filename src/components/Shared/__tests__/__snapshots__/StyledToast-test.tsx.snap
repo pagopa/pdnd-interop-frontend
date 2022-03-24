@@ -2,7 +2,7 @@
 
 exports[`Snapshot matches error tooltip 1`] = `
 <div
-  className="MuiSnackbar-root MuiSnackbar-anchorOriginBottomRight css-sfbrjq-MuiSnackbar-root"
+  className="MuiSnackbar-root MuiSnackbar-anchorOriginBottomRight css-zy1c69-MuiSnackbar-root"
   onBlur={[Function]}
   onClick={[Function]}
   onFocus={[Function]}
@@ -89,7 +89,7 @@ exports[`Snapshot matches error tooltip 1`] = `
 
 exports[`Snapshot matches success tooltip 1`] = `
 <div
-  className="MuiSnackbar-root MuiSnackbar-anchorOriginBottomRight css-sfbrjq-MuiSnackbar-root"
+  className="MuiSnackbar-root MuiSnackbar-anchorOriginBottomRight css-zy1c69-MuiSnackbar-root"
   onBlur={[Function]}
   onClick={[Function]}
   onFocus={[Function]}
