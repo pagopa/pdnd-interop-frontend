@@ -119,7 +119,13 @@ export function EServiceList() {
       {
         path: { endpoint: 'ESERVICE_VERSION_DRAFT_CREATE', endpointParams: { eserviceId } },
         config: {
-          data: { voucherLifespan: 1, audience: [], description: '', dailyCallsMaxNumber: 1 },
+          data: {
+            voucherLifespan: 1,
+            audience: [],
+            description: '',
+            dailyCallsPerConsumer: 1,
+            dailyCallsTotal: 1,
+          },
         },
       },
       { suppressToast: true }
