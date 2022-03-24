@@ -5,10 +5,6 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: 'party-process/0.0/onboarding/info',
     METHOD: 'GET',
   },
-  ESERVICE_GET_LIST: {
-    URL: 'catalog-process/0.0/eservices',
-    METHOD: 'GET',
-  },
   ESERVICE_GET_LIST_FLAT: {
     URL: 'catalog-process/0.0/flatten/eservices',
     METHOD: 'GET',

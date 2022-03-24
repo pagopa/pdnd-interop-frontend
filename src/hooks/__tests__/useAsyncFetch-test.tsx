@@ -4,11 +4,11 @@ import { act } from 'react-dom/test-utils'
 import axios from 'axios'
 import isEmpty from 'lodash/isEmpty'
 import { useAsyncFetch } from '../useAsyncFetch'
-import { EServiceReadType } from '../../../types'
+import { EServiceFlatReadType } from '../../../types'
 
 function TestComponent() {
-  const { data, loadingText, error } = useAsyncFetch<Array<Partial<EServiceReadType>>>(
-    { path: { endpoint: 'ESERVICE_GET_LIST' } },
+  const { data, loadingText, error } = useAsyncFetch<Array<Partial<EServiceFlatReadType>>>(
+    { path: { endpoint: 'ESERVICE_GET_LIST_FLAT' } },
     { loadingTextLabel: 'Stiamo caricando i dati...', loaderType: 'contextual' }
   )
 
@@ -24,7 +24,7 @@ function TestComponent() {
     return <div>no data</div>
   }
 
-  const safeData = data as Array<Partial<EServiceReadType>>
+  const safeData = data as Array<Partial<EServiceFlatReadType>>
 
   return <div>{safeData[0].name}</div>
 }

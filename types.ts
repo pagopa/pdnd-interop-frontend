@@ -15,7 +15,6 @@ import { LANGUAGES } from './src/lib/constants'
 // export type ApiEndpointKey = keyof typeof API
 export type ApiEndpointKey =
   | 'ONBOARDING_GET_AVAILABLE_PARTIES'
-  | 'ESERVICE_GET_LIST'
   | 'ESERVICE_GET_LIST_FLAT'
   | 'ESERVICE_GET_SINGLE'
   | 'ESERVICE_DRAFT_CREATE'
@@ -732,7 +731,6 @@ export type DialogBasicProps = DialogDefaultProps & {
 export type DialogActionKeys = Exclude<
   ApiEndpointKey,
   | 'ONBOARDING_GET_AVAILABLE_PARTIES'
-  | 'ESERVICE_GET_LIST'
   | 'ESERVICE_GET_LIST_FLAT'
   | 'ESERVICE_GET_SINGLE'
   | 'ESERVICE_DRAFT_UPDATE'

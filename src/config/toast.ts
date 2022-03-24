@@ -1,7 +1,6 @@
 import { RunActionProps, ToastActionKeys } from '../../types'
 
 export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
-  ESERVICE_GET_LIST: { loadingText: 'Stiamo caricando gli E-Service' },
   ESERVICE_GET_LIST_FLAT: { loadingText: 'Stiamo caricando gli E-Service' },
   ESERVICE_DRAFT_CREATE: {
     loadingText: 'Stiamo creando la bozza',

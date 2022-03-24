@@ -4,7 +4,7 @@ import { object, string, number } from 'yup'
 import {
   ApiEndpointKey,
   DecoratedPurpose,
-  EServiceReadType,
+  EServiceFlatReadType,
   InputSelectOption,
   Purpose,
   PurposeRiskAnalysisForm,
@@ -52,13 +52,17 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
 
   const { runAction, runActionWithCallback } = useFeedback()
   const { party } = useContext(PartyContext)
-  const { data: eserviceData } = useAsyncFetch<Array<EServiceReadType>, Array<InputSelectOption>>(
+  const { data: eserviceData } = useAsyncFetch<
+    Array<EServiceFlatReadType>,
+    Array<InputSelectOption>
+  >(
     {
-      path: { endpoint: 'ESERVICE_GET_LIST' },
-      config: { params: { consumerId: party?.id, agreementStates: 'ACTIVE' } },
+      path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
+      config: { params: { callerId: party?.id, consumerId: party?.id, agreementStates: 'ACTIVE' } },
     },
     {
-      mapFn: (data) => data.map((d) => ({ value: d.id, label: d.name })),
+      mapFn: (data) =>
+        data.map((d) => ({ value: d.id, label: `${d.name} erogato da ${d.producerName}` })),
       loadingTextLabel: 'Stiamo caricando gli E-Service associabili alla finalità',
     }
   )
