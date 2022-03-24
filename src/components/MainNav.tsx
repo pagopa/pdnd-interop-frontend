@@ -130,8 +130,8 @@ const MainNavComponent = ({
           display: 'block',
           borderRight: 2,
           borderColor: isSelected ? 'primary.main' : 'common.white',
+          backgroundColor: isSelected ? 'rgba(0, 115, 230, 0.08)' : 'transparent',
         }}
-        bgcolor={isSelected ? 'rgba(0, 115, 230, 0.08)' : 'transparent'}
       >
         <ListItemText
           disableTypography
