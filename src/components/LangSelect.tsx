@@ -3,11 +3,11 @@ import { Menu, MenuItem, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { Lang } from '../../types'
 import { LangContext } from '../lib/context'
-import { StyledButton } from './Shared/StyledButton'
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material'
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from '@mui/icons-material'
 import { LANGUAGE_LABEL } from '../config/labels'
 import { TEMP_LANGUAGES } from '../lib/constants'
+import { ButtonNaked } from '@pagopa/mui-italia'
 
 export function LangSelect() {
   const { lang, setLang } = useContext(LangContext)
@@ -34,7 +34,7 @@ export function LangSelect() {
   return (
     <React.Fragment>
       <Box>
-        <StyledButton
+        <ButtonNaked
           sx={{
             color: 'text.primary',
             justifyContent: 'space-between',
@@ -65,7 +65,7 @@ export function LangSelect() {
           ) : (
             <KeyboardArrowDownIcon fontSize="small" />
           )}
-        </StyledButton>
+        </ButtonNaked>
         {Boolean(TEMP_LANGUAGES.length > 0) && (
           <Menu
             anchorEl={anchorEl}
