@@ -18,14 +18,14 @@ import { getFetchOutcome } from '../lib/error-utils'
 import { DIALOG_CONTENTS } from '../config/dialog'
 import { TOAST_CONTENTS } from '../config/toast'
 
-type ActionOptions = { suppressToast: boolean; silent?: boolean }
+type ActionOptions = {
+  suppressToast?: boolean
+  silent?: boolean
+  onSuccessDestination?: MappedRouteConfig
+}
 
 type CallbackActionOptions = ActionOptions & {
   callback: (response: AxiosResponse) => void
-}
-
-type DestinationActionOptions = ActionOptions & {
-  destination: MappedRouteConfig
 }
 
 export type RunAction = (
@@ -36,10 +36,6 @@ export type RunAction = (
 // TEMP REFACTOR: this typing needs to be refactored
 export type UserFeedbackHOCProps = {
   runAction: RunAction
-  runActionWithDestination: (
-    request: RequestConfig,
-    options: DestinationActionOptions
-  ) => Promise<void>
   runActionWithCallback: (request: RequestConfig, options: CallbackActionOptions) => Promise<void>
   forceRerenderCounter: number
   requestRerender: VoidFunction
@@ -124,14 +120,9 @@ export const useFeedback = () => {
   // The most basic action. Makes request, and displays the outcome
   const runAction = async (
     request: RequestConfig,
-    { suppressToast, silent = false }: ActionOptions
+    { suppressToast = false, silent = false, onSuccessDestination }: ActionOptions
   ): Promise<RunActionOutput> => {
     const { outcome, toastContent, response } = await makeRequestAndGetOutcome(request)
-
-    if (outcome === 'success' && !silent) {
-      // Force refresh the current view if needed
-      setForceRerenderCounter(forceRerenderCounter + 1)
-    }
 
     // Hide loader
     setLoadingText(null)
@@ -139,8 +130,19 @@ export const useFeedback = () => {
     // If this comes from an action in a table, close it
     setTableActionMenu(null)
 
-    if (!suppressToast) {
-      showToast(toastContent)
+    if (onSuccessDestination && outcome === 'success') {
+      // Go to destination path, and optionally display the toast there
+      history.push(onSuccessDestination.PATH, { toast: !suppressToast && toastContent })
+    } else {
+      // Only refresh the view if success (if failure, nothing has happened and there is nothing to re-render)
+      if (outcome === 'success' && !silent) {
+        // Force refresh the current view if needed
+        setForceRerenderCounter(forceRerenderCounter + 1)
+      }
+
+      if (!suppressToast) {
+        showToast(toastContent)
+      }
     }
 
     return { outcome, response }
@@ -170,29 +172,6 @@ export const useFeedback = () => {
       }
     }
   }
-
-  // This action goes to another view after a successful request/response cycle, triggering a pushState
-  const runActionWithDestination = async (
-    request: RequestConfig,
-    { destination, suppressToast }: DestinationActionOptions
-  ) => {
-    const { outcome, toastContent } = await makeRequestAndGetOutcome(request)
-
-    // Hide loader
-    setLoadingText(null)
-
-    // If this comes from an action in a table, close it
-    setTableActionMenu(null)
-
-    if (outcome === 'success') {
-      // Go to destination path, and optionally display the toast
-      history.push(destination.PATH, { toast: !suppressToast && toastContent })
-    } else {
-      if (!suppressToast) {
-        showToast(toastContent)
-      }
-    }
-  }
   /*
    * End API calls
    */
@@ -200,7 +179,6 @@ export const useFeedback = () => {
   return {
     runAction,
     runActionWithCallback,
-    runActionWithDestination,
     forceRerenderCounter,
     requestRerender,
     showToast,

@@ -25,8 +25,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
   const { routes } = useRoute()
   const { party } = useContext(PartyContext)
 
-  const { wrapActionInDialog, runActionWithDestination, runAction, forceRerenderCounter } =
-    useFeedback()
+  const { wrapActionInDialog, runAction, forceRerenderCounter } = useFeedback()
 
   const { data: clientsData = [] } = useAsyncFetch<{ clients: Array<Client> }, Array<Client>>(
     {
@@ -77,23 +76,23 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
   }
 
   const publishVersion = async () => {
-    await runActionWithDestination(
+    await runAction(
       {
         path: {
           endpoint: 'PURPOSE_VERSION_ACTIVATE',
           endpointParams: { purposeId, versionId: purposeFetchedData?.currentVersion.id },
         },
       },
-      { destination: routes.SUBSCRIBE_PURPOSE_LIST, suppressToast: false }
+      { onSuccessDestination: routes.SUBSCRIBE_PURPOSE_LIST, suppressToast: false }
     )
   }
 
   const deleteVersion = async () => {
-    await runActionWithDestination(
+    await runAction(
       {
         path: { endpoint: 'PURPOSE_DRAFT_DELETE', endpointParams: { purposeId } },
       },
-      { destination: routes.SUBSCRIBE_PURPOSE_LIST, suppressToast: false }
+      { onSuccessDestination: routes.SUBSCRIBE_PURPOSE_LIST, suppressToast: false }
     )
   }
 

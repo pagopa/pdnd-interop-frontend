@@ -31,8 +31,7 @@ import { InfoMessage } from '../components/Shared/InfoMessage'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 
 export function AgreementEdit() {
-  const { runAction, runActionWithDestination, forceRerenderCounter, wrapActionInDialog } =
-    useFeedback()
+  const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
   const mode = useMode()
   const agreementId = getLastBit(useLocation())
   const { party } = useContext(PartyContext)
@@ -77,11 +76,11 @@ export function AgreementEdit() {
   }
 
   const upgrade = async () => {
-    await runActionWithDestination(
+    await runAction(
       {
         path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } },
       },
-      { destination: routes.SUBSCRIBE_AGREEMENT_LIST, suppressToast: false }
+      { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST, suppressToast: false }
     )
   }
 

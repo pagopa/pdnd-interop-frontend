@@ -27,7 +27,7 @@ type UserEndpoinParams = {
 export function UserEdit() {
   const { party } = useContext(PartyContext)
   const { routes } = useRoute()
-  const { runActionWithDestination, wrapActionInDialog, forceRerenderCounter } = useFeedback()
+  const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
   const mode = useMode()
   const bits = getBits(useLocation())
   const relationshipId = bits[bits.length - 1]
@@ -90,7 +90,7 @@ export function UserEdit() {
   // }
 
   const removeFromClient = async () => {
-    await runActionWithDestination(
+    await runAction(
       {
         path: {
           endpoint: 'OPERATOR_SECURITY_REMOVE_FROM_CLIENT',
@@ -98,7 +98,7 @@ export function UserEdit() {
         },
       },
       {
-        destination: buildDynamicRoute(
+        onSuccessDestination: buildDynamicRoute(
           routes.SUBSCRIBE_CLIENT_EDIT,
           { clientId: clientId as string },
           { tab: 'securityOperators' }

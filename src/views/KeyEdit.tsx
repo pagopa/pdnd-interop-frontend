@@ -18,7 +18,7 @@ import { isKeyOrphan } from '../lib/key-utils'
 
 export function KeyEdit() {
   const { routes } = useRoute()
-  const { runAction, runActionWithDestination, wrapActionInDialog } = useFeedback()
+  const { runAction, wrapActionInDialog } = useFeedback()
   const location = useLocation()
   const locationBits = getBits(location)
   const kid = locationBits[locationBits.length - 1]
@@ -55,7 +55,7 @@ export function KeyEdit() {
   }
 
   const deleteKey = async () => {
-    await runActionWithDestination(
+    await runAction(
       {
         path: {
           endpoint: 'KEY_DELETE',
@@ -63,7 +63,7 @@ export function KeyEdit() {
         },
       },
       {
-        destination: buildDynamicRoute(
+        onSuccessDestination: buildDynamicRoute(
           routes.SUBSCRIBE_CLIENT_EDIT,
           { clientId },
           { tab: 'publicKeys' }

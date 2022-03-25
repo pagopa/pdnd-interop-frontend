@@ -21,14 +21,14 @@ import { useRoute } from '../hooks/useRoute'
 export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps) {
   const { routes } = useRoute()
   const history = useHistory()
-  const { runAction, runActionWithDestination, wrapActionInDialog } = useFeedback()
+  const { runAction, wrapActionInDialog } = useFeedback()
   const { data: fetchedData, descriptorId } = useEserviceCreateFetch()
   const sureFetchedData = fetchedData as EServiceReadType
   const activeDescriptorId = descriptorId as string
 
   const publishVersion = async () => {
     const activeDescriptor = sureFetchedData.activeDescriptor as EServiceDescriptorRead
-    await runActionWithDestination(
+    await runAction(
       {
         path: {
           endpoint: 'ESERVICE_VERSION_DRAFT_PUBLISH',
@@ -38,13 +38,13 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
           },
         },
       },
-      { destination: routes.PROVIDE_ESERVICE_LIST, suppressToast: false }
+      { onSuccessDestination: routes.PROVIDE_ESERVICE_LIST, suppressToast: false }
     )
   }
 
   const deleteVersion = async () => {
     const activeDescriptor = sureFetchedData.activeDescriptor as EServiceDescriptorRead
-    await runActionWithDestination(
+    await runAction(
       {
         path: {
           endpoint: 'ESERVICE_VERSION_DRAFT_DELETE',
@@ -54,7 +54,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
           },
         },
       },
-      { destination: routes.PROVIDE_ESERVICE_LIST, suppressToast: false }
+      { onSuccessDestination: routes.PROVIDE_ESERVICE_LIST, suppressToast: false }
     )
   }
 
