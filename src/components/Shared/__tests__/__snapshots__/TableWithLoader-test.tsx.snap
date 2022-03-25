@@ -97,7 +97,7 @@ exports[`Snapshot matches table with single action button 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-body2 css-37ndlm-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
           >
             Mario
           </span>
@@ -107,7 +107,7 @@ exports[`Snapshot matches table with single action button 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-caption css-1mjc0vb-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
           >
             Rossi
           </span>
@@ -148,7 +148,7 @@ exports[`Snapshot matches table with single action button 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-body2 css-37ndlm-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
           >
             Teresa
           </span>
@@ -158,7 +158,7 @@ exports[`Snapshot matches table with single action button 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-caption css-1mjc0vb-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
           >
             Verdi
           </span>
@@ -247,7 +247,7 @@ exports[`Snapshot matches table with single action button and action list button
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-body2 css-37ndlm-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
           >
             Mario
           </span>
@@ -257,7 +257,7 @@ exports[`Snapshot matches table with single action button and action list button
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-caption css-1mjc0vb-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
           >
             Rossi
           </span>
@@ -293,7 +293,7 @@ exports[`Snapshot matches table with single action button and action list button
           <button
             aria-controls="basic-menu-1"
             aria-haspopup="true"
-            className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+            className="MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButtonBase-root  css-19lhi6j-MuiButtonBase-root-MuiButton-root"
             disabled={false}
             id="basic-button-1"
             onBlur={[Function]}
@@ -312,10 +312,16 @@ exports[`Snapshot matches table with single action button and action list button
             tabIndex={0}
             type="button"
           >
-            <span>
+            <span
+              style={
+                Object {
+                  "display": "flex",
+                }
+              }
+            >
               <svg
                 aria-hidden={true}
-                className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                className="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1bptiuh-MuiSvgIcon-root"
                 data-testid="MoreVertIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -325,9 +331,6 @@ exports[`Snapshot matches table with single action button and action list button
                 />
               </svg>
             </span>
-            <span
-              className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
           </button>
         </td>
       </tr>
@@ -340,7 +343,7 @@ exports[`Snapshot matches table with single action button and action list button
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-body2 css-37ndlm-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
           >
             Teresa
           </span>
@@ -350,7 +353,7 @@ exports[`Snapshot matches table with single action button and action list button
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-caption css-1mjc0vb-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
           >
             Verdi
           </span>
@@ -386,7 +389,7 @@ exports[`Snapshot matches table with single action button and action list button
           <button
             aria-controls="basic-menu-1"
             aria-haspopup="true"
-            className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+            className="MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButtonBase-root  css-19lhi6j-MuiButtonBase-root-MuiButton-root"
             disabled={false}
             id="basic-button-1"
             onBlur={[Function]}
@@ -405,10 +408,16 @@ exports[`Snapshot matches table with single action button and action list button
             tabIndex={0}
             type="button"
           >
-            <span>
+            <span
+              style={
+                Object {
+                  "display": "flex",
+                }
+              }
+            >
               <svg
                 aria-hidden={true}
-                className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                className="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1bptiuh-MuiSvgIcon-root"
                 data-testid="MoreVertIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -418,9 +427,6 @@ exports[`Snapshot matches table with single action button and action list button
                 />
               </svg>
             </span>
-            <span
-              className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
           </button>
         </td>
       </tr>
@@ -481,7 +487,7 @@ exports[`Snapshot matches table without actions 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-body2 css-37ndlm-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
           >
             Mario
           </span>
@@ -491,7 +497,7 @@ exports[`Snapshot matches table without actions 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-caption css-1mjc0vb-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
           >
             Rossi
           </span>
@@ -506,7 +512,7 @@ exports[`Snapshot matches table without actions 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-body2 css-37ndlm-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
           >
             Teresa
           </span>
@@ -516,7 +522,7 @@ exports[`Snapshot matches table without actions 1`] = `
           className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
         >
           <span
-            className="MuiTypography-root MuiTypography-caption css-1mjc0vb-MuiTypography-root"
+            className="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
           >
             Verdi
           </span>

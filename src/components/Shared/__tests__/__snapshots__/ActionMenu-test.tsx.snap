@@ -2,7 +2,7 @@
 
 exports[`Snapshot matches button (1) 1`] = `
 <span
-  className="MuiBox-root css-8xqamv"
+  className="MuiBox-root css-1pru8qb"
 />
 `;
 
@@ -10,7 +10,7 @@ exports[`Snapshot matches button (2) 1`] = `
 <button
   aria-controls="basic-menu-2"
   aria-haspopup="true"
-  className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+  className="MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButtonBase-root  css-19lhi6j-MuiButtonBase-root-MuiButton-root"
   disabled={false}
   id="basic-button-2"
   onBlur={[Function]}
@@ -29,10 +29,16 @@ exports[`Snapshot matches button (2) 1`] = `
   tabIndex={0}
   type="button"
 >
-  <span>
+  <span
+    style={
+      Object {
+        "display": "flex",
+      }
+    }
+  >
     <svg
       aria-hidden={true}
-      className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+      className="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1bptiuh-MuiSvgIcon-root"
       data-testid="MoreVertIcon"
       focusable="false"
       viewBox="0 0 24 24"

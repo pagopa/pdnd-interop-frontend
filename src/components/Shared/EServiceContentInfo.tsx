@@ -53,7 +53,16 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
     }
   }
 
-  const toAccordionEntries = (attributes: Array<BackendAttribute>) => {
+  const getVerificationRequiredStringMaybe = (
+    explicitAttributeVerification: boolean,
+    attributeKey: AttributeKey
+  ) => {
+    return explicitAttributeVerification && attributeKey === 'verified'
+      ? ' (verifica richiesta)'
+      : ''
+  }
+
+  const toAccordionEntries = (attributes: Array<BackendAttribute>, attributeKey: AttributeKey) => {
     return attributes.map((attribute) => {
       const isSingle = has(attribute, 'single')
 
@@ -65,12 +74,18 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
       let details: string | JSX.Element = ''
       if (labels.length === 1) {
         const { name, description, explicitAttributeVerification } = labels[0]
-        summary = `${name} ${explicitAttributeVerification ? ' (verifica richiesta)' : ''}`
+        summary = `${name} ${getVerificationRequiredStringMaybe(
+          explicitAttributeVerification,
+          attributeKey
+        )}`
         details = description
       } else {
-        summary = `${labels.map(({ name }) => name).join(' oppure ')}${
-          labels[0].explicitAttributeVerification ? ' (verifica richiesta)' : ''
-        }`
+        summary = `${labels
+          .map(({ name }) => name)
+          .join(' oppure ')}${getVerificationRequiredStringMaybe(
+          labels[0].explicitAttributeVerification,
+          attributeKey
+        )}`
         details = (
           <React.Fragment>
             {labels.map((label, i) => {
@@ -150,7 +165,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
         <DescriptionBlock key={i} label={`Attributi ${ATTRIBUTE_TYPE_PLURAL_LABEL[key]}`}>
           {data.attributes[key].length > 0 ? (
             <Box sx={{ mt: 1 }}>
-              <StyledAccordion entries={toAccordionEntries(data.attributes[key])} />
+              <StyledAccordion entries={toAccordionEntries(data.attributes[key], key)} />
             </Box>
           ) : (
             <Typography component="span">Nessun attributo presente</Typography>
