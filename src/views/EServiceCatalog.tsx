@@ -63,7 +63,7 @@ export function EServiceCatalog() {
 
     await runAction(
       { path: { endpoint: 'AGREEMENT_CREATE' }, config: { data: agreementData } },
-      { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST, suppressToast: false }
+      { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
     )
   }
 

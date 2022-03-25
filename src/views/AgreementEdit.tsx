@@ -51,28 +51,22 @@ export function AgreementEdit() {
    */
   const activate = async () => {
     const { id: partyId } = party as Party
-    await runAction(
-      {
-        path: {
-          endpoint: 'AGREEMENT_ACTIVATE',
-          endpointParams: { agreementId, partyId },
-        },
+    await runAction({
+      path: {
+        endpoint: 'AGREEMENT_ACTIVATE',
+        endpointParams: { agreementId, partyId },
       },
-      { suppressToast: false }
-    )
+    })
   }
 
   const suspend = async () => {
     const { id: partyId } = party as Party
-    await runAction(
-      {
-        path: {
-          endpoint: 'AGREEMENT_SUSPEND',
-          endpointParams: { agreementId, partyId },
-        },
+    await runAction({
+      path: {
+        endpoint: 'AGREEMENT_SUSPEND',
+        endpointParams: { agreementId, partyId },
       },
-      { suppressToast: false }
-    )
+    })
   }
 
   const upgrade = async () => {
@@ -80,7 +74,7 @@ export function AgreementEdit() {
       {
         path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } },
       },
-      { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST, suppressToast: false }
+      { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
     )
   }
 
@@ -91,15 +85,12 @@ export function AgreementEdit() {
 
   const wrapVerify = (attributeId: string) => async () => {
     const sureData = data as AgreementSummary
-    await runAction(
-      {
-        path: {
-          endpoint: 'AGREEMENT_VERIFY_ATTRIBUTE',
-          endpointParams: { agreementId: sureData.id, attributeId },
-        },
+    await runAction({
+      path: {
+        endpoint: 'AGREEMENT_VERIFY_ATTRIBUTE',
+        endpointParams: { agreementId: sureData.id, attributeId },
       },
-      { suppressToast: false }
-    )
+    })
   }
   /*
    * End list of actions

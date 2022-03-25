@@ -77,7 +77,7 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
           endpointParams: { clientId, keyId },
         },
       },
-      { suppressToast: true }
+      { suppressToast: ['success'] }
     )
 
     if (outcome === 'success') {
@@ -87,15 +87,12 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
   }
 
   const wrapDeleteKey = (keyId: string) => async () => {
-    await runAction(
-      {
-        path: {
-          endpoint: 'KEY_DELETE',
-          endpointParams: { clientId, keyId },
-        },
+    await runAction({
+      path: {
+        endpoint: 'KEY_DELETE',
+        endpointParams: { clientId, keyId },
       },
-      { suppressToast: false }
-    )
+    })
   }
 
   const getAvailableActions = (key: PublicKeyItem) => {
@@ -129,13 +126,10 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
     }
     dataToPost.key = btoa(dataToPost.key.trim())
 
-    await runAction(
-      {
-        path: { endpoint: 'KEY_POST', endpointParams: { clientId } },
-        config: { data: [dataToPost] },
-      },
-      { suppressToast: false }
-    )
+    await runAction({
+      path: { endpoint: 'KEY_POST', endpointParams: { clientId } },
+      config: { data: [dataToPost] },
+    })
   }
 
   const openUploadKeyDialog = () => {

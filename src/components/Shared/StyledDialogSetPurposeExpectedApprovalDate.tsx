@@ -21,16 +21,13 @@ export const StyledDialogSetPurposeExpectedApprovalDate: FunctionComponent<Dialo
 
     const onSubmit = async (data: ApprovalDateProps) => {
       const dataToPost = { ...data }
-      const { response } = await runAction(
-        {
-          path: {
-            endpoint: 'PURPOSE_VERSION_WAITING_FOR_APPROVAL_UPDATE',
-            endpointParams: { purposeId, versionId },
-          },
-          config: { data: dataToPost },
+      const { response } = await runAction({
+        path: {
+          endpoint: 'PURPOSE_VERSION_WAITING_FOR_APPROVAL_UPDATE',
+          endpointParams: { purposeId, versionId },
         },
-        { suppressToast: false }
-      )
+        config: { data: dataToPost },
+      })
 
       if (getFetchOutcome(response) === 'success') {
         closeDialog()

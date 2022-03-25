@@ -54,10 +54,7 @@ export const ClientList: FunctionComponent<ClientListProps> = ({ clientKind = 'C
    * List of possible actions for the user to perform
    */
   const wrapDelete = (clientId: string) => async () => {
-    await runAction(
-      { path: { endpoint: 'CLIENT_DELETE', endpointParams: { clientId } } },
-      { suppressToast: false }
-    )
+    await runAction({ path: { endpoint: 'CLIENT_DELETE', endpointParams: { clientId } } })
   }
   /*
    * End list of actions

@@ -87,7 +87,7 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
         path: { endpoint: 'PURPOSE_DRAFT_UPDATE', endpointParams: { purposeId } },
         config: { data: dataToPost },
       },
-      { suppressToast: true }
+      { suppressToast: ['success'] }
     )
 
     if (outcome === 'success') {

@@ -50,7 +50,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
   const history = useHistory()
   const purposeId = getPurposeFromUrl(history.location)
 
-  const { runAction, runActionWithCallback } = useFeedback()
+  const { runAction } = useFeedback()
   const { party } = useContext(PartyContext)
   const { data: eserviceData } = useAsyncFetch<
     Array<EServiceFlatReadType>,
@@ -140,7 +140,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
         path: { endpoint: purposeEndpoint, endpointParams: purposeEndpointParams },
         config: { data: purposeData },
       },
-      { suppressToast: true }
+      { suppressToast: ['success'] }
     )
 
     // Then create or update a new version that holds the dailyCalls
@@ -157,13 +157,17 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
         purposeVersionEndpointParams.versionId = newPurposeDecorated.currentVersion.id
       }
 
-      await runActionWithCallback(
+      const { outcome: createVersionOutcome } = await runAction(
         {
           path: { endpoint: purposeVersionEndpoint, endpointParams: purposeVersionEndpointParams },
           config: { data: purposeVersionData },
         },
-        { callback: wrapGoForward(isNewPurpose, newPurpose.id), suppressToast: true }
+        { suppressToast: ['success'] }
       )
+
+      if (createVersionOutcome === 'success') {
+        wrapGoForward(isNewPurpose, newPurpose.id)
+      }
     }
   }
 

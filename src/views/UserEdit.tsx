@@ -77,15 +77,13 @@ export function UserEdit() {
    */
   // const suspend = async () => {
   //   await runAction(
-  //     { path: { endpoint: 'USER_SUSPEND', endpointParams: { relationshipId: userData?.id } } },
-  //     { suppressToast: false }
+  //     { path: { endpoint: 'USER_SUSPEND', endpointParams: { relationshipId: userData?.id } } }
   //   )
   // }
 
   // const reactivate = async () => {
   //   await runAction(
-  //     { path: { endpoint: 'USER_REACTIVATE', endpointParams: { relationshipId: userData?.id } } },
-  //     { suppressToast: false }
+  //     { path: { endpoint: 'USER_REACTIVATE', endpointParams: { relationshipId: userData?.id } } }
   //   )
   // }
 
@@ -103,7 +101,6 @@ export function UserEdit() {
           { clientId: clientId as string },
           { tab: 'securityOperators' }
         ),
-        suppressToast: false,
       }
     )
   }

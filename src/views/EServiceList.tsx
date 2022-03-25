@@ -49,15 +49,12 @@ export function EServiceList() {
    * List of possible actions for the user to perform
    */
   const wrapPublishDraft = (eserviceId: string, descriptorId?: string) => async () => {
-    await runAction(
-      {
-        path: {
-          endpoint: 'ESERVICE_VERSION_DRAFT_PUBLISH',
-          endpointParams: { eserviceId, descriptorId },
-        },
+    await runAction({
+      path: {
+        endpoint: 'ESERVICE_VERSION_DRAFT_PUBLISH',
+        endpointParams: { eserviceId, descriptorId },
       },
-      { suppressToast: false }
-    )
+    })
   }
 
   const wrapDeleteDraft = (eserviceId: string, descriptorId?: string) => async () => {
@@ -69,31 +66,25 @@ export function EServiceList() {
       endpointParams.descriptorId = descriptorId
     }
 
-    await runAction({ path: { endpoint, endpointParams } }, { suppressToast: false })
+    await runAction({ path: { endpoint, endpointParams } })
   }
 
   const wrapSuspend = (eserviceId: string, descriptorId?: string) => async () => {
-    await runAction(
-      {
-        path: {
-          endpoint: 'ESERVICE_VERSION_SUSPEND',
-          endpointParams: { eserviceId, descriptorId },
-        },
+    await runAction({
+      path: {
+        endpoint: 'ESERVICE_VERSION_SUSPEND',
+        endpointParams: { eserviceId, descriptorId },
       },
-      { suppressToast: false }
-    )
+    })
   }
 
   const wrapReactivate = (eserviceId: string, descriptorId?: string) => async () => {
-    await runAction(
-      {
-        path: {
-          endpoint: 'ESERVICE_VERSION_REACTIVATE',
-          endpointParams: { eserviceId, descriptorId },
-        },
+    await runAction({
+      path: {
+        endpoint: 'ESERVICE_VERSION_REACTIVATE',
+        endpointParams: { eserviceId, descriptorId },
       },
-      { suppressToast: false }
-    )
+    })
   }
 
   // const archive = () => {
@@ -102,15 +93,12 @@ export function EServiceList() {
 
   // Clones the properties and generates a new service
   const wrapClone = (eserviceId: string, descriptorId?: string) => async () => {
-    await runAction(
-      {
-        path: {
-          endpoint: 'ESERVICE_CLONE_FROM_VERSION',
-          endpointParams: { eserviceId, descriptorId },
-        },
+    await runAction({
+      path: {
+        endpoint: 'ESERVICE_CLONE_FROM_VERSION',
+        endpointParams: { eserviceId, descriptorId },
       },
-      { suppressToast: false }
-    )
+    })
   }
 
   // Clones all the properties of the previous version and generates a new draft version
@@ -128,7 +116,7 @@ export function EServiceList() {
           },
         },
       },
-      { suppressToast: true }
+      { suppressToast: ['success'] }
     )
 
     if (outcome === 'success') {

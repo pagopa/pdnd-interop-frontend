@@ -52,37 +52,28 @@ export function AgreementList() {
    */
   const wrapActivate = (agreementId: string) => async () => {
     const { id: partyId } = party as Party
-    await runAction(
-      {
-        path: {
-          endpoint: 'AGREEMENT_ACTIVATE',
-          endpointParams: { agreementId, partyId },
-        },
+    await runAction({
+      path: {
+        endpoint: 'AGREEMENT_ACTIVATE',
+        endpointParams: { agreementId, partyId },
       },
-      { suppressToast: false }
-    )
+    })
   }
 
   const wrapSuspend = (agreementId: string) => async () => {
     const { id: partyId } = party as Party
-    await runAction(
-      {
-        path: {
-          endpoint: 'AGREEMENT_SUSPEND',
-          endpointParams: { agreementId, partyId },
-        },
+    await runAction({
+      path: {
+        endpoint: 'AGREEMENT_SUSPEND',
+        endpointParams: { agreementId, partyId },
       },
-      { suppressToast: false }
-    )
+    })
   }
 
   const wrapUpgrade = (agreementId: string) => async () => {
-    await runAction(
-      {
-        path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } },
-      },
-      { suppressToast: false }
-    )
+    await runAction({
+      path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } },
+    })
   }
   /*
    * End list of actions

@@ -39,10 +39,10 @@ export function ClientCreate() {
     const dataToPost = { name: data.name, description: data.description, consumerId: party?.id }
 
     const endpoint = clientKind === 'CONSUMER' ? 'CLIENT_CREATE' : 'CLIENT_INTEROP_M2M_CREATE'
-    const { outcome, response } = await runAction(
-      { path: { endpoint }, config: { data: dataToPost } },
-      { suppressToast: false }
-    )
+    const { outcome, response } = await runAction({
+      path: { endpoint },
+      config: { data: dataToPost },
+    })
 
     if (outcome === 'success') {
       await fetchAllWithLogs(

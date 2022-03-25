@@ -45,7 +45,7 @@ export function KeyEdit() {
           endpointParams: { clientId, keyId: keyData?.key.kid },
         },
       },
-      { suppressToast: true }
+      { suppressToast: ['success'] }
     )
 
     if (outcome === 'success') {
@@ -68,7 +68,6 @@ export function KeyEdit() {
           { clientId },
           { tab: 'publicKeys' }
         ),
-        suppressToast: false,
       }
     )
   }

@@ -19,24 +19,19 @@ import { DIALOG_CONTENTS } from '../config/dialog'
 import { TOAST_CONTENTS } from '../config/toast'
 
 type ActionOptions = {
-  suppressToast?: boolean
+  suppressToast?: Array<RequestOutcome>
   silent?: boolean
   onSuccessDestination?: MappedRouteConfig
 }
 
-type CallbackActionOptions = ActionOptions & {
-  callback: (response: AxiosResponse) => void
-}
-
 export type RunAction = (
   request: RequestConfig,
-  options: ActionOptions
+  options?: ActionOptions
 ) => Promise<{ outcome: RequestOutcome; response: AxiosResponse | AxiosError }>
 
 // TEMP REFACTOR: this typing needs to be refactored
 export type UserFeedbackHOCProps = {
   runAction: RunAction
-  runActionWithCallback: (request: RequestConfig, options: CallbackActionOptions) => Promise<void>
   forceRerenderCounter: number
   requestRerender: VoidFunction
   wrapActionInDialog: Promise<void>
@@ -120,7 +115,7 @@ export const useFeedback = () => {
   // The most basic action. Makes request, and displays the outcome
   const runAction = async (
     request: RequestConfig,
-    { suppressToast = false, silent = false, onSuccessDestination }: ActionOptions
+    { suppressToast, silent = false, onSuccessDestination }: ActionOptions = {}
   ): Promise<RunActionOutput> => {
     const { outcome, toastContent, response } = await makeRequestAndGetOutcome(request)
 
@@ -140,37 +135,12 @@ export const useFeedback = () => {
         setForceRerenderCounter(forceRerenderCounter + 1)
       }
 
-      if (!suppressToast) {
+      if (!suppressToast || !suppressToast.includes(outcome)) {
         showToast(toastContent)
       }
     }
 
     return { outcome, response }
-  }
-
-  // This action invokes a callback after a successful request/response cycle
-  const runActionWithCallback = async (
-    request: RequestConfig,
-    { callback, suppressToast }: CallbackActionOptions
-  ) => {
-    const { outcome, toastContent, response } = await makeRequestAndGetOutcome(request)
-
-    // Hide loader
-    setLoadingText(null)
-
-    // If this comes from an action in a table, close it
-    setTableActionMenu(null)
-
-    // Here, we are making a big assumption: callback kills the current view,
-    // so no state can be set after it, just like in runActionWithDestination.
-    // All state changes are in the "else" clause
-    if (outcome === 'success') {
-      callback(response as AxiosResponse)
-    } else {
-      if (!suppressToast) {
-        showToast(toastContent)
-      }
-    }
   }
   /*
    * End API calls
@@ -178,7 +148,6 @@ export const useFeedback = () => {
 
   return {
     runAction,
-    runActionWithCallback,
     forceRerenderCounter,
     requestRerender,
     showToast,

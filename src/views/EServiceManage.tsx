@@ -71,15 +71,12 @@ export function EServiceManage() {
     }
 
   const wrapActivatePurpose = (purposeId: string, versionId: string) => async () => {
-    await runAction(
-      {
-        path: {
-          endpoint: 'PURPOSE_VERSION_ACTIVATE',
-          endpointParams: { purposeId, versionId },
-        },
+    await runAction({
+      path: {
+        endpoint: 'PURPOSE_VERSION_ACTIVATE',
+        endpointParams: { purposeId, versionId },
       },
-      { suppressToast: false }
-    )
+    })
   }
 
   const getAvailableActions = (item: DecoratedPurpose): Array<ActionProps> => {

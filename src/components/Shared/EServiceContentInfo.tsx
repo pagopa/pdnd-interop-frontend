@@ -45,7 +45,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
           },
         },
       },
-      { suppressToast: true }
+      { suppressToast: ['success'] }
     )
 
     if (outcome === 'success') {

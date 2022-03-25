@@ -60,15 +60,12 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
    * List of possible actions for the user to perform
    */
   const wrapRemoveFromClient = (relationshipId?: string) => async () => {
-    await runAction(
-      {
-        path: {
-          endpoint: 'OPERATOR_SECURITY_REMOVE_FROM_CLIENT',
-          endpointParams: { clientId, relationshipId },
-        },
+    await runAction({
+      path: {
+        endpoint: 'OPERATOR_SECURITY_REMOVE_FROM_CLIENT',
+        endpointParams: { clientId, relationshipId },
       },
-      { suppressToast: false }
-    )
+    })
   }
   /*
    * End list of actions
@@ -108,15 +105,12 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
     )
 
     // The last one also triggers the feedback toast
-    await runAction(
-      {
-        path: {
-          endpoint: 'OPERATOR_SECURITY_JOIN_WITH_CLIENT',
-          endpointParams: { clientId, relationshipId: (lastSelected as User).id },
-        },
+    await runAction({
+      path: {
+        endpoint: 'OPERATOR_SECURITY_JOIN_WITH_CLIENT',
+        endpointParams: { clientId, relationshipId: (lastSelected as User).id },
       },
-      { suppressToast: false }
-    )
+    })
   }
 
   const openAddOperatoDialog = () => {

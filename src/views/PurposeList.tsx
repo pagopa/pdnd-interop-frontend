@@ -64,80 +64,62 @@ export const PurposeList = () => {
             path: { endpoint: 'PURPOSE_VERSION_DRAFT_CREATE', endpointParams: { purposeId } },
             config: { data: { dailyCalls } },
           },
-          { suppressToast: true, silent: true }
+          { suppressToast: ['success'], silent: true }
         )
 
         if (outcome === 'success') {
           const versionId = (response as AxiosResponse).data.id
-          await runAction(
-            {
-              path: {
-                endpoint: 'PURPOSE_VERSION_ACTIVATE',
-                endpointParams: { purposeId, versionId },
-              },
+          await runAction({
+            path: {
+              endpoint: 'PURPOSE_VERSION_ACTIVATE',
+              endpointParams: { purposeId, versionId },
             },
-            { suppressToast: false }
-          )
+          })
         }
       },
     })
   }
 
   const wrapDeleteVersion = (purpose: DecoratedPurpose) => async () => {
-    await runAction(
-      {
-        path: {
-          endpoint: 'PURPOSE_VERSION_DELETE',
-          endpointParams: { purposeId: purpose.id, versionId: purpose.mostRecentVersion.id },
-        },
+    await runAction({
+      path: {
+        endpoint: 'PURPOSE_VERSION_DELETE',
+        endpointParams: { purposeId: purpose.id, versionId: purpose.mostRecentVersion.id },
       },
-      { suppressToast: false }
-    )
+    })
   }
 
   const wrapDelete = (purposeId: string) => async () => {
-    await runAction(
-      {
-        path: { endpoint: 'PURPOSE_DRAFT_DELETE', endpointParams: { purposeId } },
-      },
-      { suppressToast: false }
-    )
+    await runAction({
+      path: { endpoint: 'PURPOSE_DRAFT_DELETE', endpointParams: { purposeId } },
+    })
   }
 
   const wrapArchive = (purpose: DecoratedPurpose) => async () => {
-    await runAction(
-      {
-        path: {
-          endpoint: 'PURPOSE_VERSION_ARCHIVE',
-          endpointParams: { purposeId: purpose.id, versionId: purpose.currentVersion.id },
-        },
+    await runAction({
+      path: {
+        endpoint: 'PURPOSE_VERSION_ARCHIVE',
+        endpointParams: { purposeId: purpose.id, versionId: purpose.currentVersion.id },
       },
-      { suppressToast: false }
-    )
+    })
   }
 
   const wrapSuspend = (purpose: DecoratedPurpose) => async () => {
-    await runAction(
-      {
-        path: {
-          endpoint: 'PURPOSE_VERSION_SUSPEND',
-          endpointParams: { purposeId: purpose.id, versionId: purpose.currentVersion.id },
-        },
+    await runAction({
+      path: {
+        endpoint: 'PURPOSE_VERSION_SUSPEND',
+        endpointParams: { purposeId: purpose.id, versionId: purpose.currentVersion.id },
       },
-      { suppressToast: false }
-    )
+    })
   }
 
   const wrapActivate = (purpose: DecoratedPurpose) => async () => {
-    await runAction(
-      {
-        path: {
-          endpoint: 'PURPOSE_VERSION_ACTIVATE',
-          endpointParams: { purposeId: purpose.id, versionId: purpose.currentVersion.id },
-        },
+    await runAction({
+      path: {
+        endpoint: 'PURPOSE_VERSION_ACTIVATE',
+        endpointParams: { purposeId: purpose.id, versionId: purpose.currentVersion.id },
       },
-      { suppressToast: false }
-    )
+    })
   }
   /*
    * End list of actions

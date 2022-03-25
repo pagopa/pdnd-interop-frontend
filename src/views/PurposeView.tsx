@@ -81,60 +81,45 @@ export const PurposeView = () => {
    * List of possible actions to perform in the purpose tab
    */
   const activate = async () => {
-    await runAction(
-      {
-        path: {
-          endpoint: 'PURPOSE_VERSION_ACTIVATE',
-          endpointParams: { purposeId: data?.id, versionId: data?.currentVersion.id },
-        },
+    await runAction({
+      path: {
+        endpoint: 'PURPOSE_VERSION_ACTIVATE',
+        endpointParams: { purposeId: data?.id, versionId: data?.currentVersion.id },
       },
-      { suppressToast: false }
-    )
+    })
   }
 
   const suspend = async () => {
-    await runAction(
-      {
-        path: {
-          endpoint: 'PURPOSE_VERSION_SUSPEND',
-          endpointParams: { purposeId: data?.id, versionId: data?.currentVersion.id },
-        },
+    await runAction({
+      path: {
+        endpoint: 'PURPOSE_VERSION_SUSPEND',
+        endpointParams: { purposeId: data?.id, versionId: data?.currentVersion.id },
       },
-      { suppressToast: false }
-    )
+    })
   }
 
   const archive = async () => {
-    await runAction(
-      {
-        path: {
-          endpoint: 'PURPOSE_VERSION_ARCHIVE',
-          endpointParams: { purposeId: data?.id, versionId: data?.currentVersion.id },
-        },
+    await runAction({
+      path: {
+        endpoint: 'PURPOSE_VERSION_ARCHIVE',
+        endpointParams: { purposeId: data?.id, versionId: data?.currentVersion.id },
       },
-      { suppressToast: false }
-    )
+    })
   }
 
   const deletePurpose = async () => {
-    await runAction(
-      {
-        path: { endpoint: 'PURPOSE_DRAFT_DELETE', endpointParams: { purposeId: data?.id } },
-      },
-      { suppressToast: false }
-    )
+    await runAction({
+      path: { endpoint: 'PURPOSE_DRAFT_DELETE', endpointParams: { purposeId: data?.id } },
+    })
   }
 
   const deleteVersionPurpose = async () => {
-    await runAction(
-      {
-        path: {
-          endpoint: 'PURPOSE_VERSION_DELETE',
-          endpointParams: { purposeId: data?.id, versionId: data?.mostRecentVersion.id },
-        },
+    await runAction({
+      path: {
+        endpoint: 'PURPOSE_VERSION_DELETE',
+        endpointParams: { purposeId: data?.id, versionId: data?.mostRecentVersion.id },
       },
-      { suppressToast: false }
-    )
+    })
   }
   /*
    * End list of actions
@@ -194,12 +179,9 @@ export const PurposeView = () => {
    * List of possible actions to perform in the client tab
    */
   const wrapRemoveFromPurpose = (clientId: string) => async () => {
-    await runAction(
-      {
-        path: { endpoint: 'CLIENT_REMOVE_FROM_PURPOSE', endpointParams: { clientId, purposeId } },
-      },
-      { suppressToast: false }
-    )
+    await runAction({
+      path: { endpoint: 'CLIENT_REMOVE_FROM_PURPOSE', endpointParams: { clientId, purposeId } },
+    })
   }
   /*
    * End list of actions
@@ -229,20 +211,17 @@ export const PurposeView = () => {
             },
             config: { data: { dailyCalls } },
           },
-          { suppressToast: true, silent: true }
+          { suppressToast: ['success'], silent: true }
         )
 
         if (outcome === 'success') {
           const versionId = (response as AxiosResponse).data.id
-          await runAction(
-            {
-              path: {
-                endpoint: 'PURPOSE_VERSION_ACTIVATE',
-                endpointParams: { purposeId, versionId },
-              },
+          await runAction({
+            path: {
+              endpoint: 'PURPOSE_VERSION_ACTIVATE',
+              endpointParams: { purposeId, versionId },
             },
-            { suppressToast: false }
-          )
+          })
         }
       },
     })
@@ -255,13 +234,10 @@ export const PurposeView = () => {
     // TEMP REFACTOR: improve this with error messages, failure handling, etc
     await Promise.all(
       newClients.map(async ({ id: clientId }) => {
-        return await runAction(
-          {
-            path: { endpoint: 'CLIENT_JOIN_WITH_PURPOSE', endpointParams: { clientId } },
-            config: { data: { purposeId } },
-          },
-          { suppressToast: false }
-        )
+        return await runAction({
+          path: { endpoint: 'CLIENT_JOIN_WITH_PURPOSE', endpointParams: { clientId } },
+          config: { data: { purposeId } },
+        })
       })
     )
   }

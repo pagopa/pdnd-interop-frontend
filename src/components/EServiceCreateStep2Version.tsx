@@ -31,7 +31,7 @@ type VersionData = {
 export function EServiceCreateStep2Version({ forward, back }: StepperStepComponentProps) {
   const { routes } = useRoute()
   const history = useHistory()
-  const { runActionWithCallback } = useFeedback()
+  const { runAction } = useFeedback()
   const { data: fetchedData } = useEserviceCreateFetch()
 
   const validationSchema = object({
@@ -98,16 +98,17 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
       endpointParams.descriptorId = activeDescriptor.id
     }
 
-    await runActionWithCallback(
-      {
-        path: { endpoint, endpointParams },
-        config: { data: dataToPost },
-      },
-      { callback: wrapOnSubmitSuccess(isNewDescriptor), suppressToast: false }
+    const { outcome, response } = await runAction(
+      { path: { endpoint, endpointParams }, config: { data: dataToPost } },
+      { silent: true, suppressToast: ['success'] }
     )
+
+    if (outcome === 'success') {
+      wrapOnSubmitSuccess(isNewDescriptor, response as AxiosResponse)
+    }
   }
 
-  const wrapOnSubmitSuccess = (isNewDescriptor: boolean) => (response: AxiosResponse) => {
+  const wrapOnSubmitSuccess = (isNewDescriptor: boolean, response: AxiosResponse) => {
     if (isNewDescriptor) {
       const descriptorId = response.data.id
 

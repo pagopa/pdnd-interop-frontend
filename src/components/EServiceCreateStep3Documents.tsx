@@ -38,7 +38,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
           },
         },
       },
-      { onSuccessDestination: routes.PROVIDE_ESERVICE_LIST, suppressToast: false }
+      { onSuccessDestination: routes.PROVIDE_ESERVICE_LIST }
     )
   }
 
@@ -54,7 +54,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
           },
         },
       },
-      { onSuccessDestination: routes.PROVIDE_ESERVICE_LIST, suppressToast: false }
+      { onSuccessDestination: routes.PROVIDE_ESERVICE_LIST }
     )
   }
 
@@ -71,7 +71,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
           },
         },
       },
-      { suppressToast: true }
+      { suppressToast: ['success', 'error'] }
     )
 
     return { outcome, response }
@@ -99,7 +99,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
         },
       },
       {
-        suppressToast: true,
+        suppressToast: ['success', 'error'],
       }
     )
 

@@ -69,7 +69,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
             path: { endpoint: 'CLIENT_JOIN_WITH_PURPOSE', endpointParams: { clientId } },
             config: { data: { purposeId } },
           },
-          { suppressToast: true }
+          { suppressToast: ['success'] }
         )
       })
     )
@@ -83,7 +83,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
           endpointParams: { purposeId, versionId: purposeFetchedData?.currentVersion.id },
         },
       },
-      { onSuccessDestination: routes.SUBSCRIBE_PURPOSE_LIST, suppressToast: false }
+      { onSuccessDestination: routes.SUBSCRIBE_PURPOSE_LIST }
     )
   }
 
@@ -92,7 +92,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
       {
         path: { endpoint: 'PURPOSE_DRAFT_DELETE', endpointParams: { purposeId } },
       },
-      { onSuccessDestination: routes.SUBSCRIBE_PURPOSE_LIST, suppressToast: false }
+      { onSuccessDestination: routes.SUBSCRIBE_PURPOSE_LIST }
     )
   }
 
@@ -104,7 +104,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
           endpointParams: { clientId: client.id, purposeId },
         },
       },
-      { suppressToast: true }
+      { suppressToast: ['success'] }
     )
   }
 
