@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
-import { Breadcrumbs, Typography } from '@mui/material'
+import { Breadcrumbs } from '@mui/material'
 import { StyledLink } from './StyledLink'
 import { MappedRouteConfig } from '../../../types'
 import { getBits, isSamePath } from '../../lib/router-utils'
@@ -44,14 +44,10 @@ export function StyledBreadcrumbs() {
     <Breadcrumbs sx={{ mb: 0 }}>
       {links.map(({ label, path }, i) => {
         if (i === links.length - 1) {
-          return (
-            <Typography component="span" color="text.secondary" key={i}>
-              {label}
-            </Typography>
-          )
+          return <span>{label}</span>
         }
         return (
-          <StyledLink key={i} to={path} sx={{ fontWeight: 700 }} color="text.primary">
+          <StyledLink key={i} to={path} sx={{ fontWeight: 700 }} color="inherit">
             {label}
           </StyledLink>
         )
