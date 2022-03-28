@@ -5,10 +5,46 @@ exports[`Snapshot matches 1`] = `
   className="MuiBox-root css-0"
 >
   <span
-    className="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+    className="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-wave css-1dk1h2u-MuiSkeleton-root"
     style={
       Object {
-        "height": 200,
+        "height": 100,
+        "width": undefined,
+      }
+    }
+  />
+  <span
+    className="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-wave css-1dk1h2u-MuiSkeleton-root"
+    style={
+      Object {
+        "height": 100,
+        "width": undefined,
+      }
+    }
+  />
+  <span
+    className="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-wave css-1dk1h2u-MuiSkeleton-root"
+    style={
+      Object {
+        "height": 100,
+        "width": undefined,
+      }
+    }
+  />
+  <span
+    className="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-wave css-1dk1h2u-MuiSkeleton-root"
+    style={
+      Object {
+        "height": 100,
+        "width": undefined,
+      }
+    }
+  />
+  <span
+    className="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-wave css-1dk1h2u-MuiSkeleton-root"
+    style={
+      Object {
+        "height": 100,
         "width": undefined,
       }
     }

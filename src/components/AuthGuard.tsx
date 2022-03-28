@@ -1,6 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { CircularProgress } from '@mui/material'
-import { Box } from '@mui/system'
 import { useHistory } from 'react-router'
 import { RouteAuthLevel } from '../../types'
 import { useLogin } from '../hooks/useLogin'
@@ -22,7 +20,7 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
   const { token } = useContext(TokenContext)
   const { silentLoginAttempt } = useLogin()
   const { fetchAvailablePartiesAttempt, setPartyFromStorageAttempt } = useParties()
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const { isRouteProtected, routes } = useRoute()
 
   const isCurrentRouteProtected = isRouteProtected(history.location)
@@ -30,11 +28,7 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
   // If there is no user, attempt to sign him/her in silently
   useEffect(() => {
     async function asyncSilentLoginAttempt() {
-      setIsLoading(true)
-
       const isNowSilentlyLoggedIn = await silentLoginAttempt()
-
-      setIsLoading(false)
 
       // If it still fails, redirect to login module
       // Note: this only applies to private routes, to avoid perpetual loop
@@ -55,8 +49,6 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
   // If there are no availableParties, try to fetch and set them
   useEffect(() => {
     async function asyncSilentAssignPartyAttempt() {
-      setIsLoading(true)
-
       const _availableParties = await fetchAvailablePartiesAttempt()
       const hasSetParty = setPartyFromStorageAttempt(_availableParties)
 
@@ -97,11 +89,7 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
   }
 
   if (isLoading) {
-    return (
-      <Box sx={{ textAlign: 'center' }}>
-        <CircularProgress />
-      </Box>
-    )
+    return null
   }
 
   // If we identified the user and he/she should not access this resource,

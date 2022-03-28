@@ -8,7 +8,6 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { buildDynamicPath, getBits } from '../lib/router-utils'
 import { UserList } from './UserList'
 import { useFeedback } from '../hooks/useFeedback'
-import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 import { KeysList } from '../components/KeysList'
 // import { EditableField } from '../components/Shared/EditableField'
 import { useActiveTab } from '../hooks/useActiveTab'
@@ -46,7 +45,7 @@ export function ClientEdit() {
   // }
 
   if (!data) {
-    return <StyledSkeleton />
+    return null
   }
 
   return (

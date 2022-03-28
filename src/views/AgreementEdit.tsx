@@ -23,7 +23,6 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { Box } from '@mui/system'
 import { Grid, Typography } from '@mui/material'
-import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 import { useRoute } from '../hooks/useRoute'
 import { StyledAccordion } from '../components/Shared/StyledAccordion'
 import { formatDateString } from '../lib/date-utils'
@@ -239,7 +238,7 @@ export function AgreementEdit() {
     "La richiesta può essere sospesa sia dall'erogatore che dal fruitore dell'E-Service. Se almeno uno dei due attori la sospende, inibirà l'accesso all'E-Service a tutti i client associati all'E-Service dal fruitore"
 
   if (!data) {
-    return <StyledSkeleton />
+    return null
   }
 
   return (

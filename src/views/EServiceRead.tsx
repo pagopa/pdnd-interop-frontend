@@ -14,7 +14,6 @@ import {
   getEserviceAndDescriptorFromUrl,
 } from '../lib/eservice-utils'
 import { useLocation } from 'react-router-dom'
-import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 import { NotFound } from './NotFound'
 import { useRoute } from '../hooks/useRoute'
 import { DescriptionBlock } from '../components/DescriptionBlock'
@@ -89,7 +88,7 @@ export function EServiceRead() {
   }
 
   if (!data) {
-    return <StyledSkeleton />
+    return null
   }
 
   if (error) {

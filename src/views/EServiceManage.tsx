@@ -21,7 +21,6 @@ import {
 } from '../lib/eservice-utils'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { NotFound } from './NotFound'
-import { StyledSkeleton } from '../components/Shared/StyledSkeleton'
 import { useRoute } from '../hooks/useRoute'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 
@@ -101,7 +100,7 @@ export function EServiceManage() {
   }
 
   if (!eserviceData) {
-    return <StyledSkeleton />
+    return null
   }
 
   if (error) {
