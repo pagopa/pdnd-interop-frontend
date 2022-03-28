@@ -13,6 +13,7 @@ import { Box } from '@mui/system'
 import { DeleteOutline as DeleteOutlineIcon } from '@mui/icons-material'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { useRoute } from '../hooks/useRoute'
+import { RunActionOutput } from '../hooks/useFeedback'
 import { useClientKind } from '../hooks/useClientKind'
 import { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
@@ -39,10 +40,10 @@ export function ClientCreate() {
     const dataToPost = { name: data.name, description: data.description, consumerId: party?.id }
 
     const endpoint = clientKind === 'CONSUMER' ? 'CLIENT_CREATE' : 'CLIENT_INTEROP_M2M_CREATE'
-    const { outcome, response } = await runAction(
-      { path: { endpoint }, config: { data: dataToPost } },
-      { suppressToast: false }
-    )
+    const { outcome, response } = (await runAction({
+      path: { endpoint },
+      config: { data: dataToPost },
+    })) as RunActionOutput
 
     if (outcome === 'success') {
       await fetchAllWithLogs(

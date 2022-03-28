@@ -28,7 +28,7 @@ import { PageBottomActions } from '../components/Shared/PageBottomActions'
 export function EServiceManage() {
   const { routes } = useRoute()
   const { setDialog } = useContext(DialogContext)
-  const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
+  const { runAction, forceRerenderCounter } = useFeedback()
   const { activeTab, updateActiveTab } = useActiveTab('details')
 
   const location = useLocation()
@@ -78,7 +78,7 @@ export function EServiceManage() {
           endpointParams: { purposeId, versionId },
         },
       },
-      { suppressToast: false }
+      { showConfirmDialog: true }
     )
   }
 
@@ -93,10 +93,7 @@ export function EServiceManage() {
         label: 'Aggiorna data di completamento',
       },
       {
-        onClick: wrapActionInDialog(
-          wrapActivatePurpose(item.id, item.mostRecentVersion.id),
-          'PURPOSE_VERSION_ACTIVATE'
-        ),
+        onClick: wrapActivatePurpose(item.id, item.mostRecentVersion.id),
         label: 'Attiva',
       },
     ]

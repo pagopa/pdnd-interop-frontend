@@ -63,7 +63,7 @@ export function StyledDeleteableDocument({
         },
         config: { data: { description: ref.textContent } },
       },
-      { suppressToast: true }
+      { suppressToast: ['success'] }
     )
   }
 

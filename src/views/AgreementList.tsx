@@ -27,7 +27,7 @@ import { PageTopFilters } from '../components/Shared/PageTopFilters'
 import { Box } from '@mui/material'
 
 export function AgreementList() {
-  const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
+  const { runAction, forceRerenderCounter } = useFeedback()
   const mode = useMode()
   const currentMode = mode as ProviderOrSubscriber
   const { party } = useContext(PartyContext)
@@ -54,12 +54,9 @@ export function AgreementList() {
     const { id: partyId } = party as Party
     await runAction(
       {
-        path: {
-          endpoint: 'AGREEMENT_ACTIVATE',
-          endpointParams: { agreementId, partyId },
-        },
+        path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId, partyId } },
       },
-      { suppressToast: false }
+      { showConfirmDialog: true }
     )
   }
 
@@ -67,12 +64,9 @@ export function AgreementList() {
     const { id: partyId } = party as Party
     await runAction(
       {
-        path: {
-          endpoint: 'AGREEMENT_SUSPEND',
-          endpointParams: { agreementId, partyId },
-        },
+        path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId, partyId } },
       },
-      { suppressToast: false }
+      { showConfirmDialog: true }
     )
   }
 
@@ -81,7 +75,7 @@ export function AgreementList() {
       {
         path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } },
       },
-      { suppressToast: false }
+      { showConfirmDialog: true }
     )
   }
   /*
@@ -92,18 +86,8 @@ export function AgreementList() {
   // Build list of available actions for each service in its current state
   const getAvailableActions = (agreement: AgreementSummary) => {
     const sharedActions: AgreementActions = {
-      ACTIVE: [
-        {
-          onClick: wrapActionInDialog(wrapSuspend(agreement.id), 'AGREEMENT_SUSPEND'),
-          label: 'Sospendi',
-        },
-      ],
-      SUSPENDED: [
-        {
-          onClick: wrapActionInDialog(wrapActivate(agreement.id), 'AGREEMENT_ACTIVATE'),
-          label: 'Riattiva',
-        },
-      ],
+      ACTIVE: [{ onClick: wrapSuspend(agreement.id), label: 'Sospendi' }],
+      SUSPENDED: [{ onClick: wrapActivate(agreement.id), label: 'Riattiva' }],
       PENDING: [],
       INACTIVE: [],
     }
@@ -111,7 +95,7 @@ export function AgreementList() {
     const subscriberOnlyActionsActive: Array<ActionProps> = []
     if (agreement.eservice.activeDescriptor) {
       subscriberOnlyActionsActive.push({
-        onClick: wrapActionInDialog(wrapUpgrade(agreement.id), 'AGREEMENT_UPGRADE'),
+        onClick: wrapUpgrade(agreement.id),
         label: 'Aggiorna',
       })
     }
@@ -126,12 +110,7 @@ export function AgreementList() {
     const providerOnlyActions: AgreementActions = {
       ACTIVE: [],
       SUSPENDED: [],
-      PENDING: [
-        {
-          onClick: wrapActionInDialog(wrapActivate(agreement.id), 'AGREEMENT_ACTIVATE'),
-          label: 'Attiva',
-        },
-      ],
+      PENDING: [{ onClick: wrapActivate(agreement.id), label: 'Attiva' }],
       INACTIVE: [],
     }
 

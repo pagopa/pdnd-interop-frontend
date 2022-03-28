@@ -29,6 +29,7 @@ import { isKeyOrphan } from '../lib/key-utils'
 import { PageTopFilters } from './Shared/PageTopFilters'
 import { TempFilters } from './TempFilters'
 import { Box } from '@mui/system'
+import { RunActionOutput } from '../hooks/useFeedback'
 
 type KeyToPostProps = SecurityOperatorKeysFormInputValues & {
   use: 'SIG'
@@ -48,7 +49,7 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
   const { party } = useContext(PartyContext)
   const { routes } = useRoute()
   const { user } = useUser()
-  const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
+  const { runAction, forceRerenderCounter } = useFeedback()
   const history = useHistory()
 
   const {
@@ -70,15 +71,15 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
   )
 
   const wrapDownloadKey = (keyId: string) => async () => {
-    const { response, outcome } = await runAction(
+    const { response, outcome } = (await runAction(
       {
         path: {
           endpoint: 'KEY_DOWNLOAD',
           endpointParams: { clientId, keyId },
         },
       },
-      { suppressToast: true }
-    )
+      { suppressToast: ['success'] }
+    )) as RunActionOutput
 
     if (outcome === 'success') {
       const decoded = atob((response as AxiosResponse).data.key)
@@ -88,26 +89,15 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
 
   const wrapDeleteKey = (keyId: string) => async () => {
     await runAction(
-      {
-        path: {
-          endpoint: 'KEY_DELETE',
-          endpointParams: { clientId, keyId },
-        },
-      },
-      { suppressToast: false }
+      { path: { endpoint: 'KEY_DELETE', endpointParams: { clientId, keyId } } },
+      { showConfirmDialog: true }
     )
   }
 
   const getAvailableActions = (key: PublicKeyItem) => {
     const actions: Array<ActionProps> = [
-      {
-        onClick: wrapDownloadKey(key.kid),
-        label: 'Scarica',
-      },
-      {
-        onClick: wrapActionInDialog(wrapDeleteKey(key.kid), 'KEY_DELETE'),
-        label: 'Elimina',
-      },
+      { onClick: wrapDownloadKey(key.kid), label: 'Scarica' },
+      { onClick: wrapDeleteKey(key.kid), label: 'Elimina' },
     ]
 
     return actions
@@ -129,13 +119,10 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
     }
     dataToPost.key = btoa(dataToPost.key.trim())
 
-    await runAction(
-      {
-        path: { endpoint: 'KEY_POST', endpointParams: { clientId } },
-        config: { data: [dataToPost] },
-      },
-      { suppressToast: false }
-    )
+    await runAction({
+      path: { endpoint: 'KEY_POST', endpointParams: { clientId } },
+      config: { data: [dataToPost] },
+    })
   }
 
   const openUploadKeyDialog = () => {

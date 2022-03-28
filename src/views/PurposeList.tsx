@@ -16,7 +16,7 @@ import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { TempFilters } from '../components/TempFilters'
 import { PURPOSE_STATE_LABEL } from '../config/labels'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { useFeedback } from '../hooks/useFeedback'
+import { RunActionOutput, useFeedback } from '../hooks/useFeedback'
 import { useRoute } from '../hooks/useRoute'
 import { DialogContext, PartyContext } from '../lib/context'
 import { decoratePurposeWithMostRecentVersion } from '../lib/purpose'
@@ -28,7 +28,7 @@ import { Box } from '@mui/system'
 
 export const PurposeList = () => {
   const history = useHistory()
-  const { wrapActionInDialog, runAction, forceRerenderCounter } = useFeedback()
+  const { runAction, forceRerenderCounter } = useFeedback()
   const { setDialog } = useContext(DialogContext)
   const { party } = useContext(PartyContext)
   const { routes } = useRoute()
@@ -59,25 +59,22 @@ export const PurposeList = () => {
       initialValues: { dailyCalls: 1 },
       validationSchema: object({ dailyCalls: number().required() }),
       onSubmit: async ({ dailyCalls }: DialogUpdatePurposeDailyCallsFormInputValues) => {
-        const { outcome, response } = await runAction(
+        const { outcome, response } = (await runAction(
           {
             path: { endpoint: 'PURPOSE_VERSION_DRAFT_CREATE', endpointParams: { purposeId } },
             config: { data: { dailyCalls } },
           },
-          { suppressToast: true, silent: true }
-        )
+          { suppressToast: ['success'], silent: true }
+        )) as RunActionOutput
 
         if (outcome === 'success') {
           const versionId = (response as AxiosResponse).data.id
-          await runAction(
-            {
-              path: {
-                endpoint: 'PURPOSE_VERSION_ACTIVATE',
-                endpointParams: { purposeId, versionId },
-              },
+          await runAction({
+            path: {
+              endpoint: 'PURPOSE_VERSION_ACTIVATE',
+              endpointParams: { purposeId, versionId },
             },
-            { suppressToast: false }
-          )
+          })
         }
       },
     })
@@ -91,7 +88,7 @@ export const PurposeList = () => {
           endpointParams: { purposeId: purpose.id, versionId: purpose.mostRecentVersion.id },
         },
       },
-      { suppressToast: false }
+      { showConfirmDialog: true }
     )
   }
 
@@ -100,7 +97,7 @@ export const PurposeList = () => {
       {
         path: { endpoint: 'PURPOSE_DRAFT_DELETE', endpointParams: { purposeId } },
       },
-      { suppressToast: false }
+      { showConfirmDialog: true }
     )
   }
 
@@ -112,7 +109,7 @@ export const PurposeList = () => {
           endpointParams: { purposeId: purpose.id, versionId: purpose.currentVersion.id },
         },
       },
-      { suppressToast: false }
+      { showConfirmDialog: true }
     )
   }
 
@@ -124,7 +121,7 @@ export const PurposeList = () => {
           endpointParams: { purposeId: purpose.id, versionId: purpose.currentVersion.id },
         },
       },
-      { suppressToast: false }
+      { showConfirmDialog: true }
     )
   }
 
@@ -136,7 +133,7 @@ export const PurposeList = () => {
           endpointParams: { purposeId: purpose.id, versionId: purpose.currentVersion.id },
         },
       },
-      { suppressToast: false }
+      { showConfirmDialog: true }
     )
   }
   /*
@@ -145,28 +142,12 @@ export const PurposeList = () => {
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = (purpose: DecoratedPurpose): Array<ActionProps> => {
-    const archiveAction = {
-      onClick: wrapActionInDialog(wrapArchive(purpose), 'PURPOSE_VERSION_ARCHIVE'),
-      label: 'Archivia',
-    }
-
-    const suspendAction = {
-      onClick: wrapActionInDialog(wrapSuspend(purpose), 'PURPOSE_VERSION_SUSPEND'),
-      label: 'Sospendi',
-    }
-
-    const activateAction = {
-      onClick: wrapActionInDialog(wrapActivate(purpose), 'PURPOSE_VERSION_ACTIVATE'),
-      label: 'Attiva',
-    }
-
-    const deleteAction = {
-      onClick: wrapActionInDialog(wrapDelete(purpose.id), 'PURPOSE_DRAFT_DELETE'),
-      label: 'Elimina',
-    }
-
+    const archiveAction = { onClick: wrapArchive(purpose), label: 'Archivia' }
+    const suspendAction = { onClick: wrapSuspend(purpose), label: 'Sospendi' }
+    const activateAction = { onClick: wrapActivate(purpose), label: 'Attiva' }
+    const deleteAction = { onClick: wrapDelete(purpose.id), label: 'Elimina' }
     const deleteVersionAction = {
-      onClick: wrapActionInDialog(wrapDeleteVersion(purpose), 'PURPOSE_VERSION_DELETE'),
+      onClick: wrapDeleteVersion(purpose),
       label: 'Elimina aggiornamento numero chiamate',
     }
 

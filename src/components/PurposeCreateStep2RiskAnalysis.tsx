@@ -11,7 +11,7 @@ import { StyledInputControlledRadioProps } from './Shared/StyledInputControlledR
 import { StyledInputControlledCheckboxMultipleProps } from './Shared/StyledInputControlledCheckboxMultiple'
 import { StyledInputControlledSelectProps } from './Shared/StyledInputControlledSelect'
 import { ObjectShape } from 'yup/lib/object'
-import { useFeedback } from '../hooks/useFeedback'
+import { RunActionOutput, useFeedback } from '../hooks/useFeedback'
 import { useLocation } from 'react-router-dom'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { Purpose, PurposeRiskAnalysisFormAnswers } from '../../types'
@@ -82,13 +82,13 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
       title: purposeFetchedData?.title,
       description: purposeFetchedData?.description,
     }
-    const { outcome } = await runAction(
+    const { outcome } = (await runAction(
       {
         path: { endpoint: 'PURPOSE_DRAFT_UPDATE', endpointParams: { purposeId } },
         config: { data: dataToPost },
       },
-      { suppressToast: true }
-    )
+      { suppressToast: ['success'] }
+    )) as RunActionOutput
 
     if (outcome === 'success') {
       forward()

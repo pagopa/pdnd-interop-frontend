@@ -11,7 +11,7 @@ exports[`Snapshot matches breadcrumbs 1`] = `
       className="MuiBreadcrumbs-li"
     >
       <a
-        className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-19h09cy-MuiTypography-root-MuiLink-root"
+        className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-vugc8v-MuiTypography-root-MuiLink-root"
         href="/it/erogazione"
         onBlur={[Function]}
         onClick={[Function]}
@@ -29,9 +29,7 @@ exports[`Snapshot matches breadcrumbs 1`] = `
     <li
       className="MuiBreadcrumbs-li"
     >
-      <span
-        className="MuiTypography-root MuiTypography-body1 css-1pnmrwp-MuiTypography-root"
-      >
+      <span>
         Richieste di fruizione
       </span>
     </li>
@@ -50,7 +48,7 @@ exports[`Snapshot matches breadcrumbs 2`] = `
       className="MuiBreadcrumbs-li"
     >
       <a
-        className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-19h09cy-MuiTypography-root-MuiLink-root"
+        className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-vugc8v-MuiTypography-root-MuiLink-root"
         href="/it/erogazione"
         onBlur={[Function]}
         onClick={[Function]}
@@ -69,7 +67,7 @@ exports[`Snapshot matches breadcrumbs 2`] = `
       className="MuiBreadcrumbs-li"
     >
       <a
-        className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-19h09cy-MuiTypography-root-MuiLink-root"
+        className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-vugc8v-MuiTypography-root-MuiLink-root"
         href="/it/erogazione/e-service"
         onBlur={[Function]}
         onClick={[Function]}
@@ -87,9 +85,7 @@ exports[`Snapshot matches breadcrumbs 2`] = `
     <li
       className="MuiBreadcrumbs-li"
     >
-      <span
-        className="MuiTypography-root MuiTypography-body1 css-1pnmrwp-MuiTypography-root"
-      >
+      <span>
         Crea E-Service
       </span>
     </li>

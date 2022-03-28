@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios'
 import { PublicKey, User } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { downloadFile } from '../lib/file-utils'
-import { useFeedback } from '../hooks/useFeedback'
+import { RunActionOutput, useFeedback } from '../hooks/useFeedback'
 import { Box } from '@mui/system'
 import { InlineClipboard } from '../components/Shared/InlineClipboard'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -18,7 +18,7 @@ import { isKeyOrphan } from '../lib/key-utils'
 
 export function KeyEdit() {
   const { routes } = useRoute()
-  const { runAction, runActionWithDestination, wrapActionInDialog } = useFeedback()
+  const { runAction } = useFeedback()
   const location = useLocation()
   const locationBits = getBits(location)
   const kid = locationBits[locationBits.length - 1]
@@ -38,15 +38,15 @@ export function KeyEdit() {
   )
 
   const downloadKey = async () => {
-    const { response, outcome } = await runAction(
+    const { response, outcome } = (await runAction(
       {
         path: {
           endpoint: 'KEY_DOWNLOAD',
           endpointParams: { clientId, keyId: keyData?.key.kid },
         },
       },
-      { suppressToast: true }
-    )
+      { suppressToast: ['success'] }
+    )) as RunActionOutput
 
     if (outcome === 'success') {
       const decoded = atob((response as AxiosResponse).data.key)
@@ -55,7 +55,7 @@ export function KeyEdit() {
   }
 
   const deleteKey = async () => {
-    await runActionWithDestination(
+    await runAction(
       {
         path: {
           endpoint: 'KEY_DELETE',
@@ -63,12 +63,12 @@ export function KeyEdit() {
         },
       },
       {
-        destination: buildDynamicRoute(
+        onSuccessDestination: buildDynamicRoute(
           routes.SUBSCRIBE_CLIENT_EDIT,
           { clientId },
           { tab: 'publicKeys' }
         ),
-        suppressToast: false,
+        showConfirmDialog: true,
       }
     )
   }
@@ -109,7 +109,7 @@ export function KeyEdit() {
         <StyledButton sx={{ mr: 2 }} variant="contained" onClick={downloadKey}>
           Scarica
         </StyledButton>
-        <StyledButton variant="outlined" onClick={wrapActionInDialog(deleteKey, 'KEY_DELETE')}>
+        <StyledButton variant="outlined" onClick={deleteKey}>
           Elimina
         </StyledButton>
       </Box>

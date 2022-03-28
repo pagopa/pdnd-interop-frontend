@@ -22,11 +22,12 @@ import { ActionMenu } from '../components/Shared/ActionMenu'
 import { axiosErrorToError } from '../lib/error-utils'
 import { URL_FRAGMENTS } from '../lib/constants'
 import { useRoute } from '../hooks/useRoute'
+import { RunActionOutput } from '../hooks/useFeedback'
 import { PageTopFilters } from '../components/Shared/PageTopFilters'
 import { Box } from '@mui/material'
 
 export function EServiceList() {
-  const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
+  const { runAction, forceRerenderCounter } = useFeedback()
   const history = useHistory()
   const { party } = useContext(PartyContext)
   const { lang } = useContext(LangContext)
@@ -56,7 +57,7 @@ export function EServiceList() {
           endpointParams: { eserviceId, descriptorId },
         },
       },
-      { suppressToast: false }
+      { showConfirmDialog: true }
     )
   }
 
@@ -69,7 +70,7 @@ export function EServiceList() {
       endpointParams.descriptorId = descriptorId
     }
 
-    await runAction({ path: { endpoint, endpointParams } }, { suppressToast: false })
+    await runAction({ path: { endpoint, endpointParams } }, { showConfirmDialog: true })
   }
 
   const wrapSuspend = (eserviceId: string, descriptorId?: string) => async () => {
@@ -80,7 +81,7 @@ export function EServiceList() {
           endpointParams: { eserviceId, descriptorId },
         },
       },
-      { suppressToast: false }
+      { showConfirmDialog: true }
     )
   }
 
@@ -92,7 +93,7 @@ export function EServiceList() {
           endpointParams: { eserviceId, descriptorId },
         },
       },
-      { suppressToast: false }
+      { showConfirmDialog: true }
     )
   }
 
@@ -109,13 +110,13 @@ export function EServiceList() {
           endpointParams: { eserviceId, descriptorId },
         },
       },
-      { suppressToast: false }
+      { showConfirmDialog: true }
     )
   }
 
   // Clones all the properties of the previous version and generates a new draft version
   const wrapCreateNewVersionDraft = (eserviceId: string) => async () => {
-    const { outcome, response } = await runAction(
+    const { outcome, response } = (await runAction(
       {
         path: { endpoint: 'ESERVICE_VERSION_DRAFT_CREATE', endpointParams: { eserviceId } },
         config: {
@@ -128,8 +129,8 @@ export function EServiceList() {
           },
         },
       },
-      { suppressToast: true }
-    )
+      { suppressToast: ['success'], showConfirmDialog: true }
+    )) as RunActionOutput
 
     if (outcome === 'success') {
       const successResponse = response as AxiosResponse<EServiceDescriptorRead>
@@ -152,51 +153,24 @@ export function EServiceList() {
   const getAvailableActions = (service: EServiceFlatReadType) => {
     const { id: eserviceId, descriptorId, state } = service
 
-    const suspendAction = {
-      onClick: wrapActionInDialog(
-        wrapSuspend(eserviceId, descriptorId),
-        'ESERVICE_VERSION_SUSPEND'
-      ),
-      label: 'Sospendi',
-    }
+    const suspendAction = { onClick: wrapSuspend(eserviceId, descriptorId), label: 'Sospendi' }
     const reactivateAction = {
-      onClick: wrapActionInDialog(
-        wrapReactivate(eserviceId, descriptorId),
-        'ESERVICE_VERSION_REACTIVATE'
-      ),
+      onClick: wrapReactivate(eserviceId, descriptorId),
       label: 'Riattiva',
     }
-    const cloneAction = {
-      onClick: wrapActionInDialog(
-        wrapClone(eserviceId, descriptorId),
-        'ESERVICE_CLONE_FROM_VERSION'
-      ),
-      label: 'Clona',
-    }
+    const cloneAction = { onClick: wrapClone(eserviceId, descriptorId), label: 'Clona' }
     const createVersionDraftAction = {
-      onClick: wrapActionInDialog(
-        wrapCreateNewVersionDraft(eserviceId),
-        'ESERVICE_VERSION_DRAFT_CREATE'
-      ),
+      onClick: wrapCreateNewVersionDraft(eserviceId),
       label: 'Crea bozza nuova versione',
     }
     // TEMP PIN-645
-    // const archiveAction = {
-    //   onClick: wrapActionInDialog(archive),
-    //   label: 'Archivia',
-    // }
+    // const archiveAction = { onClick: archive, label: 'Archivia' }
     const publishDraftAction = {
-      onClick: wrapActionInDialog(
-        wrapPublishDraft(eserviceId, descriptorId),
-        'ESERVICE_VERSION_DRAFT_PUBLISH'
-      ),
+      onClick: wrapPublishDraft(eserviceId, descriptorId),
       label: 'Pubblica',
     }
     const deleteDraftAction = {
-      onClick: wrapActionInDialog(
-        wrapDeleteDraft(eserviceId, descriptorId),
-        'ESERVICE_VERSION_DRAFT_DELETE'
-      ),
+      onClick: wrapDeleteDraft(eserviceId, descriptorId),
       label: 'Elimina',
     }
 

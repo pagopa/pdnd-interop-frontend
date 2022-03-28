@@ -7,10 +7,10 @@ import {
   RequestConfig,
   RequestOutcome,
   MappedRouteConfig,
-  RunActionOutput,
   RunActionProps,
   ToastActionKeys,
   ToastContentWithOutcome,
+  ApiEndpointKey,
 } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { DialogContext, LoaderContext, TableActionMenuContext, ToastContext } from '../lib/context'
@@ -18,34 +18,31 @@ import { getFetchOutcome } from '../lib/error-utils'
 import { DIALOG_CONTENTS } from '../config/dialog'
 import { TOAST_CONTENTS } from '../config/toast'
 
-type ActionOptions = { suppressToast: boolean; silent?: boolean }
-
-type CallbackActionOptions = ActionOptions & {
-  callback: (response: AxiosResponse) => void
+type BasicActionOptions = {
+  suppressToast?: Array<RequestOutcome>
+  silent?: boolean
+  onSuccessDestination?: MappedRouteConfig
 }
 
-type DestinationActionOptions = ActionOptions & {
-  destination: MappedRouteConfig
+type ActionOptions = BasicActionOptions & {
+  showConfirmDialog?: boolean
+}
+
+export type RunActionOutput = {
+  response: AxiosResponse | AxiosError
+  outcome: RequestOutcome
 }
 
 export type RunAction = (
   request: RequestConfig,
-  options: ActionOptions
-) => Promise<{ outcome: RequestOutcome; response: AxiosResponse | AxiosError }>
+  options?: ActionOptions
+) => Promise<RunActionOutput | void>
 
 // TEMP REFACTOR: this typing needs to be refactored
 export type UserFeedbackHOCProps = {
   runAction: RunAction
-  runActionWithDestination: (
-    request: RequestConfig,
-    options: DestinationActionOptions
-  ) => Promise<void>
-  runActionWithCallback: (request: RequestConfig, options: CallbackActionOptions) => Promise<void>
   forceRerenderCounter: number
   requestRerender: VoidFunction
-  wrapActionInDialog: Promise<void>
-  showToast: (toastContent: ToastContentWithOutcome) => void
-  setLoadingText: (text: string | undefined) => void
 }
 
 export const useFeedback = () => {
@@ -57,20 +54,20 @@ export const useFeedback = () => {
   const [forceRerenderCounter, setForceRerenderCounter] = useState(0)
 
   // Dialog, toast and counter related functions
-  const wrapActionInDialog =
-    (wrappedAction: ActionFunction, endpointKey?: DialogActionKeys) => async () => {
-      const contents = endpointKey ? DIALOG_CONTENTS[endpointKey] : null
-      if (contents) {
-        setDialog({
-          type: 'basic',
-          proceedCallback: wrappedAction,
-          close: closeDialog,
-          ...contents,
-        })
-      } else {
-        throw new Error('La dialog richiesta non esiste')
-      }
+  const wrapActionInDialog = (wrappedAction: ActionFunction, endpointKey: ApiEndpointKey) => {
+    const hasDialog = Object.keys(DIALOG_CONTENTS).includes(endpointKey)
+
+    if (!hasDialog) {
+      throw new Error('This action should have a modal')
+    } else {
+      setDialog({
+        type: 'basic',
+        proceedCallback: wrappedAction,
+        close: closeDialog,
+        ...DIALOG_CONTENTS[endpointKey as DialogActionKeys],
+      })
     }
+  }
 
   const closeDialog = () => {
     setDialog(null)
@@ -121,90 +118,58 @@ export const useFeedback = () => {
     return { outcome, toastContent, response }
   }
 
+  const wrapBasicAction =
+    (
+      request: RequestConfig,
+      { suppressToast, silent = false, onSuccessDestination }: BasicActionOptions
+    ) =>
+    async () => {
+      // If this comes from an action in a table, close it
+      setTableActionMenu(null)
+
+      // Fetch the data
+      const { outcome, toastContent, response } = await makeRequestAndGetOutcome(request)
+
+      // Hide loader
+      setLoadingText(null)
+
+      if (onSuccessDestination && outcome === 'success') {
+        // Go to destination path, and optionally display the toast there
+        history.push(onSuccessDestination.PATH, { toast: !suppressToast && toastContent })
+      } else {
+        // Only refresh the view if success (if failure, nothing has happened and there is nothing to re-render)
+        if (outcome === 'success' && !silent) {
+          // Force refresh the current view if needed
+          setForceRerenderCounter(forceRerenderCounter + 1)
+        }
+
+        // Show the toast unless it is explicitly hidden
+        if (!suppressToast || !suppressToast.includes(outcome)) {
+          showToast(toastContent)
+        }
+      }
+
+      return { outcome, response }
+    }
+
   // The most basic action. Makes request, and displays the outcome
+  // While waiting for narrowing return types based using conditional types
+  // Track this issue for progress: https://github.com/microsoft/TypeScript/issues/33014
   const runAction = async (
     request: RequestConfig,
-    { suppressToast, silent = false }: ActionOptions
-  ): Promise<RunActionOutput> => {
-    const { outcome, toastContent, response } = await makeRequestAndGetOutcome(request)
+    { showConfirmDialog = false, ...options }: ActionOptions = {}
+  ): Promise<RunActionOutput | void> => {
+    const runBasicAction = wrapBasicAction(request, options)
 
-    if (outcome === 'success' && !silent) {
-      // Force refresh the current view if needed
-      setForceRerenderCounter(forceRerenderCounter + 1)
-    }
-
-    // Hide loader
-    setLoadingText(null)
-
-    // If this comes from an action in a table, close it
-    setTableActionMenu(null)
-
-    if (!suppressToast) {
-      showToast(toastContent)
-    }
-
-    return { outcome, response }
-  }
-
-  // This action invokes a callback after a successful request/response cycle
-  const runActionWithCallback = async (
-    request: RequestConfig,
-    { callback, suppressToast }: CallbackActionOptions
-  ) => {
-    const { outcome, toastContent, response } = await makeRequestAndGetOutcome(request)
-
-    // Hide loader
-    setLoadingText(null)
-
-    // If this comes from an action in a table, close it
-    setTableActionMenu(null)
-
-    // Here, we are making a big assumption: callback kills the current view,
-    // so no state can be set after it, just like in runActionWithDestination.
-    // All state changes are in the "else" clause
-    if (outcome === 'success') {
-      callback(response as AxiosResponse)
+    if (showConfirmDialog) {
+      wrapActionInDialog(runBasicAction, request.path.endpoint)
     } else {
-      if (!suppressToast) {
-        showToast(toastContent)
-      }
-    }
-  }
-
-  // This action goes to another view after a successful request/response cycle, triggering a pushState
-  const runActionWithDestination = async (
-    request: RequestConfig,
-    { destination, suppressToast }: DestinationActionOptions
-  ) => {
-    const { outcome, toastContent } = await makeRequestAndGetOutcome(request)
-
-    // Hide loader
-    setLoadingText(null)
-
-    // If this comes from an action in a table, close it
-    setTableActionMenu(null)
-
-    if (outcome === 'success') {
-      // Go to destination path, and optionally display the toast
-      history.push(destination.PATH, { toast: !suppressToast && toastContent })
-    } else {
-      if (!suppressToast) {
-        showToast(toastContent)
-      }
+      return await runBasicAction()
     }
   }
   /*
    * End API calls
    */
 
-  return {
-    runAction,
-    runActionWithCallback,
-    runActionWithDestination,
-    forceRerenderCounter,
-    requestRerender,
-    showToast,
-    setLoadingText,
-    wrapActionInDialog,
-  }
+  return { runAction, forceRerenderCounter, requestRerender }
 }

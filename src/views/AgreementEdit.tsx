@@ -31,8 +31,7 @@ import { InfoMessage } from '../components/Shared/InfoMessage'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 
 export function AgreementEdit() {
-  const { runAction, runActionWithDestination, forceRerenderCounter, wrapActionInDialog } =
-    useFeedback()
+  const { runAction, forceRerenderCounter } = useFeedback()
   const mode = useMode()
   const agreementId = getLastBit(useLocation())
   const { party } = useContext(PartyContext)
@@ -54,34 +53,24 @@ export function AgreementEdit() {
     const { id: partyId } = party as Party
     await runAction(
       {
-        path: {
-          endpoint: 'AGREEMENT_ACTIVATE',
-          endpointParams: { agreementId, partyId },
-        },
+        path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId, partyId } },
       },
-      { suppressToast: false }
+      { showConfirmDialog: true }
     )
   }
 
   const suspend = async () => {
     const { id: partyId } = party as Party
     await runAction(
-      {
-        path: {
-          endpoint: 'AGREEMENT_SUSPEND',
-          endpointParams: { agreementId, partyId },
-        },
-      },
-      { suppressToast: false }
+      { path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId, partyId } } },
+      { showConfirmDialog: true }
     )
   }
 
   const upgrade = async () => {
-    await runActionWithDestination(
-      {
-        path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } },
-      },
-      { destination: routes.SUBSCRIBE_AGREEMENT_LIST, suppressToast: false }
+    await runAction(
+      { path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } } },
+      { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
     )
   }
 
@@ -92,15 +81,12 @@ export function AgreementEdit() {
 
   const wrapVerify = (attributeId: string) => async () => {
     const sureData = data as AgreementSummary
-    await runAction(
-      {
-        path: {
-          endpoint: 'AGREEMENT_VERIFY_ATTRIBUTE',
-          endpointParams: { agreementId: sureData.id, attributeId },
-        },
+    await runAction({
+      path: {
+        endpoint: 'AGREEMENT_VERIFY_ATTRIBUTE',
+        endpointParams: { agreementId: sureData.id, attributeId },
       },
-      { suppressToast: false }
-    )
+    })
   }
   /*
    * End list of actions
@@ -114,31 +100,16 @@ export function AgreementEdit() {
     }
 
     const sharedActions: AgreementActions = {
-      ACTIVE: [
-        {
-          onClick: wrapActionInDialog(suspend, 'AGREEMENT_SUSPEND'),
-          label: 'Sospendi',
-        },
-      ],
-      SUSPENDED: [
-        {
-          onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'),
-          label: 'Riattiva',
-        },
-      ],
+      ACTIVE: [{ onClick: suspend, label: 'Sospendi' }],
+      SUSPENDED: [{ onClick: activate, label: 'Riattiva' }],
       PENDING: [],
       INACTIVE: [],
     }
 
     const providerOnlyActions: AgreementActions = {
       ACTIVE: [],
-      SUSPENDED: [], // [{ onClick: wrapActionInDialog(archive), label: 'Archivia' }],
-      PENDING: [
-        {
-          onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'),
-          label: 'Attiva',
-        },
-      ],
+      SUSPENDED: [], // [{ onClick: archive, label: 'Archivia' }],
+      PENDING: [{ onClick: activate, label: 'Attiva' }],
       INACTIVE: [],
     }
 
@@ -147,10 +118,7 @@ export function AgreementEdit() {
       data.eservice.activeDescriptor &&
       data.eservice.activeDescriptor.version > data.eservice.version
     ) {
-      subscriberOnlyActionsActive.push({
-        onClick: wrapActionInDialog(upgrade, 'AGREEMENT_UPGRADE'),
-        label: 'Aggiorna',
-      })
+      subscriberOnlyActionsActive.push({ onClick: upgrade, label: 'Aggiorna' })
     }
 
     const subscriberOnlyActions: AgreementActions = {

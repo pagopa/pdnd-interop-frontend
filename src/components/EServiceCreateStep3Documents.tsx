@@ -7,7 +7,7 @@ import {
   EServiceReadType,
   StepperStepComponentProps,
 } from '../../types'
-import { useFeedback } from '../hooks/useFeedback'
+import { RunActionOutput, useFeedback } from '../hooks/useFeedback'
 import { StyledIntro } from './Shared/StyledIntro'
 import { StyledButton } from './Shared/StyledButton'
 import { EServiceCreateStep3DocumentsInterface } from './EServiceCreateStep3DocumentsInterface'
@@ -21,14 +21,14 @@ import { useRoute } from '../hooks/useRoute'
 export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps) {
   const { routes } = useRoute()
   const history = useHistory()
-  const { runAction, runActionWithDestination, wrapActionInDialog } = useFeedback()
+  const { runAction } = useFeedback()
   const { data: fetchedData, descriptorId } = useEserviceCreateFetch()
   const sureFetchedData = fetchedData as EServiceReadType
   const activeDescriptorId = descriptorId as string
 
   const publishVersion = async () => {
     const activeDescriptor = sureFetchedData.activeDescriptor as EServiceDescriptorRead
-    await runActionWithDestination(
+    await runAction(
       {
         path: {
           endpoint: 'ESERVICE_VERSION_DRAFT_PUBLISH',
@@ -38,13 +38,13 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
           },
         },
       },
-      { destination: routes.PROVIDE_ESERVICE_LIST, suppressToast: false }
+      { onSuccessDestination: routes.PROVIDE_ESERVICE_LIST, showConfirmDialog: true }
     )
   }
 
   const deleteVersion = async () => {
     const activeDescriptor = sureFetchedData.activeDescriptor as EServiceDescriptorRead
-    await runActionWithDestination(
+    await runAction(
       {
         path: {
           endpoint: 'ESERVICE_VERSION_DRAFT_DELETE',
@@ -54,13 +54,13 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
           },
         },
       },
-      { destination: routes.PROVIDE_ESERVICE_LIST, suppressToast: false }
+      { onSuccessDestination: routes.PROVIDE_ESERVICE_LIST, showConfirmDialog: true }
     )
   }
 
   const deleteDescriptorDocument = async (documentId: string) => {
     const activeDescriptor = sureFetchedData.activeDescriptor as EServiceDescriptorRead
-    const { outcome, response } = await runAction(
+    const { outcome, response } = (await runAction(
       {
         path: {
           endpoint: 'ESERVICE_VERSION_DRAFT_DELETE_DOCUMENT',
@@ -71,8 +71,8 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
           },
         },
       },
-      { suppressToast: true }
-    )
+      { suppressToast: ['success', 'error'] }
+    )) as RunActionOutput
 
     return { outcome, response }
   }
@@ -84,7 +84,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
     formData.append('doc', doc)
 
     const activeDescriptor = sureFetchedData.activeDescriptor as EServiceDescriptorRead
-    const { outcome, response } = await runAction(
+    const { outcome, response } = (await runAction(
       {
         path: {
           endpoint: 'ESERVICE_VERSION_DRAFT_POST_DOCUMENT',
@@ -99,9 +99,9 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
         },
       },
       {
-        suppressToast: true,
+        suppressToast: ['success', 'error'],
       }
-    )
+    )) as RunActionOutput
 
     return { outcome, response }
   }
@@ -174,17 +174,10 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
           }}
         </StyledIntro>
         <Box sx={{ display: 'flex', mt: 3 }}>
-          <StyledButton
-            sx={{ mr: 2 }}
-            variant="contained"
-            onClick={wrapActionInDialog(publishVersion, 'ESERVICE_VERSION_DRAFT_PUBLISH')}
-          >
+          <StyledButton sx={{ mr: 2 }} variant="contained" onClick={publishVersion}>
             Pubblica bozza
           </StyledButton>
-          <StyledButton
-            variant="outlined"
-            onClick={wrapActionInDialog(deleteVersion, 'ESERVICE_VERSION_DRAFT_DELETE')}
-          >
+          <StyledButton variant="outlined" onClick={deleteVersion}>
             Cancella bozza
           </StyledButton>
         </Box>

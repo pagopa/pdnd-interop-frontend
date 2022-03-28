@@ -28,7 +28,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
   const history = useHistory()
   const { routes } = useRoute()
   const { setDialog } = useContext(DialogContext)
-  const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
+  const { runAction, forceRerenderCounter } = useFeedback()
 
   // Only for subscriber
   const locationBits = getBits(history.location)
@@ -67,7 +67,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
           endpointParams: { clientId, relationshipId },
         },
       },
-      { suppressToast: false }
+      { showConfirmDialog: true }
     )
   }
   /*
@@ -77,10 +77,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
   const getAvailableActions = (user: User) => {
     if (mode === 'subscriber' && isAdmin(party)) {
       const removeFromClientAction = {
-        onClick: wrapActionInDialog(
-          wrapRemoveFromClient(user.relationshipId),
-          'OPERATOR_SECURITY_REMOVE_FROM_CLIENT'
-        ),
+        onClick: wrapRemoveFromClient(user.relationshipId),
         label: 'Rimuovi dal client',
       }
 
@@ -108,15 +105,12 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
     )
 
     // The last one also triggers the feedback toast
-    await runAction(
-      {
-        path: {
-          endpoint: 'OPERATOR_SECURITY_JOIN_WITH_CLIENT',
-          endpointParams: { clientId, relationshipId: (lastSelected as User).id },
-        },
+    await runAction({
+      path: {
+        endpoint: 'OPERATOR_SECURITY_JOIN_WITH_CLIENT',
+        endpointParams: { clientId, relationshipId: (lastSelected as User).id },
       },
-      { suppressToast: false }
-    )
+    })
   }
 
   const openAddOperatoDialog = () => {

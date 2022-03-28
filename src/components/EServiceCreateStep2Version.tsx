@@ -18,6 +18,7 @@ import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
 import { useRoute } from '../hooks/useRoute'
 import { Paper } from '@mui/material'
+import { RunActionOutput } from '../hooks/useFeedback'
 
 type VersionData = {
   audience: string
@@ -31,7 +32,7 @@ type VersionData = {
 export function EServiceCreateStep2Version({ forward, back }: StepperStepComponentProps) {
   const { routes } = useRoute()
   const history = useHistory()
-  const { runActionWithCallback } = useFeedback()
+  const { runAction } = useFeedback()
   const { data: fetchedData } = useEserviceCreateFetch()
 
   const validationSchema = object({
@@ -98,16 +99,17 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
       endpointParams.descriptorId = activeDescriptor.id
     }
 
-    await runActionWithCallback(
-      {
-        path: { endpoint, endpointParams },
-        config: { data: dataToPost },
-      },
-      { callback: wrapOnSubmitSuccess(isNewDescriptor), suppressToast: false }
-    )
+    const { outcome, response } = (await runAction(
+      { path: { endpoint, endpointParams }, config: { data: dataToPost } },
+      { silent: true, suppressToast: ['success'] }
+    )) as RunActionOutput
+
+    if (outcome === 'success') {
+      wrapOnSubmitSuccess(isNewDescriptor, response as AxiosResponse)
+    }
   }
 
-  const wrapOnSubmitSuccess = (isNewDescriptor: boolean) => (response: AxiosResponse) => {
+  const wrapOnSubmitSuccess = (isNewDescriptor: boolean, response: AxiosResponse) => {
     if (isNewDescriptor) {
       const descriptorId = response.data.id
 

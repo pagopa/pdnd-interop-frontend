@@ -28,6 +28,7 @@ import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
 import { URL_FRAGMENTS } from '../lib/constants'
 import { useRoute } from '../hooks/useRoute'
 import { Divider, Paper } from '@mui/material'
+import { RunActionOutput } from '../hooks/useFeedback'
 
 export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentProps> = ({
   forward,
@@ -36,7 +37,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
   const { party } = useContext(PartyContext)
   const { routes } = useRoute()
   const history = useHistory()
-  const { runActionWithCallback } = useFeedback()
+  const { runAction } = useFeedback()
   const { data: fetchedData } = useEserviceCreateFetch()
 
   const validationSchema = object({
@@ -95,13 +96,17 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
       delete dataToPost.producerId // Needed to avoid getting an error on PUT
     }
 
-    await runActionWithCallback(
+    const { outcome, response } = (await runAction(
       { path: { endpoint, endpointParams }, config: { data: dataToPost } },
-      { callback: wrapGoForward(isNewService), suppressToast: false }
-    )
+      { silent: true, suppressToast: ['success'] }
+    )) as RunActionOutput
+
+    if (outcome === 'success') {
+      wrapGoForward(isNewService, response as AxiosResponse)
+    }
   }
 
-  const wrapGoForward = (isNewService: boolean) => (response: AxiosResponse) => {
+  const wrapGoForward = (isNewService: boolean, response: AxiosResponse) => {
     if (isNewService) {
       // Replace the create route with the acutal eserviceId, now that we have it.
       // WARNING: this will cause a re-render that will fetch fresh data

@@ -22,7 +22,7 @@ import { StyledLink } from '../components/Shared/StyledLink'
 import { buildDynamicPath } from '../lib/router-utils'
 
 export function EServiceRead() {
-  const { runActionWithDestination } = useFeedback()
+  const { runAction } = useFeedback()
   const { routes } = useRoute()
   const { party } = useContext(PartyContext)
   const { setDialog } = useContext(DialogContext)
@@ -70,9 +70,9 @@ export function EServiceRead() {
         consumerId: party?.id,
       }
 
-      await runActionWithDestination(
+      await runAction(
         { path: { endpoint: 'AGREEMENT_CREATE' }, config: { data: agreementData } },
-        { destination: routes.SUBSCRIBE_AGREEMENT_LIST, suppressToast: false }
+        { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
       )
     }
 

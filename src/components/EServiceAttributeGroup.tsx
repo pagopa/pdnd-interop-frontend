@@ -60,10 +60,7 @@ export function EServiceAttributeGroup({
     const createNewAttribute = async (data: NewAttributeFormInputValues) => {
       const dataToPost = { ...data }
 
-      await runAction(
-        { path: { endpoint: 'ATTRIBUTE_CREATE' }, config: { data: dataToPost } },
-        { suppressToast: false }
-      )
+      await runAction({ path: { endpoint: 'ATTRIBUTE_CREATE' }, config: { data: dataToPost } })
     }
 
     setDialog({

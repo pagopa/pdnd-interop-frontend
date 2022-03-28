@@ -25,8 +25,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
   const { routes } = useRoute()
   const { party } = useContext(PartyContext)
 
-  const { wrapActionInDialog, runActionWithDestination, runAction, forceRerenderCounter } =
-    useFeedback()
+  const { runAction, forceRerenderCounter } = useFeedback()
 
   const { data: clientsData = [] } = useAsyncFetch<{ clients: Array<Client> }, Array<Client>>(
     {
@@ -70,30 +69,30 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
             path: { endpoint: 'CLIENT_JOIN_WITH_PURPOSE', endpointParams: { clientId } },
             config: { data: { purposeId } },
           },
-          { suppressToast: true }
+          { suppressToast: ['success'] }
         )
       })
     )
   }
 
   const publishVersion = async () => {
-    await runActionWithDestination(
+    await runAction(
       {
         path: {
           endpoint: 'PURPOSE_VERSION_ACTIVATE',
           endpointParams: { purposeId, versionId: purposeFetchedData?.currentVersion.id },
         },
       },
-      { destination: routes.SUBSCRIBE_PURPOSE_LIST, suppressToast: false }
+      { onSuccessDestination: routes.SUBSCRIBE_PURPOSE_LIST, showConfirmDialog: true }
     )
   }
 
   const deleteVersion = async () => {
-    await runActionWithDestination(
+    await runAction(
       {
         path: { endpoint: 'PURPOSE_DRAFT_DELETE', endpointParams: { purposeId } },
       },
-      { destination: routes.SUBSCRIBE_PURPOSE_LIST, suppressToast: false }
+      { onSuccessDestination: routes.SUBSCRIBE_PURPOSE_LIST, showConfirmDialog: true }
     )
   }
 
@@ -105,7 +104,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
           endpointParams: { clientId: client.id, purposeId },
         },
       },
-      { suppressToast: true }
+      { suppressToast: ['success'] }
     )
   }
 
@@ -155,17 +154,10 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
           }}
         </StyledIntro>
         <Box sx={{ display: 'flex', mt: 3 }}>
-          <StyledButton
-            sx={{ mr: 2 }}
-            variant="contained"
-            onClick={wrapActionInDialog(publishVersion, 'PURPOSE_VERSION_ACTIVATE')}
-          >
+          <StyledButton sx={{ mr: 2 }} variant="contained" onClick={publishVersion}>
             Pubblica bozza
           </StyledButton>
-          <StyledButton
-            variant="outlined"
-            onClick={wrapActionInDialog(deleteVersion, 'PURPOSE_DRAFT_DELETE')}
-          >
+          <StyledButton variant="outlined" onClick={deleteVersion}>
             Cancella bozza
           </StyledButton>
         </Box>

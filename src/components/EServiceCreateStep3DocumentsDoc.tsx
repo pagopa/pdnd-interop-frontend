@@ -10,7 +10,6 @@ import {
   EServiceDocumentWrite,
   EServiceReadType,
   EServiceDocumentKind,
-  RunActionOutput,
 } from '../../types'
 import { getActiveDocs } from '../lib/eservice-utils'
 import { StyledDeleteableDocument } from './Shared/StyledDeleteableDocument'
@@ -20,6 +19,7 @@ import { AxiosResponse } from 'axios'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { StyledInputControlledFile } from './Shared/StyledInputControlledFile'
 import { Typography } from '@mui/material'
+import { RunActionOutput } from '../hooks/useFeedback'
 
 type EServiceCreateStep3DocumentsDocProps = {
   data: EServiceReadType

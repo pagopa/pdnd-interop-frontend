@@ -1,5 +1,5 @@
 import React from 'react'
-import { AxiosError, AxiosRequestConfig, AxiosResponse, Method } from 'axios'
+import { AxiosRequestConfig, Method } from 'axios'
 import {
   AGREEMENT_STATE_LABEL,
   ESERVICE_STATE_LABEL,
@@ -601,7 +601,7 @@ export type FrontendAttributes = Record<AttributeKey, Array<FrontendAttribute>>
  * Dialog, loader and toast components typings
  * Here because they reflect onto React state updates
  */
-export type ActionFunction = any // eslint-disable-line @typescript-eslint/no-explicit-any
+export type ActionFunction = () => void
 
 export type RunActionProps = {
   loadingText: string
@@ -845,11 +845,6 @@ export type MUISize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 /*
  * MISC
  */
-export type RunActionOutput = {
-  response: AxiosResponse | AxiosError
-  outcome: RequestOutcome
-}
-
 export type FormikSetFieldValue = (
   field: string,
   value: unknown,
