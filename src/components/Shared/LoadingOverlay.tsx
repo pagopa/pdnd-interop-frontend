@@ -1,6 +1,6 @@
+import { Backdrop } from '@mui/material'
 import React from 'react'
 import { LoadingWithMessage } from './LoadingWithMessage'
-import { Overlay } from './Overlay'
 
 type LoadingOverlayProps = {
   loadingText: string
@@ -8,8 +8,8 @@ type LoadingOverlayProps = {
 
 export function LoadingOverlay({ loadingText }: LoadingOverlayProps) {
   return (
-    <Overlay>
+    <Backdrop open>
       <LoadingWithMessage label={loadingText} />
-    </Overlay>
+    </Backdrop>
   )
 }

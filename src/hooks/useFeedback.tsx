@@ -124,13 +124,14 @@ export const useFeedback = () => {
       { suppressToast, silent = false, onSuccessDestination }: BasicActionOptions
     ) =>
     async () => {
+      // If this comes from an action in a table, close it
+      setTableActionMenu(null)
+
+      // Fetch the data
       const { outcome, toastContent, response } = await makeRequestAndGetOutcome(request)
 
       // Hide loader
       setLoadingText(null)
-
-      // If this comes from an action in a table, close it
-      setTableActionMenu(null)
 
       if (onSuccessDestination && outcome === 'success') {
         // Go to destination path, and optionally display the toast there
@@ -156,10 +157,7 @@ export const useFeedback = () => {
   // Track this issue for progress: https://github.com/microsoft/TypeScript/issues/33014
   const runAction = async (
     request: RequestConfig,
-    {
-      showConfirmDialog = false,
-      ...options
-    }: BasicActionOptions & { showConfirmDialog?: boolean } = {}
+    { showConfirmDialog = false, ...options }: ActionOptions = {}
   ): Promise<RunActionOutput | void> => {
     const runBasicAction = wrapBasicAction(request, options)
 
