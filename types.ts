@@ -774,8 +774,7 @@ export type DialogActionKeys = Exclude<
 >
 
 export type ToastContent = {
-  title?: string
-  description?: string | JSX.Element
+  message?: string | JSX.Element
 }
 
 export type ToastContentWithOutcome = ToastContent & {

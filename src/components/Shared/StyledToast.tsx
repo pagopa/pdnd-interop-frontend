@@ -3,24 +3,13 @@ import { RequestOutcome, ToastContent, ToastProps } from '../../../types'
 import { Alert, Snackbar } from '@mui/material'
 
 const DEFAULT_TEXT: Record<RequestOutcome, ToastContent> = {
-  success: { title: 'Successo', description: "L'operazione è andata a buon fine" },
+  success: { message: "L'operazione è andata a buon fine" },
   error: {
-    title: 'Errore',
-    description: "Non è stato possibile completare l'operazione",
+    message: "Errore: non è stato possibile completare l'operazione",
   },
 }
 
-export function StyledToast({
-  outcome,
-  title,
-  description,
-  onClose,
-  autoHideDuration,
-}: ToastProps) {
-  const text = `${title || DEFAULT_TEXT[outcome].title}: ${
-    description || DEFAULT_TEXT[outcome].description
-  }`
-
+export function StyledToast({ outcome, message, onClose, autoHideDuration }: ToastProps) {
   return (
     <Snackbar
       open={true}
@@ -30,7 +19,7 @@ export function StyledToast({
       sx={{ maxWidth: 480 }}
     >
       <Alert severity={outcome} onClose={onClose} variant="outlined">
-        {text}
+        {message || DEFAULT_TEXT[outcome].message}
       </Alert>
     </Snackbar>
   )
