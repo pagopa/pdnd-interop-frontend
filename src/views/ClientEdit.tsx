@@ -89,7 +89,7 @@ export function ClientEdit() {
                       ),
                       details: (
                         <React.Fragment>
-                          <DescriptionBlock sx={{ mb: 4 }} label="Id del client">
+                          <DescriptionBlock leftGridItem={4} sx={{ mb: 4 }} label="Id del client">
                             <InlineClipboard
                               text={data.id}
                               successFeedbackText="Id copiato correttamente"
@@ -100,7 +100,11 @@ export function ClientEdit() {
                             />
                           </DescriptionBlock>
 
-                          <DescriptionBlock sx={{ mb: 4 }} label="Id della finalità">
+                          <DescriptionBlock
+                            leftGridItem={4}
+                            sx={{ mb: 4 }}
+                            label="Id della finalità"
+                          >
                             <InlineClipboard
                               text={p.purposeId}
                               successFeedbackText="Id copiato correttamente"
@@ -108,7 +112,7 @@ export function ClientEdit() {
                             <InfoMessage sx={{ mt: 1 }} label="Rappresenta il purposeId nel JWT" />
                           </DescriptionBlock>
 
-                          <DescriptionBlock sx={{ mb: 4 }} label="Audience">
+                          <DescriptionBlock leftGridItem={4} sx={{ mb: 4 }} label="Audience">
                             <InlineClipboard
                               text="test.interop.pagopa.it"
                               successFeedbackText="Id copiato correttamente"
@@ -119,13 +123,17 @@ export function ClientEdit() {
                             />
                           </DescriptionBlock>
 
-                          <DescriptionBlock sx={{ mb: 4 }} label="Il token può essere staccato?">
+                          <DescriptionBlock
+                            leftGridItem={4}
+                            sx={{ mb: 4 }}
+                            label="Il token può essere staccato?"
+                          >
                             <Typography component="span">
                               {getComputedClientAssertionState(p)}
                             </Typography>
                           </DescriptionBlock>
 
-                          <DescriptionBlock sx={{ mb: 4 }} label="E-service">
+                          <DescriptionBlock leftGridItem={4} sx={{ mb: 4 }} label="E-service">
                             <StyledLink
                               to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
                                 eserviceId: p.agreement.eservice.id,
@@ -136,7 +144,11 @@ export function ClientEdit() {
                             </StyledLink>
                           </DescriptionBlock>
 
-                          <DescriptionBlock sx={{ mb: 4 }} label="Chiavi pubbliche">
+                          <DescriptionBlock
+                            leftGridItem={4}
+                            sx={{ mb: 4 }}
+                            label="Chiavi pubbliche"
+                          >
                             <Typography component="span">
                               Per firmare questo token, puoi usare qualsiasi chiave pubblica sia
                               presente in questo client nella tab &quot;Chiavi pubbliche&quot;

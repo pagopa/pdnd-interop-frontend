@@ -44,7 +44,7 @@ export function StyledBreadcrumbs() {
     <Breadcrumbs sx={{ mb: 0 }}>
       {links.map(({ label, path }, i) => {
         if (i === links.length - 1) {
-          return <span>{label}</span>
+          return <span key={i}>{label}</span>
         }
         return (
           <StyledLink key={i} to={path} sx={{ fontWeight: 700 }} color="inherit">
