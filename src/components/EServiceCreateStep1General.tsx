@@ -28,6 +28,7 @@ import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
 import { URL_FRAGMENTS } from '../lib/constants'
 import { useRoute } from '../hooks/useRoute'
 import { Divider, Paper } from '@mui/material'
+import { RunActionOutput } from '../hooks/useFeedback'
 
 export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentProps> = ({
   forward,
@@ -95,10 +96,10 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
       delete dataToPost.producerId // Needed to avoid getting an error on PUT
     }
 
-    const { outcome, response } = await runAction(
+    const { outcome, response } = (await runAction(
       { path: { endpoint, endpointParams }, config: { data: dataToPost } },
       { silent: true, suppressToast: ['success'] }
-    )
+    )) as RunActionOutput
 
     if (outcome === 'success') {
       wrapGoForward(isNewService, response as AxiosResponse)

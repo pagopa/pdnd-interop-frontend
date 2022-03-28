@@ -31,7 +31,7 @@ import { InfoMessage } from '../components/Shared/InfoMessage'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 
 export function AgreementEdit() {
-  const { runAction, forceRerenderCounter, wrapActionInDialog } = useFeedback()
+  const { runAction, forceRerenderCounter } = useFeedback()
   const mode = useMode()
   const agreementId = getLastBit(useLocation())
   const { party } = useContext(PartyContext)
@@ -51,29 +51,25 @@ export function AgreementEdit() {
    */
   const activate = async () => {
     const { id: partyId } = party as Party
-    await runAction({
-      path: {
-        endpoint: 'AGREEMENT_ACTIVATE',
-        endpointParams: { agreementId, partyId },
+    await runAction(
+      {
+        path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId, partyId } },
       },
-    })
+      { showConfirmDialog: true }
+    )
   }
 
   const suspend = async () => {
     const { id: partyId } = party as Party
-    await runAction({
-      path: {
-        endpoint: 'AGREEMENT_SUSPEND',
-        endpointParams: { agreementId, partyId },
-      },
-    })
+    await runAction(
+      { path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId, partyId } } },
+      { showConfirmDialog: true }
+    )
   }
 
   const upgrade = async () => {
     await runAction(
-      {
-        path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } },
-      },
+      { path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } } },
       { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
     )
   }
@@ -104,31 +100,16 @@ export function AgreementEdit() {
     }
 
     const sharedActions: AgreementActions = {
-      ACTIVE: [
-        {
-          onClick: wrapActionInDialog(suspend, 'AGREEMENT_SUSPEND'),
-          label: 'Sospendi',
-        },
-      ],
-      SUSPENDED: [
-        {
-          onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'),
-          label: 'Riattiva',
-        },
-      ],
+      ACTIVE: [{ onClick: suspend, label: 'Sospendi' }],
+      SUSPENDED: [{ onClick: activate, label: 'Riattiva' }],
       PENDING: [],
       INACTIVE: [],
     }
 
     const providerOnlyActions: AgreementActions = {
       ACTIVE: [],
-      SUSPENDED: [], // [{ onClick: wrapActionInDialog(archive), label: 'Archivia' }],
-      PENDING: [
-        {
-          onClick: wrapActionInDialog(activate, 'AGREEMENT_ACTIVATE'),
-          label: 'Attiva',
-        },
-      ],
+      SUSPENDED: [], // [{ onClick: archive, label: 'Archivia' }],
+      PENDING: [{ onClick: activate, label: 'Attiva' }],
       INACTIVE: [],
     }
 
@@ -137,10 +118,7 @@ export function AgreementEdit() {
       data.eservice.activeDescriptor &&
       data.eservice.activeDescriptor.version > data.eservice.version
     ) {
-      subscriberOnlyActionsActive.push({
-        onClick: wrapActionInDialog(upgrade, 'AGREEMENT_UPGRADE'),
-        label: 'Aggiorna',
-      })
+      subscriberOnlyActionsActive.push({ onClick: upgrade, label: 'Aggiorna' })
     }
 
     const subscriberOnlyActions: AgreementActions = {

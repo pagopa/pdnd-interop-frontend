@@ -11,7 +11,7 @@ import {
   SingleBackendAttribute,
 } from '../../../types'
 import { ATTRIBUTE_TYPE_PLURAL_LABEL, ESERVICE_STATE_LABEL } from '../../config/labels'
-import { useFeedback } from '../../hooks/useFeedback'
+import { RunActionOutput, useFeedback } from '../../hooks/useFeedback'
 import { useRoute } from '../../hooks/useRoute'
 import { minutesToHoursMinutes } from '../../lib/date-utils'
 import { downloadFile } from '../../lib/file-utils'
@@ -34,7 +34,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
 
   // Get all documents actual URL
   const wrapDownloadDocument = (documentId: string) => async () => {
-    const { response, outcome } = await runAction(
+    const { response, outcome } = (await runAction(
       {
         path: {
           endpoint: 'ESERVICE_VERSION_DOWNLOAD_DOCUMENT',
@@ -46,7 +46,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
         },
       },
       { suppressToast: ['success'] }
-    )
+    )) as RunActionOutput
 
     if (outcome === 'success') {
       downloadFile((response as AxiosResponse).data, 'document')

@@ -11,7 +11,6 @@ import {
   EServiceDocumentRead,
   EServiceDocumentWrite,
   EServiceReadType,
-  RunActionOutput,
 } from '../../types'
 import { getActiveInterface } from '../lib/eservice-utils'
 import { StyledDeleteableDocument } from './Shared/StyledDeleteableDocument'
@@ -19,6 +18,7 @@ import { StyledButton } from './Shared/StyledButton'
 import { StyledForm } from './Shared/StyledForm'
 import { StyledInputControlledFile } from './Shared/StyledInputControlledFile'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
+import { RunActionOutput } from '../hooks/useFeedback'
 
 type EServiceCreateStep3DocumentsInterfaceProps = {
   data: EServiceReadType

@@ -18,6 +18,7 @@ import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
 import { useRoute } from '../hooks/useRoute'
 import { Paper } from '@mui/material'
+import { RunActionOutput } from '../hooks/useFeedback'
 
 type VersionData = {
   audience: string
@@ -98,10 +99,10 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
       endpointParams.descriptorId = activeDescriptor.id
     }
 
-    const { outcome, response } = await runAction(
+    const { outcome, response } = (await runAction(
       { path: { endpoint, endpointParams }, config: { data: dataToPost } },
       { silent: true, suppressToast: ['success'] }
-    )
+    )) as RunActionOutput
 
     if (outcome === 'success') {
       wrapOnSubmitSuccess(isNewDescriptor, response as AxiosResponse)

@@ -27,7 +27,7 @@ type UserEndpoinParams = {
 export function UserEdit() {
   const { party } = useContext(PartyContext)
   const { routes } = useRoute()
-  const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
+  const { runAction, forceRerenderCounter } = useFeedback()
   const mode = useMode()
   const bits = getBits(useLocation())
   const relationshipId = bits[bits.length - 1]
@@ -101,6 +101,7 @@ export function UserEdit() {
           { clientId: clientId as string },
           { tab: 'securityOperators' }
         ),
+        showConfirmDialog: true,
       }
     )
   }
@@ -141,10 +142,7 @@ export function UserEdit() {
   // }
   const getAvailableActions = () => {
     if (mode === 'subscriber' && isAdmin(party)) {
-      const removeFromClientAction = {
-        onClick: wrapActionInDialog(removeFromClient, 'OPERATOR_SECURITY_REMOVE_FROM_CLIENT'),
-        label: 'Rimuovi dal client',
-      }
+      const removeFromClientAction = { onClick: removeFromClient, label: 'Rimuovi dal client' }
 
       return [removeFromClientAction]
     }

@@ -25,7 +25,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
   const { routes } = useRoute()
   const { party } = useContext(PartyContext)
 
-  const { wrapActionInDialog, runAction, forceRerenderCounter } = useFeedback()
+  const { runAction, forceRerenderCounter } = useFeedback()
 
   const { data: clientsData = [] } = useAsyncFetch<{ clients: Array<Client> }, Array<Client>>(
     {
@@ -83,7 +83,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
           endpointParams: { purposeId, versionId: purposeFetchedData?.currentVersion.id },
         },
       },
-      { onSuccessDestination: routes.SUBSCRIBE_PURPOSE_LIST }
+      { onSuccessDestination: routes.SUBSCRIBE_PURPOSE_LIST, showConfirmDialog: true }
     )
   }
 
@@ -92,7 +92,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
       {
         path: { endpoint: 'PURPOSE_DRAFT_DELETE', endpointParams: { purposeId } },
       },
-      { onSuccessDestination: routes.SUBSCRIBE_PURPOSE_LIST }
+      { onSuccessDestination: routes.SUBSCRIBE_PURPOSE_LIST, showConfirmDialog: true }
     )
   }
 
@@ -154,17 +154,10 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
           }}
         </StyledIntro>
         <Box sx={{ display: 'flex', mt: 3 }}>
-          <StyledButton
-            sx={{ mr: 2 }}
-            variant="contained"
-            onClick={wrapActionInDialog(publishVersion, 'PURPOSE_VERSION_ACTIVATE')}
-          >
+          <StyledButton sx={{ mr: 2 }} variant="contained" onClick={publishVersion}>
             Pubblica bozza
           </StyledButton>
-          <StyledButton
-            variant="outlined"
-            onClick={wrapActionInDialog(deleteVersion, 'PURPOSE_DRAFT_DELETE')}
-          >
+          <StyledButton variant="outlined" onClick={deleteVersion}>
             Cancella bozza
           </StyledButton>
         </Box>

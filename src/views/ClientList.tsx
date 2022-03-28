@@ -22,7 +22,7 @@ type ClientListProps = {
 }
 
 export const ClientList: FunctionComponent<ClientListProps> = ({ clientKind = 'CONSUMER' }) => {
-  const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
+  const { runAction, forceRerenderCounter } = useFeedback()
   const { party } = useContext(PartyContext)
   const { routes } = useRoute()
   const history = useHistory()
@@ -54,19 +54,17 @@ export const ClientList: FunctionComponent<ClientListProps> = ({ clientKind = 'C
    * List of possible actions for the user to perform
    */
   const wrapDelete = (clientId: string) => async () => {
-    await runAction({ path: { endpoint: 'CLIENT_DELETE', endpointParams: { clientId } } })
+    await runAction(
+      { path: { endpoint: 'CLIENT_DELETE', endpointParams: { clientId } } },
+      { showConfirmDialog: true }
+    )
   }
   /*
    * End list of actions
    */
 
   const getAvailableActions = (client: Client): Array<ActionProps> => {
-    return [
-      {
-        onClick: wrapActionInDialog(wrapDelete(client.id), 'CLIENT_DELETE'),
-        label: 'Elimina',
-      },
-    ]
+    return [{ onClick: wrapDelete(client.id), label: 'Elimina' }]
   }
 
   const headData = ['Nome client', '']

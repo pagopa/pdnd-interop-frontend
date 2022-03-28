@@ -35,6 +35,7 @@ import { DialogContext } from '../lib/context'
 import { useActiveTab } from '../hooks/useActiveTab'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { useRoute } from '../hooks/useRoute'
+import { RunActionOutput } from '../hooks/useFeedback'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { PageTopFilters } from '../components/Shared/PageTopFilters'
 import { Box } from '@mui/system'
@@ -43,7 +44,7 @@ import { Box } from '@mui/system'
 export const PurposeView = () => {
   const history = useHistory()
   const location = useLocation()
-  const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
+  const { runAction, forceRerenderCounter } = useFeedback()
   const { setDialog } = useContext(DialogContext)
   const { routes } = useRoute()
   const { activeTab, updateActiveTab } = useActiveTab('details')
@@ -81,45 +82,60 @@ export const PurposeView = () => {
    * List of possible actions to perform in the purpose tab
    */
   const activate = async () => {
-    await runAction({
-      path: {
-        endpoint: 'PURPOSE_VERSION_ACTIVATE',
-        endpointParams: { purposeId: data?.id, versionId: data?.currentVersion.id },
+    await runAction(
+      {
+        path: {
+          endpoint: 'PURPOSE_VERSION_ACTIVATE',
+          endpointParams: { purposeId: data?.id, versionId: data?.currentVersion.id },
+        },
       },
-    })
+      { showConfirmDialog: true }
+    )
   }
 
   const suspend = async () => {
-    await runAction({
-      path: {
-        endpoint: 'PURPOSE_VERSION_SUSPEND',
-        endpointParams: { purposeId: data?.id, versionId: data?.currentVersion.id },
+    await runAction(
+      {
+        path: {
+          endpoint: 'PURPOSE_VERSION_SUSPEND',
+          endpointParams: { purposeId: data?.id, versionId: data?.currentVersion.id },
+        },
       },
-    })
+      { showConfirmDialog: true }
+    )
   }
 
   const archive = async () => {
-    await runAction({
-      path: {
-        endpoint: 'PURPOSE_VERSION_ARCHIVE',
-        endpointParams: { purposeId: data?.id, versionId: data?.currentVersion.id },
+    await runAction(
+      {
+        path: {
+          endpoint: 'PURPOSE_VERSION_ARCHIVE',
+          endpointParams: { purposeId: data?.id, versionId: data?.currentVersion.id },
+        },
       },
-    })
+      { showConfirmDialog: true }
+    )
   }
 
   const deletePurpose = async () => {
-    await runAction({
-      path: { endpoint: 'PURPOSE_DRAFT_DELETE', endpointParams: { purposeId: data?.id } },
-    })
+    await runAction(
+      {
+        path: { endpoint: 'PURPOSE_DRAFT_DELETE', endpointParams: { purposeId: data?.id } },
+      },
+      { showConfirmDialog: true }
+    )
   }
 
   const deleteVersionPurpose = async () => {
-    await runAction({
-      path: {
-        endpoint: 'PURPOSE_VERSION_DELETE',
-        endpointParams: { purposeId: data?.id, versionId: data?.mostRecentVersion.id },
+    await runAction(
+      {
+        path: {
+          endpoint: 'PURPOSE_VERSION_DELETE',
+          endpointParams: { purposeId: data?.id, versionId: data?.mostRecentVersion.id },
+        },
       },
-    })
+      { showConfirmDialog: true }
+    )
   }
   /*
    * End list of actions
@@ -131,28 +147,12 @@ export const PurposeView = () => {
       return []
     }
 
-    const archiveAction = {
-      onClick: wrapActionInDialog(archive, 'PURPOSE_VERSION_ARCHIVE'),
-      label: 'Archivia',
-    }
-
-    const suspendAction = {
-      onClick: wrapActionInDialog(suspend, 'PURPOSE_VERSION_SUSPEND'),
-      label: 'Sospendi',
-    }
-
-    const activateAction = {
-      onClick: wrapActionInDialog(activate, 'PURPOSE_VERSION_ACTIVATE'),
-      label: 'Attiva',
-    }
-
-    const deleteAction = {
-      onClick: wrapActionInDialog(deletePurpose, 'PURPOSE_DRAFT_DELETE'),
-      label: 'Elimina',
-    }
-
+    const archiveAction = { onClick: archive, label: 'Archivia' }
+    const suspendAction = { onClick: suspend, label: 'Sospendi' }
+    const activateAction = { onClick: activate, label: 'Attiva' }
+    const deleteAction = { onClick: deletePurpose, label: 'Elimina' }
     const deleteVersionAction = {
-      onClick: wrapActionInDialog(deleteVersionPurpose, 'PURPOSE_VERSION_DELETE'),
+      onClick: deleteVersionPurpose,
       label: 'Elimina aggiornamento numero chiamate',
     }
 
@@ -179,9 +179,12 @@ export const PurposeView = () => {
    * List of possible actions to perform in the client tab
    */
   const wrapRemoveFromPurpose = (clientId: string) => async () => {
-    await runAction({
-      path: { endpoint: 'CLIENT_REMOVE_FROM_PURPOSE', endpointParams: { clientId, purposeId } },
-    })
+    await runAction(
+      {
+        path: { endpoint: 'CLIENT_REMOVE_FROM_PURPOSE', endpointParams: { clientId, purposeId } },
+      },
+      { showConfirmDialog: true }
+    )
   }
   /*
    * End list of actions
@@ -190,7 +193,7 @@ export const PurposeView = () => {
   // Build list of available actions for each client in its current state
   const getClientAvailableActions = (item: Pick<Client, 'id' | 'name'>): Array<ActionProps> => {
     const removeFromPurposeAction = {
-      onClick: wrapActionInDialog(wrapRemoveFromPurpose(item.id), 'CLIENT_REMOVE_FROM_PURPOSE'),
+      onClick: wrapRemoveFromPurpose(item.id),
       label: 'Rimuovi dalla finalità',
     }
 
@@ -203,7 +206,7 @@ export const PurposeView = () => {
       initialValues: { dailyCalls: 1 },
       validationSchema: object({ dailyCalls: number().required() }),
       onSubmit: async ({ dailyCalls }: DialogUpdatePurposeDailyCallsFormInputValues) => {
-        const { outcome, response } = await runAction(
+        const { outcome, response } = (await runAction(
           {
             path: {
               endpoint: 'PURPOSE_VERSION_DRAFT_CREATE',
@@ -212,7 +215,7 @@ export const PurposeView = () => {
             config: { data: { dailyCalls } },
           },
           { suppressToast: ['success'], silent: true }
-        )
+        )) as RunActionOutput
 
         if (outcome === 'success') {
           const versionId = (response as AxiosResponse).data.id

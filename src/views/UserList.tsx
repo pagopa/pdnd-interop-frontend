@@ -28,7 +28,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
   const history = useHistory()
   const { routes } = useRoute()
   const { setDialog } = useContext(DialogContext)
-  const { runAction, wrapActionInDialog, forceRerenderCounter } = useFeedback()
+  const { runAction, forceRerenderCounter } = useFeedback()
 
   // Only for subscriber
   const locationBits = getBits(history.location)
@@ -60,12 +60,15 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
    * List of possible actions for the user to perform
    */
   const wrapRemoveFromClient = (relationshipId?: string) => async () => {
-    await runAction({
-      path: {
-        endpoint: 'OPERATOR_SECURITY_REMOVE_FROM_CLIENT',
-        endpointParams: { clientId, relationshipId },
+    await runAction(
+      {
+        path: {
+          endpoint: 'OPERATOR_SECURITY_REMOVE_FROM_CLIENT',
+          endpointParams: { clientId, relationshipId },
+        },
       },
-    })
+      { showConfirmDialog: true }
+    )
   }
   /*
    * End list of actions
@@ -74,10 +77,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
   const getAvailableActions = (user: User) => {
     if (mode === 'subscriber' && isAdmin(party)) {
       const removeFromClientAction = {
-        onClick: wrapActionInDialog(
-          wrapRemoveFromClient(user.relationshipId),
-          'OPERATOR_SECURITY_REMOVE_FROM_CLIENT'
-        ),
+        onClick: wrapRemoveFromClient(user.relationshipId),
         label: 'Rimuovi dal client',
       }
 

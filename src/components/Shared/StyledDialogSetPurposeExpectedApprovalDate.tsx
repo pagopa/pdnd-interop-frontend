@@ -10,6 +10,7 @@ import { StyledForm } from './StyledForm'
 import { useFormik } from 'formik'
 import { getFetchOutcome } from '../../lib/error-utils'
 import { StyledInputStaticDatePicker } from './StyledInputStaticDatePicker'
+import { RunActionOutput } from '../../hooks/useFeedback'
 
 type ApprovalDateProps = {
   expectedApprovalDate: Date
@@ -21,13 +22,13 @@ export const StyledDialogSetPurposeExpectedApprovalDate: FunctionComponent<Dialo
 
     const onSubmit = async (data: ApprovalDateProps) => {
       const dataToPost = { ...data }
-      const { response } = await runAction({
+      const { response } = (await runAction({
         path: {
           endpoint: 'PURPOSE_VERSION_WAITING_FOR_APPROVAL_UPDATE',
           endpointParams: { purposeId, versionId },
         },
         config: { data: dataToPost },
-      })
+      })) as RunActionOutput
 
       if (getFetchOutcome(response) === 'success') {
         closeDialog()
