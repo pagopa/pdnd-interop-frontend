@@ -8,6 +8,8 @@ import { StyledButton } from './Shared/StyledButton'
 import { PartySelect } from './PartySelect'
 import { URL_FE_LOGIN } from '../lib/constants'
 import { useRoute } from '../hooks/useRoute'
+import { HelpOutline as HelpOutlineIcon } from '@mui/icons-material'
+import { StyledLink } from './Shared/StyledLink'
 
 export function Header() {
   const location = useLocation()
@@ -43,9 +45,22 @@ export function Header() {
               </Typography>
             </a>
 
-            <StyledButton variant="contained" to={btnPath} size="small">
-              {btnLabel}
-            </StyledButton>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <StyledLink
+                to={routes.HELP.PATH}
+                color="text.primary"
+                variant="caption"
+                underline="none"
+                sx={{ display: 'inline-flex', alignItems: 'center', mr: 4, fontWeight: 600 }}
+              >
+                <HelpOutlineIcon fontSize="small" color="inherit" sx={{ mr: 1 }} />
+                Assistenza
+              </StyledLink>
+
+              <StyledButton variant="contained" to={btnPath} size="small">
+                {btnLabel}
+              </StyledButton>
+            </Box>
           </Box>
         </Layout>
       </Box>

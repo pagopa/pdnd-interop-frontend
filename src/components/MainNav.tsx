@@ -79,7 +79,6 @@ export const MainNav = () => {
   const availableViews = [
     ...views[party?.productInfo.role || 'security'],
     { route: routes.NOTIFICATION },
-    { route: routes.HELP },
   ]
 
   const wrapSetOpenSubmenuId = (newOpenId?: string) => () => {
@@ -116,7 +115,13 @@ const MainNavComponent = ({
   wrapSetOpenSubmenuId,
   shouldRender,
 }: MainNavComponentProps) => {
-  const WrappedLink = ({ route }: { route: MappedRouteConfig }) => {
+  const WrappedLink = ({
+    route,
+    indented = false,
+  }: {
+    route: MappedRouteConfig
+    indented?: boolean
+  }) => {
     const isSelected = isItemSelected(route)
     const { PATH, LABEL } = route
     return (
@@ -137,7 +142,10 @@ const MainNavComponent = ({
           disableTypography
           sx={{ color: 'inherit' }}
           primary={
-            <Typography color="inherit" sx={{ fontWeight: isSelected ? 600 : 300, pl: 4 }}>
+            <Typography
+              color="inherit"
+              sx={{ fontWeight: isSelected ? 600 : 300, pl: indented ? 4 : 0 }}
+            >
               {LABEL}
             </Typography>
           }
@@ -177,7 +185,7 @@ const MainNavComponent = ({
                   <List disablePadding sx={{ width: WIDTH }}>
                     {(item.children as Array<MappedRouteConfig>).map((child, j) => (
                       <ListItem sx={{ display: 'block', p: 0 }} key={j}>
-                        <WrappedLink route={child} />
+                        <WrappedLink route={child} indented />
                       </ListItem>
                     ))}
                   </List>
