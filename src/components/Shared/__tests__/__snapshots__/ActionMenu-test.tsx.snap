@@ -10,7 +10,7 @@ exports[`Snapshot matches button (2) 1`] = `
 <button
   aria-controls="basic-menu-2"
   aria-haspopup="true"
-  className="MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButtonBase-root  css-19lhi6j-MuiButtonBase-root-MuiButton-root"
+  className="MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButtonBase-root  css-19lhi6j-MuiButtonBase-root-MuiButton-root"
   disabled={false}
   id="basic-button-2"
   onBlur={[Function]}

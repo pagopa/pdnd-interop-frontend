@@ -293,7 +293,7 @@ exports[`Snapshot matches table with single action button and action list button
           <button
             aria-controls="basic-menu-1"
             aria-haspopup="true"
-            className="MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButtonBase-root  css-19lhi6j-MuiButtonBase-root-MuiButton-root"
+            className="MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButtonBase-root  css-19lhi6j-MuiButtonBase-root-MuiButton-root"
             disabled={false}
             id="basic-button-1"
             onBlur={[Function]}
@@ -389,7 +389,7 @@ exports[`Snapshot matches table with single action button and action list button
           <button
             aria-controls="basic-menu-1"
             aria-haspopup="true"
-            className="MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButtonBase-root  css-19lhi6j-MuiButtonBase-root-MuiButton-root"
+            className="MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButtonBase-root  css-19lhi6j-MuiButtonBase-root-MuiButton-root"
             disabled={false}
             id="basic-button-1"
             onBlur={[Function]}
