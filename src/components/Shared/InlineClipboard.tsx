@@ -52,8 +52,11 @@ export const InlineClipboard: FunctionComponent<InlineClipboardProps> = ({
 
   return permission ? (
     <React.Fragment>
-      <ButtonNaked onClick={copyAttempt}>
-        <Typography ref={anchorRef} component="span">
+      <ButtonNaked
+        onClick={copyAttempt}
+        sx={{ '&:hover': { bgcolor: 'text.secondary', color: 'common.white' } }}
+      >
+        <Typography ref={anchorRef} component="span" color="inherit">
           {text}
         </Typography>
       </ButtonNaked>
