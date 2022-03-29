@@ -13,7 +13,7 @@ import {
 import { ATTRIBUTE_TYPE_PLURAL_LABEL, ESERVICE_STATE_LABEL } from '../../config/labels'
 import { RunActionOutput, useFeedback } from '../../hooks/useFeedback'
 import { useRoute } from '../../hooks/useRoute'
-import { minutesToHoursMinutes } from '../../lib/date-utils'
+import { minutesToHoursMinutes } from '../../lib/format-utils'
 import { downloadFile } from '../../lib/file-utils'
 import { buildDynamicPath } from '../../lib/router-utils'
 import { DescriptionBlock } from '../DescriptionBlock'
@@ -21,7 +21,7 @@ import { ResourceList } from './ResourceList'
 import { StyledAccordion } from './StyledAccordion'
 import { StyledLink } from './StyledLink'
 import sortBy from 'lodash/sortBy'
-import { formatThousands } from '../../lib/number-utils'
+import { formatThousands } from '../../lib/format-utils'
 
 type EServiceContentInfoProps = {
   data: EServiceReadType

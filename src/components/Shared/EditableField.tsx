@@ -7,9 +7,7 @@ import {
   ModeEdit as ModeEditIcon,
   Save as SaveIcon,
 } from '@mui/icons-material'
-
-const sleep = async (ms: number) => await new Promise((resolve) => setTimeout(resolve, ms))
-const forceReflow = async () => await sleep(1)
+import { forceReflow } from '../../lib/wait-utils'
 
 type EditableFieldProps = {
   onSave: (updatedString: string | null) => void

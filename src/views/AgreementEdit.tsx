@@ -25,7 +25,7 @@ import { Box } from '@mui/system'
 import { Grid, Typography } from '@mui/material'
 import { useRoute } from '../hooks/useRoute'
 import { StyledAccordion } from '../components/Shared/StyledAccordion'
-import { formatDateString } from '../lib/date-utils'
+import { formatDateString } from '../lib/format-utils'
 import { InfoMessage } from '../components/Shared/InfoMessage'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 

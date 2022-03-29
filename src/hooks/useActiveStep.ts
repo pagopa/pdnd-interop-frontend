@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import isEmpty from 'lodash/isEmpty'
-import { scrollToTop } from '../lib/page-utils'
 
 export type ActiveStepProps = {
   back: VoidFunction
   forward: VoidFunction
   activeStep: number
+}
+
+export function scrollToTop() {
+  window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
 }
 
 export const useActiveStep = (): ActiveStepProps => {

@@ -19,7 +19,7 @@ import {
   getComputedPurposeState,
   getPurposeFromUrl,
 } from '../lib/purpose'
-import { formatThousands } from '../lib/number-utils'
+import { formatThousands } from '../lib/format-utils'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { PURPOSE_STATE_LABEL } from '../config/labels'
 import { StyledButton } from '../components/Shared/StyledButton'
@@ -28,7 +28,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { AxiosResponse } from 'axios'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
-import { formatDateString } from '../lib/date-utils'
+import { formatDateString } from '../lib/format-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { DialogContext } from '../lib/context'
 // import { ResourceList } from '../components/Shared/ResourceList'
