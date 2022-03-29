@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
-import { object, string, number } from 'yup'
+import { object, string, number, ref } from 'yup'
 import { useHistory } from 'react-router-dom'
 import { AxiosResponse } from 'axios'
 import isEmpty from 'lodash/isEmpty'
@@ -41,7 +41,12 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
     voucherLifespan: number().required(),
     description: string().required(),
     dailyCallsPerConsumer: number().required(),
-    dailyCallsTotal: number().required(),
+    dailyCallsTotal: number()
+      .min(
+        ref('dailyCallsPerConsumer'),
+        'Il valore non può essere inferiore alla soglia chiamate API/giorno per fruitore'
+      )
+      .required(),
   })
   const initialValues: VersionData = {
     version: '1',
