@@ -1,7 +1,5 @@
 import React from 'react'
-import { Typography } from '@mui/material'
-import { Box } from '@mui/system'
-import { StyledSpinner } from './StyledSpinner'
+import { CircularProgress, Paper, Typography } from '@mui/material'
 
 type LoadingWithMessageProps = {
   label?: string
@@ -17,17 +15,21 @@ export function LoadingWithMessage({
     : { bgcolor: 'common.white' }
 
   return (
-    <Box
+    <Paper
       sx={{
         textAlign: 'center',
         px: 3,
         py: 3,
-        color: 'primary.main',
+        color: 'text.primary',
         ...background,
       }}
     >
-      <StyledSpinner />
-      {label && <Typography sx={{ mt: 2, mb: 0 }}>{label}</Typography>}
-    </Box>
+      <CircularProgress color="inherit" />
+      {label && (
+        <Typography component="p" variant="body2" fontWeight={700} sx={{ mt: 2, mb: 0 }}>
+          {label}
+        </Typography>
+      )}
+    </Paper>
   )
 }

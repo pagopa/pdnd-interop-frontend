@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import debounce from 'lodash/debounce'
 import { AxiosResponse } from 'axios'
-import { Autocomplete, TextField, Typography } from '@mui/material'
+import { Autocomplete, CircularProgress, TextField, Typography } from '@mui/material'
 import { Endpoint } from '../../../types'
 import { fetchWithLogs } from '../../lib/api-utils'
 import { getFetchOutcome } from '../../lib/error-utils'
-import { StyledSpinner } from './StyledSpinner'
 import { StyledInputWrapper } from './StyledInputWrapper'
 import { SxProps } from '@mui/system'
 import parse from 'autosuggest-highlight/parse'
@@ -125,7 +124,7 @@ export const StyledInputControlledAsyncAutocomplete = <T extends unknown>({
                 ...params.InputProps,
                 endAdornment: (
                   <React.Fragment>
-                    {isLoading ? <StyledSpinner color="primary" size={20} /> : null}
+                    {isLoading ? <CircularProgress color="primary" size={20} /> : null}
                     {params.InputProps.endAdornment}
                   </React.Fragment>
                 ),

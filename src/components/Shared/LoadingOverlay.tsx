@@ -8,7 +8,7 @@ type LoadingOverlayProps = {
 
 export function LoadingOverlay({ loadingText }: LoadingOverlayProps) {
   return (
-    <Backdrop open>
+    <Backdrop open sx={{ zIndex: 1 }}>
       <LoadingWithMessage label={loadingText} />
     </Backdrop>
   )
