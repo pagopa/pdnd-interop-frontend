@@ -113,7 +113,7 @@ export function ClientEdit() {
 
                           <DescriptionBlock leftGridItem={4} sx={{ mb: 4 }} label="Audience">
                             <InlineClipboard
-                              text="test.interop.pagopa.it"
+                              text={p.states.eservice.audience[0]}
                               successFeedbackText="Id copiato correttamente"
                             />
                             <InfoMessage
@@ -180,9 +180,7 @@ export function ClientEdit() {
               </DescriptionBlock>
 
               <DescriptionBlock sx={{ mb: 4 }} label="Id della finalità (purposeId)">
-                <Typography component="span">
-                  null (il purposeId non si applica in questo caso)
-                </Typography>
+                <Typography component="span">Il purposeId non si applica in questo caso</Typography>
               </DescriptionBlock>
 
               <DescriptionBlock sx={{ mb: 4 }} label="Audience">

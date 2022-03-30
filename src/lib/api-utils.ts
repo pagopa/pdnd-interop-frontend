@@ -5,7 +5,9 @@ import { buildDynamicPath } from './router-utils'
 import { API } from '../config/api-endpoints'
 import qs from 'qs'
 
-export async function fetchAllWithLogs(reqsConfig: Array<RequestConfig>) {
+export async function fetchAllWithLogs(
+  reqsConfig: Array<RequestConfig>
+): Promise<Array<AxiosResponse | AxiosError>> {
   return await Promise.all(reqsConfig.map(async (requestConfig) => await request(requestConfig)))
 }
 
