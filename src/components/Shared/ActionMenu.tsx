@@ -5,6 +5,7 @@ import { ActionProps, ExtendedMUIColor } from '../../../types'
 import { TableActionMenuContext } from '../../lib/context'
 import { Box } from '@mui/system'
 import { ButtonNaked } from '@pagopa/mui-italia'
+import { v4 as uuidv4 } from 'uuid'
 
 type ActionMenuProps = {
   // The list of actions to display in the menu
@@ -42,16 +43,6 @@ export const ActionMenu: FunctionComponent<
   )
 }
 
-// From https://stackoverflow.com/a/1349426
-function uniqueString(length: number) {
-  let result = ''
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-  for (let i = 0; i < length; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length))
-  }
-  return result
-}
-
 const ActionMenuComponent: FunctionComponent<ActionMenuProps> = ({
   actions,
   onOpen,
@@ -61,7 +52,7 @@ const ActionMenuComponent: FunctionComponent<ActionMenuProps> = ({
   iconColor = 'primary',
 }) => {
   // Needs to be state to avoid it changing on rerender
-  const [id] = useState(snapshotTestInternalId || uniqueString(8))
+  const [id] = useState(snapshotTestInternalId || uuidv4())
   const anchorRef = useRef() as React.MutableRefObject<HTMLSpanElement>
   const anchorId = `basic-button-${id}`
   const menuId = `basic-menu-${id}`
