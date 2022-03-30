@@ -70,7 +70,7 @@ export function Header() {
           <Box
             sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', py: 2 }}
           >
-            <Typography fontWeight={700} component="span" variant="h3">
+            <Typography component="span" variant="h5" fontWeight={700}>
               Interoperabilità
             </Typography>
 

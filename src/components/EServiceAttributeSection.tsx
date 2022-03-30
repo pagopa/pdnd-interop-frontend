@@ -71,7 +71,7 @@ export function EServiceAttributeSection({
 
         return (
           <Box sx={{ mb: attributeKey === 'declared' ? 4 : 12 }} key={i}>
-            <StyledIntro variant="h3" sx={{ mb: 2 }}>
+            <StyledIntro component="h3" sx={{ mb: 2 }}>
               {{ title, description }}
             </StyledIntro>
             <EServiceAttributeGroup

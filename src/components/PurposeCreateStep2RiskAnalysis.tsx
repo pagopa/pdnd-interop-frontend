@@ -226,7 +226,7 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
 
   return (
     <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
-      <StyledIntro variant="h2">
+      <StyledIntro component="h2">
         {{
           title: 'Analisi del rischio',
           description:

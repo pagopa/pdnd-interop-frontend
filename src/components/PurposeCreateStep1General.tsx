@@ -203,7 +203,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
 
   return (
     <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
-      <StyledIntro variant="h2">{{ title: 'Informazioni generali' }}</StyledIntro>
+      <StyledIntro component="h2">{{ title: 'Informazioni generali' }}</StyledIntro>
 
       <StyledForm onSubmit={formik.handleSubmit}>
         <StyledInputControlledText

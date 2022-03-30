@@ -120,7 +120,7 @@ export function ClientCreate() {
         <Grid item xs={8}>
           <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
             <StyledForm onSubmit={formik.handleSubmit}>
-              <StyledIntro sx={{ mb: 2, pb: 0 }} variant="h2">
+              <StyledIntro sx={{ mb: 2, pb: 0 }} component="h2">
                 {{ title: 'Informazioni generali' }}
               </StyledIntro>
 
@@ -145,7 +145,7 @@ export function ClientCreate() {
 
               <Divider />
 
-              <StyledIntro sx={{ mt: 8, mb: 4 }} variant="h2">
+              <StyledIntro sx={{ mt: 8, mb: 4 }} component="h2">
                 {{ title: 'Operatori di sicurezza' }}
               </StyledIntro>
 

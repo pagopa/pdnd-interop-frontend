@@ -136,7 +136,7 @@ export function ChooseParty() {
         textAlign: 'center',
       }}
     >
-      <StyledIntro variant="h1">
+      <StyledIntro>
         {{
           title: 'Ciao!',
           description:
@@ -144,7 +144,7 @@ export function ChooseParty() {
         }}
       </StyledIntro>
       {/* TEMP REFACTOR: enable after integration with self-care */}
-      {/* <StyledIntro variant="h1">
+      {/* <StyledIntro>
         {{
           title: 'Ciao!',
           description:

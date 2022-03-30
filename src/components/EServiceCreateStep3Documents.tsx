@@ -109,7 +109,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
   return (
     <React.Fragment>
       <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
-        <StyledIntro variant="h2">
+        <StyledIntro component="h2">
           {{
             title: 'Interfaccia (richiesto)',
             description: `Carica il file ${
@@ -131,7 +131,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
 
         <Divider />
 
-        <StyledIntro variant="h3" sx={{ mt: 8, mb: 2 }}>
+        <StyledIntro component="h2" sx={{ mt: 8, mb: 2 }}>
           {{
             title: 'Documentazione',
             description:
@@ -166,7 +166,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
       </Paper>
 
       <Paper sx={{ p: 3, mt: 2 }}>
-        <StyledIntro variant="h2">
+        <StyledIntro component="h2">
           {{
             title: 'Azioni rapide di pubblicazione',
             description:

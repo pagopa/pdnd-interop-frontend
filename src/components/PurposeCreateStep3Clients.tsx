@@ -117,7 +117,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
   return (
     <React.Fragment>
       <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
-        <StyledIntro variant="h2" sx={{ mb: 4 }}>
+        <StyledIntro component="h2" sx={{ mb: 4 }}>
           {{ title: 'Associazione client' }}
         </StyledIntro>
 
@@ -146,7 +146,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
       </Paper>
 
       <Paper sx={{ p: 3, mt: 2 }}>
-        <StyledIntro variant="h2">
+        <StyledIntro component="h2">
           {{
             title: 'Azioni rapide di pubblicazione',
             description:
