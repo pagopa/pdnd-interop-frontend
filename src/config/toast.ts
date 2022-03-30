@@ -204,7 +204,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     loadingText: 'Stiamo aggiornando la richiesta',
     success: {
       message:
-        "La richiesta di fruizione è stata aggiornata alla versione più recente dell'E-Service",
+        "La richiesta di fruizione è stata aggiornata alla versione più recente dell'E-Service. Attenzione: verifica sempre il valore del campo \"audience\" all'interno delle client assertion nei tuoi client, potrebbe variare tra una versione di un E-Service e un'altra a discrezione delle necessità dell'Ente Erogatore",
     },
     error: {
       message: 'Non è stato possibile aggiornare la richiesta. Per favore, riprova!',
