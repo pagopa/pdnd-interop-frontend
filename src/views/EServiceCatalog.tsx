@@ -1,12 +1,6 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
-import {
-  EServiceFlatReadType,
-  ActionProps,
-  EServiceFlatDecoratedReadType,
-  Party,
-  MappedRouteConfig,
-} from '../../types'
+import { EServiceFlatReadType, ActionProps, EServiceFlatDecoratedReadType } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -30,18 +24,12 @@ import { Card, CardActions, CardContent, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { ButtonNaked } from '@pagopa/mui-italia'
 
-type AsyncTableProps = {
-  getActions: (
-    eservice: EServiceFlatDecoratedReadType,
-    canSubscribeEservice: boolean
-  ) => Array<ActionProps>
-  headData: Array<string>
-  party: Party | null
-  routes: Record<string, MappedRouteConfig>
-}
-
-const AsyncTable = ({ getActions, headData, party, routes }: AsyncTableProps) => {
+const AsyncTable = () => {
   const history = useHistory()
+  const { runAction } = useFeedback()
+  const { party } = useContext(PartyContext)
+  const { setDialog } = useContext(DialogContext)
+  const { routes } = useRoute()
 
   const { data, loadingText, error } = useAsyncFetch<
     Array<EServiceFlatReadType>,
@@ -84,6 +72,77 @@ const AsyncTable = ({ getActions, headData, party, routes }: AsyncTableProps) =>
 
     return undefined
   }
+
+  /*
+   * List of possible actions for the user to perform
+   */
+  const wrapSubscribe = (eservice: EServiceFlatDecoratedReadType) => async () => {
+    const agreementData = {
+      eserviceId: eservice.id,
+      descriptorId: eservice.descriptorId,
+      consumerId: party?.id,
+    }
+
+    await runAction(
+      { path: { endpoint: 'AGREEMENT_CREATE' }, config: { data: agreementData } },
+      { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
+    )
+  }
+  /*
+   * End list of actions
+   */
+
+  const getAvailableActions = (
+    eservice: EServiceFlatDecoratedReadType,
+    canSubscribeEservice: boolean
+  ) => {
+    const actions: Array<ActionProps> = []
+
+    if (!eservice.isMine && isAdmin(party) && eservice.callerSubscribed) {
+      actions.push({
+        onClick: () => {
+          history.push(
+            buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
+              agreementId: eservice.callerSubscribed as string,
+            })
+          )
+        },
+        label: 'Vai alla richiesta',
+      })
+    }
+
+    if (!eservice.isMine && isAdmin(party) && !eservice.callerSubscribed && canSubscribeEservice) {
+      actions.push({
+        onClick: () => {
+          setDialog({
+            type: 'basic',
+            proceedCallback: wrapSubscribe(eservice),
+            proceedLabel: 'Iscriviti',
+            title: 'Richiesta di fruizione',
+            description: `Stai per inoltrare una richiesta di fruizione per l'E-Service ${eservice.name}, versione ${eservice.version}`,
+            close: () => {
+              setDialog(null)
+            },
+          })
+        },
+        label: 'Iscriviti',
+      })
+    }
+
+    // TEMP PIN-612
+    // if (!eservice.isMine && isAdmin(party) && !canSubscribeEservice) {
+    //   actions.push({
+    //     onClick: () => {
+    //       setDialog({ type: 'askExtension' })
+    //     },
+    //     label: 'Richiedi estensione',
+    //   })
+    // }
+
+    return actions
+  }
+
+  const headData = ['Nome E-Service', 'Ente erogatore', 'Versione attuale', 'Stato E-Service', '']
 
   return (
     <TableWithLoader
@@ -142,7 +201,7 @@ const AsyncTable = ({ getActions, headData, party, routes }: AsyncTableProps) =>
                   Ispeziona
                 </ButtonNaked>
 
-                <ActionMenu actions={getActions(item, canSubscribeEservice)} />
+                <ActionMenu actions={getAvailableActions(item, canSubscribeEservice)} />
               </CardActions>
             </Card>
           )
@@ -152,77 +211,6 @@ const AsyncTable = ({ getActions, headData, party, routes }: AsyncTableProps) =>
 }
 
 export function EServiceCatalog() {
-  const history = useHistory()
-  const { runAction } = useFeedback()
-  const { party } = useContext(PartyContext)
-  const { setDialog } = useContext(DialogContext)
-  const { routes } = useRoute()
-
-  const headData = ['Nome E-Service', 'Ente erogatore', 'Versione attuale', 'Stato E-Service', '']
-
-  const wrapSubscribe = (eservice: EServiceFlatDecoratedReadType) => async () => {
-    const agreementData = {
-      eserviceId: eservice.id,
-      descriptorId: eservice.descriptorId,
-      consumerId: party?.id,
-    }
-
-    await runAction(
-      { path: { endpoint: 'AGREEMENT_CREATE' }, config: { data: agreementData } },
-      { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
-    )
-  }
-
-  const getAvailableActions = (
-    eservice: EServiceFlatDecoratedReadType,
-    canSubscribeEservice: boolean
-  ) => {
-    const actions: Array<ActionProps> = []
-
-    if (!eservice.isMine && isAdmin(party) && eservice.callerSubscribed) {
-      actions.push({
-        onClick: () => {
-          history.push(
-            buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
-              agreementId: eservice.callerSubscribed as string,
-            })
-          )
-        },
-        label: 'Vai alla richiesta',
-      })
-    }
-
-    if (!eservice.isMine && isAdmin(party) && !eservice.callerSubscribed && canSubscribeEservice) {
-      actions.push({
-        onClick: () => {
-          setDialog({
-            type: 'basic',
-            proceedCallback: wrapSubscribe(eservice),
-            proceedLabel: 'Iscriviti',
-            title: 'Richiesta di fruizione',
-            description: `Stai per inoltrare una richiesta di fruizione per l'E-Service ${eservice.name}, versione ${eservice.version}`,
-            close: () => {
-              setDialog(null)
-            },
-          })
-        },
-        label: 'Iscriviti',
-      })
-    }
-
-    // TEMP PIN-612
-    // if (!eservice.isMine && isAdmin(party) && !canSubscribeEservice) {
-    //   actions.push({
-    //     onClick: () => {
-    //       setDialog({ type: 'askExtension' })
-    //     },
-    //     label: 'Richiedi estensione',
-    //   })
-    // }
-
-    return actions
-  }
-
   return (
     <React.Fragment>
       <StyledIntro>
@@ -235,12 +223,7 @@ export function EServiceCatalog() {
 
       <TempFilters />
 
-      <AsyncTable
-        getActions={getAvailableActions}
-        headData={headData}
-        party={party}
-        routes={routes}
-      />
+      <AsyncTable />
     </React.Fragment>
   )
 }

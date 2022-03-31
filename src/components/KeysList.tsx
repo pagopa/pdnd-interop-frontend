@@ -12,7 +12,7 @@ import {
 } from '../../types'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { useFeedback } from '../hooks/useFeedback'
+import { RunAction, useFeedback } from '../hooks/useFeedback'
 import { useUser } from '../hooks/useUser'
 import { DialogContext, PartyContext } from '../lib/context'
 import { axiosErrorToError } from '../lib/error-utils'
@@ -43,19 +43,12 @@ type KeysListProps = {
 
 type AsyncTableProps = {
   forceRerenderCounter: number
-  getActions: (key: PublicKeyItem) => Array<ActionProps>
-  headData: Array<string>
+  runAction: RunAction
   clientId: string
   clientKind: ClientKind
 }
 
-const AsyncTable = ({
-  forceRerenderCounter,
-  getActions,
-  headData,
-  clientId,
-  clientKind,
-}: AsyncTableProps) => {
+const AsyncTable = ({ forceRerenderCounter, runAction, clientId, clientKind }: AsyncTableProps) => {
   const { routes } = useRoute()
   const history = useHistory()
 
@@ -77,8 +70,38 @@ const AsyncTable = ({
     { loaderType: 'contextual', loadingTextLabel: 'Stiamo caricando gli operatori' }
   )
 
+  const wrapDownloadKey = (keyId: string) => async () => {
+    const { response, outcome } = (await runAction(
+      { path: { endpoint: 'KEY_DOWNLOAD', endpointParams: { clientId, keyId } } },
+      { suppressToast: ['success'] }
+    )) as RunActionOutput
+
+    if (outcome === 'success') {
+      const decoded = atob((response as AxiosResponse).data.key)
+      downloadFile(decoded, 'public_key')
+    }
+  }
+
+  const wrapDeleteKey = (keyId: string) => async () => {
+    await runAction(
+      { path: { endpoint: 'KEY_DELETE', endpointParams: { clientId, keyId } } },
+      { showConfirmDialog: true }
+    )
+  }
+
+  const getAvailableActions = (key: PublicKeyItem) => {
+    const actions: Array<ActionProps> = [
+      { onClick: wrapDownloadKey(key.kid), label: 'Scarica' },
+      { onClick: wrapDeleteKey(key.kid), label: 'Elimina' },
+    ]
+
+    return actions
+  }
+
   const fetchError =
     error && error.response && error.response.status !== 404 ? axiosErrorToError(error) : undefined
+
+  const headData = ['Nome della chiave', 'Data di creazione', 'Caricata da', '']
 
   return (
     <TableWithLoader
@@ -129,7 +152,7 @@ const AsyncTable = ({
             </StyledButton>
 
             <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
-              <ActionMenu actions={getActions(key)} iconColor={color} />
+              <ActionMenu actions={getAvailableActions(key)} iconColor={color} />
             </Box>
           </StyledTableRow>
         )
@@ -146,39 +169,6 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
   const { party } = useContext(PartyContext)
   const { user } = useUser()
   const { runAction, forceRerenderCounter } = useFeedback()
-
-  const wrapDownloadKey = (keyId: string) => async () => {
-    const { response, outcome } = (await runAction(
-      {
-        path: {
-          endpoint: 'KEY_DOWNLOAD',
-          endpointParams: { clientId, keyId },
-        },
-      },
-      { suppressToast: ['success'] }
-    )) as RunActionOutput
-
-    if (outcome === 'success') {
-      const decoded = atob((response as AxiosResponse).data.key)
-      downloadFile(decoded, 'public_key')
-    }
-  }
-
-  const wrapDeleteKey = (keyId: string) => async () => {
-    await runAction(
-      { path: { endpoint: 'KEY_DELETE', endpointParams: { clientId, keyId } } },
-      { showConfirmDialog: true }
-    )
-  }
-
-  const getAvailableActions = (key: PublicKeyItem) => {
-    const actions: Array<ActionProps> = [
-      { onClick: wrapDownloadKey(key.kid), label: 'Scarica' },
-      { onClick: wrapDeleteKey(key.kid), label: 'Elimina' },
-    ]
-
-    return actions
-  }
 
   const uploadKeyFormInitialValues: SecurityOperatorKeysFormInputValues = { name: '', key: '' }
   const uploadKeyFormValidationSchema = object({
@@ -211,8 +201,6 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
     })
   }
 
-  const headData = ['Nome della chiave', 'Data di creazione', 'Caricata da', '']
-
   return (
     <React.Fragment>
       <PageTopFilters>
@@ -226,8 +214,7 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
 
       <AsyncTable
         forceRerenderCounter={forceRerenderCounter}
-        getActions={getAvailableActions}
-        headData={headData}
+        runAction={runAction}
         clientId={clientId}
         clientKind={clientKind}
       />

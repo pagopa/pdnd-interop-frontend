@@ -28,14 +28,14 @@ import { Box } from '@mui/system'
 // import { axiosErrorToError } from '../lib/error-utils'
 
 type AsyncTableProps = {
-  forceRerenderCounter: number
-  getActions: (item: DecoratedPurpose) => Array<ActionProps>
-  headData: Array<string>
   routes: Record<string, MappedRouteConfig>
 }
 
-const AsyncTable = ({ forceRerenderCounter, getActions, headData, routes }: AsyncTableProps) => {
+const AsyncTable = ({ routes }: AsyncTableProps) => {
   const history = useHistory()
+  const { runAction, forceRerenderCounter } = useFeedback()
+  const { setDialog } = useContext(DialogContext)
+
   const { party } = useContext(PartyContext)
 
   const { data, loadingText /*, error */ } = useAsyncFetch<
@@ -54,61 +54,6 @@ const AsyncTable = ({ forceRerenderCounter, getActions, headData, routes }: Asyn
       useEffectDeps: [forceRerenderCounter],
     }
   )
-
-  return (
-    <TableWithLoader
-      loadingText={loadingText}
-      headData={headData}
-      noDataLabel="Non sono state create finalità"
-      // error={axiosErrorToError(error)}
-    >
-      {data &&
-        Boolean(data.length > 0) &&
-        data.map((item, i) => {
-          const purposeStateLabel = PURPOSE_STATE_LABEL[item.currentVersion.state]
-          return (
-            <StyledTableRow
-              key={i}
-              cellData={[
-                { label: item.title },
-                { label: item.eservice.name },
-                { label: item.eservice.producer.name },
-                {
-                  label: item.awaitingApproval
-                    ? `${purposeStateLabel}, in aggiornamento`
-                    : purposeStateLabel,
-                },
-              ]}
-            >
-              <StyledButton
-                variant="outlined"
-                size="small"
-                onClick={() => {
-                  const path =
-                    item.currentVersion.state === 'DRAFT'
-                      ? routes.SUBSCRIBE_PURPOSE_EDIT.PATH
-                      : routes.SUBSCRIBE_PURPOSE_VIEW.PATH
-
-                  history.push(buildDynamicPath(path, { purposeId: item.id }))
-                }}
-              >
-                {item.currentVersion.state === 'DRAFT' ? 'Modifica' : 'Ispeziona'}
-              </StyledButton>
-
-              <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
-                <ActionMenu actions={getActions(item)} />
-              </Box>
-            </StyledTableRow>
-          )
-        })}
-    </TableWithLoader>
-  )
-}
-
-export const PurposeList = () => {
-  const { runAction, forceRerenderCounter } = useFeedback()
-  const { setDialog } = useContext(DialogContext)
-  const { routes } = useRoute()
 
   /*
    * List of possible actions for the user to perform
@@ -233,6 +178,59 @@ export const PurposeList = () => {
   const headData = ['Nome finalità', 'E-Service', 'Ente erogatore', 'Stato', '']
 
   return (
+    <TableWithLoader
+      loadingText={loadingText}
+      headData={headData}
+      noDataLabel="Non sono state create finalità"
+      // error={axiosErrorToError(error)}
+    >
+      {data &&
+        Boolean(data.length > 0) &&
+        data.map((item, i) => {
+          const purposeStateLabel = PURPOSE_STATE_LABEL[item.currentVersion.state]
+          return (
+            <StyledTableRow
+              key={i}
+              cellData={[
+                { label: item.title },
+                { label: item.eservice.name },
+                { label: item.eservice.producer.name },
+                {
+                  label: item.awaitingApproval
+                    ? `${purposeStateLabel}, in aggiornamento`
+                    : purposeStateLabel,
+                },
+              ]}
+            >
+              <StyledButton
+                variant="outlined"
+                size="small"
+                onClick={() => {
+                  const path =
+                    item.currentVersion.state === 'DRAFT'
+                      ? routes.SUBSCRIBE_PURPOSE_EDIT.PATH
+                      : routes.SUBSCRIBE_PURPOSE_VIEW.PATH
+
+                  history.push(buildDynamicPath(path, { purposeId: item.id }))
+                }}
+              >
+                {item.currentVersion.state === 'DRAFT' ? 'Modifica' : 'Ispeziona'}
+              </StyledButton>
+
+              <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+                <ActionMenu actions={getAvailableActions(item)} />
+              </Box>
+            </StyledTableRow>
+          )
+        })}
+    </TableWithLoader>
+  )
+}
+
+export const PurposeList = () => {
+  const { routes } = useRoute()
+
+  return (
     <React.Fragment>
       <StyledIntro>
         {{
@@ -248,12 +246,7 @@ export const PurposeList = () => {
         </StyledButton>
       </PageTopFilters>
 
-      <AsyncTable
-        forceRerenderCounter={forceRerenderCounter}
-        getActions={getAvailableActions}
-        headData={headData}
-        routes={routes}
-      />
+      <AsyncTable routes={routes} />
     </React.Fragment>
   )
 }

@@ -24,7 +24,7 @@ import { formatThousands } from '../lib/format-utils'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { PURPOSE_STATE_LABEL } from '../config/labels'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { useFeedback } from '../hooks/useFeedback'
+import { RunAction, useFeedback } from '../hooks/useFeedback'
 // import { downloadFile } from '../lib/file-utils'
 import { AxiosResponse } from 'axios'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
@@ -42,31 +42,45 @@ import { PageTopFilters } from '../components/Shared/PageTopFilters'
 import { Box } from '@mui/system'
 // import { axiosErrorToError } from '../lib/error-utils'
 
-type AsyncTableProps = {
-  forceRerenderCounter: number
-  getActions: (client: Pick<Client, 'id' | 'name'>) => Array<ActionProps>
-  headData: Array<string>
+// TEMP REFACTOR: this view will need a loooot of refactor after the BFF is implemented
+// and the fetches for clients and purpose become separated
+
+type AsyncTableClientsProps = {
+  runAction: RunAction
   purposeId?: string
   routes: Record<string, MappedRouteConfig>
+  data?: DecoratedPurpose
 }
 
-const AsyncTable = ({
-  forceRerenderCounter,
-  getActions,
-  headData,
-  purposeId,
-  routes,
-}: AsyncTableProps) => {
+const AsyncTableClients = ({ runAction, purposeId, routes, data }: AsyncTableClientsProps) => {
   const history = useHistory()
 
-  const { data /*, error */ } = useAsyncFetch<Purpose, DecoratedPurpose>(
-    { path: { endpoint: 'PURPOSE_GET_SINGLE', endpointParams: { purposeId } } },
-    {
-      loadingTextLabel: 'Stiamo caricando la finalità richiesta',
-      mapFn: decoratePurposeWithMostRecentVersion,
-      useEffectDeps: [forceRerenderCounter],
+  /*
+   * List of possible actions to perform in the client tab
+   */
+  const wrapRemoveFromPurpose = (clientId: string) => async () => {
+    await runAction(
+      {
+        path: { endpoint: 'CLIENT_REMOVE_FROM_PURPOSE', endpointParams: { clientId, purposeId } },
+      },
+      { showConfirmDialog: true }
+    )
+  }
+  /*
+   * End list of actions
+   */
+
+  // Build list of available actions for each client in its current state
+  const getAvailableActions = (item: Pick<Client, 'id' | 'name'>): Array<ActionProps> => {
+    const removeFromPurposeAction = {
+      onClick: wrapRemoveFromPurpose(item.id),
+      label: 'Rimuovi dalla finalità',
     }
-  )
+
+    return [removeFromPurposeAction]
+  }
+
+  const headData = ['Nome client', '']
 
   return (
     <TableWithLoader
@@ -90,7 +104,7 @@ const AsyncTable = ({
           </StyledButton>
 
           <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
-            <ActionMenu actions={getActions(item)} />
+            <ActionMenu actions={getAvailableActions(item)} />
           </Box>
         </StyledTableRow>
       ))}
@@ -231,31 +245,6 @@ export const PurposeView = () => {
     return availableActions[status] || []
   }
 
-  /*
-   * List of possible actions to perform in the client tab
-   */
-  const wrapRemoveFromPurpose = (clientId: string) => async () => {
-    await runAction(
-      {
-        path: { endpoint: 'CLIENT_REMOVE_FROM_PURPOSE', endpointParams: { clientId, purposeId } },
-      },
-      { showConfirmDialog: true }
-    )
-  }
-  /*
-   * End list of actions
-   */
-
-  // Build list of available actions for each client in its current state
-  const getClientAvailableActions = (item: Pick<Client, 'id' | 'name'>): Array<ActionProps> => {
-    const removeFromPurposeAction = {
-      onClick: wrapRemoveFromPurpose(item.id),
-      label: 'Rimuovi dalla finalità',
-    }
-
-    return [removeFromPurposeAction]
-  }
-
   const updateDailyCalls = () => {
     setDialog({
       type: 'updatePurposeDailyCalls',
@@ -304,8 +293,6 @@ export const PurposeView = () => {
   const showClientsDialog = () => {
     setDialog({ type: 'addClients', exclude: data?.clients || [], onSubmit: addClients })
   }
-
-  const headData = ['Nome client', '']
 
   return (
     <React.Fragment>
@@ -422,12 +409,11 @@ export const PurposeView = () => {
             </StyledButton>
           </PageTopFilters>
 
-          <AsyncTable
-            forceRerenderCounter={forceRerenderCounter}
-            getActions={getClientAvailableActions}
-            headData={headData}
+          <AsyncTableClients
+            runAction={runAction}
             purposeId={purposeId}
             routes={routes}
+            data={data}
           />
         </TabPanel>
       </TabContext>

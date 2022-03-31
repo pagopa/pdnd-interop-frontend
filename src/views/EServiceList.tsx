@@ -28,16 +28,14 @@ import { PageTopFilters } from '../components/Shared/PageTopFilters'
 import { Box } from '@mui/material'
 
 type AsyncTableProps = {
-  forceRerenderCounter: number
-  getActions: (service: EServiceFlatReadType) => Array<ActionProps>
-  headData: Array<string>
   routes: Record<string, MappedRouteConfig>
 }
 
-const AsyncTable = ({ forceRerenderCounter, getActions, headData, routes }: AsyncTableProps) => {
+const AsyncTable = ({ routes }: AsyncTableProps) => {
   const { party } = useContext(PartyContext)
   const { lang } = useContext(LangContext)
   const history = useHistory()
+  const { runAction, forceRerenderCounter } = useFeedback()
 
   const { data, loadingText, error } = useAsyncFetch<Array<EServiceFlatReadType>>(
     {
@@ -52,58 +50,6 @@ const AsyncTable = ({ forceRerenderCounter, getActions, headData, routes }: Asyn
       loadingTextLabel: 'Stiamo caricando i tuoi E-Service',
     }
   )
-
-  return (
-    <TableWithLoader
-      loadingText={loadingText}
-      headData={headData}
-      noDataLabel="Non ci sono servizi disponibili"
-      error={axiosErrorToError(error)}
-    >
-      {data &&
-        Boolean(data.length > 0) &&
-        data.map((item, i) => (
-          <StyledTableRow
-            key={i}
-            cellData={[
-              { label: item.name },
-              { label: item.version || '1' },
-              { label: ESERVICE_STATE_LABEL[item.state || 'DRAFT'] },
-            ]}
-          >
-            <StyledButton
-              variant="outlined"
-              size="small"
-              onClick={() => {
-                const destPath =
-                  !item.state || item.state === 'DRAFT'
-                    ? routes.PROVIDE_ESERVICE_EDIT.PATH
-                    : routes.PROVIDE_ESERVICE_MANAGE.PATH
-
-                history.push(
-                  buildDynamicPath(destPath, {
-                    eserviceId: item.id,
-                    descriptorId: item.descriptorId || URL_FRAGMENTS.FIRST_DRAFT[lang],
-                  })
-                )
-              }}
-            >
-              {!item.state || item.state === 'DRAFT' ? 'Modifica' : 'Ispeziona'}
-            </StyledButton>
-
-            <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
-              <ActionMenu actions={getActions(item)} />
-            </Box>
-          </StyledTableRow>
-        ))}
-    </TableWithLoader>
-  )
-}
-
-export function EServiceList() {
-  const { runAction, forceRerenderCounter } = useFeedback()
-  const history = useHistory()
-  const { routes } = useRoute()
 
   /*
    * List of possible actions for the user to perform
@@ -249,6 +195,56 @@ export function EServiceList() {
   const headData = ['Nome E-Service', 'Versione', 'Stato E-Service', '']
 
   return (
+    <TableWithLoader
+      loadingText={loadingText}
+      headData={headData}
+      noDataLabel="Non ci sono servizi disponibili"
+      error={axiosErrorToError(error)}
+    >
+      {data &&
+        Boolean(data.length > 0) &&
+        data.map((item, i) => (
+          <StyledTableRow
+            key={i}
+            cellData={[
+              { label: item.name },
+              { label: item.version || '1' },
+              { label: ESERVICE_STATE_LABEL[item.state || 'DRAFT'] },
+            ]}
+          >
+            <StyledButton
+              variant="outlined"
+              size="small"
+              onClick={() => {
+                const destPath =
+                  !item.state || item.state === 'DRAFT'
+                    ? routes.PROVIDE_ESERVICE_EDIT.PATH
+                    : routes.PROVIDE_ESERVICE_MANAGE.PATH
+
+                history.push(
+                  buildDynamicPath(destPath, {
+                    eserviceId: item.id,
+                    descriptorId: item.descriptorId || URL_FRAGMENTS.FIRST_DRAFT[lang],
+                  })
+                )
+              }}
+            >
+              {!item.state || item.state === 'DRAFT' ? 'Modifica' : 'Ispeziona'}
+            </StyledButton>
+
+            <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+              <ActionMenu actions={getAvailableActions(item)} />
+            </Box>
+          </StyledTableRow>
+        ))}
+    </TableWithLoader>
+  )
+}
+
+export function EServiceList() {
+  const { routes } = useRoute()
+
+  return (
     <React.Fragment>
       <StyledIntro>
         {{
@@ -264,12 +260,7 @@ export function EServiceList() {
         </StyledButton>
       </PageTopFilters>
 
-      <AsyncTable
-        forceRerenderCounter={forceRerenderCounter}
-        getActions={getAvailableActions}
-        headData={headData}
-        routes={routes}
-      />
+      <AsyncTable routes={routes} />
     </React.Fragment>
   )
 }

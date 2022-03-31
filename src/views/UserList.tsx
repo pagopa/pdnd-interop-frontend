@@ -15,7 +15,7 @@ import { useMode } from '../hooks/useMode'
 import { TempFilters } from '../components/TempFilters'
 import { DialogContext, PartyContext, TokenContext } from '../lib/context'
 import { buildDynamicPath, getBits } from '../lib/router-utils'
-import { useFeedback } from '../hooks/useFeedback'
+import { RunAction, useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { USER_STATE_LABEL } from '../config/labels'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
@@ -33,8 +33,7 @@ type UserListProps = {
 
 type AsyncTableProps = {
   forceRerenderCounter: number
-  getActions: (user: User) => Array<ActionProps>
-  headData: Array<string>
+  runAction: RunAction
   clientId: string
   clientKind: ClientKind
   mode: ProviderOrSubscriber | null
@@ -43,8 +42,7 @@ type AsyncTableProps = {
 
 const AsyncTable = ({
   forceRerenderCounter,
-  getActions,
-  headData,
+  runAction,
   clientId,
   clientKind,
   mode,
@@ -85,54 +83,6 @@ const AsyncTable = ({
     return buildDynamicPath(subscriberRoute, { clientId, operatorId: item.relationshipId })
   }
 
-  return (
-    <TableWithLoader
-      loadingText={loadingText}
-      headData={headData}
-      noDataLabel="Non ci sono operatori disponibili"
-      error={axiosErrorToError(error)}
-    >
-      {users &&
-        Boolean(users.length > 0) &&
-        users.map((item, i) => (
-          <StyledTableRow
-            key={i}
-            cellData={[
-              { label: `${item.name + ' ' + item.surname}` },
-              { label: USER_STATE_LABEL[item.state] },
-            ]}
-          >
-            <StyledButton
-              variant="outlined"
-              size="small"
-              onClick={() => {
-                history.push(getEditBtnRoute(item))
-              }}
-            >
-              Ispeziona
-            </StyledButton>
-
-            <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
-              <ActionMenu actions={getActions(item)} />
-            </Box>
-          </StyledTableRow>
-        ))}
-    </TableWithLoader>
-  )
-}
-
-export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSUMER' }) => {
-  const history = useHistory()
-  const { setDialog } = useContext(DialogContext)
-  const { runAction, forceRerenderCounter } = useFeedback()
-
-  // Only for subscriber
-  const locationBits = getBits(history.location)
-  const clientId = locationBits[locationBits.length - 1]
-
-  const mode = useMode()
-  const { party } = useContext(PartyContext)
-
   /*
    * List of possible actions for the user to perform
    */
@@ -166,6 +116,56 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
     return actions
   }
 
+  const headData = ['Nome e cognome', 'Stato', '']
+
+  return (
+    <TableWithLoader
+      loadingText={loadingText}
+      headData={headData}
+      noDataLabel="Non ci sono operatori disponibili"
+      error={axiosErrorToError(error)}
+    >
+      {users &&
+        Boolean(users.length > 0) &&
+        users.map((item, i) => (
+          <StyledTableRow
+            key={i}
+            cellData={[
+              { label: `${item.name + ' ' + item.surname}` },
+              { label: USER_STATE_LABEL[item.state] },
+            ]}
+          >
+            <StyledButton
+              variant="outlined"
+              size="small"
+              onClick={() => {
+                history.push(getEditBtnRoute(item))
+              }}
+            >
+              Ispeziona
+            </StyledButton>
+
+            <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+              <ActionMenu actions={getAvailableActions(item)} />
+            </Box>
+          </StyledTableRow>
+        ))}
+    </TableWithLoader>
+  )
+}
+
+export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSUMER' }) => {
+  const history = useHistory()
+  const { setDialog } = useContext(DialogContext)
+  const { runAction, forceRerenderCounter } = useFeedback()
+
+  // Only for subscriber
+  const locationBits = getBits(history.location)
+  const clientId = locationBits[locationBits.length - 1]
+
+  const mode = useMode()
+  const { party } = useContext(PartyContext)
+
   const addOperators = async (data: AddSecurityOperatorFormInputValues) => {
     if (data.selected.length === 0) {
       return
@@ -192,15 +192,13 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
     })
   }
 
-  const openAddOperatoDialog = () => {
+  const openAddOperatorDialog = () => {
     setDialog({
       type: 'addSecurityOperator',
       initialValues: { selected: [] },
       onSubmit: addOperators,
     })
   }
-
-  const headData = ['Nome e cognome', 'Stato', '']
 
   return (
     <React.Fragment>
@@ -217,7 +215,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
       <PageTopFilters>
         <TempFilters />
         {isAdmin(party) && mode === 'subscriber' && (
-          <StyledButton variant="contained" size="small" onClick={openAddOperatoDialog}>
+          <StyledButton variant="contained" size="small" onClick={openAddOperatorDialog}>
             + Aggiungi
           </StyledButton>
         )}
@@ -225,8 +223,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
 
       <AsyncTable
         forceRerenderCounter={forceRerenderCounter}
-        getActions={getAvailableActions}
-        headData={headData}
+        runAction={runAction}
         clientId={clientId}
         clientKind={clientKind}
         mode={mode}

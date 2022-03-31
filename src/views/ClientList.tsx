@@ -22,22 +22,14 @@ type ClientListProps = {
 }
 
 type AsyncTableProps = {
-  forceRerenderCounter: number
-  getActions: (client: Client) => Array<ActionProps>
-  headData: Array<string>
   clientKind: ClientKind
   party: Party | null
   routes: Record<string, MappedRouteConfig>
 }
 
-const AsyncTable = ({
-  forceRerenderCounter,
-  getActions,
-  headData,
-  clientKind,
-  party,
-  routes,
-}: AsyncTableProps) => {
+const AsyncTable = ({ clientKind, party, routes }: AsyncTableProps) => {
+  const { runAction, forceRerenderCounter } = useFeedback()
+
   const history = useHistory()
   const editPath =
     clientKind === 'CONSUMER'
@@ -56,6 +48,25 @@ const AsyncTable = ({
       useEffectDeps: [forceRerenderCounter],
     }
   )
+
+  /*
+   * List of possible actions for the user to perform
+   */
+  const wrapDelete = (clientId: string) => async () => {
+    await runAction(
+      { path: { endpoint: 'CLIENT_DELETE', endpointParams: { clientId } } },
+      { showConfirmDialog: true }
+    )
+  }
+  /*
+   * End list of actions
+   */
+
+  const getAvailableActions = (client: Client): Array<ActionProps> => {
+    return [{ onClick: wrapDelete(client.id), label: 'Elimina' }]
+  }
+
+  const headData = ['Nome client', '']
 
   return (
     <TableWithLoader
@@ -79,7 +90,7 @@ const AsyncTable = ({
             </StyledButton>
 
             <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
-              <ActionMenu actions={getActions(item)} />
+              <ActionMenu actions={getAvailableActions(item)} />
             </Box>
           </StyledTableRow>
         ))}
@@ -88,7 +99,6 @@ const AsyncTable = ({
 }
 
 export const ClientList: FunctionComponent<ClientListProps> = ({ clientKind = 'CONSUMER' }) => {
-  const { runAction, forceRerenderCounter } = useFeedback()
   const { party } = useContext(PartyContext)
   const { routes } = useRoute()
 
@@ -97,25 +107,6 @@ export const ClientList: FunctionComponent<ClientListProps> = ({ clientKind = 'C
     clientKind === 'CONSUMER'
       ? routes.SUBSCRIBE_CLIENT_CREATE.PATH
       : routes.SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE.PATH
-
-  /*
-   * List of possible actions for the user to perform
-   */
-  const wrapDelete = (clientId: string) => async () => {
-    await runAction(
-      { path: { endpoint: 'CLIENT_DELETE', endpointParams: { clientId } } },
-      { showConfirmDialog: true }
-    )
-  }
-  /*
-   * End list of actions
-   */
-
-  const getAvailableActions = (client: Client): Array<ActionProps> => {
-    return [{ onClick: wrapDelete(client.id), label: 'Elimina' }]
-  }
-
-  const headData = ['Nome client', '']
 
   return (
     <React.Fragment>
@@ -137,14 +128,7 @@ export const ClientList: FunctionComponent<ClientListProps> = ({ clientKind = 'C
         )}
       </PageTopFilters>
 
-      <AsyncTable
-        forceRerenderCounter={forceRerenderCounter}
-        getActions={getAvailableActions}
-        headData={headData}
-        clientKind={clientKind}
-        party={party}
-        routes={routes}
-      />
+      <AsyncTable clientKind={clientKind} party={party} routes={routes} />
     </React.Fragment>
   )
 }

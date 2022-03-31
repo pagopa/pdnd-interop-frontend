@@ -12,7 +12,7 @@ import { formatThousands } from '../lib/format-utils'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { decoratePurposeWithMostRecentVersion } from '../lib/purpose'
 import { formatDateString } from '../lib/format-utils'
-import { useFeedback } from '../hooks/useFeedback'
+import { RunAction, useFeedback } from '../hooks/useFeedback'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { useLocation } from 'react-router-dom'
 import {
@@ -26,17 +26,13 @@ import { PageBottomActions } from '../components/Shared/PageBottomActions'
 
 type AsyncTableProps = {
   forceRerenderCounter: number
-  getActions: (item: DecoratedPurpose) => Array<ActionProps>
-  headData: Array<string>
+  runAction: RunAction
   eserviceId?: string
 }
 
-const AsyncTable = ({
-  forceRerenderCounter,
-  getActions,
-  headData,
-  eserviceId,
-}: AsyncTableProps) => {
+const AsyncTable = ({ forceRerenderCounter, runAction, eserviceId }: AsyncTableProps) => {
+  const { setDialog } = useContext(DialogContext)
+
   const { data: purposeData /* , error */ } = useAsyncFetch<
     { purposes: Array<Purpose> },
     Array<DecoratedPurpose>
@@ -51,6 +47,55 @@ const AsyncTable = ({
       useEffectDeps: [forceRerenderCounter],
     }
   )
+
+  /*
+   * List of possible actions for the user to perform
+   */
+  const wrapUpdatePurposeExpectedApprovalDate =
+    (purposeId: string, versionId: string, approvalDate?: string) => () => {
+      setDialog({
+        type: 'setPurposeExpectedApprovalDate',
+        purposeId,
+        versionId,
+        approvalDate,
+        runAction,
+      })
+    }
+
+  const wrapActivatePurpose = (purposeId: string, versionId: string) => async () => {
+    await runAction(
+      {
+        path: {
+          endpoint: 'PURPOSE_VERSION_ACTIVATE',
+          endpointParams: { purposeId, versionId },
+        },
+      },
+      { showConfirmDialog: true }
+    )
+  }
+  /*
+   * End list of actions
+   */
+
+  const getAvailableActions = (item: DecoratedPurpose): Array<ActionProps> => {
+    const actions = [
+      {
+        onClick: wrapUpdatePurposeExpectedApprovalDate(
+          item.id,
+          item.mostRecentVersion.id,
+          item.mostRecentVersion.expectedApprovalDate
+        ),
+        label: 'Aggiorna data di completamento',
+      },
+      {
+        onClick: wrapActivatePurpose(item.id, item.mostRecentVersion.id),
+        label: 'Attiva',
+      },
+    ]
+    return actions
+  }
+
+  const headData = ['Nome finalità', 'Stima di carico', 'Data di completamento', '']
 
   return (
     <TableWithLoader
@@ -74,7 +119,7 @@ const AsyncTable = ({
                 },
               ]}
             >
-              <ActionMenu actions={getActions(item)} />
+              <ActionMenu actions={getAvailableActions(item)} />
             </StyledTableRow>
           )
         })}
@@ -84,7 +129,6 @@ const AsyncTable = ({
 
 export function EServiceManage() {
   const { routes } = useRoute()
-  const { setDialog } = useContext(DialogContext)
   const { runAction, forceRerenderCounter } = useFeedback()
   const { activeTab, updateActiveTab } = useActiveTab('details')
 
@@ -101,61 +145,14 @@ export function EServiceManage() {
     }
   )
 
-  const wrapUpdatePurposeExpectedApprovalDate =
-    (purposeId: string, versionId: string, approvalDate?: string) => () => {
-      setDialog({
-        type: 'setPurposeExpectedApprovalDate',
-        purposeId,
-        versionId,
-        approvalDate,
-        runAction,
-      })
-    }
-
-  const wrapActivatePurpose = (purposeId: string, versionId: string) => async () => {
-    await runAction(
-      {
-        path: {
-          endpoint: 'PURPOSE_VERSION_ACTIVATE',
-          endpointParams: { purposeId, versionId },
-        },
-      },
-      { showConfirmDialog: true }
-    )
-  }
-
-  const getAvailableActions = (item: DecoratedPurpose): Array<ActionProps> => {
-    const actions = [
-      {
-        onClick: wrapUpdatePurposeExpectedApprovalDate(
-          item.id,
-          item.mostRecentVersion.id,
-          item.mostRecentVersion.expectedApprovalDate
-        ),
-        label: 'Aggiorna data di completamento',
-      },
-      {
-        onClick: wrapActivatePurpose(item.id, item.mostRecentVersion.id),
-        label: 'Attiva',
-      },
-    ]
-    return actions
-  }
-
-  if (!eserviceData) {
-    return null
-  }
-
   if (error) {
     return <NotFound errorType="server-error" />
   }
 
-  const headData = ['Nome finalità', 'Stima di carico', 'Data di completamento', '']
-
   return (
     <React.Fragment>
       <StyledIntro>
-        {{ title: eserviceData.name, description: eserviceData.description }}
+        {{ title: eserviceData?.name, description: eserviceData?.description }}
       </StyledIntro>
 
       <TabContext value={activeTab}>
@@ -170,7 +167,7 @@ export function EServiceManage() {
 
         <TabPanel value="details">
           <React.Fragment>
-            <EServiceContentInfo data={eserviceData} />
+            {eserviceData && <EServiceContentInfo data={eserviceData} />}
 
             <PageBottomActions>
               <StyledButton variant="outlined" to={routes.PROVIDE_ESERVICE_LIST.PATH}>
@@ -182,8 +179,7 @@ export function EServiceManage() {
         <TabPanel value="purposeAwaitingApproval">
           <AsyncTable
             forceRerenderCounter={forceRerenderCounter}
-            getActions={getAvailableActions}
-            headData={headData}
+            runAction={runAction}
             eserviceId={eserviceId}
           />
         </TabPanel>
