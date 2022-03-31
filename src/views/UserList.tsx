@@ -1,6 +1,13 @@
 import React, { FunctionComponent, useContext } from 'react'
 import { useHistory } from 'react-router'
-import { AddSecurityOperatorFormInputValues, ClientKind, User } from '../../types'
+import {
+  ActionProps,
+  AddSecurityOperatorFormInputValues,
+  ClientKind,
+  Party,
+  ProviderOrSubscriber,
+  User,
+} from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -24,18 +31,27 @@ type UserListProps = {
   clientKind?: ClientKind
 }
 
-export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSUMER' }) => {
-  const history = useHistory()
+type AsyncTableProps = {
+  forceRerenderCounter: number
+  getActions: (user: User) => Array<ActionProps>
+  headData: Array<string>
+  clientId: string
+  clientKind: ClientKind
+  mode: ProviderOrSubscriber | null
+  party: Party | null
+}
+
+const AsyncTable = ({
+  forceRerenderCounter,
+  getActions,
+  headData,
+  clientId,
+  clientKind,
+  mode,
+  party,
+}: AsyncTableProps) => {
   const { routes } = useRoute()
-  const { setDialog } = useContext(DialogContext)
-  const { runAction, forceRerenderCounter } = useFeedback()
-
-  // Only for subscriber
-  const locationBits = getBits(history.location)
-  const clientId = locationBits[locationBits.length - 1]
-
-  const mode = useMode()
-  const { party } = useContext(PartyContext)
+  const history = useHistory()
   const { token } = useContext(TokenContext)
   // TEMP REFACTOR: remove after integration with selfcare
   const endpoint = mode === 'provider' ? 'USER_GET_LIST' : 'OPERATOR_SECURITY_GET_LIST'
@@ -56,6 +72,67 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
     }
   )
 
+  const getEditBtnRoute = (item: User) => {
+    if (mode === 'provider') {
+      return buildDynamicPath(routes.PROVIDE_OPERATOR_EDIT.PATH, { operatorId: item.id })
+    }
+
+    const subscriberRoute =
+      clientKind === 'API'
+        ? routes.SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT.PATH
+        : routes.SUBSCRIBE_CLIENT_OPERATOR_EDIT.PATH
+
+    return buildDynamicPath(subscriberRoute, { clientId, operatorId: item.relationshipId })
+  }
+
+  return (
+    <TableWithLoader
+      loadingText={loadingText}
+      headData={headData}
+      noDataLabel="Non ci sono operatori disponibili"
+      error={axiosErrorToError(error)}
+    >
+      {users &&
+        Boolean(users.length > 0) &&
+        users.map((item, i) => (
+          <StyledTableRow
+            key={i}
+            cellData={[
+              { label: `${item.name + ' ' + item.surname}` },
+              { label: USER_STATE_LABEL[item.state] },
+            ]}
+          >
+            <StyledButton
+              variant="outlined"
+              size="small"
+              onClick={() => {
+                history.push(getEditBtnRoute(item))
+              }}
+            >
+              Ispeziona
+            </StyledButton>
+
+            <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+              <ActionMenu actions={getActions(item)} />
+            </Box>
+          </StyledTableRow>
+        ))}
+    </TableWithLoader>
+  )
+}
+
+export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSUMER' }) => {
+  const history = useHistory()
+  const { setDialog } = useContext(DialogContext)
+  const { runAction, forceRerenderCounter } = useFeedback()
+
+  // Only for subscriber
+  const locationBits = getBits(history.location)
+  const clientId = locationBits[locationBits.length - 1]
+
+  const mode = useMode()
+  const { party } = useContext(PartyContext)
+
   /*
    * List of possible actions for the user to perform
    */
@@ -75,16 +152,18 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
    */
 
   const getAvailableActions = (user: User) => {
+    let actions: Array<ActionProps> = []
+
     if (mode === 'subscriber' && isAdmin(party)) {
       const removeFromClientAction = {
         onClick: wrapRemoveFromClient(user.relationshipId),
         label: 'Rimuovi dal client',
       }
 
-      return [removeFromClientAction]
+      actions = [removeFromClientAction]
     }
 
-    return []
+    return actions
   }
 
   const addOperators = async (data: AddSecurityOperatorFormInputValues) => {
@@ -118,23 +197,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
       type: 'addSecurityOperator',
       initialValues: { selected: [] },
       onSubmit: addOperators,
-      excludeIdsList: users?.map((u) => u.relationshipId).filter((id) => id) as
-        | string[]
-        | undefined,
     })
-  }
-
-  const getEditBtnRoute = (item: User) => {
-    if (mode === 'provider') {
-      return buildDynamicPath(routes.PROVIDE_OPERATOR_EDIT.PATH, { operatorId: item.id })
-    }
-
-    const subscriberRoute =
-      clientKind === 'API'
-        ? routes.SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT.PATH
-        : routes.SUBSCRIBE_CLIENT_OPERATOR_EDIT.PATH
-
-    return buildDynamicPath(subscriberRoute, { clientId, operatorId: item.relationshipId })
   }
 
   const headData = ['Nome e cognome', 'Stato', '']
@@ -160,38 +223,15 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
         )}
       </PageTopFilters>
 
-      <TableWithLoader
-        loadingText={loadingText}
+      <AsyncTable
+        forceRerenderCounter={forceRerenderCounter}
+        getActions={getAvailableActions}
         headData={headData}
-        noDataLabel="Non ci sono operatori disponibili"
-        error={axiosErrorToError(error)}
-      >
-        {users &&
-          Boolean(users.length > 0) &&
-          users.map((item, i) => (
-            <StyledTableRow
-              key={i}
-              cellData={[
-                { label: `${item.name + ' ' + item.surname}` },
-                { label: USER_STATE_LABEL[item.state] },
-              ]}
-            >
-              <StyledButton
-                variant="outlined"
-                size="small"
-                onClick={() => {
-                  history.push(getEditBtnRoute(item))
-                }}
-              >
-                Ispeziona
-              </StyledButton>
-
-              <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
-                <ActionMenu actions={getAvailableActions(item)} />
-              </Box>
-            </StyledTableRow>
-          ))}
-      </TableWithLoader>
+        clientId={clientId}
+        clientKind={clientKind}
+        mode={mode}
+        party={party}
+      />
 
       {mode === 'provider' && (
         <Alert sx={{ mt: 1 }} severity="info">

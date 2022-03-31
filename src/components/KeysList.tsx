@@ -41,15 +41,22 @@ type KeysListProps = {
   clientKind?: ClientKind
 }
 
-export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSUMER' }) => {
-  const location = useLocation()
-  const locationBits = getBits(location)
-  const clientId = locationBits[locationBits.length - 1]
-  const { setDialog } = useContext(DialogContext)
-  const { party } = useContext(PartyContext)
+type AsyncTableProps = {
+  forceRerenderCounter: number
+  getActions: (key: PublicKeyItem) => Array<ActionProps>
+  headData: Array<string>
+  clientId: string
+  clientKind: ClientKind
+}
+
+const AsyncTable = ({
+  forceRerenderCounter,
+  getActions,
+  headData,
+  clientId,
+  clientKind,
+}: AsyncTableProps) => {
   const { routes } = useRoute()
-  const { user } = useUser()
-  const { runAction, forceRerenderCounter } = useFeedback()
   const history = useHistory()
 
   const {
@@ -69,6 +76,76 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
     { path: { endpoint: 'OPERATOR_SECURITY_GET_LIST', endpointParams: { clientId } } },
     { loaderType: 'contextual', loadingTextLabel: 'Stiamo caricando gli operatori' }
   )
+
+  const fetchError =
+    error && error.response && error.response.status !== 404 ? axiosErrorToError(error) : undefined
+
+  return (
+    <TableWithLoader
+      loadingText={loadingText}
+      headData={headData}
+      noDataLabel="Non ci sono chiavi disponibili"
+      error={fetchError}
+    >
+      {keysData?.keys.map((singleKey, i) => {
+        const { key, name, createdAt, operator } = singleKey
+        const isOrphan = isKeyOrphan(singleKey, userData)
+        const color = isOrphan ? 'error' : 'primary'
+        return (
+          <StyledTableRow
+            key={i}
+            cellData={[
+              {
+                label: name,
+                tooltip: isOrphan ? (
+                  <StyledTooltip title="Attenzione! L'operatore che ha caricato questa chiave è stato rimosso da questo ente. Si consiglia di eliminare la chiave e di sostituirla con una nuova">
+                    <ReportGmailerrorredIcon sx={{ ml: 0.75, fontSize: 16 }} color={color} />
+                  </StyledTooltip>
+                ) : undefined,
+              },
+              { label: formatDateString(createdAt) },
+              { label: `${operator.name} ${operator.surname}` },
+            ]}
+          >
+            <StyledButton
+              size="small"
+              variant="outlined"
+              sx={{ display: 'inline-flex' }}
+              onClick={() => {
+                history.push(
+                  buildDynamicPath(
+                    clientKind === 'API'
+                      ? routes.SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT.PATH
+                      : routes.SUBSCRIBE_CLIENT_KEY_EDIT.PATH,
+                    {
+                      clientId,
+                      kid: key.kid,
+                    }
+                  )
+                )
+              }}
+            >
+              Ispeziona
+            </StyledButton>
+
+            <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+              <ActionMenu actions={getActions(key)} iconColor={color} />
+            </Box>
+          </StyledTableRow>
+        )
+      })}
+    </TableWithLoader>
+  )
+}
+
+export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSUMER' }) => {
+  const location = useLocation()
+  const locationBits = getBits(location)
+  const clientId = locationBits[locationBits.length - 1]
+  const { setDialog } = useContext(DialogContext)
+  const { party } = useContext(PartyContext)
+  const { user } = useUser()
+  const { runAction, forceRerenderCounter } = useFeedback()
 
   const wrapDownloadKey = (keyId: string) => async () => {
     const { response, outcome } = (await runAction(
@@ -136,9 +213,6 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
 
   const headData = ['Nome della chiave', 'Data di creazione', 'Caricata da', '']
 
-  const fetchError =
-    error && error.response && error.response.status !== 404 ? axiosErrorToError(error) : undefined
-
   return (
     <React.Fragment>
       <PageTopFilters>
@@ -150,60 +224,13 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
         )}
       </PageTopFilters>
 
-      <TableWithLoader
-        loadingText={loadingText}
+      <AsyncTable
+        forceRerenderCounter={forceRerenderCounter}
+        getActions={getAvailableActions}
         headData={headData}
-        noDataLabel="Non ci sono chiavi disponibili"
-        error={fetchError}
-      >
-        {keysData?.keys.map((singleKey, i) => {
-          const { key, name, createdAt, operator } = singleKey
-          const isOrphan = isKeyOrphan(singleKey, userData)
-          const color = isOrphan ? 'error' : 'primary'
-          return (
-            <StyledTableRow
-              key={i}
-              cellData={[
-                {
-                  label: name,
-                  tooltip: isOrphan ? (
-                    <StyledTooltip title="Attenzione! L'operatore che ha caricato questa chiave è stato rimosso da questo ente. Si consiglia di eliminare la chiave e di sostituirla con una nuova">
-                      <ReportGmailerrorredIcon sx={{ ml: 0.75, fontSize: 16 }} color={color} />
-                    </StyledTooltip>
-                  ) : undefined,
-                },
-                { label: formatDateString(createdAt) },
-                { label: `${operator.name} ${operator.surname}` },
-              ]}
-            >
-              <StyledButton
-                size="small"
-                variant="outlined"
-                sx={{ display: 'inline-flex' }}
-                onClick={() => {
-                  history.push(
-                    buildDynamicPath(
-                      clientKind === 'API'
-                        ? routes.SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT.PATH
-                        : routes.SUBSCRIBE_CLIENT_KEY_EDIT.PATH,
-                      {
-                        clientId,
-                        kid: key.kid,
-                      }
-                    )
-                  )
-                }}
-              >
-                Ispeziona
-              </StyledButton>
-
-              <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
-                <ActionMenu actions={getAvailableActions(key)} iconColor={color} />
-              </Box>
-            </StyledTableRow>
-          )
-        })}
-      </TableWithLoader>
+        clientId={clientId}
+        clientKind={clientKind}
+      />
     </React.Fragment>
   )
 }

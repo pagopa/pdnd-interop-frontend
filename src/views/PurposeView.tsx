@@ -10,6 +10,7 @@ import {
   Client,
   DecoratedPurpose,
   DialogUpdatePurposeDailyCallsFormInputValues,
+  MappedRouteConfig,
   Purpose,
   PurposeState,
 } from '../../types'
@@ -41,8 +42,63 @@ import { PageTopFilters } from '../components/Shared/PageTopFilters'
 import { Box } from '@mui/system'
 // import { axiosErrorToError } from '../lib/error-utils'
 
-export const PurposeView = () => {
+type AsyncTableProps = {
+  forceRerenderCounter: number
+  getActions: (client: Pick<Client, 'id' | 'name'>) => Array<ActionProps>
+  headData: Array<string>
+  purposeId?: string
+  routes: Record<string, MappedRouteConfig>
+}
+
+const AsyncTable = ({
+  forceRerenderCounter,
+  getActions,
+  headData,
+  purposeId,
+  routes,
+}: AsyncTableProps) => {
   const history = useHistory()
+
+  const { data /*, error */ } = useAsyncFetch<Purpose, DecoratedPurpose>(
+    { path: { endpoint: 'PURPOSE_GET_SINGLE', endpointParams: { purposeId } } },
+    {
+      loadingTextLabel: 'Stiamo caricando la finalità richiesta',
+      mapFn: decoratePurposeWithMostRecentVersion,
+      useEffectDeps: [forceRerenderCounter],
+    }
+  )
+
+  return (
+    <TableWithLoader
+      loadingText=""
+      headData={headData}
+      noDataLabel="Non ci sono client associati a questa finalità"
+      // error={axiosErrorToError(error)}
+    >
+      {data?.clients?.map((item, i) => (
+        <StyledTableRow key={i} cellData={[{ label: item.name }]}>
+          <StyledButton
+            variant="outlined"
+            size="small"
+            onClick={() => {
+              history.push(
+                buildDynamicPath(routes.SUBSCRIBE_CLIENT_EDIT.PATH, { clientId: item.id })
+              )
+            }}
+          >
+            Ispeziona
+          </StyledButton>
+
+          <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+            <ActionMenu actions={getActions(item)} />
+          </Box>
+        </StyledTableRow>
+      ))}
+    </TableWithLoader>
+  )
+}
+
+export const PurposeView = () => {
   const location = useLocation()
   const { runAction, forceRerenderCounter } = useFeedback()
   const { setDialog } = useContext(DialogContext)
@@ -366,32 +422,13 @@ export const PurposeView = () => {
             </StyledButton>
           </PageTopFilters>
 
-          <TableWithLoader
-            loadingText=""
+          <AsyncTable
+            forceRerenderCounter={forceRerenderCounter}
+            getActions={getClientAvailableActions}
             headData={headData}
-            noDataLabel="Non ci sono client associati a questa finalità"
-            // error={axiosErrorToError(error)}
-          >
-            {data?.clients?.map((item, i) => (
-              <StyledTableRow key={i} cellData={[{ label: item.name }]}>
-                <StyledButton
-                  variant="outlined"
-                  size="small"
-                  onClick={() => {
-                    history.push(
-                      buildDynamicPath(routes.SUBSCRIBE_CLIENT_EDIT.PATH, { clientId: item.id })
-                    )
-                  }}
-                >
-                  Ispeziona
-                </StyledButton>
-
-                <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
-                  <ActionMenu actions={getClientAvailableActions(item)} />
-                </Box>
-              </StyledTableRow>
-            ))}
-          </TableWithLoader>
+            purposeId={purposeId}
+            routes={routes}
+          />
         </TabPanel>
       </TabContext>
     </React.Fragment>

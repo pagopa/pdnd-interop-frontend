@@ -24,6 +24,64 @@ import { NotFound } from './NotFound'
 import { useRoute } from '../hooks/useRoute'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 
+type AsyncTableProps = {
+  forceRerenderCounter: number
+  getActions: (item: DecoratedPurpose) => Array<ActionProps>
+  headData: Array<string>
+  eserviceId?: string
+}
+
+const AsyncTable = ({
+  forceRerenderCounter,
+  getActions,
+  headData,
+  eserviceId,
+}: AsyncTableProps) => {
+  const { data: purposeData /* , error */ } = useAsyncFetch<
+    { purposes: Array<Purpose> },
+    Array<DecoratedPurpose>
+  >(
+    {
+      path: { endpoint: 'PURPOSE_GET_LIST' },
+      config: { params: { states: 'WAITING_FOR_APPROVAL', eserviceId } },
+    },
+    {
+      mapFn: (data) => data.purposes.map(decoratePurposeWithMostRecentVersion),
+      loadingTextLabel: 'Stiamo caricando le finalità in attesa',
+      useEffectDeps: [forceRerenderCounter],
+    }
+  )
+
+  return (
+    <TableWithLoader
+      loadingText={null}
+      headData={headData}
+      noDataLabel="Nessuna finalità da evadere"
+    >
+      {purposeData &&
+        Boolean(purposeData.length > 0) &&
+        purposeData.map((item, i) => {
+          return (
+            <StyledTableRow
+              key={i}
+              cellData={[
+                { label: item.title },
+                { label: formatThousands(item.mostRecentVersion.dailyCalls) },
+                {
+                  label: item.mostRecentVersion.expectedApprovalDate
+                    ? formatDateString(item.mostRecentVersion.expectedApprovalDate)
+                    : 'In attesa di presa in carico',
+                },
+              ]}
+            >
+              <ActionMenu actions={getActions(item)} />
+            </StyledTableRow>
+          )
+        })}
+    </TableWithLoader>
+  )
+}
+
 export function EServiceManage() {
   const { routes } = useRoute()
   const { setDialog } = useContext(DialogContext)
@@ -39,21 +97,6 @@ export function EServiceManage() {
     {
       mapFn: decorateEServiceWithActiveDescriptor(descriptorId),
       loadingTextLabel: 'Stiamo caricando il tuo E-Service',
-      useEffectDeps: [forceRerenderCounter],
-    }
-  )
-
-  const { data: purposeData /* , error */ } = useAsyncFetch<
-    { purposes: Array<Purpose> },
-    Array<DecoratedPurpose>
-  >(
-    {
-      path: { endpoint: 'PURPOSE_GET_LIST' },
-      config: { params: { states: 'WAITING_FOR_APPROVAL', eserviceId } },
-    },
-    {
-      mapFn: (data) => data.purposes.map(decoratePurposeWithMostRecentVersion),
-      loadingTextLabel: 'Stiamo caricando le finalità in attesa',
       useEffectDeps: [forceRerenderCounter],
     }
   )
@@ -137,32 +180,12 @@ export function EServiceManage() {
           </React.Fragment>
         </TabPanel>
         <TabPanel value="purposeAwaitingApproval">
-          <TableWithLoader
-            loadingText={null}
+          <AsyncTable
+            forceRerenderCounter={forceRerenderCounter}
+            getActions={getAvailableActions}
             headData={headData}
-            noDataLabel="Nessuna finalità da evadere"
-          >
-            {purposeData &&
-              Boolean(purposeData.length > 0) &&
-              purposeData.map((item, i) => {
-                return (
-                  <StyledTableRow
-                    key={i}
-                    cellData={[
-                      { label: item.title },
-                      { label: formatThousands(item.mostRecentVersion.dailyCalls) },
-                      {
-                        label: item.mostRecentVersion.expectedApprovalDate
-                          ? formatDateString(item.mostRecentVersion.expectedApprovalDate)
-                          : 'In attesa di presa in carico',
-                      },
-                    ]}
-                  >
-                    <ActionMenu actions={getAvailableActions(item)} />
-                  </StyledTableRow>
-                )
-              })}
-          </TableWithLoader>
+            eserviceId={eserviceId}
+          />
         </TabPanel>
       </TabContext>
     </React.Fragment>

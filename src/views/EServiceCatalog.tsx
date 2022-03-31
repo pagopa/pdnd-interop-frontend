@@ -1,6 +1,12 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
-import { EServiceFlatReadType, ActionProps, EServiceFlatDecoratedReadType } from '../../types'
+import {
+  EServiceFlatReadType,
+  ActionProps,
+  EServiceFlatDecoratedReadType,
+  Party,
+  MappedRouteConfig,
+} from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -24,12 +30,18 @@ import { Card, CardActions, CardContent, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { ButtonNaked } from '@pagopa/mui-italia'
 
-export function EServiceCatalog() {
+type AsyncTableProps = {
+  getActions: (
+    eservice: EServiceFlatDecoratedReadType,
+    canSubscribeEservice: boolean
+  ) => Array<ActionProps>
+  headData: Array<string>
+  party: Party | null
+  routes: Record<string, MappedRouteConfig>
+}
+
+const AsyncTable = ({ getActions, headData, party, routes }: AsyncTableProps) => {
   const history = useHistory()
-  const { runAction } = useFeedback()
-  const { party } = useContext(PartyContext)
-  const { setDialog } = useContext(DialogContext)
-  const { routes } = useRoute()
 
   const { data, loadingText, error } = useAsyncFetch<
     Array<EServiceFlatReadType>,
@@ -46,13 +58,107 @@ export function EServiceCatalog() {
     }
   )
 
-  const headData = ['Nome E-Service', 'Ente erogatore', 'Versione attuale', 'Stato E-Service', '']
-
   const OwnerTooltip = ({ label = '', Icon }: { label: string; Icon: SvgIconComponent }) => (
     <StyledTooltip title={label}>
       <Icon sx={{ ml: 0.75, fontSize: 16 }} color="primary" />
     </StyledTooltip>
   )
+
+  const getTooltip = (item: EServiceFlatDecoratedReadType, canSubscribeEservice: boolean) => {
+    if (item.isMine) {
+      return <OwnerTooltip label="Sei l'erogatore" Icon={PersonIcon} />
+    }
+
+    if (item.callerSubscribed && isAdmin(party)) {
+      return <OwnerTooltip label="Sei già iscritto" Icon={CheckIcon} />
+    }
+
+    if (!item.isMine && !canSubscribeEservice) {
+      return (
+        <OwnerTooltip
+          label="Il tuo ente non ha gli attributi certificati necessari per iscriversi"
+          Icon={ClearIcon}
+        />
+      )
+    }
+
+    return undefined
+  }
+
+  return (
+    <TableWithLoader
+      loadingText={loadingText}
+      headData={headData}
+      noDataLabel="Non ci sono E-Service disponibili"
+      error={axiosErrorToError(error)}
+      viewType="grid"
+    >
+      {party &&
+        data &&
+        Boolean(data.length > 0) &&
+        data.map((item, i) => {
+          const canSubscribeEservice = canSubscribe(party.attributes, item.certifiedAttributes)
+          const tooltip = getTooltip(item, canSubscribeEservice)
+          return (
+            <Card
+              key={i}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                height: '100%',
+              }}
+            >
+              <CardContent>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Typography component="span">
+                    {item.name}, v. {item.version}
+                  </Typography>{' '}
+                  {tooltip}
+                </Box>
+
+                <Typography color="text.secondary">{item.producerName}</Typography>
+              </CardContent>
+
+              <CardActions
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  p: 2,
+                }}
+              >
+                <ButtonNaked
+                  size="small"
+                  onClick={() => {
+                    history.push(
+                      buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
+                        eserviceId: item.id,
+                        descriptorId: item.descriptorId as string,
+                      })
+                    )
+                  }}
+                >
+                  Ispeziona
+                </ButtonNaked>
+
+                <ActionMenu actions={getActions(item, canSubscribeEservice)} />
+              </CardActions>
+            </Card>
+          )
+        })}
+    </TableWithLoader>
+  )
+}
+
+export function EServiceCatalog() {
+  const history = useHistory()
+  const { runAction } = useFeedback()
+  const { party } = useContext(PartyContext)
+  const { setDialog } = useContext(DialogContext)
+  const { routes } = useRoute()
+
+  const headData = ['Nome E-Service', 'Ente erogatore', 'Versione attuale', 'Stato E-Service', '']
 
   const wrapSubscribe = (eservice: EServiceFlatDecoratedReadType) => async () => {
     const agreementData = {
@@ -117,27 +223,6 @@ export function EServiceCatalog() {
     return actions
   }
 
-  const getTooltip = (item: EServiceFlatDecoratedReadType, canSubscribeEservice: boolean) => {
-    if (item.isMine) {
-      return <OwnerTooltip label="Sei l'erogatore" Icon={PersonIcon} />
-    }
-
-    if (item.callerSubscribed && isAdmin(party)) {
-      return <OwnerTooltip label="Sei già iscritto" Icon={CheckIcon} />
-    }
-
-    if (!item.isMine && !canSubscribeEservice) {
-      return (
-        <OwnerTooltip
-          label="Il tuo ente non ha gli attributi certificati necessari per iscriversi"
-          Icon={ClearIcon}
-        />
-      )
-    }
-
-    return undefined
-  }
-
   return (
     <React.Fragment>
       <StyledIntro>
@@ -150,68 +235,12 @@ export function EServiceCatalog() {
 
       <TempFilters />
 
-      <TableWithLoader
-        loadingText={loadingText}
+      <AsyncTable
+        getActions={getAvailableActions}
         headData={headData}
-        noDataLabel="Non ci sono E-Service disponibili"
-        error={axiosErrorToError(error)}
-        viewType="grid"
-      >
-        {party &&
-          data &&
-          Boolean(data.length > 0) &&
-          data.map((item, i) => {
-            const canSubscribeEservice = canSubscribe(party.attributes, item.certifiedAttributes)
-            const tooltip = getTooltip(item, canSubscribeEservice)
-            return (
-              <Card
-                key={i}
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  height: '100%',
-                }}
-              >
-                <CardContent>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Typography component="span">
-                      {item.name}, v. {item.version}
-                    </Typography>{' '}
-                    {tooltip}
-                  </Box>
-
-                  <Typography color="text.secondary">{item.producerName}</Typography>
-                </CardContent>
-
-                <CardActions
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    p: 2,
-                  }}
-                >
-                  <ButtonNaked
-                    size="small"
-                    onClick={() => {
-                      history.push(
-                        buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
-                          eserviceId: item.id,
-                          descriptorId: item.descriptorId as string,
-                        })
-                      )
-                    }}
-                  >
-                    Ispeziona
-                  </ButtonNaked>
-
-                  <ActionMenu actions={getAvailableActions(item, canSubscribeEservice)} />
-                </CardActions>
-              </Card>
-            )
-          })}
-      </TableWithLoader>
+        party={party}
+        routes={routes}
+      />
     </React.Fragment>
   )
 }

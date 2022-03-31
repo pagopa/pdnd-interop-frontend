@@ -26,15 +26,25 @@ import { useRoute } from '../hooks/useRoute'
 import { PageTopFilters } from '../components/Shared/PageTopFilters'
 import { Box } from '@mui/material'
 
-export function AgreementList() {
-  const { runAction, forceRerenderCounter } = useFeedback()
-  const mode = useMode()
-  const currentMode = mode as ProviderOrSubscriber
-  const { party } = useContext(PartyContext)
+type AsyncTableProps = {
+  forceRerenderCounter: number
+  getActions: (agreement: AgreementSummary) => Array<ActionProps>
+  headData: Array<string>
+  mode: ProviderOrSubscriber | null
+  party: Party | null
+}
+
+const AsyncTable = ({
+  forceRerenderCounter,
+  getActions,
+  headData,
+  mode,
+  party,
+}: AsyncTableProps) => {
   const { routes } = useRoute()
   const history = useHistory()
-
   const params = mode === 'provider' ? { producerId: party?.id } : { consumerId: party?.id }
+
   const { data, loadingText, error } = useAsyncFetch<Array<AgreementSummary>>(
     {
       path: { endpoint: 'AGREEMENT_GET_LIST' },
@@ -46,6 +56,56 @@ export function AgreementList() {
       loadingTextLabel: 'Stiamo caricando le richieste',
     }
   )
+
+  return (
+    <TableWithLoader
+      loadingText={loadingText}
+      headData={headData}
+      noDataLabel="Non ci sono richieste disponibili"
+      error={axiosErrorToError(error)}
+    >
+      {data &&
+        Boolean(data.length > 0) &&
+        data.map((item, i) => (
+          <StyledTableRow
+            key={i}
+            cellData={[
+              { label: item.eservice.name },
+              { label: mode === 'provider' ? item.consumer.name : item.producer.name },
+              { label: AGREEMENT_STATE_LABEL[item.state] },
+            ]}
+          >
+            <StyledButton
+              variant="outlined"
+              size="small"
+              onClick={() => {
+                history.push(
+                  buildDynamicPath(
+                    routes[
+                      mode === 'provider' ? 'PROVIDE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_EDIT'
+                    ].PATH,
+                    { agreementId: item.id }
+                  )
+                )
+              }}
+            >
+              Ispeziona
+            </StyledButton>
+
+            <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+              <ActionMenu actions={getActions(item)} />
+            </Box>
+          </StyledTableRow>
+        ))}
+    </TableWithLoader>
+  )
+}
+
+export function AgreementList() {
+  const { runAction, forceRerenderCounter } = useFeedback()
+  const mode = useMode()
+  const currentMode = mode as ProviderOrSubscriber
+  const { party } = useContext(PartyContext)
 
   /*
    * List of possible actions for the user to perform
@@ -152,46 +212,13 @@ export function AgreementList() {
         <TempFilters />
       </PageTopFilters>
 
-      <TableWithLoader
-        loadingText={loadingText}
+      <AsyncTable
+        forceRerenderCounter={forceRerenderCounter}
+        getActions={getAvailableActions}
         headData={headData}
-        noDataLabel="Non ci sono richieste disponibili"
-        error={axiosErrorToError(error)}
-      >
-        {data &&
-          Boolean(data.length > 0) &&
-          data.map((item, i) => (
-            <StyledTableRow
-              key={i}
-              cellData={[
-                { label: item.eservice.name },
-                { label: mode === 'provider' ? item.consumer.name : item.producer.name },
-                { label: AGREEMENT_STATE_LABEL[item.state] },
-              ]}
-            >
-              <StyledButton
-                variant="outlined"
-                size="small"
-                onClick={() => {
-                  history.push(
-                    buildDynamicPath(
-                      routes[
-                        mode === 'provider' ? 'PROVIDE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_EDIT'
-                      ].PATH,
-                      { agreementId: item.id }
-                    )
-                  )
-                }}
-              >
-                Ispeziona
-              </StyledButton>
-
-              <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
-                <ActionMenu actions={getAvailableActions(item)} />
-              </Box>
-            </StyledTableRow>
-          ))}
-      </TableWithLoader>
+        mode={mode}
+        party={party}
+      />
     </React.Fragment>
   )
 }
