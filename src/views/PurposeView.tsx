@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { object, number } from 'yup'
 import { Tab, Typography } from '@mui/material'
 import { TabList, TabContext, TabPanel } from '@mui/lab'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { buildDynamicPath } from '../lib/router-utils'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import {
@@ -10,7 +10,6 @@ import {
   Client,
   DecoratedPurpose,
   DialogUpdatePurposeDailyCallsFormInputValues,
-  MappedRouteConfig,
   Purpose,
   PurposeState,
 } from '../../types'
@@ -24,93 +23,23 @@ import { formatThousands } from '../lib/format-utils'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { PURPOSE_STATE_LABEL } from '../config/labels'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { RunAction, useFeedback } from '../hooks/useFeedback'
+import { useFeedback } from '../hooks/useFeedback'
 // import { downloadFile } from '../lib/file-utils'
 import { AxiosResponse } from 'axios'
-import { TableWithLoader } from '../components/Shared/TableWithLoader'
-import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { formatDateString } from '../lib/format-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { DialogContext } from '../lib/context'
 // import { ResourceList } from '../components/Shared/ResourceList'
 import { useActiveTab } from '../hooks/useActiveTab'
-import { ActionMenu } from '../components/Shared/ActionMenu'
 import { useRoute } from '../hooks/useRoute'
 import { RunActionOutput } from '../hooks/useFeedback'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { PageTopFilters } from '../components/Shared/PageTopFilters'
-import { Box } from '@mui/system'
+import { AsyncTableClientInPurpose } from '../components/Shared/AsyncTableClient'
 // import { axiosErrorToError } from '../lib/error-utils'
 
 // TEMP REFACTOR: this view will need a loooot of refactor after the BFF is implemented
 // and the fetches for clients and purpose become separated
-
-type AsyncTableClientsProps = {
-  runAction: RunAction
-  purposeId?: string
-  routes: Record<string, MappedRouteConfig>
-  data?: DecoratedPurpose
-}
-
-const AsyncTableClients = ({ runAction, purposeId, routes, data }: AsyncTableClientsProps) => {
-  const history = useHistory()
-
-  /*
-   * List of possible actions to perform in the client tab
-   */
-  const wrapRemoveFromPurpose = (clientId: string) => async () => {
-    await runAction(
-      {
-        path: { endpoint: 'CLIENT_REMOVE_FROM_PURPOSE', endpointParams: { clientId, purposeId } },
-      },
-      { showConfirmDialog: true }
-    )
-  }
-  /*
-   * End list of actions
-   */
-
-  // Build list of available actions for each client in its current state
-  const getAvailableActions = (item: Pick<Client, 'id' | 'name'>): Array<ActionProps> => {
-    const removeFromPurposeAction = {
-      onClick: wrapRemoveFromPurpose(item.id),
-      label: 'Rimuovi dalla finalità',
-    }
-
-    return [removeFromPurposeAction]
-  }
-
-  const headData = ['Nome client', '']
-
-  return (
-    <TableWithLoader
-      loadingText=""
-      headData={headData}
-      noDataLabel="Non ci sono client associati a questa finalità"
-      // error={axiosErrorToError(error)}
-    >
-      {data?.clients?.map((item, i) => (
-        <StyledTableRow key={i} cellData={[{ label: item.name }]}>
-          <StyledButton
-            variant="outlined"
-            size="small"
-            onClick={() => {
-              history.push(
-                buildDynamicPath(routes.SUBSCRIBE_CLIENT_EDIT.PATH, { clientId: item.id })
-              )
-            }}
-          >
-            Ispeziona
-          </StyledButton>
-
-          <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
-            <ActionMenu actions={getAvailableActions(item)} />
-          </Box>
-        </StyledTableRow>
-      ))}
-    </TableWithLoader>
-  )
-}
 
 export const PurposeView = () => {
   const location = useLocation()
@@ -409,12 +338,7 @@ export const PurposeView = () => {
             </StyledButton>
           </PageTopFilters>
 
-          <AsyncTableClients
-            runAction={runAction}
-            purposeId={purposeId}
-            routes={routes}
-            data={data}
-          />
+          <AsyncTableClientInPurpose runAction={runAction} purposeId={purposeId} data={data} />
         </TabPanel>
       </TabContext>
     </React.Fragment>
