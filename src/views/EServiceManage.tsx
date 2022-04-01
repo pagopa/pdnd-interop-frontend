@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { Tab } from '@mui/material'
+import { Skeleton, Tab } from '@mui/material'
 import { TabList, TabContext, TabPanel } from '@mui/lab'
 import { useActiveTab } from '../hooks/useActiveTab'
 import { EServiceContentInfo } from '../components/Shared/EServiceContentInfo'
@@ -17,6 +17,7 @@ import { NotFound } from './NotFound'
 import { useRoute } from '../hooks/useRoute'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { AsyncTablePurposeInEService } from '../components/Shared/AsyncTablePurpose'
+import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 
 export function EServiceManage() {
   const { routes } = useRoute()
@@ -25,13 +26,19 @@ export function EServiceManage() {
 
   const location = useLocation()
   const { eserviceId, descriptorId } = getEserviceAndDescriptorFromUrl(location)
-  const { data: eserviceData, error } = useAsyncFetch<EServiceReadType>(
+  const {
+    data: eserviceData,
+    isItReallyLoading,
+    loadingText,
+    error,
+  } = useAsyncFetch<EServiceReadType>(
     {
       path: { endpoint: 'ESERVICE_GET_SINGLE', endpointParams: { eserviceId } },
     },
     {
       mapFn: decorateEServiceWithActiveDescriptor(descriptorId),
       loadingTextLabel: 'Stiamo caricando il tuo E-Service',
+      loaderType: 'contextual',
       useEffectDeps: [forceRerenderCounter],
     }
   )
@@ -42,7 +49,7 @@ export function EServiceManage() {
 
   return (
     <React.Fragment>
-      <StyledIntro>
+      <StyledIntro loading={isItReallyLoading}>
         {{ title: eserviceData?.name, description: eserviceData?.description }}
       </StyledIntro>
 
@@ -58,7 +65,11 @@ export function EServiceManage() {
 
         <TabPanel value="details">
           <React.Fragment>
-            {eserviceData && <EServiceContentInfo data={eserviceData} />}
+            {isItReallyLoading ? (
+              <LoadingWithMessage label={loadingText} transparentBackground={true} />
+            ) : (
+              <EServiceContentInfo data={eserviceData as EServiceReadType} />
+            )}
 
             <PageBottomActions>
               <StyledButton variant="outlined" to={routes.PROVIDE_ESERVICE_LIST.PATH}>

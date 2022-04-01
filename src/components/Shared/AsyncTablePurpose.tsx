@@ -46,6 +46,7 @@ export const AsyncTablePurposeInEService = ({
     },
     {
       mapFn: (data) => data.purposes.map(decoratePurposeWithMostRecentVersion),
+      loaderType: 'contextual',
       loadingTextLabel: 'Stiamo caricando le finalità in attesa',
       useEffectDeps: [forceRerenderCounter],
     }

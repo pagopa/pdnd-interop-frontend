@@ -28,6 +28,8 @@ import { StyledAccordion } from '../components/Shared/StyledAccordion'
 import { formatDateString } from '../lib/format-utils'
 import { InfoMessage } from '../components/Shared/InfoMessage'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
+import { NotFound } from './NotFound'
+import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 
 export function AgreementEdit() {
   const { runAction, forceRerenderCounter } = useFeedback()
@@ -35,12 +37,13 @@ export function AgreementEdit() {
   const agreementId = getLastBit(useLocation())
   const { party } = useContext(PartyContext)
   const { routes } = useRoute()
-  const { data } = useAsyncFetch<AgreementSummary>(
+  const { data, error, isItReallyLoading, loadingText } = useAsyncFetch<AgreementSummary>(
     {
       path: { endpoint: 'AGREEMENT_GET_SINGLE', endpointParams: { agreementId } },
     },
     {
       useEffectDeps: [forceRerenderCounter, mode],
+      loaderType: 'contextual',
       loadingTextLabel: 'Stiamo caricando la richiesta di fruizione',
     }
   )
@@ -237,84 +240,94 @@ export function AgreementEdit() {
   const agreementSuspendExplanation =
     "La richiesta può essere sospesa sia dall'erogatore che dal fruitore dell'E-Service. Se almeno uno dei due attori la sospende, inibirà l'accesso all'E-Service a tutti i client associati all'E-Service dal fruitore"
 
-  if (!data) {
-    return null
+  if (error) {
+    return <NotFound errorType="server-error" />
   }
 
   return (
     <React.Fragment>
-      <StyledIntro>{{ title: 'Gestisci richiesta di fruizione' }}</StyledIntro>
+      <StyledIntro loading={isItReallyLoading}>
+        {{ title: 'Gestisci richiesta di fruizione' }}
+      </StyledIntro>
 
-      <DescriptionBlock label="Richiesta relativa a">
-        <StyledLink
-          to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
-            eserviceId: data?.eservice.id,
-            descriptorId: data?.eserviceDescriptorId,
-          })}
-        >
-          {data?.eservice.name}, versione {data?.eservice.version}
-        </StyledLink>
-        {mode === 'subscriber' && data?.eservice.activeDescriptor && data?.state !== 'INACTIVE' ? (
-          <React.Fragment>
-            {' '}
-            (è disponibile una{' '}
+      {data ? (
+        <React.Fragment>
+          <DescriptionBlock label="Richiesta relativa a">
             <StyledLink
               to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
                 eserviceId: data?.eservice.id,
-                descriptorId: data?.eservice.activeDescriptor.id,
+                descriptorId: data?.eserviceDescriptorId,
               })}
             >
-              versione più recente
+              {data?.eservice.name}, versione {data?.eservice.version}
             </StyledLink>
-            ; per attivarla, aggiorna la richiesta di fruizione)
-          </React.Fragment>
-        ) : null}
-      </DescriptionBlock>
+            {mode === 'subscriber' &&
+            data?.eservice.activeDescriptor &&
+            data?.state !== 'INACTIVE' ? (
+              <React.Fragment>
+                {' '}
+                (è disponibile una{' '}
+                <StyledLink
+                  to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
+                    eserviceId: data?.eservice.id,
+                    descriptorId: data?.eservice.activeDescriptor.id,
+                  })}
+                >
+                  versione più recente
+                </StyledLink>
+                ; per attivarla, aggiorna la richiesta di fruizione)
+              </React.Fragment>
+            ) : null}
+          </DescriptionBlock>
 
-      {mode === 'provider' && (
-        <DescriptionBlock label="Ente fruitore">
-          <Typography component="span">{data?.consumer.name}</Typography>
-        </DescriptionBlock>
+          {mode === 'provider' && (
+            <DescriptionBlock label="Ente fruitore">
+              <Typography component="span">{data?.consumer.name}</Typography>
+            </DescriptionBlock>
+          )}
+
+          <DescriptionBlock
+            label="Stato della richiesta"
+            tooltipLabel={data?.state !== 'PENDING' ? agreementSuspendExplanation : undefined}
+          >
+            {data?.state === 'SUSPENDED' ? (
+              <React.Fragment>
+                <Typography component="span">
+                  Lato erogatore: {AGREEMENT_STATE_LABEL[getAgreementState(data, 'provider')]}
+                </Typography>
+                <br />
+                <Typography component="span">
+                  Lato fruitore: {AGREEMENT_STATE_LABEL[getAgreementState(data, 'subscriber')]}
+                </Typography>
+              </React.Fragment>
+            ) : (
+              <Typography component="span">{AGREEMENT_STATE_LABEL[data.state]}</Typography>
+            )}
+          </DescriptionBlock>
+
+          <DescriptionBlock label="Attributi verificati">
+            {data.attributes.length > 0 ? (
+              mode === 'provider' ? (
+                <ProviderAttributes />
+              ) : (
+                <SubscriberAttributes />
+              )
+            ) : (
+              <Typography>Per questo E-Service non sono richiesti attributi</Typography>
+            )}
+          </DescriptionBlock>
+
+          <PageBottomActions>
+            {getAvailableActions().map(({ onClick, label }, i) => (
+              <StyledButton variant={i === 0 ? 'contained' : 'outlined'} key={i} onClick={onClick}>
+                {label}
+              </StyledButton>
+            ))}
+          </PageBottomActions>
+        </React.Fragment>
+      ) : (
+        <LoadingWithMessage label={loadingText} transparentBackground={true} />
       )}
-
-      <DescriptionBlock
-        label="Stato della richiesta"
-        tooltipLabel={data?.state !== 'PENDING' ? agreementSuspendExplanation : undefined}
-      >
-        {data?.state === 'SUSPENDED' ? (
-          <React.Fragment>
-            <Typography component="span">
-              Lato erogatore: {AGREEMENT_STATE_LABEL[getAgreementState(data, 'provider')]}
-            </Typography>
-            <br />
-            <Typography component="span">
-              Lato fruitore: {AGREEMENT_STATE_LABEL[getAgreementState(data, 'subscriber')]}
-            </Typography>
-          </React.Fragment>
-        ) : (
-          <Typography component="span">{AGREEMENT_STATE_LABEL[data?.state]}</Typography>
-        )}
-      </DescriptionBlock>
-
-      <DescriptionBlock label="Attributi verificati">
-        {data?.attributes.length > 0 ? (
-          mode === 'provider' ? (
-            <ProviderAttributes />
-          ) : (
-            <SubscriberAttributes />
-          )
-        ) : (
-          <Typography>Per questo E-Service non sono richiesti attributi</Typography>
-        )}
-      </DescriptionBlock>
-
-      <PageBottomActions>
-        {getAvailableActions().map(({ onClick, label }, i) => (
-          <StyledButton variant={i === 0 ? 'contained' : 'outlined'} key={i} onClick={onClick}>
-            {label}
-          </StyledButton>
-        ))}
-      </PageBottomActions>
     </React.Fragment>
   )
 }
