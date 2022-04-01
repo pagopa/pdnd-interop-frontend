@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { Skeleton, Tab } from '@mui/material'
+import { Tab } from '@mui/material'
 import { TabList, TabContext, TabPanel } from '@mui/lab'
 import { useActiveTab } from '../hooks/useActiveTab'
 import { EServiceContentInfo } from '../components/Shared/EServiceContentInfo'

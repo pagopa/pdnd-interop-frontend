@@ -34,7 +34,7 @@ export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
   return (
     <Box sx={{ ...sx, ...pageTitleSpacing }}>
       <Typography component={component} variant={variant} color="inherit">
-        {loading ? <Skeleton component={component} /> : children.title}
+        {loading ? <Skeleton /> : children.title}
       </Typography>
       {children.description && (
         <Typography sx={{ mt: 0.5, mb: 0, maxWidth: 740, ...pProps }} color="text.secondary">
