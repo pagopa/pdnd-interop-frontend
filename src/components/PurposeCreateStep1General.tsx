@@ -171,7 +171,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
     }
   }
 
-  const wrapGoForward = (isNewPurpose: boolean, purposeId: string) => (_: AxiosResponse) => {
+  const wrapGoForward = (isNewPurpose: boolean, purposeId: string) => {
     if (isNewPurpose) {
       // Replace the create route with the acutal eserviceId, now that we have it.
       // WARNING: this will cause a re-render that will fetch fresh data
