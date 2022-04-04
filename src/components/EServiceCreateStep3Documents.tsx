@@ -17,12 +17,13 @@ import { Divider, Paper } from '@mui/material'
 import { TOAST_CONTENTS } from '../config/toast'
 import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
 import { useRoute } from '../hooks/useRoute'
+import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 
 export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps) {
   const { routes } = useRoute()
   const history = useHistory()
   const { runAction } = useFeedback()
-  const { data: fetchedData, descriptorId } = useEserviceCreateFetch()
+  const { data: fetchedData, descriptorId, isLoading } = useEserviceCreateFetch()
   const sureFetchedData = fetchedData as EServiceReadType
   const activeDescriptorId = descriptorId as string
 
@@ -109,60 +110,66 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
   return (
     <React.Fragment>
       <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
-        <StyledIntro component="h2">
-          {{
-            title: 'Interfaccia (richiesto)',
-            description: `Carica il file ${
-              fetchedData?.technology === 'REST' ? 'OpenAPI' : 'WSDL'
-            }  che descrive l'API`,
-          }}
-        </StyledIntro>
+        {!isLoading ? (
+          <React.Fragment>
+            <StyledIntro component="h2">
+              {{
+                title: 'Interfaccia (richiesto)',
+                description: `Carica il file ${
+                  fetchedData?.technology === 'REST' ? 'OpenAPI' : 'WSDL'
+                }  che descrive l'API`,
+              }}
+            </StyledIntro>
 
-        {fetchedData && (
-          <Box sx={{ my: 3 }}>
-            <EServiceCreateStep3DocumentsInterface
-              data={fetchedData}
-              uploadDescriptorDocument={uploadDescriptorDocument}
-              deleteDescriptorDocument={deleteDescriptorDocument}
-              activeDescriptorId={activeDescriptorId}
-            />
-          </Box>
-        )}
+            {fetchedData && (
+              <Box sx={{ my: 3 }}>
+                <EServiceCreateStep3DocumentsInterface
+                  data={fetchedData}
+                  uploadDescriptorDocument={uploadDescriptorDocument}
+                  deleteDescriptorDocument={deleteDescriptorDocument}
+                  activeDescriptorId={activeDescriptorId}
+                />
+              </Box>
+            )}
 
-        <Divider />
+            <Divider />
 
-        <StyledIntro component="h2" sx={{ mt: 8, mb: 2 }}>
-          {{
-            title: 'Documentazione',
-            description:
-              'Inserisci la documentazione tecnica utile all’utilizzo di questo E-Service',
-          }}
-        </StyledIntro>
+            <StyledIntro component="h2" sx={{ mt: 8, mb: 2 }}>
+              {{
+                title: 'Documentazione',
+                description:
+                  'Inserisci la documentazione tecnica utile all’utilizzo di questo E-Service',
+              }}
+            </StyledIntro>
 
-        {fetchedData && (
-          <EServiceCreateStep3DocumentsDoc
-            data={fetchedData}
-            uploadDescriptorDocument={uploadDescriptorDocument}
-            deleteDescriptorDocument={deleteDescriptorDocument}
-            activeDescriptorId={activeDescriptorId}
-          />
-        )}
+            {fetchedData && (
+              <EServiceCreateStep3DocumentsDoc
+                data={fetchedData}
+                uploadDescriptorDocument={uploadDescriptorDocument}
+                deleteDescriptorDocument={deleteDescriptorDocument}
+                activeDescriptorId={activeDescriptorId}
+              />
+            )}
 
-        <StepActions
-          back={{ label: 'Indietro', type: 'button', onClick: back }}
-          forward={{
-            label: 'Salva bozza e torna agli E-Service',
-            type: 'button',
-            onClick: () => {
-              history.push(routes.PROVIDE_ESERVICE_LIST.PATH, {
-                toast: {
-                  outcome: 'success',
-                  ...TOAST_CONTENTS.ESERVICE_VERSION_DRAFT_UPDATE.success,
+            <StepActions
+              back={{ label: 'Indietro', type: 'button', onClick: back }}
+              forward={{
+                label: 'Salva bozza e torna agli E-Service',
+                type: 'button',
+                onClick: () => {
+                  history.push(routes.PROVIDE_ESERVICE_LIST.PATH, {
+                    toast: {
+                      outcome: 'success',
+                      ...TOAST_CONTENTS.ESERVICE_VERSION_DRAFT_UPDATE.success,
+                    },
+                  })
                 },
-              })
-            },
-          }}
-        />
+              }}
+            />
+          </React.Fragment>
+        ) : (
+          <LoadingWithMessage label="Stiamo caricando il tuo E-Service" transparentBackground />
+        )}
       </Paper>
 
       <Paper sx={{ p: 3, mt: 2 }}>
@@ -173,14 +180,18 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
               'Hai inserito tutte le informazioni per questo E-Service? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra o abbandona questa pagina',
           }}
         </StyledIntro>
-        <Box sx={{ display: 'flex', mt: 3 }}>
-          <StyledButton sx={{ mr: 2 }} variant="contained" onClick={publishVersion}>
-            Pubblica bozza
-          </StyledButton>
-          <StyledButton variant="outlined" onClick={deleteVersion}>
-            Cancella bozza
-          </StyledButton>
-        </Box>
+        {!isLoading ? (
+          <Box sx={{ display: 'flex', mt: 3 }}>
+            <StyledButton sx={{ mr: 2 }} variant="contained" onClick={publishVersion}>
+              Pubblica bozza
+            </StyledButton>
+            <StyledButton variant="outlined" onClick={deleteVersion}>
+              Cancella bozza
+            </StyledButton>
+          </Box>
+        ) : (
+          <LoadingWithMessage label="Stiamo caricando il tuo E-Service" transparentBackground />
+        )}
       </Paper>
     </React.Fragment>
   )

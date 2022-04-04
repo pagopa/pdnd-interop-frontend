@@ -29,6 +29,7 @@ import { URL_FRAGMENTS } from '../lib/constants'
 import { useRoute } from '../hooks/useRoute'
 import { Divider, Paper } from '@mui/material'
 import { RunActionOutput } from '../hooks/useFeedback'
+import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 
 export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentProps> = ({
   forward,
@@ -38,7 +39,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
   const { routes } = useRoute()
   const history = useHistory()
   const { runAction } = useFeedback()
-  const { data: fetchedData } = useEserviceCreateFetch()
+  const { data: fetchedData, isLoading } = useEserviceCreateFetch()
 
   const validationSchema = object({
     name: string().required(),
@@ -141,79 +142,83 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
 
   return (
     <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
-      <Formik
-        initialValues={initialOrFetchedValues}
-        validationSchema={validationSchema}
-        onSubmit={onSubmit}
-        validateOnChange={false}
-        validateOnBlur={false}
-        enableReinitialize={true}
-      >
-        {({ handleSubmit, errors, values, handleChange }) => (
-          <StyledForm onSubmit={handleSubmit}>
-            <StyledIntro component="h2">{{ title: 'Caratterizzazione E-Service' }}</StyledIntro>
+      {!isLoading ? (
+        <Formik
+          initialValues={initialOrFetchedValues}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+          validateOnChange={false}
+          validateOnBlur={false}
+          enableReinitialize={true}
+        >
+          {({ handleSubmit, errors, values, handleChange }) => (
+            <StyledForm onSubmit={handleSubmit}>
+              <StyledIntro component="h2">{{ title: 'Caratterizzazione E-Service' }}</StyledIntro>
 
-            <StyledInputControlledText
-              name="name"
-              label="Nome dell'E-Service (richiesto)"
-              infoLabel='Se prevedi di usare più E-Service con lo stesso nome, inserisci una piccola indicazione per distinguerli (es. "TARI – dedicata Comuni" e "TARI - dedicata Regioni")'
-              error={errors.name}
-              value={values.name}
-              onChange={handleChange}
-              disabled={!isEditable}
-              focusOnMount={isEditable}
-            />
+              <StyledInputControlledText
+                name="name"
+                label="Nome dell'E-Service (richiesto)"
+                infoLabel='Se prevedi di usare più E-Service con lo stesso nome, inserisci una piccola indicazione per distinguerli (es. "TARI – dedicata Comuni" e "TARI - dedicata Regioni")'
+                error={errors.name}
+                value={values.name}
+                onChange={handleChange}
+                disabled={!isEditable}
+                focusOnMount={isEditable}
+              />
 
-            <StyledInputControlledText
-              name="description"
-              label="Descrizione dell'E-Service (richiesto)"
-              infoLabel={`(es. "Dedicato agli Enti che hanno necessità di ...", oppure "L'E-Service rivolto agli Enti che ...")`}
-              error={errors.description}
-              value={values.description}
-              onChange={handleChange}
-              disabled={!isEditable}
-              multiline={true}
-            />
+              <StyledInputControlledText
+                name="description"
+                label="Descrizione dell'E-Service (richiesto)"
+                infoLabel={`(es. "Dedicato agli Enti che hanno necessità di ...", oppure "L'E-Service rivolto agli Enti che ...")`}
+                error={errors.description}
+                value={values.description}
+                onChange={handleChange}
+                disabled={!isEditable}
+                multiline={true}
+              />
 
-            <StyledInputControlledRadio
-              name="technology"
-              label="Tecnologia utilizzata (richiesto)"
-              error={errors.technology}
-              value={values.technology}
-              onChange={handleChange}
-              disabled={!isEditable}
-              options={[
-                { label: 'REST', value: 'REST' },
-                { label: 'SOAP', value: 'SOAP' },
-              ]}
-            />
+              <StyledInputControlledRadio
+                name="technology"
+                label="Tecnologia utilizzata (richiesto)"
+                error={errors.technology}
+                value={values.technology}
+                onChange={handleChange}
+                disabled={!isEditable}
+                options={[
+                  { label: 'REST', value: 'REST' },
+                  { label: 'SOAP', value: 'SOAP' },
+                ]}
+              />
 
-            <Divider />
+              <Divider />
 
-            <StyledIntro component="h2" sx={{ my: 4 }}>
-              {{ title: 'Attributi' }}
-            </StyledIntro>
-            <EServiceAttributeSection
-              attributes={attributes}
-              setAttributes={setAttributes}
-              disabled={!isEditable}
-            />
+              <StyledIntro component="h2" sx={{ my: 4 }}>
+                {{ title: 'Attributi' }}
+              </StyledIntro>
+              <EServiceAttributeSection
+                attributes={attributes}
+                setAttributes={setAttributes}
+                disabled={!isEditable}
+              />
 
-            <StepActions
-              back={{
-                label: 'Torna agli E-Service',
-                type: 'link',
-                to: routes.PROVIDE_ESERVICE_LIST.PATH,
-              }}
-              forward={
-                !isEditable
-                  ? { label: 'Prosegui', onClick: forward, type: 'button' }
-                  : { label: 'Salva bozza e prosegui', type: 'submit' }
-              }
-            />
-          </StyledForm>
-        )}
-      </Formik>
+              <StepActions
+                back={{
+                  label: 'Torna agli E-Service',
+                  type: 'link',
+                  to: routes.PROVIDE_ESERVICE_LIST.PATH,
+                }}
+                forward={
+                  !isEditable
+                    ? { label: 'Prosegui', onClick: forward, type: 'button' }
+                    : { label: 'Salva bozza e prosegui', type: 'submit' }
+                }
+              />
+            </StyledForm>
+          )}
+        </Formik>
+      ) : (
+        <LoadingWithMessage label="Stiamo caricando il tuo E-Service" transparentBackground />
+      )}
     </Paper>
   )
 }

@@ -2,23 +2,17 @@ import React, { FunctionComponent, useContext } from 'react'
 import { useHistory } from 'react-router'
 import { AddSecurityOperatorFormInputValues, ClientKind, User } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { TableWithLoader } from '../components/Shared/TableWithLoader'
-import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useMode } from '../hooks/useMode'
 import { TempFilters } from '../components/TempFilters'
-import { DialogContext, PartyContext, TokenContext } from '../lib/context'
-import { buildDynamicPath, getBits } from '../lib/router-utils'
+import { DialogContext, PartyContext } from '../lib/context'
+import { getBits } from '../lib/router-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { USER_STATE_LABEL } from '../config/labels'
-import { StyledTableRow } from '../components/Shared/StyledTableRow'
-import { axiosErrorToError } from '../lib/error-utils'
-import { Alert, Box } from '@mui/material'
+import { Alert } from '@mui/material'
 import { isAdmin } from '../lib/auth-utils'
-import { useRoute } from '../hooks/useRoute'
-import { ActionMenu } from '../components/Shared/ActionMenu'
 import { fetchAllWithLogs } from '../lib/api-utils'
 import { PageTopFilters } from '../components/Shared/PageTopFilters'
+import { AsyncTableUser } from '../components/Shared/AsyncTableUser'
 
 type UserListProps = {
   clientKind?: ClientKind
@@ -26,7 +20,6 @@ type UserListProps = {
 
 export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSUMER' }) => {
   const history = useHistory()
-  const { routes } = useRoute()
   const { setDialog } = useContext(DialogContext)
   const { runAction, forceRerenderCounter } = useFeedback()
 
@@ -36,56 +29,6 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
 
   const mode = useMode()
   const { party } = useContext(PartyContext)
-  const { token } = useContext(TokenContext)
-  // TEMP REFACTOR: remove after integration with selfcare
-  const endpoint = mode === 'provider' ? 'USER_GET_LIST' : 'OPERATOR_SECURITY_GET_LIST'
-  const endpointParams =
-    mode === 'provider' ? { institutionId: party?.institutionId } : { clientId }
-  const params = mode === 'provider' ? { productRoles: ['api'].join(',') } : {}
-
-  const {
-    data: users,
-    loadingText,
-    error,
-  } = useAsyncFetch<Array<User>>(
-    { path: { endpoint, endpointParams }, config: { params } },
-    {
-      useEffectDeps: [forceRerenderCounter, token],
-      loaderType: 'contextual',
-      loadingTextLabel: 'Stiamo caricando gli operatori',
-    }
-  )
-
-  /*
-   * List of possible actions for the user to perform
-   */
-  const wrapRemoveFromClient = (relationshipId?: string) => async () => {
-    await runAction(
-      {
-        path: {
-          endpoint: 'OPERATOR_SECURITY_REMOVE_FROM_CLIENT',
-          endpointParams: { clientId, relationshipId },
-        },
-      },
-      { showConfirmDialog: true }
-    )
-  }
-  /*
-   * End list of actions
-   */
-
-  const getAvailableActions = (user: User) => {
-    if (mode === 'subscriber' && isAdmin(party)) {
-      const removeFromClientAction = {
-        onClick: wrapRemoveFromClient(user.relationshipId),
-        label: 'Rimuovi dal client',
-      }
-
-      return [removeFromClientAction]
-    }
-
-    return []
-  }
 
   const addOperators = async (data: AddSecurityOperatorFormInputValues) => {
     if (data.selected.length === 0) {
@@ -94,7 +37,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
 
     const lastSelected = data.selected.pop()
 
-    // TEMP REFACTOR: improve this with error messages, failure handling, etc
+    // TEMP REFACTOR: this will go away with BFF
     await fetchAllWithLogs(
       data.selected.map(({ id }) => ({
         path: {
@@ -113,31 +56,13 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
     })
   }
 
-  const openAddOperatoDialog = () => {
+  const openAddOperatorDialog = () => {
     setDialog({
       type: 'addSecurityOperator',
       initialValues: { selected: [] },
       onSubmit: addOperators,
-      excludeIdsList: users?.map((u) => u.relationshipId).filter((id) => id) as
-        | string[]
-        | undefined,
     })
   }
-
-  const getEditBtnRoute = (item: User) => {
-    if (mode === 'provider') {
-      return buildDynamicPath(routes.PROVIDE_OPERATOR_EDIT.PATH, { operatorId: item.id })
-    }
-
-    const subscriberRoute =
-      clientKind === 'API'
-        ? routes.SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT.PATH
-        : routes.SUBSCRIBE_CLIENT_OPERATOR_EDIT.PATH
-
-    return buildDynamicPath(subscriberRoute, { clientId, operatorId: item.relationshipId })
-  }
-
-  const headData = ['Nome e cognome', 'Stato', '']
 
   return (
     <React.Fragment>
@@ -154,44 +79,20 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
       <PageTopFilters>
         <TempFilters />
         {isAdmin(party) && mode === 'subscriber' && (
-          <StyledButton variant="contained" size="small" onClick={openAddOperatoDialog}>
+          <StyledButton variant="contained" size="small" onClick={openAddOperatorDialog}>
             + Aggiungi
           </StyledButton>
         )}
       </PageTopFilters>
 
-      <TableWithLoader
-        loadingText={loadingText}
-        headData={headData}
-        noDataLabel="Non ci sono operatori disponibili"
-        error={axiosErrorToError(error)}
-      >
-        {users &&
-          Boolean(users.length > 0) &&
-          users.map((item, i) => (
-            <StyledTableRow
-              key={i}
-              cellData={[
-                { label: `${item.name + ' ' + item.surname}` },
-                { label: USER_STATE_LABEL[item.state] },
-              ]}
-            >
-              <StyledButton
-                variant="outlined"
-                size="small"
-                onClick={() => {
-                  history.push(getEditBtnRoute(item))
-                }}
-              >
-                Ispeziona
-              </StyledButton>
-
-              <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
-                <ActionMenu actions={getAvailableActions(item)} />
-              </Box>
-            </StyledTableRow>
-          ))}
-      </TableWithLoader>
+      <AsyncTableUser
+        forceRerenderCounter={forceRerenderCounter}
+        runAction={runAction}
+        clientId={clientId}
+        clientKind={clientKind}
+        mode={mode}
+        party={party}
+      />
 
       {mode === 'provider' && (
         <Alert sx={{ mt: 1 }} severity="info">

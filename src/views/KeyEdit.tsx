@@ -24,18 +24,13 @@ export function KeyEdit() {
   const kid = locationBits[locationBits.length - 1]
   const clientId = locationBits[locationBits.length - 3]
 
-  const { data: keyData } = useAsyncFetch<PublicKey>(
-    { path: { endpoint: 'KEY_GET_SINGLE', endpointParams: { clientId, kid } } },
-    {
-      loaderType: 'contextual',
-      loadingTextLabel: 'Stiamo caricando le chiavi',
-    }
-  )
+  const { data: keyData } = useAsyncFetch<PublicKey>({
+    path: { endpoint: 'KEY_GET_SINGLE', endpointParams: { clientId, kid } },
+  })
 
-  const { data: userData } = useAsyncFetch<Array<User>>(
-    { path: { endpoint: 'OPERATOR_SECURITY_GET_LIST', endpointParams: { clientId } } },
-    { loaderType: 'contextual', loadingTextLabel: 'Stiamo caricando gli operatori' }
-  )
+  const { data: userData } = useAsyncFetch<Array<User>>({
+    path: { endpoint: 'OPERATOR_SECURITY_GET_LIST', endpointParams: { clientId } },
+  })
 
   const downloadKey = async () => {
     const { response, outcome } = (await runAction(

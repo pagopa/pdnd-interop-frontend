@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Typography } from '@mui/material'
+import { Skeleton, Typography } from '@mui/material'
 import { Box, SxProps } from '@mui/system'
 
 export type StyledIntroChildrenProps = {
@@ -14,6 +14,7 @@ type StyledIntroProps = {
   component?: TitleH
   sx?: SxProps
   centered?: boolean
+  isLoading?: boolean
 }
 
 export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
@@ -21,6 +22,7 @@ export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
   component = 'h1',
   sx = {},
   centered = false,
+  isLoading = false,
 }) => {
   const pProps = centered ? { ml: 'auto', mr: 'auto' } : {}
   const pageTitleSpacing = component === 'h1' ? { mb: 3 } : {}
@@ -32,11 +34,12 @@ export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
   return (
     <Box sx={{ ...sx, ...pageTitleSpacing }}>
       <Typography component={component} variant={variant} color="inherit">
-        {children.title}
+        {/* Weirldy enough, it doesn't show it without explicitly setting the height */}
+        {isLoading ? <Skeleton height={40} /> : children.title}
       </Typography>
-      {children.description && (
+      {Object.keys(children).includes('description') && (
         <Typography sx={{ mt: 0.5, mb: 0, maxWidth: 740, ...pProps }} color="text.secondary">
-          {children.description}
+          {isLoading ? <Skeleton height={27} /> : children.description}
         </Typography>
       )}
     </Box>

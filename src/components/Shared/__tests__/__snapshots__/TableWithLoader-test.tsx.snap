@@ -2,9 +2,49 @@
 
 exports[`Snapshot matches error 1`] = `
 <div
-  className="MuiBox-root css-1qm4nww"
+  className="MuiBox-root css-1slzjhl"
 >
-  C’è stato un errore, e non è stato possibile reperire le informazioni richieste. Per favore, riprova più tardi
+  <svg
+    aria-hidden={true}
+    className="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-15ikgma-MuiSvgIcon-root"
+    data-testid="ReportGmailerrorredIcon"
+    focusable="false"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M15.73 3H8.27L3 8.27v7.46L8.27 21h7.46L21 15.73V8.27L15.73 3zM19 14.9 14.9 19H9.1L5 14.9V9.1L9.1 5h5.8L19 9.1v5.8z"
+    />
+    <path
+      d="M11 7h2v6h-2zm0 8h2v2h-2z"
+    />
+  </svg>
+  <p
+    className="MuiTypography-root MuiTypography-body2 css-18ukxow-MuiTypography-root"
+  >
+    Non siamo riusciti a recuperare questi dati.
+     
+    <button
+      className="MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButtonBase-root  css-10mr4jq-MuiButtonBase-root-MuiButton-root"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      Ricarica la pagina
+    </button>
+  </p>
 </div>
 `;
 

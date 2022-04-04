@@ -10,18 +10,10 @@ export const useEserviceCreateFetch = () => {
   const location = useLocation()
   const { eserviceId, descriptorId } = getEserviceAndDescriptorFromUrl(location)
 
-  const { data, error } = useAsyncFetch<EServiceReadType>(
-    {
-      path: {
-        endpoint: 'ESERVICE_GET_SINGLE',
-        endpointParams: { eserviceId },
-      },
-    },
-    {
-      mapFn: decorateEServiceWithActiveDescriptor(descriptorId),
-      loadingTextLabel: 'Stiamo caricando il tuo E-Service',
-    }
+  const { data, error, isLoading } = useAsyncFetch<EServiceReadType>(
+    { path: { endpoint: 'ESERVICE_GET_SINGLE', endpointParams: { eserviceId } } },
+    { mapFn: decorateEServiceWithActiveDescriptor(descriptorId) }
   )
 
-  return { data, error, eserviceId, descriptorId }
+  return { data, error, isLoading, eserviceId, descriptorId }
 }

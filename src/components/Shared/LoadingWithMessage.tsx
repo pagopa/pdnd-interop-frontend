@@ -2,7 +2,7 @@ import React from 'react'
 import { CircularProgress, Paper, Typography } from '@mui/material'
 
 type LoadingWithMessageProps = {
-  label?: string
+  label?: string | null
   transparentBackground?: boolean
 }
 

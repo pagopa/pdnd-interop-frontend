@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext } from 'react'
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import { Alert, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { Unstable_TrapFocus as TrapFocus } from '@mui/base'
@@ -11,12 +11,19 @@ import { StyledInputControlledAutocomplete } from './StyledInputControlledAutoco
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { PartyContext } from '../../lib/context'
 import sortBy from 'lodash/sortBy'
+import { useHistory } from 'react-router-dom'
+import { getBits } from '../../lib/router-utils'
 
 export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurityOperatorProps> = ({
   initialValues,
   onSubmit,
-  excludeIdsList = [],
 }) => {
+  const [excludeIdsList, setExcludeIdsList] = useState<Array<string>>([])
+
+  const history = useHistory()
+  const locationBits = getBits(history.location)
+  const clientId = locationBits[locationBits.length - 1]
+
   const { closeDialog } = useCloseDialog()
   const { party } = useContext(PartyContext)
   const formik = useFormik({
@@ -26,20 +33,28 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
     validateOnBlur: false,
   })
 
-  const { data: userData } = useAsyncFetch<Array<User>>(
-    {
-      path: {
-        endpoint: 'USER_GET_LIST',
-        endpointParams: { institutionId: party?.institutionId },
-      },
-      config: { params: { productRoles: ['security'] } },
-    },
-    {
-      loaderType: 'contextual',
-      loadingTextLabel: 'Stiamo caricando gli operatori',
-      mapFn: (data) => data.filter((d) => !excludeIdsList.includes(d.id)),
+  const { data: currentUserData } = useAsyncFetch<Array<User>>({
+    path: { endpoint: 'OPERATOR_SECURITY_GET_LIST', endpointParams: { clientId } },
+  })
+
+  const { data: allUserData } = useAsyncFetch<Array<User>>({
+    path: { endpoint: 'USER_GET_LIST', endpointParams: { institutionId: party?.institutionId } },
+    config: { params: { productRoles: ['security'] } },
+  })
+
+  const filteredUserData = allUserData
+    ? allUserData.filter((d) => !excludeIdsList.includes(d.id))
+    : []
+
+  useEffect(() => {
+    if (currentUserData) {
+      setExcludeIdsList(
+        (currentUserData.map((u) => u.relationshipId).filter((id) => id) as
+          | Array<string>
+          | undefined) || []
+      )
     }
-  )
+  }, [currentUserData])
 
   const updateSelected = (data: unknown) => {
     formik.setFieldValue('selected', data as Array<User>, false)
@@ -82,7 +97,7 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
                 placeholder="..."
                 name="selection"
                 onChange={updateSelected}
-                values={userData || []}
+                values={filteredUserData}
                 getOptionLabel={(option: User) =>
                   option ? `${option.name} ${option.surname}` : ''
                 }

@@ -150,7 +150,7 @@ export function ClientCreate() {
               </StyledIntro>
 
               <TableWithLoader
-                loadingText={null}
+                isLoading={false}
                 headData={headData}
                 noDataLabel="Nessun operatore aggiunto"
               >

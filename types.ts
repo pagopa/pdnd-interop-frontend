@@ -808,8 +808,6 @@ export type ToastActionKeys = Exclude<
   | 'OPERATOR_SECURITY_GET_KEYS_LIST'
 >
 
-export type LoaderType = 'global' | 'contextual'
-
 /*
  * Action buttons in tables
  */
