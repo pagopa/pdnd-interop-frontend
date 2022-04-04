@@ -38,10 +38,7 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
   })
 
   const { data: allUserData } = useAsyncFetch<Array<User>>({
-    path: {
-      endpoint: 'USER_GET_LIST',
-      endpointParams: { institutionId: party?.institutionId },
-    },
+    path: { endpoint: 'USER_GET_LIST', endpointParams: { institutionId: party?.institutionId } },
     config: { params: { productRoles: ['security'] } },
   })
 
