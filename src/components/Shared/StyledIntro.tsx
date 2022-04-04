@@ -34,11 +34,12 @@ export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
   return (
     <Box sx={{ ...sx, ...pageTitleSpacing }}>
       <Typography component={component} variant={variant} color="inherit">
-        {loading ? <Skeleton /> : children.title}
+        {/* Weirldy enough, it doesn't show it without explicitly setting the height */}
+        {loading ? <Skeleton height={40} /> : children.title}
       </Typography>
-      {children.description && (
+      {Object.keys(children).includes('description') && (
         <Typography sx={{ mt: 0.5, mb: 0, maxWidth: 740, ...pProps }} color="text.secondary">
-          {children.description}
+          {loading ? <Skeleton height={27} /> : children.description}
         </Typography>
       )}
     </Box>
