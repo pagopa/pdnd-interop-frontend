@@ -14,7 +14,7 @@ type StyledIntroProps = {
   component?: TitleH
   sx?: SxProps
   centered?: boolean
-  loading?: boolean
+  isLoading?: boolean
 }
 
 export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
@@ -22,7 +22,7 @@ export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
   component = 'h1',
   sx = {},
   centered = false,
-  loading = false,
+  isLoading = false,
 }) => {
   const pProps = centered ? { ml: 'auto', mr: 'auto' } : {}
   const pageTitleSpacing = component === 'h1' ? { mb: 3 } : {}
@@ -35,11 +35,11 @@ export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
     <Box sx={{ ...sx, ...pageTitleSpacing }}>
       <Typography component={component} variant={variant} color="inherit">
         {/* Weirldy enough, it doesn't show it without explicitly setting the height */}
-        {loading ? <Skeleton height={40} /> : children.title}
+        {isLoading ? <Skeleton height={40} /> : children.title}
       </Typography>
       {Object.keys(children).includes('description') && (
         <Typography sx={{ mt: 0.5, mb: 0, maxWidth: 740, ...pProps }} color="text.secondary">
-          {loading ? <Skeleton height={27} /> : children.description}
+          {isLoading ? <Skeleton height={27} /> : children.description}
         </Typography>
       )}
     </Box>

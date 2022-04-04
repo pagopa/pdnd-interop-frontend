@@ -42,7 +42,7 @@ export function ClientEdit() {
 
   return (
     <React.Fragment>
-      <StyledIntro loading={isLoading}>
+      <StyledIntro isLoading={isLoading}>
         {{ title: data?.name, description: data?.description }}
       </StyledIntro>
       <TabContext value={activeTab}>

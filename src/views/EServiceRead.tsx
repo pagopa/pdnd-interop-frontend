@@ -89,7 +89,7 @@ export function EServiceRead() {
 
   return (
     <React.Fragment>
-      <StyledIntro loading={isLoading}>
+      <StyledIntro isLoading={isLoading}>
         {{
           title: data?.name,
           description: `${data?.description}\n${

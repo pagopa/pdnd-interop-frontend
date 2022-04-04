@@ -222,7 +222,7 @@ export const PurposeView = () => {
 
   return (
     <React.Fragment>
-      <StyledIntro loading={isLoading}>
+      <StyledIntro isLoading={isLoading}>
         {{ title: data?.title, description: data?.description }}
       </StyledIntro>
 

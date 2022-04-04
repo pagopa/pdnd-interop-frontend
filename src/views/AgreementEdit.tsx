@@ -240,7 +240,9 @@ export function AgreementEdit() {
 
   return (
     <React.Fragment>
-      <StyledIntro loading={isLoading}>{{ title: 'Gestisci richiesta di fruizione' }}</StyledIntro>
+      <StyledIntro isLoading={isLoading}>
+        {{ title: 'Gestisci richiesta di fruizione' }}
+      </StyledIntro>
 
       {data ? (
         <React.Fragment>

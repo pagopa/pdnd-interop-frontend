@@ -44,7 +44,7 @@ export function EServiceManage() {
 
   return (
     <React.Fragment>
-      <StyledIntro loading={isLoading}>
+      <StyledIntro isLoading={isLoading}>
         {{ title: eserviceData?.name, description: eserviceData?.description }}
       </StyledIntro>
 
