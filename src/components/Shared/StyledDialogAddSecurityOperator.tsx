@@ -37,16 +37,17 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
     path: { endpoint: 'OPERATOR_SECURITY_GET_LIST', endpointParams: { clientId } },
   })
 
-  const { data: allUserData } = useAsyncFetch<Array<User>>(
-    {
-      path: {
-        endpoint: 'USER_GET_LIST',
-        endpointParams: { institutionId: party?.institutionId },
-      },
-      config: { params: { productRoles: ['security'] } },
+  const { data: allUserData } = useAsyncFetch<Array<User>>({
+    path: {
+      endpoint: 'USER_GET_LIST',
+      endpointParams: { institutionId: party?.institutionId },
     },
-    { mapFn: (data) => data.filter((d) => !excludeIdsList.includes(d.id)) }
-  )
+    config: { params: { productRoles: ['security'] } },
+  })
+
+  const filteredUserData = allUserData
+    ? allUserData.filter((d) => !excludeIdsList.includes(d.id))
+    : []
 
   useEffect(() => {
     if (currentUserData) {
@@ -99,7 +100,7 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
                 placeholder="..."
                 name="selection"
                 onChange={updateSelected}
-                values={allUserData || []}
+                values={filteredUserData}
                 getOptionLabel={(option: User) =>
                   option ? `${option.name} ${option.surname}` : ''
                 }
