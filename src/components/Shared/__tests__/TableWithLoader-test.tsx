@@ -31,7 +31,7 @@ describe('Snapshot', () => {
       toJSON: () => ({}),
     }
     const component = renderer.create(
-      <TableWithLoader loadingText={null} headData={headData} error={axiosErrorToError(error)} />
+      <TableWithLoader isLoading={false} headData={headData} error={axiosErrorToError(error)} />
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -39,7 +39,7 @@ describe('Snapshot', () => {
 
   it('matches loading', () => {
     const component = renderer.create(
-      <TableWithLoader loadingText="Sto caricando..." headData={headData} />
+      <TableWithLoader isLoading={true} loadingText="Sto caricando..." headData={headData} />
     )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
@@ -50,7 +50,7 @@ describe('Snapshot', () => {
       <StyledTableRow key={i} cellData={[{ label: item.name }, { label: item.surname }]} />
     )
     const component = renderer.create(
-      <TableWithLoader loadingText={null} headData={headData}>
+      <TableWithLoader isLoading={false} headData={headData}>
         {rawData.map((item, i) => getTableRow(item, i))}
       </TableWithLoader>
     )
@@ -74,7 +74,7 @@ describe('Snapshot', () => {
     )
     const component = renderer.create(
       <AllTheProviders defaultHistory={history}>
-        <TableWithLoader loadingText={null} headData={headData}>
+        <TableWithLoader isLoading={false} headData={headData}>
           {rawData.map((item, i) => getTableRow(item, i))}
         </TableWithLoader>
       </AllTheProviders>
@@ -106,7 +106,7 @@ describe('Snapshot', () => {
     )
     const component = renderer.create(
       <AllTheProviders defaultHistory={history}>
-        <TableWithLoader loadingText={null} headData={headData}>
+        <TableWithLoader isLoading={false} headData={headData}>
           {rawData.map((item, i) => getTableRow(item, i))}
         </TableWithLoader>
       </AllTheProviders>

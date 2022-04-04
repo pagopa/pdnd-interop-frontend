@@ -34,7 +34,7 @@ export const useAsyncFetch = <T, U = T>(
       if (isMounted) {
         isFetchError(response)
           ? setError(response as AxiosError)
-          : setData(settings && mapFn((response as AxiosResponse).data))
+          : setData(mapFn((response as AxiosResponse).data))
 
         setIsLoading(false)
       }

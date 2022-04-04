@@ -7,9 +7,13 @@ import { useAsyncFetch } from '../useAsyncFetch'
 import { EServiceFlatReadType } from '../../../types'
 
 function TestComponent() {
-  const { data, error } = useAsyncFetch<Array<Partial<EServiceFlatReadType>>>({
+  const { data, error, isLoading } = useAsyncFetch<Array<Partial<EServiceFlatReadType>>>({
     path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
   })
+
+  if (isLoading) {
+    return <div>Stiamo caricando i dati...</div>
+  }
 
   if (!isEmpty(error)) {
     return <div>errore</div>
@@ -23,6 +27,10 @@ function TestComponent() {
 
   return <div>{safeData[0].name}</div>
 }
+
+afterEach(() => {
+  jest.clearAllMocks()
+})
 
 it('useAsyncFetch hook updates correctly with error', async () => {
   const mockedAxios = axios as jest.Mocked<typeof axios>
