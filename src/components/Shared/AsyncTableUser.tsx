@@ -43,15 +43,11 @@ export const AsyncTableUser = ({
 
   const {
     data: users,
-    loadingText,
     error,
+    isLoading,
   } = useAsyncFetch<Array<User>>(
     { path: { endpoint, endpointParams }, config: { params } },
-    {
-      useEffectDeps: [forceRerenderCounter, token],
-      loaderType: 'contextual',
-      loadingTextLabel: 'Stiamo caricando gli operatori',
-    }
+    { useEffectDeps: [forceRerenderCounter, token] }
   )
 
   const getEditBtnRoute = (item: User) => {
@@ -104,7 +100,8 @@ export const AsyncTableUser = ({
 
   return (
     <TableWithLoader
-      loadingText={loadingText}
+      isLoading={isLoading}
+      loadingText="Stiamo caricando gli operatori"
       headData={headData}
       noDataLabel="Non ci sono operatori disponibili"
       error={axiosErrorToError(error)}

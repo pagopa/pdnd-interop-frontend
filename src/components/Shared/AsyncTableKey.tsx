@@ -36,21 +36,16 @@ export const AsyncTableKey = ({
 
   const {
     data: keysData,
-    loadingText,
     error,
+    isLoading,
   } = useAsyncFetch<PublicKeys>(
     { path: { endpoint: 'KEY_GET_LIST', endpointParams: { clientId } } },
-    {
-      useEffectDeps: [forceRerenderCounter],
-      loaderType: 'contextual',
-      loadingTextLabel: 'Stiamo caricando le chiavi',
-    }
+    { useEffectDeps: [forceRerenderCounter] }
   )
 
-  const { data: userData } = useAsyncFetch<Array<User>>(
-    { path: { endpoint: 'OPERATOR_SECURITY_GET_LIST', endpointParams: { clientId } } },
-    { loaderType: 'contextual', loadingTextLabel: 'Stiamo caricando gli operatori' }
-  )
+  const { data: userData } = useAsyncFetch<Array<User>>({
+    path: { endpoint: 'OPERATOR_SECURITY_GET_LIST', endpointParams: { clientId } },
+  })
 
   const wrapDownloadKey = (keyId: string) => async () => {
     const { response, outcome } = (await runAction(
@@ -87,7 +82,8 @@ export const AsyncTableKey = ({
 
   return (
     <TableWithLoader
-      loadingText={loadingText}
+      isLoading={isLoading}
+      loadingText="Stiamo caricando le chiavi"
       headData={headData}
       noDataLabel="Non ci sono chiavi disponibili"
       error={fetchError}

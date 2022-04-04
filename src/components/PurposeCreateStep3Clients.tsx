@@ -17,6 +17,7 @@ import { useRoute } from '../hooks/useRoute'
 import { decoratePurposeWithMostRecentVersion, getPurposeFromUrl } from '../lib/purpose'
 import { TOAST_CONTENTS } from '../config/toast'
 import { ButtonNaked } from '@pagopa/mui-italia'
+import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 
 export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ back }) => {
   const history = useHistory()
@@ -27,24 +28,26 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
 
   const { runAction, forceRerenderCounter } = useFeedback()
 
-  const { data: clientsData = [] } = useAsyncFetch<{ clients: Array<Client> }, Array<Client>>(
+  const { data: clientsData = [], isLoading: isClientReallyLoading } = useAsyncFetch<
+    { clients: Array<Client> },
+    Array<Client>
+  >(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
       config: { params: { consumerId: party?.id, purposeId } },
     },
     {
-      loadingTextLabel: 'Stiamo caricando le informazioni dei client associati alle finalità',
       mapFn: (data) => data.clients,
       useEffectDeps: [forceRerenderCounter],
     }
   )
 
-  const { data: purposeFetchedData } = useAsyncFetch<Purpose, DecoratedPurpose>(
+  const { data: purposeFetchedData, isLoading: isPurposeReallyLoading } = useAsyncFetch<
+    Purpose,
+    DecoratedPurpose
+  >(
     { path: { endpoint: 'PURPOSE_GET_SINGLE', endpointParams: { purposeId } } },
-    {
-      loadingTextLabel: 'Stiamo caricando le informazioni della finalità',
-      mapFn: decoratePurposeWithMostRecentVersion,
-    }
+    { mapFn: decoratePurposeWithMostRecentVersion }
   )
 
   const goToList = () => {
@@ -114,6 +117,8 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
 
   const headData = ['Nome client', '']
 
+  const isLoading = isClientReallyLoading || isPurposeReallyLoading
+
   return (
     <React.Fragment>
       <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
@@ -122,7 +127,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
         </StyledIntro>
 
         <TableWithLoader
-          loadingText={null}
+          isLoading={isLoading}
           headData={headData}
           noDataLabel="Nessun client associato"
         >
@@ -153,14 +158,18 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
               'Hai inserito tutte le informazioni per questa finalità? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra',
           }}
         </StyledIntro>
-        <Box sx={{ display: 'flex', mt: 3 }}>
-          <StyledButton sx={{ mr: 2 }} variant="contained" onClick={publishVersion}>
-            Pubblica bozza
-          </StyledButton>
-          <StyledButton variant="outlined" onClick={deleteVersion}>
-            Cancella bozza
-          </StyledButton>
-        </Box>
+        {!isPurposeReallyLoading ? (
+          <Box sx={{ display: 'flex', mt: 3 }}>
+            <StyledButton sx={{ mr: 2 }} variant="contained" onClick={publishVersion}>
+              Pubblica bozza
+            </StyledButton>
+            <StyledButton variant="outlined" onClick={deleteVersion}>
+              Cancella bozza
+            </StyledButton>
+          </Box>
+        ) : (
+          <LoadingWithMessage label="Stiamo caricando la tua finalità" transparentBackground />
+        )}
       </Paper>
     </React.Fragment>
   )

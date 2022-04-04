@@ -36,6 +36,7 @@ import { RunActionOutput } from '../hooks/useFeedback'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { PageTopFilters } from '../components/Shared/PageTopFilters'
 import { AsyncTableClientInPurpose } from '../components/Shared/AsyncTableClient'
+import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 // import { axiosErrorToError } from '../lib/error-utils'
 
 // TEMP REFACTOR: this view will need a loooot of refactor after the BFF is implemented
@@ -48,13 +49,9 @@ export const PurposeView = () => {
   const { routes } = useRoute()
   const { activeTab, updateActiveTab } = useActiveTab('details')
   const purposeId = getPurposeFromUrl(location)
-  const { data /*, error */ } = useAsyncFetch<Purpose, DecoratedPurpose>(
+  const { data, isLoading /*, error */ } = useAsyncFetch<Purpose, DecoratedPurpose>(
     { path: { endpoint: 'PURPOSE_GET_SINGLE', endpointParams: { purposeId } } },
-    {
-      loadingTextLabel: 'Stiamo caricando la finalità richiesta',
-      mapFn: decoratePurposeWithMostRecentVersion,
-      useEffectDeps: [forceRerenderCounter],
-    }
+    { mapFn: decoratePurposeWithMostRecentVersion, useEffectDeps: [forceRerenderCounter] }
   )
 
   // const downloadDocument = async () => {
@@ -225,7 +222,9 @@ export const PurposeView = () => {
 
   return (
     <React.Fragment>
-      <StyledIntro>{{ title: data?.title, description: data?.description }}</StyledIntro>
+      <StyledIntro loading={isLoading}>
+        {{ title: data?.title, description: data?.description }}
+      </StyledIntro>
 
       <TabContext value={activeTab}>
         <TabList
@@ -238,97 +237,110 @@ export const PurposeView = () => {
         </TabList>
 
         <TabPanel value="details">
-          <DescriptionBlock label="Accesso consentito?">
-            <Typography component="span">{data && getComputedPurposeState(data)}</Typography>
-          </DescriptionBlock>
+          {data ? (
+            <React.Fragment>
+              <DescriptionBlock label="Accesso consentito?">
+                <Typography component="span">{getComputedPurposeState(data)}</Typography>
+              </DescriptionBlock>
 
-          <DescriptionBlock label="Stima di carico corrente">
-            <Typography component="span">
-              {data && formatThousands(data?.currentVersion.dailyCalls)} chiamate/giorno
-            </Typography>
-          </DescriptionBlock>
+              <DescriptionBlock label="Stima di carico corrente">
+                <Typography component="span">
+                  {formatThousands(data.currentVersion.dailyCalls)} chiamate/giorno
+                </Typography>
+              </DescriptionBlock>
 
-          {data && data.awaitingApproval && (
-            <DescriptionBlock label="Richiesta di aggiornamento">
-              <Typography component="span">
-                Stima di carico: {formatThousands(data.mostRecentVersion.dailyCalls)}{' '}
-                chiamate/giorno
-              </Typography>
-              <br />
-              <Typography component="span">
-                {data.mostRecentVersion.expectedApprovalDate
-                  ? `Data di completamento stimata: ${formatDateString(
-                      data.mostRecentVersion.expectedApprovalDate
-                    )}`
-                  : 'Non è stata determinata una data di completamento'}
-              </Typography>
-            </DescriptionBlock>
-          )}
+              {data.awaitingApproval && (
+                <DescriptionBlock label="Richiesta di aggiornamento">
+                  <Typography component="span">
+                    Stima di carico: {formatThousands(data.mostRecentVersion.dailyCalls)}{' '}
+                    chiamate/giorno
+                  </Typography>
+                  <br />
+                  <Typography component="span">
+                    {data.mostRecentVersion.expectedApprovalDate
+                      ? `Data di completamento stimata: ${formatDateString(
+                          data.mostRecentVersion.expectedApprovalDate
+                        )}`
+                      : 'Non è stata determinata una data di completamento'}
+                  </Typography>
+                </DescriptionBlock>
+              )}
 
-          <DescriptionBlock label="La versione dell'E-Service che stai usando">
-            <StyledLink
-              to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
-                eserviceId: data?.eservice.id,
-                descriptorId: data?.eservice.descriptor.id,
-              })}
-            >
-              {data?.eservice.name}, versione {data?.eservice.descriptor.version}
-            </StyledLink>
-          </DescriptionBlock>
+              <DescriptionBlock label="La versione dell'E-Service che stai usando">
+                <StyledLink
+                  to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
+                    eserviceId: data.eservice.id,
+                    descriptorId: data.eservice.descriptor.id,
+                  })}
+                >
+                  {data.eservice.name}, versione {data.eservice.descriptor.version}
+                </StyledLink>
+              </DescriptionBlock>
 
-          <DescriptionBlock label="Richiesta di fruizione">
-            <StyledLink
-              to={buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
-                agreementId: data?.agreement.id,
-              })}
-            >
-              Vedi richiesta
-            </StyledLink>
-          </DescriptionBlock>
+              <DescriptionBlock label="Richiesta di fruizione">
+                <StyledLink
+                  to={buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
+                    agreementId: data.agreement.id,
+                  })}
+                >
+                  Vedi richiesta
+                </StyledLink>
+              </DescriptionBlock>
 
-          <DescriptionBlock label="Stato della finalità">
-            <Typography component="span">
-              {data && PURPOSE_STATE_LABEL[data.currentVersion.state]}
-            </Typography>
-          </DescriptionBlock>
+              <DescriptionBlock label="Stato della finalità">
+                <Typography component="span">
+                  {PURPOSE_STATE_LABEL[data.currentVersion.state]}
+                </Typography>
+              </DescriptionBlock>
 
-          {/* TEMP PIN-1139 and PIN-1178 */}
-          {/* <DescriptionBlock label="Risorse">
+              {/* TEMP PIN-1139 and PIN-1178 */}
+              {/* <DescriptionBlock label="Risorse">
             <ResourceList
-              downloads={[
-                {
-                  label: 'Analisi del rischio',
-                  onClick: downloadDocument,
-                },
-              ]}
+            downloads={[
+              {
+                label: 'Analisi del rischio',
+                onClick: downloadDocument,
+              },
+            ]}
             />
           </DescriptionBlock> */}
 
-          {data && data.versions.length > 1 && (
-            <DescriptionBlock label="Storico di questa finalità">
-              {data.versions.map((v, i) => {
-                const date = v.firstActivationAt || v.expectedApprovalDate
-                return (
-                  <Typography component="span" key={i} sx={{ display: 'inline-block' }}>
-                    {formatThousands(v.dailyCalls)} chiamate/giorno; data di approvazione:{' '}
-                    {date ? formatDateString(date) : 'n/d'}
-                  </Typography>
-                )
-              })}
-            </DescriptionBlock>
+              {data.versions.length > 1 && (
+                <DescriptionBlock label="Storico di questa finalità">
+                  {data.versions.map((v, i) => {
+                    const date = v.firstActivationAt || v.expectedApprovalDate
+                    return (
+                      <Typography component="span" key={i} sx={{ display: 'inline-block' }}>
+                        {formatThousands(v.dailyCalls)} chiamate/giorno; data di approvazione:{' '}
+                        {date ? formatDateString(date) : 'n/d'}
+                      </Typography>
+                    )
+                  })}
+                </DescriptionBlock>
+              )}
+
+              <PageBottomActions>
+                {getPurposeAvailableActions().map(({ onClick, label }, i) => (
+                  <StyledButton
+                    variant={i === 0 ? 'contained' : 'outlined'}
+                    key={i}
+                    onClick={onClick}
+                  >
+                    {label}
+                  </StyledButton>
+                ))}
+
+                <StyledButton variant="outlined" to={routes.SUBSCRIBE_PURPOSE_LIST.PATH}>
+                  Torna alla lista delle finalità
+                </StyledButton>
+              </PageBottomActions>
+            </React.Fragment>
+          ) : (
+            <LoadingWithMessage
+              label="Stiamo caricando la finalità richiesta"
+              transparentBackground
+            />
           )}
-
-          <PageBottomActions>
-            {getPurposeAvailableActions().map(({ onClick, label }, i) => (
-              <StyledButton variant={i === 0 ? 'contained' : 'outlined'} key={i} onClick={onClick}>
-                {label}
-              </StyledButton>
-            ))}
-
-            <StyledButton variant="outlined" to={routes.SUBSCRIBE_PURPOSE_LIST.PATH}>
-              Torna alla lista delle finalità
-            </StyledButton>
-          </PageBottomActions>
         </TabPanel>
 
         <TabPanel value="clients">

@@ -24,6 +24,7 @@ import { decoratePurposeWithMostRecentVersion, getPurposeFromUrl } from '../lib/
 import { useRoute } from '../hooks/useRoute'
 import { Paper } from '@mui/material'
 import { StyledIntro } from './Shared/StyledIntro'
+import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 
 type PurposeCreate = {
   title: string
@@ -52,7 +53,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
 
   const { runAction } = useFeedback()
   const { party } = useContext(PartyContext)
-  const { data: eserviceData } = useAsyncFetch<
+  const { data: eserviceData, isLoading: isEServiceReallyLoading } = useAsyncFetch<
     Array<EServiceFlatReadType>,
     Array<InputSelectOption>
   >(
@@ -63,14 +64,15 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
     {
       mapFn: (data) =>
         data.map((d) => ({ value: d.id, label: `${d.name} erogato da ${d.producerName}` })),
-      loadingTextLabel: 'Stiamo caricando gli E-Service associabili alla finalità',
     }
   )
 
-  const { data: purposeFetchedData } = useAsyncFetch<Purpose, DecoratedPurpose>(
+  const { data: purposeFetchedData, isLoading: isPurposeReallyLoading } = useAsyncFetch<
+    Purpose,
+    DecoratedPurpose
+  >(
     { path: { endpoint: 'PURPOSE_GET_SINGLE', endpointParams: { purposeId } } },
     {
-      loadingTextLabel: 'Stiamo caricando le informazioni della finalità',
       mapFn: decoratePurposeWithMostRecentVersion,
     }
   )
@@ -201,60 +203,71 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
     enableReinitialize: true,
   })
 
+  const isLoading = isEServiceReallyLoading || isPurposeReallyLoading
+
   return (
     <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
-      <StyledIntro component="h2">{{ title: 'Informazioni generali' }}</StyledIntro>
+      {!isLoading ? (
+        <React.Fragment>
+          <StyledIntro component="h2">{{ title: 'Informazioni generali' }}</StyledIntro>
 
-      <StyledForm onSubmit={formik.handleSubmit}>
-        <StyledInputControlledText
-          name="title"
-          label="Nome della finalità (richiesto)"
-          infoLabel="Ti aiuterà a distinguerla dalle altre"
-          error={formik.errors.title}
-          value={formik.values.title}
-          onChange={formik.handleChange}
-          focusOnMount={true}
-        />
+          <StyledForm onSubmit={formik.handleSubmit}>
+            <StyledInputControlledText
+              name="title"
+              label="Nome della finalità (richiesto)"
+              infoLabel="Ti aiuterà a distinguerla dalle altre"
+              error={formik.errors.title}
+              value={formik.values.title}
+              onChange={formik.handleChange}
+              focusOnMount={true}
+            />
 
-        <StyledInputControlledText
-          name="description"
-          label="Descrizione della finalità (richiesto)"
-          error={formik.errors.description}
-          value={formik.values.description}
-          onChange={formik.handleChange}
-          multiline={true}
-        />
+            <StyledInputControlledText
+              name="description"
+              label="Descrizione della finalità (richiesto)"
+              error={formik.errors.description}
+              value={formik.values.description}
+              onChange={formik.handleChange}
+              multiline={true}
+            />
 
-        <StyledInputControlledSelect
-          name="eserviceId"
-          label="E-Service da associare (richiesto)"
-          error={formik.errors.eserviceId}
-          value={formik.values.eserviceId}
-          onChange={formik.handleChange}
-          options={eserviceData}
-          emptyLabel="Nessun E-Service associabile"
-        />
+            <StyledInputControlledSelect
+              name="eserviceId"
+              label="E-Service da associare (richiesto)"
+              error={formik.errors.eserviceId}
+              value={formik.values.eserviceId}
+              onChange={formik.handleChange}
+              options={eserviceData}
+              emptyLabel="Nessun E-Service associabile"
+            />
 
-        <StyledInputControlledText
-          name="dailyCalls"
-          label="Numero di chiamate API/giorno (richiesto)"
-          infoLabel="Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'E-Service"
-          type="number"
-          error={formik.errors.dailyCalls}
-          value={formik.values.dailyCalls}
-          onChange={formik.handleChange}
-          inputProps={{ min: '1' }}
-        />
+            <StyledInputControlledText
+              name="dailyCalls"
+              label="Numero di chiamate API/giorno (richiesto)"
+              infoLabel="Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'E-Service"
+              type="number"
+              error={formik.errors.dailyCalls}
+              value={formik.values.dailyCalls}
+              onChange={formik.handleChange}
+              inputProps={{ min: '1' }}
+            />
 
-        <StepActions
-          back={{
-            label: 'Torna alle finalità',
-            type: 'link',
-            to: routes.SUBSCRIBE_PURPOSE_LIST.PATH,
-          }}
-          forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
+            <StepActions
+              back={{
+                label: 'Torna alle finalità',
+                type: 'link',
+                to: routes.SUBSCRIBE_PURPOSE_LIST.PATH,
+              }}
+              forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
+            />
+          </StyledForm>
+        </React.Fragment>
+      ) : (
+        <LoadingWithMessage
+          label="Stiamo caricando le informazioni della finalità"
+          transparentBackground
         />
-      </StyledForm>
+      )}
     </Paper>
   )
 }

@@ -19,6 +19,7 @@ import { useRoute } from '../hooks/useRoute'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { buildDynamicPath } from '../lib/router-utils'
+import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 
 export function EServiceRead() {
   const { runAction } = useFeedback()
@@ -28,28 +29,21 @@ export function EServiceRead() {
 
   const location = useLocation()
   const { eserviceId, descriptorId } = getEserviceAndDescriptorFromUrl(location)
-  const { data, error } = useAsyncFetch<EServiceReadType>(
-    {
-      path: { endpoint: 'ESERVICE_GET_SINGLE', endpointParams: { eserviceId } },
-    },
-    {
-      mapFn: decorateEServiceWithActiveDescriptor(descriptorId),
-      loadingTextLabel: 'Stiamo caricando il tuo E-Service',
-    }
+  const {
+    data,
+    error,
+    isLoading: isEServiceLoading,
+  } = useAsyncFetch<EServiceReadType>(
+    { path: { endpoint: 'ESERVICE_GET_SINGLE', endpointParams: { eserviceId } } },
+    { mapFn: decorateEServiceWithActiveDescriptor(descriptorId) }
   )
 
-  const { data: flatData } = useAsyncFetch<
+  const { data: flatData, isLoading: isFlatEServiceLoading } = useAsyncFetch<
     Array<EServiceFlatReadType>,
     EServiceFlatReadType | undefined
   >(
-    {
-      path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
-      config: { params: { callerId: party?.id } },
-    },
-    {
-      mapFn: (list) => list.find((d) => d.id === eserviceId && d.descriptorId === descriptorId),
-      loadingTextLabel: 'Stiamo caricando il tuo E-Service',
-    }
+    { path: { endpoint: 'ESERVICE_GET_LIST_FLAT' }, config: { params: { callerId: party?.id } } },
+    { mapFn: (list) => list.find((d) => d.id === eserviceId && d.descriptorId === descriptorId) }
   )
 
   const canSubscribeEservice =
@@ -87,17 +81,15 @@ export function EServiceRead() {
     })
   }
 
-  if (!data) {
-    return null
-  }
-
   if (error) {
     return <NotFound errorType="server-error" />
   }
 
+  const isLoading = isEServiceLoading || isFlatEServiceLoading
+
   return (
     <React.Fragment>
-      <StyledIntro>
+      <StyledIntro loading={isLoading}>
         {{
           title: data?.name,
           description: `${data?.description}\n${
@@ -106,7 +98,7 @@ export function EServiceRead() {
         }}
       </StyledIntro>
 
-      {data && (
+      {data ? (
         <React.Fragment>
           {flatData && (
             <DescriptionBlock label="Sei iscritto all'E-Service">
@@ -120,17 +112,15 @@ export function EServiceRead() {
             </DescriptionBlock>
           )}
           <EServiceContentInfo data={data} />
-        </React.Fragment>
-      )}
 
-      <Box sx={{ display: 'flex' }}>
-        {isVersionPublished && !isMine && isAdmin(party) && canSubscribeEservice && (
-          <StyledButton sx={{ mr: 2 }} variant="contained" onClick={handleSubscriptionDialog}>
-            Iscriviti
-          </StyledButton>
-        )}
-        {/* TEMP PIN-612 */}
-        {/* {!isMine && isAdmin(party) && !canSubscribeEservice && (
+          <Box sx={{ display: 'flex' }}>
+            {isVersionPublished && !isMine && isAdmin(party) && canSubscribeEservice && (
+              <StyledButton sx={{ mr: 2 }} variant="contained" onClick={handleSubscriptionDialog}>
+                Iscriviti
+              </StyledButton>
+            )}
+            {/* TEMP PIN-612 */}
+            {/* {!isMine && isAdmin(party) && !canSubscribeEservice && (
           <StyledButton
             sx={{ mr: 2 }}
             variant="contained"
@@ -141,10 +131,14 @@ export function EServiceRead() {
             Richiedi estensione
           </StyledButton>
         )} */}
-        <StyledButton variant="outlined" to={routes.SUBSCRIBE_CATALOG_LIST.PATH}>
-          Torna al catalogo
-        </StyledButton>
-      </Box>
+            <StyledButton variant="outlined" to={routes.SUBSCRIBE_CATALOG_LIST.PATH}>
+              Torna al catalogo
+            </StyledButton>
+          </Box>
+        </React.Fragment>
+      ) : (
+        <LoadingWithMessage label="Stiamo caricando il tuo E-Service" transparentBackground />
+      )}
     </React.Fragment>
   )
 }

@@ -40,7 +40,7 @@ export const AsyncTableEServiceCatalog = () => {
   const { setDialog } = useContext(DialogContext)
   const { routes } = useRoute()
 
-  const { data, loadingText, error } = useAsyncFetch<
+  const { data, error, isLoading } = useAsyncFetch<
     Array<EServiceFlatReadType>,
     Array<EServiceFlatDecoratedReadType>
   >(
@@ -50,8 +50,6 @@ export const AsyncTableEServiceCatalog = () => {
     },
     {
       mapFn: (data) => data.map((d) => ({ ...d, isMine: d.producerId === party?.id })),
-      loaderType: 'contextual',
-      loadingTextLabel: 'Stiamo caricando la lista degli E-Service',
     }
   )
 
@@ -155,7 +153,8 @@ export const AsyncTableEServiceCatalog = () => {
 
   return (
     <TableWithLoader
-      loadingText={loadingText}
+      isLoading={isLoading}
+      loadingText="Stiamo caricando la lista degli E-Service"
       headData={headData}
       noDataLabel="Non ci sono E-Service disponibili"
       error={axiosErrorToError(error)}
@@ -226,18 +225,12 @@ export const AsyncTableEServiceList = () => {
   const history = useHistory()
   const { runAction, forceRerenderCounter } = useFeedback()
 
-  const { data, loadingText, error } = useAsyncFetch<Array<EServiceFlatReadType>>(
+  const { data, error, isLoading } = useAsyncFetch<Array<EServiceFlatReadType>>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
-      config: {
-        params: { producerId: party?.id, callerId: party?.id },
-      },
+      config: { params: { producerId: party?.id, callerId: party?.id } },
     },
-    {
-      useEffectDeps: [forceRerenderCounter],
-      loaderType: 'contextual',
-      loadingTextLabel: 'Stiamo caricando i tuoi E-Service',
-    }
+    { useEffectDeps: [forceRerenderCounter] }
   )
 
   /*
@@ -385,7 +378,8 @@ export const AsyncTableEServiceList = () => {
 
   return (
     <TableWithLoader
-      loadingText={loadingText}
+      isLoading={isLoading}
+      loadingText="Stiamo caricando i tuoi E-Service"
       headData={headData}
       noDataLabel="Non ci sono servizi disponibili"
       error={axiosErrorToError(error)}

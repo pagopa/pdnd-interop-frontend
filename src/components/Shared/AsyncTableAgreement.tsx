@@ -32,16 +32,9 @@ export const AsyncTableAgreement = () => {
   const history = useHistory()
   const params = currentMode === 'provider' ? { producerId: party?.id } : { consumerId: party?.id }
 
-  const { data, loadingText, error } = useAsyncFetch<Array<AgreementSummary>>(
-    {
-      path: { endpoint: 'AGREEMENT_GET_LIST' },
-      config: { params },
-    },
-    {
-      useEffectDeps: [forceRerenderCounter],
-      loaderType: 'contextual',
-      loadingTextLabel: 'Stiamo caricando le richieste',
-    }
+  const { data, error, isLoading } = useAsyncFetch<Array<AgreementSummary>>(
+    { path: { endpoint: 'AGREEMENT_GET_LIST' }, config: { params } },
+    { useEffectDeps: [forceRerenderCounter] }
   )
 
   /*
@@ -130,7 +123,8 @@ export const AsyncTableAgreement = () => {
 
   return (
     <TableWithLoader
-      loadingText={loadingText}
+      isLoading={isLoading}
+      loadingText="Stiamo caricando le richieste"
       headData={headData}
       noDataLabel="Non ci sono richieste disponibili"
       error={axiosErrorToError(error)}

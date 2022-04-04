@@ -18,6 +18,8 @@ import { StyledLink } from '../components/Shared/StyledLink'
 import { useRoute } from '../hooks/useRoute'
 import { PartyContext } from '../lib/context'
 import { isAdmin } from '../lib/auth-utils'
+import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
+import { NotFound } from './NotFound'
 
 type UserEndpoinParams = {
   relationshipId: string
@@ -44,12 +46,9 @@ export function UserEdit() {
     endpoint = 'OPERATOR_API_GET_SINGLE'
   }
 
-  const { data: userData } = useAsyncFetch<User>(
+  const { data: userData, error } = useAsyncFetch<User>(
     { path: { endpoint, endpointParams } },
-    {
-      useEffectDeps: [forceRerenderCounter],
-      loadingTextLabel: "Stiamo caricando l'operatore richiesto",
-    }
+    { useEffectDeps: [forceRerenderCounter] }
   )
 
   useEffect(() => {
@@ -150,6 +149,10 @@ export function UserEdit() {
     return []
   }
 
+  if (error) {
+    return <NotFound errorType="server-error" />
+  }
+
   return (
     <React.Fragment>
       <StyledIntro sx={{ mb: 0 }}>
@@ -159,56 +162,62 @@ export function UserEdit() {
         }}
       </StyledIntro>
 
-      <DescriptionBlock label="Email">
-        <Typography component="span">{userData?.email || 'n/d'}</Typography>
-      </DescriptionBlock>
+      {userData ? (
+        <React.Fragment>
+          <DescriptionBlock label="Email">
+            <Typography component="span">{userData?.email || 'n/d'}</Typography>
+          </DescriptionBlock>
 
-      <DescriptionBlock label="Ruolo">
-        <Typography component="span">
-          {userData?.role ? USER_ROLE_LABEL[userData.role] : 'n/d'}
-        </Typography>
-      </DescriptionBlock>
+          <DescriptionBlock label="Ruolo">
+            <Typography component="span">
+              {userData?.role ? USER_ROLE_LABEL[userData.role] : 'n/d'}
+            </Typography>
+          </DescriptionBlock>
 
-      <DescriptionBlock label="Permessi">
-        <Typography component="span">
-          {userData?.product.role ? USER_PLATFORM_ROLE_LABEL[userData.product.role] : 'n/d'}
-        </Typography>
-      </DescriptionBlock>
+          <DescriptionBlock label="Permessi">
+            <Typography component="span">
+              {userData?.product.role ? USER_PLATFORM_ROLE_LABEL[userData.product.role] : 'n/d'}
+            </Typography>
+          </DescriptionBlock>
 
-      <DescriptionBlock label="Stato dell'utenza">
-        <Typography component="span">
-          {userData?.state ? USER_STATE_LABEL[userData.state] : 'n/d'}
-        </Typography>
-      </DescriptionBlock>
+          <DescriptionBlock label="Stato dell'utenza">
+            <Typography component="span">
+              {userData?.state ? USER_STATE_LABEL[userData.state] : 'n/d'}
+            </Typography>
+          </DescriptionBlock>
 
-      {userData?.product.role === 'security' && (
-        <DescriptionBlock label="Chiavi associate">
-          {Boolean(keys.length > 0) ? (
-            keys.map(({ key, name }, i) => (
-              <StyledLink
-                key={i}
-                to={buildDynamicPath(routes.SUBSCRIBE_CLIENT_KEY_EDIT.PATH, {
-                  clientId,
-                  kid: key.kid,
-                })}
-                sx={{ display: 'block' }}
-              >
-                {name}
-              </StyledLink>
-            ))
-          ) : (
-            <Typography component="span">Nessuna chiave associata</Typography>
+          {userData?.product.role === 'security' && (
+            <DescriptionBlock label="Chiavi associate">
+              {Boolean(keys.length > 0) ? (
+                keys.map(({ key, name }, i) => (
+                  <StyledLink
+                    key={i}
+                    to={buildDynamicPath(routes.SUBSCRIBE_CLIENT_KEY_EDIT.PATH, {
+                      clientId,
+                      kid: key.kid,
+                    })}
+                    sx={{ display: 'block' }}
+                  >
+                    {name}
+                  </StyledLink>
+                ))
+              ) : (
+                <Typography component="span">Nessuna chiave associata</Typography>
+              )}
+            </DescriptionBlock>
           )}
-        </DescriptionBlock>
-      )}
 
-      <Box sx={{ mt: 8, display: 'flex' }}>
-        {getAvailableActions().map(({ onClick, label }, i) => (
-          <StyledButton variant="contained" key={i} onClick={onClick}>
-            {label}
-          </StyledButton>
-        ))}
-      </Box>
+          <Box sx={{ mt: 8, display: 'flex' }}>
+            {getAvailableActions().map(({ onClick, label }, i) => (
+              <StyledButton variant="contained" key={i} onClick={onClick}>
+                {label}
+              </StyledButton>
+            ))}
+          </Box>
+        </React.Fragment>
+      ) : (
+        <LoadingWithMessage label="Stiamo caricando l'operatore richiesto" transparentBackground />
+      )}
     </React.Fragment>
   )
 }

@@ -33,13 +33,9 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
     validateOnBlur: false,
   })
 
-  const { data: currentUserData } = useAsyncFetch<Array<User>>(
-    { path: { endpoint: 'OPERATOR_SECURITY_GET_LIST', endpointParams: { clientId } } },
-    {
-      loaderType: 'contextual',
-      loadingTextLabel: 'Stiamo caricando gli operatori',
-    }
-  )
+  const { data: currentUserData } = useAsyncFetch<Array<User>>({
+    path: { endpoint: 'OPERATOR_SECURITY_GET_LIST', endpointParams: { clientId } },
+  })
 
   const { data: allUserData } = useAsyncFetch<Array<User>>(
     {
@@ -49,11 +45,7 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
       },
       config: { params: { productRoles: ['security'] } },
     },
-    {
-      loaderType: 'contextual',
-      loadingTextLabel: 'Stiamo caricando gli operatori',
-      mapFn: (data) => data.filter((d) => !excludeIdsList.includes(d.id)),
-    }
+    { mapFn: (data) => data.filter((d) => !excludeIdsList.includes(d.id)) }
   )
 
   useEffect(() => {

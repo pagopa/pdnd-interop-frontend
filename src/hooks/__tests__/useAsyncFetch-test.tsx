@@ -7,14 +7,9 @@ import { useAsyncFetch } from '../useAsyncFetch'
 import { EServiceFlatReadType } from '../../../types'
 
 function TestComponent() {
-  const { data, loadingText, error } = useAsyncFetch<Array<Partial<EServiceFlatReadType>>>(
-    { path: { endpoint: 'ESERVICE_GET_LIST_FLAT' } },
-    { loadingTextLabel: 'Stiamo caricando i dati...', loaderType: 'contextual' }
-  )
-
-  if (loadingText) {
-    return <div>{loadingText}</div>
-  }
+  const { data, error } = useAsyncFetch<Array<Partial<EServiceFlatReadType>>>({
+    path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
+  })
 
   if (!isEmpty(error)) {
     return <div>errore</div>

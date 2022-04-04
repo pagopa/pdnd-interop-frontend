@@ -36,7 +36,7 @@ export const AsyncTablePurposeInEService = ({
 }: AsyncTablePurposeInEServiceProps) => {
   const { setDialog } = useContext(DialogContext)
 
-  const { data: purposeData /* , error */ } = useAsyncFetch<
+  const { data: purposeData, isLoading /* , error */ } = useAsyncFetch<
     { purposes: Array<Purpose> },
     Array<DecoratedPurpose>
   >(
@@ -46,8 +46,6 @@ export const AsyncTablePurposeInEService = ({
     },
     {
       mapFn: (data) => data.purposes.map(decoratePurposeWithMostRecentVersion),
-      loaderType: 'contextual',
-      loadingTextLabel: 'Stiamo caricando le finalità in attesa',
       useEffectDeps: [forceRerenderCounter],
     }
   )
@@ -103,7 +101,8 @@ export const AsyncTablePurposeInEService = ({
 
   return (
     <TableWithLoader
-      loadingText={null}
+      isLoading={isLoading}
+      loadingText="Stiamo caricando le finalità in attesa"
       headData={headData}
       noDataLabel="Nessuna finalità da evadere"
     >
@@ -139,14 +138,12 @@ export const AsyncTablePurpose = () => {
 
   const { party } = useContext(PartyContext)
 
-  const { data, loadingText /*, error */ } = useAsyncFetch<
+  const { data, isLoading /*, error */ } = useAsyncFetch<
     { purposes: Array<Purpose> },
     Array<DecoratedPurpose>
   >(
     { path: { endpoint: 'PURPOSE_GET_LIST' } },
     {
-      loaderType: 'contextual',
-      loadingTextLabel: 'Stiamo caricando le finalità',
       mapFn: (data) =>
         data.purposes
           // TEMP REFACTOR: after integration with self care, this will not be necessary
@@ -280,7 +277,8 @@ export const AsyncTablePurpose = () => {
 
   return (
     <TableWithLoader
-      loadingText={loadingText}
+      isLoading={isLoading}
+      loadingText="Stiamo caricando le finalità"
       headData={headData}
       noDataLabel="Non sono state create finalità"
       // error={axiosErrorToError(error)}

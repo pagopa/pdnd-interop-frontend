@@ -37,15 +37,9 @@ export function AgreementEdit() {
   const agreementId = getLastBit(useLocation())
   const { party } = useContext(PartyContext)
   const { routes } = useRoute()
-  const { data, error, isItReallyLoading, loadingText } = useAsyncFetch<AgreementSummary>(
-    {
-      path: { endpoint: 'AGREEMENT_GET_SINGLE', endpointParams: { agreementId } },
-    },
-    {
-      useEffectDeps: [forceRerenderCounter, mode],
-      loaderType: 'contextual',
-      loadingTextLabel: 'Stiamo caricando la richiesta di fruizione',
-    }
+  const { data, error, isLoading } = useAsyncFetch<AgreementSummary>(
+    { path: { endpoint: 'AGREEMENT_GET_SINGLE', endpointParams: { agreementId } } },
+    { useEffectDeps: [forceRerenderCounter, mode] }
   )
 
   /*
@@ -246,9 +240,7 @@ export function AgreementEdit() {
 
   return (
     <React.Fragment>
-      <StyledIntro loading={isItReallyLoading}>
-        {{ title: 'Gestisci richiesta di fruizione' }}
-      </StyledIntro>
+      <StyledIntro loading={isLoading}>{{ title: 'Gestisci richiesta di fruizione' }}</StyledIntro>
 
       {data ? (
         <React.Fragment>
@@ -326,7 +318,10 @@ export function AgreementEdit() {
           </PageBottomActions>
         </React.Fragment>
       ) : (
-        <LoadingWithMessage label={loadingText} transparentBackground={true} />
+        <LoadingWithMessage
+          label="Stiamo caricando la richiesta di fruizione"
+          transparentBackground
+        />
       )}
     </React.Fragment>
   )

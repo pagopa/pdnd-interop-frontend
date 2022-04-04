@@ -28,17 +28,12 @@ export function EServiceManage() {
   const { eserviceId, descriptorId } = getEserviceAndDescriptorFromUrl(location)
   const {
     data: eserviceData,
-    isItReallyLoading,
-    loadingText,
+    isLoading,
     error,
   } = useAsyncFetch<EServiceReadType>(
-    {
-      path: { endpoint: 'ESERVICE_GET_SINGLE', endpointParams: { eserviceId } },
-    },
+    { path: { endpoint: 'ESERVICE_GET_SINGLE', endpointParams: { eserviceId } } },
     {
       mapFn: decorateEServiceWithActiveDescriptor(descriptorId),
-      loadingTextLabel: 'Stiamo caricando il tuo E-Service',
-      loaderType: 'contextual',
       useEffectDeps: [forceRerenderCounter],
     }
   )
@@ -49,7 +44,7 @@ export function EServiceManage() {
 
   return (
     <React.Fragment>
-      <StyledIntro loading={isItReallyLoading}>
+      <StyledIntro loading={isLoading}>
         {{ title: eserviceData?.name, description: eserviceData?.description }}
       </StyledIntro>
 
@@ -64,19 +59,18 @@ export function EServiceManage() {
         </TabList>
 
         <TabPanel value="details">
-          <React.Fragment>
-            {isItReallyLoading ? (
-              <LoadingWithMessage label={loadingText} transparentBackground={true} />
-            ) : (
-              <EServiceContentInfo data={eserviceData as EServiceReadType} />
-            )}
-
-            <PageBottomActions>
-              <StyledButton variant="outlined" to={routes.PROVIDE_ESERVICE_LIST.PATH}>
-                Torna al catalogo
-              </StyledButton>
-            </PageBottomActions>
-          </React.Fragment>
+          {eserviceData ? (
+            <React.Fragment>
+              <EServiceContentInfo data={eserviceData} />
+              <PageBottomActions>
+                <StyledButton variant="outlined" to={routes.PROVIDE_ESERVICE_LIST.PATH}>
+                  Torna al catalogo
+                </StyledButton>
+              </PageBottomActions>
+            </React.Fragment>
+          ) : (
+            <LoadingWithMessage label="Stiamo caricando il tuo E-Service" transparentBackground />
+          )}
         </TabPanel>
         <TabPanel value="purposeAwaitingApproval">
           <AsyncTablePurposeInEService

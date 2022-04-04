@@ -13,7 +13,8 @@ import { Box } from '@mui/system'
 import { LoadingWithMessage } from './LoadingWithMessage'
 
 type TableWithLoaderProps = {
-  loadingText: string | null
+  isLoading: boolean
+  loadingText?: string
   noDataLabel?: string
   error?: Error
   headData: Array<string>
@@ -21,6 +22,7 @@ type TableWithLoaderProps = {
 }
 
 export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
+  isLoading,
   loadingText,
   noDataLabel = 'Questa ricerca non ha prodotto risultati',
   error,
@@ -37,8 +39,8 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
     )
   }
 
-  if (loadingText) {
-    return <LoadingWithMessage label={loadingText} transparentBackground={true} />
+  if (isLoading) {
+    return <LoadingWithMessage label={loadingText} transparentBackground />
   }
 
   return viewType === 'table' ? (

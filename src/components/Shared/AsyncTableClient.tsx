@@ -28,17 +28,12 @@ export const AsyncTableClient = ({ clientKind }: AsyncTableClientProps) => {
       ? routes.SUBSCRIBE_CLIENT_EDIT.PATH
       : routes.SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT.PATH
 
-  const { data, loadingText, error } = useAsyncFetch<{ clients: Array<Client> }, Array<Client>>(
+  const { data, error, isLoading } = useAsyncFetch<{ clients: Array<Client> }, Array<Client>>(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
       config: { params: { kind: clientKind, consumerId: party?.id } },
     },
-    {
-      mapFn: (data) => data.clients,
-      loaderType: 'contextual',
-      loadingTextLabel: 'Stiamo caricando i client',
-      useEffectDeps: [forceRerenderCounter],
-    }
+    { mapFn: (data) => data.clients, useEffectDeps: [forceRerenderCounter] }
   )
 
   /*
@@ -62,7 +57,8 @@ export const AsyncTableClient = ({ clientKind }: AsyncTableClientProps) => {
 
   return (
     <TableWithLoader
-      loadingText={loadingText}
+      isLoading={isLoading}
+      loadingText="Stiamo caricando i client"
       headData={headData}
       noDataLabel="Non ci sono client disponibili"
       error={axiosErrorToError(error)}
@@ -133,7 +129,7 @@ export const AsyncTableClientInPurpose = ({
 
   return (
     <TableWithLoader
-      loadingText=""
+      isLoading={false}
       headData={headData}
       noDataLabel="Non ci sono client associati a questa finalità"
       // error={axiosErrorToError(error)}

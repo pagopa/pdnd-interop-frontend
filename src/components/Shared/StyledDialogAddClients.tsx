@@ -11,6 +11,7 @@ import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { PartyContext } from '../../lib/context'
 import differenceBy from 'lodash/differenceBy'
 import { sortBy } from 'lodash'
+import { LoadingWithMessage } from './LoadingWithMessage'
 
 export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = ({
   onSubmit,
@@ -20,15 +21,12 @@ export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = 
   const { party } = useContext(PartyContext)
   const [selected, setSelected] = useState<Array<Client>>([])
 
-  const { data: clientData } = useAsyncFetch<{ clients: Array<Client> }, Array<Client>>(
+  const { data: clientData, isLoading } = useAsyncFetch<{ clients: Array<Client> }, Array<Client>>(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
       config: { params: { kind: 'CONSUMER', consumerId: party?.id } },
     },
-    {
-      loadingTextLabel: 'Stiamo caricando i client associabili alla finalità',
-      mapFn: (data) => data.clients,
-    }
+    { mapFn: (data) => data.clients }
   )
 
   const updateSelected = (data: Client | Client[] | null) => {
@@ -70,23 +68,30 @@ export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = 
         <StyledForm onSubmit={handleSubmit}>
           <DialogTitle>Aggiungi client</DialogTitle>
 
-          <DialogContent>
-            <Box sx={{ mt: 3 }}>
-              <StyledInputControlledAutocomplete
-                focusOnMount={true}
-                label="Client selezionati"
-                sx={{ mt: 6, mb: 0 }}
-                multiple={true}
-                placeholder="..."
-                name="selection"
-                onChange={updateSelected}
-                values={availableClients || []}
-                getOptionLabel={(option: Client) => (option ? option.name : '')}
-                isOptionEqualToValue={(option: Client, value: Client) => option.id === value.id}
-                transformFn={transformFn}
-              />
-            </Box>
-          </DialogContent>
+          {!isLoading ? (
+            <DialogContent>
+              <Box sx={{ mt: 3 }}>
+                <StyledInputControlledAutocomplete
+                  focusOnMount={true}
+                  label="Client selezionati"
+                  sx={{ mt: 6, mb: 0 }}
+                  multiple={true}
+                  placeholder="..."
+                  name="selection"
+                  onChange={updateSelected}
+                  values={availableClients || []}
+                  getOptionLabel={(option: Client) => (option ? option.name : '')}
+                  isOptionEqualToValue={(option: Client, value: Client) => option.id === value.id}
+                  transformFn={transformFn}
+                />
+              </Box>
+            </DialogContent>
+          ) : (
+            <LoadingWithMessage
+              label="Stiamo caricando i client associabili alla finalità"
+              transparentBackground
+            />
+          )}
 
           <DialogActions>
             <StyledButton variant="outlined" onClick={closeDialog}>

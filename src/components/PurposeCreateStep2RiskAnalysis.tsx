@@ -18,6 +18,7 @@ import { Purpose, PurposeRiskAnalysisFormAnswers } from '../../types'
 import { getPurposeFromUrl } from '../lib/purpose'
 import { Paper } from '@mui/material'
 import { StyledIntro } from './Shared/StyledIntro'
+import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 
 type Dependency = {
   id: string
@@ -64,10 +65,9 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
     {}
   ) as Answers
 
-  const { data: purposeFetchedData } = useAsyncFetch<Purpose>(
-    { path: { endpoint: 'PURPOSE_GET_SINGLE', endpointParams: { purposeId } } },
-    { loadingTextLabel: 'Stiamo caricando le informazioni della finalità' }
-  )
+  const { data: purposeFetchedData, isLoading } = useAsyncFetch<Purpose>({
+    path: { endpoint: 'PURPOSE_GET_SINGLE', endpointParams: { purposeId } },
+  })
 
   const onSubmit = async (allAnswers: Record<string, unknown>) => {
     const currentQuestions = Object.keys(questions)
@@ -233,39 +233,46 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
             'Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare',
         }}
       </StyledIntro>
-      <StyledForm onSubmit={formik.handleSubmit}>
-        {Object.keys(questions).map((id, i) => {
-          const { type, label, options, infoLabel, required } = questions[id] as Question
+      {!isLoading ? (
+        <StyledForm onSubmit={formik.handleSubmit}>
+          {Object.keys(questions).map((id, i) => {
+            const { type, label, options, infoLabel, required } = questions[id] as Question
 
-          const untypedProps = {
-            name: id,
-            value: formik.values[id],
-            type,
-            setFieldValue: formik.setFieldValue,
-            onChange: formik.handleChange,
-            label,
-            options,
-            error: formik.errors[id],
-            infoLabel,
-            required,
-            emptyLabel: 'Nessun valore disponibile',
-          }
+            const untypedProps = {
+              name: id,
+              value: formik.values[id],
+              type,
+              setFieldValue: formik.setFieldValue,
+              onChange: formik.handleChange,
+              label,
+              options,
+              error: formik.errors[id],
+              infoLabel,
+              required,
+              emptyLabel: 'Nessun valore disponibile',
+            }
 
-          const props = {
-            text: untypedProps as StyledInputControlledTextProps,
-            radio: untypedProps as StyledInputControlledRadioProps,
-            checkbox: untypedProps as StyledInputControlledCheckboxMultipleProps,
-            'select-one': untypedProps as StyledInputControlledSelectProps,
-          }[type]
+            const props = {
+              text: untypedProps as StyledInputControlledTextProps,
+              radio: untypedProps as StyledInputControlledRadioProps,
+              checkbox: untypedProps as StyledInputControlledCheckboxMultipleProps,
+              'select-one': untypedProps as StyledInputControlledSelectProps,
+            }[type]
 
-          return <StyledInput key={i} {...props} />
-        })}
+            return <StyledInput key={i} {...props} />
+          })}
 
-        <StepActions
-          back={{ label: 'Indietro', type: 'button', onClick: back }}
-          forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
+          <StepActions
+            back={{ label: 'Indietro', type: 'button', onClick: back }}
+            forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
+          />
+        </StyledForm>
+      ) : (
+        <LoadingWithMessage
+          label="Stiamo caricando le informazioni della finalità"
+          transparentBackground
         />
-      </StyledForm>
+      )}
     </Paper>
   )
 }
