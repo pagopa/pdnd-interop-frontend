@@ -285,7 +285,6 @@ export type EServiceReadType = {
   technology: EServiceTechnologyType
   attributes: BackendAttributes
   id: string
-  state: EServiceState
   descriptors: Array<EServiceDescriptorRead>
   activeDescriptor?: EServiceDescriptorRead // TEMP REFACTOR : this is added by the client
 }

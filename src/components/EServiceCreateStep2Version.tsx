@@ -21,6 +21,7 @@ import { Paper } from '@mui/material'
 import { RunActionOutput } from '../hooks/useFeedback'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 import { minutesToSeconds, secondsToMinutes } from '../lib/format-utils'
+import { StyledIntro } from './Shared/StyledIntro'
 
 type VersionData = {
   audience: string
@@ -32,6 +33,7 @@ type VersionData = {
 }
 
 export function EServiceCreateStep2Version({ forward, back }: StepperStepComponentProps) {
+  console.log('step 2')
   const { routes } = useRoute()
   const history = useHistory()
   const { runAction } = useFeedback()
@@ -85,6 +87,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
   }, [fetchedData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSubmit = async (data: VersionData) => {
+    console.log('submitting')
     // Format the data like the backend wants it
     const dataToPost = {
       audience: [data.audience],
@@ -105,6 +108,8 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
       endpoint = 'ESERVICE_VERSION_DRAFT_UPDATE'
       endpointParams.descriptorId = activeDescriptor.id
     }
+
+    console.log({ dataToPost, endpoint })
 
     const { outcome, response } = (await runAction(
       { path: { endpoint, endpointParams }, config: { data: dataToPost } },
@@ -153,6 +158,8 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
           >
             {({ handleSubmit, errors, values, handleChange }) => (
               <StyledForm onSubmit={handleSubmit}>
+                <StyledIntro component="h2">{{ title: 'Informazioni di versione' }}</StyledIntro>
+
                 <StyledInputControlledText
                   sx={{ mt: 0 }}
                   name="version"
@@ -218,7 +225,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
 
                 <StepActions
                   back={{ label: 'Indietro', type: 'button', onClick: back }}
-                  forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
+                  forward={{ label: 'Salva bozza e proseguiii', type: 'submit' }}
                 />
               </StyledForm>
             )}

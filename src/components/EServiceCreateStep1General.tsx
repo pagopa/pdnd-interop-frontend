@@ -34,6 +34,7 @@ import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentProps> = ({
   forward,
 }) => {
+  console.log('step 1')
   const { lang } = useContext(LangContext)
   const { party } = useContext(PartyContext)
   const { routes } = useRoute()
@@ -76,14 +77,10 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
   }, [fetchedData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSubmit = async (data: Partial<EServiceCreateDataType>) => {
-    if (!party) {
-      return
-    }
-
     // Format the data like the backend wants it
     const dataToPost = {
       ...data,
-      producerId: party.id as string | undefined, // needed because of line 95
+      producerId: party?.id,
       attributes: remapFrontendAttributesToBackend(attributes),
     }
 

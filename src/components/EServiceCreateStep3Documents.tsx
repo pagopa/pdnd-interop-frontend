@@ -20,6 +20,7 @@ import { useRoute } from '../hooks/useRoute'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 
 export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps) {
+  console.log('step 3')
   const { routes } = useRoute()
   const history = useHistory()
   const { runAction } = useFeedback()

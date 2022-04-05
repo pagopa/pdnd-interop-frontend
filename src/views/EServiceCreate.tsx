@@ -47,7 +47,7 @@ export function EServiceCreate() {
       <StyledIntro>{intro}</StyledIntro>
       <Grid container>
         <Grid item xs={8}>
-          <StyledStepper steps={STEPS} activeIndex={activeStep} />
+          {/* <StyledStepper steps={STEPS} activeIndex={activeStep} /> */}
           <Step {...stepProps} />
         </Grid>
       </Grid>
