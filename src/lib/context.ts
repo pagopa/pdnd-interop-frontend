@@ -1,16 +1,16 @@
 import { createContext } from 'react'
 import noop from 'lodash/noop'
-import { DialogProps, Lang, Party, MappedRouteConfig, ToastProps } from '../../types'
+import { DialogProps, LangCode, Party, MappedRouteConfig, ToastProps } from '../../types'
 
 type RoutesContextType = {
-  allRoutes: Record<Lang, Record<string, MappedRouteConfig>>
+  allRoutes: Record<LangCode, Record<string, MappedRouteConfig>>
 }
 
 export const RoutesContext = createContext({ allRoutes: {} } as RoutesContextType)
 
 type LangContextType = {
-  lang: Lang
-  setLang: React.Dispatch<React.SetStateAction<Lang>>
+  lang: LangCode
+  setLang: React.Dispatch<React.SetStateAction<LangCode>>
 }
 
 export const LangContext = createContext({ lang: 'it', setLang: noop } as LangContextType)

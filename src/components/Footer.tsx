@@ -1,57 +1,97 @@
 import React from 'react'
-import { Box, Typography } from '@mui/material'
-import { Layout } from './Shared/Layout'
+import { Box, Container, Link, Typography } from '@mui/material'
 import logo from '../assets/pagopa-logo.svg'
-import { StyledLink } from './Shared/StyledLink'
-import { LangSelect } from './LangSelect'
+import { LangSwitch, LangSwitchProps } from './LangSwitch'
+import { ButtonNaked } from '@pagopa/mui-italia'
 
-export function Footer() {
+// We need to validate this. It might be possible that the fields differ from product to product
+type JwtUser = {
+  id: string // the relationshipId between the user and the current institution
+  name: string
+  surname: string
+  email: string
+}
+
+type LinkType = 'internal' | 'external'
+
+type FooterProps = LangSwitchProps & {
+  loggedUser?: JwtUser
+  onExit?: (href: string, linkType: LinkType) => void
+}
+
+export const Footer = ({ loggedUser, onExit, ...langProps }: FooterProps) => {
+  const links = [
+    {
+      label: 'Privacy policy',
+      href: '#0',
+      ariaLabel: 'Vai al link: privacy policy',
+      linkType: 'internal',
+    },
+    {
+      label: 'Termini e condizioni',
+      href: '#0',
+      ariaLabel: 'Vai al link: termini e condizioni',
+      linkType: 'internal',
+    },
+    {
+      label: 'Accessibilità',
+      href: '#0',
+      ariaLabel: 'Vai al link: accessibilità',
+      linkType: 'internal',
+    },
+  ]
+
+  const wrapHandleClick =
+    (href: string, linkType: 'internal' | 'external') => (e: React.SyntheticEvent) => {
+      if (onExit) {
+        e.preventDefault()
+        onExit(href, linkType)
+      }
+    }
+
   return (
     <Box component="footer">
-      <Layout
-        sx={{
-          borderTop: 1,
-          borderColor: 'divider',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          py: 2,
-        }}
-      >
-        <a
-          href="https://www.pagopa.it/"
-          target="_blank"
-          rel="noreferrer"
-          title="Vai al sito di PagoPA S.p.A."
-          style={{ display: 'flex' }}
+      {loggedUser && (
+        <Container
+          sx={{
+            borderTop: 1,
+            borderColor: 'divider',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            py: 2,
+          }}
         >
-          <Box component="img" src={logo} alt="Logo PagoPA" sx={{ width: 114 }} />
-        </a>
+          <ButtonNaked
+            aria-label="Link: vai al sito di PagoPA S.p.A."
+            onClick={wrapHandleClick('https://www.pagopa.it/', 'external')}
+          >
+            <Box component="img" src={logo} alt="Logo PagoPA" sx={{ width: 114 }} />
+          </ButtonNaked>
 
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {[
-            { label: 'Privacy policy', href: '#0' },
-            { label: 'Termini e condizioni', href: '#0' },
-            { label: 'Accessibilità', href: '#0' },
-          ].map(({ href, label }, i) => (
-            <StyledLink
-              key={i}
-              to={href}
-              underline="none"
-              color="inherit"
-              sx={{ display: 'inline-block', mr: 2 }}
-              variant="caption"
-              fontWeight="700"
-            >
-              {label}
-            </StyledLink>
-          ))}
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {links.map(({ href, label, ariaLabel, linkType }, i) => (
+              <Link
+                aria-label={ariaLabel}
+                component="button"
+                onClick={wrapHandleClick(href, linkType as LinkType)}
+                key={i}
+                underline="none"
+                color="inherit"
+                sx={{ display: 'inline-block', mr: 2 }}
+                variant="caption"
+                fontWeight="700"
+              >
+                {label}
+              </Link>
+            ))}
 
-          <LangSelect />
-        </Box>
-      </Layout>
+            <LangSwitch {...langProps} />
+          </Box>
+        </Container>
+      )}
 
-      <Layout sx={{ px: 2, py: 2, borderTop: 1, borderColor: 'divider', textAlign: 'center' }}>
+      <Container sx={{ px: 2, py: 2, borderTop: 1, borderColor: 'divider', textAlign: 'center' }}>
         <Typography color="inherit" component="p" variant="caption">
           <Typography variant="inherit" component="span" fontWeight={700}>
             PagoPA S.p.A.
@@ -61,7 +101,7 @@ export function Footer() {
           <br />
           CAP 00187 - n. di iscrizione a Registro Imprese di Roma, CF e P.IVA 15376371009
         </Typography>
-      </Layout>
+      </Container>
     </Box>
   )
 }

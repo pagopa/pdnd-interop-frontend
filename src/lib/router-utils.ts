@@ -4,13 +4,7 @@ import isEmpty from 'lodash/isEmpty'
 import sortBy from 'lodash/sortBy'
 import QueryString from 'qs'
 import qs from 'qs'
-import {
-  RouteConfig,
-  Lang,
-  ProviderOrSubscriber,
-  MappedRouteConfig,
-  LangKeyedValue,
-} from '../../types'
+import { RouteConfig, LangCode, ProviderOrSubscriber, MappedRouteConfig } from '../../types'
 import { BASIC_ROUTES } from '../config/routes'
 import { LANGUAGES, URL_FRAGMENTS } from './constants'
 
@@ -65,7 +59,7 @@ export function isParentRoute(
 }
 
 export function isProviderOrSubscriber(location: Location<unknown>): ProviderOrSubscriber | null {
-  const excludeList = ['ui', ...LANGUAGES]
+  const excludeList = ['ui', ...Object.keys(LANGUAGES)]
   const locationBits = getBits(location).filter((b) => !excludeList.includes(b))
   const mode = locationBits[0]
 
@@ -179,12 +173,12 @@ function decorateRouteWithParents(
   return withParents
 }
 
-function mapRoutesToLang(routes: Record<string, RouteConfig>, lang: Lang) {
+function mapRoutesToLang(routes: Record<string, RouteConfig>, langCode: LangCode) {
   const reduced = Object.keys(routes).reduce((acc, nextKey) => {
-    const PATH = routes[nextKey].PATH[lang]
-    const LABEL = routes[nextKey].LABEL[lang]
+    const PATH = routes[nextKey].PATH[langCode]
+    const LABEL = routes[nextKey].LABEL[langCode]
     const REDIRECT = routes[nextKey].REDIRECT
-      ? (routes[nextKey].REDIRECT as LangKeyedValue)[lang]
+      ? (routes[nextKey].REDIRECT as Record<LangCode, string>)[langCode]
       : undefined
 
     const route = { [nextKey]: { ...routes[nextKey], PATH, LABEL, REDIRECT } }
@@ -195,10 +189,10 @@ function mapRoutesToLang(routes: Record<string, RouteConfig>, lang: Lang) {
   return reduced
 }
 
-export function getDecoratedRoutes(): Record<Lang, Record<string, MappedRouteConfig>> {
-  return LANGUAGES.reduce((acc, l) => {
-    const mapped = mapRoutesToLang(BASIC_ROUTES, l)
+export function getDecoratedRoutes(): Record<LangCode, Record<string, MappedRouteConfig>> {
+  return Object.keys(LANGUAGES).reduce((acc, l) => {
+    const mapped = mapRoutesToLang(BASIC_ROUTES, l as LangCode)
     const decorated = decorateRouteWithParents(mapped)
     return { ...acc, [l]: decorated }
-  }, {}) as Record<Lang, Record<string, MappedRouteConfig>>
+  }, {}) as Record<LangCode, Record<string, MappedRouteConfig>>
 }

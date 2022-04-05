@@ -1,5 +1,3 @@
-import { Lang } from '../../types'
-
 export const ESERVICE_STATE_LABEL = {
   PUBLISHED: 'attivo',
   DRAFT: 'in bozza',
@@ -51,9 +49,4 @@ export const USER_PLATFORM_ROLE_LABEL = {
   admin: 'Amministratore',
   security: 'Operatore di sicurezza',
   api: 'Operatore API',
-}
-
-export const LANGUAGE_LABEL: Record<Lang, string> = {
-  it: 'Italiano',
-  en: 'Inglese',
 }

@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom'
 import CssBaseline from '@mui/material/CssBaseline'
 import { BodyLogger } from './components/BodyLogger'
 import { LangContext, PartyContext, RoutesContext, TokenContext } from './lib/context'
-import { Lang, Party } from '../types'
+import { LangCode, Party } from '../types'
 import { ThemeProvider } from '@mui/material'
 import { theme } from '@pagopa/mui-italia'
 import DateAdapter from '@mui/lab/AdapterDateFns'
@@ -14,7 +14,7 @@ import { PUBLIC_URL } from './lib/constants'
 const allRoutes = getDecoratedRoutes()
 
 export function App() {
-  const [lang, setLang] = useState<Lang>('it')
+  const [lang, setLang] = useState<LangCode>('it')
   const [token, setToken] = useState<string | null>(null)
   const [party, setParty] = useState<Party | null>(null)
   const [availableParties, setAvailableParties] = useState<Array<Party> | null>(null)
