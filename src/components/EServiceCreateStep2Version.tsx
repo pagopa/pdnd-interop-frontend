@@ -87,7 +87,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
     // Format the data like the backend wants it
     const dataToPost = {
       audience: [data.audience],
-      voucherLifespan: data.voucherLifespan,
+      voucherLifespan: data.voucherLifespan * 60,
       description: data.description,
       dailyCallsPerConsumer: data.dailyCallsPerConsumer,
       dailyCallsTotal: data.dailyCallsTotal,

@@ -33,7 +33,7 @@ export function getComputedPurposeState(purpose: DecoratedPurpose) {
     { label: 'richiesta di fruizione', outcome: isAgreementActive },
     { label: 'finalità', outcome: isPurposeActive },
   ]
-    .map(({ outcome, label }) => (outcome ? label : null))
+    .map(({ outcome, label }) => (!outcome ? label : null))
     .filter((r) => r)
 
   if (reasons.length === 0) {
