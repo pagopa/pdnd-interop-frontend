@@ -20,6 +20,7 @@ import { useRoute } from '../hooks/useRoute'
 import { Paper } from '@mui/material'
 import { RunActionOutput } from '../hooks/useFeedback'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
+import { minutesToSeconds } from '../lib/format-utils'
 
 type VersionData = {
   audience: string
@@ -87,7 +88,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
     // Format the data like the backend wants it
     const dataToPost = {
       audience: [data.audience],
-      voucherLifespan: data.voucherLifespan * 60,
+      voucherLifespan: minutesToSeconds(data.voucherLifespan),
       description: data.description,
       dailyCallsPerConsumer: data.dailyCallsPerConsumer,
       dailyCallsTotal: data.dailyCallsTotal,

@@ -13,7 +13,7 @@ import {
 import { ATTRIBUTE_TYPE_PLURAL_LABEL, ESERVICE_STATE_LABEL } from '../../config/labels'
 import { RunActionOutput, useFeedback } from '../../hooks/useFeedback'
 import { useRoute } from '../../hooks/useRoute'
-import { minutesToHoursMinutes } from '../../lib/format-utils'
+import { secondsToHoursMinutes } from '../../lib/format-utils'
 import { downloadFile } from '../../lib/file-utils'
 import { buildDynamicPath } from '../../lib/router-utils'
 import { DescriptionBlock } from '../DescriptionBlock'
@@ -107,7 +107,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
   }
 
   const getFormattedVoucherLifespan = () => {
-    const { hours, minutes } = minutesToHoursMinutes(activeDescriptor.voucherLifespan / 60)
+    const { hours, minutes } = secondsToHoursMinutes(activeDescriptor.voucherLifespan / 60)
 
     const minutesLabel = minutes !== 1 ? 'minuti' : 'minuto'
     const hoursLabel = hours !== 1 ? 'ore' : 'ora'
