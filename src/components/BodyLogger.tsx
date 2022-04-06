@@ -23,17 +23,20 @@ import { Box } from '@mui/system'
 import { useRoute } from '../hooks/useRoute'
 import '../lib/validation-config'
 import { useLogin } from '../hooks/useLogin'
-import { LANGUAGES } from '../lib/constants'
+import { LANGUAGES, URL_FE_LOGIN } from '../lib/constants'
 import { useUser } from '../hooks/useUser'
+import { PartySelect } from './PartySelect'
+import { Typography } from '@mui/material'
+import { Settings as SettingsIcon } from '@mui/icons-material'
 
 export function BodyLogger() {
   const { loginAttempt } = useLogin()
+  const { routes, doesRouteAllowTwoColumnsLayout } = useRoute()
   const history = useHistory()
   const [toast, setToast] = useState<ToastProps | null>(null)
   const [dialog, setDialog] = useState<DialogProps | null>(null)
   const [loadingText, setLoadingText] = useState<string | null>(null)
   const [tableActionMenu, setTableActionMenu] = useState<string | null>(null)
-  const { doesRouteAllowTwoColumnsLayout } = useRoute()
   const { lang, setLang } = useContext(LangContext)
   const { user } = useUser()
   const { party } = useContext(PartyContext)
@@ -76,7 +79,35 @@ export function BodyLogger() {
       <ToastContext.Provider value={{ toast, setToast }}>
         <DialogContext.Provider value={{ dialog, setDialog }}>
           <LoaderContext.Provider value={{ loadingText, setLoadingText }}>
-            <Header />
+            <Header
+              onAssistanceClick={() => {
+                history.push(routes.HELP.PATH)
+              }}
+              loggedUser={party !== null ? user : undefined}
+              onLogin={() => {
+                window.location.assign(URL_FE_LOGIN)
+              }}
+              subHeaderLeftComponent={
+                <Typography component="span" variant="h5" fontWeight={700}>
+                  Interoperabilità
+                </Typography>
+              }
+              subHeaderRightComponent={
+                doesRouteAllowTwoColumnsLayout(history.location) && party !== null ? (
+                  <PartySelect />
+                ) : null
+              }
+              userActions={[
+                {
+                  id: 'logout',
+                  label: 'Logout',
+                  onClick: () => {
+                    history.push(routes.LOGOUT.PATH)
+                  },
+                  icon: <SettingsIcon fontSize="small" color="inherit" sx={{ mr: 1 }} />,
+                },
+              ]}
+            />
             {doesRouteAllowTwoColumnsLayout(history.location) ? (
               <Box sx={{ flexGrow: 1 }}>
                 <Layout sx={{ height: '100%', overflowX: 'hidden' }}>

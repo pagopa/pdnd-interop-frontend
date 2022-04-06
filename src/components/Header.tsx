@@ -1,30 +1,47 @@
-import React, { useContext } from 'react'
-import { useLocation } from 'react-router-dom'
-import { Typography } from '@mui/material'
+import React from 'react'
+import { Container, Link, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { PartyContext, TokenContext } from '../lib/context'
-import { Layout } from './Shared/Layout'
-import { StyledButton } from './Shared/StyledButton'
-import { PartySelect } from './PartySelect'
-import { URL_FE_LOGIN } from '../lib/constants'
-import { useRoute } from '../hooks/useRoute'
 import { HelpOutline as HelpOutlineIcon } from '@mui/icons-material'
-import { StyledLink } from './Shared/StyledLink'
+import { ButtonNaked } from '@pagopa/mui-italia'
+import { UserActionSelect } from './UserActionsSelect'
 
-export function Header() {
-  const location = useLocation()
-  const { party } = useContext(PartyContext)
-  const { token } = useContext(TokenContext)
-  const { routes, doesRouteAllowTwoColumnsLayout } = useRoute()
+type JwtUser = {
+  id: string
+  name: string
+  surname: string
+  email: string
+}
 
-  const { PATH: btnPath, LABEL: btnLabel } = token
-    ? routes.LOGOUT
-    : { PATH: URL_FE_LOGIN, LABEL: 'Login' }
+type UserAction = {
+  id: string
+  icon: React.ReactNode
+  label: string
+  onClick: () => void
+}
 
+type HeaderProps = {
+  onAssistanceClick: () => void
+  loggedUser?: JwtUser
+  onLogin: () => void
+  showSubHeader?: boolean
+  subHeaderLeftComponent?: React.ReactNode
+  subHeaderRightComponent?: React.ReactNode
+  userActions?: UserAction[]
+}
+
+export function Header({
+  onAssistanceClick,
+  loggedUser,
+  onLogin,
+  showSubHeader = true,
+  subHeaderLeftComponent,
+  subHeaderRightComponent,
+  userActions,
+}: HeaderProps) {
   return (
     <header>
       <Box>
-        <Layout sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Container sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Box
             sx={{
               display: 'flex',
@@ -46,8 +63,9 @@ export function Header() {
             </a>
 
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <StyledLink
-                to={routes.HELP.PATH}
+              <Link
+                component="button"
+                onClick={onAssistanceClick}
                 color="text.primary"
                 variant="caption"
                 underline="none"
@@ -55,29 +73,34 @@ export function Header() {
               >
                 <HelpOutlineIcon fontSize="small" color="inherit" sx={{ mr: 1 }} />
                 Assistenza
-              </StyledLink>
+              </Link>
 
-              <StyledButton variant="contained" to={btnPath} size="small">
-                {btnLabel}
-              </StyledButton>
+              {!loggedUser ? (
+                <ButtonNaked onClick={onLogin} title="Effettua il login su Self care">
+                  Login
+                </ButtonNaked>
+              ) : (
+                <UserActionSelect user={loggedUser} userActions={userActions} />
+              )}
             </Box>
           </Box>
-        </Layout>
+        </Container>
       </Box>
 
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Layout>
-          <Box
-            sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', py: 2 }}
-          >
-            <Typography component="span" variant="h5" fontWeight={700}>
-              Interoperabilità
-            </Typography>
-
-            {doesRouteAllowTwoColumnsLayout(location) && party !== null && <PartySelect />}
-          </Box>
-        </Layout>
-      </Box>
+      {showSubHeader && (
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Container>
+            <Box
+              sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', py: 2 }}
+            >
+              {subHeaderLeftComponent}
+              {subHeaderRightComponent && (
+                <Box sx={{ marginLeft: 'auto' }}>{subHeaderRightComponent}</Box>
+              )}
+            </Box>
+          </Container>
+        </Box>
+      )}
     </header>
   )
 }
