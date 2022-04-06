@@ -218,17 +218,13 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: `party-process/${API_VERSION}/institutions/:institutionId/relationships`,
     METHOD: 'GET',
   },
-  USER_SUSPEND: {
-    URL: `party-process/${API_VERSION}/relationships/:relationshipId/suspend`,
-    METHOD: 'POST',
-  },
-  USER_REACTIVATE: {
-    URL: `party-process/${API_VERSION}/relationships/:relationshipId/activate`,
-    METHOD: 'POST',
-  },
   OPERATOR_CREATE: {
     URL: `party-process/${API_VERSION}/onboarding/operators`,
     METHOD: 'POST',
+  },
+  OPERATOR_GET_SINGLE: {
+    URL: `party-process/${API_VERSION}/relationships/:relationshipId`,
+    METHOD: 'GET',
   },
   OPERATOR_SECURITY_JOIN_WITH_CLIENT: {
     URL: `authorization-process/${API_VERSION}/clients/:clientId/relationships/:relationshipId`,
@@ -238,16 +234,8 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: `authorization-process/${API_VERSION}/clients/:clientId/relationships/:relationshipId`,
     METHOD: 'DELETE',
   },
-  OPERATOR_API_GET_SINGLE: {
-    URL: `party-process/${API_VERSION}/relationships/:relationshipId`,
-    METHOD: 'GET',
-  },
   OPERATOR_SECURITY_GET_LIST: {
     URL: `authorization-process/${API_VERSION}/clients/:clientId/operators`,
-    METHOD: 'GET',
-  },
-  OPERATOR_SECURITY_GET_SINGLE: {
-    URL: `party-process/${API_VERSION}/relationships/:relationshipId`,
     METHOD: 'GET',
   },
   OPERATOR_SECURITY_GET_KEYS_LIST: {

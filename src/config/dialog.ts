@@ -95,16 +95,6 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
     description:
       'Cliccando su "conferma" si cancellerà la chiave pubblica relativa a questo operatore. NB: tutti i servizi che utilizzano questa chiave non potranno più accedere al servizio dell\'ente erogatore. Se non sei sicuro, scarica e salva la tua chiave pubblica prima di cancellarla',
   },
-  USER_SUSPEND: {
-    title: 'Sospendi operatore',
-    description:
-      "Cliccando su \"conferma\", l'operatore richiesto sarà sospeso dall'accesso alla piattaforma per l'ente corrente. Se è un operatore di sicurezza, anche le sue chiavi sono sospese",
-  },
-  USER_REACTIVATE: {
-    title: 'Riattiva operatore',
-    description:
-      "Cliccando su \"conferma\", l'operatore richiesto sarà riabilitato all'accesso alla piattaforma per l'ente corrente. Se è un operatore di sicurezza, anche le sue chiavi sono riabilitate",
-  },
   OPERATOR_SECURITY_REMOVE_FROM_CLIENT: {
     title: 'Rimuovi operatore dal client',
     description:

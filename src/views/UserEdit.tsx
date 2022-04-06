@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { ApiEndpointKey, PublicKey, User } from '../../types'
+import { PublicKey, User } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -36,18 +36,16 @@ export function UserEdit() {
   const [keys, setKeys] = useState<Array<PublicKey>>([])
 
   let clientId: string | undefined = bits[bits.length - 3]
-  let endpoint: ApiEndpointKey = 'OPERATOR_SECURITY_GET_SINGLE'
   const endpointParams: UserEndpoinParams = {
     clientId,
     relationshipId,
   }
   if (mode === 'provider') {
     clientId = undefined
-    endpoint = 'OPERATOR_API_GET_SINGLE'
   }
 
   const { data: userData, error } = useAsyncFetch<User>(
-    { path: { endpoint, endpointParams } },
+    { path: { endpoint: 'OPERATOR_GET_SINGLE', endpointParams } },
     { useEffectDeps: [forceRerenderCounter] }
   )
 
@@ -74,18 +72,6 @@ export function UserEdit() {
   /*
    * List of possible actions for the user to perform
    */
-  // const suspend = async () => {
-  //   await runAction(
-  //     { path: { endpoint: 'USER_SUSPEND', endpointParams: { relationshipId: userData?.id } } }
-  //   )
-  // }
-
-  // const reactivate = async () => {
-  //   await runAction(
-  //     { path: { endpoint: 'USER_REACTIVATE', endpointParams: { relationshipId: userData?.id } } }
-  //   )
-  // }
-
   const removeFromClient = async () => {
     await runAction(
       {
@@ -107,38 +93,7 @@ export function UserEdit() {
   /*
    * End list of actions
    */
-  // type UserActions = Record<UserState, Array<ActionProps>>
 
-  // TEMP: User suspension and reactivation may be removed from interop and only available in self-care
-  // Build list of available actions for each service in its current state
-  // const getAvailableActions = () => {
-  //   // Only admins can handle other people
-  //   // also, if same user, it cannot suspend or reactivate itself
-  //   if (!isAdmin(party) || !userData || isCurrentUser(userData.from)) {
-  //     return []
-  //   }
-
-  //   const sharedActions: UserActions = {
-  //     ACTIVE: [{ onClick: wrapActionInDialog(suspend, 'USER_SUSPEND'), label: 'Sospendi' }],
-  //     SUSPENDED: [
-  //       {
-  //         onClick: wrapActionInDialog(reactivate, 'USER_REACTIVATE'),
-  //         label: 'Riattiva',
-  //       },
-  //     ],
-  //     PENDING: [],
-  //   }
-
-  //   const providerOnlyActions: UserActions = { ACTIVE: [], SUSPENDED: [], PENDING: [] }
-
-  //   const subscriberOnlyActions: UserActions = { ACTIVE: [], SUSPENDED: [], PENDING: [] }
-
-  //   const currentActions = { provider: providerOnlyActions, subscriber: subscriberOnlyActions }[
-  //     currentMode
-  //   ]
-
-  //   return mergeActions([sharedActions, currentActions], 'ACTIVE')
-  // }
   const getAvailableActions = () => {
     if (mode === 'subscriber' && isAdmin(party)) {
       const removeFromClientAction = { onClick: removeFromClient, label: 'Rimuovi dal client' }

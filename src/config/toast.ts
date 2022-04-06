@@ -319,26 +319,6 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
       message: 'Non è stato possibile rimuovere il client dalla finalità. Per favore, riprova!',
     },
   },
-  USER_SUSPEND: {
-    loadingText: "Stiamo sospendendo l'operatore",
-    success: {
-      message:
-        "L'operatore richiesto è stato sospeso e non può più accedere alla piattaforma per quest'ente",
-    },
-    error: {
-      message: "Non è stato possibile sospendere l'operatore richiesto. Per favore, riprova!",
-    },
-  },
-  USER_REACTIVATE: {
-    loadingText: "Stiamo riattivando l'operatore",
-    success: {
-      message:
-        "L'operatore richiesto è stato riattivato e può nuovamente accedere alla piattaforma per quest'ente",
-    },
-    error: {
-      message: "Non è stato possibile riattivare l'operatore richiesto. Per favore, riprova!",
-    },
-  },
   KEY_POST: {
     loadingText: 'Stiamo caricando la chiave',
     success: {
