@@ -1,6 +1,6 @@
 import { ApiEndpointContent, ApiEndpointKey } from '../../types'
 
-const API_VERSION = '0.1'
+const API_VERSION = '0.0'
 
 export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
   ONBOARDING_GET_AVAILABLE_PARTIES: {
