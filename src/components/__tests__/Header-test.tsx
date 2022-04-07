@@ -1,13 +1,12 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { Header } from '../Header'
+import noop from 'lodash/noop'
 import { createMemoryHistory } from 'history'
+import { token } from '../../__mocks__/token'
 import { AllTheProviders } from '../../__mocks__/providers'
 import { partyActiveManager } from '../../__mocks__/party'
-import { token } from '../../__mocks__/token'
 import { getDecoratedRoutes } from '../../lib/router-utils'
-import noop from 'lodash/noop'
-import { Settings as SettingsIcon } from '@mui/icons-material'
+import { Header } from '../Header'
 import { PartySelect } from '../PartySelect'
 
 describe('Render the correct header variant', () => {
