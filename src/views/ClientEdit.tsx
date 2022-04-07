@@ -5,7 +5,7 @@ import { TabList, TabContext, TabPanel } from '@mui/lab'
 import { Client } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { buildDynamicPath, getBits } from '../lib/router-utils'
+import { buildDynamicPath, buildDynamicRoute, getBits } from '../lib/router-utils'
 import { UserList } from './UserList'
 import { useFeedback } from '../hooks/useFeedback'
 import { KeysList } from '../components/KeysList'
@@ -21,11 +21,13 @@ import { getComputedClientAssertionState } from '../lib/client'
 import { URL_INTEROP_M2M } from '../lib/constants'
 import { InfoMessage } from '../components/Shared/InfoMessage'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
+import { PageBottomActions } from '../components/Shared/PageBottomActions'
+import { StyledButton } from '../components/Shared/StyledButton'
 
 export function ClientEdit() {
   const { routes } = useRoute()
   const location = useLocation()
-  const { forceRerenderCounter } = useFeedback()
+  const { forceRerenderCounter, runAction } = useFeedback()
   const { activeTab, updateActiveTab } = useActiveTab('clientAssertion')
   const locationBits = getBits(location)
   const clientId = locationBits[locationBits.length - 1]
@@ -39,6 +41,25 @@ export function ClientEdit() {
   //   // TEMP PIN-1113
   //   console.log({ fieldName, updatedString })
   // }
+
+  /*
+   * List of possible actions for the user to perform
+   */
+  const deleteClient = async () => {
+    await runAction(
+      { path: { endpoint: 'CLIENT_DELETE', endpointParams: { clientId } } },
+      {
+        showConfirmDialog: true,
+        onSuccessDestination:
+          clientKind === 'API'
+            ? buildDynamicRoute(routes.SUBSCRIBE_INTEROP_M2M, {}, { tab: 'clients' })
+            : routes.SUBSCRIBE_CLIENT_LIST,
+      }
+    )
+  }
+  /*
+   * End list of actions
+   */
 
   return (
     <React.Fragment>
@@ -221,6 +242,22 @@ export function ClientEdit() {
                   </DescriptionBlock>
                 </React.Fragment>
               )}
+
+              <PageBottomActions>
+                <StyledButton variant="contained" onClick={deleteClient}>
+                  Elimina
+                </StyledButton>
+                <StyledButton
+                  variant="outlined"
+                  to={
+                    clientKind === 'API'
+                      ? buildDynamicPath(routes.SUBSCRIBE_INTEROP_M2M.PATH, {}, { tab: 'clients' })
+                      : routes.SUBSCRIBE_CLIENT_LIST.PATH
+                  }
+                >
+                  Torna alla lista dei client
+                </StyledButton>
+              </PageBottomActions>
             </React.Fragment>
           ) : (
             <LoadingWithMessage
