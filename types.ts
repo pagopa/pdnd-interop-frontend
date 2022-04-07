@@ -184,9 +184,9 @@ export type UserProduct = {
 
 export type JwtUser = {
   id: string // the relationshipId between the user and the current institution
-  name: string
-  surname: string
-  email: string
+  name?: string
+  surname?: string
+  email?: string
 }
 
 export type User = JwtUser & {

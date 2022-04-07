@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { Menu, MenuItem, Typography } from '@mui/material'
+// import { Menu, MenuItem, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material'
-import { KeyboardArrowUp as KeyboardArrowUpIcon } from '@mui/icons-material'
+// import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material'
+// import { KeyboardArrowUp as KeyboardArrowUpIcon } from '@mui/icons-material'
 import { ButtonNaked } from '@pagopa/mui-italia'
 
 type LangCode = 'it' | 'en'
@@ -17,8 +18,8 @@ export type LangSwitchProps = {
 
 export function LangSwitch({
   currentLangCode = 'it',
+  // onLanguageChanged,
   languages,
-  onLanguageChanged,
 }: LangSwitchProps) {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
   const open = Boolean(anchorEl)
@@ -28,18 +29,18 @@ export function LangSwitch({
     setAnchorEl(currentTarget)
   }
 
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
+  // const handleClose = () => {
+  //   setAnchorEl(null)
+  // }
 
-  const wrapUpdateActiveLang = (newLang: LangCode) => (e: React.SyntheticEvent) => {
-    if (e) {
-      e.preventDefault()
-    }
+  // const wrapUpdateActiveLang = (newLang: LangCode) => (e: React.SyntheticEvent) => {
+  //   if (e) {
+  //     e.preventDefault()
+  //   }
 
-    onLanguageChanged(newLang)
-    handleClose()
-  }
+  //   onLanguageChanged(newLang)
+  //   handleClose()
+  // }
 
   return (
     <React.Fragment>
@@ -70,13 +71,13 @@ export function LangSwitch({
             </Box>
           )}
 
-          {open ? (
+          {/* {open ? (
             <KeyboardArrowUpIcon fontSize="small" />
           ) : (
             <KeyboardArrowDownIcon fontSize="small" />
-          )}
+          )} */}
         </ButtonNaked>
-        {Boolean(Object.keys(languages).length > 0) && (
+        {/* {Boolean(Object.keys(languages).length > 0) && (
           <Menu
             anchorEl={anchorEl}
             open={open}
@@ -97,7 +98,7 @@ export function LangSwitch({
               )
             })}
           </Menu>
-        )}
+        )} */}
       </Box>
     </React.Fragment>
   )

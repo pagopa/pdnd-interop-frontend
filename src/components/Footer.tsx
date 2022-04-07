@@ -7,9 +7,9 @@ import { ButtonNaked } from '@pagopa/mui-italia'
 // We need to validate this. It might be possible that the fields differ from product to product
 type JwtUser = {
   id: string // the relationshipId between the user and the current institution
-  name: string
-  surname: string
-  email: string
+  name?: string
+  surname?: string
+  email?: string
 }
 
 type LinkType = 'internal' | 'external'

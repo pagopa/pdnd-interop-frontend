@@ -7,9 +7,9 @@ import { UserActionSelect } from './UserActionsSelect'
 
 type JwtUser = {
   id: string
-  name: string
-  surname: string
-  email: string
+  name?: string
+  surname?: string
+  email?: string
 }
 
 type UserAction = {
