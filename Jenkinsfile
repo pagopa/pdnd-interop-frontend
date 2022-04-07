@@ -27,15 +27,10 @@ pipeline {
   }
 }
 
+
 String getVersion() {
-  return sh(
-    returnStdout: true, 
-    script: '''
-      if [ -n "${TAG_NAME}" ]; then 
-        echo ${TAG_NAME}
-      else
-        echo ${GIT_LOCAL_BRANCH}-latest
-      fi
-    '''
-  ).trim()
+  if(env.TAG_NAME)
+    return env.TAG_NAME
+  else
+    return env.GIT_LOCAL_BRANCH + '-latest'
 }
