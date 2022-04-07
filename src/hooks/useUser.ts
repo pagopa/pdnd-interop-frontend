@@ -6,7 +6,7 @@ export const useUser = () => {
   const { token } = useContext(TokenContext)
 
   const user = useMemo(() => {
-    return token ? jwtToUser(token) : null
+    return token ? jwtToUser(token) : undefined
   }, [token])
 
   function isCurrentUser(userId: string) {

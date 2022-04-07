@@ -1,4 +1,4 @@
-import { Lang } from '../../types'
+import { LangCode } from '../../types'
 
 const isDevelopment = !!(process.env.NODE_ENV === 'development')
 const isProduction = !!(process.env.NODE_ENV === 'production')
@@ -20,12 +20,13 @@ export const URL_FE = isDevelopment ? `${ORIGIN}${PUBLIC_URL}` : `${API_HOST}${P
 
 export const MOCK_TOKEN = process.env.REACT_APP_MOCK_TOKEN
 
-export const URL_FRAGMENTS: Record<string, Record<Lang, string>> = {
+export const URL_FRAGMENTS: Record<string, Record<LangCode, string>> = {
   FIRST_DRAFT: { it: 'prima-bozza', en: 'first-draft' },
   EDIT: { it: 'modifica', en: 'edit' },
 }
 
 export const DEFAULT_LANG = 'it'
-export const LANGUAGES = [DEFAULT_LANG, 'en'] as const
-
-export const TEMP_LANGUAGES = [DEFAULT_LANG] as const
+export const LANGUAGES = {
+  it: { it: 'Italiano', en: 'Inglese' },
+  en: { it: 'Italian', en: 'English' },
+}

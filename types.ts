@@ -7,7 +7,6 @@ import {
 } from './src/config/labels'
 import { SchemaOf } from 'yup'
 import { RunAction } from './src/hooks/useFeedback'
-import { LANGUAGES } from './src/lib/constants'
 
 /*
  * Fetch data and router related types
@@ -91,16 +90,12 @@ export type RequestConfig = {
 
 export type RouteAuthLevel = 'any' | Array<UserProductRole>
 
-export type Lang = typeof LANGUAGES[number]
-
-export type LangKeyedValue = {
-  [key in Lang]: string
-}
+export type LangCode = 'it' | 'en'
 
 export type RouteConfig = {
-  PATH: LangKeyedValue
-  LABEL: LangKeyedValue
-  REDIRECT?: LangKeyedValue
+  PATH: Record<LangCode, string>
+  LABEL: Record<LangCode, string>
+  REDIRECT?: Record<LangCode, string>
   EXACT?: boolean
   COMPONENT: React.FunctionComponent<unknown>
   PUBLIC: boolean
@@ -189,9 +184,9 @@ export type UserProduct = {
 
 export type JwtUser = {
   id: string // the relationshipId between the user and the current institution
-  name: string
-  surname: string
-  email: string
+  name?: string
+  surname?: string
+  email?: string
 }
 
 export type User = JwtUser & {

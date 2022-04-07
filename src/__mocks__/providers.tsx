@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from 'react'
 import { Router } from 'react-router-dom'
-import { DialogProps, Lang, Party, ToastProps } from '../../types'
+import { DialogProps, LangCode, Party, ToastProps } from '../../types'
 import {
   DialogContext,
   LangContext,
@@ -18,7 +18,7 @@ import { History, createMemoryHistory } from 'history'
 import { getDecoratedRoutes } from '../lib/router-utils'
 
 type LangProviderProps = {
-  defaultLang?: Lang
+  defaultLang?: LangCode
 }
 
 type TokenProviderProps = {
@@ -46,7 +46,7 @@ type LoaderProviderProps = {
 }
 
 const LangProvider: FunctionComponent<LangProviderProps> = ({ children, defaultLang = 'it' }) => {
-  const [lang, setLang] = useState<Lang>(defaultLang)
+  const [lang, setLang] = useState<LangCode>(defaultLang)
   return <LangContext.Provider value={{ lang, setLang }}>{children}</LangContext.Provider>
 }
 

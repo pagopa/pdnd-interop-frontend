@@ -17,8 +17,8 @@ export function jwtToUser(jwtString: string): JwtUser {
   return {
     id: String(jwt.uid),
     // taxCode: jwt.fiscal_number,
-    name: String(jwt.name),
-    surname: String(jwt.family_name),
-    email: String(jwt.email),
+    name: jwt.name ? String(jwt.name) : undefined,
+    surname: jwt.family_name ? String(jwt.family_name) : undefined,
+    email: jwt.email ? String(jwt.email) : undefined,
   }
 }
