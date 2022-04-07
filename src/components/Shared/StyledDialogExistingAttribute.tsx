@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { Formik } from 'formik'
 import { Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
-import { Unstable_TrapFocus as TrapFocus } from '@mui/base'
 import { Box } from '@mui/system'
 import { StyledButton } from './StyledButton'
 import {
@@ -35,98 +34,91 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
   const verifiedCondition = attributeKey === 'verified'
 
   return (
-    <TrapFocus open>
-      <Dialog open={true} onClose={closeDialog} aria-describedby="Modale per azione" fullWidth>
-        <Formik
-          initialValues={initialValues}
-          onSubmit={onSubmit}
-          validateOnChange={false}
-          validateOnBlur={false}
-        >
-          {({ handleSubmit, values, setFieldValue }) => (
-            <StyledForm onSubmit={handleSubmit}>
-              <DialogTitle>
-                Aggiungi attributo {ATTRIBUTE_TYPE_SINGULAR_LABEL[attributeKey]} esistente
-              </DialogTitle>
+    <Dialog open onClose={closeDialog} aria-describedby="Modale per azione" fullWidth>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        validateOnChange={false}
+        validateOnBlur={false}
+      >
+        {({ handleSubmit, values, setFieldValue }) => (
+          <StyledForm onSubmit={handleSubmit}>
+            <DialogTitle>
+              Aggiungi attributo {ATTRIBUTE_TYPE_SINGULAR_LABEL[attributeKey]} esistente
+            </DialogTitle>
 
-              <DialogContent>
-                <Typography>
-                  Se selezioni più di un attributo verrà trattato come “gruppo”
-                </Typography>
+            <DialogContent>
+              <Typography>Se selezioni più di un attributo verrà trattato come “gruppo”</Typography>
 
-                <Box sx={{ mt: 3 }}>
-                  <StyledInputControlledAsyncAutocomplete
-                    label="Attributi selezionati"
-                    sx={{ mt: 6, mb: 0 }}
-                    multiple={true}
-                    placeholder="..."
-                    path={{ endpoint: 'ATTRIBUTE_GET_LIST' }}
-                    transformKey="attributes"
-                    transformFn={(fetchedData) => {
-                      const alreadySelectedIds = [
-                        ...selectedIds,
-                        ...values.selected.map((a) => a.id),
-                      ]
-                      const notAlreadySelectedAttributes = fetchedData.filter(
-                        (d) => !alreadySelectedIds.includes(d.id)
-                      )
+              <Box sx={{ mt: 3 }}>
+                <StyledInputControlledAsyncAutocomplete
+                  label="Attributi selezionati"
+                  sx={{ mt: 6, mb: 0 }}
+                  multiple={true}
+                  placeholder="..."
+                  path={{ endpoint: 'ATTRIBUTE_GET_LIST' }}
+                  transformKey="attributes"
+                  transformFn={(fetchedData) => {
+                    const alreadySelectedIds = [...selectedIds, ...values.selected.map((a) => a.id)]
+                    const notAlreadySelectedAttributes = fetchedData.filter(
+                      (d) => !alreadySelectedIds.includes(d.id)
+                    )
 
-                      // TEMP PIN-1176: this is ugly on purpose, it will change as soon as it
-                      // is possible to filter attributes in the GET request
-                      if (certifiedCondition) {
-                        return notAlreadySelectedAttributes.filter((a) => a.kind === 'CERTIFIED')
-                      }
-
-                      return notAlreadySelectedAttributes.filter((a) => a.kind !== 'CERTIFIED')
-                    }}
-                    name="selection"
-                    onChange={wrapUpdateSelected(setFieldValue)}
-                    getOptionLabel={(option: CatalogAttribute) => (option ? option.name : '')}
-                    isOptionEqualToValue={(option: CatalogAttribute, value: CatalogAttribute) =>
-                      option.name === value.name
+                    // TEMP PIN-1176: this is ugly on purpose, it will change as soon as it
+                    // is possible to filter attributes in the GET request
+                    if (certifiedCondition) {
+                      return notAlreadySelectedAttributes.filter((a) => a.kind === 'CERTIFIED')
                     }
+
+                    return notAlreadySelectedAttributes.filter((a) => a.kind !== 'CERTIFIED')
+                  }}
+                  name="selection"
+                  onChange={wrapUpdateSelected(setFieldValue)}
+                  getOptionLabel={(option: CatalogAttribute) => (option ? option.name : '')}
+                  isOptionEqualToValue={(option: CatalogAttribute, value: CatalogAttribute) =>
+                    option.name === value.name
+                  }
+                />
+
+                {verifiedCondition && (
+                  <StyledInputControlledCheckbox
+                    name="verifiedCondition"
+                    value={values.verifiedCondition as ExistingAttributeVerifiedCondition}
+                    setFieldValue={setFieldValue}
+                    options={options}
+                    sx={{ mt: 0 }}
+                    // TEMP PIN-1227
+                    disabled={true}
                   />
-
-                  {verifiedCondition && (
-                    <StyledInputControlledCheckbox
-                      name="verifiedCondition"
-                      value={values.verifiedCondition as ExistingAttributeVerifiedCondition}
-                      setFieldValue={setFieldValue}
-                      options={options}
-                      sx={{ mt: 0 }}
-                      // TEMP PIN-1227
-                      disabled={true}
-                    />
-                  )}
-                </Box>
-
-                {values.selected && !!(values.selected.length > 0) && (
-                  <Box sx={{ mt: 2 }}>
-                    <Typography sx={{ mt: 0, mb: 1 }} fontWeight={600}>
-                      Hai selezionato
-                    </Typography>
-                    <StyledAccordion
-                      entries={values.selected.map(({ name, description }) => ({
-                        summary: name,
-                        details: description,
-                      }))}
-                    />
-                  </Box>
                 )}
-              </DialogContent>
+              </Box>
 
-              <DialogActions>
-                <StyledButton variant="outlined" onClick={closeDialog}>
-                  Annulla
-                </StyledButton>
-                <StyledButton variant="contained" type="submit">
-                  Aggiungi
-                </StyledButton>
-              </DialogActions>
-            </StyledForm>
-          )}
-        </Formik>
-      </Dialog>
-    </TrapFocus>
+              {values.selected && !!(values.selected.length > 0) && (
+                <Box sx={{ mt: 2 }}>
+                  <Typography sx={{ mt: 0, mb: 1 }} fontWeight={600}>
+                    Hai selezionato
+                  </Typography>
+                  <StyledAccordion
+                    entries={values.selected.map(({ name, description }) => ({
+                      summary: name,
+                      details: description,
+                    }))}
+                  />
+                </Box>
+              )}
+            </DialogContent>
+
+            <DialogActions>
+              <StyledButton variant="outlined" onClick={closeDialog}>
+                Annulla
+              </StyledButton>
+              <StyledButton variant="contained" type="submit">
+                Aggiungi
+              </StyledButton>
+            </DialogActions>
+          </StyledForm>
+        )}
+      </Formik>
+    </Dialog>
   )
 }

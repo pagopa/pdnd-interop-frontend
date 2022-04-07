@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import { Alert, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
-import { Unstable_TrapFocus as TrapFocus } from '@mui/base'
 import { Box } from '@mui/system'
 import { StyledButton } from './StyledButton'
 import { DialogAddSecurityOperatorProps, User } from '../../../types'
@@ -82,46 +81,41 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
   }
 
   return (
-    <TrapFocus open>
-      <Dialog open={true} onClose={closeDialog} aria-describedby="Modale per azione" fullWidth>
-        <StyledForm onSubmit={handleSubmit}>
-          <DialogTitle>Aggiungi operatori di sicurezza</DialogTitle>
+    <Dialog open onClose={closeDialog} aria-describedby="Modale per azione" fullWidth>
+      <StyledForm onSubmit={handleSubmit}>
+        <DialogTitle>Aggiungi operatori di sicurezza</DialogTitle>
 
-          <DialogContent>
-            <Box sx={{ mt: 3 }}>
-              <StyledInputControlledAutocomplete
-                focusOnMount={true}
-                label="Operatori selezionati"
-                sx={{ mt: 6, mb: 0 }}
-                multiple={true}
-                placeholder="..."
-                name="selection"
-                onChange={updateSelected}
-                values={filteredUserData}
-                getOptionLabel={(option: User) =>
-                  option ? `${option.name} ${option.surname}` : ''
-                }
-                isOptionEqualToValue={(option: User, value: User) => option.id === value.id}
-                transformFn={transformFn}
-              />
-            </Box>
+        <DialogContent>
+          <Box sx={{ mt: 3 }}>
+            <StyledInputControlledAutocomplete
+              focusOnMount={true}
+              label="Operatori selezionati"
+              sx={{ mt: 6, mb: 0 }}
+              multiple={true}
+              placeholder="..."
+              name="selection"
+              onChange={updateSelected}
+              values={filteredUserData}
+              getOptionLabel={(option: User) => (option ? `${option.name} ${option.surname}` : '')}
+              isOptionEqualToValue={(option: User, value: User) => option.id === value.id}
+              transformFn={transformFn}
+            />
+          </Box>
 
-            <Alert sx={{ mt: 1 }} severity="info">
-              Se l&rsquo;operatore non è in elenco, in questa fase di test contattaci per
-              aggiungerlo
-            </Alert>
-          </DialogContent>
+          <Alert sx={{ mt: 1 }} severity="info">
+            Se l&rsquo;operatore non è in elenco, in questa fase di test contattaci per aggiungerlo
+          </Alert>
+        </DialogContent>
 
-          <DialogActions>
-            <StyledButton variant="outlined" onClick={closeDialog}>
-              Annulla
-            </StyledButton>
-            <StyledButton variant="contained" type="submit">
-              Aggiungi
-            </StyledButton>
-          </DialogActions>
-        </StyledForm>
-      </Dialog>
-    </TrapFocus>
+        <DialogActions>
+          <StyledButton variant="outlined" onClick={closeDialog}>
+            Annulla
+          </StyledButton>
+          <StyledButton variant="contained" type="submit">
+            Aggiungi
+          </StyledButton>
+        </DialogActions>
+      </StyledForm>
+    </Dialog>
   )
 }

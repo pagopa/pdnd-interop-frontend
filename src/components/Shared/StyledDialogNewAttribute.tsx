@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { Formik } from 'formik'
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
-import { Unstable_TrapFocus as TrapFocus } from '@mui/base'
 import { StyledButton } from './StyledButton'
 import { DialogNewAttributeProps } from '../../../types'
 import { useCloseDialog } from '../../hooks/useCloseDialog'
@@ -18,66 +17,64 @@ export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps
   const { closeDialog } = useCloseDialog()
 
   return (
-    <TrapFocus open>
-      <Dialog open={true} onClose={closeDialog} aria-describedby="Modale per azione" fullWidth>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={onSubmit}
-          validateOnChange={false}
-          validateOnBlur={false}
-        >
-          {({ handleSubmit, errors, values, handleChange }) => (
-            <StyledForm onSubmit={handleSubmit}>
-              <DialogTitle>
-                Crea nuovo attributo {ATTRIBUTE_TYPE_SINGULAR_LABEL[attributeKey]}
-              </DialogTitle>
+    <Dialog open onClose={closeDialog} aria-describedby="Modale per azione" fullWidth>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+        validateOnChange={false}
+        validateOnBlur={false}
+      >
+        {({ handleSubmit, errors, values, handleChange }) => (
+          <StyledForm onSubmit={handleSubmit}>
+            <DialogTitle>
+              Crea nuovo attributo {ATTRIBUTE_TYPE_SINGULAR_LABEL[attributeKey]}
+            </DialogTitle>
 
-              <DialogContent>
-                <StyledInputControlledText
-                  focusOnMount={true}
-                  name="name"
-                  error={errors.name}
-                  value={values.name}
-                  onChange={handleChange}
-                  label="Nome dell'attributo (richiesto)"
-                />
-                <StyledInputControlledText
-                  name="description"
-                  error={errors.description}
-                  value={values.description}
-                  onChange={handleChange}
-                  label="Descrizione dell'attributo (richiesto)"
-                  multiline={true}
-                />
-                <StyledInputControlledText
-                  name="code"
-                  error={errors.code}
-                  value={values.code}
-                  onChange={handleChange}
-                  label="Id della fonte autoritativa (richiesto)"
-                />
-                <StyledInputControlledText
-                  name="origin"
-                  error={errors.origin}
-                  value={values.origin}
-                  onChange={handleChange}
-                  label="Nome della fonte autoritativa (richiesto)"
-                />
-              </DialogContent>
+            <DialogContent>
+              <StyledInputControlledText
+                focusOnMount={true}
+                name="name"
+                error={errors.name}
+                value={values.name}
+                onChange={handleChange}
+                label="Nome dell'attributo (richiesto)"
+              />
+              <StyledInputControlledText
+                name="description"
+                error={errors.description}
+                value={values.description}
+                onChange={handleChange}
+                label="Descrizione dell'attributo (richiesto)"
+                multiline={true}
+              />
+              <StyledInputControlledText
+                name="code"
+                error={errors.code}
+                value={values.code}
+                onChange={handleChange}
+                label="Id della fonte autoritativa (richiesto)"
+              />
+              <StyledInputControlledText
+                name="origin"
+                error={errors.origin}
+                value={values.origin}
+                onChange={handleChange}
+                label="Nome della fonte autoritativa (richiesto)"
+              />
+            </DialogContent>
 
-              <DialogActions>
-                <StyledButton variant="outlined" onClick={closeDialog}>
-                  Annulla
-                </StyledButton>
-                <StyledButton variant="contained" type="submit">
-                  Crea attributo
-                </StyledButton>
-              </DialogActions>
-            </StyledForm>
-          )}
-        </Formik>
-      </Dialog>
-    </TrapFocus>
+            <DialogActions>
+              <StyledButton variant="outlined" onClick={closeDialog}>
+                Annulla
+              </StyledButton>
+              <StyledButton variant="contained" type="submit">
+                Crea attributo
+              </StyledButton>
+            </DialogActions>
+          </StyledForm>
+        )}
+      </Formik>
+    </Dialog>
   )
 }
