@@ -20,7 +20,7 @@ import { useRoute } from '../hooks/useRoute'
 import { Paper } from '@mui/material'
 import { RunActionOutput } from '../hooks/useFeedback'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
-import { minutesToSeconds } from '../lib/format-utils'
+import { minutesToSeconds, secondsToMinutes } from '../lib/format-utils'
 
 type VersionData = {
   audience: string
@@ -76,7 +76,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
       setInitialOrFetchedValues({
         version,
         audience: Boolean(audience.length > 0) ? audience[0] : '',
-        voucherLifespan,
+        voucherLifespan: secondsToMinutes(voucherLifespan),
         description,
         dailyCallsPerConsumer: dailyCallsPerConsumer || 1,
         dailyCallsTotal: dailyCallsTotal || 1,

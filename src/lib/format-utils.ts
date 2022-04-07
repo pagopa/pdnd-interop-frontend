@@ -47,3 +47,7 @@ export function secondsToHoursMinutes(totalSeconds: number) {
 export function minutesToSeconds(minutes: number) {
   return minutes * 60
 }
+
+export function secondsToMinutes(seconds: number) {
+  return seconds / 60
+}
