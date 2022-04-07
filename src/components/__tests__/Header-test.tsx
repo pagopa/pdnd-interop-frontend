@@ -6,36 +6,39 @@ import { AllTheProviders } from '../../__mocks__/providers'
 import { partyActiveManager } from '../../__mocks__/party'
 import { token } from '../../__mocks__/token'
 import { getDecoratedRoutes } from '../../lib/router-utils'
+import noop from 'lodash/noop'
+import { Settings as SettingsIcon } from '@mui/icons-material'
+import { PartySelect } from '../PartySelect'
 
 describe('Render the correct header variant', () => {
   it('Show login button if not logged in', () => {
     const { getByText } = render(
       <AllTheProviders>
-        <Header />
+        <Header onAssistanceClick={noop} onLogin={noop} />
       </AllTheProviders>
     )
-    expect(getByText('Login')).toBeInTheDocument()
+    expect(getByText(/login/i)).toBeInTheDocument()
   })
 
-  it('Show logout button if user logged in', () => {
+  it('Show user profile button if user logged in', () => {
     const { getByText } = render(
       <AllTheProviders defaultToken={token}>
-        <Header />
+        <Header onAssistanceClick={noop} onLogin={noop} loggedUser={{ id: 'abc' }} />
       </AllTheProviders>
     )
-    expect(getByText('Logout')).toBeInTheDocument()
+    expect(getByText(/utente/i)).toBeInTheDocument()
   })
 
-  it('Hide party select if not in platform', () => {
+  it('Hide party select', () => {
     const { queryByLabelText } = render(
       <AllTheProviders>
-        <Header />
+        <Header onAssistanceClick={noop} onLogin={noop} showSubHeader={false} />
       </AllTheProviders>
     )
     expect(queryByLabelText('party-menu-button')).toBeNull()
   })
 
-  it('Show party select if in platform', () => {
+  it('Show party select', () => {
     const history = createMemoryHistory()
     const allRoutes = getDecoratedRoutes()
     const routes = allRoutes['it']
@@ -43,7 +46,7 @@ describe('Render the correct header variant', () => {
     history.push(routes.PROVIDE.PATH)
     const { getByLabelText } = render(
       <AllTheProviders defaultHistory={history} defaultParty={partyActiveManager}>
-        <Header />
+        <Header onAssistanceClick={noop} onLogin={noop} subHeaderRightComponent={<PartySelect />} />
       </AllTheProviders>
     )
     expect(getByLabelText('party-menu-button')).toBeInTheDocument()

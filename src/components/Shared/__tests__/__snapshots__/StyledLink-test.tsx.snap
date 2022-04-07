@@ -2,7 +2,7 @@
 
 exports[`Snapshot matches link 1`] = `
 <a
-  className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1iwtne7-MuiTypography-root-MuiLink-root"
+  className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-6xddht-MuiTypography-root-MuiLink-root"
   href="/rotta-esempio"
   onBlur={[Function]}
   onClick={[Function]}
