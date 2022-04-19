@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Container, Link, Typography } from '@mui/material'
+import { Box, Link, Typography } from '@mui/material'
 import logo from '../assets/pagopa-logo.svg'
 import { LangSwitch, LangSwitchProps } from './LangSwitch'
 import { ButtonNaked } from '@pagopa/mui-italia'
@@ -52,7 +52,7 @@ export const Footer = ({ loggedUser, onExit, ...langProps }: FooterProps) => {
   return (
     <Box component="footer">
       {loggedUser && (
-        <Container
+        <Box
           sx={{
             borderTop: 1,
             borderColor: 'divider',
@@ -60,6 +60,7 @@ export const Footer = ({ loggedUser, onExit, ...langProps }: FooterProps) => {
             justifyContent: 'space-between',
             alignItems: 'center',
             py: 2,
+            px: 3,
           }}
         >
           <ButtonNaked
@@ -88,10 +89,10 @@ export const Footer = ({ loggedUser, onExit, ...langProps }: FooterProps) => {
 
             <LangSwitch {...langProps} />
           </Box>
-        </Container>
+        </Box>
       )}
 
-      <Container sx={{ px: 2, py: 2, borderTop: 1, borderColor: 'divider', textAlign: 'center' }}>
+      <Box sx={{ px: 2, py: 2, borderTop: 1, borderColor: 'divider', textAlign: 'center' }}>
         <Typography color="inherit" component="p" variant="caption">
           <Typography variant="inherit" component="span" fontWeight={700}>
             PagoPA S.p.A.
@@ -101,7 +102,7 @@ export const Footer = ({ loggedUser, onExit, ...langProps }: FooterProps) => {
           <br />
           CAP 00187 - n. di iscrizione a Registro Imprese di Roma, CF e P.IVA 15376371009
         </Typography>
-      </Container>
+      </Box>
     </Box>
   )
 }

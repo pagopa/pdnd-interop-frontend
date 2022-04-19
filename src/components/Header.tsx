@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Link, Typography } from '@mui/material'
+import { Link, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { HelpOutline as HelpOutlineIcon } from '@mui/icons-material'
 import { ButtonNaked } from '@pagopa/mui-italia'
@@ -41,64 +41,63 @@ export function Header({
   return (
     <header>
       <Box>
-        <Container sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              py: 1,
-            }}
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            py: 1,
+            px: 3,
+            borderBottom: 1,
+            borderColor: 'divider',
+          }}
+        >
+          <a
+            href="https://www.pagopa.it/"
+            target="_blank"
+            rel="noreferrer"
+            title="Vai al sito di PagoPA S.p.A."
+            style={{ textDecoration: 'none' }}
           >
-            <a
-              href="https://www.pagopa.it/"
-              target="_blank"
-              rel="noreferrer"
-              title="Vai al sito di PagoPA S.p.A."
-              style={{ textDecoration: 'none' }}
+            <Typography component="span" variant="body2" fontWeight="700">
+              PagoPA
+            </Typography>
+          </a>
+
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Link
+              component="button"
+              onClick={onAssistanceClick}
+              color="text.primary"
+              variant="caption"
+              underline="none"
+              sx={{ display: 'inline-flex', alignItems: 'center', mr: 4, fontWeight: 600 }}
             >
-              <Typography component="span" variant="body2" fontWeight="700">
-                PagoPA
-              </Typography>
-            </a>
+              <HelpOutlineIcon fontSize="small" color="inherit" sx={{ mr: 1 }} />
+              Assistenza
+            </Link>
 
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Link
-                component="button"
-                onClick={onAssistanceClick}
-                color="text.primary"
-                variant="caption"
-                underline="none"
-                sx={{ display: 'inline-flex', alignItems: 'center', mr: 4, fontWeight: 600 }}
-              >
-                <HelpOutlineIcon fontSize="small" color="inherit" sx={{ mr: 1 }} />
-                Assistenza
-              </Link>
-
-              {!loggedUser ? (
-                <ButtonNaked onClick={onLogin} title="Effettua il login su Self care">
-                  Login
-                </ButtonNaked>
-              ) : (
-                <UserActionSelect user={loggedUser} userActions={userActions} />
-              )}
-            </Box>
+            {!loggedUser ? (
+              <ButtonNaked onClick={onLogin} title="Effettua il login su Self care">
+                Login
+              </ButtonNaked>
+            ) : (
+              <UserActionSelect user={loggedUser} userActions={userActions} />
+            )}
           </Box>
-        </Container>
+        </Box>
       </Box>
 
       {showSubHeader && (
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Container>
-            <Box
-              sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', py: 2 }}
-            >
-              {subHeaderLeftComponent}
-              {subHeaderRightComponent && (
-                <Box sx={{ marginLeft: 'auto' }}>{subHeaderRightComponent}</Box>
-              )}
-            </Box>
-          </Container>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', px: 3 }}>
+          <Box
+            sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', py: 2 }}
+          >
+            {subHeaderLeftComponent}
+            {subHeaderRightComponent && (
+              <Box sx={{ marginLeft: 'auto' }}>{subHeaderRightComponent}</Box>
+            )}
+          </Box>
         </Box>
       )}
     </header>
