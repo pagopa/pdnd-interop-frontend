@@ -13,18 +13,19 @@ type ExtendedWindow = Window & { pagopa_env?: PagoPAEnvVars }
 const PAGOPA_ENV = (window as ExtendedWindow).pagopa_env
 
 const AGREEMENT_PROCESS_URL =
-  (PAGOPA_ENV && PAGOPA_ENV.AGREEMENT_PROCESS_URL) || `${API_HOST}/agreement-process/0.0`
+  (PAGOPA_ENV && PAGOPA_ENV.AGREEMENT_PROCESS_URL) || `${API_HOST}/error/agreement-process/0.0`
 const ATTRIBUTE_REGISTRY_MANAGEMENT_URL =
   (PAGOPA_ENV && PAGOPA_ENV.ATTRIBUTE_REGISTRY_MANAGEMENT_URL) ||
-  `${API_HOST}/attribute-registry-management/0.0`
+  `${API_HOST}/error/attribute-registry-management/0.0`
 const AUTHORIZATION_PROCESS_URL =
-  (PAGOPA_ENV && PAGOPA_ENV.AUTHORIZATION_PROCESS_URL) || `${API_HOST}/authorization-process/0.0`
+  (PAGOPA_ENV && PAGOPA_ENV.AUTHORIZATION_PROCESS_URL) ||
+  `${API_HOST}/error/authorization-process/0.0`
 const CATALOG_PROCESS_URL =
-  (PAGOPA_ENV && PAGOPA_ENV.CATALOG_PROCESS_URL) || `${API_HOST}/catalog-process/0.0`
+  (PAGOPA_ENV && PAGOPA_ENV.CATALOG_PROCESS_URL) || `${API_HOST}/error/catalog-process/0.0`
 const PARTY_PROCESS_URL =
-  (PAGOPA_ENV && PAGOPA_ENV.PARTY_PROCESS_URL) || `${API_HOST}/party-process/0.0`
+  (PAGOPA_ENV && PAGOPA_ENV.PARTY_PROCESS_URL) || `${API_HOST}/error/party-process/0.0`
 const PURPOSE_PROCESS_URL =
-  (PAGOPA_ENV && PAGOPA_ENV.PURPOSE_PROCESS_URL) || `${API_HOST}/purpose-process/0.0`
+  (PAGOPA_ENV && PAGOPA_ENV.PURPOSE_PROCESS_URL) || `${API_HOST}/error/purpose-process/0.0`
 
 export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
   ONBOARDING_GET_AVAILABLE_PARTIES: {
