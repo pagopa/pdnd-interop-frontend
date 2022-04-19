@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { logAction, logError } from './action-log'
-import { API_HOST, STORAGE_KEY_TOKEN } from './constants'
+import { STORAGE_KEY_TOKEN } from './constants'
 import { storageRead } from './storage-utils'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -8,16 +8,18 @@ const instance = axios.create()
 
 instance.interceptors.request.use(
   (config) => {
+    const _config = { ...config }
+
     const sessionStorageToken = storageRead(STORAGE_KEY_TOKEN, 'string')
     if (sessionStorageToken) {
-      config.headers.Authorization = `Bearer ${sessionStorageToken}`
+      _config.headers.Authorization = `Bearer ${sessionStorageToken}`
     }
 
-    config.headers['X-Correlation-Id'] = uuidv4()
+    _config.headers['X-Correlation-Id'] = uuidv4()
 
-    logAction('Log request', config)
+    logAction('Log request', _config)
 
-    return { ...config, baseURL: API_HOST }
+    return _config
   },
   (error) => {
     logError(error)
