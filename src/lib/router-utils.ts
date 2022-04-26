@@ -60,6 +60,7 @@ export function isParentRoute(
 }
 
 export function isProviderOrSubscriber(t: TFunction) {
+  // eslint-disable-next-line react/display-name
   return (location: Location<unknown>): ProviderOrSubscriber | null => {
     const allLangKeys = Object.keys(LANGUAGES)
 

@@ -6,10 +6,10 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <base href="%PUBLIC_URL%/" />
 
-    <title>PagoPA PDND</title>
+    <title>Interoperabilità PDND | PagoPA</title>
     <meta
       name="description"
-      content="La Piattaforma Digitale Nazionale Dati per l'interoperabilità di dati e servizi"
+      content="La Piattaforma che semplifica l'accesso ai servizi all'interno della PA"
     />
     <meta name="theme-color" content="#00a1b0" />
     <link rel="manifest" href="./manifest.webmanifest" crossorigin="anonymous" />
@@ -23,7 +23,10 @@
     <link rel="apple-touch-icon" sizes="256x256" href="./icons/icon-256x256.png" />
     <link rel="apple-touch-icon" sizes="384x384" href="./icons/icon-384x384.png" />
     <link rel="apple-touch-icon" sizes="512x512" href="./icons/icon-512x512.png" />
-    <script src="%PUBLIC_URL%/env.js"></script>
+    <script nonce="**CSP_NONCE**" src="./env.js"></script>
+    <script nonce="**CSP_NONCE**">
+      window.nonce = '**CSP_NONCE**'
+    </script>
   </head>
   <body>
     <noscript>Abilita JavaScript per utilizzare quest'applicazione</noscript>
