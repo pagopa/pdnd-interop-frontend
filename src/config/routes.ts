@@ -23,6 +23,7 @@ import { EServiceCreate } from '../views/EServiceCreate'
 import { EServiceManage } from '../views/EServiceManage'
 import { InteropM2M } from '../views/InteropM2M'
 import { ClientAssertionGuide } from '../views/ClientAssertionGuide'
+import { VoucherRead } from '../views/VoucherRead'
 
 export const BASIC_ROUTES: Record<string, RouteConfig> = {
   LOGOUT: {
@@ -201,6 +202,20 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     COMPONENT: PurposeList,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
+  },
+  SUBSCRIBE_CLIENT_VOUCHER_READ: {
+    PATH: {
+      it: '/it/fruizione/client/:clientId/voucher/:purposeId',
+      en: '/en/subscriber/client/:clientId/voucher/:purposeId',
+    },
+    LABEL: {
+      it: 'Visualizza istruzioni voucher per finalità',
+      en: 'Read voucher purpose instructions',
+    },
+    EXACT: false,
+    COMPONENT: VoucherRead,
+    PUBLIC: false,
+    AUTH_LEVELS: ['admin', 'security'],
   },
   SUBSCRIBE_CLIENT_OPERATOR_EDIT: {
     PATH: {
