@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { Chip, List, ListItem, Paper, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { Party } from '../../types'
-import { STORAGE_PARTY_OBJECT } from '../lib/constants'
+import { STORAGE_KEY_PARTY } from '../lib/constants'
 import { PartyContext } from '../lib/context'
 import { storageWrite } from '../lib/storage-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
@@ -21,7 +21,7 @@ export function ChooseParty() {
     if (e) e.preventDefault()
     const newParty = (availableParties as Array<Party>).find((p) => p.institutionId === id) as Party
     setParty(newParty)
-    storageWrite(STORAGE_PARTY_OBJECT, newParty, 'object')
+    storageWrite(STORAGE_KEY_PARTY, newParty, 'object')
   }
 
   const confirmChoice = () => {

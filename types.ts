@@ -13,6 +13,8 @@ import { RunAction } from './src/hooks/useFeedback'
  */
 // export type ApiEndpointKey = keyof typeof API
 export type ApiEndpointKey =
+  | 'AUTH_HEALTH_CHECK'
+  | 'AUTH_OBTAIN_SESSION_TOKEN'
   | 'ONBOARDING_GET_AVAILABLE_PARTIES'
   | 'ESERVICE_GET_LIST_FLAT'
   | 'ESERVICE_GET_SINGLE'
@@ -721,6 +723,8 @@ export type DialogBasicProps = DialogDefaultProps & {
 
 export type DialogActionKeys = Exclude<
   ApiEndpointKey,
+  | 'AUTH_HEALTH_CHECK'
+  | 'AUTH_OBTAIN_SESSION_TOKEN'
   | 'ONBOARDING_GET_AVAILABLE_PARTIES'
   | 'ESERVICE_GET_LIST_FLAT'
   | 'ESERVICE_GET_SINGLE'
@@ -778,6 +782,8 @@ export type ToastProps = ToastContentWithOutcome & {
 
 export type ToastActionKeys = Exclude<
   ApiEndpointKey,
+  | 'AUTH_HEALTH_CHECK'
+  | 'AUTH_OBTAIN_SESSION_TOKEN'
   | 'ONBOARDING_GET_AVAILABLE_PARTIES'
   | 'ESERVICE_GET_SINGLE'
   | 'ATTRIBUTE_GET_LIST'
