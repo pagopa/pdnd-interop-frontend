@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { logAction, logError } from './action-log'
-import { STORAGE_KEY_TOKEN } from './constants'
+import { STORAGE_KEY_SESSION_TOKEN } from './constants'
 import { storageRead } from './storage-utils'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -10,7 +10,7 @@ instance.interceptors.request.use(
   (config) => {
     const _config = { ...config }
 
-    const sessionStorageToken = storageRead(STORAGE_KEY_TOKEN, 'string')
+    const sessionStorageToken = storageRead(STORAGE_KEY_SESSION_TOKEN, 'string')
     if (sessionStorageToken) {
       _config.headers.Authorization = `Bearer ${sessionStorageToken}`
     }

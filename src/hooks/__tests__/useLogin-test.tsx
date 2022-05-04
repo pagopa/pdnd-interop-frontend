@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import axios from 'axios'
 import { useLogin } from '../useLogin'
 import { storageWrite } from '../../lib/storage-utils'
-import { STORAGE_KEY_TOKEN } from '../../lib/constants'
+import { STORAGE_KEY_SESSION_TOKEN } from '../../lib/constants'
 import { AllTheProviders } from '../../__mocks__/providers'
 import { token } from '../../__mocks__/token'
 import { useUser } from '../useUser'
@@ -33,7 +33,7 @@ it('Logs in silently', async () => {
 
   mockedAxios.request.mockImplementationOnce(() => Promise.resolve({ isAxiosError: false }))
 
-  storageWrite(STORAGE_KEY_TOKEN, token, 'string')
+  storageWrite(STORAGE_KEY_SESSION_TOKEN, token, 'string')
   const userData = jwtToUser(token)
 
   const { getByText } = render(

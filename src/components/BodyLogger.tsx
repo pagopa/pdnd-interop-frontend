@@ -23,11 +23,12 @@ import { Box } from '@mui/system'
 import { useRoute } from '../hooks/useRoute'
 import '../lib/validation-config'
 import { useLogin } from '../hooks/useLogin'
-import { LANGUAGES, URL_FE_LOGIN } from '../lib/constants'
+import { LANGUAGES } from '../lib/constants'
 import { useUser } from '../hooks/useUser'
 import { PartySelect } from './PartySelect'
 import { Typography } from '@mui/material'
 import { Settings as SettingsIcon } from '@mui/icons-material'
+import { goToLoginPage } from '../lib/router-utils'
 
 export function BodyLogger() {
   const { loginAttempt } = useLogin()
@@ -71,7 +72,11 @@ export function BodyLogger() {
   }, [history.location])
 
   useEffect(() => {
-    loginAttempt()
+    async function asyncLoginAttempt() {
+      await loginAttempt()
+    }
+
+    asyncLoginAttempt()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -84,9 +89,7 @@ export function BodyLogger() {
                 history.push(routes.HELP.PATH)
               }}
               loggedUser={party !== null ? user : undefined}
-              onLogin={() => {
-                window.location.assign(URL_FE_LOGIN)
-              }}
+              onLogin={goToLoginPage}
               subHeaderLeftComponent={
                 <Typography component="span" variant="h5" fontWeight={700}>
                   Interoperabilità

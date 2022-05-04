@@ -3,9 +3,8 @@ import { useHistory } from 'react-router'
 import { RouteAuthLevel } from '../../types'
 import { useLogin } from '../hooks/useLogin'
 import { useParties } from '../hooks/useParties'
-import { URL_FE_LOGIN } from '../lib/constants'
 import { PartyContext, TokenContext } from '../lib/context'
-import { isSamePath } from '../lib/router-utils'
+import { goToLoginPage, isSamePath } from '../lib/router-utils'
 import { Unauthorized } from './Unauthorized'
 import { useRoute } from '../hooks/useRoute'
 
@@ -33,7 +32,7 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
       // If it still fails, redirect to login module
       // Note: this only applies to private routes, to avoid perpetual loop
       if (!isNowSilentlyLoggedIn && isCurrentRouteProtected) {
-        window.location.assign(URL_FE_LOGIN)
+        goToLoginPage()
       }
     }
 
@@ -55,8 +54,7 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
       // If something goes wrong in fetching the parties,
       // redirect to login page
       if (!_availableParties) {
-        window.location.assign(URL_FE_LOGIN)
-        return
+        goToLoginPage()
       }
 
       setIsLoading(false)
