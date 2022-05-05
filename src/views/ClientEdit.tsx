@@ -92,7 +92,7 @@ export function ClientEdit() {
                 <React.Fragment>
                   <DescriptionBlock sx={{ mb: 4 }} label="Id del client (subject – clientId)">
                     <InlineClipboard
-                      text={data.id}
+                      textToCopy={data.id}
                       successFeedbackText="Id copiato correttamente"
                     />
                   </DescriptionBlock>
@@ -105,7 +105,7 @@ export function ClientEdit() {
 
                   <DescriptionBlock sx={{ mb: 4 }} label="Audience">
                     <InlineClipboard
-                      text="test.interop.pagopa.it"
+                      textToCopy="test.interop.pagopa.it"
                       successFeedbackText="Id copiato correttamente"
                     />
                   </DescriptionBlock>
@@ -113,7 +113,7 @@ export function ClientEdit() {
                   {URL_INTEROP_M2M && (
                     <DescriptionBlock sx={{ mb: 4 }} label="Gateway da contattare (url)">
                       <InlineClipboard
-                        text={URL_INTEROP_M2M}
+                        textToCopy={URL_INTEROP_M2M}
                         successFeedbackText="Id copiato correttamente"
                       />
                     </DescriptionBlock>

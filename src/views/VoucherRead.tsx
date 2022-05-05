@@ -36,8 +36,6 @@ export const VoucherRead = () => {
   const { component: Step } = STEPS[activeStep]
   const stepProps: VoucherStepProps = { forward, back, data, purposeId, clientId }
 
-  console.log('data', data)
-
   return (
     <React.Fragment>
       <StyledIntro>

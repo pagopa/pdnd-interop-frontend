@@ -38,7 +38,14 @@ export const DescriptionBlock: FunctionComponent<DescriptionBlockProps> = ({
         </Box>
         {labelDescription && (
           <Box>
-            <Typography>{labelDescription}</Typography>
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              lineHeight={1.25}
+              sx={{ display: 'inline-block' }}
+            >
+              {labelDescription}
+            </Typography>
           </Box>
         )}
       </Grid>

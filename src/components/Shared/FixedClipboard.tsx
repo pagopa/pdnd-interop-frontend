@@ -1,17 +1,16 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { Typography, Popover } from '@mui/material'
 import { ButtonNaked } from '@pagopa/mui-italia'
+import { IntegrationInstructions as IntegrationInstructionsIcon } from '@mui/icons-material'
 
-type InlineClipboardProps = {
+type FixedClipboardProps = {
   textToCopy: string
-  label?: string
   successFeedbackText?: string
   autoHideDuration?: number
 }
 
-export const InlineClipboard: FunctionComponent<InlineClipboardProps> = ({
+export const FixedClipboard: FunctionComponent<FixedClipboardProps> = ({
   textToCopy,
-  label,
   successFeedbackText = 'Messaggio copiato correttamente',
   autoHideDuration = 1500,
 }) => {
@@ -56,11 +55,15 @@ export const InlineClipboard: FunctionComponent<InlineClipboardProps> = ({
     <React.Fragment>
       <ButtonNaked
         onClick={copyAttempt}
-        sx={{ textAlign: 'left', '&:hover': { bgcolor: 'text.secondary', color: 'common.white' } }}
+        sx={{
+          p: 1,
+          textAlign: 'left',
+          color: 'primary',
+          '&:hover': { bgcolor: 'action.hover' },
+        }}
       >
-        <Typography ref={anchorRef} component="span" color="inherit">
-          {label || textToCopy}
-        </Typography>
+        <Typography component="span" ref={anchorRef} sx={{ visibility: 'hidden' }} />
+        <IntegrationInstructionsIcon color="primary" />
       </ButtonNaked>
       <Popover
         anchorEl={anchorRef.current}
@@ -78,9 +81,5 @@ export const InlineClipboard: FunctionComponent<InlineClipboardProps> = ({
         </Typography>
       </Popover>
     </React.Fragment>
-  ) : (
-    <Typography ref={anchorRef} component="span">
-      {label ? `${label}: ${textToCopy}` : textToCopy}
-    </Typography>
-  )
+  ) : null
 }

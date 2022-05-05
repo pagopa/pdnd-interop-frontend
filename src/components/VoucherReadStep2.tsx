@@ -1,10 +1,15 @@
 import React from 'react'
-import { Paper, Typography } from '@mui/material'
+import { Divider, Paper, Typography } from '@mui/material'
 import { VoucherStepProps } from '../views/VoucherRead'
 import { StepActions } from './Shared/StepActions'
 import { StyledIntro } from './Shared/StyledIntro'
 import { DescriptionBlock } from './DescriptionBlock'
 import { InlineClipboard } from './Shared/InlineClipboard'
+
+const AUTH_SERVER_URL =
+  'https://uat.gateway.test.pdnd-interop.pagopa.it/api-gateway/0.1/as/token.oauth2'
+const CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
+const GRANT_TYPE = 'client_credentials'
 
 export const VoucherReadStep2 = ({ clientId, back, forward }: VoucherStepProps) => {
   return (
@@ -17,17 +22,21 @@ export const VoucherReadStep2 = ({ clientId, back, forward }: VoucherStepProps) 
         }}
       </StyledIntro>
 
-      <DescriptionBlock label="Endpoint dell'authorization server">
+      <DescriptionBlock label="Endpoint authorization server">
         <InlineClipboard
-          text="https://uat.gateway.test.pdnd-interop.pagopa.it/api-gateway/0.1/as/token.oauth2"
+          textToCopy={AUTH_SERVER_URL}
           successFeedbackText="URL copiata correttamente"
         />
       </DescriptionBlock>
 
-      <StyledIntro component="h3">{{ title: 'Body della richiesta' }}</StyledIntro>
+      <Divider />
+
+      <StyledIntro component="h3" sx={{ mt: 3 }}>
+        {{ title: 'Body della richiesta' }}
+      </StyledIntro>
 
       <DescriptionBlock label="Client_id">
-        <InlineClipboard text={clientId} successFeedbackText="Id copiato correttamente" />
+        <InlineClipboard textToCopy={clientId} successFeedbackText="Id copiato correttamente" />
       </DescriptionBlock>
 
       <DescriptionBlock label="Client_assertion">
@@ -39,7 +48,7 @@ export const VoucherReadStep2 = ({ clientId, back, forward }: VoucherStepProps) 
         labelDescription="Il formato della client assertion, come indicato in RFC"
       >
         <InlineClipboard
-          text="urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
+          textToCopy={CLIENT_ASSERTION_TYPE}
           successFeedbackText="Tipo copiato correttamente"
         />
       </DescriptionBlock>
@@ -48,11 +57,33 @@ export const VoucherReadStep2 = ({ clientId, back, forward }: VoucherStepProps) 
         label="Grant_type"
         labelDescription="La tipologia di flusso utilizzato, come indicato in RFC"
       >
-        <InlineClipboard
-          text="client_credentials"
-          successFeedbackText="Tipo copiato correttamente"
-        />
+        <InlineClipboard textToCopy={GRANT_TYPE} successFeedbackText="Tipo copiato correttamente" />
       </DescriptionBlock>
+
+      <Divider />
+
+      <StyledIntro component="h3" sx={{ mt: 3 }}>
+        {{
+          title: 'Esempio di cURL',
+          description: (
+            <React.Fragment>
+              Sostituisci il segnaposto con l’asserzione che hai ottenuto allo step precedente e
+              lancia la cURL
+            </React.Fragment>
+          ),
+        }}
+      </StyledIntro>
+
+      <Typography component="p" variant="caption" sx={{ bgcolor: 'background.paper', p: 2 }}>
+        <code>
+          curl --location --request POST &apos;{AUTH_SERVER_URL}&apos; \<br />
+          --header &apos;Content-Type: application/x-www-form-urlencoded&apos; \<br />
+          --data-urlencode &apos;client_id={clientId}&apos; \<br />
+          --data-urlencode &apos;client_assertion=[LA_TUA_CLIENT_ASSERTION]&apos; \<br />
+          --data-urlencode &apos;client_assertion_type={CLIENT_ASSERTION_TYPE}&apos; \<br />
+          --data-urlencode &apos;grant_type={GRANT_TYPE}&apos;
+        </code>
+      </Typography>
 
       <StepActions
         back={{ label: 'Indietro', type: 'button', onClick: back }}

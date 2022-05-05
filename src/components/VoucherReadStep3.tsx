@@ -8,9 +8,22 @@ import { StyledIntro } from './Shared/StyledIntro'
 import { DescriptionBlock } from './DescriptionBlock'
 import { InlineClipboard } from './Shared/InlineClipboard'
 import { StyledLink } from './Shared/StyledLink'
+import { useAsyncFetch } from '../hooks/useAsyncFetch'
+import { EServiceReadType } from '../../types'
 
 export const VoucherReadStep3 = ({ data, clientId, back }: VoucherStepProps) => {
   const { routes } = useRoute()
+
+  const { data: eServiceData } = useAsyncFetch<EServiceReadType>({
+    path: {
+      endpoint: 'ESERVICE_GET_SINGLE',
+      endpointParams: { eserviceId: data?.eservice.id, descriptorId: data?.eservice.descriptor.id },
+    },
+  })
+
+  const descriptorAudience =
+    eServiceData &&
+    eServiceData.descriptors.find((d) => d.id === data?.eservice.descriptor.id)?.audience[0]
 
   return (
     <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
@@ -22,8 +35,13 @@ export const VoucherReadStep3 = ({ data, clientId, back }: VoucherStepProps) => 
         }}
       </StyledIntro>
 
-      <DescriptionBlock label="AUD" labelDescription="L'audience">
-        <InlineClipboard text="dsfmdopmop" successFeedbackText="Id copiato correttamente" />
+      <DescriptionBlock label="AUD" labelDescription="L'audience dell'E-Service dell'Erogatore">
+        {descriptorAudience && (
+          <InlineClipboard
+            textToCopy={descriptorAudience}
+            successFeedbackText="Id copiato correttamente"
+          />
+        )}
       </DescriptionBlock>
 
       <DescriptionBlock label="Dettagli E-Service">

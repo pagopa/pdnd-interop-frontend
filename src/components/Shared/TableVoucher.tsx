@@ -29,7 +29,6 @@ export const TableVoucher = ({ purposes, clientId, isLoading }: TableVoucherProp
       {purposes &&
         Boolean(purposes.length > 0) &&
         purposes.map((item, i) => {
-          console.log(item)
           return (
             <StyledTableRow
               key={i}
