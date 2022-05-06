@@ -55,12 +55,12 @@ if __name__ == '__main__':
   print(client_assertion)
   
 # Da invocare come segue: 
-# python script.py \\
-#   --kid [INSERISCI_VALORE] \\
-#   --alg [INSERISCI_VALORE] \\
-#   --typ [INSERISCI_VALORE] \\
-#   --issuer [INSERISCI_VALORE] \\
-#   --subject [INSERISCI_VALORE] \\
-#   --audience [INSERISCI_VALORE] \\
-#   --purposeId [INSERISCI_VALORE] \\
-#   --keyPath [PATH_CHIAVE_PRIVATA]
+# python script.py \
+#   --kid INSERISCI_VALORE_KID \
+#   --alg INSERISCI_VALORE_ALG \
+#   --typ INSERISCI_VALORE_TYP \
+#   --issuer INSERISCI_VALORE_ISS \
+#   --subject INSERISCI_VALORE_SUB \
+#   --audience INSERISCI_VALORE_AUD \
+#   --purposeId INSERISCI_VALORE_PUR \
+#   --keyPath PATH_CHIAVE_PRIVATA

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, Chip, Divider, Paper, Typography } from '@mui/material'
+import { Alert, Divider, Grid, Paper, Typography } from '@mui/material'
 import { useRoute } from '../hooks/useRoute'
 import { buildDynamicPath } from '../lib/router-utils'
 import { VoucherStepProps } from '../views/VoucherRead'
@@ -10,13 +10,15 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { PublicKeys } from '../../types'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 import { InlineClipboard } from './Shared/InlineClipboard'
-import { Box } from '@mui/system'
 import { Link } from '@mui/material'
 import { StyledLink } from './Shared/StyledLink'
-import axios from 'axios'
 import { URL_FE } from '../lib/constants'
-import { StyledButton } from './Shared/StyledButton'
-import { FixedClipboard } from './Shared/FixedClipboard'
+import { StyledInputControlledSelect } from './Shared/StyledInputControlledSelect'
+import { CodeSnippetPreview } from './Shared/CodeSnippedPreview'
+
+const CLIENT_ASSERTION_TYP = 'JWT'
+const CLIENT_ASSERTION_ALG = 'RS256'
+const CLIENT_ASSERTION_AUD = 'test.interop.pdnd.it'
 
 export const VoucherReadStep1 = ({ clientId, purposeId, forward }: VoucherStepProps) => {
   const { routes } = useRoute()
@@ -29,16 +31,18 @@ export const VoucherReadStep1 = ({ clientId, purposeId, forward }: VoucherStepPr
     path: { endpoint: 'KEY_GET_LIST', endpointParams: { clientId } },
   })
 
-  const [pythonCodeSnippet, setPythonCodeSnippet] = useState('')
+  const [selectedKid, setSelectedKid] = useState<string>('')
 
   useEffect(() => {
-    async function asyncFetchData() {
-      const resp = await axios.get(`${URL_FE}/data/it/voucher-python.txt`)
-      setPythonCodeSnippet(resp.data)
+    if (keysData && keysData.keys.length > 0) {
+      setSelectedKid(keysData.keys[0].key.kid)
     }
+  }, [keysData])
 
-    asyncFetchData()
-  }, [])
+  const onKidChange = (e: React.ChangeEvent<Element>) => {
+    console.log(e)
+    // setSelectedKid(newKid)
+  }
 
   return (
     <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
@@ -62,31 +66,44 @@ export const VoucherReadStep1 = ({ clientId, purposeId, forward }: VoucherStepPr
         }}
       </StyledIntro>
 
+      {isLoading ? (
+        <LoadingWithMessage label="Stiamo caricando le chiavi" transparentBackground={true} />
+      ) : (
+        keysData &&
+        Boolean(keysData.keys.length > 0) && (
+          <Grid container sx={{ my: 4 }}>
+            <Grid item xs={8}>
+              <StyledInputControlledSelect
+                sx={{ mt: 0 }}
+                name="kid"
+                label="Scegli la chiave pubblica da utilizzare"
+                value={selectedKid}
+                onChange={onKidChange}
+                options={keysData.keys.map((k) => ({ value: k.key.kid, label: k.name }))}
+                emptyLabel=""
+              />
+            </Grid>
+          </Grid>
+        )
+      )}
+
+      <Divider />
+
       <StyledIntro component="h3" sx={{ mt: 3 }}>
         {{ title: "Header dell'asserzione" }}
       </StyledIntro>
 
       <DescriptionBlock
         label="KID"
-        labelDescription="Scegli la chiave pubblica corrispondente a quella privata che userai per firmare l’asserzione"
+        labelDescription="La chiave pubblica corrispondente a quella privata che userai per firmare l’asserzione"
       >
-        {isLoading && (
-          <LoadingWithMessage label="Stiamo caricando le chiavi" transparentBackground={true} />
-        )}
         {error ? (
           <Alert severity="error">Non è stato possibile caricare le chiavi</Alert>
         ) : keysData && Boolean(keysData.keys.length > 0) ? (
-          keysData.keys.map((k, i) => {
-            return (
-              <Box key={i}>
-                <InlineClipboard
-                  label={k.name}
-                  textToCopy={k.key.kid}
-                  successFeedbackText="Id copiato correttamente"
-                />
-              </Box>
-            )
-          })
+          <InlineClipboard
+            textToCopy={selectedKid}
+            successFeedbackText="Id copiato correttamente"
+          />
         ) : (
           <React.Fragment>
             <Typography>
@@ -111,14 +128,20 @@ export const VoucherReadStep1 = ({ clientId, purposeId, forward }: VoucherStepPr
         label="ALG"
         labelDescription="L’algoritmo usato per firmare questo JWT. In questo momento si può firmare solo con RS256"
       >
-        <InlineClipboard textToCopy="RS256" successFeedbackText="Testo copiato correttamente" />
+        <InlineClipboard
+          textToCopy={CLIENT_ASSERTION_ALG}
+          successFeedbackText="Testo copiato correttamente"
+        />
       </DescriptionBlock>
 
       <DescriptionBlock
         label="TYP"
         labelDescription="Il tipo di oggetto che si sta inviando, in questo caso “JWT”"
       >
-        <InlineClipboard textToCopy="JWT" successFeedbackText="Testo copiato correttamente" />
+        <InlineClipboard
+          textToCopy={CLIENT_ASSERTION_TYP}
+          successFeedbackText="Testo copiato correttamente"
+        />
       </DescriptionBlock>
 
       <Divider />
@@ -140,7 +163,7 @@ export const VoucherReadStep1 = ({ clientId, purposeId, forward }: VoucherStepPr
 
       <DescriptionBlock label="AUD" labelDescription="L'audience">
         <InlineClipboard
-          textToCopy="test.interop.pdnd.it"
+          textToCopy={CLIENT_ASSERTION_AUD}
           successFeedbackText="Id copiato correttamente"
         />
       </DescriptionBlock>
@@ -191,43 +214,20 @@ export const VoucherReadStep1 = ({ clientId, purposeId, forward }: VoucherStepPr
         {{ title: "Script esempio per generare un'asserzione" }}
       </StyledIntro>
 
-      <Box sx={{ display: 'flex' }}>
-        <Typography sx={{ mr: 1 }}>Linguaggio: </Typography>
-        <Box>
-          <Chip size="small" label="python" color="primary" />
-        </Box>
-      </Box>
-      <Box sx={{ position: 'relative' }}>
-        <Box sx={{ position: 'absolute', right: 0, top: 0, zIndex: 1 }}>
-          <Box sx={{ mr: 2, mt: 0 }}>
-            <FixedClipboard
-              textToCopy={pythonCodeSnippet}
-              successFeedbackText="Script copiato correttamente"
-            />
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            my: 1,
-            maxHeight: 300,
-            overflowY: 'auto',
-            border: 2,
-            borderColor: 'divider',
-            px: 1,
-          }}
-        >
-          <Typography variant="caption">
-            <code>
-              {pythonCodeSnippet.split('\n').map((a, i) => (
-                <React.Fragment key={i}>
-                  {a}
-                  <br />
-                </React.Fragment>
-              ))}
-            </code>
-          </Typography>
-        </Box>
-      </Box>
+      <CodeSnippetPreview
+        entries={[
+          { url: `${URL_FE}/data/it/voucher-python.txt`, label: 'python 3', value: 'python' },
+        ]}
+        scriptSubstitutionValues={{
+          INSERISCI_VALORE_KID: selectedKid,
+          INSERISCI_VALORE_ALG: CLIENT_ASSERTION_ALG,
+          INSERISCI_VALORE_TYP: CLIENT_ASSERTION_TYP,
+          INSERISCI_VALORE_ISS: clientId,
+          INSERISCI_VALORE_SUB: clientId,
+          INSERISCI_VALORE_AUD: CLIENT_ASSERTION_AUD,
+          INSERISCI_VALORE_PUR: purposeId,
+        }}
+      />
 
       <Alert severity="info">
         Script esempio in altri linguaggi saranno aggiunti nelle prossime settimane

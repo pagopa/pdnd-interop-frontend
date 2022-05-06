@@ -24,7 +24,7 @@ export function LoadingWithMessage({
         ...background,
       }}
     >
-      <CircularProgress color="inherit" />
+      <CircularProgress color={label ? 'inherit' : 'primary'} />
       {label && (
         <Typography component="p" variant="body2" fontWeight={700} sx={{ mt: 2, mb: 0 }}>
           {label}
