@@ -15,7 +15,8 @@ import { useRoute } from '../hooks/useRoute'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { ClientVoucherRead } from '../components/ClientVoucherRead'
+import { VoucherRead } from '../components/VoucherRead'
+import { PageReloadMessage } from '../components/Shared/PageReloadMessage'
 
 export function ClientEdit() {
   const { routes } = useRoute()
@@ -25,7 +26,7 @@ export function ClientEdit() {
   const locationBits = getBits(location)
   const clientId = locationBits[locationBits.length - 1]
   const clientKind = useClientKind()
-  const { data, isLoading } = useAsyncFetch<Client>(
+  const { data, isLoading, error } = useAsyncFetch<Client>(
     { path: { endpoint: 'CLIENT_GET_SINGLE', endpointParams: { clientId } } },
     { useEffectDeps: [forceRerenderCounter] }
   )
@@ -65,11 +66,20 @@ export function ClientEdit() {
         </TabList>
 
         <TabPanel value="voucher">
-          {data ? (
+          {error ? (
+            <PageReloadMessage />
+          ) : isLoading ? (
+            <LoadingWithMessage
+              label="Stiamo caricando il client richiesto"
+              transparentBackground
+            />
+          ) : (
             <React.Fragment>
-              {clientKind === 'CONSUMER' ? (
-                <ClientVoucherRead purposes={data.purposes} clientId={clientId} />
-              ) : null}
+              <VoucherRead
+                clientKind={clientKind}
+                clientId={clientId}
+                purposes={data && data.purposes}
+              />
 
               <PageBottomActions>
                 <StyledButton variant="contained" onClick={deleteClient}>
@@ -87,11 +97,6 @@ export function ClientEdit() {
                 </StyledButton>
               </PageBottomActions>
             </React.Fragment>
-          ) : (
-            <LoadingWithMessage
-              label="Stiamo caricando il client richiesto"
-              transparentBackground
-            />
           )}
         </TabPanel>
 

@@ -1,24 +1,47 @@
 import React from 'react'
-import { Divider, Paper, Typography } from '@mui/material'
-import { VoucherStepProps } from './ClientVoucherRead'
+import { Divider, Link, Paper, Typography } from '@mui/material'
+import { InteropM2MVoucherStepProps } from './VoucherRead'
 import { StepActions } from './Shared/StepActions'
 import { StyledIntro } from './Shared/StyledIntro'
 import { DescriptionBlock } from './DescriptionBlock'
 import { InlineClipboard } from './Shared/InlineClipboard'
+import { API_GATEWAY_URL } from '../config/api-endpoints'
 
 const AUTH_SERVER_URL =
   'https://uat.gateway.test.pdnd-interop.pagopa.it/api-gateway/0.1/as/token.oauth2'
 const CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
 const GRANT_TYPE = 'client_credentials'
 
-export const ClientVoucherReadStep2 = ({ clientId, back, forward }: VoucherStepProps) => {
+export const VoucherReadStep2 = ({
+  clientKind,
+  clientId,
+  back,
+  forward,
+}: InteropM2MVoucherStepProps) => {
   return (
     <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
       <StyledIntro component="h2">
         {{
           title: 'Access token',
           description:
-            'Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di access token verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un Voucher spendibile presso l’E-Service dell’Erogatore. È possibile fare un test sullo Swagger dedicato',
+            clientKind === 'CONSUMER' ? (
+              'Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di access token verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un Voucher spendibile presso l’E-Service dell’Erogatore'
+            ) : (
+              <React.Fragment>
+                Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo
+                per fare una richiesta di access token verso l’authorization server di
+                Interoperabilità PDND. Se va a buon fine, verrà restituito un Voucher spendibile
+                presso l’API gateway di Interoperabilità. È possibile fare un test sullo{' '}
+                <Link
+                  href={`${API_GATEWAY_URL}/swagger/docs/index.html`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Swagger
+                </Link>{' '}
+                dedicato
+              </React.Fragment>
+            ),
         }}
       </StyledIntro>
 

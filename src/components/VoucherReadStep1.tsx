@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Alert, Divider, Grid, Paper, Typography } from '@mui/material'
 import { useRoute } from '../hooks/useRoute'
 import { buildDynamicPath } from '../lib/router-utils'
-import { VoucherStepProps } from './ClientVoucherRead'
+import { ClientVoucherStepProps, InteropM2MVoucherStepProps } from './VoucherRead'
 import { StepActions } from './Shared/StepActions'
 import { StyledIntro } from './Shared/StyledIntro'
 import { DescriptionBlock } from './DescriptionBlock'
@@ -15,12 +15,21 @@ import { StyledLink } from './Shared/StyledLink'
 import { URL_FE } from '../lib/constants'
 import { StyledInputControlledSelect } from './Shared/StyledInputControlledSelect'
 import { CodeSnippetPreview } from './Shared/CodeSnippedPreview'
+import { CodeLanguagePicker } from './Shared/CodeLanguagePicker'
 
 const CLIENT_ASSERTION_TYP = 'JWT'
 const CLIENT_ASSERTION_ALG = 'RS256'
 const CLIENT_ASSERTION_AUD = 'test.interop.pdnd.it'
 
-export const ClientVoucherReadStep1 = ({ clientId, purposeId, forward }: VoucherStepProps) => {
+export const VoucherReadStep1 = ({
+  clientKind,
+  ...props
+}: ClientVoucherStepProps | InteropM2MVoucherStepProps) => {
+  const typedProps =
+    clientKind === 'CONSUMER'
+      ? (props as ClientVoucherStepProps)
+      : (props as InteropM2MVoucherStepProps)
+
   const { routes } = useRoute()
 
   const {
@@ -28,7 +37,7 @@ export const ClientVoucherReadStep1 = ({ clientId, purposeId, forward }: Voucher
     error,
     isLoading,
   } = useAsyncFetch<PublicKeys>({
-    path: { endpoint: 'KEY_GET_LIST', endpointParams: { clientId } },
+    path: { endpoint: 'KEY_GET_LIST', endpointParams: { clientId: typedProps.clientId } },
   })
 
   const [selectedKid, setSelectedKid] = useState<string>('')
@@ -42,6 +51,11 @@ export const ClientVoucherReadStep1 = ({ clientId, purposeId, forward }: Voucher
   const onKidChange = (e: React.ChangeEvent<Element>) => {
     console.log(e)
     // setSelectedKid(newKid)
+  }
+
+  const [selectedCodeLanguage, setSelectedCodeLanguage] = useState<string>('python')
+  const wrapUpdateCodeLanguage = (newEntry: string) => () => {
+    setSelectedCodeLanguage(newEntry)
   }
 
   return (
@@ -112,7 +126,7 @@ export const ClientVoucherReadStep1 = ({ clientId, purposeId, forward }: Voucher
               <StyledLink
                 to={buildDynamicPath(
                   routes.SUBSCRIBE_CLIENT_EDIT.PATH,
-                  { clientId },
+                  { clientId: typedProps.clientId },
                   { tab: 'publicKeys' }
                 )}
               >
@@ -151,14 +165,20 @@ export const ClientVoucherReadStep1 = ({ clientId, purposeId, forward }: Voucher
       </StyledIntro>
 
       <DescriptionBlock label="ISS" labelDescription="L’issuer, in questo caso l'id del client">
-        <InlineClipboard textToCopy={clientId} successFeedbackText="Id copiato correttamente" />
+        <InlineClipboard
+          textToCopy={typedProps.clientId}
+          successFeedbackText="Id copiato correttamente"
+        />
       </DescriptionBlock>
 
       <DescriptionBlock
         label="SUB"
         labelDescription="Il subject, in questo caso sempre l'id del client"
       >
-        <InlineClipboard textToCopy={clientId} successFeedbackText="Id copiato correttamente" />
+        <InlineClipboard
+          textToCopy={typedProps.clientId}
+          successFeedbackText="Id copiato correttamente"
+        />
       </DescriptionBlock>
 
       <DescriptionBlock label="AUD" labelDescription="L'audience">
@@ -168,12 +188,17 @@ export const ClientVoucherReadStep1 = ({ clientId, purposeId, forward }: Voucher
         />
       </DescriptionBlock>
 
-      <DescriptionBlock
-        label="PurposeId"
-        labelDescription="L’id della finalità per la quale si richiederà di accedere alle risorse dell’Erogatore"
-      >
-        <InlineClipboard textToCopy={purposeId} successFeedbackText="Id copiato correttamente" />
-      </DescriptionBlock>
+      {clientKind === 'CONSUMER' && (
+        <DescriptionBlock
+          label="PurposeId"
+          labelDescription="L’id della finalità per la quale si richiederà di accedere alle risorse dell’Erogatore"
+        >
+          <InlineClipboard
+            textToCopy={(typedProps as ClientVoucherStepProps).purposeId}
+            successFeedbackText="Id copiato correttamente"
+          />
+        </DescriptionBlock>
+      )}
 
       <DescriptionBlock
         label="JTI"
@@ -214,18 +239,46 @@ export const ClientVoucherReadStep1 = ({ clientId, purposeId, forward }: Voucher
         {{ title: "Script esempio per generare un'asserzione" }}
       </StyledIntro>
 
+      <CodeLanguagePicker
+        entries={[{ label: 'python 3', value: 'python' }]}
+        activeLang={selectedCodeLanguage}
+        onLangUpdate={wrapUpdateCodeLanguage}
+      />
+
       <CodeSnippetPreview
+        sx={{ mt: 2 }}
+        title="create_client_assertion.py"
+        activeLang={selectedCodeLanguage}
         entries={[
-          { url: `${URL_FE}/data/it/voucher-python.txt`, label: 'python 3', value: 'python' },
+          {
+            url: `${URL_FE}/data/it/${
+              clientKind === 'CONSUMER' ? 'voucher-python-code' : 'voucher-python-m2m-code'
+            }.txt`,
+            value: 'python',
+          },
+        ]}
+      />
+
+      <CodeSnippetPreview
+        sx={{ mt: 2 }}
+        title="Esempio di utilizzo"
+        activeLang={selectedCodeLanguage}
+        entries={[
+          {
+            url: `${URL_FE}/data/it/${
+              clientKind === 'CONSUMER' ? 'voucher-python-invoke' : 'voucher-python-m2m-invoke'
+            }.txt`,
+            value: 'python',
+          },
         ]}
         scriptSubstitutionValues={{
           INSERISCI_VALORE_KID: selectedKid,
           INSERISCI_VALORE_ALG: CLIENT_ASSERTION_ALG,
           INSERISCI_VALORE_TYP: CLIENT_ASSERTION_TYP,
-          INSERISCI_VALORE_ISS: clientId,
-          INSERISCI_VALORE_SUB: clientId,
+          INSERISCI_VALORE_ISS: typedProps.clientId,
+          INSERISCI_VALORE_SUB: typedProps.clientId,
           INSERISCI_VALORE_AUD: CLIENT_ASSERTION_AUD,
-          INSERISCI_VALORE_PUR: purposeId,
+          INSERISCI_VALORE_PUR: (typedProps as ClientVoucherStepProps).purposeId,
         }}
       />
 
@@ -237,9 +290,11 @@ export const ClientVoucherReadStep1 = ({ clientId, purposeId, forward }: Voucher
         back={{
           label: 'Torna al client',
           type: 'link',
-          to: buildDynamicPath(routes.SUBSCRIBE_PURPOSE_LIST.PATH, { clientId }),
+          to: buildDynamicPath(routes.SUBSCRIBE_PURPOSE_LIST.PATH, {
+            clientId: typedProps.clientId,
+          }),
         }}
-        forward={{ label: 'Avanti', type: 'button', onClick: forward }}
+        forward={{ label: 'Avanti', type: 'button', onClick: typedProps.forward }}
       />
     </Paper>
   )
