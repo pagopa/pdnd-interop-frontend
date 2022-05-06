@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
-import { Tab, Typography } from '@mui/material'
+import { Tab } from '@mui/material'
 import { TabList, TabContext, TabPanel } from '@mui/lab'
 import { Client } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
@@ -9,18 +9,13 @@ import { buildDynamicPath, buildDynamicRoute, getBits } from '../lib/router-util
 import { UserList } from './UserList'
 import { useFeedback } from '../hooks/useFeedback'
 import { KeysList } from '../components/KeysList'
-// import { EditableField } from '../components/Shared/EditableField'
 import { useActiveTab } from '../hooks/useActiveTab'
 import { useClientKind } from '../hooks/useClientKind'
-import { DescriptionBlock } from '../components/DescriptionBlock'
 import { useRoute } from '../hooks/useRoute'
-import { StyledLink } from '../components/Shared/StyledLink'
-import { InlineClipboard } from '../components/Shared/InlineClipboard'
-import { URL_INTEROP_M2M } from '../lib/constants'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { TableVoucher } from '../components/Shared/TableVoucher'
+import { ClientVoucherRead } from '../components/ClientVoucherRead'
 
 export function ClientEdit() {
   const { routes } = useRoute()
@@ -34,12 +29,6 @@ export function ClientEdit() {
     { path: { endpoint: 'CLIENT_GET_SINGLE', endpointParams: { clientId } } },
     { useEffectDeps: [forceRerenderCounter] }
   )
-
-  // const wrapFieldUpdate = (fieldName: 'description') => (updatedString: string | null) => {
-  //   // TEMP PIN-1113
-  //   console.log({ fieldName, updatedString })
-  // }
-
   /*
    * List of possible actions for the user to perform
    */
@@ -67,10 +56,10 @@ export function ClientEdit() {
       <TabContext value={activeTab}>
         <TabList
           onChange={updateActiveTab}
-          aria-label="Due tab diverse per i dettagli del client e gli operatori di sicurezza"
+          aria-label="Tre tab diverse per le istruzioni dello stacco del voucher, gli operatori di sicurezza e le chiavi pubbliche"
           variant="fullWidth"
         >
-          <Tab label="Dettagli voucher" value="voucher" />
+          <Tab label="Istruzioni stacco voucher" value="voucher" />
           <Tab label="Operatori di sicurezza" value="securityOperators" />
           <Tab label="Chiavi pubbliche" value="publicKeys" />
         </TabList>
@@ -78,61 +67,9 @@ export function ClientEdit() {
         <TabPanel value="voucher">
           {data ? (
             <React.Fragment>
-              {/* <DescriptionBlock label="Descrizione" childWrapperSx={{ pt: 0 }}>
-            <EditableField
-              value={data.description}
-              onSave={wrapFieldUpdate('description')}
-              ariaLabel="Modifica descrizione"
-              multiline={true}
-            />
-          </DescriptionBlock> */}
               {clientKind === 'CONSUMER' ? (
-                <TableVoucher purposes={data.purposes} clientId={clientId} isLoading={isLoading} />
-              ) : (
-                <React.Fragment>
-                  <DescriptionBlock sx={{ mb: 4 }} label="Id del client (subject – clientId)">
-                    <InlineClipboard
-                      textToCopy={data.id}
-                      successFeedbackText="Id copiato correttamente"
-                    />
-                  </DescriptionBlock>
-
-                  <DescriptionBlock sx={{ mb: 4 }} label="Id della finalità (purposeId)">
-                    <Typography component="span">
-                      Il purposeId non si applica in questo caso
-                    </Typography>
-                  </DescriptionBlock>
-
-                  <DescriptionBlock sx={{ mb: 4 }} label="Audience">
-                    <InlineClipboard
-                      textToCopy="test.interop.pagopa.it"
-                      successFeedbackText="Id copiato correttamente"
-                    />
-                  </DescriptionBlock>
-
-                  {URL_INTEROP_M2M && (
-                    <DescriptionBlock sx={{ mb: 4 }} label="Gateway da contattare (url)">
-                      <InlineClipboard
-                        textToCopy={URL_INTEROP_M2M}
-                        successFeedbackText="Id copiato correttamente"
-                      />
-                    </DescriptionBlock>
-                  )}
-
-                  <DescriptionBlock sx={{ mb: 4 }} label="Interfaccia API">
-                    <StyledLink to={routes.SUBSCRIBE_INTEROP_M2M.PATH}>
-                      Vai all&lsquo;interfaccia
-                    </StyledLink>
-                  </DescriptionBlock>
-
-                  <DescriptionBlock sx={{ mb: 4 }} label="Chiavi pubbliche">
-                    <Typography component="span">
-                      Per firmare questo token, puoi usare qualsiasi chiave pubblica sia presente in
-                      questo client nella tab &quot;Chiavi pubbliche&quot;
-                    </Typography>
-                  </DescriptionBlock>
-                </React.Fragment>
-              )}
+                <ClientVoucherRead purposes={data.purposes} clientId={clientId} />
+              ) : null}
 
               <PageBottomActions>
                 <StyledButton variant="contained" onClick={deleteClient}>

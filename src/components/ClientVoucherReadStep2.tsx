@@ -1,6 +1,6 @@
 import React from 'react'
 import { Divider, Paper, Typography } from '@mui/material'
-import { VoucherStepProps } from '../views/VoucherRead'
+import { VoucherStepProps } from './ClientVoucherRead'
 import { StepActions } from './Shared/StepActions'
 import { StyledIntro } from './Shared/StyledIntro'
 import { DescriptionBlock } from './DescriptionBlock'
@@ -11,7 +11,7 @@ const AUTH_SERVER_URL =
 const CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
 const GRANT_TYPE = 'client_credentials'
 
-export const VoucherReadStep2 = ({ clientId, back, forward }: VoucherStepProps) => {
+export const ClientVoucherReadStep2 = ({ clientId, back, forward }: VoucherStepProps) => {
   return (
     <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
       <StyledIntro component="h2">

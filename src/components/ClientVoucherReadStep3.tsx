@@ -2,7 +2,7 @@ import React from 'react'
 import { Paper } from '@mui/material'
 import { useRoute } from '../hooks/useRoute'
 import { buildDynamicPath } from '../lib/router-utils'
-import { VoucherStepProps } from '../views/VoucherRead'
+import { VoucherStepProps } from './ClientVoucherRead'
 import { StepActions } from './Shared/StepActions'
 import { StyledIntro } from './Shared/StyledIntro'
 import { DescriptionBlock } from './DescriptionBlock'
@@ -11,7 +11,7 @@ import { StyledLink } from './Shared/StyledLink'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { EServiceReadType } from '../../types'
 
-export const VoucherReadStep3 = ({ data, clientId, back }: VoucherStepProps) => {
+export const ClientVoucherReadStep3 = ({ data, clientId, back }: VoucherStepProps) => {
   const { routes } = useRoute()
 
   const { data: eServiceData } = useAsyncFetch<EServiceReadType>({

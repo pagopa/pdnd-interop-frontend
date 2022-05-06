@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Alert, Divider, Grid, Paper, Typography } from '@mui/material'
 import { useRoute } from '../hooks/useRoute'
 import { buildDynamicPath } from '../lib/router-utils'
-import { VoucherStepProps } from '../views/VoucherRead'
+import { VoucherStepProps } from './ClientVoucherRead'
 import { StepActions } from './Shared/StepActions'
 import { StyledIntro } from './Shared/StyledIntro'
 import { DescriptionBlock } from './DescriptionBlock'
@@ -20,7 +20,7 @@ const CLIENT_ASSERTION_TYP = 'JWT'
 const CLIENT_ASSERTION_ALG = 'RS256'
 const CLIENT_ASSERTION_AUD = 'test.interop.pdnd.it'
 
-export const VoucherReadStep1 = ({ clientId, purposeId, forward }: VoucherStepProps) => {
+export const ClientVoucherReadStep1 = ({ clientId, purposeId, forward }: VoucherStepProps) => {
   const { routes } = useRoute()
 
   const {
