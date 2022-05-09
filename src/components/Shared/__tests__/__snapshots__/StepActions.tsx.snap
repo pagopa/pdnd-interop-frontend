@@ -89,7 +89,7 @@ Array [
       Avanti
     </button>
     <a
-      className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-i4i1vz-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiButton-root"
+      className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-oa84ay-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiButton-root"
       href="/test-route"
       onBlur={[Function]}
       onClick={[Function]}

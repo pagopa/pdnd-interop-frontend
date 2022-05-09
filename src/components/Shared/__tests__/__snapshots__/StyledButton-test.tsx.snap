@@ -26,7 +26,7 @@ exports[`Snapshot matches button 1`] = `
 
 exports[`Snapshot matches link 1`] = `
 <a
-  className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-oywzk5-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiButton-root"
+  className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-dg8q25-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiButton-root"
   href="/rotta-esempio"
   onBlur={[Function]}
   onClick={[Function]}
