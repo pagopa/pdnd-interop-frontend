@@ -5,10 +5,9 @@ import { StepActions } from './Shared/StepActions'
 import { StyledIntro } from './Shared/StyledIntro'
 import { DescriptionBlock } from './DescriptionBlock'
 import { InlineClipboard } from './Shared/InlineClipboard'
-import { API_GATEWAY_URL } from '../config/api-endpoints'
+import { API_GATEWAY_URL, AUTHORIZATION_SERVER_ACCESS_TOKEN_URL } from '../config/api-endpoints'
 
-const AUTH_SERVER_URL =
-  'https://uat.gateway.test.pdnd-interop.pagopa.it/api-gateway/0.1/as/token.oauth2'
+const AUTH_SERVER_URL = `${AUTHORIZATION_SERVER_ACCESS_TOKEN_URL}/as/token.oauth2`
 const CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
 const GRANT_TYPE = 'client_credentials'
 

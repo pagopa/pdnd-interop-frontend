@@ -9,6 +9,7 @@ type PagoPAEnvVars = {
   PARTY_PROCESS_URL: string
   PURPOSE_PROCESS_URL: string
   API_GATEWAY_URL: string
+  AUTHORIZATION_SERVER_TOKEN_CREATION_URL: string
 }
 type ExtendedWindow = Window & { pagopa_env?: PagoPAEnvVars }
 const PAGOPA_ENV = (window as ExtendedWindow).pagopa_env
@@ -28,6 +29,9 @@ const PURPOSE_PROCESS_URL =
   (PAGOPA_ENV && PAGOPA_ENV.PURPOSE_PROCESS_URL) || `${API_HOST}/purpose-process/0.1`
 export const API_GATEWAY_URL =
   (PAGOPA_ENV && PAGOPA_ENV.API_GATEWAY_URL) || `${API_HOST}/api-gateway/0.1`
+export const AUTHORIZATION_SERVER_ACCESS_TOKEN_URL =
+  (PAGOPA_ENV && PAGOPA_ENV.AUTHORIZATION_SERVER_TOKEN_CREATION_URL) ||
+  `${API_HOST}/authorization-server/0.1`
 
 export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
   ONBOARDING_GET_AVAILABLE_PARTIES: {
