@@ -3,5 +3,7 @@
 exports[`Snapshot matches without clipboard 1`] = `
 <span
   className="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-/>
+>
+  This is my text to copy
+</span>
 `;

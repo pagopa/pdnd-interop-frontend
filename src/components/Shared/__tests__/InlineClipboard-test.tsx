@@ -23,7 +23,7 @@ describe('Snapshot', () => {
   it('matches without clipboard', () => {
     addNavigatorSpy('denied')
 
-    const component = renderer.create(<InlineClipboard text="This is my text to copy" />)
+    const component = renderer.create(<InlineClipboard textToCopy="This is my text to copy" />)
     const tree = component.toJSON()
 
     expect(tree).toMatchSnapshot()
@@ -32,7 +32,7 @@ describe('Snapshot', () => {
   it('matches with clipboard', () => {
     addNavigatorSpy('granted')
 
-    const component = renderer.create(<InlineClipboard text="This is my text to copy" />)
+    const component = renderer.create(<InlineClipboard textToCopy="This is my text to copy" />)
     const tree = component.toJSON()
 
     waitFor(() => {
@@ -50,7 +50,7 @@ it('Shows feedback after successful copy', async () => {
   act(() => {
     render(
       <AllTheProviders>
-        <InlineClipboard text={textToCopy} />
+        <InlineClipboard textToCopy={textToCopy} />
       </AllTheProviders>
     )
   })

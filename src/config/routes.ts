@@ -22,7 +22,6 @@ import { EServiceRead } from '../views/EServiceRead'
 import { EServiceCreate } from '../views/EServiceCreate'
 import { EServiceManage } from '../views/EServiceManage'
 import { InteropM2M } from '../views/InteropM2M'
-import { ClientAssertionGuide } from '../views/ClientAssertionGuide'
 
 export const BASIC_ROUTES: Record<string, RouteConfig> = {
   LOGOUT: {
@@ -42,13 +41,6 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     PATH: { it: '/it/generazione-chiavi', en: '/en/generate-keys' },
     LABEL: { it: 'Come caricare le chiavi di sicurezza', en: 'How to upload public keys' },
     COMPONENT: SecurityKeyGuide,
-    PUBLIC: false,
-    AUTH_LEVELS: 'any',
-  },
-  CLIENT_ASSERTION_GUIDE: {
-    PATH: { it: '/it/client-assertion', en: '/en/client-assertion' },
-    LABEL: { it: 'Come implementare la client assertion', en: 'How to implement client assertion' },
-    COMPONENT: ClientAssertionGuide,
     PUBLIC: false,
     AUTH_LEVELS: 'any',
   },
