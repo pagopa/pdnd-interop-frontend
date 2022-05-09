@@ -8,13 +8,10 @@ type PagoPAEnvVars = {
   CATALOG_PROCESS_URL: string
   PARTY_PROCESS_URL: string
   PURPOSE_PROCESS_URL: string
-  BACKEND_FOR_FRONTEND: string
 }
 type ExtendedWindow = Window & { pagopa_env?: PagoPAEnvVars }
 const PAGOPA_ENV = (window as ExtendedWindow).pagopa_env
 
-const BACKEND_FOR_FRONTEND_URL =
-  (PAGOPA_ENV && PAGOPA_ENV.BACKEND_FOR_FRONTEND) || `${API_HOST}/backend-for-frontend/0.0`
 const AGREEMENT_PROCESS_URL =
   (PAGOPA_ENV && PAGOPA_ENV.AGREEMENT_PROCESS_URL) || `${API_HOST}/agreement-process/0.0`
 const ATTRIBUTE_REGISTRY_MANAGEMENT_URL =
@@ -30,14 +27,6 @@ const PURPOSE_PROCESS_URL =
   (PAGOPA_ENV && PAGOPA_ENV.PURPOSE_PROCESS_URL) || `${API_HOST}/purpose-process/0.0`
 
 export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
-  AUTH_HEALTH_CHECK: {
-    URL: `${BACKEND_FOR_FRONTEND_URL}/status`,
-    METHOD: 'GET',
-  },
-  AUTH_OBTAIN_SESSION_TOKEN: {
-    URL: `${BACKEND_FOR_FRONTEND_URL}/session/tokens`,
-    METHOD: 'POST',
-  },
   ONBOARDING_GET_AVAILABLE_PARTIES: {
     URL: `${PARTY_PROCESS_URL}/onboarding/info`,
     METHOD: 'GET',

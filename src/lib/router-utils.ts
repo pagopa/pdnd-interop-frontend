@@ -6,7 +6,7 @@ import QueryString from 'qs'
 import qs from 'qs'
 import { RouteConfig, LangCode, ProviderOrSubscriber, MappedRouteConfig } from '../../types'
 import { BASIC_ROUTES } from '../config/routes'
-import { LANGUAGES, URL_FE_LOGIN, URL_FRAGMENTS } from './constants'
+import { LANGUAGES, URL_FRAGMENTS } from './constants'
 
 export function isSamePath(path: string, matchPath: string) {
   const pathBits = path.split('/')
@@ -195,9 +195,4 @@ export function getDecoratedRoutes(): Record<LangCode, Record<string, MappedRout
     const decorated = decorateRouteWithParents(mapped)
     return { ...acc, [l]: decorated }
   }, {}) as Record<LangCode, Record<string, MappedRouteConfig>>
-}
-
-export function goToLoginPage() {
-  window.location.assign(URL_FE_LOGIN as string)
-  return
 }

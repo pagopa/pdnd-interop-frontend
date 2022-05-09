@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios'
 import { useContext } from 'react'
 import { Party, PartyAttribute } from '../../types'
 import { fetchAllWithLogs, fetchWithLogs } from '../lib/api-utils'
-import { STORAGE_KEY_PARTY } from '../lib/constants'
+import { STORAGE_PARTY_OBJECT } from '../lib/constants'
 import { LoaderContext, PartyContext, TokenContext } from '../lib/context'
 import { storageRead } from '../lib/storage-utils'
 
@@ -72,7 +72,7 @@ export const useParties = () => {
   }
 
   const setPartyFromStorageAttempt = (fetchedParties: Array<Party> | null) => {
-    const sessionStorageParty = storageRead(STORAGE_KEY_PARTY, 'object')
+    const sessionStorageParty = storageRead(STORAGE_PARTY_OBJECT, 'object')
 
     if (sessionStorageParty && fetchedParties) {
       const currentFetchedParty = fetchedParties.find((p) => p.id === sessionStorageParty.id)
