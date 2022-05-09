@@ -8,13 +8,9 @@ import {
   TableCell,
   Grid,
   Alert,
-  Typography,
 } from '@mui/material'
-import { Box } from '@mui/system'
 import { LoadingWithMessage } from './LoadingWithMessage'
-import { ButtonNaked } from '@pagopa/mui-italia'
-import { useHistory } from 'react-router-dom'
-import { ReportGmailerrorred as ReportGmailerrorredIcon } from '@mui/icons-material'
+import { PageReloadMessage } from './PageReloadMessage'
 
 type TableWithLoaderProps = {
   isLoading: boolean
@@ -34,30 +30,8 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
   viewType = 'table',
   children,
 }) => {
-  const history = useHistory()
-  const reload = () => {
-    history.go(0)
-  }
-
   if (error) {
-    return (
-      <Box
-        sx={{ my: 4, p: 2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-        bgcolor="background.paper"
-        color="text.secondary"
-      >
-        <ReportGmailerrorredIcon sx={{ mr: 1 }} fontSize="small" color="inherit" />
-        <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center' }}>
-          Non siamo riusciti a recuperare questi dati.{' '}
-          <ButtonNaked
-            sx={{ fontSize: 'inherit', ml: 0.5, color: 'primary.main' }}
-            onClick={reload}
-          >
-            Ricarica la pagina
-          </ButtonNaked>
-        </Typography>
-      </Box>
-    )
+    return <PageReloadMessage />
   }
 
   if (isLoading) {

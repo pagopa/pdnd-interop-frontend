@@ -83,13 +83,13 @@ export function KeyEdit() {
         <DescriptionBlock label="Id della chiave (kid)">
           {keyData?.key && (
             <InlineClipboard
-              text={keyData.key.kid}
+              textToCopy={keyData.key.kid}
               successFeedbackText="Id copiato correttamente"
             />
           )}
         </DescriptionBlock>
         <DescriptionBlock label="Id del client (clientId)">
-          <InlineClipboard text={clientId} successFeedbackText="Id copiato correttamente" />
+          <InlineClipboard textToCopy={clientId} successFeedbackText="Id copiato correttamente" />
         </DescriptionBlock>
 
         {keyData && isKeyOrphan(keyData, userData) && (

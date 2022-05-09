@@ -38,7 +38,7 @@ export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
         {isLoading ? <Skeleton height={40} /> : children.title}
       </Typography>
       {Object.keys(children).includes('description') && (
-        <Typography sx={{ mt: 0.5, mb: 0, maxWidth: 740, ...pProps }} color="text.secondary">
+        <Typography sx={{ mt: 1, mb: 0, ...pProps }}>
           {isLoading ? <Skeleton height={27} /> : children.description}
         </Typography>
       )}

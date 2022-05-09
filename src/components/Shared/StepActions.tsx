@@ -22,7 +22,7 @@ type ActionSubmit = {
 }
 
 export type BackAction = ActionButton | ActionLink
-export type ForwardAction = ActionButton | ActionSubmit
+export type ForwardAction = ActionButton | ActionLink | ActionSubmit
 
 type StepActionsProps = {
   back: BackAction
