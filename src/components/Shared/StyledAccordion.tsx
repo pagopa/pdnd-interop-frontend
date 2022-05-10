@@ -22,11 +22,16 @@ export function StyledAccordion({ entries }: StyledAccordionProps) {
             aria-controls={`panel-content-${i}`}
             id={`panel-header-${i}`}
           >
-            <Typography sx={{ flexShrink: 0, width: summarySecondary ? '40%' : 'auto' }}>
+            <Typography
+              sx={{
+                flexShrink: summarySecondary ? 0 : 1,
+                width: summarySecondary ? '40%' : 'auto',
+              }}
+            >
               {summary}
             </Typography>
             {summarySecondary && (
-              <Typography color="text.secondary" variant="body2">
+              <Typography component="span" color="text.secondary" variant="body2">
                 {summarySecondary}
               </Typography>
             )}

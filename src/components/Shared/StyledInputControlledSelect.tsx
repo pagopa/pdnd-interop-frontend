@@ -61,6 +61,9 @@ export function StyledInputControlledSelect({
         variant="outlined"
         label={label}
         error={hasFieldError}
+        // The display: 'block' below makes text ellipsis work correctly
+        // on the clickable div that opens the select menu
+        SelectProps={{ SelectDisplayProps: { style: { display: 'block' } } }}
         inputProps={inputProps}
         InputLabelProps={{ shrink: true }}
       >
