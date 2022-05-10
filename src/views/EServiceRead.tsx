@@ -20,6 +20,7 @@ import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { buildDynamicPath } from '../lib/router-utils'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
+import { Alert } from '@mui/material'
 
 export function EServiceRead() {
   const { runAction } = useFeedback()
@@ -90,12 +91,7 @@ export function EServiceRead() {
   return (
     <React.Fragment>
       <StyledIntro isLoading={isLoading}>
-        {{
-          title: data?.name,
-          description: `${data?.description}\n${
-            party?.id === data?.producer.id ? "Nota: sei l'erogatore di questo E-Service" : ''
-          }`,
-        }}
+        {{ title: data?.name, description: data?.description }}
       </StyledIntro>
 
       {data ? (
@@ -113,12 +109,32 @@ export function EServiceRead() {
           )}
           <EServiceContentInfo data={data} />
 
+          {isMine && (
+            <Alert sx={{ mb: 1 }} severity="info">
+              Non puoi iscriverti a un E-Service di cui sei Erogatore
+            </Alert>
+          )}
+          {!canSubscribeEservice && (
+            <Alert sx={{ mb: 1 }} severity="info">
+              Il tuo ente non ha gli attributi certificati necessari per iscriversi
+            </Alert>
+          )}
+          {flatData?.callerSubscribed && (
+            <Alert sx={{ mb: 1 }} severity="info">
+              Non puoi iscriverti a questo E-Service perché sei già iscritto
+            </Alert>
+          )}
+
           <Box sx={{ display: 'flex' }}>
-            {isVersionPublished && !isMine && isAdmin(party) && canSubscribeEservice && (
-              <StyledButton sx={{ mr: 2 }} variant="contained" onClick={handleSubscriptionDialog}>
-                Iscriviti
-              </StyledButton>
-            )}
+            {isVersionPublished &&
+              !isMine &&
+              canSubscribeEservice &&
+              !flatData?.callerSubscribed &&
+              isAdmin(party) && (
+                <StyledButton sx={{ mr: 2 }} variant="contained" onClick={handleSubscriptionDialog}>
+                  Iscriviti
+                </StyledButton>
+              )}
             {/* TEMP PIN-612 */}
             {/* {!isMine && isAdmin(party) && !canSubscribeEservice && (
           <StyledButton
@@ -131,6 +147,7 @@ export function EServiceRead() {
             Richiedi estensione
           </StyledButton>
         )} */}
+
             <StyledButton variant="outlined" to={routes.SUBSCRIBE_CATALOG_LIST.PATH}>
               Torna al catalogo
             </StyledButton>
