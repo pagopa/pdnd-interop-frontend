@@ -196,7 +196,8 @@ export const AsyncTableEServiceCatalog = () => {
                 }}
               >
                 <ButtonNaked
-                  size="small"
+                  size="medium"
+                  color="primary"
                   onClick={() => {
                     history.push(
                       buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
