@@ -7,7 +7,6 @@ import { DescriptionBlock } from './DescriptionBlock'
 import { InlineClipboard } from './Shared/InlineClipboard'
 import { API_GATEWAY_URL, AUTHORIZATION_SERVER_ACCESS_TOKEN_URL } from '../config/api-endpoints'
 
-const AUTH_SERVER_URL = `${AUTHORIZATION_SERVER_ACCESS_TOKEN_URL}/as/token.oauth2`
 const CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
 const GRANT_TYPE = 'client_credentials'
 
@@ -46,7 +45,7 @@ export const VoucherReadStep2 = ({
 
       <DescriptionBlock label="Endpoint authorization server">
         <InlineClipboard
-          textToCopy={AUTH_SERVER_URL}
+          textToCopy={AUTHORIZATION_SERVER_ACCESS_TOKEN_URL}
           successFeedbackText="URL copiata correttamente"
         />
       </DescriptionBlock>
@@ -98,10 +97,10 @@ export const VoucherReadStep2 = ({
 
       <Typography component="p" variant="caption" sx={{ bgcolor: 'background.paper', p: 2 }}>
         <code>
-          curl --location --request POST &apos;{AUTH_SERVER_URL}&apos; \<br />
+          curl --location --request POST &apos;{AUTHORIZATION_SERVER_ACCESS_TOKEN_URL}&apos; \<br />
           --header &apos;Content-Type: application/x-www-form-urlencoded&apos; \<br />
           --data-urlencode &apos;client_id={clientId}&apos; \<br />
-          --data-urlencode &apos;client_assertion=[LA_TUA_CLIENT_ASSERTION]&apos; \<br />
+          --data-urlencode &apos;client_assertion=LA_TUA_CLIENT_ASSERTION&apos; \<br />
           --data-urlencode &apos;client_assertion_type={CLIENT_ASSERTION_TYPE}&apos; \<br />
           --data-urlencode &apos;grant_type={GRANT_TYPE}&apos;
         </code>

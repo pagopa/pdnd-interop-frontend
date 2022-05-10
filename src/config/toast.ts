@@ -170,7 +170,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     },
     error: {
       message:
-        "Non è stato possibile inoltrare la richiesta. Se sei sicuro/a di averne diritto, contatta l'assistenza per ulteriori verifiche",
+        "Non è stato possibile inoltrare la richiesta. Se pensi di averne diritto, contatta l'assistenza per ulteriori verifiche",
     },
   },
   AGREEMENT_VERIFY_ATTRIBUTE: {

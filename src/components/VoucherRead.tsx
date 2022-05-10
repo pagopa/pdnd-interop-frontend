@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Grid, Paper } from '@mui/material'
+import { Grid, Paper, Typography } from '@mui/material'
 import {
   ClientKind,
   ClientPurpose,
@@ -16,6 +16,7 @@ import { fetchWithLogs } from '../lib/api-utils'
 import { isFetchError } from '../lib/error-utils'
 import { AxiosResponse } from 'axios'
 import { StyledInputControlledSelect } from '../components/Shared/StyledInputControlledSelect'
+import { StyledLink } from './Shared/StyledLink'
 
 const STEPS: Array<StepperStep> = [
   { label: 'Client assertion', component: VoucherReadStep1 },
@@ -48,7 +49,9 @@ const ClientVoucherRead = ({ clientId, clientKind, purposes }: VoucherReadProps)
   const { component: Step } = STEPS[activeStep]
 
   const [purpose, setPurpose] = useState()
-  const [selectedPurposeId, setSelectedPurposeId] = useState(purposes ? purposes[0].purposeId : '')
+  const [selectedPurposeId, setSelectedPurposeId] = useState(
+    purposes && Boolean(purposes.length > 0) ? purposes[0].purposeId : ''
+  )
 
   const onPurposeIdChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement
@@ -81,25 +84,32 @@ const ClientVoucherRead = ({ clientId, clientKind, purposes }: VoucherReadProps)
   return (
     <Grid container>
       <Grid item xs={8}>
-        {purposes && (
-          <Paper sx={{ bgcolor: 'background.paper', px: 3, py: 1, mb: 2 }}>
-            <StyledInputControlledSelect
-              sx={{ my: 4 }}
-              name="purpose"
-              label="Scegli la finalità da utilizzare"
-              value={selectedPurposeId}
-              onChange={onPurposeIdChange}
-              options={purposes.map((p) => ({
-                value: p.purposeId,
-                label: `${p.title} per ${p.agreement.eservice.name}`,
-              }))}
-              emptyLabel="Non ci sono finalità disponibili"
-            />
-          </Paper>
-        )}
+        {purposes && Boolean(purposes.length > 0) ? (
+          <React.Fragment>
+            <Paper sx={{ bgcolor: 'background.paper', px: 3, py: 1, mb: 2 }}>
+              <StyledInputControlledSelect
+                sx={{ my: 4 }}
+                name="purpose"
+                label="Scegli la finalità da utilizzare"
+                value={selectedPurposeId}
+                onChange={onPurposeIdChange}
+                options={purposes.map((p) => ({
+                  value: p.purposeId,
+                  label: `${p.title} per ${p.agreement.eservice.name}`,
+                }))}
+                emptyLabel="Non ci sono finalità disponibili"
+              />
+            </Paper>
 
-        <StyledStepper steps={STEPS} activeIndex={activeStep} />
-        <Step {...stepProps} />
+            <StyledStepper steps={STEPS} activeIndex={activeStep} />
+            <Step {...stepProps} />
+          </React.Fragment>
+        ) : (
+          <Typography>
+            Non ci sono finalità disponibili.{' '}
+            <StyledLink to={''}>Crea la tua prima finalità</StyledLink>
+          </Typography>
+        )}
       </Grid>
     </Grid>
   )
