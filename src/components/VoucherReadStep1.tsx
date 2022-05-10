@@ -111,7 +111,7 @@ export const VoucherReadStep1 = ({
         label="KID"
         labelDescription="La chiave pubblica corrispondente a quella privata che userai per firmare l’asserzione"
       >
-        {error ? (
+        {error && error.response?.status !== 404 ? (
           <Alert severity="error">Non è stato possibile caricare le chiavi</Alert>
         ) : keysData && Boolean(keysData.keys.length > 0) ? (
           <InlineClipboard
@@ -130,7 +130,7 @@ export const VoucherReadStep1 = ({
                   { tab: 'publicKeys' }
                 )}
               >
-                Torna al client
+                Vai al client
               </StyledLink>{' '}
               per creare la tua prima chiave
             </Typography>
