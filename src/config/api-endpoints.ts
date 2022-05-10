@@ -31,7 +31,7 @@ export const API_GATEWAY_URL =
   (PAGOPA_ENV && PAGOPA_ENV.API_GATEWAY_URL) || `${API_HOST}/api-gateway/0.1`
 export const AUTHORIZATION_SERVER_ACCESS_TOKEN_URL =
   (PAGOPA_ENV && PAGOPA_ENV.AUTHORIZATION_SERVER_TOKEN_CREATION_URL) ||
-  `${API_HOST}/authorization-server/0.1`
+  `${API_HOST}/authorization-server/token.oauth2`
 
 export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
   ONBOARDING_GET_AVAILABLE_PARTIES: {

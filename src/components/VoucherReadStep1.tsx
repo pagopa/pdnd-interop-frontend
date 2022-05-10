@@ -19,7 +19,7 @@ import { CodeLanguagePicker } from './Shared/CodeLanguagePicker'
 
 const CLIENT_ASSERTION_TYP = 'JWT'
 const CLIENT_ASSERTION_ALG = 'RS256'
-const CLIENT_ASSERTION_AUD = 'test.interop.pdnd.it'
+const CLIENT_ASSERTION_AUD = 'test.interop.pagopa.it/client-assertion'
 
 export const VoucherReadStep1 = ({
   clientKind,
