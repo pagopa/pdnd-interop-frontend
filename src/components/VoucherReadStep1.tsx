@@ -6,12 +6,8 @@ import { ClientVoucherStepProps, InteropM2MVoucherStepProps } from './VoucherRea
 import { StepActions } from './Shared/StepActions'
 import { StyledIntro } from './Shared/StyledIntro'
 import { DescriptionBlock } from './DescriptionBlock'
-import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { PublicKeys } from '../../types'
-import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 import { InlineClipboard } from './Shared/InlineClipboard'
 import { Link } from '@mui/material'
-import { StyledLink } from './Shared/StyledLink'
 import { URL_FE } from '../lib/constants'
 import { StyledInputControlledSelect } from './Shared/StyledInputControlledSelect'
 import { CodeSnippetPreview } from './Shared/CodeSnippedPreview'
@@ -32,25 +28,17 @@ export const VoucherReadStep1 = ({
 
   const { routes } = useRoute()
 
-  const {
-    data: keysData,
-    error,
-    isLoading,
-  } = useAsyncFetch<PublicKeys>({
-    path: { endpoint: 'KEY_GET_LIST', endpointParams: { clientId: typedProps.clientId } },
-  })
-
   const [selectedKid, setSelectedKid] = useState<string>('')
 
   useEffect(() => {
-    if (keysData && keysData.keys.length > 0) {
-      setSelectedKid(keysData.keys[0].key.kid)
+    if (props.keysData && props.keysData.keys.length > 0) {
+      setSelectedKid(props.keysData.keys[0].key.kid)
     }
-  }, [keysData])
+  }, [props.keysData])
 
   const onKidChange = (e: React.ChangeEvent<Element>) => {
-    console.log(e)
-    // setSelectedKid(newKid)
+    const target = e.target as HTMLInputElement
+    setSelectedKid(target.value)
   }
 
   const [selectedCodeLanguage, setSelectedCodeLanguage] = useState<string>('python')
@@ -80,25 +68,20 @@ export const VoucherReadStep1 = ({
         }}
       </StyledIntro>
 
-      {isLoading ? (
-        <LoadingWithMessage label="Stiamo caricando le chiavi" transparentBackground={true} />
-      ) : (
-        keysData &&
-        Boolean(keysData.keys.length > 0) && (
-          <Grid container sx={{ my: 4 }}>
-            <Grid item xs={8}>
-              <StyledInputControlledSelect
-                sx={{ mt: 0 }}
-                name="kid"
-                label="Scegli la chiave pubblica da utilizzare"
-                value={selectedKid}
-                onChange={onKidChange}
-                options={keysData.keys.map((k) => ({ value: k.key.kid, label: k.name }))}
-                emptyLabel=""
-              />
-            </Grid>
+      {props.keysData && Boolean(props.keysData.keys.length > 0) && (
+        <Grid container sx={{ my: 4 }}>
+          <Grid item xs={8}>
+            <StyledInputControlledSelect
+              sx={{ mt: 0 }}
+              name="kid"
+              label="Scegli la chiave pubblica da utilizzare"
+              value={selectedKid}
+              onChange={onKidChange}
+              options={props.keysData.keys.map((k) => ({ value: k.key.kid, label: k.name }))}
+              emptyLabel=""
+            />
           </Grid>
-        )
+        </Grid>
       )}
 
       <Divider />
@@ -111,31 +94,7 @@ export const VoucherReadStep1 = ({
         label="KID"
         labelDescription="La chiave pubblica corrispondente a quella privata che userai per firmare l’asserzione"
       >
-        {error && error.response?.status !== 404 ? (
-          <Alert severity="error">Non è stato possibile caricare le chiavi</Alert>
-        ) : keysData && Boolean(keysData.keys.length > 0) ? (
-          <InlineClipboard
-            textToCopy={selectedKid}
-            successFeedbackText="Id copiato correttamente"
-          />
-        ) : (
-          <React.Fragment>
-            <Typography>
-              Non ci sono chiavi disponibili.
-              <br />
-              <StyledLink
-                to={buildDynamicPath(
-                  routes.SUBSCRIBE_CLIENT_EDIT.PATH,
-                  { clientId: typedProps.clientId },
-                  { tab: 'publicKeys' }
-                )}
-              >
-                Vai al client
-              </StyledLink>{' '}
-              per creare la tua prima chiave
-            </Typography>
-          </React.Fragment>
-        )}
+        <InlineClipboard textToCopy={selectedKid} successFeedbackText="Id copiato correttamente" />
       </DescriptionBlock>
 
       <DescriptionBlock

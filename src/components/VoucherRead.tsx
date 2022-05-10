@@ -3,6 +3,7 @@ import { Alert, Grid, Paper } from '@mui/material'
 import {
   ClientKind,
   ClientPurpose,
+  PublicKeys,
   Purpose,
   StepperStep,
   StepperStepComponentProps,
@@ -18,6 +19,9 @@ import { AxiosResponse } from 'axios'
 import { StyledInputControlledSelect } from '../components/Shared/StyledInputControlledSelect'
 import { StyledLink } from './Shared/StyledLink'
 import { useRoute } from '../hooks/useRoute'
+import { useAsyncFetch } from '../hooks/useAsyncFetch'
+import { LoadingWithMessage } from './Shared/LoadingWithMessage'
+import { buildDynamicPath } from '../lib/router-utils'
 
 const STEPS: Array<StepperStep> = [
   { label: 'Client assertion', component: VoucherReadStep1 },
@@ -29,12 +33,14 @@ export type ClientVoucherStepProps = StepperStepComponentProps & {
   purposeId: string
   clientId: string
   clientKind: ClientKind
+  keysData: PublicKeys
   data?: Purpose
 }
 
 export type InteropM2MVoucherStepProps = StepperStepComponentProps & {
   clientId: string
   clientKind: ClientKind
+  keysData: PublicKeys
 }
 
 type VoucherReadProps = {
@@ -45,7 +51,12 @@ type VoucherReadProps = {
 
 type InteropVoucherReadProps = Omit<VoucherReadProps, 'purposes'>
 
-const ClientVoucherRead = ({ clientId, clientKind, purposes }: VoucherReadProps) => {
+const ClientVoucherRead = ({
+  clientId,
+  clientKind,
+  purposes,
+  keysData,
+}: VoucherReadProps & { keysData: PublicKeys }) => {
   const { activeStep, forward, back } = useActiveStep()
   const { component: Step } = STEPS[activeStep]
   const { routes } = useRoute()
@@ -81,6 +92,7 @@ const ClientVoucherRead = ({ clientId, clientKind, purposes }: VoucherReadProps)
     purposeId: selectedPurposeId,
     clientId,
     clientKind,
+    keysData,
   }
 
   return (
@@ -119,10 +131,14 @@ const ClientVoucherRead = ({ clientId, clientKind, purposes }: VoucherReadProps)
   )
 }
 
-const InteropM2MVoucherRead = ({ clientId, clientKind }: InteropVoucherReadProps) => {
+const InteropM2MVoucherRead = ({
+  clientId,
+  clientKind,
+  keysData,
+}: InteropVoucherReadProps & { keysData: PublicKeys }) => {
   const { activeStep, forward, back } = useActiveStep()
   const { component: Step } = STEPS[activeStep]
-  const stepProps: InteropM2MVoucherStepProps = { forward, back, clientId, clientKind }
+  const stepProps: InteropM2MVoucherStepProps = { forward, back, clientId, clientKind, keysData }
 
   return (
     <Grid container>
@@ -135,9 +151,50 @@ const InteropM2MVoucherRead = ({ clientId, clientKind }: InteropVoucherReadProps
 }
 
 export const VoucherRead = ({ clientId, clientKind, purposes }: VoucherReadProps) => {
+  const { routes } = useRoute()
+
+  const {
+    data: keysData,
+    error,
+    isLoading,
+  } = useAsyncFetch<PublicKeys>({
+    path: { endpoint: 'KEY_GET_LIST', endpointParams: { clientId } },
+  })
+
+  if (isLoading) {
+    return <LoadingWithMessage label="Stiamo caricando le chiavi disponibili" />
+  }
+
+  if (error && error.response?.status !== 404) {
+    return <div>non è stato possibile caricare le chiavi</div>
+  }
+
+  if (
+    (error && error?.response?.status === 404) ||
+    (keysData && Boolean(keysData.keys.length === 0))
+  ) {
+    return (
+      <Alert severity="info">
+        Non ci sono chiavi disponibili, non è possibile staccare un voucher. Vai alla{' '}
+        <StyledLink
+          to={buildDynamicPath(
+            routes.SUBSCRIBE_CLIENT_EDIT.PATH,
+            { clientId },
+            { tab: 'publicKeys' }
+          )}
+        >
+          tab delle chiavi pubbliche
+        </StyledLink>{' '}
+        per caricare la tua prima chiave
+      </Alert>
+    )
+  }
+
+  const props = { clientId, clientKind, keysData: keysData as PublicKeys }
+
   return clientKind === 'CONSUMER' ? (
-    <ClientVoucherRead clientId={clientId} clientKind={clientKind} purposes={purposes} />
+    <ClientVoucherRead {...props} purposes={purposes} />
   ) : (
-    <InteropM2MVoucherRead clientId={clientId} clientKind={clientKind} />
+    <InteropM2MVoucherRead {...props} />
   )
 }

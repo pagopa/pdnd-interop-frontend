@@ -13,7 +13,6 @@ import { EServiceReadType } from '../../types'
 import { URL_INTEROP_M2M_INTERFACE_DOCUMENT } from '../lib/constants'
 
 export const VoucherReadStep3 = ({
-  clientId,
   clientKind,
   back,
   forward,
@@ -24,17 +23,11 @@ export const VoucherReadStep3 = ({
       clientKind={clientKind}
       forward={forward}
       back={back}
-      clientId={clientId}
       purposeId=""
       {...props}
     />
   ) : (
-    <InteropM2MVoucherReadStep3
-      clientKind={clientKind}
-      forward={forward}
-      back={back}
-      clientId={clientId}
-    />
+    <InteropM2MVoucherReadStep3 clientKind={clientKind} forward={forward} back={back} {...props} />
   )
 }
 
