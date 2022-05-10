@@ -247,7 +247,11 @@ export const VoucherReadStep1 = ({
 
       <CodeSnippetPreview
         sx={{ mt: 2 }}
-        title="create_client_assertion.py"
+        title={
+          clientKind === 'CONSUMER'
+            ? 'create_client_assertion.py'
+            : 'create_m2m_client_assertion.py'
+        }
         activeLang={selectedCodeLanguage}
         entries={[
           {

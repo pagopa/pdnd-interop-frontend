@@ -6,6 +6,8 @@ import { StyledIntro } from './Shared/StyledIntro'
 import { DescriptionBlock } from './DescriptionBlock'
 import { InlineClipboard } from './Shared/InlineClipboard'
 import { API_GATEWAY_URL, AUTHORIZATION_SERVER_ACCESS_TOKEN_URL } from '../config/api-endpoints'
+import { CodeSnippetPreview } from './Shared/CodeSnippedPreview'
+import { URL_FE } from '../lib/constants'
 
 const CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
 const GRANT_TYPE = 'client_credentials'
@@ -95,16 +97,18 @@ export const VoucherReadStep2 = ({
         }}
       </StyledIntro>
 
-      <Typography component="p" variant="caption" sx={{ bgcolor: 'background.paper', p: 2 }}>
-        <code>
-          curl --location --request POST &apos;{AUTHORIZATION_SERVER_ACCESS_TOKEN_URL}&apos; \<br />
-          --header &apos;Content-Type: application/x-www-form-urlencoded&apos; \<br />
-          --data-urlencode &apos;client_id={clientId}&apos; \<br />
-          --data-urlencode &apos;client_assertion=LA_TUA_CLIENT_ASSERTION&apos; \<br />
-          --data-urlencode &apos;client_assertion_type={CLIENT_ASSERTION_TYPE}&apos; \<br />
-          --data-urlencode &apos;grant_type={GRANT_TYPE}&apos;
-        </code>
-      </Typography>
+      <CodeSnippetPreview
+        sx={{ mt: 2 }}
+        title="cURL di esempio"
+        activeLang="curl"
+        entries={[{ url: `${URL_FE}/data/it/session_token_curl.txt`, value: 'curl' }]}
+        scriptSubstitutionValues={{
+          AUTHORIZATION_SERVER_ACCESS_TOKEN_URL: AUTHORIZATION_SERVER_ACCESS_TOKEN_URL,
+          CLIENT_ID: clientId,
+          CLIENT_ASSERTION_TYPE: CLIENT_ASSERTION_TYPE,
+          GRANT_TYPE: GRANT_TYPE,
+        }}
+      />
 
       <StepActions
         back={{ label: 'Indietro', type: 'button', onClick: back }}

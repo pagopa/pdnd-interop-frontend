@@ -1,4 +1,4 @@
-python create_client_assertion.py \
+python create_m2m_client_assertion.py \
   --kid INSERISCI_VALORE_KID \
   --alg INSERISCI_VALORE_ALG \
   --typ INSERISCI_VALORE_TYP \

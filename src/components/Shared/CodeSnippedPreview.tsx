@@ -37,7 +37,7 @@ export const CodeSnippetPreview = ({
     }
 
     const values = scriptSubstitutionValues as Record<string, string>
-    const keysRegex = new RegExp(Object.keys(values).join('|'), 'gi')
+    const keysRegex = new RegExp(Object.keys(values).join('|'), 'g')
     return codeString.replace(keysRegex, (match: string) => values[match])
   }
 
@@ -64,8 +64,8 @@ export const CodeSnippetPreview = ({
         </Typography>
       )}
       <Box sx={{ position: 'relative' }}>
-        <Box sx={{ position: 'absolute', right: 0, top: 0, zIndex: 1 }}>
-          <Box sx={{ mr: 0, mt: 0 }}>
+        <Box sx={{ position: 'absolute', right: 2, top: 2, zIndex: 1 }}>
+          <Box sx={{ mr: 0, mt: 0, bgcolor: 'common.white' }}>
             {activeLang && codeEntries[activeLang] && (
               <FixedClipboard
                 textToCopy={remapCodeWithSubstitutions(codeEntries[activeLang])}
@@ -76,7 +76,8 @@ export const CodeSnippetPreview = ({
         </Box>
         <Box
           sx={{
-            height: 300,
+            maxHeight: 300,
+            height: '100%',
             overflowY: 'auto',
             border: 2,
             borderColor: 'background.default',
