@@ -107,7 +107,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
   }
 
   const getFormattedVoucherLifespan = () => {
-    const { hours, minutes } = secondsToHoursMinutes(activeDescriptor.voucherLifespan / 60)
+    const { hours, minutes } = secondsToHoursMinutes(activeDescriptor.voucherLifespan)
 
     const minutesLabel = minutes !== 1 ? 'minuti' : 'minuto'
     const hoursLabel = hours !== 1 ? 'ore' : 'ora'
@@ -184,8 +184,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
             //   },
             // },
             {
-              label: 'Documento di interfaccia',
-              prettyName: activeDescriptor.interface.prettyName,
+              label: activeDescriptor.interface.prettyName,
               onClick: wrapDownloadDocument(activeDescriptor.interface.id),
             },
             ...activeDescriptor.docs.map((d) => ({
