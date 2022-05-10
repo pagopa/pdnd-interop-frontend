@@ -83,7 +83,7 @@ export function ClientEdit() {
 
               <PageBottomActions>
                 <StyledButton variant="contained" onClick={deleteClient}>
-                  Elimina
+                  Elimina client
                 </StyledButton>
                 <StyledButton
                   variant="outlined"

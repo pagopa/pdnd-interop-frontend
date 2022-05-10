@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Grid, Paper, Typography } from '@mui/material'
+import { Alert, Grid, Paper } from '@mui/material'
 import {
   ClientKind,
   ClientPurpose,
@@ -17,6 +17,7 @@ import { isFetchError } from '../lib/error-utils'
 import { AxiosResponse } from 'axios'
 import { StyledInputControlledSelect } from '../components/Shared/StyledInputControlledSelect'
 import { StyledLink } from './Shared/StyledLink'
+import { useRoute } from '../hooks/useRoute'
 
 const STEPS: Array<StepperStep> = [
   { label: 'Client assertion', component: VoucherReadStep1 },
@@ -47,6 +48,7 @@ type InteropVoucherReadProps = Omit<VoucherReadProps, 'purposes'>
 const ClientVoucherRead = ({ clientId, clientKind, purposes }: VoucherReadProps) => {
   const { activeStep, forward, back } = useActiveStep()
   const { component: Step } = STEPS[activeStep]
+  const { routes } = useRoute()
 
   const [purpose, setPurpose] = useState()
   const [selectedPurposeId, setSelectedPurposeId] = useState(
@@ -105,10 +107,12 @@ const ClientVoucherRead = ({ clientId, clientKind, purposes }: VoucherReadProps)
             <Step {...stepProps} />
           </React.Fragment>
         ) : (
-          <Typography>
+          <Alert severity="info">
             Non ci sono finalità disponibili.{' '}
-            <StyledLink to={''}>Crea la tua prima finalità</StyledLink>
-          </Typography>
+            <StyledLink to={routes.SUBSCRIBE_PURPOSE_CREATE.PATH}>
+              Crea la tua prima finalità
+            </StyledLink>
+          </Alert>
         )}
       </Grid>
     </Grid>
