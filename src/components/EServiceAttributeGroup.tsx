@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { Box } from '@mui/system'
+import { Typography } from '@mui/material'
 import { mixed, object, string } from 'yup'
 import {
   AttributeKey,
@@ -117,10 +118,31 @@ export function EServiceAttributeGroup({
       >
         {Boolean(attributesGroup.length > 0) &&
           attributesGroup.map(({ attributes, explicitAttributeVerification }, j) => {
-            const attributesLabel = { label: attributes.map(({ name }) => name).join(' oppure ') }
+            const attributesLabel = {
+              label: (
+                <React.Fragment>
+                  {attributes.map(({ name }, i) => {
+                    if (i < attributes.length - 1) {
+                      return (
+                        <React.Fragment key={i}>
+                          {name}{' '}
+                          <Typography component="span" fontWeight={600}>
+                            oppure
+                          </Typography>{' '}
+                        </React.Fragment>
+                      )
+                    }
+
+                    return <React.Fragment key={i}>{name}</React.Fragment>
+                  })}
+                </React.Fragment>
+              ),
+            }
+
             const explicitAttributeVerificationLabel = {
               label: explicitAttributeVerification ? 'Sì' : 'No',
             }
+
             const cellData =
               attributeKey === 'verified'
                 ? [attributesLabel, explicitAttributeVerificationLabel]

@@ -1,6 +1,13 @@
 import React, { FunctionComponent } from 'react'
 import { Formik } from 'formik'
-import { Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Typography,
+  Divider,
+} from '@mui/material'
 import { Box } from '@mui/system'
 import { StyledButton } from './StyledButton'
 import {
@@ -34,7 +41,7 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
   const verifiedCondition = attributeKey === 'verified'
 
   return (
-    <Dialog open onClose={closeDialog} aria-describedby="Modale per azione" fullWidth>
+    <Dialog open onClose={closeDialog} aria-describedby="Modale per azione" fullWidth maxWidth="md">
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
@@ -44,16 +51,20 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
         {({ handleSubmit, values, setFieldValue }) => (
           <StyledForm onSubmit={handleSubmit}>
             <DialogTitle>
-              Aggiungi attributo {ATTRIBUTE_TYPE_SINGULAR_LABEL[attributeKey]} esistente
+              Aggiungi attributo o gruppo {ATTRIBUTE_TYPE_SINGULAR_LABEL[attributeKey]}
             </DialogTitle>
 
             <DialogContent>
-              <Typography>Se selezioni più di un attributo verrà trattato come “gruppo”</Typography>
+              <Typography>
+                Se selezioni più di un attributo per volta verrà trattato come “gruppo”. Sarà
+                sufficiente per il Fruitore possedere uno solo degli attributi nel gruppo per
+                passare la verifica
+              </Typography>
 
-              <Box sx={{ mt: 3 }}>
+              <Box sx={{}}>
                 <StyledInputControlledAsyncAutocomplete
                   label="Attributi selezionati"
-                  sx={{ mt: 6, mb: 0 }}
+                  sx={{ mt: 2, mb: 0 }}
                   multiple={true}
                   placeholder="..."
                   path={{ endpoint: 'ATTRIBUTE_GET_LIST' }}
@@ -95,15 +106,18 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
 
               {values.selected && !!(values.selected.length > 0) && (
                 <Box sx={{ mt: 2 }}>
-                  <Typography sx={{ mt: 0, mb: 1 }} fontWeight={600}>
-                    Hai selezionato
-                  </Typography>
-                  <StyledAccordion
-                    entries={values.selected.map(({ name, description }) => ({
-                      summary: name,
-                      details: description,
-                    }))}
-                  />
+                  <Divider />
+                  <Box sx={{ mt: 1 }}>
+                    <Typography sx={{ mt: 0, mb: 1 }} fontWeight={600}>
+                      Hai selezionato
+                    </Typography>
+                    <StyledAccordion
+                      entries={values.selected.map(({ name, description }) => ({
+                        summary: name,
+                        details: description,
+                      }))}
+                    />
+                  </Box>
                 </Box>
               )}
             </DialogContent>

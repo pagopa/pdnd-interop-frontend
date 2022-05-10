@@ -3,7 +3,7 @@ import { Chip, TableCell, TableRow, Typography } from '@mui/material'
 import { MUIColor } from '../../../types'
 
 type LabelCell = {
-  label: string
+  label: string | JSX.Element
   tooltip?: ReactElement
 }
 

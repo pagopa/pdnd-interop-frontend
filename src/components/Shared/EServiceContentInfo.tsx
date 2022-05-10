@@ -1,4 +1,4 @@
-import { Box, Chip, Typography } from '@mui/material'
+import { Box, Chip, Grid, Typography } from '@mui/material'
 import { AxiosResponse } from 'axios'
 import has from 'lodash/has'
 import React, { FunctionComponent } from 'react'
@@ -70,7 +70,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
         ? [(attribute as SingleBackendAttribute).single]
         : (attribute as GroupBackendAttribute).group
 
-      let summary = ''
+      let summary: string | JSX.Element
       let details: string | JSX.Element = ''
       if (labels.length === 1) {
         const { name, description, explicitAttributeVerification } = labels[0]
@@ -78,14 +78,34 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
           explicitAttributeVerification,
           attributeKey
         )}`
+
         details = description
       } else {
-        summary = `${labels
-          .map(({ name }) => name)
-          .join(' oppure ')}${getVerificationRequiredStringMaybe(
-          labels[0].explicitAttributeVerification,
-          attributeKey
-        )}`
+        const summaryComponent = labels.map(({ name }, i) => {
+          if (i < labels.length - 1) {
+            return (
+              <React.Fragment key={i}>
+                {name}{' '}
+                <Typography component="span" fontWeight={600}>
+                  oppure
+                </Typography>{' '}
+              </React.Fragment>
+            )
+          }
+
+          return name
+        })
+
+        summary = (
+          <React.Fragment>
+            {summaryComponent}{' '}
+            {getVerificationRequiredStringMaybe(
+              labels[0].explicitAttributeVerification,
+              attributeKey
+            )}
+          </React.Fragment>
+        )
+
         details = (
           <React.Fragment>
             {labels.map((label, i) => {
@@ -164,9 +184,11 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
       {(Object.keys(data.attributes) as Array<AttributeKey>).map((key, i) => (
         <DescriptionBlock key={i} label={`Attributi ${ATTRIBUTE_TYPE_PLURAL_LABEL[key]}`}>
           {data.attributes[key].length > 0 ? (
-            <Box sx={{ mt: 1 }}>
-              <StyledAccordion entries={toAccordionEntries(data.attributes[key], key)} />
-            </Box>
+            <Grid container sx={{ mt: 1 }}>
+              <Grid item xs={8}>
+                <StyledAccordion entries={toAccordionEntries(data.attributes[key], key)} />
+              </Grid>
+            </Grid>
           ) : (
             <Typography component="span">Nessun attributo presente</Typography>
           )}
