@@ -78,10 +78,10 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
     return { outcome, response }
   }
 
-  const uploadDescriptorDocument = async ({ description, doc, kind }: EServiceDocumentWrite) => {
+  const uploadDescriptorDocument = async ({ prettyName, doc, kind }: EServiceDocumentWrite) => {
     const formData = new FormData()
     formData.append('kind', kind)
-    formData.append('description', description || '')
+    formData.append('prettyName', prettyName || '')
     formData.append('doc', doc)
 
     const activeDescriptor = sureFetchedData.activeDescriptor as EServiceDescriptorRead

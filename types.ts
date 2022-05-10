@@ -235,8 +235,8 @@ export type EServiceCreateType = {
 }
 
 export type EServiceDocumentWrite = {
+  prettyName: string
   kind: EServiceDocumentKind
-  description: string
   doc: File
 }
 
@@ -305,9 +305,9 @@ export type EServiceDescriptorRead = {
 
 export type EServiceDocumentRead = {
   contentType: string
-  description: string
   id: string
   name: string
+  prettyName: string
 }
 
 /*

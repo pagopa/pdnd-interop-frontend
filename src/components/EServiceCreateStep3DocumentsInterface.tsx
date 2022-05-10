@@ -29,7 +29,7 @@ type EServiceCreateStep3DocumentsInterfaceProps = {
 
 type InputValues = {
   interface: File | null
-  description?: string
+  prettyName?: string
 }
 
 export function EServiceCreateStep3DocumentsInterface({
@@ -40,9 +40,9 @@ export function EServiceCreateStep3DocumentsInterface({
 }: EServiceCreateStep3DocumentsInterfaceProps) {
   const validationSchema = object({
     interface: mixed().required(),
-    description: string().required(),
+    prettyName: string().required(),
   })
-  const initialValues: InputValues = { interface: null, description: '' }
+  const initialValues: InputValues = { interface: null, prettyName: 'Documento specifica API' }
 
   const [readDoc, setReadDoc] = useState<EServiceDocumentRead | undefined>()
 
@@ -74,7 +74,7 @@ export function EServiceCreateStep3DocumentsInterface({
 
     const dataToPost = {
       doc: data.interface as File,
-      description: data.description as string,
+      prettyName: data.prettyName as string,
       kind: 'INTERFACE' as EServiceDocumentKind,
     }
     const { outcome, response } = await uploadDescriptorDocument(dataToPost)
@@ -91,6 +91,7 @@ export function EServiceCreateStep3DocumentsInterface({
   const activeDescriptor = data.activeDescriptor as EServiceDescriptorRead
   return readDoc ? (
     <StyledDeleteableDocument
+      isLabelEditable={false}
       eserviceId={data.id}
       descriptorId={activeDescriptor.id}
       readable={readDoc}
@@ -106,7 +107,7 @@ export function EServiceCreateStep3DocumentsInterface({
         validateOnBlur={false}
         enableReinitialize={true}
       >
-        {({ handleSubmit, errors, values, handleChange, setFieldValue }) => (
+        {({ handleSubmit, errors, values, setFieldValue }) => (
           <StyledForm onSubmit={handleSubmit}>
             <StyledInputControlledFile
               sx={{ my: 0 }}
@@ -119,13 +120,10 @@ export function EServiceCreateStep3DocumentsInterface({
 
             <StyledInputControlledText
               sx={{ my: 2 }}
-              name="description"
-              label="Descrizione"
-              value={values.description}
-              error={errors.description}
-              onChange={handleChange}
-              multiline={true}
-              rows={4}
+              name="prettyName"
+              label="Nome documento"
+              value={values.prettyName}
+              disabled={true}
             />
 
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>

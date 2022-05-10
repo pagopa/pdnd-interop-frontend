@@ -30,7 +30,7 @@ type EServiceCreateStep3DocumentsDocProps = {
 
 type InputValues = {
   doc: File | null
-  description?: string
+  prettyName?: string
 }
 
 export function EServiceCreateStep3DocumentsDoc({
@@ -41,9 +41,9 @@ export function EServiceCreateStep3DocumentsDoc({
 }: EServiceCreateStep3DocumentsDocProps) {
   const validationSchema = object({
     doc: mixed().required(),
-    description: string().required(),
+    prettyName: string().required(),
   })
-  const initialValues: InputValues = { doc: null, description: '' }
+  const initialValues: InputValues = { doc: null, prettyName: '' }
 
   const initialDocs = getActiveDocs(data, activeDescriptorId)
 
@@ -70,9 +70,10 @@ export function EServiceCreateStep3DocumentsDoc({
   const uploadNewDoc = async (data: InputValues) => {
     const dataToPost = {
       doc: data.doc as File,
-      description: data.description as string,
+      prettyName: data.prettyName as string,
       kind: 'DOCUMENT' as EServiceDocumentKind,
     }
+
     const { outcome, response } = await uploadDescriptorDocument(dataToPost)
 
     if (outcome === 'success') {
@@ -140,12 +141,11 @@ export function EServiceCreateStep3DocumentsDoc({
 
                 <StyledInputControlledText
                   sx={{ my: 2 }}
-                  name="description"
-                  label="Descrizione"
-                  value={values.description}
-                  error={errors.description}
+                  name="prettyName"
+                  label="Nome documento"
+                  value={values.prettyName}
+                  error={errors.prettyName}
                   onChange={handleChange}
-                  multiline={true}
                   rows={4}
                 />
 

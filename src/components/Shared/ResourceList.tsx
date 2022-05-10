@@ -9,7 +9,7 @@ import { Grid, Typography } from '@mui/material'
 
 type Resource = {
   label: string
-  description?: string
+  prettyName?: string
   onClick: VoidFunction
   type?: 'download' | 'externalLink'
 }
@@ -21,7 +21,7 @@ type ResourceListProps = {
 export const ResourceList: FunctionComponent<ResourceListProps> = ({ resources }) => {
   return (
     <Grid container columnSpacing={1} rowSpacing={1} alignItems="stretch">
-      {resources.map(({ label, description, onClick, type = 'download' }, i) => {
+      {resources.map(({ label, prettyName, onClick, type = 'download' }, i) => {
         const Icon = {
           download: FileDownloadOutlinedIcon,
           externalLink: LaunchIcon,
@@ -47,10 +47,10 @@ export const ResourceList: FunctionComponent<ResourceListProps> = ({ resources }
                 <Typography sx={{ fontWeight: 600 }} component="span">
                   {label}
                 </Typography>
-                {description && (
+                {prettyName && (
                   <React.Fragment>
                     <br />
-                    <Typography component="span">{description}</Typography>
+                    <Typography component="span">{prettyName}</Typography>
                   </React.Fragment>
                 )}
               </Box>

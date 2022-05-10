@@ -185,11 +185,11 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
             // },
             {
               label: 'Documento di interfaccia',
-              description: activeDescriptor.interface.description,
+              prettyName: activeDescriptor.interface.prettyName,
               onClick: wrapDownloadDocument(activeDescriptor.interface.id),
             },
             ...activeDescriptor.docs.map((d) => ({
-              label: d.description,
+              label: d.prettyName,
               onClick: wrapDownloadDocument(d.id),
             })),
           ]}

@@ -1,17 +1,22 @@
 import React, { useRef, useState } from 'react'
-import { Typography } from '@mui/material'
+import { InputAdornment } from '@mui/material'
 import { Box } from '@mui/system'
-import { Delete as DeleteIcon, ModeEdit as ModeEditIcon } from '@mui/icons-material'
+import {
+  Delete as DeleteIcon,
+  ModeEdit as ModeEditIcon,
+  AttachFile as AttachFileIcon,
+} from '@mui/icons-material'
 import { EServiceDocumentRead } from '../../../types'
-import { useFeedback } from '../../hooks/useFeedback'
+import { RunActionOutput, useFeedback } from '../../hooks/useFeedback'
 import { StyledButton } from './StyledButton'
 import { StyledTooltip } from './StyledTooltip'
-import { forceReflow } from '../../lib/wait-utils'
+import { StyledInputControlledText } from './StyledInputControlledText'
 
 type StyledDeleteableDocumentComponentProps = {
   eserviceId: string
   descriptorId: string
   readable: EServiceDocumentRead
+  isLabelEditable?: boolean
   deleteDocument: () => Promise<void>
 }
 
@@ -19,57 +24,52 @@ export function StyledDeleteableDocument({
   eserviceId,
   descriptorId,
   readable,
+  isLabelEditable = true,
   deleteDocument,
 }: StyledDeleteableDocumentComponentProps) {
+  const inputRef = useRef<HTMLInputElement>(null)
   const { runAction } = useFeedback()
-  const contentEditableRef = useRef<HTMLDivElement>(null)
   const [canEdit, setCanEdit] = useState(false)
-
-  // Cross browser place caret at the end of a contenteditable
-  // See: https://stackoverflow.com/a/4238971
-  const placeCaretAtEnd = (el: HTMLDivElement) => {
-    el.focus()
-    if (typeof window.getSelection != 'undefined' && typeof document.createRange != 'undefined') {
-      const range = document.createRange()
-      range.selectNodeContents(el)
-      range.collapse(false)
-      const sel = window.getSelection()
-      if (!sel) return
-      sel.removeAllRanges()
-      sel.addRange(range)
-    }
-  }
+  const [fixedValue, setFixedValue] = useState(readable.prettyName)
+  const [newValue, setNewValue] = useState(readable.prettyName)
 
   const updateCanEdit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
     const newState = !canEdit
     setCanEdit(newState)
 
-    if (newState) {
-      await forceReflow()
-      const ref = contentEditableRef.current as HTMLDivElement
-      ref.focus()
-      placeCaretAtEnd(ref)
+    if (newState && inputRef && inputRef.current) {
+      setTimeout(() => {
+        ;(inputRef.current as HTMLInputElement).focus()
+      }, 0)
     }
   }
 
+  const updateNewValue = (e: React.SyntheticEvent) => {
+    const target = e.target as HTMLInputElement
+    setNewValue(target.value)
+  }
+
   const postDescription = async () => {
-    const ref = contentEditableRef.current as HTMLDivElement
-    await runAction(
+    const { outcome } = (await runAction(
       {
         path: {
           endpoint: 'ESERVICE_VERSION_DRAFT_UPDATE_DOCUMENT_DESCRIPTION',
           endpointParams: { eserviceId, descriptorId, documentId: readable.id },
         },
-        config: { data: { description: ref.textContent } },
+        config: { data: { prettyName: newValue } },
       },
       { suppressToast: ['success'] }
-    )
+    )) as RunActionOutput
+
+    if (outcome === 'success') {
+      setFixedValue(newValue)
+    }
   }
 
-  const onBlur = () => {
+  const onBlur = async () => {
+    await postDescription()
     setCanEdit(false)
-    postDescription()
   }
 
   return (
@@ -84,36 +84,40 @@ export function StyledDeleteableDocument({
       }}
     >
       <Box sx={{ mr: 4, flexShrink: 1 }}>
-        <Typography component="span" fontWeight={700}>
-          {readable.name}
-        </Typography>
-        <br />
-
-        <Box
-          ref={contentEditableRef}
-          contentEditable={canEdit}
-          sx={{ mt: 1, py: 2, px: 1, mx: -1 }}
+        <StyledInputControlledText
+          ref={inputRef}
+          disabled={!canEdit || !isLabelEditable}
+          sx={{ my: 0, minWidth: 400 }}
+          name="prettyName"
+          label="Nome documento"
+          value={!canEdit ? fixedValue : newValue}
+          onChange={updateNewValue}
           onBlur={onBlur}
-          dangerouslySetInnerHTML={{ __html: decodeURIComponent(readable.description) }}
-          role="textbox"
-          aria-multiline="true"
-          aria-label="Inserisci descrizione del documento"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <AttachFileIcon fontSize="small" />
+              </InputAdornment>
+            ),
+          }}
         />
       </Box>
       <Box sx={{ ml: 4, flexShrink: 0 }}>
-        <StyledTooltip title="Modifica descrizione">
-          <StyledButton
-            sx={{
-              px: 1,
-              py: 1,
-              bgcolor: canEdit ? 'primary.main' : 'transparent',
-              color: canEdit ? 'common.white' : 'primary.main',
-            }}
-            onClick={updateCanEdit}
-          >
-            <ModeEditIcon fontSize="small" />
-          </StyledButton>
-        </StyledTooltip>
+        {isLabelEditable && (
+          <StyledTooltip title="Modifica nome del documento">
+            <StyledButton
+              sx={{
+                px: 1,
+                py: 1,
+                bgcolor: canEdit ? 'primary.main' : 'transparent',
+                color: canEdit ? 'common.white' : 'primary.main',
+              }}
+              onClick={updateCanEdit}
+            >
+              <ModeEditIcon fontSize="small" />
+            </StyledButton>
+          </StyledTooltip>
+        )}
         <StyledTooltip title="Cancella documento">
           <StyledButton sx={{ px: 1, py: 1 }} onClick={deleteDocument}>
             <DeleteIcon fontSize="small" />
