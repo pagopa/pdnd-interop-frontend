@@ -10,6 +10,7 @@ import { StyledButton } from './Shared/StyledButton'
 import { PageTopFilters } from './Shared/PageTopFilters'
 import { TempFilters } from './TempFilters'
 import { AsyncTableKey } from './Shared/AsyncTableKey'
+import { isAdmin, isOperatorSecurity } from '../lib/auth-utils'
 
 type KeyToPostProps = SecurityOperatorKeysFormInputValues & {
   use: 'SIG'
@@ -65,11 +66,12 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
     <React.Fragment>
       <PageTopFilters>
         <TempFilters />
-        {party?.productInfo.role === 'security' && (
-          <StyledButton variant="contained" size="small" onClick={openUploadKeyDialog}>
-            + Aggiungi
-          </StyledButton>
-        )}
+        {isAdmin(party) ||
+          (isOperatorSecurity(party) && (
+            <StyledButton variant="contained" size="small" onClick={openUploadKeyDialog}>
+              + Aggiungi
+            </StyledButton>
+          ))}
       </PageTopFilters>
 
       <AsyncTableKey
