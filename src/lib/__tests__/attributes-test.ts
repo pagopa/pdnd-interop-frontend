@@ -1,5 +1,3 @@
-import has from 'lodash/has'
-import flattenDeep from 'lodash/flattenDeep'
 import {
   BackendAttribute,
   BackendAttributes,
@@ -112,7 +110,7 @@ const exampleFrontendAttributes: FrontendAttributes = {
     {
       attributes: [
         {
-          certified: true,
+          kind: 'CERTIFIED',
           creationTime: '2022-02-28T16:16:18.879093Z',
           id: 'djsifdsj-dsfjdsi-djfds',
           origin: 'IPA',
@@ -128,7 +126,7 @@ const exampleFrontendAttributes: FrontendAttributes = {
     {
       attributes: [
         {
-          certified: false,
+          kind: 'VERIFIED',
           creationTime: '2022-02-28T16:16:18.879093Z',
           id: 'koniosn-ksdjfiods-ndsiofsn',
           origin: 'IPA',
@@ -137,7 +135,7 @@ const exampleFrontendAttributes: FrontendAttributes = {
           description: 'Lorem ipsum...',
         },
         {
-          certified: false,
+          kind: 'VERIFIED',
           creationTime: '2022-02-28T16:16:18.879093Z',
           id: 'oweurweop-dsfjsid-sdhfids',
           origin: 'IPA',
@@ -151,7 +149,7 @@ const exampleFrontendAttributes: FrontendAttributes = {
     {
       attributes: [
         {
-          certified: false,
+          kind: 'VERIFIED',
           creationTime: '2022-02-28T16:16:18.879093Z',
           id: 'ncxjvncx-ksdfs-mvnsd',
           origin: 'IPA',
@@ -167,7 +165,7 @@ const exampleFrontendAttributes: FrontendAttributes = {
     {
       attributes: [
         {
-          certified: false,
+          kind: 'DECLARED',
           creationTime: '2022-02-28T16:16:18.879093Z',
           id: 'bruibfer-xuihgx-ldskgjwfn',
           origin: 'IPA',
@@ -181,7 +179,7 @@ const exampleFrontendAttributes: FrontendAttributes = {
     {
       attributes: [
         {
-          certified: false,
+          kind: 'DECLARED',
           creationTime: '2022-02-28T16:16:18.879093Z',
           id: 'oidjfhgs-sdjfsid-engkew',
           origin: 'IPA',

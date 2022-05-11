@@ -30,7 +30,7 @@ Array [
         className="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
       >
         <p
-          className="MuiTypography-root MuiTypography-body1 css-1ts1f2d-MuiTypography-root"
+          className="MuiTypography-root MuiTypography-body1 css-1luejv3-MuiTypography-root"
         >
           A
         </p>
@@ -109,7 +109,7 @@ Array [
         className="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
       >
         <p
-          className="MuiTypography-root MuiTypography-body1 css-1ts1f2d-MuiTypography-root"
+          className="MuiTypography-root MuiTypography-body1 css-1luejv3-MuiTypography-root"
         >
           B
         </p>

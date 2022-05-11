@@ -25,6 +25,11 @@ exports[`Snapshot matches select 1`] = `
         onKeyDown={[Function]}
         onMouseDown={[Function]}
         role="button"
+        style={
+          Object {
+            "display": "block",
+          }
+        }
         tabIndex={0}
       >
         <span
