@@ -18,7 +18,6 @@ import { StyledToast } from './Shared/StyledToast'
 import { StyledDialog } from './Shared/StyledDialog'
 import { LoadingOverlay } from './Shared/LoadingOverlay'
 import { MainNav } from './MainNav'
-import { Layout } from './Shared/Layout'
 import { Box } from '@mui/system'
 import { useRoute } from '../hooks/useRoute'
 import '../lib/validation-config'
@@ -110,32 +109,30 @@ export function BodyLogger() {
             />
             {doesRouteAllowTwoColumnsLayout(history.location) ? (
               <Box sx={{ flexGrow: 1 }}>
-                <Layout sx={{ height: '100%', overflowX: 'hidden' }}>
-                  <Box sx={{ display: 'flex', height: '100%' }}>
-                    <MainNav />
-                    <Box
-                      sx={{
-                        pl: 2,
-                        py: 2,
-                        flexGrow: 1,
-                        position: 'relative',
-                        '::after': {
-                          content: '""',
-                          position: 'absolute',
-                          right: 0,
-                          top: 0,
-                          bgcolor: 'background.default',
-                          width: 10000,
-                          height: '100%',
-                          transform: 'translate(100%, 0)',
-                        },
-                      }}
-                      bgcolor="background.default"
-                    >
-                      <Main />
-                    </Box>
+                <Box sx={{ display: 'flex', height: '100%', overflowX: 'hidden' }}>
+                  <MainNav />
+                  <Box
+                    sx={{
+                      px: 3,
+                      py: 2,
+                      flexGrow: 1,
+                      position: 'relative',
+                      '::after': {
+                        content: '""',
+                        position: 'absolute',
+                        right: 0,
+                        top: 0,
+                        bgcolor: 'background.default',
+                        width: 10000,
+                        height: '100%',
+                        transform: 'translate(100%, 0)',
+                      },
+                    }}
+                    bgcolor="background.default"
+                  >
+                    <Main />
                   </Box>
-                </Layout>
+                </Box>
               </Box>
             ) : (
               <Box sx={{ flexGrow: 1 }}>

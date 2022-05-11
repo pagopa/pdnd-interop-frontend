@@ -130,6 +130,7 @@ const MainNavComponent = ({
         underline="none"
         to={PATH}
         sx={{
+          pl: 3,
           py: 2,
           display: 'block',
           borderRight: 2,
@@ -157,18 +158,18 @@ const MainNavComponent = ({
   return (
     <Box sx={{ display: 'block', py: 3, boxShadow: 5 }} component="nav">
       {shouldRender && (
-        <List
-          sx={{ width: WIDTH, position: 'sticky', top: 10 }}
-          aria-label="Navigazione principale"
-          disablePadding
-        >
+        <List sx={{ width: WIDTH }} aria-label="Navigazione principale" disablePadding>
           {items.map((item, i) => {
             const isSubmenuOpen = openSubmenuId === item.id
             const isSelected = isItemSelected(item.route)
 
             return !!item.children && Boolean(item.children.length > 0) ? (
               <Box key={i} color={isSelected ? 'primary.main' : 'text.primary'}>
-                <ListItemButton color="inherit" onClick={wrapSetOpenSubmenuId(item.id)}>
+                <ListItemButton
+                  sx={{ pl: 3 }}
+                  color="inherit"
+                  onClick={wrapSetOpenSubmenuId(item.id)}
+                >
                   <ListItemText
                     sx={{ color: 'inherit' }}
                     disableTypography
