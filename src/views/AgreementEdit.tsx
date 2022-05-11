@@ -232,7 +232,7 @@ export function AgreementEdit() {
   }
 
   const agreementSuspendExplanation =
-    "La richiesta può essere sospesa sia dall'erogatore che dal fruitore dell'E-Service. Se almeno uno dei due attori la sospende, inibirà l'accesso all'E-Service a tutti i client associati all'E-Service dal fruitore"
+    "La richiesta può essere sospesa sia dall'Erogatore che dal Fruitore. Se almeno uno dei due attori la sospende, inibirà l'accesso all'E-Service per tutte le finalità associate all'E-Service dal Fruitore"
 
   if (error) {
     return <NotFound errorType="server-error" />
@@ -248,10 +248,15 @@ export function AgreementEdit() {
         <React.Fragment>
           <DescriptionBlock label="Richiesta relativa a">
             <StyledLink
-              to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
-                eserviceId: data?.eservice.id,
-                descriptorId: data?.eserviceDescriptorId,
-              })}
+              to={buildDynamicPath(
+                mode === 'subscriber'
+                  ? routes.SUBSCRIBE_CATALOG_VIEW.PATH
+                  : routes.PROVIDE_ESERVICE_MANAGE.PATH,
+                {
+                  eserviceId: data?.eservice.id,
+                  descriptorId: data?.eserviceDescriptorId,
+                }
+              )}
             >
               {data?.eservice.name}, versione {data?.eservice.version}
             </StyledLink>
