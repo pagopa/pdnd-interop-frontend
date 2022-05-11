@@ -1,3 +1,5 @@
+# Prima di lanciare lo script, pip install jose
+
 from jose import jwt
 from jose.constants import Algorithms
 import datetime
@@ -27,7 +29,7 @@ if __name__ == '__main__':
   args = parser.parse_args()
 
   issued = datetime.datetime.utcnow()
-  delta = datetime.timedelta(minutes=43200)  #
+  delta = datetime.timedelta(minutes=43200)
   expire_in = issued + delta
   jti = uuid.uuid4()
 
