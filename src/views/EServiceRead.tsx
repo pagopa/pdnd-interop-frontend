@@ -96,7 +96,7 @@ export function EServiceRead() {
 
       {data ? (
         <React.Fragment>
-          {flatData && flatData.callerSubscribed && (
+          {flatData && flatData.callerSubscribed && isAdmin(party) && (
             <DescriptionBlock label="Sei iscritto all'E-Service">
               <StyledLink
                 to={buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
