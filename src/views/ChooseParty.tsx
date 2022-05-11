@@ -115,15 +115,6 @@ export function ChooseParty() {
             Entra
           </StyledButton>
         </Box>
-        {/* TEMP REFACTOR: enable after integration with self-care */}
-        {/* <Box sx={{ mt: 1, display: 'flex', alignItems: 'center' }}>
-          <Typography component="span" sx={{ mr: 1 }}>
-            Vuoi registrare un nuovo ente?{' '}
-            <a href={URL_FE_ONBOARDING} title="Vai all'onboarding">
-              Clicca qui
-            </a>
-          </Typography>
-        </Box> */}
       </Box>
     </Box>
   ) : (
@@ -143,22 +134,6 @@ export function ChooseParty() {
             "Dev'essere il tuo primo accesso, non ci sono enti a te associati. Se credi sia un errore, segnalalo al team Interoperabilità",
         }}
       </StyledIntro>
-      {/* TEMP REFACTOR: enable after integration with self-care */}
-      {/* <StyledIntro>
-        {{
-          title: 'Ciao!',
-          description:
-            "Dev'essere il tuo primo accesso, non ci sono enti a te associati. Se sei il rappresentante legale di un ente, accreditalo e accedi",
-        }}
-      </StyledIntro>
-      <StyledButton
-        variant="contained"
-        onClick={() => {
-          window.location.assign(URL_FE_ONBOARDING)
-        }}
-      >
-        Registra nuovo ente
-      </StyledButton> */}
     </Box>
   )
 }

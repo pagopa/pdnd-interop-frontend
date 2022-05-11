@@ -41,11 +41,13 @@ function isProtectedRoute(routes: Record<string, MappedRouteConfig>) {
   }
 }
 
-// Here consider the CHOOSE_PARTY route kind of like a public route, layout-wise.
+// Here consider the routes in the excludeList kind of like public routes, layout-wise.
 // Until a Party is chosen, the user will not see the left side menu
 // and will be in a transition state between out of the platform and into it
 function showTwoColumnsLayout(routes: Record<string, MappedRouteConfig>) {
   return (location: Location<unknown>) => {
-    return isProtectedRoute(routes)(location) && location.pathname !== routes.CHOOSE_PARTY.PATH
+    const excludeList = [routes.CHOOSE_PARTY.PATH, routes.UNAUTHORIZED.PATH]
+
+    return isProtectedRoute(routes)(location) && !excludeList.includes(location.pathname)
   }
 }

@@ -36,7 +36,7 @@ export function Main() {
   }, [lang]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Box component="main">
+    <Box component="main" sx={{ height: '100%' }}>
       {doesRouteAllowTwoColumnsLayout(location) && <StyledBreadcrumbs />}
 
       <Switch>

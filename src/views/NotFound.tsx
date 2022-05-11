@@ -1,5 +1,4 @@
 import React from 'react'
-import { Box } from '@mui/system'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledLink } from '../components/Shared/StyledLink'
 
@@ -14,17 +13,15 @@ export function NotFound({ errorType = 'not-found' }: NotFoundProps) {
   }
 
   return (
-    <Box sx={{ p: 2 }} bgcolor="error.main" color="common.white">
-      <StyledIntro sx={{ mb: 0, pb: 0 }}>
-        {{
-          title: 'Spiacenti',
-          description: (
-            <>
-              {DESCRIPTIONS[errorType]}. Torna alla <StyledLink to="/">home</StyledLink>.
-            </>
-          ),
-        }}
-      </StyledIntro>
-    </Box>
+    <StyledIntro>
+      {{
+        title: 'Spiacenti',
+        description: (
+          <>
+            {DESCRIPTIONS[errorType]}. Torna alla <StyledLink to="/">home</StyledLink>.
+          </>
+        ),
+      }}
+    </StyledIntro>
   )
 }

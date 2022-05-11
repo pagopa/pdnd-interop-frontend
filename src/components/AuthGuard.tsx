@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
+import { Redirect } from 'react-router-dom'
 import { RouteAuthLevel } from '../../types'
 import { useLogin } from '../hooks/useLogin'
 import { useParties } from '../hooks/useParties'
 import { URL_FE_LOGIN } from '../lib/constants'
 import { PartyContext, TokenContext } from '../lib/context'
 import { isSamePath } from '../lib/router-utils'
-import { Unauthorized } from './Unauthorized'
 import { useRoute } from '../hooks/useRoute'
 
 type AuthGuardProps = {
@@ -76,6 +76,8 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
     // to the user by reading into the localStorage.
     if (token && !availableParties && isCurrentRouteProtected) {
       asyncSilentAssignPartyAttempt()
+    } else {
+      setIsLoading(false)
     }
   }, [token]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -84,15 +86,16 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
     !isCurrentRouteProtected ||
     authLevels === 'any' ||
     (party && authLevels.includes(party.productInfo.role))
+
   if (userCanAccess) {
     return <Component />
   }
 
-  if (isLoading) {
+  if (isLoading || !party) {
     return null
   }
 
   // If we identified the user and he/she should not access this resource,
   // show an unauthorized feedback
-  return <Unauthorized />
+  return <Redirect to={routes.UNAUTHORIZED.PATH} />
 }

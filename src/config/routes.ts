@@ -22,13 +22,22 @@ import { EServiceRead } from '../views/EServiceRead'
 import { EServiceCreate } from '../views/EServiceCreate'
 import { EServiceManage } from '../views/EServiceManage'
 import { InteropM2M } from '../views/InteropM2M'
+import { Unauthorized } from '../components/Unauthorized'
 
 export const BASIC_ROUTES: Record<string, RouteConfig> = {
+  UNAUTHORIZED: {
+    PATH: { it: '/it/401', en: '/en/401' },
+    LABEL: { it: 'Non autorizzato', en: 'Unauthorized' },
+    COMPONENT: Unauthorized,
+    PUBLIC: false,
+    AUTH_LEVELS: 'any',
+  },
   LOGOUT: {
     PATH: { it: '/it/logout', en: '/en/logout' },
     LABEL: { it: 'Logout', en: 'Logout' },
     COMPONENT: Logout,
-    PUBLIC: true,
+    PUBLIC: false,
+    AUTH_LEVELS: 'any',
   },
   HELP: {
     PATH: { it: '/it/aiuto', en: '/en/help' },

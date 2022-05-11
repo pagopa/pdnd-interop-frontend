@@ -139,9 +139,7 @@ export function BodyLogger() {
               </Box>
             ) : (
               <Box sx={{ flexGrow: 1 }}>
-                <Layout>
-                  <Main />
-                </Layout>
+                <Main />
               </Box>
             )}
             <Footer
