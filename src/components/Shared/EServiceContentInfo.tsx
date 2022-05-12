@@ -33,7 +33,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
   const activeDescriptor = data.activeDescriptor as EServiceDescriptorRead
 
   // Get all documents actual URL
-  const wrapDownloadDocument = (documentId: string) => async () => {
+  const wrapDownloadDocument = (documentId: string, filename: string) => async () => {
     const { response, outcome } = (await runAction(
       {
         path: {
@@ -49,7 +49,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
     )) as RunActionOutput
 
     if (outcome === 'success') {
-      downloadFile((response as AxiosResponse).data, 'document')
+      downloadFile((response as AxiosResponse).data, filename)
     }
   }
 
@@ -207,11 +207,14 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
             // },
             {
               label: activeDescriptor.interface.prettyName,
-              onClick: wrapDownloadDocument(activeDescriptor.interface.id),
+              onClick: wrapDownloadDocument(
+                activeDescriptor.interface.id,
+                activeDescriptor.interface.name
+              ),
             },
             ...activeDescriptor.docs.map((d) => ({
               label: d.prettyName,
-              onClick: wrapDownloadDocument(d.id),
+              onClick: wrapDownloadDocument(d.id, d.name),
             })),
           ]}
         />

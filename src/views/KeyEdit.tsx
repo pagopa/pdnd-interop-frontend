@@ -45,7 +45,7 @@ export function KeyEdit() {
 
     if (outcome === 'success') {
       const decoded = atob((response as AxiosResponse).data.key)
-      downloadFile(decoded, 'public_key')
+      downloadFile(decoded, 'public_key.pub')
     }
   }
 
