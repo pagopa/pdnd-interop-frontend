@@ -2,43 +2,47 @@
 
 exports[`Snapshot matches 1`] = `
 <div
-  className="MuiGrid-root MuiGrid-container css-1rsokk3-MuiGrid-root"
+  className="MuiGrid-root MuiGrid-container css-kvf8cm-MuiGrid-root"
 >
   <div
-    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 css-1equabv-MuiGrid-root"
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-xl-3 css-8t9m1b-MuiGrid-root"
   >
     <div
-      className="MuiBox-root css-0"
+      className="MuiBox-root css-1oonbm0"
     >
-      <span
-        className="MuiTypography-root MuiTypography-body2 css-shj6dr-MuiTypography-root"
+      <div
+        className="MuiBox-root css-0"
       >
-        test
-      </span>
-      <svg
-        aria-hidden={true}
-        aria-label="tooltip-test"
-        aria-labelledby={null}
-        className="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-kpimro-MuiSvgIcon-root"
-        data-mui-internal-clone-element={true}
-        data-testid="InfoIcon"
-        focusable="false"
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onMouseLeave={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        onTouchStart={[Function]}
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
-        />
-      </svg>
+        <span
+          className="MuiTypography-root MuiTypography-body2 css-shj6dr-MuiTypography-root"
+        >
+          test
+        </span>
+        <svg
+          aria-hidden={true}
+          aria-label="tooltip-test"
+          aria-labelledby={null}
+          className="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-kpimro-MuiSvgIcon-root"
+          data-mui-internal-clone-element={true}
+          data-testid="InfoIcon"
+          focusable="false"
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseLeave={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          onTouchStart={[Function]}
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
+          />
+        </svg>
+      </div>
     </div>
   </div>
   <div
-    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-9 css-1qpzhgb-MuiGrid-root"
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-xl-9 css-q4eykk-MuiGrid-root"
   >
     <div
       className="MuiBox-root css-0"

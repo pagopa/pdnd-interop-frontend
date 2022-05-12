@@ -36,6 +36,7 @@ export const VoucherReadStep2 = ({
                   href={`${API_GATEWAY_URL}/swagger/docs/index.html`}
                   target="_blank"
                   rel="noreferrer"
+                  title="Link allo Swagger dell'API gateway di Interoperabilità"
                 >
                   Swagger
                 </Link>{' '}

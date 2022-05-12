@@ -38,12 +38,12 @@ export function StepActions({ back, forward }: StepActionsProps) {
     <React.Fragment>
       <Divider />
       <Box sx={{ display: 'flex', mt: 8 }}>
-        <StyledButton variant="contained" sx={{ mr: 2 }} {...forwardProps}>
-          {forward.label}
+        <StyledButton variant="outlined" sx={{ mr: 2 }} {...backProps}>
+          {back.label}
         </StyledButton>
 
-        <StyledButton variant="outlined" {...backProps}>
-          {back.label}
+        <StyledButton variant="contained" {...forwardProps}>
+          {forward.label}
         </StyledButton>
       </Box>
     </React.Fragment>

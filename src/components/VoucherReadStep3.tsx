@@ -1,5 +1,5 @@
 import React from 'react'
-import { Paper } from '@mui/material'
+import { Link, Paper } from '@mui/material'
 import { useRoute } from '../hooks/useRoute'
 import { buildDynamicPath } from '../lib/router-utils'
 import { ClientVoucherStepProps, InteropM2MVoucherStepProps } from './VoucherRead'
@@ -101,7 +101,14 @@ const InteropM2MVoucherReadStep3 = ({ back, clientId }: InteropM2MVoucherStepPro
       </StyledIntro>
 
       <DescriptionBlock label="Dettagli API gateway">
-        <StyledLink to={URL_INTEROP_M2M_INTERFACE_DOCUMENT}>Interfaccia OpenAPI</StyledLink>
+        <Link
+          href={URL_INTEROP_M2M_INTERFACE_DOCUMENT}
+          target="_blank"
+          rel="noreferrer"
+          title="Link alla specifica OpenAPI dell'API gateway di Interoperabilità"
+        >
+          Interfaccia OpenAPI
+        </Link>
       </DescriptionBlock>
 
       <StepActions

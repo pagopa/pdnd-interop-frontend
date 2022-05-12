@@ -78,7 +78,7 @@ export const CodeSnippetPreview = ({
           sx={{
             maxHeight: 300,
             height: '100%',
-            overflowY: 'auto',
+            overflow: 'auto',
             border: 2,
             borderColor: 'background.default',
             px: 1,

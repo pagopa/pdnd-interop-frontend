@@ -17,27 +17,27 @@ export const DescriptionBlock: FunctionComponent<DescriptionBlockProps> = ({
   label,
   labelDescription,
   tooltipLabel,
-  sx = { my: 5 },
+  sx = { my: 4 },
   childWrapperSx = {},
   leftGridItem = 3,
 }) => {
   return (
     <Grid container sx={sx} columnSpacing={4}>
-      <Grid item xs={leftGridItem}>
-        <Box>
-          <Typography
-            component="span"
-            fontWeight={700}
-            textTransform="uppercase"
-            color="text.secondary"
-            variant="body2"
-          >
-            {label}
-          </Typography>
-          {tooltipLabel && <InfoTooltip label={tooltipLabel} />}
-        </Box>
-        {labelDescription && (
+      <Grid item xs={12} xl={leftGridItem}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', mb: 1 }}>
           <Box>
+            <Typography
+              component="span"
+              fontWeight={700}
+              textTransform="uppercase"
+              color="text.secondary"
+              variant="body2"
+            >
+              {label}
+            </Typography>
+            {tooltipLabel && <InfoTooltip label={tooltipLabel} />}
+          </Box>
+          {labelDescription && (
             <Typography
               variant="caption"
               color="text.secondary"
@@ -46,10 +46,10 @@ export const DescriptionBlock: FunctionComponent<DescriptionBlockProps> = ({
             >
               {labelDescription}
             </Typography>
-          </Box>
-        )}
+          )}
+        </Box>
       </Grid>
-      <Grid item xs={12 - leftGridItem}>
+      <Grid item xs={12} xl={12 - leftGridItem}>
         <Box sx={childWrapperSx}>{children}</Box>
       </Grid>
     </Grid>

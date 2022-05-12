@@ -60,6 +60,7 @@ export const VoucherReadStep1 = ({
                 href="https://datatracker.ietf.org/doc/html/rfc7521"
                 target="_blank"
                 rel="noreferrer"
+                title="Link alla specifica RFC7521"
               >
                 RFC7521
               </Link>
@@ -245,9 +246,7 @@ export const VoucherReadStep1 = ({
         }}
       />
 
-      <Alert severity="info">
-        Script esempio in altri linguaggi saranno aggiunti nelle prossime settimane
-      </Alert>
+      <Alert severity="info">Saranno aggiunti script esempio in altri linguaggi</Alert>
 
       <StepActions
         back={{

@@ -9,7 +9,31 @@ Array [
     className="MuiBox-root css-114y1d0"
   >
     <button
-      className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-1s5vo3j-MuiButtonBase-root-MuiButton-root"
+      className="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-1eta9s1-MuiButtonBase-root-MuiButton-root"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      Indietro
+      <span
+        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+    <button
+      className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-sghohy-MuiButtonBase-root-MuiButton-root"
       disabled={false}
       onBlur={[Function]}
       onContextMenu={[Function]}
@@ -31,9 +55,21 @@ Array [
         className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
       />
     </button>
-    <button
-      className="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
-      disabled={false}
+  </div>,
+]
+`;
+
+exports[`Snapshot matches link and button 1`] = `
+Array [
+  <hr
+    className="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+  />,
+  <div
+    className="MuiBox-root css-114y1d0"
+  >
+    <a
+      className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-km548-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiButton-root"
+      href="/test-route"
       onBlur={[Function]}
       onClick={[Function]}
       onContextMenu={[Function]}
@@ -48,27 +84,11 @@ Array [
       onTouchMove={[Function]}
       onTouchStart={[Function]}
       tabIndex={0}
-      type="button"
     >
       Indietro
-      <span
-        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
-    </button>
-  </div>,
-]
-`;
-
-exports[`Snapshot matches link and button 1`] = `
-Array [
-  <hr
-    className="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
-  />,
-  <div
-    className="MuiBox-root css-114y1d0"
-  >
+    </a>
     <button
-      className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-1s5vo3j-MuiButtonBase-root-MuiButton-root"
+      className="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root  css-sghohy-MuiButtonBase-root-MuiButton-root"
       disabled={false}
       onBlur={[Function]}
       onClick={[Function]}
@@ -88,26 +108,6 @@ Array [
     >
       Avanti
     </button>
-    <a
-      className="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root  css-i4i1vz-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiButton-root"
-      href="/test-route"
-      onBlur={[Function]}
-      onClick={[Function]}
-      onContextMenu={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      tabIndex={0}
-    >
-      Indietro
-    </a>
   </div>,
 ]
 `;
