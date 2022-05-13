@@ -44,6 +44,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
             documentId,
           },
         },
+        config: { responseType: 'arraybuffer' },
       },
       { suppressToast: ['success'] }
     )) as RunActionOutput
