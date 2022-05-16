@@ -27,6 +27,7 @@ import { useUser } from '../hooks/useUser'
 import { PartySelect } from './PartySelect'
 import { Typography } from '@mui/material'
 import { Settings as SettingsIcon } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 
 export function BodyLogger() {
   const { loginAttempt } = useLogin()
@@ -39,6 +40,7 @@ export function BodyLogger() {
   const { lang, setLang } = useContext(LangContext)
   const { user } = useUser()
   const { party } = useContext(PartyContext)
+  const { i18n, t } = useTranslation('commons')
 
   /*
    * Handle toast
@@ -88,7 +90,7 @@ export function BodyLogger() {
               }}
               subHeaderLeftComponent={
                 <Typography component="span" variant="h5" fontWeight={700}>
-                  Interoperabilità
+                  {t('productTitle')}
                 </Typography>
               }
               subHeaderRightComponent={
@@ -144,6 +146,7 @@ export function BodyLogger() {
               currentLangCode={lang}
               onLanguageChanged={(newLang) => {
                 setLang(newLang)
+                i18n.changeLanguage(newLang)
               }}
               languages={LANGUAGES}
               onExit={(href, linkType) => {
