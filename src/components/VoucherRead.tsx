@@ -5,6 +5,7 @@ import {
   ClientPurpose,
   PublicKeys,
   Purpose,
+  DecoratedPurpose,
   StepperStep,
   StepperStepComponentProps,
 } from '../../types'
@@ -22,12 +23,7 @@ import { useRoute } from '../hooks/useRoute'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 import { buildDynamicPath } from '../lib/router-utils'
-
-const STEPS: Array<StepperStep> = [
-  { label: 'Client assertion', component: VoucherReadStep1 },
-  { label: 'Stacco access token', component: VoucherReadStep2 },
-  { label: 'Dettagli E-Service', component: VoucherReadStep3 },
-]
+import { decoratePurposeWithMostRecentVersion, getComputedPurposeState } from '../lib/purpose'
 
 export type ClientVoucherStepProps = StepperStepComponentProps & {
   purposeId: string
@@ -51,6 +47,17 @@ type VoucherReadProps = {
 
 type InteropVoucherReadProps = Omit<VoucherReadProps, 'purposes'>
 
+function getSteps(clientKind: ClientKind): Array<StepperStep> {
+  return [
+    { label: 'Client assertion', component: VoucherReadStep1 },
+    { label: 'Access token', component: VoucherReadStep2 },
+    {
+      label: clientKind === 'CONSUMER' ? 'Dettagli E-Service' : 'Dettagli API gateway',
+      component: VoucherReadStep3,
+    },
+  ]
+}
+
 const ClientVoucherRead = ({
   clientId,
   clientKind,
@@ -58,10 +65,12 @@ const ClientVoucherRead = ({
   keysData,
 }: VoucherReadProps & { keysData: PublicKeys }) => {
   const { activeStep, forward, back } = useActiveStep()
-  const { component: Step } = STEPS[activeStep]
   const { routes } = useRoute()
+  const steps = getSteps(clientKind)
+  const { component: Step } = steps[activeStep]
 
-  const [purpose, setPurpose] = useState()
+  const [purpose, setPurpose] = useState<DecoratedPurpose>()
+  const [failureReasons, setFailureReasons] = useState<Array<string>>([])
   const [selectedPurposeId, setSelectedPurposeId] = useState(
     purposes && Boolean(purposes.length > 0) ? purposes[0].purposeId : ''
   )
@@ -78,12 +87,20 @@ const ClientVoucherRead = ({
       })
 
       if (!isFetchError(response)) {
-        setPurpose((response as AxiosResponse).data)
+        const purposeData = (response as AxiosResponse).data as Purpose
+        const decoratedPurpose = decoratePurposeWithMostRecentVersion(purposeData)
+        setPurpose(decoratedPurpose)
       }
     }
 
     asyncFetchPurpose()
   }, [selectedPurposeId]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (purpose) {
+      setFailureReasons(getComputedPurposeState(purpose))
+    }
+  }, [purpose])
 
   const stepProps: ClientVoucherStepProps = {
     forward,
@@ -100,9 +117,9 @@ const ClientVoucherRead = ({
       <Grid item xs={8}>
         {purposes && Boolean(purposes.length > 0) ? (
           <React.Fragment>
-            <Paper sx={{ bgcolor: 'background.paper', px: 3, py: 1, mb: 2 }}>
+            <Paper sx={{ bgcolor: 'background.paper', px: 3, py: 4, mb: 2 }}>
               <StyledInputControlledSelect
-                sx={{ my: 4 }}
+                sx={{ my: 0 }}
                 name="purpose"
                 label="Scegli la finalità da utilizzare"
                 value={selectedPurposeId}
@@ -113,9 +130,16 @@ const ClientVoucherRead = ({
                 }))}
                 emptyLabel="Non ci sono finalità disponibili"
               />
+              {Boolean(failureReasons.length > 0) && (
+                <Alert sx={{ mt: 1 }} severity="info">
+                  Attenzione! Non sarà possibile ottenere un access token per questa finalità. In
+                  una o più componenti della pipeline è stato sospeso il servizio. Le componenti
+                  sospese sono: {failureReasons.join(', ')}
+                </Alert>
+              )}
             </Paper>
 
-            <StyledStepper steps={STEPS} activeIndex={activeStep} />
+            <StyledStepper steps={steps} activeIndex={activeStep} />
             <Step {...stepProps} />
           </React.Fragment>
         ) : (
@@ -137,13 +161,14 @@ const InteropM2MVoucherRead = ({
   keysData,
 }: InteropVoucherReadProps & { keysData: PublicKeys }) => {
   const { activeStep, forward, back } = useActiveStep()
-  const { component: Step } = STEPS[activeStep]
+  const steps = getSteps(clientKind)
+  const { component: Step } = steps[activeStep]
   const stepProps: InteropM2MVoucherStepProps = { forward, back, clientId, clientKind, keysData }
 
   return (
     <Grid container>
       <Grid item xs={8}>
-        <StyledStepper steps={STEPS} activeIndex={activeStep} />
+        <StyledStepper steps={steps} activeIndex={activeStep} />
         <Step {...stepProps} />
       </Grid>
     </Grid>

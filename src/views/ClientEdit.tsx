@@ -57,10 +57,10 @@ export function ClientEdit() {
       <TabContext value={activeTab}>
         <TabList
           onChange={updateActiveTab}
-          aria-label="Tre tab diverse per le istruzioni dello stacco del voucher, gli operatori di sicurezza e le chiavi pubbliche"
+          aria-label="Tre tab diverse per le istruzioni dell'ottenimento dell'access token, gli operatori di sicurezza e le chiavi pubbliche"
           variant="fullWidth"
         >
-          <Tab label="Istruzioni stacco voucher" value="voucher" />
+          <Tab label="Istruzioni ottenimento accesso token" value="voucher" />
           <Tab label="Operatori di sicurezza" value="securityOperators" />
           <Tab label="Chiavi pubbliche" value="publicKeys" />
         </TabList>

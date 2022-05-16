@@ -21,26 +21,24 @@ export function decoratePurposeWithMostRecentVersion(purpose: Purpose): Decorate
   }
 }
 
-export function getComputedPurposeState(purpose: DecoratedPurpose) {
+export function getComputedPurposeState(purpose: DecoratedPurpose): Array<string> {
   const isEserviceActive =
     purpose.eservice.descriptor.state === 'PUBLISHED' ||
     purpose.eservice.descriptor.state === 'DEPRECATED'
   const isAgreementActive = purpose.agreement.state === 'ACTIVE'
   const isPurposeActive = purpose.currentVersion.state === 'ACTIVE'
 
-  const reasons = [
+  const possibleReasons = [
     { label: 'E-Service', outcome: isEserviceActive },
     { label: 'richiesta di fruizione', outcome: isAgreementActive },
     { label: 'finalità', outcome: isPurposeActive },
   ]
-    .map(({ outcome, label }) => (!outcome ? label : null))
-    .filter((r) => r)
 
-  if (reasons.length === 0) {
-    return 'Sì, questa finalità può accedere all’E-Service dell’erogatore a patto che abbia almeno un client associato che contenga almeno una chiave pubblica'
-  }
+  const reasons = possibleReasons
+    .map(({ outcome, label }) => (!outcome ? label : undefined))
+    .filter((r) => r) as Array<string>
 
-  return `No, in questo momento non sono attivi: ${reasons.join(', ')}`
+  return reasons
 }
 
 export function getPurposeFromUrl(location: Location<unknown>) {
