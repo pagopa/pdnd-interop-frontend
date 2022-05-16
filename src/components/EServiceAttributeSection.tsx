@@ -4,6 +4,7 @@ import { StyledIntro } from './Shared/StyledIntro'
 import isEqual from 'lodash/isEqual'
 import { AttributeKey, CatalogAttribute, FrontendAttributes } from '../../types'
 import { Box } from '@mui/system'
+import { useTranslation } from 'react-i18next'
 
 type EServiceAttributeSectionProps = {
   attributes: FrontendAttributes
@@ -11,35 +12,12 @@ type EServiceAttributeSectionProps = {
   disabled: boolean
 }
 
-type TypeLabel = {
-  title: string
-  description: string
-}
-type TypeLabels = Record<AttributeKey, TypeLabel>
-
-const TYPE_LABELS: TypeLabels = {
-  certified: {
-    title: 'Certificati',
-    description:
-      'Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori verifiche',
-  },
-  verified: {
-    title: 'Verificati',
-    description:
-      'Questi attributi potrebbero essere stati già verificati da altre organizzazioni. Puoi decidere se verificarli comunque',
-  },
-  declared: {
-    title: 'Dichiarati',
-    description:
-      'All’atto dell’inoltro di una richiesta di fruizione, il fruitore dichiara sotto la propria responsabilità di possedere questi attributi. Non è dunque necessaria ulteriore verifica',
-  },
-}
-
 export function EServiceAttributeSection({
   attributes,
   setAttributes,
   disabled,
 }: EServiceAttributeSectionProps) {
+  const { t } = useTranslation('attributes')
   const getIds = (arr: Array<CatalogAttribute>) => arr.map((item) => item.id)
 
   const wrapRemove = (key: AttributeKey) => (attributeGroupToRemove: Array<CatalogAttribute>) => {
@@ -67,7 +45,8 @@ export function EServiceAttributeSection({
     <React.Fragment>
       {Object.keys(attributes).map((key, i) => {
         const attributeKey = key as AttributeKey
-        const { title, description } = TYPE_LABELS[attributeKey]
+        const title = t(`${attributeKey}.label`)
+        const description = t(`${attributeKey}.description`)
 
         return (
           <Box sx={{ mb: attributeKey === 'declared' ? 4 : 12 }} key={i}>

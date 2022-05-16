@@ -1,0 +1,21 @@
+{
+  "loadingEServiceLabel": "Loading your E-Service",
+  "backToListBtn": "Back to the E-Services",
+  "forwardWithSaveBtn": "Save draft and proceed",
+  "forwardWithoutSaveBtn": "Next",
+  "step1": {
+    "title": "E-Service details",
+    "eserviceNameField": {
+      "label": "E-Service name (required)",
+      "infoLabel": "If you have more than one E-Service with the same name, give a little hint to tell them apart (e.g. \"TARI – for Municipalities\" e \"TARI - for Regions\")"
+    },
+    "eserviceDescriptionField": {
+      "label": "E-Service description (required)",
+      "infoLabel": "(e.g. \"Dedicated to the bodies that need ...\", or \"This E-Service is for ...\")"
+    },
+    "eserviceTechnologyField": {
+      "label": "Technology (required)"
+    },
+    "attributes": "Attributes"
+  }
+}

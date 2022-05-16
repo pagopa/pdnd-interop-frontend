@@ -1,0 +1,21 @@
+{
+  "loadingEServiceLabel": "Stiamo caricando il tuo E-Service",
+  "backToListBtn": "Torna agli E-Service",
+  "forwardWithSaveBtn": "Salva bozza e prosegui",
+  "forwardWithoutSaveBtn": "Prosegui",
+  "step1": {
+    "title": "Caratterizzazione E-Service",
+    "eserviceNameField": {
+      "label": "Nome dell'E-Service (richiesto)",
+      "infoLabel": "Se prevedi di usare più E-Service con lo stesso nome, inserisci una piccola indicazione per distinguerli (es. \"TARI – dedicata Comuni\" e \"TARI - dedicata Regioni\")"
+    },
+    "eserviceDescriptionField": {
+      "label": "Descrizione dell'E-Service (richiesto)",
+      "infoLabel": "(es. \"Dedicato agli Enti che hanno necessità di ...\", oppure \"L'E-Service rivolto agli Enti che ...\")"
+    },
+    "eserviceTechnologyField": {
+      "label": "Tecnologia utilizzata (richiesto)"
+    },
+    "attributes": "Attributi"
+  }
+}
