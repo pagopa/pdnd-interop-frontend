@@ -30,6 +30,7 @@ import { useRoute } from '../hooks/useRoute'
 import { Divider, Paper } from '@mui/material'
 import { RunActionOutput } from '../hooks/useFeedback'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
+import { useTranslation } from 'react-i18next'
 
 export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentProps> = ({
   forward,
@@ -40,6 +41,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
   const history = useHistory()
   const { runAction } = useFeedback()
   const { data: fetchedData, isLoading } = useEserviceCreateFetch()
+  const { t } = useTranslation('eservice')
 
   const validationSchema = object({
     name: string().required(),
@@ -153,12 +155,12 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
         >
           {({ handleSubmit, errors, values, handleChange }) => (
             <StyledForm onSubmit={handleSubmit}>
-              <StyledIntro component="h2">{{ title: 'Caratterizzazione E-Service' }}</StyledIntro>
+              <StyledIntro component="h2">{{ title: t('step1.title') }}</StyledIntro>
 
               <StyledInputControlledText
                 name="name"
-                label="Nome dell'E-Service (richiesto)"
-                infoLabel='Se prevedi di usare più E-Service con lo stesso nome, inserisci una piccola indicazione per distinguerli (es. "TARI – dedicata Comuni" e "TARI - dedicata Regioni")'
+                label={t('step1.eserviceNameField.label')}
+                infoLabel={t('step1.eserviceNameField.infoLabel')}
                 error={errors.name}
                 value={values.name}
                 onChange={handleChange}
@@ -168,8 +170,8 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
 
               <StyledInputControlledText
                 name="description"
-                label="Descrizione dell'E-Service (richiesto)"
-                infoLabel={`(es. "Dedicato agli Enti che hanno necessità di ...", oppure "L'E-Service rivolto agli Enti che ...")`}
+                label={t('step1.eserviceDescriptionField.label')}
+                infoLabel={t('step1.eserviceDescriptionField.infoLabel')}
                 error={errors.description}
                 value={values.description}
                 onChange={handleChange}
@@ -179,7 +181,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
 
               <StyledInputControlledRadio
                 name="technology"
-                label="Tecnologia utilizzata (richiesto)"
+                label={t('step1.eserviceTechnologyField.label')}
                 error={errors.technology}
                 value={values.technology}
                 onChange={handleChange}
@@ -193,7 +195,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
               <Divider />
 
               <StyledIntro component="h2" sx={{ my: 4 }}>
-                {{ title: 'Attributi' }}
+                {{ title: t('step1.attributes') }}
               </StyledIntro>
               <EServiceAttributeSection
                 attributes={attributes}
@@ -203,21 +205,21 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
 
               <StepActions
                 back={{
-                  label: 'Torna agli E-Service',
+                  label: t('backToListBtn'),
                   type: 'link',
                   to: routes.PROVIDE_ESERVICE_LIST.PATH,
                 }}
                 forward={
                   !isEditable
-                    ? { label: 'Prosegui', onClick: forward, type: 'button' }
-                    : { label: 'Salva bozza e prosegui', type: 'submit' }
+                    ? { label: t('forwardWithoutSaveBtn'), onClick: forward, type: 'button' }
+                    : { label: t('forwardWithSaveBtn'), type: 'submit' }
                 }
               />
             </StyledForm>
           )}
         </Formik>
       ) : (
-        <LoadingWithMessage label="Stiamo caricando il tuo E-Service" transparentBackground />
+        <LoadingWithMessage label={t('loadingEServiceLabel')} transparentBackground />
       )}
     </Paper>
   )

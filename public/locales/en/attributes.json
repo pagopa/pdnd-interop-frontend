@@ -1,0 +1,24 @@
+{
+  "addAttributeTable": {
+    "attributeName": "Attribute name",
+    "canRequireVerification": "Validation required?",
+    "groupOr": "or",
+    "noDataLabel": "No attribute added",
+    "explicitAttributeVerificationYes": "Yes",
+    "explicitAttributeVerificationNo": "No",
+    "addBtn": "Add attribute or group",
+    "createBtn": "Create new attribute"
+  },
+  "certified": {
+    "label": "Certified",
+    "description": "These attributes are certified by an authoritative source. They do not require further checks"
+  },
+  "verified": {
+    "label": "Verified",
+    "description": "These attributes could have already been verified by other bodies. You can decide whether to verify them yourself anyway"
+  },
+  "declared": {
+    "label": "Declared",
+    "description": "When the Subscriber sends a subscription request, they declare to possess these attributes under their exclusive responsibility. No further checks are required"
+  }
+}
