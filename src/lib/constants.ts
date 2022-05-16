@@ -1,6 +1,6 @@
 import { LangCode } from '../../types'
 
-const isDevelopment = !!(process.env.NODE_ENV === 'development')
+export const isDevelopment = !!(process.env.NODE_ENV === 'development')
 const isProduction = !!(process.env.NODE_ENV === 'production')
 
 export const USE_MOCK_SPID_USER = isDevelopment
