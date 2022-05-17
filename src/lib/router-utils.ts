@@ -6,7 +6,7 @@ import QueryString from 'qs'
 import qs from 'qs'
 import { RouteConfig, LangCode, ProviderOrSubscriber, MappedRouteConfig } from '../../types'
 import { BASIC_ROUTES } from '../config/routes'
-import { LANGUAGES, URL_FRAGMENTS } from './constants'
+import { DEFAULT_LANG, LANGUAGES, PUBLIC_URL, URL_FRAGMENTS } from './constants'
 
 export function isSamePath(path: string, matchPath: string) {
   const pathBits = path.split('/')
@@ -195,4 +195,11 @@ export function getDecoratedRoutes(): Record<LangCode, Record<string, MappedRout
     const decorated = decorateRouteWithParents(mapped)
     return { ...acc, [l]: decorated }
   }, {}) as Record<LangCode, Record<string, MappedRouteConfig>>
+}
+
+export function getInitialLang(): LangCode {
+  const currentLocationBits = window.location.pathname.split('/')
+  const cleanPublicUrl = PUBLIC_URL.split('/')
+  const bitsClean = currentLocationBits.filter((b) => b && !cleanPublicUrl.includes(b))
+  return (bitsClean.length > 0 ? bitsClean[0] : DEFAULT_LANG) as LangCode
 }

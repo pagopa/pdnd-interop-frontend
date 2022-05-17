@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { DialogProps, ToastContentWithOutcome, ToastProps } from '../../types'
+import { DialogProps, LangCode, ToastContentWithOutcome, ToastProps } from '../../types'
 import { useHistory } from 'react-router-dom'
 import isEmpty from 'lodash/isEmpty'
 import {
@@ -20,7 +20,7 @@ import { LoadingOverlay } from './Shared/LoadingOverlay'
 import { MainNav } from './MainNav'
 import { Box } from '@mui/system'
 import { useRoute } from '../hooks/useRoute'
-import '../lib/validation-config'
+import { buildLocale } from '../lib/validation-config'
 import { useLogin } from '../hooks/useLogin'
 import { LANGUAGES, URL_FE_LOGIN } from '../lib/constants'
 import { useUser } from '../hooks/useUser'
@@ -74,6 +74,12 @@ export function BodyLogger() {
   useEffect(() => {
     loginAttempt()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const onLanguageChanged = (newLang: LangCode) => {
+    setLang(newLang)
+    i18n.changeLanguage(newLang)
+    buildLocale(t)
+  }
 
   return (
     <TableActionMenuContext.Provider value={{ tableActionMenu, setTableActionMenu }}>
@@ -144,10 +150,7 @@ export function BodyLogger() {
             <Footer
               loggedUser={party !== null ? user : undefined}
               currentLangCode={lang}
-              onLanguageChanged={(newLang) => {
-                setLang(newLang)
-                i18n.changeLanguage(newLang)
-              }}
+              onLanguageChanged={onLanguageChanged}
               languages={LANGUAGES}
               onExit={(href, linkType) => {
                 if (linkType === 'internal') {

@@ -8,13 +8,13 @@ import { ThemeProvider } from '@mui/material'
 import { theme } from '@pagopa/mui-italia'
 import DateAdapter from '@mui/lab/AdapterDateFns'
 import { LocalizationProvider } from '@mui/lab'
-import { getDecoratedRoutes } from './lib/router-utils'
+import { getDecoratedRoutes, getInitialLang } from './lib/router-utils'
 import { PUBLIC_URL } from './lib/constants'
 
 const allRoutes = getDecoratedRoutes()
 
 export function App() {
-  const [lang, setLang] = useState<LangCode>('it')
+  const [lang, setLang] = useState<LangCode>(getInitialLang())
   const [token, setToken] = useState<string | null>(null)
   const [party, setParty] = useState<Party | null>(null)
   const [availableParties, setAvailableParties] = useState<Array<Party> | null>(null)
