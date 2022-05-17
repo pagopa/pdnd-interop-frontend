@@ -46,7 +46,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
     description: string().required(),
     dailyCallsPerConsumer: number().required(),
     dailyCallsTotal: number()
-      .min(ref('dailyCallsPerConsumer'), t('step2.dailyCallsTotalField.validationMin'))
+      .min(ref('dailyCallsPerConsumer'), t('step2.dailyCallsTotalField.validation.min'))
       .required(),
   })
   const initialValues: VersionData = {
@@ -224,7 +224,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
           </Formik>
         </React.Fragment>
       ) : (
-        <LoadingWithMessage label={t('loadingEServiceLabel')} transparentBackground />
+        <LoadingWithMessage label={t('loadingLabel')} transparentBackground />
       )}
     </Paper>
   )

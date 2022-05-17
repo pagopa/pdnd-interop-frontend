@@ -25,6 +25,7 @@ import { useRoute } from '../hooks/useRoute'
 import { Paper } from '@mui/material'
 import { StyledIntro } from './Shared/StyledIntro'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
+import { useTranslation } from 'react-i18next'
 
 type PurposeCreate = {
   title: string
@@ -50,6 +51,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
   const { routes } = useRoute()
   const history = useHistory()
   const purposeId = getPurposeFromUrl(history.location)
+  const { t } = useTranslation('purpose')
 
   const { runAction } = useFeedback()
   const { party } = useContext(PartyContext)
@@ -63,7 +65,10 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
     },
     {
       mapFn: (data) =>
-        data.map((d) => ({ value: d.id, label: `${d.name} erogato da ${d.producerName}` })),
+        data.map((d) => ({
+          value: d.id,
+          label: `${d.name} ${t('eserviceProvider')} ${d.producerName}`,
+        })),
     }
   )
 
@@ -209,13 +214,13 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
     <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
       {!isLoading ? (
         <React.Fragment>
-          <StyledIntro component="h2">{{ title: 'Informazioni generali' }}</StyledIntro>
+          <StyledIntro component="h2">{{ title: t('step1.title') }}</StyledIntro>
 
           <StyledForm onSubmit={formik.handleSubmit}>
             <StyledInputControlledText
               name="title"
-              label="Nome della finalità (richiesto)"
-              infoLabel="Ti aiuterà a distinguerla dalle altre"
+              label={t('step1.nameField.label')}
+              infoLabel={t('step1.nameField.infoLabel')}
               error={formik.errors.title}
               value={formik.values.title}
               onChange={formik.handleChange}
@@ -224,7 +229,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
 
             <StyledInputControlledText
               name="description"
-              label="Descrizione della finalità (richiesto)"
+              label={t('step1.descriptionField.label')}
               error={formik.errors.description}
               value={formik.values.description}
               onChange={formik.handleChange}
@@ -233,7 +238,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
 
             <StyledInputControlledSelect
               name="eserviceId"
-              label="E-Service da associare (richiesto)"
+              label={t('step1.eserviceField.label')}
               error={formik.errors.eserviceId}
               value={formik.values.eserviceId}
               onChange={formik.handleChange}
@@ -243,8 +248,8 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
 
             <StyledInputControlledText
               name="dailyCalls"
-              label="Numero di chiamate API/giorno (richiesto)"
-              infoLabel="Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'E-Service"
+              label={t('step1.dailyCallsField.label')}
+              infoLabel={t('step1.dailyCallsField.infoLabel')}
               type="number"
               error={formik.errors.dailyCalls}
               value={formik.values.dailyCalls}
@@ -254,19 +259,16 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
 
             <StepActions
               back={{
-                label: 'Torna alle finalità',
+                label: t('backToListBtn'),
                 type: 'link',
                 to: routes.SUBSCRIBE_PURPOSE_LIST.PATH,
               }}
-              forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
+              forward={{ label: t('forwardWithSaveBtn'), type: 'submit' }}
             />
           </StyledForm>
         </React.Fragment>
       ) : (
-        <LoadingWithMessage
-          label="Stiamo caricando le informazioni della finalità"
-          transparentBackground
-        />
+        <LoadingWithMessage label={t('loadingLabel')} transparentBackground />
       )}
     </Paper>
   )

@@ -8,5 +8,8 @@
     "string": {
       "email": "Invalid email format"
     }
+  },
+  "mainNav": {
+    "ariaLabel": "Main navigation"
   }
 }

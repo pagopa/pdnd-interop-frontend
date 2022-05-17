@@ -14,6 +14,7 @@ import { PartyContext, TokenContext } from '../lib/context'
 import { StyledLink } from './Shared/StyledLink'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import { useRoute } from '../hooks/useRoute'
+import { useTranslation } from 'react-i18next'
 
 type View = {
   route: MappedRouteConfig
@@ -115,6 +116,8 @@ const MainNavComponent = ({
   wrapSetOpenSubmenuId,
   shouldRender,
 }: MainNavComponentProps) => {
+  const { t } = useTranslation('commons')
+
   const WrappedLink = ({
     route,
     indented = false,
@@ -158,7 +161,7 @@ const MainNavComponent = ({
   return (
     <Box sx={{ display: 'block', py: 3, boxShadow: 5 }} component="nav">
       {shouldRender && (
-        <List sx={{ width: WIDTH }} aria-label="Navigazione principale" disablePadding>
+        <List sx={{ width: WIDTH }} aria-label={t('mainNav')} disablePadding>
           {items.map((item, i) => {
             const isSubmenuOpen = openSubmenuId === item.id
             const isSelected = isItemSelected(item.route)

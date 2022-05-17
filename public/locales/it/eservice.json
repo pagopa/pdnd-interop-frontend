@@ -1,5 +1,5 @@
 {
-  "loadingEServiceLabel": "Stiamo caricando il tuo E-Service",
+  "loadingLabel": "Stiamo caricando il tuo E-Service",
   "backToListBtn": "Torna agli E-Service",
   "backWithoutSaveBtn": "Indietro",
   "forwardWithSaveBtn": "Salva bozza e prosegui",
@@ -43,7 +43,9 @@
     "dailyCallsTotalField": {
       "label": "Soglia chiamate API/giorno totali (richiesto)",
       "infoLabel": "Il numero totale di chiamate al giorno permesse sommando quelle di tutti i Fruitori. Se la somma sarà superiore alla soglia da te impostata, potrai approvare manualmente l'accesso delle nuove finalità alla fruizione del tuo E-Service",
-      "validationMin": "Il valore non può essere inferiore alla soglia chiamate API/giorno per Fruitore"
+      "validation": {
+        "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per Fruitore"
+      }
     }
   },
   "step3": {
