@@ -155,7 +155,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
         >
           {({ handleSubmit, errors, values, handleChange }) => (
             <StyledForm onSubmit={handleSubmit}>
-              <StyledIntro component="h2">{{ title: t('step1.title') }}</StyledIntro>
+              <StyledIntro component="h2">{{ title: t('step1.detailsTitle') }}</StyledIntro>
 
               <StyledInputControlledText
                 name="name"
@@ -195,7 +195,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
               <Divider />
 
               <StyledIntro component="h2" sx={{ my: 4 }}>
-                {{ title: t('step1.attributes') }}
+                {{ title: t('step1.attributesTitle') }}
               </StyledIntro>
               <EServiceAttributeSection
                 attributes={attributes}

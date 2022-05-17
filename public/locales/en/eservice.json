@@ -1,10 +1,12 @@
 {
   "loadingEServiceLabel": "Loading your E-Service",
   "backToListBtn": "Back to the E-Services",
+  "backWithoutSaveBtn": "Back",
   "forwardWithSaveBtn": "Save draft and proceed",
   "forwardWithoutSaveBtn": "Next",
+  "endWithSaveBtn": "Save draft and back to the E-Services",
   "step1": {
-    "title": "E-Service details",
+    "detailsTitle": "E-Service details",
     "eserviceNameField": {
       "label": "E-Service name (required)",
       "infoLabel": "If you have more than one E-Service with the same name, give a little hint to tell them apart (e.g. \"TARI – for Municipalities\" e \"TARI - for Regions\")"
@@ -16,6 +18,59 @@
     "eserviceTechnologyField": {
       "label": "Technology (required)"
     },
-    "attributes": "Attributes"
+    "attributesTitle": "Attributes"
+  },
+  "step2": {
+    "versionField": {
+      "label": "Version number (required)",
+      "infoLabel": "Set automatically, not editable"
+    },
+    "descriptionField": {
+      "label": "Version description (required)"
+    },
+    "audienceField": {
+      "label": "Audience (required)",
+      "infoLabel": "The content of this field will the audience (aud) that the Subscriber will send you inside the access token. With this id the Subscriber will tell the Provider which service it is looking for"
+    },
+    "voucherLifespanField": {
+      "label": "Access token expiration (in minutes - required)",
+      "infoLabel": "Max value: 1440 minutes (24 hours)"
+    },
+    "dailyCallsPerConsumerField": {
+      "label": "API calls/day threshold for each Subscriber (required)",
+      "infoLabel": "The Subscriber declares its API calls estimate for each purpose. If the sum of the calls of all purposes will be over this threshold, you will have to approve manually each new purpose before it can be used to access your E-Service"
+    },
+    "dailyCallsTotalField": {
+      "label": "Total API calls/day threshold (required)",
+      "infoLabel": "The total API calls that will be allowed per day, shared among all the Subscribers. If the sum of new purposes will go above this threshold, you will have to approve manually each new purpose before it can be used to access your E-Service",
+      "validationMin": "This value cannot be below the threshold set for the API calls/day for each Subscriber"
+    }
+  },
+  "step3": {
+    "interface": {
+      "title": "Interface (required)",
+      "description": {
+        "before": "Upload the",
+        "after": "file that describes the API"
+      }
+    },
+    "documentation": {
+      "title": "Documentation",
+      "description": "Upload the technical documents that can help implement the use of this E-Service",
+      "noFileUploaded": "No file uploaded"
+    },
+    "uploadFileField": {
+      "label": "Choose document"
+    },
+    "nameField": {
+      "label": "Document name"
+    },
+    "uploadBtn": "Upload"
+  },
+  "quickPublish": {
+    "title": "Quick publish options",
+    "description": "If you are done editing, you can publish this draft immediately, or delete it. If you want to publish later, just save the draft above or leave this page",
+    "publishBtn": "Publish draft",
+    "deleteBtn": "Delete draft"
   }
 }
