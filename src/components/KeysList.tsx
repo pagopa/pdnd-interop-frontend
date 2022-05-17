@@ -11,6 +11,7 @@ import { PageTopFilters } from './Shared/PageTopFilters'
 import { TempFilters } from './TempFilters'
 import { AsyncTableKey } from './Shared/AsyncTableKey'
 import { isOperatorSecurity } from '../lib/auth-utils'
+import { useTranslation } from 'react-i18next'
 
 type KeyToPostProps = SecurityOperatorKeysFormInputValues & {
   use: 'SIG'
@@ -30,6 +31,7 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
   const { party } = useContext(PartyContext)
   const { user } = useUser()
   const { runAction, forceRerenderCounter } = useFeedback()
+  const { t } = useTranslation('commons')
 
   const uploadKeyFormInitialValues: SecurityOperatorKeysFormInputValues = { name: '', key: '' }
   const uploadKeyFormValidationSchema = object({
@@ -68,7 +70,7 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
         <TempFilters />
         {isOperatorSecurity(party) && (
           <StyledButton variant="contained" size="small" onClick={openUploadKeyDialog}>
-            + Aggiungi
+            {t('addBtn')}
           </StyledButton>
         )}
       </PageTopFilters>

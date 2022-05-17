@@ -169,7 +169,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
             />
           </React.Fragment>
         ) : (
-          <LoadingWithMessage label={t('loadingEServiceLabel')} transparentBackground />
+          <LoadingWithMessage label={t('loadingLabel')} transparentBackground />
         )}
       </Paper>
 
@@ -190,7 +190,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
             </StyledButton>
           </Box>
         ) : (
-          <LoadingWithMessage label={t('loadingEServiceLabel')} transparentBackground />
+          <LoadingWithMessage label={t('loadingLabel')} transparentBackground />
         )}
       </Paper>
     </React.Fragment>

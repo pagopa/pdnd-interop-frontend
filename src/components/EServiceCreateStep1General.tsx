@@ -219,7 +219,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
           )}
         </Formik>
       ) : (
-        <LoadingWithMessage label={t('loadingEServiceLabel')} transparentBackground />
+        <LoadingWithMessage label={t('loadingLabel')} transparentBackground />
       )}
     </Paper>
   )

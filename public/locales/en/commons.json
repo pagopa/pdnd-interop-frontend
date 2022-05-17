@@ -8,5 +8,8 @@
     "string": {
       "email": "Il formato dell'indirizzo email non è valido"
     }
+  },
+  "mainNav": {
+    "ariaLabel": "Navigazione principale"
   }
 }

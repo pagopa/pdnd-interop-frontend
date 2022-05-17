@@ -1,5 +1,5 @@
 {
-  "loadingEServiceLabel": "Loading your E-Service",
+  "loadingLabel": "Loading your E-Service",
   "backToListBtn": "Back to the E-Services",
   "backWithoutSaveBtn": "Back",
   "forwardWithSaveBtn": "Save draft and proceed",
@@ -43,7 +43,9 @@
     "dailyCallsTotalField": {
       "label": "Total API calls/day threshold (required)",
       "infoLabel": "The total API calls that will be allowed per day, shared among all the Subscribers. If the sum of new purposes will go above this threshold, you will have to approve manually each new purpose before it can be used to access your E-Service",
-      "validationMin": "This value cannot be below the threshold set for the API calls/day for each Subscriber"
+      "validation": {
+        "min": "This value cannot be below the threshold set for the API calls/day for each Subscriber"
+      }
     }
   },
   "step3": {

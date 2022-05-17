@@ -18,6 +18,7 @@ import { decoratePurposeWithMostRecentVersion, getPurposeFromUrl } from '../lib/
 import { TOAST_CONTENTS } from '../config/toast'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
+import { useTranslation } from 'react-i18next'
 
 export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ back }) => {
   const history = useHistory()
@@ -25,6 +26,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
   const { setDialog } = useContext(DialogContext)
   const { routes } = useRoute()
   const { party } = useContext(PartyContext)
+  const { t } = useTranslation('purpose')
 
   const { runAction, forceRerenderCounter } = useFeedback()
 
@@ -115,7 +117,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
     setDialog({ type: 'addClients', exclude: clientsData, onSubmit: addClients })
   }
 
-  const headData = ['Nome client', '']
+  const headData = [t('step3.tableHeadData.clientName'), '']
 
   const isLoading = isClientReallyLoading || isPurposeReallyLoading
 
@@ -123,13 +125,13 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
     <React.Fragment>
       <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
         <StyledIntro component="h2" sx={{ mb: 4 }}>
-          {{ title: 'Associazione client' }}
+          {{ title: t('step3.title') }}
         </StyledIntro>
 
         <TableWithLoader
           isLoading={isLoading}
           headData={headData}
-          noDataLabel="Nessun client associato"
+          noDataLabel={t('step3.noDataLabel')}
         >
           {Boolean(clientsData.length > 0) &&
             clientsData.map((client, i) => (
@@ -145,30 +147,29 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
         </StyledButton>
 
         <StepActions
-          back={{ label: 'Indietro', type: 'button', onClick: back }}
-          forward={{ label: 'Salva e torna alle finalità', type: 'button', onClick: goToList }}
+          back={{ label: t('backWithoutSaveBtn'), type: 'button', onClick: back }}
+          forward={{ label: t('endWithSaveBtn'), type: 'button', onClick: goToList }}
         />
       </Paper>
 
       <Paper sx={{ p: 3, mt: 2 }}>
         <StyledIntro component="h2">
           {{
-            title: 'Azioni rapide di pubblicazione',
-            description:
-              'Hai inserito tutte le informazioni per questa finalità? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra',
+            title: t('quickPublish.title'),
+            description: t('quickPublish.description'),
           }}
         </StyledIntro>
         {!isPurposeReallyLoading ? (
           <Box sx={{ display: 'flex', mt: 3 }}>
             <StyledButton sx={{ mr: 2 }} variant="contained" onClick={publishVersion}>
-              Pubblica bozza
+              {t('quickPublish.publishBtn')}
             </StyledButton>
             <StyledButton variant="outlined" onClick={deleteVersion}>
-              Cancella bozza
+              {t('quickPublish.deleteBtn')}
             </StyledButton>
           </Box>
         ) : (
-          <LoadingWithMessage label="Stiamo caricando la tua finalità" transparentBackground />
+          <LoadingWithMessage label={t('loadingLabel')} transparentBackground />
         )}
       </Paper>
     </React.Fragment>
