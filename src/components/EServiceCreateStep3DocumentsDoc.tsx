@@ -20,6 +20,7 @@ import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { StyledInputControlledFile } from './Shared/StyledInputControlledFile'
 import { Typography } from '@mui/material'
 import { RunActionOutput } from '../hooks/useFeedback'
+import { useTranslation } from 'react-i18next'
 
 type EServiceCreateStep3DocumentsDocProps = {
   data: EServiceReadType
@@ -39,6 +40,7 @@ export function EServiceCreateStep3DocumentsDoc({
   deleteDescriptorDocument,
   activeDescriptorId,
 }: EServiceCreateStep3DocumentsDocProps) {
+  const { t } = useTranslation(['eservice', 'commons'])
   const validationSchema = object({
     doc: mixed().required(),
     prettyName: string().required(),
@@ -110,7 +112,7 @@ export function EServiceCreateStep3DocumentsDoc({
           })
         ) : (
           <Box bgcolor="background.default" sx={{ px: 2, py: 2 }}>
-            <Typography>Nessun documento caricato</Typography>
+            <Typography>{t('step3.documents.noFileUploaded')}</Typography>
           </Box>
         )}
       </Box>
@@ -133,7 +135,7 @@ export function EServiceCreateStep3DocumentsDoc({
                 <StyledInputControlledFile
                   sx={{ my: 0 }}
                   name="doc"
-                  label="Seleziona documento"
+                  label={t('uploadFileField.label')}
                   value={values.doc}
                   error={errors.doc as string | undefined}
                   setFieldValue={setFieldValue}
@@ -142,7 +144,7 @@ export function EServiceCreateStep3DocumentsDoc({
                 <StyledInputControlledText
                   sx={{ my: 2 }}
                   name="prettyName"
-                  label="Nome documento"
+                  label={t('nameField.label')}
                   value={values.prettyName}
                   error={errors.prettyName}
                   onChange={handleChange}
@@ -151,7 +153,7 @@ export function EServiceCreateStep3DocumentsDoc({
 
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                   <StyledButton type="submit" variant="contained">
-                    <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> Carica
+                    <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> {t('uploadBtn')}
                   </StyledButton>
                 </Box>
               </StyledForm>
@@ -160,7 +162,7 @@ export function EServiceCreateStep3DocumentsDoc({
         </Box>
       ) : (
         <StyledButton variant="contained" size="small" onClick={showFileInputForm}>
-          + Aggiungi
+          {t('addBtn', { ns: 'commons' })}
         </StyledButton>
       )}
     </Box>

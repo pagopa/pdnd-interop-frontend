@@ -19,6 +19,7 @@ import { StyledForm } from './Shared/StyledForm'
 import { StyledInputControlledFile } from './Shared/StyledInputControlledFile'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { RunActionOutput } from '../hooks/useFeedback'
+import { useTranslation } from 'react-i18next'
 
 type EServiceCreateStep3DocumentsInterfaceProps = {
   data: EServiceReadType
@@ -38,6 +39,7 @@ export function EServiceCreateStep3DocumentsInterface({
   deleteDescriptorDocument,
   activeDescriptorId,
 }: EServiceCreateStep3DocumentsInterfaceProps) {
+  const { t } = useTranslation('eservice')
   const validationSchema = object({
     interface: mixed().required(),
     prettyName: string().required(),
@@ -112,7 +114,7 @@ export function EServiceCreateStep3DocumentsInterface({
             <StyledInputControlledFile
               sx={{ my: 0 }}
               name="interface"
-              label="Seleziona documento"
+              label={t('uploadFileField.label')}
               value={values.interface}
               error={errors.interface}
               setFieldValue={setFieldValue}
@@ -121,14 +123,14 @@ export function EServiceCreateStep3DocumentsInterface({
             <StyledInputControlledText
               sx={{ my: 2 }}
               name="prettyName"
-              label="Nome documento"
+              label={t('nameField.label')}
               value={values.prettyName}
               disabled={true}
             />
 
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
               <StyledButton type="submit" variant="contained">
-                <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> Carica
+                <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> {t('uploadBtn')}
               </StyledButton>
             </Box>
           </StyledForm>

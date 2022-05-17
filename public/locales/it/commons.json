@@ -1,3 +1,12 @@
 {
-  "productTitle": "Interoperabilità"
+  "productTitle": "Interoperabilità",
+  "addBtn": "+ Add",
+  "validation": {
+    "mixed": {
+      "required": "Field required"
+    },
+    "string": {
+      "email": "Invalid email format"
+    }
+  }
 }
