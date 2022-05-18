@@ -3,14 +3,14 @@
   "addBtn": "+ Add",
   "validation": {
     "mixed": {
-      "required": "Field required"
+      "required": "Campo richiesto"
     },
     "string": {
-      "email": "Invalid email format"
+      "email": "Formato email non valido"
     }
   },
   "mainNav": {
-    "ariaLabel": "Main navigation"
+    "ariaLabel": "Navigazione principale"
   },
   "unauthorized": {
     "title": "Autorizzazione insufficiente",
@@ -24,13 +24,17 @@
     "delete": "Elimina",
     "inspect": "Ispeziona",
     "edit": "Modifica",
-    "subscribe": "Iscriviti"
+    "subscribe": "Iscriviti",
+    "clone": "Clona",
+    "publish": "Pubblica",
+    "createNewDraft": "Crea bozza nuova versione"
   },
   "table": {
     "headData": {
       "eServiceName": "Nome E-Service",
       "providerName": "Nome Erogatore",
       "currentVersion": "Versione attuale",
+      "version": "Versione",
       "eServiceStatus": "Stato E-Service"
     }
   }

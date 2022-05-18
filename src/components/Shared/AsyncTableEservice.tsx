@@ -353,25 +353,31 @@ export const AsyncTableEServiceList = () => {
   const getAvailableActions = (service: EServiceFlatReadType) => {
     const { id: eserviceId, descriptorId, state } = service
 
-    const suspendAction = { onClick: wrapSuspend(eserviceId, descriptorId), label: 'Sospendi' }
+    const suspendAction = {
+      onClick: wrapSuspend(eserviceId, descriptorId),
+      label: t('actions.suspend', { ns: 'common' }),
+    }
     const reactivateAction = {
       onClick: wrapReactivate(eserviceId, descriptorId),
-      label: 'Riattiva',
+      label: t('actions.activate', { ns: 'common' }),
     }
-    const cloneAction = { onClick: wrapClone(eserviceId, descriptorId), label: 'Clona' }
+    const cloneAction = {
+      onClick: wrapClone(eserviceId, descriptorId),
+      label: t('actions.clone', { ns: 'common' }),
+    }
     const createVersionDraftAction = {
       onClick: wrapCreateNewVersionDraft(eserviceId),
-      label: 'Crea bozza nuova versione',
+      label: t('actions.createNewDraft', { ns: 'common' }),
     }
     // TEMP PIN-645
     // const archiveAction = { onClick: archive, label: 'Archivia' }
     const publishDraftAction = {
       onClick: wrapPublishDraft(eserviceId, descriptorId),
-      label: 'Pubblica',
+      label: t('actions.publish', { ns: 'common' }),
     }
     const deleteDraftAction = {
       onClick: wrapDeleteDraft(eserviceId, descriptorId),
-      label: 'Elimina',
+      label: t('actions.delete', { ns: 'common' }),
     }
 
     const availableActions: EServiceAction = {
@@ -387,14 +393,19 @@ export const AsyncTableEServiceList = () => {
   }
 
   // Data for the table head
-  const headData = ['Nome E-Service', 'Versione', 'Stato E-Service', '']
+  const headData = [
+    t('table.headData.eserviceName', { ns: 'common' }),
+    t('table.headData.version', { ns: 'common' }),
+    t('table.headData.eserviceStatus', { ns: 'common' }),
+    '',
+  ]
 
   return (
     <TableWithLoader
       isLoading={isLoading}
-      loadingText="Stiamo caricando i tuoi E-Service"
+      loadingText={t('loadingMultiLabel')}
       headData={headData}
-      noDataLabel="Non ci sono servizi disponibili"
+      noDataLabel={t('noMultiDataLabel')}
       error={axiosErrorToError(error)}
     >
       {data &&

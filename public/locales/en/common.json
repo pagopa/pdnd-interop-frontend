@@ -1,16 +1,16 @@
 {
   "productTitle": "Interoperability",
-  "addBtn": "+ Aggiungi",
+  "addBtn": "+ Add",
   "validation": {
     "mixed": {
-      "required": "Il campo è obbligatorio"
+      "required": "Field required"
     },
     "string": {
-      "email": "Il formato dell'indirizzo email non è valido"
+      "email": "Invalid email format"
     }
   },
   "mainNav": {
-    "ariaLabel": "Navigazione principale"
+    "ariaLabel": "Main navigation"
   },
   "unauthorized": {
     "title": "Insufficient authorization",
@@ -24,13 +24,17 @@
     "delete": "Delete",
     "inspect": "Inspect",
     "edit": "Edit",
-    "subscribe": "Subscribe"
+    "subscribe": "Subscribe",
+    "clone": "Clone",
+    "publish": "Publish",
+    "createNewDraft": "Create new draft version"
   },
   "table": {
     "headData": {
       "eServiceName": "E-Service Name",
       "providerName": "Provider Name",
       "currentVersion": "Current version",
+      "version": "Versione",
       "eServiceStatus": "E-Service status"
     }
   }

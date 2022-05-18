@@ -112,7 +112,7 @@ export function EServiceCreateStep3DocumentsDoc({
           })
         ) : (
           <Box bgcolor="background.default" sx={{ px: 2, py: 2 }}>
-            <Typography>{t('create.step3.documents.noFileUploaded')}</Typography>
+            <Typography>{t('create.step3.documentation.noFileUploaded')}</Typography>
           </Box>
         )}
       </Box>
