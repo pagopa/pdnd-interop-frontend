@@ -117,7 +117,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
     setDialog({ type: 'addClients', exclude: clientsData, onSubmit: addClients })
   }
 
-  const headData = [t('step3.tableHeadData.clientName'), '']
+  const headData = [t('create.step3.tableHeadData.clientName'), '']
 
   const isLoading = isClientReallyLoading || isPurposeReallyLoading
 
@@ -125,13 +125,13 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
     <React.Fragment>
       <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
         <StyledIntro component="h2" sx={{ mb: 4 }}>
-          {{ title: t('step3.title') }}
+          {{ title: t('create.step3.title') }}
         </StyledIntro>
 
         <TableWithLoader
           isLoading={isLoading}
           headData={headData}
-          noDataLabel={t('step3.noDataLabel')}
+          noDataLabel={t('create.step3.noDataLabel')}
         >
           {Boolean(clientsData.length > 0) &&
             clientsData.map((client, i) => (
@@ -147,29 +147,29 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
         </StyledButton>
 
         <StepActions
-          back={{ label: t('backWithoutSaveBtn'), type: 'button', onClick: back }}
-          forward={{ label: t('endWithSaveBtn'), type: 'button', onClick: goToList }}
+          back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
+          forward={{ label: t('create.endWithSaveBtn'), type: 'button', onClick: goToList }}
         />
       </Paper>
 
       <Paper sx={{ p: 3, mt: 2 }}>
         <StyledIntro component="h2">
           {{
-            title: t('quickPublish.title'),
-            description: t('quickPublish.description'),
+            title: t('create.quickPublish.title'),
+            description: t('create.quickPublish.description'),
           }}
         </StyledIntro>
         {!isPurposeReallyLoading ? (
           <Box sx={{ display: 'flex', mt: 3 }}>
             <StyledButton sx={{ mr: 2 }} variant="contained" onClick={publishVersion}>
-              {t('quickPublish.publishBtn')}
+              {t('create.quickPublish.publishBtn')}
             </StyledButton>
             <StyledButton variant="outlined" onClick={deleteVersion}>
-              {t('quickPublish.deleteBtn')}
+              {t('create.quickPublish.deleteBtn')}
             </StyledButton>
           </Box>
         ) : (
-          <LoadingWithMessage label={t('loadingLabel')} transparentBackground />
+          <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
         )}
       </Paper>
     </React.Fragment>

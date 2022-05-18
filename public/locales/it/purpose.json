@@ -1,57 +1,61 @@
 {
-  "loadingLabel": "Stiamo caricando le informazioni della finalità",
-  "backToListBtn": "Torna alle finalità",
-  "backWithoutSaveBtn": "Indietro",
-  "forwardWithSaveBtn": "Salva bozza e prosegui",
-  "endWithSaveBtn": "Salva e torna alle finalità",
-  "eserviceProvider": "erogato da",
-  "step1": {
-    "title": "Informazioni generali",
-    "nameField": {
-      "label": "Nome della finalità (richiesto)",
-      "infoLabel": "Ti aiuterà a distinguerla dalle altre"
-    },
-    "descriptionField": {
-      "label": "Descrizione della finalità (richiesto)"
-    },
-    "eserviceField": {
-      "label": "E-Service da associare (richiesto)"
-    },
-    "dailyCallsField": {
-      "label": "Numero di chiamate API/giorno (richiesto)",
-      "infoLabel": "Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'E-Service"
-    }
-  },
-  "step2": {
-    "title": "Analisi del rischio",
-    "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare",
-    "singleCheckboxField": {
-      "validation": {
-        "mixed": {
-          "required": "Il campo è obbligatorio"
-        }
+  "loadingSingleLabel": "Stiamo caricando la tua finalità",
+  "loadingMultiLabel": "Stiamo caricando la lista delle finalità",
+  "noMultiDataLabel": "Non ci sono finalità disponibili",
+  "create": {
+    "backToListBtn": "Torna alle finalità",
+    "backWithoutSaveBtn": "Indietro",
+    "forwardWithSaveBtn": "Salva bozza e prosegui",
+    "endWithSaveBtn": "Salva e torna alle finalità",
+    "eserviceProvider": "erogato da",
+    "step1": {
+      "title": "Informazioni generali",
+      "nameField": {
+        "label": "Nome della finalità (richiesto)",
+        "infoLabel": "Ti aiuterà a distinguerla dalle altre"
+      },
+      "descriptionField": {
+        "label": "Descrizione della finalità (richiesto)"
+      },
+      "eserviceField": {
+        "label": "E-Service da associare (richiesto)"
+      },
+      "dailyCallsField": {
+        "label": "Numero di chiamate API/giorno (richiesto)",
+        "infoLabel": "Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'E-Service"
       }
     },
-    "multiCheckboxField": {
-      "validation": {
-        "mixed": {
-          "required": "Seleziona almeno un'opzione"
+    "step2": {
+      "title": "Analisi del rischio",
+      "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare",
+      "singleCheckboxField": {
+        "validation": {
+          "mixed": {
+            "required": "Il campo è obbligatorio"
+          }
         }
+      },
+      "multiCheckboxField": {
+        "validation": {
+          "mixed": {
+            "required": "Seleziona almeno un'opzione"
+          }
+        }
+      },
+      "emptyLabel": "Nessun valore disponibile"
+    },
+    "step3": {
+      "title": "Associazione client",
+      "noDataLabel": "Nessun client associato",
+      "tableHeadData": {
+        "clientName": "Nome client"
       }
     },
-    "emptyLabel": "Nessun valore disponibile"
-  },
-  "step3": {
-    "title": "Associazione client",
-    "noDataLabel": "Nessun client associato",
-    "tableHeadData": {
-      "clientName": "Nome client"
+    "quickPublish": {
+      "title": "Azioni rapide di pubblicazione",
+      "description": "Hai inserito tutte le informazioni per questa finalità? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra o abbandona questa pagina",
+      "publishBtn": "Pubblica bozza",
+      "deleteBtn": "Cancella bozza"
     }
-  },
-  "quickPublish": {
-    "title": "Azioni rapide di pubblicazione",
-    "description": "Hai inserito tutte le informazioni per questa finalità? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra o abbandona questa pagina",
-    "publishBtn": "Pubblica bozza",
-    "deleteBtn": "Cancella bozza"
   }
 }
