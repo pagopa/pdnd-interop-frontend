@@ -32,8 +32,10 @@ import { StyledTableRow } from './StyledTableRow'
 import { ESERVICE_STATE_LABEL } from '../../config/labels'
 import { StyledButton } from './StyledButton'
 import { URL_FRAGMENTS } from '../../lib/constants'
+import { useTranslation } from 'react-i18next'
 
 export const AsyncTableEServiceCatalog = () => {
+  const { t } = useTranslation(['eservice', 'common'])
   const history = useHistory()
   const { runAction } = useFeedback()
   const { party } = useContext(PartyContext)
@@ -61,17 +63,17 @@ export const AsyncTableEServiceCatalog = () => {
 
   const getTooltip = (item: EServiceFlatDecoratedReadType, canSubscribeEservice: boolean) => {
     if (item.isMine) {
-      return <OwnerTooltip label="Sei l'erogatore" Icon={PersonIcon} />
+      return <OwnerTooltip label={t('tableEServiceCatalog.youAreTheProvider')} Icon={PersonIcon} />
     }
 
     if (item.callerSubscribed && isAdmin(party)) {
-      return <OwnerTooltip label="Sei già iscritto" Icon={CheckIcon} />
+      return <OwnerTooltip label={t('tableEServiceCatalog.alreadySubscribed')} Icon={CheckIcon} />
     }
 
     if (!item.isMine && !canSubscribeEservice) {
       return (
         <OwnerTooltip
-          label="Il tuo ente non ha gli attributi certificati necessari per iscriversi"
+          label={t('tableEServiceCatalog.missingCertifiedAttributes')}
           Icon={ClearIcon}
         />
       )
@@ -114,7 +116,7 @@ export const AsyncTableEServiceCatalog = () => {
             })
           )
         },
-        label: 'Vai alla richiesta',
+        label: t('tableEServiceCatalog.goToRequestCta'),
       })
     }
 
@@ -124,15 +126,18 @@ export const AsyncTableEServiceCatalog = () => {
           setDialog({
             type: 'basic',
             proceedCallback: wrapSubscribe(eservice),
-            proceedLabel: 'Iscriviti',
-            title: 'Richiesta di fruizione',
-            description: `Stai per inoltrare una richiesta di fruizione per l'E-Service ${eservice.name}, versione ${eservice.version}`,
+            proceedLabel: t('tableEServiceCatalog.subscribeModal.proceedLabel'),
+            title: t('tableEServiceCatalog.subscribeModal.title'),
+            description: t('tableEServiceCatalog.subscribeModal.description', {
+              name: eservice.name,
+              version: eservice.version,
+            }),
             close: () => {
               setDialog(null)
             },
           })
         },
-        label: 'Iscriviti',
+        label: t('actions.subscribe', { ns: 'common' }),
       })
     }
 
@@ -149,14 +154,20 @@ export const AsyncTableEServiceCatalog = () => {
     return actions
   }
 
-  const headData = ['Nome E-Service', 'Ente erogatore', 'Versione attuale', 'Stato E-Service', '']
+  const headData = [
+    t('table.headData.eServiceName', { ns: 'common' }),
+    t('table.headData.providerName', { ns: 'common' }),
+    t('table.headData.currentVersion', { ns: 'common' }),
+    t('table.headData.eServiceStatus', { ns: 'common' }),
+    '',
+  ]
 
   return (
     <TableWithLoader
       isLoading={isLoading}
-      loadingText="Stiamo caricando la lista degli E-Service"
+      loadingText={t('loadingMultiLabel')}
       headData={headData}
-      noDataLabel="Non ci sono E-Service disponibili"
+      noDataLabel={t('noMultiDataLabel')}
       error={axiosErrorToError(error)}
       viewType="grid"
     >
@@ -207,7 +218,7 @@ export const AsyncTableEServiceCatalog = () => {
                     )
                   }}
                 >
-                  Ispeziona
+                  {t('actions.inspect', { ns: 'common' })}
                 </ButtonNaked>
 
                 <ActionMenu actions={getAvailableActions(item, canSubscribeEservice)} />
@@ -220,6 +231,7 @@ export const AsyncTableEServiceCatalog = () => {
 }
 
 export const AsyncTableEServiceList = () => {
+  const { t } = useTranslation(['eservice', 'common'])
   const { routes } = useRoute()
   const { party } = useContext(PartyContext)
   const { lang } = useContext(LangContext)
@@ -413,7 +425,7 @@ export const AsyncTableEServiceList = () => {
                 )
               }}
             >
-              {!item.state || item.state === 'DRAFT' ? 'Modifica' : 'Ispeziona'}
+              {t(`actions${!item.state || item.state === 'DRAFT' ? 'edit' : 'inspect'}`)}
             </StyledButton>
 
             <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>

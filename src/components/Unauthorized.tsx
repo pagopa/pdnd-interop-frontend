@@ -7,7 +7,7 @@ import { IllusError } from '@pagopa/mui-italia'
 import { useTranslation } from 'react-i18next'
 
 export function Unauthorized() {
-  const { t } = useTranslation('commons')
+  const { t } = useTranslation('common')
   const history = useHistory()
 
   const goHome = () => {

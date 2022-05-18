@@ -116,7 +116,7 @@ const MainNavComponent = ({
   wrapSetOpenSubmenuId,
   shouldRender,
 }: MainNavComponentProps) => {
-  const { t } = useTranslation('commons')
+  const { t } = useTranslation('common')
 
   const WrappedLink = ({
     route,

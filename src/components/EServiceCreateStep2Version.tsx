@@ -46,7 +46,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
     description: string().required(),
     dailyCallsPerConsumer: number().required(),
     dailyCallsTotal: number()
-      .min(ref('dailyCallsPerConsumer'), t('step2.dailyCallsTotalField.validation.min'))
+      .min(ref('dailyCallsPerConsumer'), t('create.step2.dailyCallsTotalField.validation.min'))
       .required(),
   })
   const initialValues: VersionData = {
@@ -155,8 +155,8 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
                 <StyledInputControlledText
                   sx={{ mt: 0 }}
                   name="version"
-                  label={t('step2.versionField.label')}
-                  infoLabel={t('step2.versionField.infoLabel')}
+                  label={t('create.step2.versionField.label')}
+                  infoLabel={t('create.step2.versionField.infoLabel')}
                   disabled={true}
                   value={values.version}
                   error={errors.version}
@@ -164,7 +164,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
 
                 <StyledInputControlledText
                   name="description"
-                  label={t('step2.descriptionField.label')}
+                  label={t('create.step2.descriptionField.label')}
                   value={values.description}
                   error={errors.description}
                   onChange={handleChange}
@@ -174,8 +174,8 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
 
                 <StyledInputControlledText
                   name="audience"
-                  label={t('step2.audienceField.label')}
-                  infoLabel={t('step2.audienceField.infoLabel')}
+                  label={t('create.step2.audienceField.label')}
+                  infoLabel={t('create.step2.audienceField.infoLabel')}
                   value={values.audience}
                   error={errors.audience}
                   onChange={handleChange}
@@ -183,8 +183,8 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
 
                 <StyledInputControlledText
                   name="voucherLifespan"
-                  label={t('step2.voucherLifespanField.label')}
-                  infoLabel={t('step2.voucherLifespanField.infoLabel')}
+                  label={t('create.step2.voucherLifespanField.label')}
+                  infoLabel={t('create.step2.voucherLifespanField.infoLabel')}
                   type="number"
                   inputProps={{ min: '1', max: '1440' }}
                   value={values.voucherLifespan}
@@ -194,8 +194,8 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
 
                 <StyledInputControlledText
                   name="dailyCallsPerConsumer"
-                  label={t('step2.dailyCallsPerConsumerField.label')}
-                  infoLabel={t('step2.dailyCallsPerConsumerField.infoLabel')}
+                  label={t('create.step2.dailyCallsPerConsumerField.label')}
+                  infoLabel={t('create.step2.dailyCallsPerConsumerField.infoLabel')}
                   type="number"
                   value={values.dailyCallsPerConsumer}
                   error={errors.dailyCallsPerConsumer}
@@ -205,8 +205,8 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
 
                 <StyledInputControlledText
                   name="dailyCallsTotal"
-                  label={t('step2.dailyCallsTotalField.label')}
-                  infoLabel={t('step2.dailyCallsTotalField.infoLabel')}
+                  label={t('create.step2.dailyCallsTotalField.label')}
+                  infoLabel={t('create.step2.dailyCallsTotalField.infoLabel')}
                   type="number"
                   value={values.dailyCallsTotal}
                   error={errors.dailyCallsTotal}
@@ -216,15 +216,15 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
                 />
 
                 <StepActions
-                  back={{ label: t('backWithoutSaveBtn'), type: 'button', onClick: back }}
-                  forward={{ label: t('forwardWithSaveBtn'), type: 'submit' }}
+                  back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
+                  forward={{ label: t('create.forwardWithSaveBtn'), type: 'submit' }}
                 />
               </StyledForm>
             )}
           </Formik>
         </React.Fragment>
       ) : (
-        <LoadingWithMessage label={t('loadingLabel')} transparentBackground />
+        <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
     </Paper>
   )

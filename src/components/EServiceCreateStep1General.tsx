@@ -155,12 +155,12 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
         >
           {({ handleSubmit, errors, values, handleChange }) => (
             <StyledForm onSubmit={handleSubmit}>
-              <StyledIntro component="h2">{{ title: t('step1.detailsTitle') }}</StyledIntro>
+              <StyledIntro component="h2">{{ title: t('create.step1.detailsTitle') }}</StyledIntro>
 
               <StyledInputControlledText
                 name="name"
-                label={t('step1.eserviceNameField.label')}
-                infoLabel={t('step1.eserviceNameField.infoLabel')}
+                label={t('create.step1.eserviceNameField.label')}
+                infoLabel={t('create.step1.eserviceNameField.infoLabel')}
                 error={errors.name}
                 value={values.name}
                 onChange={handleChange}
@@ -170,8 +170,8 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
 
               <StyledInputControlledText
                 name="description"
-                label={t('step1.eserviceDescriptionField.label')}
-                infoLabel={t('step1.eserviceDescriptionField.infoLabel')}
+                label={t('create.step1.eserviceDescriptionField.label')}
+                infoLabel={t('create.step1.eserviceDescriptionField.infoLabel')}
                 error={errors.description}
                 value={values.description}
                 onChange={handleChange}
@@ -181,7 +181,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
 
               <StyledInputControlledRadio
                 name="technology"
-                label={t('step1.eserviceTechnologyField.label')}
+                label={t('create.step1.eserviceTechnologyField.label')}
                 error={errors.technology}
                 value={values.technology}
                 onChange={handleChange}
@@ -195,7 +195,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
               <Divider />
 
               <StyledIntro component="h2" sx={{ my: 4 }}>
-                {{ title: t('step1.attributesTitle') }}
+                {{ title: t('create.step1.attributes.title') }}
               </StyledIntro>
               <EServiceAttributeSection
                 attributes={attributes}
@@ -205,21 +205,21 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
 
               <StepActions
                 back={{
-                  label: t('backToListBtn'),
+                  label: t('create.backToListBtn'),
                   type: 'link',
                   to: routes.PROVIDE_ESERVICE_LIST.PATH,
                 }}
                 forward={
                   !isEditable
-                    ? { label: t('forwardWithoutSaveBtn'), onClick: forward, type: 'button' }
-                    : { label: t('forwardWithSaveBtn'), type: 'submit' }
+                    ? { label: t('create.forwardWithoutSaveBtn'), onClick: forward, type: 'button' }
+                    : { label: t('create.forwardWithSaveBtn'), type: 'submit' }
                 }
               />
             </StyledForm>
           )}
         </Formik>
       ) : (
-        <LoadingWithMessage label={t('loadingLabel')} transparentBackground />
+        <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
     </Paper>
   )

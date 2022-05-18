@@ -1,0 +1,10 @@
+{
+  "noDataLabel": "Non ci sono richieste disponibili",
+  "loadingLabel": "Stiamo caricando le richieste",
+  "tableHead": {
+    "providerName": "Nome Erogatore",
+    "subscriberName": "Nome Fruitore",
+    "eserviceName": "Nome E-Service",
+    "state": "Stato richiesta"
+  }
+}

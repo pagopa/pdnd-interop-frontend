@@ -40,7 +40,7 @@ export function BodyLogger() {
   const { lang, setLang } = useContext(LangContext)
   const { user } = useUser()
   const { party } = useContext(PartyContext)
-  const { i18n, t } = useTranslation('commons')
+  const { i18n, t } = useTranslation('common')
 
   /*
    * Handle toast

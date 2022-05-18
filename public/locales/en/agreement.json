@@ -1,0 +1,10 @@
+{
+  "noDataLabel": "No fruition requests available",
+  "loadingLabel": "Loading requests",
+  "tableHead": {
+    "providerName": "Provider Name",
+    "subscriberName": "Subscriber Name",
+    "eserviceName": "E-Service Name",
+    "state": "Request status"
+  }
+}

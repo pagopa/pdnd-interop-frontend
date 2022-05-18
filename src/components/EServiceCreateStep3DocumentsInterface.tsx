@@ -39,12 +39,15 @@ export function EServiceCreateStep3DocumentsInterface({
   deleteDescriptorDocument,
   activeDescriptorId,
 }: EServiceCreateStep3DocumentsInterfaceProps) {
-  const { t } = useTranslation('eservice')
+  const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const validationSchema = object({
     interface: mixed().required(),
     prettyName: string().required(),
   })
-  const initialValues: InputValues = { interface: null, prettyName: 'Documento specifica API' }
+  const initialValues: InputValues = {
+    interface: null,
+    prettyName: t('create.step3.interface.prettyName'),
+  }
 
   const [readDoc, setReadDoc] = useState<EServiceDocumentRead | undefined>()
 
@@ -114,7 +117,7 @@ export function EServiceCreateStep3DocumentsInterface({
             <StyledInputControlledFile
               sx={{ my: 0 }}
               name="interface"
-              label={t('uploadFileField.label')}
+              label={t('create.step3.uploadFileField.label')}
               value={values.interface}
               error={errors.interface}
               setFieldValue={setFieldValue}
@@ -123,14 +126,14 @@ export function EServiceCreateStep3DocumentsInterface({
             <StyledInputControlledText
               sx={{ my: 2 }}
               name="prettyName"
-              label={t('nameField.label')}
+              label={t('create.step3.nameField.label')}
               value={values.prettyName}
               disabled={true}
             />
 
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
               <StyledButton type="submit" variant="contained">
-                <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> {t('uploadBtn')}
+                <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> {t('create.step3.uploadBtn')}
               </StyledButton>
             </Box>
           </StyledForm>

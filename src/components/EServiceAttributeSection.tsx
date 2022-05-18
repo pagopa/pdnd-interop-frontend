@@ -17,7 +17,7 @@ export function EServiceAttributeSection({
   setAttributes,
   disabled,
 }: EServiceAttributeSectionProps) {
-  const { t } = useTranslation('attributes')
+  const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.attributes' })
   const getIds = (arr: Array<CatalogAttribute>) => arr.map((item) => item.id)
 
   const wrapRemove = (key: AttributeKey) => (attributeGroupToRemove: Array<CatalogAttribute>) => {

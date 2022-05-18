@@ -1,0 +1,11 @@
+{
+  "noDataLabel": "No clients available",
+  "loadingLabel": "Loading clients",
+  "tableHead": {
+    "clientName": "Client Name"
+  },
+  "actions": {
+    "removeFromPurpose": "Delete from purpose"
+  },
+  "noClientsAssociatedToPurposeLabel": "No clients associated with this purpose"
+}

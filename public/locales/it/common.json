@@ -16,5 +16,22 @@
     "title": "Autorizzazione insufficiente",
     "description": "Spiacenti, non hai permessi sufficienti per accedere alla funzionalità richiesta",
     "cta": "Torna alla home"
+  },
+  "actions": {
+    "suspend": "Sospendi",
+    "activate": "Attiva",
+    "upgrade": "Aggiorna",
+    "delete": "Elimina",
+    "inspect": "Ispeziona",
+    "edit": "Modifica",
+    "subscribe": "Iscriviti"
+  },
+  "table": {
+    "headData": {
+      "eServiceName": "Nome E-Service",
+      "providerName": "Nome Erogatore",
+      "currentVersion": "Versione attuale",
+      "eServiceStatus": "Stato E-Service"
+    }
   }
 }
