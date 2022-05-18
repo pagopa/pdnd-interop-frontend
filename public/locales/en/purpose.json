@@ -1,57 +1,61 @@
 {
-  "loadingLabel": "Loading purpose information",
-  "backToListBtn": "Back to purpose list",
-  "backWithoutSaveBtn": "Back",
-  "forwardWithSaveBtn": "Save draft and proceed",
-  "endWithSaveBtn": "Save and go back to purposes",
-  "eserviceProvider": "provided by",
-  "step1": {
-    "title": "General information",
-    "nameField": {
-      "label": "Purpose name (required)",
-      "infoLabel": "It will help you tell them apart"
-    },
-    "descriptionField": {
-      "label": "Purpose description (required)"
-    },
-    "eserviceField": {
-      "label": "Related E-Service (required)"
-    },
-    "dailyCallsField": {
-      "label": "Number of API calls/day (required)",
-      "infoLabel": "Your estimate of API calls/day you will make. This value will contribute to the E-Service Provider threshold to guarantee the Provider's infrastructure can sustain the load. If this value goes over any of the threshold, the Provider will approve this purpose manually before it goes into effect"
-    }
-  },
-  "step2": {
-    "title": "Risk analysis",
-    "description": "The questions below will change based on the answers provided. If you edit an answer above, it may change the following questions",
-    "singleCheckboxField": {
-      "validation": {
-        "mixed": {
-          "required": "Required field"
-        }
+  "loadingSingleLabel": "Loading purpose",
+  "loadingMultiLabel": "Loading purposes",
+  "noMultiDataLabel": "No purpose available",
+  "create": {
+    "backToListBtn": "Back to purpose list",
+    "backWithoutSaveBtn": "Back",
+    "forwardWithSaveBtn": "Save draft and proceed",
+    "endWithSaveBtn": "Save and go back to purposes",
+    "eserviceProvider": "provided by",
+    "step1": {
+      "title": "General information",
+      "nameField": {
+        "label": "Purpose name (required)",
+        "infoLabel": "It will help you tell them apart"
+      },
+      "descriptionField": {
+        "label": "Purpose description (required)"
+      },
+      "eserviceField": {
+        "label": "Related E-Service (required)"
+      },
+      "dailyCallsField": {
+        "label": "Number of API calls/day (required)",
+        "infoLabel": "Your estimate of API calls/day you will make. This value will contribute to the E-Service Provider threshold to guarantee the Provider's infrastructure can sustain the load. If this value goes over any of the threshold, the Provider will approve this purpose manually before it goes into effect"
       }
     },
-    "multiCheckboxField": {
-      "validation": {
-        "mixed": {
-          "required": "Choose at least one option"
+    "step2": {
+      "title": "Risk analysis",
+      "description": "The questions below will change based on the answers provided. If you edit an answer above, it may change the following questions",
+      "singleCheckboxField": {
+        "validation": {
+          "mixed": {
+            "required": "Required field"
+          }
         }
+      },
+      "multiCheckboxField": {
+        "validation": {
+          "mixed": {
+            "required": "Choose at least one option"
+          }
+        }
+      },
+      "emptyLabel": "No available values"
+    },
+    "step3": {
+      "title": "Associate clients",
+      "noDataLabel": "No client associated",
+      "tableHeadData": {
+        "clientName": "Client name"
       }
     },
-    "emptyLabel": "No available values"
-  },
-  "step3": {
-    "title": "Associate clients",
-    "noDataLabel": "No client associated",
-    "tableHeadData": {
-      "clientName": "Client name"
+    "quickPublish": {
+      "title": "Quick publish options",
+      "description": "If you are done editing, you can publish this draft immediately, or delete it. If you want to publish later, just save the draft above or leave this page",
+      "publishBtn": "Publish draft",
+      "deleteBtn": "Delete draft"
     }
-  },
-  "quickPublish": {
-    "title": "Quick publish options",
-    "description": "If you are done editing, you can publish this draft immediately, or delete it. If you want to publish later, just save the draft above or leave this page",
-    "publishBtn": "Publish draft",
-    "deleteBtn": "Delete draft"
   }
 }

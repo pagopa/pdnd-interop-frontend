@@ -153,12 +153,12 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
     const checkbox = string().required()
     const singleCheckbox = mixed().test(
       'presence',
-      t('step2.singleCheckboxField.validation.mixed.required'),
+      t('create.step2.singleCheckboxField.validation.mixed.required'),
       (value) => typeof value !== 'undefined' && value.length > 0
     )
     const multiCheckbox = mixed().test(
       'presence',
-      t('step2.multiCheckboxField.validation.mixed.required'),
+      t('create.step2.multiCheckboxField.validation.mixed.required'),
       (value) => typeof value !== 'undefined' && value.length > 0
     )
     const validationOptions = {
@@ -237,8 +237,8 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
     <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
       <StyledIntro component="h2">
         {{
-          title: t('step2.title'),
-          description: t('step2.description'),
+          title: t('create.step2.title'),
+          description: t('create.step2.description'),
         }}
       </StyledIntro>
       {!isLoading ? (
@@ -257,7 +257,7 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
               error: formik.errors[id],
               infoLabel: infoLabel && infoLabel[lang],
               required,
-              emptyLabel: t('step2.emptyLabel'),
+              emptyLabel: t('create.step2.emptyLabel'),
             }
 
             const props = {
@@ -271,12 +271,12 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
           })}
 
           <StepActions
-            back={{ label: t('backWithoutSaveBtn'), type: 'button', onClick: back }}
-            forward={{ label: t('forwardWithSaveBtn'), type: 'submit' }}
+            back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
+            forward={{ label: t('create.forwardWithSaveBtn'), type: 'submit' }}
           />
         </StyledForm>
       ) : (
-        <LoadingWithMessage label={t('loadingLabel')} transparentBackground />
+        <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
     </Paper>
   )

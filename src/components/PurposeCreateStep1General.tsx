@@ -214,13 +214,13 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
     <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
       {!isLoading ? (
         <React.Fragment>
-          <StyledIntro component="h2">{{ title: t('step1.title') }}</StyledIntro>
+          <StyledIntro component="h2">{{ title: t('create.step1.title') }}</StyledIntro>
 
           <StyledForm onSubmit={formik.handleSubmit}>
             <StyledInputControlledText
               name="title"
-              label={t('step1.nameField.label')}
-              infoLabel={t('step1.nameField.infoLabel')}
+              label={t('create.step1.nameField.label')}
+              infoLabel={t('create.step1.nameField.infoLabel')}
               error={formik.errors.title}
               value={formik.values.title}
               onChange={formik.handleChange}
@@ -229,7 +229,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
 
             <StyledInputControlledText
               name="description"
-              label={t('step1.descriptionField.label')}
+              label={t('create.step1.descriptionField.label')}
               error={formik.errors.description}
               value={formik.values.description}
               onChange={formik.handleChange}
@@ -238,7 +238,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
 
             <StyledInputControlledSelect
               name="eserviceId"
-              label={t('step1.eserviceField.label')}
+              label={t('create.step1.eserviceField.label')}
               error={formik.errors.eserviceId}
               value={formik.values.eserviceId}
               onChange={formik.handleChange}
@@ -248,8 +248,8 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
 
             <StyledInputControlledText
               name="dailyCalls"
-              label={t('step1.dailyCallsField.label')}
-              infoLabel={t('step1.dailyCallsField.infoLabel')}
+              label={t('create.step1.dailyCallsField.label')}
+              infoLabel={t('create.step1.dailyCallsField.infoLabel')}
               type="number"
               error={formik.errors.dailyCalls}
               value={formik.values.dailyCalls}
@@ -259,16 +259,16 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
 
             <StepActions
               back={{
-                label: t('backToListBtn'),
+                label: t('create.backToListBtn'),
                 type: 'link',
                 to: routes.SUBSCRIBE_PURPOSE_LIST.PATH,
               }}
-              forward={{ label: t('forwardWithSaveBtn'), type: 'submit' }}
+              forward={{ label: t('create.forwardWithSaveBtn'), type: 'submit' }}
             />
           </StyledForm>
         </React.Fragment>
       ) : (
-        <LoadingWithMessage label={t('loadingLabel')} transparentBackground />
+        <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
     </Paper>
   )
