@@ -10,7 +10,6 @@ import {
   GroupBackendAttribute,
   SingleBackendAttribute,
 } from '../../../types'
-import { ATTRIBUTE_TYPE_PLURAL_LABEL } from '../../config/label-keys'
 import { RunActionOutput, useFeedback } from '../../hooks/useFeedback'
 import { useRoute } from '../../hooks/useRoute'
 import { secondsToHoursMinutes } from '../../lib/format-utils'
@@ -22,13 +21,14 @@ import { StyledAccordion } from './StyledAccordion'
 import { StyledLink } from './StyledLink'
 import sortBy from 'lodash/sortBy'
 import { formatThousands } from '../../lib/format-utils'
-import { t } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 type EServiceContentInfoProps = {
   data: EServiceReadType
 }
 
 export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = ({ data }) => {
+  const { t } = useTranslation('attribute')
   const { runAction } = useFeedback()
   const { routes } = useRoute()
   const activeDescriptor = data.activeDescriptor as EServiceDescriptorRead
@@ -184,7 +184,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
       </DescriptionBlock>
 
       {(Object.keys(data.attributes) as Array<AttributeKey>).map((key, i) => (
-        <DescriptionBlock key={i} label={`Attributi ${ATTRIBUTE_TYPE_PLURAL_LABEL[key]}`}>
+        <DescriptionBlock key={i} label={`Attributi ${t(`type.${key}`, { count: 2 })}`}>
           {data.attributes[key].length > 0 ? (
             <Grid container sx={{ mt: 1 }}>
               <Grid item xs={8}>

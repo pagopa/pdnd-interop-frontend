@@ -57,22 +57,32 @@
       "DEPRECATED": "deprecato"
     },
     "agreement": {
-      "ACTIVE": "Attivo",
-      "SUSPENDED": "Sospeso",
-      "PENDING": "In attesa di approvazione",
-      "INACTIVE": "Archiviato"
+      "ACTIVE": "attivo",
+      "SUSPENDED": "sospeso",
+      "PENDING": "in attesa di approvazione",
+      "INACTIVE": "archiviato"
     },
     "purpose": {
-      "DRAFT": "In bozza",
-      "ACTIVE": "Attivo",
-      "SUSPENDED": "Sospeso",
-      "WAITING_FOR_APPROVAL": "In attesa di valutazione",
-      "ARCHIVED": "Archiviato"
+      "DRAFT": "in bozza",
+      "ACTIVE": "attivo",
+      "SUSPENDED": "sospeso",
+      "WAITING_FOR_APPROVAL": "in attesa di valutazione",
+      "ARCHIVED": "archiviato"
     },
     "user": {
-      "PENDING": "In attesa di approvazione",
-      "ACTIVE": "Attivo",
-      "SUSPENDED": "Sospeso"
+      "PENDING": "in attesa di approvazione",
+      "ACTIVE": "attivo",
+      "SUSPENDED": "sospeso"
     }
+  },
+  "userRole": {
+    "MANAGER": "Amministratore",
+    "DELEGATE": "Delegato",
+    "OPERATOR": "Operatore"
+  },
+  "userPlatformRole": {
+    "admin": "Amministratore",
+    "security": "Operatore di sicurezza",
+    "api": "Operatore API"
   }
 }

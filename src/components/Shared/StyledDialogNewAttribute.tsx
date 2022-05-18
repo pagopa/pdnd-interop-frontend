@@ -6,7 +6,7 @@ import { DialogNewAttributeProps } from '../../../types'
 import { useCloseDialog } from '../../hooks/useCloseDialog'
 import { StyledForm } from './StyledForm'
 import { StyledInputControlledText } from './StyledInputControlledText'
-import { ATTRIBUTE_TYPE_SINGULAR_LABEL } from '../../config/label-keys'
+import { useTranslation } from 'react-i18next'
 
 export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps> = ({
   attributeKey,
@@ -14,6 +14,7 @@ export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps
   validationSchema,
   onSubmit,
 }) => {
+  const { t } = useTranslation('attribute')
   const { closeDialog } = useCloseDialog()
 
   return (
@@ -28,7 +29,7 @@ export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps
         {({ handleSubmit, errors, values, handleChange }) => (
           <StyledForm onSubmit={handleSubmit}>
             <DialogTitle>
-              Crea nuovo attributo {ATTRIBUTE_TYPE_SINGULAR_LABEL[attributeKey]}
+              Crea nuovo attributo {t(`keys.${attributeKey}`, { count: 1 })}
             </DialogTitle>
 
             <DialogContent>

@@ -6,11 +6,12 @@ import { PartyContext } from '../lib/context'
 import { storageWrite } from '../lib/storage-utils'
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material'
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from '@mui/icons-material'
-import { USER_ROLE_LABEL } from '../config/label-keys'
 import { STORAGE_PARTY_OBJECT } from '../lib/constants'
 import { ButtonNaked } from '@pagopa/mui-italia'
+import { useTranslation } from 'react-i18next'
 
 export function PartySelect() {
+  const { t } = useTranslation('common')
   const { party, availableParties, setParty } = useContext(PartyContext)
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
@@ -51,7 +52,7 @@ export function PartySelect() {
               </Typography>
               <br />
               <Typography color="inherit" component="span" variant="caption">
-                {USER_ROLE_LABEL[party.role]}
+                {t(`userRole.${party.role}`)}
               </Typography>
             </Box>
           )}
@@ -74,7 +75,7 @@ export function PartySelect() {
                   </Typography>
                   <br />
                   <Typography component="span" variant="caption">
-                    {USER_ROLE_LABEL[p.role]}
+                    {t(`userRole.${p.role}`)}
                   </Typography>
                 </MenuItem>
               )

@@ -21,7 +21,7 @@ import { StyledForm } from './StyledForm'
 import { StyledAccordion } from './StyledAccordion'
 import { StyledInputControlledCheckbox } from './StyledInputControlledCheckbox'
 import { StyledInputControlledAsyncAutocomplete } from './StyledInputControlledAsyncAutocomplete'
-import { ATTRIBUTE_TYPE_SINGULAR_LABEL } from '../../config/label-keys'
+import { useTranslation } from 'react-i18next'
 
 export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttributeProps> = ({
   initialValues,
@@ -29,6 +29,7 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
   selectedIds,
   attributeKey,
 }) => {
+  const { t } = useTranslation('attribute')
   const { closeDialog } = useCloseDialog()
 
   const options = [{ label: "Richiedi nuova convalida dell'attributo", value: 'attribute' }]
@@ -51,7 +52,7 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
         {({ handleSubmit, values, setFieldValue }) => (
           <StyledForm onSubmit={handleSubmit}>
             <DialogTitle>
-              Aggiungi attributo o gruppo {ATTRIBUTE_TYPE_SINGULAR_LABEL[attributeKey]}
+              Aggiungi attributo o gruppo {t(`type.${attributeKey}`, { count: 1 })}
             </DialogTitle>
 
             <DialogContent>

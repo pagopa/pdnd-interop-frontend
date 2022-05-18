@@ -9,10 +9,11 @@ import { PartyContext } from '../lib/context'
 import { storageWrite } from '../lib/storage-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { USER_ROLE_LABEL } from '../config/label-keys'
 import { useRoute } from '../hooks/useRoute'
+import { useTranslation } from 'react-i18next'
 
 export function ChooseParty() {
+  const { t } = useTranslation('common')
   const { routes } = useRoute()
   const { setParty, party, availableParties } = useContext(PartyContext)
   const history = useHistory()
@@ -91,7 +92,7 @@ export function ChooseParty() {
                           {p.description}
                         </Typography>
                         <Typography component="span" color="text" variant="caption">
-                          {USER_ROLE_LABEL[p.role]}
+                          {t(`userRole.${p.role}`)}
                         </Typography>
                       </StyledButton>
                       {p.state === 'PENDING' && (

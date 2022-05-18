@@ -47,5 +47,42 @@
       "keyUploader": "Uploaded by",
       "keyUploadDate": "Creation date"
     }
+  },
+  "status": {
+    "eservice": {
+      "PUBLISHED": "active",
+      "DRAFT": "draft",
+      "SUSPENDED": "suspended",
+      "ARCHIVED": "archived",
+      "DEPRECATED": "deprecated"
+    },
+    "agreement": {
+      "ACTIVE": "active",
+      "SUSPENDED": "suspended",
+      "PENDING": "awaiting approval",
+      "INACTIVE": "archived"
+    },
+    "purpose": {
+      "DRAFT": "draft",
+      "ACTIVE": "active",
+      "SUSPENDED": "suspended",
+      "WAITING_FOR_APPROVAL": "awaiting evaluation",
+      "ARCHIVED": "archived"
+    },
+    "user": {
+      "PENDING": "awaiting approval",
+      "ACTIVE": "active",
+      "SUSPENDED": "suspended"
+    }
+  },
+  "userRole": {
+    "MANAGER": "Administrator",
+    "DELEGATE": "Delegate",
+    "OPERATOR": "Operator"
+  },
+  "userPlatformRole": {
+    "admin": "Administrator",
+    "security": "Security operator",
+    "api": "API operator"
   }
 }
