@@ -39,7 +39,7 @@ export function EServiceCreateStep3DocumentsInterface({
   deleteDescriptorDocument,
   activeDescriptorId,
 }: EServiceCreateStep3DocumentsInterfaceProps) {
-  const { t } = useTranslation('eservice', { keyPrefix: 'create' })
+  const { t } = useTranslation('eservice')
   const validationSchema = object({
     interface: mixed().required(),
     prettyName: string().required(),
