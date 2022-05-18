@@ -123,18 +123,20 @@ export const AsyncTableAgreement = () => {
   }
 
   const headData = [
-    t('tableHead.eserviceName'),
-    t(`tableHead.${currentMode === 'provider' ? 'subscriberName' : 'providerName'}`),
-    t('tableHead.state'),
+    t('table.headData.eserviceName', { ns: 'common' }),
+    t(`table.headData.${currentMode === 'provider' ? 'subscriberName' : 'providerName'}`, {
+      ns: 'common',
+    }),
+    t('table.headData.agreementState', { ns: 'common' }),
     '',
   ]
 
   return (
     <TableWithLoader
       isLoading={isLoading}
-      loadingText={t('loadingLabel')}
+      loadingText={t('loadingMultiLabel')}
       headData={headData}
-      noDataLabel={t('noDataLabel')}
+      noDataLabel={t('noMultiDataLabel')}
       error={axiosErrorToError(error)}
     >
       {data &&
@@ -164,7 +166,7 @@ export const AsyncTableAgreement = () => {
                 )
               }}
             >
-              Ispeziona
+              {t('actions.inspect', { ns: 'common' })}
             </StyledButton>
 
             <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>

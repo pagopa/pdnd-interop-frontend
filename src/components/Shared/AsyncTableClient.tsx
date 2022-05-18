@@ -55,14 +55,14 @@ export const AsyncTableClient = ({ clientKind }: AsyncTableClientProps) => {
     return [{ onClick: wrapDelete(client.id), label: t('actions.delete', { ns: 'common' }) }]
   }
 
-  const headData = [t('tableHead.clientName'), '']
+  const headData = [t('table.headData.clientName', { ns: 'common' }), '']
 
   return (
     <TableWithLoader
       isLoading={isLoading}
-      loadingText={t('loadingLabel')}
+      loadingText={t('loadingMultiLabel')}
       headData={headData}
-      noDataLabel={t('noDataLabel')}
+      noDataLabel={t('noMultiDataLabel')}
       error={axiosErrorToError(error)}
     >
       {data &&
@@ -122,19 +122,19 @@ export const AsyncTableClientInPurpose = ({
   const getAvailableActions = (item: Pick<Client, 'id' | 'name'>): Array<ActionProps> => {
     const removeFromPurposeAction = {
       onClick: wrapRemoveFromPurpose(item.id),
-      label: t('actions.removeFromPurpose'),
+      label: t('tableClientInPurpose.actions.removeFromPurpose'),
     }
 
     return [removeFromPurposeAction]
   }
 
-  const headData = [t('tableHead.clientName'), '']
+  const headData = [t('table.headData.clientName', { ns: 'common' }), '']
 
   return (
     <TableWithLoader
       isLoading={false}
       headData={headData}
-      noDataLabel={t('noClientsAssociatedToPurposeLabel')}
+      noDataLabel={t('tableClientInPurpose.actions.noClientsAssociatedToPurposeLabel')}
       // error={axiosErrorToError(error)}
     >
       {data?.clients?.map((item, i) => (

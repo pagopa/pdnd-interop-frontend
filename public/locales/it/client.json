@@ -1,11 +1,11 @@
 {
-  "noDataLabel": "Non ci sono client disponibili",
-  "loadingLabel": "Stiamo caricando i client",
-  "tableHead": {
-    "clientName": "Nome Client"
-  },
-  "actions": {
-    "removeFromPurpose": "Rimuovi dalla finalità"
-  },
-  "noClientsAssociatedToPurposeLabel": "Non ci sono client associati a questa finalità"
+  "loadingSingleLabel": "Stiamo caricando il client",
+  "loadingMultiLabel": "Stiamo caricando la lista dei client",
+  "noMultiDataLabel": "Non ci sono client disponibili",
+  "tableClientInPurpose": {
+    "actions": {
+      "removeFromPurpose": "Rimuovi dalla finalità"
+    },
+    "noClientsAssociatedToPurposeLabel": "Non ci sono client associati a questa finalità"
+  }
 }

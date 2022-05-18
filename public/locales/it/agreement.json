@@ -1,10 +1,5 @@
 {
-  "noDataLabel": "Non ci sono richieste disponibili",
-  "loadingLabel": "Stiamo caricando le richieste",
-  "tableHead": {
-    "providerName": "Nome Erogatore",
-    "subscriberName": "Nome Fruitore",
-    "eserviceName": "Nome E-Service",
-    "state": "Stato richiesta"
-  }
+  "loadingSingleLabel": "Stiamo caricando la richiesta",
+  "loadingMultiLabel": "Stiamo caricando la lista di richieste",
+  "noMultiDataLabel": "Non ci sono richieste disponibili"
 }
