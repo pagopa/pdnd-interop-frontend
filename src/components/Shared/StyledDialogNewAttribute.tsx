@@ -6,7 +6,7 @@ import { DialogNewAttributeProps } from '../../../types'
 import { useCloseDialog } from '../../hooks/useCloseDialog'
 import { StyledForm } from './StyledForm'
 import { StyledInputControlledText } from './StyledInputControlledText'
-import { ATTRIBUTE_TYPE_SINGULAR_LABEL } from '../../config/labels'
+import { ATTRIBUTE_TYPE_SINGULAR_LABEL } from '../../config/label-keys'
 
 export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps> = ({
   attributeKey,

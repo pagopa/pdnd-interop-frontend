@@ -20,7 +20,6 @@ import { ActionMenu } from './ActionMenu'
 import { StyledButton } from './StyledButton'
 import { StyledTableRow } from './StyledTableRow'
 import { TableWithLoader } from './TableWithLoader'
-import { PURPOSE_STATE_LABEL } from '../../config/labels'
 import { buildDynamicPath } from '../../lib/router-utils'
 import { useTranslation } from 'react-i18next'
 
@@ -307,7 +306,7 @@ export const AsyncTablePurpose = () => {
       {data &&
         Boolean(data.length > 0) &&
         data.map((item, i) => {
-          const purposeStateLabel = PURPOSE_STATE_LABEL[item.currentVersion.state]
+          const purposeStateLabel = t(`status.purpose.${[item.currentVersion.state]}`)
           return (
             <StyledTableRow
               key={i}

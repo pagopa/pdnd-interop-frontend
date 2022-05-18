@@ -1,10 +1,5 @@
 import React from 'react'
 import { AxiosRequestConfig, Method } from 'axios'
-import {
-  AGREEMENT_STATE_LABEL,
-  ESERVICE_STATE_LABEL,
-  PURPOSE_STATE_LABEL,
-} from './src/config/labels'
 import { SchemaOf } from 'yup'
 import { RunAction } from './src/hooks/useFeedback'
 
@@ -214,7 +209,7 @@ export type Party = {
 /*
  * EService
  */
-export type EServiceState = keyof typeof ESERVICE_STATE_LABEL
+export type EServiceState = 'PUBLISHED' | 'DRAFT' | 'SUSPENDED' | 'ARCHIVED' | 'DEPRECATED'
 export type EServiceStateLabel = Record<EServiceState, string>
 
 // EServices are subdivided into their write and read type
@@ -313,7 +308,7 @@ export type EServiceDocumentRead = {
 /*
  * Agreement
  */
-export type AgreementState = keyof typeof AGREEMENT_STATE_LABEL
+export type AgreementState = 'ACTIVE' | 'SUSPENDED' | 'PENDING' | 'INACTIVE'
 
 export type AgreementVerifiableAttribute = {
   id: string
@@ -353,7 +348,7 @@ export type AgreementSummary = {
 /*
  * Purpose
  */
-export type PurposeState = keyof typeof PURPOSE_STATE_LABEL
+export type PurposeState = 'DRAFT' | 'ACTIVE' | 'SUSPENDED' | 'WAITING_FOR_APPROVAL' | 'ARCHIVED'
 
 type PurposeYesNoAnswer = 'YES' | 'NO'
 

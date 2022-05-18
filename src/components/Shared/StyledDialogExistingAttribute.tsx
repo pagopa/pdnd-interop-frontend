@@ -21,7 +21,7 @@ import { StyledForm } from './StyledForm'
 import { StyledAccordion } from './StyledAccordion'
 import { StyledInputControlledCheckbox } from './StyledInputControlledCheckbox'
 import { StyledInputControlledAsyncAutocomplete } from './StyledInputControlledAsyncAutocomplete'
-import { ATTRIBUTE_TYPE_SINGULAR_LABEL } from '../../config/labels'
+import { ATTRIBUTE_TYPE_SINGULAR_LABEL } from '../../config/label-keys'
 
 export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttributeProps> = ({
   initialValues,

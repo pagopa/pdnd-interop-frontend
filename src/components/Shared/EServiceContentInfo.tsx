@@ -10,7 +10,7 @@ import {
   GroupBackendAttribute,
   SingleBackendAttribute,
 } from '../../../types'
-import { ATTRIBUTE_TYPE_PLURAL_LABEL, ESERVICE_STATE_LABEL } from '../../config/labels'
+import { ATTRIBUTE_TYPE_PLURAL_LABEL } from '../../config/label-keys'
 import { RunActionOutput, useFeedback } from '../../hooks/useFeedback'
 import { useRoute } from '../../hooks/useRoute'
 import { secondsToHoursMinutes } from '../../lib/format-utils'
@@ -22,6 +22,7 @@ import { StyledAccordion } from './StyledAccordion'
 import { StyledLink } from './StyledLink'
 import sortBy from 'lodash/sortBy'
 import { formatThousands } from '../../lib/format-utils'
+import { t } from 'i18next'
 
 type EServiceContentInfoProps = {
   data: EServiceReadType
@@ -155,7 +156,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
       </DescriptionBlock>
 
       <DescriptionBlock label="Stato della versione">
-        <Typography component="span">{ESERVICE_STATE_LABEL[activeDescriptor.state]}</Typography>
+        <Typography component="span">{t(`status.eservice.${activeDescriptor.state}`)}</Typography>
       </DescriptionBlock>
 
       <DescriptionBlock label="Audience">
@@ -224,7 +225,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
       {Boolean(data.descriptors.length > 0) && (
         <DescriptionBlock label="Storico delle versioni">
           {sortBy(data.descriptors, 'version').map((d, i) => {
-            const state = ESERVICE_STATE_LABEL[d.state]
+            const state = t(`status.eservice.${d.state}`)
 
             return (
               <Box key={i} sx={{ pb: 1 }}>

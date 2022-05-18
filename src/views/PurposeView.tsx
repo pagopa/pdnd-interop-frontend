@@ -21,7 +21,6 @@ import {
 } from '../lib/purpose'
 import { formatThousands } from '../lib/format-utils'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { PURPOSE_STATE_LABEL } from '../config/labels'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { useFeedback } from '../hooks/useFeedback'
 // import { downloadFile } from '../lib/file-utils'
@@ -38,11 +37,13 @@ import { PageTopFilters } from '../components/Shared/PageTopFilters'
 import { AsyncTableClientInPurpose } from '../components/Shared/AsyncTableClient'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 // import { axiosErrorToError } from '../lib/error-utils'
+import { useTranslation } from 'react-i18next'
 
 // TEMP REFACTOR: this view will need a loooot of refactor after the BFF is implemented
 // and the fetches for clients and purpose become separated
 
 export const PurposeView = () => {
+  const { t } = useTranslation('common')
   const location = useLocation()
   const { runAction, forceRerenderCounter } = useFeedback()
   const { setDialog } = useContext(DialogContext)
@@ -289,7 +290,7 @@ export const PurposeView = () => {
 
               <DescriptionBlock label="Stato della finalità">
                 <Typography component="span">
-                  {PURPOSE_STATE_LABEL[data.currentVersion.state]}
+                  {t(`status.purpose.${data.currentVersion.state}`)}
                 </Typography>
               </DescriptionBlock>
 
