@@ -3,7 +3,7 @@ import { Typography } from '@mui/material'
 import { PartyContext } from '../lib/context'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { USER_ROLE_LABEL } from '../config/labels'
+import { USER_ROLE_LABEL } from '../config/label-keys'
 import { useUser } from '../hooks/useUser'
 
 export function Profile() {

@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Box } from '@mui/system'
 import { ActionProps, ClientKind, Party, ProviderOrSubscriber, User } from '../../../types'
-import { USER_STATE_LABEL } from '../../config/labels'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { RunAction } from '../../hooks/useFeedback'
 import { useRoute } from '../../hooks/useRoute'
@@ -14,6 +13,7 @@ import { ActionMenu } from './ActionMenu'
 import { StyledButton } from './StyledButton'
 import { StyledTableRow } from './StyledTableRow'
 import { TableWithLoader } from './TableWithLoader'
+import { useTranslation } from 'react-i18next'
 
 type AsyncTableUserProps = {
   forceRerenderCounter: number
@@ -32,6 +32,7 @@ export const AsyncTableUser = ({
   mode,
   party,
 }: AsyncTableUserProps) => {
+  const { t } = useTranslation('common')
   const { routes } = useRoute()
   const history = useHistory()
   const { token } = useContext(TokenContext)
@@ -113,7 +114,7 @@ export const AsyncTableUser = ({
             key={i}
             cellData={[
               { label: `${item.name + ' ' + item.surname}` },
-              { label: USER_STATE_LABEL[item.state] },
+              { label: t(`status.user.${item.state}`) },
             ]}
           >
             <StyledButton

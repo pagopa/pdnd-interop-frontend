@@ -29,7 +29,6 @@ import { StyledTooltip } from './StyledTooltip'
 import { TableWithLoader } from './TableWithLoader'
 import { AxiosResponse } from 'axios'
 import { StyledTableRow } from './StyledTableRow'
-import { ESERVICE_STATE_LABEL } from '../../config/labels'
 import { StyledButton } from './StyledButton'
 import { URL_FRAGMENTS } from '../../lib/constants'
 import { useTranslation } from 'react-i18next'
@@ -416,7 +415,7 @@ export const AsyncTableEServiceList = () => {
             cellData={[
               { label: item.name },
               { label: item.version || '1' },
-              { label: ESERVICE_STATE_LABEL[item.state || 'DRAFT'] },
+              { label: t(`status.eservice.${item.state || 'DRAFT'}`) },
             ]}
           >
             <StyledButton

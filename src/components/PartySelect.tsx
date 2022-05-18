@@ -6,7 +6,7 @@ import { PartyContext } from '../lib/context'
 import { storageWrite } from '../lib/storage-utils'
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material'
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from '@mui/icons-material'
-import { USER_ROLE_LABEL } from '../config/labels'
+import { USER_ROLE_LABEL } from '../config/label-keys'
 import { STORAGE_PARTY_OBJECT } from '../lib/constants'
 import { ButtonNaked } from '@pagopa/mui-italia'
 

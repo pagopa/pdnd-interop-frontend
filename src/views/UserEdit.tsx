@@ -10,7 +10,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATE_LABEL } from '../config/labels'
+import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL } from '../config/label-keys'
 import { fetchWithLogs } from '../lib/api-utils'
 import { isFetchError } from '../lib/error-utils'
 import { AxiosResponse } from 'axios'
@@ -20,6 +20,7 @@ import { PartyContext } from '../lib/context'
 import { isAdmin } from '../lib/auth-utils'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { NotFound } from './NotFound'
+import { useTranslation } from 'react-i18next'
 
 type UserEndpoinParams = {
   relationshipId: string
@@ -27,6 +28,7 @@ type UserEndpoinParams = {
 }
 
 export function UserEdit() {
+  const { t } = useTranslation('common')
   const { party } = useContext(PartyContext)
   const { routes } = useRoute()
   const { runAction, forceRerenderCounter } = useFeedback()
@@ -137,7 +139,7 @@ export function UserEdit() {
 
           <DescriptionBlock label="Stato dell'utenza">
             <Typography component="span">
-              {userData?.state ? USER_STATE_LABEL[userData.state] : 'n/d'}
+              {userData?.state ? t(`status.user.${userData.state}`) : 'n/d'}
             </Typography>
           </DescriptionBlock>
 

@@ -8,7 +8,6 @@ import {
   ProviderOrSubscriber,
   BackendAttributeContent,
 } from '../../types'
-import { AGREEMENT_STATE_LABEL } from '../config/labels'
 import { buildDynamicPath, getLastBit } from '../lib/router-utils'
 // import { formatDate, getRandomDate } from '../lib/date-utils'
 import { mergeActions } from '../lib/eservice-utils'
@@ -30,8 +29,10 @@ import { InfoMessage } from '../components/Shared/InfoMessage'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { NotFound } from './NotFound'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
+import { useTranslation } from 'react-i18next'
 
 export function AgreementEdit() {
+  const { t } = useTranslation('common')
   const { runAction, forceRerenderCounter } = useFeedback()
   const mode = useMode()
   const agreementId = getLastBit(useLocation())
@@ -292,15 +293,15 @@ export function AgreementEdit() {
             {data?.state === 'SUSPENDED' ? (
               <React.Fragment>
                 <Typography component="span">
-                  Lato erogatore: {AGREEMENT_STATE_LABEL[getAgreementState(data, 'provider')]}
+                  Lato erogatore: {t(`status.agreement.${getAgreementState(data, 'provider')}`)}
                 </Typography>
                 <br />
                 <Typography component="span">
-                  Lato fruitore: {AGREEMENT_STATE_LABEL[getAgreementState(data, 'subscriber')]}
+                  Lato fruitore: {t(`status.agreement.${getAgreementState(data, 'subscriber')}`)}
                 </Typography>
               </React.Fragment>
             ) : (
-              <Typography component="span">{AGREEMENT_STATE_LABEL[data.state]}</Typography>
+              <Typography component="span">{t(`status.agreement.${data.state}`)}</Typography>
             )}
           </DescriptionBlock>
 

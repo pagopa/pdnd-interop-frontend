@@ -8,7 +8,6 @@ import {
   Party,
   ProviderOrSubscriber,
 } from '../../../types'
-import { AGREEMENT_STATE_LABEL } from '../../config/labels'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { useFeedback } from '../../hooks/useFeedback'
 import { useRoute } from '../../hooks/useRoute'
@@ -147,7 +146,7 @@ export const AsyncTableAgreement = () => {
             cellData={[
               { label: item.eservice.name },
               { label: currentMode === 'provider' ? item.consumer.name : item.producer.name },
-              { label: AGREEMENT_STATE_LABEL[item.state] },
+              { label: t(`status.agreement.${[item.state]}`) },
             ]}
           >
             <StyledButton

@@ -9,7 +9,7 @@ import { PartyContext } from '../lib/context'
 import { storageWrite } from '../lib/storage-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { USER_ROLE_LABEL } from '../config/labels'
+import { USER_ROLE_LABEL } from '../config/label-keys'
 import { useRoute } from '../hooks/useRoute'
 
 export function ChooseParty() {
