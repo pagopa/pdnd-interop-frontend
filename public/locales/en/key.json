@@ -1,0 +1,10 @@
+{
+  "loadingSingleLabel": "Loading key",
+  "loadingMultiLabel": "Loading keys",
+  "noMultiDataLabel": "No key available",
+  "tableKey": {
+    "operatorDeletedWarning": {
+      "message": "Warning! The operator who uploaded this key has been removed from this party or client. For security reasons, we advise to delete this key and replace it with a new one"
+    }
+  }
+}

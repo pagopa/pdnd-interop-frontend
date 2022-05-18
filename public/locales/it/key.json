@@ -1,0 +1,10 @@
+{
+  "loadingSingleLabel": "Stiamo caricando la tua chiave",
+  "loadingMultiLabel": "Stiamo caricando la lista di chiavi",
+  "noMultiDataLabel": "Non ci sono chiavi disponibili",
+  "tableKey": {
+    "operatorDeletedWarning": {
+      "message": "Attenzione! L'operatore che ha caricato questa chiave è stato rimosso da questo ente. Per questioni di sicurezza, si consiglia di eliminare la chiave e di sostituirla con una nuova"
+    }
+  }
+}

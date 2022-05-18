@@ -27,6 +27,7 @@
     "subscribe": "Subscribe",
     "clone": "Clone",
     "publish": "Publish",
+    "download": "Download",
     "createNewDraft": "Create new draft version"
   },
   "table": {
