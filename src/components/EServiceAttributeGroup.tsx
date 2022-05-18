@@ -42,7 +42,7 @@ export function EServiceAttributeGroup({
   const { setDialog } = useContext(DialogContext)
   const { runAction } = useFeedback()
   const { closeDialog } = useCloseDialog()
-  const { t } = useTranslation('attributes')
+  const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.attributes' })
 
   const openCreateNewAttributeDialog = () => {
     const createNewAttributeInitialValues = {

@@ -31,7 +31,7 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
   const { party } = useContext(PartyContext)
   const { user } = useUser()
   const { runAction, forceRerenderCounter } = useFeedback()
-  const { t } = useTranslation('commons')
+  const { t } = useTranslation('common')
 
   const uploadKeyFormInitialValues: SecurityOperatorKeysFormInputValues = { name: '', key: '' }
   const uploadKeyFormValidationSchema = object({

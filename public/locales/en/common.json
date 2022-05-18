@@ -16,5 +16,22 @@
     "title": "Insufficient authorization",
     "description": "Sorry, you don't have enough permissions to access this feature",
     "cta": "Go back to the homepage"
+  },
+  "actions": {
+    "suspend": "Suspend",
+    "activate": "Activate",
+    "upgrade": "Upgrade",
+    "delete": "Delete",
+    "inspect": "Inspect",
+    "edit": "Edit",
+    "subscribe": "Subscribe"
+  },
+  "table": {
+    "headData": {
+      "eServiceName": "E-Service Name",
+      "providerName": "Provider Name",
+      "currentVersion": "Current version",
+      "eServiceStatus": "E-Service status"
+    }
   }
 }

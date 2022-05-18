@@ -22,8 +22,10 @@ import { StyledButton } from './StyledButton'
 import { StyledTableRow } from './StyledTableRow'
 import { TableWithLoader } from './TableWithLoader'
 import { useMode } from '../../hooks/useMode'
+import { useTranslation } from 'react-i18next'
 
 export const AsyncTableAgreement = () => {
+  const { t } = useTranslation(['agreement', 'common'])
   const mode = useMode()
   const currentMode = mode as ProviderOrSubscriber
   const { party } = useContext(PartyContext)
@@ -76,8 +78,12 @@ export const AsyncTableAgreement = () => {
   // Build list of available actions for each service in its current state
   const getAvailableActions = (agreement: AgreementSummary) => {
     const sharedActions: AgreementActions = {
-      ACTIVE: [{ onClick: wrapSuspend(agreement.id), label: 'Sospendi' }],
-      SUSPENDED: [{ onClick: wrapActivate(agreement.id), label: 'Riattiva' }],
+      ACTIVE: [
+        { onClick: wrapSuspend(agreement.id), label: t('actions.suspend', { ns: 'common' }) },
+      ],
+      SUSPENDED: [
+        { onClick: wrapActivate(agreement.id), label: t('actions.activate', { ns: 'common' }) },
+      ],
       PENDING: [],
       INACTIVE: [],
     }
@@ -86,7 +92,7 @@ export const AsyncTableAgreement = () => {
     if (agreement.eservice.activeDescriptor) {
       subscriberOnlyActionsActive.push({
         onClick: wrapUpgrade(agreement.id),
-        label: 'Aggiorna',
+        label: t('actions.upgrade', { ns: 'common' }),
       })
     }
 
@@ -100,7 +106,9 @@ export const AsyncTableAgreement = () => {
     const providerOnlyActions: AgreementActions = {
       ACTIVE: [],
       SUSPENDED: [],
-      PENDING: [{ onClick: wrapActivate(agreement.id), label: 'Attiva' }],
+      PENDING: [
+        { onClick: wrapActivate(agreement.id), label: t('actions.activate', { ns: 'common' }) },
+      ],
       INACTIVE: [],
     }
 
@@ -115,18 +123,18 @@ export const AsyncTableAgreement = () => {
   }
 
   const headData = [
-    'Nome E-Service',
-    currentMode === 'provider' ? 'Ente fruitore' : 'Ente erogatore',
-    'Stato richiesta',
+    t('tableHead.eserviceName'),
+    t(`tableHead.${currentMode === 'provider' ? 'subscriberName' : 'providerName'}`),
+    t('tableHead.state'),
     '',
   ]
 
   return (
     <TableWithLoader
       isLoading={isLoading}
-      loadingText="Stiamo caricando le richieste"
+      loadingText={t('loadingLabel')}
       headData={headData}
-      noDataLabel="Non ci sono richieste disponibili"
+      noDataLabel={t('noDataLabel')}
       error={axiosErrorToError(error)}
     >
       {data &&

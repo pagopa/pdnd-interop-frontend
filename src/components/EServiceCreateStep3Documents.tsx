@@ -116,10 +116,10 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
           <React.Fragment>
             <StyledIntro component="h2">
               {{
-                title: t('step3.interface.title'),
-                description: `${t('step3.interface.description.before')} ${
+                title: t('create.step3.interface.title'),
+                description: `${t('create.step3.interface.description.before')} ${
                   fetchedData?.technology === 'REST' ? 'OpenAPI' : 'WSDL'
-                }  ${t('step3.interface.description.after')}`,
+                }  ${t('create.step3.interface.description.after')}`,
               }}
             </StyledIntro>
 
@@ -138,8 +138,8 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
 
             <StyledIntro component="h2" sx={{ mt: 8, mb: 2 }}>
               {{
-                title: t('step3.documentation.title'),
-                description: t('step3.documentation.description'),
+                title: t('create.step3.documentation.title'),
+                description: t('create.step3.documentation.description'),
               }}
             </StyledIntro>
 
@@ -153,9 +153,9 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
             )}
 
             <StepActions
-              back={{ label: t('backWithoutSaveBtn'), type: 'button', onClick: back }}
+              back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
               forward={{
-                label: t('endWithSaveBtn'),
+                label: t('create.endWithSaveBtn'),
                 type: 'button',
                 onClick: () => {
                   history.push(routes.PROVIDE_ESERVICE_LIST.PATH, {
@@ -169,28 +169,28 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
             />
           </React.Fragment>
         ) : (
-          <LoadingWithMessage label={t('loadingLabel')} transparentBackground />
+          <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
         )}
       </Paper>
 
       <Paper sx={{ p: 3, mt: 2 }}>
         <StyledIntro component="h2">
           {{
-            title: t('quickPublish.title'),
-            description: t('quickPublish.description'),
+            title: t('create.quickPublish.title'),
+            description: t('create.quickPublish.description'),
           }}
         </StyledIntro>
         {!isLoading ? (
           <Box sx={{ display: 'flex', mt: 3 }}>
             <StyledButton sx={{ mr: 2 }} variant="contained" onClick={publishVersion}>
-              {t('quickPublish.publishBtn')}
+              {t('create.quickPublish.publishBtn')}
             </StyledButton>
             <StyledButton variant="outlined" onClick={deleteVersion}>
-              {t('quickPublish.deleteBtn')}
+              {t('create.quickPublish.deleteBtn')}
             </StyledButton>
           </Box>
         ) : (
-          <LoadingWithMessage label={t('loadingLabel')} transparentBackground />
+          <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
         )}
       </Paper>
     </React.Fragment>
