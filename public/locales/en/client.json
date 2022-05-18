@@ -1,11 +1,11 @@
 {
-  "noDataLabel": "No clients available",
-  "loadingLabel": "Loading clients",
-  "tableHead": {
-    "clientName": "Client Name"
-  },
-  "actions": {
-    "removeFromPurpose": "Delete from purpose"
-  },
-  "noClientsAssociatedToPurposeLabel": "No clients associated with this purpose"
+  "loadingSingleLabel": "Loading client",
+  "loadingMultiLabel": "Loading clients",
+  "noMultiDataLabel": "No client available",
+  "tableClientInPurpose": {
+    "actions": {
+      "removeFromPurpose": "Delete from purpose"
+    },
+    "noClientsAssociatedToPurposeLabel": "No clients associated with this purpose"
+  }
 }

@@ -32,10 +32,13 @@
   "table": {
     "headData": {
       "eServiceName": "Nome E-Service",
+      "clientName": "Nome Client",
       "providerName": "Nome Erogatore",
+      "subscriberName": "Nome Fruitore",
       "currentVersion": "Versione attuale",
       "version": "Versione",
-      "eServiceStatus": "Stato E-Service"
+      "eServiceStatus": "Stato E-Service",
+      "agreementStatus": "Stato richiesta"
     }
   }
 }
