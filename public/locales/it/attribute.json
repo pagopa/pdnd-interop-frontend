@@ -1,0 +1,10 @@
+{
+  "type": {
+    "certified_one": "certificato",
+    "verified_one": "verificato",
+    "declared_one": "dichiarato",
+    "certified_other": "certificati",
+    "verified_other": "verificati",
+    "declared_other": "dichiarati"
+  }
+}

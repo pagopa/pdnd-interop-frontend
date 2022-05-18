@@ -10,7 +10,6 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL } from '../config/label-keys'
 import { fetchWithLogs } from '../lib/api-utils'
 import { isFetchError } from '../lib/error-utils'
 import { AxiosResponse } from 'axios'
@@ -127,13 +126,13 @@ export function UserEdit() {
 
           <DescriptionBlock label="Ruolo">
             <Typography component="span">
-              {userData?.role ? USER_ROLE_LABEL[userData.role] : 'n/d'}
+              {userData?.role ? t(`userRole.${userData.role}`) : 'n/d'}
             </Typography>
           </DescriptionBlock>
 
           <DescriptionBlock label="Permessi">
             <Typography component="span">
-              {userData?.product.role ? USER_PLATFORM_ROLE_LABEL[userData.product.role] : 'n/d'}
+              {userData?.product.role ? t(`userPlateformRole.${userData.product.role}`) : 'n/d'}
             </Typography>
           </DescriptionBlock>
 

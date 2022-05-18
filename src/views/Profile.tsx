@@ -3,10 +3,11 @@ import { Typography } from '@mui/material'
 import { PartyContext } from '../lib/context'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { USER_ROLE_LABEL } from '../config/label-keys'
 import { useUser } from '../hooks/useUser'
+import { useTranslation } from 'react-i18next'
 
 export function Profile() {
+  const { t } = useTranslation('common')
   const { availableParties, party } = useContext(PartyContext)
   const { user } = useUser()
 
@@ -26,7 +27,7 @@ export function Profile() {
 
       <DescriptionBlock label="Attualmente stai operando per l'ente">
         <Typography component="span">
-          {party?.description} ({party ? USER_ROLE_LABEL[party.role] : ''})
+          {party?.description} ({party ? t(`userRole.${party.role}`) : ''})
         </Typography>
       </DescriptionBlock>
 
@@ -34,7 +35,7 @@ export function Profile() {
         <DescriptionBlock label="Sei registrato su questa piattaforma per gli enti">
           <Typography component="span">
             {availableParties
-              .map((p) => `${p.description} (${USER_ROLE_LABEL[p.role]})`)
+              .map((p) => `${p.description} (${t(`userRole.${p.role}`)})`)
               .join(', ')}
           </Typography>
         </DescriptionBlock>
