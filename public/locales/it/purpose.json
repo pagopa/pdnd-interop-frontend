@@ -57,5 +57,20 @@
       "publishBtn": "Pubblica bozza",
       "deleteBtn": "Cancella bozza"
     }
+  },
+  "tablePurposeInEService": {
+    "actions": {
+      "updateCompletionDate": "Aggiorna data di completamento"
+    },
+    "loadingLabel": "Stiamo caricando le finalità in attesa di evasione",
+    "noDataLabel": "Nessuna finalità da evadere",
+    "awaitingLabel": "In attesa di presa in carico"
+  },
+  "tablePurpose": {
+    "actions": {
+      "updateDailyCalls": "Aggiorna numero chiamate",
+      "deleteDailyCallsUpdate": "Elimina aggiornamento numero chiamate"
+    },
+    "updating": "in aggiornamento"
   }
 }

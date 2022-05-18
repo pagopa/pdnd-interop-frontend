@@ -57,5 +57,20 @@
       "publishBtn": "Publish draft",
       "deleteBtn": "Delete draft"
     }
+  },
+  "tablePurposeInEService": {
+    "actions": {
+      "updateCompletionDate": "Update completion date"
+    },
+    "loadingLabel": "Loading purposes awaiting dispatch",
+    "noDataLabel": "No purpose awaiting dispatch",
+    "awaitingLabel": "Awaiting taking charge"
+  },
+  "tablePurpose": {
+    "actions": {
+      "updateDailyCalls": "Update number of daily API calls",
+      "deleteDailyCallsUpdate": "Delete update to number of daily calls"
+    },
+    "updating": "updating"
   }
 }
