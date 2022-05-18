@@ -17,6 +17,7 @@ import { StyledButton } from './StyledButton'
 import { Box } from '@mui/material'
 import { ActionMenu } from './ActionMenu'
 import { buildDynamicPath } from '../../lib/router-utils'
+import { useTranslation } from 'react-i18next'
 
 type AsyncTableKeyProps = {
   forceRerenderCounter: number
@@ -31,6 +32,7 @@ export const AsyncTableKey = ({
   clientId,
   clientKind,
 }: AsyncTableKeyProps) => {
+  const { t } = useTranslation(['key', 'common'])
   const { routes } = useRoute()
   const history = useHistory()
 
@@ -68,8 +70,8 @@ export const AsyncTableKey = ({
 
   const getAvailableActions = (key: PublicKeyItem) => {
     const actions: Array<ActionProps> = [
-      { onClick: wrapDownloadKey(key.kid), label: 'Scarica' },
-      { onClick: wrapDeleteKey(key.kid), label: 'Elimina' },
+      { onClick: wrapDownloadKey(key.kid), label: t('actions.download', { ns: 'common' }) },
+      { onClick: wrapDeleteKey(key.kid), label: t('actions.delete', { ns: 'common' }) },
     ]
 
     return actions
@@ -78,14 +80,19 @@ export const AsyncTableKey = ({
   const fetchError =
     error && error.response && error.response.status !== 404 ? axiosErrorToError(error) : undefined
 
-  const headData = ['Nome della chiave', 'Data di creazione', 'Caricata da', '']
+  const headData = [
+    t('table.headData.keyName', { ns: 'commons' }),
+    t('table.headData.keyUploader', { ns: 'commons' }),
+    t('table.headData.keyUploadDate', { ns: 'commons' }),
+    '',
+  ]
 
   return (
     <TableWithLoader
       isLoading={isLoading}
-      loadingText="Stiamo caricando le chiavi"
+      loadingText={t('loadingMultiLabel')}
       headData={headData}
-      noDataLabel="Non ci sono chiavi disponibili"
+      noDataLabel={t('noMultiDataLabel')}
       error={fetchError}
     >
       {keysData?.keys.map((singleKey, i) => {
@@ -99,7 +106,7 @@ export const AsyncTableKey = ({
               {
                 label: name,
                 tooltip: isOrphan ? (
-                  <StyledTooltip title="Attenzione! L'operatore che ha caricato questa chiave è stato rimosso da questo ente. Si consiglia di eliminare la chiave e di sostituirla con una nuova">
+                  <StyledTooltip title={t('tableKey.operatorDeletedWarning.message')}>
                     <ReportGmailerrorredIcon sx={{ ml: 0.75, fontSize: 16 }} color={color} />
                   </StyledTooltip>
                 ) : undefined,
@@ -126,7 +133,7 @@ export const AsyncTableKey = ({
                 )
               }}
             >
-              Ispeziona
+              {t('actions.inspect', { ns: 'commons' })}
             </StyledButton>
 
             <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>

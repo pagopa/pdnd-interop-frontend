@@ -27,6 +27,7 @@
     "subscribe": "Iscriviti",
     "clone": "Clona",
     "publish": "Pubblica",
+    "download": "Scarica",
     "createNewDraft": "Crea bozza nuova versione"
   },
   "table": {
@@ -38,7 +39,10 @@
       "currentVersion": "Versione attuale",
       "version": "Versione",
       "eServiceStatus": "Stato E-Service",
-      "agreementStatus": "Stato richiesta"
+      "agreementStatus": "Stato richiesta",
+      "keyName": "Nome chiave",
+      "keyUploader": "Caricata da",
+      "keyUploadDate": "Data di creazione"
     }
   }
 }
