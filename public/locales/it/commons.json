@@ -11,5 +11,10 @@
   },
   "mainNav": {
     "ariaLabel": "Main navigation"
+  },
+  "unauthorized": {
+    "title": "Autorizzazione insufficiente",
+    "description": "Spiacenti, non hai permessi sufficienti per accedere alla funzionalità richiesta",
+    "cta": "Torna alla home"
   }
 }

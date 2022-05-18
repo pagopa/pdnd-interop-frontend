@@ -12,6 +12,7 @@ import { URL_FE } from '../lib/constants'
 import { StyledInputControlledSelect } from './Shared/StyledInputControlledSelect'
 import { CodeSnippetPreview } from './Shared/CodeSnippedPreview'
 import { CodeLanguagePicker } from './Shared/CodeLanguagePicker'
+import { useTranslation } from 'react-i18next'
 
 const CLIENT_ASSERTION_TYP = 'JWT'
 const CLIENT_ASSERTION_ALG = 'RS256'
@@ -21,6 +22,7 @@ export const VoucherReadStep1 = ({
   clientKind,
   ...props
 }: ClientVoucherStepProps | InteropM2MVoucherStepProps) => {
+  const { t } = useTranslation('voucher')
   const typedProps =
     clientKind === 'CONSUMER'
       ? (props as ClientVoucherStepProps)
@@ -50,19 +52,17 @@ export const VoucherReadStep1 = ({
     <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
       <StyledIntro component="h2">
         {{
-          title: 'Client assertion',
+          title: t('step1.title'),
           description: (
             <React.Fragment>
-              Il primo passaggio è creare un’asserzione firmata dal tuo ente con la chiave privata
-              corrispondente a una delle chiavi pubbliche che hai caricato in questo client. Di
-              seguito i dettagli per creare il JWS secondo la specifica{' '}
+              {t('step1.description.label')}{' '}
               <Link
                 href="https://datatracker.ietf.org/doc/html/rfc7521"
                 target="_blank"
                 rel="noreferrer"
-                title="Link alla specifica RFC7521"
+                title={t('step1.description.link.title')}
               >
-                RFC7521
+                {t('step1.description.link.label')}
               </Link>
             </React.Fragment>
           ),
@@ -75,7 +75,7 @@ export const VoucherReadStep1 = ({
             <StyledInputControlledSelect
               sx={{ mt: 0 }}
               name="kid"
-              label="Scegli la chiave pubblica da utilizzare"
+              label={t('step1.choosePublicKeyLabel')}
               value={selectedKid}
               onChange={onKidChange}
               options={props.keysData.keys.map((k) => ({ value: k.key.kid, label: k.name }))}
@@ -88,115 +88,112 @@ export const VoucherReadStep1 = ({
       <Divider />
 
       <StyledIntro component="h3" sx={{ mt: 3 }}>
-        {{ title: "Header dell'asserzione" }}
+        {{ title: t('step1.assertionHeader.title') }}
       </StyledIntro>
 
       <DescriptionBlock
-        label="KID"
-        labelDescription="La chiave pubblica corrispondente a quella privata che userai per firmare l’asserzione"
-      >
-        <InlineClipboard textToCopy={selectedKid} successFeedbackText="Id copiato correttamente" />
-      </DescriptionBlock>
-
-      <DescriptionBlock
-        label="ALG"
-        labelDescription="L’algoritmo usato per firmare questo JWT. In questo momento si può firmare solo con RS256"
+        label={t('step1.assertionHeader.kidField.label')}
+        labelDescription={t('step1.assertionHeader.kidField.description')}
       >
         <InlineClipboard
-          textToCopy={CLIENT_ASSERTION_ALG}
-          successFeedbackText="Testo copiato correttamente"
+          textToCopy={selectedKid}
+          successFeedbackText={t('step1.assertionHeader.kidField.copySuccessFeedbackText')}
         />
       </DescriptionBlock>
 
       <DescriptionBlock
-        label="TYP"
-        labelDescription="Il tipo di oggetto che si sta inviando, in questo caso “JWT”"
+        label={t('step1.assertionHeader.algField.label')}
+        labelDescription={t('step1.assertionHeader.algField.description')}
+      >
+        <InlineClipboard
+          textToCopy={CLIENT_ASSERTION_ALG}
+          successFeedbackText={t('step1.assertionHeader.algField.copySuccessFeedbackText')}
+        />
+      </DescriptionBlock>
+
+      <DescriptionBlock
+        label={t('step1.assertionHeader.typField.label')}
+        labelDescription={t('step1.assertionHeader.typField.description')}
       >
         <InlineClipboard
           textToCopy={CLIENT_ASSERTION_TYP}
-          successFeedbackText="Testo copiato correttamente"
+          successFeedbackText={t('step1.assertionHeader.typField.copySuccessFeedbackText')}
         />
       </DescriptionBlock>
 
       <Divider />
 
       <StyledIntro component="h3" sx={{ mt: 3 }}>
-        {{ title: "Payload dell'asserzione" }}
+        {{ title: t('step1.assertionPayload.title') }}
       </StyledIntro>
 
-      <DescriptionBlock label="ISS" labelDescription="L’issuer, in questo caso l'id del client">
+      <DescriptionBlock
+        label={t('step1.assertionPayload.issField.label')}
+        labelDescription={t('step1.assertionPayload.issField.description')}
+      >
         <InlineClipboard
           textToCopy={typedProps.clientId}
-          successFeedbackText="Id copiato correttamente"
+          successFeedbackText={t('step1.assertionPayload.issField.copySuccessFeedbackText')}
         />
       </DescriptionBlock>
 
       <DescriptionBlock
-        label="SUB"
-        labelDescription="Il subject, in questo caso sempre l'id del client"
+        label={t('step1.assertionPayload.subField.label')}
+        labelDescription={t('step1.assertionPayload.subField.description')}
       >
         <InlineClipboard
           textToCopy={typedProps.clientId}
-          successFeedbackText="Id copiato correttamente"
+          successFeedbackText={t('step1.assertionPayload.subField.copySuccessFeedbackText')}
         />
       </DescriptionBlock>
 
-      <DescriptionBlock label="AUD" labelDescription="L'audience">
+      <DescriptionBlock
+        label={t('step1.assertionPayload.audField.label')}
+        labelDescription={t('step1.assertionPayload.audField.description')}
+      >
         <InlineClipboard
           textToCopy={CLIENT_ASSERTION_AUD}
-          successFeedbackText="Id copiato correttamente"
+          successFeedbackText={t('step1.assertionPayload.audField.copySuccessFeedbackText')}
         />
       </DescriptionBlock>
 
       {clientKind === 'CONSUMER' && (
         <DescriptionBlock
-          label="PurposeId"
-          labelDescription="L’id della finalità per la quale si richiederà di accedere alle risorse dell’Erogatore"
+          label={t('step1.assertionPayload.purposeIdField.label')}
+          labelDescription={t('step1.assertionPayload.purposeIdField.description')}
         >
           <InlineClipboard
             textToCopy={(typedProps as ClientVoucherStepProps).purposeId}
-            successFeedbackText="Id copiato correttamente"
+            successFeedbackText={t('step1.assertionPayload.purposeIdField.copySuccessFeedbackText')}
           />
         </DescriptionBlock>
       )}
 
       <DescriptionBlock
-        label="JTI"
-        labelDescription="Il JWT ID, un id unico (uuid) random assegnato da chi vuole creare il token, serve per tracciare il token stesso. È cura del chiamante assicurarsi che l'id sia unico"
+        label={t('step1.assertionPayload.jtiField.label')}
+        labelDescription={t('step1.assertionPayload.jtiField.description')}
       >
-        <Typography>
-          Questo parametro devi generarlo tu.
-          <br />
-          Valore esempio: 261cd445-3da6-421b-9ef4-7ba556efda5f
-        </Typography>
+        <Typography>{t('step1.assertionPayload.jtiField.suggestionLabel')}</Typography>
       </DescriptionBlock>
 
       <DescriptionBlock
-        label="IAT"
-        labelDescription="Issued at, il timestamp riportante data e ora in cui viene creato il token, espresso in UNIX epoch (valore numerico, non stringa)"
+        label={t('step1.assertionPayload.iatField.label')}
+        labelDescription={t('step1.assertionPayload.iatField.description')}
       >
-        <Typography>
-          Questo parametro devi generarlo tu.
-          <br />
-          Valore esempio: 1651738540
-        </Typography>
+        <Typography>{t('step1.assertionPayload.iatField.suggestionLabel')}</Typography>
       </DescriptionBlock>
 
       <DescriptionBlock
-        label="EXP"
-        labelDescription="Expiration, il timestamp riportante data e ora di scadenza del token, espresso in UNIX epoch (valore numerico, non stringa)"
+        label={t('step1.assertionPayload.expField.label')}
+        labelDescription={t('step1.assertionPayload.expField.description')}
       >
-        <Typography>
-          Questo parametro devi generarlo tu.
-          <br />
-          Valore esempio: 1651659340
-        </Typography>
+        <Typography>{t('step1.assertionPayload.expField.suggestionLabel')}</Typography>
       </DescriptionBlock>
 
       <Divider />
 
       <StyledIntro component="h3" sx={{ mt: 3, mb: 3 }}>
-        {{ title: "Script esempio per generare un'asserzione" }}
+        {{ title: t('step1.assertionScript.title') }}
       </StyledIntro>
 
       <CodeLanguagePicker
@@ -225,7 +222,7 @@ export const VoucherReadStep1 = ({
 
       <CodeSnippetPreview
         sx={{ mt: 2 }}
-        title="Esempio di utilizzo"
+        title={t('step1.assertionScript.exampleLabel')}
         activeLang={selectedCodeLanguage}
         entries={[
           {
@@ -246,17 +243,17 @@ export const VoucherReadStep1 = ({
         }}
       />
 
-      <Alert severity="info">Saranno aggiunti script esempio in altri linguaggi</Alert>
+      <Alert severity="info">{t('step1.assertionScript.tempMoreLanguagesAlert')}</Alert>
 
       <StepActions
         back={{
-          label: 'Torna al client',
+          label: t('backToClientBtn'),
           type: 'link',
           to: buildDynamicPath(routes.SUBSCRIBE_PURPOSE_LIST.PATH, {
             clientId: typedProps.clientId,
           }),
         }}
-        forward={{ label: 'Avanti', type: 'button', onClick: typedProps.forward }}
+        forward={{ label: t('proceedBtn'), type: 'button', onClick: typedProps.forward }}
       />
     </Paper>
   )
