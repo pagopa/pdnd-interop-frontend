@@ -28,18 +28,24 @@
     "clone": "Clone",
     "publish": "Publish",
     "download": "Download",
+    "archive": "Archive",
     "createNewDraft": "Create new draft version"
   },
   "table": {
     "headData": {
       "eServiceName": "E-Service Name",
       "clientName": "Client Name",
+      "purposeName": "Purpose Name",
       "providerName": "Provider Name",
       "subscriberName": "Subscriber Name",
       "currentVersion": "Current version",
       "version": "Versione",
       "eServiceStatus": "E-Service status",
-      "agreementStatus": "Request status"
+      "agreementStatus": "Request status",
+      "purposeStatus": "Purpose status",
+      "keyName": "Key name",
+      "keyUploader": "Uploaded by",
+      "keyUploadDate": "Creation date"
     }
   }
 }

@@ -28,18 +28,21 @@
     "clone": "Clona",
     "publish": "Pubblica",
     "download": "Scarica",
+    "archive": "Archivia",
     "createNewDraft": "Crea bozza nuova versione"
   },
   "table": {
     "headData": {
       "eServiceName": "Nome E-Service",
       "clientName": "Nome Client",
+      "purposeName": "Nome finalità",
       "providerName": "Nome Erogatore",
       "subscriberName": "Nome Fruitore",
       "currentVersion": "Versione attuale",
       "version": "Versione",
       "eServiceStatus": "Stato E-Service",
       "agreementStatus": "Stato richiesta",
+      "purposeStatus": "Stato finalità",
       "keyName": "Nome chiave",
       "keyUploader": "Caricata da",
       "keyUploadDate": "Data di creazione"

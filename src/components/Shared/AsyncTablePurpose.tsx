@@ -22,6 +22,7 @@ import { StyledTableRow } from './StyledTableRow'
 import { TableWithLoader } from './TableWithLoader'
 import { PURPOSE_STATE_LABEL } from '../../config/labels'
 import { buildDynamicPath } from '../../lib/router-utils'
+import { useTranslation } from 'react-i18next'
 
 type AsyncTablePurposeInEServiceProps = {
   forceRerenderCounter: number
@@ -34,6 +35,7 @@ export const AsyncTablePurposeInEService = ({
   runAction,
   eserviceId,
 }: AsyncTablePurposeInEServiceProps) => {
+  const { t } = useTranslation(['purpose', 'common'])
   const { setDialog } = useContext(DialogContext)
 
   const { data: purposeData, isLoading /* , error */ } = useAsyncFetch<
@@ -87,11 +89,11 @@ export const AsyncTablePurposeInEService = ({
           item.mostRecentVersion.id,
           item.mostRecentVersion.expectedApprovalDate
         ),
-        label: 'Aggiorna data di completamento',
+        label: t('tablePurposeInEService.actions.updateCompletionDate'),
       },
       {
         onClick: wrapActivatePurpose(item.id, item.mostRecentVersion.id),
-        label: 'Attiva',
+        label: t('actions.activate', { ns: 'common' }),
       },
     ]
     return actions
@@ -102,9 +104,9 @@ export const AsyncTablePurposeInEService = ({
   return (
     <TableWithLoader
       isLoading={isLoading}
-      loadingText="Stiamo caricando le finalità in attesa"
+      loadingText={t('tablePurposeInEService.loadingLabel')}
       headData={headData}
-      noDataLabel="Nessuna finalità da evadere"
+      noDataLabel={t('tablePurposeInEService.noDataLabel')}
     >
       {purposeData &&
         Boolean(purposeData.length > 0) &&
@@ -118,7 +120,7 @@ export const AsyncTablePurposeInEService = ({
                 {
                   label: item.mostRecentVersion.expectedApprovalDate
                     ? formatDateString(item.mostRecentVersion.expectedApprovalDate)
-                    : 'In attesa di presa in carico',
+                    : t('tablePurposeInEService.awaitingLabel'),
                 },
               ]}
             >
@@ -131,6 +133,7 @@ export const AsyncTablePurposeInEService = ({
 }
 
 export const AsyncTablePurpose = () => {
+  const { t } = useTranslation(['purpose', 'common'])
   const { routes } = useRoute()
   const history = useHistory()
   const { runAction, forceRerenderCounter } = useFeedback()
@@ -245,18 +248,30 @@ export const AsyncTablePurpose = () => {
 
   // Build list of available actions for each service in its current state
   const getAvailableActions = (purpose: DecoratedPurpose): Array<ActionProps> => {
-    const archiveAction = { onClick: wrapArchive(purpose), label: 'Archivia' }
-    const suspendAction = { onClick: wrapSuspend(purpose), label: 'Sospendi' }
-    const activateAction = { onClick: wrapActivate(purpose), label: 'Attiva' }
-    const deleteAction = { onClick: wrapDelete(purpose.id), label: 'Elimina' }
+    const archiveAction = {
+      onClick: wrapArchive(purpose),
+      label: t('actions.archive', { ns: 'common' }),
+    }
+    const suspendAction = {
+      onClick: wrapSuspend(purpose),
+      label: t('actions.suspend', { ns: 'common' }),
+    }
+    const activateAction = {
+      onClick: wrapActivate(purpose),
+      label: t('actions.activate', { ns: 'common' }),
+    }
+    const deleteAction = {
+      onClick: wrapDelete(purpose.id),
+      label: t('actions.delete', { ns: 'common' }),
+    }
     const deleteVersionAction = {
       onClick: wrapDeleteVersion(purpose),
-      label: 'Elimina aggiornamento numero chiamate',
+      label: t('tablePurpose.actions.deleteDailyCallsUpdate'),
     }
 
     const updateDailyCallsAction = {
       onClick: wrapUpdateDailyCalls(purpose.id),
-      label: 'Aggiorna numero chiamate',
+      label: t('tablePurpose.actions.updateDailyCalls'),
     }
 
     const availableActions: Record<PurposeState, Array<ActionProps>> = {
@@ -273,14 +288,20 @@ export const AsyncTablePurpose = () => {
     return availableActions[status] || []
   }
 
-  const headData = ['Nome finalità', 'E-Service', 'Ente erogatore', 'Stato', '']
+  const headData = [
+    t('table.headData.purposeName', { ns: 'common' }),
+    t('table.headData.eServiceName', { ns: 'common' }),
+    t('table.headData.providerName', { ns: 'common' }),
+    t('table.headData.purposeStatus', { ns: 'common' }),
+    '',
+  ]
 
   return (
     <TableWithLoader
       isLoading={isLoading}
-      loadingText="Stiamo caricando le finalità"
+      loadingText={t('loadingMultiLabel')}
       headData={headData}
-      noDataLabel="Non sono state create finalità"
+      noDataLabel={t('noMultiDataLabel')}
       // error={axiosErrorToError(error)}
     >
       {data &&
@@ -296,7 +317,7 @@ export const AsyncTablePurpose = () => {
                 { label: item.eservice.producer.name },
                 {
                   label: item.awaitingApproval
-                    ? `${purposeStateLabel}, in aggiornamento`
+                    ? `${purposeStateLabel}, ${t('tablePurpose.updating')}`
                     : purposeStateLabel,
                 },
               ]}
@@ -313,7 +334,9 @@ export const AsyncTablePurpose = () => {
                   history.push(buildDynamicPath(path, { purposeId: item.id }))
                 }}
               >
-                {item.currentVersion.state === 'DRAFT' ? 'Modifica' : 'Ispeziona'}
+                {t(`actions.${item.currentVersion.state === 'DRAFT' ? 'edit' : 'inspect'}`, {
+                  ns: 'common',
+                })}
               </StyledButton>
 
               <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
