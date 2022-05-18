@@ -26,11 +26,12 @@ export type ForwardAction = ActionButton | ActionLink | ActionSubmit
 
 type StepActionsProps = {
   back: BackAction
-  forward: ForwardAction
+  forward?: ForwardAction
 }
 
 export function StepActions({ back, forward }: StepActionsProps) {
-  const forwardProps = forward.type === 'button' ? { onClick: forward.onClick } : { type: 'submit' }
+  const forwardProps =
+    forward && (forward.type === 'button' ? { onClick: forward.onClick } : { type: 'submit' })
   const backProps =
     back.type === 'link' ? { component: StyledLink, to: back.to } : { onClick: back.onClick }
 
@@ -42,9 +43,11 @@ export function StepActions({ back, forward }: StepActionsProps) {
           {back.label}
         </StyledButton>
 
-        <StyledButton variant="contained" {...forwardProps}>
-          {forward.label}
-        </StyledButton>
+        {forward && (
+          <StyledButton variant="contained" {...forwardProps}>
+            {forward.label}
+          </StyledButton>
+        )}
       </Box>
     </React.Fragment>
   )
