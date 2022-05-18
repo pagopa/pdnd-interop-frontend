@@ -22,7 +22,7 @@ import { Box } from '@mui/system'
 import { useRoute } from '../hooks/useRoute'
 import { buildLocale } from '../lib/validation-config'
 import { useLogin } from '../hooks/useLogin'
-import { LANGUAGES, URL_FE_LOGIN } from '../lib/constants'
+import { DEFAULT_LANG, LANGUAGES, URL_FE_LOGIN } from '../lib/constants'
 import { useUser } from '../hooks/useUser'
 import { PartySelect } from './PartySelect'
 import { Typography } from '@mui/material'
@@ -80,6 +80,14 @@ export function BodyLogger() {
     i18n.changeLanguage(newLang)
     buildLocale(t)
   }
+
+  // Rebuild config if starting language is not the default one
+  useEffect(() => {
+    if (lang !== DEFAULT_LANG) {
+      i18n.changeLanguage(lang)
+      buildLocale(t)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <TableActionMenuContext.Provider value={{ tableActionMenu, setTableActionMenu }}>
