@@ -281,7 +281,7 @@ export function AgreementEdit() {
           </DescriptionBlock>
 
           {mode === 'provider' && (
-            <DescriptionBlock label="Ente fruitore">
+            <DescriptionBlock label="Fruitore">
               <Typography component="span">{data?.consumer.name}</Typography>
             </DescriptionBlock>
           )}
@@ -293,11 +293,11 @@ export function AgreementEdit() {
             {data?.state === 'SUSPENDED' ? (
               <React.Fragment>
                 <Typography component="span">
-                  Lato erogatore: {t(`status.agreement.${getAgreementState(data, 'provider')}`)}
+                  Lato Erogatore: {t(`status.agreement.${getAgreementState(data, 'provider')}`)}
                 </Typography>
                 <br />
                 <Typography component="span">
-                  Lato fruitore: {t(`status.agreement.${getAgreementState(data, 'subscriber')}`)}
+                  Lato Fruitore: {t(`status.agreement.${getAgreementState(data, 'subscriber')}`)}
                 </Typography>
               </React.Fragment>
             ) : (

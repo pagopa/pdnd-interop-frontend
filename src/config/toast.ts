@@ -204,7 +204,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     loadingText: 'Stiamo aggiornando la richiesta',
     success: {
       message:
-        "La richiesta di fruizione è stata aggiornata alla versione più recente dell'E-Service. Attenzione: verifica sempre il valore del campo \"audience\" all'interno delle client assertion nei tuoi client, potrebbe variare tra una versione di un E-Service e un'altra a discrezione delle necessità dell'Ente Erogatore",
+        "La richiesta di fruizione è stata aggiornata alla versione più recente dell'E-Service. Attenzione: verifica sempre il valore del campo \"audience\" all'interno delle client assertion nei tuoi client, potrebbe variare tra una versione di un E-Service e un'altra a discrezione delle necessità dell'Erogatore",
     },
     error: {
       message: 'Non è stato possibile aggiornare la richiesta. Per favore, riprova!',
@@ -263,7 +263,7 @@ export const TOAST_CONTENTS: Record<ToastActionKeys, RunActionProps> = {
     loadingText: 'Stiamo pubblicando la finalità',
     success: {
       message:
-        "La finalità è ora pubblicata. Attenzione: se il numero di chiamate eccede il limite stabilito dall'erogatore, sarà necessaria una sua approvazione per poter sfruttare quel carico",
+        "La finalità è ora pubblicata. Attenzione: se il numero di chiamate eccede il limite stabilito dall'Erogatore, sarà necessaria una sua approvazione per poter sfruttare quel carico",
     },
     error: {
       message:
