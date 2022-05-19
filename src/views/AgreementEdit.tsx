@@ -32,7 +32,7 @@ import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
 
 export function AgreementEdit() {
-  const { t } = useTranslation('common')
+  const { t } = useTranslation(['agreement', 'common'])
   const { runAction, forceRerenderCounter } = useFeedback()
   const mode = useMode()
   const agreementId = getLastBit(useLocation())
@@ -97,8 +97,8 @@ export function AgreementEdit() {
     }
 
     const sharedActions: AgreementActions = {
-      ACTIVE: [{ onClick: suspend, label: 'Sospendi' }],
-      SUSPENDED: [{ onClick: activate, label: 'Riattiva' }],
+      ACTIVE: [{ onClick: suspend, label: t('actions.suspend', { ns: 'common' }) }],
+      SUSPENDED: [{ onClick: activate, label: t('actions.activate', { ns: 'common' }) }],
       PENDING: [],
       INACTIVE: [],
     }
@@ -106,7 +106,7 @@ export function AgreementEdit() {
     const providerOnlyActions: AgreementActions = {
       ACTIVE: [],
       SUSPENDED: [], // [{ onClick: archive, label: 'Archivia' }],
-      PENDING: [{ onClick: activate, label: 'Attiva' }],
+      PENDING: [{ onClick: activate, label: t('actions.activate', { ns: 'common' }) }],
       INACTIVE: [],
     }
 
@@ -115,7 +115,10 @@ export function AgreementEdit() {
       data.eservice.activeDescriptor &&
       data.eservice.activeDescriptor.version > data.eservice.version
     ) {
-      subscriberOnlyActionsActive.push({ onClick: upgrade, label: 'Aggiorna' })
+      subscriberOnlyActionsActive.push({
+        onClick: upgrade,
+        label: t('actions.upgrade', { ns: 'common' }),
+      })
     }
 
     const subscriberOnlyActions: AgreementActions = {
@@ -140,14 +143,14 @@ export function AgreementEdit() {
     explicitAttributeVerification: boolean
   ) => {
     if (!explicitAttributeVerification) {
-      return 'Verificato, nuova verifica non richiesta'
+      return 'verifiedByAnotherParty'
     }
 
     if (typeof verified === 'undefined') {
-      return 'In attesa di verifica'
+      return 'pending'
     }
 
-    return verified ? 'Verificato' : 'Rifiutato'
+    return verified ? 'verified' : 'refused'
   }
 
   const SubscriberAttributes = () => {
@@ -159,16 +162,25 @@ export function AgreementEdit() {
           const entries = attributes.map((a) => {
             return {
               summary: a.name,
-              summarySecondary: checkVerifiedStatus(a.verified, a.explicitAttributeVerification),
+              summarySecondary: t(
+                `edit.attribute.status.${checkVerifiedStatus(
+                  a.verified,
+                  a.explicitAttributeVerification
+                )}`
+              ),
               details: (
                 <React.Fragment>
                   {a.verificationDate && (
-                    <DescriptionBlock label="Data di verifica">
+                    <DescriptionBlock label={t('edit.attribute.verificationDateField.label')}>
                       {formatDateString(a.verificationDate)}
                     </DescriptionBlock>
                   )}
-                  <DescriptionBlock label="Fonte autoritativa">{a.origin}</DescriptionBlock>
-                  <DescriptionBlock label="Descrizione">{a.description}</DescriptionBlock>
+                  <DescriptionBlock label={t('edit.attribute.authoritativeSourceField.label')}>
+                    {a.origin}
+                  </DescriptionBlock>
+                  <DescriptionBlock label={t('edit.attribute.descriptionField.label')}>
+                    {a.description}
+                  </DescriptionBlock>
                 </React.Fragment>
               ),
             }
@@ -177,10 +189,7 @@ export function AgreementEdit() {
           return (
             <Box key={i} sx={{ mt: 1, mb: 2, pb: 2, borderBottom: 1, borderColor: 'divider' }}>
               {Boolean(entries.length > 1) && (
-                <InfoMessage
-                  sx={{ mb: 2 }}
-                  label="l’intero gruppo seguente è verificato se lo è almeno uno degli attributi che lo compongono"
-                />
+                <InfoMessage sx={{ mb: 2 }} label={t('edit.attribute.groupMessage')} />
               )}
               <StyledAccordion entries={entries} />
             </Box>
@@ -200,10 +209,7 @@ export function AgreementEdit() {
           return (
             <Box key={i} sx={{ mb: 4, borderBottom: 1, borderColor: 'divider' }}>
               {Boolean(attributes.length > 1) && (
-                <InfoMessage
-                  sx={{ mb: 2 }}
-                  label="l’intero gruppo seguente è verificato se lo è almeno uno degli attributi che lo compongono"
-                />
+                <InfoMessage sx={{ mb: 2 }} label={t('edit.attribute.groupMessage')} />
               )}
               {attributes.map((a, i) => {
                 return (
@@ -232,22 +238,17 @@ export function AgreementEdit() {
     )
   }
 
-  const agreementSuspendExplanation =
-    "La richiesta può essere sospesa sia dall'Erogatore che dal Fruitore. Se almeno uno dei due attori la sospende, inibirà l'accesso all'E-Service per tutte le finalità associate all'E-Service dal Fruitore"
-
   if (error) {
     return <NotFound errorType="server-error" />
   }
 
   return (
     <React.Fragment>
-      <StyledIntro isLoading={isLoading}>
-        {{ title: 'Gestisci richiesta di fruizione' }}
-      </StyledIntro>
+      <StyledIntro isLoading={isLoading}>{{ title: t('title') }}</StyledIntro>
 
       {data ? (
         <React.Fragment>
-          <DescriptionBlock label="Richiesta relativa a">
+          <DescriptionBlock label={t('edit.eserviceField.label')}>
             <StyledLink
               to={buildDynamicPath(
                 mode === 'subscriber'
@@ -259,53 +260,60 @@ export function AgreementEdit() {
                 }
               )}
             >
-              {data?.eservice.name}, versione {data?.eservice.version}
+              {data?.eservice.name}, {t('edit.eserviceField.versionLabel')} {data?.eservice.version}
             </StyledLink>
             {mode === 'subscriber' &&
             data?.eservice.activeDescriptor &&
             data?.state !== 'INACTIVE' ? (
               <React.Fragment>
-                {' '}
-                (è disponibile una{' '}
+                <br />
                 <StyledLink
                   to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
                     eserviceId: data?.eservice.id,
                     descriptorId: data?.eservice.activeDescriptor.id,
                   })}
                 >
-                  versione più recente
+                  {t('edit.upgradeField.link.label')}
                 </StyledLink>
-                ; per attivarla, aggiorna la richiesta di fruizione)
+                . {t('edit.upgradeField.message')}
               </React.Fragment>
             ) : null}
           </DescriptionBlock>
 
           {mode === 'provider' && (
-            <DescriptionBlock label="Fruitore">
+            <DescriptionBlock label={t('edit.subscriberField.label')}>
               <Typography component="span">{data?.consumer.name}</Typography>
             </DescriptionBlock>
           )}
 
           <DescriptionBlock
-            label="Stato della richiesta"
-            tooltipLabel={data?.state !== 'PENDING' ? agreementSuspendExplanation : undefined}
+            label={t('edit.requestStatusField.label')}
+            tooltipLabel={
+              data?.state !== 'PENDING'
+                ? t('edit.requestStatusField.agreementSuspendedMessage')
+                : undefined
+            }
           >
             {data?.state === 'SUSPENDED' ? (
               <React.Fragment>
                 <Typography component="span">
-                  Lato Erogatore: {t(`status.agreement.${getAgreementState(data, 'provider')}`)}
+                  {t('edit.requestStatusField.providerSideLabel')}:{' '}
+                  {t(`status.agreement.${getAgreementState(data, 'provider')}`, { ns: 'common' })}
                 </Typography>
                 <br />
                 <Typography component="span">
-                  Lato Fruitore: {t(`status.agreement.${getAgreementState(data, 'subscriber')}`)}
+                  {t('edit.requestStatusField.subscriberSideLabel')}:{' '}
+                  {t(`status.agreement.${getAgreementState(data, 'subscriber')}`, { ns: 'common' })}
                 </Typography>
               </React.Fragment>
             ) : (
-              <Typography component="span">{t(`status.agreement.${data.state}`)}</Typography>
+              <Typography component="span">
+                {t(`status.agreement.${data.state}`, { ns: 'common' })}
+              </Typography>
             )}
           </DescriptionBlock>
 
-          <DescriptionBlock label="Attributi verificati">
+          <DescriptionBlock label={t('edit.verifiedAttributesField.label')}>
             {data.attributes.length > 0 ? (
               mode === 'provider' ? (
                 <ProviderAttributes />
@@ -313,7 +321,7 @@ export function AgreementEdit() {
                 <SubscriberAttributes />
               )
             ) : (
-              <Typography>Per questo E-Service non sono richiesti attributi</Typography>
+              <Typography>{t('edit.verifiedAttributesField.noDataLabel')}</Typography>
             )}
           </DescriptionBlock>
 
@@ -326,10 +334,7 @@ export function AgreementEdit() {
           </PageBottomActions>
         </React.Fragment>
       ) : (
-        <LoadingWithMessage
-          label="Stiamo caricando la richiesta di fruizione"
-          transparentBackground
-        />
+        <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
     </React.Fragment>
   )
