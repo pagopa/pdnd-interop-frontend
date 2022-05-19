@@ -3,6 +3,12 @@
   "loadingMultiLabel": "Loading E-Service list",
   "noMultiDataLabel": "Non E-Service available",
   "create": {
+    "emptyTitle": "Create E-Service",
+    "stepper": {
+      "step1Label": "General",
+      "step2Label": "Version",
+      "step3Label": "Documentation"
+    },
     "backToListBtn": "Back to the E-Services",
     "backWithoutSaveBtn": "Back",
     "forwardWithSaveBtn": "Save draft and proceed",
@@ -113,6 +119,42 @@
       "title": "Fruition request",
       "description": "You are about to send a fruition request for the {{name}} E-Service, version {{version}}",
       "proceedLabel": "Subscribe"
+    }
+  },
+  "catalog": {
+    "title": "E-Service catalog",
+    "description": "In this section you can explore all the E-Services in the catalog and subscribe to the ones you are interested into"
+  },
+  "list": {
+    "title": "Your E-Services",
+    "description": "In this section you can manage all the E-Services you are providing"
+  },
+  "manage": {
+    "tabs": {
+      "ariaLabel": "Two different tabs for E-Service details and load estimate as stated by the Subscribers",
+      "details": "E-Service details",
+      "purposeAwaitingApproval": "Purposes to activate"
+    }
+  },
+  "read": {
+    "agreementDialog": {
+      "title": "Fruition requests",
+      "description": "You are about to send a fruition request for the E-Service {{name}}, version {{version}}",
+      "proceedLabel": "Subscribe"
+    },
+    "alreadySubscribedField": {
+      "label": "You are a Subscriber of the E-Service",
+      "link": {
+        "label": "Go to the fruition request"
+      }
+    },
+    "alert": {
+      "youAreTheProvider": "You can't subscribe to an E-Service you are a Provider of",
+      "missingCertifiedAttributes": "Your party is missing at least one of the certified attributes required to subscribe this E-Service",
+      "alreadySubscribed": "You can't subscribe again as you are already a Subscriber of this E-Service"
+    },
+    "actions": {
+      "backToCatalogLabel": "Back to the catalog"
     }
   }
 }

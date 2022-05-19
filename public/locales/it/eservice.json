@@ -3,6 +3,12 @@
   "loadingMultiLabel": "Stiamo caricando la lista degli E-Service",
   "noMultiDataLabel": "Non ci sono E-Service disponibili",
   "create": {
+    "emptyTitle": "Crea E-Service",
+    "stepper": {
+      "step1Label": "Generale",
+      "step2Label": "Versione",
+      "step3Label": "Documentazione"
+    },
     "backToListBtn": "Torna agli E-Service",
     "backWithoutSaveBtn": "Indietro",
     "forwardWithSaveBtn": "Salva bozza e prosegui",
@@ -131,5 +137,41 @@
     "documentation": "Risorse",
     "versionHistory": "Storico delle versioni",
     "callsPerDay": "chiamate/giorno"
+  },
+  "catalog": {
+    "title": "Catalogo degli E-Service",
+    "description": "In quest'area puoi vedere tutti gli E-Service nel catalogo, e aderire a quelli a cui sei interessato"
+  },
+  "list": {
+    "title": "I tuoi E-Service",
+    "description": "In quest'area puoi gestire tutti gli E-Service che stai erogando"
+  },
+  "manage": {
+    "tabs": {
+      "ariaLabel": "Due tab diverse per i dettagli dell'E-Service e le stime di carico indicate dai fruitori",
+      "details": "Dettagli dell'E-Service",
+      "purposeAwaitingApproval": "Finalità da evadere"
+    }
+  },
+  "read": {
+    "agreementDialog": {
+      "title": "Richiesta di fruizione",
+      "description": "Stai per inoltrare una richiesta di fruizione per l'E-Service {{name}}, versione {{version}}",
+      "proceedLabel": "Iscriviti"
+    },
+    "alreadySubscribedField": {
+      "label": "Sei iscritto all'E-Service",
+      "link": {
+        "label": "Vai alla richiesta di fruizione"
+      }
+    },
+    "alert": {
+      "youAreTheProvider": "Non puoi iscriverti a un E-Service di cui sei Erogatore",
+      "missingCertifiedAttributes": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
+      "alreadySubscribed": "Non puoi iscriverti a questo E-Service perché sei già iscritto"
+    },
+    "actions": {
+      "backToCatalogLabel": "Torna al catalogo"
+    }
   }
 }

@@ -21,8 +21,10 @@ import { StyledLink } from '../components/Shared/StyledLink'
 import { buildDynamicPath } from '../lib/router-utils'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { Alert } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 export function EServiceRead() {
+  const { t } = useTranslation(['eservice', 'common'])
   const { runAction } = useFeedback()
   const { routes } = useRoute()
   const { party } = useContext(PartyContext)
@@ -73,9 +75,12 @@ export function EServiceRead() {
     setDialog({
       type: 'basic',
       proceedCallback: subscribe,
-      proceedLabel: 'Iscriviti',
-      title: 'Richiesta di fruizione',
-      description: `Stai per inoltrare una richiesta di fruizione per l'E-Service ${data.name}, versione ${data.activeDescriptor?.version}`,
+      proceedLabel: t('read.agreementDialog.proceedLabel'),
+      title: t('read.agreementDialog.title'),
+      description: t('read.agreementDialog.description', {
+        name: data.name,
+        version: data.activeDescriptor?.version,
+      }),
       close: () => {
         setDialog(null)
       },
@@ -97,13 +102,13 @@ export function EServiceRead() {
       {data ? (
         <React.Fragment>
           {flatData && flatData.callerSubscribed && isAdmin(party) && (
-            <DescriptionBlock label="Sei iscritto all'E-Service">
+            <DescriptionBlock label={t('read.alreadySubscribedField.label')}>
               <StyledLink
                 to={buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
                   agreementId: flatData.callerSubscribed as string,
                 })}
               >
-                Vai alla richiesta di fruizione
+                {t('read.alreadySubscribedField.link.label')}
               </StyledLink>
             </DescriptionBlock>
           )}
@@ -111,17 +116,17 @@ export function EServiceRead() {
 
           {isMine && (
             <Alert sx={{ mb: 1 }} severity="info">
-              Non puoi iscriverti a un E-Service di cui sei Erogatore
+              {t('read.alert.youAreTheProvider')}
             </Alert>
           )}
           {!canSubscribeEservice && (
             <Alert sx={{ mb: 1 }} severity="info">
-              Il tuo ente non ha gli attributi certificati necessari per iscriversi
+              {t('read.alert.missingCertifiedAttributes')}
             </Alert>
           )}
           {flatData?.callerSubscribed && (
             <Alert sx={{ mb: 1 }} severity="info">
-              Non puoi iscriverti a questo E-Service perché sei già iscritto
+              {t('read.alert.alreadySubscribed')}
             </Alert>
           )}
 
@@ -132,7 +137,7 @@ export function EServiceRead() {
               !flatData?.callerSubscribed &&
               isAdmin(party) && (
                 <StyledButton sx={{ mr: 2 }} variant="contained" onClick={handleSubscriptionDialog}>
-                  Iscriviti
+                  {t('actions.subscribe', { ns: 'common' })}
                 </StyledButton>
               )}
             {/* TEMP PIN-612 */}
@@ -149,12 +154,12 @@ export function EServiceRead() {
         )} */}
 
             <StyledButton variant="outlined" to={routes.SUBSCRIBE_CATALOG_LIST.PATH}>
-              Torna al catalogo
+              {t('read.actions.backToCatalogLabel')}
             </StyledButton>
           </Box>
         </React.Fragment>
       ) : (
-        <LoadingWithMessage label="Stiamo caricando il tuo E-Service" transparentBackground />
+        <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
     </React.Fragment>
   )
