@@ -11,19 +11,20 @@ import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
 import { buildDynamicPath } from '../lib/router-utils'
 import { useRoute } from '../hooks/useRoute'
 import { Grid } from '@mui/material'
-
-const STEPS: Array<StepperStep> = [
-  { label: 'Generale', component: EServiceCreateStep1General },
-  { label: 'Versione', component: EServiceCreateStep2Version },
-  { label: 'Documentazione', component: EServiceCreateStep3Documents },
-]
+import { useTranslation } from 'react-i18next'
 
 export function EServiceCreate() {
+  const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const { routes } = useRoute()
   const history = useHistory()
   const { back, forward, activeStep } = useActiveStep()
   const { data, eserviceId, descriptorId } = useEserviceCreateFetch()
   const stepProps = { forward, back }
+  const STEPS: Array<StepperStep> = [
+    { label: t('stepper.step1Label'), component: EServiceCreateStep1General },
+    { label: t('stepper.step2Label'), component: EServiceCreateStep2Version },
+    { label: t('stepper.step3Label'), component: EServiceCreateStep3Documents },
+  ]
   const { component: Step } = STEPS[activeStep]
 
   useEffect(() => {
@@ -40,7 +41,7 @@ export function EServiceCreate() {
 
   const intro = data
     ? { title: data.name, description: data.description }
-    : { title: 'Crea E-Service' }
+    : { title: t('emptyTitle') }
 
   return (
     <React.Fragment>
