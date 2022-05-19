@@ -1,6 +1,7 @@
 {
   "productTitle": "Interoperabilità",
   "addBtn": "+ Add",
+  "createNewBtn": "Crea nuovo",
   "validation": {
     "mixed": {
       "required": "Campo richiesto"

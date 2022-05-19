@@ -8,12 +8,14 @@ import { StyledButton } from '../components/Shared/StyledButton'
 import { useRoute } from '../hooks/useRoute'
 import { PageTopFilters } from '../components/Shared/PageTopFilters'
 import { AsyncTableClient } from '../components/Shared/AsyncTableClient'
+import { useTranslation } from 'react-i18next'
 
 type ClientListProps = {
   clientKind?: ClientKind
 }
 
 export const ClientList: FunctionComponent<ClientListProps> = ({ clientKind = 'CONSUMER' }) => {
+  const { t } = useTranslation(['client', 'common'])
   const { party } = useContext(PartyContext)
   const { routes } = useRoute()
 
@@ -27,10 +29,7 @@ export const ClientList: FunctionComponent<ClientListProps> = ({ clientKind = 'C
     <React.Fragment>
       {clientKind === 'CONSUMER' && (
         <StyledIntro>
-          {{
-            title: 'I tuoi client',
-            description: "In quest'area puoi i trovare e gestire tutti i client che hai creato",
-          }}
+          {{ title: t('list.consumer.title'), description: t('list.consumer.description') }}
         </StyledIntro>
       )}
 
@@ -38,7 +37,7 @@ export const ClientList: FunctionComponent<ClientListProps> = ({ clientKind = 'C
         <TempFilters />
         {isAdmin(party) && (
           <StyledButton variant="contained" size="small" to={createPath}>
-            + Aggiungi
+            {t('createNewBtn', { ns: 'common' })}
           </StyledButton>
         )}
       </PageTopFilters>
