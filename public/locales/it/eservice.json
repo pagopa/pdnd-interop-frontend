@@ -148,7 +148,7 @@
   },
   "manage": {
     "tabs": {
-      "ariaLabel": "Due tab diverse per i dettagli dell'E-Service e le stime di carico indicate dai fruitori",
+      "ariaLabel": "Due tab diverse per i dettagli dell'E-Service e le stime di carico indicate dai Fruitori",
       "details": "Dettagli dell'E-Service",
       "purposeAwaitingApproval": "Finalità da evadere"
     }

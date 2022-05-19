@@ -29,7 +29,7 @@
   },
   "ESERVICE_VERSION_REACTIVATE": {
     "title": "Conferma riattivazione versione",
-    "description": "Cliccando \"conferma\" questa versione di E-Service sarà riattivata. Tutti i fruitori che hanno una richiesta di fruizione attiva per questa versione di E-Service potranno nuovamente usufruirne"
+    "description": "Cliccando \"conferma\" questa versione di E-Service sarà riattivata. Tutti i Fruitori che hanno una richiesta di fruizione attiva per questa versione di E-Service potranno nuovamente usufruirne"
   },
   "AGREEMENT_ACTIVATE": {
     "title": "Conferma attivazione richiesta",
