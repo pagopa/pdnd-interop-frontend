@@ -1,6 +1,7 @@
 import React from 'react'
 import { Chip, Typography } from '@mui/material'
 import { Box } from '@mui/system'
+import { useTranslation } from 'react-i18next'
 
 type Entry = {
   label: string
@@ -18,9 +19,11 @@ export const CodeLanguagePicker = ({
   activeLang,
   onLangUpdate,
 }: CodeLanguagePickerProps) => {
+  const { t } = useTranslation('shared-components')
+
   return (
     <Box sx={{ display: 'flex' }}>
-      <Typography sx={{ mr: 1 }}>Linguaggio: </Typography>
+      <Typography sx={{ mr: 1 }}>{t('codeLanguagePicker.languageLabel')}: </Typography>
       <Box>
         {entries &&
           entries.map((e, i) => {

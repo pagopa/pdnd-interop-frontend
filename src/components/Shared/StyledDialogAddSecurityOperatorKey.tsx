@@ -8,15 +8,19 @@ import { StyledForm } from './StyledForm'
 import { StyledInputControlledText } from './StyledInputControlledText'
 import { StyledLink } from './StyledLink'
 import { useRoute } from '../../hooks/useRoute'
+import { useTranslation } from 'react-i18next'
 
 export const StyledDialogAddSecurityOperatorKey: FunctionComponent<
   DialogAddSecurityOperatorKeyProps
 > = ({ onSubmit, initialValues, validationSchema }) => {
+  const { t } = useTranslation('shared-components', {
+    keyPrefix: 'styledDialogAddSecurityOperatorKeys',
+  })
   const { routes } = useRoute()
   const { closeDialog } = useCloseDialog()
 
   return (
-    <Dialog open onClose={closeDialog} aria-describedby="Modale per azione" fullWidth>
+    <Dialog open onClose={closeDialog} aria-describedby={t('ariaDescribedBy')} fullWidth>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -26,13 +30,13 @@ export const StyledDialogAddSecurityOperatorKey: FunctionComponent<
       >
         {({ handleSubmit, errors, values, handleChange }) => (
           <StyledForm onSubmit={handleSubmit}>
-            <DialogTitle>Carica nuova chiave pubblica</DialogTitle>
+            <DialogTitle>{t('title')}</DialogTitle>
 
             <DialogContent>
               <StyledInputControlledText
                 name="name"
-                label="Nome della chiave (richiesto)"
-                infoLabel="Ti aiuta a distinguerla dalle altre"
+                label={t('content.nameField.label')}
+                infoLabel={t('content.nameField.infoLabel')}
                 error={errors.name}
                 value={values.name}
                 onChange={handleChange}
@@ -41,12 +45,12 @@ export const StyledDialogAddSecurityOperatorKey: FunctionComponent<
 
               <StyledInputControlledText
                 name="key"
-                label="Chiave pubblica (richiesto)"
+                label={t('content.keyField.label')}
                 infoLabel={
                   <React.Fragment>
-                    Non sai come fare per creare una chiave? Segui la{' '}
+                    {t('content.keyField.infoLabel.message')}{' '}
                     <StyledLink to={routes.SECURITY_KEY_GUIDE.PATH} target="_blank">
-                      guida
+                      {t('content.keyField.infoLabel.linkLabel')}
                     </StyledLink>
                   </React.Fragment>
                 }
@@ -59,10 +63,10 @@ export const StyledDialogAddSecurityOperatorKey: FunctionComponent<
 
             <DialogActions>
               <StyledButton variant="outlined" onClick={closeDialog}>
-                Annulla
+                {t('actions.cancelLabel')}
               </StyledButton>
               <StyledButton variant="contained" type="submit">
-                Carica
+                {t('actions.confirmLabel')}
               </StyledButton>
             </DialogActions>
           </StyledForm>

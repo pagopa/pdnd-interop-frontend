@@ -43,9 +43,11 @@
       "eServiceStatus": "E-Service status",
       "agreementStatus": "Request status",
       "purposeStatus": "Purpose status",
+      "userStatus": "User status",
       "keyName": "Key name",
       "keyUploader": "Uploaded by",
-      "keyUploadDate": "Creation date"
+      "keyUploadDate": "Creation date",
+      "userName": "Name and surname"
     }
   },
   "status": {

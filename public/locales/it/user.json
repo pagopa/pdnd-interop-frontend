@@ -1,0 +1,8 @@
+{
+  "loadingSingleLabel": "Stiamo caricando l'operatore",
+  "loadingMultiLabel": "Stiamo caricando la lista degli operatori",
+  "noMultiDataLabel": "Non ci sono operatori disponibili",
+  "actions": {
+    "removeFromClient": "Rimuovi dal client"
+  }
+}

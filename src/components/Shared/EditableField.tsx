@@ -8,6 +8,7 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material'
 import { forceReflow } from '../../lib/wait-utils'
+import { useTranslation } from 'react-i18next'
 
 type EditableFieldProps = {
   onSave: (updatedString: string | null) => void
@@ -22,6 +23,7 @@ export const EditableField: FunctionComponent<EditableFieldProps> = ({
   multiline = false,
   ariaLabel,
 }) => {
+  const { t } = useTranslation('shared-components')
   const contentEditableRef = useRef<HTMLDivElement>(null)
   const [canEdit, setCanEdit] = useState(false)
 
@@ -113,12 +115,12 @@ export const EditableField: FunctionComponent<EditableFieldProps> = ({
             display: 'flex',
           }}
         >
-          <StyledTooltip title="Salva modifica" placement="bottom">
+          <StyledTooltip title={t('saveEdit')} placement="bottom">
             <StyledButton sx={btnProps} onClick={saveEdit} onMouseDown={preventBlurUndoEdit}>
               <SaveIcon fontSize="small" />
             </StyledButton>
           </StyledTooltip>
-          <StyledTooltip title="Annulla modifica" placement="bottom">
+          <StyledTooltip title={t('undoEdit')} placement="bottom">
             {/* This button is actually unused because the onBlur of the contentEditable takes precedence */}
             <StyledButton sx={btnProps} onClick={undoEdit}>
               <DeleteIcon fontSize="small" />

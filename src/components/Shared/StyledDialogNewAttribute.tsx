@@ -14,11 +14,11 @@ export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps
   validationSchema,
   onSubmit,
 }) => {
-  const { t } = useTranslation('attribute')
+  const { t } = useTranslation(['shared-components', 'attribute'])
   const { closeDialog } = useCloseDialog()
 
   return (
-    <Dialog open onClose={closeDialog} aria-describedby="Modale per azione" fullWidth>
+    <Dialog open onClose={closeDialog} aria-describedby={t('ariaDescribedBy')} fullWidth>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -29,7 +29,7 @@ export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps
         {({ handleSubmit, errors, values, handleChange }) => (
           <StyledForm onSubmit={handleSubmit}>
             <DialogTitle>
-              Crea nuovo attributo {t(`keys.${attributeKey}`, { count: 1 })}
+              {t('title')} {t(`keys.${attributeKey}`, { count: 1, ns: 'attribute' })}
             </DialogTitle>
 
             <DialogContent>
@@ -39,14 +39,14 @@ export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps
                 error={errors.name}
                 value={values.name}
                 onChange={handleChange}
-                label="Nome dell'attributo (richiesto)"
+                label={t('styledDialogNewAttribute.content.nameField.label')}
               />
               <StyledInputControlledText
                 name="description"
                 error={errors.description}
                 value={values.description}
                 onChange={handleChange}
-                label="Descrizione dell'attributo (richiesto)"
+                label={t('styledDialogNewAttribute.content.descriptionField.label')}
                 multiline={true}
               />
               <StyledInputControlledText
@@ -54,23 +54,24 @@ export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps
                 error={errors.code}
                 value={values.code}
                 onChange={handleChange}
-                label="Id della fonte autoritativa (richiesto)"
+                label={t('styledDialogNewAttribute.content.codeField.label')}
+                infoLabel={t('styledDialogNewAttribute.content.codeField.infoLabel')}
               />
               <StyledInputControlledText
                 name="origin"
                 error={errors.origin}
                 value={values.origin}
                 onChange={handleChange}
-                label="Nome della fonte autoritativa (richiesto)"
+                label={t('styledDialogNewAttribute.content.originField.label')}
               />
             </DialogContent>
 
             <DialogActions>
               <StyledButton variant="outlined" onClick={closeDialog}>
-                Annulla
+                {t('actions.cancelLabel')}
               </StyledButton>
               <StyledButton variant="contained" type="submit">
-                Crea attributo
+                {t('actions.confirmLabel')}
               </StyledButton>
             </DialogActions>
           </StyledForm>

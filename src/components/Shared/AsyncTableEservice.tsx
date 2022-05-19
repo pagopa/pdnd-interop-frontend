@@ -393,9 +393,9 @@ export const AsyncTableEServiceList = () => {
 
   // Data for the table head
   const headData = [
-    t('table.headData.eserviceName', { ns: 'common' }),
+    t('table.headData.eServiceName', { ns: 'common' }),
     t('table.headData.version', { ns: 'common' }),
-    t('table.headData.eserviceStatus', { ns: 'common' }),
+    t('table.headData.eServiceStatus', { ns: 'common' }),
     '',
   ]
 
@@ -415,7 +415,7 @@ export const AsyncTableEServiceList = () => {
             cellData={[
               { label: item.name },
               { label: item.version || '1' },
-              { label: t(`status.eservice.${item.state || 'DRAFT'}`) },
+              { label: t(`status.eservice.${item.state || 'DRAFT'}`, { ns: 'common' }) },
             ]}
           >
             <StyledButton
@@ -435,7 +435,9 @@ export const AsyncTableEServiceList = () => {
                 )
               }}
             >
-              {t(`actions${!item.state || item.state === 'DRAFT' ? 'edit' : 'inspect'}`)}
+              {t(`actions.${!item.state || item.state === 'DRAFT' ? 'edit' : 'inspect'}`, {
+                ns: 'common',
+              })}
             </StyledButton>
 
             <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>

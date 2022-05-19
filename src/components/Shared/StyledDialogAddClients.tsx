@@ -11,11 +11,13 @@ import { PartyContext } from '../../lib/context'
 import differenceBy from 'lodash/differenceBy'
 import { sortBy } from 'lodash'
 import { LoadingWithMessage } from './LoadingWithMessage'
+import { useTranslation } from 'react-i18next'
 
 export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = ({
   onSubmit,
   exclude,
 }) => {
+  const { t } = useTranslation('shared-components', { keyPrefix: 'styledDialogAddClients' })
   const { closeDialog } = useCloseDialog()
   const { party } = useContext(PartyContext)
   const [selected, setSelected] = useState<Array<Client>>([])
@@ -62,16 +64,16 @@ export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = 
   const availableClients = differenceBy(clientData, exclude, 'id')
 
   return (
-    <Dialog open onClose={closeDialog} aria-describedby="Modale per azione" fullWidth>
+    <Dialog open onClose={closeDialog} aria-describedby={t('ariaDescribedBy')} fullWidth>
       <StyledForm onSubmit={handleSubmit}>
-        <DialogTitle>Aggiungi client</DialogTitle>
+        <DialogTitle>{t('title')}</DialogTitle>
 
         {!isLoading ? (
           <DialogContent>
             <Box sx={{ mt: 3 }}>
               <StyledInputControlledAutocomplete
                 focusOnMount={true}
-                label="Client selezionati"
+                label={t('content.autocompleteLabel')}
                 sx={{ mt: 6, mb: 0 }}
                 multiple={true}
                 placeholder="..."
@@ -85,18 +87,15 @@ export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = 
             </Box>
           </DialogContent>
         ) : (
-          <LoadingWithMessage
-            label="Stiamo caricando i client associabili alla finalità"
-            transparentBackground
-          />
+          <LoadingWithMessage label={t('content.loadingMessage')} transparentBackground />
         )}
 
         <DialogActions>
           <StyledButton variant="outlined" onClick={closeDialog}>
-            Annulla
+            {t('actions.cancelLabel')}
           </StyledButton>
           <StyledButton variant="contained" type="submit">
-            Aggiungi
+            {t('actions.confirmLabel')}
           </StyledButton>
         </DialogActions>
       </StyledForm>

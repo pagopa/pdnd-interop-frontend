@@ -10,7 +10,7 @@ import { InlineClipboard } from './Shared/InlineClipboard'
 import { Link } from '@mui/material'
 import { URL_FE } from '../lib/constants'
 import { StyledInputControlledSelect } from './Shared/StyledInputControlledSelect'
-import { CodeSnippetPreview } from './Shared/CodeSnippedPreview'
+import { CodeSnippetPreview } from './Shared/CodeSnippetPreview'
 import { CodeLanguagePicker } from './Shared/CodeLanguagePicker'
 import { useTranslation } from 'react-i18next'
 
