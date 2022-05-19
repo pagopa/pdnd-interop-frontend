@@ -45,5 +45,15 @@
       },
       "groupMessage": "the whole group below is verified if at least one of the attributes in the group is verified"
     }
+  },
+  "list": {
+    "provider": {
+      "title": "Fruition requests",
+      "description": "In this section, you can manage all the fruition requests you have received from parties that want to subscribe to your E-Services"
+    },
+    "subscriber": {
+      "title": "Your requests",
+      "description": "In this section, you can manage all the fruition requests you have sent to E-Service Providers"
+    }
   }
 }
