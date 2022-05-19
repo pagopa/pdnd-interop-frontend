@@ -4,5 +4,30 @@
   "noMultiDataLabel": "Non ci sono operatori disponibili",
   "actions": {
     "removeFromClient": "Rimuovi dal client"
+  },
+  "edit": {
+    "emailField": {
+      "label": "Email"
+    },
+    "roleField": {
+      "label": "Ruolo"
+    },
+    "productRoleField": {
+      "label": "Permessi"
+    },
+    "statusField": {
+      "label": "Stato dell'utenza"
+    },
+    "associatedKeysField": {
+      "label": "Chiavi associate",
+      "noDataLabel": "Nessuna chiave associata"
+    }
+  },
+  "list": {
+    "provider": {
+      "title": "Operatori API dell'ente",
+      "description": "In quest’area puoi trovare e gestire tutti gli operatori API che sono stati abilitati alla gestione degli E-Service dell'ente",
+      "tempAlertMessage": "Se l'operatore non è in elenco, in questa fase di test contattaci per aggiungerlo"
+    }
   }
 }
