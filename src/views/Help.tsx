@@ -4,8 +4,10 @@ import { StyledIntro } from '../components/Shared/StyledIntro'
 import { URL_FE } from '../lib/constants'
 import { getReplacedAssetsPaths } from '../lib/guides-utils'
 import { Grid } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 export function Help() {
+  const { t } = useTranslation('common', { keyPrefix: 'help' })
   const [htmlString, setHtmlString] = useState('')
 
   useEffect(() => {
@@ -20,13 +22,7 @@ export function Help() {
 
   return (
     <React.Fragment>
-      <StyledIntro>
-        {{
-          title: 'Guida introduttiva',
-          description:
-            "In questa pagina puoi trovare informazioni utili per gestire le operazioni e i problemi più comuni. NB: questa guida sarà sostituita da un portale documentale all'entrata in esercizio della piattaforma",
-        }}
-      </StyledIntro>
+      <StyledIntro>{{ title: t('title'), description: t('description') }}</StyledIntro>
 
       <Grid container>
         <Grid item xs={8}>

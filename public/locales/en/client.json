@@ -45,5 +45,9 @@
       "title": "I tuoi client",
       "description": "In quest'area puoi i trovare e gestire tutti i client che hai creato"
     }
+  },
+  "interopM2M": {
+    "title": "InteropM2M",
+    "description": "Manage the API machine-to-machine clients. These clients allow you to exploit Interoperability outside of the web app"
   }
 }
