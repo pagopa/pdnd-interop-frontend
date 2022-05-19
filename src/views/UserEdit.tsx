@@ -27,7 +27,7 @@ type UserEndpoinParams = {
 }
 
 export function UserEdit() {
-  const { t } = useTranslation('common')
+  const { t } = useTranslation(['user', 'common'])
   const { party } = useContext(PartyContext)
   const { routes } = useRoute()
   const { runAction, forceRerenderCounter } = useFeedback()
@@ -97,7 +97,10 @@ export function UserEdit() {
 
   const getAvailableActions = () => {
     if (mode === 'subscriber' && isAdmin(party)) {
-      const removeFromClientAction = { onClick: removeFromClient, label: 'Rimuovi dal client' }
+      const removeFromClientAction = {
+        onClick: removeFromClient,
+        label: t('actions.removeFromClient'),
+      }
 
       return [removeFromClientAction]
     }
@@ -120,30 +123,32 @@ export function UserEdit() {
 
       {userData ? (
         <React.Fragment>
-          <DescriptionBlock label="Email">
+          <DescriptionBlock label={t('edit.emailField.label')}>
             <Typography component="span">{userData?.email || 'n/d'}</Typography>
           </DescriptionBlock>
 
-          <DescriptionBlock label="Ruolo">
+          <DescriptionBlock label={t('edit.roleField.label')}>
             <Typography component="span">
-              {userData?.role ? t(`userRole.${userData.role}`) : 'n/d'}
+              {userData?.role ? t(`userRole.${userData.role}`, { ns: 'common' }) : 'n/d'}
             </Typography>
           </DescriptionBlock>
 
-          <DescriptionBlock label="Permessi">
+          <DescriptionBlock label={t('edit.productRoleField.label')}>
             <Typography component="span">
-              {userData?.product.role ? t(`userPlateformRole.${userData.product.role}`) : 'n/d'}
+              {userData?.product.role
+                ? t(`userPlateformRole.${userData.product.role}`, { ns: 'common' })
+                : 'n/d'}
             </Typography>
           </DescriptionBlock>
 
-          <DescriptionBlock label="Stato dell'utenza">
+          <DescriptionBlock label={t('edit.statusField.label')}>
             <Typography component="span">
-              {userData?.state ? t(`status.user.${userData.state}`) : 'n/d'}
+              {userData?.state ? t(`status.user.${userData.state}`, { ns: 'common' }) : 'n/d'}
             </Typography>
           </DescriptionBlock>
 
           {userData?.product.role === 'security' && (
-            <DescriptionBlock label="Chiavi associate">
+            <DescriptionBlock label={t('edit.associatedKeysField.label')}>
               {Boolean(keys.length > 0) ? (
                 keys.map(({ key, name }, i) => (
                   <StyledLink
@@ -158,7 +163,9 @@ export function UserEdit() {
                   </StyledLink>
                 ))
               ) : (
-                <Typography component="span">Nessuna chiave associata</Typography>
+                <Typography component="span">
+                  {t('edit.associatedKeysField.noDataLabel')}
+                </Typography>
               )}
             </DescriptionBlock>
           )}
@@ -172,7 +179,7 @@ export function UserEdit() {
           </Box>
         </React.Fragment>
       ) : (
-        <LoadingWithMessage label="Stiamo caricando l'operatore richiesto" transparentBackground />
+        <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
     </React.Fragment>
   )

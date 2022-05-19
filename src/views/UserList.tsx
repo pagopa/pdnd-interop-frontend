@@ -13,12 +13,14 @@ import { isAdmin } from '../lib/auth-utils'
 import { fetchAllWithLogs } from '../lib/api-utils'
 import { PageTopFilters } from '../components/Shared/PageTopFilters'
 import { AsyncTableUser } from '../components/Shared/AsyncTableUser'
+import { useTranslation } from 'react-i18next'
 
 type UserListProps = {
   clientKind?: ClientKind
 }
 
 export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSUMER' }) => {
+  const { t } = useTranslation(['user', 'common'])
   const history = useHistory()
   const { setDialog } = useContext(DialogContext)
   const { runAction, forceRerenderCounter } = useFeedback()
@@ -68,11 +70,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
     <React.Fragment>
       {mode === 'provider' && (
         <StyledIntro>
-          {{
-            title: "Operatori API dell'ente",
-            description:
-              "In quest’area puoi trovare e gestire tutti gli operatori API che sono stati abilitati alla gestione degli E-Service dell'ente",
-          }}
+          {{ title: t('list.provider.title'), description: t('list.provider.description') }}
         </StyledIntro>
       )}
 
@@ -80,7 +78,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
         <TempFilters />
         {isAdmin(party) && mode === 'subscriber' && (
           <StyledButton variant="contained" size="small" onClick={openAddOperatorDialog}>
-            + Aggiungi
+            {t('addBtn', { ns: 'common' })}
           </StyledButton>
         )}
       </PageTopFilters>
@@ -96,7 +94,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
 
       {mode === 'provider' && (
         <Alert sx={{ mt: 1 }} severity="info">
-          Se l&rsquo;operatore non è in elenco, in questa fase di test contattaci per aggiungerlo
+          {t('list.provider.tempAlertMessage')}
         </Alert>
       )}
     </React.Fragment>
