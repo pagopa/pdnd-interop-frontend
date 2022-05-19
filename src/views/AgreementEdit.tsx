@@ -239,7 +239,7 @@ export function AgreementEdit() {
   }
 
   if (error) {
-    return <NotFound errorType="server-error" />
+    return <NotFound errorType="serverError" />
   }
 
   return (

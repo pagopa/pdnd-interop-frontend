@@ -107,5 +107,22 @@
   "help": {
     "title": "Guida introduttiva",
     "description": "In questa pagina puoi trovare informazioni utili per gestire le operazioni e i problemi più comuni. NB: questa guida sarà sostituita da un portale documentale all'entrata in esercizio della piattaforma"
+  },
+  "notFound": {
+    "title": "Spiacenti",
+    "description": {
+      "notFound": "La pagina cercata purtroppo non esiste",
+      "serverError": "Si è verificato un errore temporaneo del server",
+      "goHomeLink": {
+        "label": "Torna alla home"
+      }
+    }
+  },
+  "notifications": {
+    "title": "Notifiche",
+    "tempAlert": "Le funzionalità di notifica sono attualmente in sviluppo"
+  },
+  "securityKeyGuide": {
+    "title": "Generare e caricare chiavi di sicurezza"
   }
 }

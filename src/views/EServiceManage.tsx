@@ -41,7 +41,7 @@ export function EServiceManage() {
   )
 
   if (error) {
-    return <NotFound errorType="server-error" />
+    return <NotFound errorType="serverError" />
   }
 
   return (

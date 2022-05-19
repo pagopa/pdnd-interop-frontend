@@ -126,7 +126,7 @@ export const AsyncTableAgreement = () => {
     t(`table.headData.${currentMode === 'provider' ? 'subscriberName' : 'providerName'}`, {
       ns: 'common',
     }),
-    t('table.headData.agreementState', { ns: 'common' }),
+    t('table.headData.agreementStatus', { ns: 'common' }),
     '',
   ]
 
