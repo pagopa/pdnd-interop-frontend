@@ -36,7 +36,7 @@ const ClientVoucherReadStep3 = ({ data, back }: ClientVoucherStepProps) => {
   const { routes } = useRoute()
   const { t } = useTranslation('voucher')
 
-  const { data: eServiceData } = useAsyncFetch<EServiceReadType>({
+  const { data: eserviceData } = useAsyncFetch<EServiceReadType>({
     path: {
       endpoint: 'ESERVICE_GET_SINGLE',
       endpointParams: { eserviceId: data?.eservice.id, descriptorId: data?.eservice.descriptor.id },
@@ -44,8 +44,8 @@ const ClientVoucherReadStep3 = ({ data, back }: ClientVoucherStepProps) => {
   })
 
   const descriptorAudience =
-    eServiceData &&
-    eServiceData.descriptors.find((d) => d.id === data?.eservice.descriptor.id)?.audience[0]
+    eserviceData &&
+    eserviceData.descriptors.find((d) => d.id === data?.eservice.descriptor.id)?.audience[0]
 
   return (
     <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
