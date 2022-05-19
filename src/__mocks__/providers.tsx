@@ -16,6 +16,8 @@ import {
 // import theme from '@pagopa/mui-italia/theme'
 import { History, createMemoryHistory } from 'history'
 import { getDecoratedRoutes } from '../lib/router-utils'
+import { I18nextProvider } from 'react-i18next'
+import i18n from './i18n'
 
 type LangProviderProps = {
   defaultLang?: LangCode
@@ -133,25 +135,27 @@ export const AllTheProviders: FunctionComponent<
 
   return (
     <LangProvider defaultLang={defaultLang}>
-      <RoutesProvider>
-        <TokenProvider defaultToken={defaultToken}>
-          <PartyProvider defaultParty={defaultParty}>
-            <Router history={history}>
-              {/* <ThemeProvider theme={theme}> */}
-              {/* <CssBaseline /> */}
+      <I18nextProvider i18n={i18n}>
+        <RoutesProvider>
+          <TokenProvider defaultToken={defaultToken}>
+            <PartyProvider defaultParty={defaultParty}>
+              <Router history={history}>
+                {/* <ThemeProvider theme={theme}> */}
+                {/* <CssBaseline /> */}
 
-              <TableActionMenuProvider defaultTableActionMenu={defaultTableActionMenu}>
-                <ToastProvider defaultToast={defaultToast}>
-                  <DialogProvider defaultDialog={defaultDialog}>
-                    <LoaderProvider defaultLoader={defaultLoader}>{children}</LoaderProvider>
-                  </DialogProvider>
-                </ToastProvider>
-              </TableActionMenuProvider>
-              {/* </ThemeProvider> */}
-            </Router>
-          </PartyProvider>
-        </TokenProvider>
-      </RoutesProvider>
+                <TableActionMenuProvider defaultTableActionMenu={defaultTableActionMenu}>
+                  <ToastProvider defaultToast={defaultToast}>
+                    <DialogProvider defaultDialog={defaultDialog}>
+                      <LoaderProvider defaultLoader={defaultLoader}>{children}</LoaderProvider>
+                    </DialogProvider>
+                  </ToastProvider>
+                </TableActionMenuProvider>
+                {/* </ThemeProvider> */}
+              </Router>
+            </PartyProvider>
+          </TokenProvider>
+        </RoutesProvider>
+      </I18nextProvider>
     </LangProvider>
   )
 }
