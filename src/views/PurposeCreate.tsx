@@ -11,15 +11,17 @@ import { PartyContext } from '../lib/context'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useRoute } from '../hooks/useRoute'
 import { StyledLink } from '../components/Shared/StyledLink'
-
-const STEPS: Array<StepperStep> = [
-  { label: 'Generale', component: PurposeCreateStep1General },
-  { label: 'Analisi del rischio', component: PurposeCreateStep2RiskAnalysis },
-  { label: 'Client', component: PurposeCreateStep3Clients },
-]
+import { useTranslation } from 'react-i18next'
 
 export const PurposeCreate = () => {
+  const { t } = useTranslation('purpose')
   const { activeStep, forward, back } = useActiveStep()
+
+  const STEPS: Array<StepperStep> = [
+    { label: t('create.stepper.step1Label'), component: PurposeCreateStep1General },
+    { label: t('create.stepper.step2Label'), component: PurposeCreateStep2RiskAnalysis },
+    { label: t('create.stepper.step3Label'), component: PurposeCreateStep3Clients },
+  ]
   const { component: Step } = STEPS[activeStep]
   const stepProps = { forward, back }
   const { party } = useContext(PartyContext)
@@ -32,7 +34,7 @@ export const PurposeCreate = () => {
 
   return (
     <React.Fragment>
-      <StyledIntro>{{ title: 'Crea finalità' }}</StyledIntro>
+      <StyledIntro>{{ title: t('create.emptyTitle') }}</StyledIntro>
       {eserviceData && Boolean(eserviceData.length > 0) ? (
         <Grid container>
           <Grid item xs={8}>
@@ -42,9 +44,10 @@ export const PurposeCreate = () => {
         </Grid>
       ) : (
         <Alert severity="info">
-          Non si possono creare finalità perché non ci sono servizi associabili.{' '}
-          <StyledLink to={routes.SUBSCRIBE_CATALOG_LIST.PATH}>Visita il catalogo</StyledLink> e
-          iscriviti al tuo primo E-Service
+          {t('create.noAgreementsAlert.message')}{' '}
+          <StyledLink to={routes.SUBSCRIBE_CATALOG_LIST.PATH}>
+            {t('create.noAgreementsAlert.link.label')}
+          </StyledLink>
         </Alert>
       )}
     </React.Fragment>

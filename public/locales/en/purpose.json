@@ -3,6 +3,18 @@
   "loadingMultiLabel": "Loading purposes",
   "noMultiDataLabel": "No purpose available",
   "create": {
+    "emptyTitle": "Create purpose",
+    "noAgreementsAlert": {
+      "message": "No purpose can be created as there are no available E-Service. To subscribe to your first E-Service",
+      "link": {
+        "label": "explore the catalog"
+      }
+    },
+    "stepper": {
+      "step1Label": "General",
+      "step2Label": "Risk assessment",
+      "step3Label": "Client"
+    },
     "backToListBtn": "Back to purpose list",
     "backWithoutSaveBtn": "Back",
     "forwardWithSaveBtn": "Save draft and proceed",
@@ -72,5 +84,53 @@
       "deleteDailyCallsUpdate": "Delete update to number of daily calls"
     },
     "updating": "updating"
+  },
+  "list": {
+    "title": "Your purposes",
+    "description": "In this section you can manage all the purposes you have created"
+  },
+  "view": {
+    "actions": {
+      "updateDailyCalls": "Update daily calls",
+      "deleteDailyCallsUpdate": "Delete daily calls update",
+      "backToList": "Back to the purposes list"
+    },
+    "tabs": {
+      "ariaLabel": "Two different tabs for purposes details and associated clients",
+      "details": "Purpose details",
+      "clients": "Associated clients"
+    },
+    "accessGrantedField": {
+      "label": "Is access granted?"
+    },
+    "dailyCallsEstimateField": {
+      "label": "Current load estimate",
+      "unitLabel": "API calls/day"
+    },
+    "upgradeRequestField": {
+      "label": "Upgrade request",
+      "nextLabel": "Load estimate",
+      "unitLabel": "API calls/day",
+      "estimatedDateLabel": "Estimated completion date",
+      "noEstimateLabel": "No completion date has been established yet"
+    },
+    "currentEServiceVersionField": {
+      "label": "The E-Service version you are currently subscribing to",
+      "versionLabel": "version"
+    },
+    "agreementField": {
+      "label": "Fruition request",
+      "link": {
+        "label": "See request"
+      }
+    },
+    "purposeStatusField": {
+      "label": "Purposes status"
+    },
+    "versionHistoryField": {
+      "label": "Purpose version history",
+      "unitLabel": "API calls/day",
+      "approvalDateLabel": "approval date"
+    }
   }
 }
