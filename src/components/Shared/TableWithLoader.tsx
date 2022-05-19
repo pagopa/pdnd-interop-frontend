@@ -11,6 +11,7 @@ import {
 } from '@mui/material'
 import { LoadingWithMessage } from './LoadingWithMessage'
 import { PageReloadMessage } from './PageReloadMessage'
+import { useTranslation } from 'react-i18next'
 
 type TableWithLoaderProps = {
   isLoading: boolean
@@ -24,12 +25,14 @@ type TableWithLoaderProps = {
 export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
   isLoading,
   loadingText,
-  noDataLabel = 'Questa ricerca non ha prodotto risultati',
+  noDataLabel,
   error,
   headData,
   viewType = 'table',
   children,
 }) => {
+  const { t } = useTranslation('shared-components', { keyPrefix: 'tableWithLoader' })
+
   if (error) {
     return <PageReloadMessage />
   }
@@ -54,7 +57,7 @@ export const TableWithLoader: FunctionComponent<TableWithLoaderProps> = ({
           ) : (
             <TableRow>
               <TableCell colSpan={headData.length} sx={{ p: 0 }}>
-                <Alert severity="info">{noDataLabel}</Alert>
+                <Alert severity="info">{noDataLabel || t('noDataLabel')}</Alert>
               </TableCell>
             </TableRow>
           )}

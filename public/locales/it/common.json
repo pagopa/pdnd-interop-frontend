@@ -43,9 +43,11 @@
       "eServiceStatus": "Stato E-Service",
       "agreementStatus": "Stato richiesta",
       "purposeStatus": "Stato finalità",
+      "userStatus": "Stato utente",
       "keyName": "Nome chiave",
       "keyUploader": "Caricata da",
-      "keyUploadDate": "Data di creazione"
+      "keyUploadDate": "Data di creazione",
+      "userName": "Nome e cognome"
     }
   },
   "status": {
@@ -84,5 +86,17 @@
     "admin": "Amministratore",
     "security": "Operatore di sicurezza",
     "api": "Operatore API"
+  },
+  "time": {
+    "second_one": "secondo",
+    "second_other": "secondi",
+    "minute_one": "minuto",
+    "minute_other": "minuti",
+    "hour_one": "ora",
+    "hour_other": "ore"
+  },
+  "conjunctions": {
+    "and": "e",
+    "or": "o"
   }
 }

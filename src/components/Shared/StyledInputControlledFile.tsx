@@ -3,6 +3,7 @@ import { Typography } from '@mui/material'
 import { Box, SxProps } from '@mui/system'
 import { StyledInputWrapper } from './StyledInputWrapper'
 import { FormikSetFieldValue } from '../../../types'
+import { useTranslation } from 'react-i18next'
 
 type StyledInputControlledFileProps = {
   name: string
@@ -27,6 +28,8 @@ export function StyledInputControlledFile({
 
   sx,
 }: StyledInputControlledFileProps) {
+  const { t } = useTranslation('shared-components', { keyPrefix: 'styledInputControlledFile' })
+
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement
     const files = target.files as FileList
@@ -75,9 +78,9 @@ export function StyledInputControlledFile({
           </Box>
         </Box>
         <Typography component="span" variant="body2">
-          File selezionato:{' '}
+          {t('fileSelectLabel')}:{' '}
           <Typography component="span" variant="inherit" sx={{ fontWeight: 700 }} color="text">
-            {value ? value.name : 'nessun file selezionato'}
+            {value ? value.name : t('noFileSelectedLabel')}
           </Typography>
         </Typography>
       </Box>

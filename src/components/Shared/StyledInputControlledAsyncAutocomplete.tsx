@@ -9,6 +9,7 @@ import { StyledInputWrapper } from './StyledInputWrapper'
 import { SxProps } from '@mui/system'
 import parse from 'autosuggest-highlight/parse'
 import match from 'autosuggest-highlight/match'
+import { useTranslation } from 'react-i18next'
 
 type StyledInputControlledAsyncAutocompleteProps<T> = {
   label: string
@@ -51,6 +52,9 @@ export const StyledInputControlledAsyncAutocomplete = <T extends unknown>({
   getOptionLabel,
   isOptionEqualToValue,
 }: StyledInputControlledAsyncAutocompleteProps<T>) => {
+  const { t } = useTranslation('shared-components', {
+    keyPrefix: 'styledInputControlledAsyncAutocomplete',
+  })
   const [isOpen, setIsOpen] = useState(false)
   const [options, setOptions] = useState<Array<T>>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -110,8 +114,8 @@ export const StyledInputControlledAsyncAutocomplete = <T extends unknown>({
         // filterOptions={(options) => uniqBy(options, (o) => (o[labelKey] as string).toLowerCase())}
         options={options}
         loading={isLoading}
-        loadingText="Stiamo cercando..."
-        noOptionsText="Nessun risultato trovato"
+        loadingText={t('loadingLabel')}
+        noOptionsText={t('noDataLabel')}
         renderInput={(params) => {
           return (
             <TextField

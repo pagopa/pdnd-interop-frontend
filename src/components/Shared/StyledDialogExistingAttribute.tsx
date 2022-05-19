@@ -29,7 +29,7 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
   selectedIds,
   attributeKey,
 }) => {
-  const { t } = useTranslation('attribute')
+  const { t } = useTranslation(['shared-components', 'attribute'])
   const { closeDialog } = useCloseDialog()
 
   const options = [{ label: "Richiedi nuova convalida dell'attributo", value: 'attribute' }]
@@ -42,7 +42,13 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
   const verifiedCondition = attributeKey === 'verified'
 
   return (
-    <Dialog open onClose={closeDialog} aria-describedby="Modale per azione" fullWidth maxWidth="md">
+    <Dialog
+      open
+      onClose={closeDialog}
+      aria-describedby={t('styledDialogExistingAttribute.ariaDescribedBy')}
+      fullWidth
+      maxWidth="md"
+    >
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
@@ -52,19 +58,16 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
         {({ handleSubmit, values, setFieldValue }) => (
           <StyledForm onSubmit={handleSubmit}>
             <DialogTitle>
-              Aggiungi attributo o gruppo {t(`type.${attributeKey}`, { count: 1 })}
+              {t('styledDialogExistingAttribute.title')}{' '}
+              {t(`type.${attributeKey}`, { count: 1, ns: 'attribute' })}
             </DialogTitle>
 
             <DialogContent>
-              <Typography>
-                Se selezioni più di un attributo per volta verrà trattato come “gruppo”. Sarà
-                sufficiente per il Fruitore possedere uno solo degli attributi nel gruppo per
-                passare la verifica
-              </Typography>
+              <Typography>{t('styledDialogExistingAttribute.content.message')}</Typography>
 
               <Box sx={{}}>
                 <StyledInputControlledAsyncAutocomplete
-                  label="Attributi selezionati"
+                  label={t('styledDialogExistingAttribute.content.autocompleteLabel')}
                   sx={{ mt: 2, mb: 0 }}
                   multiple={true}
                   placeholder="..."
@@ -110,7 +113,7 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
                   <Divider />
                   <Box sx={{ mt: 1 }}>
                     <Typography sx={{ mt: 0, mb: 1 }} fontWeight={600}>
-                      Hai selezionato
+                      {t('styledDialogExistingAttribute.content.selectedLabel')}
                     </Typography>
                     <StyledAccordion
                       entries={values.selected.map(({ name, description }) => ({
@@ -125,10 +128,10 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
 
             <DialogActions>
               <StyledButton variant="outlined" onClick={closeDialog}>
-                Annulla
+                {t('styledDialogExistingAttribute.cancelLabel')}
               </StyledButton>
               <StyledButton variant="contained" type="submit">
-                Aggiungi
+                {t('styledDialogExistingAttribute.confirmLabel')}
               </StyledButton>
             </DialogActions>
           </StyledForm>

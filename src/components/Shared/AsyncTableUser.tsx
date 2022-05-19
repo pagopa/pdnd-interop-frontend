@@ -32,7 +32,7 @@ export const AsyncTableUser = ({
   mode,
   party,
 }: AsyncTableUserProps) => {
-  const { t } = useTranslation('common')
+  const { t } = useTranslation(['user', 'common'])
   const { routes } = useRoute()
   const history = useHistory()
   const { token } = useContext(TokenContext)
@@ -88,7 +88,7 @@ export const AsyncTableUser = ({
     if (mode === 'subscriber' && isAdmin(party)) {
       const removeFromClientAction = {
         onClick: wrapRemoveFromClient(user.relationshipId),
-        label: 'Rimuovi dal client',
+        label: t('actions.removeFromClient'),
       }
 
       actions = [removeFromClientAction]
@@ -97,14 +97,18 @@ export const AsyncTableUser = ({
     return actions
   }
 
-  const headData = ['Nome e cognome', 'Stato', '']
+  const headData = [
+    t('table.headData.userName', { ns: 'common' }),
+    t('table.headData.userStatus', { ns: 'common' }),
+    '',
+  ]
 
   return (
     <TableWithLoader
       isLoading={isLoading}
-      loadingText="Stiamo caricando gli operatori"
+      loadingText={t('loadingMultiLabel')}
       headData={headData}
-      noDataLabel="Non ci sono operatori disponibili"
+      noDataLabel={t('noMultiDataLabel')}
       error={axiosErrorToError(error)}
     >
       {users &&
@@ -114,7 +118,7 @@ export const AsyncTableUser = ({
             key={i}
             cellData={[
               { label: `${item.name + ' ' + item.surname}` },
-              { label: t(`status.user.${item.state}`) },
+              { label: t(`status.user.${item.state}`, { ns: 'common' }) },
             ]}
           >
             <StyledButton
@@ -124,7 +128,7 @@ export const AsyncTableUser = ({
                 history.push(getEditBtnRoute(item))
               }}
             >
-              Ispeziona
+              {t('actions.inspect', { ns: 'common' })}
             </StyledButton>
 
             <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>

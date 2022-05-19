@@ -1,0 +1,178 @@
+{
+  "codeSnippetPreview": {
+    "successFeedbackText": "Script copied successfully"
+  },
+  "codeLanguagePicker": {
+    "languageLabel": "Language"
+  },
+  "editableField": {
+    "saveEdit": "Save edits",
+    "undoEdit": "Undo edits"
+  },
+  "fixedClipboard": {
+    "defaultSuccessFeedbackText": "Message copied successfully"
+  },
+  "inlineClipboard": {
+    "defaultSuccessFeedbackText": "Message copied successfully"
+  },
+  "inlineSupportLink": {
+    "label": "get in touch with support",
+    "title": "Get in touch with support"
+  },
+  "pageReloadMessage": {
+    "message": "Unable to fetch data",
+    "cta": "Reload the page"
+  },
+  "styledDeleteableDocument": {
+    "prettyNameLabel": "Document name",
+    "editDocumentName": "Edit document name",
+    "deleteDocument": "Delete document"
+  },
+  "styledDialogAddClients": {
+    "ariaDescribedBy": "Modal to add clients to a purpose",
+    "title": "Add clients",
+    "content": {
+      "autocompleteLabel": "Selected clients",
+      "loadingMessage": "Loading clients to associate to purpose"
+    },
+    "actions": {
+      "cancelLabel": "Undo",
+      "confirmLabel": "Add"
+    }
+  },
+  "styledDialogAddSecurityOperator": {
+    "ariaDescribedBy": "Modal to add security operators to a client",
+    "title": "Add security operators",
+    "content": {
+      "autocompleteLabel": "Selected operators",
+      "tempAlert": "If the operator is not in the list, get in touch with us to add it (only for this test phase)"
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Aggiungi"
+    }
+  },
+  "styledDialogAddSecurityOperatorKeys": {
+    "ariaDescribedBy": "Modal to add a public key to a client",
+    "title": "Upload new public key",
+    "content": {
+      "nameField": {
+        "label": "Key name (required)",
+        "infoLabel": "It will help you tell them apart"
+      },
+      "keyField": {
+        "label": "Public key (required)",
+        "infoLabel": {
+          "message": "If you don't know how to create the keys? Follow the",
+          "linkLabel": "guide"
+        }
+      }
+    },
+    "actions": {
+      "cancelLabel": "Undo",
+      "confirmLabel": "Upload"
+    }
+  },
+  "styledDialogBasic": {
+    "ariaDescribedBy": "Action modal",
+    "actions": {
+      "cancelLabel": "Undo"
+    }
+  },
+  "styledDialogExistingAttribute": {
+    "ariaDescribedBy": "Modal to add an existing attribute or a group of attributes",
+    "title": "Add attribute or group",
+    "content": {
+      "message": "If you select more than one attribute at a time, it will be treated as a \"group\". The Subscriber will need to possess only one among the attributes in a group to allow for the validation to pass",
+      "autocompleteLabel": "Selected attributes",
+      "selectedLabel": "You have chosen"
+    },
+    "actions": {
+      "cancelLabel": "Undo",
+      "confirmLabel": "Add"
+    }
+  },
+  "styledDialogExtension": {
+    "ariaDescribedBy": "Modal to send a request for an E-Service extension to its Provider",
+    "title": "Request extension",
+    "content": {
+      "message": "Fill in the form stating the reasons why you think your party is entitled to subscribe to this E-Service. Remember to add all legal basis and purposes. A notification will be sent to the E-Service Provider"
+    },
+    "actions": {
+      "cancelLabel": "Undo",
+      "confirmLabel": "Send request"
+    }
+  },
+  "styledDialogNewAttribute": {
+    "ariaDescribedBy": "Modal to create a new attribute",
+    "title": "Create new attribute",
+    "content": {
+      "nameField": {
+        "label": "Attribute name (required)"
+      },
+      "descriptionField": {
+        "label": "Attribute description (required)"
+      },
+      "codeField": {
+        "label": "Authoritative source id (required)",
+        "infoLabel": "A kebab-case version of the name (e.g. \"My Authoritative Source\" becomes \"my-authoritative-source\")"
+      },
+      "originField": {
+        "label": "Authoritative source name (required)"
+      }
+    },
+    "actions": {
+      "cancelLabel": "Undo",
+      "confirmLabel": "Create attribute"
+    }
+  },
+  "styledDialogSetPurposeExpectedApprovalDate": {
+    "ariaDescribedBy": "Modal to set the estimated completion date to activate a Subscriber purpose",
+    "title": "Set estimated completion date",
+    "content": {
+      "message": "You can update it at any moment. Any change will be notified to the Subscriber"
+    },
+    "actions": {
+      "cancelLabel": "Undo",
+      "confirmLabel": "Set"
+    }
+  },
+  "styledDialogUpdatePurposeDailyCalls": {
+    "ariaDescribedBy": "Modal to update the number of API calls/day for a purpose",
+    "title": "Update number of API calls/day",
+    "content": {
+      "dailyCallsField": {
+        "label": "Number of API calls/day (required)",
+        "infoLabel": "Your estimated number of API calls per day. This value will add up until it meets one of the thresholds set by the Provider. When it does, the Provider will have to manually approve any further purpose or change in API calls/day to guarantee the technical sustainability of the E-Service"
+      }
+    },
+    "actions": {
+      "cancelLabel": "Undo",
+      "confirmLabel": "Confirm"
+    }
+  },
+  "styledInputControlledAsyncAutocomplete": {
+    "loadingLabel": "Searching...",
+    "noDataLabel": "No results"
+  },
+  "styledInputControlledAutocomplete": {
+    "noDataLabel": "No results"
+  },
+  "styledInputControlledFile": {
+    "fileSelectLabel": "Selected file",
+    "noFileSelectedLabel": "no file selected"
+  },
+  "styledToast": {
+    "default": {
+      "success": {
+        "message": "Success"
+      },
+      "error": {
+        "message": "Error: the operation could not be completed"
+      }
+    }
+  },
+  "tableWithLoader": {
+    "noDataLabel": "This search bears no results"
+  }
+}

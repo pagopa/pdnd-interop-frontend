@@ -2,6 +2,7 @@ import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { Typography, Popover } from '@mui/material'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { IntegrationInstructions as IntegrationInstructionsIcon } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 
 type FixedClipboardProps = {
   textToCopy: string
@@ -11,9 +12,10 @@ type FixedClipboardProps = {
 
 export const FixedClipboard: FunctionComponent<FixedClipboardProps> = ({
   textToCopy,
-  successFeedbackText = 'Messaggio copiato correttamente',
+  successFeedbackText,
   autoHideDuration = 1500,
 }) => {
+  const { t } = useTranslation('shared-components')
   const [permission, setPermission] = useState(false)
   const [popover, setPopover] = useState(false)
   const anchorRef = useRef() as React.MutableRefObject<HTMLSpanElement>
@@ -77,7 +79,7 @@ export const FixedClipboard: FunctionComponent<FixedClipboardProps> = ({
           bgcolor="primary.main"
           variant="caption"
         >
-          {successFeedbackText}
+          {successFeedbackText || t('fixedClipboard.defaultSuccessFeedbackText')}
         </Typography>
       </Popover>
     </React.Fragment>

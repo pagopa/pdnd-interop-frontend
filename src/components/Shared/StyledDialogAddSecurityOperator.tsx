@@ -12,11 +12,15 @@ import { PartyContext } from '../../lib/context'
 import sortBy from 'lodash/sortBy'
 import { useHistory } from 'react-router-dom'
 import { getBits } from '../../lib/router-utils'
+import { useTranslation } from 'react-i18next'
 
 export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurityOperatorProps> = ({
   initialValues,
   onSubmit,
 }) => {
+  const { t } = useTranslation('shared-components', {
+    keyPrefix: 'styledDialogAddSecurityOperator',
+  })
   const [excludeIdsList, setExcludeIdsList] = useState<Array<string>>([])
 
   const history = useHistory()
@@ -81,15 +85,15 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
   }
 
   return (
-    <Dialog open onClose={closeDialog} aria-describedby="Modale per azione" fullWidth>
+    <Dialog open onClose={closeDialog} aria-describedby={t('ariaDescribedBy')} fullWidth>
       <StyledForm onSubmit={handleSubmit}>
-        <DialogTitle>Aggiungi operatori di sicurezza</DialogTitle>
+        <DialogTitle>{t('title')}</DialogTitle>
 
         <DialogContent>
           <Box sx={{ mt: 3 }}>
             <StyledInputControlledAutocomplete
               focusOnMount={true}
-              label="Operatori selezionati"
+              label={t('content.autocompleteLabel')}
               sx={{ mt: 6, mb: 0 }}
               multiple={true}
               placeholder="..."
@@ -103,16 +107,16 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
           </Box>
 
           <Alert sx={{ mt: 1 }} severity="info">
-            Se l&rsquo;operatore non è in elenco, in questa fase di test contattaci per aggiungerlo
+            {t('content.tempAlert')}
           </Alert>
         </DialogContent>
 
         <DialogActions>
           <StyledButton variant="outlined" onClick={closeDialog}>
-            Annulla
+            {t('actions.cancelLabel')}
           </StyledButton>
           <StyledButton variant="contained" type="submit">
-            Aggiungi
+            {t('actions.confirmLabel')}
           </StyledButton>
         </DialogActions>
       </StyledForm>

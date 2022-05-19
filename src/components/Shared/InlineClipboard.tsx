@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { Typography, Popover } from '@mui/material'
 import { ButtonNaked } from '@pagopa/mui-italia'
+import { useTranslation } from 'react-i18next'
 
 type InlineClipboardProps = {
   textToCopy: string
@@ -12,9 +13,10 @@ type InlineClipboardProps = {
 export const InlineClipboard: FunctionComponent<InlineClipboardProps> = ({
   textToCopy,
   label,
-  successFeedbackText = 'Messaggio copiato correttamente',
+  successFeedbackText,
   autoHideDuration = 1500,
 }) => {
+  const { t } = useTranslation('shared-components')
   const [permission, setPermission] = useState(false)
   const [popover, setPopover] = useState(false)
   const anchorRef = useRef() as React.MutableRefObject<HTMLSpanElement>
@@ -74,7 +76,7 @@ export const InlineClipboard: FunctionComponent<InlineClipboardProps> = ({
           bgcolor="primary.main"
           variant="caption"
         >
-          {successFeedbackText}
+          {successFeedbackText || t('inlineClipboard.defaultSuccessFeedbackText')}
         </Typography>
       </Popover>
     </React.Fragment>

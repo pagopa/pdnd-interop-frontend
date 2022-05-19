@@ -6,14 +6,16 @@ import { DialogUpdatePurposeDailyCallsProps } from '../../../types'
 import { useCloseDialog } from '../../hooks/useCloseDialog'
 import { StyledForm } from './StyledForm'
 import { StyledInputControlledText } from './StyledInputControlledText'
+import { useTranslation } from 'react-i18next'
 
 export const StyledDialogUpdatePurposeDailyCalls: FunctionComponent<
   DialogUpdatePurposeDailyCallsProps
 > = ({ onSubmit, initialValues, validationSchema }) => {
+  const { t } = useTranslation('shared-components')
   const { closeDialog } = useCloseDialog()
 
   return (
-    <Dialog open onClose={closeDialog} aria-describedby="Modale per azione" fullWidth>
+    <Dialog open onClose={closeDialog} aria-describedby={t('ariaLabelledBy')} fullWidth>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -23,14 +25,14 @@ export const StyledDialogUpdatePurposeDailyCalls: FunctionComponent<
       >
         {({ handleSubmit, errors, values, handleChange }) => (
           <StyledForm onSubmit={handleSubmit}>
-            <DialogTitle>Aggiorna numero di chiamate API/giorno</DialogTitle>
+            <DialogTitle>{t('title')}</DialogTitle>
 
             <DialogContent>
               <StyledInputControlledText
                 type="number"
                 name="dailyCalls"
-                label="Numero di chiamate API/giorno (richiesto)"
-                infoLabel="Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'E-Service"
+                label={t('content.dailyCallsField.label')}
+                infoLabel={t('content.dailyCallsField.infoLabel')}
                 error={errors.dailyCalls}
                 value={values.dailyCalls}
                 onChange={handleChange}
@@ -41,10 +43,10 @@ export const StyledDialogUpdatePurposeDailyCalls: FunctionComponent<
 
             <DialogActions>
               <StyledButton variant="outlined" onClick={closeDialog}>
-                Annulla
+                {t('actions.cancelLabel')}
               </StyledButton>
               <StyledButton variant="contained" type="submit">
-                Conferma
+                {t('actions.confirmLabel')}
               </StyledButton>
             </DialogActions>
           </StyledForm>

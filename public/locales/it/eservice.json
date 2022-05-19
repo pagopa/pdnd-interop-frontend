@@ -114,5 +114,22 @@
       "description": "Stai per inoltrare una richiesta di fruizione per l'E-Service {{name}}, versione {{version}}",
       "proceedLabel": "Iscriviti"
     }
+  },
+  "contentInfo": {
+    "verificationRequired": "verifica richiesta",
+    "groupOr": "oppure",
+    "provider": "Ente erogatore",
+    "version": "Versione",
+    "versionStatus": "Stato della versione",
+    "audience": "Audience",
+    "technology": "Tecnologia",
+    "voucherLifespan": "Durata del voucher",
+    "dailyCallsPerConsumer": "Soglia chiamate API/giorno per fruitore",
+    "dailyCallsTotal": "Soglia chiamate API/giorno totali",
+    "attributes": "Attributi",
+    "noAttributesLabel": "Nessun attributo presente",
+    "documentation": "Risorse",
+    "versionHistory": "Storico delle versioni",
+    "callsPerDay": "chiamate/giorno"
   }
 }

@@ -11,6 +11,7 @@ import { RunActionOutput, useFeedback } from '../../hooks/useFeedback'
 import { StyledButton } from './StyledButton'
 import { StyledTooltip } from './StyledTooltip'
 import { StyledInputControlledText } from './StyledInputControlledText'
+import { useTranslation } from 'react-i18next'
 
 type StyledDeleteableDocumentComponentProps = {
   eserviceId: string
@@ -27,6 +28,7 @@ export function StyledDeleteableDocument({
   isLabelEditable = true,
   deleteDocument,
 }: StyledDeleteableDocumentComponentProps) {
+  const { t } = useTranslation('shared-components')
   const inputRef = useRef<HTMLInputElement>(null)
   const { runAction } = useFeedback()
   const [canEdit, setCanEdit] = useState(false)
@@ -89,7 +91,7 @@ export function StyledDeleteableDocument({
           disabled={!canEdit || !isLabelEditable}
           sx={{ my: 0, minWidth: 400 }}
           name="prettyName"
-          label="Nome documento"
+          label={t('styledDeleteableDocument.prettyNameLabel')}
           value={!canEdit ? fixedValue : newValue}
           onChange={updateNewValue}
           onBlur={onBlur}
@@ -104,7 +106,7 @@ export function StyledDeleteableDocument({
       </Box>
       <Box sx={{ ml: 4, flexShrink: 0 }}>
         {isLabelEditable && (
-          <StyledTooltip title="Modifica nome del documento">
+          <StyledTooltip title={t('styledDeleteableDocument.editDocumentName')}>
             <StyledButton
               sx={{
                 px: 1,
@@ -118,7 +120,7 @@ export function StyledDeleteableDocument({
             </StyledButton>
           </StyledTooltip>
         )}
-        <StyledTooltip title="Cancella documento">
+        <StyledTooltip title={t('styledDeleteableDocument.deleteDocument')}>
           <StyledButton sx={{ px: 1, py: 1 }} onClick={deleteDocument}>
             <DeleteIcon fontSize="small" />
           </StyledButton>

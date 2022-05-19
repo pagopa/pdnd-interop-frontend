@@ -6,7 +6,7 @@ import { StyledIntro } from './Shared/StyledIntro'
 import { DescriptionBlock } from './DescriptionBlock'
 import { InlineClipboard } from './Shared/InlineClipboard'
 import { API_GATEWAY_URL, AUTHORIZATION_SERVER_ACCESS_TOKEN_URL } from '../config/api-endpoints'
-import { CodeSnippetPreview } from './Shared/CodeSnippedPreview'
+import { CodeSnippetPreview } from './Shared/CodeSnippetPreview'
 import { URL_FE } from '../lib/constants'
 import { useTranslation } from 'react-i18next'
 

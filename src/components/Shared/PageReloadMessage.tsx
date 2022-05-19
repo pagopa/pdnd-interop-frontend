@@ -4,8 +4,10 @@ import { Box } from '@mui/system'
 import { Typography } from '@mui/material'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { ReportGmailerrorred as ReportGmailerrorredIcon } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 
 export const PageReloadMessage = () => {
+  const { t } = useTranslation('shared-components')
   const history = useHistory()
   const reload = () => {
     history.go(0)
@@ -19,9 +21,9 @@ export const PageReloadMessage = () => {
     >
       <ReportGmailerrorredIcon sx={{ mr: 1 }} fontSize="small" color="inherit" />
       <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center' }}>
-        Non siamo riusciti a recuperare i dati.{' '}
+        {t('pageReloadMessage.message')}.{' '}
         <ButtonNaked sx={{ fontSize: 'inherit', ml: 0.5, color: 'primary.main' }} onClick={reload}>
-          Ricarica la pagina
+          {t('pageReloadMessage.cta')}
         </ButtonNaked>
       </Typography>
     </Box>

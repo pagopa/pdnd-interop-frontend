@@ -28,7 +28,7 @@ type EServiceContentInfoProps = {
 }
 
 export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = ({ data }) => {
-  const { t } = useTranslation('attribute')
+  const { t } = useTranslation(['eservice', 'attribute', 'common'])
   const { runAction } = useFeedback()
   const { routes } = useRoute()
   const activeDescriptor = data.activeDescriptor as EServiceDescriptorRead
@@ -60,7 +60,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
     attributeKey: AttributeKey
   ) => {
     return explicitAttributeVerification && attributeKey === 'verified'
-      ? ' (verifica richiesta)'
+      ? ` (${t('contentInfo.verificationRequired')})`
       : ''
   }
 
@@ -89,7 +89,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
               <React.Fragment key={i}>
                 {name}{' '}
                 <Typography component="span" fontWeight={600}>
-                  oppure
+                  {t('contentInfo.groupOr')}
                 </Typography>{' '}
               </React.Fragment>
             )
@@ -131,8 +131,9 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
   const getFormattedVoucherLifespan = () => {
     const { hours, minutes } = secondsToHoursMinutes(activeDescriptor.voucherLifespan)
 
-    const minutesLabel = minutes !== 1 ? 'minuti' : 'minuto'
-    const hoursLabel = hours !== 1 ? 'ore' : 'ora'
+    const minutesLabel = t('time.minute', { count: minutes, ns: 'common' })
+    const hoursLabel = t('time.hour', { count: hours, ns: 'common' })
+    const and = t('conjunctions.and', { ns: 'common' })
 
     if (hours === 0) {
       return `${minutes} ${minutesLabel}`
@@ -142,49 +143,57 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
       return `${hours} ${hoursLabel}`
     }
 
-    return `${hours} ${hoursLabel} e ${minutes} ${minutesLabel}`
+    return `${hours} ${hoursLabel} ${and} ${minutes} ${minutesLabel}`
   }
 
   return (
     <React.Fragment>
-      <DescriptionBlock label="Ente erogatore">
+      <DescriptionBlock label={t('contentInfo.provider')}>
         <Typography component="span">{data.producer.name}</Typography>
       </DescriptionBlock>
 
-      <DescriptionBlock label="Versione">
+      <DescriptionBlock label={t('contentInfo.version')}>
         <Typography component="span">{activeDescriptor.version}</Typography>
       </DescriptionBlock>
 
-      <DescriptionBlock label="Stato della versione">
-        <Typography component="span">{t(`status.eservice.${activeDescriptor.state}`)}</Typography>
-      </DescriptionBlock>
-
-      <DescriptionBlock label="Audience">
-        <Typography component="span">{activeDescriptor.audience.join(', ')}</Typography>
-      </DescriptionBlock>
-
-      <DescriptionBlock label="Tecnologia">
-        <Typography component="span">{data.technology}</Typography>
-      </DescriptionBlock>
-
-      <DescriptionBlock label="Durata del voucher">
-        <Typography component="span">{getFormattedVoucherLifespan()}</Typography>
-      </DescriptionBlock>
-
-      <DescriptionBlock label="Soglia chiamate API/giorno per fruitore">
+      <DescriptionBlock label={t('contentInfo.versionStatus')}>
         <Typography component="span">
-          {formatThousands(activeDescriptor.dailyCallsPerConsumer)} chiamate/giorno
+          {t(`status.eservice.${activeDescriptor.state}`, { ns: 'common' })}
         </Typography>
       </DescriptionBlock>
 
-      <DescriptionBlock label="Soglia chiamate API/giorno totali">
+      <DescriptionBlock label={t('contentInfo.audience')}>
+        <Typography component="span">{activeDescriptor.audience.join(', ')}</Typography>
+      </DescriptionBlock>
+
+      <DescriptionBlock label={t('contentInfo.technology')}>
+        <Typography component="span">{data.technology}</Typography>
+      </DescriptionBlock>
+
+      <DescriptionBlock label={t('contentInfo.voucherLifespan')}>
+        <Typography component="span">{getFormattedVoucherLifespan()}</Typography>
+      </DescriptionBlock>
+
+      <DescriptionBlock label={t('contentInfo.dailyCallsPerConsumer')}>
         <Typography component="span">
-          {formatThousands(activeDescriptor.dailyCallsTotal)} chiamate/giorno
+          {formatThousands(activeDescriptor.dailyCallsPerConsumer)} {t('contentInfo.callsPerDay')}
+        </Typography>
+      </DescriptionBlock>
+
+      <DescriptionBlock label={t('contentInfo.dailyCallsTotal')}>
+        <Typography component="span">
+          {formatThousands(activeDescriptor.dailyCallsTotal)} {t('contentInfo.callsPerDay')}
         </Typography>
       </DescriptionBlock>
 
       {(Object.keys(data.attributes) as Array<AttributeKey>).map((key, i) => (
-        <DescriptionBlock key={i} label={`Attributi ${t(`type.${key}`, { count: 2 })}`}>
+        <DescriptionBlock
+          key={i}
+          label={`${t('contentInfo.attributes')} ${t(`type.${key}`, {
+            count: 2,
+            ns: 'attribute',
+          })}`}
+        >
           {data.attributes[key].length > 0 ? (
             <Grid container sx={{ mt: 1 }}>
               <Grid item xs={8}>
@@ -192,12 +201,12 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
               </Grid>
             </Grid>
           ) : (
-            <Typography component="span">Nessun attributo presente</Typography>
+            <Typography component="span">{t('contentInfo.noAttributesLabel')}</Typography>
           )}
         </DescriptionBlock>
       ))}
 
-      <DescriptionBlock label="Risorse">
+      <DescriptionBlock label={t('contentInfo.documentation')}>
         <ResourceList
           resources={[
             // TEMP PIN-1095 and PIN-1105
@@ -223,9 +232,9 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
       </DescriptionBlock>
 
       {Boolean(data.descriptors.length > 0) && (
-        <DescriptionBlock label="Storico delle versioni">
+        <DescriptionBlock label={t('contentInfo.versionHistory')}>
           {sortBy(data.descriptors, 'version').map((d, i) => {
-            const state = t(`status.eservice.${d.state}`)
+            const state = t(`status.eservice.${d.state}`, { ns: 'common' })
 
             return (
               <Box key={i} sx={{ pb: 1 }}>
@@ -237,13 +246,14 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
                         descriptorId: d.id,
                       })}
                     >
-                      Versione {d.version}
+                      {t('eserviceInfo.version')} {d.version}
                     </StyledLink>{' '}
                     <Chip size="small" label={state} />
                   </Box>
                 ) : (
                   <Typography component="span">
-                    Versione {d.version} <Chip size="small" label={state} color="primary" />
+                    {t('eserviceInfo.version')} {d.version}{' '}
+                    <Chip size="small" label={state} color="primary" />
                   </Typography>
                 )}
               </Box>
