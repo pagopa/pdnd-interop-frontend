@@ -3,7 +3,6 @@ import { AxiosError, AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import {
   ActionFunction,
-  DialogActionKeys,
   RequestConfig,
   RequestOutcome,
   MappedRouteConfig,
@@ -13,8 +12,8 @@ import {
 import { fetchWithLogs } from '../lib/api-utils'
 import { DialogContext, LoaderContext, TableActionMenuContext, ToastContext } from '../lib/context'
 import { getFetchOutcome } from '../lib/error-utils'
-import { DIALOG_CONTENTS } from '../config/dialog'
 import { useTranslation } from 'react-i18next'
+import i18next from 'i18next'
 
 type BasicActionOptions = {
   suppressToast?: Array<RequestOutcome>
@@ -44,7 +43,7 @@ export type UserFeedbackHOCProps = {
 }
 
 export const useFeedback = () => {
-  const { t } = useTranslation(['toast'])
+  const { t } = useTranslation(['toast', 'dialog'])
   const history = useHistory()
   const { setTableActionMenu } = useContext(TableActionMenuContext)
   const { setLoadingText } = useContext(LoaderContext)
@@ -54,16 +53,22 @@ export const useFeedback = () => {
 
   // Dialog, toast and counter related functions
   const wrapActionInDialog = (wrappedAction: ActionFunction, endpointKey: ApiEndpointKey) => {
-    const hasDialog = Object.keys(DIALOG_CONTENTS).includes(endpointKey)
+    const hasDialog = i18next.exists(endpointKey)
 
     if (!hasDialog) {
       throw new Error('This action should have a modal')
     } else {
+      const title = t(`${endpointKey}.title`, { ns: 'dialog' })
+      const description = i18next.exists(`${endpointKey}.description`)
+        ? t(`${endpointKey}.description`, { ns: 'dialog' })
+        : undefined
+
       setDialog({
         type: 'basic',
         proceedCallback: wrappedAction,
         close: closeDialog,
-        ...DIALOG_CONTENTS[endpointKey as DialogActionKeys],
+        title,
+        description,
       })
     }
   }
