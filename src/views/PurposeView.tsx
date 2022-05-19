@@ -43,7 +43,7 @@ import { useTranslation } from 'react-i18next'
 // and the fetches for clients and purpose become separated
 
 export const PurposeView = () => {
-  const { t } = useTranslation('common')
+  const { t } = useTranslation(['purpose', 'common'])
   const location = useLocation()
   const { runAction, forceRerenderCounter } = useFeedback()
   const { setDialog } = useContext(DialogContext)
@@ -144,18 +144,18 @@ export const PurposeView = () => {
       return []
     }
 
-    const archiveAction = { onClick: archive, label: 'Archivia' }
-    const suspendAction = { onClick: suspend, label: 'Sospendi' }
-    const activateAction = { onClick: activate, label: 'Attiva' }
-    const deleteAction = { onClick: deletePurpose, label: 'Elimina' }
+    const archiveAction = { onClick: archive, label: t('actions.archive', { ns: 'common' }) }
+    const suspendAction = { onClick: suspend, label: t('actions.suspend', { ns: 'common' }) }
+    const activateAction = { onClick: activate, label: t('actions.activate', { ns: 'common' }) }
+    const deleteAction = { onClick: deletePurpose, label: t('actions.delete', { ns: 'common' }) }
     const deleteVersionAction = {
       onClick: deleteVersionPurpose,
-      label: 'Elimina aggiornamento numero chiamate',
+      label: t('view.actions.deleteDailyCallsUpdate'),
     }
 
     const updateDailyCallsAction = {
       onClick: updateDailyCalls,
-      label: 'Aggiorna numero chiamate',
+      label: t('view.actions.updateDailyCalls'),
     }
 
     const availableActions: Record<PurposeState, Array<ActionProps>> = {
@@ -230,67 +230,70 @@ export const PurposeView = () => {
       <TabContext value={activeTab}>
         <TabList
           onChange={updateActiveTab}
-          aria-label="Due tab diverse per i dettagli della finalità e i client associati"
+          aria-label={t('view.tabs.ariaLabel')}
           variant="fullWidth"
         >
-          <Tab label="Dettagli finalità" value="details" />
-          <Tab label="Client associati" value="clients" />
+          <Tab label={t('view.tabs.details')} value="details" />
+          <Tab label={t('view.tabs.client')} value="clients" />
         </TabList>
 
         <TabPanel value="details">
           {data ? (
             <React.Fragment>
-              <DescriptionBlock label="Accesso consentito?">
+              <DescriptionBlock label={t('view.accessGrantedField.label')}>
                 <Typography component="span">{getComputedPurposeState(data)}</Typography>
               </DescriptionBlock>
 
-              <DescriptionBlock label="Stima di carico corrente">
+              <DescriptionBlock label={t('view.dailyCallsEstimateField.label')}>
                 <Typography component="span">
-                  {formatThousands(data.currentVersion.dailyCalls)} chiamate/giorno
+                  {formatThousands(data.currentVersion.dailyCalls)}{' '}
+                  {t('view.dailyCallsEstimateField.unitLabel')}
                 </Typography>
               </DescriptionBlock>
 
               {data.awaitingApproval && (
-                <DescriptionBlock label="Richiesta di aggiornamento">
+                <DescriptionBlock label={t('view.upgradeRequestField.label')}>
                   <Typography component="span">
-                    Stima di carico: {formatThousands(data.mostRecentVersion.dailyCalls)}{' '}
-                    chiamate/giorno
+                    {t('view.upgradeRequestField.nextLabel')}:{' '}
+                    {formatThousands(data.mostRecentVersion.dailyCalls)}{' '}
+                    {t('view.upgradeRequestField.unitLabel')}
                   </Typography>
                   <br />
                   <Typography component="span">
                     {data.mostRecentVersion.expectedApprovalDate
-                      ? `Data di completamento stimata: ${formatDateString(
+                      ? `${t('view.upgradeRequestField.estimatedDateLabel')}: ${formatDateString(
                           data.mostRecentVersion.expectedApprovalDate
                         )}`
-                      : 'Non è stata determinata una data di completamento'}
+                      : t('view.upgradeRequestField.noEstimateLabel')}
                   </Typography>
                 </DescriptionBlock>
               )}
 
-              <DescriptionBlock label="La versione dell'E-Service che stai usando">
+              <DescriptionBlock label={t('view.currentEServiceVersionField.label')}>
                 <StyledLink
                   to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
                     eserviceId: data.eservice.id,
                     descriptorId: data.eservice.descriptor.id,
                   })}
                 >
-                  {data.eservice.name}, versione {data.eservice.descriptor.version}
+                  {data.eservice.name}, {t('view.currentEServiceVersionField.versionLabel')}{' '}
+                  {data.eservice.descriptor.version}
                 </StyledLink>
               </DescriptionBlock>
 
-              <DescriptionBlock label="Richiesta di fruizione">
+              <DescriptionBlock label={t('view.agreementField.label')}>
                 <StyledLink
                   to={buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
                     agreementId: data.agreement.id,
                   })}
                 >
-                  Vedi richiesta
+                  {t('view.agreementField.link.label')}
                 </StyledLink>
               </DescriptionBlock>
 
-              <DescriptionBlock label="Stato della finalità">
+              <DescriptionBlock label={t('view.purposeStatusField.label')}>
                 <Typography component="span">
-                  {t(`status.purpose.${data.currentVersion.state}`)}
+                  {t(`status.purpose.${data.currentVersion.state}`, { ns: 'common' })}
                 </Typography>
               </DescriptionBlock>
 
@@ -307,12 +310,13 @@ export const PurposeView = () => {
           </DescriptionBlock> */}
 
               {data.versions.length > 1 && (
-                <DescriptionBlock label="Storico di questa finalità">
+                <DescriptionBlock label={t('view.versionHistoryField.label')}>
                   {data.versions.map((v, i) => {
                     const date = v.firstActivationAt || v.expectedApprovalDate
                     return (
                       <Typography component="span" key={i} sx={{ display: 'inline-block' }}>
-                        {formatThousands(v.dailyCalls)} chiamate/giorno; data di approvazione:{' '}
+                        {formatThousands(v.dailyCalls)} {t('view.versionHistoryField.unitLabel')};
+                        {t('view.versionHistoryField.approvalDateLabel')}:{' '}
                         {date ? formatDateString(date) : 'n/d'}
                       </Typography>
                     )
@@ -332,22 +336,19 @@ export const PurposeView = () => {
                 ))}
 
                 <StyledButton variant="outlined" to={routes.SUBSCRIBE_PURPOSE_LIST.PATH}>
-                  Torna alla lista delle finalità
+                  {t('view.actions.backToList')}
                 </StyledButton>
               </PageBottomActions>
             </React.Fragment>
           ) : (
-            <LoadingWithMessage
-              label="Stiamo caricando la finalità richiesta"
-              transparentBackground
-            />
+            <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
           )}
         </TabPanel>
 
         <TabPanel value="clients">
           <PageTopFilters>
             <StyledButton variant="contained" size="small" onClick={showClientsDialog}>
-              + Aggiungi
+              {t('addBtn', { ns: 'common' })}
             </StyledButton>
           </PageTopFilters>
 

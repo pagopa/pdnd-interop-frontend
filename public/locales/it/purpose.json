@@ -3,6 +3,18 @@
   "loadingMultiLabel": "Stiamo caricando la lista delle finalità",
   "noMultiDataLabel": "Non ci sono finalità disponibili",
   "create": {
+    "emptyTitle": "Crea finalità",
+    "noAgreementsAlert": {
+      "message": "Non si possono creare finalità perché non ci sono servizi associabili. Per iscriverti al tuo primo E-Service",
+      "link": {
+        "label": "visita il catalogo"
+      }
+    },
+    "stepper": {
+      "step1Label": "Generale",
+      "step2Label": "Analisi del rischio",
+      "step3Label": "Client"
+    },
     "backToListBtn": "Torna alle finalità",
     "backWithoutSaveBtn": "Indietro",
     "forwardWithSaveBtn": "Salva bozza e prosegui",
@@ -72,5 +84,53 @@
       "deleteDailyCallsUpdate": "Elimina aggiornamento numero chiamate"
     },
     "updating": "in aggiornamento"
+  },
+  "list": {
+    "title": "Le tue finalità",
+    "description": "In quest'area puoi i trovare e gestire tutte le finalità che hai creato"
+  },
+  "view": {
+    "actions": {
+      "updateDailyCalls": "Aggiorna numero chiamate",
+      "deleteDailyCallsUpdate": "Elimina aggiornamento numero chiamate",
+      "backToList": "Torna alla lista delle finalità"
+    },
+    "tabs": {
+      "ariaLabel": "Due tab diverse per i dettagli della finalità e i client associati",
+      "details": "Dettagli finalità",
+      "clients": "Client associati"
+    },
+    "accessGrantedField": {
+      "label": "Accesso consentito?"
+    },
+    "dailyCallsEstimateField": {
+      "label": "Stima di carico corrente",
+      "unitLabel": "chiamate API/giorno"
+    },
+    "upgradeRequestField": {
+      "label": "Richiesta di aggiornamento",
+      "nextLabel": "Stima di carico",
+      "unitLabel": "chiamate API/giorno",
+      "estimatedDateLabel": "Data di completamento stimata",
+      "noEstimateLabel": "Non è stata determinata una data di completamento"
+    },
+    "currentEServiceVersionField": {
+      "label": "La versione dell'E-Service che stai usando",
+      "versionLabel": "versione"
+    },
+    "agreementField": {
+      "label": "Richiesta di fruizione",
+      "link": {
+        "label": "Vedi richiesta"
+      }
+    },
+    "purposeStatusField": {
+      "label": "Stato della finalità"
+    },
+    "versionHistoryField": {
+      "label": "Storico di questa finalità",
+      "unitLabel": "chiamate API/giorno",
+      "approvalDateLabel": "data di approvazione"
+    }
   }
 }
