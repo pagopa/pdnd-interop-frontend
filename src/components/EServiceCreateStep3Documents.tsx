@@ -14,7 +14,6 @@ import { EServiceCreateStep3DocumentsInterface } from './EServiceCreateStep3Docu
 import { EServiceCreateStep3DocumentsDoc } from './EServiceCreateStep3DocumentsDoc'
 import { StepActions } from './Shared/StepActions'
 import { Divider, Paper } from '@mui/material'
-import { TOAST_CONTENTS } from '../config/toast'
 import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
 import { useRoute } from '../hooks/useRoute'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
@@ -27,7 +26,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
   const { data: fetchedData, descriptorId, isLoading } = useEserviceCreateFetch()
   const sureFetchedData = fetchedData as EServiceReadType
   const activeDescriptorId = descriptorId as string
-  const { t } = useTranslation('eservice')
+  const { t } = useTranslation(['eservice', 'toast'])
 
   const publishVersion = async () => {
     const activeDescriptor = sureFetchedData.activeDescriptor as EServiceDescriptorRead
@@ -158,10 +157,13 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
                 label: t('create.endWithSaveBtn'),
                 type: 'button',
                 onClick: () => {
+                  const successMessage = t('ESERVICE_VERSION_DRAFT_UPDATE.success.message', {
+                    ns: 'toast',
+                  })
                   history.push(routes.PROVIDE_ESERVICE_LIST.PATH, {
                     toast: {
                       outcome: 'success',
-                      ...TOAST_CONTENTS.ESERVICE_VERSION_DRAFT_UPDATE.success,
+                      message: successMessage,
                     },
                   })
                 },

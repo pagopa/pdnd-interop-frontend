@@ -15,7 +15,6 @@ import { DialogContext, PartyContext } from '../lib/context'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useRoute } from '../hooks/useRoute'
 import { decoratePurposeWithMostRecentVersion, getPurposeFromUrl } from '../lib/purpose'
-import { TOAST_CONTENTS } from '../config/toast'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
@@ -26,7 +25,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
   const { setDialog } = useContext(DialogContext)
   const { routes } = useRoute()
   const { party } = useContext(PartyContext)
-  const { t } = useTranslation('purpose')
+  const { t } = useTranslation(['purpose', 'toast'])
 
   const { runAction, forceRerenderCounter } = useFeedback()
 
@@ -53,8 +52,9 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
   )
 
   const goToList = () => {
+    const successMessage = t('PURPOSE_DRAFT_UPDATE.success.message', { ns: 'toast' })
     history.push(routes.SUBSCRIBE_PURPOSE_LIST.PATH, {
-      toast: { outcome: 'success', ...TOAST_CONTENTS.PURPOSE_DRAFT_UPDATE.success },
+      toast: { outcome: 'success', message: successMessage },
     })
   }
 

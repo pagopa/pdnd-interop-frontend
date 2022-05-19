@@ -61,7 +61,6 @@ export type ApiEndpointKey =
   | 'KEY_DOWNLOAD'
   | 'KEY_DELETE'
   | 'USER_GET_LIST'
-  | 'OPERATOR_CREATE'
   | 'OPERATOR_GET_SINGLE'
   | 'OPERATOR_SECURITY_JOIN_WITH_CLIENT'
   | 'OPERATOR_SECURITY_REMOVE_FROM_CLIENT'
@@ -589,11 +588,11 @@ export type FrontendAttributes = Record<AttributeKey, Array<FrontendAttribute>>
  */
 export type ActionFunction = () => void
 
-export type RunActionProps = {
-  loadingText: string
-  success?: ToastContent
-  error?: ToastContent
-}
+// export type RunActionProps = {
+//   loadingText: string
+//   success?: ToastContent
+//   error?: ToastContent
+// }
 
 export type WrappableAction = {
   proceedCallback: ActionFunction
@@ -750,7 +749,6 @@ export type DialogActionKeys = Exclude<
   | 'KEY_POST'
   | 'KEY_DOWNLOAD'
   | 'USER_GET_LIST'
-  | 'OPERATOR_CREATE'
   | 'OPERATOR_GET_SINGLE'
   | 'OPERATOR_SECURITY_JOIN_WITH_CLIENT'
   | 'OPERATOR_SECURITY_GET_LIST'
@@ -771,26 +769,26 @@ export type ToastProps = ToastContentWithOutcome & {
   autoHideDuration?: number
 }
 
-export type ToastActionKeys = Exclude<
-  ApiEndpointKey,
-  | 'ONBOARDING_GET_AVAILABLE_PARTIES'
-  | 'ESERVICE_GET_SINGLE'
-  | 'ATTRIBUTE_GET_LIST'
-  | 'ATTRIBUTE_GET_SINGLE'
-  | 'AGREEMENT_GET_LIST'
-  | 'AGREEMENT_GET_SINGLE'
-  | 'CLIENT_GET_LIST'
-  | 'CLIENT_GET_SINGLE'
-  | 'PURPOSE_GET_LIST'
-  | 'PURPOSE_GET_SINGLE'
-  | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
-  | 'KEY_GET_LIST'
-  | 'KEY_GET_SINGLE'
-  | 'USER_GET_LIST'
-  | 'OPERATOR_GET_SINGLE'
-  | 'OPERATOR_SECURITY_GET_LIST'
-  | 'OPERATOR_SECURITY_GET_KEYS_LIST'
->
+// export type ToastActionKeys = Exclude<
+//   ApiEndpointKey,
+//   | 'ONBOARDING_GET_AVAILABLE_PARTIES'
+//   | 'ESERVICE_GET_SINGLE'
+//   | 'ATTRIBUTE_GET_LIST'
+//   | 'ATTRIBUTE_GET_SINGLE'
+//   | 'AGREEMENT_GET_LIST'
+//   | 'AGREEMENT_GET_SINGLE'
+//   | 'CLIENT_GET_LIST'
+//   | 'CLIENT_GET_SINGLE'
+//   | 'PURPOSE_GET_LIST'
+//   | 'PURPOSE_GET_SINGLE'
+//   | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
+//   | 'KEY_GET_LIST'
+//   | 'KEY_GET_SINGLE'
+//   | 'USER_GET_LIST'
+//   | 'OPERATOR_GET_SINGLE'
+//   | 'OPERATOR_SECURITY_GET_LIST'
+//   | 'OPERATOR_SECURITY_GET_KEYS_LIST'
+// >
 
 /*
  * Action buttons in tables
