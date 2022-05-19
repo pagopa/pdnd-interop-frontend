@@ -249,10 +249,6 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: `${PARTY_PROCESS_URL}/institutions/:institutionId/relationships`,
     METHOD: 'GET',
   },
-  OPERATOR_CREATE: {
-    URL: `${PARTY_PROCESS_URL}/onboarding/operators`,
-    METHOD: 'POST',
-  },
   OPERATOR_GET_SINGLE: {
     URL: `${PARTY_PROCESS_URL}/relationships/:relationshipId`,
     METHOD: 'GET',

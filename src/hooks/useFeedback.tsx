@@ -7,8 +7,6 @@ import {
   RequestConfig,
   RequestOutcome,
   MappedRouteConfig,
-  RunActionProps,
-  ToastActionKeys,
   ToastContentWithOutcome,
   ApiEndpointKey,
 } from '../../types'
@@ -16,7 +14,7 @@ import { fetchWithLogs } from '../lib/api-utils'
 import { DialogContext, LoaderContext, TableActionMenuContext, ToastContext } from '../lib/context'
 import { getFetchOutcome } from '../lib/error-utils'
 import { DIALOG_CONTENTS } from '../config/dialog'
-import { TOAST_CONTENTS } from '../config/toast'
+import { useTranslation } from 'react-i18next'
 
 type BasicActionOptions = {
   suppressToast?: Array<RequestOutcome>
@@ -46,6 +44,7 @@ export type UserFeedbackHOCProps = {
 }
 
 export const useFeedback = () => {
+  const { t } = useTranslation(['toast'])
   const history = useHistory()
   const { setTableActionMenu } = useContext(TableActionMenuContext)
   const { setLoadingText } = useContext(LoaderContext)
@@ -95,8 +94,11 @@ export const useFeedback = () => {
     toastContent: ToastContentWithOutcome
     response: AxiosResponse | AxiosError
   }> => {
-    const { loadingText, success, error }: RunActionProps =
-      TOAST_CONTENTS[requestConfig.path.endpoint as ToastActionKeys]
+    const loadingText = t(`${requestConfig.path.endpoint}.loadingText`, { ns: 'toast' })
+    const successMessage = t(`${requestConfig.path.endpoint}.success.message`, { ns: 'toast' })
+    const errorMessage = t(`${requestConfig.path.endpoint}.error.message`, { ns: 'toast' })
+    const success = { message: successMessage }
+    const error = { message: errorMessage }
 
     // Close modal
     closeDialog()
