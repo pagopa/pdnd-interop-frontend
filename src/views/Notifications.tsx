@@ -1,12 +1,15 @@
 import React from 'react'
 import { Alert } from '@mui/material'
 import { StyledIntro } from '../components/Shared/StyledIntro'
+import { useTranslation } from 'react-i18next'
 
 export function Notifications() {
+  const { t } = useTranslation('common', { keyPrefix: 'notifications' })
+
   return (
     <React.Fragment>
-      <StyledIntro>{{ title: 'Notifiche' }}</StyledIntro>
-      <Alert severity="info">Le funzionalità di notifica sono attualmente in sviluppo</Alert>
+      <StyledIntro>{{ title: t('title') }}</StyledIntro>
+      <Alert severity="info">{t('tempAlert')}</Alert>
     </React.Fragment>
   )
 }

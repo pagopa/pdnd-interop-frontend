@@ -88,7 +88,7 @@ export function EServiceRead() {
   }
 
   if (error) {
-    return <NotFound errorType="server-error" />
+    return <NotFound errorType="serverError" />
   }
 
   const isLoading = isEServiceLoading || isFlatEServiceLoading
