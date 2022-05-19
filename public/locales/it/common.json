@@ -98,5 +98,9 @@
   "conjunctions": {
     "and": "e",
     "or": "o"
+  },
+  "mode": {
+    "provider": "erogazione",
+    "subscriber": "fruizione"
   }
 }

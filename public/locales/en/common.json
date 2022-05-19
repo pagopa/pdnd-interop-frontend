@@ -86,5 +86,9 @@
     "admin": "Administrator",
     "security": "Security operator",
     "api": "API operator"
+  },
+  "mode": {
+    "provider": "provider",
+    "subscriber": "subscriber"
   }
 }

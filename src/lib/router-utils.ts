@@ -4,6 +4,7 @@ import isEmpty from 'lodash/isEmpty'
 import sortBy from 'lodash/sortBy'
 import QueryString from 'qs'
 import qs from 'qs'
+import { TFunction } from 'react-i18next'
 import { RouteConfig, LangCode, ProviderOrSubscriber, MappedRouteConfig } from '../../types'
 import { BASIC_ROUTES } from '../config/routes'
 import { DEFAULT_LANG, LANGUAGES, PUBLIC_URL, URL_FRAGMENTS } from './constants'
@@ -58,20 +59,26 @@ export function isParentRoute(
   return allSameFragments
 }
 
-export function isProviderOrSubscriber(location: Location<unknown>): ProviderOrSubscriber | null {
-  const excludeList = ['ui', ...Object.keys(LANGUAGES)]
-  const locationBits = getBits(location).filter((b) => !excludeList.includes(b))
-  const mode = locationBits[0]
+export function isProviderOrSubscriber(t: TFunction) {
+  return (location: Location<unknown>): ProviderOrSubscriber | null => {
+    const allLangKeys = Object.keys(LANGUAGES)
 
-  if (mode === 'erogazione') {
-    return 'provider'
+    const excludeList = ['ui', ...allLangKeys]
+    const locationBits = getBits(location).filter((b) => !excludeList.includes(b))
+    const [mode] = locationBits
+
+    const providerModeInAllLang = allLangKeys.map((lng) => t('mode.provider', { lng }))
+    if (providerModeInAllLang.includes(mode)) {
+      return 'provider'
+    }
+
+    const subscriberModeInAllLang = allLangKeys.map((lng) => t('mode.subscriber', { lng }))
+    if (subscriberModeInAllLang.includes(mode)) {
+      return 'subscriber'
+    }
+
+    return null
   }
-
-  if (mode === 'fruizione') {
-    return 'subscriber'
-  }
-
-  return null
 }
 
 export function getBits(location: Location<unknown>): Array<string> {
