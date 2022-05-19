@@ -33,14 +33,14 @@
   },
   "table": {
     "headData": {
-      "eServiceName": "E-Service Name",
+      "eserviceName": "E-Service Name",
       "clientName": "Client Name",
       "purposeName": "Purpose Name",
       "providerName": "Provider Name",
       "subscriberName": "Subscriber Name",
       "currentVersion": "Current version",
       "version": "Versione",
-      "eServiceStatus": "E-Service status",
+      "eserviceStatus": "E-Service status",
       "agreementStatus": "Request status",
       "purposeStatus": "Purpose status",
       "userStatus": "User status",

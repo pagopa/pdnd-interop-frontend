@@ -289,7 +289,7 @@ export const AsyncTablePurpose = () => {
 
   const headData = [
     t('table.headData.purposeName', { ns: 'common' }),
-    t('table.headData.eServiceName', { ns: 'common' }),
+    t('table.headData.eserviceName', { ns: 'common' }),
     t('table.headData.providerName', { ns: 'common' }),
     t('table.headData.purposeStatus', { ns: 'common' }),
     '',

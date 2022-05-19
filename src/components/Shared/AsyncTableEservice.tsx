@@ -154,10 +154,10 @@ export const AsyncTableEServiceCatalog = () => {
   }
 
   const headData = [
-    t('table.headData.eServiceName', { ns: 'common' }),
+    t('table.headData.eserviceName', { ns: 'common' }),
     t('table.headData.providerName', { ns: 'common' }),
     t('table.headData.currentVersion', { ns: 'common' }),
-    t('table.headData.eServiceStatus', { ns: 'common' }),
+    t('table.headData.eserviceStatus', { ns: 'common' }),
     '',
   ]
 
@@ -393,9 +393,9 @@ export const AsyncTableEServiceList = () => {
 
   // Data for the table head
   const headData = [
-    t('table.headData.eServiceName', { ns: 'common' }),
+    t('table.headData.eserviceName', { ns: 'common' }),
     t('table.headData.version', { ns: 'common' }),
-    t('table.headData.eServiceStatus', { ns: 'common' }),
+    t('table.headData.eserviceStatus', { ns: 'common' }),
     '',
   ]
 
