@@ -53,13 +53,13 @@ export const useFeedback = () => {
 
   // Dialog, toast and counter related functions
   const wrapActionInDialog = (wrappedAction: ActionFunction, endpointKey: ApiEndpointKey) => {
-    const hasDialog = i18next.exists(endpointKey)
+    const hasDialog = i18next.exists(endpointKey, { ns: 'dialog' })
 
     if (!hasDialog) {
       throw new Error('This action should have a modal')
     } else {
       const title = t(`${endpointKey}.title`, { ns: 'dialog' })
-      const description = i18next.exists(`${endpointKey}.description`)
+      const description = i18next.exists(`${endpointKey}.description`, { ns: 'dialog' })
         ? t(`${endpointKey}.description`, { ns: 'dialog' })
         : undefined
 
