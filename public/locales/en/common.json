@@ -1,6 +1,7 @@
 {
   "productTitle": "Interoperability",
   "addBtn": "+ Add",
+  "createNewBtn": "Create new",
   "validation": {
     "mixed": {
       "required": "Field required"

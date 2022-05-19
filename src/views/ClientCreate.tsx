@@ -21,6 +21,7 @@ import { fetchAllWithLogs } from '../lib/api-utils'
 import { Divider, Grid, Paper } from '@mui/material'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { ButtonNaked } from '@pagopa/mui-italia'
+import { useTranslation } from 'react-i18next'
 
 type ClientFields = {
   name: string
@@ -29,6 +30,7 @@ type ClientFields = {
 }
 
 export function ClientCreate() {
+  const { t } = useTranslation(['client', 'common'])
   const { runAction } = useFeedback()
   const { party } = useContext(PartyContext)
   const { setDialog } = useContext(DialogContext)
@@ -91,10 +93,6 @@ export function ClientCreate() {
     })
   }
 
-  // const openCreateOperatoDialog = () => {
-  //   setDialog({ type: 'createSecurityOperator' })
-  // }
-
   const addOperators = (data: AddSecurityOperatorFormInputValues) => {
     formik.setFieldValue('operators', data.selected, false)
   }
@@ -104,16 +102,12 @@ export function ClientCreate() {
     formik.setFieldValue('operators', filteredOperators, false)
   }
 
-  const headData = ['Nome e cognome', '']
+  const headData = [t('table.headData.userName', { ns: 'common' }), '']
 
   return (
     <React.Fragment>
       <StyledIntro>
-        {{
-          title: `Crea nuovo client`,
-          description:
-            'Una volta creato il client, potrai completarlo inserendo tutti gli operatori che hanno la possibilità di caricare chiavi di sicurezza e le finalità per fruire degli E-Service per i quali hai una richiesta di fruizione attiva',
-        }}
+        {{ title: t('create.title'), description: t('create.description') }}
       </StyledIntro>
 
       <Grid container>
@@ -121,14 +115,14 @@ export function ClientCreate() {
           <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
             <StyledForm onSubmit={formik.handleSubmit}>
               <StyledIntro sx={{ mb: 2, pb: 0 }} component="h2">
-                {{ title: 'Informazioni generali' }}
+                {{ title: t('create.infoSectionTitle') }}
               </StyledIntro>
 
               <StyledInputControlledText
                 focusOnMount={true}
                 name="name"
-                label="Nome del client (richiesto)"
-                infoLabel="Ti aiuta a distinguerlo dagli altri"
+                label={t('create.nameField.label')}
+                infoLabel={t('create.nameField.infoLabel')}
                 value={formik.values.name}
                 onChange={formik.handleChange}
                 error={formik.errors.name}
@@ -136,7 +130,7 @@ export function ClientCreate() {
 
               <StyledInputControlledText
                 name="description"
-                label="Descrizione del client (richiesto)"
+                label={t('create.descriptionField.label')}
                 value={formik.values.description}
                 onChange={formik.handleChange}
                 error={formik.errors.description}
@@ -146,13 +140,13 @@ export function ClientCreate() {
               <Divider />
 
               <StyledIntro sx={{ mt: 8, mb: 4 }} component="h2">
-                {{ title: 'Operatori di sicurezza' }}
+                {{ title: t('create.securityOperatorsSectionTitle') }}
               </StyledIntro>
 
               <TableWithLoader
                 isLoading={false}
                 headData={headData}
-                noDataLabel="Nessun operatore aggiunto"
+                noDataLabel={t('create.operatorsTable.noDataLabel')}
               >
                 {Boolean(formik.values.operators.length > 0) &&
                   formik.values.operators.map((user, i) => (
@@ -166,21 +160,18 @@ export function ClientCreate() {
 
               <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
                 <StyledButton variant="contained" size="small" onClick={openAddOperatoDialog}>
-                  + Aggiungi
+                  {t('addBtn', { ns: 'common' })}
                 </StyledButton>
-                {/* <StyledButton variant="outlined" onClick={openCreateOperatoDialog}>
-              Crea nuovo operatore
-            </StyledButton> */}
               </Box>
 
               <Divider />
 
               <PageBottomActions>
                 <StyledButton variant="contained" type="submit">
-                  Crea client
+                  {t('create.actions.createClient')}
                 </StyledButton>
                 <StyledButton variant="text" to={routes.SUBSCRIBE_CLIENT_LIST.PATH}>
-                  Torna alla lista dei client
+                  {t('create.actions.backToClientsLabel')}
                 </StyledButton>
               </PageBottomActions>
             </StyledForm>
