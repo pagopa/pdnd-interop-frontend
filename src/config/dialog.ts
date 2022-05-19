@@ -33,7 +33,7 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
   ESERVICE_VERSION_SUSPEND: {
     title: 'Conferma sospensione versione',
     description:
-      'Cliccando "conferma" questa versione di E-Service sarà sospesa. Nessun fruitore potrà accedere a questa versione finché non sarà riattivata',
+      'Cliccando "conferma" questa versione di E-Service sarà sospesa. Nessun Fruitore potrà accedere a questa versione finché non sarà riattivata',
   },
   ESERVICE_VERSION_REACTIVATE: {
     title: 'Conferma riattivazione versione',
@@ -58,7 +58,7 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
   PURPOSE_DRAFT_DELETE: {
     title: 'Conferma cancellazione finalità',
     description:
-      'Cliccando "conferma" questa finalità verrà cancellata e non sarà più recuperabile. Tutti i client ad essa associata non potranno più accedere all\'E-Service dell\'erogatore. Sarà sempre possibile creare nuove finalità',
+      'Cliccando "conferma" questa finalità verrà cancellata e non sarà più recuperabile. Tutti i client ad essa associata non potranno più accedere all\'E-Service dell\'Erogatore. Sarà sempre possibile creare nuove finalità',
   },
   PURPOSE_VERSION_SUSPEND: {
     title: 'Conferma sospensione finalità',
@@ -68,7 +68,7 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
   PURPOSE_VERSION_ACTIVATE: {
     title: 'Conferma attivazione finalità',
     description:
-      'Cliccando "conferma" questa finalità verrà attivata. Tutti i client associati dal fruitore avranno accesso all\'E-Service dell\'erogatore con il numero di chiamate stabilito',
+      'Cliccando "conferma" questa finalità verrà attivata. Tutti i client associati dal Fruitore avranno accesso all\'E-Service dell\'Erogatore con il numero di chiamate stabilito',
   },
   PURPOSE_VERSION_ARCHIVE: {
     title: 'Conferma archiviazione finalità',
@@ -78,7 +78,7 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
   PURPOSE_VERSION_DELETE: {
     title: 'Conferma cancellazione aggiornamento',
     description:
-      'Cliccando "conferma", questo aggiornamento al numero di chiamate verso l\'E-Service dell\'erogatore sarà cancellato. Potrai continuare a usare questa finalità con il numero di chiamate attuale',
+      'Cliccando "conferma", questo aggiornamento al numero di chiamate verso l\'E-Service dell\'Erogatore sarà cancellato. Potrai continuare a usare questa finalità con il numero di chiamate attuale',
   },
   CLIENT_DELETE: {
     title: 'Conferma cancellazione client',
@@ -93,7 +93,7 @@ export const DIALOG_CONTENTS: Record<DialogActionKeys, DialogContent> = {
   KEY_DELETE: {
     title: 'Cancella la chiave pubblica',
     description:
-      'Cliccando su "conferma" si cancellerà la chiave pubblica relativa a questo operatore. NB: tutti i servizi che utilizzano questa chiave non potranno più accedere al servizio dell\'ente erogatore. Se non sei sicuro, scarica e salva la tua chiave pubblica prima di cancellarla',
+      'Cliccando su "conferma" si cancellerà la chiave pubblica relativa a questo operatore. NB: tutti i servizi che utilizzano questa chiave non potranno più accedere al servizio dell\'Erogatore. Se non sei sicuro, scarica e salva la tua chiave pubblica prima di cancellarla',
   },
   OPERATOR_SECURITY_REMOVE_FROM_CLIENT: {
     title: 'Rimuovi operatore dal client',

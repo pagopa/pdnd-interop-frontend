@@ -43,7 +43,7 @@
         },
         "declared": {
           "label": "Dichiarati",
-          "description": "All’atto dell’inoltro di una richiesta di fruizione, il fruitore dichiara sotto la propria responsabilità di possedere questi attributi. Non è dunque necessaria ulteriore verifica"
+          "description": "All’atto dell’inoltro di una richiesta di fruizione, il Fruitore dichiara sotto la propria responsabilità di possedere questi attributi. Non è dunque necessaria ulteriore verifica"
         }
       }
     },
@@ -105,7 +105,7 @@
     }
   },
   "tableEServiceCatalog": {
-    "youAreTheProvider": "Sei l'erogatore",
+    "youAreTheProvider": "Sei l'Erogatore",
     "alreadySubscribed": "Sei già iscritto",
     "missingCertifiedAttributes": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
     "goToRequestCta": "Vai alla richiesta",
@@ -118,13 +118,13 @@
   "contentInfo": {
     "verificationRequired": "verifica richiesta",
     "groupOr": "oppure",
-    "provider": "Ente erogatore",
+    "provider": "Erogatore",
     "version": "Versione",
     "versionStatus": "Stato della versione",
     "audience": "Audience",
     "technology": "Tecnologia",
     "voucherLifespan": "Durata del voucher",
-    "dailyCallsPerConsumer": "Soglia chiamate API/giorno per fruitore",
+    "dailyCallsPerConsumer": "Soglia chiamate API/giorno per Fruitore",
     "dailyCallsTotal": "Soglia chiamate API/giorno totali",
     "attributes": "Attributi",
     "noAttributesLabel": "Nessun attributo presente",
