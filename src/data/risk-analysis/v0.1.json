@@ -117,7 +117,7 @@
         },
         {
           "label": "adempimento di un obbligo legale",
-          "value": "OBLIGATION"
+          "value": "LEGAL_OBLIGATION"
         },
         {
           "label": "salvaguardia degli interessi vitali di una persona fisica",
@@ -150,7 +150,7 @@
       "dependencies": [
         {
           "id": "legalBasis",
-          "value": "OBLIGATION"
+          "value": "LEGAL_OBLIGATION"
         }
       ]
     },

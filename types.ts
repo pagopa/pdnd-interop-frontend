@@ -360,7 +360,7 @@ type PurposeYesNoAnswer = 'YES' | 'NO'
 type PurposeLegalBasisAnswer =
   | 'CONSENT'
   | 'CONTRACT'
-  | 'OBLIGATION'
+  | 'LEGAL_OBLIGATION'
   | 'SAFEGUARD'
   | 'PUBLIC_INTEREST'
   | 'LEGITIMATE_INTEREST'
