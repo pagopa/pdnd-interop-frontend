@@ -1,6 +1,6 @@
 {
   "productTitle": "Interoperabilità",
-  "addBtn": "+ Add",
+  "addBtn": "+ Aggiungi",
   "createNewBtn": "Crea nuovo",
   "validation": {
     "mixed": {
@@ -83,7 +83,7 @@
     "DELEGATE": "Delegato",
     "OPERATOR": "Operatore"
   },
-  "userPlatformRole": {
+  "userProductRole": {
     "admin": "Amministratore",
     "security": "Operatore di sicurezza",
     "api": "Operatore API"

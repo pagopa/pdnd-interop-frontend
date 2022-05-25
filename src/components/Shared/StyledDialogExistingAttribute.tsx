@@ -128,10 +128,10 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
 
             <DialogActions>
               <StyledButton variant="outlined" onClick={closeDialog}>
-                {t('styledDialogExistingAttribute.cancelLabel')}
+                {t('styledDialogExistingAttribute.actions.cancelLabel')}
               </StyledButton>
               <StyledButton variant="contained" type="submit">
-                {t('styledDialogExistingAttribute.confirmLabel')}
+                {t('styledDialogExistingAttribute.actions.confirmLabel')}
               </StyledButton>
             </DialogActions>
           </StyledForm>

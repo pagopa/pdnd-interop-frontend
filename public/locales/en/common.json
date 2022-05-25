@@ -83,7 +83,7 @@
     "DELEGATE": "Delegate",
     "OPERATOR": "Operator"
   },
-  "userPlatformRole": {
+  "userProductRole": {
     "admin": "Administrator",
     "security": "Security operator",
     "api": "API operator"

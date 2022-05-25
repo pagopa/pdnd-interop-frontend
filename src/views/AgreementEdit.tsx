@@ -150,7 +150,7 @@ export function AgreementEdit() {
       return 'pending'
     }
 
-    return verified ? 'verified' : 'refused'
+    return verified ? 'newlyVerified' : 'refused'
   }
 
   const SubscriberAttributes = () => {
@@ -219,7 +219,12 @@ export function AgreementEdit() {
                     </Grid>
                     <Grid item xs={4}>
                       <Typography color="text.secondary">
-                        {checkVerifiedStatus(a.verified, a.explicitAttributeVerification)}
+                        {t(
+                          `edit.attribute.status.${checkVerifiedStatus(
+                            a.verified,
+                            a.explicitAttributeVerification
+                          )}`
+                        )}
                       </Typography>
                     </Grid>
                     <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -244,7 +249,7 @@ export function AgreementEdit() {
 
   return (
     <React.Fragment>
-      <StyledIntro isLoading={isLoading}>{{ title: t('title') }}</StyledIntro>
+      <StyledIntro isLoading={isLoading}>{{ title: t('edit.title') }}</StyledIntro>
 
       {data ? (
         <React.Fragment>

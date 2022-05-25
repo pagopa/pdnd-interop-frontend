@@ -3,8 +3,8 @@
 exports[`Snapshot matches 1`] = `
 <a
   href="#0"
-  title="Contatta l’assistenza"
+  title="inlineSupportLink.title"
 >
-  contatta l’assistenza
+  inlineSupportLink.label
 </a>
 `;

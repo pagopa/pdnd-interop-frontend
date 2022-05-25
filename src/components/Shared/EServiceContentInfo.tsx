@@ -246,13 +246,13 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
                         descriptorId: d.id,
                       })}
                     >
-                      {t('eserviceInfo.version')} {d.version}
+                      {t('contentInfo.version')} {d.version}
                     </StyledLink>{' '}
                     <Chip size="small" label={state} />
                   </Box>
                 ) : (
                   <Typography component="span">
-                    {t('eserviceInfo.version')} {d.version}{' '}
+                    {t('contentInfo.version')} {d.version}{' '}
                     <Chip size="small" label={state} color="primary" />
                   </Typography>
                 )}

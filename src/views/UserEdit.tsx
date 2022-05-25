@@ -136,7 +136,7 @@ export function UserEdit() {
           <DescriptionBlock label={t('edit.productRoleField.label')}>
             <Typography component="span">
               {userData?.product.role
-                ? t(`userPlateformRole.${userData.product.role}`, { ns: 'common' })
+                ? t(`userProductRole.${userData.product.role}`, { ns: 'common' })
                 : 'n/d'}
             </Typography>
           </DescriptionBlock>

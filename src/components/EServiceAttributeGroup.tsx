@@ -143,7 +143,7 @@ export function EServiceAttributeGroup({
 
             const explicitAttributeVerificationLabel = {
               label: t(
-                `addAttributeTable${
+                `addAttributeTable.${
                   explicitAttributeVerification
                     ? 'explicitAttributeVerificationYes'
                     : 'explicitAttributeVerificationNo'

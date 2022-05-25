@@ -81,9 +81,9 @@ export const AsyncTableKey = ({
     error && error.response && error.response.status !== 404 ? axiosErrorToError(error) : undefined
 
   const headData = [
-    t('table.headData.keyName', { ns: 'commons' }),
-    t('table.headData.keyUploader', { ns: 'commons' }),
-    t('table.headData.keyUploadDate', { ns: 'commons' }),
+    t('table.headData.keyName', { ns: 'common' }),
+    t('table.headData.keyUploader', { ns: 'common' }),
+    t('table.headData.keyUploadDate', { ns: 'common' }),
     '',
   ]
 
@@ -133,7 +133,7 @@ export const AsyncTableKey = ({
                 )
               }}
             >
-              {t('actions.inspect', { ns: 'commons' })}
+              {t('actions.inspect', { ns: 'common' })}
             </StyledButton>
 
             <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>

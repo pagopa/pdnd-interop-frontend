@@ -146,7 +146,7 @@ export const AsyncTableAgreement = () => {
             cellData={[
               { label: item.eservice.name },
               { label: currentMode === 'provider' ? item.consumer.name : item.producer.name },
-              { label: t(`status.agreement.${[item.state]}`) },
+              { label: t(`status.agreement.${[item.state]}`, { ns: 'common' }) },
             ]}
           >
             <StyledButton

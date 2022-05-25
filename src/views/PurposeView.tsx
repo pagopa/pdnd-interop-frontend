@@ -234,7 +234,7 @@ export const PurposeView = () => {
           variant="fullWidth"
         >
           <Tab label={t('view.tabs.details')} value="details" />
-          <Tab label={t('view.tabs.client')} value="clients" />
+          <Tab label={t('view.tabs.clients')} value="clients" />
         </TabList>
 
         <TabPanel value="details">

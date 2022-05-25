@@ -168,7 +168,7 @@ export function ClientCreate() {
 
               <PageBottomActions>
                 <StyledButton variant="contained" type="submit">
-                  {t('create.actions.createClient')}
+                  {t('create.actions.createLabel')}
                 </StyledButton>
                 <StyledButton variant="text" to={routes.SUBSCRIBE_CLIENT_LIST.PATH}>
                   {t('create.actions.backToClientsLabel')}

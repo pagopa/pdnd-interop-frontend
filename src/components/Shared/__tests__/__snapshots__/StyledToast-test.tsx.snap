@@ -41,7 +41,7 @@ exports[`Snapshot matches error tooltip 1`] = `
     <div
       className="MuiAlert-message css-acap47-MuiAlert-message"
     >
-      Errore: non è stato possibile completare l'operazione
+      default.error.message
     </div>
     <div
       className="MuiAlert-action css-ki1hdl-MuiAlert-action"
@@ -128,7 +128,7 @@ exports[`Snapshot matches success tooltip 1`] = `
     <div
       className="MuiAlert-message css-acap47-MuiAlert-message"
     >
-      L'operazione è andata a buon fine
+      default.success.message
     </div>
     <div
       className="MuiAlert-action css-ki1hdl-MuiAlert-action"

@@ -306,7 +306,9 @@ export const AsyncTablePurpose = () => {
       {data &&
         Boolean(data.length > 0) &&
         data.map((item, i) => {
-          const purposeStateLabel = t(`status.purpose.${[item.currentVersion.state]}`)
+          const purposeStateLabel = t(`status.purpose.${[item.currentVersion.state]}`, {
+            ns: 'common',
+          })
           return (
             <StyledTableRow
               key={i}
