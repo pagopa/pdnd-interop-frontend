@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Autocomplete, TextField, Typography } from '@mui/material'
+import { Autocomplete, Chip, TextField, Typography } from '@mui/material'
 import { StyledInputWrapper } from './StyledInputWrapper'
 import { SxProps } from '@mui/system'
 import parse from 'autosuggest-highlight/parse'
@@ -134,6 +134,17 @@ export const StyledInputControlledAutocomplete = <T extends unknown>({
             </li>
           )
         }}
+        renderTags={(value: Array<T>, getTagProps) => (
+          <React.Fragment>
+            {value.map((option: T, index: number) => (
+              <Chip // eslint-disable-line react/jsx-key
+                variant="outlined"
+                label={getOptionLabel(option)}
+                {...getTagProps({ index })}
+              />
+            ))}
+          </React.Fragment>
+        )}
       />
     </StyledInputWrapper>
   )
