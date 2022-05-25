@@ -84,7 +84,7 @@ export function UserEdit() {
         onSuccessDestination: buildDynamicRoute(
           routes.SUBSCRIBE_CLIENT_EDIT,
           { clientId: clientId as string },
-          { tab: 'securityOperators' }
+          { tab: 'clientMembers' }
         ),
         showConfirmDialog: true,
       }

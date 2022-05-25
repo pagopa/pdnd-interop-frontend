@@ -118,6 +118,10 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
           <Alert sx={{ mt: 1 }} severity="info">
             {t('content.tempAlert')}
           </Alert>
+
+          <Alert sx={{ mt: 1 }} severity="info">
+            {t('content.adminAlert')}
+          </Alert>
         </DialogContent>
 
         <DialogActions>

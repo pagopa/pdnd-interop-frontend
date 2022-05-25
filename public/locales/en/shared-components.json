@@ -45,6 +45,7 @@
     "title": "Add security operators",
     "content": {
       "autocompleteLabel": "Selected operators",
+      "adminAlert": "If you plan on uploading public keys for this client, add yourself as a member of this client, too",
       "tempAlert": "If the operator is not in the list, get in touch with us to add it (only for this test phase)"
     },
     "actions": {

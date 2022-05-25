@@ -145,7 +145,7 @@ export function ClientCreate() {
               <Divider />
 
               <StyledIntro sx={{ mt: 8, mb: 4 }} component="h2">
-                {{ title: t('create.securityOperatorsSectionTitle') }}
+                {{ title: t('create.clientMembersSectionTitle') }}
               </StyledIntro>
 
               <TableWithLoader

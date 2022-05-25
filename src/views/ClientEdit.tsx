@@ -63,7 +63,7 @@ export function ClientEdit() {
           variant="fullWidth"
         >
           <Tab label={t('edit.tabs.voucher')} value="voucher" />
-          <Tab label={t('edit.tabs.securityOperators')} value="securityOperators" />
+          <Tab label={t('edit.tabs.clientMembers')} value="clientMembers" />
           <Tab label={t('edit.tabs.publicKeys')} value="publicKeys" />
         </TabList>
 
@@ -99,7 +99,7 @@ export function ClientEdit() {
           )}
         </TabPanel>
 
-        <TabPanel value="securityOperators">
+        <TabPanel value="clientMembers">
           <UserList clientKind={clientKind} />
         </TabPanel>
 
