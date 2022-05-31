@@ -3,14 +3,7 @@ import { Box, Link, Typography } from '@mui/material'
 import logo from '../assets/pagopa-logo.svg'
 import { LangSwitch, LangSwitchProps } from './LangSwitch'
 import { ButtonNaked } from '@pagopa/mui-italia'
-
-// We need to validate this. It might be possible that the fields differ from product to product
-type JwtUser = {
-  id: string // the relationshipId between the user and the current institution
-  name?: string
-  surname?: string
-  email?: string
-}
+import { JwtUser } from '../../types'
 
 type LinkType = 'internal' | 'external'
 

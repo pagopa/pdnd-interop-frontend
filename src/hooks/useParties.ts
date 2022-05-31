@@ -2,9 +2,10 @@ import { AxiosResponse } from 'axios'
 import { useContext } from 'react'
 import { Party, PartyAttribute } from '../../types'
 import { fetchAllWithLogs, fetchWithLogs } from '../lib/api-utils'
-import { STORAGE_PARTY_OBJECT } from '../lib/constants'
-import { LoaderContext, PartyContext, TokenContext } from '../lib/context'
+import { STORAGE_KEY_PARTY } from '../lib/constants'
+import { LoaderContext, PartyContext } from '../lib/context'
 import { storageRead } from '../lib/storage-utils'
+import { useJwt } from './useJwt'
 
 type FetchedParty = Party & {
   attributes: Array<PartyAttribute>
@@ -13,7 +14,7 @@ type FetchedParty = Party & {
 export const useParties = () => {
   const { setLoadingText } = useContext(LoaderContext)
   const { setAvailableParties, setParty } = useContext(PartyContext)
-  const { token } = useContext(TokenContext)
+  const { token } = useJwt()
 
   const getDecoratedInstitutions = async (
     institutions: Array<FetchedParty>
@@ -72,7 +73,7 @@ export const useParties = () => {
   }
 
   const setPartyFromStorageAttempt = (fetchedParties: Array<Party> | null) => {
-    const sessionStorageParty = storageRead(STORAGE_PARTY_OBJECT, 'object')
+    const sessionStorageParty = storageRead(STORAGE_KEY_PARTY, 'object')
 
     if (sessionStorageParty && fetchedParties) {
       const currentFetchedParty = fetchedParties.find((p) => p.id === sessionStorageParty.id)

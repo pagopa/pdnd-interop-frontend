@@ -6,7 +6,7 @@ import { PartyContext } from '../lib/context'
 import { storageWrite } from '../lib/storage-utils'
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material'
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from '@mui/icons-material'
-import { STORAGE_PARTY_OBJECT } from '../lib/constants'
+import { STORAGE_KEY_PARTY } from '../lib/constants'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { useTranslation } from 'react-i18next'
 
@@ -30,7 +30,7 @@ export function PartySelect() {
     }
 
     setParty(newParty)
-    storageWrite(STORAGE_PARTY_OBJECT, newParty, 'object')
+    storageWrite(STORAGE_KEY_PARTY, newParty, 'object')
 
     handleClose()
   }

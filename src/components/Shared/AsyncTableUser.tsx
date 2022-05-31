@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { Box } from '@mui/system'
 import { ActionProps, ClientKind, Party, ProviderOrSubscriber, User } from '../../../types'
@@ -6,7 +6,6 @@ import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { RunAction } from '../../hooks/useFeedback'
 import { useRoute } from '../../hooks/useRoute'
 import { isAdmin } from '../../lib/auth-utils'
-import { TokenContext } from '../../lib/context'
 import { axiosErrorToError } from '../../lib/error-utils'
 import { buildDynamicPath } from '../../lib/router-utils'
 import { ActionMenu } from './ActionMenu'
@@ -14,6 +13,7 @@ import { StyledButton } from './StyledButton'
 import { StyledTableRow } from './StyledTableRow'
 import { TableWithLoader } from './TableWithLoader'
 import { useTranslation } from 'react-i18next'
+import { useJwt } from '../../hooks/useJwt'
 
 type AsyncTableUserProps = {
   forceRerenderCounter: number
@@ -35,7 +35,7 @@ export const AsyncTableUser = ({
   const { t } = useTranslation(['user', 'common'])
   const { routes } = useRoute()
   const history = useHistory()
-  const { token } = useContext(TokenContext)
+  const { token } = useJwt()
   // TEMP REFACTOR: remove after integration with selfcare
   const endpoint = mode === 'provider' ? 'USER_GET_LIST' : 'OPERATOR_SECURITY_GET_LIST'
   const endpointParams =

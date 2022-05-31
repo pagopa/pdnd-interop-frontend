@@ -10,30 +10,41 @@ type PagoPAEnvVars = {
   PURPOSE_PROCESS_URL: string
   API_GATEWAY_URL: string
   AUTHORIZATION_SERVER_TOKEN_CREATION_URL: string
+  BACKEND_FOR_FRONTEND: string
 }
 type ExtendedWindow = Window & { pagopa_env?: PagoPAEnvVars }
 const PAGOPA_ENV = (window as ExtendedWindow).pagopa_env
 
+const BACKEND_FOR_FRONTEND_URL =
+  (PAGOPA_ENV && PAGOPA_ENV.BACKEND_FOR_FRONTEND) || `${API_HOST}/backend-for-frontend/0.0`
 const AGREEMENT_PROCESS_URL =
-  (PAGOPA_ENV && PAGOPA_ENV.AGREEMENT_PROCESS_URL) || `${API_HOST}/agreement-process/0.1`
+  (PAGOPA_ENV && PAGOPA_ENV.AGREEMENT_PROCESS_URL) || `${API_HOST}/agreement-process/0.0`
 const ATTRIBUTE_REGISTRY_MANAGEMENT_URL =
   (PAGOPA_ENV && PAGOPA_ENV.ATTRIBUTE_REGISTRY_MANAGEMENT_URL) ||
-  `${API_HOST}/attribute-registry-management/0.1`
+  `${API_HOST}/attribute-registry-management/0.0`
 const AUTHORIZATION_PROCESS_URL =
-  (PAGOPA_ENV && PAGOPA_ENV.AUTHORIZATION_PROCESS_URL) || `${API_HOST}/authorization-process/0.1`
+  (PAGOPA_ENV && PAGOPA_ENV.AUTHORIZATION_PROCESS_URL) || `${API_HOST}/authorization-process/0.0`
 const CATALOG_PROCESS_URL =
-  (PAGOPA_ENV && PAGOPA_ENV.CATALOG_PROCESS_URL) || `${API_HOST}/catalog-process/0.1`
+  (PAGOPA_ENV && PAGOPA_ENV.CATALOG_PROCESS_URL) || `${API_HOST}/catalog-process/0.0`
 const PARTY_PROCESS_URL =
-  (PAGOPA_ENV && PAGOPA_ENV.PARTY_PROCESS_URL) || `${API_HOST}/party-process/0.0`
+  (PAGOPA_ENV && PAGOPA_ENV.PARTY_PROCESS_URL) || `${API_HOST}/party-process/0.1`
 const PURPOSE_PROCESS_URL =
-  (PAGOPA_ENV && PAGOPA_ENV.PURPOSE_PROCESS_URL) || `${API_HOST}/purpose-process/0.1`
+  (PAGOPA_ENV && PAGOPA_ENV.PURPOSE_PROCESS_URL) || `${API_HOST}/purpose-process/0.0`
 export const API_GATEWAY_URL =
-  (PAGOPA_ENV && PAGOPA_ENV.API_GATEWAY_URL) || `${API_HOST}/api-gateway/0.1`
+  (PAGOPA_ENV && PAGOPA_ENV.API_GATEWAY_URL) || `${API_HOST}/api-gateway/0.0`
 export const AUTHORIZATION_SERVER_ACCESS_TOKEN_URL =
   (PAGOPA_ENV && PAGOPA_ENV.AUTHORIZATION_SERVER_TOKEN_CREATION_URL) ||
   `${API_HOST}/authorization-server/token.oauth2`
 
 export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
+  AUTH_HEALTH_CHECK: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/status`,
+    METHOD: 'GET',
+  },
+  AUTH_OBTAIN_SESSION_TOKEN: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/session/tokens`,
+    METHOD: 'POST',
+  },
   ONBOARDING_GET_AVAILABLE_PARTIES: {
     URL: `${PARTY_PROCESS_URL}/onboarding/info`,
     METHOD: 'GET',

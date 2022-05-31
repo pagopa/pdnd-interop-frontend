@@ -8,6 +8,8 @@ import { RunAction } from './src/hooks/useFeedback'
  */
 // export type ApiEndpointKey = keyof typeof API
 export type ApiEndpointKey =
+  | 'AUTH_HEALTH_CHECK'
+  | 'AUTH_OBTAIN_SESSION_TOKEN'
   | 'ONBOARDING_GET_AVAILABLE_PARTIES'
   | 'ESERVICE_GET_LIST_FLAT'
   | 'ESERVICE_GET_SINGLE'
@@ -176,22 +178,47 @@ export type UserProduct = {
   role: UserProductRole
 }
 
-export type JwtUser = {
-  id: string // the relationshipId between the user and the current institution
-  name?: string
-  surname?: string
-  email?: string
+type JwtOrgRole = {
+  partyRole: UserRole
+  role: UserProductRole
 }
 
-export type User = JwtUser & {
-  createdAt: string // actually should be Date
-  updatedAt: string // actually should be Date
-  from: string // the external uid of the user
+type JwtOrg = {
+  id: string
+  roles: Array<JwtOrgRole>
+  fiscal_code: string
+}
+
+export type JwtUser = {
+  aud: string
+  desired_exp: number
+  email: string
+  exp: number
+  family_name: string
+  fiscal_number: string
+  from_aa: boolean
+  iat: number
+  iss: string
+  jti: string
+  level: string
+  name: string
+  organization: JwtOrg
+  uid: string // the relationshipId between the user and the current institution
+}
+
+// TEMP Replace after integration with self care
+export type User = {
+  name: string
+  surname: string
+  id: string
+  relationshipId: string
   state: UserState
   role: UserRole
-  product: UserProduct
-
-  relationshipId?: string // TEMP PIN-1184
+  product: {
+    role: UserProductRole
+  }
+  from: string
+  email: string
 }
 
 export type Party = {
@@ -505,7 +532,7 @@ export type PublicKey = {
   name: string
   createdAt: string
   key: PublicKeyItem
-  operator: Pick<User, 'relationshipId' | 'name' | 'surname'>
+  operator: User
 }
 
 export type PublicKeys = {
@@ -715,6 +742,8 @@ export type DialogBasicProps = DialogDefaultProps & {
 
 // export type DialogActionKeys = Exclude<
 //   ApiEndpointKey,
+//   | 'AUTH_HEALTH_CHECK'
+//   | 'AUTH_OBTAIN_SESSION_TOKEN'
 //   | 'ONBOARDING_GET_AVAILABLE_PARTIES'
 //   | 'ESERVICE_GET_LIST_FLAT'
 //   | 'ESERVICE_GET_SINGLE'
@@ -771,6 +800,8 @@ export type ToastProps = ToastContentWithOutcome & {
 
 // export type ToastActionKeys = Exclude<
 //   ApiEndpointKey,
+//   | 'AUTH_HEALTH_CHECK'
+//   | 'AUTH_OBTAIN_SESSION_TOKEN'
 //   | 'ONBOARDING_GET_AVAILABLE_PARTIES'
 //   | 'ESERVICE_GET_SINGLE'
 //   | 'ATTRIBUTE_GET_LIST'

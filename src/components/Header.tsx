@@ -4,13 +4,7 @@ import { Box } from '@mui/system'
 import { HelpOutline as HelpOutlineIcon } from '@mui/icons-material'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { UserActionSelect } from './UserActionsSelect'
-
-type JwtUser = {
-  id: string
-  name?: string
-  surname?: string
-  email?: string
-}
+import { JwtUser } from '../../types'
 
 type UserAction = {
   id: string

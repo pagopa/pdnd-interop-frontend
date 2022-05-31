@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom'
 import { object, string } from 'yup'
 import { ClientKind, SecurityOperatorKeysFormInputValues } from '../../types'
 import { useFeedback } from '../hooks/useFeedback'
-import { useUser } from '../hooks/useUser'
 import { DialogContext, PartyContext } from '../lib/context'
 import { getBits } from '../lib/router-utils'
 import { StyledButton } from './Shared/StyledButton'
@@ -12,6 +11,7 @@ import { TempFilters } from './TempFilters'
 import { AsyncTableKey } from './Shared/AsyncTableKey'
 import { isOperatorSecurity } from '../lib/auth-utils'
 import { useTranslation } from 'react-i18next'
+import { useJwt } from '../hooks/useJwt'
 
 type KeyToPostProps = SecurityOperatorKeysFormInputValues & {
   use: 'SIG'
@@ -29,7 +29,7 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
   const clientId = locationBits[locationBits.length - 1]
   const { setDialog } = useContext(DialogContext)
   const { party } = useContext(PartyContext)
-  const { user } = useUser()
+  const { jwt } = useJwt()
   const { runAction, forceRerenderCounter } = useFeedback()
   const { t } = useTranslation('common')
 
@@ -45,7 +45,7 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
       ...data,
       use: 'SIG',
       alg: 'RS256',
-      operatorId: user?.id as string,
+      operatorId: jwt?.uid as string,
     }
     dataToPost.key = btoa(dataToPost.key.trim())
 

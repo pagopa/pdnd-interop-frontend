@@ -46,7 +46,7 @@ function isProtectedRoute(routes: Record<string, MappedRouteConfig>) {
 // and will be in a transition state between out of the platform and into it
 function showTwoColumnsLayout(routes: Record<string, MappedRouteConfig>) {
   return (location: Location<unknown>) => {
-    const excludeList = [routes.CHOOSE_PARTY.PATH, routes.UNAUTHORIZED.PATH]
+    const excludeList = [routes.UNAUTHORIZED.PATH]
 
     return isProtectedRoute(routes)(location) && !excludeList.includes(location.pathname)
   }

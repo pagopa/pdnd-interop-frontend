@@ -1,6 +1,7 @@
 import { useContext, useEffect } from 'react'
-import { STORAGE_KEY_TOKEN, STORAGE_PARTY_OBJECT, URL_FE_LOGIN } from '../lib/constants'
+import { STORAGE_KEY_SESSION_TOKEN, STORAGE_KEY_PARTY } from '../lib/constants'
 import { PartyContext, TokenContext } from '../lib/context'
+import { goToLoginPage } from '../lib/router-utils'
 import { storageDelete } from '../lib/storage-utils'
 
 export function Logout() {
@@ -14,11 +15,9 @@ export function Logout() {
     setParty(null)
     setAvailableParties(null)
     // delete everything from the storage
-    storageDelete(STORAGE_KEY_TOKEN)
-    storageDelete(STORAGE_PARTY_OBJECT)
-
-    // go back to homepage (which will redirect to login)
-    window.location.assign(URL_FE_LOGIN)
+    storageDelete(STORAGE_KEY_SESSION_TOKEN)
+    storageDelete(STORAGE_KEY_PARTY)
+    goToLoginPage()
   }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
   return null
