@@ -1,10 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useLocation } from 'react-router-dom'
 import {
   AgreementState,
   AgreementSummary,
   ActionProps,
-  Party,
   ProviderOrSubscriber,
   BackendAttributeContent,
 } from '../../types'
@@ -15,7 +14,6 @@ import { useMode } from '../hooks/useMode'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { DescriptionBlock } from '../components/DescriptionBlock'
-import { PartyContext } from '../lib/context'
 import { getAgreementState } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
@@ -30,13 +28,14 @@ import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { NotFound } from './NotFound'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
+import { useJwt } from '../hooks/useJwt'
 
 export function AgreementEdit() {
   const { t } = useTranslation(['agreement', 'common'])
   const { runAction, forceRerenderCounter } = useFeedback()
   const mode = useMode()
   const agreementId = getLastBit(useLocation())
-  const { party } = useContext(PartyContext)
+  const { jwt } = useJwt()
   const { routes } = useRoute()
   const { data, error, isLoading } = useAsyncFetch<AgreementSummary>(
     { path: { endpoint: 'AGREEMENT_GET_SINGLE', endpointParams: { agreementId } } },
@@ -47,19 +46,25 @@ export function AgreementEdit() {
    * List of possible actions for the user to perform
    */
   const activate = async () => {
-    const { id: partyId } = party as Party
     await runAction(
       {
-        path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId, partyId } },
+        path: {
+          endpoint: 'AGREEMENT_ACTIVATE',
+          endpointParams: { agreementId, partyId: jwt?.organization.id },
+        },
       },
       { showConfirmDialog: true }
     )
   }
 
   const suspend = async () => {
-    const { id: partyId } = party as Party
     await runAction(
-      { path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId, partyId } } },
+      {
+        path: {
+          endpoint: 'AGREEMENT_SUSPEND',
+          endpointParams: { agreementId, partyId: jwt?.organization.id },
+        },
+      },
       { showConfirmDialog: true }
     )
   }

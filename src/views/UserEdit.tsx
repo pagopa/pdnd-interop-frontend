@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { PublicKey, User } from '../../types'
+import { PublicKey, SelfCareUser } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -15,11 +15,10 @@ import { isFetchError } from '../lib/error-utils'
 import { AxiosResponse } from 'axios'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { useRoute } from '../hooks/useRoute'
-import { PartyContext } from '../lib/context'
-import { isAdmin } from '../lib/auth-utils'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { NotFound } from './NotFound'
 import { useTranslation } from 'react-i18next'
+import { useJwt } from '../hooks/useJwt'
 
 type UserEndpoinParams = {
   relationshipId: string
@@ -28,7 +27,7 @@ type UserEndpoinParams = {
 
 export function UserEdit() {
   const { t } = useTranslation(['user', 'common'])
-  const { party } = useContext(PartyContext)
+  const { isAdmin } = useJwt()
   const { routes } = useRoute()
   const { runAction, forceRerenderCounter } = useFeedback()
   const mode = useMode()
@@ -45,7 +44,7 @@ export function UserEdit() {
     clientId = undefined
   }
 
-  const { data: userData, error } = useAsyncFetch<User>(
+  const { data: userData, error } = useAsyncFetch<SelfCareUser>(
     { path: { endpoint: 'OPERATOR_GET_SINGLE', endpointParams } },
     { useEffectDeps: [forceRerenderCounter] }
   )
@@ -78,7 +77,7 @@ export function UserEdit() {
       {
         path: {
           endpoint: 'OPERATOR_SECURITY_REMOVE_FROM_CLIENT',
-          endpointParams: { clientId, relationshipId: userData?.relationshipId },
+          endpointParams: { clientId, relationshipId: userData?.id },
         },
       },
       {
@@ -96,7 +95,7 @@ export function UserEdit() {
    */
 
   const getAvailableActions = () => {
-    if (mode === 'subscriber' && isAdmin(party)) {
+    if (mode === 'subscriber' && isAdmin) {
       const removeFromClientAction = {
         onClick: removeFromClient,
         label: t('actions.removeFromClient'),
@@ -117,14 +116,16 @@ export function UserEdit() {
       <StyledIntro sx={{ mb: 0 }}>
         {{
           title:
-            userData?.name && userData?.surname ? userData.name + ' ' + userData.surname : 'n/d',
+            userData?.name && userData?.familyName
+              ? userData.name + ' ' + userData.familyName
+              : 'n/d',
         }}
       </StyledIntro>
 
       {userData ? (
         <React.Fragment>
-          <DescriptionBlock label={t('edit.emailField.label')}>
-            <Typography component="span">{userData?.email || 'n/d'}</Typography>
+          <DescriptionBlock label={t('edit.taxCodeField.label')}>
+            <Typography component="span">{userData?.taxCode || 'n/d'}</Typography>
           </DescriptionBlock>
 
           <DescriptionBlock label={t('edit.roleField.label')}>

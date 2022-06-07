@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 import noop from 'lodash/noop'
-import { DialogProps, LangCode, Party, MappedRouteConfig, ToastProps } from '../../types'
+import { DialogProps, LangCode, MappedRouteConfig, ToastProps } from '../../types'
 
 type RoutesContextType = {
   allRoutes: Record<LangCode, Record<string, MappedRouteConfig>>
@@ -21,23 +21,6 @@ type TokenContextType = {
 }
 
 export const TokenContext = createContext({ token: null, setToken: noop } as TokenContextType)
-
-type PartyContextType = {
-  party: Party | null
-  availableParties: Array<Party> | null
-  setParty: React.Dispatch<React.SetStateAction<Party | null>>
-  setAvailableParties: React.Dispatch<React.SetStateAction<Array<Party> | null>>
-}
-
-export const PartyContext = createContext({
-  party: null,
-  // Initially null, which means no fetch has occurred.
-  // Then it may become [], which signifies that a fetch has occurred,
-  // but this user has no availableParties onboarded for now
-  availableParties: null,
-  setParty: noop,
-  setAvailableParties: noop,
-} as PartyContextType)
 
 type ToastContextType = {
   toast: ToastProps | null

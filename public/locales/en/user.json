@@ -6,8 +6,8 @@
     "removeFromClient": "Remove from client"
   },
   "edit": {
-    "emailField": {
-      "label": "Email"
+    "taxCodeField": {
+      "label": "Tax code"
     },
     "roleField": {
       "label": "Role"

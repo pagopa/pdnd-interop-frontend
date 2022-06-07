@@ -6,7 +6,6 @@ type PagoPAEnvVars = {
   ATTRIBUTE_REGISTRY_MANAGEMENT_URL: string
   AUTHORIZATION_PROCESS_URL: string
   CATALOG_PROCESS_URL: string
-  PARTY_PROCESS_URL: string
   PURPOSE_PROCESS_URL: string
   API_GATEWAY_URL: string
   AUTHORIZATION_SERVER_TOKEN_CREATION_URL: string
@@ -26,8 +25,6 @@ const AUTHORIZATION_PROCESS_URL =
   (PAGOPA_ENV && PAGOPA_ENV.AUTHORIZATION_PROCESS_URL) || `${API_HOST}/authorization-process/0.0`
 const CATALOG_PROCESS_URL =
   (PAGOPA_ENV && PAGOPA_ENV.CATALOG_PROCESS_URL) || `${API_HOST}/catalog-process/0.0`
-const PARTY_PROCESS_URL =
-  (PAGOPA_ENV && PAGOPA_ENV.PARTY_PROCESS_URL) || `${API_HOST}/party-process/0.1`
 const PURPOSE_PROCESS_URL =
   (PAGOPA_ENV && PAGOPA_ENV.PURPOSE_PROCESS_URL) || `${API_HOST}/purpose-process/0.0`
 export const API_GATEWAY_URL =
@@ -44,10 +41,6 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
   AUTH_OBTAIN_SESSION_TOKEN: {
     URL: `${BACKEND_FOR_FRONTEND_URL}/session/tokens`,
     METHOD: 'POST',
-  },
-  ONBOARDING_GET_AVAILABLE_PARTIES: {
-    URL: `${PARTY_PROCESS_URL}/onboarding/info`,
-    METHOD: 'GET',
   },
   ESERVICE_GET_LIST_FLAT: {
     URL: `${CATALOG_PROCESS_URL}/flatten/eservices`,
@@ -257,11 +250,11 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'DELETE',
   },
   USER_GET_LIST: {
-    URL: `${PARTY_PROCESS_URL}/institutions/:institutionId/relationships`,
+    URL: `${BACKEND_FOR_FRONTEND_URL}/institutions/:institutionId/relationships`,
     METHOD: 'GET',
   },
   OPERATOR_GET_SINGLE: {
-    URL: `${PARTY_PROCESS_URL}/relationships/:relationshipId`,
+    URL: `${BACKEND_FOR_FRONTEND_URL}/relationships/:relationshipId`,
     METHOD: 'GET',
   },
   OPERATOR_SECURITY_JOIN_WITH_CLIENT: {

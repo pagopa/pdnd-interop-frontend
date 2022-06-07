@@ -75,7 +75,8 @@
     "user": {
       "PENDING": "awaiting approval",
       "ACTIVE": "active",
-      "SUSPENDED": "suspended"
+      "SUSPENDED": "suspended",
+      "DELETED": "deleted"
     }
   },
   "userRole": {

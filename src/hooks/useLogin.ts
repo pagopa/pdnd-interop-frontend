@@ -1,5 +1,5 @@
 import { storageDelete, storageRead, storageWrite } from '../lib/storage-utils'
-import { MOCK_TOKEN, STORAGE_KEY_PARTY, STORAGE_KEY_SESSION_TOKEN } from '../lib/constants'
+import { MOCK_TOKEN, STORAGE_KEY_SESSION_TOKEN } from '../lib/constants'
 import { useContext } from 'react'
 import { TokenContext } from '../lib/context'
 import { fetchWithLogs } from '../lib/api-utils'
@@ -47,7 +47,6 @@ export const useLogin = () => {
     if (!sessionStorageToken) {
       // Remove any partial data that might have remained, just for safety
       storageDelete(STORAGE_KEY_SESSION_TOKEN)
-      storageDelete(STORAGE_KEY_PARTY)
       setToken(null)
       // Return failure (which will lead to a redirect to the login page)
       return false

@@ -6,7 +6,6 @@ import {
   DialogContext,
   LangContext,
   LoaderContext,
-  PartyContext,
   TableActionMenuContext,
   ToastContext,
 } from '../lib/context'
@@ -23,7 +22,6 @@ import { useRoute } from '../hooks/useRoute'
 import { buildLocale } from '../lib/validation-config'
 import { useLogin } from '../hooks/useLogin'
 import { DEFAULT_LANG, LANGUAGES } from '../lib/constants'
-import { PartySelect } from './PartySelect'
 import { Typography } from '@mui/material'
 import { Settings as SettingsIcon } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
@@ -40,7 +38,6 @@ export function BodyLogger() {
   const [tableActionMenu, setTableActionMenu] = useState<string | null>(null)
   const { lang, setLang } = useContext(LangContext)
   const { jwt } = useJwt()
-  const { party } = useContext(PartyContext)
   const { i18n, t } = useTranslation('common')
 
   /*
@@ -103,7 +100,7 @@ export function BodyLogger() {
               onAssistanceClick={() => {
                 history.push(routes.HELP.PATH)
               }}
-              loggedUser={party !== null ? jwt : undefined}
+              loggedUser={jwt}
               onLogin={goToLoginPage}
               subHeaderLeftComponent={
                 <Typography component="span" variant="h5" fontWeight={700}>
@@ -111,9 +108,10 @@ export function BodyLogger() {
                 </Typography>
               }
               subHeaderRightComponent={
-                doesRouteAllowTwoColumnsLayout(history.location) && party !== null ? (
-                  <PartySelect />
-                ) : null
+                // doesRouteAllowTwoColumnsLayout(history.location) && party !== null ? (
+                //   <PartySelect />
+                // ) : null
+                null
               }
               userActions={[
                 {
@@ -159,7 +157,7 @@ export function BodyLogger() {
               </Box>
             )}
             <Footer
-              loggedUser={party !== null ? jwt : undefined}
+              loggedUser={jwt}
               currentLangCode={lang}
               onLanguageChanged={onLanguageChanged}
               languages={LANGUAGES}

@@ -7,7 +7,6 @@ export const USE_MOCK_SPID_USER = isDevelopment
 export const DISPLAY_LOGS = false // isDevelopment
 
 export const STORAGE_KEY_SESSION_TOKEN = 'token'
-export const STORAGE_KEY_PARTY = 'currentParty'
 
 const ORIGIN = window.location.origin
 export const API_HOST = isProduction ? ORIGIN : process.env.REACT_APP_API_HOST

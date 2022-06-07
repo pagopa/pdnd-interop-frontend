@@ -1,6 +1,6 @@
-import { PublicKey, User } from '../../types'
+import { PublicKey, SelfCareUser } from '../../types'
 
-export function isKeyOrphan(key: PublicKey, activeUsers?: Array<User>) {
-  const activeIds = activeUsers?.map((u) => u.relationshipId)
-  return !activeIds?.includes(key.operator.relationshipId)
+export function isKeyOrphan(key: PublicKey, activeUsers?: Array<SelfCareUser>) {
+  const activeIds = activeUsers?.map((u) => u.id)
+  return !activeIds?.includes(key.operator.id)
 }

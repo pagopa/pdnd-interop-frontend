@@ -15,7 +15,7 @@ type AuthGuardProps = {
 
 export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
   const history = useHistory()
-  const { token, currentRoles } = useJwt()
+  const { jwt, currentRoles } = useJwt()
   const { silentLoginAttempt } = useLogin()
   const { isRouteProtected } = useRoute()
 
@@ -37,10 +37,10 @@ export function AuthGuard({ Component, authLevels }: AuthGuardProps) {
     // In this case, try to log him/her in by getting their info from storage
     // Same goes if no fetchAvailableParties has occurred yet. We cannot log into
     // a protected page until we have a user
-    if (!token) {
+    if (!jwt) {
       asyncSilentLoginAttempt()
     }
-  }, [token]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [jwt]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const hasOverlappingRole = intersectionWith(currentRoles, authLevels)
   const userCanAccess = !isCurrentRouteProtected || authLevels === 'any' || hasOverlappingRole

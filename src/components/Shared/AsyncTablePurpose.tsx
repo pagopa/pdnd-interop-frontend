@@ -13,7 +13,7 @@ import { Box } from '@mui/material'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { RunAction, RunActionOutput, useFeedback } from '../../hooks/useFeedback'
 import { useRoute } from '../../hooks/useRoute'
-import { DialogContext, PartyContext } from '../../lib/context'
+import { DialogContext } from '../../lib/context'
 import { formatDateString, formatThousands } from '../../lib/format-utils'
 import { decoratePurposeWithMostRecentVersion } from '../../lib/purpose'
 import { ActionMenu } from './ActionMenu'
@@ -22,6 +22,7 @@ import { StyledTableRow } from './StyledTableRow'
 import { TableWithLoader } from './TableWithLoader'
 import { buildDynamicPath } from '../../lib/router-utils'
 import { useTranslation } from 'react-i18next'
+import { useJwt } from '../../hooks/useJwt'
 
 type AsyncTablePurposeInEServiceProps = {
   forceRerenderCounter: number
@@ -137,8 +138,7 @@ export const AsyncTablePurpose = () => {
   const history = useHistory()
   const { runAction, forceRerenderCounter } = useFeedback()
   const { setDialog } = useContext(DialogContext)
-
-  const { party } = useContext(PartyContext)
+  const { jwt } = useJwt()
 
   const { data, isLoading /*, error */ } = useAsyncFetch<
     { purposes: Array<Purpose> },
@@ -149,7 +149,7 @@ export const AsyncTablePurpose = () => {
       mapFn: (data) =>
         data.purposes
           // TEMP REFACTOR: after integration with self care, this will not be necessary
-          .filter((p) => p.consumerId === party?.id)
+          .filter((p) => p.consumerId === jwt?.organization.id)
           .map(decoratePurposeWithMostRecentVersion),
       useEffectDeps: [forceRerenderCounter],
     }

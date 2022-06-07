@@ -1,11 +1,10 @@
 import React, { FunctionComponent, useState } from 'react'
 import { Router } from 'react-router-dom'
-import { DialogProps, LangCode, Party, ToastProps } from '../../types'
+import { DialogProps, LangCode, ToastProps } from '../../types'
 import {
   DialogContext,
   LangContext,
   LoaderContext,
-  PartyContext,
   RoutesContext,
   TableActionMenuContext,
   ToastContext,
@@ -25,10 +24,6 @@ type LangProviderProps = {
 
 type TokenProviderProps = {
   defaultToken?: string
-}
-
-type PartyProviderProps = {
-  defaultParty?: Party
 }
 
 type TableActionMenuProviderProps = {
@@ -60,18 +55,6 @@ const RoutesProvider: FunctionComponent = ({ children }) => {
 const TokenProvider: FunctionComponent<TokenProviderProps> = ({ children, defaultToken }) => {
   const [token, setToken] = useState<string | null>(defaultToken || null)
   return <TokenContext.Provider value={{ token, setToken }}>{children}</TokenContext.Provider>
-}
-
-const PartyProvider: FunctionComponent<PartyProviderProps> = ({ children, defaultParty }) => {
-  const [party, setParty] = useState<Party | null>(defaultParty || null)
-  const [availableParties, setAvailableParties] = useState<Array<Party> | null>(
-    defaultParty ? [defaultParty] : null
-  )
-  return (
-    <PartyContext.Provider value={{ party, setParty, availableParties, setAvailableParties }}>
-      {children}
-    </PartyContext.Provider>
-  )
 }
 
 const TableActionMenuProvider: FunctionComponent<TableActionMenuProviderProps> = ({
@@ -114,7 +97,6 @@ type RouterProviderProps = {
 export const AllTheProviders: FunctionComponent<
   LangProviderProps &
     TokenProviderProps &
-    PartyProviderProps &
     TableActionMenuProviderProps &
     ToastProviderProps &
     DialogProviderProps &
@@ -124,7 +106,6 @@ export const AllTheProviders: FunctionComponent<
   children,
   defaultLang,
   defaultToken,
-  defaultParty,
   defaultTableActionMenu,
   defaultToast,
   defaultDialog,
@@ -138,21 +119,19 @@ export const AllTheProviders: FunctionComponent<
       <I18nextProvider i18n={i18n}>
         <RoutesProvider>
           <TokenProvider defaultToken={defaultToken}>
-            <PartyProvider defaultParty={defaultParty}>
-              <Router history={history}>
-                {/* <ThemeProvider theme={theme}> */}
-                {/* <CssBaseline /> */}
+            <Router history={history}>
+              {/* <ThemeProvider theme={theme}> */}
+              {/* <CssBaseline /> */}
 
-                <TableActionMenuProvider defaultTableActionMenu={defaultTableActionMenu}>
-                  <ToastProvider defaultToast={defaultToast}>
-                    <DialogProvider defaultDialog={defaultDialog}>
-                      <LoaderProvider defaultLoader={defaultLoader}>{children}</LoaderProvider>
-                    </DialogProvider>
-                  </ToastProvider>
-                </TableActionMenuProvider>
-                {/* </ThemeProvider> */}
-              </Router>
-            </PartyProvider>
+              <TableActionMenuProvider defaultTableActionMenu={defaultTableActionMenu}>
+                <ToastProvider defaultToast={defaultToast}>
+                  <DialogProvider defaultDialog={defaultDialog}>
+                    <LoaderProvider defaultLoader={defaultLoader}>{children}</LoaderProvider>
+                  </DialogProvider>
+                </ToastProvider>
+              </TableActionMenuProvider>
+              {/* </ThemeProvider> */}
+            </Router>
           </TokenProvider>
         </RoutesProvider>
       </I18nextProvider>

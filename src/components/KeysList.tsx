@@ -3,13 +3,12 @@ import { useLocation } from 'react-router-dom'
 import { object, string } from 'yup'
 import { ClientKind, SecurityOperatorKeysFormInputValues } from '../../types'
 import { useFeedback } from '../hooks/useFeedback'
-import { DialogContext, PartyContext } from '../lib/context'
+import { DialogContext } from '../lib/context'
 import { getBits } from '../lib/router-utils'
 import { StyledButton } from './Shared/StyledButton'
 import { PageTopFilters } from './Shared/PageTopFilters'
 import { TempFilters } from './TempFilters'
 import { AsyncTableKey } from './Shared/AsyncTableKey'
-import { isOperatorSecurity } from '../lib/auth-utils'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
 
@@ -28,8 +27,7 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
   const locationBits = getBits(location)
   const clientId = locationBits[locationBits.length - 1]
   const { setDialog } = useContext(DialogContext)
-  const { party } = useContext(PartyContext)
-  const { jwt } = useJwt()
+  const { jwt, isOperatorSecurity } = useJwt()
   const { runAction, forceRerenderCounter } = useFeedback()
   const { t } = useTranslation('common')
 
@@ -68,7 +66,7 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
     <React.Fragment>
       <PageTopFilters>
         <TempFilters />
-        {isOperatorSecurity(party) && (
+        {isOperatorSecurity && (
           <StyledButton variant="contained" size="small" onClick={openUploadKeyDialog}>
             {t('addBtn')}
           </StyledButton>

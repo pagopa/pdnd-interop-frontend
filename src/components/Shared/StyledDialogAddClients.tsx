@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useState } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { Box } from '@mui/system'
 import { StyledButton } from './StyledButton'
@@ -7,11 +7,11 @@ import { useCloseDialog } from '../../hooks/useCloseDialog'
 import { StyledForm } from './StyledForm'
 import { StyledInputControlledAutocomplete } from './StyledInputControlledAutocomplete'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
-import { PartyContext } from '../../lib/context'
 import differenceBy from 'lodash/differenceBy'
 import { sortBy } from 'lodash'
 import { LoadingWithMessage } from './LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
+import { useJwt } from '../../hooks/useJwt'
 
 export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = ({
   onSubmit,
@@ -19,13 +19,13 @@ export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = 
 }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'styledDialogAddClients' })
   const { closeDialog } = useCloseDialog()
-  const { party } = useContext(PartyContext)
+  const { jwt } = useJwt()
   const [selected, setSelected] = useState<Array<Client>>([])
 
   const { data: clientData, isLoading } = useAsyncFetch<{ clients: Array<Client> }, Array<Client>>(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
-      config: { params: { kind: 'CONSUMER', consumerId: party?.id } },
+      config: { params: { kind: 'CONSUMER', consumerId: jwt?.organization.id } },
     },
     { mapFn: (data) => data.clients }
   )

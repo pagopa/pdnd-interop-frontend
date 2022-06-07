@@ -1,6 +1,6 @@
 import React from 'react'
 import { AxiosResponse } from 'axios'
-import { PublicKey, User } from '../../types'
+import { PublicKey, SelfCareUser } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { downloadFile } from '../lib/file-utils'
 import { RunActionOutput, useFeedback } from '../hooks/useFeedback'
@@ -30,7 +30,7 @@ export function KeyEdit() {
     path: { endpoint: 'KEY_GET_SINGLE', endpointParams: { clientId, kid } },
   })
 
-  const { data: userData } = useAsyncFetch<Array<User>>({
+  const { data: userData } = useAsyncFetch<Array<SelfCareUser>>({
     path: { endpoint: 'OPERATOR_SECURITY_GET_LIST', endpointParams: { clientId } },
   })
 
@@ -79,7 +79,7 @@ export function KeyEdit() {
         </DescriptionBlock>
 
         <DescriptionBlock label={t('edit.uploaderField.name')}>
-          {keyData?.operator.name} {keyData?.operator.surname}
+          {keyData?.operator.name} {keyData?.operator.familyName}
         </DescriptionBlock>
 
         <DescriptionBlock label={t('edit.kidField.label')}>

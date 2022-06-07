@@ -1,19 +1,19 @@
 import React, { FunctionComponent, useContext } from 'react'
 import { useHistory } from 'react-router'
-import { AddSecurityOperatorFormInputValues, ClientKind, User } from '../../types'
+import { AddSecurityOperatorFormInputValues, ClientKind, SelfCareUser } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useMode } from '../hooks/useMode'
 import { TempFilters } from '../components/TempFilters'
-import { DialogContext, PartyContext } from '../lib/context'
+import { DialogContext } from '../lib/context'
 import { getBits } from '../lib/router-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Alert } from '@mui/material'
-import { isAdmin } from '../lib/auth-utils'
 import { fetchAllWithLogs } from '../lib/api-utils'
 import { PageTopFilters } from '../components/Shared/PageTopFilters'
 import { AsyncTableUser } from '../components/Shared/AsyncTableUser'
 import { useTranslation } from 'react-i18next'
+import { useJwt } from '../hooks/useJwt'
 
 type UserListProps = {
   clientKind?: ClientKind
@@ -30,7 +30,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
   const clientId = locationBits[locationBits.length - 1]
 
   const mode = useMode()
-  const { party } = useContext(PartyContext)
+  const { isAdmin } = useJwt()
 
   const addOperators = async (data: AddSecurityOperatorFormInputValues) => {
     if (data.selected.length === 0) {
@@ -53,7 +53,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
     await runAction({
       path: {
         endpoint: 'OPERATOR_SECURITY_JOIN_WITH_CLIENT',
-        endpointParams: { clientId, relationshipId: (lastSelected as User).id },
+        endpointParams: { clientId, relationshipId: (lastSelected as SelfCareUser).id },
       },
     })
   }
@@ -76,7 +76,7 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
 
       <PageTopFilters>
         <TempFilters />
-        {isAdmin(party) && mode === 'subscriber' && (
+        {isAdmin && mode === 'subscriber' && (
           <StyledButton variant="contained" size="small" onClick={openAddOperatorDialog}>
             {t('addBtn', { ns: 'common' })}
           </StyledButton>
@@ -89,7 +89,6 @@ export const UserList: FunctionComponent<UserListProps> = ({ clientKind = 'CONSU
         clientId={clientId}
         clientKind={clientKind}
         mode={mode}
-        party={party}
       />
 
       {mode === 'provider' && (

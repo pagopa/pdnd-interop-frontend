@@ -20,8 +20,7 @@ import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { RunActionOutput, useFeedback } from '../../hooks/useFeedback'
 import { useRoute } from '../../hooks/useRoute'
 import { canSubscribe } from '../../lib/attributes'
-import { isAdmin } from '../../lib/auth-utils'
-import { DialogContext, LangContext, PartyContext } from '../../lib/context'
+import { DialogContext, LangContext } from '../../lib/context'
 import { axiosErrorToError } from '../../lib/error-utils'
 import { buildDynamicPath } from '../../lib/router-utils'
 import { ActionMenu } from './ActionMenu'
@@ -32,12 +31,13 @@ import { StyledTableRow } from './StyledTableRow'
 import { StyledButton } from './StyledButton'
 import { URL_FRAGMENTS } from '../../lib/constants'
 import { useTranslation } from 'react-i18next'
+import { useJwt } from '../../hooks/useJwt'
 
 export const AsyncTableEServiceCatalog = () => {
   const { t } = useTranslation(['eservice', 'common'])
   const history = useHistory()
   const { runAction } = useFeedback()
-  const { party } = useContext(PartyContext)
+  const { jwt, isAdmin } = useJwt()
   const { setDialog } = useContext(DialogContext)
   const { routes } = useRoute()
 
@@ -47,10 +47,10 @@ export const AsyncTableEServiceCatalog = () => {
   >(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
-      config: { params: { state: 'PUBLISHED', callerId: party?.id } },
+      config: { params: { state: 'PUBLISHED', callerId: jwt?.organization.id } },
     },
     {
-      mapFn: (data) => data.map((d) => ({ ...d, isMine: d.producerId === party?.id })),
+      mapFn: (data) => data.map((d) => ({ ...d, isMine: d.producerId === jwt?.organization.id })),
     }
   )
 
@@ -65,7 +65,7 @@ export const AsyncTableEServiceCatalog = () => {
       return <OwnerTooltip label={t('tableEServiceCatalog.youAreTheProvider')} Icon={PersonIcon} />
     }
 
-    if (item.callerSubscribed && isAdmin(party)) {
+    if (item.callerSubscribed && isAdmin) {
       return <OwnerTooltip label={t('tableEServiceCatalog.alreadySubscribed')} Icon={CheckIcon} />
     }
 
@@ -88,7 +88,7 @@ export const AsyncTableEServiceCatalog = () => {
     const agreementData = {
       eserviceId: eservice.id,
       descriptorId: eservice.descriptorId,
-      consumerId: party?.id,
+      consumerId: jwt?.organization.id,
     }
 
     await runAction(
@@ -106,7 +106,7 @@ export const AsyncTableEServiceCatalog = () => {
   ) => {
     const actions: Array<ActionProps> = []
 
-    if (!eservice.isMine && isAdmin(party) && eservice.callerSubscribed) {
+    if (!eservice.isMine && isAdmin && eservice.callerSubscribed) {
       actions.push({
         onClick: () => {
           history.push(
@@ -119,7 +119,7 @@ export const AsyncTableEServiceCatalog = () => {
       })
     }
 
-    if (!eservice.isMine && isAdmin(party) && !eservice.callerSubscribed && canSubscribeEservice) {
+    if (!eservice.isMine && isAdmin && !eservice.callerSubscribed && canSubscribeEservice) {
       actions.push({
         onClick: () => {
           setDialog({
@@ -161,6 +161,10 @@ export const AsyncTableEServiceCatalog = () => {
     '',
   ]
 
+  // REIMPLEMENT
+  return null
+
+  /*
   return (
     <TableWithLoader
       isLoading={isLoading}
@@ -227,20 +231,21 @@ export const AsyncTableEServiceCatalog = () => {
         })}
     </TableWithLoader>
   )
+  */
 }
 
 export const AsyncTableEServiceList = () => {
   const { t } = useTranslation(['eservice', 'common'])
   const { routes } = useRoute()
-  const { party } = useContext(PartyContext)
   const { lang } = useContext(LangContext)
+  const { jwt } = useJwt()
   const history = useHistory()
   const { runAction, forceRerenderCounter } = useFeedback()
 
   const { data, error, isLoading } = useAsyncFetch<Array<EServiceFlatReadType>>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
-      config: { params: { producerId: party?.id, callerId: party?.id } },
+      config: { params: { producerId: jwt?.organization.id, callerId: jwt?.organization.id } },
     },
     { useEffectDeps: [forceRerenderCounter] }
   )

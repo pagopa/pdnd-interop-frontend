@@ -1,10 +1,9 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import identity from 'lodash/identity'
 import { AxiosError, AxiosResponse } from 'axios'
 import { RequestConfig } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { isFetchError } from '../lib/error-utils'
-import { PartyContext } from '../lib/context'
 
 type Settings<T, U> = {
   useEffectDeps?: Array<unknown>
@@ -18,7 +17,6 @@ export const useAsyncFetch = <T, U = T>(
   const useEffectDeps = (settings && settings.useEffectDeps) || []
   const mapFn = (settings && settings.mapFn) || identity
 
-  const { party } = useContext(PartyContext)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [data, setData] = useState<U | undefined>()
   const [error, setError] = useState<AxiosError>()
@@ -47,7 +45,7 @@ export const useAsyncFetch = <T, U = T>(
     }
 
     // If the user changes party, fresh data should be fetched
-  }, [party, ...useEffectDeps]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, useEffectDeps) // eslint-disable-line react-hooks/exhaustive-deps
 
   return { data, error, isLoading: isLoading }
 }

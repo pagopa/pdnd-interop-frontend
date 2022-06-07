@@ -10,7 +10,6 @@ import { RunAction } from './src/hooks/useFeedback'
 export type ApiEndpointKey =
   | 'AUTH_HEALTH_CHECK'
   | 'AUTH_OBTAIN_SESSION_TOKEN'
-  | 'ONBOARDING_GET_AVAILABLE_PARTIES'
   | 'ESERVICE_GET_LIST_FLAT'
   | 'ESERVICE_GET_SINGLE'
   | 'ESERVICE_DRAFT_CREATE'
@@ -191,45 +190,31 @@ type JwtOrg = {
 
 export type JwtUser = {
   aud: string
-  desired_exp: number
-  email: string
   exp: number
-  family_name: string
-  fiscal_number: string
-  from_aa: boolean
   iat: number
   iss: string
   jti: string
-  level: string
-  name: string
+  nbf: number
   organization: JwtOrg
   uid: string // the relationshipId between the user and the current institution
 }
 
-// TEMP Replace after integration with self care
-export type User = {
-  name: string
-  surname: string
+export type SelfCareUser = {
+  createdAt: string
+  familyName: string
+  from: string
   id: string
-  relationshipId: string
-  state: UserState
-  role: UserRole
+  name: string
   product: {
+    createdAt: string // Date
+    id: string
     role: UserProductRole
   }
-  from: string
-  email: string
-}
-
-export type Party = {
-  description: string
-  institutionId: string
-  digitalAddress: string
-  id: string
   role: UserRole
   state: UserState
-  attributes: Array<CertifiedAttribute>
-  productInfo: UserProduct
+  taxCode: string
+  to: string
+  updatedAt: string // Date
 }
 
 /*
@@ -512,7 +497,7 @@ export type Client = {
   id: string
   name: string
   description: string
-  operators: Array<User>
+  operators: Array<SelfCareUser>
   kind: ClientKind
   purposes: Array<ClientPurpose>
 }
@@ -532,7 +517,7 @@ export type PublicKey = {
   name: string
   createdAt: string
   key: PublicKeyItem
-  operator: User
+  operator: SelfCareUser
 }
 
 export type PublicKeys = {
@@ -680,7 +665,7 @@ export type DialogAddSecurityOperatorProps = {
 }
 
 export type AddSecurityOperatorFormInputValues = {
-  selected: Array<User>
+  selected: Array<SelfCareUser>
 }
 
 export type DialogNewAttributeProps = {
@@ -744,7 +729,6 @@ export type DialogBasicProps = DialogDefaultProps & {
 //   ApiEndpointKey,
 //   | 'AUTH_HEALTH_CHECK'
 //   | 'AUTH_OBTAIN_SESSION_TOKEN'
-//   | 'ONBOARDING_GET_AVAILABLE_PARTIES'
 //   | 'ESERVICE_GET_LIST_FLAT'
 //   | 'ESERVICE_GET_SINGLE'
 //   | 'ESERVICE_DRAFT_UPDATE'
@@ -802,7 +786,6 @@ export type ToastProps = ToastContentWithOutcome & {
 //   ApiEndpointKey,
 //   | 'AUTH_HEALTH_CHECK'
 //   | 'AUTH_OBTAIN_SESSION_TOKEN'
-//   | 'ONBOARDING_GET_AVAILABLE_PARTIES'
 //   | 'ESERVICE_GET_SINGLE'
 //   | 'ATTRIBUTE_GET_LIST'
 //   | 'ATTRIBUTE_GET_SINGLE'
