@@ -20,8 +20,6 @@ export const useJwt = () => {
     return token ? parseJwt(token) : undefined
   }, [token])
 
-  console.log(jwt)
-
   const currentRoles = jwt ? jwt.organization.roles.map((r) => r.role) : []
   const isAdmin = currentRoles.length === 1 && currentRoles[0] === 'admin'
   const isOperatorAPI = Boolean(currentRoles.includes('api'))

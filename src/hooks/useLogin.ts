@@ -20,26 +20,30 @@ export const useLogin = () => {
       return
     }
 
-    const selfCareIdentityToken = location.hash.replace('#id=', '')
+    const newSelfCareIdentityToken = location.hash.replace('#id=', '')
+    if (newSelfCareIdentityToken) {
+      // Use Self Care identity token to obtain an Interop session token
+      const resp = await fetchWithLogs({
+        path: { endpoint: 'AUTH_OBTAIN_SESSION_TOKEN' },
+        config: { data: { identity_token: newSelfCareIdentityToken } },
+      })
 
-    // Use Self Care identity token to obtain an Interop session token
-    const resp = await fetchWithLogs({
-      path: { endpoint: 'AUTH_OBTAIN_SESSION_TOKEN' },
-      config: { data: { identity_token: selfCareIdentityToken } },
-    })
+      // If there is an error in fetching the token, go back to login page
+      if (isFetchError(resp)) {
+        goToLoginPage()
+      }
 
-    // If there is an error in fetching the token, go back to login page
-    if (isFetchError(resp)) {
-      goToLoginPage()
+      // Set Interop session token
+      const sessionToken = (resp as AxiosResponse).data.session_token
+      storageWrite(STORAGE_KEY_SESSION_TOKEN, sessionToken, 'string')
+      setToken(sessionToken)
+      return
     }
 
-    // Set Interop session token
-    const sessionToken = (resp as AxiosResponse).data.session_token
-    storageWrite(STORAGE_KEY_SESSION_TOKEN, sessionToken, 'string')
-    setToken(sessionToken)
+    silentLoginAttempt()
   }
 
-  const silentLoginAttempt = async (): Promise<boolean> => {
+  const silentLoginAttempt = async () => {
     // Try to get the token from the sessionStorage
     const sessionStorageToken = storageRead(STORAGE_KEY_SESSION_TOKEN, 'string')
 
@@ -48,8 +52,8 @@ export const useLogin = () => {
       // Remove any partial data that might have remained, just for safety
       storageDelete(STORAGE_KEY_SESSION_TOKEN)
       setToken(null)
-      // Return failure (which will lead to a redirect to the login page)
-      return false
+      // Redirect to the login page
+      // goToLoginPage()
     }
 
     // If there is a token, check if it is still valid with a dummy call to the backend
@@ -63,8 +67,8 @@ export const useLogin = () => {
       setToken(sessionStorageToken)
     }
 
-    return isTokenValid
+    return
   }
 
-  return { loginAttempt, silentLoginAttempt }
+  return { loginAttempt }
 }

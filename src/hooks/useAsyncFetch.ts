@@ -4,6 +4,7 @@ import { AxiosError, AxiosResponse } from 'axios'
 import { RequestConfig } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { isFetchError } from '../lib/error-utils'
+import { useJwt } from './useJwt'
 
 type Settings<T, U> = {
   useEffectDeps?: Array<unknown>
@@ -14,6 +15,7 @@ export const useAsyncFetch = <T, U = T>(
   requestConfig: RequestConfig,
   settings?: Settings<T, U>
 ) => {
+  const { jwt } = useJwt()
   const useEffectDeps = (settings && settings.useEffectDeps) || []
   const mapFn = (settings && settings.mapFn) || identity
 
@@ -38,14 +40,14 @@ export const useAsyncFetch = <T, U = T>(
       }
     }
 
-    asyncFetchWithLogs()
+    if (jwt) {
+      asyncFetchWithLogs()
+    }
 
     return () => {
       isMounted = false
     }
-
-    // If the user changes party, fresh data should be fetched
-  }, useEffectDeps) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [jwt, ...useEffectDeps]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return { data, error, isLoading: isLoading }
 }

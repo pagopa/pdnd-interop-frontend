@@ -71,7 +71,9 @@ export function BodyLogger() {
 
   useEffect(() => {
     async function asyncLoginAttempt() {
+      setLoadingText(t('loading.sessionToken.label'))
       await loginAttempt()
+      setLoadingText(null)
     }
 
     asyncLoginAttempt()
