@@ -1,73 +1,79 @@
-import { storageDelete, storageRead, storageWrite } from '../lib/storage-utils'
+import { storageRead, storageWrite } from '../lib/storage-utils'
 import { MOCK_TOKEN, STORAGE_KEY_SESSION_TOKEN } from '../lib/constants'
 import { useContext } from 'react'
 import { TokenContext } from '../lib/context'
 import { fetchWithLogs } from '../lib/api-utils'
 import { isFetchError } from '../lib/error-utils'
-import { useLocation } from 'react-router-dom'
-import { goToLoginPage } from '../lib/router-utils'
+import { useHistory } from 'react-router-dom'
 import { AxiosResponse } from 'axios'
+import { useRoute } from './useRoute'
 
 export const useLogin = () => {
   const { setToken } = useContext(TokenContext)
-  const location = useLocation()
+  const history = useHistory()
+  const { routes } = useRoute()
 
-  const loginAttempt = async () => {
-    // Used only for dev purposes
-    if (MOCK_TOKEN) {
-      storageWrite(STORAGE_KEY_SESSION_TOKEN, MOCK_TOKEN, 'string')
-      setToken(MOCK_TOKEN)
-      return
-    }
-
-    const newSelfCareIdentityToken = location.hash.replace('#id=', '')
-    if (newSelfCareIdentityToken) {
-      // Use Self Care identity token to obtain an Interop session token
-      const resp = await fetchWithLogs({
-        path: { endpoint: 'AUTH_OBTAIN_SESSION_TOKEN' },
-        config: { data: { identity_token: newSelfCareIdentityToken } },
-      })
-
-      // If there is an error in fetching the token, go back to login page
-      if (isFetchError(resp)) {
-        goToLoginPage()
-      }
-
-      // Set Interop session token
-      const sessionToken = (resp as AxiosResponse).data.session_token
-      storageWrite(STORAGE_KEY_SESSION_TOKEN, sessionToken, 'string')
-      setToken(sessionToken)
-      return
-    }
-
-    silentLoginAttempt()
+  const setTokenFromMock = (mockToken: string) => {
+    storageWrite(STORAGE_KEY_SESSION_TOKEN, mockToken, 'string')
+    setToken(mockToken)
   }
 
-  const silentLoginAttempt = async () => {
-    // Try to get the token from the sessionStorage
-    const sessionStorageToken = storageRead(STORAGE_KEY_SESSION_TOKEN, 'string')
+  const canSetTokenFromSelfCareIdentityToken = async (identity_token: string) => {
+    // Use Self Care identity token to obtain an Interop session token
+    const resp = await fetchWithLogs({
+      path: { endpoint: 'AUTH_OBTAIN_SESSION_TOKEN' },
+      config: { data: { identity_token } },
+    })
 
-    // If there is no token, the session is not authenticated, so
-    if (!sessionStorageToken) {
-      // Remove any partial data that might have remained, just for safety
-      storageDelete(STORAGE_KEY_SESSION_TOKEN)
-      setToken(null)
-      // Redirect to the login page
-      // goToLoginPage()
+    // If there is an error in fetching the token, go back to login page
+    if (isFetchError(resp)) {
+      return false
     }
 
+    // Set Interop session token
+    const sessionToken = (resp as AxiosResponse).data.session_token
+    storageWrite(STORAGE_KEY_SESSION_TOKEN, sessionToken, 'string')
+    setToken(sessionToken)
+    return true
+  }
+
+  const canSetTokenFromLocalStorage = async (storageToken: string) => {
     // If there is a token, check if it is still valid with a dummy call to the backend
-    // TEMP REFACTOR: this is ugly, it can be unified with the useParties hook at this point
     const resp = await fetchWithLogs({ path: { endpoint: 'AUTH_HEALTH_CHECK' } })
-    const isTokenValid = !isFetchError(resp)
 
     // If it is valid, turn it into State so that it is easier
     // to make it interact with React
-    if (isTokenValid) {
-      setToken(sessionStorageToken)
+    if (isFetchError(resp)) {
+      return false
     }
 
-    return
+    setToken(storageToken)
+    return true
+  }
+
+  const loginAttempt = async () => {
+    // 1. Check if there is a mock token: only used for dev purposes
+    if (MOCK_TOKEN) {
+      setTokenFromMock(MOCK_TOKEN)
+      return
+    }
+
+    // 2. See if we are coming from Self Care and have a new token
+    const newSelfCareIdentityToken = location.hash.replace('#id=', '')
+    if (newSelfCareIdentityToken) {
+      const success = await canSetTokenFromSelfCareIdentityToken(newSelfCareIdentityToken)
+      if (success) return
+    }
+
+    // 3. Check if there is a valid token in the storage already
+    const sessionStorageToken = storageRead(STORAGE_KEY_SESSION_TOKEN, 'string')
+    if (sessionStorageToken) {
+      const success = await canSetTokenFromLocalStorage(sessionStorageToken)
+      if (success) return
+    }
+
+    // 4. If all else fails, logout
+    history.push(routes.LOGOUT.PATH)
   }
 
   return { loginAttempt }

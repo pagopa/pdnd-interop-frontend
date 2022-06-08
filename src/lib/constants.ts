@@ -3,7 +3,6 @@ import { LangCode } from '../../types'
 export const isDevelopment = !!(process.env.NODE_ENV === 'development')
 const isProduction = !!(process.env.NODE_ENV === 'production')
 
-export const USE_MOCK_SPID_USER = isDevelopment
 export const DISPLAY_LOGS = false // isDevelopment
 
 export const STORAGE_KEY_SESSION_TOKEN = 'token'
