@@ -41,10 +41,11 @@ export const AsyncTableEServiceCatalog = () => {
   const { setDialog } = useContext(DialogContext)
   const { routes } = useRoute()
 
-  const { data, error, isLoading } = useAsyncFetch<
-    Array<EServiceFlatReadType>,
-    Array<EServiceFlatDecoratedReadType>
-  >(
+  const {
+    data: eserviceData,
+    error,
+    isLoading,
+  } = useAsyncFetch<Array<EServiceFlatReadType>, Array<EServiceFlatDecoratedReadType>>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
       config: { params: { state: 'PUBLISHED', callerId: jwt?.organization.id } },
@@ -161,10 +162,6 @@ export const AsyncTableEServiceCatalog = () => {
     '',
   ]
 
-  // REIMPLEMENT
-  return null
-
-  /*
   return (
     <TableWithLoader
       isLoading={isLoading}
@@ -174,11 +171,13 @@ export const AsyncTableEServiceCatalog = () => {
       error={axiosErrorToError(error)}
       viewType="grid"
     >
-      {party &&
-        data &&
-        Boolean(data.length > 0) &&
-        data.map((item, i) => {
-          const canSubscribeEservice = canSubscribe(party.attributes, item.certifiedAttributes)
+      {eserviceData &&
+        Boolean(eserviceData.length > 0) &&
+        eserviceData.map((item, i) => {
+          const canSubscribeEservice = canSubscribe(
+            [] /* TEMP PIN-1550 */,
+            item.certifiedAttributes
+          )
           const tooltip = getTooltip(item, canSubscribeEservice)
           return (
             <Card
@@ -231,7 +230,6 @@ export const AsyncTableEServiceCatalog = () => {
         })}
     </TableWithLoader>
   )
-  */
 }
 
 export const AsyncTableEServiceList = () => {

@@ -52,9 +52,9 @@ export function EServiceRead() {
     { mapFn: (list) => list.find((d) => d.id === eserviceId && d.descriptorId === descriptorId) }
   )
 
-  // REIMPLEMENT
-  // const canSubscribeEservice =
-  //   party && data && canSubscribe(party.attributes, data.attributes.certified)
+  const canSubscribeEservice = data
+    ? canSubscribe([] /* TEMP PIN-1550 */, data.attributes.certified)
+    : false
   const isMine = data?.producer.id === jwt?.organization.id
   const isVersionPublished = data?.activeDescriptor?.state === 'PUBLISHED'
 
@@ -123,12 +123,11 @@ export function EServiceRead() {
               {t('read.alert.youAreTheProvider')}
             </Alert>
           )}
-          {/* REIMPLEMENT */}
-          {/* {!canSubscribeEservice && (
+          {!canSubscribeEservice && (
             <Alert sx={{ mb: 1 }} severity="info">
               {t('read.alert.missingCertifiedAttributes')}
             </Alert>
-          )} */}
+          )}
           {flatData?.callerSubscribed && (
             <Alert sx={{ mb: 1 }} severity="info">
               {t('read.alert.alreadySubscribed')}
@@ -136,8 +135,7 @@ export function EServiceRead() {
           )}
 
           <Box sx={{ display: 'flex' }}>
-            {/* REIMPLEMENT */}
-            {/* {isVersionPublished &&
+            {isVersionPublished &&
               !isMine &&
               canSubscribeEservice &&
               !flatData?.callerSubscribed &&
@@ -145,7 +143,7 @@ export function EServiceRead() {
                 <StyledButton sx={{ mr: 2 }} variant="contained" onClick={handleSubscriptionDialog}>
                   {t('actions.subscribe', { ns: 'common' })}
                 </StyledButton>
-              )} */}
+              )}
 
             {/* TEMP PIN-612 */}
             {/* {!isMine && isAdmin && !canSubscribeEservice && (
