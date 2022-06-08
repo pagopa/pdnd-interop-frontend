@@ -197,6 +197,8 @@ export type JwtUser = {
   nbf: number
   organization: JwtOrg
   uid: string // the relationshipId between the user and the current institution
+  name: string
+  family_name: string
 }
 
 export type SelfCareUser = {

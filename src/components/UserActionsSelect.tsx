@@ -53,8 +53,7 @@ export function UserActionSelect({ user, userActions }: UserActionSelectProps) {
         <Box component="span" sx={{ textAlign: 'left', display: 'flex' }}>
           <AccountCircleIcon fontSize="small" color="inherit" sx={{ mr: 1 }} />
           <Typography color="inherit" component="span" variant="caption" fontWeight={600}>
-            {/* REIMPLEMENT */}
-            {/* {user.name && user.family_name ? `${user.name} ${user.family_name}` : 'Utente'} */}
+            {user.name && user.family_name ? `${user.name} ${user.family_name}` : 'Utente'}
           </Typography>
         </Box>
 
