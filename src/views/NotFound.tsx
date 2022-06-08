@@ -16,8 +16,8 @@ export function NotFound({ errorType = 'notFound' }: NotFoundProps) {
         title: t('title'),
         description: (
           <>
-            {t(`description.${errorType}`)}. <StyledLink to="/">{t('goHomeLink.label')}</StyledLink>
-            .
+            {t(`description.${errorType}`)}.{' '}
+            <StyledLink to="/">{t('description.goHomeLink.label')}</StyledLink>.
           </>
         ),
       }}
