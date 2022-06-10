@@ -17,7 +17,7 @@ instance.interceptors.request.use(
 
     _config.headers['X-Correlation-Id'] = uuidv4()
 
-    logAction('Log request', _config)
+    logAction('Http request', _config)
 
     return _config
   },
@@ -29,7 +29,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
-    logAction('Log response', response)
+    logAction('Http response', response)
     return response
   },
   (error) => {

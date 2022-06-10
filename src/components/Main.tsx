@@ -10,6 +10,10 @@ import { useRoute } from '../hooks/useRoute'
 import { BASIC_ROUTES } from '../config/routes'
 import { buildDynamicPath, extractDynamicParams, isSamePath } from '../lib/router-utils'
 
+function CompleteRedirect({ pathname = '' }) {
+  return <Redirect to={{ pathname, search: window.location.search, hash: window.location.hash }} />
+}
+
 export function Main() {
   const history = useHistory()
   const location = useLocation()
@@ -44,7 +48,7 @@ export function Main() {
           return (
             <Route path={PATH} key={i} exact={EXACT}>
               {REDIRECT ? (
-                <Redirect to={REDIRECT as string} />
+                <CompleteRedirect pathname={REDIRECT as string} />
               ) : (
                 <AuthGuard Component={Component} authLevels={AUTH_LEVELS as RouteAuthLevel} />
               )}
@@ -53,11 +57,11 @@ export function Main() {
         })}
 
         <Route path="/" exact>
-          <Redirect to={DEFAULT_LANG} />
+          <CompleteRedirect pathname={DEFAULT_LANG} />
         </Route>
 
         <Route path={`/${DEFAULT_LANG}`} exact>
-          <Redirect to={routes.SUBSCRIBE.PATH} />
+          <CompleteRedirect pathname={routes.SUBSCRIBE.PATH} />
         </Route>
       </Switch>
     </Box>

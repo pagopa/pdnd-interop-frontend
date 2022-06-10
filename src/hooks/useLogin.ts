@@ -18,7 +18,7 @@ export const useLogin = () => {
     setToken(mockToken)
   }
 
-  const canSetTokenFromSelfCareIdentityToken = async (identity_token: string) => {
+  const couldSetTokenFromSelfCareIdentityToken = async (identity_token: string) => {
     // Use Self Care identity token to obtain an Interop session token
     const resp = await fetchWithLogs({
       path: { endpoint: 'AUTH_OBTAIN_SESSION_TOKEN' },
@@ -37,12 +37,11 @@ export const useLogin = () => {
     return true
   }
 
-  const canSetTokenFromLocalStorage = async (storageToken: string) => {
+  const couldSetTokenFromLocalStorage = async (storageToken: string) => {
     // If there is a token, check if it is still valid with a dummy call to the backend
     const resp = await fetchWithLogs({ path: { endpoint: 'AUTH_HEALTH_CHECK' } })
 
-    // If it is valid, turn it into State so that it is easier
-    // to make it interact with React
+    // If the check request fails with a 403, go back to login page
     if (isFetchError(resp)) {
       return false
     }
@@ -59,16 +58,21 @@ export const useLogin = () => {
     }
 
     // 2. See if we are coming from Self Care and have a new token
-    const newSelfCareIdentityToken = location.hash.replace('#id=', '')
+    const newSelfCareIdentityToken = window.location.hash.replace('#id=', '')
     if (newSelfCareIdentityToken) {
-      const success = await canSetTokenFromSelfCareIdentityToken(newSelfCareIdentityToken)
+      // Remove token from hash
+      const { pathname, search } = history.location
+      history.replace({ pathname, search, hash: '' })
+      const success = await couldSetTokenFromSelfCareIdentityToken(newSelfCareIdentityToken)
+      // If ok, no need to go on
       if (success) return
     }
 
     // 3. Check if there is a valid token in the storage already
     const sessionStorageToken = storageRead(STORAGE_KEY_SESSION_TOKEN, 'string')
     if (sessionStorageToken) {
-      const success = await canSetTokenFromLocalStorage(sessionStorageToken)
+      const success = await couldSetTokenFromLocalStorage(sessionStorageToken)
+      // If ok, no need to go on
       if (success) return
     }
 
