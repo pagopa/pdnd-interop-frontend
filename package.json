@@ -3,15 +3,21 @@
   "version": "0.1.16",
   "homepage": "/ui/",
   "private": true,
+  "resolutions": {
+    "@types/react": "17.0.18",
+    "@types/react-dom": "17.0.9"
+  },
   "dependencies": {
     "@date-io/date-fns": "^2.13.1",
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
     "@fontsource/titillium-web": "^4.5.0",
+    "@mui/base": "^5.0.0-alpha.78",
     "@mui/icons-material": "^5.5.1",
     "@mui/lab": "^5.0.0-alpha.73",
     "@mui/material": "^5.5.1",
     "@pagopa/mui-italia": "^0.6.19",
+    "@mui/system": "^5.6.3",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -44,10 +50,10 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "craco start",
+    "build": "craco build",
     "postbuild": "node ./scripts/help/markdown-to-html.js",
-    "test": "react-scripts test",
+    "test": "craco test",
     "eject": "react-scripts eject",
     "lint": "eslint . -c .eslintrc --ext .ts,.tsx --fix",
     "format": "prettier \"./**/*.{ts,tsx}\" --write",
@@ -72,12 +78,14 @@
     ]
   },
   "devDependencies": {
+    "@craco/craco": "^6.4.3",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "html-webpack-plugin": "^4.0.0",
     "marked": "^4.0.12",
     "prettier": "^2.4.1",
     "react-test-renderer": "^17.0.2",
