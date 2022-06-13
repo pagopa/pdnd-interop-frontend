@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useEffect } from 'react'
+import React, { FunctionComponent, useEffect } from 'react'
 import { useFormik } from 'formik'
 import { object, string, number } from 'yup'
 import {
@@ -10,7 +10,6 @@ import {
   PurposeRiskAnalysisForm,
 } from '../../types'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { PartyContext } from '../lib/context'
 import { StepActions } from './Shared/StepActions'
 import { StyledForm } from './Shared/StyledForm'
 import { StyledInputControlledSelect } from './Shared/StyledInputControlledSelect'
@@ -26,6 +25,7 @@ import { Paper } from '@mui/material'
 import { StyledIntro } from './Shared/StyledIntro'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
+import { useJwt } from '../hooks/useJwt'
 
 type PurposeCreate = {
   title: string
@@ -52,16 +52,22 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
   const history = useHistory()
   const purposeId = getPurposeFromUrl(history.location)
   const { t } = useTranslation('purpose')
+  const { jwt } = useJwt()
 
   const { runAction } = useFeedback()
-  const { party } = useContext(PartyContext)
   const { data: eserviceData, isLoading: isEServiceReallyLoading } = useAsyncFetch<
     Array<EServiceFlatReadType>,
     Array<InputSelectOption>
   >(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
-      config: { params: { callerId: party?.id, consumerId: party?.id, agreementStates: 'ACTIVE' } },
+      config: {
+        params: {
+          callerId: jwt?.organization.id,
+          consumerId: jwt?.organization.id,
+          agreementStates: 'ACTIVE',
+        },
+      },
     },
     {
       mapFn: (data) =>
@@ -114,7 +120,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
       title: data.title,
       description: data.description,
       eserviceId: data.eserviceId,
-      consumerId: party?.id,
+      consumerId: jwt?.organization.id,
     }
     const purposeVersionData = { dailyCalls: data.dailyCalls }
 

@@ -2,13 +2,13 @@ import React, { useContext } from 'react'
 import { useFormik } from 'formik'
 import { array, object, string } from 'yup'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { DialogContext, PartyContext } from '../lib/context'
+import { DialogContext } from '../lib/context'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledForm } from '../components/Shared/StyledForm'
 import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
-import { AddSecurityOperatorFormInputValues, User } from '../../types'
+import { AddSecurityOperatorFormInputValues, SelfCareUser } from '../../types'
 import { Box } from '@mui/system'
 import { DeleteOutline as DeleteOutlineIcon } from '@mui/icons-material'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
@@ -22,24 +22,29 @@ import { Divider, Grid, Paper } from '@mui/material'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { useTranslation } from 'react-i18next'
+import { useJwt } from '../hooks/useJwt'
 
 type ClientFields = {
   name: string
   description: string
-  operators: Array<User>
+  operators: Array<SelfCareUser>
 }
 
 export function ClientCreate() {
   const { t } = useTranslation(['client', 'common'])
   const { runAction } = useFeedback()
-  const { party } = useContext(PartyContext)
+  const { jwt } = useJwt()
   const { setDialog } = useContext(DialogContext)
   const { routes } = useRoute()
   const clientKind = useClientKind()
   const history = useHistory()
 
   const onSubmit = async (data: ClientFields) => {
-    const dataToPost = { name: data.name, description: data.description, consumerId: party?.id }
+    const dataToPost = {
+      name: data.name,
+      description: data.description,
+      consumerId: jwt?.organization.id,
+    }
 
     const endpoint = clientKind === 'CONSUMER' ? 'CLIENT_CREATE' : 'CLIENT_INTEROP_M2M_CREATE'
     const { outcome, response } = (await runAction({
@@ -150,7 +155,10 @@ export function ClientCreate() {
               >
                 {Boolean(formik.values.operators.length > 0) &&
                   formik.values.operators.map((user, i) => (
-                    <StyledTableRow key={i} cellData={[{ label: `${user.name} ${user.surname}` }]}>
+                    <StyledTableRow
+                      key={i}
+                      cellData={[{ label: `${user.name} ${user.familyName}` }]}
+                    >
                       <ButtonNaked onClick={wrapRemoveOperator(user.id)}>
                         <DeleteOutlineIcon fontSize="small" color="primary" />
                       </ButtonNaked>

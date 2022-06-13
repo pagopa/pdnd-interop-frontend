@@ -1,14 +1,13 @@
-import React, { FunctionComponent, useContext } from 'react'
+import React, { FunctionComponent } from 'react'
 import { ClientKind } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { TempFilters } from '../components/TempFilters'
-import { isAdmin } from '../lib/auth-utils'
-import { PartyContext } from '../lib/context'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { useRoute } from '../hooks/useRoute'
 import { PageTopFilters } from '../components/Shared/PageTopFilters'
 import { AsyncTableClient } from '../components/Shared/AsyncTableClient'
 import { useTranslation } from 'react-i18next'
+import { useJwt } from '../hooks/useJwt'
 
 type ClientListProps = {
   clientKind?: ClientKind
@@ -16,7 +15,7 @@ type ClientListProps = {
 
 export const ClientList: FunctionComponent<ClientListProps> = ({ clientKind = 'CONSUMER' }) => {
   const { t } = useTranslation(['client', 'common'])
-  const { party } = useContext(PartyContext)
+  const { isAdmin } = useJwt()
   const { routes } = useRoute()
 
   // Clients can be M2M clients for provider, or Purpose clients for subscriber
@@ -35,7 +34,7 @@ export const ClientList: FunctionComponent<ClientListProps> = ({ clientKind = 'C
 
       <PageTopFilters>
         <TempFilters />
-        {isAdmin(party) && (
+        {isAdmin && (
           <StyledButton variant="contained" size="small" to={createPath}>
             {t('createNewBtn', { ns: 'common' })}
           </StyledButton>

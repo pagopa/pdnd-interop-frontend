@@ -1,12 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { Box } from '@mui/system'
-import { ActionProps, ClientKind, Party, ProviderOrSubscriber, User } from '../../../types'
+import { ActionProps, ClientKind, ProviderOrSubscriber, SelfCareUser } from '../../../types'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { RunAction } from '../../hooks/useFeedback'
 import { useRoute } from '../../hooks/useRoute'
-import { isAdmin } from '../../lib/auth-utils'
-import { TokenContext } from '../../lib/context'
 import { axiosErrorToError } from '../../lib/error-utils'
 import { buildDynamicPath } from '../../lib/router-utils'
 import { ActionMenu } from './ActionMenu'
@@ -14,6 +12,7 @@ import { StyledButton } from './StyledButton'
 import { StyledTableRow } from './StyledTableRow'
 import { TableWithLoader } from './TableWithLoader'
 import { useTranslation } from 'react-i18next'
+import { useJwt } from '../../hooks/useJwt'
 
 type AsyncTableUserProps = {
   forceRerenderCounter: number
@@ -21,7 +20,6 @@ type AsyncTableUserProps = {
   clientId: string
   clientKind: ClientKind
   mode: ProviderOrSubscriber | null
-  party: Party | null
 }
 
 export const AsyncTableUser = ({
@@ -30,28 +28,27 @@ export const AsyncTableUser = ({
   clientId,
   clientKind,
   mode,
-  party,
 }: AsyncTableUserProps) => {
   const { t } = useTranslation(['user', 'common'])
   const { routes } = useRoute()
   const history = useHistory()
-  const { token } = useContext(TokenContext)
+  const { jwt, isAdmin } = useJwt()
   // TEMP REFACTOR: remove after integration with selfcare
   const endpoint = mode === 'provider' ? 'USER_GET_LIST' : 'OPERATOR_SECURITY_GET_LIST'
   const endpointParams =
-    mode === 'provider' ? { institutionId: party?.institutionId } : { clientId }
+    mode === 'provider' ? { institutionId: jwt?.organization.id } : { clientId }
   const params = mode === 'provider' ? { productRoles: ['api'].join(',') } : {}
 
   const {
     data: users,
     error,
     isLoading,
-  } = useAsyncFetch<Array<User>>(
+  } = useAsyncFetch<Array<SelfCareUser>>(
     { path: { endpoint, endpointParams }, config: { params } },
-    { useEffectDeps: [forceRerenderCounter, token] }
+    { useEffectDeps: [forceRerenderCounter, jwt] }
   )
 
-  const getEditBtnRoute = (item: User) => {
+  const getEditBtnRoute = (item: SelfCareUser) => {
     if (mode === 'provider') {
       return buildDynamicPath(routes.PROVIDE_OPERATOR_EDIT.PATH, { operatorId: item.id })
     }
@@ -61,7 +58,7 @@ export const AsyncTableUser = ({
         ? routes.SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT.PATH
         : routes.SUBSCRIBE_CLIENT_OPERATOR_EDIT.PATH
 
-    return buildDynamicPath(subscriberRoute, { clientId, operatorId: item.relationshipId })
+    return buildDynamicPath(subscriberRoute, { clientId, operatorId: item.id })
   }
 
   /*
@@ -82,12 +79,12 @@ export const AsyncTableUser = ({
    * End list of actions
    */
 
-  const getAvailableActions = (user: User) => {
+  const getAvailableActions = (user: SelfCareUser) => {
     let actions: Array<ActionProps> = []
 
-    if (mode === 'subscriber' && isAdmin(party)) {
+    if (mode === 'subscriber' && isAdmin) {
       const removeFromClientAction = {
-        onClick: wrapRemoveFromClient(user.relationshipId),
+        onClick: wrapRemoveFromClient(user.id),
         label: t('actions.removeFromClient'),
       }
 
@@ -117,7 +114,7 @@ export const AsyncTableUser = ({
           <StyledTableRow
             key={i}
             cellData={[
-              { label: `${item.name + ' ' + item.surname}` },
+              { label: `${item.name + ' ' + item.familyName}` },
               { label: t(`status.user.${item.state}`, { ns: 'common' }) },
             ]}
           >

@@ -8,7 +8,8 @@ import { RunAction } from './src/hooks/useFeedback'
  */
 // export type ApiEndpointKey = keyof typeof API
 export type ApiEndpointKey =
-  | 'ONBOARDING_GET_AVAILABLE_PARTIES'
+  | 'AUTH_HEALTH_CHECK'
+  | 'AUTH_OBTAIN_SESSION_TOKEN'
   | 'ESERVICE_GET_LIST_FLAT'
   | 'ESERVICE_GET_SINGLE'
   | 'ESERVICE_DRAFT_CREATE'
@@ -176,33 +177,46 @@ export type UserProduct = {
   role: UserProductRole
 }
 
-export type JwtUser = {
-  id: string // the relationshipId between the user and the current institution
-  name?: string
-  surname?: string
-  email?: string
+type JwtOrgRole = {
+  partyRole: UserRole
+  role: UserProductRole
 }
 
-export type User = JwtUser & {
-  createdAt: string // actually should be Date
-  updatedAt: string // actually should be Date
-  from: string // the external uid of the user
-  state: UserState
-  role: UserRole
-  product: UserProduct
-
-  relationshipId?: string // TEMP PIN-1184
-}
-
-export type Party = {
-  description: string
-  institutionId: string
-  digitalAddress: string
+type JwtOrg = {
   id: string
+  roles: Array<JwtOrgRole>
+  fiscal_code: string
+}
+
+export type JwtUser = {
+  aud: string
+  exp: number
+  iat: number
+  iss: string
+  jti: string
+  nbf: number
+  organization: JwtOrg
+  uid: string // the relationshipId between the user and the current institution
+  name: string
+  family_name: string
+}
+
+export type SelfCareUser = {
+  createdAt: string
+  familyName: string
+  from: string
+  id: string
+  name: string
+  product: {
+    createdAt: string // Date
+    id: string
+    role: UserProductRole
+  }
   role: UserRole
   state: UserState
-  attributes: Array<CertifiedAttribute>
-  productInfo: UserProduct
+  taxCode: string
+  to: string
+  updatedAt: string // Date
 }
 
 /*
@@ -485,7 +499,7 @@ export type Client = {
   id: string
   name: string
   description: string
-  operators: Array<User>
+  operators: Array<SelfCareUser>
   kind: ClientKind
   purposes: Array<ClientPurpose>
 }
@@ -505,7 +519,7 @@ export type PublicKey = {
   name: string
   createdAt: string
   key: PublicKeyItem
-  operator: Pick<User, 'relationshipId' | 'name' | 'surname'>
+  operator: SelfCareUser
 }
 
 export type PublicKeys = {
@@ -653,7 +667,7 @@ export type DialogAddSecurityOperatorProps = {
 }
 
 export type AddSecurityOperatorFormInputValues = {
-  selected: Array<User>
+  selected: Array<SelfCareUser>
 }
 
 export type DialogNewAttributeProps = {
@@ -715,7 +729,8 @@ export type DialogBasicProps = DialogDefaultProps & {
 
 // export type DialogActionKeys = Exclude<
 //   ApiEndpointKey,
-//   | 'ONBOARDING_GET_AVAILABLE_PARTIES'
+//   | 'AUTH_HEALTH_CHECK'
+//   | 'AUTH_OBTAIN_SESSION_TOKEN'
 //   | 'ESERVICE_GET_LIST_FLAT'
 //   | 'ESERVICE_GET_SINGLE'
 //   | 'ESERVICE_DRAFT_UPDATE'
@@ -771,7 +786,8 @@ export type ToastProps = ToastContentWithOutcome & {
 
 // export type ToastActionKeys = Exclude<
 //   ApiEndpointKey,
-//   | 'ONBOARDING_GET_AVAILABLE_PARTIES'
+//   | 'AUTH_HEALTH_CHECK'
+//   | 'AUTH_OBTAIN_SESSION_TOKEN'
 //   | 'ESERVICE_GET_SINGLE'
 //   | 'ATTRIBUTE_GET_LIST'
 //   | 'ATTRIBUTE_GET_SINGLE'

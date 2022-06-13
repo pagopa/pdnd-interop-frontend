@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Grid, Alert } from '@mui/material'
 import { EServiceFlatReadType, StepperStep } from '../../types'
 import { PurposeCreateStep1General } from '../components/PurposeCreateStep1General'
@@ -7,11 +7,11 @@ import { PurposeCreateStep3Clients } from '../components/PurposeCreateStep3Clien
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledStepper } from '../components/Shared/StyledStepper'
 import { useActiveStep } from '../hooks/useActiveStep'
-import { PartyContext } from '../lib/context'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useRoute } from '../hooks/useRoute'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { useTranslation } from 'react-i18next'
+import { useJwt } from '../hooks/useJwt'
 
 export const PurposeCreate = () => {
   const { t } = useTranslation('purpose')
@@ -24,12 +24,18 @@ export const PurposeCreate = () => {
   ]
   const { component: Step } = STEPS[activeStep]
   const stepProps = { forward, back }
-  const { party } = useContext(PartyContext)
+  const { jwt } = useJwt()
   const { routes } = useRoute()
 
   const { data: eserviceData } = useAsyncFetch<Array<EServiceFlatReadType>>({
     path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
-    config: { params: { callerId: party?.id, consumerId: party?.id, agreementStates: 'ACTIVE' } },
+    config: {
+      params: {
+        callerId: jwt?.organization.id,
+        consumerId: jwt?.organization.id,
+        agreementStates: 'ACTIVE',
+      },
+    },
   })
 
   return (

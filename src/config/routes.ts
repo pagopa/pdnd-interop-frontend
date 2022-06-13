@@ -1,5 +1,4 @@
 import { RouteConfig } from '../../types'
-import { ChooseParty } from '../views/ChooseParty'
 import { ClientEdit } from '../views/ClientEdit'
 import { ClientList } from '../views/ClientList'
 import { AgreementEdit } from '../views/AgreementEdit'
@@ -50,13 +49,6 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     PATH: { it: '/it/generazione-chiavi', en: '/en/generate-keys' },
     LABEL: { it: 'Come caricare le chiavi di sicurezza', en: 'How to upload public keys' },
     COMPONENT: SecurityKeyGuide,
-    PUBLIC: false,
-    AUTH_LEVELS: 'any',
-  },
-  CHOOSE_PARTY: {
-    PATH: { it: '/it/scelta', en: '/en/choice' },
-    LABEL: { it: 'Scegli ente', en: 'Choose institution' },
-    COMPONENT: ChooseParty,
     PUBLIC: false,
     AUTH_LEVELS: 'any',
   },

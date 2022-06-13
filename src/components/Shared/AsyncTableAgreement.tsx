@@ -1,17 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { Box } from '@mui/material'
-import {
-  ActionProps,
-  AgreementState,
-  AgreementSummary,
-  Party,
-  ProviderOrSubscriber,
-} from '../../../types'
+import { ActionProps, AgreementState, AgreementSummary, ProviderOrSubscriber } from '../../../types'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { useFeedback } from '../../hooks/useFeedback'
 import { useRoute } from '../../hooks/useRoute'
-import { PartyContext } from '../../lib/context'
 import { axiosErrorToError } from '../../lib/error-utils'
 import { mergeActions } from '../../lib/eservice-utils'
 import { buildDynamicPath } from '../../lib/router-utils'
@@ -22,16 +15,20 @@ import { StyledTableRow } from './StyledTableRow'
 import { TableWithLoader } from './TableWithLoader'
 import { useMode } from '../../hooks/useMode'
 import { useTranslation } from 'react-i18next'
+import { useJwt } from '../../hooks/useJwt'
 
 export const AsyncTableAgreement = () => {
   const { t } = useTranslation(['agreement', 'common'])
   const mode = useMode()
   const currentMode = mode as ProviderOrSubscriber
-  const { party } = useContext(PartyContext)
+  const { jwt } = useJwt()
   const { runAction, forceRerenderCounter } = useFeedback()
   const { routes } = useRoute()
   const history = useHistory()
-  const params = currentMode === 'provider' ? { producerId: party?.id } : { consumerId: party?.id }
+  const params =
+    currentMode === 'provider'
+      ? { producerId: jwt?.organization.id }
+      : { consumerId: jwt?.organization.id }
 
   const { data, error, isLoading } = useAsyncFetch<Array<AgreementSummary>>(
     { path: { endpoint: 'AGREEMENT_GET_LIST' }, config: { params } },
@@ -42,20 +39,24 @@ export const AsyncTableAgreement = () => {
    * List of possible actions for the user to perform
    */
   const wrapActivate = (agreementId: string) => async () => {
-    const { id: partyId } = party as Party
     await runAction(
       {
-        path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId, partyId } },
+        path: {
+          endpoint: 'AGREEMENT_ACTIVATE',
+          endpointParams: { agreementId, partyId: jwt?.organization.id },
+        },
       },
       { showConfirmDialog: true }
     )
   }
 
   const wrapSuspend = (agreementId: string) => async () => {
-    const { id: partyId } = party as Party
     await runAction(
       {
-        path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId, partyId } },
+        path: {
+          endpoint: 'AGREEMENT_SUSPEND',
+          endpointParams: { agreementId, partyId: jwt?.organization.id },
+        },
       },
       { showConfirmDialog: true }
     )

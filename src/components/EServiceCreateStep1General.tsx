@@ -11,7 +11,7 @@ import {
   FrontendAttributes,
   StepperStepComponentProps,
 } from '../../types'
-import { LangContext, PartyContext } from '../lib/context'
+import { LangContext } from '../lib/context'
 import { buildDynamicPath } from '../lib/router-utils'
 import {
   remapBackendAttributesToFrontend,
@@ -31,12 +31,13 @@ import { Divider, Paper } from '@mui/material'
 import { RunActionOutput } from '../hooks/useFeedback'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
+import { useJwt } from '../hooks/useJwt'
 
 export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentProps> = ({
   forward,
 }) => {
   const { lang } = useContext(LangContext)
-  const { party } = useContext(PartyContext)
+  const { jwt } = useJwt()
   const { routes } = useRoute()
   const history = useHistory()
   const { runAction } = useFeedback()
@@ -78,14 +79,14 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
   }, [fetchedData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSubmit = async (data: Partial<EServiceCreateDataType>) => {
-    if (!party) {
+    if (!jwt) {
       return
     }
 
     // Format the data like the backend wants it
     const dataToPost = {
       ...data,
-      producerId: party.id as string | undefined, // needed because of line 95
+      producerId: jwt.organization.id as string | undefined, // needed because of line 95
       attributes: remapFrontendAttributesToBackend(attributes),
     }
 

@@ -11,20 +11,21 @@ import { TableWithLoader } from './Shared/TableWithLoader'
 import { DeleteOutline as DeleteOutlineIcon } from '@mui/icons-material'
 import { StyledTableRow } from './Shared/StyledTableRow'
 import { Client, DecoratedPurpose, Purpose } from '../../types'
-import { DialogContext, PartyContext } from '../lib/context'
+import { DialogContext } from '../lib/context'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useRoute } from '../hooks/useRoute'
 import { decoratePurposeWithMostRecentVersion, getPurposeFromUrl } from '../lib/purpose'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
+import { useJwt } from '../hooks/useJwt'
 
 export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ back }) => {
   const history = useHistory()
   const purposeId = getPurposeFromUrl(history.location)
   const { setDialog } = useContext(DialogContext)
   const { routes } = useRoute()
-  const { party } = useContext(PartyContext)
+  const { jwt } = useJwt()
   const { t } = useTranslation(['purpose', 'toast'])
 
   const { runAction, forceRerenderCounter } = useFeedback()
@@ -35,7 +36,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
   >(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
-      config: { params: { consumerId: party?.id, purposeId } },
+      config: { params: { consumerId: jwt?.organization.id, purposeId } },
     },
     {
       mapFn: (data) => data.clients,

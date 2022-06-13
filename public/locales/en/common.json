@@ -13,6 +13,11 @@
   "mainNav": {
     "ariaLabel": "Main navigation"
   },
+  "loading": {
+    "sessionToken": {
+      "label": "We are authenticating this session. Please, wait"
+    }
+  },
   "unauthorized": {
     "title": "Insufficient authorization",
     "description": "Sorry, you don't have enough permissions to access this feature",
@@ -75,7 +80,8 @@
     "user": {
       "PENDING": "awaiting approval",
       "ACTIVE": "active",
-      "SUSPENDED": "suspended"
+      "SUSPENDED": "suspended",
+      "DELETED": "deleted"
     }
   },
   "userRole": {

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useLocation } from 'react-router'
 import {
   Box,
@@ -10,11 +10,11 @@ import {
   Typography,
 } from '@mui/material'
 import { MappedRouteConfig, UserProductRole } from '../../types'
-import { PartyContext, TokenContext } from '../lib/context'
 import { StyledLink } from './Shared/StyledLink'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import { useRoute } from '../hooks/useRoute'
 import { useTranslation } from 'react-i18next'
+import { useJwt } from '../hooks/useJwt'
 
 type View = {
   route: MappedRouteConfig
@@ -27,8 +27,7 @@ type Views = Record<UserProductRole, Array<View>>
 const WIDTH = 340
 
 export const MainNav = () => {
-  const { token } = useContext(TokenContext)
-  const { party } = useContext(PartyContext)
+  const { jwt, isAdmin, isOperatorAPI, isOperatorSecurity } = useJwt()
   const location = useLocation()
   const [openId, setOpenId] = useState<string | null>(null)
   const { isRouteInTree } = useRoute()
@@ -78,7 +77,9 @@ export const MainNav = () => {
   }
 
   const availableViews = [
-    ...views[party?.productInfo.role || 'security'],
+    ...(isAdmin ? views['admin'] : []),
+    ...(isOperatorAPI ? views['api'] : []),
+    ...(isOperatorSecurity ? views['security'] : []),
     { route: routes.NOTIFICATION },
   ]
 
@@ -96,7 +97,7 @@ export const MainNav = () => {
       isItemSelected={isItemSelected}
       openSubmenuId={openId}
       wrapSetOpenSubmenuId={wrapSetOpenSubmenuId}
-      shouldRender={Boolean(token)}
+      shouldRender={Boolean(jwt)}
     />
   )
 }

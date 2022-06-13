@@ -1,9 +1,8 @@
 import React, { useContext } from 'react'
 import { EServiceFlatReadType, EServiceReadType } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { DialogContext, PartyContext } from '../lib/context'
+import { DialogContext } from '../lib/context'
 import { canSubscribe } from '../lib/attributes'
-import { isAdmin } from '../lib/auth-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Box } from '@mui/system'
@@ -22,12 +21,13 @@ import { buildDynamicPath } from '../lib/router-utils'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { Alert } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import { useJwt } from '../hooks/useJwt'
 
 export function EServiceRead() {
   const { t } = useTranslation(['eservice', 'common'])
   const { runAction } = useFeedback()
   const { routes } = useRoute()
-  const { party } = useContext(PartyContext)
+  const { jwt, isAdmin } = useJwt()
   const { setDialog } = useContext(DialogContext)
 
   const location = useLocation()
@@ -45,13 +45,17 @@ export function EServiceRead() {
     Array<EServiceFlatReadType>,
     EServiceFlatReadType | undefined
   >(
-    { path: { endpoint: 'ESERVICE_GET_LIST_FLAT' }, config: { params: { callerId: party?.id } } },
+    {
+      path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
+      config: { params: { callerId: jwt?.organization.id } },
+    },
     { mapFn: (list) => list.find((d) => d.id === eserviceId && d.descriptorId === descriptorId) }
   )
 
-  const canSubscribeEservice =
-    party && data && canSubscribe(party.attributes, data.attributes.certified)
-  const isMine = data?.producer.id === party?.id
+  const canSubscribeEservice = data
+    ? canSubscribe([] /* TEMP PIN-1550 */, data.attributes.certified)
+    : false
+  const isMine = data?.producer.id === jwt?.organization.id
   const isVersionPublished = data?.activeDescriptor?.state === 'PUBLISHED'
 
   const handleSubscriptionDialog = () => {
@@ -63,7 +67,7 @@ export function EServiceRead() {
       const agreementData = {
         eserviceId: data.id,
         descriptorId: data.activeDescriptor?.id,
-        consumerId: party?.id,
+        consumerId: jwt?.organization.id,
       }
 
       await runAction(
@@ -101,7 +105,7 @@ export function EServiceRead() {
 
       {data ? (
         <React.Fragment>
-          {flatData && flatData.callerSubscribed && isAdmin(party) && (
+          {flatData && flatData.callerSubscribed && isAdmin && (
             <DescriptionBlock label={t('read.alreadySubscribedField.label')}>
               <StyledLink
                 to={buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
@@ -135,13 +139,14 @@ export function EServiceRead() {
               !isMine &&
               canSubscribeEservice &&
               !flatData?.callerSubscribed &&
-              isAdmin(party) && (
+              isAdmin && (
                 <StyledButton sx={{ mr: 2 }} variant="contained" onClick={handleSubscriptionDialog}>
                   {t('actions.subscribe', { ns: 'common' })}
                 </StyledButton>
               )}
+
             {/* TEMP PIN-612 */}
-            {/* {!isMine && isAdmin(party) && !canSubscribeEservice && (
+            {/* {!isMine && isAdmin && !canSubscribeEservice && (
           <StyledButton
             sx={{ mr: 2 }}
             variant="contained"

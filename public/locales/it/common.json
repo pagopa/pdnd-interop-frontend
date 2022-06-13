@@ -13,6 +13,11 @@
   "mainNav": {
     "ariaLabel": "Navigazione principale"
   },
+  "loading": {
+    "sessionToken": {
+      "label": "Stiamo autenticando la sessione. Attendere, prego"
+    }
+  },
   "unauthorized": {
     "title": "Autorizzazione insufficiente",
     "description": "Spiacenti, non hai permessi sufficienti per accedere alla funzionalità richiesta",
@@ -75,7 +80,8 @@
     "user": {
       "PENDING": "in attesa di approvazione",
       "ACTIVE": "attivo",
-      "SUSPENDED": "sospeso"
+      "SUSPENDED": "sospeso",
+      "DELETED": "rimosso"
     }
   },
   "userRole": {

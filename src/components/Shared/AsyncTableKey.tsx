@@ -1,7 +1,7 @@
 import React from 'react'
 import { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
-import { ActionProps, ClientKind, PublicKeyItem, PublicKeys, User } from '../../../types'
+import { ActionProps, ClientKind, PublicKeyItem, PublicKeys, SelfCareUser } from '../../../types'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { RunAction, RunActionOutput } from '../../hooks/useFeedback'
 import { useRoute } from '../../hooks/useRoute'
@@ -45,7 +45,7 @@ export const AsyncTableKey = ({
     { useEffectDeps: [forceRerenderCounter] }
   )
 
-  const { data: userData } = useAsyncFetch<Array<User>>({
+  const { data: userData } = useAsyncFetch<Array<SelfCareUser>>({
     path: { endpoint: 'OPERATOR_SECURITY_GET_LIST', endpointParams: { clientId } },
   })
 
@@ -112,7 +112,7 @@ export const AsyncTableKey = ({
                 ) : undefined,
               },
               { label: formatDateString(createdAt) },
-              { label: `${operator.name} ${operator.surname}` },
+              { label: `${operator.name} ${operator.familyName}` },
             ]}
           >
             <StyledButton

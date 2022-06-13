@@ -1,18 +1,18 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import { Alert, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { Box } from '@mui/system'
 import { StyledButton } from './StyledButton'
-import { DialogAddSecurityOperatorProps, User } from '../../../types'
+import { DialogAddSecurityOperatorProps, SelfCareUser } from '../../../types'
 import { useCloseDialog } from '../../hooks/useCloseDialog'
 import { StyledForm } from './StyledForm'
 import { StyledInputControlledAutocomplete } from './StyledInputControlledAutocomplete'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
-import { PartyContext } from '../../lib/context'
 import sortBy from 'lodash/sortBy'
 import { useHistory } from 'react-router-dom'
 import { getBits } from '../../lib/router-utils'
 import { useTranslation } from 'react-i18next'
+import { useJwt } from '../../hooks/useJwt'
 
 export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurityOperatorProps> = ({
   initialValues,
@@ -28,7 +28,7 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
   const clientId = locationBits[locationBits.length - 1]
 
   const { closeDialog } = useCloseDialog()
-  const { party } = useContext(PartyContext)
+  const { jwt } = useJwt()
   const formik = useFormik({
     initialValues,
     onSubmit,
@@ -36,12 +36,12 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
     validateOnBlur: false,
   })
 
-  const { data: currentUserData } = useAsyncFetch<Array<User>>({
+  const { data: currentUserData } = useAsyncFetch<Array<SelfCareUser>>({
     path: { endpoint: 'OPERATOR_SECURITY_GET_LIST', endpointParams: { clientId } },
   })
 
-  const { data: allUserData } = useAsyncFetch<Array<User>>({
-    path: { endpoint: 'USER_GET_LIST', endpointParams: { institutionId: party?.institutionId } },
+  const { data: allUserData } = useAsyncFetch<Array<SelfCareUser>>({
+    path: { endpoint: 'USER_GET_LIST', endpointParams: { institutionId: jwt?.organization.id } },
     config: { params: { productRoles: ['security'] } },
   })
 
@@ -52,15 +52,13 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
   useEffect(() => {
     if (currentUserData) {
       setExcludeIdsList(
-        (currentUserData.map((u) => u.relationshipId).filter((id) => id) as
-          | Array<string>
-          | undefined) || []
+        (currentUserData.map((u) => u.id).filter((id) => id) as Array<string> | undefined) || []
       )
     }
   }, [currentUserData])
 
   const updateSelected = (data: unknown) => {
-    formik.setFieldValue('selected', data as Array<User>, false)
+    formik.setFieldValue('selected', data as Array<SelfCareUser>, false)
   }
 
   const handleSubmit = (e?: React.FormEvent<HTMLFormElement> | undefined) => {
@@ -68,20 +66,21 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
     closeDialog()
   }
 
-  const transformFn = (options: Array<User>, search: string) => {
+  const transformFn = (options: Array<SelfCareUser>, search: string) => {
     const selectedIds: Array<string> = formik.values.selected.map((o) => o.id)
-    const isAlreadySelected = (o: User) => selectedIds.includes(o.id)
+    const isAlreadySelected = (o: SelfCareUser) => selectedIds.includes(o.id)
 
     if (search === '') {
       const filtered = options.filter((o) => !isAlreadySelected(o))
-      return sortBy(filtered, ['surname', 'name'])
+      return sortBy(filtered, ['familyName', 'name'])
     }
 
     const lowercaseSearch = search.toLowerCase()
-    const isInSearch = (o: User) => `${o.name} ${o.surname}`.toLowerCase().includes(lowercaseSearch)
+    const isInSearch = (o: SelfCareUser) =>
+      `${o.name} ${o.familyName}`.toLowerCase().includes(lowercaseSearch)
 
     const filtered = options.filter((o) => isInSearch(o) && !isAlreadySelected(o))
-    return sortBy(filtered, ['surname', 'name'])
+    return sortBy(filtered, ['familyName', 'name'])
   }
 
   return (
@@ -100,8 +99,12 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
               name="selection"
               onChange={updateSelected}
               values={filteredUserData}
-              getOptionLabel={(option: User) => (option ? `${option.name} ${option.surname}` : '')}
-              isOptionEqualToValue={(option: User, value: User) => option.id === value.id}
+              getOptionLabel={(option: SelfCareUser) =>
+                option ? `${option.name} ${option.familyName}` : ''
+              }
+              isOptionEqualToValue={(option: SelfCareUser, value: SelfCareUser) =>
+                option.id === value.id
+              }
               transformFn={transformFn}
             />
           </Box>

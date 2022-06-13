@@ -6,7 +6,6 @@ import {
   DialogContext,
   LangContext,
   LoaderContext,
-  PartyContext,
   TableActionMenuContext,
   ToastContext,
 } from '../lib/context'
@@ -22,12 +21,12 @@ import { Box } from '@mui/system'
 import { useRoute } from '../hooks/useRoute'
 import { buildLocale } from '../lib/validation-config'
 import { useLogin } from '../hooks/useLogin'
-import { DEFAULT_LANG, LANGUAGES, URL_FE_LOGIN } from '../lib/constants'
-import { useUser } from '../hooks/useUser'
-import { PartySelect } from './PartySelect'
+import { DEFAULT_LANG, LANGUAGES } from '../lib/constants'
 import { Typography } from '@mui/material'
 import { Settings as SettingsIcon } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
+import { goToLoginPage } from '../lib/router-utils'
+import { useJwt } from '../hooks/useJwt'
 
 export function BodyLogger() {
   const { loginAttempt } = useLogin()
@@ -38,8 +37,7 @@ export function BodyLogger() {
   const [loadingText, setLoadingText] = useState<string | null>(null)
   const [tableActionMenu, setTableActionMenu] = useState<string | null>(null)
   const { lang, setLang } = useContext(LangContext)
-  const { user } = useUser()
-  const { party } = useContext(PartyContext)
+  const { jwt } = useJwt()
   const { i18n, t } = useTranslation('common')
 
   /*
@@ -72,7 +70,13 @@ export function BodyLogger() {
   }, [history.location])
 
   useEffect(() => {
-    loginAttempt()
+    async function asyncLoginAttempt() {
+      setLoadingText(t('loading.sessionToken.label'))
+      await loginAttempt()
+      setLoadingText(null)
+    }
+
+    asyncLoginAttempt()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const onLanguageChanged = (newLang: LangCode) => {
@@ -98,19 +102,18 @@ export function BodyLogger() {
               onAssistanceClick={() => {
                 history.push(routes.HELP.PATH)
               }}
-              loggedUser={party !== null ? user : undefined}
-              onLogin={() => {
-                window.location.assign(URL_FE_LOGIN)
-              }}
+              loggedUser={jwt}
+              onLogin={goToLoginPage}
               subHeaderLeftComponent={
                 <Typography component="span" variant="h5" fontWeight={700}>
                   {t('productTitle')}
                 </Typography>
               }
               subHeaderRightComponent={
-                doesRouteAllowTwoColumnsLayout(history.location) && party !== null ? (
-                  <PartySelect />
-                ) : null
+                // doesRouteAllowTwoColumnsLayout(history.location) && party !== null ? (
+                //   <PartySelect />
+                // ) : null
+                null
               }
               userActions={[
                 {
@@ -156,7 +159,7 @@ export function BodyLogger() {
               </Box>
             )}
             <Footer
-              loggedUser={party !== null ? user : undefined}
+              loggedUser={jwt}
               currentLangCode={lang}
               onLanguageChanged={onLanguageChanged}
               languages={LANGUAGES}

@@ -7,7 +7,7 @@ import qs from 'qs'
 import { TFunction } from 'react-i18next'
 import { RouteConfig, LangCode, ProviderOrSubscriber, MappedRouteConfig } from '../../types'
 import { BASIC_ROUTES } from '../config/routes'
-import { DEFAULT_LANG, LANGUAGES, PUBLIC_URL, URL_FRAGMENTS } from './constants'
+import { DEFAULT_LANG, LANGUAGES, PUBLIC_URL, URL_FE_LOGIN, URL_FRAGMENTS } from './constants'
 
 export function isSamePath(path: string, matchPath: string) {
   const pathBits = path.split('/')
@@ -209,4 +209,9 @@ export function getInitialLang(): LangCode {
   const cleanPublicUrl = PUBLIC_URL.split('/')
   const bitsClean = currentLocationBits.filter((b) => b && !cleanPublicUrl.includes(b))
   return (bitsClean.length > 0 ? bitsClean[0] : DEFAULT_LANG) as LangCode
+}
+
+export function goToLoginPage() {
+  window.location.assign(URL_FE_LOGIN as string)
+  return
 }
