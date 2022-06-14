@@ -134,7 +134,7 @@ export const AsyncTableClientInPurpose = ({
     <TableWithLoader
       isLoading={false}
       headData={headData}
-      noDataLabel={t('tableClientInPurpose.actions.noClientsAssociatedToPurposeLabel')}
+      noDataLabel={t('tableClientInPurpose.noClientsAssociatedToPurposeLabel')}
       // error={axiosErrorToError(error)}
     >
       {data?.clients?.map((item, i) => (

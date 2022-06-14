@@ -270,7 +270,13 @@
     }
   },
   "CLIENT_CREATE": {
-    "loadingText": "Creating client"
+    "loadingText": "Creating client",
+    "success": {
+      "message": "The client was created successfully"
+    },
+    "error": {
+      "message": "The client could not be created. Please, try again!"
+    }
   },
   "CLIENT_DELETE": {
     "loadingText": "Deleting client",

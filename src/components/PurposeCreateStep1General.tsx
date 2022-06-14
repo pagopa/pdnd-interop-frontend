@@ -73,7 +73,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
       mapFn: (data) =>
         data.map((d) => ({
           value: d.id,
-          label: `${d.name} ${t('eserviceProvider')} ${d.producerName}`,
+          label: `${d.name} ${t('create.eserviceProvider')} ${d.producerName}`,
         })),
     }
   )
