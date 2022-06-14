@@ -7,9 +7,9 @@ import { LangCode } from '../types'
 import { ThemeProvider } from '@mui/material'
 import { theme } from '@pagopa/mui-italia'
 import DateAdapter from '@mui/lab/AdapterDateFns'
-import { LocalizationProvider } from '@mui/x-date-pickers'
 import { getDecoratedRoutes, getInitialLang } from './lib/router-utils'
 import { PUBLIC_URL } from './lib/constants'
+import { LocalizationProvider } from '@mui/lab'
 
 const allRoutes = getDecoratedRoutes()
 

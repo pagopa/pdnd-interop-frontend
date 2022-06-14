@@ -15,6 +15,7 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import { useRoute } from '../hooks/useRoute'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
+import { LoadingTranslations } from './Shared/LoadingTranslations'
 
 type View = {
   route: MappedRouteConfig
@@ -117,7 +118,7 @@ const MainNavComponent = ({
   wrapSetOpenSubmenuId,
   shouldRender,
 }: MainNavComponentProps) => {
-  const { t } = useTranslation('common')
+  const { t, ready } = useTranslation('common', { useSuspense: false })
 
   const WrappedLink = ({
     route,
@@ -157,6 +158,10 @@ const MainNavComponent = ({
         />
       </ListItemButton>
     )
+  }
+
+  if (!ready) {
+    return <LoadingTranslations />
   }
 
   return (

@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { DialogProps, LangCode, ToastContentWithOutcome, ToastProps } from '../../types'
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
+import { DialogProps, ToastContentWithOutcome, ToastProps } from '../../types'
 import { useHistory } from 'react-router-dom'
 import isEmpty from 'lodash/isEmpty'
 import {
@@ -10,9 +10,7 @@ import {
   ToastContext,
 } from '../lib/context'
 import { logAction } from '../lib/action-log'
-import { Header } from './Header'
 import { Main } from './Main'
-import { Footer } from './Footer'
 import { StyledToast } from './Shared/StyledToast'
 import { StyledDialog } from './Shared/StyledDialog'
 import { LoadingOverlay } from './Shared/LoadingOverlay'
@@ -21,24 +19,73 @@ import { Box } from '@mui/system'
 import { useRoute } from '../hooks/useRoute'
 import { buildLocale } from '../lib/validation-config'
 import { useLogin } from '../hooks/useLogin'
-import { DEFAULT_LANG, LANGUAGES } from '../lib/constants'
-import { Typography } from '@mui/material'
-import { Settings as SettingsIcon } from '@mui/icons-material'
+import { DEFAULT_LANG } from '../lib/constants'
 import { useTranslation } from 'react-i18next'
-import { goToLoginPage } from '../lib/router-utils'
-import { useJwt } from '../hooks/useJwt'
+import { HeaderWrapper } from './HeaderWrapper'
+import { FooterWrapper } from './FooterWrapper'
+
+const RebuildI18N = () => {
+  const { loginAttempt } = useLogin()
+  const { lang } = useContext(LangContext)
+  const { i18n, t, ready } = useTranslation('common', { useSuspense: false })
+  const { setLoadingText } = useContext(LoaderContext)
+
+  // Rebuild config if starting language is not the default one
+  useEffect(() => {
+    if (lang !== DEFAULT_LANG && ready) {
+      i18n.changeLanguage(lang)
+      buildLocale(t)
+    }
+  }, [ready]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    async function asyncLoginAttempt() {
+      setLoadingText(t('loading.sessionToken.label'))
+      await loginAttempt()
+      setLoadingText(null)
+    }
+
+    if (ready) {
+      asyncLoginAttempt()
+    }
+  }, [ready]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  return null
+}
+
+export const WhitePanel: FunctionComponent = ({ children }) => {
+  return (
+    <Box
+      sx={{
+        px: 3,
+        py: 2,
+        flexGrow: 1,
+        position: 'relative',
+        '::after': {
+          content: '""',
+          position: 'absolute',
+          right: 0,
+          top: 0,
+          bgcolor: 'background.default',
+          width: 10000,
+          height: '100%',
+          transform: 'translate(100%, 0)',
+        },
+      }}
+      bgcolor="background.default"
+    >
+      {children}
+    </Box>
+  )
+}
 
 export function BodyLogger() {
-  const { loginAttempt } = useLogin()
-  const { routes, doesRouteAllowTwoColumnsLayout } = useRoute()
+  const { doesRouteAllowTwoColumnsLayout } = useRoute()
   const history = useHistory()
   const [toast, setToast] = useState<ToastProps | null>(null)
   const [dialog, setDialog] = useState<DialogProps | null>(null)
   const [loadingText, setLoadingText] = useState<string | null>(null)
   const [tableActionMenu, setTableActionMenu] = useState<string | null>(null)
-  const { lang, setLang } = useContext(LangContext)
-  const { jwt } = useJwt()
-  const { i18n, t } = useTranslation('common')
 
   /*
    * Handle toast
@@ -69,88 +116,21 @@ export function BodyLogger() {
     logAction('Route change', history.location)
   }, [history.location])
 
-  useEffect(() => {
-    async function asyncLoginAttempt() {
-      setLoadingText(t('loading.sessionToken.label'))
-      await loginAttempt()
-      setLoadingText(null)
-    }
-
-    asyncLoginAttempt()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  const onLanguageChanged = (newLang: LangCode) => {
-    setLang(newLang)
-    i18n.changeLanguage(newLang)
-    buildLocale(t)
-  }
-
-  // Rebuild config if starting language is not the default one
-  useEffect(() => {
-    if (lang !== DEFAULT_LANG) {
-      i18n.changeLanguage(lang)
-      buildLocale(t)
-    }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
   return (
     <TableActionMenuContext.Provider value={{ tableActionMenu, setTableActionMenu }}>
       <ToastContext.Provider value={{ toast, setToast }}>
         <DialogContext.Provider value={{ dialog, setDialog }}>
           <LoaderContext.Provider value={{ loadingText, setLoadingText }}>
-            <Header
-              onAssistanceClick={() => {
-                history.push(routes.HELP.PATH)
-              }}
-              loggedUser={jwt}
-              onLogin={goToLoginPage}
-              subHeaderLeftComponent={
-                <Typography component="span" variant="h5" fontWeight={700}>
-                  {t('productTitle')}
-                </Typography>
-              }
-              subHeaderRightComponent={
-                // doesRouteAllowTwoColumnsLayout(history.location) && party !== null ? (
-                //   <PartySelect />
-                // ) : null
-                null
-              }
-              userActions={[
-                {
-                  id: 'logout',
-                  label: 'Logout',
-                  onClick: () => {
-                    history.push(routes.LOGOUT.PATH)
-                  },
-                  icon: <SettingsIcon fontSize="small" color="inherit" sx={{ mr: 1 }} />,
-                },
-              ]}
-            />
+            <RebuildI18N />
+            <HeaderWrapper />
+
             {doesRouteAllowTwoColumnsLayout(history.location) ? (
               <Box sx={{ flexGrow: 1 }}>
                 <Box sx={{ display: 'flex', height: '100%', overflowX: 'hidden' }}>
                   <MainNav />
-                  <Box
-                    sx={{
-                      px: 3,
-                      py: 2,
-                      flexGrow: 1,
-                      position: 'relative',
-                      '::after': {
-                        content: '""',
-                        position: 'absolute',
-                        right: 0,
-                        top: 0,
-                        bgcolor: 'background.default',
-                        width: 10000,
-                        height: '100%',
-                        transform: 'translate(100%, 0)',
-                      },
-                    }}
-                    bgcolor="background.default"
-                  >
+                  <WhitePanel>
                     <Main />
-                  </Box>
+                  </WhitePanel>
                 </Box>
               </Box>
             ) : (
@@ -158,19 +138,7 @@ export function BodyLogger() {
                 <Main />
               </Box>
             )}
-            <Footer
-              loggedUser={jwt}
-              currentLangCode={lang}
-              onLanguageChanged={onLanguageChanged}
-              languages={LANGUAGES}
-              onExit={(href, linkType) => {
-                if (linkType === 'internal') {
-                  history.push(href)
-                } else {
-                  window.open(href, '_blank')
-                }
-              }}
-            />
+            <FooterWrapper />
             {toast && <StyledToast {...toast} />}
             {dialog && <StyledDialog {...dialog} />}
             {loadingText && <LoadingOverlay loadingText={loadingText} />}

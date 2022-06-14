@@ -28,7 +28,7 @@ const AUTHORIZATION_PROCESS_URL = getEnvVar(
   'AUTHORIZATION_PROCESS_URL',
   'authorization-process/0.0'
 )
-const CATALOG_PROCESS_URL = getEnvVar('CATALOG_PROCESS_URL', 'catalog-process/0.1')
+const CATALOG_PROCESS_URL = getEnvVar('CATALOG_PROCESS_URL', 'catalog-process/0.0')
 const PURPOSE_PROCESS_URL = getEnvVar('PURPOSE_PROCESS_URL', 'purpose-process/0.0')
 export const API_GATEWAY_URL = getEnvVar('API_GATEWAY_URL', 'api-gateway/0.0')
 export const AUTHORIZATION_SERVER_ACCESS_TOKEN_URL = getEnvVar(

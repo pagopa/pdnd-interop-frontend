@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { Suspense, useContext, useEffect, useState } from 'react'
 import { Box } from '@mui/system'
 import { Switch, Redirect, Route, useLocation, useHistory } from 'react-router-dom'
 import { DEFAULT_LANG } from '../lib/constants'
@@ -9,6 +9,7 @@ import { RouteAuthLevel } from '../../types'
 import { useRoute } from '../hooks/useRoute'
 import { BASIC_ROUTES } from '../config/routes'
 import { buildDynamicPath, extractDynamicParams, isSamePath } from '../lib/router-utils'
+import { LoadingTranslations } from './Shared/LoadingTranslations'
 
 function CompleteRedirect({ pathname = '' }) {
   return <Redirect to={{ pathname, search: window.location.search, hash: window.location.hash }} />
@@ -50,7 +51,9 @@ export function Main() {
               {REDIRECT ? (
                 <CompleteRedirect pathname={REDIRECT as string} />
               ) : (
-                <AuthGuard Component={Component} authLevels={AUTH_LEVELS as RouteAuthLevel} />
+                <Suspense fallback={<LoadingTranslations />}>
+                  <AuthGuard Component={Component} authLevels={AUTH_LEVELS as RouteAuthLevel} />
+                </Suspense>
               )}
             </Route>
           )

@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react'
-import { StaticDatePicker } from '@mui/lab'
 import { SxProps } from '@mui/system'
 import { StyledInputWrapper } from './StyledInputWrapper'
 import { TextField } from '@mui/material'
 import { FormikSetFieldValue } from '../../../types'
+import { StaticDatePicker } from '@mui/lab'
 
 type StyledInputStaticDatePickerProps = {
   name: string
