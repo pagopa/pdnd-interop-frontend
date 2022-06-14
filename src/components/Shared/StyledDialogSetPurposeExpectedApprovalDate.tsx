@@ -11,6 +11,7 @@ import { getFetchOutcome } from '../../lib/error-utils'
 import { StyledInputStaticDatePicker } from './StyledInputStaticDatePicker'
 import { RunActionOutput } from '../../hooks/useFeedback'
 import { useTranslation } from 'react-i18next'
+import { LoadingTranslations } from './LoadingTranslations'
 
 type ApprovalDateProps = {
   expectedApprovalDate: Date
@@ -19,7 +20,7 @@ type ApprovalDateProps = {
 export const StyledDialogSetPurposeExpectedApprovalDate: FunctionComponent<
   DialogSetPurposeExpectedApprovalDateProps
 > = ({ purposeId, versionId, approvalDate, runAction }) => {
-  const { t } = useTranslation('shared-components')
+  const { t, ready } = useTranslation('shared-components', { useSuspense: false })
   const { closeDialog } = useCloseDialog()
 
   const onSubmit = async (data: ApprovalDateProps) => {
@@ -42,6 +43,10 @@ export const StyledDialogSetPurposeExpectedApprovalDate: FunctionComponent<
     validationSchema: object({ expectedApprovalDate: date().required() }),
     onSubmit,
   })
+
+  if (!ready) {
+    return <LoadingTranslations />
+  }
 
   return (
     <Dialog open onClose={closeDialog} aria-describedby={t('ariaLabelledBy')} fullWidth>

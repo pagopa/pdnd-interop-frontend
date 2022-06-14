@@ -7,6 +7,7 @@ import { useCloseDialog } from '../../hooks/useCloseDialog'
 import { StyledForm } from './StyledForm'
 import { StyledInputControlledText } from './StyledInputControlledText'
 import { useTranslation } from 'react-i18next'
+import { LoadingTranslations } from './LoadingTranslations'
 
 export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps> = ({
   attributeKey,
@@ -14,8 +15,12 @@ export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps
   validationSchema,
   onSubmit,
 }) => {
-  const { t } = useTranslation(['shared-components', 'attribute'])
+  const { t, ready } = useTranslation(['shared-components', 'attribute'], { useSuspense: false })
   const { closeDialog } = useCloseDialog()
+
+  if (!ready) {
+    return <LoadingTranslations />
+  }
 
   return (
     <Dialog open onClose={closeDialog} aria-describedby={t('ariaDescribedBy')} fullWidth>

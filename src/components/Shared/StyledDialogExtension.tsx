@@ -8,13 +8,17 @@ import { StyledForm } from './StyledForm'
 // import { useFeedback } from '../../hooks/useFeedback'
 import { useCloseDialog } from '../../hooks/useCloseDialog'
 import { useTranslation } from 'react-i18next'
+import { LoadingTranslations } from './LoadingTranslations'
 
 type InputValues = {
   reasons?: string
 }
 
 export const StyledDialogExtension: FunctionComponent<DialogAskExtensionProps> = () => {
-  const { t } = useTranslation('shared-components', { keyPrefix: 'styledDialogExtension' })
+  const { t, ready } = useTranslation('shared-components', {
+    keyPrefix: 'styledDialogExtension',
+    useSuspense: false,
+  })
   // const { runAction } = useFeedback()
   const { closeDialog } = useCloseDialog()
 
@@ -24,6 +28,10 @@ export const StyledDialogExtension: FunctionComponent<DialogAskExtensionProps> =
 
   const initialValues: InputValues = { reasons: '' }
   // const validationSchema = {}
+
+  if (!ready) {
+    return <LoadingTranslations />
+  }
 
   return (
     <Dialog open onClose={closeDialog} aria-describedby={t('ariaDescribedBy')} fullWidth>

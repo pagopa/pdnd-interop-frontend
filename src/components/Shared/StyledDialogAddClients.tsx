@@ -12,12 +12,16 @@ import { sortBy } from 'lodash'
 import { LoadingWithMessage } from './LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../../hooks/useJwt'
+import { LoadingTranslations } from './LoadingTranslations'
 
 export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = ({
   onSubmit,
   exclude,
 }) => {
-  const { t } = useTranslation('shared-components', { keyPrefix: 'styledDialogAddClients' })
+  const { t, ready } = useTranslation('shared-components', {
+    keyPrefix: 'styledDialogAddClients',
+    useSuspense: false,
+  })
   const { closeDialog } = useCloseDialog()
   const { jwt } = useJwt()
   const [selected, setSelected] = useState<Array<Client>>([])
@@ -62,6 +66,10 @@ export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = 
   }
 
   const availableClients = differenceBy(clientData, exclude, 'id')
+
+  if (!ready) {
+    return <LoadingTranslations />
+  }
 
   return (
     <Dialog open onClose={closeDialog} aria-describedby={t('ariaDescribedBy')} fullWidth>

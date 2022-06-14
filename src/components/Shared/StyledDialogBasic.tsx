@@ -4,6 +4,7 @@ import { StyledButton } from './StyledButton'
 import { DialogBasicProps } from '../../../types'
 import { useCloseDialog } from '../../hooks/useCloseDialog'
 import { useTranslation } from 'react-i18next'
+import { LoadingTranslations } from './LoadingTranslations'
 
 export const StyledDialogBasic: FunctionComponent<DialogBasicProps> = ({
   title = 'Conferma azione',
@@ -13,8 +14,15 @@ export const StyledDialogBasic: FunctionComponent<DialogBasicProps> = ({
   disabled = false,
   maxWidth,
 }) => {
-  const { t } = useTranslation('shared-components', { keyPrefix: 'styledDialogBasic' })
+  const { t, ready } = useTranslation('shared-components', {
+    keyPrefix: 'styledDialogBasic',
+    useSuspense: false,
+  })
   const { closeDialog } = useCloseDialog()
+
+  if (!ready) {
+    return <LoadingTranslations />
+  }
 
   return (
     <Dialog

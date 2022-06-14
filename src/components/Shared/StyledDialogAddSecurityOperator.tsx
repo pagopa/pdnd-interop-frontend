@@ -13,13 +13,15 @@ import { useHistory } from 'react-router-dom'
 import { getBits } from '../../lib/router-utils'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../../hooks/useJwt'
+import { LoadingTranslations } from './LoadingTranslations'
 
 export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurityOperatorProps> = ({
   initialValues,
   onSubmit,
 }) => {
-  const { t } = useTranslation('shared-components', {
+  const { t, ready } = useTranslation('shared-components', {
     keyPrefix: 'styledDialogAddSecurityOperator',
+    useSuspense: false,
   })
   const [excludeIdsList, setExcludeIdsList] = useState<Array<string>>([])
 
@@ -81,6 +83,10 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
 
     const filtered = options.filter((o) => isInSearch(o) && !isAlreadySelected(o))
     return sortBy(filtered, ['familyName', 'name'])
+  }
+
+  if (!ready) {
+    return <LoadingTranslations />
   }
 
   return (

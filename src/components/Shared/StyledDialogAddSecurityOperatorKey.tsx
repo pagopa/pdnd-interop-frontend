@@ -9,15 +9,21 @@ import { StyledInputControlledText } from './StyledInputControlledText'
 import { StyledLink } from './StyledLink'
 import { useRoute } from '../../hooks/useRoute'
 import { useTranslation } from 'react-i18next'
+import { LoadingTranslations } from './LoadingTranslations'
 
 export const StyledDialogAddSecurityOperatorKey: FunctionComponent<
   DialogAddSecurityOperatorKeyProps
 > = ({ onSubmit, initialValues, validationSchema }) => {
-  const { t } = useTranslation('shared-components', {
+  const { t, ready } = useTranslation('shared-components', {
     keyPrefix: 'styledDialogAddSecurityOperatorKeys',
+    useSuspense: false,
   })
   const { routes } = useRoute()
   const { closeDialog } = useCloseDialog()
+
+  if (!ready) {
+    return <LoadingTranslations />
+  }
 
   return (
     <Dialog open onClose={closeDialog} aria-describedby={t('ariaDescribedBy')} fullWidth>

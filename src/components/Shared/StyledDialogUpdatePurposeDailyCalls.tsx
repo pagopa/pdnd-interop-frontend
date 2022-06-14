@@ -7,12 +7,17 @@ import { useCloseDialog } from '../../hooks/useCloseDialog'
 import { StyledForm } from './StyledForm'
 import { StyledInputControlledText } from './StyledInputControlledText'
 import { useTranslation } from 'react-i18next'
+import { LoadingTranslations } from './LoadingTranslations'
 
 export const StyledDialogUpdatePurposeDailyCalls: FunctionComponent<
   DialogUpdatePurposeDailyCallsProps
 > = ({ onSubmit, initialValues, validationSchema }) => {
-  const { t } = useTranslation('shared-components')
+  const { t, ready } = useTranslation('shared-components', { useSuspense: false })
   const { closeDialog } = useCloseDialog()
+
+  if (!ready) {
+    return <LoadingTranslations />
+  }
 
   return (
     <Dialog open onClose={closeDialog} aria-describedby={t('ariaLabelledBy')} fullWidth>

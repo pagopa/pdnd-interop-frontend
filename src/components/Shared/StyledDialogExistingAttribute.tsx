@@ -22,6 +22,7 @@ import { StyledAccordion } from './StyledAccordion'
 import { StyledInputControlledCheckbox } from './StyledInputControlledCheckbox'
 import { StyledInputControlledAsyncAutocomplete } from './StyledInputControlledAsyncAutocomplete'
 import { useTranslation } from 'react-i18next'
+import { LoadingTranslations } from './LoadingTranslations'
 
 export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttributeProps> = ({
   initialValues,
@@ -29,7 +30,7 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
   selectedIds,
   attributeKey,
 }) => {
-  const { t } = useTranslation(['shared-components', 'attribute'])
+  const { t, ready } = useTranslation(['shared-components', 'attribute'], { useSuspense: false })
   const { closeDialog } = useCloseDialog()
 
   const options = [{ label: "Richiedi nuova convalida dell'attributo", value: 'attribute' }]
@@ -40,6 +41,10 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
 
   const certifiedCondition = attributeKey === 'certified'
   const verifiedCondition = attributeKey === 'verified'
+
+  if (!ready) {
+    return <LoadingTranslations />
+  }
 
   return (
     <Dialog
