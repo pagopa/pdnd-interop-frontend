@@ -121,6 +121,24 @@
       "proceedLabel": "Subscribe"
     }
   },
+  "contentInfo": {
+    "verificationRequired": "verification required",
+    "groupOr": "or",
+    "provider": "Provider",
+    "version": "Version",
+    "versionStatus": "Version status",
+    "versionDescription": "Version description",
+    "audience": "Audience",
+    "technology": "Tecnology",
+    "voucherLifespan": "Voucher lifespan",
+    "dailyCallsPerConsumer": "Per subscriber API calls/day threshold",
+    "dailyCallsTotal": "Total API calls/day threshold",
+    "attributes": "Attributes",
+    "noAttributesLabel": "No attribute found",
+    "documentation": "Resources",
+    "versionHistory": "Version history",
+    "callsPerDay": "API calls/day"
+  },
   "catalog": {
     "title": "E-Service catalog",
     "description": "In this section you can explore all the E-Services in the catalog and subscribe to the ones you are interested into"

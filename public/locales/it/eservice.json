@@ -127,6 +127,7 @@
     "provider": "Erogatore",
     "version": "Versione",
     "versionStatus": "Stato della versione",
+    "versionDescription": "Descrizione della versione",
     "audience": "Audience",
     "technology": "Tecnologia",
     "voucherLifespan": "Durata del voucher",

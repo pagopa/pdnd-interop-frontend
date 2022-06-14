@@ -156,6 +156,10 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
         <Typography component="span">{activeDescriptor.version}</Typography>
       </DescriptionBlock>
 
+      <DescriptionBlock label={t('contentInfo.versionDescription')}>
+        <Typography component="span">{activeDescriptor.description}</Typography>
+      </DescriptionBlock>
+
       <DescriptionBlock label={t('contentInfo.versionStatus')}>
         <Typography component="span">
           {t(`status.eservice.${activeDescriptor.state}`, { ns: 'common' })}

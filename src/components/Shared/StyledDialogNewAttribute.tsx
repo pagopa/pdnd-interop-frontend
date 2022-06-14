@@ -29,7 +29,8 @@ export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps
         {({ handleSubmit, errors, values, handleChange }) => (
           <StyledForm onSubmit={handleSubmit}>
             <DialogTitle>
-              {t('title')} {t(`keys.${attributeKey}`, { count: 1, ns: 'attribute' })}
+              {t('styledDialogNewAttribute.title')}{' '}
+              {t(`keys.${attributeKey}`, { count: 1, ns: 'attribute' })}
             </DialogTitle>
 
             <DialogContent>
@@ -68,10 +69,10 @@ export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps
 
             <DialogActions>
               <StyledButton variant="outlined" onClick={closeDialog}>
-                {t('actions.cancelLabel')}
+                {t('styledDialogNewAttribute.actions.cancelLabel')}
               </StyledButton>
               <StyledButton variant="contained" type="submit">
-                {t('actions.confirmLabel')}
+                {t('styledDialogNewAttribute.actions.confirmLabel')}
               </StyledButton>
             </DialogActions>
           </StyledForm>
