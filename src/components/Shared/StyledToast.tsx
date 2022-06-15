@@ -2,9 +2,17 @@ import React from 'react'
 import { ToastProps } from '../../../types'
 import { Alert, Snackbar } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import { LoadingTranslations } from './LoadingTranslations'
 
 export function StyledToast({ outcome, message, onClose, autoHideDuration }: ToastProps) {
-  const { t } = useTranslation('shared-components', { keyPrefix: 'styledToast' })
+  const { t, ready } = useTranslation('shared-components', {
+    keyPrefix: 'styledToast',
+    useSuspense: false,
+  })
+
+  if (!ready) {
+    return <LoadingTranslations />
+  }
 
   return (
     <Snackbar
