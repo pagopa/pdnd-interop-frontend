@@ -7,7 +7,9 @@
     "error": "Non è stato possibile caricare le chiavi"
   },
   "noPurposesLabel": "Non ci sono finalità disponibili",
-  "createPurposeBtn": "Crea la tua prima finalità",
+  "createPurposeBtn": "Crea una nuova finalità",
+  "choosePurposeBtn": "scegli la finalità da associare",
+  "or": "oppure",
   "choosePurposeLabel": "Scegli la finalità da utilizzare",
   "purposeFailureMessage": "Attenzione! Non sarà possibile ottenere un access token per questa finalità. In una o più componenti della pipeline è stato sospeso il servizio. Le componenti sospese sono:",
   "purposeFailureReason": {

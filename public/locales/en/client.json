@@ -19,7 +19,7 @@
     "descriptionField": {
       "label": "Client description (required)"
     },
-    "securityOperatorsSectionTitle": "Security operators",
+    "clientMembersSectionTitle": "Security operators",
     "operatorsTable": {
       "noDataLabel": "No operator added"
     },
@@ -30,20 +30,20 @@
   },
   "edit": {
     "tabs": {
-      "ariaLabel": "Tre tab diverse per le istruzioni dell'ottenimento dell'access token, gli operatori di sicurezza e le chiavi pubbliche",
-      "voucher": "Istruzioni ottenimento accesso token",
-      "securityOperators": "Operatori di sicurezza",
-      "publicKeys": "Chiavi pubbliche"
+      "ariaLabel": "Three different tabs with the instructions to obtain an access token, for client members and public keys",
+      "voucher": "Access token instructions",
+      "clientMembers": "Client members",
+      "publicKeys": "Public keys"
     },
     "actions": {
-      "deleteLabel": "Elimina client",
-      "backToClientsLabel": "Torna alla lista dei client"
+      "deleteLabel": "Delete client",
+      "backToClientsLabel": "Back to the clients list"
     }
   },
   "list": {
     "consumer": {
-      "title": "I tuoi client",
-      "description": "In quest'area puoi i trovare e gestire tutti i client che hai creato"
+      "title": "Your clients",
+      "description": "In this section you can manage all the clients you have created"
     }
   },
   "interopM2M": {

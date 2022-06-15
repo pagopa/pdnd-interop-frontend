@@ -19,9 +19,9 @@
     "descriptionField": {
       "label": "Descrizione del client (richiesto)"
     },
-    "securityOperatorsSectionTitle": "Operatori di sicurezza",
+    "clientMembersSectionTitle": "Membri del client",
     "operatorsTable": {
-      "noDataLabel": "Nessun operatore aggiunto"
+      "noDataLabel": "Nessun utente aggiunto"
     },
     "actions": {
       "createLabel": "Crea client",
@@ -30,9 +30,9 @@
   },
   "edit": {
     "tabs": {
-      "ariaLabel": "Tre tab diverse per le istruzioni dell'ottenimento dell'access token, gli operatori di sicurezza e le chiavi pubbliche",
+      "ariaLabel": "Tre tab diverse per le istruzioni dell'ottenimento dell'access token, i membri del client e le chiavi pubbliche",
       "voucher": "Istruzioni ottenimento accesso token",
-      "securityOperators": "Operatori di sicurezza",
+      "clientMembers": "Membri del client",
       "publicKeys": "Chiavi pubbliche"
     },
     "actions": {

@@ -26,6 +26,7 @@ import { buildDynamicPath } from '../lib/router-utils'
 import { decoratePurposeWithMostRecentVersion, getComputedPurposeState } from '../lib/purpose'
 import { useTranslation } from 'react-i18next'
 import { TFunction } from 'i18next'
+import { useJwt } from '../hooks/useJwt'
 
 export type ClientVoucherStepProps = StepperStepComponentProps & {
   purposeId: string
@@ -66,6 +67,7 @@ const ClientVoucherRead = ({
   purposes,
   keysData,
 }: VoucherReadProps & { keysData: PublicKeys }) => {
+  const { isAdmin } = useJwt()
   const { t } = useTranslation('voucher')
   const { activeStep, forward, back } = useActiveStep()
   const { routes } = useRoute()
@@ -96,7 +98,9 @@ const ClientVoucherRead = ({
       }
     }
 
-    asyncFetchPurpose()
+    if (selectedPurposeId !== '') {
+      asyncFetchPurpose()
+    }
   }, [selectedPurposeId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
@@ -146,10 +150,19 @@ const ClientVoucherRead = ({
           </React.Fragment>
         ) : (
           <Alert severity="info">
-            {t('noPurposeLabel')}{' '}
-            <StyledLink to={routes.SUBSCRIBE_PURPOSE_CREATE.PATH}>
-              {t('createPurposeBtn')}
-            </StyledLink>
+            {t('noPurposesLabel')}.
+            {isAdmin && (
+              <React.Fragment>
+                {' '}
+                <StyledLink to={routes.SUBSCRIBE_PURPOSE_CREATE.PATH}>
+                  {t('createPurposeBtn')}
+                </StyledLink>{' '}
+                {t('or')}{' '}
+                <StyledLink to={routes.SUBSCRIBE_PURPOSE_LIST.PATH}>
+                  {t('choosePurposeBtn')}
+                </StyledLink>
+              </React.Fragment>
+            )}
           </Alert>
         )}
       </Grid>
@@ -181,7 +194,6 @@ const InteropM2MVoucherRead = ({
 export const VoucherRead = ({ clientId, clientKind, purposes }: VoucherReadProps) => {
   const { routes } = useRoute()
   const { t } = useTranslation('voucher')
-
   const {
     data: keysData,
     error,
@@ -191,7 +203,7 @@ export const VoucherRead = ({ clientId, clientKind, purposes }: VoucherReadProps
   })
 
   if (isLoading) {
-    return <LoadingWithMessage label={t('keysLoading.label')} />
+    return <LoadingWithMessage label={t('keysLoading.label')} transparentBackground />
   }
 
   if (error && error.response?.status !== 404) {

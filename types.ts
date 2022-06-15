@@ -217,6 +217,8 @@ export type SelfCareUser = {
   taxCode: string
   to: string
   updatedAt: string // Date
+
+  relationshipId: string // Existing when there is a relationship between a user and an Interop client
 }
 
 /*

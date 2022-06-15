@@ -84,7 +84,7 @@ export const AsyncTableUser = ({
 
     if (mode === 'subscriber' && isAdmin) {
       const removeFromClientAction = {
-        onClick: wrapRemoveFromClient(user.id),
+        onClick: wrapRemoveFromClient(user.relationshipId),
         label: t('actions.removeFromClient'),
       }
 

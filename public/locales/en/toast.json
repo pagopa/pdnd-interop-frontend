@@ -123,21 +123,21 @@
     }
   },
   "OPERATOR_SECURITY_JOIN_WITH_CLIENT": {
-    "loadingText": "Adding the operator to this client",
+    "loadingText": "Adding the user to this client",
     "success": {
-      "message": "New operator added successfully"
+      "message": "New user added successfully"
     },
     "error": {
-      "message": "The operator could not be added. Please make sure this user exists and try again!"
+      "message": "The user could not be added. Please make sure this user exists and try again!"
     }
   },
   "OPERATOR_SECURITY_REMOVE_FROM_CLIENT": {
-    "loadingText": "Removing the operator from this client",
+    "loadingText": "Removing the user from this client",
     "success": {
-      "message": "Operator removed successfully"
+      "message": "User removed successfully"
     },
     "error": {
-      "message": "The operator could not be removed. Please, try again!"
+      "message": "The user could not be removed from the client. Please, try again!"
     }
   },
   "ATTRIBUTE_CREATE": {
@@ -288,7 +288,13 @@
     }
   },
   "CLIENT_INTEROP_M2M_CREATE": {
-    "loadingText": "Creating client"
+    "loadingText": "Creating client",
+    "success": {
+      "message": "The client was created successfully"
+    },
+    "error": {
+      "message": "The client could not be created. Please, try again!"
+    }
   },
   "CLIENT_JOIN_WITH_PURPOSE": {
     "loadingText": "Adding client to purpose",
