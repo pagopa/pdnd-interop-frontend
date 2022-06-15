@@ -3,7 +3,6 @@ import { API_HOST, isDevelopment } from '../lib/constants'
 
 type PagoPAEnvVars = {
   AGREEMENT_PROCESS_URL: string
-  ATTRIBUTE_REGISTRY_MANAGEMENT_URL: string
   AUTHORIZATION_PROCESS_URL: string
   CATALOG_PROCESS_URL: string
   PURPOSE_PROCESS_URL: string
@@ -20,10 +19,6 @@ function getEnvVar(varName: keyof PagoPAEnvVars, devVarName: string) {
 
 const BACKEND_FOR_FRONTEND_URL = getEnvVar('BACKEND_FOR_FRONTEND', 'backend-for-frontend/0.0')
 const AGREEMENT_PROCESS_URL = getEnvVar('AGREEMENT_PROCESS_URL', 'agreement-process/0.0')
-const ATTRIBUTE_REGISTRY_MANAGEMENT_URL = getEnvVar(
-  'ATTRIBUTE_REGISTRY_MANAGEMENT_URL',
-  'attribute-registry-management/0.0'
-)
 const AUTHORIZATION_PROCESS_URL = getEnvVar(
   'AUTHORIZATION_PROCESS_URL',
   'authorization-process/0.0'
@@ -110,15 +105,15 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'GET',
   },
   ATTRIBUTE_GET_LIST: {
-    URL: `${ATTRIBUTE_REGISTRY_MANAGEMENT_URL}/attributes`,
+    URL: `${BACKEND_FOR_FRONTEND_URL}/attributes`,
     METHOD: 'GET',
   },
   ATTRIBUTE_GET_SINGLE: {
-    URL: `${ATTRIBUTE_REGISTRY_MANAGEMENT_URL}/attributes/origin/:origin/code/:code`,
+    URL: `${BACKEND_FOR_FRONTEND_URL}/attributes/origin/:origin/code/:code`,
     METHOD: 'GET',
   },
   ATTRIBUTE_CREATE: {
-    URL: `${ATTRIBUTE_REGISTRY_MANAGEMENT_URL}/attributes`,
+    URL: `${BACKEND_FOR_FRONTEND_URL}/attributes`,
     METHOD: 'POST',
   },
   AGREEMENT_CREATE: {
