@@ -35,7 +35,7 @@ export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps
           <StyledForm onSubmit={handleSubmit}>
             <DialogTitle>
               {t('styledDialogNewAttribute.title')}{' '}
-              {t(`keys.${attributeKey}`, { count: 1, ns: 'attribute' })}
+              {t(`type.${attributeKey}`, { count: 1, ns: 'attribute' })}
             </DialogTitle>
 
             <DialogContent>
