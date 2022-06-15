@@ -123,21 +123,21 @@
     }
   },
   "OPERATOR_SECURITY_JOIN_WITH_CLIENT": {
-    "loadingText": "Stiamo associando l'operatore al client",
+    "loadingText": "Stiamo associando l'utente al client",
     "success": {
-      "message": "Nuovo operatore associato correttamente"
+      "message": "Nuovo utente associato correttamente"
     },
     "error": {
-      "message": "Non è stato possibile associare il nuovo operatore al suo client. Assicurarsi che non esista già l'utenza ed eventualmente ritentare"
+      "message": "Non è stato possibile associare il nuovo utente al client. Assicurarsi che non esista già l'utenza ed eventualmente ritentare"
     }
   },
   "OPERATOR_SECURITY_REMOVE_FROM_CLIENT": {
-    "loadingText": "Stiamo rimuovendo l'operatore dal client",
+    "loadingText": "Stiamo rimuovendo l'utente dal client",
     "success": {
-      "message": "L'operatore è stato rimosso correttamente dal client"
+      "message": "L'utente è stato rimosso correttamente dal client"
     },
     "error": {
-      "message": "Non è stato possibile rimuovere l'operatore dal client. Per favore, riprova!"
+      "message": "Non è stato possibile rimuovere l'utente dal client. Per favore, riprova!"
     }
   },
   "ATTRIBUTE_CREATE": {
@@ -288,7 +288,13 @@
     }
   },
   "CLIENT_INTEROP_M2M_CREATE": {
-    "loadingText": "Stiamo creando il client richiesto"
+    "loadingText": "Stiamo creando il client richiesto",
+    "success": {
+      "message": "Il client è stato creato correttamente"
+    },
+    "error": {
+      "message": "Non è stato possibile creare il client. Per favore, riprova!"
+    }
   },
   "CLIENT_JOIN_WITH_PURPOSE": {
     "loadingText": "Stiamo associando il client alla finalità",

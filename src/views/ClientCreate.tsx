@@ -90,7 +90,7 @@ export function ClientCreate() {
     validateOnBlur: false,
   })
 
-  const openAddOperatoDialog = () => {
+  const openAddOperatorDialog = () => {
     setDialog({
       type: 'addSecurityOperator',
       initialValues: { selected: [] },
@@ -167,7 +167,7 @@ export function ClientCreate() {
               </TableWithLoader>
 
               <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
-                <StyledButton variant="contained" size="small" onClick={openAddOperatoDialog}>
+                <StyledButton variant="contained" size="small" onClick={openAddOperatorDialog}>
                   {t('addBtn', { ns: 'common' })}
                 </StyledButton>
               </Box>

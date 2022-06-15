@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
+import { Alert, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { Formik } from 'formik'
 import { StyledButton } from './StyledButton'
 import { DialogAddSecurityOperatorKeyProps } from '../../../types'
@@ -52,19 +52,19 @@ export const StyledDialogAddSecurityOperatorKey: FunctionComponent<
               <StyledInputControlledText
                 name="key"
                 label={t('content.keyField.label')}
-                infoLabel={
-                  <React.Fragment>
-                    {t('content.keyField.infoLabel.message')}{' '}
-                    <StyledLink to={routes.SECURITY_KEY_GUIDE.PATH} target="_blank">
-                      {t('content.keyField.infoLabel.linkLabel')}
-                    </StyledLink>
-                  </React.Fragment>
-                }
                 error={errors.key}
                 value={values.key}
                 multiline={true}
                 onChange={handleChange}
+                sx={{ mb: 2 }}
               />
+
+              <Alert severity="info">
+                {t('content.keyField.infoLabel.message')}{' '}
+                <StyledLink to={routes.SECURITY_KEY_GUIDE.PATH} target="_blank">
+                  {t('content.keyField.infoLabel.linkLabel')}
+                </StyledLink>
+              </Alert>
             </DialogContent>
 
             <DialogActions>

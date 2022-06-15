@@ -15,3 +15,7 @@ body,
 body {
   background-color: white !important;
 }
+
+pre {
+  white-space: pre-line;
+}

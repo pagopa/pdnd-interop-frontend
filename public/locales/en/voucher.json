@@ -7,7 +7,9 @@
     "error": "Keys could not be loaded"
   },
   "noPurposesLabel": "No purpose found",
-  "createPurposeBtn": "Create your first purpose",
+  "createPurposeBtn": "Create a new purpose purpose",
+  "choosePurposeBtn": "associate a purpose",
+  "or": "or",
   "choosePurposeLabel": "Choose the purpose to use",
   "purposeFailureMessage": "Warning! It will not be possible to obtain an access token for this purpose. One or more components are currently suspended. Suspended components:",
   "purposeFailureReason": {

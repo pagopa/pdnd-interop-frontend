@@ -44,7 +44,7 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
 
   const { data: allUserData } = useAsyncFetch<Array<SelfCareUser>>({
     path: { endpoint: 'USER_GET_LIST', endpointParams: { institutionId: jwt?.organization.id } },
-    config: { params: { productRoles: ['admin', 'security'] } },
+    config: { params: { productRoles: ['admin', 'security'], states: ['ACTIVE'] } },
   })
 
   const filteredUserData = allUserData
@@ -114,10 +114,6 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
               transformFn={transformFn}
             />
           </Box>
-
-          <Alert sx={{ mt: 1 }} severity="info">
-            {t('content.tempAlert')}
-          </Alert>
 
           <Alert sx={{ mt: 1 }} severity="info">
             {t('content.adminAlert')}

@@ -33,7 +33,7 @@ export async function request<T>(requestConfig: RequestConfig): Promise<T | Axio
     url,
     method,
     ...(config || {}),
-    paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }),
+    paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'comma' }),
   }
 
   try {

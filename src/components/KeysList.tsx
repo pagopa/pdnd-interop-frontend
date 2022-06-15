@@ -1,8 +1,8 @@
-import React, { FunctionComponent, useContext } from 'react'
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { object, string } from 'yup'
-import { ClientKind, SecurityOperatorKeysFormInputValues } from '../../types'
-import { useFeedback } from '../hooks/useFeedback'
+import { ClientKind, SecurityOperatorKeysFormInputValues, SelfCareUser } from '../../types'
+import { RunAction, useFeedback } from '../hooks/useFeedback'
 import { DialogContext } from '../lib/context'
 import { getBits } from '../lib/router-utils'
 import { StyledButton } from './Shared/StyledButton'
@@ -11,6 +11,10 @@ import { TempFilters } from './TempFilters'
 import { AsyncTableKey } from './Shared/AsyncTableKey'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
+import { useAsyncFetch } from '../hooks/useAsyncFetch'
+import { fetchAllWithLogs } from '../lib/api-utils'
+import { isFetchError } from '../lib/error-utils'
+import { AxiosResponse } from 'axios'
 
 type KeyToPostProps = SecurityOperatorKeysFormInputValues & {
   use: 'SIG'
@@ -22,14 +26,41 @@ type KeysListProps = {
   clientKind?: ClientKind
 }
 
-export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSUMER' }) => {
-  const location = useLocation()
-  const locationBits = getBits(location)
-  const clientId = locationBits[locationBits.length - 1]
+type AddBtnProps = {
+  clientId: string
+  runAction: RunAction
+}
+
+const AddBtn = ({ clientId, runAction }: AddBtnProps) => {
   const { setDialog } = useContext(DialogContext)
-  const { jwt, isOperatorSecurity } = useJwt()
-  const { runAction, forceRerenderCounter } = useFeedback()
   const { t } = useTranslation('common')
+  const { jwt, isOperatorSecurity, isAdmin } = useJwt()
+  const { data: users } = useAsyncFetch<Array<SelfCareUser>>({
+    path: { endpoint: 'OPERATOR_SECURITY_GET_LIST', endpointParams: { clientId } },
+    config: { params: { productRoles: ['admin'] } },
+  })
+  const [usersId, setUsersId] = useState<Array<string>>([])
+
+  useEffect(() => {
+    async function asyncFetchCurrentUserId() {
+      const responses = await fetchAllWithLogs(
+        (users as Array<SelfCareUser>).map(({ relationshipId }) => ({
+          path: {
+            endpoint: 'OPERATOR_GET_SINGLE',
+            endpointParams: { clientId, relationshipId },
+          },
+        }))
+      )
+
+      if (responses.every((r) => !isFetchError(r))) {
+        setUsersId(responses.map((r) => (r as AxiosResponse).data.from))
+      }
+    }
+
+    if (isAdmin && users && Boolean(users.length > 0)) {
+      asyncFetchCurrentUserId()
+    }
+  }, [jwt, users]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const uploadKeyFormInitialValues: SecurityOperatorKeysFormInputValues = { name: '', key: '' }
   const uploadKeyFormValidationSchema = object({
@@ -62,15 +93,30 @@ export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSU
     })
   }
 
+  const isAdminInClient = Boolean(jwt && usersId.includes(jwt.uid))
+
+  if (isOperatorSecurity || (isAdmin && isAdminInClient)) {
+    return (
+      <StyledButton variant="contained" size="small" onClick={openUploadKeyDialog}>
+        {t('addBtn')}
+      </StyledButton>
+    )
+  }
+
+  return null
+}
+
+export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSUMER' }) => {
+  const location = useLocation()
+  const locationBits = getBits(location)
+  const clientId = locationBits[locationBits.length - 1]
+  const { runAction, forceRerenderCounter } = useFeedback()
+
   return (
     <React.Fragment>
       <PageTopFilters>
         <TempFilters />
-        {isOperatorSecurity && (
-          <StyledButton variant="contained" size="small" onClick={openUploadKeyDialog}>
-            {t('addBtn')}
-          </StyledButton>
-        )}
+        <AddBtn clientId={clientId} runAction={runAction} />
       </PageTopFilters>
 
       <AsyncTableKey

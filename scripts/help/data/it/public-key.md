@@ -5,8 +5,7 @@ Apri il terminale e incolla i comandi qui sotto. Per cambiare nome alla chiave, 
 ```
 openssl genrsa -out client-test-keypair.rsa.pem 2048
 openssl rsa -in client-test-keypair.rsa.pem -pubout -out client-test-keypair.rsa.pub
-openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in
-client-test-keypair.rsa.pem -out client-test-keypair.rsa.priv
+openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in client-test-keypair.rsa.pem -out client-test-keypair.rsa.priv
 ```
 
 ## Come caricare le chiavi

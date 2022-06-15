@@ -45,8 +45,7 @@
     "title": "Aggiungi membri del client",
     "content": {
       "autocompleteLabel": "Utenti selezionati",
-      "adminAlert": "Se vuoi caricare chiavi pubbliche per questo client, aggiungi anche te stesso al client",
-      "tempAlert": "Se l'operatore non è in elenco, in questa fase di test contattaci per aggiungerlo"
+      "adminAlert": "Se vuoi caricare chiavi pubbliche per questo client, aggiungi anche te stesso al client"
     },
     "actions": {
       "cancelLabel": "Annulla",
