@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { EServiceFlatReadType, EServiceReadType } from '../../types'
+import { CertifiedAttribute, EServiceFlatReadType, EServiceReadType } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { DialogContext } from '../lib/context'
 import { canSubscribe } from '../lib/attributes'
@@ -52,9 +52,23 @@ export function EServiceRead() {
     { mapFn: (list) => list.find((d) => d.id === eserviceId && d.descriptorId === descriptorId) }
   )
 
-  const canSubscribeEservice = data
-    ? canSubscribe([] /* TEMP PIN-1550 */, data.attributes.certified)
-    : false
+  const { data: currentInstitutionCertifiedAttributes } = useAsyncFetch<
+    { attributes: Array<CertifiedAttribute> },
+    Array<CertifiedAttribute>
+  >(
+    {
+      path: {
+        endpoint: 'ATTRIBUTE_GET_CERTIFIED_LIST',
+        endpointParams: { institutionId: jwt?.organization.id },
+      },
+    },
+    { mapFn: (data) => data.attributes }
+  )
+
+  const canSubscribeEservice =
+    data && currentInstitutionCertifiedAttributes
+      ? canSubscribe(currentInstitutionCertifiedAttributes || [], data.attributes.certified)
+      : false
   const isMine = data?.producer.id === jwt?.organization.id
   const isVersionPublished = data?.activeDescriptor?.state === 'PUBLISHED'
 

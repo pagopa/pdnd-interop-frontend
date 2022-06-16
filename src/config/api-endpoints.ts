@@ -80,6 +80,10 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: `${CATALOG_PROCESS_URL}/eservices/:eserviceId/descriptors/:descriptorId/documents/:documentId`,
     METHOD: 'GET',
   },
+  ATTRIBUTE_GET_CERTIFIED_LIST: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/institutions/:institutionId/certifiedAttributes`,
+    METHOD: 'GET',
+  },
   ATTRIBUTE_GET_LIST: {
     URL: `${BACKEND_FOR_FRONTEND_URL}/attributes`,
     METHOD: 'GET',

@@ -11,6 +11,7 @@ import {
 import {
   ActionProps,
   ApiEndpointKey,
+  CertifiedAttribute,
   EServiceDescriptorRead,
   EServiceFlatDecoratedReadType,
   EServiceFlatReadType,
@@ -40,6 +41,19 @@ export const AsyncTableEServiceCatalog = () => {
   const { jwt, isAdmin } = useJwt()
   const { setDialog } = useContext(DialogContext)
   const { routes } = useRoute()
+
+  const { data: currentInstitutionCertifiedAttributes } = useAsyncFetch<
+    { attributes: Array<CertifiedAttribute> },
+    Array<CertifiedAttribute>
+  >(
+    {
+      path: {
+        endpoint: 'ATTRIBUTE_GET_CERTIFIED_LIST',
+        endpointParams: { institutionId: jwt?.organization.id },
+      },
+    },
+    { mapFn: (data) => data.attributes }
+  )
 
   const {
     data: eserviceData,
@@ -175,7 +189,7 @@ export const AsyncTableEServiceCatalog = () => {
         Boolean(eserviceData.length > 0) &&
         eserviceData.map((item, i) => {
           const canSubscribeEservice = canSubscribe(
-            [] /* TEMP PIN-1550 */,
+            currentInstitutionCertifiedAttributes || [],
             item.certifiedAttributes
           )
           const tooltip = getTooltip(item, canSubscribeEservice)
