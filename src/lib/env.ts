@@ -20,6 +20,8 @@ export const INTEROP_RESOURCES_BASE_URL = isProduction
   ? PAGOPA_ENV.INTEROP_RESOURCES_BASE_URL
   : DEV_INTEROP_RESOURCES_BASE_URL
 
+export const TEMP_USER_WHITELIST_URL = `${INTEROP_RESOURCES_BASE_URL}temp-whitelist.json`
+
 function getEnvVar(varName: keyof PagoPAEnvVars, devVarName: string) {
   return isProduction ? PAGOPA_ENV[varName] : `${DEV_API_HOST_URL}/${devVarName}`
 }
