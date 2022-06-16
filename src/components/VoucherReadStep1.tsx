@@ -8,11 +8,11 @@ import { StyledIntro } from './Shared/StyledIntro'
 import { DescriptionBlock } from './DescriptionBlock'
 import { InlineClipboard } from './Shared/InlineClipboard'
 import { Link } from '@mui/material'
-import { URL_FE } from '../lib/constants'
 import { StyledInputControlledSelect } from './Shared/StyledInputControlledSelect'
 import { CodeSnippetPreview } from './Shared/CodeSnippetPreview'
 import { CodeLanguagePicker } from './Shared/CodeLanguagePicker'
 import { useTranslation } from 'react-i18next'
+import { FE_URL } from '../lib/env'
 
 const CLIENT_ASSERTION_TYP = 'JWT'
 const CLIENT_ASSERTION_ALG = 'RS256'
@@ -212,7 +212,7 @@ export const VoucherReadStep1 = ({
         activeLang={selectedCodeLanguage}
         entries={[
           {
-            url: `${URL_FE}/data/it/${
+            url: `${FE_URL}/data/it/${
               clientKind === 'CONSUMER' ? 'voucher-python-code' : 'voucher-python-m2m-code'
             }.txt`,
             value: 'python',
@@ -226,7 +226,7 @@ export const VoucherReadStep1 = ({
         activeLang={selectedCodeLanguage}
         entries={[
           {
-            url: `${URL_FE}/data/it/${
+            url: `${FE_URL}/data/it/${
               clientKind === 'CONSUMER' ? 'voucher-python-invoke' : 'voucher-python-m2m-invoke'
             }.txt`,
             value: 'python',

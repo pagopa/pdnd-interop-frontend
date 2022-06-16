@@ -10,8 +10,8 @@ import { InlineClipboard } from './Shared/InlineClipboard'
 import { StyledLink } from './Shared/StyledLink'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { EServiceReadType } from '../../types'
-import { URL_INTEROP_M2M_INTERFACE_DOCUMENT } from '../lib/constants'
 import { useTranslation } from 'react-i18next'
+import { API_GATEWAY_INTEFACE_URL } from '../lib/env'
 
 export const VoucherReadStep3 = ({
   clientKind,
@@ -98,7 +98,7 @@ const InteropM2MVoucherReadStep3 = ({ back }: InteropM2MVoucherStepProps) => {
 
       <DescriptionBlock label={t('step3.api.apiField.label')}>
         <Link
-          href={URL_INTEROP_M2M_INTERFACE_DOCUMENT}
+          href={API_GATEWAY_INTEFACE_URL}
           target="_blank"
           rel="noreferrer"
           title={t('step3.api.apiField.link.title')}

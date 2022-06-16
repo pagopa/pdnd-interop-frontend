@@ -1,35 +1,11 @@
 import { ApiEndpointContent, ApiEndpointKey } from '../../types'
-import { API_HOST, isDevelopment } from '../lib/constants'
-
-type PagoPAEnvVars = {
-  AGREEMENT_PROCESS_URL: string
-  AUTHORIZATION_PROCESS_URL: string
-  CATALOG_PROCESS_URL: string
-  PURPOSE_PROCESS_URL: string
-  API_GATEWAY_URL: string
-  AUTHORIZATION_SERVER_TOKEN_CREATION_URL: string
-  BACKEND_FOR_FRONTEND: string
-}
-type ExtendedWindow = Window & { pagopa_env: PagoPAEnvVars }
-const PAGOPA_ENV = (window as unknown as ExtendedWindow).pagopa_env
-
-function getEnvVar(varName: keyof PagoPAEnvVars, devVarName: string) {
-  return isDevelopment ? `${API_HOST}/${devVarName}` : PAGOPA_ENV[varName]
-}
-
-const BACKEND_FOR_FRONTEND_URL = getEnvVar('BACKEND_FOR_FRONTEND', 'backend-for-frontend/0.0')
-const AGREEMENT_PROCESS_URL = getEnvVar('AGREEMENT_PROCESS_URL', 'agreement-process/0.0')
-const AUTHORIZATION_PROCESS_URL = getEnvVar(
-  'AUTHORIZATION_PROCESS_URL',
-  'authorization-process/0.0'
-)
-const CATALOG_PROCESS_URL = getEnvVar('CATALOG_PROCESS_URL', 'catalog-process/0.0')
-const PURPOSE_PROCESS_URL = getEnvVar('PURPOSE_PROCESS_URL', 'purpose-process/0.0')
-export const API_GATEWAY_URL = getEnvVar('API_GATEWAY_URL', 'api-gateway/0.0')
-export const AUTHORIZATION_SERVER_ACCESS_TOKEN_URL = getEnvVar(
-  'AUTHORIZATION_SERVER_TOKEN_CREATION_URL',
-  'authorization-server/token.oauth2'
-)
+import {
+  AGREEMENT_PROCESS_URL,
+  AUTHORIZATION_PROCESS_URL,
+  BACKEND_FOR_FRONTEND_URL,
+  CATALOG_PROCESS_URL,
+  PURPOSE_PROCESS_URL,
+} from '../lib/env'
 
 export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
   AUTH_HEALTH_CHECK: {

@@ -1,14 +1,13 @@
 import React from 'react'
-import { Divider, Link, Paper, Typography } from '@mui/material'
+import { Divider, Paper, Typography } from '@mui/material'
 import { InteropM2MVoucherStepProps } from './VoucherRead'
 import { StepActions } from './Shared/StepActions'
 import { StyledIntro } from './Shared/StyledIntro'
 import { DescriptionBlock } from './DescriptionBlock'
 import { InlineClipboard } from './Shared/InlineClipboard'
-import { API_GATEWAY_URL, AUTHORIZATION_SERVER_ACCESS_TOKEN_URL } from '../config/api-endpoints'
 import { CodeSnippetPreview } from './Shared/CodeSnippetPreview'
-import { URL_FE } from '../lib/constants'
 import { useTranslation } from 'react-i18next'
+import { AUTHORIZATION_SERVER_ACCESS_TOKEN_URL, FE_URL } from '../lib/env'
 
 const CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
 const GRANT_TYPE = 'client_credentials'
@@ -26,22 +25,9 @@ export const VoucherReadStep2 = ({
       <StyledIntro component="h2">
         {{
           title: t('step2.title'),
-          description:
-            clientKind === 'CONSUMER' ? (
-              t('step2.consumerDescription')
-            ) : (
-              <React.Fragment>
-                {t('step2.apiDescription.message')}{' '}
-                <Link
-                  href={`${API_GATEWAY_URL}/swagger/docs/index.html`}
-                  target="_blank"
-                  rel="noreferrer"
-                  title={t('step2.apiDescription.link.title')}
-                >
-                  {t('step2.apiDescription.link.label')}
-                </Link>
-              </React.Fragment>
-            ),
+          description: t(
+            `step2.${clientKind === 'CONSUMER' ? 'consumerDescription' : 'apiDescription.message'}`
+          ),
         }}
       </StyledIntro>
 
@@ -104,9 +90,9 @@ export const VoucherReadStep2 = ({
         sx={{ mt: 2 }}
         title={t('step2.accessTokenScript.exampleLabel')}
         activeLang="curl"
-        entries={[{ url: `${URL_FE}/data/it/session_token_curl.txt`, value: 'curl' }]}
+        entries={[{ url: `${FE_URL}/data/it/session_token_curl.txt`, value: 'curl' }]}
         scriptSubstitutionValues={{
-          AUTHORIZATION_SERVER_ACCESS_TOKEN_URL: AUTHORIZATION_SERVER_ACCESS_TOKEN_URL,
+          AUTHORIZATION_SERVER_ACCESS_TOKEN_URL,
           CLIENT_ID: clientId,
           CLIENT_ASSERTION_TYPE: CLIENT_ASSERTION_TYPE,
           GRANT_TYPE: GRANT_TYPE,

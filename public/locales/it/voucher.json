@@ -99,11 +99,7 @@
     "title": "Access token",
     "consumerDescription": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di access token verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un access token spendibile presso l’E-Service dell’Erogatore",
     "apiDescription": {
-      "message": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di access token verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un access token spendibile presso l’API gateway di Interoperabilità. È possibile fare un test sullo",
-      "link": {
-        "label": "Swagger dedicato",
-        "title": "Link allo Swagger dell'API gateway di Interoperabilità"
-      }
+      "message": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di access token verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un access token spendibile presso l’API gateway di Interoperabilità"
     },
     "authEndpoint": {
       "label": "Endpoint authorization server",

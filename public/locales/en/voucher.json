@@ -99,11 +99,7 @@
     "title": "Access token",
     "consumerDescription": "In the previous step, you obtained a JWS signed with your private key. Now it will be used to make an access token request towards the Interoperability authorization server. It all is fine, an access token will be generated. It can be spent on the Provider E-Service",
     "apiDescription": {
-      "message": "In the previous step, you obtained a JWS signed with your private key. Now it will be used to make an access token request towards the Interoperability authorization server. It all is fine, an access token will be generated. It can be spent on the Provider E-Service. It is possible to run a test on the",
-      "link": {
-        "label": "dedicated Swagger",
-        "title": "Link to the Interoperability API gateway Swagger"
-      }
+      "message": "In the previous step, you obtained a JWS signed with your private key. Now it will be used to make an access token request towards the Interoperability authorization server. It all is fine, an access token will be generated. It can be spent on the Provider E-Service"
     },
     "authEndpoint": {
       "label": "Authorization server endpoint",
