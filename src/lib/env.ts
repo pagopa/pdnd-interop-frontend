@@ -31,7 +31,7 @@ export const API_GATEWAY_INTEFACE_URL = getEnvVar(
   'swagger/docs/interface-specification.yml'
 )
 export const BACKEND_FOR_FRONTEND_URL = getEnvVar(
-  'BACKEND_FOR_FRONTEND',
+  'BACKEND_FOR_FRONTEND_URL',
   'backend-for-frontend/0.0'
 )
 export const AGREEMENT_PROCESS_URL = getEnvVar('AGREEMENT_PROCESS_URL', 'agreement-process/0.0')
