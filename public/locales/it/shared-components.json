@@ -151,6 +151,16 @@
       "confirmLabel": "Conferma"
     }
   },
+  "styledDialogSessionExpired": {
+    "ariaDescribedBy": "Modale per segnalare che la sessione attuale è scaduta. È necessario effettuare un nuovo login",
+    "title": "La sessione è scaduta",
+    "content": {
+      "description": "A breve sarai reindirizzato alla pagina di login"
+    },
+    "actions": {
+      "confirmLabel": "Ok"
+    }
+  },
   "styledInputControlledAsyncAutocomplete": {
     "loadingLabel": "Stiamo cercando...",
     "noDataLabel": "Nessun risultato trovato"

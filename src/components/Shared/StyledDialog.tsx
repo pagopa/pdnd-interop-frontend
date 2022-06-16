@@ -8,6 +8,7 @@ import {
   DialogExistingAttributeProps,
   DialogNewAttributeProps,
   DialogProps,
+  DialogSessionExpiredProps,
   DialogSetPurposeExpectedApprovalDateProps,
   DialogUpdatePurposeDailyCallsProps,
 } from '../../../types'
@@ -20,6 +21,7 @@ import { StyledDialogAddSecurityOperator } from './StyledDialogAddSecurityOperat
 import { StyledDialogAddClients } from './StyledDialogAddClients'
 import { StyledDialogUpdatePurposeDailyCalls } from './StyledDialogUpdatePurposeDailyCalls'
 import { StyledDialogSetPurposeExpectedApprovalDate } from './StyledDialogSetPurposeExpectedApprovalDate'
+import { StyledDialogSessionExpired } from './StyledDialogSessionExpired'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -30,7 +32,8 @@ function match<T>(
   onAddSecurityOperator: (props: DialogAddSecurityOperatorProps) => T,
   onAddClients: (props: DialogAddClientsProps) => T,
   onUpdatePurposeDailyCalls: (props: DialogUpdatePurposeDailyCallsProps) => T,
-  onSetPurposeExpectedApprovalDate: (props: DialogSetPurposeExpectedApprovalDateProps) => T
+  onSetPurposeExpectedApprovalDate: (props: DialogSetPurposeExpectedApprovalDateProps) => T,
+  onSessionExpired: (props: DialogSessionExpiredProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -52,6 +55,8 @@ function match<T>(
         return onUpdatePurposeDailyCalls(props)
       case 'setPurposeExpectedApprovalDate':
         return onSetPurposeExpectedApprovalDate(props)
+      case 'sessionExpired':
+        return onSessionExpired(props)
     }
   }
 }
@@ -65,5 +70,6 @@ export const StyledDialog = match(
   (props) => <StyledDialogAddSecurityOperator {...props} />,
   (props) => <StyledDialogAddClients {...props} />,
   (props) => <StyledDialogUpdatePurposeDailyCalls {...props} />,
-  (props) => <StyledDialogSetPurposeExpectedApprovalDate {...props} />
+  (props) => <StyledDialogSetPurposeExpectedApprovalDate {...props} />,
+  (props) => <StyledDialogSessionExpired {...props} />
 )

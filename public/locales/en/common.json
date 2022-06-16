@@ -101,5 +101,23 @@
   "help": {
     "title": "Getting started",
     "description": "In this page you can find useful information to manage some everyday operations and overcome problems. Please note that this guide will be replaced with a dedicated documentation website as soon as the platform goes into production"
-  }
+  },
+  "notFound": {
+    "title": "Sorry",
+    "description": {
+      "notFound": "The requested page does not exist",
+      "serverError": "Temporary server error",
+      "goHomeLink": {
+        "label": "Back to home"
+      }
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "tempAlert": "The notifications feature is currently being developed"
+  },
+  "securityKeyGuide": {
+    "title": "How to generate and upload security keys"
+  },
+  "error": {}
 }

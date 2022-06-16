@@ -14,6 +14,7 @@ import { DialogContext, LoaderContext, TableActionMenuContext, ToastContext } fr
 import { getFetchOutcome } from '../lib/error-utils'
 import { useTranslation } from 'react-i18next'
 import i18next from 'i18next'
+import { useJwt } from './useJwt'
 
 type BasicActionOptions = {
   suppressToast?: Array<RequestOutcome>
@@ -44,6 +45,7 @@ export type UserFeedbackHOCProps = {
 
 export const useFeedback = () => {
   const { t } = useTranslation(['toast', 'dialog'])
+  const { hasSessionExpired } = useJwt()
   const history = useHistory()
   const { setTableActionMenu } = useContext(TableActionMenuContext)
   const { setLoadingText } = useContext(LoaderContext)
@@ -139,6 +141,14 @@ export const useFeedback = () => {
 
       // Hide loader
       setLoadingText(null)
+
+      // If the session has expired
+      if (outcome === 'error' && hasSessionExpired) {
+        // Set the dialog that will redirect to the login page
+        setDialog({ type: 'sessionExpired' })
+        // Stop here, all that follows is redundant
+        return { outcome, response }
+      }
 
       if (onSuccessDestination && outcome === 'success') {
         // Go to destination path, and optionally display the toast there

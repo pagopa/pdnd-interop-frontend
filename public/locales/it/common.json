@@ -130,5 +130,6 @@
   },
   "securityKeyGuide": {
     "title": "Generare e caricare chiavi di sicurezza"
-  }
+  },
+  "error": {}
 }

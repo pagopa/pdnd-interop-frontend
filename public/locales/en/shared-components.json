@@ -151,6 +151,16 @@
       "confirmLabel": "Confirm"
     }
   },
+  "styledDialogSessionExpired": {
+    "ariaDescribedBy": "Modal to go to login page since the current session has expired",
+    "title": "Session expired",
+    "content": {
+      "description": "You are about to be redirected to the login page"
+    },
+    "actions": {
+      "confirmLabel": "Ok"
+    }
+  },
   "styledInputControlledAsyncAutocomplete": {
     "loadingLabel": "Searching...",
     "noDataLabel": "No results"

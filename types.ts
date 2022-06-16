@@ -635,6 +635,11 @@ export type DialogProps =
   | DialogAddClientsProps
   | DialogUpdatePurposeDailyCallsProps
   | DialogSetPurposeExpectedApprovalDateProps
+  | DialogSessionExpiredProps
+
+export type DialogSessionExpiredProps = {
+  type: 'sessionExpired'
+}
 
 export type DialogSetPurposeExpectedApprovalDateProps = {
   type: 'setPurposeExpectedApprovalDate'
