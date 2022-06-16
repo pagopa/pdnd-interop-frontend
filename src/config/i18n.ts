@@ -1,7 +1,8 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import HttpApi from 'i18next-http-backend'
-import { DEFAULT_LANG, LANGUAGES, PUBLIC_URL } from '../lib/constants'
+import { DEFAULT_LANG, LANGUAGES } from '../lib/constants'
+import { PUBLIC_URL } from '../lib/env'
 
 i18n
   .use(initReactI18next)

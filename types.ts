@@ -858,3 +858,17 @@ export type MUIColor =
   | undefined
 
 export type ExtendedMUIColor = MUIColor | 'disabled' | 'inherit' | 'action'
+
+export type PagoPAEnvVars = {
+  AGREEMENT_PROCESS_URL: string
+  AUTHORIZATION_PROCESS_URL: string
+  CATALOG_PROCESS_URL: string
+  PURPOSE_PROCESS_URL: string
+  AUTHORIZATION_SERVER_TOKEN_CREATION_URL: string
+  BACKEND_FOR_FRONTEND: string
+  SELFCARE_LOGIN_URL: string
+  INTEROP_RESOURCES_BASE_URL: string
+  MIXPANEL_PROJECT_ID: string
+  API_GATEWAY_INTEFACE_URL: string
+}
+export type ExtendedWindow = Window & { pagopa_env: PagoPAEnvVars }

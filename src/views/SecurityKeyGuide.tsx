@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { URL_FE } from '../lib/constants'
 import { getReplacedAssetsPaths } from '../lib/guides-utils'
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import { FE_URL } from '../lib/env'
 
 export function SecurityKeyGuide() {
   const { t } = useTranslation('common', { keyPrefix: 'securityKeyGuide' })
@@ -12,7 +12,7 @@ export function SecurityKeyGuide() {
 
   useEffect(() => {
     async function asyncFetchData() {
-      const resp = await axios.get(`${URL_FE}/data/it/public-key.json`)
+      const resp = await axios.get(`${FE_URL}/data/it/public-key.json`)
       const html = getReplacedAssetsPaths(resp.data.html)
       setHtmlString(html)
     }
