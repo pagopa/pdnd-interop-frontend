@@ -11,8 +11,9 @@ import { getDecoratedRoutes, getInitialLang } from './lib/router-utils'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { PUBLIC_URL } from './lib/env'
 import './lib/onetrust'
+import { mixpanelInit } from './lib/mixpanel'
 
-const targCookiesGroup = 'C0004'
+const oneTrustTargerCookiesGroup = 'C0004'
 
 const allRoutes = getDecoratedRoutes()
 
@@ -27,23 +28,18 @@ export function App() {
     // OneTrust callback at first time
     ;(window as unknown as ExtendedWindow).OptanonWrapper = function () {
       OneTrust.OnConsentChanged(function () {
-        console.log('consent changed')
         const activeGroups = OnetrustActiveGroups
-        console.log({ activeGroups })
-        if (activeGroups.indexOf(targCookiesGroup) > -1) {
-          console.log('init mixpanel after consent changed')
-          // mixpanelInit()
+        if (activeGroups.indexOf(oneTrustTargerCookiesGroup) > -1) {
+          mixpanelInit()
         }
       })
     }
     // check mixpanel cookie consent in cookie
     const OTCookieValue: string =
       document.cookie.split('; ').find((row) => row.startsWith('OptanonConsent=')) || ''
-    console.log('checking cookies: ', OTCookieValue)
-    const checkValue = `${targCookiesGroup}%3A1`
+    const checkValue = `${oneTrustTargerCookiesGroup}%3A1`
     if (OTCookieValue.indexOf(checkValue) > -1) {
-      console.log('init mixpanel on load')
-      // mixpanelInit();
+      mixpanelInit()
     }
   }, [])
 

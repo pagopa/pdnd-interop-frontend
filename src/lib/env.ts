@@ -23,6 +23,7 @@ export const INTEROP_RESOURCES_BASE_URL = isProduction
 export const ONETRUST_DOMAIN_SCRIPT_ID = (
   isProduction ? PAGOPA_ENV.ONETRUST_DOMAIN_SCRIPT_ID : DEV_ONETRUST_DOMAIN_SCRIPT_ID
 ) as string
+export const MIXPANEL_PROJECT_ID = isProduction ? PAGOPA_ENV.MIXPANEL_PROJECT_ID : ''
 
 export const TEMP_USER_WHITELIST_URL = `${INTEROP_RESOURCES_BASE_URL}/temp-whitelist.json`
 
