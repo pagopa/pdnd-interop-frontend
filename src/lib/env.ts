@@ -8,6 +8,7 @@ const PAGOPA_ENV = (window as unknown as ExtendedWindow).pagopa_env
 const DEV_API_HOST_URL = process.env.REACT_APP_API_HOST
 const DEV_SELFCARE_LOGIN_URL = process.env.REACT_APP_SELFCARE_LOGIN_URL
 const DEV_INTEROP_RESOURCES_BASE_URL = process.env.REACT_APP_INTEROP_RESOURCES_BASE_URL
+const DEV_ONETRUST_DOMAIN_SCRIPT_ID = process.env.REACT_APP_ONETRUST_DOMAIN_SCRIPT_ID
 
 export const FE_LOGIN_URL = (
   isProduction ? PAGOPA_ENV.SELFCARE_LOGIN_URL : DEV_SELFCARE_LOGIN_URL
@@ -19,8 +20,11 @@ export const FE_URL = isProduction
 export const INTEROP_RESOURCES_BASE_URL = isProduction
   ? PAGOPA_ENV.INTEROP_RESOURCES_BASE_URL
   : DEV_INTEROP_RESOURCES_BASE_URL
+export const ONETRUST_DOMAIN_SCRIPT_ID = (
+  isProduction ? PAGOPA_ENV.ONETRUST_DOMAIN_SCRIPT_ID : DEV_ONETRUST_DOMAIN_SCRIPT_ID
+) as string
 
-export const TEMP_USER_WHITELIST_URL = `${INTEROP_RESOURCES_BASE_URL}temp-whitelist.json`
+export const TEMP_USER_WHITELIST_URL = `${INTEROP_RESOURCES_BASE_URL}/temp-whitelist.json`
 
 function getEnvVar(varName: keyof PagoPAEnvVars, devVarName: string) {
   return isProduction ? PAGOPA_ENV[varName] : `${DEV_API_HOST_URL}/${devVarName}`
