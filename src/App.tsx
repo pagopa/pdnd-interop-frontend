@@ -13,7 +13,7 @@ import { PUBLIC_URL } from './lib/env'
 import './lib/onetrust'
 import { mixpanelInit } from './lib/mixpanel'
 
-const oneTrustTargerCookiesGroup = 'C0004'
+const oneTrustTargerCookiesGroup = 'C0002' // "Cookie di prestazione" – MixPanel
 
 const allRoutes = getDecoratedRoutes()
 
