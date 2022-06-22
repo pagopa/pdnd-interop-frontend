@@ -111,11 +111,11 @@ export const useLogin = () => {
     }
   }
 
-  useEffect(() => {
-    if (jwt && !MOCK_TOKEN) {
-      tempCheckWhitelist()
-    }
-  }, [jwt]) // eslint-disable-line react-hooks/exhaustive-deps
+  // useEffect(() => {
+  //   if (jwt && !MOCK_TOKEN) {
+  //     tempCheckWhitelist()
+  //   }
+  // }, [jwt]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return { loginAttempt }
 }
