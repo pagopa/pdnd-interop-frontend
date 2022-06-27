@@ -93,14 +93,20 @@ export const useLogin = () => {
     try {
       const resp = await axios.get(TEMP_USER_WHITELIST_URL)
 
+      console.log({ resp })
+
       const currentOrganizationId = (jwt as JwtUser).organization.id
       const currentUserId = (jwt as JwtUser).uid
+      console.log({ currentOrganizationId, currentUserId })
       const isUserWhitelisted = Boolean(
-        resp.data.find(
-          (item: BucketEntry) =>
+        resp.data.find((item: BucketEntry) => {
+          console.log(item)
+          return (
             item.organizationId === currentOrganizationId && item.usersId.includes(currentUserId)
-        )
+          )
+        })
       )
+      console.log({ isUserWhitelisted })
 
       if (!isUserWhitelisted) {
         history.push(routes.LOGOUT.PATH)
@@ -111,11 +117,11 @@ export const useLogin = () => {
     }
   }
 
-  // useEffect(() => {
-  //   if (jwt && !MOCK_TOKEN) {
-  //     tempCheckWhitelist()
-  //   }
-  // }, [jwt]) // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (jwt && !MOCK_TOKEN) {
+      tempCheckWhitelist()
+    }
+  }, [jwt]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return { loginAttempt }
 }
