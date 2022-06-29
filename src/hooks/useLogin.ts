@@ -92,7 +92,6 @@ export const useLogin = () => {
   const tempCheckWhitelist = async () => {
     try {
       const resp = await axios.get(TEMP_USER_WHITELIST_URL)
-
       const currentOrganizationId = (jwt as JwtUser).organization.id
       const currentUserId = (jwt as JwtUser).uid
       const isUserWhitelisted = Boolean(
