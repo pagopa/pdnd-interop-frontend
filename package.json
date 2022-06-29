@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "@date-io/date-fns": "^2.13.1",
-    "@emotion/react": "^11.5.0",
-    "@emotion/styled": "^11.3.0",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
     "@fontsource/titillium-web": "^4.5.0",
     "@mui/base": "^5.0.0-alpha.85",
     "@mui/icons-material": "^5.5.1",
