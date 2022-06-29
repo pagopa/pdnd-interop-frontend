@@ -10,7 +10,7 @@ import DateAdapter from '@mui/lab/AdapterDateFns'
 import { getDecoratedRoutes, getInitialLang } from './lib/router-utils'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { PUBLIC_URL } from './lib/env'
-import './lib/onetrust'
+// import './lib/onetrust'
 import { mixpanelInit } from './lib/mixpanel'
 
 const oneTrustTargerCookiesGroup = 'C0002' // "Cookie di prestazione" – MixPanel
