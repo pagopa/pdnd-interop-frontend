@@ -1,13 +1,17 @@
+import { noncedCache } from './lib/emotion-cache'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 import { App } from './App'
 import reportWebVitals from './reportWebVitals'
 import './config/i18n'
+import { CacheProvider } from '@emotion/react'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <CacheProvider value={noncedCache}>
+      <App />
+    </CacheProvider>
   </React.StrictMode>,
   document.getElementById('root')
 )
