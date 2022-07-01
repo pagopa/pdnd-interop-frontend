@@ -1,18 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { Box } from '@mui/material'
-import {
-  ActionProps,
-  AgreementState,
-  AgreementSummary,
-  Party,
-  ProviderOrSubscriber,
-} from '../../../types'
-import { AGREEMENT_STATE_LABEL } from '../../config/labels'
+import { ActionProps, AgreementState, AgreementSummary, ProviderOrSubscriber } from '../../../types'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { useFeedback } from '../../hooks/useFeedback'
 import { useRoute } from '../../hooks/useRoute'
-import { PartyContext } from '../../lib/context'
 import { axiosErrorToError } from '../../lib/error-utils'
 import { mergeActions } from '../../lib/eservice-utils'
 import { buildDynamicPath } from '../../lib/router-utils'
@@ -22,15 +14,21 @@ import { StyledButton } from './StyledButton'
 import { StyledTableRow } from './StyledTableRow'
 import { TableWithLoader } from './TableWithLoader'
 import { useMode } from '../../hooks/useMode'
+import { useTranslation } from 'react-i18next'
+import { useJwt } from '../../hooks/useJwt'
 
 export const AsyncTableAgreement = () => {
+  const { t } = useTranslation(['agreement', 'common'])
   const mode = useMode()
   const currentMode = mode as ProviderOrSubscriber
-  const { party } = useContext(PartyContext)
+  const { jwt } = useJwt()
   const { runAction, forceRerenderCounter } = useFeedback()
   const { routes } = useRoute()
   const history = useHistory()
-  const params = currentMode === 'provider' ? { producerId: party?.id } : { consumerId: party?.id }
+  const params =
+    currentMode === 'provider'
+      ? { producerId: jwt?.organization.id }
+      : { consumerId: jwt?.organization.id }
 
   const { data, error, isLoading } = useAsyncFetch<Array<AgreementSummary>>(
     { path: { endpoint: 'AGREEMENT_GET_LIST' }, config: { params } },
@@ -41,20 +39,24 @@ export const AsyncTableAgreement = () => {
    * List of possible actions for the user to perform
    */
   const wrapActivate = (agreementId: string) => async () => {
-    const { id: partyId } = party as Party
     await runAction(
       {
-        path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId, partyId } },
+        path: {
+          endpoint: 'AGREEMENT_ACTIVATE',
+          endpointParams: { agreementId, partyId: jwt?.organization.id },
+        },
       },
       { showConfirmDialog: true }
     )
   }
 
   const wrapSuspend = (agreementId: string) => async () => {
-    const { id: partyId } = party as Party
     await runAction(
       {
-        path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId, partyId } },
+        path: {
+          endpoint: 'AGREEMENT_SUSPEND',
+          endpointParams: { agreementId, partyId: jwt?.organization.id },
+        },
       },
       { showConfirmDialog: true }
     )
@@ -76,8 +78,12 @@ export const AsyncTableAgreement = () => {
   // Build list of available actions for each service in its current state
   const getAvailableActions = (agreement: AgreementSummary) => {
     const sharedActions: AgreementActions = {
-      ACTIVE: [{ onClick: wrapSuspend(agreement.id), label: 'Sospendi' }],
-      SUSPENDED: [{ onClick: wrapActivate(agreement.id), label: 'Riattiva' }],
+      ACTIVE: [
+        { onClick: wrapSuspend(agreement.id), label: t('actions.suspend', { ns: 'common' }) },
+      ],
+      SUSPENDED: [
+        { onClick: wrapActivate(agreement.id), label: t('actions.activate', { ns: 'common' }) },
+      ],
       PENDING: [],
       INACTIVE: [],
     }
@@ -86,7 +92,7 @@ export const AsyncTableAgreement = () => {
     if (agreement.eservice.activeDescriptor) {
       subscriberOnlyActionsActive.push({
         onClick: wrapUpgrade(agreement.id),
-        label: 'Aggiorna',
+        label: t('actions.upgrade', { ns: 'common' }),
       })
     }
 
@@ -100,7 +106,9 @@ export const AsyncTableAgreement = () => {
     const providerOnlyActions: AgreementActions = {
       ACTIVE: [],
       SUSPENDED: [],
-      PENDING: [{ onClick: wrapActivate(agreement.id), label: 'Attiva' }],
+      PENDING: [
+        { onClick: wrapActivate(agreement.id), label: t('actions.activate', { ns: 'common' }) },
+      ],
       INACTIVE: [],
     }
 
@@ -115,18 +123,20 @@ export const AsyncTableAgreement = () => {
   }
 
   const headData = [
-    'Nome E-Service',
-    currentMode === 'provider' ? 'Ente fruitore' : 'Ente erogatore',
-    'Stato richiesta',
+    t('table.headData.eserviceName', { ns: 'common' }),
+    t(`table.headData.${currentMode === 'provider' ? 'subscriberName' : 'providerName'}`, {
+      ns: 'common',
+    }),
+    t('table.headData.agreementStatus', { ns: 'common' }),
     '',
   ]
 
   return (
     <TableWithLoader
       isLoading={isLoading}
-      loadingText="Stiamo caricando le richieste"
+      loadingText={t('loadingMultiLabel')}
       headData={headData}
-      noDataLabel="Non ci sono richieste disponibili"
+      noDataLabel={t('noMultiDataLabel')}
       error={axiosErrorToError(error)}
     >
       {data &&
@@ -137,7 +147,7 @@ export const AsyncTableAgreement = () => {
             cellData={[
               { label: item.eservice.name },
               { label: currentMode === 'provider' ? item.consumer.name : item.producer.name },
-              { label: AGREEMENT_STATE_LABEL[item.state] },
+              { label: t(`status.agreement.${[item.state]}`, { ns: 'common' }) },
             ]}
           >
             <StyledButton
@@ -156,7 +166,7 @@ export const AsyncTableAgreement = () => {
                 )
               }}
             >
-              Ispeziona
+              {t('actions.inspect', { ns: 'common' })}
             </StyledButton>
 
             <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>

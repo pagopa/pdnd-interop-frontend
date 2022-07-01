@@ -3,11 +3,12 @@ FROM node:16.15.0 as build
 WORKDIR /app
 
 COPY ./package.json /app/package.json
-COPY ./package-lock.json /app/package-lock.json
+COPY ./yarn.lock /app/yarn.lock
 
-RUN npm install
+RUN npm install yarn
+RUN yarn install
 COPY . .
-RUN npm run build
+RUN yarn build
 
 FROM nginx
 RUN mkdir -p /usr/share/nginx/html/ui

@@ -4,8 +4,10 @@ import { StyledIntro } from './Shared/StyledIntro'
 import { StyledButton } from './Shared/StyledButton'
 import { useHistory } from 'react-router-dom'
 import { IllusError } from '@pagopa/mui-italia'
+import { useTranslation } from 'react-i18next'
 
 export function Unauthorized() {
+  const { t } = useTranslation('common')
   const history = useHistory()
 
   const goHome = () => {
@@ -20,14 +22,13 @@ export function Unauthorized() {
         </Box>
         <StyledIntro sx={{ textAlign: 'center', mx: 'auto' }} centered>
           {{
-            title: 'Autorizzazione insufficiente',
-            description:
-              'Spiacenti, non hai permessi sufficienti per accedere alla funzionalità richiesta',
+            title: t('title'),
+            description: t('description'),
           }}
         </StyledIntro>
         <Box sx={{ mx: 'auto', textAlign: 'center', mt: 5 }}>
           <StyledButton variant="contained" onClick={goHome}>
-            Torna alla home
+            {t('cta')}
           </StyledButton>
         </Box>
       </Box>

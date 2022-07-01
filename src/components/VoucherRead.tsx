@@ -24,6 +24,9 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 import { buildDynamicPath } from '../lib/router-utils'
 import { decoratePurposeWithMostRecentVersion, getComputedPurposeState } from '../lib/purpose'
+import { useTranslation } from 'react-i18next'
+import { TFunction } from 'i18next'
+import { useJwt } from '../hooks/useJwt'
 
 export type ClientVoucherStepProps = StepperStepComponentProps & {
   purposeId: string
@@ -47,12 +50,12 @@ type VoucherReadProps = {
 
 type InteropVoucherReadProps = Omit<VoucherReadProps, 'purposes'>
 
-function getSteps(clientKind: ClientKind): Array<StepperStep> {
-  return [
-    { label: 'Client assertion', component: VoucherReadStep1 },
-    { label: 'Access token', component: VoucherReadStep2 },
+function getSteps(clientKind: ClientKind) {
+  return (t: TFunction): Array<StepperStep> => [
+    { label: t('step1.stepperLabel'), component: VoucherReadStep1 },
+    { label: t('step2.stepperLabel'), component: VoucherReadStep2 },
     {
-      label: clientKind === 'CONSUMER' ? 'Dettagli E-Service' : 'Dettagli API gateway',
+      label: t(`step3.${clientKind === 'CONSUMER' ? 'consumerStepperLabel' : 'apiStepperLabel'}`),
       component: VoucherReadStep3,
     },
   ]
@@ -64,9 +67,11 @@ const ClientVoucherRead = ({
   purposes,
   keysData,
 }: VoucherReadProps & { keysData: PublicKeys }) => {
+  const { isAdmin } = useJwt()
+  const { t } = useTranslation('voucher')
   const { activeStep, forward, back } = useActiveStep()
   const { routes } = useRoute()
-  const steps = getSteps(clientKind)
+  const steps = getSteps(clientKind)(t)
   const { component: Step } = steps[activeStep]
 
   const [purpose, setPurpose] = useState<DecoratedPurpose>()
@@ -93,7 +98,9 @@ const ClientVoucherRead = ({
       }
     }
 
-    asyncFetchPurpose()
+    if (selectedPurposeId !== '') {
+      asyncFetchPurpose()
+    }
   }, [selectedPurposeId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
@@ -121,20 +128,19 @@ const ClientVoucherRead = ({
               <StyledInputControlledSelect
                 sx={{ my: 0 }}
                 name="purpose"
-                label="Scegli la finalità da utilizzare"
+                label={t('choosePurposeLabel')}
                 value={selectedPurposeId}
                 onChange={onPurposeIdChange}
                 options={purposes.map((p) => ({
                   value: p.purposeId,
                   label: `${p.title} per ${p.agreement.eservice.name}`,
                 }))}
-                emptyLabel="Non ci sono finalità disponibili"
+                emptyLabel={t('noPurposesLabel')}
               />
               {Boolean(failureReasons.length > 0) && (
                 <Alert sx={{ mt: 1 }} severity="info">
-                  Attenzione! Non sarà possibile ottenere un access token per questa finalità. In
-                  una o più componenti della pipeline è stato sospeso il servizio. Le componenti
-                  sospese sono: {failureReasons.join(', ')}
+                  {t('purposeFailureMessage')}{' '}
+                  {failureReasons.map((r) => t(`purposeFailureReason.${r}`)).join(', ')}
                 </Alert>
               )}
             </Paper>
@@ -144,10 +150,19 @@ const ClientVoucherRead = ({
           </React.Fragment>
         ) : (
           <Alert severity="info">
-            Non ci sono finalità disponibili.{' '}
-            <StyledLink to={routes.SUBSCRIBE_PURPOSE_CREATE.PATH}>
-              Crea la tua prima finalità
-            </StyledLink>
+            {t('noPurposesLabel')}.
+            {isAdmin && (
+              <React.Fragment>
+                {' '}
+                <StyledLink to={routes.SUBSCRIBE_PURPOSE_CREATE.PATH}>
+                  {t('createPurposeBtn')}
+                </StyledLink>{' '}
+                {t('or')}{' '}
+                <StyledLink to={routes.SUBSCRIBE_PURPOSE_LIST.PATH}>
+                  {t('choosePurposeBtn')}
+                </StyledLink>
+              </React.Fragment>
+            )}
           </Alert>
         )}
       </Grid>
@@ -160,8 +175,9 @@ const InteropM2MVoucherRead = ({
   clientKind,
   keysData,
 }: InteropVoucherReadProps & { keysData: PublicKeys }) => {
+  const { t } = useTranslation('voucher')
   const { activeStep, forward, back } = useActiveStep()
-  const steps = getSteps(clientKind)
+  const steps = getSteps(clientKind)(t)
   const { component: Step } = steps[activeStep]
   const stepProps: InteropM2MVoucherStepProps = { forward, back, clientId, clientKind, keysData }
 
@@ -177,7 +193,7 @@ const InteropM2MVoucherRead = ({
 
 export const VoucherRead = ({ clientId, clientKind, purposes }: VoucherReadProps) => {
   const { routes } = useRoute()
-
+  const { t } = useTranslation('voucher')
   const {
     data: keysData,
     error,
@@ -187,11 +203,11 @@ export const VoucherRead = ({ clientId, clientKind, purposes }: VoucherReadProps
   })
 
   if (isLoading) {
-    return <LoadingWithMessage label="Stiamo caricando le chiavi disponibili" />
+    return <LoadingWithMessage label={t('keysLoading.label')} transparentBackground />
   }
 
   if (error && error.response?.status !== 404) {
-    return <div>non è stato possibile caricare le chiavi</div>
+    return <div>{t('keysLoading.error')}</div>
   }
 
   if (
@@ -200,7 +216,7 @@ export const VoucherRead = ({ clientId, clientKind, purposes }: VoucherReadProps
   ) {
     return (
       <Alert severity="info">
-        Non ci sono chiavi disponibili, non è possibile staccare un voucher. Vai alla{' '}
+        {t('uploadKey.message')}{' '}
         <StyledLink
           to={buildDynamicPath(
             routes.SUBSCRIBE_CLIENT_EDIT.PATH,
@@ -208,9 +224,8 @@ export const VoucherRead = ({ clientId, clientKind, purposes }: VoucherReadProps
             { tab: 'publicKeys' }
           )}
         >
-          tab delle chiavi pubbliche
-        </StyledLink>{' '}
-        per caricare la tua prima chiave
+          {t('uploadKey.linkLabel')}
+        </StyledLink>
       </Alert>
     )
   }

@@ -11,20 +11,22 @@ import { TableWithLoader } from './Shared/TableWithLoader'
 import { DeleteOutline as DeleteOutlineIcon } from '@mui/icons-material'
 import { StyledTableRow } from './Shared/StyledTableRow'
 import { Client, DecoratedPurpose, Purpose } from '../../types'
-import { DialogContext, PartyContext } from '../lib/context'
+import { DialogContext } from '../lib/context'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useRoute } from '../hooks/useRoute'
 import { decoratePurposeWithMostRecentVersion, getPurposeFromUrl } from '../lib/purpose'
-import { TOAST_CONTENTS } from '../config/toast'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
+import { useTranslation } from 'react-i18next'
+import { useJwt } from '../hooks/useJwt'
 
 export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ back }) => {
   const history = useHistory()
   const purposeId = getPurposeFromUrl(history.location)
   const { setDialog } = useContext(DialogContext)
   const { routes } = useRoute()
-  const { party } = useContext(PartyContext)
+  const { jwt } = useJwt()
+  const { t } = useTranslation(['purpose', 'toast'])
 
   const { runAction, forceRerenderCounter } = useFeedback()
 
@@ -34,7 +36,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
   >(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
-      config: { params: { consumerId: party?.id, purposeId } },
+      config: { params: { consumerId: jwt?.organization.id, purposeId } },
     },
     {
       mapFn: (data) => data.clients,
@@ -51,8 +53,9 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
   )
 
   const goToList = () => {
+    const successMessage = t('PURPOSE_DRAFT_UPDATE.success.message', { ns: 'toast' })
     history.push(routes.SUBSCRIBE_PURPOSE_LIST.PATH, {
-      toast: { outcome: 'success', ...TOAST_CONTENTS.PURPOSE_DRAFT_UPDATE.success },
+      toast: { outcome: 'success', message: successMessage },
     })
   }
 
@@ -115,7 +118,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
     setDialog({ type: 'addClients', exclude: clientsData, onSubmit: addClients })
   }
 
-  const headData = ['Nome client', '']
+  const headData = [t('create.step3.tableHeadData.clientName'), '']
 
   const isLoading = isClientReallyLoading || isPurposeReallyLoading
 
@@ -123,13 +126,13 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
     <React.Fragment>
       <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
         <StyledIntro component="h2" sx={{ mb: 4 }}>
-          {{ title: 'Associazione client' }}
+          {{ title: t('create.step3.title') }}
         </StyledIntro>
 
         <TableWithLoader
           isLoading={isLoading}
           headData={headData}
-          noDataLabel="Nessun client associato"
+          noDataLabel={t('create.step3.noDataLabel')}
         >
           {Boolean(clientsData.length > 0) &&
             clientsData.map((client, i) => (
@@ -145,30 +148,29 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
         </StyledButton>
 
         <StepActions
-          back={{ label: 'Indietro', type: 'button', onClick: back }}
-          forward={{ label: 'Salva e torna alle finalità', type: 'button', onClick: goToList }}
+          back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
+          forward={{ label: t('create.endWithSaveBtn'), type: 'button', onClick: goToList }}
         />
       </Paper>
 
       <Paper sx={{ p: 3, mt: 2 }}>
         <StyledIntro component="h2">
           {{
-            title: 'Azioni rapide di pubblicazione',
-            description:
-              'Hai inserito tutte le informazioni per questa finalità? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra',
+            title: t('create.quickPublish.title'),
+            description: t('create.quickPublish.description'),
           }}
         </StyledIntro>
         {!isPurposeReallyLoading ? (
           <Box sx={{ display: 'flex', mt: 3 }}>
             <StyledButton sx={{ mr: 2 }} variant="contained" onClick={publishVersion}>
-              Pubblica bozza
+              {t('create.quickPublish.publishBtn')}
             </StyledButton>
             <StyledButton variant="outlined" onClick={deleteVersion}>
-              Cancella bozza
+              {t('create.quickPublish.deleteBtn')}
             </StyledButton>
           </Box>
         ) : (
-          <LoadingWithMessage label="Stiamo caricando la tua finalità" transparentBackground />
+          <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
         )}
       </Paper>
     </React.Fragment>

@@ -10,6 +10,8 @@ import { useFormik } from 'formik'
 import { getFetchOutcome } from '../../lib/error-utils'
 import { StyledInputStaticDatePicker } from './StyledInputStaticDatePicker'
 import { RunActionOutput } from '../../hooks/useFeedback'
+import { useTranslation } from 'react-i18next'
+import { LoadingTranslations } from './LoadingTranslations'
 
 type ApprovalDateProps = {
   expectedApprovalDate: Date
@@ -18,6 +20,7 @@ type ApprovalDateProps = {
 export const StyledDialogSetPurposeExpectedApprovalDate: FunctionComponent<
   DialogSetPurposeExpectedApprovalDateProps
 > = ({ purposeId, versionId, approvalDate, runAction }) => {
+  const { t, ready } = useTranslation('shared-components', { useSuspense: false })
   const { closeDialog } = useCloseDialog()
 
   const onSubmit = async (data: ApprovalDateProps) => {
@@ -41,17 +44,17 @@ export const StyledDialogSetPurposeExpectedApprovalDate: FunctionComponent<
     onSubmit,
   })
 
+  if (!ready) {
+    return <LoadingTranslations />
+  }
+
   return (
-    <Dialog open onClose={closeDialog} aria-describedby="Modale per azione" fullWidth>
+    <Dialog open onClose={closeDialog} aria-describedby={t('ariaLabelledBy')} fullWidth>
       <StyledForm onSubmit={formik.handleSubmit}>
-        <DialogTitle>Imposta data di completamento stimata</DialogTitle>
+        <DialogTitle>{t('title')}</DialogTitle>
 
         <DialogContent>
-          <Typography>
-            Questa data verrà indicata all&rsquo;ente fruitore come data di attivazione della
-            finalità. Potrai aggiornarla in qualsiasi momento. Nota bene: questa modifica verrà
-            immediatamente notificata all&rsquo;ente fruitore
-          </Typography>
+          <Typography>{t('content.message')}</Typography>
           <Box sx={{ mt: 3, pt: 2, borderTop: 1, borderBottom: 1, borderColor: 'divider' }}>
             <StyledInputStaticDatePicker
               sx={{ my: 0 }}
@@ -65,10 +68,10 @@ export const StyledDialogSetPurposeExpectedApprovalDate: FunctionComponent<
 
         <DialogActions>
           <StyledButton variant="outlined" onClick={closeDialog}>
-            Annulla
+            {t('actions.cancelLabel')}
           </StyledButton>
           <StyledButton variant="contained" type="submit">
-            Imposta
+            {t('actions.confirmLabel')}
           </StyledButton>
         </DialogActions>
       </StyledForm>

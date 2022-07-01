@@ -1,6 +1,6 @@
 import React from 'react'
 import { AxiosResponse } from 'axios'
-import { PublicKey, User } from '../../types'
+import { PublicKey, SelfCareUser } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { downloadFile } from '../lib/file-utils'
 import { RunActionOutput, useFeedback } from '../hooks/useFeedback'
@@ -13,10 +13,12 @@ import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { useRoute } from '../hooks/useRoute'
 import { formatDateString } from '../lib/format-utils'
-import { Typography } from '@mui/material'
+import { Alert } from '@mui/material'
 import { isKeyOrphan } from '../lib/key-utils'
+import { useTranslation } from 'react-i18next'
 
 export function KeyEdit() {
+  const { t } = useTranslation(['key', 'common'])
   const { routes } = useRoute()
   const { runAction } = useFeedback()
   const location = useLocation()
@@ -28,7 +30,7 @@ export function KeyEdit() {
     path: { endpoint: 'KEY_GET_SINGLE', endpointParams: { clientId, kid } },
   })
 
-  const { data: userData } = useAsyncFetch<Array<User>>({
+  const { data: userData } = useAsyncFetch<Array<SelfCareUser>>({
     path: { endpoint: 'OPERATOR_SECURITY_GET_LIST', endpointParams: { clientId } },
   })
 
@@ -72,40 +74,40 @@ export function KeyEdit() {
     <React.Fragment>
       <StyledIntro>{{ title: keyData?.name }}</StyledIntro>
       <Box sx={{ mt: 6 }}>
-        <DescriptionBlock label="Data di creazione">
+        <DescriptionBlock label={t('edit.creationDateField.label')}>
           {keyData && formatDateString(keyData.createdAt)}
         </DescriptionBlock>
 
-        <DescriptionBlock label="Caricata da">
-          {keyData?.operator.name} {keyData?.operator.surname}
+        <DescriptionBlock label={t('edit.uploaderField.name')}>
+          {keyData?.operator.name} {keyData?.operator.familyName}
         </DescriptionBlock>
 
-        <DescriptionBlock label="Id della chiave (kid)">
+        <DescriptionBlock label={t('edit.kidField.label')}>
           {keyData?.key && (
             <InlineClipboard
               textToCopy={keyData.key.kid}
-              successFeedbackText="Id copiato correttamente"
+              successFeedbackText={t('edit.kidField.copySuccessFeedbackText')}
             />
           )}
         </DescriptionBlock>
-        <DescriptionBlock label="Id del client (clientId)">
-          <InlineClipboard textToCopy={clientId} successFeedbackText="Id copiato correttamente" />
+        <DescriptionBlock label={t('edit.clientIdField.label')}>
+          <InlineClipboard
+            textToCopy={clientId}
+            successFeedbackText={t('edit.clientIdField.copySuccessFeedbackText')}
+          />
         </DescriptionBlock>
 
         {keyData && isKeyOrphan(keyData, userData) && (
-          <Typography bgcolor="error.main" color="common.white" sx={{ p: 2 }}>
-            Attenzione! L&lsquo;operatore che ha caricato questa chiave è stato rimosso da questo
-            ente. Si consiglia di eliminare la chiave e di sostituirla con una nuova
-          </Typography>
+          <Alert severity="info">{t('edit.operatorDeletedAlertMessage')}</Alert>
         )}
       </Box>
 
       <Box sx={{ mt: 4, display: 'flex' }}>
         <StyledButton sx={{ mr: 2 }} variant="contained" onClick={downloadKey}>
-          Scarica
+          {t('actions.download', { ns: 'common' })}
         </StyledButton>
         <StyledButton variant="outlined" onClick={deleteKey}>
-          Elimina
+          {t('actions.delete', { ns: 'common' })}
         </StyledButton>
       </Box>
     </React.Fragment>

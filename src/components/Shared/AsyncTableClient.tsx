@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Box } from '@mui/material'
 import { useHistory } from 'react-router-dom'
 import { ActionProps, Client, ClientKind, DecoratedPurpose } from '../../../types'
@@ -10,16 +10,18 @@ import { ActionMenu } from './ActionMenu'
 import { StyledButton } from './StyledButton'
 import { StyledTableRow } from './StyledTableRow'
 import { TableWithLoader } from './TableWithLoader'
-import { PartyContext } from '../../lib/context'
 import { useRoute } from '../../hooks/useRoute'
+import { useTranslation } from 'react-i18next'
+import { useJwt } from '../../hooks/useJwt'
 
 type AsyncTableClientProps = {
   clientKind: ClientKind
 }
 
 export const AsyncTableClient = ({ clientKind }: AsyncTableClientProps) => {
+  const { t } = useTranslation(['client', 'common'])
   const { runAction, forceRerenderCounter } = useFeedback()
-  const { party } = useContext(PartyContext)
+  const { jwt } = useJwt()
   const { routes } = useRoute()
 
   const history = useHistory()
@@ -31,7 +33,7 @@ export const AsyncTableClient = ({ clientKind }: AsyncTableClientProps) => {
   const { data, error, isLoading } = useAsyncFetch<{ clients: Array<Client> }, Array<Client>>(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
-      config: { params: { kind: clientKind, consumerId: party?.id } },
+      config: { params: { kind: clientKind, consumerId: jwt?.organization.id } },
     },
     { mapFn: (data) => data.clients, useEffectDeps: [forceRerenderCounter] }
   )
@@ -50,17 +52,17 @@ export const AsyncTableClient = ({ clientKind }: AsyncTableClientProps) => {
    */
 
   const getAvailableActions = (client: Client): Array<ActionProps> => {
-    return [{ onClick: wrapDelete(client.id), label: 'Elimina' }]
+    return [{ onClick: wrapDelete(client.id), label: t('actions.delete', { ns: 'common' }) }]
   }
 
-  const headData = ['Nome client', '']
+  const headData = [t('table.headData.clientName', { ns: 'common' }), '']
 
   return (
     <TableWithLoader
       isLoading={isLoading}
-      loadingText="Stiamo caricando i client"
+      loadingText={t('loadingMultiLabel')}
       headData={headData}
-      noDataLabel="Non ci sono client disponibili"
+      noDataLabel={t('noMultiDataLabel')}
       error={axiosErrorToError(error)}
     >
       {data &&
@@ -74,7 +76,7 @@ export const AsyncTableClient = ({ clientKind }: AsyncTableClientProps) => {
                 history.push(buildDynamicPath(editPath, { clientId: item.id }))
               }}
             >
-              Ispeziona
+              {t('actions.inspect', { ns: 'common' })}
             </StyledButton>
 
             <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
@@ -97,6 +99,7 @@ export const AsyncTableClientInPurpose = ({
   purposeId,
   data,
 }: AsyncTableClientInPurposeProps) => {
+  const { t } = useTranslation(['client', 'common'])
   const { routes } = useRoute()
   const history = useHistory()
 
@@ -119,19 +122,19 @@ export const AsyncTableClientInPurpose = ({
   const getAvailableActions = (item: Pick<Client, 'id' | 'name'>): Array<ActionProps> => {
     const removeFromPurposeAction = {
       onClick: wrapRemoveFromPurpose(item.id),
-      label: 'Rimuovi dalla finalità',
+      label: t('tableClientInPurpose.actions.removeFromPurpose'),
     }
 
     return [removeFromPurposeAction]
   }
 
-  const headData = ['Nome client', '']
+  const headData = [t('table.headData.clientName', { ns: 'common' }), '']
 
   return (
     <TableWithLoader
       isLoading={false}
       headData={headData}
-      noDataLabel="Non ci sono client associati a questa finalità"
+      noDataLabel={t('tableClientInPurpose.noClientsAssociatedToPurposeLabel')}
       // error={axiosErrorToError(error)}
     >
       {data?.clients?.map((item, i) => (
@@ -145,7 +148,7 @@ export const AsyncTableClientInPurpose = ({
               )
             }}
           >
-            Ispeziona
+            {t('actions.inspect', { ns: 'common' })}
           </StyledButton>
 
           <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>

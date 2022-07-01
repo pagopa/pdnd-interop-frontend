@@ -7,12 +7,18 @@ import { StyledInputControlledText } from './StyledInputControlledText'
 import { StyledForm } from './StyledForm'
 // import { useFeedback } from '../../hooks/useFeedback'
 import { useCloseDialog } from '../../hooks/useCloseDialog'
+import { useTranslation } from 'react-i18next'
+import { LoadingTranslations } from './LoadingTranslations'
 
 type InputValues = {
   reasons?: string
 }
 
 export const StyledDialogExtension: FunctionComponent<DialogAskExtensionProps> = () => {
+  const { t, ready } = useTranslation('shared-components', {
+    keyPrefix: 'styledDialogExtension',
+    useSuspense: false,
+  })
   // const { runAction } = useFeedback()
   const { closeDialog } = useCloseDialog()
 
@@ -23,8 +29,12 @@ export const StyledDialogExtension: FunctionComponent<DialogAskExtensionProps> =
   const initialValues: InputValues = { reasons: '' }
   // const validationSchema = {}
 
+  if (!ready) {
+    return <LoadingTranslations />
+  }
+
   return (
-    <Dialog open onClose={closeDialog} aria-describedby="Modale per azione" fullWidth>
+    <Dialog open onClose={closeDialog} aria-describedby={t('ariaDescribedBy')} fullWidth>
       <Formik
         initialValues={initialValues}
         // validationSchema={validationSchema}
@@ -34,14 +44,10 @@ export const StyledDialogExtension: FunctionComponent<DialogAskExtensionProps> =
       >
         {({ handleSubmit, errors, values, handleChange }) => (
           <StyledForm onSubmit={handleSubmit}>
-            <DialogTitle>Richiedi estensione</DialogTitle>
+            <DialogTitle>{t('title')}</DialogTitle>
 
             <DialogContent>
-              <p>
-                Compila il form indicando i motivi per cui ritieni che il tuo ente abbia diritto di
-                iscriversi all’E-Service, completo di basi giuridiche e finalità. Una notifica sarà
-                inviata all’ente erogatore del servizio
-              </p>
+              <p>{t('content.message')}</p>
               <StyledInputControlledText
                 focusOnMount={true}
                 name="reasons"
@@ -55,10 +61,10 @@ export const StyledDialogExtension: FunctionComponent<DialogAskExtensionProps> =
 
             <DialogActions>
               <StyledButton variant="outlined" onClick={closeDialog}>
-                Annulla
+                {t('actions.cancelLabel')}
               </StyledButton>
               <StyledButton variant="contained" type="submit">
-                Richiedi
+                {t('actions.confirmLabel')}
               </StyledButton>
             </DialogActions>
           </StyledForm>

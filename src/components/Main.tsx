@@ -1,17 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { Suspense, useContext, useEffect, useState } from 'react'
 import { Box } from '@mui/system'
 import { Switch, Redirect, Route, useLocation, useHistory } from 'react-router-dom'
 import { DEFAULT_LANG } from '../lib/constants'
-import { LangContext, PartyContext } from '../lib/context'
+import { LangContext } from '../lib/context'
 import { StyledBreadcrumbs } from './Shared/StyledBreadcrumbs'
 import { AuthGuard } from './AuthGuard'
 import { RouteAuthLevel } from '../../types'
 import { useRoute } from '../hooks/useRoute'
 import { BASIC_ROUTES } from '../config/routes'
 import { buildDynamicPath, extractDynamicParams, isSamePath } from '../lib/router-utils'
+import { LoadingTranslations } from './Shared/LoadingTranslations'
+
+function CompleteRedirect({ pathname = '' }) {
+  return <Redirect to={{ pathname, search: window.location.search, hash: window.location.hash }} />
+}
 
 export function Main() {
-  const { party } = useContext(PartyContext)
   const history = useHistory()
   const location = useLocation()
   const { routes, doesRouteAllowTwoColumnsLayout } = useRoute()
@@ -45,20 +49,22 @@ export function Main() {
           return (
             <Route path={PATH} key={i} exact={EXACT}>
               {REDIRECT ? (
-                <Redirect to={REDIRECT as string} />
+                <CompleteRedirect pathname={REDIRECT as string} />
               ) : (
-                <AuthGuard Component={Component} authLevels={AUTH_LEVELS as RouteAuthLevel} />
+                <Suspense fallback={<LoadingTranslations />}>
+                  <AuthGuard Component={Component} authLevels={AUTH_LEVELS as RouteAuthLevel} />
+                </Suspense>
               )}
             </Route>
           )
         })}
 
         <Route path="/" exact>
-          <Redirect to={DEFAULT_LANG} />
+          <CompleteRedirect pathname={DEFAULT_LANG} />
         </Route>
 
         <Route path={`/${DEFAULT_LANG}`} exact>
-          <Redirect to={party !== null ? routes.SUBSCRIBE.PATH : routes.CHOOSE_PARTY.PATH} />
+          <CompleteRedirect pathname={routes.SUBSCRIBE.PATH} />
         </Route>
       </Switch>
     </Box>

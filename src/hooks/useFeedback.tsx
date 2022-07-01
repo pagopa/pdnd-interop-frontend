@@ -3,20 +3,18 @@ import { AxiosError, AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import {
   ActionFunction,
-  DialogActionKeys,
   RequestConfig,
   RequestOutcome,
   MappedRouteConfig,
-  RunActionProps,
-  ToastActionKeys,
   ToastContentWithOutcome,
   ApiEndpointKey,
 } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { DialogContext, LoaderContext, TableActionMenuContext, ToastContext } from '../lib/context'
 import { getFetchOutcome } from '../lib/error-utils'
-import { DIALOG_CONTENTS } from '../config/dialog'
-import { TOAST_CONTENTS } from '../config/toast'
+import { useTranslation } from 'react-i18next'
+import i18next from 'i18next'
+import { useJwt } from './useJwt'
 
 type BasicActionOptions = {
   suppressToast?: Array<RequestOutcome>
@@ -46,6 +44,8 @@ export type UserFeedbackHOCProps = {
 }
 
 export const useFeedback = () => {
+  const { t } = useTranslation(['toast', 'dialog'])
+  const { hasSessionExpired } = useJwt()
   const history = useHistory()
   const { setTableActionMenu } = useContext(TableActionMenuContext)
   const { setLoadingText } = useContext(LoaderContext)
@@ -55,16 +55,22 @@ export const useFeedback = () => {
 
   // Dialog, toast and counter related functions
   const wrapActionInDialog = (wrappedAction: ActionFunction, endpointKey: ApiEndpointKey) => {
-    const hasDialog = Object.keys(DIALOG_CONTENTS).includes(endpointKey)
+    const hasDialog = i18next.exists(endpointKey, { ns: 'dialog' })
 
     if (!hasDialog) {
       throw new Error('This action should have a modal')
     } else {
+      const title = t(`${endpointKey}.title`, { ns: 'dialog' })
+      const description = i18next.exists(`${endpointKey}.description`, { ns: 'dialog' })
+        ? t(`${endpointKey}.description`, { ns: 'dialog' })
+        : undefined
+
       setDialog({
         type: 'basic',
         proceedCallback: wrappedAction,
         close: closeDialog,
-        ...DIALOG_CONTENTS[endpointKey as DialogActionKeys],
+        title,
+        description,
       })
     }
   }
@@ -95,8 +101,11 @@ export const useFeedback = () => {
     toastContent: ToastContentWithOutcome
     response: AxiosResponse | AxiosError
   }> => {
-    const { loadingText, success, error }: RunActionProps =
-      TOAST_CONTENTS[requestConfig.path.endpoint as ToastActionKeys]
+    const loadingText = t(`${requestConfig.path.endpoint}.loadingText`, { ns: 'toast' })
+    const successMessage = t(`${requestConfig.path.endpoint}.success.message`, { ns: 'toast' })
+    const errorMessage = t(`${requestConfig.path.endpoint}.error.message`, { ns: 'toast' })
+    const success = { message: successMessage }
+    const error = { message: errorMessage }
 
     // Close modal
     closeDialog()
@@ -132,6 +141,14 @@ export const useFeedback = () => {
 
       // Hide loader
       setLoadingText(null)
+
+      // If the session has expired
+      if (outcome === 'error' && hasSessionExpired) {
+        // Set the dialog that will redirect to the login page
+        setDialog({ type: 'sessionExpired' })
+        // Stop here, all that follows is redundant
+        return { outcome, response }
+      }
 
       if (onSuccessDestination && outcome === 'success') {
         // Go to destination path, and optionally display the toast there

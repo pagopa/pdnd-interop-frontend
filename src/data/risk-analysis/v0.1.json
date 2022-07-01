@@ -4,8 +4,14 @@
     {
       "id": "purpose",
       "type": "text",
-      "label": "Finalità (richiesto)",
-      "infoLabel": "Indicare per quale finalità si intende accedere ai dati messi a disposizione con la fruizione del presente E-Service",
+      "label": {
+        "it": "Finalità (richiesto)",
+        "en": "Purpose (required)"
+      },
+      "infoLabel": {
+        "it": "Indicare per quale finalità si intende accedere ai dati messi a disposizione con la fruizione del presente E-Service",
+        "en": "State what is your purpose in accessing the data provided with this E-Service"
+      },
       "defaultValue": "",
       "required": true,
       "dependencies": []
@@ -13,14 +19,17 @@
     {
       "id": "usesPersonalData",
       "type": "radio",
-      "label": "Indicare se si accede a dati personali (richiesto)",
+      "label": {
+        "it": "Indicare se si accede a dati personali (richiesto)",
+        "en": "Will you have access to personal data? (required)"
+      },
       "options": [
         {
-          "label": "Sì",
+          "label": { "it": "Sì", "en": "Yes" },
           "value": "YES"
         },
         {
-          "label": "No",
+          "label": { "it": "No", "en": "No" },
           "value": "NO"
         }
       ],
@@ -31,14 +40,17 @@
     {
       "id": "usesThirdPartyPersonalData",
       "type": "radio",
-      "label": "Indicare se si accede a dati non personali di terzi (richiesto)",
+      "label": {
+        "it": "Indicare se si accede a dati non personali di terzi (richiesto)",
+        "en": "Will you access third-party non personal data? (required)"
+      },
       "options": [
         {
-          "label": "Sì",
+          "label": { "it": "Sì", "en": "Yes" },
           "value": "YES"
         },
         {
-          "label": "No",
+          "label": { "it": "No", "en": "No" },
           "value": "NO"
         }
       ],
@@ -54,14 +66,17 @@
     {
       "id": "usesConfidentialData",
       "type": "radio",
-      "label": "Indicare se si accede a dati non personali ma confidenziali o strettamente riservati (richiesto)",
+      "label": {
+        "it": "Indicare se si accede a dati non personali ma confidenziali o strettamente riservati (richiesto)",
+        "en": "Will you access confidential or reserved non personal data? (required)"
+      },
       "options": [
         {
-          "label": "Sì",
+          "label": { "it": "Sì", "en": "Yes" },
           "value": "YES"
         },
         {
-          "label": "No",
+          "label": { "it": "No", "en": "No" },
           "value": "NO"
         }
       ],
@@ -81,15 +96,21 @@
     {
       "id": "securedDataAccess",
       "type": "radio",
-      "label": "Indicare se sono state adottate tutte le misure di sicurezza necessarie e/o richieste per l’accesso al dato (richiesto)",
-      "infoLabel": "Se la risposta a questa domanda è no, prima di procedere con l’invio della richiesta di accesso al presente E-Service per la finalità indicata, si invita a adottare ogni misura di sicurezza necessaria e/o richiesta per l’accesso al dato",
+      "label": {
+        "it": "Indicare se sono state adottate tutte le misure di sicurezza necessarie e/o richieste per l’accesso al dato (richiesto)",
+        "en": "Were all necessary and/or required security measures taken before accessing this data? (required)"
+      },
+      "infoLabel": {
+        "it": "Se la risposta a questa domanda è no, prima di procedere con l’invio della richiesta di accesso al presente E-Service per la finalità indicata, si invita a adottare ogni misura di sicurezza necessaria e/o richiesta per l’accesso al dato",
+        "en": "If the answer is no, please take all necessary and/or required security measures before accessing this data"
+      },
       "options": [
         {
-          "label": "Sì",
+          "label": { "it": "Sì", "en": "Yes" },
           "value": "YES"
         },
         {
-          "label": "No",
+          "label": { "it": "No", "en": "No" },
           "value": "NO"
         }
       ],
@@ -105,30 +126,51 @@
     {
       "id": "legalBasis",
       "type": "checkbox",
-      "label": "Indicare sulla base di quale, fra le seguenti basi giuridiche ex art. 6 del GDPR, ritiene di essere titolato ad accedere ai dati personali messi a disposizione con la fruizione dell’E-Service (richiesto, scelta multipla)",
+      "label": {
+        "it": "Indicare sulla base di quale, fra le seguenti basi giuridiche ex art. 6 del GDPR, ritiene di essere titolato ad accedere ai dati personali messi a disposizione con la fruizione dell’E-Service (richiesto, scelta multipla)",
+        "en": "Based on GDPR ex art. 6, state on which legal basis you think you are entitled to access the personal data provided with the access to this E-Service (required, multiple choice)"
+      },
       "options": [
         {
-          "label": "consenso dell’interessato al trattamento dei dati personali per una o più specifiche finalità",
+          "label": {
+            "it": "consenso dell’interessato al trattamento dei dati personali per una o più specifiche finalità",
+            "en": "consent of the interested party to the treatment of personal data for one or more purposes"
+          },
           "value": "CONSENT"
         },
         {
-          "label": "esecuzione di un contratto di cui l'interessato è parte o di misure precontrattuali adottate su richiesta dello stesso",
+          "label": {
+            "it": "esecuzione di un contratto di cui l'interessato è parte o di misure precontrattuali adottate su richiesta dello stesso",
+            "en": "execution of a contract which the party is part of or precontractual measures adopted upon request of said party"
+          },
           "value": "CONTRACT"
         },
         {
-          "label": "adempimento di un obbligo legale",
+          "label": {
+            "it": "adempimento di un obbligo legale",
+            "en": "fulfillment of a legal obligation"
+          },
           "value": "LEGAL_OBLIGATION"
         },
         {
-          "label": "salvaguardia degli interessi vitali di una persona fisica",
+          "label": {
+            "it": "salvaguardia degli interessi vitali di una persona fisica",
+            "en": "safeguard of vital interests of a physical person"
+          },
           "value": "SAFEGUARD"
         },
         {
-          "label": "esecuzione di un compito di interesse pubblico o connesso all'esercizio di pubblici poteri di cui sei investito",
+          "label": {
+            "it": "esecuzione di un compito di interesse pubblico o connesso all'esercizio di pubblici poteri di cui sei investito",
+            "en": "execution of a task of public interest or connected to the exercise of public authority bestowed upon you"
+          },
           "value": "PUBLIC_INTEREST"
         },
         {
-          "label": "perseguimento del legittimo interesse del titolare del trattamento o di terzi, a condizione che non prevalgano gli interessi o i diritti e le libertà fondamentali dell'interessato che richiedono la protezione dei dati personali, in particolare se l'interessato è un minore",
+          "label": {
+            "it": "perseguimento del legittimo interesse del titolare del trattamento o di terzi, a condizione che non prevalgano gli interessi o i diritti e le libertà fondamentali dell'interessato che richiedono la protezione dei dati personali, in particolare se l'interessato è un minore",
+            "en": "pursue of a legitimate interest of the owner of the treatment or of a third party, on condition that the interest, rights and fundamental freedoms of the interested party that require personal data protection not prevail, with particular interests in case of a minor"
+          },
           "value": "LEGITIMATE_INTEREST"
         }
       ],
@@ -144,7 +186,10 @@
     {
       "id": "legalObligationReference",
       "type": "text",
-      "label": "Inserire riferimento normativo per adempimento di un obbligo legale (richiesto)",
+      "label": {
+        "it": "Inserire riferimento normativo per adempimento di un obbligo legale (richiesto)",
+        "en": "State the normative reference towards the fulfillment of a legal obligation (required)"
+      },
       "defaultValue": "",
       "required": true,
       "dependencies": [
@@ -157,7 +202,10 @@
     {
       "id": "publicInterestReference",
       "type": "text",
-      "label": "Inserire riferimento normativo per esecuzione di un compito di interesse pubblico o connesso all'esercizio di pubblici poteri di cui sei investito (richiesto)",
+      "label": {
+        "it": "Inserire riferimento normativo per esecuzione di un compito di interesse pubblico o connesso all'esercizio di pubblici poteri di cui sei investito (richiesto)",
+        "en": "State the normative reference for the execution of a public interest task, or connected to the exercise of public powers bestowed upon you (required)"
+      },
       "defaultValue": "",
       "required": true,
       "dependencies": [
@@ -170,14 +218,17 @@
     {
       "id": "knowsAccessedDataCategories",
       "type": "radio",
-      "label": "Indicare se si conosce la tipologia di dati personali cui si avrà accesso attraverso la fruizione del presente E-Service di cui alle definizioni contenute nell’art. 4, nn. 1, 13, 14 e 15 del GDPR (richiesto)",
+      "label": {
+        "it": "Indicare se si conosce la tipologia di dati personali cui si avrà accesso attraverso la fruizione del presente E-Service di cui alle definizioni contenute nell’art. 4, nn. 1, 13, 14 e 15 del GDPR (richiesto)",
+        "en": "Do you know the type of personal data you will have access to with the subscription to this E-Service? (required)"
+      },
       "options": [
         {
-          "label": "Sì",
+          "label": { "it": "Sì", "en": "Yes" },
           "value": "YES"
         },
         {
-          "label": "No",
+          "label": { "it": "No", "en": "No" },
           "value": "NO"
         }
       ],
@@ -193,14 +244,17 @@
     {
       "id": "accessDataArt9Gdpr",
       "type": "radio",
-      "label": "Indicare se si accederà a particolari categorie di dati personali ex art. 9 del GDPR (richiesto)",
+      "label": {
+        "it": "Indicare se si accederà a particolari categorie di dati personali ex art. 9 del GDPR (richiesto)",
+        "en": "Will you access personal data of peculiar categories with reference to the GDPR ex art. 9? (required)"
+      },
       "options": [
         {
-          "label": "Sì",
+          "label": { "it": "Sì", "en": "Yes" },
           "value": "YES"
         },
         {
-          "label": "No",
+          "label": { "it": "No", "en": "No" },
           "value": "NO"
         }
       ],
@@ -220,14 +274,17 @@
     {
       "id": "accessUnderageData",
       "type": "radio",
-      "label": "Indicare se si accederà a dati di minori ex art. 8 del GDPR (richiesto)",
+      "label": {
+        "it": "Indicare se si accederà a dati di minori ex art. 8 del GDPR (richiesto)",
+        "en": "Will you access underage data with reference to the GDPR ex art. 8? (required)"
+      },
       "options": [
         {
-          "label": "Sì",
+          "label": { "it": "Sì", "en": "Yes" },
           "value": "YES"
         },
         {
-          "label": "No",
+          "label": { "it": "No", "en": "No" },
           "value": "NO"
         }
       ],
@@ -247,14 +304,17 @@
     {
       "id": "knowsDataQuantity",
       "type": "radio",
-      "label": "Indicare se si conosce la quantità di dati personali di cui si entrerà in possesso attraverso la fruizione del presente E-Service (richiesto)",
+      "label": {
+        "it": "Indicare se si conosce la quantità di dati personali di cui si entrerà in possesso attraverso la fruizione del presente E-Service (richiesto)",
+        "en": "Do you know how much personal data you will access through the subscription of this E-Service? (required)"
+      },
       "options": [
         {
-          "label": "Sì",
+          "label": { "it": "Sì", "en": "Yes" },
           "value": "YES"
         },
         {
-          "label": "No",
+          "label": { "it": "No", "en": "No" },
           "value": "NO"
         }
       ],
@@ -270,8 +330,14 @@
     {
       "id": "dataQuantity",
       "type": "select-one",
-      "label": "Fascia di riferimento (richiesto)",
-      "infoLabel": "Si richiede di specificare la fascia di riferimento fra quelle di seguito indicate anche in funzione del periodo di validità del voucher emesso per la fruizione dell’E-Service",
+      "label": {
+        "it": "Fascia di riferimento (richiesto)",
+        "en": "Reference range (required)"
+      },
+      "infoLabel": {
+        "it": "Si richiede di specificare la fascia di riferimento fra quelle di seguito indicate anche in funzione del periodo di validità del voucher emesso per la fruizione dell’E-Service",
+        "en": "You are required to state the reference range among the options given, keeping in mind the expiration of the access token (voucher) emitted for the fruition of the E-Service"
+      },
       "options": [
         {
           "label": "0-100",
@@ -310,23 +376,41 @@
     {
       "id": "deliveryMethod",
       "type": "select-one",
-      "label": "Modalità di erogazione (richiesto)",
-      "infoLabel": "Indicare con quali modalità il Fruitore intende ricevere le informazioni dall’Erogatore, d’accordo con quelle già previste dall’Erogatore stesso",
+      "label": {
+        "it": "Modalità di erogazione (richiesto)",
+        "en": "Delivery mode (required)"
+      },
+      "infoLabel": {
+        "it": "Indicare con quali modalità il Fruitore intende ricevere le informazioni dall’Erogatore, d’accordo con quelle già previste dall’Erogatore stesso",
+        "en": "State how the Subscriber will receive the information from the Provider, in accordance with the ones already provided by the Provider"
+      },
       "options": [
         {
-          "label": "in chiaro",
+          "label": {
+            "it": "in chiaro",
+            "en": "cleartext"
+          },
           "value": "CLEARTEXT"
         },
         {
-          "label": "in forma aggregata",
+          "label": {
+            "it": "in forma aggregata",
+            "en": "aggregated"
+          },
           "value": "AGGREGATE"
         },
         {
-          "label": "in forma anonimizzata",
+          "label": {
+            "it": "in forma anonimizzata",
+            "en": "anonymized"
+          },
           "value": "ANONYMOUS"
         },
         {
-          "label": "in forma pseudoanonimizzata",
+          "label": {
+            "it": "in forma pseudoanonimizzata",
+            "en": "pseudonymized"
+          },
           "value": "PSEUDOANONYMOUS"
         }
       ],
@@ -342,15 +426,21 @@
     {
       "id": "doneDpia",
       "type": "radio",
-      "label": "Indicare se è stata fatta un’apposita valutazione di impatto (c.d. DPIA) relativamente alle attività di trattamento dei dati personali che saranno effettuate attraverso la fruizione del presente E-Service (richiesto)",
-      "infoLabel": "Se la risposta a questa domanda è no, si invita a fare tale valutazione prima di fruire dell’E-Service",
+      "label": {
+        "it": "Indicare se è stata fatta un’apposita valutazione di impatto (c.d. DPIA) relativamente alle attività di trattamento dei dati personali che saranno effettuate attraverso la fruizione del presente E-Service (richiesto)",
+        "en": "Have you done an impact assessment (c.d. DPIA) with reference to the personal data handling activities that will be carried out through the fruition of the present E-Service? (required)"
+      },
+      "infoLabel": {
+        "it": "Se la risposta a questa domanda è no, si invita a fare tale valutazione prima di fruire dell’E-Service",
+        "en": "If the answer is no, please do this evaluation before accessing the E-Service"
+      },
       "options": [
         {
-          "label": "Sì",
+          "label": { "it": "Sì", "en": "Yes" },
           "value": "YES"
         },
         {
-          "label": "No",
+          "label": { "it": "No", "en": "No" },
           "value": "NO"
         }
       ],
@@ -366,15 +456,21 @@
     {
       "id": "definedDataRetentionPeriod",
       "type": "radio",
-      "label": "Indicare se è stato determinato un periodo di conservazione dei dati cui si avrà accesso attraverso il presente E-Service (richiesto)",
-      "infoLabel": "Se la risposta a questa domanda è no, si invita a determinare tale periodo prima di fruire dell’E-Service",
+      "label": {
+        "it": "Indicare se è stato determinato un periodo di conservazione dei dati cui si avrà accesso attraverso il presente E-Service (richiesto)",
+        "en": "Have you determined a data retention period you will have access to through the fruition of the E-Service? (required)"
+      },
+      "infoLabel": {
+        "it": "Se la risposta a questa domanda è no, si invita a determinare tale periodo prima di fruire dell’E-Service",
+        "en": "If the answer is no, please determine such period before accessing the E-Service"
+      },
       "options": [
         {
-          "label": "Sì",
+          "label": { "it": "Sì", "en": "Yes" },
           "value": "YES"
         },
         {
-          "label": "No",
+          "label": { "it": "No", "en": "No" },
           "value": "NO"
         }
       ],
@@ -390,14 +486,23 @@
     {
       "id": "purposePursuit",
       "type": "radio",
-      "label": "Per perseguire la finalità dichiarata, indicare se (richiesto)",
+      "label": {
+        "it": "Per perseguire la finalità dichiarata, indicare se (richiesto)",
+        "en": "To pursue this purpose, please state if (required)"
+      },
       "options": [
         {
-          "label": "è sufficiente che l’Erogatore verifichi la mera correttezza di una/o determinata/o informazione/dato personale già in suo possesso",
+          "label": {
+            "it": "è sufficiente che l’Erogatore verifichi la mera correttezza di una/o determinata/o informazione/dato personale già in suo possesso",
+            "en": "it is sufficient for the Provider to check the mere correctedness of a particular information or personal data they already own"
+          },
           "value": "MERE_CORRECTNESS"
         },
         {
-          "label": "è necessario ricevere ex novo una/o determinata/o informazione/dato personale",
+          "label": {
+            "it": "è necessario ricevere ex novo una/o determinata/o informazione/dato personale",
+            "en": "it is necessary to receive the information or personal data ex novo"
+          },
           "value": "NEW_PERSONAL_DATA"
         }
       ],
@@ -413,10 +518,13 @@
     {
       "id": "checkedExistenceMereCorrectnessInteropCatalogue",
       "type": "checkbox",
-      "label": "Confermare se è stato verificato se sul Catalogo API è presente un altro E-Service in grado di svolgere questa attività di mera verifica (che non preveda ex novo la comunicazione di altri informazioni/dati personali - richiesto)",
+      "label": {
+        "it": "Confermare se è stato verificato se sul Catalogo API è presente un altro E-Service in grado di svolgere questa attività di mera verifica (che non preveda ex novo la comunicazione di altri informazioni/dati personali – richiesto)",
+        "en": "Have you checked if there is another E-Service in the Catalog that allows you to carry out this simple check task (in case it does not require the ex novo transmission of other information/personal data)? (required)"
+      },
       "options": [
         {
-          "label": "Confermo",
+          "label": { "it": "Confermo", "en": "Confirm" },
           "value": "YES"
         }
       ],
@@ -436,14 +544,17 @@
     {
       "id": "checkedAllDataNeeded",
       "type": "radio",
-      "label": "Indicare se è stato verificato se occorrono necessariamente tutte le informazioni e i dati personali messi a disposizione con il presente E-Service (richiesto)",
+      "label": {
+        "it": "Indicare se è stato verificato se occorrono necessariamente tutte le informazioni e i dati personali messi a disposizione con il presente E-Service (richiesto)",
+        "en": "Did you check if it necessary for you to access all the information and personal data provided with the present E-Service? (required)"
+      },
       "options": [
         {
-          "label": "Sì",
+          "label": { "it": "Sì", "en": "Yes" },
           "value": "YES"
         },
         {
-          "label": "No",
+          "label": { "it": "No", "en": "No" },
           "value": "NO"
         }
       ],
@@ -463,15 +574,21 @@
     {
       "id": "checkedExistenceMinimalDataInteropCatalogue",
       "type": "radio",
-      "label": "Indicare se si è verificato se sul Catalogo API è presente un altro E-Service che consenta di accedere alle sole informazioni/dati personali di cui si necessita (richiesto)",
-      "infoLabel": "Se la risposta a questa domanda è no, per evitare comunicazioni di informazioni/dati personali non necessarie, si invita a sollecitare un Erogatore ad attivare un E-Service che consenta di accedere ai soli dati personali di cui si necessita e, una volta attivato, si invita a inviare una richiesta di accesso per quell’E-Service",
+      "label": {
+        "it": "Indicare se si è verificato se sul Catalogo API è presente un altro E-Service che consenta di accedere alle sole informazioni/dati personali di cui si necessita (richiesto)",
+        "en": "Did you check if another E-Service that allows you to only access the information/personal data you need is present on the Catalog? (required)"
+      },
+      "infoLabel": {
+        "it": "Se la risposta a questa domanda è no, per evitare comunicazioni di informazioni/dati personali non necessarie, si invita a sollecitare un Erogatore ad attivare un E-Service che consenta di accedere ai soli dati personali di cui si necessita e, una volta attivato, si invita a inviare una richiesta di accesso per quell’E-Service",
+        "en": "If the answer is no, please check the Catalog for E-Services that allow you to only access the information/personal data you need"
+      },
       "options": [
         {
-          "label": "Sì",
+          "label": { "it": "Sì", "en": "Yes" },
           "value": "YES"
         },
         {
-          "label": "No",
+          "label": { "it": "No", "en": "No" },
           "value": "NO"
         }
       ],

@@ -4,6 +4,7 @@ import { Typography } from '@mui/material'
 import { FixedClipboard } from './FixedClipboard'
 import axios from 'axios'
 import isEmpty from 'lodash/isEmpty'
+import { useTranslation } from 'react-i18next'
 
 type Entry = {
   value: string
@@ -29,6 +30,7 @@ export const CodeSnippetPreview = ({
   scriptSubstitutionValues,
   activeLang,
 }: CodeSnippetPreviewProps) => {
+  const { t } = useTranslation('shared-components')
   const [codeEntries, setCodeEntries] = useState<Record<string, string>>({})
 
   const remapCodeWithSubstitutions = (codeString: string) => {
@@ -69,7 +71,7 @@ export const CodeSnippetPreview = ({
             {activeLang && codeEntries[activeLang] && (
               <FixedClipboard
                 textToCopy={remapCodeWithSubstitutions(codeEntries[activeLang])}
-                successFeedbackText="Script copiato correttamente"
+                successFeedbackText={t('codeSnippetPreview.successFeedbackText')}
               />
             )}
           </Box>

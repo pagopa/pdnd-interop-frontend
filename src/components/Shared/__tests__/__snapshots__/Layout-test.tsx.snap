@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Snapshot matches 1`] = `
-<div
-  className="MuiContainer-root css-1u87t6-MuiContainer-root"
-/>
-`;

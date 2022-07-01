@@ -14,10 +14,10 @@ import { EServiceCreateStep3DocumentsInterface } from './EServiceCreateStep3Docu
 import { EServiceCreateStep3DocumentsDoc } from './EServiceCreateStep3DocumentsDoc'
 import { StepActions } from './Shared/StepActions'
 import { Divider, Paper } from '@mui/material'
-import { TOAST_CONTENTS } from '../config/toast'
 import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
 import { useRoute } from '../hooks/useRoute'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
+import { useTranslation } from 'react-i18next'
 
 export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps) {
   const { routes } = useRoute()
@@ -26,6 +26,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
   const { data: fetchedData, descriptorId, isLoading } = useEserviceCreateFetch()
   const sureFetchedData = fetchedData as EServiceReadType
   const activeDescriptorId = descriptorId as string
+  const { t } = useTranslation(['eservice', 'toast'])
 
   const publishVersion = async () => {
     const activeDescriptor = sureFetchedData.activeDescriptor as EServiceDescriptorRead
@@ -114,10 +115,10 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
           <React.Fragment>
             <StyledIntro component="h2">
               {{
-                title: 'Interfaccia (richiesto)',
-                description: `Carica il file ${
+                title: t('create.step3.interface.title'),
+                description: `${t('create.step3.interface.description.before')} ${
                   fetchedData?.technology === 'REST' ? 'OpenAPI' : 'WSDL'
-                }  che descrive l'API`,
+                }  ${t('create.step3.interface.description.after')}`,
               }}
             </StyledIntro>
 
@@ -136,9 +137,8 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
 
             <StyledIntro component="h2" sx={{ mt: 8, mb: 2 }}>
               {{
-                title: 'Documentazione',
-                description:
-                  'Inserisci la documentazione tecnica utile all’utilizzo di questo E-Service',
+                title: t('create.step3.documentation.title'),
+                description: t('create.step3.documentation.description'),
               }}
             </StyledIntro>
 
@@ -152,15 +152,18 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
             )}
 
             <StepActions
-              back={{ label: 'Indietro', type: 'button', onClick: back }}
+              back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
               forward={{
-                label: 'Salva bozza e torna agli E-Service',
+                label: t('create.endWithSaveBtn'),
                 type: 'button',
                 onClick: () => {
+                  const successMessage = t('ESERVICE_VERSION_DRAFT_UPDATE.success.message', {
+                    ns: 'toast',
+                  })
                   history.push(routes.PROVIDE_ESERVICE_LIST.PATH, {
                     toast: {
                       outcome: 'success',
-                      ...TOAST_CONTENTS.ESERVICE_VERSION_DRAFT_UPDATE.success,
+                      message: successMessage,
                     },
                   })
                 },
@@ -168,29 +171,28 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
             />
           </React.Fragment>
         ) : (
-          <LoadingWithMessage label="Stiamo caricando il tuo E-Service" transparentBackground />
+          <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
         )}
       </Paper>
 
       <Paper sx={{ p: 3, mt: 2 }}>
         <StyledIntro component="h2">
           {{
-            title: 'Azioni rapide di pubblicazione',
-            description:
-              'Hai inserito tutte le informazioni per questo E-Service? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra o abbandona questa pagina',
+            title: t('create.quickPublish.title'),
+            description: t('create.quickPublish.description'),
           }}
         </StyledIntro>
         {!isLoading ? (
           <Box sx={{ display: 'flex', mt: 3 }}>
             <StyledButton sx={{ mr: 2 }} variant="contained" onClick={publishVersion}>
-              Pubblica bozza
+              {t('create.quickPublish.publishBtn')}
             </StyledButton>
             <StyledButton variant="outlined" onClick={deleteVersion}>
-              Cancella bozza
+              {t('create.quickPublish.deleteBtn')}
             </StyledButton>
           </Box>
         ) : (
-          <LoadingWithMessage label="Stiamo caricando il tuo E-Service" transparentBackground />
+          <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
         )}
       </Paper>
     </React.Fragment>

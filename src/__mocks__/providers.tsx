@@ -1,11 +1,10 @@
 import React, { FunctionComponent, useState } from 'react'
 import { Router } from 'react-router-dom'
-import { DialogProps, LangCode, Party, ToastProps } from '../../types'
+import { DialogProps, LangCode, ToastProps } from '../../types'
 import {
   DialogContext,
   LangContext,
   LoaderContext,
-  PartyContext,
   RoutesContext,
   TableActionMenuContext,
   ToastContext,
@@ -16,6 +15,8 @@ import {
 // import theme from '@pagopa/mui-italia/theme'
 import { History, createMemoryHistory } from 'history'
 import { getDecoratedRoutes } from '../lib/router-utils'
+import { I18nextProvider } from 'react-i18next'
+import i18n from './i18n'
 
 type LangProviderProps = {
   defaultLang?: LangCode
@@ -23,10 +24,6 @@ type LangProviderProps = {
 
 type TokenProviderProps = {
   defaultToken?: string
-}
-
-type PartyProviderProps = {
-  defaultParty?: Party
 }
 
 type TableActionMenuProviderProps = {
@@ -58,18 +55,6 @@ const RoutesProvider: FunctionComponent = ({ children }) => {
 const TokenProvider: FunctionComponent<TokenProviderProps> = ({ children, defaultToken }) => {
   const [token, setToken] = useState<string | null>(defaultToken || null)
   return <TokenContext.Provider value={{ token, setToken }}>{children}</TokenContext.Provider>
-}
-
-const PartyProvider: FunctionComponent<PartyProviderProps> = ({ children, defaultParty }) => {
-  const [party, setParty] = useState<Party | null>(defaultParty || null)
-  const [availableParties, setAvailableParties] = useState<Array<Party> | null>(
-    defaultParty ? [defaultParty] : null
-  )
-  return (
-    <PartyContext.Provider value={{ party, setParty, availableParties, setAvailableParties }}>
-      {children}
-    </PartyContext.Provider>
-  )
 }
 
 const TableActionMenuProvider: FunctionComponent<TableActionMenuProviderProps> = ({
@@ -112,7 +97,6 @@ type RouterProviderProps = {
 export const AllTheProviders: FunctionComponent<
   LangProviderProps &
     TokenProviderProps &
-    PartyProviderProps &
     TableActionMenuProviderProps &
     ToastProviderProps &
     DialogProviderProps &
@@ -122,7 +106,6 @@ export const AllTheProviders: FunctionComponent<
   children,
   defaultLang,
   defaultToken,
-  defaultParty,
   defaultTableActionMenu,
   defaultToast,
   defaultDialog,
@@ -133,9 +116,9 @@ export const AllTheProviders: FunctionComponent<
 
   return (
     <LangProvider defaultLang={defaultLang}>
-      <RoutesProvider>
-        <TokenProvider defaultToken={defaultToken}>
-          <PartyProvider defaultParty={defaultParty}>
+      <I18nextProvider i18n={i18n}>
+        <RoutesProvider>
+          <TokenProvider defaultToken={defaultToken}>
             <Router history={history}>
               {/* <ThemeProvider theme={theme}> */}
               {/* <CssBaseline /> */}
@@ -149,9 +132,9 @@ export const AllTheProviders: FunctionComponent<
               </TableActionMenuProvider>
               {/* </ThemeProvider> */}
             </Router>
-          </PartyProvider>
-        </TokenProvider>
-      </RoutesProvider>
+          </TokenProvider>
+        </RoutesProvider>
+      </I18nextProvider>
     </LangProvider>
   )
 }

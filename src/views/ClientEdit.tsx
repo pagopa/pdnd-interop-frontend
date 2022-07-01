@@ -17,8 +17,10 @@ import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { VoucherRead } from '../components/VoucherRead'
 import { PageReloadMessage } from '../components/Shared/PageReloadMessage'
+import { useTranslation } from 'react-i18next'
 
 export function ClientEdit() {
+  const { t } = useTranslation('client')
   const { routes } = useRoute()
   const location = useLocation()
   const { forceRerenderCounter, runAction } = useFeedback()
@@ -57,22 +59,19 @@ export function ClientEdit() {
       <TabContext value={activeTab}>
         <TabList
           onChange={updateActiveTab}
-          aria-label="Tre tab diverse per le istruzioni dell'ottenimento dell'access token, gli operatori di sicurezza e le chiavi pubbliche"
+          aria-label={t('edit.tabs.ariaLabel')}
           variant="fullWidth"
         >
-          <Tab label="Istruzioni ottenimento accesso token" value="voucher" />
-          <Tab label="Operatori di sicurezza" value="securityOperators" />
-          <Tab label="Chiavi pubbliche" value="publicKeys" />
+          <Tab label={t('edit.tabs.voucher')} value="voucher" />
+          <Tab label={t('edit.tabs.clientMembers')} value="clientMembers" />
+          <Tab label={t('edit.tabs.publicKeys')} value="publicKeys" />
         </TabList>
 
         <TabPanel value="voucher">
           {error ? (
             <PageReloadMessage />
           ) : isLoading ? (
-            <LoadingWithMessage
-              label="Stiamo caricando il client richiesto"
-              transparentBackground
-            />
+            <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
           ) : (
             <React.Fragment>
               <VoucherRead
@@ -83,7 +82,7 @@ export function ClientEdit() {
 
               <PageBottomActions>
                 <StyledButton variant="contained" onClick={deleteClient}>
-                  Elimina client
+                  {t('edit.actions.deleteLabel')}
                 </StyledButton>
                 <StyledButton
                   variant="outlined"
@@ -93,14 +92,14 @@ export function ClientEdit() {
                       : routes.SUBSCRIBE_CLIENT_LIST.PATH
                   }
                 >
-                  Torna alla lista dei client
+                  {t('edit.actions.backToClientsLabel')}
                 </StyledButton>
               </PageBottomActions>
             </React.Fragment>
           )}
         </TabPanel>
 
-        <TabPanel value="securityOperators">
+        <TabPanel value="clientMembers">
           <UserList clientKind={clientKind} />
         </TabPanel>
 

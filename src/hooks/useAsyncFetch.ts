@@ -4,7 +4,8 @@ import { AxiosError, AxiosResponse } from 'axios'
 import { RequestConfig } from '../../types'
 import { fetchWithLogs } from '../lib/api-utils'
 import { isFetchError } from '../lib/error-utils'
-import { PartyContext } from '../lib/context'
+import { useJwt } from './useJwt'
+import { DialogContext } from '../lib/context'
 
 type Settings<T, U> = {
   useEffectDeps?: Array<unknown>
@@ -15,10 +16,11 @@ export const useAsyncFetch = <T, U = T>(
   requestConfig: RequestConfig,
   settings?: Settings<T, U>
 ) => {
+  const { jwt, hasSessionExpired } = useJwt()
+  const { setDialog } = useContext(DialogContext)
   const useEffectDeps = (settings && settings.useEffectDeps) || []
   const mapFn = (settings && settings.mapFn) || identity
 
-  const { party } = useContext(PartyContext)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [data, setData] = useState<U | undefined>()
   const [error, setError] = useState<AxiosError>()
@@ -31,23 +33,37 @@ export const useAsyncFetch = <T, U = T>(
 
       const response = await fetchWithLogs(requestConfig)
 
-      if (isMounted) {
-        isFetchError(response)
-          ? setError(response as AxiosError)
-          : setData(mapFn((response as AxiosResponse).data))
-
-        setIsLoading(false)
+      // This is just to shut React up
+      if (!isMounted) {
+        return
       }
+
+      // If all is ok, store the data
+      if (!isFetchError(response)) {
+        setData(mapFn((response as AxiosResponse).data))
+        setIsLoading(false)
+        return
+      }
+
+      // Otherwise, it means something went wrong
+      // If the session has expired, force log out
+      if (hasSessionExpired) {
+        setDialog({ type: 'sessionExpired' })
+      } else {
+        setError(response as AxiosError)
+      }
+
+      setIsLoading(false)
     }
 
-    asyncFetchWithLogs()
+    if (jwt) {
+      asyncFetchWithLogs()
+    }
 
     return () => {
       isMounted = false
     }
-
-    // If the user changes party, fresh data should be fetched
-  }, [party, ...useEffectDeps]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [jwt, ...useEffectDeps]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return { data, error, isLoading: isLoading }
 }

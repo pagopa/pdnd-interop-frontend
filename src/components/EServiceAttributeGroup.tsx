@@ -18,6 +18,7 @@ import { useCloseDialog } from '../hooks/useCloseDialog'
 import { StyledTableRow } from './Shared/StyledTableRow'
 import { DeleteOutline as DeleteOutlineIcon } from '@mui/icons-material'
 import { ButtonNaked } from '@pagopa/mui-italia'
+import { useTranslation } from 'react-i18next'
 
 type EServiceAttributeGroupProps = {
   attributesGroup: Array<FrontendAttribute>
@@ -41,6 +42,7 @@ export function EServiceAttributeGroup({
   const { setDialog } = useContext(DialogContext)
   const { runAction } = useFeedback()
   const { closeDialog } = useCloseDialog()
+  const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.attributes' })
 
   const openCreateNewAttributeDialog = () => {
     const createNewAttributeInitialValues = {
@@ -102,8 +104,8 @@ export function EServiceAttributeGroup({
   }
 
   const headData = canRequireVerification
-    ? ['Nome attributo', 'Si richiede convalida?', '']
-    : ['Nome attributo', '']
+    ? [t('addAttributeTable.attributeName'), t('addAttributeTable.canRequireVerification'), '']
+    : [t('addAttributeTable.attributeName'), '']
 
   const wrapRemove = (attributes: Array<CatalogAttribute>) => () => {
     remove(attributes)
@@ -114,7 +116,7 @@ export function EServiceAttributeGroup({
       <TableWithLoader
         isLoading={false}
         headData={headData}
-        noDataLabel="Nessun attributo presente"
+        noDataLabel={t('addAttributeTable.noDataLabel')}
       >
         {Boolean(attributesGroup.length > 0) &&
           attributesGroup.map(({ attributes, explicitAttributeVerification }, j) => {
@@ -127,7 +129,7 @@ export function EServiceAttributeGroup({
                         <React.Fragment key={i}>
                           {name}{' '}
                           <Typography component="span" fontWeight={600}>
-                            oppure
+                            {t('addAttributeTable.groupOr')}
                           </Typography>{' '}
                         </React.Fragment>
                       )
@@ -140,7 +142,13 @@ export function EServiceAttributeGroup({
             }
 
             const explicitAttributeVerificationLabel = {
-              label: explicitAttributeVerification ? 'Sì' : 'No',
+              label: t(
+                `addAttributeTable.${
+                  explicitAttributeVerification
+                    ? 'explicitAttributeVerificationYes'
+                    : 'explicitAttributeVerificationNo'
+                }`
+              ),
             }
 
             const cellData =
@@ -168,12 +176,12 @@ export function EServiceAttributeGroup({
             variant="contained"
             onClick={openExistingAttributeDialog}
           >
-            Aggiungi attributo o gruppo
+            {t('addAttributeTable.addBtn')}
           </StyledButton>
 
           {canCreateNewAttributes && (
             <StyledButton size="small" variant="outlined" onClick={openCreateNewAttributeDialog}>
-              Crea nuovo attributo
+              {t('addAttributeTable.createBtn')}
             </StyledButton>
           )}
         </Box>

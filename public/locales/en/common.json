@@ -1,0 +1,123 @@
+{
+  "productTitle": "Interoperability",
+  "addBtn": "+ Add",
+  "createNewBtn": "Create new",
+  "validation": {
+    "mixed": {
+      "required": "Field required"
+    },
+    "string": {
+      "email": "Invalid email format"
+    }
+  },
+  "mainNav": {
+    "ariaLabel": "Main navigation"
+  },
+  "loading": {
+    "sessionToken": {
+      "label": "We are authenticating this session. Please, wait"
+    }
+  },
+  "unauthorized": {
+    "title": "Insufficient authorization",
+    "description": "Sorry, you don't have enough permissions to access this feature",
+    "cta": "Go back to the homepage"
+  },
+  "actions": {
+    "suspend": "Suspend",
+    "activate": "Activate",
+    "upgrade": "Upgrade",
+    "delete": "Delete",
+    "inspect": "Inspect",
+    "edit": "Edit",
+    "subscribe": "Subscribe",
+    "clone": "Clone",
+    "publish": "Publish",
+    "download": "Download",
+    "archive": "Archive",
+    "createNewDraft": "Create new draft version"
+  },
+  "table": {
+    "headData": {
+      "eserviceName": "E-Service",
+      "clientName": "Client",
+      "purposeName": "Purpose",
+      "providerName": "Provider",
+      "subscriberName": "Subscriber",
+      "currentVersion": "Current version",
+      "version": "Versione",
+      "eserviceStatus": "E-Service status",
+      "agreementStatus": "Request status",
+      "purposeStatus": "Purpose status",
+      "userStatus": "User status",
+      "keyName": "Key name",
+      "keyUploader": "Uploaded by",
+      "keyUploadDate": "Creation date",
+      "userName": "Name and surname"
+    }
+  },
+  "status": {
+    "eservice": {
+      "PUBLISHED": "active",
+      "DRAFT": "draft",
+      "SUSPENDED": "suspended",
+      "ARCHIVED": "archived",
+      "DEPRECATED": "deprecated"
+    },
+    "agreement": {
+      "ACTIVE": "active",
+      "SUSPENDED": "suspended",
+      "PENDING": "awaiting approval",
+      "INACTIVE": "archived"
+    },
+    "purpose": {
+      "DRAFT": "draft",
+      "ACTIVE": "active",
+      "SUSPENDED": "suspended",
+      "WAITING_FOR_APPROVAL": "awaiting evaluation",
+      "ARCHIVED": "archived"
+    },
+    "user": {
+      "PENDING": "awaiting approval",
+      "ACTIVE": "active",
+      "SUSPENDED": "suspended",
+      "DELETED": "deleted"
+    }
+  },
+  "userRole": {
+    "MANAGER": "Administrator",
+    "DELEGATE": "Delegate",
+    "OPERATOR": "Operator"
+  },
+  "userProductRole": {
+    "admin": "Administrator",
+    "security": "Security operator",
+    "api": "API operator"
+  },
+  "mode": {
+    "provider": "provider",
+    "subscriber": "subscriber"
+  },
+  "help": {
+    "title": "Getting started",
+    "description": "In this page you can find useful information to manage some everyday operations and overcome problems. Please note that this guide will be replaced with a dedicated documentation website as soon as the platform goes into production"
+  },
+  "notFound": {
+    "title": "Sorry",
+    "description": {
+      "notFound": "The requested page does not exist",
+      "serverError": "Temporary server error",
+      "goHomeLink": {
+        "label": "Back to home"
+      }
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "tempAlert": "The notifications feature is currently being developed"
+  },
+  "securityKeyGuide": {
+    "title": "How to generate and upload security keys"
+  },
+  "error": {}
+}

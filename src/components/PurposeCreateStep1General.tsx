@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useEffect } from 'react'
+import React, { FunctionComponent, useEffect } from 'react'
 import { useFormik } from 'formik'
 import { object, string, number } from 'yup'
 import {
@@ -10,7 +10,6 @@ import {
   PurposeRiskAnalysisForm,
 } from '../../types'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { PartyContext } from '../lib/context'
 import { StepActions } from './Shared/StepActions'
 import { StyledForm } from './Shared/StyledForm'
 import { StyledInputControlledSelect } from './Shared/StyledInputControlledSelect'
@@ -25,6 +24,8 @@ import { useRoute } from '../hooks/useRoute'
 import { Paper } from '@mui/material'
 import { StyledIntro } from './Shared/StyledIntro'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
+import { useTranslation } from 'react-i18next'
+import { useJwt } from '../hooks/useJwt'
 
 type PurposeCreate = {
   title: string
@@ -50,20 +51,30 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
   const { routes } = useRoute()
   const history = useHistory()
   const purposeId = getPurposeFromUrl(history.location)
+  const { t } = useTranslation('purpose')
+  const { jwt } = useJwt()
 
   const { runAction } = useFeedback()
-  const { party } = useContext(PartyContext)
   const { data: eserviceData, isLoading: isEServiceReallyLoading } = useAsyncFetch<
     Array<EServiceFlatReadType>,
     Array<InputSelectOption>
   >(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
-      config: { params: { callerId: party?.id, consumerId: party?.id, agreementStates: 'ACTIVE' } },
+      config: {
+        params: {
+          callerId: jwt?.organization.id,
+          consumerId: jwt?.organization.id,
+          agreementStates: 'ACTIVE',
+        },
+      },
     },
     {
       mapFn: (data) =>
-        data.map((d) => ({ value: d.id, label: `${d.name} erogato da ${d.producerName}` })),
+        data.map((d) => ({
+          value: d.id,
+          label: `${d.name} ${t('create.eserviceProvider')} ${d.producerName}`,
+        })),
     }
   )
 
@@ -109,7 +120,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
       title: data.title,
       description: data.description,
       eserviceId: data.eserviceId,
-      consumerId: party?.id,
+      consumerId: jwt?.organization.id,
     }
     const purposeVersionData = { dailyCalls: data.dailyCalls }
 
@@ -209,13 +220,13 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
     <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
       {!isLoading ? (
         <React.Fragment>
-          <StyledIntro component="h2">{{ title: 'Informazioni generali' }}</StyledIntro>
+          <StyledIntro component="h2">{{ title: t('create.step1.title') }}</StyledIntro>
 
           <StyledForm onSubmit={formik.handleSubmit}>
             <StyledInputControlledText
               name="title"
-              label="Nome della finalità (richiesto)"
-              infoLabel="Ti aiuterà a distinguerla dalle altre"
+              label={t('create.step1.nameField.label')}
+              infoLabel={t('create.step1.nameField.infoLabel')}
               error={formik.errors.title}
               value={formik.values.title}
               onChange={formik.handleChange}
@@ -224,7 +235,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
 
             <StyledInputControlledText
               name="description"
-              label="Descrizione della finalità (richiesto)"
+              label={t('create.step1.descriptionField.label')}
               error={formik.errors.description}
               value={formik.values.description}
               onChange={formik.handleChange}
@@ -233,7 +244,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
 
             <StyledInputControlledSelect
               name="eserviceId"
-              label="E-Service da associare (richiesto)"
+              label={t('create.step1.eserviceField.label')}
               error={formik.errors.eserviceId}
               value={formik.values.eserviceId}
               onChange={formik.handleChange}
@@ -243,8 +254,8 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
 
             <StyledInputControlledText
               name="dailyCalls"
-              label="Numero di chiamate API/giorno (richiesto)"
-              infoLabel="Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'E-Service"
+              label={t('create.step1.dailyCallsField.label')}
+              infoLabel={t('create.step1.dailyCallsField.infoLabel')}
               type="number"
               error={formik.errors.dailyCalls}
               value={formik.values.dailyCalls}
@@ -254,19 +265,16 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
 
             <StepActions
               back={{
-                label: 'Torna alle finalità',
+                label: t('create.backToListBtn'),
                 type: 'link',
                 to: routes.SUBSCRIBE_PURPOSE_LIST.PATH,
               }}
-              forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
+              forward={{ label: t('create.forwardWithSaveBtn'), type: 'submit' }}
             />
           </StyledForm>
         </React.Fragment>
       ) : (
-        <LoadingWithMessage
-          label="Stiamo caricando le informazioni della finalità"
-          transparentBackground
-        />
+        <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
     </Paper>
   )

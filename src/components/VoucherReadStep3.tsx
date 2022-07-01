@@ -10,7 +10,8 @@ import { InlineClipboard } from './Shared/InlineClipboard'
 import { StyledLink } from './Shared/StyledLink'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { EServiceReadType } from '../../types'
-import { URL_INTEROP_M2M_INTERFACE_DOCUMENT } from '../lib/constants'
+import { useTranslation } from 'react-i18next'
+import { API_GATEWAY_INTEFACE_URL } from '../lib/env'
 
 export const VoucherReadStep3 = ({
   clientKind,
@@ -31,10 +32,11 @@ export const VoucherReadStep3 = ({
   )
 }
 
-const ClientVoucherReadStep3 = ({ data, back, clientId }: ClientVoucherStepProps) => {
+const ClientVoucherReadStep3 = ({ data, back }: ClientVoucherStepProps) => {
   const { routes } = useRoute()
+  const { t } = useTranslation('voucher')
 
-  const { data: eServiceData } = useAsyncFetch<EServiceReadType>({
+  const { data: eserviceData } = useAsyncFetch<EServiceReadType>({
     path: {
       endpoint: 'ESERVICE_GET_SINGLE',
       endpointParams: { eserviceId: data?.eservice.id, descriptorId: data?.eservice.descriptor.id },
@@ -42,29 +44,31 @@ const ClientVoucherReadStep3 = ({ data, back, clientId }: ClientVoucherStepProps
   })
 
   const descriptorAudience =
-    eServiceData &&
-    eServiceData.descriptors.find((d) => d.id === data?.eservice.descriptor.id)?.audience[0]
+    eserviceData &&
+    eserviceData.descriptors.find((d) => d.id === data?.eservice.descriptor.id)?.audience[0]
 
   return (
     <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
       <StyledIntro component="h2">
         {{
-          title: 'Accesso all’E-Service dell’Erogatore',
-          description:
-            'A questo punto il voucher ottenuto è spendibile presso l’E-Service dell’Erogatore',
+          title: t('step3.consumer.title'),
+          description: t('step3.consumer.description'),
         }}
       </StyledIntro>
 
-      <DescriptionBlock label="AUD" labelDescription="L'audience dell'E-Service dell'Erogatore">
+      <DescriptionBlock
+        label={t('step3.consumer.audField.label')}
+        labelDescription={t('step3.consumer.audField.description')}
+      >
         {descriptorAudience && (
           <InlineClipboard
             textToCopy={descriptorAudience}
-            successFeedbackText="Id copiato correttamente"
+            successFeedbackText={t('step3.consumer.audField.copySuccessFeedbackText')}
           />
         )}
       </DescriptionBlock>
 
-      <DescriptionBlock label="Dettagli E-Service">
+      <DescriptionBlock label={t('step3.consumer.eserviceDetailsField.label')}>
         <StyledLink
           to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
             eserviceId: data?.eservice.id,
@@ -75,50 +79,35 @@ const ClientVoucherReadStep3 = ({ data, back, clientId }: ClientVoucherStepProps
         </StyledLink>
       </DescriptionBlock>
 
-      <StepActions
-        back={{ label: 'Indietro', type: 'button', onClick: back }}
-        forward={{
-          label: 'Torna al client',
-          type: 'link',
-          to: buildDynamicPath(routes.SUBSCRIBE_PURPOSE_LIST.PATH, { clientId }),
-        }}
-      />
+      <StepActions back={{ label: t('backBtn'), type: 'button', onClick: back }} />
     </Paper>
   )
 }
 
-const InteropM2MVoucherReadStep3 = ({ back, clientId }: InteropM2MVoucherStepProps) => {
-  const { routes } = useRoute()
+const InteropM2MVoucherReadStep3 = ({ back }: InteropM2MVoucherStepProps) => {
+  const { t } = useTranslation('voucher')
 
   return (
     <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
       <StyledIntro component="h2">
         {{
-          title: 'Accesso all’API gateway di Interoperabilità',
-          description:
-            'A questo punto il voucher ottenuto è spendibile presso l’API gateway di Interoperabilità',
+          title: t('step3.api.title'),
+          description: t('step3.api.description'),
         }}
       </StyledIntro>
 
-      <DescriptionBlock label="Dettagli API gateway">
+      <DescriptionBlock label={t('step3.api.apiField.label')}>
         <Link
-          href={URL_INTEROP_M2M_INTERFACE_DOCUMENT}
+          href={API_GATEWAY_INTEFACE_URL}
           target="_blank"
           rel="noreferrer"
-          title="Link alla specifica OpenAPI dell'API gateway di Interoperabilità"
+          title={t('step3.api.apiField.link.title')}
         >
-          Interfaccia OpenAPI
+          {t('step3.api.apiField.link.label')}
         </Link>
       </DescriptionBlock>
 
-      <StepActions
-        back={{ label: 'Indietro', type: 'button', onClick: back }}
-        forward={{
-          label: 'Torna al client',
-          type: 'link',
-          to: buildDynamicPath(routes.SUBSCRIBE_INTEROP_M2M.PATH, { clientId }),
-        }}
-      />
+      <StepActions back={{ label: t('backBtn'), type: 'button', onClick: back }} />
     </Paper>
   )
 }

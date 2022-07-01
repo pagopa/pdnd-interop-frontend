@@ -29,13 +29,13 @@ export function getComputedPurposeState(purpose: DecoratedPurpose): Array<string
   const isPurposeActive = purpose.currentVersion.state === 'ACTIVE'
 
   const possibleReasons = [
-    { label: 'E-Service', outcome: isEserviceActive },
-    { label: 'richiesta di fruizione', outcome: isAgreementActive },
-    { label: 'finalità', outcome: isPurposeActive },
+    { labelKey: 'eservice', outcome: isEserviceActive },
+    { labelKey: 'agreement', outcome: isAgreementActive },
+    { labelKey: 'purpose', outcome: isPurposeActive },
   ]
 
   const reasons = possibleReasons
-    .map(({ outcome, label }) => (!outcome ? label : undefined))
+    .map(({ outcome, labelKey }) => (!outcome ? labelKey : undefined))
     .filter((r) => r) as Array<string>
 
   return reasons

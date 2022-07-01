@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { PublicKey, User } from '../../types'
+import { PublicKey, SelfCareUser } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -10,16 +10,15 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { USER_PLATFORM_ROLE_LABEL, USER_ROLE_LABEL, USER_STATE_LABEL } from '../config/labels'
 import { fetchWithLogs } from '../lib/api-utils'
 import { isFetchError } from '../lib/error-utils'
 import { AxiosResponse } from 'axios'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { useRoute } from '../hooks/useRoute'
-import { PartyContext } from '../lib/context'
-import { isAdmin } from '../lib/auth-utils'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { NotFound } from './NotFound'
+import { useTranslation } from 'react-i18next'
+import { useJwt } from '../hooks/useJwt'
 
 type UserEndpoinParams = {
   relationshipId: string
@@ -27,7 +26,8 @@ type UserEndpoinParams = {
 }
 
 export function UserEdit() {
-  const { party } = useContext(PartyContext)
+  const { t } = useTranslation(['user', 'common'])
+  const { isAdmin } = useJwt()
   const { routes } = useRoute()
   const { runAction, forceRerenderCounter } = useFeedback()
   const mode = useMode()
@@ -44,7 +44,7 @@ export function UserEdit() {
     clientId = undefined
   }
 
-  const { data: userData, error } = useAsyncFetch<User>(
+  const { data: userData, error } = useAsyncFetch<SelfCareUser>(
     { path: { endpoint: 'OPERATOR_GET_SINGLE', endpointParams } },
     { useEffectDeps: [forceRerenderCounter] }
   )
@@ -77,14 +77,14 @@ export function UserEdit() {
       {
         path: {
           endpoint: 'OPERATOR_SECURITY_REMOVE_FROM_CLIENT',
-          endpointParams: { clientId, relationshipId: userData?.relationshipId },
+          endpointParams: { clientId, relationshipId: userData?.id },
         },
       },
       {
         onSuccessDestination: buildDynamicRoute(
           routes.SUBSCRIBE_CLIENT_EDIT,
           { clientId: clientId as string },
-          { tab: 'securityOperators' }
+          { tab: 'clientMembers' }
         ),
         showConfirmDialog: true,
       }
@@ -95,8 +95,11 @@ export function UserEdit() {
    */
 
   const getAvailableActions = () => {
-    if (mode === 'subscriber' && isAdmin(party)) {
-      const removeFromClientAction = { onClick: removeFromClient, label: 'Rimuovi dal client' }
+    if (mode === 'subscriber' && isAdmin) {
+      const removeFromClientAction = {
+        onClick: removeFromClient,
+        label: t('actions.removeFromClient'),
+      }
 
       return [removeFromClientAction]
     }
@@ -105,7 +108,7 @@ export function UserEdit() {
   }
 
   if (error) {
-    return <NotFound errorType="server-error" />
+    return <NotFound errorType="serverError" />
   }
 
   return (
@@ -113,36 +116,40 @@ export function UserEdit() {
       <StyledIntro sx={{ mb: 0 }}>
         {{
           title:
-            userData?.name && userData?.surname ? userData.name + ' ' + userData.surname : 'n/d',
+            userData?.name && userData?.familyName
+              ? userData.name + ' ' + userData.familyName
+              : 'n/d',
         }}
       </StyledIntro>
 
       {userData ? (
         <React.Fragment>
-          <DescriptionBlock label="Email">
-            <Typography component="span">{userData?.email || 'n/d'}</Typography>
+          <DescriptionBlock label={t('edit.taxCodeField.label')}>
+            <Typography component="span">{userData?.taxCode || 'n/d'}</Typography>
           </DescriptionBlock>
 
-          <DescriptionBlock label="Ruolo">
+          <DescriptionBlock label={t('edit.roleField.label')}>
             <Typography component="span">
-              {userData?.role ? USER_ROLE_LABEL[userData.role] : 'n/d'}
+              {userData?.role ? t(`userRole.${userData.role}`, { ns: 'common' }) : 'n/d'}
             </Typography>
           </DescriptionBlock>
 
-          <DescriptionBlock label="Permessi">
+          <DescriptionBlock label={t('edit.productRoleField.label')}>
             <Typography component="span">
-              {userData?.product.role ? USER_PLATFORM_ROLE_LABEL[userData.product.role] : 'n/d'}
+              {userData?.product.role
+                ? t(`userProductRole.${userData.product.role}`, { ns: 'common' })
+                : 'n/d'}
             </Typography>
           </DescriptionBlock>
 
-          <DescriptionBlock label="Stato dell'utenza">
+          <DescriptionBlock label={t('edit.statusField.label')}>
             <Typography component="span">
-              {userData?.state ? USER_STATE_LABEL[userData.state] : 'n/d'}
+              {userData?.state ? t(`status.user.${userData.state}`, { ns: 'common' }) : 'n/d'}
             </Typography>
           </DescriptionBlock>
 
           {userData?.product.role === 'security' && (
-            <DescriptionBlock label="Chiavi associate">
+            <DescriptionBlock label={t('edit.associatedKeysField.label')}>
               {Boolean(keys.length > 0) ? (
                 keys.map(({ key, name }, i) => (
                   <StyledLink
@@ -157,7 +164,9 @@ export function UserEdit() {
                   </StyledLink>
                 ))
               ) : (
-                <Typography component="span">Nessuna chiave associata</Typography>
+                <Typography component="span">
+                  {t('edit.associatedKeysField.noDataLabel')}
+                </Typography>
               )}
             </DescriptionBlock>
           )}
@@ -171,7 +180,7 @@ export function UserEdit() {
           </Box>
         </React.Fragment>
       ) : (
-        <LoadingWithMessage label="Stiamo caricando l'operatore richiesto" transparentBackground />
+        <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
     </React.Fragment>
   )

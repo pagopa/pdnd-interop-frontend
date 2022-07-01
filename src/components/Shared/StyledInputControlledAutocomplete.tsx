@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Autocomplete, TextField, Typography } from '@mui/material'
+import { Autocomplete, Chip, TextField, Typography } from '@mui/material'
 import { StyledInputWrapper } from './StyledInputWrapper'
 import { SxProps } from '@mui/system'
 import parse from 'autosuggest-highlight/parse'
 import match from 'autosuggest-highlight/match'
+import { useTranslation } from 'react-i18next'
 
 type StyledInputControlledAutocompleteProps<T> = {
   label: string
@@ -44,6 +45,9 @@ export const StyledInputControlledAutocomplete = <T extends unknown>({
   isOptionEqualToValue,
   values,
 }: StyledInputControlledAutocompleteProps<T>) => {
+  const { t } = useTranslation('shared-components', {
+    keyPrefix: 'styledInputControlledAutocomplete',
+  })
   const [isOpen, setIsOpen] = useState(false)
   const [options, setOptions] = useState<Array<T>>([])
 
@@ -94,7 +98,7 @@ export const StyledInputControlledAutocomplete = <T extends unknown>({
         isOptionEqualToValue={isOptionEqualToValue}
         // filterOptions={(options) => uniqBy(options, (o) => (o[labelKey] as string).toLowerCase())}
         options={options}
-        noOptionsText="Nessun risultato trovato"
+        noOptionsText={t('noDataLabel')}
         renderInput={(params) => {
           return (
             <TextField
@@ -130,6 +134,17 @@ export const StyledInputControlledAutocomplete = <T extends unknown>({
             </li>
           )
         }}
+        renderTags={(value: Array<T>, getTagProps) => (
+          <React.Fragment>
+            {value.map((option: T, index: number) => (
+              <Chip // eslint-disable-line react/jsx-key
+                variant="outlined"
+                label={getOptionLabel(option)}
+                {...getTagProps({ index })}
+              />
+            ))}
+          </React.Fragment>
+        )}
       />
     </StyledInputWrapper>
   )

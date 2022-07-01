@@ -7,13 +7,7 @@ import {
   AccountCircle as AccountCircleIcon,
 } from '@mui/icons-material'
 import { ButtonNaked } from '@pagopa/mui-italia'
-
-type JwtUser = {
-  id: string
-  name?: string
-  surname?: string
-  email?: string
-}
+import { JwtUser } from '../../types'
 
 type UserAction = {
   id: string
@@ -59,7 +53,7 @@ export function UserActionSelect({ user, userActions }: UserActionSelectProps) {
         <Box component="span" sx={{ textAlign: 'left', display: 'flex' }}>
           <AccountCircleIcon fontSize="small" color="inherit" sx={{ mr: 1 }} />
           <Typography color="inherit" component="span" variant="caption" fontWeight={600}>
-            {user.name && user.surname ? `${user.name} ${user.surname}` : 'Utente'}
+            {user.name && user.family_name ? `${user.name} ${user.family_name}` : 'Utente'}
           </Typography>
         </Box>
 

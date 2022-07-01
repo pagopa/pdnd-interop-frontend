@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import { string, mixed, object } from 'yup'
 import { ActiveStepProps } from '../hooks/useActiveStep'
@@ -19,6 +19,13 @@ import { getPurposeFromUrl } from '../lib/purpose'
 import { Paper } from '@mui/material'
 import { StyledIntro } from './Shared/StyledIntro'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
+import { useTranslation } from 'react-i18next'
+import { LangContext } from '../lib/context'
+
+type MultiLangEntry = {
+  it: string
+  en: string
+}
 
 type Dependency = {
   id: string
@@ -26,18 +33,18 @@ type Dependency = {
 }
 
 type Option = {
-  label: string
+  label: MultiLangEntry
   value: string
 }
 
 type Question = {
   id: string
-  label: string
+  label: MultiLangEntry
   defaultValue: unknown
   options?: Array<Option>
   dependencies: Dependency[]
   type: 'text' | 'radio' | 'checkbox' | 'select-one'
-  infoLabel?: string
+  infoLabel?: MultiLangEntry
   required: boolean
 }
 
@@ -53,6 +60,8 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
   back,
   forward,
 }) => {
+  const { t } = useTranslation('purpose')
+  const { lang } = useContext(LangContext)
   const location = useLocation()
   const purposeId = getPurposeFromUrl(location)
 
@@ -144,12 +153,12 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
     const checkbox = string().required()
     const singleCheckbox = mixed().test(
       'presence',
-      'Il campo è obbligatorio',
+      t('create.step2.singleCheckboxField.validation.mixed.required'),
       (value) => typeof value !== 'undefined' && value.length > 0
     )
     const multiCheckbox = mixed().test(
       'presence',
-      "Seleziona almeno un'opzione",
+      t('create.step2.multiCheckboxField.validation.mixed.required'),
       (value) => typeof value !== 'undefined' && value.length > 0
     )
     const validationOptions = {
@@ -228,9 +237,8 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
     <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
       <StyledIntro component="h2">
         {{
-          title: 'Analisi del rischio',
-          description:
-            'Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare',
+          title: t('create.step2.title'),
+          description: t('create.step2.description'),
         }}
       </StyledIntro>
       {!isLoading ? (
@@ -244,12 +252,12 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
               type,
               setFieldValue: formik.setFieldValue,
               onChange: formik.handleChange,
-              label,
-              options,
+              label: label[lang],
+              options: options && options.map((o) => ({ ...o, label: o.label[lang] })),
               error: formik.errors[id],
-              infoLabel,
+              infoLabel: infoLabel && infoLabel[lang],
               required,
-              emptyLabel: 'Nessun valore disponibile',
+              emptyLabel: t('create.step2.emptyLabel'),
             }
 
             const props = {
@@ -263,15 +271,12 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
           })}
 
           <StepActions
-            back={{ label: 'Indietro', type: 'button', onClick: back }}
-            forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
+            back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
+            forward={{ label: t('create.forwardWithSaveBtn'), type: 'submit' }}
           />
         </StyledForm>
       ) : (
-        <LoadingWithMessage
-          label="Stiamo caricando le informazioni della finalità"
-          transparentBackground
-        />
+        <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
     </Paper>
   )

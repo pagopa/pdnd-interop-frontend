@@ -3,6 +3,8 @@ import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material
 import { StyledButton } from './StyledButton'
 import { DialogBasicProps } from '../../../types'
 import { useCloseDialog } from '../../hooks/useCloseDialog'
+import { useTranslation } from 'react-i18next'
+import { LoadingTranslations } from './LoadingTranslations'
 
 export const StyledDialogBasic: FunctionComponent<DialogBasicProps> = ({
   title = 'Conferma azione',
@@ -12,13 +14,21 @@ export const StyledDialogBasic: FunctionComponent<DialogBasicProps> = ({
   disabled = false,
   maxWidth,
 }) => {
+  const { t, ready } = useTranslation('shared-components', {
+    keyPrefix: 'styledDialogBasic',
+    useSuspense: false,
+  })
   const { closeDialog } = useCloseDialog()
+
+  if (!ready) {
+    return <LoadingTranslations />
+  }
 
   return (
     <Dialog
       open
       onClose={closeDialog}
-      aria-describedby="Modale per azione"
+      aria-describedby={t('ariaDescribedBy')}
       maxWidth={maxWidth}
       fullWidth
     >
@@ -28,7 +38,7 @@ export const StyledDialogBasic: FunctionComponent<DialogBasicProps> = ({
 
       <DialogActions>
         <StyledButton variant="outlined" onClick={closeDialog}>
-          Annulla
+          {t('actions.cancelLabel')}
         </StyledButton>
         <StyledButton variant="contained" onClick={proceedCallback} disabled={disabled}>
           {proceedLabel}

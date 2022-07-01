@@ -18,8 +18,10 @@ import { useRoute } from '../hooks/useRoute'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { AsyncTablePurposeInEService } from '../components/Shared/AsyncTablePurpose'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
+import { useTranslation } from 'react-i18next'
 
 export function EServiceManage() {
+  const { t } = useTranslation('eservice')
   const { routes } = useRoute()
   const { runAction, forceRerenderCounter } = useFeedback()
   const { activeTab, updateActiveTab } = useActiveTab('details')
@@ -39,7 +41,7 @@ export function EServiceManage() {
   )
 
   if (error) {
-    return <NotFound errorType="server-error" />
+    return <NotFound errorType="serverError" />
   }
 
   return (
@@ -51,11 +53,11 @@ export function EServiceManage() {
       <TabContext value={activeTab}>
         <TabList
           onChange={updateActiveTab}
-          aria-label="Due tab diverse per i dettagli dell'E-Service e le stime di carico indicate dai fruitori"
+          aria-label={t('manage.tabs.ariaLabel')}
           variant="fullWidth"
         >
-          <Tab label="Dettagli dell'E-Service" value="details" />
-          <Tab label="Finalità da evadere" value="purposeAwaitingApproval" />
+          <Tab label={t('manage.tabs.details')} value="details" />
+          <Tab label={t('manage.tabs.purposeAwaitingApproval')} value="purposeAwaitingApproval" />
         </TabList>
 
         <TabPanel value="details">
@@ -69,7 +71,7 @@ export function EServiceManage() {
               </PageBottomActions>
             </React.Fragment>
           ) : (
-            <LoadingWithMessage label="Stiamo caricando il tuo E-Service" transparentBackground />
+            <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
           )}
         </TabPanel>
         <TabPanel value="purposeAwaitingApproval">

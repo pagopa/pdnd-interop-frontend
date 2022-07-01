@@ -1,0 +1,188 @@
+{
+  "codeSnippetPreview": {
+    "successFeedbackText": "Script copiato correttamente"
+  },
+  "codeLanguagePicker": {
+    "languageLabel": "Linguaggio"
+  },
+  "editableField": {
+    "saveEdit": "Salva modifica",
+    "undoEdit": "Annulla modifica"
+  },
+  "fixedClipboard": {
+    "defaultSuccessFeedbackText": "Messaggio copiato correttamente"
+  },
+  "inlineClipboard": {
+    "defaultSuccessFeedbackText": "Messaggio copiato correttamente"
+  },
+  "inlineSupportLink": {
+    "label": "contatta l’assistenza",
+    "title": "Contatta l’assistenza"
+  },
+  "pageReloadMessage": {
+    "message": "Non siamo riusciti a recuperare i dati",
+    "cta": "Ricarica la pagina"
+  },
+  "styledDeleteableDocument": {
+    "prettyNameLabel": "Nome documento",
+    "editDocumentName": "Modifica nome del documento",
+    "deleteDocument": "Cancella documento"
+  },
+  "styledDialogAddClients": {
+    "ariaDescribedBy": "Modale per aggiungere client ad una finalità",
+    "title": "Aggiungi client",
+    "content": {
+      "autocompleteLabel": "Client selezionati",
+      "loadingMessage": "Stiamo caricando i client associabili alla finalità"
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Aggiungi"
+    }
+  },
+  "styledDialogAddSecurityOperator": {
+    "ariaDescribedBy": "Modale per aggiungere utenti membri ad un client",
+    "title": "Aggiungi membri del client",
+    "content": {
+      "autocompleteLabel": "Utenti selezionati",
+      "adminAlert": "Se vuoi caricare chiavi pubbliche per questo client, aggiungi anche te stesso al client"
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Aggiungi"
+    }
+  },
+  "styledDialogAddSecurityOperatorKeys": {
+    "ariaDescribedBy": "Modale per aggiungere chiavi pubbliche ad un client",
+    "title": "Carica nuova chiave pubblica",
+    "content": {
+      "nameField": {
+        "label": "Nome della chiave (richiesto)",
+        "infoLabel": "Ti aiuta a distinguerla dalle altre"
+      },
+      "keyField": {
+        "label": "Chiave pubblica (richiesto)",
+        "infoLabel": {
+          "message": "Non sai come fare per creare una chiave? Segui la",
+          "linkLabel": "guida"
+        }
+      }
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Carica"
+    }
+  },
+  "styledDialogBasic": {
+    "ariaDescribedBy": "Modale per azioni",
+    "actions": {
+      "cancelLabel": "Annulla"
+    }
+  },
+  "styledDialogExistingAttribute": {
+    "ariaDescribedBy": "Modale per aggiungere un attributo o un gruppo di attributi esistenti",
+    "title": "Aggiungi attributo o gruppo",
+    "content": {
+      "message": "Se selezioni più di un attributo per volta verrà trattato come “gruppo”. Sarà sufficiente per il Fruitore possedere uno solo degli attributi nel gruppo per passare la verifica",
+      "autocompleteLabel": "Attributi selezionati",
+      "selectedLabel": "Hai selezionato"
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Aggiungi"
+    }
+  },
+  "styledDialogExtension": {
+    "ariaDescribedBy": "Modale per richiedere l'estensione di un E-Service al suo Erogatore",
+    "title": "Richiedi estensione",
+    "content": {
+      "message": "Compila il form indicando i motivi per cui ritieni che il tuo ente abbia diritto di iscriversi all’E-Service, completo di basi giuridiche e finalità. Una notifica sarà inviata all’Erogatore del servizio"
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Richiedi"
+    }
+  },
+  "styledDialogNewAttribute": {
+    "ariaDescribedBy": "Modale per creare un nuovo attributo",
+    "title": "Crea nuovo attributo",
+    "content": {
+      "nameField": {
+        "label": "Nome dell'attributo (richiesto)"
+      },
+      "descriptionField": {
+        "label": "Descrizione dell'attributo (richiesto)"
+      },
+      "codeField": {
+        "label": "Id della fonte autoritativa (richiesto)",
+        "infoLabel": "Il nome della fonte in kebab-case (es. \"La mia fonte autoritativa\" diventa \"la-mia-fonte-autoritativa\")"
+      },
+      "originField": {
+        "label": "Nome della fonte autoritativa (richiesto)"
+      }
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Crea attributo"
+    }
+  },
+  "styledDialogSetPurposeExpectedApprovalDate": {
+    "ariaDescribedBy": "Modale per impostare una data di completamento stimata per l'attivazione di una finalità",
+    "title": "Imposta data di completamento stimata",
+    "content": {
+      "message": "Questa data verrà indicata al Fruitore come data di attivazione della finalità. Potrai aggiornarla in qualsiasi momento"
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Imposta"
+    }
+  },
+  "styledDialogUpdatePurposeDailyCalls": {
+    "ariaDescribedBy": "Modale per aggiornare il numero di chiamate API/giorno per una finalità",
+    "title": "Aggiorna numero di chiamate API/giorno",
+    "content": {
+      "dailyCallsField": {
+        "label": "Numero di chiamate API/giorno (richiesto)",
+        "infoLabel": "Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'Erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'E-Service"
+      }
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Conferma"
+    }
+  },
+  "styledDialogSessionExpired": {
+    "ariaDescribedBy": "Modale per segnalare che la sessione attuale è scaduta. È necessario effettuare un nuovo login",
+    "title": "La sessione è scaduta",
+    "content": {
+      "description": "A breve sarai reindirizzato alla pagina di login"
+    },
+    "actions": {
+      "confirmLabel": "Ok"
+    }
+  },
+  "styledInputControlledAsyncAutocomplete": {
+    "loadingLabel": "Stiamo cercando...",
+    "noDataLabel": "Nessun risultato trovato"
+  },
+  "styledInputControlledAutocomplete": {
+    "noDataLabel": "Nessun risultato trovato"
+  },
+  "styledInputControlledFile": {
+    "fileSelectLabel": "File selezionato",
+    "noFileSelectedLabel": "nessun file selezionato"
+  },
+  "styledToast": {
+    "default": {
+      "success": {
+        "message": "L'operazione è andata a buon fine"
+      },
+      "error": {
+        "message": "Errore: non è stato possibile completare l'operazione"
+      }
+    }
+  },
+  "tableWithLoader": {
+    "noDataLabel": "Questa ricerca non ha prodotto risultati"
+  }
+}

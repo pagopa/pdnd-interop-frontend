@@ -1,10 +1,5 @@
 import React from 'react'
 import { AxiosRequestConfig, Method } from 'axios'
-import {
-  AGREEMENT_STATE_LABEL,
-  ESERVICE_STATE_LABEL,
-  PURPOSE_STATE_LABEL,
-} from './src/config/labels'
 import { SchemaOf } from 'yup'
 import { RunAction } from './src/hooks/useFeedback'
 
@@ -13,7 +8,8 @@ import { RunAction } from './src/hooks/useFeedback'
  */
 // export type ApiEndpointKey = keyof typeof API
 export type ApiEndpointKey =
-  | 'ONBOARDING_GET_AVAILABLE_PARTIES'
+  | 'AUTH_HEALTH_CHECK'
+  | 'AUTH_OBTAIN_SESSION_TOKEN'
   | 'ESERVICE_GET_LIST_FLAT'
   | 'ESERVICE_GET_SINGLE'
   | 'ESERVICE_DRAFT_CREATE'
@@ -30,6 +26,7 @@ export type ApiEndpointKey =
   | 'ESERVICE_VERSION_DRAFT_DELETE_DOCUMENT'
   | 'ESERVICE_VERSION_DRAFT_UPDATE_DOCUMENT_DESCRIPTION'
   | 'ESERVICE_VERSION_DOWNLOAD_DOCUMENT'
+  | 'ATTRIBUTE_GET_CERTIFIED_LIST'
   | 'ATTRIBUTE_GET_LIST'
   | 'ATTRIBUTE_GET_SINGLE'
   | 'ATTRIBUTE_CREATE'
@@ -66,7 +63,6 @@ export type ApiEndpointKey =
   | 'KEY_DOWNLOAD'
   | 'KEY_DELETE'
   | 'USER_GET_LIST'
-  | 'OPERATOR_CREATE'
   | 'OPERATOR_GET_SINGLE'
   | 'OPERATOR_SECURITY_JOIN_WITH_CLIENT'
   | 'OPERATOR_SECURITY_REMOVE_FROM_CLIENT'
@@ -182,39 +178,54 @@ export type UserProduct = {
   role: UserProductRole
 }
 
-export type JwtUser = {
-  id: string // the relationshipId between the user and the current institution
-  name?: string
-  surname?: string
-  email?: string
+type JwtOrgRole = {
+  partyRole: UserRole
+  role: UserProductRole
 }
 
-export type User = JwtUser & {
-  createdAt: string // actually should be Date
-  updatedAt: string // actually should be Date
-  from: string // the external uid of the user
-  state: UserState
-  role: UserRole
-  product: UserProduct
-
-  relationshipId?: string // TEMP PIN-1184
-}
-
-export type Party = {
-  description: string
-  institutionId: string
-  digitalAddress: string
+type JwtOrg = {
   id: string
+  roles: Array<JwtOrgRole>
+  fiscal_code: string
+}
+
+export type JwtUser = {
+  aud: string
+  exp: number
+  iat: number
+  iss: string
+  jti: string
+  nbf: number
+  organization: JwtOrg
+  uid: string // the relationshipId between the user and the current institution
+  name: string
+  family_name: string
+}
+
+export type SelfCareUser = {
+  createdAt: string
+  familyName: string
+  from: string
+  id: string
+  name: string
+  product: {
+    createdAt: string // Date
+    id: string
+    role: UserProductRole
+  }
   role: UserRole
   state: UserState
-  attributes: Array<CertifiedAttribute>
-  productInfo: UserProduct
+  taxCode: string
+  to: string
+  updatedAt: string // Date
+
+  relationshipId: string // Existing when there is a relationship between a user and an Interop client
 }
 
 /*
  * EService
  */
-export type EServiceState = keyof typeof ESERVICE_STATE_LABEL
+export type EServiceState = 'PUBLISHED' | 'DRAFT' | 'SUSPENDED' | 'ARCHIVED' | 'DEPRECATED'
 export type EServiceStateLabel = Record<EServiceState, string>
 
 // EServices are subdivided into their write and read type
@@ -313,7 +324,7 @@ export type EServiceDocumentRead = {
 /*
  * Agreement
  */
-export type AgreementState = keyof typeof AGREEMENT_STATE_LABEL
+export type AgreementState = 'ACTIVE' | 'SUSPENDED' | 'PENDING' | 'INACTIVE'
 
 export type AgreementVerifiableAttribute = {
   id: string
@@ -353,7 +364,7 @@ export type AgreementSummary = {
 /*
  * Purpose
  */
-export type PurposeState = keyof typeof PURPOSE_STATE_LABEL
+export type PurposeState = 'DRAFT' | 'ACTIVE' | 'SUSPENDED' | 'WAITING_FOR_APPROVAL' | 'ARCHIVED'
 
 type PurposeYesNoAnswer = 'YES' | 'NO'
 
@@ -491,7 +502,7 @@ export type Client = {
   id: string
   name: string
   description: string
-  operators: Array<User>
+  operators: Array<SelfCareUser>
   kind: ClientKind
   purposes: Array<ClientPurpose>
 }
@@ -511,7 +522,7 @@ export type PublicKey = {
   name: string
   createdAt: string
   key: PublicKeyItem
-  operator: Pick<User, 'relationshipId' | 'name' | 'surname'>
+  operator: SelfCareUser
 }
 
 export type PublicKeys = {
@@ -594,11 +605,11 @@ export type FrontendAttributes = Record<AttributeKey, Array<FrontendAttribute>>
  */
 export type ActionFunction = () => void
 
-export type RunActionProps = {
-  loadingText: string
-  success?: ToastContent
-  error?: ToastContent
-}
+// export type RunActionProps = {
+//   loadingText: string
+//   success?: ToastContent
+//   error?: ToastContent
+// }
 
 export type WrappableAction = {
   proceedCallback: ActionFunction
@@ -625,6 +636,11 @@ export type DialogProps =
   | DialogAddClientsProps
   | DialogUpdatePurposeDailyCallsProps
   | DialogSetPurposeExpectedApprovalDateProps
+  | DialogSessionExpiredProps
+
+export type DialogSessionExpiredProps = {
+  type: 'sessionExpired'
+}
 
 export type DialogSetPurposeExpectedApprovalDateProps = {
   type: 'setPurposeExpectedApprovalDate'
@@ -659,7 +675,7 @@ export type DialogAddSecurityOperatorProps = {
 }
 
 export type AddSecurityOperatorFormInputValues = {
-  selected: Array<User>
+  selected: Array<SelfCareUser>
 }
 
 export type DialogNewAttributeProps = {
@@ -719,49 +735,49 @@ export type DialogBasicProps = DialogDefaultProps & {
   disabled?: boolean
 }
 
-export type DialogActionKeys = Exclude<
-  ApiEndpointKey,
-  | 'ONBOARDING_GET_AVAILABLE_PARTIES'
-  | 'ESERVICE_GET_LIST_FLAT'
-  | 'ESERVICE_GET_SINGLE'
-  | 'ESERVICE_DRAFT_UPDATE'
-  | 'ESERVICE_VERSION_DRAFT_UPDATE'
-  | 'ESERVICE_VERSION_DRAFT_POST_DOCUMENT'
-  | 'ESERVICE_VERSION_DRAFT_DELETE_DOCUMENT'
-  | 'ESERVICE_VERSION_DRAFT_UPDATE_DOCUMENT_DESCRIPTION'
-  | 'ESERVICE_VERSION_DOWNLOAD_DOCUMENT'
-  | 'ATTRIBUTE_GET_LIST'
-  | 'ATTRIBUTE_GET_SINGLE'
-  | 'ATTRIBUTE_CREATE'
-  | 'AGREEMENT_CREATE'
-  | 'AGREEMENT_GET_LIST'
-  | 'AGREEMENT_GET_SINGLE'
-  | 'AGREEMENT_VERIFY_ATTRIBUTE'
-  | 'PURPOSE_GET_LIST'
-  | 'PURPOSE_GET_SINGLE'
-  | 'PURPOSE_DRAFT_UPDATE'
-  | 'PURPOSE_DRAFT_CREATE'
-  | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
-  | 'PURPOSE_VERSION_DRAFT_CREATE'
-  | 'PURPOSE_VERSION_DRAFT_UPDATE'
-  | 'PURPOSE_VERSION_WAITING_FOR_APPROVAL_UPDATE'
-  | 'CLIENT_GET_LIST'
-  | 'CLIENT_GET_SINGLE'
-  | 'CLIENT_CREATE'
-  | 'CLIENT_INTEROP_M2M_CREATE'
-  | 'CLIENT_JOIN_WITH_PURPOSE'
-  | 'KEY_GET_LIST'
-  | 'KEY_GET_SINGLE'
-  | 'KEY_POST'
-  | 'KEY_DOWNLOAD'
-  | 'USER_GET_LIST'
-  | 'OPERATOR_CREATE'
-  | 'OPERATOR_GET_SINGLE'
-  | 'OPERATOR_SECURITY_JOIN_WITH_CLIENT'
-  | 'OPERATOR_SECURITY_GET_LIST'
-  | 'OPERATOR_SECURITY_CREATE'
-  | 'OPERATOR_SECURITY_GET_KEYS_LIST'
->
+// export type DialogActionKeys = Exclude<
+//   ApiEndpointKey,
+//   | 'AUTH_HEALTH_CHECK'
+//   | 'AUTH_OBTAIN_SESSION_TOKEN'
+//   | 'ESERVICE_GET_LIST_FLAT'
+//   | 'ESERVICE_GET_SINGLE'
+//   | 'ESERVICE_DRAFT_UPDATE'
+//   | 'ESERVICE_VERSION_DRAFT_UPDATE'
+//   | 'ESERVICE_VERSION_DRAFT_POST_DOCUMENT'
+//   | 'ESERVICE_VERSION_DRAFT_DELETE_DOCUMENT'
+//   | 'ESERVICE_VERSION_DRAFT_UPDATE_DOCUMENT_DESCRIPTION'
+//   | 'ESERVICE_VERSION_DOWNLOAD_DOCUMENT'
+//   | 'ATTRIBUTE_GET_LIST'
+//   | 'ATTRIBUTE_GET_SINGLE'
+//   | 'ATTRIBUTE_CREATE'
+//   | 'AGREEMENT_CREATE'
+//   | 'AGREEMENT_GET_LIST'
+//   | 'AGREEMENT_GET_SINGLE'
+//   | 'AGREEMENT_VERIFY_ATTRIBUTE'
+//   | 'PURPOSE_GET_LIST'
+//   | 'PURPOSE_GET_SINGLE'
+//   | 'PURPOSE_DRAFT_UPDATE'
+//   | 'PURPOSE_DRAFT_CREATE'
+//   | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
+//   | 'PURPOSE_VERSION_DRAFT_CREATE'
+//   | 'PURPOSE_VERSION_DRAFT_UPDATE'
+//   | 'PURPOSE_VERSION_WAITING_FOR_APPROVAL_UPDATE'
+//   | 'CLIENT_GET_LIST'
+//   | 'CLIENT_GET_SINGLE'
+//   | 'CLIENT_CREATE'
+//   | 'CLIENT_INTEROP_M2M_CREATE'
+//   | 'CLIENT_JOIN_WITH_PURPOSE'
+//   | 'KEY_GET_LIST'
+//   | 'KEY_GET_SINGLE'
+//   | 'KEY_POST'
+//   | 'KEY_DOWNLOAD'
+//   | 'USER_GET_LIST'
+//   | 'OPERATOR_GET_SINGLE'
+//   | 'OPERATOR_SECURITY_JOIN_WITH_CLIENT'
+//   | 'OPERATOR_SECURITY_GET_LIST'
+//   | 'OPERATOR_SECURITY_CREATE'
+//   | 'OPERATOR_SECURITY_GET_KEYS_LIST'
+// >
 
 export type ToastContent = {
   message?: string | JSX.Element
@@ -776,26 +792,27 @@ export type ToastProps = ToastContentWithOutcome & {
   autoHideDuration?: number
 }
 
-export type ToastActionKeys = Exclude<
-  ApiEndpointKey,
-  | 'ONBOARDING_GET_AVAILABLE_PARTIES'
-  | 'ESERVICE_GET_SINGLE'
-  | 'ATTRIBUTE_GET_LIST'
-  | 'ATTRIBUTE_GET_SINGLE'
-  | 'AGREEMENT_GET_LIST'
-  | 'AGREEMENT_GET_SINGLE'
-  | 'CLIENT_GET_LIST'
-  | 'CLIENT_GET_SINGLE'
-  | 'PURPOSE_GET_LIST'
-  | 'PURPOSE_GET_SINGLE'
-  | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
-  | 'KEY_GET_LIST'
-  | 'KEY_GET_SINGLE'
-  | 'USER_GET_LIST'
-  | 'OPERATOR_GET_SINGLE'
-  | 'OPERATOR_SECURITY_GET_LIST'
-  | 'OPERATOR_SECURITY_GET_KEYS_LIST'
->
+// export type ToastActionKeys = Exclude<
+//   ApiEndpointKey,
+//   | 'AUTH_HEALTH_CHECK'
+//   | 'AUTH_OBTAIN_SESSION_TOKEN'
+//   | 'ESERVICE_GET_SINGLE'
+//   | 'ATTRIBUTE_GET_LIST'
+//   | 'ATTRIBUTE_GET_SINGLE'
+//   | 'AGREEMENT_GET_LIST'
+//   | 'AGREEMENT_GET_SINGLE'
+//   | 'CLIENT_GET_LIST'
+//   | 'CLIENT_GET_SINGLE'
+//   | 'PURPOSE_GET_LIST'
+//   | 'PURPOSE_GET_SINGLE'
+//   | 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD'
+//   | 'KEY_GET_LIST'
+//   | 'KEY_GET_SINGLE'
+//   | 'USER_GET_LIST'
+//   | 'OPERATOR_GET_SINGLE'
+//   | 'OPERATOR_SECURITY_GET_LIST'
+//   | 'OPERATOR_SECURITY_GET_KEYS_LIST'
+// >
 
 /*
  * Action buttons in tables
@@ -847,3 +864,22 @@ export type MUIColor =
   | undefined
 
 export type ExtendedMUIColor = MUIColor | 'disabled' | 'inherit' | 'action'
+
+export type PagoPAEnvVars = {
+  AGREEMENT_PROCESS_URL: string
+  AUTHORIZATION_PROCESS_URL: string
+  CATALOG_PROCESS_URL: string
+  PURPOSE_PROCESS_URL: string
+  AUTHORIZATION_SERVER_TOKEN_CREATION_URL: string
+  BACKEND_FOR_FRONTEND_URL: string
+  SELFCARE_LOGIN_URL: string
+  INTEROP_RESOURCES_BASE_URL: string
+  MIXPANEL_PROJECT_ID: string
+  API_GATEWAY_INTEFACE_URL: string
+  ONETRUST_DOMAIN_SCRIPT_ID: string
+}
+export type ExtendedWindow = Window & {
+  pagopa_env: PagoPAEnvVars
+  OptanonWrapper: unknown
+  nonce: string
+}

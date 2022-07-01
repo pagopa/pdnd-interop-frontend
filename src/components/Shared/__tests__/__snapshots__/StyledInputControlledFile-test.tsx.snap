@@ -37,12 +37,13 @@ exports[`Snapshot matches 1`] = `
     <span
       className="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
     >
-      File selezionato:
+      fileSelectLabel
+      :
        
       <span
         className="MuiTypography-root MuiTypography-inherit css-4xqp7s-MuiTypography-root"
       >
-        nessun file selezionato
+        noFileSelectedLabel
       </span>
     </span>
   </div>

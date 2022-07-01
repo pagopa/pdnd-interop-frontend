@@ -1,22 +1,28 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import { Alert, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { Box } from '@mui/system'
 import { StyledButton } from './StyledButton'
-import { DialogAddSecurityOperatorProps, User } from '../../../types'
+import { DialogAddSecurityOperatorProps, SelfCareUser } from '../../../types'
 import { useCloseDialog } from '../../hooks/useCloseDialog'
 import { StyledForm } from './StyledForm'
 import { StyledInputControlledAutocomplete } from './StyledInputControlledAutocomplete'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
-import { PartyContext } from '../../lib/context'
 import sortBy from 'lodash/sortBy'
 import { useHistory } from 'react-router-dom'
 import { getBits } from '../../lib/router-utils'
+import { useTranslation } from 'react-i18next'
+import { useJwt } from '../../hooks/useJwt'
+import { LoadingTranslations } from './LoadingTranslations'
 
 export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurityOperatorProps> = ({
   initialValues,
   onSubmit,
 }) => {
+  const { t, ready } = useTranslation('shared-components', {
+    keyPrefix: 'styledDialogAddSecurityOperator',
+    useSuspense: false,
+  })
   const [excludeIdsList, setExcludeIdsList] = useState<Array<string>>([])
 
   const history = useHistory()
@@ -24,7 +30,7 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
   const clientId = locationBits[locationBits.length - 1]
 
   const { closeDialog } = useCloseDialog()
-  const { party } = useContext(PartyContext)
+  const { jwt } = useJwt()
   const formik = useFormik({
     initialValues,
     onSubmit,
@@ -32,13 +38,13 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
     validateOnBlur: false,
   })
 
-  const { data: currentUserData } = useAsyncFetch<Array<User>>({
+  const { data: currentUserData } = useAsyncFetch<Array<SelfCareUser>>({
     path: { endpoint: 'OPERATOR_SECURITY_GET_LIST', endpointParams: { clientId } },
   })
 
-  const { data: allUserData } = useAsyncFetch<Array<User>>({
-    path: { endpoint: 'USER_GET_LIST', endpointParams: { institutionId: party?.institutionId } },
-    config: { params: { productRoles: ['security'] } },
+  const { data: allUserData } = useAsyncFetch<Array<SelfCareUser>>({
+    path: { endpoint: 'USER_GET_LIST', endpointParams: { institutionId: jwt?.organization.id } },
+    config: { params: { productRoles: ['admin', 'security'], states: ['ACTIVE'] } },
   })
 
   const filteredUserData = allUserData
@@ -48,15 +54,13 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
   useEffect(() => {
     if (currentUserData) {
       setExcludeIdsList(
-        (currentUserData.map((u) => u.relationshipId).filter((id) => id) as
-          | Array<string>
-          | undefined) || []
+        (currentUserData.map((u) => u.id).filter((id) => id) as Array<string> | undefined) || []
       )
     }
   }, [currentUserData])
 
   const updateSelected = (data: unknown) => {
-    formik.setFieldValue('selected', data as Array<User>, false)
+    formik.setFieldValue('selected', data as Array<SelfCareUser>, false)
   }
 
   const handleSubmit = (e?: React.FormEvent<HTMLFormElement> | undefined) => {
@@ -64,55 +68,64 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
     closeDialog()
   }
 
-  const transformFn = (options: Array<User>, search: string) => {
+  const transformFn = (options: Array<SelfCareUser>, search: string) => {
     const selectedIds: Array<string> = formik.values.selected.map((o) => o.id)
-    const isAlreadySelected = (o: User) => selectedIds.includes(o.id)
+    const isAlreadySelected = (o: SelfCareUser) => selectedIds.includes(o.id)
 
     if (search === '') {
       const filtered = options.filter((o) => !isAlreadySelected(o))
-      return sortBy(filtered, ['surname', 'name'])
+      return sortBy(filtered, ['familyName', 'name'])
     }
 
     const lowercaseSearch = search.toLowerCase()
-    const isInSearch = (o: User) => `${o.name} ${o.surname}`.toLowerCase().includes(lowercaseSearch)
+    const isInSearch = (o: SelfCareUser) =>
+      `${o.name} ${o.familyName}`.toLowerCase().includes(lowercaseSearch)
 
     const filtered = options.filter((o) => isInSearch(o) && !isAlreadySelected(o))
-    return sortBy(filtered, ['surname', 'name'])
+    return sortBy(filtered, ['familyName', 'name'])
+  }
+
+  if (!ready) {
+    return <LoadingTranslations />
   }
 
   return (
-    <Dialog open onClose={closeDialog} aria-describedby="Modale per azione" fullWidth>
+    <Dialog open onClose={closeDialog} aria-describedby={t('ariaDescribedBy')} fullWidth>
       <StyledForm onSubmit={handleSubmit}>
-        <DialogTitle>Aggiungi operatori di sicurezza</DialogTitle>
+        <DialogTitle>{t('title')}</DialogTitle>
 
         <DialogContent>
           <Box sx={{ mt: 3 }}>
             <StyledInputControlledAutocomplete
               focusOnMount={true}
-              label="Operatori selezionati"
+              label={t('content.autocompleteLabel')}
               sx={{ mt: 6, mb: 0 }}
               multiple={true}
               placeholder="..."
               name="selection"
               onChange={updateSelected}
               values={filteredUserData}
-              getOptionLabel={(option: User) => (option ? `${option.name} ${option.surname}` : '')}
-              isOptionEqualToValue={(option: User, value: User) => option.id === value.id}
+              getOptionLabel={(option: SelfCareUser) =>
+                option ? `${option.name} ${option.familyName}` : ''
+              }
+              isOptionEqualToValue={(option: SelfCareUser, value: SelfCareUser) =>
+                option.id === value.id
+              }
               transformFn={transformFn}
             />
           </Box>
 
           <Alert sx={{ mt: 1 }} severity="info">
-            Se l&rsquo;operatore non è in elenco, in questa fase di test contattaci per aggiungerlo
+            {t('content.adminAlert')}
           </Alert>
         </DialogContent>
 
         <DialogActions>
           <StyledButton variant="outlined" onClick={closeDialog}>
-            Annulla
+            {t('actions.cancelLabel')}
           </StyledButton>
           <StyledButton variant="contained" type="submit">
-            Aggiungi
+            {t('actions.confirmLabel')}
           </StyledButton>
         </DialogActions>
       </StyledForm>

@@ -1,17 +1,14 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { ClientList } from './ClientList'
 
 export function InteropM2M() {
+  const { t } = useTranslation('client', { keyPrefix: 'interopM2M' })
+
   return (
     <React.Fragment>
-      <StyledIntro>
-        {{
-          title: 'InteropM2M',
-          description:
-            'Gestisci i client per l’API machine-to-machine che ti permette di fruire di Interoperabilità al di fuori della web app',
-        }}
-      </StyledIntro>
+      <StyledIntro>{{ title: t('title'), description: t('description') }}</StyledIntro>
 
       <ClientList clientKind="API" />
     </React.Fragment>

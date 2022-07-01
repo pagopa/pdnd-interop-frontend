@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useState } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { Box } from '@mui/system'
 import { StyledButton } from './StyledButton'
@@ -7,23 +7,29 @@ import { useCloseDialog } from '../../hooks/useCloseDialog'
 import { StyledForm } from './StyledForm'
 import { StyledInputControlledAutocomplete } from './StyledInputControlledAutocomplete'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
-import { PartyContext } from '../../lib/context'
 import differenceBy from 'lodash/differenceBy'
 import { sortBy } from 'lodash'
 import { LoadingWithMessage } from './LoadingWithMessage'
+import { useTranslation } from 'react-i18next'
+import { useJwt } from '../../hooks/useJwt'
+import { LoadingTranslations } from './LoadingTranslations'
 
 export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = ({
   onSubmit,
   exclude,
 }) => {
+  const { t, ready } = useTranslation('shared-components', {
+    keyPrefix: 'styledDialogAddClients',
+    useSuspense: false,
+  })
   const { closeDialog } = useCloseDialog()
-  const { party } = useContext(PartyContext)
+  const { jwt } = useJwt()
   const [selected, setSelected] = useState<Array<Client>>([])
 
   const { data: clientData, isLoading } = useAsyncFetch<{ clients: Array<Client> }, Array<Client>>(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
-      config: { params: { kind: 'CONSUMER', consumerId: party?.id } },
+      config: { params: { kind: 'CONSUMER', consumerId: jwt?.organization.id } },
     },
     { mapFn: (data) => data.clients }
   )
@@ -61,17 +67,21 @@ export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = 
 
   const availableClients = differenceBy(clientData, exclude, 'id')
 
+  if (!ready) {
+    return <LoadingTranslations />
+  }
+
   return (
-    <Dialog open onClose={closeDialog} aria-describedby="Modale per azione" fullWidth>
+    <Dialog open onClose={closeDialog} aria-describedby={t('ariaDescribedBy')} fullWidth>
       <StyledForm onSubmit={handleSubmit}>
-        <DialogTitle>Aggiungi client</DialogTitle>
+        <DialogTitle>{t('title')}</DialogTitle>
 
         {!isLoading ? (
           <DialogContent>
             <Box sx={{ mt: 3 }}>
               <StyledInputControlledAutocomplete
                 focusOnMount={true}
-                label="Client selezionati"
+                label={t('content.autocompleteLabel')}
                 sx={{ mt: 6, mb: 0 }}
                 multiple={true}
                 placeholder="..."
@@ -85,18 +95,15 @@ export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = 
             </Box>
           </DialogContent>
         ) : (
-          <LoadingWithMessage
-            label="Stiamo caricando i client associabili alla finalità"
-            transparentBackground
-          />
+          <LoadingWithMessage label={t('content.loadingMessage')} transparentBackground />
         )}
 
         <DialogActions>
           <StyledButton variant="outlined" onClick={closeDialog}>
-            Annulla
+            {t('actions.cancelLabel')}
           </StyledButton>
           <StyledButton variant="contained" type="submit">
-            Aggiungi
+            {t('actions.confirmLabel')}
           </StyledButton>
         </DialogActions>
       </StyledForm>

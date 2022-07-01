@@ -1,24 +1,23 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledLink } from '../components/Shared/StyledLink'
 
 type NotFoundProps = {
-  errorType?: 'not-found' | 'server-error'
+  errorType?: 'notFound' | 'serverError'
 }
 
-export function NotFound({ errorType = 'not-found' }: NotFoundProps) {
-  const DESCRIPTIONS = {
-    'not-found': 'La pagina cercata purtroppo non esiste',
-    'server-error': 'Si è verificato un errore temporaneo del server',
-  }
+export function NotFound({ errorType = 'notFound' }: NotFoundProps) {
+  const { t } = useTranslation('common', { keyPrefix: 'notFound' })
 
   return (
     <StyledIntro>
       {{
-        title: 'Spiacenti',
+        title: t('title'),
         description: (
           <>
-            {DESCRIPTIONS[errorType]}. Torna alla <StyledLink to="/">home</StyledLink>.
+            {t(`description.${errorType}`)}.{' '}
+            <StyledLink to="/">{t('description.goHomeLink.label')}</StyledLink>.
           </>
         ),
       }}

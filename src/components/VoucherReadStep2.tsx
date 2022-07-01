@@ -1,13 +1,13 @@
 import React from 'react'
-import { Divider, Link, Paper, Typography } from '@mui/material'
+import { Divider, Paper, Typography } from '@mui/material'
 import { InteropM2MVoucherStepProps } from './VoucherRead'
 import { StepActions } from './Shared/StepActions'
 import { StyledIntro } from './Shared/StyledIntro'
 import { DescriptionBlock } from './DescriptionBlock'
 import { InlineClipboard } from './Shared/InlineClipboard'
-import { API_GATEWAY_URL, AUTHORIZATION_SERVER_ACCESS_TOKEN_URL } from '../config/api-endpoints'
-import { CodeSnippetPreview } from './Shared/CodeSnippedPreview'
-import { URL_FE } from '../lib/constants'
+import { CodeSnippetPreview } from './Shared/CodeSnippetPreview'
+import { useTranslation } from 'react-i18next'
+import { AUTHORIZATION_SERVER_ACCESS_TOKEN_URL, FE_URL } from '../lib/env'
 
 const CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
 const GRANT_TYPE = 'client_credentials'
@@ -18,93 +18,81 @@ export const VoucherReadStep2 = ({
   back,
   forward,
 }: InteropM2MVoucherStepProps) => {
+  const { t } = useTranslation('voucher')
+
   return (
     <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
       <StyledIntro component="h2">
         {{
-          title: 'Access token',
-          description:
-            clientKind === 'CONSUMER' ? (
-              'Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di access token verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un Voucher spendibile presso l’E-Service dell’Erogatore'
-            ) : (
-              <React.Fragment>
-                Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo
-                per fare una richiesta di access token verso l’authorization server di
-                Interoperabilità PDND. Se va a buon fine, verrà restituito un Voucher spendibile
-                presso l’API gateway di Interoperabilità. È possibile fare un test sullo{' '}
-                <Link
-                  href={`${API_GATEWAY_URL}/swagger/docs/index.html`}
-                  target="_blank"
-                  rel="noreferrer"
-                  title="Link allo Swagger dell'API gateway di Interoperabilità"
-                >
-                  Swagger
-                </Link>{' '}
-                dedicato
-              </React.Fragment>
-            ),
+          title: t('step2.title'),
+          description: t(
+            `step2.${clientKind === 'CONSUMER' ? 'consumerDescription' : 'apiDescription.message'}`
+          ),
         }}
       </StyledIntro>
 
-      <DescriptionBlock label="Endpoint authorization server">
+      <DescriptionBlock label={t('step2.authEndpoint.label')}>
         <InlineClipboard
           textToCopy={AUTHORIZATION_SERVER_ACCESS_TOKEN_URL}
-          successFeedbackText="URL copiata correttamente"
+          successFeedbackText={t('step2.authEndpoint.copySuccessFeedbackText')}
         />
       </DescriptionBlock>
 
       <Divider />
 
       <StyledIntro component="h3" sx={{ mt: 3 }}>
-        {{ title: 'Body della richiesta' }}
+        {{ title: t('step2.requestBody.title') }}
       </StyledIntro>
 
-      <DescriptionBlock label="Client_id">
-        <InlineClipboard textToCopy={clientId} successFeedbackText="Id copiato correttamente" />
+      <DescriptionBlock label={t('step2.requestBody.clientIdField.label')}>
+        <InlineClipboard
+          textToCopy={clientId}
+          successFeedbackText={t('step2.requestBody.clientIdField.copySuccessFeedbackText')}
+        />
       </DescriptionBlock>
 
-      <DescriptionBlock label="Client_assertion">
-        <Typography>Il JWS ottenuto dallo step precedente (comincia per “ey”)</Typography>
+      <DescriptionBlock label={t('step2.requestBody.clientAssertionField.label')}>
+        <Typography>{t('step2.requestBody.clientAssertionField.suggestionLabel')}</Typography>
       </DescriptionBlock>
 
       <DescriptionBlock
-        label="Client_assertion_type"
-        labelDescription="Il formato della client assertion, come indicato in RFC"
+        label={t('step2.requestBody.clientAssertionTypeField.label')}
+        labelDescription={t('step2.requestBody.clientAssertionTypeField.description')}
       >
         <InlineClipboard
           textToCopy={CLIENT_ASSERTION_TYPE}
-          successFeedbackText="Tipo copiato correttamente"
+          successFeedbackText={t(
+            'step2.requestBody.clientAssertionTypeField.copySuccessFeedbackText'
+          )}
         />
       </DescriptionBlock>
 
       <DescriptionBlock
-        label="Grant_type"
-        labelDescription="La tipologia di flusso utilizzato, come indicato in RFC"
+        label={t('step2.requestBody.grantTypeField.label')}
+        labelDescription={t('step2.requestBody.grantTypeField.description')}
       >
-        <InlineClipboard textToCopy={GRANT_TYPE} successFeedbackText="Tipo copiato correttamente" />
+        <InlineClipboard
+          textToCopy={GRANT_TYPE}
+          successFeedbackText={t('step2.requestBody.grantTypeField.copySuccessFeedbackText')}
+        />
       </DescriptionBlock>
 
       <Divider />
 
       <StyledIntro component="h3" sx={{ mt: 3 }}>
         {{
-          title: 'Esempio di cURL',
-          description: (
-            <React.Fragment>
-              Sostituisci il segnaposto con l’asserzione che hai ottenuto allo step precedente e
-              lancia la cURL
-            </React.Fragment>
-          ),
+          title: t('step2.accessTokenScript.title'),
+          description: t('step2.accessTokenScript.description'),
         }}
       </StyledIntro>
 
       <CodeSnippetPreview
         sx={{ mt: 2 }}
-        title="cURL di esempio"
+        title={t('step2.accessTokenScript.exampleLabel')}
         activeLang="curl"
-        entries={[{ url: `${URL_FE}/data/it/session_token_curl.txt`, value: 'curl' }]}
+        entries={[{ url: `${FE_URL}/data/it/session_token_curl.txt`, value: 'curl' }]}
         scriptSubstitutionValues={{
-          AUTHORIZATION_SERVER_ACCESS_TOKEN_URL: AUTHORIZATION_SERVER_ACCESS_TOKEN_URL,
+          AUTHORIZATION_SERVER_ACCESS_TOKEN_URL,
           CLIENT_ID: clientId,
           CLIENT_ASSERTION_TYPE: CLIENT_ASSERTION_TYPE,
           GRANT_TYPE: GRANT_TYPE,
@@ -112,8 +100,8 @@ export const VoucherReadStep2 = ({
       />
 
       <StepActions
-        back={{ label: 'Indietro', type: 'button', onClick: back }}
-        forward={{ label: 'Avanti', type: 'button', onClick: forward }}
+        back={{ label: t('backBtn'), type: 'button', onClick: back }}
+        forward={{ label: t('proceedBtn'), type: 'button', onClick: forward }}
       />
     </Paper>
   )

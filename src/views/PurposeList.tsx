@@ -5,23 +5,20 @@ import { TempFilters } from '../components/TempFilters'
 import { useRoute } from '../hooks/useRoute'
 import { PageTopFilters } from '../components/Shared/PageTopFilters'
 import { AsyncTablePurpose } from '../components/Shared/AsyncTablePurpose'
+import { useTranslation } from 'react-i18next'
 
 export const PurposeList = () => {
+  const { t } = useTranslation(['purpose', 'common'])
   const { routes } = useRoute()
 
   return (
     <React.Fragment>
-      <StyledIntro>
-        {{
-          title: 'Le tue finalità',
-          description: "In quest'area puoi i trovare e gestire tutte le finalità che hai creato",
-        }}
-      </StyledIntro>
+      <StyledIntro>{{ title: t('list.title'), description: t('list.description') }}</StyledIntro>
 
       <PageTopFilters>
         <TempFilters />
         <StyledButton variant="contained" size="small" to={routes.SUBSCRIBE_PURPOSE_CREATE.PATH}>
-          + Aggiungi
+          {t('createNewBtn', { ns: 'common' })}
         </StyledButton>
       </PageTopFilters>
 

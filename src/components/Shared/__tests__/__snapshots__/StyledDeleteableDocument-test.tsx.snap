@@ -19,7 +19,7 @@ exports[`Snapshot matches 1`] = `
           htmlFor="prettyName"
           id="prettyName-label"
         >
-          Nome documento
+          styledDeleteableDocument.prettyNameLabel
         </label>
         <div
           className="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl MuiInputBase-adornedStart css-1q6at85-MuiInputBase-root-MuiOutlinedInput-root"
@@ -68,7 +68,7 @@ exports[`Snapshot matches 1`] = `
               className="css-1in441m"
             >
               <span>
-                Nome documento
+                styledDeleteableDocument.prettyNameLabel
               </span>
             </legend>
           </fieldset>
@@ -80,7 +80,7 @@ exports[`Snapshot matches 1`] = `
     className="MuiBox-root css-1qu43cj"
   >
     <button
-      aria-label="Modifica nome del documento"
+      aria-label="styledDeleteableDocument.editDocumentName"
       aria-labelledby={null}
       className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-bsol4t-MuiButtonBase-root-MuiButton-root"
       data-mui-internal-clone-element={true}
@@ -118,7 +118,7 @@ exports[`Snapshot matches 1`] = `
       />
     </button>
     <button
-      aria-label="Cancella documento"
+      aria-label="styledDeleteableDocument.deleteDocument"
       aria-labelledby={null}
       className="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root  css-1q3zsck-MuiButtonBase-root-MuiButton-root"
       data-mui-internal-clone-element={true}

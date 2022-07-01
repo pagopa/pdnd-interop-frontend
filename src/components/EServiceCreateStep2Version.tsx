@@ -21,6 +21,7 @@ import { Paper } from '@mui/material'
 import { RunActionOutput } from '../hooks/useFeedback'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 import { minutesToSeconds, secondsToMinutes } from '../lib/format-utils'
+import { useTranslation } from 'react-i18next'
 
 type VersionData = {
   audience: string
@@ -36,6 +37,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
   const history = useHistory()
   const { runAction } = useFeedback()
   const { data: fetchedData, isLoading } = useEserviceCreateFetch()
+  const { t } = useTranslation('eservice')
 
   const validationSchema = object({
     version: string().required(),
@@ -44,10 +46,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
     description: string().required(),
     dailyCallsPerConsumer: number().required(),
     dailyCallsTotal: number()
-      .min(
-        ref('dailyCallsPerConsumer'),
-        'Il valore non può essere inferiore alla soglia chiamate API/giorno per fruitore'
-      )
+      .min(ref('dailyCallsPerConsumer'), t('create.step2.dailyCallsTotalField.validation.min'))
       .required(),
   })
   const initialValues: VersionData = {
@@ -156,8 +155,8 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
                 <StyledInputControlledText
                   sx={{ mt: 0 }}
                   name="version"
-                  label="Numero della versione (richiesto)"
-                  infoLabel="Assegnata automaticamente dal sistema e non modificabile"
+                  label={t('create.step2.versionField.label')}
+                  infoLabel={t('create.step2.versionField.infoLabel')}
                   disabled={true}
                   value={values.version}
                   error={errors.version}
@@ -165,7 +164,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
 
                 <StyledInputControlledText
                   name="description"
-                  label="Descrizione della versione (richiesto)"
+                  label={t('create.step2.descriptionField.label')}
                   value={values.description}
                   error={errors.description}
                   onChange={handleChange}
@@ -175,8 +174,8 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
 
                 <StyledInputControlledText
                   name="audience"
-                  label="Audience (richiesto)"
-                  infoLabel="All’nterno del token JWT che il fruitore ti invierà rappresenterà l’audience (aud), l'id con il quale il fruitore dichiara il servizio richiesto"
+                  label={t('create.step2.audienceField.label')}
+                  infoLabel={t('create.step2.audienceField.infoLabel')}
                   value={values.audience}
                   error={errors.audience}
                   onChange={handleChange}
@@ -184,8 +183,8 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
 
                 <StyledInputControlledText
                   name="voucherLifespan"
-                  label="Durata di validità del voucher (in minuti - richiesto)"
-                  infoLabel="Valore massimo: 1440 minuti (24 ore)"
+                  label={t('create.step2.voucherLifespanField.label')}
+                  infoLabel={t('create.step2.voucherLifespanField.infoLabel')}
                   type="number"
                   inputProps={{ min: '1', max: '1440' }}
                   value={values.voucherLifespan}
@@ -195,8 +194,8 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
 
                 <StyledInputControlledText
                   name="dailyCallsPerConsumer"
-                  label="Soglia chiamate API/giorno per fruitore (richiesto)"
-                  infoLabel="Il fruitore dovrà dichiarare una stima delle chiamate che effettuerà per ogni finalità. Se la somma delle chiamate dichiarate dal fruitore sarà sopra la soglia da te impostata, potrai approvare manualmente l'accesso delle nuove finalità alla fruizione del tuo E-Service"
+                  label={t('create.step2.dailyCallsPerConsumerField.label')}
+                  infoLabel={t('create.step2.dailyCallsPerConsumerField.infoLabel')}
                   type="number"
                   value={values.dailyCallsPerConsumer}
                   error={errors.dailyCallsPerConsumer}
@@ -206,8 +205,8 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
 
                 <StyledInputControlledText
                   name="dailyCallsTotal"
-                  label="Soglia chiamate API/giorno totali (richiesto)"
-                  infoLabel="Il numero totale di chiamate al giorno permesse sommando quelle di tutti i fruitori. Se la somma sarà superiore alla soglia da te impostata, potrai approvare manualmente l'accesso delle nuove finalità alla fruizione del tuo E-Service"
+                  label={t('create.step2.dailyCallsTotalField.label')}
+                  infoLabel={t('create.step2.dailyCallsTotalField.infoLabel')}
                   type="number"
                   value={values.dailyCallsTotal}
                   error={errors.dailyCallsTotal}
@@ -217,15 +216,15 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
                 />
 
                 <StepActions
-                  back={{ label: 'Indietro', type: 'button', onClick: back }}
-                  forward={{ label: 'Salva bozza e prosegui', type: 'submit' }}
+                  back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
+                  forward={{ label: t('create.forwardWithSaveBtn'), type: 'submit' }}
                 />
               </StyledForm>
             )}
           </Formik>
         </React.Fragment>
       ) : (
-        <LoadingWithMessage label="Stiamo caricando il tuo E-Service" transparentBackground />
+        <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
     </Paper>
   )

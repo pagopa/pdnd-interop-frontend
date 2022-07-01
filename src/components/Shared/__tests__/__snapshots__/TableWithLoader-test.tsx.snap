@@ -21,7 +21,8 @@ exports[`Snapshot matches error 1`] = `
   <p
     className="MuiTypography-root MuiTypography-body2 css-18ukxow-MuiTypography-root"
   >
-    Non siamo riusciti a recuperare i dati.
+    Non siamo riusciti a recuperare i dati
+    .
      
     <button
       className="MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButtonBase-root  css-10mr4jq-MuiButtonBase-root-MuiButton-root"

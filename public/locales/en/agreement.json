@@ -1,0 +1,59 @@
+{
+  "loadingSingleLabel": "Loading request",
+  "loadingMultiLabel": "Loading requests",
+  "noMultiDataLabel": "Non fruition request available",
+  "edit": {
+    "title": "Manage fruition request",
+    "eserviceField": {
+      "label": "Request for",
+      "versionLabel": "version"
+    },
+    "upgradeField": {
+      "link": {
+        "label": "A more recent version is available"
+      },
+      "message": "To activate it, upgrade the fruition request"
+    },
+    "subscriberField": {
+      "label": "Subscriber"
+    },
+    "requestStatusField": {
+      "label": "Stato della richiesta",
+      "agreementSuspendedMessage": "The request can unilateratelly be suspended both on the Provider and/or Subscriber side. A suspension means that all purposes associated with the E-Service for which this request is active will stop working",
+      "providerSideLabel": "On the Provider side",
+      "subscriberSideLabel": "On the Subscriber side"
+    },
+    "verifiedAttributesField": {
+      "label": "Verified attributes",
+      "noDataLabel": "There are no required verified attributes for this E-Service"
+    },
+    "attribute": {
+      "status": {
+        "newlyVerified": "Verified",
+        "verifiedByAnotherParty": "Verified, no further verification required",
+        "refused": "Refused",
+        "pending": "Awaiting approval"
+      },
+      "verificationDateField": {
+        "label": "Verification date"
+      },
+      "authoritativeSourceField": {
+        "label": "Authoritative source"
+      },
+      "descriptionField": {
+        "label": "Description"
+      },
+      "groupMessage": "the whole group below is verified if at least one of the attributes in the group is verified"
+    }
+  },
+  "list": {
+    "provider": {
+      "title": "Fruition requests",
+      "description": "In this section, you can manage all the fruition requests you have received from parties that want to subscribe to your E-Services"
+    },
+    "subscriber": {
+      "title": "Your requests",
+      "description": "In this section, you can manage all the fruition requests you have sent to E-Service Providers"
+    }
+  }
+}

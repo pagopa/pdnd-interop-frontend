@@ -11,6 +11,7 @@ import {
 import {
   ActionProps,
   ApiEndpointKey,
+  CertifiedAttribute,
   EServiceDescriptorRead,
   EServiceFlatDecoratedReadType,
   EServiceFlatReadType,
@@ -20,8 +21,7 @@ import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { RunActionOutput, useFeedback } from '../../hooks/useFeedback'
 import { useRoute } from '../../hooks/useRoute'
 import { canSubscribe } from '../../lib/attributes'
-import { isAdmin } from '../../lib/auth-utils'
-import { DialogContext, LangContext, PartyContext } from '../../lib/context'
+import { DialogContext, LangContext } from '../../lib/context'
 import { axiosErrorToError } from '../../lib/error-utils'
 import { buildDynamicPath } from '../../lib/router-utils'
 import { ActionMenu } from './ActionMenu'
@@ -29,27 +29,43 @@ import { StyledTooltip } from './StyledTooltip'
 import { TableWithLoader } from './TableWithLoader'
 import { AxiosResponse } from 'axios'
 import { StyledTableRow } from './StyledTableRow'
-import { ESERVICE_STATE_LABEL } from '../../config/labels'
 import { StyledButton } from './StyledButton'
 import { URL_FRAGMENTS } from '../../lib/constants'
+import { useTranslation } from 'react-i18next'
+import { useJwt } from '../../hooks/useJwt'
 
 export const AsyncTableEServiceCatalog = () => {
+  const { t } = useTranslation(['eservice', 'common'])
   const history = useHistory()
   const { runAction } = useFeedback()
-  const { party } = useContext(PartyContext)
+  const { jwt, isAdmin } = useJwt()
   const { setDialog } = useContext(DialogContext)
   const { routes } = useRoute()
 
-  const { data, error, isLoading } = useAsyncFetch<
-    Array<EServiceFlatReadType>,
-    Array<EServiceFlatDecoratedReadType>
+  const { data: currentInstitutionCertifiedAttributes } = useAsyncFetch<
+    { attributes: Array<CertifiedAttribute> },
+    Array<CertifiedAttribute>
   >(
     {
+      path: {
+        endpoint: 'ATTRIBUTE_GET_CERTIFIED_LIST',
+        endpointParams: { institutionId: jwt?.organization.id },
+      },
+    },
+    { mapFn: (data) => data.attributes }
+  )
+
+  const {
+    data: eserviceData,
+    error,
+    isLoading,
+  } = useAsyncFetch<Array<EServiceFlatReadType>, Array<EServiceFlatDecoratedReadType>>(
+    {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
-      config: { params: { state: 'PUBLISHED', callerId: party?.id } },
+      config: { params: { state: 'PUBLISHED', callerId: jwt?.organization.id } },
     },
     {
-      mapFn: (data) => data.map((d) => ({ ...d, isMine: d.producerId === party?.id })),
+      mapFn: (data) => data.map((d) => ({ ...d, isMine: d.producerId === jwt?.organization.id })),
     }
   )
 
@@ -61,17 +77,17 @@ export const AsyncTableEServiceCatalog = () => {
 
   const getTooltip = (item: EServiceFlatDecoratedReadType, canSubscribeEservice: boolean) => {
     if (item.isMine) {
-      return <OwnerTooltip label="Sei l'erogatore" Icon={PersonIcon} />
+      return <OwnerTooltip label={t('tableEServiceCatalog.youAreTheProvider')} Icon={PersonIcon} />
     }
 
-    if (item.callerSubscribed && isAdmin(party)) {
-      return <OwnerTooltip label="Sei già iscritto" Icon={CheckIcon} />
+    if (item.callerSubscribed && isAdmin) {
+      return <OwnerTooltip label={t('tableEServiceCatalog.alreadySubscribed')} Icon={CheckIcon} />
     }
 
     if (!item.isMine && !canSubscribeEservice) {
       return (
         <OwnerTooltip
-          label="Il tuo ente non ha gli attributi certificati necessari per iscriversi"
+          label={t('tableEServiceCatalog.missingCertifiedAttributes')}
           Icon={ClearIcon}
         />
       )
@@ -87,7 +103,7 @@ export const AsyncTableEServiceCatalog = () => {
     const agreementData = {
       eserviceId: eservice.id,
       descriptorId: eservice.descriptorId,
-      consumerId: party?.id,
+      consumerId: jwt?.organization.id,
     }
 
     await runAction(
@@ -105,7 +121,7 @@ export const AsyncTableEServiceCatalog = () => {
   ) => {
     const actions: Array<ActionProps> = []
 
-    if (!eservice.isMine && isAdmin(party) && eservice.callerSubscribed) {
+    if (!eservice.isMine && isAdmin && eservice.callerSubscribed) {
       actions.push({
         onClick: () => {
           history.push(
@@ -114,25 +130,28 @@ export const AsyncTableEServiceCatalog = () => {
             })
           )
         },
-        label: 'Vai alla richiesta',
+        label: t('tableEServiceCatalog.goToRequestCta'),
       })
     }
 
-    if (!eservice.isMine && isAdmin(party) && !eservice.callerSubscribed && canSubscribeEservice) {
+    if (!eservice.isMine && isAdmin && !eservice.callerSubscribed && canSubscribeEservice) {
       actions.push({
         onClick: () => {
           setDialog({
             type: 'basic',
             proceedCallback: wrapSubscribe(eservice),
-            proceedLabel: 'Iscriviti',
-            title: 'Richiesta di fruizione',
-            description: `Stai per inoltrare una richiesta di fruizione per l'E-Service ${eservice.name}, versione ${eservice.version}`,
+            proceedLabel: t('tableEServiceCatalog.subscribeModal.proceedLabel'),
+            title: t('tableEServiceCatalog.subscribeModal.title'),
+            description: t('tableEServiceCatalog.subscribeModal.description', {
+              name: eservice.name,
+              version: eservice.version,
+            }),
             close: () => {
               setDialog(null)
             },
           })
         },
-        label: 'Iscriviti',
+        label: t('actions.subscribe', { ns: 'common' }),
       })
     }
 
@@ -149,22 +168,30 @@ export const AsyncTableEServiceCatalog = () => {
     return actions
   }
 
-  const headData = ['Nome E-Service', 'Ente erogatore', 'Versione attuale', 'Stato E-Service', '']
+  const headData = [
+    t('table.headData.eserviceName', { ns: 'common' }),
+    t('table.headData.providerName', { ns: 'common' }),
+    t('table.headData.currentVersion', { ns: 'common' }),
+    t('table.headData.eserviceStatus', { ns: 'common' }),
+    '',
+  ]
 
   return (
     <TableWithLoader
       isLoading={isLoading}
-      loadingText="Stiamo caricando la lista degli E-Service"
+      loadingText={t('loadingMultiLabel')}
       headData={headData}
-      noDataLabel="Non ci sono E-Service disponibili"
+      noDataLabel={t('noMultiDataLabel')}
       error={axiosErrorToError(error)}
       viewType="grid"
     >
-      {party &&
-        data &&
-        Boolean(data.length > 0) &&
-        data.map((item, i) => {
-          const canSubscribeEservice = canSubscribe(party.attributes, item.certifiedAttributes)
+      {eserviceData &&
+        Boolean(eserviceData.length > 0) &&
+        eserviceData.map((item, i) => {
+          const canSubscribeEservice = canSubscribe(
+            currentInstitutionCertifiedAttributes || [],
+            item.certifiedAttributes
+          )
           const tooltip = getTooltip(item, canSubscribeEservice)
           return (
             <Card
@@ -207,7 +234,7 @@ export const AsyncTableEServiceCatalog = () => {
                     )
                   }}
                 >
-                  Ispeziona
+                  {t('actions.inspect', { ns: 'common' })}
                 </ButtonNaked>
 
                 <ActionMenu actions={getAvailableActions(item, canSubscribeEservice)} />
@@ -220,16 +247,17 @@ export const AsyncTableEServiceCatalog = () => {
 }
 
 export const AsyncTableEServiceList = () => {
+  const { t } = useTranslation(['eservice', 'common'])
   const { routes } = useRoute()
-  const { party } = useContext(PartyContext)
   const { lang } = useContext(LangContext)
+  const { jwt } = useJwt()
   const history = useHistory()
   const { runAction, forceRerenderCounter } = useFeedback()
 
   const { data, error, isLoading } = useAsyncFetch<Array<EServiceFlatReadType>>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
-      config: { params: { producerId: party?.id, callerId: party?.id } },
+      config: { params: { producerId: jwt?.organization.id, callerId: jwt?.organization.id } },
     },
     { useEffectDeps: [forceRerenderCounter] }
   )
@@ -341,25 +369,31 @@ export const AsyncTableEServiceList = () => {
   const getAvailableActions = (service: EServiceFlatReadType) => {
     const { id: eserviceId, descriptorId, state } = service
 
-    const suspendAction = { onClick: wrapSuspend(eserviceId, descriptorId), label: 'Sospendi' }
+    const suspendAction = {
+      onClick: wrapSuspend(eserviceId, descriptorId),
+      label: t('actions.suspend', { ns: 'common' }),
+    }
     const reactivateAction = {
       onClick: wrapReactivate(eserviceId, descriptorId),
-      label: 'Riattiva',
+      label: t('actions.activate', { ns: 'common' }),
     }
-    const cloneAction = { onClick: wrapClone(eserviceId, descriptorId), label: 'Clona' }
+    const cloneAction = {
+      onClick: wrapClone(eserviceId, descriptorId),
+      label: t('actions.clone', { ns: 'common' }),
+    }
     const createVersionDraftAction = {
       onClick: wrapCreateNewVersionDraft(eserviceId),
-      label: 'Crea bozza nuova versione',
+      label: t('actions.createNewDraft', { ns: 'common' }),
     }
     // TEMP PIN-645
     // const archiveAction = { onClick: archive, label: 'Archivia' }
     const publishDraftAction = {
       onClick: wrapPublishDraft(eserviceId, descriptorId),
-      label: 'Pubblica',
+      label: t('actions.publish', { ns: 'common' }),
     }
     const deleteDraftAction = {
       onClick: wrapDeleteDraft(eserviceId, descriptorId),
-      label: 'Elimina',
+      label: t('actions.delete', { ns: 'common' }),
     }
 
     const availableActions: EServiceAction = {
@@ -375,14 +409,19 @@ export const AsyncTableEServiceList = () => {
   }
 
   // Data for the table head
-  const headData = ['Nome E-Service', 'Versione', 'Stato E-Service', '']
+  const headData = [
+    t('table.headData.eserviceName', { ns: 'common' }),
+    t('table.headData.version', { ns: 'common' }),
+    t('table.headData.eserviceStatus', { ns: 'common' }),
+    '',
+  ]
 
   return (
     <TableWithLoader
       isLoading={isLoading}
-      loadingText="Stiamo caricando i tuoi E-Service"
+      loadingText={t('loadingMultiLabel')}
       headData={headData}
-      noDataLabel="Non ci sono servizi disponibili"
+      noDataLabel={t('noMultiDataLabel')}
       error={axiosErrorToError(error)}
     >
       {data &&
@@ -393,7 +432,7 @@ export const AsyncTableEServiceList = () => {
             cellData={[
               { label: item.name },
               { label: item.version || '1' },
-              { label: ESERVICE_STATE_LABEL[item.state || 'DRAFT'] },
+              { label: t(`status.eservice.${item.state || 'DRAFT'}`, { ns: 'common' }) },
             ]}
           >
             <StyledButton
@@ -413,7 +452,9 @@ export const AsyncTableEServiceList = () => {
                 )
               }}
             >
-              {!item.state || item.state === 'DRAFT' ? 'Modifica' : 'Ispeziona'}
+              {t(`actions.${!item.state || item.state === 'DRAFT' ? 'edit' : 'inspect'}`, {
+                ns: 'common',
+              })}
             </StyledButton>
 
             <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
