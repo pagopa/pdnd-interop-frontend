@@ -15,3 +15,10 @@ export const LANGUAGES = {
   it: { it: 'Italiano', en: 'Inglese' },
   en: { it: 'Italian', en: 'English' },
 }
+
+export const pagoPaLink = {
+  label: 'PagoPA S.p.A.',
+  href: 'https://www.pagopa.it',
+  ariaLabel: 'Vai al sito di PagoPA S.p.A.',
+  title: 'Vai al sito di PagoPA S.p.A.',
+}
