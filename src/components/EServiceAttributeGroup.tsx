@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
-import { Box } from '@mui/system'
-import { Typography } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import { mixed, object, string } from 'yup'
 import {
   AttributeKey,
@@ -169,13 +168,8 @@ export function EServiceAttributeGroup({
       </TableWithLoader>
 
       {!disabled && (
-        <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
-          <StyledButton
-            sx={{ mr: 2 }}
-            size="small"
-            variant="contained"
-            onClick={openExistingAttributeDialog}
-          >
+        <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+          <StyledButton size="small" variant="contained" onClick={openExistingAttributeDialog}>
             {t('addAttributeTable.addBtn')}
           </StyledButton>
 
@@ -184,7 +178,7 @@ export function EServiceAttributeGroup({
               {t('addAttributeTable.createBtn')}
             </StyledButton>
           )}
-        </Box>
+        </Stack>
       )}
     </React.Fragment>
   )

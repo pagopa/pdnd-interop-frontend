@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Grid, Typography } from '@mui/material'
+import { Grid, Stack, Typography } from '@mui/material'
 import { Box, SxProps } from '@mui/system'
 import { InfoTooltip } from './Shared/InfoTooltip'
 
@@ -24,7 +24,7 @@ export const DescriptionBlock: FunctionComponent<DescriptionBlockProps> = ({
   return (
     <Grid container sx={sx} columnSpacing={4}>
       <Grid item xs={12} xl={leftGridItem}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', mb: 1 }}>
+        <Stack sx={{ mb: 1 }}>
           <Box>
             <Typography
               component="span"
@@ -47,7 +47,7 @@ export const DescriptionBlock: FunctionComponent<DescriptionBlockProps> = ({
               {labelDescription}
             </Typography>
           )}
-        </Box>
+        </Stack>
       </Grid>
       <Grid item xs={12} xl={12 - leftGridItem}>
         <Box sx={childWrapperSx}>{children}</Box>

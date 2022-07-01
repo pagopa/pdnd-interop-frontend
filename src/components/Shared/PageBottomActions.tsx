@@ -1,14 +1,13 @@
+import { Stack } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { FunctionComponent } from 'react'
 
 export const PageBottomActions: FunctionComponent = ({ children }) => {
   return (
-    <Box sx={{ mt: 8, display: 'flex' }}>
+    <Stack direction="row" spacing={2} sx={{ mt: 8 }}>
       {React.Children.map(children, (c, i) => (
-        <Box key={i} sx={{ mr: 2 }}>
-          {c}
-        </Box>
+        <Box key={i}>{c}</Box>
       ))}
-    </Box>
+    </Stack>
   )
 }

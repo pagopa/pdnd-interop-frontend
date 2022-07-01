@@ -9,7 +9,6 @@ import { StyledForm } from '../components/Shared/StyledForm'
 import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 import { TableWithLoader } from '../components/Shared/TableWithLoader'
 import { AddSecurityOperatorFormInputValues, SelfCareUser } from '../../types'
-import { Box } from '@mui/system'
 import { DeleteOutline as DeleteOutlineIcon } from '@mui/icons-material'
 import { StyledTableRow } from '../components/Shared/StyledTableRow'
 import { useRoute } from '../hooks/useRoute'
@@ -18,7 +17,7 @@ import { useClientKind } from '../hooks/useClientKind'
 import { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import { fetchAllWithLogs } from '../lib/api-utils'
-import { Divider, Grid, Paper } from '@mui/material'
+import { Divider, Grid, Paper, Stack } from '@mui/material'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { useTranslation } from 'react-i18next'
@@ -166,11 +165,11 @@ export function ClientCreate() {
                   ))}
               </TableWithLoader>
 
-              <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
+              <Stack direction="row" sx={{ my: 2 }}>
                 <StyledButton variant="contained" size="small" onClick={openAddOperatorDialog}>
                   {t('addBtn', { ns: 'common' })}
                 </StyledButton>
-              </Box>
+              </Stack>
 
               <Divider />
 

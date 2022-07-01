@@ -23,6 +23,7 @@ import { DEFAULT_LANG } from '../lib/constants'
 import { useTranslation } from 'react-i18next'
 import { HeaderWrapper } from './HeaderWrapper'
 import { FooterWrapper } from './FooterWrapper'
+import { Stack } from '@mui/material'
 
 const RebuildI18N = () => {
   const { loginAttempt } = useLogin()
@@ -72,7 +73,7 @@ export const WhitePanel: FunctionComponent = ({ children }) => {
           transform: 'translate(100%, 0)',
         },
       }}
-      bgcolor="background.default"
+      bgcolor="#FAFAFA"
     >
       {children}
     </Box>
@@ -126,12 +127,12 @@ export function BodyLogger() {
 
             {doesRouteAllowTwoColumnsLayout(history.location) ? (
               <Box sx={{ flexGrow: 1 }}>
-                <Box sx={{ display: 'flex', height: '100%', overflowX: 'hidden' }}>
+                <Stack direction="row" sx={{ height: '100%', overflowX: 'hidden' }}>
                   <MainNav />
                   <WhitePanel>
                     <Main />
                   </WhitePanel>
-                </Box>
+                </Stack>
               </Box>
             ) : (
               <Box sx={{ flexGrow: 1 }}>

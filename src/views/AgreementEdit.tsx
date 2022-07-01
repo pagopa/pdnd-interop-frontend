@@ -19,7 +19,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { Box } from '@mui/system'
-import { Grid, Typography } from '@mui/material'
+import { Grid, Stack, Typography } from '@mui/material'
 import { useRoute } from '../hooks/useRoute'
 import { StyledAccordion } from '../components/Shared/StyledAccordion'
 import { formatDateString } from '../lib/format-utils'
@@ -232,11 +232,13 @@ export function AgreementEdit() {
                         )}
                       </Typography>
                     </Grid>
-                    <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                      <StyledButton variant="outlined" size="small" onClick={wrapVerify(a.id)}>
-                        Verifica
-                        {typeof a.verified !== 'undefined' ? ' nuovamente' : ''}
-                      </StyledButton>
+                    <Grid item xs={4}>
+                      <Stack direction="row" justifyContent="flex-end">
+                        <StyledButton variant="outlined" size="small" onClick={wrapVerify(a.id)}>
+                          Verifica
+                          {typeof a.verified !== 'undefined' ? ' nuovamente' : ''}
+                        </StyledButton>
+                      </Stack>
                     </Grid>
                   </Grid>
                 )

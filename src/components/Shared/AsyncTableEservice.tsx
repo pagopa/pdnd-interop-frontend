@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Box, Card, CardActions, CardContent, Typography } from '@mui/material'
+import { Box, Card, CardActions, CardContent, Stack, Typography } from '@mui/material'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import {
   Clear as ClearIcon,
@@ -194,51 +194,38 @@ export const AsyncTableEServiceCatalog = () => {
           )
           const tooltip = getTooltip(item, canSubscribeEservice)
           return (
-            <Card
-              key={i}
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                height: '100%',
-              }}
-            >
-              <CardContent>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Typography component="span">
-                    {item.name}, v. {item.version}
-                  </Typography>{' '}
-                  {tooltip}
-                </Box>
+            <Card key={i} sx={{ height: '100%' }}>
+              <Stack>
+                <CardContent>
+                  <Stack direction="row">
+                    <Typography component="span">
+                      {item.name}, v. {item.version}
+                    </Typography>{' '}
+                    {tooltip}
+                  </Stack>
 
-                <Typography color="text.secondary">{item.producerName}</Typography>
-              </CardContent>
+                  <Typography color="text.secondary">{item.producerName}</Typography>
+                </CardContent>
 
-              <CardActions
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  p: 2,
-                }}
-              >
-                <ButtonNaked
-                  size="medium"
-                  color="primary"
-                  onClick={() => {
-                    history.push(
-                      buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
-                        eserviceId: item.id,
-                        descriptorId: item.descriptorId as string,
-                      })
-                    )
-                  }}
-                >
-                  {t('actions.inspect', { ns: 'common' })}
-                </ButtonNaked>
+                <CardActions sx={{ px: 3, py: 2, justifyContent: 'space-between' }}>
+                  <ButtonNaked
+                    size="medium"
+                    color="primary"
+                    onClick={() => {
+                      history.push(
+                        buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
+                          eserviceId: item.id,
+                          descriptorId: item.descriptorId as string,
+                        })
+                      )
+                    }}
+                  >
+                    {t('actions.inspect', { ns: 'common' })}
+                  </ButtonNaked>
 
-                <ActionMenu actions={getAvailableActions(item, canSubscribeEservice)} />
-              </CardActions>
+                  <ActionMenu actions={getAvailableActions(item, canSubscribeEservice)} />
+                </CardActions>
+              </Stack>
             </Card>
           )
         })}

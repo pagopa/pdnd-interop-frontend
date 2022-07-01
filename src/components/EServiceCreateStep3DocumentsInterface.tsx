@@ -20,6 +20,7 @@ import { StyledInputControlledFile } from './Shared/StyledInputControlledFile'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { RunActionOutput } from '../hooks/useFeedback'
 import { useTranslation } from 'react-i18next'
+import { Stack } from '@mui/material'
 
 type EServiceCreateStep3DocumentsInterfaceProps = {
   data: EServiceReadType
@@ -131,11 +132,11 @@ export function EServiceCreateStep3DocumentsInterface({
               disabled={true}
             />
 
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Stack direction="row" justifyContent="flex-end">
               <StyledButton type="submit" variant="contained">
                 <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> {t('create.step3.uploadBtn')}
               </StyledButton>
-            </Box>
+            </Stack>
           </StyledForm>
         )}
       </Formik>

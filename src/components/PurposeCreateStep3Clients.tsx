@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useContext } from 'react'
-import { Paper } from '@mui/material'
-import { Box } from '@mui/system'
+import { Paper, Stack } from '@mui/material'
 import { useHistory } from 'react-router-dom'
 import { ActiveStepProps } from '../hooks/useActiveStep'
 import { useFeedback } from '../hooks/useFeedback'
@@ -161,14 +160,14 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
           }}
         </StyledIntro>
         {!isPurposeReallyLoading ? (
-          <Box sx={{ display: 'flex', mt: 3 }}>
-            <StyledButton sx={{ mr: 2 }} variant="contained" onClick={publishVersion}>
+          <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
+            <StyledButton variant="contained" onClick={publishVersion}>
               {t('create.quickPublish.publishBtn')}
             </StyledButton>
             <StyledButton variant="outlined" onClick={deleteVersion}>
               {t('create.quickPublish.deleteBtn')}
             </StyledButton>
-          </Box>
+          </Stack>
         ) : (
           <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
         )}

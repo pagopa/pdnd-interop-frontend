@@ -5,7 +5,6 @@ import { DialogContext } from '../lib/context'
 import { canSubscribe } from '../lib/attributes'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { Box } from '@mui/system'
 import { EServiceContentInfo } from '../components/Shared/EServiceContentInfo'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import {
@@ -19,7 +18,7 @@ import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { buildDynamicPath } from '../lib/router-utils'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
-import { Alert } from '@mui/material'
+import { Alert, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
 
@@ -148,13 +147,13 @@ export function EServiceRead() {
             </Alert>
           )}
 
-          <Box sx={{ display: 'flex' }}>
+          <Stack direction="row" spacing={2}>
             {isVersionPublished &&
               !isMine &&
               canSubscribeEservice &&
               !flatData?.callerSubscribed &&
               isAdmin && (
-                <StyledButton sx={{ mr: 2 }} variant="contained" onClick={handleSubscriptionDialog}>
+                <StyledButton variant="contained" onClick={handleSubscriptionDialog}>
                   {t('actions.subscribe', { ns: 'common' })}
                 </StyledButton>
               )}
@@ -162,7 +161,6 @@ export function EServiceRead() {
             {/* TEMP PIN-612 */}
             {/* {!isMine && isAdmin && !canSubscribeEservice && (
           <StyledButton
-            sx={{ mr: 2 }}
             variant="contained"
             onClick={() => {
               setDialog({ type: 'askExtension' })
@@ -175,7 +173,7 @@ export function EServiceRead() {
             <StyledButton variant="outlined" to={routes.SUBSCRIBE_CATALOG_LIST.PATH}>
               {t('read.actions.backToCatalogLabel')}
             </StyledButton>
-          </Box>
+          </Stack>
         </React.Fragment>
       ) : (
         <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />

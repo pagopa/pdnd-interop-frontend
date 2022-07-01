@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { InputAdornment } from '@mui/material'
+import { InputAdornment, Stack } from '@mui/material'
 import { Box } from '@mui/system'
 import {
   Delete as DeleteIcon,
@@ -75,15 +75,11 @@ export function StyledDeleteableDocument({
   }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'flex-end',
-        justifyContent: 'space-between',
-        mb: 1,
-        p: 2,
-        bgcolor: 'background.default',
-      }}
+    <Stack
+      direction="row"
+      alignItems="flex-end"
+      justifyContent="space-between"
+      sx={{ mb: 1, p: 2, bgcolor: 'background.default' }}
     >
       <Box sx={{ mr: 4, flexShrink: 1 }}>
         <StyledInputControlledText
@@ -126,6 +122,6 @@ export function StyledDeleteableDocument({
           </StyledButton>
         </StyledTooltip>
       </Box>
-    </Box>
+    </Stack>
   )
 }

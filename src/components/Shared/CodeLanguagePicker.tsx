@@ -1,5 +1,5 @@
 import React from 'react'
-import { Chip, Typography } from '@mui/material'
+import { Chip, Stack, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { useTranslation } from 'react-i18next'
 
@@ -22,7 +22,7 @@ export const CodeLanguagePicker = ({
   const { t } = useTranslation('shared-components')
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Stack direction="row">
       <Typography sx={{ mr: 1 }}>{t('codeLanguagePicker.languageLabel')}: </Typography>
       <Box>
         {entries &&
@@ -39,6 +39,6 @@ export const CodeLanguagePicker = ({
             )
           })}
       </Box>
-    </Box>
+    </Stack>
   )
 }

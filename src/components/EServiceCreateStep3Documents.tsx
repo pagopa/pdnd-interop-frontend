@@ -13,7 +13,7 @@ import { StyledButton } from './Shared/StyledButton'
 import { EServiceCreateStep3DocumentsInterface } from './EServiceCreateStep3DocumentsInterface'
 import { EServiceCreateStep3DocumentsDoc } from './EServiceCreateStep3DocumentsDoc'
 import { StepActions } from './Shared/StepActions'
-import { Divider, Paper } from '@mui/material'
+import { Divider, Paper, Stack } from '@mui/material'
 import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
 import { useRoute } from '../hooks/useRoute'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
@@ -183,14 +183,14 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
           }}
         </StyledIntro>
         {!isLoading ? (
-          <Box sx={{ display: 'flex', mt: 3 }}>
-            <StyledButton sx={{ mr: 2 }} variant="contained" onClick={publishVersion}>
+          <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
+            <StyledButton variant="contained" onClick={publishVersion}>
               {t('create.quickPublish.publishBtn')}
             </StyledButton>
             <StyledButton variant="outlined" onClick={deleteVersion}>
               {t('create.quickPublish.deleteBtn')}
             </StyledButton>
-          </Box>
+          </Stack>
         ) : (
           <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
         )}

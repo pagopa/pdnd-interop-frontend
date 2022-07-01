@@ -13,7 +13,7 @@ import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { useRoute } from '../hooks/useRoute'
 import { formatDateString } from '../lib/format-utils'
-import { Alert } from '@mui/material'
+import { Alert, Stack } from '@mui/material'
 import { isKeyOrphan } from '../lib/key-utils'
 import { useTranslation } from 'react-i18next'
 
@@ -102,14 +102,14 @@ export function KeyEdit() {
         )}
       </Box>
 
-      <Box sx={{ mt: 4, display: 'flex' }}>
-        <StyledButton sx={{ mr: 2 }} variant="contained" onClick={downloadKey}>
+      <Stack direction="row" spacing={2} sx={{ mt: 4 }}>
+        <StyledButton variant="contained" onClick={downloadKey}>
           {t('actions.download', { ns: 'common' })}
         </StyledButton>
         <StyledButton variant="outlined" onClick={deleteKey}>
           {t('actions.delete', { ns: 'common' })}
         </StyledButton>
-      </Box>
+      </Stack>
     </React.Fragment>
   )
 }

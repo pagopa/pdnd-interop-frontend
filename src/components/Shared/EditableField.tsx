@@ -9,6 +9,7 @@ import {
 } from '@mui/icons-material'
 import { forceReflow } from '../../lib/wait-utils'
 import { useTranslation } from 'react-i18next'
+import { Stack } from '@mui/material'
 
 type EditableFieldProps = {
   onSave: (updatedString: string | null) => void
@@ -79,7 +80,7 @@ export const EditableField: FunctionComponent<EditableFieldProps> = ({
 
   return (
     <Box sx={{ position: 'relative' }}>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Stack direction="row" alignItems="center">
         <Box
           ref={contentEditableRef}
           contentEditable={canEdit}
@@ -98,7 +99,7 @@ export const EditableField: FunctionComponent<EditableFieldProps> = ({
         >
           <ModeEditIcon fontSize="small" />
         </StyledButton>
-      </Box>
+      </Stack>
 
       {canEdit && (
         <Box
@@ -112,20 +113,21 @@ export const EditableField: FunctionComponent<EditableFieldProps> = ({
             borderColor: 'primary.main',
             borderBottomLeftRadius: 5,
             borderBottomRightRadius: 5,
-            display: 'flex',
           }}
         >
-          <StyledTooltip title={t('saveEdit')} placement="bottom">
-            <StyledButton sx={btnProps} onClick={saveEdit} onMouseDown={preventBlurUndoEdit}>
-              <SaveIcon fontSize="small" />
-            </StyledButton>
-          </StyledTooltip>
-          <StyledTooltip title={t('undoEdit')} placement="bottom">
-            {/* This button is actually unused because the onBlur of the contentEditable takes precedence */}
-            <StyledButton sx={btnProps} onClick={undoEdit}>
-              <DeleteIcon fontSize="small" />
-            </StyledButton>
-          </StyledTooltip>
+          <Stack direction="row">
+            <StyledTooltip title={t('saveEdit')} placement="bottom">
+              <StyledButton sx={btnProps} onClick={saveEdit} onMouseDown={preventBlurUndoEdit}>
+                <SaveIcon fontSize="small" />
+              </StyledButton>
+            </StyledTooltip>
+            <StyledTooltip title={t('undoEdit')} placement="bottom">
+              {/* This button is actually unused because the onBlur of the contentEditable takes precedence */}
+              <StyledButton sx={btnProps} onClick={undoEdit}>
+                <DeleteIcon fontSize="small" />
+              </StyledButton>
+            </StyledTooltip>
+          </Stack>
         </Box>
       )}
     </Box>

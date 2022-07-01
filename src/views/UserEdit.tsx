@@ -8,8 +8,7 @@ import { buildDynamicPath, buildDynamicRoute, getBits } from '../lib/router-util
 import { useMode } from '../hooks/useMode'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { Typography } from '@mui/material'
-import { Box } from '@mui/system'
+import { Stack, Typography } from '@mui/material'
 import { fetchWithLogs } from '../lib/api-utils'
 import { isFetchError } from '../lib/error-utils'
 import { AxiosResponse } from 'axios'
@@ -171,13 +170,13 @@ export function UserEdit() {
             </DescriptionBlock>
           )}
 
-          <Box sx={{ mt: 8, display: 'flex' }}>
+          <Stack direction="row" sx={{ mt: 8 }}>
             {getAvailableActions().map(({ onClick, label }, i) => (
               <StyledButton variant="contained" key={i} onClick={onClick}>
                 {label}
               </StyledButton>
             ))}
-          </Box>
+          </Stack>
         </React.Fragment>
       ) : (
         <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />

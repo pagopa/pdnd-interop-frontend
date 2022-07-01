@@ -18,7 +18,7 @@ import { StyledForm } from './Shared/StyledForm'
 import { AxiosResponse } from 'axios'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { StyledInputControlledFile } from './Shared/StyledInputControlledFile'
-import { Typography } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import { RunActionOutput } from '../hooks/useFeedback'
 import { useTranslation } from 'react-i18next'
 
@@ -151,11 +151,11 @@ export function EServiceCreateStep3DocumentsDoc({
                   rows={4}
                 />
 
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Stack direction="row" justifyContent="flex-end">
                   <StyledButton type="submit" variant="contained">
                     <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> {t('create.step3.uploadBtn')}
                   </StyledButton>
-                </Box>
+                </Stack>
               </StyledForm>
             )}
           </Formik>

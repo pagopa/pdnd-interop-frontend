@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react'
-import { Typography } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import { Box, SxProps } from '@mui/system'
 import { StyledInputWrapper } from './StyledInputWrapper'
 import { FormikSetFieldValue } from '../../../types'
@@ -38,7 +38,7 @@ export function StyledInputControlledFile({
 
   return (
     <StyledInputWrapper name={name} error={error} sx={sx} infoLabel={infoLabel}>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Stack direction="row" alignItems="center">
         <Box sx={{ mr: 3, flexShrink: 0, position: 'relative' }}>
           <input
             name={name}
@@ -83,7 +83,7 @@ export function StyledInputControlledFile({
             {value ? value.name : t('noFileSelectedLabel')}
           </Typography>
         </Typography>
-      </Box>
+      </Stack>
     </StyledInputWrapper>
   )
 }
