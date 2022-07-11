@@ -31,21 +31,31 @@ function getEnvVar(varName: keyof PagoPAEnvVars, devVarName: string) {
   return isProduction ? PAGOPA_ENV[varName] : `${DEV_API_HOST_URL}/${devVarName}`
 }
 
+const SERVICE_VERSION = process.env.REACT_APP_SERVICE_VERSION
 export const API_GATEWAY_INTEFACE_URL = getEnvVar(
   'API_GATEWAY_INTEFACE_URL',
   'swagger/docs/interface-specification.yml'
 )
 export const BACKEND_FOR_FRONTEND_URL = getEnvVar(
   'BACKEND_FOR_FRONTEND_URL',
-  'backend-for-frontend/0.0'
+  `backend-for-frontend/${SERVICE_VERSION}`
 )
-export const AGREEMENT_PROCESS_URL = getEnvVar('AGREEMENT_PROCESS_URL', 'agreement-process/0.0')
+export const AGREEMENT_PROCESS_URL = getEnvVar(
+  'AGREEMENT_PROCESS_URL',
+  `agreement-process/${SERVICE_VERSION}`
+)
 export const AUTHORIZATION_PROCESS_URL = getEnvVar(
   'AUTHORIZATION_PROCESS_URL',
-  'authorization-process/0.0'
+  `authorization-process/${SERVICE_VERSION}`
 )
-export const CATALOG_PROCESS_URL = getEnvVar('CATALOG_PROCESS_URL', 'catalog-process/0.0')
-export const PURPOSE_PROCESS_URL = getEnvVar('PURPOSE_PROCESS_URL', 'purpose-process/0.0')
+export const CATALOG_PROCESS_URL = getEnvVar(
+  'CATALOG_PROCESS_URL',
+  `catalog-process/${SERVICE_VERSION}`
+)
+export const PURPOSE_PROCESS_URL = getEnvVar(
+  'PURPOSE_PROCESS_URL',
+  `purpose-process/${SERVICE_VERSION}`
+)
 export const AUTHORIZATION_SERVER_ACCESS_TOKEN_URL = getEnvVar(
   'AUTHORIZATION_SERVER_TOKEN_CREATION_URL',
   'authorization-server/token.oauth2'
