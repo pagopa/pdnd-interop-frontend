@@ -168,7 +168,7 @@ export function EServiceAttributeGroup({
       </TableWithLoader>
 
       {!disabled && (
-        <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+        <Stack direction={{ sm: 'column', md: 'row' }} spacing={{ sm: 1, md: 2 }} sx={{ mt: 2 }}>
           <StyledButton size="small" variant="contained" onClick={openExistingAttributeDialog}>
             {t('addAttributeTable.addBtn')}
           </StyledButton>

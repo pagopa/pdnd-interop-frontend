@@ -18,7 +18,7 @@
     "@mui/material": "^5.8.6",
     "@mui/system": "^5.6.3",
     "@mui/x-date-pickers": "^5.0.0-alpha.6",
-    "@pagopa/mui-italia": "^0.6.30",
+    "@pagopa/mui-italia": "^0.6.33",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",

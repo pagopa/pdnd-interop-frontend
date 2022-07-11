@@ -85,7 +85,7 @@
     "content": {
       "message": "Se selezioni più di un attributo per volta verrà trattato come “gruppo”. Sarà sufficiente per il Fruitore possedere uno solo degli attributi nel gruppo per passare la verifica",
       "autocompleteLabel": "Attributi selezionati",
-      "selectedLabel": "Hai selezionato"
+      "selectedLabel": "Esplora selezione"
     },
     "actions": {
       "cancelLabel": "Annulla",

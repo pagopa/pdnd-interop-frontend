@@ -46,8 +46,8 @@ export function EServiceCreate() {
   return (
     <React.Fragment>
       <StyledIntro>{intro}</StyledIntro>
-      <Grid container>
-        <Grid item xs={8}>
+      <Grid container sx={{ maxWidth: 960 }}>
+        <Grid item lg={10}>
           <StyledStepper steps={STEPS} activeIndex={activeStep} />
           <Step {...stepProps} />
         </Grid>

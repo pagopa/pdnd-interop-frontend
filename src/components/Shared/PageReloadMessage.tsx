@@ -16,8 +16,8 @@ export const PageReloadMessage = () => {
   return (
     <Stack direction="row" alignItems="center" justifyContent="center">
       <Box sx={{ my: 4, p: 2 }} bgcolor="background.paper" color="text.secondary">
-        <ReportGmailerrorredIcon sx={{ mr: 1 }} fontSize="small" color="inherit" />
         <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center' }}>
+          <ReportGmailerrorredIcon sx={{ mr: 1 }} fontSize="small" color="inherit" />
           {t('pageReloadMessage.message')}.{' '}
           <ButtonNaked
             sx={{ fontSize: 'inherit', ml: 0.5, color: 'primary.main' }}

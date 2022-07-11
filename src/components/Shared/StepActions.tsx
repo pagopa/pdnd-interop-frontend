@@ -37,7 +37,7 @@ export function StepActions({ back, forward }: StepActionsProps) {
   return (
     <React.Fragment>
       <Divider />
-      <Stack direction="row" spacing={2} sx={{ mt: 8 }}>
+      <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
         <StyledButton variant="outlined" {...backProps}>
           {back.label}
         </StyledButton>
