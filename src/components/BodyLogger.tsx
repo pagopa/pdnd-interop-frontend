@@ -31,10 +31,10 @@ const RebuildI18N = () => {
   const { i18n, t, ready } = useTranslation('common', { useSuspense: false })
   const { setLoadingText } = useContext(LoaderContext)
 
-  // Rebuild config if starting language is not the default one
+  // Build config once translations are ready
   useEffect(() => {
-    if (lang !== DEFAULT_LANG && ready) {
-      i18n.changeLanguage(lang)
+    if (ready) {
+      lang !== DEFAULT_LANG && i18n.changeLanguage(lang)
       buildLocale(t)
     }
   }, [ready]) // eslint-disable-line react-hooks/exhaustive-deps
