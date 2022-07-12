@@ -20,8 +20,8 @@
     "requestStatusField": {
       "label": "Stato della richiesta",
       "agreementSuspendedMessage": "La richiesta può essere sospesa sia dall'Erogatore che dal Fruitore. Se almeno uno dei due attori la sospende, inibirà l'accesso all'E-Service per tutte le finalità associate all'E-Service dal Fruitore",
-      "providerSideLabel": "Lato Erogatore",
-      "subscriberSideLabel": "Lato Fruitore"
+      "suspendedByProvider": "sospeso dall'erogatore",
+      "suspendedBySubscriber": "sospeso dal fruitore"
     },
     "verifiedAttributesField": {
       "label": "Attributi verificati",
@@ -29,10 +29,10 @@
     },
     "attribute": {
       "status": {
-        "newlyVerified": "Verificato",
-        "verifiedByAnotherParty": "Verificato, nuova verifica non richiesta",
-        "refused": "Rifiutato",
-        "pending": "In attesa di approvazione"
+        "newlyVerified": "verificato",
+        "verifiedByAnotherParty": "verificato da terzi",
+        "refused": "rifiutato",
+        "pending": "in attesa di approvazione"
       },
       "verificationDateField": {
         "label": "Data di verifica"

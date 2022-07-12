@@ -6,6 +6,7 @@ import {
   ActionProps,
   ProviderOrSubscriber,
   BackendAttributeContent,
+  MUIColor,
 } from '../../types'
 import { buildDynamicPath, getLastBit } from '../lib/router-utils'
 // import { formatDate, getRandomDate } from '../lib/date-utils'
@@ -19,7 +20,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { Box } from '@mui/system'
-import { Chip, Grid, Stack, Typography } from '@mui/material'
+import { Chip, Grid, Paper, Stack, Typography } from '@mui/material'
 import { useRoute } from '../hooks/useRoute'
 import { StyledAccordion } from '../components/Shared/StyledAccordion'
 import { formatDateString } from '../lib/format-utils'
@@ -30,6 +31,13 @@ import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
 import { CHIP_COLORS_AGREEMENT } from '../lib/constants'
+
+const CHIP_COLOR_ATTRIBUTE: Record<string, MUIColor> = {
+  newlyVerified: 'primary',
+  verifiedByAnotherParty: 'primary',
+  refused: 'error',
+  pending: 'warning',
+}
 
 export function AgreementEdit() {
   const { t } = useTranslation(['agreement', 'common'])
@@ -159,6 +167,37 @@ export function AgreementEdit() {
     return verified ? 'newlyVerified' : 'refused'
   }
 
+  const getSuspendedChips = () => {
+    if (!data) return
+
+    const isProviderSuspended = getAgreementState(data, 'provider') === 'SUSPENDED'
+    const isSubscriberSuspended = getAgreementState(data, 'subscriber') === 'SUSPENDED'
+
+    const chips = []
+    if (isProviderSuspended) {
+      chips.push(
+        <Chip
+          label={t(`edit.requestStatusField.suspendedByProvider`)}
+          color={CHIP_COLORS_AGREEMENT[data.state]}
+        />
+      )
+    }
+    if (isSubscriberSuspended) {
+      chips.push(
+        <Chip
+          label={t(`edit.requestStatusField.suspendedBySubscriber`)}
+          color={CHIP_COLORS_AGREEMENT[data.state]}
+        />
+      )
+    }
+
+    return (
+      <Stack direction="row" spacing={1}>
+        {chips}
+      </Stack>
+    )
+  }
+
   const SubscriberAttributes = () => {
     return (
       <Box>
@@ -218,20 +257,20 @@ export function AgreementEdit() {
                 <InfoMessage sx={{ mb: 2 }} label={t('edit.attribute.groupMessage')} />
               )}
               {attributes.map((a, i) => {
+                const attributeStatus = checkVerifiedStatus(
+                  a.verified,
+                  a.explicitAttributeVerification
+                )
                 return (
                   <Grid container key={i} sx={{ mb: 1 }} alignItems="center">
                     <Grid item xs={4}>
                       <Typography>{a.name}</Typography>
                     </Grid>
                     <Grid item xs={4}>
-                      <Typography color="text.secondary">
-                        {t(
-                          `edit.attribute.status.${checkVerifiedStatus(
-                            a.verified,
-                            a.explicitAttributeVerification
-                          )}`
-                        )}
-                      </Typography>
+                      <Chip
+                        label={t(`edit.attribute.status.${attributeStatus}`)}
+                        color={CHIP_COLOR_ATTRIBUTE[attributeStatus]}
+                      />
                     </Grid>
                     <Grid item xs={4}>
                       <Stack direction="row" justifyContent="flex-end">
@@ -261,83 +300,76 @@ export function AgreementEdit() {
 
       {data ? (
         <React.Fragment>
-          <DescriptionBlock label={t('edit.eserviceField.label')}>
-            <StyledLink
-              to={buildDynamicPath(
-                mode === 'subscriber'
-                  ? routes.SUBSCRIBE_CATALOG_VIEW.PATH
-                  : routes.PROVIDE_ESERVICE_MANAGE.PATH,
-                {
-                  eserviceId: data?.eservice.id,
-                  descriptorId: data?.eserviceDescriptorId,
-                }
-              )}
-            >
-              {data?.eservice.name}, {t('edit.eserviceField.versionLabel')} {data?.eservice.version}
-            </StyledLink>
-            {mode === 'subscriber' &&
-            data?.eservice.activeDescriptor &&
-            data?.state !== 'INACTIVE' ? (
-              <React.Fragment>
-                <br />
-                <StyledLink
-                  to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
+          <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
+            <DescriptionBlock label={t('edit.eserviceField.label')} sx={{ mt: 0 }}>
+              <StyledLink
+                to={buildDynamicPath(
+                  mode === 'subscriber'
+                    ? routes.SUBSCRIBE_CATALOG_VIEW.PATH
+                    : routes.PROVIDE_ESERVICE_MANAGE.PATH,
+                  {
                     eserviceId: data?.eservice.id,
-                    descriptorId: data?.eservice.activeDescriptor.id,
-                  })}
-                >
-                  {t('edit.upgradeField.link.label')}
-                </StyledLink>
-                . {t('edit.upgradeField.message')}
-              </React.Fragment>
-            ) : null}
-          </DescriptionBlock>
-
-          {mode === 'provider' && (
-            <DescriptionBlock label={t('edit.subscriberField.label')}>
-              <Typography component="span">{data?.consumer.name}</Typography>
+                    descriptorId: data?.eserviceDescriptorId,
+                  }
+                )}
+              >
+                {data?.eservice.name}, {t('edit.eserviceField.versionLabel')}{' '}
+                {data?.eservice.version}
+              </StyledLink>
+              {mode === 'subscriber' &&
+              data?.eservice.activeDescriptor &&
+              data?.state !== 'INACTIVE' ? (
+                <React.Fragment>
+                  <br />
+                  <StyledLink
+                    to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
+                      eserviceId: data?.eservice.id,
+                      descriptorId: data?.eservice.activeDescriptor.id,
+                    })}
+                  >
+                    {t('edit.upgradeField.link.label')}
+                  </StyledLink>
+                  . {t('edit.upgradeField.message')}
+                </React.Fragment>
+              ) : null}
             </DescriptionBlock>
-          )}
 
-          <DescriptionBlock
-            label={t('edit.requestStatusField.label')}
-            tooltipLabel={
-              data?.state !== 'PENDING'
-                ? t('edit.requestStatusField.agreementSuspendedMessage')
-                : undefined
-            }
-          >
-            {data?.state === 'SUSPENDED' ? (
-              <React.Fragment>
-                <Typography component="span">
-                  {t('edit.requestStatusField.providerSideLabel')}:{' '}
-                  {t(`status.agreement.${getAgreementState(data, 'provider')}`, { ns: 'common' })}
-                </Typography>
-                <br />
-                <Typography component="span">
-                  {t('edit.requestStatusField.subscriberSideLabel')}:{' '}
-                  {t(`status.agreement.${getAgreementState(data, 'subscriber')}`, { ns: 'common' })}
-                </Typography>
-              </React.Fragment>
-            ) : (
-              <Chip
-                label={t(`status.agreement.${data.state}`, { ns: 'common' })}
-                color={CHIP_COLORS_AGREEMENT[data.state]}
-              />
+            {mode === 'provider' && (
+              <DescriptionBlock label={t('edit.subscriberField.label')}>
+                <Typography component="span">{data?.consumer.name}</Typography>
+              </DescriptionBlock>
             )}
-          </DescriptionBlock>
 
-          <DescriptionBlock label={t('edit.verifiedAttributesField.label')}>
-            {data.attributes.length > 0 ? (
-              mode === 'provider' ? (
-                <ProviderAttributes />
+            <DescriptionBlock
+              label={t('edit.requestStatusField.label')}
+              tooltipLabel={
+                data?.state !== 'PENDING'
+                  ? t('edit.requestStatusField.agreementSuspendedMessage')
+                  : undefined
+              }
+            >
+              {data?.state !== 'SUSPENDED' ? (
+                <Chip
+                  label={t(`status.agreement.${data.state}`, { ns: 'common' })}
+                  color={CHIP_COLORS_AGREEMENT[data.state]}
+                />
               ) : (
-                <SubscriberAttributes />
-              )
-            ) : (
-              <Typography>{t('edit.verifiedAttributesField.noDataLabel')}</Typography>
-            )}
-          </DescriptionBlock>
+                getSuspendedChips()
+              )}
+            </DescriptionBlock>
+
+            <DescriptionBlock label={t('edit.verifiedAttributesField.label')} sx={{ mb: 0 }}>
+              {data.attributes.length > 0 ? (
+                mode === 'provider' ? (
+                  <ProviderAttributes />
+                ) : (
+                  <SubscriberAttributes />
+                )
+              ) : (
+                <Typography>{t('edit.verifiedAttributesField.noDataLabel')}</Typography>
+              )}
+            </DescriptionBlock>
+          </Paper>
 
           <PageBottomActions>
             {getAvailableActions().map(({ onClick, label }, i) => (
