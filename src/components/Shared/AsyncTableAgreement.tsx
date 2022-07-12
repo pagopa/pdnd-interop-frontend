@@ -1,6 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { Box } from '@mui/material'
+import { Box, Chip } from '@mui/material'
 import { ActionProps, AgreementState, AgreementSummary, ProviderOrSubscriber } from '../../../types'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { useFeedback } from '../../hooks/useFeedback'
@@ -16,6 +16,7 @@ import { TableWithLoader } from './TableWithLoader'
 import { useMode } from '../../hooks/useMode'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../../hooks/useJwt'
+import { CHIP_COLORS_AGREEMENT } from '../../lib/constants'
 
 export const AsyncTableAgreement = () => {
   const { t } = useTranslation(['agreement', 'common'])
@@ -147,7 +148,14 @@ export const AsyncTableAgreement = () => {
             cellData={[
               { label: item.eservice.name },
               { label: currentMode === 'provider' ? item.consumer.name : item.producer.name },
-              { label: t(`status.agreement.${[item.state]}`, { ns: 'common' }) },
+              {
+                custom: (
+                  <Chip
+                    label={t(`status.agreement.${[item.state]}`, { ns: 'common' })}
+                    color={CHIP_COLORS_AGREEMENT[item.state]}
+                  />
+                ),
+              },
             ]}
           >
             <StyledButton

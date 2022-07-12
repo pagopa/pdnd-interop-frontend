@@ -82,8 +82,7 @@
     "actions": {
       "updateDailyCalls": "Update number of daily API calls",
       "deleteDailyCallsUpdate": "Delete update to number of daily calls"
-    },
-    "updating": "updating"
+    }
   },
   "list": {
     "title": "Your purposes",

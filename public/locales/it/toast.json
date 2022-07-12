@@ -93,7 +93,10 @@
     }
   },
   "ESERVICE_VERSION_DRAFT_POST_DOCUMENT": {
-    "loadingText": "Stiamo caricando il documento"
+    "loadingText": "Stiamo caricando il documento",
+    "error": {
+      "message": "Non è stato possibile caricare il documento. Per favore, assicurati sia il documento corretto e riprova!"
+    }
   },
   "ESERVICE_VERSION_DRAFT_DELETE_DOCUMENT": {
     "loadingText": "Stiamo eliminando il documento",

@@ -19,7 +19,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { Box } from '@mui/system'
-import { Grid, Stack, Typography } from '@mui/material'
+import { Chip, Grid, Stack, Typography } from '@mui/material'
 import { useRoute } from '../hooks/useRoute'
 import { StyledAccordion } from '../components/Shared/StyledAccordion'
 import { formatDateString } from '../lib/format-utils'
@@ -29,6 +29,7 @@ import { NotFound } from './NotFound'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
+import { CHIP_COLORS_AGREEMENT } from '../lib/constants'
 
 export function AgreementEdit() {
   const { t } = useTranslation(['agreement', 'common'])
@@ -319,9 +320,10 @@ export function AgreementEdit() {
                 </Typography>
               </React.Fragment>
             ) : (
-              <Typography component="span">
-                {t(`status.agreement.${data.state}`, { ns: 'common' })}
-              </Typography>
+              <Chip
+                label={t(`status.agreement.${data.state}`, { ns: 'common' })}
+                color={CHIP_COLORS_AGREEMENT[data.state]}
+              />
             )}
           </DescriptionBlock>
 

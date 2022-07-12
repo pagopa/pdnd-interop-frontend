@@ -1,7 +1,14 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { Box } from '@mui/system'
-import { ActionProps, ClientKind, ProviderOrSubscriber, SelfCareUser } from '../../../types'
+import {
+  ActionProps,
+  ClientKind,
+  MUIColor,
+  ProviderOrSubscriber,
+  SelfCareUser,
+  UserState,
+} from '../../../types'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { RunAction } from '../../hooks/useFeedback'
 import { useRoute } from '../../hooks/useRoute'
@@ -13,6 +20,13 @@ import { StyledTableRow } from './StyledTableRow'
 import { TableWithLoader } from './TableWithLoader'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../../hooks/useJwt'
+import { Chip } from '@mui/material'
+
+const CHIP_COLORS: Record<UserState, MUIColor> = {
+  PENDING: 'warning',
+  ACTIVE: 'primary',
+  SUSPENDED: 'error',
+}
 
 type AsyncTableUserProps = {
   forceRerenderCounter: number
@@ -115,7 +129,14 @@ export const AsyncTableUser = ({
             key={i}
             cellData={[
               { label: `${item.name + ' ' + item.familyName}` },
-              { label: t(`status.user.${item.state}`, { ns: 'common' }) },
+              {
+                custom: (
+                  <Chip
+                    label={t(`status.user.${item.state}`, { ns: 'common' })}
+                    color={CHIP_COLORS[item.state]}
+                  />
+                ),
+              },
             ]}
           >
             <StyledButton

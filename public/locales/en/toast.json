@@ -93,7 +93,10 @@
     }
   },
   "ESERVICE_VERSION_DRAFT_POST_DOCUMENT": {
-    "loadingText": "Uploading document"
+    "loadingText": "Uploading document",
+    "error": {
+      "message": "The document could not be uploaded. Please, make sure it is in the correct format and try again!"
+    }
   },
   "ESERVICE_VERSION_DRAFT_DELETE_DOCUMENT": {
     "loadingText": "Deleting document",

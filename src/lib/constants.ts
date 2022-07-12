@@ -1,4 +1,4 @@
-import { LangCode } from '../../types'
+import { AgreementState, LangCode, MUIColor } from '../../types'
 
 export const DISPLAY_LOGS = false // isDevelopment
 
@@ -21,4 +21,11 @@ export const pagoPaLink = {
   href: 'https://www.pagopa.it',
   ariaLabel: 'Vai al sito di PagoPA S.p.A.',
   title: 'Vai al sito di PagoPA S.p.A.',
+}
+
+export const CHIP_COLORS_AGREEMENT: Record<AgreementState, MUIColor> = {
+  ACTIVE: 'primary',
+  SUSPENDED: 'error',
+  PENDING: 'warning',
+  INACTIVE: 'info',
 }

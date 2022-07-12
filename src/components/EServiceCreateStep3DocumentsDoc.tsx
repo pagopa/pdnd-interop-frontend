@@ -18,7 +18,7 @@ import { StyledForm } from './Shared/StyledForm'
 import { AxiosResponse } from 'axios'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { StyledInputControlledFile } from './Shared/StyledInputControlledFile'
-import { Stack, Typography } from '@mui/material'
+import { Alert, Stack } from '@mui/material'
 import { RunActionOutput } from '../hooks/useFeedback'
 import { useTranslation } from 'react-i18next'
 
@@ -111,9 +111,7 @@ export function EServiceCreateStep3DocumentsDoc({
             )
           })
         ) : (
-          <Box bgcolor="background.default" sx={{ px: 2, py: 2 }}>
-            <Typography>{t('create.step3.documentation.noFileUploaded')}</Typography>
-          </Box>
+          <Alert severity="info">{t('create.step3.documentation.noFileUploaded')}</Alert>
         )}
       </Box>
 

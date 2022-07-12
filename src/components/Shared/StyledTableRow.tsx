@@ -1,18 +1,16 @@
 import React, { FunctionComponent, ReactElement } from 'react'
-import { Chip, TableCell, TableRow, Typography } from '@mui/material'
-import { MUIColor } from '../../../types'
+import { TableCell, TableRow, Typography } from '@mui/material'
 
 type LabelCell = {
   label: string | JSX.Element
   tooltip?: ReactElement
 }
 
-type ChipCell = {
-  chipLabel: string
-  color?: MUIColor
+type CustomCell = {
+  custom: React.ReactNode
 }
 
-type Cell = LabelCell | ChipCell
+type Cell = LabelCell | CustomCell
 
 type StyledTableRowProps = {
   cellData: Array<Cell>
@@ -24,8 +22,8 @@ export const StyledTableRow: FunctionComponent<StyledTableRowProps> = ({ cellDat
       {cellData.map((cell, i) => {
         return (
           <TableCell key={i} sx={{ py: 2 }}>
-            {'chipLabel' in cell ? (
-              <Chip label={cell.chipLabel} color={cell.color} />
+            {'custom' in cell ? (
+              cell.custom
             ) : (
               <Typography component="span" sx={{ display: 'inline-block' }} variant="body2">
                 {cell.label}

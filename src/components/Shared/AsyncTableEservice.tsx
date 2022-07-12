@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Box, Card, CardActions, CardContent, Stack, Typography } from '@mui/material'
+import { Box, Card, CardActions, CardContent, Chip, Stack, Typography } from '@mui/material'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import {
   Clear as ClearIcon,
@@ -16,6 +16,7 @@ import {
   EServiceFlatDecoratedReadType,
   EServiceFlatReadType,
   EServiceState,
+  MUIColor,
 } from '../../../types'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { RunActionOutput, useFeedback } from '../../hooks/useFeedback'
@@ -33,6 +34,14 @@ import { StyledButton } from './StyledButton'
 import { URL_FRAGMENTS } from '../../lib/constants'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../../hooks/useJwt'
+
+const CHIP_COLORS: Record<EServiceState, MUIColor> = {
+  PUBLISHED: 'primary',
+  DRAFT: 'info',
+  SUSPENDED: 'error',
+  ARCHIVED: 'info',
+  DEPRECATED: 'warning',
+}
 
 export const AsyncTableEServiceCatalog = () => {
   const { t } = useTranslation(['eservice', 'common'])
@@ -419,7 +428,14 @@ export const AsyncTableEServiceList = () => {
             cellData={[
               { label: item.name },
               { label: item.version || '1' },
-              { label: t(`status.eservice.${item.state || 'DRAFT'}`, { ns: 'common' }) },
+              {
+                custom: (
+                  <Chip
+                    label={t(`status.eservice.${item.state || 'DRAFT'}`, { ns: 'common' })}
+                    color={CHIP_COLORS[item.state as EServiceState]}
+                  />
+                ),
+              },
             ]}
           >
             <StyledButton

@@ -13,7 +13,7 @@ import { StyledButton } from './Shared/StyledButton'
 import { EServiceCreateStep3DocumentsInterface } from './EServiceCreateStep3DocumentsInterface'
 import { EServiceCreateStep3DocumentsDoc } from './EServiceCreateStep3DocumentsDoc'
 import { StepActions } from './Shared/StepActions'
-import { Divider, Paper, Stack } from '@mui/material'
+import { Paper, Stack } from '@mui/material'
 import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
 import { useRoute } from '../hooks/useRoute'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
@@ -73,7 +73,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
           },
         },
       },
-      { suppressToast: ['success', 'error'] }
+      { suppressToast: ['error'] }
     )) as RunActionOutput
 
     return { outcome, response }
@@ -101,7 +101,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
         },
       },
       {
-        suppressToast: ['success', 'error'],
+        suppressToast: ['error'],
       }
     )) as RunActionOutput
 
@@ -110,9 +110,9 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
 
   return (
     <React.Fragment>
-      <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
-        {!isLoading ? (
-          <React.Fragment>
+      {!isLoading ? (
+        <React.Fragment>
+          <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
             <StyledIntro component="h2">
               {{
                 title: t('create.step3.interface.title'),
@@ -133,8 +133,6 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
               </Box>
             )}
 
-            <Divider />
-
             <StyledIntro component="h2" sx={{ mt: 8, mb: 2 }}>
               {{
                 title: t('create.step3.documentation.title'),
@@ -150,32 +148,32 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
                 activeDescriptorId={activeDescriptorId}
               />
             )}
+          </Paper>
 
-            <StepActions
-              back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
-              forward={{
-                label: t('create.endWithSaveBtn'),
-                type: 'button',
-                onClick: () => {
-                  const successMessage = t('ESERVICE_VERSION_DRAFT_UPDATE.success.message', {
-                    ns: 'toast',
-                  })
-                  history.push(routes.PROVIDE_ESERVICE_LIST.PATH, {
-                    toast: {
-                      outcome: 'success',
-                      message: successMessage,
-                    },
-                  })
-                },
-              }}
-            />
-          </React.Fragment>
-        ) : (
-          <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
-        )}
-      </Paper>
+          <StepActions
+            back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
+            forward={{
+              label: t('create.endWithSaveBtn'),
+              type: 'button',
+              onClick: () => {
+                const successMessage = t('ESERVICE_VERSION_DRAFT_UPDATE.success.message', {
+                  ns: 'toast',
+                })
+                history.push(routes.PROVIDE_ESERVICE_LIST.PATH, {
+                  toast: {
+                    outcome: 'success',
+                    message: successMessage,
+                  },
+                })
+              },
+            }}
+          />
+        </React.Fragment>
+      ) : (
+        <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
+      )}
 
-      <Paper sx={{ p: 3, mt: 2 }}>
+      <Paper sx={{ p: 3, mt: 8 }}>
         <StyledIntro component="h2">
           {{
             title: t('create.quickPublish.title'),
@@ -184,11 +182,11 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
         </StyledIntro>
         {!isLoading ? (
           <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
-            <StyledButton variant="contained" onClick={publishVersion}>
-              {t('create.quickPublish.publishBtn')}
-            </StyledButton>
             <StyledButton variant="outlined" onClick={deleteVersion}>
               {t('create.quickPublish.deleteBtn')}
+            </StyledButton>
+            <StyledButton variant="contained" onClick={publishVersion}>
+              {t('create.quickPublish.publishBtn')}
             </StyledButton>
           </Stack>
         ) : (

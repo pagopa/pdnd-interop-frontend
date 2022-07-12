@@ -36,8 +36,8 @@
           "noDataLabel": "Nessun attributo presente",
           "explicitAttributeVerificationYes": "Sì",
           "explicitAttributeVerificationNo": "No",
-          "addBtn": "Aggiungi attributo o gruppo",
-          "createBtn": "Crea nuovo attributo"
+          "addBtn": "Aggiungi",
+          "createBtn": "Crea nuovo"
         },
         "certified": {
           "label": "Certificati",
@@ -104,8 +104,8 @@
       "uploadBtn": "Carica"
     },
     "quickPublish": {
-      "title": "Azioni rapide di pubblicazione",
-      "description": "Hai inserito tutte le informazioni per questo E-Service? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra o abbandona questa pagina",
+      "title": "Pubblicazione immediata",
+      "description": "Hai inserito tutte le informazioni per questo E-Service? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza in fondo alla pagina",
       "publishBtn": "Pubblica bozza",
       "deleteBtn": "Cancella bozza"
     }

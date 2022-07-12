@@ -82,8 +82,7 @@
     "actions": {
       "updateDailyCalls": "Aggiorna numero chiamate",
       "deleteDailyCallsUpdate": "Elimina aggiornamento numero chiamate"
-    },
-    "updating": "in aggiornamento"
+    }
   },
   "list": {
     "title": "Le tue finalità",
