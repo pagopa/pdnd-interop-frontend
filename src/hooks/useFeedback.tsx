@@ -153,17 +153,17 @@ export const useFeedback = () => {
       if (outcome === 'success' && onSuccessDestination) {
         // Go to destination path, and optionally display the toast there
         history.push(onSuccessDestination.PATH, { toast: !suppressToast && toastContent })
-      }
+      } else {
+        // Only refresh the view if success (if failure, nothing has happened and there is nothing to re-render)
+        if (outcome === 'success' && !silent) {
+          // Force refresh the current view if needed
+          setForceRerenderCounter(forceRerenderCounter + 1)
+        }
 
-      // Only refresh the view if success (if failure, nothing has happened and there is nothing to re-render)
-      if (outcome === 'success' && !silent) {
-        // Force refresh the current view if needed
-        setForceRerenderCounter(forceRerenderCounter + 1)
-      }
-
-      // Show the toast unless it is explicitly hidden
-      if (!suppressToast || !suppressToast.includes(outcome)) {
-        showToast(toastContent)
+        // Show the toast unless it is explicitly hidden
+        if (!suppressToast || !suppressToast.includes(outcome)) {
+          showToast(toastContent)
+        }
       }
 
       return { outcome, response }
