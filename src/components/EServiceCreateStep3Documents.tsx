@@ -74,7 +74,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
           },
         },
       },
-      { suppressToast: ['error'] }
+      { suppressToast: ['success'] }
     )) as RunActionOutput
 
     return { outcome, response }
@@ -102,7 +102,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
         },
       },
       {
-        suppressToast: ['error'],
+        suppressToast: ['success'],
       }
     )) as RunActionOutput
 
