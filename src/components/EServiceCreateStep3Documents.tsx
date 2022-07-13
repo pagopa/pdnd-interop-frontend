@@ -174,7 +174,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
         <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
 
-      <Box sx={{ mt: 5 }}>
+      <Box sx={{ mt: 8 }}>
         <StyledPaper>
           <StyledIntro component="h2">
             {{
