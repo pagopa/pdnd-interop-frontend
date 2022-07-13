@@ -8,7 +8,7 @@ import { buildDynamicPath, buildDynamicRoute, getBits } from '../lib/router-util
 import { useMode } from '../hooks/useMode'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
-import { Stack, Typography } from '@mui/material'
+import { Chip, Stack, Typography } from '@mui/material'
 import { fetchWithLogs } from '../lib/api-utils'
 import { isFetchError } from '../lib/error-utils'
 import { AxiosResponse } from 'axios'
@@ -18,6 +18,8 @@ import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { NotFound } from './NotFound'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
+import { StyledPaper } from '../components/StyledPaper'
+import { CHIP_COLORS_USER } from '../lib/constants'
 
 type UserEndpoinParams = {
   relationshipId: string
@@ -123,52 +125,57 @@ export function UserEdit() {
 
       {userData ? (
         <React.Fragment>
-          <DescriptionBlock label={t('edit.taxCodeField.label')}>
-            <Typography component="span">{userData?.taxCode || 'n/d'}</Typography>
-          </DescriptionBlock>
-
-          <DescriptionBlock label={t('edit.roleField.label')}>
-            <Typography component="span">
-              {userData?.role ? t(`userRole.${userData.role}`, { ns: 'common' }) : 'n/d'}
-            </Typography>
-          </DescriptionBlock>
-
-          <DescriptionBlock label={t('edit.productRoleField.label')}>
-            <Typography component="span">
-              {userData?.product.role
-                ? t(`userProductRole.${userData.product.role}`, { ns: 'common' })
-                : 'n/d'}
-            </Typography>
-          </DescriptionBlock>
-
-          <DescriptionBlock label={t('edit.statusField.label')}>
-            <Typography component="span">
-              {userData?.state ? t(`status.user.${userData.state}`, { ns: 'common' }) : 'n/d'}
-            </Typography>
-          </DescriptionBlock>
-
-          {userData?.product.role === 'security' && (
-            <DescriptionBlock label={t('edit.associatedKeysField.label')}>
-              {Boolean(keys.length > 0) ? (
-                keys.map(({ key, name }, i) => (
-                  <StyledLink
-                    key={i}
-                    to={buildDynamicPath(routes.SUBSCRIBE_CLIENT_KEY_EDIT.PATH, {
-                      clientId,
-                      kid: key.kid,
-                    })}
-                    sx={{ display: 'block' }}
-                  >
-                    {name}
-                  </StyledLink>
-                ))
-              ) : (
-                <Typography component="span">
-                  {t('edit.associatedKeysField.noDataLabel')}
-                </Typography>
-              )}
+          <StyledPaper>
+            <DescriptionBlock label={t('edit.taxCodeField.label')} sx={{ mt: 0 }}>
+              <Typography component="span">{userData?.taxCode || 'n/d'}</Typography>
             </DescriptionBlock>
-          )}
+
+            <DescriptionBlock label={t('edit.roleField.label')}>
+              <Typography component="span">
+                {userData?.role ? t(`userRole.${userData.role}`, { ns: 'common' }) : 'n/d'}
+              </Typography>
+            </DescriptionBlock>
+
+            <DescriptionBlock label={t('edit.productRoleField.label')}>
+              <Typography component="span">
+                {userData?.product.role
+                  ? t(`userProductRole.${userData.product.role}`, { ns: 'common' })
+                  : 'n/d'}
+              </Typography>
+            </DescriptionBlock>
+
+            {userData && (
+              <DescriptionBlock label={t('edit.statusField.label')} sx={{ mb: 0 }}>
+                <Chip
+                  label={t(`status.user.${userData.state}`, { ns: 'common' })}
+                  color={CHIP_COLORS_USER[userData.state]}
+                />
+              </DescriptionBlock>
+            )}
+
+            {userData?.product.role === 'security' && (
+              <DescriptionBlock label={t('edit.associatedKeysField.label')} sx={{ mb: 0 }}>
+                {Boolean(keys.length > 0) ? (
+                  keys.map(({ key, name }, i) => (
+                    <StyledLink
+                      key={i}
+                      to={buildDynamicPath(routes.SUBSCRIBE_CLIENT_KEY_EDIT.PATH, {
+                        clientId,
+                        kid: key.kid,
+                      })}
+                      sx={{ display: 'block' }}
+                    >
+                      {name}
+                    </StyledLink>
+                  ))
+                ) : (
+                  <Typography component="span">
+                    {t('edit.associatedKeysField.noDataLabel')}
+                  </Typography>
+                )}
+              </DescriptionBlock>
+            )}
+          </StyledPaper>
 
           <Stack direction="row" sx={{ mt: 8 }}>
             {getAvailableActions().map(({ onClick, label }, i) => (

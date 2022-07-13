@@ -1,4 +1,4 @@
-import { AgreementState, LangCode, MUIColor } from '../../types'
+import { AgreementState, LangCode, MUIColor, UserState } from '../../types'
 
 export const DISPLAY_LOGS = false // isDevelopment
 
@@ -28,4 +28,10 @@ export const CHIP_COLORS_AGREEMENT: Record<AgreementState, MUIColor> = {
   SUSPENDED: 'error',
   PENDING: 'warning',
   INACTIVE: 'info',
+}
+
+export const CHIP_COLORS_USER: Record<UserState, MUIColor> = {
+  PENDING: 'warning',
+  ACTIVE: 'primary',
+  SUSPENDED: 'error',
 }
