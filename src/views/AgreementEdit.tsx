@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import {
   AgreementState,
@@ -7,6 +7,7 @@ import {
   ProviderOrSubscriber,
   BackendAttributeContent,
   MUIColor,
+  Purpose,
 } from '../../types'
 import { buildDynamicPath, getLastBit } from '../lib/router-utils'
 // import { formatDate, getRandomDate } from '../lib/date-utils'
@@ -20,7 +21,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { Box } from '@mui/system'
-import { Chip, Grid, Paper, Stack, Typography } from '@mui/material'
+import { Alert, Chip, Grid, Stack, Typography } from '@mui/material'
 import { useRoute } from '../hooks/useRoute'
 import { StyledAccordion } from '../components/Shared/StyledAccordion'
 import { formatDateString } from '../lib/format-utils'
@@ -31,6 +32,10 @@ import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
 import { CHIP_COLORS_AGREEMENT } from '../lib/constants'
+import { fetchWithLogs } from '../lib/api-utils'
+import { isFetchError } from '../lib/error-utils'
+import { AxiosResponse } from 'axios'
+import { StyledPaper } from '../components/StyledPaper'
 
 const CHIP_COLOR_ATTRIBUTE: Record<string, MUIColor> = {
   newlyVerified: 'primary',
@@ -43,6 +48,7 @@ export function AgreementEdit() {
   const { t } = useTranslation(['agreement', 'common'])
   const { runAction, forceRerenderCounter } = useFeedback()
   const mode = useMode()
+  const [purposes, setPurposes] = useState<Array<Purpose>>([])
   const agreementId = getLastBit(useLocation())
   const { jwt } = useJwt()
   const { routes } = useRoute()
@@ -50,6 +56,23 @@ export function AgreementEdit() {
     { path: { endpoint: 'AGREEMENT_GET_SINGLE', endpointParams: { agreementId } } },
     { useEffectDeps: [forceRerenderCounter, mode] }
   )
+
+  useEffect(() => {
+    async function asyncFetchPurposes() {
+      const response = await fetchWithLogs({
+        path: { endpoint: 'PURPOSE_GET_LIST' },
+        config: { params: { eserviceId: data?.eservice.id } },
+      })
+
+      if (!isFetchError(response)) {
+        setPurposes((response as AxiosResponse).data.purposes)
+      }
+    }
+
+    if (data) {
+      asyncFetchPurposes()
+    }
+  }, [data])
 
   /*
    * List of possible actions for the user to perform
@@ -300,7 +323,7 @@ export function AgreementEdit() {
 
       {data ? (
         <React.Fragment>
-          <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
+          <StyledPaper>
             <DescriptionBlock label={t('edit.eserviceField.label')} sx={{ mt: 0 }}>
               <StyledLink
                 to={buildDynamicPath(
@@ -358,7 +381,7 @@ export function AgreementEdit() {
               )}
             </DescriptionBlock>
 
-            <DescriptionBlock label={t('edit.verifiedAttributesField.label')} sx={{ mb: 0 }}>
+            <DescriptionBlock label={t('edit.verifiedAttributesField.label')}>
               {data.attributes.length > 0 ? (
                 mode === 'provider' ? (
                   <ProviderAttributes />
@@ -369,7 +392,14 @@ export function AgreementEdit() {
                 <Typography>{t('edit.verifiedAttributesField.noDataLabel')}</Typography>
               )}
             </DescriptionBlock>
-          </Paper>
+
+            {mode === 'subscriber' && purposes.length === 0 && (
+              <Alert severity="info">
+                Non ci sono finalità per questa richiesta di fruizione.{' '}
+                <StyledLink to={routes.SUBSCRIBE_PURPOSE_CREATE.PATH}>Crea la prima</StyledLink>
+              </Alert>
+            )}
+          </StyledPaper>
 
           <PageBottomActions>
             {getAvailableActions().map(({ onClick, label }, i) => (

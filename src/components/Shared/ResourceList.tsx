@@ -1,11 +1,8 @@
 import React, { FunctionComponent } from 'react'
 import { Box } from '@mui/system'
-import { StyledButton } from './StyledButton'
-import {
-  FileDownloadOutlined as FileDownloadOutlinedIcon,
-  Launch as LaunchIcon,
-} from '@mui/icons-material'
-import { Grid, Typography } from '@mui/material'
+import { AttachFile as AttachFileIcon, Launch as LaunchIcon } from '@mui/icons-material'
+import { Typography } from '@mui/material'
+import { ButtonNaked } from '@pagopa/mui-italia'
 
 type Resource = {
   label: string
@@ -19,39 +16,18 @@ type ResourceListProps = {
 
 export const ResourceList: FunctionComponent<ResourceListProps> = ({ resources }) => {
   return (
-    <Grid container columnSpacing={1} rowSpacing={1} alignItems="stretch">
+    <React.Fragment>
       {resources.map(({ label, onClick, type = 'download' }, i) => {
-        const Icon = {
-          download: FileDownloadOutlinedIcon,
-          externalLink: LaunchIcon,
-        }[type]
-
+        const Icon = { download: AttachFileIcon, externalLink: LaunchIcon }[type]
         return (
-          <Grid item xs={6} key={i}>
-            <StyledButton
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                textAlign: 'left',
-                p: 2,
-                width: '100%',
-                height: '100%',
-                bgcolor: 'background.paper',
-              }}
-              onClick={onClick}
-              color="inherit"
-            >
-              <Box component="span" sx={{ display: 'inline', pr: 3 }}>
-                <Typography sx={{ fontWeight: 600 }} component="span">
-                  {label}
-                </Typography>
-              </Box>
-              <Icon fontSize="medium" color="primary" />
-            </StyledButton>
-          </Grid>
+          <ButtonNaked key={i} sx={{ bgcolor: '#fefefe' }} onClick={onClick} color="inherit">
+            <Icon fontSize="small" color="primary" />{' '}
+            <Box component="span" sx={{ display: 'inline', pr: 3 }}>
+              <Typography component="span">{label}</Typography>
+            </Box>
+          </ButtonNaked>
         )
       })}
-    </Grid>
+    </React.Fragment>
   )
 }

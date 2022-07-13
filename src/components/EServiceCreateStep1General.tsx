@@ -27,11 +27,11 @@ import { StyledInputControlledRadio } from './Shared/StyledInputControlledRadio'
 import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
 import { URL_FRAGMENTS } from '../lib/constants'
 import { useRoute } from '../hooks/useRoute'
-import { Paper } from '@mui/material'
 import { RunActionOutput } from '../hooks/useFeedback'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
+import { StyledPaper } from './StyledPaper'
 
 export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentProps> = ({
   forward,
@@ -156,7 +156,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
         >
           {({ handleSubmit, errors, values, handleChange }) => (
             <StyledForm onSubmit={handleSubmit}>
-              <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
+              <StyledPaper>
                 <StyledIntro component="h2">
                   {{ title: t('create.step1.detailsTitle') }}
                 </StyledIntro>
@@ -204,7 +204,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
                   setAttributes={setAttributes}
                   disabled={!isEditable}
                 />
-              </Paper>
+              </StyledPaper>
 
               <StepActions
                 back={{

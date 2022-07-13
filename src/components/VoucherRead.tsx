@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, Grid, Paper } from '@mui/material'
+import { Alert, Grid } from '@mui/material'
 import {
   ClientKind,
   ClientPurpose,
@@ -27,6 +27,7 @@ import { decoratePurposeWithMostRecentVersion, getComputedPurposeState } from '.
 import { useTranslation } from 'react-i18next'
 import { TFunction } from 'i18next'
 import { useJwt } from '../hooks/useJwt'
+import { StyledPaper } from './StyledPaper'
 
 export type ClientVoucherStepProps = StepperStepComponentProps & {
   purposeId: string
@@ -124,7 +125,7 @@ const ClientVoucherRead = ({
       <Grid item xs={8}>
         {purposes && Boolean(purposes.length > 0) ? (
           <React.Fragment>
-            <Paper sx={{ bgcolor: 'background.paper', px: 3, py: 4, mb: 2 }}>
+            <StyledPaper>
               <StyledInputControlledSelect
                 sx={{ my: 0 }}
                 name="purpose"
@@ -143,7 +144,7 @@ const ClientVoucherRead = ({
                   {failureReasons.map((r) => t(`purposeFailureReason.${r}`)).join(', ')}
                 </Alert>
               )}
-            </Paper>
+            </StyledPaper>
 
             <StyledStepper steps={steps} activeIndex={activeStep} />
             <Step {...stepProps} />

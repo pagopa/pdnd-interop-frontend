@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useContext } from 'react'
-import { Paper, Stack } from '@mui/material'
+import { Stack } from '@mui/material'
 import { useHistory } from 'react-router-dom'
 import { ActiveStepProps } from '../hooks/useActiveStep'
 import { useFeedback } from '../hooks/useFeedback'
@@ -18,6 +18,7 @@ import { ButtonNaked } from '@pagopa/mui-italia'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
+import { StyledPaper } from './StyledPaper'
 
 export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ back }) => {
   const history = useHistory()
@@ -123,7 +124,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
 
   return (
     <React.Fragment>
-      <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
+      <StyledPaper>
         <StyledIntro component="h2" sx={{ mb: 4 }}>
           {{ title: t('create.step3.title') }}
         </StyledIntro>
@@ -150,9 +151,9 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
           back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
           forward={{ label: t('create.endWithSaveBtn'), type: 'button', onClick: goToList }}
         />
-      </Paper>
+      </StyledPaper>
 
-      <Paper sx={{ p: 3, mt: 2 }}>
+      <StyledPaper>
         <StyledIntro component="h2">
           {{
             title: t('create.quickPublish.title'),
@@ -171,7 +172,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
         ) : (
           <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
         )}
-      </Paper>
+      </StyledPaper>
     </React.Fragment>
   )
 }

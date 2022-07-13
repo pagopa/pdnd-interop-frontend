@@ -17,11 +17,11 @@ import { StepActions } from './Shared/StepActions'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
 import { useRoute } from '../hooks/useRoute'
-import { Paper } from '@mui/material'
 import { RunActionOutput } from '../hooks/useFeedback'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 import { minutesToSeconds, secondsToMinutes } from '../lib/format-utils'
 import { useTranslation } from 'react-i18next'
+import { StyledPaper } from './StyledPaper'
 
 type VersionData = {
   audience: string
@@ -152,7 +152,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
           >
             {({ handleSubmit, errors, values, handleChange }) => (
               <StyledForm onSubmit={handleSubmit}>
-                <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
+                <StyledPaper>
                   <StyledInputControlledText
                     sx={{ mt: 0 }}
                     name="version"
@@ -215,7 +215,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
                     inputProps={{ min: '1' }}
                     sx={{ mb: 3 }}
                   />
-                </Paper>
+                </StyledPaper>
 
                 <StepActions
                   back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}

@@ -22,6 +22,7 @@ import { StyledLink } from './StyledLink'
 import sortBy from 'lodash/sortBy'
 import { formatThousands } from '../../lib/format-utils'
 import { useTranslation } from 'react-i18next'
+import { StyledPaper } from '../StyledPaper'
 
 type EServiceContentInfoProps = {
   data: EServiceReadType
@@ -147,8 +148,8 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
   }
 
   return (
-    <React.Fragment>
-      <DescriptionBlock label={t('contentInfo.provider')}>
+    <StyledPaper margin={false}>
+      <DescriptionBlock label={t('contentInfo.provider')} sx={{ mt: 0 }}>
         <Typography component="span">{data.producer.name}</Typography>
       </DescriptionBlock>
 
@@ -199,7 +200,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
           })}`}
         >
           {data.attributes[key].length > 0 ? (
-            <Grid container sx={{ mt: 1 }}>
+            <Grid container>
               <Grid item xs={8}>
                 <StyledAccordion entries={toAccordionEntries(data.attributes[key], key)} />
               </Grid>
@@ -236,7 +237,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
       </DescriptionBlock>
 
       {Boolean(data.descriptors.length > 0) && (
-        <DescriptionBlock label={t('contentInfo.versionHistory')}>
+        <DescriptionBlock label={t('contentInfo.versionHistory')} sx={{ mb: 0 }}>
           {sortBy(data.descriptors, 'version').map((d, i) => {
             const state = t(`status.eservice.${d.state}`, { ns: 'common' })
 
@@ -265,6 +266,6 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
           })}
         </DescriptionBlock>
       )}
-    </React.Fragment>
+    </StyledPaper>
   )
 }

@@ -21,11 +21,11 @@ import { useHistory } from 'react-router-dom'
 import { buildDynamicPath } from '../lib/router-utils'
 import { decoratePurposeWithMostRecentVersion, getPurposeFromUrl } from '../lib/purpose'
 import { useRoute } from '../hooks/useRoute'
-import { Paper } from '@mui/material'
 import { StyledIntro } from './Shared/StyledIntro'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
+import { StyledPaper } from './StyledPaper'
 
 type PurposeCreate = {
   title: string
@@ -217,7 +217,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
   const isLoading = isEServiceReallyLoading || isPurposeReallyLoading
 
   return (
-    <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
+    <StyledPaper>
       {!isLoading ? (
         <React.Fragment>
           <StyledIntro component="h2">{{ title: t('create.step1.title') }}</StyledIntro>
@@ -276,6 +276,6 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
       ) : (
         <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
-    </Paper>
+    </StyledPaper>
   )
 }

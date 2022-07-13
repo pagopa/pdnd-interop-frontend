@@ -60,7 +60,7 @@ export function EServiceManage() {
           <Tab label={t('manage.tabs.purposeAwaitingApproval')} value="purposeAwaitingApproval" />
         </TabList>
 
-        <TabPanel value="details">
+        <TabPanel value="details" sx={{ p: 0 }}>
           {eserviceData ? (
             <React.Fragment>
               <EServiceContentInfo data={eserviceData} />
@@ -74,7 +74,7 @@ export function EServiceManage() {
             <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
           )}
         </TabPanel>
-        <TabPanel value="purposeAwaitingApproval">
+        <TabPanel value="purposeAwaitingApproval" sx={{ px: 0 }}>
           <AsyncTablePurposeInEService
             forceRerenderCounter={forceRerenderCounter}
             runAction={runAction}
