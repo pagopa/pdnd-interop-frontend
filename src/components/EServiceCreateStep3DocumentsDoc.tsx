@@ -98,18 +98,15 @@ export function EServiceCreateStep3DocumentsDoc({
     <Box sx={{ mb: 3 }}>
       <Box sx={{ mb: 3 }}>
         {Boolean(readDocsArray.length > 0) ? (
-          readDocsArray.map((readDoc, i) => {
-            const activeDescriptor = data.activeDescriptor as EServiceDescriptorRead
-            return (
-              <StyledDeleteableDocument
-                key={i}
-                eserviceId={data.id}
-                descriptorId={activeDescriptor.id}
-                readable={readDoc}
-                deleteDocument={wrapDeletePreviousDoc(readDoc.id)}
-              />
-            )
-          })
+          readDocsArray.map((readDoc) => (
+            <StyledDeleteableDocument
+              key={readDoc.id}
+              eserviceId={data.id}
+              descriptorId={(data.activeDescriptor as EServiceDescriptorRead).id}
+              readable={readDoc}
+              deleteDocument={wrapDeletePreviousDoc(readDoc.id)}
+            />
+          ))
         ) : (
           <Alert severity="info">{t('create.step3.documentation.noFileUploaded')}</Alert>
         )}
