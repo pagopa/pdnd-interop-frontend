@@ -22,7 +22,6 @@ import { StyledLink } from './StyledLink'
 import sortBy from 'lodash/sortBy'
 import { formatThousands } from '../../lib/format-utils'
 import { useTranslation } from 'react-i18next'
-import { StyledPaper } from '../StyledPaper'
 
 type EServiceContentInfoProps = {
   data: EServiceReadType
@@ -148,7 +147,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
   }
 
   return (
-    <StyledPaper margin={false}>
+    <React.Fragment>
       <DescriptionBlock label={t('contentInfo.provider')} sx={{ mt: 0 }}>
         <Typography component="span">{data.producer.name}</Typography>
       </DescriptionBlock>
@@ -266,6 +265,6 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
           })}
         </DescriptionBlock>
       )}
-    </StyledPaper>
+    </React.Fragment>
   )
 }

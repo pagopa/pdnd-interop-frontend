@@ -19,6 +19,7 @@ import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { AsyncTablePurposeInEService } from '../components/Shared/AsyncTablePurpose'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
+import { StyledPaper } from '../components/StyledPaper'
 
 export function EServiceManage() {
   const { t } = useTranslation('eservice')
@@ -63,7 +64,9 @@ export function EServiceManage() {
         <TabPanel value="details" sx={{ p: 0 }}>
           {eserviceData ? (
             <React.Fragment>
-              <EServiceContentInfo data={eserviceData} />
+              <StyledPaper margin={false}>
+                <EServiceContentInfo data={eserviceData} />
+              </StyledPaper>
               <PageBottomActions>
                 <StyledButton variant="outlined" to={routes.PROVIDE_ESERVICE_LIST.PATH}>
                   Torna al catalogo

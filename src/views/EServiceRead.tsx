@@ -18,9 +18,11 @@ import { DescriptionBlock } from '../components/DescriptionBlock'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { buildDynamicPath } from '../lib/router-utils'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
-import { Alert, Stack } from '@mui/material'
+import { Alert } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
+import { StyledPaper } from '../components/StyledPaper'
+import { PageBottomActions } from '../components/Shared/PageBottomActions'
 
 export function EServiceRead() {
   const { t } = useTranslation(['eservice', 'common'])
@@ -118,36 +120,38 @@ export function EServiceRead() {
 
       {data ? (
         <React.Fragment>
-          {flatData && flatData.callerSubscribed && isAdmin && (
-            <DescriptionBlock label={t('read.alreadySubscribedField.label')}>
-              <StyledLink
-                to={buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
-                  agreementId: flatData.callerSubscribed as string,
-                })}
-              >
-                {t('read.alreadySubscribedField.link.label')}
-              </StyledLink>
-            </DescriptionBlock>
-          )}
-          <EServiceContentInfo data={data} />
+          <StyledPaper>
+            {flatData && flatData.callerSubscribed && isAdmin && (
+              <DescriptionBlock label={t('read.alreadySubscribedField.label')}>
+                <StyledLink
+                  to={buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
+                    agreementId: flatData.callerSubscribed as string,
+                  })}
+                >
+                  {t('read.alreadySubscribedField.link.label')}
+                </StyledLink>
+              </DescriptionBlock>
+            )}
+            <EServiceContentInfo data={data} />
 
-          {isMine && (
-            <Alert sx={{ mb: 1 }} severity="info">
-              {t('read.alert.youAreTheProvider')}
-            </Alert>
-          )}
-          {!canSubscribeEservice && (
-            <Alert sx={{ mb: 1 }} severity="info">
-              {t('read.alert.missingCertifiedAttributes')}
-            </Alert>
-          )}
-          {flatData?.callerSubscribed && (
-            <Alert sx={{ mb: 1 }} severity="info">
-              {t('read.alert.alreadySubscribed')}
-            </Alert>
-          )}
+            {isMine && (
+              <Alert sx={{ mt: 2 }} severity="info">
+                {t('read.alert.youAreTheProvider')}
+              </Alert>
+            )}
+            {!canSubscribeEservice && (
+              <Alert sx={{ mt: 2 }} severity="info">
+                {t('read.alert.missingCertifiedAttributes')}
+              </Alert>
+            )}
+            {flatData?.callerSubscribed && (
+              <Alert sx={{ mt: 2 }} severity="info">
+                {t('read.alert.alreadySubscribed')}
+              </Alert>
+            )}
+          </StyledPaper>
 
-          <Stack direction="row" spacing={2}>
+          <PageBottomActions>
             {isVersionPublished &&
               !isMine &&
               canSubscribeEservice &&
@@ -173,7 +177,7 @@ export function EServiceRead() {
             <StyledButton variant="outlined" to={routes.SUBSCRIBE_CATALOG_LIST.PATH}>
               {t('read.actions.backToCatalogLabel')}
             </StyledButton>
-          </Stack>
+          </PageBottomActions>
         </React.Fragment>
       ) : (
         <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
