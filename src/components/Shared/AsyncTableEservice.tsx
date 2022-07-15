@@ -204,7 +204,7 @@ export const AsyncTableEServiceCatalog = () => {
           const tooltip = getTooltip(item, canSubscribeEservice)
           return (
             <Card key={i} sx={{ height: '100%' }}>
-              <Stack justifyContent="space-between">
+              <Stack justifyContent="space-between" sx={{ height: '100%' }}>
                 <CardContent>
                   <Stack direction="row" alignItems="center">
                     <Typography component="span">
