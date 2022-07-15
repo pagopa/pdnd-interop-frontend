@@ -1,9 +1,8 @@
 import React, { FunctionComponent, useContext, useRef, useState } from 'react'
 import { MoreVert as MoreVertIcon } from '@mui/icons-material'
-import { Menu, MenuItem } from '@mui/material'
+import { Menu, MenuItem, Box } from '@mui/material'
 import { ActionProps, ExtendedMUIColor } from '../../../types'
 import { TableActionMenuContext } from '../../lib/context'
-import { Box } from '@mui/system'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { v4 as uuidv4 } from 'uuid'
 

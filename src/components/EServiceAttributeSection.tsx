@@ -3,7 +3,7 @@ import { EServiceAttributeGroup } from './EServiceAttributeGroup'
 import { StyledIntro } from './Shared/StyledIntro'
 import isEqual from 'lodash/isEqual'
 import { AttributeKey, CatalogAttribute, FrontendAttributes } from '../../types'
-import { Box } from '@mui/system'
+import { Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 type EServiceAttributeSectionProps = {

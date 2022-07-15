@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Box, SxProps } from '@mui/system'
+import { SxProps } from '@mui/system'
+import { Box } from '@mui/material'
 import { Typography } from '@mui/material'
 import { FixedClipboard } from './FixedClipboard'
 import axios from 'axios'

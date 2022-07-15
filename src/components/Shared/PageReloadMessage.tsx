@@ -1,7 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { Box } from '@mui/system'
-import { Stack, Typography } from '@mui/material'
+import { Stack, Typography, Box } from '@mui/material'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { ReportGmailerrorred as ReportGmailerrorredIcon } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'

@@ -1,6 +1,5 @@
 import React from 'react'
-import { Box } from '@mui/system'
-import { Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
 type StyledInputErrorProps = {
   error: unknown

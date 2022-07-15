@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
-import { Box, SxProps } from '@mui/system'
+import { SxProps } from '@mui/system'
 import { StyledInputError } from './StyledInputError'
-import { Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
 type StyledInputWrapperProps = {
   name: string

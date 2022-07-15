@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { useFormik } from 'formik'
-import { Alert, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
-import { Box } from '@mui/system'
+import { Alert, Box, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { StyledButton } from './StyledButton'
 import { DialogAddSecurityOperatorProps, SelfCareUser } from '../../../types'
 import { useCloseDialog } from '../../hooks/useCloseDialog'

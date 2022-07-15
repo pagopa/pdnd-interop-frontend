@@ -1,5 +1,4 @@
-import { Stack } from '@mui/material'
-import { Box } from '@mui/system'
+import { Stack, Box } from '@mui/material'
 import React, { FunctionComponent } from 'react'
 
 export const PageBottomActions: FunctionComponent = ({ children }) => {

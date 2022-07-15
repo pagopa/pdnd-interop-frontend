@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
-import { Box } from '@mui/system'
 import { AttachFile as AttachFileIcon, Launch as LaunchIcon } from '@mui/icons-material'
-import { Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { ButtonNaked } from '@pagopa/mui-italia'
 
 type Resource = {

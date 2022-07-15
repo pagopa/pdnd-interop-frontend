@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box } from '@mui/system'
+import { Box } from '@mui/material'
 import { StyledIntro } from './Shared/StyledIntro'
 import { StyledButton } from './Shared/StyledButton'
 import { useHistory } from 'react-router-dom'

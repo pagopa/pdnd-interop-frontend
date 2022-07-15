@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import { object, string, mixed } from 'yup'
 import keyBy from 'lodash/keyBy'
-import { Box } from '@mui/system'
 import { UploadFile as UploadFileIcon } from '@mui/icons-material'
 import {
   EServiceDescriptorRead,
@@ -18,7 +17,7 @@ import { StyledForm } from './Shared/StyledForm'
 import { AxiosResponse } from 'axios'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { StyledInputControlledFile } from './Shared/StyledInputControlledFile'
-import { Alert, Stack } from '@mui/material'
+import { Alert, Stack, Box } from '@mui/material'
 import { RunActionOutput } from '../hooks/useFeedback'
 import { useTranslation } from 'react-i18next'
 

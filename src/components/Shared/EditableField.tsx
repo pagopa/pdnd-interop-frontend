@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useRef, useState } from 'react'
-import { Box } from '@mui/system'
 import { StyledTooltip } from './StyledTooltip'
 import { StyledButton } from './StyledButton'
 import {
@@ -9,7 +8,7 @@ import {
 } from '@mui/icons-material'
 import { forceReflow } from '../../lib/wait-utils'
 import { useTranslation } from 'react-i18next'
-import { Stack } from '@mui/material'
+import { Stack, Box } from '@mui/material'
 
 type EditableFieldProps = {
   onSave: (updatedString: string | null) => void

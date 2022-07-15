@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useState } from 'react'
-import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
-import { Box } from '@mui/system'
+import { Box, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { StyledButton } from './StyledButton'
 import { DialogAddClientsProps, Client } from '../../../types'
 import { useCloseDialog } from '../../hooks/useCloseDialog'
