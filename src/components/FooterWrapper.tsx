@@ -9,38 +9,33 @@ import { useJwt } from '../hooks/useJwt'
 import { LoadingTranslations } from './Shared/LoadingTranslations'
 import { Footer, FooterLinksType } from '@pagopa/mui-italia'
 import { Typography } from '@mui/material'
+import { TFunction } from 'i18next'
 
-const links: Array<FooterLinksType> = [
-  {
-    label: 'Privacy policy',
-    href: '#0',
-    ariaLabel: 'Vai al link: privacy policy',
-    linkType: 'internal',
-  },
-  {
-    label: 'Diritto alla protezione dei dati personali',
-    href: '#0',
-    ariaLabel: 'Vai al link: diritto alla protezione dei dati personali',
-    linkType: 'internal',
-  },
-  {
-    label: 'Termini e condizioni',
-    href: '#0',
-    ariaLabel: 'Vai al link: termini e condizioni',
-    linkType: 'internal',
-  },
-  {
-    label: 'Accessibilità',
-    href: '#0',
-    ariaLabel: 'Vai al link: accessibilità',
-    linkType: 'internal',
-  },
+type FooterLinksTypeMulti = Omit<FooterLinksType, 'label' | 'ariaLabel'> & { labelKey?: string }
+
+const links: Array<FooterLinksTypeMulti> = [
+  { labelKey: 'privacy', href: '#0', linkType: 'internal' },
+  { labelKey: 'dataProtection', href: '#0', linkType: 'internal' },
+  { labelKey: 'terms', href: '#0', linkType: 'internal' },
+  { labelKey: 'a11y', href: '#0', linkType: 'internal' },
 ]
+
+function convertLinks(
+  inputLinks: Array<FooterLinksTypeMulti>,
+  t: TFunction
+): Array<FooterLinksType> {
+  return inputLinks.map((l) => {
+    const link = { ...l }
+    const label = t(`footer.links.${link.labelKey}.label`, { ns: 'pagopa' })
+    const ariaLabel = t(`footer.links.${link.labelKey}.ariaLabel`, { ns: 'pagopa' })
+    return { ...link, label, ariaLabel }
+  })
+}
 
 export const FooterWrapper = () => {
   const history = useHistory()
   const { lang, setLang } = useContext(LangContext)
-  const { ready, t, i18n } = useTranslation('common', { useSuspense: false })
+  const { ready, t, i18n } = useTranslation(['common', 'pagopa'], { useSuspense: false })
   const { jwt } = useJwt()
 
   const onLanguageChanged = (newLang: LangCode) => {
@@ -70,7 +65,7 @@ export const FooterWrapper = () => {
       loggedUser={Boolean(jwt)}
       companyLink={pagoPaLink}
       legalInfo={LegalInfo}
-      postLoginLinks={links}
+      postLoginLinks={convertLinks(links, t)}
       preLoginLinks={{
         aboutUs: { title: 'Chi siamo', links: [] },
         resources: { title: 'Risorse', links: [] },
