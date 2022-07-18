@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import { object, string, mixed } from 'yup'
 import keyBy from 'lodash/keyBy'
-import { Box } from '@mui/system'
 import { UploadFile as UploadFileIcon } from '@mui/icons-material'
 import {
   EServiceDescriptorRead,
@@ -18,7 +17,7 @@ import { StyledForm } from './Shared/StyledForm'
 import { AxiosResponse } from 'axios'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { StyledInputControlledFile } from './Shared/StyledInputControlledFile'
-import { Stack, Typography } from '@mui/material'
+import { Alert, Stack, Box } from '@mui/material'
 import { RunActionOutput } from '../hooks/useFeedback'
 import { useTranslation } from 'react-i18next'
 
@@ -98,22 +97,17 @@ export function EServiceCreateStep3DocumentsDoc({
     <Box sx={{ mb: 3 }}>
       <Box sx={{ mb: 3 }}>
         {Boolean(readDocsArray.length > 0) ? (
-          readDocsArray.map((readDoc, i) => {
-            const activeDescriptor = data.activeDescriptor as EServiceDescriptorRead
-            return (
-              <StyledDeleteableDocument
-                key={i}
-                eserviceId={data.id}
-                descriptorId={activeDescriptor.id}
-                readable={readDoc}
-                deleteDocument={wrapDeletePreviousDoc(readDoc.id)}
-              />
-            )
-          })
+          readDocsArray.map((readDoc) => (
+            <StyledDeleteableDocument
+              key={readDoc.id}
+              eserviceId={data.id}
+              descriptorId={(data.activeDescriptor as EServiceDescriptorRead).id}
+              readable={readDoc}
+              deleteDocument={wrapDeletePreviousDoc(readDoc.id)}
+            />
+          ))
         ) : (
-          <Box bgcolor="background.default" sx={{ px: 2, py: 2 }}>
-            <Typography>{t('create.step3.documentation.noFileUploaded')}</Typography>
-          </Box>
+          <Alert severity="info">{t('create.step3.documentation.noFileUploaded')}</Alert>
         )}
       </Box>
 

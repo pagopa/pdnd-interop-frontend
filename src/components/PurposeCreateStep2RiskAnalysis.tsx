@@ -16,11 +16,11 @@ import { useLocation } from 'react-router-dom'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { Purpose, PurposeRiskAnalysisFormAnswers } from '../../types'
 import { getPurposeFromUrl } from '../lib/purpose'
-import { Paper } from '@mui/material'
 import { StyledIntro } from './Shared/StyledIntro'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
 import { LangContext } from '../lib/context'
+import { StyledPaper } from './StyledPaper'
 
 type MultiLangEntry = {
   it: string
@@ -234,7 +234,7 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
   }, [purposeFetchedData]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
+    <StyledPaper>
       <StyledIntro component="h2">
         {{
           title: t('create.step2.title'),
@@ -278,6 +278,6 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
       ) : (
         <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
-    </Paper>
+    </StyledPaper>
   )
 }

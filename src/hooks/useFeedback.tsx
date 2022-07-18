@@ -150,7 +150,7 @@ export const useFeedback = () => {
         return { outcome, response }
       }
 
-      if (onSuccessDestination && outcome === 'success') {
+      if (outcome === 'success' && onSuccessDestination) {
         // Go to destination path, and optionally display the toast there
         history.push(onSuccessDestination.PATH, { toast: !suppressToast && toastContent })
       } else {

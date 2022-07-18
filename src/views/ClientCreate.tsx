@@ -17,11 +17,12 @@ import { useClientKind } from '../hooks/useClientKind'
 import { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import { fetchAllWithLogs } from '../lib/api-utils'
-import { Divider, Grid, Paper, Stack } from '@mui/material'
+import { Divider, Grid, Stack } from '@mui/material'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
+import { StyledPaper } from '../components/StyledPaper'
 
 type ClientFields = {
   name: string
@@ -116,7 +117,7 @@ export function ClientCreate() {
 
       <Grid container>
         <Grid item xs={8}>
-          <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
+          <StyledPaper>
             <StyledForm onSubmit={formik.handleSubmit}>
               <StyledIntro sx={{ mb: 2, pb: 0 }} component="h2">
                 {{ title: t('create.infoSectionTitle') }}
@@ -182,7 +183,7 @@ export function ClientCreate() {
                 </StyledButton>
               </PageBottomActions>
             </StyledForm>
-          </Paper>
+          </StyledPaper>
         </Grid>
       </Grid>
     </React.Fragment>

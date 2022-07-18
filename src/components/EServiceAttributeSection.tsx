@@ -3,7 +3,7 @@ import { EServiceAttributeGroup } from './EServiceAttributeGroup'
 import { StyledIntro } from './Shared/StyledIntro'
 import isEqual from 'lodash/isEqual'
 import { AttributeKey, CatalogAttribute, FrontendAttributes } from '../../types'
-import { Box } from '@mui/system'
+import { Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 type EServiceAttributeSectionProps = {
@@ -49,7 +49,7 @@ export function EServiceAttributeSection({
         const description = t(`${attributeKey}.description`)
 
         return (
-          <Box sx={{ mb: attributeKey === 'declared' ? 4 : 12 }} key={i}>
+          <Box sx={{ mb: attributeKey === 'declared' ? 0 : 12 }} key={i}>
             <StyledIntro component="h3" sx={{ mb: 2 }}>
               {{ title, description }}
             </StyledIntro>

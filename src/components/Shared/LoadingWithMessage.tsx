@@ -13,20 +13,18 @@ export function LoadingWithMessage({
   const background = transparentBackground
     ? { backgroundColor: 'transparent' }
     : { bgcolor: 'common.white' }
+  const color = 'primary.main'
 
   return (
-    <Paper
-      sx={{
-        textAlign: 'center',
-        px: 3,
-        py: 3,
-        color: 'text.primary',
-        ...background,
-      }}
-    >
-      <CircularProgress color={label ? 'inherit' : 'primary'} />
+    <Paper sx={{ textAlign: 'center', px: 3, py: 3, color, ...background }}>
+      <CircularProgress />
       {label && (
-        <Typography component="p" variant="body2" fontWeight={700} sx={{ mt: 2, mb: 0 }}>
+        <Typography
+          component="p"
+          variant="body2"
+          fontWeight={700}
+          sx={{ mt: 2, mb: 0, color: 'inherit' }}
+        >
           {label}
         </Typography>
       )}

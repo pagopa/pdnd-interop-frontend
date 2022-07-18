@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react'
-import { Stack, Typography } from '@mui/material'
-import { Box, SxProps } from '@mui/system'
+import { Stack, Typography, Box } from '@mui/material'
+import { SxProps } from '@mui/system'
 import { StyledInputWrapper } from './StyledInputWrapper'
 import { FormikSetFieldValue } from '../../../types'
 import { useTranslation } from 'react-i18next'

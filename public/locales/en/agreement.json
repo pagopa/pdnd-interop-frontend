@@ -18,10 +18,10 @@
       "label": "Subscriber"
     },
     "requestStatusField": {
-      "label": "Stato della richiesta",
+      "label": "Request status",
       "agreementSuspendedMessage": "The request can unilateratelly be suspended both on the Provider and/or Subscriber side. A suspension means that all purposes associated with the E-Service for which this request is active will stop working",
-      "providerSideLabel": "On the Provider side",
-      "subscriberSideLabel": "On the Subscriber side"
+      "suspendedByProvider": "sospeso dall'erogatore",
+      "suspendedBySubscriber": "sospeso dal fruitore"
     },
     "verifiedAttributesField": {
       "label": "Verified attributes",
@@ -29,10 +29,10 @@
     },
     "attribute": {
       "status": {
-        "newlyVerified": "Verified",
-        "verifiedByAnotherParty": "Verified, no further verification required",
-        "refused": "Refused",
-        "pending": "Awaiting approval"
+        "newlyVerified": "verified",
+        "verifiedByAnotherParty": "verified by third party",
+        "refused": "refused",
+        "pending": "awaiting approval"
       },
       "verificationDateField": {
         "label": "Verification date"

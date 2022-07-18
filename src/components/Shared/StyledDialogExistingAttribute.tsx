@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import { Formik } from 'formik'
 import {
+  Box,
   Dialog,
   DialogActions,
   DialogContent,
@@ -8,7 +9,6 @@ import {
   Typography,
   Divider,
 } from '@mui/material'
-import { Box } from '@mui/system'
 import { StyledButton } from './StyledButton'
 import {
   CatalogAttribute,

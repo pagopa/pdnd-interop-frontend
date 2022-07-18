@@ -148,7 +148,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
 
   return (
     <React.Fragment>
-      <DescriptionBlock label={t('contentInfo.provider')}>
+      <DescriptionBlock label={t('contentInfo.provider')} sx={{ mt: 0 }}>
         <Typography component="span">{data.producer.name}</Typography>
       </DescriptionBlock>
 
@@ -199,7 +199,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
           })}`}
         >
           {data.attributes[key].length > 0 ? (
-            <Grid container sx={{ mt: 1 }}>
+            <Grid container>
               <Grid item xs={8}>
                 <StyledAccordion entries={toAccordionEntries(data.attributes[key], key)} />
               </Grid>
@@ -236,7 +236,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
       </DescriptionBlock>
 
       {Boolean(data.descriptors.length > 0) && (
-        <DescriptionBlock label={t('contentInfo.versionHistory')}>
+        <DescriptionBlock label={t('contentInfo.versionHistory')} sx={{ mb: 0 }}>
           {sortBy(data.descriptors, 'version').map((d, i) => {
             const state = t(`status.eservice.${d.state}`, { ns: 'common' })
 

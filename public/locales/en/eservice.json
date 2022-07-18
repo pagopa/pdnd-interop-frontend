@@ -36,8 +36,8 @@
           "noDataLabel": "No attribute added",
           "explicitAttributeVerificationYes": "Yes",
           "explicitAttributeVerificationNo": "No",
-          "addBtn": "Add attribute or group",
-          "createBtn": "Create new attribute"
+          "addBtn": "Add",
+          "createBtn": "Create new"
         },
         "certified": {
           "label": "Certified",
@@ -104,8 +104,8 @@
       "uploadBtn": "Upload"
     },
     "quickPublish": {
-      "title": "Quick publish options",
-      "description": "If you are done editing, you can publish this draft immediately, or delete it. If you want to publish later, just save the draft above or leave this page",
+      "title": "Quick publish",
+      "description": "If you are done editing, you can publish this draft immediately, or delete it. If you want to publish later, just save the draft at the end of the page",
       "publishBtn": "Publish draft",
       "deleteBtn": "Delete draft"
     }

@@ -15,7 +15,6 @@ import { StyledToast } from './Shared/StyledToast'
 import { StyledDialog } from './Shared/StyledDialog'
 import { LoadingOverlay } from './Shared/LoadingOverlay'
 import { MainNav } from './MainNav'
-import { Box } from '@mui/system'
 import { useRoute } from '../hooks/useRoute'
 import { buildLocale } from '../lib/validation-config'
 import { useLogin } from '../hooks/useLogin'
@@ -23,7 +22,7 @@ import { DEFAULT_LANG } from '../lib/constants'
 import { useTranslation } from 'react-i18next'
 import { HeaderWrapper } from './HeaderWrapper'
 import { FooterWrapper } from './FooterWrapper'
-import { Stack } from '@mui/material'
+import { Stack, Box } from '@mui/material'
 
 const RebuildI18N = () => {
   const { loginAttempt } = useLogin()
@@ -31,10 +30,10 @@ const RebuildI18N = () => {
   const { i18n, t, ready } = useTranslation('common', { useSuspense: false })
   const { setLoadingText } = useContext(LoaderContext)
 
-  // Rebuild config if starting language is not the default one
+  // Build config once translations are ready
   useEffect(() => {
-    if (lang !== DEFAULT_LANG && ready) {
-      i18n.changeLanguage(lang)
+    if (ready) {
+      lang !== DEFAULT_LANG && i18n.changeLanguage(lang)
       buildLocale(t)
     }
   }, [ready]) // eslint-disable-line react-hooks/exhaustive-deps

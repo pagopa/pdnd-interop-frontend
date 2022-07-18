@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { object, date } from 'yup'
-import { Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
-import { Box } from '@mui/system'
+import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
 import { StyledButton } from './StyledButton'
 import { DialogSetPurposeExpectedApprovalDateProps } from '../../../types'
 import { useCloseDialog } from '../../hooks/useCloseDialog'

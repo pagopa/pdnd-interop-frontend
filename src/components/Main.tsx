@@ -1,5 +1,5 @@
 import React, { Suspense, useContext, useEffect, useState } from 'react'
-import { Box } from '@mui/system'
+import { Box } from '@mui/material'
 import { Switch, Redirect, Route, useLocation, useHistory } from 'react-router-dom'
 import { DEFAULT_LANG } from '../lib/constants'
 import { LangContext } from '../lib/context'

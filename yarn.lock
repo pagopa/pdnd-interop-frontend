@@ -1824,10 +1824,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@pagopa/mui-italia@^0.6.30":
-  version "0.6.30"
-  resolved "https://registry.yarnpkg.com/@pagopa/mui-italia/-/mui-italia-0.6.30.tgz#e3f1d6ddc62d017074482f34d3843fd60b3d36ad"
-  integrity sha512-Llmorys4gHcZjNlaKi4Id/x4Efui9wGthJCCy6eZQITJv6zF0m/jxRuxx7Bm3q/gkeZXKpNNsESqw0CS3jjoPQ==
+"@pagopa/mui-italia@^0.6.33":
+  version "0.6.33"
+  resolved "https://registry.yarnpkg.com/@pagopa/mui-italia/-/mui-italia-0.6.33.tgz#b6e12f16be0e7673f7d69873d37e0155ba46a66b"
+  integrity sha512-gzSoN0SqI66iW38zTyc15Jygbsfj/nLWUNCeSFfxJobDwLMddKJy/ALyqOiETbfHIlerMYzBVdPcUBI4kwB8IA==
   dependencies:
     "@fontsource/titillium-web" "^4.5.8"
     clsx "^1.1.1"

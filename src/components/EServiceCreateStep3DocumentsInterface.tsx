@@ -4,7 +4,6 @@ import { object, mixed, string } from 'yup'
 import isEmpty from 'lodash/isEmpty'
 import { AxiosResponse } from 'axios'
 import { UploadFile as UploadFileIcon } from '@mui/icons-material'
-import { Box } from '@mui/system'
 import {
   EServiceDescriptorRead,
   EServiceDocumentKind,
@@ -20,7 +19,7 @@ import { StyledInputControlledFile } from './Shared/StyledInputControlledFile'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { RunActionOutput } from '../hooks/useFeedback'
 import { useTranslation } from 'react-i18next'
-import { Stack } from '@mui/material'
+import { Stack, Box } from '@mui/material'
 
 type EServiceCreateStep3DocumentsInterfaceProps = {
   data: EServiceReadType

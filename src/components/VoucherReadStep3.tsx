@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, Paper } from '@mui/material'
+import { Link } from '@mui/material'
 import { useRoute } from '../hooks/useRoute'
 import { buildDynamicPath } from '../lib/router-utils'
 import { ClientVoucherStepProps, InteropM2MVoucherStepProps } from './VoucherRead'
@@ -12,6 +12,7 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { EServiceReadType } from '../../types'
 import { useTranslation } from 'react-i18next'
 import { API_GATEWAY_INTEFACE_URL } from '../lib/env'
+import { StyledPaper } from './StyledPaper'
 
 export const VoucherReadStep3 = ({
   clientKind,
@@ -48,7 +49,7 @@ const ClientVoucherReadStep3 = ({ data, back }: ClientVoucherStepProps) => {
     eserviceData.descriptors.find((d) => d.id === data?.eservice.descriptor.id)?.audience[0]
 
   return (
-    <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
+    <StyledPaper>
       <StyledIntro component="h2">
         {{
           title: t('step3.consumer.title'),
@@ -80,7 +81,7 @@ const ClientVoucherReadStep3 = ({ data, back }: ClientVoucherStepProps) => {
       </DescriptionBlock>
 
       <StepActions back={{ label: t('backBtn'), type: 'button', onClick: back }} />
-    </Paper>
+    </StyledPaper>
   )
 }
 
@@ -88,7 +89,7 @@ const InteropM2MVoucherReadStep3 = ({ back }: InteropM2MVoucherStepProps) => {
   const { t } = useTranslation('voucher')
 
   return (
-    <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
+    <StyledPaper>
       <StyledIntro component="h2">
         {{
           title: t('step3.api.title'),
@@ -108,6 +109,6 @@ const InteropM2MVoucherReadStep3 = ({ back }: InteropM2MVoucherStepProps) => {
       </DescriptionBlock>
 
       <StepActions back={{ label: t('backBtn'), type: 'button', onClick: back }} />
-    </Paper>
+    </StyledPaper>
   )
 }

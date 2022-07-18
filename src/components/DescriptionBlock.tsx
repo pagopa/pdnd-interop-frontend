@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
-import { Grid, Stack, Typography } from '@mui/material'
-import { Box, SxProps } from '@mui/system'
+import { Grid, Stack, Typography, Box } from '@mui/material'
+import { SxProps } from '@mui/system'
 import { InfoTooltip } from './Shared/InfoTooltip'
 
 type DescriptionBlockProps = {

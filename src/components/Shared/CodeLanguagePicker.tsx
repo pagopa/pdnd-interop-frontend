@@ -1,6 +1,5 @@
 import React from 'react'
-import { Chip, Stack, Typography } from '@mui/material'
-import { Box } from '@mui/system'
+import { Chip, Stack, Typography, Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 type Entry = {

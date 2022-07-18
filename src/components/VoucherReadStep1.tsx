@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, Divider, Grid, Paper, Typography } from '@mui/material'
+import { Alert, Divider, Grid, Typography } from '@mui/material'
 import { useRoute } from '../hooks/useRoute'
 import { buildDynamicPath } from '../lib/router-utils'
 import { ClientVoucherStepProps, InteropM2MVoucherStepProps } from './VoucherRead'
@@ -13,6 +13,7 @@ import { CodeSnippetPreview } from './Shared/CodeSnippetPreview'
 import { CodeLanguagePicker } from './Shared/CodeLanguagePicker'
 import { useTranslation } from 'react-i18next'
 import { FE_URL } from '../lib/env'
+import { StyledPaper } from './StyledPaper'
 
 const CLIENT_ASSERTION_TYP = 'JWT'
 const CLIENT_ASSERTION_ALG = 'RS256'
@@ -49,7 +50,7 @@ export const VoucherReadStep1 = ({
   }
 
   return (
-    <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
+    <StyledPaper>
       <StyledIntro component="h2">
         {{
           title: t('step1.title'),
@@ -255,6 +256,6 @@ export const VoucherReadStep1 = ({
         }}
         forward={{ label: t('proceedBtn'), type: 'button', onClick: typedProps.forward }}
       />
-    </Paper>
+    </StyledPaper>
   )
 }

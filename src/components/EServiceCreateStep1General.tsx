@@ -27,11 +27,11 @@ import { StyledInputControlledRadio } from './Shared/StyledInputControlledRadio'
 import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
 import { URL_FRAGMENTS } from '../lib/constants'
 import { useRoute } from '../hooks/useRoute'
-import { Divider, Paper } from '@mui/material'
 import { RunActionOutput } from '../hooks/useFeedback'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
+import { StyledPaper } from './StyledPaper'
 
 export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentProps> = ({
   forward,
@@ -144,7 +144,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
   /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
   return (
-    <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
+    <React.Fragment>
       {!isLoading ? (
         <Formik
           initialValues={initialOrFetchedValues}
@@ -156,53 +156,55 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
         >
           {({ handleSubmit, errors, values, handleChange }) => (
             <StyledForm onSubmit={handleSubmit}>
-              <StyledIntro component="h2">{{ title: t('create.step1.detailsTitle') }}</StyledIntro>
+              <StyledPaper>
+                <StyledIntro component="h2">
+                  {{ title: t('create.step1.detailsTitle') }}
+                </StyledIntro>
 
-              <StyledInputControlledText
-                name="name"
-                label={t('create.step1.eserviceNameField.label')}
-                infoLabel={t('create.step1.eserviceNameField.infoLabel')}
-                error={errors.name}
-                value={values.name}
-                onChange={handleChange}
-                disabled={!isEditable}
-                focusOnMount={isEditable}
-              />
+                <StyledInputControlledText
+                  name="name"
+                  label={t('create.step1.eserviceNameField.label')}
+                  infoLabel={t('create.step1.eserviceNameField.infoLabel')}
+                  error={errors.name}
+                  value={values.name}
+                  onChange={handleChange}
+                  disabled={!isEditable}
+                  focusOnMount={isEditable}
+                />
 
-              <StyledInputControlledText
-                name="description"
-                label={t('create.step1.eserviceDescriptionField.label')}
-                infoLabel={t('create.step1.eserviceDescriptionField.infoLabel')}
-                error={errors.description}
-                value={values.description}
-                onChange={handleChange}
-                disabled={!isEditable}
-                multiline={true}
-              />
+                <StyledInputControlledText
+                  name="description"
+                  label={t('create.step1.eserviceDescriptionField.label')}
+                  infoLabel={t('create.step1.eserviceDescriptionField.infoLabel')}
+                  error={errors.description}
+                  value={values.description}
+                  onChange={handleChange}
+                  disabled={!isEditable}
+                  multiline={true}
+                />
 
-              <StyledInputControlledRadio
-                name="technology"
-                label={t('create.step1.eserviceTechnologyField.label')}
-                error={errors.technology}
-                value={values.technology}
-                onChange={handleChange}
-                disabled={!isEditable}
-                options={[
-                  { label: 'REST', value: 'REST' },
-                  { label: 'SOAP', value: 'SOAP' },
-                ]}
-              />
+                <StyledInputControlledRadio
+                  name="technology"
+                  label={t('create.step1.eserviceTechnologyField.label')}
+                  error={errors.technology}
+                  value={values.technology}
+                  onChange={handleChange}
+                  disabled={!isEditable}
+                  options={[
+                    { label: 'REST', value: 'REST' },
+                    { label: 'SOAP', value: 'SOAP' },
+                  ]}
+                />
 
-              <Divider />
-
-              <StyledIntro component="h2" sx={{ my: 4 }}>
-                {{ title: t('create.step1.attributes.title') }}
-              </StyledIntro>
-              <EServiceAttributeSection
-                attributes={attributes}
-                setAttributes={setAttributes}
-                disabled={!isEditable}
-              />
+                <StyledIntro component="h2" sx={{ my: 4 }}>
+                  {{ title: t('create.step1.attributes.title') }}
+                </StyledIntro>
+                <EServiceAttributeSection
+                  attributes={attributes}
+                  setAttributes={setAttributes}
+                  disabled={!isEditable}
+                />
+              </StyledPaper>
 
               <StepActions
                 back={{
@@ -212,7 +214,11 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
                 }}
                 forward={
                   !isEditable
-                    ? { label: t('create.forwardWithoutSaveBtn'), onClick: forward, type: 'button' }
+                    ? {
+                        label: t('create.forwardWithoutSaveBtn'),
+                        onClick: forward,
+                        type: 'button',
+                      }
                     : { label: t('create.forwardWithSaveBtn'), type: 'submit' }
                 }
               />
@@ -222,6 +228,6 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
       ) : (
         <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
-    </Paper>
+    </React.Fragment>
   )
 }

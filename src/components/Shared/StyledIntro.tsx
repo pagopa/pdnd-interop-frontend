@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
-import { Skeleton, Typography } from '@mui/material'
-import { Box, SxProps } from '@mui/system'
+import { Box, Skeleton, Typography } from '@mui/material'
+import { SxProps } from '@mui/system'
 
 export type StyledIntroChildrenProps = {
   title: React.ReactNode

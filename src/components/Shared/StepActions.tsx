@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyledButton } from './StyledButton'
 import { StyledLink } from './StyledLink'
-import { Divider, Stack } from '@mui/material'
+import { Stack } from '@mui/material'
 
 type ActionButton = {
   label: string
@@ -35,19 +35,16 @@ export function StepActions({ back, forward }: StepActionsProps) {
     back.type === 'link' ? { component: StyledLink, to: back.to } : { onClick: back.onClick }
 
   return (
-    <React.Fragment>
-      <Divider />
-      <Stack direction="row" spacing={2} sx={{ mt: 8 }}>
-        <StyledButton variant="outlined" {...backProps}>
-          {back.label}
-        </StyledButton>
+    <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+      <StyledButton variant="outlined" {...backProps}>
+        {back.label}
+      </StyledButton>
 
-        {forward && (
-          <StyledButton variant="contained" {...forwardProps}>
-            {forward.label}
-          </StyledButton>
-        )}
-      </Stack>
-    </React.Fragment>
+      {forward && (
+        <StyledButton variant="contained" {...forwardProps}>
+          {forward.label}
+        </StyledButton>
+      )}
+    </Stack>
   )
 }

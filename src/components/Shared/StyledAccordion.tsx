@@ -21,6 +21,7 @@ export function StyledAccordion({ entries }: StyledAccordionProps) {
             expandIcon={<ExpandMoreIcon />}
             aria-controls={`panel-content-${i}`}
             id={`panel-header-${i}`}
+            sx={{ px: 0 }}
           >
             <Typography
               sx={{

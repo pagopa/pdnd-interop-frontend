@@ -6,10 +6,11 @@ import {
   ActionProps,
   DecoratedPurpose,
   DialogUpdatePurposeDailyCallsFormInputValues,
+  MUIColor,
   Purpose,
   PurposeState,
 } from '../../../types'
-import { Box } from '@mui/material'
+import { Box, Chip } from '@mui/material'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { RunAction, RunActionOutput, useFeedback } from '../../hooks/useFeedback'
 import { useRoute } from '../../hooks/useRoute'
@@ -23,6 +24,14 @@ import { TableWithLoader } from './TableWithLoader'
 import { buildDynamicPath } from '../../lib/router-utils'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../../hooks/useJwt'
+
+const CHIP_COLORS: Record<PurposeState, MUIColor> = {
+  DRAFT: 'info',
+  ACTIVE: 'primary',
+  SUSPENDED: 'error',
+  WAITING_FOR_APPROVAL: 'warning',
+  ARCHIVED: 'info',
+}
 
 type AsyncTablePurposeInEServiceProps = {
   forceRerenderCounter: number
@@ -306,9 +315,6 @@ export const AsyncTablePurpose = () => {
       {data &&
         Boolean(data.length > 0) &&
         data.map((item, i) => {
-          const purposeStateLabel = t(`status.purpose.${[item.currentVersion.state]}`, {
-            ns: 'common',
-          })
           return (
             <StyledTableRow
               key={i}
@@ -317,9 +323,23 @@ export const AsyncTablePurpose = () => {
                 { label: item.eservice.name },
                 { label: item.eservice.producer.name },
                 {
-                  label: item.awaitingApproval
-                    ? `${purposeStateLabel}, ${t('tablePurpose.updating')}`
-                    : purposeStateLabel,
+                  custom: (
+                    <React.Fragment>
+                      <Chip
+                        label={t(`status.purpose.${[item.currentVersion.state]}`, {
+                          ns: 'common',
+                        })}
+                        color={CHIP_COLORS[item.currentVersion.state]}
+                      />
+                      {item.awaitingApproval && (
+                        <Chip
+                          sx={{ ml: 1 }}
+                          label={t(`status.purpose.WAITING_FOR_APPROVAL`, { ns: 'common' })}
+                          color={CHIP_COLORS['WAITING_FOR_APPROVAL']}
+                        />
+                      )}
+                    </React.Fragment>
+                  ),
                 },
               ]}
             >

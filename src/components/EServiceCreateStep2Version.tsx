@@ -17,11 +17,11 @@ import { StepActions } from './Shared/StepActions'
 import { StyledInputControlledText } from './Shared/StyledInputControlledText'
 import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
 import { useRoute } from '../hooks/useRoute'
-import { Paper } from '@mui/material'
 import { RunActionOutput } from '../hooks/useFeedback'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 import { minutesToSeconds, secondsToMinutes } from '../lib/format-utils'
 import { useTranslation } from 'react-i18next'
+import { StyledPaper } from './StyledPaper'
 
 type VersionData = {
   audience: string
@@ -139,7 +139,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
   }
 
   return (
-    <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
+    <React.Fragment>
       {!isLoading ? (
         <React.Fragment>
           <Formik
@@ -152,68 +152,70 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
           >
             {({ handleSubmit, errors, values, handleChange }) => (
               <StyledForm onSubmit={handleSubmit}>
-                <StyledInputControlledText
-                  sx={{ mt: 0 }}
-                  name="version"
-                  label={t('create.step2.versionField.label')}
-                  infoLabel={t('create.step2.versionField.infoLabel')}
-                  disabled={true}
-                  value={values.version}
-                  error={errors.version}
-                />
+                <StyledPaper>
+                  <StyledInputControlledText
+                    sx={{ mt: 0 }}
+                    name="version"
+                    label={t('create.step2.versionField.label')}
+                    infoLabel={t('create.step2.versionField.infoLabel')}
+                    disabled={true}
+                    value={values.version}
+                    error={errors.version}
+                  />
 
-                <StyledInputControlledText
-                  name="description"
-                  label={t('create.step2.descriptionField.label')}
-                  value={values.description}
-                  error={errors.description}
-                  onChange={handleChange}
-                  multiline={true}
-                  focusOnMount={true}
-                />
+                  <StyledInputControlledText
+                    name="description"
+                    label={t('create.step2.descriptionField.label')}
+                    value={values.description}
+                    error={errors.description}
+                    onChange={handleChange}
+                    multiline={true}
+                    focusOnMount={true}
+                  />
 
-                <StyledInputControlledText
-                  name="audience"
-                  label={t('create.step2.audienceField.label')}
-                  infoLabel={t('create.step2.audienceField.infoLabel')}
-                  value={values.audience}
-                  error={errors.audience}
-                  onChange={handleChange}
-                />
+                  <StyledInputControlledText
+                    name="audience"
+                    label={t('create.step2.audienceField.label')}
+                    infoLabel={t('create.step2.audienceField.infoLabel')}
+                    value={values.audience}
+                    error={errors.audience}
+                    onChange={handleChange}
+                  />
 
-                <StyledInputControlledText
-                  name="voucherLifespan"
-                  label={t('create.step2.voucherLifespanField.label')}
-                  infoLabel={t('create.step2.voucherLifespanField.infoLabel')}
-                  type="number"
-                  inputProps={{ min: '1', max: '1440' }}
-                  value={values.voucherLifespan}
-                  error={errors.voucherLifespan}
-                  onChange={handleChange}
-                />
+                  <StyledInputControlledText
+                    name="voucherLifespan"
+                    label={t('create.step2.voucherLifespanField.label')}
+                    infoLabel={t('create.step2.voucherLifespanField.infoLabel')}
+                    type="number"
+                    inputProps={{ min: '1', max: '1440' }}
+                    value={values.voucherLifespan}
+                    error={errors.voucherLifespan}
+                    onChange={handleChange}
+                  />
 
-                <StyledInputControlledText
-                  name="dailyCallsPerConsumer"
-                  label={t('create.step2.dailyCallsPerConsumerField.label')}
-                  infoLabel={t('create.step2.dailyCallsPerConsumerField.infoLabel')}
-                  type="number"
-                  value={values.dailyCallsPerConsumer}
-                  error={errors.dailyCallsPerConsumer}
-                  onChange={handleChange}
-                  inputProps={{ min: '1' }}
-                />
+                  <StyledInputControlledText
+                    name="dailyCallsPerConsumer"
+                    label={t('create.step2.dailyCallsPerConsumerField.label')}
+                    infoLabel={t('create.step2.dailyCallsPerConsumerField.infoLabel')}
+                    type="number"
+                    value={values.dailyCallsPerConsumer}
+                    error={errors.dailyCallsPerConsumer}
+                    onChange={handleChange}
+                    inputProps={{ min: '1' }}
+                  />
 
-                <StyledInputControlledText
-                  name="dailyCallsTotal"
-                  label={t('create.step2.dailyCallsTotalField.label')}
-                  infoLabel={t('create.step2.dailyCallsTotalField.infoLabel')}
-                  type="number"
-                  value={values.dailyCallsTotal}
-                  error={errors.dailyCallsTotal}
-                  onChange={handleChange}
-                  inputProps={{ min: '1' }}
-                  sx={{ mb: 3 }}
-                />
+                  <StyledInputControlledText
+                    name="dailyCallsTotal"
+                    label={t('create.step2.dailyCallsTotalField.label')}
+                    infoLabel={t('create.step2.dailyCallsTotalField.infoLabel')}
+                    type="number"
+                    value={values.dailyCallsTotal}
+                    error={errors.dailyCallsTotal}
+                    onChange={handleChange}
+                    inputProps={{ min: '1' }}
+                    sx={{ mb: 3 }}
+                  />
+                </StyledPaper>
 
                 <StepActions
                   back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
@@ -226,6 +228,6 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
       ) : (
         <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
-    </Paper>
+    </React.Fragment>
   )
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Divider, Paper, Typography } from '@mui/material'
+import { Divider, Typography } from '@mui/material'
 import { InteropM2MVoucherStepProps } from './VoucherRead'
 import { StepActions } from './Shared/StepActions'
 import { StyledIntro } from './Shared/StyledIntro'
@@ -8,6 +8,7 @@ import { InlineClipboard } from './Shared/InlineClipboard'
 import { CodeSnippetPreview } from './Shared/CodeSnippetPreview'
 import { useTranslation } from 'react-i18next'
 import { AUTHORIZATION_SERVER_ACCESS_TOKEN_URL, FE_URL } from '../lib/env'
+import { StyledPaper } from './StyledPaper'
 
 const CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
 const GRANT_TYPE = 'client_credentials'
@@ -21,7 +22,7 @@ export const VoucherReadStep2 = ({
   const { t } = useTranslation('voucher')
 
   return (
-    <Paper sx={{ bgcolor: 'background.paper', p: 3, mt: 2 }}>
+    <StyledPaper>
       <StyledIntro component="h2">
         {{
           title: t('step2.title'),
@@ -103,6 +104,6 @@ export const VoucherReadStep2 = ({
         back={{ label: t('backBtn'), type: 'button', onClick: back }}
         forward={{ label: t('proceedBtn'), type: 'button', onClick: forward }}
       />
-    </Paper>
+    </StyledPaper>
   )
 }
