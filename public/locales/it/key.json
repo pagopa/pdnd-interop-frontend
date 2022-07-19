@@ -23,5 +23,8 @@
       "copySuccessFeedbackText": "Id copiato correttamente"
     },
     "operatorDeletedAlertMessage": "Attenzione! L'operatore che ha caricato questa chiave è stato rimosso da questo ente o client. Si consiglia di eliminare la chiave e di sostituirla con una nuova"
+  },
+  "list": {
+    "adminEnableInfo": "Per poter caricare una chiave, devi prima aggiungerti come utente membro di questo client"
   }
 }

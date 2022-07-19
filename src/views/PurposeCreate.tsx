@@ -12,6 +12,7 @@ import { useRoute } from '../hooks/useRoute'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
+import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 
 export const PurposeCreate = () => {
   const { t } = useTranslation('purpose')
@@ -27,7 +28,7 @@ export const PurposeCreate = () => {
   const { jwt } = useJwt()
   const { routes } = useRoute()
 
-  const { data: eserviceData } = useAsyncFetch<Array<EServiceFlatReadType>>({
+  const { data: eserviceData, isLoading } = useAsyncFetch<Array<EServiceFlatReadType>>({
     path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
     config: {
       params: {
@@ -38,12 +39,16 @@ export const PurposeCreate = () => {
     },
   })
 
+  if (isLoading) {
+    return <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
+  }
+
   return (
     <React.Fragment>
       <StyledIntro>{{ title: t('create.emptyTitle') }}</StyledIntro>
       {eserviceData && Boolean(eserviceData.length > 0) ? (
-        <Grid container>
-          <Grid item xs={8}>
+        <Grid container sx={{ maxWidth: 1280 }}>
+          <Grid item lg={8} sx={{ width: '100%' }}>
             <StyledStepper steps={STEPS} activeIndex={activeStep} />
             <Step {...stepProps} />
           </Grid>
