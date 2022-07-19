@@ -227,25 +227,33 @@ export function AgreementEdit() {
           const attributes: Array<BackendAttributeContent> =
             'single' in backendAttribute ? [backendAttribute.single] : backendAttribute.group
           const entries = attributes.map((a) => {
+            const attributeStatus = checkVerifiedStatus(a.verified, a.explicitAttributeVerification)
+
             return {
               summary: a.name,
-              summarySecondary: t(
-                `edit.attribute.status.${checkVerifiedStatus(
-                  a.verified,
-                  a.explicitAttributeVerification
-                )}`
+              summarySecondary: (
+                <Chip
+                  label={t(`edit.attribute.status.${attributeStatus}`)}
+                  color={CHIP_COLOR_ATTRIBUTE[attributeStatus]}
+                />
               ),
               details: (
                 <React.Fragment>
                   {a.verificationDate && (
-                    <DescriptionBlock label={t('edit.attribute.verificationDateField.label')}>
+                    <DescriptionBlock
+                      label={t('edit.attribute.verificationDateField.label')}
+                      sx={{ mt: 0 }}
+                    >
                       {formatDateString(a.verificationDate)}
                     </DescriptionBlock>
                   )}
                   <DescriptionBlock label={t('edit.attribute.authoritativeSourceField.label')}>
                     {a.origin}
                   </DescriptionBlock>
-                  <DescriptionBlock label={t('edit.attribute.descriptionField.label')}>
+                  <DescriptionBlock
+                    label={t('edit.attribute.descriptionField.label')}
+                    sx={{ mb: 0 }}
+                  >
                     {a.description}
                   </DescriptionBlock>
                 </React.Fragment>
@@ -254,7 +262,7 @@ export function AgreementEdit() {
           })
 
           return (
-            <Box key={i} sx={{ mt: 1, mb: 2, pb: 2, borderBottom: 1, borderColor: 'divider' }}>
+            <Box key={i} sx={{ mt: 1, mb: 2, borderBottom: 1, borderColor: 'divider' }}>
               {Boolean(entries.length > 1) && (
                 <InfoMessage sx={{ mb: 2 }} label={t('edit.attribute.groupMessage')} />
               )}
