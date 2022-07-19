@@ -25,6 +25,7 @@ type StyledInputControlledAsyncAutocompleteProps<T> = {
   transformFn: (data: Array<T>) => Array<T>
   transformKey?: string
   multiple?: boolean
+  divider?: JSX.Element | null
   focusOnMount?: boolean
   sx?: SxProps
 
@@ -47,6 +48,7 @@ export const StyledInputControlledAsyncAutocomplete = <T extends unknown>({
   transformKey,
   multiple = false,
   focusOnMount = false,
+  divider = null,
   sx,
 
   getOptionLabel,
@@ -162,11 +164,14 @@ export const StyledInputControlledAsyncAutocomplete = <T extends unknown>({
         renderTags={(value: Array<T>, getTagProps) => (
           <React.Fragment>
             {value.map((option: T, index: number) => (
-              <Chip // eslint-disable-line react/jsx-key
-                variant="outlined"
-                label={getOptionLabel(option)}
-                {...getTagProps({ index })}
-              />
+              <React.Fragment key={index}>
+                <Chip // eslint-disable-line react/jsx-key
+                  variant="outlined"
+                  label={getOptionLabel(option)}
+                  {...getTagProps({ index })}
+                />
+                {index < value.length - 1 ? divider : null}
+              </React.Fragment>
             ))}
           </React.Fragment>
         )}

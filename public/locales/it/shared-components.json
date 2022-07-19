@@ -83,9 +83,10 @@
     "ariaDescribedBy": "Modale per aggiungere un attributo o un gruppo di attributi esistenti",
     "title": "Aggiungi attributo o gruppo",
     "content": {
-      "message": "Se selezioni più di un attributo per volta verrà trattato come “gruppo”. Sarà sufficiente per il Fruitore possedere uno solo degli attributi nel gruppo per passare la verifica",
+      "message": "Se selezioni più di un attributo per volta verrà trattato come “gruppo”. Sarà sufficiente per il Fruitore possedere uno solo degli attributi nel gruppo per passare la verifica (es. essere un \"Comune\" oppure \"Regione\")",
       "autocompleteLabel": "Attributi selezionati",
-      "selectedLabel": "Esplora selezione"
+      "selectedLabel": "Esplora selezione",
+      "runIndependentCheck": "Effettua verifica indipendente"
     },
     "actions": {
       "cancelLabel": "Annulla",
