@@ -88,7 +88,7 @@
           "before": "Upload the",
           "after": "file that describes the API"
         },
-        "prettyName": "API spec"
+        "prettyName": "API specification"
       },
       "documentation": {
         "title": "Documentation",

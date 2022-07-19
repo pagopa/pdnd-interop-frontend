@@ -10,6 +10,7 @@ export type StyledInputControlledRadioProps = {
   error?: string
   onChange?: ChangeEventHandler
   label?: string
+  row?: boolean
 
   disabled?: boolean
   infoLabel?: string | JSX.Element
@@ -30,6 +31,7 @@ export function StyledInputControlledRadio({
   value,
   onChange,
   error,
+  row = false,
 
   sx,
 
@@ -42,11 +44,11 @@ export function StyledInputControlledRadio({
   return (
     <StyledInputWrapper name={name} error={error} sx={sx} infoLabel={infoLabel}>
       {label && (
-        <FormLabel component="legend" sx={{ mb: 1 }}>
+        <FormLabel component="legend" sx={{ color: 'text.secondary' }}>
           {label}
         </FormLabel>
       )}
-      <RadioGroup value={value} onChange={onChange} name={name}>
+      <RadioGroup value={value} onChange={onChange} name={name} row={row}>
         {options.map((o, i) => (
           <FormControlLabel
             disabled={disabled}
@@ -54,6 +56,7 @@ export function StyledInputControlledRadio({
             value={o.value}
             control={<Radio />}
             label={o.label}
+            sx={{ mr: 3 }}
           />
         ))}
       </RadioGroup>
