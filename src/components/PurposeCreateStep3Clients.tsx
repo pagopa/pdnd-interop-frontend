@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useContext } from 'react'
-import { Stack } from '@mui/material'
+import { Box, Stack } from '@mui/material'
 import { useHistory } from 'react-router-dom'
 import { ActiveStepProps } from '../hooks/useActiveStep'
 import { useFeedback } from '../hooks/useFeedback'
@@ -129,7 +129,6 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
         <StyledIntro component="h2" sx={{ mb: 4 }}>
           {{ title: t('create.step3.title') }}
         </StyledIntro>
-
         <TableWithLoader
           isLoading={isLoading}
           headData={headData}
@@ -144,36 +143,38 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
               </StyledTableRow>
             ))}
         </TableWithLoader>
-        <StyledButton sx={{ my: 2 }} variant="contained" size="small" onClick={showClientsDialog}>
+        <StyledButton sx={{ mt: 2 }} variant="contained" size="small" onClick={showClientsDialog}>
           + Aggiungi
         </StyledButton>
-
-        <StepActions
-          back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
-          forward={{ label: t('create.endWithSaveBtn'), type: 'button', onClick: goToList }}
-        />
       </StyledPaper>
 
-      <StyledPaper>
-        <StyledIntro component="h2">
-          {{
-            title: t('create.quickPublish.title'),
-            description: t('create.quickPublish.description'),
-          }}
-        </StyledIntro>
-        {!isPurposeReallyLoading ? (
-          <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
-            <StyledButton variant="contained" onClick={publishVersion}>
-              {t('create.quickPublish.publishBtn')}
-            </StyledButton>
-            <StyledButton variant="outlined" onClick={deleteVersion}>
-              {t('create.quickPublish.deleteBtn')}
-            </StyledButton>
-          </Stack>
-        ) : (
-          <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
-        )}
-      </StyledPaper>
+      <StepActions
+        back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
+        forward={{ label: t('create.endWithSaveBtn'), type: 'button', onClick: goToList }}
+      />
+
+      <Box sx={{ mt: 8 }}>
+        <StyledPaper>
+          <StyledIntro component="h2">
+            {{
+              title: t('create.quickPublish.title'),
+              description: t('create.quickPublish.description'),
+            }}
+          </StyledIntro>
+          {!isPurposeReallyLoading ? (
+            <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
+              <StyledButton variant="outlined" onClick={deleteVersion}>
+                {t('create.quickPublish.deleteBtn')}
+              </StyledButton>
+              <StyledButton variant="contained" onClick={publishVersion}>
+                {t('create.quickPublish.publishBtn')}
+              </StyledButton>
+            </Stack>
+          ) : (
+            <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
+          )}
+        </StyledPaper>
+      </Box>
     </React.Fragment>
   )
 }

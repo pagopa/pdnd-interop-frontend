@@ -234,66 +234,65 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
 
   const isLoading = isEServiceReallyLoading || isPurposeReallyLoading
 
-  return (
-    <StyledPaper>
-      {!isLoading ? (
-        <React.Fragment>
+  return !isLoading ? (
+    <React.Fragment>
+      <StyledForm onSubmit={formik.handleSubmit}>
+        <StyledPaper>
           <StyledIntro component="h2">{{ title: t('create.step1.title') }}</StyledIntro>
 
-          <StyledForm onSubmit={formik.handleSubmit}>
-            <StyledInputControlledText
-              name="title"
-              label={t('create.step1.nameField.label')}
-              infoLabel={t('create.step1.nameField.infoLabel')}
-              error={formik.errors.title}
-              value={formik.values.title}
-              onChange={formik.handleChange}
-              focusOnMount={true}
-            />
+          <StyledInputControlledText
+            name="title"
+            label={t('create.step1.nameField.label')}
+            infoLabel={t('create.step1.nameField.infoLabel')}
+            error={formik.errors.title}
+            value={formik.values.title}
+            onChange={formik.handleChange}
+            focusOnMount={true}
+          />
 
-            <StyledInputControlledText
-              name="description"
-              label={t('create.step1.descriptionField.label')}
-              error={formik.errors.description}
-              value={formik.values.description}
-              onChange={formik.handleChange}
-              multiline={true}
-            />
+          <StyledInputControlledText
+            name="description"
+            label={t('create.step1.descriptionField.label')}
+            error={formik.errors.description}
+            value={formik.values.description}
+            onChange={formik.handleChange}
+            multiline={true}
+          />
 
-            <StyledInputControlledSelect
-              name="eserviceId"
-              label={t('create.step1.eserviceField.label')}
-              error={formik.errors.eserviceId}
-              value={formik.values.eserviceId}
-              onChange={formik.handleChange}
-              options={eserviceData}
-              emptyLabel="Nessun E-Service associabile"
-            />
+          <StyledInputControlledSelect
+            name="eserviceId"
+            label={t('create.step1.eserviceField.label')}
+            error={formik.errors.eserviceId}
+            value={formik.values.eserviceId}
+            onChange={formik.handleChange}
+            options={eserviceData}
+            emptyLabel="Nessun E-Service associabile"
+          />
 
-            <StyledInputControlledText
-              name="dailyCalls"
-              label={t('create.step1.dailyCallsField.label')}
-              infoLabel={t('create.step1.dailyCallsField.infoLabel')}
-              type="number"
-              error={formik.errors.dailyCalls}
-              value={formik.values.dailyCalls}
-              onChange={formik.handleChange}
-              inputProps={{ min: '1' }}
-            />
+          <StyledInputControlledText
+            name="dailyCalls"
+            label={t('create.step1.dailyCallsField.label')}
+            infoLabel={t('create.step1.dailyCallsField.infoLabel')}
+            type="number"
+            error={formik.errors.dailyCalls}
+            value={formik.values.dailyCalls}
+            onChange={formik.handleChange}
+            inputProps={{ min: '1' }}
+            sx={{ mb: 0 }}
+          />
+        </StyledPaper>
 
-            <StepActions
-              back={{
-                label: t('create.backToListBtn'),
-                type: 'link',
-                to: routes.SUBSCRIBE_PURPOSE_LIST.PATH,
-              }}
-              forward={{ label: t('create.forwardWithSaveBtn'), type: 'submit' }}
-            />
-          </StyledForm>
-        </React.Fragment>
-      ) : (
-        <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
-      )}
-    </StyledPaper>
+        <StepActions
+          back={{
+            label: t('create.backToListBtn'),
+            type: 'link',
+            to: routes.SUBSCRIBE_PURPOSE_LIST.PATH,
+          }}
+          forward={{ label: t('create.forwardWithSaveBtn'), type: 'submit' }}
+        />
+      </StyledForm>
+    </React.Fragment>
+  ) : (
+    <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
   )
 }

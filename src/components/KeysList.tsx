@@ -15,6 +15,8 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { fetchAllWithLogs } from '../lib/api-utils'
 import { isFetchError } from '../lib/error-utils'
 import { AxiosResponse } from 'axios'
+import { Stack } from '@mui/material'
+import { InfoTooltip } from '../components/Shared/InfoTooltip'
 
 type KeyToPostProps = SecurityOperatorKeysFormInputValues & {
   use: 'SIG'
@@ -33,7 +35,7 @@ type AddBtnProps = {
 
 const AddBtn = ({ clientId, runAction }: AddBtnProps) => {
   const { setDialog } = useContext(DialogContext)
-  const { t } = useTranslation('common')
+  const { t } = useTranslation(['key', 'common'])
   const { jwt, isOperatorSecurity, isAdmin } = useJwt()
   const { data: users } = useAsyncFetch<Array<SelfCareUser>>({
     path: { endpoint: 'OPERATOR_SECURITY_GET_LIST', endpointParams: { clientId } },
@@ -94,16 +96,21 @@ const AddBtn = ({ clientId, runAction }: AddBtnProps) => {
   }
 
   const isAdminInClient = Boolean(jwt && usersId.includes(jwt.uid))
+  const canAddKey = isOperatorSecurity || (isAdmin && isAdminInClient)
 
-  if (isOperatorSecurity || (isAdmin && isAdminInClient)) {
-    return (
-      <StyledButton variant="contained" size="small" onClick={openUploadKeyDialog}>
-        {t('addBtn')}
+  return (
+    <Stack direction="row" spacing={1}>
+      {isAdmin && !isAdminInClient && <InfoTooltip label={t('list.adminEnableInfo')} />}
+      <StyledButton
+        variant="contained"
+        size="small"
+        onClick={openUploadKeyDialog}
+        disabled={!canAddKey}
+      >
+        {t('addBtn', { ns: 'common' })}
       </StyledButton>
-    )
-  }
-
-  return null
+    </Stack>
+  )
 }
 
 export const KeysList: FunctionComponent<KeysListProps> = ({ clientKind = 'CONSUMER' }) => {

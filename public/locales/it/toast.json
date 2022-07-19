@@ -95,7 +95,7 @@
   "ESERVICE_VERSION_DRAFT_POST_DOCUMENT": {
     "loadingText": "Stiamo caricando il documento",
     "error": {
-      "message": "Non è stato possibile caricare il documento. Per favore, assicurati sia il documento corretto e riprova!"
+      "message": "Non è stato possibile caricare il documento. Attenzione: il documento non può contenere la stringa \"localhost\". Per favore, riprova!"
     }
   },
   "ESERVICE_VERSION_DRAFT_DELETE_DOCUMENT": {
