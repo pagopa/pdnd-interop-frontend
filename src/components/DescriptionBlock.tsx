@@ -23,7 +23,7 @@ export const DescriptionBlock: FunctionComponent<DescriptionBlockProps> = ({
 }) => {
   return (
     <Grid container sx={sx} columnSpacing={4}>
-      <Grid item xs={12} xl={leftGridItem}>
+      <Grid item xs={12} lg={leftGridItem}>
         <Stack sx={{ mb: 1 }}>
           <Box>
             <Typography
@@ -49,7 +49,7 @@ export const DescriptionBlock: FunctionComponent<DescriptionBlockProps> = ({
           )}
         </Stack>
       </Grid>
-      <Grid item xs={12} xl={12 - leftGridItem}>
+      <Grid item xs={12} lg={12 - leftGridItem}>
         <Box sx={childWrapperSx}>{children}</Box>
       </Grid>
     </Grid>

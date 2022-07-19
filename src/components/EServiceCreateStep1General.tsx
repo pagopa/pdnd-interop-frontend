@@ -170,6 +170,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
                   onChange={handleChange}
                   disabled={!isEditable}
                   focusOnMount={isEditable}
+                  sx={{ mt: 3 }}
                 />
 
                 <StyledInputControlledText
@@ -194,9 +195,10 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
                     { label: 'REST', value: 'REST' },
                     { label: 'SOAP', value: 'SOAP' },
                   ]}
+                  row={true}
                 />
 
-                <StyledIntro component="h2" sx={{ my: 4 }}>
+                <StyledIntro component="h2" sx={{ mt: 6, mb: 2 }}>
                   {{ title: t('create.step1.attributes.title') }}
                 </StyledIntro>
                 <EServiceAttributeSection
