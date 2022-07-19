@@ -29,9 +29,10 @@
       },
       "attributes": {
         "title": "Attributes",
+        "description": "The list of attributes a party must possess to subscribe to your E-Service",
         "addAttributeTable": {
           "attributeName": "Attribute name",
-          "canRequireVerification": "Validation required?",
+          "canRequireVerification": "Run attribute check?",
           "groupOr": "or",
           "noDataLabel": "No attribute added",
           "explicitAttributeVerificationYes": "Yes",
@@ -41,17 +42,18 @@
         },
         "certified": {
           "label": "Certified",
-          "description": "These attributes are certified by an authoritative source. They do not require further checks"
+          "description": "Certified by an authoritative source. You don't need to do anything"
         },
         "verified": {
           "label": "Verified",
-          "description": "These attributes could have already been verified by other bodies. You can decide whether to verify them yourself anyway"
+          "description": "You can decide whether to trust another party's audit on these attributes or run your own"
         },
         "declared": {
           "label": "Declared",
-          "description": "When the Subscriber sends a subscription request, they declare to possess these attributes under their exclusive responsibility. No further checks are required"
+          "description": "The Subscriber will declare it possesses these attributes under its own responsibility"
         }
-      }
+      },
+      "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this E-Service is published"
     },
     "step2": {
       "versionField": {

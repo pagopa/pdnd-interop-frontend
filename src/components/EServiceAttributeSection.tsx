@@ -49,7 +49,7 @@ export function EServiceAttributeSection({
         const description = t(`${attributeKey}.description`)
 
         return (
-          <Box sx={{ mb: attributeKey === 'declared' ? 0 : 12 }} key={i}>
+          <Box sx={{ mb: attributeKey === 'declared' ? 0 : 6 }} key={i}>
             <StyledIntro component="h3" sx={{ mb: 2 }}>
               {{ title, description }}
             </StyledIntro>

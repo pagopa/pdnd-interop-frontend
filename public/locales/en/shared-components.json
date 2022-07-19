@@ -83,9 +83,10 @@
     "ariaDescribedBy": "Modal to add an existing attribute or a group of attributes",
     "title": "Add attribute or group",
     "content": {
-      "message": "If you select more than one attribute at a time, it will be treated as a \"group\". The Subscriber will need to possess only one among the attributes in a group to allow for the validation to pass",
+      "message": "If you select more than one attribute at a time, it will be treated as a \"group\". The Subscriber will need to possess only one among the attributes in a group to allow for the validation to pass (e.g. be a \"Municipality\" or a \"Region\")",
       "autocompleteLabel": "Selected attributes",
-      "selectedLabel": "Explore selection"
+      "selectedLabel": "Explore selection",
+      "runIndependentCheck": "Run your own attribute check"
     },
     "actions": {
       "cancelLabel": "Undo",

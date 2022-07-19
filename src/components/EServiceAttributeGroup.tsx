@@ -127,7 +127,7 @@ export function EServiceAttributeGroup({
                       return (
                         <React.Fragment key={i}>
                           {name}{' '}
-                          <Typography component="span" fontWeight={600}>
+                          <Typography fontSize="inherit" fontWeight={600} component="span">
                             {t('addAttributeTable.groupOr')}
                           </Typography>{' '}
                         </React.Fragment>

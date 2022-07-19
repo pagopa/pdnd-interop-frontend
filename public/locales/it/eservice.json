@@ -29,9 +29,10 @@
       },
       "attributes": {
         "title": "Attributi",
+        "description": "L'elenco degli attributi che un ente deve possedere per potersi iscrivere a fruire del tuo E-Service",
         "addAttributeTable": {
           "attributeName": "Nome attributo",
-          "canRequireVerification": "Si richiede convalida?",
+          "canRequireVerification": "Effettua verifica indipendente?",
           "groupOr": "oppure",
           "noDataLabel": "Nessun attributo presente",
           "explicitAttributeVerificationYes": "Sì",
@@ -41,17 +42,18 @@
         },
         "certified": {
           "label": "Certificati",
-          "description": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori verifiche"
+          "description": "Certificati da una fonte autoritativa riconosciuta, non necessitano di ulteriori verifiche da parte tua"
         },
         "verified": {
           "label": "Verificati",
-          "description": "Questi attributi potrebbero essere stati già verificati da altre organizzazioni. Puoi decidere se verificarli comunque"
+          "description": "Puoi decidere se avvalerti della verifica effettuata da altri enti o effettuarne una nuova indipendentemente"
         },
         "declared": {
           "label": "Dichiarati",
-          "description": "All’atto dell’inoltro di una richiesta di fruizione, il Fruitore dichiara sotto la propria responsabilità di possedere questi attributi. Non è dunque necessaria ulteriore verifica"
+          "description": "Il Fruitore dovrà dichiarare sotto la propria responsabilità di possedere questi attributi"
         }
-      }
+      },
+      "firstVersionOnlyEditableInfo": "I contenuti di questa pagina non saranno più modificabili dopo la pubblicazione della prima versione dell’E-Service"
     },
     "step2": {
       "versionField": {

@@ -33,7 +33,9 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
   const { t, ready } = useTranslation(['shared-components', 'attribute'], { useSuspense: false })
   const { closeDialog } = useCloseDialog()
 
-  const options = [{ label: "Richiedi nuova convalida dell'attributo", value: 'attribute' }]
+  const options = [
+    { label: t('styledDialogExistingAttribute.content.runIndependentCheck'), value: 'attribute' },
+  ]
 
   const wrapUpdateSelected = (setFieldValue: FormikSetFieldValue) => (data: unknown) => {
     setFieldValue('selected', data as Array<CatalogAttribute>, false)
@@ -68,7 +70,9 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
             </DialogTitle>
 
             <DialogContent>
-              <Typography>{t('styledDialogExistingAttribute.content.message')}</Typography>
+              <Typography color="text.secondary" variant="body2">
+                {t('styledDialogExistingAttribute.content.message')}
+              </Typography>
 
               <Box sx={{}}>
                 <StyledInputControlledAsyncAutocomplete
@@ -97,6 +101,11 @@ export const StyledDialogExistingAttribute: FunctionComponent<DialogExistingAttr
                   getOptionLabel={(option: CatalogAttribute) => (option ? option.name : '')}
                   isOptionEqualToValue={(option: CatalogAttribute, value: CatalogAttribute) =>
                     option.name === value.name
+                  }
+                  divider={
+                    <Typography fontSize={14} fontWeight={600} sx={{ mx: 1 }}>
+                      oppure
+                    </Typography>
                   }
                 />
 
