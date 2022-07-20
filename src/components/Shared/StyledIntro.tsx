@@ -34,7 +34,7 @@ export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
   ] as TitleH
   const textVariant = {
     h1: { variant: 'body1' },
-    h2: { variant: 'body1' },
+    h2: { variant: 'body1', color: 'text.secondary' },
     h3: { variant: 'body2', color: 'text.secondary' },
     h4: { variant: 'body2', color: 'text.secondary' },
     h5: { variant: 'body2', color: 'text.secondary' },

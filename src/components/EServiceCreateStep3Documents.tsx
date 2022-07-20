@@ -2,6 +2,7 @@ import React from 'react'
 import { useHistory } from 'react-router'
 import {
   EServiceDescriptorRead,
+  EServiceDocumentRead,
   EServiceDocumentWrite,
   EServiceReadType,
   StepperStepComponentProps,
@@ -18,6 +19,9 @@ import { useRoute } from '../hooks/useRoute'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
 import { StyledPaper } from './StyledPaper'
+import { downloadFile } from '../lib/file-utils'
+import { AxiosResponse } from 'axios'
+import { getDownloadDocumentName } from '../lib/eservice-utils'
 
 export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps) {
   const { routes } = useRoute()
@@ -58,6 +62,29 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
       },
       { onSuccessDestination: routes.PROVIDE_ESERVICE_LIST, showConfirmDialog: true }
     )
+  }
+
+  const downloadDescriptorDocument = async (document: EServiceDocumentRead) => {
+    const activeDescriptor = sureFetchedData.activeDescriptor as EServiceDescriptorRead
+    const { response, outcome } = (await runAction(
+      {
+        path: {
+          endpoint: 'ESERVICE_VERSION_DOWNLOAD_DOCUMENT',
+          endpointParams: {
+            eserviceId: sureFetchedData.id,
+            descriptorId: activeDescriptor.id,
+            documentId: document.id,
+          },
+        },
+        config: { responseType: 'arraybuffer' },
+      },
+      { suppressToast: ['success'] }
+    )) as RunActionOutput
+
+    if (outcome === 'success') {
+      const filename = getDownloadDocumentName(document)
+      downloadFile((response as AxiosResponse).data, filename)
+    }
   }
 
   const deleteDescriptorDocument = async (documentId: string) => {
@@ -128,6 +155,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
                   data={fetchedData}
                   uploadDescriptorDocument={uploadDescriptorDocument}
                   deleteDescriptorDocument={deleteDescriptorDocument}
+                  downloadDescriptorDocument={downloadDescriptorDocument}
                   activeDescriptorId={activeDescriptorId}
                 />
               </Box>
@@ -145,6 +173,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
                 data={fetchedData}
                 uploadDescriptorDocument={uploadDescriptorDocument}
                 deleteDescriptorDocument={deleteDescriptorDocument}
+                downloadDescriptorDocument={downloadDescriptorDocument}
                 activeDescriptorId={activeDescriptorId}
               />
             )}

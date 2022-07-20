@@ -26,7 +26,8 @@
   "styledDeleteableDocument": {
     "prettyNameLabel": "Document name",
     "editDocumentName": "Edit document name",
-    "deleteDocument": "Delete document"
+    "deleteDocument": "Delete document",
+    "downloadDocument": "Download document"
   },
   "styledDialogAddClients": {
     "ariaDescribedBy": "Modal to add clients to a purpose",

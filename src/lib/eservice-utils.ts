@@ -1,5 +1,5 @@
 import { Location } from 'history'
-import { EServiceReadType } from '../../types'
+import { EServiceDocumentRead, EServiceReadType } from '../../types'
 import { URL_FRAGMENTS } from './constants'
 import { getBits } from './router-utils'
 
@@ -44,4 +44,11 @@ export function getEserviceAndDescriptorFromUrl(location: Location<unknown>) {
   const eserviceId = bits.pop() // last-but-two item in bits array
 
   return { eserviceId, descriptorId }
+}
+
+export function getDownloadDocumentName(document: EServiceDocumentRead) {
+  const filename: string = document.name
+  const filenameBits: Array<string> = filename.split('.').filter((b) => b)
+  const fileExtension = filenameBits[filenameBits.length - 1]
+  return `${document.prettyName}.${fileExtension}`
 }
