@@ -452,8 +452,8 @@ export type Purpose = {
 // The frontend adds this, currentVersion and mostRecentVersion
 // differ if mostRecentVersion's state is WAITING_FOR_APPROVAL
 export type DecoratedPurpose = Purpose & {
-  mostRecentVersion: PurposeVersion
-  currentVersion: PurposeVersion
+  mostRecentVersion: PurposeVersion | null
+  currentVersion: PurposeVersion | null
   awaitingApproval: boolean
 }
 

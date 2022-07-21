@@ -8,6 +8,7 @@ import {
   InputSelectOption,
   Purpose,
   PurposeRiskAnalysisForm,
+  PurposeVersion,
 } from '../../types'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { StepActions } from './Shared/StepActions'
@@ -46,6 +47,8 @@ type PurposeStep1SubmitData = {
   consumerId?: string
   riskAnalysisForm?: PurposeRiskAnalysisForm
 }
+
+const DEFAULT_DAILY_CALLS = 1
 
 export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ forward }) => {
   const { routes } = useRoute()
@@ -95,9 +98,13 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
 
     // If there already is a draft, set its data
     if (purposeFetchedData) {
+      const dailyCalls =
+        purposeFetchedData.versions.length > 0
+          ? purposeFetchedData.versions[0].dailyCalls
+          : DEFAULT_DAILY_CALLS
       formik.setFieldValue('title', purposeFetchedData.title, false)
       formik.setFieldValue('description', purposeFetchedData.description, false)
-      formik.setFieldValue('dailyCalls', purposeFetchedData.versions[0].dailyCalls, false)
+      formik.setFieldValue('dailyCalls', dailyCalls, false)
     }
 
     // Even if there are purposeData, it may happen that the eservice used
@@ -114,6 +121,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
     }
   }, [purposeFetchedData, eserviceData]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // This reeeally needs refactoring ;(
   const onSubmit = async (data: PurposeStep1Write) => {
     // Separate the data for the purpose and purpose version services
     const purposeData: PurposeStep1SubmitData = {
@@ -129,13 +137,15 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
     let purposeEndpoint: ApiEndpointKey = 'PURPOSE_DRAFT_CREATE'
     let purposeEndpointParams = {}
     let purposeVersionEndpoint: ApiEndpointKey = 'PURPOSE_VERSION_DRAFT_CREATE'
-    const isNewPurpose = !purposeFetchedData
 
     // If it's not a new purpose, update the variables for a call to the update service
-    if (!isNewPurpose) {
+    if (purposeFetchedData) {
       purposeEndpoint = 'PURPOSE_DRAFT_UPDATE'
       purposeEndpointParams = { purposeId }
-      purposeVersionEndpoint = 'PURPOSE_VERSION_DRAFT_UPDATE'
+
+      if (purposeFetchedData.versions.length > 0) {
+        purposeVersionEndpoint = 'PURPOSE_VERSION_DRAFT_UPDATE'
+      }
 
       // Delete values the backend doesn't accept for an update
       delete purposeData.consumerId
@@ -164,10 +174,13 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
       }
 
       // If we are updating the version, we also have to pass the versionId
-      if (!isNewPurpose) {
+      const isUpdatingVersion =
+        purposeFetchedData && (purposeFetchedData as DecoratedPurpose).versions.length > 0
+      if (isUpdatingVersion) {
         const newPurposeDecorated: DecoratedPurpose =
           decoratePurposeWithMostRecentVersion(newPurpose)
-        purposeVersionEndpointParams.versionId = newPurposeDecorated.currentVersion.id
+        const currentVersion = newPurposeDecorated.currentVersion as PurposeVersion
+        purposeVersionEndpointParams.versionId = currentVersion.id
       }
 
       const { outcome: createVersionOutcome } = (await runAction(
@@ -179,7 +192,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
       )) as RunActionOutput
 
       if (createVersionOutcome === 'success') {
-        wrapGoForward(isNewPurpose, newPurpose.id)
+        wrapGoForward(!isUpdatingVersion, newPurpose.id)
       }
     }
   }
@@ -198,7 +211,12 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
     }
   }
 
-  const initialValues = { title: '', description: '', eserviceId: '', dailyCalls: 1 }
+  const initialValues = {
+    title: '',
+    description: '',
+    eserviceId: '',
+    dailyCalls: DEFAULT_DAILY_CALLS,
+  }
   const validationSchema = object({
     title: string().required(),
     description: string().required(),

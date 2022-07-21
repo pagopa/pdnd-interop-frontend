@@ -4,6 +4,15 @@ import { URL_FRAGMENTS } from './constants'
 import { getBits } from './router-utils'
 
 export function decoratePurposeWithMostRecentVersion(purpose: Purpose): DecoratedPurpose {
+  if (purpose.versions.length === 0) {
+    return {
+      ...purpose,
+      mostRecentVersion: null,
+      currentVersion: null,
+      awaitingApproval: false,
+    }
+  }
+
   const sorted = purpose.versions.sort(
     (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
   )
@@ -26,7 +35,7 @@ export function getComputedPurposeState(purpose: DecoratedPurpose): Array<string
     purpose.eservice.descriptor.state === 'PUBLISHED' ||
     purpose.eservice.descriptor.state === 'DEPRECATED'
   const isAgreementActive = purpose.agreement.state === 'ACTIVE'
-  const isPurposeActive = purpose.currentVersion.state === 'ACTIVE'
+  const isPurposeActive = purpose.currentVersion && purpose.currentVersion.state === 'ACTIVE'
 
   const possibleReasons = [
     { labelKey: 'eservice', outcome: isEserviceActive },

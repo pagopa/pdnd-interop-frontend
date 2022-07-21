@@ -12,6 +12,7 @@ import {
   DialogUpdatePurposeDailyCallsFormInputValues,
   Purpose,
   PurposeState,
+  PurposeVersion,
 } from '../../types'
 import { DescriptionBlock } from '../components/DescriptionBlock'
 import {
@@ -79,11 +80,12 @@ export const PurposeView = () => {
    * List of possible actions to perform in the purpose tab
    */
   const activate = async () => {
+    const currentVersion = data?.currentVersion as PurposeVersion
     await runAction(
       {
         path: {
           endpoint: 'PURPOSE_VERSION_ACTIVATE',
-          endpointParams: { purposeId: data?.id, versionId: data?.currentVersion.id },
+          endpointParams: { purposeId: data?.id, versionId: currentVersion.id },
         },
       },
       { showConfirmDialog: true }
@@ -91,11 +93,12 @@ export const PurposeView = () => {
   }
 
   const suspend = async () => {
+    const currentVersion = data?.currentVersion as PurposeVersion
     await runAction(
       {
         path: {
           endpoint: 'PURPOSE_VERSION_SUSPEND',
-          endpointParams: { purposeId: data?.id, versionId: data?.currentVersion.id },
+          endpointParams: { purposeId: data?.id, versionId: currentVersion.id },
         },
       },
       { showConfirmDialog: true }
@@ -103,11 +106,12 @@ export const PurposeView = () => {
   }
 
   const archive = async () => {
+    const currentVersion = data?.currentVersion as PurposeVersion
     await runAction(
       {
         path: {
           endpoint: 'PURPOSE_VERSION_ARCHIVE',
-          endpointParams: { purposeId: data?.id, versionId: data?.currentVersion.id },
+          endpointParams: { purposeId: data?.id, versionId: currentVersion.id },
         },
       },
       { showConfirmDialog: true }
@@ -124,11 +128,12 @@ export const PurposeView = () => {
   }
 
   const deleteVersionPurpose = async () => {
+    const mostRecentVersion = data?.mostRecentVersion as PurposeVersion
     await runAction(
       {
         path: {
           endpoint: 'PURPOSE_VERSION_DELETE',
-          endpointParams: { purposeId: data?.id, versionId: data?.mostRecentVersion.id },
+          endpointParams: { purposeId: data?.id, versionId: mostRecentVersion.id },
         },
       },
       { showConfirmDialog: true }
@@ -166,7 +171,8 @@ export const PurposeView = () => {
       ARCHIVED: [],
     }
 
-    const status = data.mostRecentVersion.state
+    const mostRecentVersion = data.mostRecentVersion as PurposeVersion
+    const status = mostRecentVersion.state
 
     // Return all the actions available for this particular status
     return availableActions[status] || []
@@ -238,7 +244,7 @@ export const PurposeView = () => {
         </TabList>
 
         <TabPanel value="details">
-          {data ? (
+          {data && data.currentVersion && data.mostRecentVersion ? (
             <React.Fragment>
               <DescriptionBlock label={t('view.accessGrantedField.label')}>
                 <Typography component="span">{getComputedPurposeState(data)}</Typography>
