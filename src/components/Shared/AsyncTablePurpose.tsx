@@ -9,6 +9,7 @@ import {
   MUIColor,
   Purpose,
   PurposeState,
+  PurposeVersion,
 } from '../../../types'
 import { Box, Chip } from '@mui/material'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
@@ -91,17 +92,18 @@ export const AsyncTablePurposeInEService = ({
    */
 
   const getAvailableActions = (item: DecoratedPurpose): Array<ActionProps> => {
+    const mostRecentVersion = item.mostRecentVersion as PurposeVersion
     const actions = [
       {
         onClick: wrapUpdatePurposeExpectedApprovalDate(
           item.id,
-          item.mostRecentVersion.id,
-          item.mostRecentVersion.expectedApprovalDate
+          mostRecentVersion.id,
+          mostRecentVersion.expectedApprovalDate
         ),
         label: t('tablePurposeInEService.actions.updateCompletionDate'),
       },
       {
-        onClick: wrapActivatePurpose(item.id, item.mostRecentVersion.id),
+        onClick: wrapActivatePurpose(item.id, mostRecentVersion.id),
         label: t('actions.activate', { ns: 'common' }),
       },
     ]
@@ -120,15 +122,16 @@ export const AsyncTablePurposeInEService = ({
       {purposeData &&
         Boolean(purposeData.length > 0) &&
         purposeData.map((item, i) => {
+          const mostRecentVersion = item.mostRecentVersion as PurposeVersion
           return (
             <StyledTableRow
               key={i}
               cellData={[
                 { label: item.title },
-                { label: formatThousands(item.mostRecentVersion.dailyCalls) },
+                { label: formatThousands(mostRecentVersion.dailyCalls) },
                 {
-                  label: item.mostRecentVersion.expectedApprovalDate
-                    ? formatDateString(item.mostRecentVersion.expectedApprovalDate)
+                  label: mostRecentVersion.expectedApprovalDate
+                    ? formatDateString(mostRecentVersion.expectedApprovalDate)
                     : t('tablePurposeInEService.awaitingLabel'),
                 },
               ]}
@@ -195,11 +198,12 @@ export const AsyncTablePurpose = () => {
   }
 
   const wrapDeleteVersion = (purpose: DecoratedPurpose) => async () => {
+    const mostRecentVersion = purpose.mostRecentVersion as PurposeVersion
     await runAction(
       {
         path: {
           endpoint: 'PURPOSE_VERSION_DELETE',
-          endpointParams: { purposeId: purpose.id, versionId: purpose.mostRecentVersion.id },
+          endpointParams: { purposeId: purpose.id, versionId: mostRecentVersion.id },
         },
       },
       { showConfirmDialog: true }
@@ -216,11 +220,12 @@ export const AsyncTablePurpose = () => {
   }
 
   const wrapArchive = (purpose: DecoratedPurpose) => async () => {
+    const currentVersion = purpose.currentVersion as PurposeVersion
     await runAction(
       {
         path: {
           endpoint: 'PURPOSE_VERSION_ARCHIVE',
-          endpointParams: { purposeId: purpose.id, versionId: purpose.currentVersion.id },
+          endpointParams: { purposeId: purpose.id, versionId: currentVersion.id },
         },
       },
       { showConfirmDialog: true }
@@ -228,11 +233,12 @@ export const AsyncTablePurpose = () => {
   }
 
   const wrapSuspend = (purpose: DecoratedPurpose) => async () => {
+    const currentVersion = purpose.currentVersion as PurposeVersion
     await runAction(
       {
         path: {
           endpoint: 'PURPOSE_VERSION_SUSPEND',
-          endpointParams: { purposeId: purpose.id, versionId: purpose.currentVersion.id },
+          endpointParams: { purposeId: purpose.id, versionId: currentVersion.id },
         },
       },
       { showConfirmDialog: true }
@@ -240,11 +246,12 @@ export const AsyncTablePurpose = () => {
   }
 
   const wrapActivate = (purpose: DecoratedPurpose) => async () => {
+    const currentVersion = purpose.currentVersion as PurposeVersion
     await runAction(
       {
         path: {
           endpoint: 'PURPOSE_VERSION_ACTIVATE',
-          endpointParams: { purposeId: purpose.id, versionId: purpose.currentVersion.id },
+          endpointParams: { purposeId: purpose.id, versionId: currentVersion.id },
         },
       },
       { showConfirmDialog: true }
@@ -282,15 +289,17 @@ export const AsyncTablePurpose = () => {
       label: t('tablePurpose.actions.updateDailyCalls'),
     }
 
+    const hasVersion = Boolean(purpose.mostRecentVersion)
+
     const availableActions: Record<PurposeState, Array<ActionProps>> = {
-      DRAFT: [activateAction, deleteAction],
+      DRAFT: hasVersion ? [activateAction, deleteAction] : [deleteAction],
       ACTIVE: [suspendAction, updateDailyCallsAction],
       SUSPENDED: [activateAction, archiveAction],
       WAITING_FOR_APPROVAL: [purpose.versions.length > 1 ? deleteVersionAction : deleteAction],
       ARCHIVED: [],
     }
 
-    const status = purpose.mostRecentVersion.state
+    const status = hasVersion ? (purpose.mostRecentVersion as PurposeVersion).state : 'DRAFT'
 
     // Return all the actions available for this particular status
     return availableActions[status] || []
@@ -315,6 +324,7 @@ export const AsyncTablePurpose = () => {
       {data &&
         Boolean(data.length > 0) &&
         data.map((item, i) => {
+          const currentState = item.currentVersion ? item.currentVersion.state : 'DRAFT'
           return (
             <StyledTableRow
               key={i}
@@ -326,10 +336,10 @@ export const AsyncTablePurpose = () => {
                   custom: (
                     <React.Fragment>
                       <Chip
-                        label={t(`status.purpose.${[item.currentVersion.state]}`, {
+                        label={t(`status.purpose.${currentState}`, {
                           ns: 'common',
                         })}
-                        color={CHIP_COLORS[item.currentVersion.state]}
+                        color={CHIP_COLORS[currentState]}
                       />
                       {item.awaitingApproval && (
                         <Chip
@@ -348,16 +358,23 @@ export const AsyncTablePurpose = () => {
                 size="small"
                 onClick={() => {
                   const path =
-                    item.currentVersion.state === 'DRAFT'
+                    !item.currentVersion || item.currentVersion.state === 'DRAFT'
                       ? routes.SUBSCRIBE_PURPOSE_EDIT.PATH
                       : routes.SUBSCRIBE_PURPOSE_VIEW.PATH
 
                   history.push(buildDynamicPath(path, { purposeId: item.id }))
                 }}
               >
-                {t(`actions.${item.currentVersion.state === 'DRAFT' ? 'edit' : 'inspect'}`, {
-                  ns: 'common',
-                })}
+                {t(
+                  `actions.${
+                    !item.currentVersion || item.currentVersion.state === 'DRAFT'
+                      ? 'edit'
+                      : 'inspect'
+                  }`,
+                  {
+                    ns: 'common',
+                  }
+                )}
               </StyledButton>
 
               <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>

@@ -9,7 +9,7 @@ import { StyledIntro } from './Shared/StyledIntro'
 import { TableWithLoader } from './Shared/TableWithLoader'
 import { DeleteOutline as DeleteOutlineIcon } from '@mui/icons-material'
 import { StyledTableRow } from './Shared/StyledTableRow'
-import { Client, DecoratedPurpose, Purpose } from '../../types'
+import { Client, DecoratedPurpose, Purpose, PurposeVersion } from '../../types'
 import { DialogContext } from '../lib/context'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useRoute } from '../hooks/useRoute'
@@ -82,11 +82,12 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
   }
 
   const publishVersion = async () => {
+    const currentVersion = purposeFetchedData?.currentVersion as PurposeVersion
     await runAction(
       {
         path: {
           endpoint: 'PURPOSE_VERSION_ACTIVATE',
-          endpointParams: { purposeId, versionId: purposeFetchedData?.currentVersion.id },
+          endpointParams: { purposeId, versionId: currentVersion.id },
         },
       },
       { onSuccessDestination: routes.SUBSCRIBE_PURPOSE_LIST, showConfirmDialog: true }
