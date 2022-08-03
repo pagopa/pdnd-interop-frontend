@@ -877,6 +877,8 @@ export type PagoPAEnvVars = {
   MIXPANEL_PROJECT_ID: string
   API_GATEWAY_INTEFACE_URL: string
   ONETRUST_DOMAIN_SCRIPT_ID: string
+  CLIENT_ASSERTION_JWT_AUDIENCE: string
+  M2M_JWT_AUDIENCE: string
 }
 export type ExtendedWindow = Window & {
   pagopa_env: PagoPAEnvVars

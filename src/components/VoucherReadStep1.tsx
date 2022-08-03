@@ -12,12 +12,11 @@ import { StyledInputControlledSelect } from './Shared/StyledInputControlledSelec
 import { CodeSnippetPreview } from './Shared/CodeSnippetPreview'
 import { CodeLanguagePicker } from './Shared/CodeLanguagePicker'
 import { useTranslation } from 'react-i18next'
-import { FE_URL } from '../lib/env'
+import { CLIENT_ASSERTION_JWT_AUDIENCE, FE_URL, M2M_JWT_AUDIENCE } from '../lib/env'
 import { StyledPaper } from './StyledPaper'
 
 const CLIENT_ASSERTION_TYP = 'JWT'
 const CLIENT_ASSERTION_ALG = 'RS256'
-const CLIENT_ASSERTION_AUD = 'test.interop.pagopa.it/client-assertion'
 
 export const VoucherReadStep1 = ({
   clientKind,
@@ -48,6 +47,9 @@ export const VoucherReadStep1 = ({
   const wrapUpdateCodeLanguage = (newEntry: string) => () => {
     setSelectedCodeLanguage(newEntry)
   }
+
+  const clientAssertionAud =
+    clientKind === 'CONSUMER' ? CLIENT_ASSERTION_JWT_AUDIENCE : M2M_JWT_AUDIENCE
 
   return (
     <StyledPaper>
@@ -153,7 +155,7 @@ export const VoucherReadStep1 = ({
         labelDescription={t('step1.assertionPayload.audField.description')}
       >
         <InlineClipboard
-          textToCopy={CLIENT_ASSERTION_AUD}
+          textToCopy={clientAssertionAud}
           successFeedbackText={t('step1.assertionPayload.audField.copySuccessFeedbackText')}
         />
       </DescriptionBlock>
@@ -239,7 +241,7 @@ export const VoucherReadStep1 = ({
           INSERISCI_VALORE_TYP: CLIENT_ASSERTION_TYP,
           INSERISCI_VALORE_ISS: typedProps.clientId,
           INSERISCI_VALORE_SUB: typedProps.clientId,
-          INSERISCI_VALORE_AUD: CLIENT_ASSERTION_AUD,
+          INSERISCI_VALORE_AUD: clientAssertionAud,
           INSERISCI_VALORE_PUR: (typedProps as ClientVoucherStepProps).purposeId,
         }}
       />
