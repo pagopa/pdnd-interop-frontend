@@ -27,7 +27,7 @@ export const MIXPANEL_PROJECT_ID = isProduction ? PAGOPA_ENV.MIXPANEL_PROJECT_ID
 
 export const TEMP_USER_WHITELIST_URL = `${INTEROP_RESOURCES_BASE_URL}/temp-whitelist.json`
 
-function getEnvVar(varName: keyof PagoPAEnvVars, devVarName: string) {
+function getEnvVar(varName: keyof PagoPAEnvVars, devVarName: string): string {
   return isProduction ? PAGOPA_ENV[varName] : `${DEV_API_HOST_URL}/${devVarName}`
 }
 
@@ -60,5 +60,7 @@ export const AUTHORIZATION_SERVER_ACCESS_TOKEN_URL = getEnvVar(
   'AUTHORIZATION_SERVER_TOKEN_CREATION_URL',
   'authorization-server/token.oauth2'
 )
-export const CLIENT_ASSERTION_JWT_AUDIENCE = PAGOPA_ENV.CLIENT_ASSERTION_JWT_AUDIENCE
-export const M2M_JWT_AUDIENCE = PAGOPA_ENV.M2M_JWT_AUDIENCE
+export const CLIENT_ASSERTION_JWT_AUDIENCE = isProduction
+  ? PAGOPA_ENV.CLIENT_ASSERTION_JWT_AUDIENCE
+  : ''
+export const M2M_JWT_AUDIENCE = isProduction ? PAGOPA_ENV.M2M_JWT_AUDIENCE : ''
