@@ -42,12 +42,12 @@
   },
   "list": {
     "consumer": {
-      "title": "Your clients",
-      "description": "In this section you can manage all the clients you have created"
+      "title": "Your e-service clients",
+      "description": "In this section you can manage all the e-service clients you have created"
     }
   },
   "interopM2M": {
-    "title": "InteropM2M",
-    "description": "Manage the API machine-to-machine clients. These clients allow you to exploit Interoperability outside of the web app"
+    "title": "Your interop api clients",
+    "description": "Manage the clients used to obtain vouchers to interrogate the Interoperability API"
   }
 }
