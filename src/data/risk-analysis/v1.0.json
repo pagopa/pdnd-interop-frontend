@@ -340,23 +340,23 @@
       },
       "options": [
         {
-          "label": "0-100",
+          "label": { "it": "0-100", "en": "0-100" },
           "value": "QUANTITY_0_TO_100"
         },
         {
-          "label": "101-500",
+          "label": { "it": "101-500", "en": "101-500" },
           "value": "QUANTITY_101_TO_500"
         },
         {
-          "label": "501-1000",
+          "label": { "it": "501-1000", "en": "501-1000" },
           "value": "QUANTITY_500_TO_1000"
         },
         {
-          "label": "1001-5000",
+          "label": { "it": "1001-5000", "en": "1001-5000" },
           "value": "QUANTITY_1001_TO_5000"
         },
         {
-          "label": "da 5001 in su",
+          "label": { "it": "da 5001 in su", "en": "5001 and up" },
           "value": "QUANTITY_5001_OVER"
         }
       ],
