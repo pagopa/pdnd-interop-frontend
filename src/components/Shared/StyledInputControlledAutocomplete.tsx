@@ -20,7 +20,7 @@ type StyledInputControlledAutocompleteProps<T> = {
   focusOnMount?: boolean
   sx?: SxProps
 
-  transformFn: (data: Array<T>, search: string) => Array<T>
+  transformFn?: (data: Array<T>, search: string) => Array<T>
   getOptionLabel: (option: T) => string
   isOptionEqualToValue: ((option: T, value: T) => boolean) | undefined
   values: Array<T>
@@ -40,7 +40,7 @@ export const StyledInputControlledAutocomplete = <T extends unknown>({
   focusOnMount = false,
   sx,
 
-  transformFn,
+  transformFn = (values: Array<T>, _) => values,
   getOptionLabel,
   isOptionEqualToValue,
   values,

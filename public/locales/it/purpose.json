@@ -4,9 +4,22 @@
   "noMultiDataLabel": "Non ci sono finalità disponibili",
   "create": {
     "emptyTitle": "Crea finalità",
-    "isTemplate": "Usa un template precompilato"
+    "isTemplateField": {
+      "label": "Usa un template precompilato"
+    },
+    "purposeField": {
+      "label": "Template da utilizzare",
+      "compiledBy": "{{title}} stilata da {{consumerId}}"
+    },
+    "eserviceField": {
+      "label": "E-Service da associare"
+    },
+    "consumerName": "Questo template è stato creato da",
+    "purposeTitle": "Nome finalità",
+    "purposeDescription": "Descrizione finalità"
   },
   "edit": {
+    "emptyTitle": "Modifica finalità",
     "noAgreementsAlert": {
       "message": "Non si possono creare finalità perché non ci sono servizi associabili. Per iscriverti al tuo primo E-Service",
       "link": {

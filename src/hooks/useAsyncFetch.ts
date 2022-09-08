@@ -12,6 +12,7 @@ type Settings<T, U> = {
   useEffectDeps?: Array<unknown>
   mapFn?: (data: T) => U
   onSuccess?: (data?: U) => void
+  disabled?: boolean
 }
 
 export const useAsyncFetch = <T, U = T>(
@@ -23,6 +24,7 @@ export const useAsyncFetch = <T, U = T>(
   const useEffectDeps = (settings && settings.useEffectDeps) || []
   const mapFn = (settings && settings.mapFn) || identity
   const onSuccess = (settings && settings.onSuccess) || noop
+  const disabled = settings ? settings.disabled : false
 
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [data, setData] = useState<U | undefined>()
@@ -32,14 +34,13 @@ export const useAsyncFetch = <T, U = T>(
     let isMounted = true
 
     async function asyncFetchWithLogs() {
-      setIsLoading(true)
+      if (disabled) return
 
+      setIsLoading(true)
       const response = await fetchWithLogs(requestConfig)
 
       // This is just to shut React up
-      if (!isMounted) {
-        return
-      }
+      if (!isMounted) return
 
       // If all is ok, store the data
       if (!isFetchError(response)) {

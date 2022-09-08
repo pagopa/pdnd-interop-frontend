@@ -4,9 +4,22 @@
   "noMultiDataLabel": "No purpose available",
   "create": {
     "emptyTitle": "Create purpose",
-    "isTemplate": "Clone from template"
+    "isTemplateField": {
+      "label": "Clone from template"
+    },
+    "purposeField": {
+      "label": "Choose template",
+      "compiledBy": "{{title}} created by {{consumerId}}"
+    },
+    "eserviceField": {
+      "label": "Choose E-Service"
+    },
+    "consumerName": "This template was created by",
+    "purposeTitle": "Purpose name",
+    "purposeDescription": "Purpose description"
   },
   "edit": {
+    "emptyTitle": "Edit purpose",
     "noAgreementsAlert": {
       "message": "No purpose can be created as there are no available E-Service. To subscribe to your first E-Service",
       "link": {

@@ -8,7 +8,7 @@ export type StyledInputControlledSelectProps = {
   name: string
   value?: string
   error?: string
-  onChange?: ChangeEventHandler
+  onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
   label?: string
 
   disabled?: boolean

@@ -72,16 +72,16 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
     <StyledForm onSubmit={formik.handleSubmit}>
       <StyledPaper>
         <StyledIntro component="h2">
-          {{ title: t('create.step2.title'), description: t('create.step2.description') }}
+          {{ title: t('edit.step2.title'), description: t('edit.step2.description') }}
         </StyledIntro>
 
         {formComponents}
       </StyledPaper>
 
       <StepActions
-        back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
+        back={{ label: t('edit.backWithoutSaveBtn'), type: 'button', onClick: back }}
         forward={{
-          label: t('create.forwardWithSaveBtn'),
+          label: t('edit.forwardWithSaveBtn'),
           disabled: isSubmitBtnDisabled,
           type: 'submit',
         }}

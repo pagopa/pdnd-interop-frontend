@@ -1,26 +1,40 @@
-import React from 'react'
-import { EServiceFlatReadType, InputSelectOption } from '../../types'
+import React, { useState } from 'react'
+import {
+  EServiceFlatReadType,
+  InputSelectOption,
+  Purpose,
+  PurposeLegalBasisAnswer,
+  PurposeRiskAnalysisFormAnswers,
+} from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
-import { StyledForm } from '../components/Shared/StyledForm'
 import { StyledInputControlledSelect } from '../components/Shared/StyledInputControlledSelect'
-import { useFormik } from 'formik'
-import { object, string, boolean } from 'yup'
 import { StyledPaper } from '../components/StyledPaper'
-import { Grid } from '@mui/material'
+import { Divider, Grid, Typography } from '@mui/material'
 import { StyledInputControlledSwitch } from '../components/Shared/StyledInputControlledSwitch'
+import { StyledInputControlledAutocomplete } from '../components/Shared/StyledInputControlledAutocomplete'
+import { DescriptionBlock } from '../components/DescriptionBlock'
+import _riskAnalysisConfig from '../data/risk-analysis/v1.0.json'
+import { useContext } from 'react'
+import { LangContext } from '../lib/context'
+import { useMemo } from 'react'
 
 export const PurposeCreate = () => {
   const { t } = useTranslation('purpose')
   const { jwt } = useJwt()
+  const [eserviceId, setEserviceId] = useState('')
+  const [isTemplate, setIsTemplate] = useState(false)
+  const [purpose, setPurpose] = useState<Purpose | null>(null)
+  const { lang } = useContext(LangContext)
 
-  const { data: eserviceData, isLoading } = useAsyncFetch<
-    Array<EServiceFlatReadType>,
-    Array<InputSelectOption>
-  >(
+  const {
+    data: eserviceData,
+    isLoading: eserviceIsLoading,
+    error,
+  } = useAsyncFetch<Array<EServiceFlatReadType>, Array<InputSelectOption>>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
       config: {
@@ -35,35 +49,100 @@ export const PurposeCreate = () => {
       mapFn: (data) =>
         data.map((d) => ({ label: `${d.name} erogato da ${d.producerName}`, value: d.id })),
       onSuccess: (mappedData) => {
-        const id = mappedData && mappedData.length > 0 ? mappedData[0].value : ''
-        formik.setFieldValue('eserviceId', id)
+        const id = mappedData && mappedData.length > 0 ? (mappedData[0].value as string) : ''
+        setEserviceId(id)
       },
     }
   )
 
-  const onSubmit = () => {
-    //
+  const {
+    data: purposeData,
+    // isLoading: purposeIsLoading,
+    // error,
+  } = useAsyncFetch<{ purposes: Array<Purpose> }, Array<Purpose>>(
+    {
+      path: { endpoint: 'PURPOSE_GET_LIST' },
+      config: {
+        params: {
+          eserviceId,
+          states: ['ACTIVE', 'SUSPENDED', 'ARCHIVED'],
+        },
+      },
+    },
+    {
+      mapFn: (data) => data.purposes,
+      useEffectDeps: [eserviceId, isTemplate],
+      disabled: !isTemplate || eserviceId === '',
+    }
+  )
+
+  const wrapSetEserviceId = (e: React.SyntheticEvent) => {
+    const target = e.target as HTMLInputElement
+    setEserviceId(target.value)
+  }
+  const wrapSetIsTemplate = (e: React.SyntheticEvent) => {
+    const target = e.target as HTMLInputElement
+    setIsTemplate(target.checked)
+  }
+  const wrapSetPurpose = (_purpose: Purpose | Array<Purpose> | null) => {
+    setPurpose(_purpose as Purpose | null)
   }
 
-  const initialValues = {
-    eserviceId: '',
-    isTemplate: false,
-  }
-  const validationSchema = object({
-    eserviceId: string().required(),
-    isTemplate: boolean().required(),
-  })
-  const formik = useFormik({
-    initialValues,
-    validationSchema,
-    onSubmit,
-    validateOnChange: false,
-    validateOnBlur: false,
-    enableReinitialize: true,
-  })
+  // const createNewPurpose = () => {
+  //   //
+  // }
 
-  if (isLoading) {
+  // TEMP REFACTOR
+  const riskAnalysisFormAnswers = useMemo(() => {
+    if (!purpose) return
+
+    // Answers in this form
+    const answerIds = Object.keys(purpose.riskAnalysisForm.answers)
+    // Corresponding questions
+    const questionsWithAnswer = _riskAnalysisConfig.questions.filter(({ id }) =>
+      answerIds.includes(id)
+    )
+
+    const answers = questionsWithAnswer.map(({ label, options, id, type }) => {
+      const question = label[lang]
+
+      // Get the value of the answer
+      // The value can be of three types: plain text, multiple options, single option
+      const answerValue =
+        purpose.riskAnalysisForm.answers[id as keyof PurposeRiskAnalysisFormAnswers]
+
+      // Plain text: this value comes from a text field
+      if (type === 'text') {
+        return { question, answer: answerValue }
+      }
+
+      // Multiple options: this value comes from a multiple choice checkbox
+      if (Array.isArray(answerValue)) {
+        const selectedOptions = options?.filter(({ value }) =>
+          answerValue.includes(value as PurposeLegalBasisAnswer)
+        )
+        const answer = selectedOptions?.map((o) => o.label[lang]).join(', ')
+        return { question, answer }
+      }
+
+      // Single option: this value comes from an option field (select, radio, checkbox, etc)
+      const answer = options?.find(({ value }) => answerValue === value)?.label[lang]
+      return { question, answer }
+    })
+
+    return answers
+  }, [purpose, lang])
+
+  // const transformFn = (options: Array<Purpose>, search: string) => {
+  //   return options
+  // }
+
+  if (eserviceIsLoading) {
     return <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
+  }
+
+  if (error) {
+    return <span>ricarica la pagina</span>
   }
 
   return (
@@ -73,24 +152,67 @@ export const PurposeCreate = () => {
       <Grid container sx={{ maxWidth: 1280 }}>
         <Grid item lg={8} sx={{ width: '100%' }}>
           <StyledPaper>
-            <StyledForm onSubmit={formik.handleSubmit}>
-              <StyledInputControlledSelect
-                name="eserviceId"
-                label={t('edit.step1.eserviceField.label')}
-                error={formik.errors.eserviceId}
-                value={formik.values.eserviceId}
-                onChange={formik.handleChange}
-                options={eserviceData}
-                emptyLabel="Nessun E-Service associabile"
+            <StyledInputControlledSelect
+              focusOnMount={true}
+              name="eserviceId"
+              label={t('create.eserviceField.label')}
+              value={eserviceId}
+              onChange={wrapSetEserviceId}
+              options={eserviceData}
+              emptyLabel="Nessun E-Service associabile"
+            />
+            <StyledInputControlledSwitch
+              name="isTemplate"
+              label={t('create.isTemplateField.label')}
+              value={isTemplate}
+              onChange={wrapSetIsTemplate}
+            />
+
+            {isTemplate && (
+              <StyledInputControlledAutocomplete
+                label={t('create.purposeField.label')}
+                sx={{ mt: 6, mb: 0 }}
+                placeholder="..."
+                name="selection"
+                onChange={wrapSetPurpose}
+                values={purposeData || []}
+                getOptionLabel={({ title, consumerId }: Purpose) =>
+                  t('create.purposeField.compiledBy', { title, consumerId })
+                }
+                isOptionEqualToValue={(option: Purpose, value: Purpose) => option.id === value.id}
+                // transformFn={transformFn}
               />
-              <StyledInputControlledSwitch
-                name="isTemplate"
-                label={t('create.isTemplate')}
-                error={formik.errors.isTemplate}
-                value={formik.values.isTemplate}
-                onChange={formik.handleChange}
-              />
-            </StyledForm>
+            )}
+
+            {isTemplate && purpose && (
+              <React.Fragment>
+                <Divider sx={{ my: 6 }} />
+                <Typography component="h2" variant="h6">
+                  Contenuto del template selezionato
+                </Typography>
+
+                <DescriptionBlock label={t('create.consumerName')}>
+                  {purpose.consumerId}
+                </DescriptionBlock>
+
+                <DescriptionBlock label={t('create.purposeTitle')}>
+                  {purpose.title}
+                </DescriptionBlock>
+
+                <DescriptionBlock label={t('create.purposeDescription')}>
+                  {purpose.description}
+                </DescriptionBlock>
+
+                {riskAnalysisFormAnswers &&
+                  riskAnalysisFormAnswers.map(({ question, answer }, i) => {
+                    return (
+                      <DescriptionBlock key={i} label={question}>
+                        {answer}
+                      </DescriptionBlock>
+                    )
+                  })}
+              </React.Fragment>
+            )}
           </StyledPaper>
         </Grid>
       </Grid>

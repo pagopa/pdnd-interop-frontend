@@ -1,9 +1,9 @@
 import React from 'react'
 import { Grid, Alert } from '@mui/material'
 import { EServiceFlatReadType, StepperStep } from '../../types'
-import { PurposeCreateStep1General } from '../components/PurposeCreateStep1General'
-import { PurposeCreateStep2RiskAnalysis } from '../components/PurposeCreateStep2RiskAnalysis'
-import { PurposeCreateStep3Clients } from '../components/PurposeCreateStep3Clients'
+import { PurposeEditStep1General } from '../components/PurposeEditStep1General'
+import { PurposeEditStep2RiskAnalysis } from '../components/PurposeEditStep2RiskAnalysis'
+import { PurposeEditStep3Clients } from '../components/PurposeEditStep3Clients'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledStepper } from '../components/Shared/StyledStepper'
 import { useActiveStep } from '../hooks/useActiveStep'
@@ -19,9 +19,9 @@ export const PurposeEdit = () => {
   const { activeStep, forward, back } = useActiveStep()
 
   const STEPS: Array<StepperStep> = [
-    { label: t('create.stepper.step1Label'), component: PurposeCreateStep1General },
-    { label: t('create.stepper.step2Label'), component: PurposeCreateStep2RiskAnalysis },
-    { label: t('create.stepper.step3Label'), component: PurposeCreateStep3Clients },
+    { label: t('edit.stepper.step1Label'), component: PurposeEditStep1General },
+    { label: t('edit.stepper.step2Label'), component: PurposeEditStep2RiskAnalysis },
+    { label: t('edit.stepper.step3Label'), component: PurposeEditStep3Clients },
   ]
   const { component: Step } = STEPS[activeStep]
   const stepProps = { forward, back }
@@ -45,7 +45,7 @@ export const PurposeEdit = () => {
 
   return (
     <React.Fragment>
-      <StyledIntro>{{ title: t('create.emptyTitle') }}</StyledIntro>
+      <StyledIntro>{{ title: t('edit.emptyTitle') }}</StyledIntro>
       {eserviceData && Boolean(eserviceData.length > 0) ? (
         <Grid container sx={{ maxWidth: 1280 }}>
           <Grid item lg={8} sx={{ width: '100%' }}>
@@ -55,9 +55,9 @@ export const PurposeEdit = () => {
         </Grid>
       ) : (
         <Alert severity="info">
-          {t('create.noAgreementsAlert.message')}{' '}
+          {t('edit.noAgreementsAlert.message')}{' '}
           <StyledLink to={routes.SUBSCRIBE_CATALOG_LIST.PATH}>
-            {t('create.noAgreementsAlert.link.label')}
+            {t('edit.noAgreementsAlert.link.label')}
           </StyledLink>
         </Alert>
       )}

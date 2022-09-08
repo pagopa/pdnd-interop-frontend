@@ -411,7 +411,7 @@ export type PurposeState = 'DRAFT' | 'ACTIVE' | 'SUSPENDED' | 'WAITING_FOR_APPRO
 
 type PurposeYesNoAnswer = 'YES' | 'NO'
 
-type PurposeLegalBasisAnswer =
+export type PurposeLegalBasisAnswer =
   | 'CONSENT'
   | 'CONTRACT'
   | 'LEGAL_OBLIGATION'
