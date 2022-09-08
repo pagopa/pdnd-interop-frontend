@@ -228,7 +228,10 @@
     }
   },
   "PURPOSE_VERSION_DRAFT_CREATE": {
-    "loadingText": "Updating purpose draft",
+    "loadingText": "Creating purpose draft",
+    "success": {
+      "message": "The purpose draft was created successfully"
+    },
     "error": {
       "message": "The purpose draft could not be updated. Please, try again!"
     }

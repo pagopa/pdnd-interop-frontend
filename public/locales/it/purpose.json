@@ -16,7 +16,13 @@
     },
     "consumerName": "Questo template è stato creato da",
     "purposeTitle": "Nome finalità",
-    "purposeDescription": "Descrizione finalità"
+    "purposeDescription": "Descrizione finalità",
+    "createNewPurposeBtn": "Crea bozza finalità",
+    "backToListBtn": "Torna alle finalità",
+    "defaultPurpose": {
+      "title": "Nuova finalità",
+      "description": "Lorem ipsum dolor sit amet..."
+    }
   },
   "edit": {
     "emptyTitle": "Modifica finalità",

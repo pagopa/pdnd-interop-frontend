@@ -21,14 +21,30 @@ import _riskAnalysisConfig from '../data/risk-analysis/v1.0.json'
 import { useContext } from 'react'
 import { LangContext } from '../lib/context'
 import { useMemo } from 'react'
+import { PageBottomActions } from '../components/Shared/PageBottomActions'
+import { StyledButton } from '../components/Shared/StyledButton'
+import { useHistory } from 'react-router-dom'
+import { useRoute } from '../hooks/useRoute'
+import { RunActionOutput, useFeedback } from '../hooks/useFeedback'
+import { omit } from 'lodash'
+import { AxiosResponse } from 'axios'
+import { buildDynamicRoute } from '../lib/router-utils'
 
 export const PurposeCreate = () => {
+  const history = useHistory()
+  const { routes } = useRoute()
+  const { runAction } = useFeedback()
   const { t } = useTranslation('purpose')
   const { jwt } = useJwt()
   const [eserviceId, setEserviceId] = useState('')
   const [isTemplate, setIsTemplate] = useState(false)
-  const [purpose, setPurpose] = useState<Purpose | null>(null)
+  const [purposeTemplate, setPurposeTemplate] = useState<Purpose | null>(null)
   const { lang } = useContext(LangContext)
+
+  const DEFAULT_PURPOSE_DATA = {
+    title: t('create.defaultPurpose.title'),
+    description: t('create.defaultPurpose.description'),
+  }
 
   const {
     data: eserviceData,
@@ -85,19 +101,67 @@ export const PurposeCreate = () => {
     setIsTemplate(target.checked)
   }
   const wrapSetPurpose = (_purpose: Purpose | Array<Purpose> | null) => {
-    setPurpose(_purpose as Purpose | null)
+    setPurposeTemplate(_purpose as Purpose | null)
   }
 
-  // const createNewPurpose = () => {
-  //   //
-  // }
+  const createNewPurpose = async () => {
+    const dataToPost: Partial<Purpose & { eserviceId: string }> = purposeTemplate
+      ? {
+          ...omit(purposeTemplate, [
+            'consumerId',
+            'id',
+            'agreement',
+            'clients',
+            'versions',
+            'createdAt',
+            'eservice',
+            'suspendedByConsumer',
+            'updatedAt',
+          ]),
+          title: `${purposeTemplate.title} — clone`,
+        }
+      : DEFAULT_PURPOSE_DATA
+
+    dataToPost.consumerId = jwt?.organization.id
+    dataToPost.eserviceId = eserviceId
+
+    const { outcome, response } = (await runAction(
+      {
+        path: { endpoint: 'PURPOSE_DRAFT_CREATE' },
+        config: { data: dataToPost },
+      },
+      { suppressToast: ['success'] }
+    )) as RunActionOutput
+
+    if (outcome === 'success') {
+      const newPurposeId = (response as AxiosResponse).data.id
+      const onSuccessDestination = buildDynamicRoute(routes.SUBSCRIBE_PURPOSE_EDIT, {
+        purposeId: newPurposeId,
+      })
+
+      await runAction(
+        {
+          path: {
+            endpoint: 'PURPOSE_VERSION_DRAFT_CREATE',
+            endpointParams: { purposeId: newPurposeId },
+          },
+          config: { data: { dailyCalls: 1 } },
+        },
+        { onSuccessDestination }
+      )
+    }
+    //
+  }
+  const backToPurposeList = () => {
+    history.push(routes.SUBSCRIBE_PURPOSE_LIST.PATH)
+  }
 
   // TEMP REFACTOR
   const riskAnalysisFormAnswers = useMemo(() => {
-    if (!purpose) return
+    if (!purposeTemplate) return
 
     // Answers in this form
-    const answerIds = Object.keys(purpose.riskAnalysisForm.answers)
+    const answerIds = Object.keys(purposeTemplate.riskAnalysisForm.answers)
     // Corresponding questions
     const questionsWithAnswer = _riskAnalysisConfig.questions.filter(({ id }) =>
       answerIds.includes(id)
@@ -109,7 +173,7 @@ export const PurposeCreate = () => {
       // Get the value of the answer
       // The value can be of three types: plain text, multiple options, single option
       const answerValue =
-        purpose.riskAnalysisForm.answers[id as keyof PurposeRiskAnalysisFormAnswers]
+        purposeTemplate.riskAnalysisForm.answers[id as keyof PurposeRiskAnalysisFormAnswers]
 
       // Plain text: this value comes from a text field
       if (type === 'text') {
@@ -131,7 +195,7 @@ export const PurposeCreate = () => {
     })
 
     return answers
-  }, [purpose, lang])
+  }, [purposeTemplate, lang])
 
   // const transformFn = (options: Array<Purpose>, search: string) => {
   //   return options
@@ -184,7 +248,7 @@ export const PurposeCreate = () => {
               />
             )}
 
-            {isTemplate && purpose && (
+            {isTemplate && purposeTemplate && (
               <React.Fragment>
                 <Divider sx={{ my: 6 }} />
                 <Typography component="h2" variant="h6">
@@ -192,15 +256,15 @@ export const PurposeCreate = () => {
                 </Typography>
 
                 <DescriptionBlock label={t('create.consumerName')}>
-                  {purpose.consumerId}
+                  {purposeTemplate.consumerId}
                 </DescriptionBlock>
 
                 <DescriptionBlock label={t('create.purposeTitle')}>
-                  {purpose.title}
+                  {purposeTemplate.title}
                 </DescriptionBlock>
 
                 <DescriptionBlock label={t('create.purposeDescription')}>
-                  {purpose.description}
+                  {purposeTemplate.description}
                 </DescriptionBlock>
 
                 {riskAnalysisFormAnswers &&
@@ -214,6 +278,15 @@ export const PurposeCreate = () => {
               </React.Fragment>
             )}
           </StyledPaper>
+
+          <PageBottomActions>
+            <StyledButton variant="contained" onClick={createNewPurpose}>
+              {t('create.createNewPurposeBtn')}
+            </StyledButton>
+            <StyledButton variant="text" onClick={backToPurposeList}>
+              {t('create.backToListBtn')}
+            </StyledButton>
+          </PageBottomActions>
         </Grid>
       </Grid>
     </React.Fragment>

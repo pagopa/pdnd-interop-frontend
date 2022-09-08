@@ -16,7 +16,13 @@
     },
     "consumerName": "This template was created by",
     "purposeTitle": "Purpose name",
-    "purposeDescription": "Purpose description"
+    "purposeDescription": "Purpose description",
+    "createNewPurposeBtn": "Create purpose draft",
+    "backToListBtn": "Back to purpose list",
+    "defaultPurpose": {
+      "title": "New purpose",
+      "description": "Lorem ipsum dolor sit amet..."
+    }
   },
   "edit": {
     "emptyTitle": "Edit purpose",

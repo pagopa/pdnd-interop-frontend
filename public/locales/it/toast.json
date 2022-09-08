@@ -228,7 +228,10 @@
     }
   },
   "PURPOSE_VERSION_DRAFT_CREATE": {
-    "loadingText": "Stiamo aggiornando la bozza",
+    "loadingText": "Stiamo creando la bozza",
+    "success": {
+      "message": "La finalità è stata creata correttamente"
+    },
     "error": {
       "message": "Non è stato possibile aggiornare la bozza di finalità. Per favore, riprova!"
     }
