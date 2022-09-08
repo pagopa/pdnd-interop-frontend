@@ -22,6 +22,7 @@ import { EServiceCreate } from '../views/EServiceCreate'
 import { EServiceManage } from '../views/EServiceManage'
 import { InteropM2M } from '../views/InteropM2M'
 import { Unauthorized } from '../components/Unauthorized'
+import { PurposeEdit } from '../views/PurposeEdit'
 
 export const BASIC_ROUTES: Record<string, RouteConfig> = {
   UNAUTHORIZED: {
@@ -175,7 +176,7 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     },
     LABEL: { it: 'Modifica finalità', en: 'Edit purpose' },
     EXACT: false,
-    COMPONENT: PurposeCreate,
+    COMPONENT: PurposeEdit,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },

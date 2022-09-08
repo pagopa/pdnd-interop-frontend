@@ -4,6 +4,9 @@
   "noMultiDataLabel": "Non ci sono finalità disponibili",
   "create": {
     "emptyTitle": "Crea finalità",
+    "isTemplate": "Usa un template precompilato"
+  },
+  "edit": {
     "noAgreementsAlert": {
       "message": "Non si possono creare finalità perché non ci sono servizi associabili. Per iscriverti al tuo primo E-Service",
       "link": {

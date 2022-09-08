@@ -1,42 +1,65 @@
 import React from 'react'
-import { Grid, Alert } from '@mui/material'
-import { EServiceFlatReadType, StepperStep } from '../../types'
-import { PurposeCreateStep1General } from '../components/PurposeCreateStep1General'
-import { PurposeCreateStep2RiskAnalysis } from '../components/PurposeCreateStep2RiskAnalysis'
-import { PurposeCreateStep3Clients } from '../components/PurposeCreateStep3Clients'
+import { EServiceFlatReadType, InputSelectOption } from '../../types'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { StyledStepper } from '../components/Shared/StyledStepper'
-import { useActiveStep } from '../hooks/useActiveStep'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { useRoute } from '../hooks/useRoute'
-import { StyledLink } from '../components/Shared/StyledLink'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
+import { StyledForm } from '../components/Shared/StyledForm'
+import { StyledInputControlledSelect } from '../components/Shared/StyledInputControlledSelect'
+import { useFormik } from 'formik'
+import { object, string, boolean } from 'yup'
+import { StyledPaper } from '../components/StyledPaper'
+import { Grid } from '@mui/material'
+import { StyledInputControlledSwitch } from '../components/Shared/StyledInputControlledSwitch'
 
 export const PurposeCreate = () => {
   const { t } = useTranslation('purpose')
-  const { activeStep, forward, back } = useActiveStep()
-
-  const STEPS: Array<StepperStep> = [
-    { label: t('create.stepper.step1Label'), component: PurposeCreateStep1General },
-    { label: t('create.stepper.step2Label'), component: PurposeCreateStep2RiskAnalysis },
-    { label: t('create.stepper.step3Label'), component: PurposeCreateStep3Clients },
-  ]
-  const { component: Step } = STEPS[activeStep]
-  const stepProps = { forward, back }
   const { jwt } = useJwt()
-  const { routes } = useRoute()
 
-  const { data: eserviceData, isLoading } = useAsyncFetch<Array<EServiceFlatReadType>>({
-    path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
-    config: {
-      params: {
-        callerId: jwt?.organization.id,
-        consumerId: jwt?.organization.id,
-        agreementStates: 'ACTIVE',
+  const { data: eserviceData, isLoading } = useAsyncFetch<
+    Array<EServiceFlatReadType>,
+    Array<InputSelectOption>
+  >(
+    {
+      path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
+      config: {
+        params: {
+          callerId: jwt?.organization.id,
+          consumerId: jwt?.organization.id,
+          agreementStates: 'ACTIVE',
+        },
       },
     },
+    {
+      mapFn: (data) =>
+        data.map((d) => ({ label: `${d.name} erogato da ${d.producerName}`, value: d.id })),
+      onSuccess: (mappedData) => {
+        const id = mappedData && mappedData.length > 0 ? mappedData[0].value : ''
+        formik.setFieldValue('eserviceId', id)
+      },
+    }
+  )
+
+  const onSubmit = () => {
+    //
+  }
+
+  const initialValues = {
+    eserviceId: '',
+    isTemplate: false,
+  }
+  const validationSchema = object({
+    eserviceId: string().required(),
+    isTemplate: boolean().required(),
+  })
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit,
+    validateOnChange: false,
+    validateOnBlur: false,
+    enableReinitialize: true,
   })
 
   if (isLoading) {
@@ -46,21 +69,31 @@ export const PurposeCreate = () => {
   return (
     <React.Fragment>
       <StyledIntro>{{ title: t('create.emptyTitle') }}</StyledIntro>
-      {eserviceData && Boolean(eserviceData.length > 0) ? (
-        <Grid container sx={{ maxWidth: 1280 }}>
-          <Grid item lg={8} sx={{ width: '100%' }}>
-            <StyledStepper steps={STEPS} activeIndex={activeStep} />
-            <Step {...stepProps} />
-          </Grid>
+
+      <Grid container sx={{ maxWidth: 1280 }}>
+        <Grid item lg={8} sx={{ width: '100%' }}>
+          <StyledPaper>
+            <StyledForm onSubmit={formik.handleSubmit}>
+              <StyledInputControlledSelect
+                name="eserviceId"
+                label={t('edit.step1.eserviceField.label')}
+                error={formik.errors.eserviceId}
+                value={formik.values.eserviceId}
+                onChange={formik.handleChange}
+                options={eserviceData}
+                emptyLabel="Nessun E-Service associabile"
+              />
+              <StyledInputControlledSwitch
+                name="isTemplate"
+                label={t('create.isTemplate')}
+                error={formik.errors.isTemplate}
+                value={formik.values.isTemplate}
+                onChange={formik.handleChange}
+              />
+            </StyledForm>
+          </StyledPaper>
         </Grid>
-      ) : (
-        <Alert severity="info">
-          {t('create.noAgreementsAlert.message')}{' '}
-          <StyledLink to={routes.SUBSCRIBE_CATALOG_LIST.PATH}>
-            {t('create.noAgreementsAlert.link.label')}
-          </StyledLink>
-        </Alert>
-      )}
+      </Grid>
     </React.Fragment>
   )
 }

@@ -4,6 +4,9 @@
   "noMultiDataLabel": "No purpose available",
   "create": {
     "emptyTitle": "Create purpose",
+    "isTemplate": "Clone from template"
+  },
+  "edit": {
     "noAgreementsAlert": {
       "message": "No purpose can be created as there are no available E-Service. To subscribe to your first E-Service",
       "link": {
