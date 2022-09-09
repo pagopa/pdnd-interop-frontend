@@ -58,6 +58,7 @@ export const PurposeCreate = () => {
           callerId: jwt?.organization.id,
           consumerId: jwt?.organization.id,
           agreementStates: 'ACTIVE',
+          state: 'PUBLISHED',
         },
       },
     },
@@ -239,7 +240,7 @@ export const PurposeCreate = () => {
                 placeholder="..."
                 name="selection"
                 onChange={wrapSetPurpose}
-                values={purposeData || []}
+                options={purposeData || []}
                 getOptionLabel={({ title, consumerId }: Purpose) =>
                   t('create.purposeField.compiledBy', { title, consumerId })
                 }
@@ -280,7 +281,11 @@ export const PurposeCreate = () => {
           </StyledPaper>
 
           <PageBottomActions>
-            <StyledButton variant="contained" onClick={createNewPurpose}>
+            <StyledButton
+              variant="contained"
+              onClick={createNewPurpose}
+              disabled={isTemplate && !purposeTemplate}
+            >
               {t('create.createNewPurposeBtn')}
             </StyledButton>
             <StyledButton variant="text" onClick={backToPurposeList}>
