@@ -4,7 +4,7 @@ import { string, mixed, object } from 'yup'
 import { ActiveStepProps } from '../hooks/useActiveStep'
 import { StepActions } from './Shared/StepActions'
 import { StyledForm } from './Shared/StyledForm'
-import _riskAnalysisConfig from '../data/risk-analysis/v1.0.json'
+import _riskAnalysisConfig from '../data/risk-analysis/pa/v2.0.json'
 import { StyledInput } from './Shared/StyledInput'
 import { StyledInputControlledTextProps } from './Shared/StyledInputControlledText'
 import { StyledInputControlledRadioProps } from './Shared/StyledInputControlledRadio'
@@ -199,19 +199,44 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
     const updatedValidation = getUpdatedValidation(updatedQuestions)
     setValidation(updatedValidation)
   }, [
+    // v1.0
     formik.values.usesPersonalData,
     formik.values.usesThirdPartyPersonalData,
     formik.values.usesConfidentialData,
     formik.values.securedDataAccess,
-    formik.values.legalBasis,
     formik.values.knowsAccessedDataCategories,
     formik.values.accessDataArt9Gdpr,
     formik.values.accessUnderageData,
-    formik.values.knowsDataQuantity,
     formik.values.dataQuantity,
     formik.values.deliveryMethod,
-    formik.values.doneDpia,
     formik.values.definedDataRetentionPeriod,
+
+    // v2.0
+    formik.values.purpose,
+    formik.values.institutionalPurpose,
+    formik.values.otherPurpose,
+    formik.values.personalDataTypes,
+    formik.values.otherPersonalDataTypes,
+    formik.values.legalObligationReference,
+    formik.values.legalBasisPublicInterest,
+    formik.values.ruleOfLawText,
+    formik.values.administrativeActText,
+    formik.values.publicInterestTaskText,
+    formik.values.dataQuantity,
+    formik.values.policyProvided,
+    formik.values.reasonPolicyNotProvided,
+    formik.values.confirmPricipleIntegrityAndDiscretion,
+    formik.values.confirmedDoneDpia,
+    formik.values.dataRetentionPeriod,
+    formik.values.usesThirdPartyData,
+    formik.values.doesUseThirdPartyData,
+    formik.values.declarationConfirmGDPR,
+
+    // Common
+    formik.values.legalBasis,
+    formik.values.knowsDataQuantity,
+    formik.values.deliveryMethod,
+    formik.values.doneDpia,
     formik.values.purposePursuit,
     formik.values.checkedExistenceMereCorrectnessInteropCatalogue,
     formik.values.checkedAllDataNeeded,
