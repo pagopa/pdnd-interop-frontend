@@ -233,51 +233,50 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
     }
   }, [purposeFetchedData]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  return (
-    <StyledPaper>
-      <StyledIntro component="h2">
-        {{
-          title: t('create.step2.title'),
-          description: t('create.step2.description'),
-        }}
-      </StyledIntro>
-      {!isLoading ? (
-        <StyledForm onSubmit={formik.handleSubmit}>
-          {Object.keys(questions).map((id, i) => {
-            const { type, label, options, infoLabel, required } = questions[id] as Question
+  const questionKeys = Object.keys(questions)
 
-            const untypedProps = {
-              name: id,
-              value: formik.values[id],
-              type,
-              setFieldValue: formik.setFieldValue,
-              onChange: formik.handleChange,
-              label: label[lang],
-              options: options && options.map((o) => ({ ...o, label: o.label[lang] })),
-              error: formik.errors[id],
-              infoLabel: infoLabel && infoLabel[lang],
-              required,
-              emptyLabel: t('create.step2.emptyLabel'),
-            }
+  return !isLoading ? (
+    <StyledForm onSubmit={formik.handleSubmit}>
+      <StyledPaper>
+        <StyledIntro component="h2">
+          {{ title: t('create.step2.title'), description: t('create.step2.description') }}
+        </StyledIntro>
 
-            const props = {
-              text: untypedProps as StyledInputControlledTextProps,
-              radio: untypedProps as StyledInputControlledRadioProps,
-              checkbox: untypedProps as StyledInputControlledCheckboxMultipleProps,
-              'select-one': untypedProps as StyledInputControlledSelectProps,
-            }[type]
+        {questionKeys.map((id, i) => {
+          const { type, label, options, infoLabel, required } = questions[id] as Question
 
-            return <StyledInput key={i} {...props} />
-          })}
+          const untypedProps = {
+            name: id,
+            value: formik.values[id],
+            type,
+            setFieldValue: formik.setFieldValue,
+            onChange: formik.handleChange,
+            label: label[lang],
+            options: options && options.map((o) => ({ ...o, label: o.label[lang] })),
+            error: formik.errors[id],
+            infoLabel: infoLabel && infoLabel[lang],
+            required,
+            emptyLabel: t('create.step2.emptyLabel'),
+          }
 
-          <StepActions
-            back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
-            forward={{ label: t('create.forwardWithSaveBtn'), type: 'submit' }}
-          />
-        </StyledForm>
-      ) : (
-        <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
-      )}
-    </StyledPaper>
+          const props = {
+            text: untypedProps as StyledInputControlledTextProps,
+            radio: untypedProps as StyledInputControlledRadioProps,
+            checkbox: untypedProps as StyledInputControlledCheckboxMultipleProps,
+            'select-one': untypedProps as StyledInputControlledSelectProps,
+          }[type]
+
+          const sx = questionKeys.length - 1 === i ? { mb: 0 } : undefined
+          return <StyledInput key={i} {...props} sx={sx} />
+        })}
+      </StyledPaper>
+
+      <StepActions
+        back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
+        forward={{ label: t('create.forwardWithSaveBtn'), type: 'submit' }}
+      />
+    </StyledForm>
+  ) : (
+    <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
   )
 }

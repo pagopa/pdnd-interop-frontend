@@ -25,6 +25,7 @@ type EServiceCreateStep3DocumentsInterfaceProps = {
   data: EServiceReadType
   uploadDescriptorDocument: (document: EServiceDocumentWrite) => Promise<RunActionOutput>
   deleteDescriptorDocument: (documentId: string) => Promise<RunActionOutput>
+  downloadDescriptorDocument: (document: EServiceDocumentRead) => Promise<void>
   activeDescriptorId: string
 }
 
@@ -37,6 +38,7 @@ export function EServiceCreateStep3DocumentsInterface({
   data,
   uploadDescriptorDocument,
   deleteDescriptorDocument,
+  downloadDescriptorDocument,
   activeDescriptorId,
 }: EServiceCreateStep3DocumentsInterfaceProps) {
   const { t } = useTranslation('eservice')
@@ -72,6 +74,10 @@ export function EServiceCreateStep3DocumentsInterface({
     }
   }
 
+  const wrapDownloadDoc = (document: EServiceDocumentRead) => async () => {
+    await downloadDescriptorDocument(document)
+  }
+
   const uploadNewInterfaceDoc = async (data: InputValues) => {
     if (!isEmpty(readDoc)) {
       await deletePreviousInterfaceDoc()
@@ -101,6 +107,7 @@ export function EServiceCreateStep3DocumentsInterface({
       descriptorId={activeDescriptor.id}
       readable={readDoc}
       deleteDocument={deletePreviousInterfaceDoc}
+      downloadDocument={wrapDownloadDoc(activeDescriptor.interface)}
     />
   ) : (
     <Box sx={{ px: 2, py: 2, borderLeft: 4, borderColor: 'primary.main' }} bgcolor="common.white">

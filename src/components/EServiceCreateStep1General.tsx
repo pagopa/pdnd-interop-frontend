@@ -32,6 +32,7 @@ import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
 import { StyledPaper } from './StyledPaper'
+import { Alert } from '@mui/material'
 
 export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentProps> = ({
   forward,
@@ -170,6 +171,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
                   onChange={handleChange}
                   disabled={!isEditable}
                   focusOnMount={isEditable}
+                  sx={{ mt: 3 }}
                 />
 
                 <StyledInputControlledText
@@ -194,16 +196,26 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
                     { label: 'REST', value: 'REST' },
                     { label: 'SOAP', value: 'SOAP' },
                   ]}
+                  row={true}
                 />
 
-                <StyledIntro component="h2" sx={{ my: 4 }}>
-                  {{ title: t('create.step1.attributes.title') }}
+                <StyledIntro component="h2" sx={{ mt: 6, mb: 4 }}>
+                  {{
+                    title: t('create.step1.attributes.title'),
+                    description: t('create.step1.attributes.description'),
+                  }}
                 </StyledIntro>
                 <EServiceAttributeSection
                   attributes={attributes}
                   setAttributes={setAttributes}
                   disabled={!isEditable}
                 />
+
+                {!isEditable && (
+                  <Alert severity="info" sx={{ mt: 4 }}>
+                    {t('create.step1.firstVersionOnlyEditableInfo')}
+                  </Alert>
+                )}
               </StyledPaper>
 
               <StepActions

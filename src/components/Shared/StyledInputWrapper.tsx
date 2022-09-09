@@ -12,7 +12,7 @@ type StyledInputWrapperProps = {
 
 export const StyledInputWrapper: FunctionComponent<StyledInputWrapperProps> = ({
   error,
-  sx = { my: 6 },
+  sx = { my: 4 },
   infoLabel,
   children,
 }) => {

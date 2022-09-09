@@ -17,7 +17,7 @@ import { useClientKind } from '../hooks/useClientKind'
 import { AxiosResponse } from 'axios'
 import { useHistory } from 'react-router-dom'
 import { fetchAllWithLogs } from '../lib/api-utils'
-import { Divider, Grid, Stack } from '@mui/material'
+import { Grid, Stack } from '@mui/material'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { useTranslation } from 'react-i18next'
@@ -117,8 +117,8 @@ export function ClientCreate() {
 
       <Grid container>
         <Grid item xs={8}>
-          <StyledPaper>
-            <StyledForm onSubmit={formik.handleSubmit}>
+          <StyledForm onSubmit={formik.handleSubmit}>
+            <StyledPaper>
               <StyledIntro sx={{ mb: 2, pb: 0 }} component="h2">
                 {{ title: t('create.infoSectionTitle') }}
               </StyledIntro>
@@ -142,9 +142,7 @@ export function ClientCreate() {
                 multiline={true}
               />
 
-              <Divider />
-
-              <StyledIntro sx={{ mt: 8, mb: 4 }} component="h2">
+              <StyledIntro sx={{ my: 4 }} component="h2">
                 {{ title: t('create.clientMembersSectionTitle') }}
               </StyledIntro>
 
@@ -171,19 +169,17 @@ export function ClientCreate() {
                   {t('addBtn', { ns: 'common' })}
                 </StyledButton>
               </Stack>
+            </StyledPaper>
 
-              <Divider />
-
-              <PageBottomActions>
-                <StyledButton variant="contained" type="submit">
-                  {t('create.actions.createLabel')}
-                </StyledButton>
-                <StyledButton variant="text" to={routes.SUBSCRIBE_CLIENT_LIST.PATH}>
-                  {t('create.actions.backToClientsLabel')}
-                </StyledButton>
-              </PageBottomActions>
-            </StyledForm>
-          </StyledPaper>
+            <PageBottomActions>
+              <StyledButton variant="outlined" to={routes.SUBSCRIBE_CLIENT_LIST.PATH}>
+                {t('create.actions.backToClientsLabel')}
+              </StyledButton>
+              <StyledButton variant="contained" type="submit">
+                {t('create.actions.createLabel')}
+              </StyledButton>
+            </PageBottomActions>
+          </StyledForm>
         </Grid>
       </Grid>
     </React.Fragment>

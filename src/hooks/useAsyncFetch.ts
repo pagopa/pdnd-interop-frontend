@@ -65,5 +65,5 @@ export const useAsyncFetch = <T, U = T>(
     }
   }, [jwt, ...useEffectDeps]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  return { data, error, isLoading: isLoading }
+  return { data, error, isLoading }
 }

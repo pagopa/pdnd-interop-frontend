@@ -25,6 +25,7 @@ type EServiceCreateStep3DocumentsDocProps = {
   data: EServiceReadType
   uploadDescriptorDocument: (document: EServiceDocumentWrite) => Promise<RunActionOutput>
   deleteDescriptorDocument: (documentId: string) => Promise<RunActionOutput>
+  downloadDescriptorDocument: (document: EServiceDocumentRead) => Promise<void>
   activeDescriptorId: string
 }
 
@@ -37,6 +38,7 @@ export function EServiceCreateStep3DocumentsDoc({
   data,
   uploadDescriptorDocument,
   deleteDescriptorDocument,
+  downloadDescriptorDocument,
   activeDescriptorId,
 }: EServiceCreateStep3DocumentsDocProps) {
   const { t } = useTranslation(['eservice', 'common'])
@@ -66,6 +68,10 @@ export function EServiceCreateStep3DocumentsDoc({
       delete newDocsObject[id]
       setReadDocs(newDocsObject)
     }
+  }
+
+  const wrapDownloadDoc = (document: EServiceDocumentRead) => async () => {
+    await downloadDescriptorDocument(document)
   }
 
   const uploadNewDoc = async (data: InputValues) => {
@@ -104,6 +110,7 @@ export function EServiceCreateStep3DocumentsDoc({
               descriptorId={(data.activeDescriptor as EServiceDescriptorRead).id}
               readable={readDoc}
               deleteDocument={wrapDeletePreviousDoc(readDoc.id)}
+              downloadDocument={wrapDownloadDoc(readDoc)}
             />
           ))
         ) : (

@@ -6,6 +6,7 @@ import {
   AttributeKey,
   BackendAttribute,
   EServiceDescriptorRead,
+  EServiceDocumentRead,
   EServiceReadType,
   GroupBackendAttribute,
   SingleBackendAttribute,
@@ -22,6 +23,7 @@ import { StyledLink } from './StyledLink'
 import sortBy from 'lodash/sortBy'
 import { formatThousands } from '../../lib/format-utils'
 import { useTranslation } from 'react-i18next'
+import { getDownloadDocumentName } from '../../lib/eservice-utils'
 
 type EServiceContentInfoProps = {
   data: EServiceReadType
@@ -34,7 +36,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
   const activeDescriptor = data.activeDescriptor as EServiceDescriptorRead
 
   // Get all documents actual URL
-  const wrapDownloadDocument = (documentId: string, filename: string) => async () => {
+  const wrapDownloadDocument = (document: EServiceDocumentRead) => async () => {
     const { response, outcome } = (await runAction(
       {
         path: {
@@ -42,7 +44,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
           endpointParams: {
             eserviceId: data.id,
             descriptorId: activeDescriptor.id,
-            documentId,
+            documentId: document.id,
           },
         },
         config: { responseType: 'arraybuffer' },
@@ -51,6 +53,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
     )) as RunActionOutput
 
     if (outcome === 'success') {
+      const filename = getDownloadDocumentName(document)
       downloadFile((response as AxiosResponse).data, filename)
     }
   }
@@ -222,14 +225,11 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
             // },
             {
               label: activeDescriptor.interface.prettyName,
-              onClick: wrapDownloadDocument(
-                activeDescriptor.interface.id,
-                activeDescriptor.interface.name
-              ),
+              onClick: wrapDownloadDocument(activeDescriptor.interface),
             },
             ...activeDescriptor.docs.map((d) => ({
               label: d.prettyName,
-              onClick: wrapDownloadDocument(d.id, d.name),
+              onClick: wrapDownloadDocument(d),
             })),
           ]}
         />

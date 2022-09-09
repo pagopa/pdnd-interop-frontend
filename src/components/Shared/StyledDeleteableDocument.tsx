@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { InputAdornment, Stack, Box } from '@mui/material'
 import {
   Delete as DeleteIcon,
+  Download as DownloadIcon,
   ModeEdit as ModeEditIcon,
   AttachFile as AttachFileIcon,
 } from '@mui/icons-material'
@@ -18,6 +19,7 @@ type StyledDeleteableDocumentComponentProps = {
   readable: EServiceDocumentRead
   isLabelEditable?: boolean
   deleteDocument: () => Promise<void>
+  downloadDocument: (documentId: string, filename: string) => Promise<void>
 }
 
 export function StyledDeleteableDocument({
@@ -26,6 +28,7 @@ export function StyledDeleteableDocument({
   readable,
   isLabelEditable = true,
   deleteDocument,
+  downloadDocument,
 }: StyledDeleteableDocumentComponentProps) {
   const { t } = useTranslation('shared-components')
   const inputRef = useRef<HTMLInputElement>(null)
@@ -74,38 +77,30 @@ export function StyledDeleteableDocument({
   }
 
   return (
-    <Stack
-      direction="row"
-      alignItems="flex-end"
-      justifyContent="space-between"
-      sx={{ mb: 1, p: 2, bgcolor: 'background.default' }}
-    >
-      <Box sx={{ mr: 4, flexShrink: 1 }}>
-        <StyledInputControlledText
-          ref={inputRef}
-          disabled={!canEdit || !isLabelEditable}
-          sx={{ my: 0, minWidth: 400 }}
-          name="prettyName"
-          label={t('styledDeleteableDocument.prettyNameLabel')}
-          value={!canEdit ? fixedValue : newValue}
-          onChange={updateNewValue}
-          onBlur={onBlur}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <AttachFileIcon fontSize="small" />
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Box>
-      <Box sx={{ ml: 4, flexShrink: 0 }}>
+    <Stack direction="row" alignItems="center" justifyContent="space-between">
+      <StyledInputControlledText
+        ref={inputRef}
+        disabled={!canEdit || !isLabelEditable}
+        sx={{ my: 0, width: '100%', flexShrink: 1 }}
+        name="prettyName"
+        label={t('styledDeleteableDocument.prettyNameLabel')}
+        value={!canEdit ? fixedValue : newValue}
+        onChange={updateNewValue}
+        onBlur={onBlur}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <AttachFileIcon fontSize="small" />
+            </InputAdornment>
+          ),
+        }}
+      />
+      <Box sx={{ flexShrink: 0, ml: 1 }}>
         {isLabelEditable && (
           <StyledTooltip title={t('styledDeleteableDocument.editDocumentName')}>
             <StyledButton
               sx={{
-                px: 1,
-                py: 1,
+                p: 1,
                 bgcolor: canEdit ? 'primary.main' : 'transparent',
                 color: canEdit ? 'common.white' : 'primary.main',
               }}
@@ -115,8 +110,13 @@ export function StyledDeleteableDocument({
             </StyledButton>
           </StyledTooltip>
         )}
+        <StyledTooltip title={t('styledDeleteableDocument.downloadDocument')}>
+          <StyledButton sx={{ p: 1, mx: 1 }} onClick={downloadDocument}>
+            <DownloadIcon fontSize="small" />
+          </StyledButton>
+        </StyledTooltip>
         <StyledTooltip title={t('styledDeleteableDocument.deleteDocument')}>
-          <StyledButton sx={{ px: 1, py: 1 }} onClick={deleteDocument}>
+          <StyledButton sx={{ p: 1 }} onClick={deleteDocument}>
             <DeleteIcon fontSize="small" />
           </StyledButton>
         </StyledTooltip>
