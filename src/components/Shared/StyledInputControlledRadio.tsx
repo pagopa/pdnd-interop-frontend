@@ -43,11 +43,7 @@ export function StyledInputControlledRadio({
 
   return (
     <StyledInputWrapper name={name} error={error} sx={sx} infoLabel={infoLabel}>
-      {label && (
-        <FormLabel component="legend" sx={{ color: 'text.secondary' }}>
-          {label}
-        </FormLabel>
-      )}
+      {label && <FormLabel component="legend">{label}</FormLabel>}
       <RadioGroup value={value} onChange={onChange} name={name} row={row}>
         {options.map((o, i) => (
           <FormControlLabel
