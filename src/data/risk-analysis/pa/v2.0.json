@@ -3,7 +3,8 @@
   "questions": [
     {
       "id": "purpose",
-      "type": "radio",
+      "inputType": "radio",
+      "dataType": "single",
       "label": {
         "it": "Indicare per quale finalità si intende accedere ai dati messi a disposizione con la fruizione del presente E-service (richiesto)",
         "en": "TODO (required)"
@@ -34,9 +35,10 @@
     },
     {
       "id": "institutionalPurpose",
-      "type": "text",
+      "inputType": "text",
+      "dataType": "freeText",
       "label": {
-        "it": "Specificare il fine perseguito per fini istitutzionali che non richiedano prestazioni di elaborazioni aggiuntive (richiesto)",
+        "it": "Specificare il fine perseguito per fini istituzionali che non richiedano prestazioni di elaborazioni aggiuntive (richiesto)",
         "en": "TODO (required)"
       },
       "defaultValue": "",
@@ -50,7 +52,8 @@
     },
     {
       "id": "otherPurpose",
-      "type": "text",
+      "inputType": "text",
+      "dataType": "freeText",
       "label": {
         "it": "Specificare il fine perseguito (richiesto)",
         "en": "TODO (required)"
@@ -66,9 +69,10 @@
     },
     {
       "id": "personalDataTypes",
-      "type": "checkbox",
+      "inputType": "checkbox",
+      "dataType": "multi",
       "label": {
-        "it": "Indicare la tipologia di dati personali cui si avrà accesso attraverso la fruizione del presente E-service, tenuto conto delle definizioni contenute nell’art. 4, nn. 1, 13, 14 e 15 del GDPR: (richiesto)",
+        "it": "Indicare la tipologia di dati personali cui si avrà accesso attraverso la fruizione del presente E-service, tenuto conto delle definizioni contenute nell’art. 4, nn. 1, 13, 14 e 15 del GDPR (richiesto)",
         "en": "TODO"
       },
       "options": [
@@ -121,7 +125,8 @@
     },
     {
       "id": "otherPersonalDataTypes",
-      "type": "text",
+      "inputType": "text",
+      "dataType": "freeText",
       "label": {
         "it": "Specificare la tipologia di dati personali (richiesto)",
         "en": "TODO (required)"
@@ -137,7 +142,8 @@
     },
     {
       "id": "legalBasis",
-      "type": "checkbox",
+      "inputType": "checkbox",
+      "dataType": "multi",
       "label": {
         "it": "Indicare sulla base di quale, fra le seguenti basi giuridiche ex art. 6 del GDPR, ritiene di essere titolato ad accedere ai dati personali messi a disposizione con la fruizione dell’E-Service (richiesto, scelta multipla)",
         "en": "Based on GDPR ex art. 6, state on which legal basis you think you are entitled to access the personal data provided with the access to this E-Service (required, multiple choice)"
@@ -197,7 +203,8 @@
     },
     {
       "id": "legalObligationReference",
-      "type": "text",
+      "inputType": "text",
+      "dataType": "freeText",
       "label": {
         "it": "Inserire riferimento normativo per adempimento di un obbligo legale (richiesto)",
         "en": "State the normative reference towards the fulfillment of a legal obligation (required)"
@@ -217,7 +224,8 @@
     },
     {
       "id": "legalBasisPublicInterest",
-      "type": "radio",
+      "inputType": "radio",
+      "dataType": "single",
       "label": {
         "it": "Specificare le motivazioni di esecuzione di un compito di interesse pubblico o connesso all'esercizio di pubblici poteri di cui sei investito (richiesto)",
         "en": "TODO"
@@ -268,7 +276,8 @@
     },
     {
       "id": "ruleOfLawText",
-      "type": "text",
+      "inputType": "text",
+      "dataType": "freeText",
       "label": {
         "it": "Inserire norma di legge o di regolamento applicabile (richiesto)",
         "en": "TODO (required)"
@@ -288,7 +297,8 @@
     },
     {
       "id": "administrativeActText",
-      "type": "text",
+      "inputType": "text",
+      "dataType": "freeText",
       "label": {
         "it": "Inserire il riferimento dell’atto amministrativo generale applicabile (richiesto)",
         "en": "TODO (required)"
@@ -308,7 +318,8 @@
     },
     {
       "id": "publicInterestTaskText",
-      "type": "text",
+      "inputType": "text",
+      "dataType": "freeText",
       "label": {
         "it": "Inserire il compito svolto o il pubblico il riferimento dell’atto amministrativo generale applicabile (richiesto)",
         "en": "TODO (required)"
@@ -328,7 +339,8 @@
     },
     {
       "id": "knowsDataQuantity",
-      "type": "radio",
+      "inputType": "radio",
+      "dataType": "single",
       "label": {
         "it": "Indicare se si conosce la quantità di dati personali di cui si entrerà in possesso attraverso la fruizione del presente E-Service (richiesto)",
         "en": "Do you know how much personal data you will access through the subscription of this E-Service? (required)"
@@ -361,7 +373,8 @@
     },
     {
       "id": "dataQuantity",
-      "type": "select-one",
+      "inputType": "select-one",
+      "dataType": "single",
       "label": {
         "it": "Fascia di riferimento (richiesto)",
         "en": "Reference range (required)"
@@ -403,7 +416,8 @@
     },
     {
       "id": "deliveryMethod",
-      "type": "select-one",
+      "inputType": "select-one",
+      "dataType": "single",
       "label": {
         "it": "Modalità di erogazione (richiesto)",
         "en": "Delivery mode (required)"
@@ -448,7 +462,8 @@
     },
     {
       "id": "policyProvided",
-      "type": "radio",
+      "inputType": "radio",
+      "dataType": "single",
       "label": {
         "it": "Indicare se è stata fornita un’informativa all’interessato circa l’accesso ai dati cui si intende accedere/che si intende ricevere tramite la fruizione dell’E-Service e le relative attività di trattamento effettuate dal Fruitore: (richiesto)",
         "en": "TODO (required)"
@@ -469,7 +484,8 @@
     },
     {
       "id": "reasonPolicyNotProvided",
-      "type": "text",
+      "inputType": "text",
+      "dataType": "freeText",
       "label": {
         "it": "Inserire le ragioni per cui non è stata fornita informativa specifica ai sensi dell’art. 14, paragrafo 5, del GDPR (richiesto)",
         "en": "TODO (required)"
@@ -489,24 +505,20 @@
     },
     {
       "id": "confirmPricipleIntegrityAndDiscretion",
-      "type": "checkbox",
+      "inputType": "switch",
+      "dataType": "single",
       "label": {
         "it": "Confermare se - in linea con il principio di integrità e riservatezza di cui all’art. 5, paragrafo 1, lett. f), del GDPR - sono state adottate tutte le misure tecniche e organizzative necessarie a garantire un’adeguata sicurezza dei dati personali cui si avrà accesso in sede di fruizione del presente E-service, compresa la protezione da trattamenti non autorizzati o illeciti e dalla perdita, dalla distruzione o dal danno accidentali. (richiesto)",
         "en": "TODO (required)"
       },
-      "options": [
-        {
-          "label": { "it": "Confermo", "en": "Confirm" },
-          "value": "YES"
-        }
-      ],
-      "defaultValue": [],
+      "defaultValue": false,
       "required": true,
       "dependencies": []
     },
     {
       "id": "doneDpia",
-      "type": "radio",
+      "inputType": "radio",
+      "dataType": "single",
       "label": {
         "it": "Indicare se è stata fatta un’apposita valutazione di impatto (c.d. DPIA) relativamente alle attività di trattamento dei dati personali che saranno effettuate attraverso la fruizione del presente E-Service (richiesto)",
         "en": "Have you done an impact assessment (c.d. DPIA) with reference to the personal data handling activities that will be carried out through the fruition of the present E-Service? (required)"
@@ -531,7 +543,8 @@
     },
     {
       "id": "confirmedDoneDpia",
-      "type": "radio",
+      "inputType": "radio",
+      "dataType": "single",
       "label": {
         "it": "Indicare se si è proceduto alla consultazione preventiva al Garante per la protezione dei dati personali (richiesto)",
         "en": "TODO"
@@ -561,7 +574,8 @@
     },
     {
       "id": "dataRetentionPeriod",
-      "type": "checkbox",
+      "inputType": "switch",
+      "dataType": "single",
       "label": {
         "it": "In caso di download dei dati cui si avrà accesso attraverso il presente E-service, dichiarare se è stato individuato un periodo di conservazione dei dati individuato: (richiesto)",
         "en": "TODO (required)"
@@ -570,19 +584,14 @@
         "it": "NB: si ricorda che il download del dato non consente di disporre di un dato aggiornato, e quindi di agire nel rispetto del principio di esattezza dei dati di cui all’art. 5, paragrafo 1, lettera d), del GDPR. Pertanto, si invita a limitare i casi di download del dato alle ipotesi in cui tale download è strettamente necessario e giustificato dalla finalità del trattamento. Si ricorda, altresì, che, ai sensi dell’art. 5, paragrafo 1, lett. b) ed e) del GDPR (principio della limitazione della finalità e della conservazione) , i dati possono essere conservati unicamente per il tempo strettamente necessario al perseguimento delle finalità per cui sono stati raccolti, e che le stesse siano determinate, esplicite e legittime.",
         "en": "TODO"
       },
-      "options": [
-        {
-          "label": { "it": "Confermo", "en": "Confirm" },
-          "value": "YES"
-        }
-      ],
-      "defaultValue": [],
+      "defaultValue": false,
       "required": true,
       "dependencies": []
     }, 
     {
       "id": "purposePursuit",
-      "type": "radio",
+      "inputType": "radio",
+      "dataType": "single",
       "label": {
         "it": "Ai sensi del principio di minimizzazione di cui all’art. 5, paragrafo 1, let. c) del GDPR, per perseguire la finalità di cui al punto 1, indicare se: (richiesto)",
         "en": "TODO"
@@ -609,7 +618,8 @@
     },
     {
       "id": "checkedExistenceMereCorrectnessInteropCatalogue",
-      "type": "checkbox",
+      "inputType": "switch",
+      "dataType": "single",
       "label": {
         "it": "Confermare se è stato verificato se sul Catalogo API è presente un altro E-Service in grado di svolgere questa attività di mera verifica (che non preveda ex novo la comunicazione di altri informazioni/dati personali – richiesto)",
         "en": "Have you checked if there is another E-Service in the Catalog that allows you to carry out this simple check task (in case it does not require the ex novo transmission of other information/personal data)? (required)"
@@ -618,14 +628,8 @@
         "it": "Se non sì è confermato, prima di procedere con l’invio della richiesta di accesso al presente E-service per la finalità indicata al punto 1, si invita a verificare se sul Catalogo API è presente un altro E-service che consenta di svolgere la mera attività di verifica di informazioni/dati personali di cui si necessita",
         "en": "TODO"
       },
-      "options": [
-        {
-          "label": { "it": "Confermo", "en": "Confirm" },
-          "value": "YES",
-          "blocking": true
-        }
-      ],
-      "defaultValue": [],
+      "blocking": true,
+      "defaultValue": false,
       "required": true,
       "dependencies": [
         {
@@ -636,7 +640,8 @@
     },
     {
       "id": "checkedAllDataNeeded",
-      "type": "radio",
+      "inputType": "radio",
+      "dataType": "single",
       "label": {
         "it": "Indicare se è stato verificato se occorrono necessariamente tutte le informazioni e i dati personali messi a disposizione con il presente E-Service (richiesto)",
         "en": "Did you check if it necessary for you to access all the information and personal data provided with the present E-Service? (required)"
@@ -666,7 +671,8 @@
     },
     {
       "id": "checkedExistenceMinimalDataInteropCatalogue",
-      "type": "radio",
+      "inputType": "radio",
+      "dataType": "single",
       "label": {
         "it": "Indicare se è stato verificato se occorrono necessariamente tutte le informazioni e i dati personali messi a disposizione con il presente E-service (richiesto)",
         "en": "TODO"
@@ -705,7 +711,8 @@
     },
     {
       "id": "usesThirdPartyData",
-      "type": "radio",
+      "inputType": "radio",
+      "dataType": "single",
       "label": {
         "it": "Indicare se si accede a dati su richiesta/per conto di terzi soggetti (richiesto)",
         "en": "TODO"
@@ -726,7 +733,8 @@
     },
     {
       "id": "doesUseThirdPartyData",
-      "type": "radio",
+      "inputType": "radio",
+      "dataType": "single",
       "label": {
         "it": "Indicare se si accede a dati per conto di un soggetto di cui all’art. 2, comma 2, lett. a) del CAD (richiesto)",
         "en": "TODO"
@@ -752,21 +760,15 @@
     },
     {
       "id": "declarationConfirmGDPR",
-      "type": "checkbox",
+      "inputType": "switch",
+      "dataType": "single",
       "label": {
         "it": "Dichiara di essere consapevole degli obblighi di cui al GDPR in tema di trattamento di dati personali e ​​dichiara di essere in grado di comprovarne il rispetto (principio di responsabilizzazione di cui all’art. 5, paragrafo 2, del GDPR). (richiesto)",
         "en": "TODO"
       },
-      "options": [
-        {
-          "label": { "it": "Confermo", "en": "Confirm" },
-          "value": "YES"
-        }
-      ],
-      "defaultValue": [],
+      "defaultValue": false,
       "required": true,
       "dependencies": []
     }
   ]
 }
-
