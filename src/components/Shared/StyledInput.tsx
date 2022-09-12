@@ -12,6 +12,10 @@ import {
   StyledInputControlledSelectProps,
 } from './StyledInputControlledSelect'
 import {
+  StyledInputControlledSwitch,
+  StyledInputControlledSwitchProps,
+} from './StyledInputControlledSwitch'
+import {
   StyledInputControlledText,
   StyledInputControlledTextProps,
 } from './StyledInputControlledText'
@@ -21,12 +25,14 @@ type StyledInput =
   | StyledInputControlledRadioProps
   | StyledInputControlledCheckboxMultipleProps
   | StyledInputControlledSelectProps
+  | StyledInputControlledSwitchProps
 
 function match<T>(
   onText: (props: StyledInputControlledTextProps) => T,
   onRadio: (props: StyledInputControlledRadioProps) => T,
   onCheckbox: (props: StyledInputControlledCheckboxMultipleProps) => T,
-  onSelect: (props: StyledInputControlledSelectProps) => T
+  onSelect: (props: StyledInputControlledSelectProps) => T,
+  onSwitch: (props: StyledInputControlledSwitchProps) => T
 ) {
   return (props: StyledInput) => {
     switch (props.type) {
@@ -38,6 +44,8 @@ function match<T>(
         return onCheckbox(props)
       case 'select-one':
         return onSelect(props)
+      case 'switch':
+        return onSwitch(props)
       default:
         return null
     }
@@ -48,5 +56,6 @@ export const StyledInput = match(
   (props) => <StyledInputControlledText {...props} />,
   (props) => <StyledInputControlledRadio {...props} />,
   (props) => <StyledInputControlledCheckboxMultiple {...props} />,
-  (props) => <StyledInputControlledSelect {...props} />
+  (props) => <StyledInputControlledSelect {...props} />,
+  (props) => <StyledInputControlledSwitch {...props} />
 )
