@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { StyledInput } from '../components/Shared/StyledInput'
 import { FormikProps, useFormik } from 'formik'
 import { TFunction, useTranslation } from 'react-i18next'
-import { string, mixed, object, boolean, AnyObjectSchema } from 'yup'
+import { string, mixed, object, boolean, AnyObjectSchema, array } from 'yup'
 import { ObjectShape } from 'yup/lib/object'
 import { StyledInputControlledTextProps } from '../components/Shared/StyledInputControlledText'
 import { LangContext } from '../lib/context'
@@ -11,6 +11,8 @@ import { StyledInputControlledCheckboxMultipleProps } from '../components/Shared
 import { StyledInputControlledSelectProps } from '../components/Shared/StyledInputControlledSelect'
 import { StyledInputControlledSwitchProps } from '../components/Shared/StyledInputControlledSwitch'
 import { LangCode } from '../../types'
+import { StyledButton } from '../components/Shared/StyledButton'
+import { FE_URL } from '../lib/env'
 
 type MultiLangEntry = {
   it: string
@@ -62,8 +64,7 @@ type QuestionV2 = {
    *
    * ```ts
    * {
-   *   option: "PREPARE_ICE_CREAM"
-   *   dependencies: [
+   *   PREPARE_ICE_CREAM: [
    *     {
    *       id: "hasMilk",
    *       value: false,
@@ -77,14 +78,14 @@ type QuestionV2 = {
    * will be disabled for this question
    *
    */
-  optionsDependencies: Array<{
-    option: string
-    dependencies: Array<{
+  optionsDependencies: Record<
+    string,
+    Array<{
       id: string
       value: unknown
       action: 'disable'
     }>
-  }>
+  >
   infoLabel?: MultiLangEntry
   required: boolean
 }
@@ -97,22 +98,41 @@ export type RiskAnalysis = {
 }
 
 type GetUpdatedQuestions = (values: Answers, riskAnalysis: RiskAnalysis) => Questions
+
 type GetUpdatedValidation = (questionsObj: Questions, t: TFunction) => AnyObjectSchema
+
 type BuildForm = (
   questions: Questions,
   formik: FormikProps<Answers>,
   lang: LangCode,
   t: TFunction
-) => Array<JSX.Element>
+) => { formComponents: Array<JSX.Element>; isSubmitBtnDisabled: boolean }
 
 type DynamicFormOperations = Record<
   string,
   {
     getUpdatedQuestions: GetUpdatedQuestions
+    /**
+     * Returns the updated yup validation schema.
+     *
+     * @param questionsObj - the actual updated questions visible to the user
+     * @param t - the TFunction of nexti18 internalization library
+     *
+     * @returns The updated object schema
+     * ```ts
+     *  object({
+     *    [question.id]: ObjectSchema | BooleanSchema // etc...
+     *  })
+     *
+     * ```
+     * */
     getUpdatedValidation: GetUpdatedValidation
     buildForm: BuildForm
   }
 >
+
+type Questions = Record<string, Question>
+type Answers = Record<string, unknown>
 
 const dynamicFormOperationsVersions: DynamicFormOperations = {
   '1.0': {
@@ -194,7 +214,7 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
     buildForm: (questions, formik, lang, t) => {
       const questionKeys = Object.keys(questions)
 
-      return questionKeys.map((id, i) => {
+      const formComponents = questionKeys.map((id, i) => {
         const { type, label, options, infoLabel, required } = questions[id] as QuestionV1
 
         const untypedProps = {
@@ -221,20 +241,165 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
         const sx = questionKeys.length - 1 === i ? { mb: 0 } : undefined
         return <StyledInput key={i} {...props} sx={sx} />
       })
+
+      return { formComponents, isSubmitBtnDisabled: false }
     },
   },
-  // TODO: V2 Business logic
   '2.0': {
     getUpdatedQuestions: (values, riskAnalysis) => {
-      return {}
+      const questions = riskAnalysis.questions as Array<QuestionV2>
+
+      // Filters all the questions that not satisfies the dependency inside the "dependencies" property
+      const updatedQuestions = questions.filter(({ dependencies }) => {
+        function satisfiesDependency(dep: QuestionV2['dependencies'][0]) {
+          if (Array.isArray(values[dep.id])) {
+            return (values[dep.id] as Array<unknown>).includes(dep.value)
+          }
+          if (Array.isArray(dep.value)) {
+            return dep.value.includes(values[dep.id])
+          }
+          return values[dep.id] === dep.value
+        }
+        // If length of dependencies array is 0 the "every" method returns true
+        return dependencies.every(satisfiesDependency)
+      })
+
+      // Array<Question> -> Record<"id", Question>
+      return updatedQuestions.reduce((acc, next) => ({ ...acc, [next.id]: next }), {} as Questions)
     },
 
-    getUpdatedValidation: (questionsObj, t) => {
-      return object()
+    getUpdatedValidation: (questionsObj) => {
+      const text = string().required()
+      const radio = string().required()
+      const selectOne = string().required()
+      const checkbox = array(string())
+      const switchSchemaValidation = boolean().required()
+
+      const validationOptions = {
+        text,
+        radio,
+        'select-one': selectOne,
+        checkbox,
+        switch: switchSchemaValidation,
+      }
+
+      const schema = Object.keys(questionsObj).reduce((acc, next) => {
+        const id: string = next
+        const question = questionsObj[id] as QuestionV2
+        const questionType = question.inputType as keyof typeof validationOptions
+
+        const validationOption = validationOptions[questionType]
+
+        return { ...acc, [id]: validationOption }
+      }, {} as ObjectShape)
+
+      return object(schema)
     },
 
     buildForm: (questions, formik, lang, t) => {
-      return [<></>]
+      let questionIds = Object.keys(questions)
+      let isSubmitBtnDisabled = false
+
+      // find (if ther's any) the id of the question that "blocks" and force the user
+      // to go check the e-service catalog
+      const isUserForcedToCheckEServiceCatalogQuestionId = questionIds.find((questionId) => {
+        const options = (questions[questionId] as QuestionV2)?.options
+
+        if (options) {
+          for (let i = 0; i < options.length; i++) {
+            const option = options[i]
+
+            if (
+              option?.forceUserCheckEServiceCatalog &&
+              formik.values[questionId] === option.value
+            ) {
+              return true
+            }
+          }
+        }
+      })
+
+      // if isUserForcedToCheckEServiceCatalogQuestionId is truthy means that there is a blocking
+      // option, if so it cuts the questionsId array
+      if (isUserForcedToCheckEServiceCatalogQuestionId) {
+        const indexBlockingQuestionId = questionIds.findIndex(
+          (id) => id === isUserForcedToCheckEServiceCatalogQuestionId
+        )
+        questionIds = questionIds.slice(0, indexBlockingQuestionId + 1)
+      }
+
+      const formComponents = questionIds.map((id, i) => {
+        const { inputType, label, options, infoLabel, required, optionsDependencies } = questions[
+          id
+        ] as QuestionV2
+
+        function makeOptions() {
+          return (
+            options &&
+            options.map((o) => {
+              const option = { value: o.value, label: o.label[lang], disabled: false }
+
+              optionsDependencies &&
+                optionsDependencies[o.value]?.forEach((dep) => {
+                  if (
+                    formik.values[dep.id] === dep.value ||
+                    (Array.isArray(dep.value) && dep.value.includes(formik.values[dep.id]))
+                  ) {
+                    switch (dep.action) {
+                      case 'disable':
+                        option.disabled = true
+                    }
+                  }
+                })
+
+              return option
+            })
+          )
+        }
+
+        const untypedProps = {
+          name: id,
+          value: formik.values[id],
+          type: inputType,
+          setFieldValue: formik.setFieldValue,
+          onChange: formik.handleChange,
+          label: label[lang],
+          options: makeOptions(),
+          error: formik.errors[id],
+          infoLabel: infoLabel && infoLabel[lang],
+          required,
+          emptyLabel: t('create.step2.emptyLabel'),
+        }
+
+        const props = {
+          text: untypedProps as StyledInputControlledTextProps,
+          radio: untypedProps as StyledInputControlledRadioProps,
+          checkbox: untypedProps as StyledInputControlledCheckboxMultipleProps,
+          'select-one': untypedProps as StyledInputControlledSelectProps,
+          switch: untypedProps as StyledInputControlledSwitchProps,
+        }[inputType]
+
+        const sx = questionIds.length - 1 === i ? { mb: 0 } : undefined
+        return <StyledInput key={id} {...props} sx={sx} />
+      })
+
+      // Add the button that redirects to the e-service catalog if there's any blocking question
+      if (isUserForcedToCheckEServiceCatalogQuestionId) {
+        isSubmitBtnDisabled = true
+
+        formComponents.push(
+          <StyledButton
+            key={'button' + isUserForcedToCheckEServiceCatalogQuestionId}
+            sx={{ mt: 2 }}
+            variant="contained"
+            onClick={() => window.open(FE_URL, '_blank')}
+          >
+            Salva e vai sul Catalogo API
+          </StyledButton>
+        )
+      }
+
+      return { formComponents, isSubmitBtnDisabled }
     },
   },
 }
@@ -248,9 +413,6 @@ function getFormOperations(version: string) {
 
   return dynamicFormOperations
 }
-
-type Questions = Record<string, Question>
-type Answers = Record<string, unknown>
 
 function useDynamicRiskAnalysisForm(
   riskAnalysisConfig: RiskAnalysis,
@@ -348,9 +510,14 @@ function useDynamicRiskAnalysisForm(
   ])
   /* eslint-enable react-hooks/exhaustive-deps */
 
-  const formComponents = dynamicFormOperations.buildForm(questions, formik, lang, t)
+  const { formComponents, isSubmitBtnDisabled } = dynamicFormOperations.buildForm(
+    questions,
+    formik,
+    lang,
+    t
+  )
 
-  return { formik, formComponents }
+  return { formik, isSubmitBtnDisabled, formComponents }
 }
 
 export default useDynamicRiskAnalysisForm

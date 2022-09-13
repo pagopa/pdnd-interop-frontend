@@ -2,8 +2,8 @@ import React, { FunctionComponent, useEffect } from 'react'
 import { ActiveStepProps } from '../hooks/useActiveStep'
 import { StepActions } from './Shared/StepActions'
 import { StyledForm } from './Shared/StyledForm'
-// import _riskAnalysisConfig from '../data/risk-analysis/pa/v2.0.json'
-import _riskAnalysisConfig from '../data/risk-analysis/v1.0.json'
+import _riskAnalysisConfig from '../data/risk-analysis/pa/v2.0.json'
+// import _riskAnalysisConfig from '../data/risk-analysis/v1.0.json'
 import { RunActionOutput, useFeedback } from '../hooks/useFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { Purpose, PurposeRiskAnalysisFormAnswers } from '../../types'
@@ -49,7 +49,10 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
     }
   }
 
-  const { formik, formComponents } = useDynamicRiskAnalysisForm(riskAnalysisConfig, handleSubmit)
+  const { formik, isSubmitBtnDisabled, formComponents } = useDynamicRiskAnalysisForm(
+    riskAnalysisConfig,
+    handleSubmit
+  )
 
   useEffect(() => {
     // If there is data on the server
@@ -77,7 +80,11 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
 
       <StepActions
         back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
-        forward={{ label: t('create.forwardWithSaveBtn'), type: 'submit' }}
+        forward={{
+          label: t('create.forwardWithSaveBtn'),
+          disabled: isSubmitBtnDisabled,
+          type: 'submit',
+        }}
       />
     </StyledForm>
   ) : (
