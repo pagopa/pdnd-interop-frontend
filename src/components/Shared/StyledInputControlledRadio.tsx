@@ -47,7 +47,7 @@ export function StyledInputControlledRadio({
       <RadioGroup value={value} onChange={onChange} name={name} row={row}>
         {options.map((o, i) => (
           <FormControlLabel
-            disabled={disabled}
+            disabled={disabled || o?.disabled}
             key={i}
             value={o.value}
             control={<Radio />}

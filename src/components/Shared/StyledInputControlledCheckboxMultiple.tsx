@@ -58,7 +58,12 @@ export function StyledInputControlledCheckboxMultiple({
             disabled={disabled}
             key={i}
             control={
-              <Checkbox checked={value.includes(o.value)} onChange={onChange} name={o.value} />
+              <Checkbox
+                checked={value.includes(o.value)}
+                onChange={onChange}
+                name={o.value}
+                disabled={o?.disabled}
+              />
             }
             label={o.label}
           />

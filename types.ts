@@ -896,11 +896,13 @@ export type InputSelectOption = {
 export type InputRadioOption = {
   label: string
   value: string
+  disabled?: boolean
 }
 
 export type InputCheckboxOption = {
   label: string
   value: string
+  disabled?: boolean
 }
 
 /*
