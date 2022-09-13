@@ -37,6 +37,9 @@
     // be explicit. This also means that every exported React Component
     // should explicitly have a : JSX.Element as a return type.
     // This is too bothersome. So, turning this rule off
-    "@typescript-eslint/explicit-module-boundary-types": "off"
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+
+    // Disables the warning using the no null assertion
+    "@typescript-eslint/no-non-null-assertion": "off"
   }
 }
