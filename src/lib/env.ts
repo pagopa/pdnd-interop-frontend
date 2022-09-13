@@ -14,9 +14,8 @@ export const FE_LOGIN_URL = (
   isProduction ? PAGOPA_ENV.SELFCARE_LOGIN_URL : DEV_SELFCARE_LOGIN_URL
 ) as string
 export const PUBLIC_URL = process.env.PUBLIC_URL
-export const FE_URL = isProduction
-  ? `${window.location.origin}${PUBLIC_URL}`
-  : `${DEV_API_HOST_URL}${PUBLIC_URL}`
+export const FE_URL = `${window.location.origin}${PUBLIC_URL}`
+
 export const INTEROP_RESOURCES_BASE_URL = isProduction
   ? PAGOPA_ENV.INTEROP_RESOURCES_BASE_URL
   : DEV_INTEROP_RESOURCES_BASE_URL
