@@ -511,6 +511,16 @@
         "it": "Confermare se - in linea con il principio di integrità e riservatezza di cui all’art. 5, paragrafo 1, lett. f), del GDPR - sono state adottate tutte le misure tecniche e organizzative necessarie a garantire un’adeguata sicurezza dei dati personali cui si avrà accesso in sede di fruizione del presente E-service, compresa la protezione da trattamenti non autorizzati o illeciti e dalla perdita, dalla distruzione o dal danno accidentali. (richiesto)",
         "en": "TODO (required)"
       },
+      "options": [
+        {
+          "label": {"it": "Confermo", "en": "Confirm"},
+          "value": true
+        },
+        {
+          "label": {"it": "Nego", "en": "Deny"},
+          "value": false
+        }
+      ],
       "defaultValue": false,
       "required": true,
       "dependencies": []
@@ -584,6 +594,16 @@
         "it": "NB: si ricorda che il download del dato non consente di disporre di un dato aggiornato, e quindi di agire nel rispetto del principio di esattezza dei dati di cui all’art. 5, paragrafo 1, lettera d), del GDPR. Pertanto, si invita a limitare i casi di download del dato alle ipotesi in cui tale download è strettamente necessario e giustificato dalla finalità del trattamento. Si ricorda, altresì, che, ai sensi dell’art. 5, paragrafo 1, lett. b) ed e) del GDPR (principio della limitazione della finalità e della conservazione) , i dati possono essere conservati unicamente per il tempo strettamente necessario al perseguimento delle finalità per cui sono stati raccolti, e che le stesse siano determinate, esplicite e legittime.",
         "en": "TODO"
       },
+      "options": [
+        {
+          "label": {"it": "Confermo", "en": "Confirm"},
+          "value": true
+        },
+        {
+          "label": {"it": "Nego", "en": "Deny"},
+          "value": false
+        }
+      ],
       "defaultValue": false,
       "required": true,
       "dependencies": []
@@ -628,7 +648,17 @@
         "it": "Se non sì è confermato, prima di procedere con l’invio della richiesta di accesso al presente E-service per la finalità indicata al punto 1, si invita a verificare se sul Catalogo API è presente un altro E-service che consenta di svolgere la mera attività di verifica di informazioni/dati personali di cui si necessita",
         "en": "TODO"
       },
-      "blocking": true,
+      "options": [
+        {
+          "label": {"it": "Confermo", "en": "Confirm"},
+          "value": true
+        },
+        {
+          "label": {"it": "Nego", "en": "Deny"},
+          "value": false,
+          "forceUserCheckEServiceCatalog": true
+        }
+      ],
       "defaultValue": false,
       "required": true,
       "dependencies": [
@@ -689,7 +719,7 @@
         {
           "label": { "it": "No", "en": "No" },
           "value": "NO",
-          "blocking": true
+          "forceUserCheckEServiceCatalog": true
         }
       ],
       "defaultValue": "NO",
@@ -766,6 +796,17 @@
         "it": "Dichiara di essere consapevole degli obblighi di cui al GDPR in tema di trattamento di dati personali e ​​dichiara di essere in grado di comprovarne il rispetto (principio di responsabilizzazione di cui all’art. 5, paragrafo 2, del GDPR). (richiesto)",
         "en": "TODO"
       },
+      "options": [
+        {
+          "label": {"it": "Confermo", "en": "Confirm"},
+          "value": true
+        },
+        {
+          "label": {"it": "Nego", "en": "Deny"},
+          "value": false,
+          "forceUserCheckEServiceCatalog": true
+        }
+      ],
       "defaultValue": false,
       "required": true,
       "dependencies": []
