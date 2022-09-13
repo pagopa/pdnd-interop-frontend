@@ -106,7 +106,7 @@
         },
         {
           "label": {
-            "it": "Dati giudiziari ex art. 10 del GDPR",
+            "it": "Dati giudiziari ex art. 10 del GDPR (es. provvedimenti penali di condanna definitivi, liberazione condizionale, divieto od obbligo di soggiorno, misure alternative alla detenzione)",
             "en": "TODO"
           },
           "value": "GDPR_ART_10"
@@ -120,7 +120,7 @@
         }
       ],
       "defaultValue": [],
-      "required": false,
+      "required": true,
       "dependencies": []
     },
     {
@@ -194,12 +194,7 @@
       ],
       "defaultValue": [],
       "required": true,
-      "dependencies": [
-        {
-          "id": "usesPersonalData",
-          "value": "YES"
-        }
-      ]
+      "dependencies": []
     },
     {
       "id": "legalObligationReference",
@@ -261,18 +256,15 @@
           "value": "PUBLIC_INTEREST"
         }
       ],
-      "optionsDependencies": [
-        {
-          "option": "PUBLIC_INTEREST_TASK",
-          "dependencies": [
-            {
-              "id": "personalDataTypes",
-              "value": "GDPR_ART_9",
-              "action": "disable"
-            }
-          ]
-        }
-      ]
+      "optionsDependencies": {
+        "PUBLIC_INTEREST_TASK": [
+          {
+            "id": "personalDataTypes",
+            "value": "GDPR_ART_9",
+            "action": "disable"
+          }
+        ]
+      }
     },
     {
       "id": "ruleOfLawText",
@@ -673,37 +665,6 @@
       "inputType": "radio",
       "dataType": "single",
       "label": {
-        "it": "Indicare se è stato verificato se occorrono necessariamente tutte le informazioni e i dati personali messi a disposizione con il presente E-Service (richiesto)",
-        "en": "Did you check if it necessary for you to access all the information and personal data provided with the present E-Service? (required)"
-      },
-      "infoLabel": {
-        "it": "In caso di risposta negativa, si invita a verificare se sul Catalogo API è presente un altro E-service che consenta di accedere alle sole informazioni/dati personali di cui si necessita",
-        "en": "TODO"
-      },
-      "options": [
-        {
-          "label": { "it": "Sì", "en": "Yes" },
-          "value": "YES"
-        },
-        {
-          "label": { "it": "No", "en": "No" },
-          "value": "NO"
-        }
-      ],
-      "defaultValue": "NO",
-      "required": true,
-      "dependencies": [
-        {
-          "id": "purposePursuit",
-          "value": "NEW_PERSONAL_DATA"
-        }
-      ]
-    },
-    {
-      "id": "checkedExistenceMinimalDataInteropCatalogue",
-      "inputType": "radio",
-      "dataType": "single",
-      "label": {
         "it": "Indicare se è stato verificato se occorrono necessariamente tutte le informazioni e i dati personali messi a disposizione con il presente E-service (richiesto)",
         "en": "TODO"
       },
@@ -726,16 +687,8 @@
       "required": true,
       "dependencies": [
         {
-          "id": "usesPersonalData",
-          "value": "YES"
-        },
-        {
           "id": "purposePursuit",
           "value": "NEW_PERSONAL_DATA"
-        },
-        {
-          "id": "checkedAllDataNeeded",
-          "value": "NO"
         }
       ]
     },
