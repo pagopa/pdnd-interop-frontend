@@ -17,26 +17,79 @@ type MultiLangEntry = {
   en: string
 }
 
-type Dependency = {
-  id: string
-  value: unknown
-}
-
-export type Option = {
-  label: MultiLangEntry
-  value: string
-}
-
-export type Question = {
+type QuestionV1 = {
   id: string
   label: MultiLangEntry
   defaultValue: unknown
-  options?: Array<Option>
-  dependencies: Dependency[]
-  type: 'text' | 'radio' | 'checkbox' | 'select-one' | 'switch'
+  options?: Array<{
+    label: MultiLangEntry
+    value: string
+  }>
+  dependencies: Array<{
+    id: string
+    value: unknown
+  }>
+  type: 'text' | 'radio' | 'checkbox' | 'select-one'
   infoLabel?: MultiLangEntry
   required: boolean
 }
+
+type QuestionV2 = {
+  id: string
+  /**
+   * The HTML5 input type
+   */
+  inputType: 'text' | 'radio' | 'checkbox' | 'select-one' | 'switch'
+  /**
+   * Used for backend validation
+   */
+  dataType: 'single' | 'multi' | 'freeText'
+  label: MultiLangEntry
+  defaultValue: unknown
+  options?: Array<{
+    label: MultiLangEntry
+    value: string
+    forceUserCheckEServiceCatalog?: boolean
+  }>
+  dependencies: Array<{
+    id: string
+    value: unknown
+  }>
+  /**
+   * Declares the dependency of the state of one of its own option if the user
+   * sets a specific value in another question.
+   * EX:
+   *
+   * ```ts
+   * {
+   *   option: "PREPARE_ICE_CREAM"
+   *   dependencies: [
+   *     {
+   *       id: "hasMilk",
+   *       value: false,
+   *       action: "disable"
+   *     }
+   *   ]
+   * }
+   * ```
+   *
+   * If the user sets the value fakse to the "hasMilk" question, the option "PREPARE_ICE_CREAN"
+   * will be disabled for this question
+   *
+   */
+  optionsDependencies: Array<{
+    option: string
+    dependencies: Array<{
+      id: string
+      value: unknown
+      action: 'disable'
+    }>
+  }>
+  infoLabel?: MultiLangEntry
+  required: boolean
+}
+
+export type Question = QuestionV1 | QuestionV2
 
 export type RiskAnalysis = {
   version: string
@@ -100,28 +153,36 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
       const radio = string().required()
       // const radio = mixed().oneOf(['YES', 'NO']).required()
       const selectOne = string().required()
-      const checkbox = mixed().test(
+      const checkbox = string().required()
+      const singleCheckbox = mixed().test(
+        'presence',
+        t('create.step2.singleCheckboxField.validation.mixed.required'),
+        (value) => typeof value !== 'undefined' && value.length > 0
+      )
+      const multiCheckbox = mixed().test(
         'presence',
         t('create.step2.multiCheckboxField.validation.mixed.required'),
         (value) => typeof value !== 'undefined' && value.length > 0
       )
-
-      const uiSwitch = boolean().isTrue()
-
       const validationOptions = {
         text,
         radio,
         'select-one': selectOne,
         checkbox,
-        switch: uiSwitch,
+        singleCheckbox,
+        multiCheckbox,
       }
 
       const schema = Object.keys(questionsObj).reduce((acc, next) => {
         const id: string = next
-        const question: Question = questionsObj[next]
+        const question = questionsObj[next] as QuestionV1
         const questionType = question.type as keyof typeof validationOptions
 
-        const validationOption = validationOptions[questionType]
+        let validationOption = validationOptions[questionType]
+        if (questionType === 'checkbox') {
+          const typedOptions = (question.options as QuestionV1['options'])!
+          validationOption = typedOptions.length > 1 ? multiCheckbox : singleCheckbox
+        }
 
         acc[id] = validationOption
         return acc
@@ -134,7 +195,7 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
       const questionKeys = Object.keys(questions)
 
       return questionKeys.map((id, i) => {
-        const { type, label, options, infoLabel, required } = questions[id] as Question
+        const { type, label, options, infoLabel, required } = questions[id] as QuestionV1
 
         const untypedProps = {
           name: id,
@@ -155,115 +216,25 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
           radio: untypedProps as StyledInputControlledRadioProps,
           checkbox: untypedProps as StyledInputControlledCheckboxMultipleProps,
           'select-one': untypedProps as StyledInputControlledSelectProps,
-          switch: untypedProps as StyledInputControlledSwitchProps,
         }[type]
 
         const sx = questionKeys.length - 1 === i ? { mb: 0 } : undefined
-
         return <StyledInput key={i} {...props} sx={sx} />
       })
     },
   },
+  // TODO: V2 Business logic
   '2.0': {
     getUpdatedQuestions: (values, riskAnalysis) => {
-      const updatedQuestions = riskAnalysis.questions.reduce((acc, next) => {
-        // We are sure we can only queue the questions that come after the current one
-        // because the dependencies are always on the questions that come before.
-        // E.g. question 3 can only have question 1 and/or 2 as a dependency,
-        // not question 4 and subsequent
-        const queuedQuestions = Object.values(acc).map((d) => d.id)
-
-        // Check the dependencies of this questions
-        const satisfiesAllDependencies = next.dependencies.every((d) => {
-          // If the question is a dependency
-          const isInArray = queuedQuestions.includes(d.id)
-          const id = d.id as string
-
-          // and if the field currently has the same value as stated in the dependency
-          const hasSameValue = Array.isArray(values[id])
-            ? (values[id] as Array<unknown>).includes(d.value)
-            : values[id] === d.value
-
-          return isInArray && hasSameValue
-        })
-
-        // Then it needs to be added as a new question to ask
-        if (satisfiesAllDependencies) {
-          acc[next.id] = next
-        }
-
-        return acc
-      }, {} as Questions)
-      return updatedQuestions
+      return {}
     },
 
     getUpdatedValidation: (questionsObj, t) => {
-      const text = string().required()
-      const radio = string().required()
-      // const radio = mixed().oneOf(['YES', 'NO']).required()
-      const selectOne = string().required()
-      const checkbox = mixed().test(
-        'presence',
-        t('create.step2.multiCheckboxField.validation.mixed.required'),
-        (value) => typeof value !== 'undefined' && value.length > 0
-      )
-
-      const uiSwitch = boolean().isTrue()
-
-      const validationOptions = {
-        text,
-        radio,
-        'select-one': selectOne,
-        checkbox,
-        switch: uiSwitch,
-      }
-
-      const schema = Object.keys(questionsObj).reduce((acc, next) => {
-        const id: string = next
-        const question: Question = questionsObj[next]
-        const questionType = question.type as keyof typeof validationOptions
-
-        const validationOption = validationOptions[questionType]
-
-        acc[id] = validationOption
-        return acc
-      }, {} as ObjectShape)
-
-      return object(schema)
+      return object()
     },
 
     buildForm: (questions, formik, lang, t) => {
-      const questionKeys = Object.keys(questions)
-
-      return questionKeys.map((id, i) => {
-        const { type, label, options, infoLabel, required } = questions[id] as Question
-
-        const untypedProps = {
-          name: id,
-          value: formik.values[id],
-          type,
-          setFieldValue: formik.setFieldValue,
-          onChange: formik.handleChange,
-          label: label[lang],
-          options: options && options.map((o) => ({ ...o, label: o.label[lang] })),
-          error: formik.errors[id],
-          infoLabel: infoLabel && infoLabel[lang],
-          required,
-          emptyLabel: t('create.step2.emptyLabel'),
-        }
-
-        const props = {
-          text: untypedProps as StyledInputControlledTextProps,
-          radio: untypedProps as StyledInputControlledRadioProps,
-          checkbox: untypedProps as StyledInputControlledCheckboxMultipleProps,
-          'select-one': untypedProps as StyledInputControlledSelectProps,
-          switch: untypedProps as StyledInputControlledSwitchProps,
-        }[type]
-
-        const sx = questionKeys.length - 1 === i ? { mb: 0 } : undefined
-
-        return <StyledInput key={i} {...props} sx={sx} />
-      })
+      return [<></>]
     },
   },
 }
@@ -272,7 +243,7 @@ function getFormOperations(version: string) {
   const dynamicFormOperations = dynamicFormOperationsVersions[version]
 
   if (!dynamicFormOperations) {
-    throw new Error('TODO')
+    throw new Error('There is no business logic for this specific risk analysis data form')
   }
 
   return dynamicFormOperations
