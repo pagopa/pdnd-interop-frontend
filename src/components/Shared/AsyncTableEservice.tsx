@@ -112,13 +112,19 @@ export const AsyncTableEServiceCatalog = () => {
     const agreementData = {
       eserviceId: eservice.id,
       descriptorId: eservice.descriptorId,
-      consumerId: jwt?.organization.id,
     }
 
-    await runAction(
-      { path: { endpoint: 'AGREEMENT_CREATE' }, config: { data: agreementData } },
-      { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
-    )
+    const { outcome: draftCreateOutcome } = (await runAction(
+      { path: { endpoint: 'AGREEMENT_DRAFT_CREATE' }, config: { data: agreementData } },
+      { suppressToast: ['success'] }
+    )) as RunActionOutput
+
+    if (draftCreateOutcome === 'success') {
+      await runAction(
+        { path: { endpoint: 'AGREEMENT_DRAFT_SUBMIT' } },
+        { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
+      )
+    }
   }
   /*
    * End list of actions

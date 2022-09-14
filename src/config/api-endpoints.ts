@@ -96,8 +96,13 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: `${BACKEND_FOR_FRONTEND_URL}/attributes`,
     METHOD: 'POST',
   },
-  AGREEMENT_CREATE: {
-    URL: `${AGREEMENT_PROCESS_URL}/agreements`,
+  AGREEMENT_DRAFT_CREATE: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/agreements`,
+    METHOD: 'POST',
+  },
+  // from DRAFT to PENDING
+  AGREEMENT_DRAFT_SUBMIT: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/submit`,
     METHOD: 'POST',
   },
   AGREEMENT_GET_LIST: {
@@ -113,15 +118,15 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'POST',
   },
   AGREEMENT_ACTIVATE: {
-    URL: `${AGREEMENT_PROCESS_URL}/agreements/:agreementId/parties/:partyId/activate`,
+    URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/activate`,
     METHOD: 'POST',
   },
   AGREEMENT_SUSPEND: {
-    URL: `${AGREEMENT_PROCESS_URL}/agreements/:agreementId/parties/:partyId/suspend`,
+    URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/suspend`,
     METHOD: 'POST',
   },
   AGREEMENT_UPGRADE: {
-    URL: `${AGREEMENT_PROCESS_URL}/agreements/:agreementId/upgrade`,
+    URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/upgrade`,
     METHOD: 'POST',
   },
   PURPOSE_GET_LIST: {

@@ -30,7 +30,8 @@ export type ApiEndpointKey =
   | 'ATTRIBUTE_GET_LIST'
   | 'ATTRIBUTE_GET_SINGLE'
   | 'ATTRIBUTE_CREATE'
-  | 'AGREEMENT_CREATE'
+  | 'AGREEMENT_DRAFT_CREATE'
+  | 'AGREEMENT_DRAFT_SUBMIT'
   | 'AGREEMENT_GET_LIST'
   | 'AGREEMENT_GET_SINGLE'
   | 'AGREEMENT_VERIFY_ATTRIBUTE'
@@ -289,6 +290,15 @@ type EServiceReadProducerType = {
   name: string
 }
 
+export type SingleBackendAttribute = {
+  single: BackendAttributeContent
+}
+export type GroupBackendAttribute = {
+  group: Array<BackendAttributeContent>
+}
+export type BackendAttribute = SingleBackendAttribute | GroupBackendAttribute
+export type BackendAttributes = Record<AttributeKey, Array<BackendAttribute>>
+
 export type EServiceReadType = {
   producer: EServiceReadProducerType
   name: string
@@ -335,9 +345,14 @@ export type AgreementVerifiableAttribute = {
   name?: string
 }
 
-type AgreementProducerAndConsumer = {
+type AgreementProducer = {
   name: string
   id: string
+}
+type AgreementConsumer = {
+  name: string
+  id: string
+  attributes: Array<BackendAttribute>
 }
 
 type AgreementEService = {
@@ -349,16 +364,44 @@ type AgreementEService = {
   activeDescriptor?: AgreementEService
 }
 
+export type VerifiedAttribute = {
+  id: string
+  description: string
+  name: string
+  creationTime: string
+}
+
+export type CertifiedAttribute = {
+  id: string
+  description: string
+  name: string
+  creationTime: string
+}
+
+export type DeclaredAttribute = {
+  id: string
+  description: string
+  name: string
+  creationTime: string
+}
+
 export type AgreementSummary = {
   id: string
   state: AgreementState
   eservice: AgreementEService
-  eserviceDescriptorId: string
-  consumer: AgreementProducerAndConsumer
-  producer: AgreementProducerAndConsumer
-  attributes: Array<BackendAttribute>
+  descriptorId: string
+  consumer: AgreementConsumer
+  producer: AgreementProducer
+  verifiedAttributes: Array<VerifiedAttribute>
+  certifiedAttributes: Array<CertifiedAttribute>
+  declaredAttributes: Array<DeclaredAttribute>
   suspendedByProducer?: boolean
   suspendedByConsumer?: boolean
+  suspendedByPlatform?: boolean
+  consumerNotes?: string
+  consumerDocuments: Array<unknown>
+  createdAt: string
+  updatedAt?: string
 }
 
 /*
@@ -550,33 +593,52 @@ export type BasicAttribute = PartyAttribute & {
   creationTime: string
 }
 
-export type CertifiedAttribute = BasicAttribute & {
-  kind: 'CERTIFIED'
-}
-
-// Backend attribute is the attribute as it is expected when POSTed to the backend
-// The "explicitAttributeVerification" and "verified" parameters
-// are only relevant for "verified" attributes. The explicitAttributeVerification
-// is not actively used by the frontend. The provider sets it the first time it creates an e-service,
-// and then it is only used as a read only value. In each Agreement, a verified attributes whose
-// "verified" value is set to null, identifies an attribute which needs to be manually validated
-// by the provider before an agreement can be activated. The only exception is for a GroupBackendAttribute,
-// where it is enough that one of the attributes has the "verified" flag set to true.
-// If an attribute has a "verified" parameter explicitly set to false, it means that the attribute validation
-// was rejected by the e-service provider, which means that this Agreement can never be activated
 export type BackendAttributeContent = BasicAttribute & {
   explicitAttributeVerification: boolean
   verified?: boolean
   verificationDate?: string
 }
-export type SingleBackendAttribute = {
-  single: BackendAttributeContent
+
+export type DeclaredTenantAttribute = {
+  id: string
+  name: string
+  assignmentTimestamp: string
+  revocationTimestamp?: string
 }
-export type GroupBackendAttribute = {
-  group: Array<BackendAttributeContent>
+
+export type CertifiedTenantAttribute = {
+  id: string
+  name: string
+  assignmentTimestamp: string
+  revocationTimestamp?: string
 }
-export type BackendAttribute = SingleBackendAttribute | GroupBackendAttribute
-export type BackendAttributes = Record<AttributeKey, Array<BackendAttribute>>
+
+export type VerifiedTenantAttribute = {
+  id: string
+  name: string
+  assignmentTimestamp: string
+  revocationTimestamp?: string
+  renewal: 'REVOKE_ON_EXPIRATION' | 'AUTOMATIC_RENEWAL'
+  verifiedBy: {
+    id: string
+    verificationDate: string
+    expirationDate?: string
+    extentionDate?: string
+  }
+  revokedBy: {
+    id: string
+    verificationDate: string
+    expirationDate?: string
+    extentionDate?: string
+    revocationDate: string
+  }
+}
+
+export type TenantAttribute = {
+  certified?: CertifiedTenantAttribute
+  verified?: VerifiedTenantAttribute
+  declared?: DeclaredTenantAttribute
+}
 
 // Catalog attribute as it comes from the attributes catalog
 export type CatalogAttribute = {
@@ -750,7 +812,8 @@ export type DialogBasicProps = DialogDefaultProps & {
 //   | 'ATTRIBUTE_GET_LIST'
 //   | 'ATTRIBUTE_GET_SINGLE'
 //   | 'ATTRIBUTE_CREATE'
-//   | 'AGREEMENT_CREATE'
+//   | 'AGREEMENT_DRAFT_CREATE'
+//   | 'AGREEMENT_DRAFT_SUBMIT'
 //   | 'AGREEMENT_GET_LIST'
 //   | 'AGREEMENT_GET_SINGLE'
 //   | 'AGREEMENT_VERIFY_ATTRIBUTE'

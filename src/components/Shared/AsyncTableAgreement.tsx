@@ -42,10 +42,7 @@ export const AsyncTableAgreement = () => {
   const wrapActivate = (agreementId: string) => async () => {
     await runAction(
       {
-        path: {
-          endpoint: 'AGREEMENT_ACTIVATE',
-          endpointParams: { agreementId, partyId: jwt?.organization.id },
-        },
+        path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId } },
       },
       { showConfirmDialog: true }
     )
@@ -54,10 +51,7 @@ export const AsyncTableAgreement = () => {
   const wrapSuspend = (agreementId: string) => async () => {
     await runAction(
       {
-        path: {
-          endpoint: 'AGREEMENT_SUSPEND',
-          endpointParams: { agreementId, partyId: jwt?.organization.id },
-        },
+        path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId } },
       },
       { showConfirmDialog: true }
     )

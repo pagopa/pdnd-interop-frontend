@@ -5,12 +5,13 @@ import {
   AgreementSummary,
   ActionProps,
   ProviderOrSubscriber,
-  BackendAttributeContent,
-  MUIColor,
   Purpose,
+  CertifiedAttribute,
+  VerifiedAttribute,
+  DeclaredAttribute,
+  EServiceReadType,
 } from '../../types'
 import { buildDynamicPath, getLastBit } from '../lib/router-utils'
-// import { formatDate, getRandomDate } from '../lib/date-utils'
 import { mergeActions } from '../lib/eservice-utils'
 import { useMode } from '../hooks/useMode'
 import { StyledIntro } from '../components/Shared/StyledIntro'
@@ -20,41 +21,62 @@ import { getAgreementState } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { Alert, Box, Chip, Grid, Stack, Typography } from '@mui/material'
+import { Alert, Box, Chip, Stack, Typography } from '@mui/material'
 import { useRoute } from '../hooks/useRoute'
-import { StyledAccordion } from '../components/Shared/StyledAccordion'
-import { formatDateString } from '../lib/format-utils'
 import { InfoMessage } from '../components/Shared/InfoMessage'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { NotFound } from './NotFound'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
-import { useJwt } from '../hooks/useJwt'
 import { CHIP_COLORS_AGREEMENT } from '../lib/constants'
 import { fetchWithLogs } from '../lib/api-utils'
 import { isFetchError } from '../lib/error-utils'
 import { AxiosResponse } from 'axios'
 import { StyledPaper } from '../components/StyledPaper'
+import { remapBackendAttributesToFrontend } from '../lib/attributes'
 
-const CHIP_COLOR_ATTRIBUTE: Record<string, MUIColor> = {
-  newlyVerified: 'primary',
-  verifiedByAnotherParty: 'primary',
-  refused: 'error',
-  pending: 'warning',
-}
+// const CHIP_COLOR_ATTRIBUTE: Record<string, MUIColor> = {
+//   newlyVerified: 'primary',
+//   verifiedByAnotherParty: 'primary',
+//   refused: 'error',
+//   pending: 'warning',
+// }
 
 export function AgreementEdit() {
   const { t } = useTranslation(['agreement', 'common'])
   const { runAction, forceRerenderCounter } = useFeedback()
   const mode = useMode()
   const [purposes, setPurposes] = useState<Array<Purpose>>([])
+  const [eservice, setEService] = useState<EServiceReadType>()
   const agreementId = getLastBit(useLocation())
-  const { jwt } = useJwt()
   const { routes } = useRoute()
   const { data, error, isLoading } = useAsyncFetch<AgreementSummary>(
     { path: { endpoint: 'AGREEMENT_GET_SINGLE', endpointParams: { agreementId } } },
     { useEffectDeps: [forceRerenderCounter, mode] }
   )
+
+  if (eservice) {
+    console.log({ eservice, remapped: remapBackendAttributesToFrontend(eservice.attributes) })
+  }
+
+  useEffect(() => {
+    async function asyncFetchEService() {
+      const response = await fetchWithLogs({
+        path: {
+          endpoint: 'ESERVICE_GET_SINGLE',
+          endpointParams: { eserviceId: data?.eservice.id },
+        },
+      })
+
+      if (!isFetchError(response)) {
+        setEService((response as AxiosResponse).data)
+      }
+    }
+
+    if (data) {
+      asyncFetchEService()
+    }
+  }, [data])
 
   useEffect(() => {
     async function asyncFetchPurposes() {
@@ -78,24 +100,14 @@ export function AgreementEdit() {
    */
   const activate = async () => {
     await runAction(
-      {
-        path: {
-          endpoint: 'AGREEMENT_ACTIVATE',
-          endpointParams: { agreementId, partyId: jwt?.organization.id },
-        },
-      },
+      { path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId } } },
       { showConfirmDialog: true }
     )
   }
 
   const suspend = async () => {
     await runAction(
-      {
-        path: {
-          endpoint: 'AGREEMENT_SUSPEND',
-          endpointParams: { agreementId, partyId: jwt?.organization.id },
-        },
-      },
+      { path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId } } },
       { showConfirmDialog: true }
     )
   }
@@ -107,20 +119,15 @@ export function AgreementEdit() {
     )
   }
 
-  // TEMP PIN-217
-  // const archive = () => {
-  //   //
+  // const wrapVerify = (attributeId: string) => async () => {
+  //   const sureData = data as AgreementSummary
+  //   await runAction({
+  //     path: {
+  //       endpoint: 'AGREEMENT_VERIFY_ATTRIBUTE',
+  //       endpointParams: { agreementId: sureData.id, attributeId },
+  //     },
+  //   })
   // }
-
-  const wrapVerify = (attributeId: string) => async () => {
-    const sureData = data as AgreementSummary
-    await runAction({
-      path: {
-        endpoint: 'AGREEMENT_VERIFY_ATTRIBUTE',
-        endpointParams: { agreementId: sureData.id, attributeId },
-      },
-    })
-  }
   /*
    * End list of actions
    */
@@ -174,21 +181,6 @@ export function AgreementEdit() {
     return mergeActions<AgreementActions>([currentActions, sharedActions], status)
   }
 
-  const checkVerifiedStatus = (
-    verified: boolean | undefined,
-    explicitAttributeVerification: boolean
-  ) => {
-    if (!explicitAttributeVerification) {
-      return 'verifiedByAnotherParty'
-    }
-
-    if (typeof verified === 'undefined') {
-      return 'pending'
-    }
-
-    return verified ? 'newlyVerified' : 'refused'
-  }
-
   const getSuspendedChips = () => {
     if (!data) return
 
@@ -220,106 +212,6 @@ export function AgreementEdit() {
     )
   }
 
-  const SubscriberAttributes = () => {
-    return (
-      <Box>
-        {data?.attributes.map((backendAttribute, i) => {
-          const attributes: Array<BackendAttributeContent> =
-            'single' in backendAttribute ? [backendAttribute.single] : backendAttribute.group
-          const entries = attributes.map((a) => {
-            const attributeStatus = checkVerifiedStatus(a.verified, a.explicitAttributeVerification)
-
-            return {
-              summary: a.name,
-              summarySecondary: (
-                <Chip
-                  label={t(`edit.attribute.status.${attributeStatus}`)}
-                  color={CHIP_COLOR_ATTRIBUTE[attributeStatus]}
-                />
-              ),
-              details: (
-                <React.Fragment>
-                  {a.verificationDate && (
-                    <DescriptionBlock
-                      label={t('edit.attribute.verificationDateField.label')}
-                      sx={{ mt: 0 }}
-                    >
-                      {formatDateString(a.verificationDate)}
-                    </DescriptionBlock>
-                  )}
-                  <DescriptionBlock label={t('edit.attribute.authoritativeSourceField.label')}>
-                    {a.origin}
-                  </DescriptionBlock>
-                  <DescriptionBlock
-                    label={t('edit.attribute.descriptionField.label')}
-                    sx={{ mb: 0 }}
-                  >
-                    {a.description}
-                  </DescriptionBlock>
-                </React.Fragment>
-              ),
-            }
-          })
-
-          return (
-            <Box key={i} sx={{ mt: 1, mb: 2, borderBottom: 1, borderColor: 'divider' }}>
-              {Boolean(entries.length > 1) && (
-                <InfoMessage sx={{ mb: 2 }} label={t('edit.attribute.groupMessage')} />
-              )}
-              <StyledAccordion entries={entries} />
-            </Box>
-          )
-        })}
-      </Box>
-    )
-  }
-
-  const ProviderAttributes = () => {
-    return (
-      <Box>
-        {data?.attributes.map((backendAttribute, i) => {
-          const attributes: Array<BackendAttributeContent> =
-            'single' in backendAttribute ? [backendAttribute.single] : backendAttribute.group
-
-          return (
-            <Box key={i} sx={{ mb: 4, borderBottom: 1, borderColor: 'divider' }}>
-              {Boolean(attributes.length > 1) && (
-                <InfoMessage sx={{ mb: 2 }} label={t('edit.attribute.groupMessage')} />
-              )}
-              {attributes.map((a, i) => {
-                const attributeStatus = checkVerifiedStatus(
-                  a.verified,
-                  a.explicitAttributeVerification
-                )
-                return (
-                  <Grid container key={i} sx={{ mb: 1 }} alignItems="center">
-                    <Grid item xs={4}>
-                      <Typography>{a.name}</Typography>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <Chip
-                        label={t(`edit.attribute.status.${attributeStatus}`)}
-                        color={CHIP_COLOR_ATTRIBUTE[attributeStatus]}
-                      />
-                    </Grid>
-                    <Grid item xs={4}>
-                      <Stack direction="row" justifyContent="flex-end">
-                        <StyledButton variant="outlined" size="small" onClick={wrapVerify(a.id)}>
-                          Verifica
-                          {typeof a.verified !== 'undefined' ? ' nuovamente' : ''}
-                        </StyledButton>
-                      </Stack>
-                    </Grid>
-                  </Grid>
-                )
-              })}
-            </Box>
-          )
-        })}
-      </Box>
-    )
-  }
-
   if (error) {
     return <NotFound errorType="serverError" />
   }
@@ -337,10 +229,7 @@ export function AgreementEdit() {
                   mode === 'subscriber'
                     ? routes.SUBSCRIBE_CATALOG_VIEW.PATH
                     : routes.PROVIDE_ESERVICE_MANAGE.PATH,
-                  {
-                    eserviceId: data?.eservice.id,
-                    descriptorId: data?.eserviceDescriptorId,
-                  }
+                  { eserviceId: data?.eservice.id, descriptorId: data?.descriptorId }
                 )}
               >
                 {data?.eservice.name}, {t('edit.eserviceField.versionLabel')}{' '}
@@ -388,16 +277,16 @@ export function AgreementEdit() {
               )}
             </DescriptionBlock>
 
+            <DescriptionBlock label={t('edit.certifiedAttributesField.label')}>
+              <CertifiedAttributesList attributes={data.certifiedAttributes} />
+            </DescriptionBlock>
+
             <DescriptionBlock label={t('edit.verifiedAttributesField.label')}>
-              {data.attributes.length > 0 ? (
-                mode === 'provider' ? (
-                  <ProviderAttributes />
-                ) : (
-                  <SubscriberAttributes />
-                )
-              ) : (
-                <Typography>{t('edit.verifiedAttributesField.noDataLabel')}</Typography>
-              )}
+              <VerifiedAttributesList attributes={data.verifiedAttributes} />
+            </DescriptionBlock>
+
+            <DescriptionBlock label={t('edit.declaredAttributesField.label')}>
+              <DeclaredAttributesList attributes={data.declaredAttributes} />
             </DescriptionBlock>
 
             {mode === 'subscriber' && purposes.length === 0 && (
@@ -422,3 +311,162 @@ export function AgreementEdit() {
     </React.Fragment>
   )
 }
+
+interface CertifiedAttributesListProps {
+  attributes: Array<CertifiedAttribute>
+}
+
+const CertifiedAttributesList: React.FC<CertifiedAttributesListProps> = ({ attributes }) => {
+  const { t } = useTranslation(['agreement', 'common'])
+
+  if (attributes.length === 0) {
+    return <Typography>{t('edit.certifiedAttributesField.noDataLabel')}</Typography>
+  }
+
+  return (
+    <Box sx={{ mt: 1, mb: 2, borderBottom: 1, borderColor: 'divider' }}>
+      {Boolean(attributes.length > 1) && (
+        <InfoMessage sx={{ mb: 2 }} label={t('edit.attribute.groupMessage')} />
+      )}
+      {attributes.map((a) => (
+        <Stack justifyContent="space-between" key={a.id}>
+          <Box>
+            {a.name}
+            <br />
+            {a.description}
+          </Box>
+        </Stack>
+      ))}
+    </Box>
+  )
+}
+
+interface VerifiedAttributesListProps {
+  attributes: Array<VerifiedAttribute>
+}
+
+const VerifiedAttributesList: React.FC<VerifiedAttributesListProps> = ({ attributes }) => {
+  console.log({ attributes })
+  /*
+  const ProviderAttributes = () => {
+    return (
+      <Box>
+        {data?.attributes.map((backendAttribute, i) => {
+          const attributes: Array<BackendAttributeContent> =
+            'single' in backendAttribute ? [backendAttribute.single] : backendAttribute.group
+
+          return (
+            <Box key={i} sx={{ mb: 4, borderBottom: 1, borderColor: 'divider' }}>
+              {Boolean(attributes.length > 1) && (
+                <InfoMessage sx={{ mb: 2 }} label={t('edit.attribute.groupMessage')} />
+              )}
+              {attributes.map((a, i) => {
+                const attributeStatus = checkVerifiedStatus(
+                  a.verified,
+                  a.explicitAttributeVerification
+                )
+                return (
+                  <Grid container key={i} sx={{ mb: 1 }} alignItems="center">
+                    <Grid item xs={4}>
+                      <Typography>{a.name}</Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Chip
+                        label={t(`edit.attribute.status.${attributeStatus}`)}
+                        color={CHIP_COLOR_ATTRIBUTE[attributeStatus]}
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Stack direction="row" justifyContent="flex-end">
+                        <StyledButton variant="outlined" size="small" onClick={wrapVerify(a.id)}>
+                          Verifica
+                          {typeof a.verified !== 'undefined' ? ' nuovamente' : ''}
+                        </StyledButton>
+                      </Stack>
+                    </Grid>
+                  </Grid>
+                )
+              })}
+            </Box>
+          )
+        })}
+      </Box>
+    )
+  }
+  */
+
+  return <>verificati</>
+}
+
+interface DeclaredAttributesListProps {
+  attributes: Array<DeclaredAttribute>
+}
+
+const DeclaredAttributesList: React.FC<DeclaredAttributesListProps> = ({ attributes }) => {
+  const { t } = useTranslation(['agreement', 'common'])
+
+  if (attributes.length === 0) {
+    return <Typography>{t('edit.declaredAttributesField.noDataLabel')}</Typography>
+  }
+
+  return (
+    <Box sx={{ mt: 1, mb: 2, borderBottom: 1, borderColor: 'divider' }}>
+      {Boolean(attributes.length > 1) && (
+        <InfoMessage sx={{ mb: 2 }} label={t('edit.attribute.groupMessage')} />
+      )}
+      {attributes.map((a) => (
+        <Stack justifyContent="space-between" key={a.id}>
+          <Box>
+            {a.name}
+            <br />
+            {a.description}
+          </Box>
+        </Stack>
+      ))}
+    </Box>
+  )
+}
+
+/*
+interface CertifiedAttributesListProps {
+  attributes: Array<CertifiedAttribute>
+}
+
+const CertifiedAttributesList: React.FC<CertifiedAttributesListProps> = ({ attributes }) => {
+  const { t } = useTranslation(['agreement', 'common'])
+
+  const entries = attributes.map((a) => {
+    return {
+      summary: a.name,
+      details: (
+        <React.Fragment>
+          {a.ver && (
+            <DescriptionBlock
+              label={t('edit.attribute.verificationDateField.label')}
+              sx={{ mt: 0 }}
+            >
+              {formatDateString(a.verificationDate)}
+            </DescriptionBlock>
+          )}
+          <DescriptionBlock label={t('edit.attribute.authoritativeSourceField.label')}>
+            {a.origin}
+          </DescriptionBlock>
+          <DescriptionBlock label={t('edit.attribute.descriptionField.label')} sx={{ mb: 0 }}>
+            {a.description}
+          </DescriptionBlock>
+        </React.Fragment>
+      ),
+    }
+  })
+
+  return (
+    <Box key={i} sx={{ mt: 1, mb: 2, borderBottom: 1, borderColor: 'divider' }}>
+      {Boolean(entries.length > 1) && (
+        <InfoMessage sx={{ mb: 2 }} label={t('edit.attribute.groupMessage')} />
+      )}
+      <StyledAccordion entries={entries} />
+    </Box>
+  )
+}
+
+*/
