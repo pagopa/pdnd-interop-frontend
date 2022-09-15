@@ -5,6 +5,7 @@ export const buildLocale = (t: TFunction) => {
   setLocale({
     mixed: { required: t('validation.mixed.required') },
     string: { email: t('validation.string.email') },
+    boolean: { isValue: t('validation.boolean.isValue') },
   })
 }
 
