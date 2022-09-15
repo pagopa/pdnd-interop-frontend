@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { StyledInput } from '../components/Shared/StyledInput'
 import { FormikProps, useFormik } from 'formik'
 import { TFunction, useTranslation } from 'react-i18next'
@@ -68,17 +68,16 @@ type QuestionV2 = {
    *     {
    *       id: "hasMilk",
    *       value: false,
-   *       action: "disable"
    *     }
    *   ]
    * }
    * ```
    *
-   * If the user sets the value fakse to the "hasMilk" question, the option "PREPARE_ICE_CREAN"
-   * will be disabled for this question
+   * If the user sets the value false to the "hasMilk" question, the option "PREPARE_ICE_CREAN"
+   * will be hidden
    *
    */
-  optionsDependencies: Record<
+  shouldHideOption: Record<
     string,
     Array<{
       id: string
@@ -329,32 +328,41 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
       }
 
       const formComponents = questionIds.map((id, i) => {
-        const { inputType, label, options, infoLabel, required, optionsDependencies } = questions[
-          id
-        ] as QuestionV2
+        const { inputType, label, options, infoLabel, required, shouldHideOption, defaultValue } =
+          questions[id] as QuestionV2
 
         function makeOptions() {
-          return (
+          let optionToDisableValue: string | undefined
+
+          let optionsToReturn =
             options &&
             options.map((o) => {
               const option = { value: o.value, label: o.label[lang], disabled: false }
 
-              optionsDependencies &&
-                optionsDependencies[o.value]?.forEach((dep) => {
+              shouldHideOption &&
+                shouldHideOption[o.value]?.forEach((dep) => {
+                  const actualDepValue = formik.values[dep.id]
+
                   if (
-                    formik.values[dep.id] === dep.value ||
-                    (Array.isArray(dep.value) && dep.value.includes(formik.values[dep.id]))
+                    actualDepValue === dep.value ||
+                    (Array.isArray(actualDepValue) &&
+                      (actualDepValue as string[]).includes(dep.value as string))
                   ) {
-                    switch (dep.action) {
-                      case 'disable':
-                        option.disabled = true
+                    optionToDisableValue = o.value
+                    if ((formik.values[id] as string[]).includes(o.value)) {
+                      formik.setFieldValue(id, defaultValue)
                     }
                   }
                 })
 
               return option
             })
-          )
+
+          if (optionsToReturn && optionToDisableValue) {
+            optionsToReturn = optionsToReturn.filter((o) => o.value !== optionToDisableValue)
+          }
+
+          return optionsToReturn
         }
 
         const untypedProps = {
@@ -422,6 +430,7 @@ function useDynamicRiskAnalysisForm(
 
   const [validation, setValidation] = useState({})
   const [questions, setQuestions] = useState<Questions>({})
+  const [prevFormikValues, setPrevFormikValues] = useState<Record<string, unknown>>({})
   const { lang } = useContext(LangContext)
 
   const dynamicFormOperations = getFormOperations(riskAnalysisConfig.version)
@@ -451,11 +460,10 @@ function useDynamicRiskAnalysisForm(
     enableReinitialize: true,
   })
 
-  // TEMP REFACTOR
-  // This is a very very very ugly piece of code. Find another way
-  /* eslint-disable react-hooks/exhaustive-deps */
-  useEffect(() => {
-    // Update the questions that have to be shown
+  // If formik values reference has changed, update the questions and the validation
+  if (prevFormikValues !== formik.values) {
+    setPrevFormikValues(formik.values)
+
     const updatedQuestions = dynamicFormOperations.getUpdatedQuestions(
       formik.values,
       riskAnalysisConfig
@@ -464,51 +472,7 @@ function useDynamicRiskAnalysisForm(
     // Update the validation schema to validate only questions that are currently rendered
     const updatedValidation = dynamicFormOperations.getUpdatedValidation(updatedQuestions, t)
     setValidation(updatedValidation)
-  }, [
-    // v1.0
-    formik.values.usesPersonalData,
-    formik.values.usesThirdPartyPersonalData,
-    formik.values.usesConfidentialData,
-    formik.values.securedDataAccess,
-    formik.values.knowsAccessedDataCategories,
-    formik.values.accessDataArt9Gdpr,
-    formik.values.accessUnderageData,
-    formik.values.dataQuantity,
-    formik.values.deliveryMethod,
-    formik.values.definedDataRetentionPeriod,
-
-    // v2.0
-    formik.values.purpose,
-    formik.values.institutionalPurpose,
-    formik.values.otherPurpose,
-    formik.values.personalDataTypes,
-    formik.values.otherPersonalDataTypes,
-    formik.values.legalObligationReference,
-    formik.values.legalBasisPublicInterest,
-    formik.values.ruleOfLawText,
-    formik.values.administrativeActText,
-    formik.values.publicInterestTaskText,
-    formik.values.dataQuantity,
-    formik.values.policyProvided,
-    formik.values.reasonPolicyNotProvided,
-    formik.values.confirmPricipleIntegrityAndDiscretion,
-    formik.values.confirmedDoneDpia,
-    formik.values.dataRetentionPeriod,
-    formik.values.usesThirdPartyData,
-    formik.values.doesUseThirdPartyData,
-    formik.values.declarationConfirmGDPR,
-
-    // Common
-    formik.values.legalBasis,
-    formik.values.knowsDataQuantity,
-    formik.values.deliveryMethod,
-    formik.values.doneDpia,
-    formik.values.purposePursuit,
-    formik.values.checkedExistenceMereCorrectnessInteropCatalogue,
-    formik.values.checkedAllDataNeeded,
-    formik.values.checkedExistenceMinimalDataInteropCatalogue,
-  ])
-  /* eslint-enable react-hooks/exhaustive-deps */
+  }
 
   const { formComponents, isSubmitBtnDisabled } = dynamicFormOperations.buildForm(
     questions,
