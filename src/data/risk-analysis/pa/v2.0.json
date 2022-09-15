@@ -72,7 +72,7 @@
       "inputType": "checkbox",
       "dataType": "multi",
       "label": {
-        "it": "Indicare la tipologia di dati personali cui si avrà accesso attraverso la fruizione del presente E-service, tenuto conto delle definizioni contenute nell’art. 4, nn. 1, 13, 14 e 15 del GDPR (richiesto)",
+        "it": "Indicare la tipologia di dati personali cui si avrà accesso attraverso la fruizione del presente E-service, tenuto conto delle definizioni contenute nell’art. 4, nn. 1, 13, 14 e 15 del GDPR (richiesto, scelta multipla)",
         "en": "TODO"
       },
       "options": [
@@ -183,13 +183,6 @@
             "en": "execution of a task of public interest or connected to the exercise of public authority bestowed upon you"
           },
           "value": "PUBLIC_INTEREST"
-        },
-        {
-          "label": {
-            "it": "perseguimento del legittimo interesse del titolare del trattamento o di terzi, a condizione che non prevalgano gli interessi o i diritti e le libertà fondamentali dell'interessato che richiedono la protezione dei dati personali, in particolare se l'interessato è un minore",
-            "en": "pursue of a legitimate interest of the owner of the treatment or of a third party, on condition that the interest, rights and fundamental freedoms of the interested party that require personal data protection not prevail, with particular interests in case of a minor"
-          },
-          "value": "LEGITIMATE_INTEREST"
         }
       ],
       "defaultValue": [],
@@ -248,7 +241,7 @@
           "value": "PUBLIC_INTEREST_TASK"
         }
       ],
-      "defaultValue": ["RULE_OF_LAW"],
+      "defaultValue": "RULE_OF_LAW",
       "required": true,
       "dependencies": [
         {
@@ -348,19 +341,7 @@
       ],
       "defaultValue": "NO",
       "required": true,
-      "dependencies": [        
-        {
-          "id": "personalDataTypes",
-          "value": [
-            "WITH_NON_IDENTIFYING_DATA", 
-            "WITH_IDENTIFYING_DATA",
-            "GDPR_ART_8",
-            "GDPR_ART_9",
-            "GDPR_ART_10",
-            "OTHER"
-          ]
-        }
-      ]
+      "dependencies": []
     },
     {
       "id": "dataQuantity",
@@ -414,8 +395,8 @@
         "en": "Delivery mode (required)"
       },
       "infoLabel": {
-        "it": "Indicare con quali modalità il Fruitore intende ricevere le informazioni dall’Erogatore, d’accordo con quelle già previste dall’Erogatore stesso",
-        "en": "State how the Subscriber will receive the information from the Provider, in accordance with the ones already provided by the Provider"
+        "it": "Indicare con quali modalità il Fruitore intende ricevere le informazioni dall’Erogatore, d’accordo con quelle già previste dall’Erogatore stesso. NB: si ricorda che ai sensi dell’art. 5, paragrafo 1, lett. c), del GDPR (principio di minimizzazione) il trattamento di dati personali deve essere sempre proporzionale e limitato a quanto strettamente necessario alla finalità perseguita, e possono essere acceduti tramite l’e-service unicamente i dati adeguati, pertinenti e limitati a quanto necessario per il fine perseguito. Pertanto: (i) solo qualora non sia possibile perseguire le finalità dichiarate nel punto 1 sopra sulla base di dati aggregati o anonimi è possibile barrare le opzioni di dati in chiaro e pseudonimizzati e (ii) solo qualora non sia possibile perseguire le predette finalità con dati pseudonimizzati è possibile barrare l’opzione di dati in chiaro.",
+        "en": "TODO"
       },
       "options": [
         {
@@ -509,7 +490,8 @@
         },
         {
           "label": {"it": "Nego", "en": "Deny"},
-          "value": false
+          "value": false,
+          "forceUserCheckEServiceCatalog": true
         }
       ],
       "defaultValue": false,
