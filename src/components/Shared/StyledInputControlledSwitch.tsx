@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEventHandler } from 'react'
 import { FormLabel, Switch, SxProps } from '@mui/material'
 import { StyledInputWrapper } from './StyledInputWrapper'
 
@@ -9,7 +9,7 @@ export type StyledInputControlledSwitchProps = {
   value: boolean
   name: string
 
-  onChange: (e: React.SyntheticEvent) => void
+  onChange: ChangeEventHandler
 
   sx?: SxProps
 
