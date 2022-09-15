@@ -503,8 +503,8 @@
       "inputType": "radio",
       "dataType": "single",
       "label": {
-        "it": "Indicare se è stata fatta un’apposita valutazione di impatto (c.d. DPIA) relativamente alle attività di trattamento dei dati personali che saranno effettuate attraverso la fruizione del presente E-Service (richiesto)",
-        "en": "Have you done an impact assessment (c.d. DPIA) with reference to the personal data handling activities that will be carried out through the fruition of the present E-Service? (required)"
+        "it": "Indicare se è stata fatta un’apposita Valutazione di Impatto (c.d. DPIA) relativamente alle attività di trattamento dei dati personali che saranno effettuate attraverso la fruizione del presente E-service (richiesto)",
+        "en": "TODO (required)"
       },
       "infoLabel": {
         "it": "Se la risposta a questa domanda è no, si ricorda che la valutazione di impatto è obbligatoria ​​qualora sussistano le condizioni di cui all’art. 35 del GDPR.",
@@ -560,7 +560,7 @@
       "inputType": "switch",
       "dataType": "single",
       "label": {
-        "it": "In caso di download dei dati cui si avrà accesso attraverso il presente E-service, dichiarare se è stato individuato un periodo di conservazione dei dati individuato: (richiesto)",
+        "it": "In caso di download dei dati cui si avrà accesso attraverso il presente E-service, dichiarare se è stato individuato un periodo di conservazione dei dati (richiesto)",
         "en": "TODO (required)"
       },
       "infoLabel": {
@@ -574,7 +574,8 @@
         },
         {
           "label": {"it": "Nego", "en": "Deny"},
-          "value": false
+          "value": false,
+          "forceUserCheckEServiceCatalog": true
         }
       ],
       "defaultValue": false,
@@ -586,7 +587,7 @@
       "inputType": "radio",
       "dataType": "single",
       "label": {
-        "it": "Ai sensi del principio di minimizzazione di cui all’art. 5, paragrafo 1, let. c) del GDPR, per perseguire la finalità di cui al punto 1, indicare se: (richiesto)",
+        "it": "Ai sensi del principio di minimizzazione di cui all’art. 5, paragrafo 1, let. c) del GDPR, per perseguire la finalità di cui al punto 1, indicare se (richiesto)",
         "en": "TODO"
       },
       "options": [
@@ -617,10 +618,6 @@
         "it": "Confermare se è stato verificato se sul Catalogo API è presente un altro E-Service in grado di svolgere questa attività di mera verifica (che non preveda ex novo la comunicazione di altri informazioni/dati personali – richiesto)",
         "en": "Have you checked if there is another E-Service in the Catalog that allows you to carry out this simple check task (in case it does not require the ex novo transmission of other information/personal data)? (required)"
       },
-      "infoLabel": {
-        "it": "Se non sì è confermato, prima di procedere con l’invio della richiesta di accesso al presente E-service per la finalità indicata al punto 1, si invita a verificare se sul Catalogo API è presente un altro E-service che consenta di svolgere la mera attività di verifica di informazioni/dati personali di cui si necessita",
-        "en": "TODO"
-      },
       "options": [
         {
           "label": {"it": "Confermo", "en": "Confirm"},
@@ -629,7 +626,11 @@
         {
           "label": {"it": "Nego", "en": "Deny"},
           "value": false,
-          "forceUserCheckEServiceCatalog": true
+          "forceUserCheckEServiceCatalog": true,
+          "blockedAlert": {
+            "it": "Prima di procedere con l’invio della richiesta di accesso al presente E-service per la finalità indicata al punto 1, si invita a verificare se sul Catalogo API è presente un altro E-service che consenta di svolgere la mera attività di verifica di informazioni/dati personali di cui si necessita",
+            "en": "TODO"
+          }
         }
       ],
       "defaultValue": false,
@@ -650,7 +651,7 @@
         "en": "TODO"
       },
       "infoLabel": {
-        "it": "Se la risposta è sì, per evitare comunicazioni di informazioni/dati personali non necessarie, si invita a sollecitare un Erogatore ad attivare un E-service che consenta di accedere ai soli dati personali di cui si necessita e, una volta attivato, si invita a inviare una richiesta di accesso per quell’E-service. Se la risposta a questa domanda è no, si invita a verificare se sul Catalogo API è presente un altro E-service che consenta di accedere alle sole informazioni/dati personali di cui si necessita.",
+        "it": "Se la risposta a questa domanda è no, si invita a verificare se sul Catalogo API è presente un altro E-service che consenta di accedere alle sole informazioni/dati personali di cui si necessita.",
         "en": "TODO"
       },
       "options": [
@@ -661,7 +662,11 @@
         {
           "label": { "it": "No", "en": "No" },
           "value": "NO",
-          "forceUserCheckEServiceCatalog": true
+          "forceUserCheckEServiceCatalog": true,
+          "blockedAlert": {
+            "it": "Prima di procedere con l’invio della richiesta di accesso al presente E-service per la finalità indicata al punto 1, si invita a verificare se sul Catalogo API è presente un altro E-service che consenta di accedere alle sole informazioni/dati personali di si necessita",
+            "en": "TODO"
+          }
         }
       ],
       "defaultValue": "NO",
@@ -717,7 +722,7 @@
       "required": true,
       "dependencies": [
         {
-          "id": "usesThirdPartyPersonalData",
+          "id": "usesThirdPartyData",
           "value": "YES"
         }
       ]
@@ -737,8 +742,7 @@
         },
         {
           "label": {"it": "Nego", "en": "Deny"},
-          "value": false,
-          "forceUserCheckEServiceCatalog": true
+          "value": false
         }
       ],
       "defaultValue": false,

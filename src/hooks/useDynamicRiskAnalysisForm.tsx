@@ -13,6 +13,7 @@ import { StyledInputControlledSwitchProps } from '../components/Shared/StyledInp
 import { LangCode } from '../../types'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { FE_URL } from '../lib/env'
+import { Alert } from '@mui/material'
 
 type MultiLangEntry = {
   it: string
@@ -52,6 +53,7 @@ type QuestionV2 = {
     label: MultiLangEntry
     value: string
     forceUserCheckEServiceCatalog?: boolean
+    blockedAlert?: MultiLangEntry
   }>
   dependencies: Array<{
     id: string
@@ -276,7 +278,7 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
         t('create.step2.multiCheckboxField.validation.mixed.required'),
         (value) => typeof value !== 'undefined' && value.length > 0
       )
-      const switchSchemaValidation = boolean().required()
+      const switchSchemaValidation = boolean().isTrue()
 
       const validationOptions = {
         text,
@@ -302,6 +304,7 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
     buildForm: (questions, formik, lang, t) => {
       let questionIds = Object.keys(questions)
       let isSubmitBtnDisabled = false
+      let blockedAlert: string | undefined
 
       // find (if ther's any) the id of the question that "blocks" and force the user
       // to go check the e-service catalog
@@ -316,6 +319,7 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
               option?.forceUserCheckEServiceCatalog &&
               formik.values[questionId] === option.value
             ) {
+              blockedAlert = option.blockedAlert && option.blockedAlert[lang]
               return true
             }
           }
@@ -399,9 +403,21 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
       if (isUserForcedToCheckEServiceCatalogQuestionId) {
         isSubmitBtnDisabled = true
 
+        if (blockedAlert) {
+          formComponents.push(
+            <Alert
+              key={'alert-' + isUserForcedToCheckEServiceCatalogQuestionId}
+              sx={{ mt: 2 }}
+              severity="warning"
+            >
+              {blockedAlert}
+            </Alert>
+          )
+        }
+
         formComponents.push(
           <StyledButton
-            key={'button' + isUserForcedToCheckEServiceCatalogQuestionId}
+            key={'button-' + isUserForcedToCheckEServiceCatalogQuestionId}
             sx={{ mt: 2 }}
             variant="contained"
             onClick={() => window.open(FE_URL, '_blank')}
