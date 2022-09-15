@@ -256,12 +256,11 @@
           "value": "PUBLIC_INTEREST"
         }
       ],
-      "optionsDependencies": {
+      "shouldHideOption": {
         "PUBLIC_INTEREST_TASK": [
           {
             "id": "personalDataTypes",
-            "value": "GDPR_ART_9",
-            "action": "disable"
+            "value": "GDPR_ART_9"
           }
         ]
       }
