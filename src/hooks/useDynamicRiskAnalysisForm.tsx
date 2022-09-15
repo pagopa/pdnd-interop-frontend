@@ -267,11 +267,15 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
       return updatedQuestions.reduce((acc, next) => ({ ...acc, [next.id]: next }), {} as Questions)
     },
 
-    getUpdatedValidation: (questionsObj) => {
+    getUpdatedValidation: (questionsObj, t) => {
       const text = string().required()
       const radio = string().required()
       const selectOne = string().required()
-      const checkbox = array(string())
+      const checkbox = mixed().test(
+        'presence',
+        t('create.step2.multiCheckboxField.validation.mixed.required'),
+        (value) => typeof value !== 'undefined' && value.length > 0
+      )
       const switchSchemaValidation = boolean().required()
 
       const validationOptions = {
