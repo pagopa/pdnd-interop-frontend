@@ -13,15 +13,17 @@ type ActionLink = {
   label: string
   type: 'link'
   to: string
+  disabled?: boolean
 }
 
 type ActionSubmit = {
   label: string
   type: 'submit'
+  disabled?: boolean
 }
 
 export type BackAction = ActionButton | ActionLink
-export type ForwardAction = ActionButton | ActionLink | ActionSubmit
+export type ForwardAction = ActionButton | ActionSubmit
 
 type StepActionsProps = {
   back: BackAction
@@ -30,7 +32,10 @@ type StepActionsProps = {
 
 export function StepActions({ back, forward }: StepActionsProps) {
   const forwardProps =
-    forward && (forward.type === 'button' ? { onClick: forward.onClick } : { type: 'submit' })
+    forward &&
+    (forward.type === 'button'
+      ? { onClick: forward.onClick }
+      : { type: 'submit', disabled: forward?.disabled })
   const backProps =
     back.type === 'link' ? { component: StyledLink, to: back.to } : { onClick: back.onClick }
 

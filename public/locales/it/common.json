@@ -8,6 +8,9 @@
     },
     "string": {
       "email": "Formato email non valido"
+    },
+    "boolean": {
+      "isValue": "Si prega di confermare"
     }
   },
   "mainNav": {
