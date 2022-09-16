@@ -34,6 +34,7 @@ import { StyledButton } from './StyledButton'
 import { URL_FRAGMENTS } from '../../lib/constants'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../../hooks/useJwt'
+import { minutesToSeconds } from '../../lib/format-utils'
 
 const CHIP_COLORS: Record<EServiceState, MUIColor> = {
   PUBLISHED: 'primary',
@@ -114,14 +115,19 @@ export const AsyncTableEServiceCatalog = () => {
       descriptorId: eservice.descriptorId,
     }
 
-    const { outcome: draftCreateOutcome } = (await runAction(
+    const { outcome: draftCreateOutcome, response: draftCreateResp } = (await runAction(
       { path: { endpoint: 'AGREEMENT_DRAFT_CREATE' }, config: { data: agreementData } },
       { suppressToast: ['success'] }
     )) as RunActionOutput
 
     if (draftCreateOutcome === 'success') {
       await runAction(
-        { path: { endpoint: 'AGREEMENT_DRAFT_SUBMIT' } },
+        {
+          path: {
+            endpoint: 'AGREEMENT_DRAFT_SUBMIT',
+            endpointParams: { agreementId: (draftCreateResp as AxiosResponse).data.id },
+          },
+        },
         { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
       )
     }
@@ -339,7 +345,7 @@ export const AsyncTableEServiceList = () => {
         path: { endpoint: 'ESERVICE_VERSION_DRAFT_CREATE', endpointParams: { eserviceId } },
         config: {
           data: {
-            voucherLifespan: 1,
+            voucherLifespan: minutesToSeconds(1),
             audience: [],
             description: '',
             dailyCallsPerConsumer: 1,
@@ -347,7 +353,7 @@ export const AsyncTableEServiceList = () => {
           },
         },
       },
-      { suppressToast: ['success'], showConfirmDialog: true }
+      { showConfirmDialog: true }
     )) as RunActionOutput
 
     if (outcome === 'success') {

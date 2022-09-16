@@ -89,7 +89,7 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'GET',
   },
   ATTRIBUTE_GET_SINGLE: {
-    URL: `${BACKEND_FOR_FRONTEND_URL}/attributes/origin/:origin/code/:code`,
+    URL: `${BACKEND_FOR_FRONTEND_URL}/attributes/attributeId`,
     METHOD: 'GET',
   },
   ATTRIBUTE_CREATE: {
@@ -106,11 +106,11 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'POST',
   },
   AGREEMENT_GET_LIST: {
-    URL: `${AGREEMENT_PROCESS_URL}/agreements`,
+    URL: `${BACKEND_FOR_FRONTEND_URL}/agreements`,
     METHOD: 'GET',
   },
   AGREEMENT_GET_SINGLE: {
-    URL: `${AGREEMENT_PROCESS_URL}/agreements/:agreementId`,
+    URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId`,
     METHOD: 'GET',
   },
   AGREEMENT_VERIFY_ATTRIBUTE: {

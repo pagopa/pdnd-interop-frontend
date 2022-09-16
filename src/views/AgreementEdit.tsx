@@ -6,10 +6,10 @@ import {
   ActionProps,
   ProviderOrSubscriber,
   Purpose,
-  CertifiedAttribute,
-  VerifiedAttribute,
-  DeclaredAttribute,
   EServiceReadType,
+  BackendAttributeContent,
+  BackendAttribute,
+  MUIColor,
 } from '../../types'
 import { buildDynamicPath, getLastBit } from '../lib/router-utils'
 import { mergeActions } from '../lib/eservice-utils'
@@ -21,7 +21,7 @@ import { getAgreementState } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { Alert, Box, Chip, Stack, Typography } from '@mui/material'
+import { Alert, Box, Chip, Grid, Stack, Typography } from '@mui/material'
 import { useRoute } from '../hooks/useRoute'
 import { InfoMessage } from '../components/Shared/InfoMessage'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
@@ -33,14 +33,15 @@ import { fetchWithLogs } from '../lib/api-utils'
 import { isFetchError } from '../lib/error-utils'
 import { AxiosResponse } from 'axios'
 import { StyledPaper } from '../components/StyledPaper'
-import { remapBackendAttributesToFrontend } from '../lib/attributes'
+import { StyledAccordion } from '../components/Shared/StyledAccordion'
+import { formatDateString } from '../lib/format-utils'
 
-// const CHIP_COLOR_ATTRIBUTE: Record<string, MUIColor> = {
-//   newlyVerified: 'primary',
-//   verifiedByAnotherParty: 'primary',
-//   refused: 'error',
-//   pending: 'warning',
-// }
+const CHIP_COLOR_ATTRIBUTE: Record<string, MUIColor> = {
+  newlyVerified: 'primary',
+  verifiedByAnotherParty: 'primary',
+  refused: 'error',
+  pending: 'warning',
+}
 
 export function AgreementEdit() {
   const { t } = useTranslation(['agreement', 'common'])
@@ -54,10 +55,6 @@ export function AgreementEdit() {
     { path: { endpoint: 'AGREEMENT_GET_SINGLE', endpointParams: { agreementId } } },
     { useEffectDeps: [forceRerenderCounter, mode] }
   )
-
-  if (eservice) {
-    console.log({ eservice, remapped: remapBackendAttributesToFrontend(eservice.attributes) })
-  }
 
   useEffect(() => {
     async function asyncFetchEService() {
@@ -115,7 +112,7 @@ export function AgreementEdit() {
   const upgrade = async () => {
     await runAction(
       { path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } } },
-      { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
+      { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST, showConfirmDialog: true }
     )
   }
 
@@ -143,21 +140,20 @@ export function AgreementEdit() {
       ACTIVE: [{ onClick: suspend, label: t('actions.suspend', { ns: 'common' }) }],
       SUSPENDED: [{ onClick: activate, label: t('actions.activate', { ns: 'common' }) }],
       PENDING: [],
-      INACTIVE: [],
+      ARCHIVED: [],
+      DRAFT: [],
     }
 
     const providerOnlyActions: AgreementActions = {
       ACTIVE: [],
       SUSPENDED: [], // [{ onClick: archive, label: 'Archivia' }],
       PENDING: [{ onClick: activate, label: t('actions.activate', { ns: 'common' }) }],
-      INACTIVE: [],
+      ARCHIVED: [],
+      DRAFT: [],
     }
 
     const subscriberOnlyActionsActive: Array<ActionProps> = []
-    if (
-      data.eservice.activeDescriptor &&
-      data.eservice.activeDescriptor.version > data.eservice.version
-    ) {
+    if (canUpgrade()) {
       subscriberOnlyActionsActive.push({
         onClick: upgrade,
         label: t('actions.upgrade', { ns: 'common' }),
@@ -168,7 +164,8 @@ export function AgreementEdit() {
       ACTIVE: subscriberOnlyActionsActive,
       SUSPENDED: [],
       PENDING: [],
-      INACTIVE: [],
+      ARCHIVED: [],
+      DRAFT: [],
     }
 
     const currentMode = mode as ProviderOrSubscriber
@@ -179,6 +176,17 @@ export function AgreementEdit() {
     const status = data ? getAgreementState(data, mode) : 'SUSPENDED'
 
     return mergeActions<AgreementActions>([currentActions, sharedActions], status)
+  }
+
+  const canUpgrade = () => {
+    if (!data) return false
+
+    return (
+      data.eservice.activeDescriptor &&
+      data.eservice.activeDescriptor.state === 'PUBLISHED' &&
+      data.eservice.activeDescriptor.version > data.eservice.version &&
+      data.state !== 'ARCHIVED'
+    )
   }
 
   const getSuspendedChips = () => {
@@ -235,15 +243,13 @@ export function AgreementEdit() {
                 {data?.eservice.name}, {t('edit.eserviceField.versionLabel')}{' '}
                 {data?.eservice.version}
               </StyledLink>
-              {mode === 'subscriber' &&
-              data?.eservice.activeDescriptor &&
-              data?.state !== 'INACTIVE' ? (
+              {mode === 'subscriber' && canUpgrade() ? (
                 <React.Fragment>
                   <br />
                   <StyledLink
                     to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
                       eserviceId: data?.eservice.id,
-                      descriptorId: data?.eservice.activeDescriptor.id,
+                      descriptorId: data?.eservice.activeDescriptor?.id,
                     })}
                   >
                     {t('edit.upgradeField.link.label')}
@@ -256,6 +262,12 @@ export function AgreementEdit() {
             {mode === 'provider' && (
               <DescriptionBlock label={t('edit.subscriberField.label')}>
                 <Typography component="span">{data?.consumer.name}</Typography>
+              </DescriptionBlock>
+            )}
+
+            {mode === 'subscriber' && (
+              <DescriptionBlock label={t('edit.providerField.label')}>
+                <Typography component="span">{data?.producer.name}</Typography>
               </DescriptionBlock>
             )}
 
@@ -278,21 +290,27 @@ export function AgreementEdit() {
             </DescriptionBlock>
 
             <DescriptionBlock label={t('edit.certifiedAttributesField.label')}>
-              <CertifiedAttributesList attributes={data.certifiedAttributes} />
+              {eservice && (
+                <CertifiedAttributesList eserviceAttributes={eservice.attributes.certified} />
+              )}
             </DescriptionBlock>
 
             <DescriptionBlock label={t('edit.verifiedAttributesField.label')}>
-              <VerifiedAttributesList attributes={data.verifiedAttributes} />
+              {eservice && (
+                <VerifiedAttributesList eserviceAttributes={eservice.attributes.verified} />
+              )}
             </DescriptionBlock>
 
-            <DescriptionBlock label={t('edit.declaredAttributesField.label')}>
+            {/* <DescriptionBlock label={t('edit.declaredAttributesField.label')}>
               <DeclaredAttributesList attributes={data.declaredAttributes} />
-            </DescriptionBlock>
+            </DescriptionBlock> */}
 
             {mode === 'subscriber' && purposes.length === 0 && (
               <Alert severity="info">
-                Non ci sono finalità per questa richiesta di fruizione.{' '}
-                <StyledLink to={routes.SUBSCRIBE_PURPOSE_CREATE.PATH}>Crea la prima</StyledLink>
+                {t('edit.noPurposeLabel')}.{' '}
+                <StyledLink to={routes.SUBSCRIBE_PURPOSE_CREATE.PATH}>
+                  {t('edit.noPurposeLink.label')}
+                </StyledLink>
               </Alert>
             )}
           </StyledPaper>
@@ -313,45 +331,133 @@ export function AgreementEdit() {
 }
 
 interface CertifiedAttributesListProps {
-  attributes: Array<CertifiedAttribute>
+  eserviceAttributes: Array<BackendAttribute>
 }
 
-const CertifiedAttributesList: React.FC<CertifiedAttributesListProps> = ({ attributes }) => {
+const CertifiedAttributesList: React.FC<CertifiedAttributesListProps> = ({
+  eserviceAttributes,
+}) => {
   const { t } = useTranslation(['agreement', 'common'])
 
-  if (attributes.length === 0) {
-    return <Typography>{t('edit.certifiedAttributesField.noDataLabel')}</Typography>
+  const Attributes = () => {
+    return (
+      <Box>
+        {eserviceAttributes.map((backendAttribute, i) => {
+          const attributes: Array<BackendAttributeContent> =
+            'single' in backendAttribute ? [backendAttribute.single] : backendAttribute.group
+          const entries = attributes.map((a) => {
+            return {
+              summary: a.name,
+              details: (
+                <DescriptionBlock label={t('edit.attribute.descriptionField.label')} sx={{ mb: 0 }}>
+                  {a.description}
+                </DescriptionBlock>
+              ),
+            }
+          })
+
+          return (
+            <Box key={i} sx={{ mt: 1, mb: 2, borderBottom: 1, borderColor: 'divider' }}>
+              {Boolean(entries.length > 1) && (
+                <InfoMessage sx={{ mb: 2 }} label={t('edit.attribute.groupMessage')} />
+              )}
+              <StyledAccordion entries={entries} />
+            </Box>
+          )
+        })}
+      </Box>
+    )
   }
 
-  return (
-    <Box sx={{ mt: 1, mb: 2, borderBottom: 1, borderColor: 'divider' }}>
-      {Boolean(attributes.length > 1) && (
-        <InfoMessage sx={{ mb: 2 }} label={t('edit.attribute.groupMessage')} />
-      )}
-      {attributes.map((a) => (
-        <Stack justifyContent="space-between" key={a.id}>
-          <Box>
-            {a.name}
-            <br />
-            {a.description}
-          </Box>
-        </Stack>
-      ))}
-    </Box>
+  return eserviceAttributes.length > 0 ? (
+    <Attributes />
+  ) : (
+    <Typography>{t('edit.certifiedAttributesField.noDataLabel')}</Typography>
   )
 }
 
 interface VerifiedAttributesListProps {
-  attributes: Array<VerifiedAttribute>
+  eserviceAttributes: Array<BackendAttribute>
 }
 
-const VerifiedAttributesList: React.FC<VerifiedAttributesListProps> = ({ attributes }) => {
-  console.log({ attributes })
-  /*
-  const ProviderAttributes = () => {
+const VerifiedAttributesList: React.FC<VerifiedAttributesListProps> = ({ eserviceAttributes }) => {
+  const { t } = useTranslation(['agreement', 'common'])
+  const mode = useMode()
+
+  const checkVerifiedStatus = (
+    verified: boolean | undefined,
+    explicitAttributeVerification: boolean
+  ) => {
+    if (!explicitAttributeVerification) {
+      return 'verifiedByAnotherParty'
+    }
+
+    if (typeof verified === 'undefined') {
+      return 'pending'
+    }
+
+    return verified ? 'newlyVerified' : 'refused'
+  }
+
+  const SubscriberAttributes = () => {
     return (
       <Box>
-        {data?.attributes.map((backendAttribute, i) => {
+        {eserviceAttributes.map((backendAttribute, i) => {
+          const attributes: Array<BackendAttributeContent> =
+            'single' in backendAttribute ? [backendAttribute.single] : backendAttribute.group
+          const entries = attributes.map((a) => {
+            const attributeStatus = checkVerifiedStatus(a.verified, a.explicitAttributeVerification)
+
+            return {
+              summary: a.name,
+              summarySecondary: (
+                <Chip
+                  label={t(`edit.attribute.status.${attributeStatus}`)}
+                  color={CHIP_COLOR_ATTRIBUTE[attributeStatus]}
+                />
+              ),
+              details: (
+                <React.Fragment>
+                  {a.verificationDate && (
+                    <DescriptionBlock
+                      label={t('edit.attribute.verificationDateField.label')}
+                      sx={{ mt: 0 }}
+                    >
+                      {formatDateString(a.verificationDate)}
+                    </DescriptionBlock>
+                  )}
+                  <DescriptionBlock
+                    label={t('edit.attribute.descriptionField.label')}
+                    sx={{ mb: 0 }}
+                  >
+                    {a.description}
+                  </DescriptionBlock>
+                </React.Fragment>
+              ),
+            }
+          })
+
+          return (
+            <Box key={i} sx={{ mt: 1, mb: 2, borderBottom: 1, borderColor: 'divider' }}>
+              {Boolean(entries.length > 1) && (
+                <InfoMessage sx={{ mb: 2 }} label={t('edit.attribute.groupMessage')} />
+              )}
+              <StyledAccordion entries={entries} />
+            </Box>
+          )
+        })}
+      </Box>
+    )
+  }
+
+  const ProviderAttributes = () => {
+    const wrapVerify = (_: string) => async () => {
+      //
+    }
+
+    return (
+      <Box>
+        {eserviceAttributes.map((backendAttribute, i) => {
           const attributes: Array<BackendAttributeContent> =
             'single' in backendAttribute ? [backendAttribute.single] : backendAttribute.group
 
@@ -393,11 +499,19 @@ const VerifiedAttributesList: React.FC<VerifiedAttributesListProps> = ({ attribu
       </Box>
     )
   }
-  */
 
-  return <>verificati</>
+  return eserviceAttributes.length > 0 ? (
+    mode === 'provider' ? (
+      <ProviderAttributes />
+    ) : (
+      <SubscriberAttributes />
+    )
+  ) : (
+    <Typography>{t('edit.verifiedAttributesField.noDataLabel')}</Typography>
+  )
 }
 
+/*
 interface DeclaredAttributesListProps {
   attributes: Array<DeclaredAttribute>
 }
@@ -426,47 +540,4 @@ const DeclaredAttributesList: React.FC<DeclaredAttributesListProps> = ({ attribu
     </Box>
   )
 }
-
-/*
-interface CertifiedAttributesListProps {
-  attributes: Array<CertifiedAttribute>
-}
-
-const CertifiedAttributesList: React.FC<CertifiedAttributesListProps> = ({ attributes }) => {
-  const { t } = useTranslation(['agreement', 'common'])
-
-  const entries = attributes.map((a) => {
-    return {
-      summary: a.name,
-      details: (
-        <React.Fragment>
-          {a.ver && (
-            <DescriptionBlock
-              label={t('edit.attribute.verificationDateField.label')}
-              sx={{ mt: 0 }}
-            >
-              {formatDateString(a.verificationDate)}
-            </DescriptionBlock>
-          )}
-          <DescriptionBlock label={t('edit.attribute.authoritativeSourceField.label')}>
-            {a.origin}
-          </DescriptionBlock>
-          <DescriptionBlock label={t('edit.attribute.descriptionField.label')} sx={{ mb: 0 }}>
-            {a.description}
-          </DescriptionBlock>
-        </React.Fragment>
-      ),
-    }
-  })
-
-  return (
-    <Box key={i} sx={{ mt: 1, mb: 2, borderBottom: 1, borderColor: 'divider' }}>
-      {Boolean(entries.length > 1) && (
-        <InfoMessage sx={{ mb: 2 }} label={t('edit.attribute.groupMessage')} />
-      )}
-      <StyledAccordion entries={entries} />
-    </Box>
-  )
-}
-
 */
