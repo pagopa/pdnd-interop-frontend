@@ -249,7 +249,7 @@
           "value": "PUBLIC_INTEREST"
         }
       ],
-      "shouldHideOption": {
+      "hideOption": {
         "PUBLIC_INTEREST_TASK": [
           {
             "id": "personalDataTypes",

@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { StyledInput } from '../components/Shared/StyledInput'
 import { FormikProps, useFormik } from 'formik'
 import { TFunction, useTranslation } from 'react-i18next'
-import { string, mixed, object, boolean, AnyObjectSchema, array } from 'yup'
+import { string, mixed, object, boolean, AnyObjectSchema } from 'yup'
 import { ObjectShape } from 'yup/lib/object'
 import { StyledInputControlledTextProps } from '../components/Shared/StyledInputControlledText'
 import { LangContext } from '../lib/context'
@@ -10,7 +10,7 @@ import { StyledInputControlledRadioProps } from '../components/Shared/StyledInpu
 import { StyledInputControlledCheckboxMultipleProps } from '../components/Shared/StyledInputControlledCheckboxMultiple'
 import { StyledInputControlledSelectProps } from '../components/Shared/StyledInputControlledSelect'
 import { StyledInputControlledSwitchProps } from '../components/Shared/StyledInputControlledSwitch'
-import { LangCode } from '../../types'
+import { InputCheckboxOption, InputRadioOption, InputSelectOption, LangCode } from '../../types'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { FE_URL } from '../lib/env'
 import { Alert } from '@mui/material'
@@ -79,7 +79,7 @@ type QuestionV2 = {
    * will be hidden
    *
    */
-  shouldHideOption: Record<
+  hideOption?: Record<
     string,
     Array<{
       id: string
@@ -112,6 +112,14 @@ type BuildForm = (
 type DynamicFormOperations = Record<
   string,
   {
+    /**
+     * Returns the updated question data.
+     *
+     * @param values - the actual form values
+     * @param riskAnalysis - the risk analysis document
+     *
+     * @returns the updated questions data
+     * */
     getUpdatedQuestions: GetUpdatedQuestions
     /**
      * Returns the updated yup validation schema.
@@ -128,6 +136,16 @@ type DynamicFormOperations = Record<
      * ```
      * */
     getUpdatedValidation: GetUpdatedValidation
+    /**
+     * Returns the updated form components.
+     *
+     * @param questions - the actual updated questions visible to the user
+     * @param formik - formik object
+     * @param lang - the actual active language
+     * @param t - the TFunction of nexti18 internalization library
+     *
+     * @returns Array of components that should be rendered inside the form
+     * */
     buildForm: BuildForm
   }
 >
@@ -302,75 +320,59 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
     },
 
     buildForm: (questions, formik, lang, t) => {
-      let questionIds = Object.keys(questions)
+      const forceUserToCheckEServiceCatalogue: { questionId?: string; alert?: string } = {}
+      const formComponents: Array<JSX.Element> = []
       let isSubmitBtnDisabled = false
-      let blockedAlert: string | undefined
 
-      // find (if ther's any) the id of the question that "blocks" and force the user
-      // to go check the e-service catalog
-      const isUserForcedToCheckEServiceCatalogQuestionId = questionIds.find((questionId) => {
-        const options = (questions[questionId] as QuestionV2)?.options
+      const questionIds = Object.keys(questions)
 
-        if (options) {
-          for (let i = 0; i < options.length; i++) {
-            const option = options[i]
-
-            if (
-              option?.forceUserCheckEServiceCatalog &&
-              formik.values[questionId] === option.value
-            ) {
-              blockedAlert = option.blockedAlert && option.blockedAlert[lang]
-              return true
-            }
-          }
+      questionIds.forEach((id, i) => {
+        // if forceUserToCheckEServiceCatalogue.questionId value is defined, it means that the rest of the question
+        // should not be rendered
+        if (forceUserToCheckEServiceCatalogue.questionId) {
+          return
         }
-      })
 
-      // if isUserForcedToCheckEServiceCatalogQuestionId is truthy means that there is a blocking
-      // option, if so it cuts the questionsId array
-      if (isUserForcedToCheckEServiceCatalogQuestionId) {
-        const indexBlockingQuestionId = questionIds.findIndex(
-          (id) => id === isUserForcedToCheckEServiceCatalogQuestionId
-        )
-        questionIds = questionIds.slice(0, indexBlockingQuestionId + 1)
-      }
-
-      const formComponents = questionIds.map((id, i) => {
-        const { inputType, label, options, infoLabel, required, shouldHideOption, defaultValue } =
+        const { inputType, label, options, infoLabel, required, hideOption, defaultValue } =
           questions[id] as QuestionV2
 
-        function makeOptions() {
-          let optionToDisableValue: string | undefined
+        const inputOptions: Array<InputCheckboxOption & InputRadioOption & InputSelectOption> = []
 
-          let optionsToReturn =
-            options &&
-            options.map((o) => {
-              const option = { value: o.value, label: o.label[lang], disabled: false }
+        if (options) {
+          options.forEach((option) => {
+            // for this option, if the forceUserCheckEServiceCatalog is true, and the option value is currently selected
+            // then we need to force the user to check the eServiceCatalogue and disable the submit button
+            if (option?.forceUserCheckEServiceCatalog && formik.values[id] === option.value) {
+              isSubmitBtnDisabled = true
+              forceUserToCheckEServiceCatalogue.alert =
+                option.blockedAlert && option.blockedAlert[lang]
+              forceUserToCheckEServiceCatalogue.questionId = id
+            }
 
-              shouldHideOption &&
-                shouldHideOption[o.value]?.forEach((dep) => {
-                  const actualDepValue = formik.values[dep.id]
+            // if the key "hideOption" is present in the question object and the conditions are satisfied
+            // the option will be not added to the array of options
+            const shouldHideOption =
+              hideOption &&
+              hideOption[option.value] &&
+              hideOption[option.value].some((dep) => {
+                const actualDepValue = formik.values[dep.id]
 
-                  if (
-                    actualDepValue === dep.value ||
-                    (Array.isArray(actualDepValue) &&
-                      (actualDepValue as string[]).includes(dep.value as string))
-                  ) {
-                    optionToDisableValue = o.value
-                    if ((formik.values[id] as string[]).includes(o.value)) {
-                      formik.setFieldValue(id, defaultValue)
-                    }
+                if (
+                  actualDepValue === dep.value ||
+                  (Array.isArray(actualDepValue) &&
+                    (actualDepValue as string[]).includes(dep.value as string))
+                ) {
+                  if ((formik.values[id] as string[]).includes(option.value)) {
+                    formik.setFieldValue(id, defaultValue)
                   }
-                })
+                  return true
+                }
+              })
 
-              return option
-            })
-
-          if (optionsToReturn && optionToDisableValue) {
-            optionsToReturn = optionsToReturn.filter((o) => o.value !== optionToDisableValue)
-          }
-
-          return optionsToReturn
+            if (!shouldHideOption) {
+              inputOptions.push({ value: option.value, label: option.label[lang] })
+            }
+          })
         }
 
         const untypedProps = {
@@ -380,7 +382,7 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
           setFieldValue: formik.setFieldValue,
           onChange: formik.handleChange,
           label: label[lang],
-          options: makeOptions(),
+          options: inputOptions,
           error: formik.errors[id],
           infoLabel: infoLabel && infoLabel[lang],
           required,
@@ -396,36 +398,34 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
         }[inputType]
 
         const sx = questionIds.length - 1 === i ? { mb: 0 } : undefined
-        return <StyledInput key={id} {...props} sx={sx} />
-      })
 
-      // Add the button that redirects to the e-service catalog if there's any blocking question
-      if (isUserForcedToCheckEServiceCatalogQuestionId) {
-        isSubmitBtnDisabled = true
+        formComponents.push(<StyledInput key={id} {...props} sx={sx} />)
 
-        if (blockedAlert) {
+        if (forceUserToCheckEServiceCatalogue.alert) {
           formComponents.push(
             <Alert
-              key={'alert-' + isUserForcedToCheckEServiceCatalogQuestionId}
+              key={'alert-' + forceUserToCheckEServiceCatalogue.alert}
               sx={{ mt: 2 }}
               severity="warning"
             >
-              {blockedAlert}
+              {forceUserToCheckEServiceCatalogue.alert}
             </Alert>
           )
         }
 
-        formComponents.push(
-          <StyledButton
-            key={'button-' + isUserForcedToCheckEServiceCatalogQuestionId}
-            sx={{ mt: 2 }}
-            variant="contained"
-            onClick={() => window.open(FE_URL, '_blank')}
-          >
-            Salva e vai sul Catalogo API
-          </StyledButton>
-        )
-      }
+        if (forceUserToCheckEServiceCatalogue.questionId) {
+          formComponents.push(
+            <StyledButton
+              key={'button-' + forceUserToCheckEServiceCatalogue.questionId}
+              sx={{ mt: 2 }}
+              variant="contained"
+              onClick={() => window.open(FE_URL, '_blank')}
+            >
+              Salva e vai sul Catalogo API
+            </StyledButton>
+          )
+        }
+      })
 
       return { formComponents, isSubmitBtnDisabled }
     },
