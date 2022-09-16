@@ -66,9 +66,10 @@
     },
     "agreement": {
       "ACTIVE": "active",
+      "DRAFT": "draft",
       "SUSPENDED": "suspended",
       "PENDING": "awaiting approval",
-      "INACTIVE": "archived"
+      "ARCHIVED": "archived"
     },
     "purpose": {
       "DRAFT": "draft",

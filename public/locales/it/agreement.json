@@ -17,15 +17,22 @@
     "subscriberField": {
       "label": "Fruitore"
     },
+    "providerField": {
+      "label": "Erogatore"
+    },
     "requestStatusField": {
       "label": "Stato della richiesta",
       "agreementSuspendedMessage": "La richiesta può essere sospesa sia dall'Erogatore che dal Fruitore. Se almeno uno dei due attori la sospende, inibirà l'accesso all'E-Service per tutte le finalità associate all'E-Service dal Fruitore",
       "suspendedByProvider": "sospeso dall'erogatore",
       "suspendedBySubscriber": "sospeso dal fruitore"
     },
+    "certifiedAttributesField": {
+      "label": "Attributi certificati",
+      "noDataLabel": "Per questo E-Service non sono richiesti attributi certificati"
+    },
     "verifiedAttributesField": {
       "label": "Attributi verificati",
-      "noDataLabel": "Per questo E-Service non sono richiesti attributi"
+      "noDataLabel": "Per questo E-Service non sono richiesti attributi verificati"
     },
     "attribute": {
       "status": {
@@ -37,13 +44,14 @@
       "verificationDateField": {
         "label": "Data di verifica"
       },
-      "authoritativeSourceField": {
-        "label": "Fonte autoritativa"
-      },
       "descriptionField": {
         "label": "Descrizione"
       },
       "groupMessage": "l’intero gruppo seguente è verificato se lo è almeno uno degli attributi che lo compongono"
+    },
+    "noPurposeLabel": "Non ci sono finalità per questa richiesta di fruizione",
+    "noPurposeLink": {
+      "label": "Crea la prima"
     }
   },
   "list": {

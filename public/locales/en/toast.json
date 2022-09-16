@@ -152,7 +152,13 @@
       "message": "The attribute could not be saved. Please, try again!"
     }
   },
-  "AGREEMENT_CREATE": {
+  "AGREEMENT_DRAFT_CREATE": {
+    "loadingText": "Creating fruition request",
+    "error": {
+      "message": "The request could not be created. Please, try again!"
+    }
+  },
+  "AGREEMENT_DRAFT_SUBMIT": {
     "loadingText": "Sending fruition request to the Provider",
     "success": {
       "message": "Request sent successfully and awating approval by the Provider"

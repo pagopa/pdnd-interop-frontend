@@ -3,7 +3,7 @@ import { CertifiedAttribute, EServiceFlatReadType, EServiceReadType } from '../.
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { DialogContext } from '../lib/context'
 import { canSubscribe } from '../lib/attributes'
-import { useFeedback } from '../hooks/useFeedback'
+import { RunActionOutput, useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { EServiceContentInfo } from '../components/Shared/EServiceContentInfo'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -82,13 +82,19 @@ export function EServiceRead() {
       const agreementData = {
         eserviceId: data.id,
         descriptorId: data.activeDescriptor?.id,
-        consumerId: jwt?.organization.id,
       }
 
-      await runAction(
-        { path: { endpoint: 'AGREEMENT_CREATE' }, config: { data: agreementData } },
-        { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
-      )
+      const { outcome: draftCreateOutcome } = (await runAction(
+        { path: { endpoint: 'AGREEMENT_DRAFT_CREATE' }, config: { data: agreementData } },
+        { suppressToast: ['success'] }
+      )) as RunActionOutput
+
+      if (draftCreateOutcome === 'success') {
+        await runAction(
+          { path: { endpoint: 'AGREEMENT_DRAFT_SUBMIT' } },
+          { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
+        )
+      }
     }
 
     setDialog({

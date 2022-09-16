@@ -27,7 +27,8 @@ export const CHIP_COLORS_AGREEMENT: Record<AgreementState, MUIColor> = {
   ACTIVE: 'primary',
   SUSPENDED: 'error',
   PENDING: 'warning',
-  INACTIVE: 'info',
+  ARCHIVED: 'info',
+  DRAFT: 'info',
 }
 
 export const CHIP_COLORS_USER: Record<UserState, MUIColor> = {

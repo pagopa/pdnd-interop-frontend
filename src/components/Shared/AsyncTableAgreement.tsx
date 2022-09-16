@@ -42,10 +42,7 @@ export const AsyncTableAgreement = () => {
   const wrapActivate = (agreementId: string) => async () => {
     await runAction(
       {
-        path: {
-          endpoint: 'AGREEMENT_ACTIVATE',
-          endpointParams: { agreementId, partyId: jwt?.organization.id },
-        },
+        path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId } },
       },
       { showConfirmDialog: true }
     )
@@ -54,10 +51,7 @@ export const AsyncTableAgreement = () => {
   const wrapSuspend = (agreementId: string) => async () => {
     await runAction(
       {
-        path: {
-          endpoint: 'AGREEMENT_SUSPEND',
-          endpointParams: { agreementId, partyId: jwt?.organization.id },
-        },
+        path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId } },
       },
       { showConfirmDialog: true }
     )
@@ -86,11 +80,15 @@ export const AsyncTableAgreement = () => {
         { onClick: wrapActivate(agreement.id), label: t('actions.activate', { ns: 'common' }) },
       ],
       PENDING: [],
-      INACTIVE: [],
+      ARCHIVED: [],
+      DRAFT: [],
     }
 
     const subscriberOnlyActionsActive: Array<ActionProps> = []
-    if (agreement.eservice.activeDescriptor) {
+    if (
+      agreement.eservice.activeDescriptor &&
+      agreement.eservice.activeDescriptor.state === 'PUBLISHED'
+    ) {
       subscriberOnlyActionsActive.push({
         onClick: wrapUpgrade(agreement.id),
         label: t('actions.upgrade', { ns: 'common' }),
@@ -101,7 +99,8 @@ export const AsyncTableAgreement = () => {
       ACTIVE: subscriberOnlyActionsActive,
       SUSPENDED: [],
       PENDING: [],
-      INACTIVE: [],
+      ARCHIVED: [],
+      DRAFT: [],
     }
 
     const providerOnlyActions: AgreementActions = {
@@ -110,7 +109,8 @@ export const AsyncTableAgreement = () => {
       PENDING: [
         { onClick: wrapActivate(agreement.id), label: t('actions.activate', { ns: 'common' }) },
       ],
-      INACTIVE: [],
+      ARCHIVED: [],
+      DRAFT: [],
     }
 
     const currentActions: AgreementActions = {

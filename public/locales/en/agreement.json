@@ -17,11 +17,18 @@
     "subscriberField": {
       "label": "Subscriber"
     },
+    "providerField": {
+      "label": "Provider"
+    },
     "requestStatusField": {
       "label": "Request status",
       "agreementSuspendedMessage": "The request can unilateratelly be suspended both on the Provider and/or Subscriber side. A suspension means that all purposes associated with the E-Service for which this request is active will stop working",
       "suspendedByProvider": "sospeso dall'erogatore",
       "suspendedBySubscriber": "sospeso dal fruitore"
+    },
+    "certifiedAttributesField": {
+      "label": "Certified attributes",
+      "noDataLabel": "There are no required certified attributes for this E-Service"
     },
     "verifiedAttributesField": {
       "label": "Verified attributes",
@@ -37,13 +44,14 @@
       "verificationDateField": {
         "label": "Verification date"
       },
-      "authoritativeSourceField": {
-        "label": "Authoritative source"
-      },
       "descriptionField": {
         "label": "Description"
       },
       "groupMessage": "the whole group below is verified if at least one of the attributes in the group is verified"
+    },
+    "noPurposeLabel": "You haven't created any purpose for this agreement yet",
+    "noPurposeLink": {
+      "label": "Create one"
     }
   },
   "list": {

@@ -169,12 +169,22 @@ export function EServiceAttributeGroup({
 
       {!disabled && (
         <Stack direction={{ sm: 'column', md: 'row' }} spacing={{ sm: 1, md: 2 }} sx={{ mt: 2 }}>
-          <StyledButton size="small" variant="contained" onClick={openExistingAttributeDialog}>
+          <StyledButton
+            disabled={attributeKey !== 'certified'}
+            size="small"
+            variant="contained"
+            onClick={openExistingAttributeDialog}
+          >
             {t('addAttributeTable.addBtn')}
           </StyledButton>
 
           {canCreateNewAttributes && (
-            <StyledButton size="small" variant="outlined" onClick={openCreateNewAttributeDialog}>
+            <StyledButton
+              disabled={attributeKey !== 'certified'}
+              size="small"
+              variant="outlined"
+              onClick={openCreateNewAttributeDialog}
+            >
               {t('addAttributeTable.createBtn')}
             </StyledButton>
           )}

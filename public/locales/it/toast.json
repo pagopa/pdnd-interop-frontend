@@ -152,7 +152,13 @@
       "message": "Non è stato possibile creare il nuovo attributo. Per favore, riprova!"
     }
   },
-  "AGREEMENT_CREATE": {
+  "AGREEMENT_DRAFT_CREATE": {
+    "loadingText": "Stiamo creando la richiesta di fruizione",
+    "error": {
+      "message": "Non è stato possibile creare la richiesta. Per favore, riprova!"
+    }
+  },
+  "AGREEMENT_DRAFT_SUBMIT": {
     "loadingText": "Stiamo inoltrando la richiesta di fruizione",
     "success": {
       "message": "La richiesta è stata inoltrata correttamente ed è in attesa di approvazione. Riceverai notifiche di aggiornamento sul suo stato"
