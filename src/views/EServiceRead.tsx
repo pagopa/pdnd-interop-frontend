@@ -23,6 +23,7 @@ import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
 import { StyledPaper } from '../components/StyledPaper'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
+import { AxiosResponse } from 'axios'
 
 export function EServiceRead() {
   const { t } = useTranslation(['eservice', 'common'])
@@ -84,14 +85,19 @@ export function EServiceRead() {
         descriptorId: data.activeDescriptor?.id,
       }
 
-      const { outcome: draftCreateOutcome } = (await runAction(
+      const { outcome: draftCreateOutcome, response: draftCreateResponse } = (await runAction(
         { path: { endpoint: 'AGREEMENT_DRAFT_CREATE' }, config: { data: agreementData } },
         { suppressToast: ['success'] }
       )) as RunActionOutput
 
       if (draftCreateOutcome === 'success') {
         await runAction(
-          { path: { endpoint: 'AGREEMENT_DRAFT_SUBMIT' } },
+          {
+            path: {
+              endpoint: 'AGREEMENT_DRAFT_SUBMIT',
+              endpointParams: { agreementId: (draftCreateResponse as AxiosResponse).data.id },
+            },
+          },
           { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
         )
       }
