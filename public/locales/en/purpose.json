@@ -54,7 +54,12 @@
           }
         }
       },
-      "emptyLabel": "No available values"
+      "emptyLabel": "No available values",
+      "pa": {
+        "v2": {
+          "blockingButtonLabel": "Go to API Catalog"
+        }
+      }
     },
     "step3": {
       "title": "Associate clients",

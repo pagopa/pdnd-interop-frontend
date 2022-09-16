@@ -54,7 +54,12 @@
           }
         }
       },
-      "emptyLabel": "Nessun valore disponibile"
+      "emptyLabel": "Nessun valore disponibile",
+      "pa": {
+        "v2": {
+          "blockingButtonLabel": "Vai sul Catalogo API"
+        }
+      }
     },
     "step3": {
       "title": "Associazione client",

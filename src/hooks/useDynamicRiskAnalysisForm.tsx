@@ -14,10 +14,16 @@ import { InputCheckboxOption, InputRadioOption, InputSelectOption, LangCode } fr
 import { StyledButton } from '../components/Shared/StyledButton'
 import { FE_URL } from '../lib/env'
 import { Alert } from '@mui/material'
+import identity from 'lodash/identity'
 
 type MultiLangEntry = {
   it: string
   en: string
+}
+
+type Dependency = {
+  id: string
+  value: unknown
 }
 
 type QuestionV1 = {
@@ -28,10 +34,7 @@ type QuestionV1 = {
     label: MultiLangEntry
     value: string
   }>
-  dependencies: Array<{
-    id: string
-    value: unknown
-  }>
+  dependencies: Array<Dependency>
   type: 'text' | 'radio' | 'checkbox' | 'select-one'
   infoLabel?: MultiLangEntry
   required: boolean
@@ -55,10 +58,7 @@ type QuestionV2 = {
     forceUserCheckEServiceCatalog?: boolean
     blockedAlert?: MultiLangEntry
   }>
-  dependencies: Array<{
-    id: string
-    value: unknown
-  }>
+  dependencies: Array<Dependency>
   /**
    * Declares the dependency of the state of one of its own option if the user
    * sets a specific value in another question.
@@ -79,14 +79,7 @@ type QuestionV2 = {
    * will be hidden
    *
    */
-  hideOption?: Record<
-    string,
-    Array<{
-      id: string
-      value: unknown
-      action: 'disable'
-    }>
-  >
+  hideOption?: Record<string, Array<Dependency>>
   infoLabel?: MultiLangEntry
   required: boolean
 }
@@ -320,60 +313,72 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
     },
 
     buildForm: (questions, formik, lang, t) => {
-      const forceUserToCheckEServiceCatalogue: { questionId?: string; alert?: string } = {}
+      const blockedStateConfig: {
+        lastQuestionId: string | null
+        alertLabel: string | null
+        isSubmitBtnDisabled: boolean
+      } = {
+        lastQuestionId: null,
+        alertLabel: null,
+        isSubmitBtnDisabled: false,
+      }
       const formComponents: Array<JSX.Element> = []
-      let isSubmitBtnDisabled = false
 
       const questionIds = Object.keys(questions)
 
-      questionIds.forEach((id, i) => {
-        // if forceUserToCheckEServiceCatalogue.questionId value is defined, it means that the rest of the question
-        // should not be rendered
-        if (forceUserToCheckEServiceCatalogue.questionId) {
-          return
+      type QuestionOption = Exclude<QuestionV2['options'], undefined>[0]
+      type InputField = InputCheckboxOption & InputRadioOption & InputSelectOption
+
+      function shouldOptionBlockRender(option: QuestionOption, questionId: string) {
+        return option?.forceUserCheckEServiceCatalog && formik.values[questionId] === option.value
+      }
+
+      function setBlockedStateConfig(option: QuestionOption, id: string) {
+        blockedStateConfig.isSubmitBtnDisabled = true
+        blockedStateConfig.alertLabel = option.blockedAlert ? option.blockedAlert[lang] : null
+        blockedStateConfig.lastQuestionId = id
+      }
+
+      function checkOptionDependency(dependency: Dependency) {
+        const currentDepValue = formik.values[dependency.id]
+
+        const hasDependency =
+          currentDepValue === dependency.value ||
+          (Array.isArray(currentDepValue) &&
+            (currentDepValue as string[]).includes(dependency.value as string))
+
+        return hasDependency
+      }
+
+      function parseOption(option: QuestionOption, { hideOption, id, defaultValue }: QuestionV2) {
+        // for this option, if the forceUserCheckEServiceCatalog is true, and the option value is currently selected
+        // then we need to force the user to check the eServiceCatalogue and disable the submit button
+        if (shouldOptionBlockRender(option, id)) {
+          setBlockedStateConfig(option, id)
         }
 
-        const { inputType, label, options, infoLabel, required, hideOption, defaultValue } =
-          questions[id] as QuestionV2
+        // if the key "hideOption" is present in the question object and the conditions are satisfied
+        // the option will be not added to the array of options
+        const shouldHideOption =
+          hideOption &&
+          hideOption[option.value] &&
+          hideOption[option.value].some(checkOptionDependency)
 
-        const inputOptions: Array<InputCheckboxOption & InputRadioOption & InputSelectOption> = []
-
-        if (options) {
-          options.forEach((option) => {
-            // for this option, if the forceUserCheckEServiceCatalog is true, and the option value is currently selected
-            // then we need to force the user to check the eServiceCatalogue and disable the submit button
-            if (option?.forceUserCheckEServiceCatalog && formik.values[id] === option.value) {
-              isSubmitBtnDisabled = true
-              forceUserToCheckEServiceCatalogue.alert =
-                option.blockedAlert && option.blockedAlert[lang]
-              forceUserToCheckEServiceCatalogue.questionId = id
-            }
-
-            // if the key "hideOption" is present in the question object and the conditions are satisfied
-            // the option will be not added to the array of options
-            const shouldHideOption =
-              hideOption &&
-              hideOption[option.value] &&
-              hideOption[option.value].some((dep) => {
-                const actualDepValue = formik.values[dep.id]
-
-                if (
-                  actualDepValue === dep.value ||
-                  (Array.isArray(actualDepValue) &&
-                    (actualDepValue as string[]).includes(dep.value as string))
-                ) {
-                  if ((formik.values[id] as string[]).includes(option.value)) {
-                    formik.setFieldValue(id, defaultValue)
-                  }
-                  return true
-                }
-              })
-
-            if (!shouldHideOption) {
-              inputOptions.push({ value: option.value, label: option.label[lang] })
-            }
-          })
+        if (!shouldHideOption) {
+          return { value: option.value, label: option.label[lang] }
         }
+
+        if ((formik.values[id] as string[]).includes(option.value)) {
+          formik.setFieldValue(id, defaultValue)
+        }
+      }
+
+      function buildFormQuestionComponents(
+        { id, inputType, ...question }: QuestionV2,
+        inputOptions: Array<InputField>,
+        isLast: boolean
+      ) {
+        const questionComponents: Array<JSX.Element> = []
 
         const untypedProps = {
           name: id,
@@ -381,11 +386,11 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
           type: inputType,
           setFieldValue: formik.setFieldValue,
           onChange: formik.handleChange,
-          label: label[lang],
+          label: question.label[lang],
           options: inputOptions,
           error: formik.errors[id],
-          infoLabel: infoLabel && infoLabel[lang],
-          required,
+          infoLabel: question.infoLabel && question.infoLabel[lang],
+          required: question.required,
           emptyLabel: t('create.step2.emptyLabel'),
         }
 
@@ -397,37 +402,55 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
           switch: untypedProps as StyledInputControlledSwitchProps,
         }[inputType]
 
-        const sx = questionIds.length - 1 === i ? { mb: 0 } : undefined
+        const sx = isLast ? { mb: 0 } : undefined
 
-        formComponents.push(<StyledInput key={id} {...props} sx={sx} />)
+        questionComponents.push(<StyledInput key={id} {...props} sx={sx} />)
 
-        if (forceUserToCheckEServiceCatalogue.alert) {
-          formComponents.push(
-            <Alert
-              key={'alert-' + forceUserToCheckEServiceCatalogue.alert}
-              sx={{ mt: 2 }}
-              severity="warning"
-            >
-              {forceUserToCheckEServiceCatalogue.alert}
+        if (blockedStateConfig.alertLabel) {
+          questionComponents.push(
+            <Alert key={'alert-' + blockedStateConfig.alertLabel} sx={{ mt: 2 }} severity="warning">
+              {blockedStateConfig.alertLabel}
             </Alert>
           )
         }
 
-        if (forceUserToCheckEServiceCatalogue.questionId) {
-          formComponents.push(
+        if (blockedStateConfig.lastQuestionId) {
+          questionComponents.push(
             <StyledButton
-              key={'button-' + forceUserToCheckEServiceCatalogue.questionId}
+              key={'button-' + blockedStateConfig.lastQuestionId}
               sx={{ mt: 2 }}
               variant="contained"
               onClick={() => window.open(FE_URL, '_blank')}
             >
-              Salva e vai sul Catalogo API
+              {t('create.step2.pa.v2.blockingButtonLabel')}
             </StyledButton>
           )
         }
-      })
 
-      return { formComponents, isSubmitBtnDisabled }
+        return questionComponents
+      }
+
+      for (let i = 0; i < questionIds.length; i++) {
+        const questionId = questionIds[i]
+        // if blockedStateConfig.questionId value is defined, it means that the rest of the question
+        // should not be rendered
+        const shouldStopRenderingQuestions = Boolean(blockedStateConfig.lastQuestionId)
+        if (shouldStopRenderingQuestions) {
+          break
+        }
+
+        const question = questions[questionId] as QuestionV2
+
+        const inputOptions = (question.options
+          ?.map((option) => parseOption(option, question))
+          .filter(identity) || []) as Array<InputField>
+
+        formComponents.push(
+          ...buildFormQuestionComponents(question, inputOptions, questionIds.length - 1 === i)
+        )
+      }
+
+      return { formComponents, isSubmitBtnDisabled: blockedStateConfig.isSubmitBtnDisabled }
     },
   },
 }
