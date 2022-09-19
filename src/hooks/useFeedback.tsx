@@ -191,9 +191,9 @@ export const useFeedback = () => {
 
     if (showConfirmDialog) {
       return await wrapActionInDialog(runBasicAction, request.path.endpoint)
-    } else {
-      return await runBasicAction()
     }
+
+    return await runBasicAction()
   }
   /*
    * End API calls
