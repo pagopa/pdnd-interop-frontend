@@ -54,23 +54,34 @@ export const useFeedback = () => {
   const [forceRerenderCounter, setForceRerenderCounter] = useState(0)
 
   // Dialog, toast and counter related functions
-  const wrapActionInDialog = (wrappedAction: ActionFunction, endpointKey: ApiEndpointKey) => {
+  const wrapActionInDialog = async (wrappedAction: ActionFunction, endpointKey: ApiEndpointKey) => {
     const hasDialog = i18next.exists(endpointKey, { ns: 'dialog' })
 
     if (!hasDialog) {
       throw new Error('This action should have a modal')
     } else {
-      const title = t(`${endpointKey}.title`, { ns: 'dialog' })
-      const description = i18next.exists(`${endpointKey}.description`, { ns: 'dialog' })
-        ? t(`${endpointKey}.description`, { ns: 'dialog' })
-        : undefined
+      return new Promise<void>((resolve) => {
+        const title = t(`${endpointKey}.title`, { ns: 'dialog' })
+        const description = i18next.exists(`${endpointKey}.description`, { ns: 'dialog' })
+          ? t(`${endpointKey}.description`, { ns: 'dialog' })
+          : undefined
 
-      setDialog({
-        type: 'basic',
-        proceedCallback: wrappedAction,
-        close: closeDialog,
-        title,
-        description,
+        const proceedCallback = () => {
+          resolve(wrappedAction())
+        }
+
+        const close = () => {
+          closeDialog()
+          resolve()
+        }
+
+        setDialog({
+          type: 'basic',
+          proceedCallback,
+          close,
+          title,
+          description,
+        })
       })
     }
   }
@@ -179,7 +190,7 @@ export const useFeedback = () => {
     const runBasicAction = wrapBasicAction(request, options)
 
     if (showConfirmDialog) {
-      wrapActionInDialog(runBasicAction, request.path.endpoint)
+      return await wrapActionInDialog(runBasicAction, request.path.endpoint)
     } else {
       return await runBasicAction()
     }
