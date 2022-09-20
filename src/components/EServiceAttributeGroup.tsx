@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next'
 
 type EServiceAttributeGroupProps = {
   index: number
+  disabled: boolean
   attributesGroup: FrontendAttribute
   attributeKey: AttributeKey
   alreadySelectedAttributesIds: Array<string>
@@ -23,6 +24,7 @@ type EServiceAttributeGroupProps = {
 
 export function EServiceAttributeGroup({
   index,
+  disabled,
   attributesGroup,
   attributeKey,
   alreadySelectedAttributesIds,
@@ -35,7 +37,8 @@ export function EServiceAttributeGroup({
   const [addButtonPressed, setAddButtonPressed] = useState(false)
   const hasExplicitAttributeVerification = attributeKey !== 'certified'
 
-  const isAttributeAutocompleteShown = addButtonPressed || attributesGroup.attributes.length === 0
+  const isAttributeAutocompleteShown =
+    (addButtonPressed || attributesGroup.attributes.length === 0) && !disabled
 
   const handleAddToAttributeGroupWrapper = () => {
     return (attribute: CatalogAttribute) => {
@@ -50,6 +53,7 @@ export function EServiceAttributeGroup({
 
       <Box sx={{ mb: 4, ml: 2 }}>
         <AttributesList
+          disabled={disabled}
           attributes={attributesGroup.attributes}
           onRemove={handleRemoveAttributeFromGroup.bind(null, index)}
         />
@@ -66,6 +70,7 @@ export function EServiceAttributeGroup({
             size="medium"
             color="primary"
             type="button"
+            disabled={disabled}
             onClick={() => setAddButtonPressed(true)}
           >
             {t('addBtn')}
@@ -78,6 +83,7 @@ export function EServiceAttributeGroup({
           <FormControlLabel
             control={
               <Switch
+                disabled={disabled}
                 value={attributesGroup.explicitAttributeVerification}
                 onChange={handleExplicitAttributeVerificationChange.bind(null, index)}
               />
@@ -143,10 +149,11 @@ function AttributesAutocomplete({
 }
 
 type AttributesListProps = {
+  disabled: boolean
   attributes: Array<CatalogAttribute>
   onRemove: (attribute: CatalogAttribute) => void
 }
-function AttributesList({ attributes, onRemove }: AttributesListProps) {
+function AttributesList({ disabled, attributes, onRemove }: AttributesListProps) {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.attributes.group' })
   const { setDialog } = useContext(DialogContext)
 
@@ -173,9 +180,11 @@ function AttributesList({ attributes, onRemove }: AttributesListProps) {
                 <ButtonNaked onClick={openAttributeDetailsDialog.bind(null, attribute)}>
                   <InfoRounded fontSize="small" color="primary" aria-label={t('showInfoSrLabel')} />
                 </ButtonNaked>
-                <ButtonNaked onClick={onRemove.bind(null, attribute)}>
-                  <DeleteOutline fontSize="small" color="error" aria-label={t('deleteSrLabel')} />
-                </ButtonNaked>
+                {!disabled && (
+                  <ButtonNaked onClick={onRemove.bind(null, attribute)}>
+                    <DeleteOutline fontSize="small" color="error" aria-label={t('deleteSrLabel')} />
+                  </ButtonNaked>
+                )}
               </Stack>
               <Typography
                 component="span"

@@ -125,6 +125,7 @@ export function EServiceAttributeSection({
               <EServiceAttributeGroup
                 key={index}
                 index={index}
+                disabled={disabled}
                 attributesGroup={attributesGroup}
                 attributeKey={attributeKey}
                 alreadySelectedAttributesIds={alreadySelectedAttributesIds}
