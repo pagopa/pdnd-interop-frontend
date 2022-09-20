@@ -34,8 +34,10 @@
         "group": {
           "title": "attributo {{num}}:",
           "addBtn": "Aggiungi",
+          "cancelBtn": "Annulla",
           "or": "oppure",
           "deleteSrLabel": "Elimina attributo",
+          "deleteGroupSrLabel": "Elimina gruppo di attributi",
           "showInfoSrLabel": "Mostra informazioni attributo",
           "canRequireVerification": "Per questo attributo sfrutta le verifiche effettuate da altri erogatori",
           "autocompleteInput": {

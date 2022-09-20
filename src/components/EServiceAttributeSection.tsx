@@ -8,7 +8,7 @@ import {
   FrontendAttributes,
   NewAttributeFormInputValues,
 } from '../../types'
-import { Box, Stack, Typography } from '@mui/material'
+import { Alert, Box, Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { StyledPaper } from './StyledPaper'
 import { ButtonNaked } from '@pagopa/mui-italia'
@@ -21,14 +21,14 @@ type EServiceAttributeSectionProps = {
   attributeKey: AttributeKey
   attributes: Array<FrontendAttribute>
   setAttributes: React.Dispatch<React.SetStateAction<FrontendAttributes>>
-  disabled: boolean
+  readOnly: boolean
 }
 
 export function EServiceAttributeSection({
   attributeKey,
   attributes,
   setAttributes,
-  disabled,
+  readOnly,
 }: EServiceAttributeSectionProps) {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.attributes' })
   const { setDialog } = useContext(DialogContext)
@@ -80,6 +80,20 @@ export function EServiceAttributeSection({
     }))
   }
 
+  const handleRemoveAttributesGroup = (groupIndex: number) => {
+    setAttributes((prev) => {
+      const attributesGroups = [...prev[attributeKey]]
+      attributesGroups.splice(groupIndex, 1)
+
+      console.log(attributesGroups)
+
+      return {
+        ...prev,
+        [attributeKey]: attributesGroups,
+      }
+    })
+  }
+
   const handleAddAttributeToGroup = (groupIndex: number, attribute: CatalogAttribute) => {
     setAttributes((prev) => {
       const attributesGroups = [...prev[attributeKey]]
@@ -109,6 +123,8 @@ export function EServiceAttributeSection({
     })
   }
 
+  const showDisabledAlert = attributeKey === 'declared' || attributeKey === 'verified'
+
   return (
     <StyledPaper>
       <StyledIntro component="h2">
@@ -125,10 +141,11 @@ export function EServiceAttributeSection({
               <EServiceAttributeGroup
                 key={index}
                 index={index}
-                disabled={disabled}
+                readOnly={readOnly}
                 attributesGroup={attributesGroup}
                 attributeKey={attributeKey}
                 alreadySelectedAttributesIds={alreadySelectedAttributesIds}
+                handleRemoveAttributesGroup={handleRemoveAttributesGroup}
                 handleAddAttributeToGroup={handleAddAttributeToGroup}
                 handleRemoveAttributeFromGroup={handleRemoveAttributeFromGroup}
                 handleExplicitAttributeVerificationChange={
@@ -140,30 +157,37 @@ export function EServiceAttributeSection({
         </Box>
       )}
 
-      <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
-        <ButtonNaked
-          startIcon={<Add />}
-          size="medium"
-          color="primary"
-          type="button"
-          onClick={handleAddAttributesGroup}
-          disabled={disabled}
-        >
-          {t('addBtn')}
-        </ButtonNaked>
-
-        {attributeKey !== 'certified' && (
+      {!readOnly && (
+        <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
           <ButtonNaked
-            type="button"
+            startIcon={<Add />}
             size="medium"
             color="primary"
-            onClick={openCreateNewAttributeDialog}
-            disabled={disabled}
+            type="button"
+            onClick={handleAddAttributesGroup}
           >
-            {t('createBtn')}
+            {t('addBtn')}
           </ButtonNaked>
-        )}
-      </Stack>
+
+          {attributeKey !== 'certified' && (
+            <ButtonNaked
+              type="button"
+              size="medium"
+              color="primary"
+              onClick={openCreateNewAttributeDialog}
+            >
+              {t('createBtn')}
+            </ButtonNaked>
+          )}
+        </Stack>
+      )}
+
+      {showDisabledAlert && (
+        <Alert severity="warning" sx={{ mt: 2, mb: 1 }}>
+          L&lsquo;inserimento di attributi verificati e dichiarati è temporaneamente disabilitato
+          per un test su una nuova feature
+        </Alert>
+      )}
     </StyledPaper>
   )
 }

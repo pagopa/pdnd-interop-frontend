@@ -34,8 +34,10 @@
         "group": {
           "title": "attribute {{num}}:",
           "addBtn": "Add",
+          "cancelBtn": "Cancel",
           "or": "or",
           "deleteSrLabel": "Delete attribute",
+          "deleteGroupSrLabel": "Delete group attribute",
           "showInfoSrLabel": "Show attribute info",
           "canRequireVerification": "For this attribute use the verification made by other providers",
           "autocompleteInput": {

@@ -200,30 +200,25 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
                 />
               </StyledPaper>
 
-              <Alert severity="warning" sx={{ mt: 4 }}>
-                L&lsquo;inserimento di attributi verificati e dichiarati è temporaneamente
-                disabilitato per un test su una nuova feature
-              </Alert>
-
               <EServiceAttributeSection
                 attributeKey="certified"
                 attributes={attributes.certified}
                 setAttributes={setAttributes}
-                disabled={!isEditable}
+                readOnly={!isEditable}
               />
 
               <EServiceAttributeSection
                 attributeKey="verified"
                 attributes={attributes.verified}
                 setAttributes={setAttributes}
-                disabled={!isEditable || true}
+                readOnly={!isEditable || true}
               />
 
               <EServiceAttributeSection
                 attributeKey="declared"
                 attributes={attributes.declared}
                 setAttributes={setAttributes}
-                disabled={!isEditable || true}
+                readOnly={!isEditable || true}
               />
 
               {!isEditable && (

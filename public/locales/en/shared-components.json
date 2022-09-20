@@ -128,6 +128,22 @@
       "confirmLabel": "Create attribute"
     }
   },
+  "styledDialogAttributeDetails": {
+    "content": {
+      "descriptionField": {
+        "label": "Attribute description"
+      },
+      "codeField": {
+        "label": "Authoritative source id"
+      },
+      "originField": {
+        "label": "Authoritative source name"
+      }
+    },
+    "actions": {
+      "closeBtn": "Close"
+    }
+  },
   "styledDialogSetPurposeExpectedApprovalDate": {
     "ariaDescribedBy": "Modal to set the estimated completion date to activate a Subscriber purpose",
     "title": "Set estimated completion date",

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Box, FormControlLabel, Stack, Switch, Typography } from '@mui/material'
+import { Box, Divider, FormControlLabel, Stack, Switch, Typography } from '@mui/material'
 import { AttributeKey, CatalogAttribute, FrontendAttribute } from '../../types'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledInputControlledAsyncAutocomplete } from './Shared/StyledInputControlledAsyncAutocomplete'
@@ -10,10 +10,11 @@ import { useTranslation } from 'react-i18next'
 
 type EServiceAttributeGroupProps = {
   index: number
-  disabled: boolean
+  readOnly: boolean
   attributesGroup: FrontendAttribute
   attributeKey: AttributeKey
   alreadySelectedAttributesIds: Array<string>
+  handleRemoveAttributesGroup: (groupIndex: number) => void
   handleAddAttributeToGroup: (groupIndex: number, attribute: CatalogAttribute) => void
   handleRemoveAttributeFromGroup: (groupIndex: number, attribute: CatalogAttribute) => void
   handleExplicitAttributeVerificationChange: (
@@ -24,66 +25,82 @@ type EServiceAttributeGroupProps = {
 
 export function EServiceAttributeGroup({
   index,
-  disabled,
+  readOnly,
   attributesGroup,
   attributeKey,
   alreadySelectedAttributesIds,
+  handleRemoveAttributesGroup,
   handleAddAttributeToGroup,
   handleRemoveAttributeFromGroup,
   handleExplicitAttributeVerificationChange,
 }: EServiceAttributeGroupProps) {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.attributes.group' })
 
-  const [addButtonPressed, setAddButtonPressed] = useState(false)
+  const [isAttributeAutocompleteShown, setIsAttributeAutocompleteShown] = useState(true)
   const hasExplicitAttributeVerification = attributeKey !== 'certified'
 
-  const isAttributeAutocompleteShown =
-    (addButtonPressed || attributesGroup.attributes.length === 0) && !disabled
-
-  const handleAddToAttributeGroupWrapper = () => {
-    return (attribute: CatalogAttribute) => {
-      setAddButtonPressed(false)
-      handleAddAttributeToGroup(index, attribute)
-    }
-  }
+  const handleHideAutocomplete = () => setIsAttributeAutocompleteShown(false)
 
   return (
-    <Box sx={{ p: 1.5, border: 1, borderColor: 'divider', borderRadius: 1 }}>
-      <Typography variant="subtitle1">{t('title', { num: index + 1 })}</Typography>
+    <Box sx={{ border: 1, borderColor: 'background.default', borderRadius: 1 }}>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        sx={{ p: 1.5, backgroundColor: 'background.default' }}
+      >
+        <Typography variant="subtitle1">{t('title', { num: index + 1 })}</Typography>
+        {!readOnly && (
+          <ButtonNaked>
+            <DeleteOutline
+              onClick={handleRemoveAttributesGroup.bind(null, index)}
+              color="error"
+              aria-label={t('deleteGroupSrLabel')}
+            />
+          </ButtonNaked>
+        )}
+      </Stack>
 
-      <Box sx={{ mb: 4, ml: 2 }}>
+      <Box sx={{ px: 1.5 }}>
         <AttributesList
-          disabled={disabled}
+          readOnly={readOnly}
           attributes={attributesGroup.attributes}
           onRemove={handleRemoveAttributeFromGroup.bind(null, index)}
         />
 
-        {isAttributeAutocompleteShown ? (
-          <AttributesAutocomplete
-            attributeKey={attributeKey}
-            alreadySelectedAttributesIds={alreadySelectedAttributesIds}
-            onAdd={handleAddToAttributeGroupWrapper()}
-          />
-        ) : (
-          <ButtonNaked
-            startIcon={<Add />}
-            size="medium"
-            color="primary"
-            type="button"
-            disabled={disabled}
-            onClick={() => setAddButtonPressed(true)}
-          >
-            {t('addBtn')}
-          </ButtonNaked>
+        {!readOnly && (
+          <>
+            {attributesGroup.attributes.length > 0 && <Divider />}
+            <Box sx={{ mb: 3, mt: 2.5 }}>
+              {isAttributeAutocompleteShown ? (
+                <AttributesAutocomplete
+                  attributeKey={attributeKey}
+                  alreadySelectedAttributesIds={alreadySelectedAttributesIds}
+                  handleHideAutocomplete={handleHideAutocomplete}
+                  onAdd={handleAddAttributeToGroup.bind(null, index)}
+                />
+              ) : (
+                <ButtonNaked
+                  startIcon={<Add />}
+                  size="medium"
+                  color="primary"
+                  type="button"
+                  readOnly={readOnly}
+                  onClick={() => setIsAttributeAutocompleteShown(true)}
+                >
+                  {t('addBtn')}
+                </ButtonNaked>
+              )}
+            </Box>
+          </>
         )}
       </Box>
-
-      {hasExplicitAttributeVerification && (
-        <Box sx={{ backgroundColor: 'background.default', px: 1, borderRadius: 1 }}>
+      {hasExplicitAttributeVerification && !readOnly && (
+        <Box sx={{ backgroundColor: 'background.default', px: 1, py: 0.5 }}>
           <FormControlLabel
             control={
               <Switch
-                disabled={disabled}
+                readOnly={readOnly}
                 value={attributesGroup.explicitAttributeVerification}
                 onChange={handleExplicitAttributeVerificationChange.bind(null, index)}
               />
@@ -99,12 +116,14 @@ export function EServiceAttributeGroup({
 type AttributesAutocompleteProps = {
   attributeKey: AttributeKey
   alreadySelectedAttributesIds: Array<string>
+  handleHideAutocomplete: VoidFunction
   onAdd: (attribute: CatalogAttribute) => void
 }
 
 function AttributesAutocomplete({
   attributeKey,
   alreadySelectedAttributesIds,
+  handleHideAutocomplete,
   onAdd,
 }: AttributesAutocompleteProps) {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.attributes.group' })
@@ -115,15 +134,18 @@ function AttributesAutocomplete({
   }
 
   const handleAdd = () => {
-    selected && onAdd(selected)
+    if (selected && checkIsAlreadyInGroup(selected)) {
+      onAdd(selected)
+    }
     setSelected(null)
+    handleHideAutocomplete()
   }
 
   return (
-    <Stack direction="row" spacing={2} alignItems="end">
+    <Box>
       <StyledInputControlledAsyncAutocomplete
         label={t('autocompleteInput.label')}
-        sx={{ mt: 2, mb: 0, flex: 1 }}
+        sx={{ mb: 0, flex: 1 }}
         placeholder={t('autocompleteInput.placeholder')}
         path={{ endpoint: 'ATTRIBUTE_GET_LIST' }}
         variant="standard"
@@ -141,19 +163,36 @@ function AttributesAutocomplete({
           option.name === value.name
         }
       />
-      <StyledButton onClick={handleAdd} disabled={!selected} type="button" variant="outlined">
-        {t('addBtn')}
-      </StyledButton>
-    </Stack>
+      <Stack sx={{ mt: 2 }} direction="row" alignItems="center" spacing={1}>
+        <StyledButton
+          onClick={handleAdd}
+          disabled={!selected}
+          type="button"
+          size="small"
+          variant="outlined"
+        >
+          {t('addBtn')}
+        </StyledButton>
+        <StyledButton
+          onClick={handleHideAutocomplete}
+          type="button"
+          size="small"
+          color="error"
+          variant="text"
+        >
+          {t('cancelBtn')}
+        </StyledButton>
+      </Stack>
+    </Box>
   )
 }
 
 type AttributesListProps = {
-  disabled: boolean
+  readOnly: boolean
   attributes: Array<CatalogAttribute>
   onRemove: (attribute: CatalogAttribute) => void
 }
-function AttributesList({ disabled, attributes, onRemove }: AttributesListProps) {
+function AttributesList({ readOnly, attributes, onRemove }: AttributesListProps) {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.attributes.group' })
   const { setDialog } = useContext(DialogContext)
 
@@ -167,7 +206,7 @@ function AttributesList({ disabled, attributes, onRemove }: AttributesListProps)
   if (attributes.length === 0) return null
 
   return (
-    <Stack sx={{ listStyle: 'none', pl: 0 }} component="ul" spacing={2}>
+    <Stack sx={{ listStyle: 'none', pl: 0, my: 3 }} component="ul" spacing={2}>
       {attributes.map((attribute, i) => {
         const shouldNotShowOppure = attributes.length === 1 || i === attributes.length - 1
         return (
@@ -180,7 +219,7 @@ function AttributesList({ disabled, attributes, onRemove }: AttributesListProps)
                 <ButtonNaked onClick={openAttributeDetailsDialog.bind(null, attribute)}>
                   <InfoRounded fontSize="small" color="primary" aria-label={t('showInfoSrLabel')} />
                 </ButtonNaked>
-                {!disabled && (
+                {!readOnly && (
                   <ButtonNaked onClick={onRemove.bind(null, attribute)}>
                     <DeleteOutline fontSize="small" color="error" aria-label={t('deleteSrLabel')} />
                   </ButtonNaked>
@@ -193,6 +232,7 @@ function AttributesList({ disabled, attributes, onRemove }: AttributesListProps)
                   visibility: shouldNotShowOppure ? 'hidden' : 'visible',
                 }}
                 variant="body2"
+                fontStyle="italic"
               >
                 {t('or')}
               </Typography>
