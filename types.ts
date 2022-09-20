@@ -684,7 +684,6 @@ export type DialogContent = {
 }
 
 export type DialogDefaultProps = {
-  close: VoidFunction
   maxWidth?: MUISize
 }
 

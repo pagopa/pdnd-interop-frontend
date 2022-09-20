@@ -59,31 +59,25 @@ export const useFeedback = () => {
 
     if (!hasDialog) {
       throw new Error('This action should have a modal')
-    } else {
-      return new Promise<void>((resolve) => {
-        const title = t(`${endpointKey}.title`, { ns: 'dialog' })
-        const description = i18next.exists(`${endpointKey}.description`, { ns: 'dialog' })
-          ? t(`${endpointKey}.description`, { ns: 'dialog' })
-          : undefined
-
-        const proceedCallback = () => {
-          resolve(wrappedAction())
-        }
-
-        const close = () => {
-          closeDialog()
-          resolve()
-        }
-
-        setDialog({
-          type: 'basic',
-          proceedCallback,
-          close,
-          title,
-          description,
-        })
-      })
     }
+
+    return new Promise<void>((resolve) => {
+      const title = t(`${endpointKey}.title`, { ns: 'dialog' })
+      const description = i18next.exists(`${endpointKey}.description`, { ns: 'dialog' })
+        ? t(`${endpointKey}.description`, { ns: 'dialog' })
+        : undefined
+
+      const proceedCallback = () => {
+        resolve(wrappedAction())
+      }
+
+      setDialog({
+        type: 'basic',
+        proceedCallback,
+        title,
+        description,
+      })
+    })
   }
 
   const closeDialog = () => {
