@@ -1,195 +1,193 @@
-import React, { useContext } from 'react'
-import { Stack, Typography } from '@mui/material'
-import { mixed, object, string } from 'yup'
-import {
-  AttributeKey,
-  CatalogAttribute,
-  DialogExistingAttributeProps,
-  ExistingAttributeFormInputValues,
-  FrontendAttribute,
-  NewAttributeFormInputValues,
-} from '../../types'
+import React, { useContext, useState } from 'react'
+import { Box, FormControlLabel, Stack, Switch, Typography } from '@mui/material'
+import { AttributeKey, CatalogAttribute, FrontendAttribute } from '../../types'
 import { StyledButton } from './Shared/StyledButton'
-import { TableWithLoader } from './Shared/TableWithLoader'
-import { DialogContext } from '../lib/context'
-import { useFeedback } from '../hooks/useFeedback'
-import { useCloseDialog } from '../hooks/useCloseDialog'
-import { StyledTableRow } from './Shared/StyledTableRow'
-import { DeleteOutline as DeleteOutlineIcon } from '@mui/icons-material'
+import { StyledInputControlledAsyncAutocomplete } from './Shared/StyledInputControlledAsyncAutocomplete'
 import { ButtonNaked } from '@pagopa/mui-italia'
-import { useTranslation } from 'react-i18next'
+import { Add, Delete, InfoRounded } from '@mui/icons-material'
+import { DialogContext } from '../lib/context'
 
 type EServiceAttributeGroupProps = {
-  attributesGroup: Array<FrontendAttribute>
-  canRequireVerification?: boolean
-  canCreateNewAttributes?: boolean
-  add: (attributeGroup: Array<CatalogAttribute>, explicitAttributeVerification: boolean) => void
-  remove: (attributeGroupToRemove: Array<CatalogAttribute>) => void
+  index: number
+  attributesGroup: FrontendAttribute
   attributeKey: AttributeKey
-  disabled: boolean
+  handleAddAttributeToGroup: (groupIndex: number, attribute: CatalogAttribute) => void
+  handleRemoveAttributeFromGroup: (groupIndex: number, attribute: CatalogAttribute) => void
+  handleExplicitAttributeVerificationChange: (
+    groupIndex: number,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => void
 }
 
 export function EServiceAttributeGroup({
+  index,
   attributesGroup,
-  canRequireVerification = false,
-  canCreateNewAttributes = false,
-  remove,
-  add,
   attributeKey,
-  disabled,
+  handleAddAttributeToGroup,
+  handleRemoveAttributeFromGroup,
+  handleExplicitAttributeVerificationChange,
 }: EServiceAttributeGroupProps) {
-  const { setDialog } = useContext(DialogContext)
-  const { runAction } = useFeedback()
-  const { closeDialog } = useCloseDialog()
-  const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.attributes' })
+  const [addButtonPressed, setAddButtonPressed] = useState(false)
+  const hasExplicitAttributeVerification = attributeKey !== 'certified'
 
-  const openCreateNewAttributeDialog = () => {
-    const createNewAttributeInitialValues = {
-      name: '',
-      code: '',
-      origin: '',
-      description: '',
-      kind: attributeKey.toUpperCase(),
+  const isAttributeAutocompleteShown = addButtonPressed || attributesGroup.attributes.length === 0
+
+  const handleAddToAttributeGroupWrapper = () => {
+    return (attribute: CatalogAttribute) => {
+      setAddButtonPressed(false)
+      handleAddAttributeToGroup(index, attribute)
     }
-    const createNewAttributeValidationSchema = object({
-      name: string().required(),
-      code: string().required(),
-      origin: string().required(),
-      description: string().required(),
-      kind: mixed().oneOf(['CERTIFIED', 'VERIFIED', 'DECLARED']).required(),
-    })
-
-    const createNewAttribute = async (data: NewAttributeFormInputValues) => {
-      const dataToPost = { ...data }
-
-      await runAction({ path: { endpoint: 'ATTRIBUTE_CREATE' }, config: { data: dataToPost } })
-    }
-
-    setDialog({
-      type: 'createNewAttribute',
-      attributeKey,
-      onSubmit: createNewAttribute,
-      initialValues: createNewAttributeInitialValues,
-      validationSchema: createNewAttributeValidationSchema,
-    })
-  }
-
-  const openExistingAttributeDialog = () => {
-    const existingAttributeInitialValues: ExistingAttributeFormInputValues = {
-      selected: [],
-      verifiedCondition: { attribute: true },
-    }
-
-    const addExistingAttributes = ({
-      selected,
-      verifiedCondition,
-    }: ExistingAttributeFormInputValues) => {
-      add(selected, Boolean(verifiedCondition?.attribute))
-      closeDialog()
-    }
-
-    const selectedIds = attributesGroup.reduce<Array<string>>((acc, next) => {
-      const ids = next.attributes.map((a) => a.id)
-      return [...acc, ...ids]
-    }, [])
-
-    setDialog({
-      type: 'addExistingAttribute',
-      attributeKey,
-      initialValues: existingAttributeInitialValues,
-      selectedIds,
-      onSubmit: addExistingAttributes,
-    } as DialogExistingAttributeProps)
-  }
-
-  const headData = canRequireVerification
-    ? [t('addAttributeTable.attributeName'), t('addAttributeTable.canRequireVerification'), '']
-    : [t('addAttributeTable.attributeName'), '']
-
-  const wrapRemove = (attributes: Array<CatalogAttribute>) => () => {
-    remove(attributes)
   }
 
   return (
-    <React.Fragment>
-      <TableWithLoader
-        isLoading={false}
-        headData={headData}
-        noDataLabel={t('addAttributeTable.noDataLabel')}
-      >
-        {Boolean(attributesGroup.length > 0) &&
-          attributesGroup.map(({ attributes, explicitAttributeVerification }, j) => {
-            const attributesLabel = {
-              label: (
-                <React.Fragment>
-                  {attributes.map(({ name }, i) => {
-                    if (i < attributes.length - 1) {
-                      return (
-                        <React.Fragment key={i}>
-                          {name}{' '}
-                          <Typography fontSize="inherit" fontWeight={600} component="span">
-                            {t('addAttributeTable.groupOr')}
-                          </Typography>{' '}
-                        </React.Fragment>
-                      )
-                    }
+    <Box sx={{ p: 1.5, border: 1, borderColor: 'divider', borderRadius: 1 }}>
+      <Typography variant="subtitle1">attributo {index + 1}:</Typography>
 
-                    return <React.Fragment key={i}>{name}</React.Fragment>
-                  })}
-                </React.Fragment>
-              ),
-            }
+      <Box sx={{ mb: 4, ml: 2 }}>
+        <AttributesList
+          attributes={attributesGroup.attributes}
+          onRemove={handleRemoveAttributeFromGroup.bind(null, index)}
+        />
 
-            const explicitAttributeVerificationLabel = {
-              label: t(
-                `addAttributeTable.${
-                  explicitAttributeVerification
-                    ? 'explicitAttributeVerificationYes'
-                    : 'explicitAttributeVerificationNo'
-                }`
-              ),
-            }
-
-            const cellData =
-              attributeKey === 'verified'
-                ? [attributesLabel, explicitAttributeVerificationLabel]
-                : [attributesLabel]
-
-            return (
-              <StyledTableRow key={j} cellData={cellData}>
-                {!disabled && (
-                  <ButtonNaked onClick={wrapRemove(attributes)}>
-                    <DeleteOutlineIcon fontSize="small" color="primary" />
-                  </ButtonNaked>
-                )}
-              </StyledTableRow>
-            )
-          })}
-      </TableWithLoader>
-
-      {!disabled && (
-        <Stack direction={{ sm: 'column', md: 'row' }} spacing={{ sm: 1, md: 2 }} sx={{ mt: 2 }}>
-          <StyledButton
-            disabled={attributeKey !== 'certified'}
-            size="small"
-            variant="contained"
-            onClick={openExistingAttributeDialog}
+        {isAttributeAutocompleteShown ? (
+          <AttributesAutocomplete
+            attributeKey={attributeKey}
+            attributesGroup={attributesGroup.attributes}
+            onAdd={handleAddToAttributeGroupWrapper()}
+          />
+        ) : (
+          <ButtonNaked
+            startIcon={<Add />}
+            size="medium"
+            color="primary"
+            type="button"
+            onClick={() => setAddButtonPressed(true)}
           >
-            {t('addAttributeTable.addBtn')}
-          </StyledButton>
+            Aggiungi
+          </ButtonNaked>
+        )}
+      </Box>
 
-          {canCreateNewAttributes && (
-            <StyledButton
-              disabled={attributeKey !== 'certified'}
-              size="small"
-              variant="outlined"
-              onClick={openCreateNewAttributeDialog}
-            >
-              {t('addAttributeTable.createBtn')}
-            </StyledButton>
-          )}
-        </Stack>
+      {hasExplicitAttributeVerification && (
+        <Box sx={{ backgroundColor: 'background.default', px: 1, borderRadius: 1 }}>
+          <FormControlLabel
+            control={
+              <Switch
+                value={attributesGroup.explicitAttributeVerification}
+                onChange={handleExplicitAttributeVerificationChange.bind(null, index)}
+              />
+            }
+            label="Per questo attributo sfrutta le verifiche effettuate da altri erogatori"
+          />
+        </Box>
       )}
-    </React.Fragment>
+    </Box>
+  )
+}
+
+type AttributesAutocompleteProps = {
+  attributeKey: AttributeKey
+  attributesGroup: Array<CatalogAttribute>
+  onAdd: (attribute: CatalogAttribute) => void
+}
+
+function AttributesAutocomplete({
+  attributeKey,
+  attributesGroup,
+  onAdd,
+}: AttributesAutocompleteProps) {
+  const [selected, setSelected] = useState<CatalogAttribute | null>(null)
+
+  function checkIsAlreadyInGroup(attribute: CatalogAttribute) {
+    return !attributesGroup.some((attSome) => attSome.id === attribute.id)
+  }
+
+  const handleAdd = () => {
+    selected && onAdd(selected)
+    setSelected(null)
+  }
+
+  return (
+    <Stack direction="row" spacing={2} alignItems="end">
+      <StyledInputControlledAsyncAutocomplete
+        label={'test'}
+        sx={{ mt: 2, mb: 0, flex: 1 }}
+        placeholder="choose"
+        path={{ endpoint: 'ATTRIBUTE_GET_LIST' }}
+        variant="standard"
+        transformKey="attributes"
+        transformFn={(fetchedData) =>
+          fetchedData
+            .filter((a) => a.kind === attributeKey.toUpperCase())
+            .filter(checkIsAlreadyInGroup)
+        }
+        focusOnMount
+        name="selection"
+        onChange={(data) => setSelected(data as CatalogAttribute)}
+        getOptionLabel={(option: CatalogAttribute) => (option ? option.name : '')}
+        isOptionEqualToValue={(option: CatalogAttribute, value: CatalogAttribute) =>
+          option.name === value.name
+        }
+      />
+      <StyledButton onClick={handleAdd} disabled={!selected} type="button" variant="outlined">
+        Aggiungi
+      </StyledButton>
+    </Stack>
+  )
+}
+
+type AttributesListProps = {
+  attributes: Array<CatalogAttribute>
+  onRemove: (attribute: CatalogAttribute) => void
+}
+function AttributesList({ attributes, onRemove }: AttributesListProps) {
+  const { setDialog } = useContext(DialogContext)
+
+  const openAttributeDetailsDialog = (attribute: CatalogAttribute) => {
+    setDialog({
+      type: 'showAttributeDetails',
+      attribute,
+    })
+  }
+
+  if (attributes.length === 0) return null
+
+  return (
+    <Stack sx={{ listStyle: 'none', pl: 0 }} component="ul" spacing={2}>
+      {attributes.map((attribute, i) => {
+        const shouldNotShowOppure = attributes.length === 1 || i === attributes.length - 1
+        return (
+          <li key={attribute.id}>
+            <Stack direction="row" alignItems="center">
+              <Typography sx={{ flex: 1 }} variant="body2">
+                {attribute.name}
+              </Typography>
+              <Stack sx={{ flexShrink: 0 }} direction="row" spacing={1}>
+                <ButtonNaked onClick={onRemove.bind(null, attribute)} size="small">
+                  <Delete fontSize="small" color="error" />
+                </ButtonNaked>
+                <ButtonNaked
+                  onClick={openAttributeDetailsDialog.bind(null, attribute)}
+                  size="small"
+                >
+                  <InfoRounded fontSize="small" color="primary" />
+                </ButtonNaked>
+              </Stack>
+              <Typography
+                component="span"
+                sx={{
+                  flexShrink: 0,
+                  ml: 2,
+                  visibility: shouldNotShowOppure ? 'hidden' : 'visible',
+                }}
+                variant="body2"
+              >
+                oppure
+              </Typography>
+            </Stack>
+          </li>
+        )
+      })}
+    </Stack>
   )
 }

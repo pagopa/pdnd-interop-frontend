@@ -198,30 +198,39 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
                   ]}
                   row={true}
                 />
-
-                <StyledIntro component="h2" sx={{ mt: 6, mb: 1 }}>
-                  {{
-                    title: t('create.step1.attributes.title'),
-                    description: t('create.step1.attributes.description'),
-                  }}
-                </StyledIntro>
-                <Alert severity="warning" sx={{ mb: 4 }}>
-                  L&lsquo;inserimento di attributi verificati e dichiarati è temporaneamente
-                  disabilitato per un test su una nuova feature
-                </Alert>
-                <EServiceAttributeSection
-                  attributes={attributes}
-                  setAttributes={setAttributes}
-                  disabled={!isEditable}
-                />
-
-                {!isEditable && (
-                  <Alert severity="info" sx={{ mt: 4 }}>
-                    {t('create.step1.firstVersionOnlyEditableInfo')}
-                  </Alert>
-                )}
               </StyledPaper>
 
+              <Alert severity="warning" sx={{ mt: 4 }}>
+                L&lsquo;inserimento di attributi verificati e dichiarati è temporaneamente
+                disabilitato per un test su una nuova feature
+              </Alert>
+
+              <EServiceAttributeSection
+                attributeKey="certified"
+                attributes={attributes.certified}
+                setAttributes={setAttributes}
+                disabled={!isEditable}
+              />
+
+              <EServiceAttributeSection
+                attributeKey="verified"
+                attributes={attributes.verified}
+                setAttributes={setAttributes}
+                disabled={!isEditable}
+              />
+
+              <EServiceAttributeSection
+                attributeKey="declared"
+                attributes={attributes.declared}
+                setAttributes={setAttributes}
+                disabled={!isEditable}
+              />
+
+              {!isEditable && (
+                <Alert severity="info" sx={{ mt: 4 }}>
+                  {t('create.step1.firstVersionOnlyEditableInfo')}
+                </Alert>
+              )}
               <StepActions
                 back={{
                   label: t('create.backToListBtn'),
