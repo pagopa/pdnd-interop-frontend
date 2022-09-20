@@ -188,12 +188,12 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
       const checkbox = string().required()
       const singleCheckbox = mixed().test(
         'presence',
-        t('create.step2.singleCheckboxField.validation.mixed.required'),
+        t('edit.step2.singleCheckboxField.validation.mixed.required'),
         (value) => typeof value !== 'undefined' && value.length > 0
       )
       const multiCheckbox = mixed().test(
         'presence',
-        t('create.step2.multiCheckboxField.validation.mixed.required'),
+        t('edit.step2.multiCheckboxField.validation.mixed.required'),
         (value) => typeof value !== 'undefined' && value.length > 0
       )
       const validationOptions = {
@@ -240,7 +240,7 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
           error: formik.errors[id],
           infoLabel: infoLabel && infoLabel[lang],
           required,
-          emptyLabel: t('create.step2.emptyLabel'),
+          emptyLabel: t('edit.step2.emptyLabel'),
         }
 
         const props = {
@@ -286,7 +286,7 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
       const selectOne = string().required()
       const checkbox = mixed().test(
         'presence',
-        t('create.step2.multiCheckboxField.validation.mixed.required'),
+        t('edit.step2.multiCheckboxField.validation.mixed.required'),
         (value) => typeof value !== 'undefined' && value.length > 0
       )
       const switchSchemaValidation = boolean().isTrue()
@@ -391,7 +391,7 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
           error: formik.errors[id],
           infoLabel: question.infoLabel && question.infoLabel[lang],
           required: question.required,
-          emptyLabel: t('create.step2.emptyLabel'),
+          emptyLabel: t('edit.step2.emptyLabel'),
         }
 
         const props = {
@@ -422,7 +422,7 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
               variant="contained"
               onClick={() => window.open(FE_URL, '_blank')}
             >
-              {t('create.step2.pa.v2.blockingButtonLabel')}
+              {t('edit.step2.pa.v2.blockingButtonLabel')}
             </StyledButton>
           )
         }

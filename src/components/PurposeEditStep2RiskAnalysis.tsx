@@ -15,7 +15,7 @@ import { StyledPaper } from './StyledPaper'
 import useDynamicRiskAnalysisForm, { RiskAnalysis } from '../hooks/useDynamicRiskAnalysisForm'
 import { useLocation } from 'react-router-dom'
 
-export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> = ({
+export const PurposeEditStep2RiskAnalysis: FunctionComponent<ActiveStepProps> = ({
   back,
   forward,
 }) => {
