@@ -167,9 +167,6 @@ export const AsyncTableEServiceCatalog = () => {
               name: eservice.name,
               version: eservice.version,
             }),
-            close: () => {
-              setDialog(null)
-            },
           })
         },
         label: t('actions.subscribe', { ns: 'common' }),

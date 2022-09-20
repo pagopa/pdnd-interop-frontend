@@ -112,9 +112,6 @@ export function EServiceRead() {
         name: data.name,
         version: data.activeDescriptor?.version,
       }),
-      close: () => {
-        setDialog(null)
-      },
     })
   }
 
