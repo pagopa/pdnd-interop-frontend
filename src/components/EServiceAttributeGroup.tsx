@@ -4,13 +4,15 @@ import { AttributeKey, CatalogAttribute, FrontendAttribute } from '../../types'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledInputControlledAsyncAutocomplete } from './Shared/StyledInputControlledAsyncAutocomplete'
 import { ButtonNaked } from '@pagopa/mui-italia'
-import { Add, Delete, InfoRounded } from '@mui/icons-material'
+import { Add, DeleteOutline, InfoRounded } from '@mui/icons-material'
 import { DialogContext } from '../lib/context'
+import { useTranslation } from 'react-i18next'
 
 type EServiceAttributeGroupProps = {
   index: number
   attributesGroup: FrontendAttribute
   attributeKey: AttributeKey
+  alreadySelectedAttributesIds: Array<string>
   handleAddAttributeToGroup: (groupIndex: number, attribute: CatalogAttribute) => void
   handleRemoveAttributeFromGroup: (groupIndex: number, attribute: CatalogAttribute) => void
   handleExplicitAttributeVerificationChange: (
@@ -23,10 +25,13 @@ export function EServiceAttributeGroup({
   index,
   attributesGroup,
   attributeKey,
+  alreadySelectedAttributesIds,
   handleAddAttributeToGroup,
   handleRemoveAttributeFromGroup,
   handleExplicitAttributeVerificationChange,
 }: EServiceAttributeGroupProps) {
+  const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.attributes.group' })
+
   const [addButtonPressed, setAddButtonPressed] = useState(false)
   const hasExplicitAttributeVerification = attributeKey !== 'certified'
 
@@ -41,7 +46,7 @@ export function EServiceAttributeGroup({
 
   return (
     <Box sx={{ p: 1.5, border: 1, borderColor: 'divider', borderRadius: 1 }}>
-      <Typography variant="subtitle1">attributo {index + 1}:</Typography>
+      <Typography variant="subtitle1">{t('title', { num: index + 1 })}</Typography>
 
       <Box sx={{ mb: 4, ml: 2 }}>
         <AttributesList
@@ -52,7 +57,7 @@ export function EServiceAttributeGroup({
         {isAttributeAutocompleteShown ? (
           <AttributesAutocomplete
             attributeKey={attributeKey}
-            attributesGroup={attributesGroup.attributes}
+            alreadySelectedAttributesIds={alreadySelectedAttributesIds}
             onAdd={handleAddToAttributeGroupWrapper()}
           />
         ) : (
@@ -63,7 +68,7 @@ export function EServiceAttributeGroup({
             type="button"
             onClick={() => setAddButtonPressed(true)}
           >
-            Aggiungi
+            {t('addBtn')}
           </ButtonNaked>
         )}
       </Box>
@@ -77,7 +82,7 @@ export function EServiceAttributeGroup({
                 onChange={handleExplicitAttributeVerificationChange.bind(null, index)}
               />
             }
-            label="Per questo attributo sfrutta le verifiche effettuate da altri erogatori"
+            label={t('canRequireVerification')}
           />
         </Box>
       )}
@@ -87,19 +92,20 @@ export function EServiceAttributeGroup({
 
 type AttributesAutocompleteProps = {
   attributeKey: AttributeKey
-  attributesGroup: Array<CatalogAttribute>
+  alreadySelectedAttributesIds: Array<string>
   onAdd: (attribute: CatalogAttribute) => void
 }
 
 function AttributesAutocomplete({
   attributeKey,
-  attributesGroup,
+  alreadySelectedAttributesIds,
   onAdd,
 }: AttributesAutocompleteProps) {
+  const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.attributes.group' })
   const [selected, setSelected] = useState<CatalogAttribute | null>(null)
 
   function checkIsAlreadyInGroup(attribute: CatalogAttribute) {
-    return !attributesGroup.some((attSome) => attSome.id === attribute.id)
+    return !alreadySelectedAttributesIds.includes(attribute.id)
   }
 
   const handleAdd = () => {
@@ -110,9 +116,9 @@ function AttributesAutocomplete({
   return (
     <Stack direction="row" spacing={2} alignItems="end">
       <StyledInputControlledAsyncAutocomplete
-        label={'test'}
+        label={t('autocompleteInput.label')}
         sx={{ mt: 2, mb: 0, flex: 1 }}
-        placeholder="choose"
+        placeholder={t('autocompleteInput.placeholder')}
         path={{ endpoint: 'ATTRIBUTE_GET_LIST' }}
         variant="standard"
         transformKey="attributes"
@@ -130,7 +136,7 @@ function AttributesAutocomplete({
         }
       />
       <StyledButton onClick={handleAdd} disabled={!selected} type="button" variant="outlined">
-        Aggiungi
+        {t('addBtn')}
       </StyledButton>
     </Stack>
   )
@@ -141,6 +147,7 @@ type AttributesListProps = {
   onRemove: (attribute: CatalogAttribute) => void
 }
 function AttributesList({ attributes, onRemove }: AttributesListProps) {
+  const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.attributes.group' })
   const { setDialog } = useContext(DialogContext)
 
   const openAttributeDetailsDialog = (attribute: CatalogAttribute) => {
@@ -158,31 +165,27 @@ function AttributesList({ attributes, onRemove }: AttributesListProps) {
         const shouldNotShowOppure = attributes.length === 1 || i === attributes.length - 1
         return (
           <li key={attribute.id}>
-            <Stack direction="row" alignItems="center">
+            <Stack direction="row" alignItems="center" spacing={2}>
               <Typography sx={{ flex: 1 }} variant="body2">
                 {attribute.name}
               </Typography>
               <Stack sx={{ flexShrink: 0 }} direction="row" spacing={1}>
-                <ButtonNaked onClick={onRemove.bind(null, attribute)} size="small">
-                  <Delete fontSize="small" color="error" />
+                <ButtonNaked onClick={openAttributeDetailsDialog.bind(null, attribute)}>
+                  <InfoRounded fontSize="small" color="primary" aria-label={t('showInfoSrLabel')} />
                 </ButtonNaked>
-                <ButtonNaked
-                  onClick={openAttributeDetailsDialog.bind(null, attribute)}
-                  size="small"
-                >
-                  <InfoRounded fontSize="small" color="primary" />
+                <ButtonNaked onClick={onRemove.bind(null, attribute)}>
+                  <DeleteOutline fontSize="small" color="error" aria-label={t('deleteSrLabel')} />
                 </ButtonNaked>
               </Stack>
               <Typography
                 component="span"
                 sx={{
                   flexShrink: 0,
-                  ml: 2,
                   visibility: shouldNotShowOppure ? 'hidden' : 'visible',
                 }}
                 variant="body2"
               >
-                oppure
+                {t('or')}
               </Typography>
             </Stack>
           </li>

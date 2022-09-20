@@ -28,28 +28,31 @@
         "label": "Tecnologia utilizzata (richiesto)"
       },
       "attributes": {
-        "title": "Attributi",
-        "description": "L'elenco degli attributi che un ente deve possedere per potersi iscrivere a fruire del tuo E-Service",
-        "addAttributeTable": {
-          "attributeName": "Nome attributo",
-          "canRequireVerification": "Effettua verifica indipendente?",
-          "groupOr": "oppure",
-          "noDataLabel": "Nessun attributo presente",
-          "explicitAttributeVerificationYes": "Sì",
-          "explicitAttributeVerificationNo": "No",
+        "subtitle": "Il Fruitore deve possedere:",
+        "addBtn": "Aggiungi nuovo attributo",
+        "createBtn": "Crea nuovo attributo",
+        "group": {
+          "title": "attributo {{num}}:",
           "addBtn": "Aggiungi",
-          "createBtn": "Crea nuovo"
+          "or": "oppure",
+          "deleteSrLabel": "Elimina attributo",
+          "showInfoSrLabel": "Mostra informazioni attributo",
+          "canRequireVerification": "Per questo attributo sfrutta le verifiche effettuate da altri erogatori",
+          "autocompleteInput": {
+            "label": "Aggiungi attributo al gruppo",
+            "placeholder": "Inserisci nome attributo"
+          }
         },
         "certified": {
-          "label": "Certificati",
+          "label": "Attributi Certificati",
           "description": "Certificati da una fonte autoritativa riconosciuta, non necessitano di ulteriori verifiche da parte tua"
         },
         "verified": {
-          "label": "Verificati",
+          "label": "Attributi Verificati",
           "description": "Puoi decidere se avvalerti della verifica effettuata da altri enti o effettuarne una nuova indipendentemente"
         },
         "declared": {
-          "label": "Dichiarati",
+          "label": "Attributi Dichiarati",
           "description": "Il Fruitore dovrà dichiarare sotto la propria responsabilità di possedere questi attributi"
         }
       },

@@ -216,14 +216,14 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
                 attributeKey="verified"
                 attributes={attributes.verified}
                 setAttributes={setAttributes}
-                disabled={!isEditable}
+                disabled={!isEditable || true}
               />
 
               <EServiceAttributeSection
                 attributeKey="declared"
                 attributes={attributes.declared}
                 setAttributes={setAttributes}
-                disabled={!isEditable}
+                disabled={!isEditable || true}
               />
 
               {!isEditable && (

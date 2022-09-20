@@ -28,10 +28,16 @@ export function EServiceAttributeSection({
   attributeKey,
   attributes,
   setAttributes,
+  disabled,
 }: EServiceAttributeSectionProps) {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.attributes' })
   const { setDialog } = useContext(DialogContext)
   const { runAction } = useFeedback()
+
+  const alreadySelectedAttributesIds = attributes.reduce<Array<string>>((acc, next) => {
+    const ids = next.attributes.map((a) => a.id)
+    return [...acc, ...ids]
+  }, [])
 
   const openCreateNewAttributeDialog = () => {
     const createNewAttributeInitialValues = {
@@ -107,13 +113,13 @@ export function EServiceAttributeSection({
     <StyledPaper>
       <StyledIntro component="h2">
         {{
-          title: `${t('title')} ${t(`${attributeKey}.label`)}`,
+          title: t(`${attributeKey}.label`),
           description: t(`${attributeKey}.description`),
         }}
       </StyledIntro>
       {attributes.length > 0 && (
         <Box sx={{ mt: 2 }}>
-          <Typography variant="subtitle1">Il fruitore deve possedere:</Typography>
+          <Typography variant="subtitle1">{t('subtitle')}</Typography>
           <Stack sx={{ mt: 2 }} spacing={3}>
             {attributes.map((attributesGroup, index) => (
               <EServiceAttributeGroup
@@ -121,6 +127,7 @@ export function EServiceAttributeSection({
                 index={index}
                 attributesGroup={attributesGroup}
                 attributeKey={attributeKey}
+                alreadySelectedAttributesIds={alreadySelectedAttributesIds}
                 handleAddAttributeToGroup={handleAddAttributeToGroup}
                 handleRemoveAttributeFromGroup={handleRemoveAttributeFromGroup}
                 handleExplicitAttributeVerificationChange={
@@ -139,8 +146,9 @@ export function EServiceAttributeSection({
           color="primary"
           type="button"
           onClick={handleAddAttributesGroup}
+          disabled={disabled}
         >
-          test1
+          {t('addBtn')}
         </ButtonNaked>
 
         {attributeKey !== 'certified' && (
@@ -149,8 +157,9 @@ export function EServiceAttributeSection({
             size="medium"
             color="primary"
             onClick={openCreateNewAttributeDialog}
+            disabled={disabled}
           >
-            test2
+            {t('createBtn')}
           </ButtonNaked>
         )}
       </Stack>
