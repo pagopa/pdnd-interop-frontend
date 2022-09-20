@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import debounce from 'lodash/debounce'
 import { AxiosResponse } from 'axios'
-import { Autocomplete, Chip, CircularProgress, TextField, Typography } from '@mui/material'
+import {
+  Autocomplete,
+  Chip,
+  CircularProgress,
+  TextField,
+  TextFieldProps,
+  Typography,
+} from '@mui/material'
 import { Endpoint } from '../../../types'
 import { fetchWithLogs } from '../../lib/api-utils'
 import { getFetchOutcome } from '../../lib/error-utils'
@@ -20,6 +27,7 @@ type StyledInputControlledAsyncAutocompleteProps<T> = {
   onChange: (data: unknown) => void
   error?: string
 
+  variant?: TextFieldProps['variant']
   placeholder: string
   path: Endpoint
   transformFn: (data: Array<T>) => Array<T>
@@ -42,6 +50,7 @@ export const StyledInputControlledAsyncAutocomplete = <T extends unknown>({
   onChange,
   error,
 
+  variant = 'outlined',
   placeholder,
   path,
   transformFn,
@@ -125,7 +134,7 @@ export const StyledInputControlledAsyncAutocomplete = <T extends unknown>({
               label={label}
               {...params}
               placeholder={placeholder}
-              variant="outlined"
+              variant={variant}
               InputProps={{
                 ...params.InputProps,
                 endAdornment: (
