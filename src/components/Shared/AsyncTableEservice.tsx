@@ -146,7 +146,7 @@ export const AsyncTableEServiceCatalog = () => {
       actions.push({
         onClick: () => {
           history.push(
-            buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
+            buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_READ.PATH, {
               agreementId: eservice.callerSubscribed as string,
             })
           )

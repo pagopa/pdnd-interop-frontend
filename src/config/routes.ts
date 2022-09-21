@@ -1,7 +1,7 @@
 import { RouteConfig } from '../../types'
 import { ClientEdit } from '../views/ClientEdit'
 import { ClientList } from '../views/ClientList'
-import { AgreementEdit } from '../views/AgreementEdit'
+import { AgreementRead } from '../views/AgreementRead'
 import { AgreementList } from '../views/AgreementList'
 import { EServiceCatalog } from '../views/EServiceCatalog'
 import { EServiceList } from '../views/EServiceList'
@@ -24,6 +24,7 @@ import { InteropM2M } from '../views/InteropM2M'
 import { Unauthorized } from '../components/Unauthorized'
 import { PurposeEdit } from '../views/PurposeEdit'
 import { TOS } from '../views/TOS'
+import { AgreementEdit } from '../views/AgreementEdit'
 
 export const BASIC_ROUTES: Record<string, RouteConfig> = {
   UNAUTHORIZED: {
@@ -106,14 +107,14 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'api'],
   },
-  PROVIDE_AGREEMENT_EDIT: {
+  PROVIDE_AGREEMENT_READ: {
     PATH: {
       it: '/it/erogazione/richieste/:agreementId',
       en: '/en/provider/agreements/:agreementId',
     },
     LABEL: { it: 'Gestisci richiesta', en: 'Manage request' },
     EXACT: false,
-    COMPONENT: AgreementEdit,
+    COMPONENT: AgreementRead,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },
@@ -256,14 +257,14 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'security'],
   },
-  SUBSCRIBE_AGREEMENT_EDIT: {
+  SUBSCRIBE_AGREEMENT_READ: {
     PATH: {
       it: '/it/fruizione/richieste/:agreementId',
       en: '/en/subscriber/agreements/:agreementId',
     },
     LABEL: { it: 'Gestisci richiesta', en: 'Manage request' },
     EXACT: false,
-    COMPONENT: AgreementEdit,
+    COMPONENT: AgreementRead,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },
@@ -272,6 +273,17 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     LABEL: { it: 'Le tue richieste', en: 'Your requests' },
     EXACT: true,
     COMPONENT: AgreementList,
+    PUBLIC: false,
+    AUTH_LEVELS: ['admin'],
+  },
+  SUBSCRIBE_AGREEMENT_EDIT: {
+    PATH: {
+      it: '/it/fruizione/richieste/:agreementId/modifica',
+      en: '/en/subscriber/agreements/:agreementId/edit',
+    },
+    LABEL: { it: 'Modifica richiesta', en: 'Edit request' },
+    EXACT: false,
+    COMPONENT: AgreementEdit,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },

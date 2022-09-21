@@ -289,7 +289,7 @@ export const PurposeView = () => {
 
               <DescriptionBlock label={t('view.agreementField.label')}>
                 <StyledLink
-                  to={buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
+                  to={buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_READ.PATH, {
                     agreementId: data.agreement.id,
                   })}
                 >
