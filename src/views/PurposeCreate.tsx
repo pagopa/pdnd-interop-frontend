@@ -13,7 +13,7 @@ import { useJwt } from '../hooks/useJwt'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { StyledInputControlledSelect } from '../components/Shared/StyledInputControlledSelect'
 import { StyledPaper } from '../components/StyledPaper'
-import { Divider, Grid, Typography } from '@mui/material'
+import { CircularProgress, Divider, Grid, Stack, Typography } from '@mui/material'
 import { StyledInputControlledSwitch } from '../components/Shared/StyledInputControlledSwitch'
 import { StyledInputControlledAutocomplete } from '../components/Shared/StyledInputControlledAutocomplete'
 import { DescriptionBlock } from '../components/DescriptionBlock'
@@ -64,7 +64,10 @@ export const PurposeCreate = () => {
     },
     {
       mapFn: (data) =>
-        data.map((d) => ({ label: `${d.name} erogato da ${d.producerName}`, value: d.id })),
+        data.map((d) => ({
+          label: `${d.name} erogato da ${d.producerName}`,
+          value: d.id,
+        })),
       onSuccess: (mappedData) => {
         const id = mappedData && mappedData.length > 0 ? (mappedData[0].value as string) : ''
         setEserviceId(id)
@@ -72,11 +75,10 @@ export const PurposeCreate = () => {
     }
   )
 
-  const {
-    data: purposeData,
-    // isLoading: purposeIsLoading,
-    // error,
-  } = useAsyncFetch<{ purposes: Array<Purpose> }, Array<Purpose>>(
+  const { data: purposeData, isLoading: purposeIsLoading } = useAsyncFetch<
+    { purposes: Array<Purpose> },
+    Array<Purpose>
+  >(
     {
       path: { endpoint: 'PURPOSE_GET_LIST' },
       config: {
@@ -234,19 +236,28 @@ export const PurposeCreate = () => {
             />
 
             {isTemplate && (
-              <StyledInputControlledAutocomplete
-                label={t('create.purposeField.label')}
-                sx={{ mt: 6, mb: 0 }}
-                placeholder="..."
-                name="selection"
-                onChange={wrapSetPurpose}
-                options={purposeData || []}
-                getOptionLabel={({ title, consumerId }: Purpose) =>
-                  t('create.purposeField.compiledBy', { title, consumerId })
-                }
-                isOptionEqualToValue={(option: Purpose, value: Purpose) => option.id === value.id}
-                // transformFn={transformFn}
-              />
+              <>
+                {purposeIsLoading ? (
+                  <Stack alignItems="center" justifyContent="center">
+                    <CircularProgress />
+                  </Stack>
+                ) : (
+                  <StyledInputControlledAutocomplete
+                    label={t('create.purposeField.label')}
+                    sx={{ mt: 6, mb: 0 }}
+                    placeholder="..."
+                    name="selection"
+                    onChange={wrapSetPurpose}
+                    options={purposeData || []}
+                    getOptionLabel={({ title, consumerId }: Purpose) =>
+                      t('create.purposeField.compiledBy', { title, consumerId })
+                    }
+                    isOptionEqualToValue={(option: Purpose, value: Purpose) =>
+                      option.id === value.id
+                    }
+                  />
+                )}
+              </>
             )}
 
             {isTemplate && purposeTemplate && (
