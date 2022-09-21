@@ -37,7 +37,7 @@ export function EServiceAttributeGroup({
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.attributes.group' })
 
   const [isAttributeAutocompleteShown, setIsAttributeAutocompleteShown] = useState(true)
-  const hasExplicitAttributeVerification = attributeKey !== 'certified'
+  const hasExplicitAttributeVerification = attributeKey === 'verified'
 
   const handleHideAutocomplete = () => setIsAttributeAutocompleteShown(false)
 
@@ -216,12 +216,18 @@ function AttributesList({ readOnly, attributes, onRemove }: AttributesListProps)
                 {attribute.name}
               </Typography>
               <Stack sx={{ flexShrink: 0 }} direction="row" spacing={1}>
-                <ButtonNaked onClick={openAttributeDetailsDialog.bind(null, attribute)}>
-                  <InfoRounded fontSize="small" color="primary" aria-label={t('showInfoSrLabel')} />
+                <ButtonNaked
+                  onClick={openAttributeDetailsDialog.bind(null, attribute)}
+                  aria-label={t('showInfoSrLabel')}
+                >
+                  <InfoRounded fontSize="small" color="primary" />
                 </ButtonNaked>
                 {!readOnly && (
-                  <ButtonNaked onClick={onRemove.bind(null, attribute)}>
-                    <DeleteOutline fontSize="small" color="error" aria-label={t('deleteSrLabel')} />
+                  <ButtonNaked
+                    onClick={onRemove.bind(null, attribute)}
+                    aria-label={t('deleteSrLabel')}
+                  >
+                    <DeleteOutline fontSize="small" color="error" />
                   </ButtonNaked>
                 )}
               </Stack>
