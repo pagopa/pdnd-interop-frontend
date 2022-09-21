@@ -45,7 +45,7 @@ type QuestionV2 = {
   /**
    * The HTML5 input type
    */
-  inputType: 'text' | 'radio' | 'checkbox' | 'select-one' | 'switch'
+  type: 'text' | 'radio' | 'checkbox' | 'select-one' | 'switch'
   /**
    * Used for backend validation
    */
@@ -302,7 +302,7 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
       const schema = Object.keys(questionsObj).reduce((acc, next) => {
         const id: string = next
         const question = questionsObj[id] as QuestionV2
-        const questionType = question.inputType as keyof typeof validationOptions
+        const questionType = question.type as keyof typeof validationOptions
 
         const validationOption = validationOptions[questionType]
 
@@ -374,7 +374,7 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
       }
 
       function buildFormQuestionComponents(
-        { id, inputType, ...question }: QuestionV2,
+        { id, type, ...question }: QuestionV2,
         inputOptions: Array<InputField>,
         isLast: boolean
       ) {
@@ -383,7 +383,7 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
         const untypedProps = {
           name: id,
           value: formik.values[id],
-          type: inputType,
+          type,
           setFieldValue: formik.setFieldValue,
           onChange: formik.handleChange,
           label: question.label[lang],
@@ -400,7 +400,7 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
           checkbox: untypedProps as StyledInputControlledCheckboxMultipleProps,
           'select-one': untypedProps as StyledInputControlledSelectProps,
           switch: untypedProps as StyledInputControlledSwitchProps,
-        }[inputType]
+        }[type]
 
         const sx = isLast ? { mb: 0 } : undefined
 

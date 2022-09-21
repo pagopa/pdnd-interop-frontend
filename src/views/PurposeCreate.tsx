@@ -17,7 +17,8 @@ import { CircularProgress, Divider, Grid, Stack, Typography } from '@mui/materia
 import { StyledInputControlledSwitch } from '../components/Shared/StyledInputControlledSwitch'
 import { StyledInputControlledAutocomplete } from '../components/Shared/StyledInputControlledAutocomplete'
 import { DescriptionBlock } from '../components/DescriptionBlock'
-import _riskAnalysisConfig from '../data/risk-analysis/v1.0.json'
+import _riskAnalysisConfigV1 from '../data/risk-analysis/v1.0.json'
+import _riskAnalysisConfigPAV2 from '../data/risk-analysis/pa/v2.0.json'
 import { useContext } from 'react'
 import { LangContext } from '../lib/context'
 import { useMemo } from 'react'
@@ -29,6 +30,11 @@ import { RunActionOutput, useFeedback } from '../hooks/useFeedback'
 import { omit } from 'lodash'
 import { AxiosResponse } from 'axios'
 import { buildDynamicRoute } from '../lib/router-utils'
+import { Question } from '../hooks/useDynamicRiskAnalysisForm'
+
+function getRiskAnalysis(version: string) {
+  return { '1.0': _riskAnalysisConfigV1, '2.0': _riskAnalysisConfigPAV2 }[version]
+}
 
 export const PurposeCreate = () => {
   const history = useHistory()
@@ -171,10 +177,15 @@ export const PurposeCreate = () => {
   const riskAnalysisFormAnswers = useMemo(() => {
     if (!purposeTemplate) return
 
+    const riskAnalysisConfig = getRiskAnalysis(purposeTemplate.riskAnalysisForm.version)
+
+    if (!riskAnalysisConfig) return
+
     // Answers in this form
     const answerIds = Object.keys(purposeTemplate.riskAnalysisForm.answers)
+
     // Corresponding questions
-    const questionsWithAnswer = _riskAnalysisConfig.questions.filter(({ id }) =>
+    const questionsWithAnswer = (riskAnalysisConfig.questions as Array<Question>).filter(({ id }) =>
       answerIds.includes(id)
     )
 
