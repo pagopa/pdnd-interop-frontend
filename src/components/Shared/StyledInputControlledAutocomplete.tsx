@@ -24,6 +24,7 @@ type StyledInputControlledAutocompleteProps<T> = {
   getOptionLabel: (option: T) => string
   isOptionEqualToValue: ((option: T, value: T) => boolean) | undefined
   options: Array<T>
+  defaultValue?: T | Array<T> | null
 }
 
 export const StyledInputControlledAutocomplete = <T extends unknown>({
@@ -44,12 +45,14 @@ export const StyledInputControlledAutocomplete = <T extends unknown>({
   getOptionLabel,
   isOptionEqualToValue,
   options,
+  defaultValue = null,
 }: StyledInputControlledAutocompleteProps<T>) => {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'styledInputControlledAutocomplete',
   })
   const [isOpen, setIsOpen] = useState(false)
   const [_options, _setOptions] = useState<Array<T>>([])
+  const [value, setValue] = useState<T | Array<T> | null>(defaultValue)
 
   const getEmptyOptions = () => {
     return transformFn(options, '')
@@ -88,7 +91,11 @@ export const StyledInputControlledAutocomplete = <T extends unknown>({
         disabled={disabled}
         multiple={multiple}
         open={isOpen}
-        onChange={(_, data) => onChange(data)}
+        value={value}
+        onChange={(_, data) => {
+          setValue(data)
+          onChange(data)
+        }}
         onInputChange={handleSearch}
         onOpen={open}
         onClose={close}
