@@ -92,17 +92,25 @@ export const PurposeCreate = () => {
       mapFn: (data) => data.purposes,
       useEffectDeps: [eserviceId, isTemplate],
       disabled: !isTemplate || eserviceId === '',
+      onSuccess: (data) => {
+        if (data && data.length > 0) {
+          setPurposeTemplate(data[0])
+        }
+      },
     }
   )
 
   const wrapSetEserviceId = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLInputElement
+    setPurposeTemplate(null)
     setEserviceId(target.value)
   }
   const wrapSetIsTemplate = (e: React.SyntheticEvent) => {
     const target = e.target as HTMLInputElement
+    setPurposeTemplate(null)
     setIsTemplate(target.checked)
   }
+
   const wrapSetPurpose = (_purpose: Purpose | Array<Purpose> | null) => {
     setPurposeTemplate(_purpose as Purpose | null)
   }
@@ -255,6 +263,7 @@ export const PurposeCreate = () => {
                     isOptionEqualToValue={(option: Purpose, value: Purpose) =>
                       option.id === value.id
                     }
+                    defaultValue={purposeTemplate}
                   />
                 )}
               </>
