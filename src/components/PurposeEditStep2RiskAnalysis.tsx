@@ -2,8 +2,8 @@ import React, { FunctionComponent, useEffect } from 'react'
 import { ActiveStepProps } from '../hooks/useActiveStep'
 import { StepActions } from './Shared/StepActions'
 import { StyledForm } from './Shared/StyledForm'
-import _riskAnalysisConfig from '../data/risk-analysis/pa/v2.0.json'
-// import _riskAnalysisConfig from '../data/risk-analysis/v1.0.json'
+//import _riskAnalysisConfig from '../data/risk-analysis/pa/v2.0.json'
+import _riskAnalysisConfig from '../data/risk-analysis/v1.0.json'
 import { RunActionOutput, useFeedback } from '../hooks/useFeedback'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { Purpose, PurposeRiskAnalysisFormAnswers } from '../../types'
@@ -15,7 +15,7 @@ import { StyledPaper } from './StyledPaper'
 import useDynamicRiskAnalysisForm, { RiskAnalysis } from '../hooks/useDynamicRiskAnalysisForm'
 import { useLocation } from 'react-router-dom'
 
-export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> = ({
+export const PurposeEditStep2RiskAnalysis: FunctionComponent<ActiveStepProps> = ({
   back,
   forward,
 }) => {
@@ -72,16 +72,16 @@ export const PurposeCreateStep2RiskAnalysis: FunctionComponent<ActiveStepProps> 
     <StyledForm onSubmit={formik.handleSubmit}>
       <StyledPaper>
         <StyledIntro component="h2">
-          {{ title: t('create.step2.title'), description: t('create.step2.description') }}
+          {{ title: t('edit.step2.title'), description: t('edit.step2.description') }}
         </StyledIntro>
 
         {formComponents}
       </StyledPaper>
 
       <StepActions
-        back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
+        back={{ label: t('edit.backWithoutSaveBtn'), type: 'button', onClick: back }}
         forward={{
-          label: t('create.forwardWithSaveBtn'),
+          label: t('edit.forwardWithSaveBtn'),
           disabled: isSubmitBtnDisabled,
           type: 'submit',
         }}

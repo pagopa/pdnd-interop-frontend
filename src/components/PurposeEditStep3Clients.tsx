@@ -20,7 +20,7 @@ import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
 import { StyledPaper } from './StyledPaper'
 
-export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ back }) => {
+export const PurposeEditStep3Clients: FunctionComponent<ActiveStepProps> = ({ back }) => {
   const history = useHistory()
   const purposeId = getPurposeFromUrl(history.location)
   const { setDialog } = useContext(DialogContext)
@@ -119,7 +119,7 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
     setDialog({ type: 'addClients', exclude: clientsData, onSubmit: addClients })
   }
 
-  const headData = [t('create.step3.tableHeadData.clientName'), '']
+  const headData = [t('edit.step3.tableHeadData.clientName'), '']
 
   const isLoading = isClientReallyLoading || isPurposeReallyLoading
 
@@ -127,12 +127,12 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
     <React.Fragment>
       <StyledPaper>
         <StyledIntro component="h2" sx={{ mb: 4 }}>
-          {{ title: t('create.step3.title') }}
+          {{ title: t('edit.step3.title') }}
         </StyledIntro>
         <TableWithLoader
           isLoading={isLoading}
           headData={headData}
-          noDataLabel={t('create.step3.noDataLabel')}
+          noDataLabel={t('edit.step3.noDataLabel')}
         >
           {Boolean(clientsData.length > 0) &&
             clientsData.map((client, i) => (
@@ -149,25 +149,25 @@ export const PurposeCreateStep3Clients: FunctionComponent<ActiveStepProps> = ({ 
       </StyledPaper>
 
       <StepActions
-        back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
-        forward={{ label: t('create.endWithSaveBtn'), type: 'button', onClick: goToList }}
+        back={{ label: t('edit.backWithoutSaveBtn'), type: 'button', onClick: back }}
+        forward={{ label: t('edit.endWithSaveBtn'), type: 'button', onClick: goToList }}
       />
 
       <Box sx={{ mt: 8 }}>
         <StyledPaper>
           <StyledIntro component="h2">
             {{
-              title: t('create.quickPublish.title'),
-              description: t('create.quickPublish.description'),
+              title: t('edit.quickPublish.title'),
+              description: t('edit.quickPublish.description'),
             }}
           </StyledIntro>
           {!isPurposeReallyLoading ? (
             <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
               <StyledButton variant="outlined" onClick={deleteVersion}>
-                {t('create.quickPublish.deleteBtn')}
+                {t('edit.quickPublish.deleteBtn')}
               </StyledButton>
               <StyledButton variant="contained" onClick={publishVersion}>
-                {t('create.quickPublish.publishBtn')}
+                {t('edit.quickPublish.publishBtn')}
               </StyledButton>
             </Stack>
           ) : (

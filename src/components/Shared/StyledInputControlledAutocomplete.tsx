@@ -20,10 +20,11 @@ type StyledInputControlledAutocompleteProps<T> = {
   focusOnMount?: boolean
   sx?: SxProps
 
-  transformFn: (data: Array<T>, search: string) => Array<T>
+  transformFn?: (data: Array<T>, search: string) => Array<T>
   getOptionLabel: (option: T) => string
   isOptionEqualToValue: ((option: T, value: T) => boolean) | undefined
-  values: Array<T>
+  options: Array<T>
+  defaultValue?: T | Array<T> | null
 }
 
 export const StyledInputControlledAutocomplete = <T extends unknown>({
@@ -40,38 +41,40 @@ export const StyledInputControlledAutocomplete = <T extends unknown>({
   focusOnMount = false,
   sx,
 
-  transformFn,
+  transformFn = (values: Array<T>, _) => values,
   getOptionLabel,
   isOptionEqualToValue,
-  values,
+  options,
+  defaultValue = null,
 }: StyledInputControlledAutocompleteProps<T>) => {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'styledInputControlledAutocomplete',
   })
   const [isOpen, setIsOpen] = useState(false)
-  const [options, setOptions] = useState<Array<T>>([])
+  const [_options, _setOptions] = useState<Array<T>>([])
+  const [value, setValue] = useState<T | Array<T> | null>(defaultValue)
 
   const getEmptyOptions = () => {
-    return transformFn(values, '')
+    return transformFn(options, '')
   }
 
   useEffect(() => {
-    if (Boolean(values.length > 0)) {
-      setOptions(getEmptyOptions())
+    if (Boolean(options.length > 0)) {
+      _setOptions(getEmptyOptions())
     }
-  }, [values]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [options]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSearch = (e: React.SyntheticEvent) => {
     if (!e) return
 
     const target = e.target as HTMLInputElement
     if (!target.value) {
-      setOptions(getEmptyOptions())
+      _setOptions(getEmptyOptions())
       return
     }
 
-    const newOptions = transformFn(values, target.value)
-    setOptions(newOptions)
+    const newOptions = transformFn(options, target.value)
+    _setOptions(newOptions)
   }
 
   const open = () => {
@@ -88,7 +91,11 @@ export const StyledInputControlledAutocomplete = <T extends unknown>({
         disabled={disabled}
         multiple={multiple}
         open={isOpen}
-        onChange={(_, data) => onChange(data)}
+        value={value}
+        onChange={(_, data) => {
+          setValue(data)
+          onChange(data)
+        }}
         onInputChange={handleSearch}
         onOpen={open}
         onClose={close}
@@ -97,7 +104,7 @@ export const StyledInputControlledAutocomplete = <T extends unknown>({
         // https://github.com/mui/material-ui/issues/29727
         isOptionEqualToValue={isOptionEqualToValue}
         // filterOptions={(options) => uniqBy(options, (o) => (o[labelKey] as string).toLowerCase())}
-        options={options}
+        options={_options}
         noOptionsText={t('noDataLabel')}
         renderInput={(params) => {
           return (
