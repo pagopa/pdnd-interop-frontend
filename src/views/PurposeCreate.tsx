@@ -89,7 +89,7 @@ export const PurposeCreate = () => {
       },
     },
     {
-      mapFn: (data) => data.purposes,
+      mapFn: (data) => data.purposes.sort((a, b) => a.title.localeCompare(b.title)),
       useEffectDeps: [eserviceId, isTemplate],
       disabled: !isTemplate || eserviceId === '',
       onSuccess: (data) => {
