@@ -28,28 +28,33 @@
         "label": "Technology (required)"
       },
       "attributes": {
-        "title": "Attributes",
-        "description": "The list of attributes a party must possess to subscribe to your E-Service",
-        "addAttributeTable": {
-          "attributeName": "Attribute name",
-          "canRequireVerification": "Run attribute check?",
-          "groupOr": "or",
-          "noDataLabel": "No attribute added",
-          "explicitAttributeVerificationYes": "Yes",
-          "explicitAttributeVerificationNo": "No",
+        "subtitle": "The Subscriber must own:",
+        "addBtn": "Add new attribute",
+        "createBtn": "Create new attribute",
+        "group": {
+          "title": "attribute {{num}}:",
           "addBtn": "Add",
-          "createBtn": "Create new"
+          "cancelBtn": "Cancel",
+          "or": "or",
+          "deleteSrLabel": "Delete attribute",
+          "deleteGroupSrLabel": "Delete group attribute",
+          "showInfoSrLabel": "Show attribute info",
+          "canRequireVerification": "For this attribute use the verification made by other providers",
+          "autocompleteInput": {
+            "label": "Add attribute to group",
+            "placeholder": "Insert attribute name"
+          }
         },
         "certified": {
-          "label": "Certified",
+          "label": "Certified Attributes",
           "description": "Certified by an authoritative source. You don't need to do anything"
         },
         "verified": {
-          "label": "Verified",
+          "label": "Verified Attributes",
           "description": "You can decide whether to trust another party's audit on these attributes or run your own"
         },
         "declared": {
-          "label": "Declared",
+          "label": "Declared Attributes",
           "description": "The Subscriber will declare it possesses these attributes under its own responsibility"
         }
       },

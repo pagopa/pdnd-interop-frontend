@@ -128,6 +128,22 @@
       "confirmLabel": "Crea attributo"
     }
   },
+  "styledDialogAttributeDetails": {
+    "content": {
+      "descriptionField": {
+        "label": "Nome dell'attributo"
+      },
+      "codeField": {
+        "label": "Id della fonte autoritativa"
+      },
+      "originField": {
+        "label": "Nome della fonte autoritativa"
+      }
+    },
+    "actions": {
+      "closeBtn": "Chiudi"
+    }
+  },
   "styledDialogSetPurposeExpectedApprovalDate": {
     "ariaDescribedBy": "Modale per impostare una data di completamento stimata per l'attivazione di una finalità",
     "title": "Imposta data di completamento stimata",

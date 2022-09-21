@@ -4,6 +4,7 @@ import {
   DialogAddSecurityOperatorKeyProps,
   DialogAddSecurityOperatorProps,
   DialogAskExtensionProps,
+  DialogAttributeDetailsProps,
   DialogBasicProps,
   DialogExistingAttributeProps,
   DialogNewAttributeProps,
@@ -22,6 +23,7 @@ import { StyledDialogAddClients } from './StyledDialogAddClients'
 import { StyledDialogUpdatePurposeDailyCalls } from './StyledDialogUpdatePurposeDailyCalls'
 import { StyledDialogSetPurposeExpectedApprovalDate } from './StyledDialogSetPurposeExpectedApprovalDate'
 import { StyledDialogSessionExpired } from './StyledDialogSessionExpired'
+import { StyledDialogAttributeDetails } from './StyledDialogAttributeDetails'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -29,6 +31,7 @@ function match<T>(
   onAddSecurityOperatorKey: (props: DialogAddSecurityOperatorKeyProps) => T,
   onExistingAttribute: (props: DialogExistingAttributeProps) => T,
   onNewAttribute: (props: DialogNewAttributeProps) => T,
+  onShowAttributeDetails: (props: DialogAttributeDetailsProps) => T,
   onAddSecurityOperator: (props: DialogAddSecurityOperatorProps) => T,
   onAddClients: (props: DialogAddClientsProps) => T,
   onUpdatePurposeDailyCalls: (props: DialogUpdatePurposeDailyCallsProps) => T,
@@ -47,6 +50,8 @@ function match<T>(
         return onExistingAttribute(props)
       case 'createNewAttribute':
         return onNewAttribute(props)
+      case 'showAttributeDetails':
+        return onShowAttributeDetails(props)
       case 'addSecurityOperator':
         return onAddSecurityOperator(props)
       case 'addClients':
@@ -67,6 +72,7 @@ export const StyledDialog = match(
   (props) => <StyledDialogAddSecurityOperatorKey {...props} />,
   (props) => <StyledDialogExistingAttribute {...props} />,
   (props) => <StyledDialogNewAttribute {...props} />,
+  (props) => <StyledDialogAttributeDetails {...props} />,
   (props) => <StyledDialogAddSecurityOperator {...props} />,
   (props) => <StyledDialogAddClients {...props} />,
   (props) => <StyledDialogUpdatePurposeDailyCalls {...props} />,

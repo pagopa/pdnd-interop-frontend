@@ -693,6 +693,7 @@ export type DialogProps =
   | DialogAddSecurityOperatorKeyProps
   | DialogExistingAttributeProps
   | DialogNewAttributeProps
+  | DialogAttributeDetailsProps
   | DialogAddSecurityOperatorProps
   | DialogAddClientsProps
   | DialogUpdatePurposeDailyCallsProps
@@ -745,6 +746,11 @@ export type DialogNewAttributeProps = {
   onSubmit: (data: NewAttributeFormInputValues) => void
   initialValues: NewAttributeFormInputValues
   validationSchema: SchemaOf<NewAttributeFormInputValues>
+}
+
+export type DialogAttributeDetailsProps = {
+  type: 'showAttributeDetails'
+  attribute: CatalogAttribute
 }
 
 export type NewAttributeFormInputValues = {
