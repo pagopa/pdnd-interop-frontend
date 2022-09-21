@@ -23,6 +23,7 @@ import { EServiceManage } from '../views/EServiceManage'
 import { InteropM2M } from '../views/InteropM2M'
 import { Unauthorized } from '../components/Unauthorized'
 import { PurposeEdit } from '../views/PurposeEdit'
+import { TOS } from '../views/TOS'
 
 export const BASIC_ROUTES: Record<string, RouteConfig> = {
   UNAUTHORIZED: {
@@ -44,6 +45,13 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     LABEL: { it: 'Guida introduttiva', en: 'Introductive guide' },
     COMPONENT: Help,
     PUBLIC: false,
+    AUTH_LEVELS: 'any',
+  },
+  TOS: {
+    PATH: { it: '/it/termini-di-servizio', en: '/en/terms-of-service' },
+    LABEL: { it: 'Termini di servizio', en: 'Terms of service' },
+    COMPONENT: TOS,
+    PUBLIC: true,
     AUTH_LEVELS: 'any',
   },
   SECURITY_KEY_GUIDE: {

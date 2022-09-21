@@ -106,6 +106,9 @@
     "title": "Getting started",
     "description": "In this page you can find useful information to manage some everyday operations and overcome problems. Please note that this guide will be replaced with a dedicated documentation website as soon as the platform goes into production"
   },
+  "tos": {
+    "title": "Terms of service"
+  },
   "notFound": {
     "title": "Sorry",
     "description": {
