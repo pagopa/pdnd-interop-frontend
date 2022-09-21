@@ -269,7 +269,7 @@ function PurposeTemplateAutocompleteInput({
   return (
     <StyledInputControlledAutocomplete
       label={t('create.purposeField.label')}
-      sx={{ mt: 6, mb: 0 }}
+      sx={{ mt: 4, mb: 0 }}
       placeholder="..."
       name="selection"
       onChange={onChange}
