@@ -13,7 +13,7 @@ import { useJwt } from '../hooks/useJwt'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { StyledInputControlledSelect } from '../components/Shared/StyledInputControlledSelect'
 import { StyledPaper } from '../components/StyledPaper'
-import { Alert, Divider, Grid, Stack, Typography } from '@mui/material'
+import { Alert, Divider, Grid, Typography } from '@mui/material'
 import { StyledInputControlledSwitch } from '../components/Shared/StyledInputControlledSwitch'
 import { StyledInputControlledAutocomplete } from '../components/Shared/StyledInputControlledAutocomplete'
 import { DescriptionBlock } from '../components/DescriptionBlock'
@@ -254,9 +254,11 @@ function PurposeTemplateAutocompleteInput({
 
   if (isLoading) {
     return (
-      <Stack alignItems="center" justifyContent="center">
-        <LoadingWithMessage label={t('create.purposeField.loadingLabel')} />
-      </Stack>
+      <LoadingWithMessage
+        direction="row"
+        transparentBackground
+        label={t('create.purposeField.loadingLabel')}
+      />
     )
   }
 
