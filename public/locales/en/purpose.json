@@ -9,11 +9,14 @@
     },
     "purposeField": {
       "label": "Choose template",
-      "compiledBy": "{{title}} created by {{consumerId}}"
+      "compiledBy": "{{title}} created by {{consumerId}}",
+      "noDataLabel": "No templates available for this e-service",
+      "loadingLabel": "We are loading the templates"
     },
     "eserviceField": {
       "label": "Choose E-Service"
     },
+    "purposePreviewTitle": "Selected template content",
     "consumerName": "This template was created by",
     "purposeTitle": "Purpose name",
     "purposeDescription": "Purpose description",

@@ -13,7 +13,7 @@ import { useJwt } from '../hooks/useJwt'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { StyledInputControlledSelect } from '../components/Shared/StyledInputControlledSelect'
 import { StyledPaper } from '../components/StyledPaper'
-import { CircularProgress, Divider, Grid, Stack, Typography } from '@mui/material'
+import { Alert, Divider, Grid, Stack, Typography } from '@mui/material'
 import { StyledInputControlledSwitch } from '../components/Shared/StyledInputControlledSwitch'
 import { StyledInputControlledAutocomplete } from '../components/Shared/StyledInputControlledAutocomplete'
 import { DescriptionBlock } from '../components/DescriptionBlock'
@@ -45,7 +45,6 @@ export const PurposeCreate = () => {
   const [eserviceId, setEserviceId] = useState('')
   const [isTemplate, setIsTemplate] = useState(false)
   const [purposeTemplate, setPurposeTemplate] = useState<Purpose | null>(null)
-  const { lang } = useContext(LangContext)
 
   const DEFAULT_PURPOSE_DATA = {
     title: t('create.defaultPurpose.title'),
@@ -173,6 +172,123 @@ export const PurposeCreate = () => {
     history.push(routes.SUBSCRIBE_PURPOSE_LIST.PATH)
   }
 
+  // const transformFn = (options: Array<Purpose>, search: string) => {
+  //   return options
+  // }
+
+  if (eserviceIsLoading) {
+    return <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
+  }
+
+  if (error) {
+    return <span>ricarica la pagina</span>
+  }
+
+  return (
+    <React.Fragment>
+      <StyledIntro>{{ title: t('create.emptyTitle') }}</StyledIntro>
+
+      <Grid container sx={{ maxWidth: 1280 }}>
+        <Grid item lg={8} sx={{ width: '100%' }}>
+          <StyledPaper>
+            <StyledInputControlledSelect
+              focusOnMount={true}
+              name="eserviceId"
+              label={t('create.eserviceField.label')}
+              value={eserviceId}
+              onChange={wrapSetEserviceId}
+              options={eserviceData}
+              emptyLabel="Nessun E-Service associabile"
+            />
+            <StyledInputControlledSwitch
+              name="isTemplate"
+              label={t('create.isTemplateField.label')}
+              value={isTemplate}
+              onChange={wrapSetIsTemplate}
+            />
+            {isTemplate && (
+              <>
+                <PurposeTemplateAutocompleteInput
+                  onChange={wrapSetPurpose}
+                  options={purposeData}
+                  defaultValue={purposeTemplate}
+                  isLoading={purposeIsLoading}
+                />
+                <PurposeTemplatePreview purposeTemplate={purposeTemplate} />
+              </>
+            )}
+          </StyledPaper>
+
+          <PageBottomActions>
+            <StyledButton
+              variant="contained"
+              onClick={createNewPurpose}
+              disabled={isTemplate && !purposeTemplate}
+            >
+              {t('create.createNewPurposeBtn')}
+            </StyledButton>
+            <StyledButton variant="text" onClick={backToPurposeList}>
+              {t('create.backToListBtn')}
+            </StyledButton>
+          </PageBottomActions>
+        </Grid>
+      </Grid>
+    </React.Fragment>
+  )
+}
+
+type PurposeTemplateAutocompleteInputProps = {
+  onChange: (purpose: Purpose | Array<Purpose> | null) => void
+  options: Array<Purpose> | undefined
+  defaultValue: Purpose | null
+  isLoading: boolean
+}
+
+function PurposeTemplateAutocompleteInput({
+  onChange,
+  options = [],
+  defaultValue,
+  isLoading,
+}: PurposeTemplateAutocompleteInputProps) {
+  const { t } = useTranslation('purpose')
+
+  if (isLoading) {
+    return (
+      <Stack alignItems="center" justifyContent="center">
+        <LoadingWithMessage label={t('create.purposeField.loadingLabel')} />
+      </Stack>
+    )
+  }
+
+  if (options.length === 0) {
+    return <Alert severity="warning">{t('create.purposeField.noDataLabel')}</Alert>
+  }
+
+  return (
+    <StyledInputControlledAutocomplete
+      label={t('create.purposeField.label')}
+      sx={{ mt: 6, mb: 0 }}
+      placeholder="..."
+      name="selection"
+      onChange={onChange}
+      options={options}
+      getOptionLabel={({ title, consumerId }: Purpose) =>
+        t('create.purposeField.compiledBy', { title, consumerId })
+      }
+      isOptionEqualToValue={(option: Purpose, value: Purpose) => option.id === value.id}
+      defaultValue={defaultValue}
+    />
+  )
+}
+
+type PurposeTemplatePreviewProps = {
+  purposeTemplate: Purpose | null
+}
+
+function PurposeTemplatePreview({ purposeTemplate }: PurposeTemplatePreviewProps) {
+  const { t } = useTranslation('purpose')
+  const { lang } = useContext(LangContext)
+
   // TEMP REFACTOR
   const riskAnalysisFormAnswers = useMemo(() => {
     if (!purposeTemplate) return
@@ -219,112 +335,33 @@ export const PurposeCreate = () => {
     return answers
   }, [purposeTemplate, lang])
 
-  // const transformFn = (options: Array<Purpose>, search: string) => {
-  //   return options
-  // }
-
-  if (eserviceIsLoading) {
-    return <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
-  }
-
-  if (error) {
-    return <span>ricarica la pagina</span>
-  }
+  if (!purposeTemplate) return null
 
   return (
     <React.Fragment>
-      <StyledIntro>{{ title: t('create.emptyTitle') }}</StyledIntro>
+      <Divider sx={{ my: 6 }} />
+      <Typography component="h2" variant="h6">
+        {t('create.purposePreviewTitle')}
+      </Typography>
 
-      <Grid container sx={{ maxWidth: 1280 }}>
-        <Grid item lg={8} sx={{ width: '100%' }}>
-          <StyledPaper>
-            <StyledInputControlledSelect
-              focusOnMount={true}
-              name="eserviceId"
-              label={t('create.eserviceField.label')}
-              value={eserviceId}
-              onChange={wrapSetEserviceId}
-              options={eserviceData}
-              emptyLabel="Nessun E-Service associabile"
-            />
-            <StyledInputControlledSwitch
-              name="isTemplate"
-              label={t('create.isTemplateField.label')}
-              value={isTemplate}
-              onChange={wrapSetIsTemplate}
-            />
+      <DescriptionBlock label={t('create.consumerName')}>
+        {purposeTemplate.consumerId}
+      </DescriptionBlock>
 
-            {isTemplate && (
-              <>
-                {purposeIsLoading ? (
-                  <Stack alignItems="center" justifyContent="center">
-                    <CircularProgress />
-                  </Stack>
-                ) : (
-                  <StyledInputControlledAutocomplete
-                    label={t('create.purposeField.label')}
-                    sx={{ mt: 6, mb: 0 }}
-                    placeholder="..."
-                    name="selection"
-                    onChange={wrapSetPurpose}
-                    options={purposeData || []}
-                    getOptionLabel={({ title, consumerId }: Purpose) =>
-                      t('create.purposeField.compiledBy', { title, consumerId })
-                    }
-                    isOptionEqualToValue={(option: Purpose, value: Purpose) =>
-                      option.id === value.id
-                    }
-                    defaultValue={purposeTemplate}
-                  />
-                )}
-              </>
-            )}
+      <DescriptionBlock label={t('create.purposeTitle')}>{purposeTemplate.title}</DescriptionBlock>
 
-            {isTemplate && purposeTemplate && (
-              <React.Fragment>
-                <Divider sx={{ my: 6 }} />
-                <Typography component="h2" variant="h6">
-                  Contenuto del template selezionato
-                </Typography>
+      <DescriptionBlock label={t('create.purposeDescription')}>
+        {purposeTemplate.description}
+      </DescriptionBlock>
 
-                <DescriptionBlock label={t('create.consumerName')}>
-                  {purposeTemplate.consumerId}
-                </DescriptionBlock>
-
-                <DescriptionBlock label={t('create.purposeTitle')}>
-                  {purposeTemplate.title}
-                </DescriptionBlock>
-
-                <DescriptionBlock label={t('create.purposeDescription')}>
-                  {purposeTemplate.description}
-                </DescriptionBlock>
-
-                {riskAnalysisFormAnswers &&
-                  riskAnalysisFormAnswers.map(({ question, answer }, i) => {
-                    return (
-                      <DescriptionBlock key={i} label={question}>
-                        {answer}
-                      </DescriptionBlock>
-                    )
-                  })}
-              </React.Fragment>
-            )}
-          </StyledPaper>
-
-          <PageBottomActions>
-            <StyledButton
-              variant="contained"
-              onClick={createNewPurpose}
-              disabled={isTemplate && !purposeTemplate}
-            >
-              {t('create.createNewPurposeBtn')}
-            </StyledButton>
-            <StyledButton variant="text" onClick={backToPurposeList}>
-              {t('create.backToListBtn')}
-            </StyledButton>
-          </PageBottomActions>
-        </Grid>
-      </Grid>
+      {riskAnalysisFormAnswers &&
+        riskAnalysisFormAnswers.map(({ question, answer }, i) => {
+          return (
+            <DescriptionBlock key={i} label={question}>
+              {answer}
+            </DescriptionBlock>
+          )
+        })}
     </React.Fragment>
   )
 }
