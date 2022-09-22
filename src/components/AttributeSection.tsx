@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
-import { EServiceAttributeGroup } from './EServiceAttributeGroup'
-import { StyledIntro } from './Shared/StyledIntro'
+import { AttributeGroup } from './AttributeGroup'
 import {
   AttributeKey,
   CatalogAttribute,
@@ -16,20 +15,27 @@ import { Add } from '@mui/icons-material'
 import { mixed, object, string } from 'yup'
 import { useFeedback } from '../hooks/useFeedback'
 import { DialogContext } from '../lib/context'
+import noop from 'lodash/noop'
 
-type EServiceAttributeSectionProps = {
+type AttributeSectionProps = {
   attributeKey: AttributeKey
+  description: string
+  attributesSubtitle: string
   attributes: Array<FrontendAttribute>
-  setAttributes: React.Dispatch<React.SetStateAction<FrontendAttributes>>
-  readOnly: boolean
+  setAttributes?: React.Dispatch<React.SetStateAction<FrontendAttributes>>
+  readOnly?: boolean
+  showDisabledAlert?: boolean
 }
 
-export function EServiceAttributeSection({
+export function AttributeSection({
   attributeKey,
+  description,
+  attributesSubtitle,
   attributes,
-  setAttributes,
-  readOnly,
-}: EServiceAttributeSectionProps) {
+  setAttributes = noop,
+  readOnly = false,
+  showDisabledAlert = false,
+}: AttributeSectionProps) {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.attributes' })
   const { setDialog } = useContext(DialogContext)
   const { runAction } = useFeedback()
@@ -85,8 +91,6 @@ export function EServiceAttributeSection({
       const attributesGroups = [...prev[attributeKey]]
       attributesGroups.splice(groupIndex, 1)
 
-      console.log(attributesGroups)
-
       return {
         ...prev,
         [attributeKey]: attributesGroups,
@@ -102,11 +106,11 @@ export function EServiceAttributeSection({
     })
   }
 
-  const handleRemoveAttributeFromGroup = (groupIndex: number, attribute: CatalogAttribute) => {
+  const handleRemoveAttributeFromGroup = (groupIndex: number, attributeId: string) => {
     setAttributes((prev) => {
       const attributesGroups = [...prev[attributeKey]]
       attributesGroups[groupIndex].attributes = attributesGroups[groupIndex].attributes.filter(
-        (attributeFilter) => attributeFilter.id !== attribute.id
+        (attributeFilter) => attributeFilter.id !== attributeId
       )
       return { ...prev, [attributeKey]: attributesGroups }
     })
@@ -123,22 +127,20 @@ export function EServiceAttributeSection({
     })
   }
 
-  const showDisabledAlert = attributeKey === 'declared' || attributeKey === 'verified'
-
   return (
     <StyledPaper>
-      <StyledIntro component="h2">
-        {{
-          title: t(`${attributeKey}.label`),
-          description: t(`${attributeKey}.description`),
-        }}
-      </StyledIntro>
+      <Stack>
+        <Typography variant="overline">{t(`${attributeKey}.label`)}</Typography>
+        <Typography color="text.secondary" variant="caption">
+          {description}
+        </Typography>
+      </Stack>
       {attributes.length > 0 && (
         <Box sx={{ mt: 2 }}>
-          <Typography variant="subtitle1">{t('subtitle')}</Typography>
+          <Typography variant="subtitle1">{attributesSubtitle}</Typography>
           <Stack sx={{ mt: 2 }} spacing={3}>
             {attributes.map((attributesGroup, index) => (
-              <EServiceAttributeGroup
+              <AttributeGroup
                 key={index}
                 index={index}
                 readOnly={readOnly}
@@ -180,6 +182,12 @@ export function EServiceAttributeSection({
             </ButtonNaked>
           )}
         </Stack>
+      )}
+
+      {!showDisabledAlert && attributes.length === 0 && readOnly && (
+        <Alert sx={{ mt: 2 }} severity="info">
+          Non ci sono attributi dichiarati richiesti per l’iscrizione a questo e-service
+        </Alert>
       )}
 
       {showDisabledAlert && (
