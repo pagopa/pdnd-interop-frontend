@@ -13,7 +13,7 @@ import { StyledButton } from './Shared/StyledButton'
 import { EServiceCreateStep3DocumentsInterface } from './EServiceCreateStep3DocumentsInterface'
 import { EServiceCreateStep3DocumentsDoc } from './EServiceCreateStep3DocumentsDoc'
 import { StepActions } from './Shared/StepActions'
-import { Box, Stack } from '@mui/material'
+import { Box } from '@mui/material'
 import { useEserviceCreateFetch } from '../hooks/useEserviceCreateFetch'
 import { useRoute } from '../hooks/useRoute'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
@@ -22,6 +22,7 @@ import { StyledPaper } from './StyledPaper'
 import { downloadFile } from '../lib/file-utils'
 import { AxiosResponse } from 'axios'
 import { getDownloadDocumentName } from '../lib/eservice-utils'
+import PageBottomActionsCard from './Shared/PageBottomActionsCard'
 
 export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps) {
   const { routes } = useRoute()
@@ -202,28 +203,19 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
         <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
 
-      <Box sx={{ mt: 8 }}>
-        <StyledPaper>
-          <StyledIntro component="h2">
-            {{
-              title: t('create.quickPublish.title'),
-              description: t('create.quickPublish.description'),
-            }}
-          </StyledIntro>
-          {!isLoading ? (
-            <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
-              <StyledButton variant="outlined" onClick={deleteVersion}>
-                {t('create.quickPublish.deleteBtn')}
-              </StyledButton>
-              <StyledButton variant="contained" onClick={publishVersion}>
-                {t('create.quickPublish.publishBtn')}
-              </StyledButton>
-            </Stack>
-          ) : (
-            <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
-          )}
-        </StyledPaper>
-      </Box>
+      <PageBottomActionsCard
+        title={t('create.quickPublish.title')}
+        description={t('create.quickPublish.description')}
+        isLoading={isLoading}
+        loadingMessage={t('loadingSingleLabel')}
+      >
+        <StyledButton variant="outlined" onClick={deleteVersion}>
+          {t('create.quickPublish.deleteBtn')}
+        </StyledButton>
+        <StyledButton variant="contained" onClick={publishVersion}>
+          {t('create.quickPublish.publishBtn')}
+        </StyledButton>
+      </PageBottomActionsCard>
     </React.Fragment>
   )
 }

@@ -15,13 +15,13 @@ import {
 } from '../../types'
 import { AttributeSection } from '../components/AttributeSection'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
+import PageBottomActionsCard from '../components/Shared/PageBottomActionsCard'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledPaper } from '../components/StyledPaper'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { CHIP_COLORS_AGREEMENT, MAX_WIDTH } from '../lib/constants'
-import { eserviceDraft } from '../__mocks__/e-service'
 import { NotFound } from './NotFound'
 
 if (process.env.NODE_ENV === 'development') {
@@ -200,6 +200,22 @@ export function AgreementEdit() {
             <StyledButton variant="outlined">Torna alle richieste</StyledButton>
             <StyledButton variant="contained">Salva bozza</StyledButton>
           </PageBottomActions>
+
+          <Grid container>
+            <Grid item xs={6}>
+              <PageBottomActionsCard
+                title={t('edit.bottomPageActionCard.title')}
+                description={t('edit.bottomPageActionCard.description')}
+              >
+                <StyledButton variant="outlined">
+                  {t('edit.bottomPageActionCard.cancelBtn')}
+                </StyledButton>
+                <StyledButton variant="contained">
+                  {t('edit.bottomPageActionCard.submitBtn')}
+                </StyledButton>
+              </PageBottomActionsCard>
+            </Grid>
+          </Grid>
         </>
       )}
     </Box>
