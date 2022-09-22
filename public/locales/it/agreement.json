@@ -80,6 +80,13 @@
       "declared": {
         "description": "Devi dichiarare sotto la tua responsabilità di possedere questi attributi."
       }
+    },
+    "providerMessage": {
+      "title": "messaggio per l’erogatore",
+      "description": "Se ci sono gruppi di attributi contraddistinti da “oppure”, indica in questo messaggio quale tra quelli ti aspetti venga riconosciuto, in base alla documentazione che hai caricato. Inserisci eventuali altre note utili",
+      "field": {
+        "label": "Messaggio"
+      }
     }
   },
   "list": {

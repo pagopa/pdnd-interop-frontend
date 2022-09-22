@@ -80,6 +80,13 @@
       "declared": {
         "description": "You must declare under your own responsibility that you possess these attributes."
       }
+    },
+    "providerMessage": {
+      "title": "message for the provider",
+      "description": "If there are any groups of attributes marked with “or”, indicate in this message which of those you expect will be recognized, based on the documentation you have uploaded. Enter any other useful notes",
+      "field": {
+        "label": "Message"
+      }
     }
   },
   "list": {

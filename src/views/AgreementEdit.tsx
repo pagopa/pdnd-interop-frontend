@@ -14,6 +14,7 @@ import {
   SingleBackendAttribute,
 } from '../../types'
 import { AttributeSection } from '../components/AttributeSection'
+import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledPaper } from '../components/StyledPaper'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -76,6 +77,8 @@ export function AgreementEdit() {
   const { agreementId } = useParams<{ agreementId: string }>()
   const { t } = useTranslation('agreement')
 
+  const [providerMessage, setProviderMessage] = React.useState('')
+
   const {
     data: agreement,
     error: agreementError,
@@ -104,6 +107,10 @@ export function AgreementEdit() {
 
   function handleGoToEService() {
     // history.push()
+  }
+
+  function handleProviderMessageChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    setProviderMessage(e.target.value)
   }
 
   return (
@@ -163,6 +170,22 @@ export function AgreementEdit() {
                 attributes={frontendAttributes.declared}
                 readOnly
               />
+              <StyledPaper>
+                <Stack>
+                  <Typography variant="overline">{t('edit.providerMessage.title')}</Typography>
+                  <Typography color="text.secondary" variant="caption">
+                    {t('edit.providerMessage.description')}
+                  </Typography>
+
+                  <StyledInputControlledText
+                    label={t('edit.providerMessage.field.label')}
+                    name="providerMessage"
+                    value={providerMessage}
+                    onChange={handleProviderMessageChange}
+                    multiline
+                  />
+                </Stack>
+              </StyledPaper>
             </>
           )}
         </>
