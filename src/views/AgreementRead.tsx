@@ -199,7 +199,7 @@ export function AgreementRead() {
     if (isProviderSuspended) {
       chips.push(
         <Chip
-          label={t(`edit.requestStatusField.suspendedByProvider`)}
+          label={t(`read.requestStatusField.suspendedByProvider`)}
           color={CHIP_COLORS_AGREEMENT[data.state]}
         />
       )
@@ -207,7 +207,7 @@ export function AgreementRead() {
     if (isSubscriberSuspended) {
       chips.push(
         <Chip
-          label={t(`edit.requestStatusField.suspendedBySubscriber`)}
+          label={t(`read.requestStatusField.suspendedBySubscriber`)}
           color={CHIP_COLORS_AGREEMENT[data.state]}
         />
       )
@@ -226,12 +226,12 @@ export function AgreementRead() {
 
   return (
     <React.Fragment>
-      <StyledIntro isLoading={isLoading}>{{ title: t('edit.title') }}</StyledIntro>
+      <StyledIntro isLoading={isLoading}>{{ title: t('read.title') }}</StyledIntro>
 
       {data ? (
         <React.Fragment>
           <StyledPaper>
-            <DescriptionBlock label={t('edit.eserviceField.label')} sx={{ mt: 0 }}>
+            <DescriptionBlock label={t('read.eserviceField.label')} sx={{ mt: 0 }}>
               <StyledLink
                 to={buildDynamicPath(
                   mode === 'subscriber'
@@ -240,7 +240,7 @@ export function AgreementRead() {
                   { eserviceId: data?.eservice.id, descriptorId: data?.descriptorId }
                 )}
               >
-                {data?.eservice.name}, {t('edit.eserviceField.versionLabel')}{' '}
+                {data?.eservice.name}, {t('read.eserviceField.versionLabel')}{' '}
                 {data?.eservice.version}
               </StyledLink>
               {mode === 'subscriber' && canUpgrade() ? (
@@ -252,30 +252,30 @@ export function AgreementRead() {
                       descriptorId: data?.eservice.activeDescriptor?.id,
                     })}
                   >
-                    {t('edit.upgradeField.link.label')}
+                    {t('read.upgradeField.link.label')}
                   </StyledLink>
-                  . {t('edit.upgradeField.message')}
+                  . {t('read.upgradeField.message')}
                 </React.Fragment>
               ) : null}
             </DescriptionBlock>
 
             {mode === 'provider' && (
-              <DescriptionBlock label={t('edit.subscriberField.label')}>
+              <DescriptionBlock label={t('read.subscriberField.label')}>
                 <Typography component="span">{data?.consumer.name}</Typography>
               </DescriptionBlock>
             )}
 
             {mode === 'subscriber' && (
-              <DescriptionBlock label={t('edit.providerField.label')}>
+              <DescriptionBlock label={t('read.providerField.label')}>
                 <Typography component="span">{data?.producer.name}</Typography>
               </DescriptionBlock>
             )}
 
             <DescriptionBlock
-              label={t('edit.requestStatusField.label')}
+              label={t('read.requestStatusField.label')}
               tooltipLabel={
                 data?.state !== 'PENDING'
-                  ? t('edit.requestStatusField.agreementSuspendedMessage')
+                  ? t('read.requestStatusField.agreementSuspendedMessage')
                   : undefined
               }
             >
@@ -289,27 +289,27 @@ export function AgreementRead() {
               )}
             </DescriptionBlock>
 
-            <DescriptionBlock label={t('edit.certifiedAttributesField.label')}>
+            <DescriptionBlock label={t('read.certifiedAttributesField.label')}>
               {eservice && (
                 <CertifiedAttributesList eserviceAttributes={eservice.attributes.certified} />
               )}
             </DescriptionBlock>
 
-            <DescriptionBlock label={t('edit.verifiedAttributesField.label')}>
+            <DescriptionBlock label={t('read.verifiedAttributesField.label')}>
               {eservice && (
                 <VerifiedAttributesList eserviceAttributes={eservice.attributes.verified} />
               )}
             </DescriptionBlock>
 
-            {/* <DescriptionBlock label={t('edit.declaredAttributesField.label')}>
+            {/* <DescriptionBlock label={t('read.declaredAttributesField.label')}>
               <DeclaredAttributesList attributes={data.declaredAttributes} />
             </DescriptionBlock> */}
 
             {mode === 'subscriber' && purposes.length === 0 && (
               <Alert severity="info">
-                {t('edit.noPurposeLabel')}.{' '}
+                {t('read.noPurposeLabel')}.{' '}
                 <StyledLink to={routes.SUBSCRIBE_PURPOSE_CREATE.PATH}>
-                  {t('edit.noPurposeLink.label')}
+                  {t('read.noPurposeLink.label')}
                 </StyledLink>
               </Alert>
             )}
@@ -349,7 +349,7 @@ const CertifiedAttributesList: React.FC<CertifiedAttributesListProps> = ({
             return {
               summary: a.name,
               details: (
-                <DescriptionBlock label={t('edit.attribute.descriptionField.label')} sx={{ mb: 0 }}>
+                <DescriptionBlock label={t('read.attribute.descriptionField.label')} sx={{ mb: 0 }}>
                   {a.description}
                 </DescriptionBlock>
               ),
@@ -359,7 +359,7 @@ const CertifiedAttributesList: React.FC<CertifiedAttributesListProps> = ({
           return (
             <Box key={i} sx={{ mt: 1, mb: 2, borderBottom: 1, borderColor: 'divider' }}>
               {Boolean(entries.length > 1) && (
-                <InfoMessage sx={{ mb: 2 }} label={t('edit.attribute.groupMessage')} />
+                <InfoMessage sx={{ mb: 2 }} label={t('read.attribute.groupMessage')} />
               )}
               <StyledAccordion entries={entries} />
             </Box>
@@ -372,7 +372,7 @@ const CertifiedAttributesList: React.FC<CertifiedAttributesListProps> = ({
   return eserviceAttributes.length > 0 ? (
     <Attributes />
   ) : (
-    <Typography>{t('edit.certifiedAttributesField.noDataLabel')}</Typography>
+    <Typography>{t('read.certifiedAttributesField.noDataLabel')}</Typography>
   )
 }
 
@@ -412,7 +412,7 @@ const VerifiedAttributesList: React.FC<VerifiedAttributesListProps> = ({ eservic
               summary: a.name,
               summarySecondary: (
                 <Chip
-                  label={t(`edit.attribute.status.${attributeStatus}`)}
+                  label={t(`read.attribute.status.${attributeStatus}`)}
                   color={CHIP_COLOR_ATTRIBUTE[attributeStatus]}
                 />
               ),
@@ -420,14 +420,14 @@ const VerifiedAttributesList: React.FC<VerifiedAttributesListProps> = ({ eservic
                 <React.Fragment>
                   {a.verificationDate && (
                     <DescriptionBlock
-                      label={t('edit.attribute.verificationDateField.label')}
+                      label={t('read.attribute.verificationDateField.label')}
                       sx={{ mt: 0 }}
                     >
                       {formatDateString(a.verificationDate)}
                     </DescriptionBlock>
                   )}
                   <DescriptionBlock
-                    label={t('edit.attribute.descriptionField.label')}
+                    label={t('read.attribute.descriptionField.label')}
                     sx={{ mb: 0 }}
                   >
                     {a.description}
@@ -440,7 +440,7 @@ const VerifiedAttributesList: React.FC<VerifiedAttributesListProps> = ({ eservic
           return (
             <Box key={i} sx={{ mt: 1, mb: 2, borderBottom: 1, borderColor: 'divider' }}>
               {Boolean(entries.length > 1) && (
-                <InfoMessage sx={{ mb: 2 }} label={t('edit.attribute.groupMessage')} />
+                <InfoMessage sx={{ mb: 2 }} label={t('read.attribute.groupMessage')} />
               )}
               <StyledAccordion entries={entries} />
             </Box>
@@ -464,7 +464,7 @@ const VerifiedAttributesList: React.FC<VerifiedAttributesListProps> = ({ eservic
           return (
             <Box key={i} sx={{ mb: 4, borderBottom: 1, borderColor: 'divider' }}>
               {Boolean(attributes.length > 1) && (
-                <InfoMessage sx={{ mb: 2 }} label={t('edit.attribute.groupMessage')} />
+                <InfoMessage sx={{ mb: 2 }} label={t('read.attribute.groupMessage')} />
               )}
               {attributes.map((a, i) => {
                 const attributeStatus = checkVerifiedStatus(
@@ -478,7 +478,7 @@ const VerifiedAttributesList: React.FC<VerifiedAttributesListProps> = ({ eservic
                     </Grid>
                     <Grid item xs={4}>
                       <Chip
-                        label={t(`edit.attribute.status.${attributeStatus}`)}
+                        label={t(`read.attribute.status.${attributeStatus}`)}
                         color={CHIP_COLOR_ATTRIBUTE[attributeStatus]}
                       />
                     </Grid>
@@ -507,7 +507,7 @@ const VerifiedAttributesList: React.FC<VerifiedAttributesListProps> = ({ eservic
       <SubscriberAttributes />
     )
   ) : (
-    <Typography>{t('edit.verifiedAttributesField.noDataLabel')}</Typography>
+    <Typography>{t('read.verifiedAttributesField.noDataLabel')}</Typography>
   )
 }
 
@@ -520,13 +520,13 @@ const DeclaredAttributesList: React.FC<DeclaredAttributesListProps> = ({ attribu
   const { t } = useTranslation(['agreement', 'common'])
 
   if (attributes.length === 0) {
-    return <Typography>{t('edit.declaredAttributesField.noDataLabel')}</Typography>
+    return <Typography>{t('read.declaredAttributesField.noDataLabel')}</Typography>
   }
 
   return (
     <Box sx={{ mt: 1, mb: 2, borderBottom: 1, borderColor: 'divider' }}>
       {Boolean(attributes.length > 1) && (
-        <InfoMessage sx={{ mb: 2 }} label={t('edit.attribute.groupMessage')} />
+        <InfoMessage sx={{ mb: 2 }} label={t('read.attribute.groupMessage')} />
       )}
       {attributes.map((a) => (
         <Stack justifyContent="space-between" key={a.id}>

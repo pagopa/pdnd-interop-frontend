@@ -2,7 +2,7 @@
   "loadingSingleLabel": "Stiamo caricando la richiesta",
   "loadingMultiLabel": "Stiamo caricando la lista di richieste",
   "noMultiDataLabel": "Non ci sono richieste disponibili",
-  "edit": {
+  "read": {
     "title": "Gestisci richiesta di fruizione",
     "eserviceField": {
       "label": "Richiesta relativa a",
@@ -52,6 +52,34 @@
     "noPurposeLabel": "Non ci sono finalità per questa richiesta di fruizione",
     "noPurposeLink": {
       "label": "Crea la prima"
+    }
+  },
+  "edit": {
+    "title": "Gestisci richiesta di fruizione",
+    "generalInformations": {
+      "title": "Informazioni generali",
+      "eserviceField": {
+        "label": "Richiesta relativa a",
+        "versionLabel": "versione"
+      },
+      "providerField": {
+        "label": "Erogatore"
+      },
+      "requestStatusField": {
+        "label": "Stato della richiesta"
+      }
+    },
+    "attribute": {
+      "subtitle": "Devi possedere:",
+      "certified": {
+        "description": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori certificazioni."
+      },
+      "verified": {
+        "description": "Questi attributi necessitano verifica da parte di almeno un erogatore. Potresti già possederne alcuni (o tutti)."
+      },
+      "declared": {
+        "description": "Devi dichiarare sotto la tua responsabilità di possedere questi attributi."
+      }
     }
   },
   "list": {

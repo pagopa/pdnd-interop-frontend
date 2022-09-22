@@ -2,7 +2,7 @@
   "loadingSingleLabel": "Loading request",
   "loadingMultiLabel": "Loading requests",
   "noMultiDataLabel": "Non fruition request available",
-  "edit": {
+  "read": {
     "title": "Manage fruition request",
     "eserviceField": {
       "label": "Request for",
@@ -52,6 +52,34 @@
     "noPurposeLabel": "You haven't created any purpose for this agreement yet",
     "noPurposeLink": {
       "label": "Create one"
+    }
+  },
+  "edit": {
+    "title": "Manage fruition request",
+    "generalInformations": {
+      "title": "General Informations",
+      "eserviceField": {
+        "label": "Request for",
+        "versionLabel": "version"
+      },
+      "providerField": {
+        "label": "Provider"
+      },
+      "requestStatusField": {
+        "label": "Request status"
+      }
+    },
+    "attribute": {
+      "subtitle": "You must own:",
+      "certified": {
+        "description": "These attributes are certified by a recognized authoritative source, and do not require further certification."
+      },
+      "verified": {
+        "description": "These attributes require verification by at least one provider. You may already own some (or all) of them."
+      },
+      "declared": {
+        "description": "You must declare under your own responsibility that you possess these attributes."
+      }
     }
   },
   "list": {
