@@ -200,7 +200,8 @@ function AttributesList({ readOnly, attributes, onRemove }: AttributesListProps)
   const openAttributeDetailsDialog = (attribute: CatalogAttribute) => {
     setDialog({
       type: 'showAttributeDetails',
-      attribute,
+      attributeId: attribute.id,
+      name: attribute.name,
     })
   }
 
