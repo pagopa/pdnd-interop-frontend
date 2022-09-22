@@ -20,10 +20,15 @@ export const StyledDialogAttributeDetails: FunctionComponent<DialogAttributeDeta
         <DescriptionBlock label={t('content.descriptionField.label')}>
           {attribute.description}
         </DescriptionBlock>
-        <DescriptionBlock label={t('content.codeField.label')}>{attribute.code}</DescriptionBlock>
-        <DescriptionBlock label={t('content.originField.label')}>
-          {attribute.origin}
-        </DescriptionBlock>
+        {attribute.code && (
+          <DescriptionBlock label={t('content.codeField.label')}>{attribute.code}</DescriptionBlock>
+        )}
+
+        {attribute.origin && (
+          <DescriptionBlock label={t('content.originField.label')}>
+            {attribute.origin}
+          </DescriptionBlock>
+        )}
       </DialogContent>
 
       <DialogActions>
