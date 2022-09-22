@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
 import { DialogProps, ToastContentWithOutcome, ToastProps } from '../../types'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import isEmpty from 'lodash/isEmpty'
 import {
   DialogContext,
@@ -23,21 +23,17 @@ import { useTranslation } from 'react-i18next'
 import { HeaderWrapper } from './HeaderWrapper'
 import { FooterWrapper } from './FooterWrapper'
 import { Stack, Box } from '@mui/material'
+import { useJwt } from '../hooks/useJwt'
 
-const RebuildI18N = () => {
+const AttemptLogin = () => {
+  const { ready, t } = useTranslation('common', { useSuspense: false })
+  const location = useLocation()
+  const { jwt } = useJwt()
+  const { findCurrentRoute } = useRoute()
   const { loginAttempt } = useLogin()
-  const { lang } = useContext(LangContext)
-  const { i18n, t, ready } = useTranslation('common', { useSuspense: false })
   const { setLoadingText } = useContext(LoaderContext)
 
-  // Build config once translations are ready
-  useEffect(() => {
-    if (ready) {
-      lang !== DEFAULT_LANG && i18n.changeLanguage(lang)
-      buildLocale(t)
-    }
-  }, [ready]) // eslint-disable-line react-hooks/exhaustive-deps
-
+  // Attempt login once translations are ready
   useEffect(() => {
     async function asyncLoginAttempt() {
       setLoadingText(t('loading.sessionToken.label'))
@@ -45,8 +41,25 @@ const RebuildI18N = () => {
       setLoadingText(null)
     }
 
-    if (ready) {
+    const route = findCurrentRoute(location)
+    const shouldAttemptLogin = ready && route && !route.PUBLIC && !jwt
+    if (shouldAttemptLogin) {
       asyncLoginAttempt()
+    }
+  }, [ready, location, jwt]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  return null
+}
+
+const RebuildI18N = () => {
+  const { lang } = useContext(LangContext)
+  const { i18n, t, ready } = useTranslation('common', { useSuspense: false })
+
+  // Build config once translations are ready
+  useEffect(() => {
+    if (ready) {
+      lang !== DEFAULT_LANG && i18n.changeLanguage(lang)
+      buildLocale(t)
     }
   }, [ready]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -122,6 +135,7 @@ export function BodyLogger() {
         <DialogContext.Provider value={{ dialog, setDialog }}>
           <LoaderContext.Provider value={{ loadingText, setLoadingText }}>
             <RebuildI18N />
+            <AttemptLogin />
             <HeaderWrapper />
 
             {doesRouteAllowTwoColumnsLayout(history.location) ? (
