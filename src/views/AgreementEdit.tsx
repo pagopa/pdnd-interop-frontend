@@ -14,11 +14,14 @@ import {
   SingleBackendAttribute,
 } from '../../types'
 import { AttributeSection } from '../components/AttributeSection'
+import { PageBottomActions } from '../components/Shared/PageBottomActions'
+import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledPaper } from '../components/StyledPaper'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { CHIP_COLORS_AGREEMENT } from '../lib/constants'
+import { CHIP_COLORS_AGREEMENT, MAX_WIDTH } from '../lib/constants'
+import { eserviceDraft } from '../__mocks__/e-service'
 import { NotFound } from './NotFound'
 
 if (process.env.NODE_ENV === 'development') {
@@ -75,7 +78,7 @@ function mapBackendAttributesToFrontendAttributes(data: EServiceReadType): Front
 
 export function AgreementEdit() {
   const { agreementId } = useParams<{ agreementId: string }>()
-  const { t } = useTranslation('agreement')
+  const { t } = useTranslation(['agreement', 'common'])
 
   const [providerMessage, setProviderMessage] = React.useState('')
 
@@ -114,38 +117,43 @@ export function AgreementEdit() {
   }
 
   return (
-    <React.Fragment>
+    <Box sx={{ maxWidth: MAX_WIDTH }}>
       <StyledIntro isLoading={isLoading}>{{ title: t('edit.title') }}</StyledIntro>
       {agreement && (
         <>
-          <Box sx={{ maxWidth: 620 }}>
-            <StyledPaper>
-              <Typography variant="overline">informazioni generali</Typography>
-              <Stack mt={2} spacing={2}>
-                <AttributeGeneralInformation
-                  label={t('edit.generalInformations.eserviceField.label')}
-                  content={`${agreement.eservice.name} ${t(
-                    'edit.generalInformations.eserviceField.versionLabel'
-                  )} ${agreement.eservice.version}`}
-                  Button={
-                    <ButtonNaked onClick={handleGoToEService} color="primary">
-                      Vedi E-Service
-                    </ButtonNaked>
-                  }
-                />
-                <AttributeGeneralInformation
-                  label={t('edit.generalInformations.providerField.label')}
-                  content={agreement.consumer.name}
-                />
-                <AttributeGeneralInformation
-                  label={t('edit.generalInformations.requestStatusField.label')}
-                  content={
-                    <Chip label={agreement.state} color={CHIP_COLORS_AGREEMENT[agreement.state]} />
-                  }
-                />
-              </Stack>
-            </StyledPaper>
-          </Box>
+          <Grid container>
+            <Grid item xs={6}>
+              <StyledPaper>
+                <Typography variant="overline">informazioni generali</Typography>
+                <Stack mt={2} spacing={2}>
+                  <AttributeGeneralInformation
+                    label={t('edit.generalInformations.eserviceField.label')}
+                    content={`${agreement.eservice.name} ${t(
+                      'edit.generalInformations.eserviceField.versionLabel'
+                    )} ${agreement.eservice.version}`}
+                    Button={
+                      <ButtonNaked onClick={handleGoToEService} color="primary">
+                        Vedi E-Service
+                      </ButtonNaked>
+                    }
+                  />
+                  <AttributeGeneralInformation
+                    label={t('edit.generalInformations.providerField.label')}
+                    content={agreement.consumer.name}
+                  />
+                  <AttributeGeneralInformation
+                    label={t('edit.generalInformations.requestStatusField.label')}
+                    content={
+                      <Chip
+                        label={t(`status.agreement.${agreement.state}`, { ns: 'common' })}
+                        color={CHIP_COLORS_AGREEMENT[agreement.state]}
+                      />
+                    }
+                  />
+                </Stack>
+              </StyledPaper>
+            </Grid>
+          </Grid>
 
           {frontendAttributes && (
             <>
@@ -170,27 +178,31 @@ export function AgreementEdit() {
                 attributes={frontendAttributes.declared}
                 readOnly
               />
-              <StyledPaper>
-                <Stack>
-                  <Typography variant="overline">{t('edit.providerMessage.title')}</Typography>
-                  <Typography color="text.secondary" variant="caption">
-                    {t('edit.providerMessage.description')}
-                  </Typography>
-
-                  <StyledInputControlledText
-                    label={t('edit.providerMessage.field.label')}
-                    name="providerMessage"
-                    value={providerMessage}
-                    onChange={handleProviderMessageChange}
-                    multiline
-                  />
-                </Stack>
-              </StyledPaper>
             </>
           )}
+          <StyledPaper>
+            <Stack>
+              <Typography variant="overline">{t('edit.providerMessage.title')}</Typography>
+              <Typography color="text.secondary" variant="caption">
+                {t('edit.providerMessage.description')}
+              </Typography>
+
+              <StyledInputControlledText
+                label={t('edit.providerMessage.field.label')}
+                name="providerMessage"
+                value={providerMessage}
+                onChange={handleProviderMessageChange}
+                multiline
+              />
+            </Stack>
+          </StyledPaper>
+          <PageBottomActions>
+            <StyledButton variant="outlined">Torna alle richieste</StyledButton>
+            <StyledButton variant="contained">Salva bozza</StyledButton>
+          </PageBottomActions>
         </>
       )}
-    </React.Fragment>
+    </Box>
   )
 }
 

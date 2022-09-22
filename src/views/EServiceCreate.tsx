@@ -12,6 +12,7 @@ import { buildDynamicPath } from '../lib/router-utils'
 import { useRoute } from '../hooks/useRoute'
 import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import { MAX_WIDTH } from '../lib/constants'
 
 export function EServiceCreate() {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
@@ -46,7 +47,7 @@ export function EServiceCreate() {
   return (
     <React.Fragment>
       <StyledIntro>{intro}</StyledIntro>
-      <Grid container sx={{ maxWidth: 1280 }}>
+      <Grid container sx={{ maxWidth: MAX_WIDTH }}>
         <Grid item lg={8} sx={{ width: '100%' }}>
           <StyledStepper steps={STEPS} activeIndex={activeStep} />
           <Step {...stepProps} />
