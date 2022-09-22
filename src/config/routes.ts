@@ -263,7 +263,7 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
       en: '/en/subscriber/agreements/:agreementId',
     },
     LABEL: { it: 'Gestisci richiesta', en: 'Manage request' },
-    EXACT: false,
+    EXACT: true,
     COMPONENT: AgreementRead,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
