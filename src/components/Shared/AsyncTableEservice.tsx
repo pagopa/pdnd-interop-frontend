@@ -94,7 +94,7 @@ export const AsyncTableEServiceCatalog = () => {
       return <OwnerTooltip label={t('tableEServiceCatalog.alreadySubscribed')} Icon={CheckIcon} />
     }
 
-    if (!item.isMine && !canSubscribeEservice) {
+    if (!canSubscribeEservice) {
       return (
         <OwnerTooltip
           label={t('tableEServiceCatalog.missingCertifiedAttributes')}
@@ -142,7 +142,7 @@ export const AsyncTableEServiceCatalog = () => {
   ) => {
     const actions: Array<ActionProps> = []
 
-    if (!eservice.isMine && isAdmin && eservice.callerSubscribed) {
+    if (isAdmin && eservice.callerSubscribed) {
       actions.push({
         onClick: () => {
           history.push(
@@ -155,7 +155,7 @@ export const AsyncTableEServiceCatalog = () => {
       })
     }
 
-    if (!eservice.isMine && isAdmin && !eservice.callerSubscribed && canSubscribeEservice) {
+    if (isAdmin && !eservice.callerSubscribed && canSubscribeEservice) {
       actions.push({
         onClick: () => {
           setDialog({
@@ -174,7 +174,7 @@ export const AsyncTableEServiceCatalog = () => {
     }
 
     // TEMP PIN-612
-    // if (!eservice.isMine && isAdmin(party) && !canSubscribeEservice) {
+    // if (isAdmin(party) && !canSubscribeEservice) {
     //   actions.push({
     //     onClick: () => {
     //       setDialog({ type: 'askExtension' })

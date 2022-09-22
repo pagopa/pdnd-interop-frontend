@@ -161,18 +161,14 @@ export function EServiceRead() {
           </StyledPaper>
 
           <PageBottomActions>
-            {isVersionPublished &&
-              !isMine &&
-              canSubscribeEservice &&
-              !flatData?.callerSubscribed &&
-              isAdmin && (
-                <StyledButton variant="contained" onClick={handleSubscriptionDialog}>
-                  {t('actions.subscribe', { ns: 'common' })}
-                </StyledButton>
-              )}
+            {isVersionPublished && canSubscribeEservice && !flatData?.callerSubscribed && isAdmin && (
+              <StyledButton variant="contained" onClick={handleSubscriptionDialog}>
+                {t('actions.subscribe', { ns: 'common' })}
+              </StyledButton>
+            )}
 
             {/* TEMP PIN-612 */}
-            {/* {!isMine && isAdmin && !canSubscribeEservice && (
+            {/* {isAdmin && !canSubscribeEservice && (
           <StyledButton
             variant="contained"
             onClick={() => {

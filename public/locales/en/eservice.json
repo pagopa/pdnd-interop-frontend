@@ -174,9 +174,9 @@
       }
     },
     "alert": {
-      "youAreTheProvider": "You can't subscribe to an E-Service you are a Provider of",
+      "youAreTheProvider": "You are the provider of this e-service",
       "missingCertifiedAttributes": "Your party is missing at least one of the certified attributes required to subscribe this E-Service",
-      "alreadySubscribed": "You can't subscribe again as you are already a Subscriber of this E-Service"
+      "alreadySubscribed": "You can't subscribe again as you are already a Subscriber of this e-service"
     },
     "actions": {
       "backToCatalogLabel": "Back to the catalog"

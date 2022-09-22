@@ -174,9 +174,9 @@
       }
     },
     "alert": {
-      "youAreTheProvider": "Non puoi iscriverti a un E-Service di cui sei Erogatore",
+      "youAreTheProvider": "Sei l'erogatore di questo e-service",
       "missingCertifiedAttributes": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
-      "alreadySubscribed": "Non puoi iscriverti a questo E-Service perché sei già iscritto"
+      "alreadySubscribed": "Non puoi iscriverti a questo e-service perché sei già iscritto"
     },
     "actions": {
       "backToCatalogLabel": "Torna al catalogo"
