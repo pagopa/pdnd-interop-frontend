@@ -1,22 +1,26 @@
-import { Box, Chip, Grid, Stack, Typography } from '@mui/material'
+import { Box, Chip, Divider, Grid, Stack, Typography } from '@mui/material'
 import { ButtonNaked } from '@pagopa/mui-italia'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import {
   AgreementSummary,
   AttributeKind,
   BackendAttributeContent,
+  EServiceDocumentRead,
   EServiceReadType,
   FrontendAttribute,
   FrontendAttributes,
   GroupBackendAttribute,
+  RequestOutcome,
   SingleBackendAttribute,
 } from '../../types'
 import { AttributeSection } from '../components/AttributeSection'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import PageBottomActionsCard from '../components/Shared/PageBottomActionsCard'
 import { StyledButton } from '../components/Shared/StyledButton'
+import { StyledDeleteableDocument } from '../components/Shared/StyledDeleteableDocument'
+import StyledInputControlledFileNew from '../components/Shared/StyledInputControlledFileNew'
 import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledPaper } from '../components/StyledPaper'
@@ -80,6 +84,7 @@ export function AgreementEdit() {
   const { agreementId } = useParams<{ agreementId: string }>()
   const { t } = useTranslation(['agreement', 'common'])
 
+  const [documents, setDocuments] = useState<Array<EServiceDocumentRead>>([])
   const [providerMessage, setProviderMessage] = React.useState('')
 
   const {
@@ -196,6 +201,15 @@ export function AgreementEdit() {
               />
             </Stack>
           </StyledPaper>
+          <StyledPaper>
+            <Stack>
+              <Typography variant="overline">{t('edit.providerMessage.title')}</Typography>
+              <Typography color="text.secondary" variant="caption">
+                {t('edit.providerMessage.description')}
+              </Typography>
+              <DocumentInput documents={documents} setDocuments={setDocuments} />
+            </Stack>
+          </StyledPaper>
           <PageBottomActions>
             <StyledButton variant="outlined">Torna alle richieste</StyledButton>
             <StyledButton variant="contained">Salva bozza</StyledButton>
@@ -219,6 +233,100 @@ export function AgreementEdit() {
         </>
       )}
     </Box>
+  )
+}
+
+type DocumentInputProps = {
+  documents: Array<EServiceDocumentRead>
+  setDocuments: React.Dispatch<React.SetStateAction<Array<EServiceDocumentRead>>>
+}
+
+function DocumentInput({ documents, setDocuments }: DocumentInputProps) {
+  const [showInput, setShowInput] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const { t } = useTranslation('common')
+
+  const handleShowFileInput = () => {
+    setShowInput(true)
+  }
+
+  const handleHideFileInput = () => {
+    setShowInput(false)
+  }
+
+  const handleUpload = async (file: File) => {
+    setIsLoading(true)
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    setDocuments((prev) => [
+      ...prev,
+      {
+        id: Math.random().toString(),
+        name: file.name,
+        prettyName: file.name,
+        contentType: file.type,
+      },
+    ])
+    setIsLoading(false)
+    handleHideFileInput()
+  }
+
+  const handleRemoveFile = () => {
+    console.log('Removed')
+    //TODO
+  }
+
+  const handleUpdateDocDescription = async (docId: string, newDescription: string) => {
+    //TODO
+
+    return 'success' as RequestOutcome
+  }
+  const handleDeleteDocument = async (docId: string) => {
+    setDocuments((prev) => prev.filter((doc) => docId !== doc.id))
+  }
+  const handleDownloadDocument = async (docId: string) => {
+    //TODO
+  }
+
+  return (
+    <>
+      <Stack sx={{ mt: 3 }} spacing={2}>
+        {documents.map((document) => (
+          <StyledDeleteableDocument
+            key={document.id}
+            readable={document}
+            updateDescription={handleUpdateDocDescription.bind(null, document.id)}
+            deleteDocument={handleDeleteDocument.bind(null, document.id)}
+            downloadDocument={handleDownloadDocument.bind(null, document.id)}
+          />
+        ))}
+      </Stack>
+
+      {documents.length > 0 && <Divider sx={{ mt: 2 }} />}
+
+      <Box sx={{ mt: 2 }}>
+        {!showInput ? (
+          <ButtonNaked color="primary" onClick={handleShowFileInput}>
+            {t('addBtn')}
+          </ButtonNaked>
+        ) : (
+          <>
+            <StyledInputControlledFileNew
+              value={null}
+              uploadFn={handleUpload}
+              removeFn={handleRemoveFile}
+              isLoading={isLoading}
+              uploadText={'test'}
+            />
+            <Box sx={{ mt: 2 }}>
+              <ButtonNaked color="error" onClick={handleHideFileInput}>
+                Annulla
+              </ButtonNaked>
+            </Box>
+          </>
+        )}
+      </Box>
+    </>
   )
 }
 

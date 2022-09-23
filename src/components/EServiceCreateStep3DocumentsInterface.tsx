@@ -10,6 +10,7 @@ import {
   EServiceDocumentRead,
   EServiceDocumentWrite,
   EServiceReadType,
+  RequestOutcome,
 } from '../../types'
 import { getActiveInterface } from '../lib/eservice-utils'
 import { StyledDeleteableDocument } from './Shared/StyledDeleteableDocument'
@@ -25,6 +26,10 @@ type EServiceCreateStep3DocumentsInterfaceProps = {
   data: EServiceReadType
   uploadDescriptorDocument: (document: EServiceDocumentWrite) => Promise<RunActionOutput>
   deleteDescriptorDocument: (documentId: string) => Promise<RunActionOutput>
+  updateDescriptorDocumentDescription: (
+    documentId: string,
+    newDescription: string
+  ) => Promise<RequestOutcome>
   downloadDescriptorDocument: (document: EServiceDocumentRead) => Promise<void>
   activeDescriptorId: string
 }
@@ -38,6 +43,7 @@ export function EServiceCreateStep3DocumentsInterface({
   data,
   uploadDescriptorDocument,
   deleteDescriptorDocument,
+  updateDescriptorDocumentDescription,
   downloadDescriptorDocument,
   activeDescriptorId,
 }: EServiceCreateStep3DocumentsInterfaceProps) {
@@ -103,9 +109,8 @@ export function EServiceCreateStep3DocumentsInterface({
   return readDoc ? (
     <StyledDeleteableDocument
       isLabelEditable={false}
-      eserviceId={data.id}
-      descriptorId={activeDescriptor.id}
       readable={readDoc}
+      updateDescription={updateDescriptorDocumentDescription.bind(null, readDoc.id)}
       deleteDocument={deletePreviousInterfaceDoc}
       downloadDocument={wrapDownloadDoc(activeDescriptor.interface)}
     />

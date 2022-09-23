@@ -88,6 +88,29 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
     }
   }
 
+  const updateDescriptorDocumentDescription = async (
+    documentId: string,
+    newDescription: string
+  ) => {
+    const activeDescriptor = sureFetchedData.activeDescriptor as EServiceDescriptorRead
+    const { outcome } = (await runAction(
+      {
+        path: {
+          endpoint: 'ESERVICE_VERSION_DRAFT_UPDATE_DOCUMENT_DESCRIPTION',
+          endpointParams: {
+            eserviceId: sureFetchedData.id,
+            descriptorId: activeDescriptor.id,
+            documentId: documentId,
+          },
+        },
+        config: { data: { prettyName: newDescription } },
+      },
+      { suppressToast: ['success'] }
+    )) as RunActionOutput
+
+    return outcome
+  }
+
   const deleteDescriptorDocument = async (documentId: string) => {
     const activeDescriptor = sureFetchedData.activeDescriptor as EServiceDescriptorRead
     const { outcome, response } = (await runAction(
@@ -156,6 +179,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
                   data={fetchedData}
                   uploadDescriptorDocument={uploadDescriptorDocument}
                   deleteDescriptorDocument={deleteDescriptorDocument}
+                  updateDescriptorDocumentDescription={updateDescriptorDocumentDescription}
                   downloadDescriptorDocument={downloadDescriptorDocument}
                   activeDescriptorId={activeDescriptorId}
                 />
@@ -174,6 +198,7 @@ export function EServiceCreateStep3Documents({ back }: StepperStepComponentProps
                 data={fetchedData}
                 uploadDescriptorDocument={uploadDescriptorDocument}
                 deleteDescriptorDocument={deleteDescriptorDocument}
+                updateDescriptorDocumentDescription={updateDescriptorDocumentDescription}
                 downloadDescriptorDocument={downloadDescriptorDocument}
                 activeDescriptorId={activeDescriptorId}
               />
