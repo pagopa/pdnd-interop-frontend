@@ -12,7 +12,7 @@ export const useLogin = () => {
   // const { jwt } = useJwt()
   const { setToken } = useContext(TokenContext)
   const history = useHistory()
-  const { routes } = useRoute()
+  const { routes, findCurrentRoute } = useRoute()
 
   const setTokenFromMock = (mockToken: string) => {
     storageWrite(STORAGE_KEY_SESSION_TOKEN, mockToken, 'string')
@@ -77,7 +77,13 @@ export const useLogin = () => {
       if (success) return
     }
 
-    // 4. If all else fails, logout
+    // 4. Check if the route is public
+    const route = findCurrentRoute(history.location)
+    if (route && route.PUBLIC) {
+      return
+    }
+
+    // 5. If all else fails, logout
     history.push(routes.LOGOUT.PATH)
   }
 

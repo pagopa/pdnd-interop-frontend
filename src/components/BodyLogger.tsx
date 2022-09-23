@@ -23,13 +23,9 @@ import { useTranslation } from 'react-i18next'
 import { HeaderWrapper } from './HeaderWrapper'
 import { FooterWrapper } from './FooterWrapper'
 import { Stack, Box } from '@mui/material'
-import { useJwt } from '../hooks/useJwt'
 
 const AttemptLogin = () => {
   const { ready, t } = useTranslation('common', { useSuspense: false })
-  const location = useLocation()
-  const { jwt } = useJwt()
-  const { findCurrentRoute } = useRoute()
   const { loginAttempt } = useLogin()
   const { setLoadingText } = useContext(LoaderContext)
 
@@ -41,12 +37,10 @@ const AttemptLogin = () => {
       setLoadingText(null)
     }
 
-    const route = findCurrentRoute(location)
-    const shouldAttemptLogin = ready && route && !route.PUBLIC && !jwt
-    if (shouldAttemptLogin) {
+    if (ready) {
       asyncLoginAttempt()
     }
-  }, [ready, location, jwt]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [ready]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return null
 }
