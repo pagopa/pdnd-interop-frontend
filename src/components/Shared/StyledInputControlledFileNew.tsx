@@ -8,7 +8,7 @@ import {
 
 type Props = {
   value: { name: string; size: number } | null
-  isLoading: boolean
+  isLoading?: boolean
   uploadText: string
   vertical?: boolean
   uploadFn: (file: File) => Promise<void>

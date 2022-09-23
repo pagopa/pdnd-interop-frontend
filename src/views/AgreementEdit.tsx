@@ -274,7 +274,6 @@ type DocumentInputProps = {
 
 function DocumentInput({ documents, setDocuments }: DocumentInputProps) {
   const [showInput, setShowInput] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
 
   const { t } = useTranslation('common')
 
@@ -287,8 +286,6 @@ function DocumentInput({ documents, setDocuments }: DocumentInputProps) {
   }
 
   const handleUpload = async (file: File) => {
-    setIsLoading(true)
-    await new Promise((resolve) => setTimeout(resolve, 1000))
     setDocuments((prev) => [
       ...prev,
       {
@@ -298,7 +295,6 @@ function DocumentInput({ documents, setDocuments }: DocumentInputProps) {
         contentType: file.type,
       },
     ])
-    setIsLoading(false)
     handleHideFileInput()
   }
 
@@ -339,7 +335,7 @@ function DocumentInput({ documents, setDocuments }: DocumentInputProps) {
       <Box sx={{ mt: 2 }}>
         {!showInput ? (
           // Disabled, waiting for the backend
-          <ButtonNaked disabled color="primary" onClick={handleShowFileInput}>
+          <ButtonNaked color="primary" onClick={handleShowFileInput}>
             {t('addBtn')}
           </ButtonNaked>
         ) : (
@@ -348,7 +344,6 @@ function DocumentInput({ documents, setDocuments }: DocumentInputProps) {
               value={null}
               uploadFn={handleUpload}
               removeFn={handleRemoveFile}
-              isLoading={isLoading}
               uploadText={'test'}
             />
             <Box sx={{ mt: 2 }}>
