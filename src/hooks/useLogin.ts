@@ -10,7 +10,6 @@ import { useRoute } from './useRoute'
 import { useTranslation } from 'react-i18next'
 
 export const useLogin = () => {
-  // const { jwt } = useJwt()
   const { setToken } = useContext(TokenContext)
   const history = useHistory()
   const { routes, findCurrentRoute } = useRoute()
@@ -90,38 +89,6 @@ export const useLogin = () => {
     // 5. If all else fails, logout
     history.push(routes.LOGOUT.PATH)
   }
-
-  // type BucketEntry = {
-  //   organizationId: string
-  //   usersId: Array<string>
-  // }
-
-  // const tempCheckWhitelist = async () => {
-  //   try {
-  //     const resp = await axios.get(TEMP_USER_WHITELIST_URL)
-  //     const currentOrganizationId = (jwt as JwtUser).organization.id
-  //     const currentUserId = (jwt as JwtUser).uid
-  //     const isUserWhitelisted = Boolean(
-  //       resp.data.find(
-  //         (item: BucketEntry) =>
-  //           item.organizationId === currentOrganizationId && item.usersId.includes(currentUserId)
-  //       )
-  //     )
-
-  //     if (!isUserWhitelisted) {
-  //       history.push(routes.LOGOUT.PATH)
-  //     }
-  //   } catch (err) {
-  //     // something went wrong, log out for safety
-  //     history.push(routes.LOGOUT.PATH)
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if (jwt && !MOCK_TOKEN) {
-  //     tempCheckWhitelist()
-  //   }
-  // }, [jwt]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Attempt login once translations are ready
   useEffect(() => {
