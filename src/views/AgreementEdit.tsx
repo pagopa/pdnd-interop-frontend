@@ -2,7 +2,7 @@ import { Box, Chip, Divider, Grid, Stack, Typography } from '@mui/material'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import {
   AgreementSummary,
   AttributeKind,
@@ -25,18 +25,11 @@ import { StyledInputControlledText } from '../components/Shared/StyledInputContr
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledPaper } from '../components/StyledPaper'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
+import { useFeedback } from '../hooks/useFeedback'
 import { useRoute } from '../hooks/useRoute'
 import { CHIP_COLORS_AGREEMENT, MAX_WIDTH } from '../lib/constants'
 import { buildDynamicPath } from '../lib/router-utils'
 import { NotFound } from './NotFound'
-
-if (process.env.NODE_ENV === 'development') {
-  setInterval(() => {
-    if (window && window.document) {
-      window.document.querySelector('body > iframe')?.remove()
-    }
-  }, 1000)
-}
 
 function mapBackendAttributesToFrontendAttributes(data: EServiceReadType): FrontendAttributes {
   function backendAttributeToFrontendAttribute(
@@ -83,13 +76,15 @@ function mapBackendAttributesToFrontendAttributes(data: EServiceReadType): Front
 }
 
 export function AgreementEdit() {
-  const { agreementId } = useParams<{ agreementId: string }>()
   const { t } = useTranslation(['agreement', 'common'])
 
   const [documents, setDocuments] = useState<Array<EServiceDocumentRead>>([])
   const [providerMessage, setProviderMessage] = React.useState('')
 
+  const { agreementId } = useParams<{ agreementId: string }>()
+  const history = useHistory()
   const { routes } = useRoute()
+  const { runAction } = useFeedback()
 
   const {
     data: agreement,
@@ -127,6 +122,30 @@ export function AgreementEdit() {
 
   function handleProviderMessageChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     setProviderMessage(e.target.value)
+  }
+
+  function handleGoBackToRequestsList() {
+    history.push(routes.SUBSCRIBE_AGREEMENT_LIST.PATH)
+  }
+
+  function handleSaveDraft() {
+    // TEMP BACKEND
+  }
+
+  function handleDeleteDraft() {
+    // TEMP BACKEND
+  }
+
+  async function handleSendAgreementRequest() {
+    await runAction(
+      {
+        path: {
+          endpoint: 'AGREEMENT_DRAFT_SUBMIT',
+          endpointParams: { agreementId: agreement?.id },
+        },
+      },
+      { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
+    )
   }
 
   return (
@@ -219,8 +238,12 @@ export function AgreementEdit() {
             </Stack>
           </StyledPaper>
           <PageBottomActions>
-            <StyledButton variant="outlined">Torna alle richieste</StyledButton>
-            <StyledButton variant="contained">Salva bozza</StyledButton>
+            <StyledButton onClick={handleGoBackToRequestsList} variant="outlined">
+              Torna alle richieste
+            </StyledButton>
+            <StyledButton onClick={handleSaveDraft} variant="contained">
+              Salva bozza
+            </StyledButton>
           </PageBottomActions>
 
           <Grid container>
@@ -229,10 +252,10 @@ export function AgreementEdit() {
                 title={t('edit.bottomPageActionCard.title')}
                 description={t('edit.bottomPageActionCard.description')}
               >
-                <StyledButton variant="outlined">
+                <StyledButton onClick={handleDeleteDraft} variant="outlined">
                   {t('edit.bottomPageActionCard.cancelBtn')}
                 </StyledButton>
-                <StyledButton variant="contained">
+                <StyledButton onClick={handleSendAgreementRequest} variant="contained">
                   {t('edit.bottomPageActionCard.submitBtn')}
                 </StyledButton>
               </PageBottomActionsCard>
