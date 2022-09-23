@@ -13,14 +13,28 @@ export const useRoute = () => {
   const isRouteInTree = belongsToTree(routes)
   const isRouteProtected = isProtectedRoute(routes)
   const doesRouteAllowTwoColumnsLayout = showTwoColumnsLayout(routes)
+  const findCurrentRoute = findMatchingRoute(routes)
 
-  return { isRouteInTree, isRouteProtected, doesRouteAllowTwoColumnsLayout, routes }
+  return {
+    isRouteInTree,
+    isRouteProtected,
+    doesRouteAllowTwoColumnsLayout,
+    findCurrentRoute,
+    routes,
+  }
+}
+
+function findMatchingRoute(routes: Record<string, MappedRouteConfig>) {
+  return (location: Location<unknown>) => {
+    return Object.values(routes).find((r) => isSamePath(location.pathname, r.PATH))
+  }
 }
 
 function belongsToTree(routes: Record<string, MappedRouteConfig>) {
+  const getMatchingRoute = findMatchingRoute(routes)
   return (location: Location<unknown>, route: MappedRouteConfig) => {
     // Find the actual route in the router
-    const currentRoute = Object.values(routes).find((r) => isSamePath(location.pathname, r.PATH))
+    const currentRoute = getMatchingRoute(location)
     // If no route, end it here
     if (!currentRoute) {
       return false
@@ -46,7 +60,7 @@ function isProtectedRoute(routes: Record<string, MappedRouteConfig>) {
 // and will be in a transition state between out of the platform and into it
 function showTwoColumnsLayout(routes: Record<string, MappedRouteConfig>) {
   return (location: Location<unknown>) => {
-    const excludeList = [routes.UNAUTHORIZED.PATH]
+    const excludeList = [routes.UNAUTHORIZED.PATH, routes.TOS.PATH]
 
     return isProtectedRoute(routes)(location) && !excludeList.includes(location.pathname)
   }
