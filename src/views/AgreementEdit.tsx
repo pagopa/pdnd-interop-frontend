@@ -214,6 +214,15 @@ export function AgreementEdit() {
           )}
           <StyledPaper>
             <Stack>
+              <Typography variant="overline">{t('edit.documents.title')}</Typography>
+              <Typography color="text.secondary" variant="caption">
+                {t('edit.documents.description')}
+              </Typography>
+              <DocumentInput documents={documents} setDocuments={setDocuments} />
+            </Stack>
+          </StyledPaper>
+          <StyledPaper>
+            <Stack>
               <Typography variant="overline">{t('edit.providerMessage.title')}</Typography>
               <Typography color="text.secondary" variant="caption">
                 {t('edit.providerMessage.description')}
@@ -226,15 +235,6 @@ export function AgreementEdit() {
                 onChange={handleProviderMessageChange}
                 multiline
               />
-            </Stack>
-          </StyledPaper>
-          <StyledPaper>
-            <Stack>
-              <Typography variant="overline">{t('edit.documents.title')}</Typography>
-              <Typography color="text.secondary" variant="caption">
-                {t('edit.documents.description')}
-              </Typography>
-              <DocumentInput documents={documents} setDocuments={setDocuments} />
             </Stack>
           </StyledPaper>
           <PageBottomActions>
