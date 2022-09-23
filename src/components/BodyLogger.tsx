@@ -1,14 +1,8 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import { DialogProps, ToastContentWithOutcome, ToastProps } from '../../types'
 import { useLocation } from 'react-router-dom'
 import isEmpty from 'lodash/isEmpty'
-import {
-  DialogContext,
-  LangContext,
-  LoaderContext,
-  TableActionMenuContext,
-  ToastContext,
-} from '../lib/context'
+import { DialogContext, LoaderContext, TableActionMenuContext, ToastContext } from '../lib/context'
 import { logAction } from '../lib/action-log'
 import { Main } from './Main'
 import { StyledToast } from './Shared/StyledToast'
@@ -16,49 +10,11 @@ import { StyledDialog } from './Shared/StyledDialog'
 import { LoadingOverlay } from './Shared/LoadingOverlay'
 import { MainNav } from './MainNav'
 import { useRoute } from '../hooks/useRoute'
-import { buildLocale } from '../lib/validation-config'
 import { useLogin } from '../hooks/useLogin'
-import { DEFAULT_LANG } from '../lib/constants'
-import { useTranslation } from 'react-i18next'
 import { HeaderWrapper } from './HeaderWrapper'
 import { FooterWrapper } from './FooterWrapper'
 import { Stack, Box } from '@mui/material'
-
-const AttemptLogin = () => {
-  const { ready, t } = useTranslation('common', { useSuspense: false })
-  const { loginAttempt } = useLogin()
-  const { setLoadingText } = useContext(LoaderContext)
-
-  // Attempt login once translations are ready
-  useEffect(() => {
-    async function asyncLoginAttempt() {
-      setLoadingText(t('loading.sessionToken.label'))
-      await loginAttempt()
-      setLoadingText(null)
-    }
-
-    if (ready) {
-      asyncLoginAttempt()
-    }
-  }, [ready]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  return null
-}
-
-const RebuildI18N = () => {
-  const { lang } = useContext(LangContext)
-  const { i18n, t, ready } = useTranslation('common', { useSuspense: false })
-
-  // Build config once translations are ready
-  useEffect(() => {
-    if (ready) {
-      lang !== DEFAULT_LANG && i18n.changeLanguage(lang)
-      buildLocale(t)
-    }
-  }, [ready]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  return null
-}
+import { useRebuildI18N } from '../hooks/useRebuildI18n'
 
 export const WhitePanel: FunctionComponent = ({ children }) => {
   return (
@@ -93,6 +49,8 @@ export function BodyLogger() {
   const [dialog, setDialog] = useState<DialogProps | null>(null)
   const [loadingText, setLoadingText] = useState<string | null>(null)
   const [tableActionMenu, setTableActionMenu] = useState<string | null>(null)
+  useLogin()
+  useRebuildI18N()
 
   /*
    * Handle toast
@@ -129,8 +87,6 @@ export function BodyLogger() {
       <ToastContext.Provider value={{ toast, setToast }}>
         <DialogContext.Provider value={{ dialog, setDialog }}>
           <LoaderContext.Provider value={{ loadingText, setLoadingText }}>
-            <RebuildI18N />
-            <AttemptLogin />
             <HeaderWrapper />
 
             {doesRouteAllowTwoColumnsLayout(location) ? (

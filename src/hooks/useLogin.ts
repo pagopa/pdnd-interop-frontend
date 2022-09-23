@@ -1,18 +1,22 @@
 import { storageRead, storageWrite } from '../lib/storage-utils'
 import { MOCK_TOKEN, STORAGE_KEY_SESSION_TOKEN } from '../lib/constants'
-import { useContext } from 'react'
-import { TokenContext } from '../lib/context'
+import { useContext, useEffect } from 'react'
+import { LoaderContext, TokenContext } from '../lib/context'
 import { fetchWithLogs } from '../lib/api-utils'
 import { isFetchError } from '../lib/error-utils'
 import { useHistory } from 'react-router-dom'
 import { AxiosResponse } from 'axios'
 import { useRoute } from './useRoute'
+import { useTranslation } from 'react-i18next'
 
 export const useLogin = () => {
   // const { jwt } = useJwt()
   const { setToken } = useContext(TokenContext)
   const history = useHistory()
   const { routes, findCurrentRoute } = useRoute()
+  // Ready is used by this own component in setLoadingText
+  const { ready, t } = useTranslation('common', { useSuspense: false })
+  const { setLoadingText } = useContext(LoaderContext)
 
   const setTokenFromMock = (mockToken: string) => {
     storageWrite(STORAGE_KEY_SESSION_TOKEN, mockToken, 'string')
@@ -119,5 +123,18 @@ export const useLogin = () => {
   //   }
   // }, [jwt]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  return { loginAttempt }
+  // Attempt login once translations are ready
+  useEffect(() => {
+    async function asyncLoginAttempt() {
+      setLoadingText(t('loading.sessionToken.label'))
+      await loginAttempt()
+      setLoadingText(null)
+    }
+
+    if (ready) {
+      asyncLoginAttempt()
+    }
+  }, [ready]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  return null
 }
