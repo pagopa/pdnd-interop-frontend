@@ -25,7 +25,9 @@ import { StyledInputControlledText } from '../components/Shared/StyledInputContr
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledPaper } from '../components/StyledPaper'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
+import { useRoute } from '../hooks/useRoute'
 import { CHIP_COLORS_AGREEMENT, MAX_WIDTH } from '../lib/constants'
+import { buildDynamicPath } from '../lib/router-utils'
 import { NotFound } from './NotFound'
 
 if (process.env.NODE_ENV === 'development') {
@@ -87,6 +89,8 @@ export function AgreementEdit() {
   const [documents, setDocuments] = useState<Array<EServiceDocumentRead>>([])
   const [providerMessage, setProviderMessage] = React.useState('')
 
+  const { routes } = useRoute()
+
   const {
     data: agreement,
     error: agreementError,
@@ -114,7 +118,11 @@ export function AgreementEdit() {
   }
 
   function handleGoToEService() {
-    // history.push()
+    const path = buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
+      eserviceId: agreement?.eservice.id,
+      descriptorId: agreement?.descriptorId,
+    })
+    window.open(path, '_blank')
   }
 
   function handleProviderMessageChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -203,9 +211,9 @@ export function AgreementEdit() {
           </StyledPaper>
           <StyledPaper>
             <Stack>
-              <Typography variant="overline">{t('edit.providerMessage.title')}</Typography>
+              <Typography variant="overline">{t('edit.documents.title')}</Typography>
               <Typography color="text.secondary" variant="caption">
-                {t('edit.providerMessage.description')}
+                {t('edit.documents.description')}
               </Typography>
               <DocumentInput documents={documents} setDocuments={setDocuments} />
             </Stack>
@@ -272,20 +280,21 @@ function DocumentInput({ documents, setDocuments }: DocumentInputProps) {
   }
 
   const handleRemoveFile = () => {
-    console.log('Removed')
-    //TODO
+    //TEMP BACKEND
   }
 
-  const handleUpdateDocDescription = async (docId: string, newDescription: string) => {
-    //TODO
-
+  const handleUpdateDocDescription = async (_: string, _2: string) => {
+    //TEMP BACKEND
     return 'success' as RequestOutcome
   }
+
   const handleDeleteDocument = async (docId: string) => {
+    // TEMP BACKEND
     setDocuments((prev) => prev.filter((doc) => docId !== doc.id))
   }
-  const handleDownloadDocument = async (docId: string) => {
-    //TODO
+
+  const handleDownloadDocument = async (_: string) => {
+    //TEMP BACKEND
   }
 
   return (
@@ -306,7 +315,8 @@ function DocumentInput({ documents, setDocuments }: DocumentInputProps) {
 
       <Box sx={{ mt: 2 }}>
         {!showInput ? (
-          <ButtonNaked color="primary" onClick={handleShowFileInput}>
+          // Disabled, waiting for the backend
+          <ButtonNaked disabled color="primary" onClick={handleShowFileInput}>
             {t('addBtn')}
           </ButtonNaked>
         ) : (
