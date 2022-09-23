@@ -96,7 +96,7 @@ export function StyledDeleteableDocument({
           </StyledTooltip>
         )}
         <StyledTooltip title={t('styledDeleteableDocument.downloadDocument')}>
-          <StyledButton sx={{ p: 1, mx: 1 }} onClick={downloadDocument}>
+          <StyledButton sx={{ p: 1 }} onClick={downloadDocument}>
             <DownloadIcon fontSize="small" />
           </StyledButton>
         </StyledTooltip>
