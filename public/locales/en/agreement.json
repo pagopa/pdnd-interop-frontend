@@ -81,12 +81,15 @@
         "description": "You must declare under your own responsibility that you possess these attributes."
       }
     },
-    "providerMessage": {
-      "title": "message for the provider",
-      "description": "If there are any groups of attributes marked with “or”, indicate in this message which of those you expect will be recognized, based on the documentation you have uploaded. Enter any other useful notes",
-      "field": {
-        "label": "Message"
-      }
+    "documents": {
+      "title": "Documentation",
+      "description": "Enter all the documents necessary for the recognition of your attributes"
+    },
+    "bottomPageActionCard": {
+      "title": "Quick publish",
+      "description": "Have you entered all the information for this agreement request? From here you can immediately publish a draft, or delete it. If you want to post later, just save the draft above or leave this page",
+      "cancelBtn": "Delete draft",
+      "submitBtn": "Publish draft"
     }
   },
   "list": {

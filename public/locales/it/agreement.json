@@ -88,6 +88,10 @@
         "label": "Messaggio"
       }
     },
+    "documents": {
+      "title": "Documentazione",
+      "description": "Inserisci tutti i documenti necessari al riconoscimento dei tuoi attributi"
+    },
     "bottomPageActionCard": {
       "title": "Azioni rapide di pubblicazione",
       "description": "Hai inserito tutte le informazioni per questa richiesta di fruizione? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra o abbandona questa pagina",
