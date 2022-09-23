@@ -89,7 +89,7 @@
       "title": "Quick publish",
       "description": "Have you entered all the information for this agreement request? From here you can immediately publish a draft, or delete it. If you want to post later, just save the draft above or leave this page",
       "cancelBtn": "Delete draft",
-      "submitBtn": "Publish draft"
+      "submitBtn": "Publish agreement request"
     }
   },
   "list": {
