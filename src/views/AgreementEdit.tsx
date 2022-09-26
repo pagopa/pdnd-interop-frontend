@@ -231,6 +231,7 @@ export function AgreementEdit() {
             <StyledSection.Subtitle>{t('edit.providerMessage.description')}</StyledSection.Subtitle>
             <StyledSection.Content>
               <StyledInputControlledText
+                disabled
                 sx={{ mb: 0, mt: 3 }}
                 label={t('edit.providerMessage.field.label')}
                 name="providerMessage"
@@ -246,7 +247,7 @@ export function AgreementEdit() {
               <StyledButton onClick={handleGoBackToRequestsList} variant="outlined">
                 {t('edit.backToRequestsBtn')}
               </StyledButton>
-              <StyledButton onClick={handleSaveDraft} variant="contained">
+              <StyledButton disabled onClick={handleSaveDraft} variant="contained">
                 {t(`actions.saveDraft`, { ns: 'common' })}
               </StyledButton>
             </PageBottomActions>
@@ -258,7 +259,7 @@ export function AgreementEdit() {
                 title={t('edit.bottomPageActionCard.title')}
                 description={t('edit.bottomPageActionCard.description')}
               >
-                <StyledButton onClick={handleDeleteDraft} variant="outlined">
+                <StyledButton disabled onClick={handleDeleteDraft} variant="outlined">
                   {t('edit.bottomPageActionCard.cancelBtn')}
                 </StyledButton>
                 <StyledButton onClick={handleSendAgreementRequest} variant="contained">
@@ -337,7 +338,7 @@ function DocumentInputSection({ documents, setDocuments }: DocumentInputSectionP
       <Box>
         {!showInput ? (
           // Disabled, waiting for the backend
-          <ButtonNaked color="primary" onClick={handleShowFileInput}>
+          <ButtonNaked disabled color="primary" onClick={handleShowFileInput}>
             {t('addBtn')}
           </ButtonNaked>
         ) : (
@@ -395,10 +396,9 @@ function DocumentInput({ onUpload }: DocumentInputProps) {
             onChange={handleChange}
             rows={4}
           />
-
           <Stack mt={3} direction="row" justifyContent="flex-end">
             <StyledButton type="submit" variant="contained">
-              Carica
+              {t('edit.documents.documentInputField.uploadBtn')}
             </StyledButton>
           </Stack>
         </StyledForm>
