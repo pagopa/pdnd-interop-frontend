@@ -12,7 +12,10 @@ export const StyledDialogAttributeDetails: FunctionComponent<DialogAttributeDeta
   attributeId,
   name,
 }) => {
-  const { t } = useTranslation('shared-components', { keyPrefix: 'styledDialogAttributeDetails' })
+  const { t } = useTranslation('shared-components', {
+    keyPrefix: 'styledDialogAttributeDetails',
+    useSuspense: false,
+  })
   const { closeDialog } = useCloseDialog()
 
   const { data: attribute, isLoading } = useAsyncFetch<BackendAttributeContent>({
