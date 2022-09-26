@@ -1,18 +1,21 @@
 import { storageRead, storageWrite } from '../lib/storage-utils'
 import { MOCK_TOKEN, STORAGE_KEY_SESSION_TOKEN } from '../lib/constants'
-import { useContext } from 'react'
-import { TokenContext } from '../lib/context'
+import { useContext, useEffect } from 'react'
+import { LoaderContext, TokenContext } from '../lib/context'
 import { fetchWithLogs } from '../lib/api-utils'
 import { isFetchError } from '../lib/error-utils'
 import { useHistory } from 'react-router-dom'
 import { AxiosResponse } from 'axios'
 import { useRoute } from './useRoute'
+import { useTranslation } from 'react-i18next'
 
 export const useLogin = () => {
-  // const { jwt } = useJwt()
   const { setToken } = useContext(TokenContext)
   const history = useHistory()
-  const { routes } = useRoute()
+  const { routes, findCurrentRoute } = useRoute()
+  // Ready is used by this own component in setLoadingText
+  const { ready, t } = useTranslation('common', { useSuspense: false })
+  const { setLoadingText } = useContext(LoaderContext)
 
   const setTokenFromMock = (mockToken: string) => {
     storageWrite(STORAGE_KEY_SESSION_TOKEN, mockToken, 'string')
@@ -77,41 +80,28 @@ export const useLogin = () => {
       if (success) return
     }
 
-    // 4. If all else fails, logout
+    // 4. Check if the route is public
+    const route = findCurrentRoute(history.location)
+    if (route && route.PUBLIC) {
+      return
+    }
+
+    // 5. If all else fails, logout
     history.push(routes.LOGOUT.PATH)
   }
 
-  // type BucketEntry = {
-  //   organizationId: string
-  //   usersId: Array<string>
-  // }
+  // Attempt login once translations are ready
+  useEffect(() => {
+    async function asyncLoginAttempt() {
+      setLoadingText(t('loading.sessionToken.label'))
+      await loginAttempt()
+      setLoadingText(null)
+    }
 
-  // const tempCheckWhitelist = async () => {
-  //   try {
-  //     const resp = await axios.get(TEMP_USER_WHITELIST_URL)
-  //     const currentOrganizationId = (jwt as JwtUser).organization.id
-  //     const currentUserId = (jwt as JwtUser).uid
-  //     const isUserWhitelisted = Boolean(
-  //       resp.data.find(
-  //         (item: BucketEntry) =>
-  //           item.organizationId === currentOrganizationId && item.usersId.includes(currentUserId)
-  //       )
-  //     )
+    if (ready) {
+      asyncLoginAttempt()
+    }
+  }, [ready]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  //     if (!isUserWhitelisted) {
-  //       history.push(routes.LOGOUT.PATH)
-  //     }
-  //   } catch (err) {
-  //     // something went wrong, log out for safety
-  //     history.push(routes.LOGOUT.PATH)
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if (jwt && !MOCK_TOKEN) {
-  //     tempCheckWhitelist()
-  //   }
-  // }, [jwt]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  return { loginAttempt }
+  return null
 }
