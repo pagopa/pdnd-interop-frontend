@@ -1,8 +1,10 @@
 import { Box, Chip, Divider, Grid, Stack, Typography } from '@mui/material'
 import { ButtonNaked } from '@pagopa/mui-italia'
+import { Formik } from 'formik'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
+import { mixed, object, string } from 'yup'
 import {
   AgreementSummary,
   AttributeKind,
@@ -20,6 +22,7 @@ import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import PageBottomActionsCard from '../components/Shared/PageBottomActionsCard'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledDeleteableDocument } from '../components/Shared/StyledDeleteableDocument'
+import { StyledForm } from '../components/Shared/StyledForm'
 import StyledInputControlledFileNew from '../components/Shared/StyledInputControlledFileNew'
 import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 import { StyledIntro } from '../components/Shared/StyledIntro'
@@ -219,7 +222,7 @@ export function AgreementEdit() {
             <StyledSection.Title>{t('edit.documents.title')}</StyledSection.Title>
             <StyledSection.Subtitle>{t('edit.documents.description')}</StyledSection.Subtitle>
             <StyledSection.Content>
-              <DocumentInput documents={documents} setDocuments={setDocuments} />
+              <DocumentInputSection documents={documents} setDocuments={setDocuments} />
             </StyledSection.Content>
           </StyledSection>
 
@@ -270,12 +273,12 @@ export function AgreementEdit() {
   )
 }
 
-type DocumentInputProps = {
+type DocumentInputSectionProps = {
   documents: Array<EServiceDocumentRead>
   setDocuments: React.Dispatch<React.SetStateAction<Array<EServiceDocumentRead>>>
 }
 
-function DocumentInput({ documents, setDocuments }: DocumentInputProps) {
+function DocumentInputSection({ documents, setDocuments }: DocumentInputSectionProps) {
   const [showInput, setShowInput] = useState(false)
 
   const { t } = useTranslation('common')
@@ -288,21 +291,17 @@ function DocumentInput({ documents, setDocuments }: DocumentInputProps) {
     setShowInput(false)
   }
 
-  const handleUpload = async (file: File) => {
+  const handleUploadFile = async (file: File, prettyName: string) => {
     setDocuments((prev) => [
       ...prev,
       {
         id: Math.random().toString(),
         name: file.name,
-        prettyName: file.name,
+        prettyName,
         contentType: file.type,
       },
     ])
     handleHideFileInput()
-  }
-
-  const handleRemoveFile = () => {
-    //TEMP BACKEND
   }
 
   const handleUpdateDocDescription = async (_: string, _2: string) => {
@@ -333,31 +332,78 @@ function DocumentInput({ documents, setDocuments }: DocumentInputProps) {
         ))}
       </Stack>
 
-      {documents.length > 0 && <Divider sx={{ mt: 2 }} />}
+      {documents.length > 0 && <Divider sx={{ my: 2 }} />}
 
-      <Box sx={{ mt: 2 }}>
+      <Box>
         {!showInput ? (
           // Disabled, waiting for the backend
           <ButtonNaked color="primary" onClick={handleShowFileInput}>
             {t('addBtn')}
           </ButtonNaked>
         ) : (
-          <>
-            <StyledInputControlledFileNew
-              value={null}
-              uploadFn={handleUpload}
-              removeFn={handleRemoveFile}
-              uploadText={'test'}
-            />
-            <Box sx={{ mt: 2 }}>
-              <ButtonNaked color="error" onClick={handleHideFileInput}>
-                {t('actions.cancel')}
-              </ButtonNaked>
-            </Box>
-          </>
+          <DocumentInput onUpload={handleUploadFile} />
         )}
       </Box>
     </>
+  )
+}
+
+const validationSchema = object({
+  file: mixed().required(),
+  prettyName: string().required(),
+})
+
+type DocumentInputProps = {
+  onUpload: (file: File, prettyName: string) => void
+}
+
+type DocumentInputFormValues = { file: File | null; prettyName: string }
+const initialValues: DocumentInputFormValues = { file: null, prettyName: 'Specifica API' }
+
+function DocumentInput({ onUpload }: DocumentInputProps) {
+  const handleUpload = (values: DocumentInputFormValues) => {
+    if (!values.file) return
+    onUpload(values.file, values.prettyName)
+  }
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleUpload}
+      validateOnChange={false}
+      validateOnBlur={false}
+    >
+      {({ setFieldValue, values, errors, handleChange, handleSubmit }) => (
+        <StyledForm onSubmit={handleSubmit}>
+          <StyledInputControlledFileNew
+            value={values.file}
+            uploadFn={async (file) => {
+              setFieldValue('file', file)
+            }}
+            removeFn={setFieldValue.bind(null, 'file', null)}
+            uploadText={'test'}
+          />
+
+          <StyledInputControlledText
+            disabled={!values.file}
+            sx={{ mt: 3 }}
+            name="prettyName"
+            label={'Nome documento'}
+            value={values.prettyName}
+            error={errors.prettyName}
+            onChange={handleChange}
+            rows={4}
+          />
+
+          <Stack mt={3} direction="row" justifyContent="flex-end">
+            <StyledButton type="submit" variant="contained">
+              Carica
+            </StyledButton>
+          </Stack>
+        </StyledForm>
+      )}
+    </Formik>
   )
 }
 
