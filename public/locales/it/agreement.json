@@ -60,6 +60,7 @@
       "title": "Informazioni generali",
       "eserviceField": {
         "label": "Richiesta relativa a",
+        "goToEServiceBtn": "Vedi E-Service",
         "versionLabel": "versione"
       },
       "providerField": {
@@ -97,7 +98,8 @@
       "description": "Hai inserito tutte le informazioni per questa richiesta di fruizione? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra o abbandona questa pagina",
       "cancelBtn": "Cancella bozza",
       "submitBtn": "Inoltra richiesta di fruizione"
-    }
+    },
+    "backToRequestsBtn": "Torna alle richieste"
   },
   "list": {
     "provider": {

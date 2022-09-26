@@ -38,7 +38,9 @@
     "publish": "Publish",
     "download": "Download",
     "archive": "Archive",
-    "createNewDraft": "Create new draft version"
+    "cancel": "Cancel",
+    "createNewDraft": "Create new draft version",
+    "saveDraft": "Save draft"
   },
   "table": {
     "headData": {

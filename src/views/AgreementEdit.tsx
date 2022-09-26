@@ -156,7 +156,7 @@ export function AgreementEdit() {
           <Grid container>
             <Grid item xs={6}>
               <StyledSection>
-                <StyledSection.Title>informazioni generali</StyledSection.Title>
+                <StyledSection.Title>{t('edit.generalInformations.title')}</StyledSection.Title>
                 <StyledSection.Content>
                   <Stack mt={2} spacing={2}>
                     <AttributeGeneralInformation
@@ -166,7 +166,7 @@ export function AgreementEdit() {
                       )} ${agreement.eservice.version}`}
                       Button={
                         <ButtonNaked onClick={handleGoToEService} color="primary">
-                          Vedi E-Service
+                          {t('edit.generalInformations.eserviceField.goToEServiceBtn')}
                         </ButtonNaked>
                       }
                     />
@@ -241,10 +241,10 @@ export function AgreementEdit() {
           <Box sx={{ mt: 4 }}>
             <PageBottomActions>
               <StyledButton onClick={handleGoBackToRequestsList} variant="outlined">
-                Torna alle richieste
+                {t('edit.backToRequestsBtn')}
               </StyledButton>
               <StyledButton onClick={handleSaveDraft} variant="contained">
-                Salva bozza
+                {t(`actions.saveDraft`, { ns: 'common' })}
               </StyledButton>
             </PageBottomActions>
           </Box>
@@ -351,7 +351,7 @@ function DocumentInput({ documents, setDocuments }: DocumentInputProps) {
             />
             <Box sx={{ mt: 2 }}>
               <ButtonNaked color="error" onClick={handleHideFileInput}>
-                Annulla
+                {t('actions.cancel')}
               </ButtonNaked>
             </Box>
           </>

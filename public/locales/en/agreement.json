@@ -60,6 +60,7 @@
       "title": "General Informations",
       "eserviceField": {
         "label": "Request for",
+        "goToEServiceBtn": "Go to E-Service",
         "versionLabel": "version"
       },
       "providerField": {
@@ -90,7 +91,8 @@
       "description": "Have you entered all the information for this agreement request? From here you can immediately publish a draft, or delete it. If you want to post later, just save the draft above or leave this page",
       "cancelBtn": "Delete draft",
       "submitBtn": "Publish agreement request"
-    }
+    },
+    "backToRequestsBtn": "Go back to requests"
   },
   "list": {
     "provider": {
