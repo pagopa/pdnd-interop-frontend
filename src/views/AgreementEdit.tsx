@@ -362,6 +362,8 @@ type DocumentInputFormValues = { file: File | null; prettyName: string }
 const initialValues: DocumentInputFormValues = { file: null, prettyName: 'Specifica API' }
 
 function DocumentInput({ onUpload }: DocumentInputProps) {
+  const { t } = useTranslation('agreement')
+
   const handleUpload = (values: DocumentInputFormValues) => {
     if (!values.file) return
     onUpload(values.file, values.prettyName)
@@ -386,21 +388,26 @@ function DocumentInput({ onUpload }: DocumentInputProps) {
             uploadText={'test'}
           />
 
-          <StyledInputControlledText
-            disabled={!values.file}
-            sx={{ mt: 3 }}
-            name="prettyName"
-            label={'Nome documento'}
-            value={values.prettyName}
-            error={errors.prettyName}
-            onChange={handleChange}
-            rows={4}
-          />
-          <Stack mt={3} direction="row" justifyContent="flex-end">
-            <StyledButton type="submit" variant="contained">
-              {t('edit.documents.documentInputField.uploadBtn')}
-            </StyledButton>
-          </Stack>
+          {values.file && (
+            <>
+              <StyledInputControlledText
+                disabled={!values.file}
+                focusOnMount
+                sx={{ mt: 3 }}
+                name="prettyName"
+                label={'Nome documento'}
+                value={values.prettyName}
+                error={errors.prettyName}
+                onChange={handleChange}
+                rows={4}
+              />
+              <Stack mt={3} direction="row" justifyContent="flex-end">
+                <StyledButton type="submit" variant="contained">
+                  {t('edit.documents.documentInputField.uploadBtn')}
+                </StyledButton>
+              </Stack>
+            </>
+          )}
         </StyledForm>
       )}
     </Formik>
