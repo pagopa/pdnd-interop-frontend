@@ -8,6 +8,14 @@ import { DescriptionBlock } from '../DescriptionBlock'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { LoadingWithMessage } from './LoadingWithMessage'
 
+if (process.env.NODE_ENV === 'development') {
+  setInterval(() => {
+    if (window && window.document) {
+      window.document.querySelector('body > iframe')?.remove()
+    }
+  }, 1000)
+}
+
 export const StyledDialogAttributeDetails: FunctionComponent<DialogAttributeDetailsProps> = ({
   attributeId,
   name,

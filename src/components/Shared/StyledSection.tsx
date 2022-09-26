@@ -27,10 +27,11 @@ StyledSection.Title = function StyledSectionTitle({
 
 StyledSection.Subtitle = function StyledSectionSubtitle({
   children,
+  sx = {},
   ...props
 }: StyledSectionProps & TypographyProps) {
   return (
-    <Typography color="text.secondary" variant="caption" {...props}>
+    <Typography color="text.secondary" variant="caption" sx={{ mt: '2px', ...sx }} {...props}>
       {children}
     </Typography>
   )

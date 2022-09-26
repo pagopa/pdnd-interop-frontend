@@ -228,6 +228,7 @@ export function AgreementEdit() {
             <StyledSection.Subtitle>{t('edit.providerMessage.description')}</StyledSection.Subtitle>
             <StyledSection.Content>
               <StyledInputControlledText
+                sx={{ mb: 0, mt: 3 }}
                 label={t('edit.providerMessage.field.label')}
                 name="providerMessage"
                 value={providerMessage}
@@ -237,14 +238,16 @@ export function AgreementEdit() {
             </StyledSection.Content>
           </StyledSection>
 
-          <PageBottomActions>
-            <StyledButton onClick={handleGoBackToRequestsList} variant="outlined">
-              Torna alle richieste
-            </StyledButton>
-            <StyledButton onClick={handleSaveDraft} variant="contained">
-              Salva bozza
-            </StyledButton>
-          </PageBottomActions>
+          <Box sx={{ mt: 4 }}>
+            <PageBottomActions>
+              <StyledButton onClick={handleGoBackToRequestsList} variant="outlined">
+                Torna alle richieste
+              </StyledButton>
+              <StyledButton onClick={handleSaveDraft} variant="contained">
+                Salva bozza
+              </StyledButton>
+            </PageBottomActions>
+          </Box>
 
           <Grid container>
             <Grid item xs={6}>
