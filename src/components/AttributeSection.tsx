@@ -9,13 +9,13 @@ import {
 } from '../../types'
 import { Alert, Box, Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { StyledPaper } from './StyledPaper'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { Add } from '@mui/icons-material'
 import { mixed, object, string } from 'yup'
 import { useFeedback } from '../hooks/useFeedback'
 import { DialogContext } from '../lib/context'
 import noop from 'lodash/noop'
+import StyledSection from './Shared/StyledSection'
 
 type AttributeSectionProps = {
   attributeKey: AttributeKey
@@ -128,74 +128,72 @@ export function AttributeSection({
   }
 
   return (
-    <StyledPaper>
-      <Stack>
-        <Typography variant="overline">{t(`${attributeKey}.label`)}</Typography>
-        <Typography color="text.secondary" variant="caption">
-          {description}
-        </Typography>
-      </Stack>
-      {attributes.length > 0 && (
-        <Box sx={{ mt: 2 }}>
-          <Typography variant="subtitle1">{attributesSubtitle}</Typography>
-          <Stack sx={{ mt: 2 }} spacing={3}>
-            {attributes.map((attributesGroup, index) => (
-              <AttributeGroup
-                key={index}
-                index={index}
-                readOnly={readOnly}
-                attributesGroup={attributesGroup}
-                attributeKey={attributeKey}
-                alreadySelectedAttributesIds={alreadySelectedAttributesIds}
-                handleRemoveAttributesGroup={handleRemoveAttributesGroup}
-                handleAddAttributeToGroup={handleAddAttributeToGroup}
-                handleRemoveAttributeFromGroup={handleRemoveAttributeFromGroup}
-                handleExplicitAttributeVerificationChange={
-                  handleExplicitAttributeVerificationChange
-                }
-              />
-            ))}
-          </Stack>
-        </Box>
-      )}
+    <StyledSection>
+      <StyledSection.Title>{t(`${attributeKey}.label`)}</StyledSection.Title>
+      <StyledSection.Subtitle>{description}</StyledSection.Subtitle>
+      <StyledSection.Content>
+        {attributes.length > 0 && (
+          <Box sx={{ mt: 2 }}>
+            <Typography variant="subtitle1">{attributesSubtitle}</Typography>
+            <Stack sx={{ mt: 2 }} spacing={3}>
+              {attributes.map((attributesGroup, index) => (
+                <AttributeGroup
+                  key={index}
+                  index={index}
+                  readOnly={readOnly}
+                  attributesGroup={attributesGroup}
+                  attributeKey={attributeKey}
+                  alreadySelectedAttributesIds={alreadySelectedAttributesIds}
+                  handleRemoveAttributesGroup={handleRemoveAttributesGroup}
+                  handleAddAttributeToGroup={handleAddAttributeToGroup}
+                  handleRemoveAttributeFromGroup={handleRemoveAttributeFromGroup}
+                  handleExplicitAttributeVerificationChange={
+                    handleExplicitAttributeVerificationChange
+                  }
+                />
+              ))}
+            </Stack>
+          </Box>
+        )}
 
-      {!readOnly && (
-        <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
-          <ButtonNaked
-            startIcon={<Add />}
-            size="medium"
-            color="primary"
-            type="button"
-            onClick={handleAddAttributesGroup}
-          >
-            {t('addBtn')}
-          </ButtonNaked>
-
-          {attributeKey !== 'certified' && (
+        {!readOnly && (
+          <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
             <ButtonNaked
-              type="button"
+              startIcon={<Add />}
               size="medium"
               color="primary"
-              onClick={openCreateNewAttributeDialog}
+              type="button"
+              onClick={handleAddAttributesGroup}
             >
-              {t('createBtn')}
+              {t('addBtn')}
             </ButtonNaked>
-          )}
-        </Stack>
-      )}
 
-      {!showDisabledAlert && attributes.length === 0 && readOnly && (
-        <Alert sx={{ mt: 2 }} severity="info">
-          Non ci sono attributi dichiarati richiesti per l’iscrizione a questo e-service
-        </Alert>
-      )}
+            {attributeKey !== 'certified' && (
+              <ButtonNaked
+                type="button"
+                size="medium"
+                color="primary"
+                onClick={openCreateNewAttributeDialog}
+              >
+                {t('createBtn')}
+              </ButtonNaked>
+            )}
+          </Stack>
+        )}
 
-      {showDisabledAlert && (
-        <Alert severity="warning" sx={{ mt: 2, mb: 1 }}>
-          L&lsquo;inserimento di attributi verificati e dichiarati è temporaneamente disabilitato
-          per un test su una nuova feature
-        </Alert>
-      )}
-    </StyledPaper>
+        {!showDisabledAlert && attributes.length === 0 && readOnly && (
+          <Alert sx={{ mt: 2 }} severity="info">
+            Non ci sono attributi dichiarati richiesti per l’iscrizione a questo e-service
+          </Alert>
+        )}
+
+        {showDisabledAlert && (
+          <Alert severity="warning" sx={{ mt: 2, mb: 1 }}>
+            L&lsquo;inserimento di attributi verificati e dichiarati è temporaneamente disabilitato
+            per un test su una nuova feature
+          </Alert>
+        )}
+      </StyledSection.Content>
+    </StyledSection>
   )
 }

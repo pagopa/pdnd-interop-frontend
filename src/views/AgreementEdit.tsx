@@ -23,7 +23,7 @@ import { StyledDeleteableDocument } from '../components/Shared/StyledDeleteableD
 import StyledInputControlledFileNew from '../components/Shared/StyledInputControlledFileNew'
 import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 import { StyledIntro } from '../components/Shared/StyledIntro'
-import { StyledPaper } from '../components/StyledPaper'
+import StyledSection from '../components/Shared/StyledSection'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
 import { useRoute } from '../hooks/useRoute'
@@ -155,35 +155,37 @@ export function AgreementEdit() {
         <>
           <Grid container>
             <Grid item xs={6}>
-              <StyledPaper>
-                <Typography variant="overline">informazioni generali</Typography>
-                <Stack mt={2} spacing={2}>
-                  <AttributeGeneralInformation
-                    label={t('edit.generalInformations.eserviceField.label')}
-                    content={`${agreement.eservice.name} ${t(
-                      'edit.generalInformations.eserviceField.versionLabel'
-                    )} ${agreement.eservice.version}`}
-                    Button={
-                      <ButtonNaked onClick={handleGoToEService} color="primary">
-                        Vedi E-Service
-                      </ButtonNaked>
-                    }
-                  />
-                  <AttributeGeneralInformation
-                    label={t('edit.generalInformations.providerField.label')}
-                    content={agreement.consumer.name}
-                  />
-                  <AttributeGeneralInformation
-                    label={t('edit.generalInformations.requestStatusField.label')}
-                    content={
-                      <Chip
-                        label={t(`status.agreement.${agreement.state}`, { ns: 'common' })}
-                        color={CHIP_COLORS_AGREEMENT[agreement.state]}
-                      />
-                    }
-                  />
-                </Stack>
-              </StyledPaper>
+              <StyledSection>
+                <StyledSection.Title>informazioni generali</StyledSection.Title>
+                <StyledSection.Content>
+                  <Stack mt={2} spacing={2}>
+                    <AttributeGeneralInformation
+                      label={t('edit.generalInformations.eserviceField.label')}
+                      content={`${agreement.eservice.name} ${t(
+                        'edit.generalInformations.eserviceField.versionLabel'
+                      )} ${agreement.eservice.version}`}
+                      Button={
+                        <ButtonNaked onClick={handleGoToEService} color="primary">
+                          Vedi E-Service
+                        </ButtonNaked>
+                      }
+                    />
+                    <AttributeGeneralInformation
+                      label={t('edit.generalInformations.providerField.label')}
+                      content={agreement.consumer.name}
+                    />
+                    <AttributeGeneralInformation
+                      label={t('edit.generalInformations.requestStatusField.label')}
+                      content={
+                        <Chip
+                          label={t(`status.agreement.${agreement.state}`, { ns: 'common' })}
+                          color={CHIP_COLORS_AGREEMENT[agreement.state]}
+                        />
+                      }
+                    />
+                  </Stack>
+                </StyledSection.Content>
+              </StyledSection>
             </Grid>
           </Grid>
 
@@ -212,22 +214,19 @@ export function AgreementEdit() {
               />
             </>
           )}
-          <StyledPaper>
-            <Stack>
-              <Typography variant="overline">{t('edit.documents.title')}</Typography>
-              <Typography color="text.secondary" variant="caption">
-                {t('edit.documents.description')}
-              </Typography>
-              <DocumentInput documents={documents} setDocuments={setDocuments} />
-            </Stack>
-          </StyledPaper>
-          <StyledPaper>
-            <Stack>
-              <Typography variant="overline">{t('edit.providerMessage.title')}</Typography>
-              <Typography color="text.secondary" variant="caption">
-                {t('edit.providerMessage.description')}
-              </Typography>
 
+          <StyledSection>
+            <StyledSection.Title>{t('edit.documents.title')}</StyledSection.Title>
+            <StyledSection.Subtitle>{t('edit.documents.description')}</StyledSection.Subtitle>
+            <StyledSection.Content>
+              <DocumentInput documents={documents} setDocuments={setDocuments} />
+            </StyledSection.Content>
+          </StyledSection>
+
+          <StyledSection>
+            <StyledSection.Title>{t('edit.providerMessage.title')}</StyledSection.Title>
+            <StyledSection.Subtitle>{t('edit.providerMessage.description')}</StyledSection.Subtitle>
+            <StyledSection.Content>
               <StyledInputControlledText
                 label={t('edit.providerMessage.field.label')}
                 name="providerMessage"
@@ -235,8 +234,9 @@ export function AgreementEdit() {
                 onChange={handleProviderMessageChange}
                 multiline
               />
-            </Stack>
-          </StyledPaper>
+            </StyledSection.Content>
+          </StyledSection>
+
           <PageBottomActions>
             <StyledButton onClick={handleGoBackToRequestsList} variant="outlined">
               Torna alle richieste
