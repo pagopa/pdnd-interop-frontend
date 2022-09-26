@@ -9,12 +9,15 @@ import {
 type Props = {
   value: File | null
   isLoading?: boolean
-  uploadText: string
   vertical?: boolean
   uploadFn: (file: File) => Promise<void>
   onFileUploaded?: () => void
   removeFn: () => void
   onFileRemoved?: () => void
+
+  dragHereLabel: string
+  selectFromComputerLabel: string
+  loadingLabel: string
 }
 
 const OrientedBox = ({ vertical, children }: { vertical: boolean; children: ReactNode }) => (
@@ -60,12 +63,15 @@ function getContainerStyle(state: ControlledFileInputState): SxProps {
 const StyledInputControlledFileNew = ({
   value,
   isLoading,
-  uploadText,
   vertical = false,
   uploadFn,
   onFileUploaded,
   removeFn,
   onFileRemoved,
+
+  dragHereLabel,
+  selectFromComputerLabel,
+  loadingLabel,
 }: Props) => {
   const uploadInputRef = useRef<HTMLButtonElement>()
   const currentState: ControlledFileInputState =
@@ -129,7 +135,7 @@ const StyledInputControlledFileNew = ({
         <OrientedBox vertical={vertical}>
           <CloudUploadIcon color="primary" sx={{ margin: '0 10px' }} />
           <Typography display="inline" variant="body2">
-            {uploadText}&nbsp;oppure&nbsp;
+            {dragHereLabel}
           </Typography>
           <Typography
             display="inline"
@@ -139,7 +145,7 @@ const StyledInputControlledFileNew = ({
             onClick={chooseFileHandler}
             data-testid="loadFromPc"
           >
-            selezionalo dal tuo computer
+            {selectFromComputerLabel}
           </Typography>
           <Input
             type="file"
@@ -154,7 +160,7 @@ const StyledInputControlledFileNew = ({
       {currentState === 'loading' && (
         <OrientedBox vertical={vertical}>
           <Typography display="inline" variant="body2">
-            Caricamento in corso...
+            {loadingLabel}
           </Typography>
           <Typography sx={{ margin: '0 20px', width: 'calc(100% - 200px)' }}>
             <LinearProgress />

@@ -385,7 +385,9 @@ function DocumentInput({ onUpload }: DocumentInputProps) {
               setFieldValue('file', file)
             }}
             removeFn={setFieldValue.bind(null, 'file', null)}
-            uploadText={'test'}
+            dragHereLabel={t('edit.documents.documentInputField.dragHereLabel')}
+            selectFromComputerLabel={t('edit.documents.documentInputField.selectFromComputerLabel')}
+            loadingLabel={t('edit.documents.documentInputField.loadingLabel')}
           />
 
           {values.file && (

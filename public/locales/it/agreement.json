@@ -91,7 +91,13 @@
     },
     "documents": {
       "title": "Documentazione",
-      "description": "Inserisci tutti i documenti necessari al riconoscimento dei tuoi attributi"
+      "description": "Inserisci tutti i documenti necessari al riconoscimento dei tuoi attributi",
+      "uploadBtn": "Carica",
+      "documentInputField": {
+        "dragHereLabel": "Trascina qui il documento oppure",
+        "selectFromComputerLabel": "selezionalo dal tuo computer",
+        "loadingLabel": "Caricamento in corso..."
+      }
     },
     "bottomPageActionCard": {
       "title": "Azioni rapide di pubblicazione",

@@ -84,7 +84,13 @@
     },
     "documents": {
       "title": "Documentation",
-      "description": "Enter all the documents necessary for the recognition of your attributes"
+      "description": "Enter all the documents necessary for the recognition of your attributes",
+      "uploadBtn": "Upload",
+      "documentInputField": {
+        "dragHereLabel": "Drag here file or",
+        "selectFromComputerLabel": "select it from your computer",
+        "loadingLabel": "Loading...s"
+      }
     },
     "bottomPageActionCard": {
       "title": "Quick publish",
