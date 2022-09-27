@@ -29,6 +29,7 @@
       },
       "attributes": {
         "subtitle": "The Subscriber must own:",
+        "howLink": "How?",
         "addBtn": "Add new attribute",
         "createBtn": "Create new attribute",
         "group": {

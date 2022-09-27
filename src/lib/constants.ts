@@ -25,6 +25,9 @@ export const pagoPaLink = {
   title: 'Vai al sito di PagoPA S.p.A.',
 }
 
+export const attributesHelpLink =
+  'https://docs.pagopa.it/interoperabilita-1/manuale-operativo/attributi'
+
 export const CHIP_COLORS_AGREEMENT: Record<AgreementState, MUIColor> = {
   ACTIVE: 'primary',
   SUSPENDED: 'error',

@@ -29,6 +29,7 @@
       },
       "attributes": {
         "subtitle": "Il Fruitore deve possedere:",
+        "howLink": "Come fare?",
         "addBtn": "Aggiungi nuovo attributo",
         "createBtn": "Crea nuovo attributo",
         "group": {

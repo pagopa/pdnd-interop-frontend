@@ -16,6 +16,8 @@ import { useFeedback } from '../hooks/useFeedback'
 import { DialogContext } from '../lib/context'
 import noop from 'lodash/noop'
 import StyledSection from './Shared/StyledSection'
+import { StyledLink } from './Shared/StyledLink'
+import { attributesHelpLink } from '../lib/constants'
 
 type AttributeSectionProps = {
   attributeKey: AttributeKey
@@ -130,7 +132,12 @@ export function AttributeSection({
   return (
     <StyledSection>
       <StyledSection.Title>{t(`${attributeKey}.label`)}</StyledSection.Title>
-      <StyledSection.Subtitle>{description}</StyledSection.Subtitle>
+      <StyledSection.Subtitle>
+        {description}{' '}
+        <StyledLink component={'a'} underline="hover" target="_blank" href={attributesHelpLink}>
+          {t('howLink')}
+        </StyledLink>
+      </StyledSection.Subtitle>
       <StyledSection.Content>
         {attributes.length > 0 && (
           <Box sx={{ mt: 2 }}>
