@@ -26,6 +26,7 @@ import { StyledForm } from '../components/Shared/StyledForm'
 import StyledInputControlledFileNew from '../components/Shared/StyledInputControlledFileNew'
 import { StyledInputControlledText } from '../components/Shared/StyledInputControlledText'
 import { StyledIntro } from '../components/Shared/StyledIntro'
+import { StyledLink } from '../components/Shared/StyledLink'
 import StyledSection from '../components/Shared/StyledSection'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
@@ -115,12 +116,11 @@ export function AgreementEdit() {
     return <NotFound errorType="serverError" />
   }
 
-  function handleGoToEService() {
-    const path = buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
+  function buildEServiceLink() {
+    return buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
       eserviceId: agreement?.eservice.id,
       descriptorId: agreement?.descriptorId,
     })
-    window.open(path, '_blank')
   }
 
   function handleProviderMessageChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -168,9 +168,9 @@ export function AgreementEdit() {
                         'edit.generalInformations.eserviceField.versionLabel'
                       )} ${agreement.eservice.version}`}
                       Button={
-                        <ButtonNaked onClick={handleGoToEService} color="primary">
+                        <StyledLink underline="hover" variant="button" to={buildEServiceLink()}>
                           {t('edit.generalInformations.eserviceField.goToEServiceBtn')}
-                        </ButtonNaked>
+                        </StyledLink>
                       }
                     />
                     <AttributeGeneralInformation
