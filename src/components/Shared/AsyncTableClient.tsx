@@ -12,6 +12,7 @@ import { StyledTableRow } from './StyledTableRow'
 import { TableWithLoader } from './TableWithLoader'
 import { useRoute } from '../../hooks/useRoute'
 import { useTranslation } from 'react-i18next'
+import { useJwt } from '../../hooks/useJwt'
 
 type AsyncTableClientProps = {
   clientKind: ClientKind
@@ -20,6 +21,7 @@ type AsyncTableClientProps = {
 export const AsyncTableClient = ({ clientKind }: AsyncTableClientProps) => {
   const { t } = useTranslation(['client', 'common'])
   const { runAction, forceRerenderCounter } = useFeedback()
+  const { jwt } = useJwt()
   const { routes } = useRoute()
 
   const history = useHistory()
@@ -31,7 +33,7 @@ export const AsyncTableClient = ({ clientKind }: AsyncTableClientProps) => {
   const { data, error, isLoading } = useAsyncFetch<{ clients: Array<Client> }, Array<Client>>(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
-      config: { params: { kind: clientKind } },
+      config: { params: { kind: clientKind, consumerId: jwt?.organization.id } },
     },
     { mapFn: (data) => data.clients, useEffectDeps: [forceRerenderCounter] }
   )
