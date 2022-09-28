@@ -10,7 +10,6 @@ import differenceBy from 'lodash/differenceBy'
 import { sortBy } from 'lodash'
 import { LoadingWithMessage } from './LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
-import { useJwt } from '../../hooks/useJwt'
 import { LoadingTranslations } from './LoadingTranslations'
 
 export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = ({
@@ -22,13 +21,12 @@ export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = 
     useSuspense: false,
   })
   const { closeDialog } = useCloseDialog()
-  const { jwt } = useJwt()
   const [selected, setSelected] = useState<Array<Client>>([])
 
   const { data: clientData, isLoading } = useAsyncFetch<{ clients: Array<Client> }, Array<Client>>(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
-      config: { params: { kind: 'CONSUMER', consumerId: jwt?.organization.id } },
+      config: { params: { kind: 'CONSUMER' } },
     },
     { mapFn: (data) => data.clients }
   )

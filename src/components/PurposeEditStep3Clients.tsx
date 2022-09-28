@@ -17,7 +17,6 @@ import { decoratePurposeWithMostRecentVersion, getPurposeFromUrl } from '../lib/
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
-import { useJwt } from '../hooks/useJwt'
 import { StyledPaper } from './StyledPaper'
 
 export const PurposeEditStep3Clients: FunctionComponent<ActiveStepProps> = ({ back }) => {
@@ -25,7 +24,6 @@ export const PurposeEditStep3Clients: FunctionComponent<ActiveStepProps> = ({ ba
   const purposeId = getPurposeFromUrl(history.location)
   const { setDialog } = useContext(DialogContext)
   const { routes } = useRoute()
-  const { jwt } = useJwt()
   const { t } = useTranslation(['purpose', 'toast'])
 
   const { runAction, forceRerenderCounter } = useFeedback()
@@ -36,7 +34,7 @@ export const PurposeEditStep3Clients: FunctionComponent<ActiveStepProps> = ({ ba
   >(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
-      config: { params: { consumerId: jwt?.organization.id, purposeId } },
+      config: { params: { purposeId } },
     },
     {
       mapFn: (data) => data.clients,
