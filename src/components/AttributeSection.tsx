@@ -139,67 +139,69 @@ export function AttributeSection({
         </StyledLink>
       </StyledSection.Subtitle>
       <StyledSection.Content>
-        {attributes.length > 0 && (
-          <Box sx={{ mt: 2 }}>
-            <Typography variant="subtitle1">{attributesSubtitle}</Typography>
-            <Stack sx={{ mt: 2 }} spacing={3}>
-              {attributes.map((attributesGroup, index) => (
-                <AttributeGroup
-                  key={index}
-                  index={index}
-                  readOnly={readOnly}
-                  attributesGroup={attributesGroup}
-                  attributeKey={attributeKey}
-                  alreadySelectedAttributesIds={alreadySelectedAttributesIds}
-                  handleRemoveAttributesGroup={handleRemoveAttributesGroup}
-                  handleAddAttributeToGroup={handleAddAttributeToGroup}
-                  handleRemoveAttributeFromGroup={handleRemoveAttributeFromGroup}
-                  handleExplicitAttributeVerificationChange={
-                    handleExplicitAttributeVerificationChange
-                  }
-                />
-              ))}
-            </Stack>
-          </Box>
-        )}
+        <Stack spacing={2}>
+          {attributes.length > 0 && (
+            <Box>
+              <Typography variant="subtitle1">{attributesSubtitle}</Typography>
+              <Stack spacing={3}>
+                {attributes.map((attributesGroup, index) => (
+                  <AttributeGroup
+                    key={index}
+                    index={index}
+                    readOnly={readOnly}
+                    attributesGroup={attributesGroup}
+                    attributeKey={attributeKey}
+                    alreadySelectedAttributesIds={alreadySelectedAttributesIds}
+                    handleRemoveAttributesGroup={handleRemoveAttributesGroup}
+                    handleAddAttributeToGroup={handleAddAttributeToGroup}
+                    handleRemoveAttributeFromGroup={handleRemoveAttributeFromGroup}
+                    handleExplicitAttributeVerificationChange={
+                      handleExplicitAttributeVerificationChange
+                    }
+                  />
+                ))}
+              </Stack>
+            </Box>
+          )}
 
-        {!readOnly && (
-          <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
-            <ButtonNaked
-              startIcon={<Add />}
-              size="medium"
-              color="primary"
-              type="button"
-              onClick={handleAddAttributesGroup}
-            >
-              {t('addBtn')}
-            </ButtonNaked>
-
-            {attributeKey !== 'certified' && (
+          {!readOnly && (
+            <Stack direction="row" spacing={2}>
               <ButtonNaked
-                type="button"
+                startIcon={<Add />}
                 size="medium"
                 color="primary"
-                onClick={openCreateNewAttributeDialog}
+                type="button"
+                onClick={handleAddAttributesGroup}
               >
-                {t('createBtn')}
+                {t('addBtn')}
               </ButtonNaked>
-            )}
-          </Stack>
-        )}
 
-        {!showDisabledAlert && attributes.length === 0 && readOnly && (
-          <Alert sx={{ mt: 2 }} severity="info">
-            Non ci sono attributi dichiarati richiesti per l’iscrizione a questo e-service
-          </Alert>
-        )}
+              {attributeKey !== 'certified' && (
+                <ButtonNaked
+                  type="button"
+                  size="medium"
+                  color="primary"
+                  onClick={openCreateNewAttributeDialog}
+                >
+                  {t('createBtn')}
+                </ButtonNaked>
+              )}
+            </Stack>
+          )}
 
-        {showDisabledAlert && (
-          <Alert severity="warning" sx={{ mt: 2, mb: 1 }}>
-            L&lsquo;inserimento di attributi verificati e dichiarati è temporaneamente disabilitato
-            per un test su una nuova feature
-          </Alert>
-        )}
+          {!showDisabledAlert && attributes.length === 0 && readOnly && (
+            <Alert severity="info">
+              Non ci sono attributi dichiarati richiesti per l’iscrizione a questo e-service
+            </Alert>
+          )}
+
+          {showDisabledAlert && (
+            <Alert severity="warning" sx={{ mb: 1 }}>
+              L&lsquo;inserimento di attributi verificati e dichiarati è temporaneamente
+              disabilitato per un test su una nuova feature
+            </Alert>
+          )}
+        </Stack>
       </StyledSection.Content>
     </StyledSection>
   )
