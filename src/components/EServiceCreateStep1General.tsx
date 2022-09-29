@@ -18,7 +18,7 @@ import {
   remapFrontendAttributesToBackend,
 } from '../lib/attributes'
 import { useFeedback } from '../hooks/useFeedback'
-import { EServiceAttributeSection } from './EServiceAttributeSection'
+import { AttributeSection } from './AttributeSection'
 import { StyledForm } from './Shared/StyledForm'
 import { StyledIntro } from './Shared/StyledIntro'
 import { StepActions } from './Shared/StepActions'
@@ -200,25 +200,33 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
                 />
               </StyledPaper>
 
-              <EServiceAttributeSection
+              <AttributeSection
                 attributeKey="certified"
+                description={t('create.step1.attributes.certified.description')}
+                attributesSubtitle={t('create.step1.attributes.subtitle')}
                 attributes={attributes.certified}
                 setAttributes={setAttributes}
                 readOnly={!isEditable}
               />
 
-              <EServiceAttributeSection
+              <AttributeSection
                 attributeKey="verified"
+                description={t('create.step1.attributes.verified.description')}
+                attributesSubtitle={t('create.step1.attributes.subtitle')}
                 attributes={attributes.verified}
                 setAttributes={setAttributes}
                 readOnly={!isEditable || true}
+                showDisabledAlert
               />
 
-              <EServiceAttributeSection
+              <AttributeSection
                 attributeKey="declared"
+                description={t('create.step1.attributes.verified.description')}
+                attributesSubtitle={t('create.step1.attributes.subtitle')}
                 attributes={attributes.declared}
                 setAttributes={setAttributes}
                 readOnly={!isEditable || true}
+                showDisabledAlert
               />
 
               {!isEditable && (

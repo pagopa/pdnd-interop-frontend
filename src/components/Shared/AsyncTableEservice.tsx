@@ -115,22 +115,30 @@ export const AsyncTableEServiceCatalog = () => {
       descriptorId: eservice.descriptorId,
     }
 
-    const { outcome: draftCreateOutcome, response: draftCreateResp } = (await runAction(
-      { path: { endpoint: 'AGREEMENT_DRAFT_CREATE' }, config: { data: agreementData } },
-      { suppressToast: ['success'] }
-    )) as RunActionOutput
+    const { outcome, response } = (await runAction({
+      path: { endpoint: 'AGREEMENT_DRAFT_CREATE' },
+      config: { data: agreementData },
+    })) as RunActionOutput
 
-    if (draftCreateOutcome === 'success') {
-      await runAction(
-        {
-          path: {
-            endpoint: 'AGREEMENT_DRAFT_SUBMIT',
-            endpointParams: { agreementId: (draftCreateResp as AxiosResponse).data.id },
-          },
-        },
-        { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
+    if (outcome === 'success') {
+      history.push(
+        buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
+          agreementId: (response as AxiosResponse).data.id,
+        })
       )
     }
+
+    // if (draftCreateOutcome === 'success') {
+    //   await runAction(
+    //     {
+    //       path: {
+    //         endpoint: 'AGREEMENT_DRAFT_SUBMIT',
+    //         endpointParams: { agreementId: (draftCreateResp as AxiosResponse).data.id },
+    //       },
+    //     },
+    //     { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
+    //   )
+    // }
   }
   /*
    * End list of actions
@@ -146,7 +154,7 @@ export const AsyncTableEServiceCatalog = () => {
       actions.push({
         onClick: () => {
           history.push(
-            buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
+            buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_READ.PATH, {
               agreementId: eservice.callerSubscribed as string,
             })
           )

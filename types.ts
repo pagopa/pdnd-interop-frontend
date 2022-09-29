@@ -750,7 +750,8 @@ export type DialogNewAttributeProps = {
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
-  attribute: CatalogAttribute
+  attributeId: string
+  name: string
 }
 
 export type NewAttributeFormInputValues = {

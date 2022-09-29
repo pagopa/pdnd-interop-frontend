@@ -133,7 +133,7 @@ export function EServiceRead() {
             {flatData && flatData.callerSubscribed && isAdmin && (
               <DescriptionBlock label={t('read.alreadySubscribedField.label')}>
                 <StyledLink
-                  to={buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
+                  to={buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_READ.PATH, {
                     agreementId: flatData.callerSubscribed as string,
                   })}
                 >

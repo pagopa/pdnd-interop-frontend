@@ -38,7 +38,9 @@
     "publish": "Pubblica",
     "download": "Scarica",
     "archive": "Archivia",
-    "createNewDraft": "Crea bozza nuova versione"
+    "cancel": "Annulla",
+    "createNewDraft": "Crea bozza nuova versione",
+    "saveDraft": "Salva bozza"
   },
   "table": {
     "headData": {

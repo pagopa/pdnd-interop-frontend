@@ -131,7 +131,7 @@
   "styledDialogAttributeDetails": {
     "content": {
       "descriptionField": {
-        "label": "Nome dell'attributo"
+        "label": "Descrizione dell'attributo"
       },
       "codeField": {
         "label": "Id della fonte autoritativa"
@@ -140,6 +140,7 @@
         "label": "Nome della fonte autoritativa"
       }
     },
+    "loading": "Stiamo caricando l'attributo",
     "actions": {
       "closeBtn": "Chiudi"
     }

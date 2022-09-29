@@ -7,33 +7,34 @@ import { ButtonNaked } from '@pagopa/mui-italia'
 import { Add, DeleteOutline, InfoRounded } from '@mui/icons-material'
 import { DialogContext } from '../lib/context'
 import { useTranslation } from 'react-i18next'
+import noop from 'lodash/noop'
 
-type EServiceAttributeGroupProps = {
+type AttributeGroupProps = {
   index: number
   readOnly: boolean
   attributesGroup: FrontendAttribute
   attributeKey: AttributeKey
-  alreadySelectedAttributesIds: Array<string>
-  handleRemoveAttributesGroup: (groupIndex: number) => void
-  handleAddAttributeToGroup: (groupIndex: number, attribute: CatalogAttribute) => void
-  handleRemoveAttributeFromGroup: (groupIndex: number, attribute: CatalogAttribute) => void
-  handleExplicitAttributeVerificationChange: (
+  alreadySelectedAttributesIds?: Array<string>
+  handleRemoveAttributesGroup?: (groupIndex: number) => void
+  handleAddAttributeToGroup?: (groupIndex: number, attribute: CatalogAttribute) => void
+  handleRemoveAttributeFromGroup?: (groupIndex: number, attributeId: string) => void
+  handleExplicitAttributeVerificationChange?: (
     groupIndex: number,
     e: React.ChangeEvent<HTMLInputElement>
   ) => void
 }
 
-export function EServiceAttributeGroup({
+export function AttributeGroup({
   index,
   readOnly,
   attributesGroup,
   attributeKey,
-  alreadySelectedAttributesIds,
-  handleRemoveAttributesGroup,
-  handleAddAttributeToGroup,
-  handleRemoveAttributeFromGroup,
-  handleExplicitAttributeVerificationChange,
-}: EServiceAttributeGroupProps) {
+  alreadySelectedAttributesIds = [],
+  handleRemoveAttributesGroup = noop,
+  handleAddAttributeToGroup = noop,
+  handleRemoveAttributeFromGroup = noop,
+  handleExplicitAttributeVerificationChange = noop,
+}: AttributeGroupProps) {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.attributes.group' })
 
   const [isAttributeAutocompleteShown, setIsAttributeAutocompleteShown] = useState(true)
@@ -190,7 +191,7 @@ function AttributesAutocomplete({
 type AttributesListProps = {
   readOnly: boolean
   attributes: Array<CatalogAttribute>
-  onRemove: (attribute: CatalogAttribute) => void
+  onRemove: (attributeId: string) => void
 }
 function AttributesList({ readOnly, attributes, onRemove }: AttributesListProps) {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.attributes.group' })
@@ -199,7 +200,8 @@ function AttributesList({ readOnly, attributes, onRemove }: AttributesListProps)
   const openAttributeDetailsDialog = (attribute: CatalogAttribute) => {
     setDialog({
       type: 'showAttributeDetails',
-      attribute,
+      attributeId: attribute.id,
+      name: attribute.name,
     })
   }
 
@@ -224,7 +226,7 @@ function AttributesList({ readOnly, attributes, onRemove }: AttributesListProps)
                 </ButtonNaked>
                 {!readOnly && (
                   <ButtonNaked
-                    onClick={onRemove.bind(null, attribute)}
+                    onClick={onRemove.bind(null, attribute.id)}
                     aria-label={t('deleteSrLabel')}
                   >
                     <DeleteOutline fontSize="small" color="error" />

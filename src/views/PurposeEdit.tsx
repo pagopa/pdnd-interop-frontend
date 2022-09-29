@@ -13,6 +13,7 @@ import { StyledLink } from '../components/Shared/StyledLink'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
+import { MAX_WIDTH } from '../lib/constants'
 
 export const PurposeEdit = () => {
   const { t } = useTranslation('purpose')
@@ -47,7 +48,7 @@ export const PurposeEdit = () => {
     <React.Fragment>
       <StyledIntro>{{ title: t('edit.emptyTitle') }}</StyledIntro>
       {eserviceData && Boolean(eserviceData.length > 0) ? (
-        <Grid container sx={{ maxWidth: 1280 }}>
+        <Grid container sx={{ maxWidth: MAX_WIDTH }}>
           <Grid item lg={8} sx={{ width: '100%' }}>
             <StyledStepper steps={STEPS} activeIndex={activeStep} />
             <Step {...stepProps} />

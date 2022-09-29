@@ -31,6 +31,7 @@ import { omit } from 'lodash'
 import { AxiosResponse } from 'axios'
 import { buildDynamicRoute } from '../lib/router-utils'
 import { Question } from '../hooks/useDynamicRiskAnalysisForm'
+import { MAX_WIDTH } from '../lib/constants'
 
 function getRiskAnalysis(version: string) {
   return { '1.0': _riskAnalysisConfigV1, '2.0': _riskAnalysisConfigPAV2 }[version]
@@ -188,7 +189,7 @@ export const PurposeCreate = () => {
     <React.Fragment>
       <StyledIntro>{{ title: t('create.emptyTitle') }}</StyledIntro>
 
-      <Grid container sx={{ maxWidth: 1280 }}>
+      <Grid container sx={{ maxWidth: MAX_WIDTH }}>
         <Grid item lg={8} sx={{ width: '100%' }}>
           <StyledPaper>
             <StyledInputControlledSelect

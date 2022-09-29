@@ -2,7 +2,7 @@
   "loadingSingleLabel": "Loading request",
   "loadingMultiLabel": "Loading requests",
   "noMultiDataLabel": "Non fruition request available",
-  "edit": {
+  "read": {
     "title": "Manage fruition request",
     "eserviceField": {
       "label": "Request for",
@@ -53,6 +53,52 @@
     "noPurposeLink": {
       "label": "Create one"
     }
+  },
+  "edit": {
+    "title": "Manage fruition request",
+    "generalInformations": {
+      "title": "General Informations",
+      "eserviceField": {
+        "label": "Request for",
+        "goToEServiceBtn": "Go to E-Service",
+        "versionLabel": "version"
+      },
+      "providerField": {
+        "label": "Provider"
+      },
+      "requestStatusField": {
+        "label": "Request status"
+      }
+    },
+    "attribute": {
+      "subtitle": "You must own:",
+      "certified": {
+        "description": "These attributes are certified by a recognized authoritative source, and do not require further certification."
+      },
+      "verified": {
+        "description": "These attributes require verification by at least one provider. You may already own some (or all) of them."
+      },
+      "declared": {
+        "description": "You must declare under your own responsibility that you possess these attributes."
+      }
+    },
+    "documents": {
+      "title": "Documentation",
+      "description": "Enter all the documents necessary for the recognition of your attributes",
+      "uploadBtn": "Upload",
+      "documentInputField": {
+        "dragHereLabel": "Drag here file or",
+        "selectFromComputerLabel": "select it from your computer",
+        "loadingLabel": "Loading...s"
+      }
+    },
+    "bottomPageActionCard": {
+      "title": "Quick publish",
+      "description": "Have you entered all the information for this agreement request? From here you can immediately publish a draft, or delete it. If you want to post later, just save the draft above or leave this page",
+      "cancelBtn": "Delete draft",
+      "submitBtn": "Publish agreement request"
+    },
+    "backToRequestsBtn": "Go back to requests"
   },
   "list": {
     "provider": {

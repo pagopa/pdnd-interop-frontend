@@ -89,7 +89,7 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'GET',
   },
   ATTRIBUTE_GET_SINGLE: {
-    URL: `${BACKEND_FOR_FRONTEND_URL}/attributes/attributeId`,
+    URL: `${BACKEND_FOR_FRONTEND_URL}/attributes/:attributeId`,
     METHOD: 'GET',
   },
   ATTRIBUTE_CREATE: {

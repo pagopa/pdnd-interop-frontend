@@ -2,7 +2,7 @@
   "loadingSingleLabel": "Stiamo caricando la richiesta",
   "loadingMultiLabel": "Stiamo caricando la lista di richieste",
   "noMultiDataLabel": "Non ci sono richieste disponibili",
-  "edit": {
+  "read": {
     "title": "Gestisci richiesta di fruizione",
     "eserviceField": {
       "label": "Richiesta relativa a",
@@ -53,6 +53,59 @@
     "noPurposeLink": {
       "label": "Crea la prima"
     }
+  },
+  "edit": {
+    "title": "Gestisci richiesta di fruizione",
+    "generalInformations": {
+      "title": "Informazioni generali",
+      "eserviceField": {
+        "label": "Richiesta relativa a",
+        "goToEServiceBtn": "Vedi E-Service",
+        "versionLabel": "versione"
+      },
+      "providerField": {
+        "label": "Erogatore"
+      },
+      "requestStatusField": {
+        "label": "Stato della richiesta"
+      }
+    },
+    "attribute": {
+      "subtitle": "Devi possedere:",
+      "certified": {
+        "description": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori certificazioni."
+      },
+      "verified": {
+        "description": "Questi attributi necessitano verifica da parte di almeno un erogatore. Potresti già possederne alcuni (o tutti)."
+      },
+      "declared": {
+        "description": "Devi dichiarare sotto la tua responsabilità di possedere questi attributi."
+      }
+    },
+    "providerMessage": {
+      "title": "messaggio per l’erogatore",
+      "description": "Se ci sono gruppi di attributi contraddistinti da “oppure”, indica in questo messaggio quale tra quelli ti aspetti venga riconosciuto, in base alla documentazione che hai caricato. Inserisci eventuali altre note utili",
+      "field": {
+        "label": "Messaggio"
+      }
+    },
+    "documents": {
+      "title": "Documentazione",
+      "description": "Inserisci tutti i documenti necessari al riconoscimento dei tuoi attributi",
+      "uploadBtn": "Carica",
+      "documentInputField": {
+        "dragHereLabel": "Trascina qui il documento oppure",
+        "selectFromComputerLabel": "selezionalo dal tuo computer",
+        "loadingLabel": "Caricamento in corso..."
+      }
+    },
+    "bottomPageActionCard": {
+      "title": "Azioni rapide di pubblicazione",
+      "description": "Hai inserito tutte le informazioni per questa richiesta di fruizione? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra o abbandona questa pagina",
+      "cancelBtn": "Cancella bozza",
+      "submitBtn": "Inoltra richiesta di fruizione"
+    },
+    "backToRequestsBtn": "Torna alle richieste"
   },
   "list": {
     "provider": {

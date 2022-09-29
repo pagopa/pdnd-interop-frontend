@@ -166,8 +166,8 @@ export const AsyncTableAgreement = () => {
                   buildDynamicPath(
                     routes[
                       currentMode === 'provider'
-                        ? 'PROVIDE_AGREEMENT_EDIT'
-                        : 'SUBSCRIBE_AGREEMENT_EDIT'
+                        ? 'PROVIDE_AGREEMENT_READ'
+                        : 'SUBSCRIBE_AGREEMENT_READ'
                     ].PATH,
                     { agreementId: item.id }
                   )
