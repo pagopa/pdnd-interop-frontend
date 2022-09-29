@@ -2,6 +2,7 @@
   "loadingSingleLabel": "Loading your E-Service",
   "loadingMultiLabel": "Loading E-Service list",
   "noMultiDataLabel": "Non E-Service available",
+  "backToListBtn": "Back to the E-Services",
   "create": {
     "emptyTitle": "Create E-Service",
     "stepper": {
@@ -9,7 +10,6 @@
       "step2Label": "Version",
       "step3Label": "Documentation"
     },
-    "backToListBtn": "Back to the E-Services",
     "backWithoutSaveBtn": "Back",
     "forwardWithSaveBtn": "Save draft and proceed",
     "forwardWithoutSaveBtn": "Next",
@@ -48,15 +48,15 @@
         },
         "certified": {
           "label": "Certified Attributes",
-          "description": "Certified by an authoritative source. You don't need to do anything"
+          "description": "Certified by an authoritative source. You don't need to do anything."
         },
         "verified": {
           "label": "Verified Attributes",
-          "description": "You can decide whether to trust another party's audit on these attributes or run your own"
+          "description": "You can decide whether to trust another party's audit on these attributes or run your own."
         },
         "declared": {
           "label": "Declared Attributes",
-          "description": "The Subscriber will declare it possesses these attributes under its own responsibility"
+          "description": "The Subscriber will declare it possesses these attributes under its own responsibility."
         }
       },
       "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this E-Service is published"
@@ -130,6 +130,56 @@
     }
   },
   "contentInfo": {
+    "sections": {
+      "generalInformations": {
+        "title": "General informations",
+        "technology": "Technology"
+      },
+      "versionInformations": {
+        "title": "Informazioni di versione",
+        "actualVersion": "You are viewing version",
+        "versionStatus": "Version status",
+        "description": "Description",
+        "audience": "Audience",
+        "audienceDescription": "The audience that the subscriber must register in the voucher to identify the service",
+        "voucherLifespan": "Voucher lifespan",
+        "dailyCallsPerConsumer": "Per subscriber threshold",
+        "dailyCallsTotal": "Total threshold",
+        "callsPerDay": "API calls/day",
+
+        "doubtsQuestion": "Do you have doubts about the implementation to deliver your e-service?",
+        "doubtsLink": "See the guide"
+      },
+      "download": {
+        "title": "Download"
+      },
+      "voucherVerification": {
+        "title": "Voucher verification",
+        "description": "Devi verificare un voucher ricevuto da un fruitore? Di seguito i link con le istruzioni necessarie",
+        "howLink": "How do I verify a voucher?",
+        "wellKnownLink": "URL .well-known"
+      },
+      "attributes": {
+        "certified": {
+          "description": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori certificazioni."
+        },
+        "verified": {
+          "description": "Questi attributi necessitano verifica da parte di almeno un erogatore. Potresti già possederne alcuni (o tutti)."
+        },
+        "declared": {
+          "description": "Devi dichiarare sotto la tua responsabilità di possedere questi attributi."
+        }
+      },
+
+      "versionHistory": {
+        "title": "Version history",
+        "historyField": {
+          "label": "Change version",
+          "option": "v{{version}}"
+        },
+        "submitBtn": "Go"
+      }
+    },
     "verificationRequired": "verification required",
     "groupOr": "or",
     "provider": "Provider",
@@ -139,8 +189,8 @@
     "audience": "Audience",
     "technology": "Tecnology",
     "voucherLifespan": "Voucher lifespan",
-    "dailyCallsPerConsumer": "Per subscriber API calls/day threshold",
-    "dailyCallsTotal": "Total API calls/day threshold",
+    "dailyCallsPerConsumer": "Per subscriber threshold",
+    "dailyCallsTotal": "Total threshold",
     "attributes": "Attributes",
     "noAttributesLabel": "No attribute found",
     "documentation": "Resources",

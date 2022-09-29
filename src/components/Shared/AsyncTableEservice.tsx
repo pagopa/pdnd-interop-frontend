@@ -16,7 +16,6 @@ import {
   EServiceFlatDecoratedReadType,
   EServiceFlatReadType,
   EServiceState,
-  MUIColor,
 } from '../../../types'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { RunActionOutput, useFeedback } from '../../hooks/useFeedback'
@@ -31,18 +30,10 @@ import { TableWithLoader } from './TableWithLoader'
 import { AxiosResponse } from 'axios'
 import { StyledTableRow } from './StyledTableRow'
 import { StyledButton } from './StyledButton'
-import { URL_FRAGMENTS } from '../../lib/constants'
+import { CHIP_COLORS_E_SERVICE, URL_FRAGMENTS } from '../../lib/constants'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../../hooks/useJwt'
 import { minutesToSeconds } from '../../lib/format-utils'
-
-const CHIP_COLORS: Record<EServiceState, MUIColor> = {
-  PUBLISHED: 'primary',
-  DRAFT: 'info',
-  SUSPENDED: 'error',
-  ARCHIVED: 'info',
-  DEPRECATED: 'warning',
-}
 
 export const AsyncTableEServiceCatalog = () => {
   const { t } = useTranslation(['eservice', 'common'])
@@ -449,7 +440,7 @@ export const AsyncTableEServiceList = () => {
                 custom: (
                   <Chip
                     label={t(`status.eservice.${item.state || 'DRAFT'}`, { ns: 'common' })}
-                    color={CHIP_COLORS[item.state as EServiceState]}
+                    color={CHIP_COLORS_E_SERVICE[item.state as EServiceState]}
                   />
                 ),
               },

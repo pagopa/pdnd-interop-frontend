@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Typography, Stack, Divider } from '@mui/material'
 
 interface InformationRowProps {
-  label: string
+  label: React.ReactNode | string
   labelDescription?: string
   children: React.ReactNode
   rightContent?: React.ReactNode

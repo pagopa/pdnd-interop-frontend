@@ -142,7 +142,9 @@ export function AttributeSection({
         <Stack spacing={2}>
           {attributes.length > 0 && (
             <Box>
-              <Typography variant="subtitle1">{attributesSubtitle}</Typography>
+              <Typography sx={{ mb: 2 }} variant="subtitle1">
+                {attributesSubtitle}
+              </Typography>
               <Stack spacing={3}>
                 {attributes.map((attributesGroup, index) => (
                   <AttributeGroup

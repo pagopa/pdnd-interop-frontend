@@ -1,4 +1,4 @@
-import { AgreementState, LangCode, MUIColor, UserState } from '../../types'
+import { AgreementState, EServiceState, LangCode, MUIColor, UserState } from '../../types'
 
 export const DISPLAY_LOGS = false // isDevelopment
 
@@ -28,6 +28,12 @@ export const pagoPaLink = {
 export const attributesHelpLink =
   'https://docs.pagopa.it/interoperabilita-1/manuale-operativo/attributi'
 
+export const verifyVoucherHelpLink =
+  'https://docs.pagopa.it/interoperabilita-1/manuale-operativo/utilizzare-i-voucher'
+
+export const eServiceHelpLink =
+  'https://docs.pagopa.it/interoperabilita-1/manuale-operativo/e-service'
+
 export const CHIP_COLORS_AGREEMENT: Record<AgreementState, MUIColor> = {
   ACTIVE: 'primary',
   SUSPENDED: 'error',
@@ -40,4 +46,12 @@ export const CHIP_COLORS_USER: Record<UserState, MUIColor> = {
   PENDING: 'warning',
   ACTIVE: 'primary',
   SUSPENDED: 'error',
+}
+
+export const CHIP_COLORS_E_SERVICE: Record<EServiceState, MUIColor> = {
+  PUBLISHED: 'primary',
+  DRAFT: 'info',
+  SUSPENDED: 'error',
+  ARCHIVED: 'info',
+  DEPRECATED: 'warning',
 }
