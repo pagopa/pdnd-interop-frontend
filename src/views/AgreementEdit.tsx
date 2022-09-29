@@ -7,15 +7,10 @@ import { useHistory, useParams } from 'react-router-dom'
 import { mixed, object, string } from 'yup'
 import {
   AgreementSummary,
-  AttributeKind,
-  BackendAttributeContent,
   EServiceDocumentRead,
   EServiceReadType,
-  FrontendAttribute,
   FrontendAttributes,
-  GroupBackendAttribute,
   RequestOutcome,
-  SingleBackendAttribute,
 } from '../../types'
 import { AttributeSection } from '../components/AttributeSection'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
@@ -31,53 +26,10 @@ import StyledSection from '../components/Shared/StyledSection'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
 import { useRoute } from '../hooks/useRoute'
+import { remapBackendAttributesToFrontend } from '../lib/attributes'
 import { CHIP_COLORS_AGREEMENT, MAX_WIDTH } from '../lib/constants'
 import { buildDynamicPath } from '../lib/router-utils'
 import { NotFound } from './NotFound'
-
-function mapBackendAttributesToFrontendAttributes(data: EServiceReadType): FrontendAttributes {
-  function backendAttributeToFrontendAttribute(
-    kind: AttributeKind,
-    backendAttributes: Array<BackendAttributeContent>
-  ): FrontendAttribute {
-    const attributes = backendAttributes.map(({ id, name, description, creationTime }) => ({
-      id,
-      name,
-      description,
-      creationTime,
-      kind,
-    }))
-
-    return {
-      attributes,
-      explicitAttributeVerification: false,
-    }
-  }
-
-  const frontendAttributes: Partial<FrontendAttributes> = {}
-  const backendAttributes = data.attributes
-  const keys = Object.keys(backendAttributes) as Array<keyof typeof backendAttributes>
-
-  keys.map((key) => {
-    frontendAttributes[key] = data.attributes[key].reduce((acc: Array<FrontendAttribute>, next) => {
-      if (next.hasOwnProperty('single')) {
-        return [
-          ...acc,
-          backendAttributeToFrontendAttribute('CERTIFIED', [
-            (next as SingleBackendAttribute).single,
-          ]),
-        ]
-      }
-
-      return [
-        ...acc,
-        backendAttributeToFrontendAttribute('CERTIFIED', (next as GroupBackendAttribute).group),
-      ]
-    }, [])
-  })
-
-  return frontendAttributes as FrontendAttributes
-}
 
 export function AgreementEdit() {
   const { t } = useTranslation(['agreement', 'common'])
@@ -106,7 +58,7 @@ export function AgreementEdit() {
       },
     },
     {
-      mapFn: mapBackendAttributesToFrontendAttributes,
+      mapFn: (data) => remapBackendAttributesToFrontend(data.attributes),
       useEffectDeps: [agreement],
       disabled: !agreement?.eservice.id,
     }
