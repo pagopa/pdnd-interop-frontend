@@ -21,7 +21,6 @@ import { Grid, Stack } from '@mui/material'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { useTranslation } from 'react-i18next'
-import { useJwt } from '../hooks/useJwt'
 import { StyledPaper } from '../components/StyledPaper'
 
 type ClientFields = {
@@ -33,7 +32,6 @@ type ClientFields = {
 export function ClientCreate() {
   const { t } = useTranslation(['client', 'common'])
   const { runAction } = useFeedback()
-  const { jwt } = useJwt()
   const { setDialog } = useContext(DialogContext)
   const { routes } = useRoute()
   const clientKind = useClientKind()
@@ -43,7 +41,6 @@ export function ClientCreate() {
     const dataToPost = {
       name: data.name,
       description: data.description,
-      consumerId: jwt?.organization.id,
     }
 
     const endpoint = clientKind === 'CONSUMER' ? 'CLIENT_CREATE' : 'CLIENT_INTEROP_M2M_CREATE'

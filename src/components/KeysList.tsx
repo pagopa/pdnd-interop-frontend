@@ -21,7 +21,6 @@ import { InfoTooltip } from '../components/Shared/InfoTooltip'
 type KeyToPostProps = SecurityOperatorKeysFormInputValues & {
   use: 'SIG'
   alg: 'RS256'
-  operatorId: string
 }
 
 type KeysListProps = {
@@ -76,7 +75,6 @@ const AddBtn = ({ clientId, runAction }: AddBtnProps) => {
       ...data,
       use: 'SIG',
       alg: 'RS256',
-      operatorId: jwt?.uid as string,
     }
     dataToPost.key = btoa(dataToPost.key.trim())
 
