@@ -39,6 +39,7 @@ import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { useRoute } from '../hooks/useRoute'
 import { buildDynamicRoute } from '../lib/router-utils'
 import { StyledInputControlledSelect } from '../components/Shared/StyledInputControlledSelect'
+import { WELL_KNOWN_URL } from '../lib/env'
 
 export function EServiceManage() {
   const { eserviceId, descriptorId } = useParams<{
@@ -301,8 +302,7 @@ function VoucherVerificationSection() {
 
         <Stack sx={{ mt: 2 }} spacing={2}>
           <VoucherLink label={t('howLink')} href={verifyVoucherHelpLink} />
-          {/* TEMP BACKEND - PIN-1807 */}
-          <VoucherLink label={t('wellKnownLink')} href="#" />
+          <VoucherLink label={t('wellKnownLink')} href={WELL_KNOWN_URL} />
         </Stack>
       </StyledSection.Content>
     </StyledSection>
