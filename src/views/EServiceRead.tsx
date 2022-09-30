@@ -14,14 +14,10 @@ import {
 import { useLocation } from 'react-router-dom'
 import { NotFound } from './NotFound'
 import { useRoute } from '../hooks/useRoute'
-import { DescriptionBlock } from '../components/DescriptionBlock'
-import { StyledLink } from '../components/Shared/StyledLink'
-import { buildDynamicPath } from '../lib/router-utils'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { Alert, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
-import { StyledPaper } from '../components/StyledPaper'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { AxiosResponse } from 'axios'
 
@@ -151,21 +147,11 @@ export function EServiceRead() {
 
       {data && descriptorId ? (
         <React.Fragment>
-          <StyledPaper>
-            {isSubscribed && (
-              <DescriptionBlock label={t('read.alreadySubscribedField.label')}>
-                <StyledLink
-                  to={buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_READ.PATH, {
-                    agreementId: flatData.callerSubscribed,
-                  })}
-                >
-                  {t('read.alreadySubscribedField.link.label')}
-                </StyledLink>
-              </DescriptionBlock>
-            )}
-          </StyledPaper>
-
-          <EServiceContentInfo data={data} descriptorId={descriptorId} />
+          <EServiceContentInfo
+            data={data}
+            descriptorId={descriptorId}
+            agreementId={isSubscribed ? flatData.callerSubscribed : undefined}
+          />
 
           <PageBottomActions>
             {/* TEMP PIN-612 */}

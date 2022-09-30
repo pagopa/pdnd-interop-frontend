@@ -113,6 +113,12 @@
     "sections": {
       "generalInformations": {
         "title": "General informations",
+        "alreadySubscribedField": {
+          "label": "You are a Subscriber of the E-Service",
+          "link": {
+            "label": "Go to the fruition request"
+          }
+        },
         "technology": "Technology"
       },
       "versionInformations": {
@@ -198,12 +204,6 @@
       "title": "Fruition requests",
       "description": "You are about to send a fruition request for the E-Service {{name}}, version {{version}}",
       "proceedLabel": "Subscribe"
-    },
-    "alreadySubscribedField": {
-      "label": "You are a Subscriber of the E-Service",
-      "link": {
-        "label": "Go to the fruition request"
-      }
     },
     "alert": {
       "youAreTheProvider": "You can't subscribe to an E-Service you are a Provider of",

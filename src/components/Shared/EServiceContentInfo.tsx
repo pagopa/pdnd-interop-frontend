@@ -11,7 +11,7 @@ import { RunActionOutput, useFeedback } from '../../hooks/useFeedback'
 import { useRoute } from '../../hooks/useRoute'
 import { secondsToHoursMinutes } from '../../lib/format-utils'
 import { downloadFile } from '../../lib/file-utils'
-import { buildDynamicRoute } from '../../lib/router-utils'
+import { buildDynamicPath, buildDynamicRoute } from '../../lib/router-utils'
 import { StyledLink } from './StyledLink'
 import { formatThousands } from '../../lib/format-utils'
 import { useTranslation } from 'react-i18next'
@@ -32,11 +32,13 @@ import { ButtonNaked } from '@pagopa/mui-italia'
 type EServiceContentInfoProps = {
   data: EServiceReadType
   descriptorId: string
+  agreementId?: string
 }
 
 export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = ({
   data,
   descriptorId,
+  agreementId,
 }) => {
   const frontendAttributes = useMemo(() => {
     if (!data.attributes) return
@@ -50,7 +52,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
     <React.Fragment>
       <Grid spacing={2} container>
         <Grid item xs={7}>
-          <GeneralInfoSection data={data} />
+          <GeneralInfoSection data={data} agreementId={agreementId} />
           <VersionInfoSection data={data} isCurrentVersion={isCurrentVersion} />
         </Grid>
         <Grid item xs={5}>
@@ -74,15 +76,36 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
   )
 }
 
-function GeneralInfoSection({ data }: { data: EServiceReadType }) {
+function GeneralInfoSection({
+  data,
+  agreementId,
+}: {
+  data: EServiceReadType
+  agreementId?: string
+}) {
   const { t } = useTranslation('eservice', {
     keyPrefix: 'contentInfo.sections.generalInformations',
   })
+  const { routes } = useRoute()
+
   return (
     <StyledSection>
       <StyledSection.Title>{t('title')}</StyledSection.Title>
       <StyledSection.Content>
-        <InformationRow label={t('technology')}>{data.technology}</InformationRow>
+        <Stack spacing={2}>
+          {agreementId && (
+            <InformationRow label={t('alreadySubscribedField.label')}>
+              <StyledLink
+                to={buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_READ.PATH, {
+                  agreementId,
+                })}
+              >
+                {t('alreadySubscribedField.link.label')}
+              </StyledLink>
+            </InformationRow>
+          )}
+          <InformationRow label={t('technology')}>{data.technology}</InformationRow>
+        </Stack>
       </StyledSection.Content>
     </StyledSection>
   )
