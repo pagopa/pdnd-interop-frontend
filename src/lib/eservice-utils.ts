@@ -52,3 +52,18 @@ export function getDownloadDocumentName(document: EServiceDocumentRead) {
   const fileExtension = filenameBits[filenameBits.length - 1]
   return `${document.prettyName}.${fileExtension}`
 }
+
+export function getLatestActiveVersion(data: EServiceReadType | undefined) {
+  if (!data) return undefined
+  const sortedByVersionDescriptors = data.descriptors.sort(
+    (a, b) => parseInt(b.version.replace('v', '')) - parseInt(a.version.replace('v', ''))
+  )
+
+  if (sortedByVersionDescriptors[0].state === 'DRAFT') {
+    sortedByVersionDescriptors.shift()
+  }
+
+  return sortedByVersionDescriptors[0]?.state !== 'ARCHIVED'
+    ? sortedByVersionDescriptors[0]
+    : undefined
+}

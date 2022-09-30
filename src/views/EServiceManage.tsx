@@ -11,6 +11,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import {
   decorateEServiceWithActiveDescriptor,
   getDownloadDocumentName,
+  getLatestActiveVersion,
 } from '../lib/eservice-utils'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { NotFound } from './NotFound'
@@ -84,7 +85,8 @@ export function EServiceManage() {
     return <NotFound errorType="serverError" />
   }
 
-  const isCurrentVersion = eserviceData?.activeDescriptor?.id === descriptorId
+  const activeDescriptor = getLatestActiveVersion(eserviceData)
+  const isCurrentVersion = activeDescriptor?.id === descriptorId
 
   return (
     <Box sx={{ maxWidth: MAX_WIDTH }}>
