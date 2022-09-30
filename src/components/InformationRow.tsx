@@ -18,7 +18,13 @@ export function InformationRow({
    * If the children passed is a JSX Element, renders the children in a div,
    * otherwise it's a string and we render it in a p tag.
    * */
-  const isChildrenAJSXElement = React.isValidElement(children)
+  let isChildrenAJSXElement = false
+
+  React.Children.forEach(children, (child) => {
+    if (React.isValidElement(child)) {
+      isChildrenAJSXElement = true
+    }
+  })
 
   return (
     <Stack spacing={4} direction="row">
