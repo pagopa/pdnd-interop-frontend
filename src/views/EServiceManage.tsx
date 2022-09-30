@@ -183,8 +183,8 @@ function VersionInfoSection({
         <Stack spacing={2}>
           <InformationRow label={t('actualVersion')}>
             <Stack spacing={1} direction="row" alignItems="center">
+              <Typography component="span">{activeDescriptor.version}</Typography>
               {isCurrentVersion && <Chip size="small" label="versione corrente" color="primary" />}
-              <Box>{activeDescriptor.version}</Box>
             </Stack>
           </InformationRow>
           <InformationRow label={t('versionStatus')}>
@@ -378,11 +378,11 @@ function VersionHistorySection({
         descriptorId: selectedDescriptorId,
       }).PATH
     )
-
-    window.scrollTo(0, 0)
   }
 
-  const isSelectVersionInputDisabled = descriptors.length <= 1
+  const shouldNotRender = descriptors.length <= 1
+
+  if (shouldNotRender) return null
 
   return (
     <StyledSection>
@@ -396,12 +396,7 @@ function VersionHistorySection({
               </InputLabel>
             }
             rightContent={
-              <StyledButton
-                disabled={isSelectVersionInputDisabled}
-                size="large"
-                variant="contained"
-                type="submit"
-              >
+              <StyledButton size="large" variant="outlined" type="submit">
                 {t('submitBtn')}
               </StyledButton>
             }
@@ -410,7 +405,7 @@ function VersionHistorySection({
               sx={{ width: '100%' }}
               name="eServiceHistorySelection"
               labelId="eServiceHistorySelection"
-              disabled={isSelectVersionInputDisabled}
+              MenuProps={{ sx: { maxHeight: '160px' } }}
               onChange={handleVersionChange}
               value={selectedDescriptorId}
             >
