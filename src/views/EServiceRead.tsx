@@ -139,21 +139,15 @@ export function EServiceRead() {
         )}
       </Stack>
 
-      {isMine && (
-        <Alert sx={{ mt: 2 }} severity="info">
-          {t('read.alert.youAreTheProvider')}
-        </Alert>
-      )}
-      {!canSubscribeEservice && (
-        <Alert sx={{ mt: 2 }} severity="info">
-          {t('read.alert.missingCertifiedAttributes')}
-        </Alert>
-      )}
-      {flatData?.callerSubscribed && (
-        <Alert sx={{ mt: 2 }} severity="info">
-          {t('read.alert.alreadySubscribed')}
-        </Alert>
-      )}
+      <Stack spacing={2}>
+        {isMine && <Alert severity="info">{t('read.alert.youAreTheProvider')}</Alert>}
+        {!canSubscribeEservice && (
+          <Alert severity="info">{t('read.alert.missingCertifiedAttributes')}</Alert>
+        )}
+        {flatData?.callerSubscribed && (
+          <Alert severity="info">{t('read.alert.alreadySubscribed')}</Alert>
+        )}
+      </Stack>
 
       {data && descriptorId ? (
         <React.Fragment>
