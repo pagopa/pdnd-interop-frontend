@@ -127,7 +127,7 @@ function VersionInfoSection({
         <Stack spacing={2}>
           <InformationRow label={t('actualVersion')}>
             <Stack spacing={1} direction="row" alignItems="center">
-              <Typography component="span">{activeDescriptor.version}</Typography>
+              <span>{activeDescriptor.version}</span>
               {isCurrentVersion && <Chip size="small" label="versione corrente" color="primary" />}
             </Stack>
           </InformationRow>
