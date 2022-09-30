@@ -565,6 +565,7 @@ function VersionHistorySection({
               onChange={handleVersionChange}
               value={selectedDescriptorId}
               options={descriptorsOptions}
+              selectProps={{ MenuProps: { sx: { maxHeight: '160px' } } }}
             />
             <StyledButton sx={{ mt: 2 }} size="large" variant="outlined" type="submit">
               {t('submitBtn')}
