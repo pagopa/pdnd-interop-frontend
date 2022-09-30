@@ -155,7 +155,7 @@ export function EServiceRead() {
         </Alert>
       )}
 
-      {data ? (
+      {data && descriptorId ? (
         <React.Fragment>
           <StyledPaper>
             {isSubscribed && (
@@ -169,9 +169,9 @@ export function EServiceRead() {
                 </StyledLink>
               </DescriptionBlock>
             )}
-
-            <EServiceContentInfo data={data} />
           </StyledPaper>
+
+          <EServiceContentInfo data={data} descriptorId={descriptorId} />
 
           <PageBottomActions>
             {/* TEMP PIN-612 */}
