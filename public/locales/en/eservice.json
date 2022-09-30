@@ -174,7 +174,8 @@
       "versionHistory": {
         "title": "Version history",
         "historyField": {
-          "label": "Change version",
+          "title": "Change version",
+          "label": "Select a version",
           "option": "v{{version}}"
         },
         "submitBtn": "Go to page"

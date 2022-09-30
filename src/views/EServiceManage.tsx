@@ -20,18 +20,7 @@ import { remapBackendAttributesToFrontend } from '../lib/attributes'
 import { InformationRow } from '../components/InformationRow'
 import { AttributeSection } from '../components/AttributeSection'
 import StyledSection from '../components/Shared/StyledSection'
-import {
-  Box,
-  Chip,
-  Divider,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Stack,
-  Typography,
-} from '@mui/material'
+import { Box, Chip, Divider, Grid, Stack, Typography } from '@mui/material'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { formatThousands, secondsToHoursMinutes } from '../lib/format-utils'
 import { downloadFile } from '../lib/file-utils'
@@ -49,6 +38,7 @@ import {
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { useRoute } from '../hooks/useRoute'
 import { buildDynamicRoute } from '../lib/router-utils'
+import { StyledInputControlledSelect } from '../components/Shared/StyledInputControlledSelect'
 
 export function EServiceManage() {
   const { eserviceId, descriptorId } = useParams<{
@@ -368,7 +358,7 @@ function VersionHistorySection({
   const { routes } = useRoute()
   const [selectedDescriptorId, setSelectedDescriptorId] = useState(viewindDescriptorId)
 
-  const handleVersionChange = (e: SelectChangeEvent<string>) => {
+  const handleVersionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedDescriptorId(e.target.value)
   }
 
@@ -386,38 +376,29 @@ function VersionHistorySection({
 
   if (shouldNotRender) return null
 
+  const descriptorsOptions = descriptors.map((descriptor) => ({
+    label: t('historyField.option', { version: descriptor.version }),
+    value: descriptor.id,
+  }))
+
   return (
     <StyledSection>
       <StyledSection.Title>{t('title')}</StyledSection.Title>
       <StyledSection.Content>
         <StyledForm onSubmit={handleSubmit}>
-          <InformationRow
-            label={
-              <InputLabel id="eServiceHistorySelection">
-                <Typography variant="body2">{t('historyField.label')}</Typography>
-              </InputLabel>
-            }
-            rightContent={
-              <StyledButton size="large" variant="outlined" type="submit">
-                {t('submitBtn')}
-              </StyledButton>
-            }
-          >
-            <Select
+          <InformationRow label={t('historyField.title')}>
+            <StyledInputControlledSelect
+              label={t('historyField.label')}
               sx={{ width: '100%' }}
+              emptyLabel=""
               name="eServiceHistorySelection"
-              labelId="eServiceHistorySelection"
-              MenuProps={{ sx: { maxHeight: '160px' } }}
               onChange={handleVersionChange}
               value={selectedDescriptorId}
-            >
-              {descriptors.map((descriptor) => (
-                <MenuItem key={descriptor.id} value={descriptor.id}>
-                  {/* TEMP BACKEND - Add publication date */}
-                  {t('historyField.option', { version: descriptor.version })}
-                </MenuItem>
-              ))}
-            </Select>
+              options={descriptorsOptions}
+            />
+            <StyledButton sx={{ mt: 2 }} size="large" variant="outlined" type="submit">
+              {t('submitBtn')}
+            </StyledButton>
           </InformationRow>
         </StyledForm>
       </StyledSection.Content>
