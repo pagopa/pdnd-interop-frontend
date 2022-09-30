@@ -177,7 +177,7 @@
           "label": "Change version",
           "option": "v{{version}}"
         },
-        "submitBtn": "Go"
+        "submitBtn": "Go to page"
       }
     },
     "verificationRequired": "verification required",

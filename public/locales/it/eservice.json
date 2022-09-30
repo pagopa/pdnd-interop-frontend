@@ -178,7 +178,7 @@
           "label": "Cambia versione",
           "option": "v{{version}}"
         },
-        "submitBtn": "Vai"
+        "submitBtn": "Vai alla scheda"
       }
     },
     "verificationRequired": "verifica richiesta",
