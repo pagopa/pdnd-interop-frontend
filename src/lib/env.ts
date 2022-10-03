@@ -62,4 +62,6 @@ export const AUTHORIZATION_SERVER_ACCESS_TOKEN_URL = getEnvVar(
 export const CLIENT_ASSERTION_JWT_AUDIENCE = isProduction
   ? PAGOPA_ENV.CLIENT_ASSERTION_JWT_AUDIENCE
   : ''
+
 export const M2M_JWT_AUDIENCE = isProduction ? PAGOPA_ENV.M2M_JWT_AUDIENCE : ''
+export const WELL_KNOWN_URL = isProduction ? PAGOPA_ENV.WELL_KNOWN_URL : ''

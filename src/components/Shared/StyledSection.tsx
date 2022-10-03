@@ -39,9 +39,14 @@ StyledSection.Subtitle = function StyledSectionSubtitle({
 
 StyledSection.Content = function StyledSectionContent({
   children,
+  sx,
   ...props
 }: StyledSectionProps & BoxProps) {
-  return <Box {...props}>{children}</Box>
+  return (
+    <Box sx={{ mt: 2, ...sx }} {...props}>
+      {children}
+    </Box>
+  )
 }
 
 export default StyledSection

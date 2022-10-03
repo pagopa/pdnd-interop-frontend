@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler } from 'react'
-import { InputBaseComponentProps, MenuItem, TextField } from '@mui/material'
+import { InputBaseComponentProps, MenuItem, SelectProps, TextField } from '@mui/material'
 import { InputSelectOption } from '../../../types'
 import { StyledInputWrapper } from './StyledInputWrapper'
 import { SxProps } from '@mui/system'
@@ -15,6 +15,7 @@ export type StyledInputControlledSelectProps = {
   infoLabel?: string | JSX.Element
 
   inputProps?: InputBaseComponentProps
+  selectProps?: SelectProps
   focusOnMount?: boolean
   sx?: SxProps
 
@@ -35,6 +36,7 @@ export function StyledInputControlledSelect({
   error,
 
   inputProps,
+  selectProps,
   focusOnMount = false,
   sx,
 
@@ -63,7 +65,7 @@ export function StyledInputControlledSelect({
         error={hasFieldError}
         // The display: 'block' below makes text ellipsis work correctly
         // on the clickable div that opens the select menu
-        SelectProps={{ SelectDisplayProps: { style: { display: 'block' } } }}
+        SelectProps={{ SelectDisplayProps: { style: { display: 'block' } }, ...selectProps }}
         inputProps={inputProps}
         InputLabelProps={{ shrink: true }}
       >

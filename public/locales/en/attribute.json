@@ -6,5 +6,33 @@
     "certified_other": "certified",
     "verified_other": "verified",
     "declared_other": "declared"
+  },
+  "certified": {
+    "label": "Certified Attributes"
+  },
+  "verified": {
+    "label": "Verified Attributes"
+  },
+  "declared": {
+    "label": "Declared Attributes"
+  },
+  "howLink": "How?",
+  "addBtn": "Add new attribute",
+  "createBtn": "Create new attribute",
+  "noAttributesRequiredAlert": "There are no {{attributeKey}} attributes required for this e-service",
+  "disabledAlert": "The insertion of verified and declared attribute is temporarly disabled due to a test on a new feature",
+  "group": {
+    "title": "attribute {{num}}:",
+    "addBtn": "Add",
+    "cancelBtn": "Cancel",
+    "or": "or",
+    "deleteSrLabel": "Delete attribute",
+    "deleteGroupSrLabel": "Delete group attribute",
+    "showInfoSrLabel": "Show attribute info",
+    "canRequireVerification": "For this attribute use the verification made by other providers",
+    "autocompleteInput": {
+      "label": "Add attribute to group",
+      "placeholder": "Insert attribute name"
+    }
   }
 }

@@ -2,6 +2,7 @@
   "loadingSingleLabel": "Stiamo caricando il tuo E-Service",
   "loadingMultiLabel": "Stiamo caricando la lista degli E-Service",
   "noMultiDataLabel": "Non ci sono E-Service disponibili",
+  "backToListBtn": "Torna agli E-Service",
   "create": {
     "emptyTitle": "Crea E-Service",
     "stepper": {
@@ -9,7 +10,6 @@
       "step2Label": "Versione",
       "step3Label": "Documentazione"
     },
-    "backToListBtn": "Torna agli E-Service",
     "backWithoutSaveBtn": "Indietro",
     "forwardWithSaveBtn": "Salva bozza e prosegui",
     "forwardWithoutSaveBtn": "Prosegui",
@@ -29,34 +29,14 @@
       },
       "attributes": {
         "subtitle": "Il Fruitore deve possedere:",
-        "howLink": "Come fare?",
-        "addBtn": "Aggiungi nuovo attributo",
-        "createBtn": "Crea nuovo attributo",
-        "group": {
-          "title": "attributo {{num}}:",
-          "addBtn": "Aggiungi",
-          "cancelBtn": "Annulla",
-          "or": "oppure",
-          "deleteSrLabel": "Elimina attributo",
-          "deleteGroupSrLabel": "Elimina gruppo di attributi",
-          "showInfoSrLabel": "Mostra informazioni attributo",
-          "canRequireVerification": "Per questo attributo sfrutta le verifiche effettuate da altri erogatori",
-          "autocompleteInput": {
-            "label": "Aggiungi attributo al gruppo",
-            "placeholder": "Inserisci nome attributo"
-          }
-        },
         "certified": {
-          "label": "Attributi Certificati",
-          "description": "Certificati da una fonte autoritativa riconosciuta, non necessitano di ulteriori verifiche da parte tua"
+          "description": "Certificati da una fonte autoritativa riconosciuta, non necessitano di ulteriori verifiche da parte tua."
         },
         "verified": {
-          "label": "Attributi Verificati",
-          "description": "Puoi decidere se avvalerti della verifica effettuata da altri enti o effettuarne una nuova indipendentemente"
+          "description": "Puoi decidere se avvalerti della verifica effettuata da altri enti o effettuarne una nuova indipendentemente."
         },
         "declared": {
-          "label": "Attributi Dichiarati",
-          "description": "Il Fruitore dovrà dichiarare sotto la propria responsabilità di possedere questi attributi"
+          "description": "Il Fruitore dovrà dichiarare sotto la propria responsabilità di possedere questi attributi."
         }
       },
       "firstVersionOnlyEditableInfo": "I contenuti di questa pagina non saranno più modificabili dopo la pubblicazione della prima versione dell’E-Service"
@@ -130,6 +110,58 @@
     }
   },
   "contentInfo": {
+    "sections": {
+      "generalInformations": {
+        "title": "Informazioni generali",
+        "technology": "Tecnologia"
+      },
+      "versionInformations": {
+        "title": "Informazioni di versione",
+        "actualVersion": "Stai vedendo la versione",
+        "versionStatus": "Stato della versione",
+        "description": "Descrizione",
+        "audience": "Audience",
+        "audienceDescription": "L’audience che il Fruitore dovrà indicare nel voucher per identificare il servizio",
+        "voucherLifespan": "Durata del voucher",
+        "dailyCallsPerConsumer": "Soglia per Fruitore",
+        "dailyCallsTotal": "Soglia totale",
+        "callsPerDay": "chiamate/giorno",
+
+        "doubtsQuestion": "Hai dubbi sull’implementazione per erogare il tuo e-service?",
+        "doubtsLink": "Consulta la guida"
+      },
+      "download": {
+        "title": "Download"
+      },
+      "voucherVerification": {
+        "title": "Verifica voucher",
+        "description": "Devi verificare un voucher ricevuto da un fruitore? Di seguito i link con le istruzioni necessarie",
+        "howLink": "Come faccio a verificare un voucher?",
+        "wellKnownLink": "URL .well-known"
+      },
+      "attributes": {
+        "subtitle": "Devi possedere:",
+        "certified": {
+          "description": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori certificazioni."
+        },
+        "verified": {
+          "description": "Questi attributi necessitano verifica da parte di almeno un erogatore. Potresti già possederne alcuni (o tutti)."
+        },
+        "declared": {
+          "description": "Devi dichiarare sotto la tua responsabilità di possedere questi attributi."
+        }
+      },
+
+      "versionHistory": {
+        "title": "Storico delle versioni",
+        "historyField": {
+          "title": "Cambia versione",
+          "label": "Seleziona una versione",
+          "option": "v{{version}}"
+        },
+        "submitBtn": "Vai alla scheda"
+      }
+    },
     "verificationRequired": "verifica richiesta",
     "groupOr": "oppure",
     "provider": "Erogatore",
@@ -139,8 +171,8 @@
     "audience": "Audience",
     "technology": "Tecnologia",
     "voucherLifespan": "Durata del voucher",
-    "dailyCallsPerConsumer": "Soglia chiamate API/giorno per Fruitore",
-    "dailyCallsTotal": "Soglia chiamate API/giorno totali",
+    "dailyCallsPerConsumer": "Soglia per Fruitore",
+    "dailyCallsTotal": "Soglia totale",
     "attributes": "Attributi",
     "noAttributesLabel": "Nessun attributo presente",
     "documentation": "Risorse",

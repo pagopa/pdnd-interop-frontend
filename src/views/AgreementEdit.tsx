@@ -113,7 +113,7 @@ export function AgreementEdit() {
               <StyledSection>
                 <StyledSection.Title>{t('edit.generalInformations.title')}</StyledSection.Title>
                 <StyledSection.Content>
-                  <Stack mt={2} spacing={2}>
+                  <Stack spacing={2}>
                     <AttributeGeneralInformation
                       label={t('edit.generalInformations.eserviceField.label')}
                       content={`${agreement.eservice.name} ${t(
@@ -184,7 +184,7 @@ export function AgreementEdit() {
             <StyledSection.Content>
               <StyledInputControlledText
                 disabled
-                sx={{ mb: 0, mt: 3 }}
+                sx={{ mb: 0, mt: 1 }}
                 label={t('edit.providerMessage.field.label')}
                 name="providerMessage"
                 value={providerMessage}
@@ -273,7 +273,7 @@ function DocumentInputSection({ documents, setDocuments }: DocumentInputSectionP
 
   return (
     <>
-      <Stack sx={{ mt: 3 }} spacing={2}>
+      <Stack sx={{ mt: 1 }} spacing={2}>
         {documents.map((document) => (
           <StyledDeleteableDocument
             key={document.id}

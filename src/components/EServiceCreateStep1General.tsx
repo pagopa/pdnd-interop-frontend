@@ -236,7 +236,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
               )}
               <StepActions
                 back={{
-                  label: t('create.backToListBtn'),
+                  label: t('backToListBtn'),
                   type: 'link',
                   to: routes.PROVIDE_ESERVICE_LIST.PATH,
                 }}

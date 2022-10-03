@@ -82,6 +82,13 @@ export function BodyLogger() {
     logAction('Route change', location)
   }, [location])
 
+  /*
+   * Makes sure that the scroll is on top when location changes
+   */
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location.pathname])
+
   return (
     <TableActionMenuContext.Provider value={{ tableActionMenu, setTableActionMenu }}>
       <ToastContext.Provider value={{ toast, setToast }}>

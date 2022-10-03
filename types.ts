@@ -948,6 +948,7 @@ export type PagoPAEnvVars = {
   ONETRUST_DOMAIN_SCRIPT_ID: string
   CLIENT_ASSERTION_JWT_AUDIENCE: string
   M2M_JWT_AUDIENCE: string
+  WELL_KNOWN_URL: string
 }
 export type ExtendedWindow = Window & {
   pagopa_env: PagoPAEnvVars
