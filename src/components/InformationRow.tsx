@@ -20,8 +20,8 @@ export function InformationRow({
         <Typography variant="body2">{label}</Typography>
         {labelDescription && (
           <>
-            <Divider sx={{ my: '3px' }} />
-            <Typography sx={{ fontSize: '0.875rem' }} color="text.secondary" variant="body2">
+            <Divider sx={{ my: 0.5 }} />
+            <Typography color="text.secondary" sx={{ display: 'inline-block' }} variant="caption">
               {labelDescription}
             </Typography>
           </>
