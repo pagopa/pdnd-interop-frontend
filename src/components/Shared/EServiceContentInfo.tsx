@@ -27,7 +27,6 @@ import { AttributeSection } from '../AttributeSection'
 import { CHIP_COLORS_E_SERVICE, eServiceHelpLink, verifyVoucherHelpLink } from '../../lib/constants'
 import { WELL_KNOWN_URL } from '../../lib/env'
 import { AttachFile as AttachFileIcon, Launch as LaunchIcon } from '@mui/icons-material'
-import { ButtonNaked } from '@pagopa/mui-italia'
 
 type EServiceContentInfoProps = {
   data: EServiceReadType
@@ -228,14 +227,15 @@ function DownloadSection({ data }: { data: EServiceReadType }) {
         <Stack spacing={2} alignItems="start">
           {docs.map((doc) => (
             <Stack key={doc.id} spacing={2}>
-              <ButtonNaked
+              <StyledLink
                 onClick={handleDownloadDocument.bind(null, doc)}
-                size="large"
-                color="primary"
-                startIcon={<AttachFileIcon />}
+                component="button"
+                variant="body2"
+                underline="hover"
+                sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
               >
-                {doc.prettyName}
-              </ButtonNaked>
+                <AttachFileIcon sx={{ mr: 1 }} /> {doc.prettyName}
+              </StyledLink>
               {/* TEMP BACKEND - Size data doesn't come from backend (yet) */}
               {/* <Typography fontWeight={600} sx={{ marginLeft: '30px' }}>
                 {(doc.size / 1024).toFixed(2)}&nbsp;KB
