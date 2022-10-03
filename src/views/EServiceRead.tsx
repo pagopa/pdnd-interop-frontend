@@ -15,11 +15,12 @@ import { useLocation } from 'react-router-dom'
 import { NotFound } from './NotFound'
 import { useRoute } from '../hooks/useRoute'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
-import { Alert, Stack } from '@mui/material'
+import { Alert, Box, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { AxiosResponse } from 'axios'
+import { MAX_WIDTH } from '../lib/constants'
 
 export function EServiceRead() {
   const { t } = useTranslation(['eservice', 'common'])
@@ -121,7 +122,7 @@ export function EServiceRead() {
     isVersionPublished && !isMine && canSubscribeEservice && !flatData?.callerSubscribed && isAdmin
 
   return (
-    <React.Fragment>
+    <Box sx={{ maxWidth: MAX_WIDTH }}>
       <Stack direction="row" spacing={2}>
         <StyledIntro sx={{ flex: 1 }} isLoading={isLoading}>
           {{ title: data?.name, description: data?.description }}
@@ -174,6 +175,6 @@ export function EServiceRead() {
       ) : (
         <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
-    </React.Fragment>
+    </Box>
   )
 }
