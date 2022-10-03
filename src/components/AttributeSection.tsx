@@ -38,7 +38,7 @@ export function AttributeSection({
   readOnly = false,
   showDisabledAlert = false,
 }: AttributeSectionProps) {
-  const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.attributes' })
+  const { t } = useTranslation('attribute')
   const { setDialog } = useContext(DialogContext)
   const { runAction } = useFeedback()
 
@@ -193,14 +193,13 @@ export function AttributeSection({
 
           {!showDisabledAlert && attributes.length === 0 && readOnly && (
             <Alert severity="info">
-              Non ci sono attributi dichiarati richiesti per l’iscrizione a questo e-service
+              {t('noAttributesRequiredAlert', { attributeKey: t(`type.${attributeKey}_other`) })}
             </Alert>
           )}
 
           {showDisabledAlert && (
             <Alert severity="warning" sx={{ mb: 1 }}>
-              L&lsquo;inserimento di attributi verificati e dichiarati è temporaneamente
-              disabilitato per un test su una nuova feature
+              {t('disabledAlert')}
             </Alert>
           )}
         </Stack>

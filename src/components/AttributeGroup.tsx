@@ -35,7 +35,7 @@ export function AttributeGroup({
   handleRemoveAttributeFromGroup = noop,
   handleExplicitAttributeVerificationChange = noop,
 }: AttributeGroupProps) {
-  const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.attributes.group' })
+  const { t } = useTranslation('attribute', { keyPrefix: 'group' })
 
   const [isAttributeAutocompleteShown, setIsAttributeAutocompleteShown] = useState(true)
   const hasExplicitAttributeVerification = attributeKey === 'verified'
@@ -127,7 +127,7 @@ function AttributesAutocomplete({
   handleHideAutocomplete,
   onAdd,
 }: AttributesAutocompleteProps) {
-  const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.attributes.group' })
+  const { t } = useTranslation('attribute', { keyPrefix: 'group' })
   const [selected, setSelected] = useState<CatalogAttribute | null>(null)
 
   function checkIsAlreadyInGroup(attribute: CatalogAttribute) {
@@ -194,7 +194,7 @@ type AttributesListProps = {
   onRemove: (attributeId: string) => void
 }
 function AttributesList({ readOnly, attributes, onRemove }: AttributesListProps) {
-  const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.attributes.group' })
+  const { t } = useTranslation('attribute', { keyPrefix: 'group' })
   const { setDialog } = useContext(DialogContext)
 
   const openAttributeDetailsDialog = (attribute: CatalogAttribute) => {
