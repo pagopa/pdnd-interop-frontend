@@ -152,6 +152,7 @@ export function EServiceRead() {
             data={data}
             descriptorId={descriptorId}
             agreementId={isSubscribed ? flatData.callerSubscribed : undefined}
+            context="subscriber"
           />
 
           <PageBottomActions>

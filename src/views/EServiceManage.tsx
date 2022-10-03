@@ -227,7 +227,7 @@ export function EServiceManage() {
       </Stack>
 
       {eserviceData && descriptorId && (
-        <EServiceContentInfo data={eserviceData} descriptorId={descriptorId} />
+        <EServiceContentInfo data={eserviceData} descriptorId={descriptorId} context="provider" />
       )}
 
       <Box sx={{ mt: 4 }}>

@@ -6,6 +6,7 @@ import {
   EServiceDocumentRead,
   EServiceReadType,
   FrontendAttributes,
+  ProviderOrSubscriber,
 } from '../../../types'
 import { RunActionOutput, useFeedback } from '../../hooks/useFeedback'
 import { useRoute } from '../../hooks/useRoute'
@@ -29,12 +30,14 @@ import { WELL_KNOWN_URL } from '../../lib/env'
 import { AttachFile as AttachFileIcon, Launch as LaunchIcon } from '@mui/icons-material'
 
 type EServiceContentInfoProps = {
+  context: ProviderOrSubscriber
   data: EServiceReadType
   descriptorId: string
   agreementId?: string
 }
 
 export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = ({
+  context,
   data,
   descriptorId,
   agreementId,
@@ -52,11 +55,11 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
       <Grid spacing={2} container>
         <Grid item xs={7}>
           <GeneralInfoSection data={data} agreementId={agreementId} />
-          <VersionInfoSection data={data} isCurrentVersion={isCurrentVersion} />
+          <VersionInfoSection data={data} isCurrentVersion={isCurrentVersion} context={context} />
         </Grid>
         <Grid item xs={5}>
           <DownloadSection data={data} />
-          <VoucherVerificationSection />
+          {context === 'provider' && <VoucherVerificationSection />}
         </Grid>
       </Grid>
 
@@ -113,9 +116,11 @@ function GeneralInfoSection({
 function VersionInfoSection({
   data,
   isCurrentVersion,
+  context,
 }: {
   data: EServiceReadType
   isCurrentVersion: boolean
+  context: ProviderOrSubscriber
 }) {
   const { t } = useTranslation('eservice', {
     keyPrefix: 'contentInfo.sections.versionInformations',
@@ -174,14 +179,18 @@ function VersionInfoSection({
             {formatThousands(activeDescriptor.dailyCallsTotal)} {t('callsPerDay')}
           </InformationRow>
 
-          <Divider />
+          {context === 'provider' && (
+            <>
+              <Divider />
 
-          <Typography variant="body2">
-            {t('doubtsQuestion')}{' '}
-            <StyledLink href={eServiceHelpLink} target="_blank">
-              {t('doubtsLink')}
-            </StyledLink>
-          </Typography>
+              <Typography variant="body2">
+                {t('doubtsQuestion')}{' '}
+                <StyledLink href={eServiceHelpLink} target="_blank">
+                  {t('doubtsLink')}
+                </StyledLink>
+              </Typography>
+            </>
+          )}
         </Stack>
       </StyledSection.Content>
     </StyledSection>
