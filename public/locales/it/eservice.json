@@ -113,6 +113,12 @@
     "sections": {
       "generalInformations": {
         "title": "Informazioni generali",
+        "alreadySubscribedField": {
+          "label": "Sei iscritto all'E-Service",
+          "link": {
+            "label": "Vai alla richiesta di fruizione"
+          }
+        },
         "technology": "Tecnologia"
       },
       "versionInformations": {
@@ -199,12 +205,6 @@
       "title": "Richiesta di fruizione",
       "description": "Stai per inoltrare una richiesta di fruizione per l'E-Service {{name}}, versione {{version}}",
       "proceedLabel": "Iscriviti"
-    },
-    "alreadySubscribedField": {
-      "label": "Sei iscritto all'E-Service",
-      "link": {
-        "label": "Vai alla richiesta di fruizione"
-      }
     },
     "alert": {
       "youAreTheProvider": "Non puoi iscriverti a un E-Service di cui sei Erogatore",

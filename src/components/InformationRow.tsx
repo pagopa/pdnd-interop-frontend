@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Typography, Stack, Divider } from '@mui/material'
 
 interface InformationRowProps {
-  label: React.ReactNode | string
+  label: string
   labelDescription?: string
   children: React.ReactNode
   rightContent?: React.ReactNode
@@ -14,6 +14,18 @@ export function InformationRow({
   rightContent,
   children,
 }: InformationRowProps) {
+  /**
+   * If the children passed is a JSX Element, renders the children in a div,
+   * otherwise it's a string and we render it in a p tag.
+   * */
+  let isChildrenAJSXElement = false
+
+  React.Children.forEach(children, (child) => {
+    if (React.isValidElement(child)) {
+      isChildrenAJSXElement = true
+    }
+  })
+
   return (
     <Stack spacing={4} direction="row">
       <Box sx={{ flexShrink: 0, maxWidth: '200px', flex: 1 }}>
@@ -28,7 +40,11 @@ export function InformationRow({
         )}
       </Box>
       <Box sx={{ flex: 1 }}>
-        <Typography component="div" variant="body2" fontWeight={600}>
+        <Typography
+          component={isChildrenAJSXElement ? 'div' : 'p'}
+          variant="body2"
+          fontWeight={600}
+        >
           {children}
         </Typography>
       </Box>

@@ -14,16 +14,13 @@ import {
 import { useLocation } from 'react-router-dom'
 import { NotFound } from './NotFound'
 import { useRoute } from '../hooks/useRoute'
-import { DescriptionBlock } from '../components/DescriptionBlock'
-import { StyledLink } from '../components/Shared/StyledLink'
-import { buildDynamicPath } from '../lib/router-utils'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
-import { Alert } from '@mui/material'
+import { Alert, Box, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
-import { StyledPaper } from '../components/StyledPaper'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { AxiosResponse } from 'axios'
+import { MAX_WIDTH } from '../lib/constants'
 
 export function EServiceRead() {
   const { t } = useTranslation(['eservice', 'common'])
@@ -120,57 +117,45 @@ export function EServiceRead() {
   }
 
   const isLoading = isEServiceLoading || isFlatEServiceLoading
+  const isSubscribed = flatData && flatData.callerSubscribed && isAdmin
+  const canBeSubsribed =
+    isVersionPublished && !isMine && canSubscribeEservice && !flatData?.callerSubscribed && isAdmin
 
   return (
-    <React.Fragment>
-      <StyledIntro isLoading={isLoading}>
-        {{ title: data?.name, description: data?.description }}
-      </StyledIntro>
+    <Box sx={{ maxWidth: MAX_WIDTH }}>
+      <Stack direction="row" spacing={2}>
+        <StyledIntro sx={{ flex: 1 }} isLoading={isLoading}>
+          {{ title: data?.name, description: data?.description }}
+        </StyledIntro>
+        {canBeSubsribed && (
+          <Stack direction="row" alignItems="center" spacing={2}>
+            <StyledButton variant="outlined" onClick={handleSubscriptionDialog}>
+              {t('actions.subscribe', { ns: 'common' })}
+            </StyledButton>
+          </Stack>
+        )}
+      </Stack>
 
-      {data ? (
+      <Stack spacing={2}>
+        {isMine && <Alert severity="info">{t('read.alert.youAreTheProvider')}</Alert>}
+        {!canSubscribeEservice && (
+          <Alert severity="info">{t('read.alert.missingCertifiedAttributes')}</Alert>
+        )}
+        {flatData?.callerSubscribed && (
+          <Alert severity="info">{t('read.alert.alreadySubscribed')}</Alert>
+        )}
+      </Stack>
+
+      {data && descriptorId ? (
         <React.Fragment>
-          <StyledPaper>
-            {flatData && flatData.callerSubscribed && isAdmin && (
-              <DescriptionBlock label={t('read.alreadySubscribedField.label')}>
-                <StyledLink
-                  to={buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_READ.PATH, {
-                    agreementId: flatData.callerSubscribed as string,
-                  })}
-                >
-                  {t('read.alreadySubscribedField.link.label')}
-                </StyledLink>
-              </DescriptionBlock>
-            )}
-            <EServiceContentInfo data={data} />
-
-            {isMine && (
-              <Alert sx={{ mt: 2 }} severity="info">
-                {t('read.alert.youAreTheProvider')}
-              </Alert>
-            )}
-            {!canSubscribeEservice && (
-              <Alert sx={{ mt: 2 }} severity="info">
-                {t('read.alert.missingCertifiedAttributes')}
-              </Alert>
-            )}
-            {flatData?.callerSubscribed && (
-              <Alert sx={{ mt: 2 }} severity="info">
-                {t('read.alert.alreadySubscribed')}
-              </Alert>
-            )}
-          </StyledPaper>
+          <EServiceContentInfo
+            data={data}
+            descriptorId={descriptorId}
+            agreementId={isSubscribed ? flatData.callerSubscribed : undefined}
+            context="subscriber"
+          />
 
           <PageBottomActions>
-            {isVersionPublished &&
-              !isMine &&
-              canSubscribeEservice &&
-              !flatData?.callerSubscribed &&
-              isAdmin && (
-                <StyledButton variant="contained" onClick={handleSubscriptionDialog}>
-                  {t('actions.subscribe', { ns: 'common' })}
-                </StyledButton>
-              )}
-
             {/* TEMP PIN-612 */}
             {/* {!isMine && isAdmin && !canSubscribeEservice && (
           <StyledButton
@@ -191,6 +176,6 @@ export function EServiceRead() {
       ) : (
         <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
-    </React.Fragment>
+    </Box>
   )
 }
