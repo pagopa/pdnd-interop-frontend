@@ -13,7 +13,7 @@ import { decorateEServiceWithActiveDescriptor } from '../lib/eservice-utils'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { NotFound } from './NotFound'
 import { useTranslation } from 'react-i18next'
-import { Box, Stack } from '@mui/material'
+import { Box, Stack, Tab } from '@mui/material'
 import { minutesToSeconds } from '../lib/format-utils'
 import { AxiosResponse } from 'axios'
 import { StyledButton } from '../components/Shared/StyledButton'
@@ -24,6 +24,9 @@ import { buildDynamicPath } from '../lib/router-utils'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { EServiceContentInfo } from '../components/Shared/EServiceContentInfo'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
+import { useActiveTab } from '../hooks/useActiveTab'
+import { TabContext, TabList, TabPanel } from '@mui/lab'
+import { AsyncTablePurposeInEService } from '../components/Shared/AsyncTablePurpose'
 
 export function EServiceManage() {
   const { eserviceId, descriptorId } = useParams<{
@@ -33,7 +36,8 @@ export function EServiceManage() {
   const { t } = useTranslation('eservice')
   const history = useHistory()
   const { routes } = useRoute()
-  const { runAction } = useFeedback()
+  const { runAction, forceRerenderCounter } = useFeedback()
+  const { activeTab, updateActiveTab } = useActiveTab('details')
 
   const {
     data: eserviceData,
@@ -43,7 +47,7 @@ export function EServiceManage() {
     { path: { endpoint: 'ESERVICE_GET_SINGLE', endpointParams: { eserviceId } } },
     {
       mapFn: decorateEServiceWithActiveDescriptor(descriptorId),
-      useEffectDeps: [eserviceId, descriptorId],
+      useEffectDeps: [eserviceId, descriptorId, forceRerenderCounter],
       disabled: !eserviceId || !descriptorId,
     }
   )
@@ -228,7 +232,36 @@ export function EServiceManage() {
       </Stack>
 
       {!isLoading && eserviceData && descriptorId ? (
-        <EServiceContentInfo data={eserviceData} descriptorId={descriptorId} context="provider" />
+        <>
+          <TabContext value={activeTab}>
+            <TabList
+              onChange={updateActiveTab}
+              aria-label={t('manage.tabs.ariaLabel')}
+              variant="fullWidth"
+            >
+              <Tab label={t('manage.tabs.details')} value="details" />
+              <Tab
+                label={t('manage.tabs.purposeAwaitingApproval')}
+                value="purposeAwaitingApproval"
+              />
+            </TabList>
+
+            <TabPanel value="details" sx={{ p: 0 }}>
+              <EServiceContentInfo
+                data={eserviceData}
+                descriptorId={descriptorId}
+                context="provider"
+              />
+            </TabPanel>
+            <TabPanel value="purposeAwaitingApproval" sx={{ px: 0 }}>
+              <AsyncTablePurposeInEService
+                forceRerenderCounter={forceRerenderCounter}
+                runAction={runAction}
+                eserviceId={eserviceId}
+              />
+            </TabPanel>
+          </TabContext>
+        </>
       ) : (
         <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
