@@ -23,6 +23,7 @@ import { useRoute } from '../hooks/useRoute'
 import { buildDynamicPath } from '../lib/router-utils'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 import { EServiceContentInfo } from '../components/Shared/EServiceContentInfo'
+import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 
 export function EServiceManage() {
   const { eserviceId, descriptorId } = useParams<{
@@ -226,8 +227,10 @@ export function EServiceManage() {
         </Stack>
       </Stack>
 
-      {eserviceData && descriptorId && (
+      {!isLoading && eserviceData && descriptorId ? (
         <EServiceContentInfo data={eserviceData} descriptorId={descriptorId} context="provider" />
+      ) : (
+        <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
 
       <Box sx={{ mt: 4 }}>
