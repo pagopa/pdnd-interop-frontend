@@ -57,6 +57,7 @@ export function AttributeGroup({
   const isFullfilled = attributesGroup.attributes.some((att) =>
     ownedAttributesIds?.includes(att.id)
   )
+
   const showConfirmAttributeButton =
     ownedAttributesIds &&
     attributeKey === 'declared' &&
