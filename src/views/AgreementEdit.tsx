@@ -38,6 +38,9 @@ export function AgreementEdit() {
 
   const [documents, setDocuments] = useState<Array<EServiceDocumentRead>>([])
   const [providerMessage, setProviderMessage] = React.useState('')
+  const [mockedOwnedDeclaredAttributesIds, setMockedOwnedDeclaredAttributesIds] = React.useState<
+    Array<string>
+  >([])
 
   const { jwt } = useJwt()
   const { agreementId } = useParams<{ agreementId: string }>()
@@ -99,9 +102,9 @@ export function AgreementEdit() {
     history.push(routes.SUBSCRIBE_AGREEMENT_LIST.PATH)
   }
 
-  function handleConfirmDeclaredAttribute(attributeId: string) {
+  async function handleConfirmDeclaredAttribute(attributeId: string) {
     // TEMP BACKEND - Mock
-    runAction(
+    await runAction(
       {
         path: {
           endpoint: 'ATTRIBUTE_CONFIRM_DECLARED',
@@ -112,6 +115,8 @@ export function AgreementEdit() {
       },
       { showConfirmDialog: true }
     )
+
+    setMockedOwnedDeclaredAttributesIds((prev) => [...prev, attributeId])
   }
 
   function handleSaveDraft() {
@@ -199,7 +204,7 @@ export function AgreementEdit() {
                 attributesSubtitle={t('edit.attribute.subtitle')}
                 attributes={frontendAttributes.declared}
                 handleConfirmDeclaredAttribute={handleConfirmDeclaredAttribute}
-                ownedAttributesIds={[]}
+                ownedAttributesIds={mockedOwnedDeclaredAttributesIds}
                 readOnly
               />
             </>
