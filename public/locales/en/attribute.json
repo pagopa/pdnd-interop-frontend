@@ -19,6 +19,7 @@
   "howLink": "How?",
   "addBtn": "Add new attribute",
   "createBtn": "Create new attribute",
+  "confirmDeclaredAttributeBtn": "Confirm",
   "noAttributesRequiredAlert": "There are no {{attributeKey}} attributes required for this e-service",
   "disabledAlert": "The insertion of verified and declared attribute is temporarly disabled due to a test on a new feature",
   "group": {

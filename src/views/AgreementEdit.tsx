@@ -43,7 +43,7 @@ export function AgreementEdit() {
   const { agreementId } = useParams<{ agreementId: string }>()
   const history = useHistory()
   const { routes } = useRoute()
-  const { runAction } = useFeedback()
+  const { runAction, forceRerenderCounter } = useFeedback()
 
   const {
     data: agreement,
@@ -77,7 +77,7 @@ export function AgreementEdit() {
         endpointParams: { institutionId: jwt?.organization.id },
       },
     },
-    { mapFn: (data) => data.attributes.map((att) => att.id) }
+    { mapFn: (data) => data.attributes.map((att) => att.id), useEffectDeps: [forceRerenderCounter] }
   )
 
   if (agreementError) {
@@ -97,6 +97,11 @@ export function AgreementEdit() {
 
   function handleGoBackToRequestsList() {
     history.push(routes.SUBSCRIBE_AGREEMENT_LIST.PATH)
+  }
+
+  function handleConfirmDeclaredAttribute(attributeId: string) {
+    //runAction
+    console.log(attributeId)
   }
 
   function handleSaveDraft() {
@@ -183,6 +188,7 @@ export function AgreementEdit() {
                 description={t('edit.attribute.declared.description')}
                 attributesSubtitle={t('edit.attribute.subtitle')}
                 attributes={frontendAttributes.declared}
+                handleConfirmDeclaredAttribute={handleConfirmDeclaredAttribute}
                 ownedAttributesIds={[]}
                 readOnly
               />

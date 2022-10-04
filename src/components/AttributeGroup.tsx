@@ -32,6 +32,7 @@ type AttributeGroupProps = {
     groupIndex: number,
     e: React.ChangeEvent<HTMLInputElement>
   ) => void
+  handleConfirmDeclaredAttribute?: (attributeId: string) => void
 }
 
 export function AttributeGroup({
@@ -45,6 +46,7 @@ export function AttributeGroup({
   handleAddAttributeToGroup = noop,
   handleRemoveAttributeFromGroup = noop,
   handleExplicitAttributeVerificationChange = noop,
+  handleConfirmDeclaredAttribute,
 }: AttributeGroupProps) {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
 
@@ -52,6 +54,14 @@ export function AttributeGroup({
   const hasExplicitAttributeVerification = attributeKey === 'verified'
 
   const handleHideAutocomplete = () => setIsAttributeAutocompleteShown(false)
+  const isFullfilled = attributesGroup.attributes.some((att) =>
+    ownedAttributesIds?.includes(att.id)
+  )
+  const showConfirmAttributeButton =
+    ownedAttributesIds &&
+    attributeKey === 'declared' &&
+    !isFullfilled &&
+    handleConfirmDeclaredAttribute
 
   return (
     <Box sx={{ border: 1, borderColor: 'background.default', borderRadius: 1 }}>
@@ -63,11 +73,7 @@ export function AttributeGroup({
       >
         <Typography variant="subtitle1">{t('title', { num: index + 1 })}</Typography>
         {ownedAttributesIds && (
-          <AttributeGroupStatusChip
-            attributeKey={attributeKey}
-            attributes={attributesGroup.attributes}
-            ownedAttributesIds={ownedAttributesIds}
-          />
+          <AttributeGroupStatusChip attributeKey={attributeKey} isFullfilled={isFullfilled} />
         )}
 
         {!readOnly && (
@@ -86,6 +92,9 @@ export function AttributeGroup({
           readOnly={readOnly}
           attributes={attributesGroup.attributes}
           ownedAttributesIds={ownedAttributesIds}
+          onConfirmDeclaredAttribute={
+            showConfirmAttributeButton ? handleConfirmDeclaredAttribute : undefined
+          }
           onRemove={handleRemoveAttributeFromGroup.bind(null, index)}
         />
 
@@ -212,12 +221,14 @@ type AttributesListProps = {
   readOnly: boolean
   attributes: Array<CatalogAttribute>
   ownedAttributesIds?: Array<string>
+  onConfirmDeclaredAttribute?: (attributeId: string) => void
   onRemove: (attributeId: string) => void
 }
 function AttributesList({
   readOnly,
   attributes,
   ownedAttributesIds,
+  onConfirmDeclaredAttribute,
   onRemove,
 }: AttributesListProps) {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
@@ -248,6 +259,14 @@ function AttributesList({
         </Typography>
         <Stack sx={{ flexShrink: 0 }} direction="row" spacing={2}>
           {isOwned && <Check color="success" fontSize="small" />}
+          {onConfirmDeclaredAttribute && (
+            <ButtonNaked
+              onClick={onConfirmDeclaredAttribute.bind(null, attribute.id)}
+              color="primary"
+            >
+              {t('confirmDeclaredAttributeBtn')}
+            </ButtonNaked>
+          )}
           <ButtonNaked
             onClick={openAttributeDetailsDialog.bind(null, attribute)}
             aria-label={t('showInfoSrLabel')}
@@ -294,20 +313,13 @@ function AttributesList({
 
 type AttributeGroupStatusChipProps = {
   attributeKey: AttributeKey
-  attributes: Array<CatalogAttribute>
-  ownedAttributesIds: Array<string>
+  isFullfilled: boolean
 }
 
-function AttributeGroupStatusChip({
-  attributeKey,
-  attributes,
-  ownedAttributesIds,
-}: AttributeGroupStatusChipProps) {
+function AttributeGroupStatusChip({ attributeKey, isFullfilled }: AttributeGroupStatusChipProps) {
   const { t } = useTranslation('attribute', { keyPrefix: `group.statusChip.${attributeKey}` })
 
   function getChipProps(): Partial<ChipProps> {
-    const isFullfilled = attributes.some((att) => ownedAttributesIds?.includes(att.id))
-
     if (isFullfilled) {
       return {
         color: 'success',

@@ -25,6 +25,7 @@ type AttributeSectionProps = {
   attributesSubtitle: string
   attributes: Array<FrontendAttribute>
   ownedAttributesIds?: Array<string>
+  handleConfirmDeclaredAttribute?: (attributeId: string) => void
   setAttributes?: React.Dispatch<React.SetStateAction<FrontendAttributes>>
   readOnly?: boolean
   showDisabledAlert?: boolean
@@ -36,6 +37,7 @@ export function AttributeSection({
   attributesSubtitle,
   attributes,
   ownedAttributesIds,
+  handleConfirmDeclaredAttribute,
   setAttributes = noop,
   readOnly = false,
   showDisabledAlert = false,
@@ -163,6 +165,7 @@ export function AttributeSection({
                     handleExplicitAttributeVerificationChange={
                       handleExplicitAttributeVerificationChange
                     }
+                    handleConfirmDeclaredAttribute={handleConfirmDeclaredAttribute}
                   />
                 ))}
               </Stack>
