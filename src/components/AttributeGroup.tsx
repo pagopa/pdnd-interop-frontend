@@ -1,10 +1,19 @@
 import React, { useContext, useState } from 'react'
-import { Box, Divider, FormControlLabel, Stack, Switch, Typography } from '@mui/material'
+import {
+  Box,
+  Chip,
+  ChipProps,
+  Divider,
+  FormControlLabel,
+  Stack,
+  Switch,
+  Typography,
+} from '@mui/material'
 import { AttributeKey, CatalogAttribute, FrontendAttribute } from '../../types'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledInputControlledAsyncAutocomplete } from './Shared/StyledInputControlledAsyncAutocomplete'
 import { ButtonNaked } from '@pagopa/mui-italia'
-import { Add, DeleteOutline, InfoRounded } from '@mui/icons-material'
+import { Add, DeleteOutline, InfoRounded, Check } from '@mui/icons-material'
 import { DialogContext } from '../lib/context'
 import { useTranslation } from 'react-i18next'
 import noop from 'lodash/noop'
@@ -14,6 +23,7 @@ type AttributeGroupProps = {
   readOnly: boolean
   attributesGroup: FrontendAttribute
   attributeKey: AttributeKey
+  ownedAttributesIds?: Array<string>
   alreadySelectedAttributesIds?: Array<string>
   handleRemoveAttributesGroup?: (groupIndex: number) => void
   handleAddAttributeToGroup?: (groupIndex: number, attribute: CatalogAttribute) => void
@@ -29,6 +39,7 @@ export function AttributeGroup({
   readOnly,
   attributesGroup,
   attributeKey,
+  ownedAttributesIds,
   alreadySelectedAttributesIds = [],
   handleRemoveAttributesGroup = noop,
   handleAddAttributeToGroup = noop,
@@ -51,6 +62,14 @@ export function AttributeGroup({
         sx={{ p: 1.5, backgroundColor: 'background.default' }}
       >
         <Typography variant="subtitle1">{t('title', { num: index + 1 })}</Typography>
+        {ownedAttributesIds && (
+          <AttributeGroupStatusChip
+            attributeKey={attributeKey}
+            attributes={attributesGroup.attributes}
+            ownedAttributesIds={ownedAttributesIds}
+          />
+        )}
+
         {!readOnly && (
           <ButtonNaked>
             <DeleteOutline
@@ -66,6 +85,7 @@ export function AttributeGroup({
         <AttributesList
           readOnly={readOnly}
           attributes={attributesGroup.attributes}
+          ownedAttributesIds={ownedAttributesIds}
           onRemove={handleRemoveAttributeFromGroup.bind(null, index)}
         />
 
@@ -191,9 +211,15 @@ function AttributesAutocomplete({
 type AttributesListProps = {
   readOnly: boolean
   attributes: Array<CatalogAttribute>
+  ownedAttributesIds?: Array<string>
   onRemove: (attributeId: string) => void
 }
-function AttributesList({ readOnly, attributes, onRemove }: AttributesListProps) {
+function AttributesList({
+  readOnly,
+  attributes,
+  ownedAttributesIds,
+  onRemove,
+}: AttributesListProps) {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
   const { setDialog } = useContext(DialogContext)
 
@@ -207,47 +233,93 @@ function AttributesList({ readOnly, attributes, onRemove }: AttributesListProps)
 
   if (attributes.length === 0) return null
 
+  function AttributeItem({
+    attribute,
+    shouldShowOrLabel,
+  }: {
+    attribute: CatalogAttribute
+    shouldShowOrLabel: boolean
+  }) {
+    const isOwned = ownedAttributesIds?.includes(attribute.id)
+    return (
+      <Stack direction="row" alignItems="center" spacing={2}>
+        <Typography sx={{ flex: 1 }} variant="body2">
+          {attribute.name}
+        </Typography>
+        <Stack sx={{ flexShrink: 0 }} direction="row" spacing={2}>
+          {isOwned && <Check color="success" fontSize="small" />}
+          <ButtonNaked
+            onClick={openAttributeDetailsDialog.bind(null, attribute)}
+            aria-label={t('showInfoSrLabel')}
+          >
+            <InfoRounded fontSize="small" color="primary" />
+          </ButtonNaked>
+          {!readOnly && (
+            <ButtonNaked
+              onClick={onRemove.bind(null, attribute.id)}
+              aria-label={t('deleteSrLabel')}
+            >
+              <DeleteOutline fontSize="small" color="error" />
+            </ButtonNaked>
+          )}
+        </Stack>
+        <Typography
+          component="span"
+          sx={{
+            flexShrink: 0,
+            visibility: shouldShowOrLabel ? 'hidden' : 'visible',
+          }}
+          variant="body2"
+          fontStyle="italic"
+        >
+          {t('or')}
+        </Typography>
+      </Stack>
+    )
+  }
+
   return (
     <Stack sx={{ listStyle: 'none', pl: 0, my: 3 }} component="ul" spacing={2}>
       {attributes.map((attribute, i) => {
-        const shouldNotShowOppure = attributes.length === 1 || i === attributes.length - 1
+        const shouldShowOrLabel = attributes.length === 1 || i === attributes.length - 1
         return (
           <li key={attribute.id}>
-            <Stack direction="row" alignItems="center" spacing={2}>
-              <Typography sx={{ flex: 1 }} variant="body2">
-                {attribute.name}
-              </Typography>
-              <Stack sx={{ flexShrink: 0 }} direction="row" spacing={1}>
-                <ButtonNaked
-                  onClick={openAttributeDetailsDialog.bind(null, attribute)}
-                  aria-label={t('showInfoSrLabel')}
-                >
-                  <InfoRounded fontSize="small" color="primary" />
-                </ButtonNaked>
-                {!readOnly && (
-                  <ButtonNaked
-                    onClick={onRemove.bind(null, attribute.id)}
-                    aria-label={t('deleteSrLabel')}
-                  >
-                    <DeleteOutline fontSize="small" color="error" />
-                  </ButtonNaked>
-                )}
-              </Stack>
-              <Typography
-                component="span"
-                sx={{
-                  flexShrink: 0,
-                  visibility: shouldNotShowOppure ? 'hidden' : 'visible',
-                }}
-                variant="body2"
-                fontStyle="italic"
-              >
-                {t('or')}
-              </Typography>
-            </Stack>
+            <AttributeItem attribute={attribute} shouldShowOrLabel={shouldShowOrLabel} />
           </li>
         )
       })}
     </Stack>
   )
+}
+
+type AttributeGroupStatusChipProps = {
+  attributeKey: AttributeKey
+  attributes: Array<CatalogAttribute>
+  ownedAttributesIds: Array<string>
+}
+
+function AttributeGroupStatusChip({
+  attributeKey,
+  attributes,
+  ownedAttributesIds,
+}: AttributeGroupStatusChipProps) {
+  const { t } = useTranslation('attribute', { keyPrefix: `group.statusChip.${attributeKey}` })
+
+  function getChipProps(): Partial<ChipProps> {
+    const isFullfilled = attributes.some((att) => ownedAttributesIds?.includes(att.id))
+
+    if (isFullfilled) {
+      return {
+        color: 'success',
+        label: t('fullfilledLabel'),
+      }
+    }
+
+    return {
+      color: 'warning',
+      label: t('unfullfilledLabel'),
+    }
+  }
+
+  return <Chip size="small" {...getChipProps()} />
 }

@@ -7,6 +7,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import { mixed, object, string } from 'yup'
 import {
   AgreementSummary,
+  CertifiedAttribute,
   EServiceDocumentRead,
   EServiceReadType,
   FrontendAttributes,
@@ -25,6 +26,7 @@ import { StyledLink } from '../components/Shared/StyledLink'
 import StyledSection from '../components/Shared/StyledSection'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
+import { useJwt } from '../hooks/useJwt'
 import { useRoute } from '../hooks/useRoute'
 import { remapBackendAttributesToFrontend } from '../lib/attributes'
 import { CHIP_COLORS_AGREEMENT, MAX_WIDTH } from '../lib/constants'
@@ -37,6 +39,7 @@ export function AgreementEdit() {
   const [documents, setDocuments] = useState<Array<EServiceDocumentRead>>([])
   const [providerMessage, setProviderMessage] = React.useState('')
 
+  const { jwt } = useJwt()
   const { agreementId } = useParams<{ agreementId: string }>()
   const history = useHistory()
   const { routes } = useRoute()
@@ -62,6 +65,19 @@ export function AgreementEdit() {
       useEffectDeps: [agreement],
       disabled: !agreement?.eservice.id,
     }
+  )
+
+  const { data: ownedCertifiedAttributesIds } = useAsyncFetch<
+    { attributes: Array<CertifiedAttribute> },
+    Array<string>
+  >(
+    {
+      path: {
+        endpoint: 'ATTRIBUTE_GET_CERTIFIED_LIST',
+        endpointParams: { institutionId: jwt?.organization.id },
+      },
+    },
+    { mapFn: (data) => data.attributes.map((att) => att.id) }
   )
 
   if (agreementError) {
@@ -151,6 +167,7 @@ export function AgreementEdit() {
                 description={t('edit.attribute.certified.description')}
                 attributesSubtitle={t('edit.attribute.subtitle')}
                 attributes={frontendAttributes.certified}
+                ownedAttributesIds={ownedCertifiedAttributesIds}
                 readOnly
               />
               <AttributeSection
@@ -158,6 +175,7 @@ export function AgreementEdit() {
                 description={t('edit.attribute.verified.description')}
                 attributesSubtitle={t('edit.attribute.subtitle')}
                 attributes={frontendAttributes.verified}
+                ownedAttributesIds={[]}
                 readOnly
               />
               <AttributeSection
@@ -165,6 +183,7 @@ export function AgreementEdit() {
                 description={t('edit.attribute.declared.description')}
                 attributesSubtitle={t('edit.attribute.subtitle')}
                 attributes={frontendAttributes.declared}
+                ownedAttributesIds={[]}
                 readOnly
               />
             </>

@@ -24,6 +24,7 @@ type AttributeSectionProps = {
   description: string
   attributesSubtitle: string
   attributes: Array<FrontendAttribute>
+  ownedAttributesIds?: Array<string>
   setAttributes?: React.Dispatch<React.SetStateAction<FrontendAttributes>>
   readOnly?: boolean
   showDisabledAlert?: boolean
@@ -34,6 +35,7 @@ export function AttributeSection({
   description,
   attributesSubtitle,
   attributes,
+  ownedAttributesIds,
   setAttributes = noop,
   readOnly = false,
   showDisabledAlert = false,
@@ -153,6 +155,7 @@ export function AttributeSection({
                     readOnly={readOnly}
                     attributesGroup={attributesGroup}
                     attributeKey={attributeKey}
+                    ownedAttributesIds={ownedAttributesIds}
                     alreadySelectedAttributesIds={alreadySelectedAttributesIds}
                     handleRemoveAttributesGroup={handleRemoveAttributesGroup}
                     handleAddAttributeToGroup={handleAddAttributeToGroup}
