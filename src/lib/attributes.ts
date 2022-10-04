@@ -3,6 +3,7 @@ import {
   BackendAttribute,
   BackendAttributes,
   CertifiedAttribute,
+  FrontendAttribute,
   FrontendAttributes,
   GroupBackendAttribute,
   SingleBackendAttribute,
@@ -78,4 +79,14 @@ export function canSubscribe(
   })
 
   return hasAllAttributes
+}
+
+export function checkOwnershipFrontendAttributes(
+  attributes: Array<FrontendAttribute>,
+  ownedAttributesIds: Array<string>
+) {
+  function checkIfGroupHasOwnedAttribute(attributeGroup: FrontendAttribute) {
+    return attributeGroup.attributes.some((att) => ownedAttributesIds.includes(att.id))
+  }
+  return attributes.every(checkIfGroupHasOwnedAttribute)
 }

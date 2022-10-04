@@ -28,7 +28,10 @@ import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
 import { useJwt } from '../hooks/useJwt'
 import { useRoute } from '../hooks/useRoute'
-import { remapBackendAttributesToFrontend } from '../lib/attributes'
+import {
+  checkOwnershipFrontendAttributes,
+  remapBackendAttributesToFrontend,
+} from '../lib/attributes'
 import { CHIP_COLORS_AGREEMENT, MAX_WIDTH } from '../lib/constants'
 import { buildDynamicPath } from '../lib/router-utils'
 import { NotFound } from './NotFound'
@@ -136,6 +139,15 @@ export function AgreementEdit() {
         },
       },
       { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
+    )
+  }
+
+  let isSubmitAgreementButtonDisabled = true
+
+  if (frontendAttributes && ownedCertifiedAttributesIds) {
+    isSubmitAgreementButtonDisabled = !checkOwnershipFrontendAttributes(
+      [...frontendAttributes.certified, ...frontendAttributes.declared],
+      [...ownedCertifiedAttributesIds, ...mockedOwnedDeclaredAttributesIds]
     )
   }
 
@@ -254,7 +266,11 @@ export function AgreementEdit() {
                 <StyledButton disabled onClick={handleDeleteDraft} variant="outlined">
                   {t('edit.bottomPageActionCard.cancelBtn')}
                 </StyledButton>
-                <StyledButton onClick={handleSendAgreementRequest} variant="contained">
+                <StyledButton
+                  disabled={isSubmitAgreementButtonDisabled}
+                  onClick={handleSendAgreementRequest}
+                  variant="contained"
+                >
                   {t('edit.bottomPageActionCard.submitBtn')}
                 </StyledButton>
               </PageBottomActionsCard>
