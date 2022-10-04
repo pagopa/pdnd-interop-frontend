@@ -346,5 +346,14 @@
   },
   "KEY_DOWNLOAD": {
     "loadingText": "Downloading key"
+  },
+  "ATTRIBUTE_CONFIRM_DECLARED": {
+    "loadingText": "Confirming declared attribute",
+    "success": {
+      "message": "Declared attribute confirmed successfully."
+    },
+    "error": {
+      "message": "The declared attribute could not be confirmed. Please, try again!"
+    }
   }
 }

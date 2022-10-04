@@ -100,8 +100,18 @@ export function AgreementEdit() {
   }
 
   function handleConfirmDeclaredAttribute(attributeId: string) {
-    //runAction
-    console.log(attributeId)
+    // TEMP BACKEND - Mock
+    runAction(
+      {
+        path: {
+          endpoint: 'ATTRIBUTE_CONFIRM_DECLARED',
+          endpointParams: {
+            attributeId,
+          },
+        },
+      },
+      { showConfirmDialog: true }
+    )
   }
 
   function handleSaveDraft() {
