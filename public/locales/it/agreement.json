@@ -50,54 +50,27 @@
         "docLabel": "Richiesta di fruizione"
       }
     },
-    "eserviceField": {
-      "label": "Richiesta relativa a",
-      "versionLabel": "versione"
+    "consumerMessage": {
+      "title": "messaggio per l’erogatore",
+      "subtitle": "Se ci sono gruppi di attributi contraddistinti da “oppure”, indica in questo messaggio quale tra quelli ti aspetti venga riconosciuto, in base alla documentazione che hai caricato. Inserisci eventuali altre note utili"
     },
-    "upgradeField": {
-      "link": {
-        "label": "Versione più recente disponibile"
+    "attributes": {
+      "howLink": "Come funziona?",
+      "certified": {
+        "title": "Attributi certificati",
+        "subtitle": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori certificazioni.",
+        "emptyLabel": "Nessun attributo certificato presentato"
       },
-      "message": "Per attivarla, aggiorna la richiesta di fruizione"
-    },
-    "subscriberField": {
-      "label": "Fruitore"
-    },
-    "providerField": {
-      "label": "Erogatore"
-    },
-    "requestStatusField": {
-      "label": "Stato della richiesta",
-      "agreementSuspendedMessage": "La richiesta può essere sospesa sia dall'Erogatore che dal Fruitore. Se almeno uno dei due attori la sospende, inibirà l'accesso all'E-Service per tutte le finalità associate all'E-Service dal Fruitore",
-      "suspendedByProvider": "sospeso dall'erogatore",
-      "suspendedBySubscriber": "sospeso dal fruitore"
-    },
-    "certifiedAttributesField": {
-      "label": "Attributi certificati",
-      "noDataLabel": "Per questo E-Service non sono richiesti attributi certificati"
-    },
-    "verifiedAttributesField": {
-      "label": "Attributi verificati",
-      "noDataLabel": "Per questo E-Service non sono richiesti attributi verificati"
-    },
-    "attribute": {
-      "status": {
-        "newlyVerified": "verificato",
-        "verifiedByAnotherParty": "verificato da terzi",
-        "refused": "rifiutato",
-        "pending": "in attesa di approvazione"
+      "verified": {
+        "title": "Attributi verificati",
+        "subtitle": "Questi attributi necessitano di verifica da parte di almeno un erogatore. Potresti già possederne alcuni (o tutti).",
+        "emptyLabel": "Nessun attributo verificato presentato"
       },
-      "verificationDateField": {
-        "label": "Data di verifica"
-      },
-      "descriptionField": {
-        "label": "Descrizione"
-      },
-      "groupMessage": "l’intero gruppo seguente è verificato se lo è almeno uno degli attributi che lo compongono"
-    },
-    "noPurposeLabel": "Non ci sono finalità per questa richiesta di fruizione",
-    "noPurposeLink": {
-      "label": "Crea la prima"
+      "declared": {
+        "title": "Attributi dichiarati",
+        "subtitle": "Devi dichiarare sotto la tua responsabilità di possedere questi attributi. Potresti già possederne alcuni (o tutti).",
+        "emptyLabel": "Nessun attributo dichiarato presentato"
+      }
     }
   },
   "edit": {

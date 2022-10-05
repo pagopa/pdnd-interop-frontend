@@ -1,22 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useLocation } from 'react-router-dom'
 import {
   AgreementState,
   AgreementSummary,
   ActionProps,
   ProviderOrSubscriber,
-  Purpose,
   EServiceReadType,
-  BackendAttributeContent,
-  BackendAttribute,
-  MUIColor,
+  CertifiedAttribute,
+  VerifiedAttribute,
+  DeclaredAttribute,
 } from '../../types'
 import { buildDynamicPath, getLastBit } from '../lib/router-utils'
 import { getLatestActiveVersion, mergeActions } from '../lib/eservice-utils'
 import { useMode } from '../hooks/useMode'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { DescriptionBlock } from '../components/DescriptionBlock'
 import { getAgreementState } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
@@ -26,26 +24,20 @@ import {
   Launch as LaunchIcon,
   Link as LinkIcon,
   AttachFile as AttachFileIcon,
+  InfoRounded as InfoRoundedIcon,
 } from '@mui/icons-material'
 import { useRoute } from '../hooks/useRoute'
-import { InfoMessage } from '../components/Shared/InfoMessage'
-import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { NotFound } from './NotFound'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { Trans, useTranslation } from 'react-i18next'
-import { CHIP_COLORS_AGREEMENT } from '../lib/constants'
-import { StyledPaper } from '../components/StyledPaper'
+import { attributesHelpLink, CHIP_COLORS_AGREEMENT, MAX_WIDTH } from '../lib/constants'
 import { AccordionEntry, StyledAccordion } from '../components/Shared/StyledAccordion'
-import { formatDateString } from '../lib/format-utils'
 import StyledSection from '../components/Shared/StyledSection'
 import { InformationRow } from '../components/InformationRow'
-
-const CHIP_COLOR_ATTRIBUTE: Record<string, MUIColor> = {
-  newlyVerified: 'primary',
-  verifiedByAnotherParty: 'primary',
-  refused: 'error',
-  pending: 'warning',
-}
+import DownloadableDocumentListSection from '../components/Shared/DownloadableDocumentListSection'
+import { DialogContext } from '../lib/context'
+import { ButtonNaked } from '@pagopa/mui-italia'
+import { PageBottomActions } from '../components/Shared/PageBottomActions'
 
 export function AgreementRead() {
   const { t } = useTranslation(['agreement', 'common'])
@@ -77,20 +69,8 @@ export function AgreementRead() {
     { useEffectDeps: [agreement], disabled: !agreement }
   )
 
-  const {
-    data: purposes = [],
-    error: purposesError,
-    isLoading: isLoadingPurposes,
-  } = useAsyncFetch<Array<Purpose>>(
-    {
-      path: { endpoint: 'PURPOSE_GET_LIST' },
-      config: { params: { eserviceId: agreement?.eservice.id } },
-    },
-    { useEffectDeps: [agreement], disabled: !agreement }
-  )
-
-  const error = agreementError || eserviceError || purposesError
-  const isLoading = isLoadingAgreement || isLoadingEService || isLoadingPurposes
+  const error = agreementError || eserviceError
+  const isLoading = isLoadingAgreement || isLoadingEService
 
   /*
    * List of possible actions for the user to perform
@@ -179,7 +159,7 @@ export function AgreementRead() {
   }
 
   const canUpgrade = () => {
-    if (!agreement) return false
+    if (!agreement || mode !== 'subscriber') return false
 
     return (
       agreement.eservice.activeDescriptor &&
@@ -189,325 +169,62 @@ export function AgreementRead() {
     )
   }
 
-  const getSuspendedChips = () => {
-    if (!agreement) return
-
-    const isProviderSuspended = getAgreementState(agreement, 'provider') === 'SUSPENDED'
-    const isSubscriberSuspended = getAgreementState(agreement, 'subscriber') === 'SUSPENDED'
-
-    const chips = []
-    if (isProviderSuspended) {
-      chips.push(
-        <Chip
-          label={t(`read.requestStatusField.suspendedByProvider`)}
-          color={CHIP_COLORS_AGREEMENT[agreement.state]}
-        />
-      )
-    }
-    if (isSubscriberSuspended) {
-      chips.push(
-        <Chip
-          label={t(`read.requestStatusField.suspendedBySubscriber`)}
-          color={CHIP_COLORS_AGREEMENT[agreement.state]}
-        />
-      )
-    }
-
-    return (
-      <Stack direction="row" spacing={1}>
-        {chips}
-      </Stack>
-    )
-  }
-
   if (error) {
     return <NotFound errorType="serverError" />
   }
 
   return (
-    <React.Fragment>
+    <Box sx={{ maxWidth: MAX_WIDTH }}>
       <StyledIntro isLoading={isLoading}>{{ title: t('read.title') }}</StyledIntro>
-
-      {agreement && !isLoading ? (
-        <React.Fragment>
-          <StyledPaper>
-            <DescriptionBlock label={t('read.eserviceField.label')} sx={{ mt: 0 }}>
-              <StyledLink
-                to={buildDynamicPath(
-                  mode === 'subscriber'
-                    ? routes.SUBSCRIBE_CATALOG_VIEW.PATH
-                    : routes.PROVIDE_ESERVICE_MANAGE.PATH,
-                  { eserviceId: agreement?.eservice.id, descriptorId: agreement?.descriptorId }
-                )}
-              >
-                {agreement.eservice.name}, {t('read.eserviceField.versionLabel')}{' '}
-                {agreement.eservice.version}
-              </StyledLink>
-              {mode === 'subscriber' && canUpgrade() ? (
-                <React.Fragment>
-                  <br />
-                  <StyledLink
-                    to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
-                      eserviceId: agreement?.eservice.id,
-                      descriptorId: agreement?.eservice.activeDescriptor?.id,
-                    })}
-                  >
-                    {t('read.upgradeField.link.label')}
-                  </StyledLink>
-                  . {t('read.upgradeField.message')}
-                </React.Fragment>
-              ) : null}
-            </DescriptionBlock>
-
-            {mode === 'provider' && (
-              <DescriptionBlock label={t('read.subscriberField.label')}>
-                <Typography component="span">{agreement.consumer.name}</Typography>
-              </DescriptionBlock>
-            )}
-
-            {mode === 'subscriber' && (
-              <DescriptionBlock label={t('read.providerField.label')}>
-                <Typography component="span">{agreement.producer.name}</Typography>
-              </DescriptionBlock>
-            )}
-
-            <DescriptionBlock
-              label={t('read.requestStatusField.label')}
-              tooltipLabel={
-                agreement?.state !== 'PENDING'
-                  ? t('read.requestStatusField.agreementSuspendedMessage')
-                  : undefined
-              }
-            >
-              {agreement?.state !== 'SUSPENDED' ? (
-                <Chip
-                  label={t(`status.agreement.${agreement.state}`, { ns: 'common' })}
-                  color={CHIP_COLORS_AGREEMENT[agreement.state]}
-                />
-              ) : (
-                getSuspendedChips()
-              )}
-            </DescriptionBlock>
-
-            <DescriptionBlock label={t('read.certifiedAttributesField.label')}>
-              {eservice && (
-                <CertifiedAttributesList eserviceAttributes={eservice.attributes.certified} />
-              )}
-            </DescriptionBlock>
-
-            <DescriptionBlock label={t('read.verifiedAttributesField.label')}>
-              {eservice && (
-                <VerifiedAttributesList eserviceAttributes={eservice.attributes.verified} />
-              )}
-            </DescriptionBlock>
-
-            {/* <DescriptionBlock label={t('read.declaredAttributesField.label')}>
-              <DeclaredAttributesList attributes={data.declaredAttributes} />
-            </DescriptionBlock> */}
-
-            {mode === 'subscriber' && purposes.length === 0 && (
-              <Alert severity="info">
-                {t('read.noPurposeLabel')}.{' '}
-                <StyledLink to={routes.SUBSCRIBE_PURPOSE_CREATE.PATH}>
-                  {t('read.noPurposeLink.label')}
-                </StyledLink>
-              </Alert>
-            )}
-          </StyledPaper>
-
-          <PageBottomActions>
-            {getAvailableActions().map(({ onClick, label }, i) => (
-              <StyledButton variant={i === 0 ? 'contained' : 'outlined'} key={i} onClick={onClick}>
-                {label}
-              </StyledButton>
-            ))}
-          </PageBottomActions>
-        </React.Fragment>
+      {agreement && eservice && !isLoading ? (
+        <>
+          {canUpgrade() && <UpgradeGuideSection eservice={eservice} agreementId={agreementId} />}
+          <Grid spacing={2} container>
+            <Grid item xs={7}>
+              <GeneralInfoSection eservice={eservice} agreement={agreement} />
+            </Grid>
+            <Grid item xs={5}>
+              <DownloadableDocumentListSection
+                docs={[]}
+                eserviceId={eservice.id}
+                descriptorId={agreement.descriptorId}
+              />
+            </Grid>
+          </Grid>
+          {agreement.consumerNotes && <ConsumerMessageSection message={agreement.consumerNotes} />}
+          {mode === 'subscriber' && (
+            <AgreementAttributeSection
+              attributeKey="certified"
+              attributes={agreement.certifiedAttributes}
+            />
+          )}
+          <AgreementAttributeSection
+            attributeKey="verified"
+            attributes={agreement.verifiedAttributes}
+          />
+          {mode === 'subscriber' && (
+            <AgreementAttributeSection
+              attributeKey="declared"
+              attributes={agreement.declaredAttributes}
+            />
+          )}
+        </>
       ) : (
         <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
       )}
-    </React.Fragment>
-  )
-}
-
-interface CertifiedAttributesListProps {
-  eserviceAttributes: Array<BackendAttribute>
-}
-
-const CertifiedAttributesList: React.FC<CertifiedAttributesListProps> = ({
-  eserviceAttributes,
-}) => {
-  const { t } = useTranslation(['agreement', 'common'])
-
-  const Attributes = () => {
-    return (
-      <Box>
-        {eserviceAttributes.map((backendAttribute, i) => {
-          const attributes: Array<BackendAttributeContent> =
-            'single' in backendAttribute ? [backendAttribute.single] : backendAttribute.group
-          const entries = attributes.map((a) => {
-            return {
-              summary: a.name,
-              details: (
-                <DescriptionBlock label={t('read.attribute.descriptionField.label')} sx={{ mb: 0 }}>
-                  {a.description}
-                </DescriptionBlock>
-              ),
-            }
-          })
-
-          return (
-            <Box key={i} sx={{ mt: 1, mb: 2, borderBottom: 1, borderColor: 'divider' }}>
-              {Boolean(entries.length > 1) && (
-                <InfoMessage sx={{ mb: 2 }} label={t('read.attribute.groupMessage')} />
-              )}
-              <StyledAccordion entries={entries} />
-            </Box>
-          )
-        })}
-      </Box>
-    )
-  }
-
-  return eserviceAttributes.length > 0 ? (
-    <Attributes />
-  ) : (
-    <Typography>{t('read.certifiedAttributesField.noDataLabel')}</Typography>
-  )
-}
-
-interface VerifiedAttributesListProps {
-  eserviceAttributes: Array<BackendAttribute>
-}
-
-const VerifiedAttributesList: React.FC<VerifiedAttributesListProps> = ({ eserviceAttributes }) => {
-  const { t } = useTranslation(['agreement', 'common'])
-  const mode = useMode()
-
-  const checkVerifiedStatus = (
-    verified: boolean | undefined,
-    explicitAttributeVerification: boolean
-  ) => {
-    if (!explicitAttributeVerification) {
-      return 'verifiedByAnotherParty'
-    }
-
-    if (typeof verified === 'undefined') {
-      return 'pending'
-    }
-
-    return verified ? 'newlyVerified' : 'refused'
-  }
-
-  const SubscriberAttributes = () => {
-    return (
-      <Box>
-        {eserviceAttributes.map((backendAttribute, i) => {
-          const attributes: Array<BackendAttributeContent> =
-            'single' in backendAttribute ? [backendAttribute.single] : backendAttribute.group
-          const entries = attributes.map((a) => {
-            const attributeStatus = checkVerifiedStatus(a.verified, a.explicitAttributeVerification)
-
-            return {
-              summary: a.name,
-              summarySecondary: (
-                <Chip
-                  label={t(`read.attribute.status.${attributeStatus}`)}
-                  color={CHIP_COLOR_ATTRIBUTE[attributeStatus]}
-                />
-              ),
-              details: (
-                <React.Fragment>
-                  {a.verificationDate && (
-                    <DescriptionBlock
-                      label={t('read.attribute.verificationDateField.label')}
-                      sx={{ mt: 0 }}
-                    >
-                      {formatDateString(a.verificationDate)}
-                    </DescriptionBlock>
-                  )}
-                  <DescriptionBlock
-                    label={t('read.attribute.descriptionField.label')}
-                    sx={{ mb: 0 }}
-                  >
-                    {a.description}
-                  </DescriptionBlock>
-                </React.Fragment>
-              ),
-            }
-          })
-
-          return (
-            <Box key={i} sx={{ mt: 1, mb: 2, borderBottom: 1, borderColor: 'divider' }}>
-              {Boolean(entries.length > 1) && (
-                <InfoMessage sx={{ mb: 2 }} label={t('read.attribute.groupMessage')} />
-              )}
-              <StyledAccordion entries={entries} />
-            </Box>
-          )
-        })}
-      </Box>
-    )
-  }
-
-  const ProviderAttributes = () => {
-    const wrapVerify = (_: string) => async () => {
-      //
-    }
-
-    return (
-      <Box>
-        {eserviceAttributes.map((backendAttribute, i) => {
-          const attributes: Array<BackendAttributeContent> =
-            'single' in backendAttribute ? [backendAttribute.single] : backendAttribute.group
-
-          return (
-            <Box key={i} sx={{ mb: 4, borderBottom: 1, borderColor: 'divider' }}>
-              {Boolean(attributes.length > 1) && (
-                <InfoMessage sx={{ mb: 2 }} label={t('read.attribute.groupMessage')} />
-              )}
-              {attributes.map((a, i) => {
-                const attributeStatus = checkVerifiedStatus(
-                  a.verified,
-                  a.explicitAttributeVerification
-                )
-                return (
-                  <Grid container key={i} sx={{ mb: 1 }} alignItems="center">
-                    <Grid item xs={4}>
-                      <Typography>{a.name}</Typography>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <Chip
-                        label={t(`read.attribute.status.${attributeStatus}`)}
-                        color={CHIP_COLOR_ATTRIBUTE[attributeStatus]}
-                      />
-                    </Grid>
-                    <Grid item xs={4}>
-                      <Stack direction="row" justifyContent="flex-end">
-                        <StyledButton variant="outlined" size="small" onClick={wrapVerify(a.id)}>
-                          Verifica
-                          {typeof a.verified !== 'undefined' ? ' nuovamente' : ''}
-                        </StyledButton>
-                      </Stack>
-                    </Grid>
-                  </Grid>
-                )
-              })}
-            </Box>
-          )
-        })}
-      </Box>
-    )
-  }
-
-  return eserviceAttributes.length > 0 ? (
-    mode === 'provider' ? (
-      <ProviderAttributes />
-    ) : (
-      <SubscriberAttributes />
-    )
-  ) : (
-    <Typography>{t('read.verifiedAttributesField.noDataLabel')}</Typography>
+      <PageBottomActions>
+        <StyledButton
+          variant="outlined"
+          to={
+            mode === 'provider'
+              ? routes.PROVIDE_AGREEMENT_LIST.PATH
+              : routes.SUBSCRIBE_AGREEMENT_LIST.PATH
+          }
+        >
+          {t('read.actions.backToCatalogLabel')}
+        </StyledButton>
+      </PageBottomActions>
+    </Box>
   )
 }
 
@@ -610,6 +327,7 @@ function GeneralInfoSection({ agreement }: GeneralInfoSectionProps) {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.generalInformations' })
   const { t: tCommon } = useTranslation('common')
   const { routes } = useRoute()
+  const mode = useMode()
 
   function buildEServiceLink() {
     return buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
@@ -670,21 +388,112 @@ function GeneralInfoSection({ agreement }: GeneralInfoSectionProps) {
             {agreement.producer.name}
           </InformationRow>
           <InformationRow label={t('requestStatusField.label')}>{getStatusChips()}</InformationRow>
-          <InformationRow label={t('printableCopyField.label')}>
-            <StyledLink
-              onClick={() => {
-                console.log('d')
-              }}
-              component="button"
-              variant="body2"
-              underline="hover"
-              sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
-            >
-              <AttachFileIcon sx={{ mr: 1 }} /> {t('docLabel')}
-            </StyledLink>
-          </InformationRow>
+          {mode === 'subscriber' && (
+            <InformationRow label={t('printableCopyField.label')}>
+              <StyledLink
+                onClick={() => {
+                  console.log('d')
+                }}
+                component="button"
+                variant="body2"
+                underline="hover"
+                sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+              >
+                <AttachFileIcon sx={{ mr: 1 }} /> {t('docLabel')}
+              </StyledLink>
+            </InformationRow>
+          )}
         </Stack>
       </StyledSection.Content>
+    </StyledSection>
+  )
+}
+
+type ConsumerMessageSectionProps = {
+  message: string
+}
+
+function ConsumerMessageSection({ message }: ConsumerMessageSectionProps) {
+  const { t } = useTranslation('agreement', { keyPrefix: 'read.consumerMessage' })
+  return (
+    <StyledSection>
+      <StyledSection.Title>{t('title')}</StyledSection.Title>
+      <StyledSection.Subtitle>{t('subtitle')}</StyledSection.Subtitle>
+      <StyledSection.Content>
+        <Typography fontWeight={600}>{message}</Typography>
+      </StyledSection.Content>
+    </StyledSection>
+  )
+}
+
+type AgreementAttributeSectionProps =
+  | {
+      attributeKey: 'certified'
+      attributes: Array<CertifiedAttribute>
+    }
+  | {
+      attributeKey: 'verified'
+      attributes: Array<VerifiedAttribute>
+    }
+  | {
+      attributeKey: 'declared'
+      attributes: Array<DeclaredAttribute>
+    }
+
+function AgreementAttributeSection({ attributeKey, attributes }: AgreementAttributeSectionProps) {
+  const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
+  const { setDialog } = useContext(DialogContext)
+
+  const openAttributeDetailsDialog = (attribute: typeof attributes[0]) => {
+    setDialog({
+      type: 'showAttributeDetails',
+      attributeId: attribute.id,
+      name: attribute.name,
+    })
+  }
+
+  function AttributeListItem({ attribute }: { attribute: typeof attributes[0] }) {
+    return (
+      <Stack component="li" direction="row">
+        <Box sx={{ flex: 1 }}>{attribute.name}</Box>
+        <Box sx={{ flexShrink: 0 }}>
+          <ButtonNaked
+            onClick={openAttributeDetailsDialog.bind(null, attribute)}
+            aria-label={t('showInfoSrLabel')}
+          >
+            <InfoRoundedIcon fontSize="small" color="primary" />
+          </ButtonNaked>
+        </Box>
+      </Stack>
+    )
+  }
+
+  let attributesList = null
+
+  if (attributes.length === 0) {
+    attributesList = <Alert severity="info">{t(`${attributeKey}.emptyLabel`)}</Alert>
+  }
+
+  if (attributes.length > 0) {
+    attributesList = (
+      <Stack component="ul">
+        {attributes.map((attribute) => (
+          <AttributeListItem key={attribute.id} attribute={attribute} />
+        ))}
+      </Stack>
+    )
+  }
+
+  return (
+    <StyledSection>
+      <StyledSection.Title>
+        {t(`${attributeKey}.title`)}{' '}
+        <StyledLink component="a" underline="hover" target="_blank" href={attributesHelpLink}>
+          {t('howLink')}
+        </StyledLink>
+      </StyledSection.Title>
+      <StyledSection.Subtitle>{t(`${attributeKey}.subtitle`)}</StyledSection.Subtitle>
+      <StyledSection.Content>{attributesList}</StyledSection.Content>
     </StyledSection>
   )
 }
