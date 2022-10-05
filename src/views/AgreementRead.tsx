@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useLocation } from 'react-router-dom'
 import {
   AgreementState,
@@ -29,9 +29,6 @@ import { NotFound } from './NotFound'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { useTranslation } from 'react-i18next'
 import { CHIP_COLORS_AGREEMENT } from '../lib/constants'
-import { fetchWithLogs } from '../lib/api-utils'
-import { isFetchError } from '../lib/error-utils'
-import { AxiosResponse } from 'axios'
 import { StyledPaper } from '../components/StyledPaper'
 import { StyledAccordion } from '../components/Shared/StyledAccordion'
 import { formatDateString } from '../lib/format-utils'
@@ -47,50 +44,46 @@ export function AgreementRead() {
   const { t } = useTranslation(['agreement', 'common'])
   const { runAction, forceRerenderCounter } = useFeedback()
   const mode = useMode()
-  const [purposes, setPurposes] = useState<Array<Purpose>>([])
-  const [eservice, setEService] = useState<EServiceReadType>()
   const agreementId = getLastBit(useLocation())
   const { routes } = useRoute()
-  const { data, error, isLoading } = useAsyncFetch<AgreementSummary>(
+
+  const {
+    data: agreement,
+    error: agreementError,
+    isLoading: isLoadingAgreement,
+  } = useAsyncFetch<AgreementSummary>(
     { path: { endpoint: 'AGREEMENT_GET_SINGLE', endpointParams: { agreementId } } },
     { useEffectDeps: [forceRerenderCounter, mode] }
   )
 
-  useEffect(() => {
-    async function asyncFetchEService() {
-      const response = await fetchWithLogs({
-        path: {
-          endpoint: 'ESERVICE_GET_SINGLE',
-          endpointParams: { eserviceId: data?.eservice.id },
-        },
-      })
+  const {
+    data: eservice,
+    error: eserviceError,
+    isLoading: isLoadingEService,
+  } = useAsyncFetch<EServiceReadType>(
+    {
+      path: {
+        endpoint: 'ESERVICE_GET_SINGLE',
+        endpointParams: { eserviceId: agreement?.eservice.id },
+      },
+    },
+    { useEffectDeps: [agreement], disabled: !agreement }
+  )
 
-      if (!isFetchError(response)) {
-        setEService((response as AxiosResponse).data)
-      }
-    }
+  const {
+    data: purposes = [],
+    error: purposesError,
+    isLoading: isLoadingPurposes,
+  } = useAsyncFetch<Array<Purpose>>(
+    {
+      path: { endpoint: 'PURPOSE_GET_LIST' },
+      config: { params: { eserviceId: agreement?.eservice.id } },
+    },
+    { useEffectDeps: [agreement], disabled: !agreement }
+  )
 
-    if (data) {
-      asyncFetchEService()
-    }
-  }, [data])
-
-  useEffect(() => {
-    async function asyncFetchPurposes() {
-      const response = await fetchWithLogs({
-        path: { endpoint: 'PURPOSE_GET_LIST' },
-        config: { params: { eserviceId: data?.eservice.id } },
-      })
-
-      if (!isFetchError(response)) {
-        setPurposes((response as AxiosResponse).data.purposes)
-      }
-    }
-
-    if (data) {
-      asyncFetchPurposes()
-    }
-  }, [data])
+  const error = agreementError || eserviceError || purposesError
+  const isLoading = isLoadingAgreement || isLoadingEService || isLoadingPurposes
 
   /*
    * List of possible actions for the user to perform
@@ -132,7 +125,7 @@ export function AgreementRead() {
   type AgreementActions = Record<AgreementState, Array<ActionProps>>
   // Build list of available actions for each agreement in its current state
   const getAvailableActions = () => {
-    if (!data) {
+    if (!agreement) {
       return []
     }
 
@@ -173,34 +166,34 @@ export function AgreementRead() {
       currentMode
     ]
 
-    const status = data ? getAgreementState(data, mode) : 'SUSPENDED'
+    const status = agreement ? getAgreementState(agreement, mode) : 'SUSPENDED'
 
     return mergeActions<AgreementActions>([currentActions, sharedActions], status)
   }
 
   const canUpgrade = () => {
-    if (!data) return false
+    if (!agreement) return false
 
     return (
-      data.eservice.activeDescriptor &&
-      data.eservice.activeDescriptor.state === 'PUBLISHED' &&
-      data.eservice.activeDescriptor.version > data.eservice.version &&
-      data.state !== 'ARCHIVED'
+      agreement.eservice.activeDescriptor &&
+      agreement.eservice.activeDescriptor.state === 'PUBLISHED' &&
+      agreement.eservice.activeDescriptor.version > agreement.eservice.version &&
+      agreement.state !== 'ARCHIVED'
     )
   }
 
   const getSuspendedChips = () => {
-    if (!data) return
+    if (!agreement) return
 
-    const isProviderSuspended = getAgreementState(data, 'provider') === 'SUSPENDED'
-    const isSubscriberSuspended = getAgreementState(data, 'subscriber') === 'SUSPENDED'
+    const isProviderSuspended = getAgreementState(agreement, 'provider') === 'SUSPENDED'
+    const isSubscriberSuspended = getAgreementState(agreement, 'subscriber') === 'SUSPENDED'
 
     const chips = []
     if (isProviderSuspended) {
       chips.push(
         <Chip
           label={t(`read.requestStatusField.suspendedByProvider`)}
-          color={CHIP_COLORS_AGREEMENT[data.state]}
+          color={CHIP_COLORS_AGREEMENT[agreement.state]}
         />
       )
     }
@@ -208,7 +201,7 @@ export function AgreementRead() {
       chips.push(
         <Chip
           label={t(`read.requestStatusField.suspendedBySubscriber`)}
-          color={CHIP_COLORS_AGREEMENT[data.state]}
+          color={CHIP_COLORS_AGREEMENT[agreement.state]}
         />
       )
     }
@@ -228,7 +221,7 @@ export function AgreementRead() {
     <React.Fragment>
       <StyledIntro isLoading={isLoading}>{{ title: t('read.title') }}</StyledIntro>
 
-      {data ? (
+      {agreement && !isLoading ? (
         <React.Fragment>
           <StyledPaper>
             <DescriptionBlock label={t('read.eserviceField.label')} sx={{ mt: 0 }}>
@@ -237,19 +230,19 @@ export function AgreementRead() {
                   mode === 'subscriber'
                     ? routes.SUBSCRIBE_CATALOG_VIEW.PATH
                     : routes.PROVIDE_ESERVICE_MANAGE.PATH,
-                  { eserviceId: data?.eservice.id, descriptorId: data?.descriptorId }
+                  { eserviceId: agreement?.eservice.id, descriptorId: agreement?.descriptorId }
                 )}
               >
-                {data?.eservice.name}, {t('read.eserviceField.versionLabel')}{' '}
-                {data?.eservice.version}
+                {agreement.eservice.name}, {t('read.eserviceField.versionLabel')}{' '}
+                {agreement.eservice.version}
               </StyledLink>
               {mode === 'subscriber' && canUpgrade() ? (
                 <React.Fragment>
                   <br />
                   <StyledLink
                     to={buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
-                      eserviceId: data?.eservice.id,
-                      descriptorId: data?.eservice.activeDescriptor?.id,
+                      eserviceId: agreement?.eservice.id,
+                      descriptorId: agreement?.eservice.activeDescriptor?.id,
                     })}
                   >
                     {t('read.upgradeField.link.label')}
@@ -261,28 +254,28 @@ export function AgreementRead() {
 
             {mode === 'provider' && (
               <DescriptionBlock label={t('read.subscriberField.label')}>
-                <Typography component="span">{data?.consumer.name}</Typography>
+                <Typography component="span">{agreement.consumer.name}</Typography>
               </DescriptionBlock>
             )}
 
             {mode === 'subscriber' && (
               <DescriptionBlock label={t('read.providerField.label')}>
-                <Typography component="span">{data?.producer.name}</Typography>
+                <Typography component="span">{agreement.producer.name}</Typography>
               </DescriptionBlock>
             )}
 
             <DescriptionBlock
               label={t('read.requestStatusField.label')}
               tooltipLabel={
-                data?.state !== 'PENDING'
+                agreement?.state !== 'PENDING'
                   ? t('read.requestStatusField.agreementSuspendedMessage')
                   : undefined
               }
             >
-              {data?.state !== 'SUSPENDED' ? (
+              {agreement?.state !== 'SUSPENDED' ? (
                 <Chip
-                  label={t(`status.agreement.${data.state}`, { ns: 'common' })}
-                  color={CHIP_COLORS_AGREEMENT[data.state]}
+                  label={t(`status.agreement.${agreement.state}`, { ns: 'common' })}
+                  color={CHIP_COLORS_AGREEMENT[agreement.state]}
                 />
               ) : (
                 getSuspendedChips()
