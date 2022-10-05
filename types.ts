@@ -69,6 +69,7 @@ export type ApiEndpointKey =
   | 'OPERATOR_SECURITY_REMOVE_FROM_CLIENT'
   | 'OPERATOR_SECURITY_GET_LIST'
   | 'OPERATOR_SECURITY_GET_KEYS_LIST'
+  | 'ATTRIBUTE_CONFIRM_DECLARED'
 
 export type ApiEndpointContent = {
   URL: string

@@ -78,5 +78,9 @@
   "OPERATOR_SECURITY_REMOVE_FROM_CLIENT": {
     "title": "Confirm operation removal from client",
     "description": "The operator will be removed from this client. The keys uploaded for this client can still be used to access the E-Services the client is related to. You can always remove them manually from the public keys list for this client"
+  },
+  "ATTRIBUTE_CONFIRM_DECLARED": {
+    "title": "Confirm declared attribute",
+    "description": "Do you declare under your responsibility that your institution has this attribute?"
   }
 }

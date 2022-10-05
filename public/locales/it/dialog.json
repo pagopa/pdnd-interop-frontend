@@ -78,5 +78,9 @@
   "OPERATOR_SECURITY_REMOVE_FROM_CLIENT": {
     "title": "Conferma rimozione operatore dal client",
     "description": "L'operatore sarà rimosso da questo client. Le chiavi che ha caricato per questo client rimarranno comunque utilizzabili, a meno che tu non le rimuova manualmente dalla lista di chiavi per questo client"
+  },
+  "ATTRIBUTE_CONFIRM_DECLARED": {
+    "title": "Conferma attributo dichiarato",
+    "description": "Dichiari sotto la tua responsabilità che il tuo ente possiede questo attributo?"
   }
 }

@@ -346,5 +346,14 @@
   },
   "KEY_DOWNLOAD": {
     "loadingText": "Stiamo scaricando la chiave"
+  },
+  "ATTRIBUTE_CONFIRM_DECLARED": {
+    "loadingText": "Stiamo confermando l'attributo dichiarato",
+    "success": {
+      "message": "Attributo dichiarato confermato con successo."
+    },
+    "error": {
+      "message": "Non è stato possibile confermare l'attributo. Per favore, riprova!"
+    }
   }
 }

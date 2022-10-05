@@ -7,6 +7,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import { mixed, object, string } from 'yup'
 import {
   AgreementSummary,
+  CertifiedAttribute,
   EServiceDocumentRead,
   EServiceReadType,
   FrontendAttributes,
@@ -25,8 +26,12 @@ import { StyledLink } from '../components/Shared/StyledLink'
 import StyledSection from '../components/Shared/StyledSection'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
+import { useJwt } from '../hooks/useJwt'
 import { useRoute } from '../hooks/useRoute'
-import { remapBackendAttributesToFrontend } from '../lib/attributes'
+import {
+  checkOwnershipFrontendAttributes,
+  remapBackendAttributesToFrontend,
+} from '../lib/attributes'
 import { CHIP_COLORS_AGREEMENT, MAX_WIDTH } from '../lib/constants'
 import { buildDynamicPath } from '../lib/router-utils'
 import { NotFound } from './NotFound'
@@ -36,11 +41,15 @@ export function AgreementEdit() {
 
   const [documents, setDocuments] = useState<Array<EServiceDocumentRead>>([])
   const [providerMessage, setProviderMessage] = React.useState('')
+  const [mockedOwnedDeclaredAttributesIds, setMockedOwnedDeclaredAttributesIds] = React.useState<
+    Array<string>
+  >([])
 
+  const { jwt } = useJwt()
   const { agreementId } = useParams<{ agreementId: string }>()
   const history = useHistory()
   const { routes } = useRoute()
-  const { runAction } = useFeedback()
+  const { runAction, forceRerenderCounter } = useFeedback()
 
   const {
     data: agreement,
@@ -64,6 +73,19 @@ export function AgreementEdit() {
     }
   )
 
+  const { data: ownedCertifiedAttributesIds } = useAsyncFetch<
+    { attributes: Array<CertifiedAttribute> },
+    Array<string>
+  >(
+    {
+      path: {
+        endpoint: 'ATTRIBUTE_GET_CERTIFIED_LIST',
+        endpointParams: { institutionId: jwt?.organization.id },
+      },
+    },
+    { mapFn: (data) => data.attributes.map((att) => att.id), useEffectDeps: [forceRerenderCounter] }
+  )
+
   if (agreementError) {
     return <NotFound errorType="serverError" />
   }
@@ -83,6 +105,23 @@ export function AgreementEdit() {
     history.push(routes.SUBSCRIBE_AGREEMENT_LIST.PATH)
   }
 
+  async function handleConfirmDeclaredAttribute(attributeId: string) {
+    await runAction(
+      {
+        path: {
+          endpoint: 'ATTRIBUTE_CONFIRM_DECLARED',
+        },
+        config: {
+          data: { id: attributeId },
+        },
+      },
+      { showConfirmDialog: true }
+    )
+
+    // TEMP BACKEND - Mock
+    setMockedOwnedDeclaredAttributesIds((prev) => [...prev, attributeId])
+  }
+
   function handleSaveDraft() {
     // TEMP BACKEND
   }
@@ -100,6 +139,15 @@ export function AgreementEdit() {
         },
       },
       { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
+    )
+  }
+
+  let isSubmitAgreementButtonDisabled = true
+
+  if (frontendAttributes && ownedCertifiedAttributesIds) {
+    isSubmitAgreementButtonDisabled = !checkOwnershipFrontendAttributes(
+      [...frontendAttributes.certified, ...frontendAttributes.declared],
+      [...ownedCertifiedAttributesIds, ...mockedOwnedDeclaredAttributesIds]
     )
   }
 
@@ -151,6 +199,7 @@ export function AgreementEdit() {
                 description={t('edit.attribute.certified.description')}
                 attributesSubtitle={t('edit.attribute.subtitle')}
                 attributes={frontendAttributes.certified}
+                ownedAttributesIds={ownedCertifiedAttributesIds}
                 readOnly
               />
               <AttributeSection
@@ -158,6 +207,7 @@ export function AgreementEdit() {
                 description={t('edit.attribute.verified.description')}
                 attributesSubtitle={t('edit.attribute.subtitle')}
                 attributes={frontendAttributes.verified}
+                ownedAttributesIds={[]}
                 readOnly
               />
               <AttributeSection
@@ -165,6 +215,8 @@ export function AgreementEdit() {
                 description={t('edit.attribute.declared.description')}
                 attributesSubtitle={t('edit.attribute.subtitle')}
                 attributes={frontendAttributes.declared}
+                handleConfirmDeclaredAttribute={handleConfirmDeclaredAttribute}
+                ownedAttributesIds={mockedOwnedDeclaredAttributesIds}
                 readOnly
               />
             </>
@@ -214,7 +266,11 @@ export function AgreementEdit() {
                 <StyledButton disabled onClick={handleDeleteDraft} variant="outlined">
                   {t('edit.bottomPageActionCard.cancelBtn')}
                 </StyledButton>
-                <StyledButton onClick={handleSendAgreementRequest} variant="contained">
+                <StyledButton
+                  disabled={isSubmitAgreementButtonDisabled}
+                  onClick={handleSendAgreementRequest}
+                  variant="contained"
+                >
                   {t('edit.bottomPageActionCard.submitBtn')}
                 </StyledButton>
               </PageBottomActionsCard>

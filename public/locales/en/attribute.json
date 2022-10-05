@@ -25,6 +25,7 @@
     "title": "attribute {{num}}:",
     "addBtn": "Add",
     "cancelBtn": "Cancel",
+    "confirmDeclaredAttributeBtn": "Confirm",
     "or": "or",
     "deleteSrLabel": "Delete attribute",
     "deleteGroupSrLabel": "Delete group attribute",
@@ -33,6 +34,20 @@
     "autocompleteInput": {
       "label": "Add attribute to group",
       "placeholder": "Insert attribute name"
+    },
+    "statusChip": {
+      "certified": {
+        "fullfilledLabel": "certified",
+        "unfullfilledLabel": "not certified"
+      },
+      "verified": {
+        "fullfilledLabel": "verified",
+        "unfullfilledLabel": "to verify"
+      },
+      "declared": {
+        "fullfilledLabel": "declared",
+        "unfullfilledLabel": "pending confirmation"
+      }
     }
   }
 }

@@ -256,4 +256,8 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: `${AUTHORIZATION_PROCESS_URL}/clients/:clientId/operators/:operatorId/keys`,
     METHOD: 'GET',
   },
+  ATTRIBUTE_CONFIRM_DECLARED: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/institutions/attributes/declared`,
+    METHOD: 'POST',
+  },
 }

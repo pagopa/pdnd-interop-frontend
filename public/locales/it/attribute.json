@@ -25,6 +25,7 @@
     "title": "attributo {{num}}:",
     "addBtn": "Aggiungi",
     "cancelBtn": "Annulla",
+    "confirmDeclaredAttributeBtn": "Conferma",
     "or": "oppure",
     "deleteSrLabel": "Elimina attributo",
     "deleteGroupSrLabel": "Elimina gruppo di attributi",
@@ -33,6 +34,20 @@
     "autocompleteInput": {
       "label": "Aggiungi attributo al gruppo",
       "placeholder": "Inserisci nome attributo"
+    },
+    "statusChip": {
+      "certified": {
+        "fullfilledLabel": "certificato",
+        "unfullfilledLabel": "non certificato"
+      },
+      "verified": {
+        "fullfilledLabel": "verificato",
+        "unfullfilledLabel": "da verificare"
+      },
+      "declared": {
+        "fullfilledLabel": "dichiarato",
+        "unfullfilledLabel": "in attesa di conferma"
+      }
     }
   }
 }
