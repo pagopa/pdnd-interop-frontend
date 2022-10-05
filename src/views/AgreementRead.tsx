@@ -12,7 +12,7 @@ import {
   MUIColor,
 } from '../../types'
 import { buildDynamicPath, getLastBit } from '../lib/router-utils'
-import { mergeActions } from '../lib/eservice-utils'
+import { getLatestActiveVersion, mergeActions } from '../lib/eservice-utils'
 import { useMode } from '../hooks/useMode'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -21,17 +21,20 @@ import { getAgreementState } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { Alert, Box, Chip, Grid, Stack, Typography } from '@mui/material'
+import { Alert, Box, Chip, Divider, Grid, Stack, Typography } from '@mui/material'
+import { Launch as LaunchIcon, Link as LinkIcon } from '@mui/icons-material'
 import { useRoute } from '../hooks/useRoute'
 import { InfoMessage } from '../components/Shared/InfoMessage'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { NotFound } from './NotFound'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { CHIP_COLORS_AGREEMENT } from '../lib/constants'
 import { StyledPaper } from '../components/StyledPaper'
-import { StyledAccordion } from '../components/Shared/StyledAccordion'
+import { AccordionEntry, StyledAccordion } from '../components/Shared/StyledAccordion'
 import { formatDateString } from '../lib/format-utils'
+import StyledSection from '../components/Shared/StyledSection'
+import { InformationRow } from '../components/InformationRow'
 
 const CHIP_COLOR_ATTRIBUTE: Record<string, MUIColor> = {
   newlyVerified: 'primary',
@@ -504,33 +507,92 @@ const VerifiedAttributesList: React.FC<VerifiedAttributesListProps> = ({ eservic
   )
 }
 
-/*
-interface DeclaredAttributesListProps {
-  attributes: Array<DeclaredAttribute>
+type UpgradeGuideSectionProps = {
+  eservice: EServiceReadType
+  agreementId: string
 }
 
-const DeclaredAttributesList: React.FC<DeclaredAttributesListProps> = ({ attributes }) => {
-  const { t } = useTranslation(['agreement', 'common'])
+function UpgradeGuideSection({ eservice, agreementId }: UpgradeGuideSectionProps) {
+  const { t } = useTranslation('agreement', { keyPrefix: 'read.updateGuide' })
+  const { runAction } = useFeedback()
+  const { routes } = useRoute()
 
-  if (attributes.length === 0) {
-    return <Typography>{t('read.declaredAttributesField.noDataLabel')}</Typography>
+  const accordionEntries: Array<AccordionEntry> = t('faq', { returnObjects: true })
+  const latestVersion = getLatestActiveVersion(eservice)?.version
+
+  const handleUpgrade = async () => {
+    await runAction(
+      { path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } } },
+      { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST, showConfirmDialog: true }
+    )
   }
 
   return (
-    <Box sx={{ mt: 1, mb: 2, borderBottom: 1, borderColor: 'divider' }}>
-      {Boolean(attributes.length > 1) && (
-        <InfoMessage sx={{ mb: 2 }} label={t('read.attribute.groupMessage')} />
-      )}
-      {attributes.map((a) => (
-        <Stack justifyContent="space-between" key={a.id}>
-          <Box>
-            {a.name}
-            <br />
-            {a.description}
-          </Box>
-        </Stack>
-      ))}
-    </Box>
+    <>
+      <Alert severity="warning">
+        <Trans
+          t={t}
+          tOptions={{ eserviceName: eservice.name }}
+          i18nKey={'updateGuide'}
+          components={{ 1: <Box component="span" fontWeight={700} /> }}
+        />
+      </Alert>
+      <StyledSection>
+        <StyledSection.Title>{t('title')}</StyledSection.Title>
+        <StyledSection.Subtitle>
+          <Trans
+            t={t}
+            tOptions={{ eserviceName: eservice.name }}
+            i18nKey={'description'}
+            components={{ 1: <Box component="span" fontWeight={700} /> }}
+          />
+        </StyledSection.Subtitle>
+        <StyledSection.Content>
+          <Stack spacing={2}>
+            <InformationRow label="FAQ">
+              <StyledAccordion entries={accordionEntries} />
+            </InformationRow>
+            <InformationRow label="Link utili">
+              <Stack>
+                <StyledLink
+                  component="a"
+                  href="teste"
+                  target="_blank"
+                  variant="body2"
+                  underline="hover"
+                  sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+                >
+                  <LaunchIcon sx={{ mr: 1 }} /> {t('upgradeGuideLinkLabel')}
+                </StyledLink>
+                <StyledLink
+                  variant="body2"
+                  underline="hover"
+                  sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+                >
+                  <LinkIcon sx={{ mr: 1 }} />{' '}
+                  <span>
+                    <Trans
+                      t={t}
+                      tOptions={{
+                        eserviceName: eservice.name,
+                        version: latestVersion,
+                      }}
+                      i18nKey={'eserviceLinkLabel'}
+                      components={{ 1: <Box component="span" fontWeight={700} /> }}
+                    />
+                  </span>
+                </StyledLink>
+              </Stack>
+            </InformationRow>
+            <Divider />
+            <Stack direction="row" justifyContent="center">
+              <StyledButton onClick={handleUpgrade} variant="outlined">
+                {t('upgradeBtn')}
+              </StyledButton>
+            </Stack>
+          </Stack>
+        </StyledSection.Content>
+      </StyledSection>
+    </>
   )
 }
-*/
