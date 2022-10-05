@@ -30,6 +30,26 @@
       "eserviceLinkLabel": "Scheda e-service <1>{{eserviceName}}, versione {{version}}</1>",
       "upgradeBtn": "Aggiorna"
     },
+    "generalInformations": {
+      "title": "Informazioni generali",
+      "eserviceField": {
+        "label": "Richiesta relativa a",
+        "goToEServiceBtn": "Vedi E-Service",
+        "versionLabel": "versione"
+      },
+      "providerField": {
+        "label": "Erogatore"
+      },
+      "requestStatusField": {
+        "label": "Stato della richiesta",
+        "suspendedByProvider": "sospeso dall'erogatore",
+        "suspendedBySubscriber": "sospeso dal fruitore"
+      },
+      "printableCopyField": {
+        "label": "Copia stampabile",
+        "docLabel": "Richiesta di fruizione"
+      }
+    },
     "eserviceField": {
       "label": "Richiesta relativa a",
       "versionLabel": "versione"

@@ -22,7 +22,11 @@ import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { Alert, Box, Chip, Divider, Grid, Stack, Typography } from '@mui/material'
-import { Launch as LaunchIcon, Link as LinkIcon } from '@mui/icons-material'
+import {
+  Launch as LaunchIcon,
+  Link as LinkIcon,
+  AttachFile as AttachFileIcon,
+} from '@mui/icons-material'
 import { useRoute } from '../hooks/useRoute'
 import { InfoMessage } from '../components/Shared/InfoMessage'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
@@ -594,5 +598,93 @@ function UpgradeGuideSection({ eservice, agreementId }: UpgradeGuideSectionProps
         </StyledSection.Content>
       </StyledSection>
     </>
+  )
+}
+
+type GeneralInfoSectionProps = {
+  agreement: AgreementSummary
+  eservice: EServiceReadType
+}
+
+function GeneralInfoSection({ agreement }: GeneralInfoSectionProps) {
+  const { t } = useTranslation('agreement', { keyPrefix: 'read.generalInformations' })
+  const { t: tCommon } = useTranslation('common')
+  const { routes } = useRoute()
+
+  function buildEServiceLink() {
+    return buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
+      eserviceId: agreement.eservice.id,
+      descriptorId: agreement.descriptorId,
+    })
+  }
+
+  function getStatusChips() {
+    if (agreement.state !== 'SUSPENDED') {
+      return (
+        <Chip
+          label={tCommon(`status.agreement.${agreement.state}`, { ns: 'common' })}
+          color={CHIP_COLORS_AGREEMENT[agreement.state]}
+        />
+      )
+    }
+
+    const isProviderSuspended = getAgreementState(agreement, 'provider') === 'SUSPENDED'
+    const isSubscriberSuspended = getAgreementState(agreement, 'subscriber') === 'SUSPENDED'
+
+    const chips = []
+    if (isProviderSuspended) {
+      chips.push(
+        <Chip label={t(`suspendedByProvider`)} color={CHIP_COLORS_AGREEMENT[agreement.state]} />
+      )
+    }
+    if (isSubscriberSuspended) {
+      chips.push(
+        <Chip label={t(`suspendedBySubscriber`)} color={CHIP_COLORS_AGREEMENT[agreement.state]} />
+      )
+    }
+
+    return (
+      <Stack direction="row" spacing={1}>
+        {chips}
+      </Stack>
+    )
+  }
+
+  return (
+    <StyledSection>
+      <StyledSection.Title>{t('title')}</StyledSection.Title>
+      <StyledSection.Content>
+        <Stack spacing={2}>
+          <InformationRow
+            label={t('eserviceField.label')}
+            rightContent={
+              <StyledLink underline="hover" variant="button" to={buildEServiceLink()}>
+                {t('eserviceField.goToEServiceBtn')}
+              </StyledLink>
+            }
+          >
+            {agreement.eservice.name}, {t('eserviceField.versionLabel')}{' '}
+            {agreement.eservice.version}
+          </InformationRow>
+          <InformationRow label={t('providerField.label')}>
+            {agreement.producer.name}
+          </InformationRow>
+          <InformationRow label={t('requestStatusField.label')}>{getStatusChips()}</InformationRow>
+          <InformationRow label={t('printableCopyField.label')}>
+            <StyledLink
+              onClick={() => {
+                console.log('d')
+              }}
+              component="button"
+              variant="body2"
+              underline="hover"
+              sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+            >
+              <AttachFileIcon sx={{ mr: 1 }} /> {t('docLabel')}
+            </StyledLink>
+          </InformationRow>
+        </Stack>
+      </StyledSection.Content>
+    </StyledSection>
   )
 }
