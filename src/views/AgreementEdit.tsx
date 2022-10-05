@@ -106,19 +106,19 @@ export function AgreementEdit() {
   }
 
   async function handleConfirmDeclaredAttribute(attributeId: string) {
-    // TEMP BACKEND - Mock
     await runAction(
       {
         path: {
           endpoint: 'ATTRIBUTE_CONFIRM_DECLARED',
-          endpointParams: {
-            attributeId,
-          },
+        },
+        config: {
+          data: { id: attributeId },
         },
       },
       { showConfirmDialog: true }
     )
 
+    // TEMP BACKEND - Mock
     setMockedOwnedDeclaredAttributesIds((prev) => [...prev, attributeId])
   }
 

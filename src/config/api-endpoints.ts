@@ -257,8 +257,7 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'GET',
   },
   ATTRIBUTE_CONFIRM_DECLARED: {
-    // TEMP BACKEND - Mock
-    URL: `${BACKEND_FOR_FRONTEND_URL}/status`,
-    METHOD: 'GET',
+    URL: `${BACKEND_FOR_FRONTEND_URL}/institutions/attributes/declared`,
+    METHOD: 'POST',
   },
 }
