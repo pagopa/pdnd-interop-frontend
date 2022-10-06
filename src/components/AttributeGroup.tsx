@@ -292,6 +292,7 @@ function AttributesList({
         </Stack>
         <Typography
           component="span"
+          aria-hidden={!shouldShowOrLabel}
           sx={{
             flexShrink: 0,
             visibility: shouldShowOrLabel ? 'hidden' : 'visible',
