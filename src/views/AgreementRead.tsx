@@ -221,7 +221,7 @@ export function AgreementRead() {
               : routes.SUBSCRIBE_AGREEMENT_LIST.PATH
           }
         >
-          {t('read.actions.backToCatalogLabel')}
+          {t('backToRequestsBtn')}
         </StyledButton>
       </PageBottomActions>
     </Box>
