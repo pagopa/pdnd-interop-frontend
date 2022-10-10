@@ -51,11 +51,11 @@
       }
     },
     "consumerMessage": {
-      "title": "Message for provider",
-      "subtitle": "TODO"
+      "title": "Message for provider"
     },
     "attributes": {
       "howLink": "How?",
+      "verifiedTooltipLabel": "Verified",
       "certified": {
         "title": "Certified attributes",
         "subtitle": "TODO",
@@ -70,6 +70,11 @@
         "title": "Declared attributes",
         "subtitle": "TODO",
         "emptyLabel": "No declared attributes presented"
+      },
+      "actions": {
+        "verifyBtn": "Verify",
+        "revokeBtn": "Revoke",
+        "refuseBtn": "Refuse"
       }
     }
   },

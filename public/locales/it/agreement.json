@@ -52,11 +52,11 @@
       }
     },
     "consumerMessage": {
-      "title": "messaggio per l’erogatore",
-      "subtitle": "Se ci sono gruppi di attributi contraddistinti da “oppure”, indica in questo messaggio quale tra quelli ti aspetti venga riconosciuto, in base alla documentazione che hai caricato. Inserisci eventuali altre note utili"
+      "title": "messaggio per l’erogatore"
     },
     "attributes": {
       "howLink": "Come funziona?",
+      "verifiedTooltipLabel": "Verificato",
       "certified": {
         "title": "Attributi certificati",
         "subtitle": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori certificazioni.",
@@ -71,6 +71,11 @@
         "title": "Attributi dichiarati",
         "subtitle": "Devi dichiarare sotto la tua responsabilità di possedere questi attributi. Potresti già possederne alcuni (o tutti).",
         "emptyLabel": "Nessun attributo dichiarato presentato"
+      },
+      "actions": {
+        "verifyBtn": "Verifica",
+        "revokeBtn": "Revoca",
+        "refuseBtn": "Rifiuta"
       }
     }
   },

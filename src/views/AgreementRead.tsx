@@ -19,12 +19,13 @@ import { getAgreementState } from '../lib/status-utils'
 import { useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { Alert, Box, Chip, Divider, Grid, Stack, Typography } from '@mui/material'
+import { Alert, Box, Chip, Divider, Grid, Stack, Tooltip, Typography } from '@mui/material'
 import {
   Launch as LaunchIcon,
   Link as LinkIcon,
   AttachFile as AttachFileIcon,
   InfoRounded as InfoRoundedIcon,
+  Check as CheckIcon,
 } from '@mui/icons-material'
 import { useRoute } from '../hooks/useRoute'
 import { NotFound } from './NotFound'
@@ -124,6 +125,7 @@ export function AgreementRead() {
       DRAFT: [],
     }
 
+    // ADD Refuse action when on pending
     const providerOnlyActions: AgreementActions = {
       ACTIVE: [],
       SUSPENDED: [], // [{ onClick: archive, label: 'Archivia' }],
@@ -418,7 +420,6 @@ function ConsumerMessageSection({ message }: ConsumerMessageSectionProps) {
   return (
     <StyledSection>
       <StyledSection.Title>{t('title')}</StyledSection.Title>
-      <StyledSection.Subtitle>{t('subtitle')}</StyledSection.Subtitle>
       <StyledSection.Content>
         <Typography fontWeight={600}>{message}</Typography>
       </StyledSection.Content>
@@ -443,6 +444,9 @@ type AgreementAttributeSectionProps =
 function AgreementAttributeSection({ attributeKey, attributes }: AgreementAttributeSectionProps) {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
   const { setDialog } = useContext(DialogContext)
+  const [mockedVerifiedAttributesIds, setMockedVerifiedAttributesIds] = React.useState<
+    Array<string>
+  >([])
 
   const openAttributeDetailsDialog = (attribute: typeof attributes[0]) => {
     setDialog({
@@ -452,18 +456,64 @@ function AgreementAttributeSection({ attributeKey, attributes }: AgreementAttrib
     })
   }
 
+  function handleVerify(attributeId: string) {
+    // TEMP BACKEND - MOCK
+    setMockedVerifiedAttributesIds((prev) => [...prev, attributeId])
+  }
+
+  function handleRevoke(attributeId: string) {
+    // TEMP BACKEND
+  }
+
+  function handleRefuse(attributeId: string) {
+    // TEMP BACKEND
+  }
+
   function AttributeListItem({ attribute }: { attribute: typeof attributes[0] }) {
+    const isVerified = mockedVerifiedAttributesIds.includes(attribute.id)
     return (
-      <Stack component="li" direction="row">
+      <Stack component="li" direction="row" spacing={2}>
         <Box sx={{ flex: 1 }}>{attribute.name}</Box>
-        <Box sx={{ flexShrink: 0 }}>
+        <Stack sx={{ flexShrink: 0 }} spacing={1}>
+          <ButtonNaked
+            onClick={handleVerify.bind(null, attribute.id)}
+            aria-label={t('showInfoSrLabel')}
+          >
+            {t('actions.verify')}
+          </ButtonNaked>
+          {isVerified ? (
+            <ButtonNaked
+              onClick={handleRevoke.bind(null, attribute.id)}
+              color="error"
+              aria-label={t('showInfoSrLabel')}
+            >
+              {t('actions.revoke')}
+            </ButtonNaked>
+          ) : (
+            <ButtonNaked
+              onClick={handleRefuse.bind(null, attribute.id)}
+              color="error"
+              aria-label={t('showInfoSrLabel')}
+            >
+              {t('actions.refuse')}
+            </ButtonNaked>
+          )}
+
+          <Tooltip
+            aria-hidden={!isVerified}
+            sx={{ visibility: isVerified ? 'visible' : 'hidden' }}
+            title={t('verifiedTooltipLabel')}
+          >
+            <CheckIcon />
+          </Tooltip>
+
           <ButtonNaked
             onClick={openAttributeDetailsDialog.bind(null, attribute)}
             aria-label={t('showInfoSrLabel')}
           >
             <InfoRoundedIcon fontSize="small" color="primary" />
           </ButtonNaked>
-        </Box>
+        </Stack>
       </Stack>
     )
   }
