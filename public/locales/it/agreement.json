@@ -2,56 +2,81 @@
   "loadingSingleLabel": "Stiamo caricando la richiesta",
   "loadingMultiLabel": "Stiamo caricando la lista di richieste",
   "noMultiDataLabel": "Non ci sono richieste disponibili",
+  "backToRequestsBtn": "Torna alle richieste",
   "read": {
     "title": "Gestisci richiesta di fruizione",
-    "eserviceField": {
-      "label": "Richiesta relativa a",
-      "versionLabel": "versione"
+    "updateGuide": {
+      "alertLabel": "È disponibile una nuova versione dell’e-service <1>{{eserviceName}}</1>. Prima di effettuare l’aggiornamento, leggi la guida di seguito",
+      "title": "Guida all’aggiornamento",
+      "description": "È possibile aggiornare la richiesta di fruizione all’ultima versione dell’e-service <1>{{eserviceName}}</1>. Ecco alcune indicazioni utili",
+      "faq": [
+        {
+          "summary": "Cosa significa aggiornare una richiesta di fruizione?",
+          "details": ""
+        },
+        {
+          "summary": "Cosa succede alle mie finalità attive se aggiorno una richiesta di fruizione?",
+          "details": ""
+        },
+        {
+          "summary": "Cosa devo verificare prima di aggiornare una richiesta di fruizione?",
+          "details": ""
+        },
+        {
+          "summary": "Come faccio a testare le modifiche prima di aggiornare la richiesta di fruizione?",
+          "details": ""
+        }
+      ],
+      "upgradeGuideLinkLabel": "Guida all'aggiornamento",
+      "eserviceLinkLabel": "Scheda e-service <1>{{eserviceName}}, versione {{version}}</1>",
+      "upgradeBtn": "Aggiorna"
     },
-    "upgradeField": {
-      "link": {
-        "label": "Versione più recente disponibile"
+    "generalInformations": {
+      "title": "Informazioni generali",
+      "eserviceField": {
+        "label": "Richiesta relativa a",
+        "goToEServiceBtn": "Vedi E-Service",
+        "versionLabel": "versione"
       },
-      "message": "Per attivarla, aggiorna la richiesta di fruizione"
-    },
-    "subscriberField": {
-      "label": "Fruitore"
-    },
-    "providerField": {
-      "label": "Erogatore"
-    },
-    "requestStatusField": {
-      "label": "Stato della richiesta",
-      "agreementSuspendedMessage": "La richiesta può essere sospesa sia dall'Erogatore che dal Fruitore. Se almeno uno dei due attori la sospende, inibirà l'accesso all'E-Service per tutte le finalità associate all'E-Service dal Fruitore",
-      "suspendedByProvider": "sospeso dall'erogatore",
-      "suspendedBySubscriber": "sospeso dal fruitore"
-    },
-    "certifiedAttributesField": {
-      "label": "Attributi certificati",
-      "noDataLabel": "Per questo E-Service non sono richiesti attributi certificati"
-    },
-    "verifiedAttributesField": {
-      "label": "Attributi verificati",
-      "noDataLabel": "Per questo E-Service non sono richiesti attributi verificati"
-    },
-    "attribute": {
-      "status": {
-        "newlyVerified": "verificato",
-        "verifiedByAnotherParty": "verificato da terzi",
-        "refused": "rifiutato",
-        "pending": "in attesa di approvazione"
+      "providerField": {
+        "label": "Erogatore"
       },
-      "verificationDateField": {
-        "label": "Data di verifica"
+      "requestStatusField": {
+        "label": "Stato della richiesta",
+        "suspendedByProvider": "sospeso dall'erogatore",
+        "suspendedBySubscriber": "sospeso dal fruitore"
       },
-      "descriptionField": {
-        "label": "Descrizione"
-      },
-      "groupMessage": "l’intero gruppo seguente è verificato se lo è almeno uno degli attributi che lo compongono"
+      "printableCopyField": {
+        "label": "Copia stampabile",
+        "docLabel": "Richiesta di fruizione"
+      }
     },
-    "noPurposeLabel": "Non ci sono finalità per questa richiesta di fruizione",
-    "noPurposeLink": {
-      "label": "Crea la prima"
+    "consumerMessage": {
+      "title": "messaggio per l’erogatore"
+    },
+    "attributes": {
+      "howLink": "Come funziona?",
+      "verifiedTooltipLabel": "Verificato",
+      "certified": {
+        "title": "Attributi certificati",
+        "subtitle": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori certificazioni.",
+        "emptyLabel": "Nessun attributo certificato presentato"
+      },
+      "verified": {
+        "title": "Attributi verificati",
+        "subtitle": "Questi attributi necessitano di verifica da parte di almeno un erogatore. Potresti già possederne alcuni (o tutti).",
+        "emptyLabel": "Nessun attributo verificato presentato"
+      },
+      "declared": {
+        "title": "Attributi dichiarati",
+        "subtitle": "Devi dichiarare sotto la tua responsabilità di possedere questi attributi. Potresti già possederne alcuni (o tutti).",
+        "emptyLabel": "Nessun attributo dichiarato presentato"
+      },
+      "actions": {
+        "verifyBtn": "Verifica",
+        "revokeBtn": "Revoca",
+        "refuseBtn": "Rifiuta"
+      }
     }
   },
   "edit": {
@@ -104,8 +129,7 @@
       "description": "Hai inserito tutte le informazioni per questa richiesta di fruizione? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra o abbandona questa pagina",
       "cancelBtn": "Cancella bozza",
       "submitBtn": "Inoltra richiesta di fruizione"
-    },
-    "backToRequestsBtn": "Torna alle richieste"
+    }
   },
   "list": {
     "provider": {

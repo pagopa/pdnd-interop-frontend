@@ -1,22 +1,18 @@
 import { Chip, Divider, Grid, Stack, Typography } from '@mui/material'
-import { AxiosResponse } from 'axios'
 import React, { FunctionComponent, useMemo, useState } from 'react'
 import {
   EServiceDescriptorRead,
-  EServiceDocumentRead,
   EServiceReadType,
   FrontendAttributes,
   ProviderOrSubscriber,
 } from '../../../types'
-import { RunActionOutput, useFeedback } from '../../hooks/useFeedback'
 import { useRoute } from '../../hooks/useRoute'
 import { secondsToHoursMinutes } from '../../lib/format-utils'
-import { downloadFile } from '../../lib/file-utils'
 import { buildDynamicPath, buildDynamicRoute } from '../../lib/router-utils'
 import { StyledLink } from './StyledLink'
 import { formatThousands } from '../../lib/format-utils'
 import { useTranslation } from 'react-i18next'
-import { getDownloadDocumentName, getLatestActiveVersion } from '../../lib/eservice-utils'
+import { getLatestActiveVersion } from '../../lib/eservice-utils'
 import { remapBackendAttributesToFrontend } from '../../lib/attributes'
 import { StyledButton } from './StyledButton'
 import { InformationRow } from '../InformationRow'
@@ -27,7 +23,8 @@ import { StyledInputControlledSelect } from './StyledInputControlledSelect'
 import { AttributeSection } from '../AttributeSection'
 import { CHIP_COLORS_E_SERVICE, eServiceHelpLink, verifyVoucherHelpLink } from '../../lib/constants'
 import { WELL_KNOWN_URL } from '../../lib/env'
-import { AttachFile as AttachFileIcon, Launch as LaunchIcon } from '@mui/icons-material'
+import { Launch as LaunchIcon } from '@mui/icons-material'
+import DownloadableDocumentListSection from './DownloadableDocumentListSection'
 
 type EServiceContentInfoProps = {
   context: ProviderOrSubscriber
@@ -43,12 +40,12 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
   agreementId,
 }) => {
   const frontendAttributes = useMemo(() => {
-    if (!data.attributes) return
     return remapBackendAttributesToFrontend(data.attributes)
   }, [data])
 
-  const activeDescriptor = getLatestActiveVersion(data)
-  const isCurrentVersion = activeDescriptor?.id === descriptorId
+  const activeDescriptor = getLatestActiveVersion(data) as EServiceDescriptorRead
+  const isCurrentVersion = activeDescriptor.id === descriptorId
+  const docs = [...activeDescriptor.docs, activeDescriptor.interface]
 
   return (
     <React.Fragment>
@@ -58,7 +55,11 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
           <VersionInfoSection data={data} isCurrentVersion={isCurrentVersion} context={context} />
         </Grid>
         <Grid item xs={5}>
-          <DownloadSection data={data} />
+          <DownloadableDocumentListSection
+            docs={docs}
+            eserviceId={data.id}
+            descriptorId={activeDescriptor.id}
+          />
           {context === 'provider' && <VoucherVerificationSection />}
         </Grid>
       </Grid>
@@ -191,66 +192,6 @@ function VersionInfoSection({
               </Typography>
             </>
           )}
-        </Stack>
-      </StyledSection.Content>
-    </StyledSection>
-  )
-}
-
-function DownloadSection({ data }: { data: EServiceReadType }) {
-  const { t } = useTranslation('eservice', {
-    keyPrefix: 'contentInfo.sections.download',
-  })
-  const { runAction } = useFeedback()
-
-  const activeDescriptor = data.activeDescriptor as EServiceDescriptorRead
-
-  const handleDownloadDocument = async (document: EServiceDocumentRead) => {
-    const { response, outcome } = (await runAction(
-      {
-        path: {
-          endpoint: 'ESERVICE_VERSION_DOWNLOAD_DOCUMENT',
-          endpointParams: {
-            eserviceId: data.id,
-            descriptorId: activeDescriptor.id,
-            documentId: document.id,
-          },
-        },
-        config: { responseType: 'arraybuffer' },
-      },
-      { suppressToast: ['success'] }
-    )) as RunActionOutput
-
-    if (outcome === 'success') {
-      const filename = getDownloadDocumentName(document)
-      downloadFile((response as AxiosResponse).data, filename)
-    }
-  }
-
-  const docs = [...activeDescriptor.docs, activeDescriptor.interface]
-
-  return (
-    <StyledSection>
-      <StyledSection.Title>{t('title')}</StyledSection.Title>
-      <StyledSection.Content>
-        <Stack spacing={2} alignItems="start">
-          {docs.map((doc) => (
-            <Stack key={doc.id} spacing={2}>
-              <StyledLink
-                onClick={handleDownloadDocument.bind(null, doc)}
-                component="button"
-                variant="body2"
-                underline="hover"
-                sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
-              >
-                <AttachFileIcon sx={{ mr: 1 }} /> {doc.prettyName}
-              </StyledLink>
-              {/* TEMP BACKEND - Size data doesn't come from backend (yet) */}
-              {/* <Typography fontWeight={600} sx={{ marginLeft: '30px' }}>
-                {(doc.size / 1024).toFixed(2)}&nbsp;KB
-              </Typography> */}
-            </Stack>
-          ))}
         </Stack>
       </StyledSection.Content>
     </StyledSection>

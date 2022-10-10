@@ -249,7 +249,7 @@ export function AgreementEdit() {
           <Box sx={{ mt: 4 }}>
             <PageBottomActions>
               <StyledButton onClick={handleGoBackToRequestsList} variant="outlined">
-                {t('edit.backToRequestsBtn')}
+                {t('backToRequestsBtn')}
               </StyledButton>
               <StyledButton disabled onClick={handleSaveDraft} variant="contained">
                 {t(`actions.saveDraft`, { ns: 'common' })}

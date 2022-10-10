@@ -17,6 +17,7 @@ import { Add, DeleteOutline, InfoRounded, Check } from '@mui/icons-material'
 import { DialogContext } from '../lib/context'
 import { useTranslation } from 'react-i18next'
 import noop from 'lodash/noop'
+import { StyledTooltip } from './Shared/StyledTooltip'
 
 type AttributeGroupProps = {
   index: number
@@ -253,13 +254,19 @@ function AttributesList({
     shouldShowOrLabel: boolean
   }) {
     const isOwned = ownedAttributesIds?.includes(attribute.id)
+    const fullfilledTooltipLabel = t(`statusChip.${attribute.kind.toLowerCase()}.fullfilledLabel`)
+
     return (
       <Stack direction="row" alignItems="center" spacing={2}>
         <Typography sx={{ flex: 1 }} variant="body2">
           {attribute.name}
         </Typography>
         <Stack sx={{ flexShrink: 0 }} direction="row" spacing={2}>
-          {isOwned && <Check color="success" fontSize="small" />}
+          {isOwned && (
+            <StyledTooltip title={fullfilledTooltipLabel}>
+              <Check color="success" fontSize="small" />
+            </StyledTooltip>
+          )}
           {onConfirmDeclaredAttribute && (
             <ButtonNaked
               onClick={onConfirmDeclaredAttribute.bind(null, attribute.id)}
@@ -285,6 +292,7 @@ function AttributesList({
         </Stack>
         <Typography
           component="span"
+          aria-hidden={!shouldShowOrLabel}
           sx={{
             flexShrink: 0,
             visibility: shouldShowOrLabel ? 'hidden' : 'visible',
