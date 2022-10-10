@@ -132,6 +132,7 @@ export function EServiceManage() {
             description: '',
             dailyCallsPerConsumer: 1,
             dailyCallsTotal: 1,
+            agreementApprovalPolicy: 'MANUAL',
           },
         },
       },
