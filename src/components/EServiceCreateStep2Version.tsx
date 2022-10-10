@@ -74,7 +74,9 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
         description,
         dailyCallsPerConsumer,
         dailyCallsTotal,
+        agreementApprovalPolicy,
       } = activeDescriptor
+      console.log(agreementApprovalPolicy)
       setInitialOrFetchedValues({
         version,
         audience: Boolean(audience.length > 0) ? audience[0] : '',
@@ -82,8 +84,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
         description,
         dailyCallsPerConsumer: dailyCallsPerConsumer || 1,
         dailyCallsTotal: dailyCallsTotal || 1,
-        // TEMP - BACKEND
-        agreementApprovalPolicy: true,
+        agreementApprovalPolicy: agreementApprovalPolicy === 'MANUAL',
       })
     }
   }, [fetchedData]) // eslint-disable-line react-hooks/exhaustive-deps

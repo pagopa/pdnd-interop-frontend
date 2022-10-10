@@ -323,6 +323,7 @@ export type EServiceDescriptorRead = {
   audience: Array<string>
   dailyCallsPerConsumer: number
   dailyCallsTotal: number
+  agreementApprovalPolicy: 'MANUAL' | 'AUTOMATIC'
 }
 
 export type EServiceDocumentRead = {
