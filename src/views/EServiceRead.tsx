@@ -11,7 +11,7 @@ import {
   decorateEServiceWithActiveDescriptor,
   getEserviceAndDescriptorFromUrl,
 } from '../lib/eservice-utils'
-import { useLocation } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { NotFound } from './NotFound'
 import { useRoute } from '../hooks/useRoute'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
@@ -21,6 +21,7 @@ import { useJwt } from '../hooks/useJwt'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { AxiosResponse } from 'axios'
 import { MAX_WIDTH } from '../lib/constants'
+import { buildDynamicPath } from '../lib/router-utils'
 
 export function EServiceRead() {
   const { t } = useTranslation(['eservice', 'common'])
@@ -28,6 +29,7 @@ export function EServiceRead() {
   const { routes } = useRoute()
   const { jwt, isAdmin } = useJwt()
   const { setDialog } = useContext(DialogContext)
+  const history = useHistory()
 
   const location = useLocation()
   const { eserviceId, descriptorId } = getEserviceAndDescriptorFromUrl(location)
@@ -88,14 +90,10 @@ export function EServiceRead() {
       )) as RunActionOutput
 
       if (draftCreateOutcome === 'success') {
-        await runAction(
-          {
-            path: {
-              endpoint: 'AGREEMENT_DRAFT_SUBMIT',
-              endpointParams: { agreementId: (draftCreateResponse as AxiosResponse).data.id },
-            },
-          },
-          { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
+        history.push(
+          buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
+            agreementId: (draftCreateResponse as AxiosResponse).data.id,
+          })
         )
       }
     }

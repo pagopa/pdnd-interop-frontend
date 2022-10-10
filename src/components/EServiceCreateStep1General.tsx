@@ -217,8 +217,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
                 attributesSubtitle={t('create.step1.attributes.subtitle')}
                 attributes={attributes.verified}
                 setAttributes={setAttributes}
-                readOnly={!isEditable || true}
-                showDisabledAlert
+                readOnly={!isEditable}
               />
 
               <AttributeSection
@@ -227,8 +226,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
                 attributesSubtitle={t('create.step1.attributes.subtitle')}
                 attributes={attributes.declared}
                 setAttributes={setAttributes}
-                readOnly={!isEditable || true}
-                showDisabledAlert
+                readOnly={!isEditable}
               />
 
               {!isEditable && (

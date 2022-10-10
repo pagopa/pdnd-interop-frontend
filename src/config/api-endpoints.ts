@@ -81,7 +81,15 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'GET',
   },
   ATTRIBUTE_GET_CERTIFIED_LIST: {
-    URL: `${BACKEND_FOR_FRONTEND_URL}/institutions/:institutionId/certifiedAttributes`,
+    URL: `${BACKEND_FOR_FRONTEND_URL}/institutions/:institutionId/attributes/certified`,
+    METHOD: 'GET',
+  },
+  ATTRIBUTE_GET_VERIFIED_LIST: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/institutions/:institutionId/attributes/verified`,
+    METHOD: 'GET',
+  },
+  ATTRIBUTE_GET_DECLARED_LIST: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/institutions/:institutionId/attributes/declared`,
     METHOD: 'GET',
   },
   ATTRIBUTE_GET_LIST: {

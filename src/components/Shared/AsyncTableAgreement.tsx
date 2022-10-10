@@ -162,19 +162,16 @@ export const AsyncTableAgreement = () => {
               variant="outlined"
               size="small"
               onClick={() => {
-                history.push(
-                  buildDynamicPath(
-                    routes[
-                      currentMode === 'provider'
-                        ? 'PROVIDE_AGREEMENT_READ'
-                        : 'SUBSCRIBE_AGREEMENT_READ'
-                    ].PATH,
-                    { agreementId: item.id }
-                  )
-                )
+                let route = 'PROVIDE_AGREEMENT_READ'
+                if (currentMode === 'subscriber') {
+                  route =
+                    item.state === 'DRAFT' ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'
+                }
+
+                history.push(buildDynamicPath(routes[route].PATH, { agreementId: item.id }))
               }}
             >
-              {t('actions.inspect', { ns: 'common' })}
+              {t(`actions.${item.state === 'DRAFT' ? 'edit' : 'inspect'}`, { ns: 'common' })}
             </StyledButton>
 
             <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>

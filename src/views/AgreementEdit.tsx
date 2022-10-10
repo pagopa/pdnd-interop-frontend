@@ -1,4 +1,4 @@
-import { Box, Chip, Divider, Grid, Stack, Typography } from '@mui/material'
+import { Alert, Box, Chip, Divider, Grid, Stack, Typography } from '@mui/material'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { Formik } from 'formik'
 import React, { useState } from 'react'
@@ -8,10 +8,12 @@ import { mixed, object, string } from 'yup'
 import {
   AgreementSummary,
   CertifiedAttribute,
+  DeclaredAttribute,
   EServiceDocumentRead,
   EServiceReadType,
   FrontendAttributes,
   RequestOutcome,
+  VerifiedAttribute,
 } from '../../types'
 import { AttributeSection } from '../components/AttributeSection'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
@@ -41,9 +43,6 @@ export function AgreementEdit() {
 
   const [documents, setDocuments] = useState<Array<EServiceDocumentRead>>([])
   const [providerMessage, setProviderMessage] = React.useState('')
-  const [mockedOwnedDeclaredAttributesIds, setMockedOwnedDeclaredAttributesIds] = React.useState<
-    Array<string>
-  >([])
 
   const { jwt } = useJwt()
   const { agreementId } = useParams<{ agreementId: string }>()
@@ -86,6 +85,32 @@ export function AgreementEdit() {
     { mapFn: (data) => data.attributes.map((att) => att.id), useEffectDeps: [forceRerenderCounter] }
   )
 
+  const { data: ownedVerifiedAttributesIds } = useAsyncFetch<
+    { attributes: Array<VerifiedAttribute> },
+    Array<string>
+  >(
+    {
+      path: {
+        endpoint: 'ATTRIBUTE_GET_VERIFIED_LIST',
+        endpointParams: { institutionId: jwt?.organization.id },
+      },
+    },
+    { mapFn: (data) => data.attributes.map((att) => att.id), useEffectDeps: [forceRerenderCounter] }
+  )
+
+  const { data: ownedDeclaredAttributesIds } = useAsyncFetch<
+    { attributes: Array<DeclaredAttribute> },
+    Array<string>
+  >(
+    {
+      path: {
+        endpoint: 'ATTRIBUTE_GET_DECLARED_LIST',
+        endpointParams: { institutionId: jwt?.organization.id },
+      },
+    },
+    { mapFn: (data) => data.attributes.map((att) => att.id), useEffectDeps: [forceRerenderCounter] }
+  )
+
   if (agreementError) {
     return <NotFound errorType="serverError" />
   }
@@ -117,20 +142,26 @@ export function AgreementEdit() {
       },
       { showConfirmDialog: true }
     )
-
-    // TEMP BACKEND - Mock
-    setMockedOwnedDeclaredAttributesIds((prev) => [...prev, attributeId])
   }
 
-  function handleSaveDraft() {
+  // function handleSaveDraft() {
+  //   // TEMP BACKEND
+  // }
+
+  async function wrapHandleDeleteDraft() {
     // TEMP BACKEND
+    // await runAction(
+    //   {
+    //     path: {
+    //       endpoint: 'AGREEMENT_DRAFT_DELETE',
+    //       endpointParams: { agreementId: agreement?.id },
+    //     },
+    //   },
+    //   { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST, showConfirmDialog: true }
+    // )
   }
 
-  function handleDeleteDraft() {
-    // TEMP BACKEND
-  }
-
-  async function handleSendAgreementRequest() {
+  async function wrapHandleSendAgreementRequest() {
     await runAction(
       {
         path: {
@@ -138,16 +169,16 @@ export function AgreementEdit() {
           endpointParams: { agreementId: agreement?.id },
         },
       },
-      { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
+      { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST, showConfirmDialog: true }
     )
   }
 
   let isSubmitAgreementButtonDisabled = true
 
-  if (frontendAttributes && ownedCertifiedAttributesIds) {
+  if (frontendAttributes) {
     isSubmitAgreementButtonDisabled = !checkOwnershipFrontendAttributes(
       [...frontendAttributes.certified, ...frontendAttributes.declared],
-      [...ownedCertifiedAttributesIds, ...mockedOwnedDeclaredAttributesIds]
+      [...(ownedCertifiedAttributesIds || []), ...(ownedDeclaredAttributesIds || [])]
     )
   }
 
@@ -207,7 +238,7 @@ export function AgreementEdit() {
                 description={t('edit.attribute.verified.description')}
                 attributesSubtitle={t('edit.attribute.subtitle')}
                 attributes={frontendAttributes.verified}
-                ownedAttributesIds={[]}
+                ownedAttributesIds={ownedVerifiedAttributesIds}
                 readOnly
               />
               <AttributeSection
@@ -216,7 +247,7 @@ export function AgreementEdit() {
                 attributesSubtitle={t('edit.attribute.subtitle')}
                 attributes={frontendAttributes.declared}
                 handleConfirmDeclaredAttribute={handleConfirmDeclaredAttribute}
-                ownedAttributesIds={mockedOwnedDeclaredAttributesIds}
+                ownedAttributesIds={ownedDeclaredAttributesIds}
                 readOnly
               />
             </>
@@ -228,6 +259,9 @@ export function AgreementEdit() {
             <StyledSection.Content>
               <DocumentInputSection documents={documents} setDocuments={setDocuments} />
             </StyledSection.Content>
+            <Alert severity="info" sx={{ mt: 1 }}>
+              Questa funzionalità sarà disponibile a breve
+            </Alert>
           </StyledSection>
 
           <StyledSection>
@@ -246,6 +280,9 @@ export function AgreementEdit() {
                 inputProps={{ maxLength: 1000 }}
               />
             </StyledSection.Content>
+            <Alert severity="info" sx={{ mt: 1 }}>
+              Questa funzionalità sarà disponibile a breve
+            </Alert>
           </StyledSection>
 
           <Box sx={{ mt: 4 }}>
@@ -253,9 +290,9 @@ export function AgreementEdit() {
               <StyledButton onClick={handleGoBackToRequestsList} variant="outlined">
                 {t('backToRequestsBtn')}
               </StyledButton>
-              <StyledButton disabled onClick={handleSaveDraft} variant="contained">
+              {/* <StyledButton onClick={handleSaveDraft} variant="contained">
                 {t(`actions.saveDraft`, { ns: 'common' })}
-              </StyledButton>
+              </StyledButton> */}
             </PageBottomActions>
           </Box>
 
@@ -265,12 +302,12 @@ export function AgreementEdit() {
                 title={t('edit.bottomPageActionCard.title')}
                 description={t('edit.bottomPageActionCard.description')}
               >
-                <StyledButton disabled onClick={handleDeleteDraft} variant="outlined">
+                <StyledButton disabled onClick={wrapHandleDeleteDraft} variant="outlined">
                   {t('edit.bottomPageActionCard.cancelBtn')}
                 </StyledButton>
                 <StyledButton
                   disabled={isSubmitAgreementButtonDisabled}
-                  onClick={handleSendAgreementRequest}
+                  onClick={wrapHandleSendAgreementRequest}
                   variant="contained"
                 >
                   {t('edit.bottomPageActionCard.submitBtn')}

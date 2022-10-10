@@ -43,6 +43,10 @@
     "title": "Confirm request upgrade",
     "description": "By clicking \"confirm\", the fruition request will be upgraded to the latest E-Service version. All the clients added to purposes for this E-Service will keep accessing it"
   },
+  "AGREEMENT_DRAFT_SUBMIT": {
+    "title": "Confirm request submit",
+    "description": "By clicking \"confirm\", the fruition request will be sent to the e-service provider to be evaluated"
+  },
   "PURPOSE_DRAFT_DELETE": {
     "title": "Confirm purpose deletion",
     "description": "By clicking \"confirm\", this purpose will be deleted and it will not be recoverable. All the clients added to it will no longer be able to access the Provider E-Service. It will always be possible to create new purposes"
