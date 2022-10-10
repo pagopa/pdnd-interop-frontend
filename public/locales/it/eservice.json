@@ -51,7 +51,7 @@
       },
       "audienceField": {
         "label": "Audience (richiesto)",
-        "infoLabel": "All’nterno dell'access token che il Fruitore ti invierà rappresenterà l’audience (aud), l'id con il quale è dichiarato il servizio richiesto"
+        "infoLabel": "All’interno dell'access token che il Fruitore ti invierà rappresenterà l’audience (aud), l'id con il quale è dichiarato il servizio richiesto"
       },
       "voucherLifespanField": {
         "label": "Durata di validità dell'access token (in minuti - richiesto)",
@@ -67,6 +67,9 @@
         "validation": {
           "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per Fruitore"
         }
+      },
+      "agreementApprovalPolicyField": {
+        "label": "Voglio riservarmi la facoltà di verificare e attivare manualmente tutte le richieste di fruizione pervenute per questa versione dell’E-Service"
       }
     },
     "step3": {

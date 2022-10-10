@@ -22,6 +22,7 @@ import { LoadingWithMessage } from './Shared/LoadingWithMessage'
 import { minutesToSeconds, secondsToMinutes } from '../lib/format-utils'
 import { useTranslation } from 'react-i18next'
 import { StyledPaper } from './StyledPaper'
+import { StyledInputControlledSwitch } from './Shared/StyledInputControlledSwitch'
 
 type VersionData = {
   audience: string
@@ -30,6 +31,7 @@ type VersionData = {
   description: string
   dailyCallsPerConsumer: number
   dailyCallsTotal: number
+  agreementApprovalPolicy: boolean
 }
 
 export function EServiceCreateStep2Version({ forward, back }: StepperStepComponentProps) {
@@ -56,6 +58,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
     description: '',
     dailyCallsPerConsumer: 1,
     dailyCallsTotal: 1,
+    agreementApprovalPolicy: true,
   }
   const [initialOrFetchedValues, setInitialOrFetchedValues] = useState(initialValues)
 
@@ -79,6 +82,8 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
         description,
         dailyCallsPerConsumer: dailyCallsPerConsumer || 1,
         dailyCallsTotal: dailyCallsTotal || 1,
+        // TEMP - BACKEND
+        agreementApprovalPolicy: true,
       })
     }
   }, [fetchedData]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -91,6 +96,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
       description: data.description,
       dailyCallsPerConsumer: data.dailyCallsPerConsumer,
       dailyCallsTotal: data.dailyCallsTotal,
+      agreementApprovalPolicy: data.agreementApprovalPolicy ? 'MANUAL' : 'AUTOMATIC',
     }
 
     const sureFetchedData = fetchedData as EServiceReadType
@@ -214,6 +220,14 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
                     onChange={handleChange}
                     inputProps={{ min: '1' }}
                     sx={{ mb: 3 }}
+                  />
+
+                  <StyledInputControlledSwitch
+                    label={t('create.step2.agreementApprovalPolicyField.label')}
+                    value={values.agreementApprovalPolicy}
+                    vertical
+                    name="agreementApprovalPolicy"
+                    onChange={handleChange}
                   />
                 </StyledPaper>
 
