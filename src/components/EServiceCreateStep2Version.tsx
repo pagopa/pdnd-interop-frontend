@@ -76,7 +76,6 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
         dailyCallsTotal,
         agreementApprovalPolicy,
       } = activeDescriptor
-      console.log(agreementApprovalPolicy)
       setInitialOrFetchedValues({
         version,
         audience: Boolean(audience.length > 0) ? audience[0] : '',
