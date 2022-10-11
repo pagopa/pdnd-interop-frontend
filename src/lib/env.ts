@@ -64,4 +64,9 @@ export const CLIENT_ASSERTION_JWT_AUDIENCE = isProduction
   : ''
 
 export const M2M_JWT_AUDIENCE = isProduction ? PAGOPA_ENV.M2M_JWT_AUDIENCE : ''
-export const WELL_KNOWN_URL = isProduction ? PAGOPA_ENV.WELL_KNOWN_URL : ''
+
+function getWellKnownUrls(wellKnownUrls: string | undefined) {
+  return wellKnownUrls?.split(',').filter((url) => !!url) || []
+}
+
+export const WELL_KNOWN_URLS = isProduction ? getWellKnownUrls(PAGOPA_ENV.WELL_KNOWN_URLS) : ['#']
