@@ -55,3 +55,5 @@ export const CHIP_COLORS_E_SERVICE: Record<EServiceState, MUIColor> = {
   ARCHIVED: 'info',
   DEPRECATED: 'warning',
 }
+
+export const LIGHT_GRAY = '#FAFAFA'
