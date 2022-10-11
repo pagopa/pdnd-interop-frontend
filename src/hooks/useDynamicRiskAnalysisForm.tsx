@@ -485,9 +485,24 @@ function useDynamicRiskAnalysisForm(
 
   const onSubmit = async (allAnswers: Record<string, unknown>) => {
     const currentQuestions = Object.keys(questions)
+
+    function transformAnswerToArray(answer: unknown) {
+      switch (typeof answer) {
+        case 'object':
+          return answer
+        case 'boolean':
+          return [new Boolean(answer).toString()]
+        case 'string':
+          return [answer]
+      }
+    }
+
     // Send only answers to currently visible questions
     const validAnswers = Object.keys(allAnswers).reduce(
-      (acc, key) => (currentQuestions.includes(key) ? { ...acc, [key]: allAnswers[key] } : acc),
+      (acc, key) =>
+        currentQuestions.includes(key)
+          ? { ...acc, [key]: transformAnswerToArray(allAnswers[key]) }
+          : acc,
       {}
     )
 
