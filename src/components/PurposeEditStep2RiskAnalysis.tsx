@@ -61,8 +61,14 @@ export const PurposeEditStep2RiskAnalysis: FunctionComponent<ActiveStepProps> = 
       const currentAnswersIds = Object.keys(answers)
       // Set them as formik values. This will also trigger the useEffect that
       // depends on formik.values and update the questions accordingly
-      currentAnswersIds.forEach((id) => {
-        const answer = answers[id as keyof PurposeRiskAnalysisFormAnswers]
+      currentAnswersIds.forEach((_id) => {
+        const id = _id as keyof PurposeRiskAnalysisFormAnswers
+        let answer = answers[id]
+        const question = riskAnalysisConfig.questions.find((question) => question.id === id)
+        // Only the checkbox needs the data as Array
+        if (question?.type !== 'checkbox' && answer) {
+          answer = answer[0]
+        }
         formik.setFieldValue(id, answer, false)
       })
     }
