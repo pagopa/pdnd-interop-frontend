@@ -25,14 +25,15 @@ export const pagoPaLink = {
   title: 'Vai al sito di PagoPA S.p.A.',
 }
 
-export const attributesHelpLink =
-  'https://docs.pagopa.it/interoperabilita-1/manuale-operativo/attributi'
+export const assistanceLink = 'mailto:interop@assistenza.pagopa.it'
 
-export const verifyVoucherHelpLink =
-  'https://docs.pagopa.it/interoperabilita-1/manuale-operativo/utilizzare-i-voucher'
+export const documentationLink = 'https://docs.pagopa.it/interoperabilita-1'
 
-export const eServiceHelpLink =
-  'https://docs.pagopa.it/interoperabilita-1/manuale-operativo/e-service'
+export const attributesHelpLink = `${documentationLink}/manuale-operativo/attributi`
+
+export const verifyVoucherHelpLink = `${documentationLink}/manuale-operativo/utilizzare-i-voucher`
+
+export const eServiceHelpLink = `${documentationLink}/manuale-operativo/e-service`
 
 export const CHIP_COLORS_AGREEMENT: Record<AgreementState, MUIColor> = {
   ACTIVE: 'primary',
