@@ -443,7 +443,7 @@ export const AsyncTableEServiceList = () => {
                 custom: (
                   <Chip
                     label={t(`status.eservice.${item.state || 'DRAFT'}`, { ns: 'common' })}
-                    color={CHIP_COLORS_E_SERVICE[item.state as EServiceState]}
+                    color={CHIP_COLORS_E_SERVICE[item.state || 'DRAFT']}
                   />
                 ),
               },
