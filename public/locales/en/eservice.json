@@ -67,6 +67,9 @@
         "validation": {
           "min": "This value cannot be below the threshold set for the API calls/day for each Subscriber"
         }
+      },
+      "agreementApprovalPolicyField": {
+        "label": "I want to reserve the right to manually check and activate all requests received for this version of the E-Service"
       }
     },
     "step3": {
