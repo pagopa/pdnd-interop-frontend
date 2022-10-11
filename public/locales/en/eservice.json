@@ -137,7 +137,11 @@
         "dailyCallsPerConsumer": "Per subscriber threshold",
         "dailyCallsTotal": "Total threshold",
         "callsPerDay": "API calls/day",
-
+        "agreementApprovalPolicy": {
+          "label": "Fruition request activation",
+          "AUTOMATIC": "Automatic",
+          "MANUAL": "Manual"
+        },
         "doubtsQuestion": "Do you have doubts about the implementation to deliver your e-service?",
         "doubtsLink": "See the guide"
       },

@@ -179,6 +179,9 @@ function VersionInfoSection({
           <InformationRow label={t('dailyCallsTotal')}>
             {formatThousands(activeDescriptor.dailyCallsTotal)} {t('callsPerDay')}
           </InformationRow>
+          <InformationRow label={t('agreementApprovalPolicy.label')}>
+            {t(`agreementApprovalPolicy.${activeDescriptor.agreementApprovalPolicy}`)}
+          </InformationRow>
 
           {context === 'provider' && (
             <>
