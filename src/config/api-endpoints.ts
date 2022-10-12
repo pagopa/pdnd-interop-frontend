@@ -113,6 +113,10 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/submit`,
     METHOD: 'POST',
   },
+  AGREEMENT_DRAFT_DELETE: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId`,
+    METHOD: 'DELETE',
+  },
   AGREEMENT_GET_LIST: {
     URL: `${BACKEND_FOR_FRONTEND_URL}/agreements`,
     METHOD: 'GET',
@@ -136,6 +140,10 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
   AGREEMENT_UPGRADE: {
     URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/upgrade`,
     METHOD: 'POST',
+  },
+  AGREEMENT_DOCUMENT_DOWNLOAD: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/download-document`,
+    METHOD: 'GET',
   },
   PURPOSE_GET_LIST: {
     URL: `${PURPOSE_PROCESS_URL}/purposes`,

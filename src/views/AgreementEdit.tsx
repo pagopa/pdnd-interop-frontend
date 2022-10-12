@@ -149,16 +149,15 @@ export function AgreementEdit() {
   // }
 
   async function wrapHandleDeleteDraft() {
-    // TEMP BACKEND
-    // await runAction(
-    //   {
-    //     path: {
-    //       endpoint: 'AGREEMENT_DRAFT_DELETE',
-    //       endpointParams: { agreementId: agreement?.id },
-    //     },
-    //   },
-    //   { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST, showConfirmDialog: true }
-    // )
+    await runAction(
+      {
+        path: {
+          endpoint: 'AGREEMENT_DRAFT_DELETE',
+          endpointParams: { agreementId: agreement?.id },
+        },
+      },
+      { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST, showConfirmDialog: true }
+    )
   }
 
   async function wrapHandleSendAgreementRequest() {
@@ -302,7 +301,7 @@ export function AgreementEdit() {
                 title={t('edit.bottomPageActionCard.title')}
                 description={t('edit.bottomPageActionCard.description')}
               >
-                <StyledButton disabled onClick={wrapHandleDeleteDraft} variant="outlined">
+                <StyledButton onClick={wrapHandleDeleteDraft} variant="outlined">
                   {t('edit.bottomPageActionCard.cancelBtn')}
                 </StyledButton>
                 <StyledButton

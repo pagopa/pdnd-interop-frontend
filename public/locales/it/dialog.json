@@ -47,6 +47,10 @@
     "title": "Conferma inoltro richiesta",
     "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà inoltrata all'erogatore dell'e-service per approvazione"
   },
+  "AGREEMENT_DRAFT_DELETE": {
+    "title": "Conferma cancellazione richiesta",
+    "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà cancellata. Sarà sempre possibile crearne una nuova"
+  },
   "PURPOSE_DRAFT_DELETE": {
     "title": "Conferma cancellazione finalità",
     "description": "Cliccando \"conferma\" questa finalità verrà cancellata e non sarà più recuperabile. Tutti i client ad essa associata non potranno più accedere all'e-service dell'erogatore. Sarà sempre possibile creare nuove finalità"

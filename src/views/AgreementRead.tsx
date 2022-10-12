@@ -11,12 +11,16 @@ import {
   DeclaredAttribute,
 } from '../../types'
 import { buildDynamicPath, getLastBit } from '../lib/router-utils'
-import { getLatestActiveVersion, mergeActions } from '../lib/eservice-utils'
+import {
+  getDownloadDocumentName,
+  getLatestActiveVersion,
+  mergeActions,
+} from '../lib/eservice-utils'
 import { useMode } from '../hooks/useMode'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { getAgreementState } from '../lib/status-utils'
-import { useFeedback } from '../hooks/useFeedback'
+import { RunActionOutput, useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { Alert, Box, Chip, Divider, Grid, Stack, Tooltip, Typography } from '@mui/material'
@@ -39,6 +43,8 @@ import DownloadableDocumentListSection from '../components/Shared/DownloadableDo
 import { DialogContext } from '../lib/context'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
+import { downloadFile } from '../lib/file-utils'
+import { AxiosResponse } from 'axios'
 
 export function AgreementRead() {
   const { t } = useTranslation(['agreement', 'common'])
@@ -330,6 +336,7 @@ function GeneralInfoSection({ agreement }: GeneralInfoSectionProps) {
   const { t: tCommon } = useTranslation('common')
   const { routes } = useRoute()
   const mode = useMode()
+  const { runAction } = useFeedback()
 
   function buildEServiceLink() {
     return buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
@@ -370,6 +377,23 @@ function GeneralInfoSection({ agreement }: GeneralInfoSectionProps) {
     )
   }
 
+  async function handleDownloadAgreement() {
+    const { response, outcome } = (await runAction(
+      {
+        path: {
+          endpoint: 'AGREEMENT_DOCUMENT_DOWNLOAD',
+          endpointParams: { agreementId: agreement.id },
+        },
+        config: { responseType: 'arraybuffer' },
+      },
+      { suppressToast: ['success'] }
+    )) as RunActionOutput
+
+    if (outcome === 'success') {
+      downloadFile((response as AxiosResponse).data, 'Richiesta di fruizione.pdf')
+    }
+  }
+
   return (
     <StyledSection>
       <StyledSection.Title>{t('title')}</StyledSection.Title>
@@ -393,15 +417,13 @@ function GeneralInfoSection({ agreement }: GeneralInfoSectionProps) {
           {mode === 'subscriber' && (
             <InformationRow label={t('printableCopyField.label')}>
               <StyledLink
-                onClick={() => {
-                  console.log('d')
-                }}
+                onClick={handleDownloadAgreement}
                 component="button"
                 variant="body2"
                 underline="hover"
                 sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
               >
-                <AttachFileIcon sx={{ mr: 1 }} /> {t('docLabel')}
+                <AttachFileIcon sx={{ mr: 1 }} /> {t('printableCopyField.docLabel')}
               </StyledLink>
             </InformationRow>
           )}
@@ -536,13 +558,13 @@ function AgreementAttributeSection({ attributeKey, attributes }: AgreementAttrib
 
   return (
     <StyledSection>
-      <StyledSection.Title>
-        {t(`${attributeKey}.title`)}{' '}
+      <StyledSection.Title>{t(`${attributeKey}.title`)}</StyledSection.Title>
+      <StyledSection.Subtitle>
+        {t(`${attributeKey}.subtitle`)}{' '}
         <StyledLink component="a" underline="hover" target="_blank" href={attributesHelpLink}>
           {t('howLink')}
         </StyledLink>
-      </StyledSection.Title>
-      <StyledSection.Subtitle>{t(`${attributeKey}.subtitle`)}</StyledSection.Subtitle>
+      </StyledSection.Subtitle>
       <StyledSection.Content>{attributesList}</StyledSection.Content>
     </StyledSection>
   )

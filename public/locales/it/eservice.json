@@ -109,9 +109,9 @@
     "missingCertifiedAttributes": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
     "goToRequestCta": "Vai alla richiesta",
     "subscribeModal": {
-      "title": "Richiesta di fruizione",
-      "description": "Stai per inoltrare una richiesta di fruizione per l'E-Service {{name}}, versione {{version}}",
-      "proceedLabel": "Iscriviti"
+      "title": "Creazione bozza richiesta di fruizione",
+      "description": "Vuoi creare una bozza di richiesta di fruizione per l'E-Service {{name}}, versione {{version}}",
+      "proceedLabel": "Crea bozza"
     }
   },
   "contentInfo": {
@@ -208,9 +208,9 @@
   },
   "read": {
     "agreementDialog": {
-      "title": "Richiesta di fruizione",
-      "description": "Stai per inoltrare una richiesta di fruizione per l'E-Service {{name}}, versione {{version}}",
-      "proceedLabel": "Iscriviti"
+      "title": "Creazione bozza richiesta di fruizione",
+      "description": "Vuoi creare una bozza di richiesta di fruizione per l'E-Service {{name}}, versione {{version}}",
+      "proceedLabel": "Crea bozza"
     },
     "alert": {
       "youAreTheProvider": "Non puoi iscriverti a un E-Service di cui sei Erogatore",
