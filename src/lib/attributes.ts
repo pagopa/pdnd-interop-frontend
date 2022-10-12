@@ -1,12 +1,16 @@
 import has from 'lodash/has'
 import {
+  AttributeKey,
   BackendAttribute,
   BackendAttributes,
   CertifiedAttribute,
+  CertifiedTenantAttribute,
+  DeclaredTenantAttribute,
   FrontendAttribute,
   FrontendAttributes,
   GroupBackendAttribute,
   SingleBackendAttribute,
+  VerifiedTenantAttribute,
 } from '../../types'
 import { getKeys } from './array-utils'
 
@@ -99,4 +103,31 @@ export function checkOwnershipFrontendAttributes(
     return attributeGroup.attributes.some((att) => ownedAttributesIds.includes(att.id))
   }
   return attributes.every(checkIfGroupHasOwnedAttribute)
+}
+
+export function remapTenantBackendAttributesToFrontend(
+  attributes: Record<
+    AttributeKey,
+    DeclaredTenantAttribute | CertifiedTenantAttribute | VerifiedTenantAttribute
+  >[]
+) {
+  return attributes.reduce(
+    (acc, next) => {
+      const attributeKey = Object.keys(next)[0] as AttributeKey
+      const attributeValue = Object.values(next)[0]
+
+      acc[attributeKey].push(attributeValue)
+
+      return acc
+    },
+    { certified: [], verified: [], declared: [] } as Record<
+      AttributeKey,
+      Array<DeclaredTenantAttribute | CertifiedTenantAttribute | VerifiedTenantAttribute>
+    >
+    // as {
+    //   certified: Array<CertifiedTenantAttribute>
+    //   verified: Array<VerifiedTenantAttribute>
+    //   declared: Array<DeclaredTenantAttribute>
+    // }
+  )
 }

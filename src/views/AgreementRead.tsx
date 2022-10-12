@@ -9,13 +9,14 @@ import {
   CertifiedAttribute,
   VerifiedAttribute,
   DeclaredAttribute,
+  AttributeKey,
+  BackendAttribute,
+  DeclaredTenantAttribute,
+  CertifiedTenantAttribute,
+  VerifiedTenantAttribute,
 } from '../../types'
 import { buildDynamicPath, getLastBit } from '../lib/router-utils'
-import {
-  getDownloadDocumentName,
-  getLatestActiveVersion,
-  mergeActions,
-} from '../lib/eservice-utils'
+import { getLatestActiveVersion, mergeActions } from '../lib/eservice-utils'
 import { useMode } from '../hooks/useMode'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -45,6 +46,11 @@ import { ButtonNaked } from '@pagopa/mui-italia'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { downloadFile } from '../lib/file-utils'
 import { AxiosResponse } from 'axios'
+import { AttributeSection } from '../components/AttributeSection'
+import {
+  remapBackendAttributesToFrontend,
+  remapTenantBackendAttributesToFrontend,
+} from '../lib/attributes'
 
 export function AgreementRead() {
   const { t } = useTranslation(['agreement', 'common'])
@@ -76,32 +82,34 @@ export function AgreementRead() {
     { useEffectDeps: [agreement], disabled: !agreement }
   )
 
+  console.log({ agreement, eservice })
+
   const error = agreementError || eserviceError
   const isLoading = isLoadingAgreement || isLoadingEService
 
   /*
    * List of possible actions for the user to perform
    */
-  const activate = async () => {
-    await runAction(
-      { path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId } } },
-      { showConfirmDialog: true }
-    )
-  }
+  // const activate = async () => {
+  //   await runAction(
+  //     { path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId } } },
+  //     { showConfirmDialog: true }
+  //   )
+  // }
 
-  const suspend = async () => {
-    await runAction(
-      { path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId } } },
-      { showConfirmDialog: true }
-    )
-  }
+  // const suspend = async () => {
+  //   await runAction(
+  //     { path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId } } },
+  //     { showConfirmDialog: true }
+  //   )
+  // }
 
-  const upgrade = async () => {
-    await runAction(
-      { path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } } },
-      { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST, showConfirmDialog: true }
-    )
-  }
+  // const upgrade = async () => {
+  //   await runAction(
+  //     { path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } } },
+  //     { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST, showConfirmDialog: true }
+  //   )
+  // }
 
   // const wrapVerify = (attributeId: string) => async () => {
   //   const sureData = data as AgreementSummary
@@ -116,55 +124,55 @@ export function AgreementRead() {
    * End list of actions
    */
 
-  type AgreementActions = Record<AgreementState, Array<ActionProps>>
+  // type AgreementActions = Record<AgreementState, Array<ActionProps>>
   // Build list of available actions for each agreement in its current state
-  const getAvailableActions = () => {
-    if (!agreement) {
-      return []
-    }
+  // const getAvailableActions = () => {
+  //   if (!agreement) {
+  //     return []
+  //   }
 
-    const sharedActions: AgreementActions = {
-      ACTIVE: [{ onClick: suspend, label: t('actions.suspend', { ns: 'common' }) }],
-      SUSPENDED: [{ onClick: activate, label: t('actions.activate', { ns: 'common' }) }],
-      PENDING: [],
-      ARCHIVED: [],
-      DRAFT: [],
-    }
+  //   const sharedActions: AgreementActions = {
+  //     ACTIVE: [{ onClick: suspend, label: t('actions.suspend', { ns: 'common' }) }],
+  //     SUSPENDED: [{ onClick: activate, label: t('actions.activate', { ns: 'common' }) }],
+  //     PENDING: [],
+  //     ARCHIVED: [],
+  //     DRAFT: [],
+  //   }
 
-    // ADD Refuse action when on pending
-    const providerOnlyActions: AgreementActions = {
-      ACTIVE: [],
-      SUSPENDED: [], // [{ onClick: archive, label: 'Archivia' }],
-      PENDING: [{ onClick: activate, label: t('actions.activate', { ns: 'common' }) }],
-      ARCHIVED: [],
-      DRAFT: [],
-    }
+  //   // ADD Refuse action when on pending
+  //   const providerOnlyActions: AgreementActions = {
+  //     ACTIVE: [],
+  //     SUSPENDED: [], // [{ onClick: archive, label: 'Archivia' }],
+  //     PENDING: [{ onClick: activate, label: t('actions.activate', { ns: 'common' }) }],
+  //     ARCHIVED: [],
+  //     DRAFT: [],
+  //   }
 
-    const subscriberOnlyActionsActive: Array<ActionProps> = []
-    if (canUpgrade()) {
-      subscriberOnlyActionsActive.push({
-        onClick: upgrade,
-        label: t('actions.upgrade', { ns: 'common' }),
-      })
-    }
+  //   const subscriberOnlyActionsActive: Array<ActionProps> = []
+  //   if (canUpgrade()) {
+  //     subscriberOnlyActionsActive.push({
+  //       onClick: upgrade,
+  //       label: t('actions.upgrade', { ns: 'common' }),
+  //     })
+  //   }
 
-    const subscriberOnlyActions: AgreementActions = {
-      ACTIVE: subscriberOnlyActionsActive,
-      SUSPENDED: [],
-      PENDING: [],
-      ARCHIVED: [],
-      DRAFT: [],
-    }
+  //   const subscriberOnlyActions: AgreementActions = {
+  //     ACTIVE: subscriberOnlyActionsActive,
+  //     SUSPENDED: [],
+  //     PENDING: [],
+  //     ARCHIVED: [],
+  //     DRAFT: [],
+  //   }
 
-    const currentMode = mode as ProviderOrSubscriber
-    const currentActions = { provider: providerOnlyActions, subscriber: subscriberOnlyActions }[
-      currentMode
-    ]
+  //   const currentMode = mode as ProviderOrSubscriber
+  //   const currentActions = { provider: providerOnlyActions, subscriber: subscriberOnlyActions }[
+  //     currentMode
+  //   ]
 
-    const status = agreement ? getAgreementState(agreement, mode) : 'SUSPENDED'
+  //   const status = agreement ? getAgreementState(agreement, mode) : 'SUSPENDED'
 
-    return mergeActions<AgreementActions>([currentActions, sharedActions], status)
-  }
+  //   return mergeActions<AgreementActions>([currentActions, sharedActions], status)
+  // }
 
   const canUpgrade = () => {
     if (!agreement || mode !== 'subscriber') return false
@@ -180,6 +188,10 @@ export function AgreementRead() {
   if (error) {
     return <NotFound errorType="serverError" />
   }
+
+  const eserviceAttributes = eservice && remapBackendAttributesToFrontend(eservice.attributes)
+  const consumerAttributes =
+    agreement && remapTenantBackendAttributesToFrontend(agreement.consumer.attributes)
 
   return (
     <Box sx={{ maxWidth: MAX_WIDTH }}>
@@ -200,21 +212,51 @@ export function AgreementRead() {
             </Grid>
           </Grid>
           {agreement.consumerNotes && <ConsumerMessageSection message={agreement.consumerNotes} />}
-          {mode === 'subscriber' && (
-            <AgreementAttributeSection
-              attributeKey="certified"
-              attributes={agreement.certifiedAttributes}
-            />
+
+          {mode === 'subscriber' && agreement.state === 'PENDING' && (
+            <>
+              <AttributeSection
+                attributeKey="certified"
+                attributesSubtitle=""
+                description={t('read.attributes.certified.subtitle')}
+                attributes={eserviceAttributes?.certified || []}
+                ownedAttributesIds={consumerAttributes?.certified.map((a) => a.id)}
+                readOnly
+              />
+              <AttributeSection
+                attributeKey="verified"
+                attributesSubtitle=""
+                description={t('read.attributes.verified.subtitle')}
+                attributes={eserviceAttributes?.verified || []}
+                ownedAttributesIds={consumerAttributes?.verified.map((a) => a.id)}
+                readOnly
+              />
+              <AttributeSection
+                attributeKey="declared"
+                attributesSubtitle=""
+                description={t('read.attributes.declared.subtitle')}
+                attributes={eserviceAttributes?.declared || []}
+                ownedAttributesIds={consumerAttributes?.declared.map((a) => a.id)}
+                readOnly
+              />
+            </>
           )}
-          <AgreementAttributeSection
-            attributeKey="verified"
-            attributes={agreement.verifiedAttributes}
-          />
-          {mode === 'subscriber' && (
-            <AgreementAttributeSection
-              attributeKey="declared"
-              attributes={agreement.declaredAttributes}
-            />
+
+          {mode === 'subscriber' && agreement.state !== 'PENDING' && (
+            <>
+              <AgreementAttributeSection
+                attributeKey="certified"
+                attributes={agreement.certifiedAttributes}
+              />
+              <AgreementAttributeSection
+                attributeKey="verified"
+                attributes={agreement.verifiedAttributes}
+              />
+              <AgreementAttributeSection
+                attributeKey="declared"
+                attributes={agreement.declaredAttributes}
+              />
+            </>
           )}
         </>
       ) : (
@@ -466,9 +508,6 @@ type AgreementAttributeSectionProps =
 function AgreementAttributeSection({ attributeKey, attributes }: AgreementAttributeSectionProps) {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
   const { setDialog } = useContext(DialogContext)
-  const [mockedVerifiedAttributesIds, setMockedVerifiedAttributesIds] = React.useState<
-    Array<string>
-  >([])
 
   const openAttributeDetailsDialog = (attribute: typeof attributes[0]) => {
     setDialog({
@@ -479,8 +518,7 @@ function AgreementAttributeSection({ attributeKey, attributes }: AgreementAttrib
   }
 
   function handleVerify(attributeId: string) {
-    // TEMP BACKEND - MOCK
-    setMockedVerifiedAttributesIds((prev) => [...prev, attributeId])
+    // TEMP BACKEND
   }
 
   function handleRevoke(attributeId: string) {
@@ -492,7 +530,7 @@ function AgreementAttributeSection({ attributeKey, attributes }: AgreementAttrib
   }
 
   function AttributeListItem({ attribute }: { attribute: typeof attributes[0] }) {
-    const isVerified = mockedVerifiedAttributesIds.includes(attribute.id)
+    const isVerified = false // TODO
     return (
       <Stack component="li" direction="row" spacing={2}>
         <Box sx={{ flex: 1 }}>{attribute.name}</Box>

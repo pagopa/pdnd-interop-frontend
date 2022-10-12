@@ -359,7 +359,12 @@ type AgreementProducer = {
 type AgreementConsumer = {
   name: string
   id: string
-  attributes: Array<BackendAttribute>
+  attributes: Array<
+    Record<
+      AttributeKey,
+      DeclaredTenantAttribute | CertifiedTenantAttribute | VerifiedTenantAttribute
+    >
+  >
 }
 
 type AgreementEService = {

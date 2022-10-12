@@ -161,7 +161,7 @@
   "AGREEMENT_DRAFT_SUBMIT": {
     "loadingText": "Stiamo inoltrando la richiesta di fruizione",
     "success": {
-      "message": "La richiesta è stata inoltrata correttamente ed è in attesa di approvazione. Riceverai notifiche di aggiornamento sul suo stato"
+      "message": "La richiesta è stata inoltrata correttamente. Riceverai notifiche di aggiornamento sul suo stato"
     },
     "error": {
       "message": "Non è stato possibile inoltrare la richiesta. Se pensi di averne diritto, contatta l'assistenza per ulteriori verifiche"
