@@ -146,7 +146,7 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'POST',
   },
   AGREEMENT_DOCUMENT_DOWNLOAD: {
-    URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/download-document`,
+    URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/contract`,
     METHOD: 'GET',
   },
   PURPOSE_GET_LIST: {
