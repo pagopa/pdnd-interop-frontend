@@ -287,11 +287,11 @@ function AttributesList({
               </ButtonNaked>
 
               {isOwned ? (
-                <ButtonNaked onClick={onRefuseAttribute.bind(null, attribute.id)}>
+                <ButtonNaked onClick={onRefuseAttribute.bind(null, attribute.id)} color="error">
                   {t('actions.revokeBtn')}
                 </ButtonNaked>
               ) : (
-                <ButtonNaked onClick={onRevokeAttribute.bind(null, attribute.id)}>
+                <ButtonNaked onClick={onRevokeAttribute.bind(null, attribute.id)} color="error">
                   {t('actions.refuseBtn')}
                 </ButtonNaked>
               )}
