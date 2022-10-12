@@ -221,6 +221,8 @@ export function AgreementRead() {
     primaryAction = availableActions.shift()
   }
 
+  const canVerifyAttributes = mode === 'provider'
+
   return (
     <Box sx={{ maxWidth: MAX_WIDTH }}>
       <Stack direction="row" spacing={2}>
@@ -254,68 +256,34 @@ export function AgreementRead() {
           </Grid>
           {agreement.consumerNotes && <ConsumerMessageSection message={agreement.consumerNotes} />}
 
-          {mode === 'subscriber' && agreement.state === 'PENDING' && (
-            <>
-              <AttributeSection
-                attributeKey="certified"
-                attributesSubtitle=""
-                description={t('read.attributes.certified.subtitle')}
-                attributes={eserviceAttributes?.certified || []}
-                ownedAttributesIds={consumerAttributes?.certified.map((a) => a.id)}
-                readOnly
-              />
-              <AttributeSection
-                attributeKey="verified"
-                attributesSubtitle=""
-                description={t('read.attributes.verified.subtitle')}
-                attributes={eserviceAttributes?.verified || []}
-                ownedAttributesIds={consumerAttributes?.verified.map((a) => a.id)}
-                readOnly
-              />
-              <AttributeSection
-                attributeKey="declared"
-                attributesSubtitle=""
-                description={t('read.attributes.declared.subtitle')}
-                attributes={eserviceAttributes?.declared || []}
-                ownedAttributesIds={consumerAttributes?.declared.map((a) => a.id)}
-                readOnly
-              />
-            </>
-          )}
-
-          {mode === 'subscriber' && agreement.state !== 'PENDING' && (
-            <>
-              <AgreementAttributeSection
-                attributeKey="certified"
-                attributes={agreement.certifiedAttributes}
-              />
-              <AgreementAttributeSection
-                attributeKey="verified"
-                attributes={agreement.verifiedAttributes}
-              />
-              <AgreementAttributeSection
-                attributeKey="declared"
-                attributes={agreement.declaredAttributes}
-              />
-            </>
-          )}
-
-          {mode === 'provider' && agreement.state === 'PENDING' && (
-            <>
-              <AttributeSection
-                attributeKey="verified"
-                attributesSubtitle=""
-                description={t('read.attributes.verified.subtitle')}
-                attributes={eserviceAttributes?.verified || []}
-                ownedAttributesIds={consumerAttributes?.verified.map((a) => a.id)}
-                readOnly
-                handleVerifyAttribute={handleVerifyAttribute}
-                handleRefuseAttribute={handleRefuseAttribute}
-                handleRevokeAttribute={handleRevokeAttribute}
-                shouldProviderVerify
-              />
-            </>
-          )}
+          <AttributeSection
+            attributeKey="certified"
+            attributesSubtitle=""
+            description={t('read.attributes.certified.subtitle')}
+            attributes={eserviceAttributes?.certified || []}
+            ownedAttributesIds={consumerAttributes?.certified.map((a) => a.id)}
+            readOnly
+          />
+          <AttributeSection
+            attributeKey="verified"
+            attributesSubtitle=""
+            description={t('read.attributes.verified.subtitle')}
+            attributes={eserviceAttributes?.verified || []}
+            ownedAttributesIds={consumerAttributes?.verified.map((a) => a.id)}
+            readOnly
+            handleVerifyAttribute={canVerifyAttributes ? handleVerifyAttribute : undefined}
+            handleRefuseAttribute={canVerifyAttributes ? handleRefuseAttribute : undefined}
+            handleRevokeAttribute={canVerifyAttributes ? handleRevokeAttribute : undefined}
+            shouldProviderVerify={canVerifyAttributes}
+          />
+          <AttributeSection
+            attributeKey="declared"
+            attributesSubtitle=""
+            description={t('read.attributes.declared.subtitle')}
+            attributes={eserviceAttributes?.declared || []}
+            ownedAttributesIds={consumerAttributes?.declared.map((a) => a.id)}
+            readOnly
+          />
         </>
       ) : (
         <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
@@ -551,78 +519,6 @@ function ConsumerMessageSection({ message }: ConsumerMessageSectionProps) {
       <StyledSection.Content>
         <Typography fontWeight={600}>{message}</Typography>
       </StyledSection.Content>
-    </StyledSection>
-  )
-}
-
-type AgreementAttributeSectionProps = {
-  attributeKey: AttributeKey
-  attributes: Array<{ id: string; name: string }>
-}
-
-function AgreementAttributeSection({ attributeKey, attributes }: AgreementAttributeSectionProps) {
-  const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
-  const { setDialog } = useContext(DialogContext)
-
-  const openAttributeDetailsDialog = (attribute: typeof attributes[0]) => {
-    setDialog({
-      type: 'showAttributeDetails',
-      attributeId: attribute.id,
-      name: attribute.name,
-    })
-  }
-
-  function AttributeListItem({ attribute }: { attribute: typeof attributes[0] }) {
-    const isVerified = false // TODO
-    return (
-      <Stack component="li" direction="row" spacing={2}>
-        <Box sx={{ flex: 1 }}>{attribute.name}</Box>
-        <Stack sx={{ flexShrink: 0 }} spacing={1}>
-          <Tooltip
-            aria-hidden={!isVerified}
-            sx={{ visibility: isVerified ? 'visible' : 'hidden' }}
-            title={t('verifiedTooltipLabel')}
-          >
-            <CheckIcon />
-          </Tooltip>
-
-          <ButtonNaked
-            onClick={openAttributeDetailsDialog.bind(null, attribute)}
-            aria-label={t('showInfoSrLabel')}
-          >
-            <InfoRoundedIcon fontSize="small" color="primary" />
-          </ButtonNaked>
-        </Stack>
-      </Stack>
-    )
-  }
-
-  let attributesList = null
-
-  if (attributes.length === 0) {
-    attributesList = <Alert severity="info">{t(`${attributeKey}.emptyLabel`)}</Alert>
-  }
-
-  if (attributes.length > 0) {
-    attributesList = (
-      <Stack component="ul">
-        {attributes.map((attribute) => (
-          <AttributeListItem key={attribute.id} attribute={attribute} />
-        ))}
-      </Stack>
-    )
-  }
-
-  return (
-    <StyledSection>
-      <StyledSection.Title>{t(`${attributeKey}.title`)}</StyledSection.Title>
-      <StyledSection.Subtitle>
-        {t(`${attributeKey}.subtitle`)}{' '}
-        <StyledLink component="a" underline="hover" target="_blank" href={attributesHelpLink}>
-          {t('howLink')}
-        </StyledLink>
-      </StyledSection.Subtitle>
-      <StyledSection.Content>{attributesList}</StyledSection.Content>
     </StyledSection>
   )
 }
