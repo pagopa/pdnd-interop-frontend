@@ -52,6 +52,7 @@ import {
   remapTenantBackendAttributesToFrontend,
 } from '../lib/attributes'
 import { useJwt } from '../hooks/useJwt'
+import { ActionMenu } from '../components/Shared/ActionMenu'
 
 export function AgreementRead() {
   const { t } = useTranslation(['agreement', 'common'])
@@ -90,89 +91,80 @@ export function AgreementRead() {
   /*
    * List of possible actions for the user to perform
    */
-  // const activate = async () => {
-  //   await runAction(
-  //     { path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId } } },
-  //     { showConfirmDialog: true }
-  //   )
-  // }
+  const activate = async () => {
+    await runAction(
+      { path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId } } },
+      { showConfirmDialog: true }
+    )
+  }
 
-  // const suspend = async () => {
-  //   await runAction(
-  //     { path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId } } },
-  //     { showConfirmDialog: true }
-  //   )
-  // }
+  const suspend = async () => {
+    await runAction(
+      { path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId } } },
+      { showConfirmDialog: true }
+    )
+  }
 
-  // const upgrade = async () => {
-  //   await runAction(
-  //     { path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } } },
-  //     { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST, showConfirmDialog: true }
-  //   )
-  // }
+  const upgrade = async () => {
+    await runAction(
+      { path: { endpoint: 'AGREEMENT_UPGRADE', endpointParams: { agreementId } } },
+      { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST, showConfirmDialog: true }
+    )
+  }
 
-  // const wrapVerify = (attributeId: string) => async () => {
-  //   const sureData = data as AgreementSummary
-  //   await runAction({
-  //     path: {
-  //       endpoint: 'AGREEMENT_VERIFY_ATTRIBUTE',
-  //       endpointParams: { agreementId: sureData.id, attributeId },
-  //     },
-  //   })
-  // }
   /*
    * End list of actions
    */
 
-  // type AgreementActions = Record<AgreementState, Array<ActionProps>>
+  type AgreementActions = Record<AgreementState, Array<ActionProps>>
   // Build list of available actions for each agreement in its current state
-  // const getAvailableActions = () => {
-  //   if (!agreement) {
-  //     return []
-  //   }
+  const getAvailableActions = () => {
+    if (!agreement) {
+      return []
+    }
 
-  //   const sharedActions: AgreementActions = {
-  //     ACTIVE: [{ onClick: suspend, label: t('actions.suspend', { ns: 'common' }) }],
-  //     SUSPENDED: [{ onClick: activate, label: t('actions.activate', { ns: 'common' }) }],
-  //     PENDING: [],
-  //     ARCHIVED: [],
-  //     DRAFT: [],
-  //   }
+    const sharedActions: AgreementActions = {
+      ACTIVE: [{ onClick: suspend, label: t('actions.suspend', { ns: 'common' }) }],
+      SUSPENDED: [{ onClick: activate, label: t('actions.activate', { ns: 'common' }) }],
+      PENDING: [],
+      ARCHIVED: [],
+      DRAFT: [],
+    }
 
-  //   // ADD Refuse action when on pending
-  //   const providerOnlyActions: AgreementActions = {
-  //     ACTIVE: [],
-  //     SUSPENDED: [], // [{ onClick: archive, label: 'Archivia' }],
-  //     PENDING: [{ onClick: activate, label: t('actions.activate', { ns: 'common' }) }],
-  //     ARCHIVED: [],
-  //     DRAFT: [],
-  //   }
+    // ADD Refuse action when on pending
+    const providerOnlyActions: AgreementActions = {
+      ACTIVE: [],
+      SUSPENDED: [], // [{ onClick: archive, label: 'Archivia' }],
+      PENDING: [{ onClick: activate, label: t('actions.activate', { ns: 'common' }) }],
+      ARCHIVED: [],
+      DRAFT: [],
+    }
 
-  //   const subscriberOnlyActionsActive: Array<ActionProps> = []
-  //   if (canUpgrade()) {
-  //     subscriberOnlyActionsActive.push({
-  //       onClick: upgrade,
-  //       label: t('actions.upgrade', { ns: 'common' }),
-  //     })
-  //   }
+    const subscriberOnlyActionsActive: Array<ActionProps> = []
+    if (canUpgrade()) {
+      subscriberOnlyActionsActive.push({
+        onClick: upgrade,
+        label: t('actions.upgrade', { ns: 'common' }),
+      })
+    }
 
-  //   const subscriberOnlyActions: AgreementActions = {
-  //     ACTIVE: subscriberOnlyActionsActive,
-  //     SUSPENDED: [],
-  //     PENDING: [],
-  //     ARCHIVED: [],
-  //     DRAFT: [],
-  //   }
+    const subscriberOnlyActions: AgreementActions = {
+      ACTIVE: subscriberOnlyActionsActive,
+      SUSPENDED: [],
+      PENDING: [],
+      ARCHIVED: [],
+      DRAFT: [],
+    }
 
-  //   const currentMode = mode as ProviderOrSubscriber
-  //   const currentActions = { provider: providerOnlyActions, subscriber: subscriberOnlyActions }[
-  //     currentMode
-  //   ]
+    const currentMode = mode as ProviderOrSubscriber
+    const currentActions = { provider: providerOnlyActions, subscriber: subscriberOnlyActions }[
+      currentMode
+    ]
 
-  //   const status = agreement ? getAgreementState(agreement, mode) : 'SUSPENDED'
+    const status = agreement ? getAgreementState(agreement, mode) : 'SUSPENDED'
 
-  //   return mergeActions<AgreementActions>([currentActions, sharedActions], status)
-  // }
+    return mergeActions<AgreementActions>([currentActions, sharedActions], status)
+  }
 
   const canUpgrade = () => {
     if (!agreement || mode !== 'subscriber') return false
@@ -222,9 +214,29 @@ export function AgreementRead() {
     // runAction()
   }
 
+  const availableActions = getAvailableActions()
+  let primaryAction: ActionProps | undefined
+
+  if (availableActions.length > 0) {
+    primaryAction = availableActions.shift()
+  }
+
   return (
     <Box sx={{ maxWidth: MAX_WIDTH }}>
-      <StyledIntro isLoading={isLoading}>{{ title: t('read.title') }}</StyledIntro>
+      <Stack direction="row" spacing={2}>
+        <StyledIntro sx={{ flex: 1 }} isLoading={isLoading}>
+          {{ title: t('read.title') }}
+        </StyledIntro>
+        <Stack direction="row" alignItems="center" spacing={2}>
+          {primaryAction && (
+            <StyledButton variant="outlined" onClick={primaryAction.onClick}>
+              {primaryAction.label}
+            </StyledButton>
+          )}
+          {availableActions.length > 0 && <ActionMenu actions={availableActions} />}
+        </Stack>
+      </Stack>
+
       {agreement && eservice && !isLoading ? (
         <>
           {canUpgrade() && <UpgradeGuideSection eservice={eservice} agreementId={agreementId} />}
