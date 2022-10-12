@@ -126,8 +126,12 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'GET',
   },
   AGREEMENT_VERIFY_ATTRIBUTE: {
-    URL: `${AGREEMENT_PROCESS_URL}/agreements/:agreementId/attributes/:attributeId/verify`,
+    URL: `${BACKEND_FOR_FRONTEND_URL}/institutions/:institutionId/attributes/verified`,
     METHOD: 'POST',
+  },
+  AGREEMENT_REVOKE_VERIFIED_ATTRIBUTE: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/institutions/:institutionId/attributes/verified/:attributeId`,
+    METHOD: 'DELETE',
   },
   AGREEMENT_ACTIVATE: {
     URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/activate`,

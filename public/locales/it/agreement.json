@@ -56,7 +56,6 @@
     },
     "attributes": {
       "howLink": "Come funziona?",
-      "verifiedTooltipLabel": "Verificato",
       "certified": {
         "title": "Attributi certificati",
         "subtitle": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori certificazioni.",
@@ -71,11 +70,6 @@
         "title": "Attributi dichiarati",
         "subtitle": "Devi dichiarare sotto la tua responsabilità di possedere questi attributi. Potresti già possederne alcuni (o tutti).",
         "emptyLabel": "Nessun attributo dichiarato presentato"
-      },
-      "actions": {
-        "verifyBtn": "Verifica",
-        "revokeBtn": "Revoca",
-        "refuseBtn": "Rifiuta"
       }
     }
   },

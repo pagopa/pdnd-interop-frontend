@@ -26,8 +26,12 @@ type AttributeSectionProps = {
   attributes: Array<FrontendAttribute>
   ownedAttributesIds?: Array<string>
   handleConfirmDeclaredAttribute?: (attributeId: string) => void
+  handleVerifyAttribute?: (attributeId: string) => void
+  handleRevokeAttribute?: (attributeId: string) => void
+  handleRefuseAttribute?: (attributeId: string) => void
   setAttributes?: React.Dispatch<React.SetStateAction<FrontendAttributes>>
   readOnly?: boolean
+  shouldProviderVerify?: boolean
   showDisabledAlert?: boolean
 }
 
@@ -38,8 +42,12 @@ export function AttributeSection({
   attributes,
   ownedAttributesIds,
   handleConfirmDeclaredAttribute,
+  handleVerifyAttribute,
+  handleRevokeAttribute,
+  handleRefuseAttribute,
   setAttributes = noop,
   readOnly = false,
+  shouldProviderVerify = false,
   showDisabledAlert = false,
 }: AttributeSectionProps) {
   const { t } = useTranslation('attribute')
@@ -81,7 +89,6 @@ export function AttributeSection({
       validationSchema: createNewAttributeValidationSchema,
     })
   }
-
   const handleAddAttributesGroup = () => {
     setAttributes((prev) => ({
       ...prev,
@@ -166,6 +173,9 @@ export function AttributeSection({
                       handleExplicitAttributeVerificationChange
                     }
                     handleConfirmDeclaredAttribute={handleConfirmDeclaredAttribute}
+                    handleVerifyAttribute={shouldProviderVerify ? handleVerifyAttribute : undefined}
+                    handleRefuseAttribute={shouldProviderVerify ? handleRefuseAttribute : undefined}
+                    handleRevokeAttribute={shouldProviderVerify ? handleRevokeAttribute : undefined}
                   />
                 ))}
               </Stack>

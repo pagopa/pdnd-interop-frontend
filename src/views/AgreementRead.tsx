@@ -51,11 +51,13 @@ import {
   remapBackendAttributesToFrontend,
   remapTenantBackendAttributesToFrontend,
 } from '../lib/attributes'
+import { useJwt } from '../hooks/useJwt'
 
 export function AgreementRead() {
   const { t } = useTranslation(['agreement', 'common'])
   const { runAction, forceRerenderCounter } = useFeedback()
   const mode = useMode()
+  const { jwt } = useJwt()
   const agreementId = getLastBit(useLocation())
   const { routes } = useRoute()
 
@@ -81,8 +83,6 @@ export function AgreementRead() {
     },
     { useEffectDeps: [agreement], disabled: !agreement }
   )
-
-  console.log({ agreement, eservice })
 
   const error = agreementError || eserviceError
   const isLoading = isLoadingAgreement || isLoadingEService
@@ -193,6 +193,35 @@ export function AgreementRead() {
   const consumerAttributes =
     agreement && remapTenantBackendAttributesToFrontend(agreement.consumer.attributes)
 
+  function handleVerifyAttribute(attributeId: string) {
+    const dataToPost = {
+      id: attributeId,
+      renewal: 'AUTOMATIC_RENEWAL',
+    }
+    runAction({
+      path: {
+        endpoint: 'AGREEMENT_VERIFY_ATTRIBUTE',
+        endpointParams: { institutionId: jwt?.organization.id },
+      },
+      config: {
+        data: dataToPost,
+      },
+    })
+  }
+
+  function handleRevokeAttribute(attributeId: string) {
+    runAction({
+      path: {
+        endpoint: 'AGREEMENT_REVOKE_VERIFIED_ATTRIBUTE',
+        endpointParams: { institutionId: jwt?.organization.id, attributeId },
+      },
+    })
+  }
+
+  function handleRefuseAttribute(attributeId: string) {
+    // runAction()
+  }
+
   return (
     <Box sx={{ maxWidth: MAX_WIDTH }}>
       <StyledIntro isLoading={isLoading}>{{ title: t('read.title') }}</StyledIntro>
@@ -255,6 +284,23 @@ export function AgreementRead() {
               <AgreementAttributeSection
                 attributeKey="declared"
                 attributes={agreement.declaredAttributes}
+              />
+            </>
+          )}
+
+          {mode === 'provider' && agreement.state === 'PENDING' && (
+            <>
+              <AttributeSection
+                attributeKey="verified"
+                attributesSubtitle=""
+                description={t('read.attributes.verified.subtitle')}
+                attributes={eserviceAttributes?.verified || []}
+                ownedAttributesIds={consumerAttributes?.verified.map((a) => a.id)}
+                readOnly
+                handleVerifyAttribute={handleVerifyAttribute}
+                handleRefuseAttribute={handleRefuseAttribute}
+                handleRevokeAttribute={handleRevokeAttribute}
+                shouldProviderVerify
               />
             </>
           )}
@@ -491,19 +537,10 @@ function ConsumerMessageSection({ message }: ConsumerMessageSectionProps) {
   )
 }
 
-type AgreementAttributeSectionProps =
-  | {
-      attributeKey: 'certified'
-      attributes: Array<CertifiedAttribute>
-    }
-  | {
-      attributeKey: 'verified'
-      attributes: Array<VerifiedAttribute>
-    }
-  | {
-      attributeKey: 'declared'
-      attributes: Array<DeclaredAttribute>
-    }
+type AgreementAttributeSectionProps = {
+  attributeKey: AttributeKey
+  attributes: Array<{ id: string; name: string }>
+}
 
 function AgreementAttributeSection({ attributeKey, attributes }: AgreementAttributeSectionProps) {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
@@ -517,48 +554,12 @@ function AgreementAttributeSection({ attributeKey, attributes }: AgreementAttrib
     })
   }
 
-  function handleVerify(attributeId: string) {
-    // TEMP BACKEND
-  }
-
-  function handleRevoke(attributeId: string) {
-    // TEMP BACKEND
-  }
-
-  function handleRefuse(attributeId: string) {
-    // TEMP BACKEND
-  }
-
   function AttributeListItem({ attribute }: { attribute: typeof attributes[0] }) {
     const isVerified = false // TODO
     return (
       <Stack component="li" direction="row" spacing={2}>
         <Box sx={{ flex: 1 }}>{attribute.name}</Box>
         <Stack sx={{ flexShrink: 0 }} spacing={1}>
-          <ButtonNaked
-            onClick={handleVerify.bind(null, attribute.id)}
-            aria-label={t('showInfoSrLabel')}
-          >
-            {t('actions.verify')}
-          </ButtonNaked>
-          {isVerified ? (
-            <ButtonNaked
-              onClick={handleRevoke.bind(null, attribute.id)}
-              color="error"
-              aria-label={t('showInfoSrLabel')}
-            >
-              {t('actions.revoke')}
-            </ButtonNaked>
-          ) : (
-            <ButtonNaked
-              onClick={handleRefuse.bind(null, attribute.id)}
-              color="error"
-              aria-label={t('showInfoSrLabel')}
-            >
-              {t('actions.refuse')}
-            </ButtonNaked>
-          )}
-
           <Tooltip
             aria-hidden={!isVerified}
             sx={{ visibility: isVerified ? 'visible' : 'hidden' }}

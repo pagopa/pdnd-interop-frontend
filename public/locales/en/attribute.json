@@ -26,6 +26,7 @@
     "addBtn": "Add",
     "cancelBtn": "Cancel",
     "confirmDeclaredAttributeBtn": "Confirm",
+    "verifiedTooltipLabel": "Verified",
     "or": "or",
     "deleteSrLabel": "Delete attribute",
     "deleteGroupSrLabel": "Delete group attribute",
@@ -48,6 +49,11 @@
         "fullfilledLabel": "declared",
         "unfullfilledLabel": "pending confirmation"
       }
+    },
+    "actions": {
+      "verifyBtn": "Verify",
+      "revokeBtn": "Revoke",
+      "refuseBtn": "Refuse"
     }
   }
 }

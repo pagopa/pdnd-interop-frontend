@@ -7,6 +7,7 @@ import {
   FormControlLabel,
   Stack,
   Switch,
+  Tooltip,
   Typography,
 } from '@mui/material'
 import { AttributeKey, CatalogAttribute, FrontendAttribute } from '../../types'
@@ -34,6 +35,9 @@ type AttributeGroupProps = {
     e: React.ChangeEvent<HTMLInputElement>
   ) => void
   handleConfirmDeclaredAttribute?: (attributeId: string) => void
+  handleVerifyAttribute?: (attributeId: string) => void
+  handleRefuseAttribute?: (attributeId: string) => void
+  handleRevokeAttribute?: (attributeId: string) => void
 }
 
 export function AttributeGroup({
@@ -48,10 +52,14 @@ export function AttributeGroup({
   handleRemoveAttributeFromGroup = noop,
   handleExplicitAttributeVerificationChange = noop,
   handleConfirmDeclaredAttribute,
+  handleVerifyAttribute,
+  handleRefuseAttribute,
+  handleRevokeAttribute,
 }: AttributeGroupProps) {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
 
   const [isAttributeAutocompleteShown, setIsAttributeAutocompleteShown] = useState(true)
+
   const hasExplicitAttributeVerification = attributeKey === 'verified'
 
   const handleHideAutocomplete = () => setIsAttributeAutocompleteShown(false)
@@ -98,6 +106,9 @@ export function AttributeGroup({
             showConfirmAttributeButton ? handleConfirmDeclaredAttribute : undefined
           }
           onRemove={handleRemoveAttributeFromGroup.bind(null, index)}
+          onVerifyAttribute={handleVerifyAttribute}
+          onRefuseAttribute={handleRefuseAttribute}
+          onRevokeAttribute={handleRevokeAttribute}
         />
 
         {!readOnly && (
@@ -225,6 +236,9 @@ type AttributesListProps = {
   ownedAttributesIds?: Array<string>
   onConfirmDeclaredAttribute?: (attributeId: string) => void
   onRemove: (attributeId: string) => void
+  onVerifyAttribute?: (attributeId: string) => void
+  onRefuseAttribute?: (attributeId: string) => void
+  onRevokeAttribute?: (attributeId: string) => void
 }
 function AttributesList({
   readOnly,
@@ -232,6 +246,9 @@ function AttributesList({
   ownedAttributesIds,
   onConfirmDeclaredAttribute,
   onRemove,
+  onVerifyAttribute,
+  onRefuseAttribute,
+  onRevokeAttribute,
 }: AttributesListProps) {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
   const { setDialog } = useContext(DialogContext)
@@ -261,33 +278,69 @@ function AttributesList({
         <Typography sx={{ flex: 1 }} variant="body2">
           {attribute.name}
         </Typography>
+        {/* TEMP REFACTOR */}
         <Stack sx={{ flexShrink: 0 }} direction="row" spacing={2}>
-          {isOwned && (
-            <StyledTooltip title={fullfilledTooltipLabel}>
-              <Check color="success" fontSize="small" />
-            </StyledTooltip>
-          )}
-          {onConfirmDeclaredAttribute && (
-            <ButtonNaked
-              onClick={onConfirmDeclaredAttribute.bind(null, attribute.id)}
-              color="primary"
-            >
-              {t('confirmDeclaredAttributeBtn')}
-            </ButtonNaked>
-          )}
-          <ButtonNaked
-            onClick={openAttributeDetailsDialog.bind(null, attribute)}
-            aria-label={t('showInfoSrLabel')}
-          >
-            <InfoRounded fontSize="small" color="primary" />
-          </ButtonNaked>
-          {!readOnly && (
-            <ButtonNaked
-              onClick={onRemove.bind(null, attribute.id)}
-              aria-label={t('deleteSrLabel')}
-            >
-              <DeleteOutline fontSize="small" color="error" />
-            </ButtonNaked>
+          {onVerifyAttribute && onRefuseAttribute && onRevokeAttribute ? (
+            <>
+              <ButtonNaked onClick={onVerifyAttribute.bind(null, attribute.id)} color="primary">
+                {t('actions.verifyBtn')}
+              </ButtonNaked>
+
+              {isOwned ? (
+                <ButtonNaked onClick={onRefuseAttribute.bind(null, attribute.id)}>
+                  {t('actions.revokeBtn')}
+                </ButtonNaked>
+              ) : (
+                <ButtonNaked onClick={onRevokeAttribute.bind(null, attribute.id)}>
+                  {t('actions.refuseBtn')}
+                </ButtonNaked>
+              )}
+
+              <Tooltip
+                aria-hidden={!isOwned}
+                sx={{ visibility: isOwned ? 'visible' : 'hidden' }}
+                title={t('verifiedTooltipLabel')}
+              >
+                <Check fontSize="small" color="success" />
+              </Tooltip>
+
+              <ButtonNaked
+                onClick={openAttributeDetailsDialog.bind(null, attribute)}
+                aria-label={t('showInfoSrLabel')}
+              >
+                <InfoRounded fontSize="small" color="primary" />
+              </ButtonNaked>
+            </>
+          ) : (
+            <>
+              {isOwned && (
+                <StyledTooltip title={fullfilledTooltipLabel}>
+                  <Check color="success" fontSize="small" />
+                </StyledTooltip>
+              )}
+              {onConfirmDeclaredAttribute && (
+                <ButtonNaked
+                  onClick={onConfirmDeclaredAttribute.bind(null, attribute.id)}
+                  color="primary"
+                >
+                  {t('confirmDeclaredAttributeBtn')}
+                </ButtonNaked>
+              )}
+              <ButtonNaked
+                onClick={openAttributeDetailsDialog.bind(null, attribute)}
+                aria-label={t('showInfoSrLabel')}
+              >
+                <InfoRounded fontSize="small" color="primary" />
+              </ButtonNaked>
+              {!readOnly && (
+                <ButtonNaked
+                  onClick={onRemove.bind(null, attribute.id)}
+                  aria-label={t('deleteSrLabel')}
+                >
+                  <DeleteOutline fontSize="small" color="error" />
+                </ButtonNaked>
+              )}
+            </>
           )}
         </Stack>
         <Typography
