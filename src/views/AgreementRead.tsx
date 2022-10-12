@@ -461,12 +461,18 @@ function GeneralInfoSection({ agreement }: GeneralInfoSectionProps) {
     const chips = []
     if (isProviderSuspended) {
       chips.push(
-        <Chip label={t(`suspendedByProvider`)} color={CHIP_COLORS_AGREEMENT[agreement.state]} />
+        <Chip
+          label={t(`requestStatusField.suspendedByProvider`)}
+          color={CHIP_COLORS_AGREEMENT[agreement.state]}
+        />
       )
     }
     if (isSubscriberSuspended) {
       chips.push(
-        <Chip label={t(`suspendedBySubscriber`)} color={CHIP_COLORS_AGREEMENT[agreement.state]} />
+        <Chip
+          label={t(`requestStatusField.suspendedBySubscriber`)}
+          color={CHIP_COLORS_AGREEMENT[agreement.state]}
+        />
       )
     }
 
