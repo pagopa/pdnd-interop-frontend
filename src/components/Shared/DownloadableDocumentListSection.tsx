@@ -1,5 +1,5 @@
 import React from 'react'
-import { Stack } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import { AxiosResponse } from 'axios'
 import { EServiceDocumentRead } from '../../../types'
 import { RunActionOutput, useFeedback } from '../../hooks/useFeedback'
@@ -14,6 +14,7 @@ interface Props {
   eserviceId: string
   docs: Array<EServiceDocumentRead>
   sectionTitle?: string
+  noFilesLabel?: string
 }
 
 function DownloadableDocumentListSection({
@@ -21,6 +22,7 @@ function DownloadableDocumentListSection({
   eserviceId,
   docs,
   sectionTitle = 'Download',
+  noFilesLabel = 'Nessun download disponibile',
 }: Props) {
   const { runAction } = useFeedback()
 
@@ -50,25 +52,29 @@ function DownloadableDocumentListSection({
     <StyledSection>
       <StyledSection.Title>{sectionTitle}</StyledSection.Title>
       <StyledSection.Content>
-        <Stack spacing={2} alignItems="start">
-          {docs.map((doc) => (
-            <Stack key={doc.id} spacing={2}>
-              <StyledLink
-                onClick={handleDownloadDocument.bind(null, doc)}
-                component="button"
-                variant="body2"
-                underline="hover"
-                sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
-              >
-                <AttachFileIcon sx={{ mr: 1 }} /> {doc.prettyName}
-              </StyledLink>
-              {/* TEMP BACKEND - Size data doesn't come from backend (yet) */}
-              {/* <Typography fontWeight={600} sx={{ marginLeft: '30px' }}>
+        {Boolean(docs.length > 0) ? (
+          <Stack spacing={2} alignItems="start">
+            {docs.map((doc) => (
+              <Stack key={doc.id} spacing={2}>
+                <StyledLink
+                  onClick={handleDownloadDocument.bind(null, doc)}
+                  component="button"
+                  variant="body2"
+                  underline="hover"
+                  sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+                >
+                  <AttachFileIcon sx={{ mr: 1 }} /> {doc.prettyName}
+                </StyledLink>
+                {/* TEMP BACKEND - Size data doesn't come from backend (yet) */}
+                {/* <Typography fontWeight={600} sx={{ marginLeft: '30px' }}>
                 {(doc.size / 1024).toFixed(2)}&nbsp;KB
               </Typography> */}
-            </Stack>
-          ))}
-        </Stack>
+              </Stack>
+            ))}
+          </Stack>
+        ) : (
+          <Typography variant="body2">{noFilesLabel}</Typography>
+        )}
       </StyledSection.Content>
     </StyledSection>
   )
