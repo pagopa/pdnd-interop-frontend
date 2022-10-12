@@ -28,7 +28,10 @@ export const AsyncTableAgreement = () => {
   const history = useHistory()
   const params =
     currentMode === 'provider'
-      ? { producerId: jwt?.organization.id }
+      ? {
+          producerId: jwt?.organization.id,
+          states: ['ACTIVE', 'ARCHIVED', 'PENDING', 'SUSPENDED', 'REJECTED'],
+        }
       : { consumerId: jwt?.organization.id }
 
   const { data, error, isLoading } = useAsyncFetch<Array<AgreementSummary>>(
