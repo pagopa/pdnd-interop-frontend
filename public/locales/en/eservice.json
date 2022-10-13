@@ -18,11 +18,11 @@
       "detailsTitle": "E-Service details",
       "eserviceNameField": {
         "label": "E-Service name (required)",
-        "infoLabel": "If you have more than one E-Service with the same name, give a little hint to tell them apart (e.g. \"TARI – for Municipalities\" e \"TARI - for Regions\")"
+        "infoLabel": "If you have more than one E-Service with the same name, give a little hint to tell them apart (e.g. \"TARI – for Municipalities\" e \"TARI - for Regions\"). Max 60 chars"
       },
       "eserviceDescriptionField": {
         "label": "E-Service description (required)",
-        "infoLabel": "(e.g. \"Dedicated to the bodies that need ...\", or \"This E-Service is for ...\")"
+        "infoLabel": "(e.g. \"Dedicated to the bodies that need ...\", or \"This E-Service is for ...\"). Max 250 chars"
       },
       "eserviceTechnologyField": {
         "label": "Technology (required)"
@@ -47,11 +47,12 @@
         "infoLabel": "Set automatically, not editable"
       },
       "descriptionField": {
-        "label": "Version description (required)"
+        "label": "Version description (required)",
+        "infoLabel": "Max 250 chars"
       },
       "audienceField": {
         "label": "Audience (required)",
-        "infoLabel": "The content of this field will the audience (aud) that the Subscriber will send you inside the access token. With this id the Subscriber will tell the Provider which service it is looking for"
+        "infoLabel": "The content of this field will the audience (aud) that the Subscriber will send you inside the access token. With this id the Subscriber will tell the Provider which service it is looking for. Max 60 chars"
       },
       "voucherLifespanField": {
         "label": "Access token expiration (in minutes - required)",
@@ -90,7 +91,8 @@
         "label": "Choose document"
       },
       "nameField": {
-        "label": "Document name"
+        "label": "Document name",
+        "infoLabel": "Max 60 chars"
       },
       "uploadBtn": "Upload"
     },

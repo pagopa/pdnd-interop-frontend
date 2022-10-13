@@ -222,6 +222,8 @@ export const AsyncTableEServiceCatalog = () => {
                   </Stack>
 
                   <Typography color="text.secondary">{item.producerName}</Typography>
+                  <br />
+                  <Typography color="text.secondary">{item.description}</Typography>
                 </CardContent>
 
                 <CardActions sx={{ px: 3, py: 2, justifyContent: 'space-between' }}>

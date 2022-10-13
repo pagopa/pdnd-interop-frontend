@@ -248,15 +248,18 @@ export const PurposeEditStep1General: FunctionComponent<ActiveStepProps> = ({ fo
             value={formik.values.title}
             onChange={formik.handleChange}
             focusOnMount={true}
+            inputProps={{ maxLength: 60 }}
           />
 
           <StyledInputControlledText
             name="description"
             label={t('edit.step1.descriptionField.label')}
+            infoLabel={t('edit.step1.descriptionField.infoLabel')}
             error={formik.errors.description}
             value={formik.values.description}
             onChange={formik.handleChange}
             multiline={true}
+            inputProps={{ maxLength: 250 }}
           />
 
           <StyledInputControlledSelect

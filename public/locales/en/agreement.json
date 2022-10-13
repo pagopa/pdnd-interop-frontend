@@ -38,7 +38,8 @@
         "versionLabel": "version"
       },
       "providerField": {
-        "label": "Provider"
+        "label": "Provider",
+        "infoLabel": "Max 1000 chars"
       },
       "requestStatusField": {
         "label": "Request status",

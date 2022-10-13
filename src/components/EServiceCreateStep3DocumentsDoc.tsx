@@ -151,10 +151,12 @@ export function EServiceCreateStep3DocumentsDoc({
                   sx={{ my: 2 }}
                   name="prettyName"
                   label={t('create.step3.nameField.label')}
+                  infoLabel={t('create.step3.nameField.infoLabel')}
                   value={values.prettyName}
                   error={errors.prettyName}
                   onChange={handleChange}
                   rows={4}
+                  inputProps={{ maxLength: 60 }}
                 />
 
                 <Stack direction="row" justifyContent="flex-end">

@@ -24,7 +24,10 @@
     "cta": "Reload the page"
   },
   "styledDeleteableDocument": {
-    "prettyNameLabel": "Document name",
+    "prettyName": {
+      "label": "Document name",
+      "infoLabel": "Max 60 chars"
+    },
     "editDocumentName": "Edit document name",
     "deleteDocument": "Delete document",
     "downloadDocument": "Download document"
@@ -59,7 +62,7 @@
     "content": {
       "nameField": {
         "label": "Key name (required)",
-        "infoLabel": "It will help you tell them apart"
+        "infoLabel": "It will help you tell them apart. Max 60 chars"
       },
       "keyField": {
         "label": "Public key (required)",
@@ -110,17 +113,20 @@
     "title": "Create new attribute",
     "content": {
       "nameField": {
-        "label": "Attribute name (required)"
+        "label": "Attribute name (required)",
+        "infoLabel": "Max 160 chars"
       },
       "descriptionField": {
-        "label": "Attribute description (required)"
+        "label": "Attribute description (required)",
+        "infoLabel": "Max 250 chars"
       },
       "codeField": {
         "label": "Authoritative source id (required)",
-        "infoLabel": "A kebab-case version of the name (e.g. \"My Authoritative Source\" becomes \"my-authoritative-source\")"
+        "infoLabel": "A kebab-case version of the name (e.g. \"My Authoritative Source\" becomes \"my-authoritative-source\"). Max 30 chars"
       },
       "originField": {
-        "label": "Authoritative source name (required)"
+        "label": "Authoritative source name (required)",
+        "infoLabel": "Max. 64 chars"
       }
     },
     "actions": {

@@ -272,6 +272,7 @@ export type EServiceCreateDataType = {
 // Read only
 export type EServiceFlatReadType = {
   name: string
+  description: string
   id: string
   producerId: string
   producerName: string
