@@ -12,7 +12,10 @@ import { LoadingTranslations } from './LoadingTranslations'
 export const StyledDialogUpdatePurposeDailyCalls: FunctionComponent<
   DialogUpdatePurposeDailyCallsProps
 > = ({ onSubmit, initialValues, validationSchema }) => {
-  const { t, ready } = useTranslation('shared-components', { useSuspense: false })
+  const { t, ready } = useTranslation('shared-components', {
+    useSuspense: false,
+    keyPrefix: 'styledDialogUpdatePurposeDailyCalls',
+  })
   const { closeDialog } = useCloseDialog()
 
   if (!ready) {
@@ -20,7 +23,7 @@ export const StyledDialogUpdatePurposeDailyCalls: FunctionComponent<
   }
 
   return (
-    <Dialog open onClose={closeDialog} aria-describedby={t('ariaLabelledBy')} fullWidth>
+    <Dialog open onClose={closeDialog} aria-describedby={t('ariaDescribedBy')} fullWidth>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
