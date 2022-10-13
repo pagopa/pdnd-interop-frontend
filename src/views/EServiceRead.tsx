@@ -115,9 +115,13 @@ export function EServiceRead() {
   }
 
   const isLoading = isEServiceLoading || isFlatEServiceLoading
-  const isSubscribed = flatData && flatData.callerSubscribed && isAdmin
+  const isSubscribed =
+    flatData && flatData?.agreement && flatData.agreement.state !== 'DRAFT' && isAdmin
+  const hasDraft =
+    flatData && flatData.agreement && flatData?.agreement.state === 'DRAFT' && isAdmin
+
   const canBeSubsribed =
-    isVersionPublished && !isMine && canSubscribeEservice && !flatData?.callerSubscribed && isAdmin
+    isVersionPublished && !isMine && canSubscribeEservice && !flatData?.agreement && isAdmin
 
   return (
     <Box sx={{ maxWidth: MAX_WIDTH }}>
@@ -139,9 +143,8 @@ export function EServiceRead() {
         {!canSubscribeEservice && (
           <Alert severity="info">{t('read.alert.missingCertifiedAttributes')}</Alert>
         )}
-        {flatData?.callerSubscribed && (
-          <Alert severity="info">{t('read.alert.alreadySubscribed')}</Alert>
-        )}
+        {isSubscribed && <Alert severity="info">{t('read.alert.alreadySubscribed')}</Alert>}
+        {hasDraft && <Alert severity="info">{t('read.alert.hasDraft')}</Alert>}
       </Stack>
 
       {data && descriptorId ? (
@@ -149,7 +152,7 @@ export function EServiceRead() {
           <EServiceContentInfo
             data={data}
             descriptorId={descriptorId}
-            agreementId={isSubscribed ? flatData.callerSubscribed : undefined}
+            agreement={flatData?.agreement}
             context="subscriber"
           />
 

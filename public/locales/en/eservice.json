@@ -106,6 +106,7 @@
   "tableEServiceCatalog": {
     "youAreTheProvider": "You are the Provider",
     "alreadySubscribed": "Already subscribed",
+    "agreementInDraft": "You have an agreement draft",
     "missingCertifiedAttributes": "Your party does not meet the list of required certificated attributes",
     "goToRequestCta": "Go to the fruition request",
     "subscribeModal": {
@@ -118,10 +119,10 @@
     "sections": {
       "generalInformations": {
         "title": "General informations",
-        "alreadySubscribedField": {
-          "label": "You are a Subscriber of the E-Service",
+        "agreementField": {
+          "label": "Fruition request",
           "link": {
-            "label": "Go to the fruition request"
+            "label": "Go to"
           }
         },
         "technology": "Technology"
@@ -214,7 +215,8 @@
     "alert": {
       "youAreTheProvider": "You can't subscribe to an E-Service you are a Provider of",
       "missingCertifiedAttributes": "Your party is missing at least one of the certified attributes required to subscribe this E-Service",
-      "alreadySubscribed": "You can't subscribe again as you are already a Subscriber of this E-Service"
+      "alreadySubscribed": "You can't subscribe again as you are already a Subscriber of this E-Service",
+      "hasDraft": "You already have an agreement draft for this E-Service"
     },
     "actions": {
       "backToCatalogLabel": "Back to the catalog"

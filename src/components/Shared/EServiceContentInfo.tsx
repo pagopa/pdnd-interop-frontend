@@ -1,6 +1,7 @@
 import { Chip, Divider, Grid, Stack, Typography } from '@mui/material'
 import React, { FunctionComponent, useMemo, useState } from 'react'
 import {
+  AgreementState,
   EServiceDescriptorRead,
   EServiceReadType,
   FrontendAttributes,
@@ -25,19 +26,20 @@ import { CHIP_COLORS_E_SERVICE, eServiceHelpLink, verifyVoucherHelpLink } from '
 import { WELL_KNOWN_URLS } from '../../lib/env'
 import { Launch as LaunchIcon } from '@mui/icons-material'
 import DownloadableDocumentListSection from './DownloadableDocumentListSection'
+import { useJwt } from '../../hooks/useJwt'
 
 type EServiceContentInfoProps = {
   context: ProviderOrSubscriber
   data: EServiceReadType
   descriptorId: string
-  agreementId?: string
+  agreement?: { id: string; state: AgreementState }
 }
 
 export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = ({
   context,
   data,
   descriptorId,
-  agreementId,
+  agreement,
 }) => {
   const frontendAttributes = useMemo(() => {
     return remapBackendAttributesToFrontend(data.attributes)
@@ -51,7 +53,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
     <React.Fragment>
       <Grid spacing={2} container>
         <Grid item xs={7}>
-          <GeneralInfoSection data={data} agreementId={agreementId} />
+          <GeneralInfoSection data={data} agreement={agreement} />
           <VersionInfoSection data={data} isCurrentVersion={isCurrentVersion} context={context} />
         </Grid>
         <Grid item xs={5}>
@@ -81,29 +83,35 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
 
 function GeneralInfoSection({
   data,
-  agreementId,
+  agreement,
 }: {
   data: EServiceReadType
-  agreementId?: string
+  agreement?: { id: string; state: AgreementState }
 }) {
   const { t } = useTranslation('eservice', {
     keyPrefix: 'contentInfo.sections.generalInformations',
   })
   const { routes } = useRoute()
+  const { isAdmin } = useJwt()
+
+  const agreementPath =
+    agreement?.state === 'DRAFT'
+      ? routes.SUBSCRIBE_AGREEMENT_EDIT.PATH
+      : routes.SUBSCRIBE_AGREEMENT_READ.PATH
 
   return (
     <StyledSection>
       <StyledSection.Title>{t('title')}</StyledSection.Title>
       <StyledSection.Content>
         <Stack spacing={2}>
-          {agreementId && (
-            <InformationRow label={t('alreadySubscribedField.label')}>
+          {isAdmin && agreement && (
+            <InformationRow label={t('agreementField.label')}>
               <StyledLink
-                to={buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_READ.PATH, {
-                  agreementId,
+                to={buildDynamicPath(agreementPath, {
+                  agreementId: agreement.id,
                 })}
               >
-                {t('alreadySubscribedField.link.label')}
+                {t('agreementField.link.label')}
               </StyledLink>
             </InformationRow>
           )}

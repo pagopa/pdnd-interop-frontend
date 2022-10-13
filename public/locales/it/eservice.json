@@ -106,6 +106,7 @@
   "tableEServiceCatalog": {
     "youAreTheProvider": "Sei l'Erogatore",
     "alreadySubscribed": "Sei già iscritto",
+    "agreementInDraft": "Hai una richiesta in bozza",
     "missingCertifiedAttributes": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
     "goToRequestCta": "Vai alla richiesta",
     "subscribeModal": {
@@ -118,10 +119,10 @@
     "sections": {
       "generalInformations": {
         "title": "Informazioni generali",
-        "alreadySubscribedField": {
-          "label": "Sei iscritto all'E-Service",
+        "agreementField": {
+          "label": "Richiesta di fruizione",
           "link": {
-            "label": "Vai alla richiesta di fruizione"
+            "label": "Vai"
           }
         },
         "technology": "Tecnologia"
@@ -215,7 +216,8 @@
     "alert": {
       "youAreTheProvider": "Non puoi iscriverti a un E-Service di cui sei Erogatore",
       "missingCertifiedAttributes": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
-      "alreadySubscribed": "Non puoi iscriverti a questo E-Service perché sei già iscritto"
+      "alreadySubscribed": "Non puoi iscriverti a questo E-Service perché sei già iscritto",
+      "hasDraft": "Possiedi già una richiesta in bozza per questo E-Service"
     },
     "actions": {
       "backToCatalogLabel": "Torna al catalogo"

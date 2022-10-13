@@ -7,6 +7,7 @@ import {
   Check as CheckIcon,
   Person as PersonIcon,
   SvgIconComponent,
+  ModeEdit as ModeEditIcon,
 } from '@mui/icons-material'
 import {
   ActionProps,
@@ -81,7 +82,11 @@ export const AsyncTableEServiceCatalog = () => {
       return <OwnerTooltip label={t('tableEServiceCatalog.youAreTheProvider')} Icon={PersonIcon} />
     }
 
-    if (item.callerSubscribed && isAdmin) {
+    if (item.agreement && item.agreement.state === 'DRAFT' && isAdmin) {
+      return <OwnerTooltip label={t('tableEServiceCatalog.agreementInDraft')} Icon={ModeEditIcon} />
+    }
+
+    if (item.agreement && item.agreement.state !== 'DRAFT' && isAdmin) {
       return <OwnerTooltip label={t('tableEServiceCatalog.alreadySubscribed')} Icon={CheckIcon} />
     }
 
@@ -141,12 +146,17 @@ export const AsyncTableEServiceCatalog = () => {
   ) => {
     const actions: Array<ActionProps> = []
 
-    if (!eservice.isMine && isAdmin && eservice.callerSubscribed) {
+    if (!eservice.isMine && isAdmin && eservice.agreement) {
       actions.push({
         onClick: () => {
+          const path =
+            eservice.agreement!.state !== 'DRAFT'
+              ? routes.SUBSCRIBE_AGREEMENT_READ.PATH
+              : routes.SUBSCRIBE_AGREEMENT_EDIT.PATH
+
           history.push(
-            buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_READ.PATH, {
-              agreementId: eservice.callerSubscribed as string,
+            buildDynamicPath(path, {
+              agreementId: eservice.agreement?.id as string,
             })
           )
         },
@@ -154,7 +164,7 @@ export const AsyncTableEServiceCatalog = () => {
       })
     }
 
-    if (!eservice.isMine && isAdmin && !eservice.callerSubscribed && canSubscribeEservice) {
+    if (!eservice.isMine && isAdmin && !eservice.agreement && canSubscribeEservice) {
       actions.push({
         onClick: () => {
           setDialog({

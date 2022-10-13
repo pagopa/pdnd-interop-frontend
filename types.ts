@@ -284,7 +284,10 @@ export type EServiceFlatReadType = {
   descriptorId?: string
   state?: EServiceState
   version?: string
-  callerSubscribed?: string
+  agreement?: {
+    id: string
+    state: AgreementState
+  }
   certifiedAttributes: Array<BackendAttribute>
 }
 
