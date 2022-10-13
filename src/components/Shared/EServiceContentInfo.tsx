@@ -22,7 +22,7 @@ import { StyledForm } from './StyledForm'
 import { StyledInputControlledSelect } from './StyledInputControlledSelect'
 import { AttributeSection } from '../AttributeSection'
 import { CHIP_COLORS_E_SERVICE, eServiceHelpLink, verifyVoucherHelpLink } from '../../lib/constants'
-import { WELL_KNOWN_URL } from '../../lib/env'
+import { WELL_KNOWN_URLS } from '../../lib/env'
 import { Launch as LaunchIcon } from '@mui/icons-material'
 import DownloadableDocumentListSection from './DownloadableDocumentListSection'
 
@@ -226,7 +226,7 @@ function VoucherVerificationSection() {
 
         <Stack sx={{ mt: 2 }} spacing={2}>
           <VoucherLink label={t('howLink')} href={verifyVoucherHelpLink} />
-          <VoucherLink label={t('wellKnownLink')} href={WELL_KNOWN_URL} />
+          <VoucherLink label={t('wellKnownLink')} href={WELL_KNOWN_URLS[0]} />
         </Stack>
       </StyledSection.Content>
     </StyledSection>
