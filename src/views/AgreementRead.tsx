@@ -190,27 +190,37 @@ export function AgreementRead() {
       id: attributeId,
       renewal: 'AUTOMATIC_RENEWAL',
     }
-    runAction({
-      path: {
-        endpoint: 'AGREEMENT_VERIFY_ATTRIBUTE',
-        endpointParams: { institutionId: jwt?.organization.id },
+    runAction(
+      {
+        path: {
+          endpoint: 'AGREEMENT_VERIFY_ATTRIBUTE',
+          endpointParams: { institutionId: agreement?.consumer.id },
+        },
+        config: {
+          data: dataToPost,
+        },
       },
-      config: {
-        data: dataToPost,
-      },
-    })
+      {
+        showConfirmDialog: true,
+      }
+    )
   }
 
   function handleRevokeAttribute(attributeId: string) {
-    runAction({
-      path: {
-        endpoint: 'AGREEMENT_REVOKE_VERIFIED_ATTRIBUTE',
-        endpointParams: { institutionId: jwt?.organization.id, attributeId },
+    runAction(
+      {
+        path: {
+          endpoint: 'AGREEMENT_REVOKE_VERIFIED_ATTRIBUTE',
+          endpointParams: { institutionId: agreement?.consumer.id, attributeId },
+        },
       },
-    })
+      {
+        showConfirmDialog: true,
+      }
+    )
   }
 
-  function handleRefuseAttribute(attributeId: string) {
+  function handleRefuseAttribute(_: string) {
     // runAction()
   }
 

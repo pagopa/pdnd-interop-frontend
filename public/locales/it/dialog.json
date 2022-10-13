@@ -90,5 +90,13 @@
   "ATTRIBUTE_CONFIRM_DECLARED": {
     "title": "Conferma attributo dichiarato",
     "description": "Dichiari sotto la tua responsabilità che il tuo ente possiede questo attributo?"
+  },
+  "AGREEMENT_VERIFY_ATTRIBUTE": {
+    "title": "Verifica attributo",
+    "description": "Sei sicuro di voler verificare l'attributo?"
+  },
+  "AGREEMENT_REVOKE_VERIFIED_ATTRIBUTE": {
+    "title": "Revoca attributo",
+    "description": "Sei sicuro di voler revocare l'attributo?"
   }
 }

@@ -90,5 +90,13 @@
   "ATTRIBUTE_CONFIRM_DECLARED": {
     "title": "Confirm declared attribute",
     "description": "Do you declare under your responsibility that your institution has this attribute?"
+  },
+  "AGREEMENT_VERIFY_ATTRIBUTE": {
+    "title": "Verify attribute",
+    "description": "Are you sure you want to verify the attribute?"
+  },
+  "AGREEMENT_REVOKE_VERIFIED_ATTRIBUTE": {
+    "title": "Revoke attribute",
+    "description": "Are you sure you want to revoke the attribute?"
   }
 }
