@@ -15,6 +15,9 @@ import { HeaderWrapper } from './HeaderWrapper'
 import { FooterWrapper } from './FooterWrapper'
 import { Stack, Box } from '@mui/material'
 import { useRebuildI18N } from '../hooks/useRebuildI18n'
+import { useTOSAgreementLocalStorage } from '../hooks/useTOSAgreementLocalStorage'
+import TOSAgreement from '../views/TOSAgreement'
+import { LIGHT_GRAY } from '../lib/constants'
 
 export const WhitePanel: FunctionComponent = ({ children }) => {
   return (
@@ -35,7 +38,7 @@ export const WhitePanel: FunctionComponent = ({ children }) => {
           transform: 'translate(100%, 0)',
         },
       }}
-      bgcolor="#FAFAFA"
+      bgcolor={LIGHT_GRAY}
     >
       {children}
     </Box>
@@ -45,6 +48,8 @@ export const WhitePanel: FunctionComponent = ({ children }) => {
 export function BodyLogger() {
   const { doesRouteAllowTwoColumnsLayout } = useRoute()
   const location = useLocation()
+  const { isRouteProtected } = useRoute()
+  const { isTOSAccepted, acceptTOS } = useTOSAgreementLocalStorage()
   const [toast, setToast] = useState<ToastProps | null>(null)
   const [dialog, setDialog] = useState<DialogProps | null>(null)
   const [loadingText, setLoadingText] = useState<string | null>(null)
@@ -89,6 +94,8 @@ export function BodyLogger() {
     window.scrollTo(0, 0)
   }, [location.pathname])
 
+  const isCurrentRouteProtected = isRouteProtected(location)
+
   return (
     <TableActionMenuContext.Provider value={{ tableActionMenu, setTableActionMenu }}>
       <ToastContext.Provider value={{ toast, setToast }}>
@@ -96,7 +103,9 @@ export function BodyLogger() {
           <LoaderContext.Provider value={{ loadingText, setLoadingText }}>
             <HeaderWrapper />
 
-            {doesRouteAllowTwoColumnsLayout(location) ? (
+            {!isTOSAccepted && isCurrentRouteProtected ? (
+              <TOSAgreement onAcceptAgreement={acceptTOS} />
+            ) : doesRouteAllowTwoColumnsLayout(location) ? (
               <Box sx={{ flexGrow: 1 }}>
                 <Stack direction="row" sx={{ height: '100%', overflowX: 'hidden' }}>
                   <MainNav />
@@ -110,6 +119,7 @@ export function BodyLogger() {
                 <Main />
               </Box>
             )}
+
             <FooterWrapper />
             {toast && <StyledToast {...toast} />}
             {dialog && <StyledDialog {...dialog} />}

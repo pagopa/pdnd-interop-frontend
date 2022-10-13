@@ -1,4 +1,9 @@
 {
+  "tos": {
+    "title": "Interoperability",
+    "description": "Before proceeding, please read and accept the Privacy Policy and Terms and Conditions. You can consult them again whenever you want: you can always find them at the bottom of the page.",
+    "termsDescription": "By entering you declare that you have read and accepted the <1>Privacy Policy</1> and the <1>Terms and Conditions</1> of Interoperability"
+  },
   "footer": {
     "links": {
       "privacy": {
