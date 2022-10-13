@@ -238,10 +238,12 @@ export function AgreementEdit() {
                 disabled
                 sx={{ mb: 0, mt: 1 }}
                 label={t('edit.providerMessage.field.label')}
+                infoLabel={t('edit.providerMessage.field.infoLabel')}
                 name="providerMessage"
                 value={providerMessage}
                 onChange={handleProviderMessageChange}
                 multiline
+                inputProps={{ maxLength: 1000 }}
               />
             </StyledSection.Content>
           </StyledSection>
@@ -357,20 +359,20 @@ function DocumentInputSection({ documents, setDocuments }: DocumentInputSectionP
   )
 }
 
-const validationSchema = object({
-  file: mixed().required(),
-  prettyName: string().required(),
-})
-
 type DocumentInputProps = {
   onUpload: (file: File, prettyName: string) => void
 }
 
 type DocumentInputFormValues = { file: File | null; prettyName: string }
-const initialValues: DocumentInputFormValues = { file: null, prettyName: 'Specifica API' }
 
 function DocumentInput({ onUpload }: DocumentInputProps) {
   const { t } = useTranslation('agreement')
+
+  const validationSchema = object({
+    file: mixed().required(),
+    prettyName: string().required(),
+  })
+  const initialValues: DocumentInputFormValues = { file: null, prettyName: '' }
 
   const handleUpload = (values: DocumentInputFormValues) => {
     if (!values.file) return
@@ -405,15 +407,16 @@ function DocumentInput({ onUpload }: DocumentInputProps) {
                 focusOnMount
                 sx={{ mt: 3 }}
                 name="prettyName"
-                label={'Nome documento'}
+                label={t('edit.documents.documentPrettynameField.label')}
+                infoLabel={t('edit.documents.documentPrettynameField.infoLabel')}
                 value={values.prettyName}
                 error={errors.prettyName}
                 onChange={handleChange}
-                rows={4}
+                inputProps={{ maxLength: 60 }}
               />
               <Stack mt={3} direction="row" justifyContent="flex-end">
                 <StyledButton type="submit" variant="contained">
-                  {t('edit.documents.documentInputField.uploadBtn')}
+                  {t('edit.documents.uploadBtn')}
                 </StyledButton>
               </Stack>
             </>

@@ -65,13 +65,12 @@ export function StyledDeleteableDocument({
         disabled={!canEdit || !isLabelEditable}
         sx={{ my: 0, width: '100%', flexShrink: 1 }}
         name="prettyName"
-        label={t('styledDeleteableDocument.prettyNameLabel')}
+        label={t('styledDeleteableDocument.prettyName.label')}
+        infoLabel={t('styledDeleteableDocument.prettyName.infoLabel')}
         value={!canEdit ? fixedValue : newValue}
         onChange={updateNewValue}
         onBlur={onBlur}
-        inputProps={{
-          sx: { py: 1.2 },
-        }}
+        inputProps={{ sx: { py: 1.2 }, maxLength: 60 }}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">

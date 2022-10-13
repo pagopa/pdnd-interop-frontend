@@ -392,6 +392,7 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
           infoLabel: question.infoLabel && question.infoLabel[lang],
           required: question.required,
           emptyLabel: t('edit.step2.emptyLabel'),
+          inputProps: { maxLength: 250 },
         }
 
         const props = {

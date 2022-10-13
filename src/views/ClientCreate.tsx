@@ -128,6 +128,7 @@ export function ClientCreate() {
                 value={formik.values.name}
                 onChange={formik.handleChange}
                 error={formik.errors.name}
+                inputProps={{ maxLength: 60 }}
               />
 
               <StyledInputControlledText
@@ -137,6 +138,7 @@ export function ClientCreate() {
                 onChange={formik.handleChange}
                 error={formik.errors.description}
                 multiline={true}
+                inputProps={{ maxLength: 250 }}
               />
 
               <StyledIntro sx={{ my: 4 }} component="h2">

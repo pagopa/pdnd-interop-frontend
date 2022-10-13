@@ -24,7 +24,10 @@
     "cta": "Ricarica la pagina"
   },
   "styledDeleteableDocument": {
-    "prettyNameLabel": "Nome documento",
+    "prettyName": {
+      "label": "Nome documento",
+      "infoLabel": "Max 60 caratteri"
+    },
     "editDocumentName": "Modifica nome del documento",
     "deleteDocument": "Cancella documento",
     "downloadDocument": "Scarica documento"
@@ -59,7 +62,7 @@
     "content": {
       "nameField": {
         "label": "Nome della chiave (richiesto)",
-        "infoLabel": "Ti aiuta a distinguerla dalle altre"
+        "infoLabel": "Ti aiuta a distinguerla dalle altre. Max 60 caratteri"
       },
       "keyField": {
         "label": "Chiave pubblica (richiesto)",
@@ -110,17 +113,20 @@
     "title": "Crea nuovo attributo",
     "content": {
       "nameField": {
-        "label": "Nome dell'attributo (richiesto)"
+        "label": "Nome dell'attributo (richiesto)",
+        "infoLabel": "Max 160 caratteri"
       },
       "descriptionField": {
-        "label": "Descrizione dell'attributo (richiesto)"
+        "label": "Descrizione dell'attributo (richiesto)",
+        "infoLabel": "Max 250 caratteri"
       },
       "codeField": {
         "label": "Id della fonte autoritativa (richiesto)",
-        "infoLabel": "Il nome della fonte in kebab-case (es. \"La mia fonte autoritativa\" diventa \"la-mia-fonte-autoritativa\")"
+        "infoLabel": "Il nome della fonte in kebab-case (es. \"La mia fonte autoritativa\" diventa \"la-mia-fonte-autoritativa\"). Max 30 caratteri"
       },
       "originField": {
-        "label": "Nome della fonte autoritativa (richiesto)"
+        "label": "Nome della fonte autoritativa (richiesto)",
+        "infoLabel": "Max 64 caratteri"
       }
     },
     "actions": {

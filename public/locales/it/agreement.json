@@ -111,7 +111,8 @@
       "title": "messaggio per l’erogatore",
       "description": "Se ci sono gruppi di attributi contraddistinti da “oppure”, indica in questo messaggio quale tra quelli ti aspetti venga riconosciuto, in base alla documentazione che hai caricato. Inserisci eventuali altre note utili",
       "field": {
-        "label": "Messaggio"
+        "label": "Messaggio",
+        "infoLabel": "Max 1000 caratteri"
       }
     },
     "documents": {
@@ -122,6 +123,10 @@
         "dragHereLabel": "Trascina qui il documento oppure",
         "selectFromComputerLabel": "selezionalo dal tuo computer",
         "loadingLabel": "Caricamento in corso..."
+      },
+      "documentPrettynameField": {
+        "label": "Nome documento",
+        "infoLabel": "Max 60 caratteri"
       }
     },
     "bottomPageActionCard": {

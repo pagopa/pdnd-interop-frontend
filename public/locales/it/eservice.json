@@ -18,11 +18,11 @@
       "detailsTitle": "Caratterizzazione E-Service",
       "eserviceNameField": {
         "label": "Nome dell'E-Service (richiesto)",
-        "infoLabel": "Se prevedi di usare più E-Service con lo stesso nome, inserisci una piccola indicazione per distinguerli (es. \"TARI – dedicata Comuni\" e \"TARI - dedicata Regioni\")"
+        "infoLabel": "Se prevedi di usare più E-Service con lo stesso nome, inserisci una piccola indicazione per distinguerli (es. \"TARI – dedicata Comuni\" e \"TARI - dedicata Regioni\"). Max 60 caratteri"
       },
       "eserviceDescriptionField": {
         "label": "Descrizione dell'E-Service (richiesto)",
-        "infoLabel": "(es. \"Dedicato agli Enti che hanno necessità di ...\", oppure \"L'E-Service rivolto agli Enti che ...\")"
+        "infoLabel": "(es. \"Dedicato agli Enti che hanno necessità di ...\", oppure \"L'E-Service rivolto agli Enti che ...\"). Max 250 caratteri"
       },
       "eserviceTechnologyField": {
         "label": "Tecnologia utilizzata (richiesto)"
@@ -47,11 +47,12 @@
         "infoLabel": "Assegnata automaticamente dal sistema e non modificabile"
       },
       "descriptionField": {
-        "label": "Descrizione della versione (richiesto)"
+        "label": "Descrizione della versione (richiesto)",
+        "infoLabel": "Max 250 caratteri"
       },
       "audienceField": {
         "label": "Audience (richiesto)",
-        "infoLabel": "All’interno dell'access token che il Fruitore ti invierà rappresenterà l’audience (aud), l'id con il quale è dichiarato il servizio richiesto"
+        "infoLabel": "All’interno dell'access token che il Fruitore ti invierà rappresenterà l’audience (aud), l'id con il quale è dichiarato il servizio richiesto. Max 60 caratteri"
       },
       "voucherLifespanField": {
         "label": "Durata di validità dell'access token (in minuti - richiesto)",
@@ -90,7 +91,8 @@
         "label": "Seleziona documento"
       },
       "nameField": {
-        "label": "Nome documento"
+        "label": "Nome documento",
+        "infoLabel": "Max. 60 caratteri"
       },
       "uploadBtn": "Carica"
     },

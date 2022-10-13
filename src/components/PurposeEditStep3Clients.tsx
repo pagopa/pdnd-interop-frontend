@@ -26,7 +26,7 @@ export const PurposeEditStep3Clients: FunctionComponent<ActiveStepProps> = ({ ba
   const { setDialog } = useContext(DialogContext)
   const { routes } = useRoute()
   const { jwt } = useJwt()
-  const { t } = useTranslation(['purpose', 'toast'])
+  const { t } = useTranslation(['purpose', 'toast', 'common'])
 
   const { runAction, forceRerenderCounter } = useFeedback()
 
@@ -144,7 +144,7 @@ export const PurposeEditStep3Clients: FunctionComponent<ActiveStepProps> = ({ ba
             ))}
         </TableWithLoader>
         <StyledButton sx={{ mt: 2 }} variant="contained" size="small" onClick={showClientsDialog}>
-          + Aggiungi
+          {t('addBtn', { ns: 'common' })}
         </StyledButton>
       </StyledPaper>
 

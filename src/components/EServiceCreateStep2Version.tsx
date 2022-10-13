@@ -172,11 +172,13 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
                   <StyledInputControlledText
                     name="description"
                     label={t('create.step2.descriptionField.label')}
+                    infoLabel={t('create.step2.descriptionField.infoLabel')}
                     value={values.description}
                     error={errors.description}
                     onChange={handleChange}
                     multiline={true}
                     focusOnMount={true}
+                    inputProps={{ maxLength: 250 }}
                   />
 
                   <StyledInputControlledText
@@ -186,6 +188,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
                     value={values.audience}
                     error={errors.audience}
                     onChange={handleChange}
+                    inputProps={{ maxLength: 60 }}
                   />
 
                   <StyledInputControlledText

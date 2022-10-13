@@ -46,6 +46,8 @@ export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps
                 value={values.name}
                 onChange={handleChange}
                 label={t('styledDialogNewAttribute.content.nameField.label')}
+                infoLabel={t('styledDialogNewAttribute.content.nameField.infoLabel')}
+                inputProps={{ maxLength: 160 }}
               />
               <StyledInputControlledText
                 name="description"
@@ -53,7 +55,9 @@ export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps
                 value={values.description}
                 onChange={handleChange}
                 label={t('styledDialogNewAttribute.content.descriptionField.label')}
+                infoLabel={t('styledDialogNewAttribute.content.descriptionField.infoLabel')}
                 multiline={true}
+                inputProps={{ maxLength: 250 }}
               />
               <StyledInputControlledText
                 name="code"
@@ -62,6 +66,7 @@ export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps
                 onChange={handleChange}
                 label={t('styledDialogNewAttribute.content.codeField.label')}
                 infoLabel={t('styledDialogNewAttribute.content.codeField.infoLabel')}
+                inputProps={{ maxLength: 30 }}
               />
               <StyledInputControlledText
                 name="origin"
@@ -69,6 +74,8 @@ export const StyledDialogNewAttribute: FunctionComponent<DialogNewAttributeProps
                 value={values.origin}
                 onChange={handleChange}
                 label={t('styledDialogNewAttribute.content.originField.label')}
+                infoLabel={t('styledDialogNewAttribute.content.originField.infoLabel')}
+                inputProps={{ maxLength: 64 }}
               />
             </DialogContent>
 
