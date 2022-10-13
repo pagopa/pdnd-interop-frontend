@@ -216,7 +216,7 @@
     "alert": {
       "youAreTheProvider": "Non puoi iscriverti a un E-Service di cui sei Erogatore",
       "missingCertifiedAttributes": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
-      "alreadySubscribed": "Non puoi iscriverti a questo E-Service perché sei già iscritto",
+      "alreadySubscribed": "Sei iscritto a questo E-Service",
       "hasDraft": "Possiedi già una richiesta in bozza per questo E-Service"
     },
     "actions": {
