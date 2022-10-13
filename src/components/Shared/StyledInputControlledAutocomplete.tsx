@@ -52,7 +52,9 @@ export const StyledInputControlledAutocomplete = <T extends unknown>({
   })
   const [isOpen, setIsOpen] = useState(false)
   const [_options, _setOptions] = useState<Array<T>>([])
-  const [value, setValue] = useState<T | Array<T> | null>(defaultValue)
+  const [value, setValue] = useState<T | Array<T> | null>(
+    multiple && !defaultValue ? [] : defaultValue
+  )
 
   const getEmptyOptions = () => {
     return transformFn(options, '')
