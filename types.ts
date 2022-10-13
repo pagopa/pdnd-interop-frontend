@@ -554,6 +554,10 @@ export type Client = {
   operators: Array<SelfCareUser>
   kind: ClientKind
   purposes: Array<ClientPurpose>
+  consumer: {
+    description: string
+    institutionId: string
+  }
 }
 
 export type ClientKind = 'CONSUMER' | 'API'
