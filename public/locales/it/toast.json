@@ -373,5 +373,14 @@
     "error": {
       "message": "Non è stato possibile confermare l'attributo. Per favore, riprova!"
     }
+  },
+  "AGREEMENT_REVOKE_VERIFIED_ATTRIBUTE": {
+    "loadingText": "Stiamo revocando la verifica dell'attributo",
+    "success": {
+      "message": "Verifica all'attributo revocata con successo."
+    },
+    "error": {
+      "message": "Non è stato possibile revocare l'attributo. Per favore, riprova!"
+    }
   }
 }
