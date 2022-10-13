@@ -276,6 +276,10 @@
         {
           "id": "legalBasisPublicInterest",
           "value": "RULE_OF_LAW"
+        },
+        {
+          "id": "legalBasis",
+          "value": "PUBLIC_INTEREST"
         }
       ]
     },
@@ -297,6 +301,10 @@
         {
           "id": "legalBasisPublicInterest",
           "value": "ADMINISTRATIVE_ACT"
+        },
+        {
+          "id": "legalBasis",
+          "value": "PUBLIC_INTEREST"
         }
       ]
     },
@@ -485,11 +493,11 @@
       },
       "options": [
         {
-          "label": {"it": "Confermo", "en": "Confirm"},
+          "label": { "it": "Confermo", "en": "Confirm" },
           "value": true
         },
         {
-          "label": {"it": "Nego", "en": "Deny"},
+          "label": { "it": "Nego", "en": "Deny" },
           "value": false,
           "forceUserCheckEServiceCatalog": true
         }
@@ -569,11 +577,11 @@
       },
       "options": [
         {
-          "label": {"it": "Confermo", "en": "Confirm"},
+          "label": { "it": "Confermo", "en": "Confirm" },
           "value": true
         },
         {
-          "label": {"it": "Nego", "en": "Deny"},
+          "label": { "it": "Nego", "en": "Deny" },
           "value": false,
           "forceUserCheckEServiceCatalog": true
         }
@@ -581,7 +589,7 @@
       "defaultValue": false,
       "required": true,
       "dependencies": []
-    }, 
+    },
     {
       "id": "purposePursuit",
       "type": "radio",
@@ -620,11 +628,11 @@
       },
       "options": [
         {
-          "label": {"it": "Confermo", "en": "Confirm"},
+          "label": { "it": "Confermo", "en": "Confirm" },
           "value": true
         },
         {
-          "label": {"it": "Nego", "en": "Deny"},
+          "label": { "it": "Nego", "en": "Deny" },
           "value": false,
           "forceUserCheckEServiceCatalog": true,
           "blockedAlert": {
@@ -737,11 +745,11 @@
       },
       "options": [
         {
-          "label": {"it": "Confermo", "en": "Confirm"},
+          "label": { "it": "Confermo", "en": "Confirm" },
           "value": true
         },
         {
-          "label": {"it": "Nego", "en": "Deny"},
+          "label": { "it": "Nego", "en": "Deny" },
           "value": false
         }
       ],
