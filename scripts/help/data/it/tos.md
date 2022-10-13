@@ -156,7 +156,7 @@ Leggili attentamente: utilizzando il Sito, li accetti integralmente e ti impegni
 
 4.2 Se l’utente ha bisogno di assistenza sul Sito, è possibile accedere alla sezione “?Assistenza” cliccando sull’apposita sezione in alto a destra della pagina ed aprire un ticket. Resta sin da ora inteso che la Società non sarà obbligata a fornire all’utente alcun tipo di assistenza ulteriore rispetto quanto previsto nella citata sezione. Per maggiori informazioni su come trattiamo i dati personali in caso di assistenza, si prega di prendere visione dell’Informativa Privacy Assistenza presente sul sito www.pagopa.it al seguente link: [https://www.pagopa.it/it/privacy-policy-assistenza/](https://www.pagopa.it/it/privacy-policy-assistenza/).
 
-4.3 Per segnalazioni relative all’accessibilità del Sito, è possibile aprire una issues tramite il seguente [form](https://github.com/pagopa/pdnd-interop-frontend/issues).
+4.3 Per segnalazioni relative all’accessibilità del Sito, è possibile aprire una issues tramite il seguente [form](https://github.com/pagopa/pdnd-interop-frontend/issues) o scrivendo alla casella [interop-assistenza-accessibilita@pagopa.it](mailto:interop-assistenza-accessibilita@pagopa.it).
 
 ### 5. Responsabilità e obblighi dell’utente
 
