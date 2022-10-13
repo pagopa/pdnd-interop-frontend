@@ -122,22 +122,23 @@ export const PurposeCreate = () => {
   }
 
   const createNewPurpose = async () => {
-    const dataToPost: Partial<Purpose & { eserviceId: string }> = purposeTemplate
-      ? {
-          ...omit(purposeTemplate, [
-            'consumerId',
-            'id',
-            'agreement',
-            'clients',
-            'versions',
-            'createdAt',
-            'eservice',
-            'suspendedByConsumer',
-            'updatedAt',
-          ]),
-          title: `${purposeTemplate.title} — clone`,
-        }
-      : DEFAULT_PURPOSE_DATA
+    const dataToPost: Partial<Purpose & { eserviceId: string; consumerId: string }> =
+      purposeTemplate
+        ? {
+            ...omit(purposeTemplate, [
+              'id',
+              'consumer',
+              'agreement',
+              'clients',
+              'versions',
+              'createdAt',
+              'eservice',
+              'suspendedByConsumer',
+              'updatedAt',
+            ]),
+            title: `${purposeTemplate.title} — clone`,
+          }
+        : DEFAULT_PURPOSE_DATA
 
     dataToPost.consumerId = jwt?.organization.id
     dataToPost.eserviceId = eserviceId
@@ -275,8 +276,8 @@ function PurposeTemplateAutocompleteInput({
       name="selection"
       onChange={onChange}
       options={options}
-      getOptionLabel={({ title, consumerId }: Purpose) =>
-        t('create.purposeField.compiledBy', { title, consumerId })
+      getOptionLabel={({ title, consumer }: Purpose) =>
+        t('create.purposeField.compiledBy', { title, consumerName: consumer.name })
       }
       isOptionEqualToValue={(option: Purpose, value: Purpose) => option.id === value.id}
       defaultValue={defaultValue}
@@ -348,7 +349,7 @@ function PurposeTemplatePreview({ purposeTemplate }: PurposeTemplatePreviewProps
       </Typography>
 
       <DescriptionBlock label={t('create.consumerName')}>
-        {purposeTemplate.consumerId}
+        {purposeTemplate.consumer.name}
       </DescriptionBlock>
 
       <DescriptionBlock label={t('create.purposeTitle')}>{purposeTemplate.title}</DescriptionBlock>
