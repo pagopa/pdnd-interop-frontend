@@ -477,7 +477,10 @@ export type PurposeVersion = {
 }
 
 export type Purpose = {
-  consumerId: string
+  consumer: {
+    id: string
+    name: string
+  }
   id: string
   title: string
   description: string
