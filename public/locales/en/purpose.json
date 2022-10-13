@@ -9,7 +9,7 @@
     },
     "purposeField": {
       "label": "Choose template",
-      "compiledBy": "{{title}} created by {{consumerId}}",
+      "compiledBy": "{{title}} created by {{consumerName}}",
       "noDataLabel": "No templates available for this e-service",
       "loadingLabel": "We are loading the templates"
     },
