@@ -5,7 +5,6 @@ import { AgreementRead } from '../views/AgreementRead'
 import { AgreementList } from '../views/AgreementList'
 import { EServiceCatalog } from '../views/EServiceCatalog'
 import { EServiceList } from '../views/EServiceList'
-import { Help } from '../views/Help'
 import { Logout } from '../views/Logout'
 import { Notifications } from '../views/Notifications'
 import { UserEdit } from '../views/UserEdit'
@@ -38,13 +37,6 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     PATH: { it: '/it/logout', en: '/en/logout' },
     LABEL: { it: 'Logout', en: 'Logout' },
     COMPONENT: Logout,
-    PUBLIC: false,
-    AUTH_LEVELS: 'any',
-  },
-  HELP: {
-    PATH: { it: '/it/aiuto', en: '/en/help' },
-    LABEL: { it: 'Guida introduttiva', en: 'Introductive guide' },
-    COMPONENT: Help,
     PUBLIC: false,
     AUTH_LEVELS: 'any',
   },
