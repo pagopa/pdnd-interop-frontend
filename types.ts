@@ -622,6 +622,14 @@ export type BackendAttributeContent = BasicAttribute & {
   verificationDate?: string
 }
 
+export type ConsumerAttributes = Record<AttributeKey, Array<ConsumerAttribute>>
+
+export type ConsumerAttribute = {
+  id: string
+  name: string
+  state: 'ACTIVE' | 'REVOKED'
+}
+
 export type DeclaredTenantAttribute = {
   id: string
   name: string
@@ -642,19 +650,19 @@ export type VerifiedTenantAttribute = {
   assignmentTimestamp: string
   revocationTimestamp?: string
   renewal: 'REVOKE_ON_EXPIRATION' | 'AUTOMATIC_RENEWAL'
-  verifiedBy: {
+  verifiedBy: Array<{
     id: string
     verificationDate: string
     expirationDate?: string
     extentionDate?: string
-  }
-  revokedBy: {
+  }>
+  revokedBy: Array<{
     id: string
     verificationDate: string
     expirationDate?: string
     extentionDate?: string
     revocationDate: string
-  }
+  }>
 }
 
 export type TenantAttribute = {

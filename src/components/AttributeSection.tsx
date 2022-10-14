@@ -3,6 +3,7 @@ import { AttributeGroup } from './AttributeGroup'
 import {
   AttributeKey,
   CatalogAttribute,
+  ConsumerAttribute,
   FrontendAttribute,
   FrontendAttributes,
   NewAttributeFormInputValues,
@@ -24,7 +25,7 @@ type AttributeSectionProps = {
   description: string
   attributesSubtitle: string
   attributes: Array<FrontendAttribute>
-  ownedAttributesIds?: Array<string>
+  ownedAttributes?: Array<ConsumerAttribute>
   handleConfirmDeclaredAttribute?: (attributeId: string) => void
   handleVerifyAttribute?: (attributeId: string) => void
   handleRevokeAttribute?: (attributeId: string) => void
@@ -40,7 +41,7 @@ export function AttributeSection({
   description,
   attributesSubtitle,
   attributes,
-  ownedAttributesIds,
+  ownedAttributes,
   handleConfirmDeclaredAttribute,
   handleVerifyAttribute,
   handleRevokeAttribute,
@@ -164,7 +165,7 @@ export function AttributeSection({
                     readOnly={readOnly}
                     attributesGroup={attributesGroup}
                     attributeKey={attributeKey}
-                    ownedAttributesIds={ownedAttributesIds}
+                    ownedAttributes={ownedAttributes}
                     alreadySelectedAttributesIds={alreadySelectedAttributesIds}
                     handleRemoveAttributesGroup={handleRemoveAttributesGroup}
                     handleAddAttributeToGroup={handleAddAttributeToGroup}

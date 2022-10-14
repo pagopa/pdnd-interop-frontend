@@ -3,6 +3,7 @@ import {
   AttributeKey,
   BackendAttribute,
   BackendAttributes,
+  ConsumerAttribute,
   CertifiedAttribute,
   CertifiedTenantAttribute,
   DeclaredTenantAttribute,
@@ -11,6 +12,7 @@ import {
   GroupBackendAttribute,
   SingleBackendAttribute,
   VerifiedTenantAttribute,
+  ConsumerAttributes,
 } from '../../types'
 import { getKeys } from './array-utils'
 
@@ -109,25 +111,33 @@ export function remapTenantBackendAttributesToFrontend(
   attributes: Record<
     AttributeKey,
     DeclaredTenantAttribute | CertifiedTenantAttribute | VerifiedTenantAttribute
-  >[]
+  >[],
+  providerId: string
 ) {
   return attributes.reduce(
     (acc, next) => {
       const attributeKey = Object.keys(next)[0] as AttributeKey
-      const attributeValue = Object.values(next)[0]
+      const tenantAttribute = Object.values(next)[0]
 
-      acc[attributeKey].push(attributeValue)
+      const attributeValue: Partial<ConsumerAttribute> = {
+        id: tenantAttribute.id,
+        name: tenantAttribute.name,
+      }
+
+      if (attributeKey !== 'verified') {
+        attributeValue.state = tenantAttribute.revocationTimestamp ? 'REVOKED' : 'ACTIVE'
+      } else {
+        const verifiedTenantAttribute = tenantAttribute as VerifiedTenantAttribute
+        const acceptedByProvider = verifiedTenantAttribute.verifiedBy.find(
+          (a) => a.id === providerId
+        )
+        attributeValue.state = acceptedByProvider ? 'ACTIVE' : 'REVOKED'
+      }
+
+      acc[attributeKey].push(attributeValue as ConsumerAttribute)
 
       return acc
     },
-    { certified: [], verified: [], declared: [] } as Record<
-      AttributeKey,
-      Array<DeclaredTenantAttribute | CertifiedTenantAttribute | VerifiedTenantAttribute>
-    >
-    // as {
-    //   certified: Array<CertifiedTenantAttribute>
-    //   verified: Array<VerifiedTenantAttribute>
-    //   declared: Array<DeclaredTenantAttribute>
-    // }
+    { certified: [], verified: [], declared: [] } as ConsumerAttributes
   )
 }

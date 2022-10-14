@@ -40,6 +40,7 @@ import {
   remapTenantBackendAttributesToFrontend,
 } from '../lib/attributes'
 import { ActionMenu } from '../components/Shared/ActionMenu'
+import { useJwt } from '../hooks/useJwt'
 
 export function AgreementRead() {
   const { t } = useTranslation(['agreement', 'common'])
@@ -47,6 +48,7 @@ export function AgreementRead() {
   const mode = useMode()
   const agreementId = getLastBit(useLocation())
   const { routes } = useRoute()
+  const { jwt } = useJwt()
 
   const {
     data: agreement,
@@ -169,7 +171,9 @@ export function AgreementRead() {
 
   const eserviceAttributes = eservice && remapBackendAttributesToFrontend(eservice.attributes)
   const consumerAttributes =
-    agreement && remapTenantBackendAttributesToFrontend(agreement.consumer.attributes)
+    agreement &&
+    jwt &&
+    remapTenantBackendAttributesToFrontend(agreement.consumer.attributes, jwt.organization.id)
 
   function handleVerifyAttribute(attributeId: string) {
     const dataToPost = {
@@ -257,7 +261,7 @@ export function AgreementRead() {
             attributesSubtitle=""
             description={t('read.attributes.certified.subtitle')}
             attributes={eserviceAttributes?.certified || []}
-            ownedAttributesIds={consumerAttributes?.certified.map((a) => a.id)}
+            ownedAttributes={consumerAttributes?.certified}
             readOnly
           />
           <AttributeSection
@@ -265,7 +269,7 @@ export function AgreementRead() {
             attributesSubtitle=""
             description={t('read.attributes.verified.subtitle')}
             attributes={eserviceAttributes?.verified || []}
-            ownedAttributesIds={consumerAttributes?.verified.map((a) => a.id)}
+            ownedAttributes={consumerAttributes?.verified}
             readOnly
             handleVerifyAttribute={canVerifyAttributes ? handleVerifyAttribute : undefined}
             handleRefuseAttribute={canVerifyAttributes ? handleRefuseAttribute : undefined}
@@ -277,7 +281,7 @@ export function AgreementRead() {
             attributesSubtitle=""
             description={t('read.attributes.declared.subtitle')}
             attributes={eserviceAttributes?.declared || []}
-            ownedAttributesIds={consumerAttributes?.declared.map((a) => a.id)}
+            ownedAttributes={consumerAttributes?.declared}
             readOnly
           />
         </>
