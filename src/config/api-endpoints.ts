@@ -1,6 +1,5 @@
 import { ApiEndpointContent, ApiEndpointKey } from '../../types'
 import {
-  AGREEMENT_PROCESS_URL,
   AUTHORIZATION_PROCESS_URL,
   BACKEND_FOR_FRONTEND_URL,
   CATALOG_PROCESS_URL,

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useLocation } from 'react-router-dom'
 import {
   AgreementState,
@@ -6,14 +6,6 @@ import {
   ActionProps,
   ProviderOrSubscriber,
   EServiceReadType,
-  CertifiedAttribute,
-  VerifiedAttribute,
-  DeclaredAttribute,
-  AttributeKey,
-  BackendAttribute,
-  DeclaredTenantAttribute,
-  CertifiedTenantAttribute,
-  VerifiedTenantAttribute,
 } from '../../types'
 import { buildDynamicPath, getLastBit } from '../lib/router-utils'
 import { getLatestActiveVersion, mergeActions } from '../lib/eservice-utils'
@@ -24,25 +16,21 @@ import { getAgreementState } from '../lib/status-utils'
 import { RunActionOutput, useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { Alert, Box, Chip, Divider, Grid, Stack, Tooltip, Typography } from '@mui/material'
+import { Alert, Box, Chip, Divider, Grid, Stack, Typography } from '@mui/material'
 import {
   Launch as LaunchIcon,
   Link as LinkIcon,
   AttachFile as AttachFileIcon,
-  InfoRounded as InfoRoundedIcon,
-  Check as CheckIcon,
 } from '@mui/icons-material'
 import { useRoute } from '../hooks/useRoute'
 import { NotFound } from './NotFound'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { Trans, useTranslation } from 'react-i18next'
-import { attributesHelpLink, CHIP_COLORS_AGREEMENT, MAX_WIDTH } from '../lib/constants'
+import { CHIP_COLORS_AGREEMENT, MAX_WIDTH } from '../lib/constants'
 import { AccordionEntry, StyledAccordion } from '../components/Shared/StyledAccordion'
 import StyledSection from '../components/Shared/StyledSection'
 import { InformationRow } from '../components/InformationRow'
 import DownloadableDocumentListSection from '../components/Shared/DownloadableDocumentListSection'
-import { DialogContext } from '../lib/context'
-import { ButtonNaked } from '@pagopa/mui-italia'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { downloadFile } from '../lib/file-utils'
 import { AxiosResponse } from 'axios'
@@ -51,14 +39,12 @@ import {
   remapBackendAttributesToFrontend,
   remapTenantBackendAttributesToFrontend,
 } from '../lib/attributes'
-import { useJwt } from '../hooks/useJwt'
 import { ActionMenu } from '../components/Shared/ActionMenu'
 
 export function AgreementRead() {
   const { t } = useTranslation(['agreement', 'common'])
   const { runAction, forceRerenderCounter } = useFeedback()
   const mode = useMode()
-  const { jwt } = useJwt()
   const agreementId = getLastBit(useLocation())
   const { routes } = useRoute()
 
