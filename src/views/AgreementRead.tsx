@@ -322,22 +322,16 @@ function UpgradeGuideSection({ eservice, agreementId }: UpgradeGuideSectionProps
   return (
     <>
       <Alert severity="warning">
-        <Trans
-          t={t}
-          tOptions={{ eserviceName: eservice.name }}
-          i18nKey={'updateGuide'}
-          components={{ 1: <Box component="span" fontWeight={700} /> }}
-        />
+        <Trans components={{ 1: <Box component="span" fontWeight={700} /> }}>
+          {t('alertLabel', { eserviceName: eservice.name })}
+        </Trans>
       </Alert>
       <StyledSection>
         <StyledSection.Title>{t('title')}</StyledSection.Title>
         <StyledSection.Subtitle>
-          <Trans
-            t={t}
-            tOptions={{ eserviceName: eservice.name }}
-            i18nKey={'description'}
-            components={{ 1: <Box component="span" fontWeight={700} /> }}
-          />
+          <Trans components={{ 1: <Box component="span" fontWeight={700} /> }}>
+            {t('description', { eserviceName: eservice.name })}
+          </Trans>
         </StyledSection.Subtitle>
         <StyledSection.Content>
           <Stack spacing={2}>
@@ -363,15 +357,12 @@ function UpgradeGuideSection({ eservice, agreementId }: UpgradeGuideSectionProps
                 >
                   <LinkIcon sx={{ mr: 1 }} />{' '}
                   <span>
-                    <Trans
-                      t={t}
-                      tOptions={{
+                    <Trans components={{ 1: <Box component="span" fontWeight={700} /> }}>
+                      {t('eserviceLinkLabel', {
                         eserviceName: eservice.name,
                         version: latestVersion,
-                      }}
-                      i18nKey={'eserviceLinkLabel'}
-                      components={{ 1: <Box component="span" fontWeight={700} /> }}
-                    />
+                      })}
+                    </Trans>
                   </span>
                 </StyledLink>
               </Stack>
