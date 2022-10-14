@@ -40,6 +40,7 @@ import {
   remapTenantBackendAttributesToFrontend,
 } from '../lib/attributes'
 import { ActionMenu } from '../components/Shared/ActionMenu'
+import { DialogContext } from '../lib/context'
 
 export function AgreementRead() {
   const { t } = useTranslation(['agreement', 'common'])
@@ -47,6 +48,7 @@ export function AgreementRead() {
   const mode = useMode()
   const agreementId = getLastBit(useLocation())
   const { routes } = useRoute()
+  const { setDialog } = useContext(DialogContext)
 
   const {
     data: agreement,
@@ -80,6 +82,20 @@ export function AgreementRead() {
   const activate = async () => {
     await runAction(
       { path: { endpoint: 'AGREEMENT_ACTIVATE', endpointParams: { agreementId } } },
+      { showConfirmDialog: true }
+    )
+  }
+
+  const wrapReject = () => {
+    setDialog({
+      type: 'rejectAgreement',
+      onSubmit,
+    })
+  }
+
+  const reject = async () => {
+    await runAction(
+      { path: { endpoint: 'AGREEMENT_REJECT', endpointParams: { agreementId } } },
       { showConfirmDialog: true }
     )
   }
@@ -121,7 +137,10 @@ export function AgreementRead() {
     const providerOnlyActions: AgreementActions = {
       ACTIVE: [],
       SUSPENDED: [], // [{ onClick: archive, label: 'Archivia' }],
-      PENDING: [{ onClick: activate, label: t('actions.activate', { ns: 'common' }) }],
+      PENDING: [
+        { onClick: activate, label: t('actions.activate', { ns: 'common' }) },
+        { onClick: reject, label: t('actions.reject', { ns: 'common' }) },
+      ],
       ARCHIVED: [],
       DRAFT: [],
     }

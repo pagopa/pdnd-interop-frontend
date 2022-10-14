@@ -176,6 +176,20 @@
       "confirmLabel": "Conferma"
     }
   },
+  "styledDialogRejectAgreement": {
+    "ariaDescribedBy": "Modale per rifiutare una richiesta di fruizione ad un fruitore",
+    "title": "Rifiuta richiesta di fruizione",
+    "content": {
+      "reason": {
+        "label": "Motivazione",
+        "infoLabel": "Inserisci la motivazione per la quale rifiuti la richiesta di fruizione. Max 1000 caratteri"
+      }
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Rifiuta"
+    }
+  },
   "styledDialogSessionExpired": {
     "ariaDescribedBy": "Modale per segnalare che la sessione attuale è scaduta. È necessario effettuare un nuovo login",
     "title": "La sessione è scaduta",

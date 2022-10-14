@@ -29,6 +29,7 @@
   "actions": {
     "suspend": "Suspend",
     "activate": "Activate",
+    "reject": "Reject",
     "upgrade": "Upgrade",
     "delete": "Delete",
     "inspect": "Inspect",

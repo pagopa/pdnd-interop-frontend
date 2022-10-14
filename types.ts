@@ -40,6 +40,7 @@ export type ApiEndpointKey =
   | 'AGREEMENT_VERIFY_ATTRIBUTE'
   | 'AGREEMENT_REVOKE_VERIFIED_ATTRIBUTE'
   | 'AGREEMENT_ACTIVATE'
+  | 'AGREEMENT_REJECT'
   | 'AGREEMENT_SUSPEND'
   | 'AGREEMENT_UPGRADE'
   | 'AGREEMENT_DOCUMENT_DOWNLOAD'
@@ -729,6 +730,7 @@ export type DialogProps =
   | DialogAddClientsProps
   | DialogUpdatePurposeDailyCallsProps
   | DialogSetPurposeExpectedApprovalDateProps
+  | DialogRejectAgreementProps
   | DialogSessionExpiredProps
 
 export type DialogSessionExpiredProps = {
@@ -741,6 +743,17 @@ export type DialogSetPurposeExpectedApprovalDateProps = {
   versionId: string
   approvalDate?: string
   runAction: RunAction
+}
+
+export type DialogRejectAgreementProps = {
+  type: 'rejectAgreement'
+  onSubmit: (data: DialogRejectAgreementFormInputValues) => void
+  initialValues: DialogRejectAgreementFormInputValues
+  validationSchema: SchemaOf<DialogRejectAgreementFormInputValues>
+}
+
+export type DialogRejectAgreementFormInputValues = {
+  reason: string
 }
 
 export type DialogUpdatePurposeDailyCallsProps = {
