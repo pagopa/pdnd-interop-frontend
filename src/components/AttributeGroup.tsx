@@ -349,6 +349,13 @@ function AttributesList({
                   <Check color="success" fontSize="small" />
                 </StyledTooltip>
               )}
+
+              {isRevoked && (
+                <Tooltip title={revokedTooltipLabel}>
+                  <CloseIcon fontSize="small" color="error" />
+                </Tooltip>
+              )}
+
               {onConfirmDeclaredAttribute && (
                 <ButtonNaked
                   onClick={onConfirmDeclaredAttribute.bind(null, attribute.id)}
