@@ -41,6 +41,7 @@ export const CHIP_COLORS_AGREEMENT: Record<AgreementState, MUIColor> = {
   PENDING: 'warning',
   ARCHIVED: 'info',
   DRAFT: 'info',
+  REJECTED: 'error',
 }
 
 export const CHIP_COLORS_USER: Record<UserState, MUIColor> = {

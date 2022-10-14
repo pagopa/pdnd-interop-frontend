@@ -194,6 +194,12 @@
       "message": "Non è stato possibile attivare la richiesta. Accertarsi che tutti gli attributi siano stati verificati e riprovare"
     }
   },
+  "AGREEMENT_REJECT": {
+    "loadingText": "Stiamo rifiutando la richiesta",
+    "error": {
+      "message": "Non è stato possibile rifiutare la richiesta. Per favore, riprova!"
+    }
+  },
   "AGREEMENT_SUSPEND": {
     "loadingText": "Stiamo sospendendo la richiesta",
     "success": {

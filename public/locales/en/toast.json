@@ -194,6 +194,12 @@
       "message": "The fruition request could not be activated. Please, make sure all attributes are verified and try again!"
     }
   },
+  "AGREEMENT_REJECT": {
+    "loadingText": "Rejecting fruition request",
+    "error": {
+      "message": "The fruition request could not be rejected. Please, try again!"
+    }
+  },
   "AGREEMENT_SUSPEND": {
     "loadingText": "Suspending fruition request",
     "success": {

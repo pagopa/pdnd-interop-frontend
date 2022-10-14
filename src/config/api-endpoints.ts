@@ -136,6 +136,10 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/activate`,
     METHOD: 'POST',
   },
+  AGREEMENT_REJECT: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/reject`,
+    METHOD: 'POST',
+  },
   AGREEMENT_SUSPEND: {
     URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/suspend`,
     METHOD: 'POST',

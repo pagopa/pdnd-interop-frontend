@@ -184,7 +184,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
                   onChange={handleChange}
                   disabled={!isEditable}
                   multiline={true}
-                  inputProps={{ maxLength: 250 }}
+                  inputProps={{ maxLength: 1000 }}
                 />
 
                 <StyledInputControlledRadio

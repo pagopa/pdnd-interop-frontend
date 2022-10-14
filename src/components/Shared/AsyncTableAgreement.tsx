@@ -81,6 +81,7 @@ export const AsyncTableAgreement = () => {
       PENDING: [],
       ARCHIVED: [],
       DRAFT: [],
+      REJECTED: [],
     }
 
     const subscriberOnlyActionsActive: Array<ActionProps> = []
@@ -100,6 +101,7 @@ export const AsyncTableAgreement = () => {
       PENDING: [],
       ARCHIVED: [],
       DRAFT: [],
+      REJECTED: [],
     }
 
     const providerOnlyActions: AgreementActions = {
@@ -108,6 +110,7 @@ export const AsyncTableAgreement = () => {
       PENDING: [{ onClick: wrapActivate(agreement.id), label: tCommon('actions.activate') }],
       ARCHIVED: [],
       DRAFT: [],
+      REJECTED: [],
     }
 
     const currentActions: AgreementActions = {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useLocation } from 'react-router-dom'
 import {
   AgreementState,
@@ -6,6 +6,7 @@ import {
   ActionProps,
   ProviderOrSubscriber,
   EServiceReadType,
+  DialogRejectAgreementFormInputValues,
 } from '../../types'
 import { buildDynamicPath, getLastBit } from '../lib/router-utils'
 import { getLatestActiveVersion, mergeActions } from '../lib/eservice-utils'
@@ -40,6 +41,8 @@ import {
   remapTenantBackendAttributesToFrontend,
 } from '../lib/attributes'
 import { ActionMenu } from '../components/Shared/ActionMenu'
+import { DialogContext } from '../lib/context'
+import { object, string } from 'yup'
 
 export function AgreementRead() {
   const { t } = useTranslation(['agreement', 'common'])
@@ -47,6 +50,7 @@ export function AgreementRead() {
   const mode = useMode()
   const agreementId = getLastBit(useLocation())
   const { routes } = useRoute()
+  const { setDialog } = useContext(DialogContext)
 
   const {
     data: agreement,
@@ -84,6 +88,27 @@ export function AgreementRead() {
     )
   }
 
+  const reject = async () => {
+    setDialog({
+      type: 'rejectAgreement',
+      initialValues: { reason: '' },
+      validationSchema: object({ reason: string().required() }),
+      onSubmit: async ({ reason }: DialogRejectAgreementFormInputValues) => {
+        await runAction(
+          {
+            path: { endpoint: 'AGREEMENT_REJECT', endpointParams: { agreementId } },
+            config: { data: { reason } },
+          },
+          {
+            suppressToast: ['success'],
+            silent: true,
+            onSuccessDestination: routes.PROVIDE_AGREEMENT_LIST,
+          }
+        )
+      },
+    })
+  }
+
   const suspend = async () => {
     await runAction(
       { path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId } } },
@@ -115,15 +140,20 @@ export function AgreementRead() {
       PENDING: [],
       ARCHIVED: [],
       DRAFT: [],
+      REJECTED: [],
     }
 
     // ADD Refuse action when on pending
     const providerOnlyActions: AgreementActions = {
       ACTIVE: [],
       SUSPENDED: [], // [{ onClick: archive, label: 'Archivia' }],
-      PENDING: [{ onClick: activate, label: t('actions.activate', { ns: 'common' }) }],
+      PENDING: [
+        { onClick: activate, label: t('actions.activate', { ns: 'common' }) },
+        { onClick: reject, label: t('actions.reject', { ns: 'common' }) },
+      ],
       ARCHIVED: [],
       DRAFT: [],
+      REJECTED: [],
     }
 
     const subscriberOnlyActionsActive: Array<ActionProps> = []
@@ -140,6 +170,7 @@ export function AgreementRead() {
       PENDING: [],
       ARCHIVED: [],
       DRAFT: [],
+      REJECTED: [],
     }
 
     const currentMode = mode as ProviderOrSubscriber

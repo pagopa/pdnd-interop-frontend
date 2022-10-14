@@ -29,6 +29,7 @@
   "actions": {
     "suspend": "Suspend",
     "activate": "Activate",
+    "reject": "Reject",
     "upgrade": "Upgrade",
     "delete": "Delete",
     "inspect": "Inspect",
@@ -74,7 +75,8 @@
       "DRAFT": "draft",
       "SUSPENDED": "suspended",
       "PENDING": "awaiting approval",
-      "ARCHIVED": "archived"
+      "ARCHIVED": "archived",
+      "REJECTED": "rejected"
     },
     "purpose": {
       "DRAFT": "draft",

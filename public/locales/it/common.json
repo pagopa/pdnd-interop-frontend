@@ -29,6 +29,7 @@
   "actions": {
     "suspend": "Sospendi",
     "activate": "Attiva",
+    "reject": "Rifiuta",
     "upgrade": "Aggiorna",
     "delete": "Elimina",
     "inspect": "Ispeziona",
@@ -74,7 +75,8 @@
       "DRAFT": "in bozza",
       "SUSPENDED": "sospeso",
       "PENDING": "in attesa di approvazione",
-      "ARCHIVED": "archiviato"
+      "ARCHIVED": "archiviato",
+      "REJECTED": "rifiutato"
     },
     "purpose": {
       "DRAFT": "in bozza",
