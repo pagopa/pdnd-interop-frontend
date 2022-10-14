@@ -218,11 +218,6 @@ export function AgreementRead() {
 
   const canVerifyAttributes = mode === 'provider'
 
-  console.log({
-    eserviceAttributes,
-    consumerAttributes,
-  })
-
   return (
     <Box sx={{ maxWidth: MAX_WIDTH }}>
       <Stack direction="row" spacing={2}>
