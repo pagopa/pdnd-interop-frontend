@@ -12,7 +12,7 @@ import { getLatestActiveVersion, mergeActions } from '../lib/eservice-utils'
 import { useMode } from '../hooks/useMode'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { getAgreementState } from '../lib/status-utils'
+import { getAgreementChipState } from '../lib/status-utils'
 import { RunActionOutput, useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
@@ -26,7 +26,7 @@ import { useRoute } from '../hooks/useRoute'
 import { NotFound } from './NotFound'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { Trans, useTranslation } from 'react-i18next'
-import { CHIP_COLORS_AGREEMENT, MAX_WIDTH } from '../lib/constants'
+import { MAX_WIDTH } from '../lib/constants'
 import { AccordionEntry, StyledAccordion } from '../components/Shared/StyledAccordion'
 import StyledSection from '../components/Shared/StyledSection'
 import { InformationRow } from '../components/InformationRow'
@@ -149,9 +149,7 @@ export function AgreementRead() {
       currentMode
     ]
 
-    const status = agreement ? getAgreementState(agreement, mode) : 'SUSPENDED'
-
-    return mergeActions<AgreementActions>([currentActions, sharedActions], status)
+    return mergeActions<AgreementActions>([currentActions, sharedActions], agreement.state)
   }
 
   const canUpgrade = () => {
@@ -413,44 +411,6 @@ function GeneralInfoSection({ agreement }: GeneralInfoSectionProps) {
     })
   }
 
-  function getStatusChips() {
-    if (agreement.state !== 'SUSPENDED') {
-      return (
-        <Chip
-          label={tCommon(`status.agreement.${agreement.state}`, { ns: 'common' })}
-          color={CHIP_COLORS_AGREEMENT[agreement.state]}
-        />
-      )
-    }
-
-    const isProviderSuspended = getAgreementState(agreement, 'provider') === 'SUSPENDED'
-    const isSubscriberSuspended = getAgreementState(agreement, 'subscriber') === 'SUSPENDED'
-
-    const chips = []
-    if (isProviderSuspended) {
-      chips.push(
-        <Chip
-          label={t(`requestStatusField.suspendedByProvider`)}
-          color={CHIP_COLORS_AGREEMENT[agreement.state]}
-        />
-      )
-    }
-    if (isSubscriberSuspended) {
-      chips.push(
-        <Chip
-          label={t(`requestStatusField.suspendedBySubscriber`)}
-          color={CHIP_COLORS_AGREEMENT[agreement.state]}
-        />
-      )
-    }
-
-    return (
-      <Stack direction="row" spacing={1}>
-        {chips}
-      </Stack>
-    )
-  }
-
   async function handleDownloadAgreement() {
     const { response, outcome } = (await runAction(
       {
@@ -487,7 +447,13 @@ function GeneralInfoSection({ agreement }: GeneralInfoSectionProps) {
           <InformationRow label={t('providerField.label')}>
             {agreement.producer.name}
           </InformationRow>
-          <InformationRow label={t('requestStatusField.label')}>{getStatusChips()}</InformationRow>
+          <InformationRow label={t('requestStatusField.label')}>
+            <Stack direction="row" spacing={1}>
+              {getAgreementChipState(agreement, tCommon).map(({ label, color }, i) => {
+                return <Chip size="small" key={i} label={label} color={color} />
+              })}
+            </Stack>
+          </InformationRow>
           {mode === 'subscriber' && (
             <InformationRow label={t('printableCopyField.label')}>
               <StyledLink

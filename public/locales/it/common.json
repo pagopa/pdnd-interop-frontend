@@ -90,6 +90,11 @@
       "DELETED": "rimosso"
     }
   },
+  "agreementFrontendStatus": {
+    "suspendedByProducer": "sospeso dall'erogatore",
+    "suspendedByConsumer": "sospeso dal fruitore",
+    "suspendedByPlatform": "sospeso dalla piattaforma"
+  },
   "userRole": {
     "MANAGER": "Amministratore",
     "DELEGATE": "Delegato",

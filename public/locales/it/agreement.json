@@ -42,9 +42,7 @@
         "label": "Erogatore"
       },
       "requestStatusField": {
-        "label": "Stato della richiesta",
-        "suspendedByProvider": "sospeso dall'erogatore",
-        "suspendedBySubscriber": "sospeso dal fruitore"
+        "label": "Stato della richiesta"
       },
       "printableCopyField": {
         "label": "Copia stampabile",

@@ -42,9 +42,7 @@
         "infoLabel": "Max 1000 chars"
       },
       "requestStatusField": {
-        "label": "Request status",
-        "suspendedByProvider": "Suspended by provider",
-        "suspendedBySubscriber": "Suspended by subscriber"
+        "label": "Request status"
       },
       "printableCopyField": {
         "label": "Printable copy",

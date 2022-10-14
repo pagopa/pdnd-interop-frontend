@@ -90,6 +90,11 @@
       "DELETED": "deleted"
     }
   },
+  "agreementFrontendAttributes": {
+    "suspendedByProvider": "suspended by provider",
+    "suspendedBySubscriber": "suspended by subscriber",
+    "suspendedByPlatform": "suspended by platform"
+  },
   "userRole": {
     "MANAGER": "Administrator",
     "DELEGATE": "Delegate",
