@@ -40,7 +40,6 @@ import {
   remapTenantBackendAttributesToFrontend,
 } from '../lib/attributes'
 import { ActionMenu } from '../components/Shared/ActionMenu'
-import { useJwt } from '../hooks/useJwt'
 
 export function AgreementRead() {
   const { t } = useTranslation(['agreement', 'common'])
@@ -48,7 +47,6 @@ export function AgreementRead() {
   const mode = useMode()
   const agreementId = getLastBit(useLocation())
   const { routes } = useRoute()
-  const { jwt } = useJwt()
 
   const {
     data: agreement,
@@ -170,8 +168,7 @@ export function AgreementRead() {
   const eserviceAttributes = eservice && remapBackendAttributesToFrontend(eservice.attributes)
   const consumerAttributes =
     agreement &&
-    jwt &&
-    remapTenantBackendAttributesToFrontend(agreement.consumer.attributes, jwt.organization.id)
+    remapTenantBackendAttributesToFrontend(agreement.consumer.attributes, agreement.producer.id)
 
   function handleVerifyAttribute(attributeId: string) {
     const dataToPost = {
@@ -220,6 +217,11 @@ export function AgreementRead() {
   }
 
   const canVerifyAttributes = mode === 'provider'
+
+  console.log({
+    eserviceAttributes,
+    consumerAttributes,
+  })
 
   return (
     <Box sx={{ maxWidth: MAX_WIDTH }}>

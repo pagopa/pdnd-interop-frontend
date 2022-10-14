@@ -29,7 +29,6 @@ import { StyledLink } from '../components/Shared/StyledLink'
 import StyledSection from '../components/Shared/StyledSection'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
 import { useFeedback } from '../hooks/useFeedback'
-import { useJwt } from '../hooks/useJwt'
 import { useRoute } from '../hooks/useRoute'
 import {
   checkOwnershipFrontendAttributes,
@@ -46,7 +45,6 @@ export function AgreementEdit() {
   const [documents, setDocuments] = useState<Array<EServiceDocumentRead>>([])
   const [providerMessage, setProviderMessage] = React.useState('')
 
-  const { jwt } = useJwt()
   const { agreementId } = useParams<{ agreementId: string }>()
   const history = useHistory()
   const { routes } = useRoute()
@@ -81,13 +79,14 @@ export function AgreementEdit() {
     {
       path: {
         endpoint: 'ATTRIBUTE_GET_CERTIFIED_LIST',
-        endpointParams: { institutionId: jwt?.organization.id },
+        endpointParams: { institutionId: agreement!.consumer.id },
       },
     },
     {
+      disabled: !Boolean(agreement),
       mapFn: (data) =>
-        remapTenantBackendAttributeToFrontend(data.attributes, 'certified', jwt!.organization.id),
-      useEffectDeps: [forceRerenderCounter],
+        remapTenantBackendAttributeToFrontend(data.attributes, 'certified', agreement!.producer.id),
+      useEffectDeps: [forceRerenderCounter, agreement],
     }
   )
 
@@ -98,12 +97,13 @@ export function AgreementEdit() {
     {
       path: {
         endpoint: 'ATTRIBUTE_GET_VERIFIED_LIST',
-        endpointParams: { institutionId: jwt?.organization.id },
+        endpointParams: { institutionId: agreement!.consumer.id },
       },
     },
     {
+      disabled: !Boolean(agreement),
       mapFn: (data) =>
-        remapTenantBackendAttributeToFrontend(data.attributes, 'verified', jwt!.organization.id),
+        remapTenantBackendAttributeToFrontend(data.attributes, 'verified', agreement!.producer.id),
       useEffectDeps: [forceRerenderCounter],
     }
   )
@@ -115,12 +115,13 @@ export function AgreementEdit() {
     {
       path: {
         endpoint: 'ATTRIBUTE_GET_DECLARED_LIST',
-        endpointParams: { institutionId: jwt?.organization.id },
+        endpointParams: { institutionId: agreement!.consumer.id },
       },
     },
     {
+      disabled: !Boolean(agreement),
       mapFn: (data) =>
-        remapTenantBackendAttributeToFrontend(data.attributes, 'declared', jwt!.organization.id),
+        remapTenantBackendAttributeToFrontend(data.attributes, 'declared', agreement!.producer.id),
       useEffectDeps: [forceRerenderCounter],
     }
   )
