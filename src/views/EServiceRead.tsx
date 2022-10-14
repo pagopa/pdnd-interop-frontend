@@ -129,7 +129,7 @@ export function EServiceRead() {
         <StyledIntro sx={{ flex: 1 }} isLoading={isLoading}>
           {{ title: data?.name, description: data?.description }}
         </StyledIntro>
-        {canBeSubsribed && (
+        {!isLoading && canBeSubsribed && (
           <Stack direction="row" alignItems="center" spacing={2}>
             <StyledButton variant="outlined" onClick={handleSubscriptionDialog}>
               {t('actions.subscribe', { ns: 'common' })}
