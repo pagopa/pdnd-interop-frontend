@@ -398,7 +398,6 @@ function GeneralInfoSection({ agreement }: GeneralInfoSectionProps) {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.generalInformations' })
   const { t: tCommon } = useTranslation('common')
   const { routes } = useRoute()
-  const mode = useMode()
   const { runAction } = useFeedback()
 
   function buildEServiceLink() {
@@ -451,7 +450,7 @@ function GeneralInfoSection({ agreement }: GeneralInfoSectionProps) {
               })}
             </Stack>
           </InformationRow>
-          {mode === 'subscriber' && (
+          {agreement.state !== 'DRAFT' && agreement.state !== 'PENDING' && (
             <InformationRow label={t('printableCopyField.label')}>
               <StyledLink
                 onClick={handleDownloadAgreement}
