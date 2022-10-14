@@ -79,7 +79,7 @@ export function AgreementEdit() {
     {
       path: {
         endpoint: 'ATTRIBUTE_GET_CERTIFIED_LIST',
-        endpointParams: { institutionId: agreement!.consumer.id },
+        endpointParams: { institutionId: agreement?.consumer.id },
       },
     },
     {
@@ -97,7 +97,7 @@ export function AgreementEdit() {
     {
       path: {
         endpoint: 'ATTRIBUTE_GET_VERIFIED_LIST',
-        endpointParams: { institutionId: agreement!.consumer.id },
+        endpointParams: { institutionId: agreement?.consumer.id },
       },
     },
     {
@@ -115,7 +115,7 @@ export function AgreementEdit() {
     {
       path: {
         endpoint: 'ATTRIBUTE_GET_DECLARED_LIST',
-        endpointParams: { institutionId: agreement!.consumer.id },
+        endpointParams: { institutionId: agreement?.consumer.id },
       },
     },
     {
