@@ -61,7 +61,12 @@ function DownloadableDocumentListSection({
                   component="button"
                   variant="body2"
                   underline="hover"
-                  sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                  }}
                 >
                   <AttachFileIcon sx={{ mr: 1 }} /> {doc.prettyName}
                 </StyledLink>
