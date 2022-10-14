@@ -8,12 +8,15 @@ import { mixed, object, string } from 'yup'
 import {
   AgreementSummary,
   CertifiedAttribute,
+  CertifiedTenantAttribute,
   DeclaredAttribute,
+  DeclaredTenantAttribute,
   EServiceDocumentRead,
   EServiceReadType,
   FrontendAttributes,
   RequestOutcome,
   VerifiedAttribute,
+  VerifiedTenantAttribute,
 } from '../../types'
 import { AttributeSection } from '../components/AttributeSection'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
@@ -33,6 +36,7 @@ import { useRoute } from '../hooks/useRoute'
 import {
   checkOwnershipFrontendAttributes,
   remapBackendAttributesToFrontend,
+  remapTenantBackendAttributesToFrontend,
 } from '../lib/attributes'
 import { CHIP_COLORS_AGREEMENT, MAX_WIDTH } from '../lib/constants'
 import { buildDynamicPath } from '../lib/router-utils'
@@ -72,8 +76,8 @@ export function AgreementEdit() {
     }
   )
 
-  const { data: ownedCertifiedAttributesIds } = useAsyncFetch<
-    { attributes: Array<CertifiedAttribute> },
+  const { data: ownedCertifiedAttributes } = useAsyncFetch<
+    { attributes: Array<CertifiedTenantAttribute> },
     Array<string>
   >(
     {
@@ -82,11 +86,11 @@ export function AgreementEdit() {
         endpointParams: { institutionId: jwt?.organization.id },
       },
     },
-    { mapFn: (data) => data.attributes.map((att) => att.id), useEffectDeps: [forceRerenderCounter] }
+    { useEffectDeps: [forceRerenderCounter] }
   )
 
   const { data: ownedVerifiedAttributesIds } = useAsyncFetch<
-    { attributes: Array<VerifiedAttribute> },
+    { attributes: Array<VerifiedTenantAttribute> },
     Array<string>
   >(
     {
@@ -95,11 +99,11 @@ export function AgreementEdit() {
         endpointParams: { institutionId: jwt?.organization.id },
       },
     },
-    { mapFn: (data) => data.attributes.map((att) => att.id), useEffectDeps: [forceRerenderCounter] }
+    { useEffectDeps: [forceRerenderCounter] }
   )
 
   const { data: ownedDeclaredAttributesIds } = useAsyncFetch<
-    { attributes: Array<DeclaredAttribute> },
+    { attributes: Array<DeclaredTenantAttribute> },
     Array<string>
   >(
     {
@@ -108,8 +112,12 @@ export function AgreementEdit() {
         endpointParams: { institutionId: jwt?.organization.id },
       },
     },
-    { mapFn: (data) => data.attributes.map((att) => att.id), useEffectDeps: [forceRerenderCounter] }
+    { useEffectDeps: [forceRerenderCounter] }
   )
+
+  const ownedAttributes = remapTenantBackendAttributesToFrontend({
+    certified: ownedCertifiedAttributes,
+  })
 
   if (agreementError) {
     return <NotFound errorType="serverError" />
