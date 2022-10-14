@@ -7,15 +7,13 @@ import { useHistory, useParams } from 'react-router-dom'
 import { mixed, object, string } from 'yup'
 import {
   AgreementSummary,
-  CertifiedAttribute,
   CertifiedTenantAttribute,
-  DeclaredAttribute,
+  ConsumerAttribute,
   DeclaredTenantAttribute,
   EServiceDocumentRead,
   EServiceReadType,
   FrontendAttributes,
   RequestOutcome,
-  VerifiedAttribute,
   VerifiedTenantAttribute,
 } from '../../types'
 import { AttributeSection } from '../components/AttributeSection'
@@ -36,7 +34,7 @@ import { useRoute } from '../hooks/useRoute'
 import {
   checkOwnershipFrontendAttributes,
   remapBackendAttributesToFrontend,
-  remapTenantBackendAttributesToFrontend,
+  remapTenantBackendAttributeToFrontend,
 } from '../lib/attributes'
 import { CHIP_COLORS_AGREEMENT, MAX_WIDTH } from '../lib/constants'
 import { buildDynamicPath } from '../lib/router-utils'
@@ -78,7 +76,7 @@ export function AgreementEdit() {
 
   const { data: ownedCertifiedAttributes } = useAsyncFetch<
     { attributes: Array<CertifiedTenantAttribute> },
-    Array<string>
+    Array<ConsumerAttribute>
   >(
     {
       path: {
@@ -86,12 +84,16 @@ export function AgreementEdit() {
         endpointParams: { institutionId: jwt?.organization.id },
       },
     },
-    { useEffectDeps: [forceRerenderCounter] }
+    {
+      mapFn: (data) =>
+        remapTenantBackendAttributeToFrontend(data.attributes, 'certified', jwt!.organization.id),
+      useEffectDeps: [forceRerenderCounter],
+    }
   )
 
-  const { data: ownedVerifiedAttributesIds } = useAsyncFetch<
+  const { data: ownedVerifiedAttributes } = useAsyncFetch<
     { attributes: Array<VerifiedTenantAttribute> },
-    Array<string>
+    Array<ConsumerAttribute>
   >(
     {
       path: {
@@ -99,12 +101,16 @@ export function AgreementEdit() {
         endpointParams: { institutionId: jwt?.organization.id },
       },
     },
-    { useEffectDeps: [forceRerenderCounter] }
+    {
+      mapFn: (data) =>
+        remapTenantBackendAttributeToFrontend(data.attributes, 'verified', jwt!.organization.id),
+      useEffectDeps: [forceRerenderCounter],
+    }
   )
 
-  const { data: ownedDeclaredAttributesIds } = useAsyncFetch<
+  const { data: ownedDeclaredAttributes } = useAsyncFetch<
     { attributes: Array<DeclaredTenantAttribute> },
-    Array<string>
+    Array<ConsumerAttribute>
   >(
     {
       path: {
@@ -112,12 +118,12 @@ export function AgreementEdit() {
         endpointParams: { institutionId: jwt?.organization.id },
       },
     },
-    { useEffectDeps: [forceRerenderCounter] }
+    {
+      mapFn: (data) =>
+        remapTenantBackendAttributeToFrontend(data.attributes, 'declared', jwt!.organization.id),
+      useEffectDeps: [forceRerenderCounter],
+    }
   )
-
-  const ownedAttributes = remapTenantBackendAttributesToFrontend({
-    certified: ownedCertifiedAttributes,
-  })
 
   if (agreementError) {
     return <NotFound errorType="serverError" />
@@ -185,7 +191,10 @@ export function AgreementEdit() {
   if (frontendAttributes) {
     isSubmitAgreementButtonDisabled = !checkOwnershipFrontendAttributes(
       [...frontendAttributes.certified, ...frontendAttributes.declared],
-      [...(ownedCertifiedAttributesIds || []), ...(ownedDeclaredAttributesIds || [])]
+      [
+        ...(ownedCertifiedAttributes || []).map(({ id }) => id),
+        ...(ownedDeclaredAttributes || []).map(({ id }) => id),
+      ]
     )
   }
 
@@ -237,7 +246,7 @@ export function AgreementEdit() {
                 description={t('edit.attribute.certified.description')}
                 attributesSubtitle={t('edit.attribute.subtitle')}
                 attributes={frontendAttributes.certified}
-                ownedAttributesIds={ownedCertifiedAttributesIds}
+                ownedAttributes={ownedCertifiedAttributes}
                 readOnly
               />
               <AttributeSection
@@ -245,7 +254,7 @@ export function AgreementEdit() {
                 description={t('edit.attribute.verified.description')}
                 attributesSubtitle={t('edit.attribute.subtitle')}
                 attributes={frontendAttributes.verified}
-                ownedAttributesIds={ownedVerifiedAttributesIds}
+                ownedAttributes={ownedVerifiedAttributes}
                 readOnly
               />
               <AttributeSection
@@ -254,7 +263,7 @@ export function AgreementEdit() {
                 attributesSubtitle={t('edit.attribute.subtitle')}
                 attributes={frontendAttributes.declared}
                 handleConfirmDeclaredAttribute={handleConfirmDeclaredAttribute}
-                ownedAttributesIds={ownedDeclaredAttributesIds}
+                ownedAttributes={ownedDeclaredAttributes}
                 readOnly
               />
             </>
