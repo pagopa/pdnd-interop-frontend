@@ -346,7 +346,7 @@ export type EServiceDocumentRead = {
 /*
  * Agreement
  */
-export type AgreementState = 'ACTIVE' | 'SUSPENDED' | 'PENDING' | 'ARCHIVED' | 'DRAFT'
+export type AgreementState = 'ACTIVE' | 'SUSPENDED' | 'PENDING' | 'ARCHIVED' | 'DRAFT' | 'REJECTED'
 
 export type AgreementVerifiableAttribute = {
   id: string

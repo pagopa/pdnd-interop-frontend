@@ -47,7 +47,7 @@ export const StyledDialogRejectAgreement: FunctionComponent<DialogRejectAgreemen
                 onChange={handleChange}
                 focusOnMount={true}
                 multiline={true}
-                inputProps={{ maxLength: 250 }}
+                inputProps={{ maxLength: 1000 }}
               />
             </DialogContent>
 
