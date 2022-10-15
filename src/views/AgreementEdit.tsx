@@ -187,9 +187,11 @@ export function AgreementEdit() {
     )
   }
 
-  let isSubmitAgreementButtonDisabled = true
+  // REFACTOR
+  const isMissingCertifiedAttributes = agreement?.state === 'MISSING_CERTIFIED_ATTRIBUTES'
+  let isSubmitAgreementButtonDisabled = isMissingCertifiedAttributes
 
-  if (frontendAttributes) {
+  if (frontendAttributes && !isMissingCertifiedAttributes) {
     isSubmitAgreementButtonDisabled = !checkOwnershipFrontendAttributes(
       [...frontendAttributes.certified, ...frontendAttributes.declared],
       [

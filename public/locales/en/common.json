@@ -76,7 +76,8 @@
       "SUSPENDED": "suspended",
       "PENDING": "awaiting approval",
       "ARCHIVED": "archived",
-      "REJECTED": "rejected"
+      "REJECTED": "rejected",
+      "MISSING_CERTIFIED_ATTRIBUTES": "missing certified attributes"
     },
     "purpose": {
       "DRAFT": "draft",

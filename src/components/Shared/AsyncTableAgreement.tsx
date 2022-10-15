@@ -82,6 +82,7 @@ export const AsyncTableAgreement = () => {
       ARCHIVED: [],
       DRAFT: [],
       REJECTED: [],
+      MISSING_CERTIFIED_ATTRIBUTES: [],
     }
 
     const subscriberOnlyActionsActive: Array<ActionProps> = []
@@ -102,6 +103,7 @@ export const AsyncTableAgreement = () => {
       ARCHIVED: [],
       DRAFT: [],
       REJECTED: [],
+      MISSING_CERTIFIED_ATTRIBUTES: [],
     }
 
     const providerOnlyActions: AgreementActions = {
@@ -111,6 +113,7 @@ export const AsyncTableAgreement = () => {
       ARCHIVED: [],
       DRAFT: [],
       REJECTED: [],
+      MISSING_CERTIFIED_ATTRIBUTES: [],
     }
 
     const currentActions: AgreementActions = {

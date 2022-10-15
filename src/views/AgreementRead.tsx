@@ -141,6 +141,7 @@ export function AgreementRead() {
       ARCHIVED: [],
       DRAFT: [],
       REJECTED: [],
+      MISSING_CERTIFIED_ATTRIBUTES: [],
     }
 
     // ADD Refuse action when on pending
@@ -154,6 +155,7 @@ export function AgreementRead() {
       ARCHIVED: [],
       DRAFT: [],
       REJECTED: [],
+      MISSING_CERTIFIED_ATTRIBUTES: [],
     }
 
     const subscriberOnlyActionsActive: Array<ActionProps> = []
@@ -171,6 +173,7 @@ export function AgreementRead() {
       ARCHIVED: [],
       DRAFT: [],
       REJECTED: [],
+      MISSING_CERTIFIED_ATTRIBUTES: [],
     }
 
     const currentMode = mode as ProviderOrSubscriber

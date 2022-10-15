@@ -42,6 +42,7 @@ export const CHIP_COLORS_AGREEMENT: Record<AgreementState, MUIColor> = {
   ARCHIVED: 'info',
   DRAFT: 'info',
   REJECTED: 'error',
+  MISSING_CERTIFIED_ATTRIBUTES: 'error',
 }
 
 export const CHIP_COLORS_USER: Record<UserState, MUIColor> = {
