@@ -104,7 +104,7 @@ export function AgreementEdit() {
       disabled: !Boolean(agreement),
       mapFn: (data) =>
         remapTenantBackendAttributeToFrontend(data.attributes, 'verified', agreement!.producer.id),
-      useEffectDeps: [forceRerenderCounter],
+      useEffectDeps: [forceRerenderCounter, agreement],
     }
   )
 
@@ -122,7 +122,7 @@ export function AgreementEdit() {
       disabled: !Boolean(agreement),
       mapFn: (data) =>
         remapTenantBackendAttributeToFrontend(data.attributes, 'declared', agreement!.producer.id),
-      useEffectDeps: [forceRerenderCounter],
+      useEffectDeps: [forceRerenderCounter, agreement],
     }
   )
 
