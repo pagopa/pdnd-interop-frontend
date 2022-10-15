@@ -66,11 +66,21 @@ export function EServiceRead() {
     { mapFn: (data) => data.attributes }
   )
 
-  const canSubscribeEservice =
-    data && currentInstitutionCertifiedAttributes
-      ? canSubscribe(currentInstitutionCertifiedAttributes || [], data.attributes.certified)
-      : false
   const isMine = data?.producer.id === jwt?.organization.id
+
+  function checkIfCanSubscribeEservice() {
+    if (isMine) {
+      return true
+    }
+
+    if (data && currentInstitutionCertifiedAttributes) {
+      return canSubscribe(currentInstitutionCertifiedAttributes || [], data.attributes.certified)
+    }
+
+    return false
+  }
+
+  const canSubscribeEservice = checkIfCanSubscribeEservice()
   const isVersionPublished = data?.activeDescriptor?.state === 'PUBLISHED'
 
   const handleSubscriptionDialog = () => {
@@ -120,8 +130,8 @@ export function EServiceRead() {
   const hasDraft =
     flatData && flatData.agreement && flatData?.agreement.state === 'DRAFT' && isAdmin
 
-  const canBeSubsribed =
-    isVersionPublished && !isMine && canSubscribeEservice && !flatData?.agreement && isAdmin
+  const canBeSubscribed =
+    isVersionPublished && canSubscribeEservice && !flatData?.agreement && isAdmin
 
   return (
     <Box sx={{ maxWidth: MAX_WIDTH }}>
@@ -129,7 +139,7 @@ export function EServiceRead() {
         <StyledIntro sx={{ flex: 1 }} isLoading={isLoading}>
           {{ title: data?.name, description: data?.description }}
         </StyledIntro>
-        {!isLoading && canBeSubsribed && (
+        {!isLoading && canBeSubscribed && (
           <Stack direction="row" alignItems="center" spacing={2}>
             <StyledButton variant="outlined" onClick={handleSubscriptionDialog}>
               {t('actions.subscribe', { ns: 'common' })}
@@ -157,18 +167,6 @@ export function EServiceRead() {
           />
 
           <PageBottomActions>
-            {/* TEMP PIN-612 */}
-            {/* {!isMine && isAdmin && !canSubscribeEservice && (
-          <StyledButton
-            variant="contained"
-            onClick={() => {
-              setDialog({ type: 'askExtension' })
-            }}
-          >
-            Richiedi estensione
-          </StyledButton>
-        )} */}
-
             <StyledButton variant="outlined" to={routes.SUBSCRIBE_CATALOG_LIST.PATH}>
               {t('read.actions.backToCatalogLabel')}
             </StyledButton>
