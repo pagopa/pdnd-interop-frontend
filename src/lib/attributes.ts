@@ -12,7 +12,6 @@ import {
   GroupBackendAttribute,
   SingleBackendAttribute,
   VerifiedTenantAttribute,
-  ConsumerAttributes,
 } from '../../types'
 import { getKeys } from './array-utils'
 
@@ -115,6 +114,32 @@ export function checkOwnershipFrontendAttributes(
   return attributes.every(checkIfGroupHasOwnedAttribute)
 }
 
+export function remapTenantBackendAttributeToFrontend(
+  attributesList:
+    | Array<DeclaredTenantAttribute>
+    | Array<CertifiedTenantAttribute>
+    | Array<VerifiedTenantAttribute>,
+  attributeKey: AttributeKey,
+  providerId: string
+) {
+  return attributesList.map((tenantAttribute) => {
+    const attributeValue: Partial<ConsumerAttribute> = {
+      id: tenantAttribute.id,
+      name: tenantAttribute.name,
+    }
+
+    if (attributeKey !== 'verified') {
+      attributeValue.state = tenantAttribute.revocationTimestamp ? 'REVOKED' : 'ACTIVE'
+    } else {
+      const verifiedTenantAttribute = tenantAttribute as VerifiedTenantAttribute
+      const acceptedByProvider = verifiedTenantAttribute.verifiedBy.find((a) => a.id === providerId)
+      attributeValue.state = acceptedByProvider ? 'ACTIVE' : 'REVOKED'
+    }
+
+    return attributeValue as ConsumerAttribute
+  })
+}
+
 export function remapTenantBackendAttributesToFrontend(
   attributes: Record<
     AttributeKey,
@@ -122,30 +147,61 @@ export function remapTenantBackendAttributesToFrontend(
   >[],
   providerId: string
 ) {
-  return attributes.reduce(
+  const _attributes = attributes.reduce(
     (acc, next) => {
       const attributeKey = Object.keys(next)[0] as AttributeKey
       const tenantAttribute = Object.values(next)[0]
 
-      const attributeValue: Partial<ConsumerAttribute> = {
-        id: tenantAttribute.id,
-        name: tenantAttribute.name,
+      if (attributeKey === 'verified') {
+        acc[attributeKey].push(tenantAttribute as VerifiedTenantAttribute)
+      } else if (attributeKey === 'certified') {
+        acc[attributeKey].push(tenantAttribute as CertifiedTenantAttribute)
+      } else if (attributeKey === 'declared') {
+        acc[attributeKey].push(tenantAttribute as DeclaredTenantAttribute)
       }
-
-      if (attributeKey !== 'verified') {
-        attributeValue.state = tenantAttribute.revocationTimestamp ? 'REVOKED' : 'ACTIVE'
-      } else {
-        const verifiedTenantAttribute = tenantAttribute as VerifiedTenantAttribute
-        const acceptedByProvider = verifiedTenantAttribute.verifiedBy.find(
-          (a) => a.id === providerId
-        )
-        attributeValue.state = acceptedByProvider ? 'ACTIVE' : 'REVOKED'
-      }
-
-      acc[attributeKey].push(attributeValue as ConsumerAttribute)
 
       return acc
     },
-    { certified: [], verified: [], declared: [] } as ConsumerAttributes
+    { certified: [], verified: [], declared: [] } as {
+      certified: CertifiedTenantAttribute[]
+      verified: VerifiedTenantAttribute[]
+      declared: DeclaredTenantAttribute[]
+    }
   )
+
+  return {
+    certified: remapTenantBackendAttributeToFrontend(
+      _attributes.certified,
+      'certified',
+      providerId
+    ),
+    verified: remapTenantBackendAttributeToFrontend(_attributes.verified, 'verified', providerId),
+    declared: remapTenantBackendAttributeToFrontend(_attributes.declared, 'declared', providerId),
+  }
+
+  // return attributes.reduce(
+  //   (acc, next) => {
+  //     const attributeKey = Object.keys(next)[0] as AttributeKey
+  //     const tenantAttribute = Object.values(next)[0]
+
+  //     const attributeValue: Partial<ConsumerAttribute> = {
+  //       id: tenantAttribute.id,
+  //       name: tenantAttribute.name,
+  //     }
+
+  //     if (attributeKey !== 'verified') {
+  //       attributeValue.state = tenantAttribute.revocationTimestamp ? 'REVOKED' : 'ACTIVE'
+  //     } else {
+  //       const verifiedTenantAttribute = tenantAttribute as VerifiedTenantAttribute
+  //       const acceptedByProvider = verifiedTenantAttribute.verifiedBy.find(
+  //         (a) => a.id === providerId
+  //       )
+  //       attributeValue.state = acceptedByProvider ? 'ACTIVE' : 'REVOKED'
+  //     }
+
+  //     acc[attributeKey].push(attributeValue as ConsumerAttribute)
+
+  //     return acc
+  //   },
+  //   { certified: [], verified: [], declared: [] } as ConsumerAttributes
 }
