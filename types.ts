@@ -35,6 +35,9 @@ export type ApiEndpointKey =
   | 'AGREEMENT_DRAFT_CREATE'
   | 'AGREEMENT_DRAFT_SUBMIT'
   | 'AGREEMENT_DRAFT_DELETE'
+  | 'AGREEMENT_DRAFT_DOCUMENT_DOWNLOAD'
+  | 'AGREEMENT_DRAFT_DOCUMENT_UPLOAD'
+  | 'AGREEMENT_DRAFT_DOCUMENT_DELETE'
   | 'AGREEMENT_GET_LIST'
   | 'AGREEMENT_GET_SINGLE'
   | 'AGREEMENT_VERIFY_ATTRIBUTE'
@@ -43,7 +46,7 @@ export type ApiEndpointKey =
   | 'AGREEMENT_REJECT'
   | 'AGREEMENT_SUSPEND'
   | 'AGREEMENT_UPGRADE'
-  | 'AGREEMENT_DOCUMENT_DOWNLOAD'
+  | 'AGREEMENT_CONTRACT_DOWNLOAD'
   | 'PURPOSE_GET_LIST'
   | 'PURPOSE_GET_SINGLE'
   | 'PURPOSE_DRAFT_CREATE'
@@ -423,9 +426,10 @@ export type AgreementSummary = {
   suspendedByConsumer?: boolean
   suspendedByPlatform?: boolean
   consumerNotes?: string
-  consumerDocuments: Array<unknown>
+  consumerDocuments: Array<EServiceDocumentRead>
   createdAt: string
   updatedAt?: string
+  rejectionReason?: string
 }
 
 /*
@@ -872,6 +876,9 @@ export type DialogBasicProps = DialogDefaultProps & {
 //   | 'AGREEMENT_DRAFT_CREATE'
 //   | 'AGREEMENT_DRAFT_SUBMIT'
 //   | 'AGREEMENT_DRAFT_DELETE
+//   | 'AGREEMENT_DRAFT_DOCUMENT_DOWNLOAD'
+//   | 'AGREEMENT_DRAFT_DOCUMENT_UPLOAD'
+//   | 'AGREEMENT_DRAFT_DOCUMENT_DELETE'
 //   | 'AGREEMENT_GET_LIST'
 //   | 'AGREEMENT_GET_SINGLE'
 //   | 'AGREEMENT_VERIFY_ATTRIBUTE'

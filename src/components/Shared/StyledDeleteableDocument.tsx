@@ -59,7 +59,7 @@ export function StyledDeleteableDocument({
   }
 
   return (
-    <Stack direction="row" alignItems="center" justifyContent="space-between">
+    <Stack direction="row" justifyContent="space-between">
       <StyledInputControlledText
         ref={inputRef}
         disabled={!canEdit || !isLabelEditable}

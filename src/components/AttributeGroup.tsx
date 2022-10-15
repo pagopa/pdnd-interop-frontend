@@ -71,10 +71,7 @@ export function AttributeGroup({
   )
 
   const showConfirmDeclaredAttributeButton =
-    ownedAttributes &&
-    attributeKey === 'declared' &&
-    !isGroupFullfilled &&
-    handleConfirmDeclaredAttribute
+    ownedAttributes && attributeKey === 'declared' && handleConfirmDeclaredAttribute
 
   return (
     <Box sx={{ border: 1, borderColor: 'background.default', borderRadius: 1 }}>

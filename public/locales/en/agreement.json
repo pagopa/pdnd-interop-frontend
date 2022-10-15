@@ -52,6 +52,10 @@
     "consumerMessage": {
       "title": "Message for provider"
     },
+    "rejectionMessage": {
+      "title": "Fruition request rejection reason",
+      "description": "The provider states their reason for refusing to activate this fruition request. You can always submit a new one"
+    },
     "attributes": {
       "howLink": "How?",
       "certified": {

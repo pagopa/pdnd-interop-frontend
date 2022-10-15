@@ -176,6 +176,33 @@
       "message": "Non è stato possibile cancellare la richiesta. Per favore, riprova!"
     }
   },
+  "AGREEMENT_DRAFT_DOCUMENT_DOWNLOAD": {
+    "loadingText": "Stiamo scaricando il documento",
+    "success": {
+      "message": "Il documento è stato scaricato correttamente"
+    },
+    "error": {
+      "message": "Non è stato possibile scaricare il documento. Per favore, riprova!"
+    }
+  },
+  "AGREEMENT_DRAFT_DOCUMENT_UPLOAD": {
+    "loadingText": "Stiamo caricando il documento",
+    "success": {
+      "message": "Il documento è stato caricato correttamente"
+    },
+    "error": {
+      "message": "Non è stato possibile caricare il documento. Per favore, riprova!"
+    }
+  },
+  "AGREEMENT_DRAFT_DOCUMENT_DELETE": {
+    "loadingText": "Stiamo eliminando il documento",
+    "success": {
+      "message": "Il documento è stato eliminato correttamente"
+    },
+    "error": {
+      "message": "Non è stato possibile eliminare il documento. Per favore, riprova!"
+    }
+  },
   "AGREEMENT_VERIFY_ATTRIBUTE": {
     "loadingText": "Stiamo verificando l'attributo",
     "success": {
@@ -218,7 +245,7 @@
       "message": "Non è stato possibile aggiornare la richiesta. Per favore, riprova!"
     }
   },
-  "AGREEMENT_DOCUMENT_DOWNLOAD": {
+  "AGREEMENT_CONTRACT_DOWNLOAD": {
     "loadingText": "Stiamo scaricando il documento della richiesta",
     "success": {
       "message": "Il documento della richiesta di fruizione è stato scaricato correttamente"

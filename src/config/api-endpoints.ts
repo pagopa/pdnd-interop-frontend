@@ -116,6 +116,18 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId`,
     METHOD: 'DELETE',
   },
+  AGREEMENT_DRAFT_DOCUMENT_UPLOAD: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/consumer-documents`,
+    METHOD: 'POST',
+  },
+  AGREEMENT_DRAFT_DOCUMENT_DOWNLOAD: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/consumer-documents/:documentId`,
+    METHOD: 'GET',
+  },
+  AGREEMENT_DRAFT_DOCUMENT_DELETE: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/consumer-documents/:documentId`,
+    METHOD: 'DELETE',
+  },
   AGREEMENT_GET_LIST: {
     URL: `${BACKEND_FOR_FRONTEND_URL}/agreements`,
     METHOD: 'GET',
@@ -148,7 +160,7 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/upgrade`,
     METHOD: 'POST',
   },
-  AGREEMENT_DOCUMENT_DOWNLOAD: {
+  AGREEMENT_CONTRACT_DOWNLOAD: {
     URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/contract`,
     METHOD: 'GET',
   },
