@@ -463,7 +463,12 @@ function GeneralInfoSection({ agreement }: GeneralInfoSectionProps) {
           <InformationRow
             label={t('eserviceField.label')}
             rightContent={
-              <StyledLink underline="hover" variant="button" to={buildEServiceLink()}>
+              <StyledLink
+                underline="hover"
+                variant="button"
+                target="_blank"
+                to={buildEServiceLink()}
+              >
                 {t('eserviceField.goToEServiceBtn')}
               </StyledLink>
             }
