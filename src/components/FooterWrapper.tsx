@@ -7,18 +7,13 @@ import { LANGUAGES, pagoPaLink } from '../lib/constants'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
 import { LoadingTranslations } from './Shared/LoadingTranslations'
-import { Footer, FooterLinksType } from '@pagopa/mui-italia'
+import { FooterLinksType } from '@pagopa/mui-italia'
 import { Typography } from '@mui/material'
 import { TFunction } from 'i18next'
+import { useRoute } from '../hooks/useRoute'
+import { Footer } from './Footer'
 
 type FooterLinksTypeMulti = Omit<FooterLinksType, 'label' | 'ariaLabel'> & { labelKey?: string }
-
-const links: Array<FooterLinksTypeMulti> = [
-  { labelKey: 'privacy', href: '#0', linkType: 'internal' },
-  { labelKey: 'dataProtection', href: '#0', linkType: 'internal' },
-  { labelKey: 'terms', href: '#0', linkType: 'internal' },
-  { labelKey: 'a11y', href: '#0', linkType: 'internal' },
-]
 
 function convertLinks(
   inputLinks: Array<FooterLinksTypeMulti>,
@@ -34,9 +29,37 @@ function convertLinks(
 
 export const FooterWrapper = () => {
   const history = useHistory()
+  const { routes } = useRoute()
   const { lang, setLang } = useContext(LangContext)
   const { ready, t, i18n } = useTranslation(['common', 'pagopa'], { useSuspense: false })
   const { jwt } = useJwt()
+
+  const links: Array<FooterLinksTypeMulti> = [
+    {
+      labelKey: 'privacy',
+      onClick: () => {
+        history.push(routes.TOS.PATH)
+      },
+      linkType: 'internal',
+    },
+    {
+      labelKey: 'dataProtection',
+      href: 'https://privacyportal-de.onetrust.com/webform/77f17844-04c3-4969-a11d-462ee77acbe1/9ab6533d-be4a-482e-929a-0d8d2ab29df8',
+      linkType: 'external',
+    },
+    {
+      labelKey: 'terms',
+      onClick: () => {
+        history.push(routes.TOS.PATH)
+      },
+      linkType: 'internal',
+    },
+    {
+      labelKey: 'a11y',
+      href: 'https://form.agid.gov.it/view/d96e090e-9d56-4d27-a70c-9a72186305b0/',
+      linkType: 'external',
+    },
+  ]
 
   const onLanguageChanged = (newLang: LangCode) => {
     setLang(newLang)
@@ -59,6 +82,8 @@ export const FooterWrapper = () => {
       CAP 00187 - n. di iscrizione a Registro Imprese di Roma, CF e P.IVA 15376371009
     </Typography>
   )
+
+  console.log({ l: convertLinks(links, t) })
 
   return (
     <Footer
