@@ -283,6 +283,11 @@ export function AgreementRead() {
               />
             </Grid>
           </Grid>
+
+          {agreement.state === 'REJECTED' && agreement.rejectionReason && (
+            <RejectionMessageSection message={agreement.rejectionReason} />
+          )}
+
           {agreement.consumerNotes && <ConsumerMessageSection message={agreement.consumerNotes} />}
 
           <AttributeSection
@@ -360,6 +365,7 @@ function UpgradeGuideSection({ eservice, agreementId }: UpgradeGuideSectionProps
           {t('alertLabel', { eserviceName: eservice.name })}
         </Trans>
       </Alert>
+
       <StyledSection>
         <StyledSection.Title>{t('title')}</StyledSection.Title>
         <StyledSection.Subtitle>
@@ -436,7 +442,7 @@ function GeneralInfoSection({ agreement }: GeneralInfoSectionProps) {
     const { response, outcome } = (await runAction(
       {
         path: {
-          endpoint: 'AGREEMENT_DOCUMENT_DOWNLOAD',
+          endpoint: 'AGREEMENT_CONTRACT_DOWNLOAD',
           endpointParams: { agreementId: agreement.id },
         },
         config: { responseType: 'arraybuffer' },
@@ -489,6 +495,23 @@ function GeneralInfoSection({ agreement }: GeneralInfoSectionProps) {
             </InformationRow>
           )}
         </Stack>
+      </StyledSection.Content>
+    </StyledSection>
+  )
+}
+
+type RejectionMessageSectionProps = {
+  message: string
+}
+
+function RejectionMessageSection({ message }: RejectionMessageSectionProps) {
+  const { t } = useTranslation('agreement', { keyPrefix: 'read.rejectionMessage' })
+  return (
+    <StyledSection>
+      <StyledSection.Title>{t('title')}</StyledSection.Title>
+      <StyledSection.Subtitle>{t('description')}</StyledSection.Subtitle>
+      <StyledSection.Content>
+        <Typography>{message}</Typography>
       </StyledSection.Content>
     </StyledSection>
   )

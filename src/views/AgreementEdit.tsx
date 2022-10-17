@@ -1,5 +1,6 @@
-import { Alert, Box, Chip, Divider, Grid, Stack, Typography } from '@mui/material'
+import { Box, Chip, Divider, Grid, Stack, Typography } from '@mui/material'
 import { ButtonNaked } from '@pagopa/mui-italia'
+import { AxiosResponse } from 'axios'
 import { Formik } from 'formik'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -28,7 +29,7 @@ import { StyledIntro } from '../components/Shared/StyledIntro'
 import { StyledLink } from '../components/Shared/StyledLink'
 import StyledSection from '../components/Shared/StyledSection'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { useFeedback } from '../hooks/useFeedback'
+import { RunAction, RunActionOutput, useFeedback } from '../hooks/useFeedback'
 import { useRoute } from '../hooks/useRoute'
 import {
   checkOwnershipFrontendAttributes,
@@ -36,14 +37,15 @@ import {
   remapTenantBackendAttributeToFrontend,
 } from '../lib/attributes'
 import { CHIP_COLORS_AGREEMENT, MAX_WIDTH } from '../lib/constants'
+import { getDownloadDocumentName } from '../lib/eservice-utils'
+import { downloadFile } from '../lib/file-utils'
 import { buildDynamicPath } from '../lib/router-utils'
 import { NotFound } from './NotFound'
 
 export function AgreementEdit() {
   const { t } = useTranslation(['agreement', 'common'])
 
-  const [documents, setDocuments] = useState<Array<EServiceDocumentRead>>([])
-  const [providerMessage, setProviderMessage] = React.useState('')
+  const [consumerNotes, setConsumerNotes] = React.useState('')
 
   const { agreementId } = useParams<{ agreementId: string }>()
   const history = useHistory()
@@ -54,9 +56,10 @@ export function AgreementEdit() {
     data: agreement,
     error: agreementError,
     isLoading,
-  } = useAsyncFetch<AgreementSummary>({
-    path: { endpoint: 'AGREEMENT_GET_SINGLE', endpointParams: { agreementId } },
-  })
+  } = useAsyncFetch<AgreementSummary>(
+    { path: { endpoint: 'AGREEMENT_GET_SINGLE', endpointParams: { agreementId } } },
+    { useEffectDeps: [forceRerenderCounter] }
+  )
 
   const { data: frontendAttributes } = useAsyncFetch<EServiceReadType, FrontendAttributes>(
     {
@@ -67,7 +70,7 @@ export function AgreementEdit() {
     },
     {
       mapFn: (data) => remapBackendAttributesToFrontend(data.attributes),
-      useEffectDeps: [agreement],
+      useEffectDeps: [forceRerenderCounter, agreement],
       disabled: !agreement?.eservice.id,
     }
   )
@@ -104,7 +107,7 @@ export function AgreementEdit() {
       disabled: !Boolean(agreement),
       mapFn: (data) =>
         remapTenantBackendAttributeToFrontend(data.attributes, 'verified', agreement!.producer.id),
-      useEffectDeps: [forceRerenderCounter, agreement],
+      useEffectDeps: [agreement],
     }
   )
 
@@ -137,8 +140,8 @@ export function AgreementEdit() {
     })
   }
 
-  function handleProviderMessageChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    setProviderMessage(e.target.value)
+  function handleConsumerNotesChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    setConsumerNotes(e.target.value)
   }
 
   function handleGoBackToRequestsList() {
@@ -182,6 +185,7 @@ export function AgreementEdit() {
           endpoint: 'AGREEMENT_DRAFT_SUBMIT',
           endpointParams: { agreementId: agreement?.id },
         },
+        config: { data: { consumerNotes } },
       },
       { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST, showConfirmDialog: true }
     )
@@ -276,32 +280,29 @@ export function AgreementEdit() {
             <StyledSection.Title>{t('edit.documents.title')}</StyledSection.Title>
             <StyledSection.Subtitle>{t('edit.documents.description')}</StyledSection.Subtitle>
             <StyledSection.Content>
-              <DocumentInputSection documents={documents} setDocuments={setDocuments} />
+              <DocumentInputSection
+                agreementId={agreement.id}
+                documents={agreement.consumerDocuments}
+                runAction={runAction}
+              />
             </StyledSection.Content>
-            <Alert severity="info" sx={{ mt: 1 }}>
-              Questa funzionalità sarà disponibile a breve
-            </Alert>
           </StyledSection>
 
           <StyledSection>
-            <StyledSection.Title>{t('edit.providerMessage.title')}</StyledSection.Title>
-            <StyledSection.Subtitle>{t('edit.providerMessage.description')}</StyledSection.Subtitle>
+            <StyledSection.Title>{t('edit.consumerNotes.title')}</StyledSection.Title>
+            <StyledSection.Subtitle>{t('edit.consumerNotes.description')}</StyledSection.Subtitle>
             <StyledSection.Content>
               <StyledInputControlledText
-                disabled
                 sx={{ mb: 0, mt: 1 }}
-                label={t('edit.providerMessage.field.label')}
-                infoLabel={t('edit.providerMessage.field.infoLabel')}
-                name="providerMessage"
-                value={providerMessage}
-                onChange={handleProviderMessageChange}
+                label={t('edit.consumerNotes.field.label')}
+                infoLabel={t('edit.consumerNotes.field.infoLabel')}
+                name="consumerNotes"
+                value={consumerNotes}
+                onChange={handleConsumerNotesChange}
                 multiline
                 inputProps={{ maxLength: 1000 }}
               />
             </StyledSection.Content>
-            <Alert severity="info" sx={{ mt: 1 }}>
-              Questa funzionalità sarà disponibile a breve
-            </Alert>
           </StyledSection>
 
           <Box sx={{ mt: 4 }}>
@@ -341,11 +342,12 @@ export function AgreementEdit() {
 }
 
 type DocumentInputSectionProps = {
+  agreementId: string
   documents: Array<EServiceDocumentRead>
-  setDocuments: React.Dispatch<React.SetStateAction<Array<EServiceDocumentRead>>>
+  runAction: RunAction
 }
 
-function DocumentInputSection({ documents, setDocuments }: DocumentInputSectionProps) {
+function DocumentInputSection({ agreementId, documents, runAction }: DocumentInputSectionProps) {
   const [showInput, setShowInput] = useState(false)
 
   const { t } = useTranslation('common')
@@ -359,16 +361,22 @@ function DocumentInputSection({ documents, setDocuments }: DocumentInputSectionP
   }
 
   const handleUploadFile = async (file: File, prettyName: string) => {
-    setDocuments((prev) => [
-      ...prev,
+    const formData = new FormData()
+    formData.append('name', file.name)
+    formData.append('prettyName', prettyName)
+    formData.append('doc', file)
+
+    const { outcome } = (await runAction(
       {
-        id: Math.random().toString(),
-        name: file.name,
-        prettyName,
-        contentType: file.type,
+        path: { endpoint: 'AGREEMENT_DRAFT_DOCUMENT_UPLOAD', endpointParams: { agreementId } },
+        config: { data: formData, headers: { 'Content-Type': 'multipart/form-data' } },
       },
-    ])
-    handleHideFileInput()
+      { suppressToast: ['success'] }
+    )) as RunActionOutput
+
+    if (outcome === 'success') {
+      handleHideFileInput()
+    }
   }
 
   const handleUpdateDocDescription = async (_: string, _2: string) => {
@@ -376,13 +384,32 @@ function DocumentInputSection({ documents, setDocuments }: DocumentInputSectionP
     return 'success' as RequestOutcome
   }
 
-  const handleDeleteDocument = async (docId: string) => {
-    // TEMP BACKEND
-    setDocuments((prev) => prev.filter((doc) => docId !== doc.id))
+  const handleDeleteDocument = async (documentId: string) => {
+    await runAction({
+      path: {
+        endpoint: 'AGREEMENT_DRAFT_DOCUMENT_DELETE',
+        endpointParams: { agreementId, documentId },
+      },
+    })
   }
 
-  const handleDownloadDocument = async (_: string) => {
-    //TEMP BACKEND
+  const handleDownloadDocument = async (document: EServiceDocumentRead) => {
+    const { outcome, response } = (await runAction(
+      {
+        path: {
+          endpoint: 'AGREEMENT_DRAFT_DOCUMENT_DOWNLOAD',
+          endpointParams: { agreementId, documentId: document.id },
+        },
+        config: { responseType: 'arraybuffer' },
+      },
+      { suppressToast: ['success'] }
+    )) as RunActionOutput
+
+    if (outcome === 'success') {
+      const data = (response as AxiosResponse).data as string
+      const filename = getDownloadDocumentName(document)
+      downloadFile(data, filename)
+    }
   }
 
   return (
@@ -390,11 +417,12 @@ function DocumentInputSection({ documents, setDocuments }: DocumentInputSectionP
       <Stack sx={{ mt: 1 }} spacing={2}>
         {documents.map((document) => (
           <StyledDeleteableDocument
+            isLabelEditable={false}
             key={document.id}
             readable={document}
             updateDescription={handleUpdateDocDescription.bind(null, document.id)}
             deleteDocument={handleDeleteDocument.bind(null, document.id)}
-            downloadDocument={handleDownloadDocument.bind(null, document.id)}
+            downloadDocument={handleDownloadDocument.bind(null, document)}
           />
         ))}
       </Stack>
@@ -403,8 +431,7 @@ function DocumentInputSection({ documents, setDocuments }: DocumentInputSectionP
 
       <Box>
         {!showInput ? (
-          // Disabled, waiting for the backend
-          <ButtonNaked disabled color="primary" onClick={handleShowFileInput}>
+          <ButtonNaked color="primary" onClick={handleShowFileInput}>
             {t('addBtn')}
           </ButtonNaked>
         ) : (

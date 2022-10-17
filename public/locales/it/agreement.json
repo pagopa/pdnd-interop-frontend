@@ -50,7 +50,11 @@
       }
     },
     "consumerMessage": {
-      "title": "messaggio per l’erogatore"
+      "title": "Messaggio per l’erogatore"
+    },
+    "rejectionMessage": {
+      "title": "Motivazione rifiuto richiesta di fruizione",
+      "description": "L'erogatore ha motivato così il rifiuto di attivare questa richiesta di fruizione. Potrai sempre presentarne una nuova"
     },
     "attributes": {
       "howLink": "Come funziona?",
@@ -99,7 +103,7 @@
         "description": "Devi dichiarare sotto la tua responsabilità di possedere questi attributi."
       }
     },
-    "providerMessage": {
+    "consumerNotes": {
       "title": "messaggio per l’erogatore",
       "description": "Se ci sono gruppi di attributi contraddistinti da “oppure”, indica in questo messaggio quale tra quelli ti aspetti venga riconosciuto, in base alla documentazione che hai caricato. Inserisci eventuali altre note utili",
       "field": {
