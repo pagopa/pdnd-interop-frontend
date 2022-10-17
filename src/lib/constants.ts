@@ -1,9 +1,23 @@
-import { AgreementState, EServiceState, LangCode, MUIColor, UserState } from '../../types'
+import {
+  AgreementState,
+  EServiceState,
+  LangCode,
+  MUIColor,
+  ProviderOrSubscriber,
+  UserState,
+} from '../../types'
+import { isDevelopment } from './env'
 
 export const DISPLAY_LOGS = false // isDevelopment
 
 export const STORAGE_KEY_SESSION_TOKEN = 'token'
-export const MOCK_TOKEN = process.env.REACT_APP_MOCK_TOKEN
+
+const MODE: ProviderOrSubscriber = 'subscriber'
+const MOCK_TOKEN_SIDE =
+  MODE === ('provider' as ProviderOrSubscriber)
+    ? process.env.REACT_APP_MOCK_TOKEN_PROVIDER
+    : process.env.REACT_APP_MOCK_TOKEN_SUBSCRIBER
+export const MOCK_TOKEN = isDevelopment && MOCK_TOKEN_SIDE
 
 export const MAX_WIDTH = 1280
 
