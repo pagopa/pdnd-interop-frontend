@@ -1,15 +1,5 @@
 import React, { useContext, useState } from 'react'
-import {
-  Box,
-  Chip,
-  ChipProps,
-  Divider,
-  FormControlLabel,
-  Stack,
-  Switch,
-  Tooltip,
-  Typography,
-} from '@mui/material'
+import { Box, Chip, ChipProps, Divider, Stack, Tooltip, Typography } from '@mui/material'
 import { AttributeKey, CatalogAttribute, ConsumerAttribute, FrontendAttribute } from '../../types'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledInputControlledAsyncAutocomplete } from './Shared/StyledInputControlledAsyncAutocomplete'
@@ -50,7 +40,7 @@ export function AttributeGroup({
   handleRemoveAttributesGroup = noop,
   handleAddAttributeToGroup = noop,
   handleRemoveAttributeFromGroup = noop,
-  handleExplicitAttributeVerificationChange = noop,
+  // handleExplicitAttributeVerificationChange = noop,
   handleConfirmDeclaredAttribute,
   handleVerifyAttribute,
   handleRefuseAttribute,
@@ -60,7 +50,7 @@ export function AttributeGroup({
 
   const [isAttributeAutocompleteShown, setIsAttributeAutocompleteShown] = useState(true)
 
-  const hasExplicitAttributeVerification = attributeKey === 'verified'
+  // const hasExplicitAttributeVerification = attributeKey === 'verified'
 
   const handleHideAutocomplete = () => setIsAttributeAutocompleteShown(false)
   const isGroupFullfilled = attributesGroup.attributes.some((groupAttribute) =>
