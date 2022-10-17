@@ -68,6 +68,18 @@ export const AsyncTableAgreement = () => {
       { showConfirmDialog: true }
     )
   }
+
+  const wrapDelete = (agreementId: string) => async () => {
+    await runAction(
+      {
+        path: {
+          endpoint: 'AGREEMENT_DRAFT_DELETE',
+          endpointParams: { agreementId },
+        },
+      },
+      { showConfirmDialog: true }
+    )
+  }
   /*
    * End list of actions
    */
@@ -101,9 +113,11 @@ export const AsyncTableAgreement = () => {
       SUSPENDED: [],
       PENDING: [],
       ARCHIVED: [],
-      DRAFT: [],
+      DRAFT: [{ onClick: wrapDelete(agreement.id), label: tCommon('actions.delete') }],
       REJECTED: [],
-      MISSING_CERTIFIED_ATTRIBUTES: [],
+      MISSING_CERTIFIED_ATTRIBUTES: [
+        { onClick: wrapDelete(agreement.id), label: tCommon('actions.delete') },
+      ],
     }
 
     const providerOnlyActions: AgreementActions = {
