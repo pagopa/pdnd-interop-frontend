@@ -30,3 +30,6 @@ yarn-error.log*
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# dev temp tokens (too uncomfortable to be in .env)
+dev-tokens.ts

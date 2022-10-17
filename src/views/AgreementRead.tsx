@@ -123,6 +123,18 @@ export function AgreementRead() {
     )
   }
 
+  const deleteAgreement = async () => {
+    await runAction(
+      {
+        path: {
+          endpoint: 'AGREEMENT_DRAFT_DELETE',
+          endpointParams: { agreementId },
+        },
+      },
+      { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST, showConfirmDialog: true }
+    )
+  }
+
   /*
    * End list of actions
    */
@@ -171,9 +183,11 @@ export function AgreementRead() {
       SUSPENDED: [],
       PENDING: [],
       ARCHIVED: [],
-      DRAFT: [],
+      DRAFT: [{ onClick: deleteAgreement, label: t('actions.delete', { ns: 'common' }) }],
       REJECTED: [],
-      MISSING_CERTIFIED_ATTRIBUTES: [],
+      MISSING_CERTIFIED_ATTRIBUTES: [
+        { onClick: deleteAgreement, label: t('actions.delete', { ns: 'common' }) },
+      ],
     }
 
     const currentMode = mode as ProviderOrSubscriber
@@ -463,7 +477,12 @@ function GeneralInfoSection({ agreement }: GeneralInfoSectionProps) {
           <InformationRow
             label={t('eserviceField.label')}
             rightContent={
-              <StyledLink underline="hover" variant="button" to={buildEServiceLink()}>
+              <StyledLink
+                underline="hover"
+                variant="button"
+                target="_blank"
+                to={buildEServiceLink()}
+              >
                 {t('eserviceField.goToEServiceBtn')}
               </StyledLink>
             }

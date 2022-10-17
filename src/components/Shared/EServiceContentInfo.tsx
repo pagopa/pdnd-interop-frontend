@@ -107,6 +107,7 @@ function GeneralInfoSection({
           {isAdmin && agreement && (
             <InformationRow label={t('agreementField.label')}>
               <StyledLink
+                target="_blank"
                 to={buildDynamicPath(agreementPath, {
                   agreementId: agreement.id,
                 })}

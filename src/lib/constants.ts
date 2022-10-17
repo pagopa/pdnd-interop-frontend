@@ -1,9 +1,11 @@
 import { AgreementState, EServiceState, LangCode, MUIColor, UserState } from '../../types'
+import { isDevelopment } from './env'
 
 export const DISPLAY_LOGS = false // isDevelopment
 
 export const STORAGE_KEY_SESSION_TOKEN = 'token'
-export const MOCK_TOKEN = process.env.REACT_APP_MOCK_TOKEN
+
+export const MOCK_TOKEN = isDevelopment && process.env.REACT_APP_MOCK_TOKEN
 
 export const MAX_WIDTH = 1280
 
