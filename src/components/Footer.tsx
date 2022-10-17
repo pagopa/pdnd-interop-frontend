@@ -51,13 +51,14 @@ const FooterPostLogin = ({
           direction={{ xs: 'column', md: 'row' }}
           sx={{ alignItems: 'center' }}
         >
-          {links.map(({ href, label, ariaLabel, onClick }, i) => (
+          {links.map(({ href, label, ariaLabel, onClick, linkType }, i) => (
             <Link
               aria-label={ariaLabel}
               component={href ? 'a' : 'button'}
               href={href}
               onClick={onClick}
               key={i}
+              target={linkType === 'external' ? '_blank' : undefined}
               underline="none"
               color="text.primary"
               sx={{ display: 'inline-block' }}
