@@ -6,8 +6,8 @@ COPY ./package.json /app/package.json
 COPY ./yarn.lock /app/yarn.lock
 
 RUN npm install yarn
-RUN yarn install
 COPY . .
+RUN yarn install
 RUN yarn build
 
 FROM nginx
