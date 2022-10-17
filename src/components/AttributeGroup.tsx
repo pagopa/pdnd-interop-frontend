@@ -141,9 +141,11 @@ export function AttributeGroup({
           </>
         )}
       </Box>
-      {hasExplicitAttributeVerification && !readOnly && (
+      {/* {hasExplicitAttributeVerification && !readOnly && (
         <Box sx={{ backgroundColor: 'background.default', px: 1, py: 0.5 }}>
           <FormControlLabel
+            // TEMP BACKEND - Waiting for backend implementation
+            sx={{ visibility: 'hidden' }}
             control={
               <Switch
                 readOnly={readOnly}
@@ -154,7 +156,7 @@ export function AttributeGroup({
             label={t('canRequireVerification')}
           />
         </Box>
-      )}
+      )} */}
     </Box>
   )
 }
