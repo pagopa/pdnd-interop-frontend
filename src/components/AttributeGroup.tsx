@@ -341,6 +341,15 @@ function AttributesList({
             </>
           ) : (
             <>
+              {onConfirmDeclaredAttribute && (
+                <ButtonNaked
+                  onClick={onConfirmDeclaredAttribute.bind(null, attribute.id)}
+                  color="primary"
+                >
+                  {t('confirmDeclaredAttributeBtn')}
+                </ButtonNaked>
+              )}
+
               {isActive && (
                 <StyledTooltip title={activeTooltipLabel}>
                   <Check color="success" fontSize="small" />
@@ -351,15 +360,6 @@ function AttributesList({
                 <Tooltip title={revokedTooltipLabel}>
                   <CloseIcon fontSize="small" color="error" />
                 </Tooltip>
-              )}
-
-              {onConfirmDeclaredAttribute && (
-                <ButtonNaked
-                  onClick={onConfirmDeclaredAttribute.bind(null, attribute.id)}
-                  color="primary"
-                >
-                  {t('confirmDeclaredAttributeBtn')}
-                </ButtonNaked>
               )}
               <ButtonNaked
                 onClick={openAttributeDetailsDialog.bind(null, attribute)}
