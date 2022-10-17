@@ -11,7 +11,7 @@ import {
   decorateEServiceWithActiveDescriptor,
   getEserviceAndDescriptorFromUrl,
 } from '../lib/eservice-utils'
-import { useLocation } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { NotFound } from './NotFound'
 import { useRoute } from '../hooks/useRoute'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
@@ -21,6 +21,7 @@ import { useJwt } from '../hooks/useJwt'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { AxiosResponse } from 'axios'
 import { MAX_WIDTH } from '../lib/constants'
+import { buildDynamicPath } from '../lib/router-utils'
 
 export function EServiceRead() {
   const { t } = useTranslation(['eservice', 'common'])
@@ -28,6 +29,7 @@ export function EServiceRead() {
   const { routes } = useRoute()
   const { jwt, isAdmin } = useJwt()
   const { setDialog } = useContext(DialogContext)
+  const history = useHistory()
 
   const location = useLocation()
   const { eserviceId, descriptorId } = getEserviceAndDescriptorFromUrl(location)
@@ -88,14 +90,10 @@ export function EServiceRead() {
       )) as RunActionOutput
 
       if (draftCreateOutcome === 'success') {
-        await runAction(
-          {
-            path: {
-              endpoint: 'AGREEMENT_DRAFT_SUBMIT',
-              endpointParams: { agreementId: (draftCreateResponse as AxiosResponse).data.id },
-            },
-          },
-          { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
+        history.push(
+          buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
+            agreementId: (draftCreateResponse as AxiosResponse).data.id,
+          })
         )
       }
     }
@@ -117,9 +115,13 @@ export function EServiceRead() {
   }
 
   const isLoading = isEServiceLoading || isFlatEServiceLoading
-  const isSubscribed = flatData && flatData.callerSubscribed && isAdmin
+  const isSubscribed =
+    flatData && flatData?.agreement && flatData.agreement.state !== 'DRAFT' && isAdmin
+  const hasDraft =
+    flatData && flatData.agreement && flatData?.agreement.state === 'DRAFT' && isAdmin
+
   const canBeSubsribed =
-    isVersionPublished && !isMine && canSubscribeEservice && !flatData?.callerSubscribed && isAdmin
+    isVersionPublished && !isMine && canSubscribeEservice && !flatData?.agreement && isAdmin
 
   return (
     <Box sx={{ maxWidth: MAX_WIDTH }}>
@@ -127,7 +129,7 @@ export function EServiceRead() {
         <StyledIntro sx={{ flex: 1 }} isLoading={isLoading}>
           {{ title: data?.name, description: data?.description }}
         </StyledIntro>
-        {canBeSubsribed && (
+        {!isLoading && canBeSubsribed && (
           <Stack direction="row" alignItems="center" spacing={2}>
             <StyledButton variant="outlined" onClick={handleSubscriptionDialog}>
               {t('actions.subscribe', { ns: 'common' })}
@@ -141,9 +143,8 @@ export function EServiceRead() {
         {!canSubscribeEservice && (
           <Alert severity="info">{t('read.alert.missingCertifiedAttributes')}</Alert>
         )}
-        {flatData?.callerSubscribed && (
-          <Alert severity="info">{t('read.alert.alreadySubscribed')}</Alert>
-        )}
+        {isSubscribed && <Alert severity="info">{t('read.alert.alreadySubscribed')}</Alert>}
+        {hasDraft && <Alert severity="info">{t('read.alert.hasDraft')}</Alert>}
       </Stack>
 
       {data && descriptorId ? (
@@ -151,7 +152,7 @@ export function EServiceRead() {
           <EServiceContentInfo
             data={data}
             descriptorId={descriptorId}
-            agreementId={isSubscribed ? flatData.callerSubscribed : undefined}
+            agreement={flatData?.agreement}
             context="subscriber"
           />
 

@@ -167,6 +167,15 @@
       "message": "The request could not be sent. Please, try again!"
     }
   },
+  "AGREEMENT_DRAFT_DELETE": {
+    "loadingText": "Deleting fruition request",
+    "success": {
+      "message": "Request deleted successfully"
+    },
+    "error": {
+      "message": "The request could not be deleted. Please, try again!"
+    }
+  },
   "AGREEMENT_VERIFY_ATTRIBUTE": {
     "loadingText": "Verifying the attribute",
     "success": {
@@ -185,6 +194,12 @@
       "message": "The fruition request could not be activated. Please, make sure all attributes are verified and try again!"
     }
   },
+  "AGREEMENT_REJECT": {
+    "loadingText": "Rejecting fruition request",
+    "error": {
+      "message": "The fruition request could not be rejected. Please, try again!"
+    }
+  },
   "AGREEMENT_SUSPEND": {
     "loadingText": "Suspending fruition request",
     "success": {
@@ -201,6 +216,15 @@
     },
     "error": {
       "message": "The fruition request could not be upgraded. Please, try again!"
+    }
+  },
+  "AGREEMENT_DOCUMENT_DOWNLOAD": {
+    "loadingText": "Downloading fruition request document",
+    "success": {
+      "message": "The fruition request document was downloaded successfully"
+    },
+    "error": {
+      "message": "The fruition request document could not be downloaded. Please, try again!"
     }
   },
   "PURPOSE_DRAFT_CREATE": {
@@ -354,6 +378,15 @@
     },
     "error": {
       "message": "The declared attribute could not be confirmed. Please, try again!"
+    }
+  },
+  "AGREEMENT_REVOKE_VERIFIED_ATTRIBUTE": {
+    "loadingText": "Revoking verified attribute",
+    "success": {
+      "message": "Verified attribute revoked successfully."
+    },
+    "error": {
+      "message": "The verified attribute could not be revoked. Please, try again!"
     }
   }
 }

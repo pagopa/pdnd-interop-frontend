@@ -7,13 +7,14 @@ import {
   FormControlLabel,
   Stack,
   Switch,
+  Tooltip,
   Typography,
 } from '@mui/material'
-import { AttributeKey, CatalogAttribute, FrontendAttribute } from '../../types'
+import { AttributeKey, CatalogAttribute, ConsumerAttribute, FrontendAttribute } from '../../types'
 import { StyledButton } from './Shared/StyledButton'
 import { StyledInputControlledAsyncAutocomplete } from './Shared/StyledInputControlledAsyncAutocomplete'
 import { ButtonNaked } from '@pagopa/mui-italia'
-import { Add, DeleteOutline, InfoRounded, Check } from '@mui/icons-material'
+import { Add, DeleteOutline, InfoRounded, Check, Close as CloseIcon } from '@mui/icons-material'
 import { DialogContext } from '../lib/context'
 import { useTranslation } from 'react-i18next'
 import noop from 'lodash/noop'
@@ -24,7 +25,7 @@ type AttributeGroupProps = {
   readOnly: boolean
   attributesGroup: FrontendAttribute
   attributeKey: AttributeKey
-  ownedAttributesIds?: Array<string>
+  ownedAttributes?: Array<ConsumerAttribute>
   alreadySelectedAttributesIds?: Array<string>
   handleRemoveAttributesGroup?: (groupIndex: number) => void
   handleAddAttributeToGroup?: (groupIndex: number, attribute: CatalogAttribute) => void
@@ -34,6 +35,9 @@ type AttributeGroupProps = {
     e: React.ChangeEvent<HTMLInputElement>
   ) => void
   handleConfirmDeclaredAttribute?: (attributeId: string) => void
+  handleVerifyAttribute?: (attributeId: string) => void
+  handleRefuseAttribute?: (attributeId: string) => void
+  handleRevokeAttribute?: (attributeId: string) => void
 }
 
 export function AttributeGroup({
@@ -41,28 +45,35 @@ export function AttributeGroup({
   readOnly,
   attributesGroup,
   attributeKey,
-  ownedAttributesIds,
+  ownedAttributes,
   alreadySelectedAttributesIds = [],
   handleRemoveAttributesGroup = noop,
   handleAddAttributeToGroup = noop,
   handleRemoveAttributeFromGroup = noop,
   handleExplicitAttributeVerificationChange = noop,
   handleConfirmDeclaredAttribute,
+  handleVerifyAttribute,
+  handleRefuseAttribute,
+  handleRevokeAttribute,
 }: AttributeGroupProps) {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
 
   const [isAttributeAutocompleteShown, setIsAttributeAutocompleteShown] = useState(true)
+
   const hasExplicitAttributeVerification = attributeKey === 'verified'
 
   const handleHideAutocomplete = () => setIsAttributeAutocompleteShown(false)
-  const isFullfilled = attributesGroup.attributes.some((att) =>
-    ownedAttributesIds?.includes(att.id)
+  const isGroupFullfilled = attributesGroup.attributes.some((groupAttribute) =>
+    ownedAttributes?.some(
+      (ownedAttribute) =>
+        ownedAttribute.id === groupAttribute.id && ownedAttribute.state === 'ACTIVE'
+    )
   )
 
-  const showConfirmAttributeButton =
-    ownedAttributesIds &&
+  const showConfirmDeclaredAttributeButton =
+    ownedAttributes &&
     attributeKey === 'declared' &&
-    !isFullfilled &&
+    !isGroupFullfilled &&
     handleConfirmDeclaredAttribute
 
   return (
@@ -74,8 +85,11 @@ export function AttributeGroup({
         sx={{ p: 1.5, backgroundColor: 'background.default' }}
       >
         <Typography variant="subtitle1">{t('title', { num: index + 1 })}</Typography>
-        {ownedAttributesIds && (
-          <AttributeGroupStatusChip attributeKey={attributeKey} isFullfilled={isFullfilled} />
+        {ownedAttributes && (
+          <AttributeGroupStatusChip
+            attributeKey={attributeKey}
+            isGroupFullfilled={isGroupFullfilled}
+          />
         )}
 
         {!readOnly && (
@@ -93,11 +107,14 @@ export function AttributeGroup({
         <AttributesList
           readOnly={readOnly}
           attributes={attributesGroup.attributes}
-          ownedAttributesIds={ownedAttributesIds}
+          ownedAttributes={ownedAttributes}
           onConfirmDeclaredAttribute={
-            showConfirmAttributeButton ? handleConfirmDeclaredAttribute : undefined
+            showConfirmDeclaredAttributeButton ? handleConfirmDeclaredAttribute : undefined
           }
           onRemove={handleRemoveAttributeFromGroup.bind(null, index)}
+          onVerifyAttribute={handleVerifyAttribute}
+          onRefuseAttribute={handleRefuseAttribute}
+          onRevokeAttribute={handleRevokeAttribute}
         />
 
         {!readOnly && (
@@ -222,16 +239,22 @@ function AttributesAutocomplete({
 type AttributesListProps = {
   readOnly: boolean
   attributes: Array<CatalogAttribute>
-  ownedAttributesIds?: Array<string>
+  ownedAttributes?: Array<ConsumerAttribute>
   onConfirmDeclaredAttribute?: (attributeId: string) => void
   onRemove: (attributeId: string) => void
+  onVerifyAttribute?: (attributeId: string) => void
+  onRefuseAttribute?: (attributeId: string) => void
+  onRevokeAttribute?: (attributeId: string) => void
 }
 function AttributesList({
   readOnly,
   attributes,
-  ownedAttributesIds,
+  ownedAttributes,
   onConfirmDeclaredAttribute,
   onRemove,
+  onVerifyAttribute,
+  onRefuseAttribute,
+  onRevokeAttribute,
 }: AttributesListProps) {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
   const { setDialog } = useContext(DialogContext)
@@ -253,41 +276,109 @@ function AttributesList({
     attribute: CatalogAttribute
     shouldShowOrLabel: boolean
   }) {
-    const isOwned = ownedAttributesIds?.includes(attribute.id)
-    const fullfilledTooltipLabel = t(`statusChip.${attribute.kind.toLowerCase()}.fullfilledLabel`)
+    const isActive = ownedAttributes?.some(
+      (ownedAttribute) => ownedAttribute.id === attribute.id && ownedAttribute.state === 'ACTIVE'
+    )
+
+    const isRevoked = ownedAttributes?.some(
+      (ownedAttribute) => ownedAttribute.id === attribute.id && ownedAttribute.state === 'REVOKED'
+    )
+
+    const activeTooltipLabel = t(`statusChip.${attribute.kind.toLowerCase()}.fullfilledLabel`)
+    const revokedTooltipLabel = t(`statusChip.${attribute.kind.toLowerCase()}.revokedLabel`)
 
     return (
       <Stack direction="row" alignItems="center" spacing={2}>
         <Typography sx={{ flex: 1 }} variant="body2">
           {attribute.name}
         </Typography>
+        {/* TEMP REFACTOR */}
         <Stack sx={{ flexShrink: 0 }} direction="row" spacing={2}>
-          {isOwned && (
-            <StyledTooltip title={fullfilledTooltipLabel}>
-              <Check color="success" fontSize="small" />
-            </StyledTooltip>
-          )}
-          {onConfirmDeclaredAttribute && (
-            <ButtonNaked
-              onClick={onConfirmDeclaredAttribute.bind(null, attribute.id)}
-              color="primary"
-            >
-              {t('confirmDeclaredAttributeBtn')}
-            </ButtonNaked>
-          )}
-          <ButtonNaked
-            onClick={openAttributeDetailsDialog.bind(null, attribute)}
-            aria-label={t('showInfoSrLabel')}
-          >
-            <InfoRounded fontSize="small" color="primary" />
-          </ButtonNaked>
-          {!readOnly && (
-            <ButtonNaked
-              onClick={onRemove.bind(null, attribute.id)}
-              aria-label={t('deleteSrLabel')}
-            >
-              <DeleteOutline fontSize="small" color="error" />
-            </ButtonNaked>
+          {onVerifyAttribute && onRefuseAttribute && onRevokeAttribute ? (
+            <>
+              <ButtonNaked onClick={onVerifyAttribute.bind(null, attribute.id)} color="primary">
+                {t('actions.verifyBtn')}
+              </ButtonNaked>
+
+              {isActive ? (
+                <ButtonNaked onClick={onRevokeAttribute.bind(null, attribute.id)} color="error">
+                  {t('actions.revokeBtn')}
+                </ButtonNaked>
+              ) : (
+                // This is here just for spacing purposes
+                <ButtonNaked
+                  sx={{ visibility: 'hidden' }}
+                  disabled={true}
+                  onClick={onRefuseAttribute.bind(null, attribute.id)}
+                  color="error"
+                >
+                  {/* {t('actions.refuseBtn')} */}
+                  {t('actions.revokeBtn')}
+                </ButtonNaked>
+              )}
+
+              {isActive && (
+                <Tooltip title={activeTooltipLabel}>
+                  <Check fontSize="small" color="success" />
+                </Tooltip>
+              )}
+
+              {isRevoked && (
+                <Tooltip title={revokedTooltipLabel}>
+                  <CloseIcon fontSize="small" color="error" />
+                </Tooltip>
+              )}
+
+              {!isActive && !isRevoked && (
+                <Tooltip sx={{ visibility: 'hidden' }} title={revokedTooltipLabel}>
+                  <CloseIcon fontSize="small" color="error" />
+                </Tooltip>
+              )}
+
+              <ButtonNaked
+                onClick={openAttributeDetailsDialog.bind(null, attribute)}
+                aria-label={t('showInfoSrLabel')}
+              >
+                <InfoRounded fontSize="small" color="primary" />
+              </ButtonNaked>
+            </>
+          ) : (
+            <>
+              {isActive && (
+                <StyledTooltip title={activeTooltipLabel}>
+                  <Check color="success" fontSize="small" />
+                </StyledTooltip>
+              )}
+
+              {isRevoked && (
+                <Tooltip title={revokedTooltipLabel}>
+                  <CloseIcon fontSize="small" color="error" />
+                </Tooltip>
+              )}
+
+              {onConfirmDeclaredAttribute && (
+                <ButtonNaked
+                  onClick={onConfirmDeclaredAttribute.bind(null, attribute.id)}
+                  color="primary"
+                >
+                  {t('confirmDeclaredAttributeBtn')}
+                </ButtonNaked>
+              )}
+              <ButtonNaked
+                onClick={openAttributeDetailsDialog.bind(null, attribute)}
+                aria-label={t('showInfoSrLabel')}
+              >
+                <InfoRounded fontSize="small" color="primary" />
+              </ButtonNaked>
+              {!readOnly && (
+                <ButtonNaked
+                  onClick={onRemove.bind(null, attribute.id)}
+                  aria-label={t('deleteSrLabel')}
+                >
+                  <DeleteOutline fontSize="small" color="error" />
+                </ButtonNaked>
+              )}
+            </>
           )}
         </Stack>
         <Typography
@@ -322,14 +413,17 @@ function AttributesList({
 
 type AttributeGroupStatusChipProps = {
   attributeKey: AttributeKey
-  isFullfilled: boolean
+  isGroupFullfilled: boolean
 }
 
-function AttributeGroupStatusChip({ attributeKey, isFullfilled }: AttributeGroupStatusChipProps) {
+function AttributeGroupStatusChip({
+  attributeKey,
+  isGroupFullfilled,
+}: AttributeGroupStatusChipProps) {
   const { t } = useTranslation('attribute', { keyPrefix: `group.statusChip.${attributeKey}` })
 
   function getChipProps(): Partial<ChipProps> {
-    if (isFullfilled) {
+    if (isGroupFullfilled) {
       return {
         color: 'success',
         label: t('fullfilledLabel'),

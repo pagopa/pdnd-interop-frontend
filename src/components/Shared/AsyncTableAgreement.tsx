@@ -1,6 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { Box, Chip } from '@mui/material'
+import { Box, Chip, Stack } from '@mui/material'
 import { ActionProps, AgreementState, AgreementSummary, ProviderOrSubscriber } from '../../../types'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { useFeedback } from '../../hooks/useFeedback'
@@ -8,7 +8,6 @@ import { useRoute } from '../../hooks/useRoute'
 import { axiosErrorToError } from '../../lib/error-utils'
 import { mergeActions } from '../../lib/eservice-utils'
 import { buildDynamicPath } from '../../lib/router-utils'
-import { getAgreementState } from '../../lib/status-utils'
 import { ActionMenu } from './ActionMenu'
 import { StyledButton } from './StyledButton'
 import { StyledTableRow } from './StyledTableRow'
@@ -16,10 +15,11 @@ import { TableWithLoader } from './TableWithLoader'
 import { useMode } from '../../hooks/useMode'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../../hooks/useJwt'
-import { CHIP_COLORS_AGREEMENT } from '../../lib/constants'
+import { getAgreementChipState } from '../../lib/status-utils'
 
 export const AsyncTableAgreement = () => {
-  const { t } = useTranslation(['agreement', 'common'])
+  const { t } = useTranslation(['agreement'])
+  const { t: tCommon } = useTranslation('common')
   const mode = useMode()
   const currentMode = mode as ProviderOrSubscriber
   const { jwt } = useJwt()
@@ -28,7 +28,10 @@ export const AsyncTableAgreement = () => {
   const history = useHistory()
   const params =
     currentMode === 'provider'
-      ? { producerId: jwt?.organization.id }
+      ? {
+          producerId: jwt?.organization.id,
+          states: ['ACTIVE', 'ARCHIVED', 'PENDING', 'SUSPENDED', 'REJECTED'],
+        }
       : { consumerId: jwt?.organization.id }
 
   const { data, error, isLoading } = useAsyncFetch<Array<AgreementSummary>>(
@@ -73,15 +76,13 @@ export const AsyncTableAgreement = () => {
   // Build list of available actions for each service in its current state
   const getAvailableActions = (agreement: AgreementSummary) => {
     const sharedActions: AgreementActions = {
-      ACTIVE: [
-        { onClick: wrapSuspend(agreement.id), label: t('actions.suspend', { ns: 'common' }) },
-      ],
-      SUSPENDED: [
-        { onClick: wrapActivate(agreement.id), label: t('actions.activate', { ns: 'common' }) },
-      ],
+      ACTIVE: [{ onClick: wrapSuspend(agreement.id), label: tCommon('actions.suspend') }],
+      SUSPENDED: [{ onClick: wrapActivate(agreement.id), label: tCommon('actions.activate') }],
       PENDING: [],
       ARCHIVED: [],
       DRAFT: [],
+      REJECTED: [],
+      MISSING_CERTIFIED_ATTRIBUTES: [],
     }
 
     const subscriberOnlyActionsActive: Array<ActionProps> = []
@@ -91,7 +92,7 @@ export const AsyncTableAgreement = () => {
     ) {
       subscriberOnlyActionsActive.push({
         onClick: wrapUpgrade(agreement.id),
-        label: t('actions.upgrade', { ns: 'common' }),
+        label: tCommon('actions.upgrade'),
       })
     }
 
@@ -101,16 +102,18 @@ export const AsyncTableAgreement = () => {
       PENDING: [],
       ARCHIVED: [],
       DRAFT: [],
+      REJECTED: [],
+      MISSING_CERTIFIED_ATTRIBUTES: [],
     }
 
     const providerOnlyActions: AgreementActions = {
       ACTIVE: [],
       SUSPENDED: [],
-      PENDING: [
-        { onClick: wrapActivate(agreement.id), label: t('actions.activate', { ns: 'common' }) },
-      ],
+      PENDING: [{ onClick: wrapActivate(agreement.id), label: tCommon('actions.activate') }],
       ARCHIVED: [],
       DRAFT: [],
+      REJECTED: [],
+      MISSING_CERTIFIED_ATTRIBUTES: [],
     }
 
     const currentActions: AgreementActions = {
@@ -118,17 +121,13 @@ export const AsyncTableAgreement = () => {
       subscriber: subscriberOnlyActions,
     }[currentMode]
 
-    const status = getAgreementState(agreement, currentMode)
-
-    return mergeActions<AgreementActions>([currentActions, sharedActions], status)
+    return mergeActions<AgreementActions>([currentActions, sharedActions], agreement.state)
   }
 
   const headData = [
-    t('table.headData.eserviceName', { ns: 'common' }),
-    t(`table.headData.${currentMode === 'provider' ? 'subscriberName' : 'providerName'}`, {
-      ns: 'common',
-    }),
-    t('table.headData.agreementStatus', { ns: 'common' }),
+    tCommon('table.headData.eserviceName'),
+    tCommon(`table.headData.${currentMode === 'provider' ? 'subscriberName' : 'providerName'}`),
+    tCommon('table.headData.agreementStatus'),
     '',
   ]
 
@@ -150,10 +149,11 @@ export const AsyncTableAgreement = () => {
               { label: currentMode === 'provider' ? item.consumer.name : item.producer.name },
               {
                 custom: (
-                  <Chip
-                    label={t(`status.agreement.${[item.state]}`, { ns: 'common' })}
-                    color={CHIP_COLORS_AGREEMENT[item.state]}
-                  />
+                  <Stack direction="row" flexWrap="wrap" spacing={1} alignItems="flex-start">
+                    {getAgreementChipState(item, tCommon).map(({ label, color }, i) => (
+                      <Chip size="small" key={i} label={label} color={color} />
+                    ))}
+                  </Stack>
                 ),
               },
             ]}
@@ -162,19 +162,16 @@ export const AsyncTableAgreement = () => {
               variant="outlined"
               size="small"
               onClick={() => {
-                history.push(
-                  buildDynamicPath(
-                    routes[
-                      currentMode === 'provider'
-                        ? 'PROVIDE_AGREEMENT_READ'
-                        : 'SUBSCRIBE_AGREEMENT_READ'
-                    ].PATH,
-                    { agreementId: item.id }
-                  )
-                )
+                let route = 'PROVIDE_AGREEMENT_READ'
+                if (currentMode === 'subscriber') {
+                  route =
+                    item.state === 'DRAFT' ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'
+                }
+
+                history.push(buildDynamicPath(routes[route].PATH, { agreementId: item.id }))
               }}
             >
-              {t('actions.inspect', { ns: 'common' })}
+              {tCommon(`actions.${item.state === 'DRAFT' ? 'edit' : 'inspect'}`)}
             </StyledButton>
 
             <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>

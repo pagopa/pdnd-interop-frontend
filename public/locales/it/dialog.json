@@ -8,16 +8,16 @@
     "description": "Cliccando \"conferma\" questa bozza verrà cancellata e non sarà più recuperabile. Sarà sempre possibile creare nuove bozze"
   },
   "ESERVICE_CLONE_FROM_VERSION": {
-    "title": "Conferma clonazione E-Service",
-    "description": "Verrà creato un nuovo E-Service in bozza con le stesse caratteristiche dell'E-Service selezionato"
+    "title": "Conferma clonazione e-service",
+    "description": "Verrà creato un nuovo e-service in bozza con le stesse caratteristiche dell'e-service selezionato"
   },
   "ESERVICE_VERSION_DRAFT_CREATE": {
     "title": "Conferma creazione bozza versione",
-    "description": "Verrà creata una nuova versione (in bozza) dell'E-Service selezionato"
+    "description": "Verrà creata una nuova versione (in bozza) dell'e-service selezionato"
   },
   "ESERVICE_VERSION_DRAFT_PUBLISH": {
     "title": "Conferma pubblicazione bozza",
-    "description": "Una volta pubblicata, una versione dell'E-Service non è più cancellabile e diventa disponibile nel catalogo degli E-Service. Sarà comunque possibile sospenderla, o renderla obsoleta una volta che una nuova versione diventa disponibile."
+    "description": "Una volta pubblicata, una versione dell'e-service non è più cancellabile e diventa disponibile nel catalogo degli e-service. Sarà comunque possibile sospenderla, o renderla obsoleta una volta che una nuova versione diventa disponibile."
   },
   "ESERVICE_VERSION_DRAFT_DELETE": {
     "title": "Conferma cancellazione bozza",
@@ -25,11 +25,11 @@
   },
   "ESERVICE_VERSION_SUSPEND": {
     "title": "Conferma sospensione versione",
-    "description": "Cliccando \"conferma\" questa versione di E-Service sarà sospesa. Nessun Fruitore potrà accedere a questa versione finché non sarà riattivata"
+    "description": "Cliccando \"conferma\" questa versione di e-service sarà sospesa. Nessun fruitore potrà accedere a questa versione finché non sarà riattivata"
   },
   "ESERVICE_VERSION_REACTIVATE": {
     "title": "Conferma riattivazione versione",
-    "description": "Cliccando \"conferma\" questa versione di E-Service sarà riattivata. Tutti i Fruitori che hanno una richiesta di fruizione attiva per questa versione di E-Service potranno nuovamente usufruirne"
+    "description": "Cliccando \"conferma\" questa versione di e-service sarà riattivata. Tutti i fruitori che hanno una richiesta di fruizione attiva per questa versione di e-service potranno nuovamente usufruirne"
   },
   "AGREEMENT_ACTIVATE": {
     "title": "Conferma attivazione richiesta",
@@ -37,43 +37,51 @@
   },
   "AGREEMENT_SUSPEND": {
     "title": "Conferma sospensione richiesta",
-    "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà sospesa. I client collegati a questa richiesta non avranno più accesso all'E-Service in erogazione. La richiesta è riattivabile in qualsiasi momento da questa stessa pagina"
+    "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà sospesa. I client collegati a questa richiesta non avranno più accesso all'e-service in erogazione. La richiesta è riattivabile in qualsiasi momento da questa stessa pagina"
   },
   "AGREEMENT_UPGRADE": {
     "title": "Conferma aggiornamento richiesta",
-    "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà aggiornata alla versione più recente dell'E-Service attualmente disponibile. I client collegati a questa richiesta continueranno ad avere accesso all'E-Service in erogazione, aggiornato all'ultima versione"
+    "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà aggiornata alla versione più recente dell'e-service attualmente disponibile. I client collegati a questa richiesta continueranno ad avere accesso all'e-service in erogazione, aggiornato all'ultima versione"
+  },
+  "AGREEMENT_DRAFT_SUBMIT": {
+    "title": "Conferma inoltro richiesta",
+    "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà inoltrata all'erogatore dell'e-service per approvazione"
+  },
+  "AGREEMENT_DRAFT_DELETE": {
+    "title": "Conferma cancellazione richiesta",
+    "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà cancellata. Sarà sempre possibile crearne una nuova"
   },
   "PURPOSE_DRAFT_DELETE": {
     "title": "Conferma cancellazione finalità",
-    "description": "Cliccando \"conferma\" questa finalità verrà cancellata e non sarà più recuperabile. Tutti i client ad essa associata non potranno più accedere all'E-Service dell'Erogatore. Sarà sempre possibile creare nuove finalità"
+    "description": "Cliccando \"conferma\" questa finalità verrà cancellata e non sarà più recuperabile. Tutti i client ad essa associata non potranno più accedere all'e-service dell'erogatore. Sarà sempre possibile creare nuove finalità"
   },
   "PURPOSE_VERSION_SUSPEND": {
     "title": "Conferma sospensione finalità",
-    "description": "Cliccando \"conferma\" questa finalità verrà sospesa. Tutti i client associati non avranno più accesso all'E-Service erogato fino a che non sarà riattivata"
+    "description": "Cliccando \"conferma\" questa finalità verrà sospesa. Tutti i client associati non avranno più accesso all'e-service erogato fino a che non sarà riattivata"
   },
   "PURPOSE_VERSION_ACTIVATE": {
     "title": "Conferma attivazione finalità",
-    "description": "Cliccando \"conferma\" questa finalità verrà attivata. Tutti i client associati dal Fruitore avranno accesso all'E-Service dell'Erogatore con il numero di chiamate stabilito"
+    "description": "Cliccando \"conferma\" questa finalità verrà attivata. Tutti i client associati dal fruitore avranno accesso all'e-service dell'erogatore con il numero di chiamate stabilito"
   },
   "PURPOSE_VERSION_ARCHIVE": {
     "title": "Conferma archiviazione finalità",
-    "description": "Cliccando \"conferma\" questa finalità verrà archiviata. Tutti i client associati non avranno più accesso all'E-Service erogato"
+    "description": "Cliccando \"conferma\" questa finalità verrà archiviata. Tutti i client associati non avranno più accesso all'e-service erogato"
   },
   "PURPOSE_VERSION_DELETE": {
     "title": "Conferma cancellazione aggiornamento",
-    "description": "Cliccando \"conferma\", questo aggiornamento al numero di chiamate verso l'E-Service dell'Erogatore sarà cancellato. Potrai continuare a usare questa finalità con il numero di chiamate attuale"
+    "description": "Cliccando \"conferma\", questo aggiornamento al numero di chiamate verso l'e-service dell'erogatore sarà cancellato. Potrai continuare a usare questa finalità con il numero di chiamate attuale"
   },
   "CLIENT_DELETE": {
     "title": "Conferma cancellazione client",
-    "description": "Cliccando \"conferma\", questo client sarà cancellato. Tutte le chiavi contenute saranno eliminate e non saranno più utilizzabili per accedere agli E-Service"
+    "description": "Cliccando \"conferma\", questo client sarà cancellato. Tutte le chiavi contenute saranno eliminate e non saranno più utilizzabili per accedere agli e-service"
   },
   "CLIENT_REMOVE_FROM_PURPOSE": {
     "title": "Conferma rimozione client dalla finalità",
-    "description": "Il client sarà rimosso da questa finalità. Tutte le chiavi caricate non potranno più essere usate per accedere all'E-Service per questa finalità"
+    "description": "Il client sarà rimosso da questa finalità. Tutte le chiavi caricate non potranno più essere usate per accedere all'e-service per questa finalità"
   },
   "KEY_DELETE": {
     "title": "Conferma cancellazione chiave pubblica",
-    "description": "Cliccando su \"conferma\" si cancellerà la chiave pubblica relativa a questo operatore. NB: tutti i servizi che utilizzano questa chiave non potranno più accedere al servizio dell'Erogatore. Se non sei sicuro, scarica e salva la tua chiave pubblica prima di cancellarla"
+    "description": "Cliccando su \"conferma\" si cancellerà la chiave pubblica relativa a questo operatore. NB: tutti i servizi che utilizzano questa chiave non potranno più accedere al servizio dell'erogatore. Se non sei sicuro, scarica e salva la tua chiave pubblica prima di cancellarla"
   },
   "OPERATOR_SECURITY_REMOVE_FROM_CLIENT": {
     "title": "Conferma rimozione operatore dal client",
@@ -82,5 +90,13 @@
   "ATTRIBUTE_CONFIRM_DECLARED": {
     "title": "Conferma attributo dichiarato",
     "description": "Dichiari sotto la tua responsabilità che il tuo ente possiede questo attributo?"
+  },
+  "AGREEMENT_VERIFY_ATTRIBUTE": {
+    "title": "Verifica attributo",
+    "description": "Sei sicuro di voler verificare l'attributo?"
+  },
+  "AGREEMENT_REVOKE_VERIFIED_ATTRIBUTE": {
+    "title": "Revoca attributo",
+    "description": "Sei sicuro di voler revocare l'attributo?"
   }
 }

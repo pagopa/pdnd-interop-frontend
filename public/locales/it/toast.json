@@ -161,10 +161,19 @@
   "AGREEMENT_DRAFT_SUBMIT": {
     "loadingText": "Stiamo inoltrando la richiesta di fruizione",
     "success": {
-      "message": "La richiesta è stata inoltrata correttamente ed è in attesa di approvazione. Riceverai notifiche di aggiornamento sul suo stato"
+      "message": "La richiesta è stata inoltrata correttamente. Riceverai notifiche di aggiornamento sul suo stato"
     },
     "error": {
       "message": "Non è stato possibile inoltrare la richiesta. Se pensi di averne diritto, contatta l'assistenza per ulteriori verifiche"
+    }
+  },
+  "AGREEMENT_DRAFT_DELETE": {
+    "loadingText": "Stiamo cancellando la bozza",
+    "success": {
+      "message": "La bozza richiesta è stata cancellata correttamente"
+    },
+    "error": {
+      "message": "Non è stato possibile cancellare la richiesta. Per favore, riprova!"
     }
   },
   "AGREEMENT_VERIFY_ATTRIBUTE": {
@@ -185,6 +194,12 @@
       "message": "Non è stato possibile attivare la richiesta. Accertarsi che tutti gli attributi siano stati verificati e riprovare"
     }
   },
+  "AGREEMENT_REJECT": {
+    "loadingText": "Stiamo rifiutando la richiesta",
+    "error": {
+      "message": "Non è stato possibile rifiutare la richiesta. Per favore, riprova!"
+    }
+  },
   "AGREEMENT_SUSPEND": {
     "loadingText": "Stiamo sospendendo la richiesta",
     "success": {
@@ -201,6 +216,15 @@
     },
     "error": {
       "message": "Non è stato possibile aggiornare la richiesta. Per favore, riprova!"
+    }
+  },
+  "AGREEMENT_DOCUMENT_DOWNLOAD": {
+    "loadingText": "Stiamo scaricando il documento della richiesta",
+    "success": {
+      "message": "Il documento della richiesta di fruizione è stato scaricato correttamente"
+    },
+    "error": {
+      "message": "Non è stato possibile scaricare il documento della richiesta. Per favore, riprova!"
     }
   },
   "PURPOSE_DRAFT_CREATE": {
@@ -354,6 +378,15 @@
     },
     "error": {
       "message": "Non è stato possibile confermare l'attributo. Per favore, riprova!"
+    }
+  },
+  "AGREEMENT_REVOKE_VERIFIED_ATTRIBUTE": {
+    "loadingText": "Stiamo revocando la verifica dell'attributo",
+    "success": {
+      "message": "Verifica all'attributo revocata con successo."
+    },
+    "error": {
+      "message": "Non è stato possibile revocare l'attributo. Per favore, riprova!"
     }
   }
 }

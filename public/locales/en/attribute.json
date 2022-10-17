@@ -38,16 +38,24 @@
     "statusChip": {
       "certified": {
         "fullfilledLabel": "certified",
-        "unfullfilledLabel": "not certified"
+        "unfullfilledLabel": "not certified",
+        "revokedLabel": "revoked"
       },
       "verified": {
         "fullfilledLabel": "verified",
-        "unfullfilledLabel": "to verify"
+        "unfullfilledLabel": "to verify",
+        "revokedLabel": "revoked"
       },
       "declared": {
         "fullfilledLabel": "declared",
-        "unfullfilledLabel": "pending confirmation"
+        "unfullfilledLabel": "pending confirmation",
+        "revokedLabel": "revoked"
       }
+    },
+    "actions": {
+      "verifyBtn": "Verify",
+      "revokeBtn": "Revoke",
+      "refuseBtn": "Refuse"
     }
   }
 }

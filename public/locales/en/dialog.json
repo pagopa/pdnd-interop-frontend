@@ -43,6 +43,14 @@
     "title": "Confirm request upgrade",
     "description": "By clicking \"confirm\", the fruition request will be upgraded to the latest E-Service version. All the clients added to purposes for this E-Service will keep accessing it"
   },
+  "AGREEMENT_DRAFT_SUBMIT": {
+    "title": "Confirm request submit",
+    "description": "By clicking \"confirm\", the fruition request will be sent to the e-service provider to be evaluated"
+  },
+  "AGREEMENT_DRAFT_DELETE": {
+    "title": "Confirm request deletion",
+    "description": "By clicking \"confirm\", the draft of this fruition request will be deleted. You will always be able to create a new one"
+  },
   "PURPOSE_DRAFT_DELETE": {
     "title": "Confirm purpose deletion",
     "description": "By clicking \"confirm\", this purpose will be deleted and it will not be recoverable. All the clients added to it will no longer be able to access the Provider E-Service. It will always be possible to create new purposes"
@@ -82,5 +90,13 @@
   "ATTRIBUTE_CONFIRM_DECLARED": {
     "title": "Confirm declared attribute",
     "description": "Do you declare under your responsibility that your institution has this attribute?"
+  },
+  "AGREEMENT_VERIFY_ATTRIBUTE": {
+    "title": "Verify attribute",
+    "description": "Are you sure you want to verify the attribute?"
+  },
+  "AGREEMENT_REVOKE_VERIFIED_ATTRIBUTE": {
+    "title": "Revoke attribute",
+    "description": "Are you sure you want to revoke the attribute?"
   }
 }

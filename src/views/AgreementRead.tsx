@@ -6,39 +6,43 @@ import {
   ActionProps,
   ProviderOrSubscriber,
   EServiceReadType,
-  CertifiedAttribute,
-  VerifiedAttribute,
-  DeclaredAttribute,
+  DialogRejectAgreementFormInputValues,
 } from '../../types'
 import { buildDynamicPath, getLastBit } from '../lib/router-utils'
 import { getLatestActiveVersion, mergeActions } from '../lib/eservice-utils'
 import { useMode } from '../hooks/useMode'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
-import { getAgreementState } from '../lib/status-utils'
-import { useFeedback } from '../hooks/useFeedback'
+import { getAgreementChipState } from '../lib/status-utils'
+import { RunActionOutput, useFeedback } from '../hooks/useFeedback'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { StyledLink } from '../components/Shared/StyledLink'
-import { Alert, Box, Chip, Divider, Grid, Stack, Tooltip, Typography } from '@mui/material'
+import { Alert, Box, Chip, Divider, Grid, Stack, Typography } from '@mui/material'
 import {
   Launch as LaunchIcon,
   Link as LinkIcon,
   AttachFile as AttachFileIcon,
-  InfoRounded as InfoRoundedIcon,
-  Check as CheckIcon,
 } from '@mui/icons-material'
 import { useRoute } from '../hooks/useRoute'
 import { NotFound } from './NotFound'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
 import { Trans, useTranslation } from 'react-i18next'
-import { attributesHelpLink, CHIP_COLORS_AGREEMENT, MAX_WIDTH } from '../lib/constants'
+import { MAX_WIDTH } from '../lib/constants'
 import { AccordionEntry, StyledAccordion } from '../components/Shared/StyledAccordion'
 import StyledSection from '../components/Shared/StyledSection'
 import { InformationRow } from '../components/InformationRow'
 import DownloadableDocumentListSection from '../components/Shared/DownloadableDocumentListSection'
-import { DialogContext } from '../lib/context'
-import { ButtonNaked } from '@pagopa/mui-italia'
 import { PageBottomActions } from '../components/Shared/PageBottomActions'
+import { downloadFile } from '../lib/file-utils'
+import { AxiosResponse } from 'axios'
+import { AttributeSection } from '../components/AttributeSection'
+import {
+  remapBackendAttributesToFrontend,
+  remapTenantBackendAttributesToFrontend,
+} from '../lib/attributes'
+import { ActionMenu } from '../components/Shared/ActionMenu'
+import { DialogContext } from '../lib/context'
+import { object, string } from 'yup'
 
 export function AgreementRead() {
   const { t } = useTranslation(['agreement', 'common'])
@@ -46,6 +50,7 @@ export function AgreementRead() {
   const mode = useMode()
   const agreementId = getLastBit(useLocation())
   const { routes } = useRoute()
+  const { setDialog } = useContext(DialogContext)
 
   const {
     data: agreement,
@@ -83,6 +88,27 @@ export function AgreementRead() {
     )
   }
 
+  const reject = async () => {
+    setDialog({
+      type: 'rejectAgreement',
+      initialValues: { reason: '' },
+      validationSchema: object({ reason: string().required() }),
+      onSubmit: async ({ reason }: DialogRejectAgreementFormInputValues) => {
+        await runAction(
+          {
+            path: { endpoint: 'AGREEMENT_REJECT', endpointParams: { agreementId } },
+            config: { data: { reason } },
+          },
+          {
+            suppressToast: ['success'],
+            silent: true,
+            onSuccessDestination: routes.PROVIDE_AGREEMENT_LIST,
+          }
+        )
+      },
+    })
+  }
+
   const suspend = async () => {
     await runAction(
       { path: { endpoint: 'AGREEMENT_SUSPEND', endpointParams: { agreementId } } },
@@ -97,15 +123,6 @@ export function AgreementRead() {
     )
   }
 
-  // const wrapVerify = (attributeId: string) => async () => {
-  //   const sureData = data as AgreementSummary
-  //   await runAction({
-  //     path: {
-  //       endpoint: 'AGREEMENT_VERIFY_ATTRIBUTE',
-  //       endpointParams: { agreementId: sureData.id, attributeId },
-  //     },
-  //   })
-  // }
   /*
    * End list of actions
    */
@@ -123,15 +140,22 @@ export function AgreementRead() {
       PENDING: [],
       ARCHIVED: [],
       DRAFT: [],
+      REJECTED: [],
+      MISSING_CERTIFIED_ATTRIBUTES: [],
     }
 
     // ADD Refuse action when on pending
     const providerOnlyActions: AgreementActions = {
       ACTIVE: [],
       SUSPENDED: [], // [{ onClick: archive, label: 'Archivia' }],
-      PENDING: [{ onClick: activate, label: t('actions.activate', { ns: 'common' }) }],
+      PENDING: [
+        { onClick: activate, label: t('actions.activate', { ns: 'common' }) },
+        { onClick: reject, label: t('actions.reject', { ns: 'common' }) },
+      ],
       ARCHIVED: [],
       DRAFT: [],
+      REJECTED: [],
+      MISSING_CERTIFIED_ATTRIBUTES: [],
     }
 
     const subscriberOnlyActionsActive: Array<ActionProps> = []
@@ -148,6 +172,8 @@ export function AgreementRead() {
       PENDING: [],
       ARCHIVED: [],
       DRAFT: [],
+      REJECTED: [],
+      MISSING_CERTIFIED_ATTRIBUTES: [],
     }
 
     const currentMode = mode as ProviderOrSubscriber
@@ -155,9 +181,7 @@ export function AgreementRead() {
       currentMode
     ]
 
-    const status = agreement ? getAgreementState(agreement, mode) : 'SUSPENDED'
-
-    return mergeActions<AgreementActions>([currentActions, sharedActions], status)
+    return mergeActions<AgreementActions>([currentActions, sharedActions], agreement.state)
   }
 
   const canUpgrade = () => {
@@ -175,9 +199,75 @@ export function AgreementRead() {
     return <NotFound errorType="serverError" />
   }
 
+  const eserviceAttributes = eservice && remapBackendAttributesToFrontend(eservice.attributes)
+  const consumerAttributes =
+    agreement &&
+    remapTenantBackendAttributesToFrontend(agreement.consumer.attributes, agreement.producer.id)
+
+  function handleVerifyAttribute(attributeId: string) {
+    const dataToPost = {
+      id: attributeId,
+      renewal: 'AUTOMATIC_RENEWAL',
+    }
+    runAction(
+      {
+        path: {
+          endpoint: 'AGREEMENT_VERIFY_ATTRIBUTE',
+          endpointParams: { institutionId: agreement?.consumer.id },
+        },
+        config: {
+          data: dataToPost,
+        },
+      },
+      {
+        showConfirmDialog: true,
+      }
+    )
+  }
+
+  function handleRevokeAttribute(attributeId: string) {
+    runAction(
+      {
+        path: {
+          endpoint: 'AGREEMENT_REVOKE_VERIFIED_ATTRIBUTE',
+          endpointParams: { institutionId: agreement?.consumer.id, attributeId },
+        },
+      },
+      {
+        showConfirmDialog: true,
+      }
+    )
+  }
+
+  function handleRefuseAttribute(_: string) {
+    // runAction()
+  }
+
+  const availableActions = getAvailableActions()
+  let primaryAction: ActionProps | undefined
+
+  if (availableActions.length > 0) {
+    primaryAction = availableActions.shift()
+  }
+
+  const canVerifyAttributes = mode === 'provider'
+
   return (
     <Box sx={{ maxWidth: MAX_WIDTH }}>
-      <StyledIntro isLoading={isLoading}>{{ title: t('read.title') }}</StyledIntro>
+      <Stack direction="row" spacing={2}>
+        <StyledIntro sx={{ flex: 1 }} isLoading={isLoading}>
+          {{ title: t('read.title') }}
+        </StyledIntro>
+        <Stack direction="row" alignItems="center" spacing={2}>
+          {primaryAction && (
+            <StyledButton variant="outlined" onClick={primaryAction.onClick}>
+              {primaryAction.label}
+            </StyledButton>
+          )}
+          {availableActions.length > 0 && <ActionMenu actions={availableActions} />}
+        </Stack>
+      </Stack>
+
       {agreement && eservice && !isLoading ? (
         <>
           {canUpgrade() && <UpgradeGuideSection eservice={eservice} agreementId={agreementId} />}
@@ -194,22 +284,35 @@ export function AgreementRead() {
             </Grid>
           </Grid>
           {agreement.consumerNotes && <ConsumerMessageSection message={agreement.consumerNotes} />}
-          {mode === 'subscriber' && (
-            <AgreementAttributeSection
-              attributeKey="certified"
-              attributes={agreement.certifiedAttributes}
-            />
-          )}
-          <AgreementAttributeSection
-            attributeKey="verified"
-            attributes={agreement.verifiedAttributes}
+
+          <AttributeSection
+            attributeKey="certified"
+            attributesSubtitle=""
+            description={t('read.attributes.certified.subtitle')}
+            attributes={eserviceAttributes?.certified || []}
+            ownedAttributes={consumerAttributes?.certified}
+            readOnly
           />
-          {mode === 'subscriber' && (
-            <AgreementAttributeSection
-              attributeKey="declared"
-              attributes={agreement.declaredAttributes}
-            />
-          )}
+          <AttributeSection
+            attributeKey="verified"
+            attributesSubtitle=""
+            description={t('read.attributes.verified.subtitle')}
+            attributes={eserviceAttributes?.verified || []}
+            ownedAttributes={consumerAttributes?.verified}
+            readOnly
+            handleVerifyAttribute={canVerifyAttributes ? handleVerifyAttribute : undefined}
+            handleRefuseAttribute={canVerifyAttributes ? handleRefuseAttribute : undefined}
+            handleRevokeAttribute={canVerifyAttributes ? handleRevokeAttribute : undefined}
+            shouldProviderVerify={canVerifyAttributes}
+          />
+          <AttributeSection
+            attributeKey="declared"
+            attributesSubtitle=""
+            description={t('read.attributes.declared.subtitle')}
+            attributes={eserviceAttributes?.declared || []}
+            ownedAttributes={consumerAttributes?.declared}
+            readOnly
+          />
         </>
       ) : (
         <LoadingWithMessage label={t('loadingSingleLabel')} transparentBackground />
@@ -253,22 +356,16 @@ function UpgradeGuideSection({ eservice, agreementId }: UpgradeGuideSectionProps
   return (
     <>
       <Alert severity="warning">
-        <Trans
-          t={t}
-          tOptions={{ eserviceName: eservice.name }}
-          i18nKey={'updateGuide'}
-          components={{ 1: <Box component="span" fontWeight={700} /> }}
-        />
+        <Trans components={{ 1: <Box component="span" fontWeight={700} /> }}>
+          {t('alertLabel', { eserviceName: eservice.name })}
+        </Trans>
       </Alert>
       <StyledSection>
         <StyledSection.Title>{t('title')}</StyledSection.Title>
         <StyledSection.Subtitle>
-          <Trans
-            t={t}
-            tOptions={{ eserviceName: eservice.name }}
-            i18nKey={'description'}
-            components={{ 1: <Box component="span" fontWeight={700} /> }}
-          />
+          <Trans components={{ 1: <Box component="span" fontWeight={700} /> }}>
+            {t('description', { eserviceName: eservice.name })}
+          </Trans>
         </StyledSection.Subtitle>
         <StyledSection.Content>
           <Stack spacing={2}>
@@ -294,15 +391,12 @@ function UpgradeGuideSection({ eservice, agreementId }: UpgradeGuideSectionProps
                 >
                   <LinkIcon sx={{ mr: 1 }} />{' '}
                   <span>
-                    <Trans
-                      t={t}
-                      tOptions={{
+                    <Trans components={{ 1: <Box component="span" fontWeight={700} /> }}>
+                      {t('eserviceLinkLabel', {
                         eserviceName: eservice.name,
                         version: latestVersion,
-                      }}
-                      i18nKey={'eserviceLinkLabel'}
-                      components={{ 1: <Box component="span" fontWeight={700} /> }}
-                    />
+                      })}
+                    </Trans>
                   </span>
                 </StyledLink>
               </Stack>
@@ -329,7 +423,7 @@ function GeneralInfoSection({ agreement }: GeneralInfoSectionProps) {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.generalInformations' })
   const { t: tCommon } = useTranslation('common')
   const { routes } = useRoute()
-  const mode = useMode()
+  const { runAction } = useFeedback()
 
   function buildEServiceLink() {
     return buildDynamicPath(routes.SUBSCRIBE_CATALOG_VIEW.PATH, {
@@ -338,36 +432,21 @@ function GeneralInfoSection({ agreement }: GeneralInfoSectionProps) {
     })
   }
 
-  function getStatusChips() {
-    if (agreement.state !== 'SUSPENDED') {
-      return (
-        <Chip
-          label={tCommon(`status.agreement.${agreement.state}`, { ns: 'common' })}
-          color={CHIP_COLORS_AGREEMENT[agreement.state]}
-        />
-      )
-    }
+  async function handleDownloadAgreement() {
+    const { response, outcome } = (await runAction(
+      {
+        path: {
+          endpoint: 'AGREEMENT_DOCUMENT_DOWNLOAD',
+          endpointParams: { agreementId: agreement.id },
+        },
+        config: { responseType: 'arraybuffer' },
+      },
+      { suppressToast: ['success'] }
+    )) as RunActionOutput
 
-    const isProviderSuspended = getAgreementState(agreement, 'provider') === 'SUSPENDED'
-    const isSubscriberSuspended = getAgreementState(agreement, 'subscriber') === 'SUSPENDED'
-
-    const chips = []
-    if (isProviderSuspended) {
-      chips.push(
-        <Chip label={t(`suspendedByProvider`)} color={CHIP_COLORS_AGREEMENT[agreement.state]} />
-      )
+    if (outcome === 'success') {
+      downloadFile((response as AxiosResponse).data, 'Richiesta di fruizione.pdf')
     }
-    if (isSubscriberSuspended) {
-      chips.push(
-        <Chip label={t(`suspendedBySubscriber`)} color={CHIP_COLORS_AGREEMENT[agreement.state]} />
-      )
-    }
-
-    return (
-      <Stack direction="row" spacing={1}>
-        {chips}
-      </Stack>
-    )
   }
 
   return (
@@ -389,19 +468,23 @@ function GeneralInfoSection({ agreement }: GeneralInfoSectionProps) {
           <InformationRow label={t('providerField.label')}>
             {agreement.producer.name}
           </InformationRow>
-          <InformationRow label={t('requestStatusField.label')}>{getStatusChips()}</InformationRow>
-          {mode === 'subscriber' && (
+          <InformationRow label={t('requestStatusField.label')}>
+            <Stack direction="row" spacing={1}>
+              {getAgreementChipState(agreement, tCommon).map(({ label, color }, i) => {
+                return <Chip size="small" key={i} label={label} color={color} />
+              })}
+            </Stack>
+          </InformationRow>
+          {agreement.state !== 'DRAFT' && agreement.state !== 'PENDING' && (
             <InformationRow label={t('printableCopyField.label')}>
               <StyledLink
-                onClick={() => {
-                  console.log('d')
-                }}
+                onClick={handleDownloadAgreement}
                 component="button"
                 variant="body2"
                 underline="hover"
                 sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
               >
-                <AttachFileIcon sx={{ mr: 1 }} /> {t('docLabel')}
+                <AttachFileIcon sx={{ mr: 1 }} /> {t('printableCopyField.docLabel')}
               </StyledLink>
             </InformationRow>
           )}
@@ -423,127 +506,6 @@ function ConsumerMessageSection({ message }: ConsumerMessageSectionProps) {
       <StyledSection.Content>
         <Typography fontWeight={600}>{message}</Typography>
       </StyledSection.Content>
-    </StyledSection>
-  )
-}
-
-type AgreementAttributeSectionProps =
-  | {
-      attributeKey: 'certified'
-      attributes: Array<CertifiedAttribute>
-    }
-  | {
-      attributeKey: 'verified'
-      attributes: Array<VerifiedAttribute>
-    }
-  | {
-      attributeKey: 'declared'
-      attributes: Array<DeclaredAttribute>
-    }
-
-function AgreementAttributeSection({ attributeKey, attributes }: AgreementAttributeSectionProps) {
-  const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
-  const { setDialog } = useContext(DialogContext)
-  const [mockedVerifiedAttributesIds, setMockedVerifiedAttributesIds] = React.useState<
-    Array<string>
-  >([])
-
-  const openAttributeDetailsDialog = (attribute: typeof attributes[0]) => {
-    setDialog({
-      type: 'showAttributeDetails',
-      attributeId: attribute.id,
-      name: attribute.name,
-    })
-  }
-
-  function handleVerify(attributeId: string) {
-    // TEMP BACKEND - MOCK
-    setMockedVerifiedAttributesIds((prev) => [...prev, attributeId])
-  }
-
-  function handleRevoke(attributeId: string) {
-    // TEMP BACKEND
-  }
-
-  function handleRefuse(attributeId: string) {
-    // TEMP BACKEND
-  }
-
-  function AttributeListItem({ attribute }: { attribute: typeof attributes[0] }) {
-    const isVerified = mockedVerifiedAttributesIds.includes(attribute.id)
-    return (
-      <Stack component="li" direction="row" spacing={2}>
-        <Box sx={{ flex: 1 }}>{attribute.name}</Box>
-        <Stack sx={{ flexShrink: 0 }} spacing={1}>
-          <ButtonNaked
-            onClick={handleVerify.bind(null, attribute.id)}
-            aria-label={t('showInfoSrLabel')}
-          >
-            {t('actions.verify')}
-          </ButtonNaked>
-          {isVerified ? (
-            <ButtonNaked
-              onClick={handleRevoke.bind(null, attribute.id)}
-              color="error"
-              aria-label={t('showInfoSrLabel')}
-            >
-              {t('actions.revoke')}
-            </ButtonNaked>
-          ) : (
-            <ButtonNaked
-              onClick={handleRefuse.bind(null, attribute.id)}
-              color="error"
-              aria-label={t('showInfoSrLabel')}
-            >
-              {t('actions.refuse')}
-            </ButtonNaked>
-          )}
-
-          <Tooltip
-            aria-hidden={!isVerified}
-            sx={{ visibility: isVerified ? 'visible' : 'hidden' }}
-            title={t('verifiedTooltipLabel')}
-          >
-            <CheckIcon />
-          </Tooltip>
-
-          <ButtonNaked
-            onClick={openAttributeDetailsDialog.bind(null, attribute)}
-            aria-label={t('showInfoSrLabel')}
-          >
-            <InfoRoundedIcon fontSize="small" color="primary" />
-          </ButtonNaked>
-        </Stack>
-      </Stack>
-    )
-  }
-
-  let attributesList = null
-
-  if (attributes.length === 0) {
-    attributesList = <Alert severity="info">{t(`${attributeKey}.emptyLabel`)}</Alert>
-  }
-
-  if (attributes.length > 0) {
-    attributesList = (
-      <Stack component="ul">
-        {attributes.map((attribute) => (
-          <AttributeListItem key={attribute.id} attribute={attribute} />
-        ))}
-      </Stack>
-    )
-  }
-
-  return (
-    <StyledSection>
-      <StyledSection.Title>
-        {t(`${attributeKey}.title`)}{' '}
-        <StyledLink component="a" underline="hover" target="_blank" href={attributesHelpLink}>
-          {t('howLink')}
-        </StyledLink>
-      </StyledSection.Title>
-      <StyledSection.Subtitle>{t(`${attributeKey}.subtitle`)}</StyledSection.Subtitle>
-      <StyledSection.Content>{attributesList}</StyledSection.Content>
     </StyledSection>
   )
 }
