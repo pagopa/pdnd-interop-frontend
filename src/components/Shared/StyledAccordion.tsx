@@ -2,7 +2,7 @@ import React from 'react'
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material'
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material'
 
-type AccordionEntry = {
+export type AccordionEntry = {
   summary: string | JSX.Element
   summarySecondary?: string | JSX.Element
   details: string | JSX.Element

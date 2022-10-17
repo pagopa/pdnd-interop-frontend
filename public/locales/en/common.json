@@ -8,6 +8,9 @@
     },
     "string": {
       "email": "Invalid email format"
+    },
+    "boolean": {
+      "isValue": "Please confirm"
     }
   },
   "mainNav": {
@@ -26,6 +29,7 @@
   "actions": {
     "suspend": "Suspend",
     "activate": "Activate",
+    "reject": "Reject",
     "upgrade": "Upgrade",
     "delete": "Delete",
     "inspect": "Inspect",
@@ -35,7 +39,9 @@
     "publish": "Publish",
     "download": "Download",
     "archive": "Archive",
-    "createNewDraft": "Create new draft version"
+    "cancel": "Cancel",
+    "createNewDraft": "Create new draft version",
+    "saveDraft": "Save draft"
   },
   "table": {
     "headData": {
@@ -69,7 +75,9 @@
       "DRAFT": "draft",
       "SUSPENDED": "suspended",
       "PENDING": "awaiting approval",
-      "ARCHIVED": "archived"
+      "ARCHIVED": "archived",
+      "REJECTED": "rejected",
+      "MISSING_CERTIFIED_ATTRIBUTES": "missing certified attributes"
     },
     "purpose": {
       "DRAFT": "draft",
@@ -84,6 +92,11 @@
       "SUSPENDED": "suspended",
       "DELETED": "deleted"
     }
+  },
+  "agreementFrontendAttributes": {
+    "suspendedByProvider": "suspended by provider",
+    "suspendedBySubscriber": "suspended by subscriber",
+    "suspendedByPlatform": "suspended by platform"
   },
   "userRole": {
     "MANAGER": "Administrator",
@@ -102,6 +115,9 @@
   "help": {
     "title": "Getting started",
     "description": "In this page you can find useful information to manage some everyday operations and overcome problems. Please note that this guide will be replaced with a dedicated documentation website as soon as the platform goes into production"
+  },
+  "tos": {
+    "title": "Terms of service"
   },
   "notFound": {
     "title": "Sorry",

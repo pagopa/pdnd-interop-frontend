@@ -8,6 +8,9 @@
     },
     "string": {
       "email": "Formato email non valido"
+    },
+    "boolean": {
+      "isValue": "Si prega di confermare"
     }
   },
   "mainNav": {
@@ -26,6 +29,7 @@
   "actions": {
     "suspend": "Sospendi",
     "activate": "Attiva",
+    "reject": "Rifiuta",
     "upgrade": "Aggiorna",
     "delete": "Elimina",
     "inspect": "Ispeziona",
@@ -35,7 +39,9 @@
     "publish": "Pubblica",
     "download": "Scarica",
     "archive": "Archivia",
-    "createNewDraft": "Crea bozza nuova versione"
+    "cancel": "Annulla",
+    "createNewDraft": "Crea bozza nuova versione",
+    "saveDraft": "Salva bozza"
   },
   "table": {
     "headData": {
@@ -69,7 +75,9 @@
       "DRAFT": "in bozza",
       "SUSPENDED": "sospeso",
       "PENDING": "in attesa di approvazione",
-      "ARCHIVED": "archiviato"
+      "ARCHIVED": "archiviato",
+      "REJECTED": "rifiutato",
+      "MISSING_CERTIFIED_ATTRIBUTES": "attributi certificati mancanti"
     },
     "purpose": {
       "DRAFT": "in bozza",
@@ -84,6 +92,11 @@
       "SUSPENDED": "sospeso",
       "DELETED": "rimosso"
     }
+  },
+  "agreementFrontendStatus": {
+    "suspendedByProducer": "sospeso dall'erogatore",
+    "suspendedByConsumer": "sospeso dal fruitore",
+    "suspendedByPlatform": "sospeso dalla piattaforma"
   },
   "userRole": {
     "MANAGER": "Amministratore",
@@ -114,6 +127,9 @@
   "help": {
     "title": "Guida introduttiva",
     "description": "In questa pagina puoi trovare informazioni utili per gestire le operazioni e i problemi più comuni. NB: questa guida sarà sostituita da un portale documentale all'entrata in esercizio della piattaforma"
+  },
+  "tos": {
+    "title": "Termini di servizio"
   },
   "notFound": {
     "title": "Spiacenti",

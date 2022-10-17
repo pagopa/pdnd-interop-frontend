@@ -1,14 +1,8 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import { DialogProps, ToastContentWithOutcome, ToastProps } from '../../types'
 import { useLocation } from 'react-router-dom'
 import isEmpty from 'lodash/isEmpty'
-import {
-  DialogContext,
-  LangContext,
-  LoaderContext,
-  TableActionMenuContext,
-  ToastContext,
-} from '../lib/context'
+import { DialogContext, LoaderContext, TableActionMenuContext, ToastContext } from '../lib/context'
 import { logAction } from '../lib/action-log'
 import { Main } from './Main'
 import { StyledToast } from './Shared/StyledToast'
@@ -16,42 +10,14 @@ import { StyledDialog } from './Shared/StyledDialog'
 import { LoadingOverlay } from './Shared/LoadingOverlay'
 import { MainNav } from './MainNav'
 import { useRoute } from '../hooks/useRoute'
-import { buildLocale } from '../lib/validation-config'
 import { useLogin } from '../hooks/useLogin'
-import { DEFAULT_LANG } from '../lib/constants'
-import { useTranslation } from 'react-i18next'
 import { HeaderWrapper } from './HeaderWrapper'
 import { FooterWrapper } from './FooterWrapper'
 import { Stack, Box } from '@mui/material'
-
-const RebuildI18N = () => {
-  const { loginAttempt } = useLogin()
-  const { lang } = useContext(LangContext)
-  const { i18n, t, ready } = useTranslation('common', { useSuspense: false })
-  const { setLoadingText } = useContext(LoaderContext)
-
-  // Build config once translations are ready
-  useEffect(() => {
-    if (ready) {
-      lang !== DEFAULT_LANG && i18n.changeLanguage(lang)
-      buildLocale(t)
-    }
-  }, [ready]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    async function asyncLoginAttempt() {
-      setLoadingText(t('loading.sessionToken.label'))
-      await loginAttempt()
-      setLoadingText(null)
-    }
-
-    if (ready) {
-      asyncLoginAttempt()
-    }
-  }, [ready]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  return null
-}
+import { useRebuildI18N } from '../hooks/useRebuildI18n'
+import { useTOSAgreementLocalStorage } from '../hooks/useTOSAgreementLocalStorage'
+import TOSAgreement from '../views/TOSAgreement'
+import { LIGHT_GRAY } from '../lib/constants'
 
 export const WhitePanel: FunctionComponent = ({ children }) => {
   return (
@@ -72,7 +38,7 @@ export const WhitePanel: FunctionComponent = ({ children }) => {
           transform: 'translate(100%, 0)',
         },
       }}
-      bgcolor="#FAFAFA"
+      bgcolor={LIGHT_GRAY}
     >
       {children}
     </Box>
@@ -82,10 +48,14 @@ export const WhitePanel: FunctionComponent = ({ children }) => {
 export function BodyLogger() {
   const { doesRouteAllowTwoColumnsLayout } = useRoute()
   const location = useLocation()
+  const { isRouteProtected } = useRoute()
+  const { isTOSAccepted, acceptTOS } = useTOSAgreementLocalStorage()
   const [toast, setToast] = useState<ToastProps | null>(null)
   const [dialog, setDialog] = useState<DialogProps | null>(null)
   const [loadingText, setLoadingText] = useState<string | null>(null)
   const [tableActionMenu, setTableActionMenu] = useState<string | null>(null)
+  useLogin()
+  useRebuildI18N()
 
   /*
    * Handle toast
@@ -117,15 +87,25 @@ export function BodyLogger() {
     logAction('Route change', location)
   }, [location])
 
+  /*
+   * Makes sure that the scroll is on top when location changes
+   */
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location.pathname])
+
+  const isCurrentRouteProtected = isRouteProtected(location)
+
   return (
     <TableActionMenuContext.Provider value={{ tableActionMenu, setTableActionMenu }}>
       <ToastContext.Provider value={{ toast, setToast }}>
         <DialogContext.Provider value={{ dialog, setDialog }}>
           <LoaderContext.Provider value={{ loadingText, setLoadingText }}>
-            <RebuildI18N />
             <HeaderWrapper />
 
-            {doesRouteAllowTwoColumnsLayout(location) ? (
+            {!isTOSAccepted && isCurrentRouteProtected ? (
+              <TOSAgreement onAcceptAgreement={acceptTOS} />
+            ) : doesRouteAllowTwoColumnsLayout(location) ? (
               <Box sx={{ flexGrow: 1 }}>
                 <Stack direction="row" sx={{ height: '100%', overflowX: 'hidden' }}>
                   <MainNav />
@@ -139,6 +119,7 @@ export function BodyLogger() {
                 <Main />
               </Box>
             )}
+
             <FooterWrapper />
             {toast && <StyledToast {...toast} />}
             {dialog && <StyledDialog {...dialog} />}

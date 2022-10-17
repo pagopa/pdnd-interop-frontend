@@ -14,9 +14,8 @@ export const FE_LOGIN_URL = (
   isProduction ? PAGOPA_ENV.SELFCARE_LOGIN_URL : DEV_SELFCARE_LOGIN_URL
 ) as string
 export const PUBLIC_URL = process.env.PUBLIC_URL
-export const FE_URL = isProduction
-  ? `${window.location.origin}${PUBLIC_URL}`
-  : `${DEV_API_HOST_URL}${PUBLIC_URL}`
+export const FE_URL = `${window.location.origin}${PUBLIC_URL}`
+
 export const INTEROP_RESOURCES_BASE_URL = isProduction
   ? PAGOPA_ENV.INTEROP_RESOURCES_BASE_URL
   : DEV_INTEROP_RESOURCES_BASE_URL
@@ -63,4 +62,9 @@ export const AUTHORIZATION_SERVER_ACCESS_TOKEN_URL = getEnvVar(
 export const CLIENT_ASSERTION_JWT_AUDIENCE = isProduction
   ? PAGOPA_ENV.CLIENT_ASSERTION_JWT_AUDIENCE
   : ''
-export const M2M_JWT_AUDIENCE = isProduction ? PAGOPA_ENV.M2M_JWT_AUDIENCE : ''
+
+function getWellKnownUrls(wellKnownUrls: string | undefined) {
+  return wellKnownUrls?.split(',').filter((url) => !!url) || []
+}
+
+export const WELL_KNOWN_URLS = isProduction ? getWellKnownUrls(PAGOPA_ENV.WELL_KNOWN_URLS) : ['#']

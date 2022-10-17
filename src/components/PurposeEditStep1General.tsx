@@ -50,7 +50,7 @@ type PurposeStep1SubmitData = {
 
 const DEFAULT_DAILY_CALLS = 1
 
-export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ forward }) => {
+export const PurposeEditStep1General: FunctionComponent<ActiveStepProps> = ({ forward }) => {
   const { routes } = useRoute()
   const history = useHistory()
   const purposeId = getPurposeFromUrl(history.location)
@@ -76,7 +76,7 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
       mapFn: (data) =>
         data.map((d) => ({
           value: d.id,
-          label: `${d.name} ${t('create.eserviceProvider')} ${d.producerName}`,
+          label: `${d.name} ${t('edit.eserviceProvider')} ${d.producerName}`,
         })),
     }
   )
@@ -238,30 +238,33 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
     <React.Fragment>
       <StyledForm onSubmit={formik.handleSubmit}>
         <StyledPaper>
-          <StyledIntro component="h2">{{ title: t('create.step1.title') }}</StyledIntro>
+          <StyledIntro component="h2">{{ title: t('edit.step1.title') }}</StyledIntro>
 
           <StyledInputControlledText
             name="title"
-            label={t('create.step1.nameField.label')}
-            infoLabel={t('create.step1.nameField.infoLabel')}
+            label={t('edit.step1.nameField.label')}
+            infoLabel={t('edit.step1.nameField.infoLabel')}
             error={formik.errors.title}
             value={formik.values.title}
             onChange={formik.handleChange}
             focusOnMount={true}
+            inputProps={{ maxLength: 60 }}
           />
 
           <StyledInputControlledText
             name="description"
-            label={t('create.step1.descriptionField.label')}
+            label={t('edit.step1.descriptionField.label')}
+            infoLabel={t('edit.step1.descriptionField.infoLabel')}
             error={formik.errors.description}
             value={formik.values.description}
             onChange={formik.handleChange}
             multiline={true}
+            inputProps={{ maxLength: 250 }}
           />
 
           <StyledInputControlledSelect
             name="eserviceId"
-            label={t('create.step1.eserviceField.label')}
+            label={t('edit.step1.eserviceField.label')}
             error={formik.errors.eserviceId}
             value={formik.values.eserviceId}
             onChange={formik.handleChange}
@@ -271,8 +274,8 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
 
           <StyledInputControlledText
             name="dailyCalls"
-            label={t('create.step1.dailyCallsField.label')}
-            infoLabel={t('create.step1.dailyCallsField.infoLabel')}
+            label={t('edit.step1.dailyCallsField.label')}
+            infoLabel={t('edit.step1.dailyCallsField.infoLabel')}
             type="number"
             error={formik.errors.dailyCalls}
             value={formik.values.dailyCalls}
@@ -284,11 +287,11 @@ export const PurposeCreateStep1General: FunctionComponent<ActiveStepProps> = ({ 
 
         <StepActions
           back={{
-            label: t('create.backToListBtn'),
+            label: t('edit.backToListBtn'),
             type: 'link',
             to: routes.SUBSCRIBE_PURPOSE_LIST.PATH,
           }}
-          forward={{ label: t('create.forwardWithSaveBtn'), type: 'submit' }}
+          forward={{ label: t('edit.forwardWithSaveBtn'), type: 'submit' }}
         />
       </StyledForm>
     </React.Fragment>

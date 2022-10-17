@@ -5,8 +5,9 @@ import { goToLoginPage } from '../lib/router-utils'
 import { useJwt } from '../hooks/useJwt'
 import { useTranslation } from 'react-i18next'
 import { LoadingTranslations } from './Shared/LoadingTranslations'
-import { HeaderAccount, HeaderProduct } from '@pagopa/mui-italia'
-import { pagoPaLink } from '../lib/constants'
+import { HeaderProduct } from '@pagopa/mui-italia'
+import { assistanceLink, documentationLink, pagoPaLink } from '../lib/constants'
+import { HeaderAccount } from './HeaderAccount'
 
 export const HeaderWrapper = () => {
   const history = useHistory()
@@ -42,7 +43,10 @@ export const HeaderWrapper = () => {
           history.push(routes.LOGOUT.PATH)
         }}
         onAssistanceClick={() => {
-          history.push(routes.HELP.PATH)
+          window.open(assistanceLink)
+        }}
+        onDocumentationClick={() => {
+          window.open(documentationLink, '_blank')
         }}
       />
       <HeaderProduct

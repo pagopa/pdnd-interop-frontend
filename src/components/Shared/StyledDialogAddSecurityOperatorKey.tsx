@@ -47,6 +47,7 @@ export const StyledDialogAddSecurityOperatorKey: FunctionComponent<
                 value={values.name}
                 onChange={handleChange}
                 focusOnMount={true}
+                inputProps={{ maxLength: 60 }}
               />
 
               <StyledInputControlledText

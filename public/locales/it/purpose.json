@@ -4,6 +4,31 @@
   "noMultiDataLabel": "Non ci sono finalità disponibili",
   "create": {
     "emptyTitle": "Crea finalità",
+    "isTemplateField": {
+      "label": "Usa un template precompilato"
+    },
+    "purposeField": {
+      "label": "Template da utilizzare",
+      "compiledBy": "{{title}} creata da {{consumerName}}",
+      "noDataLabel": "Nessun template disponibile per questo e-service",
+      "loadingLabel": "Stiamo caricando i template"
+    },
+    "eserviceField": {
+      "label": "E-Service da associare"
+    },
+    "purposePreviewTitle": "Contenuto del template selezionato",
+    "consumerName": "Questo template è stato creato da",
+    "purposeTitle": "Nome finalità",
+    "purposeDescription": "Descrizione finalità",
+    "createNewPurposeBtn": "Crea bozza finalità",
+    "backToListBtn": "Torna alle finalità",
+    "defaultPurpose": {
+      "title": "Nuova finalità",
+      "description": "Lorem ipsum dolor sit amet..."
+    }
+  },
+  "edit": {
+    "emptyTitle": "Modifica finalità",
     "noAgreementsAlert": {
       "message": "Non si possono creare finalità perché non ci sono servizi associabili. Per iscriverti al tuo primo E-Service",
       "link": {
@@ -24,10 +49,11 @@
       "title": "Informazioni generali",
       "nameField": {
         "label": "Nome della finalità (richiesto)",
-        "infoLabel": "Ti aiuterà a distinguerla dalle altre"
+        "infoLabel": "Ti aiuterà a distinguerla dalle altre. Max 60 caratteri"
       },
       "descriptionField": {
-        "label": "Descrizione della finalità (richiesto)"
+        "label": "Descrizione della finalità (richiesto)",
+        "infoLabel": "Max. 250 caratteri"
       },
       "eserviceField": {
         "label": "E-Service da associare (richiesto)"
@@ -54,7 +80,12 @@
           }
         }
       },
-      "emptyLabel": "Nessun valore disponibile"
+      "emptyLabel": "Nessun valore disponibile",
+      "pa": {
+        "v2": {
+          "blockingButtonLabel": "Vai sul Catalogo API"
+        }
+      }
     },
     "step3": {
       "title": "Associazione client",

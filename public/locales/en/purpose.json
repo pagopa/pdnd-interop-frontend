@@ -4,6 +4,31 @@
   "noMultiDataLabel": "No purpose available",
   "create": {
     "emptyTitle": "Create purpose",
+    "isTemplateField": {
+      "label": "Clone from template"
+    },
+    "purposeField": {
+      "label": "Choose template",
+      "compiledBy": "{{title}} created by {{consumerName}}",
+      "noDataLabel": "No templates available for this e-service",
+      "loadingLabel": "We are loading the templates"
+    },
+    "eserviceField": {
+      "label": "Choose E-Service"
+    },
+    "purposePreviewTitle": "Selected template content",
+    "consumerName": "This template was created by",
+    "purposeTitle": "Purpose name",
+    "purposeDescription": "Purpose description",
+    "createNewPurposeBtn": "Create purpose draft",
+    "backToListBtn": "Back to purpose list",
+    "defaultPurpose": {
+      "title": "New purpose",
+      "description": "Lorem ipsum dolor sit amet..."
+    }
+  },
+  "edit": {
+    "emptyTitle": "Edit purpose",
     "noAgreementsAlert": {
       "message": "No purpose can be created as there are no available E-Service. To subscribe to your first E-Service",
       "link": {
@@ -24,10 +49,11 @@
       "title": "General information",
       "nameField": {
         "label": "Purpose name (required)",
-        "infoLabel": "It will help you tell them apart"
+        "infoLabel": "It will help you tell them apart. Max 60 chars"
       },
       "descriptionField": {
-        "label": "Purpose description (required)"
+        "label": "Purpose description (required)",
+        "infoLabel": "Max 250 chars"
       },
       "eserviceField": {
         "label": "Related E-Service (required)"
@@ -54,7 +80,12 @@
           }
         }
       },
-      "emptyLabel": "No available values"
+      "emptyLabel": "No available values",
+      "pa": {
+        "v2": {
+          "blockingButtonLabel": "Go to API Catalog"
+        }
+      }
     },
     "step3": {
       "title": "Associate clients",

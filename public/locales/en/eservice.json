@@ -2,6 +2,7 @@
   "loadingSingleLabel": "Loading your E-Service",
   "loadingMultiLabel": "Loading E-Service list",
   "noMultiDataLabel": "Non E-Service available",
+  "backToListBtn": "Back to the E-Services",
   "create": {
     "emptyTitle": "Create E-Service",
     "stepper": {
@@ -9,7 +10,6 @@
       "step2Label": "Version",
       "step3Label": "Documentation"
     },
-    "backToListBtn": "Back to the E-Services",
     "backWithoutSaveBtn": "Back",
     "forwardWithSaveBtn": "Save draft and proceed",
     "forwardWithoutSaveBtn": "Next",
@@ -18,39 +18,25 @@
       "detailsTitle": "E-Service details",
       "eserviceNameField": {
         "label": "E-Service name (required)",
-        "infoLabel": "If you have more than one E-Service with the same name, give a little hint to tell them apart (e.g. \"TARI – for Municipalities\" e \"TARI - for Regions\")"
+        "infoLabel": "If you have more than one E-Service with the same name, give a little hint to tell them apart (e.g. \"TARI – for Municipalities\" e \"TARI - for Regions\"). Max 60 chars"
       },
       "eserviceDescriptionField": {
         "label": "E-Service description (required)",
-        "infoLabel": "(e.g. \"Dedicated to the bodies that need ...\", or \"This E-Service is for ...\")"
+        "infoLabel": "(e.g. \"Dedicated to the bodies that need ...\", or \"This E-Service is for ...\"). Max 250 chars"
       },
       "eserviceTechnologyField": {
         "label": "Technology (required)"
       },
       "attributes": {
-        "title": "Attributes",
-        "description": "The list of attributes a party must possess to subscribe to your E-Service",
-        "addAttributeTable": {
-          "attributeName": "Attribute name",
-          "canRequireVerification": "Run attribute check?",
-          "groupOr": "or",
-          "noDataLabel": "No attribute added",
-          "explicitAttributeVerificationYes": "Yes",
-          "explicitAttributeVerificationNo": "No",
-          "addBtn": "Add",
-          "createBtn": "Create new"
-        },
+        "subtitle": "The Subscriber must own:",
         "certified": {
-          "label": "Certified",
-          "description": "Certified by an authoritative source. You don't need to do anything"
+          "description": "Certified by an authoritative source. You don't need to do anything."
         },
         "verified": {
-          "label": "Verified",
-          "description": "You can decide whether to trust another party's audit on these attributes or run your own"
+          "description": "You can decide whether to trust another party's audit on these attributes or run your own."
         },
         "declared": {
-          "label": "Declared",
-          "description": "The Subscriber will declare it possesses these attributes under its own responsibility"
+          "description": "The Subscriber will declare it possesses these attributes under its own responsibility."
         }
       },
       "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this E-Service is published"
@@ -61,11 +47,12 @@
         "infoLabel": "Set automatically, not editable"
       },
       "descriptionField": {
-        "label": "Version description (required)"
+        "label": "Version description (required)",
+        "infoLabel": "Max 250 chars"
       },
       "audienceField": {
         "label": "Audience (required)",
-        "infoLabel": "The content of this field will the audience (aud) that the Subscriber will send you inside the access token. With this id the Subscriber will tell the Provider which service it is looking for"
+        "infoLabel": "The content of this field will the audience (aud) that the Subscriber will send you inside the access token. With this id the Subscriber will tell the Provider which service it is looking for. Max 60 chars"
       },
       "voucherLifespanField": {
         "label": "Access token expiration (in minutes - required)",
@@ -81,6 +68,9 @@
         "validation": {
           "min": "This value cannot be below the threshold set for the API calls/day for each Subscriber"
         }
+      },
+      "agreementApprovalPolicyField": {
+        "label": "I want to reserve the right to manually check and activate all requests received for this version of the E-Service"
       }
     },
     "step3": {
@@ -101,7 +91,8 @@
         "label": "Choose document"
       },
       "nameField": {
-        "label": "Document name"
+        "label": "Document name",
+        "infoLabel": "Max 60 chars"
       },
       "uploadBtn": "Upload"
     },
@@ -115,6 +106,7 @@
   "tableEServiceCatalog": {
     "youAreTheProvider": "You are the Provider",
     "alreadySubscribed": "Already subscribed",
+    "agreementInDraft": "You have an agreement draft",
     "missingCertifiedAttributes": "Your party does not meet the list of required certificated attributes",
     "goToRequestCta": "Go to the fruition request",
     "subscribeModal": {
@@ -124,6 +116,64 @@
     }
   },
   "contentInfo": {
+    "sections": {
+      "generalInformations": {
+        "title": "General informations",
+        "agreementField": {
+          "label": "Fruition request",
+          "link": {
+            "label": "Go to"
+          }
+        },
+        "technology": "Technology"
+      },
+      "versionInformations": {
+        "title": "Informazioni di versione",
+        "actualVersion": "You are viewing version",
+        "versionStatus": "Version status",
+        "description": "Description",
+        "audience": "Audience",
+        "audienceDescription": "The audience that the subscriber must register in the voucher to identify the service",
+        "voucherLifespan": "Voucher lifespan",
+        "dailyCallsPerConsumer": "Per subscriber threshold",
+        "dailyCallsTotal": "Total threshold",
+        "callsPerDay": "API calls/day",
+        "agreementApprovalPolicy": {
+          "label": "Fruition request activation",
+          "AUTOMATIC": "Automatic",
+          "MANUAL": "Manual"
+        },
+        "doubtsQuestion": "Do you have doubts about the implementation to deliver your e-service?",
+        "doubtsLink": "See the guide"
+      },
+      "voucherVerification": {
+        "title": "Voucher verification",
+        "description": "Devi verificare un voucher ricevuto da un fruitore? Di seguito i link con le istruzioni necessarie",
+        "howLink": "How do I verify a voucher?",
+        "wellKnownLink": "URL .well-known"
+      },
+      "attributes": {
+        "certified": {
+          "description": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori certificazioni."
+        },
+        "verified": {
+          "description": "Questi attributi necessitano verifica da parte di almeno un erogatore. Potresti già possederne alcuni (o tutti)."
+        },
+        "declared": {
+          "description": "Devi dichiarare sotto la tua responsabilità di possedere questi attributi."
+        }
+      },
+
+      "versionHistory": {
+        "title": "Version history",
+        "historyField": {
+          "title": "Change version",
+          "label": "Select a version",
+          "option": "v{{version}}"
+        },
+        "submitBtn": "Go to page"
+      }
+    },
     "verificationRequired": "verification required",
     "groupOr": "or",
     "provider": "Provider",
@@ -133,8 +183,8 @@
     "audience": "Audience",
     "technology": "Tecnology",
     "voucherLifespan": "Voucher lifespan",
-    "dailyCallsPerConsumer": "Per subscriber API calls/day threshold",
-    "dailyCallsTotal": "Total API calls/day threshold",
+    "dailyCallsPerConsumer": "Per subscriber threshold",
+    "dailyCallsTotal": "Total threshold",
     "attributes": "Attributes",
     "noAttributesLabel": "No attribute found",
     "documentation": "Resources",
@@ -162,16 +212,11 @@
       "description": "You are about to send a fruition request for the E-Service {{name}}, version {{version}}",
       "proceedLabel": "Subscribe"
     },
-    "alreadySubscribedField": {
-      "label": "You are a Subscriber of the E-Service",
-      "link": {
-        "label": "Go to the fruition request"
-      }
-    },
     "alert": {
-      "youAreTheProvider": "You can't subscribe to an E-Service you are a Provider of",
+      "youAreTheProvider": "You are the provider of this e-service",
       "missingCertifiedAttributes": "Your party is missing at least one of the certified attributes required to subscribe this E-Service",
-      "alreadySubscribed": "You can't subscribe again as you are already a Subscriber of this E-Service"
+      "alreadySubscribed": "You can't subscribe again as you are already a Subscriber of this e-service",
+      "hasDraft": "You already have an agreement draft for this E-Service"
     },
     "actions": {
       "backToCatalogLabel": "Back to the catalog"

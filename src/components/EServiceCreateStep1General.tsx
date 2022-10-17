@@ -18,7 +18,7 @@ import {
   remapFrontendAttributesToBackend,
 } from '../lib/attributes'
 import { useFeedback } from '../hooks/useFeedback'
-import { EServiceAttributeSection } from './EServiceAttributeSection'
+import { AttributeSection } from './AttributeSection'
 import { StyledForm } from './Shared/StyledForm'
 import { StyledIntro } from './Shared/StyledIntro'
 import { StepActions } from './Shared/StepActions'
@@ -172,6 +172,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
                   disabled={!isEditable}
                   focusOnMount={isEditable}
                   sx={{ mt: 3 }}
+                  inputProps={{ maxLength: 60 }}
                 />
 
                 <StyledInputControlledText
@@ -183,6 +184,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
                   onChange={handleChange}
                   disabled={!isEditable}
                   multiline={true}
+                  inputProps={{ maxLength: 250 }}
                 />
 
                 <StyledInputControlledRadio
@@ -198,33 +200,43 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
                   ]}
                   row={true}
                 />
-
-                <StyledIntro component="h2" sx={{ mt: 6, mb: 1 }}>
-                  {{
-                    title: t('create.step1.attributes.title'),
-                    description: t('create.step1.attributes.description'),
-                  }}
-                </StyledIntro>
-                <Alert severity="warning" sx={{ mb: 4 }}>
-                  L&lsquo;inserimento di attributi verificati e dichiarati è temporaneamente
-                  disabilitato per un test su una nuova feature
-                </Alert>
-                <EServiceAttributeSection
-                  attributes={attributes}
-                  setAttributes={setAttributes}
-                  disabled={!isEditable}
-                />
-
-                {!isEditable && (
-                  <Alert severity="info" sx={{ mt: 4 }}>
-                    {t('create.step1.firstVersionOnlyEditableInfo')}
-                  </Alert>
-                )}
               </StyledPaper>
 
+              <AttributeSection
+                attributeKey="certified"
+                description={t('create.step1.attributes.certified.description')}
+                attributesSubtitle={t('create.step1.attributes.subtitle')}
+                attributes={attributes.certified}
+                setAttributes={setAttributes}
+                readOnly={!isEditable}
+              />
+
+              <AttributeSection
+                attributeKey="verified"
+                description={t('create.step1.attributes.verified.description')}
+                attributesSubtitle={t('create.step1.attributes.subtitle')}
+                attributes={attributes.verified}
+                setAttributes={setAttributes}
+                readOnly={!isEditable}
+              />
+
+              <AttributeSection
+                attributeKey="declared"
+                description={t('create.step1.attributes.verified.description')}
+                attributesSubtitle={t('create.step1.attributes.subtitle')}
+                attributes={attributes.declared}
+                setAttributes={setAttributes}
+                readOnly={!isEditable}
+              />
+
+              {!isEditable && (
+                <Alert severity="info" sx={{ mt: 4 }}>
+                  {t('create.step1.firstVersionOnlyEditableInfo')}
+                </Alert>
+              )}
               <StepActions
                 back={{
-                  label: t('create.backToListBtn'),
+                  label: t('backToListBtn'),
                   type: 'link',
                   to: routes.PROVIDE_ESERVICE_LIST.PATH,
                 }}

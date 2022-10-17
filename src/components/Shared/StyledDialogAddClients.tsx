@@ -86,7 +86,7 @@ export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = 
                 placeholder="..."
                 name="selection"
                 onChange={updateSelected}
-                values={availableClients || []}
+                options={availableClients || []}
                 getOptionLabel={(option: Client) => (option ? option.name : '')}
                 isOptionEqualToValue={(option: Client, value: Client) => option.id === value.id}
                 transformFn={transformFn}

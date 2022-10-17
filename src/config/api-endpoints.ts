@@ -1,6 +1,5 @@
 import { ApiEndpointContent, ApiEndpointKey } from '../../types'
 import {
-  AGREEMENT_PROCESS_URL,
   AUTHORIZATION_PROCESS_URL,
   BACKEND_FOR_FRONTEND_URL,
   CATALOG_PROCESS_URL,
@@ -81,7 +80,15 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'GET',
   },
   ATTRIBUTE_GET_CERTIFIED_LIST: {
-    URL: `${BACKEND_FOR_FRONTEND_URL}/institutions/:institutionId/certifiedAttributes`,
+    URL: `${BACKEND_FOR_FRONTEND_URL}/institutions/:institutionId/attributes/certified`,
+    METHOD: 'GET',
+  },
+  ATTRIBUTE_GET_VERIFIED_LIST: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/institutions/:institutionId/attributes/verified`,
+    METHOD: 'GET',
+  },
+  ATTRIBUTE_GET_DECLARED_LIST: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/institutions/:institutionId/attributes/declared`,
     METHOD: 'GET',
   },
   ATTRIBUTE_GET_LIST: {
@@ -89,7 +96,7 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'GET',
   },
   ATTRIBUTE_GET_SINGLE: {
-    URL: `${BACKEND_FOR_FRONTEND_URL}/attributes/attributeId`,
+    URL: `${BACKEND_FOR_FRONTEND_URL}/attributes/:attributeId`,
     METHOD: 'GET',
   },
   ATTRIBUTE_CREATE: {
@@ -105,6 +112,22 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/submit`,
     METHOD: 'POST',
   },
+  AGREEMENT_DRAFT_DELETE: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId`,
+    METHOD: 'DELETE',
+  },
+  AGREEMENT_DRAFT_DOCUMENT_UPLOAD: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/consumer-documents`,
+    METHOD: 'POST',
+  },
+  AGREEMENT_DRAFT_DOCUMENT_DOWNLOAD: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/consumer-documents/:documentId`,
+    METHOD: 'GET',
+  },
+  AGREEMENT_DRAFT_DOCUMENT_DELETE: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/consumer-documents/:documentId`,
+    METHOD: 'DELETE',
+  },
   AGREEMENT_GET_LIST: {
     URL: `${BACKEND_FOR_FRONTEND_URL}/agreements`,
     METHOD: 'GET',
@@ -114,11 +137,19 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'GET',
   },
   AGREEMENT_VERIFY_ATTRIBUTE: {
-    URL: `${AGREEMENT_PROCESS_URL}/agreements/:agreementId/attributes/:attributeId/verify`,
+    URL: `${BACKEND_FOR_FRONTEND_URL}/institutions/:institutionId/attributes/verified`,
     METHOD: 'POST',
+  },
+  AGREEMENT_REVOKE_VERIFIED_ATTRIBUTE: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/institutions/:institutionId/attributes/verified/:attributeId`,
+    METHOD: 'DELETE',
   },
   AGREEMENT_ACTIVATE: {
     URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/activate`,
+    METHOD: 'POST',
+  },
+  AGREEMENT_REJECT: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/reject`,
     METHOD: 'POST',
   },
   AGREEMENT_SUSPEND: {
@@ -128,6 +159,10 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
   AGREEMENT_UPGRADE: {
     URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/upgrade`,
     METHOD: 'POST',
+  },
+  AGREEMENT_CONTRACT_DOWNLOAD: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/contract`,
+    METHOD: 'GET',
   },
   PURPOSE_GET_LIST: {
     URL: `${PURPOSE_PROCESS_URL}/purposes`,
@@ -255,5 +290,9 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
   OPERATOR_SECURITY_GET_KEYS_LIST: {
     URL: `${AUTHORIZATION_PROCESS_URL}/clients/:clientId/operators/:operatorId/keys`,
     METHOD: 'GET',
+  },
+  ATTRIBUTE_CONFIRM_DECLARED: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/institutions/attributes/declared`,
+    METHOD: 'POST',
   },
 }

@@ -1,18 +1,32 @@
 import has from 'lodash/has'
 import {
+  AttributeKey,
   BackendAttribute,
   BackendAttributes,
+  ConsumerAttribute,
   CertifiedAttribute,
+  CertifiedTenantAttribute,
+  DeclaredTenantAttribute,
+  FrontendAttribute,
   FrontendAttributes,
   GroupBackendAttribute,
   SingleBackendAttribute,
+  VerifiedTenantAttribute,
 } from '../../types'
 import { getKeys } from './array-utils'
 
 export function remapFrontendAttributesToBackend(
-  frontendAttributes: FrontendAttributes
+  _frontendAttributes: FrontendAttributes
 ): BackendAttributes {
-  const mappedAttributes: BackendAttributes = getKeys(frontendAttributes).reduce(
+  const attributekeys = getKeys(_frontendAttributes)
+
+  const frontendAttributes = { ..._frontendAttributes }
+
+  attributekeys.forEach((key) => {
+    frontendAttributes[key] = frontendAttributes[key].filter((group) => group.attributes.length > 0)
+  })
+
+  const mappedAttributes: BackendAttributes = attributekeys.reduce(
     (acc, attributeType) => {
       const mapped = frontendAttributes[attributeType].map(
         ({ attributes, explicitAttributeVerification }) =>
@@ -39,12 +53,22 @@ export function remapBackendAttributesToFrontend(
         if (isSingle) {
           const { single } = attribute as SingleBackendAttribute
           const { id, explicitAttributeVerification, description, name } = single
-          return { attributes: [{ id, description, name }], explicitAttributeVerification }
+          return {
+            attributes: [{ id, description, name, kind: attributeType.toUpperCase() }],
+            explicitAttributeVerification,
+          }
         }
 
         const { group } = attribute as GroupBackendAttribute
         return {
-          attributes: [...group.map(({ id, description, name }) => ({ id, description, name }))],
+          attributes: [
+            ...group.map(({ id, description, name }) => ({
+              id,
+              description,
+              name,
+              kind: attributeType.toUpperCase(),
+            })),
+          ],
           explicitAttributeVerification: group[0].explicitAttributeVerification,
         }
       })
@@ -78,4 +102,106 @@ export function canSubscribe(
   })
 
   return hasAllAttributes
+}
+
+export function checkOwnershipFrontendAttributes(
+  attributes: Array<FrontendAttribute>,
+  ownedAttributesIds: Array<string>
+) {
+  function checkIfGroupHasOwnedAttribute(attributeGroup: FrontendAttribute) {
+    return attributeGroup.attributes.some((att) => ownedAttributesIds.includes(att.id))
+  }
+  return attributes.every(checkIfGroupHasOwnedAttribute)
+}
+
+export function remapTenantBackendAttributeToFrontend(
+  attributesList:
+    | Array<DeclaredTenantAttribute>
+    | Array<CertifiedTenantAttribute>
+    | Array<VerifiedTenantAttribute>,
+  attributeKey: AttributeKey,
+  providerId: string
+) {
+  return attributesList.map((tenantAttribute) => {
+    const attributeValue: Partial<ConsumerAttribute> = {
+      id: tenantAttribute.id,
+      name: tenantAttribute.name,
+    }
+
+    if (attributeKey !== 'verified') {
+      attributeValue.state = tenantAttribute.revocationTimestamp ? 'REVOKED' : 'ACTIVE'
+    } else {
+      const verifiedTenantAttribute = tenantAttribute as VerifiedTenantAttribute
+      const acceptedByProvider = verifiedTenantAttribute.verifiedBy.find((a) => a.id === providerId)
+      attributeValue.state = acceptedByProvider ? 'ACTIVE' : 'REVOKED'
+    }
+
+    return attributeValue as ConsumerAttribute
+  })
+}
+
+export function remapTenantBackendAttributesToFrontend(
+  attributes: Record<
+    AttributeKey,
+    DeclaredTenantAttribute | CertifiedTenantAttribute | VerifiedTenantAttribute
+  >[],
+  providerId: string
+) {
+  const _attributes = attributes.reduce(
+    (acc, next) => {
+      const attributeKey = Object.keys(next)[0] as AttributeKey
+      const tenantAttribute = Object.values(next)[0]
+
+      if (attributeKey === 'verified') {
+        acc[attributeKey].push(tenantAttribute as VerifiedTenantAttribute)
+      } else if (attributeKey === 'certified') {
+        acc[attributeKey].push(tenantAttribute as CertifiedTenantAttribute)
+      } else if (attributeKey === 'declared') {
+        acc[attributeKey].push(tenantAttribute as DeclaredTenantAttribute)
+      }
+
+      return acc
+    },
+    { certified: [], verified: [], declared: [] } as {
+      certified: CertifiedTenantAttribute[]
+      verified: VerifiedTenantAttribute[]
+      declared: DeclaredTenantAttribute[]
+    }
+  )
+
+  return {
+    certified: remapTenantBackendAttributeToFrontend(
+      _attributes.certified,
+      'certified',
+      providerId
+    ),
+    verified: remapTenantBackendAttributeToFrontend(_attributes.verified, 'verified', providerId),
+    declared: remapTenantBackendAttributeToFrontend(_attributes.declared, 'declared', providerId),
+  }
+
+  // return attributes.reduce(
+  //   (acc, next) => {
+  //     const attributeKey = Object.keys(next)[0] as AttributeKey
+  //     const tenantAttribute = Object.values(next)[0]
+
+  //     const attributeValue: Partial<ConsumerAttribute> = {
+  //       id: tenantAttribute.id,
+  //       name: tenantAttribute.name,
+  //     }
+
+  //     if (attributeKey !== 'verified') {
+  //       attributeValue.state = tenantAttribute.revocationTimestamp ? 'REVOKED' : 'ACTIVE'
+  //     } else {
+  //       const verifiedTenantAttribute = tenantAttribute as VerifiedTenantAttribute
+  //       const acceptedByProvider = verifiedTenantAttribute.verifiedBy.find(
+  //         (a) => a.id === providerId
+  //       )
+  //       attributeValue.state = acceptedByProvider ? 'ACTIVE' : 'REVOKED'
+  //     }
+
+  //     acc[attributeKey].push(attributeValue as ConsumerAttribute)
+
+  //     return acc
+  //   },
+  //   { certified: [], verified: [], declared: [] } as ConsumerAttributes
 }

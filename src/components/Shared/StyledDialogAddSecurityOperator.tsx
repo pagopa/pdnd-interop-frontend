@@ -103,7 +103,7 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
               placeholder="..."
               name="selection"
               onChange={updateSelected}
-              values={filteredUserData}
+              options={filteredUserData}
               getOptionLabel={(option: SelfCareUser) =>
                 option ? `${option.name} ${option.familyName}` : ''
               }

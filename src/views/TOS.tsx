@@ -6,13 +6,13 @@ import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { FE_URL } from '../lib/env'
 
-export function Help() {
-  const { t } = useTranslation('common', { keyPrefix: 'help' })
+export function TOS() {
+  const { t } = useTranslation('common', { keyPrefix: 'tos' })
   const [htmlString, setHtmlString] = useState('')
 
   useEffect(() => {
     async function asyncFetchData() {
-      const resp = await axios.get(`${FE_URL}/data/it/help.json`)
+      const resp = await axios.get(`${FE_URL}/data/it/tos.json`)
       const html = getReplacedAssetsPaths(resp.data.html)
       setHtmlString(html)
     }
@@ -22,10 +22,9 @@ export function Help() {
 
   return (
     <React.Fragment>
-      <StyledIntro>{{ title: t('title'), description: t('description') }}</StyledIntro>
-
       <Grid container>
-        <Grid item xs={8}>
+        <Grid item xs={8} sx={{ px: 3, py: 3 }}>
+          <StyledIntro>{{ title: t('title') }}</StyledIntro>
           <div dangerouslySetInnerHTML={{ __html: htmlString }} />
         </Grid>
       </Grid>

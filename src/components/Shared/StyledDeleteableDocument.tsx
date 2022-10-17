@@ -1,38 +1,34 @@
 import React, { useRef, useState } from 'react'
 import { InputAdornment, Stack, Box } from '@mui/material'
 import {
-  Delete as DeleteIcon,
+  DeleteOutline as DeleteIcon,
   Download as DownloadIcon,
   ModeEdit as ModeEditIcon,
   AttachFile as AttachFileIcon,
 } from '@mui/icons-material'
-import { EServiceDocumentRead } from '../../../types'
-import { RunActionOutput, useFeedback } from '../../hooks/useFeedback'
+import { EServiceDocumentRead, RequestOutcome } from '../../../types'
 import { StyledButton } from './StyledButton'
 import { StyledTooltip } from './StyledTooltip'
 import { StyledInputControlledText } from './StyledInputControlledText'
 import { useTranslation } from 'react-i18next'
 
 type StyledDeleteableDocumentComponentProps = {
-  eserviceId: string
-  descriptorId: string
   readable: EServiceDocumentRead
   isLabelEditable?: boolean
+  updateDescription: (newDescription: string) => Promise<RequestOutcome>
   deleteDocument: () => Promise<void>
   downloadDocument: (documentId: string, filename: string) => Promise<void>
 }
 
 export function StyledDeleteableDocument({
-  eserviceId,
-  descriptorId,
   readable,
   isLabelEditable = true,
+  updateDescription,
   deleteDocument,
   downloadDocument,
 }: StyledDeleteableDocumentComponentProps) {
   const { t } = useTranslation('shared-components')
   const inputRef = useRef<HTMLInputElement>(null)
-  const { runAction } = useFeedback()
   const [canEdit, setCanEdit] = useState(false)
   const [fixedValue, setFixedValue] = useState(readable.prettyName)
   const [newValue, setNewValue] = useState(readable.prettyName)
@@ -54,39 +50,27 @@ export function StyledDeleteableDocument({
     setNewValue(target.value)
   }
 
-  const postDescription = async () => {
-    const { outcome } = (await runAction(
-      {
-        path: {
-          endpoint: 'ESERVICE_VERSION_DRAFT_UPDATE_DOCUMENT_DESCRIPTION',
-          endpointParams: { eserviceId, descriptorId, documentId: readable.id },
-        },
-        config: { data: { prettyName: newValue } },
-      },
-      { suppressToast: ['success'] }
-    )) as RunActionOutput
-
+  const onBlur = async () => {
+    const outcome = await updateDescription(newValue)
     if (outcome === 'success') {
       setFixedValue(newValue)
     }
-  }
-
-  const onBlur = async () => {
-    await postDescription()
     setCanEdit(false)
   }
 
   return (
-    <Stack direction="row" alignItems="center" justifyContent="space-between">
+    <Stack direction="row" justifyContent="space-between">
       <StyledInputControlledText
         ref={inputRef}
         disabled={!canEdit || !isLabelEditable}
         sx={{ my: 0, width: '100%', flexShrink: 1 }}
         name="prettyName"
-        label={t('styledDeleteableDocument.prettyNameLabel')}
+        label={t('styledDeleteableDocument.prettyName.label')}
+        infoLabel={t('styledDeleteableDocument.prettyName.infoLabel')}
         value={!canEdit ? fixedValue : newValue}
         onChange={updateNewValue}
         onBlur={onBlur}
+        inputProps={{ sx: { py: 1.2 }, maxLength: 60 }}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -111,12 +95,12 @@ export function StyledDeleteableDocument({
           </StyledTooltip>
         )}
         <StyledTooltip title={t('styledDeleteableDocument.downloadDocument')}>
-          <StyledButton sx={{ p: 1, mx: 1 }} onClick={downloadDocument}>
+          <StyledButton sx={{ p: 1 }} onClick={downloadDocument}>
             <DownloadIcon fontSize="small" />
           </StyledButton>
         </StyledTooltip>
         <StyledTooltip title={t('styledDeleteableDocument.deleteDocument')}>
-          <StyledButton sx={{ p: 1 }} onClick={deleteDocument}>
+          <StyledButton color="error" sx={{ p: 1 }} onClick={deleteDocument}>
             <DeleteIcon fontSize="small" />
           </StyledButton>
         </StyledTooltip>

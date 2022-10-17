@@ -14,10 +14,11 @@
     "infoSectionTitle": "General information",
     "nameField": {
       "label": "Client name (required)",
-      "infoLabel": "It will help you tell them apart"
+      "infoLabel": "It will help you tell them apart. Max 60 chars"
     },
     "descriptionField": {
-      "label": "Client description (required)"
+      "label": "Client description (required)",
+      "infoLabel": "Max 250 chars"
     },
     "clientMembersSectionTitle": "Security operators",
     "operatorsTable": {

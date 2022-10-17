@@ -27,17 +27,26 @@ export type ApiEndpointKey =
   | 'ESERVICE_VERSION_DRAFT_UPDATE_DOCUMENT_DESCRIPTION'
   | 'ESERVICE_VERSION_DOWNLOAD_DOCUMENT'
   | 'ATTRIBUTE_GET_CERTIFIED_LIST'
+  | 'ATTRIBUTE_GET_VERIFIED_LIST'
+  | 'ATTRIBUTE_GET_DECLARED_LIST'
   | 'ATTRIBUTE_GET_LIST'
   | 'ATTRIBUTE_GET_SINGLE'
   | 'ATTRIBUTE_CREATE'
   | 'AGREEMENT_DRAFT_CREATE'
   | 'AGREEMENT_DRAFT_SUBMIT'
+  | 'AGREEMENT_DRAFT_DELETE'
+  | 'AGREEMENT_DRAFT_DOCUMENT_DOWNLOAD'
+  | 'AGREEMENT_DRAFT_DOCUMENT_UPLOAD'
+  | 'AGREEMENT_DRAFT_DOCUMENT_DELETE'
   | 'AGREEMENT_GET_LIST'
   | 'AGREEMENT_GET_SINGLE'
   | 'AGREEMENT_VERIFY_ATTRIBUTE'
+  | 'AGREEMENT_REVOKE_VERIFIED_ATTRIBUTE'
   | 'AGREEMENT_ACTIVATE'
+  | 'AGREEMENT_REJECT'
   | 'AGREEMENT_SUSPEND'
   | 'AGREEMENT_UPGRADE'
+  | 'AGREEMENT_CONTRACT_DOWNLOAD'
   | 'PURPOSE_GET_LIST'
   | 'PURPOSE_GET_SINGLE'
   | 'PURPOSE_DRAFT_CREATE'
@@ -69,6 +78,7 @@ export type ApiEndpointKey =
   | 'OPERATOR_SECURITY_REMOVE_FROM_CLIENT'
   | 'OPERATOR_SECURITY_GET_LIST'
   | 'OPERATOR_SECURITY_GET_KEYS_LIST'
+  | 'ATTRIBUTE_CONFIRM_DECLARED'
 
 export type ApiEndpointContent = {
   URL: string
@@ -271,13 +281,17 @@ export type EServiceCreateDataType = {
 // Read only
 export type EServiceFlatReadType = {
   name: string
+  description: string
   id: string
   producerId: string
   producerName: string
   descriptorId?: string
   state?: EServiceState
   version?: string
-  callerSubscribed?: string
+  agreement?: {
+    id: string
+    state: AgreementState
+  }
   certifiedAttributes: Array<BackendAttribute>
 }
 
@@ -322,6 +336,7 @@ export type EServiceDescriptorRead = {
   audience: Array<string>
   dailyCallsPerConsumer: number
   dailyCallsTotal: number
+  agreementApprovalPolicy: 'MANUAL' | 'AUTOMATIC'
 }
 
 export type EServiceDocumentRead = {
@@ -334,7 +349,14 @@ export type EServiceDocumentRead = {
 /*
  * Agreement
  */
-export type AgreementState = 'ACTIVE' | 'SUSPENDED' | 'PENDING' | 'ARCHIVED' | 'DRAFT'
+export type AgreementState =
+  | 'ACTIVE'
+  | 'SUSPENDED'
+  | 'PENDING'
+  | 'ARCHIVED'
+  | 'DRAFT'
+  | 'REJECTED'
+  | 'MISSING_CERTIFIED_ATTRIBUTES'
 
 export type AgreementVerifiableAttribute = {
   id: string
@@ -352,7 +374,12 @@ type AgreementProducer = {
 type AgreementConsumer = {
   name: string
   id: string
-  attributes: Array<BackendAttribute>
+  attributes: Array<
+    Record<
+      AttributeKey,
+      DeclaredTenantAttribute | CertifiedTenantAttribute | VerifiedTenantAttribute
+    >
+  >
 }
 
 type AgreementEService = {
@@ -399,9 +426,10 @@ export type AgreementSummary = {
   suspendedByConsumer?: boolean
   suspendedByPlatform?: boolean
   consumerNotes?: string
-  consumerDocuments: Array<unknown>
+  consumerDocuments: Array<EServiceDocumentRead>
   createdAt: string
   updatedAt?: string
+  rejectionReason?: string
 }
 
 /*
@@ -411,7 +439,7 @@ export type PurposeState = 'DRAFT' | 'ACTIVE' | 'SUSPENDED' | 'WAITING_FOR_APPRO
 
 type PurposeYesNoAnswer = 'YES' | 'NO'
 
-type PurposeLegalBasisAnswer =
+export type PurposeLegalBasisAnswer =
   | 'CONSENT'
   | 'CONTRACT'
   | 'LEGAL_OBLIGATION'
@@ -475,7 +503,10 @@ export type PurposeVersion = {
 }
 
 export type Purpose = {
-  consumerId: string
+  consumer: {
+    id: string
+    name: string
+  }
   id: string
   title: string
   description: string
@@ -548,6 +579,10 @@ export type Client = {
   operators: Array<SelfCareUser>
   kind: ClientKind
   purposes: Array<ClientPurpose>
+  consumer: {
+    description: string
+    institutionId: string
+  }
 }
 
 export type ClientKind = 'CONSUMER' | 'API'
@@ -599,6 +634,14 @@ export type BackendAttributeContent = BasicAttribute & {
   verificationDate?: string
 }
 
+export type ConsumerAttributes = Record<AttributeKey, Array<ConsumerAttribute>>
+
+export type ConsumerAttribute = {
+  id: string
+  name: string
+  state: 'ACTIVE' | 'REVOKED'
+}
+
 export type DeclaredTenantAttribute = {
   id: string
   name: string
@@ -619,19 +662,19 @@ export type VerifiedTenantAttribute = {
   assignmentTimestamp: string
   revocationTimestamp?: string
   renewal: 'REVOKE_ON_EXPIRATION' | 'AUTOMATIC_RENEWAL'
-  verifiedBy: {
+  verifiedBy: Array<{
     id: string
     verificationDate: string
     expirationDate?: string
     extentionDate?: string
-  }
-  revokedBy: {
+  }>
+  revokedBy: Array<{
     id: string
     verificationDate: string
     expirationDate?: string
     extentionDate?: string
     revocationDate: string
-  }
+  }>
 }
 
 export type TenantAttribute = {
@@ -684,7 +727,6 @@ export type DialogContent = {
 }
 
 export type DialogDefaultProps = {
-  close: VoidFunction
   maxWidth?: MUISize
 }
 
@@ -694,10 +736,12 @@ export type DialogProps =
   | DialogAddSecurityOperatorKeyProps
   | DialogExistingAttributeProps
   | DialogNewAttributeProps
+  | DialogAttributeDetailsProps
   | DialogAddSecurityOperatorProps
   | DialogAddClientsProps
   | DialogUpdatePurposeDailyCallsProps
   | DialogSetPurposeExpectedApprovalDateProps
+  | DialogRejectAgreementProps
   | DialogSessionExpiredProps
 
 export type DialogSessionExpiredProps = {
@@ -710,6 +754,17 @@ export type DialogSetPurposeExpectedApprovalDateProps = {
   versionId: string
   approvalDate?: string
   runAction: RunAction
+}
+
+export type DialogRejectAgreementProps = {
+  type: 'rejectAgreement'
+  onSubmit: (data: DialogRejectAgreementFormInputValues) => void
+  initialValues: DialogRejectAgreementFormInputValues
+  validationSchema: SchemaOf<DialogRejectAgreementFormInputValues>
+}
+
+export type DialogRejectAgreementFormInputValues = {
+  reason: string
 }
 
 export type DialogUpdatePurposeDailyCallsProps = {
@@ -746,6 +801,12 @@ export type DialogNewAttributeProps = {
   onSubmit: (data: NewAttributeFormInputValues) => void
   initialValues: NewAttributeFormInputValues
   validationSchema: SchemaOf<NewAttributeFormInputValues>
+}
+
+export type DialogAttributeDetailsProps = {
+  type: 'showAttributeDetails'
+  attributeId: string
+  name: string
 }
 
 export type NewAttributeFormInputValues = {
@@ -814,6 +875,10 @@ export type DialogBasicProps = DialogDefaultProps & {
 //   | 'ATTRIBUTE_CREATE'
 //   | 'AGREEMENT_DRAFT_CREATE'
 //   | 'AGREEMENT_DRAFT_SUBMIT'
+//   | 'AGREEMENT_DRAFT_DELETE
+//   | 'AGREEMENT_DRAFT_DOCUMENT_DOWNLOAD'
+//   | 'AGREEMENT_DRAFT_DOCUMENT_UPLOAD'
+//   | 'AGREEMENT_DRAFT_DOCUMENT_DELETE'
 //   | 'AGREEMENT_GET_LIST'
 //   | 'AGREEMENT_GET_SINGLE'
 //   | 'AGREEMENT_VERIFY_ATTRIBUTE'
@@ -941,7 +1006,7 @@ export type PagoPAEnvVars = {
   API_GATEWAY_INTEFACE_URL: string
   ONETRUST_DOMAIN_SCRIPT_ID: string
   CLIENT_ASSERTION_JWT_AUDIENCE: string
-  M2M_JWT_AUDIENCE: string
+  WELL_KNOWN_URLS: string
 }
 export type ExtendedWindow = Window & {
   pagopa_env: PagoPAEnvVars

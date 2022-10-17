@@ -4,10 +4,12 @@ import {
   DialogAddSecurityOperatorKeyProps,
   DialogAddSecurityOperatorProps,
   DialogAskExtensionProps,
+  DialogAttributeDetailsProps,
   DialogBasicProps,
   DialogExistingAttributeProps,
   DialogNewAttributeProps,
   DialogProps,
+  DialogRejectAgreementProps,
   DialogSessionExpiredProps,
   DialogSetPurposeExpectedApprovalDateProps,
   DialogUpdatePurposeDailyCallsProps,
@@ -22,6 +24,8 @@ import { StyledDialogAddClients } from './StyledDialogAddClients'
 import { StyledDialogUpdatePurposeDailyCalls } from './StyledDialogUpdatePurposeDailyCalls'
 import { StyledDialogSetPurposeExpectedApprovalDate } from './StyledDialogSetPurposeExpectedApprovalDate'
 import { StyledDialogSessionExpired } from './StyledDialogSessionExpired'
+import { StyledDialogAttributeDetails } from './StyledDialogAttributeDetails'
+import { StyledDialogRejectAgreement } from './StyledDialogRejectAgreement'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -29,10 +33,12 @@ function match<T>(
   onAddSecurityOperatorKey: (props: DialogAddSecurityOperatorKeyProps) => T,
   onExistingAttribute: (props: DialogExistingAttributeProps) => T,
   onNewAttribute: (props: DialogNewAttributeProps) => T,
+  onShowAttributeDetails: (props: DialogAttributeDetailsProps) => T,
   onAddSecurityOperator: (props: DialogAddSecurityOperatorProps) => T,
   onAddClients: (props: DialogAddClientsProps) => T,
   onUpdatePurposeDailyCalls: (props: DialogUpdatePurposeDailyCallsProps) => T,
   onSetPurposeExpectedApprovalDate: (props: DialogSetPurposeExpectedApprovalDateProps) => T,
+  onRejectAgreement: (props: DialogRejectAgreementProps) => T,
   onSessionExpired: (props: DialogSessionExpiredProps) => T
 ) {
   return (props: DialogProps) => {
@@ -47,6 +53,8 @@ function match<T>(
         return onExistingAttribute(props)
       case 'createNewAttribute':
         return onNewAttribute(props)
+      case 'showAttributeDetails':
+        return onShowAttributeDetails(props)
       case 'addSecurityOperator':
         return onAddSecurityOperator(props)
       case 'addClients':
@@ -55,6 +63,8 @@ function match<T>(
         return onUpdatePurposeDailyCalls(props)
       case 'setPurposeExpectedApprovalDate':
         return onSetPurposeExpectedApprovalDate(props)
+      case 'rejectAgreement':
+        return onRejectAgreement(props)
       case 'sessionExpired':
         return onSessionExpired(props)
     }
@@ -67,9 +77,11 @@ export const StyledDialog = match(
   (props) => <StyledDialogAddSecurityOperatorKey {...props} />,
   (props) => <StyledDialogExistingAttribute {...props} />,
   (props) => <StyledDialogNewAttribute {...props} />,
+  (props) => <StyledDialogAttributeDetails {...props} />,
   (props) => <StyledDialogAddSecurityOperator {...props} />,
   (props) => <StyledDialogAddClients {...props} />,
   (props) => <StyledDialogUpdatePurposeDailyCalls {...props} />,
   (props) => <StyledDialogSetPurposeExpectedApprovalDate {...props} />,
+  (props) => <StyledDialogRejectAgreement {...props} />,
   (props) => <StyledDialogSessionExpired {...props} />
 )

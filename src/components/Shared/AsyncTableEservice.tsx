@@ -7,6 +7,7 @@ import {
   Check as CheckIcon,
   Person as PersonIcon,
   SvgIconComponent,
+  ModeEdit as ModeEditIcon,
 } from '@mui/icons-material'
 import {
   ActionProps,
@@ -16,7 +17,6 @@ import {
   EServiceFlatDecoratedReadType,
   EServiceFlatReadType,
   EServiceState,
-  MUIColor,
 } from '../../../types'
 import { useAsyncFetch } from '../../hooks/useAsyncFetch'
 import { RunActionOutput, useFeedback } from '../../hooks/useFeedback'
@@ -31,18 +31,10 @@ import { TableWithLoader } from './TableWithLoader'
 import { AxiosResponse } from 'axios'
 import { StyledTableRow } from './StyledTableRow'
 import { StyledButton } from './StyledButton'
-import { URL_FRAGMENTS } from '../../lib/constants'
+import { CHIP_COLORS_E_SERVICE, URL_FRAGMENTS } from '../../lib/constants'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../../hooks/useJwt'
 import { minutesToSeconds } from '../../lib/format-utils'
-
-const CHIP_COLORS: Record<EServiceState, MUIColor> = {
-  PUBLISHED: 'primary',
-  DRAFT: 'info',
-  SUSPENDED: 'error',
-  ARCHIVED: 'info',
-  DEPRECATED: 'warning',
-}
 
 export const AsyncTableEServiceCatalog = () => {
   const { t } = useTranslation(['eservice', 'common'])
@@ -90,11 +82,15 @@ export const AsyncTableEServiceCatalog = () => {
       return <OwnerTooltip label={t('tableEServiceCatalog.youAreTheProvider')} Icon={PersonIcon} />
     }
 
-    if (item.callerSubscribed && isAdmin) {
+    if (item.agreement && item.agreement.state === 'DRAFT' && isAdmin) {
+      return <OwnerTooltip label={t('tableEServiceCatalog.agreementInDraft')} Icon={ModeEditIcon} />
+    }
+
+    if (item.agreement && item.agreement.state !== 'DRAFT' && isAdmin) {
       return <OwnerTooltip label={t('tableEServiceCatalog.alreadySubscribed')} Icon={CheckIcon} />
     }
 
-    if (!item.isMine && !canSubscribeEservice) {
+    if (!canSubscribeEservice) {
       return (
         <OwnerTooltip
           label={t('tableEServiceCatalog.missingCertifiedAttributes')}
@@ -115,22 +111,30 @@ export const AsyncTableEServiceCatalog = () => {
       descriptorId: eservice.descriptorId,
     }
 
-    const { outcome: draftCreateOutcome, response: draftCreateResp } = (await runAction(
-      { path: { endpoint: 'AGREEMENT_DRAFT_CREATE' }, config: { data: agreementData } },
-      { suppressToast: ['success'] }
-    )) as RunActionOutput
+    const { outcome, response } = (await runAction({
+      path: { endpoint: 'AGREEMENT_DRAFT_CREATE' },
+      config: { data: agreementData },
+    })) as RunActionOutput
 
-    if (draftCreateOutcome === 'success') {
-      await runAction(
-        {
-          path: {
-            endpoint: 'AGREEMENT_DRAFT_SUBMIT',
-            endpointParams: { agreementId: (draftCreateResp as AxiosResponse).data.id },
-          },
-        },
-        { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
+    if (outcome === 'success') {
+      history.push(
+        buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
+          agreementId: (response as AxiosResponse).data.id,
+        })
       )
     }
+
+    // if (draftCreateOutcome === 'success') {
+    //   await runAction(
+    //     {
+    //       path: {
+    //         endpoint: 'AGREEMENT_DRAFT_SUBMIT',
+    //         endpointParams: { agreementId: (draftCreateResp as AxiosResponse).data.id },
+    //       },
+    //     },
+    //     { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST }
+    //   )
+    // }
   }
   /*
    * End list of actions
@@ -142,12 +146,17 @@ export const AsyncTableEServiceCatalog = () => {
   ) => {
     const actions: Array<ActionProps> = []
 
-    if (!eservice.isMine && isAdmin && eservice.callerSubscribed) {
+    if (isAdmin && eservice.agreement) {
       actions.push({
         onClick: () => {
+          const path =
+            eservice.agreement!.state !== 'DRAFT'
+              ? routes.SUBSCRIBE_AGREEMENT_READ.PATH
+              : routes.SUBSCRIBE_AGREEMENT_EDIT.PATH
+
           history.push(
-            buildDynamicPath(routes.SUBSCRIBE_AGREEMENT_EDIT.PATH, {
-              agreementId: eservice.callerSubscribed as string,
+            buildDynamicPath(path, {
+              agreementId: eservice.agreement?.id as string,
             })
           )
         },
@@ -155,7 +164,7 @@ export const AsyncTableEServiceCatalog = () => {
       })
     }
 
-    if (!eservice.isMine && isAdmin && !eservice.callerSubscribed && canSubscribeEservice) {
+    if (isAdmin && !eservice.agreement && canSubscribeEservice) {
       actions.push({
         onClick: () => {
           setDialog({
@@ -167,24 +176,11 @@ export const AsyncTableEServiceCatalog = () => {
               name: eservice.name,
               version: eservice.version,
             }),
-            close: () => {
-              setDialog(null)
-            },
           })
         },
         label: t('actions.subscribe', { ns: 'common' }),
       })
     }
-
-    // TEMP PIN-612
-    // if (!eservice.isMine && isAdmin(party) && !canSubscribeEservice) {
-    //   actions.push({
-    //     onClick: () => {
-    //       setDialog({ type: 'askExtension' })
-    //     },
-    //     label: 'Richiedi estensione',
-    //   })
-    // }
 
     return actions
   }
@@ -226,6 +222,8 @@ export const AsyncTableEServiceCatalog = () => {
                   </Stack>
 
                   <Typography color="text.secondary">{item.producerName}</Typography>
+                  <br />
+                  <Typography color="text.secondary">{item.description}</Typography>
                 </CardContent>
 
                 <CardActions sx={{ px: 3, py: 2, justifyContent: 'space-between' }}>
@@ -350,6 +348,7 @@ export const AsyncTableEServiceList = () => {
             description: '',
             dailyCallsPerConsumer: 1,
             dailyCallsTotal: 1,
+            agreementApprovalPolicy: 'MANUAL',
           },
         },
       },
@@ -444,7 +443,7 @@ export const AsyncTableEServiceList = () => {
                 custom: (
                   <Chip
                     label={t(`status.eservice.${item.state || 'DRAFT'}`, { ns: 'common' })}
-                    color={CHIP_COLORS[item.state as EServiceState]}
+                    color={CHIP_COLORS_E_SERVICE[item.state || 'DRAFT']}
                   />
                 ),
               },
