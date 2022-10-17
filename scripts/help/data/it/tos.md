@@ -4,7 +4,7 @@ L’Infrastruttura PDND Interoperabilità (di seguito “**Infrastruttura**”) 
 
 I soggetti di cui all’art. 2, comma 2, del CAD (di seguito “**Erogatore/i**” mettono a disposizione i propri servizi digitali (di seguito “**E-service**”) in favore di altri aderenti all’Infrastruttura che possono essere, in aggiunta ai soggetti di cui all’art. 2, comma 2, del CAD, anche soggetti privati (di seguito “**Fruitore/i**”). Possono aderire all’Infrastruttura anche soggetti privati persone fisiche di seguito “**Aderenti**”. Le persone fisiche che operano sull'Infrastruttura per conto degli Aderenti sono nel seguito definiti “**Utenti**”.
 
-I soggetti di cui all’art. 2, comma 2, del CAD aderiscono all’Infrastruttura disponibile all’indirizzo web [interop.selfcare.pagopa.it](https://interop.selfcare.pagopa.it) (di seguito “**il Sito**”) attraverso il portale di back office “Area Riservata” (di seguito anche il “**Portale**”) della Società, raggiungibile all’indirizzo web [https://selfcare.pagopa.it](https://selfcare.pagopa.it).
+I soggetti di cui all’art. 2, comma 2, del CAD aderiscono all’Infrastruttura disponibile all’indirizzo web [selfcare.interop.pagopa.it](https://selfcare.interop.pagopa.it) (di seguito “**il Sito**”) attraverso il portale di back office “Area Riservata” (di seguito anche il “**Portale**”) della Società, raggiungibile all’indirizzo web [https://selfcare.pagopa.it](https://selfcare.pagopa.it).
 
 ### Titolare del trattamento e base giuridica
 
@@ -127,7 +127,7 @@ I tuoi feedback sono importanti per migliorare il Sito, anche sulle questioni pr
 
 Data ultimo aggiornamento: 13.06.2022
 
-**I presenti termini e condizioni d’uso (di seguito anche “ToS”) regolano il rapporto tra gli utenti del sito [interop.selfcare.pagopa.it](https://interop.selfcare.pagopa.it) (di seguito “Sito”) dove poggia parte dell’infrastruttura interoperabilità PDND (di seguito “Infrastruttura”) prevista dall’art. 50-ter, comma 2, del Codice dell’Amministrazione Digitale (di seguito “CAD”) e PagoPA S.p.A. (di seguito “Società”) stabilendo diritti e obblighi nell’utilizzo dello stesso.
+**I presenti termini e condizioni d’uso (di seguito anche “ToS”) regolano il rapporto tra gli utenti del sito [selfcare.interop.pagopa.it](https://selfcare.interop.pagopa.it) (di seguito “Sito”) dove poggia parte dell’infrastruttura interoperabilità PDND (di seguito “Infrastruttura”) prevista dall’art. 50-ter, comma 2, del Codice dell’Amministrazione Digitale (di seguito “CAD”) e PagoPA S.p.A. (di seguito “Società”) stabilendo diritti e obblighi nell’utilizzo dello stesso.
 Leggili attentamente: utilizzando il Sito, li accetti integralmente e ti impegni a rispettarli.**
 
 ### 1. Descrizione del servizio
