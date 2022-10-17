@@ -341,7 +341,7 @@ function AttributesList({
             </>
           ) : (
             <>
-              {onConfirmDeclaredAttribute && (
+              {onConfirmDeclaredAttribute && !isActive && (
                 <ButtonNaked
                   onClick={onConfirmDeclaredAttribute.bind(null, attribute.id)}
                   color="primary"
