@@ -185,8 +185,7 @@ export function AgreementEdit() {
           endpoint: 'AGREEMENT_DRAFT_SUBMIT',
           endpointParams: { agreementId: agreement?.id },
         },
-        // TEMP: waiting for backend
-        // config: { data: { consumerNotes } },
+        config: { data: { consumerNotes } },
       },
       { onSuccessDestination: routes.SUBSCRIBE_AGREEMENT_LIST, showConfirmDialog: true }
     )
