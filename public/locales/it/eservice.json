@@ -214,9 +214,9 @@
       "proceedLabel": "Crea bozza"
     },
     "alert": {
-      "youAreTheProvider": "Non puoi iscriverti a un E-Service di cui sei Erogatore",
+      "youAreTheProvider": "Sei l'erogatore di questo e-service",
       "missingCertifiedAttributes": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
-      "alreadySubscribed": "Sei iscritto a questo E-Service",
+      "alreadySubscribed": "Non puoi iscriverti a questo e-service perché sei già iscritto",
       "hasDraft": "Possiedi già una richiesta in bozza per questo E-Service"
     },
     "actions": {
