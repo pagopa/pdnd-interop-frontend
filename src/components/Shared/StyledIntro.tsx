@@ -52,7 +52,7 @@ export const StyledIntro: FunctionComponent<StyledIntroProps> = ({
           component="p"
           variant={textVariant.variant}
           color={textVariant.color}
-          sx={{ mt: 1, mb: 0, ...pProps }}
+          sx={{ mt: 1, mb: 0, wordBreak: 'break-word', ...pProps }}
         >
           {isLoading ? <Skeleton height={27} /> : children.description}
         </Typography>
