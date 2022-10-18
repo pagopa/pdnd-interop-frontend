@@ -81,6 +81,7 @@ export function EServiceCreateStep3DocumentsInterface({
   }
 
   const wrapDownloadDoc = (document: EServiceDocumentRead) => async () => {
+    console.log({ document })
     await downloadDescriptorDocument(document)
   }
 
@@ -105,14 +106,13 @@ export function EServiceCreateStep3DocumentsInterface({
     }
   }
 
-  const activeDescriptor = data.activeDescriptor as EServiceDescriptorRead
   return readDoc ? (
     <StyledDeleteableDocument
       isLabelEditable={false}
       readable={readDoc}
       updateDescription={updateDescriptorDocumentDescription.bind(null, readDoc.id)}
       deleteDocument={deletePreviousInterfaceDoc}
-      downloadDocument={wrapDownloadDoc(activeDescriptor.interface)}
+      downloadDocument={wrapDownloadDoc(readDoc)}
     />
   ) : (
     <Box sx={{ px: 2, py: 2, borderLeft: 4, borderColor: 'primary.main' }} bgcolor="common.white">
