@@ -44,9 +44,9 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
   const validationSchema = object({
     version: string().required(),
     audience: string().required(),
-    voucherLifespan: number().required(),
+    voucherLifespan: number().required().min(1).max(1440),
     description: string().required(),
-    dailyCallsPerConsumer: number().required(),
+    dailyCallsPerConsumer: number().required().min(1),
     dailyCallsTotal: number()
       .min(ref('dailyCallsPerConsumer'), t('create.step2.dailyCallsTotalField.validation.min'))
       .required(),
@@ -196,7 +196,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
                     label={t('create.step2.voucherLifespanField.label')}
                     infoLabel={t('create.step2.voucherLifespanField.infoLabel')}
                     type="number"
-                    inputProps={{ min: '1', max: '1440' }}
+                    inputProps={{ min: 1, max: 1440 }}
                     value={values.voucherLifespan}
                     error={errors.voucherLifespan}
                     onChange={handleChange}
