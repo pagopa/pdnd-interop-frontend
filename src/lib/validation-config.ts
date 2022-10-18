@@ -6,6 +6,7 @@ export const buildLocale = (t: TFunction) => {
     mixed: { required: t('validation.mixed.required') },
     string: { email: t('validation.string.email') },
     boolean: { isValue: t('validation.boolean.isValue') },
+    number: { min: t('validation.number.min'), max: t('validation.number.max') },
   })
 }
 
