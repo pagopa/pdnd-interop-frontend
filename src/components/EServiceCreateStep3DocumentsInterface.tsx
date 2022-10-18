@@ -81,7 +81,6 @@ export function EServiceCreateStep3DocumentsInterface({
   }
 
   const wrapDownloadDoc = (document: EServiceDocumentRead) => async () => {
-    console.log({ document })
     await downloadDescriptorDocument(document)
   }
 
