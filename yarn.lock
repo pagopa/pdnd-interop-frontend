@@ -2007,10 +2007,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fontsource/titillium-web@npm:^4.5.0, @fontsource/titillium-web@npm:^4.5.8":
+"@fontsource/titillium-web@npm:^4.5.0":
   version: 4.5.8
   resolution: "@fontsource/titillium-web@npm:4.5.8"
   checksum: 17890831ab6bab33d0f9fc06028df3571a8273cd22a2a23d0ef55a63eb3bf15f3e1a02bc5d0aae17385e24440642e0a4fb3629cf3d302b53b16eef6598b0c861
+  languageName: node
+  linkType: hard
+
+"@fontsource/titillium-web@npm:^4.5.9":
+  version: 4.5.9
+  resolution: "@fontsource/titillium-web@npm:4.5.9"
+  checksum: 0cae4cfe637cede724eb5d3d6eae6d96867b7d061e01b21eb9d1be1b81673b464a9e2f2892a55eaa67e49a1ec8a4f883a38fd1df66fd6b1f706e213d2c41e1de
   languageName: node
   linkType: hard
 
@@ -2862,24 +2869,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pagopa/mui-italia@npm:^0.6.33":
-  version: 0.6.33
-  resolution: "@pagopa/mui-italia@npm:0.6.33"
+"@pagopa/mui-italia@npm:^0.7.4":
+  version: 0.7.4
+  resolution: "@pagopa/mui-italia@npm:0.7.4"
   dependencies:
-    "@fontsource/titillium-web": ^4.5.8
-    clsx: ^1.1.1
-    fp-ts: ^2.12.1
-    io-ts: ^2.2.16
+    "@fontsource/titillium-web": ^4.5.9
+    clsx: ^1.2.1
+    fp-ts: ^2.12.3
+    io-ts: ^2.2.18
   peerDependencies:
-    "@emotion/react": ^11.9.3
-    "@emotion/styled": ^11.8.1
-    "@mui/icons-material": ^5.8.4
-    "@mui/lab": ^5.0.0-alpha.80
-    "@mui/material": ^5.8.6
-    "@mui/system": ^5.8.3
+    "@emotion/react": ^11.10.4
+    "@emotion/styled": ^11.10.4
+    "@mui/icons-material": ^5.10.6
+    "@mui/lab": ^5.0.0-alpha.100
+    "@mui/material": ^5.10.9
+    "@mui/system": ^5.10.8
     react: ^17.0.0
     react-dom: ^17.0.0
-  checksum: abd8808fd565e6af5a77d53633d603f5dbebb674487aabbda9f6cd9c545fb9824e9f9e6168abfb263709b7efa53e294f0bb81c546d48ba178c3c4c9e71aab889
+  checksum: 5ae46e9a79ebf1f00ed415736067288b96e159bd622224bcf4273e7a28cb03355d392bc1cc05f1fc00fbcd8f50844d7d6fd7b712e4e81fda18d7fe7de8c6958d
   languageName: node
   linkType: hard
 
@@ -5652,6 +5659,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"clsx@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "clsx@npm:1.2.1"
+  checksum: 30befca8019b2eb7dbad38cff6266cf543091dae2825c856a62a8ccf2c3ab9c2907c4d12b288b73101196767f66812365400a227581484a05f968b0307cfaf12
+  languageName: node
+  linkType: hard
+
 "co@npm:^4.6.0":
   version: 4.6.0
   resolution: "co@npm:4.6.0"
@@ -8203,10 +8217,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fp-ts@npm:^2.12.1":
-  version: 2.12.1
-  resolution: "fp-ts@npm:2.12.1"
-  checksum: 1e20e6b468191640a5f83cd52ccbfb361d27a6afbc47230870e63094b569cd9ae8763d0b9dee50eaed568bce8dd72e32ad1d695161bda8ec73e0296a02359832
+"fp-ts@npm:^2.12.3":
+  version: 2.13.0
+  resolution: "fp-ts@npm:2.13.0"
+  checksum: d5693de46a519333ac5b8b960189f81556b5ab7735328679c9aad2f1c75af44ec7f7a00c24ba62ef222daf5212e140b48e68ce79fdda57741cad47d9bbfbc5d9
   languageName: node
   linkType: hard
 
@@ -9304,12 +9318,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"io-ts@npm:^2.2.16":
-  version: 2.2.16
-  resolution: "io-ts@npm:2.2.16"
+"io-ts@npm:^2.2.18":
+  version: 2.2.19
+  resolution: "io-ts@npm:2.2.19"
   peerDependencies:
     fp-ts: ^2.5.0
-  checksum: 1b5855682e413cc92cfb5c51d0bdb24c99e407ab4e67821a53078f5d8dedbc387840c5b240cb19dd5d542bbdd2e2317ece17674a674f3de561ca0f00ae765bba
+  checksum: fe6a0203e43a518529ed8ab562db382c25a91b64cb8ba87a3798a6a9f15c834eff69ca85eeb5f2d3196cf92af61fd368239e8c5da5dccd57bf3beed712e91075
   languageName: node
   linkType: hard
 
@@ -12424,7 +12438,7 @@ __metadata:
     "@mui/material": ^5.8.6
     "@mui/system": ^5.6.3
     "@mui/x-date-pickers": ^5.0.0-alpha.6
-    "@pagopa/mui-italia": ^0.6.33
+    "@pagopa/mui-italia": ^0.7.4
     "@testing-library/jest-dom": ^5.14.1
     "@testing-library/react": ^11.2.7
     "@testing-library/user-event": ^12.8.3
