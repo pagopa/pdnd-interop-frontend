@@ -37,7 +37,7 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     PATH: { it: '/it/logout', en: '/en/logout' },
     LABEL: { it: 'Logout', en: 'Logout' },
     COMPONENT: Logout,
-    PUBLIC: false,
+    PUBLIC: true,
     AUTH_LEVELS: 'any',
   },
   TOS: {
