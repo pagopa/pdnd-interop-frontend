@@ -264,7 +264,8 @@ export function AgreementRead() {
     primaryAction = availableActions.shift()
   }
 
-  const canVerifyAttributes = mode === 'provider'
+  const canVerifyAttributes =
+    mode === 'provider' && !['MISSING_CERTIFIED_ATTRIBUTES', 'REJECTED'].includes(agreement?.state ?? "")
 
   return (
     <Box sx={{ maxWidth: MAX_WIDTH }}>
