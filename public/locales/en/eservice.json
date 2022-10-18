@@ -1,10 +1,10 @@
 {
-  "loadingSingleLabel": "Loading your E-Service",
-  "loadingMultiLabel": "Loading E-Service list",
-  "noMultiDataLabel": "Non E-Service available",
-  "backToListBtn": "Back to the E-Services",
+  "loadingSingleLabel": "Loading your e-service",
+  "loadingMultiLabel": "Loading e-service list",
+  "noMultiDataLabel": "Non e-service available",
+  "backToListBtn": "Back to the e-services",
   "create": {
-    "emptyTitle": "Create E-Service",
+    "emptyTitle": "Create e-service",
     "stepper": {
       "step1Label": "General",
       "step2Label": "Version",
@@ -13,16 +13,16 @@
     "backWithoutSaveBtn": "Back",
     "forwardWithSaveBtn": "Save draft and proceed",
     "forwardWithoutSaveBtn": "Next",
-    "endWithSaveBtn": "Save draft and back to the E-Services",
+    "endWithSaveBtn": "Save draft and back to the e-services",
     "step1": {
-      "detailsTitle": "E-Service details",
+      "detailsTitle": "E-service details",
       "eserviceNameField": {
-        "label": "E-Service name (required)",
-        "infoLabel": "If you have more than one E-Service with the same name, give a little hint to tell them apart (e.g. \"TARI – for Municipalities\" e \"TARI - for Regions\"). Max 60 chars"
+        "label": "E-service name (required)",
+        "infoLabel": "If you have more than one e-service with the same name, give a little hint to tell them apart (e.g. \"TARI – for Municipalities\" e \"TARI - for Regions\"). Max 60 chars"
       },
       "eserviceDescriptionField": {
-        "label": "E-Service description (required)",
-        "infoLabel": "(e.g. \"Dedicated to the bodies that need ...\", or \"This E-Service is for ...\"). Max 250 chars"
+        "label": "E-service description (required)",
+        "infoLabel": "(e.g. \"Dedicated to the bodies that need ...\", or \"This e-service is for ...\"). Max 250 chars"
       },
       "eserviceTechnologyField": {
         "label": "Technology (required)"
@@ -39,7 +39,7 @@
           "description": "The Subscriber will declare it possesses these attributes under its own responsibility."
         }
       },
-      "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this E-Service is published"
+      "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published"
     },
     "step2": {
       "versionField": {
@@ -60,17 +60,17 @@
       },
       "dailyCallsPerConsumerField": {
         "label": "API calls/day threshold for each Subscriber (required)",
-        "infoLabel": "The Subscriber declares its API calls estimate for each purpose. If the sum of the calls of all purposes will be over this threshold, you will have to approve manually each new purpose before it can be used to access your E-Service"
+        "infoLabel": "The Subscriber declares its API calls estimate for each purpose. If the sum of the calls of all purposes will be over this threshold, you will have to approve manually each new purpose before it can be used to access your e-service"
       },
       "dailyCallsTotalField": {
         "label": "Total API calls/day threshold (required)",
-        "infoLabel": "The total API calls that will be allowed per day, shared among all the Subscribers. If the sum of new purposes will go above this threshold, you will have to approve manually each new purpose before it can be used to access your E-Service",
+        "infoLabel": "The total API calls that will be allowed per day, shared among all the Subscribers. If the sum of new purposes will go above this threshold, you will have to approve manually each new purpose before it can be used to access your e-service",
         "validation": {
           "min": "This value cannot be below the threshold set for the API calls/day for each Subscriber"
         }
       },
       "agreementApprovalPolicyField": {
-        "label": "I want to reserve the right to manually check and activate all requests received for this version of the E-Service"
+        "label": "I want to reserve the right to manually check and activate all requests received for this version of the e-service"
       }
     },
     "step3": {
@@ -84,7 +84,7 @@
       },
       "documentation": {
         "title": "Documentation",
-        "description": "Upload the technical documents that can help implement the use of this E-Service",
+        "description": "Upload the technical documents that can help implement the use of this e-service",
         "noFileUploaded": "No file uploaded"
       },
       "uploadFileField": {
@@ -111,7 +111,7 @@
     "goToRequestCta": "Go to the fruition request",
     "subscribeModal": {
       "title": "Fruition request",
-      "description": "You are about to send a fruition request for the {{name}} E-Service, version {{version}}",
+      "description": "You are about to send a fruition request for the {{name}} e-service, version {{version}}",
       "proceedLabel": "Subscribe"
     }
   },
@@ -192,31 +192,31 @@
     "callsPerDay": "API calls/day"
   },
   "catalog": {
-    "title": "E-Service catalog",
-    "description": "In this section you can explore all the E-Services in the catalog and subscribe to the ones you are interested into"
+    "title": "E-service catalog",
+    "description": "In this section you can explore all the e-services in the catalog and subscribe to the ones you are interested into"
   },
   "list": {
-    "title": "Your E-Services",
-    "description": "In this section you can manage all the E-Services you are providing"
+    "title": "Your e-services",
+    "description": "In this section you can manage all the e-services you are providing"
   },
   "manage": {
     "tabs": {
-      "ariaLabel": "Two different tabs for E-Service details and load estimate as stated by the Subscribers",
-      "details": "E-Service details",
+      "ariaLabel": "Two different tabs for e-service details and load estimate as stated by the Subscribers",
+      "details": "E-service details",
       "purposeAwaitingApproval": "Purposes to activate"
     }
   },
   "read": {
     "agreementDialog": {
       "title": "Fruition requests",
-      "description": "You are about to send a fruition request for the E-Service {{name}}, version {{version}}",
+      "description": "You are about to send a fruition request for the e-service {{name}}, version {{version}}",
       "proceedLabel": "Subscribe"
     },
     "alert": {
       "youAreTheProvider": "You are the provider of this e-service",
-      "missingCertifiedAttributes": "Your party is missing at least one of the certified attributes required to subscribe this E-Service",
+      "missingCertifiedAttributes": "Your party is missing at least one of the certified attributes required to subscribe this e-service",
       "alreadySubscribed": "You can't subscribe again as you are already a Subscriber of this e-service",
-      "hasDraft": "You already have an agreement draft for this E-Service"
+      "hasDraft": "You already have an agreement draft for this e-service"
     },
     "actions": {
       "backToCatalogLabel": "Back to the catalog"

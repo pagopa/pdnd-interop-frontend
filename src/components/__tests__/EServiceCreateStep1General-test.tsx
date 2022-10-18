@@ -24,14 +24,14 @@ describe('Rendering tests', () => {
       )
     })
 
-    expect(screen.getByRole('heading', { name: 'Caratterizzazione E-Service' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Caratterizzazione e-service' })).toBeInTheDocument()
 
     expect(
-      screen.getByRole('textbox', { name: "Nome dell'E-Service (richiesto)" })
+      screen.getByRole('textbox', { name: "Nome dell'e-service (richiesto)" })
     ).toBeInTheDocument()
 
     expect(
-      screen.getByRole('textbox', { name: "Descrizione dell'E-Service (richiesto)" })
+      screen.getByRole('textbox', { name: "Descrizione dell'e-service (richiesto)" })
     ).toBeInTheDocument()
 
     expect(screen.getByLabelText('REST')).toBeInTheDocument()

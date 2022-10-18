@@ -98,10 +98,10 @@
     }
   },
   "styledDialogExtension": {
-    "ariaDescribedBy": "Modale per richiedere l'estensione di un E-Service al suo erogatore",
+    "ariaDescribedBy": "Modale per richiedere l'estensione di un e-service al suo erogatore",
     "title": "Richiedi estensione",
     "content": {
-      "message": "Compila il form indicando i motivi per cui ritieni che il tuo ente abbia diritto di iscriversi all’E-Service, completo di basi giuridiche e finalità. Una notifica sarà inviata all’erogatore del servizio"
+      "message": "Compila il form indicando i motivi per cui ritieni che il tuo ente abbia diritto di iscriversi all'e-service, completo di basi giuridiche e finalità. Una notifica sarà inviata all’erogatore del servizio"
     },
     "actions": {
       "cancelLabel": "Annulla",
@@ -168,7 +168,7 @@
     "content": {
       "dailyCallsField": {
         "label": "Numero di chiamate API/giorno (richiesto)",
-        "infoLabel": "Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'E-Service"
+        "infoLabel": "Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'e-service"
       }
     },
     "actions": {

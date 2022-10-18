@@ -200,7 +200,7 @@ export const PurposeCreate = () => {
               value={eserviceId}
               onChange={wrapSetEserviceId}
               options={eserviceData}
-              emptyLabel="Nessun E-Service associabile"
+              emptyLabel="Nessun e-service associabile"
             />
             <StyledInputControlledSwitch
               name="isTemplate"

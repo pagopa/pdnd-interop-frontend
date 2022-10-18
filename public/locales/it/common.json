@@ -49,14 +49,14 @@
   },
   "table": {
     "headData": {
-      "eserviceName": "E-Service",
+      "eserviceName": "E-service",
       "clientName": "Client",
       "purposeName": "Finalità",
       "providerName": "Erogatore",
       "subscriberName": "Fruitore",
       "currentVersion": "Versione attuale",
       "version": "Versione",
-      "eserviceStatus": "Stato E-Service",
+      "eserviceStatus": "Stato e-service",
       "agreementStatus": "Stato richiesta",
       "purposeStatus": "Stato finalità",
       "userStatus": "Stato utente",

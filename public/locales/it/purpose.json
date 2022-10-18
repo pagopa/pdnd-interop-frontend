@@ -14,7 +14,7 @@
       "loadingLabel": "Stiamo caricando i template"
     },
     "eserviceField": {
-      "label": "E-Service da associare"
+      "label": "E-service da associare"
     },
     "purposePreviewTitle": "Contenuto del template selezionato",
     "consumerName": "Questo template è stato creato da",
@@ -30,7 +30,7 @@
   "edit": {
     "emptyTitle": "Modifica finalità",
     "noAgreementsAlert": {
-      "message": "Non si possono creare finalità perché non ci sono servizi associabili. Per iscriverti al tuo primo E-Service",
+      "message": "Non si possono creare finalità perché non ci sono servizi associabili. Per iscriverti al tuo primo e-service",
       "link": {
         "label": "visita il catalogo"
       }
@@ -56,11 +56,11 @@
         "infoLabel": "Max. 250 caratteri"
       },
       "eserviceField": {
-        "label": "E-Service da associare (richiesto)"
+        "label": "E-service da associare (richiesto)"
       },
       "dailyCallsField": {
         "label": "Numero di chiamate API/giorno (richiesto)",
-        "infoLabel": "Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'E-Service"
+        "infoLabel": "Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'e-service"
       }
     },
     "step2": {
@@ -145,7 +145,7 @@
       "noEstimateLabel": "Non è stata determinata una data di completamento"
     },
     "currentEServiceVersionField": {
-      "label": "La versione dell'E-Service che stai usando",
+      "label": "La versione dell'e-service che stai usando",
       "versionLabel": "versione"
     },
     "agreementField": {
