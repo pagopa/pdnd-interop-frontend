@@ -11,7 +11,6 @@ import {
 import { Alert, Box, Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { ButtonNaked } from '@pagopa/mui-italia'
-import { Add } from '@mui/icons-material'
 import { mixed, object, string } from 'yup'
 import { useFeedback } from '../hooks/useFeedback'
 import { DialogContext } from '../lib/context'
@@ -151,10 +150,10 @@ export function AttributeSection({
         </StyledLink>
       </StyledSection.Subtitle>
       <StyledSection.Content>
-        <Stack spacing={2}>
+        <Stack spacing={3}>
           {attributes.length > 0 && (
             <Box>
-              <Typography sx={{ mb: 2 }} variant="subtitle1">
+              <Typography sx={{ mb: 2 }} fontWeight={700}>
                 {attributesSubtitle}
               </Typography>
               <Stack spacing={3}>
@@ -184,10 +183,10 @@ export function AttributeSection({
           )}
 
           {!readOnly && (
-            <Stack direction="row" spacing={2}>
+            <Stack sx={{ mt: 2 }} direction="row" spacing={2}>
               <ButtonNaked
-                startIcon={<Add />}
-                size="medium"
+                size="small"
+                sx={{ fontWeight: 700 }}
                 color="primary"
                 type="button"
                 onClick={handleAddAttributesGroup}
@@ -198,7 +197,8 @@ export function AttributeSection({
               {attributeKey !== 'certified' && (
                 <ButtonNaked
                   type="button"
-                  size="medium"
+                  size="small"
+                  sx={{ fontWeight: 700 }}
                   color="primary"
                   onClick={openCreateNewAttributeDialog}
                 >

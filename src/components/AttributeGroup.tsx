@@ -4,7 +4,7 @@ import { AttributeKey, CatalogAttribute, ConsumerAttribute, FrontendAttribute } 
 import { StyledButton } from './Shared/StyledButton'
 import { StyledInputControlledAsyncAutocomplete } from './Shared/StyledInputControlledAsyncAutocomplete'
 import { ButtonNaked } from '@pagopa/mui-italia'
-import { Add, DeleteOutline, InfoRounded, Check, Close as CloseIcon } from '@mui/icons-material'
+import { DeleteOutline, InfoRounded, Check, Close as CloseIcon } from '@mui/icons-material'
 import { DialogContext } from '../lib/context'
 import { useTranslation } from 'react-i18next'
 import noop from 'lodash/noop'
@@ -47,6 +47,7 @@ export function AttributeGroup({
   handleRevokeAttribute,
 }: AttributeGroupProps) {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
+  const { t: tCommon } = useTranslation('common')
 
   const [isAttributeAutocompleteShown, setIsAttributeAutocompleteShown] = useState(true)
 
@@ -71,7 +72,7 @@ export function AttributeGroup({
         justifyContent="space-between"
         sx={{ p: 1.5, backgroundColor: 'background.default' }}
       >
-        <Typography variant="subtitle1">{t('title', { num: index + 1 })}</Typography>
+        <Typography fontWeight={700}>{t('title', { num: index + 1 })}</Typography>
         {ownedAttributes && (
           <AttributeGroupStatusChip
             attributeKey={attributeKey}
@@ -117,14 +118,14 @@ export function AttributeGroup({
                 />
               ) : (
                 <ButtonNaked
-                  startIcon={<Add />}
-                  size="medium"
+                  size="small"
                   color="primary"
                   type="button"
+                  sx={{ fontWeight: 700 }}
                   readOnly={readOnly}
                   onClick={() => setIsAttributeAutocompleteShown(true)}
                 >
-                  {t('addBtn')}
+                  {tCommon('addBtn')}
                 </ButtonNaked>
               )}
             </Box>
