@@ -83,8 +83,6 @@ export const FooterWrapper = () => {
     </Typography>
   )
 
-  console.log({ l: convertLinks(links, t) })
-
   return (
     <Footer
       loggedUser={Boolean(jwt)}
