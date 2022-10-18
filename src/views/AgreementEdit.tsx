@@ -191,19 +191,22 @@ export function AgreementEdit() {
     )
   }
 
-  // REFACTOR
-  const isMissingCertifiedAttributes = agreement?.state === 'MISSING_CERTIFIED_ATTRIBUTES'
-  let isSubmitAgreementButtonDisabled = isMissingCertifiedAttributes
-
-  if (frontendAttributes && !isMissingCertifiedAttributes) {
-    isSubmitAgreementButtonDisabled = !checkOwnershipFrontendAttributes(
+  /** Check if submit agreement button can be enabled */
+  const isProducerSameAsConsumer = agreement?.consumer.id === agreement?.producer.id
+  const hasAllDeclaredAndCertifiedAttributes =
+    agreement?.state !== 'MISSING_CERTIFIED_ATTRIBUTES' &&
+    frontendAttributes &&
+    checkOwnershipFrontendAttributes(
       [...frontendAttributes.certified, ...frontendAttributes.declared],
       [
         ...(ownedCertifiedAttributes || []).map(({ id }) => id),
         ...(ownedDeclaredAttributes || []).map(({ id }) => id),
       ]
     )
-  }
+
+  const isSubmitAgreementButtonEnabled =
+    hasAllDeclaredAndCertifiedAttributes || isProducerSameAsConsumer
+  /** --- */
 
   return (
     <Box sx={{ maxWidth: MAX_WIDTH }}>
@@ -326,7 +329,7 @@ export function AgreementEdit() {
                   {t('edit.bottomPageActionCard.cancelBtn')}
                 </StyledButton>
                 <StyledButton
-                  disabled={isSubmitAgreementButtonDisabled}
+                  disabled={!isSubmitAgreementButtonEnabled}
                   onClick={wrapHandleSendAgreementRequest}
                   variant="contained"
                 >
