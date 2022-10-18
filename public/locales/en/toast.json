@@ -95,7 +95,7 @@
   "ESERVICE_VERSION_DRAFT_POST_DOCUMENT": {
     "loadingText": "Uploading document",
     "error": {
-      "message": "The document could not be uploaded. Note that it cannot contain the string \"localhost\". Please, try again!"
+      "message": "The document could not be uploaded. Please make sure that you uploaded the right document. Please, try again! Note: it cannot contain the string \"localhost\"."
     }
   },
   "ESERVICE_VERSION_DRAFT_DELETE_DOCUMENT": {
