@@ -87,7 +87,7 @@
     "ariaDescribedBy": "Modale per aggiungere un attributo o un gruppo di attributi esistenti",
     "title": "Aggiungi attributo o gruppo",
     "content": {
-      "message": "Se selezioni più di un attributo per volta verrà trattato come “gruppo”. Sarà sufficiente per il Fruitore possedere uno solo degli attributi nel gruppo per passare la verifica (es. essere un \"Comune\" oppure \"Regione\")",
+      "message": "Se selezioni più di un attributo per volta verrà trattato come “gruppo”. Sarà sufficiente per il fruitore possedere uno solo degli attributi nel gruppo per passare la verifica (es. essere un \"Comune\" oppure \"Regione\")",
       "autocompleteLabel": "Attributi selezionati",
       "selectedLabel": "Esplora selezione",
       "runIndependentCheck": "Effettua verifica indipendente"
@@ -98,10 +98,10 @@
     }
   },
   "styledDialogExtension": {
-    "ariaDescribedBy": "Modale per richiedere l'estensione di un E-Service al suo Erogatore",
+    "ariaDescribedBy": "Modale per richiedere l'estensione di un E-Service al suo erogatore",
     "title": "Richiedi estensione",
     "content": {
-      "message": "Compila il form indicando i motivi per cui ritieni che il tuo ente abbia diritto di iscriversi all’E-Service, completo di basi giuridiche e finalità. Una notifica sarà inviata all’Erogatore del servizio"
+      "message": "Compila il form indicando i motivi per cui ritieni che il tuo ente abbia diritto di iscriversi all’E-Service, completo di basi giuridiche e finalità. Una notifica sarà inviata all’erogatore del servizio"
     },
     "actions": {
       "cancelLabel": "Annulla",
@@ -155,7 +155,7 @@
     "ariaDescribedBy": "Modale per impostare una data di completamento stimata per l'attivazione di una finalità",
     "title": "Imposta data di completamento stimata",
     "content": {
-      "message": "Questa data verrà indicata al Fruitore come data di attivazione della finalità. Potrai aggiornarla in qualsiasi momento"
+      "message": "Questa data verrà indicata al fruitore come data di attivazione della finalità. Potrai aggiornarla in qualsiasi momento"
     },
     "actions": {
       "cancelLabel": "Annulla",
@@ -168,7 +168,7 @@
     "content": {
       "dailyCallsField": {
         "label": "Numero di chiamate API/giorno (richiesto)",
-        "infoLabel": "Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'Erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'E-Service"
+        "infoLabel": "Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'E-Service"
       }
     },
     "actions": {

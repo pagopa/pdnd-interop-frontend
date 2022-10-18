@@ -69,7 +69,7 @@
       },
       "purposeIdField": {
         "label": "PurposeId",
-        "description": "L’id della finalità per la quale si richiederà di accedere alle risorse dell’Erogatore",
+        "description": "L’id della finalità per la quale si richiederà di accedere alle risorse dell’erogatore",
         "copySuccessFeedbackText": "Id copiato correttamente"
       },
       "jtiField": {
@@ -97,7 +97,7 @@
   "step2": {
     "stepperLabel": "Access token",
     "title": "Access token",
-    "consumerDescription": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di access token verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un access token spendibile presso l’E-Service dell’Erogatore",
+    "consumerDescription": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di access token verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un access token spendibile presso l’E-Service dell’erogatore",
     "apiDescription": {
       "message": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di access token verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un access token spendibile presso l’API gateway di Interoperabilità"
     },
@@ -136,11 +136,11 @@
     "consumerStepperLabel": "Dettagli E-Service",
     "apiStepperLabel": "Dettagli API gateway",
     "consumer": {
-      "title": "Accesso all’E-Service dell’Erogatore",
-      "description": "A questo punto l'access token ottenuto è spendibile presso l’E-Service dell’Erogatore",
+      "title": "Accesso all’E-Service dell’erogatore",
+      "description": "A questo punto l'access token ottenuto è spendibile presso l’E-Service dell’erogatore",
       "audField": {
         "label": "AUD",
-        "description": "L'audience dell'E-Service dell'Erogatore",
+        "description": "L'audience dell'E-Service dell'erogatore",
         "copySuccessFeedbackText": "Id copiato correttamente"
       },
       "eserviceDetailsField": {

@@ -28,7 +28,7 @@
         "label": "Tecnologia utilizzata (richiesto)"
       },
       "attributes": {
-        "subtitle": "Il Fruitore deve possedere:",
+        "subtitle": "Il fruitore deve possedere:",
         "certified": {
           "description": "Certificati da una fonte autoritativa riconosciuta, non necessitano di ulteriori verifiche da parte tua."
         },
@@ -36,7 +36,7 @@
           "description": "Puoi decidere se avvalerti della verifica effettuata da altri enti o effettuarne una nuova indipendentemente."
         },
         "declared": {
-          "description": "Il Fruitore dovrà dichiarare sotto la propria responsabilità di possedere questi attributi."
+          "description": "Il fruitore dovrà dichiarare sotto la propria responsabilità di possedere questi attributi."
         }
       },
       "firstVersionOnlyEditableInfo": "I contenuti di questa pagina non saranno più modificabili dopo la pubblicazione della prima versione dell’E-Service"
@@ -52,21 +52,21 @@
       },
       "audienceField": {
         "label": "Audience (richiesto)",
-        "infoLabel": "All’interno dell'access token che il Fruitore ti invierà rappresenterà l’audience (aud), l'id con il quale è dichiarato il servizio richiesto. Max 60 caratteri"
+        "infoLabel": "All’interno dell'access token che il fruitore ti invierà rappresenterà l’audience (aud), l'id con il quale è dichiarato il servizio richiesto. Max 60 caratteri"
       },
       "voucherLifespanField": {
         "label": "Durata di validità dell'access token (in minuti - richiesto)",
         "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
       },
       "dailyCallsPerConsumerField": {
-        "label": "Soglia chiamate API/giorno per Fruitore (richiesto)",
-        "infoLabel": "Il Fruitore dovrà dichiarare una stima delle chiamate che effettuerà per ogni finalità. Se la somma delle chiamate dichiarate dal Fruitore sarà sopra la soglia da te impostata, potrai approvare manualmente l'accesso delle nuove finalità alla fruizione del tuo E-Service"
+        "label": "Soglia chiamate API/giorno per fruitore (richiesto)",
+        "infoLabel": "Il fruitore dovrà dichiarare una stima delle chiamate che effettuerà per ogni finalità. Se la somma delle chiamate dichiarate dal fruitore sarà sopra la soglia da te impostata, potrai approvare manualmente l'accesso delle nuove finalità alla fruizione del tuo E-Service"
       },
       "dailyCallsTotalField": {
         "label": "Soglia chiamate API/giorno totali (richiesto)",
-        "infoLabel": "Il numero totale di chiamate al giorno permesse sommando quelle di tutti i Fruitori. Se la somma sarà superiore alla soglia da te impostata, potrai approvare manualmente l'accesso delle nuove finalità alla fruizione del tuo E-Service",
+        "infoLabel": "Il numero totale di chiamate al giorno permesse sommando quelle di tutti i fruitori. Se la somma sarà superiore alla soglia da te impostata, potrai approvare manualmente l'accesso delle nuove finalità alla fruizione del tuo E-Service",
         "validation": {
-          "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per Fruitore"
+          "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per fruitore"
         }
       },
       "agreementApprovalPolicyField": {
@@ -104,7 +104,7 @@
     }
   },
   "tableEServiceCatalog": {
-    "youAreTheProvider": "Sei l'Erogatore",
+    "youAreTheProvider": "Sei l'erogatore",
     "alreadySubscribed": "Sei già iscritto",
     "agreementInDraft": "Hai una richiesta in bozza",
     "missingCertifiedAttributes": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
@@ -133,9 +133,9 @@
         "versionStatus": "Stato della versione",
         "description": "Descrizione",
         "audience": "Audience",
-        "audienceDescription": "L’audience che il Fruitore dovrà indicare nel voucher per identificare il servizio",
+        "audienceDescription": "L’audience che il fruitore dovrà indicare nel voucher per identificare il servizio",
         "voucherLifespan": "Durata del voucher",
-        "dailyCallsPerConsumer": "Soglia per Fruitore",
+        "dailyCallsPerConsumer": "Soglia per fruitore",
         "dailyCallsTotal": "Soglia totale",
         "callsPerDay": "chiamate/giorno",
         "agreementApprovalPolicy": {
@@ -184,7 +184,7 @@
     "audience": "Audience",
     "technology": "Tecnologia",
     "voucherLifespan": "Durata del voucher",
-    "dailyCallsPerConsumer": "Soglia per Fruitore",
+    "dailyCallsPerConsumer": "Soglia per fruitore",
     "dailyCallsTotal": "Soglia totale",
     "attributes": "Attributi",
     "noAttributesLabel": "Nessun attributo presente",
@@ -202,7 +202,7 @@
   },
   "manage": {
     "tabs": {
-      "ariaLabel": "Due tab diverse per i dettagli dell'E-Service e le stime di carico indicate dai Fruitori",
+      "ariaLabel": "Due tab diverse per i dettagli dell'E-Service e le stime di carico indicate dai fruitori",
       "details": "Dettagli dell'E-Service",
       "purposeAwaitingApproval": "Finalità da evadere"
     }
