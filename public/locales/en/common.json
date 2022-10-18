@@ -11,6 +11,10 @@
     },
     "boolean": {
       "isValue": "Please confirm"
+    },
+    "number": {
+      "min": "The value must be more or equal to ${min}",
+      "max": "The value must be less or equal to ${max}"
     }
   },
   "mainNav": {
@@ -45,14 +49,14 @@
   },
   "table": {
     "headData": {
-      "eserviceName": "E-Service",
+      "eserviceName": "E-service",
       "clientName": "Client",
       "purposeName": "Purpose",
       "providerName": "Provider",
       "subscriberName": "Subscriber",
       "currentVersion": "Current version",
       "version": "Versione",
-      "eserviceStatus": "E-Service status",
+      "eserviceStatus": "E-service status",
       "agreementStatus": "Request status",
       "purposeStatus": "Purpose status",
       "userStatus": "User status",

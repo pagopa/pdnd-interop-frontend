@@ -71,7 +71,7 @@ it('useAsyncFetch hook updates correctly with data', async () => {
 
   mockedAxios.request.mockImplementationOnce(() =>
     Promise.resolve({
-      data: [{ name: 'Il mio E-Service 1' }],
+      data: [{ name: 'Il mio e-service 1' }],
     })
   )
 
@@ -83,6 +83,6 @@ it('useAsyncFetch hook updates correctly with data', async () => {
 
   // Fetch the data, there is data
   await waitFor(() => {
-    expect(screen.getByText('Il mio E-Service 1')).toBeInTheDocument()
+    expect(screen.getByText('Il mio e-service 1')).toBeInTheDocument()
   })
 })

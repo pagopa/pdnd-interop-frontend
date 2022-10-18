@@ -1,6 +1,6 @@
 {
   "ESERVICE_GET_LIST_FLAT": {
-    "loadingText": "Loading E-Service list"
+    "loadingText": "Loading e-service list"
   },
   "ESERVICE_DRAFT_CREATE": {
     "loadingText": "Creating draft",
@@ -30,72 +30,72 @@
     }
   },
   "ESERVICE_CLONE_FROM_VERSION": {
-    "loadingText": "Cloning E-Service",
+    "loadingText": "Cloning e-service",
     "success": {
-      "message": "E-Service cloned successfully and available as a draft"
+      "message": "E-service cloned successfully and available as a draft"
     },
     "error": {
-      "message": "E-Service could not be cloned. Please, try again!"
+      "message": "E-service could not be cloned. Please, try again!"
     }
   },
   "ESERVICE_VERSION_DRAFT_CREATE": {
-    "loadingText": "Creating draft of new E-Service version",
+    "loadingText": "Creating draft of new e-service version",
     "success": {
-      "message": "New E-Service version draft created successfully"
+      "message": "New e-service version draft created successfully"
     },
     "error": {
-      "message": "A new E-Service version draft could not be created. Make sure all the required fields are filled in in the original E-Service and try again, please!"
+      "message": "A new e-service version draft could not be created. Make sure all the required fields are filled in in the original e-service and try again, please!"
     }
   },
   "ESERVICE_VERSION_DRAFT_UPDATE": {
-    "loadingText": "Updateing draft of new E-Service version",
+    "loadingText": "Updateing draft of new e-service version",
     "success": {
-      "message": "New E-Service version draft updated successfully"
+      "message": "New e-service version draft updated successfully"
     },
     "error": {
-      "message": "The new E-Service version draft could not be updated. Make sure all the required fields are filled in in the original E-Service and try again, please!"
+      "message": "The new e-service version draft could not be updated. Make sure all the required fields are filled in in the original e-service and try again, please!"
     }
   },
   "ESERVICE_VERSION_DRAFT_PUBLISH": {
-    "loadingText": "Publishing E-Service version draft",
+    "loadingText": "Publishing e-service version draft",
     "success": {
-      "message": "New E-Service version published successfully"
+      "message": "New e-service version published successfully"
     },
     "error": {
-      "message": "The new E-Service version could not be published. Make sure the API document has been uploaded and try again, please!"
+      "message": "The new e-service version could not be published. Make sure the API document has been uploaded and try again, please!"
     }
   },
   "ESERVICE_VERSION_SUSPEND": {
-    "loadingText": "Suspending E-Service version",
+    "loadingText": "Suspending e-service version",
     "success": {
-      "message": "E-Service version suspended successfully"
+      "message": "E-service version suspended successfully"
     },
     "error": {
-      "message": "The E-Service version could not be suspended. Please, try again!"
+      "message": "The e-service version could not be suspended. Please, try again!"
     }
   },
   "ESERVICE_VERSION_REACTIVATE": {
-    "loadingText": "Reactivating E-Service version",
+    "loadingText": "Reactivating e-service version",
     "success": {
-      "message": "E-Service version reactivated successfully"
+      "message": "E-service version reactivated successfully"
     },
     "error": {
-      "message": "The E-Service version could not be reactivated. Please, try again!"
+      "message": "The e-service version could not be reactivated. Please, try again!"
     }
   },
   "ESERVICE_VERSION_DRAFT_DELETE": {
-    "loadingText": "Deleting E-Service version draft",
+    "loadingText": "Deleting e-service version draft",
     "success": {
-      "message": "E-Service version draft deleted successfully"
+      "message": "E-service version draft deleted successfully"
     },
     "error": {
-      "message": "The E-Service version draft could not be deleted. Please, try again!"
+      "message": "The e-service version draft could not be deleted. Please, try again!"
     }
   },
   "ESERVICE_VERSION_DRAFT_POST_DOCUMENT": {
     "loadingText": "Uploading document",
     "error": {
-      "message": "The document could not be uploaded. Note that it cannot contain the string \"localhost\". Please, try again!"
+      "message": "The document could not be uploaded. Please make sure that you uploaded the right document. Please, try again! Note: it cannot contain the string \"localhost\"."
     }
   },
   "ESERVICE_VERSION_DRAFT_DELETE_DOCUMENT": {
@@ -146,7 +146,7 @@
   "ATTRIBUTE_CREATE": {
     "loadingText": "Saving new attribute",
     "success": {
-      "message": "New attributed saved successfully. It can now be added to your E-Service"
+      "message": "New attributed saved successfully. It can now be added to your e-service"
     },
     "error": {
       "message": "The attribute could not be saved. Please, try again!"
@@ -227,7 +227,7 @@
   "AGREEMENT_SUSPEND": {
     "loadingText": "Suspending fruition request",
     "success": {
-      "message": "The fruition request was suspended successfully. The Subscriber can no longer access this E-Service"
+      "message": "The fruition request was suspended successfully. The Subscriber can no longer access this e-service"
     },
     "error": {
       "message": "The fruition request could not be suspended. Please, try again!"
@@ -236,7 +236,7 @@
   "AGREEMENT_UPGRADE": {
     "loadingText": "Upgrading fruition request",
     "success": {
-      "message": "The fruition request was upgraded to the latest E-Service version. Warning: always check the \"audience\" field in your client assertions, it may change with the version of the E-Service"
+      "message": "The fruition request was upgraded to the latest e-service version. Warning: always check the \"audience\" field in your client assertions, it may change with the version of the e-service"
     },
     "error": {
       "message": "The fruition request could not be upgraded. Please, try again!"
@@ -296,7 +296,7 @@
   "PURPOSE_VERSION_SUSPEND": {
     "loadingText": "Suspending purpose",
     "success": {
-      "message": "The purpose was suspended successfully. All associated clients can no longer access the E-Service"
+      "message": "The purpose was suspended successfully. All associated clients can no longer access the e-service"
     },
     "error": {
       "message": "The purpose could not be suspended. Please, try again!"

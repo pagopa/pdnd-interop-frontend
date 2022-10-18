@@ -14,7 +14,7 @@
       "loadingLabel": "We are loading the templates"
     },
     "eserviceField": {
-      "label": "Choose E-Service"
+      "label": "Choose e-service"
     },
     "purposePreviewTitle": "Selected template content",
     "consumerName": "This template was created by",
@@ -30,7 +30,7 @@
   "edit": {
     "emptyTitle": "Edit purpose",
     "noAgreementsAlert": {
-      "message": "No purpose can be created as there are no available E-Service. To subscribe to your first E-Service",
+      "message": "No purpose can be created as there are no available e-service. To subscribe to your first e-service",
       "link": {
         "label": "explore the catalog"
       }
@@ -56,11 +56,11 @@
         "infoLabel": "Max 250 chars"
       },
       "eserviceField": {
-        "label": "Related E-Service (required)"
+        "label": "Related e-service (required)"
       },
       "dailyCallsField": {
         "label": "Number of API calls/day (required)",
-        "infoLabel": "Your estimate of API calls/day you will make. This value will contribute to the E-Service Provider threshold to guarantee the Provider's infrastructure can sustain the load. If this value goes over any of the threshold, the Provider will approve this purpose manually before it goes into effect"
+        "infoLabel": "Your estimate of API calls/day you will make. This value will contribute to the e-service Provider threshold to guarantee the Provider's infrastructure can sustain the load. If this value goes over any of the threshold, the Provider will approve this purpose manually before it goes into effect"
       }
     },
     "step2": {
@@ -145,7 +145,7 @@
       "noEstimateLabel": "No completion date has been established yet"
     },
     "currentEServiceVersionField": {
-      "label": "The E-Service version you are currently subscribing to",
+      "label": "The e-service version you are currently subscribing to",
       "versionLabel": "version"
     },
     "agreementField": {

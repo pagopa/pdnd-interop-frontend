@@ -127,6 +127,7 @@ export const StyledInputControlledAsyncAutocomplete = <T extends unknown>({
         loading={isLoading}
         loadingText={t('loadingLabel')}
         noOptionsText={t('noDataLabel')}
+        ListboxProps={{ style: { maxHeight: 200 } }}
         renderInput={(params) => {
           return (
             <TextField

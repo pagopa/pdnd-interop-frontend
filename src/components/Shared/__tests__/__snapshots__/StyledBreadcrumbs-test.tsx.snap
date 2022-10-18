@@ -73,7 +73,7 @@ exports[`Snapshot matches breadcrumbs 2`] = `
         onClick={[Function]}
         onFocus={[Function]}
       >
-        I tuoi E-Service
+        I tuoi e-service
       </a>
     </li>
     <li
@@ -86,7 +86,7 @@ exports[`Snapshot matches breadcrumbs 2`] = `
       className="MuiBreadcrumbs-li"
     >
       <span>
-        Crea E-Service
+        Crea e-service
       </span>
     </li>
   </ol>

@@ -26,7 +26,7 @@
   "list": {
     "provider": {
       "title": "Operatori API dell'ente",
-      "description": "In quest’area puoi trovare e gestire tutti gli operatori API che sono stati abilitati alla gestione degli E-Service dell'ente",
+      "description": "In quest’area puoi trovare e gestire tutti gli operatori API che sono stati abilitati alla gestione degli e-service dell'ente",
       "tempAlertMessage": "Se l'operatore non è in elenco, in questa fase di test contattaci per aggiungerlo"
     }
   }

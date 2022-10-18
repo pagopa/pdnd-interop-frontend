@@ -26,7 +26,7 @@
   "list": {
     "provider": {
       "title": "Party API operators",
-      "description": "In this section, you can find all the API operators enabled to operate for this party. They can manage the lifecycle of your E-Services",
+      "description": "In this section, you can find all the API operators enabled to operate for this party. They can manage the lifecycle of your e-services",
       "tempAlertMessage": "If the operator is not in the list, please get in touch with support to have it added"
     }
   }

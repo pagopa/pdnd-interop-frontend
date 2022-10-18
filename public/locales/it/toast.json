@@ -1,6 +1,6 @@
 {
   "ESERVICE_GET_LIST_FLAT": {
-    "loadingText": "Stiamo caricando gli E-Service"
+    "loadingText": "Stiamo caricando gli e-service"
   },
   "ESERVICE_DRAFT_CREATE": {
     "loadingText": "Stiamo creando la bozza",
@@ -30,57 +30,57 @@
     }
   },
   "ESERVICE_CLONE_FROM_VERSION": {
-    "loadingText": "Stiamo clonando l'E-Service richiesto",
+    "loadingText": "Stiamo clonando l'e-service richiesto",
     "success": {
-      "message": "L'E-Service è stato clonato correttamente ed è disponibile in bozza"
+      "message": "L'e-service è stato clonato correttamente ed è disponibile in bozza"
     },
     "error": {
-      "message": "Non è stato possibile clonare l'E-Service richiesto. Per favore, riprova!"
+      "message": "Non è stato possibile clonare l'e-service richiesto. Per favore, riprova!"
     }
   },
   "ESERVICE_VERSION_DRAFT_CREATE": {
     "loadingText": "Stiamo creando la nuova versione (in bozza)",
     "success": {
-      "message": "La nuova versione della nuova versione dell'E-Service è disponibile in bozza"
+      "message": "La nuova versione della nuova versione dell'e-service è disponibile in bozza"
     },
     "error": {
-      "message": "Non è stato possibile creare una bozza per la nuova versione dell'E-Service. Assicurarsi di aver compilato tutti i campi e riprovare"
+      "message": "Non è stato possibile creare una bozza per la nuova versione dell'e-service. Assicurarsi di aver compilato tutti i campi e riprovare"
     }
   },
   "ESERVICE_VERSION_DRAFT_UPDATE": {
     "loadingText": "Stiamo aggiornando la nuova versione (in bozza)",
     "success": {
-      "message": "La nuova versione della nuova versione dell'E-Service è disponibile in bozza"
+      "message": "La nuova versione della nuova versione dell'e-service è disponibile in bozza"
     },
     "error": {
-      "message": "Non è stato possibile aggiornare una bozza per la nuova versione dell'E-Service. Assicurarsi di aver compilato tutti i campi e riprovare"
+      "message": "Non è stato possibile aggiornare una bozza per la nuova versione dell'e-service. Assicurarsi di aver compilato tutti i campi e riprovare"
     }
   },
   "ESERVICE_VERSION_DRAFT_PUBLISH": {
     "loadingText": "Stiamo pubblicando la versione in bozza",
     "success": {
-      "message": "La nuova versione dell'E-Service è stata pubblicata correttamente"
+      "message": "La nuova versione dell'e-service è stata pubblicata correttamente"
     },
     "error": {
-      "message": "Non è stato possibile pubblicare la nuova versione dell'E-Service. Verificare di aver caricato il documento di interfaccia e riprovare!"
+      "message": "Non è stato possibile pubblicare la nuova versione dell'e-service. Verificare di aver caricato il documento di interfaccia e riprovare!"
     }
   },
   "ESERVICE_VERSION_SUSPEND": {
     "loadingText": "Stiamo sospendendo la versione",
     "success": {
-      "message": "La versione dell'E-Service è stata sospesa"
+      "message": "La versione dell'e-service è stata sospesa"
     },
     "error": {
-      "message": "Non è stato possibile sospendere questa versione dell'E-Service. Per favore, riprova!"
+      "message": "Non è stato possibile sospendere questa versione dell'e-service. Per favore, riprova!"
     }
   },
   "ESERVICE_VERSION_REACTIVATE": {
     "loadingText": "Stiamo riattivando la versione",
     "success": {
-      "message": "La versione dell'E-Service è stata riattivata"
+      "message": "La versione dell'e-service è stata riattivata"
     },
     "error": {
-      "message": "Non è stato possibile riattivare questa versione dell'E-Service. Per favore, riprova!"
+      "message": "Non è stato possibile riattivare questa versione dell'e-service. Per favore, riprova!"
     }
   },
   "ESERVICE_VERSION_DRAFT_DELETE": {
@@ -89,13 +89,13 @@
       "message": "La bozza è stata cancellata correttamente"
     },
     "error": {
-      "message": "Non è stato possibile cancellare la bozza dell'E-Service. Per favore, riprova!"
+      "message": "Non è stato possibile cancellare la bozza dell'e-service. Per favore, riprova!"
     }
   },
   "ESERVICE_VERSION_DRAFT_POST_DOCUMENT": {
     "loadingText": "Stiamo caricando il documento",
     "error": {
-      "message": "Non è stato possibile caricare il documento. Attenzione: il documento non può contenere la stringa \"localhost\". Per favore, riprova!"
+      "message": "Non è stato possibile caricare il documento. Assicurati di aver caricato il documento corretto. Per favore, riprova! Attenzione: il documento non può contenere la stringa \"localhost\"."
     }
   },
   "ESERVICE_VERSION_DRAFT_DELETE_DOCUMENT": {
@@ -146,7 +146,7 @@
   "ATTRIBUTE_CREATE": {
     "loadingText": "Stiamo salvando il nuovo attributo",
     "success": {
-      "message": "Adesso puoi aggiungere l'attributo al tuo E-Service"
+      "message": "Adesso puoi aggiungere l'attributo al tuo e-service"
     },
     "error": {
       "message": "Non è stato possibile creare il nuovo attributo. Per favore, riprova!"
@@ -215,7 +215,7 @@
   "AGREEMENT_ACTIVATE": {
     "loadingText": "Stiamo attivando la richiesta",
     "success": {
-      "message": "La richiesta di fruizione è ora attiva, ed è possibile creare finalità da associare all'E-Service"
+      "message": "La richiesta di fruizione è ora attiva, ed è possibile creare finalità da associare all'e-service"
     },
     "error": {
       "message": "Non è stato possibile attivare la richiesta. Accertarsi che tutti gli attributi siano stati verificati e riprovare"
@@ -239,7 +239,7 @@
   "AGREEMENT_UPGRADE": {
     "loadingText": "Stiamo aggiornando la richiesta",
     "success": {
-      "message": "La richiesta di fruizione è stata aggiornata alla versione più recente dell'E-Service. Attenzione: verifica sempre il valore del campo \"audience\" all'interno delle client assertion nei tuoi client, potrebbe variare tra una versione di un E-Service e un'altra a discrezione delle necessità dell'Erogatore"
+      "message": "La richiesta di fruizione è stata aggiornata alla versione più recente dell'e-service. Attenzione: verifica sempre il valore del campo \"audience\" all'interno delle client assertion nei tuoi client, potrebbe variare tra una versione di un e-service e un'altra a discrezione delle necessità dell'erogatore"
     },
     "error": {
       "message": "Non è stato possibile aggiornare la richiesta. Per favore, riprova!"
@@ -308,7 +308,7 @@
   "PURPOSE_VERSION_ACTIVATE": {
     "loadingText": "Stiamo pubblicando la finalità",
     "success": {
-      "message": "La finalità è ora pubblicata. Attenzione: se il numero di chiamate eccede il limite stabilito dall'Erogatore, sarà necessaria una sua approvazione per poter sfruttare quel carico"
+      "message": "La finalità è ora pubblicata. Attenzione: se il numero di chiamate eccede il limite stabilito dall'erogatore, sarà necessaria una sua approvazione per poter sfruttare quel carico"
     },
     "error": {
       "message": "Non è stato possibile riattivare la finalità. Per favore, riprova! Se è la prima attivazione, assicurati che tutti i campi richiesti dalla finalità siano compilati"

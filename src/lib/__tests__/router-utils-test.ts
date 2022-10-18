@@ -100,7 +100,7 @@ describe('Route descends from another route', () => {
   const currentRoute: MappedRouteConfig = {
     PATH: '/erogazione/e-service',
     EXACT: true,
-    LABEL: 'I tuoi E-Service',
+    LABEL: 'I tuoi ',
     COMPONENT: () => null,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'api'],
@@ -206,7 +206,7 @@ describe('Dynamic routes and paths building', () => {
     const inputRoute: MappedRouteConfig = {
       PATH: '/erogazione/e-service/:eserviceId/:descriptorId',
       EXACT: false,
-      LABEL: 'Gestisci o visualizza E-Service',
+      LABEL: 'Gestisci o visualizza ',
       COMPONENT: () => null,
       PUBLIC: false,
       AUTH_LEVELS: ['admin', 'api'],

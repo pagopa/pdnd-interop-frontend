@@ -98,10 +98,10 @@
     }
   },
   "styledDialogExtension": {
-    "ariaDescribedBy": "Modal to send a request for an E-Service extension to its Provider",
+    "ariaDescribedBy": "Modal to send a request for an e-service extension to its Provider",
     "title": "Request extension",
     "content": {
-      "message": "Fill in the form stating the reasons why you think your party is entitled to subscribe to this E-Service. Remember to add all legal basis and purposes. A notification will be sent to the E-Service Provider"
+      "message": "Fill in the form stating the reasons why you think your party is entitled to subscribe to this e-service. Remember to add all legal basis and purposes. A notification will be sent to the e-service Provider"
     },
     "actions": {
       "cancelLabel": "Undo",
@@ -168,7 +168,7 @@
     "content": {
       "dailyCallsField": {
         "label": "Number of API calls/day (required)",
-        "infoLabel": "Your estimated number of API calls per day. This value will add up until it meets one of the thresholds set by the Provider. When it does, the Provider will have to manually approve any further purpose or change in API calls/day to guarantee the technical sustainability of the E-Service"
+        "infoLabel": "Your estimated number of API calls per day. This value will add up until it meets one of the thresholds set by the Provider. When it does, the Provider will have to manually approve any further purpose or change in API calls/day to guarantee the technical sustainability of the e-service"
       }
     },
     "actions": {

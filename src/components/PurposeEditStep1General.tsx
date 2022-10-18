@@ -269,7 +269,7 @@ export const PurposeEditStep1General: FunctionComponent<ActiveStepProps> = ({ fo
             value={formik.values.eserviceId}
             onChange={formik.handleChange}
             options={eserviceData}
-            emptyLabel="Nessun E-Service associabile"
+            emptyLabel="Nessun e-service associabile"
           />
 
           <StyledInputControlledText

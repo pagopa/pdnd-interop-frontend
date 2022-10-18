@@ -106,6 +106,7 @@ export const StyledInputControlledAutocomplete = <T extends unknown>({
         // https://github.com/mui/material-ui/issues/29727
         isOptionEqualToValue={isOptionEqualToValue}
         // filterOptions={(options) => uniqBy(options, (o) => (o[labelKey] as string).toLowerCase())}
+        ListboxProps={{ style: { maxHeight: 200 } }}
         options={_options}
         noOptionsText={t('noDataLabel')}
         renderInput={(params) => {

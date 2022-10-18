@@ -10,7 +10,7 @@
   },
   "create": {
     "title": "Create new client",
-    "description": "After creating a new client, you will always be able to add and remove security operators and public keys to access the Providers E-Services",
+    "description": "After creating a new client, you will always be able to add and remove security operators and public keys to access the Providers e-services",
     "infoSectionTitle": "General information",
     "nameField": {
       "label": "Client name (required)",

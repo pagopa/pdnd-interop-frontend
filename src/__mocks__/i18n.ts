@@ -26,12 +26,12 @@ i18n
           create: {
             forwardWithSaveBtn: 'Salva bozza e prosegui',
             step1: {
-              detailsTitle: 'Caratterizzazione E-Service',
+              detailsTitle: 'Caratterizzazione e-service',
               eserviceNameField: {
-                label: "Nome dell'E-Service (richiesto)",
+                label: "Nome dell'e-service (richiesto)",
               },
               eserviceDescriptionField: {
-                label: "Descrizione dell'E-Service (richiesto)",
+                label: "Descrizione dell'e-service (richiesto)",
               },
               attributes: {
                 title: 'Attributi',

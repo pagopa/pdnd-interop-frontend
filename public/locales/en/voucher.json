@@ -13,7 +13,7 @@
   "choosePurposeLabel": "Choose the purpose to use",
   "purposeFailureMessage": "Warning! It will not be possible to obtain an access token for this purpose. One or more components are currently suspended. Suspended components:",
   "purposeFailureReason": {
-    "eservice": "E-Service",
+    "eservice": "E-service",
     "agreement": "fruition agreement",
     "purpose": "purpose"
   },
@@ -69,7 +69,7 @@
       },
       "purposeIdField": {
         "label": "PurposeId",
-        "description": "The id of the purpose for which you will request access to the E-Service Provider",
+        "description": "The id of the purpose for which you will request access to the e-service Provider",
         "copySuccessFeedbackText": "Id copied successfully"
       },
       "jtiField": {
@@ -97,9 +97,9 @@
   "step2": {
     "stepperLabel": "Access token",
     "title": "Access token",
-    "consumerDescription": "In the previous step, you obtained a JWS signed with your private key. Now it will be used to make an access token request towards the Interoperability authorization server. It all is fine, an access token will be generated. It can be spent on the Provider E-Service",
+    "consumerDescription": "In the previous step, you obtained a JWS signed with your private key. Now it will be used to make an access token request towards the Interoperability authorization server. It all is fine, an access token will be generated. It can be spent on the Provider e-service",
     "apiDescription": {
-      "message": "In the previous step, you obtained a JWS signed with your private key. Now it will be used to make an access token request towards the Interoperability authorization server. It all is fine, an access token will be generated. It can be spent on the Provider E-Service"
+      "message": "In the previous step, you obtained a JWS signed with your private key. Now it will be used to make an access token request towards the Interoperability authorization server. It all is fine, an access token will be generated. It can be spent on the Provider e-service"
     },
     "authEndpoint": {
       "label": "Authorization server endpoint",
@@ -133,18 +133,18 @@
     }
   },
   "step3": {
-    "consumerStepperLabel": "E-Service details",
+    "consumerStepperLabel": "E-service details",
     "apiStepperLabel": "API gateway details",
     "consumer": {
-      "title": "Access the Provider E-Service",
-      "description": "The access token obtained can be spent on the Provider E-Service",
+      "title": "Access the Provider e-service",
+      "description": "The access token obtained can be spent on the Provider e-service",
       "audField": {
         "label": "AUD",
-        "description": "The audience of the Provider E-Service",
+        "description": "The audience of the Provider e-service",
         "copySuccessFeedbackText": "Id copied successfully"
       },
       "eserviceDetailsField": {
-        "label": "E-Service details"
+        "label": "E-service details"
       }
     },
     "api": {

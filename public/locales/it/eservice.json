@@ -1,10 +1,10 @@
 {
-  "loadingSingleLabel": "Stiamo caricando il tuo E-Service",
-  "loadingMultiLabel": "Stiamo caricando la lista degli E-Service",
-  "noMultiDataLabel": "Non ci sono E-Service disponibili",
-  "backToListBtn": "Torna agli E-Service",
+  "loadingSingleLabel": "Stiamo caricando il tuo e-service",
+  "loadingMultiLabel": "Stiamo caricando la lista degli e-service",
+  "noMultiDataLabel": "Non ci sono e-service disponibili",
+  "backToListBtn": "Torna agli e-service",
   "create": {
-    "emptyTitle": "Crea E-Service",
+    "emptyTitle": "Crea e-service",
     "stepper": {
       "step1Label": "Generale",
       "step2Label": "Versione",
@@ -13,22 +13,22 @@
     "backWithoutSaveBtn": "Indietro",
     "forwardWithSaveBtn": "Salva bozza e prosegui",
     "forwardWithoutSaveBtn": "Prosegui",
-    "endWithSaveBtn": "Salva bozza e torna agli E-Service",
+    "endWithSaveBtn": "Salva bozza e torna agli e-service",
     "step1": {
-      "detailsTitle": "Caratterizzazione E-Service",
+      "detailsTitle": "Caratterizzazione e-service",
       "eserviceNameField": {
-        "label": "Nome dell'E-Service (richiesto)",
-        "infoLabel": "Se prevedi di usare più E-Service con lo stesso nome, inserisci una piccola indicazione per distinguerli (es. \"TARI – dedicata Comuni\" e \"TARI - dedicata Regioni\"). Max 60 caratteri"
+        "label": "Nome dell'e-service (richiesto)",
+        "infoLabel": "Se prevedi di usare più e-service con lo stesso nome, inserisci una piccola indicazione per distinguerli (es. \"TARI – dedicata Comuni\" e \"TARI - dedicata Regioni\"). Max 60 caratteri"
       },
       "eserviceDescriptionField": {
-        "label": "Descrizione dell'E-Service (richiesto)",
-        "infoLabel": "(es. \"Dedicato agli Enti che hanno necessità di ...\", oppure \"L'E-Service rivolto agli Enti che ...\"). Max 250 caratteri"
+        "label": "Descrizione dell'e-service (richiesto)",
+        "infoLabel": "(es. \"Dedicato agli Enti che hanno necessità di ...\", oppure \"L'e-service rivolto agli Enti che ...\"). Max 250 caratteri"
       },
       "eserviceTechnologyField": {
         "label": "Tecnologia utilizzata (richiesto)"
       },
       "attributes": {
-        "subtitle": "Il Fruitore deve possedere:",
+        "subtitle": "Il fruitore deve possedere:",
         "certified": {
           "description": "Certificati da una fonte autoritativa riconosciuta, non necessitano di ulteriori verifiche da parte tua."
         },
@@ -36,10 +36,10 @@
           "description": "Puoi decidere se avvalerti della verifica effettuata da altri enti o effettuarne una nuova indipendentemente."
         },
         "declared": {
-          "description": "Il Fruitore dovrà dichiarare sotto la propria responsabilità di possedere questi attributi."
+          "description": "Il fruitore dovrà dichiarare sotto la propria responsabilità di possedere questi attributi."
         }
       },
-      "firstVersionOnlyEditableInfo": "I contenuti di questa pagina non saranno più modificabili dopo la pubblicazione della prima versione dell’E-Service"
+      "firstVersionOnlyEditableInfo": "I contenuti di questa pagina non saranno più modificabili dopo la pubblicazione della prima versione dell'e-service"
     },
     "step2": {
       "versionField": {
@@ -52,25 +52,25 @@
       },
       "audienceField": {
         "label": "Audience (richiesto)",
-        "infoLabel": "All’interno dell'access token che il Fruitore ti invierà rappresenterà l’audience (aud), l'id con il quale è dichiarato il servizio richiesto. Max 60 caratteri"
+        "infoLabel": "All’interno dell'access token che il fruitore ti invierà rappresenterà l’audience (aud), l'id con il quale è dichiarato il servizio richiesto. Max 60 caratteri"
       },
       "voucherLifespanField": {
         "label": "Durata di validità dell'access token (in minuti - richiesto)",
         "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
       },
       "dailyCallsPerConsumerField": {
-        "label": "Soglia chiamate API/giorno per Fruitore (richiesto)",
-        "infoLabel": "Il Fruitore dovrà dichiarare una stima delle chiamate che effettuerà per ogni finalità. Se la somma delle chiamate dichiarate dal Fruitore sarà sopra la soglia da te impostata, potrai approvare manualmente l'accesso delle nuove finalità alla fruizione del tuo E-Service"
+        "label": "Soglia chiamate API/giorno per fruitore (richiesto)",
+        "infoLabel": "Il fruitore dovrà dichiarare una stima delle chiamate che effettuerà per ogni finalità. Se la somma delle chiamate dichiarate dal fruitore sarà sopra la soglia da te impostata, potrai approvare manualmente l'accesso delle nuove finalità alla fruizione del tuo e-service"
       },
       "dailyCallsTotalField": {
         "label": "Soglia chiamate API/giorno totali (richiesto)",
-        "infoLabel": "Il numero totale di chiamate al giorno permesse sommando quelle di tutti i Fruitori. Se la somma sarà superiore alla soglia da te impostata, potrai approvare manualmente l'accesso delle nuove finalità alla fruizione del tuo E-Service",
+        "infoLabel": "Il numero totale di chiamate al giorno permesse sommando quelle di tutti i fruitori. Se la somma sarà superiore alla soglia da te impostata, potrai approvare manualmente l'accesso delle nuove finalità alla fruizione del tuo e-service",
         "validation": {
-          "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per Fruitore"
+          "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per fruitore"
         }
       },
       "agreementApprovalPolicyField": {
-        "label": "Voglio riservarmi la facoltà di verificare e attivare manualmente tutte le richieste di fruizione pervenute per questa versione dell’E-Service"
+        "label": "Voglio riservarmi la facoltà di verificare e attivare manualmente tutte le richieste di fruizione pervenute per questa versione dell'e-service"
       }
     },
     "step3": {
@@ -84,7 +84,7 @@
       },
       "documentation": {
         "title": "Documentazione",
-        "description": "Inserisci la documentazione tecnica utile all’utilizzo di questo E-Service",
+        "description": "Inserisci la documentazione tecnica utile all’utilizzo di questo e-service",
         "noFileUploaded": "Nessun documento caricato"
       },
       "uploadFileField": {
@@ -98,20 +98,20 @@
     },
     "quickPublish": {
       "title": "Pubblicazione immediata",
-      "description": "Hai inserito tutte le informazioni per questo E-Service? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza in fondo alla pagina",
+      "description": "Hai inserito tutte le informazioni per questo e-service? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza in fondo alla pagina",
       "publishBtn": "Pubblica bozza",
       "deleteBtn": "Cancella bozza"
     }
   },
   "tableEServiceCatalog": {
-    "youAreTheProvider": "Sei l'Erogatore",
+    "youAreTheProvider": "Sei l'erogatore",
     "alreadySubscribed": "Sei già iscritto",
     "agreementInDraft": "Hai una richiesta in bozza",
     "missingCertifiedAttributes": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
     "goToRequestCta": "Vai alla richiesta",
     "subscribeModal": {
       "title": "Creazione bozza richiesta di fruizione",
-      "description": "Vuoi creare una bozza di richiesta di fruizione per l'E-Service {{name}}, versione {{version}}",
+      "description": "Vuoi creare una bozza di richiesta di fruizione per l'e-service {{name}}, versione {{version}}",
       "proceedLabel": "Crea bozza"
     }
   },
@@ -133,9 +133,9 @@
         "versionStatus": "Stato della versione",
         "description": "Descrizione",
         "audience": "Audience",
-        "audienceDescription": "L’audience che il Fruitore dovrà indicare nel voucher per identificare il servizio",
+        "audienceDescription": "L’audience che il fruitore dovrà indicare nel voucher per identificare il servizio",
         "voucherLifespan": "Durata del voucher",
-        "dailyCallsPerConsumer": "Soglia per Fruitore",
+        "dailyCallsPerConsumer": "Soglia per fruitore",
         "dailyCallsTotal": "Soglia totale",
         "callsPerDay": "chiamate/giorno",
         "agreementApprovalPolicy": {
@@ -184,7 +184,7 @@
     "audience": "Audience",
     "technology": "Tecnologia",
     "voucherLifespan": "Durata del voucher",
-    "dailyCallsPerConsumer": "Soglia per Fruitore",
+    "dailyCallsPerConsumer": "Soglia per fruitore",
     "dailyCallsTotal": "Soglia totale",
     "attributes": "Attributi",
     "noAttributesLabel": "Nessun attributo presente",
@@ -193,31 +193,31 @@
     "callsPerDay": "chiamate/giorno"
   },
   "catalog": {
-    "title": "Catalogo degli E-Service",
-    "description": "In quest'area puoi vedere tutti gli E-Service nel catalogo, e aderire a quelli a cui sei interessato"
+    "title": "Catalogo degli e-service",
+    "description": "In quest'area puoi vedere tutti gli e-service nel catalogo, e aderire a quelli a cui sei interessato"
   },
   "list": {
-    "title": "I tuoi E-Service",
-    "description": "In quest'area puoi gestire tutti gli E-Service che stai erogando"
+    "title": "I tuoi e-service",
+    "description": "In quest'area puoi gestire tutti gli e-service che stai erogando"
   },
   "manage": {
     "tabs": {
-      "ariaLabel": "Due tab diverse per i dettagli dell'E-Service e le stime di carico indicate dai Fruitori",
-      "details": "Dettagli dell'E-Service",
+      "ariaLabel": "Due tab diverse per i dettagli dell'e-service e le stime di carico indicate dai fruitori",
+      "details": "Dettagli dell'e-service",
       "purposeAwaitingApproval": "Finalità da evadere"
     }
   },
   "read": {
     "agreementDialog": {
       "title": "Creazione bozza richiesta di fruizione",
-      "description": "Vuoi creare una bozza di richiesta di fruizione per l'E-Service {{name}}, versione {{version}}",
+      "description": "Vuoi creare una bozza di richiesta di fruizione per l'e-service {{name}}, versione {{version}}",
       "proceedLabel": "Crea bozza"
     },
     "alert": {
       "youAreTheProvider": "Sei l'erogatore di questo e-service",
       "missingCertifiedAttributes": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
       "alreadySubscribed": "Non puoi iscriverti a questo e-service perché sei già iscritto",
-      "hasDraft": "Possiedi già una richiesta in bozza per questo E-Service"
+      "hasDraft": "Possiedi già una richiesta in bozza per questo e-service"
     },
     "actions": {
       "backToCatalogLabel": "Torna al catalogo"

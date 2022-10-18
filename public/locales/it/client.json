@@ -10,7 +10,7 @@
   },
   "create": {
     "title": "Crea nuovo client",
-    "description": "Una volta creato il client, potrai sempre aggiungere e rimuovere operatori e chiavi pubbliche da utilizzare per accedere agli E-Service degli Erogatori",
+    "description": "Una volta creato il client, potrai sempre aggiungere e rimuovere operatori e chiavi pubbliche da utilizzare per accedere agli e-service degli erogatori",
     "infoSectionTitle": "Informazioni generali",
     "nameField": {
       "label": "Nome del client (richiesto)",
