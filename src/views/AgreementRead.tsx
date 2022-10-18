@@ -265,9 +265,7 @@ export function AgreementRead() {
   }
 
   const canVerifyAttributes =
-    mode === 'provider' &&
-    agreement?.state !== 'REJECTED' &&
-    agreement?.state === 'MISSING_CERTIFIED_ATTRIBUTES'
+    mode === 'provider' && !['MISSING_CERTIFIED_ATTRIBUTES', 'REJECTED'].includes(agreement?.state ?? "")
 
   return (
     <Box sx={{ maxWidth: MAX_WIDTH }}>
