@@ -192,7 +192,7 @@ export function AgreementEdit() {
   }
 
   /** Check if submit agreement button can be enabled */
-  const isProducerSameAsConsumer = agreement?.consumer.id === agreement?.producer.id
+  const isProviderSameAsSubscriber = agreement?.consumer.id === agreement?.producer.id
   const hasAllDeclaredAndCertifiedAttributes =
     agreement?.state !== 'MISSING_CERTIFIED_ATTRIBUTES' &&
     frontendAttributes &&
@@ -205,7 +205,7 @@ export function AgreementEdit() {
     )
 
   const isSubmitAgreementButtonEnabled =
-    hasAllDeclaredAndCertifiedAttributes || isProducerSameAsConsumer
+    hasAllDeclaredAndCertifiedAttributes || isProviderSameAsSubscriber
   /** --- */
 
   return (
