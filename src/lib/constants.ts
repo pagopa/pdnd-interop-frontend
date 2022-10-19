@@ -1,9 +1,9 @@
 import { AgreementState, EServiceState, LangCode, MUIColor, UserState } from '../../types'
-import { isDevelopment } from './env'
-import { DEV_MOCK_TOKEN } from '../config/dev-tokens'
+// import { isDevelopment } from './env'
+// import { DEV_MOCK_TOKEN } from '../config/dev-tokens'
 
 export const DISPLAY_LOGS = false // isDevelopment
-export const MOCK_TOKEN = isDevelopment && DEV_MOCK_TOKEN
+export const MOCK_TOKEN = false // isDevelopment && DEV_MOCK_TOKEN
 
 export const STORAGE_KEY_SESSION_TOKEN = 'token'
 
