@@ -48,7 +48,7 @@ export function EServiceRead() {
   >(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
-      config: { params: { callerId: jwt?.organization.id } },
+      config: { params: { callerId: jwt?.organizationId } },
     },
     { mapFn: (list) => list.find((d) => d.id === eserviceId && d.descriptorId === descriptorId) }
   )
@@ -60,13 +60,13 @@ export function EServiceRead() {
     {
       path: {
         endpoint: 'ATTRIBUTE_GET_CERTIFIED_LIST',
-        endpointParams: { institutionId: jwt?.organization.id },
+        endpointParams: { institutionId: jwt?.organizationId },
       },
     },
     { mapFn: (data) => data.attributes }
   )
 
-  const isMine = data?.producer.id === jwt?.organization.id
+  const isMine = data?.producer.id === jwt?.organizationId
 
   function checkIfCanSubscribeEservice() {
     if (isMine) {

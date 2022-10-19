@@ -33,8 +33,8 @@ export const PurposeEdit = () => {
     path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
     config: {
       params: {
-        callerId: jwt?.organization.id,
-        consumerId: jwt?.organization.id,
+        callerId: jwt?.organizationId,
+        consumerId: jwt?.organizationId,
         agreementStates: 'ACTIVE',
       },
     },

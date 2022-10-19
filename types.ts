@@ -195,7 +195,6 @@ type JwtOrgRole = {
 }
 
 type JwtOrg = {
-  id: string
   roles: Array<JwtOrgRole>
   fiscal_code: string
 }
@@ -211,6 +210,7 @@ export type JwtUser = {
   uid: string // the relationshipId between the user and the current institution
   name: string
   family_name: string
+  organizationId: string
 }
 
 export type SelfCareUser = {

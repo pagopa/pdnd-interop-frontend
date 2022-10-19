@@ -28,7 +28,7 @@ export const StyledDialogAddClients: FunctionComponent<DialogAddClientsProps> = 
   const { data: clientData, isLoading } = useAsyncFetch<{ clients: Array<Client> }, Array<Client>>(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
-      config: { params: { kind: 'CONSUMER', consumerId: jwt?.organization.id } },
+      config: { params: { kind: 'CONSUMER', consumerId: jwt?.organizationId } },
     },
     { mapFn: (data) => data.clients }
   )

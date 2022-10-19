@@ -33,7 +33,7 @@ export const AsyncTableClient = ({ clientKind }: AsyncTableClientProps) => {
   const { data, error, isLoading } = useAsyncFetch<{ clients: Array<Client> }, Array<Client>>(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
-      config: { params: { kind: clientKind, consumerId: jwt?.organization.id } },
+      config: { params: { kind: clientKind, consumerId: jwt?.organizationId } },
     },
     { mapFn: (data) => data.clients, useEffectDeps: [forceRerenderCounter] }
   )

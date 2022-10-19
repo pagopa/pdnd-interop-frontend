@@ -36,8 +36,7 @@ export const AsyncTableUser = ({
   const { jwt, isAdmin } = useJwt()
   // TEMP REFACTOR: remove after integration with selfcare
   const endpoint = mode === 'provider' ? 'USER_GET_LIST' : 'OPERATOR_SECURITY_GET_LIST'
-  const endpointParams =
-    mode === 'provider' ? { institutionId: jwt?.organization.id } : { clientId }
+  const endpointParams = mode === 'provider' ? { institutionId: jwt?.organizationId } : { clientId }
   const params = mode === 'provider' ? { productRoles: ['api'].join(',') } : {}
 
   const {

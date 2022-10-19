@@ -29,10 +29,10 @@ export const AsyncTableAgreement = () => {
   const params =
     currentMode === 'provider'
       ? {
-          producerId: jwt?.organization.id,
+          producerId: jwt?.organizationId,
           states: ['ACTIVE', 'ARCHIVED', 'PENDING', 'SUSPENDED', 'REJECTED'],
         }
-      : { consumerId: jwt?.organization.id }
+      : { consumerId: jwt?.organizationId }
 
   const { data, error, isLoading } = useAsyncFetch<Array<AgreementSummary>>(
     { path: { endpoint: 'AGREEMENT_GET_LIST' }, config: { params } },

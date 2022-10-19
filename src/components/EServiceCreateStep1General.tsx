@@ -87,7 +87,7 @@ export const EServiceCreateStep1General: FunctionComponent<StepperStepComponentP
     // Format the data like the backend wants it
     const dataToPost = {
       ...data,
-      producerId: jwt.organization.id as string | undefined, // needed because of line 95
+      producerId: jwt.organizationId as string | undefined, // needed because of line 95
       attributes: remapFrontendAttributesToBackend(attributes),
     }
 

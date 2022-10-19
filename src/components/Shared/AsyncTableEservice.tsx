@@ -51,7 +51,7 @@ export const AsyncTableEServiceCatalog = () => {
     {
       path: {
         endpoint: 'ATTRIBUTE_GET_CERTIFIED_LIST',
-        endpointParams: { institutionId: jwt?.organization.id },
+        endpointParams: { institutionId: jwt?.organizationId },
       },
     },
     { mapFn: (data) => data.attributes }
@@ -64,10 +64,10 @@ export const AsyncTableEServiceCatalog = () => {
   } = useAsyncFetch<Array<EServiceFlatReadType>, Array<EServiceFlatDecoratedReadType>>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
-      config: { params: { state: 'PUBLISHED', callerId: jwt?.organization.id } },
+      config: { params: { state: 'PUBLISHED', callerId: jwt?.organizationId } },
     },
     {
-      mapFn: (data) => data.map((d) => ({ ...d, isMine: d.producerId === jwt?.organization.id })),
+      mapFn: (data) => data.map((d) => ({ ...d, isMine: d.producerId === jwt?.organizationId })),
     }
   )
 
@@ -263,7 +263,7 @@ export const AsyncTableEServiceList = () => {
   const { data, error, isLoading } = useAsyncFetch<Array<EServiceFlatReadType>>(
     {
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
-      config: { params: { producerId: jwt?.organization.id, callerId: jwt?.organization.id } },
+      config: { params: { producerId: jwt?.organizationId, callerId: jwt?.organizationId } },
     },
     { useEffectDeps: [forceRerenderCounter] }
   )

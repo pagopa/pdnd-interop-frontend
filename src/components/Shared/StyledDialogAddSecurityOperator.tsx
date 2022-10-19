@@ -42,7 +42,7 @@ export const StyledDialogAddSecurityOperator: FunctionComponent<DialogAddSecurit
   })
 
   const { data: allUserData } = useAsyncFetch<Array<SelfCareUser>>({
-    path: { endpoint: 'USER_GET_LIST', endpointParams: { institutionId: jwt?.organization.id } },
+    path: { endpoint: 'USER_GET_LIST', endpointParams: { institutionId: jwt?.organizationId } },
     config: { params: { productRoles: ['admin', 'security'], states: ['ACTIVE'] } },
   })
 

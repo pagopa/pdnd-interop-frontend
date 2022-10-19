@@ -36,7 +36,7 @@ export const PurposeEditStep3Clients: FunctionComponent<ActiveStepProps> = ({ ba
   >(
     {
       path: { endpoint: 'CLIENT_GET_LIST' },
-      config: { params: { consumerId: jwt?.organization.id, purposeId } },
+      config: { params: { consumerId: jwt?.organizationId, purposeId } },
     },
     {
       mapFn: (data) => data.clients,

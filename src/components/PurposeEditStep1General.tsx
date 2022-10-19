@@ -66,8 +66,8 @@ export const PurposeEditStep1General: FunctionComponent<ActiveStepProps> = ({ fo
       path: { endpoint: 'ESERVICE_GET_LIST_FLAT' },
       config: {
         params: {
-          callerId: jwt?.organization.id,
-          consumerId: jwt?.organization.id,
+          callerId: jwt?.organizationId,
+          consumerId: jwt?.organizationId,
           agreementStates: 'ACTIVE',
         },
       },
@@ -128,7 +128,7 @@ export const PurposeEditStep1General: FunctionComponent<ActiveStepProps> = ({ fo
       title: data.title,
       description: data.description,
       eserviceId: data.eserviceId,
-      consumerId: jwt?.organization.id,
+      consumerId: jwt?.organizationId,
     }
     const purposeVersionData = { dailyCalls: data.dailyCalls }
 

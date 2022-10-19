@@ -26,7 +26,7 @@ export const HeaderWrapper = () => {
   // const partyList = jwt
   //   ? [
   //       {
-  //         id: jwt.organization.id,
+  //         id: jwt.organizationId,
   //         name: jwt.organization.fiscal_code,
   //         productRole: t(`userProductRole.${jwt.organization.roles[0].role}`),
   //       },
@@ -59,7 +59,7 @@ export const HeaderWrapper = () => {
             linkType: 'internal',
           },
         ]}
-        // partyId={jwt?.organization.id}
+        // partyId={jwt?.organizationId}
         // partyList={partyList}
       />
     </header>

@@ -161,7 +161,7 @@ export const AsyncTablePurpose = () => {
       mapFn: (data) =>
         data.purposes
           // TEMP REFACTOR: after integration with self care, this will not be necessary
-          .filter((p) => p.consumer.id === jwt?.organization.id)
+          .filter((p) => p.consumer.id === jwt?.organizationId)
           .map(decoratePurposeWithMostRecentVersion),
       useEffectDeps: [forceRerenderCounter],
     }
