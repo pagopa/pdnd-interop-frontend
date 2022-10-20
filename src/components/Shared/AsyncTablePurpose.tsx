@@ -156,13 +156,16 @@ export const AsyncTablePurpose = () => {
     { purposes: Array<Purpose> },
     Array<DecoratedPurpose>
   >(
-    { path: { endpoint: 'PURPOSE_GET_LIST' } },
     {
-      mapFn: (data) =>
-        data.purposes
-          // TEMP REFACTOR: after integration with self care, this will not be necessary
-          .filter((p) => p.consumer.id === jwt?.organizationId)
-          .map(decoratePurposeWithMostRecentVersion),
+      path: { endpoint: 'PURPOSE_GET_LIST' },
+      config: {
+        params: {
+          consumerId: jwt?.organizationId,
+        },
+      },
+    },
+    {
+      mapFn: (data) => data.purposes.map(decoratePurposeWithMostRecentVersion),
       useEffectDeps: [forceRerenderCounter],
     }
   )
