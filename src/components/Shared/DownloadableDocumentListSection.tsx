@@ -4,6 +4,7 @@ import { EServiceDocumentRead } from '../../../types'
 import { StyledLink } from './StyledLink'
 import StyledSection from './StyledSection'
 import { AttachFile as AttachFileIcon } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   docs: Array<EServiceDocumentRead>
@@ -16,13 +17,17 @@ function DownloadableDocumentListSection({
   docs,
   onDocumentDownload,
   sectionTitle = 'Download',
-  noFilesLabel = 'Nessun download disponibile',
+  noFilesLabel,
 }: Props) {
+  const { t } = useTranslation('shared-components', {
+    keyPrefix: 'downloadableDocumentListSection',
+  })
+
   return (
     <StyledSection>
       <StyledSection.Title>{sectionTitle}</StyledSection.Title>
       <StyledSection.Content>
-        {Boolean(docs.length > 0) ? (
+        {docs.length > 0 ? (
           <Stack spacing={2} alignItems="start">
             {docs.map((doc) => (
               <Stack key={doc.id} spacing={2}>
@@ -48,7 +53,7 @@ function DownloadableDocumentListSection({
             ))}
           </Stack>
         ) : (
-          <Typography variant="body2">{noFilesLabel}</Typography>
+          <Typography variant="body2">{noFilesLabel ?? t('noDataLabel')}</Typography>
         )}
       </StyledSection.Content>
     </StyledSection>
