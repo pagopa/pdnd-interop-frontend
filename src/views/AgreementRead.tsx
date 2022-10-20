@@ -271,7 +271,7 @@ export function AgreementRead() {
         },
         config: { responseType: 'arraybuffer' },
       },
-      { suppressToast: ['success'] }
+      { suppressToast: ['success'], silent: true }
     )) as RunActionOutput
 
     if (outcome === 'success') {
