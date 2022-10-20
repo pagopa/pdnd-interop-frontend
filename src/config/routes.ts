@@ -24,6 +24,7 @@ import { Unauthorized } from '../components/Unauthorized'
 import { PurposeEdit } from '../views/PurposeEdit'
 import { TOS } from '../views/TOS'
 import { AgreementEdit } from '../views/AgreementEdit'
+import { OrganizationRegistry } from '../views/OrganizationRegistry'
 
 export const BASIC_ROUTES: Record<string, RouteConfig> = {
   UNAUTHORIZED: {
@@ -335,6 +336,14 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     REDIRECT: { it: '/it/fruizione/catalogo-e-service', en: '/en/subscriber/e-service-catalog' },
     EXACT: true,
     COMPONENT: EmptyComponent,
+    PUBLIC: false,
+    AUTH_LEVELS: ['admin', 'api'],
+  },
+  ORGANIZATION_REGISTRY: {
+    PATH: { it: '/it/ente', en: '/en/organization' },
+    LABEL: { it: 'Anagrafica ente', en: 'Organization registry' },
+    EXACT: true,
+    COMPONENT: OrganizationRegistry,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'api'],
   },
