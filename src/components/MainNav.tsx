@@ -82,6 +82,7 @@ export const MainNav = () => {
     ...(isOperatorAPI ? views['api'] : []),
     ...(isOperatorSecurity ? views['security'] : []),
     { route: routes.NOTIFICATION },
+    { route: routes.ORGANIZATION_REGISTRY },
   ]
 
   const wrapSetOpenSubmenuId = (newOpenId?: string) => () => {
