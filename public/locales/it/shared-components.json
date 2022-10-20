@@ -223,5 +223,8 @@
   },
   "tableWithLoader": {
     "noDataLabel": "Questa ricerca non ha prodotto risultati"
+  },
+  "downloadableDocumentListSection": {
+    "noDataLabel": "Nessun documento disponibile"
   }
 }

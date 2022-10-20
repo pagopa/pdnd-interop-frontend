@@ -209,5 +209,8 @@
   },
   "tableWithLoader": {
     "noDataLabel": "This search bears no results"
+  },
+  "downloadableDocumentListSection": {
+    "noDataLabel": "No documents available"
   }
 }
