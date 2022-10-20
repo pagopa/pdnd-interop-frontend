@@ -7,9 +7,14 @@ import {
   ProviderOrSubscriber,
   EServiceReadType,
   DialogRejectAgreementFormInputValues,
+  EServiceDocumentRead,
 } from '../../types'
 import { buildDynamicPath, getLastBit } from '../lib/router-utils'
-import { getLatestActiveVersion, mergeActions } from '../lib/eservice-utils'
+import {
+  getDownloadDocumentName,
+  getLatestActiveVersion,
+  mergeActions,
+} from '../lib/eservice-utils'
 import { useMode } from '../hooks/useMode'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { useAsyncFetch } from '../hooks/useAsyncFetch'
@@ -257,6 +262,25 @@ export function AgreementRead() {
     // runAction()
   }
 
+  const handleDownloadDocument = async (document: EServiceDocumentRead) => {
+    const { outcome, response } = (await runAction(
+      {
+        path: {
+          endpoint: 'AGREEMENT_DRAFT_DOCUMENT_DOWNLOAD',
+          endpointParams: { agreementId, documentId: document.id },
+        },
+        config: { responseType: 'arraybuffer' },
+      },
+      { suppressToast: ['success'] }
+    )) as RunActionOutput
+
+    if (outcome === 'success') {
+      const data = (response as AxiosResponse).data as string
+      const filename = getDownloadDocumentName(document)
+      downloadFile(data, filename)
+    }
+  }
+
   const availableActions = getAvailableActions()
   let primaryAction: ActionProps | undefined
 
@@ -293,9 +317,8 @@ export function AgreementRead() {
             </Grid>
             <Grid item xs={5}>
               <DownloadableDocumentListSection
-                docs={[]}
-                eserviceId={eservice.id}
-                descriptorId={agreement.descriptorId}
+                docs={agreement.consumerDocuments}
+                onDocumentDownload={handleDownloadDocument}
               />
             </Grid>
           </Grid>

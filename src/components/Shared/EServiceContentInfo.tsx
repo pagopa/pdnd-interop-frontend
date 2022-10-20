@@ -3,6 +3,7 @@ import React, { FunctionComponent, useMemo, useState } from 'react'
 import {
   AgreementState,
   EServiceDescriptorRead,
+  EServiceDocumentRead,
   EServiceReadType,
   FrontendAttributes,
   ProviderOrSubscriber,
@@ -13,7 +14,7 @@ import { buildDynamicPath, buildDynamicRoute } from '../../lib/router-utils'
 import { StyledLink } from './StyledLink'
 import { formatThousands } from '../../lib/format-utils'
 import { useTranslation } from 'react-i18next'
-import { getLatestActiveVersion } from '../../lib/eservice-utils'
+import { getDownloadDocumentName, getLatestActiveVersion } from '../../lib/eservice-utils'
 import { remapBackendAttributesToFrontend } from '../../lib/attributes'
 import { StyledButton } from './StyledButton'
 import { InformationRow } from '../InformationRow'
@@ -27,6 +28,9 @@ import { WELL_KNOWN_URLS } from '../../lib/env'
 import { Launch as LaunchIcon } from '@mui/icons-material'
 import DownloadableDocumentListSection from './DownloadableDocumentListSection'
 import { useJwt } from '../../hooks/useJwt'
+import { RunActionOutput, useFeedback } from '../../hooks/useFeedback'
+import { downloadFile } from '../../lib/file-utils'
+import { AxiosResponse } from 'axios'
 
 type EServiceContentInfoProps = {
   context: ProviderOrSubscriber
@@ -41,6 +45,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
   descriptorId,
   agreement,
 }) => {
+  const { runAction } = useFeedback()
   const frontendAttributes = useMemo(() => {
     return remapBackendAttributesToFrontend(data.attributes)
   }, [data])
@@ -48,6 +53,28 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
   const activeDescriptor = getLatestActiveVersion(data) as EServiceDescriptorRead
   const isCurrentVersion = activeDescriptor.id === descriptorId
   const docs = [...activeDescriptor.docs, activeDescriptor.interface]
+
+  const handleDownloadDocument = async (document: EServiceDocumentRead) => {
+    const { response, outcome } = (await runAction(
+      {
+        path: {
+          endpoint: 'ESERVICE_VERSION_DOWNLOAD_DOCUMENT',
+          endpointParams: {
+            eserviceId: data.id,
+            descriptorId: activeDescriptor.id,
+            documentId: document.id,
+          },
+        },
+        config: { responseType: 'arraybuffer' },
+      },
+      { suppressToast: ['success'] }
+    )) as RunActionOutput
+
+    if (outcome === 'success') {
+      const filename = getDownloadDocumentName(document)
+      downloadFile((response as AxiosResponse).data, filename)
+    }
+  }
 
   return (
     <React.Fragment>
@@ -59,8 +86,7 @@ export const EServiceContentInfo: FunctionComponent<EServiceContentInfoProps> = 
         <Grid item xs={5}>
           <DownloadableDocumentListSection
             docs={docs}
-            eserviceId={data.id}
-            descriptorId={activeDescriptor.id}
+            onDocumentDownload={handleDownloadDocument}
           />
           {context === 'provider' && <VoucherVerificationSection />}
         </Grid>

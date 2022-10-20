@@ -1,53 +1,23 @@
 import React from 'react'
 import { Stack, Typography } from '@mui/material'
-import { AxiosResponse } from 'axios'
 import { EServiceDocumentRead } from '../../../types'
-import { RunActionOutput, useFeedback } from '../../hooks/useFeedback'
-import { getDownloadDocumentName } from '../../lib/eservice-utils'
-import { downloadFile } from '../../lib/file-utils'
 import { StyledLink } from './StyledLink'
 import StyledSection from './StyledSection'
 import { AttachFile as AttachFileIcon } from '@mui/icons-material'
 
 interface Props {
-  descriptorId: string
-  eserviceId: string
   docs: Array<EServiceDocumentRead>
+  onDocumentDownload: (document: EServiceDocumentRead) => void
   sectionTitle?: string
   noFilesLabel?: string
 }
 
 function DownloadableDocumentListSection({
-  descriptorId,
-  eserviceId,
   docs,
+  onDocumentDownload,
   sectionTitle = 'Download',
   noFilesLabel = 'Nessun download disponibile',
 }: Props) {
-  const { runAction } = useFeedback()
-
-  const handleDownloadDocument = async (document: EServiceDocumentRead) => {
-    const { response, outcome } = (await runAction(
-      {
-        path: {
-          endpoint: 'ESERVICE_VERSION_DOWNLOAD_DOCUMENT',
-          endpointParams: {
-            eserviceId,
-            descriptorId,
-            documentId: document.id,
-          },
-        },
-        config: { responseType: 'arraybuffer' },
-      },
-      { suppressToast: ['success'] }
-    )) as RunActionOutput
-
-    if (outcome === 'success') {
-      const filename = getDownloadDocumentName(document)
-      downloadFile((response as AxiosResponse).data, filename)
-    }
-  }
-
   return (
     <StyledSection>
       <StyledSection.Title>{sectionTitle}</StyledSection.Title>
@@ -57,7 +27,7 @@ function DownloadableDocumentListSection({
             {docs.map((doc) => (
               <Stack key={doc.id} spacing={2}>
                 <StyledLink
-                  onClick={handleDownloadDocument.bind(null, doc)}
+                  onClick={onDocumentDownload.bind(null, doc)}
                   component="button"
                   variant="body2"
                   underline="hover"
