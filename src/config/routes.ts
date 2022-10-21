@@ -24,7 +24,7 @@ import { Unauthorized } from '../components/Unauthorized'
 import { PurposeEdit } from '../views/PurposeEdit'
 import { TOS } from '../views/TOS'
 import { AgreementEdit } from '../views/AgreementEdit'
-import { OrganizationRegistry } from '../views/OrganizationRegistry'
+import { PartyRegistry } from '../views/PartyRegistry'
 
 export const BASIC_ROUTES: Record<string, RouteConfig> = {
   UNAUTHORIZED: {
@@ -340,10 +340,10 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     AUTH_LEVELS: ['admin', 'api'],
   },
   ORGANIZATION_REGISTRY: {
-    PATH: { it: '/it/ente', en: '/en/organization' },
-    LABEL: { it: 'Anagrafica ente', en: 'Organization registry' },
+    PATH: { it: '/it/ente', en: '/en/party' },
+    LABEL: { it: 'Anagrafica ente', en: 'Party registry' },
     EXACT: true,
-    COMPONENT: OrganizationRegistry,
+    COMPONENT: PartyRegistry,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'api'],
   },
