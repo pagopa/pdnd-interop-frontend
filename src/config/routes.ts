@@ -339,12 +339,12 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'api'],
   },
-  ORGANIZATION_REGISTRY: {
+  PARTY_REGISTRY: {
     PATH: { it: '/it/ente', en: '/en/party' },
     LABEL: { it: 'Anagrafica ente', en: 'Party registry' },
     EXACT: true,
     COMPONENT: PartyRegistry,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'api'],
+    AUTH_LEVELS: ['admin'],
   },
 }
