@@ -6,7 +6,9 @@ import {
   List,
   ListItem,
   ListItemButton,
+  ListItemIcon,
   ListItemText,
+  SvgIconTypeMap,
   Typography,
 } from '@mui/material'
 import { MappedRouteConfig, UserProductRole } from '../../types'
@@ -16,6 +18,8 @@ import { useRoute } from '../hooks/useRoute'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
 import { LoadingTranslations } from './Shared/LoadingTranslations'
+import { Email as EmailIcon } from '@mui/icons-material'
+import { OverridableComponent } from '@mui/material/OverridableComponent'
 
 type View = {
   route: MappedRouteConfig
@@ -23,7 +27,16 @@ type View = {
   children?: Array<MappedRouteConfig>
 }
 
-type Views = Record<UserProductRole, Array<View>>
+type MuiIcon = OverridableComponent<SvgIconTypeMap<unknown, 'svg'>> & {
+  muiName: string
+}
+
+type SideNavItemView = View & {
+  StartIcon?: MuiIcon
+  EndIcon?: MuiIcon
+}
+
+type Views = Record<UserProductRole, Array<SideNavItemView>>
 
 const WIDTH = 340
 
@@ -78,7 +91,7 @@ export const MainNav = () => {
     ...(isAdmin ? views['admin'] : []),
     ...(isOperatorAPI ? views['api'] : []),
     ...(isOperatorSecurity ? views['security'] : []),
-    { route: routes.NOTIFICATION },
+    { route: routes.NOTIFICATION, StartIcon: EmailIcon },
   ]
 
   const wrapSetOpenSubmenuId = (newOpenId?: string) => () => {
@@ -101,7 +114,7 @@ export const MainNav = () => {
 }
 
 type MainNavComponentProps = {
-  items: Array<View>
+  items: Array<SideNavItemView>
   isItemSelected: (route: MappedRouteConfig) => boolean
   openSubmenuId: string | null
   wrapSetOpenSubmenuId: (id?: string) => () => void
@@ -119,9 +132,13 @@ const MainNavComponent = ({
 
   const WrappedLink = ({
     route,
+    StartIcon,
+    EndIcon,
     indented = false,
   }: {
     route: MappedRouteConfig
+    StartIcon?: MuiIcon
+    EndIcon?: MuiIcon
     indented?: boolean
   }) => {
     const isSelected = isItemSelected(route)
@@ -134,13 +151,18 @@ const MainNavComponent = ({
         sx={{
           pl: 3,
           py: 2,
-          display: 'block',
+          display: 'flex',
           borderRight: 2,
           borderColor: isSelected ? 'primary.main' : 'transparent',
           backgroundColor: isSelected ? 'rgba(0, 115, 230, 0.08)' : 'transparent',
           color: isSelected ? 'primary.main' : 'text.primary',
         }}
       >
+        {StartIcon && (
+          <ListItemIcon>
+            <StartIcon fontSize="inherit" color={isSelected ? 'primary' : undefined} />
+          </ListItemIcon>
+        )}
         <ListItemText
           disableTypography
           sx={{ color: 'inherit' }}
@@ -153,6 +175,11 @@ const MainNavComponent = ({
             </Typography>
           }
         />
+        {EndIcon && (
+          <ListItemIcon>
+            <EndIcon color="action" />
+          </ListItemIcon>
+        )}
       </ListItemButton>
     )
   }
@@ -200,7 +227,11 @@ const MainNavComponent = ({
               </Box>
             ) : (
               <ListItem sx={{ display: 'block', p: 0 }} key={i}>
-                <WrappedLink route={item.route} />
+                <WrappedLink
+                  route={item.route}
+                  StartIcon={item?.StartIcon}
+                  EndIcon={item?.EndIcon}
+                />
               </ListItem>
             )
           })}
