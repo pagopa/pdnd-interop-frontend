@@ -195,6 +195,7 @@ type JwtOrgRole = {
 }
 
 type JwtOrg = {
+  name: string
   roles: Array<JwtOrgRole>
   fiscal_code: string
 }
@@ -605,6 +606,24 @@ export type PublicKey = {
 
 export type PublicKeys = {
   keys: Array<PublicKey>
+}
+
+/*
+ *  Parties
+ */
+
+export type Party = {
+  id: string
+  externalId: string
+  originId: string
+  description: string
+  digitalAddress: string
+  address: string
+  zipCode: number
+  taxCode: string
+  origin: string
+  institutionType?: string
+  attributes: Array<PartyAttribute>
 }
 
 /*
