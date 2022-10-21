@@ -18,7 +18,8 @@
     }
   },
   "mainNav": {
-    "ariaLabel": "Navigazione principale"
+    "ariaLabel": "Navigazione principale",
+    "userExternalLinkLabel": "Utenti"
   },
   "loading": {
     "sessionToken": {
