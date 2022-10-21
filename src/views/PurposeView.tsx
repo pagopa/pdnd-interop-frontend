@@ -74,7 +74,7 @@ export const PurposeView = () => {
     )) as RunActionOutput
 
     if (outcome === 'success') {
-      downloadFile((response as AxiosResponse).data, 'document')
+      downloadFile((response as AxiosResponse).data, 'Analisi del rischio.pdf')
     }
   }
 
