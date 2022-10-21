@@ -404,6 +404,15 @@
       "message": "The declared attribute could not be confirmed. Please, try again!"
     }
   },
+  "ATTRIBUTE_REVOKE_DECLARED": {
+    "loadingText": "Revoking declared attribute",
+    "success": {
+      "message": "Declared attribute revoked successfully."
+    },
+    "error": {
+      "message": "The declared attribute could not be revoked. Please, try again!"
+    }
+  },
   "AGREEMENT_REVOKE_VERIFIED_ATTRIBUTE": {
     "loadingText": "Revoking verified attribute",
     "success": {
