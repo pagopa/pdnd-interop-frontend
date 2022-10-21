@@ -79,6 +79,7 @@ export type ApiEndpointKey =
   | 'OPERATOR_SECURITY_GET_LIST'
   | 'OPERATOR_SECURITY_GET_KEYS_LIST'
   | 'ATTRIBUTE_CONFIRM_DECLARED'
+  | 'PARTY_GET_SINGLE'
 
 export type ApiEndpointContent = {
   URL: string
