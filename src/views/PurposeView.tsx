@@ -124,7 +124,7 @@ export const PurposeView = () => {
       {
         path: { endpoint: 'PURPOSE_DRAFT_DELETE', endpointParams: { purposeId: data?.id } },
       },
-      { showConfirmDialog: true }
+      { showConfirmDialog: true, onSuccessDestination: routes.SUBSCRIBE_PURPOSE_LIST }
     )
   }
 
