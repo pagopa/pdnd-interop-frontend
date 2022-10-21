@@ -39,11 +39,7 @@ export const MainNav = () => {
       {
         route: routes.PROVIDE,
         id: 'provider',
-        children: [
-          routes.PROVIDE_ESERVICE_LIST,
-          routes.PROVIDE_AGREEMENT_LIST,
-          routes.PROVIDE_OPERATOR_LIST,
-        ],
+        children: [routes.PROVIDE_ESERVICE_LIST, routes.PROVIDE_AGREEMENT_LIST],
       },
       {
         route: routes.SUBSCRIBE,
