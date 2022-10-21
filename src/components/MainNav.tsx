@@ -3,6 +3,7 @@ import { useLocation } from 'react-router'
 import {
   Box,
   Collapse,
+  Divider,
   List,
   ListItem,
   ListItemButton,
@@ -18,7 +19,11 @@ import { useRoute } from '../hooks/useRoute'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from '../hooks/useJwt'
 import { LoadingTranslations } from './Shared/LoadingTranslations'
-import { Email as EmailIcon } from '@mui/icons-material'
+import {
+  Email as EmailIcon,
+  ExitToAppRounded as ExitToAppRoundedIcon,
+  People as PeopleIcon,
+} from '@mui/icons-material'
 import { OverridableComponent } from '@mui/material/OverridableComponent'
 
 type View = {
@@ -237,6 +242,28 @@ const MainNavComponent = ({
           })}
         </List>
       )}
+      <Divider sx={{ my: 1 }} />
+      <List>
+        <ListItem sx={{ display: 'block', p: 0 }}>
+          <ListItemButton
+            component="a"
+            href="#0"
+            sx={{
+              pl: 3,
+              py: 2,
+              display: 'flex',
+            }}
+          >
+            <ListItemIcon>
+              <PeopleIcon fontSize="inherit" />
+            </ListItemIcon>
+            <ListItemText primary={t('mainNav.userExternalLinkLabel')} />
+            <ListItemIcon>
+              <ExitToAppRoundedIcon color="action" />
+            </ListItemIcon>
+          </ListItemButton>
+        </ListItem>
+      </List>
     </Box>
   )
 }
