@@ -295,6 +295,10 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     URL: `${BACKEND_FOR_FRONTEND_URL}/institutions/attributes/declared`,
     METHOD: 'POST',
   },
+  ATTRIBUTE_REVOKE_DECLARED: {
+    URL: `${BACKEND_FOR_FRONTEND_URL}/institutions/attributes/declared/:attributeId`,
+    METHOD: 'DELETE',
+  },
   PARTY_GET_SINGLE: {
     URL: `${BACKEND_FOR_FRONTEND_URL}/institutions/:institutionId`,
     METHOD: 'GET',
