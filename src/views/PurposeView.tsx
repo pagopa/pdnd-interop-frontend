@@ -68,6 +68,7 @@ export const PurposeView = () => {
             documentId: mostRecentVersion.riskAnalysis.id,
           },
         },
+        config: { responseType: 'arraybuffer' },
       },
       { suppressToast: ['success'] }
     )) as RunActionOutput
