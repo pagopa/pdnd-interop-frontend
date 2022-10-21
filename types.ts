@@ -80,6 +80,7 @@ export type ApiEndpointKey =
   | 'OPERATOR_SECURITY_GET_KEYS_LIST'
   | 'ATTRIBUTE_CONFIRM_DECLARED'
   | 'PARTY_GET_SINGLE'
+  | 'ATTRIBUTE_REVOKE_DECLARED'
 
 export type ApiEndpointContent = {
   URL: string
