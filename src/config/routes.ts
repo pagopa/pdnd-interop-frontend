@@ -8,7 +8,6 @@ import { EServiceList } from '../views/EServiceList'
 import { Logout } from '../views/Logout'
 import { Notifications } from '../views/Notifications'
 import { UserEdit } from '../views/UserEdit'
-import { UserList } from '../views/UserList'
 import { ClientCreate } from '../views/ClientCreate'
 import { SecurityKeyGuide } from '../views/SecurityKeyGuide'
 import { EmptyComponent } from '../components/Shared/EmptyComponent'
@@ -116,22 +115,6 @@ export const BASIC_ROUTES: Record<string, RouteConfig> = {
     LABEL: { it: 'Richieste di fruizione', en: 'Requests for use' },
     EXACT: true,
     COMPONENT: AgreementList,
-    PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
-  },
-  PROVIDE_OPERATOR_EDIT: {
-    PATH: { it: '/it/erogazione/operatori/:operatorId', en: '/en/provider/operators/:operatorId' },
-    LABEL: { it: 'Gestisci utenza', en: 'Manage user' },
-    EXACT: false,
-    COMPONENT: UserEdit,
-    PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
-  },
-  PROVIDE_OPERATOR_LIST: {
-    PATH: { it: '/it/erogazione/operatori', en: '/en/provider/operators' },
-    LABEL: { it: 'I tuoi operatori API', en: 'Your API operators' },
-    EXACT: true,
-    COMPONENT: UserList,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },
