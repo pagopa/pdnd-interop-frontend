@@ -74,7 +74,10 @@ export const PurposeView = () => {
     )) as RunActionOutput
 
     if (outcome === 'success') {
-      downloadFile((response as AxiosResponse).data, 'Analisi del rischio.pdf')
+      downloadFile(
+        (response as AxiosResponse).data,
+        `${t('view.resourcesField.downloadRiskAnalysisLabel')}.pdf`
+      )
     }
   }
 
@@ -305,11 +308,11 @@ export const PurposeView = () => {
                 </Typography>
               </DescriptionBlock>
 
-              <DescriptionBlock label="Risorse">
+              <DescriptionBlock label={t('view.resourcesField.label')}>
                 <ResourceList
                   resources={[
                     {
-                      label: 'Analisi del rischio',
+                      label: t('view.resourcesField.downloadRiskAnalysisLabel'),
                       onClick: downloadDocument,
                     },
                   ]}
