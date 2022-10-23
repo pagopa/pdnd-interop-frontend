@@ -157,6 +157,10 @@
     "purposeStatusField": {
       "label": "Purposes status"
     },
+    "resourcesField": {
+      "label": "Resources",
+      "downloadRiskAnalysisLabel": "Risk analysis"
+    },
     "versionHistoryField": {
       "label": "Purpose version history",
       "unitLabel": "API calls/day",

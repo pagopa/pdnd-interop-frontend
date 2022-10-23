@@ -157,6 +157,10 @@
     "purposeStatusField": {
       "label": "Stato della finalità"
     },
+    "resourcesField": {
+      "label": "Risorse",
+      "downloadRiskAnalysisLabel": "Analisi del rischio"
+    },
     "versionHistoryField": {
       "label": "Storico di questa finalità",
       "unitLabel": "chiamate API/giorno",
