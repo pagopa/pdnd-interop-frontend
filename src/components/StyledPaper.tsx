@@ -1,18 +1,21 @@
 import React, { FunctionComponent } from 'react'
-import { Paper, SxProps } from '@mui/material'
+import { Paper, PaperProps } from '@mui/material'
 
 type StyledPaperProps = {
-  sx?: SxProps
   margin?: boolean
-}
+} & PaperProps
 
 export const StyledPaper: FunctionComponent<StyledPaperProps> = ({
   children,
-  sx,
   margin = true,
+  sx,
+  ...props
 }) => {
   return (
-    <Paper sx={{ bgcolor: 'white' /* 'background.paper' */, p: 3, mt: margin ? 2 : 0, ...sx }}>
+    <Paper
+      sx={{ bgcolor: 'white' /* 'background.paper' */, p: 3, mt: margin ? 2 : 0, ...sx }}
+      {...props}
+    >
       {children}
     </Paper>
   )

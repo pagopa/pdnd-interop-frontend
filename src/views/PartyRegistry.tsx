@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Alert, Box, Stack, SxProps, Typography } from '@mui/material'
+import { Alert, Box, Stack, Typography } from '@mui/material'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { useTranslation } from 'react-i18next'
 import {
@@ -159,10 +159,6 @@ export function PartyRegistry() {
             noAttributesLabel={t('attributes.revokedDeclared.noAttributesLabel')}
             attributes={revokedDeclaredAttributes}
             onConfirmDeclaredAttribute={handleConfirmDeclaredAttribute}
-            sx={{
-              border: 1,
-              borderColor: 'error.main',
-            }}
           />
         </>
       ) : (
@@ -181,7 +177,6 @@ type PartyAttributesProps = {
   attributes: Array<{ id: string; name: string }>
   onConfirmDeclaredAttribute?: (attributeId: string) => void
   onRevokeDeclaredAttribute?: (attributeId: string) => void
-  sx?: SxProps
 }
 
 function PartyAttributes({
@@ -191,7 +186,6 @@ function PartyAttributes({
   attributes,
   onConfirmDeclaredAttribute,
   onRevokeDeclaredAttribute,
-  sx,
 }: PartyAttributesProps) {
   const { setDialog } = useContext(DialogContext)
 
@@ -246,7 +240,7 @@ function PartyAttributes({
   }
 
   return (
-    <StyledSection sx={sx}>
+    <StyledSection sx={onConfirmDeclaredAttribute && { border: 1, borderColor: 'error.main' }}>
       <StyledSection.Title>{title}</StyledSection.Title>
       <StyledSection.Subtitle>{description}</StyledSection.Subtitle>
       <StyledSection.Content>
