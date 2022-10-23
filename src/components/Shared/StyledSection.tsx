@@ -1,16 +1,14 @@
-import { Box, Stack, Typography, TypographyProps, BoxProps } from '@mui/material'
-import { SxProps } from '@mui/system'
+import { Box, Stack, Typography, TypographyProps, BoxProps, PaperProps } from '@mui/material'
 import React from 'react'
 import { StyledPaper } from '../StyledPaper'
 
 type StyledSectionProps = {
   children: React.ReactNode
-  sx?: SxProps
 }
 
-function StyledSection({ children, sx }: StyledSectionProps) {
+function StyledSection({ children, ...props }: StyledSectionProps & PaperProps) {
   return (
-    <StyledPaper sx={sx}>
+    <StyledPaper {...props}>
       <Stack>{children}</Stack>
     </StyledPaper>
   )
