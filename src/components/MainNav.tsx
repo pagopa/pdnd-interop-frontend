@@ -25,6 +25,7 @@ import {
   People as PeopleIcon,
 } from '@mui/icons-material'
 import { OverridableComponent } from '@mui/material/OverridableComponent'
+import { SELFCARE_BASE_URL } from '../lib/env'
 
 type View = {
   route: MappedRouteConfig
@@ -134,6 +135,10 @@ const MainNavComponent = ({
   shouldRender,
 }: MainNavComponentProps) => {
   const { t, ready } = useTranslation('common', { useSuspense: false })
+  const { jwt, isAdmin } = useJwt()
+
+  const selfcareUsersPageUrl =
+    jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users#prod-interop`
 
   const WrappedLink = ({
     route,
@@ -242,28 +247,33 @@ const MainNavComponent = ({
           })}
         </List>
       )}
-      <Divider sx={{ my: 1 }} />
-      <List>
-        <ListItem sx={{ display: 'block', p: 0 }}>
-          <ListItemButton
-            component="a"
-            href="#0"
-            sx={{
-              pl: 3,
-              py: 2,
-              display: 'flex',
-            }}
-          >
-            <ListItemIcon>
-              <PeopleIcon fontSize="inherit" />
-            </ListItemIcon>
-            <ListItemText primary={t('mainNav.userExternalLinkLabel')} />
-            <ListItemIcon>
-              <ExitToAppRoundedIcon color="action" />
-            </ListItemIcon>
-          </ListItemButton>
-        </ListItem>
-      </List>
+      {isAdmin && (
+        <>
+          <Divider sx={{ my: 1 }} />
+          <List>
+            <ListItem sx={{ display: 'block', p: 0 }}>
+              <ListItemButton
+                component="a"
+                href={selfcareUsersPageUrl}
+                target={selfcareUsersPageUrl && '_blank'}
+                sx={{
+                  pl: 3,
+                  py: 2,
+                  display: 'flex',
+                }}
+              >
+                <ListItemIcon>
+                  <PeopleIcon fontSize="inherit" />
+                </ListItemIcon>
+                <ListItemText primary={t('mainNav.userExternalLinkLabel')} />
+                <ListItemIcon>
+                  <ExitToAppRoundedIcon color="action" />
+                </ListItemIcon>
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </>
+      )}
     </Box>
   )
 }
