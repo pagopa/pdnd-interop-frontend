@@ -24,12 +24,12 @@ import { formatThousands } from '../lib/format-utils'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { StyledButton } from '../components/Shared/StyledButton'
 import { useFeedback } from '../hooks/useFeedback'
-// import { downloadFile } from '../lib/file-utils'
+import { downloadFile } from '../lib/file-utils'
 import { AxiosResponse } from 'axios'
 import { formatDateString } from '../lib/format-utils'
 import { StyledIntro } from '../components/Shared/StyledIntro'
 import { DialogContext } from '../lib/context'
-// import { ResourceList } from '../components/Shared/ResourceList'
+import { ResourceList } from '../components/Shared/ResourceList'
 import { useActiveTab } from '../hooks/useActiveTab'
 import { useRoute } from '../hooks/useRoute'
 import { RunActionOutput } from '../hooks/useFeedback'
@@ -37,7 +37,6 @@ import { PageBottomActions } from '../components/Shared/PageBottomActions'
 import { PageTopFilters } from '../components/Shared/PageTopFilters'
 import { AsyncTableClientInPurpose } from '../components/Shared/AsyncTableClient'
 import { LoadingWithMessage } from '../components/Shared/LoadingWithMessage'
-// import { axiosErrorToError } from '../lib/error-utils'
 import { useTranslation } from 'react-i18next'
 
 // TEMP REFACTOR: this view will need a loooot of refactor after the BFF is implemented
@@ -56,25 +55,31 @@ export const PurposeView = () => {
     { mapFn: decoratePurposeWithMostRecentVersion, useEffectDeps: [forceRerenderCounter] }
   )
 
-  // const downloadDocument = async () => {
-  //   const { response, outcome } = await runAction(
-  //     {
-  //       path: {
-  //         endpoint: 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD',
-  //         endpointParams: {
-  //           purposeId,
-  //           versionId: data?.currentVersion.id,
-  //           documentId: data?.currentVersion.riskAnalysisDocument.id,
-  //         },
-  //       },
-  //     },
-  //     { suppressToast: true }
-  //   )
+  const downloadDocument = async () => {
+    const mostRecentVersion = data?.mostRecentVersion as PurposeVersion
 
-  //   if (outcome === 'success') {
-  //     downloadFile((response as AxiosResponse).data, 'document')
-  //   }
-  // }
+    const { response, outcome } = (await runAction(
+      {
+        path: {
+          endpoint: 'PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD',
+          endpointParams: {
+            purposeId,
+            versionId: mostRecentVersion.id,
+            documentId: mostRecentVersion.riskAnalysis.id,
+          },
+        },
+        config: { responseType: 'arraybuffer' },
+      },
+      { suppressToast: ['success'] }
+    )) as RunActionOutput
+
+    if (outcome === 'success') {
+      downloadFile(
+        (response as AxiosResponse).data,
+        `${t('view.resourcesField.downloadRiskAnalysisLabel')}.pdf`
+      )
+    }
+  }
 
   /*
    * List of possible actions to perform in the purpose tab
@@ -123,7 +128,7 @@ export const PurposeView = () => {
       {
         path: { endpoint: 'PURPOSE_DRAFT_DELETE', endpointParams: { purposeId: data?.id } },
       },
-      { showConfirmDialog: true }
+      { showConfirmDialog: true, onSuccessDestination: routes.SUBSCRIBE_PURPOSE_LIST }
     )
   }
 
@@ -303,17 +308,16 @@ export const PurposeView = () => {
                 </Typography>
               </DescriptionBlock>
 
-              {/* TEMP PIN-1139 and PIN-1178 */}
-              {/* <DescriptionBlock label="Risorse">
-            <ResourceList
-            downloads={[
-              {
-                label: 'Analisi del rischio',
-                onClick: downloadDocument,
-              },
-            ]}
-            />
-          </DescriptionBlock> */}
+              <DescriptionBlock label={t('view.resourcesField.label')}>
+                <ResourceList
+                  resources={[
+                    {
+                      label: t('view.resourcesField.downloadRiskAnalysisLabel'),
+                      onClick: downloadDocument,
+                    },
+                  ]}
+                />
+              </DescriptionBlock>
 
               {data.versions.length > 1 && (
                 <DescriptionBlock label={t('view.versionHistoryField.label')}>

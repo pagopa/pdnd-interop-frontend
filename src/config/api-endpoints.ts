@@ -199,7 +199,6 @@ export const API: Record<ApiEndpointKey, ApiEndpointContent> = {
     METHOD: 'POST',
   },
   PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD: {
-    // TEMP BACKEND: waiting for backend endpoint
     URL: `${PURPOSE_PROCESS_URL}/purposes/:purposeId/versions/:versionId/documents/:documentId`,
     METHOD: 'GET',
   },

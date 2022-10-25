@@ -498,7 +498,7 @@ export type PurposeVersion = {
   id: string
   state: PurposeState
   dailyCalls: number
-  riskAnalysisDocument: PurposeRiskAnalysisDocument
+  riskAnalysis: PurposeRiskAnalysisDocument
   createdAt: string
   expectedApprovalDate?: string
   firstActivationAt?: string
