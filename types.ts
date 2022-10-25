@@ -209,6 +209,7 @@ export type JwtUser = {
   jti: string
   nbf: number
   organization: JwtOrg
+  selfcareId: string
   uid: string // the relationshipId between the user and the current institution
   name: string
   family_name: string

@@ -68,3 +68,6 @@ function getWellKnownUrls(wellKnownUrls: string | undefined) {
 }
 
 export const WELL_KNOWN_URLS = isProduction ? getWellKnownUrls(PAGOPA_ENV.WELL_KNOWN_URLS) : ['#']
+
+// TEMP: Backend - This must come from the backend env
+export const SELFCARE_BASE_URL = 'https://selfcare.pagopa.it'
