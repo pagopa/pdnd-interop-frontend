@@ -37,13 +37,13 @@ export function StyledRiskAnalysisSwitch({
         <Typography component="span" variant="body1">
           {label}
         </Typography>
-        <Stack sx={{ my: 1 }} direction="row" alignItems="center" spacing={1}>
+        <Stack sx={{ mt: 2, mb: 1 }} direction="row" alignItems="center" spacing={0.25}>
+          <Switch sx={{ ml: -1.4 }} checked={value} id={name} name={name} onChange={onChange} />
           {options.length > 0 && (
-            <Typography component="span" variant="body2">
+            <Typography component="span" variant="body2" fontWeight={600}>
               {options[0].label}
             </Typography>
           )}
-          <Switch checked={value} id={name} name={name} onChange={onChange} />
         </Stack>
       </FormLabel>
     </StyledInputWrapper>
