@@ -85,6 +85,11 @@
         "v2": {
           "blockingButtonLabel": "Go to API Catalog"
         }
+      },
+      "validation": {
+        "maxLength": "Max {{num}} characters",
+        "required": "required",
+        "multipleChoice": "multiple choice"
       }
     },
     "step3": {
