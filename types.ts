@@ -79,6 +79,7 @@ export type ApiEndpointKey =
   | 'OPERATOR_SECURITY_GET_LIST'
   | 'OPERATOR_SECURITY_GET_KEYS_LIST'
   | 'ATTRIBUTE_CONFIRM_DECLARED'
+  | 'ATTRIBUTE_REVOKE_DECLARED'
 
 export type ApiEndpointContent = {
   URL: string
@@ -195,6 +196,7 @@ type JwtOrgRole = {
 }
 
 type JwtOrg = {
+  name: string
   roles: Array<JwtOrgRole>
   fiscal_code: string
 }

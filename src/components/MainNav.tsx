@@ -56,6 +56,7 @@ export const MainNav = () => {
           routes.SUBSCRIBE_INTEROP_M2M,
         ],
       },
+      { route: routes.PARTY_REGISTRY },
     ],
     api: [
       {
