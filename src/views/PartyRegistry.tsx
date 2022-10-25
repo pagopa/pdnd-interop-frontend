@@ -103,7 +103,6 @@ export function PartyRegistry() {
   }
 
   const { activeDeclaredAttributes, revokedDeclaredAttributes } = React.useMemo(() => {
-    console.log(ownedDeclaredAttributes)
     return {
       activeDeclaredAttributes:
         ownedDeclaredAttributes?.filter(
