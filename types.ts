@@ -610,24 +610,6 @@ export type PublicKeys = {
 }
 
 /*
- *  Parties
- */
-
-export type Party = {
-  id: string
-  externalId: string
-  originId: string
-  description: string
-  digitalAddress: string
-  address: string
-  zipCode: number
-  taxCode: string
-  origin: string
-  institutionType?: string
-  attributes: Array<PartyAttribute>
-}
-
-/*
  * Attributes
  */
 export type AttributeKind = 'CERTIFIED' | 'VERIFIED' | 'DECLARED'
