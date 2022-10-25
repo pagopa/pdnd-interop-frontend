@@ -9,9 +9,12 @@ import { LangContext } from '../lib/context'
 import { StyledInputControlledRadioProps } from '../components/Shared/StyledInputControlledRadio'
 import { StyledInputControlledCheckboxMultipleProps } from '../components/Shared/StyledInputControlledCheckboxMultiple'
 import { StyledInputControlledSelectProps } from '../components/Shared/StyledInputControlledSelect'
-import { StyledInputControlledSwitchProps } from '../components/Shared/StyledInputControlledSwitch'
 import { InputCheckboxOption, InputRadioOption, InputSelectOption, LangCode } from '../../types'
 import identity from 'lodash/identity'
+import {
+  StyledRiskAnalysisSwitch,
+  StyledRiskAnalysisSwitchProps,
+} from '../components/Shared/StyledRiskAnalysisSwitch'
 
 type MultiLangEntry = {
   it: string
@@ -403,12 +406,22 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
           radio: untypedProps as StyledInputControlledRadioProps,
           checkbox: untypedProps as StyledInputControlledCheckboxMultipleProps,
           'select-one': untypedProps as StyledInputControlledSelectProps,
-          switch: untypedProps as StyledInputControlledSwitchProps,
+          switch: untypedProps as StyledRiskAnalysisSwitchProps,
         }[type]
 
         const sx = isLast ? { mb: 0 } : undefined
 
-        questionComponents.push(<StyledInput key={id} {...props} sx={sx} />)
+        if (type === 'switch') {
+          questionComponents.push(
+            <StyledRiskAnalysisSwitch
+              key={id}
+              {...(props as StyledRiskAnalysisSwitchProps)}
+              sx={sx}
+            />
+          )
+        } else {
+          questionComponents.push(<StyledInput key={id} {...props} sx={sx} />)
+        }
 
         return questionComponents
       }
