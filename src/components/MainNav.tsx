@@ -71,7 +71,6 @@ export const MainNav = () => {
           routes.SUBSCRIBE_INTEROP_M2M,
         ],
       },
-      { route: routes.PARTY_REGISTRY },
     ],
     api: [
       {
@@ -98,6 +97,7 @@ export const MainNav = () => {
     ...(isOperatorAPI ? views['api'] : []),
     ...(isOperatorSecurity ? views['security'] : []),
     { route: routes.NOTIFICATION, StartIcon: EmailIcon },
+    ...(isAdmin ? [{ route: routes.PARTY_REGISTRY }] : []),
   ]
 
   const wrapSetOpenSubmenuId = (newOpenId?: string) => () => {
