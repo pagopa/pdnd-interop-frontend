@@ -85,6 +85,11 @@
         "v2": {
           "blockingButtonLabel": "Vai sul Catalogo API"
         }
+      },
+      "validation": {
+        "maxLength": "Max {{num}} caratteri",
+        "required": "richiesto",
+        "multipleChoice": "scelta multipla"
       }
     },
     "step3": {
