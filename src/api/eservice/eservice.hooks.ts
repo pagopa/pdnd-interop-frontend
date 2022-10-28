@@ -81,7 +81,7 @@ function useDeleteDraft() {
       description: t('confirmDialog.description'),
     },
     onSuccess(_, { eserviceId }) {
-      queryClient.invalidateQueries([EServiceQueryKeys.GetSingle, eserviceId])
+      queryClient.removeQueries([EServiceQueryKeys.GetSingle, eserviceId])
       queryClient.invalidateQueries([EServiceQueryKeys.GetAllFlat])
     },
   })

@@ -83,11 +83,6 @@
     "alreadySubscribed": "Sei già iscritto",
     "agreementInDraft": "Hai una richiesta in bozza",
     "missingCertifiedAttributes": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
-    "goToRequestCta": "Vai alla richiesta",
-    "subscribeModal": {
-      "title": "Creazione bozza richiesta di fruizione",
-      "description": "Vuoi creare una bozza di richiesta di fruizione per l'e-service {{name}}, versione {{version}}",
-      "proceedLabel": "Crea bozza"
-    }
+    "goToRequestCta": "Vai alla richiesta"
   }
 }

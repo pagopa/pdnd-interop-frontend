@@ -193,6 +193,107 @@
       }
     }
   },
+  "agreement": {
+    "createDraft": {
+      "loading": "Creating fruition request",
+      "outcome": {
+        "error": "The request could not be created. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Fruition request",
+        "description": "You are about to send a furition request for the e-service {{name}}, version {{version}}",
+        "proceedLabel": "Subscribe"
+      }
+    },
+    "submitDraft": {
+      "loading": "Sending fruition request to the Provider",
+      "outcome": {
+        "success": "Request sent successfully and awating approval by the Provider",
+        "error": "The request could not be sent. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm request submit",
+        "description": "By clicking \"confirm\", the fruition request will be sent to the e-service provider to be evaluated"
+      }
+    },
+    "deleteDraft": {
+      "loading": "Deleting fruition request",
+      "outcome": {
+        "success": "Request deleted successfully",
+        "error": "The request could not be deleted. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm request deletion",
+        "description": "By clicking \"confirm\", the draft of this fruition request will be deleted. You will always be able to create a new one"
+      }
+    },
+    "downloadDraftDocument": {
+      "loading": "Downloading document",
+      "outcome": {
+        "error": "The document could not be downloaded. Please, try again!"
+      }
+    },
+    "uploadDraftDocument": {
+      "loading": "Uploading document",
+      "outcome": {
+        "success": "Document uploaded successfully",
+        "error": "The document could not be uploaded. Please, try again!"
+      }
+    },
+    "deleteDraftDocument": {
+      "loading": "Deleting document",
+      "outcome": {
+        "success": "Document deleted successfully",
+        "error": "The document could not be deleted. Please, try again!"
+      }
+    },
+    "activate": {
+      "loading": "Activating fruition request",
+      "outcome": {
+        "success": "The fruition request was activated successfully",
+        "error": "The fruition request could not be activated. Please, make sure all attributes are verified and try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm request activation",
+        "description": "By clicking \"confirm\", the fruition request will be activated. It can be suspended anytime from this page"
+      }
+    },
+    "reject": {
+      "loading": "Rejecting fruition request",
+      "outcome": {
+        "error": "The fruition request could not be rejected. Please, try again!"
+      }
+    },
+    "suspend": {
+      "loading": "Suspending fruition request",
+      "outcome": {
+        "success": "The fruition request was suspended successfully. The Subscriber can no longer access this e-service",
+        "error": "The fruition request could not be suspended. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm request suspension",
+        "description": "By clicking \"confirm\", the fruition request will be suspended. It will no longer be possible to the clients added to purposes for this e-service to access it. The request can be reactivated anytime from this page"
+      }
+    },
+    "upgrade": {
+      "loading": "Upgrading fruition request",
+      "outcome": {
+        "success": "The fruition request was upgraded to the latest e-service version. Warning: always check the \"audience\" field in your client assertions, it may change with the version of the e-service",
+        "error": "The fruition request could not be upgraded. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm request upgrade",
+        "description": "By clicking \"confirm\", the fruition request will be upgraded to the latest e-service version. All the clients added to purposes for this e-service will keep accessing it"
+      }
+    },
+    "downloadContract": {
+      "loading": "Downloading fruition request document",
+      "outcome": {
+        "success": "The fruition request document was downloaded successfully",
+        "error": "The fruition request document could not be downloaded. Please, try again!"
+      }
+    }
+  },
   "OPERATOR_SECURITY_JOIN_WITH_CLIENT": {
     "loading": "Adding the user to this client",
     "outcome": {
@@ -209,100 +310,6 @@
     "confirmDialog": {
       "title": "Confirm operation removal from client",
       "description": "The operator will be removed from this client. The keys uploaded for this client can still be used to access the e-services the client is related to. You can always remove them manually from the public keys list for this client"
-    }
-  },
-  "AGREEMENT_DRAFT_CREATE": {
-    "loading": "Creating fruition request",
-    "outcome": {
-      "error": "The request could not be created. Please, try again!"
-    }
-  },
-  "AGREEMENT_DRAFT_SUBMIT": {
-    "loading": "Sending fruition request to the Provider",
-    "outcome": {
-      "success": "Request sent successfully and awating approval by the Provider",
-      "error": "The request could not be sent. Please, try again!"
-    },
-    "confirmDialog": {
-      "title": "Confirm request submit",
-      "description": "By clicking \"confirm\", the fruition request will be sent to the e-service provider to be evaluated"
-    }
-  },
-  "AGREEMENT_DRAFT_DELETE": {
-    "loading": "Deleting fruition request",
-    "outcome": {
-      "success": "Request deleted successfully",
-      "error": "The request could not be deleted. Please, try again!"
-    },
-    "confirmDialog": {
-      "title": "Confirm request deletion",
-      "description": "By clicking \"confirm\", the draft of this fruition request will be deleted. You will always be able to create a new one"
-    }
-  },
-  "AGREEMENT_DRAFT_DOCUMENT_DOWNLOAD": {
-    "loading": "Downloading document",
-    "outcome": {
-      "error": "The document could not be downloaded. Please, try again!"
-    }
-  },
-  "AGREEMENT_DRAFT_DOCUMENT_UPLOAD": {
-    "loading": "Uploading document",
-    "outcome": {
-      "success": "Document uploaded successfully",
-      "error": "The document could not be uploaded. Please, try again!"
-    }
-  },
-  "AGREEMENT_DRAFT_DOCUMENT_DELETE": {
-    "loading": "Deleting document",
-    "outcome": {
-      "success": "Document deleted successfully",
-      "error": "The document could not be deleted. Please, try again!"
-    }
-  },
-  "AGREEMENT_ACTIVATE": {
-    "loading": "Activating fruition request",
-    "outcome": {
-      "success": "The fruition request was activated successfully",
-      "error": "The fruition request could not be activated. Please, make sure all attributes are verified and try again!"
-    },
-    "confirmDialog": {
-      "title": "Confirm request activation",
-      "description": "By clicking \"confirm\", the fruition request will be activated. It can be suspended anytime from this page"
-    }
-  },
-  "AGREEMENT_REJECT": {
-    "loading": "Rejecting fruition request",
-    "outcome": {
-      "error": "The fruition request could not be rejected. Please, try again!"
-    }
-  },
-  "AGREEMENT_SUSPEND": {
-    "loading": "Suspending fruition request",
-    "outcome": {
-      "success": "The fruition request was suspended successfully. The Subscriber can no longer access this e-service",
-      "error": "The fruition request could not be suspended. Please, try again!"
-    },
-    "confirmDialog": {
-      "title": "Confirm request suspension",
-      "description": "By clicking \"confirm\", the fruition request will be suspended. It will no longer be possible to the clients added to purposes for this e-service to access it. The request can be reactivated anytime from this page"
-    }
-  },
-  "AGREEMENT_UPGRADE": {
-    "loading": "Upgrading fruition request",
-    "outcome": {
-      "success": "The fruition request was upgraded to the latest e-service version. Warning: always check the \"audience\" field in your client assertions, it may change with the version of the e-service",
-      "error": "The fruition request could not be upgraded. Please, try again!"
-    },
-    "confirmDialog": {
-      "title": "Confirm request upgrade",
-      "description": "By clicking \"confirm\", the fruition request will be upgraded to the latest e-service version. All the clients added to purposes for this e-service will keep accessing it"
-    }
-  },
-  "AGREEMENT_CONTRACT_DOWNLOAD": {
-    "loading": "Downloading fruition request document",
-    "outcome": {
-      "success": "The fruition request document was downloaded successfully",
-      "error": "The fruition request document could not be downloaded. Please, try again!"
     }
   },
   "PURPOSE_DRAFT_CREATE": {

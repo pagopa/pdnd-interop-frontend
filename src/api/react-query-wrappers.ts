@@ -31,13 +31,23 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
     ...options,
     onSuccess: (...args) => {
       if (!options?.suppressSuccessToast && options?.successToastLabel) {
-        showToast(options.successToastLabel, 'success')
+        const successLabel =
+          typeof options.successToastLabel === 'function'
+            ? options.successToastLabel(...args)
+            : options?.successToastLabel
+
+        showToast(successLabel, 'success')
       }
       options?.onSuccess?.(...args)
     },
     onError: (...args) => {
-      if (!options?.suppressErrorToast && options?.errorToastLabel) {
-        showToast(options.errorToastLabel, 'error')
+      if (!options?.suppressErrorToast && options.errorToastLabel) {
+        const errorLabel =
+          typeof options.errorToastLabel === 'function'
+            ? options.errorToastLabel(args[1], args[2])
+            : options?.errorToastLabel
+
+        showToast(errorLabel, 'error')
       }
       options?.onError?.(...args)
     },
@@ -51,7 +61,8 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
     async <T>(
       action: (...args: unknown[]) => T,
       title: string,
-      description: string
+      description: string,
+      proceedLabel?: string
     ): Promise<T> => {
       return new Promise((resolve) => {
         const proceedCallback = () => {
@@ -64,16 +75,20 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
           proceedCallback,
           title,
           description,
+          proceedLabel,
         })
       })
     },
     [openDialog, closeDialog]
   )
 
-  const optionsLoadingLabel = !options?.suppressLoadingOverlay && options?.loadingLabel
-  const confirmationDialogTitle = options?.showConfirmationDialog && options?.dialogConfig.title
-  const confirmationDialogDescription =
+  const hasLoadingOverlay = !!(!options?.suppressLoadingOverlay && options?.loadingLabel)
+  const hasConfirmationDialogTitle = !!(
+    options?.showConfirmationDialog && options?.dialogConfig.title
+  )
+  const hasConfirmationDialogDescription = !!(
     options?.showConfirmationDialog && options?.dialogConfig.description
+  )
 
   const mutate: typeof _mutate = React.useCallback(
     async (...args) => {
@@ -82,28 +97,56 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
         return
       }
 
-      if (confirmationDialogTitle && confirmationDialogDescription) {
+      if (hasConfirmationDialogTitle && hasConfirmationDialogDescription) {
+        const confirmationDialogTitle =
+          typeof options.dialogConfig.title === 'function'
+            ? options.dialogConfig.title(args[0])
+            : options.dialogConfig.title
+
+        const confirmationDialogDescription =
+          typeof options.dialogConfig.description === 'function'
+            ? options.dialogConfig.description(args[0])
+            : options.dialogConfig.description
+
+        const proceedLabel = options.dialogConfig.proceedLabel
+
         return await _wrapActionInDialog(
           () => {
-            if (optionsLoadingLabel) showOverlay(optionsLoadingLabel)
+            if (hasLoadingOverlay) {
+              const loadingLabel =
+                typeof options.loadingLabel === 'function'
+                  ? options.loadingLabel(args[0])
+                  : options.loadingLabel
+
+              showOverlay(loadingLabel)
+            }
             _mutate(...args)
           },
           confirmationDialogTitle,
-          confirmationDialogDescription
+          confirmationDialogDescription,
+          proceedLabel
         )
       }
-      if (optionsLoadingLabel) showOverlay(optionsLoadingLabel)
+      if (hasLoadingOverlay) {
+        const loadingLabel =
+          typeof options.loadingLabel === 'function'
+            ? options.loadingLabel(args[0])
+            : options.loadingLabel
+
+        showOverlay(loadingLabel)
+      }
       _mutate(...args)
     },
     [
       _mutate,
       showOverlay,
-      optionsLoadingLabel,
-      confirmationDialogTitle,
-      confirmationDialogDescription,
+      hasLoadingOverlay,
+      hasConfirmationDialogTitle,
+      hasConfirmationDialogDescription,
       _wrapActionInDialog,
       hasSessionExpired,
       openDialog,
+      options,
     ]
   )
 
@@ -113,29 +156,56 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
         openDialog({ type: 'sessionExpired' })
         return Promise.reject()
       }
-      if (confirmationDialogTitle && confirmationDialogDescription) {
-        return await _wrapActionInDialog<ReturnType<typeof _mutateAsync>>(
+      if (hasConfirmationDialogTitle && hasConfirmationDialogDescription) {
+        const confirmationDialogTitle =
+          typeof options.dialogConfig.title === 'function'
+            ? options.dialogConfig.title(args[0])
+            : options.dialogConfig.title
+
+        const confirmationDialogDescription =
+          typeof options.dialogConfig.description === 'function'
+            ? options.dialogConfig.description(args[0])
+            : options.dialogConfig.description
+
+        const proceedLabel = options.dialogConfig.proceedLabel
+
+        return await _wrapActionInDialog(
           () => {
-            if (optionsLoadingLabel) showOverlay(optionsLoadingLabel)
+            if (hasLoadingOverlay) {
+              const loadingLabel =
+                typeof options.loadingLabel === 'function'
+                  ? options.loadingLabel(args[0])
+                  : options.loadingLabel
+
+              showOverlay(loadingLabel)
+            }
             return _mutateAsync(...args)
           },
           confirmationDialogTitle,
-          confirmationDialogDescription
+          confirmationDialogDescription,
+          proceedLabel
         )
       }
-      if (optionsLoadingLabel) showOverlay(optionsLoadingLabel)
+      if (hasLoadingOverlay) {
+        const loadingLabel =
+          typeof options.loadingLabel === 'function'
+            ? options.loadingLabel(args[0])
+            : options.loadingLabel
 
+        showOverlay(loadingLabel)
+      }
       return _mutateAsync(...args)
     },
     [
       _mutateAsync,
       showOverlay,
-      optionsLoadingLabel,
-      confirmationDialogTitle,
-      confirmationDialogDescription,
+      hasLoadingOverlay,
+      hasConfirmationDialogTitle,
+      hasConfirmationDialogDescription,
       _wrapActionInDialog,
       hasSessionExpired,
       openDialog,
+      options,
     ]
   )
 

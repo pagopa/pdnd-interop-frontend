@@ -8,24 +8,6 @@ import {
   UseQueryResult,
 } from '@tanstack/react-query'
 
-// export type UseQueryWrapper = <
-//   TQueryFnData = unknown,
-//   TError = unknown,
-//   TData = TQueryFnData,
-//   TQueryKey extends QueryKey = QueryKey
-// >(
-//   key: TQueryKey,
-//   queryFn: QueryFunction<TQueryFnData, TQueryKey>,
-//   options?: Omit<
-//     UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
-//     'queryKey' | 'queryFn' | 'initialData'
-//   > & {
-//     initialData?: () => undefined
-//   } & {
-//     skipJwtSessionExpirationCheck?: boolean
-//   }
-// ) => UseQueryResult<TData, TError>
-
 export type UseQueryWrapper = <
   TQueryFnData = unknown,
   TError = unknown,
@@ -48,41 +30,44 @@ type MutationWrapperOptions<TData, TError, TVariables, TContext> = Omit<
   UseMutationOptions<TData, TError, TVariables, TContext>,
   'mutationFn'
 > &
-  OverlayConfig &
-  SuccessNotificationConfig &
-  ErrorNotificationConfig &
-  DialogConfig
+  OverlayConfig<TVariables> &
+  SuccessNotificationConfig<TData, TVariables, TContext> &
+  ErrorNotificationConfig<TVariables, TContext> &
+  DialogConfig<TVariables>
 
-type OverlayConfig =
+type OverlayConfig<TVariables> =
   | {
       suppressLoadingOverlay?: false | undefined
-      loadingLabel: string
+      loadingLabel: string | ((variables: TVariables) => string)
     }
   | { suppressLoadingOverlay: true }
 
-type SuccessNotificationConfig =
+type SuccessNotificationConfig<TData, TVariables, TContext> =
   | {
       suppressSuccessToast?: false | undefined
-      successToastLabel: string
+      successToastLabel:
+        | string
+        | ((data: TData, variables: TVariables, context: TContext | undefined) => string)
     }
   | { suppressSuccessToast: true }
 
-type ErrorNotificationConfig =
+type ErrorNotificationConfig<TVariables, TContext> =
   | {
       suppressErrorToast?: false | undefined
-      errorToastLabel: string
+      errorToastLabel: string | ((variables: TVariables, context: TContext | undefined) => string)
     }
   | { suppressErrorToast: true }
 
-type DialogConfig =
+type DialogConfig<TVariables> =
   | {
       showConfirmationDialog?: false | undefined
     }
   | {
       showConfirmationDialog: true
       dialogConfig: {
-        title: string
-        description: string
+        title: string | ((variables: TVariables) => string)
+        description: string | ((variables: TVariables) => string)
+        proceedLabel?: string
       }
     }
 

@@ -1,3 +1,4 @@
+import { AgreementMutations } from '@/api/agreement'
 import { AttributeQueries } from '@/api/attribute'
 import { EServiceQueries } from '@/api/eservice'
 import { useNavigateRouter } from '@/router'
@@ -19,6 +20,7 @@ function useEServiceConsumerActions(eserviceId: string) {
     state: 'PUBLISHED',
     callerId: jwt?.organizationId,
   })
+  const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft()
 
   const eservice = eservices?.find(({ id }) => id === eserviceId)
 
@@ -71,7 +73,20 @@ function useEServiceConsumerActions(eserviceId: string) {
 
     if (canCreateAgreementDraft) {
       const handleCreateAgreementDraft = () => {
-        //TODO
+        if (!eservice?.descriptorId) return
+        createAgreementDraft(
+          {
+            eserviceName: eservice.name,
+            eserviceId: eservice.id,
+            eserviceVersion: eservice.version,
+            descriptorId: eservice.descriptorId,
+          },
+          {
+            onSuccess({ id }) {
+              navigate('SUBSCRIBE_AGREEMENT_EDIT', { params: { agreementId: id } })
+            },
+          }
+        )
       }
       actions.push({
         action: handleCreateAgreementDraft,

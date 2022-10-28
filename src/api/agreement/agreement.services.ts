@@ -24,10 +24,18 @@ async function getSingle(agreementId: string) {
   return response.data
 }
 
-async function createDraft(payload: { eserviceId: string; descriptorId: string }) {
+async function createDraft({
+  eserviceId,
+  descriptorId,
+}: {
+  eserviceName: string
+  eserviceVersion: string | undefined
+  eserviceId: string
+  descriptorId: string
+}) {
   const response = await axiosInstance.post<{ id: string }>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements`,
-    payload
+    { eserviceId, descriptorId }
   )
   return response.data
 }

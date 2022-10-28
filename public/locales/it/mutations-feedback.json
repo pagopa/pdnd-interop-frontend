@@ -363,12 +363,17 @@
   },
   "agreement": {
     "createDraft": {
-      "loading": "Stiamo creando la richiesta di fruizione",
+      "loading": "Stiamo creando la bozza di fruizione",
       "outcome": {
         "error": "Non è stato possibile creare la richiesta. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Creazione bozza richiesta di fruizione",
+        "description": "Vuoi creare una bozza di richiesta di fruizione per l'e-service <strong>{{name}}</strong>, versione <strong>{{version}}</strong>",
+        "proceedLabel": "Crea bozza"
       }
     },
-    "AGREEMENT_DRAFT_SUBMIT": {
+    "submitDraft": {
       "loading": "Stiamo inoltrando la richiesta di fruizione",
       "outcome": {
         "success": "La richiesta è stata inoltrata correttamente. Riceverai notifiche di aggiornamento sul suo stato",
@@ -379,7 +384,7 @@
         "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà inoltrata all'erogatore dell'e-service per approvazione"
       }
     },
-    "AGREEMENT_DRAFT_DELETE": {
+    "deleteDraft": {
       "loading": "Stiamo cancellando la bozza",
       "outcome": {
         "success": "La bozza richiesta è stata cancellata correttamente",
@@ -390,28 +395,28 @@
         "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà cancellata. Sarà sempre possibile crearne una nuova"
       }
     },
-    "AGREEMENT_DRAFT_DOCUMENT_DOWNLOAD": {
+    "downloadDraftDocument": {
       "loading": "Stiamo scaricando il documento",
       "outcome": {
         "success": "Il documento è stato scaricato correttamente",
         "error": "Non è stato possibile scaricare il documento. Per favore, riprova!"
       }
     },
-    "AGREEMENT_DRAFT_DOCUMENT_UPLOAD": {
+    "uploadDraftDocument": {
       "loading": "Stiamo caricando il documento",
       "outcome": {
         "success": "Il documento è stato caricato correttamente",
         "error": "Non è stato possibile caricare il documento. Per favore, riprova!"
       }
     },
-    "AGREEMENT_DRAFT_DOCUMENT_DELETE": {
+    "deleteDraftDocument": {
       "loading": "Stiamo eliminando il documento",
       "outcome": {
         "success": "Il documento è stato eliminato correttamente",
         "error": "Non è stato possibile eliminare il documento. Per favore, riprova!"
       }
     },
-    "AGREEMENT_ACTIVATE": {
+    "activate": {
       "loading": "Stiamo attivando la richiesta",
       "outcome": {
         "success": "La richiesta di fruizione è ora attiva, ed è possibile creare finalità da associare all'e-service",
@@ -422,13 +427,13 @@
         "description": "Cliccando su \"conferma\" si attiverà la richiesta di fruizione. Potrà essere sospesa in qualunque momento da questo pannello"
       }
     },
-    "AGREEMENT_REJECT": {
+    "reject": {
       "loading": "Stiamo rifiutando la richiesta",
       "outcome": {
         "error": "Non è stato possibile rifiutare la richiesta. Per favore, riprova!"
       }
     },
-    "AGREEMENT_SUSPEND": {
+    "suspend": {
       "loading": "Stiamo sospendendo la richiesta",
       "outcome": {
         "success": "Non è più possibile per i client accedere al servizio in erogazione",
@@ -439,7 +444,7 @@
         "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà sospesa. I client collegati a questa richiesta non avranno più accesso all'e-service in erogazione. La richiesta è riattivabile in qualsiasi momento da questa stessa pagina"
       }
     },
-    "AGREEMENT_UPGRADE": {
+    "upgrade": {
       "loading": "Stiamo aggiornando la richiesta",
       "outcome": {
         "success": "La richiesta di fruizione è stata aggiornata alla versione più recente dell'e-service. Attenzione: verifica sempre il valore del campo \"audience\" all'interno delle client assertion nei tuoi client, potrebbe variare tra una versione di un e-service e un'altra a discrezione delle necessità dell'erogatore",
@@ -450,7 +455,7 @@
         "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà aggiornata alla versione più recente dell'e-service attualmente disponibile. I client collegati a questa richiesta continueranno ad avere accesso all'e-service in erogazione, aggiornato all'ultima versione"
       }
     },
-    "AGREEMENT_CONTRACT_DOWNLOAD": {
+    "downloadContract": {
       "loading": "Stiamo scaricando il documento della richiesta",
       "outcome": {
         "success": "Il documento della richiesta di fruizione è stato scaricato correttamente",

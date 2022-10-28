@@ -83,11 +83,6 @@
     "alreadySubscribed": "Already subscribed",
     "agreementInDraft": "You have an agreement draft",
     "missingCertifiedAttributes": "Your party does not meet the list of required certificated attributes",
-    "goToRequestCta": "Go to the fruition request",
-    "subscribeModal": {
-      "title": "Fruition request",
-      "description": "You are about to send a fruition request for the {{name}} e-service, version {{version}}",
-      "proceedLabel": "Subscribe"
-    }
+    "goToRequestCta": "Go to the fruition request"
   }
 }

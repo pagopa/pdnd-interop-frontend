@@ -1,4 +1,4 @@
-import { QueryKey, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import { GetAllAgreementQueryParams } from './agreement.api.types'
@@ -21,110 +21,202 @@ function useGetSingle(agreementId: string) {
   )
 }
 
-// function useSubmitDraft() {
-//   const { t } = useTranslation('mutations-feedback')
-//   return useMutationWrapper(AgreementServices.submitDraft, {})
-// }
-// async function submitDraft({
-//   agreementId,
-//   consumerNotes,
-// }: {
-//   agreementId: string
-//   consumerNotes: string
-// }) {
-//   const response = await axiosInstance.post<AgreementSummary>(
-//     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/submit`,
-//     { consumerNotes }
-//   )
-//   return response.data
-// }
+function usePrefetchSingle() {
+  const queryClient = useQueryClient()
+  return (agreementId: string) =>
+    queryClient.prefetchQuery(
+      [AgreementQueryKeys.GetSingle, agreementId],
+      () => AgreementServices.getSingle(agreementId),
+      { staleTime: 180000 }
+    )
+}
 
-// async function deleteDraft({ agreementId }: { agreementId: string }) {
-//   return axiosInstance.delete<AgreementSummary>(
-//     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}`
-//   )
-// }
+function useCreateDraft() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.createDraft' })
+  const queryClient = useQueryClient()
+  return useMutationWrapper(AgreementServices.createDraft, {
+    suppressSuccessToast: true,
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    showConfirmationDialog: true,
+    dialogConfig: {
+      title: t('confirmDialog.title'),
+      description: ({ eserviceName, eserviceVersion }) =>
+        t('confirmDialog.description', { name: eserviceName, version: eserviceVersion }),
+      proceedLabel: t('confirmDialog.proceedLabel'),
+    },
+    onSuccess({ id }) {
+      queryClient.invalidateQueries([AgreementQueryKeys.GetAll])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetSingle, id])
+    },
+  })
+}
 
-// async function downloadDraftDocument({
-//   agreementId,
-//   documentId,
-// }: {
-//   agreementId: string
-//   documentId: string
-// }) {
-//   const response = await axiosInstance.get<string>(
-//     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/consumer-documents/${documentId}`,
-//     {
-//       responseType: 'arraybuffer',
-//     }
-//   )
+function useSubmitDraft() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.submitDraft' })
+  const queryClient = useQueryClient()
+  return useMutationWrapper(AgreementServices.submitDraft, {
+    successToastLabel: t('outcome.success'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    showConfirmationDialog: true,
+    dialogConfig: {
+      title: t('confirmDialog.title'),
+      description: t('confirmDialog.description'),
+    },
+    onSuccess({ id }) {
+      queryClient.invalidateQueries([AgreementQueryKeys.GetAll])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetSingle, id])
+    },
+  })
+}
 
-//   return response.data
-// }
+function useDeleteDraft() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.deleteDraft' })
+  const queryClient = useQueryClient()
+  return useMutationWrapper(AgreementServices.deleteDraft, {
+    successToastLabel: t('outcome.success'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    showConfirmationDialog: true,
+    dialogConfig: {
+      title: t('confirmDialog.title'),
+      description: t('confirmDialog.description'),
+    },
+    onSuccess(_, { agreementId }) {
+      queryClient.removeQueries([AgreementQueryKeys.GetSingle, agreementId])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetAll])
+    },
+  })
+}
 
-// function uploadDraftDocument({
-//   agreementId,
-//   documentId,
-//   ...payload
-// }: {
-//   agreementId: string
-//   documentId: string
-// } & UploadAgreementDraftDocumentPayload) {
-//   const formData = new FormData()
-//   Object.entries(payload).forEach(([key, data]) => formData.append(key, data))
+function useDownloadDraftDocument() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'agreement.downloadDraftDocument',
+  })
+  return useMutationWrapper(AgreementServices.downloadDraftDocument, {
+    suppressSuccessToast: true,
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+  })
+}
 
-//   return axiosInstance.post(
-//     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/consumer-documents/${documentId}`,
-//     formData,
-//     {
-//       headers: {
-//         'Content-Type': 'multipart/form-data',
-//       },
-//     }
-//   )
-// }
+function useUploadDraftDocument() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'agreement.uploadDraftDocument',
+  })
+  const queryClient = useQueryClient()
+  return useMutationWrapper(AgreementServices.uploadDraftDocument, {
+    suppressSuccessToast: true,
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    onSuccess(_, { agreementId }) {
+      queryClient.invalidateQueries([AgreementQueryKeys.GetSingle, agreementId])
+    },
+  })
+}
 
-// function deleteDraftDocument({
-//   agreementId,
-//   documentId,
-// }: {
-//   agreementId: string
-//   documentId: string
-// }) {
-//   return axiosInstance.delete(
-//     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/consumer-documents/${documentId}`
-//   )
-// }
+function useDeleteDraftDocument() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'agreement.deleteDraftDocument',
+  })
+  const queryClient = useQueryClient()
+  return useMutationWrapper(AgreementServices.deleteDraftDocument, {
+    successToastLabel: t('outcome.success'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    onSuccess(_, { agreementId }) {
+      queryClient.invalidateQueries([AgreementQueryKeys.GetSingle, agreementId])
+    },
+  })
+}
 
-// async function activate({ agreementId }: { agreementId: string }) {
-//   const response = await axiosInstance.post<AgreementSummary>(
-//     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/activate`
-//   )
-//   return response.data
-// }
+function useActivate() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.activate' })
+  const queryClient = useQueryClient()
+  return useMutationWrapper(AgreementServices.activate, {
+    successToastLabel: t('outcome.success'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    showConfirmationDialog: true,
+    dialogConfig: {
+      title: t('confirmDialog.title'),
+      description: t('confirmDialog.description'),
+    },
+    onSuccess(_, { agreementId }) {
+      queryClient.removeQueries([AgreementQueryKeys.GetSingle, agreementId])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetAll])
+    },
+  })
+}
 
-// async function reject({ agreementId, reason }: { agreementId: string; reason: string }) {
-//   const response = await axiosInstance.post<AgreementSummary>(
-//     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/reject`,
-//     { reason }
-//   )
-//   return response.data
-// }
+function useReject() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.reject' })
+  const queryClient = useQueryClient()
+  return useMutationWrapper(AgreementServices.reject, {
+    suppressSuccessToast: true,
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    onSuccess(_, { agreementId }) {
+      queryClient.removeQueries([AgreementQueryKeys.GetSingle, agreementId])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetAll])
+    },
+  })
+}
 
-// async function suspend({ agreementId }: { agreementId: string }) {
-//   const response = await axiosInstance.post<AgreementSummary>(
-//     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/suspend`
-//   )
-//   return response.data
-// }
+function useSuspend() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.suspend' })
+  const queryClient = useQueryClient()
+  return useMutationWrapper(AgreementServices.suspend, {
+    successToastLabel: t('outcome.success'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    showConfirmationDialog: true,
+    dialogConfig: {
+      title: t('confirmDialog.title'),
+      description: t('confirmDialog.description'),
+    },
+    onSuccess(_, { agreementId }) {
+      queryClient.removeQueries([AgreementQueryKeys.GetSingle, agreementId])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetAll])
+    },
+  })
+}
 
-// async function upgrade({ agreementId }: { agreementId: string }) {
-//   const response = await axiosInstance.post<AgreementSummary>(
-//     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/upgrade`
-//   )
-//   return response.data
-// }
+function useUpgrade() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.upgrade' })
+  const queryClient = useQueryClient()
+  return useMutationWrapper(AgreementServices.upgrade, {
+    successToastLabel: t('outcome.success'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    showConfirmationDialog: true,
+    dialogConfig: {
+      title: t('confirmDialog.title'),
+      description: t('confirmDialog.description'),
+    },
+    onSuccess(_, { agreementId }) {
+      queryClient.removeQueries([AgreementQueryKeys.GetSingle, agreementId])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetAll])
+    },
+  })
+}
 
-export const AgreementQueries = {}
+export const AgreementQueries = {
+  useGetAll,
+  useGetSingle,
+  usePrefetchSingle,
+}
 
-export const AgreementMutations = {}
+export const AgreementMutations = {
+  useCreateDraft,
+  useSubmitDraft,
+  useDeleteDraft,
+  useDownloadDraftDocument,
+  useUploadDraftDocument,
+  useDeleteDraftDocument,
+  useActivate,
+  useReject,
+  useSuspend,
+  useUpgrade,
+}
