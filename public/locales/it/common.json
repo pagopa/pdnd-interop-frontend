@@ -1,6 +1,8 @@
 {
+  "noDataLabel": "Nessun risultato",
   "productTitle": "Interoperabilità",
   "addBtn": "+ Aggiungi",
+  "closeBtn": "Chiudi",
   "createNewBtn": "Crea nuovo",
   "validation": {
     "mixed": {
@@ -11,10 +13,6 @@
     },
     "boolean": {
       "isValue": "Si prega di confermare"
-    },
-    "number": {
-      "min": "Il valore deve essere superiore o uguale a ${min}",
-      "max": "Il valore deve essere inferiore o uguale a ${max}"
     }
   },
   "mainNav": {
@@ -33,7 +31,6 @@
   "actions": {
     "suspend": "Sospendi",
     "activate": "Attiva",
-    "reject": "Rifiuta",
     "upgrade": "Aggiorna",
     "delete": "Elimina",
     "inspect": "Ispeziona",
@@ -45,18 +42,19 @@
     "archive": "Archivia",
     "cancel": "Annulla",
     "createNewDraft": "Crea bozza nuova versione",
-    "saveDraft": "Salva bozza"
+    "saveDraft": "Salva bozza",
+    "backToCatalog": "Torna al catalogo"
   },
   "table": {
     "headData": {
-      "eserviceName": "E-service",
+      "eserviceName": "E-Service",
       "clientName": "Client",
       "purposeName": "Finalità",
       "providerName": "Erogatore",
       "subscriberName": "Fruitore",
       "currentVersion": "Versione attuale",
       "version": "Versione",
-      "eserviceStatus": "Stato e-service",
+      "eserviceStatus": "Stato E-Service",
       "agreementStatus": "Stato richiesta",
       "purposeStatus": "Stato finalità",
       "userStatus": "Stato utente",
@@ -97,11 +95,6 @@
       "DELETED": "rimosso"
     }
   },
-  "agreementFrontendStatus": {
-    "suspendedByProducer": "sospeso dall'erogatore",
-    "suspendedByConsumer": "sospeso dal fruitore",
-    "suspendedByPlatform": "sospeso dalla piattaforma"
-  },
   "userRole": {
     "MANAGER": "Amministratore",
     "DELEGATE": "Delegato",
@@ -134,16 +127,6 @@
   },
   "tos": {
     "title": "Termini di servizio"
-  },
-  "notFound": {
-    "title": "Spiacenti",
-    "description": {
-      "notFound": "La pagina cercata purtroppo non esiste",
-      "serverError": "Si è verificato un errore temporaneo del server",
-      "goHomeLink": {
-        "label": "Torna alla home"
-      }
-    }
   },
   "notifications": {
     "title": "Notifiche",

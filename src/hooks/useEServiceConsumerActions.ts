@@ -1,0 +1,86 @@
+import { AttributeQueries } from '@/api/attribute'
+import { EServiceQueries } from '@/api/eservice'
+import { useNavigateRouter } from '@/router'
+import { ActionItem } from '@/types/common.types'
+import { checkCertifiedAttributesOwnership } from '@/utils/attribute.utils'
+import { useTranslation } from 'react-i18next'
+import { useJwt } from './useJwt'
+
+function useEServiceConsumerActions(eserviceId: string) {
+  const { jwt, isAdmin } = useJwt()
+  const { navigate } = useNavigateRouter()
+  const { t } = useTranslation('eservice')
+  const { t: tCommon } = useTranslation('common')
+
+  const { data: certifiedAttributes = [] } = AttributeQueries.useGetPartyCertifiedList(
+    jwt?.organizationId
+  )
+  const { data: eservices = [] } = EServiceQueries.useGetAllFlat({
+    state: 'PUBLISHED',
+    callerId: jwt?.organizationId,
+  })
+
+  const eservice = eservices?.find(({ id }) => id === eserviceId)
+
+  const isMine = eservice?.producerId === jwt?.organizationId
+  const actions: Array<ActionItem> = []
+  let canCreateAgreementDraft = false
+
+  // I can subscribe to the eservice only if...
+  if (eservice) {
+    // ... I am an admin and I own all the certified attributes or...
+    if (
+      isAdmin &&
+      checkCertifiedAttributesOwnership(certifiedAttributes, eservice.certifiedAttributes)
+    ) {
+      canCreateAgreementDraft = true
+    }
+
+    // ... if it is mine...
+    if (isMine) {
+      canCreateAgreementDraft = true
+    }
+
+    // ... but only if I don't have an agreement with it yet.
+    if (eservice?.agreement) {
+      canCreateAgreementDraft = false
+    }
+
+    // Possible actions
+
+    // If there is an agreement for this e-service add a "Go to Agreement" action
+    if (isAdmin && eservice.agreement) {
+      const handleGoToAgreementRequest = () => {
+        const routeKey =
+          eservice?.agreement?.state !== 'DRAFT'
+            ? 'SUBSCRIBE_AGREEMENT_READ'
+            : 'SUBSCRIBE_AGREEMENT_EDIT'
+
+        navigate(routeKey, {
+          params: {
+            agreementId: eservice.agreement?.id as string,
+          },
+        })
+      }
+
+      actions.push({
+        action: handleGoToAgreementRequest,
+        label: t('tableEServiceCatalog.goToRequestCta'),
+      })
+    }
+
+    if (canCreateAgreementDraft) {
+      const handleCreateAgreementDraft = () => {
+        //TODO
+      }
+      actions.push({
+        action: handleCreateAgreementDraft,
+        label: tCommon('actions.subscribe'),
+      })
+    }
+  }
+
+  return { actions, canCreateAgreementDraft, isMine }
+}
+
+export default useEServiceConsumerActions

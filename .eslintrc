@@ -30,7 +30,8 @@
     "@typescript-eslint/no-unused-vars": [
       "warn",
       {
-        "argsIgnorePattern": "^_"
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
       }
     ],
     // Module boundary means input and output for all exports must

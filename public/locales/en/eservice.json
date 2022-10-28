@@ -1,128 +1,34 @@
 {
-  "loadingSingleLabel": "Loading your e-service",
-  "loadingMultiLabel": "Loading e-service list",
-  "noMultiDataLabel": "Non e-service available",
-  "backToListBtn": "Back to the e-services",
-  "create": {
-    "emptyTitle": "Create e-service",
-    "stepper": {
-      "step1Label": "General",
-      "step2Label": "Version",
-      "step3Label": "Documentation"
-    },
-    "backWithoutSaveBtn": "Back",
-    "forwardWithSaveBtn": "Save draft and proceed",
-    "forwardWithoutSaveBtn": "Next",
-    "endWithSaveBtn": "Save draft and back to the e-services",
-    "step1": {
-      "detailsTitle": "E-service details",
-      "eserviceNameField": {
-        "label": "E-service name (required)",
-        "infoLabel": "If you have more than one e-service with the same name, give a little hint to tell them apart (e.g. \"TARI – for Municipalities\" e \"TARI - for Regions\"). Max 60 chars"
-      },
-      "eserviceDescriptionField": {
-        "label": "E-service description (required)",
-        "infoLabel": "(e.g. \"Dedicated to the bodies that need ...\", or \"This e-service is for ...\"). Max 250 chars"
-      },
-      "eserviceTechnologyField": {
-        "label": "Technology (required)"
-      },
-      "attributes": {
-        "subtitle": "The Subscriber must own:",
-        "certified": {
-          "description": "Certified by an authoritative source. You don't need to do anything."
-        },
-        "verified": {
-          "description": "You can decide whether to trust another party's audit on these attributes or run your own."
-        },
-        "declared": {
-          "description": "The Subscriber will declare it possesses these attributes under its own responsibility."
-        }
-      },
-      "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published"
-    },
-    "step2": {
-      "versionField": {
-        "label": "Version number (required)",
-        "infoLabel": "Set automatically, not editable"
-      },
-      "descriptionField": {
-        "label": "Version description (required)",
-        "infoLabel": "Max 250 chars"
-      },
-      "audienceField": {
-        "label": "Audience (required)",
-        "infoLabel": "The content of this field will the audience (aud) that the Subscriber will send you inside the access token. With this id the Subscriber will tell the Provider which service it is looking for. Max 60 chars"
-      },
-      "voucherLifespanField": {
-        "label": "Access token expiration (in minutes - required)",
-        "infoLabel": "Max value: 1440 minutes (24 hours)"
-      },
-      "dailyCallsPerConsumerField": {
-        "label": "API calls/day threshold for each Subscriber (required)",
-        "infoLabel": "The Subscriber declares its API calls estimate for each purpose. If the sum of the calls of all purposes will be over this threshold, you will have to approve manually each new purpose before it can be used to access your e-service"
-      },
-      "dailyCallsTotalField": {
-        "label": "Total API calls/day threshold (required)",
-        "infoLabel": "The total API calls that will be allowed per day, shared among all the Subscribers. If the sum of new purposes will go above this threshold, you will have to approve manually each new purpose before it can be used to access your e-service",
-        "validation": {
-          "min": "This value cannot be below the threshold set for the API calls/day for each Subscriber"
-        }
-      },
-      "agreementApprovalPolicyField": {
-        "label": "I want to reserve the right to manually check and activate all requests received for this version of the e-service"
-      }
-    },
-    "step3": {
-      "interface": {
-        "title": "Interface (required)",
-        "description": {
-          "before": "Upload the",
-          "after": "file that describes the API"
-        },
-        "prettyName": "API specification"
-      },
-      "documentation": {
-        "title": "Documentation",
-        "description": "Upload the technical documents that can help implement the use of this e-service",
-        "noFileUploaded": "No file uploaded"
-      },
-      "uploadFileField": {
-        "label": "Choose document"
-      },
+  "status": {
+    "PUBLISHED": "active",
+    "DRAFT": "draft",
+    "SUSPENDED": "suspended",
+    "ARCHIVED": "archived",
+    "DEPRECATED": "deprecated"
+  },
+  "list": {
+    "title": "E-Service Catalog",
+    "description": "In this area you can explore all the catalog's e-services",
+    "inspectAction": "Inspect",
+    "filters": {
       "nameField": {
-        "label": "Document name",
-        "infoLabel": "Max 60 chars"
+        "label": "Find by name"
       },
-      "uploadBtn": "Upload"
-    },
-    "quickPublish": {
-      "title": "Quick publish",
-      "description": "If you are done editing, you can publish this draft immediately, or delete it. If you want to publish later, just save the draft at the end of the page",
-      "publishBtn": "Publish draft",
-      "deleteBtn": "Delete draft"
+      "providerField": {
+        "label": "Find by provider"
+      },
+      "filterBtn": "Filter",
+      "cancelFilterBtn": "Cancel filters"
     }
   },
-  "tableEServiceCatalog": {
-    "youAreTheProvider": "You are the Provider",
-    "alreadySubscribed": "Already subscribed",
-    "agreementInDraft": "You have an agreement draft",
-    "missingCertifiedAttributes": "Your party does not meet the list of required certificated attributes",
-    "goToRequestCta": "Go to the fruition request",
-    "subscribeModal": {
-      "title": "Fruition request",
-      "description": "You are about to send a fruition request for the {{name}} e-service, version {{version}}",
-      "proceedLabel": "Subscribe"
-    }
-  },
-  "contentInfo": {
+  "read": {
     "sections": {
       "generalInformations": {
         "title": "General informations",
-        "agreementField": {
-          "label": "Fruition request",
+        "alreadySubscribedField": {
+          "label": "You are a Subscriber of the E-Service",
           "link": {
-            "label": "Go to"
+            "label": "Go to the fruition request"
           }
         },
         "technology": "Technology"
@@ -130,6 +36,7 @@
       "versionInformations": {
         "title": "Informazioni di versione",
         "actualVersion": "You are viewing version",
+        "currentVersionChipLabel": "current version",
         "versionStatus": "Version status",
         "description": "Description",
         "audience": "Audience",
@@ -138,11 +45,7 @@
         "dailyCallsPerConsumer": "Per subscriber threshold",
         "dailyCallsTotal": "Total threshold",
         "callsPerDay": "API calls/day",
-        "agreementApprovalPolicy": {
-          "label": "Fruition request activation",
-          "AUTOMATIC": "Automatic",
-          "MANUAL": "Manual"
-        },
+
         "doubtsQuestion": "Do you have doubts about the implementation to deliver your e-service?",
         "doubtsLink": "See the guide"
       },
@@ -173,53 +76,18 @@
         },
         "submitBtn": "Go to page"
       }
-    },
-    "verificationRequired": "verification required",
-    "groupOr": "or",
-    "provider": "Provider",
-    "version": "Version",
-    "versionStatus": "Version status",
-    "versionDescription": "Version description",
-    "audience": "Audience",
-    "technology": "Tecnology",
-    "voucherLifespan": "Voucher lifespan",
-    "dailyCallsPerConsumer": "Per subscriber threshold",
-    "dailyCallsTotal": "Total threshold",
-    "attributes": "Attributes",
-    "noAttributesLabel": "No attribute found",
-    "documentation": "Resources",
-    "versionHistory": "Version history",
-    "callsPerDay": "API calls/day"
-  },
-  "catalog": {
-    "title": "E-service catalog",
-    "description": "In this section you can explore all the e-services in the catalog and subscribe to the ones you are interested into"
-  },
-  "list": {
-    "title": "Your e-services",
-    "description": "In this section you can manage all the e-services you are providing"
-  },
-  "manage": {
-    "tabs": {
-      "ariaLabel": "Two different tabs for e-service details and load estimate as stated by the Subscribers",
-      "details": "E-service details",
-      "purposeAwaitingApproval": "Purposes to activate"
     }
   },
-  "read": {
-    "agreementDialog": {
-      "title": "Fruition requests",
-      "description": "You are about to send a fruition request for the e-service {{name}}, version {{version}}",
+  "tableEServiceCatalog": {
+    "youAreTheProvider": "You are the Provider",
+    "alreadySubscribed": "Already subscribed",
+    "agreementInDraft": "You have an agreement draft",
+    "missingCertifiedAttributes": "Your party does not meet the list of required certificated attributes",
+    "goToRequestCta": "Go to the fruition request",
+    "subscribeModal": {
+      "title": "Fruition request",
+      "description": "You are about to send a fruition request for the {{name}} e-service, version {{version}}",
       "proceedLabel": "Subscribe"
-    },
-    "alert": {
-      "youAreTheProvider": "You are the provider of this e-service",
-      "missingCertifiedAttributes": "Your party is missing at least one of the certified attributes required to subscribe this e-service",
-      "alreadySubscribed": "You can't subscribe again as you are already a Subscriber of this e-service",
-      "hasDraft": "You already have an agreement draft for this e-service"
-    },
-    "actions": {
-      "backToCatalogLabel": "Back to the catalog"
     }
   }
 }

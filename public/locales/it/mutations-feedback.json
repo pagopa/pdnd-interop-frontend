@@ -1,0 +1,461 @@
+{
+  "default": {
+    "loading": "Un attimo solo...",
+    "outcome": {
+      "success": "Operazione effettuata con successo!",
+      "error": "È stato riscontrato un errore. Per favore, riprova."
+    }
+  },
+  "auth": {
+    "loadingLabel": "Stiamo autenticando la sessione. Attendere, prego"
+  },
+  "eservice": {
+    "createDraft": {
+      "loading": "Stiamo creando la bozza",
+      "outcome": {
+        "success": "La bozza è stata creata correttamente",
+        "error": "Non è stato possibile creare la bozza. Verifica di aver compilato i campi richiesti e riprova!"
+      }
+    },
+    "updateDraft": {
+      "loading": "Stiamo aggiornando la bozza",
+      "outcome": {
+        "success": "La bozza è stata aggiornata correttamente",
+        "error": "Non è stato possibile aggiornare la bozza. Verifica di aver compilato i campi richiesti e riprova!"
+      }
+    },
+    "deleteDraft": {
+      "loading": "Stiamo cancellando la bozza",
+      "outcome": {
+        "success": "La bozza è stata cancellata correttamente",
+        "error": "Non è stato possibile cancellare la bozza. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma cancellazione bozza",
+        "description": "Cliccando \"conferma\" questa bozza verrà cancellata e non sarà più recuperabile. Sarà sempre possibile creare nuove bozza"
+      }
+    },
+    "cloneFromVersion": {
+      "loading": "Stiamo clonando l'e-service richiesto",
+      "outcome": {
+        "success": "L'e-service è stato clonato correttamente ed è disponibile in bozza",
+        "error": "Non è stato possibile clonare l'e-service richiesto. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma clonazione e-service",
+        "description": "Verrà creato un nuovo e-service in bozza con le stesse caratteristiche dell'e-service selezionato"
+      }
+    },
+    "createVersionDraft": {
+      "loading": "Stiamo creando la nuova versione (in bozza)",
+      "outcome": {
+        "success": "La nuova versione dell'e-service è disponibile in bozza",
+        "error": "Non è stato possibile creare una bozza per la nuova versione dell'e-service. Assicurarsi di aver compilato tutti i campi e riprovare"
+      },
+      "confirmDialog": {
+        "title": "Conferma creazione bozza versione",
+        "description": "Verrà creata una nuova versione (in bozza) dell'e-service selezionato"
+      }
+    },
+    "updateVersionDraft": {
+      "loading": "Stiamo aggiornando la nuova versione (in bozza)",
+      "outcome": {
+        "success": "La nuova versione dell'e-service è disponibile in bozza",
+        "error": "Non è stato possibile aggiornare una bozza per la nuova versione dell'e-service. Assicurarsi di aver compilato tutti i campi e riprovare"
+      }
+    },
+    "publishVersionDraft": {
+      "loading": "Stiamo pubblicando la versione in bozza",
+      "outcome": {
+        "success": "La nuova versione dell'e-service è stata pubblicata correttamente",
+        "error": "Non è stato possibile pubblicare la nuova versione dell'e-service. Verificare di aver caricato il documento di interfaccia e riprovare!"
+      },
+      "confirmDialog": {
+        "title": "Conferma pubblicazione bozza",
+        "description": "Una volta pubblicata, una versione dell'e-service non è più cancellabile e diventa disponibile nel catalogo degli e-service. Sarà comunque possibile sospenderla, o renderla obsoleta una volta che una nuova versione diventa disponibile."
+      }
+    },
+    "suspendVersion": {
+      "loading": "Stiamo sospendendo la versione",
+      "outcome": {
+        "success": "La versione dell'e-service è stata sospesa",
+        "error": "Non è stato possibile sospendere questa versione dell'e-service. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma sospensione versione",
+        "description": "Cliccando \"conferma\" questa versione di e-service sarà sospesa. Nessun fruitore potrà accedere a questa versione finché non sarà riattivata"
+      }
+    },
+    "reactivateVersion": {
+      "loading": "Stiamo riattivando la versione",
+      "outcome": {
+        "success": "La versione dell'e-service è stata riattivata",
+        "error": "Non è stato possibile riattivare questa versione dell'e-service. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma riattivazione versione",
+        "description": "Cliccando \"conferma\" questa versione di e-service sarà riattivata. Tutti i fruitori che hanno una richiesta di fruizione attiva per questa versione di e-service potranno nuovamente usufruirne"
+      }
+    },
+    "deleteVersionDraft": {
+      "loading": "Stiamo cancellando la bozza",
+      "outcome": {
+        "success": "La bozza è stata cancellata correttamente",
+        "error": "Non è stato possibile cancellare la bozza dell'e-service. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma cancellazione bozza",
+        "description": "Cliccando \"conferma\" questa bozza verrà cancellata e non sarà più recuperabile. Sarà sempre possibile creare nuove bozze"
+      }
+    },
+    "postVersionDraftDocument": {
+      "loading": "Stiamo caricando il documento",
+      "outcome": {
+        "error": "Non è stato possibile caricare il documento. Assicurati di aver caricato il documento corretto. Per favore, riprova! Attenzione: il documento non può contenere la stringa \"localhost\"."
+      }
+    },
+    "deleteVersionDraftDocument": {
+      "loading": "Stiamo eliminando il documento",
+      "outcome": {
+        "success": "Il documento è stato eliminato correttamente",
+        "error": "Non è stato possibile eliminare il documento. Per favore, riprova!"
+      }
+    },
+    "updateVersionDraftDocumentDescription": {
+      "loading": "Stiamo aggiornando la descrizione del documento",
+      "outcome": {
+        "success": "La descrizione è stata aggiornata correttamente",
+        "error": "Non è stato possibile aggiornare la descrizione. Per favore, riprova!"
+      }
+    },
+    "downloadVersionDraftDocument": {
+      "loading": "Stiamo scaricando il documento",
+      "outcome": {
+        "success": "Il documento è stato scaricato correttamente. Lo trovi nella cartella dei download del tuo device",
+        "error": "Non è stato possibile scaricare il documento. Per favore, riprova!"
+      }
+    },
+    "OPERATOR_SECURITY_JOIN_WITH_CLIENT": {
+      "loading": "Stiamo associando l'utente al client",
+      "outcome": {
+        "success": "Nuovo utente associato correttamente",
+        "error": "Non è stato possibile associare il nuovo utente al client. Assicurarsi che non esista già l'utenza ed eventualmente ritentare"
+      }
+    },
+    "OPERATOR_SECURITY_REMOVE_FROM_CLIENT": {
+      "loading": "Stiamo rimuovendo l'utente dal client",
+      "outcome": {
+        "success": "L'utente è stato rimosso correttamente dal client",
+        "error": "Non è stato possibile rimuovere l'utente dal client. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma rimozione operatore dal client",
+        "description": "L'operatore sarà rimosso da questo client. Le chiavi che ha caricato per questo client rimarranno comunque utilizzabili, a meno che tu non le rimuova manualmente dalla lista di chiavi per questo client"
+      }
+    },
+    "PURPOSE_DRAFT_CREATE": {
+      "loading": "Stiamo creando la bozza",
+      "outcome": {
+        "error": "Non è stato possibile creare la bozza di finalità. Per favore, riprova!"
+      }
+    },
+    "PURPOSE_DRAFT_UPDATE": {
+      "loading": "Stiamo aggiornando la bozza",
+      "outcome": {
+        "success": "La bozza di finalità è stata aggiornata correttamente",
+        "error": "Non è stato possibile aggiornare la bozza di finalità. Per favore, riprova!"
+      }
+    },
+    "PURPOSE_DRAFT_DELETE": {
+      "loading": "Stiamo cancellando la finalità in bozza",
+      "outcome": {
+        "success": "La finalità è stata cancellata correttamente",
+        "error": "Non è stato possibile cancellare la finalità. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma cancellazione finalità",
+        "description": "Cliccando \"conferma\" questa finalità verrà cancellata e non sarà più recuperabile. Tutti i client ad essa associata non potranno più accedere all'e-service dell'erogatore. Sarà sempre possibile creare nuove finalità"
+      }
+    },
+    "PURPOSE_VERSION_DRAFT_CREATE": {
+      "loading": "Stiamo creando la bozza",
+      "outcome": {
+        "success": "La finalità è stata creata correttamente",
+        "error": "Non è stato possibile aggiornare la bozza di finalità. Per favore, riprova!"
+      }
+    },
+    "PURPOSE_VERSION_DRAFT_UPDATE": {
+      "loading": "Stiamo aggiornando la bozza",
+      "outcome": {
+        "error": "Non è stato possibile aggiornare la bozza di finalità. Per favore, riprova!"
+      }
+    },
+    "PURPOSE_VERSION_WAITING_FOR_APPROVAL_UPDATE": {
+      "loading": "Stiamo aggiornando la data stimata di pubblicazione"
+    },
+    "PURPOSE_VERSION_SUSPEND": {
+      "loading": "Stiamo sospendendo la finalità",
+      "outcome": {
+        "success": "Non è più possibile per i client associati alla finalità accedere al servizio in erogazione",
+        "error": "Non è stato possibile sospendere la finalità. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma sospensione finalità",
+        "description": "Cliccando \"conferma\" questa finalità verrà sospesa. Tutti i client associati non avranno più accesso all'e-service erogato fino a che non sarà riattivata"
+      }
+    },
+    "PURPOSE_VERSION_ACTIVATE": {
+      "loading": "Stiamo pubblicando la finalità",
+      "outcome": {
+        "success": "La finalità è ora pubblicata. Attenzione: se il numero di chiamate eccede il limite stabilito dall'erogatore, sarà necessaria una sua approvazione per poter sfruttare quel carico",
+        "error": "Non è stato possibile riattivare la finalità. Per favore, riprova! Se è la prima attivazione, assicurati che tutti i campi richiesti dalla finalità siano compilati"
+      },
+      "confirmDialog": {
+        "title": "Conferma attivazione finalità",
+        "description": "Cliccando \"conferma\" questa finalità verrà attivata. Tutti i client associati dal fruitore avranno accesso all'e-service dell'erogatore con il numero di chiamate stabilito"
+      }
+    },
+    "PURPOSE_VERSION_ARCHIVE": {
+      "loading": "Stiamo archiviando la finalità",
+      "outcome": {
+        "success": "La finalità è stata ora archiviata perché non più in uso. Potrai sempre creare nuove finalità",
+        "error": "Non è stato possibile archiviare la finalità. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma archiviazione finalità",
+        "description": "Cliccando \"conferma\" questa finalità verrà archiviata. Tutti i client associati non avranno più accesso all'e-service erogato"
+      }
+    },
+    "PURPOSE_VERSION_DELETE": {
+      "loading": "Stiamo cancellando l'aggiornamento al numero di chiamate",
+      "outcome": {
+        "success": "L'aggiornamento al numero di chiamate per questa finalità è stato cancellato. Potrai continuare a usare questa finalità con il numero di chiamate corrente",
+        "error": "Non è stato possibile cancellare l'aggiornamento. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma cancellazione aggiornamento",
+        "description": "Cliccando \"conferma\", questo aggiornamento al numero di chiamate verso l'e-service dell'erogatore sarà cancellato. Potrai continuare a usare questa finalità con il numero di chiamate attuale"
+      }
+    },
+    "PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD": {
+      "loading": "Stiamo scaricando il documento dell'analisi del rischio",
+      "outcome": {
+        "error": "Non è stato possibile scaricare il documento dell'analisi del rischio. Per favore, riprova!"
+      }
+    },
+    "CLIENT_CREATE": {
+      "loading": "Stiamo creando il client richiesto",
+      "outcome": {
+        "success": "Il client è stato creato correttamente",
+        "error": "Non è stato possibile creare il client. Per favore, riprova!"
+      }
+    },
+    "CLIENT_DELETE": {
+      "loading": "Stiamo cancellando il client richiesto",
+      "outcome": {
+        "success": "Il client è stato cancellato correttamente",
+        "error": "Non è stato possibile cancellare il client. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma cancellazione client",
+        "description": "Cliccando \"conferma\", questo client sarà cancellato. Tutte le chiavi contenute saranno eliminate e non saranno più utilizzabili per accedere agli e-service"
+      }
+    },
+    "CLIENT_INTEROP_M2M_CREATE": {
+      "loading": "Stiamo creando il client richiesto",
+      "outcome": {
+        "success": "Il client è stato creato correttamente",
+        "error": "Non è stato possibile creare il client. Per favore, riprova!"
+      }
+    },
+    "CLIENT_JOIN_WITH_PURPOSE": {
+      "loading": "Stiamo associando il client alla finalità",
+      "outcome": {
+        "success": "Il client è stato associato alla finalità correttamente",
+        "error": "Non è stato possibile associare il client alla finalità. Per favore, riprova!"
+      }
+    },
+    "CLIENT_REMOVE_FROM_PURPOSE": {
+      "loading": "Stiamo rimuovendo il client dalla finalità",
+      "outcome": {
+        "success": "Il client è stato rimosso dalla finalità correttamente",
+        "error": "Non è stato possibile rimuovere il client dalla finalità. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma rimozione client dalla finalità",
+        "description": "Il client sarà rimosso da questa finalità. Tutte le chiavi caricate non potranno più essere usate per accedere all'e-service per questa finalità"
+      }
+    },
+    "KEY_POST": {
+      "loading": "Stiamo caricando la chiave",
+      "outcome": {
+        "success": "La chiave è ora utilizzabile per firmare una client assertion per ottenere un access token",
+        "error": "Non è stato possibile caricare la chiave. Assicurarsi sia nel formato corretto e riprovare. Attenzione: la stessa chiave non può essere caricata due volte"
+      }
+    },
+    "KEY_DELETE": {
+      "loading": "Stiamo cancellando la chiave",
+      "outcome": {
+        "success": "La chiave pubblica è stata cancellata correttamente. Da questo momento non potrà più essere usata per firmare una client assertion per ottenere un access token",
+        "error": "Non è stato possibile cancellare la chiave. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma cancellazione chiave pubblica",
+        "description": "Cliccando su \"conferma\" si cancellerà la chiave pubblica relativa a questo operatore. NB: tutti i servizi che utilizzano questa chiave non potranno più accedere al servizio dell'erogatore. Se non sei sicuro, scarica e salva la tua chiave pubblica prima di cancellarla"
+      }
+    },
+    "KEY_DOWNLOAD": {
+      "loading": "Stiamo scaricando la chiave"
+    }
+  },
+  "attribute": {
+    "create": {
+      "loading": "Stiamo salvando il nuovo attributo",
+      "outcome": {
+        "success": "Adesso puoi aggiungere l'attributo al tuo e-service",
+        "error": "Non è stato possibile creare il nuovo attributo. Per favore, riprova!"
+      }
+    },
+    "verifyPartyAttribute": {
+      "loading": "Stiamo verificando l'attributo",
+      "outcome": {
+        "success": "L'attributo è ora stato verificato",
+        "error": "Non è stato possibile verificare l'attributo. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Verifica attributo",
+        "description": "Sei sicuro di voler verificare l'attributo?"
+      }
+    },
+    "revokeVerifiedPartyAttribute": {
+      "loading": "Stiamo revocando la verifica dell'attributo",
+      "outcome": {
+        "success": "Verifica all'attributo revocata con successo.",
+        "error": "Non è stato possibile revocare l'attributo. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Revoca attributo",
+        "description": "Sei sicuro di voler revocare l'attributo?"
+      }
+    },
+    "declarePartyAttribute": {
+      "loading": "Stiamo confermando l'attributo dichiarato",
+      "outcome": {
+        "success": "Attributo dichiarato confermato con successo.",
+        "error": "Non è stato possibile confermare l'attributo. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma attributo dichiarato",
+        "description": "Dichiari sotto la tua responsabilità che il tuo ente possiede questo attributo?"
+      }
+    },
+    "revokeDeclaredPartyAttribute": {
+      "loading": "Stiamo revocando l'attributo dichiarato",
+      "outcome": {
+        "success": "Attributo dichiarato revocato con successo.",
+        "error": "Non è stato possibile revocare l'attributo. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Revoca attributo dichiarato",
+        "description": "Sei sicuro di voler revocare l'attributo?"
+      }
+    }
+  },
+  "agreement": {
+    "createDraft": {
+      "loading": "Stiamo creando la richiesta di fruizione",
+      "outcome": {
+        "error": "Non è stato possibile creare la richiesta. Per favore, riprova!"
+      }
+    },
+    "AGREEMENT_DRAFT_SUBMIT": {
+      "loading": "Stiamo inoltrando la richiesta di fruizione",
+      "outcome": {
+        "success": "La richiesta è stata inoltrata correttamente. Riceverai notifiche di aggiornamento sul suo stato",
+        "error": "Non è stato possibile inoltrare la richiesta. Se pensi di averne diritto, contatta l'assistenza per ulteriori verifiche"
+      },
+      "confirmDialog": {
+        "title": "Conferma inoltro richiesta",
+        "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà inoltrata all'erogatore dell'e-service per approvazione"
+      }
+    },
+    "AGREEMENT_DRAFT_DELETE": {
+      "loading": "Stiamo cancellando la bozza",
+      "outcome": {
+        "success": "La bozza richiesta è stata cancellata correttamente",
+        "error": "Non è stato possibile cancellare la richiesta. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma cancellazione richiesta",
+        "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà cancellata. Sarà sempre possibile crearne una nuova"
+      }
+    },
+    "AGREEMENT_DRAFT_DOCUMENT_DOWNLOAD": {
+      "loading": "Stiamo scaricando il documento",
+      "outcome": {
+        "success": "Il documento è stato scaricato correttamente",
+        "error": "Non è stato possibile scaricare il documento. Per favore, riprova!"
+      }
+    },
+    "AGREEMENT_DRAFT_DOCUMENT_UPLOAD": {
+      "loading": "Stiamo caricando il documento",
+      "outcome": {
+        "success": "Il documento è stato caricato correttamente",
+        "error": "Non è stato possibile caricare il documento. Per favore, riprova!"
+      }
+    },
+    "AGREEMENT_DRAFT_DOCUMENT_DELETE": {
+      "loading": "Stiamo eliminando il documento",
+      "outcome": {
+        "success": "Il documento è stato eliminato correttamente",
+        "error": "Non è stato possibile eliminare il documento. Per favore, riprova!"
+      }
+    },
+    "AGREEMENT_ACTIVATE": {
+      "loading": "Stiamo attivando la richiesta",
+      "outcome": {
+        "success": "La richiesta di fruizione è ora attiva, ed è possibile creare finalità da associare all'e-service",
+        "error": "Non è stato possibile attivare la richiesta. Accertarsi che tutti gli attributi siano stati verificati e riprovare"
+      },
+      "confirmDialog": {
+        "title": "Conferma attivazione richiesta",
+        "description": "Cliccando su \"conferma\" si attiverà la richiesta di fruizione. Potrà essere sospesa in qualunque momento da questo pannello"
+      }
+    },
+    "AGREEMENT_REJECT": {
+      "loading": "Stiamo rifiutando la richiesta",
+      "outcome": {
+        "error": "Non è stato possibile rifiutare la richiesta. Per favore, riprova!"
+      }
+    },
+    "AGREEMENT_SUSPEND": {
+      "loading": "Stiamo sospendendo la richiesta",
+      "outcome": {
+        "success": "Non è più possibile per i client accedere al servizio in erogazione",
+        "error": "Non è stato possibile sospendere la richiesta. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma sospensione richiesta",
+        "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà sospesa. I client collegati a questa richiesta non avranno più accesso all'e-service in erogazione. La richiesta è riattivabile in qualsiasi momento da questa stessa pagina"
+      }
+    },
+    "AGREEMENT_UPGRADE": {
+      "loading": "Stiamo aggiornando la richiesta",
+      "outcome": {
+        "success": "La richiesta di fruizione è stata aggiornata alla versione più recente dell'e-service. Attenzione: verifica sempre il valore del campo \"audience\" all'interno delle client assertion nei tuoi client, potrebbe variare tra una versione di un e-service e un'altra a discrezione delle necessità dell'erogatore",
+        "error": "Non è stato possibile aggiornare la richiesta. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma aggiornamento richiesta",
+        "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà aggiornata alla versione più recente dell'e-service attualmente disponibile. I client collegati a questa richiesta continueranno ad avere accesso all'e-service in erogazione, aggiornato all'ultima versione"
+      }
+    },
+    "AGREEMENT_CONTRACT_DOWNLOAD": {
+      "loading": "Stiamo scaricando il documento della richiesta",
+      "outcome": {
+        "success": "Il documento della richiesta di fruizione è stato scaricato correttamente",
+        "error": "Non è stato possibile scaricare il documento della richiesta. Per favore, riprova!"
+      }
+    }
+  }
+}

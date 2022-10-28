@@ -1,0 +1,103 @@
+import axiosInstance from '@/lib/axios'
+import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
+import {
+  CreateAttributePayload,
+  GetAllAttributesResponse,
+  GetCertifiedAttributesResponse,
+  GetDeclaredAttributesResponse,
+  GetSingleAttributeResponse,
+  GetVerifiedAttributesResponse,
+  VerifyPartyAttributeAttributePayload,
+} from './attribute.api.types'
+import { remapAttributeResponseData } from './attribute.api.utils'
+
+async function getAll(params?: { search: string }) {
+  const response = await axiosInstance.get<GetAllAttributesResponse>(
+    `${BACKEND_FOR_FRONTEND_URL}/attributes`,
+    { params }
+  )
+  return response.data
+}
+
+async function getSingle(attributeId: string) {
+  const response = await axiosInstance.get<GetSingleAttributeResponse>(
+    `${BACKEND_FOR_FRONTEND_URL}/attributes/${attributeId}`
+  )
+  return response.data
+}
+
+async function getPartyCertifiedList(partyId: string) {
+  const response = await axiosInstance.get<GetCertifiedAttributesResponse>(
+    `${BACKEND_FOR_FRONTEND_URL}/institutions/${partyId}/attributes/certified`
+  )
+  return remapAttributeResponseData(response.data, 'certified', partyId)
+}
+
+async function getPartyVerifiedList(partyId: string) {
+  const response = await axiosInstance.get<GetVerifiedAttributesResponse>(
+    `${BACKEND_FOR_FRONTEND_URL}/institutions/${partyId}/attributes/verified`
+  )
+  return remapAttributeResponseData(response.data, 'verified', partyId)
+}
+
+async function getPartyDeclaredList(partyId: string) {
+  const response = await axiosInstance.get<GetDeclaredAttributesResponse>(
+    `${BACKEND_FOR_FRONTEND_URL}/institutions/${partyId}/attributes/declared`
+  )
+  return remapAttributeResponseData(response.data, 'declared', partyId)
+}
+
+async function create(payload: CreateAttributePayload) {
+  const response = await axiosInstance.post<GetSingleAttributeResponse>(
+    `${BACKEND_FOR_FRONTEND_URL}/attributes`,
+    payload
+  )
+  return response.data
+}
+
+async function verifyPartyAttribute({
+  partyId,
+  ...payload
+}: { partyId: string } & VerifyPartyAttributeAttributePayload) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/institutions/${partyId}/attributes/verified`,
+    payload
+  )
+}
+
+async function revokeVerifiedPartyAttribute({
+  partyId,
+  attributeId,
+}: {
+  partyId: string
+  attributeId: string
+}) {
+  return axiosInstance.delete<GetSingleAttributeResponse>(
+    `${BACKEND_FOR_FRONTEND_URL}/institutions/${partyId}/attributes/verified/${attributeId}`
+  )
+}
+
+async function declarePartyAttribute(payload: { id: string }) {
+  return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/institutions/attributes/declared`, payload)
+}
+
+async function revokeDeclaredPartyAttribute({ attributeId }: { attributeId: string }) {
+  return axiosInstance.delete<GetSingleAttributeResponse>(
+    `${BACKEND_FOR_FRONTEND_URL}/institutions/attributes/declared/${attributeId}`
+  )
+}
+
+const AttributeServices = {
+  getAll,
+  getSingle,
+  getPartyCertifiedList,
+  getPartyVerifiedList,
+  getPartyDeclaredList,
+  create,
+  verifyPartyAttribute,
+  revokeVerifiedPartyAttribute,
+  declarePartyAttribute,
+  revokeDeclaredPartyAttribute,
+}
+
+export default AttributeServices

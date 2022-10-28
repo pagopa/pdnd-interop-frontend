@@ -1,0 +1,24 @@
+{
+  "loadingPartyDataLabel": "Stiamo caricando i dati dell'ente",
+  "attributes": {
+    "certified": {
+      "description": "Le fonti autoritative riconosciute da Interoperabilità ti hanno attribuito questi attributi certificati.",
+      "noAttributesLabel": "Non si possiedono attributi certificati"
+    },
+    "verified": {
+      "description": "Almeno un erogatore ti ha riconosciuto i seguenti attributi verificati.",
+      "noAttributesLabel": "Non si possiedono attributi verificati"
+    },
+    "activeDeclared": {
+      "description": "Hai dichiarato sotto la tua responsabilità di possedere questi attributi.",
+      "noAttributesLabel": "Non si possiedono attributi dichiarati",
+      "revokeActionLabel": "Segnala decadenza"
+    },
+    "revokedDeclared": {
+      "title": "Attributi dichiarati revocati",
+      "description": "In passato possedevi questi attributi dichiarati, ma hai successivamente dichiarato di non possederli più",
+      "noAttributesLabel": "Non si possiedono attributi dichiarati revocati",
+      "declareActionLabel": "Dichiara possesso"
+    }
+  }
+}

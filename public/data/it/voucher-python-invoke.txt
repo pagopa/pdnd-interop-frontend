@@ -1,9 +1,0 @@
-python create_client_assertion.py \
-  --kid INSERISCI_VALORE_KID \
-  --alg INSERISCI_VALORE_ALG \
-  --typ INSERISCI_VALORE_TYP \
-  --issuer INSERISCI_VALORE_ISS \
-  --subject INSERISCI_VALORE_SUB \
-  --audience INSERISCI_VALORE_AUD \
-  --purposeId INSERISCI_VALORE_PUR \
-  --keyPath PATH_CHIAVE_PRIVATA

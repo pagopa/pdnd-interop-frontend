@@ -1,0 +1,26 @@
+{
+  "actions": {
+    "reloadPage": "Ricarica",
+    "backToHome": "Torna alla home"
+  },
+  "default": {
+    "title": "Unexpected Error",
+    "description": "Si è verificato un errore inaspettato. Per favore, ricarica la pagina."
+  },
+  "notFound": {
+    "title": "404",
+    "description": "La pagina cercata purtroppo non esiste."
+  },
+  "serverError": {
+    "title": "Server Error",
+    "description": "Si è verificato un errore nella gestione della richiesta. Per favore, ricarica la pagina."
+  },
+  "notImplemented": {
+    "title": "Work In Progress",
+    "description": "La funzionalità richiesta è ancora in fase di sviluppo."
+  },
+  "notAuthorized": {
+    "title": "Non autorizzato",
+    "description": "Non possiedi le autorizzazioni necessarie per visualizzare la pagina."
+  }
+}

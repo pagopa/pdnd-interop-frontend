@@ -1,6 +1,8 @@
 {
+  "noDataLabel": "No results",
   "productTitle": "Interoperability",
   "addBtn": "+ Add",
+  "closeBtn": "Close",
   "createNewBtn": "Create new",
   "validation": {
     "mixed": {
@@ -11,10 +13,6 @@
     },
     "boolean": {
       "isValue": "Please confirm"
-    },
-    "number": {
-      "min": "The value must be more or equal to ${min}",
-      "max": "The value must be less or equal to ${max}"
     }
   },
   "mainNav": {
@@ -33,7 +31,6 @@
   "actions": {
     "suspend": "Suspend",
     "activate": "Activate",
-    "reject": "Reject",
     "upgrade": "Upgrade",
     "delete": "Delete",
     "inspect": "Inspect",
@@ -45,18 +42,19 @@
     "archive": "Archive",
     "cancel": "Cancel",
     "createNewDraft": "Create new draft version",
-    "saveDraft": "Save draft"
+    "saveDraft": "Save draft",
+    "backToCatalog": "Back to catalog"
   },
   "table": {
     "headData": {
-      "eserviceName": "E-service",
+      "eserviceName": "E-Service",
       "clientName": "Client",
       "purposeName": "Purpose",
       "providerName": "Provider",
       "subscriberName": "Subscriber",
       "currentVersion": "Current version",
       "version": "Versione",
-      "eserviceStatus": "E-service status",
+      "eserviceStatus": "E-Service status",
       "agreementStatus": "Request status",
       "purposeStatus": "Purpose status",
       "userStatus": "User status",
@@ -97,11 +95,6 @@
       "DELETED": "deleted"
     }
   },
-  "agreementFrontendAttributes": {
-    "suspendedByProvider": "suspended by provider",
-    "suspendedBySubscriber": "suspended by subscriber",
-    "suspendedByPlatform": "suspended by platform"
-  },
   "userRole": {
     "MANAGER": "Administrator",
     "DELEGATE": "Delegate",
@@ -116,22 +109,24 @@
     "provider": "provider",
     "subscriber": "subscriber"
   },
+  "time": {
+    "second_one": "second",
+    "second_other": "seconds",
+    "minute_one": "minute",
+    "minute_other": "minutes",
+    "hour_one": "hour",
+    "hour_other": "hours"
+  },
+  "conjunctions": {
+    "and": "and",
+    "or": "or"
+  },
   "help": {
     "title": "Getting started",
     "description": "In this page you can find useful information to manage some everyday operations and overcome problems. Please note that this guide will be replaced with a dedicated documentation website as soon as the platform goes into production"
   },
   "tos": {
     "title": "Terms of service"
-  },
-  "notFound": {
-    "title": "Sorry",
-    "description": {
-      "notFound": "The requested page does not exist",
-      "serverError": "Temporary server error",
-      "goHomeLink": {
-        "label": "Back to home"
-      }
-    }
   },
   "notifications": {
     "title": "Notifications",

@@ -16,46 +16,9 @@
   "declared": {
     "label": "Attributi Dichiarati"
   },
-  "howLink": "Come fare?",
-  "addBtn": "+ Aggiungi nuovo attributo",
-  "createBtn": "Crea nuovo attributo",
   "noAttributesRequiredAlert": "Non ci sono attributi {{attributeKey}} richiesti per questo e-service",
-  "disabledAlert": "L'inserimento di attributi verificati e dichiarati è temporaneamente disabilitato per un test su una nuova feature",
-  "group": {
-    "title": "attributo {{num}}:",
-    "addBtn": "Aggiungi",
-    "cancelBtn": "Annulla",
-    "confirmDeclaredAttributeBtn": "Conferma",
-    "or": "oppure",
-    "deleteSrLabel": "Elimina attributo",
-    "deleteGroupSrLabel": "Elimina gruppo di attributi",
-    "showInfoSrLabel": "Mostra informazioni attributo",
-    "canRequireVerification": "Per questo attributo sfrutta le verifiche effettuate da altri erogatori",
-    "autocompleteInput": {
-      "label": "Aggiungi attributo al gruppo",
-      "placeholder": "Inserisci nome attributo"
-    },
-    "statusChip": {
-      "certified": {
-        "fullfilledLabel": "certificato",
-        "unfullfilledLabel": "non certificato",
-        "revokedLabel": "revocato"
-      },
-      "verified": {
-        "fullfilledLabel": "verificato",
-        "unfullfilledLabel": "da verificare",
-        "revokedLabel": "revocato"
-      },
-      "declared": {
-        "fullfilledLabel": "dichiarato",
-        "unfullfilledLabel": "in attesa di conferma",
-        "revokedLabel": "revocato"
-      }
-    },
-    "actions": {
-      "verifyBtn": "Verifica",
-      "revokeBtn": "Revoca",
-      "refuseBtn": "Rifiuta"
-    }
-  }
+  "title": "attributo {{num}}:",
+  "or": "oppure",
+  "showInfoSrLabel": "Mostra informazioni attributo",
+  "mustOwn": "Bisogna possedere:"
 }

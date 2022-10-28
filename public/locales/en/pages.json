@@ -1,0 +1,11 @@
+{
+  "providerEServiceList": {
+    "eserviceTable": {
+      "headLabels": {
+        "name": "E-service",
+        "version": "Version",
+        "status": "E-service status"
+      }
+    }
+  }
+}

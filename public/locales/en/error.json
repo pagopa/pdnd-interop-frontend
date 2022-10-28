@@ -1,0 +1,26 @@
+{
+  "actions": {
+    "reloadPage": "Reload",
+    "backToHome": "Back to home"
+  },
+  "default": {
+    "title": "Unexpected Error",
+    "description": "An unexpected error has occurred. Please reload the page."
+  },
+  "notFound": {
+    "title": "404",
+    "description": "The requested page does not exist"
+  },
+  "serverError": {
+    "title": "Server Error",
+    "description": "There was an error while handling the request. Please reload the page."
+  },
+  "notImplemented": {
+    "title": "Work In Progress",
+    "description": "The requested functionality is still under development."
+  },
+  "notAuthorized": {
+    "title": "Not authorized",
+    "description": "You don't have the necessary permissions to view the page."
+  }
+}
