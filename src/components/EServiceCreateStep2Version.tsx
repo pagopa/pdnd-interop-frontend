@@ -188,7 +188,7 @@ export function EServiceCreateStep2Version({ forward, back }: StepperStepCompone
                     value={values.audience}
                     error={errors.audience}
                     onChange={handleChange}
-                    inputProps={{ maxLength: 60 }}
+                    inputProps={{ maxLength: 250 }}
                   />
 
                   <StyledInputControlledText
