@@ -13,6 +13,9 @@ i18n
     // In code, see isProviderOrSubscriber in lib/router-utils.ts
     preload: Object.keys(LANGUAGES),
     fallbackLng: DEFAULT_LANG,
+    interpolation: {
+      escapeValue: false,
+    },
     defaultNS: 'common',
     ns: [
       'pages',
