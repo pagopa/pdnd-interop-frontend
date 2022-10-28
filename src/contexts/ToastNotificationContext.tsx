@@ -1,7 +1,8 @@
 import React from 'react'
-import { Alert, AlertProps, Snackbar } from '@mui/material'
+import { Alert, AlertProps, Snackbar, Typography } from '@mui/material'
 import noop from 'lodash/noop'
 import { createSafeContext } from './utils'
+import { Trans } from 'react-i18next'
 
 type ToastState = {
   isOpen: boolean
@@ -36,7 +37,13 @@ const _ToastNotification: React.FC<ToastState> = (toastState) => {
       sx={{ maxWidth: 480 }}
     >
       <Alert severity={toastState.severity} onClose={handleClose} variant="outlined">
-        {toastState.message}
+        <Trans
+          components={{
+            strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+          }}
+        >
+          {toastState.message}
+        </Trans>
       </Alert>
     </Snackbar>
   )

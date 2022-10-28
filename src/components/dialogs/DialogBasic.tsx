@@ -1,6 +1,13 @@
 import React, { useId } from 'react'
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
-import { useTranslation } from 'react-i18next'
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Typography,
+} from '@mui/material'
+import { Trans, useTranslation } from 'react-i18next'
 import { DialogBasicProps } from '@/types/dialog.types'
 import { useDialog } from '@/contexts'
 
@@ -31,7 +38,15 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
       <DialogTitle id={dialogTitleId}>{title}</DialogTitle>
 
       {description && (
-        <DialogContent aria-describedby={dialogDescriptionId}>{description}</DialogContent>
+        <DialogContent aria-describedby={dialogDescriptionId}>
+          <Trans
+            components={{
+              strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+            }}
+          >
+            {description}
+          </Trans>
+        </DialogContent>
       )}
 
       <DialogActions>
