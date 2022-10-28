@@ -52,7 +52,7 @@
       },
       "audienceField": {
         "label": "Audience (richiesto)",
-        "infoLabel": "All’interno dell'access token che il fruitore ti invierà rappresenterà l’audience (aud), l'id con il quale è dichiarato il servizio richiesto. Max 60 caratteri"
+        "infoLabel": "All’interno dell'access token che il fruitore ti invierà rappresenterà l’audience (aud), l'id con il quale è dichiarato il servizio richiesto. Max 250 caratteri"
       },
       "voucherLifespanField": {
         "label": "Durata di validità dell'access token (in minuti - richiesto)",
