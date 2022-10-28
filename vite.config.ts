@@ -6,6 +6,7 @@ import { parse } from 'node-html-parser'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/ui/',
   plugins: [react(), visualizer(), setNonceAttToScripts()],
   resolve: {
     alias: {
