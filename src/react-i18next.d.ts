@@ -7,6 +7,7 @@ import sharedComponentsNs from '../public/locales/en/shared-components.json'
 import attributeNs from '../public/locales/en/attribute.json'
 import mutationsFeedbackNs from '../public/locales/en/mutations-feedback.json'
 import errorNs from '../public/locales/en/error.json'
+import agreementNs from '../public/locales/en/agreement.json'
 
 declare module 'i18next' {
   interface CustomTypeOptions {
@@ -21,6 +22,7 @@ declare module 'i18next' {
       attribute: typeof attributeNs
       'mutations-feedback': typeof mutationsFeedbackNs
       error: typeof errorNs
+      agreement: typeof agreementNs
     }
   }
 }

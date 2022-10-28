@@ -3,19 +3,13 @@ import { createTheme } from '@mui/material'
 import { theme as muiItaliaTheme } from '@pagopa/mui-italia'
 
 export const theme = createTheme(
-  deepmerge({ components: { MuiTooltip: { defaultProps: { placement: 'top' } } } }, muiItaliaTheme)
+  deepmerge(
+    {
+      components: {
+        MuiTooltip: { defaultProps: { placement: 'top' } },
+        MuiChip: { defaultProps: { size: 'small' } },
+      },
+    },
+    muiItaliaTheme
+  )
 )
-
-// {
-//   ...muiItaliaTheme,
-//   components: {
-//     ...muiItaliaTheme.components,
-//     MuiTooltip: {
-//       ...muiItaliaTheme.components?.MuiTooltip,
-//       defaultProps: {
-//         ...muiItaliaTheme.components?.MuiTooltip?.defaultProps,
-//         placement: 'top',
-//       },
-//     },
-//   },
-// }

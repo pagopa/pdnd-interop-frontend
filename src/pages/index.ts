@@ -1,4 +1,6 @@
 export { ProviderEServiceListPage } from './ProviderEServiceListPage'
+export { ProviderAgreementsListPage } from './ProviderAgreementsListPage'
 export { ConsumerEServiceCatalogPage } from './ConsumerEServiceCatalogPage'
+export { ConsumerAgreementsListPage } from './ConsumerAgreementsListPage'
 export { PartyRegistryPage } from './PartyRegistryPage'
 export { ErrorPage } from './ErrorPage'

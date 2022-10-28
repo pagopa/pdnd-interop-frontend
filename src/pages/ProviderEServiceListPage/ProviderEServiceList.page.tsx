@@ -5,7 +5,7 @@ import { PageContainer, TopSideActionsContainer } from '@/components/layout/cont
 import { RouterLink } from '@/router'
 
 const ProviderEServiceListPage: React.FC = () => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'list' })
+  const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceList' })
   const { t: tCommon } = useTranslation('common')
 
   const topSideButton = (

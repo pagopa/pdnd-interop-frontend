@@ -1,5 +1,15 @@
 {
+  "consumerEServiceCatalog": {
+    "title": "E-service catalog",
+    "description": "In this section you can explore all the e-services in the catalog and subscribe to the ones you are interested into"
+  },
+  "consumerAgreementsList": {
+    "title": "Your requests",
+    "description": "In this section, you can manage all the fruition requests you have sent to e-service Providers"
+  },
   "providerEServiceList": {
+    "title": "Your e-services",
+    "description": "In this section you can manage all the e-services you are providing",
     "eserviceTable": {
       "headLabels": {
         "name": "E-service",
@@ -7,5 +17,9 @@
         "status": "E-service status"
       }
     }
+  },
+  "providerAgreementsList": {
+    "title": "Fruition requests",
+    "description": "In this section, you can manage all the fruition requests you have received from parties that want to subscribe to your e-services"
   }
 }

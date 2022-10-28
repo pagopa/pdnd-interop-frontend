@@ -79,7 +79,13 @@
       "PENDING": "in attesa di approvazione",
       "ARCHIVED": "archiviato",
       "REJECTED": "rifiutato",
-      "MISSING_CERTIFIED_ATTRIBUTES": "attributi certificati mancanti"
+      "MISSING_CERTIFIED_ATTRIBUTES": "attributi certificati mancanti",
+
+      "frontendStatus": {
+        "suspendedByProducer": "sospeso dall'erogatore",
+        "suspendedByConsumer": "sospeso dal fruitore",
+        "suspendedByPlatform": "sospeso dalla piattaforma"
+      }
     },
     "purpose": {
       "DRAFT": "in bozza",

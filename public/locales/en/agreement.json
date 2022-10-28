@@ -1,0 +1,134 @@
+{
+  "loadingSingleLabel": "Loading request",
+  "loadingMultiLabel": "Loading requests",
+  "noMultiDataLabel": "Non fruition request available",
+  "read": {
+    "title": "Manage fruition request",
+    "updateGuide": {
+      "alertLabel": "A new version of <1>{{eserviceName}}</1> e-service is available. Before updating, read the guide below",
+      "title": "Upgrade guide",
+      "description": "It is possible to update the fruition request to the latest version of <1>{{eserviceName}}</1> e-service. Here are some useful informations",
+      "faq": [
+        {
+          "summary": "What does it mean to upgrade a fruition request?",
+          "details": ""
+        },
+        {
+          "summary": "What happens to my active purposes if I upgrade a fruition request?",
+          "details": ""
+        },
+        {
+          "summary": "What should I check before updating a fruition request?",
+          "details": ""
+        },
+        {
+          "summary": "How can I test the changes before updating the fruition request?",
+          "details": ""
+        }
+      ],
+      "upgradeGuideLinkLabel": "Upgrade fuide",
+      "eserviceLinkLabel": "E-service card <1>{{eserviceName}}, version {{version}}</1>",
+      "upgradeBtn": "Upgrade"
+    },
+    "generalInformations": {
+      "title": "General Informations",
+      "eserviceField": {
+        "label": "Request for",
+        "goToEServiceBtn": "Go to e-service",
+        "versionLabel": "version"
+      },
+      "providerField": {
+        "label": "Provider",
+        "infoLabel": "Max 1000 chars"
+      },
+      "requestStatusField": {
+        "label": "Request status"
+      },
+      "printableCopyField": {
+        "label": "Printable copy",
+        "docLabel": "Fruition request"
+      }
+    },
+    "consumerMessage": {
+      "title": "Message for provider"
+    },
+    "rejectionMessage": {
+      "title": "Fruition request rejection reason",
+      "description": "The provider states their reason for refusing to activate this fruition request. You can always submit a new one"
+    },
+    "attributes": {
+      "howLink": "How?",
+      "certified": {
+        "title": "Certified attributes",
+        "subtitle": "TODO",
+        "emptyLabel": "No certified attributes presented"
+      },
+      "verified": {
+        "title": "Verified attributes",
+        "subtitle": "TODO",
+        "emptyLabel": "No verified attributes presented"
+      },
+      "declared": {
+        "title": "Declared attributes",
+        "subtitle": "TODO",
+        "emptyLabel": "No declared attributes presented"
+      }
+    }
+  },
+  "edit": {
+    "title": "Manage fruition request",
+    "generalInformations": {
+      "title": "General Informations",
+      "eserviceField": {
+        "label": "Request for",
+        "goToEServiceBtn": "Go to e-service",
+        "versionLabel": "version"
+      },
+      "providerField": {
+        "label": "Provider"
+      },
+      "requestStatusField": {
+        "label": "Request status"
+      }
+    },
+    "attribute": {
+      "subtitle": "You must own:",
+      "certified": {
+        "description": "These attributes are certified by a recognized authoritative source, and do not require further certification."
+      },
+      "verified": {
+        "description": "These attributes require verification by at least one provider. You may already own some (or all) of them."
+      },
+      "declared": {
+        "description": "You must declare under your own responsibility that you possess these attributes."
+      }
+    },
+    "documents": {
+      "title": "Documentation",
+      "description": "Enter all the documents necessary for the recognition of your attributes",
+      "uploadBtn": "Upload",
+      "documentInputField": {
+        "dragHereLabel": "Drag here file or",
+        "selectFromComputerLabel": "select it from your computer",
+        "loadingLabel": "Loading...s"
+      }
+    },
+    "bottomPageActionCard": {
+      "title": "Quick publish",
+      "description": "Have you entered all the information for this agreement request? From here you can immediately publish a draft, or delete it. If you want to post later, just save the draft above or leave this page",
+      "cancelBtn": "Delete draft",
+      "submitBtn": "Publish agreement request"
+    },
+    "backToRequestsBtn": "Go back to requests"
+  },
+  "list": {
+    "provider": {
+      "title": "Fruition requests",
+      "description": "In this section, you can manage all the fruition requests you have received from parties that want to subscribe to your e-services"
+    },
+    "subscriber": {
+      "title": "Your requests",
+      "description": "In this section, you can manage all the fruition requests you have sent to e-service Providers"
+    }
+  }
+}

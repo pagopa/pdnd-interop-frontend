@@ -1,6 +1,6 @@
 import React from 'react'
 import { TableRow } from '@/components/shared/Table'
-import { StatusChip } from '@/components/shared/StatusChip'
+import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import { Box, Button, Skeleton, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useNavigateRouter } from '@/router'
@@ -79,9 +79,7 @@ export const EServiceTableRowSkeleton: React.FC = () => {
         { label: <Skeleton width={220} /> },
         { label: <Skeleton width={20} /> },
         {
-          custom: (
-            <Skeleton sx={{ borderRadius: 999 }} variant="rectangular" height={33} width={70} />
-          ),
+          custom: <StatusChipSkeleton />,
         },
       ]}
     >

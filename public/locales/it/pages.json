@@ -1,5 +1,20 @@
 {
+  "consumerEServiceCatalog": {
+    "title": "Catalogo degli e-service",
+    "description": "In quest'area puoi vedere tutti gli e-service nel catalogo, e aderire a quelli a cui sei interessato",
+    "headLabels": {
+      "eservice": "E-service",
+      "provider": "Erogatore",
+      "status": "Stato richiesta"
+    }
+  },
+  "consumerAgreementsList": {
+    "title": "Le tue richieste",
+    "description": "In quest'area puoi gestire tutte le richieste di fruizione che hai sottoscritto presso Enti erogatori"
+  },
   "providerEServiceList": {
+    "title": "I tuoi e-service",
+    "description": "In quest'area puoi gestire tutti gli e-service che stai erogando",
     "eserviceTable": {
       "headLabels": {
         "name": "E-service",
@@ -7,5 +22,9 @@
         "status": "Stato e-service"
       }
     }
+  },
+  "providerAgreementsList": {
+    "title": "Le tue richieste",
+    "description": "In quest'area puoi gestire tutte le richieste di fruizione che hai sottoscritto presso Enti erogatori"
   }
 }

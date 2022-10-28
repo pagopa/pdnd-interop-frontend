@@ -1,11 +1,12 @@
 import React from 'react'
-import { AgreementState } from '@/types/agreement.types'
+import { AgreementState, AgreementSummary } from '@/types/agreement.types'
 import { MUIColor } from '@/types/common.types'
 import { EServiceState } from '@/types/eservice.types'
 import { UserState } from '@/types/party.types'
-import { Chip, ChipProps } from '@mui/material'
+import { Chip, ChipProps, Skeleton } from '@mui/material'
 import omit from 'lodash/omit'
 import { useTranslation } from 'react-i18next'
+import { TFunction } from 'i18next'
 
 const CHIP_COLORS_E_SERVICE: Record<EServiceState, MUIColor> = {
   PUBLISHED: 'primary',
@@ -45,13 +46,38 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
       }
     | {
         for: 'agreement'
-        state: AgreementState
+        agreement: AgreementSummary
       }
     | {
         for: 'user'
         state: UserState
       }
   )
+
+function getAgreementChipState(item: AgreementSummary, t: TFunction<'common'>): Array<ChipProps> {
+  const result: Array<Partial<ChipProps>> = []
+
+  if (item.state !== 'SUSPENDED') {
+    result.push({ label: t(`status.agreement.${item.state}`) })
+  }
+
+  if (item.suspendedByPlatform) {
+    result.push({ label: t('status.agreement.frontendStatus.suspendedByPlatform') })
+  }
+
+  if (item.suspendedByProducer) {
+    result.push({ label: t('status.agreement.frontendStatus.suspendedByProducer') })
+  }
+
+  if (item.suspendedByConsumer) {
+    result.push({ label: t('status.agreement.frontendStatus.suspendedByConsumer') })
+  }
+
+  return result.map((r) => ({
+    ...r,
+    color: CHIP_COLORS_AGREEMENT[item.state as AgreementState],
+  })) as Array<ChipProps>
+}
 
 export const StatusChip: React.FC<StatusChipProps> = (props) => {
   const { t } = useTranslation('common')
@@ -64,8 +90,13 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
   }
 
   if (props.for === 'agreement') {
-    color = chipColors['agreement'][props.state]
-    label = t(`status.agreement.${props.state}`)
+    return (
+      <>
+        {getAgreementChipState(props.agreement, t).map(({ label, color }, i) => (
+          <Chip size="small" key={i} label={label} color={color} />
+        ))}
+      </>
+    )
   }
 
   if (props.for === 'user') {
@@ -74,4 +105,8 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
   }
 
   return <Chip label={label} color={color} {...omit(props, ['for', 'state'])} />
+}
+
+export const StatusChipSkeleton: React.FC = () => {
+  return <Skeleton sx={{ borderRadius: 999 }} variant="rectangular" height={23} width={54} />
 }

@@ -24,6 +24,7 @@ i18n
       'mutations-feedback',
       'pagopa',
       'eservice',
+      'agreement',
       'party',
       'attribute',
       'error',

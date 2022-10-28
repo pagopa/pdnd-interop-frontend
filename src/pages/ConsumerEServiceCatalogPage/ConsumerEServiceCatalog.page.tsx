@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { EServiceCatalogGrid, EServiceCatalogGridSkeleton } from './components'
 
 const ConsumerEServiceCatalogPage: React.FC = () => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'list' })
+  const { t } = useTranslation('pages', { keyPrefix: 'consumerEServiceCatalog' })
 
   return (
     <PageContainer title={t('title')} description={t('description')}>

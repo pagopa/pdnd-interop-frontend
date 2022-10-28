@@ -5,6 +5,8 @@ import {
   PartyRegistryPage,
   ConsumerEServiceCatalogPage,
   ProviderEServiceListPage,
+  ProviderAgreementsListPage,
+  ConsumerAgreementsListPage,
 } from '@/pages'
 import { LANGUAGES } from '@/config/constants'
 import { getKeys } from '@/utils/array.utils'
@@ -100,7 +102,7 @@ export const routes = makeType({
     PATH: { it: 'erogazione/richieste', en: 'provider/agreements' },
     LABEL: { it: 'Richieste di fruizione', en: 'Requests for use' },
     EXACT: true,
-    COMPONENT: EmptyComponent,
+    COMPONENT: ProviderAgreementsListPage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },
@@ -234,7 +236,7 @@ export const routes = makeType({
     PATH: { it: 'fruizione/richieste', en: 'subscriber/agreements' },
     LABEL: { it: 'Le tue richieste', en: 'Your requests' },
     EXACT: true,
-    COMPONENT: EmptyComponent,
+    COMPONENT: ConsumerAgreementsListPage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },

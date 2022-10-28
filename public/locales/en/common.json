@@ -79,7 +79,12 @@
       "PENDING": "awaiting approval",
       "ARCHIVED": "archived",
       "REJECTED": "rejected",
-      "MISSING_CERTIFIED_ATTRIBUTES": "missing certified attributes"
+      "MISSING_CERTIFIED_ATTRIBUTES": "missing certified attributes",
+      "frontendStatus": {
+        "suspendedByProducer": "suspended by producer",
+        "suspendedByConsumer": "suspended by consumer",
+        "suspendedByPlatform": "suspended by platform"
+      }
     },
     "purpose": {
       "DRAFT": "draft",

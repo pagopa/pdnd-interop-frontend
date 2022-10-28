@@ -1,0 +1,78 @@
+import { AgreementState, AgreementSummary } from '@/types/agreement.types'
+import { AgreementMutations } from '@/api/agreement'
+import { ActionItem, ProviderOrSubscriber } from '@/types/common.types'
+import { useTranslation } from 'react-i18next'
+
+type AgreementActions = Record<AgreementState, Array<ActionItem>>
+
+function useGetAgreementsActions(
+  agreement: AgreementSummary,
+  mode: ProviderOrSubscriber
+): { actions: Array<ActionItem> } {
+  const { t } = useTranslation('common', { keyPrefix: 'actions' })
+
+  const { mutate: activateAgreement } = AgreementMutations.useActivate()
+  const { mutate: suspendAgreement } = AgreementMutations.useSuspend()
+  const { mutate: upgradeAgreement } = AgreementMutations.useUpgrade()
+  const { mutate: deleteAgreement } = AgreementMutations.useDeleteDraft()
+
+  if (!agreement) return { actions: [] }
+
+  const handleActivate = () => {
+    activateAgreement({ agreementId: agreement.id })
+  }
+
+  const handleSuspend = () => {
+    suspendAgreement({ agreementId: agreement.id })
+  }
+
+  const handleUpgrade = () => {
+    upgradeAgreement({ agreementId: agreement.id })
+  }
+
+  const handleDelete = () => {
+    deleteAgreement({ agreementId: agreement.id })
+  }
+
+  const subscriberOnlyActionsActive: Array<ActionItem> = [
+    { action: handleSuspend, label: t('suspend') },
+  ]
+  if (
+    agreement.eservice.activeDescriptor &&
+    agreement.eservice.activeDescriptor.state === 'PUBLISHED'
+  ) {
+    subscriberOnlyActionsActive.push({
+      action: handleUpgrade,
+      label: t('upgrade'),
+    })
+  }
+
+  const subscriberOnlyActions: AgreementActions = {
+    ACTIVE: subscriberOnlyActionsActive,
+    SUSPENDED: [{ action: handleActivate, label: t('activate') }],
+    PENDING: [],
+    ARCHIVED: [],
+    DRAFT: [{ action: handleDelete, label: t('delete') }],
+    REJECTED: [],
+    MISSING_CERTIFIED_ATTRIBUTES: [{ action: handleDelete, label: t('delete') }],
+  }
+
+  const providerOnlyActions: AgreementActions = {
+    ACTIVE: [{ action: handleSuspend, label: t('suspend') }],
+    SUSPENDED: [{ action: handleActivate, label: t('activate') }],
+    PENDING: [{ action: handleActivate, label: t('activate') }],
+    ARCHIVED: [],
+    DRAFT: [],
+    REJECTED: [],
+    MISSING_CERTIFIED_ATTRIBUTES: [],
+  }
+
+  const actions: AgreementActions = {
+    provider: providerOnlyActions,
+    subscriber: subscriberOnlyActions,
+  }[mode]
+
+  return { actions: actions[agreement.state] }
+}
+
+export default useGetAgreementsActions
