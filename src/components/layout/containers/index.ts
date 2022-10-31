@@ -1,4 +1,3 @@
-export { TopSideActionsContainer } from './TopSideActionsContainer'
 export { PageBottomActionsContainer } from './PageBottomActionsContainer'
 export { InformationContainer } from './InformationContainer'
 export { SectionContainer } from './SectionContainer'

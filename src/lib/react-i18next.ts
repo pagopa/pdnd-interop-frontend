@@ -25,6 +25,7 @@ i18n
       'pagopa',
       'eservice',
       'agreement',
+      'purpose',
       'party',
       'attribute',
       'error',

@@ -6,6 +6,6 @@ export const queryClient = new QueryClient({
       suspense: true,
       useErrorBoundary: true,
     },
-    mutations: { useErrorBoundary: true },
+    mutations: { useErrorBoundary: false },
   },
 })

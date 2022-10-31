@@ -22,10 +22,10 @@ async function getAllFlat(params: EServiceGetAllFlatUrlParams) {
 }
 
 async function getSingle(eserviceId: string) {
-  const reponse = await axiosInstance.get<EServiceReadType>(
+  const response = await axiosInstance.get<EServiceReadType>(
     `${CATALOG_PROCESS_URL}/eservices/${eserviceId}`
   )
-  return reponse.data
+  return response.data
 }
 
 async function upsertDraft({

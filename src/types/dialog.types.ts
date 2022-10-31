@@ -9,7 +9,11 @@ export type DialogDefaultProps = {
   maxWidth?: MUIDialogProps['maxWidth']
 }
 
-export type DialogProps = DialogBasicProps | DialogAttributeDetailsProps | DialogSessionExpiredProps
+export type DialogProps =
+  | DialogBasicProps
+  | DialogAttributeDetailsProps
+  | DialogSessionExpiredProps
+  | DialogUpdatePurposeDailyCallsProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -18,6 +22,11 @@ export type DialogAttributeDetailsProps = {
 
 export type DialogSessionExpiredProps = {
   type: 'sessionExpired'
+}
+
+export type DialogUpdatePurposeDailyCallsProps = {
+  type: 'updatePurposeDailyCalls'
+  purposeId: string
 }
 
 export type DialogBasicProps = DialogDefaultProps & {

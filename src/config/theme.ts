@@ -8,6 +8,11 @@ export const theme = createTheme(
       components: {
         MuiTooltip: { defaultProps: { placement: 'top' } },
         MuiChip: { defaultProps: { size: 'small' } },
+        MuiTextField: {
+          styleOverrides: { root: { width: '100%' } },
+          defaultProps: { variant: 'outlined' },
+        },
+        MuiInputLabel: { defaultProps: { shrink: true } },
       },
     },
     muiItaliaTheme

@@ -7,6 +7,7 @@ import {
   ProviderEServiceListPage,
   ProviderAgreementsListPage,
   ConsumerAgreementsListPage,
+  ConsumerPurposesListPage,
 } from '@/pages'
 import { LANGUAGES } from '@/config/constants'
 import { getKeys } from '@/utils/array.utils'
@@ -165,7 +166,7 @@ export const routes = makeType({
     PATH: { it: 'fruizione/finalita', en: 'subscriber/purpose' },
     LABEL: { it: 'Le tue finalità', en: 'Your purpose' },
     EXACT: false,
-    COMPONENT: EmptyComponent,
+    COMPONENT: ConsumerPurposesListPage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },

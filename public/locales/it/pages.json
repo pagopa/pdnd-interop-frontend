@@ -26,5 +26,9 @@
   "providerAgreementsList": {
     "title": "Le tue richieste",
     "description": "In quest'area puoi gestire tutte le richieste di fruizione che hai sottoscritto presso Enti erogatori"
+  },
+  "consumerPurposesList": {
+    "title": "Le tue finalità",
+    "description": "In quest'area puoi i trovare e gestire tutte le finalità che hai creato"
   }
 }

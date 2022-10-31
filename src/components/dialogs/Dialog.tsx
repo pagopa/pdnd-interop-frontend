@@ -7,12 +7,15 @@ import {
   DialogBasicProps,
   DialogProps,
   DialogSessionExpiredProps,
+  DialogUpdatePurposeDailyCallsProps,
 } from '@/types/dialog.types'
+import { DialogUpdatePurposeDailyCalls } from './DialogUpdatePurposeDailyCalls'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
   onShowAttributeDetails: (props: DialogAttributeDetailsProps) => T,
-  onShowSessionExpired: (props: DialogSessionExpiredProps) => T
+  onShowSessionExpired: (props: DialogSessionExpiredProps) => T,
+  onUpdatePurposeDailyCalls: (props: DialogUpdatePurposeDailyCallsProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -22,6 +25,8 @@ function match<T>(
         return onShowAttributeDetails(props)
       case 'sessionExpired':
         return onShowSessionExpired(props)
+      case 'updatePurposeDailyCalls':
+        return onUpdatePurposeDailyCalls(props)
     }
   }
 }
@@ -29,5 +34,6 @@ function match<T>(
 export const Dialog = match(
   (props) => <DialogBasic {...props} />,
   (props) => <DialogAttributeDetails {...props} />,
-  (props) => <DialogSessionExpired {...props} />
+  (props) => <DialogSessionExpired {...props} />,
+  (props) => <DialogUpdatePurposeDailyCalls {...props} />
 )

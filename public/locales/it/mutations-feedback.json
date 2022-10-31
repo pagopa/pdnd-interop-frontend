@@ -153,96 +153,6 @@
         "description": "L'operatore sarà rimosso da questo client. Le chiavi che ha caricato per questo client rimarranno comunque utilizzabili, a meno che tu non le rimuova manualmente dalla lista di chiavi per questo client"
       }
     },
-    "PURPOSE_DRAFT_CREATE": {
-      "loading": "Stiamo creando la bozza",
-      "outcome": {
-        "error": "Non è stato possibile creare la bozza di finalità. Per favore, riprova!"
-      }
-    },
-    "PURPOSE_DRAFT_UPDATE": {
-      "loading": "Stiamo aggiornando la bozza",
-      "outcome": {
-        "success": "La bozza di finalità è stata aggiornata correttamente",
-        "error": "Non è stato possibile aggiornare la bozza di finalità. Per favore, riprova!"
-      }
-    },
-    "PURPOSE_DRAFT_DELETE": {
-      "loading": "Stiamo cancellando la finalità in bozza",
-      "outcome": {
-        "success": "La finalità è stata cancellata correttamente",
-        "error": "Non è stato possibile cancellare la finalità. Per favore, riprova!"
-      },
-      "confirmDialog": {
-        "title": "Conferma cancellazione finalità",
-        "description": "Cliccando \"conferma\" questa finalità verrà cancellata e non sarà più recuperabile. Tutti i client ad essa associata non potranno più accedere all'e-service dell'erogatore. Sarà sempre possibile creare nuove finalità"
-      }
-    },
-    "PURPOSE_VERSION_DRAFT_CREATE": {
-      "loading": "Stiamo creando la bozza",
-      "outcome": {
-        "success": "La finalità è stata creata correttamente",
-        "error": "Non è stato possibile aggiornare la bozza di finalità. Per favore, riprova!"
-      }
-    },
-    "PURPOSE_VERSION_DRAFT_UPDATE": {
-      "loading": "Stiamo aggiornando la bozza",
-      "outcome": {
-        "error": "Non è stato possibile aggiornare la bozza di finalità. Per favore, riprova!"
-      }
-    },
-    "PURPOSE_VERSION_WAITING_FOR_APPROVAL_UPDATE": {
-      "loading": "Stiamo aggiornando la data stimata di pubblicazione"
-    },
-    "PURPOSE_VERSION_SUSPEND": {
-      "loading": "Stiamo sospendendo la finalità",
-      "outcome": {
-        "success": "Non è più possibile per i client associati alla finalità accedere al servizio in erogazione",
-        "error": "Non è stato possibile sospendere la finalità. Per favore, riprova!"
-      },
-      "confirmDialog": {
-        "title": "Conferma sospensione finalità",
-        "description": "Cliccando \"conferma\" questa finalità verrà sospesa. Tutti i client associati non avranno più accesso all'e-service erogato fino a che non sarà riattivata"
-      }
-    },
-    "PURPOSE_VERSION_ACTIVATE": {
-      "loading": "Stiamo pubblicando la finalità",
-      "outcome": {
-        "success": "La finalità è ora pubblicata. Attenzione: se il numero di chiamate eccede il limite stabilito dall'erogatore, sarà necessaria una sua approvazione per poter sfruttare quel carico",
-        "error": "Non è stato possibile riattivare la finalità. Per favore, riprova! Se è la prima attivazione, assicurati che tutti i campi richiesti dalla finalità siano compilati"
-      },
-      "confirmDialog": {
-        "title": "Conferma attivazione finalità",
-        "description": "Cliccando \"conferma\" questa finalità verrà attivata. Tutti i client associati dal fruitore avranno accesso all'e-service dell'erogatore con il numero di chiamate stabilito"
-      }
-    },
-    "PURPOSE_VERSION_ARCHIVE": {
-      "loading": "Stiamo archiviando la finalità",
-      "outcome": {
-        "success": "La finalità è stata ora archiviata perché non più in uso. Potrai sempre creare nuove finalità",
-        "error": "Non è stato possibile archiviare la finalità. Per favore, riprova!"
-      },
-      "confirmDialog": {
-        "title": "Conferma archiviazione finalità",
-        "description": "Cliccando \"conferma\" questa finalità verrà archiviata. Tutti i client associati non avranno più accesso all'e-service erogato"
-      }
-    },
-    "PURPOSE_VERSION_DELETE": {
-      "loading": "Stiamo cancellando l'aggiornamento al numero di chiamate",
-      "outcome": {
-        "success": "L'aggiornamento al numero di chiamate per questa finalità è stato cancellato. Potrai continuare a usare questa finalità con il numero di chiamate corrente",
-        "error": "Non è stato possibile cancellare l'aggiornamento. Per favore, riprova!"
-      },
-      "confirmDialog": {
-        "title": "Conferma cancellazione aggiornamento",
-        "description": "Cliccando \"conferma\", questo aggiornamento al numero di chiamate verso l'e-service dell'erogatore sarà cancellato. Potrai continuare a usare questa finalità con il numero di chiamate attuale"
-      }
-    },
-    "PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD": {
-      "loading": "Stiamo scaricando il documento dell'analisi del rischio",
-      "outcome": {
-        "error": "Non è stato possibile scaricare il documento dell'analisi del rischio. Per favore, riprova!"
-      }
-    },
     "CLIENT_CREATE": {
       "loading": "Stiamo creando il client richiesto",
       "outcome": {
@@ -460,6 +370,105 @@
       "outcome": {
         "success": "Il documento della richiesta di fruizione è stato scaricato correttamente",
         "error": "Non è stato possibile scaricare il documento della richiesta. Per favore, riprova!"
+      }
+    }
+  },
+  "purpose": {
+    "createDraft": {
+      "loading": "Stiamo creando la bozza",
+      "outcome": {
+        "error": "Non è stato possibile creare la bozza di finalità. Per favore, riprova!"
+      }
+    },
+    "updateDraft": {
+      "loading": "Stiamo aggiornando la bozza",
+      "outcome": {
+        "success": "La bozza di finalità è stata aggiornata correttamente",
+        "error": "Non è stato possibile aggiornare la bozza di finalità. Per favore, riprova!"
+      }
+    },
+    "deleteDraft": {
+      "loading": "Stiamo cancellando la finalità in bozza",
+      "outcome": {
+        "success": "La finalità è stata cancellata correttamente",
+        "error": "Non è stato possibile cancellare la finalità. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma cancellazione finalità",
+        "description": "Cliccando \"conferma\" questa finalità verrà cancellata e non sarà più recuperabile. Tutti i client ad essa associata non potranno più accedere all'e-service dell'erogatore. Sarà sempre possibile creare nuove finalità"
+      }
+    },
+    "createVersionDraft": {
+      "loading": "Stiamo creando la bozza",
+      "outcome": {
+        "success": "La finalità è stata creata correttamente",
+        "error": "Non è stato possibile aggiornare la bozza di finalità. Per favore, riprova!"
+      }
+    },
+    "updateVersionDraft": {
+      "loading": "Stiamo aggiornando la bozza",
+      "outcome": {
+        "error": "Non è stato possibile aggiornare la bozza di finalità. Per favore, riprova!"
+      }
+    },
+    "updateDailyCalls": {
+      "loading": "Stiamo aggiornando il numero di chiamate giornaliere",
+      "outcome": {
+        "success": "Il numero di chiamate giornaliere è stato aggiornato correttamente.",
+        "error": "Non è stato possibile aggiornare aggiornare il numero di chiamate. Per favore, riprova!"
+      }
+    },
+    "updateVersionWaitingForApproval": {
+      "loading": "Stiamo aggiornando la data stimata di pubblicazione"
+    },
+    "suspendVersion": {
+      "loading": "Stiamo sospendendo la finalità",
+      "outcome": {
+        "success": "Non è più possibile per i client associati alla finalità accedere al servizio in erogazione",
+        "error": "Non è stato possibile sospendere la finalità. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma sospensione finalità",
+        "description": "Cliccando \"conferma\" questa finalità verrà sospesa. Tutti i client associati non avranno più accesso all'e-service erogato fino a che non sarà riattivata"
+      }
+    },
+    "activateVersion": {
+      "loading": "Stiamo pubblicando la finalità",
+      "outcome": {
+        "success": "La finalità è ora pubblicata. Attenzione: se il numero di chiamate eccede il limite stabilito dall'erogatore, sarà necessaria una sua approvazione per poter sfruttare quel carico",
+        "error": "Non è stato possibile riattivare la finalità. Per favore, riprova! Se è la prima attivazione, assicurati che tutti i campi richiesti dalla finalità siano compilati"
+      },
+      "confirmDialog": {
+        "title": "Conferma attivazione finalità",
+        "description": "Cliccando \"conferma\" questa finalità verrà attivata. Tutti i client associati dal fruitore avranno accesso all'e-service dell'erogatore con il numero di chiamate stabilito"
+      }
+    },
+    "archiveVersion": {
+      "loading": "Stiamo archiviando la finalità",
+      "outcome": {
+        "success": "La finalità è stata ora archiviata perché non più in uso. Potrai sempre creare nuove finalità",
+        "error": "Non è stato possibile archiviare la finalità. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma archiviazione finalità",
+        "description": "Cliccando \"conferma\" questa finalità verrà archiviata. Tutti i client associati non avranno più accesso all'e-service erogato"
+      }
+    },
+    "deleteVersion": {
+      "loading": "Stiamo cancellando l'aggiornamento al numero di chiamate",
+      "outcome": {
+        "success": "L'aggiornamento al numero di chiamate per questa finalità è stato cancellato. Potrai continuare a usare questa finalità con il numero di chiamate corrente",
+        "error": "Non è stato possibile cancellare l'aggiornamento. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma cancellazione aggiornamento",
+        "description": "Cliccando \"conferma\", questo aggiornamento al numero di chiamate verso l'e-service dell'erogatore sarà cancellato. Potrai continuare a usare questa finalità con il numero di chiamate attuale"
+      }
+    },
+    "downloadRiskAnalysis": {
+      "loading": "Stiamo scaricando il documento dell'analisi del rischio",
+      "outcome": {
+        "error": "Non è stato possibile scaricare il documento dell'analisi del rischio. Per favore, riprova!"
       }
     }
   }

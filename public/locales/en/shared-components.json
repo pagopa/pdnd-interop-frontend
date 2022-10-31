@@ -32,6 +32,20 @@
       "confirmLabel": "Ok"
     }
   },
+  "dialogUpdatePurposeDailyCalls": {
+    "ariaDescribedBy": "Modal to update the number of API calls/day for a purpose",
+    "title": "Update number of API calls/day",
+    "content": {
+      "dailyCallsField": {
+        "label": "Number of API calls/day (required)",
+        "infoLabel": "Your estimated number of API calls per day. This value will add up until it meets one of the thresholds set by the Provider. When it does, the Provider will have to manually approve any further purpose or change in API calls/day to guarantee the technical sustainability of the e-service"
+      }
+    },
+    "actions": {
+      "cancelLabel": "Undo",
+      "confirmLabel": "Confirm"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"

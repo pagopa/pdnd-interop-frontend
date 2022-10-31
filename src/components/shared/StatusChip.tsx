@@ -7,6 +7,7 @@ import { Chip, ChipProps, Skeleton } from '@mui/material'
 import omit from 'lodash/omit'
 import { useTranslation } from 'react-i18next'
 import { TFunction } from 'i18next'
+import { PurposeState } from '@/types/purpose.types'
 
 const CHIP_COLORS_E_SERVICE: Record<EServiceState, MUIColor> = {
   PUBLISHED: 'primary',
@@ -32,9 +33,18 @@ const CHIP_COLORS_USER: Record<UserState, MUIColor> = {
   SUSPENDED: 'error',
 }
 
+const CHIP_COLORS_PURPOSE: Record<PurposeState, MUIColor> = {
+  DRAFT: 'info',
+  ACTIVE: 'primary',
+  SUSPENDED: 'error',
+  WAITING_FOR_APPROVAL: 'warning',
+  ARCHIVED: 'info',
+}
+
 const chipColors = {
   eservice: CHIP_COLORS_E_SERVICE,
   agreement: CHIP_COLORS_AGREEMENT,
+  purpose: CHIP_COLORS_PURPOSE,
   user: CHIP_COLORS_USER,
 } as const
 
@@ -47,6 +57,10 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
     | {
         for: 'agreement'
         agreement: AgreementSummary
+      }
+    | {
+        for: 'purpose'
+        state: PurposeState
       }
     | {
         for: 'user'
@@ -102,6 +116,11 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
   if (props.for === 'user') {
     color = chipColors['user'][props.state]
     label = t(`status.user.${props.state}`)
+  }
+
+  if (props.for === 'purpose') {
+    color = chipColors['purpose'][props.state]
+    label = t(`status.purpose.${props.state}`)
   }
 
   return <Chip label={label} color={color} {...omit(props, ['for', 'state'])} />

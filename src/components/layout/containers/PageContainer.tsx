@@ -1,10 +1,17 @@
 import React from 'react'
-import { Box, Stack, SxProps, Typography } from '@mui/material'
+import { Box, Button, ButtonProps, Stack, SxProps, Typography } from '@mui/material'
+import { ActionItem } from '@/types/common.types'
+import ActionMenu from '@/components/shared/ActionMenu'
+
+export type TopSideActions = {
+  buttons: Array<ActionItem & Omit<ButtonProps, keyof ActionItem | 'onClick'>>
+  actionMenu?: Array<ActionItem>
+}
 
 type Props = {
   title: string
   description?: string
-  topSideActions?: React.ReactNode
+  topSideActions?: TopSideActions
   sx?: SxProps
 }
 
@@ -24,7 +31,7 @@ export const PageContainer: React.FC<Props & { children: React.ReactNode }> = ({
 type StyledIntroProps = {
   title: string
   description?: string
-  topSideActions?: React.ReactNode
+  topSideActions?: TopSideActions
 }
 
 const StyledIntro: React.FC<StyledIntroProps> = ({ title, description, topSideActions = null }) => {
@@ -41,7 +48,15 @@ const StyledIntro: React.FC<StyledIntroProps> = ({ title, description, topSideAc
         )}
       </Box>
 
-      {topSideActions}
+      <Stack direction="row" alignItems="center" spacing={2}>
+        {topSideActions?.buttons &&
+          topSideActions.buttons.map(({ action, label, ...props }, i) => (
+            <Button key={i} onClick={action} variant="outlined" size="small" {...props}>
+              {label}
+            </Button>
+          ))}
+        {topSideActions?.actionMenu && <ActionMenu actions={topSideActions.actionMenu} />}
+      </Stack>
     </Stack>
   )
 }

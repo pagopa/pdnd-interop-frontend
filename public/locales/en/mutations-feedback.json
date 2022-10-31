@@ -294,6 +294,105 @@
       }
     }
   },
+  "purpose": {
+    "createDraft": {
+      "loading": "Creating purpose draft",
+      "outcome": {
+        "error": "The purpose draft could not be created. Please, try again!"
+      }
+    },
+    "updateDraft": {
+      "loading": "Updating purpose draft",
+      "outcome": {
+        "success": "The purpose draft was updated successfully",
+        "error": "The purpose draft could not be updated. Please, try again!"
+      }
+    },
+    "deleteDraft": {
+      "loading": "Deleting purpose draft",
+      "outcome": {
+        "success": "The purpose draft was deleted successfully",
+        "error": "The purpose draft could not be deleted. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm purpose deletion",
+        "description": "By clicking \"confirm\", this purpose will be deleted and it will not be recoverable. All the clients added to it will no longer be able to access the Provider e-service. It will always be possible to create new purposes"
+      }
+    },
+    "createVersionDraft": {
+      "loading": "Creating purpose draft",
+      "outcome": {
+        "success": "The purpose draft was created successfully",
+        "error": "The purpose draft could not be updated. Please, try again!"
+      }
+    },
+    "updateVersionDraft": {
+      "loading": "Updating purpose draft",
+      "outcome": {
+        "error": "The purpose draft could not be updated. Please, try again!"
+      }
+    },
+    "updateDailyCalls": {
+      "loading": "Updating daily calls",
+      "outcome": {
+        "success": "The daily calls updated successfully.",
+        "error": "The daily calls could not be updated. Please, try again!"
+      }
+    },
+    "updateVersionWaitingForApproval": {
+      "loading": "Updating estimated publishing date"
+    },
+    "suspendVersion": {
+      "loading": "Suspending purpose",
+      "outcome": {
+        "success": "The purpose was suspended successfully. All associated clients can no longer access the e-service",
+        "error": "The purpose could not be suspended. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm purpose suspension",
+        "description": "By clicking \"confirm\", this purpose will be suspended. All the clients added to it will no longer be able to access the Provider e-service until it is reactivated"
+      }
+    },
+    "activateVersion": {
+      "loading": "Publishing purpose",
+      "outcome": {
+        "success": "The purpose was published successfully. Warning: if the number of API calls/day exceeds any of the Provider threshold, they will have to manually approve the purpose before it can be used",
+        "error": "The purpose could not be published. Please, make sure all required fields are filled and try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm purpose activation",
+        "description": "By clicking \"confirm\", this purpose will be activated. All the clients added to it will be able to access the Provider e-service by honoring the number of API calls/day established in the purpose itself"
+      }
+    },
+    "archiveVersion": {
+      "loading": "Archiving purpose",
+      "outcome": {
+        "success": "The purpose was archived successfully. You can always create new ones",
+        "error": "The purpose could not be archived. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm purpose archiving",
+        "description": "By clicking \"confirm\", this purpose will be archived. All the clients added to it will no longer be able to access the Provider e-service"
+      }
+    },
+    "deleteVersion": {
+      "loading": "Deleting API calls/day update",
+      "outcome": {
+        "success": "API calls/day was deleted successfully. You can keep using the purpose with the previous number of API calls per day",
+        "error": "The API calls/day update could not be deleted. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm update deletion",
+        "description": "By clicking \"confirm\", the update to the number of API calls/day for this purpose will be deleted. This purpose can still be used with the former number of API calls/day declared"
+      }
+    },
+    "downloadRiskAnalysis": {
+      "loading": "Downloading risk analysis document",
+      "outcome": {
+        "error": "The risk analysis document could not be downloaded. Please, try again!"
+      }
+    }
+  },
   "OPERATOR_SECURITY_JOIN_WITH_CLIENT": {
     "loading": "Adding the user to this client",
     "outcome": {
@@ -310,96 +409,6 @@
     "confirmDialog": {
       "title": "Confirm operation removal from client",
       "description": "The operator will be removed from this client. The keys uploaded for this client can still be used to access the e-services the client is related to. You can always remove them manually from the public keys list for this client"
-    }
-  },
-  "PURPOSE_DRAFT_CREATE": {
-    "loading": "Creating purpose draft",
-    "outcome": {
-      "error": "The purpose draft could not be created. Please, try again!"
-    }
-  },
-  "PURPOSE_DRAFT_UPDATE": {
-    "loading": "Updating purpose draft",
-    "outcome": {
-      "success": "The purpose draft was updated successfully",
-      "error": "The purpose draft could not be updated. Please, try again!"
-    }
-  },
-  "PURPOSE_DRAFT_DELETE": {
-    "loading": "Deleting purpose draft",
-    "outcome": {
-      "success": "The purpose draft was deleted successfully",
-      "error": "The purpose draft could not be deleted. Please, try again!"
-    },
-    "confirmDialog": {
-      "title": "Confirm purpose deletion",
-      "description": "By clicking \"confirm\", this purpose will be deleted and it will not be recoverable. All the clients added to it will no longer be able to access the Provider e-service. It will always be possible to create new purposes"
-    }
-  },
-  "PURPOSE_VERSION_DRAFT_CREATE": {
-    "loading": "Creating purpose draft",
-    "outcome": {
-      "success": "The purpose draft was created successfully",
-      "error": "The purpose draft could not be updated. Please, try again!"
-    }
-  },
-  "PURPOSE_VERSION_DRAFT_UPDATE": {
-    "loading": "Updating purpose draft",
-    "outcome": {
-      "error": "The purpose draft could not be updated. Please, try again!"
-    }
-  },
-  "PURPOSE_VERSION_WAITING_FOR_APPROVAL_UPDATE": {
-    "loading": "Updating estimated publishing date"
-  },
-  "PURPOSE_VERSION_SUSPEND": {
-    "loading": "Suspending purpose",
-    "outcome": {
-      "success": "The purpose was suspended successfully. All associated clients can no longer access the e-service",
-      "error": "The purpose could not be suspended. Please, try again!"
-    },
-    "confirmDialog": {
-      "title": "Confirm purpose suspension",
-      "description": "By clicking \"confirm\", this purpose will be suspended. All the clients added to it will no longer be able to access the Provider e-service until it is reactivated"
-    }
-  },
-  "PURPOSE_VERSION_ACTIVATE": {
-    "loading": "Publishing purpose",
-    "outcome": {
-      "success": "The purpose was published successfully. Warning: if the number of API calls/day exceeds any of the Provider threshold, they will have to manually approve the purpose before it can be used",
-      "error": "The purpose could not be published. Please, make sure all required fields are filled and try again!"
-    },
-    "confirmDialog": {
-      "title": "Confirm purpose activation",
-      "description": "By clicking \"confirm\", this purpose will be activated. All the clients added to it will be able to access the Provider e-service by honoring the number of API calls/day established in the purpose itself"
-    }
-  },
-  "PURPOSE_VERSION_ARCHIVE": {
-    "loading": "Archiving purpose",
-    "outcome": {
-      "success": "The purpose was archived successfully. You can always create new ones",
-      "error": "The purpose could not be archived. Please, try again!"
-    },
-    "confirmDialog": {
-      "title": "Confirm purpose archiving",
-      "description": "By clicking \"confirm\", this purpose will be archived. All the clients added to it will no longer be able to access the Provider e-service"
-    }
-  },
-  "PURPOSE_VERSION_DELETE": {
-    "loading": "Deleting API calls/day update",
-    "outcome": {
-      "success": "API calls/day was deleted successfully. You can keep using the purpose with the previous number of API calls per day",
-      "error": "The API calls/day update could not be deleted. Please, try again!"
-    },
-    "confirmDialog": {
-      "title": "Confirm update deletion",
-      "description": "By clicking \"confirm\", the update to the number of API calls/day for this purpose will be deleted. This purpose can still be used with the former number of API calls/day declared"
-    }
-  },
-  "PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD": {
-    "loading": "Downloading risk analysis document",
-    "outcome": {
-      "error": "The risk analysis document could not be downloaded. Please, try again!"
     }
   },
   "CLIENT_CREATE": {
