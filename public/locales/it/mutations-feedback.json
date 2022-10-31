@@ -153,49 +153,6 @@
         "description": "L'operatore sarà rimosso da questo client. Le chiavi che ha caricato per questo client rimarranno comunque utilizzabili, a meno che tu non le rimuova manualmente dalla lista di chiavi per questo client"
       }
     },
-    "CLIENT_CREATE": {
-      "loading": "Stiamo creando il client richiesto",
-      "outcome": {
-        "success": "Il client è stato creato correttamente",
-        "error": "Non è stato possibile creare il client. Per favore, riprova!"
-      }
-    },
-    "CLIENT_DELETE": {
-      "loading": "Stiamo cancellando il client richiesto",
-      "outcome": {
-        "success": "Il client è stato cancellato correttamente",
-        "error": "Non è stato possibile cancellare il client. Per favore, riprova!"
-      },
-      "confirmDialog": {
-        "title": "Conferma cancellazione client",
-        "description": "Cliccando \"conferma\", questo client sarà cancellato. Tutte le chiavi contenute saranno eliminate e non saranno più utilizzabili per accedere agli e-service"
-      }
-    },
-    "CLIENT_INTEROP_M2M_CREATE": {
-      "loading": "Stiamo creando il client richiesto",
-      "outcome": {
-        "success": "Il client è stato creato correttamente",
-        "error": "Non è stato possibile creare il client. Per favore, riprova!"
-      }
-    },
-    "CLIENT_JOIN_WITH_PURPOSE": {
-      "loading": "Stiamo associando il client alla finalità",
-      "outcome": {
-        "success": "Il client è stato associato alla finalità correttamente",
-        "error": "Non è stato possibile associare il client alla finalità. Per favore, riprova!"
-      }
-    },
-    "CLIENT_REMOVE_FROM_PURPOSE": {
-      "loading": "Stiamo rimuovendo il client dalla finalità",
-      "outcome": {
-        "success": "Il client è stato rimosso dalla finalità correttamente",
-        "error": "Non è stato possibile rimuovere il client dalla finalità. Per favore, riprova!"
-      },
-      "confirmDialog": {
-        "title": "Conferma rimozione client dalla finalità",
-        "description": "Il client sarà rimosso da questa finalità. Tutte le chiavi caricate non potranno più essere usate per accedere all'e-service per questa finalità"
-      }
-    },
     "KEY_POST": {
       "loading": "Stiamo caricando la chiave",
       "outcome": {
@@ -469,6 +426,51 @@
       "loading": "Stiamo scaricando il documento dell'analisi del rischio",
       "outcome": {
         "error": "Non è stato possibile scaricare il documento dell'analisi del rischio. Per favore, riprova!"
+      }
+    }
+  },
+  "client": {
+    "create": {
+      "loading": "Stiamo creando il client richiesto",
+      "outcome": {
+        "success": "Il client è stato creato correttamente",
+        "error": "Non è stato possibile creare il client. Per favore, riprova!"
+      }
+    },
+    "deleteOne": {
+      "loading": "Stiamo cancellando il client richiesto",
+      "outcome": {
+        "success": "Il client è stato cancellato correttamente",
+        "error": "Non è stato possibile cancellare il client. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma cancellazione client",
+        "description": "Cliccando \"conferma\", questo client sarà cancellato. Tutte le chiavi contenute saranno eliminate e non saranno più utilizzabili per accedere agli e-service"
+      }
+    },
+    "createInteropM2M": {
+      "loading": "Stiamo creando il client richiesto",
+      "outcome": {
+        "success": "Il client è stato creato correttamente",
+        "error": "Non è stato possibile creare il client. Per favore, riprova!"
+      }
+    },
+    "joinWithPurpose": {
+      "loading": "Stiamo associando il client alla finalità",
+      "outcome": {
+        "success": "Il client è stato associato alla finalità correttamente",
+        "error": "Non è stato possibile associare il client alla finalità. Per favore, riprova!"
+      }
+    },
+    "removeFromPurpose": {
+      "loading": "Stiamo rimuovendo il client dalla finalità",
+      "outcome": {
+        "success": "Il client è stato rimosso dalla finalità correttamente",
+        "error": "Non è stato possibile rimuovere il client dalla finalità. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma rimozione client dalla finalità",
+        "description": "Il client sarà rimosso da questa finalità. Tutte le chiavi caricate non potranno più essere usate per accedere all'e-service per questa finalità"
       }
     }
   }

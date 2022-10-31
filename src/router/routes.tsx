@@ -8,6 +8,8 @@ import {
   ProviderAgreementsListPage,
   ConsumerAgreementsListPage,
   ConsumerPurposesListPage,
+  ConsumerClientListPage,
+  ConsumerClientM2MListPage,
 } from '@/pages'
 import { LANGUAGES } from '@/config/constants'
 import { getKeys } from '@/utils/array.utils'
@@ -218,7 +220,7 @@ export const routes = makeType({
     PATH: { it: 'fruizione/client', en: 'subscriber/client' },
     LABEL: { it: 'I tuoi client e-service', en: 'Your e-service clients' },
     EXACT: false,
-    COMPONENT: EmptyComponent,
+    COMPONENT: ConsumerClientListPage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'security'],
   },
@@ -298,7 +300,7 @@ export const routes = makeType({
   SUBSCRIBE_INTEROP_M2M: {
     PATH: { it: 'fruizione/interop-m2m', en: 'subscriber/interop-m2m' },
     LABEL: { it: 'I tuoi client api interop', en: 'Your api interop clients' },
-    COMPONENT: EmptyComponent,
+    COMPONENT: ConsumerClientM2MListPage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'security'],
   },

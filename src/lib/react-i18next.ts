@@ -26,6 +26,7 @@ i18n
       'eservice',
       'agreement',
       'purpose',
+      'client',
       'party',
       'attribute',
       'error',

@@ -393,6 +393,51 @@
       }
     }
   },
+  "client": {
+    "create": {
+      "loading": "Creating client",
+      "outcome": {
+        "success": "The client was created successfully",
+        "error": "The client could not be created. Please, try again!"
+      }
+    },
+    "deleteOne": {
+      "loading": "Deleting client",
+      "outcome": {
+        "success": "The client was deleted successfully",
+        "error": "The client could not be deleted. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm client deletion",
+        "description": "By clicking \"confirm\", this client will be deleted. All the keys added to it will also be deleted and will no longer be useful to access the e-services this client is related to"
+      }
+    },
+    "createInteropM2M": {
+      "loading": "Creating client",
+      "outcome": {
+        "success": "The client was created successfully",
+        "error": "The client could not be created. Please, try again!"
+      }
+    },
+    "joinWithPurpose": {
+      "loading": "Adding client to purpose",
+      "outcome": {
+        "success": "The client was added successfully to the purpose",
+        "error": "The client could not be added to the purpose. Please, try again!"
+      }
+    },
+    "removeFromPurpose": {
+      "loading": "Removing client from purpose",
+      "outcome": {
+        "success": "The client was removed successfully from the purpose",
+        "error": "The client could not be removed from the purpose. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm client removal from purpose",
+        "description": "This client will be removed from the current purpose. All the keys added will no longer be useful to access the Provider e-service for this purpose"
+      }
+    }
+  },
   "OPERATOR_SECURITY_JOIN_WITH_CLIENT": {
     "loading": "Adding the user to this client",
     "outcome": {
@@ -409,49 +454,6 @@
     "confirmDialog": {
       "title": "Confirm operation removal from client",
       "description": "The operator will be removed from this client. The keys uploaded for this client can still be used to access the e-services the client is related to. You can always remove them manually from the public keys list for this client"
-    }
-  },
-  "CLIENT_CREATE": {
-    "loading": "Creating client",
-    "outcome": {
-      "success": "The client was created successfully",
-      "error": "The client could not be created. Please, try again!"
-    }
-  },
-  "CLIENT_DELETE": {
-    "loading": "Deleting client",
-    "outcome": {
-      "success": "The client was deleted successfully",
-      "error": "The client could not be deleted. Please, try again!"
-    },
-    "confirmDialog": {
-      "title": "Confirm client deletion",
-      "description": "By clicking \"confirm\", this client will be deleted. All the keys added to it will also be deleted and will no longer be useful to access the e-services this client is related to"
-    }
-  },
-  "CLIENT_INTEROP_M2M_CREATE": {
-    "loading": "Creating client",
-    "outcome": {
-      "success": "The client was created successfully",
-      "error": "The client could not be created. Please, try again!"
-    }
-  },
-  "CLIENT_JOIN_WITH_PURPOSE": {
-    "loading": "Adding client to purpose",
-    "outcome": {
-      "success": "The client was added successfully to the purpose",
-      "error": "The client could not be added to the purpose. Please, try again!"
-    }
-  },
-  "CLIENT_REMOVE_FROM_PURPOSE": {
-    "loading": "Removing client from purpose",
-    "outcome": {
-      "success": "The client was removed successfully from the purpose",
-      "error": "The client could not be removed from the purpose. Please, try again!"
-    },
-    "confirmDialog": {
-      "title": "Confirm client removal from purpose",
-      "description": "This client will be removed from the current purpose. All the keys added will no longer be useful to access the Provider e-service for this purpose"
     }
   },
   "KEY_POST": {

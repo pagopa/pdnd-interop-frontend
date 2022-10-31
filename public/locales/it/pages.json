@@ -30,5 +30,13 @@
   "consumerPurposesList": {
     "title": "Le tue finalità",
     "description": "In quest'area puoi i trovare e gestire tutte le finalità che hai creato"
+  },
+  "consumerClientList": {
+    "title": "I tuoi client e-service",
+    "description": "In quest'area puoi i trovare e gestire tutti i client e-service che hai creato"
+  },
+  "consumerClientM2MList": {
+    "title": "I tuoi client api interop",
+    "description": "Gestisci i client per staccare voucher validi per interrogare le API di Interoperabilità"
   }
 }

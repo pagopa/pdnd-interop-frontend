@@ -25,5 +25,13 @@
   "consumerPurposesList": {
     "title": "Your purposes",
     "description": "In this section you can manage all the purposes you have created"
+  },
+  "consumerClientList": {
+    "title": "Your e-service clients",
+    "description": "In this section you can manage all the e-service clients you have created"
+  },
+  "consumerClientM2MList": {
+    "title": "Your interop api clients",
+    "description": "Manage the clients used to obtain vouchers to interrogate the Interoperability API"
   }
 }

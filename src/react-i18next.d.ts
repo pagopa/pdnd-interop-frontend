@@ -9,6 +9,7 @@ import mutationsFeedbackNs from '../public/locales/en/mutations-feedback.json'
 import errorNs from '../public/locales/en/error.json'
 import agreementNs from '../public/locales/en/agreement.json'
 import purposeNs from '../public/locales/en/purpose.json'
+import clientNs from '../public/locales/en/client.json'
 
 declare module 'i18next' {
   interface CustomTypeOptions {
@@ -25,6 +26,7 @@ declare module 'i18next' {
       error: typeof errorNs
       agreement: typeof agreementNs
       purpose: typeof purposeNs
+      client: typeof clientNs
     }
   }
 }
