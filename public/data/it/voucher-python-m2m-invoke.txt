@@ -1,0 +1,8 @@
+python create_m2m_client_assertion.py \
+  --kid INSERISCI_VALORE_KID \
+  --alg INSERISCI_VALORE_ALG \
+  --typ INSERISCI_VALORE_TYP \
+  --issuer INSERISCI_VALORE_ISS \
+  --subject INSERISCI_VALORE_SUB \
+  --audience INSERISCI_VALORE_AUD \
+  --keyPath PATH_CHIAVE_PRIVATA

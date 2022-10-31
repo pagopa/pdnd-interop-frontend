@@ -12,9 +12,9 @@ type Props = {
 }
 
 export const AppLayout: React.FC<Props> = ({ children, sx }) => {
-  const { route } = useCurrentRoute()
+  const { isPublic } = useCurrentRoute()
   const error = useRouteError()
-  const hasSideNav = !route.PUBLIC
+  const hasSideNav = !isPublic
 
   if (!hasSideNav || error) {
     return (
@@ -22,7 +22,6 @@ export const AppLayout: React.FC<Props> = ({ children, sx }) => {
         <Box
           component="main"
           sx={{
-            height: '100%',
             px: 3,
             py: 2,
             ...sx,

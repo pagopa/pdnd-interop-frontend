@@ -8,10 +8,13 @@ import { Outlet } from 'react-router-dom'
 import useCurrentRoute from '../hooks/useCurrentRoute'
 import useDetectLangFromPath from '../hooks/useDetectLangFromPath'
 import useScrollTopOnLocationChange from '../hooks/useScrollTopOnLocationChange'
+import { useTOSAgreement } from '../hooks/useTOSAgreement'
+import TOSAgreement from './TOSAgreement'
 
 const OutletWrapper: React.FC = () => {
   const { dialog } = useDialog()
-  const { isUserAuthorized } = useCurrentRoute()
+  const { isUserAuthorized, isPublic } = useCurrentRoute()
+  const { isTOSAccepted, acceptTOS } = useTOSAgreement()
 
   if (!isUserAuthorized) {
     throw new NotAuthorizedError()
@@ -20,9 +23,13 @@ const OutletWrapper: React.FC = () => {
   return (
     <>
       <Header />
-      <AppLayout>
-        <Outlet />
-      </AppLayout>
+      {!isTOSAccepted && !isPublic ? (
+        <TOSAgreement onAcceptAgreement={acceptTOS} />
+      ) : (
+        <AppLayout>
+          <Outlet />
+        </AppLayout>
+      )}
       <Footer />
       {dialog && <Dialog {...dialog} />}
     </>

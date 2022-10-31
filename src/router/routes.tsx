@@ -10,6 +10,7 @@ import {
   ConsumerPurposesListPage,
   ConsumerClientListPage,
   ConsumerClientM2MListPage,
+  TOSPage,
 } from '@/pages'
 import { LANGUAGES } from '@/config/constants'
 import { getKeys } from '@/utils/array.utils'
@@ -34,7 +35,7 @@ export const routes = makeType({
   TOS: {
     PATH: { it: 'termini-di-servizio', en: 'terms-of-service' },
     LABEL: { it: 'Termini di servizio', en: 'Terms of service' },
-    COMPONENT: EmptyComponent,
+    COMPONENT: TOSPage,
     PUBLIC: true,
     AUTH_LEVELS: 'any',
   },

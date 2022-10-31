@@ -16,9 +16,10 @@ function useCurrentRoute() {
 
   const hasOverlappingRole = intersectionWith(currentRoles, route.AUTH_LEVELS)
   const isUserAuthorized = !route.PUBLIC || route.AUTH_LEVELS === 'any' || hasOverlappingRole
+  const isPublic = route.PUBLIC
   const mode = isProviderOrSubscriberRoute(routeKey)
 
-  return { routeKey, route, isUserAuthorized, mode }
+  return { routeKey, route, isUserAuthorized, mode, isPublic }
 }
 
 export default useCurrentRoute

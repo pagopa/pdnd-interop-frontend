@@ -17,8 +17,13 @@ type ClientTableRow = {
 const ClientTableRow: React.FC<ClientTableRow> = ({ client, clientKind }) => {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const { navigate } = useNavigateRouter()
+  const prefetch = ClientQueries.usePrefetchSingle()
 
   const { actions } = useGetClientActions(client)
+
+  const handlePrefetch = () => {
+    prefetch(client.id)
+  }
 
   const handleInspect = () => {
     const path =
@@ -29,7 +34,13 @@ const ClientTableRow: React.FC<ClientTableRow> = ({ client, clientKind }) => {
 
   return (
     <TableRow cellData={[{ label: client.name }]}>
-      <Button variant="outlined" size="small" onClick={handleInspect}>
+      <Button
+        onPointerEnter={handlePrefetch}
+        onFocusVisible={handlePrefetch}
+        variant="outlined"
+        size="small"
+        onClick={handleInspect}
+      >
         {t('inspect')}
       </Button>
 
@@ -65,7 +76,7 @@ interface ClientTableProps {
   clientKind: ClientKind
 }
 
-const _ClientTable: React.FC<ClientTableProps> = ({ clientKind }) => {
+const ClientTable: React.FC<ClientTableProps> = ({ clientKind }) => {
   const { t } = useTranslation('client')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
   const { jwt } = useJwt()
@@ -87,7 +98,7 @@ const _ClientTable: React.FC<ClientTableProps> = ({ clientKind }) => {
   )
 }
 
-const ClientTableSkeleton: React.FC = () => {
+export const ClientTableSkeleton: React.FC = () => {
   const { t } = useTranslation('common', { keyPrefix: 'table.headData' })
   const headLabels = [t('clientName'), '']
   return (
@@ -98,14 +109,6 @@ const ClientTableSkeleton: React.FC = () => {
       <ClientTableRowSkeleton />
       <ClientTableRowSkeleton />
     </Table>
-  )
-}
-
-const ClientTable: React.FC<ClientTableProps> = (props) => {
-  return (
-    <React.Suspense fallback={<ClientTableSkeleton />}>
-      <_ClientTable {...props} />
-    </React.Suspense>
   )
 }
 
