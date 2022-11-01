@@ -21,14 +21,31 @@
       "cancelFilterBtn": "Cancel filters"
     }
   },
+  "manage": {
+    "tabs": {
+      "ariaLabel": "Two different tabs for e-service details and load estimate as stated by the Subscribers",
+      "details": "E-service details",
+      "purposeAwaitingApproval": "Purposes to activate"
+    }
+  },
   "read": {
+    "alert": {
+      "youAreTheProvider": "You are the provider of this e-service",
+      "missingCertifiedAttributes": "Your party is missing at least one of the certified attributes required to subscribe this e-service",
+      "alreadySubscribed": "You can't subscribe again as you are already a Subscriber of this e-service",
+      "hasDraft": "You already have an agreement draft for this e-service"
+    },
+    "actions": {
+      "backToListLabel": "Back to the e-services",
+      "backToCatalogLabel": "Back to the catalog"
+    },
     "sections": {
       "generalInformations": {
         "title": "General informations",
-        "alreadySubscribedField": {
-          "label": "You are a Subscriber of the E-Service",
+        "agreementField": {
+          "label": "Fruition request",
           "link": {
-            "label": "Go to the fruition request"
+            "label": "Go to"
           }
         },
         "technology": "Technology"
@@ -45,7 +62,11 @@
         "dailyCallsPerConsumer": "Per subscriber threshold",
         "dailyCallsTotal": "Total threshold",
         "callsPerDay": "API calls/day",
-
+        "agreementApprovalPolicy": {
+          "label": "Fruition request activation",
+          "AUTOMATIC": "Automatic",
+          "MANUAL": "Manual"
+        },
         "doubtsQuestion": "Do you have doubts about the implementation to deliver your e-service?",
         "doubtsLink": "See the guide"
       },

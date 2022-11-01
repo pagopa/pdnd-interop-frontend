@@ -7,8 +7,8 @@ import memoize from 'lodash/memoize'
 import identity from 'lodash/identity'
 import sortBy from 'lodash/sortBy'
 import { PUBLIC_URL } from '@/config/env'
-import { LANGUAGES } from '@/config/constants'
-import { TFunction } from 'i18next'
+import qs from 'qs'
+import QueryString from 'qs'
 
 /** Returns the localized path of the given routeKey and language  */
 export function getLocalizedRoutePathname(routeKey: RouteKey, lang: LangCode) {
@@ -68,11 +68,11 @@ export const URL_FRAGMENTS: Record<string, Record<LangCode, string>> = {
   EDIT: { it: 'modifica', en: 'bozza' },
 }
 
-export function getSplittedPath(route: RouteConfig) {
-  return route.PATH.it.split('/').filter(identity)
+export function getSplittedPath(route: RouteConfig, currentLang: LangCode) {
+  return route.PATH[currentLang].split('/').filter(identity)
 }
 
-export const getRouteParents = memoize((routeKey: RouteKey): Array<RouteConfig> => {
+export const getParentRoutes = memoize((routeKey: RouteKey): Array<RouteKey> => {
   function isParentRoute(
     possibleParentRouteSubpaths: Array<string>,
     currentSubpaths: Array<string>
@@ -102,21 +102,23 @@ export const getRouteParents = memoize((routeKey: RouteKey): Array<RouteConfig> 
   }
 
   const route = routes[routeKey]
-  const currentSubpaths = getSplittedPath(route)
+  const currentSubpaths = getSplittedPath(route, 'it')
 
-  const parents = Object.values(routes).filter((possibleParentRoute) =>
-    isParentRoute(getSplittedPath(possibleParentRoute), currentSubpaths)
+  const parents = Object.entries(routes).filter(([_, possibleParentRoute]) =>
+    isParentRoute(getSplittedPath(possibleParentRoute, 'it'), currentSubpaths)
   )
 
-  const sortedParents = sortBy(parents, (parent) => getSplittedPath(parent).length)
+  const sortedParents = sortBy(parents, ([_, parent]) => getSplittedPath(parent, 'it').length)
 
-  return sortedParents
+  return sortedParents.map(([routeKey]) => routeKey) as Array<RouteKey>
 })
 
 export const isProviderOrSubscriberRoute = memoize(
   (routeKey: RouteKey): ProviderOrSubscriber | null => {
     const excludeList = ['ui', 'it']
-    const subroutes = getSplittedPath(routes[routeKey]).filter((b) => !excludeList.includes(b))
+    const subroutes = getSplittedPath(routes[routeKey], 'it').filter(
+      (b) => !excludeList.includes(b)
+    )
     const [mode] = subroutes
 
     if (mode === 'erogazione') {
@@ -130,3 +132,11 @@ export const isProviderOrSubscriberRoute = memoize(
     return null
   }
 )
+
+export function parseSearch(search: string) {
+  return qs.parse(search, { ignoreQueryPrefix: true })
+}
+
+export function stringifySearch(searchObj: Record<string, string> | QueryString.ParsedQs) {
+  return qs.stringify(searchObj)
+}

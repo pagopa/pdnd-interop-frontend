@@ -130,6 +130,7 @@ function useUpdateVersionWaitingForApproval() {
     loadingLabel: t('loading'),
     onSuccess(_, { purposeId }) {
       queryClient.invalidateQueries([PurposeQueryKeys.GetSingle, purposeId])
+      queryClient.invalidateQueries([PurposeQueryKeys.GetAll, { states: ['WAITING_FOR_APPROVAL'] }])
     },
   })
 }

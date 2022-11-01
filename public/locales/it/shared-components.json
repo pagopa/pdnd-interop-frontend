@@ -45,6 +45,17 @@
       "confirmLabel": "Conferma"
     }
   },
+  "dialogSetPurposeExpectedApprovalDate": {
+    "ariaDescribedBy": "Modale per impostare una data di completamento stimata per l'attivazione di una finalità",
+    "title": "Imposta data di completamento stimata",
+    "content": {
+      "message": "Questa data verrà indicata al fruitore come data di attivazione della finalità. Potrai aggiornarla in qualsiasi momento"
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Imposta"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copia",
     "copied": "Copiato"
@@ -54,5 +65,8 @@
   },
   "table": {
     "noDataLabel": "Questa ricerca non ha prodotto risultati"
+  },
+  "downloadableDocumentList": {
+    "noDataLabel": "Nessun documento disponibile"
   }
 }

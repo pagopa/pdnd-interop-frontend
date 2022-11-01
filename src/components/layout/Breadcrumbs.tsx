@@ -1,19 +1,20 @@
 import React from 'react'
 import { Breadcrumbs as _Breadcrumbs, Link as MUILink } from '@mui/material'
 import { useCurrentRoute } from '@/router'
-import { getRouteParents, getSplittedPath } from '@/router/utils'
-import { RouteConfig } from '@/router/types'
+import { getParentRoutes, getSplittedPath } from '@/router/utils'
+import { RouteKey } from '@/router/types'
 import { Link, useParams } from 'react-router-dom'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
+import { routes } from '@/router/routes'
 
 export function Breadcrumbs() {
-  const { routeKey, route } = useCurrentRoute()
+  const { routeKey } = useCurrentRoute()
   const currentLanguage = useCurrentLanguage()
 
   const params = useParams()
 
-  const toDynamicPath = (route: RouteConfig) => {
-    const subpaths = getSplittedPath(route)
+  const toDynamicPath = (routeKey: RouteKey) => {
+    const subpaths = getSplittedPath(routes[routeKey], currentLanguage)
 
     const dynamicSplit = subpaths.map((pathFragment) => {
       const isDynamicFragment = pathFragment.charAt(0) === ':'
@@ -24,12 +25,12 @@ export function Breadcrumbs() {
       return pathFragment
     })
 
-    return `/${dynamicSplit.join('/')}`
+    return `/${currentLanguage}/${dynamicSplit.join('/')}`
   }
 
-  const parentRoutes = getRouteParents(routeKey)
-  const links = [...parentRoutes, route].map((r) => ({
-    label: r.LABEL[currentLanguage],
+  const parentRoutes = getParentRoutes(routeKey)
+  const links = [...parentRoutes, routeKey].map((r) => ({
+    label: routes[r].LABEL[currentLanguage],
     // Remap dynamic parts of the path to their current value
     path: toDynamicPath(r),
   }))

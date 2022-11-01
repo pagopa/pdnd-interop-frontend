@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Button, ButtonProps, Stack, SxProps, Typography } from '@mui/material'
+import { Box, Button, ButtonProps, Skeleton, Stack, SxProps, Typography } from '@mui/material'
 import { ActionItem } from '@/types/common.types'
 import ActionMenu from '@/components/shared/ActionMenu'
 
@@ -23,6 +23,26 @@ export const PageContainer: React.FC<Props & { children: React.ReactNode }> = ({
   return (
     <Box sx={sx}>
       <StyledIntro {...props} />
+      <Box sx={{ mt: 4 }}>{children}</Box>
+    </Box>
+  )
+}
+
+export const PageContainerSkeleton: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return (
+    <Box>
+      <Stack direction="row" alignItems="end" spacing={2}>
+        <Box sx={{ flex: 1 }}>
+          <Typography component="h1" variant="h4">
+            <Skeleton />
+          </Typography>
+          <Typography component="p" variant="body1" sx={{ mt: 1, mb: 0 }}>
+            <Skeleton />
+          </Typography>
+        </Box>
+
+        <Stack direction="row" alignItems="center" spacing={2}></Stack>
+      </Stack>
       <Box sx={{ mt: 4 }}>{children}</Box>
     </Box>
   )

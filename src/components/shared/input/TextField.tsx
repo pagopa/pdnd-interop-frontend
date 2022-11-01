@@ -20,14 +20,20 @@ export type TextFieldProps = Omit<MUITextFieldProps, 'type'> & {
       }
   )
 
-export const TextField: React.FC<TextFieldProps> = ({ sx, name, ...props }) => {
+export const TextField: React.FC<TextFieldProps> = ({
+  sx,
+  name,
+  infoLabel,
+  focusOnMount,
+  ...props
+}) => {
   const { register, formState } = useFormContext()
 
   const error = formState.errors[name]?.message as string | undefined
 
   return (
-    <InputWrapper name={name} error={error} sx={sx} infoLabel={props.infoLabel}>
-      <MUITextField {...props} error={!!error} {...register(name)} />
+    <InputWrapper name={name} error={error} sx={sx} infoLabel={infoLabel}>
+      <MUITextField autoFocus={focusOnMount} {...props} error={!!error} {...register(name)} />
     </InputWrapper>
   )
 }

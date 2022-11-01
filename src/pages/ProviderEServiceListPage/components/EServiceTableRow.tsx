@@ -42,7 +42,7 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
   }
 
   const handlePrefetch = () => {
-    prefetch(eservice.id)
+    prefetch(eservice.id, eservice.descriptorId)
   }
 
   return (

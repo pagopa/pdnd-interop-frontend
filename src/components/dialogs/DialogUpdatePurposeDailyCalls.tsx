@@ -43,11 +43,11 @@ export const DialogUpdatePurposeDailyCalls: React.FC<DialogUpdatePurposeDailyCal
           <FormProvider {...formMethods}>
             <TextField
               type="number"
+              name="dailyCalls"
               label={t('content.dailyCallsField.label')}
               infoLabel={t('content.dailyCallsField.infoLabel')}
               focusOnMount={true}
               inputProps={{ min: '1' }}
-              {...formMethods.register('dailyCalls')}
             />
           </FormProvider>
         </DialogContent>

@@ -1,6 +1,6 @@
 import { EServiceQueries } from '@/api/eservice'
 import ActionMenu from '@/components/shared/ActionMenu'
-import useEServiceConsumerActions from '@/hooks/useEServiceConsumerActions'
+import useGetEServiceConsumerActions from '@/hooks/useGetEServiceConsumerActions'
 import { useNavigateRouter } from '@/router'
 import { EServiceFlatten } from '@/types/eservice.types'
 import { Card, CardActions, CardContent, Skeleton, Stack, Typography } from '@mui/material'
@@ -18,7 +18,10 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
   const { navigate } = useNavigateRouter()
   const prefetchEService = EServiceQueries.usePrefetchSingle()
 
-  const { actions, canCreateAgreementDraft, isMine } = useEServiceConsumerActions(eservice.id)
+  const { actions, canCreateAgreementDraft, isMine } = useGetEServiceConsumerActions(
+    eservice.id,
+    eservice.descriptorId
+  )
 
   const handleInpect = () => {
     if (!eservice?.descriptorId) return
@@ -31,8 +34,8 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
   }
 
   const handlePrefetch = () => {
-    console.log('HOVER')
-    prefetchEService(eservice.id)
+    if (!eservice?.descriptorId) return
+    prefetchEService(eservice.id, eservice.descriptorId)
   }
 
   return (

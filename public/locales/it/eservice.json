@@ -21,14 +21,31 @@
       "cancelFilterBtn": "Annulla filtri"
     }
   },
+  "manage": {
+    "tabs": {
+      "ariaLabel": "Due tab diverse per i dettagli dell'e-service e le stime di carico indicate dai fruitori",
+      "details": "Dettagli dell'e-service",
+      "purposeAwaitingApproval": "Finalità da evadere"
+    }
+  },
   "read": {
+    "alert": {
+      "youAreTheProvider": "Sei l'erogatore di questo e-service",
+      "missingCertifiedAttributes": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
+      "alreadySubscribed": "Non puoi iscriverti a questo e-service perché sei già iscritto",
+      "hasDraft": "Possiedi già una richiesta in bozza per questo e-service"
+    },
+    "actions": {
+      "backToListLabel": "Torna agli e-service",
+      "backToCatalogLabel": "Torna al catalogo"
+    },
     "sections": {
       "generalInformations": {
         "title": "Informazioni generali",
-        "alreadySubscribedField": {
-          "label": "Sei iscritto all'E-Service",
+        "agreementField": {
+          "label": "Richiesta di fruizione",
           "link": {
-            "label": "Vai alla richiesta di fruizione"
+            "label": "Vai"
           }
         },
         "technology": "Tecnologia"
@@ -45,7 +62,11 @@
         "dailyCallsPerConsumer": "Soglia per Fruitore",
         "dailyCallsTotal": "Soglia totale",
         "callsPerDay": "chiamate/giorno",
-
+        "agreementApprovalPolicy": {
+          "label": "Attivazione richiesta di fruizione",
+          "AUTOMATIC": "Automatica",
+          "MANUAL": "Manuale"
+        },
         "doubtsQuestion": "Hai dubbi sull’implementazione per erogare il tuo e-service?",
         "doubtsLink": "Consulta la guida"
       },
@@ -56,7 +77,6 @@
         "wellKnownLink": "URL .well-known"
       },
       "attributes": {
-        "subtitle": "Devi possedere:",
         "certified": {
           "description": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori certificazioni."
         },

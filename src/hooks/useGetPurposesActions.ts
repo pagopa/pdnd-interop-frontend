@@ -4,7 +4,11 @@ import { useDialog } from '@/contexts'
 import { useTranslation } from 'react-i18next'
 import { ActionItem } from '@/types/common.types'
 
-function useGetPurposesActions(purpose: DecoratedPurpose) {
+type UseGetPurposesActionsConfig = {
+  inEService: boolean
+}
+
+function useGetPurposesActions(purpose: DecoratedPurpose, config?: UseGetPurposesActionsConfig) {
   const { t } = useTranslation('purpose', { keyPrefix: 'tablePurpose.actions' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { mutate: archivePurpose } = PurposeMutations.useArchiveVersion()

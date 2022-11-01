@@ -46,6 +46,17 @@
       "confirmLabel": "Confirm"
     }
   },
+  "dialogSetPurposeExpectedApprovalDate": {
+    "ariaDescribedBy": "Modal to set the estimated completion date to activate a Subscriber purpose",
+    "title": "Set estimated completion date",
+    "content": {
+      "message": "You can update it at any moment. Any change will be notified to the Subscriber"
+    },
+    "actions": {
+      "cancelLabel": "Undo",
+      "confirmLabel": "Set"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"
@@ -55,5 +66,8 @@
   },
   "table": {
     "noDataLabel": "This search bears no results"
+  },
+  "downloadableDocumentList": {
+    "noDataLabel": "No documents available"
   }
 }

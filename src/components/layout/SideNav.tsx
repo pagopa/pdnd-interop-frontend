@@ -24,6 +24,7 @@ import { routes } from '@/router/routes'
 import { SELFCARE_BASE_URL } from '@/config/env'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { RouterLink, useCurrentRoute } from '@/router'
+import { getParentRoutes } from '@/router/utils'
 
 type View = {
   routeKey: RouteKey
@@ -87,15 +88,16 @@ export const SideNav = () => {
     { routeKey: 'NOTIFICATION', StartIcon: EmailIcon },
   ]
 
-  const [openId, setOpenId] = useState<string | null>(() => {
-    return (
-      availableViews.find((view) => {
-        if (view?.children) {
-          return view.children.includes(routeKey)
-        }
-      })?.id || null
-    )
-  })
+  const isActive = () => {
+    const parentRoutes: Array<RouteKey> = [...getParentRoutes(routeKey), routeKey]
+
+    const menuRoutes = availableViews.filter((view) => 'id' in view)
+    const menuId = menuRoutes.find(({ routeKey }) => parentRoutes.includes(routeKey))?.id ?? null
+
+    return menuId
+  }
+
+  const [openId, setOpenId] = useState<string | null>(isActive)
 
   const selfcareUsersPageUrl =
     jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users#prod-interop`
@@ -175,10 +177,10 @@ const CollapsableSideNavItem: React.FC<CollapsableSideNavItemProps> = ({
   toggleCollapse,
 }) => {
   const currentLanguage = useCurrentLanguage()
-  const { routeKey } = useCurrentRoute()
+  const { isRouteInCurrentSubtree } = useCurrentRoute()
 
   const route = routes[item.routeKey]
-  const isSelected = item?.children?.includes(routeKey)
+  const isSelected = item.children?.some(isRouteInCurrentSubtree)
 
   const handleToggleCollapse = () => {
     toggleCollapse(item.id)
@@ -228,12 +230,10 @@ const SideNavItemLink: React.FC<SideNavItemLinkProps> = ({
   indented = false,
 }) => {
   const currentLanguage = useCurrentLanguage()
-  const { routeKey: currentRouteKey } = useCurrentRoute()
+  const { isRouteInCurrentSubtree } = useCurrentRoute()
   const route = routes[routeKey]
-
   const label = route.LABEL[currentLanguage]
-
-  const isSelected = routeKey === currentRouteKey
+  const isSelected = isRouteInCurrentSubtree(routeKey)
 
   return (
     <ListItemButton

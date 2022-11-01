@@ -37,7 +37,7 @@ export const AttributeContainerRow = <T extends { id: string; name: string }>({
       <Typography sx={{ flex: 1 }} variant="body2">
         {attribute.name}
       </Typography>
-      <Stack sx={{ flexShrink: 0, pr: 8 }} direction="row" spacing={2}>
+      <Stack sx={{ flexShrink: 0 }} direction="row" spacing={2}>
         {buttons.map(({ action, label, ...buttonProps }, i) => (
           <ButtonNaked
             key={i}

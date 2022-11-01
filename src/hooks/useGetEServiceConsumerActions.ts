@@ -7,7 +7,7 @@ import { checkCertifiedAttributesOwnership } from '@/utils/attribute.utils'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from './useJwt'
 
-function useEServiceConsumerActions(eserviceId: string) {
+function useGetEServiceConsumerActions(eserviceId: string, descriptorId: string | undefined) {
   const { jwt, isAdmin } = useJwt()
   const { navigate } = useNavigateRouter()
   const { t } = useTranslation('eservice')
@@ -16,15 +16,16 @@ function useEServiceConsumerActions(eserviceId: string) {
   const { data: certifiedAttributes = [] } = AttributeQueries.useGetPartyCertifiedList(
     jwt?.organizationId
   )
-  const { data: eservices = [] } = EServiceQueries.useGetAllFlat({
-    state: 'PUBLISHED',
-    callerId: jwt?.organizationId,
-  })
+  const eservice = EServiceQueries.useGetSingleFlat(eserviceId, descriptorId)
+
   const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft()
 
-  const eservice = eservices?.find(({ id }) => id === eserviceId)
-
   const isMine = eservice?.producerId === jwt?.organizationId
+  const isSubscribed =
+    eservice && eservice?.agreement && eservice.agreement.state !== 'DRAFT' && isAdmin
+  const hasDraft =
+    eservice && eservice.agreement && eservice?.agreement.state === 'DRAFT' && isAdmin
+
   const actions: Array<ActionItem> = []
   let canCreateAgreementDraft = false
 
@@ -95,7 +96,7 @@ function useEServiceConsumerActions(eserviceId: string) {
     }
   }
 
-  return { actions, canCreateAgreementDraft, isMine }
+  return { actions, canCreateAgreementDraft, isMine, isSubscribed, hasDraft }
 }
 
-export default useEServiceConsumerActions
+export default useGetEServiceConsumerActions

@@ -20,5 +20,8 @@
   "title": "attributo {{num}}:",
   "or": "oppure",
   "showInfoSrLabel": "Mostra informazioni attributo",
-  "mustOwn": "Bisogna possedere:"
+  "mustOwn": "Devi possedere:",
+  "group": {
+    "title": "attributo {{num}}:"
+  }
 }

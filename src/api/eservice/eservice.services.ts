@@ -9,7 +9,10 @@ import {
   UpdateEServiceVersionDraftDocumentPayload,
 } from './eservice.api.types'
 import { EServiceDescriptorRead, EServiceReadType } from '@/types/eservice.types'
-import { getDownloadDocumentName } from '@/utils/eservice.utils'
+import {
+  decorateEServiceWithCurrentViewingDescriptor,
+  getDownloadDocumentName,
+} from '@/utils/eservice.utils'
 import { downloadFile } from '@/utils/common.utils'
 import { DocumentRead } from '@/types/common.types'
 
@@ -21,11 +24,11 @@ async function getAllFlat(params: EServiceGetAllFlatUrlParams) {
   return response.data
 }
 
-async function getSingle(eserviceId: string) {
+async function getSingle(eserviceId: string, descriptorId: string) {
   const response = await axiosInstance.get<EServiceReadType>(
     `${CATALOG_PROCESS_URL}/eservices/${eserviceId}`
   )
-  return response.data
+  return decorateEServiceWithCurrentViewingDescriptor(descriptorId, response.data)
 }
 
 async function upsertDraft({

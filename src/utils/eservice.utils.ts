@@ -1,14 +1,15 @@
-import { DocumentRead, EServiceReadType } from '@/types/eservice.types'
+import { DocumentRead } from '@/types/common.types'
+import { EServiceReadType } from '@/types/eservice.types'
 
 // Isolate activeDescriptor for easier access
-export function decorateEServiceWithActiveDescriptor(
+export function decorateEServiceWithCurrentViewingDescriptor(
   descriptorId: string | undefined,
   eserviceData: EServiceReadType | undefined
 ): EServiceReadType | undefined {
   // Fails in case descriptorId is URL_FRAGMENTS.FIRST_DRAFT
-  const activeDescriptor = eserviceData?.descriptors.find(({ id }) => id === descriptorId)
-  if (activeDescriptor && eserviceData) {
-    return { ...eserviceData, activeDescriptor }
+  const viewingDescriptor = eserviceData?.descriptors.find(({ id }) => id === descriptorId)
+  if (viewingDescriptor && eserviceData) {
+    return { ...eserviceData, viewingDescriptor }
   }
 }
 

@@ -2,6 +2,8 @@ import { deepmerge } from '@mui/utils'
 import { createTheme } from '@mui/material'
 import { theme as muiItaliaTheme } from '@pagopa/mui-italia'
 
+import type {} from '@mui/x-date-pickers/themeAugmentation'
+
 export const theme = createTheme(
   deepmerge(
     {

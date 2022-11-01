@@ -10,7 +10,9 @@ import {
   ConsumerPurposesListPage,
   ConsumerClientListPage,
   ConsumerClientM2MListPage,
+  ConsumerEServiceDetailsPage,
   TOSPage,
+  ProviderEServiceDetailsPage,
 } from '@/pages'
 import { LANGUAGES } from '@/config/constants'
 import { getKeys } from '@/utils/array.utils'
@@ -79,7 +81,7 @@ export const routes = makeType({
     },
     LABEL: { it: 'Visualizza e-service', en: 'View e-service' },
     EXACT: false,
-    COMPONENT: EmptyComponent,
+    COMPONENT: ProviderEServiceDetailsPage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'api'],
   },
@@ -126,7 +128,7 @@ export const routes = makeType({
     },
     LABEL: { it: 'Visualizza e-service', en: 'View e-service' },
     EXACT: false,
-    COMPONENT: EmptyComponent,
+    COMPONENT: ConsumerEServiceDetailsPage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'security'],
   },

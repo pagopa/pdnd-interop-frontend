@@ -1,9 +1,11 @@
+import React from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import EServiceServices from './eservice.services'
 import { EServiceGetAllFlatUrlParams, EServiceVersionDraftPayload } from './eservice.api.types'
 import { useNavigateRouter } from '@/router'
+import { useJwt } from '@/hooks/useJwt'
 
 export enum EServiceQueryKeys {
   GetAllFlat = 'EServiceGetAllFlat',
@@ -12,7 +14,7 @@ export enum EServiceQueryKeys {
 
 function useGetAllFlat(params: EServiceGetAllFlatUrlParams) {
   return useQueryWrapper(
-    [EServiceQueryKeys.GetAllFlat, params.state],
+    [EServiceQueryKeys.GetAllFlat, params],
     () => EServiceServices.getAllFlat(params),
     {
       enabled: !!params.callerId,
@@ -20,18 +22,29 @@ function useGetAllFlat(params: EServiceGetAllFlatUrlParams) {
   )
 }
 
-function useGetSingle(eserviceId: string) {
-  return useQueryWrapper([EServiceQueryKeys.GetSingle, eserviceId], () =>
-    EServiceServices.getSingle(eserviceId)
+function useGetSingle(eserviceId: string, descriptorId: string) {
+  return useQueryWrapper([EServiceQueryKeys.GetSingle, eserviceId, descriptorId], () =>
+    EServiceServices.getSingle(eserviceId, descriptorId)
   )
+}
+
+function useGetSingleFlat(eserviceId: string, descriptorId: string | undefined) {
+  const { jwt } = useJwt()
+  const { data: eservices } = useGetAllFlat({ callerId: jwt?.organizationId, state: 'PUBLISHED' })
+
+  return React.useMemo(() => {
+    return eservices?.find(
+      (eservice) => eservice.id === eserviceId && eservice.descriptorId === descriptorId
+    )
+  }, [eservices, eserviceId, descriptorId])
 }
 
 function usePrefetchSingle() {
   const queryClient = useQueryClient()
-  return (eserviceId: string) =>
+  return (eserviceId: string, descriptorId: string) =>
     queryClient.prefetchQuery(
       [EServiceQueryKeys.GetSingle, eserviceId],
-      () => EServiceServices.getSingle(eserviceId),
+      () => EServiceServices.getSingle(eserviceId, descriptorId),
       { staleTime: 180000 }
     )
 }
@@ -282,7 +295,7 @@ function useUpdateVersionDraftDocumentDescription() {
   })
 }
 
-function useDownloadVersionDraftDocument() {
+function useDownloadVersionDocument() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.downloadVersionDraftDocument',
   })
@@ -297,6 +310,7 @@ export const EServiceQueries = {
   useGetAllFlat,
   useGetSingle,
   usePrefetchSingle,
+  useGetSingleFlat,
 }
 
 export const EServiceMutations = {
@@ -313,5 +327,5 @@ export const EServiceMutations = {
   usePostVersionDraftDocument,
   useDeleteVersionDraftDocument,
   useUpdateVersionDraftDocumentDescription,
-  useDownloadVersionDraftDocument,
+  useDownloadVersionDocument,
 }

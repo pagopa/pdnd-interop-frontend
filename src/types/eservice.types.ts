@@ -21,7 +21,7 @@ export type EServiceReadType = {
   attributes: BackendAttributes
   descriptors: Array<EServiceDescriptorRead>
   state?: EServiceState
-  activeDescriptor?: EServiceDescriptorRead // TEMP REFACTOR : this is added by the client
+  viewingDescriptor?: EServiceDescriptorRead // TEMP REFACTOR : this is added by the client
 }
 
 export type EServiceFlatten = {

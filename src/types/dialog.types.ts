@@ -14,6 +14,7 @@ export type DialogProps =
   | DialogAttributeDetailsProps
   | DialogSessionExpiredProps
   | DialogUpdatePurposeDailyCallsProps
+  | DialogSetPurposeExpectedApprovalDateProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -36,4 +37,11 @@ export type DialogBasicProps = DialogDefaultProps & {
   proceedCallback: () => void
   proceedLabel?: string
   disabled?: boolean
+}
+
+export type DialogSetPurposeExpectedApprovalDateProps = {
+  type: 'setPurposeExpectedApprovalDate'
+  purposeId: string
+  versionId: string
+  approvalDate?: string
 }
