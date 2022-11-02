@@ -8,6 +8,7 @@ import omit from 'lodash/omit'
 import { useTranslation } from 'react-i18next'
 import { TFunction } from 'i18next'
 import { PurposeState } from '@/types/purpose.types'
+import { AttributeKey, AttributeState } from '@/types/attribute.types'
 
 const CHIP_COLORS_E_SERVICE: Record<EServiceState, MUIColor> = {
   PUBLISHED: 'primary',
@@ -41,11 +42,18 @@ const CHIP_COLORS_PURPOSE: Record<PurposeState, MUIColor> = {
   ARCHIVED: 'info',
 }
 
+const CHIP_COLORS_ATTRIBUTE: Record<AttributeState | 'NOT_ACTIVE', MUIColor> = {
+  ACTIVE: 'success',
+  NOT_ACTIVE: 'warning',
+  REVOKED: 'error',
+}
+
 const chipColors = {
   eservice: CHIP_COLORS_E_SERVICE,
   agreement: CHIP_COLORS_AGREEMENT,
   purpose: CHIP_COLORS_PURPOSE,
   user: CHIP_COLORS_USER,
+  attribute: CHIP_COLORS_ATTRIBUTE,
 } as const
 
 type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
@@ -65,6 +73,11 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
     | {
         for: 'user'
         state: UserState
+      }
+    | {
+        for: 'attribute'
+        state?: AttributeState
+        attributeKey: AttributeKey
       }
   )
 
@@ -123,7 +136,18 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
     label = t(`status.purpose.${props.state}`)
   }
 
-  return <Chip label={label} color={color} {...omit(props, ['for', 'state'])} />
+  if (props.for === 'attribute') {
+    color = chipColors['attribute'][props.state || 'NOT_ACTIVE']
+    label = t(`status.attribute.${props.attributeKey}.${props.state ?? 'NOT_ACTIVE'}`)
+  }
+
+  return (
+    <Chip
+      label={label}
+      color={color}
+      {...omit(props, ['for', 'state', 'agreement', 'attributeKey'])}
+    />
+  )
 }
 
 export const StatusChipSkeleton: React.FC = () => {

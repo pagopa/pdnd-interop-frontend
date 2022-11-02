@@ -3,7 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { Stack, Typography, Box, Link, Alert } from '@mui/material'
 import { useEServiceDetailsContext } from '../EServiceDetailsContext'
 import { CatalogAttribute, FrontendAttribute } from '@/types/attribute.types'
-import { AttributeContainerRow, SectionContainer } from '@/components/layout/containers'
+import {
+  AttributeContainerRow,
+  SectionContainer,
+  AttributeGroupContainer,
+} from '@/components/layout/containers'
 import { attributesHelpLink } from '@/config/constants'
 
 export const EServiceAttributesSections: React.FC = () => {
@@ -95,26 +99,18 @@ type AttributeGroup = {
 }
 
 const AttributeGroup: React.FC<AttributeGroup> = ({ attributes, index }) => {
-  const { t } = useTranslation('attribute', { keyPrefix: 'group' })
-
   return (
-    <Box sx={{ border: 1, borderColor: 'background.default', borderRadius: 1 }}>
-      <Box sx={{ p: 1.5, backgroundColor: 'background.default' }}>
-        <Typography fontWeight={700}>{t('title', { num: index + 1 })}</Typography>
-      </Box>
-
-      <Box sx={{ px: 1.5, my: 3 }}>
-        <Stack sx={{ mx: 0, listStyle: 'none', px: 0 }} spacing={2} component="ul">
-          {attributes.map((attribute, i) => (
-            <Box key={attribute.id} component="li">
-              <AttributeContainerRow
-                attribute={attribute}
-                showOrLabel={i !== attributes.length - 1}
-              />
-            </Box>
-          ))}
-        </Stack>
-      </Box>
-    </Box>
+    <AttributeGroupContainer groupNum={index + 1}>
+      <Stack sx={{ mx: 0, listStyle: 'none', px: 0 }} spacing={2} component="ul">
+        {attributes.map((attribute, i) => (
+          <Box key={attribute.id} component="li">
+            <AttributeContainerRow
+              attribute={attribute}
+              showOrLabel={i !== attributes.length - 1}
+            />
+          </Box>
+        ))}
+      </Stack>
+    </AttributeGroupContainer>
   )
 }

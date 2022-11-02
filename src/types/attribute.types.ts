@@ -44,10 +44,12 @@ export type VerifiedAttributesRenewalType = 'REVOKE_ON_EXPIRATION' | 'AUTOMATIC_
 
 export type PartyAttributes = Record<AttributeKey, Array<PartyAttribute>>
 
+export type AttributeState = 'ACTIVE' | 'REVOKED'
+
 export type PartyAttribute = {
   id: string
   name: string
-  state: 'ACTIVE' | 'REVOKED'
+  state: AttributeState
 }
 
 export type CertifiedTenantAttribute = {

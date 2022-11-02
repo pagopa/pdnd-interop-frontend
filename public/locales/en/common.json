@@ -99,6 +99,23 @@
       "ACTIVE": "active",
       "SUSPENDED": "suspended",
       "DELETED": "deleted"
+    },
+    "attribute": {
+      "certified": {
+        "ACTIVE": "certified",
+        "NOT_ACTIVE": "not certified",
+        "REVOKED": "revoked"
+      },
+      "verified": {
+        "ACTIVE": "verified",
+        "NOT_ACTIVE": "to verify",
+        "REVOKED": "revoked"
+      },
+      "declared": {
+        "ACTIVE": "dichiarato",
+        "NOT_ACTIVE": "pending confirmation",
+        "REVOKED": "revoked"
+      }
     }
   },
   "userRole": {

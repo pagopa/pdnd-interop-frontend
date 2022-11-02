@@ -81,7 +81,6 @@
       "ARCHIVED": "archiviato",
       "REJECTED": "rifiutato",
       "MISSING_CERTIFIED_ATTRIBUTES": "attributi certificati mancanti",
-
       "frontendStatus": {
         "suspendedByProducer": "sospeso dall'erogatore",
         "suspendedByConsumer": "sospeso dal fruitore",
@@ -100,6 +99,23 @@
       "ACTIVE": "attivo",
       "SUSPENDED": "sospeso",
       "DELETED": "rimosso"
+    },
+    "attribute": {
+      "certified": {
+        "ACTIVE": "certificato",
+        "NOT_ACTIVE": "non certificato",
+        "REVOKED": "revocato"
+      },
+      "verified": {
+        "ACTIVE": "verificato",
+        "NOT_ACTIVE": "da verificare",
+        "REVOKED": "revocato"
+      },
+      "declared": {
+        "ACTIVE": "dichiarato",
+        "NOT_ACTIVE": "in attesa di conferma",
+        "REVOKED": "revocato"
+      }
     }
   },
   "userRole": {
