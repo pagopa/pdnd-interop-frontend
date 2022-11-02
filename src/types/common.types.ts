@@ -36,8 +36,8 @@ export type MUIColor =
 export type ExtendedMUIColor = MUIColor | 'disabled' | 'inherit' | 'action'
 
 export type Provider = 'provider'
-export type Subscriber = 'subscriber'
-export type ProviderOrSubscriber = Provider | Subscriber
+export type Consumer = 'consumer'
+export type ProviderOrConsumer = Provider | Consumer
 
 export type InputSelectOption = {
   label: string

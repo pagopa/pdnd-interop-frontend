@@ -1,5 +1,5 @@
 import { routes } from '@/router/routes'
-import type { LangCode, ProviderOrSubscriber } from '@/types/common.types'
+import type { LangCode, ProviderOrConsumer } from '@/types/common.types'
 import type { RouteConfig, RouteKey } from '@/router/types'
 import { generatePath, matchPath } from 'react-router-dom'
 import { getKeys } from '@/utils/array.utils'
@@ -113,8 +113,8 @@ export const getParentRoutes = memoize((routeKey: RouteKey): Array<RouteKey> => 
   return sortedParents.map(([routeKey]) => routeKey) as Array<RouteKey>
 })
 
-export const isProviderOrSubscriberRoute = memoize(
-  (routeKey: RouteKey): ProviderOrSubscriber | null => {
+export const isProviderOrConsumerRoute = memoize(
+  (routeKey: RouteKey): ProviderOrConsumer | null => {
     const excludeList = ['ui', 'it']
     const subroutes = getSplittedPath(routes[routeKey], 'it').filter(
       (b) => !excludeList.includes(b)
@@ -126,7 +126,7 @@ export const isProviderOrSubscriberRoute = memoize(
     }
 
     if (mode === 'fruizione') {
-      return 'subscriber'
+      return 'consumer'
     }
 
     return null

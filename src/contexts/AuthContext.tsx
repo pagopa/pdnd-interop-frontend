@@ -85,7 +85,7 @@ function useLoginAttempt(
     if (route.PUBLIC) return
 
     // 5. If all else fails, logout
-    // navigate('LOGOUT')
+    navigate('LOGOUT')
   }, [navigate, route.PUBLIC, setToken, swapTokens])
 
   React.useEffect(() => {

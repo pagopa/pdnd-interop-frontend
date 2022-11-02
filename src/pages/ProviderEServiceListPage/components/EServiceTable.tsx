@@ -19,8 +19,9 @@ export const EServiceTable: React.FC = () => {
 
   return (
     <Table headLabels={headLabels} isEmpty={isEmpty}>
-      {!isEmpty &&
-        eservices?.map((eservice) => <EServiceTableRow key={eservice.id} eservice={eservice} />)}
+      {eservices?.map((eservice) => (
+        <EServiceTableRow key={eservice?.descriptorId || eservice.id} eservice={eservice} />
+      ))}
     </Table>
   )
 }

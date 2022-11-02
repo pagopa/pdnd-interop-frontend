@@ -1,13 +1,13 @@
 import { AgreementState, AgreementSummary } from '@/types/agreement.types'
 import { AgreementMutations } from '@/api/agreement'
-import { ActionItem, ProviderOrSubscriber } from '@/types/common.types'
+import { ActionItem, ProviderOrConsumer } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
 
 type AgreementActions = Record<AgreementState, Array<ActionItem>>
 
 function useGetAgreementsActions(
   agreement: AgreementSummary,
-  mode: ProviderOrSubscriber
+  mode: ProviderOrConsumer
 ): { actions: Array<ActionItem> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
 
@@ -69,7 +69,7 @@ function useGetAgreementsActions(
 
   const actions: AgreementActions = {
     provider: providerOnlyActions,
-    subscriber: subscriberOnlyActions,
+    consumer: subscriberOnlyActions,
   }[mode]
 
   return { actions: actions[agreement.state] }

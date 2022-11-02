@@ -11,15 +11,11 @@ export const EServiceCatalogGrid: React.FC = () => {
     callerId: jwt?.organizationId,
   })
 
-  if (!eservices || eservices?.length === 0) {
-    return <>TODO</>
-  }
-
   return (
     <Grid container spacing={3}>
-      {eservices.map((eservice) => (
+      {eservices?.map((eservice) => (
         <Grid item key={eservice.id} xs={4}>
-          <CatalogCard key={eservice.id} eservice={eservice} />
+          <CatalogCard key={eservice?.descriptorId || eservice.id} eservice={eservice} />
         </Grid>
       ))}
     </Grid>
