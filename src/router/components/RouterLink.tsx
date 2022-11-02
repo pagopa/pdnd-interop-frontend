@@ -1,12 +1,12 @@
 import React from 'react'
 import { Button, ButtonProps, Link as MUILink, LinkProps as MUILinkProps } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Link, NavigateOptions } from 'react-router-dom'
 import useNavigateRouter from '../hooks/useNavigateRouter'
 import { RouteKey, RouteParams } from '../types'
 import omit from 'lodash/omit'
 
 type RouterLinkProps<T extends RouteKey> =
-  | { to: T; params?: RouteParams<T> } & (
+  | { to: T; params?: RouteParams<T>; options?: NavigateOptions } & (
       | ({ as?: 'link' } & Omit<MUILinkProps<typeof Link>, 'component' | 'to'>)
       | ({ as: 'button'; children: React.ReactNode } & Omit<ButtonProps, 'onClick'>)
     )
@@ -21,7 +21,7 @@ const RouterLink = React.forwardRef(function _RouterLink<T extends RouteKey>(
     const handleClick = () => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
-      navigate(props.to, props?.params)
+      navigate(props.to, { params: props.params, ...props?.options })
     }
 
     return (

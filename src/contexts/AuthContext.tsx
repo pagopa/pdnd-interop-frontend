@@ -90,7 +90,6 @@ function useLoginAttempt(
 
   React.useEffect(() => {
     if (sessionToken) return
-    console.count()
     async function asyncLoginAttempt() {
       showOverlay(t('loading.sessionToken.label'))
       await loginAttempt()

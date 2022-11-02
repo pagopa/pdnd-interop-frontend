@@ -90,7 +90,7 @@ function useDeleteDraft() {
   })
 }
 
-function useDownloadDraftDocument() {
+function useDownloadDocument() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'agreement.downloadDraftDocument',
   })
@@ -202,6 +202,17 @@ function useUpgrade() {
   })
 }
 
+function useDownloadContract() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'agreement.downloadContract',
+  })
+  return useMutationWrapper(AgreementServices.downloadContract, {
+    suppressSuccessToast: true,
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+  })
+}
+
 export const AgreementQueries = {
   useGetAll,
   useGetSingle,
@@ -212,11 +223,12 @@ export const AgreementMutations = {
   useCreateDraft,
   useSubmitDraft,
   useDeleteDraft,
-  useDownloadDraftDocument,
+  useDownloadDocument,
   useUploadDraftDocument,
   useDeleteDraftDocument,
   useActivate,
   useReject,
   useSuspend,
   useUpgrade,
+  useDownloadContract,
 }

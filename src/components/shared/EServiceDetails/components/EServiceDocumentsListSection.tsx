@@ -9,7 +9,7 @@ export const EServiceDocumentsListSection: React.FC = () => {
   const { mutate: downloadDocument } = EServiceMutations.useDownloadVersionDocument()
 
   const handleDownloadDocument = (document: DocumentRead) => {
-    if (!eservice || !eservice?.viewingDescriptor) return null
+    if (!eservice || !eservice?.viewingDescriptor) return
 
     downloadDocument({
       eserviceId: eservice.id,

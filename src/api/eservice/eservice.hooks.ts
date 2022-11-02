@@ -22,9 +22,11 @@ function useGetAllFlat(params: EServiceGetAllFlatUrlParams) {
   )
 }
 
-function useGetSingle(eserviceId: string, descriptorId: string) {
-  return useQueryWrapper([EServiceQueryKeys.GetSingle, eserviceId, descriptorId], () =>
-    EServiceServices.getSingle(eserviceId, descriptorId)
+function useGetSingle(eserviceId?: string, descriptorId?: string) {
+  return useQueryWrapper(
+    [EServiceQueryKeys.GetSingle, eserviceId, descriptorId],
+    () => EServiceServices.getSingle(eserviceId!, descriptorId!),
+    { enabled: Boolean(eserviceId && descriptorId) }
   )
 }
 

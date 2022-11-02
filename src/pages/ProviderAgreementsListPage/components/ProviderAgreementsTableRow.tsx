@@ -16,7 +16,7 @@ export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementSummary 
   const { t } = useTranslation('common')
   const prefetch = AgreementQueries.usePrefetchSingle()
 
-  const { actions } = useGetAgreementsActions(agreement, 'provider')
+  const { actions } = useGetAgreementsActions(agreement)
 
   const goToAgreementDetails = () => {
     navigate('PROVIDE_AGREEMENT_READ', { params: { agreementId: agreement.id } })

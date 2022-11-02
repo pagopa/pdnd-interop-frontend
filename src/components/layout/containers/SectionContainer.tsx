@@ -1,11 +1,21 @@
-import { Box, Stack, Typography, TypographyProps, BoxProps, Paper, PaperProps } from '@mui/material'
+import {
+  Box,
+  Stack,
+  Typography,
+  TypographyProps,
+  BoxProps,
+  Paper,
+  PaperProps,
+  SkeletonProps,
+  Skeleton,
+} from '@mui/material'
 import React from 'react'
 
 type SectionContainerProps = {
   children: React.ReactNode
 }
 
-function SectionContainer({ children, sx, ...props }: PaperProps & SectionContainerProps) {
+export function SectionContainer({ children, sx, ...props }: PaperProps & SectionContainerProps) {
   return (
     <Paper sx={{ bgcolor: 'white', p: 3, mt: 2, ...sx }} {...props}>
       <Stack>{children}</Stack>
@@ -48,4 +58,6 @@ SectionContainer.Content = function SectionContainerContent({
   )
 }
 
-export { SectionContainer }
+export const SectionContainerSkeleton: React.FC<SkeletonProps> = ({ sx, ...props }) => {
+  return <Skeleton variant="rectangular" sx={{ borderRadius: 1, ...sx }} {...props} />
+}

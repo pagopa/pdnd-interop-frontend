@@ -1,13 +1,11 @@
 import { EServiceQueries } from '@/api/eservice'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
-import { PageContainerSkeleton, TopSideActions } from '@/components/layout/containers/PageContainer'
-import {
-  EServiceContentInfo,
-  EServiceContentInfoSkeleton,
-} from '@/components/shared/EServiceDetails'
+import { PageContainerSkeleton } from '@/components/layout/containers/PageContainer'
+import { EServiceDetails, EServiceDetailsSkeleton } from '@/components/shared/EServiceDetails'
 import useGetEServiceProviderActions from '@/hooks/useGetEServiceProviderActions'
 import { RouterLink, useRouteParams } from '@/router'
 import { useActiveTab } from '@/router/hooks/useActiveTab'
+import { formatTopSideActions } from '@/utils/common.utils'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Skeleton, Tab } from '@mui/material'
 import React from 'react'
@@ -36,13 +34,7 @@ const ProviderEServiceDetailsPageContent: React.FC = () => {
     state: eservice?.viewingDescriptor?.state,
   })
 
-  const topSideActions: TopSideActions | undefined =
-    actions.length > 0
-      ? {
-          buttons: [actions[0]],
-          actionMenu: actions.slice(1).length > 0 ? actions.slice(1) : undefined,
-        }
-      : undefined
+  const topSideActions = formatTopSideActions(actions)
 
   return (
     <PageContainer
@@ -61,7 +53,7 @@ const ProviderEServiceDetailsPageContent: React.FC = () => {
         </TabList>
 
         <TabPanel value="details" sx={{ p: 0 }}>
-          <EServiceContentInfo eserviceId={eserviceId} descriptorId={descriptorId} />
+          <EServiceDetails eserviceId={eserviceId} descriptorId={descriptorId} />
         </TabPanel>
         <TabPanel value="purposeAwaitingApproval" sx={{ px: 0 }}>
           <React.Suspense fallback={<EServicePurposesTableSkeleton />}>
@@ -85,7 +77,7 @@ const ProviderEServiceDetailsPageContentSkeleton = () => {
   return (
     <PageContainerSkeleton>
       <Skeleton sx={{ mb: 2 }} variant="rectangular" height={48} />
-      <EServiceContentInfoSkeleton />
+      <EServiceDetailsSkeleton />
       <PageBottomActionsContainer>
         <RouterLink as="button" to="PROVIDE_ESERVICE_LIST" variant="outlined">
           {t('read.actions.backToListLabel')}

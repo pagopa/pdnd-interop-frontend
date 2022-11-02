@@ -9,15 +9,12 @@ import { EServiceVersionHistorySection } from './components/EServiceVersionHisto
 import { EServiceAttributesSections } from './components/EServiceAttributesSections'
 import { EServiceDocumentsListSection } from './components/EServiceDocumentsListSection'
 
-type EServiceContentInfoProps = {
+type EServiceDetailsProps = {
   eserviceId: string
   descriptorId: string
 }
 
-export const EServiceContentInfo: React.FC<EServiceContentInfoProps> = ({
-  eserviceId,
-  descriptorId,
-}) => {
+export const EServiceDetails: React.FC<EServiceDetailsProps> = ({ eserviceId, descriptorId }) => {
   const { mode } = useCurrentRoute()
 
   return (
@@ -44,7 +41,7 @@ export const EServiceContentInfo: React.FC<EServiceContentInfoProps> = ({
   )
 }
 
-export const EServiceContentInfoSkeleton: React.FC = () => {
+export const EServiceDetailsSkeleton: React.FC = () => {
   const { mode } = useCurrentRoute()
 
   return (

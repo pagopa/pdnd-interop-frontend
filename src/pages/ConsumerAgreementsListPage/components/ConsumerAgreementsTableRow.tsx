@@ -16,7 +16,7 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementSummary 
   const { t } = useTranslation('common')
   const prefetch = AgreementQueries.usePrefetchSingle()
 
-  const { actions } = useGetAgreementsActions(agreement, 'consumer')
+  const { actions } = useGetAgreementsActions(agreement)
 
   const handleEditOrInspect = () => {
     const destPath =

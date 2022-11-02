@@ -13,6 +13,8 @@ import {
   ConsumerEServiceDetailsPage,
   TOSPage,
   ProviderEServiceDetailsPage,
+  ConsumerAgreementDetailsPage,
+  ProviderAgreementDetailsPage,
 } from '@/pages'
 import { LANGUAGES } from '@/config/constants'
 import { getKeys } from '@/utils/array.utils'
@@ -100,7 +102,7 @@ export const routes = makeType({
     },
     LABEL: { it: 'Gestisci richiesta', en: 'Manage request' },
     EXACT: false,
-    COMPONENT: EmptyComponent,
+    COMPONENT: ProviderAgreementDetailsPage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },
@@ -234,7 +236,7 @@ export const routes = makeType({
     },
     LABEL: { it: 'Gestisci richiesta', en: 'Manage request' },
     EXACT: true,
-    COMPONENT: EmptyComponent,
+    COMPONENT: ConsumerAgreementDetailsPage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },

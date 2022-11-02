@@ -1,14 +1,16 @@
 import { AgreementState, AgreementSummary } from '@/types/agreement.types'
 import { AgreementMutations } from '@/api/agreement'
-import { ActionItem, ProviderOrConsumer } from '@/types/common.types'
+import { ActionItem } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
+import { useCurrentRoute } from '@/router'
+import { canAgreementBeUpgraded } from '@/utils/agreement.utils'
 
 type AgreementActions = Record<AgreementState, Array<ActionItem>>
 
-function useGetAgreementsActions(
-  agreement: AgreementSummary,
-  mode: ProviderOrConsumer
-): { actions: Array<ActionItem> } {
+function useGetAgreementsActions(agreement: AgreementSummary | undefined): {
+  actions: Array<ActionItem>
+} {
+  const { mode } = useCurrentRoute()
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
 
   const { mutate: activateAgreement } = AgreementMutations.useActivate()
@@ -16,7 +18,9 @@ function useGetAgreementsActions(
   const { mutate: upgradeAgreement } = AgreementMutations.useUpgrade()
   const { mutate: deleteAgreement } = AgreementMutations.useDeleteDraft()
 
-  if (!agreement) return { actions: [] }
+  if (!agreement || mode === null) return { actions: [] }
+
+  const canBeUpgraded = canAgreementBeUpgraded(agreement, mode)
 
   const handleActivate = () => {
     activateAgreement({ agreementId: agreement.id })
@@ -37,10 +41,7 @@ function useGetAgreementsActions(
   const subscriberOnlyActionsActive: Array<ActionItem> = [
     { action: handleSuspend, label: t('suspend') },
   ]
-  if (
-    agreement.eservice.activeDescriptor &&
-    agreement.eservice.activeDescriptor.state === 'PUBLISHED'
-  ) {
+  if (canBeUpgraded) {
     subscriberOnlyActionsActive.push({
       action: handleUpgrade,
       label: t('upgrade'),

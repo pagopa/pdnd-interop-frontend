@@ -4,7 +4,8 @@ import {
   DeclaredTenantAttribute,
   VerifiedTenantAttribute,
 } from './attribute.types'
-import { DocumentRead, EServiceState } from './eservice.types'
+import { DocumentRead } from './common.types'
+import { EServiceState } from './eservice.types'
 
 export type AgreementState =
   | 'ACTIVE'

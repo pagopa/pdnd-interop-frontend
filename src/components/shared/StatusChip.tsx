@@ -8,7 +8,7 @@ import omit from 'lodash/omit'
 import { useTranslation } from 'react-i18next'
 import { TFunction } from 'i18next'
 import { PurposeState } from '@/types/purpose.types'
-import { AttributeKey, AttributeState } from '@/types/attribute.types'
+import { AttributeKey, AttributeKind, AttributeState } from '@/types/attribute.types'
 
 const CHIP_COLORS_E_SERVICE: Record<EServiceState, MUIColor> = {
   PUBLISHED: 'primary',
@@ -77,7 +77,7 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
     | {
         for: 'attribute'
         state?: AttributeState
-        attributeKey: AttributeKey
+        kind: AttributeKind
       }
   )
 
@@ -138,7 +138,9 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
 
   if (props.for === 'attribute') {
     color = chipColors['attribute'][props.state || 'NOT_ACTIVE']
-    label = t(`status.attribute.${props.attributeKey}.${props.state ?? 'NOT_ACTIVE'}`)
+    label = t(
+      `status.attribute.${props.kind.toLowerCase() as AttributeKey}.${props.state ?? 'NOT_ACTIVE'}`
+    )
   }
 
   return (

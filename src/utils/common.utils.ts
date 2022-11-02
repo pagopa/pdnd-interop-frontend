@@ -1,4 +1,7 @@
+import { TopSideActions } from '@/components/layout/containers/PageContainer'
 import { FE_LOGIN_URL } from '@/config/env'
+import { ActionItem } from '@/types/common.types'
+import { ButtonProps } from '@mui/material'
 
 export function goToLoginPage() {
   window.location.assign(FE_LOGIN_URL)
@@ -21,4 +24,16 @@ export function downloadFile(responseData: string, filename = 'download') {
   document.body.removeChild(link)
   // Release memory
   URL.revokeObjectURL(link.href)
+}
+
+export function formatTopSideActions(
+  actions: Array<ActionItem>,
+  buttonProps?: Omit<ButtonProps, keyof ActionItem | 'onClick'>
+): TopSideActions | undefined {
+  return actions.length > 0
+    ? {
+        buttons: [{ ...actions[0], ...buttonProps }],
+        actionMenu: actions.slice(1).length > 0 ? actions.slice(1) : undefined,
+      }
+    : undefined
 }

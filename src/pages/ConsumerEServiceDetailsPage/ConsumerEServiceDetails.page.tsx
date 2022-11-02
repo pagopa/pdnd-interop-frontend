@@ -1,12 +1,10 @@
 import { EServiceQueries } from '@/api/eservice'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
-import { PageContainerSkeleton, TopSideActions } from '@/components/layout/containers/PageContainer'
-import {
-  EServiceContentInfo,
-  EServiceContentInfoSkeleton,
-} from '@/components/shared/EServiceDetails'
+import { PageContainerSkeleton } from '@/components/layout/containers/PageContainer'
+import { EServiceDetails, EServiceDetailsSkeleton } from '@/components/shared/EServiceDetails'
 import useGetEServiceConsumerActions from '@/hooks/useGetEServiceConsumerActions'
 import { RouterLink, useRouteParams } from '@/router'
+import { formatTopSideActions } from '@/utils/common.utils'
 import { Alert, Stack } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -27,13 +25,7 @@ const ConsumerEServiceDetailsPageContent: React.FC = () => {
   const { actions, canCreateAgreementDraft, isMine, isSubscribed, hasDraft } =
     useGetEServiceConsumerActions(eserviceId, descriptorId)
 
-  const topSideActions: TopSideActions | undefined =
-    actions.length > 0
-      ? {
-          buttons: [actions[0]],
-          actionMenu: actions.slice(1).length > 0 ? actions.slice(1) : undefined,
-        }
-      : undefined
+  const topSideActions = formatTopSideActions(actions)
 
   return (
     <PageContainer
@@ -50,7 +42,7 @@ const ConsumerEServiceDetailsPageContent: React.FC = () => {
         {hasDraft && <Alert severity="info">{t('read.alert.hasDraft')}</Alert>}
       </Stack>
 
-      <EServiceContentInfo eserviceId={eserviceId} descriptorId={descriptorId} />
+      <EServiceDetails eserviceId={eserviceId} descriptorId={descriptorId} />
 
       <PageBottomActionsContainer>
         <RouterLink as="button" to="SUBSCRIBE_CATALOG_LIST" variant="outlined">
@@ -66,7 +58,7 @@ const ConsumerEServiceDetailsPageContentSkeleton = () => {
 
   return (
     <PageContainerSkeleton>
-      <EServiceContentInfoSkeleton />
+      <EServiceDetailsSkeleton />
       <PageBottomActionsContainer>
         <RouterLink as="button" to="SUBSCRIBE_CATALOG_LIST" variant="outlined">
           {t('read.actions.backToCatalogLabel')}
