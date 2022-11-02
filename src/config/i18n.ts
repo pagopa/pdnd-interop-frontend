@@ -14,6 +14,9 @@ i18n
     // In code, see isProviderOrSubscriber in lib/router-utils.ts
     preload: Object.keys(LANGUAGES),
     fallbackLng: DEFAULT_LANG,
+    interpolation: {
+      escapeValue: false,
+    },
     backend: {
       // DANGER DANGER DANGER. The path needs to be prepended with the PUBLIC_URL
       // See: https://stackoverflow.com/a/65396448
