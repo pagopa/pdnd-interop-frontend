@@ -74,7 +74,7 @@ export const routes = makeType({
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'api'],
   },
-  PROVIDE_ESERVICE_MANAGE: {
+  a: {
     PATH: {
       it: 'erogazione/e-service/:eserviceId/:descriptorId',
       en: 'provider/e-service/:eserviceId/:descriptorId',
@@ -115,7 +115,7 @@ export const routes = makeType({
   PROVIDE: {
     PATH: { it: 'erogazione', en: 'provider' },
     LABEL: { it: 'Erogazione', en: 'Provider' },
-    REDIRECT: { it: 'erogazione/e-service', en: 'provider/e-service' },
+    REDIRECT: 'PROVIDE_ESERVICE_LIST',
     EXACT: true,
     COMPONENT: EmptyComponent,
     PUBLIC: false,
@@ -310,7 +310,7 @@ export const routes = makeType({
   SUBSCRIBE: {
     PATH: { it: 'fruizione', en: 'subscriber' },
     LABEL: { it: 'Fruizione', en: 'Subscriber' },
-    REDIRECT: { it: 'fruizione/catalogo-e-service', en: 'subscriber/e-service-catalog' },
+    REDIRECT: 'SUBSCRIBE_CATALOG_LIST',
     EXACT: true,
     COMPONENT: EmptyComponent,
     PUBLIC: false,
@@ -343,11 +343,15 @@ getKeys(LANGUAGES).forEach((lang) => {
   const langRoutes = getKeys(routes).reduce((acc, next) => {
     const accCopy = [...acc]
     const route = routes[next]
-    const Component = route.COMPONENT
+    let Component = <route.COMPONENT />
+
+    if ('REDIRECT' in route) {
+      Component = <Redirect to={route.REDIRECT} />
+    }
 
     accCopy.push({
       path: route.PATH[lang],
-      element: <Component />,
+      element: Component,
       errorElement: <ErrorPage />,
     })
 

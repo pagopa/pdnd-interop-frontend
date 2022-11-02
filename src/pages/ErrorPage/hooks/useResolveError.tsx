@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { isRouteErrorResponse, Link, useRouteError } from 'react-router-dom'
 import axios from 'axios'
 import { Button } from '@mui/material'
-import { useNavigateRouter } from '@/router'
+import { Redirect, useNavigateRouter } from '@/router'
 import CodeBlock from '../components/CodeBlock'
 import { NotAuthorizedError, NotFoundError, NotImplementedError } from '@/utils/errors.utils'
 
@@ -40,9 +40,7 @@ function useResolveError(): UseResolveErrorReturnType {
   }
 
   if ((isRouteErrorResponse(error) && error.status === 404) || error instanceof NotFoundError) {
-    title = t('notFound.title')
-    description = t('notFound.description')
-    content = backToHomeButton
+    content = <Redirect to="PROVIDE_ESERVICE_LIST" />
   }
 
   if (error instanceof NotImplementedError) {
