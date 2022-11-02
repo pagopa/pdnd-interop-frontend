@@ -74,7 +74,7 @@ export const routes = makeType({
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'api'],
   },
-  a: {
+  PROVIDE_ESERVICE_MANAGE: {
     PATH: {
       it: 'erogazione/e-service/:eserviceId/:descriptorId',
       en: 'provider/e-service/:eserviceId/:descriptorId',
