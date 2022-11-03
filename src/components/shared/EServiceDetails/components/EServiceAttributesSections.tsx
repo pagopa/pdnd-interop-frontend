@@ -101,7 +101,7 @@ type AttributeGroup = {
 const AttributeGroup: React.FC<AttributeGroup> = ({ attributes, index }) => {
   return (
     <AttributeGroupContainer groupNum={index + 1}>
-      <Stack sx={{ mx: 0, listStyle: 'none', px: 0 }} spacing={2} component="ul">
+      <Stack sx={{ mx: 0, listStyle: 'none', px: 0 }} component="ul">
         {attributes.map((attribute, i) => (
           <Box key={attribute.id} component="li">
             <AttributeContainerRow

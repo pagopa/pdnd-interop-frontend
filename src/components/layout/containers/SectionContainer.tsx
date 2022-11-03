@@ -1,6 +1,5 @@
 import {
   Box,
-  Stack,
   Typography,
   TypographyProps,
   BoxProps,
@@ -8,6 +7,7 @@ import {
   PaperProps,
   SkeletonProps,
   Skeleton,
+  Stack,
 } from '@mui/material'
 import React from 'react'
 

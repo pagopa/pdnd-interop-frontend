@@ -1,7 +1,8 @@
 import { PurposeQueries } from '@/api/purpose'
+import { SectionContainer } from '@/components/layout/containers'
 import { ClientPurpose } from '@/types/client.types'
 import { getPurposeFailureReasons } from '@/utils/purpose.utils'
-import { Alert, MenuItem, Paper, Select } from '@mui/material'
+import { Alert, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -28,23 +29,27 @@ export const ClientVoucherIntructionsPurposeSelect: React.FC<
   ))
 
   return (
-    <Paper>
-      <Select
-        sx={{ my: 0 }}
-        name="purpose"
-        label={t('choosePurposeLabel')}
-        value={selectedPurposeId}
-        onChange={(e) => onChange(e.target.value)}
-      >
-        {selectOptions}
-      </Select>
+    <SectionContainer>
+      <FormControl fullWidth>
+        <InputLabel id="choose-purpose-label">{t('choosePurposeLabel')}</InputLabel>
+        <Select
+          sx={{ my: 0 }}
+          labelId="choose-purpose-label"
+          name="purpose"
+          label={t('choosePurposeLabel')}
+          value={selectedPurposeId}
+          onChange={(e) => onChange(e.target.value)}
+        >
+          {selectOptions}
+        </Select>
 
-      {failureReasons.length > 0 && (
-        <Alert sx={{ mt: 1 }} severity="info">
-          {t('purposeFailureMessage')}{' '}
-          {failureReasons.map((r) => t(`purposeFailureReason.${r}`)).join(', ')}
-        </Alert>
-      )}
-    </Paper>
+        {failureReasons.length > 0 && (
+          <Alert sx={{ mt: 1 }} severity="info">
+            {t('purposeFailureMessage')}{' '}
+            {failureReasons.map((r) => t(`purposeFailureReason.${r}`)).join(', ')}
+          </Alert>
+        )}
+      </FormControl>
+    </SectionContainer>
   )
 }

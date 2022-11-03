@@ -6,14 +6,13 @@ import {
   InputLabel,
   Link,
   MenuItem,
-  Paper,
   Select,
   SelectChangeEvent,
   Stack,
   Typography,
 } from '@mui/material'
 import { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
-import { InformationContainer } from '@/components/layout/containers'
+import { InformationContainer, SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { InlineClipboard } from './InlineClipboard'
 import { CLIENT_ASSERTION_JWT_AUDIENCE, FE_URL } from '@/config/env'
@@ -48,7 +47,7 @@ export const VoucherInstructionsStep1: React.FC<VoucherInstructionsStepProps> = 
   }
 
   return (
-    <Paper sx={{ p: 4, mt: 2 }}>
+    <SectionContainer>
       <Typography component="h2" variant="h5">
         {t('step1.title')}
       </Typography>
@@ -65,7 +64,7 @@ export const VoucherInstructionsStep1: React.FC<VoucherInstructionsStepProps> = 
       </Typography>
 
       {hasKeys && (
-        <Grid container sx={{ my: 4 }}>
+        <Grid container sx={{ mt: 4 }}>
           <Grid item xs={8}>
             <FormControl fullWidth>
               <InputLabel id="public-key-selection-label">
@@ -91,13 +90,13 @@ export const VoucherInstructionsStep1: React.FC<VoucherInstructionsStepProps> = 
         </Grid>
       )}
 
-      <Divider sx={{ my: 5 }} />
+      <Divider sx={{ mt: 4 }} />
 
-      <Typography sx={{ mb: 5 }} component="h2" variant="h6">
+      <Typography sx={{ mt: 3 }} component="h2" variant="h6">
         {t('step1.assertionHeader.title')}
       </Typography>
 
-      <Stack spacing={5}>
+      <Stack sx={{ mt: 4 }} spacing={4}>
         <InformationContainer
           label={t('step1.assertionHeader.kidField.label')}
           labelDescription={t('step1.assertionHeader.kidField.description')}
@@ -129,13 +128,13 @@ export const VoucherInstructionsStep1: React.FC<VoucherInstructionsStepProps> = 
         </InformationContainer>
       </Stack>
 
-      <Divider sx={{ my: 5 }} />
+      <Divider sx={{ mt: 4 }} />
 
-      <Typography sx={{ mb: 5 }} component="h2" variant="h6">
+      <Typography sx={{ mt: 3 }} component="h2" variant="h6">
         {t('step1.assertionPayload.title')}
       </Typography>
 
-      <Stack spacing={5}>
+      <Stack sx={{ mt: 4 }} spacing={4}>
         <InformationContainer
           label={t('step1.assertionPayload.issField.label')}
           labelDescription={t('step1.assertionPayload.issField.description')}
@@ -202,9 +201,9 @@ export const VoucherInstructionsStep1: React.FC<VoucherInstructionsStepProps> = 
         </InformationContainer>
       </Stack>
 
-      <Divider sx={{ my: 5 }} />
+      <Divider sx={{ mt: 4 }} />
 
-      <Typography sx={{ mb: 5 }} component="h2" variant="h6">
+      <Typography sx={{ my: 3 }} component="h2" variant="h6">
         {t('step1.assertionScript.title')}
       </Typography>
 
@@ -256,6 +255,6 @@ export const VoucherInstructionsStep1: React.FC<VoucherInstructionsStepProps> = 
       />
 
       <StepActions forward={{ label: t('proceedBtn'), type: 'button', onClick: props.forward }} />
-    </Paper>
+    </SectionContainer>
   )
 }

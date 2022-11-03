@@ -1,7 +1,7 @@
 import React from 'react'
-import { Box, Typography, Stack, Divider, Skeleton } from '@mui/material'
+import { Box, Typography, Stack, Divider, Skeleton, StackProps } from '@mui/material'
 
-interface InformationContainerProps {
+interface InformationContainerProps extends StackProps {
   label: string
   labelDescription?: string
   children: React.ReactNode
@@ -11,6 +11,7 @@ export function InformationContainer({
   label,
   labelDescription,
   children,
+  ...props
 }: InformationContainerProps) {
   /**
    * If the children passed is a JSX Element, renders the children in a div,
@@ -25,7 +26,7 @@ export function InformationContainer({
   })
 
   return (
-    <Stack spacing={4} direction="row">
+    <Stack spacing={4} direction="row" {...props}>
       <Box sx={{ flexShrink: 0, maxWidth: '200px', flex: 1 }}>
         <Typography variant="body2">{label}</Typography>
         {labelDescription && (
