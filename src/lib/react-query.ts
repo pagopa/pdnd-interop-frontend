@@ -5,6 +5,8 @@ export const queryClient = new QueryClient({
     queries: {
       suspense: true,
       useErrorBoundary: true,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
     },
     mutations: { useErrorBoundary: false },
   },

@@ -5,7 +5,7 @@ import {
   AccordionSummary,
   Typography,
 } from '@mui/material'
-import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 export type AccordionEntry = {
   summary: string | JSX.Element

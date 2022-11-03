@@ -10,13 +10,13 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material'
-import { ExpandLess, ExpandMore, SvgIconComponent } from '@mui/icons-material'
+import ExpandLessIcon from '@mui/icons-material/ExpandLess'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import type { SvgIconComponent } from '@mui/icons-material'
+import EmailIcon from '@mui/icons-material/Email'
+import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded'
+import PeopleIcon from '@mui/icons-material/People'
 import { useTranslation } from 'react-i18next'
-import {
-  Email as EmailIcon,
-  ExitToAppRounded as ExitToAppRoundedIcon,
-  People as PeopleIcon,
-} from '@mui/icons-material'
 import { RouteKey } from '@/router/types'
 import { UserProductRole } from '@/types/party.types'
 import { useJwt } from '@/hooks/useJwt'
@@ -198,7 +198,7 @@ const CollapsableSideNavItem: React.FC<CollapsableSideNavItemProps> = ({
             </Typography>
           }
         />
-        {isOpen ? <ExpandLess /> : <ExpandMore />}
+        {isOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
       </ListItemButton>
 
       <Collapse in={isOpen} timeout="auto" unmountOnExit>

@@ -1,4 +1,5 @@
 import { AgreementQueries } from '@/api/agreement'
+import { EServiceQueries } from '@/api/eservice'
 import ActionMenu from '@/components/shared/ActionMenu'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import { TableRow } from '@/components/shared/Table'
@@ -14,7 +15,8 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementSummary 
 }) => {
   const { navigate } = useNavigateRouter()
   const { t } = useTranslation('common')
-  const prefetch = AgreementQueries.usePrefetchSingle()
+  const prefetchAgreement = AgreementQueries.usePrefetchSingle()
+  const prefetchEService = EServiceQueries.usePrefetchSingle()
 
   const { actions } = useGetAgreementsActions(agreement)
 
@@ -26,7 +28,8 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementSummary 
   }
 
   const handlePrefetch = () => {
-    prefetch(agreement.id)
+    prefetchAgreement(agreement.id)
+    prefetchEService(agreement.eservice.id, agreement.descriptorId)
   }
 
   return (

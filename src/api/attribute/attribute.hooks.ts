@@ -36,7 +36,7 @@ function usePrefetchSingle() {
 
 function useGetPartyCertifiedList(partyId?: string) {
   return useQueryWrapper(
-    [AttributeQueryKeys.GetPartyCertifiedList],
+    [AttributeQueryKeys.GetPartyCertifiedList, partyId],
     () => AttributeServices.getPartyCertifiedList(partyId!),
     {
       enabled: !!partyId,
@@ -46,7 +46,7 @@ function useGetPartyCertifiedList(partyId?: string) {
 
 function useGetPartyVerifiedList(partyId?: string) {
   return useQueryWrapper(
-    [AttributeQueryKeys.GetPartyVerifiedList],
+    [AttributeQueryKeys.GetPartyVerifiedList, partyId],
     () => AttributeServices.getPartyVerifiedList(partyId!),
     {
       enabled: !!partyId,
@@ -56,7 +56,7 @@ function useGetPartyVerifiedList(partyId?: string) {
 
 function useGetPartyDeclaredList(partyId?: string) {
   return useQueryWrapper(
-    [AttributeQueryKeys.GetPartyDeclaredList],
+    [AttributeQueryKeys.GetPartyDeclaredList, partyId],
     () => AttributeServices.getPartyDeclaredList(partyId!),
     {
       enabled: !!partyId,

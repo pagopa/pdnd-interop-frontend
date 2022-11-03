@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, Stack, Typography } from '@mui/material'
-import { AttachFile as AttachFileIcon } from '@mui/icons-material'
+import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { useTranslation } from 'react-i18next'
 import { DocumentRead } from '@/types/common.types'
 import { SectionContainer } from '../layout/containers'

@@ -1,7 +1,7 @@
 import React from 'react'
 import { ClickAwayListener, MenuItem, Menu, IconButton } from '@mui/material'
 import { ActionItem, ExtendedMUIColor } from '@/types/common.types'
-import { MoreVert as MoreVertIcon } from '@mui/icons-material'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 type ActionMenuProps = {
   actions: Array<ActionItem>

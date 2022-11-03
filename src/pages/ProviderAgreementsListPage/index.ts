@@ -1,1 +1,1 @@
-export { default as ProviderAgreementsListPage } from './ProviderAgreementsListPage'
+export { default as ProviderAgreementsListPage } from './ProviderAgreementsList.page'

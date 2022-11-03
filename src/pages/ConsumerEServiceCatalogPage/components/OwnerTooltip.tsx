@@ -1,5 +1,5 @@
 import React from 'react'
-import { SvgIconComponent } from '@mui/icons-material'
+import type { SvgIconComponent } from '@mui/icons-material'
 import { Tooltip } from '@mui/material'
 import { EServiceFlatten } from '@/types/eservice.types'
 import { useJwt } from '@/hooks/useJwt'
