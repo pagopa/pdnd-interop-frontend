@@ -13,7 +13,7 @@ type EServicePurposesTableProps = {
 
 export const EServicePurposesTable: React.FC<EServicePurposesTableProps> = ({ eserviceId }) => {
   const { t } = useTranslation('purpose')
-  const { data: purposes } = PurposeQueries.useGetAll({
+  const { data: purposes } = PurposeQueries.useGetList({
     states: ['WAITING_FOR_APPROVAL'],
     eserviceId,
   })

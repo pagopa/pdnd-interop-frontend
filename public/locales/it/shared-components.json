@@ -68,5 +68,14 @@
   },
   "downloadableDocumentList": {
     "noDataLabel": "Nessun documento disponibile"
+  },
+  "inlineClipboard": {
+    "defaultSuccessFeedbackText": "Messaggio copiato correttamente"
+  },
+  "codeSnippetPreview": {
+    "successFeedbackText": "Script copiato correttamente"
+  },
+  "codeLanguagePicker": {
+    "languageLabel": "Linguaggio"
   }
 }

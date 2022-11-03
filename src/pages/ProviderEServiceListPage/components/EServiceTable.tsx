@@ -8,7 +8,7 @@ import { EServiceTableRow, EServiceTableRowSkeleton } from './EServiceTableRow'
 export const EServiceTable: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceList.eserviceTable' })
   const { jwt } = useJwt()
-  const { data: eservices } = EServiceQueries.useGetAllFlat({
+  const { data: eservices } = EServiceQueries.useGetListFlat({
     callerId: jwt?.organizationId,
     producerId: jwt?.organizationId,
   })

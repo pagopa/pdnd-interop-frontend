@@ -3,19 +3,19 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import EServiceServices from './eservice.services'
-import { EServiceGetAllFlatUrlParams, EServiceVersionDraftPayload } from './eservice.api.types'
+import { EServiceGetListFlatUrlParams, EServiceVersionDraftPayload } from './eservice.api.types'
 import { useNavigateRouter } from '@/router'
 import { useJwt } from '@/hooks/useJwt'
 
 export enum EServiceQueryKeys {
-  GetAllFlat = 'EServiceGetAllFlat',
+  GetListFlat = 'EServiceGetListFlat',
   GetSingle = 'EServiceGetSingle',
 }
 
-function useGetAllFlat(params: EServiceGetAllFlatUrlParams) {
+function useGetListFlat(params: EServiceGetListFlatUrlParams) {
   return useQueryWrapper(
-    [EServiceQueryKeys.GetAllFlat, params],
-    () => EServiceServices.getAllFlat(params),
+    [EServiceQueryKeys.GetListFlat, params],
+    () => EServiceServices.getListFlat(params),
     {
       enabled: !!params.callerId,
     }
@@ -32,7 +32,7 @@ function useGetSingle(eserviceId?: string, descriptorId?: string) {
 
 function useGetSingleFlat(eserviceId: string, descriptorId: string | undefined) {
   const { jwt } = useJwt()
-  const { data: eservices } = useGetAllFlat({ callerId: jwt?.organizationId, state: 'PUBLISHED' })
+  const { data: eservices } = useGetListFlat({ callerId: jwt?.organizationId, state: 'PUBLISHED' })
 
   return React.useMemo(() => {
     return eservices?.find(
@@ -97,7 +97,7 @@ function useDeleteDraft() {
     },
     onSuccess(_, { eserviceId }) {
       queryClient.removeQueries([EServiceQueryKeys.GetSingle, eserviceId])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetAllFlat])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
     },
   })
 }
@@ -187,7 +187,7 @@ function usePublishVersionDraft() {
       description: t('confirmDialog.description'),
     },
     onSuccess(_, { eserviceId }) {
-      queryClient.invalidateQueries([EServiceQueryKeys.GetAllFlat])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
       queryClient.invalidateQueries([EServiceQueryKeys.GetSingle, eserviceId])
     },
   })
@@ -207,7 +207,7 @@ function useSuspendVersion() {
     },
     onSuccess(_, { eserviceId }) {
       console.log('SUCCESS')
-      queryClient.invalidateQueries([EServiceQueryKeys.GetAllFlat])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
       queryClient.invalidateQueries([EServiceQueryKeys.GetSingle, eserviceId])
     },
   })
@@ -226,7 +226,7 @@ function useReactivateVersion() {
       description: t('confirmDialog.description'),
     },
     onSuccess(_, { eserviceId }) {
-      queryClient.invalidateQueries([EServiceQueryKeys.GetAllFlat])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
       queryClient.invalidateQueries([EServiceQueryKeys.GetSingle, eserviceId])
     },
   })
@@ -309,7 +309,7 @@ function useDownloadVersionDocument() {
 }
 
 export const EServiceQueries = {
-  useGetAllFlat,
+  useGetListFlat,
   useGetSingle,
   usePrefetchSingle,
   useGetSingleFlat,

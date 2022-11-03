@@ -134,45 +134,6 @@
         "success": "Il documento è stato scaricato correttamente. Lo trovi nella cartella dei download del tuo device",
         "error": "Non è stato possibile scaricare il documento. Per favore, riprova!"
       }
-    },
-    "OPERATOR_SECURITY_JOIN_WITH_CLIENT": {
-      "loading": "Stiamo associando l'utente al client",
-      "outcome": {
-        "success": "Nuovo utente associato correttamente",
-        "error": "Non è stato possibile associare il nuovo utente al client. Assicurarsi che non esista già l'utenza ed eventualmente ritentare"
-      }
-    },
-    "OPERATOR_SECURITY_REMOVE_FROM_CLIENT": {
-      "loading": "Stiamo rimuovendo l'utente dal client",
-      "outcome": {
-        "success": "L'utente è stato rimosso correttamente dal client",
-        "error": "Non è stato possibile rimuovere l'utente dal client. Per favore, riprova!"
-      },
-      "confirmDialog": {
-        "title": "Conferma rimozione operatore dal client",
-        "description": "L'operatore sarà rimosso da questo client. Le chiavi che ha caricato per questo client rimarranno comunque utilizzabili, a meno che tu non le rimuova manualmente dalla lista di chiavi per questo client"
-      }
-    },
-    "KEY_POST": {
-      "loading": "Stiamo caricando la chiave",
-      "outcome": {
-        "success": "La chiave è ora utilizzabile per firmare una client assertion per ottenere un access token",
-        "error": "Non è stato possibile caricare la chiave. Assicurarsi sia nel formato corretto e riprovare. Attenzione: la stessa chiave non può essere caricata due volte"
-      }
-    },
-    "KEY_DELETE": {
-      "loading": "Stiamo cancellando la chiave",
-      "outcome": {
-        "success": "La chiave pubblica è stata cancellata correttamente. Da questo momento non potrà più essere usata per firmare una client assertion per ottenere un access token",
-        "error": "Non è stato possibile cancellare la chiave. Per favore, riprova!"
-      },
-      "confirmDialog": {
-        "title": "Conferma cancellazione chiave pubblica",
-        "description": "Cliccando su \"conferma\" si cancellerà la chiave pubblica relativa a questo operatore. NB: tutti i servizi che utilizzano questa chiave non potranno più accedere al servizio dell'erogatore. Se non sei sicuro, scarica e salva la tua chiave pubblica prima di cancellarla"
-      }
-    },
-    "KEY_DOWNLOAD": {
-      "loading": "Stiamo scaricando la chiave"
     }
   },
   "attribute": {
@@ -471,6 +432,45 @@
       "confirmDialog": {
         "title": "Conferma rimozione client dalla finalità",
         "description": "Il client sarà rimosso da questa finalità. Tutte le chiavi caricate non potranno più essere usate per accedere all'e-service per questa finalità"
+      }
+    },
+    "postKey": {
+      "loading": "Stiamo caricando la chiave",
+      "outcome": {
+        "success": "La chiave è ora utilizzabile per firmare una client assertion per ottenere un access token",
+        "error": "Non è stato possibile caricare la chiave. Assicurarsi sia nel formato corretto e riprovare. Attenzione: la stessa chiave non può essere caricata due volte"
+      }
+    },
+    "deleteKey": {
+      "loading": "Stiamo cancellando la chiave",
+      "outcome": {
+        "success": "La chiave pubblica è stata cancellata correttamente. Da questo momento non potrà più essere usata per firmare una client assertion per ottenere un access token",
+        "error": "Non è stato possibile cancellare la chiave. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma cancellazione chiave pubblica",
+        "description": "Cliccando su \"conferma\" si cancellerà la chiave pubblica relativa a questo operatore. NB: tutti i servizi che utilizzano questa chiave non potranno più accedere al servizio dell'erogatore. Se non sei sicuro, scarica e salva la tua chiave pubblica prima di cancellarla"
+      }
+    },
+    "downloadKey": {
+      "loading": "Stiamo scaricando la chiave"
+    },
+    "addOperator": {
+      "loading": "Stiamo associando l'utente al client",
+      "outcome": {
+        "success": "Nuovo utente associato correttamente",
+        "error": "Non è stato possibile associare il nuovo utente al client. Assicurarsi che non esista già l'utenza ed eventualmente ritentare"
+      }
+    },
+    "removeOperator": {
+      "loading": "Stiamo rimuovendo l'utente dal client",
+      "outcome": {
+        "success": "L'utente è stato rimosso correttamente dal client",
+        "error": "Non è stato possibile rimuovere l'utente dal client. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma rimozione operatore dal client",
+        "description": "L'operatore sarà rimosso da questo client. Le chiavi che ha caricato per questo client rimarranno comunque utilizzabili, a meno che tu non le rimuova manualmente dalla lista di chiavi per questo client"
       }
     }
   }

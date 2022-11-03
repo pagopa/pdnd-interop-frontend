@@ -1,7 +1,7 @@
 import axiosInstance from '@/lib/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import {
-  GetAllAgreementQueryParams,
+  GetListAgreementQueryParams,
   UploadAgreementDraftDocumentPayload,
 } from './agreement.api.types'
 import { AgreementSummary } from '@/types/agreement.types'
@@ -9,7 +9,7 @@ import { downloadFile } from '@/utils/common.utils'
 import { DocumentRead } from '@/types/common.types'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 
-async function getAll(params?: GetAllAgreementQueryParams) {
+async function getList(params?: GetListAgreementQueryParams) {
   const response = await axiosInstance.get<Array<AgreementSummary>>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements`,
     { params }
@@ -149,7 +149,7 @@ async function downloadContract({
 }
 
 const AgreementServices = {
-  getAll,
+  getList,
   getSingle,
   createDraft,
   submitDraft,

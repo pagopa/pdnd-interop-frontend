@@ -2,20 +2,22 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import PurposeServices from './purpose.services'
-import { PurposeGetAllUrlParams } from './purpose.api.types'
+import { PurposeGetListUrlParams } from './purpose.api.types'
 
 export enum PurposeQueryKeys {
-  GetAll = 'PurposeGetAll',
+  GetList = 'PurposeGetList',
   GetSingle = 'PurposeGetSingle',
 }
 
-function useGetAll(params: PurposeGetAllUrlParams) {
-  return useQueryWrapper([PurposeQueryKeys.GetAll, params], () => PurposeServices.getAll(params))
+function useGetList(params: PurposeGetListUrlParams) {
+  return useQueryWrapper([PurposeQueryKeys.GetList, params], () => PurposeServices.getList(params))
 }
 
-function useGetSingle(purposeId: string) {
-  return useQueryWrapper([PurposeQueryKeys.GetSingle, purposeId], () =>
-    PurposeServices.getSingle(purposeId)
+function useGetSingle(purposeId: string, config: { suspense: boolean } = { suspense: true }) {
+  return useQueryWrapper(
+    [PurposeQueryKeys.GetSingle, purposeId],
+    () => PurposeServices.getSingle(purposeId),
+    { enabled: !!purposeId, ...config }
   )
 }
 
@@ -70,7 +72,7 @@ function useDeleteDraft() {
     },
     onSuccess(_, { purposeId }) {
       queryClient.removeQueries([PurposeQueryKeys.GetSingle, purposeId])
-      queryClient.invalidateQueries([PurposeQueryKeys.GetAll])
+      queryClient.invalidateQueries([PurposeQueryKeys.GetList])
     },
   })
 }
@@ -114,7 +116,7 @@ function useUpdateDailyCalls() {
     loadingLabel: t('loading'),
     onSuccess(_, { purposeId }) {
       queryClient.invalidateQueries([PurposeQueryKeys.GetSingle, purposeId])
-      queryClient.invalidateQueries([PurposeQueryKeys.GetAll])
+      queryClient.invalidateQueries([PurposeQueryKeys.GetList])
     },
   })
 }
@@ -130,7 +132,10 @@ function useUpdateVersionWaitingForApproval() {
     loadingLabel: t('loading'),
     onSuccess(_, { purposeId }) {
       queryClient.invalidateQueries([PurposeQueryKeys.GetSingle, purposeId])
-      queryClient.invalidateQueries([PurposeQueryKeys.GetAll, { states: ['WAITING_FOR_APPROVAL'] }])
+      queryClient.invalidateQueries([
+        PurposeQueryKeys.GetList,
+        { states: ['WAITING_FOR_APPROVAL'] },
+      ])
     },
   })
 }
@@ -157,7 +162,7 @@ function useSuspendVersion() {
       description: t('confirmDialog.description'),
     },
     onSuccess(_, { purposeId }) {
-      queryClient.invalidateQueries([PurposeQueryKeys.GetAll])
+      queryClient.invalidateQueries([PurposeQueryKeys.GetList])
       queryClient.invalidateQueries([PurposeQueryKeys.GetSingle, purposeId])
     },
   })
@@ -176,7 +181,7 @@ function useActivateVersion() {
       description: t('confirmDialog.description'),
     },
     onSuccess(_, { purposeId }) {
-      queryClient.invalidateQueries([PurposeQueryKeys.GetAll])
+      queryClient.invalidateQueries([PurposeQueryKeys.GetList])
       queryClient.invalidateQueries([PurposeQueryKeys.GetSingle, purposeId])
     },
   })
@@ -195,7 +200,7 @@ function useArchiveVersion() {
       description: t('confirmDialog.description'),
     },
     onSuccess(_, { purposeId }) {
-      queryClient.invalidateQueries([PurposeQueryKeys.GetAll])
+      queryClient.invalidateQueries([PurposeQueryKeys.GetList])
       queryClient.invalidateQueries([PurposeQueryKeys.GetSingle, purposeId])
     },
   })
@@ -214,14 +219,14 @@ function useDeleteVersion() {
       description: t('confirmDialog.description'),
     },
     onSuccess(_, { purposeId }) {
-      queryClient.invalidateQueries([PurposeQueryKeys.GetAll])
+      queryClient.invalidateQueries([PurposeQueryKeys.GetList])
       queryClient.invalidateQueries([PurposeQueryKeys.GetSingle, purposeId])
     },
   })
 }
 
 export const PurposeQueries = {
-  useGetAll,
+  useGetList,
   useGetSingle,
   usePrefetchSingle,
 }

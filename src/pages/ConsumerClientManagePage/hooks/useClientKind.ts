@@ -6,21 +6,15 @@ export function useClientKind(): ClientKind {
   const { route } = useCurrentRoute()
   const currentLanguage = useCurrentLanguage()
 
-  let clientKind: ClientKind | null = null
-
   const locationPath = route.PATH[currentLanguage]
 
   if (locationPath.includes('interop-m2m')) {
-    clientKind = 'API'
+    return 'API'
   }
 
   if (locationPath.includes('client')) {
-    clientKind = 'CONSUMER'
+    return 'CONSUMER'
   }
 
-  if (!clientKind) {
-    throw new Error('useClientKind has been called outside client routes')
-  }
-
-  return clientKind
+  throw new Error('useClientKind has been called outside client routes')
 }

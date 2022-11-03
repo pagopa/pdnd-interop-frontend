@@ -12,7 +12,7 @@ export const ConsumerPurposesTable: React.FC = () => {
   const { t } = useTranslation('agreement')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
   const { jwt } = useJwt()
-  const { data: purposes } = PurposeQueries.useGetAll({
+  const { data: purposes } = PurposeQueries.useGetList({
     consumerId: jwt?.organizationId,
   })
 

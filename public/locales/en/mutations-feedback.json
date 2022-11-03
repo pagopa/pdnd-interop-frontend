@@ -436,45 +436,45 @@
         "title": "Confirm client removal from purpose",
         "description": "This client will be removed from the current purpose. All the keys added will no longer be useful to access the Provider e-service for this purpose"
       }
-    }
-  },
-  "OPERATOR_SECURITY_JOIN_WITH_CLIENT": {
-    "loading": "Adding the user to this client",
-    "outcome": {
-      "success": "New user added successfully",
-      "error": "The user could not be added. Please make sure this user exists and try again!"
-    }
-  },
-  "OPERATOR_SECURITY_REMOVE_FROM_CLIENT": {
-    "loading": "Removing the user from this client",
-    "outcome": {
-      "success": "User removed successfully",
-      "error": "The user could not be removed from the client. Please, try again!"
     },
-    "confirmDialog": {
-      "title": "Confirm operation removal from client",
-      "description": "The operator will be removed from this client. The keys uploaded for this client can still be used to access the e-services the client is related to. You can always remove them manually from the public keys list for this client"
-    }
-  },
-  "KEY_POST": {
-    "loading": "Uploading key",
-    "outcome": {
-      "success": "The key was uploaded successfully. It can now be used to sign a client assertion to obtain an access token",
-      "error": "The key could not be uploaded. Please, make sure it is in the right format and with the right algorithm. Warning: the same key cannot be uploaded twice"
-    }
-  },
-  "KEY_DELETE": {
-    "loading": "Deleting key",
-    "outcome": {
-      "success": "The key was deleted successfully. It can no longer be used to sign a client assertion to obtain an access token",
-      "error": "The key could not be deleted. Please, try again!"
+    "postKey": {
+      "loading": "Uploading key",
+      "outcome": {
+        "success": "The key was uploaded successfully. It can now be used to sign a client assertion to obtain an access token",
+        "error": "The key could not be uploaded. Please, make sure it is in the right format and with the right algorithm. Warning: the same key cannot be uploaded twice"
+      }
     },
-    "confirmDialog": {
-      "title": "Confirm public key deletion",
-      "description": "By clicking \"confirm\", the public key will be deleted. Warning: all the services that use this key will no longer be able to access the Provider e-service. If you are not sure, download and save the public key before deleting it"
+    "deleteKey": {
+      "loading": "Deleting key",
+      "outcome": {
+        "success": "The key was deleted successfully. It can no longer be used to sign a client assertion to obtain an access token",
+        "error": "The key could not be deleted. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm public key deletion",
+        "description": "By clicking \"confirm\", the public key will be deleted. Warning: all the services that use this key will no longer be able to access the Provider e-service. If you are not sure, download and save the public key before deleting it"
+      }
+    },
+    "downloadKey": {
+      "loading": "Downloading key"
+    },
+    "addOperator": {
+      "loading": "Adding the user to this client",
+      "outcome": {
+        "success": "New user added successfully",
+        "error": "The user could not be added. Please make sure this user exists and try again!"
+      }
+    },
+    "removeOperator": {
+      "loading": "Removing the user from this client",
+      "outcome": {
+        "success": "User removed successfully",
+        "error": "The user could not be removed from the client. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm operation removal from client",
+        "description": "The operator will be removed from this client. The keys uploaded for this client can still be used to access the e-services the client is related to. You can always remove them manually from the public keys list for this client"
+      }
     }
-  },
-  "KEY_DOWNLOAD": {
-    "loading": "Downloading key"
   }
 }

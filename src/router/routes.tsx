@@ -15,6 +15,7 @@ import {
   ProviderEServiceDetailsPage,
   ConsumerAgreementDetailsPage,
   ProviderAgreementDetailsPage,
+  ConsumerClientManagePage,
 } from '@/pages'
 import { LANGUAGES } from '@/config/constants'
 import { getKeys } from '@/utils/array.utils'
@@ -217,7 +218,7 @@ export const routes = makeType({
     PATH: { it: 'fruizione/client/:clientId', en: 'subscriber/client/:clientId' },
     LABEL: { it: 'Gestisci client e-service', en: 'Manage e-service client' },
     EXACT: true,
-    COMPONENT: EmptyComponent,
+    COMPONENT: ConsumerClientManagePage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'security'],
   },
@@ -298,7 +299,7 @@ export const routes = makeType({
     PATH: { it: 'fruizione/interop-m2m/:clientId', en: 'subscriber/interop-m2m/:clientId' },
     LABEL: { it: 'Gestisci client api interop', en: 'Manage interop api client' },
     EXACT: true,
-    COMPONENT: EmptyComponent,
+    COMPONENT: ConsumerClientManagePage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'security'],
   },

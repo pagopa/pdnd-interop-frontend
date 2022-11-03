@@ -12,7 +12,7 @@ export const ConsumerAgreementsTable: React.FC = () => {
   const { t } = useTranslation('agreement')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
   const { jwt } = useJwt()
-  const { data: agreements } = AgreementQueries.useGetAll({ consumerId: jwt?.organizationId })
+  const { data: agreements } = AgreementQueries.useGetList({ consumerId: jwt?.organizationId })
 
   const headLabels = [
     tCommon('eserviceName'),

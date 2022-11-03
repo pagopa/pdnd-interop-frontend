@@ -56,7 +56,6 @@ function useResolveError(): UseResolveErrorReturnType {
   }
 
   if (axios.isAxiosError(error)) {
-    console.log(error)
     switch (error.response?.status) {
       case 401:
         title = t('notAuthorized.title')

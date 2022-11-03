@@ -2,15 +2,20 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import ClientServices from './client.services'
-import { ClientGetAllUrlParams } from './client.api.types'
+import { ClientGetListUrlParams } from './client.api.types'
 
 export enum ClientQueryKeys {
-  GetAll = 'ClientGetAll',
+  GetList = 'ClientGetList',
   GetSingle = 'ClientGetSingle',
+  GetKeyList = 'ClientGetKeyList',
+  GetSingleKey = 'ClientGetSingleKey',
+  GetOperatorsList = 'ClientGetOperatorsList',
+  GetSingleOperator = 'ClientGetSingleOperator',
+  GetClientOperatorKeys = 'ClientGetClientOperatorKeys',
 }
 
-function useGetAll(params: ClientGetAllUrlParams) {
-  return useQueryWrapper([ClientQueryKeys.GetAll, params], () => ClientServices.getAll(params), {
+function useGetList(params: ClientGetListUrlParams) {
+  return useQueryWrapper([ClientQueryKeys.GetList, params], () => ClientServices.getList(params), {
     enabled: !!params.consumerId,
   })
 }
@@ -31,6 +36,56 @@ function usePrefetchSingle() {
     )
 }
 
+function useGetKeyList(clientId: string) {
+  return useQueryWrapper([ClientQueryKeys.GetKeyList, clientId], () =>
+    ClientServices.getKeyList(clientId)
+  )
+}
+
+function useGetSingleKey(clientId: string, kid: string) {
+  return useQueryWrapper([ClientQueryKeys.GetSingleKey, clientId, kid], () =>
+    ClientServices.getSingleKey(clientId, kid)
+  )
+}
+
+function usePrefetchSingleKey() {
+  const queryClient = useQueryClient()
+  return (clientId: string, kid: string) =>
+    queryClient.prefetchQuery(
+      [ClientQueryKeys.GetKeyList, clientId, kid],
+      () => ClientServices.getSingleKey(clientId, kid),
+      { staleTime: 180000 }
+    )
+}
+
+function useGetOperatorsList(clientId: string) {
+  return useQueryWrapper([ClientQueryKeys.GetOperatorsList, clientId], () =>
+    ClientServices.getOperatorList(clientId)
+  )
+}
+
+function useGetSingleOperator(relationshipId: string) {
+  return useQueryWrapper([ClientQueryKeys.GetSingleOperator, relationshipId], () =>
+    ClientServices.getSingleOperator(relationshipId)
+  )
+}
+
+function usePrefetchSingleOperator() {
+  const queryClient = useQueryClient()
+  return (relationshipId: string) =>
+    queryClient.prefetchQuery(
+      [ClientQueryKeys.GetSingleOperator, relationshipId],
+      () => ClientServices.getSingleOperator(relationshipId),
+      { staleTime: 180000 }
+    )
+}
+
+function useGetOperatorKeys(clientId: string, operatorId: string) {
+  return useQueryWrapper([ClientQueryKeys.GetClientOperatorKeys, clientId, operatorId], () =>
+    ClientServices.getOperatorKeys(clientId, operatorId)
+  )
+}
+
 function useCreate() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.create' })
   const queryClient = useQueryClient()
@@ -39,7 +94,7 @@ function useCreate() {
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
     onSuccess(data) {
-      queryClient.invalidateQueries([ClientQueryKeys.GetAll])
+      queryClient.invalidateQueries([ClientQueryKeys.GetList])
       queryClient.setQueryData([ClientQueryKeys.GetSingle, data.id], data)
     },
   })
@@ -58,7 +113,7 @@ function useDelete() {
       description: t('confirmDialog.description'),
     },
     onSuccess(_, { clientId }) {
-      queryClient.invalidateQueries([ClientQueryKeys.GetAll])
+      queryClient.invalidateQueries([ClientQueryKeys.GetList])
       queryClient.removeQueries([ClientQueryKeys.GetSingle, clientId])
     },
   })
@@ -95,10 +150,92 @@ function useRemoveFromPurpose() {
   })
 }
 
+function usePostKey() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.postKey' })
+  const queryClient = useQueryClient()
+  return useMutationWrapper(ClientServices.postKey, {
+    successToastLabel: t('outcome.success'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    onSuccess(data, { clientId }) {
+      queryClient.invalidateQueries([ClientQueryKeys.GetKeyList, clientId])
+      queryClient.setQueryData([ClientQueryKeys.GetSingleKey, clientId, data.key.kid], data)
+    },
+  })
+}
+
+function useDeleteKey() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.deleteKey' })
+  const queryClient = useQueryClient()
+  return useMutationWrapper(ClientServices.deleteKey, {
+    successToastLabel: t('outcome.success'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    showConfirmationDialog: true,
+    dialogConfig: {
+      title: t('confirmDialog.title'),
+      description: t('confirmDialog.description'),
+    },
+    onSuccess(_, { clientId, kid }) {
+      queryClient.invalidateQueries([ClientQueryKeys.GetKeyList, clientId])
+      queryClient.removeQueries([ClientQueryKeys.GetSingleKey, clientId, kid])
+    },
+  })
+}
+
+function useDownloadKey() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.downloadKey' })
+  return useMutationWrapper(ClientServices.downloadKey, {
+    suppressSuccessToast: true,
+    suppressErrorToast: true,
+    loadingLabel: t('loading'),
+  })
+}
+
+function useAddOperator() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.addOperator' })
+  const queryClient = useQueryClient()
+  return useMutationWrapper(ClientServices.addOperator, {
+    successToastLabel: t('outcome.success'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    onSuccess(data, { clientId }) {
+      queryClient.invalidateQueries([ClientQueryKeys.GetList])
+      queryClient.setQueryData([ClientQueryKeys.GetSingle, clientId], data)
+    },
+  })
+}
+
+function useRemoveOperator() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.removeOperator' })
+  const queryClient = useQueryClient()
+  return useMutationWrapper(ClientServices.removeOperator, {
+    successToastLabel: t('outcome.success'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    showConfirmationDialog: true,
+    dialogConfig: {
+      title: t('confirmDialog.title'),
+      description: t('confirmDialog.description'),
+    },
+    onSuccess(_, { clientId }) {
+      queryClient.invalidateQueries([ClientQueryKeys.GetList])
+      queryClient.invalidateQueries([ClientQueryKeys.GetOperatorsList, clientId])
+    },
+  })
+}
+
 export const ClientQueries = {
-  useGetAll,
+  useGetList,
   useGetSingle,
   usePrefetchSingle,
+  useGetKeyList,
+  useGetSingleKey,
+  usePrefetchSingleKey,
+  useGetOperatorsList,
+  useGetSingleOperator,
+  usePrefetchSingleOperator,
+  useGetOperatorKeys,
 }
 
 export const ClientMutations = {
@@ -106,4 +243,9 @@ export const ClientMutations = {
   useDelete,
   useJoinWithPurpose,
   useRemoveFromPurpose,
+  usePostKey,
+  useDeleteKey,
+  useDownloadKey,
+  useAddOperator,
+  useRemoveOperator,
 }

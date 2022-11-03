@@ -2,7 +2,7 @@ import axiosInstance from '@/lib/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import {
   CreateAttributePayload,
-  GetAllAttributesResponse,
+  GetListAttributesResponse,
   GetCertifiedAttributesResponse,
   GetDeclaredAttributesResponse,
   GetSingleAttributeResponse,
@@ -11,8 +11,8 @@ import {
 } from './attribute.api.types'
 import { remapAttributeResponseData } from './attribute.api.utils'
 
-async function getAll(params?: { search: string }) {
-  const response = await axiosInstance.get<GetAllAttributesResponse>(
+async function getList(params?: { search: string }) {
+  const response = await axiosInstance.get<GetListAttributesResponse>(
     `${BACKEND_FOR_FRONTEND_URL}/attributes`,
     { params }
   )
@@ -88,7 +88,7 @@ async function revokeDeclaredPartyAttribute({ attributeId }: { attributeId: stri
 }
 
 const AttributeServices = {
-  getAll,
+  getList,
   getSingle,
   getPartyCertifiedList,
   getPartyVerifiedList,

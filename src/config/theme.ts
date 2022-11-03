@@ -5,6 +5,7 @@ import { theme as muiItaliaTheme } from '@pagopa/mui-italia'
 import type {} from '@mui/x-date-pickers/themeAugmentation'
 import type {} from '@mui/material/OverridableComponentAugmentation'
 import type {} from '@mui/types/OverridableComponentAugmentation'
+import type {} from '@mui/lab/themeAugmentation'
 
 export const theme = createTheme(
   deepmerge(
@@ -17,6 +18,8 @@ export const theme = createTheme(
           defaultProps: { variant: 'outlined' },
         },
         MuiInputLabel: { defaultProps: { shrink: true } },
+        MuiTabPanel: { styleOverrides: { root: { paddingRight: 0, paddingLeft: 0 } } },
+        MuiTypography: { styleOverrides: { root: { wordBreak: 'break-word' } } },
       },
     },
     muiItaliaTheme

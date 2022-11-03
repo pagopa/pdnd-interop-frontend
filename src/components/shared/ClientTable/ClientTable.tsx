@@ -14,7 +14,7 @@ export const ClientTable: React.FC<ClientTableProps> = ({ clientKind }) => {
   const { t } = useTranslation('client')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
   const { jwt } = useJwt()
-  const { data: clients } = ClientQueries.useGetAll({
+  const { data: clients } = ClientQueries.useGetList({
     kind: clientKind,
     consumerId: jwt?.organizationId,
   })

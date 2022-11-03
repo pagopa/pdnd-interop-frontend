@@ -4,12 +4,12 @@ import { Purpose, PurposeVersion } from '@/types/purpose.types'
 import { downloadFile } from '@/utils/common.utils'
 import {
   PurposeCreateDraftPayload,
-  PurposeGetAllUrlParams,
+  PurposeGetListUrlParams,
   PurposeUpdateDraftPayload,
 } from './purpose.api.types'
 import { decoratePurposeWithMostRecentVersion } from './purpose.api.utils'
 
-async function getAll(params: PurposeGetAllUrlParams) {
+async function getList(params: PurposeGetListUrlParams) {
   const response = await axiosInstance.get<{ purposes: Array<Purpose> }>(
     `${PURPOSE_PROCESS_URL}/purposes`,
     {
@@ -129,7 +129,7 @@ function deleteVersion({ purposeId, versionId }: { purposeId: string; versionId:
 }
 
 const PurposeServices = {
-  getAll,
+  getList,
   getSingle,
   createDraft,
   updateDraft,

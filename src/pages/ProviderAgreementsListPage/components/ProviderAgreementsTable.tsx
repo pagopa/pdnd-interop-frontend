@@ -12,7 +12,7 @@ export const ProviderAgreementsTable: React.FC = () => {
   const { t } = useTranslation('agreement')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
   const { jwt } = useJwt()
-  const { data: agreements } = AgreementQueries.useGetAll({
+  const { data: agreements } = AgreementQueries.useGetList({
     producerId: jwt?.organizationId,
     states: ['ACTIVE', 'ARCHIVED', 'PENDING', 'SUSPENDED', 'REJECTED'],
   })

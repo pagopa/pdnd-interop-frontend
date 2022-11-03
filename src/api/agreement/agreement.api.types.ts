@@ -1,6 +1,6 @@
 import { AgreementState } from '@/types/agreement.types'
 
-export type GetAllAgreementQueryParams = {
+export type GetListAgreementQueryParams = {
   producerId?: string
   consumerId?: string
   states?: Array<AgreementState>

@@ -1,8 +1,8 @@
 import axiosInstance from '@/lib/axios'
 import { CATALOG_PROCESS_URL } from '@/config/env'
 import {
-  EServiceGetAllFlatResponse,
-  EServiceGetAllFlatUrlParams,
+  EServiceGetListFlatResponse,
+  EServiceGetListFlatUrlParams,
   EServiceDraftPayload,
   EServiceVersionDraftPayload,
   PostEServiceVersionDraftDocumentPayload,
@@ -16,8 +16,8 @@ import {
 import { downloadFile } from '@/utils/common.utils'
 import { DocumentRead } from '@/types/common.types'
 
-async function getAllFlat(params: EServiceGetAllFlatUrlParams) {
-  const response = await axiosInstance.get<EServiceGetAllFlatResponse>(
+async function getListFlat(params: EServiceGetListFlatUrlParams) {
+  const response = await axiosInstance.get<EServiceGetListFlatResponse>(
     `${CATALOG_PROCESS_URL}/flatten/eservices`,
     { params }
   )
@@ -206,7 +206,7 @@ async function downloadVersionDraftDocument({
 }
 
 const EServiceServices = {
-  getAllFlat,
+  getListFlat,
   getSingle,
   upsertDraft,
   deleteDraft,

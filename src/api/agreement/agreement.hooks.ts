@@ -1,17 +1,17 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
-import { GetAllAgreementQueryParams } from './agreement.api.types'
+import { GetListAgreementQueryParams } from './agreement.api.types'
 import AgreementServices from './agreement.services'
 
 export enum AgreementQueryKeys {
-  GetAll = 'AgreementGetAll',
+  GetList = 'AgreementGetList',
   GetSingle = 'AgreementGetSingle',
 }
 
-function useGetAll(params: GetAllAgreementQueryParams) {
-  return useQueryWrapper([AgreementQueryKeys.GetAll, params], () =>
-    AgreementServices.getAll(params)
+function useGetList(params: GetListAgreementQueryParams) {
+  return useQueryWrapper([AgreementQueryKeys.GetList, params], () =>
+    AgreementServices.getList(params)
   )
 }
 
@@ -46,7 +46,7 @@ function useCreateDraft() {
       proceedLabel: t('confirmDialog.proceedLabel'),
     },
     onSuccess({ id }) {
-      queryClient.invalidateQueries([AgreementQueryKeys.GetAll])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetList])
       queryClient.invalidateQueries([AgreementQueryKeys.GetSingle, id])
     },
   })
@@ -65,7 +65,7 @@ function useSubmitDraft() {
       description: t('confirmDialog.description'),
     },
     onSuccess({ id }) {
-      queryClient.invalidateQueries([AgreementQueryKeys.GetAll])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetList])
       queryClient.invalidateQueries([AgreementQueryKeys.GetSingle, id])
     },
   })
@@ -85,7 +85,7 @@ function useDeleteDraft() {
     },
     onSuccess(_, { agreementId }) {
       queryClient.removeQueries([AgreementQueryKeys.GetSingle, agreementId])
-      queryClient.invalidateQueries([AgreementQueryKeys.GetAll])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetList])
     },
   })
 }
@@ -145,7 +145,7 @@ function useActivate() {
     },
     onSuccess(_, { agreementId }) {
       queryClient.removeQueries([AgreementQueryKeys.GetSingle, agreementId])
-      queryClient.invalidateQueries([AgreementQueryKeys.GetAll])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetList])
     },
   })
 }
@@ -159,7 +159,7 @@ function useReject() {
     loadingLabel: t('loading'),
     onSuccess(_, { agreementId }) {
       queryClient.removeQueries([AgreementQueryKeys.GetSingle, agreementId])
-      queryClient.invalidateQueries([AgreementQueryKeys.GetAll])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetList])
     },
   })
 }
@@ -178,7 +178,7 @@ function useSuspend() {
     },
     onSuccess(_, { agreementId }) {
       queryClient.removeQueries([AgreementQueryKeys.GetSingle, agreementId])
-      queryClient.invalidateQueries([AgreementQueryKeys.GetAll])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetList])
     },
   })
 }
@@ -197,7 +197,7 @@ function useUpgrade() {
     },
     onSuccess(_, { agreementId }) {
       queryClient.removeQueries([AgreementQueryKeys.GetSingle, agreementId])
-      queryClient.invalidateQueries([AgreementQueryKeys.GetAll])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetList])
     },
   })
 }
@@ -214,7 +214,7 @@ function useDownloadContract() {
 }
 
 export const AgreementQueries = {
-  useGetAll,
+  useGetList,
   useGetSingle,
   usePrefetchSingle,
 }

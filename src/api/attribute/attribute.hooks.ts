@@ -5,16 +5,16 @@ import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import AttributeServices from './attribute.services'
 
 export enum AttributeQueryKeys {
-  GetAll = 'AttributeGetAll',
+  GetList = 'AttributeGetList',
   GetSingle = 'AttributeGetSingle',
   GetPartyCertifiedList = 'AttributeGetPartyCertifiedList',
   GetPartyVerifiedList = 'AttributeGetPartyVerifiedList',
   GetPartyDeclaredList = 'AttributeGetPartyDeclaredList',
 }
 
-function useGetAll(search?: string) {
-  return useQueryWrapper([AttributeQueryKeys.GetAll, search], () =>
-    AttributeServices.getAll(search ? { search } : undefined)
+function useGetList(search?: string) {
+  return useQueryWrapper([AttributeQueryKeys.GetList, search], () =>
+    AttributeServices.getList(search ? { search } : undefined)
   )
 }
 
@@ -64,7 +64,7 @@ function useGetPartyDeclaredList(partyId?: string) {
   )
 }
 
-function useGetAllPartyAttributes(partyId?: string): PartyAttributes {
+function useGetListPartyAttributes(partyId?: string): PartyAttributes {
   const { data: certified = [] } = useGetPartyCertifiedList(partyId)
   const { data: verified = [] } = useGetPartyVerifiedList(partyId)
   const { data: declared = [] } = useGetPartyDeclaredList(partyId)
@@ -183,13 +183,13 @@ function useRevokeDeclaredPartyAttribute() {
 }
 
 export const AttributeQueries = {
-  useGetAll,
+  useGetList,
   useGetSingle,
   usePrefetchSingle,
   useGetPartyCertifiedList,
   useGetPartyVerifiedList,
   useGetPartyDeclaredList,
-  useGetAllPartyAttributes,
+  useGetListPartyAttributes,
 }
 
 export const AttributeMutations = {

@@ -1,6 +1,6 @@
 import { PurposeRiskAnalysisForm, PurposeState } from '@/types/purpose.types'
 
-export type PurposeGetAllUrlParams = {
+export type PurposeGetListUrlParams = {
   eserviceId?: string
   consumerId?: string
   states?: Array<PurposeState>

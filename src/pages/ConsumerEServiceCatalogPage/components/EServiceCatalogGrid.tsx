@@ -6,7 +6,7 @@ import { CatalogCard, CatalogCardSkeleton } from './CatalogCard'
 
 export const EServiceCatalogGrid: React.FC = () => {
   const { jwt } = useJwt()
-  const { data: eservices } = EServiceQueries.useGetAllFlat({
+  const { data: eservices } = EServiceQueries.useGetListFlat({
     state: 'PUBLISHED',
     callerId: jwt?.organizationId,
   })

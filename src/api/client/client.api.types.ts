@@ -1,6 +1,6 @@
 import { ClientKind } from '@/types/client.types'
 
-export type ClientGetAllUrlParams = {
+export type ClientGetListUrlParams = {
   consumerId?: string
   eserviceId?: string
   kind?: ClientKind
@@ -9,4 +9,11 @@ export type ClientGetAllUrlParams = {
 export type ClientCreatePayload = {
   name: string
   description?: string
+}
+
+export type ClientPostKeyPayload = {
+  key: 'string'
+  use: 'SIG'
+  alg: 'string'
+  name: 'string'
 }
