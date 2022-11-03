@@ -85,6 +85,11 @@
         "v2": {
           "blockingButtonLabel": "Go to API Catalog"
         }
+      },
+      "validation": {
+        "maxLength": "Max {{num}} characters",
+        "required": "required",
+        "multipleChoice": "multiple choice"
       }
     },
     "step3": {
@@ -156,6 +161,10 @@
     },
     "purposeStatusField": {
       "label": "Purposes status"
+    },
+    "resourcesField": {
+      "label": "Resources",
+      "downloadRiskAnalysisLabel": "Risk analysis"
     },
     "versionHistoryField": {
       "label": "Purpose version history",

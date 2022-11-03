@@ -329,6 +329,12 @@
       "message": "The API calls/day update could not be deleted. Please, try again!"
     }
   },
+  "PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD": {
+    "loadingText": "Downloading risk analysis document",
+    "error": {
+      "message": "The risk analysis document could not be downloaded. Please, try again!"
+    }
+  },
   "CLIENT_CREATE": {
     "loadingText": "Creating client",
     "success": {
@@ -402,6 +408,15 @@
     },
     "error": {
       "message": "The declared attribute could not be confirmed. Please, try again!"
+    }
+  },
+  "ATTRIBUTE_REVOKE_DECLARED": {
+    "loadingText": "Revoking declared attribute",
+    "success": {
+      "message": "Declared attribute revoked successfully."
+    },
+    "error": {
+      "message": "The declared attribute could not be revoked. Please, try again!"
     }
   },
   "AGREEMENT_REVOKE_VERIFIED_ATTRIBUTE": {

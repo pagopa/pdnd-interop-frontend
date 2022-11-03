@@ -85,6 +85,11 @@
         "v2": {
           "blockingButtonLabel": "Vai sul Catalogo API"
         }
+      },
+      "validation": {
+        "maxLength": "Max {{num}} caratteri",
+        "required": "richiesto",
+        "multipleChoice": "scelta multipla"
       }
     },
     "step3": {
@@ -156,6 +161,10 @@
     },
     "purposeStatusField": {
       "label": "Stato della finalità"
+    },
+    "resourcesField": {
+      "label": "Risorse",
+      "downloadRiskAnalysisLabel": "Analisi del rischio"
     },
     "versionHistoryField": {
       "label": "Storico di questa finalità",

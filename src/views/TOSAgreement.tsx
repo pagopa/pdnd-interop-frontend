@@ -3,7 +3,6 @@ import { StyledTOSAgreementLayout } from '../components/Shared/StyledTOSAgreemen
 import { Trans, useTranslation } from 'react-i18next'
 import { StyledLink } from '../components/Shared/StyledLink'
 import { useRoute } from '../hooks/useRoute'
-import { Typography } from '@mui/material'
 import { LIGHT_GRAY } from '../lib/constants'
 
 type TOSAgreementProps = {
@@ -17,16 +16,14 @@ const TOSAgreement: React.FC<TOSAgreementProps> = ({ onAcceptAgreement }) => {
   return (
     <StyledTOSAgreementLayout
       productName={t('title')}
-      description={t('description')}
+      description={
+        <Trans components={{ 1: <StyledLink to={routes.TOS.PATH} underline="hover" /> }}>
+          {t('description')}
+        </Trans>
+      }
       onConfirm={onAcceptAgreement}
       sx={{ backgroundColor: LIGHT_GRAY, flex: 1 }}
-    >
-      <Typography sx={{ px: 8 }} color="text.secondary">
-        <Trans components={{ 1: <StyledLink to={routes.TOS.PATH} underline="hover" /> }}>
-          {t('termsDescription')}
-        </Trans>
-      </Typography>
-    </StyledTOSAgreementLayout>
+    />
   )
 }
 

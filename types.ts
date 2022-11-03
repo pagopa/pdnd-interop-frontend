@@ -79,6 +79,7 @@ export type ApiEndpointKey =
   | 'OPERATOR_SECURITY_GET_LIST'
   | 'OPERATOR_SECURITY_GET_KEYS_LIST'
   | 'ATTRIBUTE_CONFIRM_DECLARED'
+  | 'ATTRIBUTE_REVOKE_DECLARED'
 
 export type ApiEndpointContent = {
   URL: string
@@ -195,6 +196,7 @@ type JwtOrgRole = {
 }
 
 type JwtOrg = {
+  name: string
   roles: Array<JwtOrgRole>
   fiscal_code: string
 }
@@ -207,6 +209,7 @@ export type JwtUser = {
   jti: string
   nbf: number
   organization: JwtOrg
+  selfcareId: string
   uid: string // the relationshipId between the user and the current institution
   name: string
   family_name: string
@@ -496,7 +499,7 @@ export type PurposeVersion = {
   id: string
   state: PurposeState
   dailyCalls: number
-  riskAnalysisDocument: PurposeRiskAnalysisDocument
+  riskAnalysis: PurposeRiskAnalysisDocument
   createdAt: string
   expectedApprovalDate?: string
   firstActivationAt?: string

@@ -9,12 +9,12 @@ import { LangContext } from '../lib/context'
 import { StyledInputControlledRadioProps } from '../components/Shared/StyledInputControlledRadio'
 import { StyledInputControlledCheckboxMultipleProps } from '../components/Shared/StyledInputControlledCheckboxMultiple'
 import { StyledInputControlledSelectProps } from '../components/Shared/StyledInputControlledSelect'
-import { StyledInputControlledSwitchProps } from '../components/Shared/StyledInputControlledSwitch'
 import { InputCheckboxOption, InputRadioOption, InputSelectOption, LangCode } from '../../types'
-import { StyledButton } from '../components/Shared/StyledButton'
-import { FE_URL } from '../lib/env'
-import { Alert } from '@mui/material'
 import identity from 'lodash/identity'
+import {
+  StyledRiskAnalysisSwitch,
+  StyledRiskAnalysisSwitchProps,
+} from '../components/Shared/StyledRiskAnalysisSwitch'
 
 type MultiLangEntry = {
   it: string
@@ -55,8 +55,6 @@ type QuestionV2 = {
   options?: Array<{
     label: MultiLangEntry
     value: string
-    forceUserCheckEServiceCatalog?: boolean
-    blockedAlert?: MultiLangEntry
   }>
   dependencies: Array<Dependency>
   /**
@@ -82,6 +80,9 @@ type QuestionV2 = {
   hideOption?: Record<string, Array<Dependency>>
   infoLabel?: MultiLangEntry
   required: boolean
+  validation?: {
+    maxLength?: number
+  }
 }
 
 export type Question = QuestionV1 | QuestionV2
@@ -313,31 +314,12 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
     },
 
     buildForm: (questions, formik, lang, t) => {
-      const blockedStateConfig: {
-        lastQuestionId: string | null
-        alertLabel: string | null
-        isSubmitBtnDisabled: boolean
-      } = {
-        lastQuestionId: null,
-        alertLabel: null,
-        isSubmitBtnDisabled: false,
-      }
       const formComponents: Array<JSX.Element> = []
 
       const questionIds = Object.keys(questions)
 
       type QuestionOption = Exclude<QuestionV2['options'], undefined>[0]
       type InputField = InputCheckboxOption & InputRadioOption & InputSelectOption
-
-      function shouldOptionBlockRender(option: QuestionOption, questionId: string) {
-        return option?.forceUserCheckEServiceCatalog && formik.values[questionId] === option.value
-      }
-
-      function setBlockedStateConfig(option: QuestionOption, id: string) {
-        blockedStateConfig.isSubmitBtnDisabled = true
-        blockedStateConfig.alertLabel = option.blockedAlert ? option.blockedAlert[lang] : null
-        blockedStateConfig.lastQuestionId = id
-      }
 
       function checkOptionDependency(dependency: Dependency) {
         const currentDepValue = formik.values[dependency.id]
@@ -351,12 +333,6 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
       }
 
       function parseOption(option: QuestionOption, { hideOption, id, defaultValue }: QuestionV2) {
-        // for this option, if the forceUserCheckEServiceCatalog is true, and the option value is currently selected
-        // then we need to force the user to check the eServiceCatalogue and disable the submit button
-        if (shouldOptionBlockRender(option, id)) {
-          setBlockedStateConfig(option, id)
-        }
-
         // if the key "hideOption" is present in the question object and the conditions are satisfied
         // the option will be not added to the array of options
         const shouldHideOption =
@@ -380,19 +356,49 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
       ) {
         const questionComponents: Array<JSX.Element> = []
 
+        const maxLength = question?.validation?.maxLength
+        const isRequired = question.required
+        const isMultipleChoice = question.dataType === 'multi'
+
+        let label = question.label[lang]
+        let infoLabel = question.infoLabel && question.infoLabel[lang]
+
+        if (maxLength) {
+          const maxLengthLabel = t('edit.step2.validation.maxLength', { num: maxLength })
+          if (infoLabel) {
+            infoLabel += `. ${maxLengthLabel}`
+          } else {
+            infoLabel = maxLengthLabel
+          }
+        }
+
+        const labelValidation: Array<string> = []
+
+        if (isRequired) {
+          labelValidation.push(t('edit.step2.validation.required'))
+        }
+
+        if (isMultipleChoice) {
+          labelValidation.push(t('edit.step2.validation.multipleChoice'))
+        }
+
+        if (labelValidation.length > 0) {
+          label += ` (${labelValidation.join(', ')})`
+        }
+
         const untypedProps = {
           name: id,
           value: formik.values[id],
           type,
           setFieldValue: formik.setFieldValue,
           onChange: formik.handleChange,
-          label: question.label[lang],
+          label,
           options: inputOptions,
           error: formik.errors[id],
-          infoLabel: question.infoLabel && question.infoLabel[lang],
-          required: question.required,
+          infoLabel,
+          required: isRequired,
           emptyLabel: t('edit.step2.emptyLabel'),
-          inputProps: { maxLength: 250 },
+          inputProps: { maxLength },
         }
 
         const props = {
@@ -400,32 +406,21 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
           radio: untypedProps as StyledInputControlledRadioProps,
           checkbox: untypedProps as StyledInputControlledCheckboxMultipleProps,
           'select-one': untypedProps as StyledInputControlledSelectProps,
-          switch: untypedProps as StyledInputControlledSwitchProps,
+          switch: untypedProps as StyledRiskAnalysisSwitchProps,
         }[type]
 
         const sx = isLast ? { mb: 0 } : undefined
 
-        questionComponents.push(<StyledInput key={id} {...props} sx={sx} />)
-
-        if (blockedStateConfig.alertLabel) {
+        if (type === 'switch') {
           questionComponents.push(
-            <Alert key={'alert-' + blockedStateConfig.alertLabel} sx={{ mt: 2 }} severity="warning">
-              {blockedStateConfig.alertLabel}
-            </Alert>
+            <StyledRiskAnalysisSwitch
+              key={id}
+              {...(props as StyledRiskAnalysisSwitchProps)}
+              sx={sx}
+            />
           )
-        }
-
-        if (blockedStateConfig.lastQuestionId) {
-          questionComponents.push(
-            <StyledButton
-              key={'button-' + blockedStateConfig.lastQuestionId}
-              sx={{ mt: 2 }}
-              variant="contained"
-              onClick={() => window.open(FE_URL, '_blank')}
-            >
-              {t('edit.step2.pa.v2.blockingButtonLabel')}
-            </StyledButton>
-          )
+        } else {
+          questionComponents.push(<StyledInput key={id} {...props} sx={sx} />)
         }
 
         return questionComponents
@@ -433,12 +428,6 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
 
       for (let i = 0; i < questionIds.length; i++) {
         const questionId = questionIds[i]
-        // if blockedStateConfig.questionId value is defined, it means that the rest of the question
-        // should not be rendered
-        const shouldStopRenderingQuestions = Boolean(blockedStateConfig.lastQuestionId)
-        if (shouldStopRenderingQuestions) {
-          break
-        }
 
         const question = questions[questionId] as QuestionV2
 
@@ -451,7 +440,7 @@ const dynamicFormOperationsVersions: DynamicFormOperations = {
         )
       }
 
-      return { formComponents, isSubmitBtnDisabled: blockedStateConfig.isSubmitBtnDisabled }
+      return { formComponents, isSubmitBtnDisabled: false }
     },
   },
 }

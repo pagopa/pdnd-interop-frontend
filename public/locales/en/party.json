@@ -1,0 +1,24 @@
+{
+  "loadingPartyDataLabel": "We are loading party's data",
+  "attributes": {
+    "certified": {
+      "description": "Authoritative sources recognized by Interoperability have given you these certified attributes.",
+      "noAttributesLabel": "There are no certified attributes"
+    },
+    "verified": {
+      "description": "At least one provider has recognized the following verified attributes for you.",
+      "noAttributesLabel": "There are no verified attributes"
+    },
+    "activeDeclared": {
+      "description": "You have declared under your responsibility to possess these attributes.",
+      "noAttributesLabel": "There are no declared attributes",
+      "revokeActionLabel": "Report forfeiture"
+    },
+    "revokedDeclared": {
+      "title": "Revoked declared attributes",
+      "description": "In the past, you had these declared attributes, but have subsequently declared that you no longer have them.",
+      "noAttributesLabel": "There are no revoked declared attributes",
+      "declareActionLabel": "Declare possession"
+    }
+  }
+}

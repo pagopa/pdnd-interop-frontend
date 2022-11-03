@@ -332,6 +332,12 @@
       "message": "Non è stato possibile cancellare l'aggiornamento. Per favore, riprova!"
     }
   },
+  "PURPOSE_VERSION_RISK_ANALYSIS_DOWNLOAD": {
+    "loadingText": "Stiamo scaricando il documento dell'analisi del rischio",
+    "error": {
+      "message": "Non è stato possibile scaricare il documento dell'analisi del rischio. Per favore, riprova!"
+    }
+  },
   "CLIENT_CREATE": {
     "loadingText": "Stiamo creando il client richiesto",
     "success": {
@@ -405,6 +411,15 @@
     },
     "error": {
       "message": "Non è stato possibile confermare l'attributo. Per favore, riprova!"
+    }
+  },
+  "ATTRIBUTE_REVOKE_DECLARED": {
+    "loadingText": "Stiamo revocando l'attributo dichiarato",
+    "success": {
+      "message": "Attributo dichiarato revocato con successo."
+    },
+    "error": {
+      "message": "Non è stato possibile revocare l'attributo. Per favore, riprova!"
     }
   },
   "AGREEMENT_REVOKE_VERIFIED_ATTRIBUTE": {

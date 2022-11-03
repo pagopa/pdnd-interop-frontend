@@ -5,7 +5,7 @@ import { SxProps } from '@mui/system'
 type StyledTOSAgreementLayoutProps = {
   productName: string
   description: React.ReactNode | string
-  children: React.ReactNode
+  children?: React.ReactNode
   onConfirm: VoidFunction
 
   sx?: SxProps
@@ -21,7 +21,7 @@ export function StyledTOSAgreementLayout({
 
   sx,
   confirmBtnDisabled,
-  confirmBtnLabel = 'Entra',
+  confirmBtnLabel = 'Accedi',
 }: StyledTOSAgreementLayoutProps) {
   const isDescriptionComponentAString = typeof description === 'string'
 
@@ -38,7 +38,7 @@ export function StyledTOSAgreementLayout({
             {description}
           </Typography>
         </Stack>
-        <Box>{children}</Box>
+        {children && <Box>{children}</Box>}
         <Box>
           <Button onClick={onConfirm} variant="contained" disabled={confirmBtnDisabled}>
             {confirmBtnLabel}
