@@ -1,6 +1,6 @@
+import { parseSearch, stringifySearch } from '@/router/utils'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { parseSearch, stringifySearch } from '../utils'
 
 export const useActiveTab = (defaultTab: string) => {
   const location = useLocation()
