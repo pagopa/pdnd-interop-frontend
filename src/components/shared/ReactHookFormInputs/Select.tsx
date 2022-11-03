@@ -9,8 +9,6 @@ import {
 import { InputWrapper } from './InputWrapper'
 import { Controller, useFormContext } from 'react-hook-form'
 
-export type StyledInputTextType = 'text' | 'email' | 'number'
-
 export type SelectProps = MUISelectProps & {
   name: string
   options: Array<{ label: string; value: string | number }>

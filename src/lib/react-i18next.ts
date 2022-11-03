@@ -30,6 +30,7 @@ i18n
       'party',
       'attribute',
       'error',
+      'voucher',
     ],
     backend: {
       // DANGER DANGER DANGER. The path needs to be prepended with the PUBLIC_URL

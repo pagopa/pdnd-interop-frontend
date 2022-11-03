@@ -4,7 +4,7 @@ import { PageContainerSkeleton } from '@/components/layout/containers/PageContai
 import { EServiceDetails, EServiceDetailsSkeleton } from '@/components/shared/EServiceDetails'
 import useGetEServiceProviderActions from '@/hooks/useGetEServiceProviderActions'
 import { RouterLink, useRouteParams } from '@/router'
-import { useActiveTab } from '@/router/hooks/useActiveTab'
+import { useActiveTab } from '@/hooks/useActiveTab'
 import { formatTopSideActions } from '@/utils/common.utils'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Skeleton, Tab } from '@mui/material'

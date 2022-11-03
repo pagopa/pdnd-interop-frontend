@@ -14,7 +14,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { DialogSetPurposeExpectedApprovalDateProps } from '@/types/dialog.types'
 import { useDialog } from '@/contexts'
-import { DatePicker } from '../shared/input/DatePicker'
+import { DatePicker } from '../shared/ReactHookFormInputs'
 import { PurposeMutations } from '@/api/purpose'
 
 type ExpectedApprovalDateFormValues = {

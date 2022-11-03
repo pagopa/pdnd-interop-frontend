@@ -10,6 +10,7 @@ import errorNs from '../public/locales/en/error.json'
 import agreementNs from '../public/locales/en/agreement.json'
 import purposeNs from '../public/locales/en/purpose.json'
 import clientNs from '../public/locales/en/client.json'
+import voucherNs from '../public/locales/en/voucher.json'
 
 declare module 'i18next' {
   interface CustomTypeOptions {
@@ -27,6 +28,7 @@ declare module 'i18next' {
       agreement: typeof agreementNs
       purpose: typeof purposeNs
       client: typeof clientNs
+      voucher: typeof voucherNs
     }
   }
 }

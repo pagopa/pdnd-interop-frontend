@@ -5,8 +5,6 @@ import { SxProps } from '@mui/system'
 import { TextField } from '@mui/material'
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker'
 
-export type StyledInputTextType = 'text' | 'email' | 'number'
-
 export type DatePickerProps = {
   name: string
   label?: string

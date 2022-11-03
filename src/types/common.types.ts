@@ -52,3 +52,14 @@ export type DocumentRead = {
   name: string
   prettyName: string
 }
+
+export type StepperStepComponentProps = {
+  forward: (e?: React.SyntheticEvent, data?: Record<string, unknown>) => void
+  back: () => void
+}
+
+export type StepperStep = {
+  label: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  component: React.ElementType<StepperStepComponentProps & any>
+}
