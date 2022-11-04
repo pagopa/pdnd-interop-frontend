@@ -4,11 +4,7 @@ import { useDialog } from '@/contexts'
 import { useTranslation } from 'react-i18next'
 import { ActionItem } from '@/types/common.types'
 
-type UseGetPurposesActionsConfig = {
-  inEService: boolean
-}
-
-function useGetPurposesActions(purpose: DecoratedPurpose, config?: UseGetPurposesActionsConfig) {
+function useGetPurposesActions(purpose: DecoratedPurpose) {
   const { t } = useTranslation('purpose', { keyPrefix: 'tablePurpose.actions' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { mutate: archivePurpose } = PurposeMutations.useArchiveVersion()
@@ -76,7 +72,11 @@ function useGetPurposesActions(purpose: DecoratedPurpose, config?: UseGetPurpose
   }
 
   function handleUpdateDailyCalls() {
-    openDialog({ type: 'updatePurposeDailyCalls', purposeId: purpose.id })
+    openDialog({
+      type: 'updatePurposeDailyCalls',
+      purposeId: purpose.id,
+      dailyCalls: purpose.currentVersion?.dailyCalls,
+    })
   }
 
   const updateDailyCallsAction = {

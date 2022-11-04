@@ -13,6 +13,7 @@ type UpdateDailyCallsFormValues = { dailyCalls: number }
 
 export const DialogUpdatePurposeDailyCalls: React.FC<DialogUpdatePurposeDailyCallsProps> = ({
   purposeId,
+  dailyCalls = 1,
 }) => {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'dialogUpdatePurposeDailyCalls',
@@ -21,7 +22,7 @@ export const DialogUpdatePurposeDailyCalls: React.FC<DialogUpdatePurposeDailyCal
   const validationSchema = object({ dailyCalls: number().required() })
   const formMethods = useForm<UpdateDailyCallsFormValues>({
     defaultValues: {
-      dailyCalls: 1,
+      dailyCalls,
     },
     resolver: yupResolver(validationSchema),
   })

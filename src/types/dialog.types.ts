@@ -28,6 +28,7 @@ export type DialogSessionExpiredProps = {
 export type DialogUpdatePurposeDailyCallsProps = {
   type: 'updatePurposeDailyCalls'
   purposeId: string
+  dailyCalls?: number
 }
 
 export type DialogBasicProps = DialogDefaultProps & {
