@@ -1,9 +1,8 @@
 import React from 'react'
-import { InputWrapper } from './InputWrapper'
-import { Controller, useFormContext } from 'react-hook-form'
 import { SxProps } from '@mui/system'
-import { TextField } from '@mui/material'
-import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker'
+import { Skeleton, Stack } from '@mui/material'
+
+const _DatePicker = React.lazy(() => import('./_DatePicker'))
 
 export type DatePickerProps = {
   name: string
@@ -15,33 +14,18 @@ export type DatePickerProps = {
   inputSx?: SxProps
 }
 
-export const DatePicker: React.FC<DatePickerProps> = ({
-  name,
-  label,
-  infoLabel,
-  focusOnMount,
-  sx,
-  inputSx,
-}) => {
-  const { formState, control } = useFormContext()
-
-  const error = formState.errors[name]?.message as string | undefined
-
+export const DatePicker: React.FC<DatePickerProps> = (props) => {
   return (
-    <InputWrapper name={name} error={error} sx={sx} infoLabel={infoLabel}>
-      <Controller
-        control={control}
-        name={name}
-        render={({ field }) => (
-          <StaticDatePicker
-            label={label}
-            displayStaticWrapperAs="desktop"
-            autoFocus={focusOnMount}
-            renderInput={(params) => <TextField sx={inputSx} {...params} />}
-            {...field}
-          />
-        )}
-      />
-    </InputWrapper>
+    <React.Suspense fallback={<DatePickerSkeleton sx={props?.sx} />}>
+      <_DatePicker {...props} />
+    </React.Suspense>
+  )
+}
+
+export const DatePickerSkeleton: React.FC<{ sx?: SxProps }> = ({ sx }) => {
+  return (
+    <Stack sx={{ mt: 2, pb: 4, pt: 1, ...sx }} alignItems="center" justifyContent="center">
+      <Skeleton variant="rectangular" width={300} height={290} />
+    </Stack>
   )
 }

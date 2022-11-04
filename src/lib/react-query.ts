@@ -18,7 +18,7 @@ export const queryClient = new QueryClient({
         if (axios.isAxiosError(error) && error.response?.status === 404) {
           return false
         }
-        return failureCount < 3
+        return failureCount < 2
       },
     },
     mutations: { useErrorBoundary: false },
