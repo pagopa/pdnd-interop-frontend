@@ -14,16 +14,7 @@ export default defineConfig({
     },
   },
   build: {
-    rollupOptions: {
-      // This helps to manually remove chunks of code of libraries that do not support treeshaking
-      external(source) {
-        const chunksToRemove = [
-          '/@pagopa/mui-italia/dist/assets/FundedByNextGenerationEU',
-          '/@pagopa/mui-italia/dist/illustrations',
-        ]
-        return chunksToRemove.some((chunk) => source.includes(chunk))
-      },
-    },
+    rollupOptions: { external },
   },
   envPrefix: 'REACT_APP_',
   server: {
@@ -48,4 +39,15 @@ function setNonceAttToScripts(): PluginOption {
       },
     },
   }
+}
+
+/**
+ * This helps to manually remove chunks of code of libraries that do not support treeshaking
+ */
+function external(source: string) {
+  const chunksToRemove = [
+    '/@pagopa/mui-italia/dist/assets/FundedByNextGenerationEU',
+    '/@pagopa/mui-italia/dist/illustrations',
+  ]
+  return chunksToRemove.some((chunk) => source.includes(chunk))
 }
