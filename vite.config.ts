@@ -13,6 +13,18 @@ export default defineConfig({
       '@/': `${path.resolve(__dirname, 'src')}/`,
     },
   },
+  build: {
+    rollupOptions: {
+      // This helps to manually remove chunks of code of libraries that do not support treeshaking
+      external(source) {
+        const chunksToRemove = [
+          '/@pagopa/mui-italia/dist/assets/FundedByNextGenerationEU',
+          '/@pagopa/mui-italia/dist/illustrations',
+        ]
+        return chunksToRemove.some((chunk) => source.includes(chunk))
+      },
+    },
+  },
   envPrefix: 'REACT_APP_',
   server: {
     port: 3000,
