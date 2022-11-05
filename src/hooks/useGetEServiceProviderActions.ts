@@ -16,22 +16,31 @@ function useGetEServiceProviderActions({
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
 
   const { mutate: publishDraft } = EServiceMutations.usePublishVersionDraft()
-  const { mutate: deleteDraft } = EServiceMutations.useDeleteVersionDraft()
+  const { mutate: deleteDraft } = EServiceMutations.useDeleteDraft()
+  const { mutate: deleteVersionDraft } = EServiceMutations.useDeleteVersionDraft()
   const { mutate: suspend } = EServiceMutations.useSuspendVersion()
   const { mutate: reactivate } = EServiceMutations.useReactivateVersion()
   const { mutate: clone } = EServiceMutations.useCloneFromVersion()
   const { mutate: createNewDraft } = EServiceMutations.useCreateVersionDraft()
 
-  if (!descriptorId) return { actions: [] }
+  const deleteDraftAction = {
+    action: deleteDraft.bind(null, { eserviceId }),
+    label: t('delete'),
+  }
 
-  const eserviceState = state ?? 'DRAFT'
+  if (!descriptorId) {
+    return {
+      actions: [deleteDraftAction],
+    }
+  }
 
   const publishDraftAction = {
     action: publishDraft.bind(null, { eserviceId, descriptorId }),
     label: t('publish'),
   }
-  const deleteDraftAction = {
-    action: deleteDraft.bind(null, { eserviceId, descriptorId }),
+
+  const deleteVersionDraftAction = {
+    action: deleteVersionDraft.bind(null, { eserviceId, descriptorId }),
     label: t('delete'),
   }
   const suspendAction = {
@@ -63,11 +72,11 @@ function useGetEServiceProviderActions({
     PUBLISHED: [suspendAction, cloneAction, createNewDraftAction],
     ARCHIVED: [],
     DEPRECATED: [suspendAction],
-    DRAFT: [publishDraftAction, deleteDraftAction],
+    DRAFT: [publishDraftAction, deleteVersionDraftAction],
     SUSPENDED: [reactivateAction, cloneAction, createNewDraftAction],
   }
 
-  return { actions: availableAction[eserviceState] }
+  return { actions: availableAction[state ?? 'DRAFT'] }
 }
 
 export default useGetEServiceProviderActions
