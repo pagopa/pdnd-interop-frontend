@@ -20,7 +20,7 @@
       "label": "Client description (required)",
       "infoLabel": "Max 250 chars"
     },
-    "clientMembersSectionTitle": "Security operators",
+    "clientOperatorsSectionTitle": "Security operators",
     "operatorsTable": {
       "noDataLabel": "No operator added"
     },
@@ -33,7 +33,7 @@
     "tabs": {
       "ariaLabel": "Three different tabs with the instructions to obtain an access token, for client members and public keys",
       "voucher": "Access token instructions",
-      "clientMembers": "Client members",
+      "clientOperators": "Client members",
       "publicKeys": "Public keys"
     },
     "actions": {

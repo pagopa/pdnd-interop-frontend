@@ -15,6 +15,8 @@ export type DialogProps =
   | DialogSessionExpiredProps
   | DialogUpdatePurposeDailyCallsProps
   | DialogSetPurposeExpectedApprovalDateProps
+  | DialogAddSecurityOperatorsProps
+  | DialogAddSecurityOperatorKeyProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -45,4 +47,14 @@ export type DialogSetPurposeExpectedApprovalDateProps = {
   purposeId: string
   versionId: string
   approvalDate?: string
+}
+
+export type DialogAddSecurityOperatorsProps = {
+  type: 'addSecurityOperator'
+  clientId: string
+}
+
+export type DialogAddSecurityOperatorKeyProps = {
+  type: 'addSecurityOperatorKey'
+  clientId: string
 }

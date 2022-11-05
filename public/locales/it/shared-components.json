@@ -56,6 +56,39 @@
       "confirmLabel": "Imposta"
     }
   },
+  "dialogAddSecurityOperators": {
+    "ariaDescribedBy": "Modale per aggiungere utenti membri ad un client",
+    "title": "Aggiungi membri del client",
+    "content": {
+      "autocompleteLabel": "Utenti selezionati",
+      "adminAlert": "Se vuoi caricare chiavi pubbliche per questo client, aggiungi anche te stesso al client"
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Aggiungi"
+    }
+  },
+  "dialogAddSecurityOperatorKeys": {
+    "ariaDescribedBy": "Modale per aggiungere chiavi pubbliche ad un client",
+    "title": "Carica nuova chiave pubblica",
+    "content": {
+      "nameField": {
+        "label": "Nome della chiave (richiesto)",
+        "infoLabel": "Ti aiuta a distinguerla dalle altre. Max 60 caratteri"
+      },
+      "keyField": {
+        "label": "Chiave pubblica (richiesto)",
+        "infoLabel": {
+          "message": "Non sai come fare per creare una chiave? Segui la",
+          "linkLabel": "guida"
+        }
+      }
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Carica"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copia",
     "copied": "Copiato"
@@ -77,5 +110,9 @@
   },
   "codeLanguagePicker": {
     "languageLabel": "Linguaggio"
+  },
+  "autocompleteMultiple": {
+    "loadingLabel": "Stiamo cercando...",
+    "noDataLabel": "Nessun risultato trovato"
   }
 }

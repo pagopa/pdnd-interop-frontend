@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Button, ButtonProps, Skeleton, Stack, SxProps, Typography } from '@mui/material'
 import { ActionItem } from '@/types/common.types'
-import ActionMenu from '@/components/shared/ActionMenu'
+import { ActionMenu } from '@/components/shared/ActionMenu'
 
 export type TopSideActions = {
   buttons: Array<ActionItem & Omit<ButtonProps, keyof ActionItem | 'onClick'>>

@@ -10,6 +10,9 @@ import { useTranslation } from 'react-i18next'
 import { VoucherInstructions, VoucherInstructionsSkeleton } from './components/VoucherInstructions'
 import { useClientKind } from './hooks/useClientKind'
 import { formatTopSideActions } from '@/utils/common.utils'
+import { ClientOperators } from './components/ClientOperators'
+import { ClientPublicKeys } from './components/ClientPublicKeys'
+import { TabListSkeleton } from '@/components/shared/MUISkeletons'
 
 const ConsumerClientManagePage: React.FC = () => {
   return (
@@ -43,7 +46,7 @@ const ConsumerClientManagePageContent: React.FC = () => {
       <TabContext value={activeTab}>
         <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">
           <Tab label={t('tabs.voucher')} value="voucher" />
-          <Tab label={t('tabs.clientMembers')} value="clientMembers" />
+          <Tab label={t('tabs.clientOperators')} value="clientOperators" />
           <Tab label={t('tabs.publicKeys')} value="publicKeys" />
         </TabList>
 
@@ -53,16 +56,19 @@ const ConsumerClientManagePageContent: React.FC = () => {
           </React.Suspense>
         </TabPanel>
 
-        <TabPanel value="clientMembers"></TabPanel>
+        <TabPanel value="clientOperators">
+          <ClientOperators clientId={clientId} />
+        </TabPanel>
 
-        <TabPanel value="publicKeys"></TabPanel>
+        <TabPanel value="publicKeys">
+          <ClientPublicKeys clientId={clientId} />
+        </TabPanel>
       </TabContext>
       <PageBottomActionsContainer>
         <RouterLink
           as="button"
           variant="outlined"
-          to={clientKind === 'CONSUMER' ? 'SUBSCRIBE_INTEROP_M2M' : 'SUBSCRIBE_CLIENT_LIST'}
-          options={{ urlParams: clientKind === 'CONSUMER' ? { tab: 'clients' } : {} }}
+          to={clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M' : 'SUBSCRIBE_CLIENT_LIST'}
         >
           {t('actions.backToClientsLabel')}
         </RouterLink>
@@ -72,7 +78,11 @@ const ConsumerClientManagePageContent: React.FC = () => {
 }
 
 const ConsumerClientManagePageSkeleton: React.FC = () => {
-  return <PageContainerSkeleton>todo</PageContainerSkeleton>
+  return (
+    <PageContainerSkeleton>
+      <TabListSkeleton />
+    </PageContainerSkeleton>
+  )
 }
 
 export default ConsumerClientManagePage

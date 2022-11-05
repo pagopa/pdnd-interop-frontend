@@ -12,27 +12,34 @@ export enum EServiceQueryKeys {
   GetSingle = 'EServiceGetSingle',
 }
 
-function useGetListFlat(params: EServiceGetListFlatUrlParams) {
+function useGetListFlat(params: EServiceGetListFlatUrlParams, config = { enabled: true }) {
   return useQueryWrapper(
     [EServiceQueryKeys.GetListFlat, params],
     () => EServiceServices.getListFlat(params),
     {
-      enabled: !!params.callerId,
+      enabled: !!params.callerId && config.enabled,
     }
   )
 }
 
-function useGetSingle(eserviceId?: string, descriptorId?: string) {
+function useGetSingle(eserviceId?: string, descriptorId?: string, config = { suspense: true }) {
   return useQueryWrapper(
     [EServiceQueryKeys.GetSingle, eserviceId, descriptorId],
     () => EServiceServices.getSingle(eserviceId!, descriptorId!),
-    { enabled: Boolean(eserviceId && descriptorId) }
+    { enabled: Boolean(eserviceId && descriptorId), ...config }
   )
 }
 
-function useGetSingleFlat(eserviceId: string, descriptorId: string | undefined) {
+function useGetSingleFlat(
+  eserviceId: string,
+  descriptorId: string | undefined,
+  config = { enabled: true }
+) {
   const { jwt } = useJwt()
-  const { data: eservices } = useGetListFlat({ callerId: jwt?.organizationId, state: 'PUBLISHED' })
+  const { data: eservices } = useGetListFlat(
+    { callerId: jwt?.organizationId, state: 'PUBLISHED' },
+    config
+  )
 
   return React.useMemo(() => {
     return eservices?.find(
@@ -206,7 +213,6 @@ function useSuspendVersion() {
       description: t('confirmDialog.description'),
     },
     onSuccess(_, { eserviceId }) {
-      console.log('SUCCESS')
       queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
       queryClient.invalidateQueries([EServiceQueryKeys.GetSingle, eserviceId])
     },

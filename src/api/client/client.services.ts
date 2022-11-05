@@ -11,6 +11,7 @@ import { downloadFile } from '@/utils/common.utils'
 import {
   ClientCreatePayload,
   ClientGetListUrlParams,
+  ClientGetOperatorsListUrlParams,
   ClientPostKeyPayload,
 } from './client.api.types'
 
@@ -43,9 +44,10 @@ async function getSingleKey(clientId: string, kid: string) {
   return response.data
 }
 
-async function getOperatorList(clientId: string) {
+async function getOperatorList(clientId: string, params?: ClientGetOperatorsListUrlParams) {
   const response = await axiosInstance.get<Array<SelfCareUser>>(
-    `${AUTHORIZATION_PROCESS_URL}/clients/${clientId}/operators`
+    `${AUTHORIZATION_PROCESS_URL}/clients/${clientId}/operators`,
+    { params }
   )
   return response.data
 }

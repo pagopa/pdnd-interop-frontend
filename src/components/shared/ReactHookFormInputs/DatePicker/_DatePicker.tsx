@@ -1,5 +1,5 @@
 import React from 'react'
-import { InputWrapper } from './InputWrapper'
+import { InputWrapper } from '../InputWrapper'
 import { Controller, useFormContext } from 'react-hook-form'
 import { TextField } from '@mui/material'
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker'

@@ -1,5 +1,5 @@
 import { PurposeMutations } from '@/api/purpose'
-import ActionMenu from '@/components/shared/ActionMenu'
+import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { TableRow } from '@/components/shared/Table'
 import { useDialog } from '@/contexts'
 import { DecoratedPurpose, PurposeVersion } from '@/types/purpose.types'
@@ -66,7 +66,7 @@ export const EServicePurposesTableRowSkeleton: React.FC = () => {
         },
       ]}
     >
-      <Skeleton sx={{ display: 'inline-block', m: 1 }} variant="rectangular" width={3} />
+      <ActionMenuSkeleton />
     </TableRow>
   )
 }

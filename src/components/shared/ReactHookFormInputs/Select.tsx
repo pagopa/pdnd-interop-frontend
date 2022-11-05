@@ -39,7 +39,7 @@ export const Select: React.FC<SelectProps> = ({
           name={name}
           render={({ field }) => (
             <MUISelect label={label} labelId={labelId} {...props} error={!!error} {...field}>
-              {Boolean(options.length > 0) ? (
+              {options.length > 0 ? (
                 options.map((o, i) => (
                   <MenuItem key={i} value={o.value}>
                     {o.label}

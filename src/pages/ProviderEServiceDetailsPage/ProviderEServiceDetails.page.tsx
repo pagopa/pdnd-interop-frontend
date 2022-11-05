@@ -7,10 +7,11 @@ import { RouterLink, useRouteParams } from '@/router'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { formatTopSideActions } from '@/utils/common.utils'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Skeleton, Tab } from '@mui/material'
+import { Tab } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { EServicePurposesTable, EServicePurposesTableSkeleton } from './components'
+import { TabListSkeleton } from '@/components/shared/MUISkeletons'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
   return (
@@ -26,7 +27,6 @@ const ProviderEServiceDetailsPageContent: React.FC = () => {
   const { activeTab, updateActiveTab } = useActiveTab('details')
 
   const { data: eservice } = EServiceQueries.useGetSingle(eserviceId, descriptorId)
-  const _ = EServiceQueries.useGetSingleFlat(eserviceId, descriptorId)
 
   const { actions } = useGetEServiceProviderActions({
     eserviceId,
@@ -76,7 +76,7 @@ const ProviderEServiceDetailsPageContentSkeleton = () => {
 
   return (
     <PageContainerSkeleton>
-      <Skeleton sx={{ mb: 2 }} variant="rectangular" height={48} />
+      <TabListSkeleton />
       <EServiceDetailsSkeleton />
       <PageBottomActionsContainer>
         <RouterLink as="button" to="PROVIDE_ESERVICE_LIST" variant="outlined">

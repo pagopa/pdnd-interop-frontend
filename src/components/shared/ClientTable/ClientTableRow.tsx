@@ -2,10 +2,11 @@ import { ClientQueries } from '@/api/client'
 import useGetClientActions from '@/hooks/useGetClientActions'
 import { useNavigateRouter } from '@/router'
 import { Client, ClientKind } from '@/types/client.types'
-import { Box, Button, Skeleton, Stack } from '@mui/material'
+import { Box, Button, Skeleton } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import ActionMenu from '../ActionMenu'
+import { ActionMenu, ActionMenuSkeleton } from '../ActionMenu'
+import { ButtonSkeleton } from '../MUISkeletons'
 import { TableRow } from '../Table'
 
 type ClientTableRow = {
@@ -53,20 +54,8 @@ export const ClientTableRow: React.FC<ClientTableRow> = ({ client, clientKind })
 export const ClientTableRowSkeleton: React.FC = () => {
   return (
     <TableRow cellData={[{ label: <Skeleton width={440} /> }]}>
-      <Stack direction="row" sx={{ display: 'inline-flex' }}>
-        <Skeleton sx={{ borderRadius: 1 }} variant="rectangular" width={100} height={35} />
-        <Box
-          sx={{
-            ml: 4,
-            mr: 2,
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Skeleton variant="rectangular" width={4} />
-        </Box>
-      </Stack>
+      <ButtonSkeleton size="small" width={100} />
+      <ActionMenuSkeleton />
     </TableRow>
   )
 }

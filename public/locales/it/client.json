@@ -20,7 +20,7 @@
       "label": "Descrizione del client (richiesto)",
       "infoLabel": "Max 250 caratteri"
     },
-    "clientMembersSectionTitle": "Membri del client",
+    "clientOperatorsSectionTitle": "Membri del client",
     "operatorsTable": {
       "noDataLabel": "Nessun utente aggiunto"
     },
@@ -33,7 +33,7 @@
     "tabs": {
       "ariaLabel": "Tre tab diverse per le istruzioni dell'ottenimento dell'access token, i membri del client e le chiavi pubbliche",
       "voucher": "Istruzioni ottenimento accesso token",
-      "clientMembers": "Membri del client",
+      "clientOperators": "Membri del client",
       "publicKeys": "Chiavi pubbliche"
     },
     "actions": {

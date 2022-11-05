@@ -1,15 +1,16 @@
 import React from 'react'
 import { TableRow } from '@/components/shared/Table'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
-import { Box, Button, Skeleton, Stack } from '@mui/material'
+import { Box, Button, Skeleton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useNavigateRouter } from '@/router'
 import { URL_FRAGMENTS } from '@/router/utils'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import useGetEServiceProviderActions from '@/hooks/useGetEServiceProviderActions'
-import ActionMenu from '@/components/shared/ActionMenu'
+import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { EServiceFlatten } from '@/types/eservice.types'
 import { EServiceQueries } from '@/api/eservice'
+import { ButtonSkeleton } from '@/components/shared/MUISkeletons'
 
 type EServiceTableRow = {
   eservice: EServiceFlatten
@@ -84,21 +85,8 @@ export const EServiceTableRowSkeleton: React.FC = () => {
         },
       ]}
     >
-      <Stack direction="row" sx={{ display: 'inline-flex' }}>
-        <Skeleton sx={{ borderRadius: 1 }} variant="rectangular" width={100} height={35} />
-
-        <Box
-          sx={{
-            ml: 4,
-            mr: 2,
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Skeleton variant="rectangular" width={4} />
-        </Box>
-      </Stack>
+      <ButtonSkeleton size="small" width={100} />
+      <ActionMenuSkeleton />
     </TableRow>
   )
 }

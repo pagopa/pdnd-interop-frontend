@@ -1,5 +1,5 @@
 import { EServiceQueries } from '@/api/eservice'
-import ActionMenu from '@/components/shared/ActionMenu'
+import { ActionMenu } from '@/components/shared/ActionMenu'
 import useGetEServiceConsumerActions from '@/hooks/useGetEServiceConsumerActions'
 import { useNavigateRouter } from '@/router'
 import { EServiceFlatten } from '@/types/eservice.types'

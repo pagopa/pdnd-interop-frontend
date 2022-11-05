@@ -4,7 +4,7 @@ import { Stepper } from '@/components/shared/Stepper'
 import { useActiveStep } from '@/hooks/useActiveStep'
 import { useJwt } from '@/hooks/useJwt'
 import { RouterLink } from '@/router'
-import { Alert, Box } from '@mui/material'
+import { Alert, Skeleton } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '../../hooks/useClientKind'
@@ -114,14 +114,18 @@ export const VoucherInstructions: React.FC<VoucherInstructionsProps> = ({ client
     )
   }
 
-  return (
-    <Box sx={{ maxWidth: 860 }}>
-      {clientKind === 'CONSUMER' && <ClientVoucherInstructions clientId={clientId} />}
-      {clientKind === 'API' && <InteropM2MVoucherInstructions clientId={clientId} />}
-    </Box>
-  )
+  if (clientKind === 'CONSUMER') {
+    return <ClientVoucherInstructions clientId={clientId} />
+  }
+
+  return <InteropM2MVoucherInstructions clientId={clientId} />
 }
 
 export const VoucherInstructionsSkeleton: React.FC = () => {
-  return <></>
+  return (
+    <>
+      <Skeleton variant="rectangular" height={111} />
+      <Skeleton sx={{ mt: 2 }} variant="rectangular" height={600} />
+    </>
+  )
 }

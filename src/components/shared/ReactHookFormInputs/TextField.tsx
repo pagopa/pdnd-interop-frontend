@@ -33,7 +33,13 @@ export const TextField: React.FC<TextFieldProps> = ({
 
   return (
     <InputWrapper name={name} error={error} sx={sx} infoLabel={infoLabel}>
-      <MUITextField autoFocus={focusOnMount} {...props} error={!!error} {...register(name)} />
+      <MUITextField
+        autoFocus={focusOnMount}
+        {...props}
+        InputLabelProps={{ shrink: true, ...props?.InputLabelProps }}
+        error={!!error}
+        {...register(name)}
+      />
     </InputWrapper>
   )
 }

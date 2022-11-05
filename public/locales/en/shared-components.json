@@ -57,6 +57,39 @@
       "confirmLabel": "Set"
     }
   },
+  "dialogAddSecurityOperators": {
+    "ariaDescribedBy": "Modal to add security operators to a client",
+    "title": "Add security operators",
+    "content": {
+      "autocompleteLabel": "Selected operators",
+      "adminAlert": "If you plan on uploading public keys for this client, add yourself as a member of this client, too"
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Aggiungi"
+    }
+  },
+  "dialogAddSecurityOperatorKeys": {
+    "ariaDescribedBy": "Modal to add a public key to a client",
+    "title": "Upload new public key",
+    "content": {
+      "nameField": {
+        "label": "Key name (required)",
+        "infoLabel": "It will help you tell them apart. Max 60 chars"
+      },
+      "keyField": {
+        "label": "Public key (required)",
+        "infoLabel": {
+          "message": "If you don't know how to create the keys? Follow the",
+          "linkLabel": "guide"
+        }
+      }
+    },
+    "actions": {
+      "cancelLabel": "Undo",
+      "confirmLabel": "Upload"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"
@@ -78,5 +111,9 @@
   },
   "codeLanguagePicker": {
     "languageLabel": "Language"
+  },
+  "autocompleteMultiple": {
+    "loadingLabel": "Searching...",
+    "noDataLabel": "No results"
   }
 }

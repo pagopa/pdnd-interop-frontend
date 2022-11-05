@@ -7,6 +7,7 @@ import { DocumentRead } from '@/types/common.types'
 import { remapEServiceAttributes } from '@/utils/attribute.utils'
 import { FrontendAttributes } from '@/types/attribute.types'
 import { AgreementState } from '@/types/agreement.types'
+import { useCurrentRoute } from '@/router'
 
 type EServiceDetailsContextType = {
   eservice: EServiceReadType | undefined
@@ -41,8 +42,11 @@ const EServiceDetailsContextProvider: React.FC<{
   descriptorId: string
   children: React.ReactNode
 }> = ({ eserviceId, descriptorId, children }) => {
+  const { mode } = useCurrentRoute()
   const { data: eservice } = EServiceQueries.useGetSingle(eserviceId, descriptorId)
-  const eserviceFlat = EServiceQueries.useGetSingleFlat(eserviceId, descriptorId)
+  const eserviceFlat = EServiceQueries.useGetSingleFlat(eserviceId, descriptorId, {
+    enabled: mode === 'consumer',
+  })
 
   const providerValue = React.useMemo(() => {
     if (!eservice) return initialState

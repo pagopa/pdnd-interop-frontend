@@ -3,7 +3,7 @@ import { InformationContainer, SectionContainer } from '@/components/layout/cont
 import { StepActions } from '@/components/shared/StepActions'
 import { API_GATEWAY_INTEFACE_URL } from '@/config/env'
 import { RouterLink } from '@/router'
-import { Link, Stack, Typography } from '@mui/material'
+import { Link, Skeleton, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '../../hooks/useClientKind'
@@ -13,11 +13,7 @@ import { InlineClipboard } from './InlineClipboard'
 export const VoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps> = (props) => {
   const clientKind = useClientKind()
   if (clientKind === 'CONSUMER') {
-    return (
-      <React.Suspense fallback={<>TODO</>}>
-        <ClientVoucherInstructionsStep3 {...props} />
-      </React.Suspense>
-    )
+    return <ClientVoucherInstructionsStep3 {...props} />
   }
   return <InteropM2MVoucherInstructionsStep3 {...props} />
 }
@@ -28,9 +24,10 @@ const ClientVoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps> = (
 }) => {
   const { t } = useTranslation('voucher')
 
-  const { data: eservice } = EServiceQueries.useGetSingle(
+  const { data: eservice, isLoading: isLoadingAudience } = EServiceQueries.useGetSingle(
     purpose?.eservice.id,
-    purpose?.eservice.descriptor.id
+    purpose?.eservice.descriptor.id,
+    { suspense: false }
   )
 
   const descriptorAudience =
@@ -51,6 +48,7 @@ const ClientVoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps> = (
           label={t('step3.consumer.audField.label')}
           labelDescription={t('step3.consumer.audField.description')}
         >
+          {isLoadingAudience && !descriptorAudience && <Skeleton width={200} />}
           {descriptorAudience && (
             <InlineClipboard
               textToCopy={descriptorAudience}

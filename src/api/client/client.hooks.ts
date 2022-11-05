@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import ClientServices from './client.services'
-import { ClientGetListUrlParams } from './client.api.types'
+import { ClientGetListUrlParams, ClientGetOperatorsListUrlParams } from './client.api.types'
 
 export enum ClientQueryKeys {
   GetList = 'ClientGetList',
@@ -58,9 +58,15 @@ function usePrefetchSingleKey() {
     )
 }
 
-function useGetOperatorsList(clientId: string) {
-  return useQueryWrapper([ClientQueryKeys.GetOperatorsList, clientId], () =>
-    ClientServices.getOperatorList(clientId)
+function useGetOperatorsList(
+  clientId: string,
+  params?: ClientGetOperatorsListUrlParams,
+  config = { suspense: true }
+) {
+  return useQueryWrapper(
+    [ClientQueryKeys.GetOperatorsList, clientId, params],
+    () => ClientServices.getOperatorList(clientId, params),
+    config
   )
 }
 
@@ -201,6 +207,7 @@ function useAddOperator() {
     loadingLabel: t('loading'),
     onSuccess(data, { clientId }) {
       queryClient.invalidateQueries([ClientQueryKeys.GetList])
+      queryClient.invalidateQueries([ClientQueryKeys.GetOperatorsList, clientId])
       queryClient.setQueryData([ClientQueryKeys.GetSingle, clientId], data)
     },
   })

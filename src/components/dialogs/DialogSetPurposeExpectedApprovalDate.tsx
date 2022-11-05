@@ -55,7 +55,7 @@ export const DialogSetPurposeExpectedApprovalDate: FunctionComponent<
           </DialogContent>
 
           <DialogActions>
-            <Button variant="outlined" onClick={closeDialog}>
+            <Button type="button" variant="outlined" onClick={closeDialog}>
               {t('actions.cancelLabel')}
             </Button>
             <Button variant="contained" type="submit">

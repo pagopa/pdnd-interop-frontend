@@ -1,5 +1,5 @@
 import React from 'react'
-import { ClickAwayListener, MenuItem, Menu, IconButton } from '@mui/material'
+import { ClickAwayListener, MenuItem, Menu, IconButton, Skeleton, Box } from '@mui/material'
 import { ActionItem, ExtendedMUIColor } from '@/types/common.types'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 
@@ -8,7 +8,7 @@ type ActionMenuProps = {
   iconColor?: ExtendedMUIColor
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ actions, iconColor = 'primary' }) => {
+export const ActionMenu: React.FC<ActionMenuProps> = ({ actions, iconColor = 'primary' }) => {
   const [open, setOpen] = React.useState(false)
   const anchorRef = React.useRef<HTMLButtonElement>(null)
 
@@ -87,4 +87,10 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ actions, iconColor = 'primary' 
   )
 }
 
-export default ActionMenu
+export const ActionMenuSkeleton: React.FC = () => {
+  return (
+    <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+      <Skeleton variant="rectangular" sx={{ my: 1, mx: 2 }} width={4} />
+    </Box>
+  )
+}

@@ -1,4 +1,5 @@
 import { ClientKind } from '@/types/client.types'
+import { UserProductRole } from '@/types/party.types'
 
 export type ClientGetListUrlParams = {
   consumerId?: string
@@ -12,8 +13,12 @@ export type ClientCreatePayload = {
 }
 
 export type ClientPostKeyPayload = {
-  key: 'string'
+  key: string
   use: 'SIG'
-  alg: 'string'
-  name: 'string'
+  alg: string
+  name: string
+}
+
+export type ClientGetOperatorsListUrlParams = {
+  productRoles: Array<UserProductRole>
 }
