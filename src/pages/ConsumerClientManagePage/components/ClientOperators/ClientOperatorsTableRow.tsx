@@ -1,4 +1,4 @@
-import { ClientMutations } from '@/api/client'
+import { ClientMutations, ClientQueries } from '@/api/client'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUISkeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
@@ -26,6 +26,7 @@ export const ClientOperatorsTableRow: React.FC<ClientOperatorsTableRowProps> = (
   const { isAdmin } = useJwt()
   const clientKind = useClientKind()
   const { mutate: removeFromClient } = ClientMutations.useRemoveOperator()
+  const prefetchOperator = ClientQueries.usePrefetchSingleOperator()
 
   const actions: Array<ActionItem> = []
 
@@ -34,6 +35,10 @@ export const ClientOperatorsTableRow: React.FC<ClientOperatorsTableRowProps> = (
       action: removeFromClient.bind(null, { clientId, relationshipId: operator.relationshipId }),
       label: t('actions.removeFromClient'),
     })
+  }
+
+  const handlePrefetchOperator = () => {
+    prefetchOperator(operator.relationshipId)
   }
 
   const inspectRouteKey =
@@ -54,6 +59,8 @@ export const ClientOperatorsTableRow: React.FC<ClientOperatorsTableRowProps> = (
         params={{ clientId, operatorId: operator.relationshipId }}
         variant="outlined"
         size="small"
+        onPointerEnter={handlePrefetchOperator}
+        onFocusVisible={handlePrefetchOperator}
       >
         {tCommon('actions.inspect')}
       </RouterLink>

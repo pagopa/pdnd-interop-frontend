@@ -28,6 +28,7 @@ export const ClientPublicKeysTableRow: React.FC<ClientPublicKeysTableRowProps> =
   const { mutate: downloadKey } = ClientMutations.useDownloadKey()
   const { mutate: deleteKey } = ClientMutations.useDeleteKey()
   const { data: operators = [] } = ClientQueries.useGetOperatorsList(clientId)
+  const prefetchKey = ClientQueries.usePrefetchSingleKey()
 
   const kid = publicKey.key.kid
 
@@ -38,6 +39,10 @@ export const ClientPublicKeysTableRow: React.FC<ClientPublicKeysTableRowProps> =
 
   const inspectRouteKey =
     clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT' : 'SUBSCRIBE_CLIENT_KEY_EDIT'
+
+  const handlePrefetchKey = () => {
+    prefetchKey(clientId, kid)
+  }
 
   const isOrphan = isKeyOrphan(publicKey, operators)
   const color = isOrphan ? 'error' : 'primary'
@@ -63,6 +68,8 @@ export const ClientPublicKeysTableRow: React.FC<ClientPublicKeysTableRowProps> =
         params={{ clientId, kid }}
         variant="outlined"
         size="small"
+        onPointerEnter={handlePrefetchKey}
+        onFocusVisible={handlePrefetchKey}
       >
         {tCommon('actions.inspect')}
       </RouterLink>
