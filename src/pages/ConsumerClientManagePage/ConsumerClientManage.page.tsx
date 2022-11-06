@@ -1,6 +1,5 @@
 import { ClientMutations, ClientQueries } from '@/api/client'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
-import { PageContainerSkeleton } from '@/components/layout/containers/PageContainer'
 import { RouterLink, useRouteParams } from '@/router'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
@@ -12,25 +11,18 @@ import { useClientKind } from './hooks/useClientKind'
 import { formatTopSideActions } from '@/utils/common.utils'
 import { ClientOperators } from './components/ClientOperators'
 import { ClientPublicKeys } from './components/ClientPublicKeys'
-import { TabListSkeleton } from '@/components/shared/MUISkeletons'
 
 const ConsumerClientManagePage: React.FC = () => {
-  return (
-    <React.Suspense fallback={<ConsumerClientManagePageSkeleton />}>
-      <ConsumerClientManagePageContent />
-    </React.Suspense>
-  )
-}
-
-const ConsumerClientManagePageContent: React.FC = () => {
   const { t } = useTranslation('client', { keyPrefix: 'edit' })
   const { clientId } = useRouteParams<
     'SUBSCRIBE_CLIENT_EDIT' | 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT'
   >()
   const clientKind = useClientKind()
   const { activeTab, updateActiveTab } = useActiveTab('voucher')
-  const { data: client } = ClientQueries.useGetSingle(clientId)
   const { mutate: deleteClient } = ClientMutations.useDelete()
+  const { data: client, isLoading: isLoadingClient } = ClientQueries.useGetSingle(clientId, {
+    suspense: false,
+  })
 
   const topSideActions = formatTopSideActions(
     [{ label: t('actions.deleteLabel'), action: deleteClient.bind(null, { clientId }) }],
@@ -42,6 +34,7 @@ const ConsumerClientManagePageContent: React.FC = () => {
       title={client?.name ?? ''}
       description={client?.description}
       topSideActions={topSideActions}
+      showSkeleton={isLoadingClient}
     >
       <TabContext value={activeTab}>
         <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">
@@ -74,14 +67,6 @@ const ConsumerClientManagePageContent: React.FC = () => {
         </RouterLink>
       </PageBottomActionsContainer>
     </PageContainer>
-  )
-}
-
-const ConsumerClientManagePageSkeleton: React.FC = () => {
-  return (
-    <PageContainerSkeleton>
-      <TabListSkeleton />
-    </PageContainerSkeleton>
   )
 }
 

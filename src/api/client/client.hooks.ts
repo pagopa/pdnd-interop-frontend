@@ -20,9 +20,11 @@ function useGetList(params: ClientGetListUrlParams) {
   })
 }
 
-function useGetSingle(clientId: string) {
-  return useQueryWrapper([ClientQueryKeys.GetSingle, clientId], () =>
-    ClientServices.getSingle(clientId)
+function useGetSingle(clientId: string, config = { suspense: true }) {
+  return useQueryWrapper(
+    [ClientQueryKeys.GetSingle, clientId],
+    () => ClientServices.getSingle(clientId),
+    config
   )
 }
 

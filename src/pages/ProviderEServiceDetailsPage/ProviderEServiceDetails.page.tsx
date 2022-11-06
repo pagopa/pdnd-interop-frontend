@@ -1,6 +1,5 @@
 import { EServiceQueries } from '@/api/eservice'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
-import { PageContainerSkeleton } from '@/components/layout/containers/PageContainer'
 import { EServiceDetails, EServiceDetailsSkeleton } from '@/components/shared/EServiceDetails'
 import useGetEServiceProviderActions from '@/hooks/useGetEServiceProviderActions'
 import { RouterLink, useRouteParams } from '@/router'
@@ -11,22 +10,17 @@ import { Tab } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { EServicePurposesTable, EServicePurposesTableSkeleton } from './components'
-import { TabListSkeleton } from '@/components/shared/MUISkeletons'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
-  return (
-    <React.Suspense fallback={<ProviderEServiceDetailsPageContentSkeleton />}>
-      <ProviderEServiceDetailsPageContent />
-    </React.Suspense>
-  )
-}
-
-const ProviderEServiceDetailsPageContent: React.FC = () => {
   const { t } = useTranslation('eservice')
   const { eserviceId, descriptorId } = useRouteParams<'PROVIDE_ESERVICE_MANAGE'>()
   const { activeTab, updateActiveTab } = useActiveTab('details')
 
-  const { data: eservice } = EServiceQueries.useGetSingle(eserviceId, descriptorId)
+  const { data: eservice, isLoading: isLoadingEService } = EServiceQueries.useGetSingle(
+    eserviceId,
+    descriptorId,
+    { suspense: false }
+  )
 
   const { actions } = useGetEServiceProviderActions({
     eserviceId,
@@ -41,6 +35,7 @@ const ProviderEServiceDetailsPageContent: React.FC = () => {
       title={eservice?.name || ''}
       description={eservice?.description}
       topSideActions={topSideActions}
+      showSkeleton={isLoadingEService}
     >
       <TabContext value={activeTab}>
         <TabList
@@ -53,7 +48,9 @@ const ProviderEServiceDetailsPageContent: React.FC = () => {
         </TabList>
 
         <TabPanel value="details" sx={{ p: 0 }}>
-          <EServiceDetails eserviceId={eserviceId} descriptorId={descriptorId} />
+          <React.Suspense fallback={<EServiceDetailsSkeleton />}>
+            <EServiceDetails eserviceId={eserviceId} descriptorId={descriptorId} />
+          </React.Suspense>
         </TabPanel>
         <TabPanel value="purposeAwaitingApproval" sx={{ px: 0 }}>
           <React.Suspense fallback={<EServicePurposesTableSkeleton />}>
@@ -68,22 +65,6 @@ const ProviderEServiceDetailsPageContent: React.FC = () => {
         </RouterLink>
       </PageBottomActionsContainer>
     </PageContainer>
-  )
-}
-
-const ProviderEServiceDetailsPageContentSkeleton = () => {
-  const { t } = useTranslation('eservice')
-
-  return (
-    <PageContainerSkeleton>
-      <TabListSkeleton />
-      <EServiceDetailsSkeleton />
-      <PageBottomActionsContainer>
-        <RouterLink as="button" to="PROVIDE_ESERVICE_LIST" variant="outlined">
-          {t('read.actions.backToListLabel')}
-        </RouterLink>
-      </PageBottomActionsContainer>
-    </PageContainerSkeleton>
   )
 }
 

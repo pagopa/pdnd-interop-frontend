@@ -45,7 +45,7 @@ export const EServiceDetailsSkeleton: React.FC = () => {
   const { mode } = useCurrentRoute()
 
   return (
-    <Stack spacing={2}>
+    <Stack sx={{ mt: 2 }} spacing={2}>
       <Grid spacing={2} container>
         <Grid item xs={7}>
           <Stack spacing={2}>

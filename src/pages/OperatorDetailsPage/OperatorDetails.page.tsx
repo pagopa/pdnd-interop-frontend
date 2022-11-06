@@ -11,7 +11,7 @@ import { ActionItem } from '@/types/common.types'
 import { useJwt } from '@/hooks/useJwt'
 import { useTranslation } from 'react-i18next'
 import { formatTopSideActions } from '@/utils/common.utils'
-import { Button, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import { useClientKind } from '../ConsumerClientManagePage/hooks/useClientKind'
 
 const OperatorDetailsPage: React.FC = () => {
