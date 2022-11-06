@@ -70,9 +70,11 @@ function useGetOperatorsList(
   )
 }
 
-function useGetSingleOperator(relationshipId: string) {
-  return useQueryWrapper([ClientQueryKeys.GetSingleOperator, relationshipId], () =>
-    ClientServices.getSingleOperator(relationshipId)
+function useGetSingleOperator(relationshipId: string, config = { suspense: true }) {
+  return useQueryWrapper(
+    [ClientQueryKeys.GetSingleOperator, relationshipId],
+    () => ClientServices.getSingleOperator(relationshipId),
+    config
   )
 }
 

@@ -2,10 +2,12 @@
   "loadingSingleLabel": "Loading operator",
   "loadingMultiLabel": "Loading operators",
   "noMultiDataLabel": "No operator available",
+  "backToMemberListBtn": "Back to members list",
   "actions": {
     "removeFromClient": "Remove from client"
   },
   "edit": {
+    "generalInformations": "General informations",
     "taxCodeField": {
       "label": "Tax code"
     },

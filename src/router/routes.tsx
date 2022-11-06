@@ -16,6 +16,7 @@ import {
   ConsumerAgreementDetailsPage,
   ProviderAgreementDetailsPage,
   ConsumerClientManagePage,
+  OperatorDetailsPage,
 } from '@/pages'
 import { LANGUAGES } from '@/config/constants'
 import { getKeys } from '@/utils/array.utils'
@@ -188,7 +189,7 @@ export const routes = makeType({
       en: 'Manage e-service client operator',
     },
     EXACT: false,
-    COMPONENT: EmptyComponent,
+    COMPONENT: OperatorDetailsPage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'security'],
   },
@@ -270,7 +271,7 @@ export const routes = makeType({
       en: 'Manage interop api client operator',
     },
     EXACT: false,
-    COMPONENT: EmptyComponent,
+    COMPONENT: OperatorDetailsPage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'security'],
   },

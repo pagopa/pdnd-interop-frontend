@@ -9,20 +9,22 @@ export type TopSideActions = {
 }
 
 type Props = {
-  title: string
+  title?: string
   description?: string
   topSideActions?: TopSideActions
+  showSkeleton?: boolean
   sx?: SxProps
 }
 
 export const PageContainer: React.FC<Props & { children: React.ReactNode }> = ({
   children,
   sx,
+  showSkeleton,
   ...props
 }) => {
   return (
     <Box sx={sx}>
-      <StyledIntro {...props} />
+      {showSkeleton ? <StyledIntroSkeleton /> : <StyledIntro {...props} />}
       <Box sx={{ mt: 4 }}>{children}</Box>
     </Box>
   )
@@ -49,7 +51,7 @@ export const PageContainerSkeleton: React.FC<{ children: React.ReactNode }> = ({
 }
 
 type StyledIntroProps = {
-  title: string
+  title?: string
   description?: string
   topSideActions?: TopSideActions
 }
@@ -58,9 +60,11 @@ const StyledIntro: React.FC<StyledIntroProps> = ({ title, description, topSideAc
   return (
     <Stack direction="row" alignItems="end" spacing={2}>
       <Box sx={{ flex: 1 }}>
-        <Typography component="h1" variant="h4">
-          {title}
-        </Typography>
+        {title && (
+          <Typography component="h1" variant="h4">
+            {title}
+          </Typography>
+        )}
         {description && (
           <Typography component="p" variant="body1" sx={{ mt: 1, mb: 0 }}>
             {description}
@@ -77,6 +81,23 @@ const StyledIntro: React.FC<StyledIntroProps> = ({ title, description, topSideAc
           ))}
         {topSideActions?.actionMenu && <ActionMenu actions={topSideActions.actionMenu} />}
       </Stack>
+    </Stack>
+  )
+}
+
+export const StyledIntroSkeleton: React.FC = () => {
+  return (
+    <Stack direction="row" alignItems="end" spacing={2}>
+      <Box sx={{ flex: 1 }}>
+        <Typography component="h1" variant="h4">
+          <Skeleton />
+        </Typography>
+        <Typography component="p" variant="body1" sx={{ mt: 1, mb: 0 }}>
+          <Skeleton />
+        </Typography>
+      </Box>
+
+      <Stack direction="row" alignItems="center" spacing={2}></Stack>
     </Stack>
   )
 }

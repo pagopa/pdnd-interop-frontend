@@ -42,6 +42,9 @@
         "label": "Provider",
         "infoLabel": "Max 1000 chars"
       },
+      "consumerField": {
+        "label": "Consumer"
+      },
       "requestStatusField": {
         "label": "Request status"
       },

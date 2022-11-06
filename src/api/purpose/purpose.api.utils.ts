@@ -26,3 +26,10 @@ export function decoratePurposeWithMostRecentVersion(purpose: Purpose): Decorate
     awaitingApproval: mostRecentVersion.id !== currentVersion.id,
   }
 }
+
+export function removePurposeFromListCache(
+  purposeId: string,
+  purposesListCache: Array<DecoratedPurpose> = []
+) {
+  return purposesListCache.filter((purposeCache) => purposeCache.id !== purposeId)
+}

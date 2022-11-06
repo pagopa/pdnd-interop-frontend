@@ -1,5 +1,5 @@
 import { InformationContainer, SectionContainer } from '@/components/layout/containers'
-import { RouterLink } from '@/router'
+import { RouterLink, useCurrentRoute } from '@/router'
 import { Stack } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,6 +8,7 @@ import { useAgreementDetailsContext } from '../AgreementDetailsContext'
 
 export const AgreementGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.generalInformations' })
+  const { mode } = useCurrentRoute()
   const { agreement } = useAgreementDetailsContext()
 
   if (!agreement) return null
@@ -27,9 +28,16 @@ export const AgreementGeneralInfoSection: React.FC = () => {
               {agreement.eservice.version}
             </RouterLink>
           </InformationContainer>
-          <InformationContainer label={t('providerField.label')}>
-            {agreement.producer.name}
-          </InformationContainer>
+          {mode === 'consumer' && (
+            <InformationContainer label={t('providerField.label')}>
+              {agreement?.producer.name}
+            </InformationContainer>
+          )}
+          {mode === 'provider' && (
+            <InformationContainer label={t('consumerField.label')}>
+              {agreement?.consumer.name}
+            </InformationContainer>
+          )}
           <InformationContainer label={t('requestStatusField.label')}>
             <Stack direction="row" spacing={1}>
               <StatusChip for="agreement" agreement={agreement} />

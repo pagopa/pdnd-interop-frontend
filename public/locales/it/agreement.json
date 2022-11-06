@@ -41,6 +41,9 @@
       "providerField": {
         "label": "Erogatore"
       },
+      "consumerField": {
+        "label": "Fruitore"
+      },
       "requestStatusField": {
         "label": "Stato della richiesta"
       },

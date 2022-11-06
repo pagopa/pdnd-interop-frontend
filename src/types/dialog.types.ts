@@ -17,6 +17,7 @@ export type DialogProps =
   | DialogSetPurposeExpectedApprovalDateProps
   | DialogAddSecurityOperatorsProps
   | DialogAddSecurityOperatorKeyProps
+  | DialogRejectAgreementProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -57,4 +58,9 @@ export type DialogAddSecurityOperatorsProps = {
 export type DialogAddSecurityOperatorKeyProps = {
   type: 'addSecurityOperatorKey'
   clientId: string
+}
+
+export type DialogRejectAgreementProps = {
+  type: 'rejectAgreement'
+  agreementId: string
 }

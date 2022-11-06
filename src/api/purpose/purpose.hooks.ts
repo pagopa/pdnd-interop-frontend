@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import PurposeServices from './purpose.services'
 import { PurposeGetListUrlParams } from './purpose.api.types'
+import { DecoratedPurpose } from '@/types/purpose.types'
+import { removePurposeFromListCache } from './purpose.api.utils'
 
 export enum PurposeQueryKeys {
   GetList = 'PurposeGetList',
@@ -72,7 +74,10 @@ function useDeleteDraft() {
     },
     onSuccess(_, { purposeId }) {
       queryClient.removeQueries([PurposeQueryKeys.GetSingle, purposeId])
-      queryClient.invalidateQueries([PurposeQueryKeys.GetList])
+      queryClient.setQueriesData<Array<DecoratedPurpose>>(
+        [PurposeQueryKeys.GetList],
+        removePurposeFromListCache.bind(null, purposeId)
+      )
     },
   })
 }

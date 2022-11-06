@@ -89,6 +89,20 @@
       "confirmLabel": "Carica"
     }
   },
+  "dialogRejectAgreement": {
+    "ariaDescribedBy": "Modale per rifiutare una richiesta di fruizione ad un fruitore",
+    "title": "Rifiuta richiesta di fruizione",
+    "content": {
+      "reason": {
+        "label": "Motivazione",
+        "infoLabel": "Inserisci la motivazione per la quale rifiuti la richiesta di fruizione. Max 1000 caratteri"
+      }
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Rifiuta"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copia",
     "copied": "Copiato"

@@ -26,11 +26,12 @@ const AgreementAttributesListSections: React.FC = () => {
 const AgreementCertifiedAttributesSection: React.FC = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes.certified' })
 
-  const { eserviceAttributes, isAgreementEServiceMine } = useAgreementDetailsContext()
+  const { mode } = useCurrentRoute()
+  const { eserviceAttributes, isAgreementEServiceMine, agreement } = useAgreementDetailsContext()
   const { jwt } = useJwt()
-  const { data: ownedCertifiedAttributes = [] } = AttributeQueries.useGetPartyCertifiedList(
-    jwt?.organizationId
-  )
+
+  const partyId = mode === 'provider' ? agreement?.consumer.id : jwt?.organizationId
+  const { data: ownedCertifiedAttributes = [] } = AttributeQueries.useGetPartyCertifiedList(partyId)
 
   const certifiedAttributeGroups = eserviceAttributes.certified
   const ownedCertifiedAttributesIds = ownedCertifiedAttributes.map(({ id }) => id)
@@ -93,9 +94,8 @@ const AgreementVerifiedAttributesSection: React.FC = () => {
   const { agreement, eserviceAttributes, isAgreementEServiceMine } = useAgreementDetailsContext()
   const { mode } = useCurrentRoute()
   const { jwt } = useJwt()
-  const { data: ownedVerifiedAttributes = [] } = AttributeQueries.useGetPartyVerifiedList(
-    jwt?.organizationId
-  )
+  const partyId = mode === 'provider' ? agreement?.consumer.id : jwt?.organizationId
+  const { data: ownedVerifiedAttributes = [] } = AttributeQueries.useGetPartyVerifiedList(partyId)
 
   const { mutate: verifyAttribute } = AttributeMutations.useVerifyPartyAttribute()
   const { mutate: revokeAttibute } = AttributeMutations.useRevokeVerifiedPartyAttribute()
@@ -197,11 +197,12 @@ const AgreementVerifiedAttributesSection: React.FC = () => {
 const AgreementDeclaredAttributesSection: React.FC = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes.declared' })
 
-  const { eserviceAttributes, isAgreementEServiceMine } = useAgreementDetailsContext()
+  const { mode } = useCurrentRoute()
+  const { eserviceAttributes, isAgreementEServiceMine, agreement } = useAgreementDetailsContext()
   const { jwt } = useJwt()
-  const { data: ownedDeclaredAttributes = [] } = AttributeQueries.useGetPartyDeclaredList(
-    jwt?.organizationId
-  )
+
+  const partyId = mode === 'provider' ? agreement?.consumer.id : jwt?.organizationId
+  const { data: ownedDeclaredAttributes = [] } = AttributeQueries.useGetPartyDeclaredList(partyId)
 
   const declaredAttributeGroups = eserviceAttributes.declared
   const ownedDeclaredAttributesIds = ownedDeclaredAttributes.map(({ id }) => id)

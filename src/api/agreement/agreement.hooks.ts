@@ -1,7 +1,9 @@
+import { AgreementSummary } from '@/types/agreement.types'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import { GetListAgreementQueryParams } from './agreement.api.types'
+import { updateAgreementsListCache, removeAgreementFromListCache } from './agreement.api.utils'
 import AgreementServices from './agreement.services'
 
 export enum AgreementQueryKeys {
@@ -45,9 +47,8 @@ function useCreateDraft() {
         t('confirmDialog.description', { name: eserviceName, version: eserviceVersion }),
       proceedLabel: t('confirmDialog.proceedLabel'),
     },
-    onSuccess({ id }) {
+    onSuccess() {
       queryClient.invalidateQueries([AgreementQueryKeys.GetList])
-      queryClient.invalidateQueries([AgreementQueryKeys.GetSingle, id])
     },
   })
 }
@@ -64,9 +65,12 @@ function useSubmitDraft() {
       title: t('confirmDialog.title'),
       description: t('confirmDialog.description'),
     },
-    onSuccess({ id }) {
-      queryClient.invalidateQueries([AgreementQueryKeys.GetList])
-      queryClient.invalidateQueries([AgreementQueryKeys.GetSingle, id])
+    onSuccess(data) {
+      queryClient.setQueriesData<Array<AgreementSummary>>(
+        [AgreementQueryKeys.GetList],
+        updateAgreementsListCache.bind(null, data)
+      )
+      queryClient.setQueryData([AgreementQueryKeys.GetSingle, data.id], data)
     },
   })
 }
@@ -85,7 +89,10 @@ function useDeleteDraft() {
     },
     onSuccess(_, { agreementId }) {
       queryClient.removeQueries([AgreementQueryKeys.GetSingle, agreementId])
-      queryClient.invalidateQueries([AgreementQueryKeys.GetList])
+      queryClient.setQueriesData<Array<AgreementSummary>>(
+        [AgreementQueryKeys.GetList],
+        removeAgreementFromListCache.bind(null, agreementId)
+      )
     },
   })
 }
@@ -143,9 +150,12 @@ function useActivate() {
       title: t('confirmDialog.title'),
       description: t('confirmDialog.description'),
     },
-    onSuccess(_, { agreementId }) {
-      queryClient.removeQueries([AgreementQueryKeys.GetSingle, agreementId])
-      queryClient.invalidateQueries([AgreementQueryKeys.GetList])
+    onSuccess(data, { agreementId }) {
+      queryClient.setQueryData([AgreementQueryKeys.GetSingle, agreementId], data)
+      queryClient.setQueriesData<Array<AgreementSummary>>(
+        [AgreementQueryKeys.GetList],
+        updateAgreementsListCache.bind(null, data)
+      )
     },
   })
 }
@@ -157,9 +167,12 @@ function useReject() {
     suppressSuccessToast: true,
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
-    onSuccess(_, { agreementId }) {
-      queryClient.removeQueries([AgreementQueryKeys.GetSingle, agreementId])
-      queryClient.invalidateQueries([AgreementQueryKeys.GetList])
+    onSuccess(data, { agreementId }) {
+      queryClient.setQueryData([AgreementQueryKeys.GetSingle, agreementId], data)
+      queryClient.setQueriesData<Array<AgreementSummary>>(
+        [AgreementQueryKeys.GetList],
+        updateAgreementsListCache.bind(null, data)
+      )
     },
   })
 }
@@ -176,9 +189,12 @@ function useSuspend() {
       title: t('confirmDialog.title'),
       description: t('confirmDialog.description'),
     },
-    onSuccess(_, { agreementId }) {
-      queryClient.removeQueries([AgreementQueryKeys.GetSingle, agreementId])
-      queryClient.invalidateQueries([AgreementQueryKeys.GetList])
+    onSuccess(data, { agreementId }) {
+      queryClient.setQueryData([AgreementQueryKeys.GetSingle, agreementId], data)
+      queryClient.setQueriesData<Array<AgreementSummary>>(
+        [AgreementQueryKeys.GetList],
+        updateAgreementsListCache.bind(null, data)
+      )
     },
   })
 }
@@ -195,9 +211,12 @@ function useUpgrade() {
       title: t('confirmDialog.title'),
       description: t('confirmDialog.description'),
     },
-    onSuccess(_, { agreementId }) {
-      queryClient.removeQueries([AgreementQueryKeys.GetSingle, agreementId])
-      queryClient.invalidateQueries([AgreementQueryKeys.GetList])
+    onSuccess(data, { agreementId }) {
+      queryClient.setQueryData([AgreementQueryKeys.GetSingle, agreementId], data)
+      queryClient.setQueriesData<Array<AgreementSummary>>(
+        [AgreementQueryKeys.GetList],
+        updateAgreementsListCache.bind(null, data)
+      )
     },
   })
 }

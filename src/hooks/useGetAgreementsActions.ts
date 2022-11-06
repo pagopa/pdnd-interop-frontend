@@ -4,6 +4,7 @@ import { ActionItem } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
 import { useCurrentRoute } from '@/router'
 import { canAgreementBeUpgraded } from '@/utils/agreement.utils'
+import { useDialog } from '@/contexts'
 
 type AgreementActions = Record<AgreementState, Array<ActionItem>>
 
@@ -11,6 +12,7 @@ function useGetAgreementsActions(agreement: AgreementSummary | undefined): {
   actions: Array<ActionItem>
 } {
   const { mode } = useCurrentRoute()
+  const { openDialog } = useDialog()
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
 
   const { mutate: activateAgreement } = AgreementMutations.useActivate()
@@ -38,18 +40,15 @@ function useGetAgreementsActions(agreement: AgreementSummary | undefined): {
     deleteAgreement({ agreementId: agreement.id })
   }
 
-  const subscriberOnlyActionsActive: Array<ActionItem> = [
-    { action: handleSuspend, label: t('suspend') },
-  ]
-  if (canBeUpgraded) {
-    subscriberOnlyActionsActive.push({
-      action: handleUpgrade,
-      label: t('upgrade'),
-    })
+  const handleReject = () => {
+    openDialog({ type: 'rejectAgreement', agreementId: agreement.id })
   }
 
   const subscriberOnlyActions: AgreementActions = {
-    ACTIVE: subscriberOnlyActionsActive,
+    ACTIVE: [
+      { action: handleSuspend, label: t('suspend') },
+      ...(canBeUpgraded ? [{ action: handleUpgrade, label: t('upgrade') }] : []),
+    ],
     SUSPENDED: [{ action: handleActivate, label: t('activate') }],
     PENDING: [],
     ARCHIVED: [],
@@ -61,7 +60,10 @@ function useGetAgreementsActions(agreement: AgreementSummary | undefined): {
   const providerOnlyActions: AgreementActions = {
     ACTIVE: [{ action: handleSuspend, label: t('suspend') }],
     SUSPENDED: [{ action: handleActivate, label: t('activate') }],
-    PENDING: [{ action: handleActivate, label: t('activate') }],
+    PENDING: [
+      { action: handleActivate, label: t('activate') },
+      { action: handleReject, label: t('reject') },
+    ],
     ARCHIVED: [],
     DRAFT: [],
     REJECTED: [],

@@ -90,6 +90,20 @@
       "confirmLabel": "Upload"
     }
   },
+  "dialogRejectAgreement": {
+    "ariaDescribedBy": "Modal to reject a fruition request from a consumer",
+    "title": "Reject fruition request",
+    "content": {
+      "reason": {
+        "label": "Reason",
+        "infoLabel": "Insert the reason why you are rejecting the fruition request. Max 1000 chars."
+      }
+    },
+    "actions": {
+      "cancelLabel": "Cancel",
+      "confirmLabel": "Reject"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"

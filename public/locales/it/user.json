@@ -2,10 +2,12 @@
   "loadingSingleLabel": "Stiamo caricando l'operatore",
   "loadingMultiLabel": "Stiamo caricando la lista degli operatori",
   "noMultiDataLabel": "Non ci sono operatori disponibili",
+  "backToMemberListBtn": "Torna alla lista membri",
   "actions": {
     "removeFromClient": "Rimuovi dal client"
   },
   "edit": {
+    "generalInformations": "Informazioni generali",
     "taxCodeField": {
       "label": "Codice fiscale"
     },
