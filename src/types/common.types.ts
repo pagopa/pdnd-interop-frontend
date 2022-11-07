@@ -14,6 +14,7 @@ export type PagoPAEnvVars = {
   ONETRUST_DOMAIN_SCRIPT_ID: string
   CLIENT_ASSERTION_JWT_AUDIENCE: string
   WELL_KNOWN_URLS: string
+  SELFCARE_BASE_URL: string
 }
 
 export type ExtendedWindow = Window & {

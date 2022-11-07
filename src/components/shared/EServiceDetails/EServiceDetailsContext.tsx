@@ -66,7 +66,7 @@ const EServiceDetailsContextProvider: React.FC<{
       agreement,
       docs,
     }
-  }, [eservice, eserviceFlat])
+  }, [eservice, eserviceFlat, mode])
 
   return <Provider value={providerValue}>{children}</Provider>
 }
