@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { VoucherInstructionsStep1 } from '../components/VoucherInstructions/VoucherInstructionsStep1'
 import { VoucherInstructionsStep2 } from '../components/VoucherInstructions/VoucherInstructionsStep2'
 import { VoucherInstructionsStep3 } from '../components/VoucherInstructions/VoucherInstructionsStep3'
-import { useClientKind } from './useClientKind'
+import { useClientKind } from '@/hooks/useClientKind'
 
 export function useGetVoucherInstructionsSteps() {
   const { t } = useTranslation('voucher')

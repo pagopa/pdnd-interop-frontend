@@ -1,6 +1,7 @@
 import { Dialog } from '@/components/dialogs'
 import { Footer, Header } from '@/components/layout'
 import { AppLayout } from '@/components/layout/AppLayout'
+import { PageContainerSkeleton } from '@/components/layout/containers'
 import { AuthContextProvider, DialogContextProvider, useDialog } from '@/contexts'
 import { NotAuthorizedError } from '@/utils/errors.utils'
 import React from 'react'
@@ -27,7 +28,9 @@ const OutletWrapper: React.FC = () => {
         <TOSAgreement onAcceptAgreement={acceptTOS} />
       ) : (
         <AppLayout>
-          <Outlet />
+          <React.Suspense fallback={<PageContainerSkeleton />}>
+            <Outlet />
+          </React.Suspense>
         </AppLayout>
       )}
       <Footer />

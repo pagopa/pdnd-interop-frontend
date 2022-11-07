@@ -12,7 +12,17 @@ function useNavigateRouter() {
     (route, ...args) => {
       const currentLang = currentLanguage
       const pathname = getLocalizedRoutePathname(route, currentLang).substring(3)
-      return generatePath(pathname, ...args)
+      let generatedPath = '#'
+
+      if (args[0] && 'params' in args[0]) {
+        generatedPath = generatePath(pathname, args[0].params)
+      }
+
+      if (args[0]?.urlParams) {
+        generatedPath = `${generatedPath}?${new URLSearchParams(args[0].urlParams).toString()}`
+      }
+
+      return generatedPath
     },
     [currentLanguage]
   )
@@ -20,12 +30,16 @@ function useNavigateRouter() {
   /* eslint-disable @typescript-eslint/ban-ts-comment */
   const navigate = useCallback<Navigate>(
     (route, ...config) => {
+      console.log(config)
       if (config[0] && 'params' in config[0]) {
-        // @ts-ignore
-        _navigate(buildDynamicUrl(route, config[0].params), config[0])
+        _navigate(
+          //@ts-ignore
+          buildDynamicUrl(route, { params: config[0].params, urlParams: config[0]?.urlParams }),
+          config[0]
+        )
       } else {
-        // @ts-ignore
-        _navigate(buildDynamicUrl(route), config[0])
+        //@ts-ignore
+        _navigate(buildDynamicUrl(route, { urlParams: config[0]?.urlParams }), config[0])
       }
     },
     [buildDynamicUrl, _navigate]

@@ -14,16 +14,22 @@ export type ExtractRouteParams<T> = string extends T
 
 export type RouteParams<T extends RouteKey> = ExtractRouteParams<typeof routes[T]['PATH']['it']>
 
+type UrlParams = Record<string, string>
+
 export type GetRouteUrl = <T extends RouteKey>(
   route: T,
-  ...params: RouteParams<T> extends undefined ? [] : [RouteParams<T>]
+  ...config: RouteParams<T> extends undefined
+    ? [{ urlParams?: UrlParams }] | []
+    : [{ params: RouteParams<T> } & { urlParams?: UrlParams }]
 ) => string
+
+type ExtendedNavigateOptions = NavigateOptions & { urlParams?: UrlParams }
 
 export type Navigate = <T extends RouteKey>(
   route: T,
   ...config: RouteParams<T> extends undefined
-    ? [NavigateOptions] | []
-    : [{ params: RouteParams<T> } & NavigateOptions]
+    ? [ExtendedNavigateOptions] | []
+    : [{ params: RouteParams<T> } & ExtendedNavigateOptions]
 ) => void
 
 export type RouteAuthLevel = 'any' | Readonly<Array<UserProductRole>>

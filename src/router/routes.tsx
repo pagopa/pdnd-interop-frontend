@@ -15,15 +15,20 @@ import {
   ProviderEServiceDetailsPage,
   ConsumerAgreementDetailsPage,
   ProviderAgreementDetailsPage,
-  ConsumerClientManagePage,
   OperatorDetailsPage,
+  LogoutPage,
+  KeyDetailsPage,
 } from '@/pages'
 import { LANGUAGES } from '@/config/constants'
 import { getKeys } from '@/utils/array.utils'
 import RoutesWrapper from './components/RoutesWrapper'
 import { Routes } from './types'
 import Redirect from './components/Redirect'
-import { LogoutPage } from '@/pages/LogoutPage'
+
+// Less frequently used or heavier pages will be lazy loaded
+const ConsumerClientManagePage = React.lazy(
+  () => import('@/pages/ConsumerClientManagePage/ConsumerClientManage.page')
+)
 
 // https://stackoverflow.com/a/70067918 waiting for "satisfies" operator in Typescript 4.9
 const makeType = <T extends Routes>(o: T) => o
@@ -203,7 +208,7 @@ export const routes = makeType({
       en: 'Manage e-service client public key',
     },
     EXACT: false,
-    COMPONENT: EmptyComponent,
+    COMPONENT: KeyDetailsPage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'security'],
   },
@@ -285,7 +290,7 @@ export const routes = makeType({
       en: 'Manage interop api client public key',
     },
     EXACT: false,
-    COMPONENT: EmptyComponent,
+    COMPONENT: KeyDetailsPage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'security'],
   },

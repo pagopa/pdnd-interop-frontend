@@ -30,7 +30,7 @@ export const PageContainer: React.FC<Props & { children: React.ReactNode }> = ({
   )
 }
 
-export const PageContainerSkeleton: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const PageContainerSkeleton: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   return (
     <Box>
       <Stack direction="row" alignItems="end" spacing={2}>

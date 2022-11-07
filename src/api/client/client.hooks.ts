@@ -44,9 +44,11 @@ function useGetKeyList(clientId: string) {
   )
 }
 
-function useGetSingleKey(clientId: string, kid: string) {
-  return useQueryWrapper([ClientQueryKeys.GetSingleKey, clientId, kid], () =>
-    ClientServices.getSingleKey(clientId, kid)
+function useGetSingleKey(clientId: string, kid: string, config = { suspense: true }) {
+  return useQueryWrapper(
+    [ClientQueryKeys.GetSingleKey, clientId, kid],
+    () => ClientServices.getSingleKey(clientId, kid),
+    config
   )
 }
 

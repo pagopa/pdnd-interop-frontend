@@ -1,7 +1,7 @@
 import { useAuthContext } from '@/contexts'
 import { goToLoginPage } from '@/utils/common.utils'
 
-function LogoutPage() {
+const LogoutPage: React.FC = () => {
   const { clearToken } = useAuthContext()
 
   clearToken()

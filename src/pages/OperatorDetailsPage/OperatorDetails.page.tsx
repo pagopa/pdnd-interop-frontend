@@ -12,7 +12,7 @@ import { useJwt } from '@/hooks/useJwt'
 import { useTranslation } from 'react-i18next'
 import { formatTopSideActions } from '@/utils/common.utils'
 import { Grid } from '@mui/material'
-import { useClientKind } from '../ConsumerClientManagePage/hooks/useClientKind'
+import { useClientKind } from '@/hooks/useClientKind'
 
 const OperatorDetailsPage: React.FC = () => {
   const { isAdmin } = useJwt()

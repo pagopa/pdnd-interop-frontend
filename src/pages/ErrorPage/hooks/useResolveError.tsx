@@ -26,6 +26,7 @@ function useResolveError(): UseResolveErrorReturnType {
       {t('actions.reloadPage')}
     </Button>
   )
+
   const backToHomeButton = (
     <Link to={getRouteUrl('PROVIDE_ESERVICE_LIST')}>{t('actions.backToHome')}</Link>
   )

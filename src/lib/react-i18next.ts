@@ -19,23 +19,8 @@ i18n
         escapeValue: false,
       },
       defaultNS: 'common',
-      ns: [
-        'pages',
-        'common',
-        'shared-components',
-        'mutations-feedback',
-        'pagopa',
-        'eservice',
-        'agreement',
-        'purpose',
-        'client',
-        'party',
-        'attribute',
-        'error',
-        'voucher',
-        'user',
-        'key',
-      ],
+      // Prealoaded i18n json files
+      ns: ['pages', 'common', 'shared-components', 'mutations-feedback', 'pagopa', 'error'],
       backend: {
         // DANGER DANGER DANGER. The path needs to be prepended with the PUBLIC_URL
         // See: https://stackoverflow.com/a/65396448

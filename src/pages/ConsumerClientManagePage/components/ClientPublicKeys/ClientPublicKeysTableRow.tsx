@@ -1,17 +1,17 @@
-import { ClientMutations, ClientQueries } from '@/api/client'
+import { ClientQueries } from '@/api/client'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { TableRow } from '@/components/shared/Table'
 import { RouterLink } from '@/router'
-import { ActionItem } from '@/types/common.types'
 import { PublicKey } from '@/types/key.types'
 import { formatDateString } from '@/utils/format.utils'
 import { Box, Skeleton, Tooltip } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useClientKind } from '../../hooks/useClientKind'
+import { useClientKind } from '@/hooks/useClientKind'
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
 import { isKeyOrphan } from '@/utils/key.utils'
 import { ButtonSkeleton } from '@/components/shared/MUISkeletons'
+import useGetKeyActions from '@/hooks/useGetKeyActions'
 
 interface ClientPublicKeysTableRowProps {
   publicKey: PublicKey
@@ -25,17 +25,12 @@ export const ClientPublicKeysTableRow: React.FC<ClientPublicKeysTableRowProps> =
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('key')
   const clientKind = useClientKind()
-  const { mutate: downloadKey } = ClientMutations.useDownloadKey()
-  const { mutate: deleteKey } = ClientMutations.useDeleteKey()
   const { data: operators = [] } = ClientQueries.useGetOperatorsList(clientId)
   const prefetchKey = ClientQueries.usePrefetchSingleKey()
 
   const kid = publicKey.key.kid
 
-  const actions: Array<ActionItem> = [
-    { action: downloadKey.bind(null, { clientId, kid }), label: tCommon('actions.download') },
-    { action: deleteKey.bind(null, { clientId, kid }), label: tCommon('actions.delete') },
-  ]
+  const { actions } = useGetKeyActions(clientId, kid)
 
   const inspectRouteKey =
     clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT' : 'SUBSCRIBE_CLIENT_KEY_EDIT'

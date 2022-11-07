@@ -1,5 +1,5 @@
 import React from 'react'
-import { Info as InfoIcon } from '@mui/icons-material'
+import InfoIcon from '@mui/icons-material/Info'
 import { Skeleton, Tooltip } from '@mui/material'
 
 type InfoTooltipProps = {

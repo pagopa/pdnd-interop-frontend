@@ -24,7 +24,7 @@ const RouterLink = React.forwardRef(function _RouterLink<T extends RouteKey>(
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
-  let url = getRouteUrl(props.to, props?.params)
+  let url = getRouteUrl(props.to, { params: props?.params })
 
   if (props.options?.urlParams) {
     url = `${url}?${new URLSearchParams(props.options.urlParams).toString()}`

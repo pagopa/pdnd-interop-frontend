@@ -2,27 +2,31 @@
   "loadingSingleLabel": "Loading key",
   "loadingMultiLabel": "Loading keys",
   "noMultiDataLabel": "No key available",
+  "backToKeyListBtn": "Back to key list",
   "tableKey": {
     "operatorDeletedWarning": {
       "message": "Warning! The operator who uploaded this key has been removed from this party or client. For security reasons, we advise to delete this key and replace it with a new one"
     }
   },
   "edit": {
-    "creationDateField": {
-      "label": "Creation date"
-    },
-    "uploaderField": {
-      "label": "Uploaded by"
-    },
-    "kidField": {
-      "label": "Key id (kid)",
-      "copySuccessFeedbackText": "Id copied successfully"
-    },
-    "clientIdField": {
-      "label": "Client id (clientId)",
-      "copySuccessFeedbackText": "Id copied successfully"
-    },
-    "operatorDeletedAlertMessage": "Warning! The operator that uploaded this key has been removed from this client or party. It is advised to delete this key and replace it with a new one"
+    "generalInformations": {
+      "title": "General informations",
+      "creationDateField": {
+        "label": "Creation date"
+      },
+      "uploaderField": {
+        "label": "Uploaded by"
+      },
+      "kidField": {
+        "label": "Key id (kid)",
+        "copySuccessFeedbackText": "Id copied successfully"
+      },
+      "clientIdField": {
+        "label": "Client id (clientId)",
+        "copySuccessFeedbackText": "Id copied successfully"
+      },
+      "operatorDeletedAlertMessage": "Warning! The operator that uploaded this key has been removed from this client or party. It is advised to delete this key and replace it with a new one"
+    }
   },
   "list": {
     "adminEnableInfo": "Add yourself as a member of this client before you can upload a key"

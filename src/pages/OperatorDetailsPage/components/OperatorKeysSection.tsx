@@ -1,7 +1,7 @@
 import React from 'react'
 import { ClientQueries } from '@/api/client'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { useClientKind } from '@/pages/ConsumerClientManagePage/hooks/useClientKind'
+import { useClientKind } from '@/hooks/useClientKind'
 import { RouterLink } from '@/router'
 import { Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'

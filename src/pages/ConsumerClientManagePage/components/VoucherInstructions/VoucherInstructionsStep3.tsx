@@ -6,9 +6,9 @@ import { RouterLink } from '@/router'
 import { Link, Skeleton, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useClientKind } from '../../hooks/useClientKind'
+import { useClientKind } from '@/hooks/useClientKind'
 import { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
-import { InlineClipboard } from './InlineClipboard'
+import { InlineClipboard } from '@/components/shared/InlineClipboard'
 
 export const VoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps> = (props) => {
   const clientKind = useClientKind()
