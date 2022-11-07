@@ -27,10 +27,8 @@ function useGetSingle(attributeId: string) {
 function usePrefetchSingle() {
   const queryClient = useQueryClient()
   return (attributeId: string) =>
-    queryClient.prefetchQuery(
-      [AttributeQueryKeys.GetSingle, attributeId],
-      () => AttributeServices.getSingle(attributeId),
-      { staleTime: 180000 }
+    queryClient.prefetchQuery([AttributeQueryKeys.GetSingle, attributeId], () =>
+      AttributeServices.getSingle(attributeId)
     )
 }
 

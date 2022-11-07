@@ -26,10 +26,8 @@ function useGetSingle(purposeId: string, config: { suspense: boolean } = { suspe
 function usePrefetchSingle() {
   const queryClient = useQueryClient()
   return (purposeId: string) =>
-    queryClient.prefetchQuery(
-      [PurposeQueryKeys.GetSingle, purposeId],
-      () => PurposeServices.getSingle(purposeId),
-      { staleTime: 180000 }
+    queryClient.prefetchQuery([PurposeQueryKeys.GetSingle, purposeId], () =>
+      PurposeServices.getSingle(purposeId)
     )
 }
 

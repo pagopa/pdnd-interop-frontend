@@ -18,7 +18,7 @@ export const queryClient = new QueryClient({
         }
         return failureCount < 2
       },
-      staleTime: 1000 * 60 * 10,
+      staleTime: 1000 * 60 * 10, // 10 minutes
     },
     mutations: { useErrorBoundary: false },
   },

@@ -51,10 +51,8 @@ function useGetSingleFlat(
 function usePrefetchSingle() {
   const queryClient = useQueryClient()
   return (eserviceId: string, descriptorId: string) =>
-    queryClient.prefetchQuery(
-      [EServiceQueryKeys.GetSingle, eserviceId, descriptorId],
-      () => EServiceServices.getSingle(eserviceId, descriptorId),
-      { staleTime: 180000 }
+    queryClient.prefetchQuery([EServiceQueryKeys.GetSingle, eserviceId, descriptorId], () =>
+      EServiceServices.getSingle(eserviceId, descriptorId)
     )
 }
 

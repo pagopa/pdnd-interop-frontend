@@ -26,10 +26,8 @@ function useGetSingle(agreementId: string) {
 function usePrefetchSingle() {
   const queryClient = useQueryClient()
   return (agreementId: string) =>
-    queryClient.prefetchQuery(
-      [AgreementQueryKeys.GetSingle, agreementId],
-      () => AgreementServices.getSingle(agreementId),
-      { staleTime: 180000 }
+    queryClient.prefetchQuery([AgreementQueryKeys.GetSingle, agreementId], () =>
+      AgreementServices.getSingle(agreementId)
     )
 }
 

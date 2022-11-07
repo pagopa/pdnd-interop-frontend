@@ -31,10 +31,8 @@ function useGetSingle(clientId: string, config = { suspense: true }) {
 function usePrefetchSingle() {
   const queryClient = useQueryClient()
   return (clientId: string) =>
-    queryClient.prefetchQuery(
-      [ClientQueryKeys.GetSingle, clientId],
-      () => ClientServices.getSingle(clientId),
-      { staleTime: 180000 }
+    queryClient.prefetchQuery([ClientQueryKeys.GetSingle, clientId], () =>
+      ClientServices.getSingle(clientId)
     )
 }
 
@@ -55,10 +53,8 @@ function useGetSingleKey(clientId: string, kid: string, config = { suspense: tru
 function usePrefetchSingleKey() {
   const queryClient = useQueryClient()
   return (clientId: string, kid: string) =>
-    queryClient.prefetchQuery(
-      [ClientQueryKeys.GetKeyList, clientId, kid],
-      () => ClientServices.getSingleKey(clientId, kid),
-      { staleTime: 180000 }
+    queryClient.prefetchQuery([ClientQueryKeys.GetKeyList, clientId, kid], () =>
+      ClientServices.getSingleKey(clientId, kid)
     )
 }
 
@@ -85,10 +81,8 @@ function useGetSingleOperator(relationshipId: string, config = { suspense: true 
 function usePrefetchSingleOperator() {
   const queryClient = useQueryClient()
   return (relationshipId: string) =>
-    queryClient.prefetchQuery(
-      [ClientQueryKeys.GetSingleOperator, relationshipId],
-      () => ClientServices.getSingleOperator(relationshipId),
-      { staleTime: 180000 }
+    queryClient.prefetchQuery([ClientQueryKeys.GetSingleOperator, relationshipId], () =>
+      ClientServices.getSingleOperator(relationshipId)
     )
 }
 
