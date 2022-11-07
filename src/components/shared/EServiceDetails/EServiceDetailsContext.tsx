@@ -44,9 +44,7 @@ const EServiceDetailsContextProvider: React.FC<{
 }> = ({ eserviceId, descriptorId, children }) => {
   const { mode } = useCurrentRoute()
   const { data: eservice } = EServiceQueries.useGetSingle(eserviceId, descriptorId)
-  const eserviceFlat = EServiceQueries.useGetSingleFlat(eserviceId, descriptorId, {
-    enabled: mode === 'consumer',
-  })
+  const eserviceFlat = EServiceQueries.useGetSingleFlat(eserviceId, descriptorId)
 
   const providerValue = React.useMemo(() => {
     if (!eservice) return initialState
@@ -55,7 +53,7 @@ const EServiceDetailsContextProvider: React.FC<{
     const eserviceAttributes = remapEServiceAttributes(eservice.attributes)
     const isViewingDescriptorCurrentVersion =
       latestActiveDescriptor.id === eservice.viewingDescriptor?.id
-    const agreement = eserviceFlat?.agreement
+    const agreement = mode === 'consumer' ? eserviceFlat?.agreement : undefined
     const docs = [
       ...latestActiveDescriptor.docs,
       ...(latestActiveDescriptor.interface ? [latestActiveDescriptor.interface] : []),

@@ -18,6 +18,7 @@ export const queryClient = new QueryClient({
         }
         return failureCount < 2
       },
+      staleTime: 1000 * 60 * 10,
     },
     mutations: { useErrorBoundary: false },
   },
