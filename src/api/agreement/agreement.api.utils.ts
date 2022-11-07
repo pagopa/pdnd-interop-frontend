@@ -11,8 +11,6 @@ export function updateAgreementsListCache(
   if (index !== -1) {
     agreementsListCacheCopy[index] = newAgreementData
   }
-
-  console.log(index, agreementsListCacheCopy, newAgreementData)
   return agreementsListCacheCopy
 }
 

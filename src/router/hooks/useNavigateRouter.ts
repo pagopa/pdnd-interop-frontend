@@ -30,7 +30,6 @@ function useNavigateRouter() {
   /* eslint-disable @typescript-eslint/ban-ts-comment */
   const navigate = useCallback<Navigate>(
     (route, ...config) => {
-      console.log(config)
       if (config[0] && 'params' in config[0]) {
         _navigate(
           //@ts-ignore

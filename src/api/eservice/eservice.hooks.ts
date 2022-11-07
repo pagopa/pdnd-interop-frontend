@@ -103,7 +103,6 @@ function useDeleteDraft() {
       description: t('confirmDialog.description'),
     },
     onSuccess(_, { eserviceId }) {
-      console.log('DELETEDRAFT')
       queryClient.removeQueries([EServiceQueryKeys.GetSingle, eserviceId])
       queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
     },
@@ -254,7 +253,7 @@ function useDeleteVersionDraft() {
       description: t('confirmDialog.description'),
     },
     onSuccess() {
-      queryClient.invalidateQueries([[EServiceQueryKeys.GetListFlat]])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
     },
   })
 }

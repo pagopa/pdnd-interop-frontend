@@ -11,8 +11,6 @@ export const queryClient = new QueryClient({
         }
         return true
       },
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
       // avoids retries on status 404
       retry(failureCount, error) {
         if (axios.isAxiosError(error) && error.response?.status === 404) {
