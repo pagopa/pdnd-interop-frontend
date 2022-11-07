@@ -104,6 +104,18 @@
       "confirmLabel": "Reject"
     }
   },
+  "dialogAddClientToPurpose": {
+    "ariaDescribedBy": "Modal to add clients to a purpose",
+    "title": "Add clients",
+    "content": {
+      "autocompleteLabel": "Selected clients",
+      "loadingMessage": "Loading clients to associate to purpose"
+    },
+    "actions": {
+      "cancelLabel": "Undo",
+      "confirmLabel": "Add"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"

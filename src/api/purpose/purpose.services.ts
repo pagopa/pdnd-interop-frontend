@@ -1,4 +1,4 @@
-import { PURPOSE_PROCESS_URL } from '@/config/env'
+import { AUTHORIZATION_PROCESS_URL, PURPOSE_PROCESS_URL } from '@/config/env'
 import axiosInstance from '@/lib/axios'
 import { Purpose, PurposeVersion } from '@/types/purpose.types'
 import { downloadFile } from '@/utils/common.utils'
@@ -128,6 +128,18 @@ function deleteVersion({ purposeId, versionId }: { purposeId: string; versionId:
   return axiosInstance.delete(`${PURPOSE_PROCESS_URL}/purposes/${purposeId}/versions/${versionId}`)
 }
 
+function addClient({ clientId, purposeId }: { clientId: string; purposeId: string }) {
+  return axiosInstance.post(`${AUTHORIZATION_PROCESS_URL}/clients/${clientId}/purposes`, {
+    purposeId,
+  })
+}
+
+function removeClient({ clientId, purposeId }: { clientId: string; purposeId: string }) {
+  return axiosInstance.delete(
+    `${AUTHORIZATION_PROCESS_URL}/clients/${clientId}/purposes/${purposeId}`
+  )
+}
+
 const PurposeServices = {
   getList,
   getSingle,
@@ -143,6 +155,8 @@ const PurposeServices = {
   activateVersion,
   archiveVersion,
   deleteVersion,
+  addClient,
+  removeClient,
 }
 
 export default PurposeServices

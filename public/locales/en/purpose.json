@@ -135,41 +135,80 @@
       "details": "Purpose details",
       "clients": "Associated clients"
     },
-    "accessGrantedField": {
-      "label": "Is access granted?"
-    },
-    "dailyCallsEstimateField": {
-      "label": "Current load estimate",
-      "unitLabel": "API calls/day"
-    },
-    "upgradeRequestField": {
-      "label": "Upgrade request",
-      "nextLabel": "Load estimate",
-      "unitLabel": "API calls/day",
-      "estimatedDateLabel": "Estimated completion date",
-      "noEstimateLabel": "No completion date has been established yet"
-    },
-    "currentEServiceVersionField": {
-      "label": "The e-service version you are currently subscribing to",
-      "versionLabel": "version"
-    },
-    "agreementField": {
-      "label": "Fruition request",
-      "link": {
-        "label": "See request"
+    "sections": {
+      "generalInformations": {
+        "title": "General informations",
+        "eServiceField": {
+          "label": "E-service",
+          "value": "{{name}}, version {{version}}"
+        },
+        "consumerField": {
+          "label": "Purpose presented by"
+        },
+        "providerField": {
+          "label": "Provider"
+        },
+        "purposeStatusField": {
+          "label": "Purpose statys"
+        },
+        "agreementField": {
+          "label": "Fruition request",
+          "link": {
+            "label": "See request"
+          }
+        },
+        "dailyCallsEstimateField": {
+          "label": "Current load estimate",
+          "value": "{{value}} call per day"
+        },
+        "consumerThreshold": {
+          "label": "Per subscriber threshold",
+          "value": "{{value}} call per day"
+        },
+        "totalThreshold": {
+          "label": "Total threshold",
+          "value": "{{value}} call per day"
+        }
+      },
+      "loadEstimateUpdate": {
+        "title": "Load estimation update",
+        "description": "If conditions change, you can update your load estimate at any time",
+        "dateEstimateField": {
+          "label": "Activation date estimate",
+          "description": "The date by which the provider plans to activate this new load estimate",
+          "emptyLabel": "not inserted"
+        },
+        "loadEstimateRequestedField": {
+          "label": "Load estimate requested by you",
+          "value": "{{value}} calls per day"
+        },
+        "faq": [
+          {
+            "summary": "How does the load update mechanism work?",
+            "details": "Over time, the subscriber's needs in terms of using your e-service may change. He can then decide to update the load estimate for a purpose already presented. If the new estimate respects all the thresholds set by the provider, the old purpose with the new threshold will be activated automatically. Otherwise, the provider will find it among those \"awaiting approval\". Until the new threshold is activated, the subscriber can continue to use the active purpose with the previous threshold."
+          },
+          {
+            "summary": "How does the activation of a new load estimate above the threshold work?",
+            "details": "When the provider receives a new load estimate that exceeds one or more of the set thresholds, the version of the purpose that exceeds is indicated \"awaiting approval\". It can therefore do two things: schedule an estimated approval date, or activate it immediately."
+          },
+          {
+            "summary": "Is the activation date set binding?",
+            "details": "No, it serves as an indication to the subscriber. Once a date has been set, the provider can always change it. At the end of the time, the new load estimate will not be activated automatically, it will only be reminded to the provider that an activation was expected. The activation of a purpose that exceeds one or more thresholds is always and only manual by the provider. The activation action is irreversible."
+          }
+        ],
+        "linksField": {
+          "label": "Useful links",
+          "upgradeGuideLink": {
+            "label": "Update guire"
+          }
+        },
+        "updateDailyCalls": "Update estimate"
+      },
+      "downloadDocuments": {
+        "label": "Download",
+        "downloadRiskAnalysisLabel": "Risk analysis"
       }
     },
-    "purposeStatusField": {
-      "label": "Purposes status"
-    },
-    "resourcesField": {
-      "label": "Resources",
-      "downloadRiskAnalysisLabel": "Risk analysis"
-    },
-    "versionHistoryField": {
-      "label": "Purpose version history",
-      "unitLabel": "API calls/day",
-      "approvalDateLabel": "approval date"
-    }
+    "noClientsAlert": "This purpose is active but has no associated clients. <1>Pair your first client</1> to use the e-service"
   }
 }

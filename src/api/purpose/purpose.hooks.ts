@@ -5,6 +5,7 @@ import PurposeServices from './purpose.services'
 import { PurposeGetListUrlParams } from './purpose.api.types'
 import { DecoratedPurpose } from '@/types/purpose.types'
 import { removePurposeFromListCache } from './purpose.api.utils'
+import { ClientQueryKeys } from '../client'
 
 export enum PurposeQueryKeys {
   GetList = 'PurposeGetList',
@@ -228,6 +229,38 @@ function useDeleteVersion() {
   })
 }
 
+function useAddClient() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.addClient' })
+  const queryClient = useQueryClient()
+  return useMutationWrapper(PurposeServices.addClient, {
+    successToastLabel: t('outcome.success'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    onSuccess(_, { clientId, purposeId }) {
+      queryClient.invalidateQueries([PurposeQueryKeys.GetSingle, purposeId])
+      queryClient.invalidateQueries([ClientQueryKeys.GetSingle, clientId])
+    },
+  })
+}
+
+function useRemoveClient() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.removeClient' })
+  const queryClient = useQueryClient()
+  return useMutationWrapper(PurposeServices.removeClient, {
+    successToastLabel: t('outcome.success'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    showConfirmationDialog: true,
+    dialogConfig: {
+      title: t('confirmDialog.title'),
+      description: t('confirmDialog.description'),
+    },
+    onSuccess(_, { clientId, purposeId }) {
+      queryClient.invalidateQueries([PurposeQueryKeys.GetSingle, purposeId])
+      queryClient.invalidateQueries([ClientQueryKeys.GetSingle, clientId])
+    },
+  })
+}
 export const PurposeQueries = {
   useGetList,
   useGetSingle,
@@ -247,4 +280,6 @@ export const PurposeMutations = {
   useActivateVersion,
   useArchiveVersion,
   useDeleteVersion,
+  useAddClient,
+  useRemoveClient,
 }

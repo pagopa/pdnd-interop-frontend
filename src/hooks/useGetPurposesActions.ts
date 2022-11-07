@@ -4,7 +4,7 @@ import { useDialog } from '@/contexts'
 import { useTranslation } from 'react-i18next'
 import { ActionItem } from '@/types/common.types'
 
-function useGetPurposesActions(purpose: DecoratedPurpose) {
+function useGetPurposesActions(purpose?: DecoratedPurpose) {
   const { t } = useTranslation('purpose', { keyPrefix: 'tablePurpose.actions' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { mutate: archivePurpose } = PurposeMutations.useArchiveVersion()
@@ -14,7 +14,10 @@ function useGetPurposesActions(purpose: DecoratedPurpose) {
   const { mutate: deletePurposeVersion } = PurposeMutations.useDeleteVersion()
   const { openDialog } = useDialog()
 
+  if (!purpose) return { actions: [] }
+
   function handleArchive() {
+    if (!purpose) return
     const currentVersion = purpose.currentVersion
     if (currentVersion) {
       archivePurpose({ purposeId: purpose.id, versionId: currentVersion.id })
@@ -27,6 +30,7 @@ function useGetPurposesActions(purpose: DecoratedPurpose) {
   }
 
   function handleSuspend() {
+    if (!purpose) return
     const currentVersion = purpose.currentVersion
     if (currentVersion) {
       suspendPurpose({ purposeId: purpose.id, versionId: currentVersion.id })
@@ -39,6 +43,7 @@ function useGetPurposesActions(purpose: DecoratedPurpose) {
   }
 
   function handleActivate() {
+    if (!purpose) return
     const currentVersion = purpose.currentVersion
     if (currentVersion) {
       activatePurpose({ purposeId: purpose.id, versionId: currentVersion.id })
@@ -51,6 +56,7 @@ function useGetPurposesActions(purpose: DecoratedPurpose) {
   }
 
   function handleDeleteDraft() {
+    if (!purpose) return
     deletePurposeDraft({ purposeId: purpose.id })
   }
 
@@ -60,6 +66,7 @@ function useGetPurposesActions(purpose: DecoratedPurpose) {
   }
 
   function handleDeleteDailyCallsUpdate() {
+    if (!purpose) return
     const mostRecentVersion = purpose.mostRecentVersion
     if (mostRecentVersion) {
       deletePurposeVersion({ purposeId: purpose.id, versionId: mostRecentVersion.id })
@@ -72,6 +79,7 @@ function useGetPurposesActions(purpose: DecoratedPurpose) {
   }
 
   function handleUpdateDailyCalls() {
+    if (!purpose) return
     openDialog({
       type: 'updatePurposeDailyCalls',
       purposeId: purpose.id,

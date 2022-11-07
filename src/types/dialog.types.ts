@@ -18,6 +18,7 @@ export type DialogProps =
   | DialogAddSecurityOperatorsProps
   | DialogAddSecurityOperatorKeyProps
   | DialogRejectAgreementProps
+  | DialogAddClientToPurposeProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -63,4 +64,9 @@ export type DialogAddSecurityOperatorKeyProps = {
 export type DialogRejectAgreementProps = {
   type: 'rejectAgreement'
   agreementId: string
+}
+
+export type DialogAddClientToPurposeProps = {
+  type: 'addClientToPurpose'
+  purposeId: string
 }

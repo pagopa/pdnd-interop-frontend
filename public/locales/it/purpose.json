@@ -126,50 +126,87 @@
   },
   "view": {
     "actions": {
-      "updateDailyCalls": "Aggiorna numero chiamate",
-      "deleteDailyCallsUpdate": "Elimina aggiornamento numero chiamate",
-      "backToList": "Torna alla lista delle finalità"
+      "backToList": "Torna alle finalità"
     },
     "tabs": {
       "ariaLabel": "Due tab diverse per i dettagli della finalità e i client associati",
       "details": "Dettagli finalità",
       "clients": "Client associati"
     },
-    "accessGrantedField": {
-      "label": "Accesso consentito?"
-    },
-    "dailyCallsEstimateField": {
-      "label": "Stima di carico corrente",
-      "unitLabel": "chiamate API/giorno"
-    },
-    "upgradeRequestField": {
-      "label": "Richiesta di aggiornamento",
-      "nextLabel": "Stima di carico",
-      "unitLabel": "chiamate API/giorno",
-      "estimatedDateLabel": "Data di completamento stimata",
-      "noEstimateLabel": "Non è stata determinata una data di completamento"
-    },
-    "currentEServiceVersionField": {
-      "label": "La versione dell'e-service che stai usando",
-      "versionLabel": "versione"
-    },
-    "agreementField": {
-      "label": "Richiesta di fruizione",
-      "link": {
-        "label": "Vedi richiesta"
+    "sections": {
+      "generalInformations": {
+        "title": "Informazioni generali",
+        "eServiceField": {
+          "label": "E-service di riferimento",
+          "value": "{{name}}, versione {{version}}"
+        },
+        "consumerField": {
+          "label": "Finalità presentata da"
+        },
+        "providerField": {
+          "label": "Erogatore"
+        },
+        "purposeStatusField": {
+          "label": "Stato della finalità"
+        },
+        "agreementField": {
+          "label": "Richiesta di fruizione",
+          "link": {
+            "label": "Vedi richiesta"
+          }
+        },
+        "dailyCallsEstimateField": {
+          "label": "Stima di carico corrente",
+          "value": "{{value}} chiamate/giorno"
+        },
+        "consumerThreshold": {
+          "label": "Soglia per fruitore",
+          "value": "{{value}} chiamate/giorno"
+        },
+        "totalThreshold": {
+          "label": "Soglia totale",
+          "value": "{{value}} chiamate/giorno"
+        }
+      },
+      "loadEstimateUpdate": {
+        "title": "Aggiornamento della stima di carico",
+        "description": "Se cambiassero le condizioni, puoi aggiornare la tua stima di carico in qualsiasi momento",
+        "dateEstimateField": {
+          "label": "Data di attivazione stimata",
+          "description": "La data entro la quale l’erogatore prevede di attivare questa nuova stima di carico",
+          "emptyLabel": "non inserita"
+        },
+        "loadEstimateRequestedField": {
+          "label": "Stima di carico da te richiesta",
+          "value": "{{value}} chiamate/giorno"
+        },
+        "faq": [
+          {
+            "summary": "Come funziona il meccanismo di aggiornamento del carico?",
+            "details": "Nel corso del tempo, le necessità del fruitore in termini di utilizzo del tuo e-service potrebbero cambiare. Può quindi decidere di aggiornare la stima di carico per una finalità già presentata. Se la nuova stima rispetta tutte le soglie impostate dall’erogatore, la finalità vecchia con la nuova soglia sarà attivata automaticamente. In caso contrario, l’erogatore la troverà tra quelle “in attesa di approvazione”. Fino a che la nuova soglia non viene attivata, il fruitore può continuare ad utilizzare la finalità attiva con la soglia precedente."
+          },
+          {
+            "summary": "Come funziona l’attivazione di una nuova stima di carico sopra soglia?",
+            "details": "Quando all’erogatore arriva una nuova stima di carico che supera una o più delle soglie impostate, la versione della finalità che eccede viene indicata “in attesa di approvazione”. Può quindi fare due cose: programmare una data stimata di approvazione, oppure attivarla subito."
+          },
+          {
+            "summary": "La data di attivazione impostata è vincolante?",
+            "details": "No, serve come indicazione al fruitore. Una volta impostata una data, l’erogatore potrà sempre modificarla. Allo scadere del tempo, la nuova stima di carico non sarà attivata automaticamente, verrà solo ricordato all’erogatore che era prevista un’attivazione. L’attivazione di una finalità che supera una o più soglie è sempre e solo manuale ad opera dell’erogatore. L’azione di attivazione è irreversibile."
+          }
+        ],
+        "linksField": {
+          "label": "Link utili",
+          "upgradeGuideLink": {
+            "label": "Guida all’aggiornamento"
+          }
+        },
+        "updateDailyCalls": "Aggiorna stima"
+      },
+      "downloadDocuments": {
+        "label": "Download",
+        "downloadRiskAnalysisLabel": "Analisi del rischio"
       }
     },
-    "purposeStatusField": {
-      "label": "Stato della finalità"
-    },
-    "resourcesField": {
-      "label": "Risorse",
-      "downloadRiskAnalysisLabel": "Analisi del rischio"
-    },
-    "versionHistoryField": {
-      "label": "Storico di questa finalità",
-      "unitLabel": "chiamate API/giorno",
-      "approvalDateLabel": "data di approvazione"
-    }
+    "noClientsAlert": "Questa finalità è attiva ma non ha client associati. <1>Associa il tuo primo client</1> per fruire dell’e-service"
   }
 }

@@ -60,6 +60,7 @@
       "subscriberName": "Subscriber",
       "currentVersion": "Current version",
       "version": "Versione",
+      "status": "Status",
       "eserviceStatus": "E-Service status",
       "agreementStatus": "Request status",
       "purposeStatus": "Purpose status",

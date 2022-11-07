@@ -14,9 +14,10 @@ export enum ClientQueryKeys {
   GetClientOperatorKeys = 'ClientGetClientOperatorKeys',
 }
 
-function useGetList(params: ClientGetListUrlParams) {
+function useGetList(params: ClientGetListUrlParams, config = { suspense: true }) {
   return useQueryWrapper([ClientQueryKeys.GetList, params], () => ClientServices.getList(params), {
     enabled: !!params.consumerId,
+    ...config,
   })
 }
 
@@ -125,37 +126,6 @@ function useDelete() {
   })
 }
 
-function useJoinWithPurpose() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.joinWithPurpose' })
-  const queryClient = useQueryClient()
-  return useMutationWrapper(ClientServices.joinWithPurpose, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    onSuccess(_, { clientId }) {
-      queryClient.invalidateQueries([ClientQueryKeys.GetSingle, clientId])
-    },
-  })
-}
-
-function useRemoveFromPurpose() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.removeFromPurpose' })
-  const queryClient = useQueryClient()
-  return useMutationWrapper(ClientServices.removeFromPurpose, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
-    },
-    onSuccess(_, { clientId }) {
-      queryClient.invalidateQueries([ClientQueryKeys.GetSingle, clientId])
-    },
-  })
-}
-
 function usePostKey() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.postKey' })
   const queryClient = useQueryClient()
@@ -248,8 +218,6 @@ export const ClientQueries = {
 export const ClientMutations = {
   useCreate,
   useDelete,
-  useJoinWithPurpose,
-  useRemoveFromPurpose,
   usePostKey,
   useDeleteKey,
   useDownloadKey,

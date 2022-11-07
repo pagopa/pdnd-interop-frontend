@@ -391,6 +391,24 @@
       "outcome": {
         "error": "The risk analysis document could not be downloaded. Please, try again!"
       }
+    },
+    "addClient": {
+      "loading": "Adding client to purpose",
+      "outcome": {
+        "success": "The client was added successfully to the purpose",
+        "error": "The client could not be added to the purpose. Please, try again!"
+      }
+    },
+    "removeClient": {
+      "loading": "Removing client from purpose",
+      "outcome": {
+        "success": "The client was removed successfully from the purpose",
+        "error": "The client could not be removed from the purpose. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm client removal from purpose",
+        "description": "This client will be removed from the current purpose. All the keys added will no longer be useful to access the Provider e-service for this purpose"
+      }
     }
   },
   "client": {
@@ -417,24 +435,6 @@
       "outcome": {
         "success": "The client was created successfully",
         "error": "The client could not be created. Please, try again!"
-      }
-    },
-    "joinWithPurpose": {
-      "loading": "Adding client to purpose",
-      "outcome": {
-        "success": "The client was added successfully to the purpose",
-        "error": "The client could not be added to the purpose. Please, try again!"
-      }
-    },
-    "removeFromPurpose": {
-      "loading": "Removing client from purpose",
-      "outcome": {
-        "success": "The client was removed successfully from the purpose",
-        "error": "The client could not be removed from the purpose. Please, try again!"
-      },
-      "confirmDialog": {
-        "title": "Confirm client removal from purpose",
-        "description": "This client will be removed from the current purpose. All the keys added will no longer be useful to access the Provider e-service for this purpose"
       }
     },
     "postKey": {

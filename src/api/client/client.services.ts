@@ -86,18 +86,6 @@ function deleteOne({ clientId }: { clientId: string }) {
   return axiosInstance.delete(`${AUTHORIZATION_PROCESS_URL}/clients/${clientId}`)
 }
 
-function joinWithPurpose({ clientId, purposeId }: { clientId: string; purposeId: string }) {
-  return axiosInstance.post(`${AUTHORIZATION_PROCESS_URL}/clients/${clientId}/purposes`, {
-    purposeId,
-  })
-}
-
-function removeFromPurpose({ clientId, purposeId }: { clientId: string; purposeId: string }) {
-  return axiosInstance.delete(
-    `${AUTHORIZATION_PROCESS_URL}/clients/${clientId}/purposes/${purposeId}`
-  )
-}
-
 async function postKey({ clientId, ...payload }: { clientId: string } & ClientPostKeyPayload) {
   const response = await axiosInstance.post<PublicKey>(
     `${AUTHORIZATION_PROCESS_URL}/clients/${clientId}/keys`,
@@ -155,8 +143,6 @@ const ClientServices = {
   create,
   createInteropM2M,
   deleteOne,
-  joinWithPurpose,
-  removeFromPurpose,
   postKey,
   downloadKey,
   deleteKey,

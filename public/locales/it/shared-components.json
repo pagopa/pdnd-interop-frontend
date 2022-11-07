@@ -103,6 +103,18 @@
       "confirmLabel": "Rifiuta"
     }
   },
+  "dialogAddClientToPurpose": {
+    "ariaDescribedBy": "Modale per aggiungere client ad una finalità",
+    "title": "Aggiungi client",
+    "content": {
+      "autocompleteLabel": "Client selezionati",
+      "loadingMessage": "Stiamo caricando i client associabili alla finalità"
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Aggiungi"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copia",
     "copied": "Copiato"

@@ -60,6 +60,7 @@
       "subscriberName": "Fruitore",
       "currentVersion": "Versione attuale",
       "version": "Versione",
+      "status": "Stato",
       "eserviceStatus": "Stato E-Service",
       "agreementStatus": "Stato richiesta",
       "purposeStatus": "Stato finalità",

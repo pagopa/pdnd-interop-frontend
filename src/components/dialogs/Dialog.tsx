@@ -3,6 +3,7 @@ import { DialogBasic } from './DialogBasic'
 import { DialogAttributeDetails } from './DialogAttributeDetails'
 import { DialogSessionExpired } from './DialogSessionExpired'
 import {
+  DialogAddClientToPurposeProps,
   DialogAddSecurityOperatorKeyProps,
   DialogAddSecurityOperatorsProps,
   DialogAttributeDetailsProps,
@@ -18,6 +19,7 @@ import { DialogSetPurposeExpectedApprovalDate } from './DialogSetPurposeExpected
 import { DialogAddSecurityOperators } from './DialogAddSecurityOperators'
 import { DialogAddSecurityOperatorKey } from './DialogAddSecurityOperatorKey'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
+import { DialogAddClientToPurpose } from './DialogAddClientToPurpose'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -27,7 +29,8 @@ function match<T>(
   onSetPurposeExpectedApprovalDate: (props: DialogSetPurposeExpectedApprovalDateProps) => T,
   onAddSecurityOperator: (props: DialogAddSecurityOperatorsProps) => T,
   onAddSecurityOperatorKey: (props: DialogAddSecurityOperatorKeyProps) => T,
-  onRejectAgreement: (props: DialogRejectAgreementProps) => T
+  onRejectAgreement: (props: DialogRejectAgreementProps) => T,
+  onAddClientToPurpose: (props: DialogAddClientToPurposeProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -47,6 +50,8 @@ function match<T>(
         return onAddSecurityOperatorKey(props)
       case 'rejectAgreement':
         return onRejectAgreement(props)
+      case 'addClientToPurpose':
+        return onAddClientToPurpose(props)
     }
   }
 }
@@ -59,5 +64,6 @@ export const Dialog = match(
   (props) => <DialogSetPurposeExpectedApprovalDate {...props} />,
   (props) => <DialogAddSecurityOperators {...props} />,
   (props) => <DialogAddSecurityOperatorKey {...props} />,
-  (props) => <DialogRejectAgreement {...props} />
+  (props) => <DialogRejectAgreement {...props} />,
+  (props) => <DialogAddClientToPurpose {...props} />
 )
