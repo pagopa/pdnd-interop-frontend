@@ -14,7 +14,7 @@ export enum PurposeQueryKeys {
 
 function useGetList(
   params: PurposeGetListUrlParams,
-  config: { enabled?: boolean; suspense?: boolean }
+  config?: { enabled?: boolean; suspense?: boolean }
 ) {
   return useQueryWrapper(
     [PurposeQueryKeys.GetList, params],
