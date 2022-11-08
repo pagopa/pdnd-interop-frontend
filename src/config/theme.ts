@@ -17,7 +17,6 @@ export const theme = createTheme(
           styleOverrides: { root: { width: '100%' } },
           defaultProps: { variant: 'outlined' },
         },
-        MuiInputLabel: { defaultProps: { shrink: true } },
         MuiTabPanel: { styleOverrides: { root: { paddingRight: 0, paddingLeft: 0 } } },
         MuiTypography: { styleOverrides: { root: { wordBreak: 'break-word' } } },
       },

@@ -21,6 +21,7 @@ import {
   KeyDetailsPage,
   ConsumerClientCreatePage,
   SecurityKeyGuidePage,
+  ConsumerPurposeCreatePage,
 } from '@/pages'
 import { LANGUAGES } from '@/config/constants'
 import { getKeys } from '@/utils/array.utils'
@@ -156,7 +157,7 @@ export const routes = makeType({
     PATH: { it: 'fruizione/finalita/crea', en: 'subscriber/purpose/create' },
     LABEL: { it: 'Crea finalità', en: 'Create purpose' },
     EXACT: false,
-    COMPONENT: EmptyComponent,
+    COMPONENT: ConsumerPurposeCreatePage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },

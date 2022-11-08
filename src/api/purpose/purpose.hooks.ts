@@ -12,8 +12,15 @@ export enum PurposeQueryKeys {
   GetSingle = 'PurposeGetSingle',
 }
 
-function useGetList(params: PurposeGetListUrlParams) {
-  return useQueryWrapper([PurposeQueryKeys.GetList, params], () => PurposeServices.getList(params))
+function useGetList(
+  params: PurposeGetListUrlParams,
+  config: { enabled?: boolean; suspense?: boolean }
+) {
+  return useQueryWrapper(
+    [PurposeQueryKeys.GetList, params],
+    () => PurposeServices.getList(params),
+    config
+  )
 }
 
 function useGetSingle(purposeId: string, config: { suspense: boolean } = { suspense: true }) {
@@ -89,6 +96,7 @@ function useCreateVersionDraft() {
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
     onSuccess(_, { purposeId }) {
+      queryClient.invalidateQueries([PurposeQueryKeys.GetList])
       queryClient.invalidateQueries([PurposeQueryKeys.GetSingle, purposeId])
     },
   })

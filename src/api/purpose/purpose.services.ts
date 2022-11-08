@@ -24,7 +24,7 @@ async function getSingle(purposeId: string) {
   return decoratePurposeWithMostRecentVersion(response.data)
 }
 
-async function createDraft({ payload }: { payload: PurposeCreateDraftPayload }) {
+async function createDraft(payload: PurposeCreateDraftPayload) {
   const response = await axiosInstance.post<Purpose>(`${PURPOSE_PROCESS_URL}/purposes`, payload)
   return response.data
 }

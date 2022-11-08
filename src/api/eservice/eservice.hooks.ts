@@ -12,12 +12,16 @@ export enum EServiceQueryKeys {
   GetSingle = 'EServiceGetSingle',
 }
 
-function useGetListFlat(params: EServiceGetListFlatUrlParams, config = { enabled: true }) {
+function useGetListFlat(
+  params: EServiceGetListFlatUrlParams,
+  config?: { enabled?: boolean; suspense?: boolean }
+) {
   return useQueryWrapper(
     [EServiceQueryKeys.GetListFlat, params],
     () => EServiceServices.getListFlat(params),
     {
-      enabled: !!params.callerId && config.enabled,
+      suspense: config?.suspense ?? true,
+      enabled: !!params.callerId && (config?.enabled ?? true),
     }
   )
 }

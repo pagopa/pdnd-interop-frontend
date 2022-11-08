@@ -1,3 +1,4 @@
+import { AgreementState } from '@/types/agreement.types'
 import { BackendAttributes } from '@/types/attribute.types'
 import {
   EServiceDocumentKind,
@@ -10,6 +11,8 @@ export type EServiceGetListFlatUrlParams = {
   state?: EServiceState
   callerId: string | undefined
   producerId?: string
+  consumerId?: string
+  agreementStates?: Array<AgreementState>
 }
 
 export type EServiceGetListFlatResponse = Array<EServiceFlatten>

@@ -24,7 +24,6 @@ export type AutocompleteBaseProps<
   name: string
   label: string
   infoLabel?: string
-  emptyLabel?: string
   focusOnMount?: boolean
   getOptionValue?: (option: AutocompleteValue<T, Multiple, DisableClearable, FreeSolo>) => unknown
 }
@@ -44,6 +43,7 @@ export function _AutocompleteBase<
   options,
   placeholder,
   loading,
+  defaultValue,
   getOptionLabel = identity,
   getOptionValue = identity,
   ...props
@@ -51,8 +51,17 @@ export function _AutocompleteBase<
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'autocompleteMultiple',
   })
-  const { formState, control } = useFormContext()
+  const { formState, control, watch, setValue } = useFormContext()
   const labelId = React.useId()
+
+  const value = watch(name)
+
+  // Syncs the use-hook-form value with the given Autocomplete default value
+  React.useEffect(() => {
+    if (defaultValue && !value) {
+      setValue(name, getOptionValue(defaultValue))
+    }
+  }, [defaultValue, value, setValue, getOptionValue, name])
 
   const error = formState.errors[name]?.message as string | undefined
 
@@ -68,6 +77,7 @@ export function _AutocompleteBase<
             loadingText={props.loadingText || t('loadingLabel')}
             noOptionsText={props.noOptionsText || t('noDataLabel')}
             loading={loading}
+            defaultValue={defaultValue}
             ListboxProps={{
               style: { maxHeight: 200, ...props.ListboxProps?.style },
               ...props.ListboxProps,

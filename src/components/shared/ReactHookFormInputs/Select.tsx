@@ -12,6 +12,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 export type SelectProps = MUISelectProps & {
   name: string
   options: Array<{ label: string; value: string | number }>
+  focusOnMount?: boolean
   infoLabel?: string
   emptyLabel?: string
 }
@@ -21,6 +22,7 @@ export const Select: React.FC<SelectProps> = ({
   name,
   options,
   label,
+  focusOnMount,
   infoLabel,
   emptyLabel,
   ...props
@@ -33,12 +35,21 @@ export const Select: React.FC<SelectProps> = ({
   return (
     <InputWrapper name={name} error={error} sx={{ my: 0, ...sx }} infoLabel={infoLabel}>
       <FormControl fullWidth>
-        <InputLabel id={labelId}>{label}</InputLabel>
+        <InputLabel id={labelId} shrink>
+          {label}
+        </InputLabel>
         <Controller
           control={control}
           name={name}
           render={({ field }) => (
-            <MUISelect label={label} labelId={labelId} {...props} error={!!error} {...field}>
+            <MUISelect
+              {...props}
+              {...field}
+              error={!!error}
+              label={label}
+              labelId={labelId}
+              autoFocus={focusOnMount}
+            >
               {options.length > 0 ? (
                 options.map((o, i) => (
                   <MenuItem key={i} value={o.value}>
