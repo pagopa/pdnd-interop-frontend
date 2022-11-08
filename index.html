@@ -4,11 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <base href="%PUBLIC_URL%/" />
 
-    <title>Interoperabilità | Portale Admin</title>
+    <title>Interoperabilità | PagoPA</title>
     <meta name="description" content="Abilita lo scambio di informazioni tra enti" />
     <meta name="theme-color" content="#00a1b0" />
-    <base href="%PUBLIC_URL%/" />
     <link rel="manifest" href="./manifest.webmanifest" crossorigin="anonymous" />
     <link rel="icon" href="./favicon-32x32.png" type="image/png" />
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
@@ -20,6 +20,10 @@
     <link rel="apple-touch-icon" sizes="256x256" href="./icons/icon-256x256.png" />
     <link rel="apple-touch-icon" sizes="384x384" href="./icons/icon-384x384.png" />
     <link rel="apple-touch-icon" sizes="512x512" href="./icons/icon-512x512.png" />
+    <script nonce="**CSP_NONCE**" src="./env.js"></script>
+    <script nonce="**CSP_NONCE**">
+      window.nonce = '**CSP_NONCE**'
+    </script>
   </head>
   <body>
     <noscript>Abilita JavaScript per utilizzare quest'applicazione</noscript>

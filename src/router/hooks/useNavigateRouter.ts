@@ -16,6 +16,8 @@ function useNavigateRouter() {
 
       if (args[0] && 'params' in args[0]) {
         generatedPath = generatePath(pathname, args[0].params)
+      } else {
+        generatedPath = generatePath(pathname)
       }
 
       if (args[0]?.urlParams) {
@@ -51,7 +53,7 @@ function useNavigateRouter() {
     [buildDynamicUrl]
   )
 
-  return { navigate: navigate as Navigate, getRouteUrl }
+  return { navigate, getRouteUrl }
 }
 
 export default useNavigateRouter

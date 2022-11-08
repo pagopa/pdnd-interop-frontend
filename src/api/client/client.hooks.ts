@@ -107,6 +107,20 @@ function useCreate() {
   })
 }
 
+function useCreateInteropM2M() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.createInteropM2M' })
+  const queryClient = useQueryClient()
+  return useMutationWrapper(ClientServices.createInteropM2M, {
+    successToastLabel: t('outcome.success'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    onSuccess(data) {
+      queryClient.invalidateQueries([ClientQueryKeys.GetList])
+      queryClient.setQueryData([ClientQueryKeys.GetSingle, data.id], data)
+    },
+  })
+}
+
 function useDelete() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.deleteOne' })
   const queryClient = useQueryClient()
@@ -168,10 +182,13 @@ function useDownloadKey() {
   })
 }
 
-function useAddOperator() {
+function useAddOperator(
+  config: { suppressSuccessToast: boolean } = { suppressSuccessToast: false }
+) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.addOperator' })
   const queryClient = useQueryClient()
   return useMutationWrapper(ClientServices.addOperator, {
+    suppressSuccessToast: config.suppressSuccessToast,
     successToastLabel: t('outcome.success'),
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
@@ -217,6 +234,7 @@ export const ClientQueries = {
 
 export const ClientMutations = {
   useCreate,
+  useCreateInteropM2M,
   useDelete,
   usePostKey,
   useDeleteKey,

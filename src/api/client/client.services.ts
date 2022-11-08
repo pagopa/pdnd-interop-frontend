@@ -1,8 +1,4 @@
-import {
-  AUTHORIZATION_PROCESS_URL,
-  BACKEND_FOR_FRONTEND_URL,
-  PURPOSE_PROCESS_URL,
-} from '@/config/env'
+import { AUTHORIZATION_PROCESS_URL, BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/lib/axios'
 import { Client } from '@/types/client.types'
 import { PublicKey, PublicKeys } from '@/types/key.types'
@@ -66,15 +62,15 @@ async function getOperatorKeys(clientId: string, operatorId: string) {
   return response.data.keys
 }
 
-async function create({ payload }: { payload: ClientCreatePayload }) {
+async function create(payload: ClientCreatePayload) {
   const response = await axiosInstance.post<Client>(
-    `${PURPOSE_PROCESS_URL}/clientsConsumer`,
+    `${AUTHORIZATION_PROCESS_URL}/clientsConsumer`,
     payload
   )
   return response.data
 }
 
-async function createInteropM2M({ payload }: { payload: ClientCreatePayload }) {
+async function createInteropM2M(payload: ClientCreatePayload) {
   const response = await axiosInstance.post<Client>(
     `${AUTHORIZATION_PROCESS_URL}/clientsApi`,
     payload

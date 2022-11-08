@@ -1,5 +1,4 @@
 import React from 'react'
-import { ClientMutations, ClientQueries } from '@/api/client'
 import { PartyQueries } from '@/api/party/party.hooks'
 import { useDialog } from '@/contexts'
 import { useJwt } from '@/hooks/useJwt'
@@ -13,24 +12,24 @@ import {
   DialogContent,
   DialogTitle,
 } from '@mui/material'
-import identity from 'lodash/identity'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { AutocompleteMultiple } from '../shared/ReactHookFormInputs'
+import { SelfCareUser } from '@/types/party.types'
 
 type AddSecurityOperatorFormValues = {
-  selectedOperators: Array<string>
+  selectedOperators: Array<SelfCareUser>
 }
 
 export const DialogAddSecurityOperators: React.FC<DialogAddSecurityOperatorsProps> = ({
-  clientId,
+  excludeOperatorsIdsList,
+  onSubmit,
 }) => {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'dialogAddSecurityOperators',
     useSuspense: false,
   })
   const { closeDialog } = useDialog()
-  const { mutateAsync: addOperator } = ClientMutations.useAddOperator()
 
   const { jwt } = useJwt()
   const formMethods = useForm<AddSecurityOperatorFormValues>({
@@ -38,9 +37,6 @@ export const DialogAddSecurityOperators: React.FC<DialogAddSecurityOperatorsProp
       selectedOperators: [],
     },
   })
-
-  const { data: currentOperators = [], isLoading: isLoadingCurrentOperators } =
-    ClientQueries.useGetOperatorsList(clientId, undefined, { suspense: false })
 
   const { data: allPartyOperators = [], isLoading: isLoadingAllPartyOperators } =
     PartyQueries.useGetUsersList(
@@ -52,30 +48,25 @@ export const DialogAddSecurityOperators: React.FC<DialogAddSecurityOperatorsProp
       { suspense: false }
     )
 
-  const options = React.useMemo(() => {
-    const currentOperatorsIds = currentOperators
-      .map(({ relationshipId }) => relationshipId)
-      .filter(identity)
-    const availableOperators = allPartyOperators.filter(
-      (partyOperator) => !currentOperatorsIds.includes(partyOperator.id)
-    )
+  const availableOperators = allPartyOperators.filter(
+    (partyOperator) =>
+      !excludeOperatorsIdsList.includes(partyOperator.relationshipId || partyOperator.id)
+  )
 
-    return availableOperators.map((o) => ({ label: `${o.name} ${o.familyName}`, value: o.id }))
-  }, [currentOperators, allPartyOperators])
+  const options = availableOperators.map((o) => ({
+    label: `${o.name} ${o.familyName}`,
+    value: o,
+  }))
 
-  const onSubmit = ({ selectedOperators }: AddSecurityOperatorFormValues) => {
+  const _onSubmit = ({ selectedOperators }: AddSecurityOperatorFormValues) => {
     closeDialog()
-    Promise.all(
-      selectedOperators.map((selectedOperator) =>
-        addOperator({ clientId, relationshipId: selectedOperator })
-      )
-    )
+    onSubmit(selectedOperators)
   }
 
   return (
     <Dialog open onClose={closeDialog} fullWidth>
       <FormProvider {...formMethods}>
-        <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
+        <Box component="form" onSubmit={formMethods.handleSubmit(_onSubmit)}>
           <DialogTitle>{t('title')}</DialogTitle>
 
           <DialogContent>
@@ -86,7 +77,7 @@ export const DialogAddSecurityOperators: React.FC<DialogAddSecurityOperatorsProp
                 sx={{ mt: 6, mb: 0 }}
                 name="selectedOperators"
                 options={options}
-                loading={isLoadingCurrentOperators || isLoadingAllPartyOperators}
+                loading={isLoadingAllPartyOperators}
               />
             </Box>
 

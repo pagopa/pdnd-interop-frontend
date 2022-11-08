@@ -19,6 +19,8 @@ import {
   OperatorDetailsPage,
   LogoutPage,
   KeyDetailsPage,
+  ConsumerClientCreatePage,
+  SecurityKeyGuidePage,
 } from '@/pages'
 import { LANGUAGES } from '@/config/constants'
 import { getKeys } from '@/utils/array.utils'
@@ -54,7 +56,7 @@ export const routes = makeType({
   SECURITY_KEY_GUIDE: {
     PATH: { it: 'generazione-chiavi', en: 'generate-keys' },
     LABEL: { it: 'Come caricare le chiavi di sicurezza', en: 'How to upload public keys' },
-    COMPONENT: EmptyComponent,
+    COMPONENT: SecurityKeyGuidePage,
     PUBLIC: false,
     AUTH_LEVELS: 'any',
   },
@@ -217,7 +219,7 @@ export const routes = makeType({
     PATH: { it: 'fruizione/client/crea', en: 'subscriber/client/create' },
     LABEL: { it: 'Crea client e-service', en: 'Create e-service client' },
     EXACT: false,
-    COMPONENT: EmptyComponent,
+    COMPONENT: ConsumerClientCreatePage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },
@@ -298,7 +300,7 @@ export const routes = makeType({
   SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE: {
     PATH: { it: 'fruizione/interop-m2m/crea', en: 'subscriber/interop-m2m/create' },
     LABEL: { it: 'Crea client api interop', en: 'Create interop api client' },
-    COMPONENT: EmptyComponent,
+    COMPONENT: ConsumerClientCreatePage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },

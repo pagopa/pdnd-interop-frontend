@@ -1,4 +1,5 @@
 import { DialogProps as MUIDialogProps } from '@mui/material'
+import { SelfCareUser } from './party.types'
 
 export type DialogContent = {
   title: string
@@ -53,7 +54,8 @@ export type DialogSetPurposeExpectedApprovalDateProps = {
 
 export type DialogAddSecurityOperatorsProps = {
   type: 'addSecurityOperator'
-  clientId: string
+  excludeOperatorsIdsList: Array<string>
+  onSubmit: (relationshipIds: Array<SelfCareUser>) => void
 }
 
 export type DialogAddSecurityOperatorKeyProps = {

@@ -1,0 +1,34 @@
+import React from 'react'
+import { PageContainer } from '@/components/layout/containers'
+import { useTranslation } from 'react-i18next'
+import axiosInstance from '@/lib/axios'
+import { FE_URL } from '@/config/env'
+import { getReplacedAssetsPaths } from '@/utils/guides.utils'
+import { Grid } from '@mui/material'
+
+const SecurityKeyGuidePage: React.FC = () => {
+  const { t } = useTranslation('common', { keyPrefix: 'securityKeyGuide' })
+  const [htmlString, setHtmlString] = React.useState('')
+
+  React.useEffect(() => {
+    async function asyncFetchData() {
+      const resp = await axiosInstance.get(`${FE_URL}/data/it/public-key.json`)
+      const html = getReplacedAssetsPaths(resp.data.html)
+      setHtmlString(html)
+    }
+
+    asyncFetchData()
+  }, [])
+
+  return (
+    <PageContainer title={t('title')}>
+      <Grid container>
+        <Grid item xs={8}>
+          <div dangerouslySetInnerHTML={{ __html: htmlString }} />
+        </Grid>
+      </Grid>
+    </PageContainer>
+  )
+}
+
+export default SecurityKeyGuidePage

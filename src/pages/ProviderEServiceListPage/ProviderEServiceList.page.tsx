@@ -13,7 +13,9 @@ const ProviderEServiceListPage: React.FC = () => {
   const topSideActions: TopSideActions = {
     buttons: [
       {
-        action: () => navigate('PROVIDE_ESERVICE_CREATE'),
+        action: () => {
+          navigate('PROVIDE_ESERVICE_CREATE')
+        },
         label: tCommon('createNewBtn'),
         variant: 'contained',
       },

@@ -37,14 +37,14 @@ type MutationWrapperOptions<TData, TError, TVariables, TContext> = Omit<
 
 type OverlayConfig<TVariables> =
   | {
-      suppressLoadingOverlay?: false | undefined
+      suppressLoadingOverlay?: boolean | undefined
       loadingLabel: string | ((variables: TVariables) => string)
     }
   | { suppressLoadingOverlay: true }
 
 type SuccessNotificationConfig<TData, TVariables, TContext> =
   | {
-      suppressSuccessToast?: false | undefined
+      suppressSuccessToast?: boolean | undefined
       successToastLabel:
         | string
         | ((data: TData, variables: TVariables, context: TContext | undefined) => string)
@@ -53,7 +53,7 @@ type SuccessNotificationConfig<TData, TVariables, TContext> =
 
 type ErrorNotificationConfig<TVariables, TContext> =
   | {
-      suppressErrorToast?: false | undefined
+      suppressErrorToast?: boolean | undefined
       errorToastLabel: string | ((variables: TVariables, context: TContext | undefined) => string)
     }
   | { suppressErrorToast: true }

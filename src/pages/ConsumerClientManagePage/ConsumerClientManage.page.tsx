@@ -1,4 +1,4 @@
-import { ClientMutations, ClientQueries } from '@/api/client'
+import { ClientQueries } from '@/api/client'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
 import { RouterLink, useRouteParams } from '@/router'
 import { useActiveTab } from '@/hooks/useActiveTab'
@@ -11,6 +11,7 @@ import { useClientKind } from '@/hooks/useClientKind'
 import { formatTopSideActions } from '@/utils/common.utils'
 import { ClientOperators } from './components/ClientOperators'
 import { ClientPublicKeys } from './components/ClientPublicKeys'
+import useGetClientActions from '@/hooks/useGetClientActions'
 
 const ConsumerClientManagePage: React.FC = () => {
   const { t } = useTranslation('client', { keyPrefix: 'edit' })
@@ -19,15 +20,13 @@ const ConsumerClientManagePage: React.FC = () => {
   >()
   const clientKind = useClientKind()
   const { activeTab, updateActiveTab } = useActiveTab('voucher')
-  const { mutate: deleteClient } = ClientMutations.useDelete()
   const { data: client, isLoading: isLoadingClient } = ClientQueries.useGetSingle(clientId, {
     suspense: false,
   })
 
-  const topSideActions = formatTopSideActions(
-    [{ label: t('actions.deleteLabel'), action: deleteClient.bind(null, { clientId }) }],
-    { variant: 'contained' }
-  )
+  const { actions } = useGetClientActions(client)
+
+  const topSideActions = formatTopSideActions(actions, { variant: 'contained' })
 
   return (
     <PageContainer
