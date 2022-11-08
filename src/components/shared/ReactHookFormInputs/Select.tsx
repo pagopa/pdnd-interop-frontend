@@ -33,7 +33,7 @@ export const Select: React.FC<SelectProps> = ({
   const error = formState.errors[name]?.message as string | undefined
 
   return (
-    <InputWrapper name={name} error={error} sx={{ my: 0, ...sx }} infoLabel={infoLabel}>
+    <InputWrapper name={name} error={error} sx={sx} infoLabel={infoLabel}>
       <FormControl fullWidth>
         <InputLabel id={labelId} shrink>
           {label}

@@ -65,30 +65,32 @@ const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProps> = ({
   const { t: tAttribute } = useTranslation('attribute')
 
   return (
-    <SectionContainer>
-      <SectionContainer.Title>{title}</SectionContainer.Title>
-      <SectionContainer.Subtitle>
-        {subtitle}{' '}
-        <Link component={'a'} underline="hover" target="_blank" href={attributesHelpLink}>
-          {tCommon('howLink')}
-        </Link>
-      </SectionContainer.Subtitle>
-      <SectionContainer.Content>
-        {attributeGroups.length > 0 && (
-          <Box>
-            <Typography sx={{ mb: 2 }} fontWeight={700}>
-              {tAttribute('mustOwn')}
-            </Typography>
-            <Stack spacing={3}>
-              {attributeGroups.map((attributeGroup, index) => (
-                <AttributeGroup key={index} attributes={attributeGroup.attributes} index={index} />
-              ))}
-            </Stack>
-          </Box>
-        )}
+    <SectionContainer
+      title={title}
+      description={
+        <>
+          {' '}
+          {subtitle}{' '}
+          <Link component={'a'} underline="hover" target="_blank" href={attributesHelpLink}>
+            {tCommon('howLink')}
+          </Link>
+        </>
+      }
+    >
+      {attributeGroups.length > 0 && (
+        <Box>
+          <Typography sx={{ mb: 2 }} fontWeight={700}>
+            {tAttribute('mustOwn')}
+          </Typography>
+          <Stack spacing={3}>
+            {attributeGroups.map((attributeGroup, index) => (
+              <AttributeGroup key={index} attributes={attributeGroup.attributes} index={index} />
+            ))}
+          </Stack>
+        </Box>
+      )}
 
-        {attributeGroups.length === 0 && <Alert severity="info">{emptyLabel}</Alert>}
-      </SectionContainer.Content>
+      {attributeGroups.length === 0 && <Alert severity="info">{emptyLabel}</Alert>}
     </SectionContainer>
   )
 }

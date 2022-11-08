@@ -47,7 +47,6 @@ export const DialogRejectAgreement: React.FC<DialogRejectAgreementProps> = ({ ag
               infoLabel={t('content.reason.infoLabel')}
               focusOnMount
               multiline
-              rows={6}
               inputProps={{ maxLength: 1000 }}
             />
           </DialogContent>

@@ -39,54 +39,51 @@ export const EServiceVersionInfoSection: React.FC = () => {
   }
 
   return (
-    <SectionContainer>
-      <SectionContainer.Title>{t('title')}</SectionContainer.Title>
-      <SectionContainer.Content>
-        <Stack spacing={2}>
-          <InformationContainer label={t('actualVersion')}>
-            <Stack spacing={1} direction="row" alignItems="center">
-              <span>{currentViewingDescriptor.version}</span>
-              {isViewingDescriptorCurrentVersion && (
-                <Chip label={tCommon('table.headData.currentVersion')} color="primary" />
-              )}
-            </Stack>
-          </InformationContainer>
-          <InformationContainer label={t('versionStatus')}>
-            <StatusChip for="eservice" state={currentViewingDescriptor.state} />
-          </InformationContainer>
-          <InformationContainer label={t('description')}>
-            {currentViewingDescriptor?.description}
-          </InformationContainer>
-          <InformationContainer label={t('audience')} labelDescription={t('audienceDescription')}>
-            {currentViewingDescriptor.audience.join(', ')}
-          </InformationContainer>
-          <InformationContainer label={t('voucherLifespan')}>
-            {getFormattedVoucherLifespan()}
-          </InformationContainer>
-          <InformationContainer label={t('dailyCallsPerConsumer')}>
-            {formatThousands(currentViewingDescriptor.dailyCallsPerConsumer)} {t('callsPerDay')}
-          </InformationContainer>
-          <InformationContainer label={t('dailyCallsTotal')}>
-            {formatThousands(currentViewingDescriptor.dailyCallsTotal)} {t('callsPerDay')}
-          </InformationContainer>
-          <InformationContainer label={t('agreementApprovalPolicy.label')}>
-            {t(`agreementApprovalPolicy.${currentViewingDescriptor.agreementApprovalPolicy}`)}
-          </InformationContainer>
+    <SectionContainer title={t('title')}>
+      <Stack spacing={2}>
+        <InformationContainer label={t('actualVersion')}>
+          <Stack spacing={1} direction="row" alignItems="center">
+            <span>{currentViewingDescriptor.version}</span>
+            {isViewingDescriptorCurrentVersion && (
+              <Chip label={tCommon('table.headData.currentVersion')} color="primary" />
+            )}
+          </Stack>
+        </InformationContainer>
+        <InformationContainer label={t('versionStatus')}>
+          <StatusChip for="eservice" state={currentViewingDescriptor.state} />
+        </InformationContainer>
+        <InformationContainer label={t('description')}>
+          {currentViewingDescriptor?.description}
+        </InformationContainer>
+        <InformationContainer label={t('audience')} labelDescription={t('audienceDescription')}>
+          {currentViewingDescriptor.audience.join(', ')}
+        </InformationContainer>
+        <InformationContainer label={t('voucherLifespan')}>
+          {getFormattedVoucherLifespan()}
+        </InformationContainer>
+        <InformationContainer label={t('dailyCallsPerConsumer')}>
+          {formatThousands(currentViewingDescriptor.dailyCallsPerConsumer)} {t('callsPerDay')}
+        </InformationContainer>
+        <InformationContainer label={t('dailyCallsTotal')}>
+          {formatThousands(currentViewingDescriptor.dailyCallsTotal)} {t('callsPerDay')}
+        </InformationContainer>
+        <InformationContainer label={t('agreementApprovalPolicy.label')}>
+          {t(`agreementApprovalPolicy.${currentViewingDescriptor.agreementApprovalPolicy}`)}
+        </InformationContainer>
 
-          {mode === 'provider' && (
-            <>
-              <Divider />
+        {mode === 'provider' && (
+          <>
+            <Divider />
 
-              <Typography variant="body2">
-                {t('doubtsQuestion')}{' '}
-                <Link href={eserviceHelpLink} target="_blank">
-                  {t('doubtsLink')}
-                </Link>
-              </Typography>
-            </>
-          )}
-        </Stack>
-      </SectionContainer.Content>
+            <Typography variant="body2">
+              {t('doubtsQuestion')}{' '}
+              <Link href={eserviceHelpLink} target="_blank">
+                {t('doubtsLink')}
+              </Link>
+            </Typography>
+          </>
+        )}
+      </Stack>
     </SectionContainer>
   )
 }

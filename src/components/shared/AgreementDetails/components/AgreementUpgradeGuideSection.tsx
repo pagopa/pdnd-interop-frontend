@@ -41,55 +41,54 @@ export const AgreementUpgradeGuideSection: React.FC = () => {
         </Trans>
       </Alert>
 
-      <SectionContainer>
-        <SectionContainer.Title>{t('title')}</SectionContainer.Title>
-        <SectionContainer.Subtitle>
+      <SectionContainer
+        title={t('title')}
+        description={
           <Trans components={{ 1: <Box component="span" fontWeight={700} /> }}>
             {t('description', { eserviceName: eservice.name })}
           </Trans>
-        </SectionContainer.Subtitle>
-        <SectionContainer.Content>
-          <Stack spacing={2}>
-            <InformationContainer label="FAQ">
-              <Accordion entries={accordionEntries} />
-            </InformationContainer>
-            <InformationContainer label="Link utili">
-              <Stack spacing={1}>
-                <Link
-                  component="a"
-                  href="teste"
-                  target="_blank"
-                  variant="body2"
-                  underline="hover"
-                  sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
-                >
-                  <LaunchIcon fontSize="small" sx={{ mr: 1 }} /> {t('upgradeGuideLinkLabel')}
-                </Link>
-                <Link
-                  variant="body2"
-                  underline="hover"
-                  sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
-                >
-                  <LinkIcon fontSize="small" sx={{ mr: 1 }} />{' '}
-                  <span>
-                    <Trans components={{ 1: <Box component="span" fontWeight={700} /> }}>
-                      {t('eserviceLinkLabel', {
-                        eserviceName: eservice.name,
-                        version: eservice.activeDescriptor?.version,
-                      })}
-                    </Trans>
-                  </span>
-                </Link>
-              </Stack>
-            </InformationContainer>
-            <Divider />
-            <Stack direction="row" justifyContent="center">
-              <Button onClick={handleUpgrade} variant="outlined">
-                {t('upgradeBtn')}
-              </Button>
+        }
+      >
+        <Stack spacing={2}>
+          <InformationContainer label="FAQ">
+            <Accordion entries={accordionEntries} />
+          </InformationContainer>
+          <InformationContainer label="Link utili">
+            <Stack spacing={1}>
+              <Link
+                component="a"
+                href="teste"
+                target="_blank"
+                variant="body2"
+                underline="hover"
+                sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+              >
+                <LaunchIcon fontSize="small" sx={{ mr: 1 }} /> {t('upgradeGuideLinkLabel')}
+              </Link>
+              <Link
+                variant="body2"
+                underline="hover"
+                sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+              >
+                <LinkIcon fontSize="small" sx={{ mr: 1 }} />{' '}
+                <span>
+                  <Trans components={{ 1: <Box component="span" fontWeight={700} /> }}>
+                    {t('eserviceLinkLabel', {
+                      eserviceName: eservice.name,
+                      version: eservice.activeDescriptor?.version,
+                    })}
+                  </Trans>
+                </span>
+              </Link>
             </Stack>
+          </InformationContainer>
+          <Divider />
+          <Stack direction="row" justifyContent="center">
+            <Button onClick={handleUpgrade} variant="outlined">
+              {t('upgradeBtn')}
+            </Button>
           </Stack>
-        </SectionContainer.Content>
+        </Stack>
       </SectionContainer>
     </>
   )

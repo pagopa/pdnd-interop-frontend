@@ -26,29 +26,26 @@ export const OperatorGeneralInfoSection: React.FC<OperatorGeneralInfoSectionProp
   }
 
   return (
-    <SectionContainer>
-      <SectionContainer.Title>{t('generalInformations')}</SectionContainer.Title>
-      <SectionContainer.Content>
-        <Stack spacing={2}>
-          <InformationContainer label={t('taxCodeField.label')} sx={{ mt: 0 }}>
-            <Typography component="span">{operator.taxCode}</Typography>
-          </InformationContainer>
+    <SectionContainer title={t('generalInformations')}>
+      <Stack spacing={2}>
+        <InformationContainer label={t('taxCodeField.label')} sx={{ mt: 0 }}>
+          <Typography component="span">{operator.taxCode}</Typography>
+        </InformationContainer>
 
-          <InformationContainer label={t('roleField.label')}>
-            <Typography component="span">{tCommon(`userRole.${operator.role}`)}</Typography>
-          </InformationContainer>
+        <InformationContainer label={t('roleField.label')}>
+          <Typography component="span">{tCommon(`userRole.${operator.role}`)}</Typography>
+        </InformationContainer>
 
-          <InformationContainer label={t('productRoleField.label')}>
-            <Typography component="span">
-              {tCommon(`userProductRole.${operator.product.role}`)}
-            </Typography>
-          </InformationContainer>
+        <InformationContainer label={t('productRoleField.label')}>
+          <Typography component="span">
+            {tCommon(`userProductRole.${operator.product.role}`)}
+          </Typography>
+        </InformationContainer>
 
-          <InformationContainer label={t('statusField.label')} sx={{ mb: 0 }}>
-            <StatusChip for="user" state={operator.state} />
-          </InformationContainer>
-        </Stack>
-      </SectionContainer.Content>
+        <InformationContainer label={t('statusField.label')} sx={{ mb: 0 }}>
+          <StatusChip for="user" state={operator.state} />
+        </InformationContainer>
+      </Stack>
     </SectionContainer>
   )
 }

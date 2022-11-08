@@ -25,6 +25,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   name,
   infoLabel,
   focusOnMount,
+  multiline,
   ...props
 }) => {
   const { register, formState } = useFormContext()
@@ -36,6 +37,8 @@ export const TextField: React.FC<TextFieldProps> = ({
       <MUITextField
         autoFocus={focusOnMount}
         {...props}
+        multiline={multiline}
+        rows={multiline ? 6 : undefined}
         InputLabelProps={{ shrink: true, ...props?.InputLabelProps }}
         error={!!error}
         {...register(name)}

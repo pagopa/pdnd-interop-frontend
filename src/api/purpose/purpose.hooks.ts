@@ -3,8 +3,14 @@ import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import PurposeServices from './purpose.services'
 import { PurposeGetListUrlParams } from './purpose.api.types'
-import { DecoratedPurpose } from '@/types/purpose.types'
-import { removePurposeFromListCache } from './purpose.api.utils'
+import { DecoratedPurpose, Purpose } from '@/types/purpose.types'
+import {
+  addPurposeVersionToPurposeCache,
+  removePurposeFromListCache,
+  updatePurposeVersionCache,
+  updatePurposeListCache,
+  decoratePurposeWithMostRecentVersion,
+} from './purpose.api.utils'
 import { ClientQueryKeys } from '../client'
 
 export enum PurposeQueryKeys {
@@ -44,10 +50,11 @@ function useCreateDraft() {
   const queryClient = useQueryClient()
   return useMutationWrapper(PurposeServices.createDraft, {
     suppressSuccessToast: true,
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
+    errorToastLabel: t('loading'),
+    loadingLabel: t('outcome.error'),
     onSuccess(data) {
-      queryClient.setQueryData([PurposeQueryKeys.GetSingle, data.id], data)
+      const decoratedPurpose = decoratePurposeWithMostRecentVersion(data)
+      queryClient.setQueryData([PurposeQueryKeys.GetSingle, data.id], decoratedPurpose)
     },
   })
 }
@@ -57,10 +64,15 @@ function useUpdateDraft() {
   const queryClient = useQueryClient()
   return useMutationWrapper(PurposeServices.updateDraft, {
     suppressSuccessToast: true,
-    errorToastLabel: t('loading'),
-    loadingLabel: t('outcome.error'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
     onSuccess(data) {
-      queryClient.setQueryData([PurposeQueryKeys.GetSingle, data.id], data)
+      const decoratedPurpose = decoratePurposeWithMostRecentVersion(data)
+      queryClient.setQueryData([PurposeQueryKeys.GetSingle, data.id], decoratedPurpose)
+      queryClient.setQueriesData<Array<DecoratedPurpose>>(
+        [PurposeQueryKeys.GetList],
+        updatePurposeListCache.bind(null, data)
+      )
     },
   })
 }
@@ -95,9 +107,12 @@ function useCreateVersionDraft() {
     successToastLabel: t('outcome.success'),
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
-    onSuccess(_, { purposeId }) {
+    onSuccess(data, { purposeId }) {
       queryClient.invalidateQueries([PurposeQueryKeys.GetList])
-      queryClient.invalidateQueries([PurposeQueryKeys.GetSingle, purposeId])
+      queryClient.setQueriesData<Purpose>(
+        [PurposeQueryKeys.GetSingle, purposeId],
+        addPurposeVersionToPurposeCache.bind(null, data)
+      )
     },
   })
 }
@@ -111,8 +126,11 @@ function useUpdateVersionDraft() {
     suppressSuccessToast: true,
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
-    onSuccess(_, { purposeId }) {
-      queryClient.invalidateQueries([PurposeQueryKeys.GetSingle, purposeId])
+    onSuccess(data, { purposeId }) {
+      queryClient.setQueriesData<Purpose>(
+        [PurposeQueryKeys.GetSingle, purposeId],
+        updatePurposeVersionCache.bind(null, data)
+      )
     },
   })
 }

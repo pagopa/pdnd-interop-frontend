@@ -45,45 +45,41 @@ const AgreementCertifiedAttributesSection: React.FC = () => {
   }
 
   return (
-    <SectionContainer>
-      <SectionContainer.Title>{t('title')}</SectionContainer.Title>
-      <SectionContainer.Subtitle>{t('subtitle')}</SectionContainer.Subtitle>
-      <SectionContainer.Content>
-        <Stack spacing={2}>
-          {certifiedAttributeGroups.map((group, i) => (
-            <AttributeGroupContainer
-              key={i}
-              groupNum={i + 1}
-              headerContent={
-                !isAgreementEServiceMine && (
-                  <StatusChip
-                    for="attribute"
-                    kind="CERTIFIED"
-                    state={isGroupFullfilled(group) ? 'ACTIVE' : undefined}
-                  />
-                )
-              }
-            >
-              <Stack sx={{ m: 0, listStyle: 'none', px: 0 }} component="ul">
-                {group.attributes.map((attribute, i) => (
-                  <AttributeContainerRow
-                    key={attribute.id}
-                    attribute={attribute}
-                    state={
-                      isAttributeOwned(attribute.id) && !isAgreementEServiceMine
-                        ? 'ACTIVE'
-                        : undefined
-                    }
-                    kind="CERTIFIED"
-                    showOrLabel={i !== group.attributes.length - 1}
-                  />
-                ))}
-              </Stack>
-            </AttributeGroupContainer>
-          ))}
-        </Stack>
-        {certifiedAttributeGroups.length === 0 && <Alert severity="info">{t('emptyLabel')}</Alert>}
-      </SectionContainer.Content>
+    <SectionContainer title={t('title')} description={t('subtitle')}>
+      <Stack spacing={2}>
+        {certifiedAttributeGroups.map((group, i) => (
+          <AttributeGroupContainer
+            key={i}
+            groupNum={i + 1}
+            headerContent={
+              !isAgreementEServiceMine && (
+                <StatusChip
+                  for="attribute"
+                  kind="CERTIFIED"
+                  state={isGroupFullfilled(group) ? 'ACTIVE' : undefined}
+                />
+              )
+            }
+          >
+            <Stack sx={{ m: 0, listStyle: 'none', px: 0 }} component="ul">
+              {group.attributes.map((attribute, i) => (
+                <AttributeContainerRow
+                  key={attribute.id}
+                  attribute={attribute}
+                  state={
+                    isAttributeOwned(attribute.id) && !isAgreementEServiceMine
+                      ? 'ACTIVE'
+                      : undefined
+                  }
+                  kind="CERTIFIED"
+                  showOrLabel={i !== group.attributes.length - 1}
+                />
+              ))}
+            </Stack>
+          </AttributeGroupContainer>
+        ))}
+      </Stack>
+      {certifiedAttributeGroups.length === 0 && <Alert severity="info">{t('emptyLabel')}</Alert>}
     </SectionContainer>
   )
 }
@@ -149,47 +145,43 @@ const AgreementVerifiedAttributesSection: React.FC = () => {
   }
 
   return (
-    <SectionContainer>
-      <SectionContainer.Title>{t('title')}</SectionContainer.Title>
-      <SectionContainer.Subtitle>{t('subtitle')}</SectionContainer.Subtitle>
-      <SectionContainer.Content>
-        <Stack spacing={2}>
-          {verifiedAttributeGroups.map((group, i) => (
-            <AttributeGroupContainer
-              key={i}
-              groupNum={i + 1}
-              headerContent={
-                !isAgreementEServiceMine && (
-                  <StatusChip
-                    for="attribute"
-                    kind="VERIFIED"
-                    state={isGroupFullfilled(group) ? 'ACTIVE' : undefined}
-                  />
-                )
-              }
-            >
-              <Stack sx={{ m: 0, listStyle: 'none', px: 0 }} component="ul">
-                {group.attributes.map((attribute, i) => (
-                  <AttributeContainerRow
-                    key={attribute.id}
-                    attribute={attribute}
-                    state={
-                      isAttributeOwned(attribute.id) && !isAgreementEServiceMine
-                        ? 'ACTIVE'
-                        : undefined
-                    }
-                    kind="VERIFIED"
-                    showOrLabel={i !== group.attributes.length - 1}
-                    buttons={getAttributeActions(attribute.id)}
-                  />
-                ))}
-              </Stack>
-            </AttributeGroupContainer>
-          ))}
-        </Stack>
+    <SectionContainer title={t('title')} description={t('subtitle')}>
+      <Stack spacing={2}>
+        {verifiedAttributeGroups.map((group, i) => (
+          <AttributeGroupContainer
+            key={i}
+            groupNum={i + 1}
+            headerContent={
+              !isAgreementEServiceMine && (
+                <StatusChip
+                  for="attribute"
+                  kind="VERIFIED"
+                  state={isGroupFullfilled(group) ? 'ACTIVE' : undefined}
+                />
+              )
+            }
+          >
+            <Stack sx={{ m: 0, listStyle: 'none', px: 0 }} component="ul">
+              {group.attributes.map((attribute, i) => (
+                <AttributeContainerRow
+                  key={attribute.id}
+                  attribute={attribute}
+                  state={
+                    isAttributeOwned(attribute.id) && !isAgreementEServiceMine
+                      ? 'ACTIVE'
+                      : undefined
+                  }
+                  kind="VERIFIED"
+                  showOrLabel={i !== group.attributes.length - 1}
+                  buttons={getAttributeActions(attribute.id)}
+                />
+              ))}
+            </Stack>
+          </AttributeGroupContainer>
+        ))}
+      </Stack>
 
-        {verifiedAttributeGroups.length === 0 && <Alert severity="info">{t('emptyLabel')}</Alert>}
-      </SectionContainer.Content>
+      {verifiedAttributeGroups.length === 0 && <Alert severity="info">{t('emptyLabel')}</Alert>}
     </SectionContainer>
   )
 }
@@ -216,45 +208,41 @@ const AgreementDeclaredAttributesSection: React.FC = () => {
   }
 
   return (
-    <SectionContainer>
-      <SectionContainer.Title>{t('title')}</SectionContainer.Title>
-      <SectionContainer.Subtitle>{t('subtitle')}</SectionContainer.Subtitle>
-      <SectionContainer.Content>
-        <Stack spacing={2}>
-          {declaredAttributeGroups.map((group, i) => (
-            <AttributeGroupContainer
-              key={i}
-              groupNum={i + 1}
-              headerContent={
-                !isAgreementEServiceMine && (
-                  <StatusChip
-                    for="attribute"
-                    kind="DECLARED"
-                    state={isGroupFullfilled(group) ? 'ACTIVE' : undefined}
-                  />
-                )
-              }
-            >
-              <Stack sx={{ m: 0, listStyle: 'none', px: 0 }} component="ul">
-                {group.attributes.map((attribute, i) => (
-                  <AttributeContainerRow
-                    key={attribute.id}
-                    attribute={attribute}
-                    state={
-                      isAttributeOwned(attribute.id) && !isAgreementEServiceMine
-                        ? 'ACTIVE'
-                        : undefined
-                    }
-                    showOrLabel={i !== group.attributes.length - 1}
-                    kind="DECLARED"
-                  />
-                ))}
-              </Stack>
-            </AttributeGroupContainer>
-          ))}
-        </Stack>
-        {declaredAttributeGroups.length === 0 && <Alert severity="info">{t('emptyLabel')}</Alert>}
-      </SectionContainer.Content>
+    <SectionContainer title={t('title')} description={t('subtitle')}>
+      <Stack spacing={2}>
+        {declaredAttributeGroups.map((group, i) => (
+          <AttributeGroupContainer
+            key={i}
+            groupNum={i + 1}
+            headerContent={
+              !isAgreementEServiceMine && (
+                <StatusChip
+                  for="attribute"
+                  kind="DECLARED"
+                  state={isGroupFullfilled(group) ? 'ACTIVE' : undefined}
+                />
+              )
+            }
+          >
+            <Stack sx={{ m: 0, listStyle: 'none', px: 0 }} component="ul">
+              {group.attributes.map((attribute, i) => (
+                <AttributeContainerRow
+                  key={attribute.id}
+                  attribute={attribute}
+                  state={
+                    isAttributeOwned(attribute.id) && !isAgreementEServiceMine
+                      ? 'ACTIVE'
+                      : undefined
+                  }
+                  showOrLabel={i !== group.attributes.length - 1}
+                  kind="DECLARED"
+                />
+              ))}
+            </Stack>
+          </AttributeGroupContainer>
+        ))}
+      </Stack>
+      {declaredAttributeGroups.length === 0 && <Alert severity="info">{t('emptyLabel')}</Alert>}
     </SectionContainer>
   )
 }

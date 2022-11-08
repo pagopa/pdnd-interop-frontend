@@ -24,30 +24,27 @@ export const OperatorKeysSection: React.FC<OperatorKeysSectionProps> = ({
     clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT' : 'SUBSCRIBE_CLIENT_KEY_EDIT'
 
   return (
-    <SectionContainer>
-      <SectionContainer.Title>{t('edit.associatedKeysField.label')}</SectionContainer.Title>
-      <SectionContainer.Content>
-        <Stack spacing={2}>
-          {operatorKeys.map(({ key, name }, i) => (
-            <RouterLink
-              key={i}
-              to={keyDetailsRouteKey}
-              startIcon={<KeyIcon fontSize="small" />}
-              params={{
-                clientId,
-                kid: key.kid,
-              }}
-              sx={{ display: 'block' }}
-            >
-              {name}
-            </RouterLink>
-          ))}
+    <SectionContainer title={t('edit.associatedKeysField.label')}>
+      <Stack spacing={2}>
+        {operatorKeys.map(({ key, name }, i) => (
+          <RouterLink
+            key={i}
+            to={keyDetailsRouteKey}
+            startIcon={<KeyIcon fontSize="small" />}
+            params={{
+              clientId,
+              kid: key.kid,
+            }}
+            sx={{ display: 'block' }}
+          >
+            {name}
+          </RouterLink>
+        ))}
 
-          {operatorKeys.length === 0 && (
-            <Typography component="span">{t('edit.associatedKeysField.noDataLabel')}</Typography>
-          )}
-        </Stack>
-      </SectionContainer.Content>
+        {operatorKeys.length === 0 && (
+          <Typography component="span">{t('edit.associatedKeysField.noDataLabel')}</Typography>
+        )}
+      </Stack>
     </SectionContainer>
   )
 }

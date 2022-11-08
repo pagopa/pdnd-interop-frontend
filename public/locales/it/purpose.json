@@ -122,7 +122,8 @@
   },
   "list": {
     "title": "Le tue finalità",
-    "description": "In quest'area puoi i trovare e gestire tutte le finalità che hai creato"
+    "description": "In quest'area puoi i trovare e gestire tutte le finalità che hai creato",
+    "cantCreatePurposeTooltip": "Non puoi creare finalità perché non hai e-service da associare"
   },
   "view": {
     "actions": {

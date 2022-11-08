@@ -43,25 +43,22 @@ export const EServiceVersionHistorySection: React.FC = () => {
   }))
 
   return (
-    <SectionContainer>
-      <SectionContainer.Title>{t('title')}</SectionContainer.Title>
-      <SectionContainer.Content>
-        <InformationContainer label={t('historyField.title')}>
-          <FormProvider {...formMethods}>
-            <Box onSubmit={formMethods.handleSubmit(onSubmit)} component="form">
-              <Select
-                label={t('historyField.label')}
-                MenuProps={{ sx: { maxHeight: '160px' } }}
-                options={descriptorsOptions}
-                name="selectedDescriptorId"
-              />
-              <Button sx={{ mt: 2 }} size="large" variant="outlined" type="submit">
-                {t('submitBtn')}
-              </Button>
-            </Box>
-          </FormProvider>
-        </InformationContainer>
-      </SectionContainer.Content>
+    <SectionContainer title={t('title')}>
+      <InformationContainer label={t('historyField.title')}>
+        <FormProvider {...formMethods}>
+          <Box onSubmit={formMethods.handleSubmit(onSubmit)} component="form">
+            <Select
+              label={t('historyField.label')}
+              MenuProps={{ sx: { maxHeight: '160px' } }}
+              options={descriptorsOptions}
+              name="selectedDescriptorId"
+            />
+            <Button sx={{ mt: 2 }} size="large" variant="outlined" type="submit">
+              {t('submitBtn')}
+            </Button>
+          </Box>
+        </FormProvider>
+      </InformationContainer>
     </SectionContainer>
   )
 }

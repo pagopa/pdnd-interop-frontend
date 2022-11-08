@@ -36,6 +36,7 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
 
   return (
     <Select
+      sx={{ my: 0 }}
       focusOnMount
       name="eserviceId"
       label={t('create.eserviceField.label')}

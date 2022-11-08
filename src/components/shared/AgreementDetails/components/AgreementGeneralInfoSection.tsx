@@ -14,37 +14,34 @@ export const AgreementGeneralInfoSection: React.FC = () => {
   if (!agreement) return null
 
   return (
-    <SectionContainer>
-      <SectionContainer.Title>{t('title')}</SectionContainer.Title>
-      <SectionContainer.Content>
-        <Stack spacing={2}>
-          <InformationContainer label={t('eserviceField.label')}>
-            <RouterLink
-              to="SUBSCRIBE_CATALOG_VIEW"
-              params={{ eserviceId: agreement.eservice.id, descriptorId: agreement.descriptorId }}
-              target="_blank"
-            >
-              {agreement.eservice.name}, {t('eserviceField.versionLabel')}{' '}
-              {agreement.eservice.version}
-            </RouterLink>
+    <SectionContainer title={t('title')}>
+      <Stack spacing={2}>
+        <InformationContainer label={t('eserviceField.label')}>
+          <RouterLink
+            to="SUBSCRIBE_CATALOG_VIEW"
+            params={{ eserviceId: agreement.eservice.id, descriptorId: agreement.descriptorId }}
+            target="_blank"
+          >
+            {agreement.eservice.name}, {t('eserviceField.versionLabel')}{' '}
+            {agreement.eservice.version}
+          </RouterLink>
+        </InformationContainer>
+        {mode === 'consumer' && (
+          <InformationContainer label={t('providerField.label')}>
+            {agreement?.producer.name}
           </InformationContainer>
-          {mode === 'consumer' && (
-            <InformationContainer label={t('providerField.label')}>
-              {agreement?.producer.name}
-            </InformationContainer>
-          )}
-          {mode === 'provider' && (
-            <InformationContainer label={t('consumerField.label')}>
-              {agreement?.consumer.name}
-            </InformationContainer>
-          )}
-          <InformationContainer label={t('requestStatusField.label')}>
-            <Stack direction="row" spacing={1}>
-              <StatusChip for="agreement" agreement={agreement} />
-            </Stack>
+        )}
+        {mode === 'provider' && (
+          <InformationContainer label={t('consumerField.label')}>
+            {agreement?.consumer.name}
           </InformationContainer>
-        </Stack>
-      </SectionContainer.Content>
+        )}
+        <InformationContainer label={t('requestStatusField.label')}>
+          <Stack direction="row" spacing={1}>
+            <StatusChip for="agreement" agreement={agreement} />
+          </Stack>
+        </InformationContainer>
+      </Stack>
     </SectionContainer>
   )
 }

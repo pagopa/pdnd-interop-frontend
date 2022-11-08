@@ -97,9 +97,10 @@ function useGetPurposesActions(purpose?: DecoratedPurpose) {
   const availableActions: Record<PurposeState, Array<ActionItem>> = {
     DRAFT: hasVersion ? [activateAction, deleteAction] : [deleteAction],
     ACTIVE: [suspendAction, updateDailyCallsAction],
-    SUSPENDED: [activateAction, archiveAction],
+    SUSPENDED: [activateAction, archiveAction, updateDailyCallsAction],
     WAITING_FOR_APPROVAL: [
       purpose.versions.length > 1 ? deleteDailyCallsUpdateAction : deleteAction,
+      updateDailyCallsAction,
     ],
     ARCHIVED: [],
   }

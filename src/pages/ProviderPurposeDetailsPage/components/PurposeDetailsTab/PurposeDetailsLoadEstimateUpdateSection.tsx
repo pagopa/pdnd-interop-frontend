@@ -23,7 +23,10 @@ export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
   const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
   const { openDialog } = useDialog()
 
-  if (!purpose || !purpose.mostRecentVersion) return null
+  const state = purpose?.currentVersion?.state
+
+  if (!purpose || !purpose.mostRecentVersion || state === 'ARCHIVED' || state === 'DRAFT')
+    return null
 
   const accordionEntries: Array<AccordionEntry> = t('faq', { returnObjects: true })
 
@@ -36,48 +39,43 @@ export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
   }
 
   return (
-    <SectionContainer>
-      <SectionContainer.Title>{t('title')}</SectionContainer.Title>
-      <SectionContainer.Subtitle>{t('description')}</SectionContainer.Subtitle>
-
-      <SectionContainer.Content>
-        <Stack sx={{ pt: 1 }} spacing={2}>
-          <InformationContainer
-            label={t('dateEstimateField.label')}
-            labelDescription={t('dateEstimateField.description')}
-          >
-            {t('dateEstimateField.emptyLabel')}
-          </InformationContainer>
-          <InformationContainer label={t('loadEstimateRequestedField.label')}>
-            {t('loadEstimateRequestedField.value', {
-              value: purpose.mostRecentVersion?.dailyCalls,
-            })}
-          </InformationContainer>
-          <InformationContainer label="FAQ">
-            <Accordion entries={accordionEntries} />
-          </InformationContainer>
-          <InformationContainer label={t('linksField.label')}>
-            <Stack>
-              <Link
-                component="a"
-                href={purposeUpgradeGuideLink}
-                target="_blank"
-                variant="body2"
-                underline="hover"
-                sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
-              >
-                <LaunchIcon sx={{ mr: 1 }} /> {t('linksField.upgradeGuideLink.label')}
-              </Link>
-            </Stack>
-          </InformationContainer>
-          <Divider />
-          <Stack direction="row" justifyContent="center">
-            <Button onClick={handleUpdateDailyCalls} variant="outlined">
-              {t('updateDailyCalls')}
-            </Button>
+    <SectionContainer title={t('title')} description={t('description')}>
+      <Stack sx={{ pt: 1 }} spacing={2}>
+        <InformationContainer
+          label={t('dateEstimateField.label')}
+          labelDescription={t('dateEstimateField.description')}
+        >
+          {t('dateEstimateField.emptyLabel')}
+        </InformationContainer>
+        <InformationContainer label={t('loadEstimateRequestedField.label')}>
+          {t('loadEstimateRequestedField.value', {
+            value: purpose.mostRecentVersion?.dailyCalls,
+          })}
+        </InformationContainer>
+        <InformationContainer label="FAQ">
+          <Accordion entries={accordionEntries} />
+        </InformationContainer>
+        <InformationContainer label={t('linksField.label')}>
+          <Stack>
+            <Link
+              component="a"
+              href={purposeUpgradeGuideLink}
+              target="_blank"
+              variant="body2"
+              underline="hover"
+              sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+            >
+              <LaunchIcon sx={{ mr: 1 }} /> {t('linksField.upgradeGuideLink.label')}
+            </Link>
           </Stack>
+        </InformationContainer>
+        <Divider />
+        <Stack direction="row" justifyContent="center">
+          <Button onClick={handleUpdateDailyCalls} variant="outlined">
+            {t('updateDailyCalls')}
+          </Button>
         </Stack>
-      </SectionContainer.Content>
+      </Stack>
     </SectionContainer>
   )
 }

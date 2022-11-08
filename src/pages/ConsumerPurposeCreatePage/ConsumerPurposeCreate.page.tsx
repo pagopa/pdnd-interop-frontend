@@ -1,10 +1,14 @@
 import { PurposeMutations } from '@/api/purpose'
-import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
+import {
+  PageBottomActionsContainer,
+  PageContainer,
+  SectionContainer,
+} from '@/components/layout/containers'
 import { Switch } from '@/components/shared/ReactHookFormInputs'
 import { useJwt } from '@/hooks/useJwt'
 import { RouterLink, useNavigateRouter } from '@/router'
 import { Purpose, PurposeRiskAnalysisForm } from '@/types/purpose.types'
-import { Box, Button, Grid, Paper } from '@mui/material'
+import { Box, Button, Grid } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -77,7 +81,7 @@ const ConsumerPurposeCreatePage: React.FC = () => {
         <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
           <Grid container>
             <Grid item xs={8}>
-              <Paper sx={{ p: 3 }}>
+              <SectionContainer>
                 <React.Suspense fallback={<PurposeCreateEServiceAutocompleteSkeleton />}>
                   <PurposeCreateEServiceAutocomplete />
                 </React.Suspense>
@@ -87,7 +91,7 @@ const ConsumerPurposeCreatePage: React.FC = () => {
                     <PurposeCreateTemplateAutocomplete />
                   </>
                 )}
-              </Paper>
+              </SectionContainer>
             </Grid>
           </Grid>
           <PageBottomActionsContainer>

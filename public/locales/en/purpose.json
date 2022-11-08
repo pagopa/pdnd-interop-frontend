@@ -122,7 +122,8 @@
   },
   "list": {
     "title": "Your purposes",
-    "description": "In this section you can manage all the purposes you have created"
+    "description": "In this section you can manage all the purposes you have created",
+    "cantCreatePurposeTooltip": "You cannot create purposes because you have no associable e-service"
   },
   "view": {
     "actions": {

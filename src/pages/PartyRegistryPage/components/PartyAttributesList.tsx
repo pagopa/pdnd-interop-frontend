@@ -27,21 +27,17 @@ export const PartyAttributesList: React.FC<PartyAttributesListProps> = ({
   showRedBorder,
 }) => {
   return (
-    <SectionContainer sx={showRedBorder ? redBorderSx : {}}>
-      <SectionContainer.Title>{title}</SectionContainer.Title>
-      <SectionContainer.Subtitle>{description}</SectionContainer.Subtitle>
-      <SectionContainer.Content>
-        <Box sx={{ listStyle: 'none', pl: 0, my: 0 }} component="ul">
-          {attributes.map((attribute) => {
-            return (
-              <Box component="li" key={attribute.id}>
-                <AttributeContainerRow attribute={attribute} buttons={actions} />
-              </Box>
-            )
-          })}
-          {attributes.length <= 0 && <Alert severity="info">{noAttributesLabel}</Alert>}
-        </Box>
-      </SectionContainer.Content>
+    <SectionContainer title={title} description={description} sx={showRedBorder ? redBorderSx : {}}>
+      <Box sx={{ listStyle: 'none', pl: 0, my: 0 }} component="ul">
+        {attributes.map((attribute) => {
+          return (
+            <Box component="li" key={attribute.id}>
+              <AttributeContainerRow attribute={attribute} buttons={actions} />
+            </Box>
+          )
+        })}
+        {attributes.length <= 0 && <Alert severity="info">{noAttributesLabel}</Alert>}
+      </Box>
     </SectionContainer>
   )
 }
@@ -58,16 +54,12 @@ export const PartyAttributesListSkeleton: React.FC<PartyAttributesListSkeletonPr
   showRedBorder,
 }) => {
   return (
-    <SectionContainer sx={showRedBorder ? redBorderSx : {}}>
-      <SectionContainer.Title>{title}</SectionContainer.Title>
-      <SectionContainer.Subtitle>{description}</SectionContainer.Subtitle>
-      <SectionContainer.Content>
-        <Box sx={{ pl: 0, my: 0 }}>
-          <AttributeContainerRowSkeleton />
-          <AttributeContainerRowSkeleton />
-          <AttributeContainerRowSkeleton />
-        </Box>
-      </SectionContainer.Content>
+    <SectionContainer title={title} description={description} sx={showRedBorder ? redBorderSx : {}}>
+      <Box sx={{ pl: 0, my: 0 }}>
+        <AttributeContainerRowSkeleton />
+        <AttributeContainerRowSkeleton />
+        <AttributeContainerRowSkeleton />
+      </Box>
     </SectionContainer>
   )
 }

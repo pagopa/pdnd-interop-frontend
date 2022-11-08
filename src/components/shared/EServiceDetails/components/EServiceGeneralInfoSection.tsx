@@ -19,20 +19,17 @@ export const EServiceGeneralInfoSection: React.FC = () => {
   if (!eservice) return null
 
   return (
-    <SectionContainer>
-      <SectionContainer.Title>{t('title')}</SectionContainer.Title>
-      <SectionContainer.Content>
-        <Stack spacing={2}>
-          {isAdmin && agreement && (
-            <InformationContainer label={t('agreementField.label')}>
-              <RouterLink target="_blank" to={agreementPath} params={{ agreementId: agreement.id }}>
-                {t('agreementField.link.label')}
-              </RouterLink>
-            </InformationContainer>
-          )}
-          <InformationContainer label={t('technology')}>{eservice.technology}</InformationContainer>
-        </Stack>
-      </SectionContainer.Content>
+    <SectionContainer title={t('title')}>
+      <Stack spacing={2}>
+        {isAdmin && agreement && (
+          <InformationContainer label={t('agreementField.label')}>
+            <RouterLink target="_blank" to={agreementPath} params={{ agreementId: agreement.id }}>
+              {t('agreementField.link.label')}
+            </RouterLink>
+          </InformationContainer>
+        )}
+        <InformationContainer label={t('technology')}>{eservice.technology}</InformationContainer>
+      </Stack>
     </SectionContainer>
   )
 }

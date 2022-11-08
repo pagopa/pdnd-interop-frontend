@@ -1,60 +1,35 @@
-import {
-  Box,
-  Typography,
-  TypographyProps,
-  BoxProps,
-  Paper,
-  PaperProps,
-  SkeletonProps,
-  Skeleton,
-  Stack,
-} from '@mui/material'
+import { Box, Typography, Paper, PaperProps, SkeletonProps, Skeleton, Stack } from '@mui/material'
 import React from 'react'
 
 type SectionContainerProps = {
+  title?: string
+  description?: React.ReactNode
   children: React.ReactNode
 }
 
-export function SectionContainer({ children, sx, ...props }: PaperProps & SectionContainerProps) {
-  return (
-    <Paper sx={{ bgcolor: 'white', p: 3, mt: 2, ...sx }} {...props}>
-      <Stack>{children}</Stack>
-    </Paper>
-  )
-}
-
-SectionContainer.Title = function SectionContainerTitle({
-  children,
-  ...props
-}: SectionContainerProps & TypographyProps) {
-  return (
-    <Typography variant="overline" {...props}>
-      {children}
-    </Typography>
-  )
-}
-
-SectionContainer.Subtitle = function SectionContainerSubtitle({
-  children,
-  sx = {},
-  ...props
-}: SectionContainerProps & TypographyProps) {
-  return (
-    <Typography color="text.secondary" variant="caption" sx={{ mt: '2px', ...sx }} {...props}>
-      {children}
-    </Typography>
-  )
-}
-
-SectionContainer.Content = function SectionContainerContent({
+export function SectionContainer({
+  title,
+  description,
   children,
   sx,
   ...props
-}: SectionContainerProps & BoxProps) {
+}: PaperProps & SectionContainerProps) {
   return (
-    <Box sx={{ mt: 2, ...sx }} {...props}>
-      {children}
-    </Box>
+    <Paper sx={{ bgcolor: 'white', p: 3, mt: 2, ...sx }} {...props}>
+      <Stack>
+        {title && (
+          <Typography component="h2" variant="overline">
+            {title}
+          </Typography>
+        )}
+        {description && (
+          <Typography color="text.secondary" variant="caption">
+            {description}
+          </Typography>
+        )}
+      </Stack>
+      <Box sx={{ mt: !!(title || description) ? 2 : 0 }}>{children}</Box>
+    </Paper>
   )
 }
 

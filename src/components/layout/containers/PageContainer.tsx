@@ -12,9 +12,11 @@ import {
 import { ActionItem } from '@/types/common.types'
 import { ActionMenu } from '@/components/shared/ActionMenu'
 import { useIsFetching } from '@tanstack/react-query'
+import { InfoTooltip } from '@/components/shared/InfoTooltip'
 
 export type TopSideActions = {
   buttons: Array<ActionItem & Omit<ButtonProps, keyof ActionItem | 'onClick'>>
+  infoTooltip?: string
   actionMenu?: Array<ActionItem>
 }
 
@@ -91,6 +93,7 @@ const StyledIntro: React.FC<StyledIntroProps> = ({ title, description, topSideAc
           color="primary"
           size={25}
         />
+        {topSideActions?.infoTooltip && <InfoTooltip label={topSideActions.infoTooltip} />}
         {topSideActions?.buttons &&
           topSideActions.buttons.map(({ action, label, ...props }, i) => (
             <Button key={i} onClick={action} variant="outlined" size="small" {...props}>

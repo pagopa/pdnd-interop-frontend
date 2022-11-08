@@ -26,15 +26,12 @@ export const EServiceVoucherVerificationSection: React.FC = () => {
   })
 
   return (
-    <SectionContainer>
-      <SectionContainer.Title>{t('title')}</SectionContainer.Title>
-      <SectionContainer.Content>
-        <Typography>{t('description')}</Typography>
-        <Stack sx={{ mt: 2 }} spacing={2}>
-          <VoucherLink label={t('howLink')} href={verifyVoucherHelpLink} />
-          <VoucherLink label={t('wellKnownLink')} href={WELL_KNOWN_URLS[0]} />
-        </Stack>
-      </SectionContainer.Content>
+    <SectionContainer title={t('title')}>
+      <Typography>{t('description')}</Typography>
+      <Stack sx={{ mt: 2 }} spacing={2}>
+        <VoucherLink label={t('howLink')} href={verifyVoucherHelpLink} />
+        <VoucherLink label={t('wellKnownLink')} href={WELL_KNOWN_URLS[0]} />
+      </Stack>
     </SectionContainer>
   )
 }

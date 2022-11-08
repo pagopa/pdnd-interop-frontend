@@ -63,13 +63,7 @@ export const DialogAddSecurityOperatorKey: React.FC<DialogAddSecurityOperatorKey
               inputProps={{ maxLength: 60 }}
             />
 
-            <TextField
-              name="key"
-              label={t('content.keyField.label')}
-              multiline
-              rows={6}
-              sx={{ mb: 2 }}
-            />
+            <TextField name="key" label={t('content.keyField.label')} multiline sx={{ mb: 2 }} />
 
             <Alert severity="info">
               {t('content.keyField.infoLabel.message')}{' '}

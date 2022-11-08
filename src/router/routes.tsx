@@ -22,6 +22,7 @@ import {
   ConsumerClientCreatePage,
   SecurityKeyGuidePage,
   ConsumerPurposeCreatePage,
+  ConsumerPurposeEditPage,
 } from '@/pages'
 import { LANGUAGES } from '@/config/constants'
 import { getKeys } from '@/utils/array.utils'
@@ -168,7 +169,7 @@ export const routes = makeType({
     },
     LABEL: { it: 'Modifica finalità', en: 'Edit purpose' },
     EXACT: false,
-    COMPONENT: EmptyComponent,
+    COMPONENT: ConsumerPurposeEditPage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },

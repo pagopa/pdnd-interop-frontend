@@ -1,12 +1,16 @@
 import { ClientMutations } from '@/api/client'
-import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
+import {
+  PageBottomActionsContainer,
+  PageContainer,
+  SectionContainer,
+} from '@/components/layout/containers'
 import { TextField } from '@/components/shared/ReactHookFormInputs'
 import { useClientKind } from '@/hooks/useClientKind'
 import { RouterLink, useNavigateRouter } from '@/router'
 import { Client } from '@/types/client.types'
 import { SelfCareUser } from '@/types/party.types'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Box, Button, Grid, Paper, Typography } from '@mui/material'
+import { Box, Button, Grid, Typography } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -80,7 +84,7 @@ const ConsumerClientCreatePage: React.FC = () => {
         <FormProvider {...formMethods}>
           <Grid container>
             <Grid item xs={8}>
-              <Paper sx={{ p: 3 }}>
+              <SectionContainer>
                 <Typography sx={{ mb: 2 }} component="h2" variant="h5">
                   {t('create.infoSectionTitle')}
                 </Typography>
@@ -97,7 +101,6 @@ const ConsumerClientCreatePage: React.FC = () => {
                   name="description"
                   label={t('create.descriptionField.label')}
                   multiline
-                  rows={6}
                   inputProps={{ maxLength: 250 }}
                 />
 
@@ -106,7 +109,7 @@ const ConsumerClientCreatePage: React.FC = () => {
                 </Typography>
 
                 <OperatorsInputTable />
-              </Paper>
+              </SectionContainer>
             </Grid>
           </Grid>
         </FormProvider>

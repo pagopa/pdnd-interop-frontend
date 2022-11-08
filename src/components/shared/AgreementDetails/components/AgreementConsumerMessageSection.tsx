@@ -13,11 +13,8 @@ export const AgreementConsumerMessageSection: React.FC = () => {
   }
 
   return (
-    <SectionContainer>
-      <SectionContainer.Title>{t('title')}</SectionContainer.Title>
-      <SectionContainer.Content>
-        <Typography>{agreement.consumerNotes}</Typography>
-      </SectionContainer.Content>
+    <SectionContainer title={t('title')}>
+      <Typography>{agreement.consumerNotes}</Typography>
     </SectionContainer>
   )
 }
