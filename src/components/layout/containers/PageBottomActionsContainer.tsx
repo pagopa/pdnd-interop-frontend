@@ -1,4 +1,4 @@
-import { Stack, Box } from '@mui/material'
+import { Stack } from '@mui/material'
 import React from 'react'
 
 type PageBottomActionsContainerProps = {
@@ -10,10 +10,7 @@ export const PageBottomActionsContainer: React.FC<PageBottomActionsContainerProp
 }) => {
   return (
     <Stack direction="row" spacing={2} sx={{ mt: 4 }}>
-      {React.Children.map(children, (c, i) => {
-        if (!c) return null // Filter out falsy values
-        return <Box key={i}>{c}</Box>
-      })}
+      {children}
     </Stack>
   )
 }

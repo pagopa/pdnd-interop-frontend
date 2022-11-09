@@ -1,1 +1,1 @@
-export { PurposeEditStep3Clients } from './PurposeEditStep2RiskAnalysis'
+export { PurposeEditStep3Clients } from './PurposeEditStep3Clients'

@@ -156,6 +156,7 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
         openDialog({ type: 'sessionExpired' })
         return Promise.reject()
       }
+
       if (hasConfirmationDialogTitle && hasConfirmationDialogDescription) {
         const confirmationDialogTitle =
           typeof options.dialogConfig.title === 'function'

@@ -48,6 +48,7 @@ export const EServiceVersionHistorySection: React.FC = () => {
         <FormProvider {...formMethods}>
           <Box onSubmit={formMethods.handleSubmit(onSubmit)} component="form">
             <Select
+              sx={{ my: 0 }}
               label={t('historyField.label')}
               MenuProps={{ sx: { maxHeight: '160px' } }}
               options={descriptorsOptions}

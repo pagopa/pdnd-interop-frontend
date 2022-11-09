@@ -6,13 +6,17 @@ import { RouterProvider } from './router'
 
 function App() {
   return (
-    <React.Suspense fallback={<Spinner sx={{ height: '100vh' }} />}>
+    <React.Suspense fallback={<FirstLoadingSpinner />}>
       <ProvidersWrapper>
         <CssBaseline />
         <RouterProvider />
       </ProvidersWrapper>
     </React.Suspense>
   )
+}
+
+const FirstLoadingSpinner: React.FC = () => {
+  return <Spinner sx={{ height: '100vh' }} />
 }
 
 export default App

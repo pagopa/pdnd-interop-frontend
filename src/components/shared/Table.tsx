@@ -58,7 +58,7 @@ type CustomCell = {
 type Cell = LabelCell | CustomCell
 
 type TableRowProps = {
-  children: React.ReactNode
+  children?: React.ReactNode
   cellData: Array<Cell>
 }
 

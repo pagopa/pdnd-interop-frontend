@@ -40,11 +40,6 @@ export type Provider = 'provider'
 export type Consumer = 'consumer'
 export type ProviderOrConsumer = Provider | Consumer
 
-export type InputSelectOption = {
-  label: string
-  value: string | number
-}
-
 export type ActionItem = { action: VoidFunction; label: string }
 
 export type DocumentRead = {
@@ -64,3 +59,5 @@ export type StepperStep = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   component: React.ElementType<StepperStepComponentProps & any>
 }
+
+export type InputOption = { label: string; value: string | number }

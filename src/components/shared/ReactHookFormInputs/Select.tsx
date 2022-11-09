@@ -8,10 +8,11 @@ import {
 } from '@mui/material'
 import { InputWrapper } from './InputWrapper'
 import { Controller, useFormContext } from 'react-hook-form'
+import { InputOption } from '@/types/common.types'
 
 export type SelectProps = MUISelectProps & {
   name: string
-  options: Array<{ label: string; value: string | number }>
+  options: Array<InputOption>
   focusOnMount?: boolean
   infoLabel?: string
   emptyLabel?: string

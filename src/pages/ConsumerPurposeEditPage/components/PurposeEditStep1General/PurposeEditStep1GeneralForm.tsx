@@ -3,10 +3,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { number, object, string } from 'yup'
-import { /*Select, */ TextField } from '@/components/shared/ReactHookFormInputs'
+import { TextField } from '@/components/shared/ReactHookFormInputs'
 import { useTranslation } from 'react-i18next'
-// import { EServiceQueries } from '@/api/eservice'
-// import { useJwt } from '@/hooks/useJwt'
 import { StepActions } from '@/components/shared/StepActions'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { PurposeMutations } from '@/api/purpose'
@@ -17,7 +15,6 @@ import { decoratePurposeWithMostRecentVersion } from '@/api/purpose/purpose.api.
 type PurposeEditStep1GeneralFormValues = {
   title: string
   description: string
-  // eserviceId: string
   dailyCalls: number
 }
 
@@ -32,23 +29,12 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
   forward,
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
-  // const { jwt } = useJwt()
   const { mutate: updateDraft } = PurposeMutations.useUpdateDraft()
   const { mutate: updateVersionDraft } = PurposeMutations.useUpdateVersionDraft()
-
-  // const { data: activeEservices = [] } = EServiceQueries.useGetListFlat(
-  //   {
-  //     callerId: jwt?.organizationId,
-  //     consumerId: jwt?.organizationId,
-  //     agreementStates: ['ACTIVE'],
-  //   },
-  //   { suspense: false }
-  // )
 
   const validationSchema = object({
     title: string().required(),
     description: string().required(),
-    // eserviceId: string().required(),
     dailyCalls: number().required(),
   })
 
@@ -70,11 +56,6 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
       }
     )
   }
-
-  // const eserviceOptions = activeEservices.map((d) => ({
-  //   value: d.id,
-  //   label: `${d.name} ${t('eserviceProvider')} ${d.producerName}`,
-  // }))
 
   return (
     <FormProvider {...formMethods}>
@@ -99,13 +80,6 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
             multiline
             inputProps={{ maxLength: 250 }}
           />
-
-          {/* <Select
-            name="eserviceId"
-            label={t('step1.eserviceField.label')}
-            options={eserviceOptions}
-            emptyLabel="Nessun e-service associabile"
-          /> */}
 
           <TextField
             name="dailyCalls"
