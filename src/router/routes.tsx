@@ -22,7 +22,7 @@ import {
   ConsumerClientCreatePage,
   SecurityKeyGuidePage,
   ConsumerPurposeCreatePage,
-  ConsumerPurposeEditPage,
+  NotificationsPage,
 } from '@/pages'
 import { LANGUAGES } from '@/config/constants'
 import { getKeys } from '@/utils/array.utils'
@@ -33,6 +33,10 @@ import Redirect from './components/Redirect'
 // Less frequently used or heavier pages will be lazy loaded
 const ConsumerClientManagePage = React.lazy(
   () => import('@/pages/ConsumerClientManagePage/ConsumerClientManage.page')
+)
+
+const ConsumerPurposeEditPage = React.lazy(
+  () => import('@/pages/ConsumerPurposeEditPage/ConsumerPurposeEdit.page')
 )
 
 // https://stackoverflow.com/a/70067918 waiting for "satisfies" operator in Typescript 4.9
@@ -65,7 +69,7 @@ export const routes = makeType({
   NOTIFICATION: {
     PATH: { it: 'notifiche', en: 'notifications' },
     LABEL: { it: 'Notifiche', en: 'Notifications' },
-    COMPONENT: EmptyComponent,
+    COMPONENT: NotificationsPage,
     PUBLIC: false,
     AUTH_LEVELS: 'any',
   },
