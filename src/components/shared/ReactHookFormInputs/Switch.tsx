@@ -1,4 +1,4 @@
-import { InputWrapper } from './InputWrapper'
+import { InputWrapper } from '../InputWrapper'
 import React from 'react'
 import {
   Box,

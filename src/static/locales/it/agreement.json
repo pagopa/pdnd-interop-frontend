@@ -64,17 +64,17 @@
       "certified": {
         "title": "Attributi certificati",
         "subtitle": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori certificazioni.",
-        "emptyLabel": "Nessun attributo certificato presentato"
+        "emptyLabel": "Non ci sono attributi certificati richiesti per questo e-service"
       },
       "verified": {
         "title": "Attributi verificati",
         "subtitle": "Questi attributi necessitano di verifica da parte di almeno un erogatore. Potresti già possederne alcuni (o tutti).",
-        "emptyLabel": "Nessun attributo verificato presentato"
+        "emptyLabel": "Non ci sono attributi verificati richiesti per questo e-service"
       },
       "declared": {
         "title": "Attributi dichiarati",
         "subtitle": "Devi dichiarare sotto la tua responsabilità di possedere questi attributi. Potresti già possederne alcuni (o tutti).",
-        "emptyLabel": "Nessun attributo dichiarato presentato"
+        "emptyLabel": "Non ci sono attributi dichiarati richiesti per questo e-service"
       }
     }
   },
@@ -118,11 +118,6 @@
       "title": "Documentazione",
       "description": "Inserisci tutti i documenti necessari al riconoscimento dei tuoi attributi",
       "uploadBtn": "Carica",
-      "documentInputField": {
-        "dragHereLabel": "Trascina qui il documento oppure",
-        "selectFromComputerLabel": "selezionalo dal tuo computer",
-        "loadingLabel": "Caricamento in corso..."
-      },
       "documentPrettynameField": {
         "label": "Nome documento",
         "infoLabel": "Max 60 caratteri"

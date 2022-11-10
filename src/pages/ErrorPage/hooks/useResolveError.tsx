@@ -1,11 +1,15 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { isRouteErrorResponse, Link, useRouteError } from 'react-router-dom'
-import axios from 'axios'
 import { Button } from '@mui/material'
 import { Redirect, useNavigateRouter } from '@/router'
 import CodeBlock from '../components/CodeBlock'
-import { NotAuthorizedError, NotFoundError, NotImplementedError } from '@/utils/errors.utils'
+import {
+  NotAuthorizedError,
+  NotFoundError,
+  NotImplementedError,
+  ServerError,
+} from '@/utils/errors.utils'
 
 type UseResolveErrorReturnType = {
   title: string
@@ -56,23 +60,15 @@ function useResolveError(): UseResolveErrorReturnType {
     content = backToHomeButton
   }
 
-  if (axios.isAxiosError(error)) {
-    switch (error.response?.status) {
-      case 401:
-        title = t('notAuthorized.title')
-        description = t('notAuthorized.description')
-        content = backToHomeButton
-        break
-      default:
-        title = t('serverError.title')
-        description = t('serverError.description')
-        content = (
-          <>
-            {reloadPageButton}
-            <CodeBlock error={error} />
-          </>
-        )
-    }
+  if (error instanceof ServerError) {
+    title = t('serverError.title')
+    description = t('serverError.description')
+    content = (
+      <>
+        {reloadPageButton}
+        <CodeBlock error={error} />
+      </>
+    )
   }
 
   if (!title) {

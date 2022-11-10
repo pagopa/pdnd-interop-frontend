@@ -59,6 +59,8 @@ export const DialogAddClientToPurpose: React.FC<DialogAddClientToPurposeProps> =
     )
   }
 
+  const selectedClients = formMethods.watch('selectedClients')
+
   return (
     <Dialog open onClose={closeDialog} fullWidth>
       <FormProvider {...formMethods}>
@@ -81,7 +83,7 @@ export const DialogAddClientToPurpose: React.FC<DialogAddClientToPurposeProps> =
             <Button type="button" variant="outlined" onClick={closeDialog}>
               {t('actions.cancelLabel')}
             </Button>
-            <Button variant="contained" type="submit">
+            <Button disabled={selectedClients.length === 0} variant="contained" type="submit">
               {t('actions.confirmLabel')}
             </Button>
           </DialogActions>

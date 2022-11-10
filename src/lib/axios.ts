@@ -3,6 +3,7 @@ import qs from 'qs'
 import { v4 as uuidv4 } from 'uuid'
 import { STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 import { storageRead } from '@/utils/storage.utils'
+import { NotAuthorizedError, NotFoundError, ServerError } from '@/utils/errors.utils'
 
 const axiosInstance = axios.create({
   paramsSerializer: {
@@ -33,7 +34,17 @@ axiosInstance.interceptors.response.use(
     return response
   },
   (error) => {
-    console.error(error)
+    const isAxiosError = axios.isAxiosError(error)
+    if (isAxiosError && error.response?.status === 404) {
+      return Promise.reject(new NotFoundError())
+    }
+    if (isAxiosError && error.response?.status === 401) {
+      return Promise.reject(new NotAuthorizedError())
+    }
+    if (isAxiosError && error.response?.status && error.response?.status >= 500) {
+      return Promise.reject(new ServerError())
+    }
+
     return Promise.reject(error)
   }
 )

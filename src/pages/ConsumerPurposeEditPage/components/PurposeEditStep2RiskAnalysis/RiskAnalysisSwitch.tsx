@@ -7,7 +7,7 @@ import {
   Stack,
 } from '@mui/material'
 import { Controller, useFormContext } from 'react-hook-form'
-import { InputWrapper } from '@/components/shared/ReactHookFormInputs/InputWrapper'
+import { InputWrapper } from '@/components/shared/InputWrapper'
 import { InputOption } from '@/types/common.types'
 
 type RiskAnalysisSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {

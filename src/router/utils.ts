@@ -85,16 +85,11 @@ export const getParentRoutes = memoize((routeKey: RouteKey): Array<RouteKey> => 
       (pathFragment, i) => pathFragment === currentSubpaths[i]
     )
 
-    const lastBit = currentSubpaths[currentSubpaths.length - 1]
-    const lastFragmentIsEditPath = Object.values(URL_FRAGMENTS.EDIT).some((f) =>
-      lastBit.endsWith(f)
-    )
-
     // URL_FRAGMENTS.EDIT is appended at the end of a read path of the same type.
     // E.g. /eservice/myid becomes /eservice/myid/edit. So it's always same length + 1
     const isFalseParent = currentSubpaths.length === possibleParentRouteSubpaths.length + 1
 
-    if (allSameFragments && lastFragmentIsEditPath && isFalseParent) {
+    if (allSameFragments && isEditPath(routeKey) && isFalseParent) {
       return false
     }
 
@@ -132,6 +127,13 @@ export const isProviderOrConsumerRoute = memoize(
     return null
   }
 )
+
+export const isEditPath = memoize((routeKey: RouteKey): boolean => {
+  const subroutes = getSplittedPath(routes[routeKey], 'it')
+
+  const lastBit = subroutes[subroutes.length - 1]
+  return Object.values(URL_FRAGMENTS.EDIT).some((f) => lastBit.endsWith(f))
+})
 
 export function parseSearch(search: string) {
   return qs.parse(search, { ignoreQueryPrefix: true })

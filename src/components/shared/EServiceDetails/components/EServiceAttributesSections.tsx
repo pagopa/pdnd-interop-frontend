@@ -69,7 +69,6 @@ const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProps> = ({
       title={title}
       description={
         <>
-          {' '}
           {subtitle}{' '}
           <Link component={'a'} underline="hover" target="_blank" href={attributesHelpLink}>
             {tCommon('howLink')}

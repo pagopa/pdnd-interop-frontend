@@ -6,7 +6,7 @@ import {
   RadioGroup as MUIRadioGroup,
   RadioGroupProps as MUIRadioGroupProps,
 } from '@mui/material'
-import { InputWrapper } from './InputWrapper'
+import { InputWrapper } from '../InputWrapper'
 import { Controller, useFormContext } from 'react-hook-form'
 import { InputOption } from '@/types/common.types'
 

@@ -32,7 +32,7 @@ export const PartyAttributesList: React.FC<PartyAttributesListProps> = ({
         {attributes.map((attribute) => {
           return (
             <Box component="li" key={attribute.id}>
-              <AttributeContainerRow attribute={attribute} buttons={actions} />
+              <AttributeContainerRow attribute={attribute} actions={actions} />
             </Box>
           )
         })}

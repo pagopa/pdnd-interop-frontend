@@ -14,7 +14,9 @@ export default defineConfig({
     },
   },
   build: {
-    rollupOptions: { external },
+    rollupOptions: {
+      external,
+    },
   },
   envPrefix: 'REACT_APP_',
   server: {

@@ -1,0 +1,107 @@
+import React, { useRef, useState } from 'react'
+import { InputAdornment, Stack, Tooltip, Button, TextField, SxProps } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/DeleteOutline'
+import DownloadIcon from '@mui/icons-material/Download'
+import ModeEditIcon from '@mui/icons-material/ModeEdit'
+import AttachFileIcon from '@mui/icons-material/AttachFile'
+import { useTranslation } from 'react-i18next'
+import { DocumentRead } from '@/types/common.types'
+import { InputWrapper } from '@/components/shared/InputWrapper'
+
+type DocumentContainerProps = {
+  doc: DocumentRead
+  onDownload?: (document: DocumentRead) => void
+  onDelete?: (document: DocumentRead) => void
+  onUpdateDescription?: (newDescription: string) => void
+  sx?: SxProps
+}
+
+export function DocumentContainer({
+  doc,
+  onDownload,
+  onDelete,
+  onUpdateDescription,
+  sx,
+}: DocumentContainerProps) {
+  const { t } = useTranslation('shared-components', { keyPrefix: 'documentContainer' })
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [canEdit, setCanEdit] = useState(false)
+  const [newValue, setNewValue] = useState('')
+
+  const updateCanEdit = async (e: React.SyntheticEvent) => {
+    e.preventDefault()
+    setCanEdit((prev) => {
+      const newState = !prev
+      if (newState && inputRef && inputRef.current) {
+        setTimeout(() => {
+          ;(inputRef.current as HTMLInputElement).focus()
+        }, 0)
+      }
+      return newState
+    })
+  }
+
+  const handleUpdateDescription = () => {
+    onUpdateDescription?.(newValue)
+  }
+
+  return (
+    <Stack sx={sx} direction="row" justifyContent="space-between">
+      <InputWrapper
+        sx={{ my: 0, width: '100%' }}
+        name="prettyName"
+        infoLabel={canEdit ? t('prettyName.infoLabel') : undefined}
+      >
+        <TextField
+          ref={inputRef}
+          disabled={!canEdit}
+          sx={{ my: 0, width: '100%', flexShrink: 1 }}
+          name="prettyName"
+          label={t('prettyName.label')}
+          value={!canEdit ? doc.prettyName : newValue}
+          onChange={(e) => setNewValue(e.target.value)}
+          onBlur={handleUpdateDescription}
+          inputProps={{ maxLength: 60 }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <AttachFileIcon fontSize="small" />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </InputWrapper>
+
+      <Stack direction="row" alignItems="center" sx={{ flexShrink: 0, ml: 1 }}>
+        {onUpdateDescription && (
+          <Tooltip title={t('editDocumentName')}>
+            <Button
+              sx={{
+                p: 1,
+                bgcolor: canEdit ? 'primary.main' : 'transparent',
+                color: canEdit ? 'common.white' : 'primary.main',
+              }}
+              onClick={updateCanEdit}
+            >
+              <ModeEditIcon fontSize="small" />
+            </Button>
+          </Tooltip>
+        )}
+        {onDownload && (
+          <Tooltip title={t('downloadDocument')}>
+            <Button sx={{ p: 1 }} onClick={onDownload.bind(null, doc)}>
+              <DownloadIcon fontSize="small" />
+            </Button>
+          </Tooltip>
+        )}
+        {onDelete && (
+          <Tooltip title={t('deleteDocument')}>
+            <Button color="error" sx={{ p: 1 }} onClick={onDelete.bind(null, doc)}>
+              <DeleteIcon fontSize="small" />
+            </Button>
+          </Tooltip>
+        )}
+      </Stack>
+    </Stack>
+  )
+}

@@ -38,8 +38,12 @@ function usePrefetchSingle() {
 }
 
 function useGetKeyList(clientId: string) {
-  return useQueryWrapper([ClientQueryKeys.GetKeyList, clientId], () =>
-    ClientServices.getKeyList(clientId)
+  return useQueryWrapper(
+    [ClientQueryKeys.GetKeyList, clientId],
+    () => ClientServices.getKeyList(clientId),
+    {
+      skipThrowOn404Error: true,
+    }
   )
 }
 

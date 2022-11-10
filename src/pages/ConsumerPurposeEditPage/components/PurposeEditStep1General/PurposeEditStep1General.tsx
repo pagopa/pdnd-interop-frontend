@@ -1,7 +1,6 @@
 import React from 'react'
 import { PurposeQueries } from '@/api/purpose'
 import { useRouteParams } from '@/router'
-import axios from 'axios'
 import { NotFoundError } from '@/utils/errors.utils'
 import PurposeEditStep1GeneralForm, {
   PurposeEditStep1GeneralFormSkeleton,
@@ -10,17 +9,15 @@ import { ActiveStepProps } from '@/hooks/useActiveStep'
 
 export const PurposeEditStep1General: React.FC<ActiveStepProps> = (props) => {
   const { purposeId } = useRouteParams<'SUBSCRIBE_PURPOSE_EDIT'>()
-  const {
-    data: purpose,
-    isLoading: isLoadingPurpose,
-    error,
-  } = PurposeQueries.useGetSingle(purposeId, { suspense: false })
+  const { data: purpose, isLoading: isLoadingPurpose } = PurposeQueries.useGetSingle(purposeId, {
+    suspense: false,
+  })
 
   if (isLoadingPurpose) {
     return <PurposeEditStep1GeneralFormSkeleton />
   }
 
-  if ((axios.isAxiosError(error) && error.response?.status === 404) || !purpose) {
+  if (!purpose) {
     throw new NotFoundError()
   }
 

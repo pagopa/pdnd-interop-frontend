@@ -17,9 +17,11 @@ function useGetList(params: GetListAgreementQueryParams) {
   )
 }
 
-function useGetSingle(agreementId: string) {
-  return useQueryWrapper([AgreementQueryKeys.GetSingle, agreementId], () =>
-    AgreementServices.getSingle(agreementId)
+function useGetSingle(agreementId: string, config = { suspense: false }) {
+  return useQueryWrapper(
+    [AgreementQueryKeys.GetSingle, agreementId],
+    () => AgreementServices.getSingle(agreementId),
+    config
   )
 }
 

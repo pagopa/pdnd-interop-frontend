@@ -1,5 +1,5 @@
-import { PartyAttributes } from '@/types/attribute.types'
-import { QueryKey, useQueryClient } from '@tanstack/react-query'
+import { useJwt } from '@/hooks/useJwt'
+import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import AttributeServices from './attribute.services'
@@ -10,6 +10,7 @@ export enum AttributeQueryKeys {
   GetPartyCertifiedList = 'AttributeGetPartyCertifiedList',
   GetPartyVerifiedList = 'AttributeGetPartyVerifiedList',
   GetPartyDeclaredList = 'AttributeGetPartyDeclaredList',
+  GetPartyList = 'AttributeGetPartyList',
 }
 
 function useGetList(search?: string) {
@@ -62,12 +63,24 @@ function useGetPartyDeclaredList(partyId?: string) {
   )
 }
 
-function useGetListPartyAttributes(partyId?: string): PartyAttributes {
-  const { data: certified = [] } = useGetPartyCertifiedList(partyId)
-  const { data: verified = [] } = useGetPartyVerifiedList(partyId)
-  const { data: declared = [] } = useGetPartyDeclaredList(partyId)
-
-  return { certified, verified, declared }
+function useGetListParty(partyId?: string, config = { suspense: true }) {
+  const queryClient = useQueryClient()
+  return useQueryWrapper(
+    [AttributeQueryKeys.GetPartyList, partyId],
+    () => AttributeServices.getPartyList(partyId!),
+    {
+      enabled: !!partyId,
+      ...config,
+      onSuccess(data) {
+        queryClient.setQueryData(
+          [AttributeQueryKeys.GetPartyCertifiedList, partyId],
+          data.certified
+        )
+        queryClient.setQueryData([AttributeQueryKeys.GetPartyVerifiedList, partyId], data.verified)
+        queryClient.setQueryData([AttributeQueryKeys.GetPartyDeclaredList, partyId], data.declared)
+      },
+    }
+  )
 }
 
 function useCreate() {
@@ -79,19 +92,7 @@ function useCreate() {
     loadingLabel: t('loading'),
     onSuccess(data) {
       queryClient.setQueryData([AttributeQueryKeys.GetSingle, data.id], data)
-      let keyToInvalidate: QueryKey | null = null
-      if (data.kind === 'CERTIFIED') {
-        keyToInvalidate = [AttributeQueryKeys.GetPartyCertifiedList]
-      }
-      if (data.kind === 'VERIFIED') {
-        keyToInvalidate = [AttributeQueryKeys.GetPartyVerifiedList]
-      }
-      if (data.kind === 'DECLARED') {
-        keyToInvalidate = [AttributeQueryKeys.GetPartyDeclaredList]
-      }
-      if (keyToInvalidate) {
-        queryClient.invalidateQueries(keyToInvalidate)
-      }
+      queryClient.invalidateQueries([AttributeQueryKeys.GetList])
     },
   })
 }
@@ -110,8 +111,9 @@ function useVerifyPartyAttribute() {
       title: t('confirmDialog.title'),
       description: t('confirmDialog.description'),
     },
-    onSuccess(_, { id }) {
+    onSuccess(_, { id, partyId }) {
       queryClient.invalidateQueries([AttributeQueryKeys.GetPartyVerifiedList])
+      queryClient.invalidateQueries([AttributeQueryKeys.GetPartyList, partyId])
       queryClient.invalidateQueries([AttributeQueryKeys.GetSingle, id])
     },
   })
@@ -131,14 +133,16 @@ function useRevokeVerifiedPartyAttribute() {
       title: t('confirmDialog.title'),
       description: t('confirmDialog.description'),
     },
-    onSuccess(_, { attributeId }) {
+    onSuccess(_, { attributeId, partyId }) {
       queryClient.invalidateQueries([AttributeQueryKeys.GetPartyVerifiedList])
+      queryClient.invalidateQueries([AttributeQueryKeys.GetPartyList, partyId])
       queryClient.invalidateQueries([AttributeQueryKeys.GetSingle, attributeId])
     },
   })
 }
 
 function useDeclarePartyAttribute() {
+  const { jwt } = useJwt()
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'attribute.declarePartyAttribute',
   })
@@ -153,13 +157,16 @@ function useDeclarePartyAttribute() {
       description: t('confirmDialog.description'),
     },
     onSuccess(_, { id }) {
-      queryClient.invalidateQueries([AttributeQueryKeys.GetPartyDeclaredList])
+      queryClient.invalidateQueries([AttributeQueryKeys.GetPartyDeclaredList, jwt?.organizationId])
+      queryClient.invalidateQueries([AttributeQueryKeys.GetPartyList, jwt?.organizationId])
       queryClient.invalidateQueries([AttributeQueryKeys.GetSingle, id])
     },
   })
 }
 
 function useRevokeDeclaredPartyAttribute() {
+  const { jwt } = useJwt()
+
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'attribute.revokeDeclaredPartyAttribute',
   })
@@ -174,7 +181,8 @@ function useRevokeDeclaredPartyAttribute() {
       description: t('confirmDialog.description'),
     },
     onSuccess(_, { attributeId }) {
-      queryClient.invalidateQueries([AttributeQueryKeys.GetPartyDeclaredList])
+      queryClient.invalidateQueries([AttributeQueryKeys.GetPartyDeclaredList, jwt?.organizationId])
+      queryClient.invalidateQueries([AttributeQueryKeys.GetPartyList, jwt?.organizationId])
       queryClient.invalidateQueries([AttributeQueryKeys.GetSingle, attributeId])
     },
   })
@@ -187,7 +195,7 @@ export const AttributeQueries = {
   useGetPartyCertifiedList,
   useGetPartyVerifiedList,
   useGetPartyDeclaredList,
-  useGetListPartyAttributes,
+  useGetListParty,
 }
 
 export const AttributeMutations = {

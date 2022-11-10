@@ -1,4 +1,8 @@
-import { InformationContainer, SectionContainer } from '@/components/layout/containers'
+import {
+  InformationContainer,
+  SectionContainer,
+  SectionContainerSkeleton,
+} from '@/components/layout/containers'
 import { RouterLink, useCurrentRoute } from '@/router'
 import { Stack } from '@mui/material'
 import React from 'react'
@@ -11,7 +15,7 @@ export const AgreementGeneralInfoSection: React.FC = () => {
   const { mode } = useCurrentRoute()
   const { agreement } = useAgreementDetailsContext()
 
-  if (!agreement) return null
+  if (!agreement) return <AgreementGeneralInfoSectionSkeleton />
 
   return (
     <SectionContainer title={t('title')}>
@@ -44,4 +48,8 @@ export const AgreementGeneralInfoSection: React.FC = () => {
       </Stack>
     </SectionContainer>
   )
+}
+
+export const AgreementGeneralInfoSectionSkeleton: React.FC = () => {
+  return <SectionContainerSkeleton height={190} />
 }

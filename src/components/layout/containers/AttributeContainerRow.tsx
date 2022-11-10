@@ -12,7 +12,7 @@ import CloseIcon from '@mui/icons-material/Close'
 type AttributeContainerRowProps<T extends { id: string; name: string }> = {
   attribute: T
   showOrLabel?: boolean
-  buttons?: Array<
+  actions?: Array<
     {
       label: React.ReactNode | string
       action: (attributeId: string, attributeName: string) => void
@@ -23,7 +23,7 @@ type AttributeContainerRowProps<T extends { id: string; name: string }> = {
 export const AttributeContainerRow = <T extends { id: string; name: string }>({
   attribute,
   showOrLabel,
-  buttons = [],
+  actions = [],
   ...props
 }: AttributeContainerRowProps<T>) => {
   const { openDialog } = useDialog()
@@ -45,7 +45,7 @@ export const AttributeContainerRow = <T extends { id: string; name: string }>({
         {attribute.name}
       </Typography>
       <Stack sx={{ flexShrink: 0 }} direction="row" alignItems="center" spacing={2}>
-        {buttons.map(({ action, label, ...buttonProps }, i) => (
+        {actions.map(({ action, label, ...buttonProps }, i) => (
           <ButtonNaked
             key={i}
             onClick={action.bind(null, attribute.id, attribute.name)}

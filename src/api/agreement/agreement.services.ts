@@ -77,17 +77,15 @@ async function downloadDraftDocument({
 
 function uploadDraftDocument({
   agreementId,
-  documentId,
   ...payload
 }: {
   agreementId: string
-  documentId: string
 } & UploadAgreementDraftDocumentPayload) {
   const formData = new FormData()
   Object.entries(payload).forEach(([key, data]) => formData.append(key, data))
 
   return axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/consumer-documents/${documentId}`,
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/consumer-documents`,
     formData,
     { headers: { 'Content-Type': 'multipart/form-data' } }
   )

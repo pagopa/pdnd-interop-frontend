@@ -1,6 +1,6 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import riskAnalysis from '@/data/risk-analysis/pa/v2.0.json'
+import riskAnalysis from '@/static/risk-analysis/pa/v2.0.json'
 import { Box, Stack, Typography } from '@mui/material'
 import { FormProvider } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'

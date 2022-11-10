@@ -47,6 +47,9 @@
     "download": "Download",
     "archive": "Archive",
     "cancel": "Cancel",
+    "verify": "Verify",
+    "revoke": "Revoke",
+    "confirm": "Confirm",
     "createNewDraft": "Create new draft version",
     "saveDraft": "Save draft",
     "backToCatalog": "Back to catalog"

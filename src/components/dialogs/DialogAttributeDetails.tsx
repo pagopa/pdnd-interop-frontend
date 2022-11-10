@@ -36,7 +36,7 @@ const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) =>
   })
   const { data: attribute } = AttributeQueries.useGetSingle(attributeId)
 
-  if (!attribute) return null
+  if (!attribute) return <AttributeDetailsSkeleton />
 
   return (
     <DialogContent>

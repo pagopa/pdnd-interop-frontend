@@ -1,34 +1,87 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import HttpApi from 'i18next-http-backend'
-import { DEFAULT_LANG, LANGUAGES } from '@/config/constants'
+import { DEFAULT_LANG } from '@/config/constants'
 import { buildYupLocale } from './yup'
 
-i18n
-  .use(initReactI18next)
-  .use(HttpApi)
-  .init(
-    {
-      debug: false,
-      // Preload is needed to fetch translation in a different language from the current one
-      // See https://github.com/i18next/i18next/issues/959#issuecomment-325196655
-      // In code, see isProviderOrConsumer in lib/router-utils.ts
-      preload: Object.keys(LANGUAGES),
-      fallbackLng: DEFAULT_LANG,
-      interpolation: {
-        escapeValue: false,
-      },
-      defaultNS: 'common',
-      // Prealoaded i18n json files
-      ns: ['pages', 'common', 'shared-components', 'mutations-feedback', 'pagopa', 'error'],
-      backend: {
-        // DANGER DANGER DANGER. The path needs to be prepended with the PUBLIC_URL
-        // See: https://stackoverflow.com/a/65396448
-        loadPath: `/locales/{{lng}}/{{ns}}.json`,
-      },
+// import pagesEnNs from '@/static/locales/en/pages.json'
+// import commonEnNs from '@/static/locales/en/common.json'
+// import eserviceEnNs from '@/static/locales/en/eservice.json'
+// import partyEnNs from '@/static/locales/en/party.json'
+// import pagopaEnNs from '@/static/locales/en/pagopa.json'
+// import sharedComponentsEnNs from '@/static/locales/en/shared-components.json'
+// import attributeEnNs from '@/static/locales/en/attribute.json'
+// import mutationsFeedbackEnNs from '@/static/locales/en/mutations-feedback.json'
+// import errorEnNs from '@/static/locales/en/error.json'
+// import agreementEnNs from '@/static/locales/en/agreement.json'
+// import purposeEnNs from '@/static/locales/en/purpose.json'
+// import clientEnNs from '@/static/locales/en/client.json'
+// import voucherEnNs from '@/static/locales/en/voucher.json'
+// import userEnNs from '@/static/locales/en/user.json'
+// import keyEnNs from '@/static/locales/en/key.json'
+
+import pagesItNs from '@/static/locales/it/pages.json'
+import commonItNs from '@/static/locales/it/common.json'
+import eserviceItNs from '@/static/locales/it/eservice.json'
+import partyItNs from '@/static/locales/it/party.json'
+import pagopaItNs from '@/static/locales/it/pagopa.json'
+import sharedComponentsItNs from '@/static/locales/it/shared-components.json'
+import attributeItNs from '@/static/locales/it/attribute.json'
+import mutationsFeedbackItNs from '@/static/locales/it/mutations-feedback.json'
+import errorItNs from '@/static/locales/it/error.json'
+import agreementItNs from '@/static/locales/it/agreement.json'
+import purposeItNs from '@/static/locales/it/purpose.json'
+import clientItNs from '@/static/locales/it/client.json'
+import voucherItNs from '@/static/locales/it/voucher.json'
+import userItNs from '@/static/locales/it/user.json'
+import keyItNs from '@/static/locales/it/key.json'
+
+i18n.use(initReactI18next).init(
+  {
+    debug: false,
+    fallbackLng: DEFAULT_LANG,
+    interpolation: {
+      escapeValue: false,
     },
-    buildYupLocale
-  )
+    defaultNS: 'common',
+    resources: {
+      it: {
+        pages: pagesItNs,
+        common: commonItNs,
+        eservice: eserviceItNs,
+        party: partyItNs,
+        pagopa: pagopaItNs,
+        'shared-components': sharedComponentsItNs,
+        attribute: attributeItNs,
+        'mutations-feedback': mutationsFeedbackItNs,
+        error: errorItNs,
+        agreement: agreementItNs,
+        purpose: purposeItNs,
+        client: clientItNs,
+        voucher: voucherItNs,
+        user: userItNs,
+        key: keyItNs,
+      },
+      // en: {
+      //   pages: pagesEnNs,
+      //   common: commonEnNs,
+      //   eservice: eserviceEnNs,
+      //   party: partyEnNs,
+      //   pagopa: pagopaEnNs,
+      //   'shared-components': sharedComponentsEnNs,
+      //   attribute: attributeEnNs,
+      //   'mutations-feedback': mutationsFeedbackEnNs,
+      //   error: errorEnNs,
+      //   agreement: agreementEnNs,
+      //   purpose: purposeEnNs,
+      //   client: clientEnNs,
+      //   voucher: voucherEnNs,
+      //   user: userEnNs,
+      //   key: keyEnNs,
+      // },
+    },
+  },
+  buildYupLocale
+)
 
 i18n.on('languageChanged', () => {
   buildYupLocale(undefined, i18n.t)

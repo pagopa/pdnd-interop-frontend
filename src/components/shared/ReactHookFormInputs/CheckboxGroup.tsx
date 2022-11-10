@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormControlLabel, FormGroup, FormLabel, Checkbox, SxProps } from '@mui/material'
-import { InputWrapper } from './InputWrapper'
+import { InputWrapper } from '../InputWrapper'
 import { Controller, useFormContext } from 'react-hook-form'
 import { InputOption } from '@/types/common.types'
 

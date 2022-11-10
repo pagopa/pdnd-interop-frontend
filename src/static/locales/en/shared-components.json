@@ -141,5 +141,18 @@
   "autocompleteMultiple": {
     "loadingLabel": "Searching...",
     "noDataLabel": "No results"
+  },
+  "singleFileInput": {
+    "dropzoneLabel": "Drag here file or click here to select it from your computer",
+    "loadingLabel": "Loading..."
+  },
+  "documentContainer": {
+    "prettyName": {
+      "label": "Document name",
+      "infoLabel": "Max 60 chars"
+    },
+    "editDocumentName": "Edit document name",
+    "deleteDocument": "Delete document",
+    "downloadDocument": "Download document"
   }
 }

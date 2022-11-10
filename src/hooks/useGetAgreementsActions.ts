@@ -2,7 +2,7 @@ import { AgreementState, AgreementSummary } from '@/types/agreement.types'
 import { AgreementMutations } from '@/api/agreement'
 import { ActionItem } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
-import { useCurrentRoute } from '@/router'
+import { useCurrentRoute, useNavigateRouter } from '@/router'
 import { canAgreementBeUpgraded } from '@/utils/agreement.utils'
 import { useDialog } from '@/contexts'
 
@@ -11,9 +11,10 @@ type AgreementActions = Record<AgreementState, Array<ActionItem>>
 function useGetAgreementsActions(agreement: AgreementSummary | undefined): {
   actions: Array<ActionItem>
 } {
+  const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const { mode } = useCurrentRoute()
   const { openDialog } = useDialog()
-  const { t } = useTranslation('common', { keyPrefix: 'actions' })
+  const { navigate } = useNavigateRouter()
 
   const { mutate: activateAgreement } = AgreementMutations.useActivate()
   const { mutate: suspendAgreement } = AgreementMutations.useSuspend()
@@ -37,7 +38,16 @@ function useGetAgreementsActions(agreement: AgreementSummary | undefined): {
   }
 
   const handleDelete = () => {
-    deleteAgreement({ agreementId: agreement.id })
+    deleteAgreement(
+      { agreementId: agreement.id },
+      {
+        onSuccess() {
+          const routeKey =
+            mode === 'provider' ? 'PROVIDE_AGREEMENT_LIST' : 'SUBSCRIBE_AGREEMENT_LIST'
+          navigate(routeKey)
+        },
+      }
+    )
   }
 
   const handleReject = () => {

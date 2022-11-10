@@ -3,7 +3,7 @@ import { AttributeQueries } from '@/api/attribute'
 import { EServiceQueries } from '@/api/eservice'
 import { useNavigateRouter } from '@/router'
 import { ActionItem } from '@/types/common.types'
-import { checkCertifiedAttributesOwnership } from '@/utils/attribute.utils'
+import { checkEServiceAttributesOwnership } from '@/utils/attribute.utils'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from './useJwt'
 
@@ -34,7 +34,7 @@ function useGetEServiceConsumerActions(eserviceId: string, descriptorId: string 
     // ... I am an admin and I own all the certified attributes or...
     if (
       isAdmin &&
-      checkCertifiedAttributesOwnership(certifiedAttributes, eservice.certifiedAttributes)
+      checkEServiceAttributesOwnership(certifiedAttributes, eservice.certifiedAttributes)
     ) {
       canCreateAgreementDraft = true
     }

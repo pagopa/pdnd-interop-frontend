@@ -2,16 +2,18 @@ import React from 'react'
 import { createSafeContext } from '@/contexts/utils'
 import { EServiceQueries } from '@/api/eservice'
 import { remapEServiceAttributes } from '@/utils/attribute.utils'
-import { FrontendAttributes } from '@/types/attribute.types'
+import { FrontendAttributes, PartyAttributes } from '@/types/attribute.types'
 import { AgreementSummary } from '@/types/agreement.types'
 import { AgreementQueries } from '@/api/agreement'
 import { useJwt } from '@/hooks/useJwt'
 import { useCurrentRoute } from '@/router'
 import { canAgreementBeUpgraded } from '@/utils/agreement.utils'
+import { AttributeQueries } from '@/api/attribute'
 
 type AgreementDetailsContextType = {
   agreement: AgreementSummary | undefined
-  eserviceAttributes: FrontendAttributes
+  eserviceAttributes: FrontendAttributes | undefined
+  partyAttributes: PartyAttributes | undefined
   isAgreementEServiceMine: boolean
   canBeUpgraded: boolean
 }
@@ -19,7 +21,8 @@ type AgreementDetailsContextType = {
 const initialState: AgreementDetailsContextType = {
   agreement: undefined,
   isAgreementEServiceMine: false,
-  eserviceAttributes: { certified: [], verified: [], declared: [] },
+  eserviceAttributes: undefined,
+  partyAttributes: undefined,
   canBeUpgraded: false,
 }
 
@@ -34,11 +37,21 @@ const AgreementDetailsContextProvider: React.FC<{
 }> = ({ agreementId, children }) => {
   const { jwt } = useJwt()
   const { mode } = useCurrentRoute()
+
   const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
   const { data: eservice } = EServiceQueries.useGetSingle(
     agreement?.eservice.id,
     agreement?.descriptorId
   )
+
+  const partyId =
+    mode === 'provider'
+      ? agreement?.consumer.id
+      : mode === 'consumer'
+      ? jwt?.organizationId
+      : undefined
+
+  const { data: partyAttributes } = AttributeQueries.useGetListParty(partyId)
 
   const providerValue = React.useMemo(() => {
     if (!agreement || !eservice || mode === null) return initialState
@@ -51,9 +64,10 @@ const AgreementDetailsContextProvider: React.FC<{
       agreement,
       isAgreementEServiceMine,
       eserviceAttributes,
+      partyAttributes,
       canBeUpgraded,
     }
-  }, [agreement, eservice, jwt?.organizationId, mode])
+  }, [agreement, eservice, jwt?.organizationId, mode, partyAttributes])
 
   return <Provider value={providerValue}>{children}</Provider>
 }

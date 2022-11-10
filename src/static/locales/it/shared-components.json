@@ -140,5 +140,18 @@
   "autocompleteMultiple": {
     "loadingLabel": "Stiamo cercando...",
     "noDataLabel": "Nessun risultato trovato"
+  },
+  "singleFileInput": {
+    "dropzoneLabel": "Trascina qui il file o clicca qui per selezionarlo dal tuo computer",
+    "loadingLabel": "Caricamento in corso..."
+  },
+  "documentContainer": {
+    "prettyName": {
+      "label": "Nome documento",
+      "infoLabel": "Max 60 caratteri"
+    },
+    "editDocumentName": "Modifica nome del documento",
+    "deleteDocument": "Cancella documento",
+    "downloadDocument": "Scarica documento"
   }
 }

@@ -11,14 +11,9 @@ type InputWrapperProps = {
   children: React.ReactNode
 }
 
-export const InputWrapper: React.FC<InputWrapperProps> = ({
-  error,
-  sx = { my: 4 },
-  infoLabel,
-  children,
-}) => {
+export const InputWrapper: React.FC<InputWrapperProps> = ({ error, sx, infoLabel, children }) => {
   return (
-    <Box sx={sx}>
+    <Box sx={{ my: 4, ...sx }}>
       {children}
       {Boolean(error) && <InputError error={{ message: error }} />}
       {infoLabel && (

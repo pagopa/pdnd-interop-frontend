@@ -3,6 +3,7 @@ import { useDialog, useLoadingOverlay, useToastNotification } from '@/contexts'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { UseMutationWrapper, UseQueryWrapper } from './react-query-wrapper.types'
 import { useJwt } from '@/hooks/useJwt'
+import { NotFoundError } from '@/utils/errors.utils'
 
 export const useQueryWrapper: UseQueryWrapper = (key, queryFn, options) => {
   const { hasSessionExpired } = useJwt()
@@ -13,6 +14,12 @@ export const useQueryWrapper: UseQueryWrapper = (key, queryFn, options) => {
   }
 
   return useQuery(key, queryFn, {
+    useErrorBoundary: (error) => {
+      if (options?.skipThrowOn404Error && error instanceof NotFoundError) {
+        return false
+      }
+      return true
+    },
     ...options,
   })
 }

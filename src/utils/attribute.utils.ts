@@ -9,7 +9,7 @@ import {
 import has from 'lodash/has'
 import { getKeys } from './array.utils'
 
-export function checkCertifiedAttributesOwnership(
+export function checkEServiceAttributesOwnership(
   partyAttributes: Array<PartyAttribute>,
   eserviceAttributes: Array<BackendAttribute>
 ) {

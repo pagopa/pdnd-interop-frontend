@@ -23,6 +23,7 @@ import {
   SecurityKeyGuidePage,
   ConsumerPurposeCreatePage,
   NotificationsPage,
+  ConsumerAgreementCreatePage,
 } from '@/pages'
 import { LANGUAGES } from '@/config/constants'
 import { getKeys } from '@/utils/array.utils'
@@ -271,7 +272,7 @@ export const routes = makeType({
     },
     LABEL: { it: 'Modifica richiesta', en: 'Edit request' },
     EXACT: false,
-    COMPONENT: EmptyComponent,
+    COMPONENT: ConsumerAgreementCreatePage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },

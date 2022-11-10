@@ -2,7 +2,12 @@ import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { useJwt } from '@/hooks/useJwt'
 import { useLocation } from 'react-router-dom'
 import { routes } from '../routes'
-import { getParentRoutes, getRouteKeyFromPathname, isProviderOrConsumerRoute } from '../utils'
+import {
+  getParentRoutes,
+  getRouteKeyFromPathname,
+  isEditPath as _isEditPath,
+  isProviderOrConsumerRoute,
+} from '../utils'
 import intersectionWith from 'lodash/intersectionWith'
 import { RouteKey } from '../types'
 import React from 'react'
@@ -15,11 +20,11 @@ function useCurrentRoute() {
 
   const routeKey = getRouteKeyFromPathname(location.pathname, currentLanguage)
   const route = routes[routeKey]
-
   const hasOverlappingRole = intersectionWith(currentRoles, route.AUTH_LEVELS)
   const isUserAuthorized = !route.PUBLIC || route.AUTH_LEVELS === 'any' || hasOverlappingRole
   const isPublic = route.PUBLIC
   const mode = isProviderOrConsumerRoute(routeKey)
+  const isEditPath = _isEditPath(routeKey)
 
   const isRouteInCurrentSubtree = React.useCallback(
     (route: RouteKey) => {
@@ -28,7 +33,7 @@ function useCurrentRoute() {
     [routeKey]
   )
 
-  return { routeKey, route, isUserAuthorized, mode, isPublic, isRouteInCurrentSubtree }
+  return { routeKey, route, isUserAuthorized, mode, isPublic, isEditPath, isRouteInCurrentSubtree }
 }
 
 export default useCurrentRoute

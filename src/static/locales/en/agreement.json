@@ -64,18 +64,18 @@
       "howLink": "How?",
       "certified": {
         "title": "Certified attributes",
-        "subtitle": "TODO",
-        "emptyLabel": "No certified attributes presented"
+        "subtitle": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori certificazioni.",
+        "emptyLabel": "There are no required certified attributes for this e-service"
       },
       "verified": {
         "title": "Verified attributes",
-        "subtitle": "TODO",
-        "emptyLabel": "No verified attributes presented"
+        "subtitle": "Questi attributi necessitano di verifica da parte di almeno un erogatore. Potresti già possederne alcuni (o tutti).",
+        "emptyLabel": "There are no required verified attributes for this e-service"
       },
       "declared": {
         "title": "Declared attributes",
-        "subtitle": "TODO",
-        "emptyLabel": "No declared attributes presented"
+        "subtitle": "Devi dichiarare sotto la tua responsabilità di possedere questi attributi. Potresti già possederne alcuni (o tutti).",
+        "emptyLabel": "There are no required declared attributes for this e-service"
       }
     }
   },
@@ -107,14 +107,21 @@
         "description": "You must declare under your own responsibility that you possess these attributes."
       }
     },
+    "consumerNotes": {
+      "title": "Message for provider",
+      "description": "If there are any groups of attributes marked with “or”, indicate in this message which of those you want to be recognized, based on the documentation you have uploaded. Enter any other useful notes",
+      "field": {
+        "label": "Message",
+        "infoLabel": "Max 1000 chars"
+      }
+    },
     "documents": {
       "title": "Documentation",
       "description": "Enter all the documents necessary for the recognition of your attributes",
       "uploadBtn": "Upload",
-      "documentInputField": {
-        "dragHereLabel": "Drag here file or",
-        "selectFromComputerLabel": "select it from your computer",
-        "loadingLabel": "Loading...s"
+      "documentPrettynameField": {
+        "label": "Document name",
+        "infoLabel": "Max 60 chars"
       }
     },
     "bottomPageActionCard": {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { TextField as MUITextField, TextFieldProps as MUITextFieldProps } from '@mui/material'
-import { InputWrapper } from './InputWrapper'
+import { InputWrapper } from '../InputWrapper'
 import { useFormContext } from 'react-hook-form'
 
 export type StyledInputTextType = 'text' | 'email' | 'number'

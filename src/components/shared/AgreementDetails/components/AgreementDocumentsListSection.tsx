@@ -1,4 +1,6 @@
 import { AgreementMutations } from '@/api/agreement'
+import { SectionContainerSkeleton } from '@/components/layout/containers'
+import { useCurrentRoute } from '@/router'
 import { DocumentRead } from '@/types/common.types'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -9,11 +11,13 @@ export const AgreementDocumentListSection: React.FC = () => {
   const { t } = useTranslation('agreement', {
     keyPrefix: 'read.generalInformations.printableCopyField',
   })
+  const { isEditPath } = useCurrentRoute()
   const { agreement } = useAgreementDetailsContext()
   const { mutate: downloadDocument } = AgreementMutations.useDownloadDocument()
   const { mutate: downloadContract } = AgreementMutations.useDownloadContract()
 
-  if (!agreement) return null
+  if (!agreement) return <AgreementDocumentListSectionSkeleton />
+  if (isEditPath) return null
 
   let docs = agreement.consumerDocuments
 
@@ -39,4 +43,10 @@ export const AgreementDocumentListSection: React.FC = () => {
   }
 
   return <DownloadableDocumentsList docs={docs} onDocumentDownload={handleDownloadDocument} />
+}
+
+export const AgreementDocumentListSectionSkeleton: React.FC = () => {
+  const { isEditPath } = useCurrentRoute()
+  if (isEditPath) return null
+  return <SectionContainerSkeleton height={115} />
 }
