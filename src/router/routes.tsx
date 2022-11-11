@@ -24,6 +24,7 @@ import {
   ConsumerPurposeCreatePage,
   NotificationsPage,
   ConsumerAgreementCreatePage,
+  ProviderEServiceCreatePage,
 } from '@/pages'
 import { LANGUAGES } from '@/config/constants'
 import { getKeys } from '@/utils/array.utils'
@@ -78,7 +79,7 @@ export const routes = makeType({
     PATH: { it: 'erogazione/e-service/crea', en: 'provider/e-service/create' },
     LABEL: { it: 'Crea e-service', en: 'Create e-service' },
     EXACT: true,
-    COMPONENT: EmptyComponent,
+    COMPONENT: ProviderEServiceCreatePage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'api'],
   },
@@ -89,7 +90,7 @@ export const routes = makeType({
     },
     LABEL: { it: 'Modifica e-service', en: 'Edit e-service' },
     EXACT: false,
-    COMPONENT: EmptyComponent,
+    COMPONENT: ProviderEServiceCreatePage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin', 'api'],
   },

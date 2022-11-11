@@ -35,7 +35,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
       title={eservice?.name || ''}
       description={eservice?.description}
       topSideActions={topSideActions}
-      showSkeleton={isLoadingEService}
+      isLoading={isLoadingEService}
     >
       <TabContext value={activeTab}>
         <TabList

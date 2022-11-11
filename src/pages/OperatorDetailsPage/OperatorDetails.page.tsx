@@ -44,11 +44,7 @@ const OperatorDetailsPage: React.FC = () => {
     clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT' : 'SUBSCRIBE_CLIENT_EDIT'
 
   return (
-    <PageContainer
-      showSkeleton={isLoading}
-      title={operatorFullname}
-      topSideActions={topSideActions}
-    >
+    <PageContainer isLoading={isLoading} title={operatorFullname} topSideActions={topSideActions}>
       <Grid spacing={2} container>
         <Grid item xs={7}>
           <React.Suspense fallback={<OperatorGeneralInfoSectionSkeleton />}>

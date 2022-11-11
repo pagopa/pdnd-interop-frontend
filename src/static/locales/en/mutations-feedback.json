@@ -15,10 +15,6 @@
       "outcome": {
         "success": "Draft created successfully",
         "error": "Draft could not be created. Make sure you have filled all the required fields and try again!"
-      },
-      "confirmDialog": {
-        "title": "Conferm draft creation",
-        "description": "By clicking \"confirm\", a new draft will be created. It can be published or deleted at a later time"
       }
     },
     "updateDraft": {

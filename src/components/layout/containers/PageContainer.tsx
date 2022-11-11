@@ -24,19 +24,19 @@ type Props = {
   title?: string
   description?: string
   topSideActions?: TopSideActions
-  showSkeleton?: boolean
+  isLoading?: boolean
   sx?: SxProps
 }
 
 export const PageContainer: React.FC<Props & { children: React.ReactNode }> = ({
   children,
   sx,
-  showSkeleton,
+  isLoading,
   ...props
 }) => {
   return (
     <Box sx={sx}>
-      {showSkeleton ? <StyledIntroSkeleton /> : <StyledIntro {...props} />}
+      {isLoading ? <StyledIntroSkeleton /> : <StyledIntro {...props} />}
       <Box sx={{ mt: 4 }}>{children}</Box>
     </Box>
   )

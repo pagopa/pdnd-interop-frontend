@@ -33,7 +33,7 @@ const ConsumerClientManagePage: React.FC = () => {
       title={client?.name ?? ''}
       description={client?.description}
       topSideActions={topSideActions}
-      showSkeleton={isLoadingClient}
+      isLoading={isLoadingClient}
     >
       <TabContext value={activeTab}>
         <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">

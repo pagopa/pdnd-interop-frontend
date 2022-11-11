@@ -6,6 +6,8 @@ import EServiceServices from './eservice.services'
 import { EServiceGetListFlatUrlParams, EServiceVersionDraftPayload } from './eservice.api.types'
 import { useNavigateRouter } from '@/router'
 import { useJwt } from '@/hooks/useJwt'
+import { URL_FRAGMENTS } from '@/router/utils'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 
 export enum EServiceQueryKeys {
   GetListFlat = 'EServiceGetListFlat',
@@ -62,18 +64,18 @@ function usePrefetchSingle() {
 
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.createDraft' })
+  const currentLanguage = useCurrentLanguage()
   const queryClient = useQueryClient()
-  return useMutationWrapper(EServiceServices.upsertDraft, {
+  return useMutationWrapper(EServiceServices.createDraft, {
     suppressSuccessToast: true,
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
-    },
     onSuccess(data) {
-      queryClient.setQueryData([EServiceQueryKeys.GetSingle, data.id], data)
+      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
+      queryClient.setQueryData(
+        [EServiceQueryKeys.GetSingle, data.id, URL_FRAGMENTS.FIRST_DRAFT[currentLanguage]],
+        data
+      )
     },
   })
 }
@@ -81,12 +83,13 @@ function useCreateDraft() {
 function useUpdateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateDraft' })
   const queryClient = useQueryClient()
-  return useMutationWrapper(EServiceServices.upsertDraft, {
+  return useMutationWrapper(EServiceServices.updateDraft, {
     suppressSuccessToast: true,
-    errorToastLabel: t('loading'),
-    loadingLabel: t('outcome.error'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
     onSuccess(data) {
-      queryClient.setQueryData([EServiceQueryKeys.GetSingle, data.id], data)
+      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetSingle, data.id])
     },
   })
 }

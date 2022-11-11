@@ -29,7 +29,7 @@ const KeyDetailsPage: React.FC = () => {
   const topSideActions = formatTopSideActions(actions, { variant: 'contained' })
 
   return (
-    <PageContainer showSkeleton={isLoading} title={publicKey?.name} topSideActions={topSideActions}>
+    <PageContainer isLoading={isLoading} title={publicKey?.name} topSideActions={topSideActions}>
       <React.Suspense fallback={<KeyGeneralInfoSectionSkeleton />}>
         <KeyGeneralInfoSection clientId={clientId} kid={kid} />
       </React.Suspense>

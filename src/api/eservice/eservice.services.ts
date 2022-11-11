@@ -24,28 +24,33 @@ async function getListFlat(params: EServiceGetListFlatUrlParams) {
   return response.data
 }
 
-async function getSingle(eserviceId: string, descriptorId: string) {
+async function getSingle(eserviceId: string, descriptorId?: string) {
   const response = await axiosInstance.get<EServiceReadType>(
     `${CATALOG_PROCESS_URL}/eservices/${eserviceId}`
   )
   return decorateEServiceWithCurrentViewingDescriptor(descriptorId, response.data)
 }
 
-async function upsertDraft({
+async function createDraft(
+  payload: {
+    producerId: string
+  } & EServiceDraftPayload
+) {
+  const response = await axiosInstance.post<EServiceReadType>(
+    `${CATALOG_PROCESS_URL}/eservices`,
+    payload
+  )
+  return response.data
+}
+
+async function updateDraft({
   eserviceId,
   ...payload
 }: {
-  eserviceId?: string
+  eserviceId: string
 } & EServiceDraftPayload) {
-  if (eserviceId) {
-    const response = await axiosInstance.put<EServiceReadType>(
-      `${CATALOG_PROCESS_URL}/eservices/${eserviceId}`,
-      payload
-    )
-    return response.data
-  }
-  const response = await axiosInstance.post<EServiceReadType>(
-    `${CATALOG_PROCESS_URL}/eservices`,
+  const response = await axiosInstance.put<EServiceReadType>(
+    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}`,
     payload
   )
   return response.data
@@ -208,7 +213,8 @@ async function downloadVersionDraftDocument({
 const EServiceServices = {
   getListFlat,
   getSingle,
-  upsertDraft,
+  createDraft,
+  updateDraft,
   deleteDraft,
   cloneFromVersion,
   upsertVersionDraft,

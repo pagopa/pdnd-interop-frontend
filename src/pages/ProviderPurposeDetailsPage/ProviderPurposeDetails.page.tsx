@@ -25,7 +25,7 @@ const ProviderPurposeDetailsPage: React.FC = () => {
     <PageContainer
       title={purpose?.title}
       description={purpose?.description}
-      showSkeleton={isLoading}
+      isLoading={isLoading}
       topSideActions={topSideActions}
     >
       <TabContext value={activeTab}>
