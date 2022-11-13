@@ -22,6 +22,18 @@
   "showInfoSrLabel": "Mostra informazioni attributo",
   "mustOwn": "Devi possedere:",
   "group": {
-    "title": "attributo {{num}}:"
+    "title": "attributo {{num}}:",
+    "addBtn": "Aggiungi",
+    "cancelBtn": "Annulla",
+    "confirmDeclaredAttributeBtn": "Conferma",
+    "or": "oppure",
+    "deleteSrLabel": "Elimina attributo",
+    "deleteGroupSrLabel": "Elimina gruppo di attributi",
+    "showInfoSrLabel": "Mostra informazioni attributo",
+    "canRequireVerification": "Per questo attributo sfrutta le verifiche effettuate da altri erogatori",
+    "autocompleteInput": {
+      "label": "Aggiungi attributo al gruppo",
+      "placeholder": "Inserisci nome attributo"
+    }
   }
 }

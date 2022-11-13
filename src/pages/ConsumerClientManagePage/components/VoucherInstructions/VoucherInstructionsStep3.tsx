@@ -65,6 +65,7 @@ const ClientVoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps> = (
                 eserviceId: purpose.eservice.id,
                 descriptorId: purpose.eservice.descriptor.id,
               }}
+              target="_blank"
             >
               {purpose.eservice.name}
             </RouterLink>

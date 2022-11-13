@@ -59,18 +59,14 @@ type ErrorNotificationConfig<TVariables, TContext> =
     }
   | { suppressErrorToast: true }
 
-type DialogConfig<TVariables> =
-  | {
-      showConfirmationDialog?: false | undefined
-    }
-  | {
-      showConfirmationDialog: true
-      dialogConfig: {
-        title: string | ((variables: TVariables) => string)
-        description: string | ((variables: TVariables) => string)
-        proceedLabel?: string
-      }
-    }
+type DialogConfig<TVariables> = {
+  showConfirmationDialog?: boolean
+  dialogConfig?: {
+    title: string | ((variables: TVariables) => string)
+    description: string | ((variables: TVariables) => string)
+    proceedLabel?: string
+  }
+}
 
 export type UseMutationWrapper = <
   TData = unknown,

@@ -26,7 +26,7 @@ export function DocumentContainer({
   const { t } = useTranslation('shared-components', { keyPrefix: 'documentContainer' })
   const inputRef = useRef<HTMLInputElement>(null)
   const [canEdit, setCanEdit] = useState(false)
-  const [newValue, setNewValue] = useState('')
+  const [newValue, setNewValue] = useState(doc.prettyName)
 
   const updateCanEdit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
@@ -42,7 +42,10 @@ export function DocumentContainer({
   }
 
   const handleUpdateDescription = () => {
-    onUpdateDescription?.(newValue)
+    if (newValue !== doc.prettyName) {
+      onUpdateDescription?.(newValue)
+    }
+    setCanEdit(false)
   }
 
   return (
@@ -53,7 +56,7 @@ export function DocumentContainer({
         infoLabel={canEdit ? t('prettyName.infoLabel') : undefined}
       >
         <TextField
-          ref={inputRef}
+          inputRef={inputRef}
           disabled={!canEdit}
           sx={{ my: 0, width: '100%', flexShrink: 1 }}
           name="prettyName"
@@ -72,7 +75,7 @@ export function DocumentContainer({
         />
       </InputWrapper>
 
-      <Stack direction="row" alignItems="center" sx={{ flexShrink: 0, ml: 1 }}>
+      <Stack direction="row" alignItems="start" sx={{ flexShrink: 0, ml: 1, mt: 0.8 }}>
         {onUpdateDescription && (
           <Tooltip title={t('editDocumentName')}>
             <Button

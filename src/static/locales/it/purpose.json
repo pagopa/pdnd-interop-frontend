@@ -16,6 +16,7 @@
     "eserviceField": {
       "label": "E-service da associare"
     },
+    "purposeInfoTitle": "Contenuto del template selezionato",
     "purposePreviewTitle": "Contenuto del template selezionato",
     "consumerName": "Questo template è stato creato da",
     "purposeTitle": "Nome finalità",
@@ -116,8 +117,8 @@
   },
   "tablePurpose": {
     "actions": {
-      "updateDailyCalls": "Aggiorna numero chiamate",
-      "deleteDailyCallsUpdate": "Elimina aggiornamento numero chiamate"
+      "updateDailyCalls": "Aggiorna stima di carico",
+      "deleteDailyCallsUpdate": "Elimina aggiornamento stima di carico"
     }
   },
   "list": {

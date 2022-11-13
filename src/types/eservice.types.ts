@@ -24,6 +24,7 @@ export type EServiceReadType = {
   viewingDescriptor?: EServiceDescriptorRead // TEMP REFACTOR : this is added by the client
 }
 
+/** @deprecated TO BE REMOVED */
 export type EServiceFlatten = {
   name: string
   description: string
@@ -38,6 +39,27 @@ export type EServiceFlatten = {
     state: AgreementState
   }
   certifiedAttributes: Array<BackendAttribute>
+}
+
+export type EServiceCatalog = {
+  id: string
+  name: string
+  description: string
+  producer: {
+    id: string
+    name: string
+  }
+  agreement: {
+    id: string
+    state: AgreementState
+  }
+  isMine: true
+  canSubscribe: true
+  activeDescriptor: {
+    id: string
+    state: EServiceState
+    version: string
+  }
 }
 
 export type EServiceDescriptorRead = {

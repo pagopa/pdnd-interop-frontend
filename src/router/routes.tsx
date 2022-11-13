@@ -24,7 +24,6 @@ import {
   ConsumerPurposeCreatePage,
   NotificationsPage,
   ConsumerAgreementCreatePage,
-  ProviderEServiceCreatePage,
 } from '@/pages'
 import { LANGUAGES } from '@/config/constants'
 import { getKeys } from '@/utils/array.utils'
@@ -39,6 +38,10 @@ const ConsumerClientManagePage = React.lazy(
 
 const ConsumerPurposeEditPage = React.lazy(
   () => import('@/pages/ConsumerPurposeEditPage/ConsumerPurposeEdit.page')
+)
+
+const ProviderEServiceCreatePage = React.lazy(
+  () => import('@/pages/ProviderEServiceCreatePage/ProviderEServiceCreate.page')
 )
 
 // https://stackoverflow.com/a/70067918 waiting for "satisfies" operator in Typescript 4.9

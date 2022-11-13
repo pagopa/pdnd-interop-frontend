@@ -1,7 +1,7 @@
 import React from 'react'
 import type { SvgIconComponent } from '@mui/icons-material'
 import { Tooltip } from '@mui/material'
-import { EServiceFlatten } from '@/types/eservice.types'
+import { EServiceCatalog } from '@/types/eservice.types'
 import { useJwt } from '@/hooks/useJwt'
 import { useTranslation } from 'react-i18next'
 import PersonIcon from '@mui/icons-material/Person'
@@ -10,7 +10,7 @@ import CheckIcon from '@mui/icons-material/Check'
 import ClearIcon from '@mui/icons-material/Clear'
 
 type OwnerTooltipProps = {
-  eservice: EServiceFlatten
+  eservice: EServiceCatalog
   canCreateAgreementDraft: boolean
   isMine: boolean
 }
@@ -32,12 +32,12 @@ export const OwnerTooltip: React.FC<OwnerTooltipProps> = ({
   }
 
   if (eservice.agreement && eservice.agreement.state === 'DRAFT' && isAdmin) {
-    label = 'agreementInDraft'
+    label = t('agreementInDraft')
     Icon = ModeEditIcon
   }
 
   if (eservice.agreement && eservice.agreement.state !== 'DRAFT' && isAdmin) {
-    label = 'alreadySubscribed'
+    label = t('alreadySubscribed')
     Icon = CheckIcon
   }
 

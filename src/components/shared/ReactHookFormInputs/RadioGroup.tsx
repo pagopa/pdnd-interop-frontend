@@ -15,6 +15,7 @@ export type RadioGroupProps = MUIRadioGroupProps & {
   options: Array<InputOption & { disabled?: boolean }>
   name: string
   infoLabel?: string
+  disabled?: boolean
 }
 
 export const RadioGroup: React.FC<RadioGroupProps> = ({
@@ -23,6 +24,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
   label,
   options,
   infoLabel,
+  disabled,
   ...props
 }) => {
   const { formState, control } = useFormContext()
@@ -44,7 +46,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
           <MUIRadioGroup aria-labelledby={labelId} {...props} {...field}>
             {options.map((o) => (
               <FormControlLabel
-                disabled={o.disabled}
+                disabled={disabled || o.disabled}
                 key={o.value}
                 value={o.value}
                 control={<Radio />}

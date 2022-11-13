@@ -32,7 +32,9 @@
         "label": "Technology (required)"
       },
       "attributes": {
-        "subtitle": "The Subscriber must own:",
+        "subtitle": "The subscriber must own:",
+        "addBtn": "+ Add new attribute",
+        "createBtn": "Create new attribute",
         "certified": {
           "description": "Certified by an authoritative source. You don't need to do anything."
         },

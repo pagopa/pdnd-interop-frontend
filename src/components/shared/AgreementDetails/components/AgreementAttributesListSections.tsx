@@ -54,7 +54,7 @@ export const AgreementCertifiedAttributesSection: React.FC = () => {
               )
             }
           >
-            <Stack sx={{ m: 0, listStyle: 'none', px: 0 }} component="ul">
+            <Stack sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
               {group.attributes.map((attribute, i) => (
                 <AttributeContainerRow
                   key={attribute.id}
@@ -161,7 +161,7 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
               )
             }
           >
-            <Stack sx={{ m: 0, listStyle: 'none', px: 0 }} component="ul">
+            <Stack sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
               {group.attributes.map((attribute, i) => (
                 <AttributeContainerRow
                   key={attribute.id}
@@ -250,7 +250,7 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
               )
             }
           >
-            <Stack sx={{ m: 0, listStyle: 'none', px: 0 }} component="ul">
+            <Stack sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
               {group.attributes.map((attribute, i) => (
                 <AttributeContainerRow
                   key={attribute.id}

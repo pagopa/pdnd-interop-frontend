@@ -22,6 +22,18 @@
   "showInfoSrLabel": "Show attribute info",
   "mustOwn": "Must own:",
   "group": {
-    "title": "attribute {{num}}:"
+    "title": "attribute {{num}}:",
+    "addBtn": "Add",
+    "cancelBtn": "Cancel",
+    "confirmDeclaredAttributeBtn": "Confirm",
+    "or": "or",
+    "deleteSrLabel": "Delete attribute",
+    "deleteGroupSrLabel": "Delete group attribute",
+    "showInfoSrLabel": "Show attribute info",
+    "canRequireVerification": "For this attribute use the verification made by other providers",
+    "autocompleteInput": {
+      "label": "Add attribute to group",
+      "placeholder": "Insert attribute name"
+    }
   }
 }

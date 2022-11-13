@@ -1,4 +1,5 @@
 import { DialogProps as MUIDialogProps } from '@mui/material'
+import { AttributeKey } from './attribute.types'
 import { SelfCareUser } from './party.types'
 
 export type DialogContent = {
@@ -20,6 +21,7 @@ export type DialogProps =
   | DialogAddSecurityOperatorKeyProps
   | DialogRejectAgreementProps
   | DialogAddClientToPurposeProps
+  | DialogCreateNewAttributeProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -71,4 +73,9 @@ export type DialogRejectAgreementProps = {
 export type DialogAddClientToPurposeProps = {
   type: 'addClientToPurpose'
   purposeId: string
+}
+
+export type DialogCreateNewAttributeProps = {
+  type: 'createNewAttribute'
+  attributeKey: AttributeKey
 }

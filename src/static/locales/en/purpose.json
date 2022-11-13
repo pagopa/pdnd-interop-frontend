@@ -16,6 +16,7 @@
     "eserviceField": {
       "label": "Choose e-service"
     },
+    "purposeInfoTitle": "Selected template informations",
     "purposePreviewTitle": "Selected template content",
     "consumerName": "This template was created by",
     "purposeTitle": "Purpose name",

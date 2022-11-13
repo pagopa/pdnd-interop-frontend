@@ -16,6 +16,7 @@ import {
   PurposeCreateEServiceAutocomplete,
   PurposeCreateEServiceAutocompleteSkeleton,
 } from './components/PurposeCreateEServiceAutocomplete'
+import { PurposeCreateRiskAnalysisPreview } from './components/PurposeCreateRiskAnalysisPreview'
 import { PurposeCreateTemplateAutocomplete } from './components/PurposeCreateTemplateAutocomplete'
 
 export type PurposeCreateFormValues = {
@@ -92,6 +93,7 @@ const ConsumerPurposeCreatePage: React.FC = () => {
                   </>
                 )}
               </SectionContainer>
+              <PurposeCreateRiskAnalysisPreview />
             </Grid>
           </Grid>
           <PageBottomActionsContainer>

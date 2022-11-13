@@ -3,17 +3,23 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import EServiceServices from './eservice.services'
-import { EServiceGetListFlatUrlParams, EServiceVersionDraftPayload } from './eservice.api.types'
-import { useNavigateRouter } from '@/router'
+import {
+  EServiceGetCatalogListUrlParams,
+  EServiceGetListFlatUrlParams,
+  EServiceVersionDraftPayload,
+} from './eservice.api.types'
 import { useJwt } from '@/hooks/useJwt'
 import { URL_FRAGMENTS } from '@/router/utils'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 
 export enum EServiceQueryKeys {
+  /** @deprecated TO BE REMOVED */
   GetListFlat = 'EServiceGetListFlat',
+  GetCatalogList = 'EServiceGetCatalogList',
   GetSingle = 'EServiceGetSingle',
 }
 
+/** @deprecated TO BE REMOVED */
 function useGetListFlat(
   params: EServiceGetListFlatUrlParams,
   config?: { enabled?: boolean; suspense?: boolean }
@@ -25,6 +31,12 @@ function useGetListFlat(
       suspense: config?.suspense ?? true,
       enabled: !!params.callerId && (config?.enabled ?? true),
     }
+  )
+}
+
+function useGetCatalogList(params: EServiceGetCatalogListUrlParams) {
+  return useQueryWrapper([EServiceQueryKeys.GetCatalogList, params], () =>
+    EServiceServices.getCatalogList(params)
   )
 }
 
@@ -72,6 +84,7 @@ function useCreateDraft() {
     loadingLabel: t('loading'),
     onSuccess(data) {
       queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
       queryClient.setQueryData(
         [EServiceQueryKeys.GetSingle, data.id, URL_FRAGMENTS.FIRST_DRAFT[currentLanguage]],
         data
@@ -89,6 +102,7 @@ function useUpdateDraft() {
     loadingLabel: t('loading'),
     onSuccess(data) {
       queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
       queryClient.invalidateQueries([EServiceQueryKeys.GetSingle, data.id])
     },
   })
@@ -110,6 +124,7 @@ function useDeleteDraft() {
     onSuccess(_, { eserviceId }) {
       queryClient.removeQueries([EServiceQueryKeys.GetSingle, eserviceId])
       queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
     },
   })
 }
@@ -128,40 +143,40 @@ function useCloneFromVersion() {
   })
 }
 
-function useCreateVersionDraft(redirectToDraftPage = true) {
+function useCreateVersionDraft(
+  config = { suppressSuccessToast: false, showConfirmationDialog: true }
+) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.createVersionDraft' })
-  const { navigate } = useNavigateRouter()
   const queryClient = useQueryClient()
   return useMutationWrapper(
     (
       payload: {
         eserviceId: string
       } & EServiceVersionDraftPayload
-    ) => EServiceServices.upsertVersionDraft(payload),
+    ) => EServiceServices.createVersionDraft(payload),
     {
+      suppressSuccessToast: config.suppressSuccessToast,
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
-      showConfirmationDialog: true,
+      showConfirmationDialog: config.showConfirmationDialog,
       dialogConfig: {
         title: t('confirmDialog.title'),
         description: t('confirmDialog.description'),
       },
-      onSuccess({ id }, { eserviceId }) {
-        if (redirectToDraftPage) {
-          navigate('PROVIDE_ESERVICE_EDIT', { params: { eserviceId, descriptorId: id } })
-        }
+      onSuccess(_, { eserviceId }) {
         queryClient.invalidateQueries([EServiceQueryKeys.GetSingle, eserviceId])
+        queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
+        queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
       },
     }
   )
 }
 
-function useUpdateVersionDraft(redirectToDraftPage = true) {
+function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.updateVersionDraft',
   })
-  const { navigate } = useNavigateRouter()
   const queryClient = useQueryClient()
   return useMutationWrapper(
     (
@@ -169,15 +184,13 @@ function useUpdateVersionDraft(redirectToDraftPage = true) {
         eserviceId: string
         descriptorId: string
       } & EServiceVersionDraftPayload
-    ) => EServiceServices.upsertVersionDraft(payload),
+    ) => EServiceServices.updateVersionDraft(payload),
     {
+      suppressSuccessToast: config.suppressSuccessToast,
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
-      onSuccess({ id }, { eserviceId }) {
-        if (redirectToDraftPage) {
-          navigate('PROVIDE_ESERVICE_EDIT', { params: { eserviceId, descriptorId: id } })
-        }
+      onSuccess(_, { eserviceId }) {
         queryClient.invalidateQueries([EServiceQueryKeys.GetSingle, eserviceId])
       },
     }
@@ -200,6 +213,7 @@ function usePublishVersionDraft() {
     },
     onSuccess(_, { eserviceId }) {
       queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
       queryClient.invalidateQueries([EServiceQueryKeys.GetSingle, eserviceId])
     },
   })
@@ -219,6 +233,7 @@ function useSuspendVersion() {
     },
     onSuccess(_, { eserviceId }) {
       queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
       queryClient.invalidateQueries([EServiceQueryKeys.GetSingle, eserviceId])
     },
   })
@@ -238,6 +253,7 @@ function useReactivateVersion() {
     },
     onSuccess(_, { eserviceId }) {
       queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
       queryClient.invalidateQueries([EServiceQueryKeys.GetSingle, eserviceId])
     },
   })
@@ -259,6 +275,7 @@ function useDeleteVersionDraft() {
     },
     onSuccess() {
       queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
     },
   })
 }
@@ -321,6 +338,7 @@ function useDownloadVersionDocument() {
 
 export const EServiceQueries = {
   useGetListFlat,
+  useGetCatalogList,
   useGetSingle,
   usePrefetchSingle,
   useGetSingleFlat,

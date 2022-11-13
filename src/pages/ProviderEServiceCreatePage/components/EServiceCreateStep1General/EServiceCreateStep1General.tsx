@@ -2,7 +2,7 @@ import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { EServiceTechnologyType } from '@/types/eservice.types'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Box, Typography } from '@mui/material'
+import { Alert, Box, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { object, string } from 'yup'
@@ -17,8 +17,11 @@ import { remapFrontendAttributesToBackend } from '@/api/eservice/eservice.api.ut
 import { URL_FRAGMENTS } from '@/router/utils'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { useJwt } from '@/hooks/useJwt'
+import { getKeys } from '@/utils/array.utils'
+import isEqual from 'lodash/isEqual'
+import { EServiceCreateStep1AddAttributesToEServiceForm } from './EServiceCreateStep1AddAttributesToEServiceForm/EServiceCreateStep1AddAttributesToEServiceForm'
 
-type EServiceCreateStep1FormValues = {
+export type EServiceCreateStep1FormValues = {
   name: string
   description: string
   technology: EServiceTechnologyType
@@ -61,12 +64,12 @@ export const EServiceCreateStep1General: React.FC = () => {
     defaultValues,
   })
 
-  const onSubmit = ({ attributes: _attributes, ...values }: EServiceCreateStep1FormValues) => {
-    const attributes = remapFrontendAttributesToBackend(_attributes)
+  const onSubmit = (formValues: EServiceCreateStep1FormValues) => {
+    const backendAttributes = remapFrontendAttributesToBackend(formValues.attributes)
     if (isNewEService) {
       if (!jwt?.organizationId) return
       createDraft(
-        { attributes, producerId: jwt.organizationId, ...values },
+        { producerId: jwt.organizationId, ...backendAttributes, attributes: backendAttributes },
         {
           onSuccess({ id }) {
             navigate('PROVIDE_ESERVICE_EDIT', {
@@ -78,9 +81,46 @@ export const EServiceCreateStep1General: React.FC = () => {
         }
       )
     } else if (eservice) {
-      updateDraft({ eserviceId: eservice.id, attributes, ...values }, { onSuccess: forward })
+      // If nothing has changed skip the update call
+      const eserviceToCompare = {
+        ...eservice,
+        attributes: remapEServiceAttributes(eservice.attributes),
+      }
+      const formValuesToCompare = {
+        ...formValues,
+        attributes: {
+          certified: formValues.attributes.certified.filter((group) => group.attributes.length > 0),
+          verified: formValues.attributes.verified.filter((group) => group.attributes.length > 0),
+          declared: formValues.attributes.declared.filter((group) => group.attributes.length > 0),
+        },
+      }
+
+      const isEServiceTheSame = getKeys(formValues).every((key) =>
+        isEqual(formValuesToCompare[key], eserviceToCompare[key])
+      )
+
+      if (isEServiceTheSame) {
+        forward()
+        return
+      }
+      updateDraft(
+        { eserviceId: eservice.id, ...formValues, attributes: backendAttributes },
+        { onSuccess: forward }
+      )
     }
   }
+
+  const hasVersion = !!eservice?.viewingDescriptor
+  const isEditable =
+    // case 1: new service
+    !eservice ||
+    // case 2: already existing service but no versions created
+    (eservice && !hasVersion) ||
+    // case 3: already existing service and version, but version is 1 and still a draft
+    (eservice &&
+      hasVersion &&
+      eservice!.viewingDescriptor!.version === '1' &&
+      eservice!.viewingDescriptor!.state === 'DRAFT')
 
   return (
     <FormProvider {...formMethods}>
@@ -96,6 +136,7 @@ export const EServiceCreateStep1General: React.FC = () => {
             label={t('create.step1.eserviceNameField.label')}
             infoLabel={t('create.step1.eserviceNameField.infoLabel')}
             inputProps={{ maxLength: 60 }}
+            disabled={!isEditable}
           />
 
           <TextField
@@ -104,6 +145,7 @@ export const EServiceCreateStep1General: React.FC = () => {
             label={t('create.step1.eserviceDescriptionField.label')}
             infoLabel={t('create.step1.eserviceDescriptionField.infoLabel')}
             inputProps={{ maxLength: 250 }}
+            disabled={!isEditable}
           />
 
           <RadioGroup
@@ -114,8 +156,30 @@ export const EServiceCreateStep1General: React.FC = () => {
               { label: 'REST', value: 'REST' },
               { label: 'SOAP', value: 'SOAP' },
             ]}
+            disabled={!isEditable}
           />
         </SectionContainer>
+
+        <EServiceCreateStep1AddAttributesToEServiceForm
+          attributeKey="certified"
+          readOnly={!isEditable}
+        />
+
+        <EServiceCreateStep1AddAttributesToEServiceForm
+          attributeKey="verified"
+          readOnly={!isEditable}
+        />
+
+        <EServiceCreateStep1AddAttributesToEServiceForm
+          attributeKey="declared"
+          readOnly={!isEditable}
+        />
+
+        {!isEditable && (
+          <Alert severity="info" sx={{ mt: 4 }}>
+            {t('create.step1.firstVersionOnlyEditableInfo')}
+          </Alert>
+        )}
 
         <StepActions
           back={{
@@ -123,7 +187,15 @@ export const EServiceCreateStep1General: React.FC = () => {
             type: 'link',
             to: 'PROVIDE_ESERVICE_LIST',
           }}
-          forward={{ label: t('create.forwardWithSaveBtn'), type: 'submit' }}
+          forward={
+            !isEditable
+              ? {
+                  label: t('create.forwardWithoutSaveBtn'),
+                  onClick: forward,
+                  type: 'button',
+                }
+              : { label: t('create.forwardWithSaveBtn'), type: 'submit' }
+          }
         />
       </Box>
     </FormProvider>

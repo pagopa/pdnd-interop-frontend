@@ -1,6 +1,7 @@
 import { AgreementSummary } from '@/types/agreement.types'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import { EServiceQueryKeys } from '../eservice'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import { GetListAgreementQueryParams } from './agreement.api.types'
 import { updateAgreementsListCache, removeAgreementFromListCache } from './agreement.api.utils'
@@ -49,6 +50,8 @@ function useCreateDraft() {
     },
     onSuccess() {
       queryClient.invalidateQueries([AgreementQueryKeys.GetList])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
     },
   })
 }
@@ -71,6 +74,8 @@ function useSubmitDraft() {
         updateAgreementsListCache.bind(null, data)
       )
       queryClient.setQueryData([AgreementQueryKeys.GetSingle, data.id], data)
+      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
     },
   })
 }
@@ -93,6 +98,8 @@ function useDeleteDraft() {
         [AgreementQueryKeys.GetList],
         removeAgreementFromListCache.bind(null, agreementId)
       )
+      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
     },
   })
 }
@@ -156,6 +163,8 @@ function useActivate() {
         [AgreementQueryKeys.GetList],
         updateAgreementsListCache.bind(null, data)
       )
+      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
     },
   })
 }
@@ -173,6 +182,8 @@ function useReject() {
         [AgreementQueryKeys.GetList],
         updateAgreementsListCache.bind(null, data)
       )
+      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
     },
   })
 }
@@ -217,6 +228,8 @@ function useUpgrade() {
         [AgreementQueryKeys.GetList],
         updateAgreementsListCache.bind(null, data)
       )
+      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
     },
   })
 }

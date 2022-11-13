@@ -33,6 +33,7 @@ export const SingleFileInput: React.FC<SingleFileInputProps> = ({ name, infoLabe
             value={field.value}
             onFileSelected={field.onChange}
             onFileRemoved={() => setValue(name, null)}
+            error={!!error}
             dropzoneLabel={t('dropzoneLabel')}
             loadingLabel={t('loadingLabel')}
           />

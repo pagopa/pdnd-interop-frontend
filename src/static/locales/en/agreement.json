@@ -133,6 +133,7 @@
     "backToRequestsBtn": "Go back to requests"
   },
   "list": {
+    "eserviceName": "{{name}}, version {{version}}",
     "provider": {
       "title": "Fruition requests",
       "description": "In this section, you can manage all the fruition requests you have received from parties that want to subscribe to your e-services"

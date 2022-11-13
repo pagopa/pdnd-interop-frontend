@@ -115,6 +115,32 @@
       "confirmLabel": "Aggiungi"
     }
   },
+  "dialogCreateNewAttribute": {
+    "ariaDescribedBy": "Modale per creare un nuovo attributo",
+    "title": "Crea nuovo attributo",
+    "content": {
+      "nameField": {
+        "label": "Nome dell'attributo (richiesto)",
+        "infoLabel": "Max 160 caratteri"
+      },
+      "descriptionField": {
+        "label": "Descrizione dell'attributo (richiesto)",
+        "infoLabel": "Max 250 caratteri"
+      },
+      "codeField": {
+        "label": "Id della fonte autoritativa (richiesto)",
+        "infoLabel": "Il nome della fonte in kebab-case (es. \"La mia fonte autoritativa\" diventa \"la-mia-fonte-autoritativa\"). Max 30 caratteri"
+      },
+      "originField": {
+        "label": "Nome della fonte autoritativa (richiesto)",
+        "infoLabel": "Max 64 caratteri"
+      }
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Crea attributo"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copia",
     "copied": "Copiato"

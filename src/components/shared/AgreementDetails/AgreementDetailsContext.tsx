@@ -51,7 +51,8 @@ const AgreementDetailsContextProvider: React.FC<{
       ? jwt?.organizationId
       : undefined
 
-  const { data: partyAttributes } = AttributeQueries.useGetListParty(partyId)
+  const [{ data: certified = [] }, { data: verified = [] }, { data: declared = [] }] =
+    AttributeQueries.useGetListParty(partyId)
 
   const providerValue = React.useMemo(() => {
     if (!agreement || !eservice || mode === null) return initialState
@@ -60,6 +61,8 @@ const AgreementDetailsContextProvider: React.FC<{
     const isAgreementEServiceMine = agreement?.consumer.id === jwt?.organizationId
 
     const canBeUpgraded = canAgreementBeUpgraded(agreement, mode)
+    const partyAttributes = { certified, verified, declared }
+
     return {
       agreement,
       isAgreementEServiceMine,
@@ -67,7 +70,7 @@ const AgreementDetailsContextProvider: React.FC<{
       partyAttributes,
       canBeUpgraded,
     }
-  }, [agreement, eservice, jwt?.organizationId, mode, partyAttributes])
+  }, [agreement, eservice, jwt?.organizationId, mode, certified, verified, declared])
 
   return <Provider value={providerValue}>{children}</Provider>
 }

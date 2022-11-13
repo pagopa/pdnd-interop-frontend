@@ -41,12 +41,6 @@ export const ClientAddPublicKeyButton: React.FC<ClientAddPublicKeyButtonProps> =
   const isAdminInClient = Boolean(jwt && usersId.includes(jwt.uid))
   const canAddKey = isOperatorSecurity || (isAdmin && isAdminInClient)
 
-  // This is a workaround because useQueries doesn't support Suspense
-  const isLoading = userQueries.some((query) => query.isLoading)
-  if (isLoading) {
-    return <ClientAddPublicKeyButtonSkeleton />
-  }
-
   return (
     <Stack sx={{ mb: 2 }} direction="row" justifyContent="end" alignItems="center" spacing={2}>
       {isAdmin && !isAdminInClient && <InfoTooltip label={t('list.adminEnableInfo')} />}

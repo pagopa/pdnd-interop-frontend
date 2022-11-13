@@ -116,6 +116,32 @@
       "confirmLabel": "Add"
     }
   },
+  "dialogCreateNewAttribute": {
+    "ariaDescribedBy": "Modal to create a new attribute",
+    "title": "Create new attribute",
+    "content": {
+      "nameField": {
+        "label": "Attribute name (required)",
+        "infoLabel": "Max 160 chars"
+      },
+      "descriptionField": {
+        "label": "Attribute description (required)",
+        "infoLabel": "Max 250 chars"
+      },
+      "codeField": {
+        "label": "Authoritative source id (required)",
+        "infoLabel": "A kebab-case version of the name (e.g. \"My Authoritative Source\" becomes \"my-authoritative-source\"). Max 30 chars"
+      },
+      "originField": {
+        "label": "Authoritative source name (required)",
+        "infoLabel": "Max. 64 chars"
+      }
+    },
+    "actions": {
+      "cancelLabel": "Undo",
+      "confirmLabel": "Create attribute"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"

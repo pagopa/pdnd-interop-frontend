@@ -16,7 +16,7 @@ export type GetSingleAttributeResponse = {
   creationTime: string
 }
 
-export type GetListAttributesResponse = Array<GetSingleAttributeResponse>
+export type GetListAttributesResponse = { attributes: Array<GetSingleAttributeResponse> }
 
 export type GetCertifiedAttributesResponse = {
   attributes: Array<CertifiedTenantAttribute>

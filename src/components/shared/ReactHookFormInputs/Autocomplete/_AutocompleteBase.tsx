@@ -6,6 +6,7 @@ import {
   Chip,
   CircularProgress,
   TextField,
+  TextFieldProps,
   Typography,
 } from '@mui/material'
 import { Controller, useFormContext } from 'react-hook-form'
@@ -26,6 +27,7 @@ export type AutocompleteBaseProps<
   infoLabel?: string
   focusOnMount?: boolean
   getOptionValue?: (option: AutocompleteValue<T, Multiple, DisableClearable, FreeSolo>) => unknown
+  variant?: TextFieldProps['variant']
 }
 
 /** Do not use.  */
@@ -44,6 +46,7 @@ export function _AutocompleteBase<
   placeholder,
   loading,
   defaultValue,
+  variant = 'outlined',
   getOptionLabel = identity,
   getOptionValue = identity,
   ...props
@@ -91,7 +94,7 @@ export function _AutocompleteBase<
             renderInput={(params) => {
               return (
                 <TextField
-                  variant="outlined"
+                  variant={variant}
                   error={!!error}
                   placeholder={placeholder || '...'}
                   {...params}

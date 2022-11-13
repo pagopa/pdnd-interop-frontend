@@ -1,5 +1,5 @@
 import { useJwt } from '@/hooks/useJwt'
-import { useQueryClient } from '@tanstack/react-query'
+import { useQueries, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import AttributeServices from './attribute.services'
@@ -13,9 +13,16 @@ export enum AttributeQueryKeys {
   GetPartyList = 'AttributeGetPartyList',
 }
 
-function useGetList(search?: string) {
-  return useQueryWrapper([AttributeQueryKeys.GetList, search], () =>
-    AttributeServices.getList(search ? { search } : undefined)
+function useGetList(search?: string, config = { suspense: true }) {
+  return useQueryWrapper(
+    [AttributeQueryKeys.GetList, search],
+    () => AttributeServices.getList(search ? { search } : undefined),
+    {
+      select(data) {
+        return data.attributes
+      },
+      ...config,
+    }
   )
 }
 
@@ -43,6 +50,14 @@ function useGetPartyCertifiedList(partyId?: string) {
   )
 }
 
+function usePrefetchPartyCertifiedList() {
+  const queryClient = useQueryClient()
+  return (partyId: string) =>
+    queryClient.prefetchQuery([AttributeQueryKeys.GetPartyCertifiedList, partyId], () =>
+      AttributeServices.getPartyCertifiedList(partyId)
+    )
+}
+
 function useGetPartyVerifiedList(partyId?: string) {
   return useQueryWrapper(
     [AttributeQueryKeys.GetPartyVerifiedList, partyId],
@@ -64,23 +79,28 @@ function useGetPartyDeclaredList(partyId?: string) {
 }
 
 function useGetListParty(partyId?: string, config = { suspense: true }) {
-  const queryClient = useQueryClient()
-  return useQueryWrapper(
-    [AttributeQueryKeys.GetPartyList, partyId],
-    () => AttributeServices.getPartyList(partyId!),
-    {
-      enabled: !!partyId,
-      ...config,
-      onSuccess(data) {
-        queryClient.setQueryData(
-          [AttributeQueryKeys.GetPartyCertifiedList, partyId],
-          data.certified
-        )
-        queryClient.setQueryData([AttributeQueryKeys.GetPartyVerifiedList, partyId], data.verified)
-        queryClient.setQueryData([AttributeQueryKeys.GetPartyDeclaredList, partyId], data.declared)
+  return useQueries({
+    queries: [
+      {
+        queryKey: [AttributeQueryKeys.GetPartyCertifiedList, partyId],
+        queryFn: () => AttributeServices.getPartyCertifiedList(partyId!),
+        enabled: !!partyId,
+        ...config,
       },
-    }
-  )
+      {
+        queryKey: [AttributeQueryKeys.GetPartyVerifiedList, partyId],
+        queryFn: () => AttributeServices.getPartyVerifiedList(partyId!),
+        enabled: !!partyId,
+        ...config,
+      },
+      {
+        queryKey: [AttributeQueryKeys.GetPartyDeclaredList, partyId],
+        queryFn: () => AttributeServices.getPartyDeclaredList(partyId!),
+        enabled: !!partyId,
+        ...config,
+      },
+    ],
+  })
 }
 
 function useCreate() {
@@ -193,6 +213,7 @@ export const AttributeQueries = {
   useGetSingle,
   usePrefetchSingle,
   useGetPartyCertifiedList,
+  usePrefetchPartyCertifiedList,
   useGetPartyVerifiedList,
   useGetPartyDeclaredList,
   useGetListParty,

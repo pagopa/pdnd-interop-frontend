@@ -29,7 +29,7 @@ export const AttributeGroupContainer: React.FC<AttributeGroupContainerProps> = (
         <Box>{headerContent}</Box>
       </Stack>
 
-      <Box sx={{ px: 1.5, my: 2 }}>{children}</Box>
+      <Box sx={{ px: 1.5 }}>{children}</Box>
       {footerContent && (
         <Box sx={{ backgroundColor: 'background.default', px: 1, py: 0.5 }}>{footerContent}</Box>
       )}

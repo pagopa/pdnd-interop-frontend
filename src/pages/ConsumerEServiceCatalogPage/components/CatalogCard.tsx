@@ -2,7 +2,7 @@ import { EServiceQueries } from '@/api/eservice'
 import { ActionMenu } from '@/components/shared/ActionMenu'
 import useGetEServiceConsumerActions from '@/hooks/useGetEServiceConsumerActions'
 import { useNavigateRouter } from '@/router'
-import { EServiceFlatten } from '@/types/eservice.types'
+import { EServiceCatalog } from '@/types/eservice.types'
 import { Card, CardActions, CardContent, Skeleton, Stack, Typography } from '@mui/material'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import React from 'react'
@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next'
 import { OwnerTooltip } from './OwnerTooltip'
 
 interface CatalogCardProps {
-  eservice: EServiceFlatten
+  eservice: EServiceCatalog
 }
 
 export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
@@ -20,22 +20,20 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
 
   const { actions, canCreateAgreementDraft, isMine } = useGetEServiceConsumerActions(
     eservice.id,
-    eservice.descriptorId
+    eservice.activeDescriptor.id
   )
 
   const handleInpect = () => {
-    if (!eservice?.descriptorId) return
     navigate('SUBSCRIBE_CATALOG_VIEW', {
       params: {
         eserviceId: eservice.id,
-        descriptorId: eservice.descriptorId,
+        descriptorId: eservice.activeDescriptor.id,
       },
     })
   }
 
   const handlePrefetch = () => {
-    if (!eservice?.descriptorId) return
-    prefetchEService(eservice.id, eservice.descriptorId)
+    prefetchEService(eservice.id, eservice.activeDescriptor.id)
   }
 
   return (
@@ -44,7 +42,7 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
         <CardContent>
           <Stack direction="row" alignItems="center">
             <Typography component="span">
-              {eservice.name}, v. {eservice.version}
+              {eservice.name}, v. {eservice.activeDescriptor.version}
             </Typography>{' '}
             <OwnerTooltip
               eservice={eservice}
@@ -53,7 +51,7 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
             />
           </Stack>
 
-          <Typography color="text.secondary">{eservice.producerName}</Typography>
+          <Typography color="text.secondary">{eservice.producer.name}</Typography>
           <br />
           <Typography color="text.secondary">{eservice.description}</Typography>
         </CardContent>

@@ -14,19 +14,22 @@ export default function useCanUserSubmitAgreementDraft(agreementId: string) {
     { suspense: false }
   )
 
-  const { data: ownedAttributes } = AttributeQueries.useGetListParty(jwt?.organizationId, {
-    suspense: false,
-  })
+  const [{ data: ownedCertified }, , { data: ownedDeclared }] = AttributeQueries.useGetListParty(
+    jwt?.organizationId,
+    {
+      suspense: false,
+    }
+  )
 
   return React.useMemo(() => {
-    if (!agreement || !eservice || !ownedAttributes) return false
+    if (!agreement || !eservice || !ownedCertified || !ownedDeclared) return false
 
     const isProviderSameAsSubscriber = agreement.consumer.id === agreement.producer.id
     const hasAllDeclaredAndCertifiedAttributes =
       agreement?.state !== 'MISSING_CERTIFIED_ATTRIBUTES' &&
-      checkEServiceAttributesOwnership(ownedAttributes.certified, eservice.attributes.certified) &&
-      checkEServiceAttributesOwnership(ownedAttributes.declared, eservice.attributes.declared)
+      checkEServiceAttributesOwnership(ownedCertified, eservice.attributes.certified) &&
+      checkEServiceAttributesOwnership(ownedDeclared, eservice.attributes.declared)
 
     return hasAllDeclaredAndCertifiedAttributes || isProviderSameAsSubscriber
-  }, [agreement, eservice, ownedAttributes])
+  }, [agreement, eservice, ownedCertified, ownedDeclared])
 }

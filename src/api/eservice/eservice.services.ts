@@ -1,5 +1,5 @@
 import axiosInstance from '@/lib/axios'
-import { CATALOG_PROCESS_URL } from '@/config/env'
+import { BACKEND_FOR_FRONTEND_URL, CATALOG_PROCESS_URL } from '@/config/env'
 import {
   EServiceGetListFlatResponse,
   EServiceGetListFlatUrlParams,
@@ -7,6 +7,8 @@ import {
   EServiceVersionDraftPayload,
   PostEServiceVersionDraftDocumentPayload,
   UpdateEServiceVersionDraftDocumentPayload,
+  EServiceGetCatalogListUrlParams,
+  EServiceGetCatalogListResponse,
 } from './eservice.api.types'
 import { EServiceDescriptorRead, EServiceReadType } from '@/types/eservice.types'
 import {
@@ -16,9 +18,18 @@ import {
 import { downloadFile } from '@/utils/common.utils'
 import { DocumentRead } from '@/types/common.types'
 
+/** @deprecated TO BE REMOVED */
 async function getListFlat(params: EServiceGetListFlatUrlParams) {
   const response = await axiosInstance.get<EServiceGetListFlatResponse>(
     `${CATALOG_PROCESS_URL}/flatten/eservices`,
+    { params }
+  )
+  return response.data
+}
+
+async function getCatalogList(params: EServiceGetCatalogListUrlParams) {
+  const response = await axiosInstance.get<EServiceGetCatalogListResponse>(
+    `${BACKEND_FOR_FRONTEND_URL}/catalog`,
     { params }
   )
   return response.data
@@ -73,23 +84,29 @@ async function cloneFromVersion({
   return response.data
 }
 
-async function upsertVersionDraft({
+async function createVersionDraft({
+  eserviceId,
+  ...payload
+}: {
+  eserviceId: string
+} & EServiceVersionDraftPayload) {
+  const response = await axiosInstance.post<EServiceDescriptorRead>(
+    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors`,
+    payload
+  )
+  return response.data
+}
+
+async function updateVersionDraft({
   eserviceId,
   descriptorId,
   ...payload
 }: {
   eserviceId: string
-  descriptorId?: string
+  descriptorId: string
 } & EServiceVersionDraftPayload) {
-  if (descriptorId) {
-    const response = await axiosInstance.put<EServiceDescriptorRead>(
-      `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}`,
-      payload
-    )
-    return response.data
-  }
-  const response = await axiosInstance.post<EServiceDescriptorRead>(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors`,
+  const response = await axiosInstance.put<EServiceDescriptorRead>(
+    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}`,
     payload
   )
   return response.data
@@ -212,12 +229,14 @@ async function downloadVersionDraftDocument({
 
 const EServiceServices = {
   getListFlat,
+  getCatalogList,
   getSingle,
   createDraft,
   updateDraft,
   deleteDraft,
   cloneFromVersion,
-  upsertVersionDraft,
+  createVersionDraft,
+  updateVersionDraft,
   publishVersionDraft,
   suspendVersion,
   reactivateVersion,

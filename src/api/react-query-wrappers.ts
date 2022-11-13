@@ -91,10 +91,10 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
 
   const hasLoadingOverlay = !!(!options?.suppressLoadingOverlay && options?.loadingLabel)
   const hasConfirmationDialogTitle = !!(
-    options?.showConfirmationDialog && options?.dialogConfig.title
+    options?.showConfirmationDialog && options?.dialogConfig?.title
   )
   const hasConfirmationDialogDescription = !!(
-    options?.showConfirmationDialog && options?.dialogConfig.description
+    options?.showConfirmationDialog && options?.dialogConfig?.description
   )
 
   const mutate: typeof _mutate = React.useCallback(
@@ -106,16 +106,16 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
 
       if (hasConfirmationDialogTitle && hasConfirmationDialogDescription) {
         const confirmationDialogTitle =
-          typeof options.dialogConfig.title === 'function'
+          typeof options.dialogConfig?.title === 'function'
             ? options.dialogConfig.title(args[0])
-            : options.dialogConfig.title
+            : options.dialogConfig?.title ?? ''
 
         const confirmationDialogDescription =
-          typeof options.dialogConfig.description === 'function'
-            ? options.dialogConfig.description(args[0])
-            : options.dialogConfig.description
+          typeof options.dialogConfig?.description === 'function'
+            ? options.dialogConfig?.description(args[0])
+            : options.dialogConfig?.description ?? ''
 
-        const proceedLabel = options.dialogConfig.proceedLabel
+        const proceedLabel = options.dialogConfig?.proceedLabel
 
         return await _wrapActionInDialog(
           () => {
@@ -166,16 +166,16 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
 
       if (hasConfirmationDialogTitle && hasConfirmationDialogDescription) {
         const confirmationDialogTitle =
-          typeof options.dialogConfig.title === 'function'
-            ? options.dialogConfig.title(args[0])
-            : options.dialogConfig.title
+          typeof options.dialogConfig?.title === 'function'
+            ? options.dialogConfig?.title(args[0])
+            : options.dialogConfig?.title ?? ''
 
         const confirmationDialogDescription =
-          typeof options.dialogConfig.description === 'function'
-            ? options.dialogConfig.description(args[0])
-            : options.dialogConfig.description
+          typeof options.dialogConfig?.description === 'function'
+            ? options.dialogConfig?.description(args[0])
+            : options.dialogConfig?.description ?? ''
 
-        const proceedLabel = options.dialogConfig.proceedLabel
+        const proceedLabel = options.dialogConfig?.proceedLabel
 
         return await _wrapActionInDialog(
           () => {

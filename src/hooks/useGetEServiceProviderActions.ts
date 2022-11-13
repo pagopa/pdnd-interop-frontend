@@ -1,4 +1,5 @@
 import { EServiceMutations } from '@/api/eservice'
+import { useNavigateRouter } from '@/router'
 import { ActionItem } from '@/types/common.types'
 import { EServiceState } from '@/types/eservice.types'
 import { minutesToSeconds } from '@/utils/format.utils'
@@ -14,6 +15,7 @@ function useGetEServiceProviderActions({
   state: EServiceState | undefined
 }) {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
+  const { navigate } = useNavigateRouter()
 
   const { mutate: publishDraft } = EServiceMutations.usePublishVersionDraft()
   const { mutate: deleteDraft } = EServiceMutations.useDeleteDraft()
@@ -56,15 +58,26 @@ function useGetEServiceProviderActions({
     label: t('clone'),
   }
   const createNewDraftAction = {
-    action: createNewDraft.bind(null, {
-      eserviceId,
-      voucherLifespan: minutesToSeconds(1),
-      audience: [],
-      description: '',
-      dailyCallsPerConsumer: 1,
-      dailyCallsTotal: 1,
-      agreementApprovalPolicy: 'MANUAL',
-    }),
+    action: createNewDraft.bind(
+      null,
+      {
+        eserviceId,
+        voucherLifespan: minutesToSeconds(1),
+        audience: [],
+        description: '',
+        dailyCallsPerConsumer: 1,
+        dailyCallsTotal: 1,
+        agreementApprovalPolicy: 'MANUAL',
+      },
+      {
+        onSuccess({ id }) {
+          navigate('PROVIDE_ESERVICE_EDIT', {
+            params: { eserviceId, descriptorId: id },
+            state: { stepIndexDestination: 1 },
+          })
+        },
+      }
+    ),
     label: t('createNewDraft'),
   }
 

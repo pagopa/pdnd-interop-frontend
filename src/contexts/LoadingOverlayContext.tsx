@@ -19,7 +19,7 @@ const { useContext, Provider } = createSafeContext<LoadingOverlayContextType>(
 
 const _LoadingOverlay: React.FC<{ message: string }> = ({ message }) => {
   return (
-    <Backdrop open sx={{ zIndex: 999 }}>
+    <Backdrop open sx={{ zIndex: 99999 }}>
       <Paper sx={{ p: 3 }}>
         <Spinner label={message} />
       </Paper>

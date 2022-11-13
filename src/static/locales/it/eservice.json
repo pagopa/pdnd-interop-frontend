@@ -33,6 +33,8 @@
       },
       "attributes": {
         "subtitle": "Il fruitore deve possedere:",
+        "addBtn": "+ Aggiungi nuovo attributo",
+        "createBtn": "Crea nuovo attributo",
         "certified": {
           "description": "Certificati da una fonte autoritativa riconosciuta, non necessitano di ulteriori verifiche da parte tua."
         },

@@ -15,11 +15,14 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementSummary 
   agreement,
 }) => {
   const { navigate } = useNavigateRouter()
-  const { t } = useTranslation('common')
+  const { t } = useTranslation('agreement', { keyPrefix: 'list' })
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const prefetchAgreement = AgreementQueries.usePrefetchSingle()
   const prefetchEService = EServiceQueries.usePrefetchSingle()
 
   const { actions } = useGetAgreementsActions(agreement)
+
+  const eservice = agreement.eservice
 
   const handleEditOrInspect = () => {
     const destPath =
@@ -30,13 +33,15 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementSummary 
 
   const handlePrefetch = () => {
     prefetchAgreement(agreement.id)
-    prefetchEService(agreement.eservice.id, agreement.descriptorId)
+    prefetchEService(eservice.id, agreement.descriptorId)
   }
 
   return (
     <TableRow
       cellData={[
-        { label: agreement.eservice.name },
+        {
+          label: t('eserviceName', { name: eservice.name, version: eservice.version }),
+        },
         { label: agreement.producer.name },
         {
           custom: <StatusChip for="agreement" agreement={agreement} />,
@@ -50,7 +55,7 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementSummary 
         size="small"
         onClick={handleEditOrInspect}
       >
-        {t(`actions.${agreement.state === 'DRAFT' ? 'edit' : 'inspect'}`)}
+        {tCommon(agreement.state === 'DRAFT' ? 'edit' : 'inspect')}
       </Button>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>

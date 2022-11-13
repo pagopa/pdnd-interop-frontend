@@ -15,11 +15,14 @@ export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementSummary 
   agreement,
 }) => {
   const { navigate } = useNavigateRouter()
-  const { t } = useTranslation('common')
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+  const { t } = useTranslation('agreement', { keyPrefix: 'list' })
   const prefetchAgreement = AgreementQueries.usePrefetchSingle()
   const prefetchEService = EServiceQueries.usePrefetchSingle()
 
   const { actions } = useGetAgreementsActions(agreement)
+
+  const eservice = agreement.eservice
 
   const goToAgreementDetails = () => {
     navigate('PROVIDE_AGREEMENT_READ', { params: { agreementId: agreement.id } })
@@ -33,7 +36,7 @@ export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementSummary 
   return (
     <TableRow
       cellData={[
-        { label: agreement.eservice.name },
+        { label: t('eserviceName', { name: eservice.name, version: eservice.version }) },
         { label: agreement.consumer.name },
         {
           custom: <StatusChip for="agreement" agreement={agreement} />,
@@ -47,7 +50,7 @@ export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementSummary 
         size="small"
         onClick={goToAgreementDetails}
       >
-        {t(`actions.${agreement.state === 'DRAFT' ? 'edit' : 'inspect'}`)}
+        {tCommon(agreement.state === 'DRAFT' ? 'edit' : 'inspect')}
       </Button>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>

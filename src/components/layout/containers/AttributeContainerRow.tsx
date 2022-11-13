@@ -14,7 +14,7 @@ type AttributeContainerRowProps<T extends { id: string; name: string }> = {
   showOrLabel?: boolean
   actions?: Array<
     {
-      label: React.ReactNode | string
+      label: React.ReactNode
       action: (attributeId: string, attributeName: string) => void
     } & Partial<Omit<ButtonProps, 'onClick' | 'children' | 'action'>>
   >

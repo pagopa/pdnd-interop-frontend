@@ -1,7 +1,9 @@
 import { FrontendAttribute, PartyAttribute } from '@/types/attribute.types'
 
 export const isAttributeOwned = (partyAttributes: Array<PartyAttribute>, attributeId: string) => {
-  const partyAttributesIds = partyAttributes.map(({ id }) => id)
+  const partyAttributesIds = partyAttributes
+    .filter(({ state }) => state === 'ACTIVE')
+    .map(({ id }) => id)
   return partyAttributesIds.includes(attributeId)
 }
 

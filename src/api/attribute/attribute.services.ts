@@ -10,7 +10,6 @@ import {
   VerifyPartyAttributeAttributePayload,
 } from './attribute.api.types'
 import { remapAttributeResponseData } from './attribute.api.utils'
-import { PartyAttributes } from '@/types/attribute.types'
 
 async function getList(params?: { search: string }) {
   const response = await axiosInstance.get<GetListAttributesResponse>(
@@ -46,16 +45,6 @@ async function getPartyDeclaredList(partyId: string) {
     `${BACKEND_FOR_FRONTEND_URL}/institutions/${partyId}/attributes/declared`
   )
   return remapAttributeResponseData(response.data, 'declared', partyId)
-}
-
-async function getPartyList(partyId: string): Promise<PartyAttributes> {
-  const results = await Promise.all([
-    getPartyCertifiedList(partyId),
-    getPartyVerifiedList(partyId),
-    getPartyDeclaredList(partyId),
-  ])
-
-  return { certified: results[0], verified: results[1], declared: results[2] }
 }
 
 async function create(payload: CreateAttributePayload) {
@@ -104,7 +93,6 @@ const AttributeServices = {
   getPartyCertifiedList,
   getPartyVerifiedList,
   getPartyDeclaredList,
-  getPartyList,
   create,
   verifyPartyAttribute,
   revokeVerifiedPartyAttribute,

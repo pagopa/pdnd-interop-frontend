@@ -1,4 +1,3 @@
-import { Typography } from '@mui/material'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import RouterLink from './RouterLink'
@@ -14,15 +13,15 @@ const TOSAgreement: React.FC<TOSAgreementProps> = ({ onAcceptAgreement }) => {
   return (
     <PagoPATOSAgreement
       productName={t('title')}
-      description={t('description')}
-      onConfirm={onAcceptAgreement}
-      sx={{ backgroundColor: '#FAFAFA', flex: 1 }}
-    >
-      <Typography sx={{ px: 8, textAlign: 'center' }} color="text.secondary">
+      description={
         <Trans components={{ 1: <RouterLink to="TOS" underline="hover" /> }}>
-          {t('termsDescription')}
+          {t('description')}
         </Trans>
-      </Typography>
+      }
+      onConfirm={onAcceptAgreement}
+      confirmBtnLabel={t('confirmBtnLabel')}
+    >
+      <></>
     </PagoPATOSAgreement>
   )
 }
