@@ -1,6 +1,14 @@
 import React from 'react'
-import { Box, ButtonProps, IconButton, Skeleton, Stack, Tooltip, Typography } from '@mui/material'
-import { ButtonNaked } from '@pagopa/mui-italia'
+import {
+  Box,
+  Button,
+  ButtonProps,
+  IconButton,
+  Skeleton,
+  Stack,
+  Tooltip,
+  Typography,
+} from '@mui/material'
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded'
 import { useDialog } from '@/contexts'
 import { useTranslation } from 'react-i18next'
@@ -45,15 +53,26 @@ export const AttributeContainerRow = <T extends { id: string; name: string }>({
         {attribute.name}
       </Typography>
       <Stack sx={{ flexShrink: 0 }} direction="row" alignItems="center" spacing={2}>
-        {actions.map(({ action, label, ...buttonProps }, i) => (
-          <ButtonNaked
+        {actions.map(({ action, label, sx, ...buttonProps }, i) => (
+          <Button
             key={i}
+            sx={{
+              p: 0,
+              display: 'inline-block',
+              minHeight: 0,
+              minWidth: 0,
+              '&:hover': { backgroundColor: 'transparent', opacity: 0.8 },
+              ...sx,
+            }}
+            disableRipple
+            disableTouchRipple
+            size="small"
             onClick={action.bind(null, attribute.id, attribute.name)}
             color="primary"
             {...buttonProps}
           >
             {label}
-          </ButtonNaked>
+          </Button>
         ))}
 
         {props.state === 'ACTIVE' && (
@@ -67,6 +86,8 @@ export const AttributeContainerRow = <T extends { id: string; name: string }>({
             <CloseIcon color="error" fontSize="small" />
           </Tooltip>
         )}
+
+        {!props.state && <CloseIcon sx={{ visibility: 'hidden' }} color="error" fontSize="small" />}
 
         <IconButton
           onClick={handleOpenAttributeDetailsDialog.bind(null, attribute)}

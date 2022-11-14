@@ -33,11 +33,11 @@ async function getPartyCertifiedList(partyId: string) {
   return remapAttributeResponseData(response.data, 'certified', partyId)
 }
 
-async function getPartyVerifiedList(partyId: string) {
+async function getPartyVerifiedList(partyId: string, verifierId: string) {
   const response = await axiosInstance.get<GetVerifiedAttributesResponse>(
     `${BACKEND_FOR_FRONTEND_URL}/institutions/${partyId}/attributes/verified`
   )
-  return remapAttributeResponseData(response.data, 'verified', partyId)
+  return remapAttributeResponseData(response.data, 'verified', verifierId)
 }
 
 async function getPartyDeclaredList(partyId: string) {

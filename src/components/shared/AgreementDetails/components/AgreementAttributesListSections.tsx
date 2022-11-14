@@ -11,7 +11,7 @@ import { Alert, Link, Stack } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StatusChip } from '../../StatusChip'
-import { isAttributeOwned, isGroupFullfilled } from '../agreement-details.utils'
+import { getAttributeState, isGroupFullfilled } from '../agreement-details.utils'
 import { useAgreementDetailsContext } from '../AgreementDetailsContext'
 
 export const AgreementCertifiedAttributesSection: React.FC = () => {
@@ -59,12 +59,7 @@ export const AgreementCertifiedAttributesSection: React.FC = () => {
                 <AttributeContainerRow
                   key={attribute.id}
                   attribute={attribute}
-                  state={
-                    isAttributeOwned(ownedCertifiedAttributes, attribute.id) &&
-                    !isAgreementEServiceMine
-                      ? 'ACTIVE'
-                      : undefined
-                  }
+                  state={getAttributeState(ownedCertifiedAttributes, attribute.id)}
                   kind="CERTIFIED"
                   showOrLabel={i !== group.attributes.length - 1}
                 />
@@ -117,17 +112,17 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
     if (mode === 'consumer') return []
     // ... And only if the e-service does not belong to itself
     if (isAgreementEServiceMine) return []
-    const isOwned = isAttributeOwned(ownedVerifiedAttributes, attributeId)
+    const isOwned = getAttributeState(ownedVerifiedAttributes, attributeId) === 'ACTIVE'
+
     const attributeActions = [
       {
         label: tCommon('actions.verify'),
         action: handleVerifyAttribute,
-        ...(isOwned ? { sx: { visibility: 'hidden' } } : {}),
       },
       {
         label: tCommon('actions.revoke'),
         action: handleRevokeAttribute,
-        ...(!isOwned ? { sx: { visibility: 'hidden' } } : {}),
+        ...(!isOwned ? { sx: { visibility: 'hidden' } } : ({ color: 'error' } as const)),
       },
     ]
 
@@ -166,12 +161,7 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
                 <AttributeContainerRow
                   key={attribute.id}
                   attribute={attribute}
-                  state={
-                    isAttributeOwned(ownedVerifiedAttributes, attribute.id) &&
-                    !isAgreementEServiceMine
-                      ? 'ACTIVE'
-                      : undefined
-                  }
+                  state={getAttributeState(ownedVerifiedAttributes, attribute.id)}
                   kind="VERIFIED"
                   showOrLabel={i !== group.attributes.length - 1}
                   actions={getAttributeActions(attribute.id)}
@@ -211,7 +201,7 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
   const getAttributeActions = (attributeId: string) => {
     // The user can declare his own attributes only in the agreement create/edit view...
     if (!isEditPath) return []
-    const isDeclared = isAttributeOwned(ownedDeclaredAttributes, attributeId)
+    const isDeclared = getAttributeState(ownedDeclaredAttributes, attributeId) === 'ACTIVE'
     // ... and only if it is not alread declared
     if (isDeclared) return []
 
@@ -255,12 +245,7 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
                 <AttributeContainerRow
                   key={attribute.id}
                   attribute={attribute}
-                  state={
-                    isAttributeOwned(ownedDeclaredAttributes, attribute.id) &&
-                    !isAgreementEServiceMine
-                      ? 'ACTIVE'
-                      : undefined
-                  }
+                  state={getAttributeState(ownedDeclaredAttributes, attribute.id)}
                   showOrLabel={i !== group.attributes.length - 1}
                   kind="DECLARED"
                   actions={getAttributeActions(attribute.id)}

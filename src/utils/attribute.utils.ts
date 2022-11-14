@@ -13,7 +13,7 @@ export function checkEServiceAttributesOwnership(
   partyAttributes: Array<PartyAttribute>,
   eserviceAttributes: Array<BackendAttribute>
 ) {
-  const partyAttributesIds = partyAttributes.map((p) => p.id)
+  const partyAttributesIds = partyAttributes.filter((p) => p.state === 'ACTIVE').map((p) => p.id)
 
   const hasAllAttributes = eserviceAttributes.every((eserviceAttribute) => {
     if (has(eserviceAttribute, 'single')) {

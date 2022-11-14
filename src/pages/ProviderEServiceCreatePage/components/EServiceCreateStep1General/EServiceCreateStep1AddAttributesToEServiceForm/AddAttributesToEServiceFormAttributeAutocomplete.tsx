@@ -1,9 +1,10 @@
+import React from 'react'
 import { AttributeQueries } from '@/api/attribute'
 import { AutocompleteSingle } from '@/components/shared/ReactHookFormInputs'
 import { AttributeKey, CatalogAttribute } from '@/types/attribute.types'
 import { Button, Stack } from '@mui/material'
 import { ButtonNaked } from '@pagopa/mui-italia'
-import React from 'react'
+import debounce from 'lodash/debounce'
 import { FormProvider, useForm, useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { EServiceCreateStep1FormValues } from '../EServiceCreateStep1General'
@@ -20,7 +21,8 @@ export const AddAttributesToEServiceFormAttributeAutocomplete: React.FC<
   AddAttributesToEServiceFormAttributeAutocompleteProps
 > = ({ groupIndex, attributeKey, handleHideAutocomplete }) => {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
-  const { data: attributes = [], isFetching } = AttributeQueries.useGetList(undefined, {
+  const [search, setSearch] = React.useState<string | undefined>()
+  const { data: attributes = [], isFetching } = AttributeQueries.useGetList(search, {
     suspense: false,
   })
 
@@ -30,6 +32,14 @@ export const AddAttributesToEServiceFormAttributeAutocomplete: React.FC<
   const attributeAutocompleteFormMethods = useForm<AttributeAutocompleteFormValues>({
     defaultValues: { attribute: null },
   })
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleSearchChange = React.useCallback(
+    debounce((value: string) => {
+      setSearch(value || undefined)
+    }, 280),
+    []
+  )
 
   const { watch: watchAttribute, handleSubmit } = attributeAutocompleteFormMethods
   const isSelected = !!watchAttribute('attribute')
@@ -63,6 +73,7 @@ export const AddAttributesToEServiceFormAttributeAutocomplete: React.FC<
       <AutocompleteSingle
         label={t('autocompleteInput.label')}
         placeholder={t('autocompleteInput.placeholder')}
+        onInputChange={(_, value) => handleSearchChange(value)}
         loading={isFetching}
         sx={{ mb: 0, flex: 1 }}
         options={options}

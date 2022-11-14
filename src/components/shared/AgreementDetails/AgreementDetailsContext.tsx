@@ -58,7 +58,7 @@ const AgreementDetailsContextProvider: React.FC<{
     if (!agreement || !eservice || mode === null) return initialState
 
     const eserviceAttributes = remapEServiceAttributes(eservice.attributes)
-    const isAgreementEServiceMine = agreement?.consumer.id === jwt?.organizationId
+    const isAgreementEServiceMine = eservice.producer.id === agreement.consumer.id
 
     const canBeUpgraded = canAgreementBeUpgraded(agreement, mode)
     const partyAttributes = { certified, verified, declared }
@@ -70,7 +70,7 @@ const AgreementDetailsContextProvider: React.FC<{
       partyAttributes,
       canBeUpgraded,
     }
-  }, [agreement, eservice, jwt?.organizationId, mode, certified, verified, declared])
+  }, [agreement, eservice, mode, certified, verified, declared])
 
   return <Provider value={providerValue}>{children}</Provider>
 }

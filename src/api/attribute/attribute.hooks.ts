@@ -1,6 +1,7 @@
 import { useJwt } from '@/hooks/useJwt'
 import { useQueries, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import { AgreementQueryKeys } from '../agreement'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import AttributeServices from './attribute.services'
 
@@ -59,11 +60,12 @@ function usePrefetchPartyCertifiedList() {
 }
 
 function useGetPartyVerifiedList(partyId?: string) {
+  const { jwt } = useJwt()
   return useQueryWrapper(
     [AttributeQueryKeys.GetPartyVerifiedList, partyId],
-    () => AttributeServices.getPartyVerifiedList(partyId!),
+    () => AttributeServices.getPartyVerifiedList(partyId!, jwt!.organizationId),
     {
-      enabled: !!partyId,
+      enabled: !!partyId && !!jwt?.organizationId,
     }
   )
 }
@@ -79,6 +81,7 @@ function useGetPartyDeclaredList(partyId?: string) {
 }
 
 function useGetListParty(partyId?: string, config = { suspense: true }) {
+  const { jwt } = useJwt()
   return useQueries({
     queries: [
       {
@@ -89,8 +92,8 @@ function useGetListParty(partyId?: string, config = { suspense: true }) {
       },
       {
         queryKey: [AttributeQueryKeys.GetPartyVerifiedList, partyId],
-        queryFn: () => AttributeServices.getPartyVerifiedList(partyId!),
-        enabled: !!partyId,
+        queryFn: () => AttributeServices.getPartyVerifiedList(partyId!, jwt!.organizationId),
+        enabled: !!partyId && !!jwt?.organizationId,
         ...config,
       },
       {
@@ -135,6 +138,8 @@ function useVerifyPartyAttribute() {
       queryClient.invalidateQueries([AttributeQueryKeys.GetPartyVerifiedList])
       queryClient.invalidateQueries([AttributeQueryKeys.GetPartyList, partyId])
       queryClient.invalidateQueries([AttributeQueryKeys.GetSingle, id])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetSingle])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetList])
     },
   })
 }
@@ -157,6 +162,8 @@ function useRevokeVerifiedPartyAttribute() {
       queryClient.invalidateQueries([AttributeQueryKeys.GetPartyVerifiedList])
       queryClient.invalidateQueries([AttributeQueryKeys.GetPartyList, partyId])
       queryClient.invalidateQueries([AttributeQueryKeys.GetSingle, attributeId])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetSingle])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetList])
     },
   })
 }
@@ -180,6 +187,8 @@ function useDeclarePartyAttribute() {
       queryClient.invalidateQueries([AttributeQueryKeys.GetPartyDeclaredList, jwt?.organizationId])
       queryClient.invalidateQueries([AttributeQueryKeys.GetPartyList, jwt?.organizationId])
       queryClient.invalidateQueries([AttributeQueryKeys.GetSingle, id])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetSingle])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetList])
     },
   })
 }
@@ -204,6 +213,8 @@ function useRevokeDeclaredPartyAttribute() {
       queryClient.invalidateQueries([AttributeQueryKeys.GetPartyDeclaredList, jwt?.organizationId])
       queryClient.invalidateQueries([AttributeQueryKeys.GetPartyList, jwt?.organizationId])
       queryClient.invalidateQueries([AttributeQueryKeys.GetSingle, attributeId])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetSingle])
+      queryClient.invalidateQueries([AgreementQueryKeys.GetList])
     },
   })
 }

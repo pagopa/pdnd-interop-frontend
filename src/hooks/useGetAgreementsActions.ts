@@ -54,7 +54,7 @@ function useGetAgreementsActions(agreement: AgreementSummary | undefined): {
     openDialog({ type: 'rejectAgreement', agreementId: agreement.id })
   }
 
-  const subscriberOnlyActions: AgreementActions = {
+  const consumerOnlyActions: AgreementActions = {
     ACTIVE: [
       { action: handleSuspend, label: t('suspend') },
       ...(canBeUpgraded ? [{ action: handleUpgrade, label: t('upgrade') }] : []),
@@ -82,7 +82,7 @@ function useGetAgreementsActions(agreement: AgreementSummary | undefined): {
 
   const actions: AgreementActions = {
     provider: providerOnlyActions,
-    consumer: subscriberOnlyActions,
+    consumer: consumerOnlyActions,
   }[mode]
 
   return { actions: actions[agreement.state] }
