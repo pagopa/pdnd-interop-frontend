@@ -1,7 +1,8 @@
 {
   "actions": {
     "reloadPage": "Reload",
-    "backToHome": "Back to home"
+    "backToHome": "Back to home",
+    "retry": "Retry"
   },
   "default": {
     "title": "Unexpected Error",

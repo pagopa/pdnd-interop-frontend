@@ -1,36 +1,28 @@
 import React from 'react'
 import { Box, Stack, SxProps } from '@mui/material'
 import { SideNav } from './SideNav'
-import { useCurrentRoute } from '@/router'
 import { Breadcrumbs } from './Breadcrumbs'
-import { useRouteError } from 'react-router-dom'
 
-type Props = {
+type AppLayoutProps = {
   children: React.ReactNode
   hideSideNav?: boolean
   sx?: SxProps
 }
 
-export const AppLayout: React.FC<Props> = ({ children, sx }) => {
-  const { isPublic } = useCurrentRoute()
-  const error = useRouteError()
-  const hasSideNav = !isPublic
-
-  if (!hasSideNav || error) {
+export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx }) => {
+  if (hideSideNav) {
     return (
-      <>
-        <Box
-          component="main"
-          sx={{
-            px: 3,
-            py: 2,
-            ...sx,
-          }}
-          bgcolor="#FAFAFA"
-        >
-          <Box sx={{ maxWidth: 1280, mx: 'auto' }}>{children}</Box>
-        </Box>
-      </>
+      <Box
+        component="main"
+        sx={{
+          px: 3,
+          py: 2,
+          ...sx,
+        }}
+        bgcolor="#FAFAFA"
+      >
+        <Box sx={{ maxWidth: 1280, mx: 'auto' }}>{children}</Box>
+      </Box>
     )
   }
 
@@ -58,7 +50,7 @@ export const AppLayout: React.FC<Props> = ({ children, sx }) => {
           bgcolor="#FAFAFA"
         >
           <Box component="main" sx={{ height: '100%', maxWidth: 1280 }}>
-            {!error && <Breadcrumbs />}
+            <Breadcrumbs />
 
             {children}
           </Box>

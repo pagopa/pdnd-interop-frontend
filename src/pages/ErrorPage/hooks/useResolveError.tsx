@@ -1,8 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { isRouteErrorResponse, Link, useRouteError } from 'react-router-dom'
+import { isRouteErrorResponse, useRouteError } from 'react-router-dom'
 import { Button } from '@mui/material'
-import { Redirect, useNavigateRouter } from '@/router'
+import { Redirect, RouterLink } from '@/router'
 import CodeBlock from '../components/CodeBlock'
 import {
   NotAuthorizedError,
@@ -20,7 +20,6 @@ type UseResolveErrorReturnType = {
 function useResolveError(): UseResolveErrorReturnType {
   const { t } = useTranslation('error')
   const error = useRouteError()
-  const { getRouteUrl } = useNavigateRouter()
 
   let title, description: string | undefined
   let content: JSX.Element | null = null
@@ -32,7 +31,9 @@ function useResolveError(): UseResolveErrorReturnType {
   )
 
   const backToHomeButton = (
-    <Link to={getRouteUrl('PROVIDE_ESERVICE_LIST')}>{t('actions.backToHome')}</Link>
+    <RouterLink as="button" variant="contained" to="PROVIDE_ESERVICE_LIST">
+      {t('actions.backToHome')}
+    </RouterLink>
   )
 
   if (error instanceof Error) {
@@ -45,7 +46,7 @@ function useResolveError(): UseResolveErrorReturnType {
   }
 
   if ((isRouteErrorResponse(error) && error.status === 404) || error instanceof NotFoundError) {
-    content = <Redirect to="PROVIDE_ESERVICE_LIST" />
+    content = <Redirect to="NOT_FOUND" />
   }
 
   if (error instanceof NotImplementedError) {

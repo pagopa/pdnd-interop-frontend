@@ -22,10 +22,18 @@ function useGetList(
   params: PurposeGetListUrlParams,
   config?: { enabled?: boolean; suspense?: boolean }
 ) {
+  const queryClient = useQueryClient()
   return useQueryWrapper(
     [PurposeQueryKeys.GetList, params],
     () => PurposeServices.getList(params),
-    config
+    {
+      ...config,
+      onSuccess(data) {
+        data.forEach((purpose) => {
+          queryClient.setQueryData([PurposeQueryKeys.GetSingle, purpose.id], purpose)
+        })
+      },
+    }
   )
 }
 

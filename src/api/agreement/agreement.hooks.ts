@@ -13,8 +13,17 @@ export enum AgreementQueryKeys {
 }
 
 function useGetList(params: GetListAgreementQueryParams) {
-  return useQueryWrapper([AgreementQueryKeys.GetList, params], () =>
-    AgreementServices.getList(params)
+  const queryClient = useQueryClient()
+  return useQueryWrapper(
+    [AgreementQueryKeys.GetList, params],
+    () => AgreementServices.getList(params),
+    {
+      onSuccess(data) {
+        data.forEach((agreement) => {
+          queryClient.setQueryData([AgreementQueryKeys.GetSingle, agreement.id], agreement)
+        })
+      },
+    }
   )
 }
 

@@ -1,7 +1,8 @@
 {
   "actions": {
     "reloadPage": "Ricarica",
-    "backToHome": "Torna alla home"
+    "backToHome": "Torna alla home",
+    "retry": "Riprova"
   },
   "default": {
     "title": "Unexpected Error",

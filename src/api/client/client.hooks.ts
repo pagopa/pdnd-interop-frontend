@@ -15,9 +15,15 @@ export enum ClientQueryKeys {
 }
 
 function useGetList(params: ClientGetListUrlParams, config = { suspense: true }) {
+  const queryClient = useQueryClient()
   return useQueryWrapper([ClientQueryKeys.GetList, params], () => ClientServices.getList(params), {
     enabled: !!params.consumerId,
     ...config,
+    onSuccess(data) {
+      data.forEach((client) => {
+        queryClient.setQueryData([ClientQueryKeys.GetSingle, client.id], client)
+      })
+    },
   })
 }
 

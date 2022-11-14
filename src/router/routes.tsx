@@ -24,6 +24,7 @@ import {
   ConsumerPurposeCreatePage,
   NotificationsPage,
   ConsumerAgreementCreatePage,
+  NotFoundPage,
 } from '@/pages'
 import { LANGUAGES } from '@/config/constants'
 import { getKeys } from '@/utils/array.utils'
@@ -347,18 +348,30 @@ export const routes = makeType({
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },
+  NOT_FOUND: {
+    PATH: { it: '404', en: '404' },
+    LABEL: { it: 'Pagina non trovata', en: 'Page not found' },
+    EXACT: true,
+    COMPONENT: NotFoundPage,
+    PUBLIC: true,
+    AUTH_LEVELS: 'any',
+  },
 } as const)
 
 const reactRouterDOMRoutes: [RouteObject] = [
   {
     path: '/',
-    element: <Redirect to="PROVIDE_ESERVICE_LIST" />,
     errorElement: <ErrorPage />,
-    children: getKeys(LANGUAGES).map((lang) => ({
-      path: lang,
-      errorElement: <ErrorPage />,
-      element: <Redirect to="PROVIDE_ESERVICE_LIST" />,
-    })),
+    element: <Redirect to="PROVIDE_ESERVICE_LIST" />,
+    children: [
+      {
+        errorElement: <ErrorPage />,
+        children: getKeys(LANGUAGES).map((lang) => ({
+          path: lang,
+          element: <Redirect to="PROVIDE_ESERVICE_LIST" />,
+        })),
+      },
+    ],
   },
 ]
 
@@ -375,7 +388,6 @@ getKeys(LANGUAGES).forEach((lang) => {
     accCopy.push({
       path: route.PATH[lang],
       element: Component,
-      errorElement: <ErrorPage />,
     })
 
     return accCopy
@@ -384,8 +396,12 @@ getKeys(LANGUAGES).forEach((lang) => {
   reactRouterDOMRoutes.push({
     path: lang,
     element: <RoutesWrapper />,
-    errorElement: <ErrorPage />,
-    children: langRoutes,
+    children: [
+      {
+        errorElement: <ErrorPage />,
+        children: langRoutes,
+      },
+    ],
   })
 })
 

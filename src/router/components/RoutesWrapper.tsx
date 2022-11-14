@@ -27,7 +27,7 @@ const OutletWrapper: React.FC = () => {
       {!isTOSAccepted && !isPublic ? (
         <TOSAgreement onAcceptAgreement={acceptTOS} />
       ) : (
-        <AppLayout>
+        <AppLayout hideSideNav={isPublic}>
           <React.Suspense fallback={<PageContainerSkeleton />}>
             <Outlet />
           </React.Suspense>
