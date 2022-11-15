@@ -26,7 +26,7 @@ const ConsumerClientManagePage: React.FC = () => {
 
   const { actions } = useGetClientActions(client)
 
-  const topSideActions = formatTopSideActions(actions, { variant: 'contained' })
+  const topSideActions = formatTopSideActions(actions, { variant: 'outlined' })
 
   return (
     <PageContainer
