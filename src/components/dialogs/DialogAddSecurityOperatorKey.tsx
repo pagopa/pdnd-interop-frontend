@@ -43,9 +43,11 @@ export const DialogAddSecurityOperatorKey: React.FC<DialogAddSecurityOperatorKey
   })
 
   const onSubmit = (values: AddSecurityOperatorKeyFormValues) => {
-    closeDialog()
     const { key, name } = values
-    postKey({ clientId, use: 'SIG', alg: 'RS256', name, key: btoa(key.trim()) })
+    postKey(
+      { clientId, use: 'SIG', alg: 'RS256', name, key: btoa(key.trim()) },
+      { onSuccess: closeDialog }
+    )
   }
 
   return (

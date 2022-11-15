@@ -8,7 +8,7 @@ type TOSAgreementProps = {
 }
 
 const TOSAgreement: React.FC<TOSAgreementProps> = ({ onAcceptAgreement }) => {
-  const { t } = useTranslation('pagopa', { keyPrefix: 'tos', useSuspense: false })
+  const { t } = useTranslation('pagopa', { keyPrefix: 'tos' })
 
   return (
     <PagoPATOSAgreement
@@ -20,9 +20,7 @@ const TOSAgreement: React.FC<TOSAgreementProps> = ({ onAcceptAgreement }) => {
       }
       onConfirm={onAcceptAgreement}
       confirmBtnLabel={t('confirmBtnLabel')}
-    >
-      <></>
-    </PagoPATOSAgreement>
+    />
   )
 }
 

@@ -30,8 +30,7 @@ export const DialogRejectAgreement: React.FC<DialogRejectAgreementProps> = ({ ag
   })
 
   const onSubmit = ({ reason }: RejectAgreementFormValues) => {
-    closeDialog()
-    reject({ agreementId, reason })
+    reject({ agreementId, reason }, { onSuccess: closeDialog })
   }
 
   return (

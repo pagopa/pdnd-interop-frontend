@@ -53,10 +53,9 @@ export const DialogAddClientToPurpose: React.FC<DialogAddClientToPurposeProps> =
   }, [purpose, allClients])
 
   const onSubmit = ({ selectedClients }: AddClientToPurposeFormValues) => {
-    closeDialog()
     Promise.all(
       selectedClients.map((selectedClient) => addClient({ clientId: selectedClient, purposeId }))
-    )
+    ).then(closeDialog)
   }
 
   const selectedClients = formMethods.watch('selectedClients')

@@ -22,7 +22,10 @@ export enum EServiceQueryKeys {
 /** @deprecated TO BE REMOVED */
 function useGetListFlat(
   params: EServiceGetListFlatUrlParams,
-  config?: { enabled?: boolean; suspense?: boolean }
+  config?: {
+    enabled?: boolean
+    suspense?: boolean
+  }
 ) {
   return useQueryWrapper(
     [EServiceQueryKeys.GetListFlat, params],

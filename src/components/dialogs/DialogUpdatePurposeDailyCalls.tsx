@@ -31,8 +31,7 @@ export const DialogUpdatePurposeDailyCalls: React.FC<DialogUpdatePurposeDailyCal
   const { mutate: updateDailyCalls } = PurposeMutations.useUpdateDailyCalls()
 
   const onSubmit = ({ dailyCalls }: UpdateDailyCallsFormValues) => {
-    closeDialog()
-    updateDailyCalls({ purposeId, dailyCalls })
+    updateDailyCalls({ purposeId, dailyCalls }, { onSuccess: closeDialog })
   }
 
   return (

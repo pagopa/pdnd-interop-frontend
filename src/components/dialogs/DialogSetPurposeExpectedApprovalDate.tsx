@@ -32,8 +32,10 @@ export const DialogSetPurposeExpectedApprovalDate: FunctionComponent<
     PurposeMutations.useUpdateVersionWaitingForApproval()
 
   const onSubmit = async ({ expectedApprovalDate }: ExpectedApprovalDateFormValues) => {
-    closeDialog()
-    updateWaitingForApprovalDate({ purposeId, versionId, expectedApprovalDate })
+    updateWaitingForApprovalDate(
+      { purposeId, versionId, expectedApprovalDate },
+      { onSuccess: closeDialog }
+    )
   }
 
   const formMethods = useForm<ExpectedApprovalDateFormValues>({
