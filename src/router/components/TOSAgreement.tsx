@@ -12,6 +12,7 @@ const TOSAgreement: React.FC<TOSAgreementProps> = ({ onAcceptAgreement }) => {
 
   return (
     <PagoPATOSAgreement
+      sx={{ height: '100%' }}
       productName={t('title')}
       description={
         <Trans components={{ 1: <RouterLink to="TOS" underline="hover" /> }}>

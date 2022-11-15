@@ -14,6 +14,7 @@ import TOSAgreement from './TOSAgreement'
 import { ErrorBoundary } from 'react-error-boundary'
 import { ErrorPage } from '@/pages'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
+import { Box } from '@mui/material'
 
 const OutletWrapper: React.FC = () => {
   const { dialog } = useDialog()
@@ -27,21 +28,24 @@ const OutletWrapper: React.FC = () => {
   return (
     <>
       <Header />
-      {!isTOSAccepted && !isPublic ? (
-        <TOSAgreement onAcceptAgreement={acceptTOS} />
-      ) : (
-        <AppLayout hideSideNav={isPublic}>
-          <QueryErrorResetBoundary>
-            {({ reset }) => (
-              <ErrorBoundary onReset={reset} FallbackComponent={ErrorPage}>
-                <React.Suspense fallback={<PageContainerSkeleton />}>
-                  <Outlet />
-                </React.Suspense>
-              </ErrorBoundary>
-            )}
-          </QueryErrorResetBoundary>
-        </AppLayout>
-      )}
+      <Box sx={{ flex: 1 }}>
+        {!isTOSAccepted && !isPublic ? (
+          <TOSAgreement onAcceptAgreement={acceptTOS} />
+        ) : (
+          <AppLayout hideSideNav={isPublic}>
+            <QueryErrorResetBoundary>
+              {({ reset }) => (
+                <ErrorBoundary onReset={reset} FallbackComponent={ErrorPage}>
+                  <React.Suspense fallback={<PageContainerSkeleton />}>
+                    <Outlet />
+                  </React.Suspense>
+                </ErrorBoundary>
+              )}
+            </QueryErrorResetBoundary>
+          </AppLayout>
+        )}
+      </Box>
+
       <Footer />
       {dialog && <Dialog {...dialog} />}
     </>
