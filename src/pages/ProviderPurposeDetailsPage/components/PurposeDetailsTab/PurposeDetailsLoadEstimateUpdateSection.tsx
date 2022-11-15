@@ -42,19 +42,23 @@ export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
   return (
     <SectionContainer title={t('title')} description={t('description')}>
       <Stack sx={{ pt: 1 }} spacing={2}>
-        <InformationContainer
-          label={t('dateEstimateField.label')}
-          labelDescription={t('dateEstimateField.description')}
-        >
-          {purpose.mostRecentVersion.expectedApprovalDate
-            ? formatDateString(purpose.mostRecentVersion.expectedApprovalDate)
-            : t('dateEstimateField.emptyLabel')}
-        </InformationContainer>
-        <InformationContainer label={t('loadEstimateRequestedField.label')}>
-          {t('loadEstimateRequestedField.value', {
-            value: purpose.mostRecentVersion?.dailyCalls,
-          })}
-        </InformationContainer>
+        {purpose.mostRecentVersion.state === 'WAITING_FOR_APPROVAL' && (
+          <>
+            <InformationContainer
+              label={t('dateEstimateField.label')}
+              labelDescription={t('dateEstimateField.description')}
+            >
+              {purpose.mostRecentVersion.expectedApprovalDate
+                ? formatDateString(purpose.mostRecentVersion.expectedApprovalDate)
+                : t('dateEstimateField.emptyLabel')}
+            </InformationContainer>
+            <InformationContainer label={t('loadEstimateRequestedField.label')}>
+              {t('loadEstimateRequestedField.value', {
+                value: purpose.mostRecentVersion?.dailyCalls,
+              })}
+            </InformationContainer>
+          </>
+        )}
         <InformationContainer label="FAQ">
           <Accordion entries={accordionEntries} />
         </InformationContainer>
