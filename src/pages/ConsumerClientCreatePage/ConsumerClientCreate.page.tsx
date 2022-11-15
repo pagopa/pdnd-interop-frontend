@@ -100,6 +100,7 @@ const ConsumerClientCreatePage: React.FC = () => {
                 <TextField
                   name="description"
                   label={t('create.descriptionField.label')}
+                  infoLabel={t('create.descriptionField.infoLabel')}
                   multiline
                   inputProps={{ maxLength: 250 }}
                 />
