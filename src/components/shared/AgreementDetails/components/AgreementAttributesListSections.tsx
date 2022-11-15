@@ -122,7 +122,8 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
       {
         label: tCommon('actions.revoke'),
         action: handleRevokeAttribute,
-        ...(!isOwned ? { sx: { visibility: 'hidden' } } : ({ color: 'error' } as const)),
+        ...(!isOwned ? { sx: { visibility: 'hidden' } } : {}),
+        color: 'error' as const,
       },
     ]
 

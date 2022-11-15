@@ -57,23 +57,23 @@
     },
     "rejectionMessage": {
       "title": "Motivazione rifiuto richiesta di fruizione",
-      "description": "L'erogatore ha motivato così il rifiuto di attivare questa richiesta di fruizione. Potrai sempre presentarne una nuova"
+      "description": "L'erogatore ha motivato così il rifiuto di attivare questa richiesta di fruizione. Il fruitore potrà sempre presentarne una nuova"
     },
     "attributes": {
       "howLink": "Come funziona?",
       "certified": {
         "title": "Attributi certificati",
-        "subtitle": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori certificazioni.",
+        "subtitle": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori verifiche.",
         "emptyLabel": "Non ci sono attributi certificati richiesti per questo e-service"
       },
       "verified": {
         "title": "Attributi verificati",
-        "subtitle": "Questi attributi necessitano di verifica da parte di almeno un erogatore. Potresti già possederne alcuni (o tutti).",
+        "subtitle": "Questi attributi necessitano di verifica da parte di almeno un erogatore. Il fruitore potrebbe già possederne alcuni (o tutti).",
         "emptyLabel": "Non ci sono attributi verificati richiesti per questo e-service"
       },
       "declared": {
         "title": "Attributi dichiarati",
-        "subtitle": "Devi dichiarare sotto la tua responsabilità di possedere questi attributi. Potresti già possederne alcuni (o tutti).",
+        "subtitle": "Il fruitore deve dichiarare sotto la propria responsabilità di possedere questi attributi; potrebbe già possederne alcuni (o tutti).",
         "emptyLabel": "Non ci sono attributi dichiarati richiesti per questo e-service"
       }
     }
@@ -97,13 +97,13 @@
     "attribute": {
       "subtitle": "Devi possedere:",
       "certified": {
-        "description": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori certificazioni."
+        "description": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori verifiche."
       },
       "verified": {
-        "description": "Questi attributi necessitano verifica da parte di almeno un erogatore. Potresti già possederne alcuni (o tutti)."
+        "description": "Questi attributi necessitano verifica da parte di almeno un erogatore. Il fruitore potrebbe già possederne alcuni (o tutti)."
       },
       "declared": {
-        "description": "Devi dichiarare sotto la tua responsabilità di possedere questi attributi."
+        "description": "Il fruitore deve dichiarare sotto la propria responsabilità di possedere questi attributi; potrebbe già possederne alcuni (o tutti)."
       }
     },
     "consumerNotes": {

@@ -44,8 +44,8 @@ function useGetEServiceConsumerActions(eserviceId: string, descriptorId: string 
       canCreateAgreementDraft = true
     }
 
-    // ... but only if I don't have an agreement with it yet.
-    if (eservice?.agreement) {
+    // ... but only if I don't have an active agreement with it yet.
+    if (eservice?.agreement && eservice?.agreement.state !== 'REJECTED') {
       canCreateAgreementDraft = false
     }
 

@@ -64,17 +64,17 @@
       "howLink": "How?",
       "certified": {
         "title": "Certified attributes",
-        "subtitle": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori certificazioni.",
+        "subtitle": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori verifiche.",
         "emptyLabel": "There are no required certified attributes for this e-service"
       },
       "verified": {
         "title": "Verified attributes",
-        "subtitle": "Questi attributi necessitano di verifica da parte di almeno un erogatore. Potresti già possederne alcuni (o tutti).",
+        "subtitle": "Questi attributi necessitano di verifica da parte di almeno un erogatore. Il fruitore potrebbe già possederne alcuni (o tutti).",
         "emptyLabel": "There are no required verified attributes for this e-service"
       },
       "declared": {
         "title": "Declared attributes",
-        "subtitle": "Devi dichiarare sotto la tua responsabilità di possedere questi attributi. Potresti già possederne alcuni (o tutti).",
+        "subtitle": "Il fruitore deve dichiarare sotto la propria responsabilità di possedere questi attributi; potrebbe già possederne alcuni (o tutti).",
         "emptyLabel": "There are no required declared attributes for this e-service"
       }
     }

@@ -181,13 +181,13 @@
       },
       "attributes": {
         "certified": {
-          "description": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori certificazioni."
+          "description": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori verifiche."
         },
         "verified": {
-          "description": "Questi attributi necessitano verifica da parte di almeno un erogatore. Potresti già possederne alcuni (o tutti)."
+          "description": "Questi attributi necessitano verifica da parte di almeno un erogatore. Il fruitore potrebbe già possederne alcuni (o tutti)."
         },
         "declared": {
-          "description": "Devi dichiarare sotto la tua responsabilità di possedere questi attributi."
+          "description": "Il fruitore deve dichiarare sotto la propria responsabilità di possedere questi attributi; potrebbe già possederne alcuni (o tutti)."
         }
       },
 
