@@ -89,7 +89,7 @@ async function postKey({
   clientId: string
   payload: Array<ClientPostKeyPayload>
 }) {
-  const response = await axiosInstance.post<PublicKey>(
+  const response = await axiosInstance.post<Array<PublicKey>>(
     `${AUTHORIZATION_PROCESS_URL}/clients/${clientId}/keys`,
     payload
   )

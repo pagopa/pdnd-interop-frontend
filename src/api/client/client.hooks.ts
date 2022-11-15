@@ -159,7 +159,9 @@ function usePostKey() {
     loadingLabel: t('loading'),
     onSuccess(data, { clientId }) {
       queryClient.invalidateQueries([ClientQueryKeys.GetKeyList, clientId])
-      queryClient.setQueryData([ClientQueryKeys.GetSingleKey, clientId, data.key.kid], data)
+      if (data.length > 0) {
+        queryClient.setQueryData([ClientQueryKeys.GetSingleKey, clientId, data[0].key.kid], data[0])
+      }
     },
   })
 }
