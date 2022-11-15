@@ -11,6 +11,9 @@ import useDetectLangFromPath from '../hooks/useDetectLangFromPath'
 import useScrollTopOnLocationChange from '../hooks/useScrollTopOnLocationChange'
 import { useTOSAgreement } from '../hooks/useTOSAgreement'
 import TOSAgreement from './TOSAgreement'
+import { ErrorBoundary } from 'react-error-boundary'
+import { ErrorPage } from '@/pages'
+import { QueryErrorResetBoundary } from '@tanstack/react-query'
 
 const OutletWrapper: React.FC = () => {
   const { dialog } = useDialog()
@@ -28,9 +31,15 @@ const OutletWrapper: React.FC = () => {
         <TOSAgreement onAcceptAgreement={acceptTOS} />
       ) : (
         <AppLayout hideSideNav={isPublic}>
-          <React.Suspense fallback={<PageContainerSkeleton />}>
-            <Outlet />
-          </React.Suspense>
+          <QueryErrorResetBoundary>
+            {({ reset }) => (
+              <ErrorBoundary onReset={reset} FallbackComponent={ErrorPage}>
+                <React.Suspense fallback={<PageContainerSkeleton />}>
+                  <Outlet />
+                </React.Suspense>
+              </ErrorBoundary>
+            )}
+          </QueryErrorResetBoundary>
         </AppLayout>
       )}
       <Footer />

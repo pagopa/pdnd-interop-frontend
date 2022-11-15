@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { isRouteErrorResponse, useRouteError } from 'react-router-dom'
+import { isRouteErrorResponse } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { Redirect, RouterLink } from '@/router'
 import CodeBlock from '../components/CodeBlock'
@@ -10,6 +10,7 @@ import {
   NotImplementedError,
   ServerError,
 } from '@/utils/errors.utils'
+import { FallbackProps } from 'react-error-boundary'
 
 type UseResolveErrorReturnType = {
   title: string
@@ -17,9 +18,9 @@ type UseResolveErrorReturnType = {
   content: JSX.Element | null
 }
 
-function useResolveError(): UseResolveErrorReturnType {
+function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnType {
   const { t } = useTranslation('error')
-  const error = useRouteError()
+  const { error, resetErrorBoundary } = fallbackProps
 
   let title, description: string | undefined
   let content: JSX.Element | null = null
@@ -27,6 +28,12 @@ function useResolveError(): UseResolveErrorReturnType {
   const reloadPageButton = (
     <Button size="small" variant="contained" onClick={() => window.location.reload()}>
       {t('actions.reloadPage')}
+    </Button>
+  )
+
+  const retryQueryButton = (
+    <Button size="small" variant="contained" onClick={resetErrorBoundary}>
+      {t('actions.retry')}
     </Button>
   )
 
@@ -66,8 +73,8 @@ function useResolveError(): UseResolveErrorReturnType {
     description = t('serverError.description')
     content = (
       <>
-        {reloadPageButton}
-        <CodeBlock error={error} />
+        {retryQueryButton}
+        <CodeBlock error={error.response ?? error} />
       </>
     )
   }

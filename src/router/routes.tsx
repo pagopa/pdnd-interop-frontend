@@ -1,7 +1,6 @@
 import React from 'react'
 import { createBrowserRouter, RouteObject } from 'react-router-dom'
 import {
-  ErrorPage,
   PartyRegistryPage,
   ConsumerEServiceCatalogPage,
   ProviderEServiceListPage,
@@ -358,20 +357,20 @@ export const routes = makeType({
   },
 } as const)
 
-const reactRouterDOMRoutes: [RouteObject] = [
+const reactRouterDOMRoutes: RouteObject[] = [
   {
     path: '/',
-    errorElement: <ErrorPage />,
     element: <Redirect to="PROVIDE_ESERVICE_LIST" />,
     children: [
-      {
-        errorElement: <ErrorPage />,
-        children: getKeys(LANGUAGES).map((lang) => ({
-          path: lang,
-          element: <Redirect to="PROVIDE_ESERVICE_LIST" />,
-        })),
-      },
+      ...getKeys(LANGUAGES).map((lang) => ({
+        path: lang,
+        element: <Redirect to="PROVIDE_ESERVICE_LIST" />,
+      })),
     ],
+  },
+  {
+    path: '/*',
+    element: <Redirect to="NOT_FOUND" />,
   },
 ]
 
@@ -396,12 +395,7 @@ getKeys(LANGUAGES).forEach((lang) => {
   reactRouterDOMRoutes.push({
     path: lang,
     element: <RoutesWrapper />,
-    children: [
-      {
-        errorElement: <ErrorPage />,
-        children: langRoutes,
-      },
-    ],
+    children: langRoutes,
   })
 })
 

@@ -21,7 +21,7 @@ import { DocumentRead } from '@/types/common.types'
 /** @deprecated TO BE REMOVED */
 async function getListFlat(params: EServiceGetListFlatUrlParams) {
   const response = await axiosInstance.get<EServiceGetListFlatResponse>(
-    `${CATALOG_PROCESS_URL}/flatten/eservices`,
+    `${CATALOG_PROCESS_URL}/flatten/eserdsvices`,
     { params }
   )
   return response.data

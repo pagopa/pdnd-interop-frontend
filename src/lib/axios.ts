@@ -41,8 +41,14 @@ axiosInstance.interceptors.response.use(
     if (isAxiosError && error.response?.status === 401) {
       return Promise.reject(new NotAuthorizedError())
     }
-    if (isAxiosError && error.response?.status && error.response?.status >= 500) {
-      return Promise.reject(new ServerError())
+    if (
+      isAxiosError &&
+      error.response?.status &&
+      (error.response?.status >= 500 || error.response?.status === 400)
+    ) {
+      return Promise.reject(
+        new ServerError(error.message, error.code, error.config, error.request, error.response)
+      )
     }
 
     return Promise.reject(error)
