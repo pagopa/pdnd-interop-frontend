@@ -82,7 +82,13 @@ function deleteOne({ clientId }: { clientId: string }) {
   return axiosInstance.delete(`${AUTHORIZATION_PROCESS_URL}/clients/${clientId}`)
 }
 
-async function postKey({ clientId, ...payload }: { clientId: string } & ClientPostKeyPayload) {
+async function postKey({
+  clientId,
+  ...payload
+}: {
+  clientId: string
+  payload: Array<ClientPostKeyPayload>
+}) {
   const response = await axiosInstance.post<PublicKey>(
     `${AUTHORIZATION_PROCESS_URL}/clients/${clientId}/keys`,
     payload
