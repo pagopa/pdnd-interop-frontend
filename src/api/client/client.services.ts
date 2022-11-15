@@ -84,7 +84,7 @@ function deleteOne({ clientId }: { clientId: string }) {
 
 async function postKey({
   clientId,
-  ...payload
+  payload,
 }: {
   clientId: string
   payload: Array<ClientPostKeyPayload>
