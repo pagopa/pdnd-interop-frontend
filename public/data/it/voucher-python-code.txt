@@ -1,4 +1,7 @@
-# Prima di lanciare lo script, pip install jose
+# La versione di Python in uso è la 3.8
+# Prima di lanciare lo script, pip3 install python-jose
+# Attenzione: nella versione di Python 3.10,
+# la sintassi cambia e questo script non funziona 
 
 from jose import jwt
 from jose.constants import Algorithms
