@@ -26,6 +26,8 @@ function useGetEServiceConsumerActions(eserviceId: string, descriptorId: string 
   const hasDraft =
     eservice && eservice.agreement && eservice?.agreement.state === 'DRAFT' && isAdmin
 
+  const hasValidAgreement = eservice?.agreement && eservice?.agreement.state !== 'REJECTED'
+
   const actions: Array<ActionItem> = []
   let canCreateAgreementDraft = false
 
@@ -44,15 +46,15 @@ function useGetEServiceConsumerActions(eserviceId: string, descriptorId: string 
       canCreateAgreementDraft = true
     }
 
-    // ... but only if I don't have an active agreement with it yet.
-    if (eservice?.agreement && eservice?.agreement.state !== 'REJECTED') {
+    // ... but only if I don't have an valid agreement with it yet.
+    if (hasValidAgreement) {
       canCreateAgreementDraft = false
     }
 
     // Possible actions
 
-    // If there is an agreement for this e-service add a "Go to Agreement" action
-    if (isAdmin && eservice.agreement) {
+    // If there is an valid agreement for this e-service add a "Go to Agreement" action
+    if (isAdmin && hasValidAgreement) {
       const handleGoToAgreementRequest = () => {
         const routeKey =
           eservice?.agreement?.state !== 'DRAFT'
