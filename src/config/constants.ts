@@ -1,12 +1,12 @@
 export const DEFAULT_LANG = 'it'
 export const STORAGE_KEY_SESSION_TOKEN = 'token'
 
-export const MOCK_TOKEN = ''
+export const MOCK_TOKEN = import.meta.env.REACT_APP_MOCK_TOKEN
 
 export const LANGUAGES = {
   it: { it: 'Italiano', en: 'Inglese' },
   en: { it: 'Italian', en: 'English' },
-}
+} as const
 
 export const pagoPaLink = {
   label: 'PagoPA S.p.A.',
