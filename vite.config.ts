@@ -11,8 +11,6 @@ export default defineConfig({
   resolve: {
     alias: {
       '@/': `${path.resolve(__dirname, 'src')}/`,
-      react: 'preact/compat',
-      'react-dom': 'preact/compat',
     },
   },
   build: {

@@ -29,7 +29,7 @@ export const ConsumerAgreementsTable: React.FC = () => {
     >
       {agreements?.map((agreement) => (
         <ConsumerAgreementsTableRow key={agreement.id} agreement={agreement} />
-      ))}{' '}
+      ))}
     </Table>
   )
 }
