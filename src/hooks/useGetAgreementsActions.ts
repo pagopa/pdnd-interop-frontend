@@ -59,7 +59,9 @@ function useGetAgreementsActions(agreement: AgreementSummary | undefined): {
       { action: handleSuspend, label: t('suspend') },
       ...(canBeUpgraded ? [{ action: handleUpgrade, label: t('upgrade') }] : []),
     ],
-    SUSPENDED: [{ action: handleActivate, label: t('activate') }],
+    SUSPENDED: agreement.suspendedByConsumer
+      ? [{ action: handleActivate, label: t('activate') }]
+      : [{ action: handleSuspend, label: t('suspend') }],
     PENDING: [],
     ARCHIVED: [],
     DRAFT: [{ action: handleDelete, label: t('delete') }],
@@ -69,7 +71,9 @@ function useGetAgreementsActions(agreement: AgreementSummary | undefined): {
 
   const providerOnlyActions: AgreementActions = {
     ACTIVE: [{ action: handleSuspend, label: t('suspend') }],
-    SUSPENDED: [{ action: handleActivate, label: t('activate') }],
+    SUSPENDED: agreement.suspendedByProducer
+      ? [{ action: handleActivate, label: t('activate') }]
+      : [{ action: handleSuspend, label: t('suspend') }],
     PENDING: [
       { action: handleActivate, label: t('activate') },
       { action: handleReject, label: t('reject') },
