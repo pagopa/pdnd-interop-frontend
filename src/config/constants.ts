@@ -15,7 +15,7 @@ export const pagoPaLink = {
   title: 'Vai al sito di PagoPA S.p.A.',
 }
 
-export const documentationLink = 'https://docs.pagopa.it/interoperabilita-1/'
+export const documentationLink = 'https://docs.pagopa.it/interoperabilita-1'
 
 export const attributesHelpLink = `${documentationLink}/manuale-operativo/attributi`
 export const verifyVoucherHelpLink = `${documentationLink}/manuale-operativo/utilizzare-i-voucher`
