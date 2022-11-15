@@ -36,7 +36,7 @@ export const OwnerTooltip: React.FC<OwnerTooltipProps> = ({
     Icon = ModeEditIcon
   }
 
-  if (eservice.agreement && eservice.agreement.state !== 'DRAFT' && isAdmin) {
+  if (eservice.agreement && !['DRAFT', 'REJECTED'].includes(eservice.agreement.state) && isAdmin) {
     label = t('alreadySubscribed')
     Icon = CheckIcon
   }
