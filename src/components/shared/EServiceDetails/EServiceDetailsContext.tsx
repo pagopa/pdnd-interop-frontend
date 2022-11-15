@@ -53,7 +53,14 @@ const EServiceDetailsContextProvider: React.FC<{
     const eserviceAttributes = remapEServiceAttributes(eservice.attributes)
     const isViewingDescriptorCurrentVersion =
       latestActiveDescriptor.id === eservice.viewingDescriptor?.id
-    const agreement = mode === 'consumer' ? eserviceFlat?.agreement : undefined
+
+    const agreement =
+      mode === 'consumer' &&
+      eserviceFlat?.agreement &&
+      !['DRAFT', 'REJECTED'].includes(eserviceFlat?.agreement.state)
+        ? eserviceFlat?.agreement
+        : undefined
+
     const docs = [
       ...latestActiveDescriptor.docs,
       ...(latestActiveDescriptor.interface ? [latestActiveDescriptor.interface] : []),
