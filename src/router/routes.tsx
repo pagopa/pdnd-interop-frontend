@@ -360,11 +360,11 @@ export const routes = makeType({
 const reactRouterDOMRoutes: RouteObject[] = [
   {
     path: '/',
-    element: <Redirect to="PROVIDE_ESERVICE_LIST" />,
+    element: <Redirect to="SUBSCRIBE_CATALOG_LIST" />,
     children: [
       ...getKeys(LANGUAGES).map((lang) => ({
         path: lang,
-        element: <Redirect to="PROVIDE_ESERVICE_LIST" />,
+        element: <Redirect to="SUBSCRIBE_CATALOG_LIST" />,
       })),
     ],
   },
