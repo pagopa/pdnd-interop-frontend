@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { useDialog } from '@/contexts'
 import { purposeUpgradeGuideLink } from '@/config/constants'
+import { formatDateString } from '@/utils/format.utils'
 
 interface PurposeDetailsLoadEstimateUpdateSectionProps {
   purposeId: string
@@ -45,7 +46,9 @@ export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
           label={t('dateEstimateField.label')}
           labelDescription={t('dateEstimateField.description')}
         >
-          {t('dateEstimateField.emptyLabel')}
+          {purpose.mostRecentVersion.expectedApprovalDate
+            ? formatDateString(purpose.mostRecentVersion.expectedApprovalDate)
+            : t('dateEstimateField.emptyLabel')}
         </InformationContainer>
         <InformationContainer label={t('loadEstimateRequestedField.label')}>
           {t('loadEstimateRequestedField.value', {
