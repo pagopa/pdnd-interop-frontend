@@ -38,6 +38,7 @@ export function EServiceCreateStep3DocumentsInterface() {
   const formMethods = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues,
+    shouldUnregister: true,
   })
 
   const onSubmit = ({

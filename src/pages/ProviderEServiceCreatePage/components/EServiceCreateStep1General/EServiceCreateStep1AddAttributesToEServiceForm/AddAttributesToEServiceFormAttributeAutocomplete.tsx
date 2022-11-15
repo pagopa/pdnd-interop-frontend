@@ -22,7 +22,7 @@ export const AddAttributesToEServiceFormAttributeAutocomplete: React.FC<
 > = ({ groupIndex, attributeKey, handleHideAutocomplete }) => {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
   const [search, setSearch] = React.useState<string | undefined>()
-  const { data: attributes = [], isFetching } = AttributeQueries.useGetList(search, {
+  const { data: attributes = [], isLoading } = AttributeQueries.useGetList(search, {
     suspense: false,
   })
 
@@ -74,7 +74,7 @@ export const AddAttributesToEServiceFormAttributeAutocomplete: React.FC<
         label={t('autocompleteInput.label')}
         placeholder={t('autocompleteInput.placeholder')}
         onInputChange={(_, value) => handleSearchChange(value)}
-        loading={isFetching}
+        loading={isLoading}
         sx={{ mb: 0, flex: 1 }}
         options={options}
         variant="standard"

@@ -11,6 +11,7 @@ export function InformationContainer({
   label,
   labelDescription,
   children,
+  direction = 'row',
   ...props
 }: InformationContainerProps) {
   /**
@@ -26,8 +27,8 @@ export function InformationContainer({
   })
 
   return (
-    <Stack spacing={4} direction="row" {...props}>
-      <Box sx={{ flexShrink: 0, maxWidth: '200px', flex: 1 }}>
+    <Stack spacing={direction === 'column' ? 0 : 4} direction={direction} {...props}>
+      <Box sx={{ flexShrink: 0, maxWidth: direction === 'column' ? 'none' : '200px', flex: 1 }}>
         <Typography variant="body2">{label}</Typography>
         {labelDescription && (
           <>

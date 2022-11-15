@@ -69,7 +69,7 @@ export const EServiceCreateStep1General: React.FC = () => {
     if (isNewEService) {
       if (!jwt?.organizationId) return
       createDraft(
-        { producerId: jwt.organizationId, ...backendAttributes, attributes: backendAttributes },
+        { producerId: jwt.organizationId, ...formValues, attributes: backendAttributes },
         {
           onSuccess({ id }) {
             navigate('PROVIDE_ESERVICE_EDIT', {
@@ -103,6 +103,7 @@ export const EServiceCreateStep1General: React.FC = () => {
         forward()
         return
       }
+
       updateDraft(
         { eserviceId: eservice.id, ...formValues, attributes: backendAttributes },
         { onSuccess: forward }

@@ -41,17 +41,17 @@ const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) =>
   return (
     <DialogContent>
       <Stack sx={{ mt: 1 }} spacing={2}>
-        <InformationContainer label={t('content.descriptionField.label')}>
+        <InformationContainer direction="column" label={t('content.descriptionField.label')}>
           {attribute.description}
         </InformationContainer>
         {attribute.code && (
-          <InformationContainer label={t('content.codeField.label')}>
+          <InformationContainer direction="column" label={t('content.codeField.label')}>
             {attribute.code}
           </InformationContainer>
         )}
 
         {attribute.origin && (
-          <InformationContainer label={t('content.originField.label')}>
+          <InformationContainer direction="column" label={t('content.originField.label')}>
             {attribute.origin}
           </InformationContainer>
         )}
