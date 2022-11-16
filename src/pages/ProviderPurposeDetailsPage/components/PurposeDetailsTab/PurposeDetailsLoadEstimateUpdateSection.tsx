@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { useDialog } from '@/contexts'
 import { purposeUpgradeGuideLink } from '@/config/constants'
-import { formatDateString } from '@/utils/format.utils'
+import { formatDateString, formatThousands } from '@/utils/format.utils'
 
 interface PurposeDetailsLoadEstimateUpdateSectionProps {
   purposeId: string
@@ -54,7 +54,7 @@ export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
             </InformationContainer>
             <InformationContainer label={t('loadEstimateRequestedField.label')}>
               {t('loadEstimateRequestedField.value', {
-                value: purpose.mostRecentVersion?.dailyCalls,
+                value: formatThousands(purpose.mostRecentVersion?.dailyCalls ?? 0),
               })}
             </InformationContainer>
           </>
@@ -68,7 +68,6 @@ export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
               component="a"
               href={purposeUpgradeGuideLink}
               target="_blank"
-              variant="body2"
               underline="hover"
               sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
             >

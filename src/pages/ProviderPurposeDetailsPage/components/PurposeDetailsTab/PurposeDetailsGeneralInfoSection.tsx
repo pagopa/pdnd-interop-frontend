@@ -7,6 +7,7 @@ import {
 } from '@/components/layout/containers'
 import { StatusChip } from '@/components/shared/StatusChip'
 import { RouterLink, useCurrentRoute } from '@/router'
+import { formatThousands } from '@/utils/format.utils'
 import { Stack } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -34,7 +35,6 @@ export const PurposeDetailsGeneralInfoSection: React.FC<PurposeDetailsGeneralInf
         <InformationContainer label={t('eServiceField.label')}>
           <RouterLink
             target="_blank"
-            variant="body2"
             to="SUBSCRIBE_CATALOG_VIEW"
             params={{
               eserviceId: purpose.eservice.id,
@@ -71,21 +71,24 @@ export const PurposeDetailsGeneralInfoSection: React.FC<PurposeDetailsGeneralInf
             to="SUBSCRIBE_AGREEMENT_READ"
             params={{ agreementId: purpose.agreement.id }}
             target="_blank"
-            variant="body2"
           >
             {t('agreementField.link.label')}
           </RouterLink>
         </InformationContainer>
         <InformationContainer label={t('dailyCallsEstimateField.label')}>
-          {t('dailyCallsEstimateField.value', { value: purpose.currentVersion?.dailyCalls })}
+          {t('dailyCallsEstimateField.value', {
+            value: formatThousands(purpose.currentVersion?.dailyCalls ?? 0),
+          })}
         </InformationContainer>
         <InformationContainer label={t('consumerThreshold.label')}>
           {t('consumerThreshold.value', {
-            value: eservice.viewingDescriptor?.dailyCallsPerConsumer,
+            value: formatThousands(eservice.viewingDescriptor?.dailyCallsPerConsumer ?? 0),
           })}
         </InformationContainer>
         <InformationContainer label={t('totalThreshold.label')}>
-          {t('totalThreshold.value', { value: eservice.viewingDescriptor?.dailyCallsTotal })}
+          {t('totalThreshold.value', {
+            value: formatThousands(eservice.viewingDescriptor?.dailyCallsTotal ?? 0),
+          })}
         </InformationContainer>
       </Stack>
     </SectionContainer>
