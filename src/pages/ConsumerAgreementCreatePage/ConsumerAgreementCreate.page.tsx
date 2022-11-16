@@ -40,32 +40,39 @@ const ConsumerAgreementCreatePage: React.FC = () => {
     )
   }
 
+  const isAgreementEServiceMine = agreement && agreement?.producer.id === agreement?.consumer.id
+
   return (
     <PageContainer title={t('read.title')} topSideActions={topSideActions}>
       <React.Suspense fallback={<AgreementDetailsSkeleton />}>
         <AgreementDetails agreementId={agreementId} />
-        <ConsumerAgreementCreateDocsInputSection agreementId={agreementId} />
-        <SectionContainer
-          title={t('edit.consumerNotes.title')}
-          description={t('edit.consumerNotes.description')}
-        >
-          <InputWrapper
-            name="consumerNotes"
-            infoLabel={t('edit.consumerNotes.field.infoLabel')}
-            sx={{ mb: 0, mt: 3 }}
-          >
-            <TextField
-              label={t('edit.consumerNotes.field.label')}
-              name="consumerNotes"
-              value={consumerNotes}
-              onChange={(e) => setConsumerNotes(e.target.value)}
-              multiline
-              rows={6}
-              inputProps={{ maxLength: 1000 }}
-              InputLabelProps={{ shrink: true }}
-            />
-          </InputWrapper>
-        </SectionContainer>
+
+        {!isAgreementEServiceMine && (
+          <>
+            <ConsumerAgreementCreateDocsInputSection agreementId={agreementId} />
+            <SectionContainer
+              title={t('edit.consumerNotes.title')}
+              description={t('edit.consumerNotes.description')}
+            >
+              <InputWrapper
+                name="consumerNotes"
+                infoLabel={t('edit.consumerNotes.field.infoLabel')}
+                sx={{ mb: 0, mt: 3 }}
+              >
+                <TextField
+                  label={t('edit.consumerNotes.field.label')}
+                  name="consumerNotes"
+                  value={consumerNotes}
+                  onChange={(e) => setConsumerNotes(e.target.value)}
+                  multiline
+                  rows={6}
+                  inputProps={{ maxLength: 1000 }}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </InputWrapper>
+            </SectionContainer>
+          </>
+        )}
       </React.Suspense>
 
       <PageBottomActionsContainer>

@@ -58,7 +58,7 @@ const AgreementDetailsContextProvider: React.FC<{
     if (!agreement || !eservice || mode === null) return initialState
 
     const eserviceAttributes = remapEServiceAttributes(eservice.attributes)
-    const isAgreementEServiceMine = eservice.producer.id === agreement.consumer.id
+    const isAgreementEServiceMine = agreement.producer.id === agreement.consumer.id
 
     const canBeUpgraded = canAgreementBeUpgraded(agreement, mode)
     const partyAttributes = { certified, verified, declared }

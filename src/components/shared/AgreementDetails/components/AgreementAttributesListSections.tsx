@@ -59,7 +59,11 @@ export const AgreementCertifiedAttributesSection: React.FC = () => {
                 <AttributeContainerRow
                   key={attribute.id}
                   attribute={attribute}
-                  state={getAttributeState(ownedCertifiedAttributes, attribute.id)}
+                  state={
+                    !isAgreementEServiceMine
+                      ? getAttributeState(ownedCertifiedAttributes, attribute.id)
+                      : undefined
+                  }
                   kind="CERTIFIED"
                   showOrLabel={i !== group.attributes.length - 1}
                 />
@@ -162,7 +166,11 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
                 <AttributeContainerRow
                   key={attribute.id}
                   attribute={attribute}
-                  state={getAttributeState(ownedVerifiedAttributes, attribute.id)}
+                  state={
+                    !isAgreementEServiceMine
+                      ? getAttributeState(ownedVerifiedAttributes, attribute.id)
+                      : undefined
+                  }
                   kind="VERIFIED"
                   showOrLabel={i !== group.attributes.length - 1}
                   actions={getAttributeActions(attribute.id)}
@@ -202,6 +210,7 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
   const getAttributeActions = (attributeId: string) => {
     // The user can declare his own attributes only in the agreement create/edit view...
     if (!isEditPath) return []
+    if (isAgreementEServiceMine) return []
     const isDeclared = getAttributeState(ownedDeclaredAttributes, attributeId) === 'ACTIVE'
     // ... and only if it is not alread declared
     if (isDeclared) return []
@@ -246,7 +255,11 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
                 <AttributeContainerRow
                   key={attribute.id}
                   attribute={attribute}
-                  state={getAttributeState(ownedDeclaredAttributes, attribute.id)}
+                  state={
+                    !isAgreementEServiceMine
+                      ? getAttributeState(ownedDeclaredAttributes, attribute.id)
+                      : undefined
+                  }
                   showOrLabel={i !== group.attributes.length - 1}
                   kind="DECLARED"
                   actions={getAttributeActions(attribute.id)}
