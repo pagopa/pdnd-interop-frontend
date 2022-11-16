@@ -35,17 +35,7 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: DecoratedPurpose }> =
         { label: purpose.eservice.name },
         { label: purpose.eservice.producer.name },
         {
-          custom: (
-            <>
-              <StatusChip
-                for="purpose"
-                state={purpose.currentVersion ? purpose.currentVersion.state : 'DRAFT'}
-              />
-              {purpose.awaitingApproval && (
-                <StatusChip for="purpose" sx={{ ml: 1 }} state="WAITING_FOR_APPROVAL" />
-              )}
-            </>
-          ),
+          custom: <StatusChip for="purpose" purpose={purpose} />,
         },
       ]}
     >

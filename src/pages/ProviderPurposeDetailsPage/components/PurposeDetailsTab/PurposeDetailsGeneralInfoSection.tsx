@@ -58,13 +58,7 @@ export const PurposeDetailsGeneralInfoSection: React.FC<PurposeDetailsGeneralInf
           </InformationContainer>
         )}
         <InformationContainer label={t('purposeStatusField.label')}>
-          <StatusChip
-            for="purpose"
-            state={purpose.currentVersion ? purpose.currentVersion.state : 'DRAFT'}
-          />
-          {purpose.awaitingApproval && (
-            <StatusChip for="purpose" sx={{ ml: 1 }} state="WAITING_FOR_APPROVAL" />
-          )}
+          <StatusChip for="purpose" purpose={purpose} />
         </InformationContainer>
         <InformationContainer label={t('agreementField.label')}>
           <RouterLink
