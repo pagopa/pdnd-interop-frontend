@@ -106,7 +106,8 @@
       "title": "Quick publish",
       "description": "If you are done editing, you can publish this draft immediately, or delete it. If you want to publish later, just save the draft at the end of the page",
       "publishBtn": "Publish draft",
-      "deleteBtn": "Delete draft"
+      "deleteBtn": "Delete draft",
+      "noInterfaceTooltipLabel": "In order to publish the draft is madatory to upload an API Interface"
     }
   },
   "list": {

@@ -1,6 +1,7 @@
 import { EServiceMutations } from '@/api/eservice'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { PageBottomActionsCardContainer } from '@/components/layout/containers/PageBottomCardContainer'
+import { InfoTooltip } from '@/components/shared/InfoTooltip'
 import { StepActions } from '@/components/shared/StepActions'
 import { useToastNotification } from '@/contexts'
 import { ActiveStepProps } from '@/hooks/useActiveStep'
@@ -47,6 +48,8 @@ export const EServiceCreateStep3Documents: React.FC<ActiveStepProps> = () => {
     eservice?.technology === 'REST' ? 'OpenAPI' : 'WSDL'
   }  ${t('create.step3.interface.description.after')}`
 
+  const hasInterface = !!eservice?.viewingDescriptor?.interface
+
   return (
     <>
       <SectionContainer>
@@ -89,9 +92,10 @@ export const EServiceCreateStep3Documents: React.FC<ActiveStepProps> = () => {
         <Button variant="outlined" onClick={handleDeleteVersion}>
           {t('create.quickPublish.deleteBtn')}
         </Button>
-        <Button variant="contained" onClick={handlePublishVersion}>
+        <Button disabled={!hasInterface} variant="contained" onClick={handlePublishVersion}>
           {t('create.quickPublish.publishBtn')}
         </Button>
+        {!hasInterface && <InfoTooltip label={t('create.quickPublish.noInterfaceTooltipLabel')} />}
       </PageBottomActionsCardContainer>
     </>
   )

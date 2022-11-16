@@ -21,7 +21,7 @@ export const PageBottomActionsCardContainer: React.FC<PageBottomActionsCardProps
         </Typography>
         {description && <Typography color="text.secondary">{description}</Typography>}
       </Box>
-      <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
+      <Stack direction="row" alignItems="center" spacing={2} sx={{ mt: 3 }}>
         {children}
       </Stack>
     </SectionContainer>
