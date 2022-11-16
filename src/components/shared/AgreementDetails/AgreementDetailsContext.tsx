@@ -52,7 +52,7 @@ const AgreementDetailsContextProvider: React.FC<{
       : undefined
 
   const [{ data: certified = [] }, { data: verified = [] }, { data: declared = [] }] =
-    AttributeQueries.useGetListParty(partyId)
+    AttributeQueries.useGetListParty(partyId, agreement?.producer.id)
 
   const providerValue = React.useMemo(() => {
     if (!agreement || !eservice || mode === null) return initialState

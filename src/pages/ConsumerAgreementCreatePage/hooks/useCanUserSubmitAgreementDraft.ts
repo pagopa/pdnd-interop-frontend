@@ -16,6 +16,7 @@ export default function useCanUserSubmitAgreementDraft(agreementId: string) {
 
   const [{ data: ownedCertified }, , { data: ownedDeclared }] = AttributeQueries.useGetListParty(
     jwt?.organizationId,
+    agreement?.producer.id,
     {
       suspense: false,
     }

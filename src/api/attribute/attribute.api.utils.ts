@@ -12,7 +12,7 @@ export function remapAttributeResponseData(
     | GetVerifiedAttributesResponse
     | GetDeclaredAttributesResponse,
   attributeKey: AttributeKey,
-  providerId: string
+  verifierId?: string
 ) {
   return response.attributes.map((tenantAttribute) => {
     const attributeValue: Partial<PartyAttribute> = {
@@ -25,8 +25,19 @@ export function remapAttributeResponseData(
     } else {
       const verifiedTenantAttribute =
         tenantAttribute as GetVerifiedAttributesResponse['attributes'][0]
-      const acceptedByProvider = verifiedTenantAttribute.verifiedBy.find((a) => a.id === providerId)
-      attributeValue.state = acceptedByProvider ? 'ACTIVE' : 'REVOKED'
+
+      // If a verifierId is passed, put only the attributes verified by him with 'ACTIVE' state
+      if (verifierId) {
+        const acceptedByProvider = verifiedTenantAttribute.verifiedBy.some(
+          (a) => a.id === verifierId
+        )
+        attributeValue.state = acceptedByProvider ? 'ACTIVE' : 'REVOKED'
+      }
+
+      // if no verifierId is passed, put as 'ACTIVE' every attributes that has at least one entry in 'verifiedBy'
+      if (!verifierId) {
+        attributeValue.state = verifiedTenantAttribute.verifiedBy.length > 0 ? 'ACTIVE' : 'REVOKED'
+      }
     }
 
     return attributeValue as PartyAttribute

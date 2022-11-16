@@ -63,6 +63,7 @@ function useCreateDraft() {
     onSuccess(data) {
       const decoratedPurpose = decoratePurposeWithMostRecentVersion(data)
       queryClient.setQueryData([PurposeQueryKeys.GetSingle, data.id], decoratedPurpose)
+      queryClient.invalidateQueries([PurposeQueryKeys.GetList])
     },
   })
 }

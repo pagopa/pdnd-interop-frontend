@@ -59,13 +59,12 @@ function usePrefetchPartyCertifiedList() {
     )
 }
 
-function useGetPartyVerifiedList(partyId?: string) {
-  const { jwt } = useJwt()
+function useGetPartyVerifiedList(partyId?: string, verifierId?: string) {
   return useQueryWrapper(
     [AttributeQueryKeys.GetPartyVerifiedList, partyId],
-    () => AttributeServices.getPartyVerifiedList(partyId!, jwt!.organizationId),
+    () => AttributeServices.getPartyVerifiedList(partyId!, verifierId),
     {
-      enabled: !!partyId && !!jwt?.organizationId,
+      enabled: !!partyId,
     }
   )
 }
@@ -80,8 +79,7 @@ function useGetPartyDeclaredList(partyId?: string) {
   )
 }
 
-function useGetListParty(partyId?: string, config = { suspense: true }) {
-  const { jwt } = useJwt()
+function useGetListParty(partyId?: string, verifierId?: string, config = { suspense: true }) {
   return useQueries({
     queries: [
       {
@@ -92,8 +90,8 @@ function useGetListParty(partyId?: string, config = { suspense: true }) {
       },
       {
         queryKey: [AttributeQueryKeys.GetPartyVerifiedList, partyId],
-        queryFn: () => AttributeServices.getPartyVerifiedList(partyId!, jwt!.organizationId),
-        enabled: !!partyId && !!jwt?.organizationId,
+        queryFn: () => AttributeServices.getPartyVerifiedList(partyId!, verifierId),
+        enabled: !!partyId,
         ...config,
       },
       {

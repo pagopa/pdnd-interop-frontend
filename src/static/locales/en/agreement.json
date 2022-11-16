@@ -5,6 +5,7 @@
   "backToRequestsBtn": "Go back to requests",
   "read": {
     "title": "Manage fruition request",
+    "noPurposeAlert": "Your agreement request is active. <1>Create your first purpose</1>",
     "updateGuide": {
       "alertLabel": "A new version of <1>{{eserviceName}}</1> e-service is available. Before updating, read the guide below",
       "title": "Upgrade guide",

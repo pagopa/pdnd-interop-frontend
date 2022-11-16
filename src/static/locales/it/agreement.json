@@ -5,6 +5,7 @@
   "backToRequestsBtn": "Torna alle richieste",
   "read": {
     "title": "Gestisci richiesta di fruizione",
+    "noPurposeAlert": "La richiesta di fruizione è attiva. <1>Crea la tua prima finalità</1>",
     "updateGuide": {
       "alertLabel": "È disponibile una nuova versione dell’e-service <1>{{eserviceName}}</1>. Prima di effettuare l’aggiornamento, leggi la guida di seguito",
       "title": "Guida all’aggiornamento",

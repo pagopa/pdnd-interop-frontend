@@ -30,10 +30,10 @@ async function getPartyCertifiedList(partyId: string) {
   const response = await axiosInstance.get<GetCertifiedAttributesResponse>(
     `${BACKEND_FOR_FRONTEND_URL}/institutions/${partyId}/attributes/certified`
   )
-  return remapAttributeResponseData(response.data, 'certified', partyId)
+  return remapAttributeResponseData(response.data, 'certified')
 }
 
-async function getPartyVerifiedList(partyId: string, verifierId: string) {
+async function getPartyVerifiedList(partyId: string, verifierId?: string) {
   const response = await axiosInstance.get<GetVerifiedAttributesResponse>(
     `${BACKEND_FOR_FRONTEND_URL}/institutions/${partyId}/attributes/verified`
   )
@@ -44,7 +44,7 @@ async function getPartyDeclaredList(partyId: string) {
   const response = await axiosInstance.get<GetDeclaredAttributesResponse>(
     `${BACKEND_FOR_FRONTEND_URL}/institutions/${partyId}/attributes/declared`
   )
-  return remapAttributeResponseData(response.data, 'declared', partyId)
+  return remapAttributeResponseData(response.data, 'declared')
 }
 
 async function create(payload: CreateAttributePayload) {

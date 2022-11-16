@@ -1,6 +1,7 @@
 import { FrontendAttribute, PartyAttribute } from '@/types/attribute.types'
 
 export const getAttributeState = (partyAttributes: Array<PartyAttribute>, attributeId: string) => {
+  console.log(partyAttributes.find(({ id }) => id === attributeId)?.state, partyAttributes)
   return partyAttributes.find(({ id }) => id === attributeId)?.state
 }
 
