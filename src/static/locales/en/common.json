@@ -21,7 +21,8 @@
     }
   },
   "mainNav": {
-    "ariaLabel": "Main navigation"
+    "ariaLabel": "Main navigation",
+    "userExternalLinkLabel": "Users"
   },
   "loading": {
     "sessionToken": {
