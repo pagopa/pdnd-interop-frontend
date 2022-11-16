@@ -28,7 +28,7 @@ const ProviderAgreementDetailsPageContent: React.FC = () => {
     <PageContainer title={t('read.title')} topSideActions={topSideActions}>
       <AgreementDetails agreementId={agreementId} />
       <PageBottomActionsContainer>
-        <RouterLink as="button" variant="outlined" to={'SUBSCRIBE_AGREEMENT_LIST'}>
+        <RouterLink as="button" variant="outlined" to={'PROVIDE_AGREEMENT_LIST'}>
           {t('backToRequestsBtn')}
         </RouterLink>
       </PageBottomActionsContainer>
@@ -43,7 +43,7 @@ const ProviderAgreementDetailsPageContentSkeleton: React.FC = () => {
     <PageContainer title={t('read.title')}>
       <AgreementDetailsSkeleton />
       <PageBottomActionsContainer>
-        <RouterLink as="button" variant="outlined" to={'SUBSCRIBE_AGREEMENT_LIST'}>
+        <RouterLink as="button" variant="outlined" to={'PROVIDE_AGREEMENT_LIST'}>
           {t('backToRequestsBtn')}
         </RouterLink>
       </PageBottomActionsContainer>
