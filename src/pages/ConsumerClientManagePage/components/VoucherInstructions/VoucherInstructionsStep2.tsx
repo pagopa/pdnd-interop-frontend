@@ -51,7 +51,7 @@ export const VoucherInstructionsStep2: React.FC<VoucherInstructionsStepProps> = 
         </InformationContainer>
 
         <InformationContainer label={t('step2.requestBody.clientAssertionField.label')}>
-          <Typography>{t('step2.requestBody.clientAssertionField.suggestionLabel')}</Typography>
+          {t('step2.requestBody.clientAssertionField.suggestionLabel')}
         </InformationContainer>
 
         <InformationContainer

@@ -183,21 +183,21 @@ export const VoucherInstructionsStep1: React.FC<VoucherInstructionsStepProps> = 
           label={t('step1.assertionPayload.jtiField.label')}
           labelDescription={t('step1.assertionPayload.jtiField.description')}
         >
-          <Typography>{t('step1.assertionPayload.jtiField.suggestionLabel')}</Typography>
+          {t('step1.assertionPayload.jtiField.suggestionLabel')}
         </InformationContainer>
 
         <InformationContainer
           label={t('step1.assertionPayload.iatField.label')}
           labelDescription={t('step1.assertionPayload.iatField.description')}
         >
-          <Typography>{t('step1.assertionPayload.iatField.suggestionLabel')}</Typography>
+          {t('step1.assertionPayload.iatField.suggestionLabel')}
         </InformationContainer>
 
         <InformationContainer
           label={t('step1.assertionPayload.expField.label')}
           labelDescription={t('step1.assertionPayload.expField.description')}
         >
-          <Typography>{t('step1.assertionPayload.expField.suggestionLabel')}</Typography>
+          {t('step1.assertionPayload.expField.suggestionLabel')}
         </InformationContainer>
       </Stack>
 

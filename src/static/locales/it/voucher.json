@@ -151,7 +151,7 @@
       "title": "Accesso all’API gateway di Interoperabilità",
       "description": "A questo punto l'access token ottenuto è spendibile presso l’API gateway di Interoperabilità",
       "apiField": {
-        "label": "",
+        "label": "Link al documento di interfaccia",
         "link": {
           "label": "Interfaccia OpenAPI",
           "title": "Link alla specifica OpenAPI dell'API gateway di Interoperabilità"

@@ -151,7 +151,7 @@
       "title": "Interoperability API gateway access",
       "description": "The access token obtained can be spent on the Interoperability API gateway",
       "apiField": {
-        "label": "",
+        "label": "Link to the document's interface",
         "link": {
           "label": "OpenAPI Interface",
           "title": "Link to the Interoperability API gateway OpenAPI file specification"

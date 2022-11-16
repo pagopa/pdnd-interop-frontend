@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
-import { Typography, Popover } from '@mui/material'
+import { Typography, Popover, Box } from '@mui/material'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { useTranslation } from 'react-i18next'
 
@@ -58,11 +58,17 @@ export const InlineClipboard: FunctionComponent<InlineClipboardProps> = ({
     <React.Fragment>
       <ButtonNaked
         onClick={copyAttempt}
-        sx={{ textAlign: 'left', '&:hover': { bgcolor: 'text.secondary', color: 'common.white' } }}
+        sx={{
+          textAlign: 'left',
+          '&:hover': { bgcolor: 'text.secondary', color: 'common.white' },
+          fontSize: 'inherit',
+          px: 1,
+          mx: -1,
+        }}
       >
-        <Typography ref={anchorRef} component="span" color="inherit">
+        <Box ref={anchorRef} component="span" color="inherit">
           {label || textToCopy}
-        </Typography>
+        </Box>
       </ButtonNaked>
       <Popover
         anchorEl={anchorRef.current}
