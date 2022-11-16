@@ -18,7 +18,7 @@ export type PagoPAEnvVars = {
 }
 
 export type ExtendedWindow = Window & {
-  pagopa_env: PagoPAEnvVars
+  pagopa_env?: PagoPAEnvVars
   OptanonWrapper: unknown
   nonce: string
 }

@@ -18,7 +18,7 @@ export default defineConfig({
     rollupOptions: {
       external,
     },
-    chunkSizeWarningLimit: 1500,
+    chunkSizeWarningLimit: 1800,
   },
   envPrefix: 'REACT_APP_',
   server: {
@@ -49,9 +49,6 @@ function setNonceAttToScripts(): PluginOption {
  * This helps to manually remove chunks of code of libraries that do not support treeshaking
  */
 function external(source: string) {
-  const chunksToRemove = [
-    '/@pagopa/mui-italia/dist/assets/FundedByNextGenerationEU',
-    '/@pagopa/mui-italia/dist/illustrations',
-  ]
+  const chunksToRemove = []
   return chunksToRemove.some((chunk) => source.includes(chunk))
 }
