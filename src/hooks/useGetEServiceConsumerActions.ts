@@ -20,8 +20,7 @@ function useGetEServiceConsumerActions(eserviceId: string, descriptorId: string 
 
   const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft()
 
-  const hasValidAgreement =
-    eservice?.agreement && !['REJECTED', 'DRAFT'].includes(eservice?.agreement.state)
+  const hasValidAgreement = eservice?.agreement && !['REJECTED'].includes(eservice?.agreement.state)
   const isMine = eservice?.producerId === jwt?.organizationId
   const isSubscribed = eservice && hasValidAgreement && isAdmin
   const hasDraft =
@@ -53,12 +52,10 @@ function useGetEServiceConsumerActions(eserviceId: string, descriptorId: string 
     // Possible actions
 
     // If there is an valid agreement for this e-service add a "Go to Agreement" action
-    if (isAdmin && eservice?.agreement && eservice?.agreement.state === 'DRAFT') {
+    if (isAdmin && hasValidAgreement) {
       const handleGoToAgreementRequest = () => {
-        const routeKey =
-          eservice?.agreement?.state !== 'DRAFT'
-            ? 'SUBSCRIBE_AGREEMENT_READ'
-            : 'SUBSCRIBE_AGREEMENT_EDIT'
+        console.log(hasDraft)
+        const routeKey = hasDraft ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'
 
         navigate(routeKey, {
           params: {
