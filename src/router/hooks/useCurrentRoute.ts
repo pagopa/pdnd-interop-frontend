@@ -8,7 +8,6 @@ import {
   isEditPath as _isEditPath,
   isProviderOrConsumerRoute,
 } from '../utils'
-import intersectionWith from 'lodash/intersectionWith'
 import { RouteKey } from '../types'
 import React from 'react'
 
@@ -20,9 +19,11 @@ function useCurrentRoute() {
 
   const routeKey = getRouteKeyFromPathname(location.pathname, currentLanguage)
   const route = routes[routeKey]
-  const hasOverlappingRole = intersectionWith(currentRoles, route.AUTH_LEVELS)
-  const isUserAuthorized = !route.PUBLIC || route.AUTH_LEVELS === 'any' || hasOverlappingRole
+  const hasOverlappingRole =
+    route.AUTH_LEVELS === 'any' ||
+    currentRoles.some((role) => route.AUTH_LEVELS.includes(role as typeof route.AUTH_LEVELS[0]))
   const isPublic = route.PUBLIC
+  const isUserAuthorized = isPublic || hasOverlappingRole
   const mode = isProviderOrConsumerRoute(routeKey)
   const isEditPath = _isEditPath(routeKey)
 

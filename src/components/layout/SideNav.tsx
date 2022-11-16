@@ -64,6 +64,11 @@ const views: Views = {
       id: 'provider',
       children: ['PROVIDE_ESERVICE_LIST'],
     },
+    {
+      routeKey: 'SUBSCRIBE',
+      id: 'subscriber',
+      children: ['SUBSCRIBE_CATALOG_LIST'],
+    },
   ],
   security: [
     {

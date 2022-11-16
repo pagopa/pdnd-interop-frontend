@@ -27,7 +27,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx 
   }
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, height: '100%' }}>
       <Stack direction="row" sx={{ height: '100%', overflowX: 'hidden' }}>
         <SideNav />
         <Box

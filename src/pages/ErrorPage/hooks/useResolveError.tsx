@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { isRouteErrorResponse } from 'react-router-dom'
+import { isRouteErrorResponse, useLocation } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { Redirect, RouterLink } from '@/router'
 import CodeBlock from '../components/CodeBlock'
@@ -20,7 +20,14 @@ type UseResolveErrorReturnType = {
 
 function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnType {
   const { t } = useTranslation('error')
+  const location = useLocation()
+
   const { error, resetErrorBoundary } = fallbackProps
+
+  // Reset error boundary if location changes
+  React.useEffect(() => {
+    return resetErrorBoundary
+  }, [location.pathname, resetErrorBoundary])
 
   let title, description: string | undefined
   let content: JSX.Element | null = null
@@ -38,7 +45,7 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
   )
 
   const backToHomeButton = (
-    <RouterLink as="button" variant="contained" to="PROVIDE_ESERVICE_LIST">
+    <RouterLink as="button" variant="contained" to="SUBSCRIBE_CATALOG_LIST">
       {t('actions.backToHome')}
     </RouterLink>
   )

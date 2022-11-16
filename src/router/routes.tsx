@@ -161,7 +161,7 @@ export const routes = makeType({
     EXACT: false,
     COMPONENT: ConsumerEServiceCatalogPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'security'],
+    AUTH_LEVELS: 'any',
   },
   SUBSCRIBE_PURPOSE_CREATE: {
     PATH: { it: 'fruizione/finalita/crea', en: 'subscriber/purpose/create' },

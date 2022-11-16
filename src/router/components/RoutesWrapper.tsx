@@ -18,12 +18,8 @@ import { Box } from '@mui/material'
 
 const OutletWrapper: React.FC = () => {
   const { dialog } = useDialog()
-  const { isUserAuthorized, isPublic } = useCurrentRoute()
   const { isTOSAccepted, acceptTOS } = useTOSAgreement()
-
-  if (!isUserAuthorized) {
-    throw new NotAuthorizedError()
-  }
+  const { isPublic } = useCurrentRoute()
 
   return (
     <>
@@ -37,7 +33,9 @@ const OutletWrapper: React.FC = () => {
               {({ reset }) => (
                 <ErrorBoundary onReset={reset} FallbackComponent={ErrorPage}>
                   <React.Suspense fallback={<PageContainerSkeleton />}>
-                    <Outlet />
+                    <AuthGuard>
+                      <Outlet />
+                    </AuthGuard>
                   </React.Suspense>
                 </ErrorBoundary>
               )}
@@ -50,6 +48,16 @@ const OutletWrapper: React.FC = () => {
       {dialog && <Dialog {...dialog} />}
     </>
   )
+}
+
+const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { isUserAuthorized } = useCurrentRoute()
+
+  if (!isUserAuthorized) {
+    throw new NotAuthorizedError()
+  }
+
+  return <>{children}</>
 }
 
 const RoutesWrapper: React.FC = () => {

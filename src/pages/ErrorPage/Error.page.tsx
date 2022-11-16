@@ -7,7 +7,7 @@ const ErrorPage: React.FC<FallbackProps> = (props) => {
   const { title, description, content } = useResolveError(props)
 
   return (
-    <PageContainer title={title} description={description}>
+    <PageContainer sx={{ flex: 1 }} title={title} description={description}>
       {content}
     </PageContainer>
   )

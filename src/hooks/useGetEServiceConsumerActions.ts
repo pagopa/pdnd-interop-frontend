@@ -31,11 +31,8 @@ function useGetEServiceConsumerActions(eserviceId: string, descriptorId: string 
 
   // I can subscribe to the eservice only if...
   if (eservice) {
-    // ... I am an admin and I own all the certified attributes or...
-    if (
-      isAdmin &&
-      checkEServiceAttributesOwnership(certifiedAttributes, eservice.certifiedAttributes)
-    ) {
+    // ... I own all the certified attributes or...
+    if (checkEServiceAttributesOwnership(certifiedAttributes, eservice.certifiedAttributes)) {
       canCreateAgreementDraft = true
     }
 
@@ -44,8 +41,8 @@ function useGetEServiceConsumerActions(eserviceId: string, descriptorId: string 
       canCreateAgreementDraft = true
     }
 
-    // ... but only if I don't have an valid agreement with it yet.
-    if (hasValidAgreement) {
+    // ... but only if I don't have an valid agreement with it yet and I'm an admin.
+    if (hasValidAgreement || !isAdmin) {
       canCreateAgreementDraft = false
     }
 
