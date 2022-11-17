@@ -6,7 +6,7 @@ import { useJwt } from '@/hooks/useJwt'
 import { NotFoundError } from '@/utils/errors.utils'
 
 export const useQueryWrapper: UseQueryWrapper = (key, queryFn, options) => {
-  const { hasSessionExpired } = useJwt()
+  const { hasSessionExpired, jwt } = useJwt()
   const { openDialog } = useDialog()
 
   if (!options?.skipJwtSessionExpirationCheck && hasSessionExpired()) {
@@ -20,6 +20,7 @@ export const useQueryWrapper: UseQueryWrapper = (key, queryFn, options) => {
       }
       return true
     },
+    enabled: !!jwt && (options?.enabled ?? true),
     ...options,
   })
 }
