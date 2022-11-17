@@ -1,13 +1,12 @@
 import React from 'react'
-import { HeaderProduct } from '@pagopa/mui-italia'
 import { Container, Button, Stack, IconButton } from '@mui/material'
 import { useJwt } from '@/hooks/useJwt'
 import { useNavigateRouter } from '@/router'
 import { goToLoginPage } from '@/utils/common.utils'
 import { pagoPaLink } from '@/config/constants'
-import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded'
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 import DescriptionIcon from '@mui/icons-material/Description'
-import { AccountDropdown, ButtonNaked } from '@pagopa/mui-italia'
+import { AccountDropdown, ButtonNaked, HeaderProduct } from '@pagopa/mui-italia'
 
 export const Header = () => {
   const { navigate } = useNavigateRouter()
@@ -33,6 +32,7 @@ export const Header = () => {
           window.open('documentationLink', '_blank')
         }}
       />
+
       <HeaderProduct
         productId="interop"
         productsList={[
@@ -85,7 +85,7 @@ type HeaderAccountProps = {
   enableAssistanceButton?: boolean
 }
 
-export const HeaderAccount = ({
+const HeaderAccount = ({
   rootLink,
   loggedUser,
   userActions,
@@ -158,7 +158,7 @@ export const HeaderAccount = ({
                 size="small"
                 component="button"
                 onClick={onAssistanceClick}
-                startIcon={<HelpOutlineRoundedIcon />}
+                startIcon={<HelpOutlineIcon />}
                 sx={{ display: ['none', 'flex'] }}
                 weight="default"
               >
@@ -170,7 +170,7 @@ export const HeaderAccount = ({
                 sx={{ display: ['flex', 'none'] }}
                 onClick={onAssistanceClick}
               >
-                <HelpOutlineRoundedIcon fontSize="inherit" />
+                <HelpOutlineIcon fontSize="inherit" />
               </IconButton>
             </>
           )}
