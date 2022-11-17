@@ -16,6 +16,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx 
         component="main"
         sx={{
           px: 3,
+          height: '100%',
           py: 2,
           ...sx,
         }}
