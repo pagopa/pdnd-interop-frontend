@@ -153,7 +153,7 @@ export const routes = makeType({
     EXACT: false,
     COMPONENT: ConsumerEServiceDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'security'],
+    AUTH_LEVELS: 'any',
   },
   SUBSCRIBE_CATALOG_LIST: {
     PATH: { it: 'fruizione/catalogo-e-service', en: 'subscriber/e-service-catalog' },
