@@ -8,7 +8,7 @@ const NotFoundPage: React.FC = () => {
 
   return (
     <PageContainer
-      sx={{ py: 16 }}
+      sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%' }}
       title={t('notFound.title')}
       description={t('notFound.description')}
     >
