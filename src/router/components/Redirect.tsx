@@ -1,4 +1,5 @@
 import React from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import useNavigateRouter from '../hooks/useNavigateRouter'
 import { RouteKey, RouteParams } from '../types'
 
@@ -7,17 +8,17 @@ type RedirectProps<T extends RouteKey> = { to?: T } & (RouteParams<T> extends un
   : { params: RouteParams<T> })
 
 const Redirect = <T extends RouteKey>({ to, params }: RedirectProps<T>) => {
-  const { navigate } = useNavigateRouter()
+  const { getRouteUrl } = useNavigateRouter()
+  const navigate = useNavigate()
+  const location = useLocation()
   React.useEffect(() => {
     /* eslint-disable @typescript-eslint/ban-ts-comment */
-    if (params) {
-      // @ts-ignore
-      navigate(to, { params })
-    } else {
-      // @ts-ignore
-      navigate(to)
-    }
-  }, [params, to, navigate])
+    // @ts-ignore
+    let routeUrl = params ? getRouteUrl(to, { params }) : getRouteUrl(to)
+    routeUrl = `${routeUrl}${location.hash}${location.search}`
+
+    navigate(routeUrl, { replace: true })
+  }, [params, to, navigate, location.hash, location.search, getRouteUrl])
 
   return null
 }
