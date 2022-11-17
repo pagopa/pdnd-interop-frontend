@@ -1,0 +1,42 @@
+{
+  "consumerEServiceCatalog": {
+    "title": "Catalogo degli e-service",
+    "description": "In quest'area puoi vedere tutti gli e-service nel catalogo, e aderire a quelli a cui sei interessato",
+    "headLabels": {
+      "eservice": "E-service",
+      "provider": "Erogatore",
+      "status": "Stato richiesta"
+    }
+  },
+  "consumerAgreementsList": {
+    "title": "Le tue richieste",
+    "description": "In quest'area puoi gestire tutte le richieste di fruizione che hai sottoscritto presso Enti erogatori"
+  },
+  "providerEServiceList": {
+    "title": "I tuoi e-service",
+    "description": "In quest'area puoi gestire tutti gli e-service che stai erogando",
+    "eserviceTable": {
+      "headLabels": {
+        "name": "E-service",
+        "version": "Versione",
+        "status": "Stato e-service"
+      }
+    }
+  },
+  "providerAgreementsList": {
+    "title": "Le tue richieste",
+    "description": "In quest'area puoi gestire tutte le richieste di fruizione che hai sottoscritto presso Enti erogatori"
+  },
+  "consumerPurposesList": {
+    "title": "Le tue finalità",
+    "description": "In quest'area puoi i trovare e gestire tutte le finalità che hai creato"
+  },
+  "consumerClientList": {
+    "title": "I tuoi client e-service",
+    "description": "In quest'area puoi i trovare e gestire tutti i client e-service che hai creato"
+  },
+  "consumerClientM2MList": {
+    "title": "I tuoi client api interop",
+    "description": "Gestisci i client per staccare voucher validi per interrogare le API di Interoperabilità"
+  }
+}

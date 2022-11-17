@@ -1,0 +1,27 @@
+{
+  "tos": {
+    "title": "Interoperabilità",
+    "description": "Accedendo, accetti i <1>Termini e condizioni d’uso</1> del servizio e confermi di avere letto l’<1>Informativa Privacy</1>.",
+    "confirmBtnLabel": "Accedi"
+  },
+  "footer": {
+    "links": {
+      "privacy": {
+        "label": "Privacy Policy",
+        "ariaLabel": "Vai al link: privacy policy"
+      },
+      "dataProtection": {
+        "label": "Diritto alla protezione dei dati personali",
+        "ariaLabel": "Vai al link: diritto alla protezione dei dati personali"
+      },
+      "terms": {
+        "label": "Termini e condizioni",
+        "ariaLabel": "Vai al link: termini e condizioni"
+      },
+      "a11y": {
+        "label": "Accessibilità",
+        "ariaLabel": "Vai al link: accessibilità"
+      }
+    }
+  }
+}

@@ -1,0 +1,212 @@
+{
+  "backToListBtn": "Torna agli e-service",
+  "status": {
+    "PUBLISHED": "attivo",
+    "DRAFT": "in bozza",
+    "SUSPENDED": "sospeso",
+    "ARCHIVED": "archiviato",
+    "DEPRECATED": "deprecato"
+  },
+  "create": {
+    "emptyTitle": "Crea e-service",
+    "stepper": {
+      "step1Label": "Generale",
+      "step2Label": "Versione",
+      "step3Label": "Documentazione"
+    },
+    "backWithoutSaveBtn": "Indietro",
+    "forwardWithSaveBtn": "Salva bozza e prosegui",
+    "forwardWithoutSaveBtn": "Prosegui",
+    "endWithSaveBtn": "Salva bozza e torna agli e-service",
+    "step1": {
+      "detailsTitle": "Caratterizzazione e-service",
+      "eserviceNameField": {
+        "label": "Nome dell'e-service (richiesto)",
+        "infoLabel": "Se prevedi di usare più e-service con lo stesso nome, inserisci una piccola indicazione per distinguerli (es. \"TARI – dedicata Comuni\" e \"TARI - dedicata Regioni\"). Max 60 caratteri"
+      },
+      "eserviceDescriptionField": {
+        "label": "Descrizione dell'e-service (richiesto)",
+        "infoLabel": "(es. \"Dedicato agli Enti che hanno necessità di ...\", oppure \"L'e-service rivolto agli Enti che ...\"). Max 250 caratteri"
+      },
+      "eserviceTechnologyField": {
+        "label": "Tecnologia utilizzata (richiesto)"
+      },
+      "attributes": {
+        "subtitle": "Il fruitore deve possedere:",
+        "addBtn": "+ Aggiungi nuovo attributo",
+        "createBtn": "Crea nuovo attributo",
+        "certified": {
+          "description": "Certificati da una fonte autoritativa riconosciuta, non necessitano di ulteriori verifiche da parte tua."
+        },
+        "verified": {
+          "description": "Puoi decidere se avvalerti della verifica effettuata da altri enti o effettuarne una nuova indipendentemente."
+        },
+        "declared": {
+          "description": "Il fruitore dovrà dichiarare sotto la propria responsabilità di possedere questi attributi."
+        }
+      },
+      "firstVersionOnlyEditableInfo": "I contenuti di questa pagina non saranno più modificabili dopo la pubblicazione della prima versione dell'e-service"
+    },
+    "step2": {
+      "versionField": {
+        "label": "Numero della versione (richiesto)",
+        "infoLabel": "Assegnata automaticamente dal sistema e non modificabile"
+      },
+      "descriptionField": {
+        "label": "Descrizione della versione (richiesto)",
+        "infoLabel": "Max 250 caratteri"
+      },
+      "audienceField": {
+        "label": "Audience (richiesto)",
+        "infoLabel": "All’interno dell'access token che il fruitore ti invierà rappresenterà l’audience (aud), l'id con il quale è dichiarato il servizio richiesto. Max 250 caratteri"
+      },
+      "voucherLifespanField": {
+        "label": "Durata di validità dell'access token (in minuti - richiesto)",
+        "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
+      },
+      "dailyCallsPerConsumerField": {
+        "label": "Soglia chiamate API/giorno per fruitore (richiesto)",
+        "infoLabel": "Il fruitore dovrà dichiarare una stima delle chiamate che effettuerà per ogni finalità. Se la somma delle chiamate dichiarate dal fruitore sarà sopra la soglia da te impostata, potrai approvare manualmente l'accesso delle nuove finalità alla fruizione del tuo e-service"
+      },
+      "dailyCallsTotalField": {
+        "label": "Soglia chiamate API/giorno totali (richiesto)",
+        "infoLabel": "Il numero totale di chiamate al giorno permesse sommando quelle di tutti i fruitori. Se la somma sarà superiore alla soglia da te impostata, potrai approvare manualmente l'accesso delle nuove finalità alla fruizione del tuo e-service",
+        "validation": {
+          "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per fruitore"
+        }
+      },
+      "agreementApprovalPolicyField": {
+        "label": "Voglio riservarmi la facoltà di verificare e attivare manualmente tutte le richieste di fruizione pervenute per questa versione dell'e-service"
+      }
+    },
+    "step3": {
+      "interface": {
+        "title": "Interfaccia (richiesto)",
+        "description": {
+          "before": "Carica il file",
+          "after": "che descrive l'API"
+        },
+        "prettyName": "Specifica API"
+      },
+      "documentation": {
+        "title": "Documentazione",
+        "description": "Inserisci la documentazione tecnica utile all’utilizzo di questo e-service",
+        "noFileUploaded": "Nessun documento caricato"
+      },
+      "uploadFileField": {
+        "label": "Seleziona documento"
+      },
+      "nameField": {
+        "label": "Nome documento",
+        "infoLabel": "Max. 60 caratteri"
+      },
+      "uploadBtn": "Carica"
+    },
+    "quickPublish": {
+      "title": "Pubblicazione immediata",
+      "description": "Hai inserito tutte le informazioni per questo e-service? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza in fondo alla pagina",
+      "publishBtn": "Pubblica bozza",
+      "deleteBtn": "Cancella bozza",
+      "noInterfaceTooltipLabel": "Per poter procedere con la pubblicazione della bozza è obbligatorio caricare un file d'interfaccia API"
+    }
+  },
+  "list": {
+    "title": "Catalogo degli E-Service",
+    "description": "In quest'area puoi esplorare tutti gli e-service nel catalogo",
+    "inspectAction": "Ispeziona",
+    "filters": {
+      "nameField": {
+        "label": "Cerca per nome"
+      },
+      "providerField": {
+        "label": "Cerca per erogatore"
+      },
+      "filterBtn": "Filtra",
+      "cancelFilterBtn": "Annulla filtri"
+    }
+  },
+  "manage": {
+    "tabs": {
+      "ariaLabel": "Due tab diverse per i dettagli dell'e-service e le stime di carico indicate dai fruitori",
+      "details": "Dettagli dell'e-service",
+      "purposeAwaitingApproval": "Finalità da evadere"
+    }
+  },
+  "read": {
+    "alert": {
+      "youAreTheProvider": "Sei l'erogatore di questo e-service",
+      "missingCertifiedAttributes": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
+      "alreadySubscribed": "Non puoi iscriverti a questo e-service perché sei già iscritto",
+      "hasDraft": "Possiedi già una richiesta in bozza per questo e-service"
+    },
+    "actions": {
+      "backToListLabel": "Torna agli e-service",
+      "backToCatalogLabel": "Torna al catalogo"
+    },
+    "sections": {
+      "generalInformations": {
+        "title": "Informazioni generali",
+        "agreementField": {
+          "label": "Richiesta di fruizione",
+          "link": {
+            "label": "Vai"
+          }
+        },
+        "technology": "Tecnologia"
+      },
+      "versionInformations": {
+        "title": "Informazioni di versione",
+        "actualVersion": "Stai vedendo la versione",
+        "versionStatus": "Stato della versione",
+        "currentVersionChipLabel": "versione corrente",
+        "description": "Descrizione",
+        "audience": "Audience",
+        "audienceDescription": "L’audience che il Fruitore dovrà indicare nel voucher per identificare il servizio",
+        "voucherLifespan": "Durata del voucher",
+        "dailyCallsPerConsumer": "Soglia per Fruitore",
+        "dailyCallsTotal": "Soglia totale",
+        "callsPerDay": "chiamate/giorno",
+        "agreementApprovalPolicy": {
+          "label": "Attivazione richiesta di fruizione",
+          "AUTOMATIC": "Automatica",
+          "MANUAL": "Manuale"
+        },
+        "doubtsQuestion": "Hai dubbi sull’implementazione per erogare il tuo e-service?",
+        "doubtsLink": "Consulta la guida"
+      },
+      "voucherVerification": {
+        "title": "Verifica voucher",
+        "description": "Devi verificare un voucher ricevuto da un fruitore? Di seguito i link con le istruzioni necessarie",
+        "howLink": "Come faccio a verificare un voucher?",
+        "wellKnownLink": "URL .well-known"
+      },
+      "attributes": {
+        "certified": {
+          "description": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori verifiche."
+        },
+        "verified": {
+          "description": "Questi attributi necessitano verifica da parte di almeno un erogatore. Il fruitore potrebbe già possederne alcuni (o tutti)."
+        },
+        "declared": {
+          "description": "Il fruitore deve dichiarare sotto la propria responsabilità di possedere questi attributi; potrebbe già possederne alcuni (o tutti)."
+        }
+      },
+      "versionHistory": {
+        "title": "Storico delle versioni",
+        "historyField": {
+          "title": "Cambia versione",
+          "label": "Seleziona una versione",
+          "option": "v{{version}}"
+        },
+        "submitBtn": "Vai alla scheda"
+      }
+    }
+  },
+  "tableEServiceCatalog": {
+    "youAreTheProvider": "Sei l'erogatore",
+    "alreadySubscribed": "Sei già iscritto",
+    "agreementInDraft": "Hai una richiesta in bozza",
+    "missingCertifiedAttributes": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
+    "goToRequestCta": "Vai alla richiesta"
+  }
+}

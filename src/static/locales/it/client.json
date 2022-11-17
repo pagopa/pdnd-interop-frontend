@@ -1,0 +1,54 @@
+{
+  "loadingSingleLabel": "Stiamo caricando il client",
+  "loadingMultiLabel": "Stiamo caricando la lista dei client",
+  "noMultiDataLabel": "Non ci sono client disponibili",
+  "tableClientInPurpose": {
+    "actions": {
+      "removeFromPurpose": "Rimuovi dalla finalità"
+    },
+    "noClientsAssociatedToPurposeLabel": "Non ci sono client associati a questa finalità"
+  },
+  "create": {
+    "title": "Crea nuovo client",
+    "description": "Una volta creato il client, potrai sempre aggiungere e rimuovere operatori e chiavi pubbliche da utilizzare per accedere agli e-service degli erogatori",
+    "infoSectionTitle": "Informazioni generali",
+    "nameField": {
+      "label": "Nome del client (richiesto)",
+      "infoLabel": "Ti aiuta a distinguerlo dagli altri. Max 60 caratteri"
+    },
+    "descriptionField": {
+      "label": "Descrizione del client (richiesto)",
+      "infoLabel": "Max 250 caratteri"
+    },
+    "clientOperatorsSectionTitle": "Membri del client",
+    "operatorsTable": {
+      "noDataLabel": "Nessun utente aggiunto"
+    },
+    "actions": {
+      "createLabel": "Crea client",
+      "backToClientsLabel": "Torna alla lista dei client"
+    }
+  },
+  "edit": {
+    "tabs": {
+      "ariaLabel": "Tre tab diverse per le istruzioni dell'ottenimento dell'access token, i membri del client e le chiavi pubbliche",
+      "voucher": "Istruzioni ottenimento accesso token",
+      "clientOperators": "Membri del client",
+      "publicKeys": "Chiavi pubbliche"
+    },
+    "actions": {
+      "deleteLabel": "Elimina client",
+      "backToClientsLabel": "Torna alla lista dei client"
+    }
+  },
+  "list": {
+    "consumer": {
+      "title": "I tuoi client e-service",
+      "description": "In quest'area puoi i trovare e gestire tutti i client e-service che hai creato"
+    }
+  },
+  "interopM2M": {
+    "title": "I tuoi client api interop",
+    "description": "Gestisci i client per staccare voucher validi per interrogare le API di Interoperabilità"
+  }
+}

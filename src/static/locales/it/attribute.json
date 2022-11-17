@@ -1,0 +1,39 @@
+{
+  "type": {
+    "certified_one": "certificato",
+    "verified_one": "verificato",
+    "declared_one": "dichiarato",
+    "certified_other": "certificati",
+    "verified_other": "verificati",
+    "declared_other": "dichiarati"
+  },
+  "certified": {
+    "label": "Attributi Certificati"
+  },
+  "verified": {
+    "label": "Attributi Verificati"
+  },
+  "declared": {
+    "label": "Attributi Dichiarati"
+  },
+  "noAttributesRequiredAlert": "Non ci sono attributi {{attributeKey}} richiesti per questo e-service",
+  "title": "attributo {{num}}:",
+  "or": "oppure",
+  "showInfoSrLabel": "Mostra informazioni attributo",
+  "mustOwn": "Devi possedere:",
+  "group": {
+    "title": "attributo {{num}}:",
+    "addBtn": "Aggiungi",
+    "cancelBtn": "Annulla",
+    "confirmDeclaredAttributeBtn": "Conferma",
+    "or": "oppure",
+    "deleteSrLabel": "Elimina attributo",
+    "deleteGroupSrLabel": "Elimina gruppo di attributi",
+    "showInfoSrLabel": "Mostra informazioni attributo",
+    "canRequireVerification": "Per questo attributo sfrutta le verifiche effettuate da altri erogatori",
+    "autocompleteInput": {
+      "label": "Aggiungi attributo al gruppo",
+      "placeholder": "Inserisci nome attributo"
+    }
+  }
+}

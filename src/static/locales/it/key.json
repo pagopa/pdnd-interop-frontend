@@ -1,0 +1,34 @@
+{
+  "loadingSingleLabel": "Stiamo caricando la tua chiave",
+  "loadingMultiLabel": "Stiamo caricando la lista di chiavi",
+  "noMultiDataLabel": "Non ci sono chiavi disponibili",
+  "backToKeyListBtn": "Torna alla lista delle chiavi",
+  "tableKey": {
+    "operatorDeletedWarning": {
+      "message": "Attenzione! L'operatore che ha caricato questa chiave è stato rimosso da questo ente. Per questioni di sicurezza, si consiglia di eliminare la chiave e di sostituirla con una nuova"
+    }
+  },
+  "edit": {
+    "generalInformations": {
+      "title": "Informazioni generali",
+      "creationDateField": {
+        "label": "Data di creazione"
+      },
+      "uploaderField": {
+        "label": "Caricata da"
+      },
+      "kidField": {
+        "label": "Id della chiave (kid)",
+        "copySuccessFeedbackText": "Id copiato correttamente"
+      },
+      "clientIdField": {
+        "label": "Id del client (clientId)",
+        "copySuccessFeedbackText": "Id copiato correttamente"
+      },
+      "operatorDeletedAlertMessage": "Attenzione! L'operatore che ha caricato questa chiave è stato rimosso da questo ente o client. Si consiglia di eliminare la chiave e di sostituirla con una nuova"
+    }
+  },
+  "list": {
+    "adminEnableInfo": "Per poter caricare una chiave, devi prima aggiungerti come utente membro di questo client"
+  }
+}

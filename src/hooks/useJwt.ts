@@ -1,34 +1,34 @@
-import { useContext, useMemo } from 'react'
-import { JwtUser } from '../../types'
-import { TokenContext } from '../lib/context'
+import React from 'react'
+import { useAuthContext } from '@/contexts'
+import { JwtUser } from '@/types/party.types'
+import memoize from 'lodash/memoize'
 
-const parseJwt = (token: string): JwtUser => {
-  return JSON.parse(atob(token.split('.')[1]))
-  /*
-  try {
-    return JSON.parse(atob(token.split('.')[1]))
-  } catch (e) {
-    return null
-  }
-  */
-}
-
-export const useJwt = () => {
-  const { token } = useContext(TokenContext)
-
-  const jwt = useMemo(() => {
-    return token ? parseJwt(token) : undefined
-  }, [token])
-
+const parseJwt = memoize((token: string | null) => {
+  const jwt = token ? (JSON.parse(atob(token.split('.')[1])) as JwtUser) : undefined
   const currentRoles = jwt ? jwt.organization.roles.map((r) => r.role) : []
   const isAdmin = currentRoles.length === 1 && currentRoles[0] === 'admin'
   const isOperatorAPI = Boolean(currentRoles.includes('api'))
   const isOperatorSecurity = Boolean(currentRoles.includes('security'))
-  const hasSessionExpired = jwt ? Boolean(new Date() > new Date(jwt.exp * 1000)) : false
 
-  function isCurrentUser(userId: string) {
-    return jwt && jwt.uid === userId
-  }
+  return { jwt, currentRoles, isAdmin, isOperatorAPI, isOperatorSecurity }
+})
+
+export const useJwt = () => {
+  const { token } = useAuthContext()
+
+  const { jwt, currentRoles, isAdmin, isOperatorAPI, isOperatorSecurity } = parseJwt(token)
+
+  const hasSessionExpired = React.useCallback(
+    () => (jwt ? new Date() > new Date(jwt.exp * 1000) : false),
+    [jwt]
+  )
+
+  const isCurrentUser = React.useCallback(
+    (userId: string) => {
+      return jwt && jwt.uid === userId
+    },
+    [jwt]
+  )
 
   return {
     jwt,

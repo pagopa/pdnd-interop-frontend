@@ -1,0 +1,27 @@
+{
+  "tos": {
+    "title": "Interoperability",
+    "description": "By entering, you accept the service <1>Terms and Conditions</1> and confirm you have read the <1>Privacy Policy</1>.",
+    "confirmBtnLabel": "Enter"
+  },
+  "footer": {
+    "links": {
+      "privacy": {
+        "label": "Privacy Policy",
+        "ariaLabel": "Vai al link: privacy policy"
+      },
+      "dataProtection": {
+        "label": "Personal data protection rights",
+        "ariaLabel": "Vai al link: personal data protection rights"
+      },
+      "terms": {
+        "label": "Terms and conditions",
+        "ariaLabel": "Vai al link: terms and conditions"
+      },
+      "a11y": {
+        "label": "Accessibility",
+        "ariaLabel": "Vai al link: accessibility"
+      }
+    }
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "noDataLabel": "No results",
+  "productTitle": "Interoperability",
+  "addBtn": "+ Add",
+  "closeBtn": "Close",
+  "howLink": "How?",
+  "createNewBtn": "Create new",
+  "validation": {
+    "mixed": {
+      "required": "Field required"
+    },
+    "string": {
+      "email": "Invalid email format"
+    },
+    "boolean": {
+      "isValue": "Please confirm"
+    },
+    "number": {
+      "min": "The value must be more or equal to ${min}",
+      "max": "The value must be less or equal to ${max}"
+    }
+  },
+  "mainNav": {
+    "ariaLabel": "Main navigation",
+    "userExternalLinkLabel": "Users"
+  },
+  "loading": {
+    "sessionToken": {
+      "label": "We are authenticating this session. Please, wait"
+    }
+  },
+  "unauthorized": {
+    "title": "Insufficient authorization",
+    "description": "Sorry, you don't have enough permissions to access this feature",
+    "cta": "Go back to the homepage"
+  },
+  "actions": {
+    "suspend": "Suspend",
+    "activate": "Activate",
+    "reject": "Reject",
+    "upgrade": "Upgrade",
+    "delete": "Delete",
+    "inspect": "Inspect",
+    "edit": "Edit",
+    "subscribe": "Subscribe",
+    "clone": "Clone",
+    "publish": "Publish",
+    "download": "Download",
+    "archive": "Archive",
+    "cancel": "Cancel",
+    "verify": "Verify",
+    "revoke": "Revoke",
+    "confirm": "Confirm",
+    "createNewDraft": "Create new draft version",
+    "saveDraft": "Save draft",
+    "backToCatalog": "Back to catalog"
+  },
+  "table": {
+    "headData": {
+      "eserviceName": "E-Service",
+      "clientName": "Client",
+      "purposeName": "Purpose",
+      "providerName": "Provider",
+      "subscriberName": "Subscriber",
+      "currentVersion": "Current version",
+      "version": "Versione",
+      "status": "Status",
+      "eserviceStatus": "E-Service status",
+      "agreementStatus": "Request status",
+      "purposeStatus": "Purpose status",
+      "userStatus": "User status",
+      "keyName": "Key name",
+      "keyUploader": "Uploaded by",
+      "keyUploadDate": "Creation date",
+      "userName": "Name and surname"
+    }
+  },
+  "status": {
+    "eservice": {
+      "PUBLISHED": "active",
+      "DRAFT": "draft",
+      "SUSPENDED": "suspended",
+      "ARCHIVED": "archived",
+      "DEPRECATED": "deprecated"
+    },
+    "agreement": {
+      "ACTIVE": "active",
+      "DRAFT": "draft",
+      "SUSPENDED": "suspended",
+      "PENDING": "awaiting approval",
+      "ARCHIVED": "archived",
+      "REJECTED": "rejected",
+      "MISSING_CERTIFIED_ATTRIBUTES": "missing certified attributes",
+      "frontendStatus": {
+        "suspendedByProducer": "suspended by producer",
+        "suspendedByConsumer": "suspended by consumer",
+        "suspendedByPlatform": "suspended by platform"
+      }
+    },
+    "purpose": {
+      "DRAFT": "draft",
+      "ACTIVE": "active",
+      "SUSPENDED": "suspended",
+      "WAITING_FOR_APPROVAL": "awaiting evaluation",
+      "ARCHIVED": "archived"
+    },
+    "user": {
+      "PENDING": "awaiting approval",
+      "ACTIVE": "active",
+      "SUSPENDED": "suspended",
+      "DELETED": "deleted"
+    },
+    "attribute": {
+      "certified": {
+        "ACTIVE": "certified",
+        "NOT_ACTIVE": "not certified",
+        "REVOKED": "revoked"
+      },
+      "verified": {
+        "ACTIVE": "verified",
+        "NOT_ACTIVE": "to verify",
+        "REVOKED": "revoked"
+      },
+      "declared": {
+        "ACTIVE": "dichiarato",
+        "NOT_ACTIVE": "pending confirmation",
+        "REVOKED": "revoked"
+      }
+    }
+  },
+  "userRole": {
+    "MANAGER": "Administrator",
+    "DELEGATE": "Delegate",
+    "OPERATOR": "Operator"
+  },
+  "userProductRole": {
+    "admin": "Administrator",
+    "security": "Security operator",
+    "api": "API operator"
+  },
+  "mode": {
+    "provider": "provider",
+    "subscriber": "subscriber"
+  },
+  "time": {
+    "second_one": "second",
+    "second_other": "seconds",
+    "minute_one": "minute",
+    "minute_other": "minutes",
+    "hour_one": "hour",
+    "hour_other": "hours"
+  },
+  "conjunctions": {
+    "and": "and",
+    "or": "or"
+  },
+  "help": {
+    "title": "Getting started",
+    "description": "In this page you can find useful information to manage some everyday operations and overcome problems. Please note that this guide will be replaced with a dedicated documentation website as soon as the platform goes into production"
+  },
+  "tos": {
+    "title": "Terms of service"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "tempAlert": "The notifications feature is currently being developed"
+  },
+  "securityKeyGuide": {
+    "title": "How to generate and upload security keys"
+  },
+  "error": {}
+}

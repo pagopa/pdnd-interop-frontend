@@ -1,0 +1,184 @@
+{
+  "styledDialogBasic": {
+    "ariaDescribedBy": "Action modal",
+    "actions": {
+      "cancelLabel": "Undo"
+    }
+  },
+  "dialogAttributeDetails": {
+    "content": {
+      "descriptionField": {
+        "label": "Attribute description"
+      },
+      "codeField": {
+        "label": "Authoritative source id"
+      },
+      "originField": {
+        "label": "Authoritative source name"
+      }
+    },
+    "loading": "We are loading the attribute",
+    "actions": {
+      "closeBtn": "Close"
+    }
+  },
+  "dialogSessionExpired": {
+    "ariaDescribedBy": "Modal to go to login page since the current session has expired",
+    "title": "Session expired",
+    "content": {
+      "description": "You are about to be redirected to the login page"
+    },
+    "actions": {
+      "confirmLabel": "Ok"
+    }
+  },
+  "dialogUpdatePurposeDailyCalls": {
+    "ariaDescribedBy": "Modal to update the number of API calls/day for a purpose",
+    "title": "Update number of API calls/day",
+    "content": {
+      "dailyCallsField": {
+        "label": "Number of API calls/day (required)",
+        "infoLabel": "Your estimated number of API calls per day. This value will add up until it meets one of the thresholds set by the Provider. When it does, the Provider will have to manually approve any further purpose or change in API calls/day to guarantee the technical sustainability of the e-service"
+      }
+    },
+    "actions": {
+      "cancelLabel": "Undo",
+      "confirmLabel": "Confirm"
+    }
+  },
+  "dialogSetPurposeExpectedApprovalDate": {
+    "ariaDescribedBy": "Modal to set the estimated completion date to activate a Subscriber purpose",
+    "title": "Set estimated completion date",
+    "content": {
+      "message": "You can update it at any moment. Any change will be notified to the Subscriber"
+    },
+    "actions": {
+      "cancelLabel": "Undo",
+      "confirmLabel": "Set"
+    }
+  },
+  "dialogAddSecurityOperators": {
+    "ariaDescribedBy": "Modal to add security operators to a client",
+    "title": "Add security operators",
+    "content": {
+      "autocompleteLabel": "Selected operators",
+      "adminAlert": "If you plan on uploading public keys for this client, add yourself as a member of this client, too"
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Aggiungi"
+    }
+  },
+  "dialogAddSecurityOperatorKeys": {
+    "ariaDescribedBy": "Modal to add a public key to a client",
+    "title": "Upload new public key",
+    "content": {
+      "nameField": {
+        "label": "Key name (required)",
+        "infoLabel": "It will help you tell them apart. Max 60 chars"
+      },
+      "keyField": {
+        "label": "Public key (required)",
+        "infoLabel": {
+          "message": "If you don't know how to create the keys? Follow the",
+          "linkLabel": "guide"
+        }
+      }
+    },
+    "actions": {
+      "cancelLabel": "Undo",
+      "confirmLabel": "Upload"
+    }
+  },
+  "dialogRejectAgreement": {
+    "ariaDescribedBy": "Modal to reject a fruition request from a consumer",
+    "title": "Reject fruition request",
+    "content": {
+      "reason": {
+        "label": "Reason",
+        "infoLabel": "Insert the reason why you are rejecting the fruition request. Max 1000 chars."
+      }
+    },
+    "actions": {
+      "cancelLabel": "Cancel",
+      "confirmLabel": "Reject"
+    }
+  },
+  "dialogAddClientToPurpose": {
+    "ariaDescribedBy": "Modal to add clients to a purpose",
+    "title": "Add clients",
+    "content": {
+      "autocompleteLabel": "Selected clients",
+      "loadingMessage": "Loading clients to associate to purpose"
+    },
+    "actions": {
+      "cancelLabel": "Undo",
+      "confirmLabel": "Add"
+    }
+  },
+  "dialogCreateNewAttribute": {
+    "ariaDescribedBy": "Modal to create a new attribute",
+    "title": "Create new attribute",
+    "content": {
+      "nameField": {
+        "label": "Attribute name (required)",
+        "infoLabel": "Max 160 chars"
+      },
+      "descriptionField": {
+        "label": "Attribute description (required)",
+        "infoLabel": "Max 250 chars"
+      },
+      "codeField": {
+        "label": "Authoritative source id (required)",
+        "infoLabel": "A kebab-case version of the name (e.g. \"My Authoritative Source\" becomes \"my-authoritative-source\"). Max 30 chars"
+      },
+      "originField": {
+        "label": "Authoritative source name (required)",
+        "infoLabel": "Max. 64 chars"
+      }
+    },
+    "actions": {
+      "cancelLabel": "Undo",
+      "confirmLabel": "Create attribute"
+    }
+  },
+  "copyToClipboardButton": {
+    "copy": "Copy",
+    "copied": "Copied"
+  },
+  "sidenav": {
+    "userExternalLinkLabel": "Users"
+  },
+  "table": {
+    "noDataLabel": "This search bears no results"
+  },
+  "downloadableDocumentList": {
+    "noDataLabel": "No documents available"
+  },
+  "inlineClipboard": {
+    "defaultSuccessFeedbackText": "Message copied successfully"
+  },
+  "codeSnippetPreview": {
+    "successFeedbackText": "Script copied successfully"
+  },
+  "codeLanguagePicker": {
+    "languageLabel": "Language"
+  },
+  "autocompleteMultiple": {
+    "loadingLabel": "Searching...",
+    "noDataLabel": "No results"
+  },
+  "singleFileInput": {
+    "dropzoneLabel": "Drag here file or click here to select it from your computer",
+    "loadingLabel": "Loading..."
+  },
+  "documentContainer": {
+    "prettyName": {
+      "label": "Document name",
+      "infoLabel": "Max 60 chars"
+    },
+    "editDocumentName": "Edit document name",
+    "deleteDocument": "Delete document",
+    "downloadDocument": "Download document"
+  }
+}

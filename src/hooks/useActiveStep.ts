@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
-import { useHistory } from 'react-router'
+import React from 'react'
 import isEmpty from 'lodash/isEmpty'
+import { useLocation } from 'react-router-dom'
 
 export type ActiveStepProps = {
   back: VoidFunction
@@ -13,39 +13,38 @@ export function scrollToTop() {
 }
 
 export const useActiveStep = (): ActiveStepProps => {
-  const [activeStep, setActiveStep] = useState(0)
-  const history = useHistory()
+  const [activeStep, setActiveStep] = React.useState(0)
+  const location = useLocation()
 
   // Handles which step to go to after a "creation" action has been performed
   // and a history.replace action has taken place and the whole EServiceCreate
   // component has rerendered and fetched fresh data
-  useEffect(() => {
+  React.useEffect(() => {
+    const goToStep = (step: number) => {
+      setActiveStep(step)
+      scrollToTop()
+    }
     // State has priority since it is a direct order to go to a location
-    const locationState: Record<string, unknown> = history.location.state as Record<string, unknown>
+    const locationState: Record<string, unknown> = location.state as Record<string, unknown>
     if (!isEmpty(locationState) && locationState.stepIndexDestination) {
       goToStep(locationState.stepIndexDestination as number)
     } else {
       // If there is no state, go to first step
       goToStep(0)
     }
-  }, [history.location])
+  }, [location])
 
   /*
    * Stepper actions
    */
-  const back = () => {
-    setActiveStep(activeStep - 1)
-  }
+  const back = React.useCallback(() => {
+    setActiveStep((prev) => prev - 1)
+  }, [])
 
-  const forward = () => {
-    setActiveStep(activeStep + 1)
+  const forward = React.useCallback(() => {
+    setActiveStep((prev) => prev + 1)
     scrollToTop()
-  }
-
-  const goToStep = (step: number) => {
-    setActiveStep(step)
-    scrollToTop()
-  }
+  }, [])
 
   return { back, forward, activeStep }
 }

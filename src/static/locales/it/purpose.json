@@ -1,0 +1,214 @@
+{
+  "loadingSingleLabel": "Stiamo caricando la tua finalità",
+  "loadingMultiLabel": "Stiamo caricando la lista delle finalità",
+  "noMultiDataLabel": "Non ci sono finalità disponibili",
+  "create": {
+    "emptyTitle": "Crea finalità",
+    "isTemplateField": {
+      "label": "Usa un template precompilato"
+    },
+    "purposeField": {
+      "label": "Template da utilizzare",
+      "compiledBy": "{{title}} creata da {{consumerName}}",
+      "noDataLabel": "Nessun template disponibile per questo e-service",
+      "loadingLabel": "Stiamo caricando i template"
+    },
+    "eserviceField": {
+      "label": "E-service da associare"
+    },
+    "purposeInfoTitle": "Contenuto del template selezionato",
+    "purposePreviewTitle": "Contenuto del template selezionato",
+    "consumerName": "Questo template è stato creato da",
+    "purposeTitle": "Nome finalità",
+    "purposeDescription": "Descrizione finalità",
+    "createNewPurposeBtn": "Crea bozza finalità",
+    "backToListBtn": "Torna alle finalità",
+    "defaultPurpose": {
+      "title": "Nuova finalità",
+      "description": "Lorem ipsum dolor sit amet..."
+    }
+  },
+  "edit": {
+    "emptyTitle": "Modifica finalità",
+    "noAgreementsAlert": {
+      "message": "Non si possono creare finalità perché non ci sono servizi associabili. Per iscriverti al tuo primo e-service",
+      "link": {
+        "label": "visita il catalogo"
+      }
+    },
+    "stepper": {
+      "step1Label": "Generale",
+      "step2Label": "Analisi del rischio",
+      "step3Label": "Client"
+    },
+    "backToListBtn": "Torna alle finalità",
+    "backWithoutSaveBtn": "Indietro",
+    "forwardWithSaveBtn": "Salva bozza e prosegui",
+    "endWithSaveBtn": "Salva e torna alle finalità",
+    "eserviceProvider": "erogato da",
+    "step1": {
+      "title": "Informazioni generali",
+      "nameField": {
+        "label": "Nome della finalità (richiesto)",
+        "infoLabel": "Ti aiuterà a distinguerla dalle altre. Max 60 caratteri"
+      },
+      "descriptionField": {
+        "label": "Descrizione della finalità (richiesto)",
+        "infoLabel": "Max. 250 caratteri"
+      },
+      "eserviceField": {
+        "label": "E-service da associare (richiesto)"
+      },
+      "dailyCallsField": {
+        "label": "Numero di chiamate API/giorno (richiesto)",
+        "infoLabel": "Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'e-service"
+      }
+    },
+    "step2": {
+      "title": "Analisi del rischio",
+      "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare",
+      "singleCheckboxField": {
+        "validation": {
+          "mixed": {
+            "required": "Il campo è obbligatorio"
+          }
+        }
+      },
+      "multiCheckboxField": {
+        "validation": {
+          "mixed": {
+            "required": "Seleziona almeno un'opzione"
+          }
+        }
+      },
+      "emptyLabel": "Nessun valore disponibile",
+      "pa": {
+        "v2": {
+          "blockingButtonLabel": "Vai sul Catalogo API"
+        }
+      },
+      "validation": {
+        "maxLength": "Max {{num}} caratteri",
+        "required": "richiesto",
+        "multipleChoice": "scelta multipla"
+      }
+    },
+    "step3": {
+      "title": "Associazione client",
+      "noDataLabel": "Nessun client associato",
+      "tableHeadData": {
+        "clientName": "Nome client"
+      }
+    },
+    "quickPublish": {
+      "title": "Azioni rapide di pubblicazione",
+      "description": "Hai inserito tutte le informazioni per questa finalità? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra o abbandona questa pagina",
+      "publishBtn": "Pubblica bozza",
+      "deleteBtn": "Cancella bozza"
+    }
+  },
+  "tablePurposeInEService": {
+    "actions": {
+      "updateCompletionDate": "Aggiorna data di completamento"
+    },
+    "loadingLabel": "Stiamo caricando le finalità in attesa di evasione",
+    "noDataLabel": "Nessuna finalità da evadere",
+    "awaitingLabel": "In attesa di presa in carico"
+  },
+  "tablePurpose": {
+    "actions": {
+      "updateDailyCalls": "Aggiorna stima di carico",
+      "deleteDailyCallsUpdate": "Elimina aggiornamento stima di carico"
+    }
+  },
+  "list": {
+    "title": "Le tue finalità",
+    "description": "In quest'area puoi i trovare e gestire tutte le finalità che hai creato",
+    "cantCreatePurposeTooltip": "Non puoi creare finalità perché non hai e-service da associare"
+  },
+  "view": {
+    "actions": {
+      "backToList": "Torna alle finalità"
+    },
+    "tabs": {
+      "ariaLabel": "Due tab diverse per i dettagli della finalità e i client associati",
+      "details": "Dettagli finalità",
+      "clients": "Client associati"
+    },
+    "sections": {
+      "generalInformations": {
+        "title": "Informazioni generali",
+        "eServiceField": {
+          "label": "E-service di riferimento",
+          "value": "{{name}}, versione {{version}}"
+        },
+        "consumerField": {
+          "label": "Finalità presentata da"
+        },
+        "providerField": {
+          "label": "Erogatore"
+        },
+        "purposeStatusField": {
+          "label": "Stato della finalità"
+        },
+        "agreementField": {
+          "label": "Richiesta di fruizione",
+          "link": {
+            "label": "Vedi richiesta"
+          }
+        },
+        "dailyCallsEstimateField": {
+          "label": "Stima di carico corrente",
+          "value": "{{value}} chiamate/giorno"
+        },
+        "consumerThreshold": {
+          "label": "Soglia per fruitore",
+          "value": "{{value}} chiamate/giorno"
+        },
+        "totalThreshold": {
+          "label": "Soglia totale",
+          "value": "{{value}} chiamate/giorno"
+        }
+      },
+      "loadEstimateUpdate": {
+        "title": "Aggiornamento della stima di carico",
+        "description": "Se cambiassero le condizioni, puoi aggiornare la tua stima di carico in qualsiasi momento",
+        "dateEstimateField": {
+          "label": "Data di attivazione stimata",
+          "description": "La data entro la quale l’erogatore prevede di attivare questa nuova stima di carico",
+          "emptyLabel": "non inserita"
+        },
+        "loadEstimateRequestedField": {
+          "label": "Stima di carico da te richiesta",
+          "value": "{{value}} chiamate/giorno"
+        },
+        "faq": [
+          {
+            "summary": "Come funziona il meccanismo di aggiornamento del carico?",
+            "details": "Nel corso del tempo, le necessità del fruitore in termini di utilizzo del tuo e-service potrebbero cambiare. Può quindi decidere di aggiornare la stima di carico per una finalità già presentata. Se la nuova stima rispetta tutte le soglie impostate dall’erogatore, la finalità vecchia con la nuova soglia sarà attivata automaticamente. In caso contrario, l’erogatore la troverà tra quelle “in attesa di approvazione”. Fino a che la nuova soglia non viene attivata, il fruitore può continuare ad utilizzare la finalità attiva con la soglia precedente."
+          },
+          {
+            "summary": "Come funziona l’attivazione di una nuova stima di carico sopra soglia?",
+            "details": "Quando all’erogatore arriva una nuova stima di carico che supera una o più delle soglie impostate, la versione della finalità che eccede viene indicata “in attesa di approvazione”. Può quindi fare due cose: programmare una data stimata di approvazione, oppure attivarla subito."
+          },
+          {
+            "summary": "La data di attivazione impostata è vincolante?",
+            "details": "No, serve come indicazione al fruitore. Una volta impostata una data, l’erogatore potrà sempre modificarla. Allo scadere del tempo, la nuova stima di carico non sarà attivata automaticamente, verrà solo ricordato all’erogatore che era prevista un’attivazione. L’attivazione di una finalità che supera una o più soglie è sempre e solo manuale ad opera dell’erogatore. L’azione di attivazione è irreversibile."
+          }
+        ],
+        "linksField": {
+          "label": "Link utili",
+          "upgradeGuideLink": {
+            "label": "Guida all’aggiornamento"
+          }
+        },
+        "updateDailyCalls": "Aggiorna stima"
+      },
+      "downloadDocuments": {
+        "label": "Download",
+        "downloadRiskAnalysisLabel": "Analisi del rischio"
+      }
+    },
+    "noClientsAlert": "Questa finalità è attiva ma non ha client associati. <1>Associa il tuo primo client</1> per fruire dell’e-service"
+  }
+}

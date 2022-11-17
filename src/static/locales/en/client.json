@@ -1,0 +1,54 @@
+{
+  "loadingSingleLabel": "Loading client",
+  "loadingMultiLabel": "Loading clients",
+  "noMultiDataLabel": "No client available",
+  "tableClientInPurpose": {
+    "actions": {
+      "removeFromPurpose": "Delete from purpose"
+    },
+    "noClientsAssociatedToPurposeLabel": "No clients associated with this purpose"
+  },
+  "create": {
+    "title": "Create new client",
+    "description": "After creating a new client, you will always be able to add and remove security operators and public keys to access the Providers e-services",
+    "infoSectionTitle": "General information",
+    "nameField": {
+      "label": "Client name (required)",
+      "infoLabel": "It will help you tell them apart. Max 60 chars"
+    },
+    "descriptionField": {
+      "label": "Client description (required)",
+      "infoLabel": "Max 250 chars"
+    },
+    "clientOperatorsSectionTitle": "Security operators",
+    "operatorsTable": {
+      "noDataLabel": "No operator added"
+    },
+    "actions": {
+      "createLabel": "Create client",
+      "backToClientsLabel": "Back to the clients list"
+    }
+  },
+  "edit": {
+    "tabs": {
+      "ariaLabel": "Three different tabs with the instructions to obtain an access token, for client members and public keys",
+      "voucher": "Access token instructions",
+      "clientOperators": "Client members",
+      "publicKeys": "Public keys"
+    },
+    "actions": {
+      "deleteLabel": "Delete client",
+      "backToClientsLabel": "Back to the clients list"
+    }
+  },
+  "list": {
+    "consumer": {
+      "title": "Your e-service clients",
+      "description": "In this section you can manage all the e-service clients you have created"
+    }
+  },
+  "interopM2M": {
+    "title": "Your interop api clients",
+    "description": "Manage the clients used to obtain vouchers to interrogate the Interoperability API"
+  }
+}

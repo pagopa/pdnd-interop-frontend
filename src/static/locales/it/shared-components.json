@@ -1,0 +1,183 @@
+{
+  "styledDialogBasic": {
+    "ariaDescribedBy": "Modale per azioni",
+    "actions": {
+      "cancelLabel": "Annulla"
+    }
+  },
+  "dialogAttributeDetails": {
+    "content": {
+      "descriptionField": {
+        "label": "Descrizione dell'attributo"
+      },
+      "codeField": {
+        "label": "Id della fonte autoritativa"
+      },
+      "originField": {
+        "label": "Nome della fonte autoritativa"
+      }
+    },
+    "actions": {
+      "closeBtn": "Chiudi"
+    }
+  },
+  "dialogSessionExpired": {
+    "ariaDescribedBy": "Modale per segnalare che la sessione attuale è scaduta. È necessario effettuare un nuovo login",
+    "title": "La sessione è scaduta",
+    "content": {
+      "description": "A breve sarai reindirizzato alla pagina di login"
+    },
+    "actions": {
+      "confirmLabel": "Ok"
+    }
+  },
+  "dialogUpdatePurposeDailyCalls": {
+    "ariaDescribedBy": "Modale per aggiornare il numero di chiamate API/giorno per una finalità",
+    "title": "Aggiorna numero di chiamate API/giorno",
+    "content": {
+      "dailyCallsField": {
+        "label": "Numero di chiamate API/giorno (richiesto)",
+        "infoLabel": "Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'e-service"
+      }
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Conferma"
+    }
+  },
+  "dialogSetPurposeExpectedApprovalDate": {
+    "ariaDescribedBy": "Modale per impostare una data di completamento stimata per l'attivazione di una finalità",
+    "title": "Imposta data di completamento stimata",
+    "content": {
+      "message": "Questa data verrà indicata al fruitore come data di attivazione della finalità. Potrai aggiornarla in qualsiasi momento"
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Imposta"
+    }
+  },
+  "dialogAddSecurityOperators": {
+    "ariaDescribedBy": "Modale per aggiungere utenti membri ad un client",
+    "title": "Aggiungi membri del client",
+    "content": {
+      "autocompleteLabel": "Utenti selezionati",
+      "adminAlert": "Se vuoi caricare chiavi pubbliche per questo client, aggiungi anche te stesso al client"
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Aggiungi"
+    }
+  },
+  "dialogAddSecurityOperatorKeys": {
+    "ariaDescribedBy": "Modale per aggiungere chiavi pubbliche ad un client",
+    "title": "Carica nuova chiave pubblica",
+    "content": {
+      "nameField": {
+        "label": "Nome della chiave (richiesto)",
+        "infoLabel": "Ti aiuta a distinguerla dalle altre. Max 60 caratteri"
+      },
+      "keyField": {
+        "label": "Chiave pubblica (richiesto)",
+        "infoLabel": {
+          "message": "Non sai come fare per creare una chiave? Segui la",
+          "linkLabel": "guida"
+        }
+      }
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Carica"
+    }
+  },
+  "dialogRejectAgreement": {
+    "ariaDescribedBy": "Modale per rifiutare una richiesta di fruizione ad un fruitore",
+    "title": "Rifiuta richiesta di fruizione",
+    "content": {
+      "reason": {
+        "label": "Motivazione",
+        "infoLabel": "Inserisci la motivazione per la quale rifiuti la richiesta di fruizione. Max 1000 caratteri"
+      }
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Rifiuta"
+    }
+  },
+  "dialogAddClientToPurpose": {
+    "ariaDescribedBy": "Modale per aggiungere client ad una finalità",
+    "title": "Aggiungi client",
+    "content": {
+      "autocompleteLabel": "Client selezionati",
+      "loadingMessage": "Stiamo caricando i client associabili alla finalità"
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Aggiungi"
+    }
+  },
+  "dialogCreateNewAttribute": {
+    "ariaDescribedBy": "Modale per creare un nuovo attributo",
+    "title": "Crea nuovo attributo",
+    "content": {
+      "nameField": {
+        "label": "Nome dell'attributo (richiesto)",
+        "infoLabel": "Max 160 caratteri"
+      },
+      "descriptionField": {
+        "label": "Descrizione dell'attributo (richiesto)",
+        "infoLabel": "Max 250 caratteri"
+      },
+      "codeField": {
+        "label": "Id della fonte autoritativa (richiesto)",
+        "infoLabel": "Il nome della fonte in kebab-case (es. \"La mia fonte autoritativa\" diventa \"la-mia-fonte-autoritativa\"). Max 30 caratteri"
+      },
+      "originField": {
+        "label": "Nome della fonte autoritativa (richiesto)",
+        "infoLabel": "Max 64 caratteri"
+      }
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Crea attributo"
+    }
+  },
+  "copyToClipboardButton": {
+    "copy": "Copia",
+    "copied": "Copiato"
+  },
+  "sidenav": {
+    "userExternalLinkLabel": "Utenti"
+  },
+  "table": {
+    "noDataLabel": "Questa ricerca non ha prodotto risultati"
+  },
+  "downloadableDocumentList": {
+    "noDataLabel": "Nessun documento disponibile"
+  },
+  "inlineClipboard": {
+    "defaultSuccessFeedbackText": "Messaggio copiato correttamente"
+  },
+  "codeSnippetPreview": {
+    "successFeedbackText": "Script copiato correttamente"
+  },
+  "codeLanguagePicker": {
+    "languageLabel": "Linguaggio"
+  },
+  "autocompleteMultiple": {
+    "loadingLabel": "Stiamo cercando...",
+    "noDataLabel": "Nessun risultato trovato"
+  },
+  "singleFileInput": {
+    "dropzoneLabel": "Trascina qui il file o clicca qui per selezionarlo dal tuo computer",
+    "loadingLabel": "Caricamento in corso..."
+  },
+  "documentContainer": {
+    "prettyName": {
+      "label": "Nome documento",
+      "infoLabel": "Max 60 caratteri"
+    },
+    "editDocumentName": "Modifica nome del documento",
+    "deleteDocument": "Cancella documento",
+    "downloadDocument": "Scarica documento"
+  }
+}

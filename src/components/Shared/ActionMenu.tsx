@@ -1,107 +1,96 @@
-import React, { FunctionComponent, useContext, useRef, useState } from 'react'
-import { MoreVert as MoreVertIcon } from '@mui/icons-material'
-import { Menu, MenuItem, Box } from '@mui/material'
-import { ActionProps, ExtendedMUIColor } from '../../../types'
-import { TableActionMenuContext } from '../../lib/context'
-import { ButtonNaked } from '@pagopa/mui-italia'
-import { v4 as uuidv4 } from 'uuid'
+import React from 'react'
+import { ClickAwayListener, MenuItem, Menu, IconButton, Skeleton, Box } from '@mui/material'
+import { ActionItem, ExtendedMUIColor } from '@/types/common.types'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 type ActionMenuProps = {
-  // The list of actions to display in the menu
-  actions: Array<ActionProps>
-  onOpen: (id: string) => void
-  onClose: VoidFunction
-  // The id of the menu currently clicked. In a table there may be many of them,
-  // but only one is open at a time (or none, if the value is null)
-  openMenuId: string | null
-  // Only used for snapshot tests, to have a stable id
-  snapshotTestInternalId?: string
+  actions: Array<ActionItem>
   iconColor?: ExtendedMUIColor
 }
 
-export const ActionMenu: FunctionComponent<
-  Omit<ActionMenuProps, 'onOpen' | 'onClose' | 'openMenuId'>
-> = (props) => {
-  const { tableActionMenu, setTableActionMenu } = useContext(TableActionMenuContext)
+export const ActionMenu: React.FC<ActionMenuProps> = ({ actions, iconColor = 'primary' }) => {
+  const [open, setOpen] = React.useState(false)
+  const anchorRef = React.useRef<HTMLButtonElement>(null)
 
-  const onOpen = (id: string) => {
-    setTableActionMenu(id)
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen)
   }
 
-  const onClose = () => {
-    setTableActionMenu(null)
+  const handleClose = (event: Event | React.SyntheticEvent) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
+      return
+    }
+
+    setOpen(false)
   }
+
+  function handleListKeyDown(event: React.KeyboardEvent) {
+    if (event.key === 'Tab') {
+      event.preventDefault()
+      setOpen(false)
+    } else if (event.key === 'Escape') {
+      setOpen(false)
+    }
+  }
+
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = React.useRef(open)
+  React.useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current!.focus()
+    }
+
+    prevOpen.current = open
+  }, [open])
 
   return (
-    <ActionMenuComponent
-      {...props}
-      onOpen={onOpen}
-      onClose={onClose}
-      openMenuId={tableActionMenu}
-    />
+    <>
+      <IconButton
+        ref={anchorRef}
+        id="composition-button"
+        sx={{ visibility: actions.length > 0 ? 'visible' : 'hidden' }}
+        aria-controls={open ? 'composition-menu' : undefined}
+        aria-expanded={open ? 'true' : undefined}
+        aria-haspopup="true"
+        onClick={handleToggle}
+      >
+        <MoreVertIcon color={iconColor} fontSize="small" />
+      </IconButton>
+      <ClickAwayListener onClickAway={handleClose}>
+        <Menu
+          open={open}
+          id="composition-menu"
+          anchorEl={anchorRef.current}
+          aria-labelledby="composition-button"
+          onClose={handleClose}
+          onKeyDown={handleListKeyDown}
+          MenuListProps={{
+            'aria-labelledby': 'basic-button',
+          }}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        >
+          {actions.map(({ label, action }) => (
+            <MenuItem
+              key={label}
+              onClick={(e) => {
+                action()
+                handleClose(e)
+              }}
+            >
+              {label}
+            </MenuItem>
+          ))}
+        </Menu>
+      </ClickAwayListener>
+    </>
   )
 }
 
-const ActionMenuComponent: FunctionComponent<ActionMenuProps> = ({
-  actions,
-  onOpen,
-  onClose,
-  openMenuId,
-  snapshotTestInternalId,
-  iconColor = 'primary',
-}) => {
-  // Needs to be state to avoid it changing on rerender
-  const [id] = useState(snapshotTestInternalId || uuidv4())
-  const anchorRef = useRef() as React.MutableRefObject<HTMLSpanElement>
-  const anchorId = `basic-button-${id}`
-  const menuId = `basic-menu-${id}`
-  const open = Boolean(openMenuId !== null && openMenuId === anchorId)
-
-  const handleClick = (event: React.SyntheticEvent) => {
-    event.stopPropagation()
-    event.preventDefault()
-    onOpen(event.currentTarget.id)
-  }
-
-  if (!Boolean(actions.length > 0)) {
-    // Used to keep the buttons visually aligned in case there is no ActionMenu
-    return <Box component="span" sx={{ width: 23, display: 'inline-block' }} />
-  }
-
+export const ActionMenuSkeleton: React.FC = () => {
   return (
-    <React.Fragment>
-      <ButtonNaked
-        id={anchorId}
-        aria-controls={menuId}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-        sx={{ display: 'inline-flex' }}
-      >
-        <span ref={anchorRef} style={{ display: 'flex' }}>
-          <MoreVertIcon color={iconColor} fontSize="small" />
-        </span>
-      </ButtonNaked>
-
-      <Menu
-        id={menuId}
-        anchorEl={anchorRef.current}
-        open={open}
-        onClose={onClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      >
-        {actions.map(({ onClick, label }, i) => {
-          return (
-            <MenuItem key={i} onClick={onClick}>
-              {label}
-            </MenuItem>
-          )
-        })}
-      </Menu>
-    </React.Fragment>
+    <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+      <Skeleton variant="rectangular" sx={{ my: 1, mx: 2 }} width={4} />
+    </Box>
   )
 }

@@ -1,0 +1,172 @@
+{
+  "noDataLabel": "Nessun risultato",
+  "productTitle": "Interoperabilità",
+  "addBtn": "+ Aggiungi",
+  "closeBtn": "Chiudi",
+  "howLink": "Come funziona?",
+  "createNewBtn": "Crea nuovo",
+  "validation": {
+    "mixed": {
+      "required": "Campo richiesto"
+    },
+    "string": {
+      "email": "Formato email non valido"
+    },
+    "boolean": {
+      "isValue": "Si prega di confermare"
+    },
+    "number": {
+      "min": "Il valore deve essere superiore o uguale a ${min}",
+      "max": "Il valore deve essere inferiore o uguale a ${max}"
+    }
+  },
+  "mainNav": {
+    "ariaLabel": "Navigazione principale",
+    "userExternalLinkLabel": "Utenti"
+  },
+  "loading": {
+    "sessionToken": {
+      "label": "Stiamo autenticando la sessione. Attendere, prego"
+    }
+  },
+  "unauthorized": {
+    "title": "Autorizzazione insufficiente",
+    "description": "Spiacenti, non hai permessi sufficienti per accedere alla funzionalità richiesta",
+    "cta": "Torna alla home"
+  },
+  "actions": {
+    "suspend": "Sospendi",
+    "activate": "Attiva",
+    "reject": "Rifiuta",
+    "upgrade": "Aggiorna",
+    "delete": "Elimina",
+    "inspect": "Ispeziona",
+    "edit": "Modifica",
+    "subscribe": "Iscriviti",
+    "clone": "Clona",
+    "publish": "Pubblica",
+    "download": "Scarica",
+    "archive": "Archivia",
+    "cancel": "Annulla",
+    "verify": "Verifica",
+    "revoke": "Revoca",
+    "confirm": "Conferma",
+    "createNewDraft": "Crea bozza nuova versione",
+    "saveDraft": "Salva bozza",
+    "backToCatalog": "Torna al catalogo"
+  },
+  "table": {
+    "headData": {
+      "eserviceName": "E-Service",
+      "clientName": "Client",
+      "purposeName": "Finalità",
+      "providerName": "Erogatore",
+      "subscriberName": "Fruitore",
+      "currentVersion": "Versione attuale",
+      "version": "Versione",
+      "status": "Stato",
+      "eserviceStatus": "Stato E-Service",
+      "agreementStatus": "Stato richiesta",
+      "purposeStatus": "Stato finalità",
+      "userStatus": "Stato utente",
+      "keyName": "Nome chiave",
+      "keyUploader": "Caricata da",
+      "keyUploadDate": "Data di creazione",
+      "userName": "Nome e cognome"
+    }
+  },
+  "status": {
+    "eservice": {
+      "PUBLISHED": "attivo",
+      "DRAFT": "in bozza",
+      "SUSPENDED": "sospeso",
+      "ARCHIVED": "archiviato",
+      "DEPRECATED": "deprecato"
+    },
+    "agreement": {
+      "ACTIVE": "attivo",
+      "DRAFT": "in bozza",
+      "SUSPENDED": "sospeso",
+      "PENDING": "in attesa di approvazione",
+      "ARCHIVED": "archiviato",
+      "REJECTED": "rifiutato",
+      "MISSING_CERTIFIED_ATTRIBUTES": "attributi certificati mancanti",
+      "frontendStatus": {
+        "suspendedByProducer": "sospeso dall'erogatore",
+        "suspendedByConsumer": "sospeso dal fruitore",
+        "suspendedByPlatform": "sospeso dalla piattaforma"
+      }
+    },
+    "purpose": {
+      "DRAFT": "in bozza",
+      "ACTIVE": "attivo",
+      "SUSPENDED": "sospeso",
+      "WAITING_FOR_APPROVAL": "in attesa di valutazione",
+      "ARCHIVED": "archiviato"
+    },
+    "user": {
+      "PENDING": "in attesa di approvazione",
+      "ACTIVE": "attivo",
+      "SUSPENDED": "sospeso",
+      "DELETED": "rimosso"
+    },
+    "attribute": {
+      "certified": {
+        "ACTIVE": "certificato",
+        "NOT_ACTIVE": "non certificato",
+        "REVOKED": "revocato"
+      },
+      "verified": {
+        "ACTIVE": "verificato",
+        "NOT_ACTIVE": "da verificare",
+        "REVOKED": "revocato"
+      },
+      "declared": {
+        "ACTIVE": "dichiarato",
+        "NOT_ACTIVE": "in attesa di conferma",
+        "REVOKED": "revocato"
+      }
+    }
+  },
+  "userRole": {
+    "MANAGER": "Amministratore",
+    "DELEGATE": "Delegato",
+    "OPERATOR": "Operatore"
+  },
+  "userProductRole": {
+    "admin": "Amministratore",
+    "security": "Operatore di sicurezza",
+    "api": "Operatore API"
+  },
+  "time": {
+    "second_one": "secondo",
+    "second_other": "secondi",
+    "minute_one": "minuto",
+    "minute_other": "minuti",
+    "hour_one": "ora",
+    "hour_other": "ore"
+  },
+  "conjunctions": {
+    "and": "e",
+    "or": "o"
+  },
+  "mode": {
+    "provider": "erogazione",
+    "subscriber": "fruizione"
+  },
+  "help": {
+    "title": "Guida introduttiva",
+    "description": "In questa pagina puoi trovare informazioni utili per gestire le operazioni e i problemi più comuni. NB: questa guida sarà sostituita da un portale documentale all'entrata in esercizio della piattaforma"
+  },
+  "tos": {
+    "title": "Termini di servizio"
+  },
+  "notifications": {
+    "title": "Notifiche",
+    "tempAlert": "Le funzionalità di notifica sono attualmente in sviluppo"
+  },
+  "securityKeyGuide": {
+    "title": "Generare e caricare chiavi di sicurezza"
+  },
+  "error": {}
+}
