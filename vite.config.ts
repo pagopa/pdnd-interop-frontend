@@ -6,9 +6,16 @@ import { parse } from 'node-html-parser'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
+  let plugins = [react(), setNonceAttToScripts()]
+  const devPlugins = [visualizer()]
+
+  if (mode === 'development') {
+    plugins = plugins.concat(devPlugins)
+  }
+
   return {
     base: '/ui/',
-    plugins: [react(), visualizer(), setNonceAttToScripts()],
+    plugins,
     resolve: {
       alias: {
         '@/': `${path.resolve(__dirname, 'src')}/`,
