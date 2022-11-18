@@ -1,13 +1,13 @@
 import React from 'react'
 import { Box, ButtonProps, IconButton, Skeleton, Stack, Tooltip, Typography } from '@mui/material'
-import InfoRoundedIcon from '@mui/icons-material/InfoRounded'
 import { useDialog } from '@/contexts'
 import { useTranslation } from 'react-i18next'
 import { AttributeQueries } from '@/api/attribute'
 import { AttributeKey, AttributeKind, AttributeState } from '@/types/attribute.types'
-import CheckIcon from '@mui/icons-material/Check'
-import CloseIcon from '@mui/icons-material/Close'
 import { ButtonNaked } from '@pagopa/mui-italia'
+import InfoIcon from '@mui/icons-material/InfoRounded'
+import CheckIcon from '@mui/icons-material/CheckRounded'
+import CloseIcon from '@mui/icons-material/CloseRounded'
 
 type AttributeContainerRowProps<T extends { id: string; name: string }> = {
   attribute: T
@@ -76,7 +76,7 @@ export const AttributeContainerRow = <T extends { id: string; name: string }>({
           onFocusVisible={handlePrefetchAttribute}
           onPointerEnter={handlePrefetchAttribute}
         >
-          <InfoRoundedIcon fontSize="small" color="primary" />
+          <InfoIcon fontSize="small" color="primary" />
         </IconButton>
       </Stack>
       <Typography

@@ -3,7 +3,7 @@ import { InputAdornment, Stack, Tooltip, Button, TextField, SxProps } from '@mui
 import DeleteIcon from '@mui/icons-material/DeleteOutline'
 import DownloadIcon from '@mui/icons-material/Download'
 import ModeEditIcon from '@mui/icons-material/ModeEdit'
-import AttachFileIcon from '@mui/icons-material/AttachFile'
+import AttachFileIcon from '@mui/icons-material/AttachFileRounded'
 import { useTranslation } from 'react-i18next'
 import { DocumentRead } from '@/types/common.types'
 import { InputWrapper } from '@/components/shared/InputWrapper'
