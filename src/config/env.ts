@@ -46,10 +46,6 @@ export const BACKEND_FOR_FRONTEND_URL = getEnvVar(
   'BACKEND_FOR_FRONTEND_URL',
   `backend-for-frontend/${SERVICE_VERSION}`
 )
-export const AGREEMENT_PROCESS_URL = getEnvVar(
-  'AGREEMENT_PROCESS_URL',
-  `agreement-process/${SERVICE_VERSION}`
-)
 export const AUTHORIZATION_PROCESS_URL = getEnvVar(
   'AUTHORIZATION_PROCESS_URL',
   `authorization-process/${SERVICE_VERSION}`

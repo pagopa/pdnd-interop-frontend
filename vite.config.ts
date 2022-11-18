@@ -5,25 +5,36 @@ import { visualizer } from 'rollup-plugin-visualizer'
 import { parse } from 'node-html-parser'
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  base: '/ui/',
-  plugins: [react(), visualizer(), setNonceAttToScripts()],
-  resolve: {
-    alias: {
-      '@/': `${path.resolve(__dirname, 'src')}/`,
+export default defineConfig(({ mode }) => {
+  let plugins = [react(), setNonceAttToScripts()]
+  const devPlugins = [visualizer()]
+
+  if (mode === 'development') {
+    plugins = plugins.concat(devPlugins)
+  }
+
+  return {
+    base: '/ui/',
+    plugins,
+    resolve: {
+      alias: {
+        '@/': `${path.resolve(__dirname, 'src')}/`,
+      },
     },
-  },
-  build: {
-    target: 'es2017',
-    rollupOptions: {
-      external,
+    build: {
+      target: 'es2017',
+      minify: mode !== 'development',
+      sourcemap: mode === 'development',
+      rollupOptions: {
+        external,
+      },
+      chunkSizeWarningLimit: 1800,
     },
-    chunkSizeWarningLimit: 1800,
-  },
-  envPrefix: 'REACT_APP_',
-  server: {
-    port: 3000,
-  },
+    envPrefix: 'REACT_APP_',
+    server: {
+      port: 3000,
+    },
+  }
 })
 
 /**
