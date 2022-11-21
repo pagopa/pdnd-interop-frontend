@@ -17,9 +17,7 @@ const { useContext, Provider } = createSafeContext<{
 })
 
 const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [sessionToken, setSessionToken] = React.useState<null | string>(
-    storageRead(STORAGE_KEY_SESSION_TOKEN, 'string')
-  )
+  const [sessionToken, setSessionToken] = React.useState<null | string>(null)
 
   useLoginAttempt(sessionToken, setSessionToken)
 
