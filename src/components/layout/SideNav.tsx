@@ -242,6 +242,8 @@ const SideNavItemLink: React.FC<SideNavItemLinkProps> = ({
 
   return (
     <ListItemButton
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       component={RouterLink}
       underline="none"
       to={routeKey}

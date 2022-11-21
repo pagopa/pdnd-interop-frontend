@@ -10,12 +10,14 @@ interface RouterLinkOptions extends NavigateOptions {
 }
 
 type RouterLinkProps<T extends RouteKey> =
-  | { to: T; params?: RouteParams<T>; options?: RouterLinkOptions } & (
+  | { to: T; options?: RouterLinkOptions } & (
       | ({ as?: 'link' } & Omit<MUILinkProps<typeof Link>, 'component' | 'to'>)
       | ({ as: 'button'; children: React.ReactNode } & Omit<ButtonProps, 'onClick'>)
-    )
+    ) &
+      // eslint-disable-next-line @typescript-eslint/ban-types
+      (RouteParams<T> extends undefined ? {} : { params: RouteParams<T> })
 
-const RouterLink = React.forwardRef(function _RouterLink<T extends RouteKey>(
+function _RouterLink<T extends RouteKey>(
   props: RouterLinkProps<T>,
   ref: React.Ref<HTMLAnchorElement> | React.Ref<HTMLButtonElement>
 ) {
@@ -52,8 +54,10 @@ const RouterLink = React.forwardRef(function _RouterLink<T extends RouteKey>(
       {...omit(props, ['to', 'params', 'as'])}
       component={Link}
       to={url}
-    ></MUILink>
+    />
   )
-})
+}
+
+const RouterLink = React.forwardRef(_RouterLink) as unknown as typeof _RouterLink
 
 export default RouterLink
