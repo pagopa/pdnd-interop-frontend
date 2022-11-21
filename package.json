@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "build-dev": "tsc && vite build --mode development",
-    "preview": "vite build --mode development  && vite preview"
+    "preview": "vite build --mode development  && vite preview --mode development"
   },
   "dependencies": {
     "@date-io/date-fns": "^2.16.0",
@@ -33,7 +33,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-error-boundary": "^3.1.4",
-    "react-hook-form": "^7.39.4",
+    "react-hook-form": "^7.39.5",
     "react-i18next": "^12.0.0",
     "react-router-dom": "latest",
     "uuid": "^9.0.0",
@@ -50,10 +50,10 @@
     "@typescript-eslint/eslint-plugin": "^5.43.0",
     "@typescript-eslint/parser": "^5.43.0",
     "@vitejs/plugin-react": "^2.2.0",
-    "eslint": "^8.27.0",
+    "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.31.10",
+    "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
     "node-html-parser": "^6.1.4",
     "prettier": "^2.7.1",

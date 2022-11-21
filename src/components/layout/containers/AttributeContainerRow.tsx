@@ -5,9 +5,9 @@ import { useTranslation } from 'react-i18next'
 import { AttributeQueries } from '@/api/attribute'
 import { AttributeKey, AttributeKind, AttributeState } from '@/types/attribute.types'
 import { ButtonNaked } from '@pagopa/mui-italia'
-import InfoIcon from '@mui/icons-material/InfoRounded'
-import CheckIcon from '@mui/icons-material/CheckRounded'
-import CloseIcon from '@mui/icons-material/CloseRounded'
+import InfoIcon from '@mui/icons-material/Info'
+import CheckIcon from '@mui/icons-material/Check'
+import CloseIcon from '@mui/icons-material/Close'
 
 type AttributeContainerRowProps<T extends { id: string; name: string }> = {
   attribute: T

@@ -24,25 +24,15 @@ import {
   NotificationsPage,
   ConsumerAgreementCreatePage,
   NotFoundPage,
+  ConsumerClientManagePage,
+  ConsumerPurposeEditPage,
+  ProviderEServiceCreatePage,
 } from '@/pages'
 import { LANGUAGES } from '@/config/constants'
 import { getKeys } from '@/utils/array.utils'
 import RoutesWrapper from './components/RoutesWrapper'
 import { Routes } from './types'
 import Redirect from './components/Redirect'
-
-// Less frequently used or heavier pages will be lazy loaded
-const ConsumerClientManagePage = React.lazy(
-  () => import('@/pages/ConsumerClientManagePage/ConsumerClientManage.page')
-)
-
-const ConsumerPurposeEditPage = React.lazy(
-  () => import('@/pages/ConsumerPurposeEditPage/ConsumerPurposeEdit.page')
-)
-
-const ProviderEServiceCreatePage = React.lazy(
-  () => import('@/pages/ProviderEServiceCreatePage/ProviderEServiceCreate.page')
-)
 
 // https://stackoverflow.com/a/70067918 waiting for "satisfies" operator in Typescript 4.9
 const makeType = <T extends Routes>(o: T) => o
