@@ -36,7 +36,7 @@ export type EServiceGetCatalogListUrlParams = {
 }
 
 export type EServiceGetCatalogListResponse = {
-  eservices: Array<EServiceCatalog>
+  results: Array<EServiceCatalog>
   pagination: {
     offset: number
     limit: number
