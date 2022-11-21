@@ -1,17 +1,15 @@
 import path from 'path'
-import { defineConfig, PluginOption } from 'vite'
+import { defineConfig, loadEnv, PluginOption } from 'vite'
 import react from '@vitejs/plugin-react'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { parse } from 'node-html-parser'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  let plugins = [react(), setNonceAttToScripts()]
-  const devPlugins = [visualizer()]
+  const prodPlugins = [react(), setNonceAttToScripts()]
+  const devPlugins = [react(), visualizer(), configurePreviewServer()]
 
-  if (mode === 'development') {
-    plugins = plugins.concat(devPlugins)
-  }
+  const plugins = mode === 'development' ? devPlugins : prodPlugins
 
   return {
     base: '/ui/',
@@ -69,4 +67,32 @@ function setNonceAttToScripts(): PluginOption {
 function external(source: string) {
   const chunksToRemove = []
   return chunksToRemove.some((chunk) => source.includes(chunk))
+}
+
+function configurePreviewServer(): PluginOption {
+  const testNonce = 'OXtve5rl0YunhKAkT+Qlww=='
+  const env = Object.assign(process.env, loadEnv('development', process.cwd(), ''))
+
+  return {
+    name: 'configure-preview-server',
+    configurePreviewServer(server) {
+      server.middlewares.use((req, res, next) => {
+        res.setHeader(
+          'Content-Security-Policy',
+          `default-src 'self'; object-src 'none'; connect-src 'self' ${env.REACT_APP_API_HOST}; script-src 'nonce-${testNonce}'; style-src 'self' 'unsafe-inline'; worker-src 'none'; font-src 'self'; img-src 'self' data:; base-uri 'self'`
+        )
+        next()
+      })
+    },
+    transformIndexHtml: {
+      enforce: 'post',
+      transform(html) {
+        const dom = parse(html)
+        dom.querySelectorAll('script').forEach((script) => {
+          script.setAttribute('nonce', testNonce)
+        })
+        return dom.toString().replace('**CSP_NONCE**', testNonce)
+      },
+    },
+  }
 }
