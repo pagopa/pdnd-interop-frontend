@@ -28,6 +28,13 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         external,
       },
+      commonjsOptions: {
+        /** 'auto' does not work very well for mui's icons-material package */
+        defaultIsModuleExports(id) {
+          if (/@mui\/icons-material/.test(id)) return false
+          return 'auto'
+        },
+      },
       chunkSizeWarningLimit: 1800,
     },
     envPrefix: 'REACT_APP_',
