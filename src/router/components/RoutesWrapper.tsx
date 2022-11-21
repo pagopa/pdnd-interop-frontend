@@ -15,6 +15,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { ErrorPage } from '@/pages'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
 import { Box } from '@mui/material'
+import { useJwt } from '@/hooks/useJwt'
 
 const OutletWrapper: React.FC = () => {
   const { dialog } = useDialog()
@@ -52,8 +53,9 @@ const OutletWrapper: React.FC = () => {
 
 const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isUserAuthorized } = useCurrentRoute()
+  const { jwt } = useJwt()
 
-  if (!isUserAuthorized) {
+  if (jwt && !isUserAuthorized) {
     throw new NotAuthorizedError()
   }
 

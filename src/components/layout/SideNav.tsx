@@ -117,28 +117,26 @@ export const SideNav = () => {
 
   return (
     <Box sx={{ display: 'block', py: 3, boxShadow: 5 }} component="nav">
-      {jwt && (
-        <List sx={{ width: WIDTH, mr: 0 }} disablePadding>
-          {availableViews.map((item, i) => {
-            return item?.children && item?.children?.length > 0 ? (
-              <CollapsableSideNavItem
-                key={item.id}
-                item={item}
-                isOpen={openId === item.id}
-                toggleCollapse={toggleCollapse}
+      <List sx={{ width: WIDTH, mr: 0 }} disablePadding>
+        {availableViews.map((item, i) => {
+          return item?.children && item?.children?.length > 0 ? (
+            <CollapsableSideNavItem
+              key={item.id}
+              item={item}
+              isOpen={openId === item.id}
+              toggleCollapse={toggleCollapse}
+            />
+          ) : (
+            <ListItem sx={{ display: 'block', p: 0 }} key={i}>
+              <SideNavItemLink
+                routeKey={item.routeKey}
+                StartIcon={item?.StartIcon}
+                EndIcon={item?.EndIcon}
               />
-            ) : (
-              <ListItem sx={{ display: 'block', p: 0 }} key={i}>
-                <SideNavItemLink
-                  routeKey={item.routeKey}
-                  StartIcon={item?.StartIcon}
-                  EndIcon={item?.EndIcon}
-                />
-              </ListItem>
-            )
-          })}
-        </List>
-      )}
+            </ListItem>
+          )
+        })}
+      </List>
       {isAdmin && (
         <>
           <Divider sx={{ my: 1 }} />
