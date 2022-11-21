@@ -1,6 +1,6 @@
 export * from './TextField'
 export * from './Select'
-export * from './DatePicker/DatePicker'
+export * from './DatePicker'
 export * from './Autocomplete'
 export * from './Switch'
 export * from './RadioGroup'

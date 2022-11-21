@@ -1,14 +1,22 @@
 import React from 'react'
-import { InputWrapper } from '../../InputWrapper'
+import { InputWrapper } from '../InputWrapper'
 import { Controller, useFormContext } from 'react-hook-form'
-import { TextField } from '@mui/material'
+import { SxProps, TextField } from '@mui/material'
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
-import { DatePickerProps } from './DatePicker'
 
-/** Do not use. This must be lazy loaded to reduce bundle size. Use DatePicker. */
-const _DatePicker: React.FC<DatePickerProps> = ({
+type DatePickerProps = {
+  name: string
+  label?: string
+  disabled?: boolean
+  infoLabel?: string | JSX.Element
+  focusOnMount?: boolean
+  sx?: SxProps
+  inputSx?: SxProps
+}
+
+export const DatePicker: React.FC<DatePickerProps> = ({
   name,
   label,
   infoLabel,
@@ -40,5 +48,3 @@ const _DatePicker: React.FC<DatePickerProps> = ({
     </LocalizationProvider>
   )
 }
-
-export default _DatePicker
