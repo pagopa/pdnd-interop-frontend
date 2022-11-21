@@ -12,7 +12,7 @@ export const EServiceCatalogGrid: React.FC = () => {
 
   return (
     <Grid container spacing={3}>
-      {data?.eservices.map((eservice) => (
+      {data?.results.map((eservice) => (
         <Grid item key={eservice.id} xs={4}>
           <CatalogCard key={eservice.activeDescriptor.id} eservice={eservice} />
         </Grid>
