@@ -15,7 +15,7 @@ import React from 'react'
 function useCurrentRoute() {
   const location = useLocation()
   const currentLanguage = useCurrentLanguage()
-  const { currentRoles } = useJwt()
+  const { currentRoles, jwt } = useJwt()
 
   const routeKey = getRouteKeyFromPathname(location.pathname, currentLanguage)
   const route = routes[routeKey]
@@ -23,7 +23,8 @@ function useCurrentRoute() {
     route.AUTH_LEVELS === 'any' ||
     currentRoles.some((role) => route.AUTH_LEVELS.includes(role as typeof route.AUTH_LEVELS[0]))
   const isPublic = route.PUBLIC
-  const isUserAuthorized = isPublic || hasOverlappingRole
+  const isGettingJwt = !jwt
+  const isUserAuthorized = isGettingJwt || isPublic || hasOverlappingRole
   const mode = isProviderOrConsumerRoute(routeKey)
   const isEditPath = _isEditPath(routeKey)
 
