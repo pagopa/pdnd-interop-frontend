@@ -126,9 +126,11 @@ export const VoucherInstructions: React.FC<VoucherInstructionsProps> = ({ client
 
 export const VoucherInstructionsSkeleton: React.FC = () => {
   return (
-    <>
-      <Skeleton variant="rectangular" height={111} />
-      <Skeleton sx={{ mt: 2 }} variant="rectangular" height={600} />
-    </>
+    <Grid container>
+      <Grid item xs={8}>
+        <Skeleton variant="rectangular" height={111} />
+        <Skeleton sx={{ mt: 2 }} variant="rectangular" height={600} />
+      </Grid>
+    </Grid>
   )
 }
