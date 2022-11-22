@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDialog, useLoadingOverlay, useToastNotification } from '@/contexts'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { UseMutationWrapper, UseQueryWrapper } from './react-query-wrapper.types'
+import { UseMutationWrapper, UseQueryWrapper } from './comon.api.types'
 import { useJwt } from '@/hooks/useJwt'
 import { NotFoundError } from '@/utils/errors.utils'
 

@@ -8,15 +8,23 @@ import {
   PostEServiceVersionDraftDocumentPayload,
   UpdateEServiceVersionDraftDocumentPayload,
   EServiceGetCatalogListUrlParams,
-  EServiceGetCatalogListResponse,
+  EServiceGetProviderListUrlParams,
 } from './eservice.api.types'
-import { EServiceDescriptorRead, EServiceReadType } from '@/types/eservice.types'
+import {
+  EServiceCatalog,
+  EServiceDescriptorCatalog,
+  EServiceDescriptorProvider,
+  EServiceDescriptorRead,
+  EServiceProvider,
+  EServiceReadType,
+} from '@/types/eservice.types'
 import {
   decorateEServiceWithCurrentViewingDescriptor,
   getDownloadDocumentName,
 } from '@/utils/eservice.utils'
 import { downloadFile } from '@/utils/common.utils'
 import { DocumentRead } from '@/types/common.types'
+import { Paginated } from '../comon.api.types'
 
 /** @deprecated TO BE REMOVED */
 async function getListFlat(params: EServiceGetListFlatUrlParams) {
@@ -28,18 +36,41 @@ async function getListFlat(params: EServiceGetListFlatUrlParams) {
 }
 
 async function getCatalogList(params: EServiceGetCatalogListUrlParams) {
-  const response = await axiosInstance.get<EServiceGetCatalogListResponse>(
+  const response = await axiosInstance.get<Paginated<EServiceCatalog>>(
     `${BACKEND_FOR_FRONTEND_URL}/catalog`,
     { params }
   )
   return response.data
 }
 
+async function getProviderList(params: EServiceGetProviderListUrlParams) {
+  const response = await axiosInstance.get<Paginated<EServiceProvider>>(
+    `${BACKEND_FOR_FRONTEND_URL}/producer/eservices`,
+    { params }
+  )
+  return response.data
+}
+
+/** @deprecated TO BE REMOVED */
 async function getSingle(eserviceId: string, descriptorId?: string) {
   const response = await axiosInstance.get<EServiceReadType>(
     `${CATALOG_PROCESS_URL}/eservices/${eserviceId}`
   )
   return decorateEServiceWithCurrentViewingDescriptor(descriptorId, response.data)
+}
+
+async function getDescriptorCatalog(eserviceId: string, descriptorId: string) {
+  const response = await axiosInstance.get<EServiceDescriptorCatalog>(
+    `${BACKEND_FOR_FRONTEND_URL}/catalog/eservices/${eserviceId}/descriptor/${descriptorId}`
+  )
+  return response.data
+}
+
+async function getDescriptorProvider(eserviceId: string, descriptorId: string) {
+  const response = await axiosInstance.get<EServiceDescriptorProvider>(
+    `${BACKEND_FOR_FRONTEND_URL}/producer/eservices/${eserviceId}/descriptors/${descriptorId}`
+  )
+  return response.data
 }
 
 async function createDraft(
@@ -230,7 +261,10 @@ async function downloadVersionDraftDocument({
 const EServiceServices = {
   getListFlat,
   getCatalogList,
+  getProviderList,
   getSingle,
+  getDescriptorCatalog,
+  getDescriptorProvider,
   createDraft,
   updateDraft,
   deleteDraft,

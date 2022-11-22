@@ -6,6 +6,7 @@ import EServiceServices from './eservice.services'
 import {
   EServiceGetCatalogListUrlParams,
   EServiceGetListFlatUrlParams,
+  EServiceGetProviderListUrlParams,
   EServiceVersionDraftPayload,
 } from './eservice.api.types'
 import { useJwt } from '@/hooks/useJwt'
@@ -16,7 +17,11 @@ export enum EServiceQueryKeys {
   /** @deprecated TO BE REMOVED */
   GetListFlat = 'EServiceGetListFlat',
   GetCatalogList = 'EServiceGetCatalogList',
+  GetProviderList = 'EServiceGetProviderList',
+  /** @deprecated TO BE REMOVED */
   GetSingle = 'EServiceGetSingle',
+  GetDescriptorCatalog = 'EServiceGetDescriptorCatalog',
+  GetDescriptorProvider = 'EServiceGetDescriptorProvider',
 }
 
 /** @deprecated TO BE REMOVED */
@@ -43,6 +48,13 @@ function useGetCatalogList(params: EServiceGetCatalogListUrlParams) {
   )
 }
 
+function useGetProviderList(params: EServiceGetProviderListUrlParams) {
+  return useQueryWrapper([EServiceQueryKeys.GetProviderList, params], () =>
+    EServiceServices.getProviderList(params)
+  )
+}
+
+/** @deprecated TO BE REMOVED */
 function useGetSingle(eserviceId?: string, descriptorId?: string, config = { suspense: true }) {
   return useQueryWrapper(
     [EServiceQueryKeys.GetSingle, eserviceId, descriptorId],
@@ -51,6 +63,31 @@ function useGetSingle(eserviceId?: string, descriptorId?: string, config = { sus
   )
 }
 
+function useGetDescriptorCatalog(
+  eserviceId: string,
+  descriptorId: string,
+  config = { suspense: true }
+) {
+  return useQueryWrapper(
+    [EServiceQueryKeys.GetDescriptorCatalog, eserviceId, descriptorId],
+    () => EServiceServices.getDescriptorCatalog(eserviceId, descriptorId),
+    config
+  )
+}
+
+function useGetDescriptorProvider(
+  eserviceId: string,
+  descriptorId: string,
+  config = { suspense: true }
+) {
+  return useQueryWrapper(
+    [EServiceQueryKeys.GetDescriptorProvider, eserviceId, descriptorId],
+    () => EServiceServices.getDescriptorProvider(eserviceId!, descriptorId!),
+    config
+  )
+}
+
+/** @deprecated TO BE REMOVED */
 function useGetSingleFlat(
   eserviceId: string,
   descriptorId: string | undefined,
@@ -69,11 +106,30 @@ function useGetSingleFlat(
   }, [eservices, eserviceId, descriptorId])
 }
 
+/** @deprecated TO BE REMOVED */
 function usePrefetchSingle() {
   const queryClient = useQueryClient()
   return (eserviceId: string, descriptorId: string) =>
     queryClient.prefetchQuery([EServiceQueryKeys.GetSingle, eserviceId, descriptorId], () =>
       EServiceServices.getSingle(eserviceId, descriptorId)
+    )
+}
+
+function usePrefetchDescriptorCatalog() {
+  const queryClient = useQueryClient()
+  return (eserviceId: string, descriptorId: string) =>
+    queryClient.prefetchQuery(
+      [EServiceQueryKeys.GetDescriptorCatalog, eserviceId, descriptorId],
+      () => EServiceServices.getDescriptorCatalog(eserviceId, descriptorId)
+    )
+}
+
+function usePrefetchDescriptorProvider() {
+  const queryClient = useQueryClient()
+  return (eserviceId: string, descriptorId: string) =>
+    queryClient.prefetchQuery(
+      [EServiceQueryKeys.GetDescriptorProvider, eserviceId, descriptorId],
+      () => EServiceServices.getDescriptorProvider(eserviceId, descriptorId)
     )
 }
 
@@ -342,8 +398,13 @@ function useDownloadVersionDocument() {
 export const EServiceQueries = {
   useGetListFlat,
   useGetCatalogList,
+  useGetProviderList,
+  useGetDescriptorCatalog,
+  useGetDescriptorProvider,
   useGetSingle,
   usePrefetchSingle,
+  usePrefetchDescriptorCatalog,
+  usePrefetchDescriptorProvider,
   useGetSingleFlat,
 }
 
