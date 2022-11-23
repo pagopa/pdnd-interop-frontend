@@ -54,8 +54,8 @@ export type EServiceCatalog = {
     id: string
     state: AgreementState
   }
-  isMine: true
-  canSubscribe: true
+  isMine: boolean
+  canSubscribe: boolean
   activeDescriptor: {
     id: string
     state: EServiceState
@@ -105,9 +105,9 @@ export type EServiceDescriptorCatalog = {
       id: string
       state: AgreementState
     }
-    isMine: true
-    canSubscribe: true
-    isSubscribed: true
+    isMine: boolean
+    canSubscribe: boolean
+    isSubscribed: boolean
     activeDescriptor?: {
       id: string
       state: EServiceState
