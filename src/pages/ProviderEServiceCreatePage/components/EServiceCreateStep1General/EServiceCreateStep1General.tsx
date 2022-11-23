@@ -19,7 +19,7 @@ import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { useJwt } from '@/hooks/useJwt'
 import { getKeys } from '@/utils/array.utils'
 import isEqual from 'lodash/isEqual'
-import { EServiceCreateStep1AddAttributesToEServiceForm } from './EServiceCreateStep1AddAttributesToEServiceForm/EServiceCreateStep1AddAttributesToEServiceForm'
+import { AddAttributesToEServiceForm } from './AddAttributesToEServiceForm'
 
 export type EServiceCreateStep1FormValues = {
   name: string
@@ -161,20 +161,11 @@ export const EServiceCreateStep1General: React.FC = () => {
           />
         </SectionContainer>
 
-        <EServiceCreateStep1AddAttributesToEServiceForm
-          attributeKey="certified"
-          readOnly={!isEditable}
-        />
+        <AddAttributesToEServiceForm attributeKey="certified" readOnly={!isEditable} />
 
-        <EServiceCreateStep1AddAttributesToEServiceForm
-          attributeKey="verified"
-          readOnly={!isEditable}
-        />
+        <AddAttributesToEServiceForm attributeKey="verified" readOnly={!isEditable} />
 
-        <EServiceCreateStep1AddAttributesToEServiceForm
-          attributeKey="declared"
-          readOnly={!isEditable}
-        />
+        <AddAttributesToEServiceForm attributeKey="declared" readOnly={!isEditable} />
 
         {!isEditable && (
           <Alert severity="info" sx={{ mt: 4 }}>

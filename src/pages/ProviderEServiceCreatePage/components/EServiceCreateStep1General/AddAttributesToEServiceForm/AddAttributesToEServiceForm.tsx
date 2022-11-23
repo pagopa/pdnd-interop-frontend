@@ -8,16 +8,17 @@ import { Box, Link, Stack, Typography } from '@mui/material'
 import { attributesHelpLink } from '@/config/constants'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { useDialog } from '@/contexts'
-import { AddAttributesToEServiceFormAttributeGroup } from './AddAttributesToEServiceFormAttributeGroup'
+import { AttributeGroup } from './AttributeGroup'
 
-type EServiceCreateStep1AddAttributesToEServiceFormProps = {
+type AddAttributesToEServiceFormProps = {
   attributeKey: AttributeKey
   readOnly: boolean
 }
 
-export const EServiceCreateStep1AddAttributesToEServiceForm: React.FC<
-  EServiceCreateStep1AddAttributesToEServiceFormProps
-> = ({ attributeKey, readOnly }) => {
+export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormProps> = ({
+  attributeKey,
+  readOnly,
+}) => {
   const { t } = useTranslation('eservice', { keyPrefix: `create.step1.attributes` })
   const { t: tAttribute } = useTranslation('attribute')
   const { t: tCommon } = useTranslation('common')
@@ -59,7 +60,7 @@ export const EServiceCreateStep1AddAttributesToEServiceForm: React.FC<
         )}
         <Stack spacing={3}>
           {attributeGroups.map((group, i) => (
-            <AddAttributesToEServiceFormAttributeGroup
+            <AttributeGroup
               key={i}
               groupIndex={i}
               group={group}
