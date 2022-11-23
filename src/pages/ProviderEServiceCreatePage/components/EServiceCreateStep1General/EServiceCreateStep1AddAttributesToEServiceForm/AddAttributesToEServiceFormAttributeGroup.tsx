@@ -64,6 +64,7 @@ export const AddAttributesToEServiceFormAttributeGroup: React.FC<
               <AttributeContainerRow
                 attribute={attribute}
                 showOrLabel={i !== group.attributes.length - 1}
+                hiddenTooltipSpacing={false}
                 actions={[
                   {
                     label: <DeleteIcon fontSize="small" color="error" />,
