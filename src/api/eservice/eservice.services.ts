@@ -16,12 +16,10 @@ import {
   EServiceDescriptorProvider,
   EServiceDescriptorRead,
   EServiceProvider,
+  EServiceRead,
   EServiceReadType,
 } from '@/types/eservice.types'
-import {
-  decorateEServiceWithCurrentViewingDescriptor,
-  getDownloadDocumentName,
-} from '@/utils/eservice.utils'
+import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import { downloadFile } from '@/utils/common.utils'
 import { DocumentRead } from '@/types/common.types'
 import { Paginated } from '../comon.api.types'
@@ -51,12 +49,11 @@ async function getProviderList(params: EServiceGetProviderListUrlParams) {
   return response.data
 }
 
-/** @deprecated TO BE REMOVED */
-async function getSingle(eserviceId: string, descriptorId?: string) {
-  const response = await axiosInstance.get<EServiceReadType>(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}`
+async function getSingle(eserviceId: string) {
+  const response = await axiosInstance.get<EServiceRead>(
+    `${BACKEND_FOR_FRONTEND_URL}/producers/eservices/${eserviceId}`
   )
-  return decorateEServiceWithCurrentViewingDescriptor(descriptorId, response.data)
+  return response.data
 }
 
 async function getDescriptorCatalog(eserviceId: string, descriptorId: string) {

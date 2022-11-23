@@ -42,6 +42,14 @@ export type EServiceFlatten = {
   certifiedAttributes: Array<BackendAttribute>
 }
 
+export type EServiceRead = {
+  id: string
+  name: string
+  description: string
+  technology: EServiceTechnologyType
+  attributes: BackendAttributes
+}
+
 export type EServiceCatalog = {
   id: string
   name: string
