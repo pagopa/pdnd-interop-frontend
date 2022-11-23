@@ -1,17 +1,13 @@
 import React, { useState } from 'react'
 import {
   Box,
-  Collapse,
   Divider,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Typography,
 } from '@mui/material'
-import ExpandLessIcon from '@mui/icons-material/ExpandLess'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import type { SvgIconComponent } from '@mui/icons-material'
 import EmailIcon from '@mui/icons-material/Email'
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded'
@@ -20,11 +16,12 @@ import { useTranslation } from 'react-i18next'
 import { RouteKey } from '@/router/types'
 import { UserProductRole } from '@/types/party.types'
 import { useJwt } from '@/hooks/useJwt'
-import { routes } from '@/router/routes'
 import { SELFCARE_BASE_URL } from '@/config/env'
-import useCurrentLanguage from '@/hooks/useCurrentLanguage'
-import { RouterLink, useCurrentRoute } from '@/router'
+import { useCurrentRoute } from '@/router'
 import { getParentRoutes } from '@/router/utils'
+import { SIDENAV_WIDTH } from '@/config/constants'
+import { SideNavItemLink, SideNavItemLinkSkeleton } from './SideNavItemLink'
+import { CollapsableSideNavItem, CollapsableSideNavItemSkeleton } from './CollapsableSideNavItem'
 
 type View = {
   routeKey: RouteKey
@@ -32,7 +29,7 @@ type View = {
   children?: Array<RouteKey>
 }
 
-type SideNavItemView = View & {
+export type SideNavItemView = View & {
   StartIcon?: SvgIconComponent
   EndIcon?: SvgIconComponent
 }
@@ -79,19 +76,27 @@ const views: Views = {
   ],
 }
 
-const WIDTH = 340
-
 export const SideNav = () => {
+  const { jwt } = useJwt()
+  if (!jwt) return <SideNavSkeleton />
+  return <_SideNav />
+}
+
+const _SideNav = () => {
   const { t } = useTranslation('shared-components')
   const { jwt, isAdmin, isOperatorAPI, isOperatorSecurity } = useJwt()
   const { routeKey } = useCurrentRoute()
 
-  const availableViews: Array<SideNavItemView> = [
-    ...(isAdmin ? views['admin'] : []),
-    ...(isOperatorAPI ? views['api'] : []),
-    ...(isOperatorSecurity ? views['security'] : []),
-    { routeKey: 'NOTIFICATION', StartIcon: EmailIcon },
-  ]
+  const availableViews: Array<SideNavItemView> = React.useMemo(
+    () => [
+      ...(isAdmin ? views['admin'] : []),
+      ...(isOperatorAPI ? views['api'] : []),
+      ...(isOperatorSecurity ? views['security'] : []),
+      { routeKey: 'NOTIFICATION', StartIcon: EmailIcon },
+      ...(isAdmin ? [{ routeKey: 'PARTY_REGISTRY' as RouteKey }] : []),
+    ],
+    [isAdmin, isOperatorAPI, isOperatorSecurity]
+  )
 
   const isActive = () => {
     const parentRoutes: Array<RouteKey> = [...getParentRoutes(routeKey), routeKey]
@@ -107,17 +112,13 @@ export const SideNav = () => {
   const selfcareUsersPageUrl =
     jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users#prod-interop`
 
-  if (isAdmin) {
-    availableViews.push({ routeKey: 'PARTY_REGISTRY' })
-  }
-
   const toggleCollapse = (id: string | undefined) => {
     setOpenId((prev) => (id === prev ? null : !id ? null : id))
   }
 
   return (
     <Box sx={{ display: 'block', py: 3, boxShadow: 5 }} component="nav">
-      <List sx={{ width: WIDTH, mr: 0 }} disablePadding>
+      <List sx={{ width: SIDENAV_WIDTH, mr: 0 }} disablePadding>
         {availableViews.map((item, i) => {
           return item?.children && item?.children?.length > 0 ? (
             <CollapsableSideNavItem
@@ -140,7 +141,7 @@ export const SideNav = () => {
       {isAdmin && (
         <>
           <Divider sx={{ my: 1 }} />
-          <List sx={{ width: WIDTH, mr: 0 }}>
+          <List sx={{ width: SIDENAV_WIDTH, mr: 0 }}>
             <ListItem sx={{ display: 'block', p: 0 }}>
               <ListItemButton
                 component="a"
@@ -168,115 +169,25 @@ export const SideNav = () => {
   )
 }
 
-type CollapsableSideNavItemProps = {
-  item: SideNavItemView
-  isOpen: boolean
-  toggleCollapse: (id: string | undefined) => void
-}
-
-const CollapsableSideNavItem: React.FC<CollapsableSideNavItemProps> = ({
-  item,
-  isOpen,
-  toggleCollapse,
-}) => {
-  const currentLanguage = useCurrentLanguage()
-  const { isRouteInCurrentSubtree } = useCurrentRoute()
-
-  const route = routes[item.routeKey]
-  const isSelected = item.children?.some(isRouteInCurrentSubtree)
-
-  const handleToggleCollapse = () => {
-    toggleCollapse(item.id)
-  }
-
+const SideNavSkeleton: React.FC = () => {
   return (
-    <Box color={isSelected ? 'primary.main' : 'text.primary'}>
-      <ListItemButton sx={{ pl: 3 }} color="inherit" onClick={handleToggleCollapse}>
-        <ListItemText
-          sx={{ color: 'inherit' }}
-          disableTypography
-          primary={
-            <Typography color="inherit" sx={{ fontWeight: isSelected ? 600 : 300 }}>
-              {route.LABEL[currentLanguage]}
-            </Typography>
-          }
-        />
-        {isOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-      </ListItemButton>
-
-      <Collapse in={isOpen} timeout="auto" unmountOnExit>
-        <List disablePadding sx={{ width: WIDTH }}>
-          {item &&
-            item.children &&
-            item.children.map((child, j) => (
-              <ListItem sx={{ display: 'block', p: 0 }} key={j}>
-                <SideNavItemLink routeKey={child} indented />
-              </ListItem>
-            ))}
-        </List>
-      </Collapse>
+    <Box sx={{ display: 'block', py: 3, boxShadow: 5 }} component="nav">
+      <List sx={{ width: SIDENAV_WIDTH, mr: 0 }} disablePadding>
+        <CollapsableSideNavItemSkeleton />
+        <CollapsableSideNavItemSkeleton>
+          <SideNavItemLinkSkeleton />
+          <SideNavItemLinkSkeleton />
+          <SideNavItemLinkSkeleton />
+          <SideNavItemLinkSkeleton />
+          <SideNavItemLinkSkeleton />
+        </CollapsableSideNavItemSkeleton>
+        <SideNavItemLinkSkeleton />
+        <SideNavItemLinkSkeleton />
+      </List>
+      <Divider sx={{ my: 1 }} />
+      <List sx={{ width: SIDENAV_WIDTH, mr: 0 }}>
+        <SideNavItemLinkSkeleton />
+      </List>
     </Box>
-  )
-}
-
-type SideNavItemLinkProps = {
-  routeKey: RouteKey
-  StartIcon?: SvgIconComponent
-  EndIcon?: SvgIconComponent
-  indented?: boolean
-}
-
-const SideNavItemLink: React.FC<SideNavItemLinkProps> = ({
-  routeKey,
-  StartIcon,
-  EndIcon,
-  indented = false,
-}) => {
-  const currentLanguage = useCurrentLanguage()
-  const { isRouteInCurrentSubtree } = useCurrentRoute()
-  const route = routes[routeKey]
-  const label = route.LABEL[currentLanguage]
-  const isSelected = isRouteInCurrentSubtree(routeKey)
-
-  return (
-    <ListItemButton
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
-      component={RouterLink}
-      underline="none"
-      to={routeKey}
-      sx={{
-        pl: 3,
-        py: 2,
-        display: 'flex',
-        borderRight: 2,
-        borderColor: isSelected ? 'primary.main' : 'transparent',
-        backgroundColor: isSelected ? 'rgba(0, 115, 230, 0.08)' : 'transparent',
-        color: isSelected ? 'primary.main' : 'text.primary',
-      }}
-    >
-      {StartIcon && (
-        <ListItemIcon>
-          <StartIcon fontSize="inherit" color={isSelected ? 'primary' : undefined} />
-        </ListItemIcon>
-      )}
-      <ListItemText
-        disableTypography
-        sx={{ color: 'inherit' }}
-        primary={
-          <Typography
-            color="inherit"
-            sx={{ fontWeight: isSelected ? 600 : 300, pl: indented ? 4 : 0 }}
-          >
-            {label}
-          </Typography>
-        }
-      />
-      {EndIcon && (
-        <ListItemIcon>
-          <EndIcon color="action" />
-        </ListItemIcon>
-      )}
-    </ListItemButton>
   )
 }

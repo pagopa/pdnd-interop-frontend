@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Stack, SxProps } from '@mui/material'
-import { SideNav } from './SideNav'
+import { SideNav } from '@/components/layout'
 import { Breadcrumbs } from './Breadcrumbs'
 
 type AppLayoutProps = {
