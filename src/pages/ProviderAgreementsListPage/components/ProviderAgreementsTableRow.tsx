@@ -18,7 +18,7 @@ export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementSummary 
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('agreement', { keyPrefix: 'list' })
   const prefetchAgreement = AgreementQueries.usePrefetchSingle()
-  const prefetchEService = EServiceQueries.usePrefetchSingle()
+  const prefetchEService = EServiceQueries.usePrefetchDescriptorCatalog()
 
   const { actions } = useGetAgreementsActions(agreement)
 
