@@ -8,17 +8,17 @@ import { EServiceVoucherVerificationSection } from './components/EServiceVoucher
 import { EServiceVersionHistorySection } from './components/EServiceVersionHistorySection'
 import { EServiceAttributesSections } from './components/EServiceAttributesSections'
 import { EServiceDocumentsListSection } from './components/EServiceDocumentsListSection'
+import { EServiceDescriptorCatalog, EServiceDescriptorProvider } from '@/types/eservice.types'
 
 type EServiceDetailsProps = {
-  eserviceId: string
-  descriptorId: string
+  descriptor: EServiceDescriptorCatalog | EServiceDescriptorProvider
 }
 
-export const EServiceDetails: React.FC<EServiceDetailsProps> = ({ eserviceId, descriptorId }) => {
+export const EServiceDetails: React.FC<EServiceDetailsProps> = ({ descriptor }) => {
   const { mode } = useCurrentRoute()
 
   return (
-    <EServiceDetailsContextProvider eserviceId={eserviceId} descriptorId={descriptorId}>
+    <EServiceDetailsContextProvider descriptor={descriptor}>
       <Grid spacing={2} container>
         <Grid item xs={7}>
           <EServiceGeneralInfoSection />

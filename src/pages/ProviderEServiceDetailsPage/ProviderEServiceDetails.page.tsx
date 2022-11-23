@@ -16,26 +16,23 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   const { eserviceId, descriptorId } = useRouteParams<'PROVIDE_ESERVICE_MANAGE'>()
   const { activeTab, updateActiveTab } = useActiveTab('details')
 
-  const { data: eservice, isLoading: isLoadingEService } = EServiceQueries.useGetSingle(
-    eserviceId,
-    descriptorId,
-    { suspense: false }
-  )
+  const { data: descriptor, isLoading: isLoadingDescriptor } =
+    EServiceQueries.useGetDescriptorProvider(eserviceId, descriptorId, { suspense: false })
 
   const { actions } = useGetEServiceProviderActions({
     eserviceId,
     descriptorId,
-    state: eservice?.viewingDescriptor?.state,
+    state: descriptor?.state,
   })
 
   const topSideActions = formatTopSideActions(actions)
 
   return (
     <PageContainer
-      title={eservice?.name || ''}
-      description={eservice?.description}
+      title={descriptor?.eservice.name || ''}
+      description={descriptor?.eservice?.description}
       topSideActions={topSideActions}
-      isLoading={isLoadingEService}
+      isLoading={isLoadingDescriptor}
     >
       <TabContext value={activeTab}>
         <TabList
@@ -48,9 +45,8 @@ const ProviderEServiceDetailsPage: React.FC = () => {
         </TabList>
 
         <TabPanel value="details" sx={{ p: 0 }}>
-          <React.Suspense fallback={<EServiceDetailsSkeleton />}>
-            <EServiceDetails eserviceId={eserviceId} descriptorId={descriptorId} />
-          </React.Suspense>
+          {descriptor && <EServiceDetails descriptor={descriptor} />}
+          {(!descriptor || isLoadingDescriptor) && <EServiceDetailsSkeleton />}
         </TabPanel>
         <TabPanel value="purposeAwaitingApproval" sx={{ px: 0 }}>
           <React.Suspense fallback={<EServicePurposesTableSkeleton />}>

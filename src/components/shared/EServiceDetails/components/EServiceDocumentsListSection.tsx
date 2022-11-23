@@ -5,15 +5,15 @@ import { DownloadableDocumentsList } from '../../DownloadableDocumentsList'
 import { useEServiceDetailsContext } from '../EServiceDetailsContext'
 
 export const EServiceDocumentsListSection: React.FC = () => {
-  const { eservice, docs } = useEServiceDetailsContext()
+  const { descriptor, docs } = useEServiceDetailsContext()
   const { mutate: downloadDocument } = EServiceMutations.useDownloadVersionDocument()
 
   const handleDownloadDocument = (document: DocumentRead) => {
-    if (!eservice || !eservice?.viewingDescriptor) return
+    if (!descriptor) return
 
     downloadDocument({
-      eserviceId: eservice.id,
-      descriptorId: eservice.viewingDescriptor.id,
+      eserviceId: descriptor.eservice.id,
+      descriptorId: descriptor.id,
       document,
     })
   }
