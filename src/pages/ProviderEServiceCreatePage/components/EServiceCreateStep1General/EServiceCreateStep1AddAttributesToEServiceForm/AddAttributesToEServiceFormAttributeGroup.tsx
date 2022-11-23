@@ -52,8 +52,11 @@ export const AddAttributesToEServiceFormAttributeGroup: React.FC<
     <AttributeGroupContainer
       groupNum={groupIndex + 1}
       headerContent={
-        <ButtonNaked onClick={handleDeleteAttributesGroup}>
-          <DeleteIcon color="error" aria-label={t('deleteGroupSrLabel')} />
+        <ButtonNaked disabled={readOnly} onClick={handleDeleteAttributesGroup}>
+          <DeleteIcon
+            color={readOnly ? 'disabled' : 'error'}
+            aria-label={t('deleteGroupSrLabel')}
+          />
         </ButtonNaked>
       }
     >
@@ -67,8 +70,9 @@ export const AddAttributesToEServiceFormAttributeGroup: React.FC<
                 hiddenTooltipSpacing={false}
                 actions={[
                   {
-                    label: <DeleteIcon fontSize="small" color="error" />,
+                    label: <DeleteIcon fontSize="small" color={readOnly ? 'disabled' : 'error'} />,
                     action: handleDeleteAttributeFromGroup,
+                    disabled: readOnly,
                   },
                 ]}
               />
