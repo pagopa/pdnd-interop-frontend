@@ -21,13 +21,15 @@ export const PurposeDetailsGeneralInfoSection: React.FC<PurposeDetailsGeneralInf
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'view.sections.generalInformations' })
   const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
-  const { data: eservice } = EServiceQueries.useGetSingle(
-    purpose?.eservice.id,
-    purpose?.eservice.descriptor.id
+  // This should not stay here, waiting to get the attributes from the purpose itself
+  const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(
+    purpose?.eservice.id as string,
+    purpose?.eservice.descriptor.id as string,
+    { enabled: !!(purpose?.eservice.id && purpose?.eservice.descriptor.id) }
   )
   const { mode } = useCurrentRoute()
 
-  if (!purpose || !eservice || !purpose.mostRecentVersion) return null
+  if (!purpose || !descriptor || !purpose.mostRecentVersion) return null
 
   return (
     <SectionContainer title={t('title')}>
@@ -76,12 +78,12 @@ export const PurposeDetailsGeneralInfoSection: React.FC<PurposeDetailsGeneralInf
         </InformationContainer>
         <InformationContainer label={t('consumerThreshold.label')}>
           {t('consumerThreshold.value', {
-            value: formatThousands(eservice.viewingDescriptor?.dailyCallsPerConsumer ?? 0),
+            value: formatThousands(descriptor.dailyCallsPerConsumer ?? 0),
           })}
         </InformationContainer>
         <InformationContainer label={t('totalThreshold.label')}>
           {t('totalThreshold.value', {
-            value: formatThousands(eservice.viewingDescriptor?.dailyCallsTotal ?? 0),
+            value: formatThousands(descriptor.dailyCallsTotal ?? 0),
           })}
         </InformationContainer>
       </Stack>
