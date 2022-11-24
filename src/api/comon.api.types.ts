@@ -82,6 +82,6 @@ export type Paginated<T> = {
   pagination: {
     offset: number
     limit: number
-    totalResults: number
+    totalCount: number
   }
 }

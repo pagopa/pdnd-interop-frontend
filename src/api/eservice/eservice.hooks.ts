@@ -39,9 +39,14 @@ function useGetListFlat(
   )
 }
 
-function useGetCatalogList(params: EServiceGetCatalogListUrlParams) {
-  return useQueryWrapper([EServiceQueryKeys.GetCatalogList, params], () =>
-    EServiceServices.getCatalogList(params)
+function useGetCatalogList(
+  params: EServiceGetCatalogListUrlParams,
+  config?: { suspense?: boolean; keepPreviousData?: boolean }
+) {
+  return useQueryWrapper(
+    [EServiceQueryKeys.GetCatalogList, params],
+    () => EServiceServices.getCatalogList(params),
+    config
   )
 }
 
