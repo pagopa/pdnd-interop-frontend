@@ -152,10 +152,11 @@ function useUpdateDraft() {
     suppressSuccessToast: true,
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
-    onSuccess(data) {
+    onSuccess(_, { eserviceId }) {
       queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
       queryClient.invalidateQueries([EServiceQueryKeys.GetProviderList])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetSingle, data.id])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetSingle, eserviceId])
+      queryClient.invalidateQueries([EServiceQueryKeys.GetDescriptorProvider, eserviceId])
     },
   })
 }

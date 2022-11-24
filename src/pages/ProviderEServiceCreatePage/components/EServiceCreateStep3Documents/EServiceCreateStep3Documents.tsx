@@ -19,7 +19,7 @@ export const EServiceCreateStep3Documents: React.FC<ActiveStepProps> = () => {
   const { navigate } = useNavigateRouter()
 
   const { showToast } = useToastNotification()
-  const { eservice, back } = useEServiceCreateContext()
+  const { descriptor, back } = useEServiceCreateContext()
 
   const { mutate: deleteVersion } = EServiceMutations.useDeleteVersionDraft()
   const { mutate: publishVersion } = EServiceMutations.usePublishVersionDraft()
@@ -29,26 +29,26 @@ export const EServiceCreateStep3Documents: React.FC<ActiveStepProps> = () => {
   }
 
   const handleDeleteVersion = () => {
-    if (!eservice || !eservice?.viewingDescriptor) return
+    if (!descriptor) return
     deleteVersion(
-      { eserviceId: eservice.id, descriptorId: eservice.viewingDescriptor.id },
+      { eserviceId: descriptor.eservice.id, descriptorId: descriptor.id },
       { onSuccess: goToProviderEServiceList }
     )
   }
 
   const handlePublishVersion = () => {
-    if (!eservice || !eservice?.viewingDescriptor) return
+    if (!descriptor) return
     publishVersion(
-      { eserviceId: eservice.id, descriptorId: eservice.viewingDescriptor.id },
+      { eserviceId: descriptor.eservice.id, descriptorId: descriptor.id },
       { onSuccess: goToProviderEServiceList }
     )
   }
 
   const sectionDescription = `${t('create.step3.interface.description.before')} ${
-    eservice?.technology === 'REST' ? 'OpenAPI' : 'WSDL'
+    descriptor?.eservice.technology === 'REST' ? 'OpenAPI' : 'WSDL'
   }  ${t('create.step3.interface.description.after')}`
 
-  const hasInterface = !!eservice?.viewingDescriptor?.interface
+  const hasInterface = !!descriptor?.interface
 
   return (
     <>

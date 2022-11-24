@@ -1,10 +1,11 @@
 import React from 'react'
 import { createSafeContext } from '@/contexts/utils'
-import { EServiceReadType } from '@/types/eservice.types'
+import { EServiceDescriptorProvider, EServiceRead } from '@/types/eservice.types'
 import noop from 'lodash/noop'
 
 type EServiceCreateContextType = {
-  eservice: EServiceReadType | undefined
+  eservice: EServiceRead | EServiceDescriptorProvider['eservice'] | undefined
+  descriptor: EServiceDescriptorProvider | undefined
   isNewEService: boolean
   back: VoidFunction
   forward: VoidFunction
@@ -12,6 +13,7 @@ type EServiceCreateContextType = {
 
 const initialState: EServiceCreateContextType = {
   eservice: undefined,
+  descriptor: undefined,
   isNewEService: false,
   back: noop,
   forward: noop,
@@ -24,7 +26,8 @@ const { useContext, Provider } = createSafeContext<EServiceCreateContextType>(
 
 type EServiceCreateContextProviderProps = {
   children: React.ReactNode
-  eservice: EServiceReadType | undefined
+  eservice: EServiceRead | EServiceDescriptorProvider['eservice'] | undefined
+  descriptor: EServiceDescriptorProvider | undefined
   isNewEService: boolean
   back: VoidFunction
   forward: VoidFunction
@@ -33,13 +36,14 @@ type EServiceCreateContextProviderProps = {
 const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps> = ({
   children,
   eservice,
+  descriptor,
   isNewEService,
   back,
   forward,
 }) => {
   const providerValue = React.useMemo(() => {
-    return { eservice, isNewEService, back, forward }
-  }, [eservice, isNewEService, back, forward])
+    return { eservice, descriptor, isNewEService, back, forward }
+  }, [eservice, descriptor, isNewEService, back, forward])
 
   return <Provider value={providerValue}>{children}</Provider>
 }
