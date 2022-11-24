@@ -5,6 +5,9 @@ import { SxProps, TextField } from '@mui/material'
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import it from 'date-fns/locale/it'
+import en from 'date-fns/locale/en-US'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 
 type DatePickerProps = {
   name: string
@@ -25,11 +28,14 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   inputSx,
 }) => {
   const { formState, control } = useFormContext()
+  const lang = useCurrentLanguage()
 
   const error = formState.errors[name]?.message as string | undefined
 
+  const adapterLocale = { it, en }[lang]
+
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
+    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={adapterLocale}>
       <InputWrapper name={name} error={error} sx={sx} infoLabel={infoLabel}>
         <Controller
           control={control}
