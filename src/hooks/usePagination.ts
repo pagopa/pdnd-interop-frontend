@@ -11,6 +11,7 @@ function usePagination({ limit }: { limit: number }) {
     pageNum,
     resultsPerPage: limit,
     onPageChange(newPage: number) {
+      window.scroll(0, 0)
       const newOffset = (newPage - 1) * limit
       if (newOffset > 0) {
         setSearchParams(() => ({
