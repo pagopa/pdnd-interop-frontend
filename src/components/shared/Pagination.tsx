@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Pagination as MUIPagination, Stack } from '@mui/material'
+import { Pagination as MUIPagination, Stack } from '@mui/material'
 
 type PaginationProps = {
   totalPages: number
@@ -12,8 +12,7 @@ type PaginationProps = {
 export const Pagination: React.FC<PaginationProps> = ({ totalPages, onPageChange, pageNum }) => {
   if (totalPages <= 1) return null
   return (
-    <Stack sx={{ mt: 2 }} direction="row" justifyContent="space-between" alignItems="center">
-      <Box />
+    <Stack sx={{ mt: 2 }} direction="row" justifyContent="end" alignItems="center">
       <MUIPagination
         color="primary"
         page={pageNum}
@@ -22,8 +21,4 @@ export const Pagination: React.FC<PaginationProps> = ({ totalPages, onPageChange
       />
     </Stack>
   )
-}
-
-export const PaginationSkeleton: React.FC<PaginationProps> = () => {
-  return <></>
 }
