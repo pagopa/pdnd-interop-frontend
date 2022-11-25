@@ -77,3 +77,12 @@ export type UseMutationWrapper = <
   mutationFn: MutationFunction<TData, TVariables>,
   options: MutationWrapperOptions<TData, TError, TVariables, TContext>
 ) => UseMutationResult<TData, TError, TVariables, TContext>
+
+export type Paginated<T> = {
+  results: Array<T>
+  pagination: {
+    offset: number
+    limit: number
+    totalResults: number
+  }
+}

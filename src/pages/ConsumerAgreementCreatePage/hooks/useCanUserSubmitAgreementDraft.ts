@@ -8,10 +8,11 @@ import React from 'react'
 export default function useCanUserSubmitAgreementDraft(agreementId: string) {
   const { jwt } = useJwt()
   const { data: agreement } = AgreementQueries.useGetSingle(agreementId, { suspense: false })
-  const { data: eservice } = EServiceQueries.useGetSingle(
-    agreement?.eservice.id,
-    agreement?.descriptorId,
-    { suspense: false }
+  // This should not stay here, waiting to get the attributes from the agreement itself
+  const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(
+    agreement?.eservice.id as string,
+    agreement?.descriptorId as string,
+    { enabled: !!(agreement?.eservice.id && agreement?.descriptorId), suspense: false }
   )
 
   const [{ data: ownedCertified }, , { data: ownedDeclared }] = AttributeQueries.useGetListParty(
@@ -23,14 +24,14 @@ export default function useCanUserSubmitAgreementDraft(agreementId: string) {
   )
 
   return React.useMemo(() => {
-    if (!agreement || !eservice || !ownedCertified || !ownedDeclared) return false
+    if (!agreement || !descriptor || !ownedCertified || !ownedDeclared) return false
 
     const isProviderSameAsSubscriber = agreement.consumer.id === agreement.producer.id
     const hasAllDeclaredAndCertifiedAttributes =
       agreement?.state !== 'MISSING_CERTIFIED_ATTRIBUTES' &&
-      checkEServiceAttributesOwnership(ownedCertified, eservice.attributes.certified) &&
-      checkEServiceAttributesOwnership(ownedDeclared, eservice.attributes.declared)
+      checkEServiceAttributesOwnership(ownedCertified, descriptor.eservice.attributes.certified) &&
+      checkEServiceAttributesOwnership(ownedDeclared, descriptor.eservice.attributes.declared)
 
     return hasAllDeclaredAndCertifiedAttributes || isProviderSameAsSubscriber
-  }, [agreement, eservice, ownedCertified, ownedDeclared])
+  }, [agreement, descriptor, ownedCertified, ownedDeclared])
 }

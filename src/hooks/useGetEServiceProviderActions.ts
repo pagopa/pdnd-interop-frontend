@@ -54,7 +54,22 @@ function useGetEServiceProviderActions({
     label: t('activate'),
   }
   const cloneAction = {
-    action: clone.bind(null, { eserviceId, descriptorId }),
+    action: clone.bind(
+      null,
+      {
+        eserviceId,
+        descriptorId,
+      },
+      {
+        onSuccess({ id, descriptors }) {
+          const descriptorId = descriptors[0]?.id
+          if (!descriptorId) throw new Error('No descriptor returned from clone mutation.')
+          navigate('PROVIDE_ESERVICE_EDIT', {
+            params: { eserviceId: id, descriptorId },
+          })
+        },
+      }
+    ),
     label: t('clone'),
   }
   const createNewDraftAction = {

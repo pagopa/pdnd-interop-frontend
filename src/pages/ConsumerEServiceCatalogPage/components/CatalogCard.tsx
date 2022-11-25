@@ -16,11 +16,11 @@ interface CatalogCardProps {
 export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
   const { t } = useTranslation('common')
   const { navigate } = useNavigateRouter()
-  const prefetchEService = EServiceQueries.usePrefetchSingle()
+  const prefetchEService = EServiceQueries.usePrefetchDescriptorCatalog()
 
   const { actions, canCreateAgreementDraft, isMine } = useGetEServiceConsumerActions(
-    eservice.id,
-    eservice.activeDescriptor.id
+    eservice,
+    eservice.activeDescriptor
   )
 
   const handleInpect = () => {

@@ -20,7 +20,7 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
   const { navigate } = useNavigateRouter()
   const { t } = useTranslation('common')
   const lang = useCurrentLanguage()
-  const prefetch = EServiceQueries.usePrefetchSingle()
+  const prefetch = EServiceQueries.usePrefetchDescriptorProvider()
 
   const { actions } = useGetEServiceProviderActions({
     eserviceId: eservice.id,

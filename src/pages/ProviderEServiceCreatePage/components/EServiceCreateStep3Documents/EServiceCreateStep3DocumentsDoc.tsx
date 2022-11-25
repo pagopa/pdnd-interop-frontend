@@ -24,7 +24,7 @@ const defaultValues: EServiceCreateStep3DocumentsDocFormValues = {
 export function EServiceCreateStep3DocumentsDoc() {
   const { t } = useTranslation('eservice')
   const { t: tCommon } = useTranslation('common')
-  const { eservice } = useEServiceCreateContext()
+  const { descriptor } = useEServiceCreateContext()
   const { mutate: downloadDocument } = EServiceMutations.useDownloadVersionDocument()
   const { mutate: deleteDocument } = EServiceMutations.useDeleteVersionDraftDocument()
   const { mutate: updateDocumentName } =
@@ -36,7 +36,7 @@ export function EServiceCreateStep3DocumentsDoc() {
     prettyName: string().required(),
   })
 
-  const docs = eservice?.viewingDescriptor?.docs ?? []
+  const docs = descriptor?.docs ?? []
 
   const [showWriteDocInput, setShowWriteDocInput] = React.useState(false)
 
@@ -54,11 +54,11 @@ export function EServiceCreateStep3DocumentsDoc() {
   })
 
   const onSubmit = ({ doc, prettyName }: EServiceCreateStep3DocumentsDocFormValues) => {
-    if (!doc || !eservice || !eservice.viewingDescriptor) return
+    if (!doc || !descriptor) return
     uploadDocument(
       {
-        eserviceId: eservice.id,
-        descriptorId: eservice.viewingDescriptor.id,
+        eserviceId: descriptor.eservice.id,
+        descriptorId: descriptor.id,
         doc,
         prettyName,
         kind: 'DOCUMENT',
@@ -68,29 +68,29 @@ export function EServiceCreateStep3DocumentsDoc() {
   }
 
   const handleUpdateDescription = (documentId: string, prettyName: string) => {
-    if (!eservice || !eservice.viewingDescriptor) return
+    if (!descriptor) return
     updateDocumentName({
-      eserviceId: eservice.id,
-      descriptorId: eservice.viewingDescriptor.id,
+      eserviceId: descriptor.eservice.id,
+      descriptorId: descriptor.id,
       documentId,
       prettyName,
     })
   }
 
   const handleDeleteDocument = (document: DocumentRead) => {
-    if (!eservice || !eservice.viewingDescriptor) return
+    if (!descriptor) return
     deleteDocument({
-      eserviceId: eservice.id,
-      descriptorId: eservice.viewingDescriptor.id,
+      eserviceId: descriptor.eservice.id,
+      descriptorId: descriptor.id,
       documentId: document.id,
     })
   }
 
   const handleDownloadDocument = (document: DocumentRead) => {
-    if (!eservice || !eservice.viewingDescriptor) return
+    if (!descriptor) return
     downloadDocument({
-      eserviceId: eservice.id,
-      descriptorId: eservice.viewingDescriptor.id,
+      eserviceId: descriptor.eservice.id,
+      descriptorId: descriptor.id,
       document,
     })
   }

@@ -39,9 +39,11 @@ const AgreementDetailsContextProvider: React.FC<{
   const { mode } = useCurrentRoute()
 
   const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
-  const { data: eservice } = EServiceQueries.useGetSingle(
-    agreement?.eservice.id,
-    agreement?.descriptorId
+  // This should not stay here, waiting to get the attributes from the agreement itself
+  const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(
+    agreement?.eservice.id as string,
+    agreement?.descriptorId as string,
+    { enabled: !!(agreement?.eservice.id && agreement?.descriptorId) }
   )
 
   const partyId =
@@ -55,9 +57,9 @@ const AgreementDetailsContextProvider: React.FC<{
     AttributeQueries.useGetListParty(partyId, agreement?.producer.id)
 
   const providerValue = React.useMemo(() => {
-    if (!agreement || !eservice || mode === null) return initialState
+    if (!agreement || !descriptor || mode === null) return initialState
 
-    const eserviceAttributes = remapEServiceAttributes(eservice.attributes)
+    const eserviceAttributes = remapEServiceAttributes(descriptor.eservice.attributes)
     const isAgreementEServiceMine = agreement.producer.id === agreement.consumer.id
 
     const canBeUpgraded = canAgreementBeUpgraded(agreement, mode)
@@ -70,7 +72,7 @@ const AgreementDetailsContextProvider: React.FC<{
       partyAttributes,
       canBeUpgraded,
     }
-  }, [agreement, eservice, mode, certified, verified, declared])
+  }, [agreement, descriptor, mode, certified, verified, declared])
 
   return <Provider value={providerValue}>{children}</Provider>
 }

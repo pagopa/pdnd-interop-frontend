@@ -18,7 +18,7 @@ type EServiceCreateStep3DocumentsInterfaceFormValues = {
 
 export function EServiceCreateStep3DocumentsInterface() {
   const { t } = useTranslation('eservice')
-  const { eservice } = useEServiceCreateContext()
+  const { descriptor } = useEServiceCreateContext()
   const { mutate: downloadDocument } = EServiceMutations.useDownloadVersionDocument()
   const { mutate: deleteDocument } = EServiceMutations.useDeleteVersionDraftDocument()
   const { mutate: uploadDocument } = EServiceMutations.usePostVersionDraftDocument()
@@ -33,7 +33,7 @@ export function EServiceCreateStep3DocumentsInterface() {
     prettyName: t('create.step3.interface.prettyName'),
   }
 
-  const actualInterface: DocumentRead | null = eservice?.viewingDescriptor?.interface ?? null
+  const actualInterface: DocumentRead | null = descriptor?.interface ?? null
 
   const formMethods = useForm({
     resolver: yupResolver(validationSchema),
@@ -45,10 +45,10 @@ export function EServiceCreateStep3DocumentsInterface() {
     interfaceDoc,
     prettyName,
   }: EServiceCreateStep3DocumentsInterfaceFormValues) => {
-    if (!interfaceDoc || !eservice || !eservice.viewingDescriptor) return
+    if (!interfaceDoc || !descriptor) return
     uploadDocument({
-      eserviceId: eservice.id,
-      descriptorId: eservice.viewingDescriptor.id,
+      eserviceId: descriptor.eservice.id,
+      descriptorId: descriptor.id,
       doc: interfaceDoc,
       prettyName,
       kind: 'INTERFACE',
@@ -56,19 +56,19 @@ export function EServiceCreateStep3DocumentsInterface() {
   }
 
   const handleDeleteInterface = () => {
-    if (!actualInterface || !eservice || !eservice.viewingDescriptor) return
+    if (!actualInterface || !descriptor) return
     deleteDocument({
-      eserviceId: eservice.id,
-      descriptorId: eservice.viewingDescriptor.id,
+      eserviceId: descriptor.eservice.id,
+      descriptorId: descriptor.id,
       documentId: actualInterface.id,
     })
   }
 
   const handleDownloadInterface = () => {
-    if (!actualInterface || !eservice || !eservice.viewingDescriptor) return
+    if (!actualInterface || !descriptor) return
     downloadDocument({
-      eserviceId: eservice.id,
-      descriptorId: eservice.viewingDescriptor.id,
+      eserviceId: descriptor.eservice.id,
+      descriptorId: descriptor.id,
       document: actualInterface,
     })
   }

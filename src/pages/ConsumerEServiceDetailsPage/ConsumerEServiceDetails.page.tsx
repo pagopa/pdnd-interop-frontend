@@ -21,28 +21,29 @@ const ConsumerEServiceDetailsPageContent: React.FC = () => {
   const { t } = useTranslation('eservice')
   const { eserviceId, descriptorId } = useRouteParams<'SUBSCRIBE_CATALOG_VIEW'>()
 
-  const { data: eservice } = EServiceQueries.useGetSingle(eserviceId, descriptorId)
-  const { actions, canCreateAgreementDraft, isMine, isSubscribed, hasDraft } =
-    useGetEServiceConsumerActions(eserviceId, descriptorId)
+  const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(eserviceId, descriptorId)
+  const { actions, canCreateAgreementDraft, isMine, isSubscribed, hasAgreementDraft } =
+    useGetEServiceConsumerActions(descriptor?.eservice, descriptor)
 
   const topSideActions = formatTopSideActions(actions)
 
   return (
     <PageContainer
-      title={eservice?.name || ''}
-      description={eservice?.description}
+      title={descriptor?.eservice.name || ''}
+      description={descriptor?.eservice.name}
       topSideActions={topSideActions}
     >
       <Stack spacing={2}>
         {isMine && <Alert severity="info">{t('read.alert.youAreTheProvider')}</Alert>}
-        {!isMine && !canCreateAgreementDraft && eservice?.state === 'PUBLISHED' && (
+        {!isMine && !canCreateAgreementDraft && descriptor?.state === 'PUBLISHED' && (
           <Alert severity="info">{t('read.alert.missingCertifiedAttributes')}</Alert>
         )}
         {isSubscribed && <Alert severity="info">{t('read.alert.alreadySubscribed')}</Alert>}
-        {hasDraft && <Alert severity="info">{t('read.alert.hasDraft')}</Alert>}
+        {hasAgreementDraft && <Alert severity="info">{t('read.alert.hasAgreementDraft')}</Alert>}
       </Stack>
 
-      <EServiceDetails eserviceId={eserviceId} descriptorId={descriptorId} />
+      {descriptor && <EServiceDetails descriptor={descriptor} />}
+      {!descriptor && <EServiceDetailsSkeleton />}
 
       <PageBottomActionsContainer>
         <RouterLink as="button" to="SUBSCRIBE_CATALOG_LIST" variant="outlined">

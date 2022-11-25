@@ -19,7 +19,7 @@ import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { useJwt } from '@/hooks/useJwt'
 import { getKeys } from '@/utils/array.utils'
 import isEqual from 'lodash/isEqual'
-import { EServiceCreateStep1AddAttributesToEServiceForm } from './EServiceCreateStep1AddAttributesToEServiceForm/EServiceCreateStep1AddAttributesToEServiceForm'
+import { AddAttributesToEServiceForm } from './AddAttributesToEServiceForm'
 
 export type EServiceCreateStep1FormValues = {
   name: string
@@ -28,19 +28,12 @@ export type EServiceCreateStep1FormValues = {
   attributes: FrontendAttributes
 }
 
-let defaultValues: EServiceCreateStep1FormValues = {
-  name: '',
-  description: '',
-  technology: 'REST',
-  attributes: { certified: [], verified: [], declared: [] },
-}
-
 export const EServiceCreateStep1General: React.FC = () => {
   const { t } = useTranslation('eservice')
   const { jwt } = useJwt()
   const { navigate } = useNavigateRouter()
   const currentLanguage = useCurrentLanguage()
-  const { eservice, isNewEService, forward } = useEServiceCreateContext()
+  const { eservice, descriptor, isNewEService, forward } = useEServiceCreateContext()
   const { mutate: updateDraft } = EServiceMutations.useUpdateDraft()
   const { mutate: createDraft } = EServiceMutations.useCreateDraft()
 
@@ -49,6 +42,13 @@ export const EServiceCreateStep1General: React.FC = () => {
     description: string().required(),
     technology: string().required(),
   })
+
+  let defaultValues: EServiceCreateStep1FormValues = {
+    name: '',
+    description: '',
+    technology: 'REST',
+    attributes: { certified: [], verified: [], declared: [] },
+  }
 
   if (!isNewEService && eservice) {
     defaultValues = {
@@ -111,17 +111,13 @@ export const EServiceCreateStep1General: React.FC = () => {
     }
   }
 
-  const hasVersion = !!eservice?.viewingDescriptor
   const isEditable =
     // case 1: new service
     !eservice ||
     // case 2: already existing service but no versions created
-    (eservice && !hasVersion) ||
+    (eservice && !descriptor) ||
     // case 3: already existing service and version, but version is 1 and still a draft
-    (eservice &&
-      hasVersion &&
-      eservice!.viewingDescriptor!.version === '1' &&
-      eservice!.viewingDescriptor!.state === 'DRAFT')
+    (eservice && descriptor && descriptor.version === '1' && descriptor.state === 'DRAFT')
 
   return (
     <FormProvider {...formMethods}>
@@ -161,20 +157,11 @@ export const EServiceCreateStep1General: React.FC = () => {
           />
         </SectionContainer>
 
-        <EServiceCreateStep1AddAttributesToEServiceForm
-          attributeKey="certified"
-          readOnly={!isEditable}
-        />
+        <AddAttributesToEServiceForm attributeKey="certified" readOnly={!isEditable} />
 
-        <EServiceCreateStep1AddAttributesToEServiceForm
-          attributeKey="verified"
-          readOnly={!isEditable}
-        />
+        <AddAttributesToEServiceForm attributeKey="verified" readOnly={!isEditable} />
 
-        <EServiceCreateStep1AddAttributesToEServiceForm
-          attributeKey="declared"
-          readOnly={!isEditable}
-        />
+        <AddAttributesToEServiceForm attributeKey="declared" readOnly={!isEditable} />
 
         {!isEditable && (
           <Alert severity="info" sx={{ mt: 4 }}>

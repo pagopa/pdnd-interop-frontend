@@ -7,18 +7,21 @@ import { useTranslation } from 'react-i18next'
 import { EServiceCreateStep1FormValues } from '../EServiceCreateStep1General'
 import DeleteIcon from '@mui/icons-material/DeleteOutline'
 import { ButtonNaked } from '@pagopa/mui-italia'
-import { AddAttributesToEServiceFormAttributeAutocomplete } from './AddAttributesToEServiceFormAttributeAutocomplete'
+import { AttributeAutocomplete } from './AttributeAutocomplete'
 
-type AddAttributesToEServiceFormAttributeGroupProps = {
+type AttributeGroupProps = {
   group: FrontendAttribute
   groupIndex: number
   attributeKey: AttributeKey
   readOnly: boolean
 }
 
-export const AddAttributesToEServiceFormAttributeGroup: React.FC<
-  AddAttributesToEServiceFormAttributeGroupProps
-> = ({ group, groupIndex, attributeKey, readOnly }) => {
+export const AttributeGroup: React.FC<AttributeGroupProps> = ({
+  group,
+  groupIndex,
+  attributeKey,
+  readOnly,
+}) => {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
   const { t: tCommon } = useTranslation('common')
   const { watch, setValue } = useFormContext<EServiceCreateStep1FormValues>()
@@ -52,8 +55,11 @@ export const AddAttributesToEServiceFormAttributeGroup: React.FC<
     <AttributeGroupContainer
       groupNum={groupIndex + 1}
       headerContent={
-        <ButtonNaked onClick={handleDeleteAttributesGroup}>
-          <DeleteIcon color="error" aria-label={t('deleteGroupSrLabel')} />
+        <ButtonNaked disabled={readOnly} onClick={handleDeleteAttributesGroup}>
+          <DeleteIcon
+            color={readOnly ? 'disabled' : 'error'}
+            aria-label={t('deleteGroupSrLabel')}
+          />
         </ButtonNaked>
       }
     >
@@ -64,10 +70,12 @@ export const AddAttributesToEServiceFormAttributeGroup: React.FC<
               <AttributeContainerRow
                 attribute={attribute}
                 showOrLabel={i !== group.attributes.length - 1}
+                hiddenTooltipSpacing={false}
                 actions={[
                   {
-                    label: <DeleteIcon fontSize="small" color="error" />,
+                    label: <DeleteIcon fontSize="small" color={readOnly ? 'disabled' : 'error'} />,
                     action: handleDeleteAttributeFromGroup,
+                    disabled: readOnly,
                   },
                 ]}
               />
@@ -80,7 +88,7 @@ export const AddAttributesToEServiceFormAttributeGroup: React.FC<
           {group.attributes.length > 0 && <Divider />}
           <Box sx={{ mb: 3, mt: 2.5 }}>
             {isAttributeAutocompleteShown ? (
-              <AddAttributesToEServiceFormAttributeAutocomplete
+              <AttributeAutocomplete
                 groupIndex={groupIndex}
                 attributeKey={attributeKey}
                 handleHideAutocomplete={handleHideAutocomplete}

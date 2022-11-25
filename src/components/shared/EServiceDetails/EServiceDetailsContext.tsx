@@ -1,17 +1,13 @@
 import React from 'react'
 import { createSafeContext } from '@/contexts/utils'
-import { EServiceQueries } from '@/api/eservice'
-import { EServiceDescriptorRead, EServiceReadType } from '@/types/eservice.types'
-import { getLatestActiveDescriptor } from '@/utils/eservice.utils'
+import { EServiceDescriptorCatalog, EServiceDescriptorProvider } from '@/types/eservice.types'
 import { DocumentRead } from '@/types/common.types'
 import { remapEServiceAttributes } from '@/utils/attribute.utils'
 import { FrontendAttributes } from '@/types/attribute.types'
 import { AgreementState } from '@/types/agreement.types'
-import { useCurrentRoute } from '@/router'
 
 type EServiceDetailsContextType = {
-  eservice: EServiceReadType | undefined
-  latestActiveDescriptor: EServiceDescriptorRead | undefined
+  descriptor: EServiceDescriptorCatalog | EServiceDescriptorProvider
   eserviceAttributes: FrontendAttributes
   isViewingDescriptorCurrentVersion: boolean
   agreement:
@@ -23,57 +19,37 @@ type EServiceDetailsContextType = {
   docs: Array<DocumentRead>
 }
 
-const initialState: EServiceDetailsContextType = {
-  eservice: undefined,
-  latestActiveDescriptor: undefined,
-  eserviceAttributes: { certified: [], verified: [], declared: [] },
-  isViewingDescriptorCurrentVersion: false,
-  agreement: undefined,
-  docs: [],
-}
-
 const { useContext, Provider } = createSafeContext<EServiceDetailsContextType>(
   'EServiceDetailsContext',
-  initialState
+  null!
 )
 
 const EServiceDetailsContextProvider: React.FC<{
-  eserviceId: string
-  descriptorId: string
+  descriptor: EServiceDescriptorCatalog | EServiceDescriptorProvider
   children: React.ReactNode
-}> = ({ eserviceId, descriptorId, children }) => {
-  const { mode } = useCurrentRoute()
-  const { data: eservice } = EServiceQueries.useGetSingle(eserviceId, descriptorId)
-  const eserviceFlat = EServiceQueries.useGetSingleFlat(eserviceId, descriptorId)
-
+}> = ({ descriptor, children }) => {
   const providerValue = React.useMemo(() => {
-    if (!eservice) return initialState
-
-    const latestActiveDescriptor = getLatestActiveDescriptor(eservice) as EServiceDescriptorRead
-    const eserviceAttributes = remapEServiceAttributes(eservice.attributes)
+    const eserviceAttributes = remapEServiceAttributes(descriptor.eservice.attributes)
     const isViewingDescriptorCurrentVersion =
-      latestActiveDescriptor.id === eservice.viewingDescriptor?.id
+      'activeDescriptor' in descriptor.eservice &&
+      descriptor.id === descriptor.eservice.activeDescriptor?.id
 
     const agreement =
-      mode === 'consumer' &&
-      eserviceFlat?.agreement &&
-      !['DRAFT', 'REJECTED'].includes(eserviceFlat?.agreement.state)
-        ? eserviceFlat?.agreement
+      'agreement' in descriptor.eservice &&
+      !['DRAFT', 'REJECTED'].includes(descriptor.eservice.agreement.state)
+        ? descriptor.eservice.agreement
         : undefined
 
-    const docs = [
-      ...latestActiveDescriptor.docs,
-      ...(latestActiveDescriptor.interface ? [latestActiveDescriptor.interface] : []),
-    ]
+    const docs = [...descriptor.docs, ...(descriptor.interface ? [descriptor.interface] : [])]
+
     return {
-      eservice,
-      latestActiveDescriptor,
+      descriptor,
       eserviceAttributes,
       isViewingDescriptorCurrentVersion,
       agreement,
       docs,
     }
-  }, [eservice, eserviceFlat, mode])
+  }, [descriptor])
 
   return <Provider value={providerValue}>{children}</Provider>
 }

@@ -24,15 +24,14 @@ const ClientVoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps> = (
 }) => {
   const { t } = useTranslation('voucher')
 
-  const { data: eservice, isLoading: isLoadingAudience } = EServiceQueries.useGetSingle(
-    purpose?.eservice.id,
-    purpose?.eservice.descriptor.id,
-    { suspense: false }
-  )
+  const { data: descriptor, isLoading: isLoadingDescriptor } =
+    EServiceQueries.useGetDescriptorCatalog(
+      purpose?.eservice.id as string,
+      purpose?.eservice.descriptor.id as string,
+      { enabled: !!(purpose?.eservice.id && purpose?.eservice.descriptor.id), suspense: false }
+    )
 
-  const descriptorAudience =
-    eservice &&
-    eservice.descriptors.find((d) => d.id === purpose?.eservice.descriptor.id)?.audience[0]
+  const descriptorAudience = descriptor && descriptor.audience[0]
 
   return (
     <SectionContainer>
@@ -48,7 +47,7 @@ const ClientVoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps> = (
           label={t('step3.consumer.audField.label')}
           labelDescription={t('step3.consumer.audField.description')}
         >
-          {isLoadingAudience && !descriptorAudience && <Skeleton width={200} />}
+          {isLoadingDescriptor && !descriptorAudience && <Skeleton width={200} />}
           {descriptorAudience && (
             <InlineClipboard
               textToCopy={descriptorAudience}

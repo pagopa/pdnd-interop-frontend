@@ -20,19 +20,30 @@ import { EServiceQueries } from '@/api/eservice'
 import { Grid } from '@mui/material'
 import { Stepper } from '@/components/shared/Stepper'
 import { EServiceCreateContextProvider } from './components/EServiceCreateContext'
+import { URL_FRAGMENTS } from '@/router/utils'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
+  const lang = useCurrentLanguage()
   const params = useRouteParams<'PROVIDE_ESERVICE_CREATE' | 'PROVIDE_ESERVICE_EDIT'>()
   const { activeStep, ...stepProps } = useActiveStep()
 
-  const isNewEService = !params?.eserviceId && !params?.eserviceId
+  const isNewEService = !params?.eserviceId
+  const isDraftEService =
+    params?.eserviceId && params?.descriptorId === URL_FRAGMENTS.FIRST_DRAFT[lang]
+  const isDraftDescriptor = params?.eserviceId && params?.descriptorId && !isDraftEService
 
   const { data: eservice, isLoading: isLoadingEService } = EServiceQueries.useGetSingle(
     params?.eserviceId,
-    params?.descriptorId,
-    { suspense: false }
+    { suspense: false, enabled: !!isDraftEService }
   )
+
+  const { data: descriptor, isLoading: isLoadingDescriptor } =
+    EServiceQueries.useGetDescriptorProvider(params?.eserviceId, params?.descriptorId, {
+      suspense: false,
+      enabled: !!isDraftDescriptor,
+    })
 
   const steps: Array<StepperStep> = [
     { label: t('stepper.step1Label'), component: EServiceCreateStep1General },
@@ -43,16 +54,21 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const { component: Step } = steps[activeStep]
 
   // If this e-service is not in draft, you cannot edit it
-  if (eservice && eservice?.viewingDescriptor && eservice?.viewingDescriptor.state !== 'DRAFT') {
+  if (descriptor && descriptor.state !== 'DRAFT') {
     return (
       <Redirect
         to="PROVIDE_ESERVICE_MANAGE"
-        params={{ eserviceId: eservice.id, descriptorId: eservice.viewingDescriptor.id }}
+        params={{ eserviceId: descriptor.eservice.id, descriptorId: descriptor.id }}
       />
     )
   }
 
-  const isReady = !!(isNewEService || (!isLoadingEService && eservice))
+  const isReady = !!(
+    isNewEService ||
+    (isDraftEService && !isLoadingEService && eservice) ||
+    (isDraftDescriptor && !isLoadingDescriptor && descriptor)
+  )
+
   const stepsLoadingSkeletons = [
     <EServiceCreateStep1GeneralSkeleton key={1} />,
     <EServiceCreateStep2VersionSkeleton key={2} />,
@@ -70,7 +86,8 @@ const ProviderEServiceCreatePage: React.FC = () => {
           <Stepper steps={steps} activeIndex={activeStep} />
           {isReady && (
             <EServiceCreateContextProvider
-              eservice={eservice}
+              eservice={eservice ?? descriptor?.eservice}
+              descriptor={descriptor}
               isNewEService={isNewEService}
               {...stepProps}
             >

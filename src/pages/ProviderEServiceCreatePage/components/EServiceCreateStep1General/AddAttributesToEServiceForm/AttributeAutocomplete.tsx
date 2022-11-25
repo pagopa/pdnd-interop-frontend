@@ -9,7 +9,7 @@ import { FormProvider, useForm, useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { EServiceCreateStep1FormValues } from '../EServiceCreateStep1General'
 
-type AddAttributesToEServiceFormAttributeAutocompleteProps = {
+type AttributeAutocompleteProps = {
   groupIndex: number
   attributeKey: AttributeKey
   handleHideAutocomplete: VoidFunction
@@ -17,9 +17,11 @@ type AddAttributesToEServiceFormAttributeAutocompleteProps = {
 
 type AttributeAutocompleteFormValues = { attribute: null | CatalogAttribute }
 
-export const AddAttributesToEServiceFormAttributeAutocomplete: React.FC<
-  AddAttributesToEServiceFormAttributeAutocompleteProps
-> = ({ groupIndex, attributeKey, handleHideAutocomplete }) => {
+export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
+  groupIndex,
+  attributeKey,
+  handleHideAutocomplete,
+}) => {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
   const [search, setSearch] = React.useState<string | undefined>()
   const { data: attributes = [], isLoading } = AttributeQueries.useGetList(search, {

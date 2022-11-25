@@ -10,13 +10,13 @@ export const EServiceGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
     keyPrefix: 'read.sections.generalInformations',
   })
-  const { eservice, agreement } = useEServiceDetailsContext()
+  const { descriptor, agreement } = useEServiceDetailsContext()
   const { isAdmin } = useJwt()
 
   const agreementPath =
     agreement?.state === 'DRAFT' ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'
 
-  if (!eservice) return null
+  if (!descriptor) return null
 
   return (
     <SectionContainer title={t('title')}>
@@ -28,7 +28,9 @@ export const EServiceGeneralInfoSection: React.FC = () => {
             </RouterLink>
           </InformationContainer>
         )}
-        <InformationContainer label={t('technology')}>{eservice.technology}</InformationContainer>
+        <InformationContainer label={t('technology')}>
+          {descriptor.eservice.technology}
+        </InformationContainer>
       </Stack>
     </SectionContainer>
   )

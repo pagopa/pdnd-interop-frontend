@@ -26,20 +26,10 @@ type EServiceCreateStep2FormValues = {
   agreementApprovalPolicy: boolean
 }
 
-let defaultValues: EServiceCreateStep2FormValues = {
-  version: '1',
-  audience: '',
-  voucherLifespan: 1,
-  description: '',
-  dailyCallsPerConsumer: 1,
-  dailyCallsTotal: 1,
-  agreementApprovalPolicy: true,
-}
-
 export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice')
   const { navigate } = useNavigateRouter()
-  const { eservice, forward, back } = useEServiceCreateContext()
+  const { eservice, descriptor, forward, back } = useEServiceCreateContext()
   const { mutate: createVersionDraft } = EServiceMutations.useCreateVersionDraft({
     suppressSuccessToast: true,
     showConfirmationDialog: false,
@@ -59,16 +49,23 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
       .required(),
   })
 
-  const hasDescriptor = Boolean(eservice?.descriptors && eservice.viewingDescriptor)
+  let defaultValues: EServiceCreateStep2FormValues = {
+    version: '1',
+    audience: '',
+    voucherLifespan: 1,
+    description: '',
+    dailyCallsPerConsumer: 1,
+    dailyCallsTotal: 1,
+    agreementApprovalPolicy: true,
+  }
 
   // Pre-fill if there is already a draft of the service available
-  if (hasDescriptor) {
-    const descriptor = eservice!.viewingDescriptor!
+  if (descriptor) {
     defaultValues = {
       version: descriptor.version,
       audience: descriptor.audience.length > 0 ? descriptor.audience[0] : '',
       voucherLifespan: secondsToMinutes(descriptor.voucherLifespan),
-      description: descriptor.description,
+      description: descriptor?.description ?? '',
       dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer || 1,
       dailyCallsTotal: descriptor.dailyCallsTotal || 1,
       agreementApprovalPolicy: descriptor.agreementApprovalPolicy === 'MANUAL',
@@ -90,10 +87,20 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
     }
 
     // If nothing has changed skip the update call
-    if (hasDescriptor) {
+    if (descriptor) {
+      const descriptorDataToCompare = {
+        voucherLifespan: descriptor.voucherLifespan,
+        audience: descriptor.audience,
+        agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
+        version: descriptor.version,
+        description: descriptor?.description ?? '',
+        dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer,
+        dailyCallsTotal: descriptor.dailyCallsTotal,
+      }
+
       if (
         getKeys(newDescriptorData).every((key) =>
-          isEqual(newDescriptorData[key], eservice!.viewingDescriptor![key])
+          isEqual(newDescriptorData[key], descriptorDataToCompare[key])
         )
       ) {
         forward()
@@ -103,11 +110,8 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
 
     const payload = { eserviceId: eservice.id, ...omit(newDescriptorData, ['version']) }
 
-    if (hasDescriptor) {
-      updateVersionDraft(
-        { ...payload, descriptorId: eservice.viewingDescriptor!.id },
-        { onSuccess: forward }
-      )
+    if (descriptor) {
+      updateVersionDraft({ ...payload, descriptorId: descriptor.id }, { onSuccess: forward })
       return
     }
     createVersionDraft(payload, {

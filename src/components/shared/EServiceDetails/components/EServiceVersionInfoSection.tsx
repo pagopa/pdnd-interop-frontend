@@ -15,13 +15,12 @@ export const EServiceVersionInfoSection: React.FC = () => {
   const { t: tCommon } = useTranslation('common')
   const { mode } = useCurrentRoute()
 
-  const { eservice, isViewingDescriptorCurrentVersion } = useEServiceDetailsContext()
-  const currentViewingDescriptor = eservice?.viewingDescriptor
+  const { descriptor, isViewingDescriptorCurrentVersion } = useEServiceDetailsContext()
 
-  if (!eservice || !currentViewingDescriptor) return null
+  if (!descriptor) return null
 
   const getFormattedVoucherLifespan = () => {
-    const { hours, minutes } = secondsToHoursMinutes(currentViewingDescriptor.voucherLifespan)
+    const { hours, minutes } = secondsToHoursMinutes(descriptor.voucherLifespan)
 
     const minutesLabel = tCommon('time.minute', { count: minutes })
     const hoursLabel = tCommon('time.hour', { count: hours })
@@ -43,32 +42,32 @@ export const EServiceVersionInfoSection: React.FC = () => {
       <Stack spacing={2}>
         <InformationContainer label={t('actualVersion')}>
           <Stack spacing={1} direction="row" alignItems="center">
-            <span>{currentViewingDescriptor.version}</span>
+            <span>{descriptor.version}</span>
             {isViewingDescriptorCurrentVersion && (
               <Chip label={tCommon('table.headData.currentVersion')} color="primary" />
             )}
           </Stack>
         </InformationContainer>
         <InformationContainer label={t('versionStatus')}>
-          <StatusChip for="eservice" state={currentViewingDescriptor.state} />
+          <StatusChip for="eservice" state={descriptor.state} />
         </InformationContainer>
         <InformationContainer label={t('description')}>
-          {currentViewingDescriptor?.description}
+          {descriptor.description}
         </InformationContainer>
         <InformationContainer label={t('audience')} labelDescription={t('audienceDescription')}>
-          {currentViewingDescriptor.audience.join(', ')}
+          {descriptor.audience.join(', ')}
         </InformationContainer>
         <InformationContainer label={t('voucherLifespan')}>
           {getFormattedVoucherLifespan()}
         </InformationContainer>
         <InformationContainer label={t('dailyCallsPerConsumer')}>
-          {formatThousands(currentViewingDescriptor.dailyCallsPerConsumer)} {t('callsPerDay')}
+          {formatThousands(descriptor.dailyCallsPerConsumer)} {t('callsPerDay')}
         </InformationContainer>
         <InformationContainer label={t('dailyCallsTotal')}>
-          {formatThousands(currentViewingDescriptor.dailyCallsTotal)} {t('callsPerDay')}
+          {formatThousands(descriptor.dailyCallsTotal)} {t('callsPerDay')}
         </InformationContainer>
         <InformationContainer label={t('agreementApprovalPolicy.label')}>
-          {t(`agreementApprovalPolicy.${currentViewingDescriptor.agreementApprovalPolicy}`)}
+          {t(`agreementApprovalPolicy.${descriptor.agreementApprovalPolicy}`)}
         </InformationContainer>
 
         {mode === 'provider' && (

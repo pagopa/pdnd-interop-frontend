@@ -18,12 +18,15 @@ type AttributeContainerRowProps<T extends { id: string; name: string }> = {
       action: (attributeId: string, attributeName: string) => void
     } & Partial<Omit<ButtonProps, 'onClick' | 'children' | 'action'>>
   >
+
+  hiddenTooltipSpacing?: boolean
 } & ({ state?: undefined } | { state: AttributeState; kind: AttributeKind })
 
 export const AttributeContainerRow = <T extends { id: string; name: string }>({
   attribute,
   showOrLabel,
   actions = [],
+  hiddenTooltipSpacing = true,
   ...props
 }: AttributeContainerRowProps<T>) => {
   const { openDialog } = useDialog()
@@ -68,7 +71,9 @@ export const AttributeContainerRow = <T extends { id: string; name: string }>({
           </Tooltip>
         )}
 
-        {!props.state && <CloseIcon sx={{ visibility: 'hidden' }} color="error" fontSize="small" />}
+        {!props.state && hiddenTooltipSpacing && (
+          <CloseIcon sx={{ visibility: 'hidden' }} color="error" fontSize="small" />
+        )}
 
         <IconButton
           onClick={handleOpenAttributeDetailsDialog.bind(null, attribute)}

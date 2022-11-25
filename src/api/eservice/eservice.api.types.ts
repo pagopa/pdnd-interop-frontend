@@ -1,7 +1,6 @@
 import { AgreementState } from '@/types/agreement.types'
 import { BackendAttributes } from '@/types/attribute.types'
 import {
-  EServiceCatalog,
   EServiceDocumentKind,
   EServiceFlatten,
   EServiceState,
@@ -27,21 +26,21 @@ export type EServiceGetCatalogListUrlParams = {
   producerIds?: Array<string>
   /** List of e-service states */
   states?: Array<EServiceState>
-
   /** Pagination offset, MAX 50 */
   offset: number
-
   /** Pagination limit, MAX 50 */
   limit: number
 }
 
-export type EServiceGetCatalogListResponse = {
-  results: Array<EServiceCatalog>
-  pagination: {
-    offset: number
-    limit: number
-    totalResults: number
-  }
+export type EServiceGetProviderListUrlParams = {
+  /** Query to filter e-services by name */
+  q?: string
+  /** List of consumers IDs */
+  consumersIds?: Array<string>
+  /** Pagination offset, MAX 50 */
+  offset: number
+  /** Pagination limit, MAX 50 */
+  limit: number
 }
 
 export type EServiceDraftPayload = {

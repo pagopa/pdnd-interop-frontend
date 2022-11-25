@@ -16,28 +16,29 @@ export const EServiceVersionHistorySection: React.FC = () => {
     keyPrefix: 'read.sections.versionHistory',
   })
   const { mode } = useCurrentRoute()
-  const { eservice } = useEServiceDetailsContext()
+  const { descriptor } = useEServiceDetailsContext()
   const { navigate } = useNavigateRouter()
 
   const formMethods = useForm<VersionHistoryFormValues>({
     defaultValues: {
-      selectedDescriptorId: eservice?.viewingDescriptor?.id,
+      selectedDescriptorId: descriptor.id,
     },
   })
 
   const onSubmit = ({ selectedDescriptorId }: VersionHistoryFormValues) => {
-    if (!eservice || !selectedDescriptorId) return
+    if (!descriptor || !selectedDescriptorId) return
     const path = mode === 'provider' ? 'PROVIDE_ESERVICE_MANAGE' : 'SUBSCRIBE_CATALOG_VIEW'
     navigate(path, {
-      params: { eserviceId: eservice.id, descriptorId: selectedDescriptorId },
+      params: { eserviceId: descriptor.eservice.id, descriptorId: selectedDescriptorId },
     })
   }
 
-  const shouldNotRender = !eservice?.descriptors || eservice?.descriptors.length <= 1
+  const shouldNotRender =
+    !descriptor.eservice?.descriptors || descriptor.eservice?.descriptors.length <= 1
 
   if (shouldNotRender) return null
 
-  const descriptorsOptions = eservice.descriptors.map((descriptor) => ({
+  const descriptorsOptions = descriptor.eservice.descriptors.map((descriptor) => ({
     label: t('historyField.option', { version: descriptor.version }),
     value: descriptor.id,
   }))
