@@ -1,0 +1,82 @@
+import React from 'react'
+import {
+  Alert,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Typography,
+} from '@mui/material'
+import { useTranslation } from 'react-i18next'
+import { DialogUpdatePartyMailProps } from '@/types/dialog.types'
+import { useDialog } from '@/contexts'
+import { object, string } from 'yup'
+import { FormProvider, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { TextField } from '../shared/ReactHookFormInputs'
+
+type UpdatePartyMailFormValues = {
+  contactEmail: string
+  description: string
+}
+
+export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ defaultValues }) => {
+  const { t } = useTranslation('shared-components', { keyPrefix: 'dialogUpdatePartyMail' })
+  const { t: tCommon } = useTranslation('common')
+  const { closeDialog } = useDialog()
+
+  const validationSchema = object({
+    contactEmail: string().email().required(),
+    description: string(),
+  })
+
+  const formMethods = useForm<UpdatePartyMailFormValues>({
+    resolver: yupResolver(validationSchema),
+    defaultValues: defaultValues ?? { contactEmail: '', description: '' },
+  })
+
+  const onSubmit = (values: UpdatePartyMailFormValues) => {
+    console.log(values)
+  }
+
+  return (
+    <Dialog open onClose={closeDialog} fullWidth maxWidth="md">
+      <FormProvider {...formMethods}>
+        <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
+          <DialogTitle>{t('title')}</DialogTitle>
+          <DialogContent>
+            <Typography>{t('subtitle')}</Typography>
+
+            <TextField
+              sx={{ mt: 2, mb: 0 }}
+              focusOnMount
+              name="contactEmail"
+              label={t('content.mailAddressField.label')}
+            />
+            <TextField
+              sx={{ mt: 2, mb: 0 }}
+              name="description"
+              label={t('content.descriptionField.label')}
+              infoLabel={t('content.descriptionField.infoLabel')}
+              inputProps={{ maxLength: 250 }}
+            />
+            <Alert sx={{ mt: 2 }} severity="info">
+              {t('alertLabel')}
+            </Alert>
+          </DialogContent>
+
+          <DialogActions>
+            <Button type="button" variant="outlined" onClick={closeDialog}>
+              {tCommon('actions.cancel')}
+            </Button>
+            <Button variant="contained" type="submit">
+              {tCommon('actions.edit')}
+            </Button>
+          </DialogActions>
+        </Box>
+      </FormProvider>
+    </Dialog>
+  )
+}

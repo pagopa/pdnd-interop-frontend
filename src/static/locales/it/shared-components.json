@@ -141,6 +141,20 @@
       "confirmLabel": "Crea attributo"
     }
   },
+  "dialogUpdatePartyMail": {
+    "title": "Modifica contatti",
+    "subtitle": "Puoi modificare la mail di contatto e la descrizione relativa al tuo ente. La modifica sarà immediatamente visibile",
+    "content": {
+      "mailAddressField": {
+        "label": "Indirizzo email (richiesto)"
+      },
+      "descriptionField": {
+        "label": "Descrizione",
+        "infoLabel": "Max 160 caratteri"
+      }
+    },
+    "alertLabel": "Agli enti non viene notificata questa modifica; si consiglia di mantenere un redirect attivo dal vecchio al nuovo indirizzo per qualche tempo"
+  },
   "copyToClipboardButton": {
     "copy": "Copia",
     "copied": "Copiato"

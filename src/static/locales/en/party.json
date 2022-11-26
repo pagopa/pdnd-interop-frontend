@@ -1,5 +1,15 @@
 {
   "loadingPartyDataLabel": "We are loading party's data",
+  "contacts": {
+    "title": "contacts",
+    "description": "The email to which you can contact your users directly or the providers of the services you use. You can associate a description to indicate how you wish to receive communications",
+    "mailField": {
+      "label": "Mail address"
+    },
+    "descriptionField": {
+      "label": "Description"
+    }
+  },
   "attributes": {
     "certified": {
       "description": "Authoritative sources recognized by Interoperability have given you these certified attributes.",

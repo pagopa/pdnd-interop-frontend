@@ -6,6 +6,8 @@ import {
   CertifiedPartyAttributesListSkeleton,
   DeclaredPartyAttributesList,
   DeclaredPartyAttributesListSkeleton,
+  PartyContacts,
+  PartyContactsSkeleton,
   RevokedDeclaredPartyAttributesList,
   RevokedDeclaredPartyAttributesListSkeleton,
   VerifiedPartyAttributesList,
@@ -18,6 +20,9 @@ const PartyRegistryPage: React.FC = () => {
 
   return (
     <PageContainer title={pageTitle}>
+      <Suspense fallback={<PartyContactsSkeleton />}>
+        <PartyContacts />
+      </Suspense>
       <Suspense fallback={<CertifiedPartyAttributesListSkeleton />}>
         <CertifiedPartyAttributesList />
       </Suspense>

@@ -1,6 +1,7 @@
 import { AgreementState } from './agreement.types'
 import { BackendAttribute, BackendAttributes } from './attribute.types'
 import { DocumentRead } from './common.types'
+import { PartyMail } from './party.types'
 
 type EServiceReadProducerType = {
   id: string
@@ -121,10 +122,7 @@ export type EServiceDescriptorCatalog = {
       state: EServiceState
       version: string
     }
-    mail?: {
-      address: string
-      description?: string
-    }
+    mail?: PartyMail
   }
 }
 
@@ -156,10 +154,7 @@ export type EServiceDescriptorProvider = {
       state: EServiceState
       version: string
     }
-    mail?: {
-      address: string
-      description?: string
-    }
+    mail?: PartyMail
   }
 }
 
