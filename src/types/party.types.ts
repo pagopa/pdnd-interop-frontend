@@ -7,6 +7,11 @@ type UserContract = {
   path: string
 }
 
+export type PartyMail = {
+  address: string
+  description?: string
+}
+
 export type UserOnCreate = {
   name: string
   surname: string
