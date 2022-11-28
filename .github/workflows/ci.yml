@@ -1,0 +1,94 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: ['**']
+    tags: ['**']
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  build:
+    name: Build and Test
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [16.18.0]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout current branch (full)
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Install node 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Installing
+        run: npm install
+
+      - name: Testing
+        run: npm run test
+
+  publish:
+    name: Publish Artifacts
+    needs: [build]
+    permissions:
+      contents: read
+      packages: write
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/1.0.x' || startsWith(github.ref, 'refs/tags/'))
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [16.18.0]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout current branch (full)
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Install node 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: eu-central-1
+          role-to-assume: 'arn:aws:iam::505630707203:role/interop-github-ecr-dev'
+          role-session-name: interop-frontend-${{ github.job }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Calculating image version
+        id: version
+        run: |
+          if [[ "${{ github.ref }}" == "refs/tags/"* ]]; then
+            echo "version=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=${{ github.ref_name }}-latest" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build docker image
+        run: docker build --network host -t $ECR_REGISTRY/interop-frontend:$VERSION .
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          VERSION: ${{ steps.version.outputs.version }}
+
+      - name: Push image to Amazon ECR
+        run: docker push interop-frontend:$VERSION
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
