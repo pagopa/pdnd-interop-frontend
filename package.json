@@ -7,7 +7,7 @@
     "build": "tsc && vite build",
     "build-dev": "tsc && vite build --mode development",
     "preview": "vite build --mode development  && vite preview --mode development",
-    "test": "vitest"
+    "test": "vitest --watch"
   },
   "dependencies": {
     "@date-io/date-fns": "^2.16.0",
@@ -60,6 +60,7 @@
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
     "jsdom": "^20.0.3",
+    "msw": "^0.49.0",
     "node-html-parser": "^6.1.4",
     "prettier": "^2.8.0",
     "rollup-plugin-visualizer": "^5.8.3",

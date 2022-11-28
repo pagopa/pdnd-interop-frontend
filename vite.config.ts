@@ -8,8 +8,16 @@ import { parse } from 'node-html-parser'
 export default defineConfig(({ mode }) => {
   const prodPlugins = [react(), setNonceAttToScripts()]
   const devPlugins = [react(), visualizer(), configurePreviewServer()]
+  const testPlugins = [react()]
 
-  const plugins = mode === 'development' ? devPlugins : prodPlugins
+  const plugins =
+    mode === 'development'
+      ? devPlugins
+      : mode === 'production'
+      ? prodPlugins
+      : mode === 'test'
+      ? testPlugins
+      : undefined
 
   return {
     base: '/ui/',
