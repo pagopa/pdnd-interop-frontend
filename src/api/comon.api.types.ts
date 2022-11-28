@@ -22,7 +22,6 @@ export type UseQueryWrapper = <
   > & {
     initialData?: () => undefined
   } & {
-    skipJwtSessionExpirationCheck?: boolean
     skipThrowOn404Error?: boolean
   }
 ) => UseQueryResult<TData, TError>
