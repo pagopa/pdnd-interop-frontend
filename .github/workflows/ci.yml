@@ -84,6 +84,7 @@ jobs:
           VERSION: ${{ steps.version.outputs.version }}
 
       - name: Push image to Amazon ECR
-        run: docker push interop-frontend:$VERSION
+        run: docker push $ECR_REGISTRY/interop-frontend:$VERSION
         env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           VERSION: ${{ steps.version.outputs.version }}
