@@ -37,6 +37,7 @@ jobs:
     name: Publish Artifacts
     needs: [build]
     permissions:
+      id-token: write
       contents: read
       packages: write
     # if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/1.0.x' || startsWith(github.ref, 'refs/tags/'))
