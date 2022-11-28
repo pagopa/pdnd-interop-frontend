@@ -6,8 +6,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "build-dev": "tsc && vite build --mode development",
-    "preview": "vite build --mode development  && vite preview --mode development",
-    "test": "vitest --watch"
+    "preview": "vite build --mode development && vite preview --mode development",
+    "test": "vitest"
   },
   "dependencies": {
     "@date-io/date-fns": "^2.16.0",
