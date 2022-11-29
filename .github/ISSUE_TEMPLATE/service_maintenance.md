@@ -1,9 +1,10 @@
 ---
 name: Service Maintenance
 about: Use for trace maintenance activities
-title: '[Maintenance]'
+title: "[Maintenance]"
 labels: ''
 assignees: ''
+
 ---
 
 # Activity window
