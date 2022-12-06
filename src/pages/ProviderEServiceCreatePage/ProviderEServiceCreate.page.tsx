@@ -77,7 +77,10 @@ const ProviderEServiceCreatePage: React.FC = () => {
 
   const intro = isNewEService
     ? { title: t('emptyTitle') }
-    : { title: eservice?.name, description: eservice?.description }
+    : {
+        title: (eservice || descriptor?.eservice)?.name,
+        description: (eservice || descriptor?.eservice)?.description,
+      }
 
   return (
     <PageContainer {...intro} isLoading={!isReady}>
