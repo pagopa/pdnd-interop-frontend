@@ -26,7 +26,7 @@ function useGetEServiceConsumerActions<
   // I can subscribe to the eservice only if...
   if (eservice) {
     // ... I own all the certified attributes or...
-    if (eservice?.canSubscribe) {
+    if (eservice.hasCertifiedAttributes) {
       canCreateAgreementDraft = true
     }
 

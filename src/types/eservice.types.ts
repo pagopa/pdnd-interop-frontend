@@ -58,12 +58,12 @@ export type EServiceCatalog = {
     id: string
     name: string
   }
-  agreement: {
+  agreement?: {
     id: string
     state: AgreementState
   }
   isMine: boolean
-  canSubscribe: boolean
+  hasCertifiedAttributes: boolean
   activeDescriptor: {
     id: string
     state: EServiceState
@@ -114,7 +114,7 @@ export type EServiceDescriptorCatalog = {
       state: AgreementState
     }
     isMine: boolean
-    canSubscribe: boolean
+    hasCertifiedAttributes: boolean
     isSubscribed: boolean
     activeDescriptor?: {
       id: string
