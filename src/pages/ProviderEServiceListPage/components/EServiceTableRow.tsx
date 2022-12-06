@@ -1,59 +1,71 @@
 import React from 'react'
 import { TableRow } from '@/components/shared/Table'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
-import { Box, Button, Skeleton } from '@mui/material'
+import { Box, Button, Skeleton, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useNavigateRouter } from '@/router'
 import { URL_FRAGMENTS } from '@/router/utils'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
-import useGetEServiceProviderActions from '@/hooks/useGetEServiceProviderActions'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
-import { EServiceFlatten } from '@/types/eservice.types'
+import { EServiceProvider } from '@/types/eservice.types'
 import { EServiceQueries } from '@/api/eservice'
 import { ButtonSkeleton } from '@/components/shared/MUISkeletons'
+import useGetProviderEServiceTableActions from '../hooks/useGetProviderEServiceTableActions'
 
 type EServiceTableRow = {
-  eservice: EServiceFlatten
+  eservice: EServiceProvider
 }
 
 export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
   const { navigate } = useNavigateRouter()
   const { t } = useTranslation('common')
   const lang = useCurrentLanguage()
-  const prefetch = EServiceQueries.usePrefetchDescriptorProvider()
+  const prefetchDescriptor = EServiceQueries.usePrefetchDescriptorProvider()
+  const prefetchEService = EServiceQueries.usePrefetchSingle()
 
-  const { actions } = useGetEServiceProviderActions({
-    eserviceId: eservice.id,
-    descriptorId: eservice?.descriptorId,
-    state: eservice.state,
-  })
+  const { actions } = useGetProviderEServiceTableActions(eservice)
+
+  const isEServiceInDraft = !eservice.activeDescriptor
 
   const handleEditOrInspect = () => {
-    const destPath =
-      !eservice.state || eservice.state === 'DRAFT'
-        ? 'PROVIDE_ESERVICE_EDIT'
-        : 'PROVIDE_ESERVICE_MANAGE'
+    const destPath = isEServiceInDraft ? 'PROVIDE_ESERVICE_EDIT' : 'PROVIDE_ESERVICE_MANAGE'
 
     navigate(destPath, {
       params: {
         eserviceId: eservice.id,
-        descriptorId: eservice.descriptorId || URL_FRAGMENTS.FIRST_DRAFT[lang],
+        descriptorId:
+          eservice?.activeDescriptor?.id ||
+          eservice?.draftDescriptor?.id ||
+          URL_FRAGMENTS.FIRST_DRAFT[lang],
       },
     })
   }
 
   const handlePrefetch = () => {
-    if (!eservice.descriptorId) return
-    prefetch(eservice.id, eservice.descriptorId)
+    if (isEServiceInDraft) {
+      prefetchEService(eservice.id)
+      return
+    }
+    if (!eservice.activeDescriptor) return
+    prefetchDescriptor(eservice.id, eservice.activeDescriptor.id)
   }
 
   return (
     <TableRow
       cellData={[
         { label: eservice.name },
-        { label: eservice.version || '1' },
+        { label: eservice?.activeDescriptor?.version || '1' },
         {
-          custom: <StatusChip for="eservice" state={eservice.state || 'DRAFT'} />,
+          custom: (
+            <Stack direction="row" spacing={1}>
+              {eservice?.activeDescriptor && (
+                <StatusChip for="eservice" state={eservice.activeDescriptor.state} />
+              )}
+              {(isEServiceInDraft || eservice?.draftDescriptor) && (
+                <StatusChip for="eservice" state={'DRAFT'} />
+              )}
+            </Stack>
+          ),
         },
       ]}
     >
@@ -64,7 +76,7 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
         size="small"
         onClick={handleEditOrInspect}
       >
-        {t(`actions.${!eservice.state || eservice.state === 'DRAFT' ? 'edit' : 'inspect'}`)}
+        {t(`actions.${isEServiceInDraft ? 'edit' : 'inspect'}`)}
       </Button>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>

@@ -1,19 +1,11 @@
 import { EServiceMutations } from '@/api/eservice'
 import { useNavigateRouter } from '@/router'
 import { ActionItem } from '@/types/common.types'
-import { EServiceState } from '@/types/eservice.types'
+import { EServiceDescriptorProvider, EServiceState } from '@/types/eservice.types'
 import { minutesToSeconds } from '@/utils/format.utils'
 import { useTranslation } from 'react-i18next'
 
-function useGetEServiceProviderActions({
-  eserviceId,
-  descriptorId,
-  state,
-}: {
-  eserviceId: string
-  descriptorId: string | undefined
-  state: EServiceState | undefined
-}) {
+function useGetEServiceProviderActions(descriptor?: EServiceDescriptorProvider) {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const { navigate } = useNavigateRouter()
 
@@ -24,6 +16,12 @@ function useGetEServiceProviderActions({
   const { mutate: reactivate } = EServiceMutations.useReactivateVersion()
   const { mutate: clone } = EServiceMutations.useCloneFromVersion()
   const { mutate: createNewDraft } = EServiceMutations.useCreateVersionDraft()
+
+  if (!descriptor) return { actions: [] }
+
+  const descriptorId = descriptor.id
+  const eserviceId = descriptor.eservice.id
+  const state = descriptor.state
 
   const deleteDraftAction = {
     action: deleteDraft.bind(null, { eserviceId }),
