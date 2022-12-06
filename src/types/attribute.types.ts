@@ -1,9 +1,6 @@
 export type BackendAttributeContent = {
   id: string
   name: string
-  creationTime: string
-  origin: string
-  code: string
   description: string
   explicitAttributeVerification: boolean
   verified?: boolean
