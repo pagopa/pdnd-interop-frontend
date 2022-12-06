@@ -58,7 +58,7 @@ export type EServiceCatalog = {
     id: string
     name: string
   }
-  agreement: {
+  agreement?: {
     id: string
     state: AgreementState
   }
