@@ -1,6 +1,7 @@
 import {
   EServiceCatalog,
   EServiceDescriptorCatalog,
+  EServiceDescriptorProvider,
   EServiceProvider,
   EServiceRead,
 } from '../../types/eservice.types'
@@ -79,9 +80,41 @@ const createMockEServiceDescriptorCatalog = createMockFactory<EServiceDescriptor
   voucherLifespan: 60,
 })
 
+const createMockEServiceDescriptorProvider = createMockFactory<EServiceDescriptorProvider>({
+  agreementApprovalPolicy: 'MANUAL',
+  audience: ['nikon'],
+  dailyCallsPerConsumer: 1,
+  dailyCallsTotal: 1,
+  description: 'kinoin',
+  docs: [],
+  eservice: {
+    attributes: {
+      certified: [],
+      declared: [],
+      verified: [],
+    },
+    description: 'Lorem ipsum',
+    descriptors: [{ id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a', state: 'PUBLISHED', version: '1' }],
+    id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
+    name: '-- LUMACA -- test 20/10 [4]\t',
+    technology: 'REST',
+  },
+  id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
+  interface: {
+    contentType: 'application/octet-stream',
+    id: '7b92cd7e-c485-4660-9344-608242ba0786',
+    name: 'VerificaCodiceFiscale.yaml',
+    prettyName: 'Specifica API',
+  },
+  state: 'PUBLISHED',
+  version: '3',
+  voucherLifespan: 60,
+})
+
 export {
   createMockEServiceProvider,
   createMockEServiceCatalog,
   createMockEServiceRead,
   createMockEServiceDescriptorCatalog,
+  createMockEServiceDescriptorProvider,
 }
