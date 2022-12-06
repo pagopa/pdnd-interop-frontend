@@ -1,16 +1,9 @@
-import cloneDeep from 'lodash/cloneDeep'
 import { EServiceProvider } from '../../types/eservice.types'
+import { createMockFactory } from '../mock.utils'
 
-const defaultEServiceProvider = {
+const createMockEServiceProvider = createMockFactory<EServiceProvider>({
   id: 'ad474d35-7939-4bee-bde9-4e469cca1030',
   name: '-- CAMMELLO --',
-}
-
-const createMockEServiceProvider = (overwrites: Partial<EServiceProvider> = {}) => {
-  return cloneDeep({
-    ...defaultEServiceProvider,
-    ...overwrites,
-  })
-}
+})
 
 export { createMockEServiceProvider }
