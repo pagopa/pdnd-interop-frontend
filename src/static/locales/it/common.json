@@ -53,7 +53,8 @@
     "confirm": "Conferma",
     "createNewDraft": "Crea bozza nuova versione",
     "saveDraft": "Salva bozza",
-    "backToCatalog": "Torna al catalogo"
+    "backToCatalog": "Torna al catalogo",
+    "editDraft": "Modifica bozza"
   },
   "table": {
     "headData": {
