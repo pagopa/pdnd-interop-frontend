@@ -109,7 +109,7 @@ export type EServiceDescriptorCatalog = {
       state: EServiceState
       version: string
     }>
-    agreement: {
+    agreement?: {
       id: string
       state: AgreementState
     }

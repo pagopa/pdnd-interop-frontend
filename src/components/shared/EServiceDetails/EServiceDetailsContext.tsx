@@ -36,6 +36,7 @@ const EServiceDetailsContextProvider: React.FC<{
 
     const agreement =
       'agreement' in descriptor.eservice &&
+      descriptor.eservice?.agreement?.state &&
       !['DRAFT', 'REJECTED'].includes(descriptor.eservice.agreement.state)
         ? descriptor.eservice.agreement
         : undefined
