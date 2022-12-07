@@ -7,21 +7,26 @@ function usePagination({ limit }: { limit: number }) {
 
   const pageNum = Math.ceil(offset / limit) + 1
 
+  const handlePageChange = (newPage: number) => {
+    if (newPage < 1) {
+      throw new Error(`Number of page ${newPage} is not valid`)
+    }
+    window.scroll(0, 0)
+    const newOffset = (newPage - 1) * limit
+    if (newOffset > 0) {
+      setSearchParams(() => ({
+        ...Object.fromEntries(searchParams),
+        offset: newOffset.toString(),
+      }))
+      return
+    }
+    setSearchParams(() => omit(Object.fromEntries(searchParams), 'offset'))
+  }
+
   const props = {
     pageNum,
     resultsPerPage: limit,
-    onPageChange(newPage: number) {
-      window.scroll(0, 0)
-      const newOffset = (newPage - 1) * limit
-      if (newOffset > 0) {
-        setSearchParams(() => ({
-          ...Object.fromEntries(searchParams),
-          offset: newOffset.toString(),
-        }))
-        return
-      }
-      setSearchParams(() => omit(Object.fromEntries(searchParams), 'offset'))
-    },
+    onPageChange: handlePageChange,
   }
 
   const getTotalPageCount = (totalCount: number | undefined) => {
