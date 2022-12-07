@@ -11,7 +11,7 @@ import omit from 'lodash/omit'
  */
 function usePagination(options: { limit: number }) {
   const [searchParams, setSearchParams] = useSearchParams()
-  const offset = parseInt(searchParams.get('offset') ?? '0')
+  const offset = parseInt(searchParams.get('offset') ?? '0', 10)
 
   const limit = options.limit
 
