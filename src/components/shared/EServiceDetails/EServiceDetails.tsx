@@ -9,6 +9,7 @@ import { EServiceVersionHistorySection } from './components/EServiceVersionHisto
 import { EServiceAttributesSections } from './components/EServiceAttributesSections'
 import { EServiceDocumentsListSection } from './components/EServiceDocumentsListSection'
 import { EServiceDescriptorCatalog, EServiceDescriptorProvider } from '@/types/eservice.types'
+import { EServiceProviderContacts } from './components/EServiceProviderContacts'
 
 type EServiceDetailsProps = {
   descriptor: EServiceDescriptorCatalog | EServiceDescriptorProvider
@@ -26,6 +27,7 @@ export const EServiceDetails: React.FC<EServiceDetailsProps> = ({ descriptor }) 
         </Grid>
         <Grid item xs={5}>
           <EServiceDocumentsListSection />
+          {mode === 'consumer' && <EServiceProviderContacts />}
           {mode === 'provider' && <EServiceVoucherVerificationSection />}
         </Grid>
       </Grid>
@@ -42,8 +44,6 @@ export const EServiceDetails: React.FC<EServiceDetailsProps> = ({ descriptor }) 
 }
 
 export const EServiceDetailsSkeleton: React.FC = () => {
-  const { mode } = useCurrentRoute()
-
   return (
     <Stack sx={{ mt: 2 }} spacing={2}>
       <Grid spacing={2} container>
@@ -56,7 +56,7 @@ export const EServiceDetailsSkeleton: React.FC = () => {
         <Grid item xs={5}>
           <Stack spacing={2}>
             <Skeleton variant="rectangular" height={150} />
-            {mode === 'provider' && <Skeleton variant="rectangular" height={300} />}
+            <Skeleton variant="rectangular" height={300} />
           </Stack>
         </Grid>
       </Grid>
