@@ -15,16 +15,14 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
   title = 'Conferma azione',
   description,
   proceedCallback,
-  proceedLabel = 'Conferma',
+  proceedLabel,
   disabled = false,
   maxWidth,
 }) => {
   const dialogTitleId = useId()
   const dialogDescriptionId = useId()
-  const { t } = useTranslation('shared-components', {
-    keyPrefix: 'styledDialogBasic',
-  })
   const { closeDialog } = useDialog()
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
 
   return (
     <Dialog
@@ -51,10 +49,10 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
 
       <DialogActions>
         <Button variant="outlined" onClick={closeDialog}>
-          {t('actions.cancelLabel')}
+          {tCommon('cancel')}
         </Button>
         <Button variant="contained" onClick={proceedCallback} disabled={disabled}>
-          {proceedLabel}
+          {proceedLabel ?? tCommon('confirm')}
         </Button>
       </DialogActions>
     </Dialog>
