@@ -1,8 +1,7 @@
-import { Dialog } from '@/components/dialogs'
 import { Footer, Header } from '@/components/layout'
 import { AppLayout } from '@/components/layout/AppLayout'
 import { PageContainerSkeleton } from '@/components/layout/containers'
-import { AuthContextProvider, DialogContextProvider, useDialog } from '@/contexts'
+import { AuthContextProvider, DialogContextProvider } from '@/contexts'
 import { NotAuthorizedError } from '@/utils/errors.utils'
 import React from 'react'
 import { Outlet } from 'react-router-dom'
@@ -18,7 +17,6 @@ import { Box } from '@mui/material'
 import { useJwt } from '@/hooks/useJwt'
 
 const OutletWrapper: React.FC = () => {
-  const { dialog } = useDialog()
   const { isTOSAccepted, acceptTOS } = useTOSAgreement()
   const { isPublic } = useCurrentRoute()
 
@@ -46,7 +44,6 @@ const OutletWrapper: React.FC = () => {
       </Box>
 
       <Footer />
-      {dialog && <Dialog {...dialog} />}
     </>
   )
 }
