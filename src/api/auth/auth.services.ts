@@ -1,4 +1,4 @@
-import axiosInstance from '@/lib/axios'
+import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 
 async function swapTokens(identity_token: string) {
