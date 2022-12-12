@@ -1,30 +1,10 @@
 # PDND Interoperabilità: Frontend
+Sede della repo frontend del back office di prodotto. Disciplinata nell'articolo 50-ter del [C.A.D.](https://www.normattiva.it/atto/caricaDettaglioAtto?atto.dataPubblicazioneGazzetta=2005-05-16&atto.codiceRedazionale=005G0104&atto.articolo.numero=0&atto.articolo.sottoArticolo=1&atto.articolo.sottoArticolo1=10&qId=5614860b-4769-478e-bf22-a8a76a04159a&tabID=0.5538263478162919&title=lbl.dettaglioAtto), PDND Interoperabilità è la piattaforma che abilita lo scambio di informazioni tra gli enti. Per maggiori informazioni, visita la [landing di prodotto](https://interop.pagopa.it).
 
-## Info generali
-Stack:
-- template: [Create React App](https://github.com/facebook/create-react-app)
-- tema: [MUI Italia](https://github.com/pagopa/mui-italia)
-- base dei componenti: [MUI](https://mui.com/)
-- icone: [MUI Icons](https://mui.com/components/material-icons/)
-- router: [React Router DOM](https://reactrouter.com/web)
-- astrazione chiamate: [Axios](https://axios-http.com)
+## Aprire una issue
+Apri una issue se quello che vuoi chiedere rientra in uno dei seguenti casi:
+- hai problemi relativi allo stacco di un voucher
+- hai una nuova feature da proporre
+- riscontri problemi generalizzati che ti impediscono di contattare l'assistenza
 
-Design:
-- progetto Figma: [v0.0 (PoC)](https://www.figma.com/file/7GJmdr43yZb3D47sMZRskN/PDND-Interoperabilit%C3%A0-%E2%80%94-v0.0-PoC)
-- progetto Figma: [v0.1 (Sperimentazione enti)](https://www.figma.com/file/yNH799rIu1Jkyl3HNuFBrH/PDND-Interoperabilit%C3%A0-%E2%80%94-v0.1-Sperimentazione-enti)
-
-## Comandi npm
-- `npm run start`
-- `npm run build`
-- `npm run test`
-- `npm run eject` (non ce n'è bisogno per ora)
-
-## Guida per il frontend
-
-### Commenti marcati come "TEMP" nel codice
-Sono di tipo diverso e assolvono funzioni diverse:
-- TEMP HYPOTHESIS: simula una feature a beneficio di uno stakeholder, ma non è mai stata discussa dal team
-- TEMP BACKEND: qualcosa che deve essere affrontato con il team di backend per essere discusso e chiarito
-- TEMP PIN-{{PIN_NUMBER}}: c'è già un issue in Jira in proposito
-- TEMP REFACTOR: il codice funziona ma è orribile e necessita refactoring
-- TEMP PoC: un marker che indica che qualcosa è attualmente mockato, ma dovrà essere implementato dopo la PoC
+Per qualsiasi altro problema, contatta l'assistenza attraverso il link in alto a destra che troverai nell'interfaccia del back office.
