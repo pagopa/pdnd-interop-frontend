@@ -24,11 +24,13 @@ export function Accordion({ entries }: StyledAccordionProps) {
         <MUIAccordion key={i}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
+            aria-label={`panel-content-${i}`}
             aria-controls={`panel-content-${i}`}
             id={`panel-header-${i}`}
             sx={{ px: 0 }}
           >
             <Typography
+              component={'span'}
               sx={{
                 flexShrink: summarySecondary ? 0 : 1,
                 width: summarySecondary ? '40%' : 'auto',
