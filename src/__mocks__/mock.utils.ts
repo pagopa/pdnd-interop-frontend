@@ -13,7 +13,7 @@ export function createPaginatedMockData<T>(
     pagination: {
       offset: pagination?.offset ?? 0,
       limit: pagination?.offset ?? 50,
-      totalResults: pagination?.offset ?? data.length,
+      totalCount: pagination?.offset ?? data.length,
     },
   }
 }
