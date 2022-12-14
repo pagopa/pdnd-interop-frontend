@@ -50,9 +50,14 @@ function useGetCatalogList(
   )
 }
 
-function useGetProviderList(params: EServiceGetProviderListUrlParams) {
-  return useQueryWrapper([EServiceQueryKeys.GetProviderList, params], () =>
-    EServiceServices.getProviderList(params)
+function useGetProviderList(
+  params: EServiceGetProviderListUrlParams,
+  config?: { suspense?: boolean; keepPreviousData?: boolean }
+) {
+  return useQueryWrapper(
+    [EServiceQueryKeys.GetProviderList, params],
+    () => EServiceServices.getProviderList(params),
+    config
   )
 }
 
