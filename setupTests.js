@@ -1,6 +1,7 @@
 import { expect, afterEach, vi } from 'vitest'
 import { cleanup } from '@testing-library/react'
 import matchers from '@testing-library/jest-dom/matchers'
+import noop from 'lodash/noop'
 
 // extends Vitest's expect method with methods from react-testing-library
 expect.extend(matchers)
@@ -18,11 +19,9 @@ vi.mock('react-i18next', () => ({
     return {
       t: (str) => str,
       i18n: {
-        changeLanguage: () =>
-          new Promise(() => {
-            /**/
-          }),
+        changeLanguage: () => new Promise(noop),
       },
     }
   },
+  Trans: ({ children }) => children,
 }))
