@@ -17,8 +17,10 @@ export const EServiceProviderContacts: React.FC = () => {
 
   return (
     <SectionContainer title={t('title')}>
-      <Link href={`mailto:${mailAddress}`}>{mailAddress}</Link>
-      {description && <Typography>{description}</Typography>}
+      <Link variant="body2" href={`mailto:${mailAddress}`}>
+        {mailAddress}
+      </Link>
+      {description && <Typography variant="body2">{description}</Typography>}
     </SectionContainer>
   )
 }
