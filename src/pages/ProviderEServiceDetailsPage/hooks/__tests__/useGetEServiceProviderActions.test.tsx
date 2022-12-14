@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, renderHook, screen, waitFor } from '@testing-library/react'
+import { renderHook } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import useGetEServiceProviderActions from '../useGetEServiceProviderActions'
 import { Route, Router, Routes } from 'react-router-dom'
@@ -9,7 +9,6 @@ import { createMockEServiceDescriptorProvider } from '@/__mocks__/data/eservice.
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { CATALOG_PROCESS_URL } from '@/config/env'
-import { act } from 'react-dom/test-utils'
 import {
   DialogContextProvider,
   LoadingOverlayContextProvider,
