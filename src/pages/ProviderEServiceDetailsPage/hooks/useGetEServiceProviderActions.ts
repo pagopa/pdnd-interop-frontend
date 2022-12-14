@@ -10,7 +10,6 @@ function useGetEServiceProviderActions(descriptor?: EServiceDescriptorProvider) 
   const { navigate } = useNavigateRouter()
 
   const { mutate: publishDraft } = EServiceMutations.usePublishVersionDraft()
-  const { mutate: deleteDraft } = EServiceMutations.useDeleteDraft()
   const { mutate: deleteVersionDraft } = EServiceMutations.useDeleteVersionDraft()
   const { mutate: suspend } = EServiceMutations.useSuspendVersion()
   const { mutate: reactivate } = EServiceMutations.useReactivateVersion()
@@ -22,17 +21,6 @@ function useGetEServiceProviderActions(descriptor?: EServiceDescriptorProvider) 
   const descriptorId = descriptor.id
   const eserviceId = descriptor.eservice.id
   const state = descriptor.state
-
-  const deleteDraftAction = {
-    action: deleteDraft.bind(null, { eserviceId }),
-    label: t('delete'),
-  }
-
-  if (!descriptorId) {
-    return {
-      actions: [deleteDraftAction],
-    }
-  }
 
   const publishDraftAction = {
     action: publishDraft.bind(null, { eserviceId, descriptorId }),
@@ -51,9 +39,9 @@ function useGetEServiceProviderActions(descriptor?: EServiceDescriptorProvider) 
     action: reactivate.bind(null, { eserviceId, descriptorId }),
     label: t('activate'),
   }
-  const cloneAction = {
-    action: clone.bind(
-      null,
+
+  function handleClone() {
+    clone(
       {
         eserviceId,
         descriptorId,
@@ -67,9 +55,14 @@ function useGetEServiceProviderActions(descriptor?: EServiceDescriptorProvider) 
           })
         },
       }
-    ),
+    )
+  }
+
+  const cloneAction = {
+    action: handleClone,
     label: t('clone'),
   }
+
   const createNewDraftAction = {
     action: createNewDraft.bind(
       null,
