@@ -26,6 +26,6 @@ export function createMockFactory<T>(defaultValue: T) {
     return cloneDeep({
       ...defaultValue,
       ...overwrites,
-    })
+    }) as T
   }
 }
