@@ -1,17 +1,15 @@
 import React from 'react'
-import { EServiceQueries } from '@/api/eservice'
 import { Table } from '@/components/shared/Table'
 import { useTranslation } from 'react-i18next'
 import { EServiceTableRow, EServiceTableRowSkeleton } from './EServiceTableRow'
+import { EServiceProvider } from '@/types/eservice.types'
 
-export const EServiceTable: React.FC = () => {
+type EServiceTableProps = {
+  eservices: Array<EServiceProvider>
+}
+
+export const EServiceTable: React.FC<EServiceTableProps> = ({ eservices }) => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceList.eserviceTable' })
-  const { data } = EServiceQueries.useGetProviderList({
-    offset: 0,
-    limit: 50,
-  })
-
-  const eservices = data?.results ?? []
 
   const headLabels = [t('headLabels.name'), t('headLabels.version'), t('headLabels.status'), '']
 
