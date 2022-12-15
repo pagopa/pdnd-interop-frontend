@@ -1,15 +1,5 @@
-import React from 'react'
-import {
-  act,
-  fireEvent,
-  renderHook,
-  screen,
-  waitForElementToBeRemoved,
-} from '@testing-library/react'
-import { createMemoryHistory } from 'history'
+import { act, fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
 import useGetEServiceProviderActions from '../useGetEServiceProviderActions'
-import { Route, Router, Routes } from 'react-router-dom'
-import { QueryClientProvider } from '@tanstack/react-query'
 import {
   createMockEServiceDescriptorProvider,
   createMockEServiceReadType,
@@ -17,17 +7,12 @@ import {
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { CATALOG_PROCESS_URL } from '@/config/env'
-import {
-  DialogContextProvider,
-  LoadingOverlayContextProvider,
-  ToastNotificationContextProvider,
-} from '@/contexts'
-import { queryClientMock } from '@/__mocks__/query-client.mock'
+import { renderHookWithApplicationContext } from '@/__mocks__/mock.utils'
 
 const server = setupServer(
   rest.post(
     `${CATALOG_PROCESS_URL}/eservices/:eserviceId/descriptors/:descriptorId/clone`,
-    (req, res, ctx) => {
+    (_, res, ctx) => {
       return res(ctx.json(createMockEServiceReadType()))
     }
   ),
@@ -43,32 +28,13 @@ afterAll(() => {
   server.close()
 })
 
-const history = createMemoryHistory()
-
-afterEach(() => {
-  history.replace('/')
-})
-
 function renderUseGetEServiceProviderActionsHook(
   ...hookParams: Parameters<typeof useGetEServiceProviderActions>
 ) {
-  return renderHook(() => useGetEServiceProviderActions(...(hookParams ?? [])), {
-    wrapper: ({ children }) => (
-      <DialogContextProvider>
-        <QueryClientProvider client={queryClientMock}>
-          <LoadingOverlayContextProvider>
-            <ToastNotificationContextProvider>
-              <Router location={history.location} navigator={history}>
-                <Routes>
-                  <Route path="/" element={children} />
-                </Routes>
-              </Router>
-            </ToastNotificationContextProvider>
-          </LoadingOverlayContextProvider>
-        </QueryClientProvider>
-      </DialogContextProvider>
-    ),
-  })
+  return renderHookWithApplicationContext(
+    () => useGetEServiceProviderActions(...(hookParams ?? [])),
+    { withReactQueryContext: true, withRouterContext: true }
+  )
 }
 
 describe('useGetEServiceProviderActions tests', () => {
@@ -118,7 +84,7 @@ describe('useGetEServiceProviderActions tests', () => {
 
   it('should redirect to the provider e-service edit page on clone action success', async () => {
     const descriptorMock = createMockEServiceDescriptorProvider({ state: 'SUSPENDED' })
-    const { result } = renderUseGetEServiceProviderActionsHook(descriptorMock)
+    const { result, history } = renderUseGetEServiceProviderActionsHook(descriptorMock)
     expect(result.current.actions[1].label).toBe('clone')
     act(() => {
       result.current.actions[1].action()
@@ -139,7 +105,7 @@ describe('useGetEServiceProviderActions tests', () => {
 
   it('should redirect to the provider e-service edit page, on the step 2, on createNewDraft action success', async () => {
     const descriptorMock = createMockEServiceDescriptorProvider({ state: 'PUBLISHED' })
-    const { result } = renderUseGetEServiceProviderActionsHook(descriptorMock)
+    const { result, history } = renderUseGetEServiceProviderActionsHook(descriptorMock)
     expect(result.current.actions[2].label).toBe('createNewDraft')
     act(() => {
       result.current.actions[2].action()
