@@ -4,7 +4,6 @@ import { createMemoryHistory } from 'history'
 import useGetEServiceProviderActions from '../useGetEServiceProviderActions'
 import { Route, Router, Routes } from 'react-router-dom'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { queryClient } from '@/lib/react-query'
 import { createMockEServiceDescriptorProvider } from '@/__mocks__/data/eservice.mocks'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
@@ -14,6 +13,7 @@ import {
   LoadingOverlayContextProvider,
   ToastNotificationContextProvider,
 } from '@/contexts'
+import { queryClientMock } from '@/__mocks__/query-client.mock'
 
 const server = setupServer(
   rest.post(
@@ -44,7 +44,7 @@ function renderUseGetEServiceProviderActionsHook(
   return renderHook(() => useGetEServiceProviderActions(...(hookParams ?? [])), {
     wrapper: ({ children }) => (
       <DialogContextProvider>
-        <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClientMock}>
           <LoadingOverlayContextProvider>
             <ToastNotificationContextProvider>
               <Router location={history.location} navigator={history}>
