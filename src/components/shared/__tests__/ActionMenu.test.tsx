@@ -12,7 +12,7 @@ const mockActions: Array<ActionItem> = [
   },
 ]
 
-describe("Checks that InfoTooltip snapshots don't change", () => {
+describe("Checks that ActionMenu snapshots don't change", () => {
   it('renders correctly', () => {
     const inlineClipboard = render(<ActionMenu actions={mockActions} />)
 
