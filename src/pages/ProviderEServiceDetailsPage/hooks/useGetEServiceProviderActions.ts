@@ -63,9 +63,8 @@ function useGetEServiceProviderActions(descriptor?: EServiceDescriptorProvider) 
     label: t('clone'),
   }
 
-  const createNewDraftAction = {
-    action: createNewDraft.bind(
-      null,
+  function handleCreateNewDraft() {
+    createNewDraft(
       {
         eserviceId,
         voucherLifespan: minutesToSeconds(1),
@@ -83,7 +82,11 @@ function useGetEServiceProviderActions(descriptor?: EServiceDescriptorProvider) 
           })
         },
       }
-    ),
+    )
+  }
+
+  const createNewDraftAction = {
+    action: handleCreateNewDraft,
     label: t('createNewDraft'),
   }
 

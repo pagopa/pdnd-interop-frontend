@@ -1,10 +1,19 @@
 import React from 'react'
-import { renderHook } from '@testing-library/react'
+import {
+  act,
+  fireEvent,
+  renderHook,
+  screen,
+  waitForElementToBeRemoved,
+} from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import useGetEServiceProviderActions from '../useGetEServiceProviderActions'
 import { Route, Router, Routes } from 'react-router-dom'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { createMockEServiceDescriptorProvider } from '@/__mocks__/data/eservice.mocks'
+import {
+  createMockEServiceDescriptorProvider,
+  createMockEServiceReadType,
+} from '@/__mocks__/data/eservice.mocks'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { CATALOG_PROCESS_URL } from '@/config/env'
@@ -19,14 +28,12 @@ const server = setupServer(
   rest.post(
     `${CATALOG_PROCESS_URL}/eservices/:eserviceId/descriptors/:descriptorId/clone`,
     (req, res, ctx) => {
-      return res(
-        ctx.json({
-          title: 'Lord of the Rings',
-          author: 'J. R. R. Tolkien',
-        })
-      )
+      return res(ctx.json(createMockEServiceReadType()))
     }
-  )
+  ),
+  rest.post(`${CATALOG_PROCESS_URL}/eservices/:eserviceId/descriptors`, (req, res, ctx) => {
+    return res(ctx.json(createMockEServiceReadType()))
+  })
 )
 
 beforeAll(() => {
@@ -36,11 +43,15 @@ afterAll(() => {
   server.close()
 })
 
+const history = createMemoryHistory()
+
+afterEach(() => {
+  history.replace('/')
+})
+
 function renderUseGetEServiceProviderActionsHook(
   ...hookParams: Parameters<typeof useGetEServiceProviderActions>
 ) {
-  const history = createMemoryHistory()
-
   return renderHook(() => useGetEServiceProviderActions(...(hookParams ?? [])), {
     wrapper: ({ children }) => (
       <DialogContextProvider>
@@ -105,17 +116,46 @@ describe('useGetEServiceProviderActions tests', () => {
     expect(result.current.actions[2].label).toBe('createNewDraft')
   })
 
-  {
-    /** TODO - waiting for pin-2437 to be merged  */
-  }
-  // it('should redirect to the provider e-service edit page on clone action success', async () => {
-  //   const descriptorMock = createMockEServiceDescriptorProvider({ state: 'SUSPENDED' })
-  //   const { result } = renderUseGetEServiceProviderActionsHook(descriptorMock)
-  //   expect(result.current.actions[1].label).toBe('clone')
-  //   act(() => {
-  //     result.current.actions[1].action()
-  //   })
+  it('should redirect to the provider e-service edit page on clone action success', async () => {
+    const descriptorMock = createMockEServiceDescriptorProvider({ state: 'SUSPENDED' })
+    const { result } = renderUseGetEServiceProviderActionsHook(descriptorMock)
+    expect(result.current.actions[1].label).toBe('clone')
+    act(() => {
+      result.current.actions[1].action()
+    })
 
-  //   screen.debug()
-  // })
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
+    })
+
+    await act(() => {
+      waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
+    })
+
+    expect(history.location.pathname).toBe(
+      '/it/erogazione/e-service/6dbb7416-8315-4970-a6be-393a03d0a79d/fd09a069-81f8-4cb5-a302-64320e83a033/modifica'
+    )
+  })
+
+  it('should redirect to the provider e-service edit page, on the step 2, on createNewDraft action success', async () => {
+    const descriptorMock = createMockEServiceDescriptorProvider({ state: 'PUBLISHED' })
+    const { result } = renderUseGetEServiceProviderActionsHook(descriptorMock)
+    expect(result.current.actions[2].label).toBe('createNewDraft')
+    act(() => {
+      result.current.actions[2].action()
+    })
+
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
+    })
+
+    await act(() => {
+      waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
+    })
+
+    expect(history.location.pathname).toBe(
+      '/it/erogazione/e-service/4edda5fd-2fed-485c-9ab4-bc7d78a67624/6dbb7416-8315-4970-a6be-393a03d0a79d/modifica'
+    )
+    expect(history.location.state).toStrictEqual({ stepIndexDestination: 1 })
+  })
 })
