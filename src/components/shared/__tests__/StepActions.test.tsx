@@ -25,7 +25,7 @@ vi.mock('react-i18next', () => ({
   }),
 }))
 
-describe("Checks that ActionStep snapshots didn't change", () => {
+describe("Checks that StepActions snapshots didn't change", () => {
   it('renders StepActions with back button', () => {
     const stepActions = render(<WrappedStepActions back={actions.backButton} />)
 

@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`Checks that ActionStep snapshots didn't change > renders StepActions with back button 1`] = `
+exports[`Checks that StepActions snapshots didn't change > renders StepActions with back button 1`] = `
 {
   "asFragment": [Function],
   "baseElement": <body>
@@ -91,7 +91,7 @@ exports[`Checks that ActionStep snapshots didn't change > renders StepActions wi
 }
 `;
 
-exports[`Checks that ActionStep snapshots didn't change > renders StepActions with back link  1`] = `
+exports[`Checks that StepActions snapshots didn't change > renders StepActions with back link  1`] = `
 {
   "asFragment": [Function],
   "baseElement": <body>
@@ -182,7 +182,7 @@ exports[`Checks that ActionStep snapshots didn't change > renders StepActions wi
 }
 `;
 
-exports[`Checks that ActionStep snapshots didn't change > renders StepActions with back link disabled 1`] = `
+exports[`Checks that StepActions snapshots didn't change > renders StepActions with back link disabled 1`] = `
 {
   "asFragment": [Function],
   "baseElement": <body>
@@ -273,7 +273,7 @@ exports[`Checks that ActionStep snapshots didn't change > renders StepActions wi
 }
 `;
 
-exports[`Checks that ActionStep snapshots didn't change > renders StepActions with forward and back button disabled 1`] = `
+exports[`Checks that StepActions snapshots didn't change > renders StepActions with forward and back button disabled 1`] = `
 {
   "asFragment": [Function],
   "baseElement": <body>
@@ -380,7 +380,7 @@ exports[`Checks that ActionStep snapshots didn't change > renders StepActions wi
 }
 `;
 
-exports[`Checks that ActionStep snapshots didn't change > renders StepActions with forward button 1`] = `
+exports[`Checks that StepActions snapshots didn't change > renders StepActions with forward button 1`] = `
 {
   "asFragment": [Function],
   "baseElement": <body>
@@ -471,7 +471,7 @@ exports[`Checks that ActionStep snapshots didn't change > renders StepActions wi
 }
 `;
 
-exports[`Checks that ActionStep snapshots didn't change > renders StepActions with forward submit disabled 1`] = `
+exports[`Checks that StepActions snapshots didn't change > renders StepActions with forward submit disabled 1`] = `
 {
   "asFragment": [Function],
   "baseElement": <body>
