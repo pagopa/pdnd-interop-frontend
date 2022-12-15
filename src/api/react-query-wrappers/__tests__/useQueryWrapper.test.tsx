@@ -78,7 +78,7 @@ describe('useQueryWrapper tests', () => {
     expect(result.current.data).toEqual('success')
   })
 
-  it('Should not show error boundary when 404 error occurs and skipThrowOn404Error option is set to true', async () => {
+  it('Should not show error boundary when 404 error occurs', async () => {
     /** Mocks useJwt returns a truthy value for jwt property */
     useJwtSpy.mockImplementation(() => ({ jwt: true } as unknown as UseJwtReturnT))
     const { rerender } = renderHook(
@@ -94,7 +94,7 @@ describe('useQueryWrapper tests', () => {
     expect(screen.queryByText('Error boundary')).not.toBeInTheDocument()
   })
 
-  it('Should show error boundary skipThrowOn404Error is not set', async () => {
+  it('Should show error boundary', async () => {
     /** Mocks useJwt returns a truthy value for jwt property */
     useJwtSpy.mockImplementation(() => ({ jwt: true } as unknown as UseJwtReturnT))
     const { rerender } = renderHook(() => useQueryWrapper(['TEST'], promiseRejectedMock), {

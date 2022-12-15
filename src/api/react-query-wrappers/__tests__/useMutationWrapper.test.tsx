@@ -52,7 +52,7 @@ const wrapper = ({ children }: { children: React.ReactNode }) => {
 }
 
 describe('useMutationWrapper tests', () => {
-  it('Should show and hide the loading overlay when the loadingLabel property option is set on mutate', async () => {
+  it('Should show and hide the loading overlay on mutate', async () => {
     const { result } = renderHook(
       () =>
         useMutationWrapper(mockMutationServices.success, {
@@ -72,7 +72,7 @@ describe('useMutationWrapper tests', () => {
     await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
   })
 
-  it('Should show and hide the loading overlay when the loadingLabel property option is set on mutateAsync', async () => {
+  it('Should show and hide the loading overlay on mutateAsync', async () => {
     const { result } = renderHook(
       () =>
         useMutationWrapper(mockMutationServices.success, {
@@ -92,7 +92,7 @@ describe('useMutationWrapper tests', () => {
     await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
   })
 
-  it('Should not show loading overlay if suppressLoadingOverlay is set to true', async () => {
+  it('Should not show loading overlay', async () => {
     const { result } = renderHook(
       () =>
         useMutationWrapper(mockMutationServices.success, {
@@ -127,7 +127,7 @@ describe('useMutationWrapper tests', () => {
     screen.debug()
   })
 
-  it('Should not show the success label on mutation success when suppressSuccessToast is set to true', async () => {
+  it('Should not show the success label on mutation success', async () => {
     const { result } = renderHook(
       () =>
         useMutationWrapper(mockMutationServices.success, {
@@ -159,7 +159,7 @@ describe('useMutationWrapper tests', () => {
     expect(await screen.findByRole('alert', { name: 'error' })).toBeInTheDocument()
   })
 
-  it('Should not show the error label on mutation error when suppressErrorToast is set to true', async () => {
+  it('Should not show the error label on mutation error', async () => {
     const { result } = renderHook(
       () =>
         useMutationWrapper(mockMutationServices.error, {
