@@ -4,6 +4,7 @@ import {
   EServiceDescriptorProvider,
   EServiceProvider,
   EServiceRead,
+  EServiceReadType,
 } from '../../types/eservice.types'
 import { createMockFactory } from '../mock.utils'
 
@@ -17,6 +18,42 @@ const createMockEServiceRead = createMockFactory<EServiceRead>({
     verified: [],
     declared: [],
   },
+})
+
+const createMockEServiceReadType = createMockFactory<EServiceReadType>({
+  attributes: {
+    certified: [],
+    declared: [],
+    verified: [],
+  },
+  description: 'lorem ipsum',
+  descriptors: [
+    {
+      agreementApprovalPolicy: 'MANUAL',
+      audience: ['lorem'],
+      dailyCallsPerConsumer: 1,
+      dailyCallsTotal: 1,
+      description: 'lorem ipsum',
+      docs: [],
+      id: 'fd09a069-81f8-4cb5-a302-64320e83a033',
+      interface: {
+        contentType: 'application/octet-stream',
+        id: 'd6d38b0a-ce0a-4960-a498-289c35717bb1',
+        name: 'example_open_api.yml',
+        prettyName: 'Specifica API',
+      },
+      state: 'DRAFT',
+      version: '1',
+      voucherLifespan: 60,
+    },
+  ],
+  id: '6dbb7416-8315-4970-a6be-393a03d0a79d',
+  name: 'Test 3 - clone',
+  producer: {
+    id: '6b16be70-9230-4209-bd1f-7e5ae0eed289',
+    name: '',
+  },
+  technology: 'REST',
 })
 
 const createMockEServiceProvider = createMockFactory<EServiceProvider>({
@@ -115,6 +152,7 @@ export {
   createMockEServiceProvider,
   createMockEServiceCatalog,
   createMockEServiceRead,
+  createMockEServiceReadType,
   createMockEServiceDescriptorCatalog,
   createMockEServiceDescriptorProvider,
 }
