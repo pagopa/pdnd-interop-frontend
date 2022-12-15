@@ -1,7 +1,7 @@
 import { NotFoundError } from '@/utils/errors.utils'
-import { QueryClient } from '@tanstack/react-query'
+import { QueryClientConfig } from '@tanstack/react-query'
 
-export const queryClient = new QueryClient({
+export const queryClientConfig: QueryClientConfig = {
   defaultOptions: {
     queries: {
       suspense: true,
@@ -16,4 +16,4 @@ export const queryClient = new QueryClient({
     },
     mutations: { useErrorBoundary: false },
   },
-})
+}

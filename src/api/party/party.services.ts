@@ -1,5 +1,5 @@
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
-import axiosInstance from '@/lib/axios'
+import axiosInstance from '@/config/axios'
 import { SelfCareUser } from '@/types/party.types'
 import { PartyGetUsersListUrlParams } from './party.api.types'
 

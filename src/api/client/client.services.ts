@@ -1,5 +1,5 @@
 import { AUTHORIZATION_PROCESS_URL, BACKEND_FOR_FRONTEND_URL } from '@/config/env'
-import axiosInstance from '@/lib/axios'
+import axiosInstance from '@/config/axios'
 import { Client } from '@/types/client.types'
 import { PublicKey, PublicKeys } from '@/types/key.types'
 import { SelfCareUser } from '@/types/party.types'

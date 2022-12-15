@@ -2,6 +2,7 @@ import React from 'react'
 import { DialogProps } from '@/types/dialog.types'
 import noop from 'lodash/noop'
 import { createSafeContext } from './utils'
+import { Dialog } from '@/components/dialogs'
 
 type DialogContextType = {
   dialog: DialogProps | null
@@ -31,7 +32,12 @@ const DialogContextProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     [dialog, openDialog, closeDialog]
   )
 
-  return <Provider value={value}>{children}</Provider>
+  return (
+    <Provider value={value}>
+      {children}
+      {dialog && <Dialog {...dialog} />}
+    </Provider>
+  )
 }
 
 export { useContext as useDialog, DialogContextProvider }

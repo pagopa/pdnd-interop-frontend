@@ -1,5 +1,5 @@
 import { AUTHORIZATION_PROCESS_URL, PURPOSE_PROCESS_URL } from '@/config/env'
-import axiosInstance from '@/lib/axios'
+import axiosInstance from '@/config/axios'
 import { Purpose, PurposeVersion } from '@/types/purpose.types'
 import { downloadFile } from '@/utils/common.utils'
 import {

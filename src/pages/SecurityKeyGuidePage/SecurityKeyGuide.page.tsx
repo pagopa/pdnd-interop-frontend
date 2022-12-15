@@ -1,7 +1,7 @@
 import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
-import axiosInstance from '@/lib/axios'
+import axiosInstance from '@/config/axios'
 import { FE_URL } from '@/config/env'
 import { getReplacedAssetsPaths } from '@/utils/guides.utils'
 import { Grid } from '@mui/material'

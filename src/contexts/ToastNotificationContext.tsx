@@ -23,6 +23,7 @@ const { useContext: useToastNotification, Provider } =
 
 const _ToastNotification: React.FC<ToastState> = (toastState) => {
   const { hideToast } = useToastNotification()
+  const id = React.useId()
 
   const handleClose = () => {
     hideToast()
@@ -36,13 +37,18 @@ const _ToastNotification: React.FC<ToastState> = (toastState) => {
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       sx={{ maxWidth: 480 }}
     >
-      <Alert severity={toastState.severity} onClose={handleClose} variant="outlined">
+      <Alert
+        aria-labelledby={id}
+        severity={toastState.severity}
+        onClose={handleClose}
+        variant="outlined"
+      >
         <Trans
           components={{
             strong: <Typography component="span" variant="inherit" fontWeight={600} />,
           }}
         >
-          {toastState.message}
+          <span id={id}>{toastState.message}</span>
         </Trans>
       </Alert>
     </Snackbar>
