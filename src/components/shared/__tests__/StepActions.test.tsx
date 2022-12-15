@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import React from 'react'
 import { render } from '@testing-library/react'
 import { BackAction, ForwardAction, StepActions } from '@/components/shared/StepActions'
@@ -6,10 +5,10 @@ import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 
 const actions: Record<string, BackAction | ForwardAction> = {
-  backButton: { label: 'label', type: 'button', onClick: () => {} },
+  backButton: { label: 'label', type: 'button', onClick: vi.fn() },
   backLink: { label: 'label', type: 'link', to: 'TOS' },
   backLinkDisabled: { label: 'label', type: 'link', to: 'TOS', disabled: true },
-  forwardButton: { label: 'label', type: 'button', onClick: () => {} },
+  forwardButton: { label: 'label', type: 'button', onClick: vi.fn() },
   forwardSubmitDisabled: { label: 'label', type: 'submit', disabled: true },
 }
 
@@ -20,7 +19,10 @@ const WrappedStepActions = (props: Record<string, BackAction | ForwardAction>) =
 )
 
 vi.mock('react-i18next', () => ({
-  useTranslation: () => ({ t: (key: string) => key }),
+  useTranslation: () => ({
+    i18n: { language: 'it' },
+    t: (key: string) => key,
+  }),
 }))
 
 describe("Checks that ActionStep snapshots didn't change", () => {
