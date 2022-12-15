@@ -123,7 +123,8 @@ describe('useMutationWrapper tests', () => {
     act(() => {
       result.current.mutate()
     })
-    expect(await screen.findByRole('alert')).toBeInTheDocument()
+    expect(await screen.findByRole('alert', { name: 'success' })).toBeInTheDocument()
+    screen.debug()
   })
 
   it('Should not show the success label on mutation success when suppressSuccessToast is set to true', async () => {
@@ -139,7 +140,7 @@ describe('useMutationWrapper tests', () => {
     await act(() => {
       result.current.mutate()
     })
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(screen.queryByRole('alert', { name: 'success' })).not.toBeInTheDocument()
   })
 
   it('Should show the error label on mutation error', async () => {
@@ -155,7 +156,7 @@ describe('useMutationWrapper tests', () => {
     act(() => {
       result.current.mutate()
     })
-    expect(await screen.findByRole('alert')).toBeInTheDocument()
+    expect(await screen.findByRole('alert', { name: 'error' })).toBeInTheDocument()
   })
 
   it('Should not show the error label on mutation error when suppressErrorToast is set to true', async () => {
@@ -171,7 +172,7 @@ describe('useMutationWrapper tests', () => {
     await act(() => {
       result.current.mutate()
     })
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(screen.queryByRole('alert', { name: 'error' })).not.toBeInTheDocument()
   })
 
   it('Should show the confirmation modal on mutate', async () => {
@@ -216,10 +217,6 @@ describe('useMutationWrapper tests', () => {
     })
 
     expect(screen.queryByRole('dialog', { name: 'title' })).not.toBeInTheDocument()
-
-    // fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
-
-    // expect(screen.getByRole('progressbar', { hidden: true })).toBeInTheDocument()
   })
 
   it('Should show the confirmation modal on mutateAsync', async () => {
