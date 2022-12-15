@@ -3,7 +3,6 @@ import { renderHook } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import { Route, Router, Routes } from 'react-router-dom'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { queryClient } from '@/lib/react-query'
 import { createMockEServiceProvider } from '@/__mocks__/data/eservice.mocks'
 import {
   DialogContextProvider,
@@ -11,6 +10,7 @@ import {
   ToastNotificationContextProvider,
 } from '@/contexts'
 import useGetProviderEServiceTableActions from '../useGetProviderEServiceTableActions'
+import { queryClientMock } from '@/__mocks__/query-client.mock'
 
 function renderUseGetProviderEServiceTableActionsHook(
   ...hookParams: Parameters<typeof useGetProviderEServiceTableActions>
@@ -20,7 +20,7 @@ function renderUseGetProviderEServiceTableActionsHook(
   return renderHook(() => useGetProviderEServiceTableActions(...(hookParams ?? [])), {
     wrapper: ({ children }) => (
       <DialogContextProvider>
-        <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClientMock}>
           <LoadingOverlayContextProvider>
             <ToastNotificationContextProvider>
               <Router location={history.location} navigator={history}>
