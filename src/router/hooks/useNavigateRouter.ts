@@ -10,8 +10,7 @@ function useNavigateRouter() {
 
   const buildDynamicUrl = useCallback<GetRouteUrl>(
     (route, ...args) => {
-      const currentLang = currentLanguage
-      const pathname = getLocalizedRoutePathname(route, currentLang).substring(3)
+      const pathname = getLocalizedRoutePathname(route, currentLanguage).substring(3)
       let generatedPath = '#'
 
       if (args[0] && 'params' in args[0]) {
