@@ -143,15 +143,19 @@ export function stringifySearch(searchObj: Record<string, string> | QueryString.
   return qs.stringify(searchObj)
 }
 
+const _getDynamicPathSegmentsFromPath = memoize((path: string) => {
+  return path
+    .split('/')
+    .filter(identity)
+    .filter((subpath) => subpath.startsWith(':'))
+    .map((param) => param.replace(':', ''))
+})
+
 /**
  * Returns an array with all the dynamic path names for a given RouteKey
  * @example
  * "/:foo/test/:bar" => ["foo", "bar"]
  */
-export const getDynamicPathsName = memoize((routeKey: RouteKey) => {
-  return routes[routeKey].PATH.it
-    .split('/')
-    .filter(identity)
-    .filter((subpath) => subpath.startsWith(':'))
-    .map((param) => param.replace(':', ''))
+export const getDynamicPathSegments = memoize((routeKey: RouteKey) => {
+  return _getDynamicPathSegmentsFromPath(routes[routeKey].PATH.it)
 })

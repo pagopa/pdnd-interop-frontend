@@ -1,7 +1,7 @@
 import React from 'react'
 import { Breadcrumbs as _Breadcrumbs, Link as MUILink } from '@mui/material'
 import { useCurrentRoute } from '@/router'
-import { getParentRoutes, getSplittedPath } from '@/router/utils'
+import { getParentRoutes, getSplittedPath } from '@/router/router.utils'
 import { RouteKey } from '@/router/router.types'
 import { Link, useParams } from 'react-router-dom'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'

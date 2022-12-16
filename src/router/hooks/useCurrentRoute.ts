@@ -7,7 +7,7 @@ import {
   getRouteKeyFromPathname,
   isEditPath as _isEditPath,
   isProviderOrConsumerRoute,
-} from '../utils'
+} from '../router.utils'
 import { RouteKey } from '../router.types'
 import React from 'react'
 

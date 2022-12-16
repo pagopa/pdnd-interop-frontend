@@ -20,7 +20,7 @@ import { EServiceQueries } from '@/api/eservice'
 import { Grid } from '@mui/material'
 import { Stepper } from '@/components/shared/Stepper'
 import { EServiceCreateContextProvider } from './components/EServiceCreateContext'
-import { URL_FRAGMENTS } from '@/router/utils'
+import { URL_FRAGMENTS } from '@/router/router.utils'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 
 const ProviderEServiceCreatePage: React.FC = () => {
