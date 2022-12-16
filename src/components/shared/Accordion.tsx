@@ -24,7 +24,6 @@ export function Accordion({ entries }: StyledAccordionProps) {
         <MUIAccordion key={i}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-label={`panel-content-${i}`}
             aria-controls={`panel-content-${i}`}
             id={`panel-header-${i}`}
             sx={{ px: 0 }}

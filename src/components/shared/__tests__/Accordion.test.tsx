@@ -23,16 +23,16 @@ describe("Checks that Accordion snapshot don't change", () => {
 
   it('renders first entry correctly', () => {
     const accordion = render(<Accordion entries={entries} />)
-    const button = screen.queryByRole('button', { name: 'panel-content-0' })
-    fireEvent.click(button!)
+    const buttons = screen.queryAllByRole('button')
+    fireEvent.click(buttons[0])
 
     expect(accordion).toMatchSnapshot()
   })
 
   it('renders second entry correctly', () => {
     const accordion = render(<Accordion entries={entries} />)
-    const button = screen.queryByRole('button', { name: 'panel-content-1' })
-    fireEvent.click(button!)
+    const buttons = screen.queryAllByRole('button')
+    fireEvent.click(buttons[1])
 
     expect(accordion).toMatchSnapshot()
   })
