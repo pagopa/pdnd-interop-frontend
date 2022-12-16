@@ -1,6 +1,6 @@
 import { routes } from '@/router/routes'
 import type { LangCode, ProviderOrConsumer } from '@/types/common.types'
-import type { LocalizedRoute, RouteKey } from '@/router/router.types'
+import type { LocalizedRoute, LocalizedRoutes, RouteKey } from '@/router/router.types'
 import { generatePath, matchPath } from 'react-router-dom'
 import { getKeys } from '@/utils/array.utils'
 import memoize from 'lodash/memoize'
@@ -9,6 +9,7 @@ import sortBy from 'lodash/sortBy'
 import { PUBLIC_URL } from '@/config/env'
 import qs from 'qs'
 import QueryString from 'qs'
+import isEqual from 'lodash/isEqual'
 
 /** Returns the localized path of the given routeKey and language  */
 export function getLocalizedRoutePathname(routeKey: RouteKey, lang: LangCode) {
@@ -159,3 +160,30 @@ const _getDynamicPathSegmentsFromPath = memoize((path: string) => {
 export const getDynamicPathSegments = memoize((routeKey: RouteKey) => {
   return _getDynamicPathSegmentsFromPath(routes[routeKey].PATH.it)
 })
+
+/**
+ * All the dynamic path segments names must be equal for a LocalizedRoute.
+ * ex:
+ *
+ * ```
+ *    "/:foo/route-italiana/:bar" => "/:foo/english-route/:bar" // Okkay
+ *    "/:foo/route-italiana/:bar" => "/:bar/english-route/:baz" // Not okkay
+ * ```
+ *
+ * This function does a runtime check and throws if this requirement is not met for any of the implemented LocalizedRoute.
+ * Optionally accepts a LocalizedRoutes object as argument for testing purposes.
+ */
+export const checkDynamicPathSegmentConsistency = (_routes: LocalizedRoutes = routes) => {
+  getKeys(_routes).forEach((routeKey) => {
+    const paths = Object.values(_routes[routeKey].PATH)
+    const firstSegments = _getDynamicPathSegmentsFromPath(paths[0])
+    const areAllSegmetsEqual = paths.every((path) =>
+      isEqual(_getDynamicPathSegmentsFromPath(path), firstSegments)
+    )
+
+    if (!areAllSegmetsEqual)
+      throw new Error(
+        `All the dynamic path segments for all the localized path (in the PATH property) must be equal. Check the ${routeKey} paths.`
+      )
+  })
+}
