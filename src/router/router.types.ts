@@ -33,7 +33,8 @@ export type Navigate = <T extends RouteKey>(
 ) => void
 
 export type RouteAuthLevel = 'any' | Readonly<Array<UserProductRole>>
-export type RouteConfig = {
+
+export type LocalizedRoute = {
   PATH: Record<LangCode, Readonly<string>>
   LABEL: Record<LangCode, Readonly<string>>
   EXACT?: boolean
@@ -42,4 +43,4 @@ export type RouteConfig = {
   AUTH_LEVELS?: RouteAuthLevel
 }
 
-export type Routes = Record<string, RouteConfig>
+export type LocalizedRoutes = Record<string, LocalizedRoute>

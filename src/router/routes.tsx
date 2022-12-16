@@ -31,11 +31,11 @@ import {
 import { LANGUAGES } from '@/config/constants'
 import { getKeys } from '@/utils/array.utils'
 import RoutesWrapper from './components/RoutesWrapper'
-import { Routes } from './router.types'
+import { LocalizedRoutes } from './router.types'
 import Redirect from './components/Redirect'
 
 // https://stackoverflow.com/a/70067918 waiting for "satisfies" operator in Typescript 4.9
-const makeType = <T extends Routes>(o: T) => o
+const makeType = <T extends LocalizedRoutes>(o: T) => o
 
 const EmptyComponent = () => <></>
 
