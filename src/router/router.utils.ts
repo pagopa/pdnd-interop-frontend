@@ -162,16 +162,27 @@ export const getDynamicPathSegments = memoize((routeKey: RouteKey) => {
 })
 
 /**
- * All the dynamic path segments names must be equal for a LocalizedRoute.
- * ex:
- *
- * ```
- *    "/:foo/route-italiana/:bar" => "/:foo/english-route/:bar" // Okkay
- *    "/:foo/route-italiana/:bar" => "/:bar/english-route/:baz" // Not okkay
- * ```
- *
+ * For each language path in a LocalizedRoute, the dynamic path segments must be equal.
  * This function does a runtime check and throws if this requirement is not met for any of the implemented LocalizedRoute.
  * Optionally accepts a LocalizedRoutes object as argument for testing purposes.
+ *
+ * @example Okkay!
+ *
+ * ```json
+ * {
+ *    "it": "/:foo/route-italiana/:bar",
+ *    "en": "/:foo/english-route/:bar",
+ * }
+ * ```
+ *
+ * @example Not okkay!
+ * ```json
+ * {
+ *    "it": "/:foo/route-italiana/:bar",
+ *    "en": "/:baz/english-route/:foo",
+ * }
+ * ```
+ *
  */
 export const checkDynamicPathSegmentConsistency = (_routes: LocalizedRoutes = routes) => {
   getKeys(_routes).forEach((routeKey) => {
