@@ -1,26 +1,19 @@
 import { NotFoundError } from '@/utils/errors.utils'
-import memoize from 'lodash/memoize'
-import identity from 'lodash/identity'
 import { useParams } from 'react-router-dom'
 import { RouteKey, RouteParams } from '../types'
 import useCurrentRoute from './useCurrentRoute'
-import { routes } from '../routes'
+import { getDynamicPathsName } from '../utils'
 
-const getUrlParams = memoize((routeKey: RouteKey) => {
-  return routes[routeKey].PATH.it
-    .split('/')
-    .filter(identity)
-    .filter((subpath) => subpath.startsWith(':'))
-    .map((param) => param.replace(':', ''))
-})
-
+/**
+ * Wrapper for react-router-dom's useParams that performs a runtime check on the actual route params.
+ */
 function useRouteParams<T extends RouteKey>(): RouteParams<T> {
   const { routeKey } = useCurrentRoute()
   const params = useParams()
 
-  const urlParams = getUrlParams(routeKey)
+  const dynamicPathNames = getDynamicPathsName(routeKey)
 
-  if (!urlParams.every((urlParam) => urlParam in params)) {
+  if (!dynamicPathNames.every((dynamicPathName) => dynamicPathName in params)) {
     throw new NotFoundError()
   }
 

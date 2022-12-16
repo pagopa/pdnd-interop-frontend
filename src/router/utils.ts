@@ -142,3 +142,16 @@ export function parseSearch(search: string) {
 export function stringifySearch(searchObj: Record<string, string> | QueryString.ParsedQs) {
   return qs.stringify(searchObj)
 }
+
+/**
+ * Returns an array with all the dynamic path names for a given RouteKey
+ * @example
+ * "/:foo/test/:bar" => ["foo", "bar"]
+ */
+export const getDynamicPathsName = memoize((routeKey: RouteKey) => {
+  return routes[routeKey].PATH.it
+    .split('/')
+    .filter(identity)
+    .filter((subpath) => subpath.startsWith(':'))
+    .map((param) => param.replace(':', ''))
+})
