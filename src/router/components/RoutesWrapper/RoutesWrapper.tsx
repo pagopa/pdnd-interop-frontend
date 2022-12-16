@@ -5,7 +5,7 @@ import { AuthContextProvider, DialogContextProvider } from '@/contexts'
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import useCurrentRoute from '../../hooks/useCurrentRoute'
-import useDetectLangFromPath from '../../hooks/useDetectLangFromPath'
+import useSyncLangWithRoute from '../../hooks/useSyncLangWithRoute'
 import useScrollTopOnLocationChange from '../../hooks/useScrollTopOnLocationChange'
 import { Box } from '@mui/material'
 import { AuthGuard } from './AuthGuard'
@@ -41,7 +41,7 @@ const OutletWrapper: React.FC = () => {
 }
 
 const RoutesWrapper: React.FC = () => {
-  useDetectLangFromPath()
+  useSyncLangWithRoute()
   useScrollTopOnLocationChange()
 
   return (
