@@ -347,46 +347,53 @@ export const routes = makeType({
   },
 } as const)
 
-const reactRouterDOMRoutes: RouteObject[] = [
-  {
-    path: '/',
-    element: <Redirect to="SUBSCRIBE_CATALOG_LIST" />,
-    children: [
-      ...getKeys(LANGUAGES).map((lang) => ({
-        path: lang,
-        element: <Redirect to="SUBSCRIBE_CATALOG_LIST" />,
-      })),
-    ],
-  },
-  {
-    path: '/*',
-    element: <Redirect to="NOT_FOUND" />,
-  },
-]
+/**
+ * Adapts the custom localized routes object to the react-router-dom RouteObject
+ */
+function mapRoutesToReactRouterDomObject() {
+  const reactRouterDOMRoutes: RouteObject[] = [
+    {
+      path: '/',
+      element: <Redirect to="SUBSCRIBE_CATALOG_LIST" />,
+      children: [
+        ...getKeys(LANGUAGES).map((lang) => ({
+          path: lang,
+          element: <Redirect to="SUBSCRIBE_CATALOG_LIST" />,
+        })),
+      ],
+    },
+    {
+      path: '/*',
+      element: <Redirect to="NOT_FOUND" />,
+    },
+  ]
 
-getKeys(LANGUAGES).forEach((lang) => {
-  const langRoutes = getKeys(routes).reduce((acc, next) => {
-    const accCopy = [...acc]
-    const route = routes[next]
-    let Component = <route.COMPONENT />
+  getKeys(LANGUAGES).forEach((lang) => {
+    const langRoutes = getKeys(routes).reduce((acc, next) => {
+      const accCopy = [...acc]
+      const route = routes[next]
+      let Component = <route.COMPONENT />
 
-    if ('REDIRECT' in route) {
-      Component = <Redirect to={route.REDIRECT} />
-    }
+      if ('REDIRECT' in route) {
+        Component = <Redirect to={route.REDIRECT} />
+      }
 
-    accCopy.push({
-      path: route.PATH[lang],
-      element: Component,
+      accCopy.push({
+        path: route.PATH[lang],
+        element: Component,
+      })
+
+      return accCopy
+    }, [] as Array<RouteObject>)
+
+    reactRouterDOMRoutes.push({
+      path: lang,
+      element: <RoutesWrapper />,
+      children: langRoutes,
     })
-
-    return accCopy
-  }, [] as Array<RouteObject>)
-
-  reactRouterDOMRoutes.push({
-    path: lang,
-    element: <RoutesWrapper />,
-    children: langRoutes,
   })
-})
 
-export const router = createBrowserRouter(reactRouterDOMRoutes, { basename: '/ui' })
+  return reactRouterDOMRoutes
+}
+
+export const router = createBrowserRouter(mapRoutesToReactRouterDomObject(), { basename: '/ui' })
