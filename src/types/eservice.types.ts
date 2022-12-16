@@ -123,7 +123,7 @@ export type EServiceDescriptorCatalog = {
     }
     mail?: {
       address: string
-      description: string
+      description?: string
     }
   }
 }
@@ -158,7 +158,7 @@ export type EServiceDescriptorProvider = {
     }
     mail?: {
       address: string
-      description: string
+      description?: string
     }
   }
 }

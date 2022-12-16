@@ -199,6 +199,9 @@
           "option": "v{{version}}"
         },
         "submitBtn": "Vai alla scheda"
+      },
+      "contacts": {
+        "title": "contatti dell'erogatore"
       }
     }
   },

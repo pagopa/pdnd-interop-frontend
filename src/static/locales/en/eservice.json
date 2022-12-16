@@ -191,7 +191,6 @@
           "description": "Il fruitore deve dichiarare sotto la propria responsabilità di possedere questi attributi; potrebbe già possederne alcuni (o tutti)."
         }
       },
-
       "versionHistory": {
         "title": "Version history",
         "historyField": {
@@ -200,6 +199,9 @@
           "option": "v{{version}}"
         },
         "submitBtn": "Go to page"
+      },
+      "contacts": {
+        "title": "provider's contacts"
       }
     }
   },
