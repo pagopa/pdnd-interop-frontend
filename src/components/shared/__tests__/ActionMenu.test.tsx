@@ -14,8 +14,8 @@ const mockActions: Array<ActionItem> = [
 
 describe("Checks that ActionMenu snapshots don't change", () => {
   it('renders correctly', () => {
-    const inlineClipboard = render(<ActionMenu actions={mockActions} />)
+    const actionMenu = render(<ActionMenu actions={mockActions} />)
 
-    expect(inlineClipboard).toMatchSnapshot()
+    expect(actionMenu).toMatchSnapshot()
   })
 })

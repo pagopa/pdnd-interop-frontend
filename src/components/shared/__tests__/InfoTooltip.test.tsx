@@ -4,8 +4,8 @@ import { InfoTooltip } from '@/components/shared/InfoTooltip'
 
 describe("Checks that InfoTooltip snapshots don't change", () => {
   it('renders correctly', () => {
-    const inlineClipboard = render(<InfoTooltip label={'label'} />)
+    const infoTooltip = render(<InfoTooltip label={'label'} />)
 
-    expect(inlineClipboard).toMatchSnapshot()
+    expect(infoTooltip).toMatchSnapshot()
   })
 })

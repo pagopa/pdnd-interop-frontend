@@ -1,57 +1,39 @@
 // Vitest Snapshot v1
 
-exports[`Checks that ActionMenu snapshots don't change > renders correctly 1`] = `
+exports[`Checks that InfoTooltip snapshots don't change > renders correctly 1`] = `
 {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
-      <button
-        aria-haspopup="true"
-        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-11ghgbe-MuiButtonBase-root-MuiIconButton-root"
-        id="composition-button"
-        tabindex="0"
-        type="button"
-      >
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1bptiuh-MuiSvgIcon-root"
-          data-testid="MoreVertIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-          />
-        </svg>
-        <span
-          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-        />
-      </button>
-    </div>
-  </body>,
-  "container": <div>
-    <button
-      aria-haspopup="true"
-      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-11ghgbe-MuiButtonBase-root-MuiIconButton-root"
-      id="composition-button"
-      tabindex="0"
-      type="button"
-    >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1bptiuh-MuiSvgIcon-root"
-        data-testid="MoreVertIcon"
+        aria-label="label"
+        class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-kpimro-MuiSvgIcon-root"
+        data-mui-internal-clone-element="true"
+        data-testid="InfoIcon"
         focusable="false"
         viewBox="0 0 24 24"
       >
         <path
-          d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
         />
       </svg>
-      <span
-        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+    </div>
+  </body>,
+  "container": <div>
+    <svg
+      aria-hidden="true"
+      aria-label="label"
+      class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-kpimro-MuiSvgIcon-root"
+      data-mui-internal-clone-element="true"
+      data-testid="InfoIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
       />
-    </button>
+    </svg>
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],
