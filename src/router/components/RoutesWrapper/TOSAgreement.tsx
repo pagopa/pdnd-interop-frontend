@@ -1,6 +1,6 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import RouterLink from './RouterLink'
+import RouterLink from '../RouterLink'
 import { TOSAgreement as PagoPATOSAgreement } from '@pagopa/mui-italia'
 
 type TOSAgreementProps = {
