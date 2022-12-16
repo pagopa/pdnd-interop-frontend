@@ -39,7 +39,7 @@ export type LocalizedRoute = {
   LABEL: Record<LangCode, Readonly<string>>
   COMPONENT: React.FC
   PUBLIC: boolean
-  AUTH_LEVELS?: RouteAuthLevel
+  AUTH_LEVELS: RouteAuthLevel
 }
 
 export type LocalizedRoutes = Record<string, LocalizedRoute>
