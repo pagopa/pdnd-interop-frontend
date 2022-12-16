@@ -37,7 +37,6 @@ export type RouteAuthLevel = 'any' | Readonly<Array<UserProductRole>>
 export type LocalizedRoute = {
   PATH: Record<LangCode, Readonly<string>>
   LABEL: Record<LangCode, Readonly<string>>
-  EXACT?: boolean
   COMPONENT: React.FC
   PUBLIC: boolean
   AUTH_LEVELS?: RouteAuthLevel
