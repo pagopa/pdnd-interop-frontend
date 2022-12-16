@@ -33,7 +33,7 @@ import { getKeys } from '@/utils/array.utils'
 import RoutesWrapper from './components/RoutesWrapper'
 import { LocalizedRoutes } from './router.types'
 import Redirect from './components/Redirect'
-import { checkDynamicPathSegmentConsistency } from './router.utils'
+import { checkLocalizedPathsConsistency } from './router.utils'
 
 // https://stackoverflow.com/a/70067918 waiting for "satisfies" operator in Typescript 4.9
 const makeType = <T extends LocalizedRoutes>(o: T) => o
@@ -325,7 +325,7 @@ export const routes = makeType({
  * Adapts the custom localized routes object to the react-router-dom RouteObject
  */
 function mapRoutesToReactRouterDomObject() {
-  checkDynamicPathSegmentConsistency()
+  checkLocalizedPathsConsistency()
 
   const reactRouterDOMRoutes: RouteObject[] = [
     {

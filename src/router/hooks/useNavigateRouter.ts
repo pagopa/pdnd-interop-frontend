@@ -1,5 +1,5 @@
 import { GetRouteUrl, Navigate } from '@/router/router.types'
-import { getLocalizedRoutePathname } from '@/router/router.utils'
+import { getLocalizedPath } from '@/router/router.utils'
 import { useCallback } from 'react'
 import { generatePath, useNavigate } from 'react-router-dom'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
@@ -10,7 +10,7 @@ function useNavigateRouter() {
 
   const buildDynamicUrl = useCallback<GetRouteUrl>(
     (route, ...args) => {
-      const pathname = getLocalizedRoutePathname(route, currentLanguage).substring(3)
+      const pathname = getLocalizedPath(route, currentLanguage).substring(3)
       let generatedPath = '#'
 
       if (args[0] && 'params' in args[0]) {
