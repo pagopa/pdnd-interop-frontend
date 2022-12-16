@@ -1,6 +1,6 @@
 import { routes } from '@/router/routes'
 import type { LangCode, ProviderOrConsumer } from '@/types/common.types'
-import type { RouteConfig, RouteKey } from '@/router/types'
+import type { RouteConfig, RouteKey } from '@/router/router.types'
 import { generatePath, matchPath } from 'react-router-dom'
 import { getKeys } from '@/utils/array.utils'
 import memoize from 'lodash/memoize'

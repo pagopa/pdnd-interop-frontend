@@ -8,7 +8,7 @@ import {
   isEditPath as _isEditPath,
   isProviderOrConsumerRoute,
 } from '../utils'
-import { RouteKey } from '../types'
+import { RouteKey } from '../router.types'
 import React from 'react'
 
 /** Returns the route informations of the current location */

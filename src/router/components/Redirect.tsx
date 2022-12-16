@@ -1,7 +1,7 @@
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import useNavigateRouter from '../hooks/useNavigateRouter'
-import { RouteKey, RouteParams } from '../types'
+import { RouteKey, RouteParams } from '../router.types'
 
 type RedirectProps<T extends RouteKey> = { to?: T } & (RouteParams<T> extends undefined
   ? { params?: undefined }

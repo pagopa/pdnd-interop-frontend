@@ -1,6 +1,6 @@
 import { NotFoundError } from '@/utils/errors.utils'
 import { useParams } from 'react-router-dom'
-import { RouteKey, RouteParams } from '../types'
+import { RouteKey, RouteParams } from '../router.types'
 import useCurrentRoute from './useCurrentRoute'
 import { getDynamicPathsName } from '../utils'
 
