@@ -363,8 +363,8 @@ exports[`Checks that Accordion snapshot don't change > renders first entry corre
           </div>
         </div>
         <div
-          class="MuiCollapse-root MuiCollapse-vertical css-1fkrdiv-MuiCollapse-root"
-          style="min-height: 0px; height: 0px; transition-duration: 0ms;"
+          class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-pwcg7p-MuiCollapse-root"
+          style="min-height: 0px; height: auto; transition-duration: 0ms;"
         >
           <div
             class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
@@ -495,8 +495,8 @@ exports[`Checks that Accordion snapshot don't change > renders first entry corre
         </div>
       </div>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical css-1fkrdiv-MuiCollapse-root"
-        style="min-height: 0px; height: 0px; transition-duration: 0ms;"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-pwcg7p-MuiCollapse-root"
+        style="min-height: 0px; height: auto; transition-duration: 0ms;"
       >
         <div
           class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
@@ -751,8 +751,8 @@ exports[`Checks that Accordion snapshot don't change > renders second entry corr
           </div>
         </div>
         <div
-          class="MuiCollapse-root MuiCollapse-vertical css-1fkrdiv-MuiCollapse-root"
-          style="min-height: 0px; height: 0px; transition-duration: 0ms;"
+          class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-pwcg7p-MuiCollapse-root"
+          style="min-height: 0px; height: auto; transition-duration: 0ms;"
         >
           <div
             class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
@@ -883,8 +883,8 @@ exports[`Checks that Accordion snapshot don't change > renders second entry corr
         </div>
       </div>
       <div
-        class="MuiCollapse-root MuiCollapse-vertical css-1fkrdiv-MuiCollapse-root"
-        style="min-height: 0px; height: 0px; transition-duration: 0ms;"
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-pwcg7p-MuiCollapse-root"
+        style="min-height: 0px; height: auto; transition-duration: 0ms;"
       >
         <div
           class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"

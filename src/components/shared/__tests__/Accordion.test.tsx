@@ -1,5 +1,7 @@
 import React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+
 import { Accordion } from '@/components/shared/Accordion'
 
 const entries = [
@@ -21,18 +23,20 @@ describe("Checks that Accordion snapshot don't change", () => {
     expect(accordion).toMatchSnapshot()
   })
 
-  it('renders first entry correctly', () => {
+  it('renders first entry correctly', async () => {
+    const user = userEvent.setup()
     const accordion = render(<Accordion entries={entries} />)
     const buttons = screen.queryAllByRole('button')
-    fireEvent.click(buttons[0])
+    await user.click(buttons[0])
 
     expect(accordion).toMatchSnapshot()
   })
 
-  it('renders second entry correctly', () => {
+  it('renders second entry correctly', async () => {
+    const user = userEvent.setup()
     const accordion = render(<Accordion entries={entries} />)
     const buttons = screen.queryAllByRole('button')
-    fireEvent.click(buttons[1])
+    await user.click(buttons[1])
 
     expect(accordion).toMatchSnapshot()
   })
