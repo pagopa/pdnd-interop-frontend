@@ -98,17 +98,20 @@ function generateWrapper(options: WrapperOptions & { history: MemoryHistory }) {
   }
 }
 
-export function renderWithApplicationContext(ui: React.ReactElement, options: WrapperOptions) {
-  const history = createMemoryHistory()
+export function renderWithApplicationContext(
+  ui: React.ReactElement,
+  options: WrapperOptions,
+  history: MemoryHistory = createMemoryHistory()
+) {
   const renderResult = render(ui, { wrapper: generateWrapper({ ...options, history }) })
   return { ...renderResult, history }
 }
 
 export function renderHookWithApplicationContext<Props, Result>(
   render: (initialProps: Props) => Result,
-  options: WrapperOptions
+  options: WrapperOptions,
+  history: MemoryHistory = createMemoryHistory()
 ) {
-  const history = createMemoryHistory()
   const renderResult = renderHook(render, { wrapper: generateWrapper({ ...options, history }) })
   return { ...renderResult, history }
 }
