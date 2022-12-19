@@ -1,7 +1,7 @@
 import { EServiceQueries } from '@/api/eservice'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
 import { EServiceDetails, EServiceDetailsSkeleton } from '@/components/shared/EServiceDetails'
-import useGetEServiceProviderActions from '@/hooks/useGetEServiceProviderActions'
+import useGetEServiceProviderActions from './hooks/useGetEServiceProviderActions'
 import { RouterLink, useRouteParams } from '@/router'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { formatTopSideActions } from '@/utils/common.utils'
@@ -19,11 +19,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   const { data: descriptor, isLoading: isLoadingDescriptor } =
     EServiceQueries.useGetDescriptorProvider(eserviceId, descriptorId, { suspense: false })
 
-  const { actions } = useGetEServiceProviderActions({
-    eserviceId,
-    descriptorId,
-    state: descriptor?.state,
-  })
+  const { actions } = useGetEServiceProviderActions(descriptor)
 
   const topSideActions = formatTopSideActions(actions)
 
