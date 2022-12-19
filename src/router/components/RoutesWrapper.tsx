@@ -15,6 +15,7 @@ import { ErrorPage } from '@/pages'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
 import { Box } from '@mui/material'
 import { useJwt } from '@/hooks/useJwt'
+import { useCheckSessionExpired } from '@/hooks/useCheckSessionExpired'
 
 const OutletWrapper: React.FC = () => {
   const { isTOSAccepted, acceptTOS } = useTOSAgreement()
@@ -50,6 +51,7 @@ const OutletWrapper: React.FC = () => {
 
 const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isUserAuthorized } = useCurrentRoute()
+  useCheckSessionExpired()
   const { jwt } = useJwt()
 
   if (jwt && !isUserAuthorized) {
