@@ -10,7 +10,7 @@ import {
 } from '@pagopa/mui-italia'
 import { LANGUAGES, pagoPaLink } from '@/config/constants'
 import { LangCode } from '@/types/common.types'
-import { switchPathLang } from '@/router/utils'
+import { switchPathLang } from '@/router/router.utils'
 import { useJwt } from '@/hooks/useJwt'
 import { useNavigateRouter } from '@/router'
 import { useTranslation } from 'react-i18next'

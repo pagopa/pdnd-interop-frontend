@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 
-function useDetectLangFromPath() {
+function useSyncLangWithRoute() {
   const location = useLocation()
   const { i18n } = useTranslation()
 
@@ -13,4 +13,4 @@ function useDetectLangFromPath() {
   }
 }
 
-export default useDetectLangFromPath
+export default useSyncLangWithRoute

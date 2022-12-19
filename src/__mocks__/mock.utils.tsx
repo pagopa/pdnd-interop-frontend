@@ -9,7 +9,7 @@ import React from 'react'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientMock } from '@/__mocks__/query-client.mock'
 import { createMemoryHistory, MemoryHistory } from 'history'
-import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
+import { ErrorBoundary } from '@/router/components/RoutesWrapper/ErrorBoundary'
 import { Route, Router, Routes } from 'react-router-dom'
 import { render, renderHook } from '@testing-library/react'
 
@@ -52,18 +52,10 @@ type WrapperOptions = (
   | {
       withReactQueryContext: true
     }
-) &
-  (
-    | {
-        withErrorBoundary: true
-        FallbackComponent: React.ComponentType<FallbackProps>
-      }
-    | {
-        withErrorBoundary?: false
-      }
-  ) & {
-    withRouterContext?: boolean
-  }
+) & {
+  withErrorBoundary?: boolean
+  withRouterContext?: boolean
+}
 
 /**
  * Generates a component wrapper that mocks the application context
@@ -99,13 +91,7 @@ function generateWrapper(options: WrapperOptions & { history: MemoryHistory }) {
     }
 
     if (options.withErrorBoundary) {
-      result = (
-        <ErrorBoundary
-          FallbackComponent={options.withErrorBoundary ? options.FallbackComponent : () => <></>}
-        >
-          {result}
-        </ErrorBoundary>
-      )
+      result = <ErrorBoundary>{result}</ErrorBoundary>
     }
 
     return <>{result}</>
