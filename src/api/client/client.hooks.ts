@@ -111,7 +111,6 @@ function useCreate() {
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
     onSuccess(data) {
-      queryClient.invalidateQueries([ClientQueryKeys.GetList])
       queryClient.setQueryData([ClientQueryKeys.GetSingle, data.id], data)
     },
   })
@@ -125,7 +124,6 @@ function useCreateInteropM2M() {
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
     onSuccess(data) {
-      queryClient.invalidateQueries([ClientQueryKeys.GetList])
       queryClient.setQueryData([ClientQueryKeys.GetSingle, data.id], data)
     },
   })
@@ -144,7 +142,6 @@ function useDelete() {
       description: t('confirmDialog.description'),
     },
     onSuccess(_, { clientId }) {
-      queryClient.invalidateQueries([ClientQueryKeys.GetList])
       queryClient.removeQueries([ClientQueryKeys.GetSingle, clientId])
     },
   })
@@ -158,7 +155,6 @@ function usePostKey() {
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
     onSuccess(data, { clientId }) {
-      queryClient.invalidateQueries([ClientQueryKeys.GetKeyList, clientId])
       if (data.length > 0) {
         queryClient.setQueryData([ClientQueryKeys.GetSingleKey, clientId, data[0].key.kid], data[0])
       }
@@ -179,7 +175,6 @@ function useDeleteKey() {
       description: t('confirmDialog.description'),
     },
     onSuccess(_, { clientId, kid }) {
-      queryClient.invalidateQueries([ClientQueryKeys.GetKeyList, clientId])
       queryClient.removeQueries([ClientQueryKeys.GetSingleKey, clientId, kid])
     },
   })
@@ -205,8 +200,6 @@ function useAddOperator(
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
     onSuccess(data, { clientId }) {
-      queryClient.invalidateQueries([ClientQueryKeys.GetList])
-      queryClient.invalidateQueries([ClientQueryKeys.GetOperatorsList, clientId])
       queryClient.setQueryData([ClientQueryKeys.GetSingle, clientId], data)
     },
   })
@@ -214,7 +207,6 @@ function useAddOperator(
 
 function useRemoveOperator() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.removeOperator' })
-  const queryClient = useQueryClient()
   return useMutationWrapper(ClientServices.removeOperator, {
     successToastLabel: t('outcome.success'),
     errorToastLabel: t('outcome.error'),
@@ -223,10 +215,6 @@ function useRemoveOperator() {
     dialogConfig: {
       title: t('confirmDialog.title'),
       description: t('confirmDialog.description'),
-    },
-    onSuccess(_, { clientId }) {
-      queryClient.invalidateQueries([ClientQueryKeys.GetList])
-      queryClient.invalidateQueries([ClientQueryKeys.GetOperatorsList, clientId])
     },
   })
 }

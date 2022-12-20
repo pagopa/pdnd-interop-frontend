@@ -143,31 +143,19 @@ function usePrefetchDescriptorProvider() {
 
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.createDraft' })
-  const queryClient = useQueryClient()
   return useMutationWrapper(EServiceServices.createDraft, {
     suppressSuccessToast: true,
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
-    onSuccess() {
-      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetProviderList])
-    },
   })
 }
 
 function useUpdateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateDraft' })
-  const queryClient = useQueryClient()
   return useMutationWrapper(EServiceServices.updateDraft, {
     suppressSuccessToast: true,
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
-    onSuccess(_, { eserviceId }) {
-      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetProviderList])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetSingle, eserviceId])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetDescriptorProvider, eserviceId])
-    },
   })
 }
 
@@ -186,15 +174,12 @@ function useDeleteDraft() {
     },
     onSuccess(_, { eserviceId }) {
       queryClient.removeQueries([EServiceQueryKeys.GetSingle, eserviceId])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetProviderList])
     },
   })
 }
 
 function useCloneFromVersion() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.cloneFromVersion' })
-  const queryClient = useQueryClient()
 
   return useMutationWrapper(EServiceServices.cloneFromVersion, {
     successToastLabel: t('outcome.success'),
@@ -205,10 +190,6 @@ function useCloneFromVersion() {
       title: t('confirmDialog.title'),
       description: t('confirmDialog.description'),
     },
-    onSuccess() {
-      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetProviderList])
-    },
   })
 }
 
@@ -216,7 +197,6 @@ function useCreateVersionDraft(
   config = { suppressSuccessToast: false, showConfirmationDialog: true }
 ) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.createVersionDraft' })
-  const queryClient = useQueryClient()
   return useMutationWrapper(
     (
       payload: {
@@ -233,10 +213,6 @@ function useCreateVersionDraft(
         title: t('confirmDialog.title'),
         description: t('confirmDialog.description'),
       },
-      onSuccess() {
-        queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
-        queryClient.invalidateQueries([EServiceQueryKeys.GetProviderList])
-      },
     }
   )
 }
@@ -245,7 +221,6 @@ function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.updateVersionDraft',
   })
-  const queryClient = useQueryClient()
   return useMutationWrapper(
     (
       payload: {
@@ -258,14 +233,6 @@ function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
-      onSuccess(_, { eserviceId, descriptorId }) {
-        queryClient.invalidateQueries([
-          EServiceQueryKeys.GetDescriptorProvider,
-          eserviceId,
-          descriptorId,
-        ])
-        queryClient.invalidateQueries([EServiceQueryKeys.GetProviderList])
-      },
     }
   )
 }
@@ -274,7 +241,6 @@ function usePublishVersionDraft() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.publishVersionDraft',
   })
-  const queryClient = useQueryClient()
   return useMutationWrapper(EServiceServices.publishVersionDraft, {
     successToastLabel: t('outcome.success'),
     errorToastLabel: t('outcome.error'),
@@ -284,27 +250,11 @@ function usePublishVersionDraft() {
       title: t('confirmDialog.title'),
       description: t('confirmDialog.description'),
     },
-    onSuccess(_, { eserviceId, descriptorId }) {
-      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetProviderList])
-      queryClient.invalidateQueries([
-        EServiceQueryKeys.GetDescriptorCatalog,
-        eserviceId,
-        descriptorId,
-      ])
-      queryClient.invalidateQueries([
-        EServiceQueryKeys.GetDescriptorProvider,
-        eserviceId,
-        descriptorId,
-      ])
-    },
   })
 }
 
 function useSuspendVersion() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.suspendVersion' })
-  const queryClient = useQueryClient()
   return useMutationWrapper(EServiceServices.suspendVersion, {
     loadingLabel: t('loading'),
     successToastLabel: t('outcome.success'),
@@ -314,27 +264,11 @@ function useSuspendVersion() {
       title: t('confirmDialog.title'),
       description: t('confirmDialog.description'),
     },
-    onSuccess(_, { eserviceId, descriptorId }) {
-      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetProviderList])
-      queryClient.invalidateQueries([
-        EServiceQueryKeys.GetDescriptorCatalog,
-        eserviceId,
-        descriptorId,
-      ])
-      queryClient.invalidateQueries([
-        EServiceQueryKeys.GetDescriptorProvider,
-        eserviceId,
-        descriptorId,
-      ])
-    },
   })
 }
 
 function useReactivateVersion() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.reactivateVersion' })
-  const queryClient = useQueryClient()
   return useMutationWrapper(EServiceServices.reactivateVersion, {
     successToastLabel: t('outcome.success'),
     errorToastLabel: t('outcome.error'),
@@ -344,21 +278,6 @@ function useReactivateVersion() {
       title: t('confirmDialog.title'),
       description: t('confirmDialog.description'),
     },
-    onSuccess(_, { eserviceId, descriptorId }) {
-      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetProviderList])
-      queryClient.invalidateQueries([
-        EServiceQueryKeys.GetDescriptorCatalog,
-        eserviceId,
-        descriptorId,
-      ])
-      queryClient.invalidateQueries([
-        EServiceQueryKeys.GetDescriptorProvider,
-        eserviceId,
-        descriptorId,
-      ])
-    },
   })
 }
 
@@ -366,7 +285,6 @@ function useDeleteVersionDraft() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.deleteVersionDraft',
   })
-  const queryClient = useQueryClient()
   return useMutationWrapper(EServiceServices.deleteVersionDraft, {
     successToastLabel: t('outcome.success'),
     errorToastLabel: t('outcome.error'),
@@ -376,10 +294,6 @@ function useDeleteVersionDraft() {
       title: t('confirmDialog.title'),
       description: t('confirmDialog.description'),
     },
-    onSuccess() {
-      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetProviderList])
-    },
   })
 }
 
@@ -387,18 +301,10 @@ function usePostVersionDraftDocument() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.postVersionDraftDocument',
   })
-  const queryClient = useQueryClient()
   return useMutationWrapper(EServiceServices.postVersionDraftDocument, {
     suppressSuccessToast: true,
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
-    onSuccess(_, { eserviceId, descriptorId }) {
-      queryClient.invalidateQueries([
-        EServiceQueryKeys.GetDescriptorProvider,
-        eserviceId,
-        descriptorId,
-      ])
-    },
   })
 }
 
@@ -406,18 +312,10 @@ function useDeleteVersionDraftDocument() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.deleteVersionDraftDocument',
   })
-  const queryClient = useQueryClient()
   return useMutationWrapper(EServiceServices.deleteVersionDraftDocument, {
     suppressSuccessToast: true,
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
-    onSuccess(_, { eserviceId, descriptorId }) {
-      queryClient.invalidateQueries([
-        EServiceQueryKeys.GetDescriptorProvider,
-        eserviceId,
-        descriptorId,
-      ])
-    },
   })
 }
 
@@ -425,18 +323,10 @@ function useUpdateVersionDraftDocumentDescription() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.updateVersionDraftDocumentDescription',
   })
-  const queryClient = useQueryClient()
   return useMutationWrapper(EServiceServices.updateVersionDraftDocumentDescription, {
     suppressSuccessToast: true,
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
-    onSuccess(_, { eserviceId, descriptorId }) {
-      queryClient.invalidateQueries([
-        EServiceQueryKeys.GetDescriptorProvider,
-        eserviceId,
-        descriptorId,
-      ])
-    },
   })
 }
 
