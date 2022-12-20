@@ -12,7 +12,7 @@ export const queryClientConfig: QueryClientConfig = {
         }
         return failureCount < 2
       },
-      staleTime: 1000 * 60 * 10, // 10 minutes
+      // staleTime: 1000 * 60 * 10, // 10 minutes
     },
     mutations: { useErrorBoundary: false },
   },
