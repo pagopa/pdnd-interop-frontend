@@ -3,6 +3,7 @@ import { useDialog, useLoadingOverlay, useToastNotification } from '@/contexts'
 import { useMutation } from '@tanstack/react-query'
 import { UseMutationWrapper } from '../comon.api.types'
 import { useJwt } from '@/hooks/useJwt'
+import { useQueriesPolling } from '@/contexts/QueriesPollingContext'
 
 /**
  * This abstract and takes care of most of what's needed for the application mutations:
@@ -45,6 +46,7 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
   const { showOverlay, hideOverlay } = useLoadingOverlay()
   const { openDialog, closeDialog } = useDialog()
   const { hasSessionExpired } = useJwt()
+  const { requestPolling } = useQueriesPolling()
 
   /**
    * Wraps the react-query's onError option property. Handles the success toast notification.
@@ -58,6 +60,7 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
 
       showToast(successLabel, 'success')
     }
+    requestPolling()
     options?.onSuccess?.(...args)
   }
 
