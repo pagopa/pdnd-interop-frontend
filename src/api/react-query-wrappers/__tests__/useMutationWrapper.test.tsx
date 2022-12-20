@@ -124,7 +124,6 @@ describe('useMutationWrapper tests', () => {
       result.current.mutate()
     })
     expect(await screen.findByRole('alert', { name: 'success' })).toBeInTheDocument()
-    screen.debug()
   })
 
   it('Should not show the success label on mutation success', async () => {

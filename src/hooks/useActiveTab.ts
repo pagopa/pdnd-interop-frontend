@@ -1,4 +1,4 @@
-import { parseSearch, stringifySearch } from '@/router/utils'
+import { parseSearch, stringifySearch } from '@/router/router.utils'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 

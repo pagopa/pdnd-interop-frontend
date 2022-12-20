@@ -1,6 +1,6 @@
 import { routes } from '@/router/routes'
 import type { LangCode, ProviderOrConsumer } from '@/types/common.types'
-import type { RouteConfig, RouteKey } from '@/router/types'
+import type { LocalizedRoutes, RouteKey } from '@/router/router.types'
 import { generatePath, matchPath } from 'react-router-dom'
 import { getKeys } from '@/utils/array.utils'
 import memoize from 'lodash/memoize'
@@ -9,19 +9,20 @@ import sortBy from 'lodash/sortBy'
 import { PUBLIC_URL } from '@/config/env'
 import qs from 'qs'
 import QueryString from 'qs'
+import isEqual from 'lodash/isEqual'
 
 /** Returns the localized path of the given routeKey and language  */
-export function getLocalizedRoutePathname(routeKey: RouteKey, lang: LangCode) {
+export function getLocalizedPath(routeKey: RouteKey, lang: LangCode) {
   return `${PUBLIC_URL}/${lang}/${routes[routeKey].PATH[lang]}`
 }
 
 /** Checks if the routeKey represent the given pathname */
 function matchRouteKeyPath(pathname: string, lang: LangCode, routeKey: RouteKey) {
-  return matchPath(getLocalizedRoutePathname(routeKey as RouteKey, lang), pathname)
+  return matchPath(getLocalizedPath(routeKey as RouteKey, lang), pathname)
 }
 
 /** Returns the routeKey of the given pathname */
-export const getRouteKeyFromPathname = memoize(function _getRouteKeyFromPathname(
+export const getRouteKeyFromPath = memoize(function _getRouteKeyFromPath(
   pathname: string,
   lang: LangCode
 ) {
@@ -45,7 +46,7 @@ export function switchPathLang(fromLang: LangCode, toLang: LangCode) {
 
     if (match) {
       let newPath = generatePath(
-        getLocalizedRoutePathname(routeKey as RouteKey, toLang),
+        getLocalizedPath(routeKey as RouteKey, toLang),
         match.params as Record<string, string>
       )
 
@@ -68,8 +69,8 @@ export const URL_FRAGMENTS: Record<string, Record<LangCode, string>> = {
   EDIT: { it: 'modifica', en: 'bozza' },
 }
 
-export function getSplittedPath(route: RouteConfig, currentLang: LangCode) {
-  return route.PATH[currentLang].split('/').filter(identity)
+export function getPathSegments(path: string) {
+  return path.split('/').filter(identity)
 }
 
 export const getParentRoutes = memoize((routeKey: RouteKey): Array<RouteKey> => {
@@ -97,13 +98,13 @@ export const getParentRoutes = memoize((routeKey: RouteKey): Array<RouteKey> => 
   }
 
   const route = routes[routeKey]
-  const currentSubpaths = getSplittedPath(route, 'it')
+  const currentSubpaths = getPathSegments(route.PATH.it)
 
   const parents = Object.entries(routes).filter(([_, possibleParentRoute]) =>
-    isParentRoute(getSplittedPath(possibleParentRoute, 'it'), currentSubpaths)
+    isParentRoute(getPathSegments(possibleParentRoute.PATH.it), currentSubpaths)
   )
 
-  const sortedParents = sortBy(parents, ([_, parent]) => getSplittedPath(parent, 'it').length)
+  const sortedParents = sortBy(parents, ([_, parent]) => getPathSegments(parent.PATH.it).length)
 
   return sortedParents.map(([routeKey]) => routeKey) as Array<RouteKey>
 })
@@ -111,7 +112,7 @@ export const getParentRoutes = memoize((routeKey: RouteKey): Array<RouteKey> => 
 export const isProviderOrConsumerRoute = memoize(
   (routeKey: RouteKey): ProviderOrConsumer | null => {
     const excludeList = ['ui', 'it']
-    const subroutes = getSplittedPath(routes[routeKey], 'it').filter(
+    const subroutes = getPathSegments(routes[routeKey].PATH.it).filter(
       (b) => !excludeList.includes(b)
     )
     const [mode] = subroutes
@@ -129,7 +130,7 @@ export const isProviderOrConsumerRoute = memoize(
 )
 
 export const isEditPath = memoize((routeKey: RouteKey): boolean => {
-  const subroutes = getSplittedPath(routes[routeKey], 'it')
+  const subroutes = getPathSegments(routes[routeKey].PATH.it)
 
   const lastBit = subroutes[subroutes.length - 1]
   return Object.values(URL_FRAGMENTS.EDIT).some((f) => lastBit.endsWith(f))
@@ -141,4 +142,63 @@ export function parseSearch(search: string) {
 
 export function stringifySearch(searchObj: Record<string, string> | QueryString.ParsedQs) {
   return qs.stringify(searchObj)
+}
+
+const _getDynamicSegmentsFromPath = memoize((path: string) => {
+  return path
+    .split('/')
+    .filter(identity)
+    .filter((subpath) => subpath.startsWith(':'))
+    .map((param) => param.replace(':', ''))
+})
+
+/**
+ * Returns an array with all the dynamic path names for a given RouteKey
+ * @example
+ * "/:foo/test/:bar" => ["foo", "bar"]
+ */
+export const getDynamicPathSegments = memoize((routeKey: RouteKey) => {
+  return _getDynamicSegmentsFromPath(routes[routeKey].PATH.it)
+})
+
+/**
+ * For each language path in a LocalizedRoute, the dynamic path segments must be equal.
+ * This function does a runtime check and throws if this requirement is not met for any of the implemented LocalizedRoute.
+ * Optionally accepts a LocalizedRoutes object as argument for testing purposes.
+ *
+ * @example Okkay!
+ *
+ * ```json
+ * {
+ *    "it": "/:foo/route-italiana/:bar",
+ *    "en": "/:foo/english-route/:bar",
+ * }
+ * ```
+ *
+ * @example Not okkay!
+ * ```json
+ * {
+ *    "it": "/:foo/route-italiana/:bar",
+ *    "en": "/:baz/english-route/:foo",
+ * }
+ * ```
+ *
+ */
+export const checkLocalizedPathsConsistency = (_routes: LocalizedRoutes = routes) => {
+  getKeys(_routes).forEach((routeKey) => {
+    const paths = Object.values(_routes[routeKey].PATH)
+    const firstPathDynamicSegments = _getDynamicSegmentsFromPath(paths[0])
+    const firstPathSegmentNumber = getPathSegments(paths[0])
+
+    const areLocalizedPathsConsistent = paths.every(
+      (path) =>
+        isEqual(_getDynamicSegmentsFromPath(path), firstPathDynamicSegments) &&
+        isEqual(getPathSegments(path).length, firstPathSegmentNumber.length)
+    )
+
+    if (!areLocalizedPathsConsistent)
+      throw new Error(
+        `All the dynamic path segments for all the localized path (in the PATH property) must be equal. Check the ${routeKey} paths.`
+      )
+  })
 }

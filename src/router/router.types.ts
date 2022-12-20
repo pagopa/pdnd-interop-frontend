@@ -32,14 +32,14 @@ export type Navigate = <T extends RouteKey>(
     : [{ params: RouteParams<T> } & ExtendedNavigateOptions]
 ) => void
 
-export type RouteAuthLevel = 'any' | Readonly<Array<UserProductRole>>
-export type RouteConfig = {
-  PATH: Record<LangCode, Readonly<string>>
-  LABEL: Record<LangCode, Readonly<string>>
-  EXACT?: boolean
+export type RouteAuthLevel = Readonly<Array<UserProductRole>>
+
+export type LocalizedRoute = Readonly<{
+  PATH: Record<LangCode, string>
+  LABEL: Record<LangCode, string>
   COMPONENT: React.FC
   PUBLIC: boolean
-  AUTH_LEVELS?: RouteAuthLevel
-}
+  AUTH_LEVELS: RouteAuthLevel
+}>
 
-export type Routes = Record<string, RouteConfig>
+export type LocalizedRoutes = Readonly<Record<string, LocalizedRoute>>

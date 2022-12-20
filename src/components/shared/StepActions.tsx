@@ -1,6 +1,6 @@
 import React from 'react'
 import { Stack, Button } from '@mui/material'
-import { RouteKey } from '@/router/types'
+import { RouteKey } from '@/router/router.types'
 import { RouterLink } from '@/router'
 
 type ActionButton = {
