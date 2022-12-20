@@ -107,7 +107,7 @@ exports[`Checks that ActionMenu snapshots don't change > renders correctly 1`] =
 }
 `;
 
-exports[`Checks that ActionMenu snapshots don't change > renders correctly 2`] = `
+exports[`Checks that ActionMenu snapshots don't change > renders correctly while opened 1`] = `
 {
   "asFragment": [Function],
   "baseElement": <body
