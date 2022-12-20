@@ -46,28 +46,28 @@ export const routes = makeType({
     LABEL: { it: 'Logout', en: 'Logout' },
     COMPONENT: LogoutPage,
     PUBLIC: true,
-    AUTH_LEVELS: 'any',
+    AUTH_LEVELS: ['admin', 'api', 'security'],
   },
   TOS: {
     PATH: { it: 'termini-di-servizio', en: 'terms-of-service' },
     LABEL: { it: 'Termini di servizio', en: 'Terms of service' },
     COMPONENT: TOSPage,
     PUBLIC: true,
-    AUTH_LEVELS: 'any',
+    AUTH_LEVELS: ['admin', 'api', 'security'],
   },
   SECURITY_KEY_GUIDE: {
     PATH: { it: 'generazione-chiavi', en: 'generate-keys' },
     LABEL: { it: 'Come caricare le chiavi di sicurezza', en: 'How to upload public keys' },
     COMPONENT: SecurityKeyGuidePage,
     PUBLIC: false,
-    AUTH_LEVELS: 'any',
+    AUTH_LEVELS: ['admin', 'api', 'security'],
   },
   NOTIFICATION: {
     PATH: { it: 'notifiche', en: 'notifications' },
     LABEL: { it: 'Notifiche', en: 'Notifications' },
     COMPONENT: NotificationsPage,
     PUBLIC: false,
-    AUTH_LEVELS: 'any',
+    AUTH_LEVELS: ['admin', 'api', 'security'],
   },
   PROVIDE_ESERVICE_CREATE: {
     PATH: { it: 'erogazione/e-service/crea', en: 'provider/e-service/create' },
@@ -136,14 +136,14 @@ export const routes = makeType({
     LABEL: { it: 'Visualizza e-service', en: 'View e-service' },
     COMPONENT: ConsumerEServiceDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: 'any',
+    AUTH_LEVELS: ['admin', 'api', 'security'],
   },
   SUBSCRIBE_CATALOG_LIST: {
     PATH: { it: 'fruizione/catalogo-e-service', en: 'subscriber/e-service-catalog' },
     LABEL: { it: 'Catalogo e-service', en: 'E-service catalog' },
     COMPONENT: ConsumerEServiceCatalogPage,
     PUBLIC: false,
-    AUTH_LEVELS: 'any',
+    AUTH_LEVELS: ['admin', 'api', 'security'],
   },
   SUBSCRIBE_PURPOSE_CREATE: {
     PATH: { it: 'fruizione/finalita/crea', en: 'subscriber/purpose/create' },
@@ -317,7 +317,7 @@ export const routes = makeType({
     LABEL: { it: 'Pagina non trovata', en: 'Page not found' },
     COMPONENT: NotFoundPage,
     PUBLIC: true,
-    AUTH_LEVELS: 'any',
+    AUTH_LEVELS: ['admin', 'api', 'security'],
   },
 } as const)
 

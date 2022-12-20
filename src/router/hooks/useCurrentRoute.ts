@@ -19,9 +19,9 @@ function useCurrentRoute() {
 
   const routeKey = getRouteKeyFromPath(location.pathname, currentLanguage)
   const route = routes[routeKey]
-  const hasOverlappingRole =
-    route.AUTH_LEVELS === 'any' ||
-    currentRoles.some((role) => route.AUTH_LEVELS.includes(role as typeof route.AUTH_LEVELS[0]))
+  const hasOverlappingRole = currentRoles.some((role) =>
+    route.AUTH_LEVELS.includes(role as typeof route.AUTH_LEVELS[0])
+  )
   const isPublic = route.PUBLIC
   const isUserAuthorized = isPublic || hasOverlappingRole
   const mode = isProviderOrConsumerRoute(routeKey)
