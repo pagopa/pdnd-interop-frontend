@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDialog, useLoadingOverlay, useToastNotification } from '@/contexts'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { UseMutationWrapper } from '../comon.api.types'
 import { useJwt } from '@/hooks/useJwt'
 import { useQueriesPolling } from '@/contexts/QueriesPollingContext'
@@ -47,9 +47,10 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
   const { openDialog, closeDialog } = useDialog()
   const { hasSessionExpired } = useJwt()
   const { requestPolling } = useQueriesPolling()
+  const queryClient = useQueryClient()
 
   /**
-   * Wraps the react-query's onError option property. Handles the success toast notification.
+   * Wraps the react-query's onError option property. Handles the success toast notification and the starts refetch/polling.
    */
   const _wrappedOnSuccess: typeof options.onSuccess = (...args) => {
     if (!options?.suppressSuccessToast && options?.successToastLabel) {
@@ -60,6 +61,7 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
 
       showToast(successLabel, 'success')
     }
+    queryClient.refetchQueries()
     requestPolling()
     options?.onSuccess?.(...args)
   }
