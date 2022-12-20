@@ -53,7 +53,8 @@
     "confirm": "Confirm",
     "createNewDraft": "Create new draft version",
     "saveDraft": "Save draft",
-    "backToCatalog": "Back to catalog"
+    "backToCatalog": "Back to catalog",
+    "editDraft": "Edit draft"
   },
   "table": {
     "headData": {

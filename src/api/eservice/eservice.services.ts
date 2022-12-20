@@ -43,7 +43,7 @@ async function getCatalogList(params: EServiceGetCatalogListUrlParams) {
 
 async function getProviderList(params: EServiceGetProviderListUrlParams) {
   const response = await axiosInstance.get<Paginated<EServiceProvider>>(
-    `${BACKEND_FOR_FRONTEND_URL}/producer/eservices`,
+    `${BACKEND_FOR_FRONTEND_URL}/producers/eservices`,
     { params }
   )
   return response.data
