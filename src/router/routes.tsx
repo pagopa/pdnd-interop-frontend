@@ -324,9 +324,7 @@ export const routes = makeType({
 /**
  * Adapts the custom localized routes object to the react-router-dom RouteObject
  */
-function mapRoutesToReactRouterDomObject() {
-  checkLocalizedPathsConsistency()
-
+export function mapRoutesToReactRouterDomObject() {
   const reactRouterDOMRoutes: RouteObject[] = [
     {
       path: '/',
@@ -372,4 +370,5 @@ function mapRoutesToReactRouterDomObject() {
   return reactRouterDOMRoutes
 }
 
+checkLocalizedPathsConsistency()
 export const router = createBrowserRouter(mapRoutesToReactRouterDomObject(), { basename: '/ui' })
