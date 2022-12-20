@@ -4,10 +4,6 @@ import { Table, TableRow } from '@/components/shared/Table'
 import { Button, Chip } from '@mui/material'
 import { vi } from 'vitest'
 
-vi.mock('react-i18next', () => ({
-  useTranslation: () => ({ t: (key: string) => key }),
-}))
-
 const tableInputs = {
   standard: {
     headLabels: ['c1', 'c2', 'c3', 'c4'],

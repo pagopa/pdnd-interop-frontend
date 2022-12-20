@@ -18,13 +18,6 @@ const WrappedStepActions = (props: Record<string, BackAction | ForwardAction>) =
   </MemoryRouter>
 )
 
-vi.mock('react-i18next', () => ({
-  useTranslation: () => ({
-    i18n: { language: 'it' },
-    t: (key: string) => key,
-  }),
-}))
-
 describe("Checks that StepActions snapshots didn't change", () => {
   it('renders StepActions with back button', () => {
     const stepActions = render(<WrappedStepActions back={actions.backButton} />)
