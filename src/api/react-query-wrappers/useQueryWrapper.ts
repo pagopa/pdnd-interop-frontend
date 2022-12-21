@@ -25,7 +25,7 @@ export const useQueryWrapper: UseQueryWrapper = (key, queryFn, options) => {
       return true
     },
     enabled: !!jwt && (options?.enabled ?? true),
-    refetchInterval: isPollingActive && 1000,
+    refetchInterval: isPollingActive && 500,
     ...options,
   })
 }
