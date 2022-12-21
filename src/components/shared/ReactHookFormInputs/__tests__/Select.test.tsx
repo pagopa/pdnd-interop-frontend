@@ -1,8 +1,9 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+
 import { TestInputWrapper } from '@/components/shared/ReactHookFormInputs/__tests__/test-utils'
 import { Select } from '@/components/shared/ReactHookFormInputs'
-import userEvent from '@testing-library/user-event'
 
 const selectOptions = [
   { label: 'option1', value: 'option1' },
@@ -40,10 +41,14 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     expect(select.baseElement).toHaveTextContent('option3')
 
     const options = select.getAllByRole('option')
-
     await user.click(options[0])
-
     expect(select.container.querySelector('input[name="testText"]')).toHaveValue('option1')
+
+    const buttonAfter = select.getByRole('button')
+    await user.click(buttonAfter)
+    const optionsAfter = select.getAllByRole('option')
+    await user.click(optionsAfter[1])
+    expect(select.container.querySelector('input[name="testText"]')).toHaveValue('option2')
   })
 
   it('should focus on mount ', () => {
