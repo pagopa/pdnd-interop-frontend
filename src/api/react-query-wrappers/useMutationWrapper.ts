@@ -61,7 +61,7 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
 
       showToast(successLabel, 'success')
     }
-    queryClient.refetchQueries()
+    queryClient.refetchQueries({ type: 'active' })
     requestPolling()
     options?.onSuccess?.(...args)
   }
