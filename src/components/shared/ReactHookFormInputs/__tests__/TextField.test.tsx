@@ -29,7 +29,7 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     })
   })
 
-  it('gets the input from the user correctly', async () => {
+  it('should focus on mount', async () => {
     const textField = render(
       <TestInputWrapper>
         <TextField label={'input label'} name={'testText'} focusOnMount={true} />
