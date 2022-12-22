@@ -12,20 +12,35 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
     limit: 15,
   })
 
-  const { data, isFetching } = EServiceQueries.useGetCatalogList(
+  const { data } = EServiceQueries.useGetCatalogList(
     {
       states: ['PUBLISHED'],
       ...params,
     },
     { suspense: false, keepPreviousData: true }
   )
+
   return (
     <PageContainer title={t('title')} description={t('description')}>
-      {isFetching && <EServiceCatalogGridSkeleton />}
-      {!isFetching && <EServiceCatalogGrid eservices={data?.results} />}
+      <EServiceCatalogWrapper params={params} />
       <Pagination {...props} totalPages={getTotalPageCount(data?.pagination.totalCount)} />
     </PageContainer>
   )
+}
+
+const EServiceCatalogWrapper: React.FC<{ params: { limit: number; offset: number } }> = ({
+  params,
+}) => {
+  const { data, isFetching } = EServiceQueries.useGetCatalogList(
+    {
+      states: ['PUBLISHED'],
+      ...params,
+    },
+    { suspense: false }
+  )
+
+  if (!data && isFetching) return <EServiceCatalogGridSkeleton />
+  return <EServiceCatalogGrid eservices={data?.results} />
 }
 
 export default ConsumerEServiceCatalogPage
