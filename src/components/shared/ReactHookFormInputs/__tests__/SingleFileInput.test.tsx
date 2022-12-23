@@ -1,17 +1,11 @@
 import React from 'react'
-import { act, fireEvent, render } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { vi } from 'vitest'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 
 import { TestInputWrapper } from '@/components/shared/ReactHookFormInputs/__tests__/test-utils'
 import { SingleFileInput } from '@/components/shared/ReactHookFormInputs'
 
-const mockFn = vi.fn()
 const singleFileInputProps = {
-  standard: {
-    name: 'testFile',
-    onFileSelected: mockFn,
-  },
+  name: 'testFile',
 }
 
 describe('determine whether the integration between react-hook-form and MUI’s Switch works', () => {
@@ -22,18 +16,40 @@ describe('determine whether the integration between react-hook-form and MUI’s 
   })
 
   it('gets the input from the user correctly', async () => {
-    const user = userEvent.setup()
     const singleFileInput = render(
       <TestInputWrapper>
-        <SingleFileInput {...singleFileInputProps.standard} />
+        <SingleFileInput {...singleFileInputProps} />
       </TestInputWrapper>
     )
 
-    const input = singleFileInput.container.querySelector('input[type="file"]')
-    await act(() => {
-      fireEvent.change(input!, { target: { files: file } })
+    const fileInput = singleFileInput.getByRole('button') as HTMLInputElement
+    expect(fileInput).toBeInTheDocument()
+    await waitFor(() => {
+      fireEvent.change(fileInput, { target: { files: [file] } })
     })
 
-    expect(mockFn).toBeCalled()
+    expect(fileInput.files![0].name).toEqual('testFile.pdf')
+  })
+
+  it('removes the file from the input correctly', async () => {
+    const singleFileInput = render(
+      <TestInputWrapper>
+        <SingleFileInput {...singleFileInputProps} />
+      </TestInputWrapper>
+    )
+
+    const fileInput = singleFileInput.getByRole('button') as HTMLInputElement
+    expect(fileInput).toBeInTheDocument()
+
+    await waitFor(() => {
+      fireEvent.change(fileInput, { target: { files: [file] } })
+    })
+    expect(fileInput.files![0]).not.toEqual(null)
+    expect(fileInput.files![0].name).toEqual('testFile.pdf')
+
+    await waitFor(() => {
+      fireEvent.change(fileInput, { target: { files: [null] } })
+    })
+    expect(fileInput.files![0]).toEqual(null)
   })
 })
