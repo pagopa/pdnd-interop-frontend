@@ -36,10 +36,10 @@ class ExponentialBackoffTimeout {
     while (this.#isActive) {
       if (this.#numRetry > this.#maxRetries) break
       const timeoutMs = this.#getTimeoutMs()
-      logger.log(
-        `Polling active queries...\n\nNum retry: ${
+      logger.info(
+        `Polling active queries...\n\nNum: ${
           this.#numRetry
-        }\nWaiting before refetching ${timeoutMs}ms...`
+        }\nWaiting ${timeoutMs}ms before refetching...`
       )
       await waitFor(timeoutMs)
       if (!this.#isActive) return
