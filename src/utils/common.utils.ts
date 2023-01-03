@@ -1,5 +1,5 @@
 import { TopSideActions } from '@/components/layout/containers/PageContainer'
-import { FE_LOGIN_URL } from '@/config/env'
+import { FE_LOGIN_URL, isDevelopment } from '@/config/env'
 import { ActionItem } from '@/types/common.types'
 import { ButtonProps } from '@mui/material'
 import noop from 'lodash/noop'
@@ -46,5 +46,5 @@ export async function waitFor(ms: number) {
 export const logger = Object.keys(console).reduce((prev, next) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
-  return { ...prev, [next]: import.meta.env.MODE === 'development' ? console[next] : noop }
+  return { ...prev, [next]: isDevelopment ? console[next] : noop }
 }, {}) as Console
