@@ -1,13 +1,12 @@
 import { ExtendedWindow, PagoPAEnvVars } from '@/types/common.types'
+import { logger } from '@/utils/common.utils'
 
 const PAGOPA_ENV = (window as unknown as ExtendedWindow).pagopa_env
 
 export const isDevelopment = !!(import.meta.env.MODE === 'development')
 export const isProduction = !!(import.meta.env.MODE === 'production')
 
-if (!PAGOPA_ENV && import.meta.env.MODE !== 'test') {
-  console.warn('pagopa_env not available.')
-}
+logger.warn('pagopa_env not available.')
 
 const DEV_API_HOST_URL = import.meta.env.REACT_APP_API_HOST
 const DEV_SELFCARE_LOGIN_URL = import.meta.env.REACT_APP_SELFCARE_LOGIN_URL

@@ -2,6 +2,7 @@ import { TopSideActions } from '@/components/layout/containers/PageContainer'
 import { FE_LOGIN_URL } from '@/config/env'
 import { ActionItem } from '@/types/common.types'
 import { ButtonProps } from '@mui/material'
+import noop from 'lodash/noop'
 
 export function goToLoginPage() {
   window.location.assign(FE_LOGIN_URL)
@@ -36,4 +37,11 @@ export function formatTopSideActions(
         actionMenu: actions.slice(1).length > 0 ? actions.slice(1) : undefined,
       }
     : undefined
+}
+
+const isDevelopment = import.meta.env.MODE === 'development'
+export const logger = {
+  log: isDevelopment ? console.log : noop,
+  warn: isDevelopment ? console.warn : noop,
+  error: isDevelopment ? console.error : noop,
 }
