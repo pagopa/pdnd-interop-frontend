@@ -43,9 +43,8 @@ export async function waitFor(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-const isDevelopment = import.meta.env.MODE === 'development'
-export const logger = {
-  log: isDevelopment ? console.log : noop,
-  warn: isDevelopment ? console.warn : noop,
-  error: isDevelopment ? console.error : noop,
-}
+export const logger = Object.keys(console).reduce((prev, next) => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
+  return { ...prev, [next]: import.meta.env.MODE === 'development' ? console[next] : noop }
+}, {}) as Console
