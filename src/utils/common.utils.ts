@@ -39,6 +39,10 @@ export function formatTopSideActions(
     : undefined
 }
 
+export async function waitFor(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
 const isDevelopment = import.meta.env.MODE === 'development'
 export const logger = {
   log: isDevelopment ? console.log : noop,

@@ -1,47 +1,76 @@
 import React from 'react'
 import noop from 'lodash/noop'
 import { createSafeContext } from './utils'
-
-const TIMEOUT_STOP_POLLING_AFTER_SECONDS = 5
+import { useQueryClient } from '@tanstack/react-query'
+import { logger, waitFor } from '@/utils/common.utils'
 
 type QueriesPollingContextType = {
-  isPollingActive: boolean
   requestPolling: () => void
 }
 
 const { useContext: useQueriesPolling, Provider } = createSafeContext<QueriesPollingContextType>(
   'QueriesPollingContext',
-  { isPollingActive: false, requestPolling: noop }
+  { requestPolling: noop }
 )
 
-const QueriesPollingContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isPollingActive, setIsPollingActive] = React.useState(false)
-  const pollingTimeout = React.useRef<NodeJS.Timeout>()
+class ExponentialBackoffTimeout {
+  #action: VoidFunction
+  #maxRetries: number
 
-  React.useEffect(() => {
-    return () => clearTimeout(pollingTimeout.current)
-  }, [])
+  #isActive = true
+  #numRetry = 1
+  #promise: Promise<void> | undefined
+
+  constructor(action: VoidFunction, maxRetries: number) {
+    this.#action = action
+    this.#maxRetries = maxRetries
+
+    this.#promise = this.#start()
+  }
+
+  #getTimeoutMs() {
+    return 2 ** (this.#numRetry + 1) * 100
+  }
+
+  async #start() {
+    while (this.#isActive) {
+      if (this.#numRetry > this.#maxRetries) break
+      const timeoutMs = this.#getTimeoutMs()
+      logger.log(
+        `Polling active queries...\n\nNum retry: ${
+          this.#numRetry
+        }\nWaiting before refetching ${timeoutMs}ms...`
+      )
+      await waitFor(timeoutMs)
+      if (!this.#isActive) return
+      this.#numRetry += 1
+      this.#action()
+    }
+  }
+
+  cancel() {
+    this.#isActive = false
+  }
+}
+
+const QueriesPollingContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const timeoutRef = React.useRef<ExponentialBackoffTimeout>()
+  const queryClient = useQueryClient()
+
+  const _refetchActiveQueries = React.useCallback(() => {
+    queryClient.refetchQueries({ type: 'active' })
+  }, [queryClient])
 
   const _startPolling = React.useCallback(() => {
-    setIsPollingActive(true)
-  }, [])
-
-  const _stopPolling = React.useCallback(() => {
-    setIsPollingActive(false)
-  }, [])
+    timeoutRef.current = new ExponentialBackoffTimeout(_refetchActiveQueries, 8)
+  }, [_refetchActiveQueries])
 
   const requestPolling = React.useCallback(() => {
-    clearTimeout(pollingTimeout.current)
-
+    timeoutRef.current?.cancel()
     _startPolling()
+  }, [_startPolling])
 
-    pollingTimeout.current = setTimeout(_stopPolling, TIMEOUT_STOP_POLLING_AFTER_SECONDS * 1000)
-  }, [_startPolling, _stopPolling])
-
-  const value = React.useMemo(
-    () => ({ isPollingActive, requestPolling }),
-    [isPollingActive, requestPolling]
-  )
+  const value = React.useMemo(() => ({ requestPolling }), [requestPolling])
 
   return <Provider value={value}>{children}</Provider>
 }
