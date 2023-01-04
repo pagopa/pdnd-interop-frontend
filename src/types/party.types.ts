@@ -1,3 +1,5 @@
+import { PartyAttributes } from './attribute.types'
+
 export type UserState = 'PENDING' | 'ACTIVE' | 'SUSPENDED'
 export type UserRole = 'MANAGER' | 'DELEGATE' | 'OPERATOR'
 export type UserProductRole = 'admin' | 'security' | 'api'
@@ -10,6 +12,20 @@ type UserContract = {
 export type PartyMail = {
   address: string
   description?: string
+}
+
+export type UserType = {
+  id: string
+  selfcareId?: string
+  externalId: {
+    origin: string
+    value: string
+  }
+  createdAt: string
+  updatedAt: string
+  name: string
+  attributes: PartyAttributes
+  contactMail?: PartyMail
 }
 
 export type UserOnCreate = {

@@ -1,7 +1,7 @@
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
-import { SelfCareUser } from '@/types/party.types'
-import { PartyGetUsersListUrlParams, UserType } from './party.api.types'
+import { SelfCareUser, UserType } from '@/types/party.types'
+import { PartyGetUsersListUrlParams } from './party.api.types'
 
 async function getUser(partyId: string) {
   const response = await axiosInstance.get<UserType>(
