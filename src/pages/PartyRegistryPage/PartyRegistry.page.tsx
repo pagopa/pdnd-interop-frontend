@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { PageContainer } from '@/components/layout/containers'
+import { PageContainer, PageContainerSkeleton } from '@/components/layout/containers'
 import { useJwt } from '@/hooks/useJwt'
 import {
   CertifiedPartyAttributesList,
@@ -20,22 +20,26 @@ const PartyRegistryPage: React.FC = () => {
 
   return (
     <PageContainer title={pageTitle}>
-      <Suspense fallback={<PartyContactsSkeleton />}>
+      <Suspense fallback={<PartyRegistryPageSkeleton />}>
         <PartyContacts />
-      </Suspense>
-      <Suspense fallback={<CertifiedPartyAttributesListSkeleton />}>
         <CertifiedPartyAttributesList />
-      </Suspense>
-      <Suspense fallback={<VerifiedPartyAttributesListSkeleton />}>
         <VerifiedPartyAttributesList />
-      </Suspense>
-      <Suspense fallback={<DeclaredPartyAttributesListSkeleton />}>
         <DeclaredPartyAttributesList />
-      </Suspense>
-      <Suspense fallback={<RevokedDeclaredPartyAttributesListSkeleton />}>
         <RevokedDeclaredPartyAttributesList />
       </Suspense>
     </PageContainer>
+  )
+}
+
+const PartyRegistryPageSkeleton: React.FC = () => {
+  return (
+    <PageContainerSkeleton>
+      <PartyContactsSkeleton />
+      <CertifiedPartyAttributesListSkeleton />
+      <VerifiedPartyAttributesListSkeleton />
+      <DeclaredPartyAttributesListSkeleton />
+      <RevokedDeclaredPartyAttributesListSkeleton />
+    </PageContainerSkeleton>
   )
 }
 
