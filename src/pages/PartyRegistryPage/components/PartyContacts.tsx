@@ -7,11 +7,14 @@ import {
 import { useTranslation } from 'react-i18next'
 import { Button, Divider, Grid, Stack } from '@mui/material'
 import { useDialog } from '@/contexts'
+import { PartyQueries } from '@/api/party/party.hooks'
 
 export const PartyContacts: React.FC = () => {
   const { t } = useTranslation('party', { keyPrefix: 'contacts' })
   const { t: tCommon } = useTranslation('common')
   const { openDialog } = useDialog()
+
+  const { data: user } = PartyQueries.useGetActiveUser()
 
   const handleOpenUpdateMailDialog = () => {
     openDialog({ type: 'updatePartyMail' })
@@ -23,10 +26,10 @@ export const PartyContacts: React.FC = () => {
         <SectionContainer title={t('title')} description={t('description')}>
           <Stack spacing={2}>
             <InformationContainer label={t('mailField.label')}>
-              {'mail?.address'}
+              {user?.contactMail?.address ?? 'n/a'}
             </InformationContainer>
             <InformationContainer label={t('descriptionField.label')}>
-              {'mail?.description'}
+              {user?.contactMail?.description ?? 'n/a'}
             </InformationContainer>
             <Divider />
             <Stack alignItems="center">
