@@ -1,3 +1,4 @@
+import { useJwt } from '@/hooks/useJwt'
 import { EServiceDescriptorCatalog, EServiceDescriptorProvider } from '@/types/eservice.types'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +13,21 @@ import {
 
 export enum PartyQueryKeys {
   GetUsersList = 'PartyGetUsersList',
+}
+
+function useGetUser(partyId?: string) {
+  return useQueryWrapper(
+    [PartyQueryKeys.GetUsersList, partyId],
+    () => PartyServices.getUser(partyId!),
+    {
+      enabled: !!partyId,
+    }
+  )
+}
+
+function useGetActiveUser() {
+  const { jwt } = useJwt()
+  return useGetUser(jwt?.organizationId)
 }
 
 function useGetUsersList(
@@ -62,6 +78,8 @@ function useUpdateMail() {
 }
 
 export const PartyQueries = {
+  useGetUser,
+  useGetActiveUser,
   useGetUsersList,
   usePrefetchUsersList,
 }
