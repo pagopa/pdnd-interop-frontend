@@ -18,6 +18,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { TextField } from '../shared/ReactHookFormInputs'
 import { PartyMutations } from '@/api/party/party.hooks'
 import { useJwt } from '@/hooks/useJwt'
+import isEqual from 'lodash/isEqual'
 
 type UpdatePartyMailFormValues = {
   contactEmail: string
@@ -42,9 +43,13 @@ export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ de
     defaultValues: defaultValues ?? { contactEmail: '', description: '' },
   })
 
-  const onSubmit = (values: UpdatePartyMailFormValues) => {
+  const onSubmit = async (values: UpdatePartyMailFormValues) => {
     if (!jwt?.organizationId) return
-    updateMail({ partyId: jwt.organizationId, ...values }).then(closeDialog)
+    // Updates only when description or email changed
+    if (!isEqual(defaultValues, values)) {
+      await updateMail({ partyId: jwt.organizationId, ...values })
+    }
+    closeDialog()
   }
 
   return (

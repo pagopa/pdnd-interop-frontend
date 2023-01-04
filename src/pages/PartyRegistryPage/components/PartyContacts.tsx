@@ -15,9 +15,15 @@ export const PartyContacts: React.FC = () => {
   const { openDialog } = useDialog()
 
   const { data: user } = PartyQueries.useGetActiveUser()
+  const email = user?.contactMail
 
   const handleOpenUpdateMailDialog = () => {
-    openDialog({ type: 'updatePartyMail' })
+    const defaultValues = {
+      contactEmail: email?.address ?? '',
+      description: email?.description ?? '',
+    }
+
+    openDialog({ type: 'updatePartyMail', defaultValues })
   }
 
   return (
@@ -26,10 +32,10 @@ export const PartyContacts: React.FC = () => {
         <SectionContainer title={t('title')} description={t('description')}>
           <Stack spacing={2}>
             <InformationContainer label={t('mailField.label')}>
-              {user?.contactMail?.address ?? 'n/a'}
+              {email?.address ?? 'n/a'}
             </InformationContainer>
             <InformationContainer label={t('descriptionField.label')}>
-              {user?.contactMail?.description ?? 'n/a'}
+              {email?.description ?? 'n/a'}
             </InformationContainer>
             <Divider />
             <Stack alignItems="center">
