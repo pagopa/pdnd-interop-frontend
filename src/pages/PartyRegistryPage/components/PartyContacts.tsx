@@ -32,10 +32,10 @@ export const PartyContacts: React.FC = () => {
         <SectionContainer title={t('title')} description={t('description')}>
           <Stack spacing={2}>
             <InformationContainer label={t('mailField.label')}>
-              {email?.address ?? 'n/a'}
+              {email?.address || 'n/a'}
             </InformationContainer>
             <InformationContainer label={t('descriptionField.label')}>
-              {email?.description ?? 'n/a'}
+              {email?.description || 'n/a'}
             </InformationContainer>
             <Divider />
             <Stack alignItems="center">
