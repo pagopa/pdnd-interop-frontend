@@ -16,6 +16,8 @@ import { object, string } from 'yup'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { TextField } from '../shared/ReactHookFormInputs'
+import { PartyMutations } from '@/api/party/party.hooks'
+import { useJwt } from '@/hooks/useJwt'
 
 type UpdatePartyMailFormValues = {
   contactEmail: string
@@ -26,6 +28,9 @@ export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ de
   const { t } = useTranslation('shared-components', { keyPrefix: 'dialogUpdatePartyMail' })
   const { t: tCommon } = useTranslation('common')
   const { closeDialog } = useDialog()
+  const { jwt } = useJwt()
+
+  const { mutateAsync: updateMail } = PartyMutations.useUpdateMail()
 
   const validationSchema = object({
     contactEmail: string().email().required(),
@@ -38,7 +43,8 @@ export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ de
   })
 
   const onSubmit = (values: UpdatePartyMailFormValues) => {
-    console.log(values)
+    if (!jwt?.organizationId) return
+    updateMail({ partyId: jwt.organizationId, ...values }).then(closeDialog)
   }
 
   return (
