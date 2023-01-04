@@ -1,5 +1,6 @@
 import { useJwt } from '@/hooks/useJwt'
 import { EServiceDescriptorCatalog, EServiceDescriptorProvider } from '@/types/eservice.types'
+import { UserType } from '@/types/party.types'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { EServiceQueryKeys } from '../eservice'
@@ -12,17 +13,14 @@ import {
 } from './party.utils'
 
 export enum PartyQueryKeys {
+  GetUser = 'PartyGetUser',
   GetUsersList = 'PartyGetUsersList',
 }
 
 function useGetUser(partyId?: string) {
-  return useQueryWrapper(
-    [PartyQueryKeys.GetUsersList, partyId],
-    () => PartyServices.getUser(partyId!),
-    {
-      enabled: !!partyId,
-    }
-  )
+  return useQueryWrapper([PartyQueryKeys.GetUser, partyId], () => PartyServices.getUser(partyId!), {
+    enabled: !!partyId,
+  })
 }
 
 function useGetActiveUser() {
@@ -59,6 +57,7 @@ function usePrefetchUsersList() {
 function useUpdateMail() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'party.updateMail' })
   const queryClient = useQueryClient()
+  const { jwt } = useJwt()
 
   return useMutationWrapper(PartyServices.updateMail, {
     successToastLabel: t('outcome.success'),
@@ -73,6 +72,10 @@ function useUpdateMail() {
         [EServiceQueryKeys.GetDescriptorProvider],
         updateDescriptorProviderPartyMailCache.bind(null, { address: contactEmail, description })
       )
+      queryClient.setQueryData<UserType>([PartyQueryKeys.GetUser, jwt?.organizationId], (cache) => {
+        if (!cache) return
+        return { ...cache, contactMail: { address: contactEmail, description } }
+      })
     },
   })
 }
