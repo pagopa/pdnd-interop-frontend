@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { PageContainer, PageContainerSkeleton } from '@/components/layout/containers'
+import { PageContainer } from '@/components/layout/containers'
 import { useJwt } from '@/hooks/useJwt'
 import {
   CertifiedPartyAttributesList,
@@ -18,6 +18,8 @@ const PartyRegistryPage: React.FC = () => {
   const { jwt } = useJwt()
   const pageTitle = jwt?.organization.name ?? ''
 
+  if (!jwt) return <PartyRegistryPageSkeleton />
+
   return (
     <PageContainer title={pageTitle}>
       <Suspense fallback={<PartyRegistryPageSkeleton />}>
@@ -33,13 +35,13 @@ const PartyRegistryPage: React.FC = () => {
 
 const PartyRegistryPageSkeleton: React.FC = () => {
   return (
-    <PageContainerSkeleton>
+    <>
       <PartyContactsSkeleton />
       <CertifiedPartyAttributesListSkeleton />
       <VerifiedPartyAttributesListSkeleton />
       <DeclaredPartyAttributesListSkeleton />
       <RevokedDeclaredPartyAttributesListSkeleton />
-    </PageContainerSkeleton>
+    </>
   )
 }
 

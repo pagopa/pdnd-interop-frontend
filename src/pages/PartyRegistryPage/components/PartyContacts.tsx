@@ -54,7 +54,7 @@ export const PartyContactsSkeleton: React.FC = () => {
   return (
     <Grid container>
       <Grid item xs={7}>
-        <SectionContainerSkeleton />
+        <SectionContainerSkeleton height={261} />
       </Grid>
     </Grid>
   )
