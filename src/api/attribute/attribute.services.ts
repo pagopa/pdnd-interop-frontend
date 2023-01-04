@@ -28,21 +28,21 @@ async function getSingle(attributeId: string) {
 
 async function getPartyCertifiedList(partyId: string) {
   const response = await axiosInstance.get<GetCertifiedAttributesResponse>(
-    `${BACKEND_FOR_FRONTEND_URL}/institutions/${partyId}/attributes/certified`
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/attributes/certified`
   )
   return remapAttributeResponseData(response.data, 'certified')
 }
 
 async function getPartyVerifiedList(partyId: string, verifierId?: string) {
   const response = await axiosInstance.get<GetVerifiedAttributesResponse>(
-    `${BACKEND_FOR_FRONTEND_URL}/institutions/${partyId}/attributes/verified`
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/attributes/verified`
   )
   return remapAttributeResponseData(response.data, 'verified', verifierId)
 }
 
 async function getPartyDeclaredList(partyId: string) {
   const response = await axiosInstance.get<GetDeclaredAttributesResponse>(
-    `${BACKEND_FOR_FRONTEND_URL}/institutions/${partyId}/attributes/declared`
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/attributes/declared`
   )
   return remapAttributeResponseData(response.data, 'declared')
 }
@@ -60,7 +60,7 @@ async function verifyPartyAttribute({
   ...payload
 }: { partyId: string } & VerifyPartyAttributeAttributePayload) {
   return axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/institutions/${partyId}/attributes/verified`,
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/attributes/verified`,
     payload
   )
 }
@@ -73,17 +73,17 @@ async function revokeVerifiedPartyAttribute({
   attributeId: string
 }) {
   return axiosInstance.delete<GetSingleAttributeResponse>(
-    `${BACKEND_FOR_FRONTEND_URL}/institutions/${partyId}/attributes/verified/${attributeId}`
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/attributes/verified/${attributeId}`
   )
 }
 
 async function declarePartyAttribute(payload: { id: string }) {
-  return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/institutions/attributes/declared`, payload)
+  return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/attributes/declared`, payload)
 }
 
 async function revokeDeclaredPartyAttribute({ attributeId }: { attributeId: string }) {
   return axiosInstance.delete<GetSingleAttributeResponse>(
-    `${BACKEND_FOR_FRONTEND_URL}/institutions/attributes/declared/${attributeId}`
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/attributes/declared/${attributeId}`
   )
 }
 

@@ -5,7 +5,7 @@ import { PartyGetUsersListUrlParams } from './party.api.types'
 
 async function getUsersList(partyId: string, params?: PartyGetUsersListUrlParams) {
   const response = await axiosInstance.get<Array<SelfCareUser>>(
-    `${BACKEND_FOR_FRONTEND_URL}/institutions/${partyId}/relationships`,
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/relationships`,
     {
       params,
     }
