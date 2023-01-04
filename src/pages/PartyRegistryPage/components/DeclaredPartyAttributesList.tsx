@@ -1,14 +1,14 @@
 import React from 'react'
-import { AttributeMutations, AttributeQueries } from '@/api/attribute'
-import { useJwt } from '@/hooks/useJwt'
+import { AttributeMutations } from '@/api/attribute'
 import { PartyAttributesList, PartyAttributesListSkeleton } from './PartyAttributesList'
 import { useTranslation } from 'react-i18next'
+import { PartyQueries } from '@/api/party/party.hooks'
 
 export const DeclaredPartyAttributesList = () => {
-  const { jwt } = useJwt()
   const { t } = useTranslation('party', { keyPrefix: 'attributes.activeDeclared' })
   const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'declared' })
-  const { data: attributes = [] } = AttributeQueries.useGetPartyDeclaredList(jwt?.organizationId)
+  const { data } = PartyQueries.useGetActiveUser()
+  const declaredAttributes = data?.attributes.declared ?? []
   const { mutate: revokeDeclaredAttribute } = AttributeMutations.useRevokeDeclaredPartyAttribute()
 
   const handleRevokeDeclaredAttribute = (attributeId: string) => {
@@ -22,7 +22,7 @@ export const DeclaredPartyAttributesList = () => {
     },
   ]
 
-  const activeAttributes = attributes.filter((attribute) => attribute.state === 'ACTIVE')
+  const activeAttributes = declaredAttributes.filter((attribute) => attribute.state === 'ACTIVE')
 
   return (
     <PartyAttributesList
