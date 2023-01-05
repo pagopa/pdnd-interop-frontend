@@ -16,7 +16,7 @@ describe('determine whether business logic to check for user authorizazion works
     spyUseJwt = vi.spyOn(useJwt, 'useJwt')
   })
 
-  it('should not throw if user is authorized', async () => {
+  it('should not throw if user is authorized', () => {
     spyUseCurrentRoute.mockImplementation(() => mockUseCurrentRoute())
     spyUseJwt.mockImplementation(() => mockUseJwt())
     const authGuard = renderWithApplicationContext(<AuthGuard>test</AuthGuard>, {
@@ -26,7 +26,7 @@ describe('determine whether business logic to check for user authorizazion works
     expect(authGuard.container).toHaveTextContent('test')
   })
 
-  it('should not throw if jwt is not in session yet', async () => {
+  it('should not throw if jwt is not in session yet', () => {
     spyUseCurrentRoute.mockImplementation(() => mockUseCurrentRoute())
     spyUseJwt.mockImplementation(() => mockUseJwt({ jwt: undefined }))
     const authGuard = renderWithApplicationContext(<AuthGuard>test</AuthGuard>, {
@@ -36,7 +36,7 @@ describe('determine whether business logic to check for user authorizazion works
     expect(authGuard.container).toHaveTextContent('test')
   })
 
-  it('should throw if user is not authorized', async () => {
+  it('should throw if user is not authorized', () => {
     spyUseCurrentRoute.mockImplementation(() => mockUseCurrentRoute({ isUserAuthorized: false }))
     spyUseJwt.mockImplementation(() => mockUseJwt())
     let error = undefined
