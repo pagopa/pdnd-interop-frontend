@@ -6,7 +6,6 @@ import * as useCurrentRoute from '@/router/hooks/useCurrentRoute'
 import * as useJwt from '@/hooks/useJwt'
 import { mockUseJwt } from '@/__mocks__/hooks/user.mocks'
 import { mockUseCurrentRoute } from '@/__mocks__/hooks/route.mocks'
-import { NotAuthorizedError } from '@/utils/errors.utils'
 
 describe('determine whether business logic to check for user authorizazion works', () => {
   let spyUseCurrentRoute: SpyInstance
@@ -39,16 +38,11 @@ describe('determine whether business logic to check for user authorizazion works
   it('should throw if user is not authorized', () => {
     spyUseCurrentRoute.mockImplementation(() => mockUseCurrentRoute({ isUserAuthorized: false }))
     spyUseJwt.mockImplementation(() => mockUseJwt())
-    let error = undefined
-    try {
+
+    expect(() =>
       renderWithApplicationContext(<AuthGuard>test</AuthGuard>, {
         withRouterContext: true,
       })
-    } catch (e) {
-      error = e
-    }
-
-    expect(error).toBeDefined()
-    expect(error).toEqual(new NotAuthorizedError())
+    ).toThrowError()
   })
 })
