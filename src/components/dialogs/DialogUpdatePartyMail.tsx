@@ -73,7 +73,7 @@ export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ de
               infoLabel={t('content.descriptionField.infoLabel')}
               inputProps={{ maxLength: 250 }}
             />
-            <Alert sx={{ mt: 2 }} severity="info">
+            <Alert sx={{ mt: 2 }} severity="warning">
               {t('alertLabel')}
             </Alert>
           </DialogContent>
