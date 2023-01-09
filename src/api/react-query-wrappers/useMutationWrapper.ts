@@ -5,11 +5,15 @@ import { UseMutationWrapper } from '../comon.api.types'
 import { useJwt } from '@/hooks/useJwt'
 import { ExponentialBackoffTimeout } from './react-query-wrappers.utils'
 
-let exponentialBackoffTimeout: ExponentialBackoffTimeout | undefined
+/**
+ * Due to the backend's eventual consistency, after each mutation success, all the active queries are polled.
+ * This variable contains the single active instance of the ExponentialBackoffTimeout class that contains the polling logic.
+ * */
+let activeQueriesPolling: ExponentialBackoffTimeout | undefined
 
 /**
- * This abstract and takes care of most of what's needed for the application mutations:
- * toast notifications, loading overlay, confirmation dialog and session expiration checks.
+ * This react-query's useMutation wrapper takes care of most of what's needed for the application mutations:
+ * toast notifications, loading overlay, confirmation dialog, session expiration checks, and query polling.
  *
  * It adds the following options:
  *
@@ -55,8 +59,8 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
       queryClient.refetchQueries({ type: 'active' })
     }
 
-    exponentialBackoffTimeout?.cancel()
-    exponentialBackoffTimeout = new ExponentialBackoffTimeout(refetchActiveQueries, 8)
+    activeQueriesPolling?.cancel()
+    activeQueriesPolling = new ExponentialBackoffTimeout(refetchActiveQueries, 20 * 1000)
   }, [queryClient])
 
   /**
