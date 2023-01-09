@@ -2,15 +2,16 @@ import { logger, waitFor } from '@/utils/common.utils'
 
 export class ExponentialBackoffTimeout {
   #action: VoidFunction
-  #maxRetries: number
+  #maxTimeout: number
 
   #isActive = true
   #numRetry = 1
+  #totalWaitTime = 0
   #_promise: Promise<void> | undefined
 
-  constructor(action: VoidFunction, maxRetries: number) {
+  constructor(action: VoidFunction, maxTimeout: number) {
     this.#action = action
-    this.#maxRetries = maxRetries
+    this.#maxTimeout = maxTimeout
 
     this.#_promise = this.#start()
   }
@@ -21,8 +22,9 @@ export class ExponentialBackoffTimeout {
 
   async #start() {
     this.#action()
-    while (this.#isActive && this.#numRetry <= this.#maxRetries) {
+    while (this.#isActive && this.#totalWaitTime < this.#maxTimeout) {
       const timeoutMs = this.#getTimeoutMs()
+      this.#totalWaitTime += timeoutMs
       logger.info(
         `Polling active queries...\n\nNum: ${
           this.#numRetry
@@ -33,6 +35,7 @@ export class ExponentialBackoffTimeout {
       this.#numRetry += 1
       this.#action()
     }
+    logger.info('Polling ended.')
   }
 
   cancel() {
