@@ -19,13 +19,13 @@ class ExponentialBackoffTimeout {
 
   #isActive = true
   #numRetry = 1
-  #promise: Promise<void> | undefined
+  #_promise: Promise<void> | undefined
 
   constructor(action: VoidFunction, maxRetries: number) {
     this.#action = action
     this.#maxRetries = maxRetries
 
-    this.#promise = this.#start()
+    this.#_promise = this.#start()
   }
 
   #getTimeoutMs() {
@@ -33,8 +33,8 @@ class ExponentialBackoffTimeout {
   }
 
   async #start() {
-    while (this.#isActive) {
-      if (this.#numRetry > this.#maxRetries) break
+    this.#action()
+    while (this.#isActive && this.#numRetry <= this.#maxRetries) {
       const timeoutMs = this.#getTimeoutMs()
       logger.info(
         `Polling active queries...\n\nNum: ${
@@ -49,26 +49,23 @@ class ExponentialBackoffTimeout {
   }
 
   cancel() {
+    logger.info('Polling cancelled.')
     this.#isActive = false
   }
 }
 
 const QueriesPollingContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const timeoutRef = React.useRef<ExponentialBackoffTimeout>()
+  const exponentialBackoffTimeoutRef = React.useRef<ExponentialBackoffTimeout>()
   const queryClient = useQueryClient()
 
-  const _refetchActiveQueries = React.useCallback(() => {
-    queryClient.refetchQueries({ type: 'active' })
-  }, [queryClient])
-
-  const _startPolling = React.useCallback(() => {
-    timeoutRef.current = new ExponentialBackoffTimeout(_refetchActiveQueries, 8)
-  }, [_refetchActiveQueries])
-
   const requestPolling = React.useCallback(() => {
-    timeoutRef.current?.cancel()
-    _startPolling()
-  }, [_startPolling])
+    const refetchActiveQueries = () => {
+      queryClient.refetchQueries({ type: 'active' })
+    }
+
+    exponentialBackoffTimeoutRef.current?.cancel()
+    exponentialBackoffTimeoutRef.current = new ExponentialBackoffTimeout(refetchActiveQueries, 8)
+  }, [queryClient])
 
   const value = React.useMemo(() => ({ requestPolling }), [requestPolling])
 
