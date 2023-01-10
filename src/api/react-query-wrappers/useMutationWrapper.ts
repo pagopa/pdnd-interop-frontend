@@ -64,7 +64,7 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
   }, [queryClient])
 
   /**
-   * Wraps the react-query's onError option property. Handles the success toast notification and the starts refetch/polling.
+   * Wraps the react-query's onSuccess option property. Handles the success toast notification and the starts refetch/polling.
    */
   const _wrappedOnSuccess: typeof options.onSuccess = (...args) => {
     if (!options?.suppressSuccessToast && options?.successToastLabel) {
