@@ -1,8 +1,8 @@
-import { PurposeMutations, PurposeQueries } from '@/api/purpose'
+import React from 'react'
+import { PurposeDownloads, PurposeQueries } from '@/api/purpose'
 import { SectionContainerSkeleton } from '@/components/layout/containers'
 import { DownloadableDocumentsList } from '@/components/shared/DownloadableDocumentsList'
 import { DocumentRead } from '@/types/common.types'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface PurposeDetailsDocumentListSectionProps {
@@ -14,7 +14,7 @@ export const PurposeDetailsDocumentListSection: React.FC<
 > = ({ purposeId }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'view.sections.downloadDocuments' })
   const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
-  const { mutate: downloadRiskAnalysis } = PurposeMutations.useDownloadRiskAnalysis()
+  const downloadRiskAnalysis = PurposeDownloads.useDownloadRiskAnalysis()
 
   if (!purpose) return null
 
@@ -30,12 +30,14 @@ export const PurposeDetailsDocumentListSection: React.FC<
   const handleDownloadDocument = (document: DocumentRead) => {
     if (!purpose.mostRecentVersion) return
     if (document.id === 'riskAnalysis') {
-      downloadRiskAnalysis({
-        purposeId,
-        versionId: purpose.mostRecentVersion.id,
-        documentId: purpose.mostRecentVersion.riskAnalysis.id,
-        filename: document.name,
-      })
+      downloadRiskAnalysis(
+        {
+          purposeId,
+          versionId: purpose.mostRecentVersion.id,
+          documentId: purpose.mostRecentVersion.riskAnalysis.id,
+        },
+        document.name
+      )
     }
   }
 

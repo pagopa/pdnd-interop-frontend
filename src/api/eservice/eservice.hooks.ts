@@ -10,6 +10,7 @@ import {
   EServiceVersionDraftPayload,
 } from './eservice.api.types'
 import { useJwt } from '@/hooks/useJwt'
+import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
 
 export enum EServiceQueryKeys {
   /** @deprecated TO BE REMOVED */
@@ -334,8 +335,7 @@ function useDownloadVersionDocument() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.downloadVersionDraftDocument',
   })
-  return useMutationWrapper(EServiceServices.downloadVersionDraftDocument, {
-    suppressSuccessToast: true,
+  return useDownloadFile(EServiceServices.downloadVersionDraftDocument, {
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
   })
@@ -368,5 +368,8 @@ export const EServiceMutations = {
   usePostVersionDraftDocument,
   useDeleteVersionDraftDocument,
   useUpdateVersionDraftDocumentDescription,
+}
+
+export const EServiceDownloads = {
   useDownloadVersionDocument,
 }

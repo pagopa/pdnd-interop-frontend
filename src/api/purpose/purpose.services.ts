@@ -1,7 +1,6 @@
 import { AUTHORIZATION_PROCESS_URL, PURPOSE_PROCESS_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
 import { Purpose, PurposeVersion } from '@/types/purpose.types'
-import { downloadFile } from '@/utils/common.utils'
 import {
   PurposeCreateDraftPayload,
   PurposeGetListUrlParams,
@@ -88,19 +87,17 @@ async function downloadRiskAnalysis({
   purposeId,
   versionId,
   documentId,
-  filename,
 }: {
   purposeId: string
   versionId: string
   documentId: string
-  filename: string
 }) {
   const response = await axiosInstance.get<string>(
     `${PURPOSE_PROCESS_URL}/purposes/${purposeId}/versions/${versionId}/documents/${documentId}`,
     { responseType: 'arraybuffer' }
   )
 
-  downloadFile(response.data, filename)
+  return response.data
 }
 
 async function suspendVersion({ purposeId, versionId }: { purposeId: string; versionId: string }) {

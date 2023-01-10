@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDialog, useLoadingOverlay, useToastNotification } from '@/contexts'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { UseMutationWrapper } from '../comon.api.types'
+import { UseMutationWrapper } from './react-query-wrappers.types'
 import { useJwt } from '@/hooks/useJwt'
 import { ExponentialBackoffTimeout } from './react-query-wrappers.utils'
 

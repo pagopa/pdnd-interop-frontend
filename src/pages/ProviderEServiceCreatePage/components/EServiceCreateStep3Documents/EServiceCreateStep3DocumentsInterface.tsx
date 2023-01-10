@@ -9,7 +9,8 @@ import { DocumentContainer } from '@/components/layout/containers/DocumentContai
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SingleFileInput, TextField } from '@/components/shared/ReactHookFormInputs'
-import { EServiceMutations } from '@/api/eservice'
+import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
+import { getDownloadDocumentName } from '@/utils/eservice.utils'
 
 type EServiceCreateStep3DocumentsInterfaceFormValues = {
   interfaceDoc: File | null
@@ -19,7 +20,7 @@ type EServiceCreateStep3DocumentsInterfaceFormValues = {
 export function EServiceCreateStep3DocumentsInterface() {
   const { t } = useTranslation('eservice')
   const { descriptor } = useEServiceCreateContext()
-  const { mutate: downloadDocument } = EServiceMutations.useDownloadVersionDocument()
+  const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
   const { mutate: deleteDocument } = EServiceMutations.useDeleteVersionDraftDocument()
   const { mutate: uploadDocument } = EServiceMutations.usePostVersionDraftDocument()
 
@@ -66,11 +67,14 @@ export function EServiceCreateStep3DocumentsInterface() {
 
   const handleDownloadInterface = () => {
     if (!actualInterface || !descriptor) return
-    downloadDocument({
-      eserviceId: descriptor.eservice.id,
-      descriptorId: descriptor.id,
-      document: actualInterface,
-    })
+    downloadDocument(
+      {
+        eserviceId: descriptor.eservice.id,
+        descriptorId: descriptor.id,
+        documentId: actualInterface.id,
+      },
+      getDownloadDocumentName(actualInterface)
+    )
   }
 
   if (actualInterface) {

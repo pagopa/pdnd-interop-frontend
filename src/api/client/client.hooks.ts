@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import ClientServices from './client.services'
 import { ClientGetListUrlParams, ClientGetOperatorsListUrlParams } from './client.api.types'
+import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
 
 export enum ClientQueryKeys {
   GetList = 'ClientGetList',
@@ -182,9 +183,7 @@ function useDeleteKey() {
 
 function useDownloadKey() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.downloadKey' })
-  return useMutationWrapper(ClientServices.downloadKey, {
-    suppressSuccessToast: true,
-    suppressErrorToast: true,
+  return useDownloadFile(ClientServices.downloadKey, {
     loadingLabel: t('loading'),
   })
 }
@@ -238,7 +237,10 @@ export const ClientMutations = {
   useDelete,
   usePostKey,
   useDeleteKey,
-  useDownloadKey,
   useAddOperator,
   useRemoveOperator,
+}
+
+export const ClientDownloads = {
+  useDownloadKey,
 }

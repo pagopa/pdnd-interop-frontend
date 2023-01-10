@@ -19,10 +19,8 @@ import {
   EServiceRead,
   EServiceReadType,
 } from '@/types/eservice.types'
-import { getDownloadDocumentName } from '@/utils/eservice.utils'
-import { downloadFile } from '@/utils/common.utils'
 import { DocumentRead } from '@/types/common.types'
-import { Paginated } from '../comon.api.types'
+import { Paginated } from '../react-query-wrappers/react-query-wrappers.types'
 
 /** @deprecated TO BE REMOVED */
 async function getListFlat(params: EServiceGetListFlatUrlParams) {
@@ -241,18 +239,17 @@ async function updateVersionDraftDocumentDescription({
 async function downloadVersionDraftDocument({
   eserviceId,
   descriptorId,
-  document,
+  documentId,
 }: {
   eserviceId: string
   descriptorId: string
-  document: DocumentRead
+  documentId: string
 }) {
   const response = await axiosInstance.get(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${document.id}`,
+    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}`,
     { responseType: 'arraybuffer' }
   )
-  const filename = getDownloadDocumentName(document)
-  downloadFile(response.data, filename)
+  return response.data
 }
 
 const EServiceServices = {

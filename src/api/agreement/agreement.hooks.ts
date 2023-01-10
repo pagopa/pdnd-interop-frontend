@@ -2,6 +2,7 @@ import { AgreementSummary } from '@/types/agreement.types'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
+import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
 import { GetListAgreementQueryParams } from './agreement.api.types'
 import { updateAgreementsListCache, removeAgreementFromListCache } from './agreement.api.utils'
 import AgreementServices from './agreement.services'
@@ -106,8 +107,7 @@ function useDownloadDocument() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'agreement.downloadDraftDocument',
   })
-  return useMutationWrapper(AgreementServices.downloadDraftDocument, {
-    suppressSuccessToast: true,
+  return useDownloadFile(AgreementServices.downloadDraftDocument, {
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
   })
@@ -222,8 +222,7 @@ function useDownloadContract() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'agreement.downloadContract',
   })
-  return useMutationWrapper(AgreementServices.downloadContract, {
-    suppressSuccessToast: true,
+  return useDownloadFile(AgreementServices.downloadContract, {
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
   })
@@ -239,12 +238,15 @@ export const AgreementMutations = {
   useCreateDraft,
   useSubmitDraft,
   useDeleteDraft,
-  useDownloadDocument,
   useUploadDraftDocument,
   useDeleteDraftDocument,
   useActivate,
   useReject,
   useSuspend,
   useUpgrade,
+}
+
+export const AgreementDownloads = {
+  useDownloadDocument,
   useDownloadContract,
 }

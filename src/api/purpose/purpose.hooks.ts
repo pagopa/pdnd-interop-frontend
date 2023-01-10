@@ -11,6 +11,7 @@ import {
   updatePurposeListCache,
   decoratePurposeWithMostRecentVersion,
 } from './purpose.api.utils'
+import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
 
 export enum PurposeQueryKeys {
   GetList = 'PurposeGetList',
@@ -165,9 +166,8 @@ function useUpdateVersionWaitingForApproval() {
 
 function useDownloadRiskAnalysis() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.downloadRiskAnalysis' })
-  return useMutationWrapper(PurposeServices.downloadRiskAnalysis, {
+  return useDownloadFile(PurposeServices.downloadRiskAnalysis, {
     loadingLabel: t('loading'),
-    suppressSuccessToast: true,
     errorToastLabel: t('outcome.error'),
   })
 }
@@ -264,11 +264,14 @@ export const PurposeMutations = {
   useUpdateVersionDraft,
   useUpdateDailyCalls,
   useUpdateVersionWaitingForApproval,
-  useDownloadRiskAnalysis,
   useSuspendVersion,
   useActivateVersion,
   useArchiveVersion,
   useDeleteVersion,
   useAddClient,
   useRemoveClient,
+}
+
+export const PurposeDownloads = {
+  useDownloadRiskAnalysis,
 }
