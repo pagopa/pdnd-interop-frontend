@@ -53,8 +53,8 @@ export const ClientPublicKeysTableRow: React.FC<ClientPublicKeysTableRowProps> =
             </Tooltip>
           ) : undefined,
         },
-        { label: formatDateString(publicKey.createdAt) },
         { label: `${publicKey.operator.name} ${publicKey.operator.familyName}` },
+        { label: formatDateString(publicKey.createdAt) },
       ]}
     >
       <RouterLink
