@@ -92,22 +92,28 @@ function useGetPurposesActions(purpose?: DecoratedPurpose) {
     action: handleUpdateDailyCalls,
   }
 
-  const hasVersion = Boolean(purpose.mostRecentVersion)
-
   const availableActions: Record<PurposeState, Array<ActionItem>> = {
-    DRAFT: hasVersion ? [activateAction, deleteAction] : [deleteAction],
+    DRAFT: purpose.mostRecentVersion ? [activateAction, deleteAction] : [deleteAction],
     ACTIVE: [suspendAction, updateDailyCallsAction],
     SUSPENDED: [activateAction, archiveAction, updateDailyCallsAction],
     WAITING_FOR_APPROVAL: [
       purpose.versions.length > 1 ? deleteDailyCallsUpdateAction : deleteAction,
-      updateDailyCallsAction,
     ],
     ARCHIVED: [],
   }
 
-  const status = hasVersion && purpose.mostRecentVersion ? purpose.mostRecentVersion.state : 'DRAFT'
+  const status = purpose.mostRecentVersion ? purpose.mostRecentVersion.state : 'DRAFT'
+  const actions = availableActions[status]
 
-  return { actions: availableActions[status] }
+  if (purpose.mostRecentVersion?.state === 'WAITING_FOR_APPROVAL') {
+    if (purpose.mostRecentVersion.id !== purpose.currentVersion?.id) {
+      actions.push(...availableActions[purpose.currentVersion?.state ?? 'DRAFT'])
+    } else {
+      actions.push(updateDailyCallsAction)
+    }
+  }
+
+  return { actions }
 }
 
 export default useGetPurposesActions
