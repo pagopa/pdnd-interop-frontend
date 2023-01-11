@@ -6,6 +6,8 @@ import {
   CertifiedPartyAttributesListSkeleton,
   DeclaredPartyAttributesList,
   DeclaredPartyAttributesListSkeleton,
+  PartyContacts,
+  PartyContactsSkeleton,
   RevokedDeclaredPartyAttributesList,
   RevokedDeclaredPartyAttributesListSkeleton,
   VerifiedPartyAttributesList,
@@ -16,21 +18,30 @@ const PartyRegistryPage: React.FC = () => {
   const { jwt } = useJwt()
   const pageTitle = jwt?.organization.name ?? ''
 
+  if (!jwt) return <PartyRegistryPageSkeleton />
+
   return (
     <PageContainer title={pageTitle}>
-      <Suspense fallback={<CertifiedPartyAttributesListSkeleton />}>
+      <Suspense fallback={<PartyRegistryPageSkeleton />}>
+        <PartyContacts />
         <CertifiedPartyAttributesList />
-      </Suspense>
-      <Suspense fallback={<VerifiedPartyAttributesListSkeleton />}>
         <VerifiedPartyAttributesList />
-      </Suspense>
-      <Suspense fallback={<DeclaredPartyAttributesListSkeleton />}>
         <DeclaredPartyAttributesList />
-      </Suspense>
-      <Suspense fallback={<RevokedDeclaredPartyAttributesListSkeleton />}>
         <RevokedDeclaredPartyAttributesList />
       </Suspense>
     </PageContainer>
+  )
+}
+
+const PartyRegistryPageSkeleton: React.FC = () => {
+  return (
+    <>
+      <PartyContactsSkeleton />
+      <CertifiedPartyAttributesListSkeleton />
+      <VerifiedPartyAttributesListSkeleton />
+      <DeclaredPartyAttributesListSkeleton />
+      <RevokedDeclaredPartyAttributesListSkeleton />
+    </>
   )
 }
 

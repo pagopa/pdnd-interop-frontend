@@ -473,5 +473,14 @@
         "description": "L'operatore sarà rimosso da questo client. Le chiavi che ha caricato per questo client rimarranno comunque utilizzabili, a meno che tu non le rimuova manualmente dalla lista di chiavi per questo client"
       }
     }
+  },
+  "party": {
+    "updateMail": {
+      "loading": "Stiamo aggiornando i contatti",
+      "outcome": {
+        "success": "I contatti sono stati aggiornati correttamente",
+        "error": "Non è stato possibile aggiornare i contatti. Per favore, riprova!"
+      }
+    }
   }
 }

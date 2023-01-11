@@ -472,5 +472,14 @@
         "description": "The operator will be removed from this client. The keys uploaded for this client can still be used to access the e-services the client is related to. You can always remove them manually from the public keys list for this client"
       }
     }
+  },
+  "party": {
+    "updateMail": {
+      "loading": "Updating contacts info",
+      "outcome": {
+        "success": "Contact info updated successfully",
+        "error": "Contact Infos could not be updated. Please, try again!"
+      }
+    }
   }
 }
