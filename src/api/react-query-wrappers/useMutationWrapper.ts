@@ -3,13 +3,13 @@ import { useDialog, useLoadingOverlay, useToastNotification } from '@/contexts'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { UseMutationWrapper } from './react-query-wrappers.types'
 import { useJwt } from '@/hooks/useJwt'
-import { ExponentialBackoffTimeout } from './react-query-wrappers.utils'
+import { setExponentialInterval, clearExponentialInterval } from './react-query-wrappers.utils'
 
 /**
  * Due to the backend's eventual consistency, after each mutation success, all the active queries are polled.
- * This variable contains the single active instance of the ExponentialBackoffTimeout class that contains the polling logic.
+ * This variable contains the instance id of the active exponential interval.
  * */
-let activeQueriesPolling: ExponentialBackoffTimeout | undefined
+let activeQueriesPollingIntervalId: string | undefined
 
 /**
  * This react-query's useMutation wrapper takes care of most of what's needed for the application mutations:
@@ -59,8 +59,8 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
       queryClient.refetchQueries({ type: 'active' })
     }
 
-    activeQueriesPolling?.cancel()
-    activeQueriesPolling = new ExponentialBackoffTimeout(refetchActiveQueries, 20 * 1000)
+    clearExponentialInterval(activeQueriesPollingIntervalId)
+    activeQueriesPollingIntervalId = setExponentialInterval(refetchActiveQueries, 20 * 1000)
   }, [queryClient])
 
   /**

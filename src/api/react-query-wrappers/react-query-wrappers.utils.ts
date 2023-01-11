@@ -1,17 +1,18 @@
-import { logger, waitFor } from '@/utils/common.utils'
+import { waitFor } from '@/utils/common.utils'
+import { v4 as uuidv4 } from 'uuid'
 
-export class ExponentialBackoffTimeout {
+class ExponentialInterval {
   #action: VoidFunction
-  #maxTimeout: number
+  #duration: number
 
   #isActive = true
   #numRetry = 1
   #totalWaitTime = 0
   #_promise: Promise<void> | undefined
 
-  constructor(action: VoidFunction, maxTimeout: number) {
+  constructor(action: VoidFunction, duration: number) {
     this.#action = action
-    this.#maxTimeout = maxTimeout
+    this.#duration = duration
 
     this.#_promise = this.#start()
   }
@@ -22,24 +23,36 @@ export class ExponentialBackoffTimeout {
 
   async #start() {
     this.#action()
-    while (this.#isActive && this.#totalWaitTime < this.#maxTimeout) {
+    while (this.#isActive && this.#totalWaitTime < this.#duration) {
       const timeoutMs = this.#getTimeoutMs()
       this.#totalWaitTime += timeoutMs
-      logger.info(
-        `Polling active queries...\n\nNum: ${
-          this.#numRetry
-        }\nWaiting ${timeoutMs}ms before refetching...`
-      )
       await waitFor(timeoutMs)
       if (!this.#isActive) return
       this.#numRetry += 1
       this.#action()
     }
-    logger.info('Polling ended.')
   }
 
   cancel() {
-    logger.info('Polling cancelled.')
     this.#isActive = false
+  }
+}
+
+const exponentialIntervalInstances = new Map()
+
+export function setExponentialInterval(action: VoidFunction, duration: number) {
+  const instanceId = uuidv4()
+  const newInstance = new ExponentialInterval(action, duration)
+  exponentialIntervalInstances.set(instanceId, newInstance)
+  return instanceId
+}
+
+export function clearExponentialInterval(instanceId: string | undefined) {
+  if (!instanceId) return
+  const instance = exponentialIntervalInstances.get(instanceId)
+
+  if (instance) {
+    instance.cancel()
+    exponentialIntervalInstances.delete(instanceId)
   }
 }

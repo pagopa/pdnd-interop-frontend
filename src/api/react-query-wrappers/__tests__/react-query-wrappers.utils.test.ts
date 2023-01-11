@@ -1,15 +1,15 @@
 import { vitest } from 'vitest'
-import { ExponentialBackoffTimeout } from '../react-query-wrappers.utils'
+import { setExponentialInterval, clearExponentialInterval } from '../react-query-wrappers.utils'
 
 beforeEach(() => {
   vitest.useFakeTimers()
   vitest.spyOn(global, 'setTimeout')
 })
 
-describe('ExponentialBackoffTimeout class tests', () => {
+describe('setExponentialInterval tests', () => {
   it('calls the given function with an exponential interval', async () => {
     const testFn = vitest.fn()
-    const _ = new ExponentialBackoffTimeout(testFn, 20 * 1000)
+    setExponentialInterval(testFn, 20 * 1000)
 
     for (let i = 1; i <= 6; i++) {
       expect(testFn).toBeCalledTimes(i)
@@ -27,8 +27,8 @@ describe('ExponentialBackoffTimeout class tests', () => {
 
   it('successfully cancels', async () => {
     const testFn = vitest.fn()
-    const instance = new ExponentialBackoffTimeout(testFn, 20 * 1000)
-    instance.cancel()
+    const intervalId = setExponentialInterval(testFn, 20 * 1000)
+    clearExponentialInterval(intervalId)
     for (let i = 1; i <= 6; i++) {
       vitest.advanceTimersByTime(2 ** (i + 1) * 100)
       await new Promise(process.nextTick)
