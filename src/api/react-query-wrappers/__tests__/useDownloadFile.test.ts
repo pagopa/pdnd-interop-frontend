@@ -52,7 +52,7 @@ describe('useDownloadFile tests', () => {
     )
 
     act(() => {
-      result.current()
+      result.current([])
     })
 
     screen.getByRole('progressbar', { hidden: true })
@@ -71,7 +71,7 @@ describe('useDownloadFile tests', () => {
     )
 
     act(() => {
-      result.current()
+      result.current([])
     })
 
     await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
