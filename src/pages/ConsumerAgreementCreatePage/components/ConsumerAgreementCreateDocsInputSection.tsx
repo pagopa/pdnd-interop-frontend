@@ -1,6 +1,6 @@
-import { AgreementMutations, AgreementQueries } from '@/api/agreement'
-import { SectionContainer } from '@/components/layout/containers'
 import React from 'react'
+import { AgreementDownloads, AgreementMutations, AgreementQueries } from '@/api/agreement'
+import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { Box, Button, Divider, Stack } from '@mui/material'
@@ -10,6 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { SingleFileInput, TextField } from '@/components/shared/ReactHookFormInputs'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { DocumentRead } from '@/types/common.types'
+import { getDownloadDocumentName } from '@/utils/eservice.utils'
 
 type ConsumerAgreementCreateDocsInputSectionProps = {
   agreementId: string
@@ -33,7 +34,7 @@ export const ConsumerAgreementCreateDocsInputSection: React.FC<
   const [showDocInput, setShowDocInput] = React.useState(false)
   const { mutate: uploadDocument } = AgreementMutations.useUploadDraftDocument()
   const { mutate: deleteDocument } = AgreementMutations.useDeleteDraftDocument()
-  const { mutate: downloadDocument } = AgreementMutations.useDownloadDocument()
+  const downloadDocument = AgreementDownloads.useDownloadDocument()
 
   const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
 
@@ -67,7 +68,7 @@ export const ConsumerAgreementCreateDocsInputSection: React.FC<
   }
 
   const handleDownloadDocument = (doc: DocumentRead) => {
-    downloadDocument({ agreementId, document: doc })
+    downloadDocument({ agreementId, documentId: doc.id }, getDownloadDocumentName(doc))
   }
 
   const docs = agreement?.consumerDocuments ?? []

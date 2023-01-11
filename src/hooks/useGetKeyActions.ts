@@ -1,4 +1,4 @@
-import { ClientMutations } from '@/api/client'
+import { ClientDownloads, ClientMutations } from '@/api/client'
 import { useClientKind } from '@/hooks/useClientKind'
 import { useNavigateRouter } from '@/router'
 import { ActionItem } from '@/types/common.types'
@@ -8,14 +8,14 @@ function useGetKeyActions(clientId: string, kid: string): { actions: Array<Actio
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const clientKind = useClientKind()
   const { navigate } = useNavigateRouter()
-  const { mutate: downloadKey } = ClientMutations.useDownloadKey()
+  const downloadKey = ClientDownloads.useDownloadKey()
   const { mutate: deleteKey } = ClientMutations.useDeleteKey()
 
   const backToOperatorsListRouteKey =
     clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT' : 'SUBSCRIBE_CLIENT_EDIT'
 
   const handleDownloadKey = () => {
-    downloadKey({ clientId, kid })
+    downloadKey({ clientId, kid }, 'public_key.pub')
   }
 
   const handleDeleteKey = () => {

@@ -1,4 +1,4 @@
-import { Paginated } from '../api/comon.api.types'
+import { Paginated } from '../api/react-query-wrappers/react-query-wrappers.types'
 import cloneDeep from 'lodash/cloneDeep'
 import {
   DialogContextProvider,

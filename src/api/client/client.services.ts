@@ -3,7 +3,6 @@ import axiosInstance from '@/config/axios'
 import { Client } from '@/types/client.types'
 import { PublicKey, PublicKeys } from '@/types/key.types'
 import { SelfCareUser } from '@/types/party.types'
-import { downloadFile } from '@/utils/common.utils'
 import {
   ClientCreatePayload,
   ClientGetListUrlParams,
@@ -100,9 +99,7 @@ async function downloadKey({ clientId, kid }: { clientId: string; kid: string })
   const response = await axiosInstance.get<{ key: string }>(
     `${AUTHORIZATION_PROCESS_URL}/clients/${clientId}/encoded/keys/${kid}`
   )
-
-  const decoded = atob(response.data.key)
-  downloadFile(decoded, 'public_key.pub')
+  return atob(response.data.key)
 }
 
 function deleteKey({ clientId, kid }: { clientId: string; kid: string }) {
