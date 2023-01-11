@@ -14,7 +14,7 @@ export type PartyMail = {
   description?: string
 }
 
-export type UserType = {
+export type Party = {
   id: string
   selfcareId?: string
   externalId: {

@@ -14,7 +14,7 @@ export const PartyContacts: React.FC = () => {
   const { t: tCommon } = useTranslation('common')
   const { openDialog } = useDialog()
 
-  const { data: user } = PartyQueries.useGetActiveUser()
+  const { data: user } = PartyQueries.useGetActiveUserParty()
   const email = user?.contactMail
 
   const handleOpenUpdateMailDialog = () => {

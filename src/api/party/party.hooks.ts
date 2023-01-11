@@ -1,31 +1,28 @@
 import { useJwt } from '@/hooks/useJwt'
-import { EServiceDescriptorCatalog, EServiceDescriptorProvider } from '@/types/eservice.types'
-import { UserType } from '@/types/party.types'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { EServiceQueryKeys } from '../eservice'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import { PartyGetUsersListUrlParams } from './party.api.types'
 import PartyServices from './party.services'
-import {
-  updateDescriptorCatalogPartyMailCache,
-  updateDescriptorProviderPartyMailCache,
-} from './party.utils'
 
 export enum PartyQueryKeys {
-  GetUser = 'PartyGetUser',
+  GetSingle = 'PartyGetSingle',
   GetUsersList = 'PartyGetUsersList',
 }
 
-function useGetUser(partyId?: string) {
-  return useQueryWrapper([PartyQueryKeys.GetUser, partyId], () => PartyServices.getUser(partyId!), {
-    enabled: !!partyId,
-  })
+function useGetParty(partyId?: string) {
+  return useQueryWrapper(
+    [PartyQueryKeys.GetSingle, partyId],
+    () => PartyServices.getParty(partyId!),
+    {
+      enabled: !!partyId,
+    }
+  )
 }
 
-function useGetActiveUser() {
+function useGetActiveUserParty() {
   const { jwt } = useJwt()
-  return useGetUser(jwt?.organizationId)
+  return useGetParty(jwt?.organizationId)
 }
 
 function useGetUsersList(
@@ -56,33 +53,16 @@ function usePrefetchUsersList() {
 
 function useUpdateMail() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'party.updateMail' })
-  const queryClient = useQueryClient()
-  const { jwt } = useJwt()
-
   return useMutationWrapper(PartyServices.updateMail, {
     successToastLabel: t('outcome.success'),
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
-    onSuccess(_, { contactEmail, description }) {
-      queryClient.setQueriesData<EServiceDescriptorCatalog>(
-        [EServiceQueryKeys.GetDescriptorCatalog],
-        updateDescriptorCatalogPartyMailCache.bind(null, { address: contactEmail, description })
-      )
-      queryClient.setQueriesData<EServiceDescriptorProvider>(
-        [EServiceQueryKeys.GetDescriptorProvider],
-        updateDescriptorProviderPartyMailCache.bind(null, { address: contactEmail, description })
-      )
-      queryClient.setQueryData<UserType>([PartyQueryKeys.GetUser, jwt?.organizationId], (cache) => {
-        if (!cache) return
-        return { ...cache, contactMail: { address: contactEmail, description } }
-      })
-    },
   })
 }
 
 export const PartyQueries = {
-  useGetUser,
-  useGetActiveUser,
+  useGetParty,
+  useGetActiveUserParty,
   useGetUsersList,
   usePrefetchUsersList,
 }

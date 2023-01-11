@@ -7,7 +7,7 @@ import { PartyQueries } from '@/api/party/party.hooks'
 export const DeclaredPartyAttributesList = () => {
   const { t } = useTranslation('party', { keyPrefix: 'attributes.activeDeclared' })
   const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'declared' })
-  const { data } = PartyQueries.useGetActiveUser()
+  const { data } = PartyQueries.useGetActiveUserParty()
   const declaredAttributes = data?.attributes.declared ?? []
   const { mutate: revokeDeclaredAttribute } = AttributeMutations.useRevokeDeclaredPartyAttribute()
 

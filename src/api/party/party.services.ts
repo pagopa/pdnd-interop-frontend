@@ -1,13 +1,11 @@
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
-import { SelfCareUser, UserType } from '@/types/party.types'
+import { SelfCareUser, Party } from '@/types/party.types'
 import { PartyGetUsersListUrlParams } from './party.api.types'
 import { remapUserResponseData } from './party.utils'
 
-async function getUser(partyId: string) {
-  const response = await axiosInstance.get<UserType>(
-    `${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}`
-  )
+async function getParty(partyId: string) {
+  const response = await axiosInstance.get<Party>(`${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}`)
 
   return remapUserResponseData(response.data)
 }
@@ -35,7 +33,7 @@ function updateMail({
 }
 
 const PartyServices = {
-  getUser,
+  getParty,
   getUsersList,
   updateMail,
 }

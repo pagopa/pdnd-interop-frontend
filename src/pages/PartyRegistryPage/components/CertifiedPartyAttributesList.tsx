@@ -6,7 +6,7 @@ import { PartyQueries } from '@/api/party/party.hooks'
 export const CertifiedPartyAttributesList = () => {
   const { t } = useTranslation('party', { keyPrefix: 'attributes.certified' })
   const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'certified' })
-  const { data } = PartyQueries.useGetActiveUser()
+  const { data } = PartyQueries.useGetActiveUserParty()
 
   const certifiedAttributes = data?.attributes.certified ?? []
 
