@@ -171,14 +171,12 @@
           "label": "Fruition request activation",
           "AUTOMATIC": "Automatic",
           "MANUAL": "Manual"
-        },
-        "doubtsQuestion": "Do you have doubts about the implementation to deliver your e-service?",
-        "doubtsLink": "See the guide"
+        }
       },
-      "voucherVerification": {
-        "title": "Voucher verification",
-        "description": "Devi verificare un voucher ricevuto da un fruitore? Di seguito i link con le istruzioni necessarie",
-        "howLink": "How do I verify a voucher?",
+      "usefulLinks": {
+        "title": "useful links",
+        "manageEServiceGuideLink": "How do I implement and manage an e-service?",
+        "verifyVoucherGuideLink": "How do I verify a voucher?",
         "wellKnownLink": "URL .well-known"
       },
       "attributes": {
