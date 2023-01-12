@@ -137,7 +137,8 @@
       "youAreTheProvider": "You are the provider of this e-service",
       "missingCertifiedAttributes": "Your party is missing at least one of the certified attributes required to subscribe this e-service",
       "alreadySubscribed": "You can't subscribe again as you are already a Subscriber of this e-service",
-      "hasAgreementDraft": "You already have an agreement draft for this e-service"
+      "hasAgreementDraft": "You already have an agreement draft for this e-service",
+      "hasNewVersionDraft": "This e-service has a new version draft. You can edit it <1>here</1>"
     },
     "actions": {
       "backToListLabel": "Back to the e-services",

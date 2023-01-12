@@ -137,7 +137,8 @@
       "youAreTheProvider": "Sei l'erogatore di questo e-service",
       "missingCertifiedAttributes": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
       "alreadySubscribed": "Non puoi iscriverti a questo e-service perché sei già iscritto",
-      "hasAgreementDraft": "Possiedi già una richiesta in bozza per questo e-service"
+      "hasAgreementDraft": "Possiedi già una richiesta in bozza per questo e-service",
+      "hasNewVersionDraft": "Questo e-service ha una nuova versione in bozza. Puoi modificarla <1>qui</1>"
     },
     "actions": {
       "backToListLabel": "Torna agli e-service",
