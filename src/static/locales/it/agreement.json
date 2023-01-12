@@ -10,24 +10,6 @@
       "alertLabel": "È disponibile una nuova versione dell’e-service <1>{{eserviceName}}</1>. Prima di effettuare l’aggiornamento, leggi la guida di seguito",
       "title": "Guida all’aggiornamento",
       "description": "È possibile aggiornare la richiesta di fruizione all’ultima versione dell’e-service <1>{{eserviceName}}</1>. Ecco alcune indicazioni utili",
-      "faq": [
-        {
-          "summary": "Cosa significa aggiornare una richiesta di fruizione?",
-          "details": ""
-        },
-        {
-          "summary": "Cosa succede alle mie finalità attive se aggiorno una richiesta di fruizione?",
-          "details": ""
-        },
-        {
-          "summary": "Cosa devo verificare prima di aggiornare una richiesta di fruizione?",
-          "details": ""
-        },
-        {
-          "summary": "Come faccio a testare le modifiche prima di aggiornare la richiesta di fruizione?",
-          "details": ""
-        }
-      ],
       "upgradeGuideLinkLabel": "Guida all'aggiornamento",
       "eserviceLinkLabel": "Scheda e-service <1>{{eserviceName}}, versione {{version}}</1>",
       "upgradeBtn": "Aggiorna"

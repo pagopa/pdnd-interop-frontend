@@ -2,7 +2,6 @@ import { InformationContainer, SectionContainer } from '@/components/layout/cont
 import { Alert, Box, Button, Divider, Link, Stack } from '@mui/material'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Accordion, AccordionEntry } from '../../Accordion'
 import LaunchIcon from '@mui/icons-material/Launch'
 import LinkIcon from '@mui/icons-material/Link'
 import { useAgreementDetailsContext } from '../AgreementDetailsContext'
@@ -15,8 +14,6 @@ export const AgreementUpgradeGuideSection: React.FC = () => {
   const { agreement, canBeUpgraded } = useAgreementDetailsContext()
   const { mutate: upgradeAgreement } = AgreementMutations.useUpgrade()
   const { navigate } = useNavigateRouter()
-
-  const accordionEntries: Array<AccordionEntry> = t('faq', { returnObjects: true })
 
   const handleUpgrade = async () => {
     if (!agreement?.id) return
@@ -51,9 +48,6 @@ export const AgreementUpgradeGuideSection: React.FC = () => {
         }
       >
         <Stack spacing={2}>
-          <InformationContainer label="FAQ">
-            <Accordion entries={accordionEntries} />
-          </InformationContainer>
           <InformationContainer label="Link utili">
             <Stack spacing={1}>
               <Link
