@@ -30,6 +30,8 @@ const EServiceDetailsContextProvider: React.FC<{
 }> = ({ descriptor, children }) => {
   const providerValue = React.useMemo(() => {
     const eserviceAttributes = remapEServiceAttributes(descriptor.eservice.attributes)
+
+    console.log({ descriptor })
     const isViewingDescriptorCurrentVersion =
       'activeDescriptor' in descriptor.eservice &&
       descriptor.id === descriptor.eservice.activeDescriptor?.id

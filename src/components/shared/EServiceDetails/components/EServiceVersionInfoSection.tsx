@@ -42,10 +42,10 @@ export const EServiceVersionInfoSection: React.FC = () => {
       <Stack spacing={2}>
         <InformationContainer label={t('actualVersion')}>
           <Stack spacing={1} direction="row" alignItems="center">
-            <span>{descriptor.version}</span>
             {isViewingDescriptorCurrentVersion && (
-              <Chip label={tCommon('table.headData.currentVersion')} color="primary" />
+              <Chip label={t('currentVersionChipLabel')} color="primary" />
             )}
+            <span>{descriptor.version}</span>
           </Stack>
         </InformationContainer>
         <InformationContainer label={t('versionStatus')}>
