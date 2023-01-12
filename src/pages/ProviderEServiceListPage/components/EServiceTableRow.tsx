@@ -10,7 +10,7 @@ import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { EServiceProvider } from '@/types/eservice.types'
 import { EServiceQueries } from '@/api/eservice'
 import { ButtonSkeleton } from '@/components/shared/MUISkeletons'
-import useGetProviderEServiceTableActions from '../hooks/useGetProviderEServiceTableActions'
+import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceActions'
 
 type EServiceTableRow = {
   eservice: EServiceProvider
@@ -23,7 +23,12 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
   const prefetchDescriptor = EServiceQueries.usePrefetchDescriptorProvider()
   const prefetchEService = EServiceQueries.usePrefetchSingle()
 
-  const { actions } = useGetProviderEServiceTableActions(eservice)
+  const { actions } = useGetProviderEServiceActions(
+    eservice.id,
+    eservice.activeDescriptor?.state,
+    eservice.activeDescriptor?.id,
+    eservice.draftDescriptor?.id
+  )
 
   const isEServiceInDraft = !eservice.activeDescriptor
 

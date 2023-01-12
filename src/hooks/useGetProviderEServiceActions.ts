@@ -1,10 +1,15 @@
 import { EServiceMutations } from '@/api/eservice'
 import { useNavigateRouter } from '@/router'
-import { EServiceProvider } from '@/types/eservice.types'
+import { EServiceState } from '@/types/eservice.types'
 import { minutesToSeconds } from '@/utils/format.utils'
 import { useTranslation } from 'react-i18next'
 
-function useGetProviderEServiceTableActions(eservice: EServiceProvider) {
+export function useGetProviderEServiceActions(
+  eserviceId?: string,
+  descriptorState?: EServiceState,
+  activeDescriptorId?: string,
+  draftDescriptorId?: string
+) {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const { navigate } = useNavigateRouter()
 
@@ -16,25 +21,24 @@ function useGetProviderEServiceTableActions(eservice: EServiceProvider) {
   const { mutate: clone } = EServiceMutations.useCloneFromVersion()
   const { mutate: createNewDraft } = EServiceMutations.useCreateVersionDraft()
 
-  const eserviceId = eservice.id
-  const state = eservice.activeDescriptor?.state ?? 'DRAFT'
-  const hasVersionDraft = !!eservice.draftDescriptor
+  const state = descriptorState ?? 'DRAFT'
+  const hasVersionDraft = !!draftDescriptorId
+
+  if (!eserviceId) return { actions: [] }
 
   const deleteDraftAction = {
     action: deleteDraft.bind(null, { eserviceId }),
     label: t('delete'),
   }
 
-  if (!eservice.activeDescriptor && !eservice.draftDescriptor) {
+  if (!activeDescriptorId && !draftDescriptorId) {
     return {
       actions: [deleteDraftAction],
     }
   }
 
-  function handlePublishDraft() {
-    const descriptorId = eservice?.draftDescriptor?.id
-    if (!descriptorId) return
-    publishDraft({ eserviceId, descriptorId })
+  const handlePublishDraft = () => {
+    if (draftDescriptorId) publishDraft({ eserviceId, descriptorId: draftDescriptorId })
   }
 
   const publishDraftAction = {
@@ -42,21 +46,17 @@ function useGetProviderEServiceTableActions(eservice: EServiceProvider) {
     label: t('publish'),
   }
 
-  function handleDeleteVersionDraft() {
-    const descriptorId = eservice?.draftDescriptor?.id
-    if (!descriptorId) return
-    deleteVersionDraft({ eserviceId, descriptorId })
+  const handleDeleteVersionDraft = () => {
+    if (draftDescriptorId) deleteVersionDraft({ eserviceId, descriptorId: draftDescriptorId })
   }
 
   const deleteVersionDraftAction = {
     action: handleDeleteVersionDraft,
-    label: t('delete'),
+    label: t('deleteDraft'),
   }
 
-  function handleSuspend() {
-    const descriptorId = eservice?.activeDescriptor?.id
-    if (!descriptorId) return
-    suspend({ eserviceId, descriptorId })
+  const handleSuspend = () => {
+    if (activeDescriptorId) suspend({ eserviceId, descriptorId: activeDescriptorId })
   }
 
   const suspendAction = {
@@ -64,10 +64,8 @@ function useGetProviderEServiceTableActions(eservice: EServiceProvider) {
     label: t('suspend'),
   }
 
-  function handleReactivate() {
-    const descriptorId = eservice?.activeDescriptor?.id
-    if (!descriptorId) return
-    reactivate({ eserviceId, descriptorId })
+  const handleReactivate = () => {
+    if (activeDescriptorId) reactivate({ eserviceId, descriptorId: activeDescriptorId })
   }
 
   const reactivateAction = {
@@ -75,25 +73,22 @@ function useGetProviderEServiceTableActions(eservice: EServiceProvider) {
     label: t('activate'),
   }
 
-  function handleClone() {
-    const descriptorId = eservice?.activeDescriptor?.id
-    if (!descriptorId) return
-    reactivate({ eserviceId, descriptorId })
-    clone(
-      {
-        eserviceId,
-        descriptorId,
-      },
-      {
-        onSuccess({ id, descriptors }) {
-          const descriptorId = descriptors[0]?.id
-          if (!descriptorId) throw new Error('No descriptor returned from clone mutation.')
-          navigate('PROVIDE_ESERVICE_EDIT', {
-            params: { eserviceId: id, descriptorId },
-          })
+  const handleClone = () => {
+    if (activeDescriptorId)
+      clone(
+        {
+          eserviceId,
+          descriptorId: activeDescriptorId,
         },
-      }
-    )
+        {
+          onSuccess({ id, descriptors }) {
+            const descriptorId = descriptors[0]!.id
+            navigate('PROVIDE_ESERVICE_EDIT', {
+              params: { eserviceId: id, descriptorId },
+            })
+          },
+        }
+      )
   }
 
   const cloneAction = {
@@ -101,9 +96,8 @@ function useGetProviderEServiceTableActions(eservice: EServiceProvider) {
     label: t('clone'),
   }
 
-  const createNewDraftAction = {
-    action: createNewDraft.bind(
-      null,
+  const handleCreateNewDraft = () => {
+    createNewDraft(
       {
         eserviceId,
         voucherLifespan: minutesToSeconds(1),
@@ -121,17 +115,20 @@ function useGetProviderEServiceTableActions(eservice: EServiceProvider) {
           })
         },
       }
-    ),
+    )
+  }
+
+  const createNewDraftAction = {
+    action: handleCreateNewDraft,
     label: t('createNewDraft'),
   }
 
-  function handleEditDraft() {
-    const descriptorId = eservice.draftDescriptor?.id
-    if (!descriptorId) return
-    navigate('PROVIDE_ESERVICE_EDIT', {
-      params: { eserviceId, descriptorId },
-      state: { stepIndexDestination: 1 },
-    })
+  const handleEditDraft = () => {
+    if (draftDescriptorId)
+      navigate('PROVIDE_ESERVICE_EDIT', {
+        params: { eserviceId, descriptorId: draftDescriptorId },
+        state: { stepIndexDestination: 1 },
+      })
   }
 
   const editDraftAction = {
@@ -143,7 +140,7 @@ function useGetProviderEServiceTableActions(eservice: EServiceProvider) {
     PUBLISHED: [
       suspendAction,
       cloneAction,
-      ...(!hasVersionDraft ? [createNewDraftAction] : [editDraftAction]),
+      ...(!hasVersionDraft ? [createNewDraftAction] : [editDraftAction, deleteVersionDraftAction]),
     ],
     ARCHIVED: [],
     DEPRECATED: [suspendAction],
@@ -151,11 +148,9 @@ function useGetProviderEServiceTableActions(eservice: EServiceProvider) {
     SUSPENDED: [
       reactivateAction,
       cloneAction,
-      ...(!hasVersionDraft ? [createNewDraftAction] : [editDraftAction]),
+      ...(!hasVersionDraft ? [createNewDraftAction] : [editDraftAction, deleteVersionDraftAction]),
     ],
   }[state]
 
   return { actions: availableAction }
 }
-
-export default useGetProviderEServiceTableActions

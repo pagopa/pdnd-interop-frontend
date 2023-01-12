@@ -1,7 +1,6 @@
 import { EServiceQueries } from '@/api/eservice'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
 import { EServiceDetails, EServiceDetailsSkeleton } from '@/components/shared/EServiceDetails'
-import useGetEServiceProviderActions from './hooks/useGetEServiceProviderActions'
 import { RouterLink, useRouteParams } from '@/router'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { formatTopSideActions } from '@/utils/common.utils'
@@ -10,6 +9,7 @@ import { Tab } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { EServicePurposesTable, EServicePurposesTableSkeleton } from './components'
+import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceActions'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -19,7 +19,12 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   const { data: descriptor, isLoading: isLoadingDescriptor } =
     EServiceQueries.useGetDescriptorProvider(eserviceId, descriptorId, { suspense: false })
 
-  const { actions } = useGetEServiceProviderActions(descriptor)
+  const { actions } = useGetProviderEServiceActions(
+    descriptor?.eservice.id,
+    descriptor?.state,
+    descriptor?.id,
+    descriptor?.eservice.draftDescriptor?.id
+  )
 
   const topSideActions = formatTopSideActions(actions)
 

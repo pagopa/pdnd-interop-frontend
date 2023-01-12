@@ -54,7 +54,8 @@
     "createNewDraft": "Crea bozza nuova versione",
     "saveDraft": "Salva bozza",
     "backToCatalog": "Torna al catalogo",
-    "editDraft": "Modifica bozza"
+    "editDraft": "Modifica bozza",
+    "deleteDraft": "Elimina bozza"
   },
   "table": {
     "headData": {

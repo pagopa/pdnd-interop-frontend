@@ -54,7 +54,8 @@
     "createNewDraft": "Create new draft version",
     "saveDraft": "Save draft",
     "backToCatalog": "Back to catalog",
-    "editDraft": "Edit draft"
+    "editDraft": "Edit draft",
+    "deleteDraft": "Delete draft"
   },
   "table": {
     "headData": {
