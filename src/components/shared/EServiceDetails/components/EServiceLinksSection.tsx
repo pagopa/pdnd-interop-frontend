@@ -28,9 +28,9 @@ export const EServiceLinksSection: React.FC = () => {
   return (
     <SectionContainer title={t('title')}>
       <Stack sx={{ mt: 2 }} spacing={2}>
+        <EServiceLink label={t('manageEServiceGuideLink')} href={manageEServiceGuideLink} />
         <EServiceLink label={t('verifyVoucherGuideLink')} href={verifyVoucherGuideLink} />
         <EServiceLink label={t('wellKnownLink')} href={WELL_KNOWN_URLS[0]} />
-        <EServiceLink label={t('manageEServiceGuideLink')} href={manageEServiceGuideLink} />
       </Stack>
     </SectionContainer>
   )
