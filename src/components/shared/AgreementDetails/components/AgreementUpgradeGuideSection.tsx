@@ -8,6 +8,7 @@ import LinkIcon from '@mui/icons-material/Link'
 import { useAgreementDetailsContext } from '../AgreementDetailsContext'
 import { AgreementMutations } from '@/api/agreement'
 import { useNavigateRouter } from '@/router'
+import { agreementUpgradeGuideLink } from '@/config/constants'
 
 export const AgreementUpgradeGuideSection: React.FC = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.updateGuide' })
@@ -57,7 +58,7 @@ export const AgreementUpgradeGuideSection: React.FC = () => {
             <Stack spacing={1}>
               <Link
                 component="a"
-                href="teste"
+                href={agreementUpgradeGuideLink}
                 target="_blank"
                 variant="body2"
                 underline="hover"

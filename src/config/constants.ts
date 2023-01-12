@@ -22,3 +22,4 @@ export const attributesHelpLink = `${documentationLink}/manuale-operativo/attrib
 export const verifyVoucherHelpLink = `${documentationLink}/manuale-operativo/utilizzare-i-voucher`
 export const eserviceHelpLink = `${documentationLink}/manuale-operativo/e-service`
 export const purposeUpgradeGuideLink = `${documentationLink}/manuale-operativo/finalita`
+export const agreementUpgradeGuideLink = `${documentationLink}/manuale-operativo/richieste-di-fruizione#fruitore-aggiornare-una-richiesta-di-fruizione`
