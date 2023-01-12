@@ -31,10 +31,11 @@ const EServiceDetailsContextProvider: React.FC<{
   const providerValue = React.useMemo(() => {
     const eserviceAttributes = remapEServiceAttributes(descriptor.eservice.attributes)
 
-    console.log({ descriptor })
-    const isViewingDescriptorCurrentVersion =
-      'activeDescriptor' in descriptor.eservice &&
-      descriptor.id === descriptor.eservice.activeDescriptor?.id
+    const activeDescriptor = descriptor.eservice.descriptors.find(
+      (descriptor) => descriptor.state === 'PUBLISHED'
+    )
+
+    const isViewingDescriptorCurrentVersion = descriptor.id === activeDescriptor?.id
 
     const agreement =
       'agreement' in descriptor.eservice &&
