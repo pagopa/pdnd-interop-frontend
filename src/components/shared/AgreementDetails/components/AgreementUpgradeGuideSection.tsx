@@ -7,7 +7,7 @@ import LaunchIcon from '@mui/icons-material/Launch'
 import LinkIcon from '@mui/icons-material/Link'
 import { useAgreementDetailsContext } from '../AgreementDetailsContext'
 import { AgreementMutations } from '@/api/agreement'
-import { useNavigateRouter } from '@/router'
+import { RouterLink, useNavigateRouter } from '@/router'
 import { agreementUpgradeGuideLink } from '@/config/constants'
 
 export const AgreementUpgradeGuideSection: React.FC = () => {
@@ -36,7 +36,6 @@ export const AgreementUpgradeGuideSection: React.FC = () => {
 
   return (
     <>
-      <Alert severity="warning">
         <Trans components={{ 1: <Box component="span" fontWeight={700} /> }}>
           {t('alertLabel', { eserviceName: eservice.name })}
         </Trans>
@@ -66,9 +65,12 @@ export const AgreementUpgradeGuideSection: React.FC = () => {
               >
                 <LaunchIcon fontSize="small" sx={{ mr: 1 }} /> {t('upgradeGuideLinkLabel')}
               </Link>
-              <Link
+              <RouterLink
+                to="SUBSCRIBE_CATALOG_VIEW"
+                params={{ eserviceId: eservice.id, descriptorId: eservice.activeDescriptor!.id }}
                 variant="body2"
                 underline="hover"
+                target="_blank"
                 sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
               >
                 <LinkIcon fontSize="small" sx={{ mr: 1 }} />{' '}
@@ -80,7 +82,7 @@ export const AgreementUpgradeGuideSection: React.FC = () => {
                     })}
                   </Trans>
                 </span>
-              </Link>
+              </RouterLink>
             </Stack>
           </InformationContainer>
           <Divider />
