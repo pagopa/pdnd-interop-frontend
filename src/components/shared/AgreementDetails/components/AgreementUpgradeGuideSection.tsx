@@ -36,6 +36,7 @@ export const AgreementUpgradeGuideSection: React.FC = () => {
 
   return (
     <>
+      <Alert sx={{ mt: 2 }} severity="warning">
         <Trans components={{ 1: <Box component="span" fontWeight={700} /> }}>
           {t('alertLabel', { eserviceName: eservice.name })}
         </Trans>
