@@ -7,8 +7,9 @@ exports[`Checks that ActionMenu snapshots don't change > renders correctly 1`] =
     <div>
       <button
         aria-haspopup="true"
+        aria-label="iconButtonAriaLabel"
         class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-11ghgbe-MuiButtonBase-root-MuiIconButton-root"
-        id="composition-button"
+        id=":r0:-composition-button"
         tabindex="0"
         type="button"
       >
@@ -32,8 +33,9 @@ exports[`Checks that ActionMenu snapshots don't change > renders correctly 1`] =
   "container": <div>
     <button
       aria-haspopup="true"
+      aria-label="iconButtonAriaLabel"
       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-11ghgbe-MuiButtonBase-root-MuiIconButton-root"
-      id="composition-button"
+      id=":r0:-composition-button"
       tabindex="0"
       type="button"
     >
@@ -117,11 +119,12 @@ exports[`Checks that ActionMenu snapshots don't change > renders correctly while
       aria-hidden="true"
     >
       <button
-        aria-controls="composition-menu"
+        aria-controls=":r5:-composition-menu"
         aria-expanded="true"
         aria-haspopup="true"
+        aria-label="iconButtonAriaLabel"
         class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-11ghgbe-MuiButtonBase-root-MuiIconButton-root"
-        id="composition-button"
+        id=":r4:-composition-button"
         tabindex="0"
         type="button"
       >
@@ -151,9 +154,9 @@ exports[`Checks that ActionMenu snapshots don't change > renders correctly while
       </button>
     </div>
     <div
-      aria-labelledby="composition-button"
+      aria-labelledby=":r4:-composition-button"
       class="MuiPopover-root MuiMenu-root MuiModal-root css-10nakn3-MuiModal-root-MuiPopover-root-MuiMenu-root"
-      id="composition-menu"
+      id=":r5:-composition-menu"
       role="presentation"
     >
       <div
@@ -208,11 +211,12 @@ exports[`Checks that ActionMenu snapshots don't change > renders correctly while
     aria-hidden="true"
   >
     <button
-      aria-controls="composition-menu"
+      aria-controls=":r5:-composition-menu"
       aria-expanded="true"
       aria-haspopup="true"
+      aria-label="iconButtonAriaLabel"
       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-11ghgbe-MuiButtonBase-root-MuiIconButton-root"
-      id="composition-button"
+      id=":r4:-composition-button"
       tabindex="0"
       type="button"
     >
@@ -302,8 +306,9 @@ exports[`Checks that ActionMenu snapshots don't change > renders correctly witho
     <div>
       <button
         aria-haspopup="true"
+        aria-label="iconButtonAriaLabel"
         class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1skso5k-MuiButtonBase-root-MuiIconButton-root"
-        id="composition-button"
+        id=":r2:-composition-button"
         tabindex="0"
         type="button"
       >
@@ -327,8 +332,9 @@ exports[`Checks that ActionMenu snapshots don't change > renders correctly witho
   "container": <div>
     <button
       aria-haspopup="true"
+      aria-label="iconButtonAriaLabel"
       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1skso5k-MuiButtonBase-root-MuiIconButton-root"
-      id="composition-button"
+      id=":r2:-composition-button"
       tabindex="0"
       type="button"
     >

@@ -194,5 +194,8 @@
     "editDocumentName": "Edit document name",
     "deleteDocument": "Delete document",
     "downloadDocument": "Download document"
+  },
+  "actionMenu": {
+    "iconButtonAriaLabel": "Open action menu"
   }
 }

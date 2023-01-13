@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, waitFor } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { vi } from 'vitest'
 
 import { ActionMenu } from '@/components/shared/ActionMenu'
@@ -36,9 +36,9 @@ describe("Checks that ActionMenu snapshots don't change", () => {
   it('renders correctly while opened', async () => {
     const user = userEvent.setup()
     const actionMenu = render(<ActionMenu actions={mockActions} />)
-    const buttons = actionMenu.queryAllByRole('button')
+    const button = actionMenu.queryByRole('button', { name: 'iconButtonAriaLabel' })
 
-    await user.click(buttons![0])
+    await user.click(button!)
 
     expect(actionMenu).toMatchSnapshot()
   })
@@ -48,14 +48,14 @@ describe('Unit tests for ActionMenu', () => {
   it('opens and closes', async () => {
     const user = userEvent.setup()
     const actionMenu = render(<ActionMenu actions={mockActions} />)
-    const buttons = actionMenu.queryAllByRole('button')
+    const button = actionMenu.queryByRole('button', { name: 'iconButtonAriaLabel' })
 
-    await user.click(buttons![0])
+    await user.click(button!)
 
     expect(actionMenu.baseElement).toHaveTextContent('action1')
     expect(actionMenu.baseElement).toHaveTextContent('action2')
 
-    await user.click(buttons![0])
+    await user.click(button!)
 
     expect(actionMenu.baseElement).not.toHaveTextContent('action1')
     expect(actionMenu.baseElement).not.toHaveTextContent('action2')
@@ -64,7 +64,7 @@ describe('Unit tests for ActionMenu', () => {
   it('fires the actions on action menu item click', async () => {
     const user = userEvent.setup()
     const actionMenu = render(<ActionMenu actions={mockActions} />)
-    const button = actionMenu.queryByRole('button')
+    const button = actionMenu.queryByRole('button', { name: 'iconButtonAriaLabel' })
 
     await user.click(button!)
 
