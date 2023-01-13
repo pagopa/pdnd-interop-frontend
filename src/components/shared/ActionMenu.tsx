@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useId } from 'react'
 import { ClickAwayListener, MenuItem, Menu, IconButton, Skeleton, Box } from '@mui/material'
 import { ActionItem, ExtendedMUIColor } from '@/types/common.types'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { useTranslation } from 'react-i18next'
 
 type ActionMenuProps = {
   actions: Array<ActionItem>
@@ -11,6 +12,9 @@ type ActionMenuProps = {
 export const ActionMenu: React.FC<ActionMenuProps> = ({ actions, iconColor = 'primary' }) => {
   const [open, setOpen] = React.useState(false)
   const anchorRef = React.useRef<HTMLButtonElement>(null)
+  const compositionButtonId = useId() + '-composition-button'
+  const compositionMenuId = useId() + '-composition-menu'
+  const { t } = useTranslation('shared-components', { keyPrefix: 'actionMenu' })
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen)
@@ -47,21 +51,22 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({ actions, iconColor = 'pr
     <>
       <IconButton
         ref={anchorRef}
-        id="composition-button"
+        id={compositionButtonId}
         sx={{ visibility: actions.length > 0 ? 'visible' : 'hidden' }}
-        aria-controls={open ? 'composition-menu' : undefined}
+        aria-controls={open ? compositionMenuId : undefined}
         aria-expanded={open ? 'true' : undefined}
         aria-haspopup="true"
         onClick={handleToggle}
+        aria-label={t('iconButtonAriaLabel')}
       >
         <MoreVertIcon color={iconColor} fontSize="small" />
       </IconButton>
       <ClickAwayListener onClickAway={handleClose}>
         <Menu
           open={open}
-          id="composition-menu"
+          id={compositionMenuId}
           anchorEl={anchorRef.current}
-          aria-labelledby="composition-button"
+          aria-labelledby={compositionButtonId}
           onClose={handleClose}
           onKeyDown={handleListKeyDown}
           MenuListProps={{
