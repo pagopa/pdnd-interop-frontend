@@ -40,14 +40,15 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     expect(select.baseElement).toHaveTextContent('option2')
     expect(select.baseElement).toHaveTextContent('option3')
 
-    const options = select.getAllByRole('option')
-    await user.click(options[0])
+    const option1 = select.getByRole('option', { name: 'option1' })
+
+    await user.click(option1)
     expect(select.container.querySelector('input[name="testText"]')).toHaveValue('option1')
 
     const buttonAfter = select.getByRole('button')
     await user.click(buttonAfter)
-    const optionsAfter = select.getAllByRole('option')
-    await user.click(optionsAfter[1])
+    const option2 = select.getByRole('option', { name: 'option2' })
+    await user.click(option2)
     expect(select.container.querySelector('input[name="testText"]')).toHaveValue('option2')
   })
 
