@@ -28,24 +28,33 @@ describe('determine whether the integration between react-hook-form and MUI’s 
       </TestInputWrapper>
     )
 
-    const radioGroupList = radioGroupResult.getAllByRole('radio') as Array<HTMLInputElement>
-    expect(radioGroupList[0]).not.toBeChecked()
-    expect(radioGroupList[1]).not.toBeChecked()
-    expect(radioGroupList[2]).not.toBeChecked()
+    const radioOption1 = radioGroupResult.getByRole('radio', {
+      name: 'option1',
+    }) as HTMLInputElement
+    const radioOption2 = radioGroupResult.getByRole('radio', {
+      name: 'option2',
+    }) as HTMLInputElement
+    const radioOption3 = radioGroupResult.getByRole('radio', {
+      name: 'option3',
+    }) as HTMLInputElement
 
-    await user.click(radioGroupList[0])
-    expect(radioGroupList[0]).toBeChecked()
-    expect(radioGroupList[1]).not.toBeChecked()
-    expect(radioGroupList[2]).not.toBeChecked()
+    expect(radioOption1).not.toBeChecked()
+    expect(radioOption2).not.toBeChecked()
+    expect(radioOption3).not.toBeChecked()
 
-    await user.click(radioGroupList[1])
-    expect(radioGroupList[0]).not.toBeChecked()
-    expect(radioGroupList[1]).toBeChecked()
-    expect(radioGroupList[2]).not.toBeChecked()
+    await user.click(radioOption1)
+    expect(radioOption1).toBeChecked()
+    expect(radioOption2).not.toBeChecked()
+    expect(radioOption3).not.toBeChecked()
 
-    await user.click(radioGroupList[2])
-    expect(radioGroupList[0]).not.toBeChecked()
-    expect(radioGroupList[1]).not.toBeChecked()
-    expect(radioGroupList[2]).toBeChecked()
+    await user.click(radioOption2)
+    expect(radioOption1).not.toBeChecked()
+    expect(radioOption2).toBeChecked()
+    expect(radioOption3).not.toBeChecked()
+
+    await user.click(radioOption3)
+    expect(radioOption1).not.toBeChecked()
+    expect(radioOption2).not.toBeChecked()
+    expect(radioOption3).toBeChecked()
   })
 })
