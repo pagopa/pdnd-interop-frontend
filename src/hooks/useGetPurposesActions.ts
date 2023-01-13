@@ -92,22 +92,46 @@ function useGetPurposesActions(purpose?: DecoratedPurpose) {
     action: handleUpdateDailyCalls,
   }
 
-  const hasVersion = Boolean(purpose.mostRecentVersion)
-
   const availableActions: Record<PurposeState, Array<ActionItem>> = {
-    DRAFT: hasVersion ? [activateAction, deleteAction] : [deleteAction],
+    DRAFT: purpose.mostRecentVersion ? [activateAction, deleteAction] : [deleteAction],
     ACTIVE: [suspendAction, updateDailyCallsAction],
     SUSPENDED: [activateAction, archiveAction, updateDailyCallsAction],
     WAITING_FOR_APPROVAL: [
       purpose.versions.length > 1 ? deleteDailyCallsUpdateAction : deleteAction,
-      updateDailyCallsAction,
     ],
     ARCHIVED: [],
   }
 
-  const status = hasVersion && purpose.mostRecentVersion ? purpose.mostRecentVersion.state : 'DRAFT'
+  const mostRecentVersionState = purpose.mostRecentVersion
+    ? purpose.mostRecentVersion.state
+    : 'DRAFT'
+  const currentVersionState = purpose.currentVersion ? purpose.currentVersion.state : 'DRAFT'
+  const actions = availableActions[mostRecentVersionState]
 
-  return { actions: availableActions[status] }
+  // If the most recent version of the purpose is in waiting for approval...
+  // ... and has the most recent version is different from the current one ...
+  if (
+    mostRecentVersionState === 'WAITING_FOR_APPROVAL' &&
+    purpose.mostRecentVersion?.id !== purpose.currentVersion?.id
+  ) {
+    // ... add to the available actions all the action associated with the purpose's current state.
+    actions.push(...availableActions[currentVersionState])
+    /**
+     * ex. If the user has a purpose that is in 'WAITING_FOR_APPROVAL', it will be
+     * still be able to suspend/activate (or whatever) the current active version.
+     */
+  }
+
+  // If it is in 'WAITING_FOR_APPROVAL' and they are the same, means there is no current version...
+  if (
+    mostRecentVersionState === 'WAITING_FOR_APPROVAL' &&
+    purpose.mostRecentVersion?.id === purpose.currentVersion?.id
+  ) {
+    // ... so just add the action to update the daily calls.
+    actions.push(updateDailyCallsAction)
+  }
+
+  return { actions }
 }
 
 export default useGetPurposesActions

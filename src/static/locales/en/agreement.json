@@ -10,24 +10,6 @@
       "alertLabel": "A new version of <1>{{eserviceName}}</1> e-service is available. Before updating, read the guide below",
       "title": "Upgrade guide",
       "description": "It is possible to update the fruition request to the latest version of <1>{{eserviceName}}</1> e-service. Here are some useful informations",
-      "faq": [
-        {
-          "summary": "What does it mean to upgrade a fruition request?",
-          "details": ""
-        },
-        {
-          "summary": "What happens to my active purposes if I upgrade a fruition request?",
-          "details": ""
-        },
-        {
-          "summary": "What should I check before updating a fruition request?",
-          "details": ""
-        },
-        {
-          "summary": "How can I test the changes before updating the fruition request?",
-          "details": ""
-        }
-      ],
       "upgradeGuideLinkLabel": "Upgrade fuide",
       "eserviceLinkLabel": "E-service card <1>{{eserviceName}}, version {{version}}</1>",
       "upgradeBtn": "Upgrade"

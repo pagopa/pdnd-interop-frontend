@@ -137,7 +137,8 @@
       "youAreTheProvider": "You are the provider of this e-service",
       "missingCertifiedAttributes": "Your party is missing at least one of the certified attributes required to subscribe this e-service",
       "alreadySubscribed": "You can't subscribe again as you are already a Subscriber of this e-service",
-      "hasAgreementDraft": "You already have an agreement draft for this e-service"
+      "hasAgreementDraft": "You already have an agreement draft for this e-service",
+      "hasNewVersionDraft": "This e-service has a new version draft. You can edit it <1>here</1>"
     },
     "actions": {
       "backToListLabel": "Back to the e-services",
@@ -170,14 +171,12 @@
           "label": "Fruition request activation",
           "AUTOMATIC": "Automatic",
           "MANUAL": "Manual"
-        },
-        "doubtsQuestion": "Do you have doubts about the implementation to deliver your e-service?",
-        "doubtsLink": "See the guide"
+        }
       },
-      "voucherVerification": {
-        "title": "Voucher verification",
-        "description": "Devi verificare un voucher ricevuto da un fruitore? Di seguito i link con le istruzioni necessarie",
-        "howLink": "How do I verify a voucher?",
+      "usefulLinks": {
+        "title": "useful links",
+        "manageEServiceGuideLink": "How do I implement and manage an e-service?",
+        "verifyVoucherGuideLink": "How do I verify a voucher?",
         "wellKnownLink": "URL .well-known"
       },
       "attributes": {

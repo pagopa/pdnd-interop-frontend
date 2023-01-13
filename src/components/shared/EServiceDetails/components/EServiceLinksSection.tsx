@@ -1,12 +1,12 @@
 import React from 'react'
-import { Link, Stack, Typography } from '@mui/material'
+import { Link, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { SectionContainer } from '@/components/layout/containers'
-import { verifyVoucherHelpLink } from '@/config/constants'
+import { manageEServiceGuideLink, verifyVoucherGuideLink } from '@/config/constants'
 import { WELL_KNOWN_URLS } from '@/config/env'
 
-const VoucherLink: React.FC<{ label: string; href: string }> = ({ label, href }) => {
+const EServiceLink: React.FC<{ label: string; href: string }> = ({ label, href }) => {
   return (
     <Link
       component="a"
@@ -20,17 +20,17 @@ const VoucherLink: React.FC<{ label: string; href: string }> = ({ label, href })
   )
 }
 
-export const EServiceVoucherVerificationSection: React.FC = () => {
+export const EServiceLinksSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
-    keyPrefix: 'read.sections.voucherVerification',
+    keyPrefix: 'read.sections.usefulLinks',
   })
 
   return (
     <SectionContainer title={t('title')}>
-      <Typography>{t('description')}</Typography>
       <Stack sx={{ mt: 2 }} spacing={2}>
-        <VoucherLink label={t('howLink')} href={verifyVoucherHelpLink} />
-        <VoucherLink label={t('wellKnownLink')} href={WELL_KNOWN_URLS[0]} />
+        <EServiceLink label={t('manageEServiceGuideLink')} href={manageEServiceGuideLink} />
+        <EServiceLink label={t('verifyVoucherGuideLink')} href={verifyVoucherGuideLink} />
+        <EServiceLink label={t('wellKnownLink')} href={WELL_KNOWN_URLS[0]} />
       </Stack>
     </SectionContainer>
   )

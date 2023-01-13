@@ -58,8 +58,8 @@ function useCreateDraft() {
   const queryClient = useQueryClient()
   return useMutationWrapper(PurposeServices.createDraft, {
     suppressSuccessToast: true,
-    errorToastLabel: t('loading'),
-    loadingLabel: t('outcome.error'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
     onSuccess(data) {
       const decoratedPurpose = decoratePurposeWithMostRecentVersion(data)
       queryClient.setQueryData([PurposeQueryKeys.GetSingle, data.id], decoratedPurpose)

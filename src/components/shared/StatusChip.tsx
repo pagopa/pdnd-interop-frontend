@@ -3,7 +3,7 @@ import { AgreementState, AgreementSummary } from '@/types/agreement.types'
 import { MUIColor } from '@/types/common.types'
 import { EServiceState } from '@/types/eservice.types'
 import { UserState } from '@/types/party.types'
-import { Chip, ChipProps, Skeleton } from '@mui/material'
+import { Chip, ChipProps, Skeleton, Stack } from '@mui/material'
 import omit from 'lodash/omit'
 import { useTranslation } from 'react-i18next'
 import { TFunction } from 'i18next'
@@ -118,11 +118,11 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
 
   if (props.for === 'agreement') {
     return (
-      <>
+      <Stack direction="row" spacing={1}>
         {getAgreementChipState(props.agreement, t).map(({ label, color }, i) => (
           <Chip size="small" key={i} label={label} color={color} />
         ))}
-      </>
+      </Stack>
     )
   }
 
@@ -134,7 +134,7 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
   if (props.for === 'purpose') {
     const purposeState = props.purpose.currentVersion?.state ?? 'DRAFT'
     return (
-      <>
+      <Stack direction="row" spacing={1}>
         <Chip
           size="small"
           label={t(`status.purpose.${purposeState}`)}
@@ -147,7 +147,7 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
             color={chipColors['purpose']['WAITING_FOR_APPROVAL']}
           />
         )}
-      </>
+      </Stack>
     )
   }
 

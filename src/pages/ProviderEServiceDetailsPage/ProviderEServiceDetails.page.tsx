@@ -1,15 +1,16 @@
 import { EServiceQueries } from '@/api/eservice'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
 import { EServiceDetails, EServiceDetailsSkeleton } from '@/components/shared/EServiceDetails'
-import useGetEServiceProviderActions from './hooks/useGetEServiceProviderActions'
 import { RouterLink, useRouteParams } from '@/router'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { formatTopSideActions } from '@/utils/common.utils'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Tab } from '@mui/material'
+import { Alert, Tab } from '@mui/material'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { EServicePurposesTable, EServicePurposesTableSkeleton } from './components'
+import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceActions'
+import { EServiceDescriptorProvider } from '@/types/eservice.types'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -19,7 +20,12 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   const { data: descriptor, isLoading: isLoadingDescriptor } =
     EServiceQueries.useGetDescriptorProvider(eserviceId, descriptorId, { suspense: false })
 
-  const { actions } = useGetEServiceProviderActions(descriptor)
+  const { actions } = useGetProviderEServiceActions(
+    descriptor?.eservice.id,
+    descriptor?.state,
+    descriptor?.id,
+    descriptor?.eservice.draftDescriptor?.id
+  )
 
   const topSideActions = formatTopSideActions(actions)
 
@@ -41,7 +47,12 @@ const ProviderEServiceDetailsPage: React.FC = () => {
         </TabList>
 
         <TabPanel value="details" sx={{ p: 0 }}>
-          {descriptor && <EServiceDetails descriptor={descriptor} />}
+          {descriptor && (
+            <>
+              <HasDraftDescriptorAlert descriptor={descriptor} />
+              <EServiceDetails descriptor={descriptor} />
+            </>
+          )}
           {(!descriptor || isLoadingDescriptor) && <EServiceDetailsSkeleton />}
         </TabPanel>
         <TabPanel value="purposeAwaitingApproval" sx={{ px: 0 }}>
@@ -57,6 +68,35 @@ const ProviderEServiceDetailsPage: React.FC = () => {
         </RouterLink>
       </PageBottomActionsContainer>
     </PageContainer>
+  )
+}
+
+const HasDraftDescriptorAlert: React.FC<{ descriptor: EServiceDescriptorProvider }> = ({
+  descriptor,
+}) => {
+  const { t } = useTranslation('eservice')
+
+  if (!descriptor.eservice.draftDescriptor) return null
+
+  return (
+    <Alert sx={{ mt: 2 }} severity="info">
+      <Trans
+        components={{
+          1: (
+            <RouterLink
+              to="PROVIDE_ESERVICE_EDIT"
+              params={{
+                eserviceId: descriptor.eservice.id,
+                descriptorId: descriptor.eservice.draftDescriptor.id,
+              }}
+              state={{ stepIndexDestination: 1 }}
+            />
+          ),
+        }}
+      >
+        {t('read.alert.hasNewVersionDraft')}
+      </Trans>
+    </Alert>
   )
 }
 

@@ -4,7 +4,7 @@ import { useCurrentRoute } from '@/router'
 import { EServiceDetailsContextProvider } from './EServiceDetailsContext'
 import { EServiceGeneralInfoSection } from './components/EServiceGeneralInfoSection'
 import { EServiceVersionInfoSection } from './components/EServiceVersionInfoSection'
-import { EServiceVoucherVerificationSection } from './components/EServiceVoucherVerificationSection'
+import { EServiceLinksSection } from './components/EServiceLinksSection'
 import { EServiceVersionHistorySection } from './components/EServiceVersionHistorySection'
 import { EServiceAttributesSections } from './components/EServiceAttributesSections'
 import { EServiceDocumentsListSection } from './components/EServiceDocumentsListSection'
@@ -28,7 +28,7 @@ export const EServiceDetails: React.FC<EServiceDetailsProps> = ({ descriptor }) 
         <Grid item xs={5}>
           <EServiceDocumentsListSection />
           {mode === 'consumer' && <EServiceProviderContacts />}
-          {mode === 'provider' && <EServiceVoucherVerificationSection />}
+          {mode === 'provider' && <EServiceLinksSection />}
         </Grid>
       </Grid>
 

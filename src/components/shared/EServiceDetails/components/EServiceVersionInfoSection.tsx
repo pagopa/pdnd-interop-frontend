@@ -2,18 +2,15 @@ import React from 'react'
 import { SectionContainer, InformationContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { StatusChip } from '../../StatusChip'
-import { Chip, Divider, Link, Stack, Typography } from '@mui/material'
+import { Chip, Stack } from '@mui/material'
 import { formatThousands, secondsToHoursMinutes } from '@/utils/format.utils'
 import { useEServiceDetailsContext } from '../EServiceDetailsContext'
-import { useCurrentRoute } from '@/router'
-import { eserviceHelpLink } from '@/config/constants'
 
 export const EServiceVersionInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
     keyPrefix: 'read.sections.versionInformations',
   })
   const { t: tCommon } = useTranslation('common')
-  const { mode } = useCurrentRoute()
 
   const { descriptor, isViewingDescriptorCurrentVersion } = useEServiceDetailsContext()
 
@@ -44,7 +41,7 @@ export const EServiceVersionInfoSection: React.FC = () => {
           <Stack spacing={1} direction="row" alignItems="center">
             <span>{descriptor.version}</span>
             {isViewingDescriptorCurrentVersion && (
-              <Chip label={tCommon('table.headData.currentVersion')} color="primary" />
+              <Chip label={t('currentVersionChipLabel')} color="primary" />
             )}
           </Stack>
         </InformationContainer>
@@ -69,19 +66,6 @@ export const EServiceVersionInfoSection: React.FC = () => {
         <InformationContainer label={t('agreementApprovalPolicy.label')}>
           {t(`agreementApprovalPolicy.${descriptor.agreementApprovalPolicy}`)}
         </InformationContainer>
-
-        {mode === 'provider' && (
-          <>
-            <Divider />
-
-            <Typography variant="body2">
-              {t('doubtsQuestion')}{' '}
-              <Link href={eserviceHelpLink} target="_blank">
-                {t('doubtsLink')}
-              </Link>
-            </Typography>
-          </>
-        )}
       </Stack>
     </SectionContainer>
   )
