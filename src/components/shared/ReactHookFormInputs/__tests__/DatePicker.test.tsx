@@ -1,11 +1,8 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, RenderResult } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import {
-  selectAndGetDateCell,
-  TestInputWrapper,
-} from '@/components/shared/ReactHookFormInputs/__tests__/test-utils'
+import { TestInputWrapper } from '@/components/shared/ReactHookFormInputs/__tests__/test-utils'
 import { DatePicker } from '@/components/shared/ReactHookFormInputs'
 
 const datePickerProps = {
@@ -15,7 +12,17 @@ const datePickerProps = {
   },
 }
 
-describe('determine whether the integration between react-hook-form and MUI’s Switch works', () => {
+async function selectAndGetDateCell(datePicker: RenderResult, day: number) {
+  const secondCell = datePicker.getByRole('gridcell', {
+    name: day.toString(),
+  })
+  await userEvent.click(secondCell)
+  return datePicker.getByRole('gridcell', {
+    selected: true,
+  })
+}
+
+describe('determine whether the integration between react-hook-form and MUI’s DatePicker works', () => {
   it('gets the input from the user correctly', async () => {
     const datePickerResult = render(
       <TestInputWrapper>
