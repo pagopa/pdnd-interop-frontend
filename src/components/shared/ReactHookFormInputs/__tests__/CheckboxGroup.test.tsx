@@ -28,20 +28,31 @@ describe('determine whether the integration between react-hook-form and MUI’s 
       </TestInputWrapper>
     )
 
-    const checkboxInputList = checkboxResult.getAllByRole('checkbox') as Array<HTMLInputElement>
-    expect(checkboxInputList[0].checked).toEqual(false)
-    await user.click(checkboxInputList[0])
-    expect(checkboxInputList[0].checked).toEqual(true)
+    const optionOneCheckbox = checkboxResult.getByRole('checkbox', {
+      name: 'option1',
+    }) as HTMLInputElement
 
-    await user.click(checkboxInputList[0])
-    expect(checkboxInputList[0].checked).toEqual(false)
+    const optionTwoCheckbox = checkboxResult.getByRole('checkbox', {
+      name: 'option2',
+    }) as HTMLInputElement
 
-    await user.click(checkboxInputList[0])
-    await user.click(checkboxInputList[1])
-    await user.click(checkboxInputList[2])
+    const optionThreeCheckbox = checkboxResult.getByRole('checkbox', {
+      name: 'option3',
+    }) as HTMLInputElement
 
-    expect(checkboxInputList[0].checked).toEqual(true)
-    expect(checkboxInputList[1].checked).toEqual(true)
-    expect(checkboxInputList[2].checked).toEqual(true)
+    expect(optionOneCheckbox.checked).toEqual(false)
+    await user.click(optionOneCheckbox)
+    expect(optionOneCheckbox.checked).toEqual(true)
+
+    await user.click(optionOneCheckbox)
+    expect(optionOneCheckbox.checked).toEqual(false)
+
+    await user.click(optionOneCheckbox)
+    await user.click(optionTwoCheckbox)
+    await user.click(optionThreeCheckbox)
+
+    expect(optionOneCheckbox.checked).toEqual(true)
+    expect(optionTwoCheckbox.checked).toEqual(true)
+    expect(optionThreeCheckbox.checked).toEqual(true)
   })
 })
