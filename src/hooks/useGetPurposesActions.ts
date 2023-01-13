@@ -110,9 +110,9 @@ function useGetPurposesActions(purpose?: DecoratedPurpose) {
 
   // If the most recent version of the purpose is in waiting for approval...
   if (mostRecentVersionState === 'WAITING_FOR_APPROVAL') {
-    // ... and has the most recent version different from the current one ...
+    // ... and has the most recent version is different from the current one ...
     if (purpose.mostRecentVersion?.id !== purpose.currentVersion?.id) {
-      // ... add to the available actions all the action associated with the purpose current state.
+      // ... add to the available actions all the action associated with the purpose's current state.
       actions.push(...availableActions[currentVersionState])
       /**
        * ex. If the user has a purpose that is in 'WAITING_FOR_APPROVAL', it will be
