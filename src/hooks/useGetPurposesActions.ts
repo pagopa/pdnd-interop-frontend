@@ -109,18 +109,26 @@ function useGetPurposesActions(purpose?: DecoratedPurpose) {
   const actions = availableActions[mostRecentVersionState]
 
   // If the most recent version of the purpose is in waiting for approval...
-  if (mostRecentVersionState === 'WAITING_FOR_APPROVAL') {
-    // ... and has the most recent version is different from the current one ...
-    if (purpose.mostRecentVersion?.id !== purpose.currentVersion?.id) {
-      // ... add to the available actions all the action associated with the purpose's current state.
-      actions.push(...availableActions[currentVersionState])
-      /**
-       * ex. If the user has a purpose that is in 'WAITING_FOR_APPROVAL', it will be
-       * still be able to suspend/activate (or whatever) the current active version.
-       */
-    } else {
-      actions.push(updateDailyCallsAction)
-    }
+  // ... and has the most recent version is different from the current one ...
+  if (
+    mostRecentVersionState === 'WAITING_FOR_APPROVAL' &&
+    purpose.mostRecentVersion?.id !== purpose.currentVersion?.id
+  ) {
+    // ... add to the available actions all the action associated with the purpose's current state.
+    actions.push(...availableActions[currentVersionState])
+    /**
+     * ex. If the user has a purpose that is in 'WAITING_FOR_APPROVAL', it will be
+     * still be able to suspend/activate (or whatever) the current active version.
+     */
+  }
+
+  // If it is in 'WAITING_FOR_APPROVAL' and they are the same, means there is no current version...
+  if (
+    mostRecentVersionState === 'WAITING_FOR_APPROVAL' &&
+    purpose.mostRecentVersion?.id === purpose.currentVersion?.id
+  ) {
+    // ... so just add the action to update the daily calls.
+    actions.push(updateDailyCallsAction)
   }
 
   return { actions }
