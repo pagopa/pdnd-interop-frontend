@@ -32,7 +32,7 @@ describe("Checks that Accordion snapshot don't change", () => {
     expect(accordion).toMatchSnapshot()
   })
 
-  it('renders second entry correctly', async () => {
+  it('renders second entry with the summarySecondary option set correctly', async () => {
     const user = userEvent.setup()
     const accordion = render(<Accordion entries={entries} />)
     const buttons = screen.queryAllByRole('button')
