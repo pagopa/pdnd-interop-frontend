@@ -5,7 +5,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import { InputOption } from '@/types/common.types'
 
 export type CheckboxGroupProps = {
-  sx: SxProps
+  sx?: SxProps
   label: string
   options: Array<InputOption & { disabled?: boolean }>
   name: string
