@@ -5,6 +5,7 @@ import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import EServiceServices from './eservice.services'
 import {
   EServiceGetCatalogListUrlParams,
+  EServiceGetConsumersUrlParams,
   EServiceGetListFlatUrlParams,
   EServiceGetProviderListUrlParams,
   EServiceVersionDraftPayload,
@@ -20,6 +21,7 @@ export enum EServiceQueryKeys {
   GetSingle = 'EServiceGetSingle',
   GetDescriptorCatalog = 'EServiceGetDescriptorCatalog',
   GetDescriptorProvider = 'EServiceGetDescriptorProvider',
+  GetConsumers = 'EServiceGetConsumers',
 }
 
 /** @deprecated TO BE REMOVED */
@@ -58,6 +60,17 @@ function useGetProviderList(
   return useQueryWrapper(
     [EServiceQueryKeys.GetProviderList, params],
     () => EServiceServices.getProviderList(params),
+    config
+  )
+}
+
+function useGetConsumers(
+  params: EServiceGetConsumersUrlParams,
+  config?: { suspense?: boolean; keepPreviousData?: boolean }
+) {
+  return useQueryWrapper(
+    [EServiceQueryKeys.GetConsumers, params],
+    () => EServiceServices.getConsumers(params),
     config
   )
 }
@@ -348,6 +361,7 @@ export const EServiceQueries = {
   useGetDescriptorCatalog,
   useGetDescriptorProvider,
   useGetSingle,
+  useGetConsumers,
   usePrefetchSingle,
   usePrefetchDescriptorCatalog,
   usePrefetchDescriptorProvider,
