@@ -11,9 +11,10 @@ import { formatTopSideActions } from '@/utils/common.utils'
 import { useTranslation } from 'react-i18next'
 import { AgreementDetails, AgreementDetailsSkeleton } from '@/components/shared/AgreementDetails'
 import { ConsumerAgreementCreateDocsInputSection } from './components/ConsumerAgreementCreateDocsInputSection'
-import { Button, TextField } from '@mui/material'
+import { Button, Grid, TextField } from '@mui/material'
 import { InputWrapper } from '@/components/shared/InputWrapper'
 import useCanUserSubmitAgreementDraft from './hooks/useCanUserSubmitAgreementDraft'
+import { PageBottomActionsCardContainer } from '@/components/layout/containers/PageBottomCardContainer'
 
 const ConsumerAgreementCreatePage: React.FC = () => {
   const { t } = useTranslation('agreement')
@@ -23,6 +24,8 @@ const ConsumerAgreementCreatePage: React.FC = () => {
   const { agreementId } = useRouteParams<'SUBSCRIBE_AGREEMENT_EDIT'>()
   const { data: agreement } = AgreementQueries.useGetSingle(agreementId, { suspense: false })
   const { mutate: submitAgreementDraft } = AgreementMutations.useSubmitDraft()
+  const { mutate: updateAgreementDraft } = AgreementMutations.useUpdateDraft()
+  const { mutate: deleteAgreementDraft } = AgreementMutations.useDeleteDraft()
 
   const { actions } = useGetAgreementsActions(agreement)
   const topSideActions = formatTopSideActions(actions)
@@ -32,6 +35,28 @@ const ConsumerAgreementCreatePage: React.FC = () => {
   const handleSubmitAgreementDraft = () => {
     submitAgreementDraft(
       { agreementId, consumerNotes },
+      {
+        onSuccess() {
+          navigate('SUBSCRIBE_AGREEMENT_LIST')
+        },
+      }
+    )
+  }
+
+  const handleUpdateAgreementDraft = () => {
+    updateAgreementDraft(
+      { agreementId, consumerNotes },
+      {
+        onSuccess() {
+          navigate('SUBSCRIBE_AGREEMENT_LIST')
+        },
+      }
+    )
+  }
+
+  const handleDeleteAgreementDraft = () => {
+    deleteAgreementDraft(
+      { agreementId },
       {
         onSuccess() {
           navigate('SUBSCRIBE_AGREEMENT_LIST')
@@ -79,14 +104,30 @@ const ConsumerAgreementCreatePage: React.FC = () => {
         <RouterLink as="button" to="SUBSCRIBE_AGREEMENT_LIST" variant="outlined">
           {t('backToRequestsBtn')}
         </RouterLink>
-        <Button
-          disabled={!canUserSubmitAgreementDraft}
-          onClick={handleSubmitAgreementDraft}
-          variant="contained"
-        >
-          {t('edit.bottomPageActionCard.submitBtn')}
+        <Button onClick={handleUpdateAgreementDraft} variant="contained">
+          {t('edit.bottomPageActionCard.updateBtn')}
         </Button>
       </PageBottomActionsContainer>
+
+      <Grid container>
+        <Grid item xs={8}>
+          <PageBottomActionsCardContainer
+            title={t('edit.bottomPageActionCard.title')}
+            description={t('edit.bottomPageActionCard.description')}
+          >
+            <Button onClick={handleDeleteAgreementDraft} variant="outlined">
+              {t('edit.bottomPageActionCard.cancelBtn')}
+            </Button>
+            <Button
+              disabled={!canUserSubmitAgreementDraft}
+              onClick={handleSubmitAgreementDraft}
+              variant="contained"
+            >
+              {t('edit.bottomPageActionCard.submitBtn')}
+            </Button>
+          </PageBottomActionsCardContainer>
+        </Grid>
+      </Grid>
     </PageContainer>
   )
 }
