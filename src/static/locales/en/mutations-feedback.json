@@ -223,6 +223,13 @@
         "description": "By clicking \"confirm\", the draft of this fruition request will be deleted. You will always be able to create a new one"
       }
     },
+    "updateDraft": {
+      "loading": "Updating draft",
+      "outcome": {
+        "success": "Draft updated successfully",
+        "error": "Draft could not be updated. Make sure you have filled all the required fields and try again!"
+      }
+    },
     "downloadDraftDocument": {
       "loading": "Downloading document",
       "outcome": {

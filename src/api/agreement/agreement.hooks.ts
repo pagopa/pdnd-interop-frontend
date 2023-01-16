@@ -103,6 +103,15 @@ function useDeleteDraft() {
   })
 }
 
+function useUpdateDraft() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.updateDraft' })
+  return useMutationWrapper(AgreementServices.updateDraft, {
+    successToastLabel: t('outcome.success'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+  })
+}
+
 function useDownloadDocument() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'agreement.downloadDraftDocument',
@@ -238,6 +247,7 @@ export const AgreementMutations = {
   useCreateDraft,
   useSubmitDraft,
   useDeleteDraft,
+  useUpdateDraft,
   useUploadDraftDocument,
   useDeleteDraftDocument,
   useActivate,
