@@ -23,6 +23,19 @@ const ProviderEServiceListPage: React.FC = () => {
     limit: 20,
   })
 
+  const consumerParams = { limit: 50, offset: 0 }
+
+  const { data: consumers } = EServiceQueries.useGetConsumers(consumerParams, {
+    suspense: true,
+    keepPreviousData: false,
+  })
+
+  const consumersOptions =
+    consumers?.results.map((o) => ({
+      label: `${o.name || o.id}`,
+      value: o.id,
+    })) || []
+
   const { queryFilters, filtersFormMethods, enableFilters, clearFilters } =
     useQueryFilters<EServiceGetProviderListUrlParams>({
       q: '',
@@ -58,6 +71,7 @@ const ProviderEServiceListPage: React.FC = () => {
         filtersFormMethods={filtersFormMethods}
         enableFilters={enableFilters}
         clearFilters={clearFilters}
+        filterOptions={consumersOptions}
       />
       <EServiceTableWrapper params={params} />
       <Pagination {...props} totalPages={getTotalPageCount(data?.pagination.totalCount)} />

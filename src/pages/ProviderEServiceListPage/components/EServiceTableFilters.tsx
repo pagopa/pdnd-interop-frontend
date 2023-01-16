@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Button, Stack } from '@mui/material'
+import { Button, Stack } from '@mui/material'
 import { FormProvider, UseFormReturn } from 'react-hook-form'
 import { AutocompleteMultiple, TextField } from '@/components/shared/ReactHookFormInputs'
 
@@ -7,12 +7,17 @@ interface EServiceTableFiltersProps {
   clearFilters: VoidFunction
   enableFilters: VoidFunction
   filtersFormMethods: UseFormReturn<any, any>
+  filterOptions: Array<{
+    label: string
+    value: unknown
+  }>
 }
 
 const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({
   clearFilters,
   enableFilters,
   filtersFormMethods,
+  filterOptions,
 }) => {
   return (
     <FormProvider {...filtersFormMethods}>
@@ -24,28 +29,27 @@ const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({
         justifyContent="space-between"
         sx={{ mb: 4 }}
       >
-        <TextField sx={{ m: 0 }} size="small" name="q" label="Cerca per nome dell’e-service" />
-        {/* <AutocompleteMultiple
-          size="small"
-          name="consumerIds"
-          label="consumers"
-          options={[
-            { label: 'A', value: 'a' },
-            { label: 'B', value: 'b' },
-          ]}
-        /> */}
+        <Stack direction="row" spacing={2} sx={{ flex: 0.8 }}>
+          <TextField
+            sx={{ m: 0, flex: 0.55 }}
+            size="small"
+            name="q"
+            label="Cerca per nome dell’e-service"
+          />
+          <AutocompleteMultiple
+            sx={{ flex: 0.45 }}
+            size="small"
+            name="consumerIds"
+            label="consumers"
+            options={filterOptions}
+          />
+        </Stack>
 
         <Stack direction="row" spacing={2}>
           <Button size="small" variant="outlined" type="submit">
             Filtra
           </Button>
-          <Button
-            size="small"
-            variant="outlined"
-            sx={{ border: 0, '&:hover': { border: 0 } }}
-            type="button"
-            onClick={clearFilters}
-          >
+          <Button size="small" variant="text" type="button" onClick={clearFilters}>
             Annulla filtri
           </Button>
         </Stack>
