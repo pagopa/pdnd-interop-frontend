@@ -43,6 +43,15 @@ export type EServiceGetProviderListUrlParams = {
   limit: number
 }
 
+export type EServiceGetConsumersUrlParams = {
+  /** Query to filter e-services by name */
+  name?: string
+  /** Pagination offset, MAX 50 */
+  offset: number
+  /** Pagination limit, MAX 50 */
+  limit: number
+}
+
 export type EServiceDraftPayload = {
   name?: string | undefined
   description?: string | undefined

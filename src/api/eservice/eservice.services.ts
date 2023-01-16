@@ -9,9 +9,11 @@ import {
   UpdateEServiceVersionDraftDocumentPayload,
   EServiceGetCatalogListUrlParams,
   EServiceGetProviderListUrlParams,
+  EServiceGetConsumersUrlParams,
 } from './eservice.api.types'
 import {
   EServiceCatalog,
+  EServiceConsumer,
   EServiceDescriptorCatalog,
   EServiceDescriptorProvider,
   EServiceDescriptorRead,
@@ -64,6 +66,14 @@ async function getDescriptorCatalog(eserviceId: string, descriptorId: string) {
 async function getDescriptorProvider(eserviceId: string, descriptorId: string) {
   const response = await axiosInstance.get<EServiceDescriptorProvider>(
     `${BACKEND_FOR_FRONTEND_URL}/producers/eservices/${eserviceId}/descriptors/${descriptorId}`
+  )
+  return response.data
+}
+
+async function getConsumers(params: EServiceGetConsumersUrlParams) {
+  const response = await axiosInstance.get<Paginated<EServiceConsumer>>(
+    `${BACKEND_FOR_FRONTEND_URL}/consumers`,
+    { params }
   )
   return response.data
 }
@@ -255,6 +265,7 @@ const EServiceServices = {
   getSingle,
   getDescriptorCatalog,
   getDescriptorProvider,
+  getConsumers,
   createDraft,
   updateDraft,
   deleteDraft,

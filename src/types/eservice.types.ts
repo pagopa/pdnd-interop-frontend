@@ -172,3 +172,8 @@ export type EServiceDescriptorRead = {
   dailyCallsTotal: number
   agreementApprovalPolicy: 'MANUAL' | 'AUTOMATIC'
 }
+
+export type EServiceConsumer = {
+  id: string
+  name: string
+}
