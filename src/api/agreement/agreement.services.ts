@@ -1,5 +1,5 @@
 import axiosInstance from '@/config/axios'
-import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
+import { AGREEMENT_PROCESS_URL, BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import {
   GetListAgreementQueryParams,
   UploadAgreementDraftDocumentPayload,
@@ -55,6 +55,20 @@ async function deleteDraft({ agreementId }: { agreementId: string }) {
   return axiosInstance.delete<AgreementSummary>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}`
   )
+}
+
+async function updateDraft({
+  agreementId,
+  consumerNotes,
+}: {
+  agreementId: string
+  consumerNotes: string
+}) {
+  const response = await axiosInstance.post<AgreementSummary>(
+    `${AGREEMENT_PROCESS_URL}/agreements/${agreementId}/update`,
+    { consumerNotes }
+  )
+  return response.data
 }
 
 async function downloadDraftDocument({
@@ -142,6 +156,7 @@ const AgreementServices = {
   createDraft,
   submitDraft,
   deleteDraft,
+  updateDraft,
   downloadDraftDocument,
   uploadDraftDocument,
   deleteDraftDocument,
