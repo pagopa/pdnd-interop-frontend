@@ -24,7 +24,7 @@ export type EServiceGetCatalogListQueryFilters = {
   /** Query to filter e-services by name */
   q?: string
   /** List of producers IDs */
-  producerIds?: Array<string>
+  producersIds?: Array<string>
   /** List of e-service states */
   states?: Array<EServiceState>
 }

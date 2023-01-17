@@ -22,7 +22,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
   const { queryFilters, filtersFormMethods, enableFilters, clearFilters } =
     useQueryFilters<EServiceGetCatalogListQueryFilters>({
       q: '',
-      producerIds: [],
+      producersIds: [],
     })
 
   const params = { ...queryFilters, ...paginationParams }
