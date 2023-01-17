@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, waitFor } from '@testing-library/react'
-import { TestInputWrapper } from './test-utils'
+import { TestInputWrapper } from '@/__mocks__/mock.utils'
 import { TextField } from '@/components/shared/ReactHookFormInputs'
 import userEvent from '@testing-library/user-event'
 

@@ -12,6 +12,7 @@ import { createMemoryHistory, MemoryHistory } from 'history'
 import { ErrorBoundary } from '@/router/components/RoutesWrapper/ErrorBoundary'
 import { Route, Router, Routes } from 'react-router-dom'
 import { render, renderHook } from '@testing-library/react'
+import { useForm, FormProvider } from 'react-hook-form'
 
 /**
  * Wraps the data passed in the pagination data structure
@@ -114,4 +115,24 @@ export function renderHookWithApplicationContext<Props, Result>(
 ) {
   const renderResult = renderHook(render, { wrapper: generateWrapper({ ...options, history }) })
   return { ...renderResult, history }
+}
+
+export const TestInputWrapper = ({ children }: { children: React.ReactNode }) => {
+  const formMethods = useForm<{
+    testText: string
+    test: false
+    testFile: File | null
+    checkedItems: Array<string>
+    multipleItems: Array<string>
+  }>({
+    defaultValues: {
+      testText: '',
+      test: false,
+      testFile: null,
+      checkedItems: [],
+      multipleItems: [],
+    },
+  })
+
+  return <FormProvider {...formMethods}>{children}</FormProvider>
 }

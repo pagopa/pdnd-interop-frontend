@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import { TestInputWrapper } from '@/components/shared/ReactHookFormInputs/__tests__/test-utils'
+import { TestInputWrapper } from '@/__mocks__/mock.utils'
 import { Select } from '@/components/shared/ReactHookFormInputs'
 
 const selectOptions = [
