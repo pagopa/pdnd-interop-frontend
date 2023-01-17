@@ -1,8 +1,11 @@
 import React from 'react'
-import { useForm } from 'react-hook-form'
+import { DeepPartial, useForm } from 'react-hook-form'
 
-export function useQueryFilters<T>(defaultValues: Omit<T, 'offset' | 'limit'>) {
-  const filtersFormMethods = useForm<any>({ defaultValues })
+export function useQueryFilters<T extends object>(defaultValues: T) {
+  const filtersFormMethods = useForm<T>({
+    defaultValues: defaultValues as DeepPartial<T>,
+  })
+
   const [queryFilters, setQueryFilters] = React.useState(defaultValues)
 
   const clearFilters = React.useCallback(() => {

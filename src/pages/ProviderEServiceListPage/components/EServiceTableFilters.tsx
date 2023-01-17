@@ -3,11 +3,12 @@ import { Button, Stack } from '@mui/material'
 import { FormProvider, UseFormReturn } from 'react-hook-form'
 import { AutocompleteMultiple, TextField } from '@/components/shared/ReactHookFormInputs'
 import { EServiceQueries } from '@/api/eservice'
+import { EServiceGetProviderListQueryFilters } from '@/api/eservice/eservice.api.types'
 
 interface EServiceTableFiltersProps {
   clearFilters: VoidFunction
   enableFilters: VoidFunction
-  filtersFormMethods: UseFormReturn<any, any>
+  filtersFormMethods: UseFormReturn<EServiceGetProviderListQueryFilters, unknown>
 }
 
 const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({

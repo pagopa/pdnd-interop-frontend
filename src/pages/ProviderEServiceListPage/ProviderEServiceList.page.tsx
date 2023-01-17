@@ -7,7 +7,10 @@ import { TopSideActions } from '@/components/layout/containers/PageContainer'
 import { EServiceQueries } from '@/api/eservice'
 import usePagination from '@/hooks/usePagination'
 import { Pagination } from '@/components/shared/Pagination'
-import { EServiceGetProviderListUrlParams } from '@/api/eservice/eservice.api.types'
+import {
+  EServiceGetProviderListQueryFilters,
+  EServiceGetProviderListUrlParams,
+} from '@/api/eservice/eservice.api.types'
 import { useQueryFilters } from '@/hooks/useQueryFilters'
 import EServiceTableFilters from './components/EServiceTableFilters'
 
@@ -24,7 +27,7 @@ const ProviderEServiceListPage: React.FC = () => {
   })
 
   const { queryFilters, filtersFormMethods, enableFilters, clearFilters } =
-    useQueryFilters<EServiceGetProviderListUrlParams>({
+    useQueryFilters<EServiceGetProviderListQueryFilters>({
       q: '',
       consumersIds: [],
     })

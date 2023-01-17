@@ -6,6 +6,7 @@ import {
   EServiceState,
   EServiceTechnologyType,
 } from '@/types/eservice.types'
+import { PaginationParams } from '../api.types'
 
 /** @deprecated TO BE REMOVED */
 export type EServiceGetListFlatUrlParams = {
@@ -19,38 +20,34 @@ export type EServiceGetListFlatUrlParams = {
 /** @deprecated TO BE REMOVED */
 export type EServiceGetListFlatResponse = Array<EServiceFlatten>
 
-export type EServiceGetCatalogListUrlParams = {
+export type EServiceGetCatalogListQueryFilters = {
   /** Query to filter e-services by name */
   q?: string
   /** List of producers IDs */
   producerIds?: Array<string>
   /** List of e-service states */
   states?: Array<EServiceState>
-  /** Pagination offset, MAX 50 */
-  offset: number
-  /** Pagination limit, MAX 50 */
-  limit: number
 }
 
-export type EServiceGetProviderListUrlParams = {
+export type EServiceGetCatalogListUrlParams = EServiceGetProviderListQueryFilters & PaginationParams
+
+export type EServiceGetProviderListQueryFilters = {
   /** Query to filter e-services by name */
   q?: string
   /** List of consumers IDs */
   consumersIds?: Array<string>
   /** Pagination offset, MAX 50 */
-  offset: number
-  /** Pagination limit, MAX 50 */
-  limit: number
 }
 
-export type EServiceGetConsumersUrlParams = {
+export type EServiceGetProviderListUrlParams = EServiceGetProviderListQueryFilters &
+  PaginationParams
+
+export type EServiceGetConsumersQueryFilters = {
   /** Query to filter consumers by name */
   name?: string
-  /** Pagination offset, MAX 50 */
-  offset: number
-  /** Pagination limit, MAX 50 */
-  limit: number
 }
+
+export type EServiceGetConsumersUrlParams = EServiceGetConsumersQueryFilters & PaginationParams
 
 export type EServiceDraftPayload = {
   name?: string | undefined
