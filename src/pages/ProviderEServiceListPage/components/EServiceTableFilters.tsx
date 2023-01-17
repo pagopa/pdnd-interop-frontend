@@ -2,23 +2,32 @@ import React from 'react'
 import { Button, Stack } from '@mui/material'
 import { FormProvider, UseFormReturn } from 'react-hook-form'
 import { AutocompleteMultiple, TextField } from '@/components/shared/ReactHookFormInputs'
+import { EServiceQueries } from '@/api/eservice'
 
 interface EServiceTableFiltersProps {
   clearFilters: VoidFunction
   enableFilters: VoidFunction
   filtersFormMethods: UseFormReturn<any, any>
-  filterOptions: Array<{
-    label: string
-    value: unknown
-  }>
 }
 
 const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({
   clearFilters,
   enableFilters,
   filtersFormMethods,
-  filterOptions,
 }) => {
+  const { data: consumers, isLoading: isLoadingConsumers } = EServiceQueries.useGetConsumers(
+    { limit: 50, offset: 0 },
+    {
+      suspense: false,
+    }
+  )
+
+  const consumersOptions =
+    consumers?.results.map((o) => ({
+      label: o.name || 'default',
+      value: o.id,
+    })) || []
+
   return (
     <FormProvider {...filtersFormMethods}>
       <Stack
@@ -29,19 +38,20 @@ const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({
         justifyContent="space-between"
         sx={{ mb: 4 }}
       >
-        <Stack direction="row" spacing={2} sx={{ flex: 0.8 }}>
+        <Stack direction="row" spacing={2} sx={{ width: '60%' }}>
           <TextField
-            sx={{ m: 0, flex: 0.55 }}
+            sx={{ m: 0, width: '55%' }}
             size="small"
             name="q"
             label="Cerca per nome dell’e-service"
           />
           <AutocompleteMultiple
-            sx={{ flex: 0.45 }}
+            sx={{ width: '45%' }}
             size="small"
-            name="consumerIds"
+            name="consumersIds"
             label="consumers"
-            options={filterOptions}
+            options={consumersOptions}
+            loading={isLoadingConsumers}
           />
         </Stack>
 
