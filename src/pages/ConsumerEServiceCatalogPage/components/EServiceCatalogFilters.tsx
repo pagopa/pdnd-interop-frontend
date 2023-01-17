@@ -24,7 +24,7 @@ const EServiceCatalogFilters: React.FC<EServiceCatalogFiltersProps> = ({
 
   const producersOptions =
     producers?.results.map((o) => ({
-      label: o.name || 'default',
+      label: o.name,
       value: o.id,
     })) || []
 
