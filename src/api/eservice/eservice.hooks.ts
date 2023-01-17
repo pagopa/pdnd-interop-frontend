@@ -7,6 +7,7 @@ import {
   EServiceGetCatalogListUrlParams,
   EServiceGetConsumersUrlParams,
   EServiceGetListFlatUrlParams,
+  EServiceGetProducersUrlParams,
   EServiceGetProviderListUrlParams,
   EServiceVersionDraftPayload,
 } from './eservice.api.types'
@@ -22,6 +23,7 @@ export enum EServiceQueryKeys {
   GetDescriptorCatalog = 'EServiceGetDescriptorCatalog',
   GetDescriptorProvider = 'EServiceGetDescriptorProvider',
   GetConsumers = 'EServiceGetConsumers',
+  GetProducers = 'EServiceGetProducers',
 }
 
 /** @deprecated TO BE REMOVED */
@@ -71,6 +73,17 @@ function useGetConsumers(
   return useQueryWrapper(
     [EServiceQueryKeys.GetConsumers, params],
     () => EServiceServices.getConsumers(params),
+    config
+  )
+}
+
+function useGetProducers(
+  params: EServiceGetProducersUrlParams,
+  config?: { suspense?: boolean; keepPreviousData?: boolean }
+) {
+  return useQueryWrapper(
+    [EServiceQueryKeys.GetProducers, params],
+    () => EServiceServices.getProducers(params),
     config
   )
 }
@@ -362,6 +375,7 @@ export const EServiceQueries = {
   useGetDescriptorProvider,
   useGetSingle,
   useGetConsumers,
+  useGetProducers,
   usePrefetchSingle,
   usePrefetchDescriptorCatalog,
   usePrefetchDescriptorProvider,
