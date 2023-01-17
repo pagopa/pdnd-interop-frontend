@@ -177,3 +177,8 @@ export type EServiceConsumer = {
   id: string
   name: string
 }
+
+export type EServiceProducer = {
+  id: string
+  name: string
+}
