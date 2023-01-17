@@ -44,7 +44,7 @@ export type EServiceGetProviderListUrlParams = {
 }
 
 export type EServiceGetConsumersUrlParams = {
-  /** Query to filter e-services by name */
+  /** Query to filter consumers by name */
   name?: string
   /** Pagination offset, MAX 50 */
   offset: number

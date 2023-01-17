@@ -24,7 +24,7 @@ const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({
 
   const consumersOptions =
     consumers?.results.map((o) => ({
-      label: o.name || 'default',
+      label: o.name,
       value: o.id,
     })) || []
 
