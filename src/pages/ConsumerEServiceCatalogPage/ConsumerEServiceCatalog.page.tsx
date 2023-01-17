@@ -6,7 +6,7 @@ import { EServiceCatalogGrid, EServiceCatalogGridSkeleton } from './components'
 import { EServiceQueries } from '@/api/eservice'
 import { Pagination } from '@/components/shared/Pagination'
 import { useQueryFilters } from '@/hooks/useQueryFilters'
-import { EServiceGetCatalogListUrlParams } from '@/api/eservice/eservice.api.types'
+import { EServiceGetCatalogListQueryFilters } from '@/api/eservice/eservice.api.types'
 import EServiceCatalogFilters from './components/EServiceCatalogFilters'
 
 const ConsumerEServiceCatalogPage: React.FC = () => {
@@ -20,7 +20,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
   })
 
   const { queryFilters, filtersFormMethods, enableFilters, clearFilters } =
-    useQueryFilters<EServiceGetCatalogListUrlParams>({
+    useQueryFilters<EServiceGetCatalogListQueryFilters>({
       q: '',
       producerIds: [],
     })
