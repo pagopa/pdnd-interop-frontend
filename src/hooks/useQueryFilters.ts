@@ -4,20 +4,20 @@ import { DeepPartial, useForm } from 'react-hook-form'
 import { useSearchParams } from 'react-router-dom'
 import omit from 'lodash/omit'
 
-export function useQueryFilters<T extends Record<string, string | string[]>>(_defaultValues: T) {
+export function useQueryFilters<T extends Record<string, string | string[]>>(defaultValues: T) {
   const [filtersSearchParams, setFiltersSearchParams] = useSearchParams()
 
   const decodedSearchParams = React.useMemo<T>(() => {
-    const filterKeys = getKeys(_defaultValues) as Array<string>
+    const filterKeys = getKeys(defaultValues) as Array<string>
     return filterKeys.reduce((prev, filterKey) => {
       return {
         ...prev,
-        [filterKey]: Array.isArray(_defaultValues[filterKey])
-          ? filtersSearchParams.getAll(filterKey) ?? _defaultValues[filterKey]
-          : filtersSearchParams.get(filterKey) ?? _defaultValues[filterKey],
+        [filterKey]: Array.isArray(defaultValues[filterKey])
+          ? filtersSearchParams.getAll(filterKey) ?? defaultValues[filterKey]
+          : filtersSearchParams.get(filterKey) ?? defaultValues[filterKey],
       }
     }, {} as T)
-  }, [filtersSearchParams, _defaultValues])
+  }, [filtersSearchParams, defaultValues])
 
   const filtersFormMethods = useForm<T>({
     defaultValues: decodedSearchParams as DeepPartial<T>,
@@ -26,15 +26,15 @@ export function useQueryFilters<T extends Record<string, string | string[]>>(_de
   const [queryFilters, setQueryFilters] = React.useState<T>(decodedSearchParams)
 
   const clearFilters = React.useCallback(() => {
-    const filtersKeys = getKeys(_defaultValues)
+    const filtersKeys = getKeys(defaultValues)
     filtersKeys.forEach((filterKey) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
-      filtersFormMethods.setValue(filterKey, _defaultValues[filterKey])
+      filtersFormMethods.setValue(filterKey, defaultValues[filterKey])
     })
-    setQueryFilters(_defaultValues)
+    setQueryFilters(defaultValues)
     setFiltersSearchParams(() => omit(Object.fromEntries(filtersSearchParams), ...filtersKeys))
-  }, [filtersFormMethods, _defaultValues, filtersSearchParams, setFiltersSearchParams])
+  }, [filtersFormMethods, defaultValues, filtersSearchParams, setFiltersSearchParams])
 
   const enableFilters = filtersFormMethods.handleSubmit((values) => {
     setQueryFilters(values)
@@ -45,7 +45,7 @@ export function useQueryFilters<T extends Record<string, string | string[]>>(_de
       )
     )
 
-    setFiltersSearchParams(() => definedFiltersSearchParams)
+    setFiltersSearchParams(definedFiltersSearchParams)
   })
 
   return { queryFilters, filtersFormMethods, enableFilters, clearFilters }
