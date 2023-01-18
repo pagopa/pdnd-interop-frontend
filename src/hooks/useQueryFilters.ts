@@ -7,6 +7,7 @@ import omit from 'lodash/omit'
 export function useQueryFilters<T extends Record<string, string | string[]>>(defaultValues: T) {
   const [filtersSearchParams, setFiltersSearchParams] = useSearchParams()
 
+  // Parses the search url params into a filters object
   const decodedSearchParams = React.useMemo<T>(() => {
     const filterKeys = getKeys(defaultValues) as Array<string>
     return filterKeys.reduce((prev, filterKey) => {
@@ -27,25 +28,30 @@ export function useQueryFilters<T extends Record<string, string | string[]>>(def
 
   const clearFilters = React.useCallback(() => {
     const filtersKeys = getKeys(defaultValues)
+
+    // Sets the default value to all the form value states
     filtersKeys.forEach((filterKey) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       filtersFormMethods.setValue(filterKey, defaultValues[filterKey])
     })
     setQueryFilters(defaultValues)
-    setFiltersSearchParams(() => omit(Object.fromEntries(filtersSearchParams), ...filtersKeys))
+
+    // Clears the search url params from only the filter related url params
+    setFiltersSearchParams(omit(Object.fromEntries(filtersSearchParams), ...filtersKeys))
   }, [filtersFormMethods, defaultValues, filtersSearchParams, setFiltersSearchParams])
 
   const enableFilters = filtersFormMethods.handleSubmit((values) => {
     setQueryFilters(values)
 
-    const definedFiltersSearchParams = Object.fromEntries(
+    // Filters out the falsy/empty values
+    const filteredSearchParams = Object.fromEntries(
       Object.entries({ ...Object.fromEntries(filtersSearchParams), ...values }).filter(
         ([_, value]) => !!value && value.length > 0
       )
     )
 
-    setFiltersSearchParams(definedFiltersSearchParams)
+    setFiltersSearchParams(filteredSearchParams)
   })
 
   return { queryFilters, filtersFormMethods, enableFilters, clearFilters }
