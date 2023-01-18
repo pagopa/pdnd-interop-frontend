@@ -29,7 +29,7 @@ export type EServiceGetCatalogListQueryFilters = {
   states?: Array<EServiceState>
 }
 
-export type EServiceGetCatalogListUrlParams = EServiceGetProviderListQueryFilters & PaginationParams
+export type EServiceGetCatalogListUrlParams = EServiceGetCatalogListQueryFilters & PaginationParams
 
 export type EServiceGetProviderListQueryFilters = {
   /** Query to filter e-services by name */

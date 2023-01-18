@@ -7,7 +7,7 @@ import omit from 'lodash/omit'
 export function useQueryFilters<T extends Record<string, string | string[]>>(_defaultValues: T) {
   const [filtersSearchParams, setFiltersSearchParams] = useSearchParams()
 
-  const decodedSearchParams = React.useMemo(() => {
+  const decodedSearchParams = React.useMemo<T>(() => {
     const filterKeys = getKeys(_defaultValues) as Array<string>
 
     return filterKeys.reduce((prev, filterKey) => {
@@ -17,14 +17,14 @@ export function useQueryFilters<T extends Record<string, string | string[]>>(_de
           ? filtersSearchParams.getAll(filterKey) ?? _defaultValues[filterKey]
           : filtersSearchParams.get(filterKey) ?? _defaultValues[filterKey],
       }
-    }, {})
+    }, {} as T)
   }, [filtersSearchParams, _defaultValues])
 
   const filtersFormMethods = useForm<T>({
     defaultValues: decodedSearchParams as DeepPartial<T>,
   })
 
-  const [queryFilters, setQueryFilters] = React.useState(decodedSearchParams)
+  const [queryFilters, setQueryFilters] = React.useState<T>(decodedSearchParams)
 
   const clearFilters = React.useCallback(() => {
     const filtersKeys = getKeys(_defaultValues)
