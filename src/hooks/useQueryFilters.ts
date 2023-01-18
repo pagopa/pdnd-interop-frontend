@@ -34,22 +34,14 @@ export function useQueryFilters<T extends Record<string, string | string[]>>(_de
 
   const enableFilters = filtersFormMethods.handleSubmit((values) => {
     setQueryFilters(values)
-    /**
-     * {
-     *   q: "",
-     *   consumerIds: ["id1", "id2"]
-     * }
-     */
 
-    /**
-     * {
-     *   consumerIds: ["id1", "id2"]
-     * }
-     */
+    const definedFiltersSearchParams = Object.fromEntries(
+      Object.entries({ ...Object.fromEntries(filtersSearchParams), ...values }).filter(
+        (value) => !!value[1] && value[1].length > 0
+      )
+    )
 
-    // const a: string | Array<string> = []
-    // !!a && a.length > 0
-    setFiltersSearchParams(() => ({ ...Object.fromEntries(filtersSearchParams), ...values }))
+    setFiltersSearchParams(() => definedFiltersSearchParams)
   })
 
   return { queryFilters, filtersFormMethods, enableFilters, clearFilters }
