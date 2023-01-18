@@ -97,7 +97,7 @@ export function _AutocompleteBase<
                 <TextField
                   variant={variant}
                   error={!!error}
-                  placeholder={placeholder || '...'}
+                  placeholder={placeholder ?? '...'}
                   {...params}
                   autoFocus={focusOnMount}
                   InputLabelProps={{ shrink: true, ...params.InputLabelProps }}

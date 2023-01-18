@@ -50,6 +50,7 @@ const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({
           />
           <AutocompleteMultiple
             sx={{ width: '45%' }}
+            placeholder=""
             size="small"
             name="consumersIds"
             label={t('list.filters.consumerField.label')}

@@ -50,6 +50,7 @@ const EServiceCatalogFilters: React.FC<EServiceCatalogFiltersProps> = ({
           />
           <AutocompleteMultiple
             sx={{ width: '45%' }}
+            placeholder=""
             size="small"
             name="producersIds"
             label={t('list.filters.providerField.label')}
