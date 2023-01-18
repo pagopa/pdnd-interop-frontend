@@ -3,16 +3,20 @@ import React from 'react'
 import { DeepPartial, useForm } from 'react-hook-form'
 import { useSearchParams } from 'react-router-dom'
 import omit from 'lodash/omit'
-import pick from 'lodash/pick'
-import qs from 'qs'
 
 export function useQueryFilters<T extends Record<string, string | string[]>>(_defaultValues: T) {
   const [filtersSearchParams, setFiltersSearchParams] = useSearchParams()
 
   const decodedSearchParams = React.useMemo<T>(() => {
-    const parsedSearchParams = qs.parse(filtersSearchParams.toString()) as T
-
-    return pick(parsedSearchParams, ...getKeys(_defaultValues))
+    const filterKeys = getKeys(_defaultValues) as Array<string>
+    return filterKeys.reduce((prev, filterKey) => {
+      return {
+        ...prev,
+        [filterKey]: Array.isArray(_defaultValues[filterKey])
+          ? filtersSearchParams.getAll(filterKey) ?? _defaultValues[filterKey]
+          : filtersSearchParams.get(filterKey) ?? _defaultValues[filterKey],
+      }
+    }, {} as T)
   }, [filtersSearchParams, _defaultValues])
 
   const filtersFormMethods = useForm<T>({
@@ -37,7 +41,7 @@ export function useQueryFilters<T extends Record<string, string | string[]>>(_de
 
     const definedFiltersSearchParams = Object.fromEntries(
       Object.entries({ ...Object.fromEntries(filtersSearchParams), ...values }).filter(
-        (value) => !!value[1] && value[1].length > 0
+        ([_, value]) => !!value && value.length > 0
       )
     )
 
