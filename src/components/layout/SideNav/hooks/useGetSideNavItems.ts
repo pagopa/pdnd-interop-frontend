@@ -48,13 +48,15 @@ const views: Views = {
   ],
 }
 
-export function useGetAvailableViews() {
+export function useGetSideNavItems() {
   const { currentRoles } = useJwt()
 
   return React.useMemo(() => {
     const availableSideNavItems: Array<SideNavItemView> = []
 
+    // For each user roles
     currentRoles.forEach((userRole) => {
+      // ... take all the sidenav items for that role...
       const roleSideNavItems = views[userRole]
 
       roleSideNavItems.forEach(({ id: roleSideNavItemId, children }, index) => {
@@ -62,10 +64,12 @@ export function useGetAvailableViews() {
           ({ id }) => id === roleSideNavItemId
         )
 
+        // ... if the item is already on the availableSideNavItems array, just merge the children
         if (sideNavBarItemIndex > -1) {
           availableSideNavItems[sideNavBarItemIndex].children?.push(...(children ?? []))
         }
 
+        // ... if not add the side nav item inside the availableSideNavItems array result.
         if (sideNavBarItemIndex === -1) {
           availableSideNavItems.push(roleSideNavItems[index])
         }
@@ -78,6 +82,7 @@ export function useGetAvailableViews() {
       availableSideNavItems.push({ routeKey: 'PARTY_REGISTRY' as RouteKey })
     }
 
+    // Remove duplicated children, if there's any.
     availableSideNavItems.forEach((_, index) => {
       if (availableSideNavItems[index]?.children) {
         availableSideNavItems[index].children = uniq(availableSideNavItems[index].children)

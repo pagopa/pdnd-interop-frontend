@@ -20,7 +20,7 @@ import { getParentRoutes } from '@/router/router.utils'
 import { SIDENAV_WIDTH } from '@/config/constants'
 import { SideNavItemLink, SideNavItemLinkSkeleton } from './SideNavItemLink'
 import { CollapsableSideNavItem, CollapsableSideNavItemSkeleton } from './CollapsableSideNavItem'
-import { useGetAvailableViews } from './hooks/useGetAvailableViews'
+import { useGetSideNavItems } from './hooks/useGetSideNavItems'
 
 type View = {
   routeKey: RouteKey
@@ -44,12 +44,12 @@ const _SideNav = () => {
   const { jwt, isAdmin } = useJwt()
   const { routeKey } = useCurrentRoute()
 
-  const availableViews = useGetAvailableViews()
+  const sideNavItems = useGetSideNavItems()
 
   const isActive = () => {
     const parentRoutes: Array<RouteKey> = [...getParentRoutes(routeKey), routeKey]
 
-    const menuRoutes = availableViews.filter((view) => 'id' in view)
+    const menuRoutes = sideNavItems.filter((view) => 'id' in view)
     const menuId = menuRoutes.find(({ routeKey }) => parentRoutes.includes(routeKey))?.id ?? null
 
     return menuId
@@ -67,7 +67,7 @@ const _SideNav = () => {
   return (
     <Box sx={{ display: 'block', py: 3, boxShadow: 5 }} component="nav">
       <List sx={{ width: SIDENAV_WIDTH, mr: 0 }} disablePadding>
-        {availableViews.map((item, i) => {
+        {sideNavItems.map((item, i) => {
           return item?.children && item?.children?.length > 0 ? (
             <CollapsableSideNavItem
               key={item.id}
