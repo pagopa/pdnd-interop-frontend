@@ -4,6 +4,7 @@ import { FormProvider, UseFormReturn } from 'react-hook-form'
 import { AutocompleteMultiple, TextField } from '@/components/shared/ReactHookFormInputs'
 import { EServiceQueries } from '@/api/eservice'
 import { EServiceGetProviderListQueryFilters } from '@/api/eservice/eservice.api.types'
+import { useTranslation } from 'react-i18next'
 
 interface EServiceTableFiltersProps {
   clearFilters: VoidFunction
@@ -16,6 +17,7 @@ const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({
   enableFilters,
   filtersFormMethods,
 }) => {
+  const { t } = useTranslation('eservice')
   const { data: consumers, isLoading: isLoadingConsumers } = EServiceQueries.useGetConsumers(
     { limit: 50, offset: 0 },
     {
@@ -44,13 +46,13 @@ const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({
             sx={{ m: 0, width: '55%' }}
             size="small"
             name="q"
-            label="Cerca per nome dell’e-service"
+            label={t('list.filters.nameField.label')}
           />
           <AutocompleteMultiple
             sx={{ width: '45%' }}
             size="small"
             name="consumersIds"
-            label="consumers"
+            label={t('list.filters.consumerField.label')}
             options={consumersOptions}
             loading={isLoadingConsumers}
           />
@@ -58,10 +60,10 @@ const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({
 
         <Stack direction="row" spacing={2}>
           <Button size="small" variant="outlined" type="submit">
-            Filtra
+            {t('list.filters.filterBtn')}
           </Button>
           <Button size="small" variant="text" type="button" onClick={clearFilters}>
-            Annulla filtri
+            {t('list.filters.cancelFilterBtn')}
           </Button>
         </Stack>
       </Stack>

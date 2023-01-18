@@ -121,6 +121,9 @@
       "providerField": {
         "label": "Cerca per erogatore"
       },
+      "consumerField": {
+        "label": "Cerca per fruitore"
+      },
       "filterBtn": "Filtra",
       "cancelFilterBtn": "Annulla filtri"
     }
