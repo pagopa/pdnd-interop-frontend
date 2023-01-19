@@ -1,6 +1,6 @@
 import { routes } from '@/router/routes'
 import type { LangCode, ProviderOrConsumer } from '@/types/common.types'
-import type { LocalizedRoutes, RouteKey } from '@/router/router.types'
+import type { RouteKey } from '@/router/router.types'
 import { generatePath, matchPath } from 'react-router-dom'
 import { getKeys } from '@/utils/array.utils'
 import memoize from 'lodash/memoize'
@@ -150,45 +150,3 @@ const _getDynamicSegmentsFromPath = memoize((path: string) => {
 export const getDynamicPathSegments = memoize((routeKey: RouteKey) => {
   return _getDynamicSegmentsFromPath(routes[routeKey].PATH.it)
 })
-
-/**
- * For each language path in a LocalizedRoute, the dynamic path segments must be equal.
- * This function does a runtime check and throws if this requirement is not met for any of the implemented LocalizedRoute.
- * Optionally accepts a LocalizedRoutes object as argument for testing purposes.
- *
- * @example Okkay!
- *
- * ```json
- * {
- *    "it": "/:foo/route-italiana/:bar",
- *    "en": "/:foo/english-route/:bar",
- * }
- * ```
- *
- * @example Not okkay!
- * ```json
- * {
- *    "it": "/:foo/route-italiana/:bar",
- *    "en": "/:baz/english-route/:foo",
- * }
- * ```
- *
- */
-export const checkLocalizedPathsConsistency = (_routes: LocalizedRoutes = routes) => {
-  getKeys(_routes).forEach((routeKey) => {
-    const paths = Object.values(_routes[routeKey].PATH)
-    const firstPathDynamicSegments = _getDynamicSegmentsFromPath(paths[0])
-    const firstPathSegmentNumber = getPathSegments(paths[0])
-
-    const areLocalizedPathsConsistent = paths.every(
-      (path) =>
-        isEqual(_getDynamicSegmentsFromPath(path), firstPathDynamicSegments) &&
-        isEqual(getPathSegments(path).length, firstPathSegmentNumber.length)
-    )
-
-    if (!areLocalizedPathsConsistent)
-      throw new Error(
-        `All the dynamic path segments for all the localized path (in the PATH property) must be equal. Check the ${routeKey} paths.`
-      )
-  })
-}
