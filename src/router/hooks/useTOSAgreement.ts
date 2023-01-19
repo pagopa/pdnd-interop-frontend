@@ -11,7 +11,7 @@ export function useTOSAgreement(localStorageKey = 'acceptTOS') {
 
   React.useEffect(() => {
     function listenForStorage() {
-      setTOSAcceptedId(getLocalStorageTOS())
+      setTOSAcceptedId(getLocalStorageTOS)
     }
     window.addEventListener('storage', listenForStorage)
     return () => {
