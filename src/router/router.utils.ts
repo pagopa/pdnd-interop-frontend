@@ -141,12 +141,3 @@ const _getDynamicSegmentsFromPath = memoize((path: string) => {
     .filter((subpath) => subpath.startsWith(':'))
     .map((param) => param.replace(':', ''))
 })
-
-/**
- * Returns an array with all the dynamic path names for a given RouteKey
- * @example
- * "/:foo/test/:bar" => ["foo", "bar"]
- */
-export const getDynamicPathSegments = memoize((routeKey: RouteKey) => {
-  return _getDynamicSegmentsFromPath(routes[routeKey].PATH.it)
-})
