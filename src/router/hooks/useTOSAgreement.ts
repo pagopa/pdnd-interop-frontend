@@ -19,11 +19,11 @@ export function useTOSAgreement(localStorageKey = 'acceptTOS') {
     }
   }, [getLocalStorageTOS])
 
-  const acceptTOS = React.useCallback(() => {
+  const handleAcceptTOS = React.useCallback(() => {
     const id = JSON.stringify({ id: jwt?.uid, timestamp: new Date().toISOString() })
     setTOSAcceptedId(id)
     localStorage.setItem(localStorageKey, id)
   }, [localStorageKey, jwt?.uid])
 
-  return { isTOSAccepted: !!tosAcceptedId, acceptTOS, tosAcceptedId }
+  return { isTOSAccepted: !!tosAcceptedId, handleAcceptTOS, tosAcceptedId }
 }
