@@ -3,19 +3,12 @@ import { PartyQueries } from '@/api/party/party.hooks'
 import { useDialog } from '@/contexts'
 import { useJwt } from '@/hooks/useJwt'
 import { DialogAddSecurityOperatorsProps } from '@/types/dialog.types'
-import {
-  Alert,
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from '@mui/material'
+import { Alert, Box, Button, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { AutocompleteMultiple } from '../shared/ReactHookFormInputs'
 import { SelfCareUser } from '@/types/party.types'
+import { DialogContainer } from './DialogContainer'
 
 type AddSecurityOperatorFormValues = {
   selectedOperators: Array<SelfCareUser>
@@ -64,7 +57,7 @@ export const DialogAddSecurityOperators: React.FC<DialogAddSecurityOperatorsProp
   }
 
   return (
-    <Dialog open onClose={closeDialog} fullWidth>
+    <DialogContainer open onClose={closeDialog} fullWidth>
       <FormProvider {...formMethods}>
         <Box component="form" onSubmit={formMethods.handleSubmit(_onSubmit)}>
           <DialogTitle>{t('title')}</DialogTitle>
@@ -96,6 +89,6 @@ export const DialogAddSecurityOperators: React.FC<DialogAddSecurityOperatorsProp
           </DialogActions>
         </Box>
       </FormProvider>
-    </Dialog>
+    </DialogContainer>
   )
 }

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { isRouteErrorResponse, useLocation } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { Redirect, RouterLink } from '@/router'
-import CodeBlock from '../components/CodeBlock'
+import CodeBlock from '@/components/shared/CodeBlock'
 import {
   NotAuthorizedError,
   NotFoundError,

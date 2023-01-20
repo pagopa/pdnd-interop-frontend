@@ -1,11 +1,12 @@
 import React from 'react'
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack } from '@mui/material'
+import { Button, DialogActions, DialogContent, DialogTitle, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { InformationContainer } from '@/components/layout/containers'
 import { DialogAttributeDetailsProps } from '@/types/dialog.types'
 import { useDialog } from '@/contexts'
 import { AttributeQueries } from '@/api/attribute'
 import { InformationContainerSkeleton } from '../layout/containers/InformationContainer'
+import { DialogContainer } from './DialogContainer'
 
 export const DialogAttributeDetails: React.FC<DialogAttributeDetailsProps> = ({ attribute }) => {
   const { t } = useTranslation('common')
@@ -14,7 +15,7 @@ export const DialogAttributeDetails: React.FC<DialogAttributeDetailsProps> = ({ 
   const { closeDialog } = useDialog()
 
   return (
-    <Dialog aria-labelledby={dialogTitleId} open onClose={closeDialog} fullWidth>
+    <DialogContainer aria-labelledby={dialogTitleId} open onClose={closeDialog} fullWidth>
       <DialogTitle id={dialogTitleId}>{attribute.name}</DialogTitle>
 
       <React.Suspense fallback={<AttributeDetailsSkeleton />}>
@@ -26,7 +27,7 @@ export const DialogAttributeDetails: React.FC<DialogAttributeDetailsProps> = ({ 
           {t('closeBtn')}
         </Button>
       </DialogActions>
-    </Dialog>
+    </DialogContainer>
   )
 }
 

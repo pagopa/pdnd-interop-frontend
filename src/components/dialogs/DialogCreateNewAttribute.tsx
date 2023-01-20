@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
+import { Box, Button, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { DialogCreateNewAttributeProps } from '@/types/dialog.types'
 import { useDialog } from '@/contexts'
@@ -9,6 +9,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { TextField } from '../shared/ReactHookFormInputs'
 import { AttributeMutations } from '@/api/attribute'
+import { DialogContainer } from './DialogContainer'
 
 type CreateNewAttributeFormValues = {
   name: string
@@ -53,7 +54,7 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
   }
 
   return (
-    <Dialog open onClose={closeDialog} fullWidth>
+    <DialogContainer open onClose={closeDialog} fullWidth>
       <FormProvider {...formMethods}>
         <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
           <DialogTitle>
@@ -99,6 +100,6 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
           </DialogActions>
         </Box>
       </FormProvider>
-    </Dialog>
+    </DialogContainer>
   )
 }

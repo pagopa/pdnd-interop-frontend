@@ -1,13 +1,14 @@
 import React from 'react'
 import { useDialog } from '@/contexts'
 import { DialogRejectAgreementProps } from '@/types/dialog.types'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
+import { Box, Button, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { TextField } from '../shared/ReactHookFormInputs'
 import { object, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AgreementMutations } from '@/api/agreement'
+import { DialogContainer } from './DialogContainer'
 
 type RejectAgreementFormValues = {
   reason: string
@@ -34,7 +35,7 @@ export const DialogRejectAgreement: React.FC<DialogRejectAgreementProps> = ({ ag
   }
 
   return (
-    <Dialog open onClose={closeDialog} fullWidth>
+    <DialogContainer open onClose={closeDialog} fullWidth>
       <FormProvider {...formMethods}>
         <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
           <DialogTitle>{t('title')}</DialogTitle>
@@ -60,6 +61,6 @@ export const DialogRejectAgreement: React.FC<DialogRejectAgreementProps> = ({ ag
           </DialogActions>
         </Box>
       </FormProvider>
-    </Dialog>
+    </DialogContainer>
   )
 }

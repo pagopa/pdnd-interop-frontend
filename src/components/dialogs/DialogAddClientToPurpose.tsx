@@ -3,11 +3,12 @@ import { ClientQueries } from '@/api/client'
 import { useDialog } from '@/contexts'
 import { useJwt } from '@/hooks/useJwt'
 import { DialogAddClientToPurposeProps } from '@/types/dialog.types'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
+import { Box, Button, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { AutocompleteMultiple } from '../shared/ReactHookFormInputs'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
+import { DialogContainer } from './DialogContainer'
 
 type AddClientToPurposeFormValues = {
   selectedClients: Array<string>
@@ -61,7 +62,7 @@ export const DialogAddClientToPurpose: React.FC<DialogAddClientToPurposeProps> =
   const selectedClients = formMethods.watch('selectedClients')
 
   return (
-    <Dialog open onClose={closeDialog} fullWidth>
+    <DialogContainer open onClose={closeDialog} fullWidth>
       <FormProvider {...formMethods}>
         <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
           <DialogTitle>{t('title')}</DialogTitle>
@@ -88,6 +89,6 @@ export const DialogAddClientToPurpose: React.FC<DialogAddClientToPurposeProps> =
           </DialogActions>
         </Box>
       </FormProvider>
-    </Dialog>
+    </DialogContainer>
   )
 }

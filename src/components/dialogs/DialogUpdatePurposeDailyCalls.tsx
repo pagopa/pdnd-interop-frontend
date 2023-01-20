@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
+import { Box, Button, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useDialog } from '@/contexts'
 import { DialogUpdatePurposeDailyCallsProps } from '@/types/dialog.types'
@@ -8,6 +8,7 @@ import { number, object } from 'yup'
 import { PurposeMutations } from '@/api/purpose'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { DialogContainer } from './DialogContainer'
 
 type UpdateDailyCallsFormValues = { dailyCalls: number }
 
@@ -35,7 +36,7 @@ export const DialogUpdatePurposeDailyCalls: React.FC<DialogUpdatePurposeDailyCal
   }
 
   return (
-    <Dialog open onClose={closeDialog} aria-describedby={t('ariaDescribedBy')} fullWidth>
+    <DialogContainer open onClose={closeDialog} aria-describedby={t('ariaDescribedBy')} fullWidth>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <DialogTitle>{t('title')}</DialogTitle>
 
@@ -61,6 +62,6 @@ export const DialogUpdatePurposeDailyCalls: React.FC<DialogUpdatePurposeDailyCal
           </Button>
         </DialogActions>
       </Box>
-    </Dialog>
+    </DialogContainer>
   )
 }

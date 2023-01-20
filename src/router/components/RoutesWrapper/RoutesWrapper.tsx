@@ -9,45 +9,39 @@ import useSyncLangWithRoute from '../../hooks/useSyncLangWithRoute'
 import useScrollTopOnLocationChange from '../../hooks/useScrollTopOnLocationChange'
 import { Box } from '@mui/material'
 import { AuthGuard } from './AuthGuard'
-import { ErrorBoundary } from './ErrorBoundary'
+import { ErrorBoundary } from '../../../components/shared/ErrorBoundary'
 import TOSAgreement from './TOSAgreement'
 import { useTOSAgreement } from '../../hooks/useTOSAgreement'
-
-const OutletWrapper: React.FC = () => {
-  const { isTOSAccepted, acceptTOS } = useTOSAgreement()
-  const { isPublic } = useCurrentRoute()
-
-  return (
-    <>
-      <Header />
-      <Box sx={{ flex: 1 }}>
-        {!isTOSAccepted && !isPublic ? (
-          <TOSAgreement onAcceptAgreement={acceptTOS} />
-        ) : (
-          <AppLayout hideSideNav={isPublic}>
-            <ErrorBoundary>
-              <React.Suspense fallback={<PageContainerSkeleton />}>
-                <AuthGuard>
-                  <Outlet />
-                </AuthGuard>
-              </React.Suspense>
-            </ErrorBoundary>
-          </AppLayout>
-        )}
-      </Box>
-      <Footer />
-    </>
-  )
-}
+import { ErrorPage } from '@/pages'
 
 const RoutesWrapper: React.FC = () => {
+  const { isTOSAccepted, acceptTOS } = useTOSAgreement()
+  const { isPublic } = useCurrentRoute()
   useSyncLangWithRoute()
   useScrollTopOnLocationChange()
 
   return (
+    // AuthContextProvider and DialogContextProvider use internally routes related functions
+    // they need to be inside the router context.
     <AuthContextProvider>
       <DialogContextProvider>
-        <OutletWrapper />
+        <Header />
+        <Box sx={{ flex: 1 }}>
+          {!isTOSAccepted && !isPublic ? (
+            <TOSAgreement onAcceptAgreement={acceptTOS} />
+          ) : (
+            <AppLayout hideSideNav={isPublic}>
+              <ErrorBoundary FallbackComponent={ErrorPage}>
+                <React.Suspense fallback={<PageContainerSkeleton />}>
+                  <AuthGuard>
+                    <Outlet />
+                  </AuthGuard>
+                </React.Suspense>
+              </ErrorBoundary>
+            </AppLayout>
+          )}
+        </Box>
+        <Footer />
       </DialogContextProvider>
     </AuthContextProvider>
   )
