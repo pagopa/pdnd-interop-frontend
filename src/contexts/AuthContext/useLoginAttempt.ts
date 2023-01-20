@@ -3,19 +3,23 @@ import { AuthServicesHooks } from '@/api/auth'
 import { useCurrentRoute, useNavigateRouter } from '@/router'
 import { useTranslation } from 'react-i18next'
 import { useLoadingOverlay } from '../LoadingOverlayContext'
-import { storageRead, storageWrite } from '@/utils/storage.utils'
+import { storageDelete, storageRead, storageWrite } from '@/utils/storage.utils'
 import { MOCK_TOKEN, STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 
-export function useLoginAttempt(
-  sessionToken: string | null,
-  setSessionToken: React.Dispatch<React.SetStateAction<string | null>>
-) {
+export function useLoginAttempt() {
   const { mutateAsync: swapTokens } = AuthServicesHooks.useSwapTokens()
+  const [sessionToken, setSessionToken] = React.useState<null | string>(null)
+
+  const clearToken = React.useCallback(() => {
+    storageDelete(STORAGE_KEY_SESSION_TOKEN)
+    setSessionToken(null)
+  }, [])
 
   const { t } = useTranslation('common')
   const { showOverlay, hideOverlay } = useLoadingOverlay()
   const { navigate } = useNavigateRouter()
   const { route } = useCurrentRoute()
+  const [error, setError] = React.useState<Error | null>(null)
 
   const setToken = React.useCallback(
     (token: string) => {
@@ -63,9 +67,12 @@ export function useLoginAttempt(
     async function asyncLoginAttempt() {
       showOverlay(t('loading.sessionToken.label'))
       await loginAttempt()
-      hideOverlay()
     }
 
-    asyncLoginAttempt()
+    asyncLoginAttempt().catch(setError).finally(hideOverlay)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (error) throw error
+
+  return { sessionToken, clearToken }
 }

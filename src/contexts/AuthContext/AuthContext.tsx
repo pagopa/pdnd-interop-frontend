@@ -1,9 +1,8 @@
 import React from 'react'
 import { createSafeContext } from '../utils'
-import { storageDelete } from '@/utils/storage.utils'
-import { STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 import noop from 'lodash/noop'
 import { useLoginAttempt } from './useLoginAttempt'
+import AuthErrorBoundary from './AuthErrorBoundary'
 
 const { useContext, Provider } = createSafeContext<{
   token: string | null
@@ -13,15 +12,8 @@ const { useContext, Provider } = createSafeContext<{
   clearToken: noop,
 })
 
-const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [sessionToken, setSessionToken] = React.useState<null | string>(null)
-
-  useLoginAttempt(sessionToken, setSessionToken)
-
-  const clearToken = React.useCallback(() => {
-    storageDelete(STORAGE_KEY_SESSION_TOKEN)
-    setSessionToken(null)
-  }, [])
+const _AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { sessionToken, clearToken } = useLoginAttempt()
 
   const providerValue = React.useMemo(
     () => ({ token: sessionToken, clearToken }),
@@ -29,6 +21,14 @@ const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({ children
   )
 
   return <Provider value={providerValue}>{children}</Provider>
+}
+
+const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return (
+    <AuthErrorBoundary>
+      <_AuthContextProvider>{children}</_AuthContextProvider>
+    </AuthErrorBoundary>
+  )
 }
 
 export { useContext as useAuthContext, AuthContextProvider }
