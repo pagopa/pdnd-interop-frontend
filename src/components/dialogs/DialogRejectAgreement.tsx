@@ -14,6 +14,8 @@ type RejectAgreementFormValues = {
 }
 
 export const DialogRejectAgreement: React.FC<DialogRejectAgreementProps> = ({ agreementId }) => {
+  const ariaLabelId = React.useId()
+
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'dialogRejectAgreement',
   })
@@ -34,10 +36,10 @@ export const DialogRejectAgreement: React.FC<DialogRejectAgreementProps> = ({ ag
   }
 
   return (
-    <Dialog open onClose={closeDialog} fullWidth>
+    <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
       <FormProvider {...formMethods}>
         <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <DialogTitle>{t('title')}</DialogTitle>
+          <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
 
           <DialogContent>
             <TextField

@@ -25,6 +25,7 @@ export const DialogAddSecurityOperators: React.FC<DialogAddSecurityOperatorsProp
   excludeOperatorsIdsList,
   onSubmit,
 }) => {
+  const ariaLabelId = React.useId()
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'dialogAddSecurityOperators',
     useSuspense: false,
@@ -64,10 +65,10 @@ export const DialogAddSecurityOperators: React.FC<DialogAddSecurityOperatorsProp
   }
 
   return (
-    <Dialog open onClose={closeDialog} fullWidth>
+    <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
       <FormProvider {...formMethods}>
         <Box component="form" onSubmit={formMethods.handleSubmit(_onSubmit)}>
-          <DialogTitle>{t('title')}</DialogTitle>
+          <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
 
           <DialogContent>
             <Box>

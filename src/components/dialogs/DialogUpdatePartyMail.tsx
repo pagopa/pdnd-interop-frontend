@@ -26,6 +26,9 @@ type UpdatePartyMailFormValues = {
 }
 
 export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ defaultValues }) => {
+  const ariaLabelId = React.useId()
+  const ariaDescriptionId = React.useId()
+
   const { t } = useTranslation('shared-components', { keyPrefix: 'dialogUpdatePartyMail' })
   const { t: tCommon } = useTranslation('common')
   const { closeDialog } = useDialog()
@@ -53,12 +56,12 @@ export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ de
   }
 
   return (
-    <Dialog open onClose={closeDialog} fullWidth maxWidth="md">
+    <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth maxWidth="md">
       <FormProvider {...formMethods}>
         <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <DialogTitle>{t('title')}</DialogTitle>
+          <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
           <DialogContent>
-            <Typography>{t('subtitle')}</Typography>
+            <Typography id={ariaDescriptionId}>{t('subtitle')}</Typography>
 
             <TextField
               sx={{ mt: 2, mb: 0 }}

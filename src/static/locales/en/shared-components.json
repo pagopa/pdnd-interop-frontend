@@ -1,6 +1,5 @@
 {
   "styledDialogBasic": {
-    "ariaDescribedBy": "Action modal",
     "actions": {
       "cancelLabel": "Undo"
     }
@@ -23,7 +22,6 @@
     }
   },
   "dialogSessionExpired": {
-    "ariaDescribedBy": "Modal to go to login page since the current session has expired",
     "title": "Session expired",
     "content": {
       "description": "You are about to be redirected to the login page"
@@ -33,7 +31,6 @@
     }
   },
   "dialogUpdatePurposeDailyCalls": {
-    "ariaDescribedBy": "Modal to update the number of API calls/day for a purpose",
     "title": "Update number of API calls/day",
     "content": {
       "dailyCallsField": {
@@ -47,7 +44,6 @@
     }
   },
   "dialogSetPurposeExpectedApprovalDate": {
-    "ariaDescribedBy": "Modal to set the estimated completion date to activate a Subscriber purpose",
     "title": "Set estimated completion date",
     "content": {
       "message": "You can update it at any moment. Any change will be notified to the Subscriber"
@@ -58,7 +54,6 @@
     }
   },
   "dialogAddSecurityOperators": {
-    "ariaDescribedBy": "Modal to add security operators to a client",
     "title": "Add security operators",
     "content": {
       "autocompleteLabel": "Selected operators",
@@ -70,7 +65,6 @@
     }
   },
   "dialogAddSecurityOperatorKeys": {
-    "ariaDescribedBy": "Modal to add a public key to a client",
     "title": "Upload new public key",
     "content": {
       "nameField": {
@@ -91,7 +85,6 @@
     }
   },
   "dialogRejectAgreement": {
-    "ariaDescribedBy": "Modal to reject a fruition request from a consumer",
     "title": "Reject fruition request",
     "content": {
       "reason": {
@@ -105,7 +98,6 @@
     }
   },
   "dialogAddClientToPurpose": {
-    "ariaDescribedBy": "Modal to add clients to a purpose",
     "title": "Add clients",
     "content": {
       "autocompleteLabel": "Selected clients",
@@ -117,7 +109,6 @@
     }
   },
   "dialogCreateNewAttribute": {
-    "ariaDescribedBy": "Modal to create a new attribute",
     "title": "Create new attribute",
     "content": {
       "nameField": {
