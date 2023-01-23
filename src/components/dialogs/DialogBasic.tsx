@@ -1,9 +1,15 @@
 import React, { useId } from 'react'
-import { Button, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Typography,
+} from '@mui/material'
 import { Trans, useTranslation } from 'react-i18next'
 import { DialogBasicProps } from '@/types/dialog.types'
 import { useDialog } from '@/contexts'
-import { DialogContainer } from './DialogContainer'
 
 export const DialogBasic: React.FC<DialogBasicProps> = ({
   title = 'Conferma azione',
@@ -19,7 +25,7 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
 
   return (
-    <DialogContainer
+    <Dialog
       open
       onClose={closeDialog}
       aria-labelledby={dialogTitleId}
@@ -49,6 +55,6 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
           {proceedLabel ?? tCommon('confirm')}
         </Button>
       </DialogActions>
-    </DialogContainer>
+    </Dialog>
   )
 }

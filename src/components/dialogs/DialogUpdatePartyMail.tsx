@@ -3,6 +3,7 @@ import {
   Alert,
   Box,
   Button,
+  Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
@@ -18,7 +19,6 @@ import { TextField } from '../shared/ReactHookFormInputs'
 import { PartyMutations } from '@/api/party/party.hooks'
 import { useJwt } from '@/hooks/useJwt'
 import isEqual from 'lodash/isEqual'
-import { DialogContainer } from './DialogContainer'
 
 type UpdatePartyMailFormValues = {
   contactEmail: string
@@ -53,7 +53,7 @@ export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ de
   }
 
   return (
-    <DialogContainer open onClose={closeDialog} fullWidth maxWidth="md">
+    <Dialog open onClose={closeDialog} fullWidth maxWidth="md">
       <FormProvider {...formMethods}>
         <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
           <DialogTitle>{t('title')}</DialogTitle>
@@ -88,6 +88,6 @@ export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ de
           </DialogActions>
         </Box>
       </FormProvider>
-    </DialogContainer>
+    </Dialog>
   )
 }

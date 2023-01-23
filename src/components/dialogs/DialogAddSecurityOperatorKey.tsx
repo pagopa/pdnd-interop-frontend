@@ -2,14 +2,21 @@ import React from 'react'
 import { ClientMutations } from '@/api/client'
 import { useDialog } from '@/contexts'
 import { DialogAddSecurityOperatorKeyProps } from '@/types/dialog.types'
-import { Alert, Box, Button, DialogActions, DialogContent, DialogTitle } from '@mui/material'
+import {
+  Alert,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { RouterLink } from '@/router'
 import { TextField } from '../shared/ReactHookFormInputs'
 import { object, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { DialogContainer } from './DialogContainer'
 
 type AddSecurityOperatorKeyFormValues = {
   name: string
@@ -44,7 +51,7 @@ export const DialogAddSecurityOperatorKey: React.FC<DialogAddSecurityOperatorKey
   }
 
   return (
-    <DialogContainer open onClose={closeDialog} fullWidth>
+    <Dialog open onClose={closeDialog} fullWidth>
       <FormProvider {...formMethods}>
         <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
           <DialogTitle>{t('title')}</DialogTitle>
@@ -78,6 +85,6 @@ export const DialogAddSecurityOperatorKey: React.FC<DialogAddSecurityOperatorKey
           </DialogActions>
         </Box>
       </FormProvider>
-    </DialogContainer>
+    </Dialog>
   )
 }

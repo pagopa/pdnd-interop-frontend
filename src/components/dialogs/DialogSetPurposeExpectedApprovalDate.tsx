@@ -1,6 +1,14 @@
 import React, { FunctionComponent } from 'react'
 import { object, date } from 'yup'
-import { Box, Button, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Typography,
+} from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -8,7 +16,6 @@ import { DialogSetPurposeExpectedApprovalDateProps } from '@/types/dialog.types'
 import { useDialog } from '@/contexts'
 import { DatePicker } from '../shared/ReactHookFormInputs'
 import { PurposeMutations } from '@/api/purpose'
-import { DialogContainer } from './DialogContainer'
 
 type ExpectedApprovalDateFormValues = {
   expectedApprovalDate: Date
@@ -37,7 +44,7 @@ export const DialogSetPurposeExpectedApprovalDate: FunctionComponent<
   })
 
   return (
-    <DialogContainer open onClose={closeDialog} fullWidth>
+    <Dialog open onClose={closeDialog} fullWidth>
       <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
         <FormProvider {...formMethods}>
           <DialogTitle>{t('title')}</DialogTitle>
@@ -59,6 +66,6 @@ export const DialogSetPurposeExpectedApprovalDate: FunctionComponent<
           </DialogActions>
         </FormProvider>
       </Box>
-    </DialogContainer>
+    </Dialog>
   )
 }

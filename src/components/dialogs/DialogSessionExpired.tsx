@@ -1,9 +1,8 @@
 import React from 'react'
-import { Button, DialogActions, DialogContent, DialogTitle } from '@mui/material'
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { DialogSessionExpiredProps } from '@/types/dialog.types'
 import { useNavigateRouter } from '@/router'
-import { DialogContainer } from './DialogContainer'
 
 export const DialogSessionExpired: React.FC<DialogSessionExpiredProps> = () => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'dialogSessionExpired' })
@@ -19,7 +18,7 @@ export const DialogSessionExpired: React.FC<DialogSessionExpiredProps> = () => {
   }, [logout])
 
   return (
-    <DialogContainer open aria-describedby={t('ariaDescribedBy')} fullWidth>
+    <Dialog open aria-describedby={t('ariaDescribedBy')} fullWidth>
       <DialogTitle>{t('title')}</DialogTitle>
 
       <DialogContent>{t('content.description')}</DialogContent>
@@ -29,6 +28,6 @@ export const DialogSessionExpired: React.FC<DialogSessionExpiredProps> = () => {
           {t('actions.confirmLabel')}
         </Button>
       </DialogActions>
-    </DialogContainer>
+    </Dialog>
   )
 }
