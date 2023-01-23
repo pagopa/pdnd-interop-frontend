@@ -11,7 +11,7 @@ import {
   TokenExchangeError,
 } from '@/utils/errors.utils'
 import { FallbackProps } from 'react-error-boundary'
-import { SELFCARE_BASE_URL } from '@/config/env'
+import { isDevelopment, SELFCARE_BASE_URL } from '@/config/env'
 
 type UseResolveErrorReturnType = {
   title: string
@@ -55,7 +55,7 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     content = (
       <>
         {reloadPageButton}
-        <CodeBlock error={error?.stack || error.message || error?.name} />
+        {isDevelopment && <CodeBlock error={error?.stack || error.message || error?.name} />}
       </>
     )
   }
@@ -76,7 +76,7 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     content = (
       <>
         {retryQueryButton}
-        <CodeBlock error={error.response ?? error} />
+        {isDevelopment && <CodeBlock error={error.response ?? error} />}
       </>
     )
   }
