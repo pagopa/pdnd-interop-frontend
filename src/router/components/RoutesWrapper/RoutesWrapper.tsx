@@ -23,27 +23,35 @@ const RoutesWrapper: React.FC = () => {
   return (
     // AuthContextProvider and DialogContextProvider use internally routes related functions
     // they need to be inside the router context.
-    <AuthContextProvider>
-      <DialogContextProvider>
-        <Header />
-        <Box sx={{ flex: 1 }}>
-          {!isTOSAccepted && !isPublic ? (
-            <TOSAgreement onAcceptAgreement={acceptTOS} />
-          ) : (
-            <AppLayout hideSideNav={isPublic}>
-              <ErrorBoundary FallbackComponent={ErrorPage}>
-                <React.Suspense fallback={<PageContainerSkeleton />}>
-                  <AuthGuard>
-                    <Outlet />
-                  </AuthGuard>
-                </React.Suspense>
-              </ErrorBoundary>
-            </AppLayout>
-          )}
+    <ErrorBoundary
+      FallbackComponent={(props) => (
+        <Box sx={{ p: 8 }}>
+          <ErrorPage {...props} />
         </Box>
-        <Footer />
-      </DialogContextProvider>
-    </AuthContextProvider>
+      )}
+    >
+      <AuthContextProvider>
+        <DialogContextProvider>
+          <Header />
+          <Box sx={{ flex: 1 }}>
+            {!isTOSAccepted && !isPublic ? (
+              <TOSAgreement onAcceptAgreement={acceptTOS} />
+            ) : (
+              <AppLayout hideSideNav={isPublic}>
+                <ErrorBoundary FallbackComponent={ErrorPage}>
+                  <React.Suspense fallback={<PageContainerSkeleton />}>
+                    <AuthGuard>
+                      <Outlet />
+                    </AuthGuard>
+                  </React.Suspense>
+                </ErrorBoundary>
+              </AppLayout>
+            )}
+          </Box>
+          <Footer />
+        </DialogContextProvider>
+      </AuthContextProvider>
+    </ErrorBoundary>
   )
 }
 

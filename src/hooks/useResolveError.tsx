@@ -7,10 +7,11 @@ import CodeBlock from '@/components/shared/CodeBlock'
 import {
   NotAuthorizedError,
   NotFoundError,
-  NotImplementedError,
   ServerError,
+  TokenExchangeError,
 } from '@/utils/errors.utils'
 import { FallbackProps } from 'react-error-boundary'
+import { SELFCARE_BASE_URL } from '@/config/env'
 
 type UseResolveErrorReturnType = {
   title: string
@@ -25,9 +26,9 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
   const { error, resetErrorBoundary } = fallbackProps
 
   // Reset error boundary if location changes
-  React.useEffect(() => {
-    return resetErrorBoundary
-  }, [location.pathname, resetErrorBoundary])
+  // React.useEffect(() => {
+  //   return resetErrorBoundary
+  // }, [location.pathname, resetErrorBoundary])
 
   let title, description: string | undefined
   let content: JSX.Element | null = null
@@ -50,6 +51,12 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     </RouterLink>
   )
 
+  const backToSelfcareButton = (
+    <Button size="small" variant="contained" href={SELFCARE_BASE_URL}>
+      {t('actions.backToSelfcare')}
+    </Button>
+  )
+
   if (error instanceof Error) {
     content = (
       <>
@@ -61,12 +68,6 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
 
   if ((isRouteErrorResponse(error) && error.status === 404) || error instanceof NotFoundError) {
     content = <Redirect to="NOT_FOUND" />
-  }
-
-  if (error instanceof NotImplementedError) {
-    title = t('notImplemented.title')
-    description = t('notImplemented.description')
-    content = backToHomeButton
   }
 
   if (error instanceof NotAuthorizedError) {
@@ -84,6 +85,12 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
         <CodeBlock error={error.response ?? error} />
       </>
     )
+  }
+
+  if (error instanceof TokenExchangeError) {
+    title = t('tokenExchange.title')
+    description = t('tokenExchange.description')
+    content = <>{backToSelfcareButton}</>
   }
 
   if (!title) {

@@ -2,7 +2,8 @@
   "actions": {
     "reloadPage": "Ricarica",
     "backToHome": "Torna alla home",
-    "retry": "Riprova"
+    "retry": "Riprova",
+    "backToSelfcare": "Torna ad Area Riservata"
   },
   "default": {
     "title": "Unexpected Error",
@@ -16,12 +17,12 @@
     "title": "Server Error",
     "description": "Si è verificato un errore nella gestione della richiesta. Per favore, ricarica la pagina."
   },
-  "notImplemented": {
-    "title": "Work In Progress",
-    "description": "La funzionalità richiesta è ancora in fase di sviluppo."
-  },
   "notAuthorized": {
     "title": "Non autorizzato",
     "description": "Non possiedi le autorizzazioni necessarie per visualizzare la pagina."
+  },
+  "tokenExchange": {
+    "title": "Errore di autenticazione",
+    "description": "Per favore, torna ad Area Riservata e tenta nuovamente l'accesso"
   }
 }

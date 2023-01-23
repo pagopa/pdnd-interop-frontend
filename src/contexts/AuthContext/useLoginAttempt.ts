@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useLoadingOverlay } from '../LoadingOverlayContext'
 import { storageDelete, storageRead, storageWrite } from '@/utils/storage.utils'
 import { MOCK_TOKEN, STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
+import { TokenExchangeError } from '@/utils/errors.utils'
 
 export function useLoginAttempt() {
   const { mutateAsync: swapTokens } = AuthServicesHooks.useSwapTokens()
@@ -72,7 +73,7 @@ export function useLoginAttempt() {
     asyncLoginAttempt().catch(setError).finally(hideOverlay)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (error) throw error
+  if (error) throw new TokenExchangeError()
 
   return { sessionToken, clearToken }
 }

@@ -2,7 +2,8 @@
   "actions": {
     "reloadPage": "Reload",
     "backToHome": "Back to home",
-    "retry": "Retry"
+    "retry": "Retry",
+    "backToSelfcare": "Go back to Area Riservata"
   },
   "default": {
     "title": "Unexpected Error",
@@ -16,12 +17,12 @@
     "title": "Server Error",
     "description": "There was an error while handling the request. Please reload the page."
   },
-  "notImplemented": {
-    "title": "Work In Progress",
-    "description": "The requested functionality is still under development."
-  },
   "notAuthorized": {
     "title": "Not authorized",
     "description": "You don't have the necessary permissions to view the page."
+  },
+  "tokenExchange": {
+    "title": "Authentication error",
+    "description": "Please, go back to Area Riservata and try again"
   }
 }
