@@ -16,7 +16,7 @@ import { ErrorPage } from '@/pages'
 
 const RoutesWrapper: React.FC = () => {
   const { isTOSAccepted, acceptTOS } = useTOSAgreement()
-  const { isPublic } = useCurrentRoute()
+  const { isPublic, routeKey } = useCurrentRoute()
   useSyncLangWithRoute()
   useScrollTopOnLocationChange()
 
@@ -38,7 +38,7 @@ const RoutesWrapper: React.FC = () => {
               <TOSAgreement onAcceptAgreement={acceptTOS} />
             ) : (
               <AppLayout hideSideNav={isPublic}>
-                <ErrorBoundary FallbackComponent={ErrorPage}>
+                <ErrorBoundary key={routeKey} FallbackComponent={ErrorPage}>
                   <React.Suspense fallback={<PageContainerSkeleton />}>
                     <AuthGuard>
                       <Outlet />

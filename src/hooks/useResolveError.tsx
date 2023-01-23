@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { isRouteErrorResponse, useLocation } from 'react-router-dom'
+import { isRouteErrorResponse } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { Redirect, RouterLink } from '@/router'
 import CodeBlock from '@/components/shared/CodeBlock'
@@ -21,14 +21,8 @@ type UseResolveErrorReturnType = {
 
 function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnType {
   const { t } = useTranslation('error')
-  const location = useLocation()
 
   const { error, resetErrorBoundary } = fallbackProps
-
-  // Reset error boundary if location changes
-  // React.useEffect(() => {
-  //   return resetErrorBoundary
-  // }, [location.pathname, resetErrorBoundary])
 
   let title, description: string | undefined
   let content: JSX.Element | null = null
