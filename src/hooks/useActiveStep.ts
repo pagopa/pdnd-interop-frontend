@@ -13,35 +13,27 @@ export function scrollToTop() {
 }
 
 export const useActiveStep = (): ActiveStepProps => {
-  const [activeStep, setActiveStep] = React.useState(0)
   const location = useLocation()
-
-  // Handles which step to go to after a "creation" action has been performed
-  // and a history.replace action has taken place and the whole EServiceCreate
-  // component has rerendered and fetched fresh data
-  React.useEffect(() => {
-    const goToStep = (step: number) => {
-      setActiveStep(step)
-      scrollToTop()
-    }
-    // State has priority since it is a direct order to go to a location
+  const [activeStep, setActiveStep] = React.useState(() => {
     const locationState: Record<string, unknown> = location.state as Record<string, unknown>
+
     if (!isEmpty(locationState) && locationState.stepIndexDestination) {
-      goToStep(locationState.stepIndexDestination as number)
-    } else {
-      // If there is no state, go to first step
-      goToStep(0)
+      return locationState.stepIndexDestination as number
     }
-  }, [location])
+
+    return 0
+  })
 
   /*
    * Stepper actions
    */
   const back = React.useCallback(() => {
-    setActiveStep((prev) => prev - 1)
+    setActiveStep((prev) => Math.max(0, prev - 1))
   }, [])
 
   const forward = React.useCallback(() => {
+    console.debug('FIRED FORWARD')
+
     setActiveStep((prev) => prev + 1)
     scrollToTop()
   }, [])

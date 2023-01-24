@@ -119,8 +119,8 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
         navigate('PROVIDE_ESERVICE_EDIT', {
           params: { eserviceId: eservice.id, descriptorId: data.id },
           replace: true,
-          state: { stepIndexDestination: 2 },
         })
+        forward()
       },
     })
   }
