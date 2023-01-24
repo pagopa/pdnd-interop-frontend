@@ -47,7 +47,15 @@ export type EServiceGetConsumersQueryFilters = {
   name?: string
 }
 
-export type EServiceGetConsumersUrlParams = EServiceGetConsumersQueryFilters & PaginationParams
+export type EServiceGetProducersQueryFilters = {
+  /** Query to filter producers by name */
+  name?: string
+}
+
+export type EServiceGetConsumersUrlParams = EServiceGetConsumersQueryFilters &
+  Partial<PaginationParams>
+export type EServiceGetProducersUrlParams = EServiceGetProducersQueryFilters &
+  Partial<PaginationParams>
 
 export type EServiceDraftPayload = {
   name?: string | undefined
