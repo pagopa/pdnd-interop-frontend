@@ -5,6 +5,7 @@ import { AutocompleteMultiple, TextField } from '@/components/shared/ReactHookFo
 import { EServiceQueries } from '@/api/eservice'
 import { EServiceGetProviderListQueryFilters } from '@/api/eservice/eservice.api.types'
 import { useTranslation } from 'react-i18next'
+import { useAutocompleteFilterInput } from '@/hooks/useAutocompleteFilterInput'
 
 interface EServiceTableFiltersProps {
   clearFilters: VoidFunction
@@ -18,11 +19,11 @@ const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({
   filtersFormMethods,
 }) => {
   const { t } = useTranslation('eservice')
+  const [consumersAutocompleteText, handleAutocompleteInputChange] = useAutocompleteFilterInput()
+
   const { data: consumers, isLoading: isLoadingConsumers } = EServiceQueries.useGetConsumers(
-    { limit: 50, offset: 0 },
-    {
-      suspense: false,
-    }
+    { offset: 0, limit: 50, name: consumersAutocompleteText },
+    { suspense: false }
   )
 
   const consumersOptions =
@@ -53,6 +54,7 @@ const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({
             placeholder=""
             size="small"
             name="consumersIds"
+            onInputChange={handleAutocompleteInputChange}
             label={t('list.filters.consumerField.label')}
             options={consumersOptions}
             loading={isLoadingConsumers}

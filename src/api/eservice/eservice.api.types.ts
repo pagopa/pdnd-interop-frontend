@@ -52,10 +52,8 @@ export type EServiceGetProducersQueryFilters = {
   name?: string
 }
 
-export type EServiceGetConsumersUrlParams = EServiceGetConsumersQueryFilters &
-  Partial<PaginationParams>
-export type EServiceGetProducersUrlParams = EServiceGetProducersQueryFilters &
-  Partial<PaginationParams>
+export type EServiceGetConsumersUrlParams = EServiceGetConsumersQueryFilters & PaginationParams
+export type EServiceGetProducersUrlParams = EServiceGetProducersQueryFilters & PaginationParams
 
 export type EServiceDraftPayload = {
   name?: string | undefined
