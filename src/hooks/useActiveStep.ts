@@ -32,8 +32,6 @@ export const useActiveStep = (): ActiveStepProps => {
   }, [])
 
   const forward = React.useCallback(() => {
-    console.debug('FIRED FORWARD')
-
     setActiveStep((prev) => prev + 1)
     scrollToTop()
   }, [])
