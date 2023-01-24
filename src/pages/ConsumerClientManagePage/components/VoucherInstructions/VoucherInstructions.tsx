@@ -12,6 +12,8 @@ import { useGetVoucherInstructionsSteps } from '../../hooks/useGetVoucherInstruc
 import { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
 import { ClientVoucherIntructionsPurposeSelect } from './ClientVoucherIntructionsPurposeSelect'
 
+import { useSearchParams } from 'react-router-dom'
+
 interface VoucherInstructionsProps {
   clientId: string
 }
@@ -47,9 +49,30 @@ const ClientVoucherInstructions: React.FC<VoucherInstructionsProps> = ({ clientI
   const { data: client } = ClientQueries.useGetSingle(clientId)
   const purposes = client?.purposes
 
+  const [selectedPurpose, setSelectedPurpose] = useSearchParams()
+
   const [selectedPurposeId, setSelectedPurposeId] = React.useState(
-    purposes && purposes.length > 0 ? purposes[0].purposeId : ''
+    selectedPurpose.get('purposeId')
+      ? (selectedPurpose.get('purposeId') as string)
+      : purposes && purposes.length > 0
+      ? purposes[0].purposeId
+      : ''
   )
+
+  // in teoria funziona (se ho capito bene quello che deve fare) però è molto brutto!!!
+  // VA MIGLIORATO
+
+  React.useEffect(() => {
+    if (!selectedPurpose.get('purposeId'))
+      setSelectedPurpose({
+        purposeId: purposes && purposes.length > 0 ? purposes[0].purposeId : '',
+      })
+  }, [purposes, selectedPurpose, setSelectedPurpose])
+
+  const handlePurposeSelectOnChange = (purposeId: string) => {
+    setSelectedPurposeId(purposeId)
+    setSelectedPurpose({ purposeId: purposeId })
+  }
 
   const { data: purpose } = PurposeQueries.useGetSingle(selectedPurposeId, {
     suspense: false,
@@ -86,7 +109,7 @@ const ClientVoucherInstructions: React.FC<VoucherInstructionsProps> = ({ clientI
       <ClientVoucherIntructionsPurposeSelect
         purposes={purposes}
         selectedPurposeId={selectedPurposeId}
-        onChange={setSelectedPurposeId}
+        onChange={handlePurposeSelectOnChange}
       />
       <Stepper steps={steps} activeIndex={activeStep} />
       <Step {...stepProps} />
