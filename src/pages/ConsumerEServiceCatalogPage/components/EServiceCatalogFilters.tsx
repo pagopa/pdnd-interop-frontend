@@ -5,6 +5,7 @@ import { AutocompleteMultiple, TextField } from '@/components/shared/ReactHookFo
 import { EServiceQueries } from '@/api/eservice'
 import { useTranslation } from 'react-i18next'
 import { EServiceGetCatalogListQueryFilters } from '@/api/eservice/eservice.api.types'
+import { useAutocompleteFilterInput } from '@/hooks/useAutocompleteFilterInput'
 
 interface EServiceCatalogFiltersProps {
   clearFilters: VoidFunction
@@ -18,11 +19,11 @@ const EServiceCatalogFilters: React.FC<EServiceCatalogFiltersProps> = ({
   filtersFormMethods,
 }) => {
   const { t } = useTranslation('eservice')
-  const { data: producers, isLoading: isLoadingProducers } = EServiceQueries.useGetProducers(
-    { limit: 50, offset: 0 },
-    {
-      suspense: false,
-    }
+  const [producersAutocompleteText, handleAutocompleteInputChange] = useAutocompleteFilterInput()
+
+  const { data: producers, isInitialLoading: isLoadingProducers } = EServiceQueries.useGetProducers(
+    { name: producersAutocompleteText },
+    { suspense: false }
   )
 
   const producersOptions =
@@ -53,6 +54,7 @@ const EServiceCatalogFilters: React.FC<EServiceCatalogFiltersProps> = ({
             placeholder=""
             size="small"
             name="producersIds"
+            onInputChange={handleAutocompleteInputChange}
             label={t('list.filters.providerField.label')}
             options={producersOptions}
             loading={isLoadingProducers}
