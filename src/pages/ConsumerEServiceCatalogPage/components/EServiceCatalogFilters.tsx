@@ -22,7 +22,7 @@ const EServiceCatalogFilters: React.FC<EServiceCatalogFiltersProps> = ({
   const [producersAutocompleteText, handleAutocompleteInputChange] = useAutocompleteFilterInput()
 
   const { data: producers, isFetching: isFetchingProducers } = EServiceQueries.useGetProducers(
-    { offset: 0, limit: 50, name: producersAutocompleteText },
+    { offset: 0, limit: 50, q: producersAutocompleteText },
     { suspense: false, keepPreviousData: true }
   )
 

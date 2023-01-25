@@ -44,12 +44,12 @@ export type EServiceGetProviderListUrlParams = EServiceGetProviderListQueryFilte
 
 export type EServiceGetConsumersQueryFilters = {
   /** Query to filter consumers by name */
-  name?: string
+  q?: string
 }
 
 export type EServiceGetProducersQueryFilters = {
   /** Query to filter producers by name */
-  name?: string
+  q?: string
 }
 
 export type EServiceGetConsumersUrlParams = EServiceGetConsumersQueryFilters & PaginationParams

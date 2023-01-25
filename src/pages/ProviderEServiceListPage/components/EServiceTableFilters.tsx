@@ -22,7 +22,7 @@ const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({
   const [consumersAutocompleteText, handleAutocompleteInputChange] = useAutocompleteFilterInput()
 
   const { data: consumers, isFetching: isFetchingConsumers } = EServiceQueries.useGetConsumers(
-    { offset: 0, limit: 50, name: consumersAutocompleteText },
+    { offset: 0, limit: 50, q: consumersAutocompleteText },
     { suspense: false, keepPreviousData: true }
   )
 
