@@ -2,33 +2,26 @@ import React from 'react'
 import { AuthServicesHooks } from '@/api/auth'
 import { useCurrentRoute, useNavigateRouter } from '@/router'
 import { useTranslation } from 'react-i18next'
-import { useLoadingOverlay } from '../loading-overlay.store'
-import { storageRead, storageWrite } from '@/utils/storage.utils'
+import { useLoadingOverlay } from '../stores/loading-overlay.store'
+import { storageRead } from '@/utils/storage.utils'
 import { MOCK_TOKEN, STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
+import { useAuth } from '@/stores'
 
-export function useLoginAttempt(
-  sessionToken: string | null,
-  setSessionToken: React.Dispatch<React.SetStateAction<string | null>>
-) {
+export function useLoginAttempt() {
   const { mutateAsync: swapTokens } = AuthServicesHooks.useSwapTokens()
+  const { sessionToken, setSessionToken } = useAuth()
 
   const { t } = useTranslation('common')
   const { showOverlay, hideOverlay } = useLoadingOverlay()
   const { navigate } = useNavigateRouter()
   const { route } = useCurrentRoute()
 
-  const setToken = React.useCallback(
-    (token: string) => {
-      storageWrite(STORAGE_KEY_SESSION_TOKEN, token, 'string')
-      setSessionToken(token)
-    },
-    [setSessionToken]
-  )
+  const isAttemptingLogin = React.useRef(false)
 
   const loginAttempt = React.useCallback(async () => {
     // 1. Check if there is a mock token: only used for dev purposes
     if (MOCK_TOKEN) {
-      setToken(MOCK_TOKEN)
+      setSessionToken(MOCK_TOKEN)
       return
     }
 
@@ -39,7 +32,7 @@ export function useLoginAttempt(
       history.replaceState({}, document.title, window.location.href.split('#')[0])
       const response = await swapTokens(newSelfCareIdentityToken)
       if (response.session_token) {
-        setToken(response.session_token)
+        setSessionToken(response.session_token)
         return
       }
     }
@@ -47,7 +40,7 @@ export function useLoginAttempt(
     // 3. Check if there is a valid token in the storage already
     const sessionStorageToken = storageRead(STORAGE_KEY_SESSION_TOKEN, 'string')
     if (sessionStorageToken) {
-      setToken(sessionStorageToken)
+      setSessionToken(sessionStorageToken)
       return
     }
 
@@ -56,10 +49,13 @@ export function useLoginAttempt(
 
     // 5. If all else fails, logout
     navigate('LOGOUT')
-  }, [navigate, route.PUBLIC, setToken, swapTokens])
+  }, [navigate, route.PUBLIC, setSessionToken, swapTokens])
 
   React.useEffect(() => {
-    if (sessionToken) return
+    if (sessionToken || isAttemptingLogin.current) return
+
+    isAttemptingLogin.current = true
+
     async function asyncLoginAttempt() {
       showOverlay(t('loading.sessionToken.label'))
       await loginAttempt()
@@ -67,5 +63,5 @@ export function useLoginAttempt(
     }
 
     asyncLoginAttempt()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [sessionToken, showOverlay, t, hideOverlay, loginAttempt])
 }

@@ -24,7 +24,7 @@ import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { DialogAddClientToPurpose } from './DialogAddClientToPurpose'
 import { DialogCreateNewAttribute } from './DialogCreateNewAttribute'
 import { DialogUpdatePartyMail } from './DialogUpdatePartyMail'
-import { useDialogStore } from '@/contexts'
+import { useDialogStore } from '@/stores'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,

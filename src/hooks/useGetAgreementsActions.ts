@@ -4,7 +4,7 @@ import { ActionItem } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
 import { useCurrentRoute, useNavigateRouter } from '@/router'
 import { canAgreementBeUpgraded } from '@/utils/agreement.utils'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 
 type AgreementActions = Record<AgreementState, Array<ActionItem>>
 

@@ -1,8 +1,7 @@
+import React from 'react'
 import { Footer, Header } from '@/components/layout'
 import { AppLayout } from '@/components/layout/AppLayout'
 import { PageContainerSkeleton } from '@/components/layout/containers'
-import { AuthContextProvider } from '@/contexts'
-import React from 'react'
 import { Outlet } from 'react-router-dom'
 import useCurrentRoute from '../../hooks/useCurrentRoute'
 import useSyncLangWithRoute from '../../hooks/useSyncLangWithRoute'
@@ -13,8 +12,13 @@ import { ErrorBoundary } from './ErrorBoundary'
 import TOSAgreement from './TOSAgreement'
 import { useTOSAgreement } from '../../hooks/useTOSAgreement'
 import { Dialog } from '@/components/dialogs'
+import { useLoginAttempt } from '@/hooks/useLoginAttempt'
 
-const OutletWrapper: React.FC = () => {
+const RoutesWrapper: React.FC = () => {
+  useLoginAttempt()
+  useSyncLangWithRoute()
+  useScrollTopOnLocationChange()
+
   const { isTOSAccepted, acceptTOS } = useTOSAgreement()
   const { isPublic } = useCurrentRoute()
 
@@ -40,17 +44,6 @@ const OutletWrapper: React.FC = () => {
 
       <Dialog />
     </>
-  )
-}
-
-const RoutesWrapper: React.FC = () => {
-  useSyncLangWithRoute()
-  useScrollTopOnLocationChange()
-
-  return (
-    <AuthContextProvider>
-      <OutletWrapper />
-    </AuthContextProvider>
   )
 }
 

@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { DialogUpdatePartyMailProps } from '@/types/dialog.types'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { object, string } from 'yup'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'

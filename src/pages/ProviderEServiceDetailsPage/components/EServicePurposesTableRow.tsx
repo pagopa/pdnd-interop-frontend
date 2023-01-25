@@ -1,7 +1,7 @@
 import { PurposeMutations } from '@/api/purpose'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { TableRow } from '@/components/shared/Table'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { DecoratedPurpose, PurposeVersion } from '@/types/purpose.types'
 import { formatDateString, formatThousands } from '@/utils/format.utils'
 import { Skeleton } from '@mui/material'

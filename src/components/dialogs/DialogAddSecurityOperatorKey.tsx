@@ -1,6 +1,6 @@
 import React from 'react'
 import { ClientMutations } from '@/api/client'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { DialogAddSecurityOperatorKeyProps } from '@/types/dialog.types'
 import {
   Alert,

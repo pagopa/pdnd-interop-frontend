@@ -6,7 +6,7 @@ import {
 } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { Button, Divider, Grid, Stack } from '@mui/material'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { PartyQueries } from '@/api/party/party.hooks'
 
 export const PartyContacts: React.FC = () => {

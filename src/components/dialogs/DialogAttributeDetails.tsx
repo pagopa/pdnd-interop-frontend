@@ -3,7 +3,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack } from
 import { useTranslation } from 'react-i18next'
 import { InformationContainer } from '@/components/layout/containers'
 import { DialogAttributeDetailsProps } from '@/types/dialog.types'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { AttributeQueries } from '@/api/attribute'
 import { InformationContainerSkeleton } from '../layout/containers/InformationContainer'
 

@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { DialogSetPurposeExpectedApprovalDateProps } from '@/types/dialog.types'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { DatePicker } from '../shared/ReactHookFormInputs'
 import { PurposeMutations } from '@/api/purpose'
 
