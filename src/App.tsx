@@ -2,8 +2,8 @@ import React from 'react'
 import CssBaseline from '@mui/material/CssBaseline'
 import { Spinner } from '@/components/shared/Spinner'
 import ProvidersWrapper from '@/contexts'
-import { RouterProvider } from './router'
-import { LoadingOverlay } from './components/layout'
+import { RouterProvider } from '@/router'
+import { LoadingOverlay, ToastNotification } from '@/components/layout'
 
 function App() {
   return (
@@ -12,6 +12,7 @@ function App() {
         <CssBaseline />
         <RouterProvider />
         <LoadingOverlay />
+        <ToastNotification />
       </ProvidersWrapper>
     </React.Suspense>
   )
