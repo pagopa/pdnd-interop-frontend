@@ -2,7 +2,7 @@ import React from 'react'
 import { AuthServicesHooks } from '@/api/auth'
 import { useCurrentRoute, useNavigateRouter } from '@/router'
 import { useTranslation } from 'react-i18next'
-import { useLoadingOverlay } from '../LoadingOverlayContext'
+import { useLoadingOverlay } from '../loading-overlay.store'
 import { storageRead, storageWrite } from '@/utils/storage.utils'
 import { MOCK_TOKEN, STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 
