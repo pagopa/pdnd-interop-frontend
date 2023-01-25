@@ -31,8 +31,8 @@
   },
   "edit": {
     "tabs": {
-      "ariaLabel": "Three different tabs with the instructions to obtain an access token, for client members and public keys",
-      "voucher": "Access token instructions",
+      "ariaLabel": "Three different tabs with the instructions to obtain a voucher, for client members and public keys",
+      "voucher": "Voucher instructions",
       "clientOperators": "Client members",
       "publicKeys": "Public keys"
     },
