@@ -1,0 +1,20 @@
+import React from 'react'
+import { useLoadingOverlayStore } from '@/contexts'
+import { Backdrop, Paper } from '@mui/material'
+import { Spinner } from '../shared/Spinner'
+
+const _LoadingOverlay: React.FC = () => {
+  const isLoadingOverlayShown = useLoadingOverlayStore((state) => state.isShown)
+  const loadingOverlayMessage = useLoadingOverlayStore((state) => state.message)
+
+  if (!isLoadingOverlayShown) return null
+
+  return (
+    <Backdrop open sx={{ zIndex: 99999 }}>
+      <Paper sx={{ p: 3 }}>
+        <Spinner label={loadingOverlayMessage} />
+      </Paper>
+    </Backdrop>
+  )
+}
+export const LoadingOverlay = React.memo(_LoadingOverlay)
