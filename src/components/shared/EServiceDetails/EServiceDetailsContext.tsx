@@ -1,5 +1,5 @@
 import React from 'react'
-import { createSafeContext } from '@/stores/utils'
+import { createSafeContext } from '@/utils/common.utils'
 import { EServiceDescriptorCatalog, EServiceDescriptorProvider } from '@/types/eservice.types'
 import { DocumentRead } from '@/types/common.types'
 import { remapEServiceAttributes } from '@/utils/attribute.utils'

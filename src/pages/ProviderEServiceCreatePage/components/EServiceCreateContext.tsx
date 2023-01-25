@@ -1,5 +1,5 @@
 import React from 'react'
-import { createSafeContext } from '@/stores/utils'
+import { createSafeContext } from '@/utils/common.utils'
 import { EServiceDescriptorProvider, EServiceRead } from '@/types/eservice.types'
 import noop from 'lodash/noop'
 
