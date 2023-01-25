@@ -68,11 +68,7 @@ async function getDescriptorProvider(eserviceId: string, descriptorId: string) {
   return response.data
 }
 
-async function createDraft(
-  payload: {
-    producerId: string
-  } & EServiceDraftPayload
-) {
+async function createDraft(payload: EServiceDraftPayload) {
   const response = await axiosInstance.post<EServiceReadType>(
     `${CATALOG_PROCESS_URL}/eservices`,
     payload
