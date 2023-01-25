@@ -49,34 +49,38 @@ const ClientVoucherInstructions: React.FC<VoucherInstructionsProps> = ({ clientI
   const { data: client } = ClientQueries.useGetSingle(clientId)
   const purposes = client?.purposes
 
-  const [selectedPurpose, setSelectedPurpose] = useSearchParams()
+  const [selectedPurposeId, setSelectedPurposeId] = useSearchParams({
+    purposeId: purposes && purposes.length > 0 ? purposes[0].purposeId : '',
+  })
 
-  const [selectedPurposeId, setSelectedPurposeId] = React.useState(
-    selectedPurpose.get('purposeId')
-      ? (selectedPurpose.get('purposeId') as string)
-      : purposes && purposes.length > 0
-      ? purposes[0].purposeId
-      : ''
-  )
+  // const [selectedPurposeId, setSelectedPurposeId] = React.useState(
+  //   selectedPurpose.get('purposeId')
+  //     ? (selectedPurpose.get('purposeId') as string)
+  //     : purposes && purposes.length > 0
+  //     ? purposes[0].purposeId
+  //     : ''
+  // )
 
   // in teoria funziona (se ho capito bene quello che deve fare) però è molto brutto!!!
   // VA MIGLIORATO
 
-  React.useEffect(() => {
-    if (!selectedPurpose.get('purposeId'))
-      setSelectedPurpose({
-        purposeId: purposes && purposes.length > 0 ? purposes[0].purposeId : '',
-      })
-  }, [purposes, selectedPurpose, setSelectedPurpose])
+  // React.useEffect(() => {
+  //   if (!selectedPurposeId.get('purposeId'))
+  //     setSelectedPurposeId({
+  //       purposeId: purposes && purposes.length > 0 ? purposes[0].purposeId : '',
+  //     })
+  // }, [purposes, selectedPurposeId, setSelectedPurposeId])
 
   const handlePurposeSelectOnChange = (purposeId: string) => {
-    setSelectedPurposeId(purposeId)
-    setSelectedPurpose({ purposeId: purposeId })
+    setSelectedPurposeId({ purposeId: purposeId })
   }
 
-  const { data: purpose } = PurposeQueries.useGetSingle(selectedPurposeId, {
-    suspense: false,
-  })
+  const { data: purpose } = PurposeQueries.useGetSingle(
+    selectedPurposeId.get('purposeId') as string,
+    {
+      suspense: false,
+    }
+  )
 
   const { component: Step } = steps[activeStep]
 
@@ -101,14 +105,14 @@ const ClientVoucherInstructions: React.FC<VoucherInstructionsProps> = ({ clientI
     clientId,
     clientKeys,
     purpose,
-    purposeId: selectedPurposeId,
+    purposeId: selectedPurposeId.get('purposeId') as string,
   }
 
   return (
     <>
       <ClientVoucherIntructionsPurposeSelect
         purposes={purposes}
-        selectedPurposeId={selectedPurposeId}
+        selectedPurposeId={selectedPurposeId.get('purposeId') as string}
         onChange={handlePurposeSelectOnChange}
       />
       <Stepper steps={steps} activeIndex={activeStep} />
