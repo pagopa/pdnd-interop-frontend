@@ -1,3 +1,4 @@
+import React from 'react'
 import { TopSideActions } from '@/components/layout/containers/PageContainer'
 import { FE_LOGIN_URL, isDevelopment } from '@/config/env'
 import { ActionItem } from '@/types/common.types'
@@ -30,3 +31,19 @@ export const logger = Object.keys(console).reduce((prev, next) => {
   //@ts-ignore
   return { ...prev, [next]: isDevelopment ? console[next] : noop }
 }, {}) as Console
+
+export function createSafeContext<ContextValue>(name: string, defaultValue: ContextValue) {
+  const context = React.createContext<ContextValue>(defaultValue)
+  context.displayName = name
+  function useContext() {
+    const c = React.useContext(context)
+    if (c === undefined) {
+      throw new Error(`${name} context called outside provider boundary`)
+    }
+    return c
+  }
+  return {
+    useContext,
+    Provider: context.Provider,
+  } as const
+}
