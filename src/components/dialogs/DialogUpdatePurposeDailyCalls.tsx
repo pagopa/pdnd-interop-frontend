@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { DialogUpdatePurposeDailyCallsProps } from '@/types/dialog.types'
 import { TextField } from '../shared/ReactHookFormInputs'
 import { number, object } from 'yup'

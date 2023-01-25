@@ -9,7 +9,7 @@ import {
 } from '@mui/material'
 import { Trans, useTranslation } from 'react-i18next'
 import { DialogBasicProps } from '@/types/dialog.types'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 
 export const DialogBasic: React.FC<DialogBasicProps> = ({
   title = 'Conferma azione',

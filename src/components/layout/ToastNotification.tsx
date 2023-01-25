@@ -1,6 +1,6 @@
 import React from 'react'
 import { Alert, Snackbar, Typography } from '@mui/material'
-import { useToastNotification, useToastNotificationStore } from '@/contexts'
+import { useToastNotification, useToastNotificationStore } from '@/stores'
 import { Trans } from 'react-i18next'
 
 const _ToastNotification: React.FC = () => {

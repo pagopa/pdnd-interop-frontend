@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { DialogRejectAgreementProps } from '@/types/dialog.types'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'

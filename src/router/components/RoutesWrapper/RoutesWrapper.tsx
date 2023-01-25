@@ -1,7 +1,7 @@
+import React from 'react'
 import { Footer, Header } from '@/components/layout'
 import { AppLayout } from '@/components/layout/AppLayout'
 import { PageContainerSkeleton } from '@/components/layout/containers'
-import React from 'react'
 import { Outlet } from 'react-router-dom'
 import useCurrentRoute from '../../hooks/useCurrentRoute'
 import useSyncLangWithRoute from '../../hooks/useSyncLangWithRoute'
@@ -13,44 +13,50 @@ import TOSAgreement from './TOSAgreement'
 import { useTOSAgreement } from '../../hooks/useTOSAgreement'
 import { ErrorPage } from '@/pages'
 import { Dialog } from '@/components/dialogs'
+import { useLoginAttempt } from '@/hooks/useLoginAttempt'
 
-const RoutesWrapper: React.FC = () => {
+const _RoutesWrapper: React.FC = () => {
   const { isTOSAccepted, acceptTOS } = useTOSAgreement()
   const { isPublic, routeKey } = useCurrentRoute()
+  useLoginAttempt()
   useSyncLangWithRoute()
   useScrollTopOnLocationChange()
 
   return (
     <>
-      {' '}
-      <ErrorBoundary
-        FallbackComponent={(props) => (
-          <Box sx={{ p: 8 }}>
-            <ErrorPage {...props} />
-          </Box>
+      <Header />
+      <Box sx={{ flex: 1 }}>
+        {!isTOSAccepted && !isPublic ? (
+          <TOSAgreement onAcceptAgreement={acceptTOS} />
+        ) : (
+          <AppLayout hideSideNav={isPublic}>
+            <ErrorBoundary key={routeKey} FallbackComponent={ErrorPage}>
+              <React.Suspense fallback={<PageContainerSkeleton />}>
+                <AuthGuard>
+                  <Outlet />
+                </AuthGuard>
+              </React.Suspense>
+            </ErrorBoundary>
+          </AppLayout>
         )}
-      >
-        <Header />
-        <Box sx={{ flex: 1 }}>
-          {!isTOSAccepted && !isPublic ? (
-            <TOSAgreement onAcceptAgreement={acceptTOS} />
-          ) : (
-            <AppLayout hideSideNav={isPublic}>
-              <ErrorBoundary key={routeKey} FallbackComponent={ErrorPage}>
-                <React.Suspense fallback={<PageContainerSkeleton />}>
-                  <AuthGuard>
-                    <Outlet />
-                  </AuthGuard>
-                </React.Suspense>
-              </ErrorBoundary>
-            </AppLayout>
-          )}
-        </Box>
-        <Footer />
-
-        <Dialog />
-      </ErrorBoundary>
+      </Box>
+      <Footer />
+      <Dialog />
     </>
+  )
+}
+
+const RoutesWrapper: React.FC = () => {
+  return (
+    <ErrorBoundary
+      FallbackComponent={(props) => (
+        <Box sx={{ p: 8 }}>
+          <ErrorPage {...props} />
+        </Box>
+      )}
+    >
+      <_RoutesWrapper />
+    </ErrorBoundary>
   )
 }
 

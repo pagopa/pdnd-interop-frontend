@@ -3,7 +3,7 @@ import {
   DialogContextProvider,
   LoadingOverlayContextProvider,
   ToastNotificationContextProvider,
-} from '@/contexts'
+} from '@/stores'
 import axiosInstance from '@/config/axios'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientMock } from '@/__mocks__/query-client.mock'

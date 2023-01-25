@@ -4,7 +4,7 @@ import { Table, TableRow } from '@/components/shared/Table'
 import { Button, IconButton, Skeleton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 
 interface PurposeEditStep3AddClientsTableProps {
   purposeId: string

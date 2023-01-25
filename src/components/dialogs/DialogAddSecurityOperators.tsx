@@ -1,6 +1,6 @@
 import React from 'react'
 import { PartyQueries } from '@/api/party/party.hooks'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { useJwt } from '@/hooks/useJwt'
 import { DialogAddSecurityOperatorsProps } from '@/types/dialog.types'
 import {

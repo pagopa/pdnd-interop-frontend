@@ -1,6 +1,6 @@
 import React from 'react'
 import { ClientQueries } from '@/api/client'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { useJwt } from '@/hooks/useJwt'
 import { DialogAddClientToPurposeProps } from '@/types/dialog.types'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'

@@ -1,10 +1,10 @@
-import { useAuthContext } from '@/contexts'
+import { useAuth } from '@/stores'
 import { goToLoginPage } from '@/utils/common.utils'
 
 const LogoutPage: React.FC = () => {
-  const { clearToken } = useAuthContext()
+  const { clearSessionToken } = useAuth()
 
-  clearToken()
+  clearSessionToken()
   goToLoginPage()
 
   return null
