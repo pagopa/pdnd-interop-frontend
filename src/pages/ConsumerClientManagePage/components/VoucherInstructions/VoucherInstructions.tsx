@@ -48,18 +48,17 @@ const ClientVoucherInstructions: React.FC<VoucherInstructionsProps> = ({ clientI
   const { data: client } = ClientQueries.useGetSingle(clientId)
   const purposes = client?.purposes
 
-  const [selectedPurposeId, setSelectedPurposeId] = useSearchParams({
+  const [searchParams, setSearchParams] = useSearchParams({
     purposeId: purposes && purposes.length > 0 ? purposes[0].purposeId : '',
   })
 
+  const selectedPurposeId = searchParams.get('purposeId') ?? ''
+
   const handlePurposeSelectOnChange = (purposeId: string) => {
-    setSelectedPurposeId({ purposeId: purposeId }, { replace: true })
+    setSearchParams({ purposeId: purposeId }, { replace: true })
   }
 
-  const { data: purpose } = PurposeQueries.useGetSingle(
-    selectedPurposeId.get('purposeId') as string,
-    { suspense: false }
-  )
+  const { data: purpose } = PurposeQueries.useGetSingle(selectedPurposeId, { suspense: false })
 
   const { component: Step } = steps[activeStep]
 
@@ -84,14 +83,14 @@ const ClientVoucherInstructions: React.FC<VoucherInstructionsProps> = ({ clientI
     clientId,
     clientKeys,
     purpose,
-    purposeId: selectedPurposeId.get('purposeId') as string,
+    purposeId: selectedPurposeId,
   }
 
   return (
     <>
       <ClientVoucherIntructionsPurposeSelect
         purposes={purposes}
-        selectedPurposeId={selectedPurposeId.get('purposeId') as string}
+        selectedPurposeId={selectedPurposeId}
         onChange={handlePurposeSelectOnChange}
       />
       <Stepper steps={steps} activeIndex={activeStep} />
