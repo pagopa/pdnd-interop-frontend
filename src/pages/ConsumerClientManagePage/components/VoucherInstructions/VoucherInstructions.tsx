@@ -11,6 +11,7 @@ import { useClientKind } from '@/hooks/useClientKind'
 import { useGetVoucherInstructionsSteps } from '../../hooks/useGetVoucherInstructionsSteps'
 import { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
 import { ClientVoucherIntructionsPurposeSelect } from './ClientVoucherIntructionsPurposeSelect'
+import { useSearchParams } from 'react-router-dom'
 
 interface VoucherInstructionsProps {
   clientId: string
@@ -47,13 +48,17 @@ const ClientVoucherInstructions: React.FC<VoucherInstructionsProps> = ({ clientI
   const { data: client } = ClientQueries.useGetSingle(clientId)
   const purposes = client?.purposes
 
-  const [selectedPurposeId, setSelectedPurposeId] = React.useState(
-    purposes && purposes.length > 0 ? purposes[0].purposeId : ''
-  )
-
-  const { data: purpose } = PurposeQueries.useGetSingle(selectedPurposeId, {
-    suspense: false,
+  const [searchParams, setSearchParams] = useSearchParams({
+    purposeId: purposes && purposes.length > 0 ? purposes[0].purposeId : '',
   })
+
+  const selectedPurposeId = searchParams.get('purposeId') ?? ''
+
+  const handlePurposeSelectOnChange = (purposeId: string) => {
+    setSearchParams({ purposeId: purposeId })
+  }
+
+  const { data: purpose } = PurposeQueries.useGetSingle(selectedPurposeId, { suspense: false })
 
   const { component: Step } = steps[activeStep]
 
@@ -86,7 +91,7 @@ const ClientVoucherInstructions: React.FC<VoucherInstructionsProps> = ({ clientI
       <ClientVoucherIntructionsPurposeSelect
         purposes={purposes}
         selectedPurposeId={selectedPurposeId}
-        onChange={setSelectedPurposeId}
+        onChange={handlePurposeSelectOnChange}
       />
       <Stepper steps={steps} activeIndex={activeStep} />
       <Step {...stepProps} />
