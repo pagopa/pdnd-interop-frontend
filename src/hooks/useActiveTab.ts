@@ -16,7 +16,7 @@ export const useActiveTab = (defaultTab: string) => {
     search.tab = newTab
     const stringifiedSearch = stringifySearch(search)
     const newPath = `${pathname}?${stringifiedSearch}`
-    navigate(newPath, { replace: true })
+    navigate(newPath)
   }
 
   useEffect(() => {
