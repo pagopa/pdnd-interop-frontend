@@ -1,5 +1,5 @@
 import axiosInstance from '@/config/axios'
-import { renderHookWithApplicationContext } from '@/__mocks__/mock.utils'
+import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 import { screen, waitForElementToBeRemoved } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'

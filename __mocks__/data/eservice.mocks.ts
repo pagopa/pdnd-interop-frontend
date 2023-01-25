@@ -5,8 +5,8 @@ import {
   EServiceProvider,
   EServiceRead,
   EServiceReadType,
-} from '../../types/eservice.types'
-import { createMockFactory } from '../mock.utils'
+} from '../../src/types/eservice.types'
+import { createMockFactory } from '../../src/utils/testing.utils'
 
 const createMockEServiceRead = createMockFactory<EServiceRead>({
   id: 'ad474d35-7939-4bee-bde9-4e469cca1030',

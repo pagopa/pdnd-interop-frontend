@@ -33,7 +33,6 @@ import { getKeys } from '@/utils/array.utils'
 import RoutesWrapper from './components/RoutesWrapper'
 import { LocalizedRoutes } from './router.types'
 import Redirect from './components/Redirect'
-import { checkLocalizedPathsConsistency } from './router.utils'
 
 // https://stackoverflow.com/a/70067918 waiting for "satisfies" operator in Typescript 4.9
 const makeType = <T extends LocalizedRoutes>(o: T) => o
@@ -370,5 +369,4 @@ export function mapRoutesToReactRouterDomObject() {
   return reactRouterDOMRoutes
 }
 
-checkLocalizedPathsConsistency()
 export const router = createBrowserRouter(mapRoutesToReactRouterDomObject(), { basename: '/ui' })
