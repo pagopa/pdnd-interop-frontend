@@ -24,6 +24,7 @@ import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { DialogAddClientToPurpose } from './DialogAddClientToPurpose'
 import { DialogCreateNewAttribute } from './DialogCreateNewAttribute'
 import { DialogUpdatePartyMail } from './DialogUpdatePartyMail'
+import { useDialogStore } from '@/contexts'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -66,7 +67,7 @@ function match<T>(
   }
 }
 
-export const Dialog = match(
+const _Dialog = match(
   (props) => <DialogBasic {...props} />,
   (props) => <DialogAttributeDetails {...props} />,
   (props) => <DialogSessionExpired {...props} />,
@@ -79,3 +80,10 @@ export const Dialog = match(
   (props) => <DialogCreateNewAttribute {...props} />,
   (props) => <DialogUpdatePartyMail {...props} />
 )
+
+export const Dialog: React.FC = () => {
+  const dialog = useDialogStore((state) => state.dialog)
+  if (!dialog) return null
+
+  return <_Dialog {...dialog} />
+}

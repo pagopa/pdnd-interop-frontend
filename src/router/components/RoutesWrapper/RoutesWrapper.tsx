@@ -1,7 +1,7 @@
 import { Footer, Header } from '@/components/layout'
 import { AppLayout } from '@/components/layout/AppLayout'
 import { PageContainerSkeleton } from '@/components/layout/containers'
-import { AuthContextProvider, DialogContextProvider } from '@/contexts'
+import { AuthContextProvider } from '@/contexts'
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import useCurrentRoute from '../../hooks/useCurrentRoute'
@@ -12,6 +12,7 @@ import { AuthGuard } from './AuthGuard'
 import { ErrorBoundary } from './ErrorBoundary'
 import TOSAgreement from './TOSAgreement'
 import { useTOSAgreement } from '../../hooks/useTOSAgreement'
+import { Dialog } from '@/components/dialogs'
 
 const OutletWrapper: React.FC = () => {
   const { isTOSAccepted, acceptTOS } = useTOSAgreement()
@@ -36,6 +37,8 @@ const OutletWrapper: React.FC = () => {
         )}
       </Box>
       <Footer />
+
+      <Dialog />
     </>
   )
 }
@@ -46,9 +49,7 @@ const RoutesWrapper: React.FC = () => {
 
   return (
     <AuthContextProvider>
-      <DialogContextProvider>
-        <OutletWrapper />
-      </DialogContextProvider>
+      <OutletWrapper />
     </AuthContextProvider>
   )
 }
