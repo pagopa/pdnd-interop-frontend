@@ -20,7 +20,7 @@
       "@/*": ["src/*"],
     },
   },
-  "include": ["src"],
+  "include": ["src", "__mocks__/data"],
   "exclude": [
     "./src/__tests__/**",
     "./src/__mocks__/**",

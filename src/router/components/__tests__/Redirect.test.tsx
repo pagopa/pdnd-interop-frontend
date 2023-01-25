@@ -1,5 +1,5 @@
 import React from 'react'
-import { renderWithApplicationContext } from '@/__mocks__/mock.utils'
+import { renderWithApplicationContext } from '@/utils/testing.utils'
 import Redirect from '../Redirect'
 import { routes } from '@/router/routes'
 import { createMemoryHistory } from 'history'
