@@ -53,7 +53,7 @@ const ClientVoucherInstructions: React.FC<VoucherInstructionsProps> = ({ clientI
   })
 
   const handlePurposeSelectOnChange = (purposeId: string) => {
-    setSelectedPurposeId({ purposeId: purposeId })
+    setSelectedPurposeId({ purposeId: purposeId }, { replace: true })
   }
 
   const { data: purpose } = PurposeQueries.useGetSingle(
