@@ -1,7 +1,6 @@
 import { Footer, Header } from '@/components/layout'
 import { AppLayout } from '@/components/layout/AppLayout'
 import { PageContainerSkeleton } from '@/components/layout/containers'
-import { AuthContextProvider, DialogContextProvider } from '@/contexts'
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import useCurrentRoute from '../../hooks/useCurrentRoute'
@@ -13,6 +12,7 @@ import { ErrorBoundary } from '../../../components/shared/ErrorBoundary'
 import TOSAgreement from './TOSAgreement'
 import { useTOSAgreement } from '../../hooks/useTOSAgreement'
 import { ErrorPage } from '@/pages'
+import { Dialog } from '@/components/dialogs'
 
 const RoutesWrapper: React.FC = () => {
   const { isTOSAccepted, acceptTOS } = useTOSAgreement()
@@ -21,37 +21,36 @@ const RoutesWrapper: React.FC = () => {
   useScrollTopOnLocationChange()
 
   return (
-    // AuthContextProvider and DialogContextProvider use internally routes related functions
-    // they need to be inside the router context.
-    <ErrorBoundary
-      FallbackComponent={(props) => (
-        <Box sx={{ p: 8 }}>
-          <ErrorPage {...props} />
-        </Box>
-      )}
-    >
-      <AuthContextProvider>
-        <DialogContextProvider>
-          <Header />
-          <Box sx={{ flex: 1 }}>
-            {!isTOSAccepted && !isPublic ? (
-              <TOSAgreement onAcceptAgreement={acceptTOS} />
-            ) : (
-              <AppLayout hideSideNav={isPublic}>
-                <ErrorBoundary key={routeKey} FallbackComponent={ErrorPage}>
-                  <React.Suspense fallback={<PageContainerSkeleton />}>
-                    <AuthGuard>
-                      <Outlet />
-                    </AuthGuard>
-                  </React.Suspense>
-                </ErrorBoundary>
-              </AppLayout>
-            )}
+    <>
+      {' '}
+      <ErrorBoundary
+        FallbackComponent={(props) => (
+          <Box sx={{ p: 8 }}>
+            <ErrorPage {...props} />
           </Box>
-          <Footer />
-        </DialogContextProvider>
-      </AuthContextProvider>
-    </ErrorBoundary>
+        )}
+      >
+        <Header />
+        <Box sx={{ flex: 1 }}>
+          {!isTOSAccepted && !isPublic ? (
+            <TOSAgreement onAcceptAgreement={acceptTOS} />
+          ) : (
+            <AppLayout hideSideNav={isPublic}>
+              <ErrorBoundary key={routeKey} FallbackComponent={ErrorPage}>
+                <React.Suspense fallback={<PageContainerSkeleton />}>
+                  <AuthGuard>
+                    <Outlet />
+                  </AuthGuard>
+                </React.Suspense>
+              </ErrorBoundary>
+            </AppLayout>
+          )}
+        </Box>
+        <Footer />
+
+        <Dialog />
+      </ErrorBoundary>
+    </>
   )
 }
 
