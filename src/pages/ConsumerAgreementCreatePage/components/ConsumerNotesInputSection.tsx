@@ -26,10 +26,10 @@ export const ConsumerNotesInputSection: React.FC<ConsumerNotesInputSectionProps>
       // Example:
       // The user has two tabs open with the same agreement.
       // The states of the consumerNotes in both tabs are the same.
-      // If the user updated the agreement draft with a new updated
-      // consumerNotes value in one tab, then go back to the other one,
-      // the agreement will be refetched by react-query and this logic will "notice"
-      // that the consumerNotes value is different from the one of the previous call,
+      // If the user updates the agreement draft with a new consumerNotes
+      // value in one tab, then go back to the other one, the agreement will
+      // be refetched by react-query and this logic will "notice" that the
+      // consumerNotes value is different from the one of the previous call,
       // so it will update it.
       if (!consumerNotesRef.current || data.consumerNotes !== consumerNotesRef.current) {
         consumerNotesRef.current = data?.consumerNotes
