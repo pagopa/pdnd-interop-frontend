@@ -22,10 +22,23 @@ const ConsumerEServiceDetailsPageContent: React.FC = () => {
   const { eserviceId, descriptorId } = useRouteParams<'SUBSCRIBE_CATALOG_VIEW'>()
 
   const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(eserviceId, descriptorId)
-  const { actions, canCreateAgreementDraft, isMine, isSubscribed, hasAgreementDraft } =
-    useGetEServiceConsumerActions(descriptor?.eservice, descriptor)
+  const { actions, isMine, isSubscribed, hasAgreementDraft } = useGetEServiceConsumerActions(
+    descriptor?.eservice,
+    descriptor
+  )
 
   const topSideActions = formatTopSideActions(actions)
+
+  // Only show missing certified attributes alert when...
+  const shouldShowMissingCertifiedAttributesAlert =
+    // ...the e-service is not owned by the active party...
+    !isMine &&
+    // ... the party doesn't own all the certified attributes required...
+    !descriptor?.eservice.hasCertifiedAttributes &&
+    // ... the e-service'slatest active descriptor is the actual descriptor the user is viewing...
+    descriptor?.eservice.activeDescriptor?.id === descriptor?.id &&
+    /// ... and it is not archived.
+    descriptor?.state !== 'ARCHIVED'
 
   return (
     <PageContainer
@@ -35,7 +48,7 @@ const ConsumerEServiceDetailsPageContent: React.FC = () => {
     >
       <Stack spacing={2}>
         {isMine && <Alert severity="info">{t('read.alert.youAreTheProvider')}</Alert>}
-        {!isMine && !canCreateAgreementDraft && descriptor?.state === 'PUBLISHED' && (
+        {shouldShowMissingCertifiedAttributesAlert && (
           <Alert severity="info">{t('read.alert.missingCertifiedAttributes')}</Alert>
         )}
         {isSubscribed && <Alert severity="info">{t('read.alert.alreadySubscribed')}</Alert>}
