@@ -13,16 +13,14 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const _config = { ...config, headers: { ...config.headers } }
-
     const sessionStorageToken = storageRead(STORAGE_KEY_SESSION_TOKEN, 'string')
     if (sessionStorageToken) {
-      _config.headers.Authorization = `Bearer ${sessionStorageToken}`
+      config.headers.Authorization = `Bearer ${sessionStorageToken}`
     }
 
-    _config.headers['X-Correlation-Id'] = uuidv4()
+    config.headers['X-Correlation-Id'] = uuidv4()
 
-    return _config
+    return config
   },
   (error) => {
     return Promise.reject(error)
