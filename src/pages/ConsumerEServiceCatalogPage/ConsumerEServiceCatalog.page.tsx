@@ -5,12 +5,27 @@ import { useTranslation } from 'react-i18next'
 import { EServiceCatalogGrid, EServiceCatalogGridSkeleton } from './components'
 import { EServiceQueries } from '@/api/eservice'
 import { Pagination } from '@/components/shared/Pagination'
+import { useQueryFilters } from '@/hooks/useQueryFilters'
+import { EServiceGetCatalogListQueryFilters } from '@/api/eservice/eservice.api.types'
+import EServiceCatalogFilters from './components/EServiceCatalogFilters'
 
 const ConsumerEServiceCatalogPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerEServiceCatalog' })
-  const { props, params, getTotalPageCount } = usePagination({
+  const {
+    props,
+    params: paginationParams,
+    getTotalPageCount,
+  } = usePagination({
     limit: 15,
   })
+
+  const { queryFilters, filtersUseFormMethods, enableFilters, clearFilters } =
+    useQueryFilters<EServiceGetCatalogListQueryFilters>({
+      q: '',
+      producersIds: [],
+    })
+
+  const params = { ...queryFilters, ...paginationParams }
 
   const { data } = EServiceQueries.useGetCatalogList(
     {
@@ -22,6 +37,11 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
 
   return (
     <PageContainer title={t('title')} description={t('description')}>
+      <EServiceCatalogFilters
+        filtersUseFormMethods={filtersUseFormMethods}
+        enableFilters={enableFilters}
+        clearFilters={clearFilters}
+      />
       <EServiceCatalogWrapper params={params} />
       <Pagination {...props} totalPages={getTotalPageCount(data?.pagination.totalCount)} />
     </PageContainer>

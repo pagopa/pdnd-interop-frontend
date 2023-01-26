@@ -3,7 +3,6 @@ import {
   Autocomplete,
   AutocompleteProps,
   AutocompleteValue,
-  Chip,
   CircularProgress,
   TextField,
   TextFieldProps,
@@ -15,6 +14,7 @@ import parse from 'autosuggest-highlight/parse'
 import match from 'autosuggest-highlight/match'
 import { useTranslation } from 'react-i18next'
 import identity from 'lodash/identity'
+import { isEqual } from 'lodash'
 
 export type AutocompleteBaseProps<
   T,
@@ -47,10 +47,9 @@ export function _AutocompleteBase<
   loading,
   defaultValue,
   variant = 'outlined',
-  getOptionLabel = identity,
   getOptionValue = identity,
   ...props
-}: AutocompleteBaseProps<T, Multiple, DisableClearable, FreeSolo>) {
+}: AutocompleteBaseProps<{ label: string; value: T }, Multiple, DisableClearable, FreeSolo>) {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'autocompleteMultiple',
   })
@@ -73,10 +72,11 @@ export function _AutocompleteBase<
       <Controller
         control={control}
         name={name}
-        render={({ field: { onChange } }) => (
+        render={({ field: { onChange, value } }) => (
           <Autocomplete
             id={labelId}
             options={options}
+            isOptionEqualToValue={(option, value) => isEqual(option.value, value)}
             loadingText={props.loadingText || t('loadingLabel')}
             noOptionsText={props.noOptionsText || t('noDataLabel')}
             loading={loading}
@@ -91,12 +91,13 @@ export function _AutocompleteBase<
               onChange(newValue)
               return newValue
             }}
+            value={value}
             renderInput={(params) => {
               return (
                 <TextField
                   variant={variant}
                   error={!!error}
-                  placeholder={placeholder || '...'}
+                  placeholder={placeholder ?? '...'}
                   {...params}
                   autoFocus={focusOnMount}
                   InputLabelProps={{ shrink: true, ...params.InputLabelProps }}
@@ -114,7 +115,7 @@ export function _AutocompleteBase<
               )
             }}
             renderOption={(props, value, { inputValue }) => {
-              const label = getOptionLabel(value)
+              const label = value.label
               if (!label) return null
 
               const matches = match(label, inputValue, { insideWords: true })
@@ -136,17 +137,6 @@ export function _AutocompleteBase<
                 </li>
               )
             }}
-            renderTags={(value, getTagProps) => (
-              <React.Fragment>
-                {value.map((option, index: number) => (
-                  <Chip // eslint-disable-line react/jsx-key
-                    variant="outlined"
-                    label={getOptionLabel(option)}
-                    {...getTagProps({ index })}
-                  />
-                ))}
-              </React.Fragment>
-            )}
           />
         )}
       />

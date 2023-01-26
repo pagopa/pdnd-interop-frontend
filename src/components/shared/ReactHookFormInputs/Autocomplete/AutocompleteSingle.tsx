@@ -1,4 +1,5 @@
 import React from 'react'
+import { isEqual } from 'lodash'
 import { AutocompleteBaseProps, _AutocompleteBase } from './_AutocompleteBase'
 
 type AutocompleteSingleProps<T> = Omit<
@@ -21,10 +22,9 @@ export function AutocompleteSingle<T>(props: AutocompleteSingleProps<T>) {
   return (
     <_AutocompleteBase
       multiple={false}
-      getOptionValue={(d) => d?.value || null}
-      getOptionLabel={(option) => option.label}
-      isOptionEqualToValue={(option, value) =>
-        JSON.stringify(option.value) === JSON.stringify(value.value)
+      getOptionValue={(d) => d?.value ?? d}
+      getOptionLabel={(value) =>
+        value?.label ?? props.options.find((option) => isEqual(option.value, value))?.label
       }
       {...props}
     />

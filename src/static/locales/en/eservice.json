@@ -121,6 +121,9 @@
       "providerField": {
         "label": "Find by provider"
       },
+      "consumerField": {
+        "label": "Find by consumer"
+      },
       "filterBtn": "Filter",
       "cancelFilterBtn": "Cancel filters"
     }
