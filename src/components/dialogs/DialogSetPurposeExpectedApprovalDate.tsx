@@ -24,6 +24,8 @@ type ExpectedApprovalDateFormValues = {
 export const DialogSetPurposeExpectedApprovalDate: FunctionComponent<
   DialogSetPurposeExpectedApprovalDateProps
 > = ({ purposeId, versionId, approvalDate }) => {
+  const ariaLabelId = React.useId()
+
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'dialogSetPurposeExpectedApprovalDate',
   })
@@ -44,10 +46,10 @@ export const DialogSetPurposeExpectedApprovalDate: FunctionComponent<
   })
 
   return (
-    <Dialog open onClose={closeDialog} fullWidth>
+    <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
       <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
         <FormProvider {...formMethods}>
-          <DialogTitle>{t('title')}</DialogTitle>
+          <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
 
           <DialogContent>
             <Typography>{t('content.message')}</Typography>

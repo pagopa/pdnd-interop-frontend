@@ -5,7 +5,7 @@ import { Typography } from '@mui/material'
 import axios from 'axios'
 import isEmpty from 'lodash/isEmpty'
 import { useTranslation } from 'react-i18next'
-import CopyToClipboardButton from '@/pages/ErrorPage/components/CopyToClipboardButton'
+import CopyToClipboardButton from '@/components/shared/CopyToClipboardButton'
 
 type Entry = {
   value: string

@@ -1,6 +1,5 @@
 {
   "styledDialogBasic": {
-    "ariaDescribedBy": "Modale per azioni",
     "actions": {
       "cancelLabel": "Annulla"
     }
@@ -22,7 +21,6 @@
     }
   },
   "dialogSessionExpired": {
-    "ariaDescribedBy": "Modale per segnalare che la sessione attuale è scaduta. È necessario effettuare un nuovo login",
     "title": "La sessione è scaduta",
     "content": {
       "description": "A breve sarai reindirizzato alla pagina di login"
@@ -32,7 +30,6 @@
     }
   },
   "dialogUpdatePurposeDailyCalls": {
-    "ariaDescribedBy": "Modale per aggiornare il numero di chiamate API/giorno per una finalità",
     "title": "Aggiorna numero di chiamate API/giorno",
     "content": {
       "dailyCallsField": {
@@ -46,7 +43,6 @@
     }
   },
   "dialogSetPurposeExpectedApprovalDate": {
-    "ariaDescribedBy": "Modale per impostare una data di completamento stimata per l'attivazione di una finalità",
     "title": "Imposta data di completamento stimata",
     "content": {
       "message": "Questa data verrà indicata al fruitore come data di attivazione della finalità. Potrai aggiornarla in qualsiasi momento"
@@ -57,7 +53,6 @@
     }
   },
   "dialogAddSecurityOperators": {
-    "ariaDescribedBy": "Modale per aggiungere utenti membri ad un client",
     "title": "Aggiungi membri del client",
     "content": {
       "autocompleteLabel": "Utenti selezionati",
@@ -69,7 +64,6 @@
     }
   },
   "dialogAddSecurityOperatorKeys": {
-    "ariaDescribedBy": "Modale per aggiungere chiavi pubbliche ad un client",
     "title": "Carica nuova chiave pubblica",
     "content": {
       "nameField": {
@@ -90,7 +84,6 @@
     }
   },
   "dialogRejectAgreement": {
-    "ariaDescribedBy": "Modale per rifiutare una richiesta di fruizione ad un fruitore",
     "title": "Rifiuta richiesta di fruizione",
     "content": {
       "reason": {
@@ -104,7 +97,6 @@
     }
   },
   "dialogAddClientToPurpose": {
-    "ariaDescribedBy": "Modale per aggiungere client ad una finalità",
     "title": "Aggiungi client",
     "content": {
       "autocompleteLabel": "Client selezionati",
@@ -116,7 +108,6 @@
     }
   },
   "dialogCreateNewAttribute": {
-    "ariaDescribedBy": "Modale per creare un nuovo attributo",
     "title": "Crea nuovo attributo",
     "content": {
       "nameField": {

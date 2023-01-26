@@ -1,7 +1,5 @@
 import React from 'react'
 import { createSafeContext } from '../utils'
-import { storageDelete } from '@/utils/storage.utils'
-import { STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 import noop from 'lodash/noop'
 import { useLoginAttempt } from './useLoginAttempt'
 
@@ -14,14 +12,7 @@ const { useContext, Provider } = createSafeContext<{
 })
 
 const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [sessionToken, setSessionToken] = React.useState<null | string>(null)
-
-  useLoginAttempt(sessionToken, setSessionToken)
-
-  const clearToken = React.useCallback(() => {
-    storageDelete(STORAGE_KEY_SESSION_TOKEN)
-    setSessionToken(null)
-  }, [])
+  const { sessionToken, clearToken } = useLoginAttempt()
 
   const providerValue = React.useMemo(
     () => ({ token: sessionToken, clearToken }),

@@ -10,12 +10,12 @@ import { InformationContainerSkeleton } from '../layout/containers/InformationCo
 export const DialogAttributeDetails: React.FC<DialogAttributeDetailsProps> = ({ attribute }) => {
   const { t } = useTranslation('common')
 
-  const dialogTitleId = React.useId()
+  const ariaLabelId = React.useId()
   const { closeDialog } = useDialog()
 
   return (
-    <Dialog aria-labelledby={dialogTitleId} open onClose={closeDialog} fullWidth>
-      <DialogTitle id={dialogTitleId}>{attribute.name}</DialogTitle>
+    <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
+      <DialogTitle id={ariaLabelId}>{attribute.name}</DialogTitle>
 
       <React.Suspense fallback={<AttributeDetailsSkeleton />}>
         <AttributeDetails attributeId={attribute.id} />

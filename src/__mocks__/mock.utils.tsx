@@ -9,7 +9,7 @@ import React from 'react'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientMock } from '@/__mocks__/query-client.mock'
 import { createMemoryHistory, MemoryHistory } from 'history'
-import { ErrorBoundary } from '@/router/components/RoutesWrapper/ErrorBoundary'
+import { ErrorBoundary } from '@/components/shared/ErrorBoundary'
 import { Route, Router, Routes } from 'react-router-dom'
 import { render, renderHook } from '@testing-library/react'
 
@@ -91,7 +91,7 @@ function generateWrapper(options: WrapperOptions & { history: MemoryHistory }) {
     }
 
     if (options.withErrorBoundary) {
-      result = <ErrorBoundary>{result}</ErrorBoundary>
+      result = <ErrorBoundary FallbackComponent={() => <>Error boundary</>}>{result}</ErrorBoundary>
     }
 
     return <>{result}</>

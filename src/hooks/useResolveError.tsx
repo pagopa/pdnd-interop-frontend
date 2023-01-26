@@ -1,16 +1,17 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { isRouteErrorResponse, useLocation } from 'react-router-dom'
+import { isRouteErrorResponse } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { Redirect, RouterLink } from '@/router'
-import CodeBlock from '../components/CodeBlock'
+import CodeBlock from '@/components/shared/CodeBlock'
 import {
   NotAuthorizedError,
   NotFoundError,
-  NotImplementedError,
   ServerError,
+  TokenExchangeError,
 } from '@/utils/errors.utils'
 import { FallbackProps } from 'react-error-boundary'
+import { isDevelopment, SELFCARE_BASE_URL } from '@/config/env'
 
 type UseResolveErrorReturnType = {
   title: string
@@ -20,14 +21,8 @@ type UseResolveErrorReturnType = {
 
 function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnType {
   const { t } = useTranslation('error')
-  const location = useLocation()
 
   const { error, resetErrorBoundary } = fallbackProps
-
-  // Reset error boundary if location changes
-  React.useEffect(() => {
-    return resetErrorBoundary
-  }, [location.pathname, resetErrorBoundary])
 
   let title, description: string | undefined
   let content: JSX.Element | null = null
@@ -50,23 +45,23 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     </RouterLink>
   )
 
+  const backToSelfcareButton = (
+    <Button size="small" variant="contained" href={SELFCARE_BASE_URL}>
+      {t('actions.backToSelfcare')}
+    </Button>
+  )
+
   if (error instanceof Error) {
     content = (
       <>
         {reloadPageButton}
-        <CodeBlock error={error?.stack || error.message || error?.name} />
+        {isDevelopment && <CodeBlock error={error?.stack || error.message || error?.name} />}
       </>
     )
   }
 
   if ((isRouteErrorResponse(error) && error.status === 404) || error instanceof NotFoundError) {
     content = <Redirect to="NOT_FOUND" />
-  }
-
-  if (error instanceof NotImplementedError) {
-    title = t('notImplemented.title')
-    description = t('notImplemented.description')
-    content = backToHomeButton
   }
 
   if (error instanceof NotAuthorizedError) {
@@ -81,9 +76,15 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     content = (
       <>
         {retryQueryButton}
-        <CodeBlock error={error.response ?? error} />
+        {isDevelopment && <CodeBlock error={error.response ?? error} />}
       </>
     )
+  }
+
+  if (error instanceof TokenExchangeError) {
+    title = t('tokenExchange.title')
+    description = t('tokenExchange.description')
+    content = <>{backToSelfcareButton}</>
   }
 
   if (!title) {

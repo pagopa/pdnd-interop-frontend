@@ -5,6 +5,9 @@ import { DialogSessionExpiredProps } from '@/types/dialog.types'
 import { useNavigateRouter } from '@/router'
 
 export const DialogSessionExpired: React.FC<DialogSessionExpiredProps> = () => {
+  const ariaLabelId = React.useId()
+  const ariaDescriptionId = React.useId()
+
   const { t } = useTranslation('shared-components', { keyPrefix: 'dialogSessionExpired' })
   const { navigate } = useNavigateRouter()
 
@@ -18,10 +21,10 @@ export const DialogSessionExpired: React.FC<DialogSessionExpiredProps> = () => {
   }, [logout])
 
   return (
-    <Dialog open aria-describedby={t('ariaDescribedBy')} fullWidth>
-      <DialogTitle>{t('title')}</DialogTitle>
+    <Dialog open aria-labelledby={ariaLabelId} aria-describedby={ariaDescriptionId} fullWidth>
+      <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
 
-      <DialogContent>{t('content.description')}</DialogContent>
+      <DialogContent id={ariaDescriptionId}>{t('content.description')}</DialogContent>
 
       <DialogActions>
         <Button variant="contained" onClick={logout}>
