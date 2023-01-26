@@ -2,6 +2,7 @@ import { AgreementSummary } from '@/types/agreement.types'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
+import { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
 import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
 import { GetListAgreementQueryParams } from './agreement.api.types'
 import { updateAgreementsListCache, removeAgreementFromListCache } from './agreement.api.utils'
@@ -27,7 +28,7 @@ function useGetList(params: GetListAgreementQueryParams) {
   )
 }
 
-function useGetSingle(agreementId: string, config = { suspense: false }) {
+function useGetSingle(agreementId: string, config?: UseQueryWrapperOptions<AgreementSummary>) {
   return useQueryWrapper(
     [AgreementQueryKeys.GetSingle, agreementId],
     () => AgreementServices.getSingle(agreementId),
@@ -100,6 +101,15 @@ function useDeleteDraft() {
         removeAgreementFromListCache.bind(null, agreementId)
       )
     },
+  })
+}
+
+function useUpdateDraft() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.updateDraft' })
+  return useMutationWrapper(AgreementServices.updateDraft, {
+    successToastLabel: t('outcome.success'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
   })
 }
 
@@ -238,6 +248,7 @@ export const AgreementMutations = {
   useCreateDraft,
   useSubmitDraft,
   useDeleteDraft,
+  useUpdateDraft,
   useUploadDraftDocument,
   useDeleteDraftDocument,
   useActivate,

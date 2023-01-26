@@ -8,7 +8,7 @@ export const AgreementConsumerMessageSection: React.FC = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.consumerMessage' })
   const { agreement } = useAgreementDetailsContext()
 
-  if (!agreement || !agreement.consumerNotes) {
+  if (!agreement || !agreement.consumerNotes || agreement.state === 'DRAFT') {
     return null
   }
 

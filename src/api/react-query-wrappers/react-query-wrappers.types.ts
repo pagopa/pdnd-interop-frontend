@@ -7,6 +7,7 @@ import {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query'
+import { useQueryWrapper } from './useQueryWrapper'
 
 export type UseQueryWrapper = <
   TQueryFnData = unknown,
@@ -76,6 +77,10 @@ export type UseMutationWrapper = <
   mutationFn: MutationFunction<TData, TVariables>,
   options: MutationWrapperOptions<TData, TError, TVariables, TContext>
 ) => UseMutationResult<TData, TError, TVariables, TContext>
+
+export type UseQueryWrapperOptions<TData> = Parameters<
+  typeof useQueryWrapper<TData, unknown, TData, string[]>
+>[2]
 
 export type Paginated<T> = {
   results: Array<T>

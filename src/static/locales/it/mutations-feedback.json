@@ -223,6 +223,13 @@
         "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà cancellata. Sarà sempre possibile crearne una nuova"
       }
     },
+    "updateDraft": {
+      "loading": "Stiamo aggiornando la bozza",
+      "outcome": {
+        "success": "La bozza è stata aggiornata correttamente",
+        "error": "Non è stato possibile aggiornare la bozza. Verifica di aver compilato i campi richiesti e riprova!"
+      }
+    },
     "downloadDraftDocument": {
       "loading": "Stiamo scaricando il documento",
       "outcome": {

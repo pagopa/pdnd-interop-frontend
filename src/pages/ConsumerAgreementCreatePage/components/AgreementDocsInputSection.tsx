@@ -1,6 +1,6 @@
 import React from 'react'
 import { AgreementDownloads, AgreementMutations, AgreementQueries } from '@/api/agreement'
-import { SectionContainer } from '@/components/layout/containers'
+import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { Box, Button, Divider, Stack } from '@mui/material'
@@ -12,7 +12,7 @@ import { DocumentContainer } from '@/components/layout/containers/DocumentContai
 import { DocumentRead } from '@/types/common.types'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 
-type ConsumerAgreementCreateDocsInputSectionProps = {
+type AgreementDocsInputSectionProps = {
   agreementId: string
 }
 
@@ -26,9 +26,9 @@ const defaultValues: AddDocFormValues = {
   prettyName: '',
 }
 
-export const ConsumerAgreementCreateDocsInputSection: React.FC<
-  ConsumerAgreementCreateDocsInputSectionProps
-> = ({ agreementId }) => {
+export const AgreementDocsInputSection: React.FC<AgreementDocsInputSectionProps> = ({
+  agreementId,
+}) => {
   const { t } = useTranslation('agreement', { keyPrefix: 'edit.documents' })
   const { t: tCommon } = useTranslation('common')
   const [showDocInput, setShowDocInput] = React.useState(false)
@@ -120,4 +120,8 @@ export const ConsumerAgreementCreateDocsInputSection: React.FC<
       </FormProvider>
     </SectionContainer>
   )
+}
+
+export const AgreementDocsInputSectionSkeleton: React.FC = () => {
+  return <SectionContainerSkeleton height={127} />
 }
