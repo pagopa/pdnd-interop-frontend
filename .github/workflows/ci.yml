@@ -30,6 +30,9 @@ jobs:
       - name: Installing
         run: npm install
 
+      - name: Building
+        run: npm run build
+
       - name: Testing
         run: npm run test
 
