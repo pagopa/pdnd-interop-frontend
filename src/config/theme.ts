@@ -3,7 +3,6 @@ import { createTheme } from '@mui/material'
 import { theme as muiItaliaTheme } from '@pagopa/mui-italia'
 
 import type {} from '@mui/x-date-pickers/themeAugmentation'
-import type {} from '@mui/material/OverridableComponentAugmentation'
 import type {} from '@mui/types/OverridableComponentAugmentation'
 import type {} from '@mui/lab/themeAugmentation'
 

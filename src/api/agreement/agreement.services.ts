@@ -1,5 +1,5 @@
 import axiosInstance from '@/config/axios'
-import { AGREEMENT_PROCESS_URL, BACKEND_FOR_FRONTEND_URL } from '@/config/env'
+import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import {
   GetListAgreementQueryParams,
   UploadAgreementDraftDocumentPayload,
@@ -65,7 +65,7 @@ async function updateDraft({
   consumerNotes: string
 }) {
   const response = await axiosInstance.post<AgreementSummary>(
-    `${AGREEMENT_PROCESS_URL}/agreements/${agreementId}/update`,
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/update`,
     { consumerNotes }
   )
   return response.data
