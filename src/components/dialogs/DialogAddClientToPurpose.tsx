@@ -62,7 +62,7 @@ export const DialogAddClientToPurpose: React.FC<DialogAddClientToPurposeProps> =
   const selectedClients = formMethods.watch('selectedClients')
 
   return (
-    <Dialog aria-aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
+    <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
       <FormProvider {...formMethods}>
         <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
           <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
