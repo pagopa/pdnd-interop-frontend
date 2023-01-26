@@ -31,8 +31,8 @@
   },
   "edit": {
     "tabs": {
-      "ariaLabel": "Tre tab diverse per le istruzioni dell'ottenimento dell'access token, i membri del client e le chiavi pubbliche",
-      "voucher": "Istruzioni ottenimento accesso token",
+      "ariaLabel": "Tre tab diverse per le istruzioni dell'ottenimento del voucher, i membri del client e le chiavi pubbliche",
+      "voucher": "Istruzioni ottenimento voucher",
       "clientOperators": "Membri del client",
       "publicKeys": "Chiavi pubbliche"
     },

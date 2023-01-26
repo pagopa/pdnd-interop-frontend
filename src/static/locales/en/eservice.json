@@ -61,7 +61,7 @@
         "infoLabel": "The content of this field will the audience (aud) that the Subscriber will send you inside the access token. With this id the Subscriber will tell the Provider which service it is looking for. Max 250 chars"
       },
       "voucherLifespanField": {
-        "label": "Access token expiration (in minutes - required)",
+        "label": "Voucher expiration (in minutes - required)",
         "infoLabel": "Max value: 1440 minutes (24 hours)"
       },
       "dailyCallsPerConsumerField": {

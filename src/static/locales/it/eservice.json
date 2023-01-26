@@ -61,7 +61,7 @@
         "infoLabel": "All’interno dell'access token che il fruitore ti invierà rappresenterà l’audience (aud), l'id con il quale è dichiarato il servizio richiesto. Max 250 caratteri"
       },
       "voucherLifespanField": {
-        "label": "Durata di validità dell'access token (in minuti - richiesto)",
+        "label": "Durata di validità del voucher (in minuti - richiesto)",
         "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
       },
       "dailyCallsPerConsumerField": {

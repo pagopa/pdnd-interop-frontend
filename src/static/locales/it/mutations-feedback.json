@@ -437,14 +437,14 @@
     "postKey": {
       "loading": "Stiamo caricando la chiave",
       "outcome": {
-        "success": "La chiave è ora utilizzabile per firmare una client assertion per ottenere un access token",
+        "success": "La chiave è ora utilizzabile per firmare una client assertion per ottenere un voucher",
         "error": "Non è stato possibile caricare la chiave. Assicurarsi sia nel formato corretto e riprovare. Attenzione: la stessa chiave non può essere caricata due volte"
       }
     },
     "deleteKey": {
       "loading": "Stiamo cancellando la chiave",
       "outcome": {
-        "success": "La chiave pubblica è stata cancellata correttamente. Da questo momento non potrà più essere usata per firmare una client assertion per ottenere un access token",
+        "success": "La chiave pubblica è stata cancellata correttamente. Da questo momento non potrà più essere usata per firmare una client assertion per ottenere un voucher",
         "error": "Non è stato possibile cancellare la chiave. Per favore, riprova!"
       },
       "confirmDialog": {

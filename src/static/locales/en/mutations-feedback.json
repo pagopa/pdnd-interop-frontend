@@ -436,14 +436,14 @@
     "postKey": {
       "loading": "Uploading key",
       "outcome": {
-        "success": "The key was uploaded successfully. It can now be used to sign a client assertion to obtain an access token",
+        "success": "The key was uploaded successfully. It can now be used to sign a client assertion to obtain a voucher",
         "error": "The key could not be uploaded. Please, make sure it is in the right format and with the right algorithm. Warning: the same key cannot be uploaded twice"
       }
     },
     "deleteKey": {
       "loading": "Deleting key",
       "outcome": {
-        "success": "The key was deleted successfully. It can no longer be used to sign a client assertion to obtain an access token",
+        "success": "The key was deleted successfully. It can no longer be used to sign a client assertion to obtain a voucher",
         "error": "The key could not be deleted. Please, try again!"
       },
       "confirmDialog": {
