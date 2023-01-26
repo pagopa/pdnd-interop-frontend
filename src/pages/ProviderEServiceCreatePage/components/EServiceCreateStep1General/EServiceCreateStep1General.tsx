@@ -75,8 +75,8 @@ export const EServiceCreateStep1General: React.FC = () => {
             navigate('PROVIDE_ESERVICE_EDIT', {
               params: { eserviceId: id, descriptorId: URL_FRAGMENTS.FIRST_DRAFT[currentLanguage] },
               replace: true,
-              state: { stepIndexDestination: 1 },
             })
+            forward()
           },
         }
       )
