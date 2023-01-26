@@ -21,8 +21,16 @@ export const ConsumerNotesInputSection: React.FC<ConsumerNotesInputSectionProps>
   AgreementQueries.useGetSingle(agreementId, {
     suspense: false,
     onSuccess(data) {
-      // Set the state of consumerNotes when it is changed from the previous call
-      // or the ref is not set yet
+      // The consumerNotes input is set only when it is not set yet or when updated data value
+      // that differs from the previous is available.
+      // Example:
+      // The user has two tabs open with the same agreement.
+      // The states of the consumerNotes in both tabs are the same.
+      // If the user updated the agreement draft with a new updated
+      // consumerNotes value in one tab, then go back to the other one,
+      // the agreement will be refetched by react-query and this logic will "notice"
+      // that the consumerNotes value is different from the one of the previous call,
+      // so it will update it.
       if (!consumerNotesRef.current || data.consumerNotes !== consumerNotesRef.current) {
         consumerNotesRef.current = data?.consumerNotes
         setConsumerNotes(data?.consumerNotes ?? '')
