@@ -20,7 +20,7 @@ export function useQueryFilters<T extends Record<string, string | string[]>>(def
     }, {} as T)
   }, [filtersSearchParams, defaultValues])
 
-  const filtersFormMethods = useForm<T>({
+  const filtersUseFormMethods = useForm<T>({
     defaultValues: decodedSearchParams as DeepPartial<T>,
   })
 
@@ -33,15 +33,15 @@ export function useQueryFilters<T extends Record<string, string | string[]>>(def
     filtersKeys.forEach((filterKey) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
-      filtersFormMethods.setValue(filterKey, defaultValues[filterKey])
+      filtersUseFormMethods.setValue(filterKey, defaultValues[filterKey])
     })
     setQueryFilters(defaultValues)
 
     // Clears the search url params from only the filter related url params
     setFiltersSearchParams(omit(Object.fromEntries(filtersSearchParams), ...filtersKeys))
-  }, [filtersFormMethods, defaultValues, filtersSearchParams, setFiltersSearchParams])
+  }, [filtersUseFormMethods, defaultValues, filtersSearchParams, setFiltersSearchParams])
 
-  const enableFilters = filtersFormMethods.handleSubmit((values) => {
+  const enableFilters = filtersUseFormMethods.handleSubmit((values) => {
     setQueryFilters(values)
 
     // Filters out the falsy/empty values
@@ -54,5 +54,5 @@ export function useQueryFilters<T extends Record<string, string | string[]>>(def
     setFiltersSearchParams(filteredSearchParams)
   })
 
-  return { queryFilters, filtersFormMethods, enableFilters, clearFilters }
+  return { queryFilters, filtersUseFormMethods, enableFilters, clearFilters }
 }

@@ -36,7 +36,7 @@ describe('useQueryFilters testing', () => {
       testFilterArray: ['testArray1', 'testArray2'],
     })
 
-    expect(result.current.filtersFormMethods.getValues()).toEqual({
+    expect(result.current.filtersUseFormMethods.getValues()).toEqual({
       testFilterString: 'test',
       testFilterArray: ['testArray1', 'testArray2'],
     })
@@ -50,7 +50,7 @@ describe('useQueryFilters testing', () => {
       memoryHistory
     )
 
-    expect(result.current.filtersFormMethods.getValues()).toEqual({
+    expect(result.current.filtersUseFormMethods.getValues()).toEqual({
       testFilterString: 'test',
       testFilterArray: ['testArray1', 'testArray2'],
     })
@@ -70,7 +70,7 @@ describe('useQueryFilters testing', () => {
 
     expect(history.location.search).toBe('')
     expect(result.current.queryFilters).toEqual(testFiltersInitialValues)
-    expect(result.current.filtersFormMethods.getValues()).toEqual(testFiltersInitialValues)
+    expect(result.current.filtersUseFormMethods.getValues()).toEqual(testFiltersInitialValues)
   })
 
   it('Should keep the url search params that are not filters related on clearFilters call', () => {
@@ -98,15 +98,15 @@ describe('useQueryFilters testing', () => {
     )
 
     await act(async () => {
-      result.current.filtersFormMethods.setValue('testFilterArray', ['a', 'b'])
-      result.current.filtersFormMethods.setValue('testFilterString', 'testFilter')
+      result.current.filtersUseFormMethods.setValue('testFilterArray', ['a', 'b'])
+      result.current.filtersUseFormMethods.setValue('testFilterString', 'testFilter')
       result.current.enableFilters()
     })
 
     expect(history.location.search).toBe(
       '?testFilterString=testFilter&testFilterArray=a&testFilterArray=b'
     )
-    expect(result.current.queryFilters).toEqual(result.current.filtersFormMethods.getValues())
+    expect(result.current.queryFilters).toEqual(result.current.filtersUseFormMethods.getValues())
   })
 
   it('Should not set url search params that are nullish/empty array on enableFilters call', async () => {
@@ -119,8 +119,8 @@ describe('useQueryFilters testing', () => {
     )
 
     await act(async () => {
-      result.current.filtersFormMethods.setValue('testFilterArray', [])
-      result.current.filtersFormMethods.setValue('testFilterString', '')
+      result.current.filtersUseFormMethods.setValue('testFilterArray', [])
+      result.current.filtersUseFormMethods.setValue('testFilterString', '')
       result.current.enableFilters()
     })
 

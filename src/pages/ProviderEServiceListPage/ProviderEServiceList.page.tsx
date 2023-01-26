@@ -26,7 +26,7 @@ const ProviderEServiceListPage: React.FC = () => {
     limit: 20,
   })
 
-  const { queryFilters, filtersFormMethods, enableFilters, clearFilters } =
+  const { queryFilters, filtersUseFormMethods, enableFilters, clearFilters } =
     useQueryFilters<EServiceGetProviderListQueryFilters>({
       q: '',
       consumersIds: [],
@@ -58,7 +58,7 @@ const ProviderEServiceListPage: React.FC = () => {
       topSideActions={topSideActions}
     >
       <EServiceTableFilters
-        filtersFormMethods={filtersFormMethods}
+        filtersUseFormMethods={filtersUseFormMethods}
         enableFilters={enableFilters}
         clearFilters={clearFilters}
       />

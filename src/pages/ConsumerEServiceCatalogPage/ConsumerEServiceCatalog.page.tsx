@@ -19,7 +19,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
     limit: 15,
   })
 
-  const { queryFilters, filtersFormMethods, enableFilters, clearFilters } =
+  const { queryFilters, filtersUseFormMethods, enableFilters, clearFilters } =
     useQueryFilters<EServiceGetCatalogListQueryFilters>({
       q: '',
       producersIds: [],
@@ -38,7 +38,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
   return (
     <PageContainer title={t('title')} description={t('description')}>
       <EServiceCatalogFilters
-        filtersFormMethods={filtersFormMethods}
+        filtersUseFormMethods={filtersUseFormMethods}
         enableFilters={enableFilters}
         clearFilters={clearFilters}
       />

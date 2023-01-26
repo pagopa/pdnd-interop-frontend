@@ -10,13 +10,13 @@ import { useAutocompleteFilterInput } from '@/hooks/useAutocompleteFilterInput'
 interface EServiceTableFiltersProps {
   clearFilters: VoidFunction
   enableFilters: VoidFunction
-  filtersFormMethods: UseFormReturn<EServiceGetProviderListQueryFilters, unknown>
+  filtersUseFormMethods: UseFormReturn<EServiceGetProviderListQueryFilters, unknown>
 }
 
 const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({
   clearFilters,
   enableFilters,
-  filtersFormMethods,
+  filtersUseFormMethods,
 }) => {
   const { t } = useTranslation('eservice')
   const [consumersAutocompleteText, handleAutocompleteInputChange] = useAutocompleteFilterInput()
@@ -33,7 +33,7 @@ const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({
     })) || []
 
   return (
-    <FormProvider {...filtersFormMethods}>
+    <FormProvider {...filtersUseFormMethods}>
       <Stack
         onSubmit={enableFilters}
         component="form"
