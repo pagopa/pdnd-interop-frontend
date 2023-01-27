@@ -1,7 +1,11 @@
 import { EServiceQueries } from '@/api/eservice'
+import { PurposeQueries } from '@/api/purpose'
+import { PurposeGetListUrlParams } from '@/api/purpose/purpose.api.types'
 import { PageContainer } from '@/components/layout/containers'
 import { TopSideActions } from '@/components/layout/containers/PageContainer'
+import { Pagination } from '@/components/shared/Pagination'
 import { useJwt } from '@/hooks/useJwt'
+import usePagination from '@/hooks/usePagination'
 import { useNavigateRouter } from '@/router'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -13,6 +17,21 @@ const ConsumerPurposesListPage: React.FC = () => {
   const { t: tCommon } = useTranslation('common')
   const { jwt } = useJwt()
   const { navigate } = useNavigateRouter()
+
+  const {
+    props,
+    params: paginationParams,
+    getTotalPageCount,
+  } = usePagination({
+    limit: 20,
+  })
+
+  const params = { ...paginationParams, consumersIds: [jwt?.organizationId] as Array<string> }
+  const { data } = PurposeQueries.useGetList(params, {
+    suspense: false,
+    keepPreviousData: true,
+    enabled: !!jwt?.organizationId,
+  })
 
   const { data: activeEServices } = EServiceQueries.useGetListFlat(
     {
@@ -45,11 +64,22 @@ const ConsumerPurposesListPage: React.FC = () => {
       description={t('description')}
       topSideActions={topSideActions}
     >
-      <React.Suspense fallback={<ConsumerPurposesTableSkeleton />}>
-        <ConsumerPurposesTable />
-      </React.Suspense>
+      <PurposesTableWrapper params={params} />
+      <Pagination {...props} totalPages={getTotalPageCount(data?.pagination.totalCount)} />
     </PageContainer>
   )
+}
+
+const PurposesTableWrapper: React.FC<{ params: PurposeGetListUrlParams }> = ({ params }) => {
+  const { jwt } = useJwt()
+
+  const { data, isFetching } = PurposeQueries.useGetList(params, {
+    suspense: false,
+    enabled: !!jwt?.organizationId,
+  })
+
+  if (!data && isFetching) return <ConsumerPurposesTableSkeleton />
+  return <ConsumerPurposesTable purposes={data?.results ?? []} />
 }
 
 export default ConsumerPurposesListPage

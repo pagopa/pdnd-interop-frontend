@@ -35,7 +35,7 @@ export const PurposeDetailsTab: React.FC<PurposeDetailsTabProps> = ({ purposeId 
         </Grid>
       </Grid>
       <PurposeDetailsLoadEstimateUpdateSection purposeId={purposeId} />
-      {purpose?.mostRecentVersion?.state !== 'ARCHIVED' && purpose?.clients.length === 0 && (
+      {purpose?.currentVersion?.state !== 'ARCHIVED' && purpose?.clients.length === 0 && (
         <Alert sx={{ mt: 2 }} severity="info">
           <Trans
             components={{

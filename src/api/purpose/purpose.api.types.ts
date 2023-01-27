@@ -1,8 +1,11 @@
 import { PurposeRiskAnalysisForm, PurposeState } from '@/types/purpose.types'
 
 export type PurposeGetListUrlParams = {
-  eserviceId?: string
-  consumerId?: string
+  limit: number
+  offset: number
+  q?: string
+  eserviceIds?: Array<string>
+  consumersIds?: Array<string>
   states?: Array<PurposeState>
 }
 

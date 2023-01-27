@@ -12,6 +12,7 @@ import {
   decoratePurposeWithMostRecentVersion,
 } from './purpose.api.utils'
 import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
+import { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
 
 export enum PurposeQueryKeys {
   GetList = 'PurposeGetList',
@@ -20,20 +21,12 @@ export enum PurposeQueryKeys {
 
 function useGetList(
   params: PurposeGetListUrlParams,
-  config?: { enabled?: boolean; suspense?: boolean }
+  config?: UseQueryWrapperOptions<Awaited<ReturnType<typeof PurposeServices.getList>>>
 ) {
-  const queryClient = useQueryClient()
   return useQueryWrapper(
     [PurposeQueryKeys.GetList, params],
     () => PurposeServices.getList(params),
-    {
-      ...config,
-      onSuccess(data) {
-        data.forEach((purpose) => {
-          queryClient.setQueryData([PurposeQueryKeys.GetSingle, purpose.id], purpose)
-        })
-      },
-    }
+    config
   )
 }
 

@@ -4,9 +4,8 @@ export function decoratePurposeWithMostRecentVersion(purpose: Purpose): Decorate
   if (purpose.versions.length === 0) {
     return {
       ...purpose,
-      mostRecentVersion: null,
+      waitingForApprovalVersion: null,
       currentVersion: null,
-      awaitingApproval: false,
     }
   }
 
@@ -14,16 +13,21 @@ export function decoratePurposeWithMostRecentVersion(purpose: Purpose): Decorate
     (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
   )
   const mostRecentVersion = sorted[sorted.length - 1]
-  const currentVersion =
-    mostRecentVersion.state === 'WAITING_FOR_APPROVAL' && sorted.length >= 2
-      ? sorted[sorted.length - 2]
-      : mostRecentVersion
+  let currentVersion = null
+
+  if (mostRecentVersion.state === 'WAITING_FOR_APPROVAL' && sorted.length >= 2) {
+    currentVersion = sorted[sorted.length - 2]
+  }
+
+  if (mostRecentVersion.state !== 'WAITING_FOR_APPROVAL') {
+    currentVersion = mostRecentVersion
+  }
 
   return {
     ...purpose,
-    mostRecentVersion,
+    waitingForApprovalVersion:
+      mostRecentVersion.state === 'WAITING_FOR_APPROVAL' ? mostRecentVersion : null,
     currentVersion,
-    awaitingApproval: mostRecentVersion.id !== currentVersion.id,
   }
 }
 

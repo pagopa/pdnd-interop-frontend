@@ -26,8 +26,7 @@ export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
 
   const state = purpose?.currentVersion?.state
 
-  if (!purpose || !purpose.mostRecentVersion || state === 'ARCHIVED' || state === 'DRAFT')
-    return null
+  if (!purpose || state === 'ARCHIVED' || state === 'DRAFT') return null
 
   const accordionEntries: Array<AccordionEntry> = t('faq', { returnObjects: true })
 
@@ -42,19 +41,19 @@ export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
   return (
     <SectionContainer title={t('title')} description={t('description')}>
       <Stack sx={{ pt: 1 }} spacing={2}>
-        {purpose.mostRecentVersion.state === 'WAITING_FOR_APPROVAL' && (
+        {purpose.waitingForApprovalVersion && (
           <>
             <InformationContainer
               label={t('dateEstimateField.label')}
               labelDescription={t('dateEstimateField.description')}
             >
-              {purpose.mostRecentVersion.expectedApprovalDate
-                ? formatDateString(purpose.mostRecentVersion.expectedApprovalDate)
+              {purpose.waitingForApprovalVersion.expectedApprovalDate
+                ? formatDateString(purpose.waitingForApprovalVersion.expectedApprovalDate)
                 : t('dateEstimateField.emptyLabel')}
             </InformationContainer>
             <InformationContainer label={t('loadEstimateRequestedField.label')}>
               {t('loadEstimateRequestedField.value', {
-                value: formatThousands(purpose.mostRecentVersion?.dailyCalls ?? 0),
+                value: formatThousands(purpose.waitingForApprovalVersion?.dailyCalls ?? 0),
               })}
             </InformationContainer>
           </>
@@ -75,12 +74,16 @@ export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
             </Link>
           </Stack>
         </InformationContainer>
-        <Divider />
-        <Stack direction="row" justifyContent="center">
-          <Button onClick={handleUpdateDailyCalls} variant="outlined">
-            {t('updateDailyCalls')}
-          </Button>
-        </Stack>
+        {!purpose.waitingForApprovalVersion && (
+          <>
+            <Divider />
+            <Stack direction="row" justifyContent="center">
+              <Button onClick={handleUpdateDailyCalls} variant="outlined">
+                {t('updateDailyCalls')}
+              </Button>
+            </Stack>
+          </>
+        )}
       </Stack>
     </SectionContainer>
   )

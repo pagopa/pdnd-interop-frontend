@@ -29,7 +29,7 @@ export const PurposeDetailsGeneralInfoSection: React.FC<PurposeDetailsGeneralInf
   )
   const { mode } = useCurrentRoute()
 
-  if (!purpose || !descriptor || !purpose.mostRecentVersion) return null
+  if (!purpose || !descriptor) return null
 
   return (
     <SectionContainer title={t('title')}>

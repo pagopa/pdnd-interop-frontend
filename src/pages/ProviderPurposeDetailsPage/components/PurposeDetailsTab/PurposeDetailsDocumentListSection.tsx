@@ -28,13 +28,13 @@ export const PurposeDetailsDocumentListSection: React.FC<
   ]
 
   const handleDownloadDocument = (document: DocumentRead) => {
-    if (!purpose.mostRecentVersion) return
+    if (!purpose.currentVersion) return
     if (document.id === 'riskAnalysis') {
       downloadRiskAnalysis(
         {
           purposeId,
-          versionId: purpose.mostRecentVersion.id,
-          documentId: purpose.mostRecentVersion.riskAnalysis.id,
+          versionId: purpose.currentVersion.id,
+          documentId: purpose.currentVersion.riskAnalysis.id,
         },
         document.name
       )

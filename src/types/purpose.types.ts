@@ -24,6 +24,33 @@ export type PurposeVersion = {
   firstActivationAt?: string
 }
 
+export type PurposeListingItem = {
+  id: string
+  title: string
+  consumer: {
+    id: string
+    name: string
+  }
+  eservice: {
+    id: string
+    name: string
+    producer: {
+      id: string
+      name: string
+    }
+  }
+  currentVersion?: {
+    id: string
+    state: PurposeState
+    dailyCalls: number
+  }
+  waitingForApprovalVersion?: {
+    id: string
+    state: PurposeState
+    dailyCalls: number
+  }
+}
+
 export type Purpose = {
   consumer: {
     id: string
@@ -48,7 +75,6 @@ export type Purpose = {
 // The frontend adds this, currentVersion and mostRecentVersion
 // differ if mostRecentVersion's state is WAITING_FOR_APPROVAL
 export type DecoratedPurpose = Purpose & {
-  mostRecentVersion: PurposeVersion | null
+  waitingForApprovalVersion: PurposeVersion | null
   currentVersion: PurposeVersion | null
-  awaitingApproval: boolean
 }

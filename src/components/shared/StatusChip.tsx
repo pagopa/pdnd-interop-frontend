@@ -7,7 +7,7 @@ import { Chip, ChipProps, Skeleton, Stack } from '@mui/material'
 import omit from 'lodash/omit'
 import { useTranslation } from 'react-i18next'
 import { TFunction } from 'i18next'
-import { DecoratedPurpose, PurposeState } from '@/types/purpose.types'
+import { DecoratedPurpose, PurposeListingItem, PurposeState } from '@/types/purpose.types'
 import { AttributeKey, AttributeKind, AttributeState } from '@/types/attribute.types'
 
 const CHIP_COLORS_E_SERVICE: Record<EServiceState, MUIColor> = {
@@ -68,7 +68,7 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
       }
     | {
         for: 'purpose'
-        purpose: DecoratedPurpose
+        purpose: DecoratedPurpose | PurposeListingItem
       }
     | {
         for: 'user'
@@ -140,7 +140,7 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
           label={t(`status.purpose.${purposeState}`)}
           color={chipColors['purpose'][purposeState]}
         />
-        {props.purpose.awaitingApproval && (
+        {props.purpose.waitingForApprovalVersion && (
           <Chip
             size="small"
             label={t(`status.purpose.WAITING_FOR_APPROVAL`)}

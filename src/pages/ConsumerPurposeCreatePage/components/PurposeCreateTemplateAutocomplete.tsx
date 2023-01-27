@@ -18,17 +18,17 @@ export const PurposeCreateTemplateAutocomplete: React.FC = () => {
     setValue('template', null)
   }, [selectedEServiceId, setValue])
 
-  const {
-    data: purposes,
-    isFetching,
-    isFetched,
-  } = PurposeQueries.useGetList(
+  const { data, isFetching, isFetched } = PurposeQueries.useGetList(
     {
-      eserviceId: selectedEServiceId ?? undefined,
+      eserviceIds: selectedEServiceId ? [selectedEServiceId] : undefined,
       states: ['ACTIVE', 'SUSPENDED', 'ARCHIVED'],
+      limit: 50,
+      offset: 0,
     },
     { enabled: !!(shouldRenderTemplateAutocomplete && selectedEServiceId), suspense: false }
   )
+
+  const purposes = data?.results
 
   const options = React.useMemo(() => {
     return (purposes ?? []).map((purpose) => ({
