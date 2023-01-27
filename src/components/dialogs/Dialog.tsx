@@ -26,7 +26,7 @@ import { DialogCreateNewAttribute } from './DialogCreateNewAttribute'
 import { DialogUpdatePartyMail } from './DialogUpdatePartyMail'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
 import { DialogError } from './DialogError'
-import { useDialogStore } from '@/contexts'
+import { useDialogStore } from '@/stores'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,

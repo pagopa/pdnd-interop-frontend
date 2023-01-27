@@ -107,22 +107,6 @@ describe('useMutationWrapper tests', () => {
     expect(await screen.findByRole('alert', { name: 'success' })).toBeInTheDocument()
   })
 
-  it('Should not show the success label on mutation success', async () => {
-    const { result } = renderHookWithApplicationContext(
-      () =>
-        useMutationWrapper(mockMutationServices.success, {
-          suppressSuccessToast: true,
-          errorToastLabel: 'error',
-          loadingLabel: 'loading',
-        }),
-      { withReactQueryContext: true }
-    )
-    await act(() => {
-      result.current.mutate()
-    })
-    expect(screen.queryByRole('alert', { name: 'success' })).not.toBeInTheDocument()
-  })
-
   it('Should show the error label on mutation error', async () => {
     const { result } = renderHookWithApplicationContext(
       () =>
@@ -153,6 +137,22 @@ describe('useMutationWrapper tests', () => {
       result.current.mutate()
     })
     expect(screen.queryByRole('alert', { name: 'error' })).not.toBeInTheDocument()
+  })
+
+  it('Should not show the success label on mutation success', async () => {
+    const { result } = renderHookWithApplicationContext(
+      () =>
+        useMutationWrapper(mockMutationServices.success, {
+          suppressSuccessToast: true,
+          errorToastLabel: 'error',
+          loadingLabel: 'loading',
+        }),
+      { withReactQueryContext: true }
+    )
+    await act(() => {
+      result.current.mutate()
+    })
+    expect(screen.queryByRole('alert', { name: 'success' })).not.toBeInTheDocument()
   })
 
   it('Should show the confirmation modal on mutate', async () => {
