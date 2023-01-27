@@ -14,7 +14,7 @@ import parse from 'autosuggest-highlight/parse'
 import match from 'autosuggest-highlight/match'
 import { useTranslation } from 'react-i18next'
 import identity from 'lodash/identity'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 
 export type AutocompleteBaseProps<
   T,

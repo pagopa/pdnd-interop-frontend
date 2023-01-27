@@ -1,5 +1,5 @@
 import { Chip } from '@mui/material'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
 import { AutocompleteBaseProps, _AutocompleteBase } from './_AutocompleteBase'
