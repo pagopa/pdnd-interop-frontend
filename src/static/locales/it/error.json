@@ -15,7 +15,7 @@
   },
   "serverError": {
     "title": "Errore del server",
-    "description": "Si è verificato un errore nella gestione della richiesta. Per favore, ricarica la pagina."
+    "description": "Si è verificato un errore nella gestione della richiesta. Per favore, riprova."
   },
   "notAuthorized": {
     "title": "Non autorizzato",

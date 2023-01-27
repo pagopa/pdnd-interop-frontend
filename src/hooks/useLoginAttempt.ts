@@ -3,24 +3,20 @@ import { AuthServicesHooks } from '@/api/auth'
 import { useCurrentRoute, useNavigateRouter } from '@/router'
 import { useTranslation } from 'react-i18next'
 import { useLoadingOverlay } from '../stores/loading-overlay.store'
-import { storageDelete, storageRead } from '@/utils/storage.utils'
+import { storageRead } from '@/utils/storage.utils'
 import { MOCK_TOKEN, STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 import { TokenExchangeError } from '@/utils/errors.utils'
+import { useAuth } from '@/stores'
 
 export function useLoginAttempt() {
   const { mutateAsync: swapTokens } = AuthServicesHooks.useSwapTokens()
-  const [sessionToken, setSessionToken] = React.useState<null | string>(null)
-
-  const clearToken = React.useCallback(() => {
-    storageDelete(STORAGE_KEY_SESSION_TOKEN)
-    setSessionToken(null)
-  }, [])
+  const { sessionToken, setSessionToken } = useAuth()
+  const [error, setError] = React.useState<Error | null>(null)
 
   const { t } = useTranslation('common')
   const { showOverlay, hideOverlay } = useLoadingOverlay()
   const { navigate } = useNavigateRouter()
   const { route } = useCurrentRoute()
-  const [error, setError] = React.useState<Error | null>(null)
 
   const isAttemptingLogin = React.useRef(false)
 
@@ -71,6 +67,4 @@ export function useLoginAttempt() {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (error) throw new TokenExchangeError()
-
-  return { sessionToken, clearToken }
 }
