@@ -36,9 +36,9 @@ const CHIP_COLORS_USER: Record<UserState, MUIColor> = {
 
 const CHIP_COLORS_PURPOSE: Record<PurposeState, MUIColor> = {
   DRAFT: 'info',
-  ACTIVE: 'primary',
+  ACTIVE: 'success',
   SUSPENDED: 'error',
-  WAITING_FOR_APPROVAL: 'warning',
+  WAITING_FOR_APPROVAL: 'info',
   ARCHIVED: 'info',
 }
 
@@ -135,11 +135,13 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
     const purposeState = props.purpose.currentVersion?.state ?? 'DRAFT'
     return (
       <Stack direction="row" spacing={1}>
-        <Chip
-          size="small"
-          label={t(`status.purpose.${purposeState}`)}
-          color={chipColors['purpose'][purposeState]}
-        />
+        {props.purpose.currentVersion && (
+          <Chip
+            size="small"
+            label={t(`status.purpose.${purposeState}`)}
+            color={chipColors['purpose'][purposeState]}
+          />
+        )}
         {props.purpose.waitingForApprovalVersion && (
           <Chip
             size="small"

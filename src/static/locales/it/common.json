@@ -101,10 +101,10 @@
     },
     "purpose": {
       "DRAFT": "in bozza",
-      "ACTIVE": "attivo",
-      "SUSPENDED": "sospeso",
-      "WAITING_FOR_APPROVAL": "in attesa di valutazione",
-      "ARCHIVED": "archiviato"
+      "ACTIVE": "attiva",
+      "SUSPENDED": "sospesa",
+      "WAITING_FOR_APPROVAL": "in aggiornamento",
+      "ARCHIVED": "archiviata"
     },
     "user": {
       "PENDING": "in attesa di approvazione",
