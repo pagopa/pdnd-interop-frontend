@@ -24,7 +24,7 @@ export const PurposeEditStep1General: React.FC<ActiveStepProps> = (props) => {
   const defaultValues = {
     title: purpose.title,
     description: purpose.description,
-    dailyCalls: purpose.versions[0].dailyCalls,
+    dailyCalls: purpose.versions[0]?.dailyCalls ?? 1,
   }
 
   return <PurposeEditStep1GeneralForm purpose={purpose} defaultValues={defaultValues} {...props} />
