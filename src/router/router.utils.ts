@@ -7,8 +7,6 @@ import memoize from 'lodash/memoize'
 import identity from 'lodash/identity'
 import sortBy from 'lodash/sortBy'
 import { PUBLIC_URL } from '@/config/env'
-import qs from 'qs'
-import QueryString from 'qs'
 import isEqual from 'lodash/isEqual'
 
 /** Returns the localized path of the given routeKey and language  */
@@ -135,14 +133,6 @@ export const isEditPath = memoize((routeKey: RouteKey): boolean => {
   const lastBit = subroutes[subroutes.length - 1]
   return Object.values(URL_FRAGMENTS.EDIT).some((f) => lastBit.endsWith(f))
 })
-
-export function parseSearch(search: string) {
-  return qs.parse(search, { ignoreQueryPrefix: true })
-}
-
-export function stringifySearch(searchObj: Record<string, string> | QueryString.ParsedQs) {
-  return qs.stringify(searchObj)
-}
 
 const _getDynamicSegmentsFromPath = memoize((path: string) => {
   return path
