@@ -6,6 +6,7 @@ import EServiceServices from './eservice.services'
 import {
   EServiceGetCatalogListUrlParams,
   EServiceGetConsumersUrlParams,
+  EServiceGetListFlatResponse,
   EServiceGetListFlatUrlParams,
   EServiceGetProducersUrlParams,
   EServiceGetProviderListUrlParams,
@@ -13,6 +14,7 @@ import {
 } from './eservice.api.types'
 import { useJwt } from '@/hooks/useJwt'
 import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
+import { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
 
 export enum EServiceQueryKeys {
   /** @deprecated TO BE REMOVED */
@@ -29,15 +31,13 @@ export enum EServiceQueryKeys {
 /** @deprecated TO BE REMOVED */
 function useGetListFlat(
   params: EServiceGetListFlatUrlParams,
-  config?: {
-    enabled?: boolean
-    suspense?: boolean
-  }
+  config?: UseQueryWrapperOptions<EServiceGetListFlatResponse>
 ) {
   return useQueryWrapper(
     [EServiceQueryKeys.GetListFlat, params],
     () => EServiceServices.getListFlat(params),
     {
+      ...config,
       suspense: config?.suspense ?? true,
       enabled: !!params.callerId && (config?.enabled ?? true),
     }
