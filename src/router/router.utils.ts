@@ -7,7 +7,6 @@ import memoize from 'lodash/memoize'
 import identity from 'lodash/identity'
 import sortBy from 'lodash/sortBy'
 import { PUBLIC_URL } from '@/config/env'
-import isEqual from 'lodash/isEqual'
 
 /** Returns the localized path of the given routeKey and language  */
 export function getLocalizedPath(routeKey: RouteKey, lang: LangCode) {

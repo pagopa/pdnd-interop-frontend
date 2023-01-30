@@ -1,8 +1,9 @@
 import { getKeys } from '@/utils/array.utils'
 import { doesNotThrow, throws } from 'assert'
+import identity from 'lodash/identity'
 import isEqual from 'lodash/isEqual'
 import { LocalizedRoutes } from '../router.types'
-import { getPathSegments, _getDynamicSegmentsFromPath } from '../router.utils'
+import { getPathSegments } from '../router.utils'
 import { routes } from '../routes'
 
 /**
@@ -29,14 +30,22 @@ import { routes } from '../routes'
  *
  */
 const checkLocalizedPathsConsistency = (routes: LocalizedRoutes) => {
+  const getDynamicSegmentsFromPath = (path: string) => {
+    return path
+      .split('/')
+      .filter(identity)
+      .filter((subpath) => subpath.startsWith(':'))
+      .map((param) => param.replace(':', ''))
+  }
+
   getKeys(routes).forEach((routeKey) => {
     const paths = Object.values(routes[routeKey].PATH)
-    const firstPathDynamicSegments = _getDynamicSegmentsFromPath(paths[0])
+    const firstPathDynamicSegments = getDynamicSegmentsFromPath(paths[0])
     const firstPathSegmentNumber = getPathSegments(paths[0])
 
     const areLocalizedPathsConsistent = paths.every(
       (path) =>
-        isEqual(_getDynamicSegmentsFromPath(path), firstPathDynamicSegments) &&
+        isEqual(getDynamicSegmentsFromPath(path), firstPathDynamicSegments) &&
         isEqual(getPathSegments(path).length, firstPathSegmentNumber.length)
     )
 
