@@ -23,9 +23,12 @@ export function AutocompleteSingle<T>(props: AutocompleteSingleProps<T>) {
     <_AutocompleteBase
       multiple={false}
       getOptionValue={(d) => d?.value ?? d}
-      getOptionLabel={(value) =>
-        value?.label ?? props.options.find((option) => isEqual(option.value, value))?.label
-      }
+      getOptionLabel={(value) => {
+        if (!value) return ''
+        if (value?.label) return value.label
+
+        return props.options.find((option) => isEqual(option.value, value))?.label ?? ''
+      }}
       {...props}
     />
   )
