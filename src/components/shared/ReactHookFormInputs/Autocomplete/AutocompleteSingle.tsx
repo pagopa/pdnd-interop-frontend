@@ -1,5 +1,5 @@
 import React from 'react'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import { AutocompleteBaseProps, _AutocompleteBase } from './_AutocompleteBase'
 
 type AutocompleteSingleProps<T> = Omit<

@@ -9,7 +9,7 @@ import { Accordion, AccordionEntry } from '@/components/shared/Accordion'
 import { Button, Divider, Link, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import LaunchIcon from '@mui/icons-material/Launch'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { purposeUpgradeGuideLink } from '@/config/constants'
 import { formatDateString, formatThousands } from '@/utils/format.utils'
 

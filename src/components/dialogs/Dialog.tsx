@@ -26,6 +26,7 @@ import { DialogCreateNewAttribute } from './DialogCreateNewAttribute'
 import { DialogUpdatePartyMail } from './DialogUpdatePartyMail'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
 import { DialogError } from './DialogError'
+import { useDialogStore } from '@/stores'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -82,10 +83,13 @@ const _Dialog = match(
   (props) => <DialogUpdatePartyMail {...props} />
 )
 
-export const Dialog: React.FC<DialogProps> = (props) => {
+export const Dialog: React.FC = () => {
+  const dialog = useDialogStore((state) => state.dialog)
+  if (!dialog) return null
+
   return (
     <ErrorBoundary FallbackComponent={DialogError}>
-      <_Dialog {...props} />
+      <_Dialog {...dialog} />
     </ErrorBoundary>
   )
 }

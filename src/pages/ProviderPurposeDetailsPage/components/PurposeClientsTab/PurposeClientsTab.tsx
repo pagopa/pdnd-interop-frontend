@@ -1,4 +1,4 @@
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { Button, Stack } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'

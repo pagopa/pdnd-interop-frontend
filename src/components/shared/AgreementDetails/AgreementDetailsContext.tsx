@@ -1,5 +1,5 @@
 import React from 'react'
-import { createSafeContext } from '@/contexts/utils'
+import { createSafeContext } from '@/utils/common.utils'
 import { EServiceQueries } from '@/api/eservice'
 import { remapEServiceAttributes } from '@/utils/attribute.utils'
 import { FrontendAttributes, PartyAttributes } from '@/types/attribute.types'

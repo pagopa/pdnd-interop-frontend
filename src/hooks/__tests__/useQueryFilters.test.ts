@@ -1,4 +1,4 @@
-import { renderHookWithApplicationContext } from '@/__mocks__/mock.utils'
+import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 import { createMemoryHistory } from 'history'
 import { act } from 'react-dom/test-utils'
 import { URLSearchParams } from 'url'

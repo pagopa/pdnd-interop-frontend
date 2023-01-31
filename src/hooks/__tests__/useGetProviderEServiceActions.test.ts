@@ -1,9 +1,9 @@
 import {
   createMockEServiceProvider,
   createMockEServiceReadType,
-} from '@/__mocks__/data/eservice.mocks'
+} from '__mocks__/data/eservice.mocks'
 import { useGetProviderEServiceActions } from '../useGetProviderEServiceActions'
-import { renderHookWithApplicationContext } from '@/__mocks__/mock.utils'
+import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 import { EServiceProvider } from '@/types/eservice.types'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'

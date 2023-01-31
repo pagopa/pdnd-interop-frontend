@@ -7,7 +7,7 @@ import { SectionContainer } from '@/components/layout/containers'
 import { Box, Link, Stack, Typography } from '@mui/material'
 import { attributesHelpLink } from '@/config/constants'
 import { ButtonNaked } from '@pagopa/mui-italia'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { AttributeGroup } from './AttributeGroup'
 
 type AddAttributesToEServiceFormProps = {

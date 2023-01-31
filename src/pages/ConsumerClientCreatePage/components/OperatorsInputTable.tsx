@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { CreateClientFormValues } from '../ConsumerClientCreate.page'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { SelfCareUser } from '@/types/party.types'
 
 const OperatorsInputTable: React.FC = () => {

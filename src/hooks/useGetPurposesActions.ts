@@ -1,6 +1,6 @@
 import { DecoratedPurpose, PurposeState } from '@/types/purpose.types'
 import { PurposeMutations } from '@/api/purpose'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { useTranslation } from 'react-i18next'
 import { ActionItem } from '@/types/common.types'
 

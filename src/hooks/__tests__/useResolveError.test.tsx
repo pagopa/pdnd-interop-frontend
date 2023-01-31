@@ -5,7 +5,7 @@ import {
   ServerError,
   TokenExchangeError,
 } from '@/utils/errors.utils'
-import { queryClientMock } from '@/__mocks__/query-client.mock'
+import { queryClientMock } from '@/utils/testing.utils'
 import { createMemoryHistory } from '@remix-run/router'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { render, waitFor } from '@testing-library/react'

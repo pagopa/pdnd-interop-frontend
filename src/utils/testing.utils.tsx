@@ -1,17 +1,35 @@
+import React from 'react'
 import { Paginated } from '../api/react-query-wrappers/react-query-wrappers.types'
 import cloneDeep from 'lodash/cloneDeep'
-import {
-  DialogContextProvider,
-  LoadingOverlayContextProvider,
-  ToastNotificationContextProvider,
-} from '@/contexts'
-import React from 'react'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { queryClientMock } from '@/__mocks__/query-client.mock'
 import { createMemoryHistory, MemoryHistory } from 'history'
-import { ErrorBoundary } from '@/components/shared/ErrorBoundary'
 import { Route, Router, Routes } from 'react-router-dom'
 import { render, renderHook } from '@testing-library/react'
+import { LoadingOverlay, ToastNotification } from '@/components/layout'
+import { Dialog } from '@/components/dialogs'
+import { QueryClient, QueryClientConfig } from '@tanstack/react-query'
+import { queryClientConfig } from '../config/query-client'
+import { deepmerge } from '@mui/utils'
+import noop from 'lodash/noop'
+
+const queryClientConfigMock: QueryClientConfig = deepmerge(
+  {
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+    // Disables logging
+    logger: {
+      log: noop,
+      warn: noop,
+      error: noop,
+    },
+  },
+  queryClientConfig
+)
+
+export const queryClientMock = new QueryClient(queryClientConfigMock)
 
 /**
  * Wraps the data passed in the pagination data structure
@@ -62,7 +80,20 @@ type WrapperOptions = (
  */
 function generateWrapper(options: WrapperOptions & { history: MemoryHistory }) {
   return function Wrapper({ children }: { children: React.ReactNode }) {
-    let result = children
+    let result = (
+      <>
+        {children}
+        {(options.withReactQueryContext || options.withToastNotificationsContext) && (
+          <ToastNotification />
+        )}
+        {(options.withReactQueryContext || options.withLoadingOverlayContext) && <LoadingOverlay />}
+        {(options.withReactQueryContext || options.withDialogContext) && <Dialog />}
+      </>
+    )
+
+    if (options.withReactQueryContext) {
+      result = <QueryClientProvider client={queryClientMock}>{result}</QueryClientProvider>
+    }
 
     if (options.withRouterContext) {
       result = (
@@ -72,26 +103,6 @@ function generateWrapper(options: WrapperOptions & { history: MemoryHistory }) {
           </Routes>
         </Router>
       )
-    }
-
-    if (options.withReactQueryContext || options.withToastNotificationsContext) {
-      result = <ToastNotificationContextProvider>{result}</ToastNotificationContextProvider>
-    }
-
-    if (options.withReactQueryContext || options.withLoadingOverlayContext) {
-      result = <LoadingOverlayContextProvider>{result}</LoadingOverlayContextProvider>
-    }
-
-    if (options.withReactQueryContext) {
-      result = <QueryClientProvider client={queryClientMock}>{result}</QueryClientProvider>
-    }
-
-    if (options.withReactQueryContext || options.withDialogContext) {
-      result = <DialogContextProvider>{result}</DialogContextProvider>
-    }
-
-    if (options.withErrorBoundary) {
-      result = <ErrorBoundary FallbackComponent={() => <>Error boundary</>}>{result}</ErrorBoundary>
     }
 
     return <>{result}</>

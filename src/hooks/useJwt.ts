@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAuthContext } from '@/contexts'
+import { useAuth } from '@/stores'
 import { JwtUser } from '@/types/party.types'
 import memoize from 'lodash/memoize'
 
@@ -14,9 +14,9 @@ const parseJwt = memoize((token: string | null) => {
 })
 
 export const useJwt = () => {
-  const { token } = useAuthContext()
+  const { sessionToken } = useAuth()
 
-  const { jwt, currentRoles, isAdmin, isOperatorAPI, isOperatorSecurity } = parseJwt(token)
+  const { jwt, currentRoles, isAdmin, isOperatorAPI, isOperatorSecurity } = parseJwt(sessionToken)
 
   const hasSessionExpired = React.useCallback(
     () => (jwt ? new Date() > new Date(jwt.exp * 1000) : false),

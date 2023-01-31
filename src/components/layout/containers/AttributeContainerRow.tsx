@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, ButtonProps, IconButton, Skeleton, Stack, Tooltip, Typography } from '@mui/material'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { useTranslation } from 'react-i18next'
 import { AttributeQueries } from '@/api/attribute'
 import { AttributeKey, AttributeKind, AttributeState } from '@/types/attribute.types'

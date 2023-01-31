@@ -1,6 +1,6 @@
 import { ClientQueries, ClientQueryKeys } from '@/api/client'
 import ClientServices from '@/api/client/client.services'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { useJwt } from '@/hooks/useJwt'
 import { useQueries } from '@tanstack/react-query'
 import React from 'react'

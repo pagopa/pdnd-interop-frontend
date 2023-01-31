@@ -1,17 +1,10 @@
-import React from 'react'
-import {
-  DialogContextProvider,
-  LoadingOverlayContextProvider,
-  ToastNotificationContextProvider,
-} from '@/contexts'
 import axiosInstance from '@/config/axios'
-import { QueryClientProvider } from '@tanstack/react-query'
-import { queryClientMock } from '@/__mocks__/query-client.mock'
-import { fireEvent, renderHook, screen, waitForElementToBeRemoved } from '@testing-library/react'
+import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { act } from 'react-dom/test-utils'
 import { useMutationWrapper } from '../useMutationWrapper'
+import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 
 const server = setupServer(
   rest.post('/test-success', (_, res, ctx) => {
@@ -39,28 +32,16 @@ const mockMutationServices = {
   },
 }
 
-const wrapper = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <DialogContextProvider>
-      <QueryClientProvider client={queryClientMock}>
-        <LoadingOverlayContextProvider>
-          <ToastNotificationContextProvider>{children}</ToastNotificationContextProvider>
-        </LoadingOverlayContextProvider>
-      </QueryClientProvider>
-    </DialogContextProvider>
-  )
-}
-
 describe('useMutationWrapper tests', () => {
   it('Should show and hide the loading overlay on mutate', async () => {
-    const { result } = renderHook(
+    const { result } = renderHookWithApplicationContext(
       () =>
         useMutationWrapper(mockMutationServices.success, {
           successToastLabel: 'success',
           errorToastLabel: 'error',
           loadingLabel: 'loading',
         }),
-      { wrapper }
+      { withReactQueryContext: true }
     )
 
     act(() => {
@@ -73,14 +54,14 @@ describe('useMutationWrapper tests', () => {
   })
 
   it('Should show and hide the loading overlay on mutateAsync', async () => {
-    const { result } = renderHook(
+    const { result } = renderHookWithApplicationContext(
       () =>
         useMutationWrapper(mockMutationServices.success, {
           successToastLabel: 'success',
           errorToastLabel: 'error',
           loadingLabel: 'loading',
         }),
-      { wrapper }
+      { withReactQueryContext: true }
     )
 
     act(() => {
@@ -93,14 +74,14 @@ describe('useMutationWrapper tests', () => {
   })
 
   it('Should not show loading overlay', async () => {
-    const { result } = renderHook(
+    const { result } = renderHookWithApplicationContext(
       () =>
         useMutationWrapper(mockMutationServices.success, {
           successToastLabel: 'success',
           errorToastLabel: 'error',
           suppressLoadingOverlay: true,
         }),
-      { wrapper }
+      { withReactQueryContext: true }
     )
 
     act(() => {
@@ -111,14 +92,14 @@ describe('useMutationWrapper tests', () => {
   })
 
   it('Should show the success label on mutation success', async () => {
-    const { result } = renderHook(
+    const { result } = renderHookWithApplicationContext(
       () =>
         useMutationWrapper(mockMutationServices.success, {
           successToastLabel: 'success',
           errorToastLabel: 'error',
           loadingLabel: 'loading',
         }),
-      { wrapper }
+      { withReactQueryContext: true }
     )
     act(() => {
       result.current.mutate()
@@ -126,31 +107,15 @@ describe('useMutationWrapper tests', () => {
     expect(await screen.findByRole('alert', { name: 'success' })).toBeInTheDocument()
   })
 
-  it('Should not show the success label on mutation success', async () => {
-    const { result } = renderHook(
-      () =>
-        useMutationWrapper(mockMutationServices.success, {
-          suppressSuccessToast: true,
-          errorToastLabel: 'error',
-          loadingLabel: 'loading',
-        }),
-      { wrapper }
-    )
-    await act(() => {
-      result.current.mutate()
-    })
-    expect(screen.queryByRole('alert', { name: 'success' })).not.toBeInTheDocument()
-  })
-
   it('Should show the error label on mutation error', async () => {
-    const { result } = renderHook(
+    const { result } = renderHookWithApplicationContext(
       () =>
         useMutationWrapper(mockMutationServices.error, {
           successToastLabel: 'success',
           errorToastLabel: 'error',
           loadingLabel: 'loading',
         }),
-      { wrapper }
+      { withReactQueryContext: true }
     )
     act(() => {
       result.current.mutate()
@@ -159,14 +124,14 @@ describe('useMutationWrapper tests', () => {
   })
 
   it('Should not show the error label on mutation error', async () => {
-    const { result } = renderHook(
+    const { result } = renderHookWithApplicationContext(
       () =>
         useMutationWrapper(mockMutationServices.error, {
           successToastLabel: 'success',
           suppressErrorToast: true,
           loadingLabel: 'loading',
         }),
-      { wrapper }
+      { withReactQueryContext: true }
     )
     await act(() => {
       result.current.mutate()
@@ -174,8 +139,24 @@ describe('useMutationWrapper tests', () => {
     expect(screen.queryByRole('alert', { name: 'error' })).not.toBeInTheDocument()
   })
 
+  it('Should not show the success label on mutation success', async () => {
+    const { result } = renderHookWithApplicationContext(
+      () =>
+        useMutationWrapper(mockMutationServices.success, {
+          suppressSuccessToast: true,
+          errorToastLabel: 'error',
+          loadingLabel: 'loading',
+        }),
+      { withReactQueryContext: true }
+    )
+    await act(() => {
+      result.current.mutate()
+    })
+    expect(screen.queryByRole('alert', { name: 'success' })).not.toBeInTheDocument()
+  })
+
   it('Should show the confirmation modal on mutate', async () => {
-    const { result } = renderHook(
+    const { result } = renderHookWithApplicationContext(
       () =>
         useMutationWrapper(mockMutationServices.success, {
           successToastLabel: 'success',
@@ -187,7 +168,7 @@ describe('useMutationWrapper tests', () => {
             description: 'description',
           },
         }),
-      { wrapper }
+      { withReactQueryContext: true }
     )
     await act(() => {
       result.current.mutate()
@@ -197,7 +178,7 @@ describe('useMutationWrapper tests', () => {
   })
 
   it('Should not show the confirmation modal on mutate', async () => {
-    const { result } = renderHook(
+    const { result } = renderHookWithApplicationContext(
       () =>
         useMutationWrapper(mockMutationServices.success, {
           successToastLabel: 'success',
@@ -209,7 +190,7 @@ describe('useMutationWrapper tests', () => {
             description: 'description',
           },
         }),
-      { wrapper }
+      { withReactQueryContext: true }
     )
     await act(() => {
       result.current.mutate()
@@ -219,7 +200,7 @@ describe('useMutationWrapper tests', () => {
   })
 
   it('Should show the confirmation modal on mutateAsync', async () => {
-    const { result } = renderHook(
+    const { result } = renderHookWithApplicationContext(
       () =>
         useMutationWrapper(mockMutationServices.success, {
           successToastLabel: 'success',
@@ -231,7 +212,7 @@ describe('useMutationWrapper tests', () => {
             description: 'description',
           },
         }),
-      { wrapper }
+      { withReactQueryContext: true }
     )
     await act(() => {
       result.current.mutateAsync()
@@ -241,7 +222,7 @@ describe('useMutationWrapper tests', () => {
   })
 
   it('Should not show the confirmation modal on mutateAsync', async () => {
-    const { result } = renderHook(
+    const { result } = renderHookWithApplicationContext(
       () =>
         useMutationWrapper(mockMutationServices.success, {
           successToastLabel: 'success',
@@ -253,7 +234,7 @@ describe('useMutationWrapper tests', () => {
             description: 'description',
           },
         }),
-      { wrapper }
+      { withReactQueryContext: true }
     )
     await act(() => {
       result.current.mutateAsync()
@@ -263,7 +244,7 @@ describe('useMutationWrapper tests', () => {
   })
 
   it('Should show the confirmation modal and call the mutation on confirm button press', async () => {
-    const { result } = renderHook(
+    const { result } = renderHookWithApplicationContext(
       () =>
         useMutationWrapper(mockMutationServices.success, {
           successToastLabel: 'success',
@@ -275,7 +256,7 @@ describe('useMutationWrapper tests', () => {
             description: 'description',
           },
         }),
-      { wrapper }
+      { withReactQueryContext: true }
     )
     await act(() => {
       result.current.mutate()
@@ -289,7 +270,7 @@ describe('useMutationWrapper tests', () => {
   })
 
   it('Should show the confirmation modal and not call the mutation on cancel button press', async () => {
-    const { result } = renderHook(
+    const { result } = renderHookWithApplicationContext(
       () =>
         useMutationWrapper(mockMutationServices.success, {
           successToastLabel: 'success',
@@ -301,7 +282,7 @@ describe('useMutationWrapper tests', () => {
             description: 'description',
           },
         }),
-      { wrapper }
+      { withReactQueryContext: true }
     )
     await act(() => {
       result.current.mutate()
