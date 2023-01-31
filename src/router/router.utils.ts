@@ -1,7 +1,7 @@
 import { routes } from '@/router/routes'
 import type { LangCode, ProviderOrConsumer } from '@/types/common.types'
 import type { RouteKey } from '@/router/router.types'
-import { generatePath, matchPath } from 'react-router-dom'
+import { matchPath } from 'react-router-dom'
 import { getKeys } from '@/utils/array.utils'
 import memoize from 'lodash/memoize'
 import identity from 'lodash/identity'
@@ -13,17 +13,18 @@ export function getLocalizedPath(routeKey: RouteKey, lang: LangCode) {
   return `${PUBLIC_URL}/${lang}/${routes[routeKey].PATH[lang]}`
 }
 
-/** Checks if the routeKey represent the given pathname */
-function matchRouteKeyPath(pathname: string, lang: LangCode, routeKey: RouteKey) {
-  return matchPath(getLocalizedPath(routeKey as RouteKey, lang), pathname)
-}
-
 /** Returns the routeKey of the given pathname */
 export const getRouteKeyFromPath = memoize(function _getRouteKeyFromPath(
   pathname: string,
   lang: LangCode
 ) {
   let pathnameWithBaseUrl = pathname
+
+  /** Checks if the routeKey represent the given pathname */
+  const matchRouteKeyPath = (pathname: string, lang: LangCode, routeKey: RouteKey) => {
+    return matchPath(getLocalizedPath(routeKey as RouteKey, lang), pathname)
+  }
+
   if (!pathnameWithBaseUrl.startsWith(PUBLIC_URL)) {
     pathnameWithBaseUrl = PUBLIC_URL + pathnameWithBaseUrl
   }
@@ -36,30 +37,6 @@ export const getRouteKeyFromPath = memoize(function _getRouteKeyFromPath(
 
   return routeKey
 })
-
-export function switchPathLang(fromLang: LangCode, toLang: LangCode) {
-  for (const routeKey of Object.keys(routes)) {
-    const match = matchRouteKeyPath(window.location.pathname, fromLang, routeKey as RouteKey)
-
-    if (match) {
-      let newPath = generatePath(
-        getLocalizedPath(routeKey as RouteKey, toLang),
-        match.params as Record<string, string>
-      )
-
-      if (window.location.search) {
-        newPath += window.location.search
-      }
-
-      if (window.location.hash) {
-        newPath += window.location.hash
-      }
-
-      window.location.replace(newPath)
-      return
-    }
-  }
-}
 
 export const URL_FRAGMENTS: Record<string, Record<LangCode, string>> = {
   FIRST_DRAFT: { it: 'prima-bozza', en: 'first-draft' },

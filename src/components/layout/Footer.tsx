@@ -14,9 +14,6 @@ import { useNavigateRouter } from '@/router'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { useNavigate } from 'react-router-dom'
-// import { switchPathLang } from '@/router/router.utils'
-// import { getKeys } from '@/utils/array.utils'
-// import { LangCode } from '@/types/common.types'
 
 type FooterLinksTypeMulti = Omit<FooterLinksType, 'label' | 'ariaLabel'> & { labelKey?: string }
 
