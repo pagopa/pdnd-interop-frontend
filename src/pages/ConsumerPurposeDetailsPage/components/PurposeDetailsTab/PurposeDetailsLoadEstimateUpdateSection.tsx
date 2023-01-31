@@ -39,19 +39,19 @@ export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
   }
 
   return (
-    <SectionContainer title={t('title')} description={t('description')}>
+    <SectionContainer title={t('title')} description={t('consumerDescription')}>
       <Stack sx={{ pt: 1 }} spacing={2}>
         {purpose.waitingForApprovalVersion && (
           <>
             <InformationContainer
               label={t('dateEstimateField.label')}
-              labelDescription={t('dateEstimateField.description')}
+              labelDescription={t('dateEstimateField.consumerDescription')}
             >
               {purpose.waitingForApprovalVersion.expectedApprovalDate
                 ? formatDateString(purpose.waitingForApprovalVersion.expectedApprovalDate)
                 : t('dateEstimateField.emptyLabel')}
             </InformationContainer>
-            <InformationContainer label={t('loadEstimateRequestedField.label')}>
+            <InformationContainer label={t('loadEstimateRequestedField.consumerLabel')}>
               {t('loadEstimateRequestedField.value', {
                 value: formatThousands(purpose.waitingForApprovalVersion?.dailyCalls ?? 0),
               })}

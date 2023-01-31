@@ -1,7 +1,7 @@
 import { PurposeQueries } from '@/api/purpose'
 import { PageContainer } from '@/components/layout/containers'
 import { useActiveTab } from '@/hooks/useActiveTab'
-import useGetPurposesActions from '@/hooks/useGetPurposesActions'
+import useGetConsumerPurposesActions from '@/hooks/useGetConsumerPurposesActions'
 import { useRouteParams } from '@/router'
 import { formatTopSideActions } from '@/utils/common.utils'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
@@ -11,14 +11,14 @@ import { useTranslation } from 'react-i18next'
 import { PurposeClientsTab } from './components/PurposeClientsTab'
 import { PurposeDetailsTab, PurposeDetailsTabSkeleton } from './components/PurposeDetailsTab'
 
-const ProviderPurposeDetailsPage: React.FC = () => {
-  const { purposeId } = useRouteParams<'SUBSCRIBE_PURPOSE_VIEW'>()
+const ConsumerPurposeDetailsPage: React.FC = () => {
+  const { purposeId } = useRouteParams<'SUBSCRIBE_PURPOSE_DETAILS'>()
   const { t } = useTranslation('purpose')
 
   const { data: purpose, isLoading } = PurposeQueries.useGetSingle(purposeId, { suspense: false })
   const { activeTab, updateActiveTab } = useActiveTab('details')
 
-  const { actions } = useGetPurposesActions(purpose)
+  const { actions } = useGetConsumerPurposesActions(purpose)
   const topSideActions = formatTopSideActions(actions)
 
   return (
@@ -52,4 +52,4 @@ const ProviderPurposeDetailsPage: React.FC = () => {
   )
 }
 
-export default ProviderPurposeDetailsPage
+export default ConsumerPurposeDetailsPage

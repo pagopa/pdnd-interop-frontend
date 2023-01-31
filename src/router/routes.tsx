@@ -27,6 +27,8 @@ import {
   ConsumerClientManagePage,
   ConsumerPurposeEditPage,
   ProviderEServiceCreatePage,
+  ProviderPurposesListPage,
+  ConsumerPurposeDetailsPage,
 } from '@/pages'
 import { LANGUAGES } from '@/config/constants'
 import { getKeys } from '@/utils/array.utils'
@@ -119,6 +121,20 @@ export const routes = makeType({
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },
+  PROVIDE_PURPOSE_LIST: {
+    PATH: { it: 'erogazione/finalita', en: 'provider/purposes' },
+    LABEL: { it: 'Finalità', en: 'Purposes' },
+    COMPONENT: ProviderPurposesListPage,
+    PUBLIC: false,
+    AUTH_LEVELS: ['admin'],
+  },
+  PROVIDE_PURPOSE_DETAILS: {
+    PATH: { it: 'erogazione/finalita/:purposeId', en: 'provider/purpose/:purposeId' },
+    LABEL: { it: 'Visualizza finalità', en: 'View purpose' },
+    COMPONENT: ProviderPurposeDetailsPage,
+    PUBLIC: false,
+    AUTH_LEVELS: ['admin'],
+  },
   PROVIDE: {
     PATH: { it: 'erogazione', en: 'provider' },
     LABEL: { it: 'Erogazione', en: 'Provider' },
@@ -161,10 +177,10 @@ export const routes = makeType({
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },
-  SUBSCRIBE_PURPOSE_VIEW: {
+  SUBSCRIBE_PURPOSE_DETAILS: {
     PATH: { it: 'fruizione/finalita/:purposeId', en: 'subscriber/purpose/:purposeId' },
     LABEL: { it: 'Gestisci singola finalità', en: 'Manage purpose' },
-    COMPONENT: ProviderPurposeDetailsPage,
+    COMPONENT: ConsumerPurposeDetailsPage,
     PUBLIC: false,
     AUTH_LEVELS: ['admin'],
   },

@@ -41,6 +41,7 @@ it('Should match the snapshot on only admin role', async () => {
         "children": [
           "PROVIDE_ESERVICE_LIST",
           "PROVIDE_AGREEMENT_LIST",
+          "PROVIDE_PURPOSE_LIST",
         ],
         "id": "provider",
         "routeKey": "PROVIDE",
@@ -201,6 +202,7 @@ it('Should match the snapshot on security and admin operator roles', async () =>
         "children": [
           "PROVIDE_ESERVICE_LIST",
           "PROVIDE_AGREEMENT_LIST",
+          "PROVIDE_PURPOSE_LIST",
         ],
         "id": "provider",
         "routeKey": "PROVIDE",
@@ -235,6 +237,7 @@ it('Should match the snapshot on api and admin operator roles', async () => {
         "children": [
           "PROVIDE_ESERVICE_LIST",
           "PROVIDE_AGREEMENT_LIST",
+          "PROVIDE_PURPOSE_LIST",
         ],
         "id": "provider",
         "routeKey": "PROVIDE",
@@ -280,6 +283,7 @@ it('Should match the snapshot on all roles', async () => {
         "children": [
           "PROVIDE_ESERVICE_LIST",
           "PROVIDE_AGREEMENT_LIST",
+          "PROVIDE_PURPOSE_LIST",
         ],
         "id": "provider",
         "routeKey": "PROVIDE",

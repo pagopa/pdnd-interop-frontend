@@ -94,9 +94,6 @@
     }
   },
   "tablePurposeInEService": {
-    "actions": {
-      "updateCompletionDate": "Update completion date"
-    },
     "loadingLabel": "Loading purposes awaiting dispatch",
     "noDataLabel": "No purpose awaiting dispatch",
     "awaitingLabel": "Awaiting taking charge"
@@ -160,14 +157,17 @@
       },
       "loadEstimateUpdate": {
         "title": "Load estimation update",
-        "description": "If conditions change, you can update your load estimate at any time",
+        "consumerDescription": "If conditions change, you can update your load estimate at any time",
+        "providerDescription": "The consumer made a daily calls update request that exceeds the limits",
         "dateEstimateField": {
           "label": "Activation date estimate",
-          "description": "The date by which the provider plans to activate this new load estimate",
+          "consumerDescription": "The date by which the provider plans to activate this new load estimate",
+          "providerDescription": "The date by which you expect to activate this new load estimate",
           "emptyLabel": "not inserted"
         },
         "loadEstimateRequestedField": {
-          "label": "Load estimate requested by you",
+          "consumerLabel": "Load estimate requested by you",
+          "providerLabel": "Requested load estimate",
           "value": "{{value}} calls per day"
         },
         "faq": [

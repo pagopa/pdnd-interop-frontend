@@ -1,1 +1,1 @@
-export { default as ProviderPurposeDetailsPage } from './ProviderPurposeDetails.page'
+export { default as ProviderPurposeDetailsPage } from './ProviderPurposeDetailsPage'

@@ -41,7 +41,7 @@ export const PurposeDetailsTab: React.FC<PurposeDetailsTabProps> = ({ purposeId 
             components={{
               1: (
                 <RouterLink
-                  to="SUBSCRIBE_PURPOSE_VIEW"
+                  to="SUBSCRIBE_PURPOSE_DETAILS"
                   params={{ purposeId }}
                   options={{ urlParams: { tab: 'clients' } }}
                 />

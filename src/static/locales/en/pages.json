@@ -9,14 +9,7 @@
   },
   "providerEServiceList": {
     "title": "Your e-services",
-    "description": "In this section you can manage all the e-services you are providing",
-    "eserviceTable": {
-      "headLabels": {
-        "name": "E-service",
-        "version": "Version",
-        "status": "E-service status"
-      }
-    }
+    "description": "In this section you can manage all the e-services you are providing"
   },
   "providerAgreementsList": {
     "title": "Fruition requests",
@@ -33,5 +26,9 @@
   "consumerClientM2MList": {
     "title": "Your interop api clients",
     "description": "Manage the clients used to obtain vouchers to interrogate the Interoperability API"
+  },
+  "providerPurposesList": {
+    "title": "Purposes",
+    "description": "Here you can manage the purposed created by you's e-service's subscribers"
   }
 }

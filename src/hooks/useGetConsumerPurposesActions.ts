@@ -4,7 +4,7 @@ import { useDialog } from '@/stores'
 import { useTranslation } from 'react-i18next'
 import { ActionItem } from '@/types/common.types'
 
-function useGetPurposesActions(purpose?: DecoratedPurpose | PurposeListingItem) {
+function useGetConsumerPurposesActions(purpose?: DecoratedPurpose | PurposeListingItem) {
   const { t } = useTranslation('purpose', { keyPrefix: 'tablePurpose.actions' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { mutate: archivePurpose } = PurposeMutations.useArchiveVersion()
@@ -122,4 +122,4 @@ function useGetPurposesActions(purpose?: DecoratedPurpose | PurposeListingItem) 
   return { actions }
 }
 
-export default useGetPurposesActions
+export default useGetConsumerPurposesActions

@@ -6,6 +6,7 @@ export type PurposeGetListUrlParams = {
   q?: string
   eserviceIds?: Array<string>
   consumersIds?: Array<string>
+  producersIds?: Array<string>
   states?: Array<PurposeState>
 }
 
