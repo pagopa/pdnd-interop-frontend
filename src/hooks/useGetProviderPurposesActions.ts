@@ -33,6 +33,7 @@ function useGetProviderPurposesActions(purpose?: DecoratedPurpose | PurposeListi
             type: 'setPurposeExpectedApprovalDate',
             purposeId: purpose.id,
             versionId: waitingForApprovalVersion.id,
+            approvalDate: waitingForApprovalVersion.expectedApprovalDate,
           }),
         label: t('updateCompletionDate'),
       }

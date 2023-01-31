@@ -48,6 +48,7 @@ export type PurposeListingItem = {
     id: string
     state: PurposeState
     dailyCalls: number
+    expectedApprovalDate?: string
   }
 }
 
