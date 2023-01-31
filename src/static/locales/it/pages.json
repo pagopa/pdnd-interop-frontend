@@ -12,8 +12,8 @@
     "description": "In quest'area puoi gestire tutti gli e-service che stai erogando"
   },
   "providerAgreementsList": {
-    "title": "Le tue richieste",
-    "description": "In quest'area puoi gestire tutte le richieste di fruizione che hai sottoscritto presso Enti erogatori"
+    "title": "Richieste di fruizione",
+    "description": "In quest'area puoi gestire tutte le richieste di fruizione che ti sono state inoltrate da enti che intendono fruire dei tuoi e-service"
   },
   "consumerPurposesList": {
     "title": "Le tue finalità",
