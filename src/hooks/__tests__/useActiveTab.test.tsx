@@ -1,7 +1,7 @@
 import { act } from 'react-dom/test-utils'
 import { createMemoryHistory } from 'history'
-import { renderHookWithApplicationContext } from '@/__mocks__/mock.utils'
 import { useActiveTab } from '../useActiveTab'
+import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 
 const testTabInitialValue = 'firstTab'
 
