@@ -1,22 +1,16 @@
 import { routes } from '@/router/routes'
 import type { LangCode, ProviderOrConsumer } from '@/types/common.types'
-import type { LocalizedRoutes, RouteKey } from '@/router/router.types'
-import { generatePath, matchPath } from 'react-router-dom'
+import type { RouteKey } from '@/router/router.types'
+import { matchPath } from 'react-router-dom'
 import { getKeys } from '@/utils/array.utils'
 import memoize from 'lodash/memoize'
 import identity from 'lodash/identity'
 import sortBy from 'lodash/sortBy'
 import { PUBLIC_URL } from '@/config/env'
-import isEqual from 'lodash/isEqual'
 
 /** Returns the localized path of the given routeKey and language  */
 export function getLocalizedPath(routeKey: RouteKey, lang: LangCode) {
   return `${PUBLIC_URL}/${lang}/${routes[routeKey].PATH[lang]}`
-}
-
-/** Checks if the routeKey represent the given pathname */
-function matchRouteKeyPath(pathname: string, lang: LangCode, routeKey: RouteKey) {
-  return matchPath(getLocalizedPath(routeKey as RouteKey, lang), pathname)
 }
 
 /** Returns the routeKey of the given pathname */
@@ -25,6 +19,12 @@ export const getRouteKeyFromPath = memoize(function _getRouteKeyFromPath(
   lang: LangCode
 ) {
   let pathnameWithBaseUrl = pathname
+
+  /** Checks if the routeKey represent the given pathname */
+  const matchRouteKeyPath = (pathname: string, lang: LangCode, routeKey: RouteKey) => {
+    return matchPath(getLocalizedPath(routeKey as RouteKey, lang), pathname)
+  }
+
   if (!pathnameWithBaseUrl.startsWith(PUBLIC_URL)) {
     pathnameWithBaseUrl = PUBLIC_URL + pathnameWithBaseUrl
   }
@@ -37,30 +37,6 @@ export const getRouteKeyFromPath = memoize(function _getRouteKeyFromPath(
 
   return routeKey
 })
-
-export function switchPathLang(fromLang: LangCode, toLang: LangCode) {
-  for (const routeKey of Object.keys(routes)) {
-    const match = matchRouteKeyPath(window.location.pathname, fromLang, routeKey as RouteKey)
-
-    if (match) {
-      let newPath = generatePath(
-        getLocalizedPath(routeKey as RouteKey, toLang),
-        match.params as Record<string, string>
-      )
-
-      if (window.location.search) {
-        newPath += window.location.search
-      }
-
-      if (window.location.hash) {
-        newPath += window.location.hash
-      }
-
-      window.location.replace(newPath)
-      return
-    }
-  }
-}
 
 export const URL_FRAGMENTS: Record<string, Record<LangCode, string>> = {
   FIRST_DRAFT: { it: 'prima-bozza', en: 'first-draft' },
@@ -141,54 +117,3 @@ const _getDynamicSegmentsFromPath = memoize((path: string) => {
     .filter((subpath) => subpath.startsWith(':'))
     .map((param) => param.replace(':', ''))
 })
-
-/**
- * Returns an array with all the dynamic path names for a given RouteKey
- * @example
- * "/:foo/test/:bar" => ["foo", "bar"]
- */
-export const getDynamicPathSegments = memoize((routeKey: RouteKey) => {
-  return _getDynamicSegmentsFromPath(routes[routeKey].PATH.it)
-})
-
-/**
- * For each language path in a LocalizedRoute, the dynamic path segments must be equal.
- * This function does a runtime check and throws if this requirement is not met for any of the implemented LocalizedRoute.
- * Optionally accepts a LocalizedRoutes object as argument for testing purposes.
- *
- * @example Okkay!
- *
- * ```json
- * {
- *    "it": "/:foo/route-italiana/:bar",
- *    "en": "/:foo/english-route/:bar",
- * }
- * ```
- *
- * @example Not okkay!
- * ```json
- * {
- *    "it": "/:foo/route-italiana/:bar",
- *    "en": "/:baz/english-route/:foo",
- * }
- * ```
- *
- */
-export const checkLocalizedPathsConsistency = (_routes: LocalizedRoutes = routes) => {
-  getKeys(_routes).forEach((routeKey) => {
-    const paths = Object.values(_routes[routeKey].PATH)
-    const firstPathDynamicSegments = _getDynamicSegmentsFromPath(paths[0])
-    const firstPathSegmentNumber = getPathSegments(paths[0])
-
-    const areLocalizedPathsConsistent = paths.every(
-      (path) =>
-        isEqual(_getDynamicSegmentsFromPath(path), firstPathDynamicSegments) &&
-        isEqual(getPathSegments(path).length, firstPathSegmentNumber.length)
-    )
-
-    if (!areLocalizedPathsConsistent)
-      throw new Error(
-        `All the dynamic path segments for all the localized path (in the PATH property) must be equal. Check the ${routeKey} paths.`
-      )
-  })
-}

@@ -16,7 +16,7 @@ import { Dialog } from '@/components/dialogs'
 import { useLoginAttempt } from '@/hooks/useLoginAttempt'
 
 const _RoutesWrapper: React.FC = () => {
-  const { isTOSAccepted, acceptTOS } = useTOSAgreement()
+  const { isTOSAccepted, handleAcceptTOS } = useTOSAgreement()
   const { isPublic, routeKey } = useCurrentRoute()
   useLoginAttempt()
   useSyncLangWithRoute()
@@ -27,7 +27,7 @@ const _RoutesWrapper: React.FC = () => {
       <Header />
       <Box sx={{ flex: 1 }}>
         {!isTOSAccepted && !isPublic ? (
-          <TOSAgreement onAcceptAgreement={acceptTOS} />
+          <TOSAgreement onAcceptAgreement={handleAcceptTOS} />
         ) : (
           <AppLayout hideSideNav={isPublic}>
             <ErrorBoundary key={routeKey} FallbackComponent={ErrorPage}>

@@ -100,6 +100,7 @@ function generateWrapper(options: WrapperOptions & { history: MemoryHistory }) {
         <Router location={options.history.location} navigator={options.history}>
           <Routes>
             <Route path="/" element={result} />
+            <Route path="/test" element={result} />
           </Routes>
         </Router>
       )
