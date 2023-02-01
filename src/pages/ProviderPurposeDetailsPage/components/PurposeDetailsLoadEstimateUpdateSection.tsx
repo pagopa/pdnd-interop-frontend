@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { purposeUpgradeGuideLink } from '@/config/constants'
 import { formatDateString, formatThousands } from '@/utils/format.utils'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 
 interface PurposeDetailsLoadEstimateUpdateSectionProps {
   purposeId: string
