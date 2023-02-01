@@ -94,7 +94,7 @@ describe('useSwitchPathLang testing', () => {
     expect(memoryHistory.location.search).toBe('?test=test')
   })
 
-  it('Should keep the url hash and search params on switch path language', () => {
+  it('Should keep the url hash and search params on switch path language - dynamic segments in URL', () => {
     const memoryHistory = createMemoryHistory()
     memoryHistory.push('/it/fruizione/catalogo-e-service/testid1/testid2')
     const { result } = renderHook(() => useSwitchPathLang(), {
