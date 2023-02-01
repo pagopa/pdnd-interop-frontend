@@ -107,7 +107,30 @@
   "list": {
     "title": "Le tue finalità",
     "description": "In quest'area puoi i trovare e gestire tutte le finalità che hai creato",
-    "cantCreatePurposeTooltip": "Non puoi creare finalità perché non hai e-service da associare"
+    "cantCreatePurposeTooltip": "Non puoi creare finalità perché non hai e-service da associare",
+    "filters": {
+      "nameField": {
+        "label": "Cerca per nome finalità"
+      },
+      "eserviceField": {
+        "label": "Cerca per e-service"
+      },
+      "consumerField": {
+        "label": "Cerca per fruitore"
+      },
+      "providerField": {
+        "label": "Cerca per erogatore"
+      },
+      "statusField": {
+        "label": "Stato della finalità",
+        "optionLabels": {
+          "ACTIVE": "Attiva",
+          "SUSPENDED": "Sospesa",
+          "WAITING_FOR_APPROVAL": "In aggiornamento",
+          "ARCHIVED": "Archiviata"
+        }
+      }
+    }
   },
   "view": {
     "actions": {

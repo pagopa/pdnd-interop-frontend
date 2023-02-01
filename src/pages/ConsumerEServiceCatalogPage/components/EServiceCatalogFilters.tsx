@@ -19,6 +19,7 @@ const EServiceCatalogFilters: React.FC<EServiceCatalogFiltersProps> = ({
   filtersUseFormMethods,
 }) => {
   const { t } = useTranslation('eservice')
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const [producersAutocompleteText, handleAutocompleteInputChange] = useAutocompleteFilterInput()
 
   const { data: producers, isFetching: isFetchingProducers } = EServiceQueries.useGetProducers(
@@ -63,10 +64,10 @@ const EServiceCatalogFilters: React.FC<EServiceCatalogFiltersProps> = ({
 
         <Stack direction="row" spacing={2}>
           <Button size="small" variant="outlined" type="submit">
-            {t('list.filters.filterBtn')}
+            {tCommon('filter')}
           </Button>
           <Button size="small" variant="text" type="button" onClick={clearFilters}>
-            {t('list.filters.cancelFilterBtn')}
+            {tCommon('cancelFilter')}
           </Button>
         </Stack>
       </Stack>

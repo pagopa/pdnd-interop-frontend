@@ -107,7 +107,30 @@
   "list": {
     "title": "Your purposes",
     "description": "In this section you can manage all the purposes you have created",
-    "cantCreatePurposeTooltip": "You cannot create purposes because you have no associable e-service"
+    "cantCreatePurposeTooltip": "You cannot create purposes because you have no associable e-service",
+    "filters": {
+      "nameField": {
+        "label": "Find by purpose name"
+      },
+      "eserviceField": {
+        "label": "Find by e-service"
+      },
+      "consumerField": {
+        "label": "Find by consumer"
+      },
+      "providerField": {
+        "label": "Find by provider"
+      },
+      "statusField": {
+        "label": "Purpose status",
+        "optionLabels": {
+          "ACTIVE": "Active",
+          "SUSPENDED": "Suspended",
+          "WAITING_FOR_APPROVAL": "Awaiting evaluation",
+          "ARCHIVED": "Archived"
+        }
+      }
+    }
   },
   "view": {
     "actions": {

@@ -57,7 +57,9 @@
     "editDraft": "Modifica bozza",
     "deleteDraft": "Elimina bozza",
     "updateCompletionDate": "Aggiorna data di attivazione",
-    "confirmUpdate": "Conferma aggiornamento"
+    "confirmUpdate": "Conferma aggiornamento",
+    "filter": "Filtra",
+    "cancelFilter": "Annulla filtri"
   },
   "table": {
     "headData": {

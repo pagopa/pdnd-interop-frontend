@@ -123,9 +123,7 @@
       },
       "consumerField": {
         "label": "Find by consumer"
-      },
-      "filterBtn": "Filter",
-      "cancelFilterBtn": "Cancel filters"
+      }
     }
   },
   "manage": {

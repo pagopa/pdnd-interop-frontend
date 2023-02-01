@@ -19,6 +19,7 @@ const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({
   filtersUseFormMethods,
 }) => {
   const { t } = useTranslation('eservice')
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const [consumersAutocompleteText, handleAutocompleteInputChange] = useAutocompleteFilterInput()
 
   const { data: consumers, isFetching: isFetchingConsumers } = EServiceQueries.useGetConsumers(
@@ -63,10 +64,10 @@ const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({
 
         <Stack direction="row" spacing={2}>
           <Button size="small" variant="outlined" type="submit">
-            {t('list.filters.filterBtn')}
+            {tCommon('filter')}
           </Button>
           <Button size="small" variant="text" type="button" onClick={clearFilters}>
-            {t('list.filters.cancelFilterBtn')}
+            {tCommon('cancelFilter')}
           </Button>
         </Stack>
       </Stack>

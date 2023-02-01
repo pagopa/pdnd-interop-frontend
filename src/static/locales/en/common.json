@@ -57,7 +57,9 @@
     "editDraft": "Edit draft",
     "deleteDraft": "Delete draft",
     "updateCompletionDate": "Update attivation date",
-    "confirmUpdate": "Confirm update"
+    "confirmUpdate": "Confirm update",
+    "filter": "Filter",
+    "cancelFilter": "Cancel filters"
   },
   "table": {
     "headData": {

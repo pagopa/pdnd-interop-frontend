@@ -23,14 +23,13 @@ const ProviderEServiceListPage: React.FC = () => {
     params: paginationParams,
     getTotalPageCount,
   } = usePagination({
-    limit: 20,
+    limit: 10,
   })
 
-  const { queryFilters, filtersUseFormMethods, enableFilters, clearFilters } =
-    useQueryFilters<EServiceGetProviderListQueryFilters>({
-      q: '',
-      consumersIds: [],
-    })
+  const { queryFilters, ...filtersProps } = useQueryFilters<EServiceGetProviderListQueryFilters>({
+    q: '',
+    consumersIds: [],
+  })
 
   const params = { ...queryFilters, ...paginationParams }
 
@@ -57,11 +56,7 @@ const ProviderEServiceListPage: React.FC = () => {
       description={t('description')}
       topSideActions={topSideActions}
     >
-      <EServiceTableFilters
-        filtersUseFormMethods={filtersUseFormMethods}
-        enableFilters={enableFilters}
-        clearFilters={clearFilters}
-      />
+      <EServiceTableFilters {...filtersProps} />
       <EServiceTableWrapper params={params} />
       <Pagination {...props} totalPages={getTotalPageCount(data?.pagination.totalCount)} />
     </PageContainer>

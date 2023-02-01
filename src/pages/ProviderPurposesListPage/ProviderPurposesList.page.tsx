@@ -1,12 +1,17 @@
 import { PurposeQueries } from '@/api/purpose'
-import { PurposeGetListUrlParams } from '@/api/purpose/purpose.api.types'
+import {
+  PurposeGetListQueryFilters,
+  PurposeGetListUrlParams,
+} from '@/api/purpose/purpose.api.types'
 import { PageContainer } from '@/components/layout/containers'
 import { Pagination } from '@/components/shared/Pagination'
 import { useJwt } from '@/hooks/useJwt'
 import usePagination from '@/hooks/usePagination'
+import { useQueryFilters } from '@/hooks/useQueryFilters'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ProviderPurposesTable, ProviderPurposesTableSkeleton } from './components'
+import { ProviderPurposesTableFilters } from './components/ProviderPurposesTableFilters'
 
 const ProviderPurposesListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerPurposesList' })
@@ -17,10 +22,18 @@ const ProviderPurposesListPage: React.FC = () => {
     params: paginationParams,
     getTotalPageCount,
   } = usePagination({
-    limit: 20,
+    limit: 10,
   })
 
-  const params = { ...paginationParams, producersIds: [jwt?.organizationId] as Array<string> }
+  const { queryFilters, ...filtersProps } = useQueryFilters<PurposeGetListQueryFilters>({
+    q: '',
+    eservicesIds: [],
+    producersIds: [jwt?.organizationId] as Array<string>,
+    consumersIds: [],
+    states: [],
+  })
+
+  const params = { ...paginationParams, ...queryFilters }
   const { data } = PurposeQueries.useGetList(params, {
     suspense: false,
     keepPreviousData: true,
@@ -29,6 +42,7 @@ const ProviderPurposesListPage: React.FC = () => {
 
   return (
     <PageContainer title={t('title')} description={t('description')}>
+      <ProviderPurposesTableFilters {...filtersProps} />
       <PurposesTableWrapper params={params} />
       <Pagination {...props} totalPages={getTotalPageCount(data?.pagination.totalCount)} />
     </PageContainer>

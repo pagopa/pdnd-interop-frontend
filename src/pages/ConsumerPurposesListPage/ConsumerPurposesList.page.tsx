@@ -1,15 +1,20 @@
 import { EServiceQueries } from '@/api/eservice'
 import { PurposeQueries } from '@/api/purpose'
-import { PurposeGetListUrlParams } from '@/api/purpose/purpose.api.types'
+import {
+  PurposeGetListQueryFilters,
+  PurposeGetListUrlParams,
+} from '@/api/purpose/purpose.api.types'
 import { PageContainer } from '@/components/layout/containers'
 import { TopSideActions } from '@/components/layout/containers/PageContainer'
 import { Pagination } from '@/components/shared/Pagination'
 import { useJwt } from '@/hooks/useJwt'
 import usePagination from '@/hooks/usePagination'
+import { useQueryFilters } from '@/hooks/useQueryFilters'
 import { useNavigateRouter } from '@/router'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ConsumerPurposesTable, ConsumerPurposesTableSkeleton } from './components'
+import { ConsumerPurposesTableFilters } from './components/ConsumerPurposesTableFilters'
 
 const ConsumerPurposesListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerPurposesList' })
@@ -23,10 +28,18 @@ const ConsumerPurposesListPage: React.FC = () => {
     params: paginationParams,
     getTotalPageCount,
   } = usePagination({
-    limit: 20,
+    limit: 10,
   })
 
-  const params = { ...paginationParams, consumersIds: [jwt?.organizationId] as Array<string> }
+  const { queryFilters, ...filtersProps } = useQueryFilters<PurposeGetListQueryFilters>({
+    q: '',
+    eservicesIds: [],
+    producersIds: [],
+    consumersIds: [jwt?.organizationId] as Array<string>,
+    states: [],
+  })
+
+  const params = { ...paginationParams, ...queryFilters }
   const { data } = PurposeQueries.useGetList(params, {
     suspense: false,
     keepPreviousData: true,
@@ -64,6 +77,7 @@ const ConsumerPurposesListPage: React.FC = () => {
       description={t('description')}
       topSideActions={topSideActions}
     >
+      <ConsumerPurposesTableFilters {...filtersProps} />
       <PurposesTableWrapper params={params} />
       <Pagination {...props} totalPages={getTotalPageCount(data?.pagination.totalCount)} />
     </PageContainer>
