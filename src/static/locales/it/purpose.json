@@ -2,6 +2,7 @@
   "loadingSingleLabel": "Stiamo caricando la tua finalità",
   "loadingMultiLabel": "Stiamo caricando la lista delle finalità",
   "noMultiDataLabel": "Non ci sono finalità disponibili",
+  "backToPurposeListBtn": "Torna alle finalità",
   "create": {
     "emptyTitle": "Crea finalità",
     "eserviceField": {

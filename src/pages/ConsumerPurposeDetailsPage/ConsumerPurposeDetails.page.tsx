@@ -1,8 +1,8 @@
 import { PurposeQueries } from '@/api/purpose'
-import { PageContainer } from '@/components/layout/containers'
+import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import useGetConsumerPurposesActions from '@/hooks/useGetConsumerPurposesActions'
-import { useRouteParams } from '@/router'
+import { RouterLink, useRouteParams } from '@/router'
 import { formatTopSideActions } from '@/utils/common.utils'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Tab } from '@mui/material'
@@ -48,6 +48,11 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
           <PurposeClientsTab purposeId={purposeId} />
         </TabPanel>
       </TabContext>
+      <PageBottomActionsContainer>
+        <RouterLink variant="outlined" to="SUBSCRIBE_PURPOSE_LIST" as="button">
+          {t('backToPurposeListBtn')}
+        </RouterLink>
+      </PageBottomActionsContainer>
     </PageContainer>
   )
 }

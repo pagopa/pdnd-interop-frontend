@@ -2,6 +2,7 @@
   "loadingSingleLabel": "Loading purpose",
   "loadingMultiLabel": "Loading purposes",
   "noMultiDataLabel": "No purpose available",
+  "backToPurposeListBtn": "Baco to purposes",
   "create": {
     "emptyTitle": "Create purpose",
     "eserviceField": {

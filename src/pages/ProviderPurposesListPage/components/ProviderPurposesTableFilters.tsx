@@ -3,7 +3,7 @@ import { PurposeGetListQueryFilters } from '@/api/purpose/purpose.api.types'
 import { AutocompleteMultiple, TextField } from '@/components/shared/ReactHookFormInputs'
 import { useAutocompleteFilterInput } from '@/hooks/useAutocompleteFilterInput'
 import { InputOption } from '@/types/common.types'
-import { Box, Button, Stack } from '@mui/material'
+import { Button, Grid, Stack } from '@mui/material'
 import React from 'react'
 import { FormProvider, UseFormReturn } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -34,25 +34,20 @@ export const ProviderPurposesTableFilters: React.FC<ProviderPurposesTableFilters
         sx={{ mb: 4 }}
       >
         <Stack spacing={2} sx={{ flex: 1 }}>
-          <Stack direction="row" spacing={2}>
-            <TextField
-              sx={{ m: 0, flex: 0.5 }}
-              size="small"
-              name="q"
-              label={t('nameField.label')}
-            />
-            <Box sx={{ flex: 0.5 }}>
+          <Grid spacing={2} container>
+            <Grid xs={6} item>
+              <TextField sx={{ m: 0 }} size="small" name="q" label={t('nameField.label')} />
+            </Grid>
+            <Grid xs={6} item>
               <EServiceFilterAutocomplete />
-            </Box>
-          </Stack>
-          <Stack direction="row" spacing={2}>
-            <Box sx={{ flex: 0.5 }}>
+            </Grid>
+            <Grid xs={6} item>
               <ConsumerFilterAutocomplete />
-            </Box>
-            <Box sx={{ flex: 0.5 }}>
+            </Grid>
+            <Grid xs={6} item>
               <StateFilterAutocomplete />
-            </Box>
-          </Stack>
+            </Grid>
+          </Grid>
         </Stack>
 
         <Stack sx={{ flexShrink: 0 }} direction="row" spacing={2}>
