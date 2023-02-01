@@ -1,5 +1,5 @@
+import { createMockFactory } from '@/utils/testing.utils'
 import React from 'react'
-import { createMockFactory } from '../mock.utils'
 
 export const mockUseCurrentRoute = createMockFactory({
   routeKey: 'pathname',

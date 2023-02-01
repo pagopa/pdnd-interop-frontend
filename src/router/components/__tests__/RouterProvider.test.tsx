@@ -1,6 +1,6 @@
 import React from 'react'
-import { renderWithApplicationContext } from '@/__mocks__/mock.utils'
 import { RouterProvider } from '@/router'
+import { renderWithApplicationContext } from '@/utils/testing.utils'
 
 describe('determine whether RouterProvider renders without errors', () => {
   it('renders correctly', async () => {

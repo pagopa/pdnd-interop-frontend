@@ -1,5 +1,5 @@
-import { JwtUser } from '../../types/party.types'
-import { createMockFactory } from '../mock.utils'
+import { JwtUser } from '@/types/party.types'
+import { createMockFactory } from '@/utils/testing.utils'
 
 const mockJwtOrg = {
   name: 'orgName',

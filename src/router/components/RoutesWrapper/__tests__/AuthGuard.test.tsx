@@ -1,11 +1,11 @@
 import React from 'react'
 import { vi, SpyInstance } from 'vitest'
-import { renderWithApplicationContext } from '@/__mocks__/mock.utils'
 import { AuthGuard } from '@/router/components/RoutesWrapper/AuthGuard'
 import * as useCurrentRoute from '@/router/hooks/useCurrentRoute'
 import * as useJwt from '@/hooks/useJwt'
-import { mockUseJwt } from '@/__mocks__/hooks/user.mocks'
-import { mockUseCurrentRoute } from '@/__mocks__/hooks/route.mocks'
+import { mockUseCurrentRoute } from '__mocks__/data/route.mocks'
+import { mockUseJwt } from '__mocks__/data/user.mocks'
+import { renderWithApplicationContext } from '@/utils/testing.utils'
 
 describe('determine whether business logic to check for user authorizazion works', () => {
   let spyUseCurrentRoute: SpyInstance

@@ -1,4 +1,4 @@
-import { renderHookWithApplicationContext } from '@/__mocks__/mock.utils'
+import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 import { vi } from 'vitest'
 import useScrollTopOnLocationChange from '../useScrollTopOnLocationChange'
 

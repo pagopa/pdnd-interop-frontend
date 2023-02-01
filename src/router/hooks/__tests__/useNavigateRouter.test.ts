@@ -1,5 +1,5 @@
 import { routes } from '@/router/routes'
-import { renderHookWithApplicationContext } from '@/__mocks__/mock.utils'
+import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 import useNavigateRouter from '../useNavigateRouter'
 
 describe('tests for useNavigate router functions', () => {

@@ -1,8 +1,8 @@
 import React from 'react'
-import { renderWithApplicationContext } from '@/__mocks__/mock.utils'
 import { RouterLink } from '@/router'
 import userEvent from '@testing-library/user-event'
 import { routes } from '@/router/routes'
+import { renderWithApplicationContext } from '@/utils/testing.utils'
 
 describe('determine whether business logic to navigate works', () => {
   it('navigates between routes as link', async () => {
