@@ -55,7 +55,7 @@ const ClientVoucherInstructions: React.FC<VoucherInstructionsProps> = ({ clientI
   const selectedPurposeId = searchParams.get('purposeId') ?? ''
 
   const handlePurposeSelectOnChange = (purposeId: string) => {
-    setSearchParams({ purposeId: purposeId })
+    setSearchParams({ ...Object.fromEntries(searchParams), purposeId: purposeId })
   }
 
   const { data: purpose } = PurposeQueries.useGetSingle(selectedPurposeId, { suspense: false })
