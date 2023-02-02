@@ -11,7 +11,7 @@
     },
     "string": {
       "email": "Formato email non valido",
-      "minLength": "La stringa deve avere lunghezza superiore o uguale a ${min}"
+      "minLength": "Questo campo deve contenere almeno ${min} caratteri"
     },
     "boolean": {
       "isValue": "Si prega di confermare"
