@@ -44,6 +44,8 @@ export type PurposeListingItem = {
     state: PurposeState
     dailyCalls: number
   }
+  suspendedByConsumer?: boolean
+  suspendedByProducer?: boolean
   waitingForApprovalVersion?: {
     id: string
     state: PurposeState
@@ -69,6 +71,8 @@ export type Purpose = {
   }
   agreement: Pick<AgreementSummary, 'id' | 'state'>
   riskAnalysisForm: PurposeRiskAnalysisForm
+  suspendedByConsumer?: boolean
+  suspendedByProducer?: boolean
   clients: Array<Pick<Client, 'id' | 'name'>>
   versions: Array<PurposeVersion>
 }

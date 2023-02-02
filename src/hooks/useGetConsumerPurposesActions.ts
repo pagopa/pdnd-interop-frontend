@@ -111,11 +111,14 @@ function useGetConsumerPurposesActions(purpose?: DecoratedPurpose | PurposeListi
     actions.push(updateDailyCallsAction)
   }
 
-  if (purpose?.currentVersion?.state === 'ACTIVE') {
+  if (
+    purpose?.currentVersion?.state === 'ACTIVE' ||
+    (purpose?.currentVersion?.state === 'SUSPENDED' && purpose.suspendedByProducer)
+  ) {
     actions.push(suspendAction)
   }
 
-  if (purpose?.currentVersion?.state === 'SUSPENDED') {
+  if (purpose?.currentVersion?.state === 'SUSPENDED' && purpose.suspendedByConsumer) {
     actions.push(activateAction, archiveAction)
   }
 
