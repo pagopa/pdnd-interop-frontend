@@ -184,6 +184,15 @@ function useReject() {
   })
 }
 
+function useClone() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.clone' })
+  return useMutationWrapper(AgreementServices.clone, {
+    suppressSuccessToast: true,
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+  })
+}
+
 function useSuspend() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.suspend' })
   const queryClient = useQueryClient()
@@ -255,6 +264,7 @@ export const AgreementMutations = {
   useReject,
   useSuspend,
   useUpgrade,
+  useClone,
 }
 
 export const AgreementDownloads = {
