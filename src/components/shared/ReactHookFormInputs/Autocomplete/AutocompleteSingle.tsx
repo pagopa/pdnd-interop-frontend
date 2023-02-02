@@ -27,6 +27,14 @@ export function AutocompleteSingle<T>(props: AutocompleteSingleProps<T>) {
 
   const [internalState, setInternalState] = React.useState<AutocompleteInput<T> | null>(null)
 
+  /**
+   * This handles the synchronization between mui autocomplete internal state and react-hook-form state in case options are loaded async
+   * and the react-hook-form field state already contains value.
+   *
+   * This happen on filter fields that have the state already available on page load because it comes from the url params, but not the related
+   * option field that comes from an API.
+   *
+   * */
   React.useEffect(() => {
     if (hasSetOptions.current) return
     if (value && internalState === null && props.options.length > 0) {

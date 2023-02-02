@@ -1,5 +1,5 @@
-import { Chip } from '@mui/material'
 import React from 'react'
+import { Chip } from '@mui/material'
 import { useFormContext } from 'react-hook-form'
 import { AutocompleteBaseProps, AutocompleteInput, _AutocompleteBase } from './_AutocompleteBase'
 import isEqual from 'lodash/isEqual'
@@ -28,6 +28,15 @@ export function AutocompleteMultiple<T>(props: AutocompleteMultipleProps<T>) {
   const { watch } = useFormContext()
   const selectedValues = watch(props.name) as Array<T>
 
+  /**
+   * This handles the synchronization between mui autocomplete internal state and react-hook-form state in case options are loaded async
+   * and the react-hook-form field state already contains value.
+   *
+   * This happen on filter fields that have the state already available on page load because it comes from the url params, but not the related
+   * option field that comes from an API.
+   *
+   * */
+
   React.useEffect(() => {
     if (hasSetOptions.current) return
     if (selectedValues.length !== internalState.length && props.options.length > 0) {
@@ -44,22 +53,19 @@ export function AutocompleteMultiple<T>(props: AutocompleteMultipleProps<T>) {
     <_AutocompleteBase
       multiple
       getOptionValue={(data) => data.map((d) => d?.value ?? d)}
-      renderTags={(options, getTagProps) => {
-        return (
-          <React.Fragment>
-            {options
-              .filter((option) => selectedValues?.includes(option.value))
-              .map((option, index: number) => (
-                <Chip
-                  variant="outlined"
-                  label={option.label}
-                  {...getTagProps({ index })}
-                  key={option.label}
-                />
-              ))}
-          </React.Fragment>
-        )
-      }}
+      renderTags={(options, getTagProps) =>
+        options
+          .filter((option) => selectedValues?.includes(option.value))
+          .map((option, index: number) => (
+            <Chip
+              variant="filled"
+              size="small"
+              label={option.label}
+              {...getTagProps({ index })}
+              key={option.label}
+            />
+          ))
+      }
       {...props}
       value={internalState}
       setInternalState={setInternalState}
