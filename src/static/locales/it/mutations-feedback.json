@@ -293,7 +293,12 @@
     "clone": {
       "loading": "Stiamo clonando la richiesta",
       "outcome": {
+        "success": "La richiesta di fruizione è stata clonata correttamente ed è disponibile in bozza",
         "error": "Non è stato possibile clonare la richiesta di fruizione. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma clonazione richiesta di fruizione",
+        "description": "Verrà creata una nuova richiesta di fruizione in bozza con le stesse caratteristiche della richiesta selezionata. Ricordati di integrare la documentazione con quanto richiesto dell'erogatore prima di presentarla nuovamente"
       }
     },
     "downloadContract": {

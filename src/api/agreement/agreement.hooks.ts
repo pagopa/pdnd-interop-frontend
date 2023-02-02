@@ -187,9 +187,14 @@ function useReject() {
 function useClone() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.clone' })
   return useMutationWrapper(AgreementServices.clone, {
-    suppressSuccessToast: true,
+    successToastLabel: t('outcome.success'),
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
+    showConfirmationDialog: true,
+    dialogConfig: {
+      title: t('confirmDialog.title'),
+      description: t('confirmDialog.description'),
+    },
   })
 }
 
