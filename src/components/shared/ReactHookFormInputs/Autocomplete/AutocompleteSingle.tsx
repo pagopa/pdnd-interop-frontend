@@ -1,9 +1,10 @@
 import React from 'react'
 import isEqual from 'lodash/isEqual'
-import { AutocompleteBaseProps, _AutocompleteBase } from './_AutocompleteBase'
+import { AutocompleteBaseProps, AutocompleteInput, _AutocompleteBase } from './_AutocompleteBase'
+import { useFormContext } from 'react-hook-form'
 
 type AutocompleteSingleProps<T> = Omit<
-  AutocompleteBaseProps<{ label: string; value: T }, false, false, false>,
+  AutocompleteBaseProps<AutocompleteInput<T>, false, false, false>,
   | 'onChange'
   | 'value'
   | 'multiple'
@@ -11,6 +12,7 @@ type AutocompleteSingleProps<T> = Omit<
   | 'renderInput'
   | 'renderOption'
   | 'renderTags'
+  | 'setInternalState'
 > & {
   options: Array<{
     label: string
@@ -19,6 +21,23 @@ type AutocompleteSingleProps<T> = Omit<
 }
 
 export function AutocompleteSingle<T>(props: AutocompleteSingleProps<T>) {
+  const { watch } = useFormContext()
+  const value = watch(props.name) as T
+  const hasSetOptions = React.useRef(false)
+
+  const [internalState, setInternalState] = React.useState<AutocompleteInput<T> | null>(null)
+
+  React.useEffect(() => {
+    if (hasSetOptions.current) return
+    if (value && internalState === null && props.options.length > 0) {
+      hasSetOptions.current = true
+      const selectedOption = props.options.find((option) => isEqual(value, option.value))
+      if (selectedOption) {
+        setInternalState(selectedOption)
+      }
+    }
+  }, [value, props.options, internalState])
+
   return (
     <_AutocompleteBase
       multiple={false}
@@ -30,6 +49,8 @@ export function AutocompleteSingle<T>(props: AutocompleteSingleProps<T>) {
         return props.options.find((option) => isEqual(option.value, value))?.label ?? ''
       }}
       {...props}
+      value={internalState}
+      setInternalState={setInternalState}
     />
   )
 }
