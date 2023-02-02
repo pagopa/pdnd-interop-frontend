@@ -10,7 +10,8 @@
       "required": "Field required"
     },
     "string": {
-      "email": "Invalid email format"
+      "email": "Invalid email format",
+      "minLength": "The string must be long more or equal to ${min} chars"
     },
     "boolean": {
       "isValue": "Please confirm"
