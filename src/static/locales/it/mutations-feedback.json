@@ -290,6 +290,12 @@
         "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà aggiornata alla versione più recente dell'e-service attualmente disponibile. I client collegati a questa richiesta continueranno ad avere accesso all'e-service in erogazione, aggiornato all'ultima versione"
       }
     },
+    "clone": {
+      "loading": "Stiamo clonando la richiesta",
+      "outcome": {
+        "error": "Non è stato possibile clonare la richiesta di fruizione. Per favore, riprova!"
+      }
+    },
     "downloadContract": {
       "loading": "Stiamo scaricando il documento della richiesta",
       "outcome": {
