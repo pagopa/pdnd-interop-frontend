@@ -50,11 +50,11 @@
       "title": "General information",
       "nameField": {
         "label": "Purpose name (required)",
-        "infoLabel": "It will help you tell them apart. Max 60 chars"
+        "infoLabel": "It will help you tell them apart. Min 5 chars, max 60 chars"
       },
       "descriptionField": {
         "label": "Purpose description (required)",
-        "infoLabel": "Max 250 chars"
+        "infoLabel": "Min 10 chars, max 250 chars"
       },
       "eserviceField": {
         "label": "Related e-service (required)"

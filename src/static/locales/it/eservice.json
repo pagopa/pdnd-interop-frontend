@@ -22,11 +22,11 @@
       "detailsTitle": "Caratterizzazione e-service",
       "eserviceNameField": {
         "label": "Nome dell'e-service (richiesto)",
-        "infoLabel": "Se prevedi di usare più e-service con lo stesso nome, inserisci una piccola indicazione per distinguerli (es. \"TARI – dedicata Comuni\" e \"TARI - dedicata Regioni\"). Max 60 caratteri"
+        "infoLabel": "Se prevedi di usare più e-service con lo stesso nome, inserisci una piccola indicazione per distinguerli (es. \"TARI – dedicata Comuni\" e \"TARI - dedicata Regioni\"). Min 5 caratteri, max 60 caratteri"
       },
       "eserviceDescriptionField": {
         "label": "Descrizione dell'e-service (richiesto)",
-        "infoLabel": "(es. \"Dedicato agli Enti che hanno necessità di ...\", oppure \"L'e-service rivolto agli Enti che ...\"). Max 250 caratteri"
+        "infoLabel": "(es. \"Dedicato agli Enti che hanno necessità di ...\", oppure \"L'e-service rivolto agli Enti che ...\"). Min 10 caratteri, max 250 caratteri"
       },
       "eserviceTechnologyField": {
         "label": "Tecnologia utilizzata (richiesto)"
@@ -54,11 +54,11 @@
       },
       "descriptionField": {
         "label": "Descrizione della versione (richiesto)",
-        "infoLabel": "Max 250 caratteri"
+        "infoLabel": "Min 10 caratteri, max 250 caratteri"
       },
       "audienceField": {
         "label": "Audience (richiesto)",
-        "infoLabel": "All’interno dell'access token che il fruitore ti invierà rappresenterà l’audience (aud), l'id con il quale è dichiarato il servizio richiesto. Max 250 caratteri"
+        "infoLabel": "All’interno dell'access token che il fruitore ti invierà rappresenterà l’audience (aud), l'id con il quale è dichiarato il servizio richiesto. Min 1 carattere, max 250 caratteri"
       },
       "voucherLifespanField": {
         "label": "Durata di validità del voucher (in minuti - richiesto)",
@@ -98,7 +98,7 @@
       },
       "nameField": {
         "label": "Nome documento",
-        "infoLabel": "Max. 60 caratteri"
+        "infoLabel": "Min 5 caratteri, max 60 caratteri"
       },
       "uploadBtn": "Carica"
     },

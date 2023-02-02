@@ -22,11 +22,11 @@
       "detailsTitle": "E-service details",
       "eserviceNameField": {
         "label": "E-service name (required)",
-        "infoLabel": "If you have more than one e-service with the same name, give a little hint to tell them apart (e.g. \"TARI – for Municipalities\" e \"TARI - for Regions\"). Max 60 chars"
+        "infoLabel": "If you have more than one e-service with the same name, give a little hint to tell them apart (e.g. \"TARI – for Municipalities\" e \"TARI - for Regions\"). Min 5 chars, max 60 chars"
       },
       "eserviceDescriptionField": {
         "label": "E-service description (required)",
-        "infoLabel": "(e.g. \"Dedicated to the bodies that need ...\", or \"This e-service is for ...\"). Max 250 chars"
+        "infoLabel": "(e.g. \"Dedicated to the bodies that need ...\", or \"This e-service is for ...\"). Min 10 chars, max 250 chars"
       },
       "eserviceTechnologyField": {
         "label": "Technology (required)"
@@ -54,11 +54,11 @@
       },
       "descriptionField": {
         "label": "Version description (required)",
-        "infoLabel": "Max 250 chars"
+        "infoLabel": "Min 10 chars, max 250 chars"
       },
       "audienceField": {
         "label": "Audience (required)",
-        "infoLabel": "The content of this field will the audience (aud) that the Subscriber will send you inside the access token. With this id the Subscriber will tell the Provider which service it is looking for. Max 250 chars"
+        "infoLabel": "The content of this field will the audience (aud) that the Subscriber will send you inside the access token. With this id the Subscriber will tell the Provider which service it is looking for. Min 1 char, max 250 chars"
       },
       "voucherLifespanField": {
         "label": "Voucher expiration (in minutes - required)",
@@ -98,7 +98,7 @@
       },
       "nameField": {
         "label": "Document name",
-        "infoLabel": "Max 60 chars"
+        "infoLabel": "Min 5 chars, max 60 chars"
       },
       "uploadBtn": "Upload"
     },

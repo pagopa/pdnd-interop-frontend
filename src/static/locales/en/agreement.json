@@ -104,7 +104,7 @@
       "uploadBtn": "Upload",
       "documentPrettynameField": {
         "label": "Document name",
-        "infoLabel": "Max 60 chars"
+        "infoLabel": "Min 5 chars, max 60 chars"
       }
     },
     "bottomPageActionCard": {

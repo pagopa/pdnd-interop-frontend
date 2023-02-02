@@ -69,7 +69,7 @@
     "content": {
       "nameField": {
         "label": "Key name (required)",
-        "infoLabel": "It will help you tell them apart. Max 60 chars"
+        "infoLabel": "It will help you tell them apart. Min 5 chars, max 60 chars"
       },
       "keyField": {
         "label": "Public key (required)",
@@ -113,11 +113,11 @@
     "content": {
       "nameField": {
         "label": "Attribute name (required)",
-        "infoLabel": "Max 160 chars"
+        "infoLabel": "Min 5 chars, max 160 chars"
       },
       "descriptionField": {
         "label": "Attribute description (required)",
-        "infoLabel": "Max 250 chars"
+        "infoLabel": "Min 10 chars, max 250 chars"
       },
       "codeField": {
         "label": "Authoritative source id (required)",

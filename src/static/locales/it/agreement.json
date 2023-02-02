@@ -103,7 +103,7 @@
       "uploadBtn": "Carica",
       "documentPrettynameField": {
         "label": "Nome documento",
-        "infoLabel": "Max 60 caratteri"
+        "infoLabel": "Min 5 caratteri, max 60 caratteri"
       }
     },
     "bottomPageActionCard": {
