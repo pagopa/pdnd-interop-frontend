@@ -33,8 +33,8 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
   const { mutate: updateVersionDraft } = PurposeMutations.useUpdateVersionDraft()
 
   const validationSchema = object({
-    title: string().required(),
-    description: string().required(),
+    title: string().required().min(5),
+    description: string().required().min(10),
     dailyCalls: number().required(),
   })
 

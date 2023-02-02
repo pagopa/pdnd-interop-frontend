@@ -34,7 +34,7 @@ export function EServiceCreateStep3DocumentsDoc() {
 
   const validationSchema = object({
     doc: mixed().required(),
-    prettyName: string().required(),
+    prettyName: string().required().min(5),
   })
 
   const docs = descriptor?.docs ?? []

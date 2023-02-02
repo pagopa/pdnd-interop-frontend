@@ -40,9 +40,9 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
 
   const validationSchema = object({
     version: string().required(),
-    audience: string().required(),
+    audience: string().required().min(1),
     voucherLifespan: number().required().min(1).max(1440),
-    description: string().required(),
+    description: string().required().min(10),
     dailyCallsPerConsumer: number().required().min(1),
     dailyCallsTotal: number()
       .min(ref('dailyCallsPerConsumer'), t('create.step2.dailyCallsTotalField.validation.min'))
