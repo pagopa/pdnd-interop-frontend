@@ -19,7 +19,7 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: PurposeListingItem }>
 
   const { actions } = useGetConsumerPurposesActions(purpose)
 
-  const isPurposeEditable = !purpose.currentVersion || purpose.currentVersion.state === 'DRAFT'
+  const isPurposeEditable = purpose?.currentVersion?.state === 'DRAFT'
 
   const goToEditOrInspectPurpose = () => {
     const path = isPurposeEditable ? 'SUBSCRIBE_PURPOSE_EDIT' : 'SUBSCRIBE_PURPOSE_DETAILS'

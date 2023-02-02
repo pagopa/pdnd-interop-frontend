@@ -115,7 +115,7 @@ const ProviderFilterAutocomplete: React.FC = () => {
     <AutocompleteMultiple
       placeholder=""
       size="small"
-      name="providersIds"
+      name="producersIds"
       onInputChange={handleAutocompleteInputChange}
       label={t('providerField.label')}
       options={providersOptions}

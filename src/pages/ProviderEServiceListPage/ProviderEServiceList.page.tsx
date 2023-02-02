@@ -5,33 +5,29 @@ import { PageContainer } from '@/components/layout/containers'
 import { useNavigateRouter } from '@/router'
 import { TopSideActions } from '@/components/layout/containers/PageContainer'
 import { EServiceQueries } from '@/api/eservice'
-import usePagination from '@/hooks/usePagination'
 import { Pagination } from '@/components/shared/Pagination'
 import {
   EServiceGetProviderListQueryFilters,
   EServiceGetProviderListUrlParams,
 } from '@/api/eservice/eservice.api.types'
-import { useQueryFilters } from '@/hooks/useQueryFilters'
 import EServiceTableFilters from './components/EServiceTableFilters'
+import { useListingParams } from '@/hooks/useListingParams'
 
 const ProviderEServiceListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceList' })
   const { t: tCommon } = useTranslation('common')
   const { navigate } = useNavigateRouter()
-  const {
-    props,
-    params: paginationParams,
-    getTotalPageCount,
-  } = usePagination({
-    limit: 10,
-  })
 
-  const { queryFilters, ...filtersProps } = useQueryFilters<EServiceGetProviderListQueryFilters>({
-    q: '',
-    consumersIds: [],
-  })
-
-  const params = { ...queryFilters, ...paginationParams }
+  const { params, paginationProps, getTotalPageCount, ...filtersMethods } =
+    useListingParams<EServiceGetProviderListQueryFilters>({
+      paginationOptions: {
+        limit: 10,
+      },
+      filterParams: {
+        q: '',
+        consumersIds: [],
+      },
+    })
 
   const { data } = EServiceQueries.useGetProviderList(params, {
     suspense: false,
@@ -56,9 +52,12 @@ const ProviderEServiceListPage: React.FC = () => {
       description={t('description')}
       topSideActions={topSideActions}
     >
-      <EServiceTableFilters {...filtersProps} />
+      <EServiceTableFilters {...filtersMethods} />
       <EServiceTableWrapper params={params} />
-      <Pagination {...props} totalPages={getTotalPageCount(data?.pagination.totalCount)} />
+      <Pagination
+        {...paginationProps}
+        totalPages={getTotalPageCount(data?.pagination.totalCount)}
+      />
     </PageContainer>
   )
 }

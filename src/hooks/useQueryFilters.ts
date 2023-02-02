@@ -38,7 +38,7 @@ export function useQueryFilters<T extends Record<string, string | string[]>>(def
     setQueryFilters(defaultValues)
 
     // Clears the search url params from only the filter related url params
-    setFiltersSearchParams(omit(Object.fromEntries(filtersSearchParams), ...filtersKeys))
+    setFiltersSearchParams(omit(Object.fromEntries(filtersSearchParams), ...filtersKeys, 'offset'))
   }, [filtersUseFormMethods, defaultValues, filtersSearchParams, setFiltersSearchParams])
 
   const enableFilters = filtersUseFormMethods.handleSubmit((values) => {
@@ -51,7 +51,7 @@ export function useQueryFilters<T extends Record<string, string | string[]>>(def
       )
     )
 
-    setFiltersSearchParams(filteredSearchParams)
+    setFiltersSearchParams({ ...filteredSearchParams, offset: '0' })
   })
 
   return { queryFilters, filtersUseFormMethods, enableFilters, clearFilters }

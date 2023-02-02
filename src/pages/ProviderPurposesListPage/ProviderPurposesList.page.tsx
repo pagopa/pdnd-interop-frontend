@@ -1,3 +1,4 @@
+import React from 'react'
 import { PurposeQueries } from '@/api/purpose'
 import {
   PurposeGetListQueryFilters,
@@ -6,9 +7,7 @@ import {
 import { PageContainer } from '@/components/layout/containers'
 import { Pagination } from '@/components/shared/Pagination'
 import { useJwt } from '@/hooks/useJwt'
-import usePagination from '@/hooks/usePagination'
-import { useQueryFilters } from '@/hooks/useQueryFilters'
-import React from 'react'
+import { useListingParams } from '@/hooks/useListingParams'
 import { useTranslation } from 'react-i18next'
 import { ProviderPurposesTable, ProviderPurposesTableSkeleton } from './components'
 import { ProviderPurposesTableFilters } from './components/ProviderPurposesTableFilters'
@@ -18,22 +17,24 @@ const ProviderPurposesListPage: React.FC = () => {
   const { jwt } = useJwt()
 
   const {
-    props,
-    params: paginationParams,
+    params: _params,
+    paginationProps,
     getTotalPageCount,
-  } = usePagination({
-    limit: 10,
+    ...filtersMethods
+  } = useListingParams<PurposeGetListQueryFilters>({
+    paginationOptions: {
+      limit: 10,
+    },
+    filterParams: {
+      q: '',
+      eservicesIds: [],
+      consumersIds: [],
+      states: [],
+    },
   })
 
-  const { queryFilters, ...filtersProps } = useQueryFilters<PurposeGetListQueryFilters>({
-    q: '',
-    eservicesIds: [],
-    producersIds: [jwt?.organizationId] as Array<string>,
-    consumersIds: [],
-    states: [],
-  })
+  const params = { ..._params, producersIds: [jwt?.organizationId] as Array<string> }
 
-  const params = { ...paginationParams, ...queryFilters }
   const { data } = PurposeQueries.useGetList(params, {
     suspense: false,
     keepPreviousData: true,
@@ -42,9 +43,12 @@ const ProviderPurposesListPage: React.FC = () => {
 
   return (
     <PageContainer title={t('title')} description={t('description')}>
-      <ProviderPurposesTableFilters {...filtersProps} />
+      <ProviderPurposesTableFilters {...filtersMethods} />
       <PurposesTableWrapper params={params} />
-      <Pagination {...props} totalPages={getTotalPageCount(data?.pagination.totalCount)} />
+      <Pagination
+        {...paginationProps}
+        totalPages={getTotalPageCount(data?.pagination.totalCount)}
+      />
     </PageContainer>
   )
 }

@@ -8,8 +8,7 @@ import { PageContainer } from '@/components/layout/containers'
 import { TopSideActions } from '@/components/layout/containers/PageContainer'
 import { Pagination } from '@/components/shared/Pagination'
 import { useJwt } from '@/hooks/useJwt'
-import usePagination from '@/hooks/usePagination'
-import { useQueryFilters } from '@/hooks/useQueryFilters'
+import { useListingParams } from '@/hooks/useListingParams'
 import { useNavigateRouter } from '@/router'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -24,22 +23,24 @@ const ConsumerPurposesListPage: React.FC = () => {
   const { navigate } = useNavigateRouter()
 
   const {
-    props,
-    params: paginationParams,
+    params: _params,
+    paginationProps,
     getTotalPageCount,
-  } = usePagination({
-    limit: 10,
+    ...filtersMethods
+  } = useListingParams<PurposeGetListQueryFilters>({
+    paginationOptions: {
+      limit: 10,
+    },
+    filterParams: {
+      q: '',
+      eservicesIds: [],
+      producersIds: [],
+      states: [],
+    },
   })
 
-  const { queryFilters, ...filtersProps } = useQueryFilters<PurposeGetListQueryFilters>({
-    q: '',
-    eservicesIds: [],
-    producersIds: [],
-    consumersIds: [jwt?.organizationId] as Array<string>,
-    states: [],
-  })
+  const params = { ..._params, consumersIds: [jwt?.organizationId] as Array<string> }
 
-  const params = { ...paginationParams, ...queryFilters }
   const { data } = PurposeQueries.useGetList(params, {
     suspense: false,
     keepPreviousData: true,
@@ -77,9 +78,12 @@ const ConsumerPurposesListPage: React.FC = () => {
       description={t('description')}
       topSideActions={topSideActions}
     >
-      <ConsumerPurposesTableFilters {...filtersProps} />
+      <ConsumerPurposesTableFilters {...filtersMethods} />
       <PurposesTableWrapper params={params} />
-      <Pagination {...props} totalPages={getTotalPageCount(data?.pagination.totalCount)} />
+      <Pagination
+        {...paginationProps}
+        totalPages={getTotalPageCount(data?.pagination.totalCount)}
+      />
     </PageContainer>
   )
 }
