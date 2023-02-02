@@ -136,11 +136,32 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
     return (
       <Stack direction="row" spacing={1}>
         {props.purpose.currentVersion && (
-          <Chip
-            size="small"
-            label={t(`status.purpose.${purposeState}`)}
-            color={chipColors['purpose'][purposeState]}
-          />
+          <>
+            {props.purpose.currentVersion.state === 'SUSPENDED' ? (
+              <>
+                {props.purpose.suspendedByConsumer && (
+                  <Chip
+                    size="small"
+                    label={t(`status.purpose.SUSPENDED.byConsumer`)}
+                    color={chipColors['purpose'][purposeState]}
+                  />
+                )}
+                {props.purpose.suspendedByProducer && (
+                  <Chip
+                    size="small"
+                    label={t(`status.purpose.SUSPENDED.byProducer`)}
+                    color={chipColors['purpose'][purposeState]}
+                  />
+                )}
+              </>
+            ) : (
+              <Chip
+                size="small"
+                label={t(`status.purpose.${purposeState as Exclude<PurposeState, 'SUSPENDED'>}`)}
+                color={chipColors['purpose'][purposeState]}
+              />
+            )}
+          </>
         )}
         {props.purpose.waitingForApprovalVersion && (
           <Chip
