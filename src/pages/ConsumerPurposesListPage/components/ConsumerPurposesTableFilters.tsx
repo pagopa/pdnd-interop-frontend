@@ -131,7 +131,7 @@ const StateFilterAutocomplete: React.FC = () => {
     { label: t('statusField.optionLabels.ACTIVE'), value: 'ACTIVE' },
     { label: t('statusField.optionLabels.SUSPENDED'), value: 'SUSPENDED' },
     { label: t('statusField.optionLabels.WAITING_FOR_APPROVAL'), value: 'WAITING_FOR_APPROVAL' },
-    { label: t('statusField.optionLabels.ARCHIVED'), value: 'ARCHIVED' },
+    // { label: t('statusField.optionLabels.ARCHIVED'), value: 'ARCHIVED' },
   ]
 
   return (
