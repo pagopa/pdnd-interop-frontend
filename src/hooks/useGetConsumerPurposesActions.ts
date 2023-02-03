@@ -3,10 +3,13 @@ import { PurposeMutations } from '@/api/purpose'
 import { useDialog } from '@/stores'
 import { useTranslation } from 'react-i18next'
 import { ActionItem } from '@/types/common.types'
+import { useJwt } from './useJwt'
 
 function useGetConsumerPurposesActions(purpose?: DecoratedPurpose | PurposeListingItem) {
   const { t } = useTranslation('purpose', { keyPrefix: 'tablePurpose.actions' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+  const { jwt } = useJwt()
+
   const { mutate: archivePurpose } = PurposeMutations.useArchiveVersion()
   const { mutate: suspendPurpose } = PurposeMutations.useSuspendVersion()
   const { mutate: activatePurpose } = PurposeMutations.useActivateVersion()
@@ -111,14 +114,17 @@ function useGetConsumerPurposesActions(purpose?: DecoratedPurpose | PurposeListi
     actions.push(updateDailyCallsAction)
   }
 
-  if (
-    purpose?.currentVersion?.state === 'ACTIVE' ||
-    (purpose?.currentVersion?.state === 'SUSPENDED' && purpose.suspendedByProducer)
-  ) {
+  const isSuspended = purpose?.currentVersion && purpose?.currentVersion.state === 'SUSPENDED'
+  const isSuspendedByProvider = purpose.suspendedByProducer
+  const isSuspendedByConsumer =
+    purpose.suspendedByConsumer ||
+    (isSuspendedByProvider && jwt?.organizationId === purpose.eservice.producer.id)
+
+  if (isSuspended && !isSuspendedByConsumer) {
     actions.push(suspendAction)
   }
 
-  if (purpose?.currentVersion?.state === 'SUSPENDED' && purpose.suspendedByConsumer) {
+  if (isSuspended && isSuspendedByConsumer) {
     actions.push(activateAction, archiveAction)
   }
 

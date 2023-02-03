@@ -40,18 +40,17 @@ function useGetProviderPurposesActions(purpose?: DecoratedPurpose | PurposeListi
     )
   }
 
-  if (
-    currentVersion &&
-    (currentVersion.state === 'ACTIVE' ||
-      (currentVersion.state === 'SUSPENDED' && purpose.suspendedByConsumer))
-  ) {
+  const isSuspended = currentVersion && currentVersion.state === 'SUSPENDED'
+  const isSuspendedByProvider = purpose.suspendedByProducer
+
+  if (isSuspended && !isSuspendedByProvider) {
     actions.push({
       action: () => suspendVersion({ purposeId: purpose.id, versionId: currentVersion.id }),
       label: t('suspend'),
     })
   }
 
-  if (currentVersion && currentVersion.state === 'SUSPENDED' && purpose.suspendedByProducer) {
+  if (isSuspended && isSuspendedByProvider) {
     actions.push({
       action: () => activateVersion({ purposeId: purpose.id, versionId: currentVersion.id }),
       label: t('activate'),
