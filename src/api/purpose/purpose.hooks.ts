@@ -23,7 +23,10 @@ function useGetList(
   )
 }
 
-function useGetSingle(purposeId: string, config: { suspense: boolean } = { suspense: true }) {
+function useGetSingle(
+  purposeId: string,
+  config: UseQueryWrapperOptions<Awaited<ReturnType<typeof PurposeServices.getSingle>>>
+) {
   return useQueryWrapper(
     [PurposeQueryKeys.GetSingle, purposeId],
     () => PurposeServices.getSingle(purposeId),

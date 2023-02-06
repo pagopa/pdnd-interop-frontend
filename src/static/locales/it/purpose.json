@@ -5,9 +5,23 @@
   "backToPurposeListBtn": "Torna alle finalità",
   "create": {
     "emptyTitle": "Crea finalità",
+    "isTemplateField": {
+      "label": "Usa un template precompilato"
+    },
+    "purposeField": {
+      "label": "Template da utilizzare",
+      "compiledBy": "{{title}} creata da {{consumerName}}",
+      "noDataLabel": "Nessun template disponibile per questo e-service",
+      "loadingLabel": "Stiamo caricando i template"
+    },
     "eserviceField": {
       "label": "E-service da associare"
     },
+    "purposeInfoTitle": "Contenuto del template selezionato",
+    "purposePreviewTitle": "Contenuto del template selezionato",
+    "consumerName": "Questo template è stato creato da",
+    "purposeTitle": "Nome finalità",
+    "purposeDescription": "Descrizione finalità",
     "createNewPurposeBtn": "Crea bozza finalità",
     "backToListBtn": "Torna alle finalità",
     "defaultPurpose": {
