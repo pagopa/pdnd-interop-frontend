@@ -10,6 +10,10 @@ afterEach(() => {
   cleanup()
 })
 
+vi.spyOn(global.console, 'log').mockImplementation(() => vi.fn())
+vi.spyOn(global.console, 'error').mockImplementation(() => vi.fn())
+vi.spyOn(global.console, 'warn').mockImplementation(() => vi.fn())
+
 vi.stubGlobal('scroll', vi.fn())
 vi.mock('zustand')
 vi.mock('react-i18next')
