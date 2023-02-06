@@ -4,6 +4,7 @@ import { useDialog } from '@/stores'
 import { useTranslation } from 'react-i18next'
 import { ActionItem } from '@/types/common.types'
 import { useJwt } from './useJwt'
+import { checkPurposeSuspendedByConsumer } from '@/utils/purpose.utils'
 
 function useGetConsumerPurposesActions(purpose?: DecoratedPurpose | PurposeListingItem) {
   const { t } = useTranslation('purpose', { keyPrefix: 'tablePurpose.actions' })
@@ -119,11 +120,8 @@ function useGetConsumerPurposesActions(purpose?: DecoratedPurpose | PurposeListi
 
   const isSuspended = purpose?.currentVersion && purpose?.currentVersion.state === 'SUSPENDED'
   const isActive = purpose?.currentVersion && purpose?.currentVersion.state === 'ACTIVE'
-  const isSuspendedByProvider = purpose.suspendedByProducer
-  const isCurrentPartyEServiceProvider = jwt?.organizationId === purpose.eservice.producer.id
 
-  const isSuspendedByConsumer =
-    purpose.suspendedByConsumer || (isSuspendedByProvider && isCurrentPartyEServiceProvider)
+  const isSuspendedByConsumer = checkPurposeSuspendedByConsumer(purpose, jwt?.organizationId)
 
   if (isActive || (isSuspended && !isSuspendedByConsumer)) {
     actions.push(suspendAction)

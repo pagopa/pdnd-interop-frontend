@@ -10,6 +10,7 @@ import { TFunction } from 'i18next'
 import { DecoratedPurpose, PurposeListingItem, PurposeState } from '@/types/purpose.types'
 import { AttributeKey, AttributeKind, AttributeState } from '@/types/attribute.types'
 import { useJwt } from '@/hooks/useJwt'
+import { checkPurposeSuspendedByConsumer } from '@/utils/purpose.utils'
 
 const CHIP_COLORS_E_SERVICE: Record<EServiceState, MUIColor> = {
   PUBLISHED: 'primary',
@@ -141,9 +142,11 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
     const isPurposeSuspended =
       purpose?.currentVersion && purpose?.currentVersion.state === 'SUSPENDED'
     const isPurposeSuspendedByProvider = purpose.suspendedByProducer
-    const isPurposeSuspendedByConsumer =
-      purpose.suspendedByConsumer ||
-      (isPurposeSuspendedByProvider && jwt?.organizationId === purpose.eservice.producer.id)
+
+    const isPurposeSuspendedByConsumer = checkPurposeSuspendedByConsumer(
+      purpose,
+      jwt?.organizationId
+    )
 
     return (
       <Stack direction="row" spacing={1}>
