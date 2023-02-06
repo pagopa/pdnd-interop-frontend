@@ -43,7 +43,7 @@ function useGetProviderPurposesActions(purpose?: DecoratedPurpose | PurposeListi
   const isSuspended = currentVersion && currentVersion.state === 'SUSPENDED'
   const isSuspendedByProvider = purpose.suspendedByProducer
 
-  if (isSuspended && !isSuspendedByProvider) {
+  if (currentVersion && (!isSuspended || (isSuspended && !isSuspendedByProvider))) {
     actions.push({
       action: () => suspendVersion({ purposeId: purpose.id, versionId: currentVersion.id }),
       label: t('suspend'),

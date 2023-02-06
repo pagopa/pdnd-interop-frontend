@@ -92,6 +92,7 @@ function useGetConsumerPurposesActions(purpose?: DecoratedPurpose | PurposeListi
     action: handleUpdateDailyCalls,
   }
 
+  // TODO: commento
   if (!purpose.currentVersion && purpose.waitingForApprovalVersion) {
     return { actions: [deleteAction] }
   }
@@ -104,7 +105,9 @@ function useGetConsumerPurposesActions(purpose?: DecoratedPurpose | PurposeListi
     return { actions: [activateAction, deleteAction] }
   }
 
-  const actions: Array<ActionItem> = []
+  // If the currentVestion is not ARCHIVED or in DRAFT...
+
+  const actions: Array<ActionItem> = [archiveAction]
 
   if (purpose?.waitingForApprovalVersion) {
     actions.push(deleteDailyCallsUpdateAction)
@@ -115,17 +118,19 @@ function useGetConsumerPurposesActions(purpose?: DecoratedPurpose | PurposeListi
   }
 
   const isSuspended = purpose?.currentVersion && purpose?.currentVersion.state === 'SUSPENDED'
+  const isActive = purpose?.currentVersion && purpose?.currentVersion.state === 'ACTIVE'
   const isSuspendedByProvider = purpose.suspendedByProducer
-  const isSuspendedByConsumer =
-    purpose.suspendedByConsumer ||
-    (isSuspendedByProvider && jwt?.organizationId === purpose.eservice.producer.id)
+  const isCurrentPartyEServiceProvider = jwt?.organizationId === purpose.eservice.producer.id
 
-  if (isSuspended && !isSuspendedByConsumer) {
+  const isSuspendedByConsumer =
+    purpose.suspendedByConsumer || (isSuspendedByProvider && isCurrentPartyEServiceProvider)
+
+  if (isActive || (isSuspended && !isSuspendedByConsumer)) {
     actions.push(suspendAction)
   }
 
   if (isSuspended && isSuspendedByConsumer) {
-    actions.push(activateAction, archiveAction)
+    actions.push(activateAction)
   }
 
   return { actions }
