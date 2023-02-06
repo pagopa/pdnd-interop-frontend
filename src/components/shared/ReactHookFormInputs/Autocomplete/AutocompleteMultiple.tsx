@@ -1,8 +1,8 @@
-import { Chip } from '@mui/material'
-import isEqual from 'lodash/isEqual'
 import React from 'react'
+import { Chip } from '@mui/material'
 import { useFormContext } from 'react-hook-form'
-import { AutocompleteBaseProps, _AutocompleteBase } from './_AutocompleteBase'
+import { AutocompleteBaseProps, AutocompleteInput, _AutocompleteBase } from './_AutocompleteBase'
+import isEqual from 'lodash/isEqual'
 
 type AutocompleteMultipleProps<T> = Omit<
   AutocompleteBaseProps<{ label: string; value: T }, true, false, false>,
@@ -13,6 +13,7 @@ type AutocompleteMultipleProps<T> = Omit<
   | 'renderInput'
   | 'renderOption'
   | 'renderTags'
+  | 'setInternalState'
 > & {
   options: Array<{
     label: string
@@ -21,31 +22,53 @@ type AutocompleteMultipleProps<T> = Omit<
 }
 
 export function AutocompleteMultiple<T>(props: AutocompleteMultipleProps<T>) {
+  const [internalState, setInternalState] = React.useState<AutocompleteInput<T>[]>([])
+  const hasSetOptions = React.useRef(false)
+
   const { watch } = useFormContext()
   const selectedValues = watch(props.name) as Array<T>
+
+  /**
+   * This handles the synchronization between mui autocomplete internal state and react-hook-form state in case options are loaded async
+   * and the react-hook-form field state already contains value.
+   *
+   * This happen on filter fields that have the state already available on page load because it comes from the url params, but not the related
+   * option field that comes from an API.
+   *
+   * */
+
+  React.useEffect(() => {
+    if (hasSetOptions.current) return
+    if (selectedValues.length !== internalState.length && props.options.length > 0) {
+      hasSetOptions.current = true
+      const selectedOptions = props.options.filter((option) =>
+        selectedValues.some((value) => isEqual(value, option.value))
+      )
+
+      setInternalState(selectedOptions)
+    }
+  }, [selectedValues, props.options, internalState])
 
   return (
     <_AutocompleteBase
       multiple
       getOptionValue={(data) => data.map((d) => d?.value ?? d)}
-      renderTags={(_, getTagProps) => {
-        const selectedOptions = props.options.filter((option) =>
-          selectedValues.some(isEqual.bind(null, option.value))
-        )
-        return (
-          <React.Fragment>
-            {selectedOptions.map((option, index: number) => (
-              <Chip
-                variant="outlined"
-                label={option.label}
-                {...getTagProps({ index })}
-                key={option.label}
-              />
-            ))}
-          </React.Fragment>
-        )
-      }}
+      renderTags={(options, getTagProps) =>
+        options
+          .filter((option) => selectedValues?.includes(option.value))
+          .map((option, index: number) => (
+            <Chip
+              variant="filled"
+              size="small"
+              label={option.label}
+              {...getTagProps({ index })}
+              key={option.label}
+            />
+          ))
+      }
       {...props}
+      value={internalState}
+      setInternalState={setInternalState}
     />
   )
 }

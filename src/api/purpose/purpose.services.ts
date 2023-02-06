@@ -1,21 +1,24 @@
-import { AUTHORIZATION_PROCESS_URL, PURPOSE_PROCESS_URL } from '@/config/env'
+import {
+  AUTHORIZATION_PROCESS_URL,
+  BACKEND_FOR_FRONTEND_URL,
+  PURPOSE_PROCESS_URL,
+} from '@/config/env'
 import axiosInstance from '@/config/axios'
-import { Purpose, PurposeVersion } from '@/types/purpose.types'
+import { Purpose, PurposeListingItem, PurposeVersion } from '@/types/purpose.types'
 import {
   PurposeCreateDraftPayload,
   PurposeGetListUrlParams,
   PurposeUpdateDraftPayload,
 } from './purpose.api.types'
 import { decoratePurposeWithMostRecentVersion } from './purpose.api.utils'
+import { Paginated } from '../react-query-wrappers/react-query-wrappers.types'
 
 async function getList(params: PurposeGetListUrlParams) {
-  const response = await axiosInstance.get<{ purposes: Array<Purpose> }>(
-    `${PURPOSE_PROCESS_URL}/purposes`,
-    {
-      params,
-    }
+  const response = await axiosInstance.get<Paginated<PurposeListingItem>>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes`,
+    { params }
   )
-  return response.data.purposes.map(decoratePurposeWithMostRecentVersion)
+  return response.data
 }
 
 async function getSingle(purposeId: string) {

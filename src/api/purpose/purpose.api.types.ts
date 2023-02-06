@@ -1,10 +1,15 @@
+import { PaginationParams } from '@/api/api.types'
 import { PurposeRiskAnalysisForm, PurposeState } from '@/types/purpose.types'
 
-export type PurposeGetListUrlParams = {
-  eserviceId?: string
-  consumerId?: string
+export type PurposeGetListQueryFilters = {
+  q?: string
+  eservicesIds?: Array<string>
+  consumersIds?: Array<string>
+  producersIds?: Array<string>
   states?: Array<PurposeState>
 }
+
+export type PurposeGetListUrlParams = PurposeGetListQueryFilters & PaginationParams
 
 export type PurposeCreateDraftPayload = {
   eserviceId: string

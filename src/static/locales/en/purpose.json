@@ -2,25 +2,12 @@
   "loadingSingleLabel": "Loading purpose",
   "loadingMultiLabel": "Loading purposes",
   "noMultiDataLabel": "No purpose available",
+  "backToPurposeListBtn": "Baco to purposes",
   "create": {
     "emptyTitle": "Create purpose",
-    "isTemplateField": {
-      "label": "Clone from template"
-    },
-    "purposeField": {
-      "label": "Choose template",
-      "compiledBy": "{{title}} created by {{consumerName}}",
-      "noDataLabel": "No templates available for this e-service",
-      "loadingLabel": "We are loading the templates"
-    },
     "eserviceField": {
       "label": "Choose e-service"
     },
-    "purposeInfoTitle": "Selected template informations",
-    "purposePreviewTitle": "Selected template content",
-    "consumerName": "This template was created by",
-    "purposeTitle": "Purpose name",
-    "purposeDescription": "Purpose description",
     "createNewPurposeBtn": "Create purpose draft",
     "backToListBtn": "Back to purpose list",
     "defaultPurpose": {
@@ -108,9 +95,6 @@
     }
   },
   "tablePurposeInEService": {
-    "actions": {
-      "updateCompletionDate": "Update completion date"
-    },
     "loadingLabel": "Loading purposes awaiting dispatch",
     "noDataLabel": "No purpose awaiting dispatch",
     "awaitingLabel": "Awaiting taking charge"
@@ -124,7 +108,30 @@
   "list": {
     "title": "Your purposes",
     "description": "In this section you can manage all the purposes you have created",
-    "cantCreatePurposeTooltip": "You cannot create purposes because you have no associable e-service"
+    "cantCreatePurposeTooltip": "You cannot create purposes because you have no associable e-service",
+    "filters": {
+      "nameField": {
+        "label": "Find by purpose name"
+      },
+      "eserviceField": {
+        "label": "Find by e-service"
+      },
+      "consumerField": {
+        "label": "Find by consumer"
+      },
+      "providerField": {
+        "label": "Find by provider"
+      },
+      "statusField": {
+        "label": "Purpose status",
+        "optionLabels": {
+          "ACTIVE": "Active",
+          "SUSPENDED": "Suspended",
+          "WAITING_FOR_APPROVAL": "Awaiting evaluation",
+          "ARCHIVED": "Archived"
+        }
+      }
+    }
   },
   "view": {
     "actions": {
@@ -174,14 +181,17 @@
       },
       "loadEstimateUpdate": {
         "title": "Load estimation update",
-        "description": "If conditions change, you can update your load estimate at any time",
+        "consumerDescription": "If conditions change, you can update your load estimate at any time",
+        "providerDescription": "The consumer made a daily calls update request that exceeds the limits",
         "dateEstimateField": {
           "label": "Activation date estimate",
-          "description": "The date by which the provider plans to activate this new load estimate",
+          "consumerDescription": "The date by which the provider plans to activate this new load estimate",
+          "providerDescription": "The date by which you expect to activate this new load estimate",
           "emptyLabel": "not inserted"
         },
         "loadEstimateRequestedField": {
-          "label": "Load estimate requested by you",
+          "consumerLabel": "Load estimate requested by you",
+          "providerLabel": "Requested load estimate",
           "value": "{{value}} calls per day"
         },
         "faq": [

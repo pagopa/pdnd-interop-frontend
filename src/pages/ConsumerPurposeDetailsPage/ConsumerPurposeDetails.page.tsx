@@ -1,8 +1,8 @@
 import { PurposeQueries } from '@/api/purpose'
-import { PageContainer } from '@/components/layout/containers'
+import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
 import { useActiveTab } from '@/hooks/useActiveTab'
-import useGetPurposesActions from '@/hooks/useGetPurposesActions'
-import { useRouteParams } from '@/router'
+import useGetConsumerPurposesActions from '@/hooks/useGetConsumerPurposesActions'
+import { RouterLink, useRouteParams } from '@/router'
 import { formatTopSideActions } from '@/utils/common.utils'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Tab } from '@mui/material'
@@ -11,14 +11,14 @@ import { useTranslation } from 'react-i18next'
 import { PurposeClientsTab } from './components/PurposeClientsTab'
 import { PurposeDetailsTab, PurposeDetailsTabSkeleton } from './components/PurposeDetailsTab'
 
-const ProviderPurposeDetailsPage: React.FC = () => {
-  const { purposeId } = useRouteParams<'SUBSCRIBE_PURPOSE_VIEW'>()
+const ConsumerPurposeDetailsPage: React.FC = () => {
+  const { purposeId } = useRouteParams<'SUBSCRIBE_PURPOSE_DETAILS'>()
   const { t } = useTranslation('purpose')
 
   const { data: purpose, isLoading } = PurposeQueries.useGetSingle(purposeId, { suspense: false })
   const { activeTab, updateActiveTab } = useActiveTab('details')
 
-  const { actions } = useGetPurposesActions(purpose)
+  const { actions } = useGetConsumerPurposesActions(purpose)
   const topSideActions = formatTopSideActions(actions)
 
   return (
@@ -48,8 +48,13 @@ const ProviderPurposeDetailsPage: React.FC = () => {
           <PurposeClientsTab purposeId={purposeId} />
         </TabPanel>
       </TabContext>
+      <PageBottomActionsContainer>
+        <RouterLink variant="outlined" to="SUBSCRIBE_PURPOSE_LIST" as="button">
+          {t('backToPurposeListBtn')}
+        </RouterLink>
+      </PageBottomActionsContainer>
     </PageContainer>
   )
 }
 
-export default ProviderPurposeDetailsPage
+export default ConsumerPurposeDetailsPage

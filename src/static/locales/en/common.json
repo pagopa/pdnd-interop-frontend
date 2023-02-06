@@ -55,7 +55,11 @@
     "saveDraft": "Save draft",
     "backToCatalog": "Back to catalog",
     "editDraft": "Edit draft",
-    "deleteDraft": "Delete draft"
+    "deleteDraft": "Delete draft",
+    "updateCompletionDate": "Update attivation date",
+    "confirmUpdate": "Confirm update",
+    "filter": "Filter",
+    "cancelFilter": "Cancel filters"
   },
   "table": {
     "headData": {
@@ -67,10 +71,8 @@
       "currentVersion": "Current version",
       "version": "Versione",
       "status": "Status",
-      "eserviceStatus": "E-Service status",
       "agreementStatus": "Request status",
       "purposeStatus": "Purpose status",
-      "userStatus": "User status",
       "keyName": "Key name",
       "keyUploader": "Uploaded by",
       "keyUploadDate": "Creation date",
@@ -102,7 +104,10 @@
     "purpose": {
       "DRAFT": "draft",
       "ACTIVE": "active",
-      "SUSPENDED": "suspended",
+      "SUSPENDED": {
+        "byConsumer": "suspended by consumer",
+        "byProducer": "suspended by producer"
+      },
       "WAITING_FOR_APPROVAL": "awaiting evaluation",
       "ARCHIVED": "archived"
     },

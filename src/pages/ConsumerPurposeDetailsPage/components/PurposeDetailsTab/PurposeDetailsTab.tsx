@@ -35,13 +35,13 @@ export const PurposeDetailsTab: React.FC<PurposeDetailsTabProps> = ({ purposeId 
         </Grid>
       </Grid>
       <PurposeDetailsLoadEstimateUpdateSection purposeId={purposeId} />
-      {purpose?.mostRecentVersion?.state !== 'ARCHIVED' && purpose?.clients.length === 0 && (
+      {purpose?.currentVersion?.state !== 'ARCHIVED' && purpose?.clients.length === 0 && (
         <Alert sx={{ mt: 2 }} severity="info">
           <Trans
             components={{
               1: (
                 <RouterLink
-                  to="SUBSCRIBE_PURPOSE_VIEW"
+                  to="SUBSCRIBE_PURPOSE_DETAILS"
                   params={{ purposeId }}
                   options={{ urlParams: { tab: 'clients' } }}
                 />
