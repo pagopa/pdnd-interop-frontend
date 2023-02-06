@@ -25,7 +25,7 @@ function useGetList(
 
 function useGetSingle(
   purposeId: string,
-  config: UseQueryWrapperOptions<Awaited<ReturnType<typeof PurposeServices.getSingle>>>
+  config?: UseQueryWrapperOptions<Awaited<ReturnType<typeof PurposeServices.getSingle>>>
 ) {
   return useQueryWrapper(
     [PurposeQueryKeys.GetSingle, purposeId],
