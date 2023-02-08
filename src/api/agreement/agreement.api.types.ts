@@ -4,7 +4,7 @@ export type GetListAgreementQueryParams = {
   producerId?: string
   consumerId?: string
   states?: Array<AgreementState>
-  esericeId?: string
+  eserviceId?: string
   descriptorId?: string
   latest?: boolean
 }
