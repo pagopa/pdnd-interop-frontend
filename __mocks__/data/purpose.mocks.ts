@@ -1,0 +1,86 @@
+import { DecoratedPurpose, PurposeListingItem } from '../../src/types/purpose.types'
+import { createMockFactory } from '../../src/utils/testing.utils'
+
+const createMockDecoratedPurpose = createMockFactory<DecoratedPurpose>({
+  agreement: { id: '3ec3875a-cf24-450a-b94b-550ca2ec5e86', state: 'ACTIVE' },
+  clients: [],
+  consumer: { id: '6b16be70-9230-4209-bd1f-7e5ae0eed289', name: 'PagoPa S.p.A.' },
+  description: 'Lorem ipsum dolor sit amet...',
+  eservice: {
+    descriptor: {
+      dailyCalls: 1,
+      id: 'cd80bfe6-54be-493a-aaa1-6bb2b54545f8',
+      state: 'PUBLISHED',
+      version: '1',
+    },
+    id: 'dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e',
+    name: 'Test Attributi 2 - Ste',
+    producer: { id: '6b16be70-9230-4209-bd1f-7e5ae0eed289', name: 'PagoPa S.p.A.' },
+  },
+  id: 'e46c7d27-18a0-40db-b7f9-ae8652355e8e',
+  riskAnalysisForm: {
+    answers: {
+      checkedExistenceMereCorrectnessInteropCatalogue: ['true'],
+      deliveryMethod: ['CLEARTEXT'],
+      confirmPricipleIntegrityAndDiscretion: ['true'],
+      usesThirdPartyData: ['NO'],
+      purpose: ['INSTITUTIONAL'],
+      doneDpia: ['NO'],
+      personalDataTypes: ['WITH_NON_IDENTIFYING_DATA'],
+      legalBasis: ['CONTRACT'],
+      dataRetentionPeriod: ['true'],
+      knowsDataQuantity: ['NO'],
+      institutionalPurpose: ['test'],
+      policyProvided: ['YES'],
+      declarationConfirmGDPR: ['true'],
+      purposePursuit: ['MERE_CORRECTNESS'],
+    },
+    version: '2.0',
+  },
+  suspendedByConsumer: false,
+  suspendedByProducer: false,
+  title: 'Nuova finalità',
+  versions: [
+    {
+      createdAt: '2023-02-03T07:59:52.458Z',
+      dailyCalls: 1,
+      firstActivationAt: '2023-02-03T08:26:43.139Z',
+      id: '3a5c9422-876c-4de8-828a-66586fd68b55',
+      riskAnalysis: {
+        contentType: 'application/pdf',
+        createdAt: '2023-02-03T08:26:43.049Z',
+        id: '3562b028-0193-45fa-acf9-4bbe1ced352a',
+      },
+      state: 'ACTIVE',
+    },
+  ],
+  waitingForApprovalVersion: null,
+  currentVersion: {
+    createdAt: '2023-02-03T07:59:52.458Z',
+    dailyCalls: 1,
+    firstActivationAt: '2023-02-03T08:26:43.139Z',
+    id: '3a5c9422-876c-4de8-828a-66586fd68b55',
+    riskAnalysis: {
+      contentType: 'application/pdf',
+      createdAt: '2023-02-03T08:26:43.049Z',
+      id: '3562b028-0193-45fa-acf9-4bbe1ced352a',
+    },
+    state: 'ACTIVE',
+  },
+})
+
+const createMockPurposeListingItem = createMockFactory<PurposeListingItem>({
+  consumer: { id: '6b16be70-9230-4209-bd1f-7e5ae0eed289', name: 'PagoPa S.p.A.' },
+  currentVersion: { dailyCalls: 1, id: '3a5c9422-876c-4de8-828a-66586fd68b55', state: 'ACTIVE' },
+  eservice: {
+    id: 'dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e',
+    name: 'Test Attributi 2 - Ste',
+    producer: { id: '6b16be70-9230-4209-bd1f-7e5ae0eed289', name: 'PagoPa S.p.A.' },
+  },
+  id: 'e46c7d27-18a0-40db-b7f9-ae8652355e8e',
+  suspendedByConsumer: false,
+  suspendedByProducer: false,
+  title: 'Nuova finalità',
+})
+
+export { createMockDecoratedPurpose, createMockPurposeListingItem }
