@@ -36,10 +36,7 @@ export const PurposeCreateTemplateAutocomplete: React.FC = () => {
   const purposes = data?.results ?? []
 
   const options = purposes.map((purpose) => ({
-    label: t('create.purposeField.compiledBy', {
-      title: purpose.title,
-      consumerName: purpose.consumer.name,
-    }),
+    label: purpose.title,
     value: purpose.id,
   }))
 
