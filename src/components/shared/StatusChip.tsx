@@ -21,7 +21,7 @@ const CHIP_COLORS_E_SERVICE: Record<EServiceState, MUIColor> = {
 }
 
 const CHIP_COLORS_AGREEMENT: Record<AgreementState, MUIColor> = {
-  ACTIVE: 'primary',
+  ACTIVE: 'success',
   SUSPENDED: 'error',
   PENDING: 'warning',
   ARCHIVED: 'info',
