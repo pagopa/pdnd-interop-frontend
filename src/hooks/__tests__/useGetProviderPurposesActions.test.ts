@@ -13,7 +13,7 @@ function renderUseGetProviderPurposesActionsHook(purpose?: DecoratedPurpose | Pu
   })
 }
 
-describe('', () => {
+describe('check if useGetProviderPurposesActions returns the correct actions based on the passed purpose', () => {
   it('shoud not return any action if no purpose is given', () => {
     const { result } = renderUseGetProviderPurposesActionsHook()
     expect(result.current.actions).toHaveLength(0)

@@ -13,7 +13,7 @@ function renderUseGetConsumerPurposesActionsHook(purpose?: DecoratedPurpose | Pu
   })
 }
 
-describe('', () => {
+describe('check if useGetConsumerPurposesActions returns the correct actions based on the passed purpose', () => {
   it('shoud not return any action if no purpose is given', () => {
     const { result } = renderUseGetConsumerPurposesActionsHook()
     expect(result.current.actions).toHaveLength(0)
