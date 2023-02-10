@@ -1,43 +1,49 @@
 import React from 'react'
 import { EServiceQueries } from '@/api/eservice'
-import { Select } from '@/components/shared/ReactHookFormInputs'
+import { AutocompleteSingle } from '@/components/shared/ReactHookFormInputs'
 import { useJwt } from '@/hooks/useJwt'
 import { useTranslation } from 'react-i18next'
-import { Skeleton } from '@mui/material'
+import { useFormContext } from 'react-hook-form'
 
 export const PurposeCreateEServiceAutocomplete: React.FC = () => {
   const { t } = useTranslation('purpose')
   const { jwt } = useJwt()
 
+  const { watch, setValue } = useFormContext()
+  const selectedEService = watch('eserviceId')
+
   // This must be replaced by the EServiceQueries.useGetCatalogList
   // waiting for agreementStates implementation.
-  const { data: eservices = [] } = EServiceQueries.useGetListFlat({
-    callerId: jwt?.organizationId,
-    consumerId: jwt?.organizationId,
-    agreementStates: ['ACTIVE'],
-    // e-service might also be on 'DEPRECATED' state
-    state: 'PUBLISHED',
-  })
+  const { data: eservices = [], isInitialLoading } = EServiceQueries.useGetListFlat(
+    {
+      callerId: jwt?.organizationId,
+      consumerId: jwt?.organizationId,
+      agreementStates: ['ACTIVE'],
+      // e-service might also be on 'DEPRECATED' state
+      state: 'PUBLISHED',
+    },
+    {
+      suspense: false,
+      onSuccess(eservices) {
+        if (!selectedEService && eservices.length > 0) {
+          setValue('eserviceId', eservices[0].id)
+        }
+      },
+    }
+  )
 
-  const autocompleteOptions = React.useMemo(() => {
-    return (eservices ?? []).map((eservice) => ({
-      label: `${eservice.name} erogato da ${eservice.producerName}`,
-      value: eservice.id,
-    }))
-  }, [eservices])
+  const autocompleteOptions = (eservices ?? []).map((eservice) => ({
+    label: `${eservice.name} ${t('edit.eserviceProvider')} ${eservice.producerName}`,
+    value: eservice.id,
+  }))
 
   return (
-    <Select
+    <AutocompleteSingle
       sx={{ my: 0 }}
-      focusOnMount
+      loading={isInitialLoading}
       name="eserviceId"
       label={t('create.eserviceField.label')}
-      emptyLabel="Nessun e-service associabile"
       options={autocompleteOptions}
     />
   )
-}
-
-export const PurposeCreateEServiceAutocompleteSkeleton: React.FC = () => {
-  return <Skeleton variant="rectangular" height={59} />
 }

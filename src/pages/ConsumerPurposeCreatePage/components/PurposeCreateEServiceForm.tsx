@@ -1,7 +1,6 @@
-import { EServiceQueries } from '@/api/eservice'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { PageBottomActionsContainer, SectionContainer } from '@/components/layout/containers'
-import { AutocompleteSingle, Switch } from '@/components/shared/ReactHookFormInputs'
+import { Switch } from '@/components/shared/ReactHookFormInputs'
 import { useJwt } from '@/hooks/useJwt'
 import { RouterLink, useNavigateRouter } from '@/router'
 import { PurposeRiskAnalysisForm } from '@/types/purpose.types'
@@ -9,6 +8,7 @@ import { Box, Button, Grid } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { PurposeCreateEServiceAutocomplete } from './PurposeCreateEServiceAutocomplete'
 import { PurposeCreateRiskAnalysisPreview } from './PurposeCreateRiskAnalysisPreview'
 import { PurposeCreateTemplateAutocomplete } from './PurposeCreateTemplateAutocomplete'
 
@@ -34,31 +34,6 @@ export const PurposeCreateEServiceForm: React.FC = () => {
   })
 
   const selectedEService = formMethods.watch('eserviceId')
-
-  const { data: eservices = [], isInitialLoading } = EServiceQueries.useGetListFlat(
-    {
-      callerId: jwt?.organizationId,
-      consumerId: jwt?.organizationId,
-      agreementStates: ['ACTIVE'],
-      state: 'PUBLISHED',
-    },
-    {
-      suspense: false,
-      onSuccess(eservices) {
-        if (!selectedEService && eservices.length > 0) {
-          formMethods.setValue('eserviceId', eservices[0].id)
-        }
-      },
-    }
-  )
-
-  const autocompleteOptions = React.useMemo(() => {
-    return (eservices ?? []).map((eservice) => ({
-      label: `${eservice.name} erogato da ${eservice.producerName}`,
-      value: eservice.id,
-    }))
-  }, [eservices])
-
   const purposeId = formMethods.watch('templateId')
   const useTemplate = formMethods.watch('useTemplate')
   const isEServiceSelected = !!selectedEService
@@ -108,13 +83,7 @@ export const PurposeCreateEServiceForm: React.FC = () => {
         <Grid container>
           <Grid item xs={8}>
             <SectionContainer>
-              <AutocompleteSingle
-                sx={{ my: 0 }}
-                loading={isInitialLoading}
-                name="eserviceId"
-                label={t('create.eserviceField.label')}
-                options={autocompleteOptions}
-              />
+              <PurposeCreateEServiceAutocomplete />
               {isEServiceSelected && (
                 <>
                   <Switch name="useTemplate" label={t('create.isTemplateField.label')} />
