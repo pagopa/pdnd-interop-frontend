@@ -56,6 +56,8 @@ export function AutocompleteSingle<T>(props: AutocompleteSingleProps<T>) {
 
         return props.options.find((option) => isEqual(option.value, value))?.label ?? ''
       }}
+      rules={props.rules}
+      onValueChange={props.onValueChange}
       {...props}
       value={internalState}
       setInternalState={setInternalState}

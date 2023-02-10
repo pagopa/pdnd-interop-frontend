@@ -9,12 +9,15 @@ import {
   SwitchProps as MUISwitchProps,
 } from '@mui/material'
 import { Controller, useFormContext } from 'react-hook-form'
+import { ControllerProps } from 'react-hook-form/dist/types'
 
 type SwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   label: string
   infoLabel?: string | JSX.Element
   name: string
   vertical?: boolean
+  rules?: ControllerProps['rules']
+  onValueChange?: (value: boolean) => void
 }
 
 export const Switch: React.FC<SwitchProps> = ({
@@ -23,6 +26,8 @@ export const Switch: React.FC<SwitchProps> = ({
   name,
   sx,
   vertical = false,
+  rules,
+  onValueChange,
   ...switchProps
 }) => {
   let formLabelSxProps: SxProps = {}
@@ -33,12 +38,12 @@ export const Switch: React.FC<SwitchProps> = ({
     typographyLabelSxProps = { order: 2, ml: 2 }
   }
 
-  const { control, formState } = useFormContext()
+  const { formState } = useFormContext()
 
   const error = formState.errors[name]?.message as string | undefined
 
   return (
-    <InputWrapper name={name} error={error} sx={sx} infoLabel={infoLabel}>
+    <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
       <FormLabel sx={{ color: 'text.primary', ...formLabelSxProps }}>
         <Typography sx={typographyLabelSxProps} component="span" variant="body1">
           {label}
@@ -46,12 +51,15 @@ export const Switch: React.FC<SwitchProps> = ({
         <Box>
           <Controller
             name={name}
-            control={control}
+            rules={rules}
             render={({ field }) => (
               <MUISwitch
                 {...switchProps}
                 {...field}
-                onChange={(e) => field.onChange(e.target.checked)}
+                onChange={(e) => {
+                  if (onValueChange) onValueChange(e.target.checked)
+                  field.onChange(e.target.checked)
+                }}
                 checked={field.value}
               />
             )}

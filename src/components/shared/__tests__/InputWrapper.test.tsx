@@ -12,18 +12,14 @@ const inputWrapperValues = {
 
 describe("Checks that InputWrapper snapshot don't change", () => {
   it('renders correctly', () => {
-    const inputWrapper = render(
-      <InputWrapper name={inputWrapperValues.name}>{inputWrapperValues.children}</InputWrapper>
-    )
+    const inputWrapper = render(<InputWrapper>{inputWrapperValues.children}</InputWrapper>)
 
     expect(inputWrapper).toMatchSnapshot()
   })
 
   it('renders correctly with error', () => {
     const inputWrapper = render(
-      <InputWrapper name={inputWrapperValues.name} error={inputWrapperValues.error}>
-        {inputWrapperValues.children}
-      </InputWrapper>
+      <InputWrapper error={inputWrapperValues.error}>{inputWrapperValues.children}</InputWrapper>
     )
 
     expect(inputWrapper).toMatchSnapshot()
@@ -31,7 +27,7 @@ describe("Checks that InputWrapper snapshot don't change", () => {
 
   it('renders correctly with info label', () => {
     const inputWrapper = render(
-      <InputWrapper name={inputWrapperValues.name} infoLabel={inputWrapperValues.infoLabel}>
+      <InputWrapper infoLabel={inputWrapperValues.infoLabel}>
         {inputWrapperValues.children}
       </InputWrapper>
     )
@@ -41,11 +37,7 @@ describe("Checks that InputWrapper snapshot don't change", () => {
 
   it('renders correctly with info label and error', () => {
     const inputWrapper = render(
-      <InputWrapper
-        name={inputWrapperValues.name}
-        infoLabel={inputWrapperValues.infoLabel}
-        error={inputWrapperValues.error}
-      >
+      <InputWrapper infoLabel={inputWrapperValues.infoLabel} error={inputWrapperValues.error}>
         {inputWrapperValues.children}
       </InputWrapper>
     )

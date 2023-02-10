@@ -45,7 +45,7 @@ export const ConsumerNotesInputSection: React.FC<ConsumerNotesInputSectionProps>
 
   return (
     <SectionContainer title={t('title')} description={t('description')}>
-      <InputWrapper name="consumerNotes" infoLabel={t('field.infoLabel')} sx={{ mb: 0, mt: 3 }}>
+      <InputWrapper infoLabel={t('field.infoLabel')} sx={{ mb: 0, mt: 3 }}>
         <TextField
           label={t('field.label')}
           name="consumerNotes"

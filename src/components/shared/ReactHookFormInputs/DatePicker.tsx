@@ -8,6 +8,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import it from 'date-fns/locale/it'
 import en from 'date-fns/locale/en-US'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
+import { ControllerProps } from 'react-hook-form/dist/types'
 
 type DatePickerProps = {
   name: string
@@ -17,6 +18,8 @@ type DatePickerProps = {
   focusOnMount?: boolean
   sx?: SxProps
   inputSx?: SxProps
+  rules?: ControllerProps['rules']
+  onValueChange?: (value: Date) => void
 }
 
 export const DatePicker: React.FC<DatePickerProps> = ({
@@ -26,8 +29,10 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   focusOnMount,
   sx,
   inputSx,
+  rules,
+  onValueChange,
 }) => {
-  const { formState, control } = useFormContext()
+  const { formState } = useFormContext()
   const lang = useCurrentLanguage()
 
   const error = formState.errors[name]?.message as string | undefined
@@ -36,10 +41,10 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={adapterLocale}>
-      <InputWrapper name={name} error={error} sx={sx} infoLabel={infoLabel}>
+      <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
         <Controller
-          control={control}
           name={name}
+          rules={rules}
           render={({ field }) => (
             <StaticDatePicker
               label={label}
@@ -47,6 +52,10 @@ export const DatePicker: React.FC<DatePickerProps> = ({
               autoFocus={focusOnMount}
               renderInput={(params) => <TextField sx={inputSx} {...params} />}
               {...field}
+              onChange={(value) => {
+                if (onValueChange) onValueChange(value)
+                field.onChange(value)
+              }}
             />
           )}
         />
