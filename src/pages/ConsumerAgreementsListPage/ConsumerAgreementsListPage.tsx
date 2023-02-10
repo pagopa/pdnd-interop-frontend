@@ -33,7 +33,7 @@ const ConsumerAgreementsListPage: React.FC = () => {
 
   const params = { ..._params, consumersIds: [jwt?.organizationId] as Array<string> }
 
-  const { data } = AgreementQueries.useGetList(params, { suspense: true, keepPreviousData: true })
+  const { data } = AgreementQueries.useGetList(params, { suspense: false, keepPreviousData: true })
 
   return (
     <PageContainer title={t('title')} description={t('description')}>
