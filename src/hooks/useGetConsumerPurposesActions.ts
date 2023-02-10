@@ -1,12 +1,16 @@
-import { DecoratedPurpose, PurposeState } from '@/types/purpose.types'
+import { DecoratedPurpose, PurposeListingItem } from '@/types/purpose.types'
 import { PurposeMutations } from '@/api/purpose'
 import { useDialog } from '@/stores'
 import { useTranslation } from 'react-i18next'
 import { ActionItem } from '@/types/common.types'
+import { useJwt } from './useJwt'
+import { checkPurposeSuspendedByConsumer } from '@/utils/purpose.utils'
 
-function useGetPurposesActions(purpose?: DecoratedPurpose) {
+function useGetConsumerPurposesActions(purpose?: DecoratedPurpose | PurposeListingItem) {
   const { t } = useTranslation('purpose', { keyPrefix: 'tablePurpose.actions' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+  const { jwt } = useJwt()
+
   const { mutate: archivePurpose } = PurposeMutations.useArchiveVersion()
   const { mutate: suspendPurpose } = PurposeMutations.useSuspendVersion()
   const { mutate: activatePurpose } = PurposeMutations.useActivateVersion()
@@ -66,11 +70,8 @@ function useGetPurposesActions(purpose?: DecoratedPurpose) {
   }
 
   function handleDeleteDailyCallsUpdate() {
-    if (!purpose) return
-    const mostRecentVersion = purpose.mostRecentVersion
-    if (mostRecentVersion) {
-      deletePurposeVersion({ purposeId: purpose.id, versionId: mostRecentVersion.id })
-    }
+    if (!purpose?.waitingForApprovalVersion) return
+    deletePurposeVersion({ purposeId: purpose.id, versionId: purpose.waitingForApprovalVersion.id })
   }
 
   const deleteDailyCallsUpdateAction = {
@@ -79,7 +80,7 @@ function useGetPurposesActions(purpose?: DecoratedPurpose) {
   }
 
   function handleUpdateDailyCalls() {
-    if (!purpose) return
+    if (!purpose?.currentVersion) return
     openDialog({
       type: 'updatePurposeDailyCalls',
       purposeId: purpose.id,
@@ -92,46 +93,45 @@ function useGetPurposesActions(purpose?: DecoratedPurpose) {
     action: handleUpdateDailyCalls,
   }
 
-  const availableActions: Record<PurposeState, Array<ActionItem>> = {
-    DRAFT: purpose.mostRecentVersion ? [activateAction, deleteAction] : [deleteAction],
-    ACTIVE: [suspendAction, updateDailyCallsAction],
-    SUSPENDED: [activateAction, archiveAction, updateDailyCallsAction],
-    WAITING_FOR_APPROVAL: [
-      purpose.versions.length > 1 ? deleteDailyCallsUpdateAction : deleteAction,
-    ],
-    ARCHIVED: [],
+  // TODO: commento
+  if (!purpose.currentVersion && purpose.waitingForApprovalVersion) {
+    return { actions: [deleteAction] }
   }
 
-  const mostRecentVersionState = purpose.mostRecentVersion
-    ? purpose.mostRecentVersion.state
-    : 'DRAFT'
-  const currentVersionState = purpose.currentVersion ? purpose.currentVersion.state : 'DRAFT'
-  const actions = availableActions[mostRecentVersionState]
-
-  // If the most recent version of the purpose is in waiting for approval...
-  // ... and has the most recent version is different from the current one ...
-  if (
-    mostRecentVersionState === 'WAITING_FOR_APPROVAL' &&
-    purpose.mostRecentVersion?.id !== purpose.currentVersion?.id
-  ) {
-    // ... add to the available actions all the action associated with the purpose's current state.
-    actions.push(...availableActions[currentVersionState])
-    /**
-     * ex. If the user has a purpose that is in 'WAITING_FOR_APPROVAL', it will be
-     * still be able to suspend/activate (or whatever) the current active version.
-     */
+  if (purpose?.currentVersion?.state === 'ARCHIVED') {
+    return { actions: [] }
   }
 
-  // If it is in 'WAITING_FOR_APPROVAL' and they are the same, means there is no current version...
-  if (
-    mostRecentVersionState === 'WAITING_FOR_APPROVAL' &&
-    purpose.mostRecentVersion?.id === purpose.currentVersion?.id
-  ) {
-    // ... so just add the action to update the daily calls.
+  if (purpose?.currentVersion?.state === 'DRAFT') {
+    return { actions: [activateAction, deleteAction] }
+  }
+
+  // If the currentVestion is not ARCHIVED or in DRAFT...
+
+  const actions: Array<ActionItem> = [archiveAction]
+
+  if (purpose?.waitingForApprovalVersion) {
+    actions.push(deleteDailyCallsUpdateAction)
+  }
+
+  if (!purpose.waitingForApprovalVersion) {
     actions.push(updateDailyCallsAction)
+  }
+
+  const isSuspended = purpose?.currentVersion && purpose?.currentVersion.state === 'SUSPENDED'
+  const isActive = purpose?.currentVersion && purpose?.currentVersion.state === 'ACTIVE'
+
+  const isSuspendedByConsumer = checkPurposeSuspendedByConsumer(purpose, jwt?.organizationId)
+
+  if (isActive || (isSuspended && !isSuspendedByConsumer)) {
+    actions.push(suspendAction)
+  }
+
+  if (isSuspended && isSuspendedByConsumer) {
+    actions.push(activateAction)
   }
 
   return { actions }
 }
 
-export default useGetPurposesActions
+export default useGetConsumerPurposesActions

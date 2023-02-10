@@ -13,7 +13,7 @@ const views: Views = {
     {
       routeKey: 'PROVIDE',
       id: 'provider',
-      children: ['PROVIDE_ESERVICE_LIST', 'PROVIDE_AGREEMENT_LIST'],
+      children: ['PROVIDE_ESERVICE_LIST', 'PROVIDE_AGREEMENT_LIST', 'PROVIDE_PURPOSE_LIST'],
     },
     {
       routeKey: 'SUBSCRIBE',

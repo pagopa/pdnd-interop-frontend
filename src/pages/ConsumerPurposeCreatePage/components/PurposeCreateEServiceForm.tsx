@@ -1,11 +1,7 @@
+import { EServiceQueries } from '@/api/eservice'
 import { PurposeMutations } from '@/api/purpose'
-import {
-  PageBottomActionsContainer,
-  SectionContainer,
-  SectionContainerSkeleton,
-} from '@/components/layout/containers'
-import { ButtonSkeleton } from '@/components/shared/MUISkeletons'
-import { Switch } from '@/components/shared/ReactHookFormInputs'
+import { PageBottomActionsContainer } from '@/components/layout/containers'
+import { AutocompleteSingle } from '@/components/shared/ReactHookFormInputs'
 import { useJwt } from '@/hooks/useJwt'
 import { RouterLink, useNavigateRouter } from '@/router'
 import { PurposeRiskAnalysisForm } from '@/types/purpose.types'
@@ -13,21 +9,12 @@ import { Box, Button, Grid } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { PurposeCreateFormValues } from '../ConsumerPurposeCreate.page'
-import {
-  PurposeCreateEServiceAutocomplete,
-  PurposeCreateEServiceAutocompleteSkeleton,
-} from './PurposeCreateEServiceAutocomplete'
-import { PurposeCreateRiskAnalysisPreview } from './PurposeCreateRiskAnalysisPreview'
-import { PurposeCreateTemplateAutocomplete } from './PurposeCreateTemplateAutocomplete'
 
-interface PurposeCreateEServiceFormProps {
-  defaultValues: PurposeCreateFormValues
+type PurposeCreateFormValues = {
+  eserviceId: string | null
 }
 
-export const PurposeCreateEServiceForm: React.FC<PurposeCreateEServiceFormProps> = ({
-  defaultValues,
-}) => {
+export const PurposeCreateEServiceForm: React.FC = () => {
   const { t } = useTranslation('purpose')
   const { navigate } = useNavigateRouter()
   const { jwt } = useJwt()
@@ -35,23 +22,43 @@ export const PurposeCreateEServiceForm: React.FC<PurposeCreateEServiceFormProps>
   const { mutate: createVersionDraft } = PurposeMutations.useCreateVersionDraft()
 
   const formMethods = useForm<PurposeCreateFormValues>({
-    defaultValues,
+    defaultValues: {
+      eserviceId: '',
+    },
   })
 
-  const isEServiceSelected = !!formMethods.watch('eserviceId')
+  const selectedEService = formMethods.watch('eserviceId')
 
-  const onSubmit = ({ eserviceId, template }: PurposeCreateFormValues) => {
+  const { data: eservices = [], isInitialLoading } = EServiceQueries.useGetListFlat(
+    {
+      callerId: jwt?.organizationId,
+      consumerId: jwt?.organizationId,
+      agreementStates: ['ACTIVE'],
+      state: 'PUBLISHED',
+    },
+    {
+      suspense: false,
+      onSuccess(eservices) {
+        if (!selectedEService && eservices.length > 0) {
+          formMethods.setValue('eserviceId', eservices[0].id)
+        }
+      },
+    }
+  )
+
+  const autocompleteOptions = React.useMemo(() => {
+    return (eservices ?? []).map((eservice) => ({
+      label: `${eservice.name} erogato da ${eservice.producerName}`,
+      value: eservice.id,
+    }))
+  }, [eservices])
+
+  const onSubmit = ({ eserviceId }: PurposeCreateFormValues) => {
     if (!jwt?.organizationId || !eserviceId) return
 
-    let title = t('create.defaultPurpose.title')
-    let description = t('create.defaultPurpose.description')
+    const title = t('create.defaultPurpose.title')
+    const description = t('create.defaultPurpose.description')
     let riskAnalysisForm: undefined | PurposeRiskAnalysisForm
-
-    if (template) {
-      title = `${template.title} — clone`
-      description = template.description
-      riskAnalysisForm = template.riskAnalysisForm
-    }
 
     const payloadCreatePurposeDraft = {
       consumerId: jwt?.organizationId,
@@ -76,16 +83,13 @@ export const PurposeCreateEServiceForm: React.FC<PurposeCreateEServiceFormProps>
       <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
         <Grid container>
           <Grid item xs={8}>
-            <SectionContainer>
-              <PurposeCreateEServiceAutocomplete />
-              {isEServiceSelected && (
-                <>
-                  <Switch name="useTemplate" label={t('create.isTemplateField.label')} />
-                  <PurposeCreateTemplateAutocomplete />
-                </>
-              )}
-            </SectionContainer>
-            <PurposeCreateRiskAnalysisPreview />
+            <AutocompleteSingle
+              sx={{ my: 0 }}
+              loading={isInitialLoading}
+              name="eserviceId"
+              label={t('create.eserviceField.label')}
+              options={autocompleteOptions}
+            />
           </Grid>
         </Grid>
         <PageBottomActionsContainer>
@@ -98,23 +102,5 @@ export const PurposeCreateEServiceForm: React.FC<PurposeCreateEServiceFormProps>
         </PageBottomActionsContainer>
       </Box>
     </FormProvider>
-  )
-}
-
-export const PurposeCreateEServiceFormSkeleton: React.FC = () => {
-  return (
-    <>
-      <Grid container>
-        <Grid item xs={8}>
-          <SectionContainerSkeleton>
-            <PurposeCreateEServiceAutocompleteSkeleton />
-          </SectionContainerSkeleton>
-        </Grid>
-      </Grid>
-      <PageBottomActionsContainer>
-        <ButtonSkeleton width={100} />
-        <ButtonSkeleton width={100} />
-      </PageBottomActionsContainer>
-    </>
   )
 }

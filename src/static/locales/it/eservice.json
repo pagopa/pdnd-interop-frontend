@@ -123,9 +123,7 @@
       },
       "consumerField": {
         "label": "Cerca per fruitore"
-      },
-      "filterBtn": "Filtra",
-      "cancelFilterBtn": "Annulla filtri"
+      }
     }
   },
   "manage": {

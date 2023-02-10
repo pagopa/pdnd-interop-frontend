@@ -79,7 +79,7 @@ export type UseMutationWrapper = <
 ) => UseMutationResult<TData, TError, TVariables, TContext>
 
 export type UseQueryWrapperOptions<TData> = Parameters<
-  typeof useQueryWrapper<TData, unknown, TData, string[]>
+  typeof useQueryWrapper<TData, unknown, TData, any>
 >[2]
 
 export type Paginated<T> = {

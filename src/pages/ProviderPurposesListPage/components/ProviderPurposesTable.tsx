@@ -3,22 +3,21 @@ import { PurposeListingItem } from '@/types/purpose.types'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  ConsumerPurposesTableRow,
-  ConsumerPurposesTableRowSkeleton,
-} from './ConsumerPurposesTableRow'
+  ProviderPurposesTableRow,
+  ProviderPurposesTableRowSkeleton,
+} from './ProviderPurposesTableRow'
 
-type ConsumerPurposesTableProps = {
+type ProviderPurposesTableProps = {
   purposes: Array<PurposeListingItem>
 }
 
-export const ConsumerPurposesTable: React.FC<ConsumerPurposesTableProps> = ({ purposes }) => {
+export const ProviderPurposesTable: React.FC<ProviderPurposesTableProps> = ({ purposes }) => {
   const { t } = useTranslation('agreement')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
 
   const headLabels = [
     tCommon('purposeName'),
-    tCommon('eserviceName'),
-    tCommon('providerName'),
+    tCommon('subscriberName'),
     tCommon('purposeStatus'),
     '',
   ]
@@ -30,30 +29,29 @@ export const ConsumerPurposesTable: React.FC<ConsumerPurposesTableProps> = ({ pu
       isEmpty={purposes && purposes.length === 0}
     >
       {purposes?.map((purpose) => (
-        <ConsumerPurposesTableRow key={purpose.id} purpose={purpose} />
+        <ProviderPurposesTableRow key={purpose.id} purpose={purpose} />
       ))}
     </Table>
   )
 }
 
-export const ConsumerPurposesTableSkeleton: React.FC = () => {
+export const ProviderPurposesTableSkeleton: React.FC = () => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
 
   const headLabels = [
     tCommon('purposeName'),
-    tCommon('eserviceName'),
-    tCommon('providerName'),
+    tCommon('subscriberName'),
     tCommon('purposeStatus'),
     '',
   ]
 
   return (
     <Table headLabels={headLabels}>
-      <ConsumerPurposesTableRowSkeleton />
-      <ConsumerPurposesTableRowSkeleton />
-      <ConsumerPurposesTableRowSkeleton />
-      <ConsumerPurposesTableRowSkeleton />
-      <ConsumerPurposesTableRowSkeleton />
+      <ProviderPurposesTableRowSkeleton />
+      <ProviderPurposesTableRowSkeleton />
+      <ProviderPurposesTableRowSkeleton />
+      <ProviderPurposesTableRowSkeleton />
+      <ProviderPurposesTableRowSkeleton />
     </Table>
   )
 }

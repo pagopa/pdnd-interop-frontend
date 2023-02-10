@@ -9,9 +9,9 @@ type EServiceTableProps = {
 }
 
 export const EServiceTable: React.FC<EServiceTableProps> = ({ eservices }) => {
-  const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceList.eserviceTable' })
+  const { t } = useTranslation('common', { keyPrefix: 'table.headData' })
 
-  const headLabels = [t('headLabels.name'), t('headLabels.version'), t('headLabels.status'), '']
+  const headLabels = [t('eserviceName'), t('version'), t('status'), '']
 
   const isEmpty = eservices && eservices.length === 0
 
@@ -25,8 +25,8 @@ export const EServiceTable: React.FC<EServiceTableProps> = ({ eservices }) => {
 }
 
 export const EServiceTableSkeleton: React.FC = () => {
-  const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceList.eserviceTable' })
-  const headLabels = [t('headLabels.name'), t('headLabels.version'), t('headLabels.status'), '']
+  const { t } = useTranslation('common', { keyPrefix: 'table.headData' })
+  const headLabels = [t('eserviceName'), t('version'), t('status'), '']
 
   return (
     <Table headLabels={headLabels}>

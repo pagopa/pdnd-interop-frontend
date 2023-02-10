@@ -13,7 +13,7 @@ export const ClientOperatorsTable: React.FC<ClientOperatorsTableProps> = ({ clie
 
   const { data: operators = [] } = ClientQueries.useGetOperatorsList(clientId)
 
-  const headLabels = [tCommon('table.headData.userName'), tCommon('table.headData.userStatus'), '']
+  const headLabels = [tCommon('table.headData.userName'), tCommon('table.headData.status'), '']
 
   const isEmpty = !operators || operators.length === 0
 
@@ -33,7 +33,7 @@ export const ClientOperatorsTable: React.FC<ClientOperatorsTableProps> = ({ clie
 export const ClientOperatorsTableSkeleton: React.FC = () => {
   const { t: tCommon } = useTranslation('common')
 
-  const headLabels = [tCommon('table.headData.userName'), tCommon('table.headData.userStatus'), '']
+  const headLabels = [tCommon('table.headData.userName'), tCommon('table.headData.status'), '']
   return (
     <Table headLabels={headLabels}>
       <ClientOperatorsTableRowSkeleton />

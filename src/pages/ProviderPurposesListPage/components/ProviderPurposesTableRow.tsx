@@ -3,27 +3,24 @@ import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUISkeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import { TableRow } from '@/components/shared/Table'
-import useGetConsumerPurposesActions from '@/hooks/useGetConsumerPurposesActions'
+import useGetProviderPurposesActions from '@/hooks/useGetProviderPurposesActions'
 import { useNavigateRouter } from '@/router'
 import { PurposeListingItem } from '@/types/purpose.types'
 import { Box, Button, Skeleton } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-export const ConsumerPurposesTableRow: React.FC<{ purpose: PurposeListingItem }> = ({
+export const ProviderPurposesTableRow: React.FC<{ purpose: PurposeListingItem }> = ({
   purpose,
 }) => {
   const { navigate } = useNavigateRouter()
   const { t } = useTranslation('common')
   const prefetch = PurposeQueries.usePrefetchSingle()
 
-  const { actions } = useGetConsumerPurposesActions(purpose)
+  const { actions } = useGetProviderPurposesActions(purpose)
 
-  const isPurposeEditable = purpose?.currentVersion?.state === 'DRAFT'
-
-  const goToEditOrInspectPurpose = () => {
-    const path = isPurposeEditable ? 'SUBSCRIBE_PURPOSE_EDIT' : 'SUBSCRIBE_PURPOSE_DETAILS'
-    navigate(path, { params: { purposeId: purpose.id } })
+  const handleInspect = () => {
+    navigate('PROVIDE_PURPOSE_DETAILS', { params: { purposeId: purpose.id } })
   }
 
   const handlePrefetch = () => {
@@ -34,8 +31,7 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: PurposeListingItem }>
     <TableRow
       cellData={[
         { label: purpose.title },
-        { label: purpose.eservice.name },
-        { label: purpose.eservice.producer.name },
+        { label: purpose.consumer.name },
         {
           custom: <StatusChip for="purpose" purpose={purpose} />,
         },
@@ -46,9 +42,9 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: PurposeListingItem }>
         onFocusVisible={handlePrefetch}
         variant="outlined"
         size="small"
-        onClick={goToEditOrInspectPurpose}
+        onClick={handleInspect}
       >
-        {t(`actions.${isPurposeEditable ? 'edit' : 'inspect'}`)}
+        {t('actions.inspect')}
       </Button>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
@@ -58,7 +54,7 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: PurposeListingItem }>
   )
 }
 
-export const ConsumerPurposesTableRowSkeleton: React.FC = () => {
+export const ProviderPurposesTableRowSkeleton: React.FC = () => {
   return (
     <TableRow
       cellData={[

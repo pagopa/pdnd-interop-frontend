@@ -2,25 +2,12 @@
   "loadingSingleLabel": "Stiamo caricando la tua finalità",
   "loadingMultiLabel": "Stiamo caricando la lista delle finalità",
   "noMultiDataLabel": "Non ci sono finalità disponibili",
+  "backToPurposeListBtn": "Torna alle finalità",
   "create": {
     "emptyTitle": "Crea finalità",
-    "isTemplateField": {
-      "label": "Usa un template precompilato"
-    },
-    "purposeField": {
-      "label": "Template da utilizzare",
-      "compiledBy": "{{title}} creata da {{consumerName}}",
-      "noDataLabel": "Nessun template disponibile per questo e-service",
-      "loadingLabel": "Stiamo caricando i template"
-    },
     "eserviceField": {
       "label": "E-service da associare"
     },
-    "purposeInfoTitle": "Contenuto del template selezionato",
-    "purposePreviewTitle": "Contenuto del template selezionato",
-    "consumerName": "Questo template è stato creato da",
-    "purposeTitle": "Nome finalità",
-    "purposeDescription": "Descrizione finalità",
     "createNewPurposeBtn": "Crea bozza finalità",
     "backToListBtn": "Torna alle finalità",
     "defaultPurpose": {
@@ -108,9 +95,6 @@
     }
   },
   "tablePurposeInEService": {
-    "actions": {
-      "updateCompletionDate": "Aggiorna data di completamento"
-    },
     "loadingLabel": "Stiamo caricando le finalità in attesa di evasione",
     "noDataLabel": "Nessuna finalità da evadere",
     "awaitingLabel": "In attesa di presa in carico"
@@ -124,7 +108,30 @@
   "list": {
     "title": "Le tue finalità",
     "description": "In quest'area puoi i trovare e gestire tutte le finalità che hai creato",
-    "cantCreatePurposeTooltip": "Non puoi creare finalità perché non hai e-service da associare"
+    "cantCreatePurposeTooltip": "Non puoi creare finalità perché non hai e-service da associare",
+    "filters": {
+      "nameField": {
+        "label": "Cerca per nome finalità"
+      },
+      "eserviceField": {
+        "label": "Cerca per e-service"
+      },
+      "consumerField": {
+        "label": "Cerca per fruitore"
+      },
+      "providerField": {
+        "label": "Cerca per erogatore"
+      },
+      "statusField": {
+        "label": "Stato della finalità",
+        "optionLabels": {
+          "ACTIVE": "Attiva",
+          "SUSPENDED": "Sospesa",
+          "WAITING_FOR_APPROVAL": "In aggiornamento",
+          "ARCHIVED": "Archiviata"
+        }
+      }
+    }
   },
   "view": {
     "actions": {
@@ -172,14 +179,17 @@
       },
       "loadEstimateUpdate": {
         "title": "Aggiornamento della stima di carico",
-        "description": "Se cambiassero le condizioni, puoi aggiornare la tua stima di carico in qualsiasi momento",
+        "consumerDescription": "Se cambiassero le condizioni, puoi aggiornare la tua stima di carico in qualsiasi momento",
+        "providerDescription": "Il fruitore ha fatto una richiesta di aggiornamento della stima di carico che eccede una delle soglie che hai fissato",
         "dateEstimateField": {
           "label": "Data di attivazione stimata",
-          "description": "La data entro la quale l’erogatore prevede di attivare questa nuova stima di carico",
+          "consumerDescription": "La data entro la quale l’erogatore prevede di attivare questa nuova stima di carico",
+          "providerDescription": "La data entro la quale prevedi di attivare questa nuova stima di carico",
           "emptyLabel": "non inserita"
         },
         "loadEstimateRequestedField": {
-          "label": "Stima di carico da te richiesta",
+          "consumerLabel": "Stima di carico da te richiesta",
+          "providerLabel": "Stima di carico richiesta",
           "value": "{{value}} chiamate/giorno"
         },
         "faq": [

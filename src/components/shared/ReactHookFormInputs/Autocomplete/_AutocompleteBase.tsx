@@ -16,6 +16,8 @@ import { useTranslation } from 'react-i18next'
 import identity from 'lodash/identity'
 import isEqual from 'lodash/isEqual'
 
+export type AutocompleteInput<T> = { label: string; value: T }
+
 export type AutocompleteBaseProps<
   T,
   Multiple extends boolean | undefined,
@@ -28,6 +30,9 @@ export type AutocompleteBaseProps<
   focusOnMount?: boolean
   getOptionValue?: (option: AutocompleteValue<T, Multiple, DisableClearable, FreeSolo>) => unknown
   variant?: TextFieldProps['variant']
+  setInternalState: React.Dispatch<
+    React.SetStateAction<AutocompleteValue<T, Multiple, DisableClearable, FreeSolo>>
+  >
 }
 
 /** Do not use.  */
@@ -46,10 +51,11 @@ export function _AutocompleteBase<
   placeholder,
   loading,
   defaultValue,
+  setInternalState,
   variant = 'outlined',
   getOptionValue = identity,
   ...props
-}: AutocompleteBaseProps<{ label: string; value: T }, Multiple, DisableClearable, FreeSolo>) {
+}: AutocompleteBaseProps<AutocompleteInput<T>, Multiple, DisableClearable, FreeSolo>) {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'autocompleteMultiple',
   })
@@ -72,11 +78,11 @@ export function _AutocompleteBase<
       <Controller
         control={control}
         name={name}
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { onChange } }) => (
           <Autocomplete
             id={labelId}
             options={options}
-            isOptionEqualToValue={(option, value) => isEqual(option.value, value)}
+            isOptionEqualToValue={(option, { value }) => isEqual(option.value, value)}
             loadingText={props.loadingText || t('loadingLabel')}
             noOptionsText={props.noOptionsText || t('noDataLabel')}
             loading={loading}
@@ -87,11 +93,9 @@ export function _AutocompleteBase<
             }}
             {...props}
             onChange={(_, data) => {
-              const newValue = getOptionValue(data)
-              onChange(newValue)
-              return newValue
+              onChange(getOptionValue(data))
+              setInternalState(data)
             }}
-            value={value}
             renderInput={(params) => {
               return (
                 <TextField

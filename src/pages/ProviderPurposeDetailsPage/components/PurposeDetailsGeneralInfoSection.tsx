@@ -6,7 +6,7 @@ import {
   SectionContainerSkeleton,
 } from '@/components/layout/containers'
 import { StatusChip } from '@/components/shared/StatusChip'
-import { RouterLink, useCurrentRoute } from '@/router'
+import { RouterLink } from '@/router'
 import { formatThousands } from '@/utils/format.utils'
 import { Stack } from '@mui/material'
 import React from 'react'
@@ -27,49 +27,17 @@ export const PurposeDetailsGeneralInfoSection: React.FC<PurposeDetailsGeneralInf
     purpose?.eservice.descriptor.id as string,
     { enabled: !!(purpose?.eservice.id && purpose?.eservice.descriptor.id) }
   )
-  const { mode } = useCurrentRoute()
 
-  if (!purpose || !descriptor || !purpose.mostRecentVersion) return null
+  if (!purpose || !descriptor) return null
 
   return (
     <SectionContainer title={t('title')}>
       <Stack spacing={2}>
-        <InformationContainer label={t('eServiceField.label')}>
-          <RouterLink
-            target="_blank"
-            to="SUBSCRIBE_CATALOG_VIEW"
-            params={{
-              eserviceId: purpose.eservice.id,
-              descriptorId: purpose.eservice.descriptor.id,
-            }}
-          >
-            {t('eServiceField.value', {
-              name: purpose.eservice.name,
-              version: purpose.eservice.descriptor.version,
-            })}
-          </RouterLink>
+        <InformationContainer label={t('consumerField.label')}>
+          {purpose.consumer.name}
         </InformationContainer>
-        {mode === 'provider' && (
-          <InformationContainer label={t('consumerField.label')}>
-            {purpose.consumer.name}
-          </InformationContainer>
-        )}
-        {mode === 'consumer' && (
-          <InformationContainer label={t('providerField.label')}>
-            {purpose.eservice.producer.name}
-          </InformationContainer>
-        )}
         <InformationContainer label={t('purposeStatusField.label')}>
           <StatusChip for="purpose" purpose={purpose} />
-        </InformationContainer>
-        <InformationContainer label={t('agreementField.label')}>
-          <RouterLink
-            to="SUBSCRIBE_AGREEMENT_READ"
-            params={{ agreementId: purpose.agreement.id }}
-            target="_blank"
-          >
-            {t('agreementField.link.label')}
-          </RouterLink>
         </InformationContainer>
         <InformationContainer label={t('dailyCallsEstimateField.label')}>
           {t('dailyCallsEstimateField.value', {
@@ -85,6 +53,30 @@ export const PurposeDetailsGeneralInfoSection: React.FC<PurposeDetailsGeneralInf
           {t('totalThreshold.value', {
             value: formatThousands(descriptor.dailyCallsTotal ?? 0),
           })}
+        </InformationContainer>
+        <InformationContainer label={t('eServiceField.label')}>
+          <RouterLink
+            target="_blank"
+            to="PROVIDE_ESERVICE_MANAGE"
+            params={{
+              eserviceId: purpose.eservice.id,
+              descriptorId: purpose.eservice.descriptor.id,
+            }}
+          >
+            {t('eServiceField.value', {
+              name: purpose.eservice.name,
+              version: purpose.eservice.descriptor.version,
+            })}
+          </RouterLink>
+        </InformationContainer>
+        <InformationContainer label={t('agreementField.label')}>
+          <RouterLink
+            to="PROVIDE_AGREEMENT_READ"
+            params={{ agreementId: purpose.agreement.id }}
+            target="_blank"
+          >
+            {t('agreementField.link.label')}
+          </RouterLink>
         </InformationContainer>
       </Stack>
     </SectionContainer>

@@ -56,11 +56,15 @@
     "saveDraft": "Salva bozza",
     "backToCatalog": "Torna al catalogo",
     "editDraft": "Modifica bozza",
-    "deleteDraft": "Elimina bozza"
+    "deleteDraft": "Elimina bozza",
+    "updateCompletionDate": "Aggiorna data di attivazione",
+    "confirmUpdate": "Conferma aggiornamento",
+    "filter": "Filtra",
+    "cancelFilter": "Annulla filtri"
   },
   "table": {
     "headData": {
-      "eserviceName": "E-Service",
+      "eserviceName": "E-service",
       "clientName": "Client",
       "purposeName": "Finalità",
       "providerName": "Erogatore",
@@ -68,11 +72,9 @@
       "currentVersion": "Versione attuale",
       "version": "Versione",
       "status": "Stato",
-      "eserviceStatus": "Stato E-Service",
       "agreementStatus": "Stato richiesta",
       "purposeStatus": "Stato finalità",
-      "userStatus": "Stato utente",
-      "keyName": "Nome chiave",
+      "keyName": "Chiave",
       "keyUploader": "Caricata da",
       "keyUploadDate": "Data di creazione",
       "userName": "Nome e cognome"
@@ -102,10 +104,13 @@
     },
     "purpose": {
       "DRAFT": "in bozza",
-      "ACTIVE": "attivo",
-      "SUSPENDED": "sospeso",
-      "WAITING_FOR_APPROVAL": "in attesa di valutazione",
-      "ARCHIVED": "archiviato"
+      "ACTIVE": "attiva",
+      "SUSPENDED": {
+        "byConsumer": "sospesa dal fruitore",
+        "byProducer": "sospesa dall'erogatore"
+      },
+      "WAITING_FOR_APPROVAL": "in aggiornamento",
+      "ARCHIVED": "archiviata"
     },
     "user": {
       "PENDING": "in attesa di approvazione",
