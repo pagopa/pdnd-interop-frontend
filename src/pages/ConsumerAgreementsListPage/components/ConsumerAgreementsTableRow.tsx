@@ -21,6 +21,7 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListingI
   const { actions } = useGetAgreementsActions(agreement)
 
   const eservice = agreement.eservice
+  const descriptor = agreement.descriptor
 
   const handleEditOrInspect = () => {
     const destPath =
@@ -37,7 +38,7 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListingI
     <TableRow
       cellData={[
         {
-          label: t('eserviceName', { name: eservice.name, version: eservice.version }),
+          label: t('eserviceName', { name: eservice.name, version: descriptor.version }),
         },
         { label: agreement.eservice.producer.name },
         {

@@ -57,11 +57,13 @@ export type AgreementListingItem = {
   eservice: {
     id: string
     name: string
-    version: number
     producer: {
       id: string
       name: string
     }
+  }
+  descriptor: {
+    version: number
   }
   suspendedByConsumer: boolean
   suspendedByProducer: boolean
