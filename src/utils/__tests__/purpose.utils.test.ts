@@ -96,7 +96,7 @@ describe('checks if the checkPurposeSuspendedByConsumer purpose util function wo
     expect(isSuspendedByConsumer).toBe(true)
   })
 
-  it('should return true if the suspendedByConsumer flag is false, the suspendedByProducer is true and the passed party id is equal to the e-service producer id and the purpose producer id', () => {
+  it('should return true if the active party is both the e-service producer and purpose consumer and the purpose is supended by the party itself.', () => {
     const mockPurpose = createMockDecoratedPurpose({
       currentVersion: { state: 'SUSPENDED' },
       suspendedByProducer: true,
