@@ -10,7 +10,8 @@
       "required": "Campo richiesto"
     },
     "string": {
-      "email": "Formato email non valido"
+      "email": "Formato email non valido",
+      "minLength": "Questo campo deve contenere almeno ${min} caratteri"
     },
     "boolean": {
       "isValue": "Si prega di confermare"

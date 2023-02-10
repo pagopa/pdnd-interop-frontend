@@ -39,7 +39,7 @@ export const AgreementDocsInputSection: React.FC<AgreementDocsInputSectionProps>
   const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
 
   const validationSchema = object({
-    prettyName: string().required(),
+    prettyName: string().required().min(5),
   })
 
   const formMethods = useForm<AddDocFormValues>({

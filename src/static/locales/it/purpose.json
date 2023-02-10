@@ -37,11 +37,11 @@
       "title": "Informazioni generali",
       "nameField": {
         "label": "Nome della finalità (richiesto)",
-        "infoLabel": "Ti aiuterà a distinguerla dalle altre. Max 60 caratteri"
+        "infoLabel": "Ti aiuterà a distinguerla dalle altre. Min 5 caratteri, max 60 caratteri"
       },
       "descriptionField": {
         "label": "Descrizione della finalità (richiesto)",
-        "infoLabel": "Max. 250 caratteri"
+        "infoLabel": "Min 10 caratteri, max 250 caratteri"
       },
       "eserviceField": {
         "label": "E-service da associare (richiesto)"

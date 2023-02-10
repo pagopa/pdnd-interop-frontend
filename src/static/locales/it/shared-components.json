@@ -68,7 +68,7 @@
     "content": {
       "nameField": {
         "label": "Nome della chiave (richiesto)",
-        "infoLabel": "Ti aiuta a distinguerla dalle altre. Max 60 caratteri"
+        "infoLabel": "Ti aiuta a distinguerla dalle altre. Min 5 caratteri, max 60 caratteri"
       },
       "keyField": {
         "label": "Chiave pubblica (richiesto)",
@@ -112,11 +112,11 @@
     "content": {
       "nameField": {
         "label": "Nome dell'attributo (richiesto)",
-        "infoLabel": "Max 160 caratteri"
+        "infoLabel": "Min 5 caratteri, max 160 caratteri"
       },
       "descriptionField": {
         "label": "Descrizione dell'attributo (richiesto)",
-        "infoLabel": "Max 250 caratteri"
+        "infoLabel": "Min 10 caratteri, max 250 caratteri"
       },
       "codeField": {
         "label": "Id della fonte autoritativa (richiesto)",

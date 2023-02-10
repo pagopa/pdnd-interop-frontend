@@ -38,8 +38,8 @@ export const EServiceCreateStep1General: React.FC = () => {
   const { mutate: createDraft } = EServiceMutations.useCreateDraft()
 
   const validationSchema = object({
-    name: string().required(),
-    description: string().required(),
+    name: string().required().min(5),
+    description: string().required().min(10),
     technology: string().required(),
   })
 

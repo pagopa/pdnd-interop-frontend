@@ -29,10 +29,10 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
   const { mutate: createAttribute } = AttributeMutations.useCreate()
 
   const validationSchema = object({
-    name: string().required(),
+    name: string().required().min(5),
     code: string().required(),
     origin: string().required(),
-    description: string().required(),
+    description: string().required().min(10),
     kind: mixed().oneOf(['CERTIFIED', 'VERIFIED', 'DECLARED']).required(),
   })
 

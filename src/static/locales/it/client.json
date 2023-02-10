@@ -14,11 +14,11 @@
     "infoSectionTitle": "Informazioni generali",
     "nameField": {
       "label": "Nome del client (richiesto)",
-      "infoLabel": "Ti aiuta a distinguerlo dagli altri. Max 60 caratteri"
+      "infoLabel": "Ti aiuta a distinguerlo dagli altri. Min 5 caratteri, max 60 caratteri"
     },
     "descriptionField": {
       "label": "Descrizione del client (richiesto)",
-      "infoLabel": "Max 250 caratteri"
+      "infoLabel": "Min 10 caratteri, max 250 caratteri"
     },
     "clientOperatorsSectionTitle": "Membri del client",
     "operatorsTable": {

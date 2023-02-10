@@ -34,7 +34,7 @@ export const DialogAddSecurityOperatorKey: React.FC<DialogAddSecurityOperatorKey
   const { mutate: postKey } = ClientMutations.usePostKey()
 
   const validationSchema = object({
-    name: string().required(),
+    name: string().required().min(5),
     key: string().required(),
   })
 

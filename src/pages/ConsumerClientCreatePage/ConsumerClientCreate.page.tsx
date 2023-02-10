@@ -36,8 +36,8 @@ const ConsumerClientCreatePage: React.FC = () => {
   })
 
   const validationSchema = object({
-    name: string().required(),
-    description: string().required(),
+    name: string().required().min(5),
+    description: string().required().min(10),
     operators: array(object({ id: string().required() })),
   })
 
