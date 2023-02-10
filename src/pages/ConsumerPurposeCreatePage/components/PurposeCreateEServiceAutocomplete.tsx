@@ -15,6 +15,7 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
     callerId: jwt?.organizationId,
     consumerId: jwt?.organizationId,
     agreementStates: ['ACTIVE'],
+    // e-service might also be on 'DEPRECATED' state
     state: 'PUBLISHED',
   })
 
