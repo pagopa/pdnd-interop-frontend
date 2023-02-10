@@ -48,15 +48,16 @@ export function createPaginatedMockData<T>(
   }
 }
 
+type RecursivePartial<T> = {
+  [P in keyof T]?: RecursivePartial<T[P]>
+}
+
 /**
  * Create and returns a mock factory function
  */
 export function createMockFactory<T>(defaultValue: T) {
-  return (overwrites: Partial<T> = {}) => {
-    return cloneDeep({
-      ...defaultValue,
-      ...overwrites,
-    }) as T
+  return (overwrites: RecursivePartial<T> = {}) => {
+    return deepmerge(cloneDeep(defaultValue), overwrites) as T
   }
 }
 

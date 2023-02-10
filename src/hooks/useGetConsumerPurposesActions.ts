@@ -93,7 +93,6 @@ function useGetConsumerPurposesActions(purpose?: DecoratedPurpose | PurposeListi
     action: handleUpdateDailyCalls,
   }
 
-  // TODO: commento
   if (!purpose.currentVersion && purpose.waitingForApprovalVersion) {
     return { actions: [deleteAction] }
   }

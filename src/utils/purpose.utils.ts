@@ -31,12 +31,14 @@ export function checkPurposeSuspendedByConsumer(
   purpose: DecoratedPurpose | PurposeListingItem,
   partyId?: string
 ) {
+  if (purpose?.currentVersion?.state !== 'SUSPENDED') return false
+  if (purpose.suspendedByConsumer) return true
+
   const isPurposeSuspendedByProvider = purpose.suspendedByProducer
   const isActualPartyEServiceProvider = partyId === purpose.eservice.producer.id
   const isActualPartyPurposeConsumer = partyId === purpose.consumer.id
 
   return (
-    purpose.suspendedByConsumer ||
-    (isPurposeSuspendedByProvider && isActualPartyPurposeConsumer && isActualPartyEServiceProvider)
+    isPurposeSuspendedByProvider && isActualPartyPurposeConsumer && isActualPartyEServiceProvider
   )
 }
