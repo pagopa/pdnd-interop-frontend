@@ -22,7 +22,7 @@ const EServiceCatalogFilters: React.FC<EServiceCatalogFiltersProps> = ({
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const [producersAutocompleteText, handleAutocompleteInputChange] = useAutocompleteFilterInput()
 
-  const { data: producers, isFetching: isFetchingProducers } = EServiceQueries.useGetProducers(
+  const { data: producers } = EServiceQueries.useGetProducers(
     { offset: 0, limit: 50, q: producersAutocompleteText },
     { suspense: false, keepPreviousData: true }
   )
@@ -58,7 +58,6 @@ const EServiceCatalogFilters: React.FC<EServiceCatalogFiltersProps> = ({
             onInputChange={handleAutocompleteInputChange}
             label={t('list.filters.providerField.label')}
             options={producersOptions}
-            loading={isFetchingProducers}
           />
         </Stack>
 

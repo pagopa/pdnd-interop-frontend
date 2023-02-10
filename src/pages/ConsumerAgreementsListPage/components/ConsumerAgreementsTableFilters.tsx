@@ -56,7 +56,7 @@ const EServiceFilterAutocomplete: React.FC = () => {
 
   const { jwt } = useJwt()
 
-  const { data: eservices, isFetching: isFetchingEServices } = EServiceQueries.useGetCatalogList(
+  const { data: eservices } = EServiceQueries.useGetCatalogList(
     {
       q: eserviceAutocompleteText,
       producersIds: [jwt?.organizationId] as Array<string>,
@@ -76,11 +76,11 @@ const EServiceFilterAutocomplete: React.FC = () => {
     <AutocompleteMultiple
       placeholder=""
       size="small"
+      sx={{ m: 0, width: '55%' }}
       name="eservicesIds"
       onInputChange={handleAutocompleteInputChange}
       label={t('eserviceField.label')}
       options={eservicesOptions}
-      loading={isFetchingEServices}
     />
   )
 }
@@ -105,6 +105,7 @@ const StateFilterAutocomplete: React.FC = () => {
     <AutocompleteMultiple
       placeholder=""
       size="small"
+      sx={{ width: '45%' }}
       name="states"
       label={t('statusField.label')}
       options={stateOptions}

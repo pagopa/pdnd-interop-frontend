@@ -67,7 +67,7 @@ const EServiceFilterAutocomplete: React.FC = () => {
   const { t } = useTranslation('purpose', { keyPrefix: 'list.filters' })
   const [eserviceAutocompleteText, handleAutocompleteInputChange] = useAutocompleteFilterInput()
 
-  const { data: eservices, isFetching: isFetchingEServices } = EServiceQueries.useGetProviderList(
+  const { data: eservices } = EServiceQueries.useGetProviderList(
     { q: eserviceAutocompleteText, limit: 50, offset: 0 },
     { suspense: false, keepPreviousData: true }
   )
@@ -86,7 +86,6 @@ const EServiceFilterAutocomplete: React.FC = () => {
       onInputChange={handleAutocompleteInputChange}
       label={t('eserviceField.label')}
       options={eservicesOptions}
-      loading={isFetchingEServices}
     />
   )
 }
@@ -95,7 +94,7 @@ const ConsumerFilterAutocomplete: React.FC = () => {
   const { t } = useTranslation('purpose', { keyPrefix: 'list.filters' })
   const [consumersAutocompleteText, handleAutocompleteInputChange] = useAutocompleteFilterInput()
 
-  const { data: consumers, isFetching: isFetchingConsumers } = EServiceQueries.useGetConsumers(
+  const { data: consumers } = EServiceQueries.useGetConsumers(
     { offset: 0, limit: 50, q: consumersAutocompleteText },
     { suspense: false, keepPreviousData: true }
   )
@@ -114,7 +113,6 @@ const ConsumerFilterAutocomplete: React.FC = () => {
       onInputChange={handleAutocompleteInputChange}
       label={t('consumerField.label')}
       options={consumersOptions}
-      loading={isFetchingConsumers}
     />
   )
 }
