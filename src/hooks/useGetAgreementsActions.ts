@@ -1,14 +1,13 @@
-import { AgreementState, AgreementSummary } from '@/types/agreement.types'
+import { AgreementListingItem, AgreementState, AgreementSummary } from '@/types/agreement.types'
 import { AgreementMutations } from '@/api/agreement'
 import { ActionItem } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
 import { useCurrentRoute, useNavigateRouter } from '@/router'
-import { canAgreementBeUpgraded } from '@/utils/agreement.utils'
 import { useDialog } from '@/stores'
 
 type AgreementActions = Record<AgreementState, Array<ActionItem>>
 
-function useGetAgreementsActions(agreement: AgreementSummary | undefined): {
+function useGetAgreementsActions(agreement?: AgreementSummary | AgreementListingItem): {
   actions: Array<ActionItem>
 } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
@@ -18,13 +17,10 @@ function useGetAgreementsActions(agreement: AgreementSummary | undefined): {
 
   const { mutate: activateAgreement } = AgreementMutations.useActivate()
   const { mutate: suspendAgreement } = AgreementMutations.useSuspend()
-  const { mutate: upgradeAgreement } = AgreementMutations.useUpgrade()
   const { mutate: deleteAgreement } = AgreementMutations.useDeleteDraft()
   const { mutate: cloneAgreement } = AgreementMutations.useClone()
 
   if (!agreement || mode === null) return { actions: [] }
-
-  const canBeUpgraded = canAgreementBeUpgraded(agreement, mode)
 
   const handleActivate = () => {
     activateAgreement({ agreementId: agreement.id })
@@ -35,11 +31,6 @@ function useGetAgreementsActions(agreement: AgreementSummary | undefined): {
     suspendAgreement({ agreementId: agreement.id })
   }
   const suspendAction = { action: handleSuspend, label: t('suspend') }
-
-  const handleUpgrade = () => {
-    upgradeAgreement({ agreementId: agreement.id })
-  }
-  const upgradeAction = { action: handleUpgrade, label: t('upgrade') }
 
   const handleDelete = () => {
     deleteAgreement(
@@ -76,7 +67,7 @@ function useGetAgreementsActions(agreement: AgreementSummary | undefined): {
   }
 
   const consumerOnlyActions: AgreementActions = {
-    ACTIVE: [suspendAction, ...(canBeUpgraded ? [upgradeAction] : [])],
+    ACTIVE: [suspendAction],
     SUSPENDED: agreement.suspendedByConsumer ? [activateAction] : [suspendAction],
     PENDING: [],
     ARCHIVED: [],

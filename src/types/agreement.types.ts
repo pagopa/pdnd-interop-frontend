@@ -47,6 +47,28 @@ export type AgreementAttribute = {
   creationTime: string
 }
 
+export type AgreementListingItem = {
+  id: string
+  state: AgreementState
+  consumer: {
+    id: string
+    name: string
+  }
+  eservice: {
+    id: string
+    name: string
+    version: number
+    producer: {
+      id: string
+      name: string
+    }
+  }
+  suspendedByConsumer: boolean
+  suspendedByProducer: boolean
+  suspendedByPlatform: boolean
+  canBeUpgraded: boolean
+}
+
 export type AgreementSummary = {
   id: string
   state: AgreementState

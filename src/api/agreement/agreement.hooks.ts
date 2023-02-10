@@ -1,8 +1,11 @@
-import { AgreementSummary } from '@/types/agreement.types'
+import { AgreementListingItem, AgreementSummary } from '@/types/agreement.types'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
-import { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
+import {
+  Paginated,
+  UseQueryWrapperOptions,
+} from '../react-query-wrappers/react-query-wrappers.types'
 import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
 import { GetListAgreementQueryParams } from './agreement.api.types'
 import { updateAgreementsListCache, removeAgreementFromListCache } from './agreement.api.utils'
@@ -13,18 +16,14 @@ export enum AgreementQueryKeys {
   GetSingle = 'AgreementGetSingle',
 }
 
-function useGetList(params: GetListAgreementQueryParams) {
-  const queryClient = useQueryClient()
+function useGetList(
+  params: GetListAgreementQueryParams,
+  config: UseQueryWrapperOptions<Paginated<AgreementListingItem>>
+) {
   return useQueryWrapper(
     [AgreementQueryKeys.GetList, params],
     () => AgreementServices.getList(params),
-    {
-      onSuccess(data) {
-        data.forEach((agreement) => {
-          queryClient.setQueryData([AgreementQueryKeys.GetSingle, agreement.id], agreement)
-        })
-      },
-    }
+    config
   )
 }
 

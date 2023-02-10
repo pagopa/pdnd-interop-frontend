@@ -4,10 +4,11 @@ import {
   GetListAgreementQueryParams,
   UploadAgreementDraftDocumentPayload,
 } from './agreement.api.types'
-import { AgreementSummary } from '@/types/agreement.types'
+import { AgreementListingItem, AgreementSummary } from '@/types/agreement.types'
+import { Paginated } from '../react-query-wrappers/react-query-wrappers.types'
 
 async function getList(params?: GetListAgreementQueryParams) {
-  const response = await axiosInstance.get<Array<AgreementSummary>>(
+  const response = await axiosInstance.get<Paginated<AgreementListingItem>>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements`,
     { params }
   )
