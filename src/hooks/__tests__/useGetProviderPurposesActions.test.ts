@@ -70,7 +70,7 @@ describe('check if useGetProviderPurposesActions returns the correct actions bas
     })
 
     const { result } = renderUseGetProviderPurposesActionsHook(purposeMock)
-    const suspendAction = result.current.actions.find((action) => action.label === 'activate')
-    expect(suspendAction).toBeTruthy()
+    const activateAction = result.current.actions.find((action) => action.label === 'activate')
+    expect(activateAction).toBeTruthy()
   })
 })
