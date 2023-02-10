@@ -142,6 +142,13 @@ async function upgrade({ agreementId }: { agreementId: string }) {
   return response.data
 }
 
+async function clone({ agreementId }: { agreementId: string }) {
+  const response = await axiosInstance.post<AgreementSummary>(
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/clone`
+  )
+  return response.data
+}
+
 async function downloadContract({ agreementId }: { agreementId: string }) {
   const response = await axiosInstance.get(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/contract`,
@@ -164,6 +171,7 @@ const AgreementServices = {
   reject,
   suspend,
   upgrade,
+  clone,
   downloadContract,
 }
 

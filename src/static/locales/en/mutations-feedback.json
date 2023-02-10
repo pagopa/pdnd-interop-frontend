@@ -289,6 +289,17 @@
         "description": "By clicking \"confirm\", the fruition request will be upgraded to the latest e-service version. All the clients added to purposes for this e-service will keep accessing it"
       }
     },
+    "clone": {
+      "loading": "Cloning agreement",
+      "outcome": {
+        "success": "Agreement cloned successfully and available as a draft",
+        "error": "Agreement could not be cloned. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm agreement cloning",
+        "description": "A new agreement will be created as a draft with the same features as the agreement it is cloned from. Remember to integrate the documentation with what is requested by the producer before submitting it again"
+      }
+    },
     "downloadContract": {
       "loading": "Downloading fruition request document",
       "outcome": {
