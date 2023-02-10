@@ -9,6 +9,8 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
   const { t } = useTranslation('purpose')
   const { jwt } = useJwt()
 
+  // This must be replaced by the EServiceQueries.useGetCatalogList
+  // waiting for agreementStates implementation.
   const { data: eservices = [] } = EServiceQueries.useGetListFlat({
     callerId: jwt?.organizationId,
     consumerId: jwt?.organizationId,
