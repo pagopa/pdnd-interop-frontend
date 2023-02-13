@@ -4,7 +4,6 @@ import { useNavigateRouter } from '@/router'
 import { EServiceCatalog } from '@/types/eservice.types'
 import {
   Avatar,
-  Button,
   Card,
   CardActions,
   CardContent,
@@ -22,6 +21,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import PersonIcon from '@mui/icons-material/Person'
 import CloseIcon from '@mui/icons-material/Close'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
+import { ButtonNaked } from '@pagopa/mui-italia'
 
 interface CatalogCardProps {
   eservice: EServiceCatalog
@@ -87,28 +87,24 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
         title={`${eservice.name}, v. ${eservice.activeDescriptor.version}`}
         subheader={eservice.producer.name}
       />
-      <CardContent sx={{ minHeight: 120 }}>
+      <CardContent sx={{ minHeight: 150 }}>
         <Typography variant="body2" color="text.secondary">
           {eservice.description}
         </Typography>
       </CardContent>
 
       <CardActions sx={{ justifyContent: 'space-between' }}>
-        <Button
-          variant="text"
-          size="small"
-          onFocusVisible={handlePrefetch}
-          color="primary"
-          onClick={handleInpect}
-        >
-          <span onPointerEnter={handlePrefetch}>{t('actions.inspect')}</span>
-        </Button>
+        <Stack direction="row" spacing={4}>
+          <ButtonNaked onFocusVisible={handlePrefetch} color="primary" onClick={handleInpect}>
+            <span onPointerEnter={handlePrefetch}>{t('actions.inspect')}</span>
+          </ButtonNaked>
 
-        {secondaryAction && (
-          <Button variant="text" size="small" color="primary" onClick={secondaryAction.action}>
-            <span onPointerEnter={handlePrefetch}>{secondaryAction.label}</span>
-          </Button>
-        )}
+          {secondaryAction && (
+            <ButtonNaked color="primary" onClick={secondaryAction.action}>
+              <span onPointerEnter={handlePrefetch}>{secondaryAction.label}</span>
+            </ButtonNaked>
+          )}
+        </Stack>
 
         <CatalogCardTooltips
           canCreateAgreementDraft={canCreateAgreementDraft}
@@ -154,33 +150,23 @@ const CatalogCardTooltips: React.FC<CatalogCardTooltips> = ({
     Icon = CheckIcon
   }
 
-  const placeholderTooltip = (
-    <Tooltip sx={{ visibility: 'hidden' }} title={t('youAreTheProvider')}>
-      <PersonIcon fontSize="small" color="primary" />
-    </Tooltip>
-  )
-
   return (
     <Stack direction="row" spacing={1}>
-      {isMine ? (
+      {isMine && (
         <Tooltip title={t('youAreTheProvider')}>
           <PersonIcon fontSize="small" color="primary" />
         </Tooltip>
-      ) : (
-        placeholderTooltip
       )}
 
-      {Icon && label ? (
+      {Icon && label && (
         <Tooltip title={label}>
           <Icon fontSize="small" color="primary" />
         </Tooltip>
-      ) : (
-        placeholderTooltip
       )}
     </Stack>
   )
 }
 
 export const CatalogCardSkeleton = () => {
-  return <Skeleton sx={{ borderRadius: 2 }} variant="rectangular" height={260} />
+  return <Skeleton sx={{ borderRadius: 2 }} variant="rectangular" height={274} />
 }
