@@ -5,9 +5,23 @@
   "backToPurposeListBtn": "Baco to purposes",
   "create": {
     "emptyTitle": "Create purpose",
+    "isTemplateField": {
+      "label": "Clone from template"
+    },
+    "purposeField": {
+      "label": "Choose template",
+      "compiledBy": "{{title}} created by {{consumerName}}",
+      "noDataLabel": "No templates available for this e-service",
+      "loadingLabel": "We are loading the templates"
+    },
     "eserviceField": {
       "label": "Choose e-service"
     },
+    "purposeInfoTitle": "Selected template informations",
+    "purposePreviewTitle": "Selected template content",
+    "consumerName": "This template was created by",
+    "purposeTitle": "Purpose name",
+    "purposeDescription": "Purpose description",
     "createNewPurposeBtn": "Create purpose draft",
     "backToListBtn": "Back to purpose list",
     "defaultPurpose": {
