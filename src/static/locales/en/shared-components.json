@@ -118,14 +118,6 @@
       "descriptionField": {
         "label": "Attribute description (required)",
         "infoLabel": "Min 10 chars, max 250 chars"
-      },
-      "codeField": {
-        "label": "Authoritative source id (required)",
-        "infoLabel": "A kebab-case version of the name (e.g. \"My Authoritative Source\" becomes \"my-authoritative-source\"). Max 30 chars"
-      },
-      "originField": {
-        "label": "Authoritative source name (required)",
-        "infoLabel": "Max. 64 chars"
       }
     },
     "actions": {
