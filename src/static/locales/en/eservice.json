@@ -209,7 +209,7 @@
     "youAreTheProvider": "You are the Provider",
     "alreadySubscribed": "Already subscribed",
     "agreementInDraft": "You have an agreement draft",
-    "missingCertifiedAttributes": "Your party does not meet the list of required certificated attributes",
+    "cannotSubscribe": "You cannot subscribe",
     "goToRequestCta": "Go to the fruition request"
   }
 }

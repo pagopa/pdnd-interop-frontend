@@ -38,8 +38,8 @@ function useGetEServiceConsumerActions<
       canCreateAgreementDraft = true
     }
 
-    // ... but only if I don't have an valid agreement with it yet, I'm an admin...
-    if (hasValidAgreement || !isAdmin) {
+    // ... but only if I don't have an valid agreement with it yet...
+    if (hasValidAgreement) {
       canCreateAgreementDraft = false
     }
 
@@ -68,7 +68,7 @@ function useGetEServiceConsumerActions<
       })
     }
 
-    if (canCreateAgreementDraft) {
+    if (canCreateAgreementDraft && isAdmin) {
       createAgreementDraftAction = () => {
         if (!descriptor) return
         createAgreementDraft(

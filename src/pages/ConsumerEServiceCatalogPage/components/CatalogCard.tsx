@@ -140,7 +140,7 @@ const CatalogCardTooltips: React.FC<CatalogCardTooltips> = ({
   let Icon: SvgIconComponent | null = null
 
   if (!canCreateAgreementDraft) {
-    label = t('missingCertifiedAttributes')
+    label = t('cannotSubscribe')
     Icon = CloseIcon
   }
 

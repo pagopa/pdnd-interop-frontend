@@ -209,7 +209,7 @@
     "youAreTheProvider": "Sei l'erogatore",
     "alreadySubscribed": "Sei già iscritto",
     "agreementInDraft": "Hai una richiesta in bozza",
-    "missingCertifiedAttributes": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
+    "cannotSubscribe": "Non puoi iscriverti",
     "goToRequestCta": "Vai alla richiesta"
   }
 }
