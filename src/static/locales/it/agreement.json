@@ -116,6 +116,23 @@
   },
   "list": {
     "eserviceName": "{{name}}, v. {{version}}",
+    "filters": {
+      "eserviceField": {
+        "label": "Cerca per e-service"
+      },
+      "statusField": {
+        "label": "Stato della richiesta",
+        "optionLabels": {
+          "ACTIVE": "Attivo",
+          "DRAFT": "In bozza",
+          "SUSPENDED": "Sospeso",
+          "PENDING": "In attesa di approvazione",
+          "ARCHIVED": "Archiviato",
+          "REJECTED": "Rifiutato",
+          "MISSING_CERTIFIED_ATTRIBUTES": "Attributi certificati mancanti"
+        }
+      }
+    },
     "provider": {
       "title": "Richieste di fruizione",
       "description": "In quest'area puoi gestire tutte le richieste di fruizione che ti sono state inoltrate da enti che intendono fruire dei tuoi e-service"

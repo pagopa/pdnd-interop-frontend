@@ -118,6 +118,23 @@
   },
   "list": {
     "eserviceName": "{{name}}, version {{version}}",
+    "filters": {
+      "eserviceField": {
+        "label": "Find by e-service"
+      },
+      "statusField": {
+        "label": "Agreement status",
+        "optionLabels": {
+          "ACTIVE": "Active",
+          "DRAFT": "Draft",
+          "SUSPENDED": "Suspended",
+          "PENDING": "Pending",
+          "ARCHIVED": "Archived",
+          "REJECTED": "Rejected",
+          "MISSING_CERTIFIED_ATTRIBUTES": "Missing certified attributes"
+        }
+      }
+    },
     "provider": {
       "title": "Fruition requests",
       "description": "In this section, you can manage all the fruition requests you have received from parties that want to subscribe to your e-services"

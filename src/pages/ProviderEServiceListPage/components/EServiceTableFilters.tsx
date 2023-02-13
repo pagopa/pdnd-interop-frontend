@@ -22,7 +22,7 @@ const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const [consumersAutocompleteText, handleAutocompleteInputChange] = useAutocompleteFilterInput()
 
-  const { data: consumers, isFetching: isFetchingConsumers } = EServiceQueries.useGetConsumers(
+  const { data: consumers } = EServiceQueries.useGetConsumers(
     { offset: 0, limit: 50, q: consumersAutocompleteText },
     { suspense: false, keepPreviousData: true }
   )
@@ -58,7 +58,6 @@ const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({
             onInputChange={handleAutocompleteInputChange}
             label={t('list.filters.consumerField.label')}
             options={consumersOptions}
-            loading={isFetchingConsumers}
           />
         </Stack>
 

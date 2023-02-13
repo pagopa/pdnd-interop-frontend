@@ -1,5 +1,5 @@
 import React from 'react'
-import { AgreementState, AgreementSummary } from '@/types/agreement.types'
+import { AgreementListingItem, AgreementState, AgreementSummary } from '@/types/agreement.types'
 import { MUIColor } from '@/types/common.types'
 import { EServiceState } from '@/types/eservice.types'
 import { UserState } from '@/types/party.types'
@@ -13,7 +13,7 @@ import { useJwt } from '@/hooks/useJwt'
 import { checkPurposeSuspendedByConsumer } from '@/utils/purpose.utils'
 
 const CHIP_COLORS_E_SERVICE: Record<EServiceState, MUIColor> = {
-  PUBLISHED: 'primary',
+  PUBLISHED: 'success',
   DRAFT: 'info',
   SUSPENDED: 'error',
   ARCHIVED: 'info',
@@ -21,7 +21,7 @@ const CHIP_COLORS_E_SERVICE: Record<EServiceState, MUIColor> = {
 }
 
 const CHIP_COLORS_AGREEMENT: Record<AgreementState, MUIColor> = {
-  ACTIVE: 'primary',
+  ACTIVE: 'success',
   SUSPENDED: 'error',
   PENDING: 'warning',
   ARCHIVED: 'info',
@@ -32,7 +32,7 @@ const CHIP_COLORS_AGREEMENT: Record<AgreementState, MUIColor> = {
 
 const CHIP_COLORS_USER: Record<UserState, MUIColor> = {
   PENDING: 'warning',
-  ACTIVE: 'primary',
+  ACTIVE: 'success',
   SUSPENDED: 'error',
 }
 
@@ -66,7 +66,7 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
       }
     | {
         for: 'agreement'
-        agreement: AgreementSummary
+        agreement: AgreementSummary | AgreementListingItem
       }
     | {
         for: 'purpose'
@@ -83,7 +83,10 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
       }
   )
 
-function getAgreementChipState(item: AgreementSummary, t: TFunction<'common'>): Array<ChipProps> {
+function getAgreementChipState(
+  item: AgreementSummary | AgreementListingItem,
+  t: TFunction<'common'>
+): Array<ChipProps> {
   const result: Array<Partial<ChipProps>> = []
 
   if (item.state !== 'SUSPENDED') {

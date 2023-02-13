@@ -4,7 +4,7 @@ import omit from 'lodash/omit'
 import { getKeys } from '@/utils/array.utils'
 import { DeepPartial, useForm } from 'react-hook-form'
 
-export function useListingParams<T extends Record<string, string | string[]>>(options: {
+export function useListingParams<T extends Record<string, string | string[] | boolean>>(options: {
   paginationOptions: { limit: number }
   filterParams: T
 }) {
