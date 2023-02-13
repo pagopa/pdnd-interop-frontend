@@ -13,7 +13,7 @@ import { useJwt } from '@/hooks/useJwt'
 import { checkPurposeSuspendedByConsumer } from '@/utils/purpose.utils'
 
 const CHIP_COLORS_E_SERVICE: Record<EServiceState, MUIColor> = {
-  PUBLISHED: 'primary',
+  PUBLISHED: 'success',
   DRAFT: 'info',
   SUSPENDED: 'error',
   ARCHIVED: 'info',
@@ -32,7 +32,7 @@ const CHIP_COLORS_AGREEMENT: Record<AgreementState, MUIColor> = {
 
 const CHIP_COLORS_USER: Record<UserState, MUIColor> = {
   PENDING: 'warning',
-  ACTIVE: 'primary',
+  ACTIVE: 'success',
   SUSPENDED: 'error',
 }
 
