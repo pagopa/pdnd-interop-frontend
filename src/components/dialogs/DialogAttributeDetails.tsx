@@ -44,17 +44,6 @@ const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) =>
         <InformationContainer direction="column" label={t('content.descriptionField.label')}>
           {attribute.description}
         </InformationContainer>
-        {attribute.code && (
-          <InformationContainer direction="column" label={t('content.codeField.label')}>
-            {attribute.code}
-          </InformationContainer>
-        )}
-
-        {attribute.origin && (
-          <InformationContainer direction="column" label={t('content.originField.label')}>
-            {attribute.origin}
-          </InformationContainer>
-        )}
       </Stack>
     </DialogContent>
   )

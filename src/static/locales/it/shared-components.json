@@ -8,12 +8,6 @@
     "content": {
       "descriptionField": {
         "label": "Descrizione dell'attributo"
-      },
-      "codeField": {
-        "label": "Id della fonte autoritativa"
-      },
-      "originField": {
-        "label": "Nome della fonte autoritativa"
       }
     },
     "actions": {

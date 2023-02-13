@@ -8,12 +8,6 @@
     "content": {
       "descriptionField": {
         "label": "Attribute description"
-      },
-      "codeField": {
-        "label": "Authoritative source id"
-      },
-      "originField": {
-        "label": "Authoritative source name"
       }
     },
     "loading": "We are loading the attribute",
