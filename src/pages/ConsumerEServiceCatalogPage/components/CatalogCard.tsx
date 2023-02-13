@@ -101,7 +101,7 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
 
           {secondaryAction && (
             <ButtonNaked color="primary" onClick={secondaryAction.action}>
-              <span onPointerEnter={handlePrefetch}>{secondaryAction.label}</span>
+              {secondaryAction.label}
             </ButtonNaked>
           )}
         </Stack>
