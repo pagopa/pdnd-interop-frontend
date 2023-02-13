@@ -1,8 +1,8 @@
 import { GetListAgreementQueryFilters } from '@/api/agreement/agreement.api.types'
-import { EServiceQueries } from '@/api/eservice'
+// import { EServiceQueries } from '@/api/eservice'
 import { AutocompleteMultiple } from '@/components/shared/ReactHookFormInputs'
-import { useAutocompleteFilterInput } from '@/hooks/useAutocompleteFilterInput'
-import { useJwt } from '@/hooks/useJwt'
+// import { useAutocompleteFilterInput } from '@/hooks/useAutocompleteFilterInput'
+// import { useJwt } from '@/hooks/useJwt'
 import { InputOption } from '@/types/common.types'
 import { Button, Stack } from '@mui/material'
 import React from 'react'
@@ -33,7 +33,7 @@ export const ConsumerAgreementsTableFilters: React.FC<ConsumerAgreementsTableFil
         sx={{ mb: 4 }}
       >
         <Stack direction="row" spacing={2} sx={{ width: '60%' }}>
-          <EServiceFilterAutocomplete />
+          {/* <EServiceFilterAutocomplete /> */}
           <StateFilterAutocomplete />
         </Stack>
 
@@ -50,40 +50,40 @@ export const ConsumerAgreementsTableFilters: React.FC<ConsumerAgreementsTableFil
   )
 }
 
-const EServiceFilterAutocomplete: React.FC = () => {
-  const { t } = useTranslation('agreement', { keyPrefix: 'list.filters' })
-  const [eserviceAutocompleteText, handleAutocompleteInputChange] = useAutocompleteFilterInput()
+// const EServiceFilterAutocomplete: React.FC = () => {
+//   const { t } = useTranslation('agreement', { keyPrefix: 'list.filters' })
+//   const [eserviceAutocompleteText, handleAutocompleteInputChange] = useAutocompleteFilterInput()
 
-  const { jwt } = useJwt()
+//   const { jwt } = useJwt()
 
-  const { data: eservices } = EServiceQueries.useGetCatalogList(
-    {
-      q: eserviceAutocompleteText,
-      producersIds: [jwt?.organizationId] as Array<string>,
-      limit: 50,
-      offset: 0,
-    },
-    { suspense: false, keepPreviousData: true, enabled: !!jwt?.organizationId }
-  )
+//   const { data: eservices } = EServiceQueries.useGetCatalogList(
+//     {
+//       q: eserviceAutocompleteText,
+//       producersIds: [jwt?.organizationId] as Array<string>,
+//       limit: 50,
+//       offset: 0,
+//     },
+//     { suspense: false, keepPreviousData: true, enabled: !!jwt?.organizationId }
+//   )
 
-  const eservicesOptions =
-    eservices?.results.map((o) => ({
-      label: o.name,
-      value: o.id,
-    })) || []
+//   const eservicesOptions =
+//     eservices?.results.map((o) => ({
+//       label: o.name,
+//       value: o.id,
+//     })) || []
 
-  return (
-    <AutocompleteMultiple
-      placeholder=""
-      size="small"
-      sx={{ m: 0, width: '55%' }}
-      name="eservicesIds"
-      onInputChange={handleAutocompleteInputChange}
-      label={t('eserviceField.label')}
-      options={eservicesOptions}
-    />
-  )
-}
+//   return (
+//     <AutocompleteMultiple
+//       placeholder=""
+//       size="small"
+//       sx={{ m: 0, width: '55%' }}
+//       name="eservicesIds"
+//       onInputChange={handleAutocompleteInputChange}
+//       label={t('eserviceField.label')}
+//       options={eservicesOptions}
+//     />
+//   )
+// }
 
 const StateFilterAutocomplete: React.FC = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'list.filters' })
