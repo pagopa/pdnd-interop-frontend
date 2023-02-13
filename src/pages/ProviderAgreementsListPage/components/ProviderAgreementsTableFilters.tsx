@@ -89,11 +89,11 @@ const StateFilterAutocomplete: React.FC = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'list.filters' })
 
   const stateOptions: Array<InputOption> = [
-    { label: t('statusField.optionLabels.ACTIVE'), value: 'ACTIVE' },
-    { label: t('statusField.optionLabels.SUSPENDED'), value: 'SUSPENDED' },
-    { label: t('statusField.optionLabels.PENDING'), value: 'PENDING' },
     { label: t('statusField.optionLabels.ARCHIVED'), value: 'ARCHIVED' },
+    { label: t('statusField.optionLabels.ACTIVE'), value: 'ACTIVE' },
+    { label: t('statusField.optionLabels.PENDING'), value: 'PENDING' },
     { label: t('statusField.optionLabels.REJECTED'), value: 'REJECTED' },
+    { label: t('statusField.optionLabels.SUSPENDED'), value: 'SUSPENDED' },
   ]
 
   return (
