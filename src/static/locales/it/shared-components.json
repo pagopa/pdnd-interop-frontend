@@ -8,12 +8,6 @@
     "content": {
       "descriptionField": {
         "label": "Descrizione dell'attributo"
-      },
-      "codeField": {
-        "label": "Id della fonte autoritativa"
-      },
-      "originField": {
-        "label": "Nome della fonte autoritativa"
       }
     },
     "actions": {
@@ -117,14 +111,6 @@
       "descriptionField": {
         "label": "Descrizione dell'attributo (richiesto)",
         "infoLabel": "Min 10 caratteri, max 250 caratteri"
-      },
-      "codeField": {
-        "label": "Id della fonte autoritativa (richiesto)",
-        "infoLabel": "Il nome della fonte in kebab-case (es. \"La mia fonte autoritativa\" diventa \"la-mia-fonte-autoritativa\"). Max 30 caratteri"
-      },
-      "originField": {
-        "label": "Nome della fonte autoritativa (richiesto)",
-        "infoLabel": "Max 64 caratteri"
       }
     },
     "actions": {

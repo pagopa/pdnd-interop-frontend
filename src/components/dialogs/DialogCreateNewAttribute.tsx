@@ -30,16 +30,12 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
 
   const validationSchema = object({
     name: string().required().min(5),
-    code: string().required(),
-    origin: string().required(),
     description: string().required().min(10),
     kind: mixed().oneOf(['CERTIFIED', 'VERIFIED', 'DECLARED']).required(),
   })
 
   const defaultValues = {
     name: '',
-    code: '',
-    origin: '',
     description: '',
     kind: attributeKey.toUpperCase() as AttributeKind,
   }
@@ -75,18 +71,6 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
               infoLabel={t('content.descriptionField.infoLabel')}
               multiline
               inputProps={{ maxLength: 250 }}
-            />
-            <TextField
-              name="code"
-              label={t('content.codeField.label')}
-              infoLabel={t('content.codeField.infoLabel')}
-              inputProps={{ maxLength: 30 }}
-            />
-            <TextField
-              name="origin"
-              label={t('content.originField.label')}
-              infoLabel={t('content.originField.infoLabel')}
-              inputProps={{ maxLength: 64 }}
             />
           </DialogContent>
 
