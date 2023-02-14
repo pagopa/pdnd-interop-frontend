@@ -214,7 +214,7 @@ async function postVersionDraftDocument({
   Object.entries(payload).forEach(([key, data]) => formData.append(key, data))
 
   const response = await axiosInstance.post<EServiceReadType>(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents`,
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents`,
     formData,
     { headers: { 'Content-Type': 'multipart/form-data' } }
   )
