@@ -360,7 +360,7 @@
     "suspendVersion": {
       "loading": "Stiamo sospendendo la finalità",
       "outcome": {
-        "success": "Non è più possibile per i client associati alla finalità accedere al servizio in erogazione",
+        "success": "La finalità è stata sospesa. Non è più possibile per i client associati alla finalità accedere al servizio in erogazione",
         "error": "Non è stato possibile sospendere la finalità. Per favore, riprova!"
       },
       "confirmDialog": {
