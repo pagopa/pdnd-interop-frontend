@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material'
 import type { SvgIconComponent } from '@mui/icons-material'
-import { RouteKey } from '@/router/types'
+import { RouteKey } from '@/router/router.types'
 import { routes } from '@/router/routes'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { RouterLink, useCurrentRoute } from '@/router'
@@ -33,6 +33,8 @@ export const SideNavItemLink: React.FC<SideNavItemLinkProps> = ({
   const isSelected = isRouteInCurrentSubtree(routeKey)
 
   return (
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
     <ListItemButton
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore

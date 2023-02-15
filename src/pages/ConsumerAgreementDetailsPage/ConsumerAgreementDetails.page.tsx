@@ -23,16 +23,14 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
   const { agreementId } = useRouteParams<'SUBSCRIBE_AGREEMENT_READ'>()
   const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
   const { data: agreementPurposes } = PurposeQueries.useGetList(
-    {
-      eserviceId: agreement?.eservice.id,
-    },
+    { eservicesIds: [agreement?.eservice?.id as string], limit: 50, offset: 0 },
     { enabled: !!agreement?.eservice && agreement.state === 'ACTIVE', suspense: false }
   )
   const { actions } = useGetAgreementsActions(agreement)
 
   const topSideActions = formatTopSideActions(actions)
 
-  const showNoPurposeAlert = agreementPurposes && agreementPurposes.length === 0
+  const showNoPurposeAlert = agreementPurposes && agreementPurposes.results.length === 0
 
   return (
     <PageContainer title={t('read.title')} topSideActions={topSideActions}>

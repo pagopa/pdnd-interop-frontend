@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { DialogUpdatePurposeDailyCallsProps } from '@/types/dialog.types'
 import { TextField } from '../shared/ReactHookFormInputs'
 import { number, object } from 'yup'
@@ -15,6 +15,7 @@ export const DialogUpdatePurposeDailyCalls: React.FC<DialogUpdatePurposeDailyCal
   purposeId,
   dailyCalls = 1,
 }) => {
+  const ariaLabelId = React.useId()
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'dialogUpdatePurposeDailyCalls',
   })
@@ -35,9 +36,9 @@ export const DialogUpdatePurposeDailyCalls: React.FC<DialogUpdatePurposeDailyCal
   }
 
   return (
-    <Dialog open onClose={closeDialog} aria-describedby={t('ariaDescribedBy')} fullWidth>
+    <Dialog open onClose={closeDialog} aria-labelledby={ariaLabelId} fullWidth>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <DialogTitle>{t('title')}</DialogTitle>
+        <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
 
         <DialogContent>
           <FormProvider {...formMethods}>

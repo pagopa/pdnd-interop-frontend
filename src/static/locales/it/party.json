@@ -1,5 +1,15 @@
 {
   "loadingPartyDataLabel": "Stiamo caricando i dati dell'ente",
+  "contacts": {
+    "title": "contatti",
+    "description": "La mail alla quale possono contattarti direttamente i tuoi fruitori oppure gli erogatori dei servizi di cui fruisci. Puoi associare una descrizione per indicare come desideri ricevere le comunicazioni",
+    "mailField": {
+      "label": "Indirizzo email"
+    },
+    "descriptionField": {
+      "label": "Descrizione"
+    }
+  },
   "attributes": {
     "certified": {
       "description": "Le fonti autoritative riconosciute da Interoperabilità ti hanno attribuito questi attributi certificati.",

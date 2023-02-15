@@ -2,26 +2,27 @@
   "actions": {
     "reloadPage": "Ricarica",
     "backToHome": "Torna alla home",
-    "retry": "Riprova"
+    "retry": "Riprova",
+    "backToSelfcare": "Torna ad Area Riservata"
   },
   "default": {
-    "title": "Unexpected Error",
+    "title": "Errore inaspettato",
     "description": "Si è verificato un errore inaspettato. Per favore, ricarica la pagina."
   },
   "notFound": {
-    "title": "404",
-    "description": "La pagina cercata purtroppo non esiste."
+    "title": "Pagina inesistente",
+    "description": "404 - La pagina cercata purtroppo non esiste."
   },
   "serverError": {
-    "title": "Server Error",
-    "description": "Si è verificato un errore nella gestione della richiesta. Per favore, ricarica la pagina."
-  },
-  "notImplemented": {
-    "title": "Work In Progress",
-    "description": "La funzionalità richiesta è ancora in fase di sviluppo."
+    "title": "Errore del server",
+    "description": "Si è verificato un errore nella gestione della richiesta. Per favore, riprova."
   },
   "notAuthorized": {
     "title": "Non autorizzato",
     "description": "Non possiedi le autorizzazioni necessarie per visualizzare la pagina."
+  },
+  "tokenExchange": {
+    "title": "Errore di autenticazione",
+    "description": "Per favore, torna ad Area Riservata e tenta nuovamente l'accesso"
   }
 }

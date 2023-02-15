@@ -24,6 +24,36 @@ export type PurposeVersion = {
   firstActivationAt?: string
 }
 
+export type PurposeListingItem = {
+  id: string
+  title: string
+  consumer: {
+    id: string
+    name: string
+  }
+  eservice: {
+    id: string
+    name: string
+    producer: {
+      id: string
+      name: string
+    }
+  }
+  currentVersion?: {
+    id: string
+    state: PurposeState
+    dailyCalls: number
+  }
+  suspendedByConsumer?: boolean
+  suspendedByProducer?: boolean
+  waitingForApprovalVersion?: {
+    id: string
+    state: PurposeState
+    dailyCalls: number
+    expectedApprovalDate?: string
+  }
+}
+
 export type Purpose = {
   consumer: {
     id: string
@@ -41,6 +71,8 @@ export type Purpose = {
   }
   agreement: Pick<AgreementSummary, 'id' | 'state'>
   riskAnalysisForm: PurposeRiskAnalysisForm
+  suspendedByConsumer?: boolean
+  suspendedByProducer?: boolean
   clients: Array<Pick<Client, 'id' | 'name'>>
   versions: Array<PurposeVersion>
 }
@@ -48,7 +80,6 @@ export type Purpose = {
 // The frontend adds this, currentVersion and mostRecentVersion
 // differ if mostRecentVersion's state is WAITING_FOR_APPROVAL
 export type DecoratedPurpose = Purpose & {
-  mostRecentVersion: PurposeVersion | null
+  waitingForApprovalVersion: PurposeVersion | null
   currentVersion: PurposeVersion | null
-  awaitingApproval: boolean
 }

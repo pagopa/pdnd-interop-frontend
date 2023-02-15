@@ -10,24 +10,6 @@
       "alertLabel": "È disponibile una nuova versione dell’e-service <1>{{eserviceName}}</1>. Prima di effettuare l’aggiornamento, leggi la guida di seguito",
       "title": "Guida all’aggiornamento",
       "description": "È possibile aggiornare la richiesta di fruizione all’ultima versione dell’e-service <1>{{eserviceName}}</1>. Ecco alcune indicazioni utili",
-      "faq": [
-        {
-          "summary": "Cosa significa aggiornare una richiesta di fruizione?",
-          "details": ""
-        },
-        {
-          "summary": "Cosa succede alle mie finalità attive se aggiorno una richiesta di fruizione?",
-          "details": ""
-        },
-        {
-          "summary": "Cosa devo verificare prima di aggiornare una richiesta di fruizione?",
-          "details": ""
-        },
-        {
-          "summary": "Come faccio a testare le modifiche prima di aggiornare la richiesta di fruizione?",
-          "details": ""
-        }
-      ],
       "upgradeGuideLinkLabel": "Guida all'aggiornamento",
       "eserviceLinkLabel": "Scheda e-service <1>{{eserviceName}}, versione {{version}}</1>",
       "upgradeBtn": "Aggiorna"
@@ -121,18 +103,36 @@
       "uploadBtn": "Carica",
       "documentPrettynameField": {
         "label": "Nome documento",
-        "infoLabel": "Max 60 caratteri"
+        "infoLabel": "Min 5 caratteri, max 60 caratteri"
       }
     },
     "bottomPageActionCard": {
       "title": "Azioni rapide di pubblicazione",
       "description": "Hai inserito tutte le informazioni per questa richiesta di fruizione? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra o abbandona questa pagina",
       "cancelBtn": "Cancella bozza",
-      "submitBtn": "Inoltra richiesta di fruizione"
+      "submitBtn": "Inoltra richiesta di fruizione",
+      "updateBtn": "Salva bozza"
     }
   },
   "list": {
     "eserviceName": "{{name}}, v. {{version}}",
+    "filters": {
+      "eserviceField": {
+        "label": "Cerca per e-service"
+      },
+      "statusField": {
+        "label": "Stato della richiesta",
+        "optionLabels": {
+          "ACTIVE": "Attivo",
+          "DRAFT": "In bozza",
+          "SUSPENDED": "Sospeso",
+          "PENDING": "In attesa di approvazione",
+          "ARCHIVED": "Archiviato",
+          "REJECTED": "Rifiutato",
+          "MISSING_CERTIFIED_ATTRIBUTES": "Attributi certificati mancanti"
+        }
+      }
+    },
     "provider": {
       "title": "Richieste di fruizione",
       "description": "In quest'area puoi gestire tutte le richieste di fruizione che ti sono state inoltrate da enti che intendono fruire dei tuoi e-service"

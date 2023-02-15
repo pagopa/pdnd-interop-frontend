@@ -1,4 +1,4 @@
-import { DecoratedPurpose } from '@/types/purpose.types'
+import { DecoratedPurpose, PurposeListingItem } from '@/types/purpose.types'
 
 export function getPurposeFailureReasons(
   purpose: DecoratedPurpose
@@ -20,4 +20,25 @@ export function getPurposeFailureReasons(
     .filter((r) => r) as Array<'eservice' | 'agreement' | 'purpose'>
 
   return reasons
+}
+
+/**
+ * The purpose is suspended by the consumer when the `suspendedByConsumer` is `true` or
+ * when the actual active party is both the e-service producer and the purpose consumer and
+ * the `suspendedByProducer` is true.
+ */
+export function checkPurposeSuspendedByConsumer(
+  purpose: DecoratedPurpose | PurposeListingItem,
+  partyId?: string
+) {
+  if (purpose?.currentVersion?.state !== 'SUSPENDED') return false
+  if (purpose.suspendedByConsumer) return true
+
+  const isPurposeSuspendedByProvider = purpose.suspendedByProducer
+  const isActualPartyEServiceProvider = partyId === purpose.eservice.producer.id
+  const isActualPartyPurposeConsumer = partyId === purpose.consumer.id
+
+  return (
+    isPurposeSuspendedByProvider && isActualPartyPurposeConsumer && isActualPartyEServiceProvider
+  )
 }

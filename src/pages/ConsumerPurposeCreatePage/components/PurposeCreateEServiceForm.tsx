@@ -1,10 +1,5 @@
-import { PurposeMutations } from '@/api/purpose'
-import {
-  PageBottomActionsContainer,
-  SectionContainer,
-  SectionContainerSkeleton,
-} from '@/components/layout/containers'
-import { ButtonSkeleton } from '@/components/shared/MUISkeletons'
+import { PurposeMutations, PurposeQueries } from '@/api/purpose'
+import { PageBottomActionsContainer, SectionContainer } from '@/components/layout/containers'
 import { Switch } from '@/components/shared/ReactHookFormInputs'
 import { useJwt } from '@/hooks/useJwt'
 import { RouterLink, useNavigateRouter } from '@/router'
@@ -13,21 +8,17 @@ import { Box, Button, Grid } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { PurposeCreateFormValues } from '../ConsumerPurposeCreate.page'
-import {
-  PurposeCreateEServiceAutocomplete,
-  PurposeCreateEServiceAutocompleteSkeleton,
-} from './PurposeCreateEServiceAutocomplete'
+import { PurposeCreateEServiceAutocomplete } from './PurposeCreateEServiceAutocomplete'
 import { PurposeCreateRiskAnalysisPreview } from './PurposeCreateRiskAnalysisPreview'
 import { PurposeCreateTemplateAutocomplete } from './PurposeCreateTemplateAutocomplete'
 
-interface PurposeCreateEServiceFormProps {
-  defaultValues: PurposeCreateFormValues
+export type PurposeCreateFormValues = {
+  eserviceId: string | null
+  useTemplate: boolean
+  templateId: string | null
 }
 
-export const PurposeCreateEServiceForm: React.FC<PurposeCreateEServiceFormProps> = ({
-  defaultValues,
-}) => {
+export const PurposeCreateEServiceForm: React.FC = () => {
   const { t } = useTranslation('purpose')
   const { navigate } = useNavigateRouter()
   const { jwt } = useJwt()
@@ -35,22 +26,36 @@ export const PurposeCreateEServiceForm: React.FC<PurposeCreateEServiceFormProps>
   const { mutate: createVersionDraft } = PurposeMutations.useCreateVersionDraft()
 
   const formMethods = useForm<PurposeCreateFormValues>({
-    defaultValues,
+    defaultValues: {
+      eserviceId: '',
+      useTemplate: false,
+      templateId: null,
+    },
   })
 
-  const isEServiceSelected = !!formMethods.watch('eserviceId')
+  const selectedEService = formMethods.watch('eserviceId')
+  const purposeId = formMethods.watch('templateId')
+  const useTemplate = formMethods.watch('useTemplate')
+  const isEServiceSelected = !!selectedEService
 
-  const onSubmit = ({ eserviceId, template }: PurposeCreateFormValues) => {
+  const { data: purpose } = PurposeQueries.useGetSingle(purposeId!, {
+    suspense: false,
+    enabled: !!purposeId,
+  })
+
+  const isSubmitBtnDisabled = !!(useTemplate && purposeId && !purpose)
+
+  const onSubmit = ({ eserviceId }: PurposeCreateFormValues) => {
     if (!jwt?.organizationId || !eserviceId) return
 
     let title = t('create.defaultPurpose.title')
     let description = t('create.defaultPurpose.description')
     let riskAnalysisForm: undefined | PurposeRiskAnalysisForm
 
-    if (template) {
-      title = `${template.title} — clone`
-      description = template.description
-      riskAnalysisForm = template.riskAnalysisForm
+    if (useTemplate && purposeId && purpose) {
+      title = `${purpose.title} — clone`
+      description = purpose.description
+      riskAnalysisForm = purpose.riskAnalysisForm
     }
 
     const payloadCreatePurposeDraft = {
@@ -71,6 +76,7 @@ export const PurposeCreateEServiceForm: React.FC<PurposeCreateEServiceFormProps>
       },
     })
   }
+
   return (
     <FormProvider {...formMethods}>
       <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
@@ -92,29 +98,11 @@ export const PurposeCreateEServiceForm: React.FC<PurposeCreateEServiceFormProps>
           <RouterLink as="button" type="button" variant="outlined" to="SUBSCRIBE_PURPOSE_LIST">
             {t('create.backToListBtn')}
           </RouterLink>
-          <Button variant="contained" type="submit">
+          <Button variant="contained" type="submit" disabled={isSubmitBtnDisabled}>
             {t('create.createNewPurposeBtn')}
           </Button>
         </PageBottomActionsContainer>
       </Box>
     </FormProvider>
-  )
-}
-
-export const PurposeCreateEServiceFormSkeleton: React.FC = () => {
-  return (
-    <>
-      <Grid container>
-        <Grid item xs={8}>
-          <SectionContainerSkeleton>
-            <PurposeCreateEServiceAutocompleteSkeleton />
-          </SectionContainerSkeleton>
-        </Grid>
-      </Grid>
-      <PageBottomActionsContainer>
-        <ButtonSkeleton width={100} />
-        <ButtonSkeleton width={100} />
-      </PageBottomActionsContainer>
-    </>
   )
 }

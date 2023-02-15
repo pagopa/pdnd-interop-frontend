@@ -80,15 +80,15 @@ export const VoucherInstructionsStep2: React.FC<VoucherInstructionsStepProps> = 
       <Divider sx={{ mt: 4 }} />
 
       <Typography sx={{ mt: 3 }} component="h3" variant="h6">
-        {t('step2.accessTokenScript.title')}
+        {t('step2.voucherScript.title')}
       </Typography>
       <Typography sx={{ mt: 1 }} component="p" variant="body2" color="text.secondary">
-        {t('step2.accessTokenScript.description')}
+        {t('step2.voucherScript.description')}
       </Typography>
 
       <CodeSnippetPreview
         sx={{ mt: 2 }}
-        title={t('step2.accessTokenScript.exampleLabel')}
+        title={t('step2.voucherScript.exampleLabel')}
         activeLang="curl"
         entries={[{ url: `${FE_URL}/data/it/session_token_curl.txt`, value: 'curl' }]}
         scriptSubstitutionValues={{

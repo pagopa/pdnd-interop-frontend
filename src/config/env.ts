@@ -4,8 +4,9 @@ const PAGOPA_ENV = (window as unknown as ExtendedWindow).pagopa_env
 
 export const isDevelopment = !!(import.meta.env.MODE === 'development')
 export const isProduction = !!(import.meta.env.MODE === 'production')
+export const isTest = !!(import.meta.env.MODE === 'test')
 
-if (!PAGOPA_ENV) {
+if (!PAGOPA_ENV && !isTest) {
   console.warn('pagopa_env not available.')
 }
 

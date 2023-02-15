@@ -4,11 +4,11 @@ import { useLocation } from 'react-router-dom'
 import { routes } from '../routes'
 import {
   getParentRoutes,
-  getRouteKeyFromPathname,
+  getRouteKeyFromPath,
   isEditPath as _isEditPath,
   isProviderOrConsumerRoute,
-} from '../utils'
-import { RouteKey } from '../types'
+} from '../router.utils'
+import { RouteKey } from '../router.types'
 import React from 'react'
 
 /** Returns the route informations of the current location */
@@ -17,11 +17,11 @@ function useCurrentRoute() {
   const currentLanguage = useCurrentLanguage()
   const { currentRoles } = useJwt()
 
-  const routeKey = getRouteKeyFromPathname(location.pathname, currentLanguage)
+  const routeKey = getRouteKeyFromPath(location.pathname, currentLanguage)
   const route = routes[routeKey]
-  const hasOverlappingRole =
-    route.AUTH_LEVELS === 'any' ||
-    currentRoles.some((role) => route.AUTH_LEVELS.includes(role as typeof route.AUTH_LEVELS[0]))
+  const hasOverlappingRole = currentRoles.some((role) =>
+    route.AUTH_LEVELS.includes(role as typeof route.AUTH_LEVELS[0])
+  )
   const isPublic = route.PUBLIC
   const isUserAuthorized = isPublic || hasOverlappingRole
   const mode = isProviderOrConsumerRoute(routeKey)

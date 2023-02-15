@@ -3,7 +3,7 @@ import { Container, Button, Stack, IconButton } from '@mui/material'
 import { useJwt } from '@/hooks/useJwt'
 import { useNavigateRouter } from '@/router'
 import { goToLoginPage } from '@/utils/common.utils'
-import { pagoPaLink } from '@/config/constants'
+import { assistanceLink, documentationLink, pagoPaLink } from '@/config/constants'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 import DescriptionIcon from '@mui/icons-material/Description'
 import { AccountDropdown, ButtonNaked, HeaderProduct } from '@pagopa/mui-italia'
@@ -26,10 +26,10 @@ export const Header = () => {
           navigate('LOGOUT')
         }}
         onAssistanceClick={() => {
-          window.open('assistanceLink')
+          window.open(assistanceLink)
         }}
         onDocumentationClick={() => {
-          window.open('documentationLink', '_blank')
+          window.open(documentationLink, '_blank')
         }}
       />
 

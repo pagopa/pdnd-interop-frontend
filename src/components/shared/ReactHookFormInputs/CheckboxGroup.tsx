@@ -5,7 +5,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import { InputOption } from '@/types/common.types'
 
 export type CheckboxGroupProps = {
-  sx: SxProps
+  sx?: SxProps
   label: string
   options: Array<InputOption & { disabled?: boolean }>
   name: string
@@ -37,7 +37,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
           render={({ field }) => {
             const onChange = (e: React.SyntheticEvent) => {
               const target = e.target as HTMLInputElement
-              const prevValue = field.value ?? []
+              const prevValue = (field.value ?? []) as Array<string>
 
               const newValue = prevValue?.includes(target.name)
                 ? prevValue.filter((v: unknown) => v !== target.name)

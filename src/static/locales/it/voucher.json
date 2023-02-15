@@ -11,14 +11,14 @@
   "choosePurposeBtn": "scegli la finalità da associare",
   "or": "oppure",
   "choosePurposeLabel": "Scegli la finalità da utilizzare",
-  "purposeFailureMessage": "Attenzione! Non sarà possibile ottenere un access token per questa finalità. In una o più componenti della pipeline è stato sospeso il servizio. Le componenti sospese sono:",
+  "purposeFailureMessage": "Attenzione! Non sarà possibile ottenere un voucher per questa finalità. In una o più componenti della pipeline è stato sospeso il servizio. Le componenti sospese sono:",
   "purposeFailureReason": {
     "eservice": "E-service",
     "agreement": "accordo di fruizione",
     "purpose": "finalità"
   },
   "uploadKey": {
-    "message": "Non ci sono chiavi disponibili, non è possibile ottenere un access token. Per caricare la tua prima chiave, vai alla",
+    "message": "Non ci sono chiavi disponibili, non è possibile ottenere un voucher. Per caricare la tua prima chiave, vai alla",
     "linkLabel": "tab delle chiavi pubbliche"
   },
   "step1": {
@@ -95,11 +95,11 @@
     }
   },
   "step2": {
-    "stepperLabel": "Access token",
-    "title": "Access token",
-    "consumerDescription": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di access token verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un access token spendibile presso l'e-service dell’erogatore",
+    "stepperLabel": "Voucher",
+    "title": "Voucher",
+    "consumerDescription": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di voucher verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un voucher spendibile presso l'e-service dell’erogatore",
     "apiDescription": {
-      "message": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di access token verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un access token spendibile presso l’API gateway di Interoperabilità"
+      "message": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di voucher verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un voucher spendibile presso l’API gateway di Interoperabilità"
     },
     "authEndpoint": {
       "label": "Endpoint authorization server",
@@ -126,7 +126,7 @@
         "copySuccessFeedbackText": "Stringa copiata correttamente"
       }
     },
-    "accessTokenScript": {
+    "voucherScript": {
       "title": "Esempio di cURL",
       "description": "Sostituisci il segnaposto con l’asserzione che hai ottenuto allo step precedente e lancia la cURL",
       "exampleLabel": "cURL di esempio"
@@ -137,7 +137,7 @@
     "apiStepperLabel": "Dettagli API gateway",
     "consumer": {
       "title": "Accesso all’e-service dell’erogatore",
-      "description": "A questo punto l'access token ottenuto è spendibile presso l'e-service dell’erogatore",
+      "description": "A questo punto il voucher ottenuto è spendibile presso l'e-service dell’erogatore",
       "audField": {
         "label": "AUD",
         "description": "L'audience dell'e-service dell'erogatore",
@@ -149,7 +149,7 @@
     },
     "api": {
       "title": "Accesso all’API gateway di Interoperabilità",
-      "description": "A questo punto l'access token ottenuto è spendibile presso l’API gateway di Interoperabilità",
+      "description": "A questo punto il voucher ottenuto è spendibile presso l’API gateway di Interoperabilità",
       "apiField": {
         "label": "Link al documento di interfaccia",
         "link": {

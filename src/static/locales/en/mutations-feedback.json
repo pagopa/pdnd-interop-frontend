@@ -223,6 +223,13 @@
         "description": "By clicking \"confirm\", the draft of this fruition request will be deleted. You will always be able to create a new one"
       }
     },
+    "updateDraft": {
+      "loading": "Updating draft",
+      "outcome": {
+        "success": "Draft updated successfully",
+        "error": "Draft could not be updated. Make sure you have filled all the required fields and try again!"
+      }
+    },
     "downloadDraftDocument": {
       "loading": "Downloading document",
       "outcome": {
@@ -280,6 +287,17 @@
       "confirmDialog": {
         "title": "Confirm request upgrade",
         "description": "By clicking \"confirm\", the fruition request will be upgraded to the latest e-service version. All the clients added to purposes for this e-service will keep accessing it"
+      }
+    },
+    "clone": {
+      "loading": "Cloning agreement",
+      "outcome": {
+        "success": "Agreement cloned successfully and available as a draft",
+        "error": "Agreement could not be cloned. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm agreement cloning",
+        "description": "A new agreement will be created as a draft with the same features as the agreement it is cloned from. Remember to integrate the documentation with what is requested by the producer before submitting it again"
       }
     },
     "downloadContract": {
@@ -436,14 +454,14 @@
     "postKey": {
       "loading": "Uploading key",
       "outcome": {
-        "success": "The key was uploaded successfully. It can now be used to sign a client assertion to obtain an access token",
+        "success": "The key was uploaded successfully. It can now be used to sign a client assertion to obtain a voucher",
         "error": "The key could not be uploaded. Please, make sure it is in the right format and with the right algorithm. Warning: the same key cannot be uploaded twice"
       }
     },
     "deleteKey": {
       "loading": "Deleting key",
       "outcome": {
-        "success": "The key was deleted successfully. It can no longer be used to sign a client assertion to obtain an access token",
+        "success": "The key was deleted successfully. It can no longer be used to sign a client assertion to obtain a voucher",
         "error": "The key could not be deleted. Please, try again!"
       },
       "confirmDialog": {
@@ -470,6 +488,15 @@
       "confirmDialog": {
         "title": "Confirm operation removal from client",
         "description": "The operator will be removed from this client. The keys uploaded for this client can still be used to access the e-services the client is related to. You can always remove them manually from the public keys list for this client"
+      }
+    }
+  },
+  "party": {
+    "updateMail": {
+      "loading": "Updating contacts info",
+      "outcome": {
+        "success": "Contact info updated successfully",
+        "error": "Contact Infos could not be updated. Please, try again!"
       }
     }
   }

@@ -14,11 +14,11 @@
     "infoSectionTitle": "General information",
     "nameField": {
       "label": "Client name (required)",
-      "infoLabel": "It will help you tell them apart. Max 60 chars"
+      "infoLabel": "It will help you tell them apart. Min 5 chars, max 60 chars"
     },
     "descriptionField": {
       "label": "Client description (required)",
-      "infoLabel": "Max 250 chars"
+      "infoLabel": "Min 10 chars, max 250 chars"
     },
     "clientOperatorsSectionTitle": "Security operators",
     "operatorsTable": {
@@ -31,8 +31,8 @@
   },
   "edit": {
     "tabs": {
-      "ariaLabel": "Three different tabs with the instructions to obtain an access token, for client members and public keys",
-      "voucher": "Access token instructions",
+      "ariaLabel": "Three different tabs with the instructions to obtain a voucher, for client members and public keys",
+      "voucher": "Voucher instructions",
       "clientOperators": "Client members",
       "publicKeys": "Public keys"
     },

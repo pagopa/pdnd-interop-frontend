@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { DialogRejectAgreementProps } from '@/types/dialog.types'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -14,6 +14,8 @@ type RejectAgreementFormValues = {
 }
 
 export const DialogRejectAgreement: React.FC<DialogRejectAgreementProps> = ({ agreementId }) => {
+  const ariaLabelId = React.useId()
+
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'dialogRejectAgreement',
   })
@@ -21,7 +23,7 @@ export const DialogRejectAgreement: React.FC<DialogRejectAgreementProps> = ({ ag
   const { mutate: reject } = AgreementMutations.useReject()
 
   const validationSchema = object({
-    reason: string().required(),
+    reason: string().required().min(20),
   })
 
   const formMethods = useForm<RejectAgreementFormValues>({
@@ -34,10 +36,10 @@ export const DialogRejectAgreement: React.FC<DialogRejectAgreementProps> = ({ ag
   }
 
   return (
-    <Dialog open onClose={closeDialog} fullWidth>
+    <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
       <FormProvider {...formMethods}>
         <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <DialogTitle>{t('title')}</DialogTitle>
+          <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
 
           <DialogContent>
             <TextField

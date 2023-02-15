@@ -1,12 +1,19 @@
 import React from 'react'
-import { useDialog, useLoadingOverlay, useToastNotification } from '@/contexts'
-import { useMutation } from '@tanstack/react-query'
-import { UseMutationWrapper } from '../comon.api.types'
+import { useDialog, useLoadingOverlay, useToastNotification } from '@/stores'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { UseMutationWrapper } from './react-query-wrappers.types'
 import { useJwt } from '@/hooks/useJwt'
+import { setExponentialInterval, clearExponentialInterval } from './react-query-wrappers.utils'
 
 /**
- * This abstract and takes care of most of what's needed for the application mutations:
- * toast notifications, loading overlay, confirmation dialog and session expiration checks.
+ * Due to the backend's eventual consistency, after each mutation success, all the active queries are polled.
+ * This variable contains the instance id of the active exponential interval.
+ * */
+let activeQueriesPollingIntervalId: string | undefined
+
+/**
+ * This react-query's useMutation wrapper takes care of most of what's needed for the application mutations:
+ * toast notifications, loading overlay, confirmation dialog, session expiration checks, and query polling.
  *
  * It adds the following options:
  *
@@ -45,9 +52,19 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
   const { showOverlay, hideOverlay } = useLoadingOverlay()
   const { openDialog, closeDialog } = useDialog()
   const { hasSessionExpired } = useJwt()
+  const queryClient = useQueryClient()
+
+  const requestPolling = React.useCallback(() => {
+    const refetchActiveQueries = () => {
+      queryClient.refetchQueries({ type: 'active' })
+    }
+
+    clearExponentialInterval(activeQueriesPollingIntervalId)
+    activeQueriesPollingIntervalId = setExponentialInterval(refetchActiveQueries, 20 * 1000)
+  }, [queryClient])
 
   /**
-   * Wraps the react-query's onError option property. Handles the success toast notification.
+   * Wraps the react-query's onSuccess option property. Handles the success toast notification and the starts refetch/polling.
    */
   const _wrappedOnSuccess: typeof options.onSuccess = (...args) => {
     if (!options?.suppressSuccessToast && options?.successToastLabel) {
@@ -58,6 +75,7 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
 
       showToast(successLabel, 'success')
     }
+    requestPolling()
     options?.onSuccess?.(...args)
   }
 

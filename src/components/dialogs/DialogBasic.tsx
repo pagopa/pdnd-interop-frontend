@@ -1,4 +1,4 @@
-import React, { useId } from 'react'
+import React from 'react'
 import {
   Button,
   Dialog,
@@ -9,7 +9,7 @@ import {
 } from '@mui/material'
 import { Trans, useTranslation } from 'react-i18next'
 import { DialogBasicProps } from '@/types/dialog.types'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 
 export const DialogBasic: React.FC<DialogBasicProps> = ({
   title = 'Conferma azione',
@@ -19,8 +19,8 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
   disabled = false,
   maxWidth,
 }) => {
-  const dialogTitleId = useId()
-  const dialogDescriptionId = useId()
+  const ariaLabelId = React.useId()
+  const ariaDescriptionId = React.useId()
   const { closeDialog } = useDialog()
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
 
@@ -28,15 +28,15 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
     <Dialog
       open
       onClose={closeDialog}
-      aria-labelledby={dialogTitleId}
-      {...(description ? { 'aria-describedby': dialogDescriptionId } : {})}
+      aria-labelledby={ariaLabelId}
+      {...(description ? { 'aria-describedby': ariaDescriptionId } : {})}
       maxWidth={maxWidth}
       fullWidth
     >
-      <DialogTitle id={dialogTitleId}>{title}</DialogTitle>
+      <DialogTitle id={ariaLabelId}>{title}</DialogTitle>
 
       {description && (
-        <DialogContent aria-describedby={dialogDescriptionId}>
+        <DialogContent aria-describedby={ariaDescriptionId}>
           <Trans
             components={{
               strong: <Typography component="span" variant="inherit" fontWeight={600} />,

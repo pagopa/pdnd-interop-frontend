@@ -1,5 +1,5 @@
 import React from 'react'
-import { createSafeContext } from '@/contexts/utils'
+import { createSafeContext } from '@/utils/common.utils'
 import { EServiceDescriptorCatalog, EServiceDescriptorProvider } from '@/types/eservice.types'
 import { DocumentRead } from '@/types/common.types'
 import { remapEServiceAttributes } from '@/utils/attribute.utils'
@@ -30,9 +30,12 @@ const EServiceDetailsContextProvider: React.FC<{
 }> = ({ descriptor, children }) => {
   const providerValue = React.useMemo(() => {
     const eserviceAttributes = remapEServiceAttributes(descriptor.eservice.attributes)
-    const isViewingDescriptorCurrentVersion =
-      'activeDescriptor' in descriptor.eservice &&
-      descriptor.id === descriptor.eservice.activeDescriptor?.id
+
+    const activeDescriptor = descriptor.eservice.descriptors.find(
+      (descriptor) => descriptor.state === 'PUBLISHED'
+    )
+
+    const isViewingDescriptorCurrentVersion = descriptor.id === activeDescriptor?.id
 
     const agreement =
       'agreement' in descriptor.eservice &&

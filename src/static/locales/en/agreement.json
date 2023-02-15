@@ -10,24 +10,6 @@
       "alertLabel": "A new version of <1>{{eserviceName}}</1> e-service is available. Before updating, read the guide below",
       "title": "Upgrade guide",
       "description": "It is possible to update the fruition request to the latest version of <1>{{eserviceName}}</1> e-service. Here are some useful informations",
-      "faq": [
-        {
-          "summary": "What does it mean to upgrade a fruition request?",
-          "details": ""
-        },
-        {
-          "summary": "What happens to my active purposes if I upgrade a fruition request?",
-          "details": ""
-        },
-        {
-          "summary": "What should I check before updating a fruition request?",
-          "details": ""
-        },
-        {
-          "summary": "How can I test the changes before updating the fruition request?",
-          "details": ""
-        }
-      ],
       "upgradeGuideLinkLabel": "Upgrade fuide",
       "eserviceLinkLabel": "E-service card <1>{{eserviceName}}, version {{version}}</1>",
       "upgradeBtn": "Upgrade"
@@ -122,19 +104,37 @@
       "uploadBtn": "Upload",
       "documentPrettynameField": {
         "label": "Document name",
-        "infoLabel": "Max 60 chars"
+        "infoLabel": "Min 5 chars, max 60 chars"
       }
     },
     "bottomPageActionCard": {
       "title": "Quick publish",
       "description": "Have you entered all the information for this agreement request? From here you can immediately publish a draft, or delete it. If you want to post later, just save the draft above or leave this page",
       "cancelBtn": "Delete draft",
-      "submitBtn": "Publish agreement request"
+      "submitBtn": "Publish agreement request",
+      "updateBtn": "Save draft"
     },
     "backToRequestsBtn": "Go back to requests"
   },
   "list": {
     "eserviceName": "{{name}}, version {{version}}",
+    "filters": {
+      "eserviceField": {
+        "label": "Find by e-service"
+      },
+      "statusField": {
+        "label": "Agreement status",
+        "optionLabels": {
+          "ACTIVE": "Active",
+          "DRAFT": "Draft",
+          "SUSPENDED": "Suspended",
+          "PENDING": "Pending",
+          "ARCHIVED": "Archived",
+          "REJECTED": "Rejected",
+          "MISSING_CERTIFIED_ATTRIBUTES": "Missing certified attributes"
+        }
+      }
+    },
     "provider": {
       "title": "Fruition requests",
       "description": "In this section, you can manage all the fruition requests you have received from parties that want to subscribe to your e-services"

@@ -1,6 +1,5 @@
-import { PurposeQueries } from '@/api/purpose'
 import { Table } from '@/components/shared/Table'
-import { useJwt } from '@/hooks/useJwt'
+import { PurposeListingItem } from '@/types/purpose.types'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -8,13 +7,13 @@ import {
   ConsumerPurposesTableRowSkeleton,
 } from './ConsumerPurposesTableRow'
 
-export const ConsumerPurposesTable: React.FC = () => {
+type ConsumerPurposesTableProps = {
+  purposes: Array<PurposeListingItem>
+}
+
+export const ConsumerPurposesTable: React.FC<ConsumerPurposesTableProps> = ({ purposes }) => {
   const { t } = useTranslation('agreement')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
-  const { jwt } = useJwt()
-  const { data: purposes } = PurposeQueries.useGetList({
-    consumerId: jwt?.organizationId,
-  })
 
   const headLabels = [
     tCommon('purposeName'),

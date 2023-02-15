@@ -14,7 +14,7 @@ import { EServiceMutations } from '@/api/eservice'
 import { FrontendAttributes } from '@/types/attribute.types'
 import { remapEServiceAttributes } from '@/utils/attribute.utils'
 import { remapFrontendAttributesToBackend } from '@/api/eservice/eservice.api.utils'
-import { URL_FRAGMENTS } from '@/router/utils'
+import { URL_FRAGMENTS } from '@/router/router.utils'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { useJwt } from '@/hooks/useJwt'
 import { getKeys } from '@/utils/array.utils'
@@ -38,8 +38,8 @@ export const EServiceCreateStep1General: React.FC = () => {
   const { mutate: createDraft } = EServiceMutations.useCreateDraft()
 
   const validationSchema = object({
-    name: string().required(),
-    description: string().required(),
+    name: string().required().min(5),
+    description: string().required().min(10),
     technology: string().required(),
   })
 
@@ -69,7 +69,7 @@ export const EServiceCreateStep1General: React.FC = () => {
     if (isNewEService) {
       if (!jwt?.organizationId) return
       createDraft(
-        { producerId: jwt.organizationId, ...formValues, attributes: backendAttributes },
+        { ...formValues, attributes: backendAttributes },
         {
           onSuccess({ id }) {
             navigate('PROVIDE_ESERVICE_EDIT', {
@@ -77,6 +77,7 @@ export const EServiceCreateStep1General: React.FC = () => {
               replace: true,
               state: { stepIndexDestination: 1 },
             })
+            forward()
           },
         }
       )

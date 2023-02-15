@@ -15,13 +15,16 @@ function useGetEServiceConsumerActions<
 
   const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft()
 
-  const hasValidAgreement = eservice?.agreement && !['REJECTED'].includes(eservice.agreement.state)
+  const hasValidAgreement =
+    eservice?.agreement && !['REJECTED', 'DRAFT'].includes(eservice.agreement.state)
   const isMine = !!eservice?.isMine
-  const isSubscribed = !!(hasValidAgreement && isAdmin)
-  const hasAgreementDraft = eservice?.agreement && eservice.agreement.state === 'DRAFT' && isAdmin
+  const isSubscribed = !!hasValidAgreement
+  const hasAgreementDraft = !!(eservice?.agreement && eservice.agreement.state === 'DRAFT')
 
   const actions: Array<ActionItem> = []
   let canCreateAgreementDraft = false
+  let createAgreementDraftAction: undefined | VoidFunction
+  let goToAgreementAction: undefined | VoidFunction
 
   // I can subscribe to the eservice only if...
   if (eservice) {
@@ -35,8 +38,8 @@ function useGetEServiceConsumerActions<
       canCreateAgreementDraft = true
     }
 
-    // ... but only if I don't have an valid agreement with it yet, I'm an admin...
-    if (hasValidAgreement || !isAdmin) {
+    // ... but only if I don't have an valid agreement with it yet...
+    if (hasValidAgreement) {
       canCreateAgreementDraft = false
     }
 
@@ -45,11 +48,11 @@ function useGetEServiceConsumerActions<
       canCreateAgreementDraft = false
     }
 
-    if (isAdmin && hasValidAgreement) {
+    if (isAdmin && (hasValidAgreement || hasAgreementDraft)) {
       // Possible actions
 
       // If there is an valid agreement for this e-service add a "Go to Agreement" action
-      const handleGoToAgreementRequest = () => {
+      goToAgreementAction = () => {
         const routeKey = hasAgreementDraft ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'
 
         navigate(routeKey, {
@@ -60,13 +63,13 @@ function useGetEServiceConsumerActions<
       }
 
       actions.push({
-        action: handleGoToAgreementRequest,
+        action: goToAgreementAction,
         label: t('tableEServiceCatalog.goToRequestCta'),
       })
     }
 
-    if (canCreateAgreementDraft) {
-      const handleCreateAgreementDraft = () => {
+    if (canCreateAgreementDraft && isAdmin) {
+      createAgreementDraftAction = () => {
         if (!descriptor) return
         createAgreementDraft(
           {
@@ -83,13 +86,21 @@ function useGetEServiceConsumerActions<
         )
       }
       actions.push({
-        action: handleCreateAgreementDraft,
+        action: createAgreementDraftAction,
         label: tCommon('actions.subscribe'),
       })
     }
   }
 
-  return { actions, canCreateAgreementDraft, isMine, isSubscribed, hasAgreementDraft }
+  return {
+    actions,
+    canCreateAgreementDraft,
+    isMine,
+    isSubscribed,
+    hasAgreementDraft,
+    createAgreementDraftAction,
+    goToAgreementAction,
+  }
 }
 
 export default useGetEServiceConsumerActions

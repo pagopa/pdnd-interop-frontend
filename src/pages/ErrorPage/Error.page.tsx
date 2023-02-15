@@ -1,5 +1,5 @@
 import React from 'react'
-import useResolveError from './hooks/useResolveError'
+import useResolveError from '@/hooks/useResolveError'
 import { PageContainer } from '@/components/layout/containers'
 import { FallbackProps } from 'react-error-boundary'
 

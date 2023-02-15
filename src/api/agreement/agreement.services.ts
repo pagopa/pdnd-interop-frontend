@@ -4,13 +4,11 @@ import {
   GetListAgreementQueryParams,
   UploadAgreementDraftDocumentPayload,
 } from './agreement.api.types'
-import { AgreementSummary } from '@/types/agreement.types'
-import { downloadFile } from '@/utils/common.utils'
-import { DocumentRead } from '@/types/common.types'
-import { getDownloadDocumentName } from '@/utils/eservice.utils'
+import { AgreementListingItem, AgreementSummary } from '@/types/agreement.types'
+import { Paginated } from '../react-query-wrappers/react-query-wrappers.types'
 
 async function getList(params?: GetListAgreementQueryParams) {
-  const response = await axiosInstance.get<Array<AgreementSummary>>(
+  const response = await axiosInstance.get<Paginated<AgreementListingItem>>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements`,
     { params }
   )
@@ -60,19 +58,32 @@ async function deleteDraft({ agreementId }: { agreementId: string }) {
   )
 }
 
-async function downloadDraftDocument({
+async function updateDraft({
   agreementId,
-  document,
+  consumerNotes,
 }: {
   agreementId: string
-  document: DocumentRead
+  consumerNotes: string
+}) {
+  const response = await axiosInstance.post<AgreementSummary>(
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/update`,
+    { consumerNotes }
+  )
+  return response.data
+}
+
+async function downloadDraftDocument({
+  agreementId,
+  documentId,
+}: {
+  agreementId: string
+  documentId: string
 }) {
   const response = await axiosInstance.get(
-    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/consumer-documents/${document.id}`,
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/consumer-documents/${documentId}`,
     { responseType: 'arraybuffer' }
   )
-  const filename = getDownloadDocumentName(document)
-  downloadFile(response.data, filename)
+  return response.data
 }
 
 function uploadDraftDocument({
@@ -132,18 +143,19 @@ async function upgrade({ agreementId }: { agreementId: string }) {
   return response.data
 }
 
-async function downloadContract({
-  agreementId,
-  filename,
-}: {
-  agreementId: string
-  filename: string
-}) {
+async function clone({ agreementId }: { agreementId: string }) {
+  const response = await axiosInstance.post<AgreementSummary>(
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/clone`
+  )
+  return response.data
+}
+
+async function downloadContract({ agreementId }: { agreementId: string }) {
   const response = await axiosInstance.get(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/contract`,
     { responseType: 'arraybuffer' }
   )
-  downloadFile(response.data, filename)
+  return response.data
 }
 
 const AgreementServices = {
@@ -152,6 +164,7 @@ const AgreementServices = {
   createDraft,
   submitDraft,
   deleteDraft,
+  updateDraft,
   downloadDraftDocument,
   uploadDraftDocument,
   deleteDraftDocument,
@@ -159,6 +172,7 @@ const AgreementServices = {
   reject,
   suspend,
   upgrade,
+  clone,
   downloadContract,
 }
 

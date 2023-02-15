@@ -9,19 +9,18 @@ import {
   ListItemText,
 } from '@mui/material'
 import type { SvgIconComponent } from '@mui/icons-material'
-import EmailIcon from '@mui/icons-material/Email'
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded'
 import PeopleIcon from '@mui/icons-material/People'
 import { useTranslation } from 'react-i18next'
-import { RouteKey } from '@/router/types'
-import { UserProductRole } from '@/types/party.types'
+import { RouteKey } from '@/router/router.types'
 import { useJwt } from '@/hooks/useJwt'
 import { SELFCARE_BASE_URL } from '@/config/env'
 import { useCurrentRoute } from '@/router'
-import { getParentRoutes } from '@/router/utils'
+import { getParentRoutes } from '@/router/router.utils'
 import { SIDENAV_WIDTH } from '@/config/constants'
 import { SideNavItemLink, SideNavItemLinkSkeleton } from './SideNavItemLink'
 import { CollapsableSideNavItem, CollapsableSideNavItemSkeleton } from './CollapsableSideNavItem'
+import { useGetSideNavItems } from './hooks/useGetSideNavItems'
 
 type View = {
   routeKey: RouteKey
@@ -34,48 +33,6 @@ export type SideNavItemView = View & {
   EndIcon?: SvgIconComponent
 }
 
-type Views = Record<UserProductRole, Array<SideNavItemView>>
-
-const views: Views = {
-  admin: [
-    {
-      routeKey: 'PROVIDE',
-      id: 'provider',
-      children: ['PROVIDE_ESERVICE_LIST', 'PROVIDE_AGREEMENT_LIST'],
-    },
-    {
-      routeKey: 'SUBSCRIBE',
-      id: 'subscriber',
-      children: [
-        'SUBSCRIBE_CATALOG_LIST',
-        'SUBSCRIBE_AGREEMENT_LIST',
-        'SUBSCRIBE_PURPOSE_LIST',
-        'SUBSCRIBE_CLIENT_LIST',
-        'SUBSCRIBE_INTEROP_M2M',
-      ],
-    },
-  ],
-  api: [
-    {
-      routeKey: 'PROVIDE',
-      id: 'provider',
-      children: ['PROVIDE_ESERVICE_LIST'],
-    },
-    {
-      routeKey: 'SUBSCRIBE',
-      id: 'subscriber',
-      children: ['SUBSCRIBE_CATALOG_LIST'],
-    },
-  ],
-  security: [
-    {
-      routeKey: 'SUBSCRIBE',
-      id: 'subscriber',
-      children: ['SUBSCRIBE_CATALOG_LIST', 'SUBSCRIBE_CLIENT_LIST', 'SUBSCRIBE_INTEROP_M2M'],
-    },
-  ],
-}
-
 export const SideNav = () => {
   const { jwt } = useJwt()
   if (!jwt) return <SideNavSkeleton />
@@ -84,24 +41,15 @@ export const SideNav = () => {
 
 const _SideNav = () => {
   const { t } = useTranslation('shared-components')
-  const { jwt, isAdmin, isOperatorAPI, isOperatorSecurity } = useJwt()
+  const { jwt, isAdmin } = useJwt()
   const { routeKey } = useCurrentRoute()
 
-  const availableViews: Array<SideNavItemView> = React.useMemo(
-    () => [
-      ...(isAdmin ? views['admin'] : []),
-      ...(isOperatorAPI ? views['api'] : []),
-      ...(isOperatorSecurity ? views['security'] : []),
-      { routeKey: 'NOTIFICATION', StartIcon: EmailIcon },
-      ...(isAdmin ? [{ routeKey: 'PARTY_REGISTRY' as RouteKey }] : []),
-    ],
-    [isAdmin, isOperatorAPI, isOperatorSecurity]
-  )
+  const sideNavItems = useGetSideNavItems()
 
   const isActive = () => {
     const parentRoutes: Array<RouteKey> = [...getParentRoutes(routeKey), routeKey]
 
-    const menuRoutes = availableViews.filter((view) => 'id' in view)
+    const menuRoutes = sideNavItems.filter((view) => 'id' in view)
     const menuId = menuRoutes.find(({ routeKey }) => parentRoutes.includes(routeKey))?.id ?? null
 
     return menuId
@@ -119,7 +67,7 @@ const _SideNav = () => {
   return (
     <Box sx={{ display: 'block', py: 3, boxShadow: 5 }} component="nav">
       <List sx={{ width: SIDENAV_WIDTH, mr: 0 }} disablePadding>
-        {availableViews.map((item, i) => {
+        {sideNavItems.map((item, i) => {
           return item?.children && item?.children?.length > 0 ? (
             <CollapsableSideNavItem
               key={item.id}

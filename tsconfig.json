@@ -14,7 +14,6 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
@@ -22,9 +21,8 @@
   },
   "include": ["src"],
   "exclude": [
-    "./src/__tests__/**",
-    "./src/__mocks__/**",
-    "./src/test-utils"
+    // "./src/**/__tests__/**",
+    "__mocks__",
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

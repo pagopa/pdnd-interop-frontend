@@ -1,10 +1,13 @@
-import { AgreementSummary } from '@/types/agreement.types'
+import { AgreementListingItem, AgreementSummary } from '@/types/agreement.types'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { EServiceQueryKeys } from '../eservice'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
+import {
+  Paginated,
+  UseQueryWrapperOptions,
+} from '../react-query-wrappers/react-query-wrappers.types'
+import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
 import { GetListAgreementQueryParams } from './agreement.api.types'
-import { updateAgreementsListCache, removeAgreementFromListCache } from './agreement.api.utils'
 import AgreementServices from './agreement.services'
 
 export enum AgreementQueryKeys {
@@ -12,22 +15,18 @@ export enum AgreementQueryKeys {
   GetSingle = 'AgreementGetSingle',
 }
 
-function useGetList(params: GetListAgreementQueryParams) {
-  const queryClient = useQueryClient()
+function useGetList(
+  params: GetListAgreementQueryParams,
+  config: UseQueryWrapperOptions<Paginated<AgreementListingItem>>
+) {
   return useQueryWrapper(
     [AgreementQueryKeys.GetList, params],
     () => AgreementServices.getList(params),
-    {
-      onSuccess(data) {
-        data.forEach((agreement) => {
-          queryClient.setQueryData([AgreementQueryKeys.GetSingle, agreement.id], agreement)
-        })
-      },
-    }
+    config
   )
 }
 
-function useGetSingle(agreementId: string, config = { suspense: false }) {
+function useGetSingle(agreementId: string, config?: UseQueryWrapperOptions<AgreementSummary>) {
   return useQueryWrapper(
     [AgreementQueryKeys.GetSingle, agreementId],
     () => AgreementServices.getSingle(agreementId),
@@ -45,7 +44,6 @@ function usePrefetchSingle() {
 
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.createDraft' })
-  const queryClient = useQueryClient()
   return useMutationWrapper(AgreementServices.createDraft, {
     suppressSuccessToast: true,
     errorToastLabel: t('outcome.error'),
@@ -57,17 +55,11 @@ function useCreateDraft() {
         t('confirmDialog.description', { name: eserviceName, version: eserviceVersion }),
       proceedLabel: t('confirmDialog.proceedLabel'),
     },
-    onSuccess() {
-      queryClient.invalidateQueries([AgreementQueryKeys.GetList])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
-    },
   })
 }
 
 function useSubmitDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.submitDraft' })
-  const queryClient = useQueryClient()
   return useMutationWrapper(AgreementServices.submitDraft, {
     successToastLabel: t('outcome.success'),
     errorToastLabel: t('outcome.error'),
@@ -77,21 +69,11 @@ function useSubmitDraft() {
       title: t('confirmDialog.title'),
       description: t('confirmDialog.description'),
     },
-    onSuccess(data) {
-      queryClient.setQueriesData<Array<AgreementSummary>>(
-        [AgreementQueryKeys.GetList],
-        updateAgreementsListCache.bind(null, data)
-      )
-      queryClient.setQueryData([AgreementQueryKeys.GetSingle, data.id], data)
-      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
-    },
   })
 }
 
 function useDeleteDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.deleteDraft' })
-  const queryClient = useQueryClient()
   return useMutationWrapper(AgreementServices.deleteDraft, {
     successToastLabel: t('outcome.success'),
     errorToastLabel: t('outcome.error'),
@@ -101,15 +83,15 @@ function useDeleteDraft() {
       title: t('confirmDialog.title'),
       description: t('confirmDialog.description'),
     },
-    onSuccess(_, { agreementId }) {
-      queryClient.removeQueries([AgreementQueryKeys.GetSingle, agreementId])
-      queryClient.setQueriesData<Array<AgreementSummary>>(
-        [AgreementQueryKeys.GetList],
-        removeAgreementFromListCache.bind(null, agreementId)
-      )
-      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
-    },
+  })
+}
+
+function useUpdateDraft() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.updateDraft' })
+  return useMutationWrapper(AgreementServices.updateDraft, {
+    successToastLabel: t('outcome.success'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
   })
 }
 
@@ -117,8 +99,7 @@ function useDownloadDocument() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'agreement.downloadDraftDocument',
   })
-  return useMutationWrapper(AgreementServices.downloadDraftDocument, {
-    suppressSuccessToast: true,
+  return useDownloadFile(AgreementServices.downloadDraftDocument, {
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
   })
@@ -128,14 +109,10 @@ function useUploadDraftDocument() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'agreement.uploadDraftDocument',
   })
-  const queryClient = useQueryClient()
   return useMutationWrapper(AgreementServices.uploadDraftDocument, {
     suppressSuccessToast: true,
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
-    onSuccess(_, { agreementId }) {
-      queryClient.invalidateQueries([AgreementQueryKeys.GetSingle, agreementId])
-    },
   })
 }
 
@@ -143,20 +120,15 @@ function useDeleteDraftDocument() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'agreement.deleteDraftDocument',
   })
-  const queryClient = useQueryClient()
   return useMutationWrapper(AgreementServices.deleteDraftDocument, {
     successToastLabel: t('outcome.success'),
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
-    onSuccess(_, { agreementId }) {
-      queryClient.invalidateQueries([AgreementQueryKeys.GetSingle, agreementId])
-    },
   })
 }
 
 function useActivate() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.activate' })
-  const queryClient = useQueryClient()
   return useMutationWrapper(AgreementServices.activate, {
     successToastLabel: t('outcome.success'),
     errorToastLabel: t('outcome.error'),
@@ -166,40 +138,34 @@ function useActivate() {
       title: t('confirmDialog.title'),
       description: t('confirmDialog.description'),
     },
-    onSuccess(data, { agreementId }) {
-      queryClient.setQueryData([AgreementQueryKeys.GetSingle, agreementId], data)
-      queryClient.setQueriesData<Array<AgreementSummary>>(
-        [AgreementQueryKeys.GetList],
-        updateAgreementsListCache.bind(null, data)
-      )
-      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
-    },
   })
 }
 
 function useReject() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.reject' })
-  const queryClient = useQueryClient()
   return useMutationWrapper(AgreementServices.reject, {
     suppressSuccessToast: true,
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
-    onSuccess(data, { agreementId }) {
-      queryClient.setQueryData([AgreementQueryKeys.GetSingle, agreementId], data)
-      queryClient.setQueriesData<Array<AgreementSummary>>(
-        [AgreementQueryKeys.GetList],
-        updateAgreementsListCache.bind(null, data)
-      )
-      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
+  })
+}
+
+function useClone() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.clone' })
+  return useMutationWrapper(AgreementServices.clone, {
+    successToastLabel: t('outcome.success'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    showConfirmationDialog: true,
+    dialogConfig: {
+      title: t('confirmDialog.title'),
+      description: t('confirmDialog.description'),
     },
   })
 }
 
 function useSuspend() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.suspend' })
-  const queryClient = useQueryClient()
   return useMutationWrapper(AgreementServices.suspend, {
     successToastLabel: t('outcome.success'),
     errorToastLabel: t('outcome.error'),
@@ -209,19 +175,11 @@ function useSuspend() {
       title: t('confirmDialog.title'),
       description: t('confirmDialog.description'),
     },
-    onSuccess(data, { agreementId }) {
-      queryClient.setQueryData([AgreementQueryKeys.GetSingle, agreementId], data)
-      queryClient.setQueriesData<Array<AgreementSummary>>(
-        [AgreementQueryKeys.GetList],
-        updateAgreementsListCache.bind(null, data)
-      )
-    },
   })
 }
 
 function useUpgrade() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.upgrade' })
-  const queryClient = useQueryClient()
   return useMutationWrapper(AgreementServices.upgrade, {
     successToastLabel: t('outcome.success'),
     errorToastLabel: t('outcome.error'),
@@ -231,15 +189,6 @@ function useUpgrade() {
       title: t('confirmDialog.title'),
       description: t('confirmDialog.description'),
     },
-    onSuccess(data, { agreementId }) {
-      queryClient.setQueryData([AgreementQueryKeys.GetSingle, agreementId], data)
-      queryClient.setQueriesData<Array<AgreementSummary>>(
-        [AgreementQueryKeys.GetList],
-        updateAgreementsListCache.bind(null, data)
-      )
-      queryClient.invalidateQueries([EServiceQueryKeys.GetListFlat])
-      queryClient.invalidateQueries([EServiceQueryKeys.GetCatalogList])
-    },
   })
 }
 
@@ -247,8 +196,7 @@ function useDownloadContract() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'agreement.downloadContract',
   })
-  return useMutationWrapper(AgreementServices.downloadContract, {
-    suppressSuccessToast: true,
+  return useDownloadFile(AgreementServices.downloadContract, {
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
   })
@@ -264,12 +212,17 @@ export const AgreementMutations = {
   useCreateDraft,
   useSubmitDraft,
   useDeleteDraft,
-  useDownloadDocument,
+  useUpdateDraft,
   useUploadDraftDocument,
   useDeleteDraftDocument,
   useActivate,
   useReject,
   useSuspend,
   useUpgrade,
+  useClone,
+}
+
+export const AgreementDownloads = {
+  useDownloadDocument,
   useDownloadContract,
 }

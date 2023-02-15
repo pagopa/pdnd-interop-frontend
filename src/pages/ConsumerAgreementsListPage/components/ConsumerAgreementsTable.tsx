@@ -1,6 +1,5 @@
-import { AgreementQueries } from '@/api/agreement'
 import { Table } from '@/components/shared/Table'
-import { useJwt } from '@/hooks/useJwt'
+import { AgreementListingItem } from '@/types/agreement.types'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -8,11 +7,13 @@ import {
   ConsumerAgreementsTableRowSkeleton,
 } from './ConsumerAgreementsTableRow'
 
-export const ConsumerAgreementsTable: React.FC = () => {
+type ConsumerAgreementsProps = {
+  agreements: Array<AgreementListingItem>
+}
+
+export const ConsumerAgreementsTable: React.FC<ConsumerAgreementsProps> = ({ agreements }) => {
   const { t } = useTranslation('agreement')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
-  const { jwt } = useJwt()
-  const { data: agreements } = AgreementQueries.useGetList({ consumerId: jwt?.organizationId })
 
   const headLabels = [
     tCommon('eserviceName'),

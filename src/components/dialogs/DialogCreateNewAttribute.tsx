@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { DialogCreateNewAttributeProps } from '@/types/dialog.types'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { AttributeKind } from '@/types/attribute.types'
 import { mixed, object, string } from 'yup'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -21,6 +21,7 @@ type CreateNewAttributeFormValues = {
 export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> = ({
   attributeKey,
 }) => {
+  const ariaLabelId = React.useId()
   const { t } = useTranslation('shared-components', { keyPrefix: 'dialogCreateNewAttribute' })
   const { t: tAttribute } = useTranslation('attribute')
   const { closeDialog } = useDialog()
@@ -28,17 +29,13 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
   const { mutate: createAttribute } = AttributeMutations.useCreate()
 
   const validationSchema = object({
-    name: string().required(),
-    code: string().required(),
-    origin: string().required(),
-    description: string().required(),
+    name: string().required().min(5),
+    description: string().required().min(10),
     kind: mixed().oneOf(['CERTIFIED', 'VERIFIED', 'DECLARED']).required(),
   })
 
   const defaultValues = {
     name: '',
-    code: '',
-    origin: '',
     description: '',
     kind: attributeKey.toUpperCase() as AttributeKind,
   }
@@ -53,10 +50,10 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
   }
 
   return (
-    <Dialog open onClose={closeDialog} fullWidth>
+    <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
       <FormProvider {...formMethods}>
         <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <DialogTitle>
+          <DialogTitle id={ariaLabelId}>
             {t('title')} {tAttribute(`type.${attributeKey}`, { count: 1 })}
           </DialogTitle>
 
@@ -74,18 +71,6 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
               infoLabel={t('content.descriptionField.infoLabel')}
               multiline
               inputProps={{ maxLength: 250 }}
-            />
-            <TextField
-              name="code"
-              label={t('content.codeField.label')}
-              infoLabel={t('content.codeField.infoLabel')}
-              inputProps={{ maxLength: 30 }}
-            />
-            <TextField
-              name="origin"
-              label={t('content.originField.label')}
-              infoLabel={t('content.originField.infoLabel')}
-              inputProps={{ maxLength: 64 }}
             />
           </DialogContent>
 

@@ -22,11 +22,11 @@
       "detailsTitle": "E-service details",
       "eserviceNameField": {
         "label": "E-service name (required)",
-        "infoLabel": "If you have more than one e-service with the same name, give a little hint to tell them apart (e.g. \"TARI – for Municipalities\" e \"TARI - for Regions\"). Max 60 chars"
+        "infoLabel": "If you have more than one e-service with the same name, give a little hint to tell them apart (e.g. \"TARI – for Municipalities\" e \"TARI - for Regions\"). Min 5 chars, max 60 chars"
       },
       "eserviceDescriptionField": {
         "label": "E-service description (required)",
-        "infoLabel": "(e.g. \"Dedicated to the bodies that need ...\", or \"This e-service is for ...\"). Max 250 chars"
+        "infoLabel": "(e.g. \"Dedicated to the bodies that need ...\", or \"This e-service is for ...\"). Min 10 chars, max 250 chars"
       },
       "eserviceTechnologyField": {
         "label": "Technology (required)"
@@ -54,14 +54,14 @@
       },
       "descriptionField": {
         "label": "Version description (required)",
-        "infoLabel": "Max 250 chars"
+        "infoLabel": "Min 10 chars, max 250 chars"
       },
       "audienceField": {
         "label": "Audience (required)",
-        "infoLabel": "The content of this field will the audience (aud) that the Subscriber will send you inside the access token. With this id the Subscriber will tell the Provider which service it is looking for. Max 250 chars"
+        "infoLabel": "The content of this field will the audience (aud) that the Subscriber will send you inside the access token. With this id the Subscriber will tell the Provider which service it is looking for. Min 1 char, max 250 chars"
       },
       "voucherLifespanField": {
-        "label": "Access token expiration (in minutes - required)",
+        "label": "Voucher expiration (in minutes - required)",
         "infoLabel": "Max value: 1440 minutes (24 hours)"
       },
       "dailyCallsPerConsumerField": {
@@ -98,7 +98,7 @@
       },
       "nameField": {
         "label": "Document name",
-        "infoLabel": "Max 60 chars"
+        "infoLabel": "Min 5 chars, max 60 chars"
       },
       "uploadBtn": "Upload"
     },
@@ -121,8 +121,9 @@
       "providerField": {
         "label": "Find by provider"
       },
-      "filterBtn": "Filter",
-      "cancelFilterBtn": "Cancel filters"
+      "consumerField": {
+        "label": "Find by consumer"
+      }
     }
   },
   "manage": {
@@ -137,7 +138,8 @@
       "youAreTheProvider": "You are the provider of this e-service",
       "missingCertifiedAttributes": "Your party is missing at least one of the certified attributes required to subscribe this e-service",
       "alreadySubscribed": "You can't subscribe again as you are already a Subscriber of this e-service",
-      "hasAgreementDraft": "You already have an agreement draft for this e-service"
+      "hasAgreementDraft": "You already have an agreement draft for this e-service",
+      "hasNewVersionDraft": "This e-service has a new version draft. You can edit it <1>here</1>"
     },
     "actions": {
       "backToListLabel": "Back to the e-services",
@@ -170,14 +172,12 @@
           "label": "Fruition request activation",
           "AUTOMATIC": "Automatic",
           "MANUAL": "Manual"
-        },
-        "doubtsQuestion": "Do you have doubts about the implementation to deliver your e-service?",
-        "doubtsLink": "See the guide"
+        }
       },
-      "voucherVerification": {
-        "title": "Voucher verification",
-        "description": "Devi verificare un voucher ricevuto da un fruitore? Di seguito i link con le istruzioni necessarie",
-        "howLink": "How do I verify a voucher?",
+      "usefulLinks": {
+        "title": "useful links",
+        "manageEServiceGuideLink": "How do I implement and manage an e-service?",
+        "verifyVoucherGuideLink": "How do I verify a voucher?",
         "wellKnownLink": "URL .well-known"
       },
       "attributes": {
@@ -209,7 +209,7 @@
     "youAreTheProvider": "You are the Provider",
     "alreadySubscribed": "Already subscribed",
     "agreementInDraft": "You have an agreement draft",
-    "missingCertifiedAttributes": "Your party does not meet the list of required certificated attributes",
+    "cannotSubscribe": "You cannot subscribe",
     "goToRequestCta": "Go to the fruition request"
   }
 }

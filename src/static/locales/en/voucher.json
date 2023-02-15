@@ -11,14 +11,14 @@
   "choosePurposeBtn": "associate a purpose",
   "or": "or",
   "choosePurposeLabel": "Choose the purpose to use",
-  "purposeFailureMessage": "Warning! It will not be possible to obtain an access token for this purpose. One or more components are currently suspended. Suspended components:",
+  "purposeFailureMessage": "Warning! It will not be possible to obtain a voucher for this purpose. One or more components are currently suspended. Suspended components:",
   "purposeFailureReason": {
     "eservice": "E-service",
     "agreement": "fruition agreement",
     "purpose": "purpose"
   },
   "uploadKey": {
-    "message": "No keys found, it will not be possible to obtain an access token. To upload your first key, go to",
+    "message": "No keys found, it will not be possible to obtain a voucher. To upload your first key, go to",
     "linkLabel": "the public keys tab"
   },
   "step1": {
@@ -95,11 +95,11 @@
     }
   },
   "step2": {
-    "stepperLabel": "Access token",
-    "title": "Access token",
-    "consumerDescription": "In the previous step, you obtained a JWS signed with your private key. Now it will be used to make an access token request towards the Interoperability authorization server. It all is fine, an access token will be generated. It can be spent on the Provider e-service",
+    "stepperLabel": "Voucher",
+    "title": "Voucher",
+    "consumerDescription": "In the previous step, you obtained a JWS signed with your private key. Now it will be used to make a voucher request towards the Interoperability authorization server. It all is fine, a voucher will be generated. It can be spent on the Provider e-service",
     "apiDescription": {
-      "message": "In the previous step, you obtained a JWS signed with your private key. Now it will be used to make an access token request towards the Interoperability authorization server. It all is fine, an access token will be generated. It can be spent on the Provider e-service"
+      "message": "In the previous step, you obtained a JWS signed with your private key. Now it will be used to make a voucher request towards the Interoperability authorization server. It all is fine, a voucher will be generated. It can be spent on the Provider e-service"
     },
     "authEndpoint": {
       "label": "Authorization server endpoint",
@@ -126,7 +126,7 @@
         "copySuccessFeedbackText": "String copied successfully"
       }
     },
-    "accessTokenScript": {
+    "voucherScript": {
       "title": "cURL example",
       "description": "Replace the placeholder with the assertion obtained at step 1 and run the cURL",
       "exampleLabel": "example cURL"
@@ -137,7 +137,7 @@
     "apiStepperLabel": "API gateway details",
     "consumer": {
       "title": "Access the Provider e-service",
-      "description": "The access token obtained can be spent on the Provider e-service",
+      "description": "The voucher obtained can be spent on the Provider e-service",
       "audField": {
         "label": "AUD",
         "description": "The audience of the Provider e-service",
@@ -149,7 +149,7 @@
     },
     "api": {
       "title": "Interoperability API gateway access",
-      "description": "The access token obtained can be spent on the Interoperability API gateway",
+      "description": "The voucher obtained can be spent on the Interoperability API gateway",
       "apiField": {
         "label": "Link to the document's interface",
         "link": {

@@ -9,20 +9,22 @@ import {
   UpdateEServiceVersionDraftDocumentPayload,
   EServiceGetCatalogListUrlParams,
   EServiceGetProviderListUrlParams,
+  EServiceGetConsumersUrlParams,
+  EServiceGetProducersUrlParams,
 } from './eservice.api.types'
 import {
   EServiceCatalog,
+  EServiceConsumer,
   EServiceDescriptorCatalog,
   EServiceDescriptorProvider,
   EServiceDescriptorRead,
+  EServiceProducer,
   EServiceProvider,
   EServiceRead,
   EServiceReadType,
 } from '@/types/eservice.types'
-import { getDownloadDocumentName } from '@/utils/eservice.utils'
-import { downloadFile } from '@/utils/common.utils'
 import { DocumentRead } from '@/types/common.types'
-import { Paginated } from '../comon.api.types'
+import { Paginated } from '../react-query-wrappers/react-query-wrappers.types'
 
 /** @deprecated TO BE REMOVED */
 async function getListFlat(params: EServiceGetListFlatUrlParams) {
@@ -43,7 +45,7 @@ async function getCatalogList(params: EServiceGetCatalogListUrlParams) {
 
 async function getProviderList(params: EServiceGetProviderListUrlParams) {
   const response = await axiosInstance.get<Paginated<EServiceProvider>>(
-    `${BACKEND_FOR_FRONTEND_URL}/producer/eservices`,
+    `${BACKEND_FOR_FRONTEND_URL}/producers/eservices`,
     { params }
   )
   return response.data
@@ -70,11 +72,23 @@ async function getDescriptorProvider(eserviceId: string, descriptorId: string) {
   return response.data
 }
 
-async function createDraft(
-  payload: {
-    producerId: string
-  } & EServiceDraftPayload
-) {
+async function getConsumers(params: EServiceGetConsumersUrlParams) {
+  const response = await axiosInstance.get<Paginated<EServiceConsumer>>(
+    `${BACKEND_FOR_FRONTEND_URL}/consumers`,
+    { params }
+  )
+  return response.data
+}
+
+async function getProducers(params: EServiceGetProducersUrlParams) {
+  const response = await axiosInstance.get<Paginated<EServiceProducer>>(
+    `${BACKEND_FOR_FRONTEND_URL}/producers`,
+    { params }
+  )
+  return response.data
+}
+
+async function createDraft(payload: EServiceDraftPayload) {
   const response = await axiosInstance.post<EServiceReadType>(
     `${CATALOG_PROCESS_URL}/eservices`,
     payload
@@ -200,7 +214,7 @@ async function postVersionDraftDocument({
   Object.entries(payload).forEach(([key, data]) => formData.append(key, data))
 
   const response = await axiosInstance.post<EServiceReadType>(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents`,
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents`,
     formData,
     { headers: { 'Content-Type': 'multipart/form-data' } }
   )
@@ -241,18 +255,17 @@ async function updateVersionDraftDocumentDescription({
 async function downloadVersionDraftDocument({
   eserviceId,
   descriptorId,
-  document,
+  documentId,
 }: {
   eserviceId: string
   descriptorId: string
-  document: DocumentRead
+  documentId: string
 }) {
   const response = await axiosInstance.get(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${document.id}`,
+    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}`,
     { responseType: 'arraybuffer' }
   )
-  const filename = getDownloadDocumentName(document)
-  downloadFile(response.data, filename)
+  return response.data
 }
 
 const EServiceServices = {
@@ -262,6 +275,8 @@ const EServiceServices = {
   getSingle,
   getDescriptorCatalog,
   getDescriptorProvider,
+  getConsumers,
+  getProducers,
   createDraft,
   updateDraft,
   deleteDraft,

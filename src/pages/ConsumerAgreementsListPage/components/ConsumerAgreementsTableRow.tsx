@@ -1,28 +1,27 @@
 import { AgreementQueries } from '@/api/agreement'
-import { EServiceQueries } from '@/api/eservice'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUISkeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import { TableRow } from '@/components/shared/Table'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
 import { useNavigateRouter } from '@/router'
-import { AgreementSummary } from '@/types/agreement.types'
+import { AgreementListingItem } from '@/types/agreement.types'
 import { Box, Button, Skeleton } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementSummary }> = ({
+export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListingItem }> = ({
   agreement,
 }) => {
   const { navigate } = useNavigateRouter()
   const { t } = useTranslation('agreement', { keyPrefix: 'list' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const prefetchAgreement = AgreementQueries.usePrefetchSingle()
-  const prefetchEService = EServiceQueries.usePrefetchDescriptorCatalog()
 
   const { actions } = useGetAgreementsActions(agreement)
 
   const eservice = agreement.eservice
+  const descriptor = agreement.descriptor
 
   const handleEditOrInspect = () => {
     const destPath =
@@ -33,16 +32,15 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementSummary 
 
   const handlePrefetch = () => {
     prefetchAgreement(agreement.id)
-    prefetchEService(eservice.id, agreement.descriptorId)
   }
 
   return (
     <TableRow
       cellData={[
         {
-          label: t('eserviceName', { name: eservice.name, version: eservice.version }),
+          label: t('eserviceName', { name: eservice.name, version: descriptor.version }),
         },
-        { label: agreement.producer.name },
+        { label: agreement.eservice.producer.name },
         {
           custom: <StatusChip for="agreement" agreement={agreement} />,
         },

@@ -1,34 +1,32 @@
 import React from 'react'
-import { EServiceQueries } from '@/api/eservice'
-import { useJwt } from '@/hooks/useJwt'
 import { Table } from '@/components/shared/Table'
 import { useTranslation } from 'react-i18next'
 import { EServiceTableRow, EServiceTableRowSkeleton } from './EServiceTableRow'
+import { EServiceProvider } from '@/types/eservice.types'
 
-export const EServiceTable: React.FC = () => {
-  const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceList.eserviceTable' })
-  const { jwt } = useJwt()
-  const { data: eservices } = EServiceQueries.useGetListFlat({
-    callerId: jwt?.organizationId,
-    producerId: jwt?.organizationId,
-  })
+type EServiceTableProps = {
+  eservices: Array<EServiceProvider>
+}
 
-  const headLabels = [t('headLabels.name'), t('headLabels.version'), t('headLabels.status'), '']
+export const EServiceTable: React.FC<EServiceTableProps> = ({ eservices }) => {
+  const { t } = useTranslation('common', { keyPrefix: 'table.headData' })
+
+  const headLabels = [t('eserviceName'), t('version'), t('status'), '']
 
   const isEmpty = eservices && eservices.length === 0
 
   return (
     <Table headLabels={headLabels} isEmpty={isEmpty}>
       {eservices?.map((eservice) => (
-        <EServiceTableRow key={eservice?.descriptorId || eservice.id} eservice={eservice} />
+        <EServiceTableRow key={eservice.id} eservice={eservice} />
       ))}
     </Table>
   )
 }
 
 export const EServiceTableSkeleton: React.FC = () => {
-  const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceList.eserviceTable' })
-  const headLabels = [t('headLabels.name'), t('headLabels.version'), t('headLabels.status'), '']
+  const { t } = useTranslation('common', { keyPrefix: 'table.headData' })
+  const headLabels = [t('eserviceName'), t('version'), t('status'), '']
 
   return (
     <Table headLabels={headLabels}>

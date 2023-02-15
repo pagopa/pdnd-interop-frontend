@@ -1,8 +1,8 @@
 import React from 'react'
 import { Breadcrumbs as _Breadcrumbs, Link as MUILink } from '@mui/material'
 import { useCurrentRoute } from '@/router'
-import { getParentRoutes, getSplittedPath } from '@/router/utils'
-import { RouteKey } from '@/router/types'
+import { getParentRoutes, getPathSegments } from '@/router/router.utils'
+import { RouteKey } from '@/router/router.types'
 import { Link, useParams } from 'react-router-dom'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { routes } from '@/router/routes'
@@ -14,7 +14,7 @@ export function Breadcrumbs() {
   const params = useParams()
 
   const toDynamicPath = (routeKey: RouteKey) => {
-    const subpaths = getSplittedPath(routes[routeKey], currentLanguage)
+    const subpaths = getPathSegments(routes[routeKey].PATH[currentLanguage])
 
     const dynamicSplit = subpaths.map((pathFragment) => {
       const isDynamicFragment = pathFragment.charAt(0) === ':'

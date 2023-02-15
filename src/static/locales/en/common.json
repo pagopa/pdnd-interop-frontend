@@ -10,7 +10,8 @@
       "required": "Field required"
     },
     "string": {
-      "email": "Invalid email format"
+      "email": "Invalid email format",
+      "minLength": "This field must contain at least ${min} chars"
     },
     "boolean": {
       "isValue": "Please confirm"
@@ -53,7 +54,14 @@
     "confirm": "Confirm",
     "createNewDraft": "Create new draft version",
     "saveDraft": "Save draft",
-    "backToCatalog": "Back to catalog"
+    "backToCatalog": "Back to catalog",
+    "editDraft": "Edit draft",
+    "deleteDraft": "Delete draft",
+    "updateCompletionDate": "Update attivation date",
+    "confirmUpdate": "Confirm update",
+    "filter": "Filter",
+    "cancelFilter": "Cancel filters",
+    "handleRequest": "Handle request"
   },
   "table": {
     "headData": {
@@ -65,10 +73,8 @@
       "currentVersion": "Current version",
       "version": "Versione",
       "status": "Status",
-      "eserviceStatus": "E-Service status",
       "agreementStatus": "Request status",
       "purposeStatus": "Purpose status",
-      "userStatus": "User status",
       "keyName": "Key name",
       "keyUploader": "Uploaded by",
       "keyUploadDate": "Creation date",
@@ -100,7 +106,10 @@
     "purpose": {
       "DRAFT": "draft",
       "ACTIVE": "active",
-      "SUSPENDED": "suspended",
+      "SUSPENDED": {
+        "byConsumer": "suspended by consumer",
+        "byProducer": "suspended by producer"
+      },
       "WAITING_FOR_APPROVAL": "awaiting evaluation",
       "ARCHIVED": "archived"
     },

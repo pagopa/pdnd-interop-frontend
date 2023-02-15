@@ -1,13 +1,15 @@
 import { AgreementState } from '@/types/agreement.types'
+import { PaginationParams } from '../api.types'
 
-export type GetListAgreementQueryParams = {
-  producerId?: string
-  consumerId?: string
+export type GetListAgreementQueryFilters = {
+  producersIds?: Array<string>
+  consumersIds?: Array<string>
   states?: Array<AgreementState>
-  esericeId?: string
-  descriptorId?: string
-  latest?: boolean
+  eservicesIds?: Array<string>
+  showOnlyUpgradeable?: boolean
 }
+
+export type GetListAgreementQueryParams = GetListAgreementQueryFilters & PaginationParams
 
 export type UploadAgreementDraftDocumentPayload = {
   name: string

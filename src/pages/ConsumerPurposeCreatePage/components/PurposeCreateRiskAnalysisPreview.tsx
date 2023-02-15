@@ -1,12 +1,13 @@
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
-import { PurposeCreateFormValues } from '../ConsumerPurposeCreate.page'
 import riskAnalysisConfig from '@/static/risk-analysis/pa/v2.0.json'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { Box, Divider, Grid, List, ListItem, ListItemText, Stack, Typography } from '@mui/material'
 import { Question } from '@/pages/ConsumerPurposeEditPage/types/risk-analysis.types'
+import { PurposeQueries } from '@/api/purpose'
+import { PurposeCreateFormValues } from './PurposeCreateEServiceForm'
 
 type QuestionItem = { question: string; answer: string }
 
@@ -14,8 +15,14 @@ export const PurposeCreateRiskAnalysisPreview: React.FC = () => {
   const { t } = useTranslation('purpose', { keyPrefix: 'create' })
   const currentLanguage = useCurrentLanguage()
   const { watch } = useFormContext<PurposeCreateFormValues>()
-  const purpose = watch('template')
   const isUsingTemplate = watch('useTemplate')
+  const purposeId = watch('templateId')
+
+  const { data: purpose } = PurposeQueries.useGetSingle(purposeId!, {
+    suspense: false,
+    enabled: !!purposeId,
+  })
+
   const riskAnalysisTemplate = purpose?.riskAnalysisForm.answers
 
   const questions: Array<QuestionItem> = React.useMemo(() => {
@@ -56,7 +63,6 @@ export const PurposeCreateRiskAnalysisPreview: React.FC = () => {
   return (
     <>
       <SectionContainer title={t('purposeInfoTitle')}>
-        <DescriptionBlock label={t('consumerName')}>{purpose.consumer.name}</DescriptionBlock>
         <DescriptionBlock label={t('purposeTitle')}>{purpose.title}</DescriptionBlock>
         <DescriptionBlock label={t('purposeDescription')}>{purpose.description}</DescriptionBlock>
 

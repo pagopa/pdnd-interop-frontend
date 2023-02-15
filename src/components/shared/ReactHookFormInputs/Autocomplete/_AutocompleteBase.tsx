@@ -3,7 +3,6 @@ import {
   Autocomplete,
   AutocompleteProps,
   AutocompleteValue,
-  Chip,
   CircularProgress,
   TextField,
   TextFieldProps,
@@ -15,6 +14,9 @@ import parse from 'autosuggest-highlight/parse'
 import match from 'autosuggest-highlight/match'
 import { useTranslation } from 'react-i18next'
 import identity from 'lodash/identity'
+import isEqual from 'lodash/isEqual'
+
+export type AutocompleteInput<T> = { label: string; value: T }
 
 export type AutocompleteBaseProps<
   T,
@@ -28,6 +30,9 @@ export type AutocompleteBaseProps<
   focusOnMount?: boolean
   getOptionValue?: (option: AutocompleteValue<T, Multiple, DisableClearable, FreeSolo>) => unknown
   variant?: TextFieldProps['variant']
+  setInternalState: React.Dispatch<
+    React.SetStateAction<AutocompleteValue<T, Multiple, DisableClearable, FreeSolo>>
+  >
 }
 
 /** Do not use.  */
@@ -46,11 +51,11 @@ export function _AutocompleteBase<
   placeholder,
   loading,
   defaultValue,
+  setInternalState,
   variant = 'outlined',
-  getOptionLabel = identity,
   getOptionValue = identity,
   ...props
-}: AutocompleteBaseProps<T, Multiple, DisableClearable, FreeSolo>) {
+}: AutocompleteBaseProps<AutocompleteInput<T>, Multiple, DisableClearable, FreeSolo>) {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'autocompleteMultiple',
   })
@@ -77,6 +82,7 @@ export function _AutocompleteBase<
           <Autocomplete
             id={labelId}
             options={options}
+            isOptionEqualToValue={(option, { value }) => isEqual(option.value, value)}
             loadingText={props.loadingText || t('loadingLabel')}
             noOptionsText={props.noOptionsText || t('noDataLabel')}
             loading={loading}
@@ -87,16 +93,15 @@ export function _AutocompleteBase<
             }}
             {...props}
             onChange={(_, data) => {
-              const newValue = getOptionValue(data)
-              onChange(newValue)
-              return newValue
+              onChange(getOptionValue(data))
+              setInternalState(data)
             }}
             renderInput={(params) => {
               return (
                 <TextField
                   variant={variant}
                   error={!!error}
-                  placeholder={placeholder || '...'}
+                  placeholder={placeholder ?? '...'}
                   {...params}
                   autoFocus={focusOnMount}
                   InputLabelProps={{ shrink: true, ...params.InputLabelProps }}
@@ -114,7 +119,7 @@ export function _AutocompleteBase<
               )
             }}
             renderOption={(props, value, { inputValue }) => {
-              const label = getOptionLabel(value)
+              const label = value.label
               if (!label) return null
 
               const matches = match(label, inputValue, { insideWords: true })
@@ -136,17 +141,6 @@ export function _AutocompleteBase<
                 </li>
               )
             }}
-            renderTags={(value, getTagProps) => (
-              <React.Fragment>
-                {value.map((option, index: number) => (
-                  <Chip // eslint-disable-line react/jsx-key
-                    variant="outlined"
-                    label={getOptionLabel(option)}
-                    {...getTagProps({ index })}
-                  />
-                ))}
-              </React.Fragment>
-            )}
           />
         )}
       />

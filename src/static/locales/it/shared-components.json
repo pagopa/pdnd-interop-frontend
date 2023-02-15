@@ -1,6 +1,5 @@
 {
   "styledDialogBasic": {
-    "ariaDescribedBy": "Modale per azioni",
     "actions": {
       "cancelLabel": "Annulla"
     }
@@ -9,12 +8,6 @@
     "content": {
       "descriptionField": {
         "label": "Descrizione dell'attributo"
-      },
-      "codeField": {
-        "label": "Id della fonte autoritativa"
-      },
-      "originField": {
-        "label": "Nome della fonte autoritativa"
       }
     },
     "actions": {
@@ -22,7 +15,6 @@
     }
   },
   "dialogSessionExpired": {
-    "ariaDescribedBy": "Modale per segnalare che la sessione attuale è scaduta. È necessario effettuare un nuovo login",
     "title": "La sessione è scaduta",
     "content": {
       "description": "A breve sarai reindirizzato alla pagina di login"
@@ -32,7 +24,6 @@
     }
   },
   "dialogUpdatePurposeDailyCalls": {
-    "ariaDescribedBy": "Modale per aggiornare il numero di chiamate API/giorno per una finalità",
     "title": "Aggiorna numero di chiamate API/giorno",
     "content": {
       "dailyCallsField": {
@@ -46,7 +37,6 @@
     }
   },
   "dialogSetPurposeExpectedApprovalDate": {
-    "ariaDescribedBy": "Modale per impostare una data di completamento stimata per l'attivazione di una finalità",
     "title": "Imposta data di completamento stimata",
     "content": {
       "message": "Questa data verrà indicata al fruitore come data di attivazione della finalità. Potrai aggiornarla in qualsiasi momento"
@@ -57,7 +47,6 @@
     }
   },
   "dialogAddSecurityOperators": {
-    "ariaDescribedBy": "Modale per aggiungere utenti membri ad un client",
     "title": "Aggiungi membri del client",
     "content": {
       "autocompleteLabel": "Utenti selezionati",
@@ -69,12 +58,11 @@
     }
   },
   "dialogAddSecurityOperatorKeys": {
-    "ariaDescribedBy": "Modale per aggiungere chiavi pubbliche ad un client",
     "title": "Carica nuova chiave pubblica",
     "content": {
       "nameField": {
         "label": "Nome della chiave (richiesto)",
-        "infoLabel": "Ti aiuta a distinguerla dalle altre. Max 60 caratteri"
+        "infoLabel": "Ti aiuta a distinguerla dalle altre. Min 5 caratteri, max 60 caratteri"
       },
       "keyField": {
         "label": "Chiave pubblica (richiesto)",
@@ -90,12 +78,11 @@
     }
   },
   "dialogRejectAgreement": {
-    "ariaDescribedBy": "Modale per rifiutare una richiesta di fruizione ad un fruitore",
     "title": "Rifiuta richiesta di fruizione",
     "content": {
       "reason": {
         "label": "Motivazione",
-        "infoLabel": "Inserisci la motivazione per la quale rifiuti la richiesta di fruizione. Max 1000 caratteri"
+        "infoLabel": "Inserisci la motivazione per la quale rifiuti la richiesta di fruizione. Min 20 caratteri, max 1000 caratteri"
       }
     },
     "actions": {
@@ -104,7 +91,6 @@
     }
   },
   "dialogAddClientToPurpose": {
-    "ariaDescribedBy": "Modale per aggiungere client ad una finalità",
     "title": "Aggiungi client",
     "content": {
       "autocompleteLabel": "Client selezionati",
@@ -116,30 +102,35 @@
     }
   },
   "dialogCreateNewAttribute": {
-    "ariaDescribedBy": "Modale per creare un nuovo attributo",
     "title": "Crea nuovo attributo",
     "content": {
       "nameField": {
         "label": "Nome dell'attributo (richiesto)",
-        "infoLabel": "Max 160 caratteri"
+        "infoLabel": "Min 5 caratteri, max 160 caratteri"
       },
       "descriptionField": {
         "label": "Descrizione dell'attributo (richiesto)",
-        "infoLabel": "Max 250 caratteri"
-      },
-      "codeField": {
-        "label": "Id della fonte autoritativa (richiesto)",
-        "infoLabel": "Il nome della fonte in kebab-case (es. \"La mia fonte autoritativa\" diventa \"la-mia-fonte-autoritativa\"). Max 30 caratteri"
-      },
-      "originField": {
-        "label": "Nome della fonte autoritativa (richiesto)",
-        "infoLabel": "Max 64 caratteri"
+        "infoLabel": "Min 10 caratteri, max 250 caratteri"
       }
     },
     "actions": {
       "cancelLabel": "Annulla",
       "confirmLabel": "Crea attributo"
     }
+  },
+  "dialogUpdatePartyMail": {
+    "title": "Modifica contatti",
+    "subtitle": "Puoi modificare la mail di contatto e la descrizione relativa al tuo ente. La modifica sarà immediatamente visibile",
+    "content": {
+      "mailAddressField": {
+        "label": "Indirizzo email (richiesto)"
+      },
+      "descriptionField": {
+        "label": "Descrizione",
+        "infoLabel": "Max 160 caratteri"
+      }
+    },
+    "alertLabel": "Agli enti non viene notificata questa modifica; si consiglia di mantenere un redirect attivo dal vecchio al nuovo indirizzo per qualche tempo"
   },
   "copyToClipboardButton": {
     "copy": "Copia",
@@ -179,5 +170,8 @@
     "editDocumentName": "Modifica nome del documento",
     "deleteDocument": "Cancella documento",
     "downloadDocument": "Scarica documento"
+  },
+  "actionMenu": {
+    "iconButtonAriaLabel": "Apri menù delle azioni"
   }
 }

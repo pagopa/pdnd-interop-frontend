@@ -1,6 +1,6 @@
 import { ClientMutations, ClientQueries } from '@/api/client'
 import { PartyQueries } from '@/api/party/party.hooks'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { useJwt } from '@/hooks/useJwt'
 import { SelfCareUser } from '@/types/party.types'
 import { Button, Stack } from '@mui/material'

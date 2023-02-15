@@ -1,6 +1,6 @@
 import React from 'react'
 import { ClientQueries } from '@/api/client'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import { useJwt } from '@/hooks/useJwt'
 import { DialogAddClientToPurposeProps } from '@/types/dialog.types'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
@@ -20,6 +20,7 @@ export const DialogAddClientToPurpose: React.FC<DialogAddClientToPurposeProps> =
     keyPrefix: 'dialogAddClientToPurpose',
     useSuspense: false,
   })
+  const ariaLabelId = React.useId()
   const { closeDialog } = useDialog()
   const { mutateAsync: addClient } = PurposeMutations.useAddClient()
 
@@ -61,10 +62,10 @@ export const DialogAddClientToPurpose: React.FC<DialogAddClientToPurposeProps> =
   const selectedClients = formMethods.watch('selectedClients')
 
   return (
-    <Dialog open onClose={closeDialog} fullWidth>
+    <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
       <FormProvider {...formMethods}>
         <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <DialogTitle>{t('title')}</DialogTitle>
+          <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
 
           <DialogContent>
             <Box sx={{ mt: 3 }}>

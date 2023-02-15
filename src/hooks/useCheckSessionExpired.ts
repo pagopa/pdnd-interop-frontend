@@ -1,4 +1,4 @@
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 import React from 'react'
 import { useJwt } from './useJwt'
 

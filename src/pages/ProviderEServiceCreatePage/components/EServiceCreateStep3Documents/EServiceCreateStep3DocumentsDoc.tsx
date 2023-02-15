@@ -8,8 +8,9 @@ import { DocumentContainer } from '@/components/layout/containers/DocumentContai
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SingleFileInput, TextField } from '@/components/shared/ReactHookFormInputs'
-import { EServiceMutations } from '@/api/eservice'
+import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { DocumentRead } from '@/types/common.types'
+import { getDownloadDocumentName } from '@/utils/eservice.utils'
 
 type EServiceCreateStep3DocumentsDocFormValues = {
   doc: File | null
@@ -25,7 +26,7 @@ export function EServiceCreateStep3DocumentsDoc() {
   const { t } = useTranslation('eservice')
   const { t: tCommon } = useTranslation('common')
   const { descriptor } = useEServiceCreateContext()
-  const { mutate: downloadDocument } = EServiceMutations.useDownloadVersionDocument()
+  const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
   const { mutate: deleteDocument } = EServiceMutations.useDeleteVersionDraftDocument()
   const { mutate: updateDocumentName } =
     EServiceMutations.useUpdateVersionDraftDocumentDescription()
@@ -33,7 +34,7 @@ export function EServiceCreateStep3DocumentsDoc() {
 
   const validationSchema = object({
     doc: mixed().required(),
-    prettyName: string().required(),
+    prettyName: string().required().min(5),
   })
 
   const docs = descriptor?.docs ?? []
@@ -88,11 +89,14 @@ export function EServiceCreateStep3DocumentsDoc() {
 
   const handleDownloadDocument = (document: DocumentRead) => {
     if (!descriptor) return
-    downloadDocument({
-      eserviceId: descriptor.eservice.id,
-      descriptorId: descriptor.id,
-      document,
-    })
+    downloadDocument(
+      {
+        eserviceId: descriptor.eservice.id,
+        descriptorId: descriptor.id,
+        documentId: document.id,
+      },
+      getDownloadDocumentName(document)
+    )
   }
 
   return (

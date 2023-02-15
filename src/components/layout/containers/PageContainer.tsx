@@ -1,17 +1,7 @@
 import React from 'react'
-import {
-  Box,
-  Button,
-  ButtonProps,
-  CircularProgress,
-  Skeleton,
-  Stack,
-  SxProps,
-  Typography,
-} from '@mui/material'
+import { Box, Button, ButtonProps, Skeleton, Stack, SxProps, Typography } from '@mui/material'
 import { ActionItem } from '@/types/common.types'
 import { ActionMenu } from '@/components/shared/ActionMenu'
-import { useIsFetching } from '@tanstack/react-query'
 import { InfoTooltip } from '@/components/shared/InfoTooltip'
 
 export type TopSideActions = {
@@ -69,9 +59,6 @@ type StyledIntroProps = {
 }
 
 const StyledIntro: React.FC<StyledIntroProps> = ({ title, description, topSideActions = null }) => {
-  // Checks if there is an invalidated query being refetched
-  const isFetching = useIsFetching({ predicate: (query) => query.state?.data !== undefined }) > 0
-
   return (
     <Stack direction="row" alignItems="end" spacing={2}>
       <Box sx={{ flex: 1 }}>
@@ -88,11 +75,6 @@ const StyledIntro: React.FC<StyledIntroProps> = ({ title, description, topSideAc
       </Box>
 
       <Stack direction="row" alignItems="center" spacing={2}>
-        <CircularProgress
-          sx={{ visibility: isFetching ? 'visible' : 'hidden', mr: 1 }}
-          color="primary"
-          size={25}
-        />
         {topSideActions?.infoTooltip && <InfoTooltip label={topSideActions.infoTooltip} />}
         {topSideActions?.buttons &&
           topSideActions.buttons.map(({ action, label, ...props }, i) => (

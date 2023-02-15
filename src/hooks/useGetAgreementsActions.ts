@@ -1,14 +1,13 @@
-import { AgreementState, AgreementSummary } from '@/types/agreement.types'
+import { AgreementListingItem, AgreementState, AgreementSummary } from '@/types/agreement.types'
 import { AgreementMutations } from '@/api/agreement'
 import { ActionItem } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
 import { useCurrentRoute, useNavigateRouter } from '@/router'
-import { canAgreementBeUpgraded } from '@/utils/agreement.utils'
-import { useDialog } from '@/contexts'
+import { useDialog } from '@/stores'
 
 type AgreementActions = Record<AgreementState, Array<ActionItem>>
 
-function useGetAgreementsActions(agreement: AgreementSummary | undefined): {
+function useGetAgreementsActions(agreement?: AgreementSummary | AgreementListingItem): {
   actions: Array<ActionItem>
 } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
@@ -18,24 +17,20 @@ function useGetAgreementsActions(agreement: AgreementSummary | undefined): {
 
   const { mutate: activateAgreement } = AgreementMutations.useActivate()
   const { mutate: suspendAgreement } = AgreementMutations.useSuspend()
-  const { mutate: upgradeAgreement } = AgreementMutations.useUpgrade()
   const { mutate: deleteAgreement } = AgreementMutations.useDeleteDraft()
+  const { mutate: cloneAgreement } = AgreementMutations.useClone()
 
   if (!agreement || mode === null) return { actions: [] }
-
-  const canBeUpgraded = canAgreementBeUpgraded(agreement, mode)
 
   const handleActivate = () => {
     activateAgreement({ agreementId: agreement.id })
   }
+  const activateAction = { action: handleActivate, label: t('activate') }
 
   const handleSuspend = () => {
     suspendAgreement({ agreementId: agreement.id })
   }
-
-  const handleUpgrade = () => {
-    upgradeAgreement({ agreementId: agreement.id })
-  }
+  const suspendAction = { action: handleSuspend, label: t('suspend') }
 
   const handleDelete = () => {
     deleteAgreement(
@@ -49,35 +44,42 @@ function useGetAgreementsActions(agreement: AgreementSummary | undefined): {
       }
     )
   }
+  const deleteAction = { action: handleDelete, label: t('delete') }
 
   const handleReject = () => {
     openDialog({ type: 'rejectAgreement', agreementId: agreement.id })
   }
+  const rejectAction = { action: handleReject, label: t('reject') }
+
+  const handleClone = () => {
+    cloneAgreement(
+      { agreementId: agreement.id },
+      {
+        onSuccess({ id }) {
+          navigate('SUBSCRIBE_AGREEMENT_EDIT', { params: { agreementId: id } })
+        },
+      }
+    )
+  }
+  const cloneAction = {
+    action: handleClone,
+    label: t('clone'),
+  }
 
   const consumerOnlyActions: AgreementActions = {
-    ACTIVE: [
-      { action: handleSuspend, label: t('suspend') },
-      ...(canBeUpgraded ? [{ action: handleUpgrade, label: t('upgrade') }] : []),
-    ],
-    SUSPENDED: agreement.suspendedByConsumer
-      ? [{ action: handleActivate, label: t('activate') }]
-      : [{ action: handleSuspend, label: t('suspend') }],
+    ACTIVE: [suspendAction],
+    SUSPENDED: agreement.suspendedByConsumer ? [activateAction] : [suspendAction],
     PENDING: [],
     ARCHIVED: [],
-    DRAFT: [{ action: handleDelete, label: t('delete') }],
-    REJECTED: [],
-    MISSING_CERTIFIED_ATTRIBUTES: [{ action: handleDelete, label: t('delete') }],
+    DRAFT: [deleteAction],
+    REJECTED: [cloneAction],
+    MISSING_CERTIFIED_ATTRIBUTES: [deleteAction],
   }
 
   const providerOnlyActions: AgreementActions = {
-    ACTIVE: [{ action: handleSuspend, label: t('suspend') }],
-    SUSPENDED: agreement.suspendedByProducer
-      ? [{ action: handleActivate, label: t('activate') }]
-      : [{ action: handleSuspend, label: t('suspend') }],
-    PENDING: [
-      { action: handleActivate, label: t('activate') },
-      { action: handleReject, label: t('reject') },
-    ],
+    ACTIVE: [suspendAction],
+    SUSPENDED: agreement.suspendedByProducer ? [activateAction] : [suspendAction],
+    PENDING: [activateAction, rejectAction],
     ARCHIVED: [],
     DRAFT: [],
     REJECTED: [],

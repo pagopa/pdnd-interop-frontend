@@ -29,6 +29,7 @@ export function Accordion({ entries }: StyledAccordionProps) {
             sx={{ px: 0 }}
           >
             <Typography
+              component={'span'}
               sx={{
                 flexShrink: summarySecondary ? 0 : 1,
                 width: summarySecondary ? '40%' : 'auto',

@@ -9,8 +9,6 @@ import {
   PreLoginFooterLinksType,
 } from '@pagopa/mui-italia'
 import { LANGUAGES, pagoPaLink } from '@/config/constants'
-import { LangCode } from '@/types/common.types'
-import { switchPathLang } from '@/router/utils'
 import { useJwt } from '@/hooks/useJwt'
 import { useNavigateRouter } from '@/router'
 import { useTranslation } from 'react-i18next'
@@ -67,8 +65,8 @@ export const Footer = () => {
     },
   ]
 
-  const handleLanguageChange = (newLang: LangCode) => {
-    switchPathLang(currentLanguage, newLang)
+  const handleLanguageChange = (_: unknown) => {
+    /* No way to switch language right now  */
   }
 
   const LegalInfo = (
@@ -94,8 +92,8 @@ export const Footer = () => {
         resources: { title: 'Risorse', links: [] },
         followUs: { title: 'Seguici su', links: [], socialLinks: [] },
       }}
-      currentLangCode={currentLanguage}
       onLanguageChanged={handleLanguageChange}
+      currentLangCode={currentLanguage}
       onExit={() => (href: string, linkType: string) => {
         if (linkType === 'internal') {
           internalNavigate(href)
