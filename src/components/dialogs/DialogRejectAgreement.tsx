@@ -23,7 +23,7 @@ export const DialogRejectAgreement: React.FC<DialogRejectAgreementProps> = ({ ag
   const { mutate: reject } = AgreementMutations.useReject()
 
   const validationSchema = object({
-    reason: string().required(),
+    reason: string().required().min(20),
   })
 
   const formMethods = useForm<RejectAgreementFormValues>({

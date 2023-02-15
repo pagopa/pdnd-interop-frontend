@@ -23,7 +23,7 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
   const { agreementId } = useRouteParams<'SUBSCRIBE_AGREEMENT_READ'>()
   const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
   const { data: agreementPurposes } = PurposeQueries.useGetList(
-    { eservicesIds: [agreement!.eservice.id], limit: 50, offset: 0 },
+    { eservicesIds: [agreement?.eservice?.id as string], limit: 50, offset: 0 },
     { enabled: !!agreement?.eservice && agreement.state === 'ACTIVE', suspense: false }
   )
   const { actions } = useGetAgreementsActions(agreement)

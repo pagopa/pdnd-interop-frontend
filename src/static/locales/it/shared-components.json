@@ -82,7 +82,7 @@
     "content": {
       "reason": {
         "label": "Motivazione",
-        "infoLabel": "Inserisci la motivazione per la quale rifiuti la richiesta di fruizione. Max 1000 caratteri"
+        "infoLabel": "Inserisci la motivazione per la quale rifiuti la richiesta di fruizione. Min 20 caratteri, max 1000 caratteri"
       }
     },
     "actions": {
