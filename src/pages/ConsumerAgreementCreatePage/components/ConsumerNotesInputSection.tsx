@@ -17,7 +17,8 @@ export const ConsumerNotesInputSection: React.FC<ConsumerNotesInputSectionProps>
   setConsumerNotes,
 }) => {
   const { t } = useTranslation('agreement', { keyPrefix: 'edit.consumerNotes' })
-  const consumerNotesRef = React.useRef<string>()
+  const consumerNotesRef = React.useRef<string | undefined | null>(null)
+
   AgreementQueries.useGetSingle(agreementId, {
     suspense: false,
     onSuccess(data) {
@@ -31,7 +32,7 @@ export const ConsumerNotesInputSection: React.FC<ConsumerNotesInputSectionProps>
       // be refetched by react-query and this logic will "notice" that the
       // consumerNotes value is different from the one of the previous call,
       // so it will update it.
-      if (!consumerNotesRef.current || data.consumerNotes !== consumerNotesRef.current) {
+      if (consumerNotesRef.current === null || data.consumerNotes !== consumerNotesRef.current) {
         consumerNotesRef.current = data?.consumerNotes
         setConsumerNotes(data?.consumerNotes ?? '')
       }
