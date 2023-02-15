@@ -83,7 +83,7 @@
     "content": {
       "reason": {
         "label": "Reason",
-        "infoLabel": "Insert the reason why you are rejecting the fruition request. Max 1000 chars."
+        "infoLabel": "Insert the reason why you are rejecting the fruition request. Min 20 chars, max 1000 chars."
       }
     },
     "actions": {
