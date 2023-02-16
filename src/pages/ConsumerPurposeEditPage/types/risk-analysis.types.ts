@@ -109,21 +109,6 @@ export type DynamicFormOperations = Record<
      * */
     getUpdatedQuestions: GetUpdatedQuestions
     /**
-     * Returns the updated yup validation schema.
-     *
-     * @param questionsObj - the actual updated questions visible to the user
-     * @param t - the TFunction of nexti18 internalization library
-     *
-     * @returns The updated object schema
-     * ```ts
-     *  object({
-     *    [question.id]: ObjectSchema | BooleanSchema // etc...
-     *  })
-     *
-     * ```
-     * */
-    getUpdatedValidation: GetUpdatedValidation
-    /**
      * Returns the updated form components.
      *
      * @param questions - the actual updated questions visible to the user

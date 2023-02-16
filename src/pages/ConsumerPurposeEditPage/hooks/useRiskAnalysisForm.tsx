@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Answers, Questions, RiskAnalysis } from '../types/risk-analysis.types'
 import { getFormOperations } from '../utils/form-operations'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { AnyObjectSchema } from 'yup'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import useGetRiskAnalysisFormDefaultValues from './useGetRiskAnalysisFormDefaultValues'
@@ -24,17 +22,18 @@ function useRiskAnalysisForm(
     [riskAnalysisConfig.version]
   )
 
-  const { defaultValues, defaultQuestions, defaultValidation } =
-    useGetRiskAnalysisFormDefaultValues(riskAnalysisConfig, dynamicFormOperations, purpose)
+  const { defaultValues, defaultQuestions } = useGetRiskAnalysisFormDefaultValues(
+    riskAnalysisConfig,
+    dynamicFormOperations,
+    purpose
+  )
 
   const [questions, setQuestions] = useState<Questions>(defaultQuestions)
-  const [validation, setValidation] = useState<AnyObjectSchema>(defaultValidation)
 
   const [_, startTransition] = React.useTransition()
 
   const formMethods = useForm<Answers>({
     defaultValues: defaultValues,
-    resolver: yupResolver(validation),
     mode: 'onSubmit',
     reValidateMode: 'onSubmit',
   })
@@ -83,9 +82,6 @@ function useRiskAnalysisForm(
           riskAnalysisConfig
         )
         setQuestions(updatedQuestions)
-        // Update the validation schema to validate only questions that are currently rendered
-        const updatedValidation = dynamicFormOperations.getUpdatedValidation(updatedQuestions, t)
-        setValidation(updatedValidation)
       })
     })
     return () => subscription.unsubscribe()
