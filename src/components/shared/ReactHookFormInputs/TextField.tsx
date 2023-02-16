@@ -3,6 +3,8 @@ import { TextField as MUITextField, TextFieldProps as MUITextFieldProps } from '
 import { InputWrapper } from '../InputWrapper'
 import { useFormContext, Controller } from 'react-hook-form'
 import { ControllerProps } from 'react-hook-form/dist/types/controller'
+import { mapValidationErrorMessages } from '@/utils/validation.utils'
+import { useTranslation } from 'react-i18next'
 
 export type StyledInputTextType = 'text' | 'email' | 'number'
 
@@ -34,6 +36,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   ...props
 }) => {
   const { formState } = useFormContext()
+  const { t } = useTranslation()
 
   const error = formState.errors[name]?.message as string | undefined
 
@@ -41,10 +44,11 @@ export const TextField: React.FC<TextFieldProps> = ({
     <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
       <Controller
         name={name}
-        rules={rules}
-        render={({ field: { onChange: _onChange } }) => (
+        rules={mapValidationErrorMessages(rules, t)}
+        render={({ field: { ref, onChange: _onChange, ...fieldProps } }) => (
           <MUITextField
             autoFocus={focusOnMount}
+            {...props}
             multiline={multiline}
             rows={multiline ? 6 : undefined}
             InputLabelProps={{ shrink: true, ...props?.InputLabelProps }}
@@ -53,7 +57,8 @@ export const TextField: React.FC<TextFieldProps> = ({
               _onChange(e)
               if (onValueChange) onValueChange(e.target.value)
             }}
-            {...props}
+            inputRef={ref}
+            {...fieldProps}
           />
         )}
       />

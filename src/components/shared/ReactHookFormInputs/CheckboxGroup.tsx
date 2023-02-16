@@ -4,6 +4,8 @@ import { InputWrapper } from '../InputWrapper'
 import { Controller, useFormContext } from 'react-hook-form'
 import { InputOption } from '@/types/common.types'
 import { ControllerProps } from 'react-hook-form/dist/types'
+import { useTranslation } from 'react-i18next'
+import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
 export type CheckboxGroupProps = {
   sx?: SxProps
@@ -25,6 +27,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
   onValueChange,
 }) => {
   const { formState } = useFormContext()
+  const { t } = useTranslation()
 
   if (!options || options.length === 0) {
     return null
@@ -38,7 +41,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
       <FormGroup>
         <Controller
           name={name}
-          rules={rules}
+          rules={mapValidationErrorMessages(rules, t)}
           render={({ field }) => {
             const onChange = (e: React.SyntheticEvent) => {
               const target = e.target as HTMLInputElement

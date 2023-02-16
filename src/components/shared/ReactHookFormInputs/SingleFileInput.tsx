@@ -8,6 +8,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import { SxProps } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { ControllerProps } from 'react-hook-form/dist/types'
+import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
 type SingleFileInputProps = Omit<
   PagoPASingleFileInputProps,
@@ -28,6 +29,7 @@ export const SingleFileInput: React.FC<SingleFileInputProps> = ({
   onValueChange,
 }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'singleFileInput' })
+  const { t: tCommon } = useTranslation()
   const { formState, setValue } = useFormContext()
 
   const error = formState.errors[name]?.message as string | undefined
@@ -36,7 +38,7 @@ export const SingleFileInput: React.FC<SingleFileInputProps> = ({
     <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
       <Controller
         name={name}
-        rules={rules}
+        rules={mapValidationErrorMessages(rules, tCommon)}
         render={({ field }) => (
           <PagoPASingleFileInput
             value={field.value}

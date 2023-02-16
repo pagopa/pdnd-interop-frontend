@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next'
 import identity from 'lodash/identity'
 import isEqual from 'lodash/isEqual'
 import { ControllerProps } from 'react-hook-form/dist/types/controller'
+import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
 export type AutocompleteInput<T> = { label: string; value: T }
 
@@ -64,6 +65,7 @@ export function _AutocompleteBase<
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'autocompleteMultiple',
   })
+  const { t: tCommon } = useTranslation()
   const { formState, watch, setValue } = useFormContext()
   const labelId = React.useId()
 
@@ -82,8 +84,8 @@ export function _AutocompleteBase<
     <InputWrapper error={error} sx={{ my: 0, ...sx }} infoLabel={infoLabel}>
       <Controller
         name={name}
-        rules={rules}
-        render={({ field: { onChange: _onChange } }) => (
+        rules={mapValidationErrorMessages(rules, tCommon)}
+        render={({ field: { ref, onChange: _onChange } }) => (
           <Autocomplete
             id={labelId}
             options={options}
@@ -121,6 +123,7 @@ export function _AutocompleteBase<
                     ),
                   }}
                   label={label}
+                  inputRef={ref}
                 />
               )
             }}

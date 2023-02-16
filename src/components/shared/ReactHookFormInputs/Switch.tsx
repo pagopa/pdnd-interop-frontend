@@ -10,6 +10,8 @@ import {
 } from '@mui/material'
 import { Controller, useFormContext } from 'react-hook-form'
 import { ControllerProps } from 'react-hook-form/dist/types'
+import { useTranslation } from 'react-i18next'
+import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
 type SwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   label: string
@@ -39,6 +41,7 @@ export const Switch: React.FC<SwitchProps> = ({
   }
 
   const { formState } = useFormContext()
+  const { t } = useTranslation()
 
   const error = formState.errors[name]?.message as string | undefined
 
@@ -51,16 +54,17 @@ export const Switch: React.FC<SwitchProps> = ({
         <Box>
           <Controller
             name={name}
-            rules={rules}
-            render={({ field }) => (
+            rules={mapValidationErrorMessages(rules, t)}
+            render={({ field: { value, ref, onChange, ...fieldProps } }) => (
               <MUISwitch
                 {...switchProps}
-                {...field}
+                {...fieldProps}
                 onChange={(e) => {
                   if (onValueChange) onValueChange(e.target.checked)
-                  field.onChange(e.target.checked)
+                  onChange(e.target.checked)
                 }}
-                checked={field.value}
+                checked={value}
+                inputRef={ref}
               />
             )}
           />

@@ -9,6 +9,8 @@ import it from 'date-fns/locale/it'
 import en from 'date-fns/locale/en-US'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { ControllerProps } from 'react-hook-form/dist/types'
+import { useTranslation } from 'react-i18next'
+import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
 type DatePickerProps = {
   name: string
@@ -34,6 +36,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 }) => {
   const { formState } = useFormContext()
   const lang = useCurrentLanguage()
+  const { t } = useTranslation()
 
   const error = formState.errors[name]?.message as string | undefined
 
@@ -44,17 +47,17 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
         <Controller
           name={name}
-          rules={rules}
-          render={({ field }) => (
+          rules={mapValidationErrorMessages(rules, t)}
+          render={({ field: { onChange, ...fieldProps } }) => (
             <StaticDatePicker
               label={label}
               displayStaticWrapperAs="desktop"
               autoFocus={focusOnMount}
               renderInput={(params) => <TextField sx={inputSx} {...params} />}
-              {...field}
+              {...fieldProps}
               onChange={(value) => {
                 if (onValueChange) onValueChange(value)
-                field.onChange(value)
+                onChange(value)
               }}
             />
           )}

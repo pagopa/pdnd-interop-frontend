@@ -10,6 +10,8 @@ import { InputWrapper } from '../InputWrapper'
 import { Controller, useFormContext } from 'react-hook-form'
 import { InputOption } from '@/types/common.types'
 import { ControllerProps } from 'react-hook-form/dist/types'
+import { useTranslation } from 'react-i18next'
+import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
 export type RadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
   label: string
@@ -34,6 +36,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
 }) => {
   const { formState } = useFormContext()
   const labelId = useId()
+  const { t } = useTranslation()
 
   if (!options || options.length === 0) {
     return null
@@ -46,15 +49,15 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
       <FormLabel id={labelId}>{label}</FormLabel>
       <Controller
         name={name}
-        rules={rules}
-        render={({ field }) => (
+        rules={mapValidationErrorMessages(rules, t)}
+        render={({ field: { onChange, ...fieldProps } }) => (
           <MUIRadioGroup
             aria-labelledby={labelId}
             {...props}
-            {...field}
+            {...fieldProps}
             onChange={(_, value) => {
               if (onValueChange) onValueChange(value)
-              field.onChange(value)
+              onChange(value)
             }}
           >
             {options.map((o) => (

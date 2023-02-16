@@ -10,6 +10,8 @@ import { InputWrapper } from '../InputWrapper'
 import { Controller, useFormContext } from 'react-hook-form'
 import { InputOption } from '@/types/common.types'
 import { ControllerProps } from 'react-hook-form/dist/types'
+import { useTranslation } from 'react-i18next'
+import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
 export type SelectProps = Omit<MUISelectProps, 'onChange'> & {
   name: string
@@ -35,6 +37,7 @@ export const Select: React.FC<SelectProps> = ({
 }) => {
   const { formState } = useFormContext()
   const labelId = useId()
+  const { t } = useTranslation()
 
   const error = formState.errors[name]?.message as string | undefined
 
@@ -46,19 +49,20 @@ export const Select: React.FC<SelectProps> = ({
         </InputLabel>
         <Controller
           name={name}
-          rules={rules}
-          render={({ field }) => (
+          rules={mapValidationErrorMessages(rules, t)}
+          render={({ field: { ref, onChange, ...fieldProps } }) => (
             <MUISelect
               {...props}
-              {...field}
+              {...fieldProps}
               error={!!error}
               label={label}
               labelId={labelId}
               autoFocus={focusOnMount}
               onChange={(e) => {
                 if (onValueChange) onValueChange(e.target.value)
-                field.onChange(e)
+                onChange(e)
               }}
+              inputRef={ref}
             >
               {options.length > 0 ? (
                 options.map((o, i) => (
