@@ -14,6 +14,6 @@ export function buildYupLocale(_: unknown, t: TFunction): void {
       email: t('validation.string.email'),
       min: t('validation.string.minLength'),
     },
-    boolean: { isValue: t('validation.boolean.isValue') },
+    // boolean: { isValue: t('validation.boolean.isValue') },
   })
 }

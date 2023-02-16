@@ -13,9 +13,6 @@
       "email": "Formato email non valido",
       "minLength": "Questo campo deve contenere almeno ${min} caratteri"
     },
-    "boolean": {
-      "isValue": "Si prega di confermare"
-    },
     "number": {
       "min": "Il valore deve essere superiore o uguale a ${min}",
       "max": "Il valore deve essere inferiore o uguale a ${max}"
