@@ -9,85 +9,83 @@ export const mapValidationErrorMessages = (
   const mappedRules = mapValues(rules, (value, key) => {
     switch (key) {
       case 'required':
-        if (value === true || value === false) {
+        if (typeof value === 'boolean') {
           return t('validation.mixed.required')
-        } else return value
+        }
+        return value
       case 'min':
         if (value.message) {
           return value
-        } else {
-          return {
-            value: value,
-            message: t('validation.number.min'),
-          }
+        }
+        return {
+          value: value,
+          message: t('validation.number.min'),
         }
       case 'max':
         if (value.message) {
           return value
-        } else {
-          return {
-            value: value,
-            message: t('validation.number.max'),
-          }
+        }
+        return {
+          value: value,
+          message: t('validation.number.max'),
         }
       case 'maxLength':
         if (value.message) {
           return value
-        } else {
-          return {
-            value: value,
-            message: 'Messaggio di errore per il maxLength',
-          }
+        }
+        return {
+          value: value,
+          message: 'Messaggio di errore per il maxLength',
         }
       case 'minLength':
         if (value.message) {
           return value
-        } else {
-          return {
-            value: value,
-            message: 'Messaggio di errore per il minLength',
-          }
+        }
+        return {
+          value: value,
+          message: 'Messaggio di errore per il minLength',
         }
       case 'pattern':
         if (value.message) {
           return value
-        } else {
-          return {
-            value: value,
-            message: 'Messaggio di errore per il pattern',
-          }
         }
-      case 'validate':
-        if (value.message) {
-          return value
-        } else {
-          return {
-            value: value,
-            message: 'Messaggio di errore per il validate',
-          }
+        return {
+          value: value,
+          message: 'Messaggio di errore per il pattern',
         }
       default:
-        return
+        return value
     }
   })
 
   return mappedRules
 }
 
-//     required: Message | ValidationRule<boolean>;
-//     min: ValidationRule<number | string>;
-//     max: ValidationRule<number | string>;
-//     maxLength: ValidationRule<number>;
-//     minLength: ValidationRule<number>;
-//     pattern: ValidationRule<RegExp>;
-//     validate: Validate<FieldPathValue<TFieldValues, TFieldName>, TFieldValues> | Record<string, Validate<FieldPathValue<TFieldValues, TFieldName>, TFieldValues>>;
-//
-//     valueAsNumber: boolean;
-//     valueAsDate: boolean;
-//     value: FieldPathValue<TFieldValues, TFieldName>;
-//     setValueAs: (value: any) => any;
-//     shouldUnregister?: boolean;
-//     onChange?: (event: any) => void;
-//     onBlur?: (event: any) => void;
-//     disabled: boolean;
-//     deps: InternalFieldName | InternalFieldName[];
+// export const mapValidationErrorMessages = (
+//   rules: ControllerProps['rules'],
+//   t: TFunction
+// ): ControllerProps['rules'] => {
+//   const mappedRules = mapValues(rules, (value, key) => {
+//     if (key === 'required') {
+//       if (typeof value === 'boolean') return t('validation.mixed.required')
+//       return value
+//     }
+
+//     const defaultMessages = {
+//       min: t('validation.number.min'),
+//       max: t('validation.number.max'),
+//       maxLength: t('validation.number.maxLength'),
+//       minLength: t('validation.number.minLength'),
+//       pattern: t('validation.number.pattern'),
+//       validate: t('validation.number.validate'),
+//     }
+
+//     if (!('message' in value) && key in defaultMessages) {
+//       return { value, message: defaultMessages[key as keyof typeof defaultMessages] }
+//     }
+
+//     return value
+//   })
+
+//   return mappedRules
+// }
