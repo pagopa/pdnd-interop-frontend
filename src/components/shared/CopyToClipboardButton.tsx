@@ -7,10 +7,16 @@ import CheckIcon from '@mui/icons-material/Check'
 interface CopyToClipboardProps extends Omit<IconButtonProps, 'onClick' | 'value'> {
   /** callback used to retrieve the text to be copied */
   value: (() => string) | string
+  text?: string
   tooltipTitle?: string
 }
 
-const CopyToClipboard: React.FC<CopyToClipboardProps> = ({ value, tooltipTitle, ...props }) => {
+const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
+  value,
+  tooltipTitle,
+  text,
+  ...props
+}) => {
   const [copied, setCopied] = useState(false)
   const copiedTimeoutRef = useRef<NodeJS.Timeout>()
 
@@ -38,12 +44,21 @@ const CopyToClipboard: React.FC<CopyToClipboardProps> = ({ value, tooltipTitle, 
   }, [])
 
   return (
-    <Tooltip open={copied} arrow={true} title={tooltipTitle} placement="top">
-      <IconButton color="primary" onClick={handleCopyToClipboard} {...props}>
-        {copied && <CheckIcon fontSize="small" />}
-        {!copied && <ContentCopyIcon fontSize="small" />}
-      </IconButton>
-    </Tooltip>
+    <>
+      {text}
+      <Tooltip
+        sx={{ ml: !!text ? 1 : 0 }}
+        open={copied}
+        arrow={true}
+        title={tooltipTitle}
+        placement="top"
+      >
+        <IconButton color="primary" onClick={handleCopyToClipboard} {...props}>
+          {copied && <CheckIcon fontSize="small" />}
+          {!copied && <ContentCopyIcon fontSize="small" />}
+        </IconButton>
+      </Tooltip>
+    </>
   )
 }
 

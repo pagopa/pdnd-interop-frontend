@@ -4,7 +4,7 @@ import {
   SectionContainer,
   SectionContainerSkeleton,
 } from '@/components/layout/containers'
-import { InlineClipboard } from '@/components/shared/InlineClipboard'
+import CopyToClipboard from '@/components/shared/CopyToClipboardButton'
 import { formatDateString } from '@/utils/format.utils'
 import { isKeyOrphan } from '@/utils/key.utils'
 import { Alert } from '@mui/material'
@@ -35,16 +35,18 @@ export const KeyGeneralInfoSection: React.FC<KeyGeneralInfoSectionProps> = ({ cl
 
         <InformationContainer label={t('kidField.label')}>
           {publicKey?.key && (
-            <InlineClipboard
-              textToCopy={publicKey.key.kid}
-              successFeedbackText={t('kidField.copySuccessFeedbackText')}
+            <CopyToClipboard
+              text={publicKey.key.kid}
+              value={publicKey.key.kid}
+              tooltipTitle={t('kidField.copySuccessFeedbackText')}
             />
           )}
         </InformationContainer>
         <InformationContainer label={t('clientIdField.label')}>
-          <InlineClipboard
-            textToCopy={clientId}
-            successFeedbackText={t('clientIdField.copySuccessFeedbackText')}
+          <CopyToClipboard
+            text={clientId}
+            value={clientId}
+            tooltipTitle={t('clientIdField.copySuccessFeedbackText')}
           />
         </InformationContainer>
 

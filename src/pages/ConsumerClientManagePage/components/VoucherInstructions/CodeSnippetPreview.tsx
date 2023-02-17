@@ -68,7 +68,7 @@ export const CodeSnippetPreview = ({
       )}
       <Box sx={{ position: 'relative' }}>
         <Box sx={{ position: 'absolute', right: 2, top: 2, zIndex: 1 }}>
-          <Box sx={{ mr: 0, mt: 0, bgcolor: 'common.white' }}>
+          <Box sx={{ mr: 0.5, mt: 0.5, bgcolor: 'common.white' }}>
             {activeLang && codeEntries[activeLang] && (
               <CopyToClipboardButton
                 value={remapCodeWithSubstitutions(codeEntries[activeLang])}
