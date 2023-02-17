@@ -1,32 +1,23 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Button, Link, Tooltip } from '@mui/material'
+import { IconButton, Tooltip } from '@mui/material'
+import type { IconButtonProps } from '@mui/material'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import CheckIcon from '@mui/icons-material/Check'
 
-interface CopyToClipboardProps {
+interface CopyToClipboardProps extends Omit<IconButtonProps, 'onClick' | 'value'> {
   /** callback used to retrieve the text to be copied */
   value: (() => string) | string
-  /** an optional text to be displayed near the "copy to clipboard" icon */
-  text?: string
-  tooltipMode?: boolean
-  tooltip?: string
-  disabled?: boolean
+  tooltipTitle?: string
 }
 
-const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
-  value,
-  text,
-  tooltipMode,
-  tooltip = '',
-  disabled = false,
-}) => {
+const CopyToClipboard: React.FC<CopyToClipboardProps> = ({ value, tooltipTitle, ...props }) => {
   const [copied, setCopied] = useState(false)
   const copiedTimeoutRef = useRef<NodeJS.Timeout>()
 
   const handleCopyToClipboard = async () => {
     const valueToCopy = value instanceof Function ? value() : value
 
-    if (tooltipMode && !copied) {
+    if (tooltipTitle) {
       clearTimeout(copiedTimeoutRef.current)
       setCopied(true)
       copiedTimeoutRef.current = setTimeout(() => setCopied(false), 2000)
@@ -46,23 +37,13 @@ const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
     }
   }, [])
 
-  const CopyToClipboardBtnIcon = copied ? CheckIcon : ContentCopyIcon
-
   return (
-    <Button
-      component={Link}
-      color="primary"
-      sx={{ textAlign: 'center', padding: tooltipMode ? 0 : undefined }}
-      minWidth={{ md: 'max-content' }}
-      onClick={handleCopyToClipboard}
-      disabled={disabled}
-      aria-label={tooltip}
-    >
-      <Tooltip open={copied} arrow={true} title={tooltip} placement="top">
-        <CopyToClipboardBtnIcon fontSize="small" sx={{ m: '5px' }} />
-      </Tooltip>
-      {text}
-    </Button>
+    <Tooltip open={copied} arrow={true} title={tooltipTitle} placement="top">
+      <IconButton color="primary" onClick={handleCopyToClipboard} {...props}>
+        {copied && <CheckIcon fontSize="small" />}
+        {!copied && <ContentCopyIcon fontSize="small" />}
+      </IconButton>
+    </Tooltip>
   )
 }
 
