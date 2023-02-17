@@ -14,7 +14,6 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@fontsource/titillium-web": "^4.5.9",
-    "@hookform/resolvers": "^2.9.10",
     "@mui/base": "^5.0.0-alpha.115",
     "@mui/icons-material": "^5.11.0",
     "@mui/lab": "^5.0.0-alpha.117",
