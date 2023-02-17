@@ -1,5 +1,4 @@
 import { waitFor } from '@/utils/common.utils'
-import { v4 as uuidv4 } from 'uuid'
 
 class ExponentialInterval {
   #action: VoidFunction
@@ -41,7 +40,7 @@ class ExponentialInterval {
 const exponentialIntervalInstances = new Map()
 
 export function setExponentialInterval(action: VoidFunction, duration: number) {
-  const instanceId = uuidv4()
+  const instanceId = crypto.randomUUID()
   const newInstance = new ExponentialInterval(action, duration)
   exponentialIntervalInstances.set(instanceId, newInstance)
   return instanceId
