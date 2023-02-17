@@ -8,7 +8,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
 import type { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
-import { InlineClipboard } from '@/components/shared/InlineClipboard'
+import CopyToClipboard from '@/components/shared/CopyToClipboardButton'
 
 export const VoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps> = (props) => {
   const clientKind = useClientKind()
@@ -49,9 +49,10 @@ const ClientVoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps> = (
         >
           {isLoadingDescriptor && !descriptorAudience && <Skeleton width={200} />}
           {descriptorAudience && (
-            <InlineClipboard
-              textToCopy={descriptorAudience}
-              successFeedbackText={t('step3.consumer.audField.copySuccessFeedbackText')}
+            <CopyToClipboard
+              text={descriptorAudience}
+              value={descriptorAudience}
+              tooltipTitle={t('step3.consumer.audField.copySuccessFeedbackText')}
             />
           )}
         </InformationContainer>
