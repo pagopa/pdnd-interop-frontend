@@ -27,7 +27,7 @@ const CodeBlock: React.FC<Props> = ({ error }) => {
         }}
       >
         <Box sx={{ position: 'absolute', top: 8, right: 8 }}>
-          <CopyToClipboardButton textToCopy={stringifiedError} />
+          <CopyToClipboardButton value={stringifiedError} />
         </Box>
         <code>{stringifiedError}</code>
       </Paper>

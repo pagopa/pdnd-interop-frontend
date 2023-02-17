@@ -71,8 +71,9 @@ export const CodeSnippetPreview = ({
           <Box sx={{ mr: 0, mt: 0, bgcolor: 'common.white' }}>
             {activeLang && codeEntries[activeLang] && (
               <CopyToClipboardButton
-                textToCopy={remapCodeWithSubstitutions(codeEntries[activeLang])}
-                successFeedbackText={t('codeSnippetPreview.successFeedbackText')}
+                value={remapCodeWithSubstitutions(codeEntries[activeLang])}
+                tooltipMode
+                tooltip={t('codeSnippetPreview.successFeedbackText')}
               />
             )}
           </Box>
