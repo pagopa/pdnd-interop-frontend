@@ -40,7 +40,6 @@
     "react-router-dom": "latest",
     "react-test-renderer": "^18.2.0",
     "uuid": "^9.0.0",
-    "yup": "^0.32.11",
     "zustand": "^4.3.2"
   },
   "devDependencies": {

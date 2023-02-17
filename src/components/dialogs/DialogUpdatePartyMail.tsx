@@ -12,13 +12,12 @@ import {
 import { useTranslation } from 'react-i18next'
 import { DialogUpdatePartyMailProps } from '@/types/dialog.types'
 import { useDialog } from '@/stores'
-import { object, string } from 'yup'
 import { FormProvider, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { TextField } from '../shared/ReactHookFormInputs'
 import { PartyMutations } from '@/api/party/party.hooks'
 import { useJwt } from '@/hooks/useJwt'
 import isEqual from 'lodash/isEqual'
+import { emailRegex } from '@/utils/validation.utils'
 
 type UpdatePartyMailFormValues = {
   contactEmail: string
@@ -36,13 +35,7 @@ export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ de
 
   const { mutateAsync: updateMail } = PartyMutations.useUpdateMail()
 
-  const validationSchema = object({
-    contactEmail: string().email().required(),
-    description: string(),
-  })
-
   const formMethods = useForm<UpdatePartyMailFormValues>({
-    resolver: yupResolver(validationSchema),
     defaultValues: defaultValues ?? { contactEmail: '', description: '' },
   })
 
@@ -68,6 +61,13 @@ export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ de
               focusOnMount
               name="contactEmail"
               label={t('content.mailAddressField.label')}
+              rules={{
+                required: true,
+                pattern: {
+                  value: emailRegex,
+                  message: tCommon('validation.string.email'),
+                },
+              }}
             />
             <TextField
               sx={{ mt: 2, mb: 0 }}

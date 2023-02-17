@@ -1,7 +1,6 @@
 import type { LangCode } from '@/types/common.types'
 import type { TFunction } from 'i18next'
 import { UseFormReturn } from 'react-hook-form'
-import type { AnyObjectSchema } from 'yup'
 
 export type MultiLangEntry = {
   it: string
@@ -83,11 +82,6 @@ export type GetUpdatedQuestions = (
   values: Record<string, unknown>,
   riskAnalysis: RiskAnalysis
 ) => Questions
-
-export type GetUpdatedValidation = (
-  questionsObj: Questions,
-  t: TFunction<'purpose'>
-) => AnyObjectSchema
 
 export type BuildForm = (
   questions: Questions,

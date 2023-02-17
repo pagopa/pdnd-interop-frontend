@@ -1,7 +1,6 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import { DEFAULT_LANG } from '@/config/constants'
-import { buildYupLocale } from './yup'
 
 // import pagesEnNs from '@/static/locales/en/pages.json'
 // import commonEnNs from '@/static/locales/en/common.json'
@@ -35,56 +34,49 @@ import voucherItNs from '@/static/locales/it/voucher.json'
 import userItNs from '@/static/locales/it/user.json'
 import keyItNs from '@/static/locales/it/key.json'
 
-i18n.use(initReactI18next).init(
-  {
-    debug: false,
-    fallbackLng: DEFAULT_LANG,
-    interpolation: {
-      escapeValue: false,
-    },
-    defaultNS: 'common',
-    resources: {
-      it: {
-        pages: pagesItNs,
-        common: commonItNs,
-        eservice: eserviceItNs,
-        party: partyItNs,
-        pagopa: pagopaItNs,
-        'shared-components': sharedComponentsItNs,
-        attribute: attributeItNs,
-        'mutations-feedback': mutationsFeedbackItNs,
-        error: errorItNs,
-        agreement: agreementItNs,
-        purpose: purposeItNs,
-        client: clientItNs,
-        voucher: voucherItNs,
-        user: userItNs,
-        key: keyItNs,
-      },
-      // en: {
-      //   pages: pagesEnNs,
-      //   common: commonEnNs,
-      //   eservice: eserviceEnNs,
-      //   party: partyEnNs,
-      //   pagopa: pagopaEnNs,
-      //   'shared-components': sharedComponentsEnNs,
-      //   attribute: attributeEnNs,
-      //   'mutations-feedback': mutationsFeedbackEnNs,
-      //   error: errorEnNs,
-      //   agreement: agreementEnNs,
-      //   purpose: purposeEnNs,
-      //   client: clientEnNs,
-      //   voucher: voucherEnNs,
-      //   user: userEnNs,
-      //   key: keyEnNs,
-      // },
-    },
+i18n.use(initReactI18next).init({
+  debug: false,
+  fallbackLng: DEFAULT_LANG,
+  interpolation: {
+    escapeValue: false,
   },
-  buildYupLocale
-)
-
-i18n.on('languageChanged', () => {
-  buildYupLocale(undefined, i18n.t)
+  defaultNS: 'common',
+  resources: {
+    it: {
+      pages: pagesItNs,
+      common: commonItNs,
+      eservice: eserviceItNs,
+      party: partyItNs,
+      pagopa: pagopaItNs,
+      'shared-components': sharedComponentsItNs,
+      attribute: attributeItNs,
+      'mutations-feedback': mutationsFeedbackItNs,
+      error: errorItNs,
+      agreement: agreementItNs,
+      purpose: purposeItNs,
+      client: clientItNs,
+      voucher: voucherItNs,
+      user: userItNs,
+      key: keyItNs,
+    },
+    // en: {
+    //   pages: pagesEnNs,
+    //   common: commonEnNs,
+    //   eservice: eserviceEnNs,
+    //   party: partyEnNs,
+    //   pagopa: pagopaEnNs,
+    //   'shared-components': sharedComponentsEnNs,
+    //   attribute: attributeEnNs,
+    //   'mutations-feedback': mutationsFeedbackEnNs,
+    //   error: errorEnNs,
+    //   agreement: agreementEnNs,
+    //   purpose: purposeEnNs,
+    //   client: clientEnNs,
+    //   voucher: voucherEnNs,
+    //   user: userEnNs,
+    //   key: keyEnNs,
+    // },
+  },
 })
 
 export default i18n

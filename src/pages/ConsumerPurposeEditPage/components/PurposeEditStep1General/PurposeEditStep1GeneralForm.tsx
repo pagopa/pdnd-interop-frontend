@@ -1,8 +1,6 @@
 import React from 'react'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
-import { number, object, string } from 'yup'
 import { TextField } from '@/components/shared/ReactHookFormInputs'
 import { useTranslation } from 'react-i18next'
 import { StepActions } from '@/components/shared/StepActions'
@@ -32,15 +30,8 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
   const { mutate: updateDraft } = PurposeMutations.useUpdateDraft()
   const { mutate: updateVersionDraft } = PurposeMutations.useUpdateVersionDraft()
 
-  const validationSchema = object({
-    title: string().required().min(5),
-    description: string().required().min(10),
-    dailyCalls: number().required(),
-  })
-
   const formMethods = useForm<PurposeEditStep1GeneralFormValues>({
     defaultValues,
-    resolver: yupResolver(validationSchema),
   })
 
   const onSubmit = (values: PurposeEditStep1GeneralFormValues) => {
@@ -71,6 +62,7 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
             infoLabel={t('step1.nameField.infoLabel')}
             focusOnMount={true}
             inputProps={{ maxLength: 60 }}
+            rules={{ required: true, minLength: 5 }}
           />
 
           <TextField
@@ -79,6 +71,7 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
             infoLabel={t('step1.descriptionField.infoLabel')}
             multiline
             inputProps={{ maxLength: 250 }}
+            rules={{ required: true, minLength: 10 }}
           />
 
           <TextField
@@ -88,6 +81,7 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
             type="number"
             inputProps={{ min: '1' }}
             sx={{ mb: 0 }}
+            rules={{ required: true }}
           />
         </SectionContainer>
         <StepActions

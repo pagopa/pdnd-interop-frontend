@@ -1,12 +1,10 @@
 import React from 'react'
-import { object, string, mixed } from 'yup'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 import { Alert, Stack, Box, Button } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { FormProvider, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { SingleFileInput, TextField } from '@/components/shared/ReactHookFormInputs'
 import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { DocumentRead } from '@/types/common.types'
@@ -32,11 +30,6 @@ export function EServiceCreateStep3DocumentsDoc() {
     EServiceMutations.useUpdateVersionDraftDocumentDescription()
   const { mutate: uploadDocument } = EServiceMutations.usePostVersionDraftDocument()
 
-  const validationSchema = object({
-    doc: mixed().required(),
-    prettyName: string().required().min(5),
-  })
-
   const docs = descriptor?.docs ?? []
 
   const [showWriteDocInput, setShowWriteDocInput] = React.useState(false)
@@ -49,7 +42,6 @@ export function EServiceCreateStep3DocumentsDoc() {
   }
 
   const formMethods = useForm({
-    resolver: yupResolver(validationSchema),
     defaultValues,
     shouldUnregister: true,
   })
@@ -125,7 +117,7 @@ export function EServiceCreateStep3DocumentsDoc() {
             sx={{ px: 2, py: 2, borderLeft: 4, borderColor: 'primary.main' }}
             bgcolor="common.white"
           >
-            <SingleFileInput sx={{ my: 0 }} name="doc" />
+            <SingleFileInput sx={{ my: 0 }} name="doc" rules={{ required: true }} />
 
             <TextField
               sx={{ my: 2 }}
@@ -133,6 +125,7 @@ export function EServiceCreateStep3DocumentsDoc() {
               label={t('create.step3.nameField.label')}
               infoLabel={t('create.step3.nameField.infoLabel')}
               inputProps={{ maxLength: 60 }}
+              rules={{ required: true, minLength: 5 }}
             />
 
             <Stack direction="row" justifyContent="flex-end">

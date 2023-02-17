@@ -11,11 +11,11 @@
     },
     "string": {
       "email": "Invalid email format",
-      "minLength": "This field must contain at least ${min} chars"
+      "minLength": "This field must contain at least {{min}} chars"
     },
     "number": {
-      "min": "The value must be more or equal to ${min}",
-      "max": "The value must be less or equal to ${max}"
+      "min": "The value must be more or equal to {{min}}",
+      "max": "The value must be less or equal to {{max}}"
     }
   },
   "mainNav": {

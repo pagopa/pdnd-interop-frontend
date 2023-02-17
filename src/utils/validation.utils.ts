@@ -2,6 +2,10 @@ import mapValues from 'lodash/mapValues'
 import { ControllerProps } from 'react-hook-form'
 import { TFunction } from 'i18next'
 
+// Taken from HTML spec: https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
+export const emailRegex =
+  /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+
 export const mapValidationErrorMessages = (
   rules: ControllerProps['rules'],
   t: TFunction
@@ -19,7 +23,7 @@ export const mapValidationErrorMessages = (
         }
         return {
           value: value,
-          message: t('validation.number.min'),
+          message: t('validation.number.min', { min: value }),
         }
       case 'max':
         if (value.message) {
@@ -27,7 +31,7 @@ export const mapValidationErrorMessages = (
         }
         return {
           value: value,
-          message: t('validation.number.max'),
+          message: t('validation.number.max', { max: value }),
         }
       case 'maxLength':
         if (value.message) {
@@ -35,7 +39,7 @@ export const mapValidationErrorMessages = (
         }
         return {
           value: value,
-          message: 'Messaggio di errore per il maxLength',
+          message: 'TODO Messaggio di errore per il maxLength',
         }
       case 'minLength':
         if (value.message) {
@@ -43,7 +47,7 @@ export const mapValidationErrorMessages = (
         }
         return {
           value: value,
-          message: 'Messaggio di errore per il minLength',
+          message: t('validation.string.minLength', { min: value }),
         }
       case 'pattern':
         if (value.message) {
@@ -51,7 +55,7 @@ export const mapValidationErrorMessages = (
         }
         return {
           value: value,
-          message: 'Messaggio di errore per il pattern',
+          message: 'TODO Messaggio di errore di default per il pattern se serve metterlo',
         }
       default:
         return value
@@ -60,32 +64,3 @@ export const mapValidationErrorMessages = (
 
   return mappedRules
 }
-
-// export const mapValidationErrorMessages = (
-//   rules: ControllerProps['rules'],
-//   t: TFunction
-// ): ControllerProps['rules'] => {
-//   const mappedRules = mapValues(rules, (value, key) => {
-//     if (key === 'required') {
-//       if (typeof value === 'boolean') return t('validation.mixed.required')
-//       return value
-//     }
-
-//     const defaultMessages = {
-//       min: t('validation.number.min'),
-//       max: t('validation.number.max'),
-//       maxLength: t('validation.number.maxLength'),
-//       minLength: t('validation.number.minLength'),
-//       pattern: t('validation.number.pattern'),
-//       validate: t('validation.number.validate'),
-//     }
-
-//     if (!('message' in value) && key in defaultMessages) {
-//       return { value, message: defaultMessages[key as keyof typeof defaultMessages] }
-//     }
-
-//     return value
-//   })
-
-//   return mappedRules
-// }

@@ -5,8 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { Box, Button, Divider, Stack } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
-import { object, string } from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { SingleFileInput, TextField } from '@/components/shared/ReactHookFormInputs'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { DocumentRead } from '@/types/common.types'
@@ -38,12 +36,7 @@ export const AgreementDocsInputSection: React.FC<AgreementDocsInputSectionProps>
 
   const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
 
-  const validationSchema = object({
-    prettyName: string().required().min(5),
-  })
-
   const formMethods = useForm<AddDocFormValues>({
-    resolver: yupResolver(validationSchema),
     defaultValues,
     shouldUnregister: true,
     mode: 'onSubmit',
@@ -106,6 +99,7 @@ export const AgreementDocsInputSection: React.FC<AgreementDocsInputSectionProps>
                     infoLabel={t('documentPrettynameField.infoLabel')}
                     inputProps={{ maxLength: 60 }}
                     sx={{ mt: 3 }}
+                    rules={{ required: true, minLength: 5 }}
                   />
                   <Stack direction="row" justifyContent="flex-end">
                     <Button type="submit" variant="contained">

@@ -5,8 +5,6 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { TextField } from '../shared/ReactHookFormInputs'
-import { object, string } from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { AgreementMutations } from '@/api/agreement'
 
 type RejectAgreementFormValues = {
@@ -22,13 +20,8 @@ export const DialogRejectAgreement: React.FC<DialogRejectAgreementProps> = ({ ag
   const { closeDialog } = useDialog()
   const { mutate: reject } = AgreementMutations.useReject()
 
-  const validationSchema = object({
-    reason: string().required().min(20),
-  })
-
   const formMethods = useForm<RejectAgreementFormValues>({
     defaultValues: { reason: '' },
-    resolver: yupResolver(validationSchema),
   })
 
   const onSubmit = ({ reason }: RejectAgreementFormValues) => {
@@ -49,6 +42,7 @@ export const DialogRejectAgreement: React.FC<DialogRejectAgreementProps> = ({ ag
               focusOnMount
               multiline
               inputProps={{ maxLength: 1000 }}
+              rules={{ required: true, minLength: 20 }}
             />
           </DialogContent>
 

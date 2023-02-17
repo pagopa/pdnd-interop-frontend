@@ -1,11 +1,9 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { EServiceTechnologyType } from '@/types/eservice.types'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { Alert, Box, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { object, string } from 'yup'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { RadioGroup, TextField } from '@/components/shared/ReactHookFormInputs'
 import { StepActions } from '@/components/shared/StepActions'
@@ -37,12 +35,6 @@ export const EServiceCreateStep1General: React.FC = () => {
   const { mutate: updateDraft } = EServiceMutations.useUpdateDraft()
   const { mutate: createDraft } = EServiceMutations.useCreateDraft()
 
-  const validationSchema = object({
-    name: string().required().min(5),
-    description: string().required().min(10),
-    technology: string().required(),
-  })
-
   let defaultValues: EServiceCreateStep1FormValues = {
     name: '',
     description: '',
@@ -60,7 +52,6 @@ export const EServiceCreateStep1General: React.FC = () => {
   }
 
   const formMethods = useForm({
-    resolver: yupResolver(validationSchema),
     defaultValues,
   })
 
@@ -135,6 +126,7 @@ export const EServiceCreateStep1General: React.FC = () => {
             infoLabel={t('create.step1.eserviceNameField.infoLabel')}
             inputProps={{ maxLength: 60 }}
             disabled={!isEditable}
+            rules={{ required: true, minLength: 5 }}
           />
 
           <TextField
@@ -144,6 +136,7 @@ export const EServiceCreateStep1General: React.FC = () => {
             infoLabel={t('create.step1.eserviceDescriptionField.infoLabel')}
             inputProps={{ maxLength: 250 }}
             disabled={!isEditable}
+            rules={{ required: true, minLength: 10 }}
           />
 
           <RadioGroup
@@ -155,6 +148,7 @@ export const EServiceCreateStep1General: React.FC = () => {
               { label: 'SOAP', value: 'SOAP' },
             ]}
             disabled={!isEditable}
+            rules={{ required: true }}
           />
         </SectionContainer>
 
