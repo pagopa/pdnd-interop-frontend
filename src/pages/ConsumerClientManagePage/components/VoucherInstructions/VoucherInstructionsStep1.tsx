@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next'
 import { InlineClipboard } from '@/components/shared/InlineClipboard'
 import { CLIENT_ASSERTION_JWT_AUDIENCE, FE_URL } from '@/config/env'
 import { useClientKind } from '@/hooks/useClientKind'
-import { CodeSnippetPreview } from './CodeSnipperPreview'
+import { CodeSnippetPreview } from './CodeSnippetPreview'
 import { CodeLanguagePicker } from './CodeLanguagePicker'
 import { StepActions } from '@/components/shared/StepActions'
 

@@ -1,90 +1,69 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Typography, Popover } from '@mui/material'
-import { ButtonNaked } from '@pagopa/mui-italia'
-import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions'
-import { useTranslation } from 'react-i18next'
+import React, { useState, useRef, useEffect } from 'react'
+import { Button, Link, Tooltip } from '@mui/material'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'
+import CheckIcon from '@mui/icons-material/Check'
 
-type FixedClipboardProps = {
-  textToCopy: string
-  successFeedbackText?: string
-  autoHideDuration?: number
+interface CopyToClipboardProps {
+  /** callback used to retrieve the text to be copied */
+  value: (() => string) | string
+  /** an optional text to be displayed near the "copy to clipboard" icon */
+  text?: string
+  tooltipMode?: boolean
+  tooltip?: string
+  disabled?: boolean
 }
 
-const CopyToClipboardButton: React.FC<FixedClipboardProps> = ({
-  textToCopy,
-  successFeedbackText,
-  autoHideDuration = 1500,
+const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
+  value,
+  text,
+  tooltipMode,
+  tooltip = '',
+  disabled = false,
 }) => {
-  const { t } = useTranslation('shared-components')
-  const [permission, setPermission] = useState(false)
-  const [popover, setPopover] = useState(false)
-  const anchorRef = useRef() as React.MutableRefObject<HTMLSpanElement>
+  const [copied, setCopied] = useState(false)
+  const copiedTimeoutRef = useRef<NodeJS.Timeout>()
 
-  useEffect(() => {
-    async function asyncTestPermission() {
-      try {
-        const descriptor = { name: 'clipboard-write' as PermissionName }
-        const permission = await navigator.permissions.query(descriptor)
+  const handleCopyToClipboard = async () => {
+    const valueToCopy = value instanceof Function ? value() : value
 
-        if (['granted', 'prompt'].includes(permission.state)) {
-          setPermission(true)
-        }
-      } catch (err) {
-        console.error(err)
-        setPermission(false)
-      }
+    if (tooltipMode && !copied) {
+      clearTimeout(copiedTimeoutRef.current)
+      setCopied(true)
+      copiedTimeoutRef.current = setTimeout(() => setCopied(false), 2000)
     }
 
-    asyncTestPermission()
-  }, [])
-
-  const copyAttempt = async () => {
     try {
-      await navigator.clipboard.writeText(textToCopy)
-      setPopover(true)
-
-      // TEMP REFACTOR: this autohide is probably not good for a11y
-      setTimeout(() => {
-        setPopover(false)
-      }, autoHideDuration)
+      await navigator.clipboard.writeText(valueToCopy)
     } catch (err) {
       console.error(err)
-      setPermission(false)
     }
   }
 
-  return permission ? (
-    <React.Fragment>
-      <ButtonNaked
-        title={t('copyToClipboardButton.copy')}
-        onClick={copyAttempt}
-        sx={{
-          p: 1,
-          textAlign: 'left',
-          color: 'primary',
-          '&:hover': { bgcolor: 'action.hover' },
-        }}
-      >
-        <Typography component="span" ref={anchorRef} sx={{ visibility: 'hidden' }} />
-        <IntegrationInstructionsIcon color="primary" />
-      </ButtonNaked>
-      <Popover
-        anchorEl={anchorRef.current}
-        open={popover}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
-        <Typography
-          sx={{ p: 1, display: 'inline-block' }}
-          color="common.white"
-          bgcolor="primary.main"
-          variant="caption"
-        >
-          {successFeedbackText || t('copyToClipboardButton.copied')}
-        </Typography>
-      </Popover>
-    </React.Fragment>
-  ) : null
+  /** Clears the timeout on component unmount */
+  useEffect(() => {
+    return () => {
+      clearTimeout(copiedTimeoutRef.current)
+    }
+  }, [])
+
+  const CopyToClipboardBtnIcon = copied ? CheckIcon : ContentCopyIcon
+
+  return (
+    <Button
+      component={Link}
+      color="primary"
+      sx={{ textAlign: 'center', padding: tooltipMode ? 0 : undefined }}
+      minWidth={{ md: 'max-content' }}
+      onClick={handleCopyToClipboard}
+      disabled={disabled}
+      aria-label={tooltip}
+    >
+      <Tooltip open={copied} arrow={true} title={tooltip} placement="top">
+        <CopyToClipboardBtnIcon fontSize="small" sx={{ m: '5px' }} />
+      </Tooltip>
+      {text}
+    </Button>
+  )
 }
 
-export default CopyToClipboardButton
+export default CopyToClipboard
