@@ -17,7 +17,6 @@ import {
   EServiceConsumer,
   EServiceDescriptorCatalog,
   EServiceDescriptorProvider,
-  EServiceDescriptorRead,
   EServiceProducer,
   EServiceProvider,
   EServiceRead,
@@ -132,8 +131,8 @@ async function createVersionDraft({
 }: {
   eserviceId: string
 } & EServiceVersionDraftPayload) {
-  const response = await axiosInstance.post<EServiceDescriptorRead>(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors`,
+  const response = await axiosInstance.post<{ id: string }>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors`,
     payload
   )
   return response.data
@@ -147,8 +146,8 @@ async function updateVersionDraft({
   eserviceId: string
   descriptorId: string
 } & EServiceVersionDraftPayload) {
-  const response = await axiosInstance.put<EServiceDescriptorRead>(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}`,
+  const response = await axiosInstance.put<{ id: string }>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}`,
     payload
   )
   return response.data
@@ -162,7 +161,7 @@ function publishVersionDraft({
   descriptorId: string
 }) {
   return axiosInstance.post(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/publish`
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/publish`
   )
 }
 
@@ -174,7 +173,7 @@ function suspendVersion({
   descriptorId: string
 }) {
   return axiosInstance.post(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/suspend`
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/suspend`
   )
 }
 
@@ -186,7 +185,7 @@ function reactivateVersion({
   descriptorId: string
 }) {
   return axiosInstance.post(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/activate`
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/activate`
   )
 }
 

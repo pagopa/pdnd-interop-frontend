@@ -102,7 +102,7 @@ export function useGetProviderEServiceActions(
         eserviceId,
         voucherLifespan: minutesToSeconds(1),
         audience: [],
-        description: '',
+        description: 'Descrizione nuova versione...',
         dailyCallsPerConsumer: 1,
         dailyCallsTotal: 1,
         agreementApprovalPolicy: 'MANUAL',
