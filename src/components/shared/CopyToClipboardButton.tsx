@@ -20,6 +20,8 @@ const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
   const [copied, setCopied] = useState(false)
   const copiedTimeoutRef = useRef<NodeJS.Timeout>()
 
+  const ariaLabel = props['aria-label'] ?? 'Copia'
+
   const handleCopyToClipboard = async () => {
     const valueToCopy = value instanceof Function ? value() : value
 
@@ -53,7 +55,13 @@ const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
         title={tooltipTitle}
         placement="top"
       >
-        <IconButton color="primary" onClick={handleCopyToClipboard} {...props}>
+        <IconButton
+          role="button"
+          color="primary"
+          onClick={handleCopyToClipboard}
+          {...props}
+          aria-label={copied ? tooltipTitle : ariaLabel}
+        >
           {copied && <CheckIcon fontSize="small" />}
           {!copied && <ContentCopyIcon fontSize="small" />}
         </IconButton>
