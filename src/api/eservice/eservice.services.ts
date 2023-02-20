@@ -17,7 +17,6 @@ import {
   EServiceConsumer,
   EServiceDescriptorCatalog,
   EServiceDescriptorProvider,
-  EServiceDescriptorRead,
   EServiceProducer,
   EServiceProvider,
   EServiceRead,
@@ -89,7 +88,7 @@ async function getProducers(params: EServiceGetProducersUrlParams) {
 }
 
 async function createDraft(payload: EServiceDraftPayload) {
-  const response = await axiosInstance.post<EServiceReadType>(
+  const response = await axiosInstance.post<{ id: string }>(
     `${CATALOG_PROCESS_URL}/eservices`,
     payload
   )
@@ -132,8 +131,8 @@ async function createVersionDraft({
 }: {
   eserviceId: string
 } & EServiceVersionDraftPayload) {
-  const response = await axiosInstance.post<EServiceDescriptorRead>(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors`,
+  const response = await axiosInstance.post<{ id: string }>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors`,
     payload
   )
   return response.data
@@ -147,8 +146,8 @@ async function updateVersionDraft({
   eserviceId: string
   descriptorId: string
 } & EServiceVersionDraftPayload) {
-  const response = await axiosInstance.put<EServiceDescriptorRead>(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}`,
+  const response = await axiosInstance.put<{ id: string }>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}`,
     payload
   )
   return response.data
@@ -162,7 +161,7 @@ function publishVersionDraft({
   descriptorId: string
 }) {
   return axiosInstance.post(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/publish`
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/publish`
   )
 }
 
@@ -174,7 +173,7 @@ function suspendVersion({
   descriptorId: string
 }) {
   return axiosInstance.post(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/suspend`
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/suspend`
   )
 }
 
@@ -186,7 +185,7 @@ function reactivateVersion({
   descriptorId: string
 }) {
   return axiosInstance.post(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/activate`
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/activate`
   )
 }
 
@@ -213,7 +212,7 @@ async function postVersionDraftDocument({
   const formData = new FormData()
   Object.entries(payload).forEach(([key, data]) => formData.append(key, data))
 
-  const response = await axiosInstance.post<EServiceReadType>(
+  const response = await axiosInstance.post<{ id: string }>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents`,
     formData,
     { headers: { 'Content-Type': 'multipart/form-data' } }
@@ -231,7 +230,7 @@ function deleteVersionDraftDocument({
   documentId: string
 }) {
   return axiosInstance.delete(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}`
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}`
   )
 }
 
@@ -246,7 +245,7 @@ async function updateVersionDraftDocumentDescription({
   documentId: string
 } & UpdateEServiceVersionDraftDocumentPayload) {
   const response = await axiosInstance.post<DocumentRead>(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}/update`,
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}/update`,
     payload
   )
   return response.data
@@ -262,7 +261,7 @@ async function downloadVersionDraftDocument({
   documentId: string
 }) {
   const response = await axiosInstance.get(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}`,
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}`,
     { responseType: 'arraybuffer' }
   )
   return response.data

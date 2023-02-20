@@ -7,7 +7,7 @@ import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 import { EServiceProvider } from '@/types/eservice.types'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { CATALOG_PROCESS_URL } from '@/config/env'
+import { BACKEND_FOR_FRONTEND_URL, CATALOG_PROCESS_URL } from '@/config/env'
 import { act } from 'react-dom/test-utils'
 import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
 
@@ -19,7 +19,7 @@ const server = setupServer(
     }
   ),
   rest.post(
-    `${CATALOG_PROCESS_URL}/eservices/ad474d35-7939-4bee-bde9-4e469cca1030/descriptors`,
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/ad474d35-7939-4bee-bde9-4e469cca1030/descriptors`,
     (_, res, ctx) => {
       return res(ctx.json({ id: 'test-id' }))
     }
