@@ -89,8 +89,8 @@ async function getProducers(params: EServiceGetProducersUrlParams) {
 }
 
 async function createDraft(payload: EServiceDraftPayload) {
-  const response = await axiosInstance.post<EServiceReadType>(
-    `${CATALOG_PROCESS_URL}/eservices`,
+  const response = await axiosInstance.post<{ id: string }>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices`,
     payload
   )
   return response.data
@@ -102,8 +102,8 @@ async function updateDraft({
 }: {
   eserviceId: string
 } & EServiceDraftPayload) {
-  const response = await axiosInstance.put<EServiceReadType>(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}`,
+  const response = await axiosInstance.put<{ id: string }>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}`,
     payload
   )
   return response.data
@@ -213,7 +213,7 @@ async function postVersionDraftDocument({
   const formData = new FormData()
   Object.entries(payload).forEach(([key, data]) => formData.append(key, data))
 
-  const response = await axiosInstance.post<EServiceReadType>(
+  const response = await axiosInstance.post<{ id: string }>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents`,
     formData,
     { headers: { 'Content-Type': 'multipart/form-data' } }
@@ -231,7 +231,7 @@ function deleteVersionDraftDocument({
   documentId: string
 }) {
   return axiosInstance.delete(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}`
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}`
   )
 }
 
@@ -246,7 +246,7 @@ async function updateVersionDraftDocumentDescription({
   documentId: string
 } & UpdateEServiceVersionDraftDocumentPayload) {
   const response = await axiosInstance.post<DocumentRead>(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}/update`,
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}/update`,
     payload
   )
   return response.data
@@ -262,7 +262,7 @@ async function downloadVersionDraftDocument({
   documentId: string
 }) {
   const response = await axiosInstance.get(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}`,
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}`,
     { responseType: 'arraybuffer' }
   )
   return response.data
