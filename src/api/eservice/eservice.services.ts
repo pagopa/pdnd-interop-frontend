@@ -89,7 +89,7 @@ async function getProducers(params: EServiceGetProducersUrlParams) {
 
 async function createDraft(payload: EServiceDraftPayload) {
   const response = await axiosInstance.post<{ id: string }>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices`,
+    `${CATALOG_PROCESS_URL}/eservices`,
     payload
   )
   return response.data
@@ -101,8 +101,8 @@ async function updateDraft({
 }: {
   eserviceId: string
 } & EServiceDraftPayload) {
-  const response = await axiosInstance.put<{ id: string }>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}`,
+  const response = await axiosInstance.put<EServiceReadType>(
+    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}`,
     payload
   )
   return response.data
