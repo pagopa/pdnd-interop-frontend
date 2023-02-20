@@ -5,10 +5,18 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import CheckIcon from '@mui/icons-material/Check'
 
 interface CopyToClipboardProps extends Omit<IconButtonProps, 'onClick' | 'value'> {
-  /** callback used to retrieve the text to be copied */
   value: (() => string) | string
   text?: string
   tooltipTitle?: string
+}
+
+function getDefaultAriaLabel() {
+  if (typeof window !== 'undefined') {
+    const activeLang = window.document.documentElement.lang
+    if (activeLang && activeLang !== 'it') return 'Copy'
+  }
+
+  return 'Copia'
 }
 
 const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
@@ -20,19 +28,18 @@ const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
   const [copied, setCopied] = useState(false)
   const copiedTimeoutRef = useRef<NodeJS.Timeout>()
 
-  const ariaLabel = props['aria-label'] ?? 'Copia'
+  const ariaLabel = props['aria-label'] ?? getDefaultAriaLabel()
 
   const handleCopyToClipboard = async () => {
     const valueToCopy = value instanceof Function ? value() : value
 
-    if (tooltipTitle) {
-      clearTimeout(copiedTimeoutRef.current)
-      setCopied(true)
-      copiedTimeoutRef.current = setTimeout(() => setCopied(false), 2000)
-    }
-
     try {
       await navigator.clipboard.writeText(valueToCopy)
+      if (tooltipTitle) {
+        clearTimeout(copiedTimeoutRef.current)
+        setCopied(true)
+        copiedTimeoutRef.current = setTimeout(() => setCopied(false), 2000)
+      }
     } catch (err) {
       console.error(err)
     }
