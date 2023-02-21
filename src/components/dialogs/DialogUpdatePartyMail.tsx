@@ -43,7 +43,12 @@ export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ de
     if (!jwt?.organizationId) return
     // Updates only when description or email changed
     if (!isEqual(defaultValues, values)) {
-      await updateMail({ partyId: jwt.organizationId, ...values })
+      const { contactEmail, description } = values
+      await updateMail({
+        partyId: jwt.organizationId,
+        contactEmail: contactEmail,
+        description: description || undefined,
+      })
     }
     closeDialog()
   }
@@ -75,6 +80,12 @@ export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ de
               label={t('content.descriptionField.label')}
               infoLabel={t('content.descriptionField.infoLabel')}
               inputProps={{ maxLength: 250 }}
+              rules={{
+                validate: (value) =>
+                  !value ||
+                  (value as string).length >= 10 ||
+                  tCommon('validation.string.minLength', { min: 10 }),
+              }}
             />
             <Alert sx={{ mt: 2 }} severity="warning">
               {t('alertLabel')}
