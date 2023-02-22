@@ -44,7 +44,7 @@ export const DialogSetPurposeExpectedApprovalDate: FunctionComponent<
 
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
-      <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
+      <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <FormProvider {...formMethods}>
           <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
 

@@ -45,7 +45,7 @@ export const DialogUpdatePurposeDailyCalls: React.FC<DialogUpdatePurposeDailyCal
               infoLabel={t('content.dailyCallsField.infoLabel')}
               focusOnMount={true}
               inputProps={{ min: '1' }}
-              rules={{ required: true }}
+              rules={{ required: true, min: 1 }}
             />
           </FormProvider>
         </DialogContent>

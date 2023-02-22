@@ -27,6 +27,7 @@ export const ConsumerAgreementsTableFilters: React.FC<ConsumerAgreementsTableFil
       <Stack
         onSubmit={enableFilters}
         component="form"
+        noValidate
         direction="row"
         spacing={2}
         justifyContent="space-between"

@@ -27,6 +27,7 @@ export const ProviderAgreementsTableFilters: React.FC<ProviderAgreementsTableFil
       <Stack
         onSubmit={enableFilters}
         component="form"
+        noValidate
         direction="row"
         spacing={2}
         justifyContent="space-between"

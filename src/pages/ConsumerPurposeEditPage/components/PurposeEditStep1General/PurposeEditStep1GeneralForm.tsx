@@ -50,7 +50,7 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
 
   return (
     <FormProvider {...formMethods}>
-      <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
+      <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer>
           <Typography component="h2" variant="h5">
             {t('step1.title')}
@@ -81,7 +81,7 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
             type="number"
             inputProps={{ min: '1' }}
             sx={{ mb: 0 }}
-            rules={{ required: true }}
+            rules={{ required: true, min: 1 }}
           />
         </SectionContainer>
         <StepActions

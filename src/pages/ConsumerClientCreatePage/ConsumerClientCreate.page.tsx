@@ -71,7 +71,7 @@ const ConsumerClientCreatePage: React.FC = () => {
 
   return (
     <PageContainer title={t('create.title')} description={t('create.description')}>
-      <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
+      <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <FormProvider {...formMethods}>
           <Grid container>
             <Grid item xs={8}>

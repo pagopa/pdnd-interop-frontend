@@ -82,7 +82,7 @@ export const AgreementDocsInputSection: React.FC<AgreementDocsInputSectionProps>
       {docs.length > 0 && <Divider sx={{ my: 2 }} />}
 
       <FormProvider {...formMethods}>
-        <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
+        <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
           {!showDocInput ? (
             <ButtonNaked type="button" color="primary" onClick={setShowDocInput.bind(null, true)}>
               {tCommon('addBtn')}

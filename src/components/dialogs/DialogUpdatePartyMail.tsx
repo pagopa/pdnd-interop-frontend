@@ -56,7 +56,7 @@ export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ de
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth maxWidth="md">
       <FormProvider {...formMethods}>
-        <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
+        <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
           <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
           <DialogContent>
             <Typography id={ariaDescriptionId}>{t('subtitle')}</Typography>

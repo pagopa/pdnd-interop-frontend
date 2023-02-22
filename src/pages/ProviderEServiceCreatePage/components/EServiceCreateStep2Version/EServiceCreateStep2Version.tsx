@@ -115,7 +115,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
 
   return (
     <FormProvider {...formMethods}>
-      <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
+      <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer>
           <TextField
             sx={{ mt: 0 }}

@@ -43,7 +43,7 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
       <FormProvider {...formMethods}>
-        <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
+        <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
           <DialogTitle id={ariaLabelId}>
             {t('title')} {tAttribute(`type.${attributeKey}`, { count: 1 })}
           </DialogTitle>

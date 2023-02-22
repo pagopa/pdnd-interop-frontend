@@ -38,6 +38,7 @@ const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({
       <Stack
         onSubmit={enableFilters}
         component="form"
+        noValidate
         direction="row"
         spacing={2}
         justifyContent="space-between"

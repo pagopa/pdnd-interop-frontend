@@ -67,7 +67,7 @@ export const DialogAddSecurityOperators: React.FC<DialogAddSecurityOperatorsProp
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
       <FormProvider {...formMethods}>
-        <Box component="form" onSubmit={formMethods.handleSubmit(_onSubmit)}>
+        <Box component="form" noValidate onSubmit={formMethods.handleSubmit(_onSubmit)}>
           <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
 
           <DialogContent>

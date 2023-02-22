@@ -12,16 +12,15 @@ export type TextFieldProps = Omit<MUITextFieldProps, 'type'> & {
   name: string
   infoLabel?: string
   focusOnMount?: boolean
-  onValueChange?: (value: string) => void
   rules?: ControllerProps['rules']
 } & (
     | {
         type?: 'text' | 'email'
-        value?: string
+        onValueChange?: (value: string) => void
       }
     | {
         type?: 'number'
-        value?: number
+        onValueChange?: (value: number) => void
       }
   )
 
@@ -54,8 +53,13 @@ export const TextField: React.FC<TextFieldProps> = ({
             InputLabelProps={{ shrink: true, ...props?.InputLabelProps }}
             error={!!error}
             onChange={(e) => {
-              _onChange(e)
-              if (onValueChange) onValueChange(e.target.value)
+              let value: string | number = e.target.value
+              if (props.type === 'number') {
+                const valueAsNumber = parseInt(e.target.value, 10)
+                value = isNaN(valueAsNumber) ? '' : valueAsNumber
+              }
+              _onChange(value)
+              if (onValueChange) onValueChange(value as never)
             }}
             inputRef={ref}
             {...fieldProps}

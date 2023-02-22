@@ -83,6 +83,7 @@ export function EServiceCreateStep3DocumentsInterface() {
     <FormProvider {...formMethods}>
       <Box
         component="form"
+        noValidate
         onSubmit={formMethods.handleSubmit(onSubmit)}
         sx={{ px: 2, py: 2, borderLeft: 4, borderColor: 'primary.main' }}
         bgcolor="common.white"
