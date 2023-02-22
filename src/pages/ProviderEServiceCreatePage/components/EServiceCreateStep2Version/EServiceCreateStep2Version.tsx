@@ -111,6 +111,8 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
     })
   }
 
+  const dailyCallsPerConsumer = formMethods.watch('dailyCallsPerConsumer')
+
   return (
     <FormProvider {...formMethods}>
       <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
@@ -170,7 +172,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
             rules={{
               required: true,
               min: {
-                value: formMethods.getValues('dailyCallsPerConsumer'),
+                value: dailyCallsPerConsumer,
                 message: t('create.step2.dailyCallsTotalField.validation.min'),
               },
             }}
