@@ -54,7 +54,7 @@ const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
 
   return (
     <>
-      {text}
+      <span>{text}</span>
       <Tooltip
         sx={{ ml: !!text ? 1 : 0 }}
         open={copied}
@@ -64,12 +64,11 @@ const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
       >
         <IconButton
           role="button"
-          color="primary"
           onClick={handleCopyToClipboard}
           {...props}
           aria-label={copied ? tooltipTitle : ariaLabel}
         >
-          {copied && <CheckIcon fontSize="small" />}
+          {copied && <CheckIcon color="success" fontSize="small" />}
           {!copied && <ContentCopyIcon fontSize="small" />}
         </IconButton>
       </Tooltip>
