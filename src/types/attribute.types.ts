@@ -52,6 +52,7 @@ export type PartyAttribute = {
 export type CertifiedTenantAttribute = {
   id: string
   name: string
+  description: string
   assignmentTimestamp: string
   revocationTimestamp?: string
 }
@@ -59,18 +60,19 @@ export type CertifiedTenantAttribute = {
 export type VerifiedTenantAttribute = {
   id: string
   name: string
+  description: string
   assignmentTimestamp: string
-  revocationTimestamp?: string
-  renewal: VerifiedAttributesRenewalType
   verifiedBy: Array<{
     id: string
     verificationDate: string
+    renewal: VerifiedAttributesRenewalType
     expirationDate?: string
     extentionDate?: string
   }>
   revokedBy: Array<{
     id: string
     verificationDate: string
+    renewal: VerifiedAttributesRenewalType
     expirationDate?: string
     extentionDate?: string
     revocationDate: string
@@ -80,6 +82,7 @@ export type VerifiedTenantAttribute = {
 export type DeclaredTenantAttribute = {
   id: string
   name: string
+  description: string
   assignmentTimestamp: string
   revocationTimestamp?: string
 }

@@ -22,7 +22,10 @@ export function remapTenantAttributeToPartyAttribute(
   }
 
   if (attributeKey !== 'verified') {
-    attributeValue.state = tenantAttribute.revocationTimestamp ? 'REVOKED' : 'ACTIVE'
+    attributeValue.state = (tenantAttribute as CertifiedTenantAttribute | DeclaredTenantAttribute)
+      .revocationTimestamp
+      ? 'REVOKED'
+      : 'ACTIVE'
   } else {
     const verifiedTenantAttribute =
       tenantAttribute as GetVerifiedAttributesResponse['attributes'][0]
