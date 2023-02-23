@@ -1,25 +1,15 @@
 import { DecoratedPurpose } from '@/types/purpose.types'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
-import {
-  Answers,
-  BuildForm,
-  GetUpdatedQuestions,
-  GetUpdatedValidation,
-  RiskAnalysis,
-} from '../types/risk-analysis.types'
+import { Answers, BuildForm, GetUpdatedQuestions, RiskAnalysis } from '../types/risk-analysis.types'
 
 function useGetRiskAnalysisFormDefaultValues(
   riskAnalysisConfig: RiskAnalysis,
   operations: {
     getUpdatedQuestions: GetUpdatedQuestions
-    getUpdatedValidation: GetUpdatedValidation
     buildForm: BuildForm
   },
   purpose: DecoratedPurpose
 ) {
-  const { t } = useTranslation('purpose')
-
   return React.useMemo(() => {
     let defaultValues: Answers | null
 
@@ -50,10 +40,9 @@ function useGetRiskAnalysisFormDefaultValues(
     }
 
     const defaultQuestions = operations.getUpdatedQuestions(defaultValues, riskAnalysisConfig)
-    const defaultValidation = operations.getUpdatedValidation(defaultQuestions, t)
 
-    return { defaultValues, defaultQuestions, defaultValidation }
-  }, [riskAnalysisConfig, operations, purpose, t])
+    return { defaultValues, defaultQuestions }
+  }, [riskAnalysisConfig, operations, purpose])
 }
 
 export default useGetRiskAnalysisFormDefaultValues

@@ -84,6 +84,8 @@ export function AutocompleteMultiple<T>(props: AutocompleteMultipleProps<T>) {
             />
           ))
       }
+      rules={props.rules}
+      onValueChange={props.onValueChange}
       {...props}
       value={internalState}
       setInternalState={setInternalState}

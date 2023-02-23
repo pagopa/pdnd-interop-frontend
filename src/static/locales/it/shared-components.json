@@ -127,7 +127,7 @@
       },
       "descriptionField": {
         "label": "Descrizione",
-        "infoLabel": "Max 160 caratteri"
+        "infoLabel": "Min 10 caratteri, max 160 caratteri"
       }
     },
     "alertLabel": "Agli enti non viene notificata questa modifica; si consiglia di mantenere un redirect attivo dal vecchio al nuovo indirizzo per qualche tempo"

@@ -1,5 +1,4 @@
 import React from 'react'
-import { mixed, object, string } from 'yup'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 import { useTranslation } from 'react-i18next'
 import { Stack, Box, Button } from '@mui/material'
@@ -7,7 +6,6 @@ import { DocumentRead } from '@/types/common.types'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { FormProvider, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { SingleFileInput, TextField } from '@/components/shared/ReactHookFormInputs'
 import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
@@ -24,11 +22,6 @@ export function EServiceCreateStep3DocumentsInterface() {
   const { mutate: deleteDocument } = EServiceMutations.useDeleteVersionDraftDocument()
   const { mutate: uploadDocument } = EServiceMutations.usePostVersionDraftDocument()
 
-  const validationSchema = object({
-    interfaceDoc: mixed().required(),
-    prettyName: string().required(),
-  })
-
   const defaultValues: EServiceCreateStep3DocumentsInterfaceFormValues = {
     interfaceDoc: null,
     prettyName: t('create.step3.interface.prettyName'),
@@ -37,7 +30,6 @@ export function EServiceCreateStep3DocumentsInterface() {
   const actualInterface: DocumentRead | null = descriptor?.interface ?? null
 
   const formMethods = useForm({
-    resolver: yupResolver(validationSchema),
     defaultValues,
     shouldUnregister: true,
   })
@@ -91,6 +83,7 @@ export function EServiceCreateStep3DocumentsInterface() {
     <FormProvider {...formMethods}>
       <Box
         component="form"
+        noValidate
         onSubmit={formMethods.handleSubmit(onSubmit)}
         sx={{ px: 2, py: 2, borderLeft: 4, borderColor: 'primary.main' }}
         bgcolor="common.white"
@@ -99,6 +92,7 @@ export function EServiceCreateStep3DocumentsInterface() {
           sx={{ my: 0 }}
           name="interfaceDoc"
           label={t('create.step3.uploadFileField.label')}
+          rules={{ required: true }}
         />
 
         <TextField
@@ -106,6 +100,7 @@ export function EServiceCreateStep3DocumentsInterface() {
           name="prettyName"
           label={t('create.step3.nameField.label')}
           disabled
+          rules={{ required: true }}
         />
 
         <Stack direction="row" justifyContent="flex-end">

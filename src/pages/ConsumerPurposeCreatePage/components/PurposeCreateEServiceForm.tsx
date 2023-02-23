@@ -79,7 +79,7 @@ export const PurposeCreateEServiceForm: React.FC = () => {
 
   return (
     <FormProvider {...formMethods}>
-      <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
+      <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <Grid container>
           <Grid item xs={8}>
             <SectionContainer>

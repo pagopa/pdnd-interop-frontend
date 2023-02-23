@@ -6,8 +6,6 @@ import {
 } from '@/components/shared/ReactHookFormInputs'
 import { InputOption } from '@/types/common.types'
 import React from 'react'
-import { boolean, mixed, object, string } from 'yup'
-import { ObjectShape } from 'yup/lib/object'
 import identity from 'lodash/identity'
 import {
   Dependency,
@@ -52,49 +50,6 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
       return updatedQuestions
     },
 
-    getUpdatedValidation: (questionsObj, t) => {
-      const text = string().required()
-      const radio = string().required()
-      // const radio = mixed().oneOf(['YES', 'NO']).required()
-      const selectOne = string().required()
-      const checkbox = string().required()
-      const singleCheckbox = mixed().test(
-        'presence',
-        t('edit.step2.singleCheckboxField.validation.mixed.required'),
-        (value) => typeof value !== 'undefined' && value.length > 0
-      )
-      const multiCheckbox = mixed().test(
-        'presence',
-        t('edit.step2.multiCheckboxField.validation.mixed.required'),
-        (value) => typeof value !== 'undefined' && value.length > 0
-      )
-      const validationOptions = {
-        text,
-        radio,
-        'select-one': selectOne,
-        checkbox,
-        singleCheckbox,
-        multiCheckbox,
-      }
-
-      const schema = Object.keys(questionsObj).reduce((acc, next) => {
-        const id: string = next
-        const question = questionsObj[next] as QuestionV1
-        const questionType = question.type as keyof typeof validationOptions
-
-        let validationOption = validationOptions[questionType]
-        if (questionType === 'checkbox') {
-          const typedOptions = (question.options as QuestionV1['options'])!
-          validationOption = typedOptions.length > 1 ? multiCheckbox : singleCheckbox
-        }
-
-        acc[id] = validationOption
-        return acc
-      }, {} as ObjectShape)
-
-      return object(schema)
-    },
-
     buildForm: (questions, _, lang, t) => {
       const questionKeys = Object.keys(questions)
 
@@ -113,7 +68,7 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
 
         switch (type) {
           case 'text':
-            return <TextField {...commonProps} />
+            return <TextField {...commonProps} rules={{ required: true }} />
 
           case 'select-one':
             return (
@@ -121,14 +76,28 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
                 {...commonProps}
                 options={inputOptions}
                 emptyLabel={t('edit.step2.emptyLabel')}
+                rules={{ required: true }}
               />
             )
 
           case 'checkbox':
-            return <CheckboxGroup {...commonProps} options={inputOptions} />
+            const errorMessage =
+              options && options?.length > 1
+                ? t('edit.step2.multiCheckboxField.validation.mixed.required')
+                : t('edit.step2.singleCheckboxField.validation.mixed.required')
+            return (
+              <CheckboxGroup
+                {...commonProps}
+                options={inputOptions}
+                rules={{
+                  validate: (value) =>
+                    (typeof value !== 'undefined' && value.length > 0) || errorMessage,
+                }}
+              />
+            )
 
           case 'radio':
-            return <RadioGroup {...commonProps} options={inputOptions} />
+            return <RadioGroup {...commonProps} options={inputOptions} rules={{ required: true }} />
         }
       })
 
@@ -156,38 +125,6 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
 
       // Array<Question> -> Record<"id", Question>
       return updatedQuestions.reduce((acc, next) => ({ ...acc, [next.id]: next }), {} as Questions)
-    },
-
-    getUpdatedValidation: (questionsObj, t) => {
-      const text = string().required()
-      const radio = string().required()
-      const selectOne = string().required()
-      const checkbox = mixed().test(
-        'presence',
-        t('edit.step2.multiCheckboxField.validation.mixed.required'),
-        (value) => typeof value !== 'undefined' && value.length > 0
-      )
-      const switchSchemaValidation = boolean().isTrue()
-
-      const validationOptions = {
-        text,
-        radio,
-        'select-one': selectOne,
-        checkbox,
-        switch: switchSchemaValidation,
-      }
-
-      const schema = Object.keys(questionsObj).reduce((acc, next) => {
-        const id: string = next
-        const question = questionsObj[id] as QuestionV2
-        const questionType = question.type as keyof typeof validationOptions
-
-        const validationOption = validationOptions[questionType]
-
-        return { ...acc, [id]: validationOption }
-      }, {} as ObjectShape)
-
-      return object(schema)
     },
 
     buildForm: (questions, formMethods, lang, t) => {
@@ -269,7 +206,9 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
 
         switch (type) {
           case 'text':
-            questionComponents.push(<TextField {...commonProps} inputProps={{ maxLength }} />)
+            questionComponents.push(
+              <TextField {...commonProps} inputProps={{ maxLength }} rules={{ required: true }} />
+            )
             break
           case 'select-one':
             questionComponents.push(
@@ -277,17 +216,40 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
                 {...commonProps}
                 options={inputOptions}
                 emptyLabel={t('edit.step2.emptyLabel')}
+                rules={{ required: true }}
               />
             )
             break
           case 'checkbox':
-            questionComponents.push(<CheckboxGroup {...commonProps} options={inputOptions} />)
+            questionComponents.push(
+              <CheckboxGroup
+                {...commonProps}
+                options={inputOptions}
+                rules={{
+                  validate: (value) =>
+                    (typeof value !== 'undefined' && value.length > 0) ||
+                    t('edit.step2.multiCheckboxField.validation.mixed.required'),
+                }}
+              />
+            )
             break
           case 'radio':
-            questionComponents.push(<RadioGroup {...commonProps} options={inputOptions} />)
+            questionComponents.push(
+              <RadioGroup {...commonProps} options={inputOptions} rules={{ required: true }} />
+            )
             break
           case 'switch':
-            questionComponents.push(<RiskAnalysisSwitch {...commonProps} options={inputOptions} />)
+            questionComponents.push(
+              <RiskAnalysisSwitch
+                {...commonProps}
+                options={inputOptions}
+                rules={{
+                  validate: (value) =>
+                    (typeof value === 'boolean' && value === true) ||
+                    t('edit.step2.riskAnalysisSwitch.validation.boolean.isValue'),
+                }}
+              />
+            )
             break
         }
 

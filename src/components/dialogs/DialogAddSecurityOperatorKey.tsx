@@ -15,8 +15,6 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { RouterLink } from '@/router'
 import { TextField } from '../shared/ReactHookFormInputs'
-import { object, string } from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
 
 type AddSecurityOperatorKeyFormValues = {
   name: string
@@ -33,14 +31,8 @@ export const DialogAddSecurityOperatorKey: React.FC<DialogAddSecurityOperatorKey
   const { closeDialog } = useDialog()
   const { mutate: postKey } = ClientMutations.usePostKey()
 
-  const validationSchema = object({
-    name: string().required().min(5),
-    key: string().required(),
-  })
-
   const formMethods = useForm<AddSecurityOperatorKeyFormValues>({
     defaultValues: { name: '', key: '' },
-    resolver: yupResolver(validationSchema),
   })
 
   const onSubmit = (values: AddSecurityOperatorKeyFormValues) => {
@@ -54,7 +46,7 @@ export const DialogAddSecurityOperatorKey: React.FC<DialogAddSecurityOperatorKey
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
       <FormProvider {...formMethods}>
-        <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
+        <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
           <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
 
           <DialogContent>
@@ -64,9 +56,16 @@ export const DialogAddSecurityOperatorKey: React.FC<DialogAddSecurityOperatorKey
               infoLabel={t('content.nameField.infoLabel')}
               focusOnMount
               inputProps={{ maxLength: 60 }}
+              rules={{ required: true, minLength: 5 }}
             />
 
-            <TextField name="key" label={t('content.keyField.label')} multiline sx={{ mb: 2 }} />
+            <TextField
+              name="key"
+              label={t('content.keyField.label')}
+              multiline
+              sx={{ mb: 2 }}
+              rules={{ required: true }}
+            />
 
             <Alert severity="info">
               {t('content.keyField.infoLabel.message')}{' '}

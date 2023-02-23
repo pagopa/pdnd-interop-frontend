@@ -82,6 +82,13 @@
           }
         }
       },
+      "riskAnalysisSwitch": {
+        "validation": {
+          "boolean": {
+            "isValue": "Si prega di confermare"
+          }
+        }
+      },
       "emptyLabel": "Nessun valore disponibile",
       "pa": {
         "v2": {

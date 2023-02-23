@@ -1,8 +1,9 @@
 import React from 'react'
-import { render, waitFor } from '@testing-library/react'
+import { render, renderHook, screen, waitFor } from '@testing-library/react'
 import { TestInputWrapper } from './test-utils'
 import { TextField } from '@/components/shared/ReactHookFormInputs'
 import userEvent from '@testing-library/user-event'
+import { useFormContext } from 'react-hook-form'
 
 const testValues = {
   first: 'test',
@@ -27,6 +28,27 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     await waitFor(() => {
       expect(input).toHaveValue(testValues.first + testValues.second)
     })
+  })
+
+  it('gets the value type as number if type prop number is given', async () => {
+    const user = userEvent.setup()
+    const formContext = renderHook(() => useFormContext(), {
+      wrapper: ({ children }) => (
+        <TestInputWrapper>
+          {children}
+          <TextField label={'label'} name={'testText'} type="number" />
+        </TestInputWrapper>
+      ),
+    })
+
+    const input = screen.getByRole('spinbutton')
+    user.type(input, '1')
+    await waitFor(() => {
+      expect(input).toHaveValue(1)
+    })
+
+    const value = formContext.result.current.watch('testText')
+    expect(typeof value).toBe('number')
   })
 
   it('should focus on mount', async () => {

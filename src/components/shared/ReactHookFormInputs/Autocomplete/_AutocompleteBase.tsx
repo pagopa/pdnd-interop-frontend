@@ -15,6 +15,8 @@ import match from 'autosuggest-highlight/match'
 import { useTranslation } from 'react-i18next'
 import identity from 'lodash/identity'
 import isEqual from 'lodash/isEqual'
+import { ControllerProps } from 'react-hook-form/dist/types/controller'
+import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
 export type AutocompleteInput<T> = { label: string; value: T }
 
@@ -30,6 +32,8 @@ export type AutocompleteBaseProps<
   focusOnMount?: boolean
   getOptionValue?: (option: AutocompleteValue<T, Multiple, DisableClearable, FreeSolo>) => unknown
   variant?: TextFieldProps['variant']
+  rules?: ControllerProps['rules']
+  onValueChange?: (value: AutocompleteValue<T, Multiple, DisableClearable, FreeSolo>) => void
   setInternalState: React.Dispatch<
     React.SetStateAction<AutocompleteValue<T, Multiple, DisableClearable, FreeSolo>>
   >
@@ -51,6 +55,8 @@ export function _AutocompleteBase<
   placeholder,
   loading,
   defaultValue,
+  rules,
+  onValueChange,
   setInternalState,
   variant = 'outlined',
   getOptionValue = identity,
@@ -59,7 +65,8 @@ export function _AutocompleteBase<
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'autocompleteMultiple',
   })
-  const { formState, control, watch, setValue } = useFormContext()
+  const { t: tCommon } = useTranslation()
+  const { formState, watch, setValue } = useFormContext()
   const labelId = React.useId()
 
   const value = watch(name)
@@ -74,11 +81,11 @@ export function _AutocompleteBase<
   const error = formState.errors[name]?.message as string | undefined
 
   return (
-    <InputWrapper name={name} error={error} sx={{ my: 0, ...sx }} infoLabel={infoLabel}>
+    <InputWrapper error={error} sx={{ my: 0, ...sx }} infoLabel={infoLabel}>
       <Controller
-        control={control}
         name={name}
-        render={({ field: { onChange } }) => (
+        rules={mapValidationErrorMessages(rules, tCommon)}
+        render={({ field: { ref, onChange: _onChange } }) => (
           <Autocomplete
             id={labelId}
             options={options}
@@ -93,8 +100,9 @@ export function _AutocompleteBase<
             }}
             {...props}
             onChange={(_, data) => {
-              onChange(getOptionValue(data))
+              _onChange(getOptionValue(data))
               setInternalState(data)
+              if (onValueChange) onValueChange(data)
             }}
             renderInput={(params) => {
               return (
@@ -115,6 +123,7 @@ export function _AutocompleteBase<
                     ),
                   }}
                   label={label}
+                  inputRef={ref}
                 />
               )
             }}

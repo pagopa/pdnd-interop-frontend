@@ -27,6 +27,7 @@ export const ConsumerPurposesTableFilters: React.FC<ConsumerPurposesTableFilters
       <Stack
         onSubmit={enableFilters}
         component="form"
+        noValidate
         direction="row"
         spacing={8}
         justifyContent="space-between"

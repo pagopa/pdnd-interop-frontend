@@ -9,13 +9,18 @@ import {
 import { InputWrapper } from '../InputWrapper'
 import { Controller, useFormContext } from 'react-hook-form'
 import { InputOption } from '@/types/common.types'
+import { ControllerProps } from 'react-hook-form/dist/types'
+import { useTranslation } from 'react-i18next'
+import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
-export type SelectProps = MUISelectProps & {
+export type SelectProps = Omit<MUISelectProps, 'onChange'> & {
   name: string
   options: Array<InputOption>
   focusOnMount?: boolean
   infoLabel?: string
   emptyLabel?: string
+  rules?: ControllerProps['rules']
+  onValueChange?: (value: string) => void
 }
 
 export const Select: React.FC<SelectProps> = ({
@@ -26,30 +31,38 @@ export const Select: React.FC<SelectProps> = ({
   focusOnMount,
   infoLabel,
   emptyLabel,
+  rules,
+  onValueChange,
   ...props
 }) => {
-  const { formState, control } = useFormContext()
+  const { formState } = useFormContext()
   const labelId = useId()
+  const { t } = useTranslation()
 
   const error = formState.errors[name]?.message as string | undefined
 
   return (
-    <InputWrapper name={name} error={error} sx={sx} infoLabel={infoLabel}>
+    <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
       <FormControl fullWidth>
         <InputLabel id={labelId} shrink>
           {label}
         </InputLabel>
         <Controller
-          control={control}
           name={name}
-          render={({ field }) => (
+          rules={mapValidationErrorMessages(rules, t)}
+          render={({ field: { ref, onChange, ...fieldProps } }) => (
             <MUISelect
               {...props}
-              {...field}
+              {...fieldProps}
               error={!!error}
               label={label}
               labelId={labelId}
               autoFocus={focusOnMount}
+              onChange={(e) => {
+                if (onValueChange) onValueChange(e.target.value)
+                onChange(e)
+              }}
+              inputRef={ref}
             >
               {options.length > 0 ? (
                 options.map((o, i) => (

@@ -9,12 +9,10 @@ import { useClientKind } from '@/hooks/useClientKind'
 import { RouterLink, useNavigateRouter } from '@/router'
 import { Client } from '@/types/client.types'
 import { SelfCareUser } from '@/types/party.types'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Button, Grid, Typography } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { object, string, array } from 'yup'
 import OperatorsInputTable from './components/OperatorsInputTable'
 
 export type CreateClientFormValues = {
@@ -35,14 +33,7 @@ const ConsumerClientCreatePage: React.FC = () => {
     suppressSuccessToast: true,
   })
 
-  const validationSchema = object({
-    name: string().required().min(5),
-    description: string().required().min(10),
-    operators: array(object({ id: string().required() })),
-  })
-
   const formMethods = useForm<CreateClientFormValues>({
-    resolver: yupResolver(validationSchema),
     defaultValues,
   })
 
@@ -80,7 +71,7 @@ const ConsumerClientCreatePage: React.FC = () => {
 
   return (
     <PageContainer title={t('create.title')} description={t('create.description')}>
-      <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
+      <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <FormProvider {...formMethods}>
           <Grid container>
             <Grid item xs={8}>
@@ -95,6 +86,7 @@ const ConsumerClientCreatePage: React.FC = () => {
                   label={t('create.nameField.label')}
                   infoLabel={t('create.nameField.infoLabel')}
                   inputProps={{ maxLength: 60 }}
+                  rules={{ required: true, minLength: 5 }}
                 />
 
                 <TextField
@@ -103,6 +95,7 @@ const ConsumerClientCreatePage: React.FC = () => {
                   infoLabel={t('create.descriptionField.infoLabel')}
                   multiline
                   inputProps={{ maxLength: 250 }}
+                  rules={{ required: true, minLength: 10 }}
                 />
 
                 <Typography sx={{ my: 4 }} component="h2" variant="h5">

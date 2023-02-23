@@ -4,9 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { DialogCreateNewAttributeProps } from '@/types/dialog.types'
 import { useDialog } from '@/stores'
 import { AttributeKind } from '@/types/attribute.types'
-import { mixed, object, string } from 'yup'
 import { FormProvider, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { TextField } from '../shared/ReactHookFormInputs'
 import { AttributeMutations } from '@/api/attribute'
 
@@ -28,12 +26,6 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
 
   const { mutate: createAttribute } = AttributeMutations.useCreate()
 
-  const validationSchema = object({
-    name: string().required().min(5),
-    description: string().required().min(10),
-    kind: mixed().oneOf(['CERTIFIED', 'VERIFIED', 'DECLARED']).required(),
-  })
-
   const defaultValues = {
     name: '',
     description: '',
@@ -41,7 +33,6 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
   }
 
   const formMethods = useForm<CreateNewAttributeFormValues>({
-    resolver: yupResolver(validationSchema),
     defaultValues,
   })
 
@@ -52,7 +43,7 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
       <FormProvider {...formMethods}>
-        <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
+        <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
           <DialogTitle id={ariaLabelId}>
             {t('title')} {tAttribute(`type.${attributeKey}`, { count: 1 })}
           </DialogTitle>
@@ -64,6 +55,7 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
               label={t('content.nameField.label')}
               infoLabel={t('content.nameField.infoLabel')}
               inputProps={{ maxLength: 160 }}
+              rules={{ required: true, minLength: 5 }}
             />
             <TextField
               name="description"
@@ -71,6 +63,7 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
               infoLabel={t('content.descriptionField.infoLabel')}
               multiline
               inputProps={{ maxLength: 250 }}
+              rules={{ required: true, minLength: 10 }}
             />
           </DialogContent>
 

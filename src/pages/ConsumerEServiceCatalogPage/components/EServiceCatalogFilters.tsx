@@ -38,6 +38,7 @@ const EServiceCatalogFilters: React.FC<EServiceCatalogFiltersProps> = ({
       <Stack
         onSubmit={enableFilters}
         component="form"
+        noValidate
         direction="row"
         spacing={2}
         justifyContent="space-between"

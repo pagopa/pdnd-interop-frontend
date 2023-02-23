@@ -5,12 +5,10 @@ import { StepActions } from '@/components/shared/StepActions'
 import { ActiveStepProps } from '@/hooks/useActiveStep'
 import { useNavigateRouter } from '@/router'
 import { minutesToSeconds, secondsToMinutes } from '@/utils/format.utils'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { Box } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { number, object, ref, string } from 'yup'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import omit from 'lodash/omit'
 import isEqual from 'lodash/isEqual'
@@ -38,17 +36,6 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
     suppressSuccessToast: true,
   })
 
-  const validationSchema = object({
-    version: string().required(),
-    audience: string().required().min(1),
-    voucherLifespan: number().required().min(1).max(1440),
-    description: string().required().min(10),
-    dailyCallsPerConsumer: number().required().min(1),
-    dailyCallsTotal: number()
-      .min(ref('dailyCallsPerConsumer'), t('create.step2.dailyCallsTotalField.validation.min'))
-      .required(),
-  })
-
   let defaultValues: EServiceCreateStep2FormValues = {
     version: '1',
     audience: '',
@@ -73,7 +60,6 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
   }
 
   const formMethods = useForm({
-    resolver: yupResolver(validationSchema),
     defaultValues,
   })
 
@@ -125,9 +111,11 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
     })
   }
 
+  const dailyCallsPerConsumer = formMethods.watch('dailyCallsPerConsumer')
+
   return (
     <FormProvider {...formMethods}>
-      <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
+      <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer>
           <TextField
             sx={{ mt: 0 }}
@@ -135,6 +123,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
             label={t('create.step2.versionField.label')}
             infoLabel={t('create.step2.versionField.infoLabel')}
             disabled
+            rules={{ required: true }}
           />
 
           <TextField
@@ -144,6 +133,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
             multiline
             focusOnMount
             inputProps={{ maxLength: 250 }}
+            rules={{ required: true, minLength: 10 }}
           />
 
           <TextField
@@ -151,6 +141,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
             label={t('create.step2.audienceField.label')}
             infoLabel={t('create.step2.audienceField.infoLabel')}
             inputProps={{ maxLength: 250 }}
+            rules={{ required: true, minLength: 1 }}
           />
 
           <TextField
@@ -159,6 +150,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
             infoLabel={t('create.step2.voucherLifespanField.infoLabel')}
             type="number"
             inputProps={{ min: 1, max: 1440 }}
+            rules={{ required: true, min: 1, max: 1440 }}
           />
 
           <TextField
@@ -167,6 +159,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
             infoLabel={t('create.step2.dailyCallsPerConsumerField.infoLabel')}
             type="number"
             inputProps={{ min: '1' }}
+            rules={{ required: true, min: 1 }}
           />
 
           <TextField
@@ -176,6 +169,13 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
             type="number"
             inputProps={{ min: '1' }}
             sx={{ mb: 3 }}
+            rules={{
+              required: true,
+              min: {
+                value: dailyCallsPerConsumer,
+                message: t('create.step2.dailyCallsTotalField.validation.min'),
+              },
+            }}
           />
 
           <Switch

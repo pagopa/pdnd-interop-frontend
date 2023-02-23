@@ -9,12 +9,17 @@ import {
 import { Controller, useFormContext } from 'react-hook-form'
 import { InputWrapper } from '@/components/shared/InputWrapper'
 import { InputOption } from '@/types/common.types'
+import { mapValidationErrorMessages } from '@/utils/validation.utils'
+import { useTranslation } from 'react-i18next'
+import { ControllerProps } from 'react-hook-form/dist/types'
 
 type RiskAnalysisSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   label: string
   infoLabel?: string | JSX.Element
   options: Array<InputOption>
   name: string
+  rules?: ControllerProps['rules']
+  onValueChange?: (value: boolean) => void
 }
 
 export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
@@ -23,14 +28,17 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
   options,
   name,
   sx,
+  rules,
+  onValueChange,
   ...switchProps
 }) => {
-  const { control, formState } = useFormContext()
+  const { formState } = useFormContext()
+  const { t } = useTranslation()
 
   const error = formState.errors[name]?.message as string | undefined
 
   return (
-    <InputWrapper name={name} error={error} sx={sx} infoLabel={infoLabel}>
+    <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
       <FormLabel sx={{ color: 'text.primary' }}>
         <Typography component="span" variant="body1">
           {label}
@@ -38,13 +46,17 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
         <Stack sx={{ mt: 2, mb: 1 }} direction="row" alignItems="center" spacing={0.25}>
           <Controller
             name={name}
-            control={control}
-            render={({ field }) => (
+            rules={mapValidationErrorMessages(rules, t)}
+            render={({ field: { value, ref, onChange, ...fieldProps } }) => (
               <MUISwitch
                 {...switchProps}
-                {...field}
-                onChange={(e) => field.onChange(e.target.checked)}
-                checked={field.value}
+                {...fieldProps}
+                onChange={(e) => {
+                  if (onValueChange) onValueChange(e.target.checked)
+                  onChange(e.target.checked)
+                }}
+                checked={value}
+                inputRef={ref}
               />
             )}
           />

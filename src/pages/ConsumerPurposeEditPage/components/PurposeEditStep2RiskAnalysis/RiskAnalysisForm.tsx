@@ -25,7 +25,7 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({ back, forwar
 
   return (
     <FormProvider {...formMethods}>
-      <Box component="form" onSubmit={handleSubmit}>
+      <Box component="form" noValidate onSubmit={handleSubmit}>
         <SectionContainer>
           <Typography component="h2" variant="h5">
             {t('step2.title')}

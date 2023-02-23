@@ -9,13 +9,18 @@ import {
 import { InputWrapper } from '../InputWrapper'
 import { Controller, useFormContext } from 'react-hook-form'
 import { InputOption } from '@/types/common.types'
+import { ControllerProps } from 'react-hook-form/dist/types'
+import { useTranslation } from 'react-i18next'
+import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
-export type RadioGroupProps = MUIRadioGroupProps & {
+export type RadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
   label: string
   options: Array<InputOption & { disabled?: boolean }>
   name: string
   infoLabel?: string
   disabled?: boolean
+  rules?: ControllerProps['rules']
+  onValueChange?: (value: string) => void
 }
 
 export const RadioGroup: React.FC<RadioGroupProps> = ({
@@ -25,10 +30,13 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
   options,
   infoLabel,
   disabled,
+  rules,
+  onValueChange,
   ...props
 }) => {
-  const { formState, control } = useFormContext()
+  const { formState } = useFormContext()
   const labelId = useId()
+  const { t } = useTranslation()
 
   if (!options || options.length === 0) {
     return null
@@ -37,13 +45,21 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
   const error = formState.errors[name]?.message as string | undefined
 
   return (
-    <InputWrapper name={name} error={error} sx={sx} infoLabel={infoLabel}>
+    <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
       <FormLabel id={labelId}>{label}</FormLabel>
       <Controller
-        control={control}
         name={name}
-        render={({ field }) => (
-          <MUIRadioGroup aria-labelledby={labelId} {...props} {...field}>
+        rules={mapValidationErrorMessages(rules, t)}
+        render={({ field: { onChange, ...fieldProps } }) => (
+          <MUIRadioGroup
+            aria-labelledby={labelId}
+            {...props}
+            {...fieldProps}
+            onChange={(_, value) => {
+              if (onValueChange) onValueChange(value)
+              onChange(value)
+            }}
+          >
             {options.map((o) => (
               <FormControlLabel
                 disabled={disabled || o.disabled}

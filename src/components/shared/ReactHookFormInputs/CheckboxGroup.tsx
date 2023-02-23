@@ -3,6 +3,9 @@ import { FormControlLabel, FormGroup, FormLabel, Checkbox, SxProps } from '@mui/
 import { InputWrapper } from '../InputWrapper'
 import { Controller, useFormContext } from 'react-hook-form'
 import { InputOption } from '@/types/common.types'
+import { ControllerProps } from 'react-hook-form/dist/types'
+import { useTranslation } from 'react-i18next'
+import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
 export type CheckboxGroupProps = {
   sx?: SxProps
@@ -10,6 +13,8 @@ export type CheckboxGroupProps = {
   options: Array<InputOption & { disabled?: boolean }>
   name: string
   infoLabel?: string
+  rules?: ControllerProps['rules']
+  onValueChange?: (value: Array<string>) => void
 }
 
 export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
@@ -18,8 +23,11 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
   label,
   options,
   infoLabel,
+  rules,
+  onValueChange,
 }) => {
-  const { formState, control } = useFormContext()
+  const { formState } = useFormContext()
+  const { t } = useTranslation()
 
   if (!options || options.length === 0) {
     return null
@@ -28,12 +36,12 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
   const error = formState.errors[name]?.message as string | undefined
 
   return (
-    <InputWrapper name={name} error={error} sx={sx} infoLabel={infoLabel}>
+    <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
       <FormLabel component="legend">{label}</FormLabel>
       <FormGroup>
         <Controller
-          control={control}
           name={name}
+          rules={mapValidationErrorMessages(rules, t)}
           render={({ field }) => {
             const onChange = (e: React.SyntheticEvent) => {
               const target = e.target as HTMLInputElement
@@ -44,6 +52,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
                 : [...prevValue, target.name]
 
               field.onChange(newValue)
+              if (onValueChange) onValueChange(newValue)
             }
 
             return (

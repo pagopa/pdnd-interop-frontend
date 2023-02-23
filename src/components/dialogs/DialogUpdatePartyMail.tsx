@@ -12,13 +12,12 @@ import {
 import { useTranslation } from 'react-i18next'
 import { DialogUpdatePartyMailProps } from '@/types/dialog.types'
 import { useDialog } from '@/stores'
-import { object, string } from 'yup'
 import { FormProvider, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { TextField } from '../shared/ReactHookFormInputs'
 import { PartyMutations } from '@/api/party/party.hooks'
 import { useJwt } from '@/hooks/useJwt'
 import isEqual from 'lodash/isEqual'
+import { emailRegex } from '@/utils/validation.utils'
 
 type UpdatePartyMailFormValues = {
   contactEmail: string
@@ -36,13 +35,7 @@ export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ de
 
   const { mutateAsync: updateMail } = PartyMutations.useUpdateMail()
 
-  const validationSchema = object({
-    contactEmail: string().email().required(),
-    description: string(),
-  })
-
   const formMethods = useForm<UpdatePartyMailFormValues>({
-    resolver: yupResolver(validationSchema),
     defaultValues: defaultValues ?? { contactEmail: '', description: '' },
   })
 
@@ -50,7 +43,12 @@ export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ de
     if (!jwt?.organizationId) return
     // Updates only when description or email changed
     if (!isEqual(defaultValues, values)) {
-      await updateMail({ partyId: jwt.organizationId, ...values })
+      const { contactEmail, description } = values
+      await updateMail({
+        partyId: jwt.organizationId,
+        contactEmail: contactEmail,
+        description: description || undefined,
+      })
     }
     closeDialog()
   }
@@ -58,7 +56,7 @@ export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ de
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth maxWidth="md">
       <FormProvider {...formMethods}>
-        <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
+        <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
           <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
           <DialogContent>
             <Typography id={ariaDescriptionId}>{t('subtitle')}</Typography>
@@ -68,6 +66,13 @@ export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ de
               focusOnMount
               name="contactEmail"
               label={t('content.mailAddressField.label')}
+              rules={{
+                required: true,
+                pattern: {
+                  value: emailRegex,
+                  message: tCommon('validation.string.email'),
+                },
+              }}
             />
             <TextField
               sx={{ mt: 2, mb: 0 }}
@@ -75,6 +80,12 @@ export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ de
               label={t('content.descriptionField.label')}
               infoLabel={t('content.descriptionField.infoLabel')}
               inputProps={{ maxLength: 250 }}
+              rules={{
+                validate: (value) =>
+                  !value ||
+                  (value as string).length >= 10 ||
+                  tCommon('validation.string.minLength', { min: 10 }),
+              }}
             />
             <Alert sx={{ mt: 2 }} severity="warning">
               {t('alertLabel')}

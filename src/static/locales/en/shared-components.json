@@ -128,7 +128,7 @@
       },
       "descriptionField": {
         "label": "Description",
-        "infoLabel": "Max 160 chars"
+        "infoLabel": "Min 10 chars, max 160 chars"
       }
     },
     "alertLabel": "Authorities are not notified of this change; it is recommended to keep an active redirect from the old to the new address for some time"

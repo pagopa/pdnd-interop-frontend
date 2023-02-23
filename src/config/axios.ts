@@ -5,6 +5,20 @@ import { STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 import { storageRead } from '@/utils/storage.utils'
 import { NotAuthorizedError, NotFoundError, ServerError } from '@/utils/errors.utils'
 
+// Performs a trim operation on each string contained in the object
+const deepTrim = (object: any) => {
+  if (typeof object === 'string') {
+    return object.trim()
+  }
+  if (typeof object === 'object' && object !== null) {
+    for (const key in object) {
+      object[key] = deepTrim(object[key])
+    }
+  }
+
+  return object
+}
+
 const axiosInstance = axios.create({
   paramsSerializer: {
     serialize: (params) => qs.stringify(params, { arrayFormat: 'comma' }),
@@ -19,6 +33,11 @@ axiosInstance.interceptors.request.use(
     }
 
     config.headers['X-Correlation-Id'] = uuidv4()
+
+    // If the request has a payload performs the trim on all its strings
+    if (config.data) {
+      config.data = deepTrim(config.data)
+    }
 
     return config
   },

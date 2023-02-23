@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react'
-import { object, date } from 'yup'
 import {
   Box,
   Button,
@@ -11,7 +10,6 @@ import {
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { FormProvider, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { DialogSetPurposeExpectedApprovalDateProps } from '@/types/dialog.types'
 import { useDialog } from '@/stores'
 import { DatePicker } from '../shared/ReactHookFormInputs'
@@ -42,19 +40,18 @@ export const DialogSetPurposeExpectedApprovalDate: FunctionComponent<
 
   const formMethods = useForm<ExpectedApprovalDateFormValues>({
     defaultValues: { expectedApprovalDate: approvalDate ? new Date(approvalDate) : new Date() },
-    resolver: yupResolver(object({ expectedApprovalDate: date().required() })),
   })
 
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
-      <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
+      <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <FormProvider {...formMethods}>
           <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
 
           <DialogContent>
             <Typography>{t('content.message')}</Typography>
             <Box sx={{ mt: 3, pt: 2, borderTop: 1, borderBottom: 1, borderColor: 'divider' }}>
-              <DatePicker sx={{ my: 0 }} name="expectedApprovalDate" />
+              <DatePicker sx={{ my: 0 }} name="expectedApprovalDate" rules={{ required: true }} />
             </Box>
           </DialogContent>
 

@@ -4,10 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { useDialog } from '@/stores'
 import { DialogUpdatePurposeDailyCallsProps } from '@/types/dialog.types'
 import { TextField } from '../shared/ReactHookFormInputs'
-import { number, object } from 'yup'
 import { PurposeMutations } from '@/api/purpose'
 import { FormProvider, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 
 type UpdateDailyCallsFormValues = { dailyCalls: number }
 
@@ -20,12 +18,10 @@ export const DialogUpdatePurposeDailyCalls: React.FC<DialogUpdatePurposeDailyCal
     keyPrefix: 'dialogUpdatePurposeDailyCalls',
   })
 
-  const validationSchema = object({ dailyCalls: number().required() })
   const formMethods = useForm<UpdateDailyCallsFormValues>({
     defaultValues: {
       dailyCalls,
     },
-    resolver: yupResolver(validationSchema),
   })
 
   const { closeDialog } = useDialog()
@@ -49,6 +45,7 @@ export const DialogUpdatePurposeDailyCalls: React.FC<DialogUpdatePurposeDailyCal
               infoLabel={t('content.dailyCallsField.infoLabel')}
               focusOnMount={true}
               inputProps={{ min: '1' }}
+              rules={{ required: true, min: 1 }}
             />
           </FormProvider>
         </DialogContent>

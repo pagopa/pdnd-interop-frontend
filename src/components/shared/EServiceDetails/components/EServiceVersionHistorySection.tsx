@@ -47,7 +47,7 @@ export const EServiceVersionHistorySection: React.FC = () => {
     <SectionContainer title={t('title')}>
       <InformationContainer label={t('historyField.title')}>
         <FormProvider {...formMethods}>
-          <Box onSubmit={formMethods.handleSubmit(onSubmit)} component="form">
+          <Box onSubmit={formMethods.handleSubmit(onSubmit)} component="form" noValidate>
             <Select
               sx={{ my: 0 }}
               label={t('historyField.label')}

@@ -1,7 +1,6 @@
 import type { LangCode } from '@/types/common.types'
 import type { TFunction } from 'i18next'
 import { UseFormReturn } from 'react-hook-form'
-import type { AnyObjectSchema } from 'yup'
 
 export type MultiLangEntry = {
   it: string
@@ -84,11 +83,6 @@ export type GetUpdatedQuestions = (
   riskAnalysis: RiskAnalysis
 ) => Questions
 
-export type GetUpdatedValidation = (
-  questionsObj: Questions,
-  t: TFunction<'purpose'>
-) => AnyObjectSchema
-
 export type BuildForm = (
   questions: Questions,
   formMethods: UseFormReturn<Answers>,
@@ -108,21 +102,6 @@ export type DynamicFormOperations = Record<
      * @returns the updated questions data
      * */
     getUpdatedQuestions: GetUpdatedQuestions
-    /**
-     * Returns the updated yup validation schema.
-     *
-     * @param questionsObj - the actual updated questions visible to the user
-     * @param t - the TFunction of nexti18 internalization library
-     *
-     * @returns The updated object schema
-     * ```ts
-     *  object({
-     *    [question.id]: ObjectSchema | BooleanSchema // etc...
-     *  })
-     *
-     * ```
-     * */
-    getUpdatedValidation: GetUpdatedValidation
     /**
      * Returns the updated form components.
      *

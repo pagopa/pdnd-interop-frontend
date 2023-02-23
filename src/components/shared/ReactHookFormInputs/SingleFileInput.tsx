@@ -7,6 +7,8 @@ import { InputWrapper } from '../InputWrapper'
 import { Controller, useFormContext } from 'react-hook-form'
 import { SxProps } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import { ControllerProps } from 'react-hook-form/dist/types'
+import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
 type SingleFileInputProps = Omit<
   PagoPASingleFileInputProps,
@@ -15,24 +17,39 @@ type SingleFileInputProps = Omit<
   name: string
   infoLabel?: string | JSX.Element
   sx?: SxProps
+  rules?: ControllerProps['rules']
+  onValueChange?: (value: File | null) => void
 }
 
-export const SingleFileInput: React.FC<SingleFileInputProps> = ({ name, infoLabel, sx }) => {
+export const SingleFileInput: React.FC<SingleFileInputProps> = ({
+  name,
+  infoLabel,
+  sx,
+  rules,
+  onValueChange,
+}) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'singleFileInput' })
-  const { formState, control, setValue } = useFormContext()
+  const { t: tCommon } = useTranslation()
+  const { formState, setValue } = useFormContext()
 
   const error = formState.errors[name]?.message as string | undefined
 
   return (
-    <InputWrapper name={name} error={error} sx={sx} infoLabel={infoLabel}>
+    <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
       <Controller
-        control={control}
         name={name}
+        rules={mapValidationErrorMessages(rules, tCommon)}
         render={({ field }) => (
           <PagoPASingleFileInput
             value={field.value}
-            onFileSelected={field.onChange}
-            onFileRemoved={() => setValue(name, null)}
+            onFileSelected={(file: File) => {
+              field.onChange(file)
+              if (onValueChange) onValueChange(file)
+            }}
+            onFileRemoved={() => {
+              setValue(name, null)
+              if (onValueChange) onValueChange(null)
+            }}
             error={!!error}
             dropzoneLabel={t('dropzoneLabel')}
             loadingLabel={t('loadingLabel')}
