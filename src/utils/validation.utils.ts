@@ -33,14 +33,6 @@ export const mapValidationErrorMessages = (
           value: value,
           message: t('validation.number.max', { max: value }),
         }
-      case 'maxLength':
-        if (value.message) {
-          return value
-        }
-        return {
-          value: value,
-          message: 'TODO Messaggio di errore per il maxLength',
-        }
       case 'minLength':
         if (value.message) {
           return value
@@ -49,14 +41,11 @@ export const mapValidationErrorMessages = (
           value: value,
           message: t('validation.string.minLength', { min: value }),
         }
+      case 'maxLength':
+      // There should be no need for a maxLength default validation message since the maxLenght constraint
+      // is imposed by the browser blocking the user writing more characters than the numbers allowed
       case 'pattern':
-        if (value.message) {
-          return value
-        }
-        return {
-          value: value,
-          message: 'TODO Messaggio di errore di default per il pattern se serve metterlo',
-        }
+      // The pattern rule takes regex and is too generic too have a specific default message
       default:
         return value
     }
