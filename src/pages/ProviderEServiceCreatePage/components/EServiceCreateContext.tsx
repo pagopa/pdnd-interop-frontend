@@ -1,6 +1,6 @@
 import React from 'react'
 import { createSafeContext } from '@/utils/common.utils'
-import { EServiceDescriptorProvider, EServiceRead } from '@/types/eservice.types'
+import type { EServiceDescriptorProvider, EServiceRead } from '@/types/eservice.types'
 import noop from 'lodash/noop'
 
 type EServiceCreateContextType = {

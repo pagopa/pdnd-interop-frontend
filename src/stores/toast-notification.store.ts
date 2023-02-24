@@ -1,5 +1,5 @@
-import React from 'react'
-import { AlertProps } from '@mui/material'
+import type React from 'react'
+import type { AlertProps } from '@mui/material'
 import { create } from 'zustand'
 
 type ToastNotificationStoreType = {

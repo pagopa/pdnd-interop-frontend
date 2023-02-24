@@ -1,5 +1,5 @@
 import { Table } from '@/components/shared/Table'
-import { PurposeListingItem } from '@/types/purpose.types'
+import type { PurposeListingItem } from '@/types/purpose.types'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {

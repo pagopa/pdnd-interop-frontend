@@ -2,7 +2,7 @@ import React from 'react'
 import { DialogBasic } from './DialogBasic'
 import { DialogAttributeDetails } from './DialogAttributeDetails'
 import { DialogSessionExpired } from './DialogSessionExpired'
-import {
+import type {
   DialogAddClientToPurposeProps,
   DialogAddSecurityOperatorKeyProps,
   DialogAddSecurityOperatorsProps,

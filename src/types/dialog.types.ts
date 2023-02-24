@@ -1,6 +1,6 @@
-import { DialogProps as MUIDialogProps } from '@mui/material'
-import { AttributeKey } from './attribute.types'
-import { SelfCareUser } from './party.types'
+import type { DialogProps as MUIDialogProps } from '@mui/material'
+import type { AttributeKey } from './attribute.types'
+import type { SelfCareUser } from './party.types'
 
 export type DialogContent = {
   title: string

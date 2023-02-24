@@ -1,8 +1,8 @@
-import { DecoratedPurpose, PurposeListingItem } from '@/types/purpose.types'
+import type { DecoratedPurpose, PurposeListingItem } from '@/types/purpose.types'
 import { PurposeMutations } from '@/api/purpose'
 import { useDialog } from '@/stores'
 import { useTranslation } from 'react-i18next'
-import { ActionItem } from '@/types/common.types'
+import type { ActionItem } from '@/types/common.types'
 import { useJwt } from './useJwt'
 import { checkPurposeSuspendedByConsumer } from '@/utils/purpose.utils'
 

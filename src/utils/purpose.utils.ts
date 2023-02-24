@@ -1,4 +1,4 @@
-import { DecoratedPurpose, PurposeListingItem } from '@/types/purpose.types'
+import type { DecoratedPurpose, PurposeListingItem } from '@/types/purpose.types'
 
 export function getPurposeFailureReasons(
   purpose: DecoratedPurpose

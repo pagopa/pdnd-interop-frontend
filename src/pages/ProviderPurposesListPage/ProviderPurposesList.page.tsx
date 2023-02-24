@@ -1,6 +1,6 @@
 import React from 'react'
 import { PurposeQueries } from '@/api/purpose'
-import {
+import type {
   PurposeGetListQueryFilters,
   PurposeGetListUrlParams,
 } from '@/api/purpose/purpose.api.types'

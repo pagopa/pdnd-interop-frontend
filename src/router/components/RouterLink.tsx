@@ -1,8 +1,10 @@
 import React from 'react'
-import { Button, ButtonProps, Link as MUILink, LinkProps as MUILinkProps } from '@mui/material'
-import { Link, NavigateOptions, useNavigate } from 'react-router-dom'
+import { Button, Link as MUILink } from '@mui/material'
+import type { ButtonProps, LinkProps as MUILinkProps } from '@mui/material'
+import { Link, useNavigate } from 'react-router-dom'
+import type { NavigateOptions } from 'react-router-dom'
 import useNavigateRouter from '../hooks/useNavigateRouter'
-import { RouteKey, RouteParams } from '../router.types'
+import type { RouteKey, RouteParams } from '../router.types'
 import omit from 'lodash/omit'
 
 interface RouterLinkOptions extends NavigateOptions {

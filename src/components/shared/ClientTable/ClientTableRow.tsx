@@ -1,7 +1,7 @@
 import { ClientQueries } from '@/api/client'
 import useGetClientActions from '@/hooks/useGetClientActions'
 import { useNavigateRouter } from '@/router'
-import { Client, ClientKind } from '@/types/client.types'
+import type { Client, ClientKind } from '@/types/client.types'
 import { Box, Button, Skeleton } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'

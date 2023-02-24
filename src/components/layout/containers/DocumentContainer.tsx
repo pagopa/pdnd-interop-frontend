@@ -1,11 +1,12 @@
 import React, { useRef, useState } from 'react'
-import { InputAdornment, Stack, Tooltip, Button, TextField, SxProps } from '@mui/material'
+import type { SxProps } from '@mui/material'
+import { InputAdornment, Stack, Tooltip, Button, TextField } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/DeleteOutline'
 import DownloadIcon from '@mui/icons-material/Download'
 import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { useTranslation } from 'react-i18next'
-import { DocumentRead } from '@/types/common.types'
+import type { DocumentRead } from '@/types/common.types'
 import { InputWrapper } from '@/components/shared/InputWrapper'
 
 type DocumentContainerProps = {

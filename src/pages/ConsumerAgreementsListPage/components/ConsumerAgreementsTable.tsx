@@ -1,5 +1,5 @@
 import { Table } from '@/components/shared/Table'
-import { AgreementListingItem } from '@/types/agreement.types'
+import type { AgreementListingItem } from '@/types/agreement.types'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {

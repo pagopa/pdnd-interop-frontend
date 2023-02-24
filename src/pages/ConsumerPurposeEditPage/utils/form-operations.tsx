@@ -4,10 +4,10 @@ import {
   Select,
   TextField,
 } from '@/components/shared/ReactHookFormInputs'
-import { InputOption } from '@/types/common.types'
+import type { InputOption } from '@/types/common.types'
 import React from 'react'
 import identity from 'lodash/identity'
-import {
+import type {
   Dependency,
   DynamicFormOperations,
   Questions,

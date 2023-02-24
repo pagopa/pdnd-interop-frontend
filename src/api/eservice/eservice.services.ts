@@ -1,6 +1,6 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL, CATALOG_PROCESS_URL } from '@/config/env'
-import {
+import type {
   EServiceGetListFlatResponse,
   EServiceGetListFlatUrlParams,
   EServiceDraftPayload,
@@ -12,7 +12,7 @@ import {
   EServiceGetConsumersUrlParams,
   EServiceGetProducersUrlParams,
 } from './eservice.api.types'
-import {
+import type {
   EServiceCatalog,
   EServiceConsumer,
   EServiceDescriptorCatalog,
@@ -22,8 +22,8 @@ import {
   EServiceRead,
   EServiceReadType,
 } from '@/types/eservice.types'
-import { DocumentRead } from '@/types/common.types'
-import { Paginated } from '../react-query-wrappers/react-query-wrappers.types'
+import type { DocumentRead } from '@/types/common.types'
+import type { Paginated } from '../react-query-wrappers/react-query-wrappers.types'
 
 /** @deprecated TO BE REMOVED */
 async function getListFlat(params: EServiceGetListFlatUrlParams) {

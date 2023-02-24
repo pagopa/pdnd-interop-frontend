@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { DialogUpdatePartyMailProps } from '@/types/dialog.types'
+import type { DialogUpdatePartyMailProps } from '@/types/dialog.types'
 import { useDialog } from '@/stores'
 import { FormProvider, useForm } from 'react-hook-form'
 import { TextField } from '../shared/ReactHookFormInputs'

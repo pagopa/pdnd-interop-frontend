@@ -2,7 +2,7 @@ import { useJwt } from '@/hooks/useJwt'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
-import { PartyGetUsersListUrlParams } from './party.api.types'
+import type { PartyGetUsersListUrlParams } from './party.api.types'
 import PartyServices from './party.services'
 
 export enum PartyQueryKeys {

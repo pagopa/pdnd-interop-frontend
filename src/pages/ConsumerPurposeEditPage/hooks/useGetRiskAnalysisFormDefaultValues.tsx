@@ -1,6 +1,11 @@
-import { DecoratedPurpose } from '@/types/purpose.types'
+import type { DecoratedPurpose } from '@/types/purpose.types'
 import React from 'react'
-import { Answers, BuildForm, GetUpdatedQuestions, RiskAnalysis } from '../types/risk-analysis.types'
+import type {
+  Answers,
+  BuildForm,
+  GetUpdatedQuestions,
+  RiskAnalysis,
+} from '../types/risk-analysis.types'
 
 function useGetRiskAnalysisFormDefaultValues(
   riskAnalysisConfig: RiskAnalysis,

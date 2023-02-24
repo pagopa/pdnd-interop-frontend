@@ -1,4 +1,4 @@
-import {
+import type {
   MutationFunction,
   QueryFunction,
   QueryKey,
@@ -7,7 +7,7 @@ import {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query'
-import { useQueryWrapper } from './useQueryWrapper'
+import type { useQueryWrapper } from './useQueryWrapper'
 
 export type UseQueryWrapper = <
   TQueryFnData = unknown,
@@ -79,6 +79,7 @@ export type UseMutationWrapper = <
 ) => UseMutationResult<TData, TError, TVariables, TContext>
 
 export type UseQueryWrapperOptions<TData> = Parameters<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   typeof useQueryWrapper<TData, unknown, TData, any>
 >[2]
 

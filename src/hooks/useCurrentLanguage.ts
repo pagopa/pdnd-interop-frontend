@@ -1,4 +1,4 @@
-import { LangCode } from '@/types/common.types'
+import type { LangCode } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
 
 function useCurrentLanguage() {

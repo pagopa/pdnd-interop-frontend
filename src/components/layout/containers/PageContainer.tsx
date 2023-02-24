@@ -1,6 +1,7 @@
 import React from 'react'
-import { Box, Button, ButtonProps, Skeleton, Stack, SxProps, Typography } from '@mui/material'
-import { ActionItem } from '@/types/common.types'
+import type { ButtonProps, SxProps } from '@mui/material'
+import { Box, Button, Skeleton, Stack, Typography } from '@mui/material'
+import type { ActionItem } from '@/types/common.types'
 import { ActionMenu } from '@/components/shared/ActionMenu'
 import { InfoTooltip } from '@/components/shared/InfoTooltip'
 

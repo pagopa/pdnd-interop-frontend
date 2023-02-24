@@ -3,7 +3,7 @@ import { render } from '@testing-library/react'
 import { vi } from 'vitest'
 
 import { ActionMenu } from '@/components/shared/ActionMenu'
-import { ActionItem } from '@/types/common.types'
+import type { ActionItem } from '@/types/common.types'
 import userEvent from '@testing-library/user-event'
 
 const functionSpy1 = vi.fn()

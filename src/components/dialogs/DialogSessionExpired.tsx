@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { DialogSessionExpiredProps } from '@/types/dialog.types'
+import type { DialogSessionExpiredProps } from '@/types/dialog.types'
 import { useNavigateRouter } from '@/router'
 
 export const DialogSessionExpired: React.FC<DialogSessionExpiredProps> = () => {

@@ -1,4 +1,4 @@
-import { ExtendedWindow, PagoPAEnvVars } from '@/types/common.types'
+import type { ExtendedWindow, PagoPAEnvVars } from '@/types/common.types'
 
 const PAGOPA_ENV = (window as unknown as ExtendedWindow).pagopa_env
 

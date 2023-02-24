@@ -1,9 +1,9 @@
-import {
+import type {
   CertifiedTenantAttribute,
   DeclaredTenantAttribute,
   VerifiedTenantAttribute,
 } from '@/types/attribute.types'
-import { Party } from '@/types/party.types'
+import type { Party } from '@/types/party.types'
 import { remapTenantAttributeToPartyAttribute } from '../attribute/attribute.api.utils'
 
 export function remapUserResponseData(data: Party, verifierId?: string) {

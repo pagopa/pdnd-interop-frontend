@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Answers, Questions, RiskAnalysis } from '../types/risk-analysis.types'
+import type { Answers, Questions, RiskAnalysis } from '../types/risk-analysis.types'
 import { getFormOperations } from '../utils/form-operations'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import useGetRiskAnalysisFormDefaultValues from './useGetRiskAnalysisFormDefaultValues'
-import { DecoratedPurpose } from '@/types/purpose.types'
+import type { DecoratedPurpose } from '@/types/purpose.types'
 import { PurposeMutations } from '@/api/purpose'
 
 function useRiskAnalysisForm(

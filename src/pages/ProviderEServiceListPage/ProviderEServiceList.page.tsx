@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { EServiceTable, EServiceTableSkeleton } from './components'
 import { PageContainer } from '@/components/layout/containers'
 import { useNavigateRouter } from '@/router'
-import { TopSideActions } from '@/components/layout/containers/PageContainer'
+import type { TopSideActions } from '@/components/layout/containers/PageContainer'
 import { EServiceQueries } from '@/api/eservice'
 import { Pagination } from '@/components/shared/Pagination'
-import {
+import type {
   EServiceGetProviderListQueryFilters,
   EServiceGetProviderListUrlParams,
 } from '@/api/eservice/eservice.api.types'

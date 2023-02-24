@@ -1,5 +1,6 @@
 import React from 'react'
-import { createBrowserRouter, RouteObject } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom'
+import type { RouteObject } from 'react-router-dom'
 import {
   PartyRegistryPage,
   ConsumerEServiceCatalogPage,
@@ -33,7 +34,7 @@ import {
 import { LANGUAGES } from '@/config/constants'
 import { getKeys } from '@/utils/array.utils'
 import RoutesWrapper from './components/RoutesWrapper'
-import { LocalizedRoutes } from './router.types'
+import type { LocalizedRoutes } from './router.types'
 import Redirect from './components/Redirect'
 
 // https://stackoverflow.com/a/70067918 waiting for "satisfies" operator in Typescript 4.9

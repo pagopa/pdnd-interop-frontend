@@ -1,5 +1,5 @@
 import { AgreementQueries } from '@/api/agreement'
-import {
+import type {
   GetListAgreementQueryFilters,
   GetListAgreementQueryParams,
 } from '@/api/agreement/agreement.api.types'

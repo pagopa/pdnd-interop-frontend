@@ -1,4 +1,4 @@
-import { AgreementSummary } from '@/types/agreement.types'
+import type { AgreementSummary } from '@/types/agreement.types'
 
 export function updateAgreementsListCache(
   newAgreementData: AgreementSummary,

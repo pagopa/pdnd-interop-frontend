@@ -1,4 +1,4 @@
-import { FrontendAttribute, PartyAttribute } from '@/types/attribute.types'
+import type { FrontendAttribute, PartyAttribute } from '@/types/attribute.types'
 
 export const getAttributeState = (partyAttributes: Array<PartyAttribute>, attributeId: string) => {
   return partyAttributes.find(({ id }) => id === attributeId)?.state

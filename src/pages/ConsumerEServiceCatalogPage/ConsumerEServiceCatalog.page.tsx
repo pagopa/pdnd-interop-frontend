@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next'
 import { EServiceCatalogGrid, EServiceCatalogGridSkeleton } from './components'
 import { EServiceQueries } from '@/api/eservice'
 import { Pagination } from '@/components/shared/Pagination'
-import { EServiceGetCatalogListQueryFilters } from '@/api/eservice/eservice.api.types'
+import type { EServiceGetCatalogListQueryFilters } from '@/api/eservice/eservice.api.types'
 import EServiceCatalogFilters from './components/EServiceCatalogFilters'
 import { useListingParams } from '@/hooks/useListingParams'
-import { EServiceState } from '@/types/eservice.types'
+import type { EServiceState } from '@/types/eservice.types'
 
 const ConsumerEServiceCatalogPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerEServiceCatalog' })
