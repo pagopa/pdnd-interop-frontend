@@ -6,6 +6,38 @@ import {
 } from '__mocks__/data/agreement.mocks'
 import { AgreementListingItem, AgreementSummary } from '@/types/agreement.types'
 import { createMemoryHistory } from 'history'
+import { rest } from 'msw'
+import { setupServer } from 'msw/node'
+import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
+import { act } from 'react-dom/test-utils'
+import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
+
+const server = setupServer(
+  rest.post(
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/e8a8153e-9ab2-4aeb-a14c-96aebd4fa049/clone`,
+    (_, res, ctx) => {
+      return res(
+        ctx.json({
+          id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        })
+      )
+    }
+  ),
+  rest.delete(
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/e8a8153e-9ab2-4aeb-a14c-96aebd4fa049`,
+    (_, res) => {
+      return res()
+    }
+  )
+)
+
+beforeAll(() => {
+  server.listen()
+})
+
+afterAll(() => {
+  server.close()
+})
 
 function renderUseGetAgreementsActionsHook(
   agreement?: AgreementSummary | AgreementListingItem,
@@ -357,5 +389,78 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
     expect(result.current.actions).toHaveLength(1)
     expect(result.current.actions[0].label).toBe('delete')
+  })
+})
+
+describe('check if the onSuccess callbacks are called correclty after the clone and delete actions', () => {
+  it('should navigate to SUBSCRIBE_AGREEMENT_EDIT route with the returned agreementId after the clone action', async () => {
+    const agreement = createMockAgreementSummary({
+      state: 'REJECTED',
+    })
+    const { result, history } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
+    expect(result.current.actions).toHaveLength(1)
+
+    const cloneAction = result.current.actions[0]
+    expect(cloneAction.label).toBe('clone')
+
+    act(() => {
+      cloneAction.action()
+    })
+
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
+    })
+
+    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
+
+    expect(history.location.pathname).toBe(
+      '/it/fruizione/richieste/3fa85f64-5717-4562-b3fc-2c963f66afa6/modifica'
+    )
+  })
+
+  it('should navigate to SUBSCRIBE_AGREEMENT_LIST route after the delete action with mode consumer and agreement state DRAFT', async () => {
+    const agreement = createMockAgreementSummary({
+      state: 'DRAFT',
+    })
+    const { result, history } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
+    expect(result.current.actions).toHaveLength(1)
+
+    const deleteAction = result.current.actions[0]
+    expect(deleteAction.label).toBe('delete')
+
+    act(() => {
+      deleteAction.action()
+    })
+
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
+    })
+
+    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
+
+    expect(history.location.pathname).toBe('/it/fruizione/richieste')
+  })
+
+  it('should navigate to SUBSCRIBE_AGREEMENT_LIST route after the delete action with mode consumer and agreement state MISSING_CERTIFIED_ATTRIBUTES', async () => {
+    const agreement = createMockAgreementSummary({
+      state: 'MISSING_CERTIFIED_ATTRIBUTES',
+    })
+    const { result, history } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
+    expect(result.current.actions).toHaveLength(1)
+
+    const deleteAction = result.current.actions[0]
+    expect(deleteAction.label).toBe('delete')
+
+    act(() => {
+      deleteAction.action()
+    })
+
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
+    })
+
+    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
+
+    expect(history.location.pathname).toBe('/it/fruizione/richieste')
   })
 })
