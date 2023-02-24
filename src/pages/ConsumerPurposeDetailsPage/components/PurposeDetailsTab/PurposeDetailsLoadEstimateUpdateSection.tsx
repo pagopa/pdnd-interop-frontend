@@ -5,7 +5,8 @@ import {
   SectionContainer,
   SectionContainerSkeleton,
 } from '@/components/layout/containers'
-import { Accordion, AccordionEntry } from '@/components/shared/Accordion'
+import { Accordion } from '@/components/shared/Accordion'
+import type { AccordionEntry } from '@/components/shared/Accordion'
 import { Button, Divider, Link, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import LaunchIcon from '@mui/icons-material/Launch'

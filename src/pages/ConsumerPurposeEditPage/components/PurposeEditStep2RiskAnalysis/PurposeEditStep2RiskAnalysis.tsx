@@ -1,5 +1,5 @@
 import React from 'react'
-import { ActiveStepProps } from '@/hooks/useActiveStep'
+import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { RiskAnalysisForm, RiskAnalysisFormSkeleton } from './RiskAnalysisForm'
 import { useRouteParams } from '@/router'
 import { PurposeQueries } from '@/api/purpose'

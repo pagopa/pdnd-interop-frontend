@@ -2,7 +2,7 @@ import React from 'react'
 import { PurposeDownloads, PurposeQueries } from '@/api/purpose'
 import { SectionContainerSkeleton } from '@/components/layout/containers'
 import { DownloadableDocumentsList } from '@/components/shared/DownloadableDocumentsList'
-import { DocumentRead } from '@/types/common.types'
+import type { DocumentRead } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
 
 interface PurposeDetailsDocumentListSectionProps {

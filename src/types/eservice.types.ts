@@ -1,7 +1,7 @@
-import { AgreementState } from './agreement.types'
-import { BackendAttribute, BackendAttributes } from './attribute.types'
-import { DocumentRead } from './common.types'
-import { PartyMail } from './party.types'
+import type { AgreementState } from './agreement.types'
+import type { BackendAttribute, BackendAttributes } from './attribute.types'
+import type { DocumentRead } from './common.types'
+import type { PartyMail } from './party.types'
 
 type EServiceReadProducerType = {
   id: string

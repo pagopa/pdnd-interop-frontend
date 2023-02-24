@@ -1,7 +1,7 @@
 import { ClientDownloads, ClientMutations } from '@/api/client'
 import { useClientKind } from '@/hooks/useClientKind'
 import { useNavigateRouter } from '@/router'
-import { ActionItem } from '@/types/common.types'
+import type { ActionItem } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
 
 function useGetKeyActions(clientId: string, kid: string): { actions: Array<ActionItem> } {

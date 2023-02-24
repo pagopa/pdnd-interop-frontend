@@ -1,5 +1,5 @@
-import { FrontendAttributes } from './../types/attribute.types'
-import {
+import type { FrontendAttributes } from './../types/attribute.types'
+import type {
   BackendAttribute,
   BackendAttributes,
   GroupBackendAttribute,

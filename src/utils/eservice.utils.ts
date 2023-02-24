@@ -1,4 +1,4 @@
-import { DocumentRead } from '@/types/common.types'
+import type { DocumentRead } from '@/types/common.types'
 
 export function getDownloadDocumentName(document: DocumentRead) {
   const filename: string = document.name

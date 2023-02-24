@@ -1,4 +1,4 @@
-import { DecoratedPurpose, PurposeListingItem } from '@/types/purpose.types'
+import type { DecoratedPurpose, PurposeListingItem } from '@/types/purpose.types'
 import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 import useGetConsumerPurposesActions from '../useGetConsumerPurposesActions'
 import {

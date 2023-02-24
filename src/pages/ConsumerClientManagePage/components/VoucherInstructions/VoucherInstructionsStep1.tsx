@@ -7,11 +7,11 @@ import {
   Link,
   MenuItem,
   Select,
-  SelectChangeEvent,
   Stack,
   Typography,
 } from '@mui/material'
-import { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
+import type { SelectChangeEvent } from '@mui/material'
+import type { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
 import { InformationContainer, SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { InlineClipboard } from '@/components/shared/InlineClipboard'

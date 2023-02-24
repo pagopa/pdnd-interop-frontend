@@ -6,8 +6,8 @@ import { useTranslation } from 'react-i18next'
 import { StepActions } from '@/components/shared/StepActions'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { PurposeMutations } from '@/api/purpose'
-import { ActiveStepProps } from '@/hooks/useActiveStep'
-import { Purpose } from '@/types/purpose.types'
+import type { ActiveStepProps } from '@/hooks/useActiveStep'
+import type { Purpose } from '@/types/purpose.types'
 import { decoratePurposeWithMostRecentVersion } from '@/api/purpose/purpose.api.utils'
 
 type PurposeEditStep1GeneralFormValues = {

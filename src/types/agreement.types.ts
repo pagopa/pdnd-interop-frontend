@@ -1,10 +1,10 @@
-import {
+import type {
   CertifiedTenantAttribute,
   DeclaredTenantAttribute,
   VerifiedTenantAttribute,
 } from './attribute.types'
-import { DocumentRead } from './common.types'
-import { EServiceState } from './eservice.types'
+import type { DocumentRead } from './common.types'
+import type { EServiceState } from './eservice.types'
 
 export type AgreementState =
   | 'ACTIVE'

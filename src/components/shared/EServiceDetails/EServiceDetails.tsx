@@ -8,7 +8,7 @@ import { EServiceLinksSection } from './components/EServiceLinksSection'
 import { EServiceVersionHistorySection } from './components/EServiceVersionHistorySection'
 import { EServiceAttributesSections } from './components/EServiceAttributesSections'
 import { EServiceDocumentsListSection } from './components/EServiceDocumentsListSection'
-import { EServiceDescriptorCatalog, EServiceDescriptorProvider } from '@/types/eservice.types'
+import type { EServiceDescriptorCatalog, EServiceDescriptorProvider } from '@/types/eservice.types'
 import { EServiceProviderContacts } from './components/EServiceProviderContacts'
 
 type EServiceDetailsProps = {

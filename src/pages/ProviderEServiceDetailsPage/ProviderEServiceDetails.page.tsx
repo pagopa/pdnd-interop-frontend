@@ -7,7 +7,7 @@ import { Alert } from '@mui/material'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceActions'
-import { EServiceDescriptorProvider } from '@/types/eservice.types'
+import type { EServiceDescriptorProvider } from '@/types/eservice.types'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice')

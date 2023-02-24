@@ -1,6 +1,6 @@
-import { AgreementSummary } from './agreement.types'
-import { Client } from './client.types'
-import { EServiceDescriptorRead, EServiceReadType } from './eservice.types'
+import type { AgreementSummary } from './agreement.types'
+import type { Client } from './client.types'
+import type { EServiceDescriptorRead, EServiceReadType } from './eservice.types'
 
 export type PurposeState = 'DRAFT' | 'ACTIVE' | 'SUSPENDED' | 'WAITING_FOR_APPROVAL' | 'ARCHIVED'
 

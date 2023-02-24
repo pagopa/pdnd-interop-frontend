@@ -41,6 +41,8 @@
     "@typescript-eslint/explicit-module-boundary-types": "off",
 
     // Disables the warning using the no null assertion
-    "@typescript-eslint/no-non-null-assertion": "off"
+    "@typescript-eslint/no-non-null-assertion": "off",
+
+    "@typescript-eslint/consistent-type-imports": "warn"
   }
 }

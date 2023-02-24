@@ -1,5 +1,6 @@
 import React from 'react'
-import { Box, Stack, SxProps } from '@mui/material'
+import { Box, Stack } from '@mui/material'
+import type { SxProps } from '@mui/material'
 import { SideNav } from '@/components/layout'
 import { Breadcrumbs } from './Breadcrumbs'
 

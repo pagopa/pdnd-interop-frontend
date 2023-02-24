@@ -1,4 +1,4 @@
-import { EServiceCatalog } from '@/types/eservice.types'
+import type { EServiceCatalog } from '@/types/eservice.types'
 import { Grid } from '@mui/material'
 import React from 'react'
 import { CatalogCard, CatalogCardSkeleton } from './CatalogCard'

@@ -1,5 +1,5 @@
-import { PaginationParams } from '@/api/api.types'
-import { PurposeRiskAnalysisForm, PurposeState } from '@/types/purpose.types'
+import type { PaginationParams } from '@/api/api.types'
+import type { PurposeRiskAnalysisForm, PurposeState } from '@/types/purpose.types'
 
 export type PurposeGetListQueryFilters = {
   q?: string

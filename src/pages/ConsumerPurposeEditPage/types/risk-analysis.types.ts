@@ -1,6 +1,6 @@
 import type { LangCode } from '@/types/common.types'
 import type { TFunction } from 'i18next'
-import { UseFormReturn } from 'react-hook-form'
+import type { UseFormReturn } from 'react-hook-form'
 
 export type MultiLangEntry = {
   it: string

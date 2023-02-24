@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { UseQueryWrapper } from './react-query-wrappers.types'
+import type { UseQueryWrapper } from './react-query-wrappers.types'
 import { useJwt } from '@/hooks/useJwt'
 import { NotFoundError } from '@/utils/errors.utils'
 

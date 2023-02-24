@@ -8,7 +8,7 @@ import {
   isEditPath as _isEditPath,
   isProviderOrConsumerRoute,
 } from '../router.utils'
-import { RouteKey } from '../router.types'
+import type { RouteKey } from '../router.types'
 import React from 'react'
 
 /** Returns the route informations of the current location */
@@ -20,7 +20,7 @@ function useCurrentRoute() {
   const routeKey = getRouteKeyFromPath(location.pathname, currentLanguage)
   const route = routes[routeKey]
   const hasOverlappingRole = currentRoles.some((role) =>
-    route.AUTH_LEVELS.includes(role as typeof route.AUTH_LEVELS[0])
+    route.AUTH_LEVELS.includes(role as (typeof route.AUTH_LEVELS)[0])
   )
   const isPublic = route.PUBLIC
   const isUserAuthorized = isPublic || hasOverlappingRole

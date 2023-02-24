@@ -1,7 +1,7 @@
 import useResolveError from '@/hooks/useResolveError'
 import { Dialog, DialogContent, DialogTitle, Typography } from '@mui/material'
 import React from 'react'
-import { FallbackProps } from 'react-error-boundary'
+import type { FallbackProps } from 'react-error-boundary'
 import { useDialog } from '@/stores'
 
 export const DialogError: React.FC<FallbackProps> = (fallbackProps) => {

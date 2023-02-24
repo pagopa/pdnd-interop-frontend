@@ -1,4 +1,4 @@
-import { BackendAttributes, FrontendAttributes } from '@/types/attribute.types'
+import type { BackendAttributes, FrontendAttributes } from '@/types/attribute.types'
 import { getKeys } from '@/utils/array.utils'
 
 export function remapFrontendAttributesToBackend(

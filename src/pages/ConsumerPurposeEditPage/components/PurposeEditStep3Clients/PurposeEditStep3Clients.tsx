@@ -1,7 +1,7 @@
 import { SectionContainer } from '@/components/layout/containers'
 import { StepActions } from '@/components/shared/StepActions'
 import { useToastNotification } from '@/stores'
-import { ActiveStepProps } from '@/hooks/useActiveStep'
+import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { useNavigateRouter, useRouteParams } from '@/router'
 import { Typography } from '@mui/material'
 import React from 'react'

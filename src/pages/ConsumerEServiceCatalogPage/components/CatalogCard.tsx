@@ -1,7 +1,7 @@
 import { EServiceQueries } from '@/api/eservice'
 import useGetEServiceConsumerActions from '@/hooks/useGetEServiceConsumerActions'
 import { useNavigateRouter } from '@/router'
-import { EServiceCatalog } from '@/types/eservice.types'
+import type { EServiceCatalog } from '@/types/eservice.types'
 import {
   Avatar,
   Card,

@@ -1,5 +1,6 @@
 import React from 'react'
-import { Box, Typography, Stack, Divider, Skeleton, StackProps } from '@mui/material'
+import { Box, Typography, Stack, Divider, Skeleton } from '@mui/material'
+import type { StackProps } from '@mui/material'
 
 interface InformationContainerProps extends StackProps {
   label: string

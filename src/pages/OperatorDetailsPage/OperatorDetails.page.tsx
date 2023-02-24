@@ -7,7 +7,7 @@ import {
   OperatorGeneralInfoSectionSkeleton,
 } from './components/OperatorGeneralInfoSection'
 import { OperatorKeysSection, OperatorKeysSectionSkeleton } from './components/OperatorKeysSection'
-import { ActionItem } from '@/types/common.types'
+import type { ActionItem } from '@/types/common.types'
 import { useJwt } from '@/hooks/useJwt'
 import { useTranslation } from 'react-i18next'
 import { formatTopSideActions } from '@/utils/common.utils'

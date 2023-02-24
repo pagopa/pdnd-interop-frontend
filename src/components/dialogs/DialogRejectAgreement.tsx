@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDialog } from '@/stores'
-import { DialogRejectAgreementProps } from '@/types/dialog.types'
+import type { DialogRejectAgreementProps } from '@/types/dialog.types'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
