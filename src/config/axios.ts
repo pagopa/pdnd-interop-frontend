@@ -17,7 +17,20 @@ const deepTrim = (object: any) => {
   return object
 }
 
-const axiosInstance = axios.create()
+/** This function helps to serialize correctly arrays in url params  */
+const serializeParams = (query: Record<string, unknown>) => {
+  return Object.entries(query)
+    .map(([key, value]) =>
+      Array.isArray(value) ? `${key}=${value.join('&' + key + '=')}` : `${key}=${value}`
+    )
+    .join('&')
+}
+
+const axiosInstance = axios.create({
+  paramsSerializer: {
+    serialize: serializeParams,
+  },
+})
 
 axiosInstance.interceptors.request.use(
   (config) => {
