@@ -1,10 +1,10 @@
 import React from 'react'
 import { createSafeContext } from '@/utils/common.utils'
-import { EServiceDescriptorCatalog, EServiceDescriptorProvider } from '@/types/eservice.types'
-import { DocumentRead } from '@/types/common.types'
+import type { EServiceDescriptorCatalog, EServiceDescriptorProvider } from '@/types/eservice.types'
+import type { DocumentRead } from '@/types/common.types'
 import { remapEServiceAttributes } from '@/utils/attribute.utils'
-import { FrontendAttributes } from '@/types/attribute.types'
-import { AgreementState } from '@/types/agreement.types'
+import type { FrontendAttributes } from '@/types/attribute.types'
+import type { AgreementState } from '@/types/agreement.types'
 
 type EServiceDetailsContextType = {
   descriptor: EServiceDescriptorCatalog | EServiceDescriptorProvider

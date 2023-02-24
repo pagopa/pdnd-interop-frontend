@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAuth } from '@/stores'
-import { JwtUser } from '@/types/party.types'
+import type { JwtUser } from '@/types/party.types'
 import memoize from 'lodash/memoize'
 
 const parseJwt = memoize((token: string | null) => {

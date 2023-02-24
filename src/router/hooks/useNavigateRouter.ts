@@ -1,4 +1,4 @@
-import { GetRouteUrl, Navigate } from '@/router/router.types'
+import type { GetRouteUrl, Navigate } from '@/router/router.types'
 import { getLocalizedPath } from '@/router/router.utils'
 import { useCallback } from 'react'
 import { generatePath, useNavigate } from 'react-router-dom'

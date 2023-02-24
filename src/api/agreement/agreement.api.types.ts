@@ -1,5 +1,5 @@
-import { AgreementState } from '@/types/agreement.types'
-import { PaginationParams } from '../api.types'
+import type { AgreementState } from '@/types/agreement.types'
+import type { PaginationParams } from '../api.types'
 
 export type GetListAgreementQueryFilters = {
   producersIds?: Array<string>

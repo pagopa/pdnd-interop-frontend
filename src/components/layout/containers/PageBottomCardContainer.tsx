@@ -1,5 +1,6 @@
 import React from 'react'
-import { Box, SkeletonProps, Stack, Typography } from '@mui/material'
+import { Box, Stack, Typography } from '@mui/material'
+import type { SkeletonProps } from '@mui/material'
 import { SectionContainer, SectionContainerSkeleton } from './SectionContainer'
 
 type PageBottomActionsCardProps = {

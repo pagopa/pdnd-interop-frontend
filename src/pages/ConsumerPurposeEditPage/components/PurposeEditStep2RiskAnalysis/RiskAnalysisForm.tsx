@@ -5,10 +5,10 @@ import { Box, Stack, Typography } from '@mui/material'
 import { FormProvider } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import useRiskAnalysisForm from '../../hooks/useRiskAnalysisForm'
-import { RiskAnalysis } from '../../types/risk-analysis.types'
+import type { RiskAnalysis } from '../../types/risk-analysis.types'
 import { StepActions } from '@/components/shared/StepActions'
-import { ActiveStepProps } from '@/hooks/useActiveStep'
-import { DecoratedPurpose } from '@/types/purpose.types'
+import type { ActiveStepProps } from '@/hooks/useActiveStep'
+import type { DecoratedPurpose } from '@/types/purpose.types'
 
 type RiskAnalysisFormProps = ActiveStepProps & {
   purpose: DecoratedPurpose

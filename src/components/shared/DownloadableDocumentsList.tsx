@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, Stack, Typography } from '@mui/material'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { useTranslation } from 'react-i18next'
-import { DocumentRead } from '@/types/common.types'
+import type { DocumentRead } from '@/types/common.types'
 import { SectionContainer } from '../layout/containers'
 
 interface Props {

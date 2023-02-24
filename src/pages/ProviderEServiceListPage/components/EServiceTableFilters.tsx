@@ -1,9 +1,10 @@
 import React from 'react'
 import { Button, Stack } from '@mui/material'
-import { FormProvider, UseFormReturn } from 'react-hook-form'
+import { FormProvider } from 'react-hook-form'
+import type { UseFormReturn } from 'react-hook-form'
 import { AutocompleteMultiple, TextField } from '@/components/shared/ReactHookFormInputs'
 import { EServiceQueries } from '@/api/eservice'
-import { EServiceGetProviderListQueryFilters } from '@/api/eservice/eservice.api.types'
+import type { EServiceGetProviderListQueryFilters } from '@/api/eservice/eservice.api.types'
 import { useTranslation } from 'react-i18next'
 import { useAutocompleteFilterInput } from '@/hooks/useAutocompleteFilterInput'
 

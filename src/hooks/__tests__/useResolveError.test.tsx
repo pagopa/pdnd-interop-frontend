@@ -10,7 +10,7 @@ import { createMemoryHistory } from '@remix-run/router'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { render, waitFor } from '@testing-library/react'
 import React from 'react'
-import { FallbackProps } from 'react-error-boundary'
+import type { FallbackProps } from 'react-error-boundary'
 import { Route, Router, Routes } from 'react-router-dom'
 import useResolveError from '../useResolveError'
 

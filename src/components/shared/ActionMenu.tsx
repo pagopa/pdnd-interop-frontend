@@ -1,6 +1,6 @@
 import React, { useId } from 'react'
 import { ClickAwayListener, MenuItem, Menu, IconButton, Skeleton, Box } from '@mui/material'
-import { ActionItem, ExtendedMUIColor } from '@/types/common.types'
+import type { ActionItem, ExtendedMUIColor } from '@/types/common.types'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { useTranslation } from 'react-i18next'
 

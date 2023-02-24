@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import ClientServices from './client.services'
-import { ClientGetListUrlParams, ClientGetOperatorsListUrlParams } from './client.api.types'
+import type { ClientGetListUrlParams, ClientGetOperatorsListUrlParams } from './client.api.types'
 import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
 
 export enum ClientQueryKeys {

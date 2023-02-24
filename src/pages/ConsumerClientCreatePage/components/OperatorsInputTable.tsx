@@ -3,10 +3,10 @@ import { Table, TableRow } from '@/components/shared/Table'
 import { Button, IconButton, Stack } from '@mui/material'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { CreateClientFormValues } from '../ConsumerClientCreate.page'
+import type { CreateClientFormValues } from '../ConsumerClientCreate.page'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { useDialog } from '@/stores'
-import { SelfCareUser } from '@/types/party.types'
+import type { SelfCareUser } from '@/types/party.types'
 
 const OperatorsInputTable: React.FC = () => {
   const { t } = useTranslation('client')

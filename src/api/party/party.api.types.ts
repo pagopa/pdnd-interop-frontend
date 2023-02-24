@@ -1,4 +1,4 @@
-import { UserProductRole, UserRole, UserState } from '@/types/party.types'
+import type { UserProductRole, UserRole, UserState } from '@/types/party.types'
 
 export type PartyGetUsersListUrlParams = {
   tenantId?: string

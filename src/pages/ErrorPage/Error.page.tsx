@@ -1,7 +1,7 @@
 import React from 'react'
 import useResolveError from '@/hooks/useResolveError'
 import { PageContainer } from '@/components/layout/containers'
-import { FallbackProps } from 'react-error-boundary'
+import type { FallbackProps } from 'react-error-boundary'
 
 const ErrorPage: React.FC<FallbackProps> = (props) => {
   const { title, description, content } = useResolveError(props)

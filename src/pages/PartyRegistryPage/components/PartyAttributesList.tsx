@@ -3,7 +3,7 @@ import {
   AttributeContainerRow,
   AttributeContainerRowSkeleton,
 } from '@/components/layout/containers'
-import { PartyAttribute } from '@/types/attribute.types'
+import type { PartyAttribute } from '@/types/attribute.types'
 import { Alert, Box } from '@mui/material'
 import React from 'react'
 

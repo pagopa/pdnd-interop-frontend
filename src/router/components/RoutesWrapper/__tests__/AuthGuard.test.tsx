@@ -1,5 +1,6 @@
 import React from 'react'
-import { vi, SpyInstance } from 'vitest'
+import { vi } from 'vitest'
+import type { SpyInstance } from 'vitest'
 import { AuthGuard } from '@/router/components/RoutesWrapper/AuthGuard'
 import * as useCurrentRoute from '@/router/hooks/useCurrentRoute'
 import * as useJwt from '@/hooks/useJwt'

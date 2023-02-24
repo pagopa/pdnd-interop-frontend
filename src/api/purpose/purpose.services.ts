@@ -4,14 +4,14 @@ import {
   PURPOSE_PROCESS_URL,
 } from '@/config/env'
 import axiosInstance from '@/config/axios'
-import { Purpose, PurposeListingItem, PurposeVersion } from '@/types/purpose.types'
-import {
+import type { Purpose, PurposeListingItem, PurposeVersion } from '@/types/purpose.types'
+import type {
   PurposeCreateDraftPayload,
   PurposeGetListUrlParams,
   PurposeUpdateDraftPayload,
 } from './purpose.api.types'
 import { decoratePurposeWithMostRecentVersion } from './purpose.api.utils'
-import { Paginated } from '../react-query-wrappers/react-query-wrappers.types'
+import type { Paginated } from '../react-query-wrappers/react-query-wrappers.types'
 
 async function getList(params: PurposeGetListUrlParams) {
   const response = await axiosInstance.get<Paginated<PurposeListingItem>>(

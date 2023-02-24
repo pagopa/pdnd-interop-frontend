@@ -4,7 +4,7 @@ import {
 } from '__mocks__/data/eservice.mocks'
 import { useGetProviderEServiceActions } from '../useGetProviderEServiceActions'
 import { renderHookWithApplicationContext } from '@/utils/testing.utils'
-import { EServiceProvider } from '@/types/eservice.types'
+import type { EServiceProvider } from '@/types/eservice.types'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL, CATALOG_PROCESS_URL } from '@/config/env'

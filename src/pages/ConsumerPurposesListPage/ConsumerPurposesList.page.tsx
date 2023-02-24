@@ -1,11 +1,11 @@
 import { EServiceQueries } from '@/api/eservice'
 import { PurposeQueries } from '@/api/purpose'
-import {
+import type {
   PurposeGetListQueryFilters,
   PurposeGetListUrlParams,
 } from '@/api/purpose/purpose.api.types'
 import { PageContainer } from '@/components/layout/containers'
-import { TopSideActions } from '@/components/layout/containers/PageContainer'
+import type { TopSideActions } from '@/components/layout/containers/PageContainer'
 import { Pagination } from '@/components/shared/Pagination'
 import { useJwt } from '@/hooks/useJwt'
 import { useListingParams } from '@/hooks/useListingParams'

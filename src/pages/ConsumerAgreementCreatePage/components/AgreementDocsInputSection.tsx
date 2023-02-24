@@ -7,7 +7,7 @@ import { Box, Button, Divider, Stack } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { SingleFileInput, TextField } from '@/components/shared/ReactHookFormInputs'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
-import { DocumentRead } from '@/types/common.types'
+import type { DocumentRead } from '@/types/common.types'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 
 type AgreementDocsInputSectionProps = {

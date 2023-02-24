@@ -1,5 +1,5 @@
-import { ClientKind } from '@/types/client.types'
-import { UserProductRole } from '@/types/party.types'
+import type { ClientKind } from '@/types/client.types'
+import type { UserProductRole } from '@/types/party.types'
 
 export type ClientGetListUrlParams = {
   consumerId?: string

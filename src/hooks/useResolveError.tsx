@@ -10,7 +10,7 @@ import {
   ServerError,
   TokenExchangeError,
 } from '@/utils/errors.utils'
-import { FallbackProps } from 'react-error-boundary'
+import type { FallbackProps } from 'react-error-boundary'
 import { isDevelopment, SELFCARE_BASE_URL } from '@/config/env'
 
 type UseResolveErrorReturnType = {

@@ -1,7 +1,7 @@
-import { routes } from '@/router/routes'
-import { LangCode } from '@/types/common.types'
-import { UserProductRole } from '@/types/party.types'
-import { NavigateOptions } from 'react-router-dom'
+import type { routes } from '@/router/routes'
+import type { LangCode } from '@/types/common.types'
+import type { UserProductRole } from '@/types/party.types'
+import type { NavigateOptions } from 'react-router-dom'
 
 export type RouteKey = keyof typeof routes
 export type ExtractRouteParams<T> = string extends T
@@ -12,7 +12,7 @@ export type ExtractRouteParams<T> = string extends T
   ? { [k in Param]: string }
   : undefined
 
-export type RouteParams<T extends RouteKey> = ExtractRouteParams<typeof routes[T]['PATH']['it']>
+export type RouteParams<T extends RouteKey> = ExtractRouteParams<(typeof routes)[T]['PATH']['it']>
 
 type UrlParams = Record<string, string>
 

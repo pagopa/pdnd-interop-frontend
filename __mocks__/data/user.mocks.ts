@@ -1,4 +1,4 @@
-import { JwtUser } from '@/types/party.types'
+import type { JwtUser } from '@/types/party.types'
 import { createMockFactory } from '@/utils/testing.utils'
 
 const mockJwtOrg = {

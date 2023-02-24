@@ -5,9 +5,9 @@ import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { Box, Divider, Grid, List, ListItem, ListItemText, Stack, Typography } from '@mui/material'
-import { Question } from '@/pages/ConsumerPurposeEditPage/types/risk-analysis.types'
+import type { Question } from '@/pages/ConsumerPurposeEditPage/types/risk-analysis.types'
 import { PurposeQueries } from '@/api/purpose'
-import { PurposeCreateFormValues } from './PurposeCreateEServiceForm'
+import type { PurposeCreateFormValues } from './PurposeCreateEServiceForm'
 
 type QuestionItem = { question: string; answer: string }
 

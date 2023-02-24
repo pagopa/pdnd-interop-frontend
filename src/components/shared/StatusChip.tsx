@@ -1,14 +1,19 @@
 import React from 'react'
-import { AgreementListingItem, AgreementState, AgreementSummary } from '@/types/agreement.types'
-import { MUIColor } from '@/types/common.types'
-import { EServiceState } from '@/types/eservice.types'
-import { UserState } from '@/types/party.types'
-import { Chip, ChipProps, Skeleton, Stack } from '@mui/material'
+import type {
+  AgreementListingItem,
+  AgreementState,
+  AgreementSummary,
+} from '@/types/agreement.types'
+import type { MUIColor } from '@/types/common.types'
+import type { EServiceState } from '@/types/eservice.types'
+import type { UserState } from '@/types/party.types'
+import { Chip, Skeleton, Stack } from '@mui/material'
+import type { ChipProps } from '@mui/material'
 import omit from 'lodash/omit'
 import { useTranslation } from 'react-i18next'
-import { TFunction } from 'i18next'
-import { DecoratedPurpose, PurposeListingItem, PurposeState } from '@/types/purpose.types'
-import { AttributeKey, AttributeKind, AttributeState } from '@/types/attribute.types'
+import type { TFunction } from 'i18next'
+import type { DecoratedPurpose, PurposeListingItem, PurposeState } from '@/types/purpose.types'
+import type { AttributeKey, AttributeKind, AttributeState } from '@/types/attribute.types'
 import { useJwt } from '@/hooks/useJwt'
 import { checkPurposeSuspendedByConsumer } from '@/utils/purpose.utils'
 

@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import EServiceServices from './eservice.services'
-import {
+import type {
   EServiceGetCatalogListUrlParams,
   EServiceGetConsumersUrlParams,
   EServiceGetListFlatResponse,
@@ -14,11 +14,11 @@ import {
 } from './eservice.api.types'
 import { useJwt } from '@/hooks/useJwt'
 import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
-import {
+import type {
   Paginated,
   UseQueryWrapperOptions,
 } from '../react-query-wrappers/react-query-wrappers.types'
-import { EServiceCatalog, EServiceProvider } from '@/types/eservice.types'
+import type { EServiceCatalog, EServiceProvider } from '@/types/eservice.types'
 
 export enum EServiceQueryKeys {
   /** @deprecated TO BE REMOVED */

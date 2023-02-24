@@ -1,5 +1,5 @@
 import { AgreementQueries } from '@/api/agreement'
-import {
+import type {
   GetListAgreementQueryFilters,
   GetListAgreementQueryParams,
 } from '@/api/agreement/agreement.api.types'
@@ -7,7 +7,7 @@ import { PageContainer } from '@/components/layout/containers'
 import { Pagination } from '@/components/shared/Pagination'
 import { useJwt } from '@/hooks/useJwt'
 import { useListingParams } from '@/hooks/useListingParams'
-import { AgreementState } from '@/types/agreement.types'
+import type { AgreementState } from '@/types/agreement.types'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ProviderAgreementsTable, ProviderAgreementsTableSkeleton } from './components'

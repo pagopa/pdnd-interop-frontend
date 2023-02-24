@@ -1,5 +1,5 @@
-import { AgreementSummary } from '@/types/agreement.types'
-import { ProviderOrConsumer } from '@/types/common.types'
+import type { AgreementSummary } from '@/types/agreement.types'
+import type { ProviderOrConsumer } from '@/types/common.types'
 
 export const canAgreementBeUpgraded = (agreement: AgreementSummary, mode: ProviderOrConsumer) => {
   if (!agreement || mode !== 'consumer') return false

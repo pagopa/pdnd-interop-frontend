@@ -1,7 +1,7 @@
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
-import { SelfCareUser, Party } from '@/types/party.types'
-import { PartyGetUsersListUrlParams } from './party.api.types'
+import type { SelfCareUser, Party } from '@/types/party.types'
+import type { PartyGetUsersListUrlParams } from './party.api.types'
 import { remapUserResponseData } from './party.utils'
 
 async function getParty(partyId: string) {

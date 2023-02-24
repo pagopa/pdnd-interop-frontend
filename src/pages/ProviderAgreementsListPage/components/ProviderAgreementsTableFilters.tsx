@@ -1,12 +1,13 @@
-import { GetListAgreementQueryFilters } from '@/api/agreement/agreement.api.types'
+import type { GetListAgreementQueryFilters } from '@/api/agreement/agreement.api.types'
 // import { EServiceQueries } from '@/api/eservice'
 import { AutocompleteMultiple } from '@/components/shared/ReactHookFormInputs'
 // import { useAutocompleteFilterInput } from '@/hooks/useAutocompleteFilterInput'
 // import { useJwt } from '@/hooks/useJwt'
-import { InputOption } from '@/types/common.types'
+import type { InputOption } from '@/types/common.types'
 import { Button, Stack } from '@mui/material'
 import React from 'react'
-import { FormProvider, UseFormReturn } from 'react-hook-form'
+import type { UseFormReturn } from 'react-hook-form'
+import { FormProvider } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
 type ProviderAgreementsTableFiltersProps = {
