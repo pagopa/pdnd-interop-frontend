@@ -11,6 +11,10 @@ import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { act } from 'react-dom/test-utils'
 import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
+import { routes } from '@/router/routes'
+import { generatePath } from 'react-router-dom'
+
+const mockResAgreementId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
 
 const server = setupServer(
   rest.post(
@@ -18,7 +22,7 @@ const server = setupServer(
     (_, res, ctx) => {
       return res(
         ctx.json({
-          id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          id: mockResAgreementId,
         })
       )
     }
@@ -414,7 +418,9 @@ describe('check if the onSuccess callbacks are called correclty after the clone 
     await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
 
     expect(history.location.pathname).toBe(
-      '/it/fruizione/richieste/3fa85f64-5717-4562-b3fc-2c963f66afa6/modifica'
+      generatePath('/it/' + routes.SUBSCRIBE_AGREEMENT_EDIT.PATH.it, {
+        agreementId: mockResAgreementId,
+      })
     )
   })
 
@@ -438,7 +444,7 @@ describe('check if the onSuccess callbacks are called correclty after the clone 
 
     await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
 
-    expect(history.location.pathname).toBe('/it/fruizione/richieste')
+    expect(history.location.pathname).toBe('/it/' + routes.SUBSCRIBE_AGREEMENT_LIST.PATH.it)
   })
 
   it('should navigate to SUBSCRIBE_AGREEMENT_LIST route after the delete action with mode consumer and agreement state MISSING_CERTIFIED_ATTRIBUTES', async () => {
@@ -461,6 +467,6 @@ describe('check if the onSuccess callbacks are called correclty after the clone 
 
     await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
 
-    expect(history.location.pathname).toBe('/it/fruizione/richieste')
+    expect(history.location.pathname).toBe('/it/' + routes.SUBSCRIBE_AGREEMENT_LIST.PATH.it)
   })
 })
