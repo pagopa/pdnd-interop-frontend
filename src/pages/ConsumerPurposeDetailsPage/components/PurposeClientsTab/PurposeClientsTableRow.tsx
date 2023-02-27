@@ -1,7 +1,7 @@
 import { ClientQueries } from '@/api/client'
 import { PurposeMutations } from '@/api/purpose'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
-import { ButtonSkeleton } from '@/components/shared/MUISkeletons'
+import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { TableRow } from '@/components/shared/Table'
 import { RouterLink } from '@/router'
 import type { ActionItem } from '@/types/common.types'

@@ -3,7 +3,7 @@ import {
   RadioGroup,
   Select,
   TextField,
-} from '@/components/shared/ReactHookFormInputs'
+} from '@/components/shared/react-hook-form-inputs'
 import type { InputOption } from '@/types/common.types'
 import React from 'react'
 import identity from 'lodash/identity'

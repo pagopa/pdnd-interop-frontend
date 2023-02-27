@@ -2,8 +2,8 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import { TestInputWrapper } from '@/components/shared/ReactHookFormInputs/__tests__/test-utils'
-import { CheckboxGroup } from '@/components/shared/ReactHookFormInputs'
+import { TestInputWrapper } from '@/components/shared/react-hook-form-inputs/__tests__/test-utils'
+import { CheckboxGroup } from '@/components/shared/react-hook-form-inputs'
 
 const checkboxGroupOptions = [
   { label: 'option1', value: 'option1' },

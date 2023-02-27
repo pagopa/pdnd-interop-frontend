@@ -5,7 +5,7 @@ import type { DialogCreateNewAttributeProps } from '@/types/dialog.types'
 import { useDialog } from '@/stores'
 import type { AttributeKind } from '@/types/attribute.types'
 import { FormProvider, useForm } from 'react-hook-form'
-import { TextField } from '../shared/ReactHookFormInputs'
+import { TextField } from '../shared/react-hook-form-inputs'
 import { AttributeMutations } from '@/api/attribute'
 
 type CreateNewAttributeFormValues = {

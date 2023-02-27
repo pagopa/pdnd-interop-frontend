@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { ButtonSkeleton } from '@/components/shared/MUISkeletons'
+import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 
 describe("Checks that ButtonSkeleton snapshots don't change", () => {
   it('renders small variant correctly', () => {

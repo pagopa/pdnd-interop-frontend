@@ -1,6 +1,6 @@
 import { EServiceQueries } from '@/api/eservice'
 import type { PurposeGetListQueryFilters } from '@/api/purpose/purpose.api.types'
-import { AutocompleteMultiple, TextField } from '@/components/shared/ReactHookFormInputs'
+import { AutocompleteMultiple, TextField } from '@/components/shared/react-hook-form-inputs'
 import { useAutocompleteFilterInput } from '@/hooks/useAutocompleteFilterInput'
 import type { InputOption } from '@/types/common.types'
 import { Box, Button, Stack } from '@mui/material'

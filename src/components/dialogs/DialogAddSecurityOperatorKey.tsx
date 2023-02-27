@@ -14,7 +14,7 @@ import {
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { RouterLink } from '@/router'
-import { TextField } from '../shared/ReactHookFormInputs'
+import { TextField } from '../shared/react-hook-form-inputs'
 
 type AddSecurityOperatorKeyFormValues = {
   name: string

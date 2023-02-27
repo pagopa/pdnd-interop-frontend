@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
 import { isKeyOrphan } from '@/utils/key.utils'
-import { ButtonSkeleton } from '@/components/shared/MUISkeletons'
+import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import useGetKeyActions from '@/hooks/useGetKeyActions'
 
 interface ClientPublicKeysTableRowProps {
