@@ -1,6 +1,6 @@
 import { EServiceMutations } from '@/api/eservice'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Switch, TextField } from '@/components/shared/ReactHookFormInputs'
+import { Switch, TextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { useNavigateRouter } from '@/router'

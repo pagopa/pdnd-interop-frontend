@@ -6,7 +6,7 @@ import type { DocumentRead } from '@/types/common.types'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { FormProvider, useForm } from 'react-hook-form'
-import { SingleFileInput, TextField } from '@/components/shared/ReactHookFormInputs'
+import { SingleFileInput, TextField } from '@/components/shared/react-hook-form-inputs'
 import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 

@@ -1,6 +1,6 @@
 import type { GetListAgreementQueryFilters } from '@/api/agreement/agreement.api.types'
 // import { EServiceQueries } from '@/api/eservice'
-import { AutocompleteMultiple } from '@/components/shared/ReactHookFormInputs'
+import { AutocompleteMultiple } from '@/components/shared/react-hook-form-inputs'
 // import { useAutocompleteFilterInput } from '@/hooks/useAutocompleteFilterInput'
 // import { useJwt } from '@/hooks/useJwt'
 import type { InputOption } from '@/types/common.types'

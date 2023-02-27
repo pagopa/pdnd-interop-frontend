@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import identity from 'lodash/identity'
 import { Button, Stack } from '@mui/material'
 import { InfoTooltip, InfoTooltipSkeleton } from '@/components/shared/InfoTooltip'
-import { ButtonSkeleton } from '@/components/shared/MUISkeletons'
+import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 
 interface ClientAddPublicKeyButtonProps {
   clientId: string

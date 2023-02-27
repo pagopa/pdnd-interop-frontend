@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, renderHook, screen, waitFor } from '@testing-library/react'
 import { TestInputWrapper } from './test-utils'
-import { TextField } from '@/components/shared/ReactHookFormInputs'
+import { TextField } from '@/components/shared/react-hook-form-inputs'
 import userEvent from '@testing-library/user-event'
 import { useFormContext } from 'react-hook-form'
 

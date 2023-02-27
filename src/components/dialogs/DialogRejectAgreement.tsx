@@ -4,7 +4,7 @@ import type { DialogRejectAgreementProps } from '@/types/dialog.types'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { TextField } from '../shared/ReactHookFormInputs'
+import { TextField } from '../shared/react-hook-form-inputs'
 import { AgreementMutations } from '@/api/agreement'
 
 type RejectAgreementFormValues = {

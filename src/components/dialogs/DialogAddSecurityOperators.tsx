@@ -14,7 +14,7 @@ import {
 } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { AutocompleteMultiple } from '../shared/ReactHookFormInputs'
+import { AutocompleteMultiple } from '../shared/react-hook-form-inputs'
 import type { SelfCareUser } from '@/types/party.types'
 
 type AddSecurityOperatorFormValues = {

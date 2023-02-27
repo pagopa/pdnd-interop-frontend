@@ -4,7 +4,7 @@ import { Box, Button } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { Select } from '../../ReactHookFormInputs'
+import { Select } from '../../react-hook-form-inputs'
 import { useEServiceDetailsContext } from '../EServiceDetailsContext'
 
 type VersionHistoryFormValues = {

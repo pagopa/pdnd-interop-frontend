@@ -1,6 +1,6 @@
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { PageBottomActionsContainer, SectionContainer } from '@/components/layout/containers'
-import { Switch } from '@/components/shared/ReactHookFormInputs'
+import { Switch } from '@/components/shared/react-hook-form-inputs'
 import { useJwt } from '@/hooks/useJwt'
 import { RouterLink, useNavigateRouter } from '@/router'
 import type { PurposeRiskAnalysisForm } from '@/types/purpose.types'

@@ -1,5 +1,5 @@
 import { PurposeQueries } from '@/api/purpose'
-import { AutocompleteSingle } from '@/components/shared/ReactHookFormInputs'
+import { AutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
 import { Spinner } from '@/components/shared/Spinner'
 import { useJwt } from '@/hooks/useJwt'
 import { Alert } from '@mui/material'

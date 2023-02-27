@@ -1,8 +1,8 @@
 import React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 
-import { TestInputWrapper } from '@/components/shared/ReactHookFormInputs/__tests__/test-utils'
-import { SingleFileInput } from '@/components/shared/ReactHookFormInputs'
+import { TestInputWrapper } from '@/components/shared/react-hook-form-inputs/__tests__/test-utils'
+import { SingleFileInput } from '@/components/shared/react-hook-form-inputs'
 
 const singleFileInputProps = {
   name: 'testFile',

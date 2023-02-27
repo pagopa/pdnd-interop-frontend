@@ -3,7 +3,7 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '
 import { useTranslation } from 'react-i18next'
 import { useDialog } from '@/stores'
 import type { DialogUpdatePurposeDailyCallsProps } from '@/types/dialog.types'
-import { TextField } from '../shared/ReactHookFormInputs'
+import { TextField } from '../shared/react-hook-form-inputs'
 import { PurposeMutations } from '@/api/purpose'
 import { FormProvider, useForm } from 'react-hook-form'
 

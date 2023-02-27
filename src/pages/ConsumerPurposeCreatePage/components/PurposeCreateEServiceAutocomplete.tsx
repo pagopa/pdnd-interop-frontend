@@ -1,6 +1,6 @@
 import React from 'react'
 import { EServiceQueries } from '@/api/eservice'
-import { AutocompleteSingle } from '@/components/shared/ReactHookFormInputs'
+import { AutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
 import { useJwt } from '@/hooks/useJwt'
 import { useTranslation } from 'react-i18next'
 import { useFormContext } from 'react-hook-form'

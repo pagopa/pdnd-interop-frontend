@@ -4,7 +4,7 @@ import {
   PageContainer,
   SectionContainer,
 } from '@/components/layout/containers'
-import { TextField } from '@/components/shared/ReactHookFormInputs'
+import { TextField } from '@/components/shared/react-hook-form-inputs'
 import { useClientKind } from '@/hooks/useClientKind'
 import { RouterLink, useNavigateRouter } from '@/router'
 import type { Client } from '@/types/client.types'

@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next'
 import { FormProvider, useForm } from 'react-hook-form'
 import type { DialogSetPurposeExpectedApprovalDateProps } from '@/types/dialog.types'
 import { useDialog } from '@/stores'
-import { DatePicker } from '../shared/ReactHookFormInputs'
+import { DatePicker } from '../shared/react-hook-form-inputs'
 import { PurposeMutations } from '@/api/purpose'
 
 type ExpectedApprovalDateFormValues = {

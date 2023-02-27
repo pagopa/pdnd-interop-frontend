@@ -1,6 +1,6 @@
 import React from 'react'
 import { AttributeQueries } from '@/api/attribute'
-import { AutocompleteSingle } from '@/components/shared/ReactHookFormInputs'
+import { AutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
 import type { AttributeKey, CatalogAttribute } from '@/types/attribute.types'
 import { Button, Stack } from '@mui/material'
 import { ButtonNaked } from '@pagopa/mui-italia'
