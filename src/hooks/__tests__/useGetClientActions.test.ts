@@ -8,6 +8,7 @@ import { act } from 'react-dom/test-utils'
 import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
 import { Client } from '@/types/client.types'
 import { createMemoryHistory } from 'history'
+import { routes } from '@/router/routes'
 
 const server = setupServer(
   rest.delete(
@@ -83,7 +84,7 @@ describe('check if useGetClientActions returns the correct actions based on the 
 
     await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
 
-    expect(history.location.pathname).toBe('/it/fruizione/interop-m2m')
+    expect(history.location.pathname).toBe('/it/' + routes.SUBSCRIBE_INTEROP_M2M.PATH.it)
   })
 
   it('should navigate to SUBSCRIBE_CLIENT_LIST route after the delete action with client kind CONSUMER', async () => {
@@ -104,6 +105,6 @@ describe('check if useGetClientActions returns the correct actions based on the 
 
     await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
 
-    expect(history.location.pathname).toBe('/it/fruizione/client')
+    expect(history.location.pathname).toBe('/it/' + routes.SUBSCRIBE_CLIENT_LIST.PATH.it)
   })
 })
