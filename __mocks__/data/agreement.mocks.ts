@@ -267,6 +267,7 @@ const createMockAgreementSummary = createMockFactory<AgreementSummary>({
       name: 'NORMA AAA',
     },
   ],
+  isContractPresent: true,
 })
 
 const createMockAgreementListingItem = createMockFactory<AgreementListingItem>({
