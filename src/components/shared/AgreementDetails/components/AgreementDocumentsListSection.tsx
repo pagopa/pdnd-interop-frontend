@@ -22,7 +22,9 @@ export const AgreementDocumentListSection: React.FC = () => {
 
   let docs = agreement.consumerDocuments
 
-  if (agreement.state !== 'DRAFT' && agreement.state !== 'PENDING') {
+  // If request agreement contract is available to download...
+  if (agreement.isContractPresent) {
+    // Add it to the document list.
     docs = [
       {
         id: 'contract',

@@ -89,4 +89,5 @@ export type AgreementSummary = {
   createdAt: string
   updatedAt?: string
   rejectionReason?: string
+  isContractPresent: boolean
 }
