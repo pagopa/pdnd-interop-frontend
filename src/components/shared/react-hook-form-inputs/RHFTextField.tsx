@@ -6,9 +6,7 @@ import { ControllerProps } from 'react-hook-form/dist/types/controller'
 import { mapValidationErrorMessages } from '@/utils/validation.utils'
 import { useTranslation } from 'react-i18next'
 
-export type StyledInputTextType = 'text' | 'email' | 'number'
-
-export type TextFieldProps = Omit<MUITextFieldProps, 'type'> & {
+export type RHFTextFieldProps = Omit<MUITextFieldProps, 'type'> & {
   name: string
   infoLabel?: string
   focusOnMount?: boolean
@@ -24,7 +22,7 @@ export type TextFieldProps = Omit<MUITextFieldProps, 'type'> & {
       }
   )
 
-export const TextField: React.FC<TextFieldProps> = ({
+export const RHFTextField: React.FC<RHFTextFieldProps> = ({
   sx,
   name,
   infoLabel,

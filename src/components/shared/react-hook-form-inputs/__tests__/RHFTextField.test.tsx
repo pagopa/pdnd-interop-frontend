@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, renderHook, screen, waitFor } from '@testing-library/react'
 import { TestInputWrapper } from './test-utils'
-import { TextField } from '@/components/shared/react-hook-form-inputs'
+import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import userEvent from '@testing-library/user-event'
 import { useFormContext } from 'react-hook-form'
 
@@ -15,7 +15,7 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     const user = userEvent.setup()
     const textField = render(
       <TestInputWrapper>
-        <TextField label={'label'} name={'testText'} />
+        <RHFTextField label={'label'} name={'testText'} />
       </TestInputWrapper>
     )
 
@@ -36,7 +36,7 @@ describe('determine whether the integration between react-hook-form and MUI’s 
       wrapper: ({ children }) => (
         <TestInputWrapper>
           {children}
-          <TextField label={'label'} name={'testText'} type="number" />
+          <RHFTextField label={'label'} name={'testText'} type="number" />
         </TestInputWrapper>
       ),
     })
@@ -54,7 +54,7 @@ describe('determine whether the integration between react-hook-form and MUI’s 
   it('should focus on mount', async () => {
     const textField = render(
       <TestInputWrapper>
-        <TextField label={'input label'} name={'testText'} focusOnMount={true} />
+        <RHFTextField label={'input label'} name={'testText'} focusOnMount={true} />
       </TestInputWrapper>
     )
     const input = textField.getByRole('textbox')

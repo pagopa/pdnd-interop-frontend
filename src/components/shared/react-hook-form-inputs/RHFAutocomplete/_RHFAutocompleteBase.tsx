@@ -18,9 +18,9 @@ import isEqual from 'lodash/isEqual'
 import { ControllerProps } from 'react-hook-form/dist/types/controller'
 import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
-export type AutocompleteInput<T> = { label: string; value: T }
+export type RHFAutocompleteInput<T> = { label: string; value: T }
 
-export type AutocompleteBaseProps<
+export type RHFAutocompleteBaseProps<
   T,
   Multiple extends boolean | undefined,
   DisableClearable extends boolean | undefined,
@@ -40,7 +40,7 @@ export type AutocompleteBaseProps<
 }
 
 /** Do not use.  */
-export function _AutocompleteBase<
+export function _RHFAutocompleteBase<
   T,
   Multiple extends boolean | undefined,
   DisableClearable extends boolean | undefined,
@@ -61,7 +61,7 @@ export function _AutocompleteBase<
   variant = 'outlined',
   getOptionValue = identity,
   ...props
-}: AutocompleteBaseProps<AutocompleteInput<T>, Multiple, DisableClearable, FreeSolo>) {
+}: RHFAutocompleteBaseProps<RHFAutocompleteInput<T>, Multiple, DisableClearable, FreeSolo>) {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'autocompleteMultiple',
   })

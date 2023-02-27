@@ -3,7 +3,7 @@ import { render, RenderResult } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { TestInputWrapper } from '@/components/shared/react-hook-form-inputs/__tests__/test-utils'
-import { DatePicker } from '@/components/shared/react-hook-form-inputs'
+import { RHFDatePicker } from '@/components/shared/react-hook-form-inputs'
 
 const datePickerProps = {
   standard: {
@@ -26,7 +26,7 @@ describe('determine whether the integration between react-hook-form and MUI’s 
   it('gets the input from the user correctly', async () => {
     const datePickerResult = render(
       <TestInputWrapper>
-        <DatePicker {...datePickerProps.standard} />
+        <RHFDatePicker {...datePickerProps.standard} />
       </TestInputWrapper>
     )
     let selectedCell
@@ -49,7 +49,7 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     const user = userEvent.setup()
     const datePickerResult = render(
       <TestInputWrapper>
-        <DatePicker {...datePickerProps.standard} />
+        <RHFDatePicker {...datePickerProps.standard} />
       </TestInputWrapper>
     )
 

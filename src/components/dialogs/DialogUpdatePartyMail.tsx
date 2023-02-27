@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next'
 import type { DialogUpdatePartyMailProps } from '@/types/dialog.types'
 import { useDialog } from '@/stores'
 import { FormProvider, useForm } from 'react-hook-form'
-import { TextField } from '../shared/react-hook-form-inputs'
+import { RHFTextField } from '../shared/react-hook-form-inputs'
 import { PartyMutations } from '@/api/party/party.hooks'
 import { useJwt } from '@/hooks/useJwt'
 import isEqual from 'lodash/isEqual'
@@ -61,7 +61,7 @@ export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ de
           <DialogContent>
             <Typography id={ariaDescriptionId}>{t('subtitle')}</Typography>
 
-            <TextField
+            <RHFTextField
               sx={{ mt: 2, mb: 0 }}
               focusOnMount
               name="contactEmail"
@@ -74,7 +74,7 @@ export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ de
                 },
               }}
             />
-            <TextField
+            <RHFTextField
               sx={{ mt: 2, mb: 0 }}
               name="description"
               label={t('content.descriptionField.label')}

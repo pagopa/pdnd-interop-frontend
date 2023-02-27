@@ -3,7 +3,7 @@ import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { TestInputWrapper } from '@/components/shared/react-hook-form-inputs/__tests__/test-utils'
-import { CheckboxGroup } from '@/components/shared/react-hook-form-inputs'
+import { RHFCheckboxGroup } from '@/components/shared/react-hook-form-inputs'
 
 const checkboxGroupOptions = [
   { label: 'option1', value: 'option1' },
@@ -24,7 +24,7 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     const user = userEvent.setup()
     const checkboxResult = render(
       <TestInputWrapper>
-        <CheckboxGroup {...checkboxGroupProps.standard} />
+        <RHFCheckboxGroup {...checkboxGroupProps.standard} />
       </TestInputWrapper>
     )
 

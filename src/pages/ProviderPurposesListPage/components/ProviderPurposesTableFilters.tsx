@@ -1,6 +1,6 @@
 import { EServiceQueries } from '@/api/eservice'
 import type { PurposeGetListQueryFilters } from '@/api/purpose/purpose.api.types'
-import { AutocompleteMultiple, TextField } from '@/components/shared/react-hook-form-inputs'
+import { RHFAutocompleteMultiple, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { useAutocompleteFilterInput } from '@/hooks/useAutocompleteFilterInput'
 import type { InputOption } from '@/types/common.types'
 import { Button, Grid, Stack } from '@mui/material'
@@ -38,7 +38,7 @@ export const ProviderPurposesTableFilters: React.FC<ProviderPurposesTableFilters
         <Stack spacing={2} sx={{ flex: 1 }}>
           <Grid spacing={2} container>
             <Grid xs={6} item>
-              <TextField sx={{ m: 0 }} size="small" name="q" label={t('nameField.label')} />
+              <RHFTextField sx={{ m: 0 }} size="small" name="q" label={t('nameField.label')} />
             </Grid>
             <Grid xs={6} item>
               <EServiceFilterAutocomplete />
@@ -81,7 +81,7 @@ const EServiceFilterAutocomplete: React.FC = () => {
     })) || []
 
   return (
-    <AutocompleteMultiple
+    <RHFAutocompleteMultiple
       placeholder=""
       size="small"
       name="eservicesIds"
@@ -108,7 +108,7 @@ const ConsumerFilterAutocomplete: React.FC = () => {
     })) || []
 
   return (
-    <AutocompleteMultiple
+    <RHFAutocompleteMultiple
       placeholder=""
       size="small"
       name="consumersIds"
@@ -130,7 +130,7 @@ const StateFilterAutocomplete: React.FC = () => {
   ]
 
   return (
-    <AutocompleteMultiple
+    <RHFAutocompleteMultiple
       placeholder=""
       size="small"
       name="states"

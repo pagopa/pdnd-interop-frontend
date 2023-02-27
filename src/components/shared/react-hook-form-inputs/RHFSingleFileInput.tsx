@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next'
 import { ControllerProps } from 'react-hook-form/dist/types'
 import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
-type SingleFileInputProps = Omit<
+export type RHFSingleFileInputProps = Omit<
   PagoPASingleFileInputProps,
   'value' | 'onFileSelected' | 'onFileRemoved' | 'dropzoneLabel' | 'loadingLabel'
 > & {
@@ -21,7 +21,7 @@ type SingleFileInputProps = Omit<
   onValueChange?: (value: File | null) => void
 }
 
-export const SingleFileInput: React.FC<SingleFileInputProps> = ({
+export const RHFSingleFileInput: React.FC<RHFSingleFileInputProps> = ({
   name,
   infoLabel,
   sx,

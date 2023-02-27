@@ -12,7 +12,7 @@ import { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
 import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
-type DatePickerProps = {
+export type RHFDatePickerProps = {
   name: string
   label?: string
   disabled?: boolean
@@ -24,7 +24,7 @@ type DatePickerProps = {
   onValueChange?: (value: Date) => void
 }
 
-export const DatePicker: React.FC<DatePickerProps> = ({
+export const RHFDatePicker: React.FC<RHFDatePickerProps> = ({
   name,
   label,
   infoLabel,

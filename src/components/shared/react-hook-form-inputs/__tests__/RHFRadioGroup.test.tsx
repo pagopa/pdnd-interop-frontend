@@ -3,7 +3,7 @@ import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { TestInputWrapper } from '@/components/shared/react-hook-form-inputs/__tests__/test-utils'
-import { RadioGroup } from '@/components/shared/react-hook-form-inputs'
+import { RHFRadioGroup } from '@/components/shared/react-hook-form-inputs'
 
 const radioGroupOptions = [
   { label: 'option1', value: 'option1' },
@@ -24,7 +24,7 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     const user = userEvent.setup()
     const radioGroupResult = render(
       <TestInputWrapper>
-        <RadioGroup {...radioGroupProps.standard} />
+        <RHFRadioGroup {...radioGroupProps.standard} />
       </TestInputWrapper>
     )
 

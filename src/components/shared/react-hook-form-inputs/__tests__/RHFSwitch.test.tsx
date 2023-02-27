@@ -3,7 +3,7 @@ import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { TestInputWrapper } from '@/components/shared/react-hook-form-inputs/__tests__/test-utils'
-import { Switch } from '@/components/shared/react-hook-form-inputs'
+import { RHFSwitch } from '@/components/shared/react-hook-form-inputs'
 
 const switchProps = {
   standard: {
@@ -17,7 +17,7 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     const user = userEvent.setup()
     const switchResult = render(
       <TestInputWrapper>
-        <Switch {...switchProps.standard} />
+        <RHFSwitch {...switchProps.standard} />
       </TestInputWrapper>
     )
 

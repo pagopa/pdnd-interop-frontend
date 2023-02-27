@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Stack } from '@mui/material'
 import { FormProvider } from 'react-hook-form'
 import type { UseFormReturn } from 'react-hook-form'
-import { AutocompleteMultiple, TextField } from '@/components/shared/react-hook-form-inputs'
+import { RHFAutocompleteMultiple, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { EServiceQueries } from '@/api/eservice'
 import { useTranslation } from 'react-i18next'
 import type { EServiceGetCatalogListQueryFilters } from '@/api/eservice/eservice.api.types'
@@ -46,13 +46,13 @@ const EServiceCatalogFilters: React.FC<EServiceCatalogFiltersProps> = ({
         sx={{ mb: 4 }}
       >
         <Stack direction="row" spacing={2} sx={{ width: '60%' }}>
-          <TextField
+          <RHFTextField
             sx={{ m: 0, width: '55%' }}
             size="small"
             name="q"
             label={t('list.filters.nameField.label')}
           />
-          <AutocompleteMultiple
+          <RHFAutocompleteMultiple
             sx={{ width: '45%' }}
             placeholder=""
             size="small"

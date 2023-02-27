@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next'
 import { FormProvider, useForm } from 'react-hook-form'
 import type { DialogSetPurposeExpectedApprovalDateProps } from '@/types/dialog.types'
 import { useDialog } from '@/stores'
-import { DatePicker } from '../shared/react-hook-form-inputs'
+import { RHFDatePicker } from '../shared/react-hook-form-inputs'
 import { PurposeMutations } from '@/api/purpose'
 
 type ExpectedApprovalDateFormValues = {
@@ -52,7 +52,11 @@ export const DialogSetPurposeExpectedApprovalDate: FunctionComponent<
           <DialogContent>
             <Typography>{t('content.message')}</Typography>
             <Box sx={{ mt: 3, pt: 2, borderTop: 1, borderBottom: 1, borderColor: 'divider' }}>
-              <DatePicker sx={{ my: 0 }} name="expectedApprovalDate" rules={{ required: true }} />
+              <RHFDatePicker
+                sx={{ my: 0 }}
+                name="expectedApprovalDate"
+                rules={{ required: true }}
+              />
             </Box>
           </DialogContent>
 
