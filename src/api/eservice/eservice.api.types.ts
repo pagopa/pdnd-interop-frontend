@@ -1,12 +1,12 @@
-import { AgreementState } from '@/types/agreement.types'
-import { BackendAttributes } from '@/types/attribute.types'
-import {
+import type { AgreementState } from '@/types/agreement.types'
+import type { BackendAttributes } from '@/types/attribute.types'
+import type {
   EServiceDocumentKind,
   EServiceFlatten,
   EServiceState,
   EServiceTechnologyType,
 } from '@/types/eservice.types'
-import { PaginationParams } from '../api.types'
+import type { PaginationParams } from '../api.types'
 
 /** @deprecated TO BE REMOVED */
 export type EServiceGetListFlatUrlParams = {

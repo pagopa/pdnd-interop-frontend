@@ -1,11 +1,11 @@
-import {
+import type {
   CertifiedTenantAttribute,
   DeclaredTenantAttribute,
   PartyAttribute,
   VerifiedTenantAttribute,
 } from './../../types/attribute.types'
-import { AttributeKey } from '@/types/attribute.types'
-import {
+import type { AttributeKey } from '@/types/attribute.types'
+import type {
   GetCertifiedAttributesResponse,
   GetDeclaredAttributesResponse,
   GetVerifiedAttributesResponse,

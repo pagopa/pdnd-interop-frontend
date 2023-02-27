@@ -1,4 +1,5 @@
-import { Box, Typography, Paper, PaperProps, SkeletonProps, Skeleton, Stack } from '@mui/material'
+import { Box, Typography, Paper, Skeleton, Stack } from '@mui/material'
+import type { PaperProps, SkeletonProps } from '@mui/material'
 import React from 'react'
 
 type SectionContainerProps = {

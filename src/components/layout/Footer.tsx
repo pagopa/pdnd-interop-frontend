@@ -1,11 +1,10 @@
 import React from 'react'
 import { Stack, Box, Container, Link, Typography } from '@mui/material'
-import {
+import { FooterLegal, LogoPagoPACompany } from '@pagopa/mui-italia'
+import type {
   CompanyLinkType,
-  FooterLegal,
   FooterLinksType,
   LangSwitchProps,
-  LogoPagoPACompany,
   PreLoginFooterLinksType,
 } from '@pagopa/mui-italia'
 import { LANGUAGES, pagoPaLink } from '@/config/constants'

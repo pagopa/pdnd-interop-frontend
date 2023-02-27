@@ -2,7 +2,7 @@ import { getKeys } from '@/utils/array.utils'
 import { doesNotThrow, throws } from 'assert'
 import identity from 'lodash/identity'
 import isEqual from 'lodash/isEqual'
-import { LocalizedRoutes } from '../router.types'
+import type { LocalizedRoutes } from '../router.types'
 import { getPathSegments } from '../router.utils'
 import { routes } from '../routes'
 

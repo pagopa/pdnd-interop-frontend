@@ -5,7 +5,7 @@ import { Divider, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
-import { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
+import type { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
 import { CodeSnippetPreview } from './CodeSnipperPreview'
 import { InlineClipboard } from '@/components/shared/InlineClipboard'
 

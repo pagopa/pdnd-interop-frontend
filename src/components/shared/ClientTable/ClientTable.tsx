@@ -1,6 +1,6 @@
 import { ClientQueries } from '@/api/client'
 import { useJwt } from '@/hooks/useJwt'
-import { ClientKind } from '@/types/client.types'
+import type { ClientKind } from '@/types/client.types'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Table } from '../Table'

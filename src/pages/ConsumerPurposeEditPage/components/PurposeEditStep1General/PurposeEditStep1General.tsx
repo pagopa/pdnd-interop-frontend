@@ -5,7 +5,7 @@ import { NotFoundError } from '@/utils/errors.utils'
 import PurposeEditStep1GeneralForm, {
   PurposeEditStep1GeneralFormSkeleton,
 } from './PurposeEditStep1GeneralForm'
-import { ActiveStepProps } from '@/hooks/useActiveStep'
+import type { ActiveStepProps } from '@/hooks/useActiveStep'
 
 export const PurposeEditStep1General: React.FC<ActiveStepProps> = (props) => {
   const { purposeId } = useRouteParams<'SUBSCRIBE_PURPOSE_EDIT'>()

@@ -9,7 +9,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
 import { useGetVoucherInstructionsSteps } from '../../hooks/useGetVoucherInstructionsSteps'
-import { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
+import type { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
 import { ClientVoucherIntructionsPurposeSelect } from './ClientVoucherIntructionsPurposeSelect'
 import { useSearchParams } from 'react-router-dom'
 

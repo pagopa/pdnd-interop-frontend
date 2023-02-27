@@ -1,6 +1,4 @@
 import axios from 'axios'
-import qs from 'qs'
-import { v4 as uuidv4 } from 'uuid'
 import { STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 import { storageRead } from '@/utils/storage.utils'
 import { NotAuthorizedError, NotFoundError, ServerError } from '@/utils/errors.utils'
@@ -19,9 +17,18 @@ const deepTrim = (object: any) => {
   return object
 }
 
+/** This function helps to serialize correctly arrays in url params  */
+const serializeParams = (query: Record<string, unknown>) => {
+  return Object.entries(query)
+    .map(([key, value]) =>
+      Array.isArray(value) ? `${key}=${value.join('&' + key + '=')}` : `${key}=${value}`
+    )
+    .join('&')
+}
+
 const axiosInstance = axios.create({
   paramsSerializer: {
-    serialize: (params) => qs.stringify(params, { arrayFormat: 'comma' }),
+    serialize: serializeParams,
   },
 })
 
@@ -32,7 +39,7 @@ axiosInstance.interceptors.request.use(
       config.headers.Authorization = `Bearer ${sessionStorageToken}`
     }
 
-    config.headers['X-Correlation-Id'] = uuidv4()
+    config.headers['X-Correlation-Id'] = crypto.randomUUID()
 
     // If the request has a payload performs the trim on all its strings
     if (config.data) {

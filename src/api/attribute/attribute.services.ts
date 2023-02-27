@@ -1,6 +1,6 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
-import {
+import type {
   CreateAttributePayload,
   GetListAttributesResponse,
   GetCertifiedAttributesResponse,

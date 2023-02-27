@@ -1,6 +1,6 @@
 import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
-import { StepperStep } from '@/types/common.types'
+import type { StepperStep } from '@/types/common.types'
 import {
   EServiceCreateStep1General,
   EServiceCreateStep1GeneralSkeleton,

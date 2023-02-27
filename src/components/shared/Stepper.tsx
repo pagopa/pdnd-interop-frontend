@@ -1,6 +1,6 @@
 import React from 'react'
 import { Stepper as MUIStepper, Step, StepLabel, Box } from '@mui/material'
-import { StepperStep } from '@/types/common.types'
+import type { StepperStep } from '@/types/common.types'
 
 type StepperProps = {
   steps: Array<StepperStep>

@@ -6,7 +6,7 @@ import { Alert } from '@mui/material'
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { PurposeCreateFormValues } from './PurposeCreateEServiceForm'
+import type { PurposeCreateFormValues } from './PurposeCreateEServiceForm'
 
 export const PurposeCreateTemplateAutocomplete: React.FC = () => {
   const { t } = useTranslation('purpose')

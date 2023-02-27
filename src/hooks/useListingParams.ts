@@ -2,7 +2,8 @@ import React from 'react'
 import { useSearchParams } from 'react-router-dom'
 import omit from 'lodash/omit'
 import { getKeys } from '@/utils/array.utils'
-import { DeepPartial, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
+import type { DeepPartial } from 'react-hook-form'
 
 export function useListingParams<T extends Record<string, string | string[] | boolean>>(options: {
   paginationOptions: { limit: number }

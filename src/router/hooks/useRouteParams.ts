@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import { RouteKey, RouteParams } from '../router.types'
+import type { RouteKey, RouteParams } from '../router.types'
 
 /**
  * Wrapper for react-router-dom's useParams that return typed params.

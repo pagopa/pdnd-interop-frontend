@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDialog, useLoadingOverlay, useToastNotification } from '@/stores'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { UseMutationWrapper } from './react-query-wrappers.types'
+import type { UseMutationWrapper } from './react-query-wrappers.types'
 import { useJwt } from '@/hooks/useJwt'
 import { setExponentialInterval, clearExponentialInterval } from './react-query-wrappers.utils'
 

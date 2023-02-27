@@ -1,17 +1,12 @@
 import React from 'react'
-import {
-  FormLabel,
-  Switch as MUISwitch,
-  Typography,
-  SwitchProps as MUISwitchProps,
-  Stack,
-} from '@mui/material'
+import { FormLabel, Switch as MUISwitch, Typography, Stack } from '@mui/material'
+import type { SwitchProps as MUISwitchProps } from '@mui/material'
 import { Controller, useFormContext } from 'react-hook-form'
 import { InputWrapper } from '@/components/shared/InputWrapper'
-import { InputOption } from '@/types/common.types'
 import { mapValidationErrorMessages } from '@/utils/validation.utils'
 import { useTranslation } from 'react-i18next'
-import { ControllerProps } from 'react-hook-form/dist/types'
+import type { ControllerProps } from 'react-hook-form/dist/types'
+import type { InputOption } from '@/types/common.types'
 
 type RiskAnalysisSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   label: string

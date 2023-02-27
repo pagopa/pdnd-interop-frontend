@@ -1,4 +1,4 @@
-import { LANGUAGES } from '@/config/constants'
+import type { LANGUAGES } from '@/config/constants'
 
 export type PagoPAEnvVars = {
   AUTHORIZATION_PROCESS_URL: string

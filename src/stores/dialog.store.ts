@@ -1,4 +1,4 @@
-import { DialogProps } from '@/types/dialog.types'
+import type { DialogProps } from '@/types/dialog.types'
 import { create } from 'zustand'
 
 type DialogStoreType = {

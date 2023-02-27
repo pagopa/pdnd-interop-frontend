@@ -1,5 +1,5 @@
-import { PublicKey } from '@/types/key.types'
-import { SelfCareUser } from '@/types/party.types'
+import type { PublicKey } from '@/types/key.types'
+import type { SelfCareUser } from '@/types/party.types'
 
 export function isKeyOrphan(key: PublicKey, activeUsers?: Array<SelfCareUser>) {
   const activeIds = activeUsers?.map((u) => u.id)

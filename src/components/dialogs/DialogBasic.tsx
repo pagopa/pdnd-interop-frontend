@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material'
 import { Trans, useTranslation } from 'react-i18next'
-import { DialogBasicProps } from '@/types/dialog.types'
+import type { DialogBasicProps } from '@/types/dialog.types'
 import { useDialog } from '@/stores'
 
 export const DialogBasic: React.FC<DialogBasicProps> = ({

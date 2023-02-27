@@ -1,6 +1,10 @@
-import { AgreementListingItem, AgreementState, AgreementSummary } from '@/types/agreement.types'
+import type {
+  AgreementListingItem,
+  AgreementState,
+  AgreementSummary,
+} from '@/types/agreement.types'
 import { AgreementMutations } from '@/api/agreement'
-import { ActionItem } from '@/types/common.types'
+import type { ActionItem } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
 import { useCurrentRoute, useNavigateRouter } from '@/router'
 import { useDialog } from '@/stores'

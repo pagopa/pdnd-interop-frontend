@@ -1,13 +1,13 @@
 import React from 'react'
 import { AttributeQueries } from '@/api/attribute'
 import { AutocompleteSingle } from '@/components/shared/ReactHookFormInputs'
-import { AttributeKey, CatalogAttribute } from '@/types/attribute.types'
+import type { AttributeKey, CatalogAttribute } from '@/types/attribute.types'
 import { Button, Stack } from '@mui/material'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import debounce from 'lodash/debounce'
 import { FormProvider, useForm, useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { EServiceCreateStep1FormValues } from '../EServiceCreateStep1General'
+import type { EServiceCreateStep1FormValues } from '../EServiceCreateStep1General'
 
 type AttributeAutocompleteProps = {
   groupIndex: number

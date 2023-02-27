@@ -1,8 +1,8 @@
 import React from 'react'
-import { TopSideActions } from '@/components/layout/containers/PageContainer'
+import type { TopSideActions } from '@/components/layout/containers/PageContainer'
 import { FE_LOGIN_URL, isDevelopment } from '@/config/env'
-import { ActionItem } from '@/types/common.types'
-import { ButtonProps } from '@mui/material'
+import type { ActionItem } from '@/types/common.types'
+import type { ButtonProps } from '@mui/material'
 import noop from 'lodash/noop'
 
 export function goToLoginPage() {

@@ -1,4 +1,4 @@
-import { PartyAttributes } from './attribute.types'
+import type { PartyAttributes } from './attribute.types'
 
 export type UserState = 'PENDING' | 'ACTIVE' | 'SUSPENDED'
 export type UserRole = 'MANAGER' | 'DELEGATE' | 'OPERATOR'

@@ -1,4 +1,4 @@
-import { SelfCareUser } from './party.types'
+import type { SelfCareUser } from './party.types'
 
 export type PublicKeyItem = {
   kid: string

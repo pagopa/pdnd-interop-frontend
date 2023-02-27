@@ -1,4 +1,4 @@
-import { DecoratedPurpose, Purpose } from '@/types/purpose.types'
+import type { DecoratedPurpose, Purpose } from '@/types/purpose.types'
 
 export function decoratePurposeWithMostRecentVersion(purpose: Purpose): DecoratedPurpose {
   if (purpose.versions.length === 0) {

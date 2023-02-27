@@ -2,7 +2,7 @@ import React from 'react'
 import { PartyQueries } from '@/api/party/party.hooks'
 import { useDialog } from '@/stores'
 import { useJwt } from '@/hooks/useJwt'
-import { DialogAddSecurityOperatorsProps } from '@/types/dialog.types'
+import type { DialogAddSecurityOperatorsProps } from '@/types/dialog.types'
 import {
   Alert,
   Box,
@@ -15,7 +15,7 @@ import {
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { AutocompleteMultiple } from '../shared/ReactHookFormInputs'
-import { SelfCareUser } from '@/types/party.types'
+import type { SelfCareUser } from '@/types/party.types'
 
 type AddSecurityOperatorFormValues = {
   selectedOperators: Array<SelfCareUser>

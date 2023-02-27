@@ -1,9 +1,9 @@
 import React from 'react'
 import { useJwt } from '@/hooks/useJwt'
-import { SideNavItemView } from '../SideNav'
-import { UserProductRole } from '@/types/party.types'
+import type { SideNavItemView } from '../SideNav'
+import type { UserProductRole } from '@/types/party.types'
 import EmailIcon from '@mui/icons-material/Email'
-import { RouteKey } from '@/router/router.types'
+import type { RouteKey } from '@/router/router.types'
 import uniq from 'lodash/uniq'
 
 type Views = Record<UserProductRole, Array<SideNavItemView>>

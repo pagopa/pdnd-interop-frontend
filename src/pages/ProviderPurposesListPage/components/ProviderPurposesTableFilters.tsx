@@ -1,11 +1,12 @@
 import { EServiceQueries } from '@/api/eservice'
-import { PurposeGetListQueryFilters } from '@/api/purpose/purpose.api.types'
+import type { PurposeGetListQueryFilters } from '@/api/purpose/purpose.api.types'
 import { AutocompleteMultiple, TextField } from '@/components/shared/ReactHookFormInputs'
 import { useAutocompleteFilterInput } from '@/hooks/useAutocompleteFilterInput'
-import { InputOption } from '@/types/common.types'
+import type { InputOption } from '@/types/common.types'
 import { Button, Grid, Stack } from '@mui/material'
 import React from 'react'
-import { FormProvider, UseFormReturn } from 'react-hook-form'
+import type { UseFormReturn } from 'react-hook-form'
+import { FormProvider } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
 type ProviderPurposesTableFiltersProps = {

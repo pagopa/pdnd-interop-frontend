@@ -1,7 +1,11 @@
 import { AgreementMutations } from '@/api/agreement'
 import { useNavigateRouter } from '@/router'
-import { ActionItem } from '@/types/common.types'
-import { EServiceCatalog, EServiceDescriptorCatalog, EServiceState } from '@/types/eservice.types'
+import type { ActionItem } from '@/types/common.types'
+import type {
+  EServiceCatalog,
+  EServiceDescriptorCatalog,
+  EServiceState,
+} from '@/types/eservice.types'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from './useJwt'
 

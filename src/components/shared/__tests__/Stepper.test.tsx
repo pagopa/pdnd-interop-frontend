@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { Stepper } from '@/components/shared/Stepper'
-import { StepperStep } from '@/types/common.types'
+import type { StepperStep } from '@/types/common.types'
 
 const steps: Array<StepperStep> = [
   { label: 'step1', component: () => <div>Step 1</div> }, // React element type require component as a function

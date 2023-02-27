@@ -3,7 +3,7 @@ import { PageBottomActionsContainer, SectionContainer } from '@/components/layou
 import { Switch } from '@/components/shared/ReactHookFormInputs'
 import { useJwt } from '@/hooks/useJwt'
 import { RouterLink, useNavigateRouter } from '@/router'
-import { PurposeRiskAnalysisForm } from '@/types/purpose.types'
+import type { PurposeRiskAnalysisForm } from '@/types/purpose.types'
 import { Box, Button, Grid } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
