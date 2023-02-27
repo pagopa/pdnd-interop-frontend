@@ -37,9 +37,7 @@ function useGetAgreementsActions(agreement?: AgreementSummary | AgreementListing
       { agreementId: agreement.id },
       {
         onSuccess() {
-          const routeKey =
-            mode === 'provider' ? 'PROVIDE_AGREEMENT_LIST' : 'SUBSCRIBE_AGREEMENT_LIST'
-          navigate(routeKey)
+          navigate('SUBSCRIBE_AGREEMENT_LIST')
         },
       }
     )

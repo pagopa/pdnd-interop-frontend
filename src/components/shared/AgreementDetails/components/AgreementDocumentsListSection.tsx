@@ -30,6 +30,7 @@ export const AgreementDocumentListSection: React.FC = () => {
         id: 'contract',
         prettyName: `${t('docLabel')}`,
         name: `${t('docLabel')}.pdf`,
+        createdAt: '',
         contentType: '',
       },
       ...docs,

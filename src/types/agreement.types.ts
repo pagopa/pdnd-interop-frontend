@@ -1,5 +1,4 @@
 import {
-  AttributeKey,
   CertifiedTenantAttribute,
   DeclaredTenantAttribute,
   VerifiedTenantAttribute,
@@ -22,22 +21,31 @@ type AgreementProducer = {
 }
 type AgreementConsumer = {
   name: string
+  selfcareId?: string
+  externalId: { origin: string; value: string }
+  createdAt: string
+  updatedAt?: string
   id: string
-  attributes: Array<
-    Record<
-      AttributeKey,
-      DeclaredTenantAttribute | CertifiedTenantAttribute | VerifiedTenantAttribute
-    >
-  >
+  attributes: {
+    certified: Array<CertifiedTenantAttribute>
+    verified: Array<VerifiedTenantAttribute>
+    declared: Array<DeclaredTenantAttribute>
+  }
+  contactMail: {
+    address: string
+    description?: string
+  }
 }
 
 type AgreementEService = {
-  name: string
   id: string
-  descriptorId: string
+  name: string
   version: string
-  state: EServiceState
-  activeDescriptor?: AgreementEService
+  activeDescriptor?: {
+    id: string
+    state: EServiceState
+    version: string
+  }
 }
 
 export type AgreementAttribute = {
@@ -63,21 +71,23 @@ export type AgreementListingItem = {
     }
   }
   descriptor: {
-    version: number
+    id: string
+    state: EServiceState
+    version: string
   }
-  suspendedByConsumer: boolean
-  suspendedByProducer: boolean
-  suspendedByPlatform: boolean
+  suspendedByConsumer?: boolean
+  suspendedByProducer?: boolean
+  suspendedByPlatform?: boolean
   canBeUpgraded: boolean
 }
 
 export type AgreementSummary = {
   id: string
-  state: AgreementState
-  eservice: AgreementEService
   descriptorId: string
   consumer: AgreementConsumer
   producer: AgreementProducer
+  state: AgreementState
+  eservice: AgreementEService
   verifiedAttributes: Array<AgreementAttribute>
   certifiedAttributes: Array<AgreementAttribute>
   declaredAttributes: Array<AgreementAttribute>
@@ -85,7 +95,7 @@ export type AgreementSummary = {
   suspendedByConsumer?: boolean
   suspendedByPlatform?: boolean
   consumerNotes?: string
-  consumerDocuments: Array<DocumentRead>
+  consumerDocuments: Array<DocumentRead & { createdAt: string }>
   createdAt: string
   updatedAt?: string
   rejectionReason?: string
