@@ -4,7 +4,7 @@ import { Box, Button } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { Select } from '../../react-hook-form-inputs'
+import { RHFSelect } from '../../react-hook-form-inputs'
 import { useEServiceDetailsContext } from '../EServiceDetailsContext'
 
 type VersionHistoryFormValues = {
@@ -48,7 +48,7 @@ export const EServiceVersionHistorySection: React.FC = () => {
       <InformationContainer label={t('historyField.title')}>
         <FormProvider {...formMethods}>
           <Box onSubmit={formMethods.handleSubmit(onSubmit)} component="form" noValidate>
-            <Select
+            <RHFSelect
               sx={{ my: 0 }}
               label={t('historyField.label')}
               MenuProps={{ sx: { maxHeight: '160px' } }}

@@ -14,7 +14,7 @@ import {
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { RouterLink } from '@/router'
-import { TextField } from '../shared/react-hook-form-inputs'
+import { RHFTextField } from '../shared/react-hook-form-inputs'
 
 type AddSecurityOperatorKeyFormValues = {
   name: string
@@ -50,7 +50,7 @@ export const DialogAddSecurityOperatorKey: React.FC<DialogAddSecurityOperatorKey
           <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
 
           <DialogContent>
-            <TextField
+            <RHFTextField
               name="name"
               label={t('content.nameField.label')}
               infoLabel={t('content.nameField.infoLabel')}
@@ -59,7 +59,7 @@ export const DialogAddSecurityOperatorKey: React.FC<DialogAddSecurityOperatorKey
               rules={{ required: true, minLength: 5 }}
             />
 
-            <TextField
+            <RHFTextField
               name="key"
               label={t('content.keyField.label')}
               multiline

@@ -13,7 +13,7 @@ import { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
 import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
-type SwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
+export type RHFSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   label: string
   infoLabel?: string | JSX.Element
   name: string
@@ -22,7 +22,7 @@ type SwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   onValueChange?: (value: boolean) => void
 }
 
-export const Switch: React.FC<SwitchProps> = ({
+export const RHFSwitch: React.FC<RHFSwitchProps> = ({
   label,
   infoLabel,
   name,

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { FormProvider, useForm } from 'react-hook-form'
-import { SingleFileInput, TextField } from '@/components/shared/react-hook-form-inputs'
+import { RHFSingleFileInput, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import type { DocumentRead } from '@/types/common.types'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
@@ -118,9 +118,9 @@ export function EServiceCreateStep3DocumentsDoc() {
             sx={{ px: 2, py: 2, borderLeft: 4, borderColor: 'primary.main' }}
             bgcolor="common.white"
           >
-            <SingleFileInput sx={{ my: 0 }} name="doc" rules={{ required: true }} />
+            <RHFSingleFileInput sx={{ my: 0 }} name="doc" rules={{ required: true }} />
 
-            <TextField
+            <RHFTextField
               sx={{ my: 2 }}
               name="prettyName"
               label={t('create.step3.nameField.label')}

@@ -1,8 +1,8 @@
 import {
-  CheckboxGroup,
-  RadioGroup,
-  Select,
-  TextField,
+  RHFCheckboxGroup,
+  RHFRadioGroup,
+  RHFSelect,
+  RHFTextField,
 } from '@/components/shared/react-hook-form-inputs'
 import type { InputOption } from '@/types/common.types'
 import React from 'react'
@@ -68,11 +68,11 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
 
         switch (type) {
           case 'text':
-            return <TextField {...commonProps} rules={{ required: true }} />
+            return <RHFTextField {...commonProps} rules={{ required: true }} />
 
           case 'select-one':
             return (
-              <Select
+              <RHFSelect
                 {...commonProps}
                 options={inputOptions}
                 emptyLabel={t('edit.step2.emptyLabel')}
@@ -86,7 +86,7 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
                 ? t('edit.step2.multiCheckboxField.validation.mixed.required')
                 : t('edit.step2.singleCheckboxField.validation.mixed.required')
             return (
-              <CheckboxGroup
+              <RHFCheckboxGroup
                 {...commonProps}
                 options={inputOptions}
                 rules={{
@@ -97,7 +97,9 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
             )
 
           case 'radio':
-            return <RadioGroup {...commonProps} options={inputOptions} rules={{ required: true }} />
+            return (
+              <RHFRadioGroup {...commonProps} options={inputOptions} rules={{ required: true }} />
+            )
         }
       })
 
@@ -207,12 +209,16 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
         switch (type) {
           case 'text':
             questionComponents.push(
-              <TextField {...commonProps} inputProps={{ maxLength }} rules={{ required: true }} />
+              <RHFTextField
+                {...commonProps}
+                inputProps={{ maxLength }}
+                rules={{ required: true }}
+              />
             )
             break
           case 'select-one':
             questionComponents.push(
-              <Select
+              <RHFSelect
                 {...commonProps}
                 options={inputOptions}
                 emptyLabel={t('edit.step2.emptyLabel')}
@@ -222,7 +228,7 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
             break
           case 'checkbox':
             questionComponents.push(
-              <CheckboxGroup
+              <RHFCheckboxGroup
                 {...commonProps}
                 options={inputOptions}
                 rules={{
@@ -235,7 +241,7 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
             break
           case 'radio':
             questionComponents.push(
-              <RadioGroup {...commonProps} options={inputOptions} rules={{ required: true }} />
+              <RHFRadioGroup {...commonProps} options={inputOptions} rules={{ required: true }} />
             )
             break
           case 'switch':

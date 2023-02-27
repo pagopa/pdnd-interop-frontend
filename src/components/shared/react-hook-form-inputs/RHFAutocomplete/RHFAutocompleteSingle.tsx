@@ -1,10 +1,14 @@
 import React from 'react'
 import isEqual from 'lodash/isEqual'
-import { AutocompleteBaseProps, AutocompleteInput, _AutocompleteBase } from './_AutocompleteBase'
+import {
+  RHFAutocompleteBaseProps,
+  RHFAutocompleteInput,
+  _RHFAutocompleteBase,
+} from './_RHFAutocompleteBase'
 import { useFormContext } from 'react-hook-form'
 
-type AutocompleteSingleProps<T> = Omit<
-  AutocompleteBaseProps<AutocompleteInput<T>, false, false, false>,
+export type RHFAutocompleteSingleProps<T> = Omit<
+  RHFAutocompleteBaseProps<RHFAutocompleteInput<T>, false, false, false>,
   | 'onChange'
   | 'value'
   | 'multiple'
@@ -20,12 +24,12 @@ type AutocompleteSingleProps<T> = Omit<
   }>
 }
 
-export function AutocompleteSingle<T>(props: AutocompleteSingleProps<T>) {
+export function RHFAutocompleteSingle<T>(props: RHFAutocompleteSingleProps<T>) {
   const { watch } = useFormContext()
   const value = watch(props.name) as T
   const hasSetOptions = React.useRef(false)
 
-  const [internalState, setInternalState] = React.useState<AutocompleteInput<T> | null>(null)
+  const [internalState, setInternalState] = React.useState<RHFAutocompleteInput<T> | null>(null)
 
   /**
    * This handles the synchronization between mui autocomplete internal state and react-hook-form state in case options are loaded async
@@ -47,7 +51,7 @@ export function AutocompleteSingle<T>(props: AutocompleteSingleProps<T>) {
   }, [value, props.options, internalState])
 
   return (
-    <_AutocompleteBase
+    <_RHFAutocompleteBase
       multiple={false}
       getOptionValue={(d) => d?.value ?? d}
       getOptionLabel={(value) => {

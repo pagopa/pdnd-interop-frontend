@@ -13,7 +13,7 @@ import { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
 import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
-export type RadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
+export type RHFRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
   label: string
   options: Array<InputOption & { disabled?: boolean }>
   name: string
@@ -23,7 +23,7 @@ export type RadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
   onValueChange?: (value: string) => void
 }
 
-export const RadioGroup: React.FC<RadioGroupProps> = ({
+export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
   sx,
   name,
   label,

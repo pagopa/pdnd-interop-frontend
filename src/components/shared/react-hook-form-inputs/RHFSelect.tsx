@@ -13,7 +13,7 @@ import { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
 import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
-export type SelectProps = Omit<MUISelectProps, 'onChange'> & {
+export type RHFSelectProps = Omit<MUISelectProps, 'onChange'> & {
   name: string
   options: Array<InputOption>
   focusOnMount?: boolean
@@ -23,7 +23,7 @@ export type SelectProps = Omit<MUISelectProps, 'onChange'> & {
   onValueChange?: (value: string) => void
 }
 
-export const Select: React.FC<SelectProps> = ({
+export const RHFSelect: React.FC<RHFSelectProps> = ({
   sx,
   name,
   options,

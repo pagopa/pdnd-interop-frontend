@@ -4,7 +4,7 @@ import {
   PageContainer,
   SectionContainer,
 } from '@/components/layout/containers'
-import { TextField } from '@/components/shared/react-hook-form-inputs'
+import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { useClientKind } from '@/hooks/useClientKind'
 import { RouterLink, useNavigateRouter } from '@/router'
 import type { Client } from '@/types/client.types'
@@ -80,7 +80,7 @@ const ConsumerClientCreatePage: React.FC = () => {
                   {t('create.infoSectionTitle')}
                 </Typography>
 
-                <TextField
+                <RHFTextField
                   focusOnMount={true}
                   name="name"
                   label={t('create.nameField.label')}
@@ -89,7 +89,7 @@ const ConsumerClientCreatePage: React.FC = () => {
                   rules={{ required: true, minLength: 5 }}
                 />
 
-                <TextField
+                <RHFTextField
                   name="description"
                   label={t('create.descriptionField.label')}
                   infoLabel={t('create.descriptionField.infoLabel')}

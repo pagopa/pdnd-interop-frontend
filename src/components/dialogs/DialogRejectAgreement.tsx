@@ -4,7 +4,7 @@ import type { DialogRejectAgreementProps } from '@/types/dialog.types'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { TextField } from '../shared/react-hook-form-inputs'
+import { RHFTextField } from '../shared/react-hook-form-inputs'
 import { AgreementMutations } from '@/api/agreement'
 
 type RejectAgreementFormValues = {
@@ -35,7 +35,7 @@ export const DialogRejectAgreement: React.FC<DialogRejectAgreementProps> = ({ ag
           <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
 
           <DialogContent>
-            <TextField
+            <RHFTextField
               name="reason"
               label={t('content.reason.label')}
               infoLabel={t('content.reason.infoLabel')}

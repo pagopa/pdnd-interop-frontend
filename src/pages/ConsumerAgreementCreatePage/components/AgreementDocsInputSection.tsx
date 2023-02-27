@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { Box, Button, Divider, Stack } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
-import { SingleFileInput, TextField } from '@/components/shared/react-hook-form-inputs'
+import { RHFSingleFileInput, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import type { DocumentRead } from '@/types/common.types'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
@@ -89,10 +89,10 @@ export const AgreementDocsInputSection: React.FC<AgreementDocsInputSectionProps>
             </ButtonNaked>
           ) : (
             <>
-              <SingleFileInput name="doc" sx={{ my: 0 }} />
+              <RHFSingleFileInput name="doc" sx={{ my: 0 }} />
               {selectedDoc && (
                 <>
-                  <TextField
+                  <RHFTextField
                     name="prettyName"
                     autoFocus
                     label={t('documentPrettynameField.label')}

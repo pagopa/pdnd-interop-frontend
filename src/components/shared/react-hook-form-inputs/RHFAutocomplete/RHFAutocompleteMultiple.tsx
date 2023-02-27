@@ -1,11 +1,15 @@
 import React from 'react'
 import { Chip } from '@mui/material'
 import { useFormContext } from 'react-hook-form'
-import { AutocompleteBaseProps, AutocompleteInput, _AutocompleteBase } from './_AutocompleteBase'
+import {
+  RHFAutocompleteBaseProps,
+  RHFAutocompleteInput,
+  _RHFAutocompleteBase,
+} from './_RHFAutocompleteBase'
 import isEqual from 'lodash/isEqual'
 
-type AutocompleteMultipleProps<T> = Omit<
-  AutocompleteBaseProps<{ label: string; value: T }, true, false, false>,
+export type RHFAutocompleteMultipleProps<T> = Omit<
+  RHFAutocompleteBaseProps<{ label: string; value: T }, true, false, false>,
   | 'onChange'
   | 'value'
   | 'multiple'
@@ -21,8 +25,8 @@ type AutocompleteMultipleProps<T> = Omit<
   }>
 }
 
-export function AutocompleteMultiple<T>(props: AutocompleteMultipleProps<T>) {
-  const [internalState, setInternalState] = React.useState<AutocompleteInput<T>[]>([])
+export function RHFAutocompleteMultiple<T>(props: RHFAutocompleteMultipleProps<T>) {
+  const [internalState, setInternalState] = React.useState<RHFAutocompleteInput<T>[]>([])
   const hasSetOptions = React.useRef(false)
 
   const { watch } = useFormContext()
@@ -68,7 +72,7 @@ export function AutocompleteMultiple<T>(props: AutocompleteMultipleProps<T>) {
   }, [watch, props.name])
 
   return (
-    <_AutocompleteBase
+    <_RHFAutocompleteBase
       multiple
       getOptionValue={(data) => data.map((d) => d?.value ?? d)}
       renderTags={(options, getTagProps) =>

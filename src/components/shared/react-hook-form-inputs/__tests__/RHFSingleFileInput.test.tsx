@@ -2,7 +2,7 @@ import React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 
 import { TestInputWrapper } from '@/components/shared/react-hook-form-inputs/__tests__/test-utils'
-import { SingleFileInput } from '@/components/shared/react-hook-form-inputs'
+import { RHFSingleFileInput } from '@/components/shared/react-hook-form-inputs'
 
 const singleFileInputProps = {
   name: 'testFile',
@@ -18,7 +18,7 @@ describe('determine whether the integration between react-hook-form and MUI’s 
   it('gets the input from the user correctly', async () => {
     const singleFileInput = render(
       <TestInputWrapper>
-        <SingleFileInput {...singleFileInputProps} />
+        <RHFSingleFileInput {...singleFileInputProps} />
       </TestInputWrapper>
     )
 
@@ -34,7 +34,7 @@ describe('determine whether the integration between react-hook-form and MUI’s 
   it('removes the file from the input correctly', async () => {
     const singleFileInput = render(
       <TestInputWrapper>
-        <SingleFileInput {...singleFileInputProps} />
+        <RHFSingleFileInput {...singleFileInputProps} />
       </TestInputWrapper>
     )
 
