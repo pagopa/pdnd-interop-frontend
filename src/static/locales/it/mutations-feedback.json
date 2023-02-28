@@ -407,6 +407,13 @@
         "error": "Non è stato possibile scaricare il documento dell'analisi del rischio. Per favore, riprova!"
       }
     },
+    "clone": {
+      "loading": "Stiamo clonando la finalità",
+      "outcome": {
+        "success": "La finalità è stata clonata correttamente",
+        "error": "Non è stato possibile clonare la finalità. Per favore, riprova!"
+      }
+    },
     "addClient": {
       "loading": "Stiamo associando il client alla finalità",
       "outcome": {

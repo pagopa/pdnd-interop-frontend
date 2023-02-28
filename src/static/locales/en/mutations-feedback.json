@@ -406,6 +406,13 @@
         "error": "The risk analysis document could not be downloaded. Please, try again!"
       }
     },
+    "clone": {
+      "loading": "Cloning purpose",
+      "outcome": {
+        "success": "The purpose draft was cloned successfully",
+        "error": "The purpose could not be cloned. Please, try again!"
+      }
+    },
     "addClient": {
       "loading": "Adding client to purpose",
       "outcome": {
