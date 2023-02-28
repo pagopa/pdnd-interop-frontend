@@ -80,7 +80,7 @@ async function updateVersionWaitingForApproval({
   ...payload
 }: { purposeId: string; versionId: string } & { expectedApprovalDate: Date }) {
   const response = await axiosInstance.post<PurposeVersion>(
-    `${PURPOSE_PROCESS_URL}/purposes/${purposeId}/versions/${versionId}/update/waitingForApproval`,
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/update/waitingForApproval`,
     payload
   )
   return response.data
