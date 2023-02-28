@@ -112,7 +112,7 @@ async function suspendVersion({ purposeId, versionId }: { purposeId: string; ver
 
 async function activateVersion({ purposeId, versionId }: { purposeId: string; versionId: string }) {
   const response = await axiosInstance.post<PurposeVersion>(
-    `${PURPOSE_PROCESS_URL}/purposes/${purposeId}/versions/${versionId}/activate`
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/activate`
   )
   return response.data
 }
