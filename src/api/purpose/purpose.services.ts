@@ -119,7 +119,7 @@ async function activateVersion({ purposeId, versionId }: { purposeId: string; ve
 
 async function archiveVersion({ purposeId, versionId }: { purposeId: string; versionId: string }) {
   const response = await axiosInstance.post<PurposeVersion>(
-    `${PURPOSE_PROCESS_URL}/purposes/${purposeId}/versions/${versionId}/archive`
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/archive`
   )
   return response.data
 }
