@@ -51,7 +51,7 @@ async function createVersionDraft({
   ...payload
 }: { purposeId: string } & { dailyCalls: number }) {
   const response = await axiosInstance.post<PurposeVersion>(
-    `${PURPOSE_PROCESS_URL}/purposes/${purposeId}/versions`,
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions`,
     payload
   )
   return response.data
