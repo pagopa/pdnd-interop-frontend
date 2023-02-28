@@ -68,6 +68,7 @@
     "step2": {
       "title": "Analisi del rischio",
       "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare",
+      "personalInfoAlert": "Attenzione: non inserire dati personali all'interno dei campi liberi di testo",
       "singleCheckboxField": {
         "validation": {
           "mixed": {

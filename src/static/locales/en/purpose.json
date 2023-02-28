@@ -68,6 +68,7 @@
     "step2": {
       "title": "Risk analysis",
       "description": "The questions below will change based on the answers provided. If you edit an answer above, it may change the following questions",
+      "personalInfoAlert": "Warning: do not put personal data inside text fields",
       "singleCheckboxField": {
         "validation": {
           "mixed": {
