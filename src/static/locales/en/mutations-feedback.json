@@ -411,6 +411,10 @@
       "outcome": {
         "success": "The purpose draft was cloned successfully",
         "error": "The purpose could not be cloned. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm cloning purpose",
+        "description": "A new purpose will be created with the same characteristics as the selected one. The new purpose will be in draft status"
       }
     },
     "addClient": {
