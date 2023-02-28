@@ -105,7 +105,7 @@ async function downloadRiskAnalysis({
 
 async function suspendVersion({ purposeId, versionId }: { purposeId: string; versionId: string }) {
   const response = await axiosInstance.post<PurposeVersion>(
-    `${PURPOSE_PROCESS_URL}/purposes/${purposeId}/versions/${versionId}/suspend`
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/suspend`
   )
   return response.data
 }
