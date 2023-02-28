@@ -1,5 +1,4 @@
 import { STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
-import { storageWrite } from '@/utils/storage.utils'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import AuthServices from './auth.services'
@@ -21,7 +20,7 @@ function useSwapTokens() {
     suppressSuccessToast: true,
     loadingLabel: t('auth.loadingLabel'),
     onSuccess({ session_token }) {
-      storageWrite(STORAGE_KEY_SESSION_TOKEN, session_token, 'string')
+      window.localStorage.setItem(STORAGE_KEY_SESSION_TOKEN, session_token)
     },
   })
 }

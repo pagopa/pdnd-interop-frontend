@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
-import { storageRead } from '@/utils/storage.utils'
 import { NotAuthorizedError, NotFoundError, ServerError } from '@/utils/errors.utils'
 
 // Performs a trim operation on each string contained in the object
@@ -32,7 +31,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const sessionStorageToken = storageRead(STORAGE_KEY_SESSION_TOKEN, 'string')
+    const sessionStorageToken = window.localStorage.getItem(STORAGE_KEY_SESSION_TOKEN)
     if (sessionStorageToken) {
       config.headers.Authorization = `Bearer ${sessionStorageToken}`
     }
