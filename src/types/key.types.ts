@@ -9,6 +9,7 @@ export type PublicKey = {
   createdAt: string
   key: PublicKeyItem
   operator: {
+    id: string
     familyName: string
     name: string
     relationshipId: string

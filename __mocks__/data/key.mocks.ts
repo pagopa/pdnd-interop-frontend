@@ -9,6 +9,7 @@ export const createMockPublicKey = createMockFactory<PublicKey>({
   },
   name: 'Test Chiave 28/02/2023',
   operator: {
+    id: 'test-id',
     familyName: 'Mario',
     name: 'Rossi',
     relationshipId: '9955a748-4e08-4115-995d-313b5f8697bf',
