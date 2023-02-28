@@ -3,7 +3,6 @@ import { AuthServicesHooks } from '@/api/auth'
 import { useCurrentRoute, useNavigateRouter } from '@/router'
 import { useTranslation } from 'react-i18next'
 import { useLoadingOverlay } from '../stores/loading-overlay.store'
-import { storageRead } from '@/utils/storage.utils'
 import { MOCK_TOKEN, STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 import { TokenExchangeError } from '@/utils/errors.utils'
 import { useAuth } from '@/stores'
@@ -40,7 +39,7 @@ export function useLoginAttempt() {
     }
 
     // 3. Check if there is a valid token in the storage already
-    const sessionStorageToken = storageRead(STORAGE_KEY_SESSION_TOKEN, 'string')
+    const sessionStorageToken = window.localStorage.getItem(STORAGE_KEY_SESSION_TOKEN)
     if (sessionStorageToken) {
       setSessionToken(sessionStorageToken)
       return
