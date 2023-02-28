@@ -130,10 +130,11 @@ function deleteVersion({ purposeId, versionId }: { purposeId: string; versionId:
   )
 }
 
-function clone({ purposeId }: { purposeId: string }) {
-  return axiosInstance.post<{ purposeId: string; versionId: string }>(
+async function clone({ purposeId }: { purposeId: string }) {
+  const response = await axiosInstance.post<{ purposeId: string; versionId: string }>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/clone`
   )
+  return response.data
 }
 
 function addClient({ clientId, purposeId }: { clientId: string; purposeId: string }) {
