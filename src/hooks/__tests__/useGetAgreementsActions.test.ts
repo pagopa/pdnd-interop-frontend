@@ -4,7 +4,7 @@ import {
   createMockAgreementListingItem,
   createMockAgreementSummary,
 } from '__mocks__/data/agreement.mocks'
-import { AgreementListingItem, AgreementSummary } from '@/types/agreement.types'
+import type { AgreementListingItem, AgreementSummary } from '@/types/agreement.types'
 import { createMemoryHistory } from 'history'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
