@@ -1,10 +1,13 @@
 import React from 'react'
 import { Box, Typography, Stack, Divider, Skeleton } from '@mui/material'
 import type { StackProps } from '@mui/material'
+import { CopyToClipboardButton } from '@pagopa/mui-italia'
+import type { CopyToClipboardProps } from '@pagopa/mui-italia'
 
 interface InformationContainerProps extends StackProps {
   label: string
   labelDescription?: string
+  copyToClipboard?: CopyToClipboardProps
   children: React.ReactNode
 }
 
@@ -12,6 +15,7 @@ export function InformationContainer({
   label,
   labelDescription,
   children,
+  copyToClipboard,
   direction = 'row',
   ...props
 }: InformationContainerProps) {
@@ -47,6 +51,7 @@ export function InformationContainer({
           fontWeight={600}
         >
           {children}
+          {copyToClipboard && <CopyToClipboardButton {...copyToClipboard} />}
         </Typography>
       </Box>
     </Stack>

@@ -4,7 +4,6 @@ import {
   SectionContainer,
   SectionContainerSkeleton,
 } from '@/components/layout/containers'
-import CopyToClipboard from '@/components/shared/CopyToClipboardButton'
 import { formatDateString } from '@/utils/format.utils'
 import { isKeyOrphan } from '@/utils/key.utils'
 import { Alert } from '@mui/material'
@@ -33,21 +32,25 @@ export const KeyGeneralInfoSection: React.FC<KeyGeneralInfoSectionProps> = ({ cl
           {publicKey?.operator.name} {publicKey?.operator.familyName}
         </InformationContainer>
 
-        <InformationContainer label={t('kidField.label')}>
-          {publicKey?.key && (
-            <CopyToClipboard
-              text={publicKey.key.kid}
-              value={publicKey.key.kid}
-              tooltipTitle={t('kidField.copySuccessFeedbackText')}
-            />
-          )}
+        <InformationContainer
+          label={t('kidField.label')}
+          copyToClipboard={
+            publicKey?.key && {
+              value: publicKey.key.kid,
+              tooltipTitle: t('kidField.copySuccessFeedbackText'),
+            }
+          }
+        >
+          {publicKey?.key.kid}
         </InformationContainer>
-        <InformationContainer label={t('clientIdField.label')}>
-          <CopyToClipboard
-            text={clientId}
-            value={clientId}
-            tooltipTitle={t('clientIdField.copySuccessFeedbackText')}
-          />
+        <InformationContainer
+          label={t('clientIdField.label')}
+          copyToClipboard={{
+            value: clientId,
+            tooltipTitle: t('clientIdField.copySuccessFeedbackText'),
+          }}
+        >
+          {clientId}
         </InformationContainer>
 
         {publicKey && isKeyOrphan(publicKey, operators) && (
