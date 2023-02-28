@@ -1,8 +1,6 @@
-import type { SelfCareUser } from './party.types'
-
 export type PublicKeyItem = {
   kid: string
-  use: 'SIG' | 'ENC'
+  use: 'sig' | 'enc'
   clientId?: string
 }
 
@@ -10,7 +8,11 @@ export type PublicKey = {
   name: string
   createdAt: string
   key: PublicKeyItem
-  operator: SelfCareUser
+  operator: {
+    familyName: string
+    name: string
+    relationshipId: string
+  }
 }
 
 export type PublicKeys = {
