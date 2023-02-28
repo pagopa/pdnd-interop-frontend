@@ -1,16 +1,6 @@
-/*
- * Numbers
- */
 const numFormatter = new Intl.NumberFormat('it-IT')
 export function formatThousands(num: number) {
   return numFormatter.format(num)
-}
-
-/*
- * Dates
- */
-export function getRandomDate(start: Date, end: Date) {
-  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
 }
 
 const dateFormatter = new Intl.DateTimeFormat('it', {
