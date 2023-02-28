@@ -1,7 +1,7 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import riskAnalysis from '@/static/risk-analysis/pa/v2.0.json'
-import { Box, Stack, Typography } from '@mui/material'
+import { Alert, Box, Stack, Typography } from '@mui/material'
 import { FormProvider } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import useRiskAnalysisForm from '../../hooks/useRiskAnalysisForm'
@@ -31,9 +31,10 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({ back, forwar
             {t('step2.title')}
           </Typography>
           <Typography color="text.secondary">{t('step2.description')}</Typography>
-          <Stack sx={{ mt: 5 }} spacing={5}>
-            {formComponents}
-          </Stack>
+          <Alert sx={{ mt: 2, mb: -1 }} severity="warning">
+            {t('step2.personalInfoAlert')}
+          </Alert>
+          <Stack spacing={5}>{formComponents}</Stack>
         </SectionContainer>
         <StepActions
           back={{ label: t('backWithoutSaveBtn'), type: 'button', onClick: back }}
