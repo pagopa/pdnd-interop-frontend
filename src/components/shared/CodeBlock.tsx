@@ -1,6 +1,6 @@
 import { Box, Paper } from '@mui/material'
 import React from 'react'
-import CopyToClipboardButton from './CopyToClipboardButton'
+import { CopyToClipboardButton } from '@pagopa/mui-italia'
 
 interface Props {
   error: unknown
