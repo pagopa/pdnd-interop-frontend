@@ -34,9 +34,18 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
 
   return (
     <PageContainer title={t('read.title')} topSideActions={topSideActions}>
-      {showNoPurposeAlert && (
+      {showNoPurposeAlert && agreement?.eservice && (
         <Alert severity="info">
-          <Trans components={{ 1: <RouterLink to="SUBSCRIBE_PURPOSE_CREATE" /> }}>
+          <Trans
+            components={{
+              1: (
+                <RouterLink
+                  to="SUBSCRIBE_PURPOSE_CREATE"
+                  options={{ urlParams: { 'e-service': agreement.eservice.id } }}
+                />
+              ),
+            }}
+          >
             {t('read.noPurposeAlert')}
           </Trans>
         </Alert>
