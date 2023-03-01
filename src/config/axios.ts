@@ -20,9 +20,7 @@ const deepTrim = (object: any) => {
 /** This function helps to serialize correctly arrays in url params  */
 const serializeParams = (query: Record<string, unknown>) => {
   return Object.entries(query)
-    .map(([key, value]) =>
-      Array.isArray(value) ? `${key}=${value.join('&' + key + '=')}` : `${key}=${value}`
-    )
+    .map(([key, value]) => (Array.isArray(value) ? `${key}=${value.join(',')}` : `${key}=${value}`))
     .join('&')
 }
 
