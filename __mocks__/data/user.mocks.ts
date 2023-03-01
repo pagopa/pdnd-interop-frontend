@@ -1,3 +1,4 @@
+import type { useJwt } from '@/hooks/useJwt'
 import type { JwtUser } from '@/types/party.types'
 import { createMockFactory } from '@/utils/testing.utils'
 
@@ -7,7 +8,7 @@ const mockJwtOrg = {
   fiscal_code: 'AAAAAA11A11A111A',
 }
 
-const mockJwtUser: JwtUser = {
+const createMockJwtUser = createMockFactory<JwtUser>({
   aud: 'aud',
   exp: 1972913491,
   iat: 123,
@@ -20,13 +21,15 @@ const mockJwtUser: JwtUser = {
   name: 'name',
   family_name: 'family_name',
   organizationId: 'organizationId',
-}
+})
 
-export const mockUseJwt = createMockFactory({
-  jwt: mockJwtUser,
-  isCurrentUser: () => true,
+const mockUseJwt = createMockFactory<ReturnType<typeof useJwt>>({
+  jwt: createMockJwtUser(),
   hasSessionExpired: () => false,
   isAdmin: true,
   isOperatorAPI: false,
   isOperatorSecurity: false,
+  currentRoles: [],
 })
+
+export { createMockJwtUser, mockUseJwt }
