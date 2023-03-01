@@ -22,6 +22,7 @@ import PersonIcon from '@mui/icons-material/Person'
 import CloseIcon from '@mui/icons-material/Close'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 import { ButtonNaked } from '@pagopa/mui-italia'
+import { truncate } from '@/utils/common.utils'
 
 interface CatalogCardProps {
   eservice: EServiceCatalog
@@ -75,7 +76,6 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
       }}
     >
       <CardHeader
@@ -87,13 +87,13 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
         title={`${eservice.name}, v. ${eservice.activeDescriptor.version}`}
         subheader={eservice.producer.name}
       />
-      <CardContent sx={{ minHeight: 150 }}>
+      <CardContent sx={{ minHeight: 150, alignItems: 'start' }}>
         <Typography variant="body2" color="text.secondary">
-          {eservice.description}
+          {truncate(eservice.description, 160)}
         </Typography>
       </CardContent>
 
-      <CardActions sx={{ justifyContent: 'space-between' }}>
+      <CardActions sx={{ justifyContent: 'space-between', alignItems: 'end', flex: 1 }}>
         <Stack direction="row" spacing={4}>
           <ButtonNaked onFocusVisible={handlePrefetch} color="primary" onClick={handleInpect}>
             <span onPointerEnter={handlePrefetch}>{t('actions.inspect')}</span>
