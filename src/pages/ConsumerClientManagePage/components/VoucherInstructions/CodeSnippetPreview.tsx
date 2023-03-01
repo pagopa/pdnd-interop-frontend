@@ -5,7 +5,7 @@ import { Typography } from '@mui/material'
 import axios from 'axios'
 import isEmpty from 'lodash/isEmpty'
 import { useTranslation } from 'react-i18next'
-import CopyToClipboardButton from '@/components/shared/CopyToClipboardButton'
+import { CopyToClipboardButton } from '@pagopa/mui-italia'
 
 type Entry = {
   value: string
@@ -68,11 +68,11 @@ export const CodeSnippetPreview = ({
       )}
       <Box sx={{ position: 'relative' }}>
         <Box sx={{ position: 'absolute', right: 2, top: 2, zIndex: 1 }}>
-          <Box sx={{ mr: 0, mt: 0, bgcolor: 'common.white' }}>
+          <Box sx={{ mt: 1, bgcolor: 'common.white' }}>
             {activeLang && codeEntries[activeLang] && (
               <CopyToClipboardButton
-                textToCopy={remapCodeWithSubstitutions(codeEntries[activeLang])}
-                successFeedbackText={t('codeSnippetPreview.successFeedbackText')}
+                value={remapCodeWithSubstitutions(codeEntries[activeLang])}
+                tooltipTitle={t('codeSnippetPreview.successFeedbackText')}
               />
             )}
           </Box>

@@ -14,10 +14,9 @@ import type { SelectChangeEvent } from '@mui/material'
 import type { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
 import { InformationContainer, SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
-import { InlineClipboard } from '@/components/shared/InlineClipboard'
 import { CLIENT_ASSERTION_JWT_AUDIENCE, FE_URL } from '@/config/env'
 import { useClientKind } from '@/hooks/useClientKind'
-import { CodeSnippetPreview } from './CodeSnipperPreview'
+import { CodeSnippetPreview } from './CodeSnippetPreview'
 import { CodeLanguagePicker } from './CodeLanguagePicker'
 import { StepActions } from '@/components/shared/StepActions'
 
@@ -100,31 +99,34 @@ export const VoucherInstructionsStep1: React.FC<VoucherInstructionsStepProps> = 
         <InformationContainer
           label={t('step1.assertionHeader.kidField.label')}
           labelDescription={t('step1.assertionHeader.kidField.description')}
+          copyToClipboard={{
+            value: selectedKid,
+            tooltipTitle: t('step1.assertionHeader.kidField.copySuccessFeedbackText'),
+          }}
         >
-          <InlineClipboard
-            textToCopy={selectedKid}
-            successFeedbackText={t('step1.assertionHeader.kidField.copySuccessFeedbackText')}
-          />
+          {selectedKid}
         </InformationContainer>
 
         <InformationContainer
           label={t('step1.assertionHeader.algField.label')}
           labelDescription={t('step1.assertionHeader.algField.description')}
+          copyToClipboard={{
+            value: CLIENT_ASSERTION_ALG,
+            tooltipTitle: t('step1.assertionHeader.algField.copySuccessFeedbackText'),
+          }}
         >
-          <InlineClipboard
-            textToCopy={CLIENT_ASSERTION_ALG}
-            successFeedbackText={t('step1.assertionHeader.algField.copySuccessFeedbackText')}
-          />
+          {CLIENT_ASSERTION_ALG}
         </InformationContainer>
 
         <InformationContainer
           label={t('step1.assertionHeader.typField.label')}
           labelDescription={t('step1.assertionHeader.typField.description')}
+          copyToClipboard={{
+            value: CLIENT_ASSERTION_TYP,
+            tooltipTitle: t('step1.assertionHeader.typField.copySuccessFeedbackText'),
+          }}
         >
-          <InlineClipboard
-            textToCopy={CLIENT_ASSERTION_TYP}
-            successFeedbackText={t('step1.assertionHeader.typField.copySuccessFeedbackText')}
-          />
+          {CLIENT_ASSERTION_TYP}
         </InformationContainer>
       </Stack>
 
@@ -138,44 +140,46 @@ export const VoucherInstructionsStep1: React.FC<VoucherInstructionsStepProps> = 
         <InformationContainer
           label={t('step1.assertionPayload.issField.label')}
           labelDescription={t('step1.assertionPayload.issField.description')}
+          copyToClipboard={{
+            value: props.clientId,
+            tooltipTitle: t('step1.assertionPayload.issField.copySuccessFeedbackText'),
+          }}
         >
-          <InlineClipboard
-            textToCopy={props.clientId}
-            successFeedbackText={t('step1.assertionPayload.issField.copySuccessFeedbackText')}
-          />
+          {props.clientId}
         </InformationContainer>
 
         <InformationContainer
           label={t('step1.assertionPayload.subField.label')}
           labelDescription={t('step1.assertionPayload.subField.description')}
+          copyToClipboard={{
+            value: props.clientId,
+            tooltipTitle: t('step1.assertionPayload.subField.copySuccessFeedbackText'),
+          }}
         >
-          <InlineClipboard
-            textToCopy={props.clientId}
-            successFeedbackText={t('step1.assertionPayload.subField.copySuccessFeedbackText')}
-          />
+          {props.clientId}
         </InformationContainer>
 
         <InformationContainer
           label={t('step1.assertionPayload.audField.label')}
           labelDescription={t('step1.assertionPayload.audField.description')}
+          copyToClipboard={{
+            value: CLIENT_ASSERTION_JWT_AUDIENCE,
+            tooltipTitle: t('step1.assertionPayload.audField.copySuccessFeedbackText'),
+          }}
         >
-          <InlineClipboard
-            textToCopy={CLIENT_ASSERTION_JWT_AUDIENCE}
-            successFeedbackText={t('step1.assertionPayload.audField.copySuccessFeedbackText')}
-          />
+          {CLIENT_ASSERTION_JWT_AUDIENCE}
         </InformationContainer>
 
         {clientKind === 'CONSUMER' && props.purposeId && (
           <InformationContainer
             label={t('step1.assertionPayload.purposeIdField.label')}
             labelDescription={t('step1.assertionPayload.purposeIdField.description')}
+            copyToClipboard={{
+              value: props.purposeId,
+              tooltipTitle: t('step1.assertionPayload.purposeIdField.copySuccessFeedbackText'),
+            }}
           >
-            <InlineClipboard
-              textToCopy={props.purposeId}
-              successFeedbackText={t(
-                'step1.assertionPayload.purposeIdField.copySuccessFeedbackText'
-              )}
-            />
+            {props.purposeId}
           </InformationContainer>
         )}
 

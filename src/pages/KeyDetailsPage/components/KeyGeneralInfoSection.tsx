@@ -4,7 +4,6 @@ import {
   SectionContainer,
   SectionContainerSkeleton,
 } from '@/components/layout/containers'
-import { InlineClipboard } from '@/components/shared/InlineClipboard'
 import { formatDateString } from '@/utils/format.utils'
 import { isKeyOrphan } from '@/utils/key.utils'
 import { Alert } from '@mui/material'
@@ -33,19 +32,25 @@ export const KeyGeneralInfoSection: React.FC<KeyGeneralInfoSectionProps> = ({ cl
           {publicKey?.operator.name} {publicKey?.operator.familyName}
         </InformationContainer>
 
-        <InformationContainer label={t('kidField.label')}>
-          {publicKey?.key && (
-            <InlineClipboard
-              textToCopy={publicKey.key.kid}
-              successFeedbackText={t('kidField.copySuccessFeedbackText')}
-            />
-          )}
+        <InformationContainer
+          label={t('kidField.label')}
+          copyToClipboard={
+            publicKey?.key && {
+              value: publicKey.key.kid,
+              tooltipTitle: t('kidField.copySuccessFeedbackText'),
+            }
+          }
+        >
+          {publicKey?.key.kid}
         </InformationContainer>
-        <InformationContainer label={t('clientIdField.label')}>
-          <InlineClipboard
-            textToCopy={clientId}
-            successFeedbackText={t('clientIdField.copySuccessFeedbackText')}
-          />
+        <InformationContainer
+          label={t('clientIdField.label')}
+          copyToClipboard={{
+            value: clientId,
+            tooltipTitle: t('clientIdField.copySuccessFeedbackText'),
+          }}
+        >
+          {clientId}
         </InformationContainer>
 
         {publicKey && isKeyOrphan(publicKey, operators) && (

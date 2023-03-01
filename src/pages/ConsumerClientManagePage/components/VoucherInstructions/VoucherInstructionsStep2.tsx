@@ -6,8 +6,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
 import type { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
-import { CodeSnippetPreview } from './CodeSnipperPreview'
-import { InlineClipboard } from '@/components/shared/InlineClipboard'
+import { CodeSnippetPreview } from './CodeSnippetPreview'
 
 const CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
 const GRANT_TYPE = 'client_credentials'
@@ -29,11 +28,15 @@ export const VoucherInstructionsStep2: React.FC<VoucherInstructionsStepProps> = 
         {t(`step2.${clientKind === 'CONSUMER' ? 'consumerDescription' : 'apiDescription.message'}`)}
       </Typography>
 
-      <InformationContainer sx={{ mt: 4 }} label={t('step2.authEndpoint.label')}>
-        <InlineClipboard
-          textToCopy={AUTHORIZATION_SERVER_ACCESS_TOKEN_URL}
-          successFeedbackText={t('step2.authEndpoint.copySuccessFeedbackText')}
-        />
+      <InformationContainer
+        sx={{ mt: 4 }}
+        label={t('step2.authEndpoint.label')}
+        copyToClipboard={{
+          value: AUTHORIZATION_SERVER_ACCESS_TOKEN_URL,
+          tooltipTitle: t('step2.authEndpoint.copySuccessFeedbackText'),
+        }}
+      >
+        {AUTHORIZATION_SERVER_ACCESS_TOKEN_URL}
       </InformationContainer>
 
       <Divider sx={{ mt: 4 }} />
@@ -43,11 +46,14 @@ export const VoucherInstructionsStep2: React.FC<VoucherInstructionsStepProps> = 
       </Typography>
 
       <Stack spacing={4}>
-        <InformationContainer label={t('step2.requestBody.clientIdField.label')}>
-          <InlineClipboard
-            textToCopy={clientId}
-            successFeedbackText={t('step2.requestBody.clientIdField.copySuccessFeedbackText')}
-          />
+        <InformationContainer
+          label={t('step2.requestBody.clientIdField.label')}
+          copyToClipboard={{
+            value: clientId,
+            tooltipTitle: t('step2.requestBody.clientIdField.copySuccessFeedbackText'),
+          }}
+        >
+          {clientId}
         </InformationContainer>
 
         <InformationContainer label={t('step2.requestBody.clientAssertionField.label')}>
@@ -57,23 +63,23 @@ export const VoucherInstructionsStep2: React.FC<VoucherInstructionsStepProps> = 
         <InformationContainer
           label={t('step2.requestBody.clientAssertionTypeField.label')}
           labelDescription={t('step2.requestBody.clientAssertionTypeField.description')}
+          copyToClipboard={{
+            value: CLIENT_ASSERTION_TYPE,
+            tooltipTitle: t('step2.requestBody.clientAssertionTypeField.copySuccessFeedbackText'),
+          }}
         >
-          <InlineClipboard
-            textToCopy={CLIENT_ASSERTION_TYPE}
-            successFeedbackText={t(
-              'step2.requestBody.clientAssertionTypeField.copySuccessFeedbackText'
-            )}
-          />
+          {CLIENT_ASSERTION_TYPE}
         </InformationContainer>
 
         <InformationContainer
           label={t('step2.requestBody.grantTypeField.label')}
           labelDescription={t('step2.requestBody.grantTypeField.description')}
+          copyToClipboard={{
+            value: GRANT_TYPE,
+            tooltipTitle: t('step2.requestBody.grantTypeField.copySuccessFeedbackText'),
+          }}
         >
-          <InlineClipboard
-            textToCopy={GRANT_TYPE}
-            successFeedbackText={t('step2.requestBody.grantTypeField.copySuccessFeedbackText')}
-          />
+          {GRANT_TYPE}
         </InformationContainer>
       </Stack>
 

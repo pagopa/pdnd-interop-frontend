@@ -1,6 +1,6 @@
 import { Box, Paper } from '@mui/material'
 import React from 'react'
-import CopyToClipboardButton from './CopyToClipboardButton'
+import { CopyToClipboardButton } from '@pagopa/mui-italia'
 
 interface Props {
   error: unknown
@@ -27,7 +27,7 @@ const CodeBlock: React.FC<Props> = ({ error }) => {
         }}
       >
         <Box sx={{ position: 'absolute', top: 8, right: 8 }}>
-          <CopyToClipboardButton textToCopy={stringifiedError} />
+          <CopyToClipboardButton value={stringifiedError} />
         </Box>
         <code>{stringifiedError}</code>
       </Paper>
