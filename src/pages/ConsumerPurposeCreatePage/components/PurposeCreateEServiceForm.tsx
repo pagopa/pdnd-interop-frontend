@@ -8,6 +8,7 @@ import { Box, Button, Grid } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router-dom'
 import { PurposeCreateEServiceAutocomplete } from './PurposeCreateEServiceAutocomplete'
 import { PurposeCreateRiskAnalysisPreview } from './PurposeCreateRiskAnalysisPreview'
 import { PurposeCreateTemplateAutocomplete } from './PurposeCreateTemplateAutocomplete'
@@ -24,10 +25,13 @@ export const PurposeCreateEServiceForm: React.FC = () => {
   const { jwt } = useJwt()
   const { mutate: createPurposeDraft } = PurposeMutations.useCreateDraft()
   const { mutate: createVersionDraft } = PurposeMutations.useCreateVersionDraft()
+  const location = useLocation()
 
   const formMethods = useForm<PurposeCreateFormValues>({
     defaultValues: {
-      eserviceId: '',
+      // get the default value of the e-service to associate to the purpose from the "e-service" url param,
+      // if it is present
+      eserviceId: new URLSearchParams(location.search).get('e-service') ?? '',
       useTemplate: false,
       templateId: null,
     },
