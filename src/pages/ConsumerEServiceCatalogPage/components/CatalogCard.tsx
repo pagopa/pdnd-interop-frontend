@@ -75,7 +75,6 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
       }}
     >
       <CardHeader
@@ -87,13 +86,13 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
         title={`${eservice.name}, v. ${eservice.activeDescriptor.version}`}
         subheader={eservice.producer.name}
       />
-      <CardContent sx={{ minHeight: 150 }}>
+      <CardContent sx={{ minHeight: 150, alignItems: 'start' }}>
         <Typography variant="body2" color="text.secondary">
           {eservice.description}
         </Typography>
       </CardContent>
 
-      <CardActions sx={{ justifyContent: 'space-between' }}>
+      <CardActions sx={{ justifyContent: 'space-between', alignItems: 'end', flex: 1 }}>
         <Stack direction="row" spacing={4}>
           <ButtonNaked onFocusVisible={handlePrefetch} color="primary" onClick={handleInpect}>
             <span onPointerEnter={handlePrefetch}>{t('actions.inspect')}</span>
