@@ -45,14 +45,11 @@ export type UserProduct = {
   role: UserProductRole
 }
 
-type JwtOrgRole = {
-  partyRole: UserRole
-  role: UserProductRole
-}
-
 type JwtOrg = {
   name: string
-  roles: Array<JwtOrgRole>
+  roles: Array<{
+    role: UserProductRole
+  }>
   fiscal_code: string
 }
 
