@@ -43,7 +43,7 @@ async function updateDraft({
 }
 
 function deleteDraft({ purposeId }: { purposeId: string }) {
-  return axiosInstance.delete(`${PURPOSE_PROCESS_URL}/purposes/${purposeId}`)
+  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}`)
 }
 
 async function createVersionDraft({
