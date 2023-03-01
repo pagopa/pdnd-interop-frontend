@@ -29,7 +29,7 @@ describe('useJwt testing', () => {
 
   it('should handle correctly when user is an admin', () => {
     const sessionTokenMock = createSessionTokenMock({
-      organization: { roles: [{ role: 'admin', partyRole: 'DELEGATE' }] },
+      organization: { roles: [{ role: 'admin' }] },
     })
     useAuthSpy.mockImplementation(() => ({
       sessionToken: sessionTokenMock,
@@ -48,7 +48,7 @@ describe('useJwt testing', () => {
 
   it('should handle correctly when user is an api operator', () => {
     const sessionTokenMock = createSessionTokenMock({
-      organization: { roles: [{ role: 'api', partyRole: 'DELEGATE' }] },
+      organization: { roles: [{ role: 'api' }] },
     })
 
     useAuthSpy.mockImplementation(() => ({
@@ -68,7 +68,7 @@ describe('useJwt testing', () => {
 
   it('should handle correctly when user is a security operator', () => {
     const sessionTokenMock = createSessionTokenMock({
-      organization: { roles: [{ role: 'security', partyRole: 'DELEGATE' }] },
+      organization: { roles: [{ role: 'security' }] },
     })
 
     useAuthSpy.mockImplementation(() => ({
@@ -89,10 +89,7 @@ describe('useJwt testing', () => {
   it('should handle correctly when user is an api and a security operator', () => {
     const sessionTokenMock = createSessionTokenMock({
       organization: {
-        roles: [
-          { role: 'api', partyRole: 'DELEGATE' },
-          { role: 'security', partyRole: 'DELEGATE' },
-        ],
+        roles: [{ role: 'api' }, { role: 'security' }],
       },
     })
 
