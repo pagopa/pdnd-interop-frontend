@@ -25,7 +25,6 @@ const createMockJwtUser = createMockFactory<JwtUser>({
 
 const mockUseJwt = createMockFactory<ReturnType<typeof useJwt>>({
   jwt: createMockJwtUser(),
-  isCurrentUser: () => true,
   hasSessionExpired: () => false,
   isAdmin: true,
   isOperatorAPI: false,
