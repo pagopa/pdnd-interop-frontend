@@ -3,7 +3,6 @@ import { PageContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import axiosInstance from '@/config/axios'
 import { FE_URL } from '@/config/env'
-import { getReplacedAssetsPaths } from '@/utils/guides.utils'
 import { Grid } from '@mui/material'
 
 const SecurityKeyGuidePage: React.FC = () => {
@@ -13,8 +12,7 @@ const SecurityKeyGuidePage: React.FC = () => {
   React.useEffect(() => {
     async function asyncFetchData() {
       const resp = await axiosInstance.get(`${FE_URL}/data/it/public-key.json`)
-      const html = getReplacedAssetsPaths(resp.data.html)
-      setHtmlString(html)
+      setHtmlString(resp.data.html)
     }
 
     asyncFetchData()

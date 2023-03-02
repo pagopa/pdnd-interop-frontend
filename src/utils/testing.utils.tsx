@@ -1,5 +1,4 @@
 import React from 'react'
-import type { Paginated } from '../api/react-query-wrappers/react-query-wrappers.types'
 import cloneDeep from 'lodash/cloneDeep'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { createMemoryHistory } from 'history'
