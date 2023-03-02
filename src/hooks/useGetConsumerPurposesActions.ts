@@ -5,14 +5,18 @@ import { useTranslation } from 'react-i18next'
 import type { ActionItem } from '@/types/common.types'
 import { useJwt } from './useJwt'
 import { checkPurposeSuspendedByConsumer } from '@/utils/purpose.utils'
+import { useNavigateRouter } from '@/router'
 
 function useGetConsumerPurposesActions(purpose?: DecoratedPurpose | PurposeListingItem) {
   const { t } = useTranslation('purpose', { keyPrefix: 'tablePurpose.actions' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+
+  const { navigate } = useNavigateRouter()
   const { jwt } = useJwt()
 
   const { mutate: archivePurpose } = PurposeMutations.useArchiveVersion()
   const { mutate: suspendPurpose } = PurposeMutations.useSuspendVersion()
+  const { mutate: clonePurpose } = PurposeMutations.useClone()
   const { mutate: activatePurpose } = PurposeMutations.useActivateVersion()
   const { mutate: deletePurposeDraft } = PurposeMutations.useDeleteDraft()
   const { mutate: deletePurposeVersion } = PurposeMutations.useDeleteVersion()
@@ -59,6 +63,23 @@ function useGetConsumerPurposesActions(purpose?: DecoratedPurpose | PurposeListi
     action: handleActivate,
   }
 
+  function handleClone() {
+    if (!purpose) return
+    clonePurpose(
+      { purposeId: purpose.id },
+      {
+        onSuccess({ purposeId }) {
+          navigate('SUBSCRIBE_PURPOSE_EDIT', { params: { purposeId } })
+        },
+      }
+    )
+  }
+
+  const cloneAction = {
+    label: tCommon('clone'),
+    action: handleClone,
+  }
+
   function handleDeleteDraft() {
     if (!purpose) return
     deletePurposeDraft({ purposeId: purpose.id })
@@ -98,7 +119,7 @@ function useGetConsumerPurposesActions(purpose?: DecoratedPurpose | PurposeListi
   }
 
   if (purpose?.currentVersion?.state === 'ARCHIVED') {
-    return { actions: [] }
+    return { actions: [cloneAction] }
   }
 
   if (purpose?.currentVersion?.state === 'DRAFT') {
@@ -107,7 +128,7 @@ function useGetConsumerPurposesActions(purpose?: DecoratedPurpose | PurposeListi
 
   // If the currentVestion is not ARCHIVED or in DRAFT...
 
-  const actions: Array<ActionItem> = [archiveAction]
+  const actions: Array<ActionItem> = [archiveAction, cloneAction]
 
   if (purpose?.waitingForApprovalVersion) {
     actions.push(deleteDailyCallsUpdateAction)

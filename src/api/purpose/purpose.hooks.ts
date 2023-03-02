@@ -2,10 +2,10 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import PurposeServices from './purpose.services'
-import { PurposeGetListUrlParams } from './purpose.api.types'
+import type { PurposeGetListUrlParams } from './purpose.api.types'
 import { decoratePurposeWithMostRecentVersion } from './purpose.api.utils'
 import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
-import { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
+import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
 
 export enum PurposeQueryKeys {
   GetList = 'PurposeGetList',
@@ -185,6 +185,20 @@ function useDeleteVersion() {
   })
 }
 
+function useClone() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.clone' })
+  return useMutationWrapper(PurposeServices.clone, {
+    successToastLabel: t('outcome.success'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    showConfirmationDialog: true,
+    dialogConfig: {
+      title: t('confirmDialog.title'),
+      description: t('confirmDialog.description'),
+    },
+  })
+}
+
 function useAddClient() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.addClient' })
   return useMutationWrapper(PurposeServices.addClient, {
@@ -225,6 +239,7 @@ export const PurposeMutations = {
   useActivateVersion,
   useArchiveVersion,
   useDeleteVersion,
+  useClone,
   useAddClient,
   useRemoveClient,
 }
