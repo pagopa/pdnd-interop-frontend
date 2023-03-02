@@ -8,12 +8,8 @@ const dateFormatter = new Intl.DateTimeFormat('it', {
   month: 'long',
   year: 'numeric',
 })
-export function formatDate(date: Date) {
-  return dateFormatter.format(date)
-}
-
 export function formatDateString(dateString: string) {
-  return formatDate(new Date(dateString))
+  return dateFormatter.format(new Date(dateString))
 }
 
 export function secondsToHoursMinutes(totalSeconds: number) {
