@@ -1,5 +1,4 @@
 import { useLoadingOverlay, useToastNotification } from '@/stores'
-import { logger } from '@/utils/common.utils'
 import { downloadFile } from './react-query-wrappers.utils'
 
 export function useDownloadFile<T = unknown[]>(
@@ -15,7 +14,7 @@ export function useDownloadFile<T = unknown[]>(
       const data = await service(args)
       downloadFile(data, filename)
     } catch (error) {
-      logger.error(error)
+      console.error(error)
       config.errorToastLabel && showToast(config.errorToastLabel, 'error')
     } finally {
       hideOverlay()

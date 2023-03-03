@@ -1,5 +1,5 @@
 import React from 'react'
-import { createSafeContext } from '@/utils/common.utils'
+import { createContext } from '@/utils/common.utils'
 import { EServiceQueries } from '@/api/eservice'
 import { remapEServiceAttributes } from '@/utils/attribute.utils'
 import type { FrontendAttributes, PartyAttributes } from '@/types/attribute.types'
@@ -26,7 +26,7 @@ const initialState: AgreementDetailsContextType = {
   canBeUpgraded: false,
 }
 
-const { useContext, Provider } = createSafeContext<AgreementDetailsContextType>(
+const { useContext, Provider } = createContext<AgreementDetailsContextType>(
   'AgreementDetailsContext',
   initialState
 )

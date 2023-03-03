@@ -2,11 +2,11 @@ import React from 'react'
 import { Container, Button, Stack, IconButton } from '@mui/material'
 import { useJwt } from '@/hooks/useJwt'
 import { useNavigateRouter } from '@/router'
-import { goToLoginPage } from '@/utils/common.utils'
 import { assistanceLink, documentationLink, pagoPaLink } from '@/config/constants'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 import DescriptionIcon from '@mui/icons-material/Description'
 import { AccountDropdown, ButtonNaked, HeaderProduct } from '@pagopa/mui-italia'
+import { FE_LOGIN_URL } from '@/config/env'
 
 export const Header = () => {
   const { navigate } = useNavigateRouter()
@@ -15,6 +15,10 @@ export const Header = () => {
   const headerAccountLoggedUser = jwt
     ? { id: jwt.uid, name: jwt.name, surname: jwt.family_name, email: '' }
     : undefined
+
+  const goToLoginPage = () => {
+    window.location.assign(FE_LOGIN_URL)
+  }
 
   return (
     <header>
