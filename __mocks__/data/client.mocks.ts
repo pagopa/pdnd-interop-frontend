@@ -1,4 +1,4 @@
-import { Client } from '../../src/types/client.types'
+import type { Client } from '../../src/types/client.types'
 import { createMockFactory } from '../../src/utils/testing.utils'
 
 const createMockClient = createMockFactory<Client>({
