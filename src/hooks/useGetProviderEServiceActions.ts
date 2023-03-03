@@ -81,8 +81,7 @@ export function useGetProviderEServiceActions(
           descriptorId: activeDescriptorId,
         },
         {
-          onSuccess({ id, descriptors }) {
-            const descriptorId = descriptors[0]!.id
+          onSuccess({ id, descriptorId }) {
             navigate('PROVIDE_ESERVICE_EDIT', {
               params: { eserviceId: id, descriptorId },
             })
