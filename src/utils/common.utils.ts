@@ -1,15 +1,12 @@
-import React from 'react'
 import type { TopSideActions } from '@/components/layout/containers/PageContainer'
-import { FE_LOGIN_URL, isDevelopment } from '@/config/env'
 import type { ActionItem } from '@/types/common.types'
 import type { ButtonProps } from '@mui/material'
-import noop from 'lodash/noop'
+import React from 'react'
 
-export function goToLoginPage() {
-  window.location.assign(FE_LOGIN_URL)
-  return
-}
-
+/**
+ * Top side actions are formatted with the first action as a button, and the
+ * rest inside of an actionMenu.
+ */
 export function formatTopSideActions(
   actions: Array<ActionItem>,
   buttonProps?: Omit<ButtonProps, keyof ActionItem | 'onClick'>
@@ -26,22 +23,10 @@ export async function waitFor(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-export const logger = Object.keys(console).reduce((prev, next) => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore
-  return { ...prev, [next]: isDevelopment ? console[next] : noop }
-}, {}) as Console
-
-export function createSafeContext<ContextValue>(name: string, defaultValue: ContextValue) {
+export function createContext<ContextValue>(name: string, defaultValue: ContextValue) {
   const context = React.createContext<ContextValue>(defaultValue)
   context.displayName = name
-  function useContext() {
-    const c = React.useContext(context)
-    if (c === undefined) {
-      throw new Error(`${name} context called outside provider boundary`)
-    }
-    return c
-  }
+  const useContext = () => React.useContext<ContextValue>(context)
   return {
     useContext,
     Provider: context.Provider,

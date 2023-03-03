@@ -1,5 +1,5 @@
 import React from 'react'
-import { createSafeContext } from '@/utils/common.utils'
+import { createContext } from '@/utils/common.utils'
 import type { EServiceDescriptorCatalog, EServiceDescriptorProvider } from '@/types/eservice.types'
 import type { DocumentRead } from '@/types/common.types'
 import { remapEServiceAttributes } from '@/utils/attribute.utils'
@@ -19,7 +19,7 @@ type EServiceDetailsContextType = {
   docs: Array<DocumentRead>
 }
 
-const { useContext, Provider } = createSafeContext<EServiceDetailsContextType>(
+const { useContext, Provider } = createContext<EServiceDetailsContextType>(
   'EServiceDetailsContext',
   null!
 )

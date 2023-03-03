@@ -1,5 +1,5 @@
 import React from 'react'
-import { createSafeContext } from '@/utils/common.utils'
+import { createContext } from '@/utils/common.utils'
 import type { EServiceDescriptorProvider, EServiceRead } from '@/types/eservice.types'
 import noop from 'lodash/noop'
 
@@ -19,7 +19,7 @@ const initialState: EServiceCreateContextType = {
   forward: noop,
 }
 
-const { useContext, Provider } = createSafeContext<EServiceCreateContextType>(
+const { useContext, Provider } = createContext<EServiceCreateContextType>(
   'EServiceCreateContext',
   initialState
 )
