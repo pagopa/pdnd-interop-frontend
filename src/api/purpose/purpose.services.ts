@@ -62,8 +62,8 @@ async function updateVersionDraft({
   versionId,
   ...payload
 }: { purposeId: string; versionId: string } & { dailyCalls: number }) {
-  const response = await axiosInstance.post<PurposeVersion>(
-    `${PURPOSE_PROCESS_URL}/purposes/${purposeId}/versions/${versionId}/update/draft`,
+  const response = await axiosInstance.post<{ purposeId: string; versionId: string }>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/update/draft`,
     payload
   )
   return response.data
