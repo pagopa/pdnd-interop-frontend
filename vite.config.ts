@@ -1,5 +1,6 @@
 import path from 'path'
-import { defineConfig, loadEnv, PluginOption } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
+import type { PluginOption } from 'vite'
 import react from '@vitejs/plugin-react'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { parse } from 'node-html-parser'

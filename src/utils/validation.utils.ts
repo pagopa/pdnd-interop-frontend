@@ -1,6 +1,6 @@
 import mapValues from 'lodash/mapValues'
-import { ControllerProps } from 'react-hook-form'
-import { TFunction } from 'i18next'
+import type { ControllerProps } from 'react-hook-form'
+import type { TFunction } from 'i18next'
 
 // Taken from HTML spec: https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
 export const emailRegex =

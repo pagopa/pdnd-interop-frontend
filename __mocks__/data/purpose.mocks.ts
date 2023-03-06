@@ -1,4 +1,4 @@
-import { DecoratedPurpose, PurposeListingItem } from '../../src/types/purpose.types'
+import type { DecoratedPurpose, PurposeListingItem } from '../../src/types/purpose.types'
 import { createMockFactory } from '../../src/utils/testing.utils'
 
 const createMockDecoratedPurpose = createMockFactory<DecoratedPurpose>({

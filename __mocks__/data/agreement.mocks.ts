@@ -1,4 +1,4 @@
-import { AgreementListingItem, AgreementSummary } from '../../src/types/agreement.types'
+import type { AgreementListingItem, AgreementSummary } from '../../src/types/agreement.types'
 import { createMockFactory } from '../../src/utils/testing.utils'
 
 const createMockAgreementSummary = createMockFactory<AgreementSummary>({

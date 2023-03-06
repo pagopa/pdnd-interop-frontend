@@ -1,8 +1,12 @@
+import { FE_LOGIN_URL } from '@/config/env'
 import { useAuth } from '@/stores'
-import { goToLoginPage } from '@/utils/common.utils'
 
 const LogoutPage: React.FC = () => {
   const { clearSessionToken } = useAuth()
+
+  const goToLoginPage = () => {
+    window.location.assign(FE_LOGIN_URL)
+  }
 
   clearSessionToken()
   goToLoginPage()
