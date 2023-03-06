@@ -55,7 +55,7 @@ describe('testing checkEServiceAttributesOwnership', () => {
     expect(result).toBe(false)
   })
 
-  it('should return false if the party does not own all the backend attributes (SingleBackendAttribute and GroupBackendAttribute)', () => {
+  it('should return true if the party owns all the backend attributes (SingleBackendAttribute and GroupBackendAttribute)', () => {
     const partyAttributesMock = [
       createMockPartyAttribute({ id: 'attribute-id-single' }),
       createMockPartyAttribute({ id: 'attribute-id-group' }),
