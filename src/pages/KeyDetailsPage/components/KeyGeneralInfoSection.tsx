@@ -6,7 +6,7 @@ import {
 } from '@/components/layout/containers'
 import { formatDateString } from '@/utils/format.utils'
 import { isKeyOrphan } from '@/utils/key.utils'
-import { Alert } from '@mui/material'
+import { Alert, Grid } from '@mui/material'
 import { Stack } from '@mui/system'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -22,45 +22,55 @@ export const KeyGeneralInfoSection: React.FC<KeyGeneralInfoSectionProps> = ({ cl
   const { data: operators } = ClientQueries.useGetOperatorsList(clientId)
 
   return (
-    <SectionContainer title={t('title')}>
-      <Stack spacing={2}>
-        <InformationContainer label={t('creationDateField.label')}>
-          {publicKey && formatDateString(publicKey.createdAt)}
-        </InformationContainer>
+    <Grid container>
+      <Grid item xs={7}>
+        <SectionContainer title={t('title')}>
+          <Stack spacing={2}>
+            <InformationContainer label={t('creationDateField.label')}>
+              {publicKey && formatDateString(publicKey.createdAt)}
+            </InformationContainer>
 
-        <InformationContainer label={t('uploaderField.label')}>
-          {publicKey?.operator.name} {publicKey?.operator.familyName}
-        </InformationContainer>
+            <InformationContainer label={t('uploaderField.label')}>
+              {publicKey?.operator.name} {publicKey?.operator.familyName}
+            </InformationContainer>
 
-        <InformationContainer
-          label={t('kidField.label')}
-          copyToClipboard={
-            publicKey?.key && {
-              value: publicKey.key.kid,
-              tooltipTitle: t('kidField.copySuccessFeedbackText'),
-            }
-          }
-        >
-          {publicKey?.key.kid}
-        </InformationContainer>
-        <InformationContainer
-          label={t('clientIdField.label')}
-          copyToClipboard={{
-            value: clientId,
-            tooltipTitle: t('clientIdField.copySuccessFeedbackText'),
-          }}
-        >
-          {clientId}
-        </InformationContainer>
+            <InformationContainer
+              label={t('kidField.label')}
+              copyToClipboard={
+                publicKey?.key && {
+                  value: publicKey.key.kid,
+                  tooltipTitle: t('kidField.copySuccessFeedbackText'),
+                }
+              }
+            >
+              {publicKey?.key.kid}
+            </InformationContainer>
+            <InformationContainer
+              label={t('clientIdField.label')}
+              copyToClipboard={{
+                value: clientId,
+                tooltipTitle: t('clientIdField.copySuccessFeedbackText'),
+              }}
+            >
+              {clientId}
+            </InformationContainer>
 
-        {publicKey && isKeyOrphan(publicKey, operators) && (
-          <Alert severity="info">{t('operatorDeletedAlertMessage')}</Alert>
-        )}
-      </Stack>
-    </SectionContainer>
+            {publicKey && isKeyOrphan(publicKey, operators) && (
+              <Alert severity="info">{t('operatorDeletedAlertMessage')}</Alert>
+            )}
+          </Stack>
+        </SectionContainer>
+      </Grid>
+    </Grid>
   )
 }
 
 export const KeyGeneralInfoSectionSkeleton = () => {
-  return <SectionContainerSkeleton height={227} />
+  return (
+    <Grid container>
+      <Grid item xs={7}>
+        <SectionContainerSkeleton height={227} />
+      </Grid>
+    </Grid>
+  )
 }
