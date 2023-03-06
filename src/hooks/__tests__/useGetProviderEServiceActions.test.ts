@@ -7,15 +7,20 @@ import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 import type { EServiceProvider } from '@/types/eservice.types'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { BACKEND_FOR_FRONTEND_URL, CATALOG_PROCESS_URL } from '@/config/env'
+import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { act } from 'react-dom/test-utils'
 import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
 
 const server = setupServer(
   rest.post(
-    `${CATALOG_PROCESS_URL}/eservices/ad474d35-7939-4bee-bde9-4e469cca1030/descriptors/test-1/clone`,
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/ad474d35-7939-4bee-bde9-4e469cca1030/descriptors/test-1/clone`,
     (_, res, ctx) => {
-      return res(ctx.json(createMockEServiceReadType()))
+      return res(
+        ctx.json({
+          id: '6dbb7416-8315-4970-a6be-393a03d0a79d',
+          descriptorId: 'fd09a069-81f8-4cb5-a302-64320e83a033',
+        })
+      )
     }
   ),
   rest.post(

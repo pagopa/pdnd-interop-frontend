@@ -20,7 +20,6 @@ import type {
   EServiceProducer,
   EServiceProvider,
   EServiceRead,
-  EServiceReadType,
 } from '@/types/eservice.types'
 import type { DocumentRead } from '@/types/common.types'
 import type { Paginated } from '../react-query-wrappers/react-query-wrappers.types'
@@ -89,7 +88,7 @@ async function getProducers(params: EServiceGetProducersUrlParams) {
 
 async function createDraft(payload: EServiceDraftPayload) {
   const response = await axiosInstance.post<{ id: string }>(
-    `${CATALOG_PROCESS_URL}/eservices`,
+    `${BACKEND_FOR_FRONTEND_URL}/eservices`,
     payload
   )
   return response.data
@@ -101,15 +100,15 @@ async function updateDraft({
 }: {
   eserviceId: string
 } & EServiceDraftPayload) {
-  const response = await axiosInstance.put<EServiceReadType>(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}`,
+  const response = await axiosInstance.put<{ id: string }>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}`,
     payload
   )
   return response.data
 }
 
 function deleteDraft({ eserviceId }: { eserviceId: string }) {
-  return axiosInstance.delete(`${CATALOG_PROCESS_URL}/eservices/${eserviceId}`)
+  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}`)
 }
 
 async function cloneFromVersion({
@@ -119,8 +118,8 @@ async function cloneFromVersion({
   eserviceId: string
   descriptorId: string
 }) {
-  const response = await axiosInstance.post<EServiceReadType>(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/clone`
+  const response = await axiosInstance.post<{ id: string; descriptorId: string }>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/clone`
   )
   return response.data
 }
@@ -197,7 +196,7 @@ function deleteVersionDraft({
   descriptorId: string
 }) {
   return axiosInstance.delete(
-    `${CATALOG_PROCESS_URL}/eservices/${eserviceId}/descriptors/${descriptorId}`
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}`
   )
 }
 
