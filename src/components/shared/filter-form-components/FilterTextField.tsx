@@ -1,28 +1,17 @@
 import React from 'react'
-import { TextField as MUITextField, TextFieldProps as MUITextFieldProps } from '@mui/material'
+import { TextField } from '@mui/material'
+import type { TextFieldProps } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
-import { Controller } from 'react-hook-form'
 
-export type FilterTextFieldProps = MUITextFieldProps & {
-  name: string
-}
-
-export const FilterTextField: React.FC<FilterTextFieldProps> = ({ name, InputProps, ...props }) => {
+export const FilterTextField: React.FC<TextFieldProps> = ({ InputProps, ...props }) => {
   return (
-    <Controller
-      name={name}
-      render={({ field: { ref, ...fieldProps } }) => (
-        <MUITextField
-          size="small"
-          {...props}
-          inputRef={ref}
-          InputProps={{
-            ...InputProps,
-            endAdornment: <SearchIcon sx={{ color: 'gray' }} />,
-          }}
-          {...fieldProps}
-        />
-      )}
+    <TextField
+      size="small"
+      {...props}
+      InputProps={{
+        ...InputProps,
+        endAdornment: <SearchIcon sx={{ color: 'gray' }} />,
+      }}
     />
   )
 }
