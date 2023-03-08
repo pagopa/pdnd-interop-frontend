@@ -1,9 +1,8 @@
 import React from 'react'
 import { Button, Chip, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import type { ActiveFilters } from './Filters'
-import map from 'lodash/map'
 import { noop } from 'lodash'
+import type { ActiveFilters } from './filters.types'
 
 type ActiveFilterChips = {
   activeFilters: ActiveFilters
@@ -26,6 +25,7 @@ export const ActiveFilterChips: React.FC<ActiveFilterChips> = ({
         if (Array.isArray(value)) {
           return value.map(({ value, label }) => <Chip key={value} label={label} onDelete={noop} />)
         }
+        if (value === null) return null
         return <Chip key={value.value} label={value.label} onDelete={noop} />
       })}
       {activeFilters.size > 2 && (
