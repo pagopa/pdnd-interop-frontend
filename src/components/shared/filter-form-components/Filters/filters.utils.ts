@@ -1,5 +1,5 @@
 import type { FilterField } from './Filters'
-import type { ActiveFilters, FieldsState } from './filters.types'
+import type { ActiveFilters, FieldsState, FilterFieldType, FilterOption } from './filters.types'
 
 export function getFiltersFieldsDefaultValues(fields: Array<FilterField>): FieldsState {
   return fields.reduce(
@@ -38,4 +38,59 @@ export const getActiveFiltersFromSearchParams = (
     if (searchParam) prev.set(field.name, { label: searchParam, value: searchParam })
     return prev
   }, new Map() as ActiveFilters)
+}
+
+export const getFiltersFromSearchParams = (searchParams: URLSearchParams) => {
+  const entries = [...searchParams.entries()]
+  return entries.reduce((prev, [filterKey, value]) => {
+    const copy = { ...prev }
+    if (filterKey in copy) {
+      copy[filterKey] = Array.isArray(copy[filterKey])
+        ? [...copy[filterKey], value]
+        : [copy[filterKey] as string, value]
+    } else {
+      copy[filterKey] = value
+    }
+
+    return copy
+  }, {} as Record<string, string | Array<string>>)
+}
+
+export const updateSearchParams = (
+  searchParams: URLSearchParams,
+  filterKey: string,
+  value: string | FilterOption[]
+) => {
+  const defaultSearchParams = getFiltersFromSearchParams(searchParams)
+  const updatedSearchParams = {
+    ...defaultSearchParams,
+    [filterKey]: Array.isArray(value) ? value.map((val) => val.value) : (value as string),
+  }
+
+  return Object.fromEntries(
+    Object.entries(updatedSearchParams).filter(([_, value]) => !!value && value.length > 0)
+  )
+}
+
+export const mapActiveFiltersToArray = (activeFilters: ActiveFilters) => {
+  return [...activeFilters.entries()].reduce((prev, [filterKey, value]) => {
+    if (Array.isArray(value)) {
+      return [
+        ...prev,
+        ...value.map((v) => ({ ...v, filterKey, type: 'multiple' as FilterFieldType })),
+      ]
+    }
+    if (value !== null) return [...prev, { ...value, filterKey, type: 'single' as FilterFieldType }]
+    return prev
+  }, [] as Array<FilterOption & { type: FilterFieldType; filterKey: string }>)
+}
+
+export const getFieldStateFromActiveFilters = (activeFilters: ActiveFilters) => {
+  return [...activeFilters.entries()].reduce(
+    (prev, [filterKey, value]) => ({
+      ...prev,
+      [filterKey]: Array.isArray(value) ? value : '',
+    }),
+    {} as FieldsState
+  )
 }
