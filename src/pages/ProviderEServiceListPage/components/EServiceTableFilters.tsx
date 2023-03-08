@@ -26,7 +26,7 @@ const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({
 
   const [params, setParams] = React.useState<FiltersParams>({})
 
-  const { data: consumers, isInitialLoading } = EServiceQueries.useGetConsumers(
+  const { data: consumers, isFetched } = EServiceQueries.useGetConsumers(
     { offset: 0, limit: 50, q: consumersAutocompleteText },
     { suspense: false, keepPreviousData: true }
   )
@@ -41,7 +41,7 @@ const EServiceTableFilters: React.FC<EServiceTableFiltersProps> = ({
     <Filters
       params={params}
       setParams={setParams}
-      isLoadingOptions={isInitialLoading}
+      isLoadingOptions={!isFetched}
       fields={[
         { name: 'q', label: t('list.filters.nameField.label'), type: 'single' },
         {

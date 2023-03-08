@@ -1,11 +1,8 @@
 import React from 'react'
 import { Chip } from '@mui/material'
 import { useFormContext } from 'react-hook-form'
-import {
-  RHFAutocompleteBaseProps,
-  RHFAutocompleteInput,
-  _RHFAutocompleteBase,
-} from './_RHFAutocompleteBase'
+import { _RHFAutocompleteBase } from './_RHFAutocompleteBase'
+import type { RHFAutocompleteBaseProps, RHFAutocompleteInput } from './_RHFAutocompleteBase'
 import isEqual from 'lodash/isEqual'
 
 export type RHFAutocompleteMultipleProps<T> = Omit<

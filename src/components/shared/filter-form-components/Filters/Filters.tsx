@@ -1,10 +1,12 @@
 import React from 'react'
-import { Divider, Stack } from '@mui/material'
+import { Box, Divider, Stack } from '@mui/material'
 import noop from 'lodash/noop'
 import { FormProvider, useForm } from 'react-hook-form'
 import { ActiveFilterChips } from './ActiveFiltersChips'
 import { FiltersFields } from './FiltersFields'
 import { useSearchParams } from 'react-router-dom'
+import mapValues from 'lodash/mapValues'
+import omit from 'lodash/omit'
 
 type FilterOption = { label: string; value: string }
 
@@ -13,7 +15,7 @@ export type FilterField = {
   label: string
 } & ({ type: 'multiple'; options: Array<FilterOption> } | { type: 'single' })
 
-export type FiltersParams = Record<string, string | number | boolean>
+export type FiltersParams = Record<string, string | string[]>
 
 export type ActiveFilters = Map<string, FilterOption | Array<FilterOption>>
 
@@ -40,33 +42,75 @@ const getActiveFilters = (searchParams: URLSearchParams, fields: Array<FilterFie
   }, new Map() as ActiveFilters)
 }
 
-export const Filters: React.FC<FiltersProps> = ({ isLoadingOptions, fields }) => {
+function getUseFormDefaultValues(fields: Array<FilterField>) {
+  return fields.reduce(
+    (prev, field) => ({ ...prev, [field.name]: field.type === 'multiple' ? [] : '' }),
+    {}
+  )
+}
+
+export const Filters: React.FC<FiltersProps> = ({ isLoadingOptions, fields, setParams }) => {
   const hasSetOptions = React.useRef(false)
   const [searchParams, setSearchParams] = useSearchParams()
   const [activeFilters, setActiveFilters] = React.useState<ActiveFilters>(() => new Map())
 
-  const filtersUseFormMethods = useForm()
+  const filtersUseFormMethods = useForm<
+    Record<string, Array<{ label: string; value: string }> | string>
+  >({
+    defaultValues: getUseFormDefaultValues(fields),
+  })
 
+  // TODO COMMENT
   if (!hasSetOptions.current && !isLoadingOptions) {
     setActiveFilters(getActiveFilters(searchParams, fields))
     hasSetOptions.current = true
   }
 
+  const handleSubmit = filtersUseFormMethods.handleSubmit((values) => {
+    const paramValues = mapValues(values, (value) =>
+      Array.isArray(value) ? value.map((v) => v.value) : value
+    )
+    setParams(paramValues)
+    // Filters out the falsy/empty values
+    const filteredSearchParams = Object.fromEntries(
+      Object.entries({ ...Object.fromEntries(searchParams), ...paramValues }).filter(
+        ([_, value]) => !!value && value.length > 0
+      )
+    )
+    setSearchParams(omit({ ...filteredSearchParams }, 'offset'))
+
+    // TODO COMMENT
+    setActiveFilters((prev) => {
+      Object.entries(values).forEach(([key, _value]) => {
+        if (Array.isArray(_value)) {
+          if (_value.length > 0) {
+            prev.set(key, _value)
+            return
+          }
+          prev.delete(key)
+          return
+        }
+        if (_value) {
+          const value = { label: _value, value: _value }
+          prev.set(key, value)
+          return
+        }
+        prev.delete(key)
+      })
+      return prev
+    })
+  })
+
   return (
     <FormProvider {...filtersUseFormMethods}>
-      <Stack
-        onSubmit={noop}
-        component="form"
-        noValidate
-        direction="column"
-        spacing={2}
-        justifyContent="space-between"
-        sx={{ mb: 4 }}
-      >
-        <FiltersFields fields={fields} />
-        <Divider sx={{ my: 1 }} />
-        <ActiveFilterChips activeFilters={activeFilters} clearFilter={noop} clearFilters={noop} />
-      </Stack>
+      <Box onSubmit={handleSubmit} component="form" noValidate>
+        <Stack direction="column" spacing={2} justifyContent="space-between" sx={{ mb: 4 }}>
+          <FiltersFields fields={fields} />
+          <Divider sx={{ my: 1 }} />
+          <ActiveFilterChips activeFilters={activeFilters} clearFilter={noop} clearFilters={noop} />
+        </Stack>
+        <button type="submit" hidden />
+      </Box>
     </FormProvider>
   )
 }
