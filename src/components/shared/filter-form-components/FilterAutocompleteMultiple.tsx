@@ -1,86 +1,72 @@
-import { isEqual } from 'lodash'
 import React from 'react'
-import { useFormContext } from 'react-hook-form'
-import {
-  FilterAutocompleteBaseProps,
-  FilterAutocompleteInput,
-  _FilterAutocompleteBase,
-} from './_FilterAutocompleteBase'
+import { Autocomplete, Checkbox, TextField } from '@mui/material'
+import type { AutocompleteProps } from '@mui/material'
+import { Controller } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
+import isEqual from 'lodash/isEqual'
 
-export type FilterAutocompleteMultipleProps<T> = Omit<
-  FilterAutocompleteBaseProps<{ label: string; value: T }, true, false, false>,
-  | 'onChange'
-  | 'value'
-  | 'multiple'
-  | 'getOptionLabel'
-  | 'renderInput'
-  | 'renderOption'
-  | 'renderTags'
-  | 'setInternalState'
+type FilterAutocompleteMultipleProps = Omit<
+  AutocompleteProps<{ label: string; value: string }, true, true, false>,
+  'renderInput'
 > & {
-  options: Array<{
-    label: string
-    value: T
-  }>
+  name: string
+  label: string
 }
 
-export function FilterAutocompleteMultiple<T>(props: FilterAutocompleteMultipleProps<T>) {
-  const [internalState, setInternalState] = React.useState<FilterAutocompleteInput<T>[]>([])
-  const hasSetOptions = React.useRef(false)
-
-  const { watch } = useFormContext()
-  const selectedValues = watch(props.name) as Array<T>
-
-  /**
-   * This handles the synchronization between mui autocomplete internal state and react-hook-form state in case options are loaded async
-   * and the react-hook-form field state already contains value.
-   *
-   * This happen on filter fields that have the state already available on page load because it comes from the url params, but not the related
-   * option field that comes from an API.
-   *
-   * */
-
-  React.useEffect(() => {
-    if (hasSetOptions.current) return
-    if (selectedValues.length !== internalState.length && props.options.length > 0) {
-      hasSetOptions.current = true
-      const selectedOptions = props.options.filter((option) =>
-        selectedValues.some((value) => isEqual(value, option.value))
-      )
-
-      setInternalState(selectedOptions)
-    }
-  }, [selectedValues, props.options, internalState])
-
-  /**
-   * Keeps in sync RHF with the autocomplete's internal state in case
-   * a value is deleted manually from the RHF state.
-   */
-  React.useEffect(() => {
-    const subscription = watch((formValues) => {
-      const values = formValues[props.name] as Array<T>
-      setInternalState((prev) =>
-        prev.filter(
-          ({ value: internalStateValue }) =>
-            !!values.find((value) => isEqual(value, internalStateValue))
-        )
-      )
-    })
-
-    return subscription.unsubscribe
-  }, [watch, props.name])
-
+export const FilterAutocompleteMultiple: React.FC<FilterAutocompleteMultipleProps> = ({
+  name,
+  label,
+  options,
+  ...props
+}) => {
+  const { t } = useTranslation('shared-components', {
+    keyPrefix: 'autocompleteMultiple',
+  })
   return (
-    <_FilterAutocompleteBase
-      multiple
-      getOptionValue={(data) => data.map((d) => d?.value ?? d)}
-      rules={props.rules}
-      onValueChange={props.onValueChange}
-      {...props}
-      disableClearable
-      placeholder="Seleziona E-service"
-      value={internalState}
-      setInternalState={setInternalState}
+    <Controller
+      name={name}
+      render={({ field: { ref, onChange: _onChange } }) => (
+        <Autocomplete<{ label: string; value: string }, true, true, false>
+          multiple
+          options={options}
+          isOptionEqualToValue={(option, { value }) => isEqual(option.value, value)}
+          loadingText={props.loadingText || t('loadingLabel')}
+          noOptionsText={props.noOptionsText || t('noDataLabel')}
+          ListboxProps={{
+            style: { maxHeight: 200, ...props.ListboxProps?.style },
+            ...props.ListboxProps,
+          }}
+          disableCloseOnSelect
+          disableClearable
+          renderTags={() => null}
+          size="small"
+          {...props}
+          onChange={(event, data, reason) => {
+            if (
+              event.type === 'keydown' &&
+              (event as React.KeyboardEvent).key === 'Backspace' &&
+              reason === 'removeOption'
+            ) {
+              return
+            }
+            _onChange(data)
+          }}
+          renderInput={(params) => {
+            return <TextField variant="outlined" {...params} label={label} inputRef={ref} />
+          }}
+          renderOption={(props, option, { selected, index }) => {
+            const label = option.label
+            if (!label) return null
+
+            return (
+              <li {...props}>
+                <Checkbox key={index} checked={selected} name={label} />
+                {label}
+              </li>
+            )
+          }}
+        />
+      )}
     />
   )
 }

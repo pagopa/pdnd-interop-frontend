@@ -1,7 +1,9 @@
 import React from 'react'
-import { Button, Stack } from '@mui/material'
+import { Button, Chip, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { ActiveFilters } from './Filters'
+import type { ActiveFilters } from './Filters'
+import map from 'lodash/map'
+import { noop } from 'lodash'
 
 type ActiveFilterChips = {
   activeFilters: ActiveFilters
@@ -19,7 +21,13 @@ export const ActiveFilterChips: React.FC<ActiveFilterChips> = ({
   if (activeFilters.size <= 0) return null
 
   return (
-    <Stack direction="row" spacing={2} sx={{ width: '100%' }}>
+    <Stack direction="row" flexWrap="wrap" spacing={1} sx={{ width: '100%' }}>
+      {[...activeFilters.entries()].map(([key, value]) => {
+        if (Array.isArray(value)) {
+          return value.map(({ value, label }) => <Chip key={value} label={label} onDelete={noop} />)
+        }
+        return <Chip key={value.value} label={value.label} onDelete={noop} />
+      })}
       {activeFilters.size > 2 && (
         <Button size="small" type="button" variant="naked" onClick={clearFilters}>
           {tCommon('cancelFilter')}
