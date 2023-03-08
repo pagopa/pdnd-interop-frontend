@@ -1,38 +1,51 @@
 import React from 'react'
-import { Button, Chip, Stack } from '@mui/material'
+import { Button, Chip, Divider, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { noop } from 'lodash'
-import type { ActiveFilters } from './filters.types'
+import type { ActiveFilters, RemoveFilter } from './filters.types'
+import { mapActiveFiltersToArray } from './filters.utils'
 
 type ActiveFilterChips = {
   activeFilters: ActiveFilters
-  clearFilter: VoidFunction
+  removeFilter: RemoveFilter
   clearFilters: VoidFunction
 }
 
 export const ActiveFilterChips: React.FC<ActiveFilterChips> = ({
   activeFilters,
-  clearFilter,
+  removeFilter,
   clearFilters,
 }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+  const filters = mapActiveFiltersToArray(activeFilters)
 
-  if (activeFilters.size <= 0) return null
+  if (filters.length <= 0) return null
 
   return (
-    <Stack direction="row" flexWrap="wrap" spacing={1} sx={{ width: '100%' }}>
-      {[...activeFilters.entries()].map(([key, value]) => {
-        if (Array.isArray(value)) {
-          return value.map(({ value, label }) => <Chip key={value} label={label} onDelete={noop} />)
-        }
-        if (value === null) return null
-        return <Chip key={value.value} label={value.label} onDelete={noop} />
-      })}
-      {activeFilters.size > 2 && (
-        <Button size="small" type="button" variant="naked" onClick={clearFilters}>
-          {tCommon('cancelFilter')}
-        </Button>
-      )}
-    </Stack>
+    <>
+      {filters.length > 0 && <Divider sx={{ my: 1 }} />}
+
+      <Stack direction="row" flexWrap="wrap" gap={1} alignItems="center" sx={{ width: '100%' }}>
+        {filters.map(({ value, label, type, filterKey }) => (
+          <Chip
+            key={value}
+            label={label}
+            onDelete={removeFilter.bind(null, type, filterKey, value)}
+          />
+        ))}
+        {filters.length > 1 && (
+          <Stack justifyContent="center">
+            <Button
+              sx={{ ml: 2 }}
+              size="small"
+              type="button"
+              variant="naked"
+              onClick={clearFilters}
+            >
+              {tCommon('cancelFilter')}
+            </Button>
+          </Stack>
+        )}
+      </Stack>
+    </>
   )
 }

@@ -3,61 +3,27 @@ import { Stack } from '@mui/material'
 import type { FiltersProps } from './Filters'
 import { FilterTextField } from '../FilterTextField'
 import { FilterAutocompleteMultiple } from '../FilterAutocompleteMultiple'
-import type { useSearchParams } from 'react-router-dom'
-import omit from 'lodash/omit'
-import type { ActiveFilters, FieldsState, FiltersParams } from './filters.types'
-import { getFiltersFieldsDefaultValues } from './filters.utils'
+import type { FieldsState, FilterOption, UpdateFilters } from './filters.types'
 
 type FiltersFieldsProps = Pick<FiltersProps, 'fields'> & {
-  searchParams: URLSearchParams
-  setSearchParams: ReturnType<typeof useSearchParams>[1]
-  setActiveFilters: React.Dispatch<React.SetStateAction<ActiveFilters>>
-  setParams: React.Dispatch<React.SetStateAction<FiltersParams>>
+  updateFilters: UpdateFilters
+  fieldsState: FieldsState
+  setFieldsState: React.Dispatch<React.SetStateAction<FieldsState>>
 }
 
 export const FiltersFields: React.FC<FiltersFieldsProps> = ({
   fields,
-  searchParams,
-  setSearchParams,
-  setActiveFilters,
-  setParams,
+  fieldsState,
+  setFieldsState,
+  updateFilters,
 }) => {
   const debounceRef = React.useRef<NodeJS.Timeout>()
-  const dataQueueRef = React.useRef<FieldsState>({})
-
-  const [fieldsState, setFieldsState] = React.useState<FieldsState>(() =>
-    getFiltersFieldsDefaultValues(fields)
-  )
-
-  // const handleSubmit = filtersUseFormMethods.handleSubmit((values, a) => {
-  //   const paramValues = mapValues(values, (value) =>
-  //     Array.isArray(value) ? value.map((v) => v.value) : value
-  //   )
-  //   setParams(paramValues)
-  //   // Filters out the falsy/empty values
-  //   const filteredSearchParams = Object.fromEntries(
-  //     Object.entries({ ...Object.fromEntries(searchParams), ...paramValues }).filter(
-  //       ([_, value]) => !!value && value.length > 0
-  //     )
-  //   )
-  //   setSearchParams(omit({ ...filteredSearchParams }, 'offset'))
-
-  //   // TODO COMMENT
-  //   setActiveFilters((prev) => {
-  //     Object.entries(values).forEach(([key, _value]) => {
-  //       if (Array.isArray(_value)) {
-  //         prev.set(key, _value)
-  //         return
-  //       }
-  //       const value = { label: _value, value: _value ?? '' }
-  //       prev.set(key, value)
-  //     })
-  //     return prev
-  //   })
-  // })
+  const dataQueueRef = React.useRef<Record<string, FilterOption[]>>({})
 
   const enableDebouncedMultipleFieldFilters = () => {
-    // TODO
+    Object.entries(dataQueueRef.current).forEach(([filterKey, value]) => {
+      updateFilters('multiple', filterKey, value)
+    })
   }
 
   const enableTextFieldFilters = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -67,17 +33,8 @@ export const FiltersFields: React.FC<FiltersFieldsProps> = ({
     const value = target.value
 
     target.blur()
-    setFieldsState((prev) => ({ ...prev, [filterKey]: '' }))
 
-    setParams((prev) => ({ ...prev, [filterKey]: value }))
-    setActiveFilters((prev) => prev.set(filterKey, value ? { label: value, value } : null))
-
-    const filteredSearchParams = Object.fromEntries(
-      Object.entries({ ...Object.fromEntries(searchParams), [filterKey]: value }).filter(
-        ([_, value]) => !!value
-      )
-    )
-    setSearchParams(omit({ ...filteredSearchParams }, 'offset'))
+    updateFilters('single', filterKey, value)
   }
 
   const handleTextFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,9 +49,9 @@ export const FiltersFields: React.FC<FiltersFieldsProps> = ({
     data: FieldsState['string']
   ) => {
     setFieldsState((prev) => ({ ...prev, [filterKey]: data }))
-    dataQueueRef.current = { ...dataQueueRef.current, [filterKey]: data }
+    dataQueueRef.current = { ...dataQueueRef.current, [filterKey]: data as FilterOption[] }
     clearTimeout(debounceRef.current)
-    debounceRef.current = setTimeout(enableDebouncedMultipleFieldFilters, 800)
+    debounceRef.current = setTimeout(enableDebouncedMultipleFieldFilters, 300)
   }
 
   return (
