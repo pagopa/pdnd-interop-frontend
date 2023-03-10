@@ -78,7 +78,7 @@ async function createInteropM2M(payload: ClientCreatePayload) {
 }
 
 function deleteOne({ clientId }: { clientId: string }) {
-  return axiosInstance.delete(`${AUTHORIZATION_PROCESS_URL}/clients/${clientId}`)
+  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}`)
 }
 
 async function postKey({
