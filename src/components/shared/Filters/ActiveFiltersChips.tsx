@@ -1,19 +1,19 @@
 import React from 'react'
 import { Button, Chip, Divider, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import type { ActiveFilters, RemoveFilter } from './filters.types'
-import { mapActiveFiltersToArray } from './filters.utils'
+import type { ActiveFilters, FiltersHandler } from '../../../types/filter.types'
+import { mapActiveFiltersToArray } from '../../../utils/filter.utils'
 
 type ActiveFilterChips = {
   activeFilters: ActiveFilters
-  removeFilter: RemoveFilter
-  clearFilters: VoidFunction
+  onRemoveActiveFilter: FiltersHandler
+  onResetActiveFilters: VoidFunction
 }
 
 export const ActiveFilterChips: React.FC<ActiveFilterChips> = ({
   activeFilters,
-  removeFilter,
-  clearFilters,
+  onRemoveActiveFilter,
+  onResetActiveFilters,
 }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const filters = mapActiveFiltersToArray(activeFilters)
@@ -29,7 +29,7 @@ export const ActiveFilterChips: React.FC<ActiveFilterChips> = ({
           <Chip
             key={value}
             label={label}
-            onDelete={removeFilter.bind(null, type, filterKey, value)}
+            onDelete={onRemoveActiveFilter.bind(null, type, filterKey, value)}
           />
         ))}
         {filters.length > 1 && (
@@ -39,7 +39,7 @@ export const ActiveFilterChips: React.FC<ActiveFilterChips> = ({
               size="small"
               type="button"
               variant="naked"
-              onClick={clearFilters}
+              onClick={onResetActiveFilters}
             >
               {tCommon('cancelFilter')}
             </Button>

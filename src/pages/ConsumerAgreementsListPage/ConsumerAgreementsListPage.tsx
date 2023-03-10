@@ -4,40 +4,56 @@ import type {
   GetListAgreementQueryParams,
 } from '@/api/agreement/agreement.api.types'
 import { PageContainer } from '@/components/layout/containers'
+import { Filters } from '@/components/shared/Filters'
 import { Pagination } from '@/components/shared/Pagination'
+import { useFilters } from '@/hooks/useFilters'
 import { useJwt } from '@/hooks/useJwt'
-import { useListingParams } from '@/hooks/useListingParams'
+import { usePagination } from '@/hooks/usePagination'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   ConsumerAgreementsTable,
   ConsumerAgreementsTableSkeleton,
 } from './components/ConsumerAgreementsTable'
-import { ConsumerAgreementsTableFilters } from './components/ConsumerAgreementsTableFilters'
 
 const ConsumerAgreementsListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerAgreementsList' })
+  const { t: tAgreement } = useTranslation('agreement', { keyPrefix: 'list.filters.statusField' })
+
   const { jwt } = useJwt()
 
-  const {
-    params: _params,
-    paginationProps,
-    getTotalPageCount,
-    ...filtersMethods
-  } = useListingParams<GetListAgreementQueryFilters>({
-    paginationOptions: {
-      limit: 10,
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { filtersParams, ...filtersHandlers } = useFilters<GetListAgreementQueryFilters>([
+    {
+      name: 'states',
+      label: tAgreement('label'),
+      type: 'multiple',
+      options: [
+        { label: tAgreement('optionLabels.ARCHIVED'), value: 'ARCHIVED' },
+        { label: tAgreement('optionLabels.ACTIVE'), value: 'ACTIVE' },
+        {
+          label: tAgreement('optionLabels.MISSING_CERTIFIED_ATTRIBUTES'),
+          value: 'MISSING_CERTIFIED_ATTRIBUTES',
+        },
+        { label: tAgreement('optionLabels.PENDING'), value: 'PENDING' },
+        { label: tAgreement('optionLabels.DRAFT'), value: 'DRAFT' },
+        { label: tAgreement('optionLabels.REJECTED'), value: 'REJECTED' },
+        { label: tAgreement('optionLabels.SUSPENDED'), value: 'SUSPENDED' },
+      ],
     },
-    filterParams: { eservicesIds: [], producersIds: [], states: [] },
-  })
+  ])
 
-  const params = { ..._params, consumersIds: [jwt?.organizationId] as Array<string> }
+  const params = {
+    ...paginationParams,
+    ...filtersParams,
+    consumersIds: [jwt?.organizationId] as Array<string>,
+  }
 
   const { data } = AgreementQueries.useGetList(params, { suspense: false, keepPreviousData: true })
 
   return (
     <PageContainer title={t('title')} description={t('description')}>
-      <ConsumerAgreementsTableFilters {...filtersMethods} />
+      <Filters {...filtersHandlers} />
       <ConsumerAgreementsTableWrapper params={params} />
       <Pagination
         {...paginationProps}

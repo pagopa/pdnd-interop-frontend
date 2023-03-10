@@ -10,26 +10,43 @@ import type {
   EServiceGetProviderListQueryFilters,
   EServiceGetProviderListUrlParams,
 } from '@/api/eservice/eservice.api.types'
-import EServiceTableFilters from './components/EServiceTableFilters'
-import { useListingParams } from '@/hooks/useListingParams'
+import { usePagination } from '@/hooks/usePagination'
+import { useFilters } from '@/hooks/useFilters'
+import { Filters } from '@/components/shared/Filters'
 
 const ProviderEServiceListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceList' })
   const { t: tCommon } = useTranslation('common')
+  const { t: tEservice } = useTranslation('eservice', { keyPrefix: 'list.filters' })
   const { navigate } = useNavigateRouter()
+  const [consumersAutocompleteInput, setConsumersAutocompleteInput] = React.useState('')
 
-  const { params, paginationProps, getTotalPageCount, ...filtersMethods } =
-    useListingParams<EServiceGetProviderListQueryFilters>({
-      paginationOptions: {
-        limit: 10,
-      },
-      filterParams: {
-        q: '',
-        consumersIds: [],
-      },
-    })
+  const { data: consumers } = EServiceQueries.useGetConsumers(
+    { offset: 0, limit: 50, q: consumersAutocompleteInput },
+    { suspense: false, keepPreviousData: true }
+  )
 
-  const { data } = EServiceQueries.useGetProviderList(params, {
+  const consumersOptions =
+    consumers?.results.map((o) => ({
+      label: o.name,
+      value: o.id,
+    })) || []
+
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { filtersParams, ...filtersHandlers } = useFilters<EServiceGetProviderListQueryFilters>([
+    { name: 'q', label: tEservice('nameField.label'), type: 'single' },
+    {
+      name: 'consumersIds',
+      label: tEservice('consumerField.label'),
+      type: 'multiple',
+      options: consumersOptions,
+      setAutocompleteInput: setConsumersAutocompleteInput,
+    },
+  ])
+
+  const queryParams = { ...paginationParams, ...filtersParams }
+
+  const { data } = EServiceQueries.useGetProviderList(queryParams, {
     suspense: false,
     keepPreviousData: true,
   })
@@ -52,8 +69,8 @@ const ProviderEServiceListPage: React.FC = () => {
       description={t('description')}
       topSideActions={topSideActions}
     >
-      <EServiceTableFilters {...filtersMethods} />
-      <EServiceTableWrapper params={params} />
+      <Filters {...filtersHandlers} />
+      <EServiceTableWrapper params={queryParams} />
       <Pagination
         {...paginationProps}
         totalPages={getTotalPageCount(data?.pagination.totalCount)}
