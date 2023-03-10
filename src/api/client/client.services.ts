@@ -103,7 +103,7 @@ async function downloadKey({ clientId, kid }: { clientId: string; kid: string })
 }
 
 function deleteKey({ clientId, kid }: { clientId: string; kid: string }) {
-  return axiosInstance.delete(`${AUTHORIZATION_PROCESS_URL}/clients/${clientId}/keys/${kid}`)
+  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/keys/${kid}`)
 }
 
 async function addOperator({
