@@ -127,7 +127,7 @@ function removeOperator({
   relationshipId: string
 }) {
   return axiosInstance.delete(
-    `${AUTHORIZATION_PROCESS_URL}/clients/${clientId}/relationships/${relationshipId}`
+    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/relationships/${relationshipId}`
   )
 }
 
