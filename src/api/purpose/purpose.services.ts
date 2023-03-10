@@ -27,7 +27,10 @@ async function getSingle(purposeId: string) {
 }
 
 async function createDraft(payload: PurposeCreateDraftPayload) {
-  const response = await axiosInstance.post<Purpose>(`${PURPOSE_PROCESS_URL}/purposes`, payload)
+  const response = await axiosInstance.post<Purpose>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes`,
+    payload
+  )
   return response.data
 }
 
