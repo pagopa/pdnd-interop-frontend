@@ -2,35 +2,25 @@ import React from 'react'
 import { Stack } from '@mui/material'
 import { ActiveFilterChips } from './ActiveFiltersChips'
 import { FiltersFields } from './FiltersFields'
-import type { FilterOption, FieldsValues, FiltersHandler } from '../../../types/filter.types'
+import type { FilterOption, FieldsValues, FiltersHandler, FilterFields } from '@/types/filter.types'
 import type { FiltersHandlers } from '@/hooks/useFilters'
-import { getFiltersFieldInitialValues, getFiltersFieldsDefaultValue } from '@/utils/filter.utils'
-
-export type FilterField = {
-  name: string
-  label: string
-} & (
-  | {
-      type: 'multiple'
-      options: Array<FilterOption>
-      setAutocompleteInput?: React.Dispatch<React.SetStateAction<string>>
-    }
-  | { type: 'single' }
-)
+import { getFiltersFieldsInitialValues, getFiltersFieldsDefaultValue } from '@/utils/filter.utils'
+import { useSearchParams } from 'react-router-dom'
 
 export type FiltersProps = FiltersHandlers & {
-  fields: Array<FilterField>
+  fields: FilterFields
 }
 
 export const Filters: React.FC<FiltersProps> = ({
   activeFilters,
-  onAddActiveFilter,
+  onChangeActiveFilter,
   onRemoveActiveFilter,
   onResetActiveFilters,
   fields,
 }) => {
+  const [searchParams] = useSearchParams()
   const [fieldsValues, setFieldsValues] = React.useState<FieldsValues>(() =>
-    getFiltersFieldInitialValues(activeFilters)
+    getFiltersFieldsInitialValues(searchParams, fields)
   )
 
   const handleFieldsValuesChange = React.useCallback(
@@ -62,7 +52,7 @@ export const Filters: React.FC<FiltersProps> = ({
         fields={fields}
         fieldsValues={fieldsValues}
         onFieldsValuesChange={handleFieldsValuesChange}
-        onAddActiveFilter={onAddActiveFilter}
+        onChangeActiveFilter={onChangeActiveFilter}
       />
       <ActiveFilterChips
         activeFilters={activeFilters}

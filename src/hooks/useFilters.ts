@@ -1,91 +1,103 @@
 import React from 'react'
-import type { ActiveFilters, FilterOption, FiltersHandler } from '@/types/filter.types'
+import type {
+  ActiveFilters,
+  FilterFields,
+  FilterOption,
+  FiltersHandler,
+  FiltersParams,
+} from '@/types/filter.types'
 import { useSearchParams } from 'react-router-dom'
-import type { FilterField } from '@/components/shared/Filters'
 import {
-  getActiveFiltersDefaultValue,
-  getActiveFiltersInitialValue,
-  getQueryParamsFromActiveFilters,
-  mapActiveFiltersToSearchParams,
+  decodeFilterValue,
+  encodeFilterValue,
+  mapSearchParamsToActiveFiltersAndFilterParams,
 } from '@/utils/filter.utils'
 
 export type FiltersHandlers = {
-  fields: Array<FilterField>
+  fields: FilterFields
   activeFilters: ActiveFilters
-  onAddActiveFilter: FiltersHandler
+  onChangeActiveFilter: FiltersHandler
   onRemoveActiveFilter: FiltersHandler
   onResetActiveFilters: VoidFunction
 }
 
-export function useFilters<TFiltersParams extends Record<string, string | string[] | boolean>>(
-  fields: Array<FilterField>
+export function useFilters<TFiltersParams extends FiltersParams>(
+  fields: FilterFields
 ): FiltersHandlers & { filtersParams: TFiltersParams } {
   const [searchParams, setSearchParams] = useSearchParams()
-  const [activeFilters, setActiveFilters] = React.useState<ActiveFilters>(() =>
-    getActiveFiltersInitialValue(searchParams, fields)
-  )
 
-  const updateActiveFilters = React.useCallback(
-    (newActiveFilters: ActiveFilters) => {
-      setSearchParams(mapActiveFiltersToSearchParams(newActiveFilters))
-      setActiveFilters(newActiveFilters)
-    },
-    [setSearchParams]
-  )
-
-  const onAddActiveFilter = React.useCallback<FiltersHandler>(
+  const onChangeActiveFilter = React.useCallback<FiltersHandler>(
     (type, filterKey, value) => {
-      const newActiveFilters = new Map(activeFilters)
+      const newSearchParams = new URLSearchParams(searchParams)
+      if (value.length === 0) {
+        newSearchParams.delete(filterKey)
+        setSearchParams(newSearchParams)
+        return
+      }
       if (type === 'single') {
-        const tValue = value as string
-        newActiveFilters.set(filterKey, tValue ? { label: tValue, value: tValue } : null)
+        const urlParamValue = encodeFilterValue.single(value as string)
+        newSearchParams.set(filterKey, urlParamValue)
       }
-
       if (type === 'multiple') {
-        const tValue = value as Array<FilterOption>
-        newActiveFilters.set(filterKey, tValue)
+        const urlParamValue = encodeFilterValue.multiple(value as Array<FilterOption>)
+        newSearchParams.set(filterKey, urlParamValue)
       }
-      updateActiveFilters(newActiveFilters)
+      newSearchParams.delete('offset')
+      setSearchParams(newSearchParams)
     },
-    [updateActiveFilters, activeFilters]
+    [searchParams, setSearchParams]
   )
 
   const onRemoveActiveFilter = React.useCallback<FiltersHandler>(
     (type, filterKey, value) => {
-      const newActiveFilters = new Map(activeFilters)
+      const newSearchParams = new URLSearchParams(searchParams)
 
       if (type === 'single') {
-        newActiveFilters.set(filterKey, null)
-        updateActiveFilters(newActiveFilters)
+        newSearchParams.delete(filterKey)
       }
 
       if (type === 'multiple') {
-        const values = newActiveFilters.get(filterKey) as FilterOption[]
-        newActiveFilters.set(
-          filterKey,
-          values.filter(({ value: prevValue }) => prevValue !== value)
-        )
-        updateActiveFilters(newActiveFilters)
+        const urlParamsValue = searchParams.get(filterKey)
+        if (urlParamsValue) {
+          const values = decodeFilterValue.multiple(urlParamsValue)
+          const filteredValues = values.filter((option) => option.value !== value)
+          if (filteredValues.length === 0) {
+            newSearchParams.delete(filterKey)
+          } else {
+            newSearchParams.set(filterKey, encodeFilterValue.multiple(filteredValues))
+          }
+        }
       }
+      newSearchParams.delete('offset')
+      setSearchParams(newSearchParams)
     },
-    [updateActiveFilters, activeFilters]
+    [searchParams, setSearchParams]
   )
 
   const onResetActiveFilters = React.useCallback(() => {
-    updateActiveFilters(getActiveFiltersDefaultValue(fields))
-  }, [fields, updateActiveFilters])
+    const newSearchParams = new URLSearchParams(searchParams)
+    const paramKeys = [...newSearchParams.keys()]
+    paramKeys.forEach((paramKey) => {
+      // Only delete the params that are related to filters
+      const isFilterKey = fields.some((field) => field.name === paramKey)
+      if (isFilterKey) {
+        newSearchParams.delete(paramKey)
+      }
+    })
+    setSearchParams(newSearchParams)
+  }, [searchParams, setSearchParams, fields])
 
-  const filtersParams = React.useMemo(
-    () => getQueryParamsFromActiveFilters(activeFilters) as TFiltersParams,
-    [activeFilters]
+  const { activeFilters, filtersParams } = mapSearchParamsToActiveFiltersAndFilterParams(
+    searchParams,
+    fields
   )
 
   return {
     fields,
-    filtersParams,
+    filtersParams: filtersParams as TFiltersParams,
     activeFilters,
     onResetActiveFilters,
-    onAddActiveFilter,
+    onChangeActiveFilter,
     onRemoveActiveFilter,
   }
 }

@@ -6,7 +6,7 @@ import { FilterAutocompleteMultiple } from './FilterAutocompleteMultiple'
 import type { FieldsValues, FilterOption, FiltersHandler } from '../../../types/filter.types'
 
 type FiltersFieldsProps = Pick<FiltersProps, 'fields'> & {
-  onAddActiveFilter: FiltersHandler
+  onChangeActiveFilter: FiltersHandler
   fieldsValues: FieldsValues
   onFieldsValuesChange: (name: string, value: string | Array<FilterOption>) => void
 }
@@ -15,15 +15,16 @@ export const FiltersFields: React.FC<FiltersFieldsProps> = ({
   fields,
   fieldsValues,
   onFieldsValuesChange,
-  onAddActiveFilter,
+  onChangeActiveFilter,
 }) => {
   const debounceRef = React.useRef<NodeJS.Timeout>()
   const dataQueueRef = React.useRef<Record<string, FilterOption[]>>({})
 
   const enableDebouncedMultipleFieldFilters = () => {
     Object.entries(dataQueueRef.current).forEach(([filterKey, value]) => {
-      onAddActiveFilter('multiple', filterKey, value)
+      onChangeActiveFilter('multiple', filterKey, value)
     })
+    dataQueueRef.current = {}
   }
 
   const enableTextFieldFilters = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -34,7 +35,7 @@ export const FiltersFields: React.FC<FiltersFieldsProps> = ({
 
     target.blur()
 
-    onAddActiveFilter('single', filterKey, value)
+    onChangeActiveFilter('single', filterKey, value)
     onFieldsValuesChange(filterKey, '')
   }
 
@@ -51,6 +52,7 @@ export const FiltersFields: React.FC<FiltersFieldsProps> = ({
   ) => {
     onFieldsValuesChange(filterKey, data)
     dataQueueRef.current = { ...dataQueueRef.current, [filterKey]: data as FilterOption[] }
+    console.log(dataQueueRef.current)
     clearTimeout(debounceRef.current)
     debounceRef.current = setTimeout(enableDebouncedMultipleFieldFilters, 300)
   }
