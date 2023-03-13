@@ -8,8 +8,8 @@ import type {
 } from '@/types/filter.types'
 import { useSearchParams } from 'react-router-dom'
 import {
-  decodeFilterValue,
-  encodeFilterValue,
+  encodeMultipleFilterFieldValue,
+  decodeMultipleFilterFieldValue,
   mapSearchParamsToActiveFiltersAndFilterParams,
 } from '@/utils/filter.utils'
 
@@ -35,11 +35,10 @@ export function useFilters<TFiltersParams extends FiltersParams>(
         return
       }
       if (type === 'single') {
-        const urlParamValue = encodeFilterValue.single(value as string)
-        newSearchParams.set(filterKey, urlParamValue)
+        newSearchParams.set(filterKey, value as string)
       }
       if (type === 'multiple') {
-        const urlParamValue = encodeFilterValue.multiple(value as Array<FilterOption>)
+        const urlParamValue = encodeMultipleFilterFieldValue(value as Array<FilterOption>)
         newSearchParams.set(filterKey, urlParamValue)
       }
       newSearchParams.delete('offset')
@@ -59,12 +58,12 @@ export function useFilters<TFiltersParams extends FiltersParams>(
       if (type === 'multiple') {
         const urlParamsValue = searchParams.get(filterKey)
         if (urlParamsValue) {
-          const values = decodeFilterValue.multiple(urlParamsValue)
+          const values = decodeMultipleFilterFieldValue(urlParamsValue)
           const filteredValues = values.filter((option) => option.value !== value)
           if (filteredValues.length === 0) {
             newSearchParams.delete(filterKey)
           } else {
-            newSearchParams.set(filterKey, encodeFilterValue.multiple(filteredValues))
+            newSearchParams.set(filterKey, encodeMultipleFilterFieldValue(filteredValues))
           }
         }
       }

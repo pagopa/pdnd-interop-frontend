@@ -14,6 +14,12 @@ export function getFiltersFieldsDefaultValue(fields: FilterFields): FieldsValues
   )
 }
 
+/**
+ * Get the filter's field initial values object from search params.
+ * The initial value of fields of type "single" will always be an empty string,
+ * while the initial value of fields of type "multiple" will depend on the
+ * url search params
+ */
 export const getFiltersFieldsInitialValues = (
   searchParams: URLSearchParams,
   filtersFields: FilterFields
@@ -23,7 +29,7 @@ export const getFiltersFieldsInitialValues = (
     if (field.type === 'multiple') {
       const filterParamValue = searchParams.get(field.name)
       if (filterParamValue) {
-        fieldsValues[field.name] = decodeFilterValue.multiple(filterParamValue)
+        fieldsValues[field.name] = decodeMultipleFilterFieldValue(filterParamValue)
         return
       }
       fieldsValues[field.name] = []
@@ -36,39 +42,24 @@ export const getFiltersFieldsInitialValues = (
   return fieldsValues
 }
 
-const encodeSingleFilterValue = (value: string) => JSON.stringify([value])
-const encodeMultipleFilterValue = (value: Array<FilterOption>) =>
+/**
+ * Gets the array of selected filter options and encode them to string with the following format:
+ * "[[<OPTION_1_LABEL>, <OPTION_1_VALUE>], [<OPTION_2_LABEL>, <OPTION_2_VALUE>], ...]"
+ * */
+export const encodeMultipleFilterFieldValue = (value: Array<FilterOption>) =>
   JSON.stringify(value.map(({ value, label }) => [label, value]))
 
-export const encodeFilterValue = {
-  single: encodeSingleFilterValue,
-  multiple: encodeMultipleFilterValue,
-}
-
-const decodeURLParamSingleFilterValue = (urlParamValue: string): FilterOption => {
-  const parsedSearchParams = JSON.parse(urlParamValue)[0] as string
-  return { label: parsedSearchParams, value: parsedSearchParams }
-}
-const decodeURLParamMultipleFilterValue = (urlParamValue: string): Array<FilterOption> => {
+/** Decode the encoded multiple filter field value to an Array<FilterOption> data type */
+export const decodeMultipleFilterFieldValue = (urlParamValue: string): Array<FilterOption> => {
   const parsedSearchParams = JSON.parse(urlParamValue) as Array<string>
-  return parsedSearchParams
-    .map((field) => ({ label: field[0], value: field[1] }))
-    .sort((a, b) => {
-      if (a.label < b.label) {
-        return -1
-      }
-      if (a.label > b.label) {
-        return 1
-      }
-      return 0
-    })
+  return parsedSearchParams.map((field) => ({ label: field[0], value: field[1] }))
 }
 
-export const decodeFilterValue = {
-  single: decodeURLParamSingleFilterValue,
-  multiple: decodeURLParamMultipleFilterValue,
-}
-
+/**
+ * maps the passed searchParams to:
+ * - activeFilters: an array used to render the filters chips in the Filters component;
+ * - filtersParams: the filters that should be passed as url params to the query request.
+ */
 export const mapSearchParamsToActiveFiltersAndFilterParams = (
   searchParams: URLSearchParams,
   filtersFields: FilterFields
@@ -77,20 +68,27 @@ export const mapSearchParamsToActiveFiltersAndFilterParams = (
   const filtersParams: FiltersParams = {}
 
   filtersFields.forEach((field) => {
-    const filterParamValue = searchParams.get(field.name)
-    if (filterParamValue) {
+    const filterValue = searchParams.get(field.name)
+    if (filterValue) {
       if (field.type === 'single') {
-        const filterValue = decodeFilterValue.single(filterParamValue)
-        activeFilters.push({ ...filterValue, type: field.type, filterKey: field.name })
-        filtersParams[field.name] = filterValue.value
+        activeFilters.push({
+          value: filterValue,
+          label: filterValue,
+          type: field.type,
+          filterKey: field.name,
+        })
+        filtersParams[field.name] = filterValue
       }
 
       if (field.type === 'multiple') {
-        const filterValue = decodeFilterValue.multiple(filterParamValue)
-        activeFilters.push(
-          ...filterValue.map((option) => ({ ...option, type: field.type, filterKey: field.name }))
-        )
-        filtersParams[field.name] = filterValue.map(({ value }) => value)
+        const decodedFilterValue = decodeMultipleFilterFieldValue(filterValue)
+          .sort((a, b) => a.label.toLowerCase().localeCompare(b.label.toLowerCase()))
+          .map((option) => ({ ...option, type: field.type, filterKey: field.name }))
+
+        if (decodedFilterValue.length === 0) return
+
+        activeFilters.push(...decodedFilterValue)
+        filtersParams[field.name] = decodedFilterValue.map(({ value }) => value)
       }
     }
   })
