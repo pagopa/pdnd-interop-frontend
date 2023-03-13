@@ -44,7 +44,7 @@ export const getFiltersFieldsInitialValues = (
 
 /**
  * Gets the array of selected filter options and encode them to string with the following format:
- * "[[<OPTION_1_LABEL>, <OPTION_1_VALUE>], [<OPTION_2_LABEL>, <OPTION_2_VALUE>], ...]"
+ * "[[_OPTION_1_LABEL_, _OPTION_1_VALUE_], [_OPTION_2_LABEL_, _OPTION_2_VALUE_], ...]"
  * */
 export const encodeMultipleFilterFieldValue = (value: Array<FilterOption>) =>
   JSON.stringify(value.map(({ value, label }) => [label, value]))

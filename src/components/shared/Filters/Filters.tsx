@@ -2,16 +2,12 @@ import React from 'react'
 import { Stack } from '@mui/material'
 import { ActiveFilterChips } from './ActiveFiltersChips'
 import { FiltersFields } from './FiltersFields'
-import type { FilterOption, FieldsValues, FiltersHandler, FilterFields } from '@/types/filter.types'
+import type { FilterOption, FieldsValues, FiltersHandler } from '@/types/filter.types'
 import type { FiltersHandlers } from '@/hooks/useFilters'
 import { getFiltersFieldsInitialValues, getFiltersFieldsDefaultValue } from '@/utils/filter.utils'
 import { useSearchParams } from 'react-router-dom'
 
-export type FiltersProps = FiltersHandlers & {
-  fields: FilterFields
-}
-
-export const Filters: React.FC<FiltersProps> = ({
+export const Filters: React.FC<FiltersHandlers> = ({
   activeFilters,
   onChangeActiveFilter,
   onRemoveActiveFilter,
@@ -32,10 +28,10 @@ export const Filters: React.FC<FiltersProps> = ({
 
   const handleRemoveActiveFilter: FiltersHandler = (type, filterKey, value) => {
     if (type === 'multiple') {
-      const newFieldValue = structuredClone(fieldsValues)[filterKey] as Array<FilterOption>
+      const fieldValue = fieldsValues[filterKey] as Array<FilterOption>
       handleFieldsValuesChange(
         filterKey,
-        newFieldValue.filter(({ value: v }) => v !== value)
+        fieldValue.filter(({ value: v }) => v !== value)
       )
     }
     onRemoveActiveFilter(type, filterKey, value)

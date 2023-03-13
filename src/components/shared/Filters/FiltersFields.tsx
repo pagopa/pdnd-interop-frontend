@@ -1,11 +1,11 @@
 import React from 'react'
-import { Skeleton, Stack } from '@mui/material'
-import type { FiltersProps } from './Filters'
+import { Stack } from '@mui/material'
 import { FilterTextField } from './FilterTextField'
 import { FilterAutocompleteMultiple } from './FilterAutocompleteMultiple'
-import type { FieldsValues, FilterOption, FiltersHandler } from '../../../types/filter.types'
+import type { FieldsValues, FilterFields, FilterOption, FiltersHandler } from '@/types/filter.types'
 
-type FiltersFieldsProps = Pick<FiltersProps, 'fields'> & {
+type FiltersFieldsProps = {
+  fields: FilterFields
   onChangeActiveFilter: FiltersHandler
   fieldsValues: FieldsValues
   onFieldsValuesChange: (name: string, value: string | Array<FilterOption>) => void
@@ -52,7 +52,6 @@ export const FiltersFields: React.FC<FiltersFieldsProps> = ({
   ) => {
     onFieldsValuesChange(filterKey, data)
     dataQueueRef.current = { ...dataQueueRef.current, [filterKey]: data as FilterOption[] }
-    console.log(dataQueueRef.current)
     clearTimeout(debounceRef.current)
     debounceRef.current = setTimeout(enableDebouncedMultipleFieldFilters, 300)
   }
@@ -86,21 +85,6 @@ export const FiltersFields: React.FC<FiltersFieldsProps> = ({
             />
           )
       })}
-    </Stack>
-  )
-}
-
-export const FiltersFieldsSkeleton: React.FC<{ fieldsNum: number }> = ({ fieldsNum }) => {
-  return (
-    <Stack direction="row" spacing={2} sx={{ width: '100%' }}>
-      {new Array(fieldsNum).fill('').map((_, index) => (
-        <Skeleton
-          key={index}
-          variant="rectangular"
-          height={42}
-          sx={{ flex: 0.25, borderRadius: 1 }}
-        />
-      ))}
     </Stack>
   )
 }
