@@ -2,7 +2,6 @@ import React from 'react'
 import { Button, Chip, Divider, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import type { ActiveFilters, FiltersHandler } from '../../../types/filter.types'
-import { mapActiveFiltersToArray } from '../../../utils/filter.utils'
 
 type ActiveFilterChips = {
   activeFilters: ActiveFilters
@@ -16,23 +15,21 @@ export const ActiveFilterChips: React.FC<ActiveFilterChips> = ({
   onResetActiveFilters,
 }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
-  const filters = mapActiveFiltersToArray(activeFilters)
-
-  if (filters.length <= 0) return null
+  if (activeFilters.length <= 0) return null
 
   return (
     <>
-      {filters.length > 0 && <Divider sx={{ my: 1 }} />}
+      {activeFilters.length > 0 && <Divider sx={{ my: 1 }} />}
 
       <Stack direction="row" flexWrap="wrap" gap={1} alignItems="center" sx={{ width: '100%' }}>
-        {filters.map(({ value, label, type, filterKey }) => (
+        {activeFilters.map(({ value, label, type, filterKey }) => (
           <Chip
             key={value}
             label={label}
             onDelete={onRemoveActiveFilter.bind(null, type, filterKey, value)}
           />
         ))}
-        {filters.length > 1 && (
+        {activeFilters.length > 1 && (
           <Stack justifyContent="center">
             <Button
               sx={{ ml: 2 }}
