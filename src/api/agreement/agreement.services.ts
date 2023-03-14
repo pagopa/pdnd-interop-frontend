@@ -1,11 +1,11 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type {
-  GetAgreementEServiceListQueryFilters,
   GetListAgreementQueryParams,
   UploadAgreementDraftDocumentPayload,
   GetAgreementProducersQueryParams,
-  GetAgreementConsumersQueryFilters,
+  GetAgreementConsumersQueryParams,
+  GetAgreementEServiceListQueryParams,
 } from './agreement.api.types'
 import type { AgreementListingItem, AgreementSummary } from '@/types/agreement.types'
 import type { Paginated } from '../react-query-wrappers/react-query-wrappers.types'
@@ -33,7 +33,7 @@ async function getProducers(params?: GetAgreementProducersQueryParams) {
   return response.data
 }
 
-async function getConsumers(params?: GetAgreementConsumersQueryFilters) {
+async function getConsumers(params?: GetAgreementConsumersQueryParams) {
   const response = await axiosInstance.get<Paginated<{ id: string; name: string }>>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/filter/consumers`,
     { params }
@@ -41,7 +41,7 @@ async function getConsumers(params?: GetAgreementConsumersQueryFilters) {
   return response.data
 }
 
-async function getProducerEServiceList(params: GetAgreementEServiceListQueryFilters) {
+async function getProducerEServiceList(params: GetAgreementEServiceListQueryParams) {
   const response = await axiosInstance.get<Paginated<{ id: string; name: string }>>(
     `${BACKEND_FOR_FRONTEND_URL}/producers/agreements/eservices`,
     { params }
@@ -49,7 +49,7 @@ async function getProducerEServiceList(params: GetAgreementEServiceListQueryFilt
   return response.data
 }
 
-async function getConsumerEServiceList(params: GetAgreementEServiceListQueryFilters) {
+async function getConsumerEServiceList(params: GetAgreementEServiceListQueryParams) {
   const response = await axiosInstance.get<Paginated<{ id: string; name: string }>>(
     `${BACKEND_FOR_FRONTEND_URL}/consumers/agreements/eservices`,
     { params }
