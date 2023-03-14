@@ -5,12 +5,12 @@ import { getFormOperations } from '../utils/form-operations'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import useGetRiskAnalysisFormDefaultValues from './useGetRiskAnalysisFormDefaultValues'
-import type { DecoratedPurpose } from '@/types/purpose.types'
+import type { Purpose } from '@/types/purpose.types'
 import { PurposeMutations } from '@/api/purpose'
 
 function useRiskAnalysisForm(
   riskAnalysisConfig: RiskAnalysis,
-  purpose: DecoratedPurpose,
+  purpose: Purpose,
   forward: VoidFunction
 ) {
   const { t } = useTranslation('purpose')
