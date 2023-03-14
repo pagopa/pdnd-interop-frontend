@@ -133,6 +133,12 @@
           "REJECTED": "Rejected",
           "MISSING_CERTIFIED_ATTRIBUTES": "Missing certified attributes"
         }
+      },
+      "consumerField": {
+        "label": "Find by consumer"
+      },
+      "providerField": {
+        "label": "Find by provider"
       }
     },
     "provider": {
