@@ -21,7 +21,7 @@
       "description": "You are about to be redirected to the login page"
     },
     "actions": {
-      "confirmLabel": "Ok"
+      "cancelLabel": "Cancel"
     }
   },
   "dialogUpdatePurposeDailyCalls": {
