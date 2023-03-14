@@ -4,12 +4,9 @@ import type {
   GetListAgreementQueryParams,
   UploadAgreementDraftDocumentPayload,
   GetAgreementProducersQueryParams,
+  GetAgreementConsumersQueryFilters,
 } from './agreement.api.types'
-import type {
-  AgreementListingItem,
-  AgreementProducer,
-  AgreementSummary,
-} from '@/types/agreement.types'
+import type { AgreementListingItem, AgreementSummary } from '@/types/agreement.types'
 import type { Paginated } from '../react-query-wrappers/react-query-wrappers.types'
 
 async function getList(params?: GetListAgreementQueryParams) {
@@ -28,8 +25,16 @@ async function getSingle(agreementId: string) {
 }
 
 async function getProducers(params?: GetAgreementProducersQueryParams) {
-  const response = await axiosInstance.get<Array<AgreementProducer>>(
-    `${BACKEND_FOR_FRONTEND_URL}/agreements/producers`,
+  const response = await axiosInstance.get<Paginated<{ id: string; name: string }>>(
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/filter/producers`,
+    { params }
+  )
+  return response.data
+}
+
+async function getConsumers(params?: GetAgreementConsumersQueryFilters) {
+  const response = await axiosInstance.get<Paginated<{ id: string; name: string }>>(
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/filter/consumers`,
     { params }
   )
   return response.data
@@ -175,6 +180,7 @@ const AgreementServices = {
   getList,
   getSingle,
   getProducers,
+  getConsumers,
   createDraft,
   submitDraft,
   deleteDraft,
