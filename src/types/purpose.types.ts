@@ -1,6 +1,6 @@
 import type { AgreementSummary } from './agreement.types'
 import type { Client } from './client.types'
-import type { EServiceDescriptorRead, EServiceReadType } from './eservice.types'
+import type { EServiceState } from './eservice.types'
 
 export type PurposeState = 'DRAFT' | 'ACTIVE' | 'SUSPENDED' | 'WAITING_FOR_APPROVAL' | 'ARCHIVED'
 
@@ -13,15 +13,6 @@ type PurposeRiskAnalysisDocument = {
   contentType: string
   createdAt: string
   id: string
-}
-export type PurposeVersion = {
-  id: string
-  state: PurposeState
-  dailyCalls: number
-  riskAnalysis: PurposeRiskAnalysisDocument
-  createdAt: string
-  expectedApprovalDate?: string
-  firstActivationAt?: string
 }
 
 export type PurposeListingItem = {
@@ -54,32 +45,51 @@ export type PurposeListingItem = {
   }
 }
 
+export type PurposeVersion = {
+  id: string
+  state: PurposeState
+  createdAt: string
+  expectedApprovalDate?: string
+  updatedAt?: string
+  firstActivationAt?: string
+  dailyCalls: number
+  riskAnalysisDocument: PurposeRiskAnalysisDocument
+}
+
 export type Purpose = {
+  id: string
+  title: string
+  description: string
   consumer: {
     id: string
     name: string
   }
-  id: string
-  title: string
-  description: string
-  eservice: Pick<EServiceReadType, 'id' | 'name' | 'producer'> & {
-    descriptor: Pick<
-      EServiceDescriptorRead,
-      // TEMP PIN-1194
-      'id' | 'version' | 'state'
-    > & { dailyCalls: number }
-  }
-  agreement: Pick<AgreementSummary, 'id' | 'state'>
   riskAnalysisForm: PurposeRiskAnalysisForm
+  eservice: {
+    id: string
+    name: string
+    producer: {
+      id: string
+      name: string
+    }
+    descriptor: {
+      id: string
+      version: string
+      state: EServiceState
+      audience: Array<string>
+    }
+  }
+  agreement: Pick<AgreementSummary, 'id' | 'state'> & {
+    canBeUpgraded: boolean
+  }
+  currentVersion?: PurposeVersion
+  versions: Array<PurposeVersion>
+  clients: Array<
+    Pick<Client, 'id' | 'name'> & {
+      hasKeys: boolean
+    }
+  >
+  waitingForApprovalVersion?: PurposeVersion
   suspendedByConsumer?: boolean
   suspendedByProducer?: boolean
-  clients: Array<Pick<Client, 'id' | 'name'>>
-  versions: Array<PurposeVersion>
-}
-
-// The frontend adds this, currentVersion and mostRecentVersion
-// differ if mostRecentVersion's state is WAITING_FOR_APPROVAL
-export type DecoratedPurpose = Purpose & {
-  waitingForApprovalVersion: PurposeVersion | null
-  currentVersion: PurposeVersion | null
 }

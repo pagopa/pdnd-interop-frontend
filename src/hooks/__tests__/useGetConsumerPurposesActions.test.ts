@@ -1,10 +1,7 @@
-import type { DecoratedPurpose, PurposeListingItem } from '@/types/purpose.types'
+import type { Purpose, PurposeListingItem } from '@/types/purpose.types'
 import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 import useGetConsumerPurposesActions from '../useGetConsumerPurposesActions'
-import {
-  createMockDecoratedPurpose,
-  createMockPurposeListingItem,
-} from '__mocks__/data/purpose.mocks'
+import { createMockPurpose, createMockPurposeListingItem } from '__mocks__/data/purpose.mocks'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
@@ -34,7 +31,7 @@ afterAll(() => {
   server.close()
 })
 
-function renderUseGetConsumerPurposesActionsHook(purpose?: DecoratedPurpose | PurposeListingItem) {
+function renderUseGetConsumerPurposesActionsHook(purpose?: Purpose | PurposeListingItem) {
   return renderHookWithApplicationContext(() => useGetConsumerPurposesActions(purpose), {
     withReactQueryContext: true,
     withRouterContext: true,
@@ -48,7 +45,7 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
   })
 
   it('shoud only return clone action if an archived purpose is given', () => {
-    const purposeMock = createMockDecoratedPurpose({ currentVersion: { state: 'ARCHIVED' } })
+    const purposeMock = createMockPurpose({ currentVersion: { state: 'ARCHIVED' } })
     const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
 
     const cloneAction = result.current.actions.find((action) => action.label === 'clone')

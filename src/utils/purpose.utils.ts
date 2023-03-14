@@ -1,7 +1,7 @@
-import type { DecoratedPurpose, PurposeListingItem } from '@/types/purpose.types'
+import type { Purpose, PurposeListingItem } from '@/types/purpose.types'
 
 export function getPurposeFailureReasons(
-  purpose: DecoratedPurpose
+  purpose: Purpose
 ): Array<'eservice' | 'agreement' | 'purpose'> {
   const isEserviceActive =
     purpose.eservice.descriptor.state === 'PUBLISHED' ||
@@ -28,7 +28,7 @@ export function getPurposeFailureReasons(
  * the `suspendedByProducer` is true.
  */
 export function checkPurposeSuspendedByConsumer(
-  purpose: DecoratedPurpose | PurposeListingItem,
+  purpose: Purpose | PurposeListingItem,
   partyId?: string
 ) {
   if (purpose?.currentVersion?.state !== 'SUSPENDED') return false

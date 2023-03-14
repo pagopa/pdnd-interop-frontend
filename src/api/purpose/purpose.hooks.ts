@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import PurposeServices from './purpose.services'
 import type { PurposeGetListUrlParams } from './purpose.api.types'
-import { decoratePurposeWithMostRecentVersion } from './purpose.api.utils'
 import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
 import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
 
@@ -50,8 +49,7 @@ function useCreateDraft() {
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
     onSuccess(data) {
-      const decoratedPurpose = decoratePurposeWithMostRecentVersion(data)
-      queryClient.setQueryData([PurposeQueryKeys.GetSingle, data.id], decoratedPurpose)
+      queryClient.setQueryData([PurposeQueryKeys.GetSingle, data.id], data)
     },
   })
 }

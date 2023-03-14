@@ -5,14 +5,14 @@ import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { TableRow } from '@/components/shared/Table'
 import { RouterLink } from '@/router'
 import type { ActionItem } from '@/types/common.types'
-import type { DecoratedPurpose } from '@/types/purpose.types'
+import type { Purpose } from '@/types/purpose.types'
 import { Box, Skeleton } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface PurposeClientsTableRowProps {
   purposeId: string
-  client: DecoratedPurpose['clients'][0]
+  client: Purpose['clients'][0]
 }
 
 export const PurposeClientsTableRow: React.FC<PurposeClientsTableRowProps> = ({
