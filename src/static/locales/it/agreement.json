@@ -131,6 +131,12 @@
           "REJECTED": "Rifiutato",
           "MISSING_CERTIFIED_ATTRIBUTES": "Attributi certificati mancanti"
         }
+      },
+      "consumerField": {
+        "label": "Cerca per fruitore"
+      },
+      "providerField": {
+        "label": "Cerca per erogatore"
       }
     },
     "provider": {

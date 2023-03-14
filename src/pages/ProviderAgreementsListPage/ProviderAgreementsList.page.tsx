@@ -16,7 +16,19 @@ import { ProviderAgreementsTable, ProviderAgreementsTableSkeleton } from './comp
 
 const ProviderAgreementsListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerAgreementsList' })
-  const { t: tAgreement } = useTranslation('agreement', { keyPrefix: 'list.filters.statusField' })
+  const { t: tAgreement } = useTranslation('agreement', { keyPrefix: 'list.filters' })
+
+  const [consumersAutocompleteInput, setConsumersAutocompleteInput] = React.useState('')
+  const { data: consumers } = AgreementQueries.useGetConsumers(
+    { offset: 0, limit: 50, q: consumersAutocompleteInput },
+    { suspense: false, keepPreviousData: true }
+  )
+
+  const consumersOptions =
+    consumers?.results.map((o) => ({
+      label: o.name,
+      value: o.id,
+    })) || []
 
   const { jwt } = useJwt()
 
@@ -24,15 +36,22 @@ const ProviderAgreementsListPage: React.FC = () => {
   const { filtersParams, ...filtersHandlers } = useFilters<GetListAgreementQueryFilters>([
     {
       name: 'states',
-      label: tAgreement('label'),
+      label: tAgreement('statusField.label'),
       type: 'multiple',
       options: [
-        { label: tAgreement('optionLabels.ARCHIVED'), value: 'ARCHIVED' },
-        { label: tAgreement('optionLabels.ACTIVE'), value: 'ACTIVE' },
-        { label: tAgreement('optionLabels.PENDING'), value: 'PENDING' },
-        { label: tAgreement('optionLabels.REJECTED'), value: 'REJECTED' },
-        { label: tAgreement('optionLabels.SUSPENDED'), value: 'SUSPENDED' },
+        { label: tAgreement('statusField.optionLabels.ARCHIVED'), value: 'ARCHIVED' },
+        { label: tAgreement('statusField.optionLabels.ACTIVE'), value: 'ACTIVE' },
+        { label: tAgreement('statusField.optionLabels.PENDING'), value: 'PENDING' },
+        { label: tAgreement('statusField.optionLabels.REJECTED'), value: 'REJECTED' },
+        { label: tAgreement('statusField.optionLabels.SUSPENDED'), value: 'SUSPENDED' },
       ],
+    },
+    {
+      name: 'consumersIds',
+      label: tAgreement('consumerField.label'),
+      type: 'multiple',
+      options: consumersOptions,
+      setAutocompleteInput: setConsumersAutocompleteInput,
     },
   ])
 
