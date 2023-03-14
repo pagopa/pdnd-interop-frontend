@@ -28,3 +28,9 @@ export type GetAgreementConsumersQueryFilters = {
 }
 
 export type GetAgreementConsumersQueryParams = GetAgreementConsumersQueryFilters & PaginationParams
+export type GetAgreementEServiceListQueryFilters = {
+  q?: string
+}
+
+export type GetAgreementEServiceListQueryParams = GetAgreementEServiceListQueryFilters &
+  PaginationParams

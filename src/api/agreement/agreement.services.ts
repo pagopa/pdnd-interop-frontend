@@ -1,6 +1,7 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type {
+  GetAgreementEServiceListQueryFilters,
   GetListAgreementQueryParams,
   UploadAgreementDraftDocumentPayload,
   GetAgreementProducersQueryParams,
@@ -35,6 +36,22 @@ async function getProducers(params?: GetAgreementProducersQueryParams) {
 async function getConsumers(params?: GetAgreementConsumersQueryFilters) {
   const response = await axiosInstance.get<Paginated<{ id: string; name: string }>>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/filter/consumers`,
+    { params }
+  )
+  return response.data
+}
+
+async function getProducerEServiceList(params: GetAgreementEServiceListQueryFilters) {
+  const response = await axiosInstance.get<Paginated<{ id: string; name: string }>>(
+    `${BACKEND_FOR_FRONTEND_URL}/producers/agreements/eservices`,
+    { params }
+  )
+  return response.data
+}
+
+async function getConsumerEServiceList(params: GetAgreementEServiceListQueryFilters) {
+  const response = await axiosInstance.get<Paginated<{ id: string; name: string }>>(
+    `${BACKEND_FOR_FRONTEND_URL}/consumers/agreements/eservices`,
     { params }
   )
   return response.data
@@ -181,6 +198,8 @@ const AgreementServices = {
   getSingle,
   getProducers,
   getConsumers,
+  getProducerEServiceList,
+  getConsumerEServiceList,
   createDraft,
   submitDraft,
   deleteDraft,

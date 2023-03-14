@@ -10,6 +10,7 @@ import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
 import type {
   GetAgreementConsumersQueryParams,
   GetAgreementProducersQueryParams,
+  GetAgreementEServiceListQueryFilters,
   GetListAgreementQueryParams,
 } from './agreement.api.types'
 import AgreementServices from './agreement.services'
@@ -19,6 +20,8 @@ export enum AgreementQueryKeys {
   GetSingle = 'AgreementGetSingle',
   GetProducers = 'AgreementGetProducers',
   GetConsumers = 'AgreementGetConsumers',
+  GetProducerEServiceList = 'AgreementGetProducerEServiceList',
+  GetConsumerEServiceList = 'AgreementGetConsumerEServiceList',
 }
 
 function useGetList(
@@ -68,6 +71,28 @@ function usePrefetchSingle() {
     queryClient.prefetchQuery([AgreementQueryKeys.GetSingle, agreementId], () =>
       AgreementServices.getSingle(agreementId)
     )
+}
+
+function useGetProducerEServiceList(
+  params: GetAgreementEServiceListQueryFilters,
+  config: UseQueryWrapperOptions<Paginated<{ id: string; name: string }>>
+) {
+  return useQueryWrapper(
+    [AgreementQueryKeys.GetProducerEServiceList, params],
+    () => AgreementServices.getProducerEServiceList(params),
+    config
+  )
+}
+
+function useGetConsumerEServiceList(
+  params: GetAgreementEServiceListQueryFilters,
+  config: UseQueryWrapperOptions<Paginated<{ id: string; name: string }>>
+) {
+  return useQueryWrapper(
+    [AgreementQueryKeys.GetConsumerEServiceList, params],
+    () => AgreementServices.getConsumerEServiceList(params),
+    config
+  )
 }
 
 function useCreateDraft() {
@@ -236,6 +261,8 @@ export const AgreementQueries = {
   usePrefetchSingle,
   useGetProducers,
   useGetConsumers,
+  useGetProducerEServiceList,
+  useGetConsumerEServiceList,
 }
 
 export const AgreementMutations = {
