@@ -37,6 +37,13 @@ const ConsumerAgreementsListPage: React.FC = () => {
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<GetListAgreementQueryFilters>([
     {
+      name: 'producersIds',
+      label: tAgreement('providerField.label'),
+      type: 'multiple',
+      options: producersOptions,
+      setAutocompleteInput: setProducersAutocompleteInput,
+    },
+    {
       name: 'states',
       label: tAgreement('statusField.label'),
       type: 'multiple',
@@ -52,13 +59,6 @@ const ConsumerAgreementsListPage: React.FC = () => {
         { label: tAgreement('statusField.optionLabels.REJECTED'), value: 'REJECTED' },
         { label: tAgreement('statusField.optionLabels.SUSPENDED'), value: 'SUSPENDED' },
       ],
-    },
-    {
-      name: 'producersIds',
-      label: tAgreement('providerField.label'),
-      type: 'multiple',
-      options: producersOptions,
-      setAutocompleteInput: setProducersAutocompleteInput,
     },
   ])
 
