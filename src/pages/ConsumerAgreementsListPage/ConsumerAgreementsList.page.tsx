@@ -20,11 +20,17 @@ const ConsumerAgreementsListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerAgreementsList' })
   const { t: tAgreement } = useTranslation('agreement', { keyPrefix: 'list.filters' })
   const [producersAutocompleteInput, setProducersAutocompleteInput] = React.useState('')
+  const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = React.useState('')
 
   const { jwt } = useJwt()
 
   const { data: producers } = AgreementQueries.useGetProducers(
     { offset: 0, limit: 50, q: producersAutocompleteInput },
+    { suspense: false, keepPreviousData: true }
+  )
+
+  const { data: eservices } = AgreementQueries.useGetConsumerEServiceList(
+    { offset: 0, limit: 50, q: eservicesAutocompleteInput },
     { suspense: false, keepPreviousData: true }
   )
 
@@ -34,8 +40,21 @@ const ConsumerAgreementsListPage: React.FC = () => {
       value: o.id,
     })) || []
 
+  const eservicesOptions =
+    eservices?.results.map((o) => ({
+      label: o.name,
+      value: o.id,
+    })) || []
+
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<GetListAgreementQueryFilters>([
+    {
+      name: 'eservicesIds',
+      label: tAgreement('eserviceField.label'),
+      type: 'multiple',
+      options: eservicesOptions,
+      setAutocompleteInput: setEServicesAutocompleteInput,
+    },
     {
       name: 'producersIds',
       label: tAgreement('providerField.label'),
