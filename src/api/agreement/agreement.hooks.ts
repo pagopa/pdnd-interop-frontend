@@ -1,4 +1,8 @@
-import type { AgreementListingItem, AgreementSummary } from '@/types/agreement.types'
+import type {
+  AgreementListingItem,
+  AgreementProducer,
+  AgreementSummary,
+} from '@/types/agreement.types'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
@@ -7,12 +11,16 @@ import type {
   UseQueryWrapperOptions,
 } from '../react-query-wrappers/react-query-wrappers.types'
 import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
-import type { GetListAgreementQueryParams } from './agreement.api.types'
+import type {
+  GetAgreementProducersQueryParams,
+  GetListAgreementQueryParams,
+} from './agreement.api.types'
 import AgreementServices from './agreement.services'
 
 export enum AgreementQueryKeys {
   GetList = 'AgreementGetList',
   GetSingle = 'AgreementGetSingle',
+  GetProducers = 'AgreementGetProducers',
 }
 
 function useGetList(
@@ -30,6 +38,17 @@ function useGetSingle(agreementId: string, config?: UseQueryWrapperOptions<Agree
   return useQueryWrapper(
     [AgreementQueryKeys.GetSingle, agreementId],
     () => AgreementServices.getSingle(agreementId),
+    config
+  )
+}
+
+function useGetProducers(
+  params: GetAgreementProducersQueryParams,
+  config?: UseQueryWrapperOptions<Array<AgreementProducer>>
+) {
+  return useQueryWrapper(
+    [AgreementQueryKeys.GetProducers, params],
+    () => AgreementServices.getProducers(params),
     config
   )
 }
@@ -206,6 +225,7 @@ export const AgreementQueries = {
   useGetList,
   useGetSingle,
   usePrefetchSingle,
+  useGetProducers,
 }
 
 export const AgreementMutations = {

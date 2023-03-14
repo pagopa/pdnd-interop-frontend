@@ -3,8 +3,13 @@ import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type {
   GetListAgreementQueryParams,
   UploadAgreementDraftDocumentPayload,
+  GetAgreementProducersQueryParams,
 } from './agreement.api.types'
-import type { AgreementListingItem, AgreementSummary } from '@/types/agreement.types'
+import type {
+  AgreementListingItem,
+  AgreementProducer,
+  AgreementSummary,
+} from '@/types/agreement.types'
 import type { Paginated } from '../react-query-wrappers/react-query-wrappers.types'
 
 async function getList(params?: GetListAgreementQueryParams) {
@@ -18,6 +23,14 @@ async function getList(params?: GetListAgreementQueryParams) {
 async function getSingle(agreementId: string) {
   const response = await axiosInstance.get<AgreementSummary>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}`
+  )
+  return response.data
+}
+
+async function getProducers(params?: GetAgreementProducersQueryParams) {
+  const response = await axiosInstance.get<Array<AgreementProducer>>(
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/producers`,
+    { params }
   )
   return response.data
 }
@@ -161,6 +174,7 @@ async function downloadContract({ agreementId }: { agreementId: string }) {
 const AgreementServices = {
   getList,
   getSingle,
+  getProducers,
   createDraft,
   submitDraft,
   deleteDraft,
