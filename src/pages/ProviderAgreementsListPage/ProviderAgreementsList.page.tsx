@@ -19,8 +19,15 @@ const ProviderAgreementsListPage: React.FC = () => {
   const { t: tAgreement } = useTranslation('agreement', { keyPrefix: 'list.filters' })
 
   const [consumersAutocompleteInput, setConsumersAutocompleteInput] = React.useState('')
+  const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = React.useState('')
+
   const { data: consumers } = AgreementQueries.useGetConsumers(
     { offset: 0, limit: 50, q: consumersAutocompleteInput },
+    { suspense: false, keepPreviousData: true }
+  )
+
+  const { data: eservices } = AgreementQueries.useGetProducerEServiceList(
+    { offset: 0, limit: 50, q: eservicesAutocompleteInput },
     { suspense: false, keepPreviousData: true }
   )
 
@@ -30,10 +37,23 @@ const ProviderAgreementsListPage: React.FC = () => {
       value: o.id,
     })) || []
 
+  const eservicesOptions =
+    eservices?.results.map((o) => ({
+      label: o.name,
+      value: o.id,
+    })) || []
+
   const { jwt } = useJwt()
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<GetListAgreementQueryFilters>([
+    {
+      name: 'eservicesIds',
+      label: tAgreement('eserviceField.label'),
+      type: 'multiple',
+      options: eservicesOptions,
+      setAutocompleteInput: setEServicesAutocompleteInput,
+    },
     {
       name: 'consumersIds',
       label: tAgreement('consumerField.label'),
