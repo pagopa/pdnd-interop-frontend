@@ -134,7 +134,7 @@ const _SideNav = () => {
                 <ListItemIcon>
                   <SupervisedUserCircleIcon fontSize="inherit" />
                 </ListItemIcon>
-                <ListItemText primary={t('sidenav.userExternalLinkLabel')} />
+                <ListItemText primary={t('sidenav.groupsExternalLinkLabel')} />
                 <ListItemIcon>
                   <ExitToAppRoundedIcon color="action" />
                 </ListItemIcon>

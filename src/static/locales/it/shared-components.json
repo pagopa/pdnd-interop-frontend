@@ -137,7 +137,8 @@
     "copied": "Copiato"
   },
   "sidenav": {
-    "userExternalLinkLabel": "Utenti"
+    "userExternalLinkLabel": "Utenti",
+    "groupsExternalLinkLabel": "Gruppi"
   },
   "table": {
     "noDataLabel": "Questa ricerca non ha prodotto risultati"
