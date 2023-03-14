@@ -15,10 +15,9 @@ export type AgreementState =
   | 'REJECTED'
   | 'MISSING_CERTIFIED_ATTRIBUTES'
 
-export type AgreementProducer = {
+type AgreementProducer = {
   id: string
-  description: string
-  institutionId: string
+  name: string
 }
 
 type AgreementConsumer = {
@@ -87,10 +86,7 @@ export type AgreementSummary = {
   id: string
   descriptorId: string
   consumer: AgreementConsumer
-  producer: {
-    name: string
-    id: string
-  }
+  producer: AgreementProducer
   state: AgreementState
   eservice: AgreementEService
   verifiedAttributes: Array<AgreementAttribute>
