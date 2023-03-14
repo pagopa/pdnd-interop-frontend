@@ -40,7 +40,7 @@ async function updateDraft({
   ...payload
 }: { purposeId: string } & PurposeUpdateDraftPayload) {
   const response = await axiosInstance.post<Purpose>(
-    `${PURPOSE_PROCESS_URL}/purposes/${purposeId}`,
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}`,
     payload
   )
   return response.data
