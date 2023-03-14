@@ -17,7 +17,7 @@
   "dialogSessionExpired": {
     "title": "La sessione è scaduta",
     "content": {
-      "description": "A breve sarai reindirizzato alla pagina di login"
+      "description": "La sessione su PDND Interoperabilità è scaduta. Stai per essere reindirizzato su Area Riservata"
     },
     "actions": {
       "exitLabel": "Esci"
