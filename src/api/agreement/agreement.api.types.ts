@@ -16,3 +16,9 @@ export type UploadAgreementDraftDocumentPayload = {
   prettyName: string
   doc: File
 }
+
+export type GetAgreementProducersQueryFilters = {
+  q?: string
+}
+
+export type GetAgreementProducersQueryParams = GetAgreementProducersQueryFilters & PaginationParams
