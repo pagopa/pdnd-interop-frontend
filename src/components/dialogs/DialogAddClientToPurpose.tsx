@@ -6,7 +6,7 @@ import type { DialogAddClientToPurposeProps } from '@/types/dialog.types'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { AutocompleteMultiple } from '../shared/ReactHookFormInputs'
+import { RHFAutocompleteMultiple } from '../shared/react-hook-form-inputs'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 
 type AddClientToPurposeFormValues = {
@@ -69,7 +69,7 @@ export const DialogAddClientToPurpose: React.FC<DialogAddClientToPurposeProps> =
 
           <DialogContent>
             <Box sx={{ mt: 3 }}>
-              <AutocompleteMultiple
+              <RHFAutocompleteMultiple
                 focusOnMount
                 label={t('content.autocompleteLabel')}
                 sx={{ mt: 6, mb: 0 }}

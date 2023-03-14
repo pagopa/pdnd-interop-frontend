@@ -1,5 +1,5 @@
 import { PurposeQueries } from '@/api/purpose'
-import { AutocompleteSingle } from '@/components/shared/ReactHookFormInputs'
+import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
 import { Spinner } from '@/components/shared/Spinner'
 import { useJwt } from '@/hooks/useJwt'
 import { Alert } from '@mui/material'
@@ -50,7 +50,7 @@ export const PurposeCreateTemplateAutocomplete: React.FC = () => {
   }
 
   return (
-    <AutocompleteSingle
+    <RHFAutocompleteSingle
       // Key is given to force unmount/remount on eserviceId change
       key={selectedEServiceId}
       defaultValue={options[0]}

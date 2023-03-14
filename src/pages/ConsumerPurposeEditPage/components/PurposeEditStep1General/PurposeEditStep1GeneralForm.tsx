@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
-import { TextField } from '@/components/shared/ReactHookFormInputs'
+import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
 import { StepActions } from '@/components/shared/StepActions'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
@@ -56,7 +56,7 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
             {t('step1.title')}
           </Typography>
 
-          <TextField
+          <RHFTextField
             name="title"
             label={t('step1.nameField.label')}
             infoLabel={t('step1.nameField.infoLabel')}
@@ -65,7 +65,7 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
             rules={{ required: true, minLength: 5 }}
           />
 
-          <TextField
+          <RHFTextField
             name="description"
             label={t('step1.descriptionField.label')}
             infoLabel={t('step1.descriptionField.infoLabel')}
@@ -74,7 +74,7 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
             rules={{ required: true, minLength: 10 }}
           />
 
-          <TextField
+          <RHFTextField
             name="dailyCalls"
             label={t('step1.dailyCallsField.label')}
             infoLabel={t('step1.dailyCallsField.infoLabel')}

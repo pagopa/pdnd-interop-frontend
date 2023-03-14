@@ -1,6 +1,6 @@
 import React from 'react'
 import { AttributeQueries } from '@/api/attribute'
-import { AutocompleteSingle } from '@/components/shared/ReactHookFormInputs'
+import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
 import type { AttributeKey, CatalogAttribute } from '@/types/attribute.types'
 import { Button, Stack } from '@mui/material'
 import { ButtonNaked } from '@pagopa/mui-italia'
@@ -72,7 +72,7 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
 
   return (
     <FormProvider {...attributeAutocompleteFormMethods}>
-      <AutocompleteSingle
+      <RHFAutocompleteSingle
         label={t('autocompleteInput.label')}
         placeholder={t('autocompleteInput.placeholder')}
         onInputChange={(_, value) => handleSearchChange(value)}

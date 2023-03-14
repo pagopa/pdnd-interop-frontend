@@ -5,7 +5,7 @@ import type { DialogCreateNewAttributeProps } from '@/types/dialog.types'
 import { useDialog } from '@/stores'
 import type { AttributeKind } from '@/types/attribute.types'
 import { FormProvider, useForm } from 'react-hook-form'
-import { TextField } from '../shared/ReactHookFormInputs'
+import { RHFTextField } from '../shared/react-hook-form-inputs'
 import { AttributeMutations } from '@/api/attribute'
 
 type CreateNewAttributeFormValues = {
@@ -49,7 +49,7 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
           </DialogTitle>
 
           <DialogContent>
-            <TextField
+            <RHFTextField
               focusOnMount
               name="name"
               label={t('content.nameField.label')}
@@ -57,7 +57,7 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
               inputProps={{ maxLength: 160 }}
               rules={{ required: true, minLength: 5 }}
             />
-            <TextField
+            <RHFTextField
               name="description"
               label={t('content.descriptionField.label')}
               infoLabel={t('content.descriptionField.infoLabel')}

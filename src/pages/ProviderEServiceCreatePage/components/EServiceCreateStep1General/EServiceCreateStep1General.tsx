@@ -5,7 +5,7 @@ import { Alert, Box, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
-import { RadioGroup, TextField } from '@/components/shared/ReactHookFormInputs'
+import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import { useNavigateRouter } from '@/router'
 import { EServiceMutations } from '@/api/eservice'
@@ -119,7 +119,7 @@ export const EServiceCreateStep1General: React.FC = () => {
             {t('create.step1.detailsTitle')}
           </Typography>
 
-          <TextField
+          <RHFTextField
             name="name"
             focusOnMount
             label={t('create.step1.eserviceNameField.label')}
@@ -129,7 +129,7 @@ export const EServiceCreateStep1General: React.FC = () => {
             rules={{ required: true, minLength: 5 }}
           />
 
-          <TextField
+          <RHFTextField
             name="description"
             multiline
             label={t('create.step1.eserviceDescriptionField.label')}
@@ -139,7 +139,7 @@ export const EServiceCreateStep1General: React.FC = () => {
             rules={{ required: true, minLength: 10 }}
           />
 
-          <RadioGroup
+          <RHFRadioGroup
             name="technology"
             row
             label={t('create.step1.eserviceTechnologyField.label')}

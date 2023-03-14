@@ -1,6 +1,6 @@
 import { EServiceMutations } from '@/api/eservice'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Switch, TextField } from '@/components/shared/ReactHookFormInputs'
+import { RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { useNavigateRouter } from '@/router'
@@ -117,7 +117,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer>
-          <TextField
+          <RHFTextField
             sx={{ mt: 0 }}
             name="version"
             label={t('create.step2.versionField.label')}
@@ -126,7 +126,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
             rules={{ required: true }}
           />
 
-          <TextField
+          <RHFTextField
             name="description"
             label={t('create.step2.descriptionField.label')}
             infoLabel={t('create.step2.descriptionField.infoLabel')}
@@ -136,7 +136,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
             rules={{ required: true, minLength: 10 }}
           />
 
-          <TextField
+          <RHFTextField
             name="audience"
             label={t('create.step2.audienceField.label')}
             infoLabel={t('create.step2.audienceField.infoLabel')}
@@ -144,7 +144,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
             rules={{ required: true, minLength: 1 }}
           />
 
-          <TextField
+          <RHFTextField
             name="voucherLifespan"
             label={t('create.step2.voucherLifespanField.label')}
             infoLabel={t('create.step2.voucherLifespanField.infoLabel')}
@@ -153,7 +153,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
             rules={{ required: true, min: 1, max: 1440 }}
           />
 
-          <TextField
+          <RHFTextField
             name="dailyCallsPerConsumer"
             label={t('create.step2.dailyCallsPerConsumerField.label')}
             infoLabel={t('create.step2.dailyCallsPerConsumerField.infoLabel')}
@@ -162,7 +162,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
             rules={{ required: true, min: 1 }}
           />
 
-          <TextField
+          <RHFTextField
             name="dailyCallsTotal"
             label={t('create.step2.dailyCallsTotalField.label')}
             infoLabel={t('create.step2.dailyCallsTotalField.infoLabel')}
@@ -178,7 +178,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
             }}
           />
 
-          <Switch
+          <RHFSwitch
             label={t('create.step2.agreementApprovalPolicyField.label')}
             vertical
             name="agreementApprovalPolicy"

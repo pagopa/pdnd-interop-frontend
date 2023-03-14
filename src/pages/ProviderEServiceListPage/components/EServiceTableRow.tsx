@@ -9,7 +9,7 @@ import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import type { EServiceProvider } from '@/types/eservice.types'
 import { EServiceQueries } from '@/api/eservice'
-import { ButtonSkeleton } from '@/components/shared/MUISkeletons'
+import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceActions'
 
 type EServiceTableRow = {

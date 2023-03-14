@@ -6,7 +6,7 @@ import { Box, Button, Skeleton } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActionMenu, ActionMenuSkeleton } from '../ActionMenu'
-import { ButtonSkeleton } from '../MUISkeletons'
+import { ButtonSkeleton } from '../MUI-skeletons'
 import { TableRow } from '../Table'
 
 type ClientTableRow = {

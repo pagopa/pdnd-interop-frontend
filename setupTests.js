@@ -10,7 +10,7 @@ afterEach(() => {
   cleanup()
 })
 
-vi.spyOn(global.console, 'log').mockImplementation(() => vi.fn())
+// vi.spyOn(global.console, 'log').mockImplementation(() => vi.fn())
 vi.spyOn(global.console, 'error').mockImplementation(() => vi.fn())
 vi.spyOn(global.console, 'warn').mockImplementation(() => vi.fn())
 
