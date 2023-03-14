@@ -10,8 +10,8 @@ import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
 import type {
   GetAgreementConsumersQueryParams,
   GetAgreementProducersQueryParams,
-  GetAgreementEServiceListQueryFilters,
   GetListAgreementQueryParams,
+  GetAgreementEServiceListQueryParams,
 } from './agreement.api.types'
 import AgreementServices from './agreement.services'
 
@@ -74,7 +74,7 @@ function usePrefetchSingle() {
 }
 
 function useGetProducerEServiceList(
-  params: GetAgreementEServiceListQueryFilters,
+  params: GetAgreementEServiceListQueryParams,
   config: UseQueryWrapperOptions<Paginated<{ id: string; name: string }>>
 ) {
   return useQueryWrapper(
@@ -85,7 +85,7 @@ function useGetProducerEServiceList(
 }
 
 function useGetConsumerEServiceList(
-  params: GetAgreementEServiceListQueryFilters,
+  params: GetAgreementEServiceListQueryParams,
   config: UseQueryWrapperOptions<Paginated<{ id: string; name: string }>>
 ) {
   return useQueryWrapper(
