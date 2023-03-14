@@ -10,7 +10,6 @@ import type {
   PurposeGetListUrlParams,
   PurposeUpdateDraftPayload,
 } from './purpose.api.types'
-import { decoratePurposeWithMostRecentVersion } from './purpose.api.utils'
 import type { Paginated } from '../react-query-wrappers/react-query-wrappers.types'
 
 async function getList(params: PurposeGetListUrlParams) {
@@ -22,8 +21,10 @@ async function getList(params: PurposeGetListUrlParams) {
 }
 
 async function getSingle(purposeId: string) {
-  const response = await axiosInstance.get<Purpose>(`${PURPOSE_PROCESS_URL}/purposes/${purposeId}`)
-  return decoratePurposeWithMostRecentVersion(response.data)
+  const response = await axiosInstance.get<Purpose>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}`
+  )
+  return response.data
 }
 
 async function createDraft(payload: PurposeCreateDraftPayload) {
