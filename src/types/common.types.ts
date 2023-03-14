@@ -1,6 +1,7 @@
 import type { LANGUAGES } from '@/config/constants'
 
 export type PagoPAEnvVars = {
+  STAGE: 'DEV' | 'PROD' | 'TEST'
   AUTHORIZATION_PROCESS_URL: string
   CATALOG_PROCESS_URL: string
   PURPOSE_PROCESS_URL: string
