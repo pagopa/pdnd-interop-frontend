@@ -46,7 +46,7 @@ const ProviderPurposesListPage: React.FC = () => {
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<PurposeGetListQueryFilters>([
-    { name: 'q', label: tPurpose('nameField.label'), type: 'single' },
+    { name: 'name', label: tPurpose('nameField.label'), type: 'single' },
     {
       name: 'eservicesIds',
       label: tPurpose('eserviceField.label'),
