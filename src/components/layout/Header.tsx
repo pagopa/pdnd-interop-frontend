@@ -2,7 +2,7 @@ import React from 'react'
 import { useJwt } from '@/hooks/useJwt'
 import { useNavigateRouter } from '@/router'
 import { assistanceLink, documentationLink, pagoPaLink } from '@/config/constants'
-import { HeaderAccount, HeaderProduct } from '@pagopa/mui-italia'
+import { HeaderAccount, HeaderProduct, type ProductSwitchItem } from '@pagopa/mui-italia'
 import { FE_LOGIN_URL, SELFCARE_BASE_URL, SELFCARE_INTEROP_PROD_ID } from '@/config/env'
 import { PartyQueries } from '@/api/party/party.hooks'
 import type { PartyItem } from '@/api/party/party.api.types'
@@ -25,6 +25,30 @@ const getPartyList = (parties: Array<PartyItem> | undefined, t: TFunction<'commo
   return partyList
 }
 
+const getProductList = (products?: Array<{ id: string; name: string }>) => {
+  const productList: Array<ProductSwitchItem> = [
+    {
+      id: 'interop',
+      title: 'Interoperabilità',
+      productUrl: '',
+      linkType: 'internal',
+    },
+  ]
+
+  if (products) {
+    productList.concat(
+      products.map((product) => ({
+        id: product.id,
+        title: product.name,
+        productUrl: '',
+        linkType: 'internal',
+      }))
+    )
+  }
+
+  return productList
+}
+
 export const Header = () => {
   const { navigate } = useNavigateRouter()
   const { t } = useTranslation('common')
@@ -39,8 +63,9 @@ export const Header = () => {
   }
 
   const { data: parties } = PartyQueries.useGetPartyList(queriesOptions)
-
+  const { data: products } = PartyQueries.useGetProducts(queriesOptions)
   const partyList = getPartyList(parties, t)
+  const productList = getProductList(products)
 
   const headerAccountLoggedUser = jwt
     ? { id: jwt.uid, name: jwt.name, surname: jwt.family_name, email: '' }
@@ -75,16 +100,9 @@ export const Header = () => {
 
       <HeaderProduct
         productId="interop"
-        productsList={[
-          {
-            id: 'interop',
-            title: 'Interoperabilità',
-            productUrl: '',
-            linkType: 'internal',
-          },
-        ]}
         onSelectedParty={handleSelectParty}
         partyId={jwt?.selfcareId}
+        productsList={productList}
         partyList={partyList}
       />
     </header>
