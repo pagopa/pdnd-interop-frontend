@@ -20,7 +20,7 @@
       "description": "A breve sarai reindirizzato alla pagina di login"
     },
     "actions": {
-      "confirmLabel": "Ok"
+      "exitLabel": "Esci"
     }
   },
   "dialogUpdatePurposeDailyCalls": {
