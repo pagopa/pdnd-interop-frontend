@@ -28,6 +28,30 @@ export const theme = createTheme(
             },
           },
         },
+        MuiDialogContent: {
+          styleOverrides: {
+            root: {
+              paddingRight: 0,
+              paddingLeft: 0,
+            },
+          },
+        },
+        MuiDialogTitle: {
+          styleOverrides: {
+            root: {
+              paddingLeft: 0,
+              paddingRight: 0,
+            },
+          },
+        },
+        MuiDialogActions: {
+          styleOverrides: {
+            root: {
+              paddingLeft: 0,
+              paddingRight: 0,
+            },
+          },
+        },
       },
     },
     muiItaliaTheme
