@@ -1,5 +1,5 @@
 import React from 'react'
-import { Autocomplete, Checkbox, TextField } from '@mui/material'
+import { Autocomplete, Checkbox, Paper, TextField } from '@mui/material'
 import type { AutocompleteProps } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import isEqual from 'lodash/isEqual'
@@ -49,13 +49,10 @@ export const FilterAutocompleteMultiple: React.FC<FilterAutocompleteMultipleProp
       isOptionEqualToValue={(option, { value }) => isEqual(option.value, value)}
       loadingText={props.loadingText || t('loadingLabel')}
       noOptionsText={props.noOptionsText || t('noDataLabel')}
-      ListboxProps={{
-        style: { maxHeight: 200, ...props.ListboxProps?.style },
-        ...props.ListboxProps,
-      }}
       disableCloseOnSelect
       disableClearable
       renderTags={() => null}
+      PaperComponent={({ children }) => <Paper elevation={4}>{children}</Paper>}
       size="small"
       {...props}
       onInputChange={handleAutocompleteInputChange}
