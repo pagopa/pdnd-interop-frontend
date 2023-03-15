@@ -18,7 +18,7 @@
   "dialogSessionExpired": {
     "title": "Session expired",
     "content": {
-      "description": "Your session on PDND Interop has expired. You are about to be redirected to the Reserved Area"
+      "description": "Your session on PDND Interop has expired. You are about to be redirected to Self Care"
     },
     "actions": {
       "exitLabel": "Exit"
