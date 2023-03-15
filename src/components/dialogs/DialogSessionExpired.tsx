@@ -28,7 +28,7 @@ export const DialogSessionExpired: React.FC<DialogSessionExpiredProps> = () => {
 
       <DialogActions>
         <Button variant="outlined" onClick={logout}>
-          {t('actions.cancelLabel')}
+          {t('actions.exitLabel')}
         </Button>
       </DialogActions>
     </Dialog>

@@ -20,7 +20,7 @@
       "description": "A breve sarai reindirizzato alla pagina di login"
     },
     "actions": {
-      "cancelLabel": "Annulla"
+      "exitLabel": "Esci"
     }
   },
   "dialogUpdatePurposeDailyCalls": {
