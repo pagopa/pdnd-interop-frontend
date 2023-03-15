@@ -40,7 +40,7 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
       { ...updateDraftPayload, riskAnalysisForm: purpose.riskAnalysisForm, purposeId },
       {
         onSuccess(updatedPurpose) {
-          const versionId = updatedPurpose.currentVersion!.id
+          const versionId = updatedPurpose.versionId
           updateVersionDraft({ purposeId, versionId, dailyCalls }, { onSuccess: forward })
         },
       }
