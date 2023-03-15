@@ -1,7 +1,6 @@
 {
   "loadingSingleLabel": "Loading request",
   "loadingMultiLabel": "Loading requests",
-  "noMultiDataLabel": "Non fruition request available",
   "backToRequestsBtn": "Go back to requests",
   "read": {
     "title": "Manage fruition request",

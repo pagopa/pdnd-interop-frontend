@@ -12,7 +12,6 @@ type ConsumerPurposesTableProps = {
 }
 
 export const ConsumerPurposesTable: React.FC<ConsumerPurposesTableProps> = ({ purposes }) => {
-  const { t } = useTranslation('agreement')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
 
   const headLabels = [
@@ -24,11 +23,7 @@ export const ConsumerPurposesTable: React.FC<ConsumerPurposesTableProps> = ({ pu
   ]
 
   return (
-    <Table
-      headLabels={headLabels}
-      noDataLabel={t('noMultiDataLabel')}
-      isEmpty={purposes && purposes.length === 0}
-    >
+    <Table headLabels={headLabels} isEmpty={purposes && purposes.length === 0}>
       {purposes?.map((purpose) => (
         <ConsumerPurposesTableRow key={purpose.id} purpose={purpose} />
       ))}

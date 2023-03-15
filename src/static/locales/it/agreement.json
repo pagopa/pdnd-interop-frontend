@@ -1,7 +1,6 @@
 {
   "loadingSingleLabel": "Stiamo caricando la richiesta",
   "loadingMultiLabel": "Stiamo caricando la lista di richieste",
-  "noMultiDataLabel": "Non ci sono richieste disponibili",
   "backToRequestsBtn": "Torna alle richieste",
   "read": {
     "title": "Gestisci richiesta di fruizione",
