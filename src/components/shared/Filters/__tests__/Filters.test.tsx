@@ -136,8 +136,8 @@ describe('Filters component', () => {
     await user.click(multipleFilterField)
     vi.useFakeTimers()
     const option1 = screen.getByRole('option', { name: 'Option1' })
-    const option2 = screen.getByRole('option', { name: 'Option2' })
     fireEvent.click(option1)
+    const option2 = screen.getByRole('option', { name: 'Option2' })
     fireEvent.click(option2)
     vi.advanceTimersByTime(400)
     expect(onChangeActiveFilterFn).toBeCalledWith('multiple', 'multiple-field', [
