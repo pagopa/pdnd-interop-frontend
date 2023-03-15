@@ -43,14 +43,10 @@ function usePrefetchSingle() {
 
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.createDraft' })
-  const queryClient = useQueryClient()
   return useMutationWrapper(PurposeServices.createDraft, {
     suppressSuccessToast: true,
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
-    onSuccess(data) {
-      queryClient.setQueryData([PurposeQueryKeys.GetSingle, data.id], data)
-    },
   })
 }
 
