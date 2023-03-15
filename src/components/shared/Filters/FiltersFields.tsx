@@ -27,13 +27,18 @@ export const FiltersFields: React.FC<FiltersFieldsProps> = ({
     dataQueueRef.current = {}
   }
 
-  const enableTextFieldFilters = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleTextFieldKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key !== 'Enter') return
     const target = event.target as HTMLInputElement
+    if (target.type === 'button') return
     const filterKey = target.name
-    const value = target.value
 
     target.blur()
+    enableTextFieldFilter(filterKey)
+  }
+
+  const enableTextFieldFilter = (filterKey: string) => {
+    const value = fieldsValues[filterKey]
 
     onChangeActiveFilter('single', filterKey, value)
     onFieldsValuesChange(filterKey, '')
@@ -68,7 +73,8 @@ export const FiltersFields: React.FC<FiltersFieldsProps> = ({
               name={field.name}
               value={fieldsValues[field.name] as string}
               onChange={handleTextFieldChange}
-              onKeyDown={enableTextFieldFilters}
+              onKeyDown={handleTextFieldKeyDown}
+              onIconClick={enableTextFieldFilter.bind(null, field.name)}
             />
           )
         if (field.type === 'multiple')
