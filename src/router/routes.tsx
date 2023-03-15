@@ -76,7 +76,7 @@ export const routes = makeType({
     LABEL: { it: 'Crea e-service', en: 'Create e-service' },
     COMPONENT: ProviderEServiceCreatePage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'api'],
+    AUTH_LEVELS: ['admin'],
   },
   PROVIDE_ESERVICE_EDIT: {
     PATH: {
@@ -86,7 +86,7 @@ export const routes = makeType({
     LABEL: { it: 'Modifica e-service', en: 'Edit e-service' },
     COMPONENT: ProviderEServiceCreatePage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'api'],
+    AUTH_LEVELS: ['admin'],
   },
   PROVIDE_ESERVICE_MANAGE: {
     PATH: {
@@ -96,14 +96,14 @@ export const routes = makeType({
     LABEL: { it: 'Visualizza e-service', en: 'View e-service' },
     COMPONENT: ProviderEServiceDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'api'],
+    AUTH_LEVELS: ['admin'],
   },
   PROVIDE_ESERVICE_LIST: {
     PATH: { it: 'erogazione/e-service', en: 'provider/e-service' },
     LABEL: { it: 'I tuoi e-service', en: 'Your e-services' },
     COMPONENT: ProviderEServiceListPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'api'],
+    AUTH_LEVELS: ['admin'],
   },
   PROVIDE_AGREEMENT_READ: {
     PATH: {
@@ -113,28 +113,28 @@ export const routes = makeType({
     LABEL: { it: 'Gestisci richiesta', en: 'Manage request' },
     COMPONENT: ProviderAgreementDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'api'],
   },
   PROVIDE_AGREEMENT_LIST: {
     PATH: { it: 'erogazione/richieste', en: 'provider/agreements' },
     LABEL: { it: 'Richieste di fruizione', en: 'Requests for use' },
     COMPONENT: ProviderAgreementsListPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'api'],
   },
   PROVIDE_PURPOSE_LIST: {
     PATH: { it: 'erogazione/finalita', en: 'provider/purposes' },
     LABEL: { it: 'Finalità', en: 'Purposes' },
     COMPONENT: ProviderPurposesListPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'api'],
   },
   PROVIDE_PURPOSE_DETAILS: {
     PATH: { it: 'erogazione/finalita/:purposeId', en: 'provider/purpose/:purposeId' },
     LABEL: { it: 'Visualizza finalità', en: 'View purpose' },
     COMPONENT: ProviderPurposeDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'api'],
   },
   PROVIDE: {
     PATH: { it: 'erogazione', en: 'provider' },
@@ -152,14 +152,14 @@ export const routes = makeType({
     LABEL: { it: 'Visualizza e-service', en: 'View e-service' },
     COMPONENT: ConsumerEServiceDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'api', 'security'],
+    AUTH_LEVELS: ['admin'],
   },
   SUBSCRIBE_CATALOG_LIST: {
     PATH: { it: 'fruizione/catalogo-e-service', en: 'subscriber/e-service-catalog' },
     LABEL: { it: 'Catalogo e-service', en: 'E-service catalog' },
     COMPONENT: ConsumerEServiceCatalogPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'api', 'security'],
+    AUTH_LEVELS: ['admin'],
   },
   SUBSCRIBE_PURPOSE_CREATE: {
     PATH: { it: 'fruizione/finalita/crea', en: 'subscriber/purpose/create' },
@@ -183,14 +183,14 @@ export const routes = makeType({
     LABEL: { it: 'Gestisci singola finalità', en: 'Manage purpose' },
     COMPONENT: ConsumerPurposeDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'security'],
   },
   SUBSCRIBE_PURPOSE_LIST: {
     PATH: { it: 'fruizione/finalita', en: 'subscriber/purpose' },
     LABEL: { it: 'Le tue finalità', en: 'Your purpose' },
     COMPONENT: ConsumerPurposesListPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'security'],
   },
   SUBSCRIBE_CLIENT_OPERATOR_EDIT: {
     PATH: {
@@ -203,7 +203,7 @@ export const routes = makeType({
     },
     COMPONENT: OperatorDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'security'],
+    AUTH_LEVELS: ['admin'],
   },
   SUBSCRIBE_CLIENT_KEY_EDIT: {
     PATH: {
@@ -216,7 +216,7 @@ export const routes = makeType({
     },
     COMPONENT: KeyDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'security'],
+    AUTH_LEVELS: ['admin'],
   },
   SUBSCRIBE_CLIENT_CREATE: {
     PATH: { it: 'fruizione/client/crea', en: 'subscriber/client/create' },
@@ -230,14 +230,14 @@ export const routes = makeType({
     LABEL: { it: 'Gestisci client e-service', en: 'Manage e-service client' },
     COMPONENT: ConsumerClientManagePage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'security'],
+    AUTH_LEVELS: ['admin'],
   },
   SUBSCRIBE_CLIENT_LIST: {
     PATH: { it: 'fruizione/client', en: 'subscriber/client' },
     LABEL: { it: 'I tuoi client e-service', en: 'Your e-service clients' },
     COMPONENT: ConsumerClientListPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'security'],
+    AUTH_LEVELS: ['admin'],
   },
   SUBSCRIBE_AGREEMENT_READ: {
     PATH: {
@@ -247,14 +247,14 @@ export const routes = makeType({
     LABEL: { it: 'Gestisci richiesta', en: 'Manage request' },
     COMPONENT: ConsumerAgreementDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'security'],
   },
   SUBSCRIBE_AGREEMENT_LIST: {
     PATH: { it: 'fruizione/richieste', en: 'subscriber/agreements' },
     LABEL: { it: 'Le tue richieste', en: 'Your requests' },
     COMPONENT: ConsumerAgreementsListPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'security'],
   },
   SUBSCRIBE_AGREEMENT_EDIT: {
     PATH: {
@@ -277,7 +277,7 @@ export const routes = makeType({
     },
     COMPONENT: OperatorDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'security'],
+    AUTH_LEVELS: ['admin'],
   },
   SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT: {
     PATH: {
@@ -290,7 +290,7 @@ export const routes = makeType({
     },
     COMPONENT: KeyDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'security'],
+    AUTH_LEVELS: ['admin'],
   },
   SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE: {
     PATH: { it: 'fruizione/interop-m2m/crea', en: 'subscriber/interop-m2m/create' },
@@ -304,14 +304,14 @@ export const routes = makeType({
     LABEL: { it: 'Gestisci client api interop', en: 'Manage interop api client' },
     COMPONENT: ConsumerClientManagePage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'security'],
+    AUTH_LEVELS: ['admin'],
   },
   SUBSCRIBE_INTEROP_M2M: {
     PATH: { it: 'fruizione/interop-m2m', en: 'subscriber/interop-m2m' },
     LABEL: { it: 'I tuoi client api interop', en: 'Your api interop clients' },
     COMPONENT: ConsumerClientM2MListPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'security'],
+    AUTH_LEVELS: ['admin'],
   },
   SUBSCRIBE: {
     PATH: { it: 'fruizione', en: 'subscriber' },
@@ -319,14 +319,14 @@ export const routes = makeType({
     REDIRECT: 'SUBSCRIBE_CATALOG_LIST',
     COMPONENT: EmptyComponent,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'api'],
+    AUTH_LEVELS: ['admin', 'security'],
   },
   PARTY_REGISTRY: {
     PATH: { it: 'ente', en: 'party' },
     LABEL: { it: 'Anagrafica ente', en: 'Party registry' },
     COMPONENT: PartyRegistryPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'api'],
   },
   NOT_FOUND: {
     PATH: { it: '404', en: '404' },

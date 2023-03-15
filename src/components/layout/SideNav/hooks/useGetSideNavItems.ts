@@ -31,25 +31,20 @@ const views: Views = {
     {
       routeKey: 'PROVIDE',
       id: 'provider',
-      children: ['PROVIDE_ESERVICE_LIST'],
-    },
-    {
-      routeKey: 'SUBSCRIBE',
-      id: 'subscriber',
-      children: ['SUBSCRIBE_CATALOG_LIST'],
+      children: ['PROVIDE_AGREEMENT_LIST', 'PROVIDE_PURPOSE_LIST'],
     },
   ],
   security: [
     {
       routeKey: 'SUBSCRIBE',
       id: 'subscriber',
-      children: ['SUBSCRIBE_CATALOG_LIST', 'SUBSCRIBE_CLIENT_LIST', 'SUBSCRIBE_INTEROP_M2M'],
+      children: ['SUBSCRIBE_AGREEMENT_LIST', 'SUBSCRIBE_PURPOSE_LIST'],
     },
   ],
 }
 
 export function useGetSideNavItems() {
-  const { currentRoles } = useJwt()
+  const { currentRoles, isAdmin, isOperatorAPI } = useJwt()
 
   return React.useMemo(() => {
     const availableSideNavItems: Array<SideNavItemView> = []
@@ -78,7 +73,7 @@ export function useGetSideNavItems() {
 
     availableSideNavItems.push({ routeKey: 'NOTIFICATION', StartIcon: EmailIcon })
 
-    if (currentRoles.includes('admin')) {
+    if (isAdmin || isOperatorAPI) {
       availableSideNavItems.push({ routeKey: 'PARTY_REGISTRY' as RouteKey })
     }
 
@@ -90,5 +85,5 @@ export function useGetSideNavItems() {
     })
 
     return availableSideNavItems
-  }, [currentRoles])
+  }, [currentRoles, isAdmin, isOperatorAPI])
 }
