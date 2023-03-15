@@ -1,17 +1,17 @@
-import type { DecoratedPurpose, PurposeListingItem } from '../../src/types/purpose.types'
+import type { Purpose, PurposeListingItem } from '../../src/types/purpose.types'
 import { createMockFactory } from '../../src/utils/testing.utils'
 
-const createMockDecoratedPurpose = createMockFactory<DecoratedPurpose>({
-  agreement: { id: '3ec3875a-cf24-450a-b94b-550ca2ec5e86', state: 'ACTIVE' },
+const createMockPurpose = createMockFactory<Purpose>({
+  agreement: { id: '3ec3875a-cf24-450a-b94b-550ca2ec5e86', state: 'ACTIVE', canBeUpgraded: false },
   clients: [],
   consumer: { id: '6b16be70-9230-4209-bd1f-7e5ae0eed289', name: 'PagoPa S.p.A.' },
   description: 'Lorem ipsum dolor sit amet...',
   eservice: {
     descriptor: {
-      dailyCalls: 1,
       id: 'cd80bfe6-54be-493a-aaa1-6bb2b54545f8',
       state: 'PUBLISHED',
       version: '1',
+      audience: [],
     },
     id: 'dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e',
     name: 'Test Attributi 2 - Ste',
@@ -46,7 +46,7 @@ const createMockDecoratedPurpose = createMockFactory<DecoratedPurpose>({
       dailyCalls: 1,
       firstActivationAt: '2023-02-03T08:26:43.139Z',
       id: '3a5c9422-876c-4de8-828a-66586fd68b55',
-      riskAnalysis: {
+      riskAnalysisDocument: {
         contentType: 'application/pdf',
         createdAt: '2023-02-03T08:26:43.049Z',
         id: '3562b028-0193-45fa-acf9-4bbe1ced352a',
@@ -54,13 +54,13 @@ const createMockDecoratedPurpose = createMockFactory<DecoratedPurpose>({
       state: 'ACTIVE',
     },
   ],
-  waitingForApprovalVersion: null,
+  waitingForApprovalVersion: undefined,
   currentVersion: {
     createdAt: '2023-02-03T07:59:52.458Z',
     dailyCalls: 1,
     firstActivationAt: '2023-02-03T08:26:43.139Z',
     id: '3a5c9422-876c-4de8-828a-66586fd68b55',
-    riskAnalysis: {
+    riskAnalysisDocument: {
       contentType: 'application/pdf',
       createdAt: '2023-02-03T08:26:43.049Z',
       id: '3562b028-0193-45fa-acf9-4bbe1ced352a',
@@ -83,4 +83,4 @@ const createMockPurposeListingItem = createMockFactory<PurposeListingItem>({
   title: 'Nuova finalità',
 })
 
-export { createMockDecoratedPurpose, createMockPurposeListingItem }
+export { createMockPurpose, createMockPurposeListingItem }

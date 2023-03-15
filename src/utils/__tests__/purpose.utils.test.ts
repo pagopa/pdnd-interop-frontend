@@ -1,9 +1,9 @@
 import { checkPurposeSuspendedByConsumer, getPurposeFailureReasons } from '../purpose.utils'
-import { createMockDecoratedPurpose } from '__mocks__/data/purpose.mocks'
+import { createMockPurpose } from '__mocks__/data/purpose.mocks'
 
 describe('checks if the getPurposeFailureReasons purpose util function work as expected', () => {
   it('should have no failure if the e-service is published, the agreement and the purpose current version are active', () => {
-    const mockPurpose = createMockDecoratedPurpose({
+    const mockPurpose = createMockPurpose({
       eservice: { descriptor: { state: 'PUBLISHED' } },
       agreement: { state: 'ACTIVE' },
       currentVersion: { state: 'ACTIVE' },
@@ -13,7 +13,7 @@ describe('checks if the getPurposeFailureReasons purpose util function work as e
   })
 
   it('should have no failure if the e-service is deprecated, the agreement and the purpose current version are active', () => {
-    const mockPurpose = createMockDecoratedPurpose({
+    const mockPurpose = createMockPurpose({
       eservice: { descriptor: { state: 'DEPRECATED' } },
       agreement: { state: 'ACTIVE' },
       currentVersion: { state: 'ACTIVE' },
@@ -23,7 +23,7 @@ describe('checks if the getPurposeFailureReasons purpose util function work as e
   })
 
   it('should have e-service failure reason if the e-service is neither deprecated or published', () => {
-    const mockPurpose = createMockDecoratedPurpose({
+    const mockPurpose = createMockPurpose({
       eservice: { descriptor: { state: 'DRAFT' } },
       agreement: { state: 'ACTIVE' },
       currentVersion: { state: 'ACTIVE' },
@@ -34,7 +34,7 @@ describe('checks if the getPurposeFailureReasons purpose util function work as e
   })
 
   it('should have agreement failure reason if the agreement is not active', () => {
-    const mockPurpose = createMockDecoratedPurpose({
+    const mockPurpose = createMockPurpose({
       eservice: { descriptor: { state: 'PUBLISHED' } },
       agreement: { state: 'SUSPENDED' },
       currentVersion: { state: 'ACTIVE' },
@@ -45,7 +45,7 @@ describe('checks if the getPurposeFailureReasons purpose util function work as e
   })
 
   it('should have purpose failure reason if the purpose current version is not active', () => {
-    const mockPurpose = createMockDecoratedPurpose({
+    const mockPurpose = createMockPurpose({
       eservice: { descriptor: { state: 'PUBLISHED' } },
       agreement: { state: 'ACTIVE' },
       currentVersion: { state: 'SUSPENDED' },
@@ -56,7 +56,7 @@ describe('checks if the getPurposeFailureReasons purpose util function work as e
   })
 
   it('should have puspoe, agreement and e-servive failure reasons if the purpose current version and the agreement are not active and the eservice is neither published or deprecated ', () => {
-    const mockPurpose = createMockDecoratedPurpose({
+    const mockPurpose = createMockPurpose({
       eservice: { descriptor: { state: 'DRAFT' } },
       agreement: { state: 'SUSPENDED' },
       currentVersion: { state: 'SUSPENDED' },
@@ -71,7 +71,7 @@ describe('checks if the getPurposeFailureReasons purpose util function work as e
 
 describe('checks if the checkPurposeSuspendedByConsumer purpose util function work as expected', () => {
   it("should return false if the purpose's current version is not suspended", () => {
-    const mockPurpose = createMockDecoratedPurpose({
+    const mockPurpose = createMockPurpose({
       currentVersion: { state: 'ACTIVE' },
     })
     const isSuspendedByConsumer = checkPurposeSuspendedByConsumer(mockPurpose)
@@ -79,7 +79,7 @@ describe('checks if the checkPurposeSuspendedByConsumer purpose util function wo
   })
 
   it('should return false if the suspendedByConsumer flag is false', () => {
-    const mockPurpose = createMockDecoratedPurpose({
+    const mockPurpose = createMockPurpose({
       currentVersion: { state: 'SUSPENDED' },
       suspendedByConsumer: false,
     })
@@ -88,7 +88,7 @@ describe('checks if the checkPurposeSuspendedByConsumer purpose util function wo
   })
 
   it('should return true if the suspendedByConsumer flag is true', () => {
-    const mockPurpose = createMockDecoratedPurpose({
+    const mockPurpose = createMockPurpose({
       currentVersion: { state: 'SUSPENDED' },
       suspendedByConsumer: true,
     })
@@ -97,7 +97,7 @@ describe('checks if the checkPurposeSuspendedByConsumer purpose util function wo
   })
 
   it('should return true if the active party is both the e-service producer and purpose consumer and the purpose is supended by the party itself.', () => {
-    const mockPurpose = createMockDecoratedPurpose({
+    const mockPurpose = createMockPurpose({
       currentVersion: { state: 'SUSPENDED' },
       suspendedByProducer: true,
       suspendedByConsumer: false,

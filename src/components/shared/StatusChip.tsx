@@ -12,7 +12,7 @@ import type { ChipProps } from '@mui/material'
 import omit from 'lodash/omit'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
-import type { DecoratedPurpose, PurposeListingItem, PurposeState } from '@/types/purpose.types'
+import type { Purpose, PurposeListingItem, PurposeState } from '@/types/purpose.types'
 import type { AttributeKey, AttributeKind, AttributeState } from '@/types/attribute.types'
 import { useJwt } from '@/hooks/useJwt'
 import { checkPurposeSuspendedByConsumer } from '@/utils/purpose.utils'
@@ -75,7 +75,7 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
       }
     | {
         for: 'purpose'
-        purpose: DecoratedPurpose | PurposeListingItem
+        purpose: Purpose | PurposeListingItem
       }
     | {
         for: 'user'

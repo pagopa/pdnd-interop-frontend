@@ -1,12 +1,9 @@
-import type { DecoratedPurpose, PurposeListingItem } from '@/types/purpose.types'
+import type { Purpose, PurposeListingItem } from '@/types/purpose.types'
 import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 import useGetProviderPurposesActions from '../useGetProviderPurposesActions'
-import {
-  createMockDecoratedPurpose,
-  createMockPurposeListingItem,
-} from '__mocks__/data/purpose.mocks'
+import { createMockPurpose, createMockPurposeListingItem } from '__mocks__/data/purpose.mocks'
 
-function renderUseGetProviderPurposesActionsHook(purpose?: DecoratedPurpose | PurposeListingItem) {
+function renderUseGetProviderPurposesActionsHook(purpose?: Purpose | PurposeListingItem) {
   return renderHookWithApplicationContext(() => useGetProviderPurposesActions(purpose), {
     withReactQueryContext: true,
     withRouterContext: true,
@@ -20,7 +17,7 @@ describe('check if useGetProviderPurposesActions returns the correct actions bas
   })
 
   it('shoud not return any action if an archived purpose is given', () => {
-    const purposeMock = createMockDecoratedPurpose({ currentVersion: { state: 'ARCHIVED' } })
+    const purposeMock = createMockPurpose({ currentVersion: { state: 'ARCHIVED' } })
     const { result } = renderUseGetProviderPurposesActionsHook(purposeMock)
     expect(result.current.actions).toHaveLength(0)
   })

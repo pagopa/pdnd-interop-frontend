@@ -34,7 +34,7 @@ export const PurposeDetailsDocumentListSection: React.FC<
         {
           purposeId,
           versionId: purpose.currentVersion.id,
-          documentId: purpose.currentVersion.riskAnalysis.id,
+          documentId: purpose.currentVersion.riskAnalysisDocument.id,
         },
         document.name
       )

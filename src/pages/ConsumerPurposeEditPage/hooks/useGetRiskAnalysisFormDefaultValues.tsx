@@ -1,4 +1,4 @@
-import type { DecoratedPurpose } from '@/types/purpose.types'
+import type { Purpose } from '@/types/purpose.types'
 import React from 'react'
 import type {
   Answers,
@@ -13,7 +13,7 @@ function useGetRiskAnalysisFormDefaultValues(
     getUpdatedQuestions: GetUpdatedQuestions
     buildForm: BuildForm
   },
-  purpose: DecoratedPurpose
+  purpose: Purpose
 ) {
   return React.useMemo(() => {
     let defaultValues: Answers | null
