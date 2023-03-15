@@ -103,7 +103,7 @@ const _SideNav = () => {
               <ListItemButton
                 component="a"
                 href={selfcareUsersPageUrl}
-                target={selfcareUsersPageUrl && '_blank'}
+                target="_blank"
                 sx={{
                   pl: 3,
                   py: 2,
@@ -124,7 +124,7 @@ const _SideNav = () => {
               <ListItemButton
                 component="a"
                 href={selfcareGroupsPageUrl}
-                target={selfcareGroupsPageUrl && '_blank'}
+                target="_blank"
                 sx={{
                   pl: 3,
                   py: 2,
