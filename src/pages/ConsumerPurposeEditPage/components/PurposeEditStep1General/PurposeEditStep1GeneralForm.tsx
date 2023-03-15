@@ -8,7 +8,6 @@ import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/
 import { PurposeMutations } from '@/api/purpose'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import type { Purpose } from '@/types/purpose.types'
-import { decoratePurposeWithMostRecentVersion } from '@/api/purpose/purpose.api.utils'
 
 type PurposeEditStep1GeneralFormValues = {
   title: string
@@ -41,7 +40,7 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
       { ...updateDraftPayload, riskAnalysisForm: purpose.riskAnalysisForm, purposeId },
       {
         onSuccess(updatedPurpose) {
-          const versionId = decoratePurposeWithMostRecentVersion(updatedPurpose).currentVersion!.id
+          const versionId = updatedPurpose.currentVersion!.id
           updateVersionDraft({ purposeId, versionId, dailyCalls }, { onSuccess: forward })
         },
       }
