@@ -2,7 +2,7 @@ import type { PaginationParams } from '@/api/api.types'
 import type { PurposeRiskAnalysisForm, PurposeState } from '@/types/purpose.types'
 
 export type PurposeGetListQueryFilters = {
-  q?: string
+  name?: string
   eservicesIds?: Array<string>
   consumersIds?: Array<string>
   producersIds?: Array<string>
