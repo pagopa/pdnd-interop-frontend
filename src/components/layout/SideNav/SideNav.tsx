@@ -11,8 +11,9 @@ import {
 import type { SvgIconComponent } from '@mui/icons-material'
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded'
 import PeopleIcon from '@mui/icons-material/People'
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle'
 import { useTranslation } from 'react-i18next'
-import { RouteKey } from '@/router/router.types'
+import type { RouteKey } from '@/router/router.types'
 import { useJwt } from '@/hooks/useJwt'
 import { SELFCARE_BASE_URL } from '@/config/env'
 import { useCurrentRoute } from '@/router'
@@ -21,6 +22,7 @@ import { SIDENAV_WIDTH } from '@/config/constants'
 import { SideNavItemLink, SideNavItemLinkSkeleton } from './SideNavItemLink'
 import { CollapsableSideNavItem, CollapsableSideNavItemSkeleton } from './CollapsableSideNavItem'
 import { useGetSideNavItems } from './hooks/useGetSideNavItems'
+import type { ExtendedWindow } from '@/types/common.types'
 
 type View = {
   routeKey: RouteKey
@@ -57,8 +59,15 @@ const _SideNav = () => {
 
   const [openId, setOpenId] = useState<string | null>(isActive)
 
+  const currentEnv = (window as unknown as ExtendedWindow).pagopa_env?.STAGE
+
   const selfcareUsersPageUrl =
-    jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users#prod-interop`
+    jwt &&
+    `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users#prod-interop${
+      currentEnv === 'TEST' ? '-coll' : ''
+    }`
+
+  const selfcareGroupsPageUrl = jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/groups`
 
   const toggleCollapse = (id: string | undefined) => {
     setOpenId((prev) => (id === prev ? null : !id ? null : id))
@@ -94,7 +103,7 @@ const _SideNav = () => {
               <ListItemButton
                 component="a"
                 href={selfcareUsersPageUrl}
-                target={selfcareUsersPageUrl && '_blank'}
+                target="_blank"
                 sx={{
                   pl: 3,
                   py: 2,
@@ -105,6 +114,27 @@ const _SideNav = () => {
                   <PeopleIcon fontSize="inherit" />
                 </ListItemIcon>
                 <ListItemText primary={t('sidenav.userExternalLinkLabel')} />
+                <ListItemIcon>
+                  <ExitToAppRoundedIcon color="action" />
+                </ListItemIcon>
+              </ListItemButton>
+            </ListItem>
+
+            <ListItem sx={{ display: 'block', p: 0 }}>
+              <ListItemButton
+                component="a"
+                href={selfcareGroupsPageUrl}
+                target="_blank"
+                sx={{
+                  pl: 3,
+                  py: 2,
+                  display: 'flex',
+                }}
+              >
+                <ListItemIcon>
+                  <SupervisedUserCircleIcon fontSize="inherit" />
+                </ListItemIcon>
+                <ListItemText primary={t('sidenav.groupsExternalLinkLabel')} />
                 <ListItemIcon>
                   <ExitToAppRoundedIcon color="action" />
                 </ListItemIcon>

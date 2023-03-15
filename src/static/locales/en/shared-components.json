@@ -138,7 +138,8 @@
     "copied": "Copied"
   },
   "sidenav": {
-    "userExternalLinkLabel": "Users"
+    "userExternalLinkLabel": "Users",
+    "groupsExternalLinkLabel": "Groups"
   },
   "table": {
     "noDataLabel": "This search bears no results"
