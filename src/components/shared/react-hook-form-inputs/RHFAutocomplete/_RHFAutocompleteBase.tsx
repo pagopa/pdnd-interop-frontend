@@ -1,11 +1,12 @@
 import React from 'react'
 import {
   Autocomplete,
-  AutocompleteProps,
-  AutocompleteValue,
+  type AutocompleteProps,
+  type AutocompleteValue,
   CircularProgress,
+  Paper,
   TextField,
-  TextFieldProps,
+  type TextFieldProps,
   Typography,
 } from '@mui/material'
 import { Controller, useFormContext } from 'react-hook-form'
@@ -15,7 +16,7 @@ import match from 'autosuggest-highlight/match'
 import { useTranslation } from 'react-i18next'
 import identity from 'lodash/identity'
 import isEqual from 'lodash/isEqual'
-import { ControllerProps } from 'react-hook-form/dist/types/controller'
+import type { ControllerProps } from 'react-hook-form/dist/types/controller'
 import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
 export type RHFAutocompleteInput<T> = { label: string; value: T }
@@ -94,6 +95,7 @@ export function _RHFAutocompleteBase<
             noOptionsText={props.noOptionsText || t('noDataLabel')}
             loading={loading}
             defaultValue={defaultValue}
+            PaperComponent={({ children }) => <Paper elevation={4}>{children}</Paper>}
             ListboxProps={{
               style: { maxHeight: 200, ...props.ListboxProps?.style },
               ...props.ListboxProps,
