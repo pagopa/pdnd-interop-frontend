@@ -3,6 +3,9 @@ import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type {
   GetListAgreementQueryParams,
   UploadAgreementDraftDocumentPayload,
+  GetAgreementProducersQueryParams,
+  GetAgreementConsumersQueryParams,
+  GetAgreementEServiceListQueryParams,
 } from './agreement.api.types'
 import type { AgreementListingItem, AgreementSummary } from '@/types/agreement.types'
 import type { Paginated } from '../react-query-wrappers/react-query-wrappers.types'
@@ -18,6 +21,38 @@ async function getList(params?: GetListAgreementQueryParams) {
 async function getSingle(agreementId: string) {
   const response = await axiosInstance.get<AgreementSummary>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}`
+  )
+  return response.data
+}
+
+async function getProducers(params?: GetAgreementProducersQueryParams) {
+  const response = await axiosInstance.get<Paginated<{ id: string; name: string }>>(
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/filter/producers`,
+    { params }
+  )
+  return response.data
+}
+
+async function getConsumers(params?: GetAgreementConsumersQueryParams) {
+  const response = await axiosInstance.get<Paginated<{ id: string; name: string }>>(
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/filter/consumers`,
+    { params }
+  )
+  return response.data
+}
+
+async function getProducerEServiceList(params: GetAgreementEServiceListQueryParams) {
+  const response = await axiosInstance.get<Paginated<{ id: string; name: string }>>(
+    `${BACKEND_FOR_FRONTEND_URL}/producers/agreements/eservices`,
+    { params }
+  )
+  return response.data
+}
+
+async function getConsumerEServiceList(params: GetAgreementEServiceListQueryParams) {
+  const response = await axiosInstance.get<Paginated<{ id: string; name: string }>>(
+    `${BACKEND_FOR_FRONTEND_URL}/consumers/agreements/eservices`,
+    { params }
   )
   return response.data
 }
@@ -161,6 +196,10 @@ async function downloadContract({ agreementId }: { agreementId: string }) {
 const AgreementServices = {
   getList,
   getSingle,
+  getProducers,
+  getConsumers,
+  getProducerEServiceList,
+  getConsumerEServiceList,
   createDraft,
   submitDraft,
   deleteDraft,

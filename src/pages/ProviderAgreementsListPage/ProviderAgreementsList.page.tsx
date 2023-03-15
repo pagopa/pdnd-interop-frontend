@@ -16,22 +16,61 @@ import { ProviderAgreementsTable, ProviderAgreementsTableSkeleton } from './comp
 
 const ProviderAgreementsListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerAgreementsList' })
-  const { t: tAgreement } = useTranslation('agreement', { keyPrefix: 'list.filters.statusField' })
+  const { t: tAgreement } = useTranslation('agreement', { keyPrefix: 'list.filters' })
+
+  const [consumersAutocompleteInput, setConsumersAutocompleteInput] = React.useState('')
+  const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = React.useState('')
+
+  const { data: consumers } = AgreementQueries.useGetConsumers(
+    { offset: 0, limit: 50, q: consumersAutocompleteInput },
+    { suspense: false, keepPreviousData: true }
+  )
+
+  const { data: eservices } = AgreementQueries.useGetProducerEServiceList(
+    { offset: 0, limit: 50, q: eservicesAutocompleteInput },
+    { suspense: false, keepPreviousData: true }
+  )
+
+  const consumersOptions =
+    consumers?.results.map((o) => ({
+      label: o.name,
+      value: o.id,
+    })) || []
+
+  const eservicesOptions =
+    eservices?.results.map((o) => ({
+      label: o.name,
+      value: o.id,
+    })) || []
 
   const { jwt } = useJwt()
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<GetListAgreementQueryFilters>([
     {
+      name: 'eservicesIds',
+      label: tAgreement('eserviceField.label'),
+      type: 'multiple',
+      options: eservicesOptions,
+      setAutocompleteInput: setEServicesAutocompleteInput,
+    },
+    {
+      name: 'consumersIds',
+      label: tAgreement('consumerField.label'),
+      type: 'multiple',
+      options: consumersOptions,
+      setAutocompleteInput: setConsumersAutocompleteInput,
+    },
+    {
       name: 'states',
-      label: tAgreement('label'),
+      label: tAgreement('statusField.label'),
       type: 'multiple',
       options: [
-        { label: tAgreement('optionLabels.ARCHIVED'), value: 'ARCHIVED' },
-        { label: tAgreement('optionLabels.ACTIVE'), value: 'ACTIVE' },
-        { label: tAgreement('optionLabels.PENDING'), value: 'PENDING' },
-        { label: tAgreement('optionLabels.REJECTED'), value: 'REJECTED' },
-        { label: tAgreement('optionLabels.SUSPENDED'), value: 'SUSPENDED' },
+        { label: tAgreement('statusField.optionLabels.ARCHIVED'), value: 'ARCHIVED' },
+        { label: tAgreement('statusField.optionLabels.ACTIVE'), value: 'ACTIVE' },
+        { label: tAgreement('statusField.optionLabels.PENDING'), value: 'PENDING' },
+        { label: tAgreement('statusField.optionLabels.REJECTED'), value: 'REJECTED' },
+        { label: tAgreement('statusField.optionLabels.SUSPENDED'), value: 'SUSPENDED' },
       ],
     },
   ])

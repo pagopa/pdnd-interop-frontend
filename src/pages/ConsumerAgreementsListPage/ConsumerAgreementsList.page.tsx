@@ -18,27 +18,65 @@ import {
 
 const ConsumerAgreementsListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerAgreementsList' })
-  const { t: tAgreement } = useTranslation('agreement', { keyPrefix: 'list.filters.statusField' })
+  const { t: tAgreement } = useTranslation('agreement', { keyPrefix: 'list.filters' })
+  const [producersAutocompleteInput, setProducersAutocompleteInput] = React.useState('')
+  const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = React.useState('')
 
   const { jwt } = useJwt()
+
+  const { data: producers } = AgreementQueries.useGetProducers(
+    { offset: 0, limit: 50, q: producersAutocompleteInput },
+    { suspense: false, keepPreviousData: true }
+  )
+
+  const { data: eservices } = AgreementQueries.useGetConsumerEServiceList(
+    { offset: 0, limit: 50, q: eservicesAutocompleteInput },
+    { suspense: false, keepPreviousData: true }
+  )
+
+  const producersOptions =
+    producers?.results.map((o) => ({
+      label: o.name,
+      value: o.id,
+    })) || []
+
+  const eservicesOptions =
+    eservices?.results.map((o) => ({
+      label: o.name,
+      value: o.id,
+    })) || []
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<GetListAgreementQueryFilters>([
     {
+      name: 'eservicesIds',
+      label: tAgreement('eserviceField.label'),
+      type: 'multiple',
+      options: eservicesOptions,
+      setAutocompleteInput: setEServicesAutocompleteInput,
+    },
+    {
+      name: 'producersIds',
+      label: tAgreement('providerField.label'),
+      type: 'multiple',
+      options: producersOptions,
+      setAutocompleteInput: setProducersAutocompleteInput,
+    },
+    {
       name: 'states',
-      label: tAgreement('label'),
+      label: tAgreement('statusField.label'),
       type: 'multiple',
       options: [
-        { label: tAgreement('optionLabels.ARCHIVED'), value: 'ARCHIVED' },
-        { label: tAgreement('optionLabels.ACTIVE'), value: 'ACTIVE' },
+        { label: tAgreement('statusField.optionLabels.ARCHIVED'), value: 'ARCHIVED' },
+        { label: tAgreement('statusField.optionLabels.ACTIVE'), value: 'ACTIVE' },
         {
-          label: tAgreement('optionLabels.MISSING_CERTIFIED_ATTRIBUTES'),
+          label: tAgreement('statusField.optionLabels.MISSING_CERTIFIED_ATTRIBUTES'),
           value: 'MISSING_CERTIFIED_ATTRIBUTES',
         },
-        { label: tAgreement('optionLabels.PENDING'), value: 'PENDING' },
-        { label: tAgreement('optionLabels.DRAFT'), value: 'DRAFT' },
-        { label: tAgreement('optionLabels.REJECTED'), value: 'REJECTED' },
-        { label: tAgreement('optionLabels.SUSPENDED'), value: 'SUSPENDED' },
+        { label: tAgreement('statusField.optionLabels.PENDING'), value: 'PENDING' },
+        { label: tAgreement('statusField.optionLabels.DRAFT'), value: 'DRAFT' },
+        { label: tAgreement('statusField.optionLabels.REJECTED'), value: 'REJECTED' },
+        { label: tAgreement('statusField.optionLabels.SUSPENDED'), value: 'SUSPENDED' },
       ],
     },
   ])

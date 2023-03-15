@@ -16,9 +16,10 @@ export type AgreementState =
   | 'MISSING_CERTIFIED_ATTRIBUTES'
 
 type AgreementProducer = {
-  name: string
   id: string
+  name: string
 }
+
 type AgreementConsumer = {
   name: string
   selfcareId?: string

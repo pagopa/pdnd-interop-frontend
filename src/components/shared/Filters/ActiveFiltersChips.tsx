@@ -19,7 +19,7 @@ export const ActiveFilterChips: React.FC<ActiveFilterChips> = ({
 
   return (
     <>
-      {activeFilters.length > 0 && <Divider sx={{ my: 1 }} />}
+      <Divider sx={{ my: 1 }} />
 
       <Stack direction="row" flexWrap="wrap" gap={1} alignItems="center" sx={{ width: '100%' }}>
         {activeFilters.map(({ value, label, type, filterKey }) => (
