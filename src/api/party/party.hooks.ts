@@ -9,6 +9,7 @@ import PartyServices from './party.services'
 export enum PartyQueryKeys {
   GetSingle = 'PartyGetSingle',
   GetUsersList = 'PartyGetUsersList',
+  GetProducts = 'PartyGetProducts',
   GetPartyList = 'PartyGetPartyList',
 }
 
@@ -53,6 +54,14 @@ function usePrefetchUsersList() {
   }
 }
 
+function useGetProducts(config: UseQueryWrapperOptions<Array<{ id: string; name: string }>>) {
+  return useQueryWrapper([PartyQueryKeys.GetProducts], () => PartyServices.getProducts(), config)
+}
+
+function useGetPartyList(config: UseQueryWrapperOptions<Array<PartyItem>>) {
+  return useQueryWrapper([PartyQueryKeys.GetPartyList], () => PartyServices.getPartyList(), config)
+}
+
 function useUpdateMail() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'party.updateMail' })
   return useMutationWrapper(PartyServices.updateMail, {
@@ -62,15 +71,12 @@ function useUpdateMail() {
   })
 }
 
-function useGetPartyList(config: UseQueryWrapperOptions<Array<PartyItem>>) {
-  return useQueryWrapper([PartyQueryKeys.GetPartyList], () => PartyServices.getPartyList(), config)
-}
-
 export const PartyQueries = {
   useGetParty,
   useGetActiveUserParty,
   useGetUsersList,
   usePrefetchUsersList,
+  useGetProducts,
   useGetPartyList,
 }
 
