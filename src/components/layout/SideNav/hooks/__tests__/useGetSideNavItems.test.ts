@@ -68,9 +68,6 @@ it('Should match the snapshot on only admin role', async () => {
         },
         "routeKey": "NOTIFICATION",
       },
-      {
-        "routeKey": "PARTY_REGISTRY",
-      },
     ]
   `)
 })
@@ -83,17 +80,11 @@ it('Should match the snapshot on only api operator role', async () => {
     [
       {
         "children": [
-          "PROVIDE_ESERVICE_LIST",
+          "PROVIDE_AGREEMENT_LIST",
+          "PROVIDE_PURPOSE_LIST",
         ],
         "id": "provider",
         "routeKey": "PROVIDE",
-      },
-      {
-        "children": [
-          "SUBSCRIBE_CATALOG_LIST",
-        ],
-        "id": "subscriber",
-        "routeKey": "SUBSCRIBE",
       },
       {
         "StartIcon": {
@@ -118,9 +109,8 @@ it('Should match the snapshot on only security operator role', async () => {
     [
       {
         "children": [
-          "SUBSCRIBE_CATALOG_LIST",
-          "SUBSCRIBE_CLIENT_LIST",
-          "SUBSCRIBE_INTEROP_M2M",
+          "SUBSCRIBE_AGREEMENT_LIST",
+          "SUBSCRIBE_PURPOSE_LIST",
         ],
         "id": "subscriber",
         "routeKey": "SUBSCRIBE",
@@ -150,16 +140,16 @@ it('Should match the snapshot on security and api operator roles', async () => {
     [
       {
         "children": [
-          "SUBSCRIBE_CATALOG_LIST",
-          "SUBSCRIBE_CLIENT_LIST",
-          "SUBSCRIBE_INTEROP_M2M",
+          "SUBSCRIBE_AGREEMENT_LIST",
+          "SUBSCRIBE_PURPOSE_LIST",
         ],
         "id": "subscriber",
         "routeKey": "SUBSCRIBE",
       },
       {
         "children": [
-          "PROVIDE_ESERVICE_LIST",
+          "PROVIDE_AGREEMENT_LIST",
+          "PROVIDE_PURPOSE_LIST",
         ],
         "id": "provider",
         "routeKey": "PROVIDE",
@@ -189,11 +179,11 @@ it('Should match the snapshot on security and admin operator roles', async () =>
     [
       {
         "children": [
+          "SUBSCRIBE_AGREEMENT_LIST",
+          "SUBSCRIBE_PURPOSE_LIST",
           "SUBSCRIBE_CATALOG_LIST",
           "SUBSCRIBE_CLIENT_LIST",
           "SUBSCRIBE_INTEROP_M2M",
-          "SUBSCRIBE_AGREEMENT_LIST",
-          "SUBSCRIBE_PURPOSE_LIST",
         ],
         "id": "subscriber",
         "routeKey": "SUBSCRIBE",
@@ -217,9 +207,6 @@ it('Should match the snapshot on security and admin operator roles', async () =>
           },
         },
         "routeKey": "NOTIFICATION",
-      },
-      {
-        "routeKey": "PARTY_REGISTRY",
       },
     ]
   `)
@@ -235,9 +222,9 @@ it('Should match the snapshot on api and admin operator roles', async () => {
     [
       {
         "children": [
-          "PROVIDE_ESERVICE_LIST",
           "PROVIDE_AGREEMENT_LIST",
           "PROVIDE_PURPOSE_LIST",
+          "PROVIDE_ESERVICE_LIST",
         ],
         "id": "provider",
         "routeKey": "PROVIDE",
@@ -263,9 +250,6 @@ it('Should match the snapshot on api and admin operator roles', async () => {
           },
         },
         "routeKey": "NOTIFICATION",
-      },
-      {
-        "routeKey": "PARTY_REGISTRY",
       },
     ]
   `)
@@ -281,9 +265,9 @@ it('Should match the snapshot on all roles', async () => {
     [
       {
         "children": [
-          "PROVIDE_ESERVICE_LIST",
           "PROVIDE_AGREEMENT_LIST",
           "PROVIDE_PURPOSE_LIST",
+          "PROVIDE_ESERVICE_LIST",
         ],
         "id": "provider",
         "routeKey": "PROVIDE",
@@ -309,9 +293,6 @@ it('Should match the snapshot on all roles', async () => {
           },
         },
         "routeKey": "NOTIFICATION",
-      },
-      {
-        "routeKey": "PARTY_REGISTRY",
       },
     ]
   `)
