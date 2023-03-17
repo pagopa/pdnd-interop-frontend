@@ -114,7 +114,7 @@ async function addOperator({
   relationshipId: string
 }) {
   const response = await axiosInstance.post<Client>(
-    `${AUTHORIZATION_PROCESS_URL}/clients/${clientId}/relationships/${relationshipId}`
+    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/relationships/${relationshipId}`
   )
   return response.data
 }
