@@ -142,7 +142,7 @@ async function clone({ purposeId }: { purposeId: string }) {
 }
 
 function addClient({ clientId, purposeId }: { clientId: string; purposeId: string }) {
-  return axiosInstance.post(`${AUTHORIZATION_PROCESS_URL}/clients/${clientId}/purposes`, {
+  return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/purposes`, {
     purposeId,
   })
 }
