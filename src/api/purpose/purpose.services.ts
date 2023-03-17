@@ -149,7 +149,7 @@ function addClient({ clientId, purposeId }: { clientId: string; purposeId: strin
 
 function removeClient({ clientId, purposeId }: { clientId: string; purposeId: string }) {
   return axiosInstance.delete(
-    `${AUTHORIZATION_PROCESS_URL}/clients/${clientId}/purposes/${purposeId}`
+    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/purposes/${purposeId}`
   )
 }
 
