@@ -3,6 +3,7 @@ import { PurposeQueries } from '@/api/purpose'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
 import { AgreementDetails, AgreementDetailsSkeleton } from '@/components/shared/AgreementDetails'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
+import { useJwt } from '@/hooks/useJwt'
 import { RouterLink, useRouteParams } from '@/router'
 import { formatTopSideActions } from '@/utils/common.utils'
 import { Alert } from '@mui/material'
@@ -19,6 +20,7 @@ const ConsumerAgreementDetailsPage: React.FC = () => {
 
 const ConsumerAgreementDetailsPageContent: React.FC = () => {
   const { t } = useTranslation('agreement')
+  const { isAdmin } = useJwt()
 
   const { agreementId } = useRouteParams<'SUBSCRIBE_AGREEMENT_READ'>()
   const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
@@ -30,7 +32,7 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
 
   const topSideActions = formatTopSideActions(actions)
 
-  const showNoPurposeAlert = agreementPurposes && agreementPurposes.results.length === 0
+  const showNoPurposeAlert = isAdmin && agreementPurposes && agreementPurposes.results.length === 0
 
   return (
     <PageContainer title={t('read.title')} topSideActions={topSideActions}>

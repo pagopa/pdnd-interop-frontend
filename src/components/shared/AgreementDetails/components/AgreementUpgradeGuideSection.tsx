@@ -8,12 +8,14 @@ import { useAgreementDetailsContext } from '../AgreementDetailsContext'
 import { AgreementMutations } from '@/api/agreement'
 import { RouterLink, useNavigateRouter } from '@/router'
 import { agreementUpgradeGuideLink } from '@/config/constants'
+import { useJwt } from '@/hooks/useJwt'
 
 export const AgreementUpgradeGuideSection: React.FC = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.updateGuide' })
   const { agreement, canBeUpgraded } = useAgreementDetailsContext()
   const { mutate: upgradeAgreement } = AgreementMutations.useUpgrade()
   const { navigate } = useNavigateRouter()
+  const { isAdmin } = useJwt()
 
   const handleUpgrade = async () => {
     if (!agreement?.id) return
@@ -29,7 +31,7 @@ export const AgreementUpgradeGuideSection: React.FC = () => {
 
   const eservice = agreement?.eservice
 
-  if (!eservice || !canBeUpgraded) return null
+  if (!eservice || !canBeUpgraded || !isAdmin) return null
 
   return (
     <>

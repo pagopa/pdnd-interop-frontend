@@ -8,10 +8,13 @@ import { useTranslation } from 'react-i18next'
 import { Button, Divider, Grid, Stack } from '@mui/material'
 import { useDialog } from '@/stores'
 import { PartyQueries } from '@/api/party/party.hooks'
+import { useJwt } from '@/hooks/useJwt'
 
 export const PartyContacts: React.FC = () => {
   const { t } = useTranslation('party', { keyPrefix: 'contacts' })
   const { t: tCommon } = useTranslation('common')
+  const { isAdmin } = useJwt()
+
   const { openDialog } = useDialog()
 
   const { data: user } = PartyQueries.useGetActiveUserParty()
@@ -37,12 +40,16 @@ export const PartyContacts: React.FC = () => {
             <InformationContainer label={t('descriptionField.label')}>
               {email?.description || 'n/a'}
             </InformationContainer>
-            <Divider />
-            <Stack alignItems="center">
-              <Button onClick={handleOpenUpdateMailDialog} variant="outlined">
-                {tCommon('actions.edit')}
-              </Button>
-            </Stack>
+            {isAdmin && (
+              <>
+                <Divider />
+                <Stack alignItems="center">
+                  <Button onClick={handleOpenUpdateMailDialog} variant="outlined">
+                    {tCommon('actions.edit')}
+                  </Button>
+                </Stack>
+              </>
+            )}
           </Stack>
         </SectionContainer>
       </Grid>

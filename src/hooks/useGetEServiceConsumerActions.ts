@@ -26,12 +26,13 @@ function useGetEServiceConsumerActions<
   const hasAgreementDraft = !!(eservice?.agreement && eservice.agreement.state === 'DRAFT')
 
   const actions: Array<ActionItem> = []
+
   let canCreateAgreementDraft = false
   let createAgreementDraftAction: undefined | VoidFunction
   let goToAgreementAction: undefined | VoidFunction
 
   // I can subscribe to the eservice only if...
-  if (eservice) {
+  if (eservice && isAdmin) {
     // ... I own all the certified attributes or...
     if (eservice.hasCertifiedAttributes) {
       canCreateAgreementDraft = true
@@ -52,7 +53,7 @@ function useGetEServiceConsumerActions<
       canCreateAgreementDraft = false
     }
 
-    if (isAdmin && (hasValidAgreement || hasAgreementDraft)) {
+    if (hasValidAgreement || hasAgreementDraft) {
       // Possible actions
 
       // If there is an valid agreement for this e-service add a "Go to Agreement" action

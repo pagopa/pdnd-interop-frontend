@@ -4,14 +4,16 @@ import type { Client } from '@/types/client.types'
 import { useClientKind } from './useClientKind'
 import { useNavigateRouter } from '@/router'
 import type { ActionItem } from '@/types/common.types'
+import { useJwt } from './useJwt'
 
 function useGetClientActions(client?: Client): { actions: Array<ActionItem> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const clientKind = useClientKind()
+  const { isAdmin } = useJwt()
   const { navigate } = useNavigateRouter()
   const { mutate: deleteClient } = ClientMutations.useDelete()
 
-  if (!client) return { actions: [] }
+  if (!client || !isAdmin) return { actions: [] }
 
   function handleDeleteClient() {
     if (!client) return

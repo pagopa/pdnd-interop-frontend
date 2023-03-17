@@ -3,6 +3,7 @@ import { useNavigateRouter } from '@/router'
 import type { EServiceState } from '@/types/eservice.types'
 import { minutesToSeconds } from '@/utils/format.utils'
 import { useTranslation } from 'react-i18next'
+import { useJwt } from './useJwt'
 
 export function useGetProviderEServiceActions(
   eserviceId?: string,
@@ -11,6 +12,7 @@ export function useGetProviderEServiceActions(
   draftDescriptorId?: string
 ) {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
+  const { isAdmin } = useJwt()
   const { navigate } = useNavigateRouter()
 
   const { mutate: publishDraft } = EServiceMutations.usePublishVersionDraft()
@@ -24,7 +26,7 @@ export function useGetProviderEServiceActions(
   const state = descriptorState ?? 'DRAFT'
   const hasVersionDraft = !!draftDescriptorId
 
-  if (!eserviceId) return { actions: [] }
+  if (!eserviceId || !isAdmin) return { actions: [] }
 
   const deleteDraftAction = {
     action: deleteDraft.bind(null, { eserviceId }),

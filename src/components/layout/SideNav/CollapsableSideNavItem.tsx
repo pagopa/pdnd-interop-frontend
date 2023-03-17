@@ -14,7 +14,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { routes } from '@/router/routes'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { useCurrentRoute } from '@/router'
-import { SideNavItemView } from './SideNav'
+import type { SideNavItemView } from './SideNav'
 import { SideNavItemLink } from './SideNavItemLink'
 import { SIDENAV_WIDTH } from '@/config/constants'
 

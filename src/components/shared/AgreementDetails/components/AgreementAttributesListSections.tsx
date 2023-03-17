@@ -6,6 +6,7 @@ import {
   SectionContainerSkeleton,
 } from '@/components/layout/containers'
 import { attributesHelpLink } from '@/config/constants'
+import { useJwt } from '@/hooks/useJwt'
 import { useCurrentRoute } from '@/router'
 import { Alert, Link, Stack } from '@mui/material'
 import React from 'react'
@@ -81,6 +82,7 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes.verified' })
   const { t: tCommon } = useTranslation('common')
   const { mode } = useCurrentRoute()
+  const { isAdmin } = useJwt()
 
   const { agreement, eserviceAttributes, partyAttributes, isAgreementEServiceMine } =
     useAgreementDetailsContext()
@@ -113,7 +115,7 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
 
   const getAttributeActions = (attributeId: string) => {
     // The user can certify verified attributes in this view only if it is a provider...
-    if (mode === 'consumer') return []
+    if (mode === 'consumer' || !isAdmin) return []
     // ... And only if the e-service does not belong to itself
     if (isAgreementEServiceMine) return []
     const isOwned = getAttributeState(ownedVerifiedAttributes, attributeId) === 'ACTIVE'
@@ -189,6 +191,7 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
 export const AgreementDeclaredAttributesSection: React.FC = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes.declared' })
   const { t: tCommon } = useTranslation('common')
+  const { isAdmin } = useJwt()
   const { isEditPath } = useCurrentRoute()
   const { mutate: declareAttribute } = AttributeMutations.useDeclarePartyAttribute()
 
@@ -209,7 +212,7 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
 
   const getAttributeActions = (attributeId: string) => {
     // The user can declare his own attributes only in the agreement create/edit view...
-    if (!isEditPath) return []
+    if (!isEditPath || !isAdmin) return []
     if (isAgreementEServiceMine) return []
     const isDeclared = getAttributeState(ownedDeclaredAttributes, attributeId) === 'ACTIVE'
     // ... and only if it is not alread declared
