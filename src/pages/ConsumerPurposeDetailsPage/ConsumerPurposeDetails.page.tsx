@@ -21,6 +21,8 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
   const { actions } = useGetConsumerPurposesActions(purpose)
   const topSideActions = formatTopSideActions(actions)
 
+  const isPurposeArchived = purpose?.currentVersion?.state === 'ARCHIVED'
+
   return (
     <PageContainer
       title={purpose?.title}
@@ -45,7 +47,7 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
         </TabPanel>
 
         <TabPanel value="clients">
-          <PurposeClientsTab purposeId={purposeId} />
+          <PurposeClientsTab purposeId={purposeId} isPurposeArchived={isPurposeArchived} />
         </TabPanel>
       </TabContext>
       <PageBottomActionsContainer>

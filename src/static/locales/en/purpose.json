@@ -243,6 +243,7 @@
         "downloadRiskAnalysisLabel": "Risk analysis"
       }
     },
+    "archivedPurposeAlert": "This purpose has been archived. All clients were removed and new clients can no longer be associated",
     "noClientsAlert": "This purpose is active but has no associated clients. <1>Pair your first client</1> to use the e-service"
   }
 }
