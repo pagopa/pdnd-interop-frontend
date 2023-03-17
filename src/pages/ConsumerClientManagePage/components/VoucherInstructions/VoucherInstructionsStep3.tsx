@@ -1,10 +1,10 @@
+import React from 'react'
 import { EServiceQueries } from '@/api/eservice'
 import { InformationContainer, SectionContainer } from '@/components/layout/containers'
 import { StepActions } from '@/components/shared/StepActions'
 import { API_GATEWAY_INTEFACE_URL } from '@/config/env'
 import { RouterLink } from '@/router'
-import { Link, Skeleton, Stack, Typography } from '@mui/material'
-import React from 'react'
+import { Link, Skeleton, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
 import type { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
@@ -33,14 +33,10 @@ const ClientVoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps> = (
   const descriptorAudience = descriptor && descriptor.audience[0]
 
   return (
-    <SectionContainer>
-      <Typography component="h2" variant="h5">
-        {t('step3.consumer.title')}
-      </Typography>
-      <Typography sx={{ mt: 1 }} component="p" variant="body1" color="text.secondary">
-        {t('step3.consumer.description')}
-      </Typography>
-
+    <SectionContainer
+      title={t('step3.consumer.title')}
+      description={t('step3.consumer.description')}
+    >
       <Stack spacing={4} sx={{ my: 4 }}>
         <InformationContainer
           label={t('step3.consumer.audField.label')}
@@ -83,14 +79,7 @@ const InteropM2MVoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps>
   const { t } = useTranslation('voucher')
 
   return (
-    <SectionContainer>
-      <Typography component="h2" variant="h5">
-        {t('step3.api.title')}
-      </Typography>
-      <Typography sx={{ mt: 1 }} component="p" variant="body1" color="text.secondary">
-        {t('step3.api.description')}
-      </Typography>
-
+    <SectionContainer title={t('step3.api.title')} description={t('step3.api.description')}>
       <InformationContainer sx={{ my: 4 }} label={t('step3.api.apiField.label')}>
         <Link
           href={API_GATEWAY_INTEFACE_URL}
@@ -101,7 +90,6 @@ const InteropM2MVoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps>
           {t('step3.api.apiField.link.label')}
         </Link>
       </InformationContainer>
-
       <StepActions back={{ label: t('backBtn'), type: 'button', onClick: back }} />
     </SectionContainer>
   )
