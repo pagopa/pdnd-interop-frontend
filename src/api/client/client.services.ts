@@ -71,7 +71,7 @@ async function create(payload: ClientCreatePayload) {
 
 async function createInteropM2M(payload: ClientCreatePayload) {
   const response = await axiosInstance.post<Client>(
-    `${AUTHORIZATION_PROCESS_URL}/clientsApi`,
+    `${BACKEND_FOR_FRONTEND_URL}/clientsApi`,
     payload
   )
   return response.data
