@@ -1,26 +1,33 @@
 import { useDialog } from '@/stores'
-import { Button, Stack } from '@mui/material'
+import { Alert, Button, Stack } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { PurposeClientsTable, PurposeClientsTableSkeleton } from './PurposeClientsTable'
 
 interface PurposeClientsTabProps {
   purposeId: string
+  isPurposeArchived: boolean
 }
 
-export const PurposeClientsTab: React.FC<PurposeClientsTabProps> = ({ purposeId }) => {
-  const { t } = useTranslation('common')
+export const PurposeClientsTab: React.FC<PurposeClientsTabProps> = ({
+  purposeId,
+  isPurposeArchived,
+}) => {
+  const { t } = useTranslation('purpose')
+  const { t: tCommon } = useTranslation('common')
   const { openDialog } = useDialog()
 
   const handleOpenAddClientToPurposeDialog = () => {
     openDialog({ type: 'addClientToPurpose', purposeId })
   }
 
+  if (isPurposeArchived) return <Alert severity="info">{t('view.archivedPurposeAlert')}</Alert>
+
   return (
     <>
       <Stack sx={{ mb: 2 }} alignItems="end">
         <Button variant="contained" size="small" onClick={handleOpenAddClientToPurposeDialog}>
-          {t('addBtn')}
+          {tCommon('addBtn')}
         </Button>
       </Stack>
       <React.Suspense fallback={<PurposeClientsTableSkeleton />}>

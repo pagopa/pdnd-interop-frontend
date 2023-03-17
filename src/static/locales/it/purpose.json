@@ -241,6 +241,7 @@
         "downloadRiskAnalysisLabel": "Analisi del rischio"
       }
     },
+    "archivedPurposeAlert": "Questa finalità è stata archiviata. Tutti i client sono stati rimossi all'atto dell'archiviazione e non è più possibile associarne di nuovi",
     "noClientsAlert": "Questa finalità è attiva ma non ha client associati. <1>Associa il tuo primo client</1> per fruire dell’e-service"
   }
 }
