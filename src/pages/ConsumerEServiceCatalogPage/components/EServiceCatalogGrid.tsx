@@ -13,21 +13,16 @@ export const EServiceCatalogGrid: React.FC<EServiceCatalogGridProps> = ({ eservi
 
   const isEmpty = !eservices || eservices.length === 0
 
+  if (isEmpty) return <Alert severity="info">{t('noDataLabel')}</Alert>
+
   return (
-    <>
-      <Grid container spacing={3}>
-        {eservices?.map((eservice) => (
-          <Grid item key={eservice.id} xs={4}>
-            <CatalogCard key={eservice.activeDescriptor.id} eservice={eservice} />
-          </Grid>
-        ))}
-        {isEmpty && (
-          <Grid item key={'info'} xs={true}>
-            <Alert severity="info">{t('noDataLabel')}</Alert>
-          </Grid>
-        )}
-      </Grid>
-    </>
+    <Grid container spacing={3}>
+      {eservices?.map((eservice) => (
+        <Grid item key={eservice.id} xs={4}>
+          <CatalogCard key={eservice.activeDescriptor.id} eservice={eservice} />
+        </Grid>
+      ))}
+    </Grid>
   )
 }
 
