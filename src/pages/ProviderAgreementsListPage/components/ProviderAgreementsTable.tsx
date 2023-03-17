@@ -12,7 +12,6 @@ type ProviderAgreementsProps = {
 }
 
 export const ProviderAgreementsTable: React.FC<ProviderAgreementsProps> = ({ agreements }) => {
-  const { t } = useTranslation('agreement')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
 
   const headLabels = [
@@ -23,11 +22,7 @@ export const ProviderAgreementsTable: React.FC<ProviderAgreementsProps> = ({ agr
   ]
 
   return (
-    <Table
-      headLabels={headLabels}
-      noDataLabel={t('noMultiDataLabel')}
-      isEmpty={agreements && agreements.length === 0}
-    >
+    <Table headLabels={headLabels} isEmpty={agreements && agreements.length === 0}>
       {agreements?.map((agreement) => (
         <ProviderAgreementsTableRow key={agreement.id} agreement={agreement} />
       ))}
