@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material'
 import type { SvgIconComponent } from '@mui/icons-material'
-import { RouteKey } from '@/router/router.types'
+import type { RouteKey } from '@/router/router.types'
 import { routes } from '@/router/routes'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { RouterLink, useCurrentRoute } from '@/router'

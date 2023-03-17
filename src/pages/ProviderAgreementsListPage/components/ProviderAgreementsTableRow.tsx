@@ -4,6 +4,7 @@ import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import { TableRow } from '@/components/shared/Table'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
+import { useJwt } from '@/hooks/useJwt'
 import { useNavigateRouter } from '@/router'
 import type { AgreementListingItem } from '@/types/agreement.types'
 import { Box, Button, Skeleton } from '@mui/material'
@@ -16,6 +17,9 @@ export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementListingI
   const { navigate } = useNavigateRouter()
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('agreement', { keyPrefix: 'list' })
+  const { isAdmin } = useJwt()
+
+  const isAgreementEditable = agreement.state === 'DRAFT' && isAdmin
   const prefetchAgreement = AgreementQueries.usePrefetchSingle()
 
   const { actions } = useGetAgreementsActions(agreement)
@@ -48,7 +52,7 @@ export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementListingI
         size="small"
         onClick={goToAgreementDetails}
       >
-        {tCommon(agreement.state === 'DRAFT' ? 'edit' : 'inspect')}
+        {tCommon(isAgreementEditable ? 'edit' : 'inspect')}
       </Button>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>

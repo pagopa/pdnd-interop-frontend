@@ -4,6 +4,7 @@ import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import { TableRow } from '@/components/shared/Table'
 import useGetConsumerPurposesActions from '@/hooks/useGetConsumerPurposesActions'
+import { useJwt } from '@/hooks/useJwt'
 import { useNavigateRouter } from '@/router'
 import type { PurposeListingItem } from '@/types/purpose.types'
 import { Box, Button, Skeleton } from '@mui/material'
@@ -16,10 +17,11 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: PurposeListingItem }>
   const { navigate } = useNavigateRouter()
   const { t } = useTranslation('common')
   const prefetch = PurposeQueries.usePrefetchSingle()
+  const { isAdmin } = useJwt()
 
   const { actions } = useGetConsumerPurposesActions(purpose)
 
-  const isPurposeEditable = purpose?.currentVersion?.state === 'DRAFT'
+  const isPurposeEditable = purpose?.currentVersion?.state === 'DRAFT' && isAdmin
 
   const goToEditOrInspectPurpose = () => {
     const path = isPurposeEditable ? 'SUBSCRIBE_PURPOSE_EDIT' : 'SUBSCRIBE_PURPOSE_DETAILS'

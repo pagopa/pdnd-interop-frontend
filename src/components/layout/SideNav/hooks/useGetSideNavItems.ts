@@ -44,7 +44,7 @@ const views: Views = {
 }
 
 export function useGetSideNavItems() {
-  const { currentRoles, isAdmin, isOperatorAPI } = useJwt()
+  const { currentRoles } = useJwt()
 
   return React.useMemo(() => {
     const availableSideNavItems: Array<SideNavItemView> = []
@@ -72,10 +72,7 @@ export function useGetSideNavItems() {
     })
 
     availableSideNavItems.push({ routeKey: 'NOTIFICATION', StartIcon: EmailIcon })
-
-    if (isAdmin || isOperatorAPI) {
-      availableSideNavItems.push({ routeKey: 'PARTY_REGISTRY' as RouteKey })
-    }
+    availableSideNavItems.push({ routeKey: 'PARTY_REGISTRY' as RouteKey })
 
     // Remove duplicated children, if there's any.
     availableSideNavItems.forEach((_, index) => {
@@ -85,5 +82,5 @@ export function useGetSideNavItems() {
     })
 
     return availableSideNavItems
-  }, [currentRoles, isAdmin, isOperatorAPI])
+  }, [currentRoles])
 }

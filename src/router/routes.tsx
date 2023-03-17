@@ -326,7 +326,7 @@ export const routes = makeType({
     LABEL: { it: 'Anagrafica ente', en: 'Party registry' },
     COMPONENT: PartyRegistryPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'api'],
+    AUTH_LEVELS: ['admin', 'api', 'security'],
   },
   NOT_FOUND: {
     PATH: { it: '404', en: '404' },

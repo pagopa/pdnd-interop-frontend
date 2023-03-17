@@ -3,11 +3,14 @@ import { PurposeMutations } from '@/api/purpose'
 import { useTranslation } from 'react-i18next'
 import type { ActionItem } from '@/types/common.types'
 import { useDialog } from '@/stores'
+import { useJwt } from './useJwt'
 
 function useGetProviderPurposesActions(purpose?: Purpose | PurposeListingItem) {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
 
   const { openDialog } = useDialog()
+  const { isAdmin } = useJwt()
+
   const { mutate: activateVersion } = PurposeMutations.useActivateVersion()
   const { mutate: suspendVersion } = PurposeMutations.useSuspendVersion()
 
@@ -16,7 +19,7 @@ function useGetProviderPurposesActions(purpose?: Purpose | PurposeListingItem) {
 
   const actions: Array<ActionItem> = []
 
-  if (!purpose || purpose?.currentVersion?.state === 'ARCHIVED') {
+  if (!purpose || purpose?.currentVersion?.state === 'ARCHIVED' || !isAdmin) {
     return { actions }
   }
 
