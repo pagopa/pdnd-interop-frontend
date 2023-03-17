@@ -41,7 +41,7 @@ async function getSingleKey(clientId: string, kid: string) {
 
 async function getOperatorList(clientId: string, params?: ClientGetOperatorsListUrlParams) {
   const response = await axiosInstance.get<Array<SelfCareUser>>(
-    `${AUTHORIZATION_PROCESS_URL}/clients/${clientId}/operators`,
+    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/operators`,
     { params }
   )
   return response.data
