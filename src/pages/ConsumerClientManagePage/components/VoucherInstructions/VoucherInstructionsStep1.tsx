@@ -46,11 +46,8 @@ export const VoucherInstructionsStep1: React.FC<VoucherInstructionsStepProps> = 
   }
 
   return (
-    <SectionContainer>
-      <Typography component="h2" variant="h5">
-        {t('step1.title')}
-      </Typography>
-      <Typography sx={{ mt: 1 }} component="p" variant="body1" color="text.secondary">
+    <SectionContainer title={t('step1.title')}>
+      <Typography sx={{ mt: 1 }} variant="body1" color="text.secondary">
         {t('step1.description.label')}{' '}
         <Link
           href="https://datatracker.ietf.org/doc/html/rfc7521"
