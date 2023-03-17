@@ -97,7 +97,7 @@ async function postKey({
 
 async function downloadKey({ clientId, kid }: { clientId: string; kid: string }) {
   const response = await axiosInstance.get<{ key: string }>(
-    `${AUTHORIZATION_PROCESS_URL}/clients/${clientId}/encoded/keys/${kid}`
+    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/encoded/keys/${kid}`
   )
   return atob(response.data.key)
 }
