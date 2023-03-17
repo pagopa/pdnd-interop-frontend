@@ -40,7 +40,7 @@ export const VoucherInstructionsStep2: React.FC<VoucherInstructionsStepProps> = 
       </SectionContainer>
 
       <SectionContainer title={t('step2.requestBody.title')}>
-        <Stack spacing={4}>
+        <Stack sx={{ mt: 4 }} spacing={4}>
           <InformationContainer
             label={t('step2.requestBody.clientIdField.label')}
             copyToClipboard={{
@@ -84,7 +84,7 @@ export const VoucherInstructionsStep2: React.FC<VoucherInstructionsStepProps> = 
         description={t('step2.voucherScript.description')}
       >
         <CodeSnippetPreview
-          sx={{ mt: 2 }}
+          sx={{ mt: 4 }}
           title={t('step2.voucherScript.exampleLabel')}
           activeLang="curl"
           entries={[{ url: `${FE_URL}/data/it/session_token_curl.txt`, value: 'curl' }]}
