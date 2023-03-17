@@ -63,7 +63,7 @@ async function getOperatorKeys(clientId: string, operatorId: string) {
 
 async function create(payload: ClientCreatePayload) {
   const response = await axiosInstance.post<Client>(
-    `${AUTHORIZATION_PROCESS_URL}/clientsConsumer`,
+    `${BACKEND_FOR_FRONTEND_URL}/clientsConsumer`,
     payload
   )
   return response.data
