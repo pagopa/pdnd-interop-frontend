@@ -60,7 +60,6 @@ export const ProviderPurposesTableRowSkeleton: React.FC = () => {
       cellData={[
         { label: <Skeleton width={180} /> },
         { label: <Skeleton width={180} /> },
-        { label: <Skeleton width={180} /> },
         {
           custom: <StatusChipSkeleton />,
         },
