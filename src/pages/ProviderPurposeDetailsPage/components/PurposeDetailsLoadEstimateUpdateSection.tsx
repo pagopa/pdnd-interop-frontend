@@ -7,7 +7,6 @@ import LaunchIcon from '@mui/icons-material/Launch'
 import { purposeUpgradeGuideLink } from '@/config/constants'
 import { formatDateString, formatThousands } from '@/utils/format.utils'
 import { useDialog } from '@/stores'
-import { useJwt } from '@/hooks/useJwt'
 
 interface PurposeDetailsLoadEstimateUpdateSectionProps {
   purposeId: string
@@ -18,7 +17,6 @@ export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
 > = ({ purposeId }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'view.sections.loadEstimateUpdate' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
-  const { isAdmin } = useJwt()
 
   const { mutate: activateVersion } = PurposeMutations.useActivateVersion()
   const { openDialog } = useDialog()
@@ -69,19 +67,15 @@ export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
             </Link>
           </Stack>
         </InformationContainer>
-        {isAdmin && (
-          <>
-            <Divider />
-            <Stack direction="row" justifyContent="center" spacing={2}>
-              <Button onClick={handleSetActivationDate} variant="outlined">
-                {tCommon('updateCompletionDate')}
-              </Button>
-              <Button onClick={handleConfirmUpdate} variant="text">
-                {tCommon('confirmUpdate')}
-              </Button>
-            </Stack>
-          </>
-        )}
+        <Divider />
+        <Stack direction="row" justifyContent="center" spacing={2}>
+          <Button onClick={handleSetActivationDate} variant="outlined">
+            {tCommon('updateCompletionDate')}
+          </Button>
+          <Button onClick={handleConfirmUpdate} variant="text">
+            {tCommon('confirmUpdate')}
+          </Button>
+        </Stack>
       </Stack>
     </SectionContainer>
   )
