@@ -10,6 +10,7 @@ import {
 } from './PurposeDetailsDocumentListSection'
 import { PurposeDetailsLoadEstimateUpdateSection } from './PurposeDetailsLoadEstimateUpdateSection'
 import { PurposeQueries } from '@/api/purpose'
+import { useJwt } from '@/hooks/useJwt'
 
 interface PurposeDetailsProps {
   purposeId: string
@@ -17,6 +18,7 @@ interface PurposeDetailsProps {
 
 export const PurposeDetails: React.FC<PurposeDetailsProps> = ({ purposeId }) => {
   const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
+  const { isAdmin } = useJwt()
 
   return (
     <>
@@ -28,7 +30,7 @@ export const PurposeDetails: React.FC<PurposeDetailsProps> = ({ purposeId }) => 
           <PurposeDetailsDocumentListSection purposeId={purposeId} />
         </Grid>
       </Grid>
-      {purpose?.waitingForApprovalVersion && (
+      {purpose?.waitingForApprovalVersion && isAdmin && (
         <PurposeDetailsLoadEstimateUpdateSection purposeId={purposeId} />
       )}
     </>
