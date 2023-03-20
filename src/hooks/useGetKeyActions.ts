@@ -7,13 +7,13 @@ import { useJwt } from './useJwt'
 
 function useGetKeyActions(clientId: string, kid: string): { actions: Array<ActionItem> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
-  const { isAdmin } = useJwt()
+  const { isOperatorSecurity } = useJwt()
   const clientKind = useClientKind()
   const { navigate } = useNavigateRouter()
   const downloadKey = ClientDownloads.useDownloadKey()
   const { mutate: deleteKey } = ClientMutations.useDeleteKey()
 
-  if (!isAdmin) return { actions: [] }
+  if (!isOperatorSecurity) return { actions: [] }
 
   const backToOperatorsListRouteKey =
     clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT' : 'SUBSCRIBE_CLIENT_EDIT'

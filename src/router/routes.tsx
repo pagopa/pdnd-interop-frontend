@@ -96,14 +96,14 @@ export const routes = makeType({
     LABEL: { it: 'Visualizza e-service', en: 'View e-service' },
     COMPONENT: ProviderEServiceDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'api'],
   },
   PROVIDE_ESERVICE_LIST: {
     PATH: { it: 'erogazione/e-service', en: 'provider/e-service' },
     LABEL: { it: 'I tuoi e-service', en: 'Your e-services' },
     COMPONENT: ProviderEServiceListPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'api'],
   },
   PROVIDE_AGREEMENT_READ: {
     PATH: {
@@ -152,14 +152,14 @@ export const routes = makeType({
     LABEL: { it: 'Visualizza e-service', en: 'View e-service' },
     COMPONENT: ConsumerEServiceDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'security', 'api'],
   },
   SUBSCRIBE_CATALOG_LIST: {
     PATH: { it: 'fruizione/catalogo-e-service', en: 'subscriber/e-service-catalog' },
     LABEL: { it: 'Catalogo e-service', en: 'E-service catalog' },
     COMPONENT: ConsumerEServiceCatalogPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'security', 'api'],
   },
   SUBSCRIBE_PURPOSE_CREATE: {
     PATH: { it: 'fruizione/finalita/crea', en: 'subscriber/purpose/create' },
@@ -203,7 +203,7 @@ export const routes = makeType({
     },
     COMPONENT: OperatorDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'security'],
   },
   SUBSCRIBE_CLIENT_KEY_EDIT: {
     PATH: {
@@ -216,7 +216,7 @@ export const routes = makeType({
     },
     COMPONENT: KeyDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'security'],
   },
   SUBSCRIBE_CLIENT_CREATE: {
     PATH: { it: 'fruizione/client/crea', en: 'subscriber/client/create' },
@@ -230,14 +230,14 @@ export const routes = makeType({
     LABEL: { it: 'Gestisci client e-service', en: 'Manage e-service client' },
     COMPONENT: ConsumerClientManagePage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'security'],
   },
   SUBSCRIBE_CLIENT_LIST: {
     PATH: { it: 'fruizione/client', en: 'subscriber/client' },
     LABEL: { it: 'I tuoi client e-service', en: 'Your e-service clients' },
     COMPONENT: ConsumerClientListPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'security'],
   },
   SUBSCRIBE_AGREEMENT_READ: {
     PATH: {

@@ -3,7 +3,6 @@ import {
   SectionContainer,
   SectionContainerSkeleton,
 } from '@/components/layout/containers'
-import { useJwt } from '@/hooks/useJwt'
 import { RouterLink, useCurrentRoute } from '@/router'
 import { Stack } from '@mui/material'
 import React from 'react'
@@ -16,8 +15,6 @@ export const AgreementGeneralInfoSection: React.FC = () => {
   const { mode } = useCurrentRoute()
   const { agreement } = useAgreementDetailsContext()
 
-  const { isAdmin } = useJwt()
-
   if (!agreement) return <AgreementGeneralInfoSectionSkeleton />
 
   const eServiceName = `${agreement.eservice.name}, ${t('eserviceField.versionLabel')} ${
@@ -28,17 +25,13 @@ export const AgreementGeneralInfoSection: React.FC = () => {
     <SectionContainer title={t('title')}>
       <Stack spacing={2}>
         <InformationContainer label={t('eserviceField.label')}>
-          {/** Only admins can access the e-service details page */}
-          {isAdmin && (
-            <RouterLink
-              to="SUBSCRIBE_CATALOG_VIEW"
-              params={{ eserviceId: agreement.eservice.id, descriptorId: agreement.descriptorId }}
-              target="_blank"
-            >
-              {eServiceName}
-            </RouterLink>
-          )}
-          {!isAdmin && eServiceName}
+          <RouterLink
+            to="SUBSCRIBE_CATALOG_VIEW"
+            params={{ eserviceId: agreement.eservice.id, descriptorId: agreement.descriptorId }}
+            target="_blank"
+          >
+            {eServiceName}
+          </RouterLink>
         </InformationContainer>
         {mode === 'consumer' && (
           <InformationContainer label={t('providerField.label')}>

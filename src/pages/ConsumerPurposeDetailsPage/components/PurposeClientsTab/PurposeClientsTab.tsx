@@ -1,3 +1,4 @@
+import { useJwt } from '@/hooks/useJwt'
 import { useDialog } from '@/stores'
 import { Alert, Button, Stack } from '@mui/material'
 import React from 'react'
@@ -16,6 +17,7 @@ export const PurposeClientsTab: React.FC<PurposeClientsTabProps> = ({
   const { t } = useTranslation('purpose')
   const { t: tCommon } = useTranslation('common')
   const { openDialog } = useDialog()
+  const { isAdmin } = useJwt()
 
   const handleOpenAddClientToPurposeDialog = () => {
     openDialog({ type: 'addClientToPurpose', purposeId })
@@ -25,11 +27,13 @@ export const PurposeClientsTab: React.FC<PurposeClientsTabProps> = ({
 
   return (
     <>
-      <Stack sx={{ mb: 2 }} alignItems="end">
-        <Button variant="contained" size="small" onClick={handleOpenAddClientToPurposeDialog}>
-          {tCommon('addBtn')}
-        </Button>
-      </Stack>
+      {isAdmin && (
+        <Stack sx={{ mb: 2 }} alignItems="end">
+          <Button variant="contained" size="small" onClick={handleOpenAddClientToPurposeDialog}>
+            {tCommon('addBtn')}
+          </Button>
+        </Stack>
+      )}
       <React.Suspense fallback={<PurposeClientsTableSkeleton />}>
         <PurposeClientsTable purposeId={purposeId} />
       </React.Suspense>
