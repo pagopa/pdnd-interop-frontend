@@ -58,26 +58,19 @@ export const PurposeDetailsGeneralInfoSection: React.FC<PurposeDetailsGeneralInf
           })}
         </InformationContainer>
         <InformationContainer label={t('eServiceField.label')}>
-          {isAdmin && (
-            <RouterLink
-              target="_blank"
-              to="PROVIDE_ESERVICE_MANAGE"
-              params={{
-                eserviceId: purpose.eservice.id,
-                descriptorId: purpose.eservice.descriptor.id,
-              }}
-            >
-              {t('eServiceField.value', {
-                name: purpose.eservice.name,
-                version: purpose.eservice.descriptor.version,
-              })}
-            </RouterLink>
-          )}
-          {!isAdmin &&
-            t('eServiceField.value', {
+          <RouterLink
+            target="_blank"
+            to="PROVIDE_ESERVICE_MANAGE"
+            params={{
+              eserviceId: purpose.eservice.id,
+              descriptorId: purpose.eservice.descriptor.id,
+            }}
+          >
+            {t('eServiceField.value', {
               name: purpose.eservice.name,
               version: purpose.eservice.descriptor.version,
             })}
+          </RouterLink>
         </InformationContainer>
         <InformationContainer label={t('agreementField.label')}>
           <RouterLink
