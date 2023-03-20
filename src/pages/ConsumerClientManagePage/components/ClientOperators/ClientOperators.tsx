@@ -15,7 +15,7 @@ interface ClientOperatorsProps {
 export const ClientOperators: React.FC<ClientOperatorsProps> = ({ clientId }) => {
   const { openDialog } = useDialog()
   const { t } = useTranslation('common')
-  const { jwt } = useJwt()
+  const { jwt, isAdmin } = useJwt()
   const prefetchUserList = PartyQueries.usePrefetchUsersList()
   const { mutateAsync: addOperator } = ClientMutations.useAddOperator()
 
@@ -44,17 +44,19 @@ export const ClientOperators: React.FC<ClientOperatorsProps> = ({ clientId }) =>
 
   return (
     <>
-      <Stack sx={{ mb: 2 }} alignItems="end">
-        <Button
-          variant="contained"
-          size="small"
-          onClick={handleOpenAddOperatorDialog}
-          onPointerEnter={handlePrefetchUserList}
-          onFocusVisible={handlePrefetchUserList}
-        >
-          {t('addBtn')}
-        </Button>
-      </Stack>
+      {isAdmin && (
+        <Stack sx={{ mb: 2 }} alignItems="end">
+          <Button
+            variant="contained"
+            size="small"
+            onClick={handleOpenAddOperatorDialog}
+            onPointerEnter={handlePrefetchUserList}
+            onFocusVisible={handlePrefetchUserList}
+          >
+            {t('addBtn')}
+          </Button>
+        </Stack>
+      )}
       <React.Suspense fallback={<ClientOperatorsTableSkeleton />}>
         <ClientOperatorsTable clientId={clientId} />
       </React.Suspense>

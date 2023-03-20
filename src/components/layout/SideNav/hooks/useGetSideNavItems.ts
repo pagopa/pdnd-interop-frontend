@@ -31,14 +31,24 @@ const views: Views = {
     {
       routeKey: 'PROVIDE',
       id: 'provider',
-      children: ['PROVIDE_AGREEMENT_LIST', 'PROVIDE_PURPOSE_LIST'],
+      children: ['PROVIDE_ESERVICE_LIST', 'PROVIDE_AGREEMENT_LIST', 'PROVIDE_PURPOSE_LIST'],
+    },
+    {
+      routeKey: 'SUBSCRIBE',
+      id: 'subscriber',
+      children: ['SUBSCRIBE_CATALOG_LIST'],
     },
   ],
   security: [
     {
       routeKey: 'SUBSCRIBE',
       id: 'subscriber',
-      children: ['SUBSCRIBE_AGREEMENT_LIST', 'SUBSCRIBE_PURPOSE_LIST'],
+      children: [
+        'SUBSCRIBE_CATALOG_LIST',
+        'SUBSCRIBE_AGREEMENT_LIST',
+        'SUBSCRIBE_PURPOSE_LIST',
+        'SUBSCRIBE_CLIENT_LIST',
+      ],
     },
   ],
 }

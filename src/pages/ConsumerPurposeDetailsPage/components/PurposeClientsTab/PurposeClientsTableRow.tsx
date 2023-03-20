@@ -3,6 +3,7 @@ import { PurposeMutations } from '@/api/purpose'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { TableRow } from '@/components/shared/Table'
+import { useJwt } from '@/hooks/useJwt'
 import { RouterLink } from '@/router'
 import type { ActionItem } from '@/types/common.types'
 import type { Purpose } from '@/types/purpose.types'
@@ -21,6 +22,7 @@ export const PurposeClientsTableRow: React.FC<PurposeClientsTableRowProps> = ({
 }) => {
   const { t } = useTranslation('client')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+  const { isAdmin } = useJwt()
 
   const { mutate: removeClientFromPurpose } = PurposeMutations.useRemoveClient()
   const prefetchClient = ClientQueries.usePrefetchSingle()
@@ -29,12 +31,14 @@ export const PurposeClientsTableRow: React.FC<PurposeClientsTableRowProps> = ({
     removeClientFromPurpose({ purposeId, clientId: client.id })
   }
 
-  const actions: Array<ActionItem> = [
-    {
+  const actions: Array<ActionItem> = []
+
+  if (isAdmin) {
+    actions.push({
       label: t('tableClientInPurpose.actions.removeFromPurpose'),
       action: handleRemoveClientFromPurpose,
-    },
-  ]
+    })
+  }
 
   const handlePrefetchClient = () => {
     prefetchClient(client.id)
