@@ -8,6 +8,15 @@ import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { act, fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
 import { routes } from '@/router/routes'
 import { generatePath } from 'react-router-dom'
+import { vi } from 'vitest'
+import * as hooks from '@/hooks/useJwt'
+
+const useJwtReturnDataMock = {
+  currentRoles: ['admin'],
+  isAdmin: true,
+  hasSessionExpired: () => false,
+} as unknown as ReturnType<typeof hooks.useJwt>
+vi.spyOn(hooks, 'useJwt').mockImplementation(() => useJwtReturnDataMock)
 
 const server = setupServer(
   rest.post(
