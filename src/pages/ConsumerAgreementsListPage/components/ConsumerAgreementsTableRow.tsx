@@ -4,6 +4,7 @@ import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import { TableRow } from '@/components/shared/Table'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
+import { useJwt } from '@/hooks/useJwt'
 import { useNavigateRouter } from '@/router'
 import type { AgreementListingItem } from '@/types/agreement.types'
 import { Box, Button, Skeleton } from '@mui/material'
@@ -16,6 +17,8 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListingI
   const { navigate } = useNavigateRouter()
   const { t } = useTranslation('agreement', { keyPrefix: 'list' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+  const { isAdmin } = useJwt()
+
   const prefetchAgreement = AgreementQueries.usePrefetchSingle()
 
   const { actions } = useGetAgreementsActions(agreement)
@@ -23,9 +26,10 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListingI
   const eservice = agreement.eservice
   const descriptor = agreement.descriptor
 
+  const isAgreementEditable = isAdmin && agreement.state === 'DRAFT'
+
   const handleEditOrInspect = () => {
-    const destPath =
-      agreement.state === 'DRAFT' ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'
+    const destPath = isAgreementEditable ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'
 
     navigate(destPath, { params: { agreementId: agreement.id } })
   }
@@ -53,7 +57,7 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListingI
         size="small"
         onClick={handleEditOrInspect}
       >
-        {tCommon(agreement.state === 'DRAFT' ? 'edit' : 'inspect')}
+        {tCommon(isAgreementEditable ? 'edit' : 'inspect')}
       </Button>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>

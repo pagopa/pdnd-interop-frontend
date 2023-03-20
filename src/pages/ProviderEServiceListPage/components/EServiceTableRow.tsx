@@ -11,6 +11,7 @@ import type { EServiceProvider } from '@/types/eservice.types'
 import { EServiceQueries } from '@/api/eservice'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceActions'
+import { useJwt } from '@/hooks/useJwt'
 
 type EServiceTableRow = {
   eservice: EServiceProvider
@@ -19,7 +20,9 @@ type EServiceTableRow = {
 export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
   const { navigate } = useNavigateRouter()
   const { t } = useTranslation('common')
+  const { isAdmin } = useJwt()
   const lang = useCurrentLanguage()
+
   const prefetchDescriptor = EServiceQueries.usePrefetchDescriptorProvider()
   const prefetchEService = EServiceQueries.usePrefetchSingle()
 
@@ -31,9 +34,10 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
   )
 
   const isEServiceInDraft = !eservice.activeDescriptor
+  const isEServiceEditable = isAdmin && isEServiceInDraft
 
   const handleEditOrInspect = () => {
-    const destPath = isEServiceInDraft ? 'PROVIDE_ESERVICE_EDIT' : 'PROVIDE_ESERVICE_MANAGE'
+    const destPath = isEServiceEditable ? 'PROVIDE_ESERVICE_EDIT' : 'PROVIDE_ESERVICE_MANAGE'
 
     navigate(destPath, {
       params: {
@@ -47,7 +51,7 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
   }
 
   const handlePrefetch = () => {
-    if (isEServiceInDraft) {
+    if (isEServiceEditable) {
       prefetchEService(eservice.id)
       return
     }
@@ -81,7 +85,7 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
         size="small"
         onClick={handleEditOrInspect}
       >
-        {t(`actions.${isEServiceInDraft ? 'edit' : 'inspect'}`)}
+        {t(`actions.${isEServiceEditable ? 'edit' : 'inspect'}`)}
       </Button>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
