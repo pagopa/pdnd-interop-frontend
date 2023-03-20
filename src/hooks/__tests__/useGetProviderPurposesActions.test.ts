@@ -2,6 +2,15 @@ import type { Purpose, PurposeListingItem } from '@/types/purpose.types'
 import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 import useGetProviderPurposesActions from '../useGetProviderPurposesActions'
 import { createMockPurpose, createMockPurposeListingItem } from '__mocks__/data/purpose.mocks'
+import { vi } from 'vitest'
+import * as hooks from '@/hooks/useJwt'
+
+const useJwtReturnDataMock = {
+  currentRoles: ['admin'],
+  isAdmin: true,
+  hasSessionExpired: () => false,
+} as unknown as ReturnType<typeof hooks.useJwt>
+vi.spyOn(hooks, 'useJwt').mockImplementation(() => useJwtReturnDataMock)
 
 function renderUseGetProviderPurposesActionsHook(purpose?: Purpose | PurposeListingItem) {
   return renderHookWithApplicationContext(() => useGetProviderPurposesActions(purpose), {

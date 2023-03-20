@@ -1,7 +1,4 @@
-import {
-  createMockEServiceProvider,
-  createMockEServiceReadType,
-} from '__mocks__/data/eservice.mocks'
+import { createMockEServiceProvider } from '__mocks__/data/eservice.mocks'
 import { useGetProviderEServiceActions } from '../useGetProviderEServiceActions'
 import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 import type { EServiceProvider } from '@/types/eservice.types'
@@ -10,6 +7,15 @@ import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { act } from 'react-dom/test-utils'
 import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
+import { vi } from 'vitest'
+import * as hooks from '@/hooks/useJwt'
+
+const useJwtReturnDataMock = {
+  currentRoles: ['admin'],
+  isAdmin: true,
+  hasSessionExpired: () => false,
+} as unknown as ReturnType<typeof hooks.useJwt>
+vi.spyOn(hooks, 'useJwt').mockImplementation(() => useJwtReturnDataMock)
 
 const server = setupServer(
   rest.post(
