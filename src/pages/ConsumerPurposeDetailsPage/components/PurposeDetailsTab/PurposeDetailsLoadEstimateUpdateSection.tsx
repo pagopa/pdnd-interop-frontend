@@ -30,7 +30,7 @@ export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
 
   const state = purpose?.currentVersion?.state
 
-  if (!purpose || state === 'ARCHIVED' || state === 'DRAFT') return null
+  if (!purpose || state === 'ARCHIVED' || state === 'DRAFT' || !isAdmin) return null
 
   const accordionEntries: Array<AccordionEntry> = t('faq', { returnObjects: true })
 
@@ -78,7 +78,7 @@ export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
             </Link>
           </Stack>
         </InformationContainer>
-        {!purpose.waitingForApprovalVersion && !isAdmin && (
+        {!purpose.waitingForApprovalVersion && (
           <>
             <Divider />
             <Stack direction="row" justifyContent="center">
