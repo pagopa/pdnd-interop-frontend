@@ -13,7 +13,7 @@ function useGetKeyActions(clientId: string, kid: string): { actions: Array<Actio
   const downloadKey = ClientDownloads.useDownloadKey()
   const { mutate: deleteKey } = ClientMutations.useDeleteKey()
 
-  if (!isAdmin || !isOperatorSecurity) return { actions: [] }
+  if (!isAdmin && !isOperatorSecurity) return { actions: [] }
 
   const backToOperatorsListRouteKey =
     clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT' : 'SUBSCRIBE_CLIENT_EDIT'
