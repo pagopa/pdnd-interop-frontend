@@ -277,7 +277,7 @@ export const routes = makeType({
     },
     COMPONENT: OperatorDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'security'],
   },
   SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT: {
     PATH: {
@@ -290,7 +290,7 @@ export const routes = makeType({
     },
     COMPONENT: KeyDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'security'],
   },
   SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE: {
     PATH: { it: 'fruizione/interop-m2m/crea', en: 'subscriber/interop-m2m/create' },
@@ -304,14 +304,14 @@ export const routes = makeType({
     LABEL: { it: 'Gestisci client api interop', en: 'Manage interop api client' },
     COMPONENT: ConsumerClientManagePage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'security'],
   },
   SUBSCRIBE_INTEROP_M2M: {
     PATH: { it: 'fruizione/interop-m2m', en: 'subscriber/interop-m2m' },
     LABEL: { it: 'I tuoi client api interop', en: 'Your api interop clients' },
     COMPONENT: ConsumerClientM2MListPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'security'],
   },
   SUBSCRIBE: {
     PATH: { it: 'fruizione', en: 'subscriber' },
