@@ -27,7 +27,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
       value: o.id,
     })) || []
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 12 })
   const { filtersParams, ...filtersHandlers } = useFilters<EServiceGetCatalogListQueryFilters>([
     { name: 'q', label: tEservice('nameField.label'), type: 'single' },
     {
