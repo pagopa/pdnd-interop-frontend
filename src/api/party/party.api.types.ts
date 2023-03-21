@@ -8,3 +8,9 @@ export type PartyGetUsersListUrlParams = {
   productRoles?: Array<UserProductRole>
   query?: string
 }
+
+export type PartyItem = {
+  id: string
+  description: string
+  userProductRoles: Array<UserProductRole>
+}

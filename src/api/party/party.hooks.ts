@@ -2,12 +2,14 @@ import { useJwt } from '@/hooks/useJwt'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
-import type { PartyGetUsersListUrlParams } from './party.api.types'
+import { type UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
+import type { PartyGetUsersListUrlParams, PartyItem } from './party.api.types'
 import PartyServices from './party.services'
 
 export enum PartyQueryKeys {
   GetSingle = 'PartyGetSingle',
   GetUsersList = 'PartyGetUsersList',
+  GetPartyList = 'PartyGetPartyList',
 }
 
 function useGetParty(partyId?: string) {
@@ -60,11 +62,16 @@ function useUpdateMail() {
   })
 }
 
+function useGetPartyList(config: UseQueryWrapperOptions<Array<PartyItem>>) {
+  return useQueryWrapper([PartyQueryKeys.GetPartyList], () => PartyServices.getPartyList(), config)
+}
+
 export const PartyQueries = {
   useGetParty,
   useGetActiveUserParty,
   useGetUsersList,
   usePrefetchUsersList,
+  useGetPartyList,
 }
 
 export const PartyMutations = {
