@@ -19,10 +19,9 @@ function useGetEServiceConsumerActions<
 
   const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft()
 
-  const hasValidAgreement =
-    eservice?.agreement && !['REJECTED', 'DRAFT'].includes(eservice.agreement.state)
   const isMine = !!eservice?.isMine
-  const isSubscribed = !!hasValidAgreement
+  const isSubscribed =
+    !!eservice?.agreement && !['REJECTED', 'DRAFT'].includes(eservice.agreement.state)
   const hasAgreementDraft = !!(eservice?.agreement && eservice.agreement.state === 'DRAFT')
 
   const actions: Array<ActionItem> = []
@@ -43,8 +42,8 @@ function useGetEServiceConsumerActions<
       canCreateAgreementDraft = true
     }
 
-    // ... but only if I don't have an valid agreement with it yet...
-    if (hasValidAgreement) {
+    // ... but only if I'm not subscribed to it yet...
+    if (isSubscribed || hasAgreementDraft) {
       canCreateAgreementDraft = false
     }
 
@@ -53,7 +52,7 @@ function useGetEServiceConsumerActions<
       canCreateAgreementDraft = false
     }
 
-    if ((hasValidAgreement || hasAgreementDraft) && isAdmin) {
+    if (isAdmin && (isSubscribed || hasAgreementDraft)) {
       // Possible actions
 
       // If there is an valid agreement for this e-service add a "Go to Agreement" action
