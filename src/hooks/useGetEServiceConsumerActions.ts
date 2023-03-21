@@ -32,7 +32,7 @@ function useGetEServiceConsumerActions<
   let goToAgreementAction: undefined | VoidFunction
 
   // I can subscribe to the eservice only if...
-  if (eservice && isAdmin) {
+  if (eservice) {
     // ... I own all the certified attributes or...
     if (eservice.hasCertifiedAttributes) {
       canCreateAgreementDraft = true
@@ -53,7 +53,7 @@ function useGetEServiceConsumerActions<
       canCreateAgreementDraft = false
     }
 
-    if (hasValidAgreement || hasAgreementDraft) {
+    if ((hasValidAgreement || hasAgreementDraft) && isAdmin) {
       // Possible actions
 
       // If there is an valid agreement for this e-service add a "Go to Agreement" action
