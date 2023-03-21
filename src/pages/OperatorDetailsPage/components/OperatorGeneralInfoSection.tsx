@@ -1,3 +1,4 @@
+import React from 'react'
 import { ClientQueries } from '@/api/client'
 import {
   InformationContainer,
@@ -5,8 +6,7 @@ import {
   SectionContainerSkeleton,
 } from '@/components/layout/containers'
 import { StatusChip } from '@/components/shared/StatusChip'
-import { Stack, Typography } from '@mui/material'
-import React from 'react'
+import { Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 interface OperatorGeneralInfoSectionProps {
@@ -29,17 +29,15 @@ export const OperatorGeneralInfoSection: React.FC<OperatorGeneralInfoSectionProp
     <SectionContainer title={t('generalInformations')}>
       <Stack spacing={2}>
         <InformationContainer label={t('taxCodeField.label')} sx={{ mt: 0 }}>
-          <Typography component="span">{operator.taxCode}</Typography>
+          {operator.taxCode}
         </InformationContainer>
 
         <InformationContainer label={t('roleField.label')}>
-          <Typography component="span">{tCommon(`userRole.${operator.role}`)}</Typography>
+          {tCommon(`userRole.${operator.role}`)}
         </InformationContainer>
 
         <InformationContainer label={t('productRoleField.label')}>
-          <Typography component="span">
-            {tCommon(`userProductRole.${operator.product.role}`)}
-          </Typography>
+          {tCommon(`userProductRole.${operator.product.role}`)}
         </InformationContainer>
 
         <InformationContainer label={t('statusField.label')} sx={{ mb: 0 }}>

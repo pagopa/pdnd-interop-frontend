@@ -12,7 +12,7 @@ function useGetConsumerPurposesActions(purpose?: Purpose | PurposeListingItem) {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
 
   const { navigate } = useNavigateRouter()
-  const { jwt } = useJwt()
+  const { jwt, isAdmin } = useJwt()
 
   const { mutate: archivePurpose } = PurposeMutations.useArchiveVersion()
   const { mutate: suspendPurpose } = PurposeMutations.useSuspendVersion()
@@ -22,7 +22,7 @@ function useGetConsumerPurposesActions(purpose?: Purpose | PurposeListingItem) {
   const { mutate: deletePurposeVersion } = PurposeMutations.useDeleteVersion()
   const { openDialog } = useDialog()
 
-  if (!purpose) return { actions: [] }
+  if (!purpose || !isAdmin) return { actions: [] }
 
   function handleArchive() {
     if (!purpose) return

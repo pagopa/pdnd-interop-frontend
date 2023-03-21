@@ -76,7 +76,7 @@ export const routes = makeType({
     LABEL: { it: 'Crea e-service', en: 'Create e-service' },
     COMPONENT: ProviderEServiceCreatePage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'api'],
+    AUTH_LEVELS: ['admin'],
   },
   PROVIDE_ESERVICE_EDIT: {
     PATH: {
@@ -86,7 +86,7 @@ export const routes = makeType({
     LABEL: { it: 'Modifica e-service', en: 'Edit e-service' },
     COMPONENT: ProviderEServiceCreatePage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'api'],
+    AUTH_LEVELS: ['admin'],
   },
   PROVIDE_ESERVICE_MANAGE: {
     PATH: {
@@ -113,28 +113,28 @@ export const routes = makeType({
     LABEL: { it: 'Gestisci richiesta', en: 'Manage request' },
     COMPONENT: ProviderAgreementDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'api'],
   },
   PROVIDE_AGREEMENT_LIST: {
     PATH: { it: 'erogazione/richieste', en: 'provider/agreements' },
     LABEL: { it: 'Richieste di fruizione', en: 'Requests for use' },
     COMPONENT: ProviderAgreementsListPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'api'],
   },
   PROVIDE_PURPOSE_LIST: {
     PATH: { it: 'erogazione/finalita', en: 'provider/purposes' },
     LABEL: { it: 'Finalità', en: 'Purposes' },
     COMPONENT: ProviderPurposesListPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'api'],
   },
   PROVIDE_PURPOSE_DETAILS: {
     PATH: { it: 'erogazione/finalita/:purposeId', en: 'provider/purpose/:purposeId' },
     LABEL: { it: 'Visualizza finalità', en: 'View purpose' },
     COMPONENT: ProviderPurposeDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'api'],
   },
   PROVIDE: {
     PATH: { it: 'erogazione', en: 'provider' },
@@ -152,14 +152,14 @@ export const routes = makeType({
     LABEL: { it: 'Visualizza e-service', en: 'View e-service' },
     COMPONENT: ConsumerEServiceDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'api', 'security'],
+    AUTH_LEVELS: ['admin', 'security', 'api'],
   },
   SUBSCRIBE_CATALOG_LIST: {
     PATH: { it: 'fruizione/catalogo-e-service', en: 'subscriber/e-service-catalog' },
     LABEL: { it: 'Catalogo e-service', en: 'E-service catalog' },
     COMPONENT: ConsumerEServiceCatalogPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'api', 'security'],
+    AUTH_LEVELS: ['admin', 'security', 'api'],
   },
   SUBSCRIBE_PURPOSE_CREATE: {
     PATH: { it: 'fruizione/finalita/crea', en: 'subscriber/purpose/create' },
@@ -183,14 +183,14 @@ export const routes = makeType({
     LABEL: { it: 'Gestisci singola finalità', en: 'Manage purpose' },
     COMPONENT: ConsumerPurposeDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'security'],
   },
   SUBSCRIBE_PURPOSE_LIST: {
     PATH: { it: 'fruizione/finalita', en: 'subscriber/purpose' },
     LABEL: { it: 'Le tue finalità', en: 'Your purpose' },
     COMPONENT: ConsumerPurposesListPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'security'],
   },
   SUBSCRIBE_CLIENT_OPERATOR_EDIT: {
     PATH: {
@@ -247,14 +247,14 @@ export const routes = makeType({
     LABEL: { it: 'Gestisci richiesta', en: 'Manage request' },
     COMPONENT: ConsumerAgreementDetailsPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'security'],
   },
   SUBSCRIBE_AGREEMENT_LIST: {
     PATH: { it: 'fruizione/richieste', en: 'subscriber/agreements' },
     LABEL: { it: 'Le tue richieste', en: 'Your requests' },
     COMPONENT: ConsumerAgreementsListPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'security'],
   },
   SUBSCRIBE_AGREEMENT_EDIT: {
     PATH: {
@@ -319,14 +319,14 @@ export const routes = makeType({
     REDIRECT: 'SUBSCRIBE_CATALOG_LIST',
     COMPONENT: EmptyComponent,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'api'],
+    AUTH_LEVELS: ['admin', 'security'],
   },
   PARTY_REGISTRY: {
     PATH: { it: 'ente', en: 'party' },
     LABEL: { it: 'Anagrafica ente', en: 'Party registry' },
     COMPONENT: PartyRegistryPage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin'],
+    AUTH_LEVELS: ['admin', 'api', 'security'],
   },
   NOT_FOUND: {
     PATH: { it: '404', en: '404' },

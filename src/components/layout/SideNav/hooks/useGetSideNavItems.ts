@@ -31,7 +31,7 @@ const views: Views = {
     {
       routeKey: 'PROVIDE',
       id: 'provider',
-      children: ['PROVIDE_ESERVICE_LIST'],
+      children: ['PROVIDE_ESERVICE_LIST', 'PROVIDE_AGREEMENT_LIST', 'PROVIDE_PURPOSE_LIST'],
     },
     {
       routeKey: 'SUBSCRIBE',
@@ -43,7 +43,12 @@ const views: Views = {
     {
       routeKey: 'SUBSCRIBE',
       id: 'subscriber',
-      children: ['SUBSCRIBE_CATALOG_LIST', 'SUBSCRIBE_CLIENT_LIST', 'SUBSCRIBE_INTEROP_M2M'],
+      children: [
+        'SUBSCRIBE_CATALOG_LIST',
+        'SUBSCRIBE_AGREEMENT_LIST',
+        'SUBSCRIBE_PURPOSE_LIST',
+        'SUBSCRIBE_CLIENT_LIST',
+      ],
     },
   ],
 }
@@ -77,10 +82,7 @@ export function useGetSideNavItems() {
     })
 
     availableSideNavItems.push({ routeKey: 'NOTIFICATION', StartIcon: EmailIcon })
-
-    if (currentRoles.includes('admin')) {
-      availableSideNavItems.push({ routeKey: 'PARTY_REGISTRY' as RouteKey })
-    }
+    availableSideNavItems.push({ routeKey: 'PARTY_REGISTRY' as RouteKey })
 
     // Remove duplicated children, if there's any.
     availableSideNavItems.forEach((_, index) => {

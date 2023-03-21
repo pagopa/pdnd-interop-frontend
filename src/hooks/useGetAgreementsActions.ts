@@ -8,6 +8,7 @@ import type { ActionItem } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
 import { useCurrentRoute, useNavigateRouter } from '@/router'
 import { useDialog } from '@/stores'
+import { useJwt } from './useJwt'
 
 type AgreementActions = Record<AgreementState, Array<ActionItem>>
 
@@ -16,6 +17,7 @@ function useGetAgreementsActions(agreement?: AgreementSummary | AgreementListing
 } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const { mode } = useCurrentRoute()
+  const { isAdmin } = useJwt()
   const { openDialog } = useDialog()
   const { navigate } = useNavigateRouter()
 
@@ -24,7 +26,7 @@ function useGetAgreementsActions(agreement?: AgreementSummary | AgreementListing
   const { mutate: deleteAgreement } = AgreementMutations.useDeleteDraft()
   const { mutate: cloneAgreement } = AgreementMutations.useClone()
 
-  if (!agreement || mode === null) return { actions: [] }
+  if (!agreement || mode === null || !isAdmin) return { actions: [] }
 
   const handleActivate = () => {
     activateAgreement({ agreementId: agreement.id })

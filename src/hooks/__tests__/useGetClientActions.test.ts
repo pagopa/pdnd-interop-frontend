@@ -6,9 +6,18 @@ import { setupServer } from 'msw/node'
 import { AUTHORIZATION_PROCESS_URL } from '@/config/env'
 import { act } from 'react-dom/test-utils'
 import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
-import { Client } from '@/types/client.types'
+import type { Client } from '@/types/client.types'
 import { createMemoryHistory } from 'history'
 import { routes } from '@/router/routes'
+import { vi } from 'vitest'
+import * as hooks from '@/hooks/useJwt'
+
+const useJwtReturnDataMock = {
+  currentRoles: ['admin'],
+  isAdmin: true,
+  hasSessionExpired: () => false,
+} as unknown as ReturnType<typeof hooks.useJwt>
+vi.spyOn(hooks, 'useJwt').mockImplementation(() => useJwtReturnDataMock)
 
 const server = setupServer(
   rest.delete(

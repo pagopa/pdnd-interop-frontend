@@ -20,7 +20,7 @@ const ConsumerPurposesListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerPurposesList' })
   const { t: tPurpose } = useTranslation('purpose', { keyPrefix: 'list' })
   const { t: tCommon } = useTranslation('common')
-  const { jwt } = useJwt()
+  const { jwt, isAdmin } = useJwt()
   const { navigate } = useNavigateRouter()
 
   const [eserviceAutocompleteText, setEServiceAutocompleteInputChange] = React.useState('')
@@ -120,7 +120,7 @@ const ConsumerPurposesListPage: React.FC = () => {
     <PageContainer
       title={t('title')}
       description={t('description')}
-      topSideActions={topSideActions}
+      topSideActions={isAdmin ? topSideActions : undefined}
     >
       <Filters {...filtersHandlers} />
       <PurposesTableWrapper params={params} />

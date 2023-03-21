@@ -17,6 +17,7 @@ export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
 > = ({ purposeId }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'view.sections.loadEstimateUpdate' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+
   const { mutate: activateVersion } = PurposeMutations.useActivateVersion()
   const { openDialog } = useDialog()
 

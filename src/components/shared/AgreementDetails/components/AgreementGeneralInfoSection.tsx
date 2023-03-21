@@ -17,6 +17,10 @@ export const AgreementGeneralInfoSection: React.FC = () => {
 
   if (!agreement) return <AgreementGeneralInfoSectionSkeleton />
 
+  const eServiceName = `${agreement.eservice.name}, ${t('eserviceField.versionLabel')} ${
+    agreement.eservice.version
+  }`
+
   return (
     <SectionContainer title={t('title')}>
       <Stack spacing={2}>
@@ -26,8 +30,7 @@ export const AgreementGeneralInfoSection: React.FC = () => {
             params={{ eserviceId: agreement.eservice.id, descriptorId: agreement.descriptorId }}
             target="_blank"
           >
-            {agreement.eservice.name}, {t('eserviceField.versionLabel')}{' '}
-            {agreement.eservice.version}
+            {eServiceName}
           </RouterLink>
         </InformationContainer>
         {mode === 'consumer' && (

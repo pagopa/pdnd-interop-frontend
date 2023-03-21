@@ -26,6 +26,7 @@ function useGetEServiceConsumerActions<
   const hasAgreementDraft = !!(eservice?.agreement && eservice.agreement.state === 'DRAFT')
 
   const actions: Array<ActionItem> = []
+
   let canCreateAgreementDraft = false
   let createAgreementDraftAction: undefined | VoidFunction
   let goToAgreementAction: undefined | VoidFunction
@@ -52,7 +53,7 @@ function useGetEServiceConsumerActions<
       canCreateAgreementDraft = false
     }
 
-    if (isAdmin && (hasValidAgreement || hasAgreementDraft)) {
+    if ((hasValidAgreement || hasAgreementDraft) && isAdmin) {
       // Possible actions
 
       // If there is an valid agreement for this e-service add a "Go to Agreement" action

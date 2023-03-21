@@ -6,6 +6,7 @@ import {
   SectionContainerSkeleton,
 } from '@/components/layout/containers'
 import { StatusChip } from '@/components/shared/StatusChip'
+import { useJwt } from '@/hooks/useJwt'
 import { RouterLink } from '@/router'
 import { formatThousands } from '@/utils/format.utils'
 import { Stack } from '@mui/material'
@@ -20,6 +21,8 @@ export const PurposeDetailsGeneralInfoSection: React.FC<PurposeDetailsGeneralInf
   purposeId,
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'view.sections.generalInformations' })
+  const { isAdmin } = useJwt()
+
   const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
   // This should not stay here, waiting to get the attributes from the purpose itself
   const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(

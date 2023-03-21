@@ -13,12 +13,14 @@ import type {
 import { usePagination } from '@/hooks/usePagination'
 import { useFilters } from '@/hooks/useFilters'
 import { Filters } from '@/components/shared/Filters'
+import { useJwt } from '@/hooks/useJwt'
 
 const ProviderEServiceListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceList' })
   const { t: tCommon } = useTranslation('common')
   const { t: tEservice } = useTranslation('eservice', { keyPrefix: 'list.filters' })
   const { navigate } = useNavigateRouter()
+  const { isAdmin } = useJwt()
   const [consumersAutocompleteInput, setConsumersAutocompleteInput] = React.useState('')
 
   const { data: consumers } = EServiceQueries.useGetConsumers(
@@ -67,7 +69,7 @@ const ProviderEServiceListPage: React.FC = () => {
     <PageContainer
       title={t('title')}
       description={t('description')}
-      topSideActions={topSideActions}
+      topSideActions={isAdmin ? topSideActions : undefined}
     >
       <Filters {...filtersHandlers} />
       <EServiceTableWrapper params={queryParams} />

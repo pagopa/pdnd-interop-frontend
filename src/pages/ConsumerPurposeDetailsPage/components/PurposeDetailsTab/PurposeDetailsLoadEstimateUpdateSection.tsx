@@ -13,6 +13,7 @@ import LaunchIcon from '@mui/icons-material/Launch'
 import { useDialog } from '@/stores'
 import { purposeUpgradeGuideLink } from '@/config/constants'
 import { formatDateString, formatThousands } from '@/utils/format.utils'
+import { useJwt } from '@/hooks/useJwt'
 
 interface PurposeDetailsLoadEstimateUpdateSectionProps {
   purposeId: string
@@ -23,11 +24,13 @@ export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
 > = ({ purposeId }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'view.sections.loadEstimateUpdate' })
   const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
+  const { isAdmin } = useJwt()
+
   const { openDialog } = useDialog()
 
   const state = purpose?.currentVersion?.state
 
-  if (!purpose || state === 'ARCHIVED' || state === 'DRAFT') return null
+  if (!purpose || state === 'ARCHIVED' || state === 'DRAFT' || !isAdmin) return null
 
   const accordionEntries: Array<AccordionEntry> = t('faq', { returnObjects: true })
 

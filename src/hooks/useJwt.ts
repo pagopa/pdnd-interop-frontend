@@ -7,8 +7,8 @@ const parseJwt = memoize((token: string | null) => {
   const jwt = token ? (JSON.parse(window.atob(token.split('.')[1])) as JwtUser) : undefined
   const currentRoles = jwt ? jwt.organization.roles.map((r) => r.role) : []
   const isAdmin = currentRoles.length === 1 && currentRoles[0] === 'admin'
-  const isOperatorAPI = Boolean(currentRoles.includes('api'))
-  const isOperatorSecurity = Boolean(currentRoles.includes('security'))
+  const isOperatorAPI = currentRoles.includes('api')
+  const isOperatorSecurity = currentRoles.includes('security')
 
   return { jwt, currentRoles, isAdmin, isOperatorAPI, isOperatorSecurity }
 })
