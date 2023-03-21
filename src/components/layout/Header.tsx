@@ -10,15 +10,17 @@ import { FE_LOGIN_URL, SELFCARE_BASE_URL, SELFCARE_INTEROP_PROD_ID } from '@/con
 import { PartyQueries } from '@/api/party/party.hooks'
 import type { PartyItem } from '@/api/party/party.api.types'
 import type { PartySwitchItem } from '@pagopa/mui-italia/dist/components/PartySwitch'
+import { useTranslation } from 'react-i18next'
+import type { TFunction } from 'i18next'
 
-const getPartyList = (parties?: Array<PartyItem>) => {
+const getPartyList = (parties: Array<PartyItem> | undefined, t: TFunction<'common'>) => {
   const partyList: Array<PartySwitchItem> = []
   if (parties) {
     partyList.push(
       ...parties.map((party) => ({
         id: party.id,
         name: party.description,
-        productRole: party.userProductRoles.join(', '),
+        productRole: party.userProductRoles.map((role) => t(`userProductRole.${role}`)).join(', '),
       }))
     )
   }
@@ -28,6 +30,7 @@ const getPartyList = (parties?: Array<PartyItem>) => {
 
 export const Header = () => {
   const { navigate } = useNavigateRouter()
+  const { t } = useTranslation('common')
   const { jwt } = useJwt()
 
   const queriesOptions = {
@@ -40,7 +43,7 @@ export const Header = () => {
 
   const { data: parties } = PartyQueries.useGetPartyList(queriesOptions)
 
-  const partyList = getPartyList(parties)
+  const partyList = getPartyList(parties, t)
 
   const headerAccountLoggedUser = jwt
     ? { id: jwt.uid, name: jwt.name, surname: jwt.family_name, email: '' }
