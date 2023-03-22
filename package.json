@@ -8,7 +8,8 @@
     "build-dev": "tsc && vite build --mode development",
     "preview": "vite build --mode development && vite preview --mode development",
     "test": "vitest run",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "generate-types": "node scripts/open-api-type-generator.js"
   },
   "dependencies": {
     "@date-io/date-fns": "^2.16.0",
@@ -65,6 +66,7 @@
     "prettier": "^2.8.4",
     "react-test-renderer": "^18.2.0",
     "rollup-plugin-visualizer": "^5.9.0",
+    "swagger-typescript-api": "^12.0.3",
     "typescript": "^4.9.5",
     "vite": "^4.1.4",
     "vitest": "^0.29.1"
