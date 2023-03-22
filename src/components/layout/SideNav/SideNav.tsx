@@ -15,14 +15,13 @@ import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle'
 import { useTranslation } from 'react-i18next'
 import type { RouteKey } from '@/router/router.types'
 import { useJwt } from '@/hooks/useJwt'
-import { SELFCARE_BASE_URL } from '@/config/env'
+import { SELFCARE_BASE_URL, SELFCARE_INTEROP_PROD_ID } from '@/config/env'
 import { useCurrentRoute } from '@/router'
 import { getParentRoutes } from '@/router/router.utils'
 import { SIDENAV_WIDTH } from '@/config/constants'
 import { SideNavItemLink, SideNavItemLinkSkeleton } from './SideNavItemLink'
 import { CollapsableSideNavItem, CollapsableSideNavItemSkeleton } from './CollapsableSideNavItem'
 import { useGetSideNavItems } from './hooks/useGetSideNavItems'
-import type { ExtendedWindow } from '@/types/common.types'
 
 type View = {
   routeKey: RouteKey
@@ -59,13 +58,8 @@ const _SideNav = () => {
 
   const [openId, setOpenId] = useState<string | null>(isActive)
 
-  const currentEnv = (window as unknown as ExtendedWindow).pagopa_env?.STAGE
-
   const selfcareUsersPageUrl =
-    jwt &&
-    `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users#prod-interop${
-      currentEnv === 'TEST' ? '-coll' : ''
-    }`
+    jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users#${SELFCARE_INTEROP_PROD_ID}`
 
   const selfcareGroupsPageUrl = jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/groups`
 
