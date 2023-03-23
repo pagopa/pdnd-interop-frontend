@@ -1,11 +1,10 @@
 import React from 'react'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { InformationContainer } from '@/components/layout/containers'
 import type { DialogAttributeDetailsProps } from '@/types/dialog.types'
 import { useDialog } from '@/stores'
 import { AttributeQueries } from '@/api/attribute'
-import { InformationContainerSkeleton } from '../layout/containers/InformationContainer'
+import { InformationContainer, InformationContainerSkeleton } from '@pagopa/interop-fe-commons'
 
 export const DialogAttributeDetails: React.FC<DialogAttributeDetailsProps> = ({ attribute }) => {
   const { t } = useTranslation('common')
@@ -41,9 +40,11 @@ const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) =>
   return (
     <DialogContent>
       <Stack sx={{ mt: 1 }} spacing={2}>
-        <InformationContainer direction="column" label={t('content.descriptionField.label')}>
-          {attribute.description}
-        </InformationContainer>
+        <InformationContainer
+          content={attribute.description}
+          direction="column"
+          label={t('content.descriptionField.label')}
+        />
       </Stack>
     </DialogContent>
   )

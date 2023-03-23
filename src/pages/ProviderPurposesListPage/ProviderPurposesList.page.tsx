@@ -5,22 +5,26 @@ import type {
   PurposeGetListUrlParams,
 } from '@/api/purpose/purpose.api.types'
 import { PageContainer } from '@/components/layout/containers'
-import { Pagination } from '@/components/shared/Pagination'
 import { useJwt } from '@/hooks/useJwt'
 import { useTranslation } from 'react-i18next'
 import { ProviderPurposesTable, ProviderPurposesTableSkeleton } from './components'
-import { useFilters } from '@/hooks/useFilters'
 import { EServiceQueries } from '@/api/eservice'
-import { usePagination } from '@/hooks/usePagination'
-import { Filters } from '@/components/shared/Filters'
+import {
+  Filters,
+  Pagination,
+  useAutocompleteTextInput,
+  useFilters,
+  usePagination,
+} from '@pagopa/interop-fe-commons'
 
 const ProviderPurposesListPage: React.FC = () => {
   const { jwt } = useJwt()
   const { t } = useTranslation('pages', { keyPrefix: 'providerPurposesList' })
   const { t: tPurpose } = useTranslation('purpose', { keyPrefix: 'list.filters' })
 
-  const [eserviceAutocompleteText, setEServiceAutocompleteInputChange] = React.useState('')
-  const [consumersAutocompleteText, setConsumersAutocompleteInputChange] = React.useState('')
+  const [eserviceAutocompleteText, setEServiceAutocompleteInputChange] = useAutocompleteTextInput()
+  const [consumersAutocompleteText, setConsumersAutocompleteInputChange] =
+    useAutocompleteTextInput()
 
   const { data: consumers } = EServiceQueries.useGetConsumers(
     { offset: 0, limit: 50, q: consumersAutocompleteText },
@@ -46,25 +50,25 @@ const ProviderPurposesListPage: React.FC = () => {
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<PurposeGetListQueryFilters>([
-    { name: 'q', label: tPurpose('nameField.label'), type: 'single' },
+    { name: 'q', label: tPurpose('nameField.label'), type: 'freetext' },
     {
       name: 'eservicesIds',
       label: tPurpose('eserviceField.label'),
-      type: 'multiple',
+      type: 'autocomplete-multiple',
       options: eservicesOptions,
-      setAutocompleteInput: setEServiceAutocompleteInputChange,
+      onTextInputChange: setEServiceAutocompleteInputChange,
     },
     {
       name: 'consumersIds',
       label: tPurpose('consumerField.label'),
-      type: 'multiple',
+      type: 'autocomplete-multiple',
       options: consumersOptions,
-      setAutocompleteInput: setConsumersAutocompleteInputChange,
+      onTextInputChange: setConsumersAutocompleteInputChange,
     },
     {
       name: 'states',
       label: tPurpose('statusField.label'),
-      type: 'multiple',
+      type: 'autocomplete-multiple',
       options: [
         { label: tPurpose('statusField.optionLabels.ACTIVE'), value: 'ACTIVE' },
         {

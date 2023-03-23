@@ -4,11 +4,14 @@ import type {
   GetListAgreementQueryParams,
 } from '@/api/agreement/agreement.api.types'
 import { PageContainer } from '@/components/layout/containers'
-import { Filters } from '@/components/shared/Filters'
-import { Pagination } from '@/components/shared/Pagination'
-import { useFilters } from '@/hooks/useFilters'
 import { useJwt } from '@/hooks/useJwt'
-import { usePagination } from '@/hooks/usePagination'
+import {
+  Filters,
+  Pagination,
+  useAutocompleteTextInput,
+  useFilters,
+  usePagination,
+} from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -19,8 +22,8 @@ import {
 const ConsumerAgreementsListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerAgreementsList' })
   const { t: tAgreement } = useTranslation('agreement', { keyPrefix: 'list.filters' })
-  const [producersAutocompleteInput, setProducersAutocompleteInput] = React.useState('')
-  const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = React.useState('')
+  const [producersAutocompleteInput, setProducersAutocompleteInput] = useAutocompleteTextInput()
+  const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = useAutocompleteTextInput()
 
   const { jwt } = useJwt()
 
@@ -51,21 +54,21 @@ const ConsumerAgreementsListPage: React.FC = () => {
     {
       name: 'eservicesIds',
       label: tAgreement('eserviceField.label'),
-      type: 'multiple',
+      type: 'autocomplete-multiple',
       options: eservicesOptions,
-      setAutocompleteInput: setEServicesAutocompleteInput,
+      onTextInputChange: setEServicesAutocompleteInput,
     },
     {
       name: 'producersIds',
       label: tAgreement('providerField.label'),
-      type: 'multiple',
+      type: 'autocomplete-multiple',
       options: producersOptions,
-      setAutocompleteInput: setProducersAutocompleteInput,
+      onTextInputChange: setProducersAutocompleteInput,
     },
     {
       name: 'states',
       label: tAgreement('statusField.label'),
-      type: 'multiple',
+      type: 'autocomplete-multiple',
       options: [
         { label: tAgreement('statusField.optionLabels.ARCHIVED'), value: 'ARCHIVED' },
         { label: tAgreement('statusField.optionLabels.ACTIVE'), value: 'ACTIVE' },

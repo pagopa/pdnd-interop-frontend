@@ -1,10 +1,11 @@
 import React from 'react'
-import { SectionContainer, InformationContainer } from '@/components/layout/containers'
+import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { StatusChip } from '../../StatusChip'
 import { Chip, Stack } from '@mui/material'
 import { formatThousands, secondsToHoursMinutes } from '@/utils/format.utils'
 import { useEServiceDetailsContext } from '../EServiceDetailsContext'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
 
 export const EServiceVersionInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -37,35 +38,43 @@ export const EServiceVersionInfoSection: React.FC = () => {
   return (
     <SectionContainer title={t('title')}>
       <Stack spacing={2}>
-        <InformationContainer label={t('actualVersion')}>
-          <Stack spacing={1} direction="row" alignItems="center">
-            <span>{descriptor.version}</span>
-            {isViewingDescriptorCurrentVersion && (
-              <Chip label={t('currentVersionChipLabel')} color="primary" />
-            )}
-          </Stack>
-        </InformationContainer>
-        <InformationContainer label={t('versionStatus')}>
-          <StatusChip for="eservice" state={descriptor.state} />
-        </InformationContainer>
-        <InformationContainer label={t('description')}>
-          {descriptor.description}
-        </InformationContainer>
-        <InformationContainer label={t('audience')} labelDescription={t('audienceDescription')}>
-          {descriptor.audience.join(', ')}
-        </InformationContainer>
-        <InformationContainer label={t('voucherLifespan')}>
-          {getFormattedVoucherLifespan()}
-        </InformationContainer>
-        <InformationContainer label={t('dailyCallsPerConsumer')}>
-          {formatThousands(descriptor.dailyCallsPerConsumer)} {t('callsPerDay')}
-        </InformationContainer>
-        <InformationContainer label={t('dailyCallsTotal')}>
-          {formatThousands(descriptor.dailyCallsTotal)} {t('callsPerDay')}
-        </InformationContainer>
-        <InformationContainer label={t('agreementApprovalPolicy.label')}>
-          {t(`agreementApprovalPolicy.${descriptor.agreementApprovalPolicy}`)}
-        </InformationContainer>
+        <InformationContainer
+          label={t('actualVersion')}
+          content={
+            <Stack spacing={1} direction="row" alignItems="center">
+              <span>{descriptor.version}</span>
+              {isViewingDescriptorCurrentVersion && (
+                <Chip label={t('currentVersionChipLabel')} color="primary" />
+              )}
+            </Stack>
+          }
+        />
+        <InformationContainer
+          label={t('versionStatus')}
+          content={<StatusChip for="eservice" state={descriptor.state} />}
+        />
+        <InformationContainer label={t('description')} content={descriptor.description ?? ''} />
+        <InformationContainer
+          label={t('audience')}
+          labelDescription={t('audienceDescription')}
+          content={descriptor.audience.join(', ')}
+        />
+        <InformationContainer
+          label={t('voucherLifespan')}
+          content={getFormattedVoucherLifespan()}
+        />
+        <InformationContainer
+          label={t('dailyCallsPerConsumer')}
+          content={`${formatThousands(descriptor.dailyCallsPerConsumer)} ${t('callsPerDay')}`}
+        />
+        <InformationContainer
+          label={t('dailyCallsTotal')}
+          content={`${formatThousands(descriptor.dailyCallsTotal)} ${t('callsPerDay')}`}
+        />
+        <InformationContainer
+          label={t('agreementApprovalPolicy.label')}
+          content={t(`agreementApprovalPolicy.${descriptor.agreementApprovalPolicy}`)}
+        />
       </Stack>
     </SectionContainer>
   )
