@@ -28,14 +28,14 @@ async function getSingle(clientId: string) {
 
 async function getKeyList(clientId: string) {
   const response = await axiosInstance.get<PublicKeys>(
-    `${AUTHORIZATION_PROCESS_URL}/clients/${clientId}/keys`
+    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/keys`
   )
   return response.data
 }
 
 async function getSingleKey(clientId: string, kid: string) {
   const response = await axiosInstance.get<PublicKey>(
-    `${AUTHORIZATION_PROCESS_URL}/clients/${clientId}/keys/${kid}`
+    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/keys/${kid}`
   )
   return response.data
 }
