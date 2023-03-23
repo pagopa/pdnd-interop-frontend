@@ -3,11 +3,11 @@ import useGetClientActions from '@/hooks/useGetClientActions'
 import { useNavigateRouter } from '@/router'
 import type { ClientKind, ClientListingItem } from '@/types/client.types'
 import { Box, Button, Skeleton } from '@mui/material'
+import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActionMenu, ActionMenuSkeleton } from '../ActionMenu'
 import { ButtonSkeleton } from '../MUI-skeletons'
-import { TableRow } from '../Table'
 
 type ClientTableRow = {
   client: ClientListingItem
@@ -33,7 +33,7 @@ export const ClientTableRow: React.FC<ClientTableRow> = ({ client, clientKind })
   }
 
   return (
-    <TableRow cellData={[{ label: client.name }]}>
+    <TableRow cellData={[client.name]}>
       <Button
         onPointerEnter={handlePrefetch}
         onFocusVisible={handlePrefetch}
@@ -53,7 +53,7 @@ export const ClientTableRow: React.FC<ClientTableRow> = ({ client, clientKind })
 
 export const ClientTableRowSkeleton: React.FC = () => {
   return (
-    <TableRow cellData={[{ label: <Skeleton width={440} /> }]}>
+    <TableRow cellData={[<Skeleton key={0} width={440} />]}>
       <ButtonSkeleton size="small" width={100} />
       <ActionMenuSkeleton />
     </TableRow>

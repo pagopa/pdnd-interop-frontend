@@ -1,8 +1,8 @@
 import React from 'react'
-import { Table } from '@/components/shared/Table'
 import { useTranslation } from 'react-i18next'
 import { EServiceTableRow, EServiceTableRowSkeleton } from './EServiceTableRow'
 import type { EServiceProvider } from '@/types/eservice.types'
+import { Table } from '@pagopa/interop-fe-commons'
 
 type EServiceTableProps = {
   eservices: Array<EServiceProvider>

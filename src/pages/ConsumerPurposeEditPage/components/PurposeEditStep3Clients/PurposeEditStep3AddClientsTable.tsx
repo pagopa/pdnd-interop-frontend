@@ -1,10 +1,10 @@
 import React from 'react'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
-import { Table, TableRow } from '@/components/shared/Table'
 import { Button, IconButton, Skeleton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { useDialog } from '@/stores'
+import { Table, TableRow } from '@pagopa/interop-fe-commons'
 
 interface PurposeEditStep3AddClientsTableProps {
   purposeId: string
@@ -39,7 +39,7 @@ export const PurposeEditStep3AddClientsTable: React.FC<PurposeEditStep3AddClient
         noDataLabel={t('step3.noDataLabel')}
       >
         {clients.map((client, i) => (
-          <TableRow key={i} cellData={[{ label: client.name }]}>
+          <TableRow key={i} cellData={[client.name]}>
             <IconButton onClick={handleRemoveClient.bind(null, client.id)}>
               <DeleteOutlineIcon fontSize="small" color="error" />
             </IconButton>
@@ -59,9 +59,9 @@ export const PurposeEditStep3AddClientsTableSkeleton: React.FC = () => {
 
   return (
     <Table headLabels={headLabels} noDataLabel={t('step3.noDataLabel')}>
-      <TableRow cellData={[{ label: <Skeleton width={200} /> }]} />
-      <TableRow cellData={[{ label: <Skeleton width={200} /> }]} />
-      <TableRow cellData={[{ label: <Skeleton width={200} /> }]} />
+      <TableRow cellData={[<Skeleton key={0} width={200} />]} />
+      <TableRow cellData={[<Skeleton key={1} width={200} />]} />
+      <TableRow cellData={[<Skeleton key={2} width={200} />]} />
     </Table>
   )
 }
