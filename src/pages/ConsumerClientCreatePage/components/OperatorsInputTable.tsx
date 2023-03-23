@@ -1,5 +1,4 @@
 import React from 'react'
-import { Table, TableRow } from '@/components/shared/Table'
 import { Button, IconButton, Stack } from '@mui/material'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -7,6 +6,7 @@ import type { CreateClientFormValues } from '../ConsumerClientCreate.page'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { useDialog } from '@/stores'
 import type { SelfCareUser } from '@/types/party.types'
+import { Table, TableRow } from '@pagopa/interop-fe-commons'
 
 const OperatorsInputTable: React.FC = () => {
   const { t } = useTranslation('client')
@@ -43,10 +43,7 @@ const OperatorsInputTable: React.FC = () => {
         noDataLabel={t('create.operatorsTable.noDataLabel')}
       >
         {operators.map((operator) => (
-          <TableRow
-            key={operator.id}
-            cellData={[{ label: `${operator.name} ${operator.familyName}` }]}
-          >
+          <TableRow key={operator.id} cellData={[`${operator.name} ${operator.familyName}`]}>
             <IconButton onClick={handleRemoveOperator.bind(null, operator.id)}>
               <DeleteOutlineIcon color="error" fontSize="small" />
             </IconButton>

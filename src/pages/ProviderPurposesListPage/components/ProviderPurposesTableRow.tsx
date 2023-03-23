@@ -2,11 +2,11 @@ import { PurposeQueries } from '@/api/purpose'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
-import { TableRow } from '@/components/shared/Table'
 import useGetProviderPurposesActions from '@/hooks/useGetProviderPurposesActions'
 import { useNavigateRouter } from '@/router'
 import type { PurposeListingItem } from '@/types/purpose.types'
 import { Box, Button, Skeleton } from '@mui/material'
+import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -30,11 +30,9 @@ export const ProviderPurposesTableRow: React.FC<{ purpose: PurposeListingItem }>
   return (
     <TableRow
       cellData={[
-        { label: purpose.title },
-        { label: purpose.consumer.name },
-        {
-          custom: <StatusChip for="purpose" purpose={purpose} />,
-        },
+        purpose.title,
+        purpose.consumer.name,
+        <StatusChip key={purpose.id} for="purpose" purpose={purpose} />,
       ]}
     >
       <Button
@@ -58,11 +56,9 @@ export const ProviderPurposesTableRowSkeleton: React.FC = () => {
   return (
     <TableRow
       cellData={[
-        { label: <Skeleton width={180} /> },
-        { label: <Skeleton width={180} /> },
-        {
-          custom: <StatusChipSkeleton />,
-        },
+        <Skeleton key={0} width={180} />,
+        <Skeleton key={1} width={180} />,
+        <StatusChipSkeleton key={2} />,
       ]}
     >
       <ButtonSkeleton size="small" width={100} />

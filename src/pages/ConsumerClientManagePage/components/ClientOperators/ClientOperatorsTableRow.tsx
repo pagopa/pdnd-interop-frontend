@@ -2,7 +2,6 @@ import { ClientMutations, ClientQueries } from '@/api/client'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
-import { TableRow } from '@/components/shared/Table'
 import { useJwt } from '@/hooks/useJwt'
 import { RouterLink } from '@/router'
 import type { ActionItem } from '@/types/common.types'
@@ -11,6 +10,7 @@ import { Box, Skeleton } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
+import { TableRow } from '@pagopa/interop-fe-commons'
 
 interface ClientOperatorsTableRowProps {
   operator: SelfCareUser
@@ -49,8 +49,8 @@ export const ClientOperatorsTableRow: React.FC<ClientOperatorsTableRowProps> = (
   return (
     <TableRow
       cellData={[
-        { label: `${operator.name} ${operator.familyName}` },
-        { custom: <StatusChip for="user" state={operator.state} /> },
+        `${operator.name} ${operator.familyName}`,
+        <StatusChip key={operator.id} for="user" state={operator.state} />,
       ]}
     >
       <RouterLink
@@ -74,7 +74,7 @@ export const ClientOperatorsTableRow: React.FC<ClientOperatorsTableRowProps> = (
 
 export const ClientOperatorsTableRowSkeleton: React.FC = () => {
   return (
-    <TableRow cellData={[{ label: <Skeleton width={120} /> }, { custom: <StatusChipSkeleton /> }]}>
+    <TableRow cellData={[<Skeleton key={0} width={120} />, <StatusChipSkeleton key={1} />]}>
       <ButtonSkeleton size="small" width={103} />
       <ActionMenuSkeleton />
     </TableRow>
