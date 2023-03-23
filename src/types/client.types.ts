@@ -51,4 +51,10 @@ export type Client = {
   }
 }
 
+export type ClientListingItem = {
+  id: string
+  name: string
+  hasKeys: boolean
+}
+
 export type ClientKind = 'CONSUMER' | 'API'

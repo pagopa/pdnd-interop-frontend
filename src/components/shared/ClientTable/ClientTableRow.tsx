@@ -1,7 +1,7 @@
 import { ClientQueries } from '@/api/client'
 import useGetClientActions from '@/hooks/useGetClientActions'
 import { useNavigateRouter } from '@/router'
-import type { Client, ClientKind } from '@/types/client.types'
+import type { ClientKind, ClientListingItem } from '@/types/client.types'
 import { Box, Button, Skeleton } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -10,7 +10,7 @@ import { ButtonSkeleton } from '../MUI-skeletons'
 import { TableRow } from '../Table'
 
 type ClientTableRow = {
-  client: Client
+  client: ClientListingItem
   clientKind: ClientKind
 }
 

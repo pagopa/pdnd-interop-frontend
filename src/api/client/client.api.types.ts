@@ -1,11 +1,16 @@
 import type { ClientKind } from '@/types/client.types'
 import type { UserProductRole } from '@/types/party.types'
+import type { PaginationParams } from '../api.types'
 
-export type ClientGetListUrlParams = {
+export type ClientGetListQueryFilters = {
+  q?: string
   consumerId?: string
   eserviceId?: string
-  kind?: ClientKind
+  relationshipIds?: Array<string>
+  kind: ClientKind
 }
+
+export type ClientGetListQueryParams = ClientGetListQueryFilters & PaginationParams
 
 export type ClientCreatePayload = {
   name: string

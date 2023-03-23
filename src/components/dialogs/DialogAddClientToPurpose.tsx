@@ -1,13 +1,13 @@
 import React from 'react'
 import { ClientQueries } from '@/api/client'
 import { useDialog } from '@/stores'
-import { useJwt } from '@/hooks/useJwt'
 import type { DialogAddClientToPurposeProps } from '@/types/dialog.types'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { RHFAutocompleteMultiple } from '../shared/react-hook-form-inputs'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
+import { useAutocompleteTextInput } from '@/hooks/useAutocompleteTextInput'
 
 type AddClientToPurposeFormValues = {
   selectedClients: Array<string>
@@ -23,8 +23,8 @@ export const DialogAddClientToPurpose: React.FC<DialogAddClientToPurposeProps> =
   const ariaLabelId = React.useId()
   const { closeDialog } = useDialog()
   const { mutateAsync: addClient } = PurposeMutations.useAddClient()
+  const [clientSearchParam, setClientSearchParam] = useAutocompleteTextInput()
 
-  const { jwt } = useJwt()
   const formMethods = useForm<AddClientToPurposeFormValues>({
     defaultValues: {
       selectedClients: [],
@@ -35,10 +35,12 @@ export const DialogAddClientToPurpose: React.FC<DialogAddClientToPurposeProps> =
     suspense: false,
   })
 
-  const { data: allClients = [], isLoading: isLoadingClients } = ClientQueries.useGetList(
+  const { data, isLoading: isLoadingClients } = ClientQueries.useGetList(
     {
       kind: 'CONSUMER',
-      consumerId: jwt?.organizationId,
+      q: clientSearchParam,
+      offset: 0,
+      limit: 50,
     },
     { suspense: false }
   )
@@ -46,12 +48,13 @@ export const DialogAddClientToPurpose: React.FC<DialogAddClientToPurposeProps> =
   const options = React.useMemo(() => {
     if (!purpose) return []
     const clientAlreadyInPurpose = purpose.clients
-    const availableClients = allClients.filter(
+    const clients = data?.results ?? []
+    const availableClients = clients.filter(
       (client) => !clientAlreadyInPurpose.some(({ id }) => client.id === id)
     )
 
     return availableClients.map((client) => ({ label: client.name, value: client.id }))
-  }, [purpose, allClients])
+  }, [purpose, data])
 
   const onSubmit = ({ selectedClients }: AddClientToPurposeFormValues) => {
     Promise.all(
@@ -73,6 +76,7 @@ export const DialogAddClientToPurpose: React.FC<DialogAddClientToPurposeProps> =
                 focusOnMount
                 label={t('content.autocompleteLabel')}
                 sx={{ mt: 6, mb: 0 }}
+                onInputChange={(_, value) => setClientSearchParam(value)}
                 name="selectedClients"
                 options={options}
                 loading={isLoadingPurpose || isLoadingClients}

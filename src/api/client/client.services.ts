@@ -1,21 +1,22 @@
 import { AUTHORIZATION_PROCESS_URL, BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
-import type { Client } from '@/types/client.types'
+import type { Client, ClientListingItem } from '@/types/client.types'
 import type { PublicKey, PublicKeys } from '@/types/key.types'
 import type { SelfCareUser } from '@/types/party.types'
 import type {
   ClientCreatePayload,
-  ClientGetListUrlParams,
+  ClientGetListQueryParams,
   ClientGetOperatorsListUrlParams,
   ClientPostKeyPayload,
 } from './client.api.types'
+import { type Paginated } from '../react-query-wrappers/react-query-wrappers.types'
 
-async function getList(params: ClientGetListUrlParams) {
-  const response = await axiosInstance.get<{ clients: Array<Client> }>(
-    `${AUTHORIZATION_PROCESS_URL}/clients`,
+async function getList(params: ClientGetListQueryParams) {
+  const response = await axiosInstance.get<Paginated<ClientListingItem>>(
+    `${BACKEND_FOR_FRONTEND_URL}/clients`,
     { params }
   )
-  return response.data.clients
+  return response.data
 }
 
 async function getSingle(clientId: string) {

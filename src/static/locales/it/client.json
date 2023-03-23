@@ -42,6 +42,11 @@
     }
   },
   "list": {
+    "filters": {
+      "nameField": {
+        "label": "Cerca per nome"
+      }
+    },
     "consumer": {
       "title": "I tuoi client e-service",
       "description": "In quest'area puoi i trovare e gestire tutti i client e-service che hai creato"

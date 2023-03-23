@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next'
 import { ClientMutations } from '@/api/client'
-import type { Client } from '@/types/client.types'
+import type { Client, ClientListingItem } from '@/types/client.types'
 import { useClientKind } from './useClientKind'
 import { useNavigateRouter } from '@/router'
 import type { ActionItem } from '@/types/common.types'
 import { useJwt } from './useJwt'
 
-function useGetClientActions(client?: Client): { actions: Array<ActionItem> } {
+function useGetClientActions(client?: Client | ClientListingItem): { actions: Array<ActionItem> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const clientKind = useClientKind()
   const { isAdmin } = useJwt()
