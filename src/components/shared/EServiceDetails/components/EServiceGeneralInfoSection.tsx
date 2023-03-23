@@ -1,7 +1,8 @@
-import { InformationContainer, SectionContainer } from '@/components/layout/containers'
+import { SectionContainer } from '@/components/layout/containers'
 import { useJwt } from '@/hooks/useJwt'
 import { RouterLink } from '@/router'
 import { Stack } from '@mui/material'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useEServiceDetailsContext } from '../EServiceDetailsContext'
@@ -22,15 +23,16 @@ export const EServiceGeneralInfoSection: React.FC = () => {
     <SectionContainer title={t('title')}>
       <Stack spacing={2}>
         {isAdmin && agreement && (
-          <InformationContainer label={t('agreementField.label')}>
-            <RouterLink target="_blank" to={agreementPath} params={{ agreementId: agreement.id }}>
-              {t('agreementField.link.label')}
-            </RouterLink>
-          </InformationContainer>
+          <InformationContainer
+            content={
+              <RouterLink target="_blank" to={agreementPath} params={{ agreementId: agreement.id }}>
+                {t('agreementField.link.label')}
+              </RouterLink>
+            }
+            label={t('agreementField.label')}
+          />
         )}
-        <InformationContainer label={t('technology')}>
-          {descriptor.eservice.technology}
-        </InformationContainer>
+        <InformationContainer content={descriptor.eservice.technology} label={t('technology')} />
       </Stack>
     </SectionContainer>
   )

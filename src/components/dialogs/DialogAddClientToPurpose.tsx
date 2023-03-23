@@ -7,7 +7,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { RHFAutocompleteMultiple } from '../shared/react-hook-form-inputs'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
-import { useAutocompleteTextInput } from '@/hooks/useAutocompleteTextInput'
+import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 
 type AddClientToPurposeFormValues = {
   selectedClients: Array<string>

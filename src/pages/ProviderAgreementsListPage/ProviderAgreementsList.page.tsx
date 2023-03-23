@@ -4,12 +4,15 @@ import type {
   GetListAgreementQueryParams,
 } from '@/api/agreement/agreement.api.types'
 import { PageContainer } from '@/components/layout/containers'
-import { Filters } from '@/components/shared/Filters'
-import { Pagination } from '@/components/shared/Pagination'
-import { useFilters } from '@/hooks/useFilters'
 import { useJwt } from '@/hooks/useJwt'
-import { usePagination } from '@/hooks/usePagination'
 import type { AgreementState } from '@/types/agreement.types'
+import {
+  Filters,
+  Pagination,
+  useAutocompleteTextInput,
+  useFilters,
+  usePagination,
+} from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ProviderAgreementsTable, ProviderAgreementsTableSkeleton } from './components'
@@ -18,8 +21,8 @@ const ProviderAgreementsListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerAgreementsList' })
   const { t: tAgreement } = useTranslation('agreement', { keyPrefix: 'list.filters' })
 
-  const [consumersAutocompleteInput, setConsumersAutocompleteInput] = React.useState('')
-  const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = React.useState('')
+  const [consumersAutocompleteInput, setConsumersAutocompleteInput] = useAutocompleteTextInput()
+  const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = useAutocompleteTextInput()
 
   const { data: consumers } = AgreementQueries.useGetConsumers(
     { offset: 0, limit: 50, q: consumersAutocompleteInput },
@@ -50,21 +53,21 @@ const ProviderAgreementsListPage: React.FC = () => {
     {
       name: 'eservicesIds',
       label: tAgreement('eserviceField.label'),
-      type: 'multiple',
+      type: 'autocomplete-multiple',
       options: eservicesOptions,
-      setAutocompleteInput: setEServicesAutocompleteInput,
+      onTextInputChange: setEServicesAutocompleteInput,
     },
     {
       name: 'consumersIds',
       label: tAgreement('consumerField.label'),
-      type: 'multiple',
+      type: 'autocomplete-multiple',
       options: consumersOptions,
-      setAutocompleteInput: setConsumersAutocompleteInput,
+      onTextInputChange: setConsumersAutocompleteInput,
     },
     {
       name: 'states',
       label: tAgreement('statusField.label'),
-      type: 'multiple',
+      type: 'autocomplete-multiple',
       options: [
         { label: tAgreement('statusField.optionLabels.ARCHIVED'), value: 'ARCHIVED' },
         { label: tAgreement('statusField.optionLabels.ACTIVE'), value: 'ACTIVE' },

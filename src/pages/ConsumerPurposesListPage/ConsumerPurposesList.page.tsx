@@ -6,12 +6,15 @@ import type {
 } from '@/api/purpose/purpose.api.types'
 import { PageContainer } from '@/components/layout/containers'
 import type { TopSideActions } from '@/components/layout/containers/PageContainer'
-import { Filters } from '@/components/shared/Filters'
-import { Pagination } from '@/components/shared/Pagination'
-import { useFilters } from '@/hooks/useFilters'
 import { useJwt } from '@/hooks/useJwt'
-import { usePagination } from '@/hooks/usePagination'
 import { useNavigateRouter } from '@/router'
+import {
+  Filters,
+  Pagination,
+  useAutocompleteTextInput,
+  useFilters,
+  usePagination,
+} from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ConsumerPurposesTable, ConsumerPurposesTableSkeleton } from './components'
@@ -23,7 +26,8 @@ const ConsumerPurposesListPage: React.FC = () => {
   const { jwt, isAdmin } = useJwt()
   const { navigate } = useNavigateRouter()
 
-  const [eserviceAutocompleteText, setEServiceAutocompleteInputChange] = React.useState('')
+  const [eserviceAutocompleteText, setEServiceAutocompleteInputChange] =
+    useAutocompleteTextInput('')
   const [producersAutocompleteText, setProducersAutocompleteInputChange] = React.useState('')
 
   const { data: producers } = EServiceQueries.useGetProducers(
@@ -49,25 +53,25 @@ const ConsumerPurposesListPage: React.FC = () => {
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<PurposeGetListQueryFilters>([
-    { name: 'q', label: tPurpose('filters.nameField.label'), type: 'single' },
+    { name: 'q', label: tPurpose('filters.nameField.label'), type: 'freetext' },
     {
       name: 'eservicesIds',
       label: tPurpose('filters.eserviceField.label'),
-      type: 'multiple',
+      type: 'autocomplete-multiple',
       options: eservicesOptions,
-      setAutocompleteInput: setEServiceAutocompleteInputChange,
+      onTextInputChange: setEServiceAutocompleteInputChange,
     },
     {
       name: 'producersIds',
       label: tPurpose('filters.providerField.label'),
-      type: 'multiple',
+      type: 'autocomplete-multiple',
       options: providersOptions,
-      setAutocompleteInput: setProducersAutocompleteInputChange,
+      onTextInputChange: setProducersAutocompleteInputChange,
     },
     {
       name: 'states',
       label: tPurpose('filters.statusField.label'),
-      type: 'multiple',
+      type: 'autocomplete-multiple',
       options: [
         { label: tPurpose('filters.statusField.optionLabels.ACTIVE'), value: 'ACTIVE' },
         {

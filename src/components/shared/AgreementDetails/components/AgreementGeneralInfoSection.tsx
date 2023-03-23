@@ -1,10 +1,7 @@
-import {
-  InformationContainer,
-  SectionContainer,
-  SectionContainerSkeleton,
-} from '@/components/layout/containers'
+import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { RouterLink, useCurrentRoute } from '@/router'
 import { Stack } from '@mui/material'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StatusChip } from '../../StatusChip'
@@ -24,30 +21,39 @@ export const AgreementGeneralInfoSection: React.FC = () => {
   return (
     <SectionContainer title={t('title')}>
       <Stack spacing={2}>
-        <InformationContainer label={t('eserviceField.label')}>
-          <RouterLink
-            to="SUBSCRIBE_CATALOG_VIEW"
-            params={{ eserviceId: agreement.eservice.id, descriptorId: agreement.descriptorId }}
-            target="_blank"
-          >
-            {eServiceName}
-          </RouterLink>
-        </InformationContainer>
+        <InformationContainer
+          content={
+            <RouterLink
+              to="SUBSCRIBE_CATALOG_VIEW"
+              params={{ eserviceId: agreement.eservice.id, descriptorId: agreement.descriptorId }}
+              target="_blank"
+            >
+              {eServiceName}
+            </RouterLink>
+          }
+          label={t('eserviceField.label')}
+        />
+
         {mode === 'consumer' && (
-          <InformationContainer label={t('providerField.label')}>
-            {agreement?.producer.name}
-          </InformationContainer>
+          <InformationContainer
+            content={agreement?.producer.name}
+            label={t('providerField.label')}
+          />
         )}
         {mode === 'provider' && (
-          <InformationContainer label={t('consumerField.label')}>
-            {agreement?.consumer.name}
-          </InformationContainer>
+          <InformationContainer
+            content={agreement?.consumer.name}
+            label={t('consumerField.label')}
+          />
         )}
-        <InformationContainer label={t('requestStatusField.label')}>
-          <Stack direction="row" spacing={1}>
-            <StatusChip for="agreement" agreement={agreement} />
-          </Stack>
-        </InformationContainer>
+        <InformationContainer
+          content={
+            <Stack direction="row" spacing={1}>
+              <StatusChip for="agreement" agreement={agreement} />
+            </Stack>
+          }
+          label={t('requestStatusField.label')}
+        />
       </Stack>
     </SectionContainer>
   )

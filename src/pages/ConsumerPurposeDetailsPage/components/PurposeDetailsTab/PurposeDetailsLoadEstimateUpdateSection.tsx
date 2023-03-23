@@ -1,10 +1,6 @@
 import React from 'react'
 import { PurposeQueries } from '@/api/purpose'
-import {
-  InformationContainer,
-  SectionContainer,
-  SectionContainerSkeleton,
-} from '@/components/layout/containers'
+import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { Accordion } from '@/components/shared/Accordion'
 import type { AccordionEntry } from '@/components/shared/Accordion'
 import { Button, Divider, Link, Stack } from '@mui/material'
@@ -14,6 +10,7 @@ import { useDialog } from '@/stores'
 import { purposeUpgradeGuideLink } from '@/config/constants'
 import { formatDateString, formatThousands } from '@/utils/format.utils'
 import { useJwt } from '@/hooks/useJwt'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
 
 interface PurposeDetailsLoadEstimateUpdateSectionProps {
   purposeId: string
@@ -50,34 +47,40 @@ export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
             <InformationContainer
               label={t('dateEstimateField.label')}
               labelDescription={t('dateEstimateField.consumerDescription')}
-            >
-              {purpose.waitingForApprovalVersion.expectedApprovalDate
-                ? formatDateString(purpose.waitingForApprovalVersion.expectedApprovalDate)
-                : t('dateEstimateField.emptyLabel')}
-            </InformationContainer>
-            <InformationContainer label={t('loadEstimateRequestedField.consumerLabel')}>
-              {t('loadEstimateRequestedField.value', {
+              content={
+                purpose.waitingForApprovalVersion.expectedApprovalDate
+                  ? formatDateString(purpose.waitingForApprovalVersion.expectedApprovalDate)
+                  : t('dateEstimateField.emptyLabel')
+              }
+            />
+
+            <InformationContainer
+              label={t('loadEstimateRequestedField.consumerLabel')}
+              content={t('loadEstimateRequestedField.value', {
                 value: formatThousands(purpose.waitingForApprovalVersion?.dailyCalls ?? 0),
               })}
-            </InformationContainer>
+            />
           </>
         )}
-        <InformationContainer label="FAQ">
-          <Accordion entries={accordionEntries} />
-        </InformationContainer>
-        <InformationContainer label={t('linksField.label')}>
-          <Stack>
-            <Link
-              component="a"
-              href={purposeUpgradeGuideLink}
-              target="_blank"
-              underline="hover"
-              sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
-            >
-              <LaunchIcon sx={{ mr: 1 }} /> {t('linksField.upgradeGuideLink.label')}
-            </Link>
-          </Stack>
-        </InformationContainer>
+        <InformationContainer label="FAQ" content={<Accordion entries={accordionEntries} />} />
+
+        <InformationContainer
+          label={t('linksField.label')}
+          content={
+            <Stack>
+              <Link
+                component="a"
+                href={purposeUpgradeGuideLink}
+                target="_blank"
+                underline="hover"
+                sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+              >
+                <LaunchIcon sx={{ mr: 1 }} /> {t('linksField.upgradeGuideLink.label')}
+              </Link>
+            </Stack>
+          }
+        />
+
         {!purpose.waitingForApprovalVersion && (
           <>
             <Divider />

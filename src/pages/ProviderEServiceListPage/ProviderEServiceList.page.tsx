@@ -5,15 +5,18 @@ import { PageContainer } from '@/components/layout/containers'
 import { useNavigateRouter } from '@/router'
 import type { TopSideActions } from '@/components/layout/containers/PageContainer'
 import { EServiceQueries } from '@/api/eservice'
-import { Pagination } from '@/components/shared/Pagination'
 import type {
   EServiceGetProviderListQueryFilters,
   EServiceGetProviderListUrlParams,
 } from '@/api/eservice/eservice.api.types'
-import { usePagination } from '@/hooks/usePagination'
-import { useFilters } from '@/hooks/useFilters'
-import { Filters } from '@/components/shared/Filters'
 import { useJwt } from '@/hooks/useJwt'
+import {
+  Filters,
+  Pagination,
+  useAutocompleteTextInput,
+  useFilters,
+  usePagination,
+} from '@pagopa/interop-fe-commons'
 
 const ProviderEServiceListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceList' })
@@ -21,7 +24,7 @@ const ProviderEServiceListPage: React.FC = () => {
   const { t: tEservice } = useTranslation('eservice', { keyPrefix: 'list.filters' })
   const { navigate } = useNavigateRouter()
   const { isAdmin } = useJwt()
-  const [consumersAutocompleteInput, setConsumersAutocompleteInput] = React.useState('')
+  const [consumersAutocompleteInput, setConsumersAutocompleteInput] = useAutocompleteTextInput('')
 
   const { data: consumers } = EServiceQueries.useGetConsumers(
     { offset: 0, limit: 50, q: consumersAutocompleteInput },
@@ -36,13 +39,13 @@ const ProviderEServiceListPage: React.FC = () => {
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<EServiceGetProviderListQueryFilters>([
-    { name: 'q', label: tEservice('nameField.label'), type: 'single' },
+    { name: 'q', label: tEservice('nameField.label'), type: 'freetext' },
     {
       name: 'consumersIds',
       label: tEservice('consumerField.label'),
-      type: 'multiple',
+      type: 'autocomplete-multiple',
       options: consumersOptions,
-      setAutocompleteInput: setConsumersAutocompleteInput,
+      onTextInputChange: setConsumersAutocompleteInput,
     },
   ])
 

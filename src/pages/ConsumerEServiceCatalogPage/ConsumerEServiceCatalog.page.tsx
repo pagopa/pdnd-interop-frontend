@@ -3,18 +3,21 @@ import { PageContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { EServiceCatalogGrid, EServiceCatalogGridSkeleton } from './components'
 import { EServiceQueries } from '@/api/eservice'
-import { Pagination } from '@/components/shared/Pagination'
 import type { EServiceGetCatalogListQueryFilters } from '@/api/eservice/eservice.api.types'
 import type { EServiceState } from '@/types/eservice.types'
-import { useFilters } from '@/hooks/useFilters'
-import { usePagination } from '@/hooks/usePagination'
-import { Filters } from '@/components/shared/Filters'
+import {
+  Filters,
+  Pagination,
+  useAutocompleteTextInput,
+  useFilters,
+  usePagination,
+} from '@pagopa/interop-fe-commons'
 
 const ConsumerEServiceCatalogPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerEServiceCatalog' })
   const { t: tEservice } = useTranslation('eservice', { keyPrefix: 'list.filters' })
 
-  const [producersAutocompleteInput, setProducersAutocompleteInput] = React.useState('')
+  const [producersAutocompleteInput, setProducersAutocompleteInput] = useAutocompleteTextInput()
 
   const { data: producers } = EServiceQueries.useGetProducers(
     { offset: 0, limit: 50, q: producersAutocompleteInput },
@@ -29,13 +32,13 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 12 })
   const { filtersParams, ...filtersHandlers } = useFilters<EServiceGetCatalogListQueryFilters>([
-    { name: 'q', label: tEservice('nameField.label'), type: 'single' },
+    { name: 'q', label: tEservice('nameField.label'), type: 'freetext' },
     {
       name: 'producersIds',
       label: tEservice('providerField.label'),
-      type: 'multiple',
+      type: 'autocomplete-multiple',
       options: producersOptions,
-      setAutocompleteInput: setProducersAutocompleteInput,
+      onTextInputChange: setProducersAutocompleteInput,
     },
   ])
 
