@@ -1,6 +1,6 @@
 import React from 'react'
 import { EServiceQueries } from '@/api/eservice'
-import { InformationContainer, SectionContainer } from '@/components/layout/containers'
+import { SectionContainer } from '@/components/layout/containers'
 import { StepActions } from '@/components/shared/StepActions'
 import { API_GATEWAY_INTEFACE_URL } from '@/config/env'
 import { RouterLink } from '@/router'
@@ -8,6 +8,7 @@ import { Link, Skeleton, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
 import type { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
 
 export const VoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps> = (props) => {
   const clientKind = useClientKind()
@@ -41,6 +42,12 @@ const ClientVoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps> = (
         <InformationContainer
           label={t('step3.consumer.audField.label')}
           labelDescription={t('step3.consumer.audField.description')}
+          content={
+            <>
+              {isLoadingDescriptor && !descriptorAudience && <Skeleton width={200} />}
+              {descriptorAudience}
+            </>
+          }
           copyToClipboard={
             descriptorAudience
               ? {
@@ -49,24 +56,24 @@ const ClientVoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps> = (
                 }
               : undefined
           }
-        >
-          {isLoadingDescriptor && !descriptorAudience && <Skeleton width={200} />}
-          {descriptorAudience}
-        </InformationContainer>
+        />
 
         {purpose && (
-          <InformationContainer label={t('step3.consumer.eserviceDetailsField.label')}>
-            <RouterLink
-              to="SUBSCRIBE_CATALOG_VIEW"
-              params={{
-                eserviceId: purpose.eservice.id,
-                descriptorId: purpose.eservice.descriptor.id,
-              }}
-              target="_blank"
-            >
-              {purpose.eservice.name}
-            </RouterLink>
-          </InformationContainer>
+          <InformationContainer
+            label={t('step3.consumer.eserviceDetailsField.label')}
+            content={
+              <RouterLink
+                to="SUBSCRIBE_CATALOG_VIEW"
+                params={{
+                  eserviceId: purpose.eservice.id,
+                  descriptorId: purpose.eservice.descriptor.id,
+                }}
+                target="_blank"
+              >
+                {purpose.eservice.name}
+              </RouterLink>
+            }
+          />
         )}
       </Stack>
 
@@ -80,16 +87,20 @@ const InteropM2MVoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps>
 
   return (
     <SectionContainer title={t('step3.api.title')} description={t('step3.api.description')}>
-      <InformationContainer sx={{ my: 4 }} label={t('step3.api.apiField.label')}>
-        <Link
-          href={API_GATEWAY_INTEFACE_URL}
-          target="_blank"
-          rel="noreferrer"
-          title={t('step3.api.apiField.link.title')}
-        >
-          {t('step3.api.apiField.link.label')}
-        </Link>
-      </InformationContainer>
+      <InformationContainer
+        sx={{ my: 4 }}
+        label={t('step3.api.apiField.label')}
+        content={
+          <Link
+            href={API_GATEWAY_INTEFACE_URL}
+            target="_blank"
+            rel="noreferrer"
+            title={t('step3.api.apiField.link.title')}
+          >
+            {t('step3.api.apiField.link.label')}
+          </Link>
+        }
+      />
       <StepActions back={{ label: t('backBtn'), type: 'button', onClick: back }} />
     </SectionContainer>
   )

@@ -1,6 +1,7 @@
-import { InformationContainer, SectionContainer } from '@/components/layout/containers'
+import { SectionContainer } from '@/components/layout/containers'
 import { useCurrentRoute, useNavigateRouter } from '@/router'
 import { Box, Button } from '@mui/material'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -45,22 +46,25 @@ export const EServiceVersionHistorySection: React.FC = () => {
 
   return (
     <SectionContainer title={t('title')}>
-      <InformationContainer label={t('historyField.title')}>
-        <FormProvider {...formMethods}>
-          <Box onSubmit={formMethods.handleSubmit(onSubmit)} component="form" noValidate>
-            <RHFSelect
-              sx={{ my: 0 }}
-              label={t('historyField.label')}
-              MenuProps={{ sx: { maxHeight: '160px' } }}
-              options={descriptorsOptions}
-              name="selectedDescriptorId"
-            />
-            <Button sx={{ mt: 2 }} size="large" variant="outlined" type="submit">
-              {t('submitBtn')}
-            </Button>
-          </Box>
-        </FormProvider>
-      </InformationContainer>
+      <InformationContainer
+        label={t('historyField.title')}
+        content={
+          <FormProvider {...formMethods}>
+            <Box onSubmit={formMethods.handleSubmit(onSubmit)} component="form" noValidate>
+              <RHFSelect
+                sx={{ my: 0 }}
+                label={t('historyField.label')}
+                MenuProps={{ sx: { maxHeight: '160px' } }}
+                options={descriptorsOptions}
+                name="selectedDescriptorId"
+              />
+              <Button sx={{ mt: 2 }} size="large" variant="outlined" type="submit">
+                {t('submitBtn')}
+              </Button>
+            </Box>
+          </FormProvider>
+        }
+      />
     </SectionContainer>
   )
 }

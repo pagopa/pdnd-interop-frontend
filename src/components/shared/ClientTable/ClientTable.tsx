@@ -1,14 +1,11 @@
 import { ClientQueries } from '@/api/client'
-import { usePagination } from '@/hooks/usePagination'
 import type { ClientKind } from '@/types/client.types'
 import React, { Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Table } from '../Table'
 import { ClientTableRow, ClientTableRowSkeleton } from './ClientTableRow'
 import type { ClientGetListQueryParams } from '@/api/client/client.api.types'
-import { Pagination } from '../Pagination'
-import { useFilters } from '@/hooks/useFilters'
-import { Filters } from '../Filters'
+import { Filters, Pagination, useFilters, usePagination } from '@pagopa/interop-fe-commons'
 
 interface ClientTableProps {
   clientKind: ClientKind
@@ -18,7 +15,7 @@ export const ClientTable: React.FC<ClientTableProps> = ({ clientKind }) => {
   const { t } = useTranslation('client', { keyPrefix: 'list.filters' })
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...handlers } = useFilters([
-    { name: 'q', type: 'single', label: t('nameField.label') },
+    { name: 'q', type: 'freetext', label: t('nameField.label') },
   ])
 
   const params = {

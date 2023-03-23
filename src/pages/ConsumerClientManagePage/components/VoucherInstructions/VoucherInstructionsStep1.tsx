@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import { FormControl, Grid, InputLabel, Link, MenuItem, Select, Stack } from '@mui/material'
 import type { SelectChangeEvent } from '@mui/material'
 import type { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
-import { InformationContainer, SectionContainer } from '@/components/layout/containers'
+import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { CLIENT_ASSERTION_JWT_AUDIENCE, FE_URL } from '@/config/env'
 import { useClientKind } from '@/hooks/useClientKind'
 import { CodeSnippetPreview } from './CodeSnippetPreview'
 import { CodeLanguagePicker } from './CodeLanguagePicker'
 import { StepActions } from '@/components/shared/StepActions'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
 
 const CLIENT_ASSERTION_TYP = 'JWT'
 const CLIENT_ASSERTION_ALG = 'RS256'
@@ -60,7 +61,6 @@ export const VoucherInstructionsStep1: React.FC<VoucherInstructionsStepProps> = 
                 <InputLabel id="public-key-selection-label">
                   {t('step1.choosePublicKeyLabel')}
                 </InputLabel>
-
                 <Select
                   sx={{ mt: 0 }}
                   labelId="public-key-selection-label"
@@ -85,35 +85,32 @@ export const VoucherInstructionsStep1: React.FC<VoucherInstructionsStepProps> = 
           <InformationContainer
             label={t('step1.assertionHeader.kidField.label')}
             labelDescription={t('step1.assertionHeader.kidField.description')}
+            content={selectedKid}
             copyToClipboard={{
               value: selectedKid,
               tooltipTitle: t('step1.assertionHeader.kidField.copySuccessFeedbackText'),
             }}
-          >
-            {selectedKid}
-          </InformationContainer>
+          />
 
           <InformationContainer
             label={t('step1.assertionHeader.algField.label')}
             labelDescription={t('step1.assertionHeader.algField.description')}
+            content={CLIENT_ASSERTION_ALG}
             copyToClipboard={{
               value: CLIENT_ASSERTION_ALG,
               tooltipTitle: t('step1.assertionHeader.algField.copySuccessFeedbackText'),
             }}
-          >
-            {CLIENT_ASSERTION_ALG}
-          </InformationContainer>
+          />
 
           <InformationContainer
             label={t('step1.assertionHeader.typField.label')}
             labelDescription={t('step1.assertionHeader.typField.description')}
+            content={CLIENT_ASSERTION_TYP}
             copyToClipboard={{
               value: CLIENT_ASSERTION_TYP,
               tooltipTitle: t('step1.assertionHeader.typField.copySuccessFeedbackText'),
             }}
-          >
-            {CLIENT_ASSERTION_TYP}
-          </InformationContainer>
+          />
         </Stack>
       </SectionContainer>
       <SectionContainer title={t('step1.assertionPayload.title')}>
@@ -121,69 +118,57 @@ export const VoucherInstructionsStep1: React.FC<VoucherInstructionsStepProps> = 
           <InformationContainer
             label={t('step1.assertionPayload.issField.label')}
             labelDescription={t('step1.assertionPayload.issField.description')}
+            content={props.clientId}
             copyToClipboard={{
               value: props.clientId,
               tooltipTitle: t('step1.assertionPayload.issField.copySuccessFeedbackText'),
             }}
-          >
-            {props.clientId}
-          </InformationContainer>
+          />
 
           <InformationContainer
             label={t('step1.assertionPayload.subField.label')}
             labelDescription={t('step1.assertionPayload.subField.description')}
+            content={props.clientId}
             copyToClipboard={{
               value: props.clientId,
               tooltipTitle: t('step1.assertionPayload.subField.copySuccessFeedbackText'),
             }}
-          >
-            {props.clientId}
-          </InformationContainer>
-
+          />
           <InformationContainer
             label={t('step1.assertionPayload.audField.label')}
             labelDescription={t('step1.assertionPayload.audField.description')}
+            content={CLIENT_ASSERTION_JWT_AUDIENCE}
             copyToClipboard={{
               value: CLIENT_ASSERTION_JWT_AUDIENCE,
               tooltipTitle: t('step1.assertionPayload.audField.copySuccessFeedbackText'),
             }}
-          >
-            {CLIENT_ASSERTION_JWT_AUDIENCE}
-          </InformationContainer>
-
+          />
           {clientKind === 'CONSUMER' && props.purposeId && (
             <InformationContainer
               label={t('step1.assertionPayload.purposeIdField.label')}
               labelDescription={t('step1.assertionPayload.purposeIdField.description')}
+              content={props.purposeId}
               copyToClipboard={{
                 value: props.purposeId,
                 tooltipTitle: t('step1.assertionPayload.purposeIdField.copySuccessFeedbackText'),
               }}
-            >
-              {props.purposeId}
-            </InformationContainer>
+            />
           )}
-
           <InformationContainer
             label={t('step1.assertionPayload.jtiField.label')}
             labelDescription={t('step1.assertionPayload.jtiField.description')}
-          >
-            {t('step1.assertionPayload.jtiField.suggestionLabel')}
-          </InformationContainer>
-
+            content={t('step1.assertionPayload.jtiField.suggestionLabel')}
+          />
           <InformationContainer
             label={t('step1.assertionPayload.iatField.label')}
             labelDescription={t('step1.assertionPayload.iatField.description')}
-          >
-            {t('step1.assertionPayload.iatField.suggestionLabel')}
-          </InformationContainer>
-
+            content={t('step1.assertionPayload.iatField.suggestionLabel')}
+          />
           <InformationContainer
             label={t('step1.assertionPayload.expField.label')}
             labelDescription={t('step1.assertionPayload.expField.description')}
-          >
-            {t('step1.assertionPayload.expField.suggestionLabel')}
-          </InformationContainer>
+            content={t('step1.assertionPayload.expField.suggestionLabel')}
+          />
         </Stack>
       </SectionContainer>
       <SectionContainer title={t('step1.assertionScript.title')}>
@@ -233,7 +218,6 @@ export const VoucherInstructionsStep1: React.FC<VoucherInstructionsStepProps> = 
             INSERISCI_VALORE_PUR: props.purposeId ?? '',
           }}
         />
-
         <StepActions forward={{ label: t('proceedBtn'), type: 'button', onClick: props.forward }} />
       </SectionContainer>
     </>

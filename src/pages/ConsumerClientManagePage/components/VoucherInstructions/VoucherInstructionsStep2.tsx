@@ -1,5 +1,5 @@
 import React from 'react'
-import { InformationContainer, SectionContainer } from '@/components/layout/containers'
+import { SectionContainer } from '@/components/layout/containers'
 import { StepActions } from '@/components/shared/StepActions'
 import { AUTHORIZATION_SERVER_ACCESS_TOKEN_URL, FE_URL } from '@/config/env'
 import { Stack } from '@mui/material'
@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
 import type { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
 import { CodeSnippetPreview } from './CodeSnippetPreview'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
 
 const CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
 const GRANT_TYPE = 'client_credentials'
@@ -30,52 +31,47 @@ export const VoucherInstructionsStep2: React.FC<VoucherInstructionsStepProps> = 
         <InformationContainer
           sx={{ mt: 4 }}
           label={t('step2.authEndpoint.label')}
+          content={AUTHORIZATION_SERVER_ACCESS_TOKEN_URL}
           copyToClipboard={{
             value: AUTHORIZATION_SERVER_ACCESS_TOKEN_URL,
             tooltipTitle: t('step2.authEndpoint.copySuccessFeedbackText'),
           }}
-        >
-          {AUTHORIZATION_SERVER_ACCESS_TOKEN_URL}
-        </InformationContainer>
+        />
       </SectionContainer>
 
       <SectionContainer title={t('step2.requestBody.title')}>
         <Stack sx={{ mt: 4 }} spacing={4}>
           <InformationContainer
             label={t('step2.requestBody.clientIdField.label')}
+            content={clientId}
             copyToClipboard={{
               value: clientId,
               tooltipTitle: t('step2.requestBody.clientIdField.copySuccessFeedbackText'),
             }}
-          >
-            {clientId}
-          </InformationContainer>
-
-          <InformationContainer label={t('step2.requestBody.clientAssertionField.label')}>
-            {t('step2.requestBody.clientAssertionField.suggestionLabel')}
-          </InformationContainer>
+          />
+          <InformationContainer
+            label={t('step2.requestBody.clientAssertionField.label')}
+            content={t('step2.requestBody.clientAssertionField.suggestionLabel')}
+          />
 
           <InformationContainer
             label={t('step2.requestBody.clientAssertionTypeField.label')}
             labelDescription={t('step2.requestBody.clientAssertionTypeField.description')}
+            content={CLIENT_ASSERTION_TYPE}
             copyToClipboard={{
               value: CLIENT_ASSERTION_TYPE,
               tooltipTitle: t('step2.requestBody.clientAssertionTypeField.copySuccessFeedbackText'),
             }}
-          >
-            {CLIENT_ASSERTION_TYPE}
-          </InformationContainer>
-
+          />
           <InformationContainer
             label={t('step2.requestBody.grantTypeField.label')}
             labelDescription={t('step2.requestBody.grantTypeField.description')}
+            content={GRANT_TYPE}
             copyToClipboard={{
               value: GRANT_TYPE,
               tooltipTitle: t('step2.requestBody.grantTypeField.copySuccessFeedbackText'),
             }}
-          >
-            {GRANT_TYPE}
-          </InformationContainer>
+          />
         </Stack>
       </SectionContainer>
 
