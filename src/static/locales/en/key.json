@@ -9,6 +9,7 @@
     }
   },
   "edit": {
+    "orphanAlertLabel": "Warning: the user who uploaded this key is no longer part of this party. For security reasons, it is recommended to replace this key with a new one, then delete it from the client. For more information, see the <1>documentation</1>",
     "generalInformations": {
       "title": "General informations",
       "creationDateField": {

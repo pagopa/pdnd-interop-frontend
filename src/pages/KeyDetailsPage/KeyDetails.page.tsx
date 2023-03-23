@@ -2,7 +2,7 @@ import React from 'react'
 import { ClientQueries } from '@/api/client'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
 import { RouterLink, useRouteParams } from '@/router'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { formatTopSideActions } from '@/utils/common.utils'
 import { useClientKind } from '@/hooks/useClientKind'
 import {
@@ -10,6 +10,8 @@ import {
   KeyGeneralInfoSection,
 } from './components/KeyGeneralInfoSection'
 import useGetKeyActions from '@/hooks/useGetKeyActions'
+import { Alert, Link } from '@mui/material'
+import { clientKeyGuideLink } from '@/config/constants'
 
 const KeyDetailsPage: React.FC = () => {
   const { t } = useTranslation('key')
@@ -32,6 +34,13 @@ const KeyDetailsPage: React.FC = () => {
     <PageContainer isLoading={isLoading} title={publicKey?.name} topSideActions={topSideActions}>
       <React.Suspense fallback={<KeyGeneralInfoSectionSkeleton />}>
         <KeyGeneralInfoSection clientId={clientId} kid={kid} />
+        {publicKey?.isOrphan && (
+          <Alert severity="error">
+            <Trans components={{ 1: <Link href={clientKeyGuideLink} target="_blank" /> }}>
+              {t('edit.orphanAlertLabel')}
+            </Trans>
+          </Alert>
+        )}
       </React.Suspense>
       <PageBottomActionsContainer>
         <RouterLink
