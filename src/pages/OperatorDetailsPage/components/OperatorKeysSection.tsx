@@ -26,14 +26,14 @@ export const OperatorKeysSection: React.FC<OperatorKeysSectionProps> = ({
   return (
     <SectionContainer title={t('edit.associatedKeysField.label')}>
       <Stack spacing={2}>
-        {operatorKeys.map(({ key, name }, i) => (
+        {operatorKeys.map(({ keyId, name }, i) => (
           <RouterLink
             key={i}
             to={keyDetailsRouteKey}
             startIcon={<KeyIcon fontSize="small" />}
             params={{
               clientId,
-              kid: key.kid,
+              kid: keyId,
             }}
             sx={{ display: 'block' }}
           >

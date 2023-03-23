@@ -23,7 +23,7 @@ export const VoucherInstructionsStep1: React.FC<VoucherInstructionsStepProps> = 
   const hasKeys = props.clientKeys && props.clientKeys.keys.length > 0
 
   if (hasKeys && !selectedKid) {
-    setSelectedKid(props.clientKeys.keys[0].key.kid)
+    setSelectedKid(props.clientKeys.keys[0].keyId)
   }
 
   const onKidChange = (e: SelectChangeEvent<string>) => {
@@ -69,8 +69,8 @@ export const VoucherInstructionsStep1: React.FC<VoucherInstructionsStepProps> = 
                   value={selectedKid}
                   onChange={onKidChange}
                 >
-                  {props.clientKeys.keys.map(({ key, name }) => (
-                    <MenuItem key={key.kid} value={key.kid}>
+                  {props.clientKeys.keys.map(({ keyId, name }) => (
+                    <MenuItem key={keyId} value={keyId}>
                       {name}
                     </MenuItem>
                   ))}
