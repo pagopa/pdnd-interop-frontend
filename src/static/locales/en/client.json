@@ -42,6 +42,11 @@
     }
   },
   "list": {
+    "filters": {
+      "nameField": {
+        "label": "Find by name"
+      }
+    },
     "consumer": {
       "title": "Your e-service clients",
       "description": "In this section you can manage all the e-service clients you have created"

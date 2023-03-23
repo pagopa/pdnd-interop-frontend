@@ -15,9 +15,10 @@ interface ClientTableProps {
 }
 
 export const ClientTable: React.FC<ClientTableProps> = ({ clientKind }) => {
+  const { t } = useTranslation('client', { keyPrefix: 'list.filters' })
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...handlers } = useFilters([
-    { name: 'q', type: 'single', label: 'Cerca per nome' },
+    { name: 'q', type: 'single', label: t('nameField.label') },
   ])
 
   const params = {
@@ -51,7 +52,6 @@ const ClientTableWrapper: React.FC<{
 }> = ({ params, clientKind }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
   const { t } = useTranslation('client')
-  const { data: clients } = ClientQueries.useGetList(params)
 
   const headLabels = [tCommon('clientName'), '']
   const isEmpty = clients && clients.results.length === 0
