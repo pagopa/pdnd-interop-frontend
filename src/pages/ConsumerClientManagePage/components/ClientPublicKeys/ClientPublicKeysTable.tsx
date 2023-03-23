@@ -28,11 +28,7 @@ export const ClientPublicKeysTable: React.FC<ClientPublicKeysTableProps> = ({ cl
   return (
     <Table headLabels={headLabels} isEmpty={isEmpty}>
       {publicKeys.map((publicKey) => (
-        <ClientPublicKeysTableRow
-          key={publicKey.key.kid}
-          publicKey={publicKey}
-          clientId={clientId}
-        />
+        <ClientPublicKeysTableRow key={publicKey.keyId} publicKey={publicKey} clientId={clientId} />
       ))}
     </Table>
   )

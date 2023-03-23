@@ -1,7 +1,6 @@
 import { ClientQueries } from '@/api/client'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { formatDateString } from '@/utils/format.utils'
-import { isKeyOrphan } from '@/utils/key.utils'
 import { Alert, Grid } from '@mui/material'
 import { Stack } from '@mui/system'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
@@ -16,7 +15,6 @@ type KeyGeneralInfoSectionProps = {
 export const KeyGeneralInfoSection: React.FC<KeyGeneralInfoSectionProps> = ({ clientId, kid }) => {
   const { t } = useTranslation('key', { keyPrefix: 'edit.generalInformations' })
   const { data: publicKey } = ClientQueries.useGetSingleKey(clientId, kid)
-  const { data: operators } = ClientQueries.useGetOperatorsList(clientId)
 
   return (
     <Grid container>
@@ -33,12 +31,14 @@ export const KeyGeneralInfoSection: React.FC<KeyGeneralInfoSectionProps> = ({ cl
             />
             <InformationContainer
               label={t('kidField.label')}
-              content={publicKey?.key.kid ?? ''}
+              content={publicKey?.keyId ?? ''}
               copyToClipboard={
-                publicKey?.key && {
-                  value: publicKey.key.kid,
-                  tooltipTitle: t('kidField.copySuccessFeedbackText'),
-                }
+                publicKey?.keyId
+                  ? {
+                      value: publicKey.keyId,
+                      tooltipTitle: t('kidField.copySuccessFeedbackText'),
+                    }
+                  : undefined
               }
             />
             <InformationContainer
@@ -49,7 +49,7 @@ export const KeyGeneralInfoSection: React.FC<KeyGeneralInfoSectionProps> = ({ cl
                 tooltipTitle: t('clientIdField.copySuccessFeedbackText'),
               }}
             />
-            {publicKey && isKeyOrphan(publicKey, operators) && (
+            {publicKey?.isOrphan && (
               <Alert severity="info">{t('operatorDeletedAlertMessage')}</Alert>
             )}
           </Stack>

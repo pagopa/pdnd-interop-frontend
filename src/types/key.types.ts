@@ -5,15 +5,15 @@ export type PublicKeyItem = {
 }
 
 export type PublicKey = {
+  keyId: string
   name: string
-  createdAt: string
-  key: PublicKeyItem
   operator: {
-    id: string
-    familyName: string
-    name: string
     relationshipId: string
+    name: string
+    familyName: string
   }
+  createdAt: string
+  isOrphan: true
 }
 
 export type PublicKeys = {
