@@ -2,12 +2,12 @@ import { AgreementQueries } from '@/api/agreement'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
-import { TableRow } from '@/components/shared/Table'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
 import { useJwt } from '@/hooks/useJwt'
 import { useNavigateRouter } from '@/router'
 import type { AgreementListingItem } from '@/types/agreement.types'
 import { Box, Button, Skeleton } from '@mui/material'
+import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -41,13 +41,9 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListingI
   return (
     <TableRow
       cellData={[
-        {
-          label: t('eserviceName', { name: eservice.name, version: descriptor.version }),
-        },
-        { label: agreement.eservice.producer.name },
-        {
-          custom: <StatusChip for="agreement" agreement={agreement} />,
-        },
+        t('eserviceName', { name: eservice.name, version: descriptor.version }),
+        agreement.eservice.producer.name,
+        <StatusChip key={agreement.id} for="agreement" agreement={agreement} />,
       ]}
     >
       <Button
@@ -71,11 +67,9 @@ export const ConsumerAgreementsTableRowSkeleton: React.FC = () => {
   return (
     <TableRow
       cellData={[
-        { label: <Skeleton width={220} /> },
-        { label: <Skeleton width={220} /> },
-        {
-          custom: <StatusChipSkeleton />,
-        },
+        <Skeleton key={0} width={220} />,
+        <Skeleton key={1} width={220} />,
+        <StatusChipSkeleton key={2} />,
       ]}
     >
       <ButtonSkeleton size="small" width={100} />

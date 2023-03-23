@@ -1,5 +1,5 @@
 import { PurposeQueries } from '@/api/purpose'
-import { Table } from '@/components/shared/Table'
+import { Table } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { PurposeClientsTableRow, PurposeClientsTableRowSkeleton } from './PurposeClientsTableRow'

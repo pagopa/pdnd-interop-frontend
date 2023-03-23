@@ -1,5 +1,4 @@
 import React from 'react'
-import { TableRow } from '@/components/shared/Table'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import { Box, Button, Skeleton, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +11,7 @@ import { EServiceQueries } from '@/api/eservice'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceActions'
 import { useJwt } from '@/hooks/useJwt'
+import { TableRow } from '@pagopa/interop-fe-commons'
 
 type EServiceTableRow = {
   eservice: EServiceProvider
@@ -62,20 +62,16 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
   return (
     <TableRow
       cellData={[
-        { label: eservice.name },
-        { label: eservice?.activeDescriptor?.version || '1' },
-        {
-          custom: (
-            <Stack direction="row" spacing={1}>
-              {eservice?.activeDescriptor && (
-                <StatusChip for="eservice" state={eservice.activeDescriptor.state} />
-              )}
-              {(isEServiceInDraft || eservice?.draftDescriptor) && (
-                <StatusChip for="eservice" state={'DRAFT'} />
-              )}
-            </Stack>
-          ),
-        },
+        eservice.name,
+        eservice?.activeDescriptor?.version || '1',
+        <Stack key={eservice?.id} direction="row" spacing={1}>
+          {eservice?.activeDescriptor && (
+            <StatusChip for="eservice" state={eservice.activeDescriptor.state} />
+          )}
+          {(isEServiceInDraft || eservice?.draftDescriptor) && (
+            <StatusChip for="eservice" state={'DRAFT'} />
+          )}
+        </Stack>,
       ]}
     >
       <Button
@@ -99,11 +95,9 @@ export const EServiceTableRowSkeleton: React.FC = () => {
   return (
     <TableRow
       cellData={[
-        { label: <Skeleton width={220} /> },
-        { label: <Skeleton width={20} /> },
-        {
-          custom: <StatusChipSkeleton />,
-        },
+        <Skeleton key={0} width={220} />,
+        <Skeleton key={1} width={20} />,
+        <StatusChipSkeleton key={2} />,
       ]}
     >
       <ButtonSkeleton size="small" width={100} />
