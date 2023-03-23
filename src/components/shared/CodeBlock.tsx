@@ -10,15 +10,12 @@ const CodeBlock: React.FC<Props> = ({ error }) => {
   const stringifiedError =
     typeof error === 'object' ? JSON.stringify(error, null, 2) : String(error)
   return (
-    <Box
-      sx={{
-        position: 'relative',
-      }}
-    >
+    <Box>
       <Paper
         sx={{
           p: 2,
           mt: 4,
+          position: 'relative',
           backgroundColor: 'background.default',
           whiteSpace: 'pre-wrap',
           maxHeight: 520,

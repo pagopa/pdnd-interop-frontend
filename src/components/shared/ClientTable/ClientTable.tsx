@@ -1,31 +1,55 @@
 import { ClientQueries } from '@/api/client'
-import { useJwt } from '@/hooks/useJwt'
+import { usePagination } from '@/hooks/usePagination'
 import type { ClientKind } from '@/types/client.types'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Table } from '../Table'
 import { ClientTableRow, ClientTableRowSkeleton } from './ClientTableRow'
+import type { ClientGetListQueryParams } from '@/api/client/client.api.types'
+import { Pagination } from '../Pagination'
 
 interface ClientTableProps {
   clientKind: ClientKind
 }
 
 export const ClientTable: React.FC<ClientTableProps> = ({ clientKind }) => {
-  const { t } = useTranslation('client')
-  const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
-  const { jwt } = useJwt()
-  const { data: clients } = ClientQueries.useGetList({
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+
+  const params = {
     kind: clientKind,
-    consumerId: jwt?.organizationId,
+    ...paginationParams,
+  }
+  const { data: clients } = ClientQueries.useGetList(params, {
+    keepPreviousData: true,
+    suspense: false,
   })
 
+  return (
+    <>
+      <ClientTableWrapper params={params} clientKind={clientKind} />
+      <Pagination
+        {...paginationProps}
+        totalPages={getTotalPageCount(clients?.pagination.totalCount)}
+      />
+    </>
+  )
+}
+
+const ClientTableWrapper: React.FC<{
+  params: ClientGetListQueryParams
+  clientKind: ClientKind
+}> = ({ params, clientKind }) => {
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
+  const { t } = useTranslation('client')
+  const { data: clients } = ClientQueries.useGetList(params)
+
   const headLabels = [tCommon('clientName'), '']
-  const isEmpty = clients && clients.length === 0
+  const isEmpty = clients && clients.results.length === 0
 
   return (
     <Table headLabels={headLabels} isEmpty={isEmpty} noDataLabel={t('noMultiDataLabel')}>
       {!isEmpty &&
-        clients?.map((client) => (
+        clients?.results.map((client) => (
           <ClientTableRow key={client.id} client={client} clientKind={clientKind} />
         ))}
     </Table>
