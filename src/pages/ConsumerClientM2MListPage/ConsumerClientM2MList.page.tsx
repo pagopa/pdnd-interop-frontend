@@ -1,7 +1,7 @@
 import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
-import { ClientTable, ClientTableSkeleton } from '@/components/shared/ClientTable'
+import { ClientTable } from '@/components/shared/ClientTable'
 import { useNavigateRouter } from '@/router'
 import type { TopSideActions } from '@/components/layout/containers/PageContainer'
 
@@ -26,9 +26,7 @@ const ConsumerClientM2MListPage: React.FC = () => {
       description={t('description')}
       topSideActions={topSideActions}
     >
-      <React.Suspense fallback={<ClientTableSkeleton />}>
-        <ClientTable clientKind="API" />
-      </React.Suspense>
+      <ClientTable clientKind="API" />
     </PageContainer>
   )
 }
