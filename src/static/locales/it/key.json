@@ -9,6 +9,7 @@
     }
   },
   "edit": {
+    "orphanAlertLabel": "Attenzione: l’utente che ha caricato questa chiave non fa più parte di questo ente. Per questioni di sicurezza, si consiglia di rimpiazzare questa chiave con una nuova, quindi di eliminarla dal client. Per maggiori informazioni, consulta la <1>documentazione</1>",
     "generalInformations": {
       "title": "Informazioni generali",
       "creationDateField": {
