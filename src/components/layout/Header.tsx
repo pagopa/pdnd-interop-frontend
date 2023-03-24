@@ -3,7 +3,7 @@ import { useJwt } from '@/hooks/useJwt'
 import { useNavigateRouter } from '@/router'
 import { assistanceLink, documentationLink, pagoPaLink } from '@/config/constants'
 import { HeaderAccount, HeaderProduct, type ProductSwitchItem } from '@pagopa/mui-italia'
-import { FE_LOGIN_URL, SELFCARE_BASE_URL, SELFCARE_INTEROP_PROD_ID } from '@/config/env'
+import { FE_LOGIN_URL, SELFCARE_BASE_URL, SELFCARE_INTEROP_PROD_ID, STAGE } from '@/config/env'
 import { PartyQueries } from '@/api/party/party.hooks'
 import type { PartyItem } from '@/api/party/party.api.types'
 import type { PartySwitchItem } from '@pagopa/mui-italia/dist/components/PartySwitch'
@@ -25,28 +25,24 @@ const getPartyList = (parties: Array<PartyItem> | undefined, t: TFunction<'commo
   return partyList
 }
 
-const getProductList = (products?: Array<{ id: string; name: string }>) => {
-  const productList: Array<ProductSwitchItem> = [
+const getProductList = (products?: Array<{ id: string; name: string }>): ProductSwitchItem[] => {
+  const currentProduct: ProductSwitchItem[] = [
     {
-      id: 'interop',
-      title: 'Interoperabilità',
+      id: SELFCARE_INTEROP_PROD_ID,
+      title: `Interoperabilità${STAGE === 'TEST' ? ' Collaudo' : ''}`,
       productUrl: '',
       linkType: 'internal',
     },
   ]
 
-  if (products) {
-    productList.concat(
-      products.map((product) => ({
-        id: product.id,
-        title: product.name,
-        productUrl: '',
-        linkType: 'internal',
-      }))
-    )
-  }
+  if (!products) return currentProduct
 
-  return productList
+  return products.map((product) => ({
+    id: product.id,
+    title: product.name,
+    productUrl: '',
+    linkType: 'internal',
+  }))
 }
 
 export const Header = () => {
@@ -81,6 +77,13 @@ export const Header = () => {
     )
   }
 
+  const handleSelectProduct = (product: ProductSwitchItem) => {
+    if (!jwt?.selfcareId) return
+    window.location.assign(
+      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${jwt.selfcareId}&productId=${product.id}`
+    )
+  }
+
   return (
     <header>
       <HeaderAccount
@@ -99,9 +102,10 @@ export const Header = () => {
       />
 
       <HeaderProduct
-        productId="interop"
         onSelectedParty={handleSelectParty}
+        onSelectedProduct={handleSelectProduct}
         partyId={jwt?.selfcareId}
+        productId={SELFCARE_INTEROP_PROD_ID}
         productsList={productList}
         partyList={partyList}
       />
