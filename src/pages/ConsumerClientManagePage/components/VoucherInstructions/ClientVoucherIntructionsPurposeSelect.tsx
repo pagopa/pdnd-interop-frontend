@@ -24,7 +24,7 @@ export const ClientVoucherIntructionsPurposeSelect: React.FC<
 
   const selectOptions = purposes.map((p) => (
     <MenuItem key={p.purposeId} value={p.purposeId}>
-      {`${p.title} per ${p.agreement.eservice.name}`}
+      {`${p.title} per ${p.eservice.name}`}
     </MenuItem>
   ))
 
