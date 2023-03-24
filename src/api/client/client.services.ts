@@ -21,7 +21,7 @@ async function getList(params: ClientGetListQueryParams) {
 
 async function getSingle(clientId: string) {
   const response = await axiosInstance.get<Client>(
-    `${AUTHORIZATION_PROCESS_URL}/clients/${clientId}`
+    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}`
   )
   return response.data
 }
