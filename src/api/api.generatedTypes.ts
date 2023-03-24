@@ -109,6 +109,24 @@ export interface CatalogEServiceDescriptor {
   eservice: CatalogDescriptorEService
 }
 
+/** Models Client details */
+export interface Client {
+  /** @format uuid */
+  id: string
+  consumer: CompactOrganization
+  name: string
+  purposes: ClientPurpose[]
+  description?: string
+  kind: ClientKind
+}
+
+export interface ClientPurpose {
+  /** @format uuid */
+  purposeId: string
+  title: string
+  eservice: CompactEService
+}
+
 export interface CatalogDescriptorEService {
   /** @format uuid */
   id: string
@@ -935,6 +953,28 @@ export interface TenantRevoker {
   extensionDate?: string
   /** @format date-time */
   revocationDate: string
+}
+
+export interface PublicKey {
+  keyId: string
+  name: string
+  /** Contains some details about operator */
+  operator: SelfcareUser
+  /** @format date-time */
+  createdAt: string
+  isOrphan: boolean
+}
+
+/** Contains some details about operator */
+export interface SelfcareUser {
+  /** @format uuid */
+  relationshipId: string
+  name: string
+  familyName: string
+}
+
+export interface PublicKeys {
+  keys: PublicKey[]
 }
 
 export interface Problem {
@@ -3159,6 +3199,30 @@ export namespace Clients {
     export type ResponseBody = CompactClients
   }
   /**
+   * @description Retrieves a Client
+   * @tags clients
+   * @name GetClient
+   * @summary Get a Client
+   * @request GET:/clients/{clientId}
+   * @secure
+   */
+  export namespace GetClient {
+    export type RequestParams = {
+      /**
+       * The Client id
+       * @format uuid
+       */
+      clientId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = Client
+  }
+  /**
    * @description Deletes a Client
    * @tags clients
    * @name DeleteClient
@@ -3212,6 +3276,32 @@ export namespace Clients {
     export type ResponseBody = void
   }
   /**
+   * @description Given a client and key identifiers it returns the corresponding key, if any
+   * @tags clients
+   * @name GetClientKeyById
+   * @summary Returns a key by client and key identifier (kid).
+   * @request GET:/clients/{clientId}/keys/{keyId}
+   * @secure
+   */
+  export namespace GetClientKeyById {
+    export type RequestParams = {
+      /**
+       * ID of the client to look up
+       * @format uuid
+       */
+      clientId: string
+      /** the unique identifier of the key (kid) to lookup */
+      keyId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = PublicKey
+  }
+  /**
    * @description Given a client and key identifiers it deletes the corresponding key, if any
    * @tags clients
    * @name DeleteClientKeyById
@@ -3236,6 +3326,35 @@ export namespace Clients {
       'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
+  }
+  /**
+   * @description Retrieves a Client Operator relationship
+   * @tags clients
+   * @name GetClientOperatorRelationshipById
+   * @summary Get a Client Operator Relationship
+   * @request GET:/clients/{clientId}/relationships/{relationshipId}
+   * @secure
+   */
+  export namespace GetClientOperatorRelationshipById {
+    export type RequestParams = {
+      /**
+       * The Client id
+       * @format uuid
+       */
+      clientId: string
+      /**
+       * The identifier of the relationship between the security operator and the consumer
+       * @format uuid
+       */
+      relationshipId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = Operator
   }
   /**
    * @description Binds a security operator belonging to a consumer to a Client
@@ -3368,6 +3487,30 @@ export namespace Clients {
     export type ResponseBody = void
   }
   /**
+   * @description Given a client identifier it returns its corresponding set of keys, if any
+   * @tags clients
+   * @name GetClientKeys
+   * @summary Returns a set of keys by client ID.
+   * @request GET:/clients/{clientId}/keys
+   * @secure
+   */
+  export namespace GetClientKeys {
+    export type RequestParams = {
+      /**
+       * ID of Client
+       * @format uuid
+       */
+      clientId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = PublicKeys
+  }
+  /**
    * @description Given a client and key identifiers it returns the corresponding encoded key, if any
    * @tags clients
    * @name GetEncodedClientKeyById
@@ -3392,6 +3535,35 @@ export namespace Clients {
       'X-Forwarded-For'?: string
     }
     export type ResponseBody = EncodedClientKey
+  }
+  /**
+   * @description Given a relationship and a client it returns its corresponding set of keys, if any
+   * @tags clients
+   * @name GetClientRelationshipKeys
+   * @summary Returns a set of keys by relationship ID and client ID.
+   * @request GET:/clients/{clientId}/relationships/{relationshipId}/keys
+   * @secure
+   */
+  export namespace GetClientRelationshipKeys {
+    export type RequestParams = {
+      /**
+       * ID of the client holding the key
+       * @format uuid
+       */
+      clientId: string
+      /**
+       * ID of the Relationship that the added keys MUST belong to
+       * @format uuid
+       */
+      relationshipId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = PublicKeys
   }
 }
 
