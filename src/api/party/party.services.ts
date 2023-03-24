@@ -46,20 +46,12 @@ function updateMail({
   return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}`, payload)
 }
 
-async function getPartyList() {
-  const response = await axiosInstance.get<Array<PartyItem>>(
-    `${BACKEND_FOR_FRONTEND_URL}/selfcare/institutions`
-  )
-  return response.data
-}
-
 const PartyServices = {
   getParty,
   getUsersList,
   getProducts,
   getPartyList,
   updateMail,
-  getPartyList,
 }
 
 export default PartyServices
