@@ -58,7 +58,7 @@ async function getSingleOperator(relationshipId: string) {
 
 async function getOperatorKeys(clientId: string, operatorId: string) {
   const response = await axiosInstance.get<PublicKeys>(
-    `${AUTHORIZATION_PROCESS_URL}/clients/${clientId}/operators/${operatorId}/keys`
+    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/relationships/${operatorId}/keys`
   )
   return response.data.keys
 }
