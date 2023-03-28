@@ -33,14 +33,14 @@ const KeyDetailsPage: React.FC = () => {
   return (
     <PageContainer isLoading={isLoading} title={publicKey?.name} topSideActions={topSideActions}>
       <React.Suspense fallback={<KeyGeneralInfoSectionSkeleton />}>
-        <KeyGeneralInfoSection clientId={clientId} kid={kid} />
         {publicKey?.isOrphan && (
-          <Alert sx={{ mt: 2 }} severity="error">
+          <Alert severity="error">
             <Trans components={{ 1: <Link href={clientKeyGuideLink} target="_blank" /> }}>
               {t('edit.orphanAlertLabel')}
             </Trans>
           </Alert>
         )}
+        <KeyGeneralInfoSection clientId={clientId} kid={kid} />
       </React.Suspense>
       <PageBottomActionsContainer>
         <RouterLink
