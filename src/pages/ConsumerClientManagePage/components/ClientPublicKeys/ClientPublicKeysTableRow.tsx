@@ -1,6 +1,5 @@
 import { ClientQueries } from '@/api/client'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
-import { TableRow } from '@/components/shared/Table'
 import { RouterLink } from '@/router'
 import type { PublicKey } from '@/types/key.types'
 import { formatDateString } from '@/utils/format.utils'
@@ -11,6 +10,7 @@ import { useClientKind } from '@/hooks/useClientKind'
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import useGetKeyActions from '@/hooks/useGetKeyActions'
+import { TableRow } from '@pagopa/interop-fe-commons'
 
 interface ClientPublicKeysTableRowProps {
   publicKey: PublicKey
@@ -42,16 +42,16 @@ export const ClientPublicKeysTableRow: React.FC<ClientPublicKeysTableRowProps> =
   return (
     <TableRow
       cellData={[
-        {
-          label: publicKey.name,
-          tooltip: publicKey.isOrphan ? (
+        <>
+          {publicKey.name}{' '}
+          {publicKey.isOrphan && (
             <Tooltip title={t('tableKey.operatorDeletedWarning.message')}>
               <ReportGmailerrorredIcon sx={{ ml: 0.75, fontSize: 16 }} color={color} />
             </Tooltip>
-          ) : undefined,
-        },
-        { label: `${publicKey.operator.name} ${publicKey.operator.familyName}` },
-        { label: formatDateString(publicKey.createdAt) },
+          )}
+        </>,
+        `${publicKey.operator.name} ${publicKey.operator.familyName}`,
+        formatDateString(publicKey.createdAt),
       ]}
     >
       <RouterLink
@@ -77,9 +77,9 @@ export const ClientPublicKeysTableRowSkeleton: React.FC = () => {
   return (
     <TableRow
       cellData={[
-        { label: <Skeleton width={120} /> },
-        { label: <Skeleton width={120} /> },
-        { label: <Skeleton width={120} /> },
+        <Skeleton width={120} key={0} />,
+        <Skeleton width={120} key={1} />,
+        <Skeleton width={120} key={2} />,
       ]}
     >
       <ButtonSkeleton size="small" width={100} />
