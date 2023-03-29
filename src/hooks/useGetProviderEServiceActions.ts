@@ -1,13 +1,13 @@
+import type { EServiceDescriptorState } from '@/api/api.generatedTypes'
 import { EServiceMutations } from '@/api/eservice'
 import { useNavigateRouter } from '@/router'
-import type { EServiceState } from '@/types/eservice.types'
 import { minutesToSeconds } from '@/utils/format.utils'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from './useJwt'
 
 export function useGetProviderEServiceActions(
   eserviceId?: string,
-  descriptorState?: EServiceState,
+  descriptorState?: EServiceDescriptorState,
   activeDescriptorId?: string,
   draftDescriptorId?: string
 ) {

@@ -1,4 +1,4 @@
-import type { BackendAttributes } from '@/types/attribute.types'
+import type { EServiceAttributes } from '@/api/api.generatedTypes'
 import {
   createMockPartyAttribute,
   createMockSingleBackendAttribute,
@@ -88,7 +88,7 @@ describe('testing checkEServiceAttributesOwnership', () => {
 
 describe('testing remapEServiceAttributes', () => {
   it('should match the inline snapshot', () => {
-    const backendAttributesMock: BackendAttributes = {
+    const backendAttributesMock: EServiceAttributes = {
       verified: [
         createMockSingleBackendAttribute({ single: { id: 'attribute-id-single-verified' } }),
         createMockGroupBackendAttribute({ group: [{ id: 'attribute-id-group-verified' }] }),

@@ -34,7 +34,7 @@ export const DialogSetPurposeExpectedApprovalDate: FunctionComponent<
 
   const onSubmit = async ({ expectedApprovalDate }: ExpectedApprovalDateFormValues) => {
     updateWaitingForApprovalDate(
-      { purposeId, versionId, expectedApprovalDate },
+      { purposeId, versionId, expectedApprovalDate: expectedApprovalDate.toISOString() },
       { onSuccess: closeDialog }
     )
   }

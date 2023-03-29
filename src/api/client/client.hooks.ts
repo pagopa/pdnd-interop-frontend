@@ -2,13 +2,12 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import ClientServices from './client.services'
-import type { ClientGetListQueryParams, ClientGetOperatorsListUrlParams } from './client.api.types'
 import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
 import type {
   Paginated,
   UseQueryWrapperOptions,
 } from '../react-query-wrappers/react-query-wrappers.types'
-import type { ClientListingItem } from '@/types/client.types'
+import type { CompactClient, GetClientsParams } from '../api.generatedTypes'
 
 export enum ClientQueryKeys {
   GetList = 'ClientGetList',
@@ -21,8 +20,8 @@ export enum ClientQueryKeys {
 }
 
 function useGetList(
-  params: ClientGetListQueryParams,
-  config?: UseQueryWrapperOptions<Paginated<ClientListingItem>>
+  params: GetClientsParams,
+  config?: UseQueryWrapperOptions<Paginated<CompactClient>>
 ) {
   return useQueryWrapper(
     [ClientQueryKeys.GetList, params],
@@ -73,14 +72,10 @@ function usePrefetchSingleKey() {
     )
 }
 
-function useGetOperatorsList(
-  clientId: string,
-  params?: ClientGetOperatorsListUrlParams,
-  config = { suspense: true }
-) {
+function useGetOperatorsList(clientId: string, config = { suspense: true }) {
   return useQueryWrapper(
-    [ClientQueryKeys.GetOperatorsList, clientId, params],
-    () => ClientServices.getOperatorList(clientId, params),
+    [ClientQueryKeys.GetOperatorsList, clientId],
+    () => ClientServices.getOperatorList(clientId),
     config
   )
 }

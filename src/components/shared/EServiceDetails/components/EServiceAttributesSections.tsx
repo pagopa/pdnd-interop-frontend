@@ -2,13 +2,14 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Stack, Typography, Box, Link, Alert } from '@mui/material'
 import { useEServiceDetailsContext } from '../EServiceDetailsContext'
-import { CatalogAttribute, FrontendAttribute } from '@/types/attribute.types'
+import type { FrontendAttribute } from '@/types/attribute.types'
 import {
   AttributeContainerRow,
   SectionContainer,
   AttributeGroupContainer,
 } from '@/components/layout/containers'
 import { attributesHelpLink } from '@/config/constants'
+import type { Attribute } from '@/api/api.generatedTypes'
 
 export const EServiceAttributesSections: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -95,7 +96,7 @@ const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProps> = ({
 }
 
 type AttributeGroup = {
-  attributes: Array<CatalogAttribute>
+  attributes: Array<Attribute>
   index: number
 }
 

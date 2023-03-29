@@ -1,7 +1,7 @@
-import type { AgreementSummary } from '@/types/agreement.types'
+import type { Agreement } from '@/api/api.generatedTypes'
 import type { ProviderOrConsumer } from '@/types/common.types'
 
-export const canAgreementBeUpgraded = (agreement: AgreementSummary, mode: ProviderOrConsumer) => {
+export const canAgreementBeUpgraded = (agreement: Agreement, mode: ProviderOrConsumer) => {
   if (mode !== 'consumer') return false
 
   return !!(

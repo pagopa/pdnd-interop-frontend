@@ -8,11 +8,14 @@ import { EServiceLinksSection } from './components/EServiceLinksSection'
 import { EServiceVersionHistorySection } from './components/EServiceVersionHistorySection'
 import { EServiceAttributesSections } from './components/EServiceAttributesSections'
 import { EServiceDocumentsListSection } from './components/EServiceDocumentsListSection'
-import type { EServiceDescriptorCatalog, EServiceDescriptorProvider } from '@/types/eservice.types'
 import { EServiceProviderContacts } from './components/EServiceProviderContacts'
+import type {
+  CatalogEServiceDescriptor,
+  ProducerEServiceDescriptor,
+} from '@/api/api.generatedTypes'
 
 type EServiceDetailsProps = {
-  descriptor: EServiceDescriptorCatalog | EServiceDescriptorProvider
+  descriptor: CatalogEServiceDescriptor | ProducerEServiceDescriptor
 }
 
 export const EServiceDetails: React.FC<EServiceDetailsProps> = ({ descriptor }) => {

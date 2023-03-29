@@ -1,9 +1,5 @@
 import React from 'react'
 import { PurposeQueries } from '@/api/purpose'
-import type {
-  PurposeGetListQueryFilters,
-  PurposeGetListUrlParams,
-} from '@/api/purpose/purpose.api.types'
 import { PageContainer } from '@/components/layout/containers'
 import { useJwt } from '@/hooks/useJwt'
 import { useTranslation } from 'react-i18next'
@@ -16,6 +12,7 @@ import {
   useFilters,
   usePagination,
 } from '@pagopa/interop-fe-commons'
+import type { GetPurposesParams } from '@/api/api.generatedTypes'
 
 const ProviderPurposesListPage: React.FC = () => {
   const { jwt } = useJwt()
@@ -49,7 +46,9 @@ const ProviderPurposesListPage: React.FC = () => {
     })) || []
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
-  const { filtersParams, ...filtersHandlers } = useFilters<PurposeGetListQueryFilters>([
+  const { filtersParams, ...filtersHandlers } = useFilters<
+    Omit<GetPurposesParams, 'limit' | 'offset'>
+  >([
     { name: 'q', label: tPurpose('nameField.label'), type: 'freetext' },
     {
       name: 'eservicesIds',
@@ -104,7 +103,7 @@ const ProviderPurposesListPage: React.FC = () => {
   )
 }
 
-const PurposesTableWrapper: React.FC<{ params: PurposeGetListUrlParams }> = ({ params }) => {
+const PurposesTableWrapper: React.FC<{ params: GetPurposesParams }> = ({ params }) => {
   const { jwt } = useJwt()
 
   const { data, isFetching } = PurposeQueries.useGetList(params, {

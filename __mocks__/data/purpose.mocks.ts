@@ -1,4 +1,4 @@
-import type { Purpose, PurposeListingItem } from '../../src/types/purpose.types'
+import type { Purpose } from '@/api/api.generatedTypes'
 import { createMockFactory } from '../../src/utils/testing.utils'
 
 const createMockPurpose = createMockFactory<Purpose>({
@@ -69,18 +69,4 @@ const createMockPurpose = createMockFactory<Purpose>({
   },
 })
 
-const createMockPurposeListingItem = createMockFactory<PurposeListingItem>({
-  consumer: { id: '6b16be70-9230-4209-bd1f-7e5ae0eed289', name: 'PagoPa S.p.A.' },
-  currentVersion: { dailyCalls: 1, id: '3a5c9422-876c-4de8-828a-66586fd68b55', state: 'ACTIVE' },
-  eservice: {
-    id: 'dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e',
-    name: 'Test Attributi 2 - Ste',
-    producer: { id: '6b16be70-9230-4209-bd1f-7e5ae0eed289', name: 'PagoPa S.p.A.' },
-  },
-  id: 'e46c7d27-18a0-40db-b7f9-ae8652355e8e',
-  suspendedByConsumer: false,
-  suspendedByProducer: false,
-  title: 'Nuova finalità',
-})
-
-export { createMockPurpose, createMockPurposeListingItem }
+export { createMockPurpose }

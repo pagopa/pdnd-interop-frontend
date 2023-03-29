@@ -5,19 +5,22 @@ import { assistanceLink, documentationLink, pagoPaLink } from '@/config/constant
 import { HeaderAccount, HeaderProduct, type ProductSwitchItem } from '@pagopa/mui-italia'
 import { FE_LOGIN_URL, SELFCARE_BASE_URL, SELFCARE_INTEROP_PROD_ID, STAGE } from '@/config/env'
 import { PartyQueries } from '@/api/party/party.hooks'
-import type { PartyItem } from '@/api/party/party.api.types'
 import type { PartySwitchItem } from '@pagopa/mui-italia/dist/components/PartySwitch'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
+import type { SelfcareInstitution } from '@/api/api.generatedTypes'
+import type { UserProductRole } from '@/types/party.types'
 
-const getPartyList = (parties: Array<PartyItem> | undefined, t: TFunction<'common'>) => {
+const getPartyList = (parties: Array<SelfcareInstitution> | undefined, t: TFunction<'common'>) => {
   const partyList: Array<PartySwitchItem> = []
   if (parties) {
     partyList.push(
       ...parties.map((party) => ({
         id: party.id,
         name: party.description,
-        productRole: party.userProductRoles.map((role) => t(`userProductRole.${role}`)).join(', '),
+        productRole: (party.userProductRoles as Array<UserProductRole>)
+          .map((role) => t(`userProductRole.${role}`))
+          .join(', '),
       }))
     )
   }

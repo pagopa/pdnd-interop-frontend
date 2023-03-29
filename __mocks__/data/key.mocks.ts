@@ -1,5 +1,5 @@
+import type { PublicKey } from '@/api/api.generatedTypes'
 import { createMockFactory } from '../../src/utils/testing.utils'
-import type { PublicKey } from '../../src/types/key.types'
 
 export const createMockPublicKey = createMockFactory<PublicKey>({
   keyId: 'Fxod41P3BZoe2HT6BuEw3SNFlu9ufAkYgpmtBoNuVkg',

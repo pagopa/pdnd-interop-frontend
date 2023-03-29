@@ -1,11 +1,11 @@
-import type { Purpose, PurposeListingItem } from '@/types/purpose.types'
 import { PurposeMutations } from '@/api/purpose'
 import { useTranslation } from 'react-i18next'
 import type { ActionItem } from '@/types/common.types'
 import { useDialog } from '@/stores'
 import { useJwt } from './useJwt'
+import type { Purpose } from '@/api/api.generatedTypes'
 
-function useGetProviderPurposesActions(purpose?: Purpose | PurposeListingItem) {
+function useGetProviderPurposesActions(purpose?: Purpose) {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
 
   const { openDialog } = useDialog()

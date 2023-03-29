@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next'
 import type { CreateClientFormValues } from '../ConsumerClientCreate.page'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { useDialog } from '@/stores'
-import type { SelfCareUser } from '@/types/party.types'
 import { Table, TableRow } from '@pagopa/interop-fe-commons'
+import type { RelationshipInfo } from '@/api/api.generatedTypes'
 
 const OperatorsInputTable: React.FC = () => {
   const { t } = useTranslation('client')
@@ -23,7 +23,7 @@ const OperatorsInputTable: React.FC = () => {
     setValue('operators', newOperators)
   }
 
-  const handleAddOperator = (newOperators: Array<SelfCareUser>) => {
+  const handleAddOperator = (newOperators: Array<RelationshipInfo>) => {
     setValue('operators', [...operators, ...newOperators])
   }
 

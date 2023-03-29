@@ -6,13 +6,13 @@ import DownloadIcon from '@mui/icons-material/Download'
 import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { useTranslation } from 'react-i18next'
-import type { DocumentRead } from '@/types/common.types'
 import { InputWrapper } from '@/components/shared/InputWrapper'
+import type { EServiceDoc } from '@/api/api.generatedTypes'
 
 type DocumentContainerProps = {
-  doc: DocumentRead
-  onDownload?: (document: DocumentRead) => void
-  onDelete?: (document: DocumentRead) => void
+  doc: EServiceDoc
+  onDownload?: (document: EServiceDoc) => void
+  onDelete?: (document: EServiceDoc) => void
   onUpdateDescription?: (newDescription: string) => void
   sx?: SxProps
 }

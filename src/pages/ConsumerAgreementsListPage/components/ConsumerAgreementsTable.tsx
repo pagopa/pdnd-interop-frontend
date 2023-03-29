@@ -1,14 +1,14 @@
-import type { AgreementListingItem } from '@/types/agreement.types'
-import { Table } from '@pagopa/interop-fe-commons'
+import type { AgreementListEntry } from '@/api/api.generatedTypes'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   ConsumerAgreementsTableRow,
   ConsumerAgreementsTableRowSkeleton,
 } from './ConsumerAgreementsTableRow'
+import { Table } from '@pagopa/interop-fe-commons'
 
 type ConsumerAgreementsProps = {
-  agreements: Array<AgreementListingItem>
+  agreements: Array<AgreementListEntry>
 }
 
 export const ConsumerAgreementsTable: React.FC<ConsumerAgreementsProps> = ({ agreements }) => {

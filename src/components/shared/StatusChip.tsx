@@ -1,23 +1,26 @@
 import React from 'react'
-import type {
-  AgreementListingItem,
-  AgreementState,
-  AgreementSummary,
-} from '@/types/agreement.types'
 import type { MUIColor } from '@/types/common.types'
-import type { EServiceState } from '@/types/eservice.types'
-import type { UserState } from '@/types/party.types'
 import { Chip, Skeleton, Stack } from '@mui/material'
 import type { ChipProps } from '@mui/material'
 import omit from 'lodash/omit'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
-import type { Purpose, PurposeListingItem, PurposeState } from '@/types/purpose.types'
-import type { AttributeKey, AttributeKind, AttributeState } from '@/types/attribute.types'
+import type { AttributeKey, AttributeState } from '@/types/attribute.types'
 import { useJwt } from '@/hooks/useJwt'
 import { checkPurposeSuspendedByConsumer } from '@/utils/purpose.utils'
+import type {
+  Agreement,
+  AgreementListEntry,
+  AgreementState,
+  AttributeKind,
+  EServiceDescriptorState,
+  OperatorState,
+  Purpose,
+  PurposeVersionState,
+  RelationshipState,
+} from '@/api/api.generatedTypes'
 
-const CHIP_COLORS_E_SERVICE: Record<EServiceState, MUIColor> = {
+const CHIP_COLORS_E_SERVICE: Record<EServiceDescriptorState, MUIColor> = {
   PUBLISHED: 'success',
   DRAFT: 'info',
   SUSPENDED: 'error',
@@ -35,13 +38,15 @@ const CHIP_COLORS_AGREEMENT: Record<AgreementState, MUIColor> = {
   MISSING_CERTIFIED_ATTRIBUTES: 'error',
 }
 
-const CHIP_COLORS_USER: Record<UserState, MUIColor> = {
-  PENDING: 'warning',
+const CHIP_COLORS_USER: Record<OperatorState | RelationshipState, MUIColor> = {
+  DELETED: 'warning',
   ACTIVE: 'success',
   SUSPENDED: 'error',
+  PENDING: 'warning',
+  REJECTED: 'error',
 }
 
-const CHIP_COLORS_PURPOSE: Record<PurposeState, MUIColor> = {
+const CHIP_COLORS_PURPOSE: Record<PurposeVersionState, MUIColor> = {
   DRAFT: 'info',
   ACTIVE: 'success',
   SUSPENDED: 'error',
@@ -67,19 +72,15 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
   (
     | {
         for: 'eservice'
-        state: EServiceState
+        state: EServiceDescriptorState
       }
     | {
         for: 'agreement'
-        agreement: AgreementSummary | AgreementListingItem
+        agreement: Agreement | AgreementListEntry
       }
     | {
         for: 'purpose'
-        purpose: Purpose | PurposeListingItem
-      }
-    | {
-        for: 'user'
-        state: UserState
+        purpose: Purpose
       }
     | {
         for: 'attribute'
@@ -89,7 +90,7 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
   )
 
 function getAgreementChipState(
-  item: AgreementSummary | AgreementListingItem,
+  item: Agreement | AgreementListEntry,
   t: TFunction<'common'>
 ): Array<ChipProps> {
   const result: Array<Partial<ChipProps>> = []
@@ -138,11 +139,6 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
     )
   }
 
-  if (props.for === 'user') {
-    color = chipColors['user'][props.state]
-    label = t(`status.user.${props.state}`)
-  }
-
   if (props.for === 'purpose') {
     const purpose = props.purpose
     const purposeState = props.purpose.currentVersion?.state ?? 'DRAFT'
@@ -180,7 +176,9 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
             ) : (
               <Chip
                 size="small"
-                label={t(`status.purpose.${purposeState as Exclude<PurposeState, 'SUSPENDED'>}`)}
+                label={t(
+                  `status.purpose.${purposeState as Exclude<PurposeVersionState, 'SUSPENDED'>}`
+                )}
                 color={chipColors['purpose'][purposeState]}
               />
             )}

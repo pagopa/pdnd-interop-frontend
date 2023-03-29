@@ -5,10 +5,6 @@ import { PageContainer } from '@/components/layout/containers'
 import { useNavigateRouter } from '@/router'
 import type { TopSideActions } from '@/components/layout/containers/PageContainer'
 import { EServiceQueries } from '@/api/eservice'
-import type {
-  EServiceGetProviderListQueryFilters,
-  EServiceGetProviderListUrlParams,
-} from '@/api/eservice/eservice.api.types'
 import { useJwt } from '@/hooks/useJwt'
 import {
   Filters,
@@ -17,6 +13,7 @@ import {
   useFilters,
   usePagination,
 } from '@pagopa/interop-fe-commons'
+import type { GetProducerEServicesParams } from '@/api/api.generatedTypes'
 
 const ProviderEServiceListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceList' })
@@ -38,7 +35,9 @@ const ProviderEServiceListPage: React.FC = () => {
     })) || []
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
-  const { filtersParams, ...filtersHandlers } = useFilters<EServiceGetProviderListQueryFilters>([
+  const { filtersParams, ...filtersHandlers } = useFilters<
+    Omit<GetProducerEServicesParams, 'limit' | 'offset'>
+  >([
     { name: 'q', label: tEservice('nameField.label'), type: 'freetext' },
     {
       name: 'consumersIds',
@@ -84,9 +83,7 @@ const ProviderEServiceListPage: React.FC = () => {
   )
 }
 
-const EServiceTableWrapper: React.FC<{ params: EServiceGetProviderListUrlParams }> = ({
-  params,
-}) => {
+const EServiceTableWrapper: React.FC<{ params: GetProducerEServicesParams }> = ({ params }) => {
   const { data, isFetching } = EServiceQueries.useGetProviderList(params, {
     suspense: false,
   })

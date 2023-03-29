@@ -1,7 +1,7 @@
-import type { AgreementListingItem, AgreementSummary } from '../../src/types/agreement.types'
+import type { Agreement, AgreementListEntry } from '@/api/api.generatedTypes'
 import { createMockFactory } from '../../src/utils/testing.utils'
 
-const createMockAgreementSummary = createMockFactory<AgreementSummary>({
+const createMockAgreementSummary = createMockFactory<Agreement>({
   certifiedAttributes: [],
   consumer: {
     attributes: {
@@ -225,6 +225,7 @@ const createMockAgreementSummary = createMockFactory<AgreementSummary>({
       id: 'b79fc9ac-2882-49bd-afd1-71f4284f117c',
       state: 'PUBLISHED',
       version: '1',
+      audience: [],
     },
     id: '47f82055-77fd-4efd-8ed6-8a7d3021c879',
     name: 'Test_15/02/23',
@@ -270,10 +271,15 @@ const createMockAgreementSummary = createMockFactory<AgreementSummary>({
   isContractPresent: true,
 })
 
-const createMockAgreementListingItem = createMockFactory<AgreementListingItem>({
+const createMockAgreementListingItem = createMockFactory<AgreementListEntry>({
   canBeUpgraded: false,
   consumer: { id: '6b16be70-9230-4209-bd1f-7e5ae0eed289', name: 'PagoPa S.p.A.' },
-  descriptor: { id: '2881e984-4279-47e8-8fc4-aa236468436e', state: 'SUSPENDED', version: '1' },
+  descriptor: {
+    id: '2881e984-4279-47e8-8fc4-aa236468436e',
+    state: 'SUSPENDED',
+    version: '1',
+    audience: [],
+  },
   eservice: {
     id: '12225cb0-204f-4271-aff7-77b54e633705',
     name: '00_test video 22',

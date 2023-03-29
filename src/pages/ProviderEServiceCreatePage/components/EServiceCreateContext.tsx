@@ -1,11 +1,11 @@
 import React from 'react'
 import { createContext } from '@/utils/common.utils'
-import type { EServiceDescriptorProvider, EServiceRead } from '@/types/eservice.types'
 import noop from 'lodash/noop'
+import type { ProducerEServiceDescriptor, ProducerEServiceDetails } from '@/api/api.generatedTypes'
 
 type EServiceCreateContextType = {
-  eservice: EServiceRead | EServiceDescriptorProvider['eservice'] | undefined
-  descriptor: EServiceDescriptorProvider | undefined
+  eservice: ProducerEServiceDetails | ProducerEServiceDescriptor['eservice'] | undefined
+  descriptor: ProducerEServiceDescriptor | undefined
   isNewEService: boolean
   back: VoidFunction
   forward: VoidFunction
@@ -26,8 +26,8 @@ const { useContext, Provider } = createContext<EServiceCreateContextType>(
 
 type EServiceCreateContextProviderProps = {
   children: React.ReactNode
-  eservice: EServiceRead | EServiceDescriptorProvider['eservice'] | undefined
-  descriptor: EServiceDescriptorProvider | undefined
+  eservice: ProducerEServiceDetails | ProducerEServiceDescriptor['eservice'] | undefined
+  descriptor: ProducerEServiceDescriptor | undefined
   isNewEService: boolean
   back: VoidFunction
   forward: VoidFunction

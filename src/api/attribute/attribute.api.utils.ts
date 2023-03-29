@@ -1,15 +1,13 @@
-import type {
-  CertifiedTenantAttribute,
-  DeclaredTenantAttribute,
-  PartyAttribute,
-  VerifiedTenantAttribute,
-} from './../../types/attribute.types'
+import type { PartyAttribute } from './../../types/attribute.types'
 import type { AttributeKey } from '@/types/attribute.types'
 import type {
-  GetCertifiedAttributesResponse,
-  GetDeclaredAttributesResponse,
-  GetVerifiedAttributesResponse,
-} from './attribute.api.types'
+  CertifiedAttributesResponse,
+  CertifiedTenantAttribute,
+  DeclaredAttributesResponse,
+  DeclaredTenantAttribute,
+  VerifiedAttributesResponse,
+  VerifiedTenantAttribute,
+} from '../api.generatedTypes'
 
 export function remapTenantAttributeToPartyAttribute(
   tenantAttribute: CertifiedTenantAttribute | VerifiedTenantAttribute | DeclaredTenantAttribute,
@@ -27,8 +25,7 @@ export function remapTenantAttributeToPartyAttribute(
       ? 'REVOKED'
       : 'ACTIVE'
   } else {
-    const verifiedTenantAttribute =
-      tenantAttribute as GetVerifiedAttributesResponse['attributes'][0]
+    const verifiedTenantAttribute = tenantAttribute as VerifiedAttributesResponse['attributes'][0]
 
     // If a verifierId is passed, put only the attributes verified by him with 'ACTIVE' state
     if (verifierId) {
@@ -46,10 +43,7 @@ export function remapTenantAttributeToPartyAttribute(
 }
 
 export function remapAttributeResponseData(
-  response:
-    | GetCertifiedAttributesResponse
-    | GetVerifiedAttributesResponse
-    | GetDeclaredAttributesResponse,
+  response: CertifiedAttributesResponse | VerifiedAttributesResponse | DeclaredAttributesResponse,
   attributeKey: AttributeKey,
   verifierId?: string
 ) {

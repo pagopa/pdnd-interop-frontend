@@ -19,9 +19,7 @@ export const ClientAddPublicKeyButton: React.FC<ClientAddPublicKeyButtonProps> =
   const { t } = useTranslation('key')
   const { openDialog } = useDialog()
   const { jwt, isOperatorSecurity, isAdmin } = useJwt()
-  const { data: users = [] } = ClientQueries.useGetOperatorsList(clientId, {
-    productRoles: ['admin'],
-  })
+  const { data: users = [] } = ClientQueries.useGetOperatorsList(clientId)
 
   const userQueries = useQueries({
     queries: users.map(({ relationshipId }) => {

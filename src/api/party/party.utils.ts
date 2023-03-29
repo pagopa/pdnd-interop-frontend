@@ -1,12 +1,12 @@
 import type {
   CertifiedTenantAttribute,
   DeclaredTenantAttribute,
+  Tenant,
   VerifiedTenantAttribute,
-} from '@/types/attribute.types'
-import type { Party } from '@/types/party.types'
+} from '../api.generatedTypes'
 import { remapTenantAttributeToPartyAttribute } from '../attribute/attribute.api.utils'
 
-export function remapUserResponseData(data: Party, verifierId?: string) {
+export function remapUserResponseData(data: Tenant, verifierId?: string) {
   const certifiedAttributes = data.attributes.certified as unknown as CertifiedTenantAttribute[]
   const verifiedAttributes = data.attributes.verified as unknown as VerifiedTenantAttribute[]
   const declaredAttributes = data.attributes.declared as unknown as DeclaredTenantAttribute[]

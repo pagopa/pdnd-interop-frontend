@@ -1,17 +1,17 @@
 import { AgreementMutations } from '@/api/agreement'
+import type {
+  CatalogEService,
+  CatalogEServiceDescriptor,
+  EServiceDescriptorState,
+} from '@/api/api.generatedTypes'
 import { useNavigateRouter } from '@/router'
 import type { ActionItem } from '@/types/common.types'
-import type {
-  EServiceCatalog,
-  EServiceDescriptorCatalog,
-  EServiceState,
-} from '@/types/eservice.types'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from './useJwt'
 
 function useGetEServiceConsumerActions<
-  TDescriptor extends { id: string; state: EServiceState; version: string }
->(eservice?: EServiceCatalog | EServiceDescriptorCatalog['eservice'], descriptor?: TDescriptor) {
+  TDescriptor extends { id: string; state: EServiceDescriptorState; version: string }
+>(eservice?: CatalogEService | CatalogEServiceDescriptor['eservice'], descriptor?: TDescriptor) {
   const { isAdmin } = useJwt()
   const { navigate } = useNavigateRouter()
   const { t } = useTranslation('eservice')

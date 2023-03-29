@@ -1,9 +1,12 @@
 import { useJwt } from '@/hooks/useJwt'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import type {
+  GetUserInstitutionRelationshipsParams,
+  SelfcareInstitution,
+} from '../api.generatedTypes'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import { type UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
-import type { PartyGetUsersListUrlParams, PartyItem } from './party.api.types'
 import PartyServices from './party.services'
 
 export enum PartyQueryKeys {
@@ -29,15 +32,14 @@ function useGetActiveUserParty() {
 }
 
 function useGetUsersList(
-  partyId?: string,
-  params?: PartyGetUsersListUrlParams,
+  params: GetUserInstitutionRelationshipsParams,
   config = { suspense: false }
 ) {
   return useQueryWrapper(
-    [PartyQueryKeys.GetUsersList, partyId, params],
-    () => PartyServices.getUsersList(partyId!, params),
+    [PartyQueryKeys.GetUsersList, params],
+    () => PartyServices.getUsersList(params),
     {
-      enabled: !!partyId,
+      enabled: !!params?.tenantId,
       ...config,
     }
   )
@@ -46,20 +48,15 @@ function useGetUsersList(
 function usePrefetchUsersList() {
   const queryClient = useQueryClient()
 
-  return (partyId?: string, params?: PartyGetUsersListUrlParams) => {
-    if (!partyId) return
-    queryClient.prefetchQuery([PartyQueryKeys.GetUsersList, partyId, params], () =>
-      PartyServices.getUsersList(partyId, params)
+  return (params: GetUserInstitutionRelationshipsParams) => {
+    queryClient.prefetchQuery([PartyQueryKeys.GetUsersList, params], () =>
+      PartyServices.getUsersList(params)
     )
   }
 }
 
 function useGetProducts(config: UseQueryWrapperOptions<Array<{ id: string; name: string }>>) {
   return useQueryWrapper([PartyQueryKeys.GetProducts], () => PartyServices.getProducts(), config)
-}
-
-function useGetPartyList(config: UseQueryWrapperOptions<Array<PartyItem>>) {
-  return useQueryWrapper([PartyQueryKeys.GetPartyList], () => PartyServices.getPartyList(), config)
 }
 
 function useUpdateMail() {
@@ -69,6 +66,10 @@ function useUpdateMail() {
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
   })
+}
+
+function useGetPartyList(config: UseQueryWrapperOptions<Array<SelfcareInstitution>>) {
+  return useQueryWrapper([PartyQueryKeys.GetPartyList], () => PartyServices.getPartyList(), config)
 }
 
 export const PartyQueries = {

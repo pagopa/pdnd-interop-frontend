@@ -1,13 +1,14 @@
 import React from 'react'
 import { AttributeQueries } from '@/api/attribute'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
-import type { AttributeKey, CatalogAttribute } from '@/types/attribute.types'
+import type { AttributeKey } from '@/types/attribute.types'
 import { Button, Stack } from '@mui/material'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import debounce from 'lodash/debounce'
 import { FormProvider, useForm, useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import type { EServiceCreateStep1FormValues } from '../EServiceCreateStep1General'
+import type { Attribute } from '@/api/api.generatedTypes'
 
 type AttributeAutocompleteProps = {
   groupIndex: number
@@ -15,7 +16,7 @@ type AttributeAutocompleteProps = {
   handleHideAutocomplete: VoidFunction
 }
 
-type AttributeAutocompleteFormValues = { attribute: null | CatalogAttribute }
+type AttributeAutocompleteFormValues = { attribute: null | Attribute }
 
 export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
   groupIndex,

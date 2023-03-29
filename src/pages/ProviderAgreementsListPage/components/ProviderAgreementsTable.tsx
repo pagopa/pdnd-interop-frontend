@@ -1,5 +1,5 @@
-import type { AgreementListingItem } from '@/types/agreement.types'
 import { Table } from '@pagopa/interop-fe-commons'
+import type { AgreementListEntry } from '@/api/api.generatedTypes'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -8,7 +8,7 @@ import {
 } from './ProviderAgreementsTableRow'
 
 type ProviderAgreementsProps = {
-  agreements: Array<AgreementListingItem>
+  agreements: Array<AgreementListEntry>
 }
 
 export const ProviderAgreementsTable: React.FC<ProviderAgreementsProps> = ({ agreements }) => {

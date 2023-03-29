@@ -2,7 +2,7 @@ import { useLoadingOverlay, useToastNotification } from '@/stores'
 import { downloadFile } from './react-query-wrappers.utils'
 
 export function useDownloadFile<T = unknown[]>(
-  service: (args: T) => Promise<string>,
+  service: (args: T) => Promise<File | string>,
   config: { errorToastLabel?: string; loadingLabel: string }
 ) {
   const { showOverlay, hideOverlay } = useLoadingOverlay()

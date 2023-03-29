@@ -1,21 +1,23 @@
 import { AUTHORIZATION_PROCESS_URL, BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
-import type { Client, ClientListingItem } from '@/types/client.types'
-import type { PublicKey, PublicKeys } from '@/types/key.types'
-import type { SelfCareUser } from '@/types/party.types'
 import type {
-  ClientCreatePayload,
-  ClientGetListQueryParams,
-  ClientGetOperatorsListUrlParams,
-  ClientPostKeyPayload,
-} from './client.api.types'
-import { type Paginated } from '../react-query-wrappers/react-query-wrappers.types'
+  Client,
+  ClientSeed,
+  CompactClients,
+  CreatedResource,
+  EncodedClientKey,
+  GetClientsParams,
+  KeysSeed,
+  Operators,
+  PublicKey,
+  PublicKeys,
+  RelationshipInfo,
+} from '../api.generatedTypes'
 
-async function getList(params: ClientGetListQueryParams) {
-  const response = await axiosInstance.get<Paginated<ClientListingItem>>(
-    `${BACKEND_FOR_FRONTEND_URL}/clients`,
-    { params }
-  )
+async function getList(params: GetClientsParams) {
+  const response = await axiosInstance.get<CompactClients>(`${BACKEND_FOR_FRONTEND_URL}/clients`, {
+    params,
+  })
   return response.data
 }
 
@@ -40,16 +42,15 @@ async function getSingleKey(clientId: string, kid: string) {
   return response.data
 }
 
-async function getOperatorList(clientId: string, params?: ClientGetOperatorsListUrlParams) {
-  const response = await axiosInstance.get<Array<SelfCareUser>>(
-    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/operators`,
-    { params }
+async function getOperatorList(clientId: string) {
+  const response = await axiosInstance.get<Operators>(
+    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/operators`
   )
   return response.data
 }
 
 async function getSingleOperator(relationshipId: string) {
-  const response = await axiosInstance.get<SelfCareUser>(
+  const response = await axiosInstance.get<RelationshipInfo>(
     `${BACKEND_FOR_FRONTEND_URL}/relationships/${relationshipId}`
   )
   return response.data
@@ -62,16 +63,16 @@ async function getOperatorKeys(clientId: string, operatorId: string) {
   return response.data.keys
 }
 
-async function create(payload: ClientCreatePayload) {
-  const response = await axiosInstance.post<Client>(
+async function create(payload: ClientSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/clientsConsumer`,
     payload
   )
   return response.data
 }
 
-async function createInteropM2M(payload: ClientCreatePayload) {
-  const response = await axiosInstance.post<Client>(
+async function createInteropM2M(payload: ClientSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/clientsApi`,
     payload
   )
@@ -82,14 +83,8 @@ function deleteOne({ clientId }: { clientId: string }) {
   return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}`)
 }
 
-async function postKey({
-  clientId,
-  payload,
-}: {
-  clientId: string
-  payload: Array<ClientPostKeyPayload>
-}) {
-  const response = await axiosInstance.post<Array<PublicKey>>(
+async function postKey({ clientId, payload }: { clientId: string; payload: KeysSeed }) {
+  const response = await axiosInstance.post(
     `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/keys`,
     payload
   )
@@ -97,7 +92,7 @@ async function postKey({
 }
 
 async function downloadKey({ clientId, kid }: { clientId: string; kid: string }) {
-  const response = await axiosInstance.get<{ key: string }>(
+  const response = await axiosInstance.get<EncodedClientKey>(
     `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/encoded/keys/${kid}`
   )
   return atob(response.data.key)
@@ -114,7 +109,7 @@ async function addOperator({
   clientId: string
   relationshipId: string
 }) {
-  const response = await axiosInstance.post<Client>(
+  const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/relationships/${relationshipId}`
   )
   return response.data

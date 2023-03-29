@@ -1,18 +1,14 @@
-import type {
-  AgreementListingItem,
-  AgreementState,
-  AgreementSummary,
-} from '@/types/agreement.types'
 import { AgreementMutations } from '@/api/agreement'
 import type { ActionItem } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
 import { useCurrentRoute, useNavigateRouter } from '@/router'
 import { useDialog } from '@/stores'
 import { useJwt } from './useJwt'
+import type { Agreement, AgreementListEntry, AgreementState } from '@/api/api.generatedTypes'
 
 type AgreementActions = Record<AgreementState, Array<ActionItem>>
 
-function useGetAgreementsActions(agreement?: AgreementSummary | AgreementListingItem): {
+function useGetAgreementsActions(agreement?: Agreement | AgreementListEntry): {
   actions: Array<ActionItem>
 } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })

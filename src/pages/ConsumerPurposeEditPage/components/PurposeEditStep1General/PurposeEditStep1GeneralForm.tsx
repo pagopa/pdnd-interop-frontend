@@ -7,7 +7,7 @@ import { StepActions } from '@/components/shared/StepActions'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { PurposeMutations } from '@/api/purpose'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
-import type { Purpose } from '@/types/purpose.types'
+import type { Purpose } from '@/api/api.generatedTypes'
 
 type PurposeEditStep1GeneralFormValues = {
   title: string

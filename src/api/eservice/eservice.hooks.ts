@@ -4,13 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import EServiceServices from './eservice.services'
 import type {
-  EServiceGetCatalogListUrlParams,
-  EServiceGetConsumersUrlParams,
   EServiceGetListFlatResponse,
   EServiceGetListFlatUrlParams,
-  EServiceGetProducersUrlParams,
-  EServiceGetProviderListUrlParams,
-  EServiceVersionDraftPayload,
 } from './eservice.api.types'
 import { useJwt } from '@/hooks/useJwt'
 import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
@@ -18,7 +13,16 @@ import type {
   Paginated,
   UseQueryWrapperOptions,
 } from '../react-query-wrappers/react-query-wrappers.types'
-import type { EServiceCatalog, EServiceProvider } from '@/types/eservice.types'
+import type {
+  CatalogEService,
+  EServiceDescriptorSeed,
+  GetConsumersParams,
+  GetEServicesCatalogParams,
+  GetProducerEServicesParams,
+  GetProducersParams,
+  ProducerEService,
+  UpdateEServiceDescriptorSeed,
+} from '../api.generatedTypes'
 
 export enum EServiceQueryKeys {
   /** @deprecated TO BE REMOVED */
@@ -49,8 +53,8 @@ function useGetListFlat(
 }
 
 function useGetCatalogList(
-  params: EServiceGetCatalogListUrlParams,
-  config?: UseQueryWrapperOptions<Paginated<EServiceCatalog>>
+  params: GetEServicesCatalogParams,
+  config?: UseQueryWrapperOptions<Paginated<CatalogEService>>
 ) {
   return useQueryWrapper(
     [EServiceQueryKeys.GetCatalogList, params],
@@ -60,8 +64,8 @@ function useGetCatalogList(
 }
 
 function useGetProviderList(
-  params: EServiceGetProviderListUrlParams,
-  config?: UseQueryWrapperOptions<Paginated<EServiceProvider>>
+  params: GetProducerEServicesParams,
+  config?: UseQueryWrapperOptions<Paginated<ProducerEService>>
 ) {
   return useQueryWrapper(
     [EServiceQueryKeys.GetProviderList, params],
@@ -71,7 +75,7 @@ function useGetProviderList(
 }
 
 function useGetConsumers(
-  params: EServiceGetConsumersUrlParams,
+  params: GetConsumersParams,
   config?: { suspense?: boolean; keepPreviousData?: boolean }
 ) {
   return useQueryWrapper(
@@ -82,7 +86,7 @@ function useGetConsumers(
 }
 
 function useGetProducers(
-  params: EServiceGetProducersUrlParams,
+  params: GetProducersParams,
   config?: { suspense?: boolean; keepPreviousData?: boolean }
 ) {
   return useQueryWrapper(
@@ -232,7 +236,7 @@ function useCreateVersionDraft(
     (
       payload: {
         eserviceId: string
-      } & EServiceVersionDraftPayload
+      } & EServiceDescriptorSeed
     ) => EServiceServices.createVersionDraft(payload),
     {
       suppressSuccessToast: config.suppressSuccessToast,
@@ -257,7 +261,7 @@ function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
       payload: {
         eserviceId: string
         descriptorId: string
-      } & EServiceVersionDraftPayload
+      } & UpdateEServiceDescriptorSeed
     ) => EServiceServices.updateVersionDraft(payload),
     {
       suppressSuccessToast: config.suppressSuccessToast,

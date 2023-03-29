@@ -1,7 +1,6 @@
 import { ClientQueries } from '@/api/client'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { RouterLink } from '@/router'
-import type { PublicKey } from '@/types/key.types'
 import { formatDateString } from '@/utils/format.utils'
 import { Box, Skeleton, Tooltip } from '@mui/material'
 import React from 'react'
@@ -11,6 +10,7 @@ import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import useGetKeyActions from '@/hooks/useGetKeyActions'
 import { TableRow } from '@pagopa/interop-fe-commons'
+import type { PublicKey } from '@/api/api.generatedTypes'
 
 interface ClientPublicKeysTableRowProps {
   publicKey: PublicKey
