@@ -7,7 +7,7 @@ import { Alert } from '@mui/material'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceActions'
-import type { EServiceDescriptorProvider } from '@/types/eservice.types'
+import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -49,7 +49,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   )
 }
 
-const HasDraftDescriptorAlert: React.FC<{ descriptor: EServiceDescriptorProvider }> = ({
+const HasDraftDescriptorAlert: React.FC<{ descriptor: ProducerEServiceDescriptor }> = ({
   descriptor,
 }) => {
   const { t } = useTranslation('eservice')

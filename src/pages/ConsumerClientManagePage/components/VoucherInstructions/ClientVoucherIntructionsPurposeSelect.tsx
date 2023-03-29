@@ -1,6 +1,6 @@
+import type { ClientPurpose } from '@/api/api.generatedTypes'
 import { PurposeQueries } from '@/api/purpose'
 import { SectionContainer } from '@/components/layout/containers'
-import type { ClientPurpose } from '@/types/client.types'
 import { getPurposeFailureReasons } from '@/utils/purpose.utils'
 import { Alert, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import React from 'react'

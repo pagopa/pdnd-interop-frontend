@@ -42,13 +42,6 @@ export type ProviderOrConsumer = Provider | Consumer
 
 export type ActionItem = { action: VoidFunction; label: string }
 
-export type DocumentRead = {
-  contentType: string
-  id: string
-  name: string
-  prettyName: string
-}
-
 export type StepperStepComponentProps = {
   forward: (e?: React.SyntheticEvent, data?: Record<string, unknown>) => void
   back: () => void

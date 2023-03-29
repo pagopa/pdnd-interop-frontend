@@ -7,8 +7,8 @@ import { Box, Button, Divider, Stack } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFSingleFileInput, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
-import type { DocumentRead } from '@/types/common.types'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
+import type { EServiceDoc } from '@/api/api.generatedTypes'
 
 type AgreementDocsInputSectionProps = {
   agreementId: string
@@ -56,11 +56,11 @@ export const AgreementDocsInputSection: React.FC<AgreementDocsInputSectionProps>
     )
   }
 
-  const handleDeleteDocument = (doc: DocumentRead) => {
+  const handleDeleteDocument = (doc: EServiceDoc) => {
     deleteDocument({ agreementId, documentId: doc.id })
   }
 
-  const handleDownloadDocument = (doc: DocumentRead) => {
+  const handleDownloadDocument = (doc: EServiceDoc) => {
     downloadDocument({ agreementId, documentId: doc.id }, getDownloadDocumentName(doc))
   }
 

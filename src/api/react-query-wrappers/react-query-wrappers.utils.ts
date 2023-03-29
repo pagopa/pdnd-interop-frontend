@@ -56,7 +56,7 @@ export function clearExponentialInterval(instanceId: string | undefined) {
   }
 }
 
-export function downloadFile(responseData: string, filename = 'download') {
+export function downloadFile(responseData: File | string, filename = 'download') {
   const blob = new Blob([responseData], { type: 'application/octet-stream' })
   // Create a pointer to the local memory where the blob is temporarily stored
   const href = window.URL.createObjectURL(blob)

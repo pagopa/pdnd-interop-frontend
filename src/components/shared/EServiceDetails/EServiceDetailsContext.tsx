@@ -1,13 +1,16 @@
 import React from 'react'
 import { createContext } from '@/utils/common.utils'
-import type { EServiceDescriptorCatalog, EServiceDescriptorProvider } from '@/types/eservice.types'
-import type { DocumentRead } from '@/types/common.types'
 import { remapEServiceAttributes } from '@/utils/attribute.utils'
 import type { FrontendAttributes } from '@/types/attribute.types'
-import type { AgreementState } from '@/types/agreement.types'
+import type {
+  AgreementState,
+  CatalogEServiceDescriptor,
+  EServiceDoc,
+  ProducerEServiceDescriptor,
+} from '@/api/api.generatedTypes'
 
 type EServiceDetailsContextType = {
-  descriptor: EServiceDescriptorCatalog | EServiceDescriptorProvider
+  descriptor: CatalogEServiceDescriptor | ProducerEServiceDescriptor
   eserviceAttributes: FrontendAttributes
   isViewingDescriptorCurrentVersion: boolean
   agreement:
@@ -16,7 +19,7 @@ type EServiceDetailsContextType = {
         state: AgreementState
       }
     | undefined
-  docs: Array<DocumentRead>
+  docs: Array<EServiceDoc>
 }
 
 const { useContext, Provider } = createContext<EServiceDetailsContextType>(
@@ -25,7 +28,7 @@ const { useContext, Provider } = createContext<EServiceDetailsContextType>(
 )
 
 const EServiceDetailsContextProvider: React.FC<{
-  descriptor: EServiceDescriptorCatalog | EServiceDescriptorProvider
+  descriptor: CatalogEServiceDescriptor | ProducerEServiceDescriptor
   children: React.ReactNode
 }> = ({ descriptor, children }) => {
   const providerValue = React.useMemo(() => {

@@ -3,10 +3,10 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '
 import { useTranslation } from 'react-i18next'
 import type { DialogCreateNewAttributeProps } from '@/types/dialog.types'
 import { useDialog } from '@/stores'
-import type { AttributeKind } from '@/types/attribute.types'
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFTextField } from '../shared/react-hook-form-inputs'
 import { AttributeMutations } from '@/api/attribute'
+import type { AttributeKind } from '@/api/api.generatedTypes'
 
 type CreateNewAttributeFormValues = {
   name: string

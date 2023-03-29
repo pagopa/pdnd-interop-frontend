@@ -131,6 +131,7 @@ export interface CatalogDescriptorEService {
   /** @format uuid */
   id: string
   name: string
+  producer: CompactOrganization
   description: string
   /** EService Descriptor State */
   technology: EServiceTechnology
@@ -517,7 +518,7 @@ export interface Operator {
   state: OperatorState
 }
 
-export type Operators = object
+export type Operators = Operator[]
 
 export interface RelationshipProduct {
   id: string
@@ -2165,7 +2166,7 @@ export namespace Eservices {
       'X-Correlation-Id': string
       'X-Forwarded-For'?: string
     }
-    export type ResponseBody = EServiceDoc
+    export type ResponseBody = File
   }
   /**
    * No description

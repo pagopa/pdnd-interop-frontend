@@ -1,9 +1,5 @@
-import type {
-  GroupBackendAttribute,
-  SingleBackendAttribute,
-  BackendAttributeContent,
-  PartyAttribute,
-} from '../../src/types/attribute.types'
+import type { EServiceAttribute, EServiceAttributeValue } from '@/api/api.generatedTypes'
+import type { PartyAttribute } from '../../src/types/attribute.types'
 import { createMockFactory } from '../../src/utils/testing.utils'
 
 const createMockPartyAttribute = createMockFactory<PartyAttribute>({
@@ -12,20 +8,18 @@ const createMockPartyAttribute = createMockFactory<PartyAttribute>({
   state: 'ACTIVE',
 })
 
-const createMockBackendAttributeContent = createMockFactory<BackendAttributeContent>({
+const createMockBackendAttributeContent = createMockFactory<EServiceAttributeValue>({
   id: 'id-party-attribute',
   name: 'Attribute Name',
   description: 'Attribute description',
   explicitAttributeVerification: true,
-  verified: true,
-  verificationDate: '2023-02-03T07:59:52.458Z',
 })
 
-const createMockSingleBackendAttribute = createMockFactory<SingleBackendAttribute>({
+const createMockSingleBackendAttribute = createMockFactory<EServiceAttribute>({
   single: createMockBackendAttributeContent(),
 })
 
-const createMockGroupBackendAttribute = createMockFactory<GroupBackendAttribute>({
+const createMockGroupBackendAttribute = createMockFactory<EServiceAttribute>({
   group: [
     createMockBackendAttributeContent(),
     createMockBackendAttributeContent({ id: 'id-party-attribute-2' }),

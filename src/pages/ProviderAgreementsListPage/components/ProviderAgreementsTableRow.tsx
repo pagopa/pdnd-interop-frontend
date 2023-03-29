@@ -1,17 +1,17 @@
 import { AgreementQueries } from '@/api/agreement'
+import type { AgreementListEntry } from '@/api/api.generatedTypes'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
 import { useJwt } from '@/hooks/useJwt'
 import { useNavigateRouter } from '@/router'
-import type { AgreementListingItem } from '@/types/agreement.types'
 import { Box, Button, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementListingItem }> = ({
+export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementListEntry }> = ({
   agreement,
 }) => {
   const { navigate } = useNavigateRouter()

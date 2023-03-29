@@ -1,9 +1,10 @@
-import type { BackendAttributes, FrontendAttributes } from '@/types/attribute.types'
+import type { FrontendAttributes } from '@/types/attribute.types'
 import { getKeys } from '@/utils/array.utils'
+import type { EServiceAttributes } from '../api.generatedTypes'
 
 export function remapFrontendAttributesToBackend(
   _frontendAttributes: FrontendAttributes
-): BackendAttributes {
+): EServiceAttributes {
   const attributekeys = getKeys(_frontendAttributes)
 
   const frontendAttributes = { ..._frontendAttributes }
@@ -12,7 +13,7 @@ export function remapFrontendAttributesToBackend(
     frontendAttributes[key] = frontendAttributes[key].filter((group) => group.attributes.length > 0)
   })
 
-  const mappedAttributes: BackendAttributes = attributekeys.reduce(
+  const mappedAttributes: EServiceAttributes = attributekeys.reduce(
     (acc, attributeType) => {
       const mapped = frontendAttributes[attributeType].map(
         ({ attributes, explicitAttributeVerification }) =>

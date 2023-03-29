@@ -1,8 +1,8 @@
-import type { AgreementSummary } from '@/types/agreement.types'
+import type { Agreement } from '../api.generatedTypes'
 
 export function updateAgreementsListCache(
-  newAgreementData: AgreementSummary,
-  agreementsListCache: Array<AgreementSummary> = []
+  newAgreementData: Agreement,
+  agreementsListCache: Array<Agreement> = []
 ) {
   const agreementsListCacheCopy = [...agreementsListCache]
   const index = agreementsListCacheCopy.findIndex(
@@ -16,7 +16,7 @@ export function updateAgreementsListCache(
 
 export function removeAgreementFromListCache(
   agreementId: string,
-  agreementsListCache: Array<AgreementSummary> = []
+  agreementsListCache: Array<Agreement> = []
 ) {
   return agreementsListCache.filter((agreementCache) => agreementCache.id !== agreementId)
 }

@@ -1,4 +1,3 @@
-import type { AgreementListingItem, AgreementSummary } from '@/types/agreement.types'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
@@ -7,13 +6,16 @@ import type {
   UseQueryWrapperOptions,
 } from '../react-query-wrappers/react-query-wrappers.types'
 import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
-import type {
-  GetAgreementConsumersQueryParams,
-  GetAgreementProducersQueryParams,
-  GetListAgreementQueryParams,
-  GetAgreementEServiceListQueryParams,
-} from './agreement.api.types'
 import AgreementServices from './agreement.services'
+import type {
+  Agreement,
+  AgreementListEntry,
+  GetAgreementConsumersParams,
+  GetAgreementEServiceConsumersParams,
+  GetAgreementEServiceProducersParams,
+  GetAgreementProducersParams,
+  GetAgreementsParams,
+} from '../api.generatedTypes'
 
 export enum AgreementQueryKeys {
   GetList = 'AgreementGetList',
@@ -25,8 +27,8 @@ export enum AgreementQueryKeys {
 }
 
 function useGetList(
-  params: GetListAgreementQueryParams,
-  config: UseQueryWrapperOptions<Paginated<AgreementListingItem>>
+  params: GetAgreementsParams,
+  config: UseQueryWrapperOptions<Paginated<AgreementListEntry>>
 ) {
   return useQueryWrapper(
     [AgreementQueryKeys.GetList, params],
@@ -35,7 +37,7 @@ function useGetList(
   )
 }
 
-function useGetSingle(agreementId: string, config?: UseQueryWrapperOptions<AgreementSummary>) {
+function useGetSingle(agreementId: string, config?: UseQueryWrapperOptions<Agreement>) {
   return useQueryWrapper(
     [AgreementQueryKeys.GetSingle, agreementId],
     () => AgreementServices.getSingle(agreementId),
@@ -44,7 +46,7 @@ function useGetSingle(agreementId: string, config?: UseQueryWrapperOptions<Agree
 }
 
 function useGetProducers(
-  params: GetAgreementProducersQueryParams,
+  params: GetAgreementProducersParams,
   config?: UseQueryWrapperOptions<Paginated<{ id: string; name: string }>>
 ) {
   return useQueryWrapper(
@@ -55,7 +57,7 @@ function useGetProducers(
 }
 
 function useGetConsumers(
-  params: GetAgreementConsumersQueryParams,
+  params: GetAgreementConsumersParams,
   config?: UseQueryWrapperOptions<Paginated<{ id: string; name: string }>>
 ) {
   return useQueryWrapper(
@@ -74,7 +76,7 @@ function usePrefetchSingle() {
 }
 
 function useGetProducerEServiceList(
-  params: GetAgreementEServiceListQueryParams,
+  params: GetAgreementEServiceProducersParams,
   config: UseQueryWrapperOptions<Paginated<{ id: string; name: string }>>
 ) {
   return useQueryWrapper(
@@ -85,7 +87,7 @@ function useGetProducerEServiceList(
 }
 
 function useGetConsumerEServiceList(
-  params: GetAgreementEServiceListQueryParams,
+  params: GetAgreementEServiceConsumersParams,
   config: UseQueryWrapperOptions<Paginated<{ id: string; name: string }>>
 ) {
   return useQueryWrapper(

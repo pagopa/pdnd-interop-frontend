@@ -1,9 +1,9 @@
-import type { Purpose, PurposeListingItem } from '@/types/purpose.types'
 import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 import useGetProviderPurposesActions from '../useGetProviderPurposesActions'
-import { createMockPurpose, createMockPurposeListingItem } from '__mocks__/data/purpose.mocks'
+import { createMockPurpose } from '__mocks__/data/purpose.mocks'
 import { vi } from 'vitest'
 import * as hooks from '@/hooks/useJwt'
+import type { Purpose } from '@/api/api.generatedTypes'
 
 const useJwtReturnDataMock = {
   currentRoles: ['admin'],
@@ -12,7 +12,7 @@ const useJwtReturnDataMock = {
 } as unknown as ReturnType<typeof hooks.useJwt>
 vi.spyOn(hooks, 'useJwt').mockImplementation(() => useJwtReturnDataMock)
 
-function renderUseGetProviderPurposesActionsHook(purpose?: Purpose | PurposeListingItem) {
+function renderUseGetProviderPurposesActionsHook(purpose?: Purpose) {
   return renderHookWithApplicationContext(() => useGetProviderPurposesActions(purpose), {
     withReactQueryContext: true,
     withRouterContext: true,
@@ -32,7 +32,7 @@ describe('check if useGetProviderPurposesActions returns the correct actions bas
   })
 
   it('should return the suspend function if the current version is active', () => {
-    const purposeMock = createMockPurposeListingItem({ currentVersion: { state: 'ACTIVE' } })
+    const purposeMock = createMockPurpose({ currentVersion: { state: 'ACTIVE' } })
     const { result } = renderUseGetProviderPurposesActionsHook(purposeMock)
 
     const suspendAction = result.current.actions.find((action) => action.label === 'suspend')
@@ -40,7 +40,7 @@ describe('check if useGetProviderPurposesActions returns the correct actions bas
   })
 
   it('shoud have action to update completion date and active the waiting for approval version if the purpose has one', () => {
-    const purposeMock = createMockPurposeListingItem({
+    const purposeMock = createMockPurpose({
       waitingForApprovalVersion: {
         id: 'test-id',
         dailyCalls: 2,
@@ -59,7 +59,7 @@ describe('check if useGetProviderPurposesActions returns the correct actions bas
   })
 
   it('shoud have the suspend action if the purpose is suspended but not suspended by the provider ', () => {
-    const purposeMock = createMockPurposeListingItem({
+    const purposeMock = createMockPurpose({
       currentVersion: { state: 'SUSPENDED' },
       suspendedByProducer: false,
     })
@@ -70,7 +70,7 @@ describe('check if useGetProviderPurposesActions returns the correct actions bas
   })
 
   it('shoud have the activate action if the purpose is suspended by the provider ', () => {
-    const purposeMock = createMockPurposeListingItem({
+    const purposeMock = createMockPurpose({
       currentVersion: { state: 'SUSPENDED' },
       suspendedByProducer: true,
     })

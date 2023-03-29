@@ -1,4 +1,4 @@
-import type { Purpose, PurposeListingItem } from '@/types/purpose.types'
+import type { Purpose } from '@/api/api.generatedTypes'
 
 export function getPurposeFailureReasons(
   purpose: Purpose
@@ -27,10 +27,7 @@ export function getPurposeFailureReasons(
  * when the actual active party is both the e-service producer and the purpose consumer and
  * the `suspendedByProducer` is true.
  */
-export function checkPurposeSuspendedByConsumer(
-  purpose: Purpose | PurposeListingItem,
-  partyId?: string
-) {
+export function checkPurposeSuspendedByConsumer(purpose: Purpose, partyId?: string) {
   if (purpose?.currentVersion?.state !== 'SUSPENDED') return false
   if (purpose.suspendedByConsumer) return true
 

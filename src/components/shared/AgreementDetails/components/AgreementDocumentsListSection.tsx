@@ -2,11 +2,11 @@ import React from 'react'
 import { AgreementDownloads } from '@/api/agreement'
 import { SectionContainerSkeleton } from '@/components/layout/containers'
 import { useCurrentRoute } from '@/router'
-import type { DocumentRead } from '@/types/common.types'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import { useTranslation } from 'react-i18next'
 import { DownloadableDocumentsList } from '../../DownloadableDocumentsList'
 import { useAgreementDetailsContext } from '../AgreementDetailsContext'
+import type { EServiceDoc } from '@/api/api.generatedTypes'
 
 export const AgreementDocumentListSection: React.FC = () => {
   const { t } = useTranslation('agreement', {
@@ -37,7 +37,7 @@ export const AgreementDocumentListSection: React.FC = () => {
     ]
   }
 
-  const handleDownloadDocument = (document: DocumentRead) => {
+  const handleDownloadDocument = (document: EServiceDoc) => {
     if (!agreement) return
     if (document.id === 'contract') {
       downloadContract({ agreementId: agreement.id }, document.name)

@@ -1,17 +1,16 @@
-import type { AgreementState } from './agreement.types'
-import type { BackendAttribute, BackendAttributes } from './attribute.types'
-import type { DocumentRead } from './common.types'
-import type { PartyMail } from './party.types'
+import type {
+  AgreementState,
+  EServiceAttribute,
+  EServiceAttributes,
+  EServiceDescriptorState,
+  EServiceDoc,
+  EServiceTechnology,
+} from '@/api/api.generatedTypes'
 
 type EServiceReadProducerType = {
   id: string
   name: string
 }
-
-export type EServiceTechnologyType = 'REST' | 'SOAP'
-export type EServiceState = 'PUBLISHED' | 'DRAFT' | 'SUSPENDED' | 'ARCHIVED' | 'DEPRECATED'
-
-export type EServiceDocumentKind = 'INTERFACE' | 'DOCUMENT'
 
 /** @deprecated TO BE REMOVED */
 export type EServiceReadType = {
@@ -19,10 +18,10 @@ export type EServiceReadType = {
   producer: EServiceReadProducerType
   name: string
   description: string
-  technology: EServiceTechnologyType
-  attributes: BackendAttributes
+  technology: EServiceTechnology
+  attributes: EServiceAttributes
   descriptors: Array<EServiceDescriptorRead>
-  state?: EServiceState
+  state?: EServiceDescriptorState
   viewingDescriptor?: EServiceDescriptorRead // TEMP REFACTOR : this is added by the client
 }
 
@@ -34,136 +33,21 @@ export type EServiceFlatten = {
   producerId: string
   producerName: string
   descriptorId?: string
-  state?: EServiceState
+  state?: EServiceDescriptorState
   version?: string
   agreement?: {
     id: string
     state: AgreementState
   }
-  certifiedAttributes: Array<BackendAttribute>
-}
-
-export type EServiceRead = {
-  id: string
-  name: string
-  description: string
-  technology: EServiceTechnologyType
-  attributes: BackendAttributes
-}
-
-export type EServiceCatalog = {
-  id: string
-  name: string
-  description: string
-  producer: {
-    id: string
-    name: string
-  }
-  agreement?: {
-    id: string
-    state: AgreementState
-  }
-  isMine: boolean
-  hasCertifiedAttributes: boolean
-  activeDescriptor: {
-    id: string
-    state: EServiceState
-    version: string
-  }
-}
-
-export type EServiceProvider = {
-  id: string
-  name: string
-  activeDescriptor?: {
-    id: string
-    state: EServiceState
-    version: string
-  }
-  draftDescriptor?: {
-    id: string
-    state: EServiceState
-    version: string
-  }
-}
-
-export type EServiceDescriptorCatalog = {
-  id: string
-  version: string
-  description?: string
-  interface?: DocumentRead
-  docs: Array<DocumentRead>
-  state: EServiceState
-  audience: Array<string>
-  voucherLifespan: number
-  dailyCallsPerConsumer: number
-  dailyCallsTotal: number
-  agreementApprovalPolicy: 'MANUAL' | 'AUTOMATIC'
-  eservice: {
-    id: string
-    name: string
-    description: string
-    technology: EServiceTechnologyType
-    attributes: BackendAttributes
-    descriptors: Array<{
-      id: string
-      state: EServiceState
-      version: string
-    }>
-    agreement?: {
-      id: string
-      state: AgreementState
-    }
-    isMine: boolean
-    hasCertifiedAttributes: boolean
-    isSubscribed: boolean
-    activeDescriptor?: {
-      id: string
-      state: EServiceState
-      version: string
-    }
-    mail?: PartyMail
-  }
-}
-
-export type EServiceDescriptorProvider = {
-  id: string
-  version: string
-  description?: string
-  interface?: DocumentRead
-  docs: Array<DocumentRead>
-  state: EServiceState
-  audience: Array<string>
-  voucherLifespan: number
-  dailyCallsPerConsumer: number
-  dailyCallsTotal: number
-  agreementApprovalPolicy: 'MANUAL' | 'AUTOMATIC'
-  eservice: {
-    id: string
-    name: string
-    description: string
-    technology: EServiceTechnologyType
-    attributes: BackendAttributes
-    descriptors: Array<{
-      id: string
-      state: EServiceState
-      version: string
-    }>
-    draftDescriptor?: {
-      id: string
-      state: EServiceState
-      version: string
-    }
-    mail?: PartyMail
-  }
+  certifiedAttributes: Array<EServiceAttribute>
 }
 
 /** @deprecated TO BE REMOVED */
 export type EServiceDescriptorRead = {
   id: string
-  state: EServiceState
-  docs: Array<DocumentRead>
-  interface?: DocumentRead
+  state: EServiceDescriptorState
+  docs: Array<EServiceDoc>
+  interface?: EServiceDoc
   version: string
   voucherLifespan: number
   description: string
@@ -171,14 +55,4 @@ export type EServiceDescriptorRead = {
   dailyCallsPerConsumer: number
   dailyCallsTotal: number
   agreementApprovalPolicy: 'MANUAL' | 'AUTOMATIC'
-}
-
-export type EServiceConsumer = {
-  id: string
-  name: string
-}
-
-export type EServiceProducer = {
-  id: string
-  name: string
 }

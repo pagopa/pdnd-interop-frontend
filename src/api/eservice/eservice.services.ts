@@ -3,26 +3,28 @@ import { BACKEND_FOR_FRONTEND_URL, CATALOG_PROCESS_URL } from '@/config/env'
 import type {
   EServiceGetListFlatResponse,
   EServiceGetListFlatUrlParams,
-  EServiceDraftPayload,
-  EServiceVersionDraftPayload,
-  PostEServiceVersionDraftDocumentPayload,
-  UpdateEServiceVersionDraftDocumentPayload,
-  EServiceGetCatalogListUrlParams,
-  EServiceGetProviderListUrlParams,
-  EServiceGetConsumersUrlParams,
-  EServiceGetProducersUrlParams,
 } from './eservice.api.types'
 import type {
-  EServiceCatalog,
-  EServiceConsumer,
-  EServiceDescriptorCatalog,
-  EServiceDescriptorProvider,
-  EServiceProducer,
-  EServiceProvider,
-  EServiceRead,
-} from '@/types/eservice.types'
-import type { DocumentRead } from '@/types/common.types'
-import type { Paginated } from '../react-query-wrappers/react-query-wrappers.types'
+  CatalogEServiceDescriptor,
+  CatalogEServices,
+  CompactOrganizations,
+  CreatedEServiceDescriptor,
+  CreatedResource,
+  CreateEServiceDocumentPayload,
+  EServiceDescriptorSeed,
+  EServiceDoc,
+  EServiceSeed,
+  GetConsumersParams,
+  GetEServicesCatalogParams,
+  GetProducerEServicesParams,
+  GetProducersParams,
+  ProducerEServiceDescriptor,
+  ProducerEServiceDetails,
+  ProducerEServices,
+  UpdateEServiceDescriptorDocumentSeed,
+  UpdateEServiceDescriptorSeed,
+  UpdateEServiceSeed,
+} from '../api.generatedTypes'
 
 /** @deprecated TO BE REMOVED */
 async function getListFlat(params: EServiceGetListFlatUrlParams) {
@@ -33,16 +35,16 @@ async function getListFlat(params: EServiceGetListFlatUrlParams) {
   return response.data
 }
 
-async function getCatalogList(params: EServiceGetCatalogListUrlParams) {
-  const response = await axiosInstance.get<Paginated<EServiceCatalog>>(
+async function getCatalogList(params: GetEServicesCatalogParams) {
+  const response = await axiosInstance.get<CatalogEServices>(
     `${BACKEND_FOR_FRONTEND_URL}/catalog`,
     { params }
   )
   return response.data
 }
 
-async function getProviderList(params: EServiceGetProviderListUrlParams) {
-  const response = await axiosInstance.get<Paginated<EServiceProvider>>(
+async function getProviderList(params: GetProducerEServicesParams) {
+  const response = await axiosInstance.get<ProducerEServices>(
     `${BACKEND_FOR_FRONTEND_URL}/producers/eservices`,
     { params }
   )
@@ -50,44 +52,44 @@ async function getProviderList(params: EServiceGetProviderListUrlParams) {
 }
 
 async function getSingle(eserviceId: string) {
-  const response = await axiosInstance.get<EServiceRead>(
+  const response = await axiosInstance.get<ProducerEServiceDetails>(
     `${BACKEND_FOR_FRONTEND_URL}/producers/eservices/${eserviceId}`
   )
   return response.data
 }
 
 async function getDescriptorCatalog(eserviceId: string, descriptorId: string) {
-  const response = await axiosInstance.get<EServiceDescriptorCatalog>(
+  const response = await axiosInstance.get<CatalogEServiceDescriptor>(
     `${BACKEND_FOR_FRONTEND_URL}/catalog/eservices/${eserviceId}/descriptor/${descriptorId}`
   )
   return response.data
 }
 
 async function getDescriptorProvider(eserviceId: string, descriptorId: string) {
-  const response = await axiosInstance.get<EServiceDescriptorProvider>(
+  const response = await axiosInstance.get<ProducerEServiceDescriptor>(
     `${BACKEND_FOR_FRONTEND_URL}/producers/eservices/${eserviceId}/descriptors/${descriptorId}`
   )
   return response.data
 }
 
-async function getConsumers(params: EServiceGetConsumersUrlParams) {
-  const response = await axiosInstance.get<Paginated<EServiceConsumer>>(
+async function getConsumers(params: GetConsumersParams) {
+  const response = await axiosInstance.get<CompactOrganizations>(
     `${BACKEND_FOR_FRONTEND_URL}/consumers`,
     { params }
   )
   return response.data
 }
 
-async function getProducers(params: EServiceGetProducersUrlParams) {
-  const response = await axiosInstance.get<Paginated<EServiceProducer>>(
+async function getProducers(params: GetProducersParams) {
+  const response = await axiosInstance.get<CompactOrganizations>(
     `${BACKEND_FOR_FRONTEND_URL}/producers`,
     { params }
   )
   return response.data
 }
 
-async function createDraft(payload: EServiceDraftPayload) {
-  const response = await axiosInstance.post<{ id: string }>(
+async function createDraft(payload: EServiceSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices`,
     payload
   )
@@ -99,8 +101,8 @@ async function updateDraft({
   ...payload
 }: {
   eserviceId: string
-} & EServiceDraftPayload) {
-  const response = await axiosInstance.put<{ id: string }>(
+} & UpdateEServiceSeed) {
+  const response = await axiosInstance.put<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}`,
     payload
   )
@@ -118,7 +120,7 @@ async function cloneFromVersion({
   eserviceId: string
   descriptorId: string
 }) {
-  const response = await axiosInstance.post<{ id: string; descriptorId: string }>(
+  const response = await axiosInstance.post<CreatedEServiceDescriptor>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/clone`
   )
   return response.data
@@ -129,8 +131,8 @@ async function createVersionDraft({
   ...payload
 }: {
   eserviceId: string
-} & EServiceVersionDraftPayload) {
-  const response = await axiosInstance.post<{ id: string }>(
+} & EServiceDescriptorSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors`,
     payload
   )
@@ -144,8 +146,8 @@ async function updateVersionDraft({
 }: {
   eserviceId: string
   descriptorId: string
-} & EServiceVersionDraftPayload) {
-  const response = await axiosInstance.put<{ id: string }>(
+} & UpdateEServiceDescriptorSeed) {
+  const response = await axiosInstance.put<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}`,
     payload
   )
@@ -207,11 +209,11 @@ async function postVersionDraftDocument({
 }: {
   eserviceId: string
   descriptorId: string
-} & PostEServiceVersionDraftDocumentPayload) {
+} & CreateEServiceDocumentPayload) {
   const formData = new FormData()
   Object.entries(payload).forEach(([key, data]) => formData.append(key, data))
 
-  const response = await axiosInstance.post<{ id: string }>(
+  const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents`,
     formData,
     { headers: { 'Content-Type': 'multipart/form-data' } }
@@ -242,8 +244,8 @@ async function updateVersionDraftDocumentDescription({
   eserviceId: string
   descriptorId: string
   documentId: string
-} & UpdateEServiceVersionDraftDocumentPayload) {
-  const response = await axiosInstance.post<DocumentRead>(
+} & UpdateEServiceDescriptorDocumentSeed) {
+  const response = await axiosInstance.post<EServiceDoc>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}/update`,
     payload
   )
@@ -259,7 +261,7 @@ async function downloadVersionDraftDocument({
   descriptorId: string
   documentId: string
 }) {
-  const response = await axiosInstance.get(
+  const response = await axiosInstance.get<File>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}`,
     { responseType: 'arraybuffer' }
   )

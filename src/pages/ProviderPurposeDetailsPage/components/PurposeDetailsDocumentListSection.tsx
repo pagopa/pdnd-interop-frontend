@@ -2,8 +2,8 @@ import React from 'react'
 import { PurposeDownloads, PurposeQueries } from '@/api/purpose'
 import { SectionContainerSkeleton } from '@/components/layout/containers'
 import { DownloadableDocumentsList } from '@/components/shared/DownloadableDocumentsList'
-import type { DocumentRead } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
+import type { EServiceDoc } from '@/api/api.generatedTypes'
 
 interface PurposeDetailsDocumentListSectionProps {
   purposeId: string
@@ -18,7 +18,7 @@ export const PurposeDetailsDocumentListSection: React.FC<
 
   if (!purpose) return null
 
-  const docs: Array<DocumentRead> = [
+  const docs: Array<EServiceDoc> = [
     {
       id: 'riskAnalysis',
       prettyName: `${t('downloadRiskAnalysisLabel')}`,
@@ -27,8 +27,8 @@ export const PurposeDetailsDocumentListSection: React.FC<
     },
   ]
 
-  const handleDownloadDocument = (document: DocumentRead) => {
-    if (!purpose.currentVersion) return
+  const handleDownloadDocument = (document: EServiceDoc) => {
+    if (!purpose.currentVersion || !purpose.currentVersion.riskAnalysisDocument) return
     if (document.id === 'riskAnalysis') {
       downloadRiskAnalysis(
         {

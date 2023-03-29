@@ -5,8 +5,8 @@ import { getFormOperations } from '../utils/form-operations'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import useGetRiskAnalysisFormDefaultValues from './useGetRiskAnalysisFormDefaultValues'
-import type { Purpose } from '@/types/purpose.types'
 import { PurposeMutations } from '@/api/purpose'
+import type { Purpose } from '@/api/api.generatedTypes'
 
 function useRiskAnalysisForm(
   riskAnalysisConfig: RiskAnalysis,

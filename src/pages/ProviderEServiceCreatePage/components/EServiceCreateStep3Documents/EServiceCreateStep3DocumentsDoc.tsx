@@ -7,8 +7,8 @@ import { DocumentContainer } from '@/components/layout/containers/DocumentContai
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFSingleFileInput, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
-import type { DocumentRead } from '@/types/common.types'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
+import type { EServiceDoc } from '@/api/api.generatedTypes'
 
 type EServiceCreateStep3DocumentsDocFormValues = {
   doc: File | null
@@ -70,7 +70,7 @@ export function EServiceCreateStep3DocumentsDoc() {
     })
   }
 
-  const handleDeleteDocument = (document: DocumentRead) => {
+  const handleDeleteDocument = (document: EServiceDoc) => {
     if (!descriptor) return
     deleteDocument({
       eserviceId: descriptor.eservice.id,
@@ -79,7 +79,7 @@ export function EServiceCreateStep3DocumentsDoc() {
     })
   }
 
-  const handleDownloadDocument = (document: DocumentRead) => {
+  const handleDownloadDocument = (document: EServiceDoc) => {
     if (!descriptor) return
     downloadDocument(
       {

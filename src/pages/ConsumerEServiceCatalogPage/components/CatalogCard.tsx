@@ -1,7 +1,6 @@
 import { EServiceQueries } from '@/api/eservice'
 import useGetEServiceConsumerActions from '@/hooks/useGetEServiceConsumerActions'
 import { useNavigateRouter } from '@/router'
-import type { EServiceCatalog } from '@/types/eservice.types'
 import {
   Avatar,
   Card,
@@ -23,9 +22,10 @@ import CloseIcon from '@mui/icons-material/Close'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { truncate } from '@/utils/common.utils'
+import type { CatalogEService } from '@/api/api.generatedTypes'
 
 interface CatalogCardProps {
-  eservice: EServiceCatalog
+  eservice: CatalogEService
 }
 
 export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
@@ -46,13 +46,13 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
     navigate('SUBSCRIBE_CATALOG_VIEW', {
       params: {
         eserviceId: eservice.id,
-        descriptorId: eservice.activeDescriptor.id,
+        descriptorId: eservice.activeDescriptor?.id ?? '',
       },
     })
   }
 
   const handlePrefetch = () => {
-    prefetchEService(eservice.id, eservice.activeDescriptor.id)
+    prefetchEService(eservice.id, eservice.activeDescriptor?.id ?? '')
   }
 
   let secondaryAction: { label: string; action: VoidFunction } | undefined
@@ -84,7 +84,7 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
             <AccountBalanceIcon sx={{ color: '#bdbdbd' }} fontSize="small" />
           </Avatar>
         }
-        title={`${eservice.name}, v. ${eservice.activeDescriptor.version}`}
+        title={`${eservice.name}, v. ${eservice.activeDescriptor?.version}`}
         subheader={eservice.producer.name}
       />
       <CardContent sx={{ minHeight: 150, alignItems: 'start' }}>

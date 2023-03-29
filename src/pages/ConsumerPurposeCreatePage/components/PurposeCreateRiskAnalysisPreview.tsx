@@ -23,7 +23,7 @@ export const PurposeCreateRiskAnalysisPreview: React.FC = () => {
     enabled: !!purposeId,
   })
 
-  const riskAnalysisTemplate = purpose?.riskAnalysisForm.answers
+  const riskAnalysisTemplate = purpose?.riskAnalysisForm?.answers
 
   const questions: Array<QuestionItem> = React.useMemo(() => {
     if (!riskAnalysisTemplate || !isUsingTemplate) return []

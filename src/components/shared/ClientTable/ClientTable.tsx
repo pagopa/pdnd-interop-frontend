@@ -3,8 +3,8 @@ import type { ClientKind } from '@/types/client.types'
 import React, { Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ClientTableRow, ClientTableRowSkeleton } from './ClientTableRow'
-import type { ClientGetListQueryParams } from '@/api/client/client.api.types'
 import { Filters, Pagination, Table, useFilters, usePagination } from '@pagopa/interop-fe-commons'
+import type { GetClientsParams } from '@/api/api.generatedTypes'
 
 interface ClientTableProps {
   clientKind: ClientKind
@@ -44,7 +44,7 @@ export const ClientTable: React.FC<ClientTableProps> = ({ clientKind }) => {
 }
 
 const ClientTableWrapper: React.FC<{
-  params: ClientGetListQueryParams
+  params: GetClientsParams
   clientKind: ClientKind
 }> = ({ params, clientKind }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })

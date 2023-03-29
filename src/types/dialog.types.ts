@@ -1,6 +1,6 @@
+import type { RelationshipInfo } from '@/api/api.generatedTypes'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 import type { AttributeKey } from './attribute.types'
-import type { SelfCareUser } from './party.types'
 
 export type DialogContent = {
   title: string
@@ -58,7 +58,7 @@ export type DialogSetPurposeExpectedApprovalDateProps = {
 export type DialogAddSecurityOperatorsProps = {
   type: 'addSecurityOperator'
   excludeOperatorsIdsList: Array<string>
-  onSubmit: (relationshipIds: Array<SelfCareUser>) => void
+  onSubmit: (relationshipIds: Array<RelationshipInfo>) => void
 }
 
 export type DialogAddSecurityOperatorKeyProps = {

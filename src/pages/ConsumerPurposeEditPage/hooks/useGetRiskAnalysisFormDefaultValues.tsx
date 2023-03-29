@@ -1,4 +1,4 @@
-import type { Purpose } from '@/types/purpose.types'
+import type { Purpose } from '@/api/api.generatedTypes'
 import React from 'react'
 import type {
   Answers,
@@ -19,12 +19,12 @@ function useGetRiskAnalysisFormDefaultValues(
     let defaultValues: Answers | null
 
     if (purpose?.riskAnalysisForm) {
-      const { answers } = purpose.riskAnalysisForm
+      const { answers } = purpose.riskAnalysisForm // answers generated type is any but the real type is { [id: string]: Array<string> }
       const currentAnswersIds = Object.keys(answers)
       // Set them as formik values. This will also trigger the useEffect that
       // depends on formik.values and update the questions accordingly
       defaultValues = currentAnswersIds.reduce((acc, id) => {
-        let answer: Array<string> | string | boolean = answers[id]
+        let answer: Array<string> | string | boolean = answers[id] as Array<string>
         const question = riskAnalysisConfig.questions.find((question) => question.id === id)
         // Only the checkbox needs the data as Array
         if (answer) {

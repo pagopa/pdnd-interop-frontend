@@ -8,7 +8,7 @@ import useRiskAnalysisForm from '../../hooks/useRiskAnalysisForm'
 import type { RiskAnalysis } from '../../types/risk-analysis.types'
 import { StepActions } from '@/components/shared/StepActions'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
-import type { Purpose } from '@/types/purpose.types'
+import type { Purpose } from '@/api/api.generatedTypes'
 
 type RiskAnalysisFormProps = ActiveStepProps & {
   purpose: Purpose

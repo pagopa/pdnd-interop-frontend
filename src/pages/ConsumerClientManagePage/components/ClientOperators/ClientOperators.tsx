@@ -2,11 +2,11 @@ import { ClientMutations, ClientQueries } from '@/api/client'
 import { PartyQueries } from '@/api/party/party.hooks'
 import { useDialog } from '@/stores'
 import { useJwt } from '@/hooks/useJwt'
-import type { SelfCareUser } from '@/types/party.types'
 import { Button, Stack } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ClientOperatorsTable, ClientOperatorsTableSkeleton } from './ClientOperatorsTable'
+import type { RelationshipInfo } from '@/api/api.generatedTypes'
 
 interface ClientOperatorsProps {
   clientId: string
@@ -20,17 +20,18 @@ export const ClientOperators: React.FC<ClientOperatorsProps> = ({ clientId }) =>
   const { mutateAsync: addOperator } = ClientMutations.useAddOperator()
 
   const handlePrefetchUserList = () => {
-    prefetchUserList(jwt?.organizationId, {
+    prefetchUserList({
       productRoles: ['admin', 'security'],
       states: ['ACTIVE'],
+      tenantId: jwt?.organizationId as string,
     })
   }
 
-  const handleAddOperators = (operators: Array<SelfCareUser>) => {
+  const handleAddOperators = (operators: Array<RelationshipInfo>) => {
     Promise.all(operators.map(({ id }) => addOperator({ clientId, relationshipId: id })))
   }
 
-  const { data: currentOperators = [] } = ClientQueries.useGetOperatorsList(clientId, undefined, {
+  const { data: currentOperators = [] } = ClientQueries.useGetOperatorsList(clientId, {
     suspense: false,
   })
 
