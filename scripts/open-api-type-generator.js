@@ -11,21 +11,14 @@ generateApi({
   name: 'api.generatedTypes.ts',
   url: openApiSpecificationFileUrl,
   output: apiFolderPath,
-  // httpClientType: 'axios',
   generateClient: false,
-  // singleHttpClient: undefined,
   generateUnionEnums: true,
   extractRequestParams: true,
   extractRequestBody: true,
   generateRouteTypes: true,
-  // hooks: {
-  //   onCreateRoute: (routeData) => {
-  //     if (routeData.request.pathParams) console.log(routeData)
-  //   },
-  // },
 })
-  .then(({ files, configuration }) => {
-    files.forEach(({ content, name }) => {
+  .then(({ files }) => {
+    files.forEach(({ content }) => {
       writeFile(path, content)
     })
   })
