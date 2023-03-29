@@ -1,10 +1,9 @@
 import { ClientQueries } from '@/api/client'
-import type { ClientKind } from '@/types/client.types'
 import React, { Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ClientTableRow, ClientTableRowSkeleton } from './ClientTableRow'
 import { Filters, Pagination, Table, useFilters, usePagination } from '@pagopa/interop-fe-commons'
-import type { GetClientsParams } from '@/api/api.generatedTypes'
+import type { ClientKind, GetClientsParams } from '@/api/api.generatedTypes'
 
 interface ClientTableProps {
   clientKind: ClientKind
