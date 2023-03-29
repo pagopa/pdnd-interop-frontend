@@ -1,7 +1,6 @@
-import type { Purpose, PurposeListingItem } from '@/types/purpose.types'
 import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 import useGetConsumerPurposesActions from '../useGetConsumerPurposesActions'
-import { createMockPurpose, createMockPurposeListingItem } from '__mocks__/data/purpose.mocks'
+import { createMockPurpose } from '__mocks__/data/purpose.mocks'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
@@ -10,6 +9,7 @@ import { routes } from '@/router/routes'
 import { generatePath } from 'react-router-dom'
 import { vi } from 'vitest'
 import * as hooks from '@/hooks/useJwt'
+import type { Purpose } from '@/api/api.generatedTypes'
 
 const useJwtReturnDataMock = {
   currentRoles: ['admin'],
@@ -40,7 +40,7 @@ afterAll(() => {
   server.close()
 })
 
-function renderUseGetConsumerPurposesActionsHook(purpose?: Purpose | PurposeListingItem) {
+function renderUseGetConsumerPurposesActionsHook(purpose?: Purpose) {
   return renderHookWithApplicationContext(() => useGetConsumerPurposesActions(purpose), {
     withReactQueryContext: true,
     withRouterContext: true,
@@ -64,7 +64,7 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
   })
 
   it('should return the activate and delete functions if the current version is in draft', () => {
-    const purposeMock = createMockPurposeListingItem({ currentVersion: { state: 'DRAFT' } })
+    const purposeMock = createMockPurpose({ currentVersion: { state: 'DRAFT' } })
     const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
     expect(result.current.actions).toHaveLength(2)
 
@@ -76,7 +76,7 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
   })
 
   it('should return only the delete action if the purpose has only the waiting for approval version', () => {
-    const purposeMock = createMockPurposeListingItem({
+    const purposeMock = createMockPurpose({
       currentVersion: undefined,
       waitingForApprovalVersion: {
         id: 'test-id',
@@ -92,7 +92,7 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
   })
 
   it('should return the delete daily calls update action if the purpose has more than one version and a waiting for approval version', () => {
-    const purposeMock = createMockPurposeListingItem({
+    const purposeMock = createMockPurpose({
       waitingForApprovalVersion: {
         id: 'test-id',
         state: 'WAITING_FOR_APPROVAL',
@@ -112,7 +112,7 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
   })
 
   it('should return the updated daily calls update action if the purpose has more than one version and no waiting for approval version', () => {
-    const purposeMock = createMockPurposeListingItem({ waitingForApprovalVersion: undefined })
+    const purposeMock = createMockPurpose({ waitingForApprovalVersion: undefined })
     const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
     expect(result.current.actions.length).toBeGreaterThanOrEqual(1)
 
@@ -126,7 +126,7 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
   })
 
   it('should return the suspend action if the purpose is active', () => {
-    const purposeMock = createMockPurposeListingItem({
+    const purposeMock = createMockPurpose({
       currentVersion: { state: 'ACTIVE' },
     })
     const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
@@ -140,7 +140,7 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
   })
 
   it('should return the suspend action if the purpose is suspended by the provider', () => {
-    const purposeMock = createMockPurposeListingItem({
+    const purposeMock = createMockPurpose({
       currentVersion: { state: 'SUSPENDED' },
       suspendedByConsumer: false,
     })
@@ -155,7 +155,7 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
   })
 
   it('should return the activate action if the purpose is suspended by the consumer', () => {
-    const purposeMock = createMockPurposeListingItem({
+    const purposeMock = createMockPurpose({
       currentVersion: { state: 'SUSPENDED' },
       suspendedByConsumer: true,
     })
@@ -170,7 +170,7 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
   })
 
   it('should navigate to the purpose edit page on clone action success', async () => {
-    const purposeMock = createMockPurposeListingItem({
+    const purposeMock = createMockPurpose({
       id: 'e8a8153e-9ab2-4aeb-a14c-96aebd4fa049',
       currentVersion: { state: 'SUSPENDED' },
       suspendedByConsumer: true,

@@ -1,7 +1,6 @@
 import { createMockEServiceProvider } from '__mocks__/data/eservice.mocks'
 import { useGetProviderEServiceActions } from '../useGetProviderEServiceActions'
 import { renderHookWithApplicationContext } from '@/utils/testing.utils'
-import type { EServiceProvider } from '@/types/eservice.types'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
@@ -9,6 +8,7 @@ import { act } from 'react-dom/test-utils'
 import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
 import { vi } from 'vitest'
 import * as hooks from '@/hooks/useJwt'
+import type { ProducerEService } from '@/api/api.generatedTypes'
 
 const useJwtReturnDataMock = {
   currentRoles: ['admin'],
@@ -45,7 +45,7 @@ afterAll(() => {
   server.close()
 })
 
-function renderUseGetProviderEServiceTableActionsHook(descriptorMock: EServiceProvider) {
+function renderUseGetProviderEServiceTableActionsHook(descriptorMock: ProducerEService) {
   return renderHookWithApplicationContext(
     () =>
       useGetProviderEServiceActions(

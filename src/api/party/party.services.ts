@@ -1,18 +1,23 @@
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
-import type { SelfCareUser, Party } from '@/types/party.types'
-import type { PartyGetUsersListUrlParams, PartyItem } from './party.api.types'
 import { remapUserResponseData } from './party.utils'
+import type {
+  GetUserInstitutionRelationshipsParams,
+  RelationshipsResponse,
+  SelfcareInstitution,
+  Tenant,
+  TenantDelta,
+} from '../api.generatedTypes'
 
 async function getParty(partyId: string) {
-  const response = await axiosInstance.get<Party>(`${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}`)
+  const response = await axiosInstance.get<Tenant>(`${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}`)
 
   return remapUserResponseData(response.data)
 }
 
-async function getUsersList(partyId: string, params?: PartyGetUsersListUrlParams) {
-  const response = await axiosInstance.get<Array<SelfCareUser>>(
-    `${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/relationships`,
+async function getUsersList({ tenantId, ...params }: GetUserInstitutionRelationshipsParams) {
+  const response = await axiosInstance.get<RelationshipsResponse>(
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/relationships`,
     {
       params,
     }
@@ -28,22 +33,20 @@ async function getProducts() {
   return response.data
 }
 
-async function getPartyList() {
-  const response = await axiosInstance.get<Array<PartyItem>>(
-    `${BACKEND_FOR_FRONTEND_URL}/selfcare/institutions`
-  )
-  return response.data
-}
-
 function updateMail({
   partyId,
   ...payload
 }: {
   partyId: string
-  contactEmail: string
-  description?: string
-}) {
+} & TenantDelta) {
   return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}`, payload)
+}
+
+async function getPartyList() {
+  const response = await axiosInstance.get<Array<SelfcareInstitution>>(
+    `${BACKEND_FOR_FRONTEND_URL}/selfcare/institutions`
+  )
+  return response.data
 }
 
 const PartyServices = {

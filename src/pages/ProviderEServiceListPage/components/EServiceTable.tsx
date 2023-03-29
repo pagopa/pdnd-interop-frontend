@@ -1,11 +1,11 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { EServiceTableRow, EServiceTableRowSkeleton } from './EServiceTableRow'
-import type { EServiceProvider } from '@/types/eservice.types'
 import { Table } from '@pagopa/interop-fe-commons'
+import type { ProducerEService } from '@/api/api.generatedTypes'
 
 type EServiceTableProps = {
-  eservices: Array<EServiceProvider>
+  eservices: Array<ProducerEService>
 }
 
 export const EServiceTable: React.FC<EServiceTableProps> = ({ eservices }) => {

@@ -1,56 +1,63 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type {
-  GetListAgreementQueryParams,
-  UploadAgreementDraftDocumentPayload,
-  GetAgreementProducersQueryParams,
-  GetAgreementConsumersQueryParams,
-  GetAgreementEServiceListQueryParams,
-} from './agreement.api.types'
-import type { AgreementListingItem, AgreementSummary } from '@/types/agreement.types'
-import type { Paginated } from '../react-query-wrappers/react-query-wrappers.types'
+  AddAgreementConsumerDocumentPayload,
+  Agreement,
+  AgreementPayload,
+  AgreementRejectionPayload,
+  Agreements,
+  AgreementSubmissionPayload,
+  AgreementUpdatePayload,
+  CompactEServicesLight,
+  CompactOrganizations,
+  CreatedResource,
+  GetAgreementConsumersParams,
+  GetAgreementEServiceConsumersParams,
+  GetAgreementEServiceProducersParams,
+  GetAgreementProducersParams,
+  GetAgreementsParams,
+} from '../api.generatedTypes'
 
-async function getList(params?: GetListAgreementQueryParams) {
-  const response = await axiosInstance.get<Paginated<AgreementListingItem>>(
-    `${BACKEND_FOR_FRONTEND_URL}/agreements`,
-    { params }
-  )
+async function getList(params?: GetAgreementsParams) {
+  const response = await axiosInstance.get<Agreements>(`${BACKEND_FOR_FRONTEND_URL}/agreements`, {
+    params,
+  })
   return response.data
 }
 
 async function getSingle(agreementId: string) {
-  const response = await axiosInstance.get<AgreementSummary>(
+  const response = await axiosInstance.get<Agreement>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}`
   )
   return response.data
 }
 
-async function getProducers(params?: GetAgreementProducersQueryParams) {
-  const response = await axiosInstance.get<Paginated<{ id: string; name: string }>>(
+async function getProducers(params?: GetAgreementProducersParams) {
+  const response = await axiosInstance.get<CompactOrganizations>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/filter/producers`,
     { params }
   )
   return response.data
 }
 
-async function getConsumers(params?: GetAgreementConsumersQueryParams) {
-  const response = await axiosInstance.get<Paginated<{ id: string; name: string }>>(
+async function getConsumers(params?: GetAgreementConsumersParams) {
+  const response = await axiosInstance.get<CompactOrganizations>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/filter/consumers`,
     { params }
   )
   return response.data
 }
 
-async function getProducerEServiceList(params: GetAgreementEServiceListQueryParams) {
-  const response = await axiosInstance.get<Paginated<{ id: string; name: string }>>(
+async function getProducerEServiceList(params: GetAgreementEServiceProducersParams) {
+  const response = await axiosInstance.get<CompactEServicesLight>(
     `${BACKEND_FOR_FRONTEND_URL}/producers/agreements/eservices`,
     { params }
   )
   return response.data
 }
 
-async function getConsumerEServiceList(params: GetAgreementEServiceListQueryParams) {
-  const response = await axiosInstance.get<Paginated<{ id: string; name: string }>>(
+async function getConsumerEServiceList(params: GetAgreementEServiceConsumersParams) {
+  const response = await axiosInstance.get<CompactEServicesLight>(
     `${BACKEND_FOR_FRONTEND_URL}/consumers/agreements/eservices`,
     { params }
   )
@@ -63,10 +70,8 @@ async function createDraft({
 }: {
   eserviceName: string
   eserviceVersion: string | undefined
-  eserviceId: string
-  descriptorId: string
-}) {
-  const response = await axiosInstance.post<{ id: string }>(
+} & AgreementPayload) {
+  const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements`,
     { eserviceId, descriptorId }
   )
@@ -78,9 +83,8 @@ async function submitDraft({
   consumerNotes,
 }: {
   agreementId: string
-  consumerNotes: string
-}) {
-  const response = await axiosInstance.post<AgreementSummary>(
+} & AgreementSubmissionPayload) {
+  const response = await axiosInstance.post<Agreement>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/submit`,
     { consumerNotes }
   )
@@ -88,9 +92,7 @@ async function submitDraft({
 }
 
 async function deleteDraft({ agreementId }: { agreementId: string }) {
-  return axiosInstance.delete<AgreementSummary>(
-    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}`
-  )
+  return axiosInstance.delete<Agreement>(`${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}`)
 }
 
 async function updateDraft({
@@ -98,9 +100,8 @@ async function updateDraft({
   consumerNotes,
 }: {
   agreementId: string
-  consumerNotes: string
-}) {
-  const response = await axiosInstance.post<AgreementSummary>(
+} & AgreementUpdatePayload) {
+  const response = await axiosInstance.post<Agreement>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/update`,
     { consumerNotes }
   )
@@ -126,7 +127,7 @@ function uploadDraftDocument({
   ...payload
 }: {
   agreementId: string
-} & UploadAgreementDraftDocumentPayload) {
+} & AddAgreementConsumerDocumentPayload) {
   const formData = new FormData()
   Object.entries(payload).forEach(([key, data]) => formData.append(key, data))
 
@@ -150,14 +151,17 @@ function deleteDraftDocument({
 }
 
 async function activate({ agreementId }: { agreementId: string }) {
-  const response = await axiosInstance.post<AgreementSummary>(
+  const response = await axiosInstance.post<Agreement>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/activate`
   )
   return response.data
 }
 
-async function reject({ agreementId, reason }: { agreementId: string; reason: string }) {
-  const response = await axiosInstance.post<AgreementSummary>(
+async function reject({
+  agreementId,
+  reason,
+}: { agreementId: string } & AgreementRejectionPayload) {
+  const response = await axiosInstance.post<Agreement>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/reject`,
     { reason }
   )
@@ -165,21 +169,21 @@ async function reject({ agreementId, reason }: { agreementId: string; reason: st
 }
 
 async function suspend({ agreementId }: { agreementId: string }) {
-  const response = await axiosInstance.post<AgreementSummary>(
+  const response = await axiosInstance.post<Agreement>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/suspend`
   )
   return response.data
 }
 
 async function upgrade({ agreementId }: { agreementId: string }) {
-  const response = await axiosInstance.post<AgreementSummary>(
+  const response = await axiosInstance.post<Agreement>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/upgrade`
   )
   return response.data
 }
 
 async function clone({ agreementId }: { agreementId: string }) {
-  const response = await axiosInstance.post<AgreementSummary>(
+  const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/clone`
   )
   return response.data

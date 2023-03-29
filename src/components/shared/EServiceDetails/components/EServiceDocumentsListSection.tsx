@@ -1,5 +1,5 @@
+import type { EServiceDoc } from '@/api/api.generatedTypes'
 import { EServiceDownloads } from '@/api/eservice'
-import { DocumentRead } from '@/types/common.types'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import React from 'react'
 import { DownloadableDocumentsList } from '../../DownloadableDocumentsList'
@@ -9,7 +9,7 @@ export const EServiceDocumentsListSection: React.FC = () => {
   const { descriptor, docs } = useEServiceDetailsContext()
   const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
 
-  const handleDownloadDocument = (document: DocumentRead) => {
+  const handleDownloadDocument = (document: EServiceDoc) => {
     if (!descriptor) return
 
     downloadDocument(

@@ -1,5 +1,6 @@
+import type { RelationshipInfo } from '@/api/api.generatedTypes'
 import type { useJwt } from '@/hooks/useJwt'
-import type { JwtUser, SelfCareUser } from '@/types/party.types'
+import type { JwtUser } from '@/types/party.types'
 import { createMockFactory } from '@/utils/testing.utils'
 
 const mockJwtOrg = {
@@ -32,7 +33,7 @@ const mockUseJwt = createMockFactory<ReturnType<typeof useJwt>>({
   currentRoles: [],
 })
 
-const createMockSelfCareUser = createMockFactory<SelfCareUser>({
+const createMockSelfCareUser = createMockFactory<RelationshipInfo>({
   createdAt: '2022-09-30T15:03:41.078Z',
   familyName: 'Rossi',
   from: 'b7f6b32e-6252-4994-ac7b-47622e674e5a',
@@ -44,7 +45,6 @@ const createMockSelfCareUser = createMockFactory<SelfCareUser>({
   taxCode: 'MRORSSR78M21B354T',
   to: '1962d21c-c701-4805-93f6-53a877898756',
   updatedAt: '2022-09-30T15:04:42.738Z',
-  relationshipId: 'f59e65fa-1b94-4e53-ae46-a3f60d446ebs',
 })
 
 export { createMockJwtUser, mockUseJwt, createMockSelfCareUser }

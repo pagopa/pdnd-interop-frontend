@@ -1,3 +1,4 @@
+import type { CreatedResource, RelationshipInfo } from '@/api/api.generatedTypes'
 import { ClientMutations } from '@/api/client'
 import {
   PageBottomActionsContainer,
@@ -7,8 +8,6 @@ import {
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { useClientKind } from '@/hooks/useClientKind'
 import { RouterLink, useNavigateRouter } from '@/router'
-import type { Client } from '@/types/client.types'
-import type { SelfCareUser } from '@/types/party.types'
 import { Box, Button, Grid, Typography } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -18,7 +17,7 @@ import OperatorsInputTable from './components/OperatorsInputTable'
 export type CreateClientFormValues = {
   name: string
   description: string
-  operators: Array<SelfCareUser>
+  operators: Array<RelationshipInfo>
 }
 
 const defaultValues: CreateClientFormValues = { name: '', description: '', operators: [] }
@@ -43,7 +42,7 @@ const ConsumerClientCreatePage: React.FC = () => {
       description,
     }
 
-    let data: Client | null = null
+    let data: CreatedResource | null = null
 
     if (clientKind === 'CONSUMER') {
       data = await createClient(dataToPost)

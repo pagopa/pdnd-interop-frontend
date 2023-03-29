@@ -1,11 +1,11 @@
-import type { EServiceCatalog } from '@/types/eservice.types'
 import { Grid, Alert } from '@mui/material'
 import React from 'react'
 import { CatalogCard, CatalogCardSkeleton } from './CatalogCard'
 import { useTranslation } from 'react-i18next'
+import type { CatalogEService } from '@/api/api.generatedTypes'
 
 type EServiceCatalogGridProps = {
-  eservices: Array<EServiceCatalog> | undefined
+  eservices: Array<CatalogEService> | undefined
 }
 
 export const EServiceCatalogGrid: React.FC<EServiceCatalogGridProps> = ({ eservices }) => {
@@ -19,7 +19,7 @@ export const EServiceCatalogGrid: React.FC<EServiceCatalogGridProps> = ({ eservi
     <Grid container spacing={3}>
       {eservices?.map((eservice) => (
         <Grid item key={eservice.id} xs={4}>
-          <CatalogCard key={eservice.activeDescriptor.id} eservice={eservice} />
+          <CatalogCard key={eservice.activeDescriptor?.id} eservice={eservice} />
         </Grid>
       ))}
     </Grid>

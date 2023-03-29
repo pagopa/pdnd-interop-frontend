@@ -15,10 +15,10 @@ import {
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { RHFAutocompleteMultiple } from '../shared/react-hook-form-inputs'
-import type { SelfCareUser } from '@/types/party.types'
+import type { RelationshipInfo } from '@/api/api.generatedTypes'
 
 type AddSecurityOperatorFormValues = {
-  selectedOperators: Array<SelfCareUser>
+  selectedOperators: Array<RelationshipInfo>
 }
 
 export const DialogAddSecurityOperators: React.FC<DialogAddSecurityOperatorsProps> = ({
@@ -41,17 +41,16 @@ export const DialogAddSecurityOperators: React.FC<DialogAddSecurityOperatorsProp
 
   const { data: allPartyOperators = [], isLoading: isLoadingAllPartyOperators } =
     PartyQueries.useGetUsersList(
-      jwt?.organizationId,
       {
         productRoles: ['admin', 'security'],
         states: ['ACTIVE'],
+        tenantId: jwt?.organizationId as string,
       },
       { suspense: false }
     )
 
   const availableOperators = allPartyOperators.filter(
-    (partyOperator) =>
-      !excludeOperatorsIdsList.includes(partyOperator.relationshipId || partyOperator.id)
+    (partyOperator) => !excludeOperatorsIdsList.includes(partyOperator.id)
   )
 
   const options = availableOperators.map((o) => ({

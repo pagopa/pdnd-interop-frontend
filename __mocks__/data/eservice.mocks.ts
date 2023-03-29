@@ -1,14 +1,14 @@
 import type {
-  EServiceCatalog,
-  EServiceDescriptorCatalog,
-  EServiceDescriptorProvider,
-  EServiceProvider,
-  EServiceRead,
-  EServiceReadType,
-} from '../../src/types/eservice.types'
+  CatalogEService,
+  CatalogEServiceDescriptor,
+  ProducerEService,
+  ProducerEServiceDescriptor,
+  ProducerEServiceDetails,
+} from '@/api/api.generatedTypes'
+import type { EServiceReadType } from '../../src/types/eservice.types'
 import { createMockFactory } from '../../src/utils/testing.utils'
 
-const createMockEServiceRead = createMockFactory<EServiceRead>({
+const createMockEServiceRead = createMockFactory<ProducerEServiceDetails>({
   id: 'ad474d35-7939-4bee-bde9-4e469cca1030',
   name: '-- CAMMELLO --',
   description: 'Lore ipsum',
@@ -56,16 +56,17 @@ const createMockEServiceReadType = createMockFactory<EServiceReadType>({
   technology: 'REST',
 })
 
-const createMockEServiceProvider = createMockFactory<EServiceProvider>({
+const createMockEServiceProvider = createMockFactory<ProducerEService>({
   id: 'ad474d35-7939-4bee-bde9-4e469cca1030',
   name: '-- CAMMELLO --',
 })
 
-const createMockEServiceCatalog = createMockFactory<EServiceCatalog>({
+const createMockEServiceCatalog = createMockFactory<CatalogEService>({
   activeDescriptor: {
     id: 'e9762e42-129a-4b07-9b2e-9614998ef9b8',
     state: 'PUBLISHED',
     version: '1',
+    audience: [],
   },
   name: '!! -- CAMMELLO -- Test 18/10 [1]',
   description: 'lorem ipsum',
@@ -78,7 +79,7 @@ const createMockEServiceCatalog = createMockFactory<EServiceCatalog>({
   },
 })
 
-const createMockEServiceDescriptorCatalog = createMockFactory<EServiceDescriptorCatalog>({
+const createMockEServiceDescriptorCatalog = createMockFactory<CatalogEServiceDescriptor>({
   agreementApprovalPolicy: 'MANUAL',
   audience: ['Lorem'],
   dailyCallsPerConsumer: 1,
@@ -90,6 +91,11 @@ const createMockEServiceDescriptorCatalog = createMockFactory<EServiceDescriptor
       id: 'ec94e366-cbb2-4203-ac07-95acf5289a31',
       state: 'PUBLISHED',
       version: '1',
+      audience: [],
+    },
+    producer: {
+      id: 'ad474d35-7939-4bee-bde9-4e469cca1030',
+      name: '-- CAMMELLO --',
     },
     attributes: {
       certified: [],
@@ -97,7 +103,14 @@ const createMockEServiceDescriptorCatalog = createMockFactory<EServiceDescriptor
       verified: [],
     },
     description: 'lorem',
-    descriptors: [{ id: 'ec94e366-cbb2-4203-ac07-95acf5289a31', state: 'PUBLISHED', version: '1' }],
+    descriptors: [
+      {
+        id: 'ec94e366-cbb2-4203-ac07-95acf5289a31',
+        state: 'PUBLISHED',
+        version: '1',
+        audience: [],
+      },
+    ],
     hasCertifiedAttributes: false,
     id: '03d0c725-47e5-4ec5-8ecd-1a1f3ce45d29',
     isMine: false,
@@ -117,7 +130,7 @@ const createMockEServiceDescriptorCatalog = createMockFactory<EServiceDescriptor
   voucherLifespan: 60,
 })
 
-const createMockEServiceDescriptorProvider = createMockFactory<EServiceDescriptorProvider>({
+const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceDescriptor>({
   agreementApprovalPolicy: 'MANUAL',
   audience: ['nikon'],
   dailyCallsPerConsumer: 1,
@@ -131,7 +144,14 @@ const createMockEServiceDescriptorProvider = createMockFactory<EServiceDescripto
       verified: [],
     },
     description: 'Lorem ipsum',
-    descriptors: [{ id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a', state: 'PUBLISHED', version: '1' }],
+    descriptors: [
+      {
+        id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
+        state: 'PUBLISHED',
+        version: '1',
+        audience: [],
+      },
+    ],
     id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
     name: '-- LUMACA -- test 20/10 [4]\t',
     technology: 'REST',

@@ -1,22 +1,23 @@
-import {
-  AUTHORIZATION_PROCESS_URL,
-  BACKEND_FOR_FRONTEND_URL,
-  PURPOSE_PROCESS_URL,
-} from '@/config/env'
+import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
-import type { Purpose, PurposeListingItem, PurposeVersion } from '@/types/purpose.types'
 import type {
-  PurposeCreateDraftPayload,
-  PurposeGetListUrlParams,
-  PurposeUpdateDraftPayload,
-} from './purpose.api.types'
-import type { Paginated } from '../react-query-wrappers/react-query-wrappers.types'
+  CreatedResource,
+  DraftPurposeVersionUpdateContent,
+  GetPurposesParams,
+  Purpose,
+  PurposeAdditionDetailsSeed,
+  Purposes,
+  PurposeSeed,
+  PurposeUpdateContent,
+  PurposeVersionResource,
+  PurposeVersionSeed,
+  WaitingForApprovalPurposeVersionUpdateContentSeed,
+} from '../api.generatedTypes'
 
-async function getList(params: PurposeGetListUrlParams) {
-  const response = await axiosInstance.get<Paginated<PurposeListingItem>>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes`,
-    { params }
-  )
+async function getList(params: GetPurposesParams) {
+  const response = await axiosInstance.get<Purposes>(`${BACKEND_FOR_FRONTEND_URL}/purposes`, {
+    params,
+  })
   return response.data
 }
 
@@ -27,8 +28,8 @@ async function getSingle(purposeId: string) {
   return response.data
 }
 
-async function createDraft(payload: PurposeCreateDraftPayload) {
-  const response = await axiosInstance.post<Purpose>(
+async function createDraft(payload: PurposeSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes`,
     payload
   )
@@ -38,8 +39,8 @@ async function createDraft(payload: PurposeCreateDraftPayload) {
 async function updateDraft({
   purposeId,
   ...payload
-}: { purposeId: string } & PurposeUpdateDraftPayload) {
-  const response = await axiosInstance.post<{ purposeId: string; versionId: string }>(
+}: { purposeId: string } & PurposeUpdateContent) {
+  const response = await axiosInstance.post<PurposeVersionResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}`,
     payload
   )
@@ -53,8 +54,8 @@ function deleteDraft({ purposeId }: { purposeId: string }) {
 async function createVersionDraft({
   purposeId,
   ...payload
-}: { purposeId: string } & { dailyCalls: number }) {
-  const response = await axiosInstance.post<PurposeVersion>(
+}: { purposeId: string } & PurposeVersionSeed) {
+  const response = await axiosInstance.post<PurposeVersionResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions`,
     payload
   )
@@ -65,8 +66,8 @@ async function updateVersionDraft({
   purposeId,
   versionId,
   ...payload
-}: { purposeId: string; versionId: string } & { dailyCalls: number }) {
-  const response = await axiosInstance.post<{ purposeId: string; versionId: string }>(
+}: { purposeId: string; versionId: string } & DraftPurposeVersionUpdateContent) {
+  const response = await axiosInstance.post<PurposeVersionResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/update/draft`,
     payload
   )
@@ -75,15 +76,15 @@ async function updateVersionDraft({
 
 async function updateDailyCalls(data: { purposeId: string; dailyCalls: number }) {
   const newPurposeVersion = await createVersionDraft(data)
-  return activateVersion({ purposeId: data.purposeId, versionId: newPurposeVersion.id })
+  return activateVersion({ purposeId: data.purposeId, versionId: newPurposeVersion.versionId })
 }
 
 async function updateVersionWaitingForApproval({
   purposeId,
   versionId,
   ...payload
-}: { purposeId: string; versionId: string } & { expectedApprovalDate: Date }) {
-  const response = await axiosInstance.post<PurposeVersion>(
+}: { purposeId: string; versionId: string } & WaitingForApprovalPurposeVersionUpdateContentSeed) {
+  const response = await axiosInstance.post<PurposeVersionResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/update/waitingForApproval`,
     payload
   )
@@ -99,7 +100,7 @@ async function downloadRiskAnalysis({
   versionId: string
   documentId: string
 }) {
-  const response = await axiosInstance.get<string>(
+  const response = await axiosInstance.get<Purposes.GetRiskAnalysisDocument.ResponseBody>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/documents/${documentId}`,
     { responseType: 'arraybuffer' }
   )
@@ -108,21 +109,21 @@ async function downloadRiskAnalysis({
 }
 
 async function suspendVersion({ purposeId, versionId }: { purposeId: string; versionId: string }) {
-  const response = await axiosInstance.post<PurposeVersion>(
+  const response = await axiosInstance.post<PurposeVersionResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/suspend`
   )
   return response.data
 }
 
 async function activateVersion({ purposeId, versionId }: { purposeId: string; versionId: string }) {
-  const response = await axiosInstance.post<PurposeVersion>(
+  const response = await axiosInstance.post<PurposeVersionResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/activate`
   )
   return response.data
 }
 
 async function archiveVersion({ purposeId, versionId }: { purposeId: string; versionId: string }) {
-  const response = await axiosInstance.post<PurposeVersion>(
+  const response = await axiosInstance.post<PurposeVersionResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/archive`
   )
   return response.data
@@ -135,13 +136,13 @@ function deleteVersion({ purposeId, versionId }: { purposeId: string; versionId:
 }
 
 async function clone({ purposeId }: { purposeId: string }) {
-  const response = await axiosInstance.post<{ purposeId: string; versionId: string }>(
+  const response = await axiosInstance.post<PurposeVersionResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/clone`
   )
   return response.data
 }
 
-function addClient({ clientId, purposeId }: { clientId: string; purposeId: string }) {
+function addClient({ clientId, purposeId }: { clientId: string } & PurposeAdditionDetailsSeed) {
   return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/purposes`, {
     purposeId,
   })

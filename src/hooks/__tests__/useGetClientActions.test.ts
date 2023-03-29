@@ -6,11 +6,11 @@ import { setupServer } from 'msw/node'
 import { AUTHORIZATION_PROCESS_URL } from '@/config/env'
 import { act } from 'react-dom/test-utils'
 import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
-import type { Client } from '@/types/client.types'
 import { createMemoryHistory } from 'history'
 import { routes } from '@/router/routes'
 import { vi } from 'vitest'
 import * as hooks from '@/hooks/useJwt'
+import type { Client } from '@/api/api.generatedTypes'
 
 const useJwtReturnDataMock = {
   currentRoles: ['admin'],

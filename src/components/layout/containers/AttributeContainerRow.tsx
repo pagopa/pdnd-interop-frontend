@@ -4,11 +4,12 @@ import { Box, IconButton, Skeleton, Stack, Tooltip, Typography } from '@mui/mate
 import { useDialog } from '@/stores'
 import { useTranslation } from 'react-i18next'
 import { AttributeQueries } from '@/api/attribute'
-import type { AttributeKey, AttributeKind, AttributeState } from '@/types/attribute.types'
+import type { AttributeKey, AttributeState } from '@/types/attribute.types'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import InfoIcon from '@mui/icons-material/Info'
 import CheckIcon from '@mui/icons-material/Check'
 import CloseIcon from '@mui/icons-material/Close'
+import type { AttributeKind } from '@/api/api.generatedTypes'
 
 type AttributeContainerRowProps<T extends { id: string; name: string }> = {
   attribute: T

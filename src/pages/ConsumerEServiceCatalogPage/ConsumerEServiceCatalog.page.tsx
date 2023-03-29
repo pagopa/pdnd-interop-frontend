@@ -3,8 +3,6 @@ import { PageContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { EServiceCatalogGrid, EServiceCatalogGridSkeleton } from './components'
 import { EServiceQueries } from '@/api/eservice'
-import type { EServiceGetCatalogListQueryFilters } from '@/api/eservice/eservice.api.types'
-import type { EServiceState } from '@/types/eservice.types'
 import {
   Filters,
   Pagination,
@@ -12,6 +10,7 @@ import {
   useFilters,
   usePagination,
 } from '@pagopa/interop-fe-commons'
+import type { EServiceDescriptorState, GetEServicesCatalogParams } from '@/api/api.generatedTypes'
 
 const ConsumerEServiceCatalogPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerEServiceCatalog' })
@@ -31,7 +30,9 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
     })) || []
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 12 })
-  const { filtersParams, ...filtersHandlers } = useFilters<EServiceGetCatalogListQueryFilters>([
+  const { filtersParams, ...filtersHandlers } = useFilters<
+    Omit<GetEServicesCatalogParams, 'limit' | 'offset'>
+  >([
     { name: 'q', label: tEservice('nameField.label'), type: 'freetext' },
     {
       name: 'producersIds',
@@ -43,7 +44,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
   ])
 
   // Only e-service published or suspended can be shown in the catalog
-  const states: Array<EServiceState> = ['PUBLISHED', 'SUSPENDED']
+  const states: Array<EServiceDescriptorState> = ['PUBLISHED', 'SUSPENDED']
   const queryParams = { ...paginationParams, ...filtersParams, states }
 
   const { data } = EServiceQueries.useGetCatalogList(queryParams, {

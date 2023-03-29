@@ -1,7 +1,7 @@
+import type { ClientKind, CompactClient } from '@/api/api.generatedTypes'
 import { ClientQueries } from '@/api/client'
 import useGetClientActions from '@/hooks/useGetClientActions'
 import { useNavigateRouter } from '@/router'
-import type { ClientKind, ClientListingItem } from '@/types/client.types'
 import { Box, Button, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
@@ -10,7 +10,7 @@ import { ActionMenu, ActionMenuSkeleton } from '../ActionMenu'
 import { ButtonSkeleton } from '../MUI-skeletons'
 
 type ClientTableRow = {
-  client: ClientListingItem
+  client: CompactClient
   clientKind: ClientKind
 }
 

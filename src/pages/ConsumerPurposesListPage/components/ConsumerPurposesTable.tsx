@@ -1,5 +1,5 @@
-import type { PurposeListingItem } from '@/types/purpose.types'
 import { Table } from '@pagopa/interop-fe-commons'
+import type { Purpose } from '@/api/api.generatedTypes'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -8,7 +8,7 @@ import {
 } from './ConsumerPurposesTableRow'
 
 type ConsumerPurposesTableProps = {
-  purposes: Array<PurposeListingItem>
+  purposes: Array<Purpose>
 }
 
 export const ConsumerPurposesTable: React.FC<ConsumerPurposesTableProps> = ({ purposes }) => {

@@ -6,15 +6,15 @@ import { useNavigateRouter } from '@/router'
 import { URL_FRAGMENTS } from '@/router/router.utils'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
-import type { EServiceProvider } from '@/types/eservice.types'
 import { EServiceQueries } from '@/api/eservice'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceActions'
 import { useJwt } from '@/hooks/useJwt'
 import { TableRow } from '@pagopa/interop-fe-commons'
+import type { ProducerEService } from '@/api/api.generatedTypes'
 
 type EServiceTableRow = {
-  eservice: EServiceProvider
+  eservice: ProducerEService
 }
 
 export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {

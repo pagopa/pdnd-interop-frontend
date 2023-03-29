@@ -1,11 +1,7 @@
 import { AgreementQueries } from '@/api/agreement'
-import type {
-  GetListAgreementQueryFilters,
-  GetListAgreementQueryParams,
-} from '@/api/agreement/agreement.api.types'
+import type { AgreementState, GetAgreementsParams } from '@/api/api.generatedTypes'
 import { PageContainer } from '@/components/layout/containers'
 import { useJwt } from '@/hooks/useJwt'
-import type { AgreementState } from '@/types/agreement.types'
 import {
   Filters,
   Pagination,
@@ -49,7 +45,9 @@ const ProviderAgreementsListPage: React.FC = () => {
   const { jwt } = useJwt()
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
-  const { filtersParams, ...filtersHandlers } = useFilters<GetListAgreementQueryFilters>([
+  const { filtersParams, ...filtersHandlers } = useFilters<
+    Omit<GetAgreementsParams, 'limit' | 'offset'>
+  >([
     {
       name: 'eservicesIds',
       label: tAgreement('eserviceField.label'),
@@ -103,9 +101,7 @@ const ProviderAgreementsListPage: React.FC = () => {
   )
 }
 
-const ProviderAgreementsTableWrapper: React.FC<{ params: GetListAgreementQueryParams }> = ({
-  params,
-}) => {
+const ProviderAgreementsTableWrapper: React.FC<{ params: GetAgreementsParams }> = ({ params }) => {
   const { data, isFetching } = AgreementQueries.useGetList(params, {
     suspense: false,
   })

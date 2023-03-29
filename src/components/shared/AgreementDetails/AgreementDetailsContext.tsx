@@ -3,15 +3,15 @@ import { createContext } from '@/utils/common.utils'
 import { EServiceQueries } from '@/api/eservice'
 import { remapEServiceAttributes } from '@/utils/attribute.utils'
 import type { FrontendAttributes, PartyAttributes } from '@/types/attribute.types'
-import type { AgreementSummary } from '@/types/agreement.types'
 import { AgreementQueries } from '@/api/agreement'
 import { useJwt } from '@/hooks/useJwt'
 import { useCurrentRoute } from '@/router'
 import { canAgreementBeUpgraded } from '@/utils/agreement.utils'
 import { AttributeQueries } from '@/api/attribute'
+import type { Agreement, TenantAttributes } from '@/api/api.generatedTypes'
 
 type AgreementDetailsContextType = {
-  agreement: AgreementSummary | undefined
+  agreement: Agreement | undefined
   eserviceAttributes: FrontendAttributes | undefined
   partyAttributes: PartyAttributes | undefined
   isAgreementEServiceMine: boolean

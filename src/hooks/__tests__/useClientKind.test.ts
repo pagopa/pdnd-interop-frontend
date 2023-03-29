@@ -1,4 +1,4 @@
-import { ClientKind } from '@/types/client.types'
+import type { ClientKind } from '@/api/api.generatedTypes'
 import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 import { throws } from 'assert'
 import { createMemoryHistory } from 'history'

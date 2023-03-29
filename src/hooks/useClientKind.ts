@@ -1,6 +1,6 @@
+import type { ClientKind } from '@/api/api.generatedTypes'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { useCurrentRoute } from '@/router'
-import type { ClientKind } from '@/types/client.types'
 
 export function useClientKind(): ClientKind {
   const { route } = useCurrentRoute()

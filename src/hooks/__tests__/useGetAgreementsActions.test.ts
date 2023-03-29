@@ -4,7 +4,6 @@ import {
   createMockAgreementListingItem,
   createMockAgreementSummary,
 } from '__mocks__/data/agreement.mocks'
-import type { AgreementListingItem, AgreementSummary } from '@/types/agreement.types'
 import { createMemoryHistory } from 'history'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
@@ -22,6 +21,7 @@ const useJwtReturnDataMock = {
   hasSessionExpired: () => false,
 } as unknown as ReturnType<typeof hooks.useJwt>
 vi.spyOn(hooks, 'useJwt').mockImplementation(() => useJwtReturnDataMock)
+import type { Agreement, AgreementListEntry } from '@/api/api.generatedTypes'
 
 const mockResAgreementId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
 
@@ -53,7 +53,7 @@ afterAll(() => {
 })
 
 function renderUseGetAgreementsActionsHook(
-  agreement?: AgreementSummary | AgreementListingItem,
+  agreement?: Agreement | AgreementListEntry,
   historyType?: string
 ) {
   const memoryHistory = createMemoryHistory()

@@ -2,13 +2,13 @@ import React from 'react'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 import { useTranslation } from 'react-i18next'
 import { Stack, Box, Button } from '@mui/material'
-import type { DocumentRead } from '@/types/common.types'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFSingleFileInput, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
+import type { EServiceDoc } from '@/api/api.generatedTypes'
 
 type EServiceCreateStep3DocumentsInterfaceFormValues = {
   interfaceDoc: File | null
@@ -27,7 +27,7 @@ export function EServiceCreateStep3DocumentsInterface() {
     prettyName: t('create.step3.interface.prettyName'),
   }
 
-  const actualInterface: DocumentRead | null = descriptor?.interface ?? null
+  const actualInterface: EServiceDoc | null = descriptor?.interface ?? null
 
   const formMethods = useForm({
     defaultValues,

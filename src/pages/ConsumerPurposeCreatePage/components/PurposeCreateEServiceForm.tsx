@@ -1,9 +1,9 @@
+import type { RiskAnalysisForm } from '@/api/api.generatedTypes'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { PageBottomActionsContainer, SectionContainer } from '@/components/layout/containers'
 import { RHFSwitch } from '@/components/shared/react-hook-form-inputs'
 import { useJwt } from '@/hooks/useJwt'
 import { RouterLink, useNavigateRouter } from '@/router'
-import type { PurposeRiskAnalysisForm } from '@/types/purpose.types'
 import { Box, Button, Grid } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -54,7 +54,7 @@ export const PurposeCreateEServiceForm: React.FC = () => {
 
     let title = t('create.defaultPurpose.title')
     let description = t('create.defaultPurpose.description')
-    let riskAnalysisForm: undefined | PurposeRiskAnalysisForm
+    let riskAnalysisForm: undefined | RiskAnalysisForm
 
     if (useTemplate && purposeId && purpose) {
       title = `${purpose.title} — clone`

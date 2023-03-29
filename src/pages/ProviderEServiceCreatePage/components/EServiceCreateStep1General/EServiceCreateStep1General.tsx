@@ -1,6 +1,5 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import type { EServiceTechnologyType } from '@/types/eservice.types'
 import { Alert, Box, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -18,11 +17,12 @@ import { useJwt } from '@/hooks/useJwt'
 import { getKeys } from '@/utils/array.utils'
 import isEqual from 'lodash/isEqual'
 import { AddAttributesToEServiceForm } from './AddAttributesToEServiceForm'
+import type { EServiceTechnology } from '@/api/api.generatedTypes'
 
 export type EServiceCreateStep1FormValues = {
   name: string
   description: string
-  technology: EServiceTechnologyType
+  technology: EServiceTechnology
   attributes: FrontendAttributes
 }
 

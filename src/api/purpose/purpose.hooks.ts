@@ -2,9 +2,9 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import PurposeServices from './purpose.services'
-import type { PurposeGetListUrlParams } from './purpose.api.types'
 import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
 import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
+import type { GetPurposesParams } from '../api.generatedTypes'
 
 export enum PurposeQueryKeys {
   GetList = 'PurposeGetList',
@@ -12,7 +12,7 @@ export enum PurposeQueryKeys {
 }
 
 function useGetList(
-  params: PurposeGetListUrlParams,
+  params: GetPurposesParams,
   config?: UseQueryWrapperOptions<Awaited<ReturnType<typeof PurposeServices.getList>>>
 ) {
   return useQueryWrapper(
