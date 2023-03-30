@@ -1,13 +1,7 @@
-import React from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import EServiceServices from './eservice.services'
-import type {
-  EServiceGetListFlatResponse,
-  EServiceGetListFlatUrlParams,
-} from './eservice.api.types'
-import { useJwt } from '@/hooks/useJwt'
 import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
 import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
 import type {
@@ -22,8 +16,6 @@ import type {
 } from '../api.generatedTypes'
 
 export enum EServiceQueryKeys {
-  /** @deprecated TO BE REMOVED */
-  GetListFlat = 'EServiceGetListFlat',
   GetCatalogList = 'EServiceGetCatalogList',
   GetProviderList = 'EServiceGetProviderList',
   GetSingle = 'EServiceGetSingle',
@@ -31,22 +23,6 @@ export enum EServiceQueryKeys {
   GetDescriptorProvider = 'EServiceGetDescriptorProvider',
   GetConsumers = 'EServiceGetConsumers',
   GetProducers = 'EServiceGetProducers',
-}
-
-/** @deprecated TO BE REMOVED */
-function useGetListFlat(
-  params: EServiceGetListFlatUrlParams,
-  config?: UseQueryWrapperOptions<EServiceGetListFlatResponse>
-) {
-  return useQueryWrapper(
-    [EServiceQueryKeys.GetListFlat, params],
-    () => EServiceServices.getListFlat(params),
-    {
-      ...config,
-      suspense: config?.suspense ?? true,
-      enabled: !!params.callerId && (config?.enabled ?? true),
-    }
-  )
 }
 
 function useGetCatalogList(
@@ -126,25 +102,6 @@ function useGetDescriptorProvider(
       ...config,
     }
   )
-}
-
-/** @deprecated TO BE REMOVED */
-function useGetSingleFlat(
-  eserviceId: string,
-  descriptorId: string | undefined,
-  config = { enabled: true }
-) {
-  const { jwt } = useJwt()
-  const { data: eservices } = useGetListFlat(
-    { callerId: jwt?.organizationId, state: 'PUBLISHED' },
-    config
-  )
-
-  return React.useMemo(() => {
-    return eservices?.find(
-      (eservice) => eservice.id === eserviceId && eservice.descriptorId === descriptorId
-    )
-  }, [eservices, eserviceId, descriptorId])
 }
 
 function usePrefetchSingle() {
@@ -373,7 +330,6 @@ function useDownloadVersionDocument() {
 }
 
 export const EServiceQueries = {
-  useGetListFlat,
   useGetCatalogList,
   useGetProviderList,
   useGetDescriptorCatalog,
@@ -384,7 +340,6 @@ export const EServiceQueries = {
   usePrefetchSingle,
   usePrefetchDescriptorCatalog,
   usePrefetchDescriptorProvider,
-  useGetSingleFlat,
 }
 
 export const EServiceMutations = {
