@@ -3,11 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import ClientServices from './client.services'
 import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
-import type {
-  Paginated,
-  UseQueryWrapperOptions,
-} from '../react-query-wrappers/react-query-wrappers.types'
-import type { CompactClient, GetClientsParams } from '../api.generatedTypes'
+import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
+import type { CompactClients, GetClientsParams } from '../api.generatedTypes'
 
 export enum ClientQueryKeys {
   GetList = 'ClientGetList',
@@ -19,10 +16,7 @@ export enum ClientQueryKeys {
   GetClientOperatorKeys = 'ClientGetClientOperatorKeys',
 }
 
-function useGetList(
-  params: GetClientsParams,
-  config?: UseQueryWrapperOptions<Paginated<CompactClient>>
-) {
+function useGetList(params: GetClientsParams, config?: UseQueryWrapperOptions<CompactClients>) {
   return useQueryWrapper(
     [ClientQueryKeys.GetList, params],
     () => ClientServices.getList(params),
