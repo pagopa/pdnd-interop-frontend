@@ -100,7 +100,7 @@ async function downloadRiskAnalysis({
   versionId: string
   documentId: string
 }) {
-  const response = await axiosInstance.get<Purposes.GetRiskAnalysisDocument.ResponseBody>(
+  const response = await axiosInstance.get<File>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/documents/${documentId}`,
     { responseType: 'arraybuffer' }
   )
