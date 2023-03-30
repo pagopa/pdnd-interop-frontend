@@ -1,9 +1,5 @@
 import axiosInstance from '@/config/axios'
-import { BACKEND_FOR_FRONTEND_URL, CATALOG_PROCESS_URL } from '@/config/env'
-import type {
-  EServiceGetListFlatResponse,
-  EServiceGetListFlatUrlParams,
-} from './eservice.api.types'
+import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type {
   CatalogEServiceDescriptor,
   CatalogEServices,
@@ -25,15 +21,6 @@ import type {
   UpdateEServiceDescriptorSeed,
   UpdateEServiceSeed,
 } from '../api.generatedTypes'
-
-/** @deprecated TO BE REMOVED */
-async function getListFlat(params: EServiceGetListFlatUrlParams) {
-  const response = await axiosInstance.get<EServiceGetListFlatResponse>(
-    `${CATALOG_PROCESS_URL}/flatten/eservices`,
-    { params }
-  )
-  return response.data
-}
 
 async function getCatalogList(params: GetEServicesCatalogParams) {
   const response = await axiosInstance.get<CatalogEServices>(
@@ -269,7 +256,6 @@ async function downloadVersionDraftDocument({
 }
 
 const EServiceServices = {
-  getListFlat,
   getCatalogList,
   getProviderList,
   getSingle,
