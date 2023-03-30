@@ -51,14 +51,6 @@ export const AUTHORIZATION_PROCESS_URL = getEnvVar(
   'AUTHORIZATION_PROCESS_URL',
   `authorization-process/${SERVICE_VERSION}`
 )
-export const CATALOG_PROCESS_URL = getEnvVar(
-  'CATALOG_PROCESS_URL',
-  `catalog-process/${SERVICE_VERSION}`
-)
-export const PURPOSE_PROCESS_URL = getEnvVar(
-  'PURPOSE_PROCESS_URL',
-  `purpose-process/${SERVICE_VERSION}`
-)
 export const AUTHORIZATION_SERVER_ACCESS_TOKEN_URL = getEnvVar(
   'AUTHORIZATION_SERVER_TOKEN_CREATION_URL',
   'authorization-server/token.oauth2'
