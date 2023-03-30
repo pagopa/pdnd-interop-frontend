@@ -1,8 +1,8 @@
 import React from 'react'
 import isEqual from 'lodash/isEqual'
 import {
-  RHFAutocompleteBaseProps,
-  RHFAutocompleteInput,
+  type RHFAutocompleteBaseProps,
+  type RHFAutocompleteInput,
   _RHFAutocompleteBase,
 } from './_RHFAutocompleteBase'
 import { useFormContext } from 'react-hook-form'

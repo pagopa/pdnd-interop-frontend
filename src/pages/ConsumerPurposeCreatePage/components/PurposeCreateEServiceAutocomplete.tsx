@@ -1,39 +1,41 @@
 import React from 'react'
 import { EServiceQueries } from '@/api/eservice'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
-import { useJwt } from '@/hooks/useJwt'
 import { useTranslation } from 'react-i18next'
 import { useFormContext } from 'react-hook-form'
+import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 
 export const PurposeCreateEServiceAutocomplete: React.FC = () => {
   const { t } = useTranslation('purpose')
-  const { jwt } = useJwt()
 
   const { watch, setValue } = useFormContext()
   const selectedEService = watch('eserviceId')
+  const [eserviceAutocompleteTextInput, setEserviceAutocompleteTextInput] =
+    useAutocompleteTextInput()
 
-  // This must be replaced by the EServiceQueries.useGetCatalogList
-  // waiting for agreementStates implementation.
-  const { data: eservices = [], isInitialLoading } = EServiceQueries.useGetListFlat(
+  const { data, isInitialLoading } = EServiceQueries.useGetCatalogList(
     {
-      callerId: jwt?.organizationId,
-      consumerId: jwt?.organizationId,
+      q: eserviceAutocompleteTextInput,
       agreementStates: ['ACTIVE'],
       // e-service might also be on 'DEPRECATED' state
-      state: 'PUBLISHED',
+      states: ['PUBLISHED'],
+      limit: 50,
+      offset: 0,
     },
     {
       suspense: false,
       onSuccess(eservices) {
-        if (!selectedEService && eservices.length > 0) {
-          setValue('eserviceId', eservices[0].id)
+        if (!selectedEService && eservices.results.length > 0) {
+          setValue('eserviceId', eservices.results[0].id)
         }
       },
     }
   )
 
+  const eservices = data?.results ?? []
+
   const autocompleteOptions = (eservices ?? []).map((eservice) => ({
-    label: `${eservice.name} ${t('edit.eserviceProvider')} ${eservice.producerName}`,
+    label: `${eservice.name} ${t('edit.eserviceProvider')} ${eservice.producer.name}`,
     value: eservice.id,
   }))
 
@@ -44,6 +46,7 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
       name="eserviceId"
       label={t('create.eserviceField.label')}
       options={autocompleteOptions}
+      onInputChange={(_, value) => setEserviceAutocompleteTextInput(value)}
     />
   )
 }
