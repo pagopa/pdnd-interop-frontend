@@ -1121,6 +1121,11 @@ export interface GetEServicesCatalogParams {
    */
   states?: EServiceDescriptorState[]
   /**
+   * comma separated sequence of agreement states to filter the response with
+   * @default []
+   */
+  agreementStates?: AgreementState[]
+  /**
    * @format int32
    * @min 0
    */
@@ -1777,6 +1782,11 @@ export namespace Catalog {
        * @default []
        */
       states?: EServiceDescriptorState[]
+      /**
+       * comma separated sequence of agreement states to filter the response with
+       * @default []
+       */
+      agreementStates?: AgreementState[]
       /**
        * @format int32
        * @min 0
