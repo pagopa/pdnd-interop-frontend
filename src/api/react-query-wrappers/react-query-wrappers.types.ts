@@ -82,12 +82,3 @@ export type UseQueryWrapperOptions<TData> = Parameters<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   typeof useQueryWrapper<TData, unknown, TData, any>
 >[2]
-
-export type Paginated<T> = {
-  results: Array<T>
-  pagination: {
-    offset: number
-    limit: number
-    totalCount: number
-  }
-}

@@ -9,18 +9,15 @@ import type {
 } from './eservice.api.types'
 import { useJwt } from '@/hooks/useJwt'
 import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
+import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
 import type {
-  Paginated,
-  UseQueryWrapperOptions,
-} from '../react-query-wrappers/react-query-wrappers.types'
-import type {
-  CatalogEService,
+  CatalogEServices,
   EServiceDescriptorSeed,
   GetConsumersParams,
   GetEServicesCatalogParams,
   GetProducerEServicesParams,
   GetProducersParams,
-  ProducerEService,
+  ProducerEServices,
   UpdateEServiceDescriptorSeed,
 } from '../api.generatedTypes'
 
@@ -54,7 +51,7 @@ function useGetListFlat(
 
 function useGetCatalogList(
   params: GetEServicesCatalogParams,
-  config?: UseQueryWrapperOptions<Paginated<CatalogEService>>
+  config?: UseQueryWrapperOptions<CatalogEServices>
 ) {
   return useQueryWrapper(
     [EServiceQueryKeys.GetCatalogList, params],
@@ -65,7 +62,7 @@ function useGetCatalogList(
 
 function useGetProviderList(
   params: GetProducerEServicesParams,
-  config?: UseQueryWrapperOptions<Paginated<ProducerEService>>
+  config?: UseQueryWrapperOptions<ProducerEServices>
 ) {
   return useQueryWrapper(
     [EServiceQueryKeys.GetProviderList, params],
