@@ -1,15 +1,14 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
-import type {
-  Paginated,
-  UseQueryWrapperOptions,
-} from '../react-query-wrappers/react-query-wrappers.types'
+import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
 import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
 import AgreementServices from './agreement.services'
 import type {
   Agreement,
-  AgreementListEntry,
+  Agreements,
+  CompactEServicesLight,
+  CompactOrganizations,
   GetAgreementConsumersParams,
   GetAgreementEServiceConsumersParams,
   GetAgreementEServiceProducersParams,
@@ -26,10 +25,7 @@ export enum AgreementQueryKeys {
   GetConsumerEServiceList = 'AgreementGetConsumerEServiceList',
 }
 
-function useGetList(
-  params: GetAgreementsParams,
-  config: UseQueryWrapperOptions<Paginated<AgreementListEntry>>
-) {
+function useGetList(params: GetAgreementsParams, config: UseQueryWrapperOptions<Agreements>) {
   return useQueryWrapper(
     [AgreementQueryKeys.GetList, params],
     () => AgreementServices.getList(params),
@@ -47,7 +43,7 @@ function useGetSingle(agreementId: string, config?: UseQueryWrapperOptions<Agree
 
 function useGetProducers(
   params: GetAgreementProducersParams,
-  config?: UseQueryWrapperOptions<Paginated<{ id: string; name: string }>>
+  config?: UseQueryWrapperOptions<CompactOrganizations>
 ) {
   return useQueryWrapper(
     [AgreementQueryKeys.GetProducers, params],
@@ -58,7 +54,7 @@ function useGetProducers(
 
 function useGetConsumers(
   params: GetAgreementConsumersParams,
-  config?: UseQueryWrapperOptions<Paginated<{ id: string; name: string }>>
+  config?: UseQueryWrapperOptions<CompactOrganizations>
 ) {
   return useQueryWrapper(
     [AgreementQueryKeys.GetConsumers, params],
@@ -77,7 +73,7 @@ function usePrefetchSingle() {
 
 function useGetProducerEServiceList(
   params: GetAgreementEServiceProducersParams,
-  config: UseQueryWrapperOptions<Paginated<{ id: string; name: string }>>
+  config: UseQueryWrapperOptions<CompactEServicesLight>
 ) {
   return useQueryWrapper(
     [AgreementQueryKeys.GetProducerEServiceList, params],
@@ -88,7 +84,7 @@ function useGetProducerEServiceList(
 
 function useGetConsumerEServiceList(
   params: GetAgreementEServiceConsumersParams,
-  config: UseQueryWrapperOptions<Paginated<{ id: string; name: string }>>
+  config: UseQueryWrapperOptions<CompactEServicesLight>
 ) {
   return useQueryWrapper(
     [AgreementQueryKeys.GetConsumerEServiceList, params],
