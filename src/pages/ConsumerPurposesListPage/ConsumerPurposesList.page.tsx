@@ -94,17 +94,17 @@ const ConsumerPurposesListPage: React.FC = () => {
     enabled: !!jwt?.organizationId,
   })
 
-  const { data: activeEServices } = EServiceQueries.useGetListFlat(
+  const { data: activeEServices } = EServiceQueries.useGetCatalogList(
     {
-      callerId: jwt?.organizationId,
-      consumerId: jwt?.organizationId,
       agreementStates: ['ACTIVE'],
-      state: 'PUBLISHED',
+      states: ['PUBLISHED'],
+      limit: 50,
+      offset: 0,
     },
     { suspense: false }
   )
 
-  const hasNotActiveEService = activeEServices?.length === 0 ?? true
+  const hasNotActiveEService = activeEServices?.results.length === 0 ?? true
 
   const topSideActions: TopSideActions = {
     infoTooltip:
