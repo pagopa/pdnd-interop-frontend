@@ -75,8 +75,8 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
 
       showToast(successLabel, 'success')
     }
-    requestPolling()
     options?.onSuccess?.(...args)
+    requestPolling()
   }
 
   /**

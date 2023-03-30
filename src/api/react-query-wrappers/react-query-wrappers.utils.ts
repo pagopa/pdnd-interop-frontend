@@ -21,7 +21,6 @@ class ExponentialInterval {
   }
 
   async #start() {
-    this.#action()
     while (this.#isActive && this.#totalWaitTime < this.#duration) {
       const timeoutMs = this.#getTimeoutMs()
       this.#totalWaitTime += timeoutMs
