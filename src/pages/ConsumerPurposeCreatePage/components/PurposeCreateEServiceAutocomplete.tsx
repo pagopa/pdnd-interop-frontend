@@ -8,8 +8,8 @@ import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 export const PurposeCreateEServiceAutocomplete: React.FC = () => {
   const { t } = useTranslation('purpose')
 
-  const { watch, setValue } = useFormContext()
-  const selectedEService = watch('eserviceId')
+  const { setValue } = useFormContext()
+  const hasSetFirstEService = React.useRef(false)
   const [eserviceAutocompleteTextInput, setEserviceAutocompleteTextInput] =
     useAutocompleteTextInput()
 
@@ -25,8 +25,9 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
     {
       suspense: false,
       onSuccess(eservices) {
-        if (!selectedEService && eservices.results.length > 0) {
+        if (!hasSetFirstEService.current && eservices.results.length > 0) {
           setValue('eserviceId', eservices.results[0].id)
+          hasSetFirstEService.current = true
         }
       },
     }
