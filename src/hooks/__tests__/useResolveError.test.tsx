@@ -60,7 +60,6 @@ describe('', () => {
 
     expect(screen.getByText('default.title')).toBeInTheDocument()
     expect(screen.getByText('default.description')).toBeInTheDocument()
-    screen.debug()
     expect(screen.getByRole('button', { name: 'actions.reloadPage' })).toBeInTheDocument()
   })
 

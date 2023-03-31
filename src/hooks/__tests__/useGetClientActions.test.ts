@@ -3,7 +3,6 @@ import useGetClientActions from '../useGetClientActions'
 import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
-import { AUTHORIZATION_PROCESS_URL } from '@/config/env'
 import { act } from 'react-dom/test-utils'
 import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
@@ -11,6 +10,7 @@ import { routes } from '@/router/routes'
 import { vi } from 'vitest'
 import * as hooks from '@/hooks/useJwt'
 import type { Client } from '@/api/api.generatedTypes'
+import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 
 const useJwtReturnDataMock = {
   currentRoles: ['admin'],
@@ -21,7 +21,7 @@ vi.spyOn(hooks, 'useJwt').mockImplementation(() => useJwtReturnDataMock)
 
 const server = setupServer(
   rest.delete(
-    `${AUTHORIZATION_PROCESS_URL}/clients/85ceaa96-a95e-4cf9-b1f9-b85be1e09369`,
+    `${BACKEND_FOR_FRONTEND_URL}/clients/85ceaa96-a95e-4cf9-b1f9-b85be1e09369`,
     (_, res) => {
       return res()
     }
