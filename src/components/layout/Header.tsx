@@ -29,23 +29,30 @@ const getPartyList = (parties: Array<SelfcareInstitution> | undefined, t: TFunct
 }
 
 const getProductList = (products?: Array<{ id: string; name: string }>): ProductSwitchItem[] => {
-  const currentProduct: ProductSwitchItem[] = [
-    {
-      id: SELFCARE_INTEROP_PROD_ID,
-      title: `Interoperabilità${STAGE === 'TEST' ? ' Collaudo' : ''}`,
-      productUrl: '',
-      linkType: 'internal',
-    },
-  ]
+  const selfcareProduct: ProductSwitchItem = {
+    id: 'selfcare',
+    title: 'Area Riservata',
+    productUrl: '',
+    linkType: 'internal',
+  }
 
-  if (!products) return currentProduct
+  const interopProduct: ProductSwitchItem = {
+    id: SELFCARE_INTEROP_PROD_ID,
+    title: `Interoperabilità${STAGE === 'TEST' ? ' Collaudo' : ''}`,
+    productUrl: '',
+    linkType: 'internal',
+  }
 
-  return products.map((product) => ({
+  if (!products) return [selfcareProduct, interopProduct]
+
+  const productsFromBE: ProductSwitchItem[] = products.map((product) => ({
     id: product.id,
     title: product.name,
     productUrl: '',
     linkType: 'internal',
   }))
+
+  return [selfcareProduct, ...productsFromBE]
 }
 
 export const Header = () => {
@@ -82,6 +89,12 @@ export const Header = () => {
 
   const handleSelectProduct = (product: ProductSwitchItem) => {
     if (!jwt?.selfcareId) return
+
+    if (product.id === 'selfcare') {
+      window.location.assign(SELFCARE_BASE_URL)
+      return
+    }
+
     window.location.assign(
       `${SELFCARE_BASE_URL}/token-exchange?institutionId=${jwt.selfcareId}&productId=${product.id}`
     )
