@@ -66,7 +66,6 @@ describe('testing truncate utility function', () => {
 
   it('should trim the text before truncating it', () => {
     const result = truncate('tes t-string', 5)
-    console.debug(result)
     expect(result).toBe('tes…')
   })
 })

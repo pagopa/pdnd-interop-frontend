@@ -47,10 +47,6 @@ export const BACKEND_FOR_FRONTEND_URL = getEnvVar(
   'BACKEND_FOR_FRONTEND_URL',
   `backend-for-frontend/${SERVICE_VERSION}`
 )
-export const AUTHORIZATION_PROCESS_URL = getEnvVar(
-  'AUTHORIZATION_PROCESS_URL',
-  `authorization-process/${SERVICE_VERSION}`
-)
 export const AUTHORIZATION_SERVER_ACCESS_TOKEN_URL = getEnvVar(
   'AUTHORIZATION_SERVER_TOKEN_CREATION_URL',
   'authorization-server/token.oauth2'
