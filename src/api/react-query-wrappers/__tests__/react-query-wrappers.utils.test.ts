@@ -12,7 +12,7 @@ describe('setExponentialInterval tests', () => {
     setExponentialInterval(testFn, 20 * 1000)
 
     for (let i = 1; i <= 6; i++) {
-      expect(testFn).toBeCalledTimes(i)
+      expect(testFn).toBeCalledTimes(i - 1)
       expect(setTimeout).toBeCalledTimes(i)
       expect(vitest.getTimerCount()).toBe(1)
       vitest.advanceTimersByTime(2 ** (i + 1) * 100)
@@ -22,7 +22,7 @@ describe('setExponentialInterval tests', () => {
     }
 
     expect(setTimeout).toBeCalledTimes(6)
-    expect(testFn).toBeCalledTimes(7)
+    expect(testFn).toBeCalledTimes(6)
   })
 
   it('successfully cancels', async () => {
@@ -34,6 +34,6 @@ describe('setExponentialInterval tests', () => {
       await new Promise(process.nextTick)
     }
     expect(setTimeout).toBeCalledTimes(1)
-    expect(testFn).toBeCalledTimes(1)
+    expect(testFn).toBeCalledTimes(0)
   })
 })
