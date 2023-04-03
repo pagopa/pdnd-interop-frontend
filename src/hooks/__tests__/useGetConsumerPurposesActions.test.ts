@@ -63,15 +63,15 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
     expect(cloneAction).toBeTruthy()
   })
 
-  it('should return the activate and delete functions if the current version is in draft', () => {
+  it('should return the publish and delete functions if the current version is in draft', () => {
     const purposeMock = createMockPurpose({ currentVersion: { state: 'DRAFT' } })
     const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
     expect(result.current.actions).toHaveLength(2)
 
-    const activateAction = result.current.actions.find((action) => action.label === 'activate')
+    const publishAction = result.current.actions.find((action) => action.label === 'publish')
     const deleteAction = result.current.actions.find((action) => action.label === 'delete')
 
-    expect(activateAction).toBeTruthy()
+    expect(publishAction).toBeTruthy()
     expect(deleteAction).toBeTruthy()
   })
 
@@ -154,7 +154,7 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
     expect(cloneAction).toBeTruthy()
   })
 
-  it('should return the activate action if the purpose is suspended by the consumer', () => {
+  it('should return the publish action if the purpose is suspended by the consumer', () => {
     const purposeMock = createMockPurpose({
       currentVersion: { state: 'SUSPENDED' },
       suspendedByConsumer: true,
@@ -162,10 +162,10 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
     const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
     expect(result.current.actions.length).toBeGreaterThanOrEqual(1)
 
-    const activateAction = result.current.actions.find((action) => action.label === 'activate')
+    const publishAction = result.current.actions.find((action) => action.label === 'publish')
     const cloneAction = result.current.actions.find((action) => action.label === 'clone')
 
-    expect(activateAction).toBeTruthy()
+    expect(publishAction).toBeTruthy()
     expect(cloneAction).toBeTruthy()
   })
 
