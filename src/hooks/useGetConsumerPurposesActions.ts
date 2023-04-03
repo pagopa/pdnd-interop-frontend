@@ -59,7 +59,7 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
   }
 
   const activateAction = {
-    label: tCommon('activate'),
+    label: tCommon('publish'),
     action: handleActivate,
   }
 
