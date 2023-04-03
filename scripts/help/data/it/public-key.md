@@ -10,8 +10,7 @@ openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in client-test-keypair.r
 
 ## Come caricare le chiavi
 
-1. Dopo aver generato la coppia di chiavi e averle riposte al sicuro, copia il contenuto del file della chiave pubblica (finisce in “.pub”, e il cui file inizia con "`-----BEGIN PUBLIC KEY-----`");
-2. copia questo contenuto e torna sulla piattaforma;
-3. all’interno della tua utenza, troverai un bottone “carica nuova chiave”;
-4. seleziona il tipo di algoritmo di criptazione utilizzato, e incolla la chiave nel campo di testo;
-5. a quel punto, clicca su “carica chiave”. Riceverai immediatamente riscontro se il caricamento sia andato a buon fine o meno. Se dovessero verificarsi errori, segui le istruzioni indicate nel messaggio di errore.
+1. Dopo aver generato la coppia di chiavi e averle riposte al sicuro, copia l’intero contenuto del file della chiave pubblica (quella che finisce in .pub); assicurati di includere anche le parti iniziale e finale (inizia con `-----BEGIN PUBLIC KEY-----` e finisce con `-----END PUBLIC KEY-----`);
+2. torna sulla piattaforma;
+3. all’interno della tab `Chiavi pubbliche` nel client di interesse, troverai un bottone `+ Aggiungi`;
+4. a quel punto, clicca su `Carica`. Riceverai immediatamente riscontro se il caricamento sia andato a buon fine o meno. Se dovessero verificarsi errori, segui le istruzioni indicate nel messaggio di `feedback`.
