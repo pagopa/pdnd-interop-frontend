@@ -271,7 +271,7 @@
     "suspend": {
       "loading": "Stiamo sospendendo la richiesta",
       "outcome": {
-        "success": "Non è più possibile per i client accedere al servizio in erogazione",
+        "success": "La richiesta di fruizione è stata sospesa correttamente. Non è più possibile per i client del fruitore accedere al servizio in erogazione",
         "error": "Non è stato possibile sospendere la richiesta. Per favore, riprova!"
       },
       "confirmDialog": {
