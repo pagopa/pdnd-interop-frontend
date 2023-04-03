@@ -87,16 +87,18 @@ export const Header = () => {
     )
   }
 
+  const selfcareId = jwt?.selfcareId
+
   const handleSelectProduct = (product: ProductSwitchItem) => {
-    if (!jwt?.selfcareId) return
+    if (!selfcareId) return
 
     if (product.id === 'selfcare') {
-      window.location.assign(SELFCARE_BASE_URL)
+      window.location.assign(`${SELFCARE_BASE_URL}/dashboard/${selfcareId}`)
       return
     }
 
     window.location.assign(
-      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${jwt.selfcareId}&productId=${product.id}`
+      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${selfcareId}&productId=${product.id}`
     )
   }
 
@@ -118,9 +120,12 @@ export const Header = () => {
       />
 
       <HeaderProduct
+        // force re-render when selfcareId changes to solve a bug with the ProductSwitch component from mui-italia
+        // must be removed when the bug is fixed
+        key={jwt?.selfcareId}
         onSelectedParty={handleSelectParty}
         onSelectedProduct={handleSelectProduct}
-        partyId={jwt?.selfcareId}
+        partyId={selfcareId}
         productId={SELFCARE_INTEROP_PROD_ID}
         productsList={productList}
         partyList={partyList}
