@@ -1,3 +1,4 @@
+import { AuthServicesHooks } from '@/api/auth'
 import { useCheckSessionExpired } from '@/hooks/useCheckSessionExpired'
 import { useJwt } from '@/hooks/useJwt'
 import useCurrentRoute from '@/router/hooks/useCurrentRoute'
@@ -10,10 +11,14 @@ interface AuthGuardProps {
 
 export const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
   const { isUserAuthorized } = useCurrentRoute()
+  const { data: blacklist } = AuthServicesHooks.useGetBlacklist()
+
   useCheckSessionExpired()
   const { jwt } = useJwt()
 
-  if (jwt && !isUserAuthorized) {
+  const isInBlacklist = jwt?.organizationId && blacklist?.includes(jwt.organizationId)
+
+  if (jwt && (!isUserAuthorized || isInBlacklist)) {
     throw new NotAuthorizedError()
   }
 
