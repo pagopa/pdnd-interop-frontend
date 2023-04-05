@@ -2,9 +2,22 @@ import { STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import AuthServices from './auth.services'
+import { STAGE } from '@/config/env'
 
 export enum AuthQueryKeys {
+  GetBlacklist = 'GetBlacklist',
   SessionToken = 'AuthSessionToken',
+}
+
+function useGetBlacklist() {
+  return useQueryWrapper([AuthQueryKeys.GetBlacklist], AuthServices.getBlacklist, {
+    suspense: false,
+    enabled: STAGE === 'PROD',
+    useErrorBoundary: false,
+    retry: false,
+    staleTime: Infinity,
+    cacheTime: Infinity,
+  })
 }
 
 function useAuthHealthCheck({ enabled }: { enabled: boolean }) {
@@ -26,6 +39,7 @@ function useSwapTokens() {
 }
 
 export const AuthServicesHooks = {
+  useGetBlacklist,
   useAuthHealthCheck,
   useSwapTokens,
 }

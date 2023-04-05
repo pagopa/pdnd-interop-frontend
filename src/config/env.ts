@@ -30,7 +30,7 @@ export const ONETRUST_DOMAIN_SCRIPT_ID = (
 ) as string
 export const MIXPANEL_PROJECT_ID = isProduction && PAGOPA_ENV ? PAGOPA_ENV.MIXPANEL_PROJECT_ID : ''
 
-export const TEMP_USER_WHITELIST_URL = `${INTEROP_RESOURCES_BASE_URL}/temp-whitelist.json`
+export const TEMP_USER_BLACKLIST_URL = `${INTEROP_RESOURCES_BASE_URL}/temp-blacklist.json`
 
 function getEnvVar(varName: keyof PagoPAEnvVars, devVarName: string): string {
   return isProduction && PAGOPA_ENV && PAGOPA_ENV
