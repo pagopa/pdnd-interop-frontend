@@ -21,6 +21,7 @@ describe('determine whether business logic to check for user authorizazion works
     spyUseJwt.mockImplementation(() => mockUseJwt())
     const authGuard = renderWithApplicationContext(<AuthGuard>test</AuthGuard>, {
       withRouterContext: true,
+      withReactQueryContext: true,
     })
 
     expect(authGuard.container).toHaveTextContent('test')
@@ -31,6 +32,7 @@ describe('determine whether business logic to check for user authorizazion works
     spyUseJwt.mockImplementation(() => mockUseJwt({ jwt: undefined }))
     const authGuard = renderWithApplicationContext(<AuthGuard>test</AuthGuard>, {
       withRouterContext: true,
+      withReactQueryContext: true,
     })
 
     expect(authGuard.container).toHaveTextContent('test')
@@ -43,6 +45,7 @@ describe('determine whether business logic to check for user authorizazion works
     expect(() =>
       renderWithApplicationContext(<AuthGuard>test</AuthGuard>, {
         withRouterContext: true,
+        withReactQueryContext: true,
       })
     ).toThrowError()
   })
