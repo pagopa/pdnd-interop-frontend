@@ -55,9 +55,9 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
   let secondaryAction:
     | { label: string; action: VoidFunction; buttonType: 'naked' | 'contained' }
     | undefined
-  let headerLabelAndChip: {
+  let headerLabelAndTag: {
     label: string
-    chip:
+    tag:
       | {
           label: string
           color: string
@@ -65,7 +65,7 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
       | undefined
   } = {
     label: t('eserviceCardLabel'),
-    chip: undefined,
+    tag: undefined,
   }
 
   if (isSubscribed && goToAgreementAction) {
@@ -74,9 +74,9 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
       action: goToAgreementAction,
       buttonType: 'naked',
     }
-    headerLabelAndChip = {
+    headerLabelAndTag = {
       label: isMine ? t('myEserviceCardLabel') : t('eserviceCardLabel'),
-      chip: {
+      tag: {
         label: t('requestCompleted'),
         color: 'success',
       },
@@ -89,9 +89,9 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
       action: createAgreementDraftAction,
       buttonType: 'contained',
     }
-    headerLabelAndChip = {
+    headerLabelAndTag = {
       label: isMine ? t('myEserviceCardLabel') : t('eserviceCardLabel'),
-      chip: undefined,
+      tag: undefined,
     }
   }
 
@@ -101,9 +101,9 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
       action: goToAgreementAction,
       buttonType: 'contained',
     }
-    headerLabelAndChip = {
+    headerLabelAndTag = {
       label: t('eserviceCardLabel'),
-      chip: {
+      tag: {
         label: t('draftRequest'),
         color: 'warning',
       },
@@ -129,12 +129,12 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
               textTransform="uppercase"
               color="text.secondary"
             >
-              {headerLabelAndChip.label}
+              {headerLabelAndTag.label}
             </Typography>
-            {headerLabelAndChip.chip && (
+            {headerLabelAndTag.tag && (
               <Tag
-                value={headerLabelAndChip.chip.label}
-                color={headerLabelAndChip.chip.color as unknown as Colors | undefined}
+                value={headerLabelAndTag.tag.label}
+                color={headerLabelAndTag.tag.color as unknown as Colors | undefined}
               />
             )}
           </Stack>
