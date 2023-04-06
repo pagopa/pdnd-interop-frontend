@@ -15,7 +15,6 @@ function useGetEServiceConsumerActions<
   const { isAdmin } = useJwt()
   const { navigate } = useNavigateRouter()
   const { t } = useTranslation('eservice')
-  const { t: tCommon } = useTranslation('common')
 
   const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft()
 
@@ -91,7 +90,7 @@ function useGetEServiceConsumerActions<
       }
       actions.push({
         action: createAgreementDraftAction,
-        label: tCommon('actions.subscribe'),
+        label: t('tableEServiceCatalog.subscribe'),
       })
     }
   }
