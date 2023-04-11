@@ -55,8 +55,6 @@ const AttributeDetailsSkeleton: React.FC = () => {
     <DialogContent>
       <Stack sx={{ mt: 1 }} spacing={2}>
         <InformationContainerSkeleton />
-        <InformationContainerSkeleton />
-        <InformationContainerSkeleton />
       </Stack>
     </DialogContent>
   )
