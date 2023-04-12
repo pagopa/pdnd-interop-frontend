@@ -1,9 +1,6 @@
 import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 import useGetAgreementsActions from '../useGetAgreementsActions'
-import {
-  createMockAgreementListingItem,
-  createMockAgreementSummary,
-} from '__mocks__/data/agreement.mocks'
+import { createMockAgreementListingItem, createMockAgreement } from '__mocks__/data/agreement.mocks'
 import { createMemoryHistory } from 'history'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
@@ -99,14 +96,14 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
 
 describe('check if useGetAgreementsActions returns the correct actions based on the passed agreement - agreementType: AgreementSummary', () => {
   it('shoud not return any action if mode is null and agreement defined', () => {
-    const { result } = renderUseGetAgreementsActionsHook(createMockAgreementSummary())
+    const { result } = renderUseGetAgreementsActionsHook(createMockAgreement())
     expect(result.current.actions).toHaveLength(0)
   })
 
   /* provider */
 
   it('shoud return provider suspend action if mode is provider and agreement has state ACTIVE', () => {
-    const agreement = createMockAgreementSummary({
+    const agreement = createMockAgreement({
       state: 'ACTIVE',
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'provider')
@@ -115,7 +112,7 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
   })
 
   it('shoud return provider activate action if mode is provider and agreement has state SUSPENDED and is suspendedByProducer', () => {
-    const agreement = createMockAgreementSummary({
+    const agreement = createMockAgreement({
       state: 'SUSPENDED',
       suspendedByProducer: true,
     })
@@ -125,7 +122,7 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
   })
 
   it('shoud return provider suspend action if mode is provider and agreement has state SUSPENDED and is not suspendedByProducer', () => {
-    const agreement = createMockAgreementSummary({
+    const agreement = createMockAgreement({
       state: 'SUSPENDED',
       suspendedByProducer: false,
     })
@@ -135,7 +132,7 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
   })
 
   it('shoud return provider activate and reject actions if mode is provider and agreement has state PENDING', () => {
-    const agreement = createMockAgreementSummary({
+    const agreement = createMockAgreement({
       state: 'PENDING',
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'provider')
@@ -145,7 +142,7 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
   })
 
   it('shoud not return any provider action if mode is provider and agreement has state ARCHIVED', () => {
-    const agreement = createMockAgreementSummary({
+    const agreement = createMockAgreement({
       state: 'ARCHIVED',
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'provider')
@@ -153,7 +150,7 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
   })
 
   it('shoud not return any provider action if mode is provider and agreement has state DRAFT', () => {
-    const agreement = createMockAgreementSummary({
+    const agreement = createMockAgreement({
       state: 'DRAFT',
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'provider')
@@ -161,7 +158,7 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
   })
 
   it('shoud not return any provider action if mode is provider and agreement has state REJECTED', () => {
-    const agreement = createMockAgreementSummary({
+    const agreement = createMockAgreement({
       state: 'REJECTED',
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'provider')
@@ -169,7 +166,7 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
   })
 
   it('shoud not return any provider action if mode is provider and agreement has state MISSING_CERTIFIED_ATTRIBUTES', () => {
-    const agreement = createMockAgreementSummary({
+    const agreement = createMockAgreement({
       state: 'MISSING_CERTIFIED_ATTRIBUTES',
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'provider')
@@ -179,7 +176,7 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
   /* consumer */
 
   it('shoud return consumer suspend action if mode is consumer and agreement has state ACTIVE', () => {
-    const agreement = createMockAgreementSummary({
+    const agreement = createMockAgreement({
       state: 'ACTIVE',
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
@@ -188,7 +185,7 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
   })
 
   it('shoud return consumer activate action if mode is consumer and agreement has state SUSPENDED and is suspendedByConsumer', () => {
-    const agreement = createMockAgreementSummary({
+    const agreement = createMockAgreement({
       state: 'SUSPENDED',
       suspendedByConsumer: true,
     })
@@ -198,7 +195,7 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
   })
 
   it('shoud return consumer suspend action if mode is consumer and agreement has state SUSPENDED and is not suspendedByConsumer', () => {
-    const agreement = createMockAgreementSummary({
+    const agreement = createMockAgreement({
       state: 'SUSPENDED',
       suspendedByConsumer: false,
     })
@@ -208,7 +205,7 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
   })
 
   it('shoud not return any consumer action if mode is consumer and agreement has state PENDING', () => {
-    const agreement = createMockAgreementSummary({
+    const agreement = createMockAgreement({
       state: 'PENDING',
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
@@ -216,7 +213,7 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
   })
 
   it('shoud not return any consumer action if mode is consumer and agreement has state ARCHIVED', () => {
-    const agreement = createMockAgreementSummary({
+    const agreement = createMockAgreement({
       state: 'ARCHIVED',
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
@@ -224,7 +221,7 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
   })
 
   it('shoud return consumer delete action if mode is consumer and agreement has state DRAFT', () => {
-    const agreement = createMockAgreementSummary({
+    const agreement = createMockAgreement({
       state: 'DRAFT',
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
@@ -233,7 +230,7 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
   })
 
   it('shoud return consumer clone action if mode is consumer and agreement has state REJECTED', () => {
-    const agreement = createMockAgreementSummary({
+    const agreement = createMockAgreement({
       state: 'REJECTED',
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
@@ -242,7 +239,7 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
   })
 
   it('shoud return consumer delete action if mode is consumer and agreement has state MISSING_CERTIFIED_ATTRIBUTES', () => {
-    const agreement = createMockAgreementSummary({
+    const agreement = createMockAgreement({
       state: 'MISSING_CERTIFIED_ATTRIBUTES',
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
@@ -407,7 +404,7 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
 
 describe('check if the onSuccess callbacks are called correclty after the clone and delete actions', () => {
   it('should navigate to SUBSCRIBE_AGREEMENT_EDIT route with the returned agreementId after the clone action', async () => {
-    const agreement = createMockAgreementSummary({
+    const agreement = createMockAgreement({
       state: 'REJECTED',
     })
     const { result, history } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
@@ -434,7 +431,7 @@ describe('check if the onSuccess callbacks are called correclty after the clone 
   })
 
   it('should navigate to SUBSCRIBE_AGREEMENT_LIST route after the delete action with mode consumer and agreement state DRAFT', async () => {
-    const agreement = createMockAgreementSummary({
+    const agreement = createMockAgreement({
       state: 'DRAFT',
     })
     const { result, history } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
@@ -457,7 +454,7 @@ describe('check if the onSuccess callbacks are called correclty after the clone 
   })
 
   it('should navigate to SUBSCRIBE_AGREEMENT_LIST route after the delete action with mode consumer and agreement state MISSING_CERTIFIED_ATTRIBUTES', async () => {
-    const agreement = createMockAgreementSummary({
+    const agreement = createMockAgreement({
       state: 'MISSING_CERTIFIED_ATTRIBUTES',
     })
     const { result, history } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
