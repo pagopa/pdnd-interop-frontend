@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import type { SxProps } from '@mui/material'
 import { InputAdornment, Stack, Tooltip, Button, TextField } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/DeleteOutline'
@@ -25,21 +25,12 @@ export function DocumentContainer({
   sx,
 }: DocumentContainerProps) {
   const { t } = useTranslation('shared-components', { keyPrefix: 'documentContainer' })
-  const inputRef = useRef<HTMLInputElement>(null)
   const [canEdit, setCanEdit] = useState(false)
   const [newValue, setNewValue] = useState(doc.prettyName)
 
-  const updateCanEdit = async (e: React.SyntheticEvent) => {
+  const handleStartEditing = async (e: React.SyntheticEvent) => {
     e.preventDefault()
-    setCanEdit((prev) => {
-      const newState = !prev
-      if (newState && inputRef && inputRef.current) {
-        setTimeout(() => {
-          ;(inputRef.current as HTMLInputElement).focus()
-        }, 0)
-      }
-      return newState
-    })
+    setCanEdit(true)
   }
 
   const handleUpdateDescription = () => {
@@ -56,7 +47,7 @@ export function DocumentContainer({
         infoLabel={canEdit ? t('prettyName.infoLabel') : undefined}
       >
         <TextField
-          inputRef={inputRef}
+          inputRef={(input) => input && input.focus()}
           disabled={!canEdit}
           sx={{ my: 0, width: '100%', flexShrink: 1 }}
           name="prettyName"
@@ -84,7 +75,7 @@ export function DocumentContainer({
                 bgcolor: canEdit ? 'primary.main' : 'transparent',
                 color: canEdit ? 'common.white' : 'primary.main',
               }}
-              onClick={updateCanEdit}
+              onClick={handleStartEditing}
             >
               <ModeEditIcon fontSize="small" />
             </Button>

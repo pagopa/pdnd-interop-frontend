@@ -1,0 +1,315 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PageContainer > should match snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-0"
+    >
+      <div
+        class="css-1mure3k-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-1rr4qq7"
+        />
+        <div
+          class="css-1yo1jo6-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-h5fkc8"
+      />
+    </div>
+  </div>
+</body>
+`;
+
+exports[`PageContainer > should match snapshot on loading state 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-0"
+    >
+      <div
+        class="css-1mure3k-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-1rr4qq7"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+            />
+          </h1>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+            />
+          </p>
+        </div>
+        <div
+          class="css-1yo1jo6-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-h5fkc8"
+      />
+    </div>
+  </div>
+</body>
+`;
+
+exports[`PageContainer > should match snapshot with action menu 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-0"
+    >
+      <div
+        class="css-1mure3k-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-1rr4qq7"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+            />
+          </h1>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+            />
+          </p>
+        </div>
+        <div
+          class="css-1yo1jo6-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-h5fkc8"
+      />
+    </div>
+  </div>
+</body>
+`;
+
+exports[`PageContainer > should match snapshot with buttons 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-0"
+    >
+      <div
+        class="css-1mure3k-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-1rr4qq7"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+            />
+          </h1>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+            />
+          </p>
+        </div>
+        <div
+          class="css-1yo1jo6-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-h5fkc8"
+      />
+    </div>
+  </div>
+</body>
+`;
+
+exports[`PageContainer > should match snapshot with description 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-0"
+    >
+      <div
+        class="css-1mure3k-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-1rr4qq7"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+          >
+            description
+          </p>
+        </div>
+        <div
+          class="css-1yo1jo6-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-h5fkc8"
+      />
+    </div>
+  </div>
+</body>
+`;
+
+exports[`PageContainer > should match snapshot with title 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-0"
+    >
+      <div
+        class="css-1mure3k-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-1rr4qq7"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            title
+          </h1>
+        </div>
+        <div
+          class="css-1yo1jo6-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-h5fkc8"
+      />
+    </div>
+  </div>
+</body>
+`;
+
+exports[`PageContainer > should match snapshot with title and description 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-0"
+    >
+      <div
+        class="css-1mure3k-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-1rr4qq7"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            title
+          </h1>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+          >
+            description
+          </p>
+        </div>
+        <div
+          class="css-1yo1jo6-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-h5fkc8"
+      />
+    </div>
+  </div>
+</body>
+`;
+
+exports[`PageContainer > should match snapshot with top info tooltip 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-0"
+    >
+      <div
+        class="css-1mure3k-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-1rr4qq7"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+            />
+          </h1>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+            />
+          </p>
+        </div>
+        <div
+          class="css-1yo1jo6-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-h5fkc8"
+      />
+    </div>
+  </div>
+</body>
+`;
+
+exports[`PageContainerSkeleton > should match snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-0"
+    >
+      <div
+        class="css-1mure3k-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-1rr4qq7"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+            />
+          </h1>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+            />
+          </p>
+        </div>
+        <div
+          class="css-1yo1jo6-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-h5fkc8"
+      />
+    </div>
+  </div>
+</body>
+`;
