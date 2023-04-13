@@ -39,7 +39,7 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
     goToAgreementAction,
   } = useGetEServiceConsumerActions(eservice, eservice.activeDescriptor)
 
-  const handleInpect = () => {
+  const handleInspect = () => {
     navigate('SUBSCRIBE_CATALOG_VIEW', {
       params: {
         eserviceId: eservice.id,
@@ -164,7 +164,7 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
             size="small"
             onFocusVisible={handlePrefetch}
             color="primary"
-            onClick={handleInpect}
+            onClick={handleInspect}
           >
             <span onPointerEnter={handlePrefetch}>{tCommon('actions.inspect')}</span>
           </Button>
@@ -192,5 +192,5 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
 }
 
 export const CatalogCardSkeleton = () => {
-  return <Skeleton sx={{ borderRadius: 2 }} variant="rectangular" height={274} />
+  return <Skeleton sx={{ borderRadius: 2 }} variant="rectangular" height={410} />
 }
