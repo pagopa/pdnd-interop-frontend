@@ -76,7 +76,7 @@ export const routes = makeType({
     LABEL: { it: 'Crea e-service', en: 'Create e-service' },
     COMPONENT: ProviderEServiceCreatePage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'api'],
+    AUTH_LEVELS: ['admin'],
   },
   PROVIDE_ESERVICE_EDIT: {
     PATH: {
@@ -86,7 +86,7 @@ export const routes = makeType({
     LABEL: { it: 'Modifica e-service', en: 'Edit e-service' },
     COMPONENT: ProviderEServiceCreatePage,
     PUBLIC: false,
-    AUTH_LEVELS: ['admin', 'api'],
+    AUTH_LEVELS: ['admin'],
   },
   PROVIDE_ESERVICE_MANAGE: {
     PATH: {
