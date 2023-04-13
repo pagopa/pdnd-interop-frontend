@@ -4,10 +4,9 @@ import { vi } from 'vitest'
 import { PartyMutations } from '@/api/party/party.hooks'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as useJwtHook from '@/hooks/useJwt'
-import { mockUseJwt } from '__mocks__/data/user.mocks'
+import { mockUseJwt } from '@/utils/testing.utils'
 
-vi.spyOn(useJwtHook, 'useJwt').mockImplementation(() => mockUseJwt())
+mockUseJwt()
 
 const mockUpdatePartyMailFn = vi.fn()
 

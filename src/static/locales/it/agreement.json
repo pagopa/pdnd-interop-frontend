@@ -10,6 +10,7 @@
       "title": "Guida all’aggiornamento",
       "description": "È possibile aggiornare la richiesta di fruizione all’ultima versione dell’e-service <1>{{eserviceName}}</1>. Ecco alcune indicazioni utili",
       "upgradeGuideLinkLabel": "Guida all'aggiornamento",
+      "linksLabel": "Link utili",
       "eserviceLinkLabel": "Scheda e-service <1>{{eserviceName}}, versione {{version}}</1>",
       "upgradeBtn": "Aggiorna"
     },

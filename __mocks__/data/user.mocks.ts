@@ -1,5 +1,4 @@
 import type { RelationshipInfo } from '@/api/api.generatedTypes'
-import type { useJwt } from '@/hooks/useJwt'
 import type { JwtUser } from '@/types/party.types'
 import { createMockFactory } from '@/utils/testing.utils'
 
@@ -24,15 +23,6 @@ const createMockJwtUser = createMockFactory<JwtUser>({
   organizationId: 'organizationId',
 })
 
-const mockUseJwt = createMockFactory<ReturnType<typeof useJwt>>({
-  jwt: createMockJwtUser(),
-  hasSessionExpired: () => false,
-  isAdmin: true,
-  isOperatorAPI: false,
-  isOperatorSecurity: false,
-  currentRoles: [],
-})
-
 const createMockSelfCareUser = createMockFactory<RelationshipInfo>({
   createdAt: '2022-09-30T15:03:41.078Z',
   familyName: 'Rossi',
@@ -47,4 +37,4 @@ const createMockSelfCareUser = createMockFactory<RelationshipInfo>({
   updatedAt: '2022-09-30T15:04:42.738Z',
 })
 
-export { createMockJwtUser, mockUseJwt, createMockSelfCareUser }
+export { createMockJwtUser, createMockSelfCareUser }

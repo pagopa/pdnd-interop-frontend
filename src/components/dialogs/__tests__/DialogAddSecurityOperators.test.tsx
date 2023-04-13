@@ -1,15 +1,14 @@
 import React from 'react'
 import { setupServer } from 'msw/node'
 import { rest } from 'msw'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { DialogAddSecurityOperators } from '../DialogAddSecurityOperators'
 import { vi } from 'vitest'
-import * as useJwtHook from '@/hooks/useJwt'
-import { createMockSelfCareUser, mockUseJwt } from '__mocks__/data/user.mocks'
+import { createMockSelfCareUser } from '__mocks__/data/user.mocks'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import userEvent from '@testing-library/user-event'
 
-vi.spyOn(useJwtHook, 'useJwt').mockImplementation(() => mockUseJwt())
+mockUseJwt()
 
 const operatorsMocks = [
   createMockSelfCareUser({ id: 'id-1', name: 'Operator1', familyName: '' }),

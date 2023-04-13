@@ -1,13 +1,10 @@
 import React from 'react'
 import { Header } from '../Header'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
-import * as useJwtHook from '@/hooks/useJwt'
-import { mockUseJwt } from '__mocks__/data/user.mocks'
-import { vi } from 'vitest'
+import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { ThemeProvider } from '@mui/material'
 import { theme } from '@pagopa/interop-fe-commons'
 
-vi.spyOn(useJwtHook, 'useJwt').mockImplementation(() => mockUseJwt())
+mockUseJwt()
 
 describe('Header', () => {
   it('should match snapshot', () => {

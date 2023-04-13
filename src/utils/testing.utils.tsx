@@ -12,6 +12,8 @@ import type { QueryClientConfig } from '@tanstack/react-query'
 import { queryClientConfig } from '../config/query-client'
 import { deepmerge } from '@mui/utils'
 import noop from 'lodash/noop'
+import { vi } from 'vitest'
+import * as useJwtHook from '@/hooks/useJwt'
 
 const queryClientConfigMock: QueryClientConfig = deepmerge(
   {
@@ -43,6 +45,44 @@ export function createMockFactory<T>(defaultValue: T) {
   return (overwrites: RecursivePartial<T> = {}) => {
     return deepmerge(cloneDeep(defaultValue), overwrites) as T
   }
+}
+
+/**
+ * Utility function to mock the useJwt hook
+ * This mock is commonly used in tests that have a query mock that requires a valid jwt
+ */
+export function mockUseJwt(
+  overwrites: RecursivePartial<ReturnType<typeof useJwtHook.useJwt>> = {}
+) {
+  const returnValue = deepmerge(
+    cloneDeep({
+      jwt: {
+        aud: 'aud',
+        exp: 1972913491,
+        iat: 123,
+        iss: 'iss',
+        jti: 'jti',
+        nbf: 123,
+        organization: {
+          name: 'orgName',
+          roles: [{ partyRole: 'MANAGER' as const, role: 'admin' as const }],
+          fiscal_code: 'AAAAAA11A11A111A',
+        },
+        selfcareId: 'selfcareId',
+        uid: 'uid',
+        name: 'name',
+        family_name: 'family_name',
+        organizationId: 'organizationId',
+      },
+      hasSessionExpired: () => false,
+      isAdmin: true,
+      isOperatorAPI: false,
+      isOperatorSecurity: false,
+      currentRoles: [],
+    }),
+    overwrites
+  )
+  vi.spyOn(useJwtHook, 'useJwt').mockReturnValue(returnValue)
 }
 
 type WrapperOptions = (
