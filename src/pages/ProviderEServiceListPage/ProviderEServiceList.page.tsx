@@ -20,7 +20,7 @@ const ProviderEServiceListPage: React.FC = () => {
   const { t: tCommon } = useTranslation('common')
   const { t: tEservice } = useTranslation('eservice', { keyPrefix: 'list.filters' })
   const { navigate } = useNavigateRouter()
-  const { isAdmin, isOperatorAPI } = useJwt()
+  const { isAdmin } = useJwt()
   const [consumersAutocompleteInput, setConsumersAutocompleteInput] = useAutocompleteTextInput('')
 
   const { data: consumers } = EServiceQueries.useGetConsumers(
@@ -71,7 +71,7 @@ const ProviderEServiceListPage: React.FC = () => {
     <PageContainer
       title={t('title')}
       description={t('description')}
-      topSideActions={isAdmin || isOperatorAPI ? topSideActions : undefined}
+      topSideActions={isAdmin ? topSideActions : undefined}
     >
       <Filters {...filtersHandlers} />
       <EServiceTableWrapper params={queryParams} />
