@@ -404,10 +404,11 @@ exports[`DialogSetPurposeExpectedApprovalDate testing > should match the snapsho
                                       role="row"
                                     >
                                       <button
-                                        aria-selected="false"
-                                        class="MuiButtonBase-root MuiPickersDay-root MuiPickersDay-dayWithMargin css-bkrceb-MuiButtonBase-root-MuiPickersDay-root"
+                                        aria-current="date"
+                                        aria-selected="true"
+                                        class="MuiButtonBase-root MuiPickersDay-root Mui-selected MuiPickersDay-dayWithMargin MuiPickersDay-today css-195y93z-MuiButtonBase-root-MuiPickersDay-root"
                                         role="gridcell"
-                                        tabindex="-1"
+                                        tabindex="0"
                                         type="button"
                                       >
                                         13
