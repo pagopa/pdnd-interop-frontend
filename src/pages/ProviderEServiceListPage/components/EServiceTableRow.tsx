@@ -20,7 +20,7 @@ type EServiceTableRow = {
 export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
   const { navigate } = useNavigateRouter()
   const { t } = useTranslation('common')
-  const { isAdmin } = useJwt()
+  const { isAdmin, isOperatorAPI } = useJwt()
   const lang = useCurrentLanguage()
 
   const prefetchDescriptor = EServiceQueries.usePrefetchDescriptorProvider()
@@ -34,7 +34,7 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
   )
 
   const isEServiceInDraft = !eservice.activeDescriptor
-  const isEServiceEditable = isAdmin && isEServiceInDraft
+  const isEServiceEditable = (isAdmin || isOperatorAPI) && isEServiceInDraft
 
   const handleEditOrInspect = () => {
     const destPath = isEServiceEditable ? 'PROVIDE_ESERVICE_EDIT' : 'PROVIDE_ESERVICE_MANAGE'
