@@ -86,7 +86,7 @@ exports[`DialogSetPurposeExpectedApprovalDate testing > should match the snapsho
                                   id=":r3:-grid-label"
                                   style="opacity: 1;"
                                 >
-                                  gennaio 2020
+                                  aprile 2023
                                 </div>
                               </div>
                               <button
@@ -248,12 +248,23 @@ exports[`DialogSetPurposeExpectedApprovalDate testing > should match the snapsho
                                         class="MuiPickersDay-root MuiPickersDay-dayWithMargin MuiPickersDay-hiddenDaySpacingFiller MuiPickersDay-hiddenDaySpacingFiller css-ggw2de-MuiPickersDay-root"
                                         role="gridcell"
                                       />
-                                      <button
-                                        aria-current="date"
-                                        aria-selected="true"
-                                        class="MuiButtonBase-root MuiPickersDay-root Mui-selected MuiPickersDay-dayWithMargin MuiPickersDay-today css-195y93z-MuiButtonBase-root-MuiPickersDay-root"
+                                      <div
+                                        class="MuiPickersDay-root MuiPickersDay-dayWithMargin MuiPickersDay-hiddenDaySpacingFiller MuiPickersDay-hiddenDaySpacingFiller css-ggw2de-MuiPickersDay-root"
                                         role="gridcell"
-                                        tabindex="0"
+                                      />
+                                      <div
+                                        class="MuiPickersDay-root MuiPickersDay-dayWithMargin MuiPickersDay-hiddenDaySpacingFiller MuiPickersDay-hiddenDaySpacingFiller css-ggw2de-MuiPickersDay-root"
+                                        role="gridcell"
+                                      />
+                                      <div
+                                        class="MuiPickersDay-root MuiPickersDay-dayWithMargin MuiPickersDay-hiddenDaySpacingFiller MuiPickersDay-hiddenDaySpacingFiller css-ggw2de-MuiPickersDay-root"
+                                        role="gridcell"
+                                      />
+                                      <button
+                                        aria-selected="false"
+                                        class="MuiButtonBase-root MuiPickersDay-root MuiPickersDay-dayWithMargin css-bkrceb-MuiButtonBase-root-MuiPickersDay-root"
+                                        role="gridcell"
+                                        tabindex="-1"
                                         type="button"
                                       >
                                         1
@@ -273,6 +284,11 @@ exports[`DialogSetPurposeExpectedApprovalDate testing > should match the snapsho
                                           class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                                         />
                                       </button>
+                                    </div>
+                                    <div
+                                      class="MuiDayPicker-weekContainer css-ghi3gg-MuiDayPicker-weekContainer"
+                                      role="row"
+                                    >
                                       <button
                                         aria-selected="false"
                                         class="MuiButtonBase-root MuiPickersDay-root MuiPickersDay-dayWithMargin css-bkrceb-MuiButtonBase-root-MuiPickersDay-root"
@@ -309,11 +325,6 @@ exports[`DialogSetPurposeExpectedApprovalDate testing > should match the snapsho
                                           class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                                         />
                                       </button>
-                                    </div>
-                                    <div
-                                      class="MuiDayPicker-weekContainer css-ghi3gg-MuiDayPicker-weekContainer"
-                                      role="row"
-                                    >
                                       <button
                                         aria-selected="false"
                                         class="MuiButtonBase-root MuiPickersDay-root MuiPickersDay-dayWithMargin css-bkrceb-MuiButtonBase-root-MuiPickersDay-root"
@@ -362,6 +373,11 @@ exports[`DialogSetPurposeExpectedApprovalDate testing > should match the snapsho
                                           class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                                         />
                                       </button>
+                                    </div>
+                                    <div
+                                      class="MuiDayPicker-weekContainer css-ghi3gg-MuiDayPicker-weekContainer"
+                                      role="row"
+                                    >
                                       <button
                                         aria-selected="false"
                                         class="MuiButtonBase-root MuiPickersDay-root MuiPickersDay-dayWithMargin css-bkrceb-MuiButtonBase-root-MuiPickersDay-root"
@@ -387,10 +403,11 @@ exports[`DialogSetPurposeExpectedApprovalDate testing > should match the snapsho
                                         />
                                       </button>
                                       <button
-                                        aria-selected="false"
-                                        class="MuiButtonBase-root MuiPickersDay-root MuiPickersDay-dayWithMargin css-bkrceb-MuiButtonBase-root-MuiPickersDay-root"
+                                        aria-current="date"
+                                        aria-selected="true"
+                                        class="MuiButtonBase-root MuiPickersDay-root Mui-selected MuiPickersDay-dayWithMargin MuiPickersDay-today css-195y93z-MuiButtonBase-root-MuiPickersDay-root"
                                         role="gridcell"
-                                        tabindex="-1"
+                                        tabindex="0"
                                         type="button"
                                       >
                                         12
@@ -398,11 +415,6 @@ exports[`DialogSetPurposeExpectedApprovalDate testing > should match the snapsho
                                           class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                                         />
                                       </button>
-                                    </div>
-                                    <div
-                                      class="MuiDayPicker-weekContainer css-ghi3gg-MuiDayPicker-weekContainer"
-                                      role="row"
-                                    >
                                       <button
                                         aria-selected="false"
                                         class="MuiButtonBase-root MuiPickersDay-root MuiPickersDay-dayWithMargin css-bkrceb-MuiButtonBase-root-MuiPickersDay-root"
@@ -451,6 +463,11 @@ exports[`DialogSetPurposeExpectedApprovalDate testing > should match the snapsho
                                           class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                                         />
                                       </button>
+                                    </div>
+                                    <div
+                                      class="MuiDayPicker-weekContainer css-ghi3gg-MuiDayPicker-weekContainer"
+                                      role="row"
+                                    >
                                       <button
                                         aria-selected="false"
                                         class="MuiButtonBase-root MuiPickersDay-root MuiPickersDay-dayWithMargin css-bkrceb-MuiButtonBase-root-MuiPickersDay-root"
@@ -487,11 +504,6 @@ exports[`DialogSetPurposeExpectedApprovalDate testing > should match the snapsho
                                           class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                                         />
                                       </button>
-                                    </div>
-                                    <div
-                                      class="MuiDayPicker-weekContainer css-ghi3gg-MuiDayPicker-weekContainer"
-                                      role="row"
-                                    >
                                       <button
                                         aria-selected="false"
                                         class="MuiButtonBase-root MuiPickersDay-root MuiPickersDay-dayWithMargin css-bkrceb-MuiButtonBase-root-MuiPickersDay-root"
@@ -540,6 +552,11 @@ exports[`DialogSetPurposeExpectedApprovalDate testing > should match the snapsho
                                           class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                                         />
                                       </button>
+                                    </div>
+                                    <div
+                                      class="MuiDayPicker-weekContainer css-ghi3gg-MuiDayPicker-weekContainer"
+                                      role="row"
+                                    >
                                       <button
                                         aria-selected="false"
                                         class="MuiButtonBase-root MuiPickersDay-root MuiPickersDay-dayWithMargin css-bkrceb-MuiButtonBase-root-MuiPickersDay-root"
@@ -576,11 +593,6 @@ exports[`DialogSetPurposeExpectedApprovalDate testing > should match the snapsho
                                           class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                                         />
                                       </button>
-                                    </div>
-                                    <div
-                                      class="MuiDayPicker-weekContainer css-ghi3gg-MuiDayPicker-weekContainer"
-                                      role="row"
-                                    >
                                       <button
                                         aria-selected="false"
                                         class="MuiButtonBase-root MuiPickersDay-root MuiPickersDay-dayWithMargin css-bkrceb-MuiButtonBase-root-MuiPickersDay-root"
@@ -629,26 +641,6 @@ exports[`DialogSetPurposeExpectedApprovalDate testing > should match the snapsho
                                           class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                                         />
                                       </button>
-                                      <button
-                                        aria-selected="false"
-                                        class="MuiButtonBase-root MuiPickersDay-root MuiPickersDay-dayWithMargin css-bkrceb-MuiButtonBase-root-MuiPickersDay-root"
-                                        role="gridcell"
-                                        tabindex="-1"
-                                        type="button"
-                                      >
-                                        31
-                                        <span
-                                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                                        />
-                                      </button>
-                                      <div
-                                        class="MuiPickersDay-root MuiPickersDay-dayWithMargin MuiPickersDay-hiddenDaySpacingFiller MuiPickersDay-hiddenDaySpacingFiller css-ggw2de-MuiPickersDay-root"
-                                        role="gridcell"
-                                      />
-                                      <div
-                                        class="MuiPickersDay-root MuiPickersDay-dayWithMargin MuiPickersDay-hiddenDaySpacingFiller MuiPickersDay-hiddenDaySpacingFiller css-ggw2de-MuiPickersDay-root"
-                                        role="gridcell"
-                                      />
                                     </div>
                                   </div>
                                 </div>
