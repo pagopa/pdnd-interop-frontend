@@ -14,6 +14,7 @@ import { deepmerge } from '@mui/utils'
 import noop from 'lodash/noop'
 import { vi } from 'vitest'
 import * as useJwtHook from '@/hooks/useJwt'
+import * as useCurrentRoute from '@/router/hooks/useCurrentRoute'
 
 const queryClientConfigMock: QueryClientConfig = deepmerge(
   {
@@ -82,7 +83,25 @@ export function mockUseJwt(
     }),
     overwrites
   )
-  vi.spyOn(useJwtHook, 'useJwt').mockReturnValue(returnValue)
+  const useJwtSpy = vi.spyOn(useJwtHook, 'useJwt')
+  useJwtSpy.mockReturnValue(returnValue)
+  return useJwtSpy
+}
+
+export const mockUseCurrentRoute = (
+  returnValue?: Partial<ReturnType<typeof useCurrentRoute.default>>
+) => {
+  const useCurrentRouteSpy = vi.spyOn(useCurrentRoute, 'default')
+  if (returnValue) {
+    useCurrentRouteSpy.mockReturnValue({
+      isEditPath: false,
+      isPublic: true,
+      isUserAuthorized: true,
+      mode: 'consumer',
+      ...returnValue,
+    } as ReturnType<typeof useCurrentRoute.default>)
+  }
+  return useCurrentRouteSpy
 }
 
 type WrapperOptions = (
