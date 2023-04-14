@@ -2,7 +2,7 @@ import React from 'react'
 import type { ActionItem } from '@/types/common.types'
 import { renderHook } from '@testing-library/react'
 import { vi } from 'vitest'
-import { createContext, formatTopSideActions, truncate } from '../common.utils'
+import { createContext, formatTopSideActions } from '../common.utils'
 
 describe('testing formatTopSideActions utility function', () => {
   it('should return undefined if no actions are passed', () => {
@@ -50,22 +50,5 @@ describe('testing createContext utility function', () => {
     })
 
     expect(result.current).toBe(testValue)
-  })
-})
-
-describe('testing truncate utility function', () => {
-  it('should not truncate text long less than the given max length', () => {
-    const result = truncate('test-string', 20)
-    expect(result).toBe('test-string')
-  })
-
-  it('should truncate text long more than the given max length', () => {
-    const result = truncate('test-string', 5)
-    expect(result).toBe('test…')
-  })
-
-  it('should trim the text before truncating it', () => {
-    const result = truncate('tes t-string', 5)
-    expect(result).toBe('tes…')
   })
 })
