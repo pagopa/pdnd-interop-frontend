@@ -32,7 +32,3 @@ export function createContext<ContextValue>(name: string, defaultValue: ContextV
     Provider: context.Provider,
   } as const
 }
-
-export function truncate(str: string, maxlength: number) {
-  return str.length > maxlength ? str.slice(0, maxlength - 1).trimEnd() + '…' : str
-}

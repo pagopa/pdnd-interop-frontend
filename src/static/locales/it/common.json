@@ -38,9 +38,8 @@
     "reject": "Rifiuta",
     "upgrade": "Aggiorna",
     "delete": "Elimina",
-    "inspect": "Ispeziona",
+    "inspect": "Visualizza",
     "edit": "Modifica",
-    "subscribe": "Iscriviti",
     "clone": "Clona",
     "publish": "Pubblica",
     "download": "Scarica",
@@ -57,8 +56,7 @@
     "updateCompletionDate": "Aggiorna data di attivazione",
     "confirmUpdate": "Conferma aggiornamento",
     "filter": "Filtra",
-    "cancelFilter": "Annulla filtri",
-    "handleRequest": "Gestisci richiesta"
+    "cancelFilter": "Annulla filtri"
   },
   "table": {
     "headData": {
