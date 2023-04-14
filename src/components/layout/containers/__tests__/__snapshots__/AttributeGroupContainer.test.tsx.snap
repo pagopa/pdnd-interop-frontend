@@ -1,103 +1,111 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`AttributeGroupContainer > should match snapshot 1`] = `
-<div>
-  <div
-    class="MuiBox-root css-ydo5m"
-  >
+<body>
+  <div>
     <div
-      class="css-42v4ct-MuiStack-root"
+      class="MuiBox-root css-ydo5m"
     >
-      <p
-        class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
-      >
-        title
-      </p>
       <div
-        class="MuiBox-root css-0"
+        class="css-42v4ct-MuiStack-root"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+        >
+          title
+        </p>
+        <div
+          class="MuiBox-root css-0"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-hhy13k"
       />
     </div>
-    <div
-      class="MuiBox-root css-hhy13k"
-    />
   </div>
-</div>
+</body>
 `;
 
 exports[`AttributeGroupContainer > should match snapshot with both footer and header content 1`] = `
-<div>
-  <div
-    class="MuiBox-root css-ydo5m"
-  >
+<body>
+  <div>
     <div
-      class="css-42v4ct-MuiStack-root"
+      class="MuiBox-root css-ydo5m"
     >
-      <p
-        class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
-      >
-        title
-      </p>
       <div
-        class="MuiBox-root css-0"
+        class="css-42v4ct-MuiStack-root"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+        >
+          title
+        </p>
+        <div
+          class="MuiBox-root css-0"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-hhy13k"
+      />
+      <div
+        class="MuiBox-root css-1wr9hal"
       />
     </div>
-    <div
-      class="MuiBox-root css-hhy13k"
-    />
-    <div
-      class="MuiBox-root css-1wr9hal"
-    />
   </div>
-</div>
+</body>
 `;
 
 exports[`AttributeGroupContainer > should match snapshot with footer content 1`] = `
-<div>
-  <div
-    class="MuiBox-root css-ydo5m"
-  >
+<body>
+  <div>
     <div
-      class="css-42v4ct-MuiStack-root"
+      class="MuiBox-root css-ydo5m"
     >
-      <p
-        class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
-      >
-        title
-      </p>
       <div
-        class="MuiBox-root css-0"
+        class="css-42v4ct-MuiStack-root"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+        >
+          title
+        </p>
+        <div
+          class="MuiBox-root css-0"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-hhy13k"
+      />
+      <div
+        class="MuiBox-root css-1wr9hal"
       />
     </div>
-    <div
-      class="MuiBox-root css-hhy13k"
-    />
-    <div
-      class="MuiBox-root css-1wr9hal"
-    />
   </div>
-</div>
+</body>
 `;
 
 exports[`AttributeGroupContainer > should match snapshot with header content 1`] = `
-<div>
-  <div
-    class="MuiBox-root css-ydo5m"
-  >
+<body>
+  <div>
     <div
-      class="css-42v4ct-MuiStack-root"
+      class="MuiBox-root css-ydo5m"
     >
-      <p
-        class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
-      >
-        title
-      </p>
       <div
-        class="MuiBox-root css-0"
+        class="css-42v4ct-MuiStack-root"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+        >
+          title
+        </p>
+        <div
+          class="MuiBox-root css-0"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-hhy13k"
       />
     </div>
-    <div
-      class="MuiBox-root css-hhy13k"
-    />
   </div>
-</div>
+</body>
 `;

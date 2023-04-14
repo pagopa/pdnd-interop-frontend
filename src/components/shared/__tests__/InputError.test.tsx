@@ -8,6 +8,6 @@ describe("Checks that InputError snapshot don't change", () => {
   it('renders correctly', () => {
     const inputError = render(<InputError error={mockError} />)
 
-    expect(inputError).toMatchSnapshot()
+    expect(inputError.baseElement).toMatchSnapshot()
   })
 })

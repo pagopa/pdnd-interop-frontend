@@ -17,8 +17,6 @@ function useCurrentRoute() {
   const currentLanguage = useCurrentLanguage()
   const { currentRoles } = useJwt()
 
-  console.log('AHSHSAH')
-
   const routeKey = getRouteKeyFromPath(location.pathname, currentLanguage)
   const route = routes[routeKey]
   const hasOverlappingRole = currentRoles.some((role) =>

@@ -6,6 +6,6 @@ describe("Checks that TabListSkeleton snapshots don't change", () => {
   it('renders correctly', () => {
     const tabListSkeleton = render(<TabListSkeleton />)
 
-    expect(tabListSkeleton).toMatchSnapshot()
+    expect(tabListSkeleton.baseElement).toMatchSnapshot()
   })
 })

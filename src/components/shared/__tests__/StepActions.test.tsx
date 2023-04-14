@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { BackAction, ForwardAction, StepActions } from '@/components/shared/StepActions'
+import { type BackAction, type ForwardAction, StepActions } from '@/components/shared/StepActions'
 import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 
@@ -22,31 +22,31 @@ describe("Checks that StepActions snapshots didn't change", () => {
   it('renders StepActions with back button', () => {
     const stepActions = render(<WrappedStepActions back={actions.backButton} />)
 
-    expect(stepActions).toMatchSnapshot()
+    expect(stepActions.baseElement).toMatchSnapshot()
   })
 
   it('renders StepActions with back link ', () => {
     const stepActions = render(<WrappedStepActions back={actions.backLink} />)
 
-    expect(stepActions).toMatchSnapshot()
+    expect(stepActions.baseElement).toMatchSnapshot()
   })
 
   it('renders StepActions with back link disabled', () => {
     const stepActions = render(<WrappedStepActions back={actions.backLinkDisabled} />)
 
-    expect(stepActions).toMatchSnapshot()
+    expect(stepActions.baseElement).toMatchSnapshot()
   })
 
   it('renders StepActions with forward button', () => {
     const stepActions = render(<WrappedStepActions forward={actions.forwardButton} />)
 
-    expect(stepActions).toMatchSnapshot()
+    expect(stepActions.baseElement).toMatchSnapshot()
   })
 
   it('renders StepActions with forward submit disabled', () => {
     const stepActions = render(<WrappedStepActions forward={actions.forwardSubmitDisabled} />)
 
-    expect(stepActions).toMatchSnapshot()
+    expect(stepActions.baseElement).toMatchSnapshot()
   })
 
   it('renders StepActions with forward and back button disabled', () => {
@@ -57,6 +57,6 @@ describe("Checks that StepActions snapshots didn't change", () => {
       />
     )
 
-    expect(stepActions).toMatchSnapshot()
+    expect(stepActions.baseElement).toMatchSnapshot()
   })
 })
