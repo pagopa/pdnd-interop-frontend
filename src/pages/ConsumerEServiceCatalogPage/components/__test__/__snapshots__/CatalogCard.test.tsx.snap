@@ -24,7 +24,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
           class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
         >
           <div
-            class="css-3y1137-MuiStack-root"
+            class="css-1hci2t4-MuiStack-root"
           >
             <span
               class="MuiTypography-root MuiTypography-overline css-idy08m-MuiTypography-root"
@@ -71,11 +71,15 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
         >
           !! -- CAMMELLO -- Test 18/10 [1]
         </h6>
-        <p
+        <div
           class="MuiTypography-root MuiTypography-body1 css-1gqyz35-MuiTypography-root"
         >
-          lorem ipsum
-        </p>
+          <p
+            style="display: -webkit-box; overflow: hidden;"
+          >
+            lorem ipsum
+          </p>
+        </div>
       </div>
       <div
         class="MuiCardActions-root MuiCardActions-spacing css-17m1olt-MuiCardActions-root"
@@ -125,7 +129,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
           class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
         >
           <div
-            class="css-3y1137-MuiStack-root"
+            class="css-1hci2t4-MuiStack-root"
           >
             <span
               class="MuiTypography-root MuiTypography-overline css-idy08m-MuiTypography-root"
@@ -167,11 +171,15 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
         >
           !! -- CAMMELLO -- Test 18/10 [1]
         </h6>
-        <p
+        <div
           class="MuiTypography-root MuiTypography-body1 css-1gqyz35-MuiTypography-root"
         >
-          lorem ipsum
-        </p>
+          <p
+            style="display: -webkit-box; overflow: hidden;"
+          >
+            lorem ipsum
+          </p>
+        </div>
       </div>
       <div
         class="MuiCardActions-root MuiCardActions-spacing css-17m1olt-MuiCardActions-root"
@@ -221,7 +229,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
           class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
         >
           <div
-            class="css-3y1137-MuiStack-root"
+            class="css-1hci2t4-MuiStack-root"
           >
             <span
               class="MuiTypography-root MuiTypography-overline css-idy08m-MuiTypography-root"
@@ -263,11 +271,15 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
         >
           !! -- CAMMELLO -- Test 18/10 [1]
         </h6>
-        <p
+        <div
           class="MuiTypography-root MuiTypography-body1 css-1gqyz35-MuiTypography-root"
         >
-          lorem ipsum
-        </p>
+          <p
+            style="display: -webkit-box; overflow: hidden;"
+          >
+            lorem ipsum
+          </p>
+        </div>
       </div>
       <div
         class="MuiCardActions-root MuiCardActions-spacing css-17m1olt-MuiCardActions-root"
@@ -317,7 +329,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
           class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
         >
           <div
-            class="css-3y1137-MuiStack-root"
+            class="css-1hci2t4-MuiStack-root"
           >
             <span
               class="MuiTypography-root MuiTypography-overline css-idy08m-MuiTypography-root"
@@ -364,11 +376,15 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
         >
           !! -- CAMMELLO -- Test 18/10 [1]
         </h6>
-        <p
+        <div
           class="MuiTypography-root MuiTypography-body1 css-1gqyz35-MuiTypography-root"
         >
-          lorem ipsum
-        </p>
+          <p
+            style="display: -webkit-box; overflow: hidden;"
+          >
+            lorem ipsum
+          </p>
+        </div>
       </div>
       <div
         class="MuiCardActions-root MuiCardActions-spacing css-17m1olt-MuiCardActions-root"
@@ -418,7 +434,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
           class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
         >
           <div
-            class="css-3y1137-MuiStack-root"
+            class="css-1hci2t4-MuiStack-root"
           >
             <span
               class="MuiTypography-root MuiTypography-overline css-idy08m-MuiTypography-root"
@@ -465,11 +481,15 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
         >
           !! -- CAMMELLO -- Test 18/10 [1]
         </h6>
-        <p
+        <div
           class="MuiTypography-root MuiTypography-body1 css-1gqyz35-MuiTypography-root"
         >
-          lorem ipsum
-        </p>
+          <p
+            style="display: -webkit-box; overflow: hidden;"
+          >
+            lorem ipsum
+          </p>
+        </div>
       </div>
       <div
         class="MuiCardActions-root MuiCardActions-spacing css-17m1olt-MuiCardActions-root"
@@ -519,7 +539,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
           class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
         >
           <div
-            class="css-3y1137-MuiStack-root"
+            class="css-1hci2t4-MuiStack-root"
           >
             <span
               class="MuiTypography-root MuiTypography-overline css-idy08m-MuiTypography-root"
@@ -561,11 +581,15 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
         >
           !! -- CAMMELLO -- Test 18/10 [1]
         </h6>
-        <p
+        <div
           class="MuiTypography-root MuiTypography-body1 css-1gqyz35-MuiTypography-root"
         >
-          lorem ipsum
-        </p>
+          <p
+            style="display: -webkit-box; overflow: hidden;"
+          >
+            lorem ipsum
+          </p>
+        </div>
       </div>
       <div
         class="MuiCardActions-root MuiCardActions-spacing css-17m1olt-MuiCardActions-root"
