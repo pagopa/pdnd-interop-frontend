@@ -17,7 +17,6 @@ import { useTranslation } from 'react-i18next'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 import { Tag } from '@pagopa/mui-italia'
 import type { Colors } from '@pagopa/mui-italia'
-import { truncate } from '@/utils/common.utils'
 import type { CatalogEService } from '@/api/api.generatedTypes'
 
 interface CatalogCardProps {
@@ -122,7 +121,12 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
       <CardHeader
         disableTypography={true}
         title={
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
+          <Stack
+            sx={{ minHeight: 29 }}
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
             <Typography
               variant="overline"
               fontWeight={700}
@@ -152,8 +156,17 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
         <Typography variant="h6" color="text.primary" sx={{ marginTop: 3, marginBottom: 1 }}>
           {eservice.name}
         </Typography>
-        <Typography variant="body1" color="text.primary">
-          {truncate(eservice.description, 160)}
+        <Typography variant="body1" color="text.primary" component="div">
+          <p
+            style={{
+              WebkitLineClamp: 4,
+              WebkitBoxOrient: 'vertical',
+              display: '-webkit-box',
+              overflow: 'hidden',
+            }}
+          >
+            {eservice.description}
+          </p>
         </Typography>
       </CardContent>
 
