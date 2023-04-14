@@ -38,7 +38,6 @@ export const AgreementDocumentListSection: React.FC = () => {
   }
 
   const handleDownloadDocument = (document: EServiceDoc) => {
-    if (!agreement) return
     if (document.id === 'contract') {
       downloadContract({ agreementId: agreement.id }, document.name)
       return

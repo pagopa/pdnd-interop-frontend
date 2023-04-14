@@ -8,7 +8,7 @@ import {
 import {
   AgreementDocumentListSection,
   AgreementDocumentListSectionSkeleton,
-} from './components/AgreementDocumentsListSection'
+} from './components/AgreementDocumentListSection'
 import {
   AgreementCertifiedAttributesSection,
   AgreementVerifiedAttributesSection,

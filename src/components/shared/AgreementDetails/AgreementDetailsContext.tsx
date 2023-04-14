@@ -46,12 +46,7 @@ const AgreementDetailsContextProvider: React.FC<{
     { enabled: !!(agreement?.eservice.id && agreement?.descriptorId) }
   )
 
-  const partyId =
-    mode === 'provider'
-      ? agreement?.consumer.id
-      : mode === 'consumer'
-      ? jwt?.organizationId
-      : undefined
+  const partyId = mode === 'provider' ? agreement?.consumer.id : jwt?.organizationId
 
   const [{ data: certified = [] }, { data: verified = [] }, { data: declared = [] }] =
     AttributeQueries.useGetListParty(partyId, agreement?.producer.id)
