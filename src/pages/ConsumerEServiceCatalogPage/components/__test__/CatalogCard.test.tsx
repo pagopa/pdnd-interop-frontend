@@ -88,7 +88,7 @@ describe("Checks that CatalogCard snapshot don't change", () => {
     expect(card.baseElement).toMatchSnapshot()
   })
 
-  it('renders correctly with isMine true and agreement ACTIVE', () => {
+  it('renders correctly agreement DRAFT', () => {
     const eserviceMock = createMockEServiceCatalog({
       agreement: {
         id: 'test',
