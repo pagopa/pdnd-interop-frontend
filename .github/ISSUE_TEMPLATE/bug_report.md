@@ -30,6 +30,9 @@ Se non lo sai, lo trovi così:
 **Data e ora in cui si è riscontrato il problema**
 es. 24/11/2021 h. 10:20
 
+**Ambiente**
+Produzione o Collaudo
+
 **Quali permessi ha la tua utenza?**
 es. Amministratore (operatore amministrativo), Operatore API, Operatore di sicurezza
 
