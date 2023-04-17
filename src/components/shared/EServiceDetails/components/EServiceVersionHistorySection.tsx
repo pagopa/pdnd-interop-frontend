@@ -27,7 +27,7 @@ export const EServiceVersionHistorySection: React.FC = () => {
   })
 
   const onSubmit = ({ selectedDescriptorId }: VersionHistoryFormValues) => {
-    if (!descriptor || !selectedDescriptorId) return
+    if (!selectedDescriptorId) return
     const path = mode === 'provider' ? 'PROVIDE_ESERVICE_MANAGE' : 'SUBSCRIBE_CATALOG_VIEW'
     navigate(path, {
       params: { eserviceId: descriptor.eservice.id, descriptorId: selectedDescriptorId },
