@@ -13,7 +13,7 @@ vi.spyOn(useClientKindHook, 'useClientKind').mockReturnValue('API')
 mockUseJwt()
 
 describe('ClientTable', () => {
-  it('should match the snapshot', async () => {
+  it.only('should match the snapshot', async () => {
     const fullStateServer = setupServer(
       rest.get(`${BACKEND_FOR_FRONTEND_URL}/clients`, (req, res, ctx) => {
         return res(
@@ -52,7 +52,7 @@ describe('ClientTable', () => {
     fullStateServer.close()
   })
 
-  it('should match the snapshot in empty state', async () => {
+  it.only('should match the snapshot in empty state', async () => {
     const emptyStateServer = setupServer(
       rest.get(`${BACKEND_FOR_FRONTEND_URL}/clients`, (req, res, ctx) => {
         return res(
