@@ -9,7 +9,7 @@ import {
   AttributeGroupContainer,
 } from '@/components/layout/containers'
 import { attributesHelpLink } from '@/config/constants'
-import type { Attribute } from '@/api/api.generatedTypes'
+import type { CompactAttribute } from '@/api/api.generatedTypes'
 
 export const EServiceAttributesSections: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -96,7 +96,7 @@ const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProps> = ({
 }
 
 type AttributeGroup = {
-  attributes: Array<Attribute>
+  attributes: Array<CompactAttribute>
   index: number
 }
 
