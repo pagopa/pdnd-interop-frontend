@@ -12,49 +12,33 @@ import type { CompactClients } from '@/api/api.generatedTypes'
 vi.spyOn(useClientKindHook, 'useClientKind').mockReturnValue('API')
 mockUseJwt()
 
-const fullStateServer = setupServer(
-  rest.get(`${BACKEND_FOR_FRONTEND_URL}/clients`, (req, res, ctx) => {
-    return res(
-      ctx.json<CompactClients>({
-        results: [
-          {
-            id: '1',
-            name: 'client1',
-            hasKeys: true,
-          },
-          {
-            id: '2',
-            name: 'client2',
-            hasKeys: true,
-          },
-        ],
-        pagination: {
-          totalCount: 2,
-          limit: 10,
-          offset: 0,
-        },
-      })
-    )
-  })
-)
-
-const emptyStateServer = setupServer(
-  rest.get(`${BACKEND_FOR_FRONTEND_URL}/clients`, (req, res, ctx) => {
-    return res(
-      ctx.json<CompactClients>({
-        results: [],
-        pagination: {
-          totalCount: 0,
-          limit: 10,
-          offset: 0,
-        },
-      })
-    )
-  })
-)
-
 describe('ClientTable', () => {
   it('should match the snapshot', async () => {
+    const fullStateServer = setupServer(
+      rest.get(`${BACKEND_FOR_FRONTEND_URL}/clients`, (req, res, ctx) => {
+        return res(
+          ctx.json<CompactClients>({
+            results: [
+              {
+                id: '1',
+                name: 'client1',
+                hasKeys: true,
+              },
+              {
+                id: '2',
+                name: 'client2',
+                hasKeys: true,
+              },
+            ],
+            pagination: {
+              totalCount: 2,
+              limit: 10,
+              offset: 0,
+            },
+          })
+        )
+      })
+    )
     fullStateServer.listen()
     const screen = renderWithApplicationContext(<ClientTable clientKind="API" />, {
       withRouterContext: true,
@@ -67,7 +51,22 @@ describe('ClientTable', () => {
     fullStateServer.resetHandlers()
     fullStateServer.close()
   })
+
   it('should match the snapshot in empty state', async () => {
+    const emptyStateServer = setupServer(
+      rest.get(`${BACKEND_FOR_FRONTEND_URL}/clients`, (req, res, ctx) => {
+        return res(
+          ctx.json<CompactClients>({
+            results: [],
+            pagination: {
+              totalCount: 0,
+              limit: 10,
+              offset: 0,
+            },
+          })
+        )
+      })
+    )
     emptyStateServer.listen()
     const screen = renderWithApplicationContext(<ClientTable clientKind="API" />, {
       withRouterContext: true,
