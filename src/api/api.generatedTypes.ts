@@ -321,6 +321,12 @@ export interface AgreementListEntry {
   descriptor: CompactDescriptor
 }
 
+export interface CompactAttribute {
+  /** @format uuid */
+  id: string
+  name: string
+}
+
 export interface CompactAgreement {
   /** @format uuid */
   id: string
@@ -845,9 +851,10 @@ export interface VerifiedAttributesResponse {
 
 export type AttributeKind = 'CERTIFIED' | 'DECLARED' | 'VERIFIED'
 
-/** AttributesResponse */
-export interface AttributesResponse {
-  attributes: Attribute[]
+/** Attributes */
+export interface Attributes {
+  pagination: Pagination
+  results: CompactAttribute[]
 }
 
 export interface CompactTenant {
@@ -1288,7 +1295,12 @@ export interface GetPurposesParams {
 }
 
 export interface GetAttributesParams {
-  search?: string
+  /** Query to filter Attributes by name */
+  q?: string
+  limit: number
+  offset: number
+  /** Array of kinds */
+  kinds: AttributeKind[]
 }
 
 export interface GetClientsParams {
@@ -3083,24 +3095,29 @@ export namespace Purposes {
 
 export namespace Attributes {
   /**
-   * @description Returns the list of currently available attributes
+   * @description returns attributes
    * @tags attributes
    * @name GetAttributes
-   * @summary returns the list of attributes available on the registry
+   * @summary Get attributes
    * @request GET:/attributes
    * @secure
    */
   export namespace GetAttributes {
     export type RequestParams = {}
     export type RequestQuery = {
-      search?: string
+      /** Query to filter Attributes by name */
+      q?: string
+      limit: number
+      offset: number
+      /** Array of kinds */
+      kinds: AttributeKind[]
     }
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
       'X-Forwarded-For'?: string
     }
-    export type ResponseBody = AttributesResponse
+    export type ResponseBody = Attributes
   }
   /**
    * @description Creates the attribute passed as payload
@@ -3337,35 +3354,6 @@ export namespace Clients {
       'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
-  }
-  /**
-   * @description Retrieves a Client Operator relationship
-   * @tags clients
-   * @name GetClientOperatorRelationshipById
-   * @summary Get a Client Operator Relationship
-   * @request GET:/clients/{clientId}/relationships/{relationshipId}
-   * @secure
-   */
-  export namespace GetClientOperatorRelationshipById {
-    export type RequestParams = {
-      /**
-       * The Client id
-       * @format uuid
-       */
-      clientId: string
-      /**
-       * The identifier of the relationship between the security operator and the consumer
-       * @format uuid
-       */
-      relationshipId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
-    }
-    export type ResponseBody = Operator
   }
   /**
    * @description Binds a security operator belonging to a consumer to a Client
