@@ -1,9 +1,9 @@
-import type { Attribute } from '@/api/api.generatedTypes'
+import type { Attribute, CompactAttribute } from '@/api/api.generatedTypes'
 
 export type AttributeKey = 'certified' | 'verified' | 'declared'
 
 export type FrontendAttribute = {
-  attributes: Array<Attribute>
+  attributes: Array<Attribute> | Array<CompactAttribute>
   explicitAttributeVerification: boolean
 }
 
