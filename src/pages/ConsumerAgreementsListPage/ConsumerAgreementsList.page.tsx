@@ -15,6 +15,7 @@ import {
   ConsumerAgreementsTable,
   ConsumerAgreementsTableSkeleton,
 } from './components/ConsumerAgreementsTable'
+import { formatOptions } from '@/utils/common.utils'
 
 const ConsumerAgreementsListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerAgreementsList' })
@@ -34,17 +35,8 @@ const ConsumerAgreementsListPage: React.FC = () => {
     { suspense: false, keepPreviousData: true }
   )
 
-  const producersOptions =
-    producers?.results.map((o) => ({
-      label: o.name,
-      value: o.id,
-    })) || []
-
-  const eservicesOptions =
-    eservices?.results.map((o) => ({
-      label: o.name,
-      value: o.id,
-    })) || []
+  const producersOptions = formatOptions(producers?.results)
+  const eservicesOptions = formatOptions(eservices?.results)
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<

@@ -12,6 +12,7 @@ import {
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ProviderAgreementsTable, ProviderAgreementsTableSkeleton } from './components'
+import { formatOptions } from '@/utils/common.utils'
 
 const ProviderAgreementsListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerAgreementsList' })
@@ -30,17 +31,8 @@ const ProviderAgreementsListPage: React.FC = () => {
     { suspense: false, keepPreviousData: true }
   )
 
-  const consumersOptions =
-    consumers?.results.map((o) => ({
-      label: o.name,
-      value: o.id,
-    })) || []
-
-  const eservicesOptions =
-    eservices?.results.map((o) => ({
-      label: o.name,
-      value: o.id,
-    })) || []
+  const consumersOptions = formatOptions(consumers?.results)
+  const eservicesOptions = formatOptions(eservices?.results)
 
   const { jwt } = useJwt()
 

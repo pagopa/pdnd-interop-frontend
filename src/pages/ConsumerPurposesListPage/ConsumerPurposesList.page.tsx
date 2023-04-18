@@ -15,6 +15,7 @@ import {
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ConsumerPurposesTable, ConsumerPurposesTableSkeleton } from './components'
+import { formatOptions } from '@/utils/common.utils'
 
 const ConsumerPurposesListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerPurposesList' })
@@ -36,17 +37,8 @@ const ConsumerPurposesListPage: React.FC = () => {
     { suspense: false, keepPreviousData: true }
   )
 
-  const eservicesOptions =
-    eservices?.results.map((o) => ({
-      label: o.name,
-      value: o.id,
-    })) || []
-
-  const providersOptions =
-    producers?.results.map((o) => ({
-      label: o.name,
-      value: o.id,
-    })) || []
+  const eservicesOptions = formatOptions(eservices?.results)
+  const providersOptions = formatOptions(producers?.results)
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<

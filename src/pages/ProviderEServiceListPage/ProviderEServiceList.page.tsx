@@ -14,6 +14,7 @@ import {
   usePagination,
 } from '@pagopa/interop-fe-commons'
 import type { GetProducerEServicesParams } from '@/api/api.generatedTypes'
+import { formatOptions } from '@/utils/common.utils'
 
 const ProviderEServiceListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceList' })
@@ -28,11 +29,7 @@ const ProviderEServiceListPage: React.FC = () => {
     { suspense: false, keepPreviousData: true }
   )
 
-  const consumersOptions =
-    consumers?.results.map((o) => ({
-      label: o.name,
-      value: o.id,
-    })) || []
+  const consumersOptions = formatOptions(consumers?.results)
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<

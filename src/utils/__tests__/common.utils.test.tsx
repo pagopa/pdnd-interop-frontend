@@ -2,7 +2,7 @@ import React from 'react'
 import type { ActionItem } from '@/types/common.types'
 import { renderHook } from '@testing-library/react'
 import { vi } from 'vitest'
-import { createContext, formatTopSideActions } from '../common.utils'
+import { createContext, formatOptions, formatTopSideActions } from '../common.utils'
 
 describe('testing formatTopSideActions utility function', () => {
   it('should return undefined if no actions are passed', () => {
@@ -50,5 +50,30 @@ describe('testing createContext utility function', () => {
     })
 
     expect(result.current).toBe(testValue)
+  })
+})
+
+describe('testing formatOptions utility function', () => {
+  it('should return an empty array if no options are passed', () => {
+    const result = formatOptions([])
+    expect(result).toEqual([])
+  })
+
+  it('should return an empty array if undefined value is passed', () => {
+    const result = formatOptions(undefined)
+    expect(result).toEqual([])
+  })
+
+  it('should return an array of options with the correct structure', () => {
+    const options = [
+      { id: '1', name: 'test1', other: 'other' },
+      { id: '2', name: 'test2', other: 'other' },
+    ]
+    const result = formatOptions(options)
+    expect(result).toHaveLength(2)
+    expect(result[0].label).toBe(options[0].name)
+    expect(result[0].value).toBe(options[0].id)
+    expect(result[1].label).toBe(options[1].name)
+    expect(result[1].value).toBe(options[1].id)
   })
 })

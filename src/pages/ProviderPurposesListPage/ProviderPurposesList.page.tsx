@@ -13,6 +13,7 @@ import {
   usePagination,
 } from '@pagopa/interop-fe-commons'
 import type { GetPurposesParams } from '@/api/api.generatedTypes'
+import { formatOptions } from '@/utils/common.utils'
 
 const ProviderPurposesListPage: React.FC = () => {
   const { jwt } = useJwt()
@@ -33,17 +34,8 @@ const ProviderPurposesListPage: React.FC = () => {
     { suspense: false, keepPreviousData: true }
   )
 
-  const eservicesOptions =
-    eservices?.results.map((o) => ({
-      label: o.name,
-      value: o.id,
-    })) || []
-
-  const consumersOptions =
-    consumers?.results.map((o) => ({
-      label: o.name,
-      value: o.id,
-    })) || []
+  const eservicesOptions = formatOptions(eservices?.results)
+  const consumersOptions = formatOptions(consumers?.results)
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<

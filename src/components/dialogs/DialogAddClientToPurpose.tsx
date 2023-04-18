@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { RHFAutocompleteMultiple } from '../shared/react-hook-form-inputs'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
+import { formatOptions } from '@/utils/common.utils'
 
 type AddClientToPurposeFormValues = {
   selectedClients: Array<string>
@@ -53,7 +54,7 @@ export const DialogAddClientToPurpose: React.FC<DialogAddClientToPurposeProps> =
       (client) => !clientAlreadyInPurpose.some(({ id }) => client.id === id)
     )
 
-    return availableClients.map((client) => ({ label: client.name, value: client.id }))
+    return formatOptions(availableClients)
   }, [purpose, data])
 
   const onSubmit = ({ selectedClients }: AddClientToPurposeFormValues) => {

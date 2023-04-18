@@ -32,3 +32,15 @@ export function createContext<ContextValue>(name: string, defaultValue: ContextV
     Provider: context.Provider,
   } as const
 }
+
+/**
+ * Takes an array of objects with an id and name property and returns an array of options
+ */
+export function formatOptions<T extends Record<'name' | 'id', string>>(results: T[] | undefined) {
+  return (
+    results?.map((o) => ({
+      label: o.name,
+      value: o.id,
+    })) || []
+  )
+}
