@@ -210,6 +210,13 @@
     "alreadySubscribed": "Already subscribed",
     "agreementInDraft": "You have an agreement draft",
     "cannotSubscribe": "You cannot subscribe",
-    "goToRequestCta": "Go to the fruition request"
+    "goToRequestCta": "Go to the fruition request",
+    "subscribe": "Request fruition",
+    "editDraft": "Complete request",
+    "handleRequest": "Handle request",
+    "eserviceCardLabel": "E-SERVICE",
+    "myEserviceCardLabel": "E-SERVICE DA TE EROGATO",
+    "requestCompleted": "Request completed",
+    "draftRequest": "Draft request"
   }
 }
