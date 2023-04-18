@@ -1,0 +1,301 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`EServiceCatalogGrid > should match the snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-zow5z4-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiCard-root css-1j1g2lg-MuiPaper-root-MuiCard-root"
+        >
+          <div
+            class="MuiCardHeader-root css-185gdzj-MuiCardHeader-root"
+          >
+            <div
+              class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+            >
+              <div
+                class="css-1hci2t4-MuiStack-root"
+              >
+                <span
+                  class="MuiTypography-root MuiTypography-overline css-idy08m-MuiTypography-root"
+                >
+                  eserviceCardLabel
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiCardContent-root css-1ddsn86-MuiCardContent-root"
+          >
+            <div
+              class="css-1q36rmd-MuiStack-root"
+            >
+              <div
+                class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-ax6k3r-MuiAvatar-root"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-7p6gym-MuiSvgIcon-root"
+                  data-testid="AccountBalanceIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zm-5-9L2 6v2h20V6z"
+                  />
+                </svg>
+              </div>
+              <span
+                class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+              >
+                Agenzia per L'Italia Digitale
+              </span>
+            </div>
+            <h6
+              class="MuiTypography-root MuiTypography-h6 css-1pcitua-MuiTypography-root"
+            >
+              !! -- CAMMELLO -- Test 18/10 [1]
+            </h6>
+            <div
+              class="MuiTypography-root MuiTypography-body1 css-1gqyz35-MuiTypography-root"
+            >
+              <p
+                style="display: -webkit-box; overflow: hidden;"
+              >
+                lorem ipsum
+              </p>
+            </div>
+          </div>
+          <div
+            class="MuiCardActions-root MuiCardActions-spacing css-17m1olt-MuiCardActions-root"
+          >
+            <div
+              class="css-e53awj-MuiStack-root"
+            >
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                <span>
+                  actions.inspect
+                </span>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiCard-root css-1j1g2lg-MuiPaper-root-MuiCard-root"
+        >
+          <div
+            class="MuiCardHeader-root css-185gdzj-MuiCardHeader-root"
+          >
+            <div
+              class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+            >
+              <div
+                class="css-1hci2t4-MuiStack-root"
+              >
+                <span
+                  class="MuiTypography-root MuiTypography-overline css-idy08m-MuiTypography-root"
+                >
+                  eserviceCardLabel
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiCardContent-root css-1ddsn86-MuiCardContent-root"
+          >
+            <div
+              class="css-1q36rmd-MuiStack-root"
+            >
+              <div
+                class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-ax6k3r-MuiAvatar-root"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-7p6gym-MuiSvgIcon-root"
+                  data-testid="AccountBalanceIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zm-5-9L2 6v2h20V6z"
+                  />
+                </svg>
+              </div>
+              <span
+                class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+              >
+                Agenzia per L'Italia Digitale
+              </span>
+            </div>
+            <h6
+              class="MuiTypography-root MuiTypography-h6 css-1pcitua-MuiTypography-root"
+            >
+              !! -- CAMMELLO -- Test 18/10 [1]
+            </h6>
+            <div
+              class="MuiTypography-root MuiTypography-body1 css-1gqyz35-MuiTypography-root"
+            >
+              <p
+                style="display: -webkit-box; overflow: hidden;"
+              >
+                lorem ipsum
+              </p>
+            </div>
+          </div>
+          <div
+            class="MuiCardActions-root MuiCardActions-spacing css-17m1olt-MuiCardActions-root"
+          >
+            <div
+              class="css-e53awj-MuiStack-root"
+            >
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                <span>
+                  actions.inspect
+                </span>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`EServiceCatalogGrid > should match the snapshot with no e-services 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardInfo MuiAlert-standard css-1fuz9qr-MuiPaper-root-MuiAlert-root"
+      role="alert"
+    >
+      <div
+        class="MuiAlert-icon css-1ytlwq5-MuiAlert-icon"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+          data-testid="InfoOutlinedIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
+          />
+        </svg>
+      </div>
+      <div
+        class="MuiAlert-message css-1pxa9xg-MuiAlert-message"
+      >
+        noDataLabel
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`EServiceCatalogGridSkeleton > should match the snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-zow5z4-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-x2pee1-MuiSkeleton-root"
+          style="height: 410px;"
+        />
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-x2pee1-MuiSkeleton-root"
+          style="height: 410px;"
+        />
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-x2pee1-MuiSkeleton-root"
+          style="height: 410px;"
+        />
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-x2pee1-MuiSkeleton-root"
+          style="height: 410px;"
+        />
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-x2pee1-MuiSkeleton-root"
+          style="height: 410px;"
+        />
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-x2pee1-MuiSkeleton-root"
+          style="height: 410px;"
+        />
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-x2pee1-MuiSkeleton-root"
+          style="height: 410px;"
+        />
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-x2pee1-MuiSkeleton-root"
+          style="height: 410px;"
+        />
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-x2pee1-MuiSkeleton-root"
+          style="height: 410px;"
+        />
+      </div>
+    </div>
+  </div>
+</body>
+`;

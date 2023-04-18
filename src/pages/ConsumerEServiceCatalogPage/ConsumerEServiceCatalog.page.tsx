@@ -11,6 +11,7 @@ import {
   usePagination,
 } from '@pagopa/interop-fe-commons'
 import type { EServiceDescriptorState, GetEServicesCatalogParams } from '@/api/api.generatedTypes'
+import { formatOptions } from '@/utils/common.utils'
 
 const ConsumerEServiceCatalogPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerEServiceCatalog' })
@@ -23,11 +24,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
     { suspense: false, keepPreviousData: true }
   )
 
-  const producersOptions =
-    producers?.results.map((o) => ({
-      label: o.name,
-      value: o.id,
-    })) || []
+  const producersOptions = formatOptions(producers?.results)
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 12 })
   const { filtersParams, ...filtersHandlers } = useFilters<
@@ -68,6 +65,8 @@ const EServiceCatalogWrapper: React.FC<{ params: { limit: number; offset: number
   params,
 }) => {
   const { data, isFetching } = EServiceQueries.useGetCatalogList(params, { suspense: false })
+
+  console.log({ data, isFetching })
 
   if (!data && isFetching) return <EServiceCatalogGridSkeleton />
   return <EServiceCatalogGrid eservices={data?.results} />
