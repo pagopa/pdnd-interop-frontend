@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 
 import { TestInputWrapper } from '@/components/shared/react-hook-form-inputs/__tests__/test-utils'
 import { RHFSelect } from '@/components/shared/react-hook-form-inputs'
+import { vi } from 'vitest'
 
 const selectOptions = [
   { label: 'option1', value: 'option1' },
@@ -61,5 +62,36 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     const input = select.getByRole('button')
 
     expect(document.activeElement).toBe(input)
+  })
+
+  it('should render empty option if no options are provided', async () => {
+    const user = userEvent.setup()
+    const select = render(
+      <TestInputWrapper>
+        <RHFSelect {...selectProps.standard} emptyLabel="empty" options={[]} />
+      </TestInputWrapper>
+    )
+    const button = select.getByRole('button')
+    await user.click(button)
+
+    const emptyOption = select.getByRole('option', { name: 'empty' })
+    expect(emptyOption).toBeInTheDocument()
+  })
+
+  it('should call onValueChange callback when value changes', async () => {
+    const user = userEvent.setup()
+    const onValueChange = vi.fn()
+    const select = render(
+      <TestInputWrapper>
+        <RHFSelect {...selectProps.standard} onValueChange={onValueChange} />
+      </TestInputWrapper>
+    )
+    const button = select.getByRole('button')
+    await user.click(button)
+
+    const option1 = select.getByRole('option', { name: 'option1' })
+    await user.click(option1)
+
+    expect(onValueChange).toHaveBeenCalledWith('option1')
   })
 })
