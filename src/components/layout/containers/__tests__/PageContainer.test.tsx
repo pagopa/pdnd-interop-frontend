@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { PageContainer, PageContainerSkeleton } from '../PageContainer'
+import { PageContainer, PageContainerSkeleton, StyledIntroSkeleton } from '../PageContainer'
 import { vi } from 'vitest'
 
 describe('PageContainer', () => {
@@ -40,7 +40,6 @@ describe('PageContainer', () => {
   it('should match snapshot with action menu', () => {
     const screen = render(
       <PageContainer
-        isLoading
         title="title"
         description="description"
         topSideActions={{
@@ -66,7 +65,6 @@ describe('PageContainer', () => {
   it('should match snapshot with top info tooltip', () => {
     const screen = render(
       <PageContainer
-        isLoading
         title="title"
         description="description"
         topSideActions={{
@@ -83,7 +81,6 @@ describe('PageContainer', () => {
   it('should match snapshot with buttons', () => {
     const screen = render(
       <PageContainer
-        isLoading
         title="title"
         description="description"
         topSideActions={{
@@ -109,6 +106,13 @@ describe('PageContainer', () => {
 describe('PageContainerSkeleton', () => {
   it('should match snapshot', () => {
     const screen = render(<PageContainerSkeleton />)
+    expect(screen.baseElement).toMatchSnapshot()
+  })
+})
+
+describe('StyledIntroSkeleton', () => {
+  it('should match snapshot', () => {
+    const screen = render(<StyledIntroSkeleton />)
     expect(screen.baseElement).toMatchSnapshot()
   })
 })
