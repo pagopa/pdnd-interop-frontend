@@ -1,0 +1,105 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SecurityKeyGuide page > should match the snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-0"
+    >
+      <div
+        class="css-1mure3k-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-1rr4qq7"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            title
+          </h1>
+        </div>
+        <div
+          class="css-1yo1jo6-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-h5fkc8"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+          >
+            <div>
+              <h2
+                id="come-generare-le-chiavi"
+              >
+                Come generare le chiavi
+              </h2>
+              
+
+              <p>
+                Apri il terminale e incolla i comandi qui sotto. Per cambiare nome alla chiave, sostituisci "client-test-keypair" con il filename che vuoi dare alla chiave.
+              </p>
+              
+
+              <pre>
+                <code>
+                  openssl genrsa -out client-test-keypair.rsa.pem 2048
+openssl rsa -in client-test-keypair.rsa.pem -pubout -out client-test-keypair.rsa.pub
+openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in client-test-keypair.rsa.pem -out client-test-keypair.rsa.priv
+
+                </code>
+              </pre>
+              
+
+              <h2
+                id="come-caricare-le-chiavi"
+              >
+                Come caricare le chiavi
+              </h2>
+              
+
+              <ol>
+                
+
+                <li>
+                  Dopo aver generato la coppia di chiavi e averle riposte al sicuro, copia l’intero contenuto del file della chiave pubblica (quella che finisce in .pub); assicurati di includere anche le parti iniziale e finale (inizia con 
+                  <code>
+                    -----BEGIN PUBLIC KEY-----
+                  </code>
+                   e finisce con 
+                  <code>
+                    -----END PUBLIC KEY-----
+                  </code>
+                  );
+                </li>
+                
+
+                <li>
+                  torna sulla piattaforma;
+                </li>
+                
+
+                <li>
+                  all’interno della tab "Chiavi pubbliche" nel client di interesse, troverai un bottone "+ Aggiungi";
+                </li>
+                
+
+                <li>
+                  a quel punto, clicca su "Carica". Riceverai immediatamente riscontro se il caricamento sia andato a buon fine o meno. Se dovessero verificarsi errori, segui le istruzioni indicate nel messaggio di "feedback".
+                </li>
+                
+
+              </ol>
+              
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
