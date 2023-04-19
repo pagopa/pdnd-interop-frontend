@@ -1,22 +1,22 @@
 import React from 'react'
-import { PurposeDownloads, PurposeQueries } from '@/api/purpose'
+import { PurposeDownloads } from '@/api/purpose'
 import { SectionContainerSkeleton } from '@/components/layout/containers'
 import { DownloadableDocumentsList } from '@/components/shared/DownloadableDocumentsList'
 import { useTranslation } from 'react-i18next'
-import type { EServiceDoc } from '@/api/api.generatedTypes'
+import type { EServiceDoc, Purpose } from '@/api/api.generatedTypes'
 
 interface PurposeDetailsDocumentListSectionProps {
-  purposeId: string
+  purpose: Purpose | undefined
 }
 
 export const PurposeDetailsDocumentListSection: React.FC<
   PurposeDetailsDocumentListSectionProps
-> = ({ purposeId }) => {
+> = ({ purpose }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'view.sections.downloadDocuments' })
-  const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
   const downloadRiskAnalysis = PurposeDownloads.useDownloadRiskAnalysis()
 
-  if (!purpose) return null
+  if (!purpose || !purpose.currentVersion || !purpose.currentVersion.riskAnalysisDocument)
+    return null
 
   const docs: Array<EServiceDoc> = [
     {
@@ -28,17 +28,14 @@ export const PurposeDetailsDocumentListSection: React.FC<
   ]
 
   const handleDownloadDocument = (document: EServiceDoc) => {
-    if (!purpose.currentVersion || !purpose.currentVersion.riskAnalysisDocument) return
-    if (document.id === 'riskAnalysis') {
-      downloadRiskAnalysis(
-        {
-          purposeId,
-          versionId: purpose.currentVersion.id,
-          documentId: purpose.currentVersion.riskAnalysisDocument.id,
-        },
-        document.name
-      )
-    }
+    downloadRiskAnalysis(
+      {
+        purposeId: purpose.id,
+        versionId: purpose.currentVersion!.id,
+        documentId: purpose.currentVersion!.riskAnalysisDocument!.id,
+      },
+      document.name
+    )
   }
 
   return (

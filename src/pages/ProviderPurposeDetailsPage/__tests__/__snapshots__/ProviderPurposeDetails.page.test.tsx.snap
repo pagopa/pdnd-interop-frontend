@@ -1,0 +1,389 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ProviderPurposeDetailsPage > should match the snapshot > full state 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-0"
+    >
+      <div
+        class="css-1mure3k-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-1rr4qq7"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            purpose-title
+          </h1>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+          >
+            Lorem ipsum dolor sit amet...
+          </p>
+        </div>
+        <div
+          class="css-1yo1jo6-MuiStack-root"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            suspend
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root css-h5fkc8"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+            >
+              <div
+                class="css-nen11g-MuiStack-root"
+              >
+                <h2
+                  class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+                >
+                  title
+                </h2>
+              </div>
+              <div
+                class="MuiBox-root css-1yuhvjn"
+              >
+                <div
+                  class="css-1p5q5e5-MuiStack-root"
+                >
+                  <div
+                    class="css-19qjufr-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-iuqs4u"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        consumerField.label
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        PagoPa S.p.A.
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="css-19qjufr-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-iuqs4u"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        purposeStatusField.label
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <div
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        <div
+                          class="css-w4z10b-MuiStack-root"
+                        >
+                          <div
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                          >
+                            <span
+                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                            >
+                              status.purpose.ACTIVE
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="css-19qjufr-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-iuqs4u"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        dailyCallsEstimateField.label
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        dailyCallsEstimateField.value
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="css-19qjufr-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-iuqs4u"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        consumerThreshold.label
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        consumerThreshold.value
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="css-19qjufr-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-iuqs4u"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        totalThreshold.label
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        totalThreshold.value
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="css-19qjufr-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-iuqs4u"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        eServiceField.label
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <div
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        <a
+                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ps4owl-MuiTypography-root-MuiLink-root"
+                          href="/it/erogazione/e-service/dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e/cd80bfe6-54be-493a-aaa1-6bb2b54545f8"
+                          target="_blank"
+                        >
+                          eServiceField.value
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="css-19qjufr-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-iuqs4u"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        agreementField.label
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <div
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        <a
+                          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ps4owl-MuiTypography-root-MuiLink-root"
+                          href="/it/erogazione/richieste/3ec3875a-cf24-450a-b94b-550ca2ec5e86"
+                          target="_blank"
+                        >
+                          agreementField.link.label
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+            >
+              <div
+                class="css-nen11g-MuiStack-root"
+              >
+                <h2
+                  class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+                >
+                  label
+                </h2>
+              </div>
+              <div
+                class="MuiBox-root css-1yuhvjn"
+              >
+                <div
+                  class="css-18emkw7-MuiStack-root"
+                >
+                  <div
+                    class="css-1p5q5e5-MuiStack-root"
+                  >
+                    <button
+                      class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover MuiLink-button css-lhtrmb-MuiTypography-root-MuiLink-root"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-elhp89-MuiSvgIcon-root"
+                        data-testid="AttachFileIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"
+                        />
+                      </svg>
+                       
+                      downloadRiskAnalysisLabel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-fhd9dx-MuiStack-root"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            backToPurposeListBtn
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`ProviderPurposeDetailsPage > should match the snapshot > loading state 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-0"
+    >
+      <div
+        class="css-1mure3k-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-1rr4qq7"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+            />
+          </h1>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+            />
+          </p>
+        </div>
+        <div
+          class="css-1yo1jo6-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-h5fkc8"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              style="height: 336px;"
+            />
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              style="height: 107px;"
+            />
+          </div>
+        </div>
+        <div
+          class="css-fhd9dx-MuiStack-root"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            backToPurposeListBtn
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

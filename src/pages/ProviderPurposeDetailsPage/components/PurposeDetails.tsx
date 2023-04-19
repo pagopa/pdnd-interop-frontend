@@ -9,10 +9,10 @@ import {
   PurposeDetailsDocumentListSectionSkeleton,
 } from './PurposeDetailsDocumentListSection'
 import { PurposeDetailsLoadEstimateUpdateSection } from './PurposeDetailsLoadEstimateUpdateSection'
-import { PurposeQueries } from '@/api/purpose'
 import { useJwt } from '@/hooks/useJwt'
 import { ApiInfoSection, ApiInfoSectionSkeleton } from '@/components/shared/ApiInfoSection'
 import { useTranslation } from 'react-i18next'
+import { PurposeQueries } from '@/api/purpose'
 
 interface PurposeDetailsProps {
   purposeId: string
@@ -20,15 +20,16 @@ interface PurposeDetailsProps {
 
 export const PurposeDetails: React.FC<PurposeDetailsProps> = ({ purposeId }) => {
   const { t } = useTranslation('common', { keyPrefix: 'idLabels' })
-  const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
   const { isAdmin } = useJwt()
+
+  const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
 
   return (
     <>
       <Grid spacing={2} container>
         <Grid item xs={7}>
-          <PurposeDetailsGeneralInfoSection purposeId={purposeId} />
-          <PurposeDetailsDocumentListSection purposeId={purposeId} />
+          <PurposeDetailsGeneralInfoSection purpose={purpose} />
+          <PurposeDetailsDocumentListSection purpose={purpose} />
         </Grid>
         <Grid item xs={5}>
           {purpose && (
@@ -46,7 +47,7 @@ export const PurposeDetails: React.FC<PurposeDetailsProps> = ({ purposeId }) => 
         </Grid>
       </Grid>
       {purpose?.waitingForApprovalVersion && isAdmin && (
-        <PurposeDetailsLoadEstimateUpdateSection purposeId={purposeId} />
+        <PurposeDetailsLoadEstimateUpdateSection purpose={purpose} />
       )}
     </>
   )
