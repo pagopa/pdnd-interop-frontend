@@ -7,11 +7,12 @@ import * as useClientKindHook from '@/hooks/useClientKind'
 import * as router from '@/router'
 import { vi } from 'vitest'
 import { waitFor } from '@testing-library/react'
+import { ClientQueries } from '@/api/client'
 
 const queryServer = setupQueryServer([
   {
     url: `${BACKEND_FOR_FRONTEND_URL}/clients/:clientId/keys/:kid`,
-    result: createMockPublicKey({ name: 'public-key-name' }),
+    result: createMockPublicKey({ name: 'public-key-name', isOrphan: false }),
   },
 ])
 
@@ -47,5 +48,35 @@ describe('KeyDetailsPage', () => {
     expect(screen.baseElement).toMatchSnapshot('loading state')
     await waitFor(() => screen.getByRole('heading', { name: 'public-key-name' }))
     expect(screen.baseElement).toMatchSnapshot('full state')
+  })
+
+  it('should show alert if key is orphan', async () => {
+    useClientKindSpy.mockReturnValue('API')
+
+    vi.spyOn(ClientQueries, 'useGetSingleKey').mockReturnValue({
+      data: createMockPublicKey({ name: 'public-key-name', isOrphan: true }),
+    } as unknown as ReturnType<typeof ClientQueries.useGetSingleKey>)
+
+    const screen = renderWithApplicationContext(<KeyDetailsPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.baseElement).toHaveTextContent('edit.orphanAlertLabel')
+  })
+
+  it('should show alert if key is not orphan', async () => {
+    useClientKindSpy.mockReturnValue('API')
+
+    vi.spyOn(ClientQueries, 'useGetSingleKey').mockReturnValue({
+      data: createMockPublicKey({ name: 'public-key-name', isOrphan: false }),
+    } as unknown as ReturnType<typeof ClientQueries.useGetSingleKey>)
+
+    const screen = renderWithApplicationContext(<KeyDetailsPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.baseElement).not.toHaveTextContent('edit.orphanAlertLabel')
   })
 })
