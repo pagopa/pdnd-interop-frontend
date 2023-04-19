@@ -1,13 +1,10 @@
 import React from 'react'
-import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderWithApplicationContext, setupQueryServer } from '@/utils/testing.utils'
 import { render, waitFor } from '@testing-library/react'
 import { ClientTable, ClientTableSkeleton } from '../ClientTable'
 import * as useClientKindHook from '@/hooks/useClientKind'
 import { vi } from 'vitest'
-import { setupServer } from 'msw/node'
-import { rest } from 'msw'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
-import type { CompactClients } from '@/api/api.generatedTypes'
 import { ClientQueries } from '@/api/client'
 
 vi.spyOn(useClientKindHook, 'useClientKind').mockReturnValue('API')
@@ -15,31 +12,30 @@ mockUseJwt()
 
 const useGetListSpy = vi.spyOn(ClientQueries, 'useGetList')
 
-const server = setupServer(
-  rest.get(`${BACKEND_FOR_FRONTEND_URL}/clients`, (req, res, ctx) => {
-    return res.once(
-      ctx.json<CompactClients>({
-        results: [
-          {
-            id: '1',
-            name: 'client1',
-            hasKeys: true,
-          },
-          {
-            id: '2',
-            name: 'client2',
-            hasKeys: true,
-          },
-        ],
-        pagination: {
-          totalCount: 2,
-          limit: 10,
-          offset: 0,
+const server = setupQueryServer([
+  {
+    url: `${BACKEND_FOR_FRONTEND_URL}/clients`,
+    result: {
+      results: [
+        {
+          id: '1',
+          name: 'client1',
+          hasKeys: true,
         },
-      })
-    )
-  })
-)
+        {
+          id: '2',
+          name: 'client2',
+          hasKeys: true,
+        },
+      ],
+      pagination: {
+        totalCount: 2,
+        limit: 10,
+        offset: 0,
+      },
+    },
+  },
+])
 
 beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())

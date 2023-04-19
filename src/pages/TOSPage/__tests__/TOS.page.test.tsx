@@ -1,16 +1,16 @@
 import React from 'react'
 import { TOSPage } from '..'
 import tosJson from '../../../../public/data/it/tos.json'
-import { setupServer } from 'msw/node'
-import { rest } from 'msw'
 import { FE_URL } from '@/config/env'
 import { render } from '@testing-library/react'
+import { setupQueryServer } from '@/utils/testing.utils'
 
-const server = setupServer(
-  rest.get(`${FE_URL}/data/it/tos.json`, (req, res, ctx) => {
-    return res(ctx.json(tosJson))
-  })
-)
+const server = setupQueryServer([
+  {
+    url: `${FE_URL}/data/it/tos.json`,
+    result: tosJson,
+  },
+])
 
 beforeAll(() => server.listen())
 afterAll(() => server.close())

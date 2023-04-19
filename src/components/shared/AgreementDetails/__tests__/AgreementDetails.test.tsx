@@ -5,46 +5,38 @@ import {
   mockUseCurrentRoute,
   mockUseJwt,
   renderWithApplicationContext,
+  setupQueryServer,
 } from '@/utils/testing.utils'
 import { createMockAgreement } from '__mocks__/data/agreement.mocks'
 import { createMockEServiceDescriptorProvider } from '__mocks__/data/eservice.mocks'
-import { rest } from 'msw'
-import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 
 function createAgreementDetailsContextServerMock(
   agreementMock = createMockAgreement(),
   descriptorMock = createMockEServiceDescriptorProvider()
 ) {
-  return setupServer(
-    rest.get(`${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId`, (req, res, ctx) => {
-      return res(ctx.json(agreementMock))
-    }),
-    rest.get(
-      `${BACKEND_FOR_FRONTEND_URL}/catalog/eservices/:eserviceId/descriptor/:descriptorId`,
-      (req, res, ctx) => {
-        return res(ctx.json(descriptorMock))
-      }
-    ),
-    rest.get(
-      `${BACKEND_FOR_FRONTEND_URL}/tenants/:partyId/attributes/certified`,
-      (req, res, ctx) => {
-        return res(ctx.json({ attributes: [] }))
-      }
-    ),
-    rest.get(
-      `${BACKEND_FOR_FRONTEND_URL}/tenants/:partyId/attributes/verified`,
-      (req, res, ctx) => {
-        return res(ctx.json({ attributes: [] }))
-      }
-    ),
-    rest.get(
-      `${BACKEND_FOR_FRONTEND_URL}/tenants/:partyId/attributes/declared`,
-      (req, res, ctx) => {
-        return res(ctx.json({ attributes: [] }))
-      }
-    )
-  )
+  return setupQueryServer([
+    {
+      url: `${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId`,
+      result: agreementMock,
+    },
+    {
+      url: `${BACKEND_FOR_FRONTEND_URL}/catalog/eservices/:eserviceId/descriptor/:descriptorId`,
+      result: descriptorMock,
+    },
+    {
+      url: `${BACKEND_FOR_FRONTEND_URL}/tenants/:partyId/attributes/certified`,
+      result: { attributes: [] },
+    },
+    {
+      url: `${BACKEND_FOR_FRONTEND_URL}/tenants/:partyId/attributes/verified`,
+      result: { attributes: [] },
+    },
+    {
+      url: `${BACKEND_FOR_FRONTEND_URL}/tenants/:partyId/attributes/declared`,
+      result: { attributes: [] },
+    },
+  ])
 }
 
 mockUseJwt({ isAdmin: true })

@@ -1,7 +1,5 @@
 import React from 'react'
-import { setupServer } from 'msw/node'
-import { rest } from 'msw'
-import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderWithApplicationContext, setupQueryServer } from '@/utils/testing.utils'
 import { DialogAddSecurityOperators } from '../DialogAddSecurityOperators'
 import { vi } from 'vitest'
 import { createMockSelfCareUser } from '__mocks__/data/user.mocks'
@@ -16,11 +14,9 @@ const operatorsMocks = [
   createMockSelfCareUser({ id: 'id-3', name: 'Operator3', familyName: '' }),
 ]
 
-const server = setupServer(
-  rest.get(`${BACKEND_FOR_FRONTEND_URL}/tenants/:tenantId/relationships`, (req, res, ctx) => {
-    return res(ctx.json(operatorsMocks))
-  })
-)
+const server = setupQueryServer([
+  { url: `${BACKEND_FOR_FRONTEND_URL}/tenants/:tenantId/relationships`, result: operatorsMocks },
+])
 
 beforeAll(() => server.listen())
 afterAll(() => server.close())
