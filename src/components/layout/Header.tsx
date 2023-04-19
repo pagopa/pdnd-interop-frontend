@@ -38,7 +38,7 @@ const getProductList = (products?: Array<{ id: string; name: string }>): Product
 
   const interopProduct: ProductSwitchItem = {
     id: SELFCARE_INTEROP_PROD_ID,
-    title: `Interoperabilità${STAGE === 'TEST' ? ' Collaudo' : ''}`,
+    title: `Interoperabilità${STAGE === 'UAT' ? ' Collaudo' : ''}`,
     productUrl: '',
     linkType: 'internal',
   }
