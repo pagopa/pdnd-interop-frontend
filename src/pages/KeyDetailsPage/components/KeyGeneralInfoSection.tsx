@@ -16,6 +16,8 @@ export const KeyGeneralInfoSection: React.FC<KeyGeneralInfoSectionProps> = ({ cl
   const { t } = useTranslation('key', { keyPrefix: 'edit.generalInformations' })
   const { data: publicKey } = ClientQueries.useGetSingleKey(clientId, kid)
 
+  if (!publicKey) return null
+
   return (
     <Grid container>
       <Grid item xs={7}>
@@ -23,23 +25,19 @@ export const KeyGeneralInfoSection: React.FC<KeyGeneralInfoSectionProps> = ({ cl
           <Stack spacing={2}>
             <InformationContainer
               label={t('creationDateField.label')}
-              content={publicKey ? formatDateString(publicKey.createdAt) : ''}
+              content={formatDateString(publicKey.createdAt)}
             />
             <InformationContainer
               label={t('uploaderField.label')}
-              content={`${publicKey?.operator.name ?? ''} ${publicKey?.operator.familyName ?? ''}`}
+              content={`${publicKey.operator.name} ${publicKey.operator.familyName}`}
             />
             <InformationContainer
               label={t('kidField.label')}
-              content={publicKey?.keyId ?? ''}
-              copyToClipboard={
-                publicKey?.keyId
-                  ? {
-                      value: publicKey.keyId,
-                      tooltipTitle: t('kidField.copySuccessFeedbackText'),
-                    }
-                  : undefined
-              }
+              content={publicKey.keyId}
+              copyToClipboard={{
+                value: publicKey.keyId,
+                tooltipTitle: t('kidField.copySuccessFeedbackText'),
+              }}
             />
             <InformationContainer
               label={t('clientIdField.label')}
@@ -49,7 +47,7 @@ export const KeyGeneralInfoSection: React.FC<KeyGeneralInfoSectionProps> = ({ cl
                 tooltipTitle: t('clientIdField.copySuccessFeedbackText'),
               }}
             />
-            {publicKey?.isOrphan && (
+            {publicKey.isOrphan && (
               <Alert severity="info">{t('operatorDeletedAlertMessage')}</Alert>
             )}
           </Stack>

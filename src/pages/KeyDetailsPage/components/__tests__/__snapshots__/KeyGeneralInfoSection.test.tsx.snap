@@ -1,0 +1,215 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`KeyGeneralInfoSection > should match the snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+        >
+          <div
+            class="css-nen11g-MuiStack-root"
+          >
+            <h2
+              class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+            >
+              title
+            </h2>
+          </div>
+          <div
+            class="MuiBox-root css-1yuhvjn"
+          >
+            <div
+              class="MuiStack-root css-1p5q5e5-MuiStack-root"
+            >
+              <div
+                class="css-19qjufr-MuiStack-root"
+              >
+                <div
+                  class="MuiBox-root css-iuqs4u"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                  >
+                    creationDateField.label
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root css-1rr4qq7"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                  >
+                    28 febbraio 2023
+                  </p>
+                </div>
+              </div>
+              <div
+                class="css-19qjufr-MuiStack-root"
+              >
+                <div
+                  class="MuiBox-root css-iuqs4u"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                  >
+                    uploaderField.label
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root css-1rr4qq7"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                  >
+                    Mario Rossi
+                  </p>
+                </div>
+              </div>
+              <div
+                class="css-19qjufr-MuiStack-root"
+              >
+                <div
+                  class="MuiBox-root css-iuqs4u"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                  >
+                    kidField.label
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root css-1rr4qq7"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                  >
+                    Fxod41P3BZoe2HT6BuEw3SNFlu9ufAkYgpmtBoNuVkg
+                    <button
+                      aria-label="Copia"
+                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                      data-mui-internal-clone-element="true"
+                      role="button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                        data-testid="ContentCopyIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                        />
+                      </svg>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
+                    </button>
+                  </p>
+                </div>
+              </div>
+              <div
+                class="css-19qjufr-MuiStack-root"
+              >
+                <div
+                  class="MuiBox-root css-iuqs4u"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                  >
+                    clientIdField.label
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root css-1rr4qq7"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                  >
+                    clientId
+                    <button
+                      aria-label="Copia"
+                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                      data-mui-internal-clone-element="true"
+                      role="button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                        data-testid="ContentCopyIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                        />
+                      </svg>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
+                    </button>
+                  </p>
+                </div>
+              </div>
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardInfo MuiAlert-standard css-1fuz9qr-MuiPaper-root-MuiAlert-root"
+                role="alert"
+              >
+                <div
+                  class="MuiAlert-icon css-1ytlwq5-MuiAlert-icon"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                    data-testid="InfoOutlinedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="MuiAlert-message css-1pxa9xg-MuiAlert-message"
+                >
+                  operatorDeletedAlertMessage
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`KeyGeneralInfoSectionSkeleton > should match the snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+          style="height: 227px;"
+        />
+      </div>
+    </div>
+  </div>
+</body>
+`;
