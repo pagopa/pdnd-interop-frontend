@@ -15,6 +15,8 @@ import noop from 'lodash/noop'
 import { vi } from 'vitest'
 import * as useJwtHook from '@/hooks/useJwt'
 import * as useCurrentRoute from '@/router/hooks/useCurrentRoute'
+import { setupServer } from 'msw/node'
+import { rest, type DefaultBodyType } from 'msw'
 
 const queryClientConfigMock: QueryClientConfig = deepmerge(
   {
@@ -171,4 +173,13 @@ export function renderHookWithApplicationContext<Props, Result>(
 ) {
   const renderResult = renderHook(render, { wrapper: generateWrapper({ ...options, history }) })
   return { ...renderResult, history }
+}
+
+export function setupQueryServer(queries: Array<{ url: string; result: DefaultBodyType }>) {
+  mockUseJwt()
+
+  const handlers = queries.map((query) =>
+    rest.get(query.url, (req, res, ctx) => res(ctx.json(query.result)))
+  )
+  return setupServer(...handlers)
 }
