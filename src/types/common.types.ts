@@ -1,7 +1,7 @@
 import type { LANGUAGES } from '@/config/constants'
 
 export type PagoPAEnvVars = {
-  STAGE: 'DEV' | 'PROD' | 'TEST'
+  STAGE: 'DEV' | 'PROD' | 'UAT'
   AUTHORIZATION_SERVER_TOKEN_CREATION_URL: string
   BACKEND_FOR_FRONTEND_URL: string
   SELFCARE_LOGIN_URL: string
