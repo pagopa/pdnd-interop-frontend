@@ -60,6 +60,7 @@ const ProviderEServiceListPage: React.FC = () => {
         },
         label: tCommon('createNewBtn'),
         variant: 'contained',
+        role: 'link',
       },
     ],
   }

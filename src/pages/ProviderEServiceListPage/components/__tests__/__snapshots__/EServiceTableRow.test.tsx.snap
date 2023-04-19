@@ -1,0 +1,226 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`EServiceTableRow > should match the snapshot 1`] = `
+<body>
+  <div>
+    <tr
+      class="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+    >
+      <td
+        class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
+        >
+          -- CAMMELLO --
+        </span>
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
+        >
+          1
+        </span>
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+      >
+        <div
+          class="css-w4z10b-MuiStack-root"
+        >
+          <div
+            class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorSuccess MuiChip-filledSuccess css-1rq9bu9-MuiChip-root"
+          >
+            <span
+              class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
+            >
+              status.eservice.PUBLISHED
+            </span>
+          </div>
+        </div>
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-alignRight MuiTableCell-sizeMedium css-1mrogcl-MuiTableCell-root"
+      >
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+          tabindex="0"
+          type="button"
+        >
+          actions.inspect
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+        <span
+          class="MuiBox-root css-1ljwlp4"
+        >
+          <button
+            aria-haspopup="true"
+            aria-label="iconButtonAriaLabel"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1skso5k-MuiButtonBase-root-MuiIconButton-root"
+            id=":r0:-composition-button"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1bptiuh-MuiSvgIcon-root"
+              data-testid="MoreVertIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+      </td>
+    </tr>
+  </div>
+</body>
+`;
+
+exports[`EServiceTableRow > should match the snapshot when eservice is in draft 1`] = `
+<body>
+  <div>
+    <tr
+      class="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+    >
+      <td
+        class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
+        >
+          -- CAMMELLO --
+        </span>
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
+        >
+          1
+        </span>
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+      >
+        <div
+          class="css-w4z10b-MuiStack-root"
+        >
+          <div
+            class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorInfo MuiChip-filledInfo css-1kvl34t-MuiChip-root"
+          >
+            <span
+              class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
+            >
+              status.eservice.DRAFT
+            </span>
+          </div>
+        </div>
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-alignRight MuiTableCell-sizeMedium css-1mrogcl-MuiTableCell-root"
+      >
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+          tabindex="0"
+          type="button"
+        >
+          actions.edit
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+        <span
+          class="MuiBox-root css-1ljwlp4"
+        >
+          <button
+            aria-haspopup="true"
+            aria-label="iconButtonAriaLabel"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-11ghgbe-MuiButtonBase-root-MuiIconButton-root"
+            id=":r3:-composition-button"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1bptiuh-MuiSvgIcon-root"
+              data-testid="MoreVertIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+      </td>
+    </tr>
+  </div>
+</body>
+`;
+
+exports[`EServiceTableRowSkeleton > should render correctly 1`] = `
+<body>
+  <div>
+    <tr
+      class="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+    >
+      <td
+        class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+          style="width: 220px;"
+        />
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+          style="width: 20px;"
+        />
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1k986ro-MuiSkeleton-root"
+          style="width: 54px; height: 23px;"
+        />
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-alignRight MuiTableCell-sizeMedium css-1mrogcl-MuiTableCell-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+          style="width: 100px; height: 40px;"
+        />
+        <span
+          class="MuiBox-root css-1ljwlp4"
+        >
+          <span
+            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+            style="width: 4px;"
+          />
+        </span>
+      </td>
+    </tr>
+  </div>
+</body>
+`;
