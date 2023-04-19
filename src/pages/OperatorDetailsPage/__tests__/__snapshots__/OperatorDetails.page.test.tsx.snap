@@ -1,0 +1,452 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`OperatorGeneralInfoSection > should match the snapshot (API) > full state 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-0"
+    >
+      <div
+        class="css-1mure3k-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-1rr4qq7"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            Mario Rossi
+          </h1>
+        </div>
+        <div
+          class="css-1yo1jo6-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-h5fkc8"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+            >
+              <div
+                class="css-nen11g-MuiStack-root"
+              >
+                <h2
+                  class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+                >
+                  generalInformations
+                </h2>
+              </div>
+              <div
+                class="MuiBox-root css-1yuhvjn"
+              >
+                <div
+                  class="css-1p5q5e5-MuiStack-root"
+                >
+                  <div
+                    class="css-88r4rx-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-iuqs4u"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        taxCodeField.label
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        MRORSSR78M21B354T
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="css-19qjufr-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-iuqs4u"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        productRoleField.label
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        userProductRole.security
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              style="height: 107px;"
+            />
+          </div>
+        </div>
+        <div
+          class="css-fhd9dx-MuiStack-root"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+            options="[object Object]"
+            tabindex="0"
+            type="button"
+          >
+            backToMemberListBtn
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`OperatorGeneralInfoSection > should match the snapshot (API) > loading state 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-0"
+    >
+      <div
+        class="css-1mure3k-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-1rr4qq7"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+            />
+          </h1>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+            />
+          </p>
+        </div>
+        <div
+          class="css-1yo1jo6-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-h5fkc8"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              style="height: 235px;"
+            />
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+          />
+        </div>
+        <div
+          class="css-fhd9dx-MuiStack-root"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+            options="[object Object]"
+            tabindex="0"
+            type="button"
+          >
+            backToMemberListBtn
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`OperatorGeneralInfoSection > should match the snapshot (CONSUMER) > full state 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-0"
+    >
+      <div
+        class="css-1mure3k-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-1rr4qq7"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            Mario Rossi
+          </h1>
+        </div>
+        <div
+          class="css-1yo1jo6-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-h5fkc8"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+            >
+              <div
+                class="css-nen11g-MuiStack-root"
+              >
+                <h2
+                  class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+                >
+                  generalInformations
+                </h2>
+              </div>
+              <div
+                class="MuiBox-root css-1yuhvjn"
+              >
+                <div
+                  class="css-1p5q5e5-MuiStack-root"
+                >
+                  <div
+                    class="css-88r4rx-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-iuqs4u"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        taxCodeField.label
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        MRORSSR78M21B354T
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="css-19qjufr-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-iuqs4u"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        productRoleField.label
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        userProductRole.security
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              style="height: 107px;"
+            />
+          </div>
+        </div>
+        <div
+          class="css-fhd9dx-MuiStack-root"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+            options="[object Object]"
+            tabindex="0"
+            type="button"
+          >
+            backToMemberListBtn
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`OperatorGeneralInfoSection > should match the snapshot (CONSUMER) > loading state 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-0"
+    >
+      <div
+        class="css-1mure3k-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-1rr4qq7"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            Mario Rossi
+          </h1>
+        </div>
+        <div
+          class="css-1yo1jo6-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-h5fkc8"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+            >
+              <div
+                class="css-nen11g-MuiStack-root"
+              >
+                <h2
+                  class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+                >
+                  generalInformations
+                </h2>
+              </div>
+              <div
+                class="MuiBox-root css-1yuhvjn"
+              >
+                <div
+                  class="css-1p5q5e5-MuiStack-root"
+                >
+                  <div
+                    class="css-88r4rx-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-iuqs4u"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        taxCodeField.label
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        MRORSSR78M21B354T
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="css-19qjufr-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-iuqs4u"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        productRoleField.label
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        userProductRole.security
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              style="height: 107px;"
+            />
+          </div>
+        </div>
+        <div
+          class="css-fhd9dx-MuiStack-root"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+            options="[object Object]"
+            tabindex="0"
+            type="button"
+          >
+            backToMemberListBtn
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

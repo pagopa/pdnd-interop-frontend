@@ -21,7 +21,7 @@ const OperatorDetailsPage: React.FC = () => {
   const { t } = useTranslation('user')
   const { mutate: removeOperatorFromClient } = ClientMutations.useRemoveOperator()
 
-  const { clientId: clientId, operatorId } = useRouteParams<
+  const { clientId, operatorId } = useRouteParams<
     'SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT' | 'SUBSCRIBE_CLIENT_OPERATOR_EDIT'
   >()
   const { data: operator, isLoading } = ClientQueries.useGetSingleOperator(operatorId, {
