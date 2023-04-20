@@ -1,4 +1,5 @@
-// import type { PartyRole } from '@/api/api.generatedTypes'
+import type { Tenant } from '@/api/api.generatedTypes'
+import type { PartyAttribute } from './attribute.types'
 
 export type UserProductRole = 'admin' | 'security' | 'api'
 
@@ -23,4 +24,12 @@ export type JwtUser = {
   name: string
   family_name: string
   organizationId: string
+}
+
+export type RemappedTenant = Omit<Tenant, 'attributes'> & {
+  attributes: {
+    certified: PartyAttribute[]
+    verified: PartyAttribute[]
+    declared: PartyAttribute[]
+  }
 }
