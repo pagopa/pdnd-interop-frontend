@@ -66,4 +66,4 @@ export const SELFCARE_BASE_URL =
 
 export const STAGE = PAGOPA_ENV?.STAGE ?? 'DEV'
 
-export const SELFCARE_INTEROP_PROD_ID = `prod-interop${STAGE === 'TEST' ? '-coll' : ''}`
+export const SELFCARE_INTEROP_PROD_ID = `prod-interop${STAGE === 'UAT' ? '-coll' : ''}`
