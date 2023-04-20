@@ -14,7 +14,7 @@ import { deepmerge } from '@mui/utils'
 import noop from 'lodash/noop'
 import { vi } from 'vitest'
 import * as useJwtHook from '@/hooks/useJwt'
-import * as useCurrentRoute from '@/router/hooks/useCurrentRoute'
+import * as router from '@/router'
 import { setupServer } from 'msw/node'
 import { rest, type DefaultBodyType } from 'msw'
 
@@ -91,9 +91,9 @@ export function mockUseJwt(
 }
 
 export const mockUseCurrentRoute = (
-  returnValue?: Partial<ReturnType<typeof useCurrentRoute.default>>
+  returnValue?: Partial<ReturnType<typeof router.useCurrentRoute>>
 ) => {
-  const useCurrentRouteSpy = vi.spyOn(useCurrentRoute, 'default')
+  const useCurrentRouteSpy = vi.spyOn(router, 'useCurrentRoute')
   if (returnValue) {
     useCurrentRouteSpy.mockReturnValue({
       isEditPath: false,
@@ -101,9 +101,15 @@ export const mockUseCurrentRoute = (
       isUserAuthorized: true,
       mode: 'consumer',
       ...returnValue,
-    } as ReturnType<typeof useCurrentRoute.default>)
+    } as ReturnType<typeof router.useCurrentRoute>)
   }
   return useCurrentRouteSpy
+}
+
+export const mockUseRouteParams = (params: Record<string, string | undefined>) => {
+  const useRouteParams = vi.spyOn(router, 'useRouteParams')
+  useRouteParams.mockReturnValue(params as unknown as ReturnType<typeof router.useRouteParams>)
+  return useRouteParams
 }
 
 type WrapperOptions = (
