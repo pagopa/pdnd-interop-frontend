@@ -4,6 +4,7 @@ import { useNavigateRouter } from '@/router'
 import { minutesToSeconds } from '@/utils/format.utils'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from './useJwt'
+import type { ActionItem } from '@/types/common.types'
 
 export function useGetProviderEServiceActions(
   eserviceId?: string,
@@ -12,7 +13,7 @@ export function useGetProviderEServiceActions(
   draftDescriptorId?: string
 ) {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
-  const { isAdmin } = useJwt()
+  const { isAdmin, isOperatorAPI } = useJwt()
   const { navigate } = useNavigateRouter()
 
   const { mutate: publishDraft } = EServiceMutations.usePublishVersionDraft()
@@ -26,7 +27,8 @@ export function useGetProviderEServiceActions(
   const state = descriptorState ?? 'DRAFT'
   const hasVersionDraft = !!draftDescriptorId
 
-  if (!eserviceId || !isAdmin) return { actions: [] }
+  // Only admin and operatorAPI can see actions
+  if (!eserviceId || (!isAdmin && !isOperatorAPI)) return { actions: [] }
 
   const deleteDraftAction = {
     action: deleteDraft.bind(null, { eserviceId }),
@@ -137,7 +139,7 @@ export function useGetProviderEServiceActions(
     label: t('editDraft'),
   }
 
-  const availableAction = {
+  const adminActions: Record<EServiceDescriptorState, Array<ActionItem>> = {
     PUBLISHED: [
       suspendAction,
       cloneAction,
@@ -151,7 +153,23 @@ export function useGetProviderEServiceActions(
       cloneAction,
       ...(!hasVersionDraft ? [createNewDraftAction] : [editDraftAction, deleteVersionDraftAction]),
     ],
-  }[state]
+  }
+
+  const operatorAPIActions: Record<EServiceDescriptorState, Array<ActionItem>> = {
+    PUBLISHED: [
+      cloneAction,
+      ...(!hasVersionDraft ? [createNewDraftAction] : [editDraftAction, deleteVersionDraftAction]),
+    ],
+    ARCHIVED: [],
+    DEPRECATED: [],
+    DRAFT: [publishDraftAction, deleteVersionDraftAction],
+    SUSPENDED: [
+      cloneAction,
+      ...(!hasVersionDraft ? [createNewDraftAction] : [editDraftAction, deleteVersionDraftAction]),
+    ],
+  }
+
+  const availableAction = isAdmin ? adminActions[state] : operatorAPIActions[state]
 
   return { actions: availableAction }
 }

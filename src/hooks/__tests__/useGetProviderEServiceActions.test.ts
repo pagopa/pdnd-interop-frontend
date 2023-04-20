@@ -10,12 +10,15 @@ import { vi } from 'vitest'
 import * as hooks from '@/hooks/useJwt'
 import type { ProducerEService } from '@/api/api.generatedTypes'
 
+type UseJwtReturnType = ReturnType<typeof hooks.useJwt>
+
 const useJwtReturnDataMock = {
-  currentRoles: ['admin'],
   isAdmin: true,
   hasSessionExpired: () => false,
-} as unknown as ReturnType<typeof hooks.useJwt>
-vi.spyOn(hooks, 'useJwt').mockImplementation(() => useJwtReturnDataMock)
+} as UseJwtReturnType
+
+const useJwtSpy = vi.spyOn(hooks, 'useJwt')
+useJwtSpy.mockReturnValue(useJwtReturnDataMock)
 
 const server = setupServer(
   rest.post(
@@ -193,5 +196,102 @@ describe('useGetProviderEServiceTableActions tests', () => {
     expect(history.location.pathname).toBe(
       '/it/erogazione/e-service/ad474d35-7939-4bee-bde9-4e469cca1030/test-id/modifica'
     )
+  })
+
+  it('should not return actions if the user is a security operator', () => {
+    useJwtSpy.mockReturnValue({
+      isAdmin: false,
+      isSecurityOperator: true,
+      hasSessionExpired: () => false,
+    } as unknown as UseJwtReturnType)
+
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+    })
+    const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
+    expect(result.current.actions).toHaveLength(0)
+  })
+
+  it('should have the correct actions if the user is an api operator and the e-service has an active descriptor in PUBLISHED state and has no version draft', () => {
+    useJwtSpy.mockReturnValue({
+      isAdmin: false,
+      isOperatorAPI: true,
+      hasSessionExpired: () => false,
+    } as unknown as UseJwtReturnType)
+
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+    })
+    const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
+
+    expect(result.current.actions).toHaveLength(2)
+    expect(result.current.actions[0].label).toBe('clone')
+    expect(result.current.actions[1].label).toBe('createNewDraft')
+  })
+
+  it('should have the correct actions if the user is an api operator and the e-service has an active descriptor in PUBLISHED state and has no version draft', () => {
+    useJwtSpy.mockReturnValue({
+      isAdmin: false,
+      isOperatorAPI: true,
+      hasSessionExpired: () => false,
+    } as unknown as UseJwtReturnType)
+
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+    })
+    const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
+    expect(result.current.actions).toHaveLength(3)
+    expect(result.current.actions[0].label).toBe('clone')
+    expect(result.current.actions[1].label).toBe('editDraft')
+    expect(result.current.actions[2].label).toBe('deleteDraft')
+  })
+
+  it('should not have any actions if the user is an api operator and the e-service is in DEPRECATED state', () => {
+    useJwtSpy.mockReturnValue({
+      isAdmin: false,
+      isOperatorAPI: true,
+      hasSessionExpired: () => false,
+    } as unknown as UseJwtReturnType)
+
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+    })
+    const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
+    expect(result.current.actions).toHaveLength(0)
+  })
+
+  it('should return the correct actions if the user is an api operator and if the e-service has an active descriptor in SUSPENDED state and has no version draft', () => {
+    useJwtSpy.mockReturnValue({
+      isAdmin: false,
+      isOperatorAPI: true,
+      hasSessionExpired: () => false,
+    } as unknown as UseJwtReturnType)
+
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+    })
+    const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
+    expect(result.current.actions).toHaveLength(2)
+    expect(result.current.actions[0].label).toBe('clone')
+    expect(result.current.actions[1].label).toBe('createNewDraft')
+  })
+
+  it('should return the correct actions if the user is an api operator and if the e-service has an active descriptor in SUSPENDED state and has a version draft', () => {
+    useJwtSpy.mockReturnValue({
+      isAdmin: false,
+      isOperatorAPI: true,
+      hasSessionExpired: () => false,
+    } as unknown as UseJwtReturnType)
+
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+    })
+    const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
+    expect(result.current.actions).toHaveLength(3)
+    expect(result.current.actions[0].label).toBe('clone')
+    expect(result.current.actions[1].label).toBe('editDraft')
+    expect(result.current.actions[2].label).toBe('deleteDraft')
   })
 })
